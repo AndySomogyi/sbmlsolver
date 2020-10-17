@@ -28,7 +28,7 @@ class AutoPlugin : public tlp::CPPPlugin
         bool                                    isWorking() const;
         telauto::AutoTellurimInterface&         getRRAuto();
         unsigned char*                          getManualAsPDF() const;
-        unsigned int                            getPDFManualByteSize();
+        size_t                                  getPDFManualByteSize();
         rrc::THostInterface*                    mhostInterface;
         rrc::RRHandle                           rrHandle;
 

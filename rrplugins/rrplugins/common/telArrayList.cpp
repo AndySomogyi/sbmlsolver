@@ -135,7 +135,7 @@ void ArrayList::Clear()
     }
 }
 
-unsigned int ArrayList::Count() const
+size_t ArrayList::Count() const
 {
     return mList.size();
 }

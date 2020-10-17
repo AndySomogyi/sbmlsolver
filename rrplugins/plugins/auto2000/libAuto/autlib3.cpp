@@ -2918,6 +2918,7 @@ stpnpl(iap_type *iap, rap_type *rap, doublereal *par, integer *icp, integer *nts
 {
   /* Local variables */
   integer ndim;
+  int ignore;
   doublereal temp[7];
   integer nfpr, nfpr1, ntpl1, nrsp1, ntot1, i, j, k;
   logical found;
@@ -2942,18 +2943,18 @@ stpnpl(iap_type *iap, rap_type *rap, doublereal *par, integer *icp, integer *nts
   ibr = iap->ibr;
 
   findlb(iap, rap, irs, &nfpr1, &found);
-  fscanf(fp3,"%ld",&ibr);
-  fscanf(fp3,"%ld",&ntot1);
-  fscanf(fp3,"%ld",&itp1);
-  fscanf(fp3,"%ld",&lab1);
-  fscanf(fp3,"%ld",&nfpr1);
-  fscanf(fp3,"%ld",&isw1);
-  fscanf(fp3,"%ld",&ntpl1);
-  fscanf(fp3,"%ld",&nar1);
-  fscanf(fp3,"%ld",&nskip1);
-  fscanf(fp3,"%ld",&(*ntsr));
-  fscanf(fp3,"%ld",&(*ncolrs));
-  fscanf(fp3,"%ld",&nparr);
+  ignore = fscanf(fp3,"%ld",&ibr);
+  ignore = fscanf(fp3,"%ld",&ntot1);
+  ignore = fscanf(fp3,"%ld",&itp1);
+  ignore = fscanf(fp3,"%ld",&lab1);
+  ignore = fscanf(fp3,"%ld",&nfpr1);
+  ignore = fscanf(fp3,"%ld",&isw1);
+  ignore = fscanf(fp3,"%ld",&ntpl1);
+  ignore = fscanf(fp3,"%ld",&nar1);
+  ignore = fscanf(fp3,"%ld",&nskip1);
+  ignore = fscanf(fp3,"%ld",&(*ntsr));
+  ignore = fscanf(fp3,"%ld",&(*ncolrs));
+  ignore = fscanf(fp3,"%ld",&nparr);
   iap->ibr = ibr;
   nrsp1 = *ntsr + 1;
 
@@ -2961,23 +2962,23 @@ stpnpl(iap_type *iap, rap_type *rap, doublereal *par, integer *icp, integer *nts
     for (i = 0; i < *ncolrs; ++i) {
       k1 = i * ndim;
       k2 = k1 + ndm - 1;
-      fscanf(fp3,"%lf",&temp[i]);
+      ignore = fscanf(fp3,"%lf",&temp[i]);
       for (k = k1; k <= k2; ++k) {
-    fscanf(fp3,"%lf",&ups[j][k]);        
+          ignore = fscanf(fp3,"%lf",&ups[j][k]);
       }
     }
     tm[j] = temp[0];
   }
 
-  fscanf(fp3,"%lf",&tm[-1 + nrsp1]);
+  ignore = fscanf(fp3,"%lf",&tm[-1 + nrsp1]);
   for (k = 0; k < ndm; ++k) {
-    fscanf(fp3,"%lf",&ups[*ntsr][k]);
+      ignore = fscanf(fp3,"%lf",&ups[*ntsr][k]);
   }
 
-  fscanf(fp3,"%ld",icprs);
-  fscanf(fp3,"%ld",&icprs[1]);
-  fscanf(fp3,"%lf",&rd1);
-  fscanf(fp3,"%lf",&rd2);
+  ignore = fscanf(fp3,"%ld",icprs);
+  ignore = fscanf(fp3,"%ld",&icprs[1]);
+  ignore = fscanf(fp3,"%lf",&rd1);
+  ignore = fscanf(fp3,"%lf",&rd2);
 
   /* Read U-dot (derivative with respect to arclength). */
 
@@ -2986,14 +2987,14 @@ stpnpl(iap_type *iap, rap_type *rap, doublereal *par, integer *icp, integer *nts
       k1 = i* ndim;
       k2 = k1 + ndm - 1;
       for (k = k1; k <= k2; ++k) {
-    fscanf(fp3,"%lf",&udotps[j][k]);
+          ignore = fscanf(fp3,"%lf",&udotps[j][k]);
       }
     }
   }
 
 
   for (k = 0; k < ndm; ++k) {
-    fscanf(fp3,"%lf",&udotps[*ntsr][k]);
+      ignore = fscanf(fp3,"%lf",&udotps[*ntsr][k]);
   }
 
   /* Read the parameter values. */
@@ -3004,7 +3005,7 @@ stpnpl(iap_type *iap, rap_type *rap, doublereal *par, integer *icp, integer *nts
     fprintf(fp6, "PAR(i) set to zero, fot i > %3ld\n",nparr);
   }
   for (i = 0; i < nparr; ++i) {
-    fscanf(fp3,"%lf",&par[i]);
+      ignore = fscanf(fp3,"%lf",&par[i]);
   }
 
   /* Complement starting data */
@@ -3366,6 +3367,7 @@ stpnpd(iap_type *iap, rap_type *rap, doublereal *par, integer *icp, integer *nts
 {
   /* Local variables */
   integer ndim;
+  int ignore;
   doublereal temp[7];
   integer nfpr, nfpr1, ntpl1, nrsp1, ntot1, i, j, k;
   logical found;
@@ -3385,18 +3387,18 @@ stpnpd(iap_type *iap, rap_type *rap, doublereal *par, integer *icp, integer *nts
   ibr = iap->ibr;
 
   findlb(iap, rap, irs, &nfpr1, &found);
-  fscanf(fp3,"%ld",&ibr);
-  fscanf(fp3,"%ld",&ntot1);
-  fscanf(fp3,"%ld",&itp1);
-  fscanf(fp3,"%ld",&lab1);
-  fscanf(fp3,"%ld",&nfpr1);
-  fscanf(fp3,"%ld",&isw1);
-  fscanf(fp3,"%ld",&ntpl1);
-  fscanf(fp3,"%ld",&nar1);
-  fscanf(fp3,"%ld",&nskip1);
-  fscanf(fp3,"%ld",&(*ntsr));
-  fscanf(fp3,"%ld",&(*ncolrs));
-  fscanf(fp3,"%ld",&nparr);
+  ignore = fscanf(fp3,"%ld",&ibr);
+  ignore = fscanf(fp3,"%ld",&ntot1);
+  ignore = fscanf(fp3,"%ld",&itp1);
+  ignore = fscanf(fp3,"%ld",&lab1);
+  ignore = fscanf(fp3,"%ld",&nfpr1);
+  ignore = fscanf(fp3,"%ld",&isw1);
+  ignore = fscanf(fp3,"%ld",&ntpl1);
+  ignore = fscanf(fp3,"%ld",&nar1);
+  ignore = fscanf(fp3,"%ld",&nskip1);
+  ignore = fscanf(fp3,"%ld",&(*ntsr));
+  ignore = fscanf(fp3,"%ld",&(*ncolrs));
+  ignore = fscanf(fp3,"%ld",&nparr);
   iap->ibr = ibr;
   nrsp1 = *ntsr + 1;
 
@@ -3404,22 +3406,22 @@ stpnpd(iap_type *iap, rap_type *rap, doublereal *par, integer *icp, integer *nts
     for (i = 0; i < *ncolrs; ++i) {
       k1 = i * ndim;
       k2 = k1 + ndm - 1;
-      fscanf(fp3,"%lf",&temp[i]);
+      ignore = fscanf(fp3,"%lf",&temp[i]);
       for (k = k1; k <= k2; ++k) {
-    fscanf(fp3,"%lf",&ups[j][k]);        
+          ignore = fscanf(fp3,"%lf",&ups[j][k]);
       }
     }
     tm[j] = temp[0];
   }
-  fscanf(fp3,"%lf",&tm[-1 + nrsp1]);
+  ignore = fscanf(fp3,"%lf",&tm[-1 + nrsp1]);
   for (k = 0; k < ndm; ++k) {
-    fscanf(fp3,"%lf",&ups[*ntsr][k]);
+      ignore = fscanf(fp3,"%lf",&ups[*ntsr][k]);
   }
 
-  fscanf(fp3,"%ld",icprs);
-  fscanf(fp3,"%ld",&icprs[1]);
-  fscanf(fp3,"%lf",rldot);
-  fscanf(fp3,"%lf",&rldot[1]);
+  ignore = fscanf(fp3,"%ld",icprs);
+  ignore = fscanf(fp3,"%ld",&icprs[1]);
+  ignore = fscanf(fp3,"%lf",rldot);
+  ignore = fscanf(fp3,"%lf",&rldot[1]);
 
   /* Read U-dot (derivative with respect to arclength). */
 
@@ -3428,14 +3430,14 @@ stpnpd(iap_type *iap, rap_type *rap, doublereal *par, integer *icp, integer *nts
       k1 = i* ndim;
       k2 = k1 + ndm - 1;
       for (k = k1; k <= k2; ++k) {
-    fscanf(fp3,"%lf",&udotps[j][k]);
+          ignore = fscanf(fp3,"%lf",&udotps[j][k]);
       }
     }
   }
 
 
   for (k = 0; k < ndm; ++k) {
-    fscanf(fp3,"%lf",&udotps[*ntsr][k]);
+      ignore = fscanf(fp3,"%lf",&udotps[*ntsr][k]);
   }
 
   /* Read the parameter values. */
@@ -3446,7 +3448,7 @@ stpnpd(iap_type *iap, rap_type *rap, doublereal *par, integer *icp, integer *nts
     fprintf(fp6, "PAR(i) set to zero, fot i > %3ld\n",nparr);
   }
   for (i = 0; i < nparr; ++i) {
-    fscanf(fp3,"%lf",&par[i]);
+      ignore = fscanf(fp3,"%lf",&par[i]);
   }
 
   /* Complement starting data */
@@ -3868,7 +3870,7 @@ stpntr(iap_type *iap, rap_type *rap, doublereal *par, integer *icp, integer *nts
   integer *icprs = new integer[num_total_pars], nparr, k1, k2, k3, nskip1;
 
   integer ibr, ndm, k2p1, irs, lab1, nar1, itp1, isw1;
-
+  int ignore;
 
   /* Generates starting data for the 2-parameter continuation of torus */
   /* bifurcations. */
@@ -3885,18 +3887,18 @@ stpntr(iap_type *iap, rap_type *rap, doublereal *par, integer *icp, integer *nts
   ibr = iap->ibr;
 
   findlb(iap, rap, irs, &nfpr1, &found);
-  fscanf(fp3,"%ld",&ibr);
-  fscanf(fp3,"%ld",&ntot1);
-  fscanf(fp3,"%ld",&itp1);
-  fscanf(fp3,"%ld",&lab1);
-  fscanf(fp3,"%ld",&nfpr1);
-  fscanf(fp3,"%ld",&isw1);
-  fscanf(fp3,"%ld",&ntpl1);
-  fscanf(fp3,"%ld",&nar1);
-  fscanf(fp3,"%ld",&nskip1);
-  fscanf(fp3,"%ld",&(*ntsr));
-  fscanf(fp3,"%ld",&(*ncolrs));
-  fscanf(fp3,"%ld",&nparr);
+  ignore = fscanf(fp3,"%ld",&ibr);
+  ignore = fscanf(fp3,"%ld",&ntot1);
+  ignore = fscanf(fp3,"%ld",&itp1);
+  ignore = fscanf(fp3,"%ld",&lab1);
+  ignore = fscanf(fp3,"%ld",&nfpr1);
+  ignore = fscanf(fp3,"%ld",&isw1);
+  ignore = fscanf(fp3,"%ld",&ntpl1);
+  ignore = fscanf(fp3,"%ld",&nar1);
+  ignore = fscanf(fp3,"%ld",&nskip1);
+  ignore = fscanf(fp3,"%ld",&(*ntsr));
+  ignore = fscanf(fp3,"%ld",&(*ncolrs));
+  ignore = fscanf(fp3,"%ld",&nparr);
   iap->ibr = ibr;
   nrsp1 = *ntsr + 1;
 
@@ -3904,9 +3906,9 @@ stpntr(iap_type *iap, rap_type *rap, doublereal *par, integer *icp, integer *nts
     for (i = 0; i < *ncolrs; ++i) {
       k1 = i * ndim;
       k2 = k1 + ndm - 1;
-      fscanf(fp3,"%lf",&temp[i]);
+      ignore = fscanf(fp3,"%lf",&temp[i]);
       for (k = k1; k <= k2; ++k) {
-    fscanf(fp3,"%lf",&ups[j][k]);
+          ignore = fscanf(fp3,"%lf",&ups[j][k]);
       }
       k2p1 = k2 + 1;
       k3 = k2 + ndm;
@@ -3918,19 +3920,19 @@ stpntr(iap_type *iap, rap_type *rap, doublereal *par, integer *icp, integer *nts
     tm[j] = temp[0];
   }
 
-  fscanf(fp3,"%lf",&tm[*ntsr]);
+  ignore = fscanf(fp3,"%lf",&tm[*ntsr]);
   for (k = 0; k < ndm; ++k) {
-    fscanf(fp3,"%lf",&ups[*ntsr][k]);
+      ignore = fscanf(fp3,"%lf",&ups[*ntsr][k]);
   }
   for (i = 0; i < ndm; ++i) {
     ups[*ntsr][ndm + i] = 0.;
     ups[*ntsr][(ndm * 2) + i] = 0.;
   }
 
-  fscanf(fp3,"%ld",icprs);
-  fscanf(fp3,"%ld",&icprs[1]);
-  fscanf(fp3,"%lf",rldot);
-  fscanf(fp3,"%lf",&rldot[1]);
+  ignore = fscanf(fp3,"%ld",icprs);
+  ignore = fscanf(fp3,"%ld",&icprs[1]);
+  ignore = fscanf(fp3,"%lf",rldot);
+  ignore = fscanf(fp3,"%lf",&rldot[1]);
   rldot[2] = 0.;
   rldot[3] = 0.;
 
@@ -3941,19 +3943,19 @@ stpntr(iap_type *iap, rap_type *rap, doublereal *par, integer *icp, integer *nts
       k1 = i * ndim;
       k2 = k1 + ndm - 1;
       for (k = k1; k <= k2; ++k) {
-    fscanf(fp3,"%lf",&udotps[j][k]);
+          ignore = fscanf(fp3,"%lf",&udotps[j][k]);
       }
       k2p1 = k2 + 1;
       k3 = k2 + ndm;
       for (k = k2p1; k <= k2; ++k) {
-    udotps[j][k] = 0.;
-    udotps[j][k + ndm] = 0.;
+          udotps[j][k] = 0.;
+          udotps[j][k + ndm] = 0.;
       }
     }
   }
 
   for (k = 0; k < ndm; ++k) {
-    fscanf(fp3,"%lf",&udotps[*ntsr][k]);
+      ignore = fscanf(fp3,"%lf",&udotps[*ntsr][k]);
   }
   for (i = 0; i < ndm; ++i) {
     udotps[*ntsr][ndm + i] = 0.;
@@ -3968,7 +3970,7 @@ stpntr(iap_type *iap, rap_type *rap, doublereal *par, integer *icp, integer *nts
     fprintf(fp6, "PAR(i) set to zero, fot i > %3ld\n",nparr);
   }
   for (i = 0; i < nparr; ++i) {
-    fscanf(fp3,"%lf",&par[i]);
+      ignore = fscanf(fp3,"%lf",&par[i]);
   }
 
   par[sysoff+3] = 0.;
@@ -4470,7 +4472,7 @@ stpnpo(iap_type *iap, rap_type *rap, doublereal *par, integer *icp, integer *nts
   /* Generates starting data for optimization of periodic solutions. */
 
   /* Local */
-
+  int ignore;
 
   /* Parameter adjustments */
   
@@ -4481,18 +4483,18 @@ stpnpo(iap_type *iap, rap_type *rap, doublereal *par, integer *icp, integer *nts
   ibr = iap->ibr;
 
   findlb(iap, rap, irs, &nfpr1, &found);
-  fscanf(fp3,"%ld",&ibr);
-  fscanf(fp3,"%ld",&ntot1);
-  fscanf(fp3,"%ld",&itp1);
-  fscanf(fp3,"%ld",&lab1);
-  fscanf(fp3,"%ld",&nfpr1);
-  fscanf(fp3,"%ld",&isw1);
-  fscanf(fp3,"%ld",&ntpl1);
-  fscanf(fp3,"%ld",&nar1);
-  fscanf(fp3,"%ld",&nskip1);
-  fscanf(fp3,"%ld",&(*ntsr));
-  fscanf(fp3,"%ld",&(*ncolrs));
-  fscanf(fp3,"%ld",&nparr);
+  ignore = fscanf(fp3,"%ld",&ibr);
+  ignore = fscanf(fp3,"%ld",&ntot1);
+  ignore = fscanf(fp3,"%ld",&itp1);
+  ignore = fscanf(fp3,"%ld",&lab1);
+  ignore = fscanf(fp3,"%ld",&nfpr1);
+  ignore = fscanf(fp3,"%ld",&isw1);
+  ignore = fscanf(fp3,"%ld",&ntpl1);
+  ignore = fscanf(fp3,"%ld",&nar1);
+  ignore = fscanf(fp3,"%ld",&nskip1);
+  ignore = fscanf(fp3,"%ld",&(*ntsr));
+  ignore = fscanf(fp3,"%ld",&(*ncolrs));
+  ignore = fscanf(fp3,"%ld",&nparr);
   iap->ibr = ibr;
   nrsp1 = *ntsr + 1;
 
@@ -4500,25 +4502,25 @@ stpnpo(iap_type *iap, rap_type *rap, doublereal *par, integer *icp, integer *nts
     for (i = 0; i < *ncolrs; ++i) {
       k1 = i * ndim;
       k2 = k1 + ndm - 1;
-      fscanf(fp3,"%lf",&temp[i]);
+      ignore = fscanf(fp3,"%lf",&temp[i]);
       for (k = k1; k <= k2; ++k) {
-    fscanf(fp3,"%lf",&ups[j][k]);        
+          ignore = fscanf(fp3,"%lf",&ups[j][k]);
       }
     }
     tm[j] = temp[0];
   }
-  fscanf(fp3,"%lf",&tm[*ntsr]);
+  ignore = fscanf(fp3,"%lf",&tm[*ntsr]);
   for (k = 0; k < ndm; ++k) {
-    fscanf(fp3,"%lf",&ups[*ntsr][k]);
+      ignore = fscanf(fp3,"%lf",&ups[*ntsr][k]);
   }
   for (j = 0; j < *ntsr; ++j) {
     dtm[j] = tm[j + 1] - tm[j];
   }
 
-  fscanf(fp3,"%ld",icprs);
-  fscanf(fp3,"%ld",&icprs[1]);
-  fscanf(fp3,"%lf",&rld1);
-  fscanf(fp3,"%lf",&rld2);
+  ignore = fscanf(fp3,"%ld",icprs);
+  ignore = fscanf(fp3,"%ld",&icprs[1]);
+  ignore = fscanf(fp3,"%lf",&rld1);
+  ignore = fscanf(fp3,"%lf",&rld2);
 
   /* Read U-dot (derivative with respect to arclength). */
   for (j = 0; j < *ntsr; ++j) {
@@ -4526,12 +4528,12 @@ stpnpo(iap_type *iap, rap_type *rap, doublereal *par, integer *icp, integer *nts
       k1 = i* ndim;
       k2 = k1 + ndm - 1;
       for (k = k1; k <= k2; ++k) {
-    fscanf(fp3,"%lf",&udotps[j][k]);
+          ignore = fscanf(fp3,"%lf",&udotps[j][k]);
       }
     }
   }
   for (k = 0; k < ndm; ++k) {
-    fscanf(fp3,"%lf",&udotps[*ntsr][k]);
+      ignore = fscanf(fp3,"%lf",&udotps[*ntsr][k]);
   }
 
   /* Read the parameter values. */
@@ -4541,7 +4543,7 @@ stpnpo(iap_type *iap, rap_type *rap, doublereal *par, integer *icp, integer *nts
     fprintf(fp6, "PAR(i) set to zero, fot i > %3ld\n",nparr);
   }
   for (i = 0; i < nparr; ++i) {
-    fscanf(fp3,"%lf",&par[i]);
+      ignore = fscanf(fp3,"%lf",&par[i]);
   }
 
   for (j = 0; j < *ntsr; ++j) {
@@ -5099,6 +5101,7 @@ stpnbl(iap_type *iap, rap_type *rap, doublereal *par, integer *icp, integer *nts
   /* (BVP). */
 
   /* Local */
+  int ignore;
 
   /* Parameter adjustments */
     
@@ -5109,18 +5112,18 @@ stpnbl(iap_type *iap, rap_type *rap, doublereal *par, integer *icp, integer *nts
   ibr = iap->ibr;
 
   findlb(iap, rap, irs, &nfpr1, &found);
-  fscanf(fp3,"%ld",&ibr);
-  fscanf(fp3,"%ld",&ntot1);
-  fscanf(fp3,"%ld",&itp1);
-  fscanf(fp3,"%ld",&lab1);
-  fscanf(fp3,"%ld",&nfpr1);
-  fscanf(fp3,"%ld",&isw1);
-  fscanf(fp3,"%ld",&ntpl1);
-  fscanf(fp3,"%ld",&nar1);
-  fscanf(fp3,"%ld",&nskip1);
-  fscanf(fp3,"%ld",&(*ntsr));
-  fscanf(fp3,"%ld",&(*ncolrs));
-  fscanf(fp3,"%ld",&nparr);
+  ignore = fscanf(fp3,"%ld",&ibr);
+  ignore = fscanf(fp3,"%ld",&ntot1);
+  ignore = fscanf(fp3,"%ld",&itp1);
+  ignore = fscanf(fp3,"%ld",&lab1);
+  ignore = fscanf(fp3,"%ld",&nfpr1);
+  ignore = fscanf(fp3,"%ld",&isw1);
+  ignore = fscanf(fp3,"%ld",&ntpl1);
+  ignore = fscanf(fp3,"%ld",&nar1);
+  ignore = fscanf(fp3,"%ld",&nskip1);
+  ignore = fscanf(fp3,"%ld",&(*ntsr));
+  ignore = fscanf(fp3,"%ld",&(*ncolrs));
+  ignore = fscanf(fp3,"%ld",&nparr);
   iap->ibr = ibr;
   nrsp1 = *ntsr + 1;
 
@@ -5128,22 +5131,22 @@ stpnbl(iap_type *iap, rap_type *rap, doublereal *par, integer *icp, integer *nts
     for (i = 0; i < *ncolrs; ++i) {
       k1 = i * ndim;
       k2 = k1 + ndm - 1;
-      fscanf(fp3,"%lf",&temp[i]);
+      ignore = fscanf(fp3,"%lf",&temp[i]);
       for (k = k1; k <= k2; ++k) {
-    fscanf(fp3,"%lf",&ups[j][k]);        
+          ignore = fscanf(fp3,"%lf",&ups[j][k]);
       }
     }
     tm[j] = temp[0];
   }
-  fscanf(fp3,"%lf",&tm[*ntsr]);
+  ignore = fscanf(fp3,"%lf",&tm[*ntsr]);
   for (k = 0; k < ndm; ++k) {
-    fscanf(fp3,"%lf",&ups[*ntsr][k]);
+      ignore = fscanf(fp3,"%lf",&ups[*ntsr][k]);
   }
 
   nfpr0 = nfpr / 2;
-  fscanf(fp3,"%ld",icprs);
+  ignore = fscanf(fp3,"%ld",icprs);
   for (i = 0; i < nfpr0; ++i) {
-    fscanf(fp3,"%lf",&rldot[i]);
+      ignore = fscanf(fp3,"%lf",&rldot[i]);
   }
 
   /* Read U-dot (Derivative with respect to arclength). */
@@ -5153,12 +5156,12 @@ stpnbl(iap_type *iap, rap_type *rap, doublereal *par, integer *icp, integer *nts
       k1 = i * ndim + ndm;
       k2 = (i + 1) * ndim - 1;
       for (k = k1; k <= k2; ++k) {
-    fscanf(fp3,"%lf",&ups[j][k]);
+          ignore = fscanf(fp3,"%lf",&ups[j][k]);
       }
     }
   }
   for (k = ndm; k < ndim; ++k) {
-    fscanf(fp3,"%lf",&ups[*ntsr][k]);
+      ignore = fscanf(fp3,"%lf",&ups[*ntsr][k]);
   }
 
   /* Read the parameter values. */
@@ -5169,7 +5172,7 @@ stpnbl(iap_type *iap, rap_type *rap, doublereal *par, integer *icp, integer *nts
     fprintf(fp6, "PAR(i) set to zero, for i > %3ld\n",nparr);
   }
   for (i = 0; i < nparr; ++i) {
-    fscanf(fp3,"%lf",&par[i]);
+      ignore = fscanf(fp3,"%lf",&par[i]);
   }
 
   nfpx = nfpr / 2 - 1;

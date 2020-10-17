@@ -78,9 +78,9 @@ vector<string>::iterator StringList::end()
     return mStrings.end();
 }
 
-string& StringList::operator[](const int& index)
+string& StringList::operator[](const size_t& index)
 {
-    if((u_int) index > count() -1 )
+    if(index > count() -1 )
     {
         stringstream msg;
         msg<<"index ("<<index<<") out of bounds in StringList with count "<<count();
@@ -90,9 +90,9 @@ string& StringList::operator[](const int& index)
     return mStrings[index];
 }
 
-const string& StringList::operator[](const int& index) const
+const string& StringList::operator[](const size_t& index) const
 {
-    if((u_int) index > count() -1 )
+    if(index > count() -1 )
     {
         stringstream msg;
         msg<<"index ("<<index<<") out of bounds in StringList with count "<<count();
@@ -103,12 +103,12 @@ const string& StringList::operator[](const int& index) const
     return mStrings[index];
 }
 
-unsigned int StringList::size() const
+size_t StringList::size() const
 {
     return mStrings.size();
 }
 
-unsigned int StringList::count() const
+size_t StringList::count() const
 {
     return mStrings.size();
 }
@@ -178,12 +178,12 @@ void StringList::add(const string& item)
     mStrings.push_back(item);
 }
 
-int StringList::find(const string& item)
+ptrdiff_t StringList::find(const string& item)
 {
     return tlp::indexOf(mStrings, item);
 }
 
-int StringList::indexOf(const string& item)
+ptrdiff_t StringList::indexOf(const string& item)
 {
     return tlp::indexOf(mStrings, item);
 }

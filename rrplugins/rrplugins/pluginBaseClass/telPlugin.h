@@ -160,7 +160,7 @@ class CORE_DECLSPEC Plugin
         /**
             Retrieve the size in bytes of the PDF string.
         */
-        virtual unsigned int            getPDFManualByteSize();
+        virtual size_t                  getPDFManualByteSize();
 
         /**
             Retieves the propertys

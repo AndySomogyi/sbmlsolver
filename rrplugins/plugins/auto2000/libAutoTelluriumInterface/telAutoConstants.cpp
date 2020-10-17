@@ -11,7 +11,7 @@ namespace telauto
     using namespace tlp;
     using namespace std;
 
-string getWhiteSpaces(string& line, int maxLength);
+string getWhiteSpaces(string& line, size_t maxLength);
 
 
 AutoConstants::AutoConstants()
@@ -139,7 +139,7 @@ void AutoConstants::populateFrom(Properties* props)
 
 string AutoConstants::getConstantsAsString()
 {
-    string line1  = formatN((string)"{0} {1} {2} {3}", NDIM, IPS, IRS, ILP);
+    string line1  = formatN((string)"{0} {1} {2} {3}", static_cast<unsigned int>(NDIM), IPS, IRS, ILP);
     string line2  = getICP();
     string line3  = formatN("{0} {1} {2} {3} {4} {5} {6} {7}", NTST, NCOL, IAD, ISP, ISW, IPLT, NBC, NINT);
     string line4  = formatN("{0} {1} {2} {3} {4}", NMX, RL0, RL1, A0, A1);
@@ -162,7 +162,7 @@ string AutoConstants::getConstantsAsString()
     lines.add(line8);
     lines.add(line10);
 
-    int maxLength = lines.getLongest().size();
+    size_t maxLength = lines.getLongest().size();
     StringBuilder builder;
     builder << (line1 + getWhiteSpaces(line1, maxLength) + " NDIM, IPS, IRS, ILP") << endl;
     builder << (line2 + getWhiteSpaces(line2, maxLength) + " NICP,(ICP(I),I=1 NICP)")<< endl;
@@ -206,9 +206,9 @@ string AutoConstants::getICP()
     return builder.ToString();
 }
 
-string getWhiteSpaces(string& line, int maxLength)
+string getWhiteSpaces(string& line, ptrdiff_t maxLength)
 {
-    int nrSpaces =  maxLength - line.size();
+    size_t nrSpaces =  maxLength - line.size();
     return string(nrSpaces, ' ');
 }
 

@@ -43,16 +43,16 @@ int main() {
 void write7(solutionp root) {
   FILE *fpin,*fpout;
   char line[MAX_BUF];
-  int label,junk,prefix;
+  int label,junk,prefix,i_ignore;
   solutionp current = root;
 
   fpin = fopen(INPUT_FORT7,"r");
   fpout = fopen(OUTPUT_FORT7,"w");
-  fgets(line,MAX_BUF,fpin);
+  char* c_ignore = fgets(line,MAX_BUF,fpin);
   while(feof(fpin)==0) {
-    sscanf(line,"%d",&prefix);
+    i_ignore = sscanf(line,"%d",&prefix);
     if(prefix != 0) {
-      sscanf(line,"%d %d %d %d",&prefix,&junk,&junk,&label);
+        i_ignore = sscanf(line,"%d %d %d %d",&prefix,&junk,&junk,&label);
       if(label != 0) {
     if(label != current->label) {
       fprintf(stderr,"WARNING: Label mismatch between fort.27 and fort.28\nFiles may be corrupt!"); 
@@ -67,8 +67,8 @@ void write7(solutionp root) {
     current = current->next;
       }
     }
-    fputs(line,fpout);
-    fgets(line,MAX_BUF,fpin);
+    i_ignore = fputs(line,fpout);
+    c_ignore = fgets(line,MAX_BUF,fpin);
   }
   fclose(fpin);
   fclose(fpout);
@@ -86,7 +86,7 @@ void write8(solutionp current) {
     if(current->new_label != DELETED) {
       rewind(fpin);
       fseek(fpin,current->position,SEEK_SET);
-      fscanf(fpin,"%d %d %d %d %d %d %d %d %d %d %d %d",
+      int ignore = fscanf(fpin,"%d %d %d %d %d %d %d %d %d %d %d %d",
          &ibr,&ntot,&itp,&lab,&nfpr,&isw,&ntpl,&nar,
          &nrowpr,&ntst,&ncol,&npar1);
       fprintf(fpout,"%5d%5d%5d%5d%5d%5d%5d%5d%7d%5d%5d%5d\n",
@@ -95,8 +95,8 @@ void write8(solutionp current) {
       /*Go to end of line*/
       while(fgetc(fpin)!='\n');
       for(i=0;i<current->nrowpr;i++) {
-    fgets(line,MAX_BUF,fpin);
-    fputs(line,fpout);
+          char* ignore = fgets(line,MAX_BUF,fpin);
+          fputs(line, fpout);
       }
     }
     current = current->next;
@@ -164,7 +164,7 @@ int command_loop(solutionp root) {
   char *token;
   int start,end,i;
   printf("Enter Command : ");
-  fgets(command,MAX_BUF,stdin);
+  char* ignore = fgets(command,MAX_BUF,stdin);
   switch(command[0]) {
   case 'l':
     printf("  BR    PT  TY LAB  NEW\n");
@@ -343,7 +343,7 @@ solutionp parse() {
 
   fpin = fopen(INPUT_FORT8,"r");
   position = ftell(fpin);
-  fscanf(fpin,"%d %d %d %d %d %d %d %d %d %d %d %d",
+  int ignore = fscanf(fpin,"%d %d %d %d %d %d %d %d %d %d %d %d",
      &ibr,&ntot,&itp,&lab,&nfpr,&isw,&ntpl,&nar,
      &nrowpr,&ntst,&ncol,&npar1);
   while(!feof(fpin)) {
@@ -374,7 +374,7 @@ solutionp parse() {
       while(fgetc(fpin)!='\n');
 
     position = ftell(fpin);
-    fscanf(fpin,"%d %d %d %d %d %d %d %d %d %d %d %d",
+    int ignore = fscanf(fpin,"%d %d %d %d %d %d %d %d %d %d %d %d",
        &ibr,&ntot,&itp,&lab,&nfpr,&isw,&ntpl,&nar,
        &nrowpr,&ntst,&ncol,&npar1);
   }

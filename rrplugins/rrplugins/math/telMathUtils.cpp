@@ -88,7 +88,7 @@ double getEuclideanNorm(const vector<double>& x)
  *
  *      x is an input array of length n.
  */
-    int i;
+    size_t i;
     double agiant, s1, s2, s3, xabs, x1max, x3max, temp;
 
     s1 = 0;
@@ -96,7 +96,7 @@ double getEuclideanNorm(const vector<double>& x)
     s3 = 0;
     x1max = 0;
     x3max = 0;
-    unsigned int n = x.size();
+    size_t n = x.size();
     agiant = LM_SQRT_GIANT / n;
 
     /** sum squares. **/
@@ -278,7 +278,7 @@ vector<double> getValuesInColumn(int col, const TelluriumData& data)
 
 double getRandomElement(const vector<double>& vec, Random& random)
 {
-    int maxIndex = vec.size() -1;
+    size_t maxIndex = vec.size() -1;
     double rnd = random.next() * maxIndex;
     rnd  = rnd  + 0.5;
     return vec[(int) rnd ];

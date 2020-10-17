@@ -11,7 +11,7 @@ mMessage(desc)//, Message(mMessage)
 {
 }
 
-Exception::~Exception() throw() {}
+Exception::~Exception() noexcept {}
 
 const char* Exception::what() const throw()
 {

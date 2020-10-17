@@ -22,7 +22,7 @@ COMMON_DECLSPEC char*   			createText(const int& count);
 COMMON_DECLSPEC bool   			    freeText(char* str);
 COMMON_DECLSPEC double              extractDouble(std::string const& s, bool failIfLeftoverChars = false);
 COMMON_DECLSPEC string              substituteCharInString(const string& text, char chToReplace, char withChar);
-COMMON_DECLSPEC unsigned int        indexOf(const string& text, char checkFor);
+COMMON_DECLSPEC size_t              indexOf(const string& text, char checkFor);
 COMMON_DECLSPEC string              replaceWord(const string& str1, const string& str2, const string& theString);
 COMMON_DECLSPEC bool                convertFunctionCallToUseVarArgsSyntax(const string& funcName, string& expression);
 COMMON_DECLSPEC string              removeChars(const string& str, const string& chars);

@@ -134,7 +134,7 @@ class CORE_DECLSPEC PluginManager
         /**
             Get number of loaded plugins.
         */
-        int                                 getNumberOfPlugins() const;
+        size_t                              getNumberOfPlugins() const;
 
         /**
             Get number of plugin categories.

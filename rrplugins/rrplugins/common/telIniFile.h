@@ -60,7 +60,7 @@ class COMMON_DECLSPEC IniFile
                                 IniFile(const string& fName = "", bool autoLoad = false, bool autoSave = false);
         virtual                 ~IniFile();
 
-        int                     GetNumberOfSections(){return mSections.size();}
+        size_t                  GetNumberOfSections(){return mSections.size();}
         IniSection*             GetSection(int i){return mSections[i];}
 
         // File handling methods
@@ -105,9 +105,9 @@ class COMMON_DECLSPEC IniFile
         bool                    CreateSection(const string& Section, const string& Comment, KeyList Keys);
 
         // Utility Methods
-        int                     SectionCount();
-        int                     KeyCount();
-        int                     KeyCount(const string& section);
+        size_t                  SectionCount();
+        size_t                  KeyCount();
+        size_t                  KeyCount(const string& section);
         void                    Clear();
         void                    SetFileName(const string& fName);
         string                  CommentStr(string& Comment);

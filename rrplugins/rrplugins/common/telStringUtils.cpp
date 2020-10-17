@@ -42,7 +42,7 @@ char* createText(const int& count)
 	return text;
 }
 
-unsigned int indexOf(const string& text, char checkFor)
+size_t indexOf(const string& text, char checkFor)
 {
     return text.find(checkFor);
 }
@@ -576,13 +576,13 @@ vector<string> splitString(const string &text, const char& oneSep)
 vector<string> splitString(const string &text, const string &separators)
 {
     vector<string> words;
-    int n = text.length();
-    int start = text.find_first_not_of(separators);
+    size_t n = text.length();
+    size_t start = text.find_first_not_of(separators);
 
-    while( (start >= 0) && (start < n) )
+    while(start < n)
     {
-        int stop = text.find_first_of(separators, start);
-        if( (stop < 0) || (stop > n) )
+        size_t stop = text.find_first_of(separators, start);
+        if(stop > n)
         {
             stop = n;
         }
@@ -596,12 +596,12 @@ vector<string> splitString(const string &text, const string &separators)
 vector<string> splitString(const string &text, const string &separators, bool cutDelimiter)
 {
     vector<string> words;
-    int n = text.length();
-    int start = text.find_first_not_of(separators);
+    size_t n = text.length();
+    size_t start = text.find_first_not_of(separators);
     while( (start >= 0) && (start < n) )
     {
-        int stop = text.find_first_of(separators, start);
-        if( (stop < 0) || (stop > n) )
+        size_t stop = text.find_first_of(separators, start);
+        if (stop > n)
         {
             stop = n;
         }
@@ -625,14 +625,14 @@ vector<string> splitString(const string &text, const string &separators, bool cu
     return words;
 }
 
-int splitString(vector<string>& words, const string &text, const string &separators)
+size_t splitString(vector<string>& words, const string &text, const string &separators)
 {
-    int n = text.length();
-    int start = text.find_first_not_of(separators);
-    while( (start >= 0) && (start < n) )
+    size_t n = text.length();
+    size_t start = text.find_first_not_of(separators);
+    while (start < n)
     {
-        int stop = text.find_first_of(separators, start);
-        if( (stop < 0) || (stop > n) )
+        size_t stop = text.find_first_of(separators, start);
+        if(stop > n)
         {
             stop = n;
         }
@@ -807,6 +807,35 @@ string toString(const int& n, const string& format, const int nBase)
     else
     {
         sprintf(sBuffer, "%d", n);
+        return string(sBuffer);
+    }
+}
+
+string toString(const size_t& n, const string& format, const int nBase)
+{
+    char sBuffer[256];
+    if (nBase == 16)
+    {
+        sprintf(sBuffer, "%zX", n);
+        return string("0x") + string(sBuffer);
+    }
+    else if (nBase == 2)
+    {
+        string tmp = "";
+        size_t k = n;
+        for (int i = 0; i < 8; i++)
+        {
+            if ((k & 0x80) != 0)
+                tmp += "1";
+            else
+                tmp += "0";
+            k = k << 1;
+        }
+        return "0b" + tmp;
+    }
+    else
+    {
+        sprintf(sBuffer, "%zd", n);
         return string(sBuffer);
     }
 }

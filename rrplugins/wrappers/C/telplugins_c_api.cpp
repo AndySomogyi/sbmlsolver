@@ -157,7 +157,7 @@ bool tlp_cc tpUnLoadPlugin(TELHandle handle, TELHandle plugin)
     tel_catch_bool_macro
 }
 
-int tlp_cc tpGetNumberOfPlugins(TELHandle handle)
+size_t tlp_cc tpGetNumberOfPlugins(TELHandle handle)
 {
     start_try
         PluginManager *pm = castHandle<PluginManager>(handle, __FUNC__);
@@ -335,7 +335,7 @@ char* tlp_cc tpGetPluginInfo(TELHandle handle)
     tel_catch_ptr_macro
 }
 
-unsigned int tlp_cc tpGetPluginManualNrOfBytes(TELHandle handle)
+size_t tlp_cc tpGetPluginManualNrOfBytes(TELHandle handle)
 {
     start_try
         Plugin* aPlugin = castHandle<Plugin>(handle, __FUNC__);

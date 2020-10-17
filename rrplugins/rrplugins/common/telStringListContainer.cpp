@@ -27,10 +27,10 @@ StringListContainer::StringListContainer(const StringList& cp)
     Add(cp);
 }
 
-int StringListContainer::TotalCount() const
+size_t StringListContainer::TotalCount() const
 {
     //Returns the total count of all list items..
-    int cnt = 0;
+    size_t cnt = 0;
     for(int i = 0; i < Count(); i++)
     {
         cnt += mContainer[i].count();
@@ -38,12 +38,12 @@ int StringListContainer::TotalCount() const
     return cnt;
 }
 
-int StringListContainer::ListCount() const
+size_t StringListContainer::ListCount() const
 {
     return mContainer.size();
 }
 
-int StringListContainer::Count() const
+size_t StringListContainer::Count() const
 {
     return mContainer.size();
 }

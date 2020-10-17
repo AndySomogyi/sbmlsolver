@@ -17,8 +17,8 @@ class AutoDataParser
                                                ~AutoDataParser();
         //Data input
         bool                                    parse(const string& input = tlp::gEmptyString);
-        int                                     getNumberOfDataPoints();
-        int                                     getNumberOfBifurcationPoints();
+        size_t                                  getNumberOfDataPoints();
+        size_t                                  getNumberOfBifurcationPoints();
         string                                  getBifurcationDiagram();
         StringList                              getDataFileHeader();
         StringList                              getRawSolutionData();
@@ -36,7 +36,7 @@ class AutoDataParser
         vector<int>                             mBifurcationPoints;
         vector<string>                          mBifurcationLabels;
         void                                    resetOutput();
-        int                                     getNrOfSolutions();
+        size_t                                  getNrOfSolutions();
         string                                  getDataHeaderLine();
 
 };

@@ -269,7 +269,7 @@ unsigned char* AutoPlugin::getManualAsPDF() const
     return pdf_doc;
 }
 
-unsigned int AutoPlugin::getPDFManualByteSize()
+size_t AutoPlugin::getPDFManualByteSize()
 {
     return sizeofPDF;
 }
