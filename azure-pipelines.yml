@@ -62,7 +62,7 @@ stages:
             inputs:
               cmakeArgs: --build . --target install --config $(BuildType) -j 12
           - task: CMake@1
-            displayName: BuildTestTarget
+            displayName: RunTests
             inputs:
               cmakeArgs: --build . --target run-ctest -j 12
 
@@ -108,9 +108,6 @@ stages:
             displayName: "Get LLVM"
             errorActionPreference: 'stop'
           - powershell: |
-              dir
-            displayName: Do A Dir
-          - powershell: |
               $ProgressPreference = 'SilentlyContinue'
               Invoke-WebRequest $(rr_deps_link) -OutFile $(rr_deps_zip)
               Expand-Archive $(rr_deps_zip)  -Destination .
@@ -128,7 +125,7 @@ stages:
             inputs:
               cmakeArgs: --build . --target install --config $(BuildType) -j 12
           - task: CMake@1
-            displayName: BuildTestTarget
+            displayName: RunTests
             inputs:
               cmakeArgs: --build . --target run-ctest -j 12
 
@@ -190,6 +187,6 @@ stages:
             inputs:
               cmakeArgs: --build . --target install --config $(BuildType) -j 12
           - task: CMake@1
-            displayName: BuildTestTarget
+            displayName: RunTests
             inputs:
               cmakeArgs: --build . --target run-ctest -j 12
