@@ -33,7 +33,7 @@ class AddNoise : public CPPPlugin
         bool                        execute(bool inThread = false);
         bool                        isWorking() const; //Returns true as long the thread is active..
         unsigned char*              getManualAsPDF() const;
-        unsigned int                getPDFManualByteSize();
+        size_t                      getPDFManualByteSize();
 };
 
 #ifdef EXPORT_ADD_NOISE
