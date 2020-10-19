@@ -17,6 +17,7 @@ stages:
   - stage: BuildRoadrunner
     jobs:
       - job: BuildRoadrunnerLinux
+        timeoutInMinutes: "0"
         displayName: Linux
         continueOnError: "false"
         pool:
@@ -33,6 +34,8 @@ stages:
               SelfHost: false
               CMakeArgs: "-DCMAKE_INSTALL_PREFIX=../install-azure-debug"
         steps:
+          # we cannot upload prebuilt binaries onto github for linux debug version because of github file size limits.
+          # therefore we do this build with Release llvm for both debug and release. Oddly enough it seems to work.
           - script: |
               echo "current driectory is: "
               pwd
@@ -40,7 +43,7 @@ stages:
               ls -lh
               echo "Agent.HomeDirectory $(Agent.HomeDirectory)"
               echo "Agent.BuildDirectory $(Agent.BuildDirectory)"
-              wget https://github.com/sys-bio/llvm-6.x/releases/download/release%2F6.x/llvm-6.x-gcc7.5.0-x64-release.tar.gz
+              wget https://github.com/sys-bio/llvm-6.x/releases/download/release%2F6.x/llvm-6.x-gcc7.5-x64-release.tar.gz
               tar -zxvf llvm-6.x-gcc7.5.0-x64-release.tar.gz
               ls
 
@@ -68,6 +71,7 @@ stages:
               cmakeArgs: --build . --target run-ctest -j 12
 
       - job: BuildRoadrunnerWindows
+        timeoutInMinutes: "0"
         displayName: Windows
         continueOnError: "false"
         pool:
@@ -85,16 +89,16 @@ stages:
               rr_deps_link: https://github.com/CiaranWelsh/roadrunner-deps/releases/download/v2.0.1/roadrunner-deps-msvc2019-x64-release.zip
               rr_deps_zip: roadrunner_deps-msvc2019-x64-release.zip
               rr_deps_install: roadrunner-deps-msvc2019-x64-release
-#            64-bit Windows Debug:
-#              BuildType: Debug
-#              SelfHost: false
-#              CMakeArgs: "-DCMAKE_INSTALL_PREFIX=../install-azure-debug"
-#              llvm_link: https://github.com/sys-bio/llvm-6.x/releases/download/release%2F6.x/llvm-6.x-msvc2019-x64-debug.zip
-#              llvm_zip: llvm-6.x-msvc2019-x64-debug.zip
-#              llvm_install: llvm-6.x-msvc2019-x64-debug
-#              rr_deps_link: https://github.com/CiaranWelsh/roadrunner-deps/releases/download/v2.0.1/roadrunner-deps-msvc2019-x64-debug.zip
-#              rr_deps_zip: roadrunner_deps-msvc2019-x64-debug.zip
-#              rr_deps_install: roadrunner-deps-msvc2019-x64-debug
+            64-bit Windows Debug:
+              BuildType: Debug
+              SelfHost: false
+              CMakeArgs: "-DCMAKE_INSTALL_PREFIX=../install-azure-debug"
+              llvm_link: https://github.com/sys-bio/llvm-6.x/releases/download/release%2F6.x/llvm-6.x-msvc2019-x64-debug.zip
+              llvm_zip: llvm-6.x-msvc2019-x64-debug.zip
+              llvm_install: llvm-6.x-msvc2019-x64-debug
+              rr_deps_link: https://github.com/CiaranWelsh/roadrunner-deps/releases/download/v2.0.1/roadrunner-deps-msvc2019-x64-debug.zip
+              rr_deps_zip: roadrunner_deps-msvc2019-x64-debug.zip
+              rr_deps_install: roadrunner-deps-msvc2019-x64-debug
 
         steps:
           - powershell: |
@@ -132,6 +136,7 @@ stages:
 
 
       - job: BuildRoadrunnerMac
+        timeoutInMinutes: "0"
         displayName: MacOS
         continueOnError: "false"
         pool:
@@ -143,9 +148,9 @@ stages:
               BuildType: Release
               SelfHost: false
               CMakeArgs: "-DCMAKE_INSTALL_PREFIX=../install-azure-release"
-              llvm_link: https://github.com/sys-bio/llvm-6.x/releases/download/release%2F6.x/llvm-6.x-macos-x64-release.zip
-              llvm_zip: llvm-6.x-macos-x64-release.zip
-              llvm_install: llvm-6.x-macos-x64-release
+              llvm_link: https://github.com/sys-bio/llvm-6.x/releases/download/release%2F6.x/llvm-6.x-clang11.0.3-x64-release.zip
+              llvm_zip: llvm-6.x-clang11.0.3-x64-release.zip
+              llvm_install: llvm-6.x-clang11.0.3-x64-release
               rr_deps_link: https://github.com/CiaranWelsh/roadrunner-deps/releases/download/v2.0.1/libroadrunner-deps-mac-x64-release.zip
               rr_deps_zip: libroadrunner-deps-mac-x64-release.zip
               rr_deps_install: libroadrunner-deps-mac-x64-release
@@ -153,9 +158,9 @@ stages:
               BuildType: Debug
               SelfHost: false
               CMakeArgs: "-DCMAKE_INSTALL_PREFIX=../install-azure-debug"
-              llvm_link: https://github.com/sys-bio/llvm-6.x/releases/download/release%2F6.x/llvm-6.x-macos-x64-debug.zip
-              llvm_zip: llvm-6.x-macos-x64-debug.zip
-              llvm_install: llvm-6.x-macos-x64-debug
+              llvm_link: https://github.com/sys-bio/llvm-6.x/releases/download/release%2F6.x/llvm-6.x-clang11.0.3-x64-debug.zip
+              llvm_zip: llvm-6.x-clang11.0.3-x64-debug.zip
+              llvm_install: llvm-6.x-clang11.0.3-x64-debug
               rr_deps_link: https://github.com/CiaranWelsh/roadrunner-deps/releases/download/v2.0.1/libroadrunner-deps-mac-x64-debug.zip
               rr_deps_zip: libroadrunner-deps-mac-x64-debug.zip
               rr_deps_install: libroadrunner-deps-mac-x64-debug
