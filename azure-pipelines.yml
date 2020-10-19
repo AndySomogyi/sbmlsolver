@@ -6,7 +6,7 @@ name: $(Date:yyyyMMdd)$(Rev:.r)
 trigger:
   - master
   - develop
-  - azure-tests
+  - develop-new-buildsystem
 
 pr:
   - master
@@ -84,16 +84,16 @@ stages:
               rr_deps_link: https://github.com/CiaranWelsh/roadrunner-deps/releases/download/v2.0.1/roadrunner-deps-msvc2019-x64-release.zip
               rr_deps_zip: roadrunner_deps-msvc2019-x64-release.zip
               rr_deps_install: roadrunner-deps-msvc2019-x64-release
-            64-bit Windows Debug:
-              BuildType: Debug
-              SelfHost: false
-              CMakeArgs: "-DCMAKE_INSTALL_PREFIX=../install-azure-debug"
-              llvm_link: https://github.com/sys-bio/llvm-6.x/releases/download/release%2F6.x/llvm-6.x-msvc2019-x64-debug.zip
-              llvm_zip: llvm-6.x-msvc2019-x64-debug.zip
-              llvm_install: llvm-6.x-msvc2019-x64-debug
-              rr_deps_link: https://github.com/CiaranWelsh/roadrunner-deps/releases/download/v2.0.1/roadrunner-deps-msvc2019-x64-debug.zip
-              rr_deps_zip: roadrunner_deps-msvc2019-x64-debug.zip
-              rr_deps_install: roadrunner-deps-msvc2019-x64-debug
+#            64-bit Windows Debug:
+#              BuildType: Debug
+#              SelfHost: false
+#              CMakeArgs: "-DCMAKE_INSTALL_PREFIX=../install-azure-debug"
+#              llvm_link: https://github.com/sys-bio/llvm-6.x/releases/download/release%2F6.x/llvm-6.x-msvc2019-x64-debug.zip
+#              llvm_zip: llvm-6.x-msvc2019-x64-debug.zip
+#              llvm_install: llvm-6.x-msvc2019-x64-debug
+#              rr_deps_link: https://github.com/CiaranWelsh/roadrunner-deps/releases/download/v2.0.1/roadrunner-deps-msvc2019-x64-debug.zip
+#              rr_deps_zip: roadrunner_deps-msvc2019-x64-debug.zip
+#              rr_deps_install: roadrunner-deps-msvc2019-x64-debug
 
         steps:
           - powershell: |
