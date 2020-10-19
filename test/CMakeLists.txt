@@ -58,8 +58,6 @@ foreach (dirid IN LISTS TESTDIRS)
     set(TEST_ENV_VARS "testdir=${RR_ROOT}/test" "CTEST_OUTPUT_ON_FAILURE=TRUE")
     set_tests_properties(${testid}_run PROPERTIES ENVIRONMENT "${TEST_ENV_VARS}")
 
-    # verbose output on failure
-    set_tests_properties(${testid}_run PROPERTIES ENVIRONMENT "")
 
 endforeach ()
 
