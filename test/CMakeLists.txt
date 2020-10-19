@@ -4,7 +4,6 @@
 add_subdirectory(googletest-release-1.10.0)
 # we be naughty and use include_directories here to include googletest globally
 include_directories(googletest-release-1.10.0/googletest/include)
-include_directories(googletest-release-1.10.0/googlemock/include)
 ########################################################
 #   Tests
 #
@@ -62,7 +61,6 @@ endforeach ()
 
 add_custom_target(
         run-ctest
-            ctest ${CMAKE_BINARY_DIR}
+            ctest --progress  --verbose --extra-verbose ${CMAKE_BINARY_DIR}
 )
 
-set(ENV testdir "${CMAKE_CURRENT_SOURCE_DIR}")
