@@ -17,8 +17,8 @@ namespace testModel {
         TestModel();
         ~TestModel();
         bool                        execute(bool);
-        unsigned char* getManualAsPDF() const;
-        unsigned int                getPDFManualByteSize();
+        unsigned char*              getManualAsPDF() const;
+        size_t                      getPDFManualByteSize();
 
     private:
         Property<string>            mModel;

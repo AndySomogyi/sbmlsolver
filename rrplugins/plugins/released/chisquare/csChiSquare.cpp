@@ -55,7 +55,7 @@ namespace cs_ChiSquare {
         return pdf_doc;
     }
 
-    unsigned int ChiSquare::getPDFManualByteSize()
+    size_t ChiSquare::getPDFManualByteSize()
     {
         return sizeofPDF;
     }
