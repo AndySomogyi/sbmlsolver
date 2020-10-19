@@ -88,7 +88,7 @@ stages:
               llvm_install: llvm-6.x-msvc2019-x64-release
               rr_deps_link: https://github.com/CiaranWelsh/roadrunner-deps/releases/download/v2.0.1/roadrunner-deps-msvc2019-x64-release.zip
               rr_deps_zip: roadrunner_deps-msvc2019-x64-release.zip
-#              rr_deps_install: roadrunner-deps-msvc2019-x64-release
+              rr_deps_install: roadrunner-deps-msvc2019-x64-release
             64-bit Windows Debug:
               BuildType: Debug
               SelfHost: false
@@ -98,7 +98,7 @@ stages:
               llvm_install: llvm-6.x-msvc2019-x64-debug
               rr_deps_link: https://github.com/CiaranWelsh/roadrunner-deps/releases/download/v2.0.1/roadrunner-deps-msvc2019-x64-debug.zip
               rr_deps_zip: roadrunner_deps-msvc2019-x64-debug.zip
-#              rr_deps_install: roadrunner-deps-msvc2019-x64-debug
+              rr_deps_install: roadrunner-deps-msvc2019-x64-debug
 
         steps:
           - powershell: |
