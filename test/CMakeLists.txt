@@ -54,10 +54,12 @@ foreach (dirid IN LISTS TESTDIRS)
     target_include_directories(${testid} PRIVATE "$<TARGET_PROPERTY:roadrunner_c_api,INCLUDE_DIRECTORIES>")
     add_test(${testid}_run ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${testid})
     # set the testdir variable for when using ctest to run tests
-    set_tests_properties(${testid}_run PROPERTIES ENVIRONMENT "testdir=${RR_ROOT}/test")
+
+    set(TEST_ENV_VARS "testdir=${RR_ROOT}/test" "CTEST_OUTPUT_ON_FAILURE=TRUE")
+    set_tests_properties(${testid}_run PROPERTIES ENVIRONMENT "${TEST_ENV_VARS}")
 
     # verbose output on failure
-    set_tests_properties(${testid}_run PROPERTIES ENVIRONMENT "CTEST_OUTPUT_ON_FAILURE=TRUE")
+    set_tests_properties(${testid}_run PROPERTIES ENVIRONMENT "")
 
 endforeach ()
 
