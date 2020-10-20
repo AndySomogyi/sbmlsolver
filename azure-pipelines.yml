@@ -68,6 +68,7 @@ stages:
           - script: |
               echo "pwd: $(pwd)"
               ls
+              echo "$(Agent.BuildDirectory)"
               cd $(Agent.BuildDirectory)
               echo "pwd: $(pwd)"
               ls
