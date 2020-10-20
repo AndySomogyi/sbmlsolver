@@ -36,7 +36,7 @@ namespace cs_ChiSquare {
         string                                  getImplementationLanguage();
         bool                                    isWorking() const;
         unsigned char*                          getManualAsPDF() const;
-        unsigned int                            getPDFManualByteSize();
+        size_t                                  getPDFManualByteSize();
         void                                    assignPropertyDescriptions();
     };
 

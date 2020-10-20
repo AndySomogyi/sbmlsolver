@@ -40,7 +40,7 @@ TEST(STATE_SAVING_TEST_SUITE, LOAD_INVALID_FILE)
 {
 #if LLVM_VERSION_PATCH > 1
     RoadRunner rri;
-    EXPECT_THROW(rri.loadState(gRRTestDir + "models/STATE_SAVING_TEST_SUITE/wrong-save-state.rr"), std::runtime_error);
+    EXPECT_THROW(rri.loadState(gRRTestDir + "models/STATE_SAVING_TEST_SUITE/wrong-save-state.rr"), std::exception);
 #endif
 }
 

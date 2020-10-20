@@ -50,7 +50,7 @@ The TestModel plugin was developed at the University of Washington by Totte Karl
         return pdf_doc;
     }
 
-    unsigned int TestModel::getPDFManualByteSize()
+    size_t TestModel::getPDFManualByteSize()
     {
         return sizeofPDF;
     }

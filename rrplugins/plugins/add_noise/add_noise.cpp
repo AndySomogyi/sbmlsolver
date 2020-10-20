@@ -50,7 +50,7 @@ unsigned char* AddNoise::getManualAsPDF() const
     return pdf_doc;
 }
 
-unsigned int AddNoise::getPDFManualByteSize()
+size_t AddNoise::getPDFManualByteSize()
 {
     return sizeofPDF;
 }
