@@ -65,10 +65,15 @@ stages:
             displayName: BuildCommand
             inputs:
               cmakeArgs: --build . --target install --config $(BuildType) -j 12
-          - task: CMake@1
+          - script: |
+              echo "pwd: $pwd"
+              ls
+              ctest --verbose --extra-verbose --progress ./build
             displayName: RunTests
-            inputs:
-              cmakeArgs: --build . --target run-ctest -j 12
+#          - task: CMake@1
+#            displayName: RunTests
+#            inputs:
+#              cmakeArgs: --build . --target run-ctest -j 12
 
       - job: BuildRoadrunnerWindows
         timeoutInMinutes: "0"
@@ -129,10 +134,15 @@ stages:
             displayName: BuildCommand
             inputs:
               cmakeArgs: --build . --config $(BuildType) -j 12
-          - task: CMake@1
+          - script: |
+              echo "pwd: $pwd"
+              ls
+              ctest --verbose --extra-verbose --progress ./build
             displayName: RunTests
-            inputs:
-              cmakeArgs: --build . --target run-ctest -j 12
+#          - task: CMake@1
+#            displayName: RunTests
+#            inputs:
+#              cmakeArgs: --build . --target run-ctest -j 12
 
 
       - job: BuildRoadrunnerMac
@@ -192,7 +202,12 @@ stages:
             displayName: BuildCommand
             inputs:
               cmakeArgs: --build . --target install --config $(BuildType) -j 12
-          - task: CMake@1
+          - script: |
+              echo "pwd: $pwd"
+              ls
+              ctest --verbose --extra-verbose --progress ./build
             displayName: RunTests
-            inputs:
-              cmakeArgs: --build . --target run-ctest -j 12
+#          - task: CMake@1
+#            displayName: RunTests
+#            inputs:
+#              cmakeArgs: --build . --target run-ctest -j 12
