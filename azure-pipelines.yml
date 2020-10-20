@@ -69,6 +69,8 @@ stages:
               echo "pwd: $(pwd)"
               ls
               cd $(Agent.BuildDirectory)
+              echo "pwd: $(pwd)"
+              ls
               ctest --verbose --extra-verbose --progress
             displayName: RunTests
 #          - task: CMake@1
@@ -139,6 +141,8 @@ stages:
               echo "pwd: $(pwd)"
               ls
               cd $(Agent.BuildDirectory)
+              echo "pwd: $(pwd)"
+              ls
               ctest --verbose --extra-verbose --progress
             displayName: RunTests
 #          - task: CMake@1
@@ -208,6 +212,8 @@ stages:
               echo "pwd: $(pwd)"
               ls
               cd $(Agent.BuildDirectory)
+              echo "pwd: $(pwd)"
+              ls
               ctest --verbose --extra-verbose --progress
             displayName: RunTests
 #          - task: CMake@1
