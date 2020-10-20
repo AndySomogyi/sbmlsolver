@@ -66,9 +66,9 @@ stages:
             inputs:
               cmakeArgs: --build . --target install --config $(BuildType) -j 12
           - script: |
-              echo "pwd: $pwd"
+              echo "pwd: $(pwd)"
               ls
-              ctest --verbose --extra-verbose --progress ./build
+              ctest --verbose --extra-verbose --progress $(Agent.BuildDirectory)
             displayName: RunTests
 #          - task: CMake@1
 #            displayName: RunTests
@@ -111,7 +111,7 @@ stages:
               Invoke-WebRequest $(llvm_link) -OutFile $(llvm_zip)
               Expand-Archive  $(llvm_zip) -Destination .
               rm $(llvm_zip) # since we are limited to 10gb space per job we clean up zips
-              echo "pwd: $pwd"
+              echo "pwd: $(pwd)"
               dir
               cd '$(llvm_install)'
               dir
@@ -122,7 +122,7 @@ stages:
               Invoke-WebRequest $(rr_deps_link) -OutFile $(rr_deps_zip)
               Expand-Archive $(rr_deps_zip)  -Destination .
               rm $(rr_deps_zip)
-              echo "pwd: $pwd"
+              echo "pwd: $(pwd)"
               dir
             errorActionPreference: 'stop'
             displayName: "Get Dependencies"
@@ -135,9 +135,9 @@ stages:
             inputs:
               cmakeArgs: --build . --config $(BuildType) -j 12
           - script: |
-              echo "pwd: $pwd"
+              echo "pwd: $(pwd)"
               ls
-              ctest --verbose --extra-verbose --progress ./build
+              ctest --verbose --extra-verbose --progress $(Agent.BuildDirectory)
             displayName: RunTests
 #          - task: CMake@1
 #            displayName: RunTests
@@ -203,9 +203,9 @@ stages:
             inputs:
               cmakeArgs: --build . --target install --config $(BuildType) -j 12
           - script: |
-              echo "pwd: $pwd"
+              echo "pwd: $(pwd)"
               ls
-              ctest --verbose --extra-verbose --progress ./build
+              ctest --verbose --extra-verbose --progress $(Agent.BuildDirectory)
             displayName: RunTests
 #          - task: CMake@1
 #            displayName: RunTests
