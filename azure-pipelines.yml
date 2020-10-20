@@ -28,11 +28,11 @@ stages:
             64-bit Linux Release:
               BuildType: Release
               SelfHost: false
-              CMakeArgs: "-DCMAKE_INSTALL_PREFIX=../install-azure-release"
+              CMakeArgs: "-DCMAKE_INSTALL_PREFIX=$(Build.BinariesDirectory)/install-azure-release"
             64-bit Linux Debug:
               BuildType: Debug
               SelfHost: false
-              CMakeArgs: "-DCMAKE_INSTALL_PREFIX=../install-azure-debug"
+              CMakeArgs: "-DCMAKE_INSTALL_PREFIX=$(Build.BinariesDirectory)/install-azure-debug"
         steps:
           # we cannot upload prebuilt binaries onto github for linux debug version because of github file size limits.
           # therefore we do this build with Release llvm for both debug and release. Oddly enough it seems to work.
@@ -69,7 +69,7 @@ stages:
               echo "pwd: $(pwd)"
               ls
               echo "$(Agent.BuildDirectory)"
-              cd $(Agent.BuildDirectory)
+              cd $(Agent.BuildDirectory)/s/build
               echo "pwd: $(pwd)"
               ls
               ctest --verbose --extra-verbose --progress
@@ -91,7 +91,7 @@ stages:
             64-bit Windows Release:
               BuildType: Release
               SelfHost: false
-              CMakeArgs: "-DCMAKE_INSTALL_PREFIX=../install-azure-release"
+              CMakeArgs: "-DCMAKE_INSTALL_PREFIX=$(Build.BinariesDirectory)/install-azure-release"
               llvm_link: https://github.com/sys-bio/llvm-6.x/releases/download/release%2F6.x/llvm-6.x-msvc2019-x64-release.zip
               llvm_zip: llvm-6.x-msvc2019-x64-release.zip
               llvm_install: llvm-6.x-msvc2019-x64-release
@@ -101,7 +101,7 @@ stages:
             64-bit Windows Debug:
               BuildType: Debug
               SelfHost: false
-              CMakeArgs: "-DCMAKE_INSTALL_PREFIX=../install-azure-debug"
+              CMakeArgs: "-DCMAKE_INSTALL_PREFIX=$(Build.BinariesDirectory)/install-azure-debug"
               llvm_link: https://github.com/sys-bio/llvm-6.x/releases/download/release%2F6.x/llvm-6.x-msvc2019-x64-debug.zip
               llvm_zip: llvm-6.x-msvc2019-x64-debug.zip
               llvm_install: llvm-6.x-msvc2019-x64-debug
@@ -141,7 +141,7 @@ stages:
           - script: |
               echo "pwd: $(pwd)"
               ls
-              cd $(Agent.BuildDirectory)
+              cd $(Agent.BuildDirectory)/s/build
               echo "pwd: $(pwd)"
               ls
               ctest --verbose --extra-verbose --progress
@@ -164,7 +164,7 @@ stages:
             64-bit Mac Release:
               BuildType: Release
               SelfHost: false
-              CMakeArgs: "-DCMAKE_INSTALL_PREFIX=../install-azure-release"
+              CMakeArgs: "-DCMAKE_INSTALL_PREFIX=$(Build.BinariesDirectory)/install-azure-release"
               llvm_link: https://github.com/sys-bio/llvm-6.x/releases/download/release%2F6.x/llvm-6.x-clang11.0.3-x64-release.zip
               llvm_zip: llvm-6.x-clang11.0.3-x64-release.zip
               llvm_install: llvm-6.x-clang11.0.3-x64-release
@@ -174,7 +174,7 @@ stages:
             64-bit Mac Debug:
               BuildType: Debug
               SelfHost: false
-              CMakeArgs: "-DCMAKE_INSTALL_PREFIX=../install-azure-debug"
+              CMakeArgs: "-DCMAKE_INSTALL_PREFIX=$(Build.BinariesDirectory)/install-azure-debug"
               llvm_link: https://github.com/sys-bio/llvm-6.x/releases/download/release%2F6.x/llvm-6.x-clang11.0.3-x64-debug.zip
               llvm_zip: llvm-6.x-clang11.0.3-x64-debug.zip
               llvm_install: llvm-6.x-clang11.0.3-x64-debug
@@ -212,7 +212,7 @@ stages:
           - script: |
               echo "pwd: $(pwd)"
               ls
-              cd $(Agent.BuildDirectory)
+              cd $(Agent.BuildDirectory)/s/build
               echo "pwd: $(pwd)"
               ls
               ctest --verbose --extra-verbose --progress
