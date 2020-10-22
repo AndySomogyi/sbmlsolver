@@ -9,7 +9,6 @@
 #include "rrUtils.h"
 #include "rrException.h"
 #include "rrLogger.h"
-#include "rrc_api.h"
 #include "rrSBMLReader.h"
 #include "rrExecutableModel.h"
 

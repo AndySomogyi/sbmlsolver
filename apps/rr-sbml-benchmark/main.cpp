@@ -12,7 +12,6 @@
 
 #include "rrRoadRunner.h"
 #include "rrRoadRunnerOptions.h"
-#include "wrappers/C/rrc_api.h"
 
 #include <iostream>
 #include <fstream>

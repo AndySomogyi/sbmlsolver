@@ -1,5 +1,5 @@
 #include "gtest/gtest.h"
-#include "wrappers/C/rrc_api.h"
+#include "C/rrc_api.h"
 #include "rrIniFile.h"
 
 
@@ -9,7 +9,7 @@ std::string     TestModelFileName = "";
 rrc::RRHandle gRR = rrc::createRRInstance();;
 rr::IniFile iniFile;
 
-
+// question, is there a reason you wrote your own "main" rather than using gtest_main?
 int main(int argc, char** argv)
 {
     //Setup googletest

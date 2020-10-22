@@ -1,115 +1,85 @@
 # M Totte Karlsson
 # J Kyle Medley
 
+set(target telplugins_common)
+
 set(RRPLUGINS_COMMON_SOURCES
-    telArrayList.cpp
-    telArrayedParameter.cpp
-    telConstants.cpp
-    telException.cpp
-    telFileName.cpp
-    telIniFile.cpp
-    telIniKey.cpp
-    telIniSection.cpp
-    telLogger.cpp
-    telProperties.cpp
-    telPropertyBase.cpp
-    telStringBuilder.cpp
-    telStringList.cpp
-    telStringListContainer.cpp
-    telStringUtils.cpp
-    telTelluriumData.cpp
-    telUtils.cpp
-    telArrayList.h
-    telArrayedParameter.h
-    telConstants.h
-    telException.h
-    telFileName.h
-    telIniFile.h
-    telIniKey.h
-    telIniSection.h
-    telLogger.h
-    telProperties.h
-    telPropertyBase.h
-    telStringBuilder.h
-    telStringList.h
-    telStringListContainer.h
-    telStringUtils.h
-    telTelluriumData.h
-    telUtils.h)
+        telArrayList.cpp
+        telArrayedParameter.cpp
+        telConstants.cpp
+        telException.cpp
+        telFileName.cpp
+        telIniFile.cpp
+        telIniKey.cpp
+        telIniSection.cpp
+        telLogger.cpp
+        telProperties.cpp
+        telPropertyBase.cpp
+        telStringBuilder.cpp
+        telStringList.cpp
+        telStringListContainer.cpp
+        telStringUtils.cpp
+        telTelluriumData.cpp
+        telUtils.cpp
+        telArrayList.h
+        telArrayedParameter.h
+        telConstants.h
+        telException.h
+        telFileName.h
+        telIniFile.h
+        telIniKey.h
+        telIniSection.h
+        telLogger.h
+        telProperties.h
+        telPropertyBase.h
+        telStringBuilder.h
+        telStringList.h
+        telStringListContainer.h
+        telStringUtils.h
+        telTelluriumData.h
+        telUtils.h)
+
 
 # ** Shared lib ******
+if (RR_PLUGINS_BUILD_SHARED_LIB)
+    add_library(${target} SHARED ${RRPLUGINS_COMMON_SOURCES})
+    target_compile_definitions(${target} PRIVATE EXPORT_COMMON_API)
 
-if (TLP_BUILD_SHARED_LIB)
-  add_library(telplugins_common SHARED ${RRPLUGINS_COMMON_SOURCES})
+    target_link_libraries(${target} PUBLIC
+            ${RRPLUGINS_COMMON_SHARED_LIBS}
+            roadrunner roadrunner_c_api
+            )
+    target_include_directories(${target}
+            PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
+            "$<TARGET_PROPERTY:roadrunner-static,INCLUDE_DIRECTORIES>"
+            )
 
-  set_property(TARGET telplugins_common
-    PROPERTY COMPILE_DEFINITIONS
-    EXPORT_COMMON_API
-    LIBSBML_USE_CPP_NAMESPACE
-    LIBLAX_STATIC
-    STATIC_LIBSTRUCT
-    STATIC_NLEQ
-    POCO_STATIC
-    POCO_NO_AUTOMATIC_LIBS
-  )
+    if (UNIX)
+        set_target_properties(${target} PROPERTIES INSTALL_RPATH "$ORIGIN/./")
+    endif ()
 
-  target_link_libraries (telplugins_common ${RRPLUGINS_COMMON_SHARED_LIBS})
+    # Install shared library
+    install(TARGETS ${target}
+            RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT rrplugins
+            LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT rrplugins
+            ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT rrplugins
+            )
 
-  target_link_libraries(telplugins_common ${LIBXML2_LIBRARIES})
-
-  if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-    set_target_properties( telplugins_common PROPERTIES INSTALL_RPATH "$ORIGIN/./" )
-  endif ()
-
-  # Install shared library
-  install(TARGETS telplugins_common
-          RUNTIME DESTINATION bin COMPONENT pluginsLib
-          LIBRARY DESTINATION lib COMPONENT pluginsLib
-          ARCHIVE DESTINATION lib COMPONENT pluginsLib)
-
-  if(RR_PLUGINS_INSTALL_TO_RR_SITE_PACKAGES)
-    install(TARGETS telplugins_common DESTINATION site-packages/roadrunner)
-  endif()
-endif()
+    install(TARGETS ${target} DESTINATION site-packages/rrplugins)
+endif ()
 
 # ** Static lib ******
+if (RR_PLUGINS_BUILD_STATIC_LIB)
+    add_library(${target}-static STATIC ${RRPLUGINS_COMMON_SOURCES})
+    target_compile_definitions(${target}-static PUBLIC STATIC_PLUGIN_API)
 
-if (TLP_BUILD_STATIC_LIB)
-  add_library(telplugins_common-static STATIC ${RRPLUGINS_COMMON_SOURCES})
+    target_link_libraries(${target}-static PUBLIC $<TARGET_PROPERTY:${target},LINK_LIBRARIES>)
+    target_include_directories(${target}-static PUBLIC $<TARGET_PROPERTY:${target},INCLUDE_DIRECTORIES>)
 
-  set_property(TARGET telplugins_common-static
-    PROPERTY COMPILE_DEFINITIONS
-    STATIC_PLUGIN_API
-    LIBSBML_USE_CPP_NAMESPACE
-    LIBSBML_STATIC
-    LIBLAX_STATIC
-    STATIC_LIBSTRUCT
-    STATIC_NLEQ
-    POCO_STATIC
-    POCO_NO_AUTOMATIC_LIBS
-  )
+    # Install
+    install(TARGETS ${target}-static
+            LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT rrplugins
+            ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT rrplugins
+            )
 
-  target_link_libraries (telplugins_common-static ${RRPLUGINS_COMMON_STATIC_LIBS})
-
-  # Install static library
-  install(TARGETS telplugins_common-static
-    LIBRARY DESTINATION lib COMPONENT pluginsLib
-    ARCHIVE DESTINATION lib COMPONENT pluginsLib
-    )
-endif()
-
-
-
-if(${MSVC})
-  # Disable some VS Warnings
-  # 4251 About exporting std classes
-  # 4018 Comparing unsigned/signed ints
-  # 4996 Deprecated functions
-  add_definitions( "/W3 /D_CRT_SECURE_NO_WARNINGS /wd4251 /wd4018 /wd4996 /nologo" )
-endif()
-
-#[[
-if(BUILD_TESTS)
-    add_subdirectory(testing)
-endif()
-]]
+endif ()

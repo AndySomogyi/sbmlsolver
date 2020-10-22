@@ -1,18 +1,16 @@
-CMAKE_MINIMUM_REQUIRED(VERSION 2.6.3 FATAL_ERROR)
-PROJECT(rrWrappers)
 
-if(BUILD_TESTS)
-add_subdirectory(Testing)
+if (${BUILD_TESTS})
+    add_subdirectory(Testing)
 
-if(INSTALL_EXAMPLES)
-add_subdirectory(Examples)
-endif(INSTALL_EXAMPLES)
+    if (INSTALL_EXAMPLES)
+        add_subdirectory(Examples)
+    endif (INSTALL_EXAMPLES)
 
-#=============== INSTALL =====================
-install(
-    FILES 
-    rrPython.py README.txt
-    DESTINATION c_api_python  	
-    COMPONENT testing
+    #=============== install =====================
+    install(
+            FILES
+            rrPython.py README.txt
+            DESTINATION c_api_python
+            COMPONENT testing
     )
-endif(BUILD_TESTS)
+endif (${BUILD_TESTS})
