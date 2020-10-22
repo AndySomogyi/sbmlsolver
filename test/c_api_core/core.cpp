@@ -140,7 +140,8 @@ TEST(C_API_CORE, GET_MICROSECONDS)
         << ", diff between expeted and actual mu s: " << diff - (1000 * millis) << endl;
 
     // timer varies from system to system, but should be semi-close, like say 20%
-    EXPECT_NEAR(diff, 1000 * millis, (1000 * millis) / 5);
+    // tolerance changed to 50% because
+    EXPECT_NEAR(diff, 1000 * millis, (1000 * millis) / 2);
 
     // make sure its increasing
     EXPECT_TRUE(diff > 0);
