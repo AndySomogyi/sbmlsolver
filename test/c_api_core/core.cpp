@@ -124,6 +124,7 @@ TEST(C_API_CORE, LOAD_MODEL_FROM_STRING)
     freeRRInstance(aRR2);
 }
 
+#if !defined(__APPLE__)
 TEST(C_API_CORE, GET_MICROSECONDS)
 {
     // make sure that the time is essentially the same as sleep time in
@@ -160,6 +161,7 @@ TEST(C_API_CORE, GET_MICROSECONDS)
         prev = curr;
     }
 }
+#endif
 
 string getListOfReactionsText(const string& fName)
 {

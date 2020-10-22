@@ -4,14 +4,13 @@
 # https://aka.ms/yaml
 name: $(Date:yyyyMMdd)$(Rev:.r)
 trigger:
-#  - master
-#  - develop
+  - master
+  - develop
   - develop-new-buildsystem
 
 pr:
   - master
   - develop
-  - azure-tests
 
 stages:
   - stage: BuildRoadrunner
