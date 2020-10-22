@@ -6,7 +6,7 @@ name: $(Date:yyyyMMdd)$(Rev:.r)
 trigger:
   - master
   - develop
-  - develop-new-buildsystem
+  - issue-*
 
 pr:
   - master
@@ -73,12 +73,8 @@ stages:
               ls
               ctest --verbose --extra-verbose --progress
             displayName: RunTests
-#          - task: CMake@1
-#            displayName: RunTests
-#            inputs:
-#              cmakeArgs: --build . --target run-ctest -j 12
 
-      - job: BuildRoadrunnerWindows
+      - job: BuildRoadrunnerWindowsRelease
         timeoutInMinutes: "0"
         displayName: Windows
         continueOnError: "false"
@@ -97,6 +93,111 @@ stages:
               rr_deps_link: https://github.com/CiaranWelsh/roadrunner-deps/releases/download/v2.0.1/roadrunner-deps-msvc2019-x64-release.zip
               rr_deps_zip: roadrunner_deps-msvc2019-x64-release.zip
               rr_deps_install: roadrunner-deps-msvc2019-x64-release
+
+        steps:
+          - powershell: |
+              $ProgressPreference = 'SilentlyContinue'
+              Invoke-WebRequest $(llvm_link) -OutFile $(llvm_zip)
+              Expand-Archive  $(llvm_zip) -Destination .
+              rm $(llvm_zip) # since we are limited to 10gb space per job we clean up zips
+              echo "pwd: $(pwd)"
+              dir
+              cd '$(llvm_install)'
+              dir
+            displayName: "Get LLVM"
+            errorActionPreference: 'stop'
+          - powershell: |
+              $ProgressPreference = 'SilentlyContinue'
+              Invoke-WebRequest $(rr_deps_link) -OutFile $(rr_deps_zip)
+              Expand-Archive $(rr_deps_zip)  -Destination .
+              rm $(rr_deps_zip)
+              echo "pwd: $(pwd)"
+              dir
+            errorActionPreference: 'stop'
+            displayName: "Get Dependencies"
+          - task: CMake@1
+            displayName: ConfigureCommand
+            inputs:
+              cmakeArgs: $(CMakeArgs) -DRR_DEPENDENCIES_INSTALL_PREFIX="../$(rr_deps_install)" -DLLVM_INSTALL_PREFIX="../$(llvm_install)" -DCMAKE_BUILD_TYPE=$(BuildType) -DBUILD_TESTS=ON ..
+          - task: CMake@1
+            displayName: BuildCommand
+            inputs:
+              cmakeArgs: --build . --config $(BuildType) -j 12
+          - script: |
+              echo "pwd: $(pwd)"
+              ls
+              cd $(Agent.BuildDirectory)/s/build
+              echo "pwd: $(pwd)"
+              ls
+              ctest --verbose --extra-verbose --progress
+            displayName: RunTests
+
+
+      - job: BuildRoadrunnerMacRelease
+        timeoutInMinutes: "0"
+        displayName: MacOS
+        continueOnError: "false"
+        pool:
+          vmImage: 'macOS-10.15'
+
+        strategy:
+          matrix:
+            64-bit Mac Release:
+              BuildType: Release
+              SelfHost: false
+              CMakeArgs: "-DCMAKE_INSTALL_PREFIX=$(Build.BinariesDirectory)/install-azure-release"
+              llvm_link: https://github.com/sys-bio/llvm-6.x/releases/download/release%2F6.x/llvm-6.x-clang11.0.3-x64-release.zip
+              llvm_zip: llvm-6.x-clang11.0.3-x64-release.zip
+              llvm_install: llvm-6.x-clang11.0.3-x64-release
+              rr_deps_link: https://github.com/CiaranWelsh/roadrunner-deps/releases/download/v2.0.1/libroadrunner-deps-mac-x64-release.zip
+              rr_deps_zip: libroadrunner-deps-mac-x64-release.zip
+              rr_deps_install: libroadrunner-deps-mac-x64-release
+
+        steps:
+          - script: |
+              echo "current driectory is: "
+              pwd
+              echo "doing ls"
+              ls -lh
+              wget $(llvm_link)
+              tar -zxvf $(llvm_zip)
+              ls
+            displayName: "Get LLVM"
+          - script: |
+              echo "current driectory is: "
+              pwd
+              echo "doing ls"
+              ls -lh
+              wget $(rr_deps_link)
+              tar -zxvf $(rr_deps_zip)
+              ls
+            displayName: "Get Dependencies"
+          - task: CMake@1
+            displayName: ConfigureCommand
+            inputs:
+              cmakeArgs: $(CMakeArgs) -DRR_DEPENDENCIES_INSTALL_PREFIX="../$(rr_deps_install)" -DLLVM_INSTALL_PREFIX="../$(llvm_install)" -DCMAKE_BUILD_TYPE=$(BuildType) -DBUILD_TESTS=ON ..
+          - task: CMake@1
+            displayName: BuildCommand
+            inputs:
+              cmakeArgs: --build . --target install --config $(BuildType) -j 12
+          - script: |
+              echo "pwd: $(pwd)"
+              ls
+              cd $(Agent.BuildDirectory)/s/build
+              echo "pwd: $(pwd)"
+              ls
+              ctest --verbose --extra-verbose --progress
+            displayName: RunTests
+
+      - job: BuildRoadrunnerWindowsDebug
+        timeoutInMinutes: "0"
+        displayName: Windows
+        continueOnError: "false"
+        pool:
+          vmImage: "windows-2019"
+
+        strategy:
+          matrix:
             64-bit Windows Debug:
               BuildType: Debug
               SelfHost: false
@@ -137,21 +238,9 @@ stages:
             displayName: BuildCommand
             inputs:
               cmakeArgs: --build . --config $(BuildType) -j 12
-          - script: |
-              echo "pwd: $(pwd)"
-              ls
-              cd $(Agent.BuildDirectory)/s/build
-              echo "pwd: $(pwd)"
-              ls
-              ctest --verbose --extra-verbose --progress
-            displayName: RunTests
-#          - task: CMake@1
-#            displayName: RunTests
-#            inputs:
-#              cmakeArgs: --build . --target run-ctest -j 12
+          ## Don't run testing on the debug version--it takes too long.
 
-
-      - job: BuildRoadrunnerMac
+      - job: BuildRoadrunnerMacDebug
         timeoutInMinutes: "0"
         displayName: MacOS
         continueOnError: "false"
@@ -160,16 +249,6 @@ stages:
 
         strategy:
           matrix:
-            64-bit Mac Release:
-              BuildType: Release
-              SelfHost: false
-              CMakeArgs: "-DCMAKE_INSTALL_PREFIX=$(Build.BinariesDirectory)/install-azure-release"
-              llvm_link: https://github.com/sys-bio/llvm-6.x/releases/download/release%2F6.x/llvm-6.x-clang11.0.3-x64-release.zip
-              llvm_zip: llvm-6.x-clang11.0.3-x64-release.zip
-              llvm_install: llvm-6.x-clang11.0.3-x64-release
-              rr_deps_link: https://github.com/CiaranWelsh/roadrunner-deps/releases/download/v2.0.1/libroadrunner-deps-mac-x64-release.zip
-              rr_deps_zip: libroadrunner-deps-mac-x64-release.zip
-              rr_deps_install: libroadrunner-deps-mac-x64-release
             64-bit Mac Debug:
               BuildType: Debug
               SelfHost: false
@@ -208,15 +287,4 @@ stages:
             displayName: BuildCommand
             inputs:
               cmakeArgs: --build . --target install --config $(BuildType) -j 12
-          - script: |
-              echo "pwd: $(pwd)"
-              ls
-              cd $(Agent.BuildDirectory)/s/build
-              echo "pwd: $(pwd)"
-              ls
-              ctest --verbose --extra-verbose --progress
-            displayName: RunTests
-#          - task: CMake@1
-#            displayName: RunTests
-#            inputs:
-#              cmakeArgs: --build . --target run-ctest -j 12
+          ## Don't run testing on the debug version--it takes too long.
