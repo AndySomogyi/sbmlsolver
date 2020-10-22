@@ -68,7 +68,7 @@ LLVMModelSymbols::LLVMModelSymbols(const libsbml::Model *m, LLVMModelDataSymbols
                     model->getAssignmentRule(id) == NULL)
             {
                 std::stringstream ss;
-                ss << "Global parameter '" << param->getId() << "' missing value and missing init assignment and assignment rule!";
+                ss << "Global parameter '" << param->getId() << "' is missing a value.  While roadrunner gives species a default value of zero, and compartments a default value of one, it requires parameters to be initialized.  Set one by giving it a value, initial assignment, or an assignment rule.";
                 rr::UninitializedValue(ss.str());
             }
             else
