@@ -31,10 +31,9 @@
 
 // == CODE ====================================================
 
-namespace rr
-{
+namespace rr {
 
-class ExecutableModel;
+    class ExecutableModel;
 
 /**
  * @brief Notifies the user of SBML events
@@ -52,62 +51,52 @@ class ExecutableModel;
  * or RoadRunner::simulate to stop at the current time and return. This may be usefull
  * if someone wants to run a simulation up until some threshold or state is reached.
  */
-class EventListener
-{
-public:
-    enum Result
-    {
-        HALT_SIMULATION               = (0x1 << 0),  // => 0x00000001
-    };
+    class EventListener {
+    public:
+        enum Result {
+            HALT_SIMULATION = (0x1 << 0),  // => 0x00000001
+        };
 
-    virtual uint onTrigger(ExecutableModel* model, size_t eventIndex, const std::string& eventId) = 0;
-    virtual uint onAssignment(ExecutableModel* model, size_t eventIndex, const std::string& eventId) = 0;
+        virtual uint onTrigger(ExecutableModel *model, size_t eventIndex, const std::string &eventId) = 0;
 
-protected:
-    ~EventListener() {};
-};
+        virtual uint onAssignment(ExecutableModel *model, size_t eventIndex, const std::string &eventId) = 0;
 
+    protected:
+        ~EventListener() {};
 /**
  * listeners are shared objects, so use std smart pointers
  * to manage them.
  */
-typedef cxx11_ns::shared_ptr<EventListener> EventListenerPtr;
+    typedef cxx11_ns::shared_ptr<EventListener> EventListenerPtr;
 
-class EventListenerException: public std::exception
-{
-public:
-    explicit EventListenerException(uint resultCode) :
-            resultCode(resultCode)
-    {
-        msg = "EventHandlerException, resultCode: ";
+    class EventListenerException : public std::exception {
+    public:
+        explicit EventListenerException(uint resultCode) :
+                resultCode(resultCode) {
+            msg = "EventHandlerException, resultCode: ";
 
-        switch (resultCode)
-        {
-        case EventListener::HALT_SIMULATION:
-            msg += "HALT_SIMULATION";
-            break;
+            switch (resultCode) {
+                case EventListener::HALT_SIMULATION:
+                    msg += "HALT_SIMULATION";
+                    break;
+            }
         }
-    }
 
-    virtual ~EventListenerException() throw()
-    {
+        virtual ~EventListenerException() throw() {
+        };
+
+        virtual const char *what() const throw() {
+            return msg.c_str();
+        }
+
+        uint getResultCode() const {
+            return resultCode;
+        }
+
+    private:
+        uint resultCode;
+        std::string msg;
     };
-
-    virtual const char* what() const throw()
-    {
-        return msg.c_str();
-    }
-
-    uint getResultCode() const
-    {
-        return resultCode;
-    }
-
-private:
-    uint resultCode;
-    std::string msg;
-};
-
 
 
 /**
@@ -125,8 +114,7 @@ private:
  * rules, functions and whatever other semantic information that was
  * specified in the sbml model.
  */
-    class RR_DECLSPEC ExecutableModel
-    {
+    class RR_DECLSPEC ExecutableModel {
     public:
         /**
          * @author JKM
@@ -142,6 +130,7 @@ private:
         virtual std::string getModelName() = 0;
 
         virtual void setTime(double _time) = 0;
+
         virtual double getTime() = 0;
 
 
@@ -158,10 +147,10 @@ private:
 #if (1) /**********************************************************************/
         /******************************************************************************/
 
-/**
- * dependent species are defined by rules and the only way to change them
- * is by changing the values on which they depend.
- */
+        /**
+         * dependent species are defined by rules and the only way to change them
+         * is by changing the values on which they depend.
+         */
         virtual int getNumDepFloatingSpecies() = 0;
 
         /**
@@ -169,7 +158,8 @@ private:
          */
         virtual int getNumFloatingSpecies() = 0;
 
-        virtual int getFloatingSpeciesIndex(const std::string& eid) = 0;
+        virtual int getFloatingSpeciesIndex(const std::string &eid) = 0;
+
         virtual std::string getFloatingSpeciesId(size_t index) = 0;
 
         /**
@@ -186,18 +176,18 @@ private:
          * @param[out] values an array of at least length len which will store the
          *                returned boundary species amounts.
          */
-        virtual int getFloatingSpeciesAmounts(size_t len, int const* indx,
-            double* values) = 0;
+        virtual int getFloatingSpeciesAmounts(size_t len, int const *indx,
+                                              double *values) = 0;
 
-        virtual int setFloatingSpeciesAmounts(size_t len, int const* indx,
-            const double* values) = 0;
+        virtual int setFloatingSpeciesAmounts(size_t len, int const *indx,
+                                              const double *values) = 0;
 
-        virtual int getFloatingSpeciesAmountRates(size_t len, int const* indx,
-            double* values) = 0;
+        virtual int getFloatingSpeciesAmountRates(size_t len, int const *indx,
+                                                  double *values) = 0;
 
 
-        virtual int getFloatingSpeciesConcentrationRates(size_t len, int const* indx,
-            double* values) = 0;
+        virtual int getFloatingSpeciesConcentrationRates(size_t len, int const *indx,
+                                                         double *values) = 0;
 
         /**
          * get the floating species concentrations
@@ -207,8 +197,8 @@ private:
          * @param[out] values an array of at least length len which will store the
          *                returned boundary species amounts.
          */
-        virtual int getFloatingSpeciesConcentrations(size_t len, int const* indx,
-            double* values) = 0;
+        virtual int getFloatingSpeciesConcentrations(size_t len, int const *indx,
+                                                     double *values) = 0;
 
         /**
          * set the floating species concentrations
@@ -218,8 +208,8 @@ private:
          * @param[in] values an array of at least length len which will store the
          *                returned boundary species amounts.
          */
-        virtual int setFloatingSpeciesConcentrations(size_t len, int const* indx,
-            double const* values) = 0;
+        virtual int setFloatingSpeciesConcentrations(size_t len, int const *indx,
+                                                     double const *values) = 0;
 
         /**
          * Set the initial concentrations of the floating species.
@@ -231,15 +221,15 @@ private:
          * updating the values on which it depends, it can not be set
          * directly.
          */
-        virtual int setFloatingSpeciesInitConcentrations(size_t len, int const* indx,
-            double const* values) = 0;
+        virtual int setFloatingSpeciesInitConcentrations(size_t len, int const *indx,
+                                                         double const *values) = 0;
 
         /**
          * Get the initial concentrations of the floating species,
          * uses the same indexing as the other floating species methods.
          */
-        virtual int getFloatingSpeciesInitConcentrations(size_t len, int const* indx,
-            double* values) = 0;
+        virtual int getFloatingSpeciesInitConcentrations(size_t len, int const *indx,
+                                                         double *values) = 0;
 
         /**
          * Set the initial amounts of the floating species.
@@ -251,15 +241,15 @@ private:
          * updating the values on which it depends, it can not be set
          * directly.
          */
-        virtual int setFloatingSpeciesInitAmounts(size_t len, int const* indx,
-            double const* values) = 0;
+        virtual int setFloatingSpeciesInitAmounts(size_t len, int const *indx,
+                                                  double const *values) = 0;
 
         /**
          * Get the initial amounts of the floating species,
          * uses the same indexing as the other floating species methods.
          */
-        virtual int getFloatingSpeciesInitAmounts(size_t len, int const* indx,
-            double* values) = 0;
+        virtual int getFloatingSpeciesInitAmounts(size_t len, int const *indx,
+                                                  double *values) = 0;
 
         /************************ End Floating Species Section ************************/
 #endif /***********************************************************************/
@@ -272,11 +262,13 @@ private:
         /******************************************************************************/
 
 
-/**
- * get the number of boundary species.
- */
+        /**
+         * get the number of boundary species.
+         */
         virtual int getNumBoundarySpecies() = 0;
-        virtual int getBoundarySpeciesIndex(const std::string& eid) = 0;
+
+        virtual int getBoundarySpeciesIndex(const std::string &eid) = 0;
+
         virtual std::string getBoundarySpeciesId(size_t index) = 0;
 
         /**
@@ -287,8 +279,8 @@ private:
          * @param[out] values an array of at least length len which will store the
          *                returned boundary species amounts.
          */
-        virtual int getBoundarySpeciesAmounts(size_t len, int const* indx,
-            double* values) = 0;
+        virtual int getBoundarySpeciesAmounts(size_t len, int const *indx,
+                                              double *values) = 0;
 
 
         /**
@@ -299,8 +291,8 @@ private:
          * @param[out] values an array of at least length len which will store the
          *                returned boundary species amounts.
          */
-        virtual int getBoundarySpeciesConcentrations(size_t len, int const* indx,
-            double* values) = 0;
+        virtual int getBoundarySpeciesConcentrations(size_t len, int const *indx,
+                                                     double *values) = 0;
 
         /**
          * set the boundary species concentrations
@@ -310,8 +302,8 @@ private:
          * @param[in] values an array of at least length len which will store the
          *                returned boundary species amounts.
          */
-        virtual int setBoundarySpeciesConcentrations(size_t len, int const* indx,
-            double const* values) = 0;
+        virtual int setBoundarySpeciesConcentrations(size_t len, int const *indx,
+                                                     double const *values) = 0;
 
 
         /************************ End Boundary Species Section ************************/
@@ -323,15 +315,15 @@ private:
 #if (1) /**********************************************************************/
         /******************************************************************************/
 
-/**
- * get the number of global parameters
- */
+        /**
+         * get the number of global parameters
+         */
         virtual int getNumGlobalParameters() = 0;
 
         /**
          * index of the global parameter id, -1 if it does not exist.
          */
-        virtual int getGlobalParameterIndex(const std::string& eid) = 0;
+        virtual int getGlobalParameterIndex(const std::string &eid) = 0;
 
         /**
          * id of the indexed global parameter.
@@ -346,26 +338,26 @@ private:
          * @param[out] values an array of at least length len which will store the
          *                returned boundary species amounts.
          */
-        virtual int getGlobalParameterValues(size_t len, int const* indx,
-            double* values) = 0;
+        virtual int getGlobalParameterValues(size_t len, int const *indx,
+                                             double *values) = 0;
 
-        virtual int setGlobalParameterValues(size_t len, int const* indx,
-            const double* values) = 0;
+        virtual int setGlobalParameterValues(size_t len, int const *indx,
+                                             const double *values) = 0;
 
         /**
         * Set the initial value of the global parameter.
         *
         * Takes the same indices as the other global parameter methods.
         */
-        virtual int setGlobalParameterInitValues(size_t len, int const* indx,
-            double const* values) = 0;
+        virtual int setGlobalParameterInitValues(size_t len, int const *indx,
+                                                 double const *values) = 0;
 
         /**
         * Get the initial amounts of the global parameter,
         * uses the same indexing as the other global parameter methods.
         */
-        virtual int getGlobalParameterInitValues(size_t len, int const* indx,
-            double* values) = 0;
+        virtual int getGlobalParameterInitValues(size_t len, int const *indx,
+                                                 double *values) = 0;
 
 
         /************************ Global Parameters Species Section *******************/
@@ -375,11 +367,15 @@ private:
 
         /************************ Compartments Section ********************************/
 #if (1) /**********************************************************************/
+
         /******************************************************************************/
 
         virtual int getNumCompartments() = 0;
+
         virtual int getCompartmentIndexForFloatingSpecies(size_t index) = 0;
-        virtual int getCompartmentIndex(const std::string& eid) = 0;
+
+        virtual int getCompartmentIndex(const std::string &eid) = 0;
+
         virtual std::string getCompartmentId(size_t index) = 0;
 
         /**
@@ -390,11 +386,11 @@ private:
          * @param[out] values an array of at least length len which will store the
          *                returned boundary species amounts.
          */
-        virtual int getCompartmentVolumes(size_t len, int const* indx,
-            double* values) = 0;
+        virtual int getCompartmentVolumes(size_t len, int const *indx,
+                                          double *values) = 0;
 
-        virtual int setCompartmentVolumes(size_t len, int const* indx,
-            const double* values) = 0;
+        virtual int setCompartmentVolumes(size_t len, int const *indx,
+                                          const double *values) = 0;
 
         /**
          * Set the initial volumes of the compartments.
@@ -406,15 +402,15 @@ private:
          * updating the values on which it depends, it can not be set
          * directly.
          */
-        virtual int setCompartmentInitVolumes(size_t len, int const* indx,
-            double const* values) = 0;
+        virtual int setCompartmentInitVolumes(size_t len, int const *indx,
+                                              double const *values) = 0;
 
         /**
          * Get the initial volume of the compartments,
          * uses the same indexing as the other compartment methods.
          */
-        virtual int getCompartmentInitVolumes(size_t len, int const* indx,
-            double* values) = 0;
+        virtual int getCompartmentInitVolumes(size_t len, int const *indx,
+                                              double *values) = 0;
 
 
         /************************ End Compartments Species Section ********************/
@@ -426,15 +422,15 @@ private:
 #if (1) /**********************************************************************/
         /******************************************************************************/
 
-/**
- * populates a given list with all the ids that this class can accept.
- *
- * @param ids: a list of strings that will be filled by this class.
- * @param types: the types of ids that are requested. Can be set to
- * 0xffffffff to request all the ids that this class supports.
- * This should by a bitwise OR of the filelds in SelectionRecord::SelectionType
- */
-        virtual void getIds(int types, std::list<std::string>& ids) = 0;
+        /**
+         * populates a given list with all the ids that this class can accept.
+         *
+         * @param ids: a list of strings that will be filled by this class.
+         * @param types: the types of ids that are requested. Can be set to
+         * 0xffffffff to request all the ids that this class supports.
+         * This should by a bitwise OR of the filelds in SelectionRecord::SelectionType
+         */
+        virtual void getIds(int types, std::list<std::string> &ids) = 0;
 
         /**
          * returns a bit field of the ids that this class supports.
@@ -445,29 +441,29 @@ private:
          * gets the value for the given id string. The string must be a SelectionRecord
          * string that is accepted by this class.
          */
-        virtual double getValue(const std::string& id) = 0;
+        virtual double getValue(const std::string &id) = 0;
 
         /**
          * sets the value coresponding to the given selection stringl
          */
-        virtual void setValue(const std::string& id, double value) = 0;
+        virtual void setValue(const std::string &id, double value) = 0;
 
 
         /************************ End Selection Ids Species Section *******************/
 #endif /***********************************************************************/
         /******************************************************************************/
 
-/**
- * allocate a block of memory and copy the stochiometric values into it,
- * and return it.
- *
- * The caller is responsible for freeing the memory that is referenced by data.
- *
- * @param[out] rows will hold the number of rows in the matrix.
- * @param[out] cols will hold the number of columns in the matrix.
- * @param[out] data a pointer which will hold a newly allocated memory block.
- */
-        virtual int getStoichiometryMatrix(int* rows, int* cols, double** data) = 0;
+        /**
+         * allocate a block of memory and copy the stochiometric values into it,
+         * and return it.
+         *
+         * The caller is responsible for freeing the memory that is referenced by data.
+         *
+         * @param[out] rows will hold the number of rows in the matrix.
+         * @param[out] cols will hold the number of columns in the matrix.
+         * @param[out] data a pointer which will hold a newly allocated memory block.
+         */
+        virtual int getStoichiometryMatrix(int *rows, int *cols, double **data) = 0;
 
         /**
          * Get the current stiochiometry value for the given species / reaction.
@@ -478,11 +474,15 @@ private:
 
 
         virtual int getNumConservedMoieties() = 0;
-        virtual int getConservedMoietyIndex(const std::string& eid) = 0;
+
+        virtual int getConservedMoietyIndex(const std::string &eid) = 0;
+
         virtual std::string getConservedMoietyId(size_t index) = 0;
-        virtual int getConservedMoietyValues(size_t len, int const* indx, double* values) = 0;
-        virtual int setConservedMoietyValues(size_t len, int const* indx,
-            const double* values) = 0;
+
+        virtual int getConservedMoietyValues(size_t len, int const *indx, double *values) = 0;
+
+        virtual int setConservedMoietyValues(size_t len, int const *indx,
+                                             const double *values) = 0;
 
         virtual int getNumRateRules() = 0;
 
@@ -505,7 +505,7 @@ private:
          * get the index of a named reaction
          * @returns >= 0 on success, < 0 on failure.
          */
-        virtual int getReactionIndex(const std::string& eid) = 0;
+        virtual int getReactionIndex(const std::string &eid) = 0;
 
         /**
          * get the name of the specified reaction
@@ -520,8 +520,8 @@ private:
          * reaction rates are copied directly into the suplied buffer.
          * @param values: pointer to user suplied buffer where rates will be stored.
          */
-        virtual int getReactionRates(size_t len, int const* indx,
-            double* values) = 0;
+        virtual int getReactionRates(size_t len, int const *indx,
+                                     double *values) = 0;
 
         /**
          * get the 'values' i.e. the what the rate rule integrates to, and
@@ -530,7 +530,7 @@ private:
          * The length of rateRuleValues obviously must be the number of
          * rate rules we have.
          */
-        virtual void getRateRuleValues(double* rateRuleValues) = 0;
+        virtual void getRateRuleValues(double *rateRuleValues) = 0;
 
         /**
          * get the id of an element of the state vector.
@@ -553,7 +553,7 @@ private:
          * @return the number of items coppied into the provided buffer, if
          *         stateVector is NULL, returns the length of the state vector.
          */
-        virtual int getStateVector(double* stateVector) = 0;
+        virtual int getStateVector(double *stateVector) = 0;
 
         /**
          * sets the internal model state to the provided packed state vector.
@@ -564,7 +564,7 @@ private:
          * @return the number of items copied from the state vector, negative
          *         on failure.
          */
-        virtual int setStateVector(const double* stateVector) = 0;
+        virtual int setStateVector(const double *stateVector) = 0;
 
         /**
          * the state vector y is the rate rule values and floating species
@@ -582,16 +582,17 @@ private:
          * @param[out] dydt calculated rate of change of the state vector, if null,
          *         it is ignored.
          */
-        virtual void getStateVectorRate(double time, const double* y, double* dydt = 0) = 0;
+        virtual void getStateVectorRate(double time, const double *y, double *dydt = 0) = 0;
 
         virtual void testConstraints() = 0;
 
         virtual std::string getInfo() = 0;
 
-        virtual void print(std::ostream& stream) = 0;
+        virtual void print(std::ostream &stream) = 0;
 
         /******************************* Events Section *******************************/
 #if (1) /**********************************************************************/
+
         /******************************************************************************/
 
         virtual int getNumEvents() = 0;
@@ -607,7 +608,7 @@ private:
          * So, on every modern system I'm aware of, bool is an unsigned char, so
          * use that data type here.
          */
-        virtual int getEventTriggers(size_t len, const int* indx, unsigned char* values) = 0;
+        virtual int getEventTriggers(size_t len, const int *indx, unsigned char *values) = 0;
 
 
         /**
@@ -622,8 +623,8 @@ private:
          * @param finalState (optional): final state vector, where the final state is
          * coppied to. May be NULL, in which case, ignored.
          */
-        virtual int applyEvents(double timeEnd, const unsigned char* previousEventStatus,
-            const double* initialState, double* finalState) = 0;
+        virtual int applyEvents(double timeEnd, const unsigned char *previousEventStatus,
+                                const double *initialState, double *finalState) = 0;
 
 
         /**
@@ -637,7 +638,7 @@ private:
          * @param y[in] the state vector
          * @param gdot[out] result event roots, this is of length numEvents.
          */
-        virtual void getEventRoots(double time, const double* y, double* gdot) = 0;
+        virtual void getEventRoots(double time, const double *y, double *gdot) = 0;
 
         virtual double getNextPendingEventTime(bool pop) = 0;
 
@@ -658,14 +659,18 @@ private:
         /******************************************************************************/
 
 
-/**
- * Gets the index for an event id.
- * If there is no event with this id, returns -1.
- */
-        virtual int getEventIndex(const std::string& eid) = 0;
+        /**
+         * Gets the index for an event id.
+         * If there is no event with this id, returns -1.
+         */
+        virtual int getEventIndex(const std::string &eid) = 0;
+
         virtual std::string getEventId(size_t index) = 0;
+
         virtual void getEventIds(std::list<std::string>&) = 0;
+
         virtual void setEventListener(size_t index, EventListenerPtr eventHandler) = 0;
+
         virtual EventListenerPtr getEventListener(size_t index) = 0;
 
         /**
@@ -682,7 +687,7 @@ private:
          * @param reactionRates: pointer to buffer of reaction rates.
          */
         virtual double getFloatingSpeciesAmountRate(size_t index,
-            const double* reactionRates) = 0;
+                                                    const double *reactionRates) = 0;
 
         /**
          * reset the model accordign to a bitfield specified by the
@@ -731,7 +736,7 @@ private:
             /**
              * optimize not-recalculating the reaction rates during selection.
              */
-             OPTIMIZE_REACTION_RATE_SELECTION = (0x1 << 1),  // => 0x00000010
+            OPTIMIZE_REACTION_RATE_SELECTION = (0x1 << 1),  // => 0x00000010
         };
 
         /**
@@ -743,7 +748,7 @@ private:
         * Writes "Not implemented for this model type" to out if not implemented for the underlying
         * model type
         */
-        virtual void saveState(std::ostream& out) {
+        virtual void saveState(std::ostream &out) {
             out << "Saving state not implemented for this model type";
         }
 
@@ -758,8 +763,7 @@ private:
             uint32_t flags = getFlags();
             if (value) {
                 flags |= INTEGRATION;
-            }
-            else {
+            } else {
                 flags &= ~INTEGRATION;
             }
             setFlags(flags);
@@ -774,7 +778,7 @@ private:
 /**
  * dump the model to a stream convenience func
  */
-    RR_DECLSPEC std::ostream& operator << (std::ostream &stream, ExecutableModel* model);
+    RR_DECLSPEC std::ostream &operator<<(std::ostream &stream, ExecutableModel *model);
 
 
 }
