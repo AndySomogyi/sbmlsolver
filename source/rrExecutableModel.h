@@ -56,12 +56,11 @@ namespace rr {
         enum Result {
             HALT_SIMULATION = (0x1 << 0),  // => 0x00000001
         };
-
         virtual uint onTrigger(ExecutableModel *model, size_t eventIndex, const std::string &eventId) = 0;
 
         virtual uint onAssignment(ExecutableModel *model, size_t eventIndex, const std::string &eventId) = 0;
 
-    protected:
+      protected:
         ~EventListener() {};
 /**
  * listeners are shared objects, so use std smart pointers

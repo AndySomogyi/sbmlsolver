@@ -12,7 +12,7 @@
 #include <rrStringUtils.h>
 #undef min
 #undef max
-#include "source/llvm/SBMLSupportFunctions.h"
+#include "llvm/SBMLSupportFunctions.h"
 #include "rrRoadRunnerOptions.h"
 
 

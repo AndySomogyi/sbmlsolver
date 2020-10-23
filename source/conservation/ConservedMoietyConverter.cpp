@@ -553,7 +553,7 @@ static std::vector<std::string> createConservedMoietyParameters(
 
                 ConservedMoietySpecies* cmIndSpecies = dynamic_cast<ConservedMoietySpecies*>(newModel->getSpecies(j));
                 if (cmIndSpecies) {
-                    std::cerr << "cmIndSpecies " << cmIndSpecies->getId() << " conserved quantity " << id << "\n";
+                    //std::cerr << "cmIndSpecies " << cmIndSpecies->getId() << " conserved quantity " << id << "\n";
                     cmIndSpecies->addConservedQuantity(id);
                 }
             }
