@@ -63,6 +63,8 @@ namespace rr {
 
     protected:
         ~EventListener() {};
+    };
+
 /**
  * listeners are shared objects, so use std smart pointers
  * to manage them.
