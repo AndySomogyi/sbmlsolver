@@ -6,7 +6,7 @@
  */
 #pragma hdrstop
 #include "LLVMModelDataSymbols.h"
-#include "lsLibStructural.h"
+#include "rr-libstruct/lsLibStructural.h"
 #include "LLVMException.h"
 #include "rrLogger.h"
 #include "rrSparse.h"
@@ -1287,23 +1287,28 @@ bool LLVMModelDataSymbols::isValidFloatingSpeciesReference(
         return false;
     }
 
-    string err = "the species reference with id ";
-    err += string("\'" + ref->getId() + "\', ");
+    string err = "the species reference ";
+    if (ref->isSetId()) {
+        err += "with id ";
+        err += string("\'" + ref->getId() + "\', ");
+    }
     err += "which references species ";
     err += string("\'" + id + "\', ");
     err += "is NOT a valid " + reacOrProd + " reference, ";
     // figure out what kind of thing we have and give a warning
     if (hasAssignmentRule(id))
     {
-        err += "it is defined by an assignment rule";
+        err += "because the species is not a boundary species, but ";
+        err += "is defined by an assignment rule.";
     }
     else if (hasRateRule(id))
     {
-        err += "it is defined by rate rule";
+        err += "because the species is not a boundary species, but ";
+        err += "is defined by rate rule.";
     }
     else
     {
-        err += "it is not a species";
+        err += "because it is not a species.";
     }
 
     Log(Logger::LOG_WARNING) << err;
