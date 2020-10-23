@@ -56,12 +56,11 @@ namespace rr {
         enum Result {
             HALT_SIMULATION = (0x1 << 0),  // => 0x00000001
         };
-
         virtual uint onTrigger(ExecutableModel *model, size_t eventIndex, const std::string &eventId) = 0;
 
         virtual uint onAssignment(ExecutableModel *model, size_t eventIndex, const std::string &eventId) = 0;
 
-    protected:
+      protected:
         ~EventListener() {};
     };
 
@@ -668,6 +667,8 @@ namespace rr {
         virtual int getEventIndex(const std::string &eid) = 0;
 
         virtual std::string getEventId(size_t index) = 0;
+
+        virtual void getEventIds(std::list<std::string>&) = 0;
 
         virtual void setEventListener(size_t index, EventListenerPtr eventHandler) = 0;
 

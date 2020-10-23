@@ -323,6 +323,10 @@ namespace rrtesting {
         return "";
     }
 
+    void CXXBrusselatorExecutableModel::getEventIds(std::list<std::string>&)
+    {
+    }
+
     void CXXBrusselatorExecutableModel::setEventListener(size_t index,
                                                          rr::EventListenerPtr eventHandler) {
     }

@@ -584,6 +584,10 @@ std::string CXXEnzymeExecutableModel::getEventId(size_t index)
     return "";
 }
 
+void CXXEnzymeExecutableModel::getEventIds(std::list<std::string>&)
+{
+}
+
 void CXXEnzymeExecutableModel::setEventListener(size_t index,
         rr::EventListenerPtr eventHandler)
 {
