@@ -3,6 +3,7 @@
 #include "rrException.h"
 #include "rrStringUtils.h"
 #include "gtest/gtest.h"
+#include "LLVMExecutableModel.h"
 
 using namespace rr;
 
@@ -23,7 +24,19 @@ TEST(MODEL_ANALYSIS, AnalysisFunctionsWithEvent)
 
     //ls::DoubleMatrix  fluxccm= rr->getScaledFluxControlCoefficientMatrix();
     //CHECK(fluxccm.CSize() == 2);
-    std::cout << "   PASS" << std::endl << std::endl;
+    //std::cout << "   PASS" << std::endl << std::endl;
+    delete rr;
+}
+
+
+TEST(MODEL_ANALYSIS, GetEventIDs)
+{
+    RoadRunner* rr = new RoadRunner(gRRTestDir + "/models/MODEL_ANALYSIS/event.xml");
+    list<string> eventids;
+    rrllvm::LLVMExecutableModel* mod = static_cast<rrllvm::LLVMExecutableModel*>(rr->getModel());
+    mod->getEventIds(eventids);
+    EXPECT_EQ(eventids.size(), 1);
+    EXPECT_EQ("_E0", *eventids.begin());
     delete rr;
 }
 
