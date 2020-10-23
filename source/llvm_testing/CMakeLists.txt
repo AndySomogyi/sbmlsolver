@@ -55,7 +55,7 @@ add_executable( ${target} ${rr_analysis_src} )
 # we only need to tell it about static rr.
 target_compile_definitions(${target} PRIVATE STATIC_RR)
 
-target_link_libraries(${target} PRIVATE unit_test-static roadrunner-static )
+target_link_libraries(${target} PRIVATE roadrunner-static )
 target_include_directories(${target} PRIVATE
         src
         ${INCLUDE_DIRECTORIES}

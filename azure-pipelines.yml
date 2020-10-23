@@ -59,7 +59,7 @@ stages:
           - task: CMake@1
             displayName: ConfigureCommand
             inputs:
-              cmakeArgs: $(CMakeArgs) -DRR_DEPENDENCIES_INSTALL_PREFIX="../roadrunner-deps-gcc7.5-x64-release" -DLLVM_INSTALL_PREFIX="../llvm-6.x-gcc7.5-x64-release" -DCMAKE_BUILD_TYPE=$(BuildType) -DBUILD_TESTS=ON ..
+              cmakeArgs: $(CMakeArgs) -DRR_DEPENDENCIES_INSTALL_PREFIX="../roadrunner-deps-gcc7.5-x64-release" -DLLVM_INSTALL_PREFIX="../llvm-6.x-gcc7.5-x64-release" -DCMAKE_BUILD_TYPE=$(BuildType) -DBUILD_TESTS=ON -DBUILD_TEST_TOOLS=ON ..
           - task: CMake@1
             displayName: BuildCommand
             inputs:
@@ -118,7 +118,7 @@ stages:
           - task: CMake@1
             displayName: ConfigureCommand
             inputs:
-              cmakeArgs: $(CMakeArgs) -DRR_DEPENDENCIES_INSTALL_PREFIX="../$(rr_deps_install)" -DLLVM_INSTALL_PREFIX="../$(llvm_install)" -DCMAKE_BUILD_TYPE=$(BuildType) -DBUILD_TESTS=ON ..
+              cmakeArgs: $(CMakeArgs) -DRR_DEPENDENCIES_INSTALL_PREFIX="../$(rr_deps_install)" -DLLVM_INSTALL_PREFIX="../$(llvm_install)" -DCMAKE_BUILD_TYPE=$(BuildType) -DBUILD_TESTS=ON -DBUILD_TEST_TOOLS=ON ..
           - task: CMake@1
             displayName: BuildCommand
             inputs:
@@ -175,7 +175,7 @@ stages:
           - task: CMake@1
             displayName: ConfigureCommand
             inputs:
-              cmakeArgs: $(CMakeArgs) -DRR_DEPENDENCIES_INSTALL_PREFIX="../$(rr_deps_install)" -DLLVM_INSTALL_PREFIX="../$(llvm_install)" -DCMAKE_BUILD_TYPE=$(BuildType) -DBUILD_TESTS=ON ..
+              cmakeArgs: $(CMakeArgs) -DRR_DEPENDENCIES_INSTALL_PREFIX="../$(rr_deps_install)" -DLLVM_INSTALL_PREFIX="../$(llvm_install)" -DCMAKE_BUILD_TYPE=$(BuildType) -DBUILD_TESTS=ON -DBUILD_TEST_TOOLS=ON ..
           - task: CMake@1
             displayName: BuildCommand
             inputs:
@@ -233,7 +233,7 @@ stages:
           - task: CMake@1
             displayName: ConfigureCommand
             inputs:
-              cmakeArgs: $(CMakeArgs) -DRR_DEPENDENCIES_INSTALL_PREFIX="../$(rr_deps_install)" -DLLVM_INSTALL_PREFIX="../$(llvm_install)" -DCMAKE_BUILD_TYPE=$(BuildType) -DBUILD_TESTS=ON ..
+              cmakeArgs: $(CMakeArgs) -DRR_DEPENDENCIES_INSTALL_PREFIX="../$(rr_deps_install)" -DLLVM_INSTALL_PREFIX="../$(llvm_install)" -DCMAKE_BUILD_TYPE=$(BuildType) -DBUILD_TESTS=ON -DBUILD_TEST_TOOLS=ON ..
           - task: CMake@1
             displayName: BuildCommand
             inputs:
@@ -282,7 +282,7 @@ stages:
           - task: CMake@1
             displayName: ConfigureCommand
             inputs:
-              cmakeArgs: $(CMakeArgs) -DRR_DEPENDENCIES_INSTALL_PREFIX="../$(rr_deps_install)" -DLLVM_INSTALL_PREFIX="../$(llvm_install)" -DCMAKE_BUILD_TYPE=$(BuildType) -DBUILD_TESTS=ON ..
+              cmakeArgs: $(CMakeArgs) -DRR_DEPENDENCIES_INSTALL_PREFIX="../$(rr_deps_install)" -DLLVM_INSTALL_PREFIX="../$(llvm_install)" -DCMAKE_BUILD_TYPE=$(BuildType) -DBUILD_TESTS=ON -DBUILD_TEST_TOOLS=ON ..
           - task: CMake@1
             displayName: BuildCommand
             inputs:

@@ -9,8 +9,8 @@
 
 extern "C"
 {
-#include "f2c.h"
-#include "clapack.h"
+#include "clapack/f2c.h"
+#include "clapack/clapack.h"
 }
 
 int cpp_dgemv(char trans, int m, int n, double alpha, double* a, int lda,
