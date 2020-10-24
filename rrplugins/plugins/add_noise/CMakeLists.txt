@@ -39,3 +39,6 @@ install(TARGETS ${target}
         COMPONENT plugins
         )
 
+file(GLOB EXAMPLES docs/*)
+install(FILES ${EXAMPLES} DESTINATION "${RR_PLUGINS_INSTALL_PREFIX}")
+unset(EXAMPLES)

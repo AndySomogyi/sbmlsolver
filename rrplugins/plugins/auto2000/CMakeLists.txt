@@ -51,3 +51,6 @@ install(TARGETS ${target}
         DESTINATION ${RR_PLUGINS_INSTALL_PREFIX}
         COMPONENT plugins
         )
+file(GLOB EXAMPLES docs/*)
+install(FILES ${EXAMPLES} DESTINATION "${RR_PLUGINS_INSTALL_PREFIX}")
+unset(EXAMPLES)
