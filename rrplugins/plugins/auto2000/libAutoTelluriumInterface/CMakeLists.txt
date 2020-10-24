@@ -26,7 +26,7 @@ target_link_libraries(${target} PUBLIC
         telplugins_core
         libAuto-static
         )
-add_dependencies(${target} telplugins_common telplugins_core)
+add_dependencies(${target} telplugins_core)
 target_include_directories(${target} PUBLIC $<TARGET_PROPERTY:roadrunner-static,INCLUDE_DIRECTORIES>)
 install(
         TARGETS libTelluriumAutoInterface-static

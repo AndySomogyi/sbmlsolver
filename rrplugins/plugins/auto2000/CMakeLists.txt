@@ -25,8 +25,6 @@ set(RRP_AUTO2000_SOURCES
 add_library(tel_auto2000 MODULE ${RRP_AUTO2000_SOURCES})
 target_compile_definitions(${target} PRIVATE
         EXPORT_TEL_PLUGIN
-        STATIC_AUTO
-        STATIC_TEL_AUTO
         EXPORT_AUTO2000
         )
 
