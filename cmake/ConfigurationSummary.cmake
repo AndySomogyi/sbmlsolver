@@ -57,6 +57,15 @@ rrplugins
 
 
 -------------------------------------------------------------------------------
+Python Variables
+-------------------------------------------------------------------------------
+Note: you can change this to another conda environment to build
+    for another Python version. For instance, the following
+    works on mac: /full/path/to/conda/root/miniconda/envs/py37/lib/libpython3.7m.dylib
+
+PYTHON_LIBRARIES                           ${PYTHON_LIBRARIES}
+
+-------------------------------------------------------------------------------
 CMake variables
 -------------------------------------------------------------------------------
     CMAKE_C_COMPILER                   ${CMAKE_C_COMPILER}
