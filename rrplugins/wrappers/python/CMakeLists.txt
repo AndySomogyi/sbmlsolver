@@ -20,7 +20,7 @@ install(
   FILES
   ${RRP_PYTHON_API_SOURCE}
   README.txt
-  DESTINATION site-packages/rrplugins
+  DESTINATION "${PYTHON_PACKAGE_INSTALL_PREFIX}/rrplugins"
   COMPONENT telplugins
 )
 

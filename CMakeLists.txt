@@ -132,7 +132,7 @@ option(BUILD_RR_PLUGINS "Build the telplugins package" OFF)
 # RR_PLUGINS_BUILD_SHARED_LIB default value to ON, otherwise set to OFF
 cmake_dependent_option(RR_PLUGINS_BUILD_SHARED_LIB "Build the RR plugin shared libraries" ON "BUILD_RR_PLUGINS" OFF)
 cmake_dependent_option(RR_PLUGINS_BUILD_STATIC_LIB "Build the RR plugin static libraries" ON "BUILD_RR_PLUGINS" OFF)
-set(RR_PLUGINS_INSTALL_PREFIX site-packages/plugins CACHE PATH "Destination for plugins")
+set(RR_PLUGINS_INSTALL_PREFIX "${PYTHON_PACKAGE_INSTALL_PREFIX}/plugins" CACHE PATH "Destination for plugins")
 cmake_dependent_option(RR_PLUGINS_BUILD_C_API "Build the RR plugin C API" ON "BUILD_RR_PLUGINS" OFF)
 cmake_dependent_option(RR_PLUGINS_BUILD_PYTHON_API "Build the RR plugin PYTHON API" ON "BUILD_RR_PLUGINS" OFF)
 

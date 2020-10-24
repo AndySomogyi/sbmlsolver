@@ -28,7 +28,6 @@ target_compile_definitions(${target} PRIVATE
         -DEXPORT_ADD_NOISE
         )
 
-set_target_properties(${target} PROPERTIES PREFIX "")
 
 if (UNIX)
     set_target_properties(${target} PROPERTIES INSTALL_RPATH "$ORIGIN/./")
@@ -40,5 +39,5 @@ install(TARGETS ${target}
         )
 
 file(GLOB EXAMPLES docs/*)
-install(FILES ${EXAMPLES} DESTINATION "${RR_PLUGINS_INSTALL_PREFIX}")
+install(FILES ${EXAMPLES} DESTINATION "${RR_PLUGINS_INSTALL_PREFIX}" COMPONENT plugins)
 unset(EXAMPLES)

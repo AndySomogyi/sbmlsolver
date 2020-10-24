@@ -51,4 +51,4 @@ install(
         LIBRARY DESTINATION lib COMPONENT rrplugins
 )
 
-install(TARGETS ${target} DESTINATION site-packages/rrplugins)
+install(TARGETS ${target} DESTINATION "${PYTHON_PACKAGE_INSTALL_PREFIX}/rrplugins")

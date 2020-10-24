@@ -108,7 +108,7 @@ Examples
 """
 
 
-import rrplugins.telplugins_c_api as tpc
+import roadrunner.rrplugins.telplugins_c_api as tpc
 import matplotlib.pyplot as plt
 import numpy as np
 import os.path

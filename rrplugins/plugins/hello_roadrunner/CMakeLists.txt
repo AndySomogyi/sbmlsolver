@@ -13,7 +13,6 @@ target_link_libraries ( ${target} PUBLIC
   telpluginsBaseClass
   ${RRPLUGINS_COMMON_SHARED_LIBS}
 )
-set_target_properties(${target} PROPERTIES PREFIX "")
 
 if (UNIX)
   set_target_properties( ${target} PROPERTIES INSTALL_RPATH "$ORIGIN/./" )
@@ -24,5 +23,5 @@ install (TARGETS ${target}
   COMPONENT plugins
 )
 file(GLOB EXAMPLES docs/*)
-install(FILES ${EXAMPLES} DESTINATION "${RR_PLUGINS_INSTALL_PREFIX}")
+install(FILES ${EXAMPLES} DESTINATION "${RR_PLUGINS_INSTALL_PREFIX}" COMPONENT plugins)
 unset(EXAMPLES)

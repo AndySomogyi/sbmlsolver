@@ -23,7 +23,6 @@ set(RRP_AUTO2000_SOURCES
 
 
 add_library(${target} MODULE ${RRP_AUTO2000_SOURCES})
-set_target_properties(${target} PROPERTIES PREFIX "")
 
 target_compile_definitions(${target} PRIVATE
         EXPORT_TEL_PLUGIN
@@ -52,5 +51,5 @@ install(TARGETS ${target}
         COMPONENT plugins
         )
 file(GLOB EXAMPLES docs/*)
-install(FILES ${EXAMPLES} DESTINATION "${RR_PLUGINS_INSTALL_PREFIX}")
+install(FILES ${EXAMPLES} DESTINATION "${RR_PLUGINS_INSTALL_PREFIX}" COMPONENT plugins)
 unset(EXAMPLES)
