@@ -22,6 +22,9 @@ target_link_libraries(${target} PUBLIC
         telpluginsBaseClass
         ${RRPLUGINS_COMMON_SHARED_LIBS}
         )
+
+# remove the "lib" prefix on some platforms
+set_target_properties(${target} PROPERTIES PREFIX "")
 message(STATUS "C API: RRPLUGINS_COMMON_SHARED_LIBS = ${RRPLUGINS_COMMON_SHARED_LIBS}")
 
 #Link C_api shared lib statically to roadrunner and libsbml
@@ -33,10 +36,12 @@ else ()
         set_target_properties(${target} PROPERTIES INSTALL_RPATH "@loader_path;@loader_path/../roadrunner")
     else ()
         set(CMAKE_SHARED_LINKER_FLAGS "-Wl,--no-undefined")
-        # add rpath for site-packages/rrplugins directory
-        set_target_properties(${target} PROPERTIES INSTALL_RPATH "$ORIGIN/./")
-    endif ()
 
+        # add rpath for site-packages/rrplugins directory
+        set_target_properties(${target} PROPERTIES
+                INSTALL_RPATH "$ORIGIN/./"
+                )
+    endif ()
 endif ()
 
 install(

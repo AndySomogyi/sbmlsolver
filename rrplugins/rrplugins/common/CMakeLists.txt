@@ -66,6 +66,9 @@ if (RR_PLUGINS_BUILD_SHARED_LIB)
             )
 
     install(TARGETS ${target} DESTINATION site-packages/rrplugins)
+
+    # disable the auto addition of "lib" onto target name
+    set_target_properties(${target} PROPERTIES PREFIX "")
 endif ()
 
 # ** Static lib ******
@@ -81,5 +84,7 @@ if (RR_PLUGINS_BUILD_STATIC_LIB)
             LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT rrplugins
             ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT rrplugins
             )
+    # disable the auto addition of "lib" onto target name
+    set_target_properties(${target}-static PROPERTIES PREFIX "")
 
 endif ()

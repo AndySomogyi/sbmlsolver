@@ -24,8 +24,7 @@ target_link_libraries(${target} PRIVATE
         telplugins_math
         ${RRPLUGINS_COMMON_SHARED_LIBS})
 
-#target_include_directories(${target} PRIVATE
-#        "D:/rrbuild/roadrunner/rrplugins/plugins/released/add_noise")
+set_target_properties(${target} PROPERTIES PREFIX "")
 
 if (UNIX)
     set_target_properties(${target} PROPERTIES INSTALL_RPATH "$ORIGIN/./")

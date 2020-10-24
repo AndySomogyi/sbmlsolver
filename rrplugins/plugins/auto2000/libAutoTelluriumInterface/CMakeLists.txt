@@ -28,6 +28,7 @@ target_link_libraries(${target} PUBLIC
         )
 add_dependencies(${target} telplugins_core)
 target_include_directories(${target} PUBLIC $<TARGET_PROPERTY:roadrunner-static,INCLUDE_DIRECTORIES>)
+set_target_properties(${target} PROPERTIES PREFIX "")
 install(
         TARGETS libTelluriumAutoInterface-static
         RUNTIME DESTINATION bin

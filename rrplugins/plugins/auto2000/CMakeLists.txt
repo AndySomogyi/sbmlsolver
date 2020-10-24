@@ -22,7 +22,9 @@ set(RRP_AUTO2000_SOURCES
         )
 
 
-add_library(tel_auto2000 MODULE ${RRP_AUTO2000_SOURCES})
+add_library(${target} MODULE ${RRP_AUTO2000_SOURCES})
+set_target_properties(${target} PROPERTIES PREFIX "")
+
 target_compile_definitions(${target} PRIVATE
         EXPORT_TEL_PLUGIN
         EXPORT_AUTO2000

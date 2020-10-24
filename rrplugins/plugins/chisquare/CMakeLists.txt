@@ -20,6 +20,7 @@ target_link_libraries (${target} PRIVATE
   #telplugins_common
   ${RRPLUGINS_COMMON_SHARED_LIBS}
 )
+set_target_properties(${target} PROPERTIES PREFIX "")
 
 if(UNIX)
   if(APPLE)

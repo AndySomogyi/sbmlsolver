@@ -28,6 +28,7 @@ target_compile_definitions(${target} PRIVATE
         -DEXPORT_ADD_NOISE
         )
 
+set_target_properties(${target} PROPERTIES PREFIX "")
 
 if (UNIX)
     set_target_properties(${target} PROPERTIES INSTALL_RPATH "$ORIGIN/./")
