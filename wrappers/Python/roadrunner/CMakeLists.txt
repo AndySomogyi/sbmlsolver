@@ -106,7 +106,8 @@ install(
     DESTINATION ${PYTHON_PACKAGE_INSTALL_PREFIX}/testing/test_data
 )
 
-file(GLOB rrtest_files2 "${RR_ROOT}/test/rrtest_files/*.xml"
+file(GLOB rrtest_files2 "${RR_ROOT}/test/rrtest_files/*.xml")
+install(
     FILES ${rrtest_files2}
     DESTINATION ${PYTHON_PACKAGE_INSTALL_PREFIX}/testing/test_data
 )
