@@ -14,6 +14,8 @@ target_link_libraries ( ${target} PUBLIC
   ${RRPLUGINS_COMMON_SHARED_LIBS}
 )
 
+target_compile_definitions(${target} PRIVATE EXPORT_HELLO)
+
 if (UNIX)
   set_target_properties( ${target} PROPERTIES INSTALL_RPATH "$ORIGIN/./" )
 endif ()
