@@ -206,7 +206,7 @@ string AutoConstants::getICP()
     return builder.ToString();
 }
 
-string getWhiteSpaces(string& line, ptrdiff_t maxLength)
+string getWhiteSpaces(string& line, size_t maxLength)
 {
     size_t nrSpaces =  maxLength - line.size();
     return string(nrSpaces, ' ');

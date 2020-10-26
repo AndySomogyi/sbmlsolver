@@ -131,8 +131,8 @@ option(BUILD_RR_PLUGINS "Build the telplugins package" OFF)
 # These options are dependent on BUILD_RR_PLUGINS option. This reads: when BUILD_RR_PLUGINS=ON set the value of
 # RR_PLUGINS_BUILD_SHARED_LIB default value to ON, otherwise set to OFF
 cmake_dependent_option(RR_PLUGINS_BUILD_SHARED_LIB "Build the RR plugin shared libraries" ON "BUILD_RR_PLUGINS" OFF)
-cmake_dependent_option(RR_PLUGINS_BUILD_STATIC_LIB "Build the RR plugin static libraries" OFF "BUILD_RR_PLUGINS" OFF)
-set(RR_PLUGINS_INSTALL_PREFIX site-packages/plugins CACHE PATH "Destination for plugins")
+cmake_dependent_option(RR_PLUGINS_BUILD_STATIC_LIB "Build the RR plugin static libraries" ON "BUILD_RR_PLUGINS" OFF)
+set(RR_PLUGINS_INSTALL_PREFIX "${PYTHON_PACKAGE_INSTALL_PREFIX}/plugins" CACHE PATH "Destination for plugins")
 cmake_dependent_option(RR_PLUGINS_BUILD_C_API "Build the RR plugin C API" ON "BUILD_RR_PLUGINS" OFF)
 cmake_dependent_option(RR_PLUGINS_BUILD_PYTHON_API "Build the RR plugin PYTHON API" ON "BUILD_RR_PLUGINS" OFF)
 
@@ -310,10 +310,11 @@ find_package(Sundials CONFIG REQUIRED)
 find_package(LLVM REQUIRED)
 
 # install dependencies so clients can use roadrunner from c++/cmake
-install(DIRECTORY ${RR_DEPENDENCIES_INSTALL_PREFIX}/lib DESTINATION ${CMAKE_INSTALL_LIBDIR})
-install(DIRECTORY ${RR_DEPENDENCIES_INSTALL_PREFIX}/bin DESTINATION ${CMAKE_INSTALL_BINDIR})
-install(DIRECTORY ${RR_DEPENDENCIES_INSTALL_PREFIX}/include DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
-install(DIRECTORY ${RR_DEPENDENCIES_INSTALL_PREFIX}/share DESTINATION ${CMAKE_INSTALL_DATAROOTDIR})
+message(STATUS "CMAKE_INSTALL_LIBDIR ${CMAKE_INSTALL_LIBDIR}")
+install(DIRECTORY ${RR_DEPENDENCIES_INSTALL_PREFIX}/lib DESTINATION     ${CMAKE_INSTALL_PREFIX})
+install(DIRECTORY ${RR_DEPENDENCIES_INSTALL_PREFIX}/bin DESTINATION     ${CMAKE_INSTALL_PREFIX})
+install(DIRECTORY ${RR_DEPENDENCIES_INSTALL_PREFIX}/include DESTINATION ${CMAKE_INSTALL_PREFIX})
+install(DIRECTORY ${RR_DEPENDENCIES_INSTALL_PREFIX}/share DESTINATION   ${CMAKE_INSTALL_PREFIX})
 
 # install a cmake script for consumer libraries to easily import roadrunner targets
 install(FILES cmake/ImportRoadrunnerAndDependencies.cmake DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake")

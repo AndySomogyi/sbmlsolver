@@ -39,8 +39,16 @@ def decodeIfBytes(x):
 
 # if not os.path.exists(rrplugins_path):
 
+# question: can we turn plugin path into a list of paths?
 rrplugins_path = os.path.abspath(os.path.dirname(roadrunner.__file__))
-gDefaultPluginsPath = rrplugins_path
+
+# This is where the plugins manager will look for the plugin libraries by default
+gDefaultPluginsPath = os.path.join(rrplugins_path, "plugins")
+
+# This is the directory containing plugins libraries (common, core, math and base class)
+rrplugins_path = os.path.join(rrplugins_path, "rrplugins")
+if not os.path.isdir(rrplugins_path):
+    raise NotADirectoryError(f"Looking for plugins in \"{rrplugins_path}\" but not found")
 
 # bail if the path still hasn't been found
 if not os.path.exists(rrplugins_path):
@@ -56,7 +64,10 @@ rrpLib=None
 for name in [
              libTitle + '.dll',
              'lib' + libTitle + '.dylib',
-             'lib' + libTitle + '.so']:
+             'lib' + libTitle + '.so',
+            libTitle + ".dylib",
+            libTitle + ".so",
+]:
     fullpath = os.path.join(rrplugins_path, name)
 
     # if the lib file exists, try to load it

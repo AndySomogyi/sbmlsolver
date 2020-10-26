@@ -24,14 +24,10 @@ if (RR_PLUGINS_BUILD_SHARED_LIB)
 
     target_include_directories(${target} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} ${RR_PLUGINS_ROOT})
 
-    # Install shared library
-    install(TARGETS telpluginsBaseClass
-            RUNTIME DESTINATION bin COMPONENT rrplugins
-            LIBRARY DESTINATION lib COMPONENT rrplugins
-            ARCHIVE DESTINATION lib COMPONENT rrplugins
-            )
+    install(TARGETS ${target} DESTINATION "${PYTHON_PACKAGE_INSTALL_PREFIX}/rrplugins")
 
-    install(TARGETS ${target} DESTINATION site-packages/rrplugins)
+    # disable the auto addition of "lib" onto target name
+    set_target_properties(${target} PROPERTIES PREFIX "")
 endif ()
 
 # ** Static lib ******
@@ -46,10 +42,12 @@ if (RR_PLUGINS_BUILD_STATIC_LIB)
     target_include_directories(${target}-static PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} ${RR_PLUGINS_ROOT})
 
     # Install static library
-    install(TARGETS telpluginsBaseClass-static
-            LIBRARY DESTINATION lib COMPONENT rrplugins
-            ARCHIVE DESTINATION lib COMPONENT rrplugins
+    install(TARGETS ${target}-static
+            LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT rrplugins
+            ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT rrplugins
             )
+    # disable the auto addition of "lib" onto target name
+    set_target_properties(${target}-static PROPERTIES PREFIX "")
 endif ()
 
 

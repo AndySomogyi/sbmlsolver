@@ -48,12 +48,10 @@ bool destroyRRPlugin(Plugin *plugin);
 rrc::THostInterface* initializeRoadRunnerAPI();
 
 PluginManager::PluginManager(const std::string& folder)
-:
-mPluginFolder(folder),
-mPluginExtension(getPluginExtension()),
-mPluginPrefix(getPluginOSPrefix()),
-hostInterface(initializeRoadRunnerAPI())
-{}
+    :   mPluginFolder(folder),
+        mPluginExtension(getPluginExtension()),
+        mPluginPrefix(getPluginOSPrefix()),
+        hostInterface(initializeRoadRunnerAPI()){}
 
 PluginManager::~PluginManager()
 {

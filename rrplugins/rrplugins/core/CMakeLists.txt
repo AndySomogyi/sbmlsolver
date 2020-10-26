@@ -42,7 +42,10 @@ if (RR_PLUGINS_BUILD_SHARED_LIB)
             ARCHIVE DESTINATION lib COMPONENT rrplugins
             )
 
-    install(TARGETS ${target} DESTINATION site-packages/rrplugins)
+    install(TARGETS ${target} DESTINATION "${PYTHON_PACKAGE_INSTALL_PREFIX}/rrplugins")
+
+    # disable the auto addition of "lib" onto target name
+    set_target_properties(${target} PROPERTIES PREFIX "")
 endif ()
 
 # ** Static lib ******
@@ -62,9 +65,12 @@ if (RR_PLUGINS_BUILD_STATIC_LIB)
 
     # Install static library
     install(TARGETS ${target}-static
-            LIBRARY DESTINATION lib COMPONENT rrplugins
-            ARCHIVE DESTINATION lib COMPONENT rrplugins
+            LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT rrplugins
+            ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT rrplugins
             )
+
+    # disable the auto addition of "lib" onto target name
+    set_target_properties(${target}-static PROPERTIES PREFIX "")
 endif ()
 
 

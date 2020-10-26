@@ -29,7 +29,11 @@ if(UNIX)
   endif()
 endif()
 
+target_compile_definitions(${target} PRIVATE EXPORT_CHI_SQUARE)
 install (TARGETS ${target}
   DESTINATION ${RR_PLUGINS_INSTALL_PREFIX}
   COMPONENT plugins
 )
+file(GLOB EXAMPLES docs/*)
+install(FILES ${EXAMPLES} DESTINATION "${RR_PLUGINS_INSTALL_PREFIX}" COMPONENT plugins)
+unset(EXAMPLES)

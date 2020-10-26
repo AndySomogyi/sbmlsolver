@@ -22,11 +22,10 @@ set(RRP_AUTO2000_SOURCES
         )
 
 
-add_library(tel_auto2000 MODULE ${RRP_AUTO2000_SOURCES})
+add_library(${target} MODULE ${RRP_AUTO2000_SOURCES})
+
 target_compile_definitions(${target} PRIVATE
         EXPORT_TEL_PLUGIN
-        STATIC_AUTO
-        STATIC_TEL_AUTO
         EXPORT_AUTO2000
         )
 
@@ -51,3 +50,6 @@ install(TARGETS ${target}
         DESTINATION ${RR_PLUGINS_INSTALL_PREFIX}
         COMPONENT plugins
         )
+file(GLOB EXAMPLES docs/*)
+install(FILES ${EXAMPLES} DESTINATION "${RR_PLUGINS_INSTALL_PREFIX}" COMPONENT plugins)
+unset(EXAMPLES)

@@ -24,7 +24,7 @@ class _Util:
 
     # custom primitives
     c_double_p = ct.POINTER(ct.c_double)
-    ct.c_bool_p   = ct.POINTER(ct.ct.c_bool)
+    ct.c_bool_p   = ct.POINTER(ct.c_bool)
     c_int_p    = ct.POINTER(ct.c_int)
 
     @staticmethod
@@ -63,7 +63,7 @@ class _Util:
 
 rrpLib = _Util.load_lib()
 
-class TelpluginsCAPI:
+class TelPluginsCAPI:
 
     ## \brief Plugin function event type definition
     ## This is a helper object that a client can use as an argument to a tellurium plugin.
@@ -83,6 +83,7 @@ class TelpluginsCAPI:
     NotifyEvent  = ct.CFUNCTYPE(None, ct.c_void_p, ct.c_void_p)
     NotifyEventEx  = ct.CFUNCTYPE(None, ct.c_void_p, ct.c_void_p)
 
+    freeText = _Util.load_func("toFreeText", [ct.c_void_p], ct.c_bool)
     rrpLib.tpFreeText.restype = ct.c_bool
     rrpLib.tpFreeText.argtypes = [ct.c_void_p]
     def freeText(text):
