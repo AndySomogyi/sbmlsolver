@@ -165,13 +165,13 @@ std::string fixMissingStoich(const std::string sbml) {
 
         Model *m = doc->getModel();
 
-        for (int j = 0; j<m->getNumReactions(); ++j) {
+        for (unsigned int j = 0; j<m->getNumReactions(); ++j) {
             Reaction* r = m->getReaction(j);
             if (!r)
                 throw std::runtime_error("No reaction");
 
             // check stoich defined on reactants / products
-            for (int k = 0; k<r->getNumReactants(); ++k) {
+            for (unsigned int k = 0; k<r->getNumReactants(); ++k) {
                 SpeciesReference* s = r->getReactant(k);
                 if (!isStoichDefined(s))
                     if (s->setStoichiometry(1.) != LIBSBML_OPERATION_SUCCESS) {
@@ -185,7 +185,7 @@ std::string fixMissingStoich(const std::string sbml) {
                 }
             }
 
-            for (int k = 0; k<r->getNumProducts(); ++k) {
+            for (unsigned int k = 0; k<r->getNumProducts(); ++k) {
                 SpeciesReference* s = r->getProduct(k);
                 if (!isStoichDefined(s))
                     if (s->setStoichiometry(1.) != LIBSBML_OPERATION_SUCCESS) {
