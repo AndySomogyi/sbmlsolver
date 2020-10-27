@@ -1128,7 +1128,35 @@ TEST(MODEL_EDITING_TEST_SUITE, ONE_ASSIGNMENT_RULE)
         }));
 }
 
+TEST(MODEL_EDITING_TEST_SUITE, ADD_INVALID_COMPARTMENT)
+{
+    RoadRunner rri;
+    EXPECT_THROW(rri.addCompartment("$compartment", 3.14159), std::invalid_argument);
+}
 
+
+TEST(MODEL_EDITING_TEST_SUITE, ADD_INVALID_SPECIES)
+{
+    RoadRunner rri;
+    rri.addCompartment("compartment", 3.14159);
+    EXPECT_THROW(rri.addSpecies("$S1", "compartment", 1.0, false, false), std::invalid_argument);
+}
+
+TEST(MODEL_EDITING_TEST_SUITE, ADD_INVALID_PARAM)
+{
+    RoadRunner rri;
+    EXPECT_THROW(rri.addParameter("$pid", 3.14159), std::invalid_argument);
+}
+
+TEST(MODEL_EDITING_TEST_SUITE, ADD_INVALID_RXN)
+{
+    RoadRunner rri;
+    rri.addCompartment("compartment", 3.14159);
+    rri.addSpecies("S1", "compartment", 1.0, false, false);
+    rri.addSpecies("S2", "compartment", 1.0, false, false);
+    rri.addParameter("k1", 1.0);
+    EXPECT_THROW(rri.addReaction("%rxn", { "S2" }, { "S1" }, "k1*S2", true), std::invalid_argument);
+}
 
 bool RunModelEditingTest(void(*modification)(RoadRunner*), std::string version)
 {

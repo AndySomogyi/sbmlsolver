@@ -30,6 +30,7 @@
 #include "sbml/ListOf.h"
 #include "sbml/Model.h"
 #include "sbml/math/FormulaParser.h"
+#include "sbml/common/operationReturnValues.h"
 
 
 #ifdef _MSC_VER
@@ -3489,7 +3490,7 @@ void RoadRunner::setGlobalParameterByName(const std::string& param, const double
         throw std::invalid_argument("std::invalid_argument: RoadRunner::setGlobalParameterByName "
                                     "Parameter \""+param+"\" not found in model");
     } else {
-        index_of_param = std::distance(global_parameter_ids.begin(), iterator);
+        index_of_param = static_cast<int>(std::distance(global_parameter_ids.begin(), iterator));
     }
     impl->model->setGlobalParameterValues(1, &index_of_param, &value);
 }
@@ -3507,7 +3508,7 @@ double RoadRunner::getGlobalParameterByName(const std::string& param)
         throw std::invalid_argument("std::invalid_argument: RoadRunner::setGlobalParameterByName "
                                     "Parameter \""+param+"\" not found in model");
     } else {
-        index_of_param = std::distance(global_parameter_ids.begin(), iterator);
+        index_of_param = static_cast<int>(std::distance(global_parameter_ids.begin(), iterator));
     }
     double value;
     impl->model->getGlobalParameterValues(1, &index_of_param, &value);
@@ -5569,7 +5570,11 @@ void RoadRunner::addSpecies(const std::string& sid, const std::string& compartme
     Log(Logger::LOG_DEBUG) << "Adding species " << sid << " in compartment " << compartment << "..." << endl;
     libsbml::Species* newSpecies = impl->document->getModel()->createSpecies();
 
-    newSpecies->setId(sid);
+    int ret = newSpecies->setId(sid);
+    if (ret != libsbml::LIBSBML_OPERATION_SUCCESS) {
+        newSpecies->removeFromParentAndDelete();
+        throw std::invalid_argument("Roadrunner::addSpecies failed: invalid species id '" + sid + "'.");
+    }
     newSpecies->setCompartment(compartment);
 
     // if InitialAssignment is set for the species, then initialAmount will be ignored, but set it anyway.
@@ -5834,7 +5839,11 @@ void RoadRunner::addReaction(const string& rid, vector<string> reactants, vector
 	Log(Logger::LOG_DEBUG) << "Adding reaction " << rid << "..." << endl;
 	Reaction* newReaction = sbmlModel->createReaction();
 
-	newReaction->setId(rid);
+    int ret = newReaction->setId(rid);
+    if (ret != libsbml::LIBSBML_OPERATION_SUCCESS) {
+        newReaction->removeFromParentAndDelete();
+        throw std::invalid_argument("Roadrunner::addReaction failed: invalid reaction id '" + rid + "'.");
+    }
 
 	// no need to check reactants.size() + products.size() > 0
 	for (int i = 0; i < reactants.size(); i++)
@@ -6121,8 +6130,13 @@ void RoadRunner::addParameter(const std::string& pid, double value, bool forceRe
 	Log(Logger::LOG_DEBUG) << "Adding parameter " << pid << " with value " << value << endl;
 	libsbml::Parameter* newParameter = impl->document->getModel()->createParameter();
 
-	newParameter->setId(pid);
-	newParameter->setValue(value);
+
+    int ret = newParameter->setId(pid);
+    if (ret != libsbml::LIBSBML_OPERATION_SUCCESS) {
+        newParameter->removeFromParentAndDelete();
+        throw std::invalid_argument("Roadrunner::addParameter failed: invalid parameter id '" + pid + "'.");
+    }
+    newParameter->setValue(value);
 	// set required attributes to default
 	newParameter->setConstant(false);
 
@@ -6150,8 +6164,12 @@ void RoadRunner::addCompartment(const std::string& cid, double initVolume, bool 
 	Log(Logger::LOG_DEBUG) << "Adding compartment " << cid << " with initial volume " << initVolume << endl;
 	libsbml::Compartment* newCompartment = impl->document->getModel()->createCompartment();
 
-	newCompartment->setId(cid);
-	newCompartment->setVolume(initVolume);
+    int ret = newCompartment->setId(cid);
+    if (ret != libsbml::LIBSBML_OPERATION_SUCCESS) {
+        newCompartment->removeFromParentAndDelete();
+        throw std::invalid_argument("Roadrunner::addCompartment failed: invalid compartment id '" + cid + "'.");
+    }
+    newCompartment->setVolume(initVolume);
 	// set required attributes to default
 	newCompartment->setConstant(false);
 
