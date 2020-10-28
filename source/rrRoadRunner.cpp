@@ -277,7 +277,19 @@ public:
     }
 
 	RoadRunnerImpl(const std::istream& in) :
-		mDiffStepSize(0.05)
+		mDiffStepSize(0.05),
+        mSteadyStateThreshold(1.E-2),
+        simulationResult(),
+        integrator(NULL),
+        integrators(),
+        steady_state_solver(NULL),
+        steady_state_solvers(),
+        mSelectionList(),
+        mSteadyStateSelection(),
+        mLS(0),
+        simulateOpt(),
+        mInstanceID(0),
+        compiler(Compiler::New())
 	{
 
 	}
@@ -288,7 +300,10 @@ public:
                 mDiffStepSize(0.05),
                 mSteadyStateThreshold(1.E-2),
                 simulationResult(),
-                integrator(0),
+                integrator(NULL),
+                integrators(),
+                steady_state_solver(NULL),
+                steady_state_solvers(),
                 mSelectionList(),
                 mSteadyStateSelection(),
                 mLS(0),
