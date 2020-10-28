@@ -34,7 +34,7 @@ using Poco::Mutex;
 // owned by poco, it takes care of clearing in static dtor.
 static Poco::Logger *pocoLogger = 0;
 volatile int logLevel = -1;
-const Logger::Level defaultLogLevel = Logger::LOG_NOTICE;
+const Logger::Level defaultLogLevel = Logger::LOG_ERROR;
 static std::string logFileName;
 
 // ******** The RoadRunner Logging Chain *************//

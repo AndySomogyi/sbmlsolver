@@ -1,6 +1,7 @@
 #include "gtest/gtest.h"
 #include "C/rrc_api.h"
 #include "rrIniFile.h"
+#include "rrLogger.h"
 
 
 std::string     gRRTestDir= "";
@@ -35,6 +36,9 @@ int main(int argc, char** argv)
         gRROutputDir = "output";
     }
     gRROutputDir += "/";
+
+    //Set the logging level to 'notice':
+    rr::Logger::enableConsoleLogging(rr::Logger::LOG_NOTICE);
 
     //Run the tests.
     int ret = RUN_ALL_TESTS();
