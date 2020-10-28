@@ -119,10 +119,6 @@ llvm::Function* LLVMCSRMatrixTest::getCSRMatrixSetNZTestFunc()
         // Validate the generated code, checking for consistency.
         verifyFunction(*setFunc);
 
-#if !defined(NDEBUG)
-		setFunc->dump();
-#endif // !defined(NDEBUG)
-
 
     }
 
@@ -132,12 +128,6 @@ llvm::Function* LLVMCSRMatrixTest::getCSRMatrixSetNZTestFunc()
 bool runLLVMCSRMatrixTest(const std::string& version, int caseNumber)
 {
     LLVMCSRMatrixTest tester;
-
-#if !defined(NDEBUG)
-    Function* func = tester.getCSRMatrixSetNZTestFunc();
-
-    func->dump();
-#endif
 
     return true;
 
@@ -338,9 +328,6 @@ llvm::Function* LLVMCSRMatrixTest::getCSRMatrixGetNZTestFunc()
         // Validate the generated code, checking for consistency.
         verifyFunction(*getFunc);
 
-#if !defined(NDEBUG)
-        getFunc->dump();
-#endif
     }
 
     return setFunc;
