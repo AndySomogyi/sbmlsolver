@@ -20,7 +20,6 @@ set_target_properties(roadrunner_python PROPERTIES
         LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib/site-packages/roadrunner
         ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib/site-packages/roadrunner
         OUTPUT_NAME roadrunner
-#        SHARED_LIBRARY_SUFFIX .so
         SWIG_USE_TARGET_INCLUDE_DIRECTORIES TRUE # Needed for target_include_directories to have any effect on swig target
         )
 
@@ -31,8 +30,8 @@ target_include_directories(roadrunner_python PUBLIC
         ${RR_SOURCE_ROOT}
         "$<TARGET_PROPERTY:roadrunner-static,INCLUDE_DIRECTORIES>"
         ${RR_DEPENDENCIES_INSTALL_PREFIX}/include/rr-libstruct
-        ${PYTHON_INCLUDE_PATH}
-        ${NUMPY_INCLUDE_DIRS}
+        ${Python_INCLUDE_DIRS}
+        ${Python_NumPy_INCLUDE_DIRS}
         )
 
 if (WIN32)
@@ -40,7 +39,7 @@ if (WIN32)
 
     swig_link_libraries(roadrunner_python
             roadrunner-static
-            ${PYTHON_LIBRARIES}
+            ${Python_LIBRARIES}
             )
     # changes dll name to pyd sop that it is compatible with new Python standard
     set_target_properties(roadrunner_python PROPERTIES SUFFIX ".pyd")
@@ -49,24 +48,25 @@ elseif (UNIX AND NOT APPLE)
     #SET_TARGET_PROPERTIES(roadrunner_python PROPERTIES LINK_FLAGS "-Wl,--no-undefined")
     swig_link_libraries(roadrunner_python
             roadrunner-static
-            ${PYTHON_LIBRARIES}
+            ${Python_LIBRARIES}
             )
     # Note: elseif(APPLE) did not work
 elseif (APPLE)
+
     # OSX section.
     # we do not link directly with python at at link time, so that at run time,
     # the hosting python would provide all the symbols, we only
-    # link with the external libs that we use. This behaviour is enbaled by the -undefined dynamic_lookup flag (I think cw)
-    set_target_properties(roadrunner_python PROPERTIES
-            LINK_FLAGS "-undefined dynamic_lookup"
-            INSTALL_RPATH "@loader_path/../../lib;@loader_path/;@executable_path"
-            INSTALL_NAME_DIR "@rpath"
-            )
-#    set_target_properties(roadrunner_python PROPERTIES SUFFIX ".so") # default is dylib
+    # link with the external libs that we use. This behaviour is enbaled by the -undefined dynamic_lookup flag
+    set_target_properties(roadrunner_python
+            PROPERTIES
+                LINK_FLAGS "-undefined dynamic_lookup"
+                INSTALL_RPATH "@loader_path/../../lib;@loader_path/"
+                INSTALL_NAME_DIR "@rpath")
     # we use roadrunner not roadrunner-static so we can use shared libraries at runtime
-    # question: If we do this with windows, would we forego the need to build a version for each python ?
-    swig_link_libraries(roadrunner_python roadrunner)
-
+    swig_link_libraries(roadrunner_python
+            roadrunner-static
+##            ${Python_LIBRARIES}
+            )
 else ()
     message(STATIC "system not supported")
 endif ()
@@ -111,3 +111,19 @@ install(
     FILES ${rrtest_files2}
     DESTINATION ${PYTHON_PACKAGE_INSTALL_PREFIX}/testing/test_data
 )
+
+#todo add building of python bindings to azure. Generate python wheels and export artefacts
+
+
+
+
+
+
+
+
+
+
+
+
+
+

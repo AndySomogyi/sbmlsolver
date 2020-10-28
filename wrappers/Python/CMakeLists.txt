@@ -4,26 +4,13 @@ find_package(PythonInterp)
 # specify that the same python library should be found 
 # as the one the selected interpreter uses
 set(Python_ADDITIONAL_VERSIONS ${PYTHON_VERSION_STRING})
-find_package(PythonLibs)
-find_package(NumPy)
 
-message(STATUS "
-PYTHONLIBS_FOUND           ${PYTHONLIBS_FOUND}
-PYTHON_LIBRARIES           ${PYTHON_LIBRARIES}
-PYTHON_INCLUDE_PATH        ${PYTHON_INCLUDE_PATH}
-PYTHON_INCLUDE_DIRS        ${PYTHON_INCLUDE_DIRS}
-PYTHON_DEBUG_LIBRARIES     ${PYTHON_DEBUG_LIBRARIES}
-PYTHONLIBS_VERSION_STRING  ${PYTHONLIBS_VERSION_STRING}
+find_package (Python COMPONENTS Interpreter Development NumPy REQUIRED)
+if (NOT ${Python_FOUND})
+    message(FATAL_ERROR "Could not find Python")
+endif()
 
-NUMPY_FOUND                ${NUMPY_FOUND}
-NumpyLibrary_FOUND         ${NumpyLibrary_FOUND}
-NUMPY_VERSION              ${NUMPY_VERSION}
-NUMPY_VERSION_MAJOR        ${NUMPY_VERSION_MAJOR}
-NUMPY_VERSION_MINOR        ${NUMPY_VERSION_MINOR}
-NUMPY_VERSION_PATCH        ${NUMPY_VERSION_PATCH}
-NUMPY_INCLUDE_DIRS         ${NUMPY_INCLUDE_DIRS}
-")
-
+message(STATUS "Using Python Version ${Python_VERSION}")
 
 set(PYINTERFACE_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/pyinterface)
 set(CMAKE_SWIG_FLAGS "")
@@ -39,7 +26,8 @@ if (SWIG_VERSION STRGREATER "4.0")
 endif (SWIG_VERSION STRGREATER "4.0")
 
 
-install(FILES INSTALL.txt setup.py MANIFEST.in
+configure_file(${RR_ROOT}/VERSION.txt.in ${PYTHON_PACKAGE_INSTALL_PREFIX}/VERSION.txt)
+install(FILES INSTALL.txt setup.py MANIFEST.in ${PYTHON_PACKAGE_INSTALL_PREFIX}/VERSION.txt
         DESTINATION .
         )
 
