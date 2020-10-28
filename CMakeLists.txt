@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.17)
+cmake_minimum_required(VERSION 3.16)
 
 # libRoadRunner semantic versioning (http://semver.org/) - used to generate
 # source files expose library version information
