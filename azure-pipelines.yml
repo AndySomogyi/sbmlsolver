@@ -233,7 +233,7 @@ stages:
           - task: CMake@1
             displayName: ConfigureCommand
             inputs:
-              cmakeArgs: $(CMakeArgs) -DRR_DEPENDENCIES_INSTALL_PREFIX="../$(rr_deps_install)" -DLLVM_INSTALL_PREFIX="../$(llvm_install)" -DCMAKE_BUILD_TYPE=$(BuildType) -DBUILD_TESTS=ON -DBUILD_TEST_TOOLS=ON ..
+              cmakeArgs: $(CMakeArgs) -DRR_DEPENDENCIES_INSTALL_PREFIX="../$(rr_deps_install)" -DLLVM_INSTALL_PREFIX="../$(llvm_install)" -DCMAKE_BUILD_TYPE=$(BuildType) ..
           - task: CMake@1
             displayName: BuildCommand
             inputs:
