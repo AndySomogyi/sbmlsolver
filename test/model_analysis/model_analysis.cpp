@@ -41,3 +41,55 @@ TEST(MODEL_ANALYSIS, GetEventIDs)
 }
 
 
+TEST(MODEL_ANALYSIS, SimulateGillespieMaxRows)
+{
+    RoadRunner* rr = new RoadRunner(gRRTestDir + "/models/MODEL_ANALYSIS/BIOMD0000000035_url.xml");
+    rr->setIntegrator("gillespie");
+    rr->getIntegrator()->setValue("max_output_rows", 100);
+    SimulateOptions opts = rr->getSimulateOptions();
+
+    const ls::DoubleMatrix* results = rr->simulate(&opts);
+    EXPECT_EQ(results->RSize(), 100);
+
+    rr->getIntegrator()->setValue("max_output_rows", 1000);
+    results = rr->simulate(&opts);
+    EXPECT_EQ(results->RSize(), 1000);
+
+    delete rr;
+}
+
+TEST(MODEL_ANALYSIS, SimulateGillespieZeroDuration)
+{
+    RoadRunner* rr = new RoadRunner(gRRTestDir + "/models/MODEL_ANALYSIS/BIOMD0000000035_url.xml");
+    rr->setIntegrator("gillespie");
+    SimulateOptions opts = rr->getSimulateOptions();
+    opts.duration = 0;
+    opts.steps = 100;
+
+    const ls::DoubleMatrix* results = rr->simulate(&opts);
+    EXPECT_EQ(results->RSize(), 100);
+
+    opts.steps = 1000;
+    results = rr->simulate(&opts);
+    EXPECT_EQ(results->RSize(), 1000);
+
+    delete rr;
+}
+
+TEST(MODEL_ANALYSIS, SimulateGillespieDuration)
+{
+    RoadRunner* rr = new RoadRunner(gRRTestDir + "/models/MODEL_ANALYSIS/BIOMD0000000035_url.xml");
+    rr->setIntegrator("gillespie");
+    SimulateOptions opts = rr->getSimulateOptions();
+    opts.duration = 0.5;
+
+    const ls::DoubleMatrix* results = rr->simulate(&opts);
+    EXPECT_NEAR(results->Element(results->numRows()-1, 0), 0.5, 0.0001);
+
+    opts.start = 0;
+    opts.duration = 0.7;
+    results = rr->simulate(&opts);
+    EXPECT_NEAR(results->Element(results->numRows() - 1, 0), 0.7, 0.0001);
+
+    delete rr;
+}

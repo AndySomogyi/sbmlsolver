@@ -1767,6 +1767,17 @@ const DoubleMatrix* RoadRunner::simulate(const Dictionary* dict)
     {
         Log(Logger::LOG_INFORMATION) << "Performing variable step integration";
 
+        int max_output_rows = Config::getInt(Config::MAX_OUTPUT_ROWS);
+        if (self.integrator->hasValue("max_output_rows"))
+        {
+            max_output_rows = self.integrator->getValueAsInt("max_output_rows");
+        }
+
+        if (self.simulateOpt.duration <= 0 && self.simulateOpt.steps <= 0)
+        {
+            throw CoreException("For simulations with variable step sizes, you must either set a time duration, or set the total number of steps to take.  Neither were set.");
+        }
+
         DoubleVectorList results;
         std::vector<double> row(self.mSelectionList.size());
 
@@ -1786,10 +1797,10 @@ const DoubleMatrix* RoadRunner::simulate(const Dictionary* dict)
 
             int i=1;
 
-            // If there is an output file, do not place contraint on max output rows
-            while( tout <= timeEnd &&
-              ( !self.simulateOpt.steps || i < self.simulateOpt.steps) &&
-              ( writeToFile || !rr::Config::getInt(rr::Config::MAX_OUTPUT_ROWS) || i < rr::Config::getInt(rr::Config::MAX_OUTPUT_ROWS)) )
+            // If there is an output file, do not place a constraint on max output rows
+            while( ((self.simulateOpt.duration && tout <= timeEnd) ||
+                   (!self.simulateOpt.duration && self.simulateOpt.steps && i < self.simulateOpt.steps)) &&
+                    (writeToFile || !max_output_rows || i < max_output_rows))
             {
                 // "flush" results to file
                 if (writeToFile && results.size() >= kRowsPerWrite) {
