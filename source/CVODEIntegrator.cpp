@@ -133,7 +133,8 @@ namespace rr
         addSetting("minimum_time_step",  0.0, "Minimum Time Step", "Specifies the minimum absolute value of step size allowed. (double)", "(double) The minimum absolute value of step size allowed.");
         addSetting("initial_time_step",  0.0, "Initial Time Step", "Specifies the initial time step size. (double)", "(double) Specifies the initial time step size. If inappropriate, CVODE will attempt to estimate a better initial time step.");
         addSetting("multiple_steps",     false, "Multiple Steps", "Perform a multiple time step simulation. (bool)", "(bool) Perform a multiple time step simulation.");
-        addSetting("variable_step_size", false, "Variable Step Size", "Perform a variable time step simulation. (bool)", "(bool) Enabling this setting will allow the integrator to adapt the size of each time step. This will result in a non-uniform time column.");
+        addSetting("variable_step_size", false, "Variable Step Size", "Perform a variable time step simulation. (bool)", "(bool) Enabling this setting will allow the integrator to adapt the size of each time step. This will result in a non-uniform time column.  The number of steps or points will be ignored, and the max number of output rows will be used instead.");
+        addSetting("max_output_rows", Config::getInt(Config::MAX_OUTPUT_ROWS), "Maximum Output Rows", "For variable step size simulations, the maximum number of output rows produced (int).", "(int) This will set the maximum number of output rows for variable step size integration.  This may truncate some simulations that may not reach the desired end time, but prevents infinite or massive output for simulations where the variable step size ends up decreasing too much.");
         CVODEIntegrator::loadConfigSettings();
     }
 
@@ -216,6 +217,7 @@ namespace rr
             bVal = Config::getBool(Config::SIMULATEOPTIONS_STOCHASTIC_VARIABLE_STEP);
             Integrator::setValue("variable_step_size", bVal);
         }
+        Integrator::setValue("max_output_rows", Config::getInt(Config::MAX_OUTPUT_ROWS));
 
         // STIFFNESS
         bVal = Config::getBool(Config::SIMULATEOPTIONS_STIFF);

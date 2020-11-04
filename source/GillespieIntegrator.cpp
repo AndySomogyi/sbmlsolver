@@ -194,11 +194,12 @@ namespace rr
 
         // Set default integrator settings.
         addSetting("seed",              defaultSeed(), "Seed", "Set the seed into the random engine. (ulong)", "(ulong) Set the seed into the random engine.");
-        addSetting("variable_step_size",true, "Variable Step Size", "Perform a variable time step simulation. (bool)", "(bool) Enabling this setting will allow the integrator to adapt the size of each time step. This will result in a non-uniform time column.");
+        addSetting("variable_step_size",true, "Variable Step Size", "Perform a variable time step simulation. (bool)", "(bool) Enabling this setting will allow the integrator to adapt the size of each time step. This will result in a non-uniform time column.  The number of steps or points will be ignored, and the max number of output rows will be used instead.");
         addSetting("initial_time_step", 0.0,   "Initial Time Step", "Specifies the initial time step size. (double)", "(double) Specifies the initial time step size.");
         addSetting("minimum_time_step", 0.0,   "Minimum Time Step", "Specifies the minimum absolute value of step size allowed. (double)", "(double) The minimum absolute value of step size allowed.");
         addSetting("maximum_time_step", 0.0,   "Maximum Time Step", "Specifies the maximum absolute value of step size allowed. (double)", "(double) The maximum absolute value of step size allowed.");
         addSetting("nonnegative",       false, "Non-negative species only", "Prevents species amounts from going negative during a simulation. (bool)", "(bool) Enforce non-negative species constraint.");
+        addSetting("max_output_rows", Config::getInt(Config::MAX_OUTPUT_ROWS), "Maximum Output Rows", "For variable step size simulations, the maximum number of output rows produced (int).", "(int) This will set the maximum number of output rows for variable step size integration.  This may truncate some simulations that may not reach the desired end time, but prevents infinite or massive output for simulations where the variable step size ends up decreasing too much.");
     }
 
 	double GillespieIntegrator::integrate(double t, double hstep)
@@ -207,8 +208,6 @@ namespace rr
 		bool singleStep;
 		bool varStep = getValue("variable_step_size").convert<bool>();
 		double minTimeStep = getValue("minimum_time_step").convert<double>();
-
-		assert(hstep > 0 && "hstep must be > 0");
 
 		if (varStep)
 		{
@@ -233,13 +232,15 @@ namespace rr
 			singleStep = false;
 		}
 
+		assert(hstep > 0 || singleStep && "hstep must be > 0 or we must be taking a single step.");
+
 		Log(Logger::LOG_DEBUG) << "ssa(" << t << ", " << tf << ")";
 
 		// get the initial state vector
 		model->setTime(t);
 		model->getStateVector(stateVector);
 
-		while (t < tf)
+		while (singleStep || t < tf)
 		{
 			// random uniform numbers
 			double r1 = urand();
@@ -279,7 +280,7 @@ namespace rr
 				// no reaction occurs
 				return std::numeric_limits<double>::infinity();
 			}
-			if (t + tau > tf)        // if time exhausted, don't allow reaction to proceed
+			if (!singleStep && t + tau > tf)        // if time exhausted, don't allow reaction to proceed
 			{
 				return tf;
 			}
