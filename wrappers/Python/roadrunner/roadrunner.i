@@ -1265,10 +1265,15 @@ namespace std { class ostream{}; }
 
             o = self.__simulateOptions
             originalSteps = o.steps
-
+            originalVSS = True;
+        
             if self.getIntegrator().hasValue('variable_step_size'):
-                if self.getIntegrator().getValue('variable_step_size') == True:
-                    o.steps = 0
+                originalVSS = self.getIntegrator().getValue('variable_step_size')
+                if end is not None and (points is not None or steps is not None):
+                   self.getIntegrator().setValue('variable_step_size', False)
+                else:
+                   if originalVSS == True:
+                        o.steps = 0
 
             if start is not None:
                 o.start = start
@@ -1292,7 +1297,16 @@ namespace std { class ostream{}; }
 
             result = self._simulate(o)
 
+            #Check to make sure we made it to the 'end'.
+            if end is not None:
+                lastresult_time = result[len(result)-1][0]
+                if end - lastresult_time > end/10000:
+                    warnings.warn("Simulation requested end point (" + str(end) + ") not reached, because the maximum number of steps reached.  Possible solutions include:\n  * Setting an explicit number of points (i.e. r.simulate(" + str(start) + ", " + str(end) + ", 1001)\n  * Setting r.integrator.variable_step_size to 'False'\n* Setting ")
+
+            #Reset any integrator variables we might have changed
             o.steps = originalSteps
+            if self.getIntegrator().hasValue('variable_step_size'):
+                self.getIntegrator().setValue('variable_step_size', originalVSS)
 
             if has_output_file:
                 # result should be empty here.

@@ -134,7 +134,7 @@ static Variant values[] = {
     Variant(true),  // LLVM_SYMBOL_CACHE
     Variant(true),  // OPTIMIZE_REACTION_RATE_SELECTION
     Variant(true),  // LOADSBMLOPTIONS_PERMISSIVE
-    Variant(40000), // MAX_OUTPUT_ROWS
+    Variant(100000), // MAX_OUTPUT_ROWS
     Variant(false), // ALLOW_EVENTS_IN_STEADY_STATE_CALCULATIONS
     Variant(true),  // VALIDATION_IN_REGENERATION
     Variant(1000),  // K_ROWS_PER_WRITE

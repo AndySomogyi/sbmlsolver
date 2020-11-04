@@ -243,6 +243,11 @@ namespace rr
 	public:
 
 		/**
+		* init with default options.
+		*/
+		SimulateOptions();
+
+		/**
 		* reset the model to the initial state.
 		*/
 		bool reset_model;
@@ -256,11 +261,6 @@ namespace rr
 		* Large simulations should have this disabled.
 		*/
 		bool copy_result;
-
-		/**
-		* init with default options.
-		*/
-		SimulateOptions();
 
 		/**
 		* The number of steps at which the output is sampled. The samples are evenly spaced.
