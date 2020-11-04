@@ -250,20 +250,21 @@ debug binaries, not release.</p>
 </div>
 <div class="section" id="install-the-roadrunner-dependency-package">
 <h3>2) Install the Roadrunner Dependency Package<a class="headerlink" href="#install-the-roadrunner-dependency-package" title="Permalink to this headline">¶</a></h3>
-<p>Install the <a class="reference external" href="https://github.com/CiaranWelsh/roadrunner-deps">roadrunner dependency package</a> by executing the following commands in a windows/linux/mac shell.</p>
+<p>Install the <a class="reference external" href="https://github.com/sys-bio/libroadrunner-deps">roadrunner dependency package</a></p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>In the following set of instructions you can replace every instance of the word “Release” with the word “Debug”
 (<a class="reference external" href="https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html">or another configuration</a>) to build
 roadrunner in Debug mode.</p>
 </div>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/CiaranWelsh/roadrunner-deps.git --recurse-submodules   <span class="c1"># get the dependency package using git</span>
-<span class="nb">cd</span> roadrunner-deps
+<p>Execute these commands in a windows/linux/mac shell.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/sys-bio/libroadrunner-deps.git --recurse-submodules    <span class="c1"># get the dependency package using git</span>
+<span class="nb">cd</span> libroadrunner-deps
 mkdir build
 <span class="nb">cd</span> build
 cmake -DCMAKE_INSTALL_PREFIX<span class="o">=</span><span class="s2">&quot;../install-Release&quot;</span> -DCMAKE_BUILD_TYPE<span class="o">=</span><span class="s2">&quot;Release&quot;</span> .. <span class="c1"># configure the dependency package</span>
 cmake --build . --target install --config Release <span class="c1"># build the install target</span>
-<span class="nb">cd</span> ../../ <span class="c1"># return to directory containing roadrunner-deps</span>
+<span class="nb">cd</span> ../../ <span class="c1"># return to directory containing libroadrunner-deps</span>
 </pre></div>
 </div>
 <div class="admonition note">
@@ -280,16 +281,16 @@ llvm’s <cite>bin</cite>, <cite>include</cite> and <cite>lib</cite> directories
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>.. note::
 
     The following <span class="sb">`</span>cmake<span class="sb">`</span> <span class="nb">command</span> assumes that you are following these instruction exactly so the relative
-    path <span class="sb">`</span>-DRR_DEPENDENCIES_INSTALL_PREFIX<span class="o">=</span><span class="s2">&quot;../../roadrunner-deps/install-Release&quot;</span><span class="sb">`</span> will point to
-    the <span class="sb">`</span>-DCMAKE_INSTALL_PREFIX<span class="sb">`</span> argument from step <span class="m">2</span>, i.e. the roadrunner-deps cmake command.
+    path <span class="sb">`</span>-DRR_DEPENDENCIES_INSTALL_PREFIX<span class="o">=</span><span class="s2">&quot;../../libroadrunner-deps/install-Release&quot;</span><span class="sb">`</span> will point to
+    the <span class="sb">`</span>-DCMAKE_INSTALL_PREFIX<span class="sb">`</span> argument from step <span class="m">2</span>, i.e. the libroadrunner-deps cmake command.
 
-git clone https://github.com/CiaranWelsh/roadrunner.git <span class="c1"># get roadrunner</span>
+git clone https://github.com/sys-bio/roadrunner.git <span class="c1"># get roadrunner</span>
 <span class="nb">cd</span> roadrunner
 mkdir build
 <span class="nb">cd</span> build
 cmake -DCMAKE_INSTALL_PREFIX<span class="o">=</span><span class="s2">&quot;../install-Release&quot;</span> <span class="se">\</span>
     -DLLVM_INSTALL_PREFIX<span class="o">=</span><span class="s2">&quot;/full/path/to/where/you/put/llvm-6.x-release&quot;</span> <span class="se">\</span>
-    -DRR_DEPENDENCIES_INSTALL_PREFIX<span class="o">=</span><span class="s2">&quot;../../roadrunner-deps/install-Release&quot;</span> <span class="se">\</span>
+    -DRR_DEPENDENCIES_INSTALL_PREFIX<span class="o">=</span><span class="s2">&quot;../../libroadrunner-deps/install-Release&quot;</span> <span class="se">\</span>
     -DCMAKE_BUILD_TYPE<span class="o">=</span><span class="s2">&quot;Release&quot;</span> ..
 cmake --build . --target install --config Release
 </pre></div>
@@ -314,14 +315,17 @@ the swig executable is under the top level swig directory.</p>
 globally or add the swig directory to the PATH environment variable, you will <em>not</em> need
 the <cite>-DSWIG_EXECUTABLE</cite> argument as <cite>swig.exe</cite> will be found
 automatically. However in most circumstances you will need to provide the path to the <cite>swig.exe</cite> using
-<cite>-DSWIG_EXECUTABLE</cite>.</p>
+<cite>-DSWIG_EXECUTABLE</cite>. As per the instructions for [FindPython](<a class="reference external" href="https://cmake.org/cmake/help/git-stage/module/FindPython.html">https://cmake.org/cmake/help/git-stage/module/FindPython.html</a>)
+you can build for specific Python environments by pointing -DPython_ROOT_DIR to the root of your Python installation. Using Conda
+environments and this variable makes it easy to build Python wheels for different Python versions.</p>
 </div></blockquote>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cmake -DCMAKE_INSTALL_PREFIX<span class="o">=</span><span class="s2">&quot;D:\roadrunner\install-msvc2019&quot;</span> <span class="se">\</span>
     -DLLVM_INSTALL_PREFIX<span class="o">=</span><span class="s2">&quot;D:\llvm-6.x\llvm\llvm-6.x-msvc-x64-release&quot;</span> <span class="se">\</span>
-    -DRR_DEPENDENCIES_INSTALL_PREFIX<span class="o">=</span><span class="s2">&quot;D:\roadrunner-deps\roadrunner-deps-install&quot;</span> <span class="se">\</span>
+    -DRR_DEPENDENCIES_INSTALL_PREFIX<span class="o">=</span><span class="s2">&quot;D:\libroadrunner-deps\libroadrunner-deps-install&quot;</span> <span class="se">\</span>
     -DCMAKE_BUILD_TYPE<span class="o">=</span><span class="s2">&quot;Release&quot;</span> <span class="se">\</span>
-    -DBUILD_PYTHON<span class="o">=</span>ON
-    -DSWIG_EXECUTABLE<span class="o">=</span><span class="s2">&quot;C:\Users\Ciaran\Documents\swigwin-3.0.0\swig.exe&quot;</span> ..
+    -DBUILD_PYTHON<span class="o">=</span>ON <span class="se">\</span>
+    -DPython_ROOT_DIR<span class="o">=</span><span class="s2">&quot;/path/to/miniconda/env/root&quot;</span>
+    -DSWIG_EXECUTABLE<span class="o">=</span><span class="s2">&quot;path/to/swig3.0.0/executable/swig.exe&quot;</span> ..
 cmake --build . --target install --config Release
 </pre></div>
 </div>
@@ -345,7 +349,7 @@ option automatically turns on a set of variables. These include:</p>
 <p>while the <cite>RR_PLUGINS_BUILD_STATIC_LIB</cite> option remains OFF.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ cmake -DCMAKE_INSTALL_PREFIX<span class="o">=</span><span class="s2">&quot;D:\roadrunner\install-msvc2019&quot;</span> <span class="se">\</span>
     -DLLVM_INSTALL_PREFIX<span class="o">=</span><span class="s2">&quot;D:\llvm-6.x\llvm\llvm-6.x-msvc-x64-release&quot;</span> <span class="se">\</span>
-    -DRR_DEPENDENCIES_INSTALL_PREFIX<span class="o">=</span><span class="s2">&quot;D:\roadrunner-deps\roadrunner-deps-install&quot;</span> <span class="se">\</span>
+    -DRR_DEPENDENCIES_INSTALL_PREFIX<span class="o">=</span><span class="s2">&quot;D:\libroadrunner-deps\libroadrunner-deps-install&quot;</span> <span class="se">\</span>
     -DCMAKE_BUILD_TYPE<span class="o">=</span><span class="s2">&quot;Release&quot;</span> <span class="se">\</span>
     -DBUILD_RR_PLUGINS<span class="o">=</span>ON
 $ cmake --build . --target install --config Release
@@ -357,7 +361,7 @@ $ cmake --build . --target install --config Release
 <p>Use the <cite>-DBUILD_TESTS=ON</cite> option</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ cmake -DCMAKE_INSTALL_PREFIX<span class="o">=</span><span class="s2">&quot;D:\roadrunner\install-msvc2019&quot;</span> <span class="se">\</span>
     -DLLVM_INSTALL_PREFIX<span class="o">=</span><span class="s2">&quot;D:\llvm-6.x\llvm\llvm-6.x-msvc-x64-release&quot;</span> <span class="se">\</span>
-    -DRR_DEPENDENCIES_INSTALL_PREFIX<span class="o">=</span><span class="s2">&quot;D:\roadrunner-deps\roadrunner-deps-install&quot;</span> <span class="se">\</span>
+    -DRR_DEPENDENCIES_INSTALL_PREFIX<span class="o">=</span><span class="s2">&quot;D:\libroadrunner-deps\libroadrunner-deps-install&quot;</span> <span class="se">\</span>
     -DCMAKE_BUILD_TYPE<span class="o">=</span><span class="s2">&quot;Release&quot;</span> <span class="se">\</span>
     -DBUILD_TESTS<span class="o">=</span>ON
 $ cmake --build . --target install --config Release
@@ -388,7 +392,7 @@ any other desired options such as tests, plugins or language bindings. Then reru
 cmake using using the <cite>-DBUILD_PACKAGING=ON</cite> option.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ cmake -DCMAKE_INSTALL_PREFIX=&quot;D:\roadrunner\install-msvc2019&quot; \
     -DLLVM_INSTALL_PREFIX=&quot;D:\llvm-6.x\llvm\llvm-6.x-msvc-x64-release&quot; \
-    -DRR_DEPENDENCIES_INSTALL_PREFIX=&quot;D:\roadrunner-deps\roadrunner-deps-install&quot; \
+    -DRR_DEPENDENCIES_INSTALL_PREFIX=&quot;D:\libroadrunner-deps\libroadrunner-deps-install&quot; \
     -DCMAKE_BUILD_TYPE=&quot;Release&quot; \
     -DBUILD_PACKAGING=ON
 $ cmake --build . --target install --config Release
