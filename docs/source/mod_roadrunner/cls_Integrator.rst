@@ -137,7 +137,7 @@ CVODE
 
 .. attribute:: Integrator.variable_step_size
 
-    Perform a variable time step simulation. Enabling this setting will allow the integrator to adapt the size of each time step. This will result in a non-uniform time column. Default value is flase.
+    Perform a variable time step simulation. Enabling this setting will allow the integrator to adapt the size of each time step. This will result in a non-uniform time column. Default value is false.
 
 
 Gillespie
@@ -172,12 +172,17 @@ Gillespie
 
 .. attribute:: Integrator.seed
 
-   Set the seed into the random engine.
+   Set the seed into the random engine.  By default, this value is set by the system clock in microseconds.
 
 
 .. attribute:: Integrator.variable_step_size
 
-    Perform a variable time step simulation. Enabling this setting will allow the integrator to adapt the size of each time step. This will result in a non-uniform time column. Default value is flase.
+    Perform a variable time step simulation. Enabling this setting will allow the integrator to adapt the size of each time step. This will result in a non-uniform time column. Default value is true.
+
+.. attribute:: Integrator.max_output_rows
+
+    Sets the maximum number of output rows for variable step size integration.  This may truncate some simulations that may not reach the desired end time, but prevents massive output for simulations where the variable step size ends up decreasing too much.  This setting is ignored when the variable_step_size is false, and is also ignored when the output is being written directly to a file.  Default value is 100,000.
+
 
 Euler
 -----
@@ -219,5 +224,5 @@ RK45
 
 .. attribute:: Integrator.variable_step_size
 
-    Perform a variable time step simulation. Enabling this setting will allow the integrator to adapt the size of each time step. This will result in a non-uniform time column. Default value is flase.
+    Perform a variable time step simulation. Enabling this setting will allow the integrator to adapt the size of each time step. This will result in a non-uniform time column. Default value is false.
 

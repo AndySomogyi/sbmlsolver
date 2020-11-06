@@ -925,7 +925,11 @@ All simulation related tasks can be accomplished with the single ``simulate`` me
 
 
     All five of the positional arguments are optional. If any of the positional arguments are
-    a list of string instead of a number, then they are interpreted as a list of selections. 
+    a list of string instead of a number, then they are interpreted as a list of selections.
+
+    By default, the gillespie algorithm output uses a variable step size.  However, if both the end time and the number of steps is defined, the output is constrained to a grid instead.  If just the end time is defined, a variable number of steps will be taken until that end time is reached, or until the maximum number of output rows is reached.  If just the number of steps is defined, that many variable steps will be taken.
+
+    The maximum number of output rows is set to 100,000 by default, though this is ignored if the variable step size is set to false, or if the output is being written directly to a file.  It can be changed by with the argument 'max_output_rows'.
 
     There are a number of ways to call simulate.
 
