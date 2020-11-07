@@ -935,7 +935,7 @@ All simulation related tasks can be accomplished with the single ``simulate`` me
 
     1: With no arguments. In this case, the current set of options from the previous 
       ``simulate`` call will be used. If this is the first time ``simulate`` is called, 
-      then a default set of values is used. The default set of values are (start = 0, end = 5, points = 51).
+      then a default set of values is used. The default set of values are (start = 0, end = 5).
 
     2: With up to five positions arguments, described above. 
 
