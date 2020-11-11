@@ -323,7 +323,7 @@ endif (${BUILD_LEGACY_C})
 #   Build the static library
 #
 
-add_library(${target}-static STATIC ${rrSources})
+add_library(${target}-static STATIC ${rrSources} ${rrHeaders})
 
 
 # we add compiler flag to announce the static library.
@@ -382,7 +382,7 @@ target_link_libraries(
         ${PLATFORM_SPECIFIC_LIBS}
 )
 
-add_library(${target} SHARED ${rrSources})
+add_library(${target} SHARED ${rrSources} ${rrHeaders})
 target_compile_definitions(${target} PRIVATE EXPORT_RR)
 target_link_libraries(${target} PUBLIC $<TARGET_PROPERTY:${target}-static,LINK_LIBRARIES> )
 target_include_directories(${target} PUBLIC $<TARGET_PROPERTY:${target}-static,INCLUDE_DIRECTORIES>)
