@@ -5210,8 +5210,8 @@ static void metabolicControlCheck(ExecutableModel *model)
 {
     if (model->getNumEvents() > 0 && !Config::getBool(Config::ALLOW_EVENTS_IN_STEADY_STATE_CALCULATIONS))
     {
-        throw std::invalid_argument("The steady state cannot be calculated in a model with events, which this model has. Set ALLOW_EVENTS_IN_STEADY_STATE_CALCULATIONS to True to override. "
-        "To override, run 'Config.setValue(Config.ALLOW_EVENTS_IN_STEADY_STATE_CALCULATIONS, True)'.");
+        throw std::invalid_argument("The steady state cannot be calculated in a model with events, which this model has. To override set ALLOW_EVENTS_IN_STEADY_STATE_CALCULATIONS to True."
+        "To override, run 'roadrunner.Config.setValue(roadrunner.Config.ALLOW_EVENTS_IN_STEADY_STATE_CALCULATIONS, True)'.");
     }
 }
 
