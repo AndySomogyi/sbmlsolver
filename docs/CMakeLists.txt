@@ -3,90 +3,52 @@
 # -----
 # Build the roadrunner-docs-sphinx.
 #
-# setup
-# ------
-# To setup, you first need to tell cmake which sphinx-build you are using.
-# do this with -DSPHINX_EXECUTABLE="/path/to/sphinx-build"
-# Be careful with conda environments, since its possible that
-# the target will find the python interpreter that you do not want to use.
-# You will need to:
-#   pip install sphinx breathe sphinxcontrib-bibtex sphinx-tabs sphinx_rtd_theme
-# you will also need to ensure doxygen is installed and findable.
+
+##################################################################
+# Details
+# -------
+# Use a combination of Doxygen, Breathe and Sphinx to build the roadrunner documentation. Doxygen
+# handles creating documentation from C/C++ doc strings and storing them in xml. Sphinx can read
+# this xml using directives provided by Breathe. Python docs and rendering the documentation
+# into html is handled by sphinx.
 #
+# To build the documentation set
+#     -DBUILD_DOCS=ON
+# when you configure the cmake project. This defines two cmake targets
+#    1) roadrunner-docs-doxygen
+#    2) roadrunner-docs-sphinx
+# Building the roadrunner-docs-sphinx target will execute all commands necessary, since it depends
+# on roadruner-docs-doxygen target.
 #
 
-############################################################
-# Build the documentation examples
+##################################################################
+# Dependencies
+# ------------
+# You will need Sphinx and some python packages
+#   - pip install sphinx breathe sphinxcontrib-bibtex sphinx-tabs sphinx_rtd_theme
+# and doxygen. Make sure you either install doxygen in a default location, so that
+# cmake can find it or add the path to the doxygen executable to the PATH environment
+# variable so cmake can find it.
 #
+
+##################################################################
+# Troubleshooting
+# ---------------
+# Sometimes cmake finds a different version of Python installed on your system
+# compared to what you were expecting. Therefore, if cmake complains that it cannot
+# locate "sphinx-build" you can provide this manually with:
+#   -DSPHINX_EXECUTABLE=/full/path/to/sphinx/build
+# Make sure that this sphinx-build is from the same python version you are using
+# (particularly important when building with conda). You can control which version
+# of Python is found by using the
+#   -DPython_ROOT_DIR=/full/path/to/python/root
+# For example, when you want to use a conda environment, the python exe is here:
+#       /Users/ciaranwelsh/miniconda/envs/py38/bin/python
+# and its root is
+#       /Users/ciaranwelsh/miniconda/envs/py38
+
+
 set(DOCS_ROOT "${CMAKE_CURRENT_SOURCE_DIR}")
-
-set(EXAMPLE_EXECUTABLES_TARGETS)
-
-macro(add_doc_example BINARY_NAME)
-
-    # binary for testing Editor's ability to extract information from sbml
-    add_executable(${BINARY_NAME} ${ARGN})
-    set(EXAMPLE_EXECUTABLES_TARGETS ${EXAMPLE_EXECUTABLES_TARGETS} "${BINARY_NAME}")
-
-    target_compile_definitions(
-            ${BINARY_NAME} PRIVATE STATIC_RR
-    )
-    # add test so it can be run with $ctest or $make test
-    add_test(
-            NAME ${BINARY_NAME}
-            COMMAND $<TARGET_FILE:${BINARY_NAME}>
-    )
-
-    add_dependencies(${BINARY_NAME} roadrunner-static roadrunner_c_api)
-
-    # links
-    target_link_libraries(${BINARY_NAME} PRIVATE
-            # Order matters!
-            roadrunner-static # for C++ examples
-            roadrunner_c_api # for C examples
-            )
-    target_include_directories(${BINARY_NAME} PRIVATE)
-
-endmacro()
-
-
-if (${BUILD_DOCS_EXAMPLES})
-
-    # I've automated this as much as possible. The idea is that
-    # we write the examples and compile the programs. Then I capture the
-    # output and save those to file as well. Then, we can easily include
-    # both code and output into sphinx using the `.. literalinclude` directive.
-    # A python script that will run the examples.
-    #
-    # Its cmakes job to build these examples. And its Pythons job to
-    # run the examples and write output to a known location. Then its
-    # sphinx's job to pickup both code and output and include them in
-    # the documentation.
-
-    #    add_doc_example(AddFromFileC source/reading_rdf/add_from_file_c.cpp)
-
-    add_custom_target(AllDocExamples DEPENDS ${EXAMPLE_EXECUTABLES_TARGETS})
-
-    add_dependencies(AllDocExamples roadrunner roadrunner_c_api roadrunner-static)
-
-    #    # We now create a target that runs the Python script which runs the
-    #    # executables.
-    #    set(DOC_EXAMPLE_RUNNER "${CMAKE_CURRENT_SOURCE_DIR}/run_docs_examples.py")
-    #        if (NOT EXISTS ${DOC_EXAMPLE_RUNNER})
-    #            message(FATAL_ERROR "No Python script found where \"run_docs_examples.py\" should be")
-    #        endif ()
-    #
-    #
-    #    # we do not want to use CMAKE_BINARY_DIR so we just take parent of current binary dir
-    #    get_filename_component(PARENT_CURRENT_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR} DIRECTORY)
-    #    # later we'll set the build docs target to depend on this
-    #        add_custom_target(RunDocExamplesAndGenerateOutput
-    #                COMMAND ${PYTHON_EXECUTABLE} ${DOC_EXAMPLE_RUNNER} --install-folder ${CMAKE_INSTALL_PREFIX} --pyomexmeta-package-dir ${PYOMEXMETA_DIR} --output-location "${CMAKE_CURRENT_SOURCE_DIR}/ExampleOutputFiles"
-    #                DEPENDS AllDocExamples
-    #                )
-    #
-    #    install(TARGETS ${EXAMPLE_EXECUTABLES_TARGETS})
-endif ()
 
 
 ############################################################
@@ -130,11 +92,7 @@ if (NOT ${Python_FOUND})
     message(STATUS "Python cannot be found")
 endif ()
 
-#add_custom_target(printGenex
-#        COMMENT "Result of generator expression:"
-#        COMMAND ${CMAKE_COMMAND} -E echo ""
-#        VERBATIM
-#        )
+
 message(STATUS "Python_EXECUTABLE ${Python_EXECUTABLE}")
 get_filename_component(PYTHON_ROOT ${Python_EXECUTABLE} DIRECTORY)
 find_program(SPHINX_EXECUTABLE
@@ -155,26 +113,6 @@ set(SPHINX_SOURCE "${CMAKE_CURRENT_SOURCE_DIR}/source")
 set(SPHINX_BUILD "${CMAKE_CURRENT_SOURCE_DIR}/docs-build")
 set(SPHINX_INDEX_FILE ${SPHINX_BUILD}/index.html)
 
-# Only regenerate Sphinx when:
-# - Doxygen has rerun
-# - Our doc files have been updated
-# - The Sphinx config has been updated
-add_custom_command(
-        OUTPUT ${SPHINX_INDEX_FILE}
-        COMMAND
-        # Tell Breathe where to find the Doxygen output
-        ${SPHINX_EXECUTABLE} -b html -Dbreathe_projects.roadrunner=${DOXYGEN_OUTPUT_DIR}/xml
-        ${SPHINX_SOURCE} ${SPHINX_BUILD}
-        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-        DEPENDS
-        # Other docs files you want to track should go here (or in some variable)
-        ${SPHINX_SOURCE}/index.rst
-        ${DOXYGEN_INDEX_FILE}
-        MAIN_DEPENDENCY ${SPHINX_SOURCE}/conf.py
-        COMMENT /docs/source)
-#set(SPHINX_BUILD ${CMAKE_SOURCE_DIR}/docs/docs-build)
-set(SPHINX_INDEX_FILE "${SPHINX_BUILD}/index.html")
-
 # todo Only regenerate Sphinx when:
 # - Doxygen has rerun
 # - Our doc files have been updated
@@ -189,23 +127,17 @@ add_custom_command(
         DEPENDS
         # Other docs files you want to track should go here (or in some variable)
         ${SPHINX_SOURCE}/index.rst
-#        ${DOXYGEN_INDEX_FILE}
+#        ${DOXYGEN_INDEX_FILE}DOXYGEN_INDEX_FILE
         MAIN_DEPENDENCY ${SPHINX_SOURCE}/conf.py
         COMMENT "Generating documentation with Sphinx")
 
 
 add_custom_target(roadrunner-docs-sphinx DEPENDS ${SPHINX_INDEX_FILE})
 
-# when were building the docs examples, we add the dependency so the
-# examples get built when we run build the libomexmeta-dpcs-sphinx target
-#if (BUILD_DOCS_EXAMPLES)
-#    add_dependencies(roadrunner-docs-sphinx RunDocExamplesAndGenerateOutput)
-#endif ()
 
 # Add an install target to install the docs
 include(GNUInstallDirs)
-install(DIRECTORY ${SPHINX_BUILD}
-        DESTINATION ${CMAKE_INSTALL_DOCDIR})
-
+install(DIRECTORY ${SPHINX_BUILD} DESTINATION docs)
+install(FILES index.html DESTINATION docs)
 
 

@@ -2,3 +2,4 @@ rrModelData
 =======================================================
 
 .. doxygenstruct:: rr::SModelData
+    :project: roadrunner

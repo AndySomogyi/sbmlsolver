@@ -1,4 +1,4 @@
 rrCodeTypes
 =======================================================
 
-.. doxygenenum:: rr::CodeTypes
+.. doxygenenum:: rr::CodeTypes::CodeTypes

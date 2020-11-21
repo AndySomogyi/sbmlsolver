@@ -1,4 +1,5 @@
 rrModelData
 =======================================================
 
-.. doxygenstruct:: rr::SModelData
+.. doxygenstruct:: SModelData
+    :project: roadrunner
