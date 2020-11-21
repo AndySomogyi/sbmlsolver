@@ -1,0 +1,186 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+  <compounddef id="classrr_1_1SymbolList" kind="class" language="C++" prot="public">
+    <compoundname>rr::SymbolList</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">std::vector&lt; Symbol &gt;</basecompoundref>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classrr_1_1SymbolList_1a47175151b3b81079ecd1c0036fd594b2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void rr::SymbolList::Clear</definition>
+        <argsstring>()</argsstring>
+        <name>Clear</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrSymbolList.h" line="15" column="34" bodyfile="c/rrSymbolList.cpp" bodystart="9" bodyend="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1SymbolList_1a6331a87bc1c36b3c23150dffe41ab33f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int rr::SymbolList::Add</definition>
+        <argsstring>(const Symbol &amp;item)</argsstring>
+        <name>Add</name>
+        <param>
+          <type>const <ref refid="classrr_1_1Symbol" kindref="compound">Symbol</ref> &amp;</type>
+          <declname>item</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrSymbolList.h" line="16" column="34" bodyfile="c/rrSymbolList.cpp" bodystart="14" bodyend="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1SymbolList_1abbd02b1b47a0fee2fea6bf401f6cd4d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double rr::SymbolList::getValue</definition>
+        <argsstring>(const int &amp;index)</argsstring>
+        <name>getValue</name>
+        <param>
+          <type>const int &amp;</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrSymbolList.h" line="17" column="34" bodyfile="c/rrSymbolList.cpp" bodystart="20" bodyend="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1SymbolList_1a40913ba6f1366f0e7d8e314cd84f352b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>string</type>
+        <definition>string rr::SymbolList::getName</definition>
+        <argsstring>(const int &amp;index)</argsstring>
+        <name>getName</name>
+        <param>
+          <type>const int &amp;</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrSymbolList.h" line="18" column="34" bodyfile="c/rrSymbolList.cpp" bodystart="25" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1SymbolList_1acdbfecfc3608cbdc5f9874e9c60ea146" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>string</type>
+        <definition>string rr::SymbolList::getKeyName</definition>
+        <argsstring>(const int &amp;index)</argsstring>
+        <name>getKeyName</name>
+        <param>
+          <type>const int &amp;</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrSymbolList.h" line="19" column="34" bodyfile="c/rrSymbolList.cpp" bodystart="31" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1SymbolList_1a24d79479be83c0967c45aa7b001b7f9c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool rr::SymbolList::find</definition>
+        <argsstring>(const string &amp;name, int &amp;index) const</argsstring>
+        <name>find</name>
+        <param>
+          <type>const string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>int &amp;</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrSymbolList.h" line="20" column="34" bodyfile="c/rrSymbolList.cpp" bodystart="38" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1SymbolList_1aa45249082e89ff5137ec514935ef5b39" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool rr::SymbolList::find</definition>
+        <argsstring>(const string &amp;keyName, const string &amp;name, int &amp;index) const</argsstring>
+        <name>find</name>
+        <param>
+          <type>const string &amp;</type>
+          <declname>keyName</declname>
+        </param>
+        <param>
+          <type>const string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>int &amp;</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrSymbolList.h" line="21" column="34" bodyfile="c/rrSymbolList.cpp" bodystart="53" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1SymbolList_1a03c8e70a24d4d347f45c84121d80248e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>unsigned int</type>
+        <definition>unsigned int rr::SymbolList::Count</definition>
+        <argsstring>() const</argsstring>
+        <name>Count</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrSymbolList.h" line="22" column="34" bodyfile="c/rrSymbolList.h" bodystart="22" bodyend="22"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>rr::SymbolList</label>
+        <link refid="classrr_1_1SymbolList"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>std::vector&lt; Symbol &gt;</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>rr::SymbolList</label>
+        <link refid="classrr_1_1SymbolList"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>std::vector&lt; Symbol &gt;</label>
+      </node>
+    </collaborationgraph>
+    <location file="c/rrSymbolList.h" line="12" column="1" bodyfile="c/rrSymbolList.h" bodystart="13" bodyend="23"/>
+    <listofallmembers>
+      <member refid="classrr_1_1SymbolList_1a6331a87bc1c36b3c23150dffe41ab33f" prot="public" virt="non-virtual"><scope>rr::SymbolList</scope><name>Add</name></member>
+      <member refid="classrr_1_1SymbolList_1a47175151b3b81079ecd1c0036fd594b2" prot="public" virt="non-virtual"><scope>rr::SymbolList</scope><name>Clear</name></member>
+      <member refid="classrr_1_1SymbolList_1a03c8e70a24d4d347f45c84121d80248e" prot="public" virt="non-virtual"><scope>rr::SymbolList</scope><name>Count</name></member>
+      <member refid="classrr_1_1SymbolList_1a24d79479be83c0967c45aa7b001b7f9c" prot="public" virt="non-virtual"><scope>rr::SymbolList</scope><name>find</name></member>
+      <member refid="classrr_1_1SymbolList_1aa45249082e89ff5137ec514935ef5b39" prot="public" virt="non-virtual"><scope>rr::SymbolList</scope><name>find</name></member>
+      <member refid="classrr_1_1SymbolList_1acdbfecfc3608cbdc5f9874e9c60ea146" prot="public" virt="non-virtual"><scope>rr::SymbolList</scope><name>getKeyName</name></member>
+      <member refid="classrr_1_1SymbolList_1a40913ba6f1366f0e7d8e314cd84f352b" prot="public" virt="non-virtual"><scope>rr::SymbolList</scope><name>getName</name></member>
+      <member refid="classrr_1_1SymbolList_1abbd02b1b47a0fee2fea6bf401f6cd4d4" prot="public" virt="non-virtual"><scope>rr::SymbolList</scope><name>getValue</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

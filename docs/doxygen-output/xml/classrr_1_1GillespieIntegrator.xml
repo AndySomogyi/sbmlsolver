@@ -387,7 +387,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="GillespieIntegrator.h" line="107" column="14" bodyfile="GillespieIntegrator.cpp" bodystart="191" bodyend="202"/>
+        <location file="GillespieIntegrator.h" line="107" column="14" bodyfile="GillespieIntegrator.cpp" bodystart="191" bodyend="203"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1GillespieIntegrator_1a73574edf62f01ef8b2eeadf6c70e802f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>double</type>
@@ -413,7 +413,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="GillespieIntegrator.h" line="115" column="16" bodyfile="GillespieIntegrator.cpp" bodystart="204" bodyend="371"/>
+        <location file="GillespieIntegrator.h" line="115" column="16" bodyfile="GillespieIntegrator.cpp" bodystart="205" bodyend="372"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1GillespieIntegrator_1a85af2d5361d972ddb222f53ca2675f8d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -435,7 +435,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="GillespieIntegrator.h" line="121" column="14" bodyfile="GillespieIntegrator.cpp" bodystart="385" bodyend="407"/>
+        <location file="GillespieIntegrator.h" line="121" column="14" bodyfile="GillespieIntegrator.cpp" bodystart="386" bodyend="408"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1GillespieIntegrator_1a722d13b4535fbdbee5e5f2845503cbba" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>IntegratorListenerPtr</type>
@@ -453,7 +453,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="GillespieIntegrator.h" line="129" column="31" bodyfile="GillespieIntegrator.cpp" bodystart="413" bodyend="416"/>
+        <location file="GillespieIntegrator.h" line="129" column="31" bodyfile="GillespieIntegrator.cpp" bodystart="414" bodyend="417"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1GillespieIntegrator_1adb13139574014bfffe50b127e0e5dfe0" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -474,7 +474,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="GillespieIntegrator.h" line="135" column="14" bodyfile="GillespieIntegrator.cpp" bodystart="409" bodyend="411"/>
+        <location file="GillespieIntegrator.h" line="135" column="14" bodyfile="GillespieIntegrator.cpp" bodystart="410" bodyend="412"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-static-func">
@@ -542,7 +542,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="GillespieIntegrator.h" line="158" column="14" bodyfile="GillespieIntegrator.cpp" bodystart="373" bodyend="378"/>
+        <location file="GillespieIntegrator.h" line="158" column="14" bodyfile="GillespieIntegrator.cpp" bodystart="374" bodyend="379"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1GillespieIntegrator_1ad65023f113a676f396e986ee8d7fc97f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -563,7 +563,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="GillespieIntegrator.h" line="159" column="14" bodyfile="GillespieIntegrator.cpp" bodystart="380" bodyend="383"/>
+        <location file="GillespieIntegrator.h" line="159" column="14" bodyfile="GillespieIntegrator.cpp" bodystart="381" bodyend="384"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1GillespieIntegrator_1afedd845c9444ad8a7c1ff560f6655b46" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
@@ -576,7 +576,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="GillespieIntegrator.h" line="161" column="16" bodyfile="GillespieIntegrator.cpp" bodystart="418" bodyend="421"/>
+        <location file="GillespieIntegrator.h" line="161" column="16" bodyfile="GillespieIntegrator.cpp" bodystart="419" bodyend="422"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1GillespieIntegrator_1ac82c25cff4d5e9865efd3c479eb1eab5" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -593,7 +593,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="GillespieIntegrator.h" line="162" column="14" bodyfile="GillespieIntegrator.cpp" bodystart="423" bodyend="429"/>
+        <location file="GillespieIntegrator.h" line="162" column="14" bodyfile="GillespieIntegrator.cpp" bodystart="424" bodyend="430"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1GillespieIntegrator_1a7242c0277ca2e69ccdcb620b7707d716" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>unsigned long</type>

@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunnerOptions.h" line="248" column="6" bodyfile="rrRoadRunnerOptions.h" bodystart="248" bodyend="-1"/>
+        <location file="rrRoadRunnerOptions.h" line="253" column="6" bodyfile="rrRoadRunnerOptions.h" bodystart="253" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classrr_1_1SimulateOptions_1a9087842fab7661b93dbc103e02f8908d" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -31,7 +31,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunnerOptions.h" line="253" column="6" bodyfile="rrRoadRunnerOptions.h" bodystart="253" bodyend="-1"/>
+        <location file="rrRoadRunnerOptions.h" line="258" column="6" bodyfile="rrRoadRunnerOptions.h" bodystart="258" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classrr_1_1SimulateOptions_1a93e8b08b6e526f96226333f83a1ac049" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -46,7 +46,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunnerOptions.h" line="258" column="6" bodyfile="rrRoadRunnerOptions.h" bodystart="258" bodyend="-1"/>
+        <location file="rrRoadRunnerOptions.h" line="263" column="6" bodyfile="rrRoadRunnerOptions.h" bodystart="263" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classrr_1_1SimulateOptions_1a20008b16d84ef52a564648671d0c544b" prot="public" static="no" mutable="no">
         <type>int</type>
@@ -168,7 +168,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunnerOptions.h" line="263" column="1" bodyfile="rrRoadRunnerOptions.cpp" bodystart="78" bodyend="85"/>
+        <location file="rrRoadRunnerOptions.h" line="248" column="1" bodyfile="rrRoadRunnerOptions.cpp" bodystart="55" bodyend="63"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1SimulateOptions_1af028e3752c6c9c3e25d5ced5c3752b9d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -182,7 +182,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunnerOptions.h" line="326" column="13" bodyfile="rrRoadRunnerOptions.cpp" bodystart="190" bodyend="230"/>
+        <location file="rrRoadRunnerOptions.h" line="326" column="13" bodyfile="rrRoadRunnerOptions.cpp" bodystart="168" bodyend="208"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1SimulateOptions_1ae95f2f7ba2b8af37a27e8c8f47f0ae72" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -196,7 +196,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunnerOptions.h" line="331" column="13" bodyfile="rrRoadRunnerOptions.cpp" bodystart="232" bodyend="238"/>
+        <location file="rrRoadRunnerOptions.h" line="331" column="13" bodyfile="rrRoadRunnerOptions.cpp" bodystart="210" bodyend="216"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1SimulateOptions_1a670a8cca2fd579cc776e70e95221bc81" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -213,7 +213,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunnerOptions.h" line="339" column="6" bodyfile="rrRoadRunnerOptions.cpp" bodystart="87" bodyend="170"/>
+        <location file="rrRoadRunnerOptions.h" line="339" column="6" bodyfile="rrRoadRunnerOptions.cpp" bodystart="65" bodyend="148"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1SimulateOptions_1ae864e702c9a40669ac9088731ff49884" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -236,7 +236,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunnerOptions.h" line="341" column="18" bodyfile="rrRoadRunnerOptions.cpp" bodystart="240" bodyend="245"/>
+        <location file="rrRoadRunnerOptions.h" line="341" column="18" bodyfile="rrRoadRunnerOptions.cpp" bodystart="218" bodyend="223"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

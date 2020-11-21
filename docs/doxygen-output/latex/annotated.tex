@@ -1,8 +1,21 @@
 \doxysection{Class List}
 Here are the classes, structs, unions and interfaces with brief descriptions\+:\begin{DoxyCompactList}
+\item\contentsline{section}{\mbox{\hyperlink{classrrllvm_1_1AssignmentRuleEvaluator}{rrllvm\+::\+Assignment\+Rule\+Evaluator}} \\*Attaches to an existing symbol forest and applies any asigment rule found in the model to the forest }{\pageref{classrrllvm_1_1AssignmentRuleEvaluator}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrrllvm_1_1ASTNodeCodeGen}{rrllvm\+::\+A\+S\+T\+Node\+Code\+Gen}} \\*All of the L\+L\+VM IR generation is handled here }{\pageref{classrrllvm_1_1ASTNodeCodeGen}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrrllvm_1_1ASTNodeCodeGenScalarTicket}{rrllvm\+::\+A\+S\+T\+Node\+Code\+Gen\+Scalar\+Ticket}} }{\pageref{classrrllvm_1_1ASTNodeCodeGenScalarTicket}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrrllvm_1_1ASTNodeFactory}{rrllvm\+::\+A\+S\+T\+Node\+Factory}} \\*Manages a set of A\+S\+T\+Nodes }{\pageref{classrrllvm_1_1ASTNodeFactory}}{}
 \item\contentsline{section}{\mbox{\hyperlink{classrr_1_1BasicDictionary}{rr\+::\+Basic\+Dictionary}} \\*This class is frozen, no new features Basic implementation of the \mbox{\hyperlink{classrr_1_1Dictionary}{Dictionary}} interface which uses a std unordered map to store the values }{\pageref{classrr_1_1BasicDictionary}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrr_1_1CCompiler}{rr\+::\+C\+Compiler}} \\*\mbox{\hyperlink{classrr_1_1Compiler}{Compiler}} class for the C based model system }{\pageref{classrr_1_1CCompiler}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrr_1_1CModelGenerator}{rr\+::\+C\+Model\+Generator}} \\*Generate executable S\+B\+ML models by generating and compiling C source code into shared libraries with an external C compiler }{\pageref{classrr_1_1CModelGenerator}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrr_1_1CodeBuilder}{rr\+::\+Code\+Builder}} }{\pageref{classrr_1_1CodeBuilder}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrrllvm_1_1CodeGen}{rrllvm\+::\+Code\+Gen}} }{\pageref{classrrllvm_1_1CodeGen}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrrllvm_1_1CodeGenBase}{rrllvm\+::\+Code\+Gen\+Base$<$ Function\+Ptr\+Type $>$}} \\*Convenience class to pull the vars out of a context, and store them as ivars }{\pageref{classrrllvm_1_1CodeGenBase}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrr_1_1CompiledExecutableModel}{rr\+::\+Compiled\+Executable\+Model}} \\*Both the \mbox{\hyperlink{classrr_1_1CModelGenerator}{C\+Model\+Generator}} and the C\+Sharp\+Model\+Generator use the same paradigm of producing source code, calling a external compiler and loadig the resulting shared library }{\pageref{classrr_1_1CompiledExecutableModel}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrr_1_1CompiledModelGenerator}{rr\+::\+Compiled\+Model\+Generator}} \\*Both compiled model generators (C and C\+Sharp) share a lot of functionality, so implement that here }{\pageref{classrr_1_1CompiledModelGenerator}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrr_1_1CompiledModelState}{rr\+::\+Compiled\+Model\+State}} \\*Saves the \textquotesingle{}state\textquotesingle{} of a Model }{\pageref{classrr_1_1CompiledModelState}}{}
 \item\contentsline{section}{\mbox{\hyperlink{classrr_1_1Compiler}{rr\+::\+Compiler}} \\*Interface to manipulate \textquotesingle{}compiler\textquotesingle{} settings }{\pageref{classrr_1_1Compiler}}{}
 \item\contentsline{section}{\mbox{\hyperlink{classrr_1_1Config}{rr\+::\+Config}} \\*Read or store default values }{\pageref{classrr_1_1Config}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrrllvm_1_1SymbolForest_1_1ConstIterator}{rrllvm\+::\+Symbol\+Forest\+::\+Const\+Iterator}} \\*Syntatically the same as a map$<$string, const libsbml\+::\+A\+S\+T\+Node$\ast$$>$\+::const\+\_\+iterator }{\pageref{classrrllvm_1_1SymbolForest_1_1ConstIterator}}{}
 \item\contentsline{section}{\mbox{\hyperlink{classrr_1_1CoreException}{rr\+::\+Core\+Exception}} }{\pageref{classrr_1_1CoreException}}{}
 \item\contentsline{section}{\mbox{\hyperlink{structrr_1_1csr__matrix__t}{rr\+::csr\+\_\+matrix\+\_\+t}} }{\pageref{structrr_1_1csr__matrix__t}}{}
 \item\contentsline{section}{\mbox{\hyperlink{classrr_1_1CVODEException}{rr\+::\+C\+V\+O\+D\+E\+Exception}} }{\pageref{classrr_1_1CVODEException}}{}
@@ -11,12 +24,41 @@ Here are the classes, structs, unions and interfaces with brief descriptions\+:\
 \item\contentsline{section}{\mbox{\hyperlink{classrr_1_1Dictionary}{rr\+::\+Dictionary}} \\*This class is frozen, no new features A dictionary interface that objects can implement }{\pageref{classrr_1_1Dictionary}}{}
 \item\contentsline{section}{\mbox{\hyperlink{classrr_1_1EulerIntegrator}{rr\+::\+Euler\+Integrator}} \\*An example class intended to show how to create an \mbox{\hyperlink{classrr_1_1Integrator}{Integrator}} }{\pageref{classrr_1_1EulerIntegrator}}{}
 \item\contentsline{section}{\mbox{\hyperlink{classrr_1_1EulerIntegratorRegistrar}{rr\+::\+Euler\+Integrator\+Registrar}} }{\pageref{classrr_1_1EulerIntegratorRegistrar}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrrllvm_1_1EvalConversionFactorCodeGen}{rrllvm\+::\+Eval\+Conversion\+Factor\+Code\+Gen}} }{\pageref{classrrllvm_1_1EvalConversionFactorCodeGen}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrrllvm_1_1EvalInitialConditionsCodeGen}{rrllvm\+::\+Eval\+Initial\+Conditions\+Code\+Gen}} \\*Generates a function called \textquotesingle{}modeldata\+\_\+initialvalues\+\_\+set\textquotesingle{}, which evaluates all of the initial conditions specified in the sbml model (initial values, initial assigments, etc...) and stores these values in the appropriate fields in the \mbox{\hyperlink{structrrllvm_1_1LLVMModelData}{L\+L\+V\+M\+Model\+Data}} structure }{\pageref{classrrllvm_1_1EvalInitialConditionsCodeGen}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrrllvm_1_1EvalRateRuleRatesCodeGen}{rrllvm\+::\+Eval\+Rate\+Rule\+Rates\+Code\+Gen}} \\*Evaluate the current model state and store the results in Model\+Data.\+reaction\+Rates }{\pageref{classrrllvm_1_1EvalRateRuleRatesCodeGen}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrrllvm_1_1EvalReactionRatesCodeGen}{rrllvm\+::\+Eval\+Reaction\+Rates\+Code\+Gen}} \\*Evaluate the current model state and store the results in Model\+Data.\+reaction\+Rates }{\pageref{classrrllvm_1_1EvalReactionRatesCodeGen}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrrllvm_1_1EvalVolatileStoichCodeGen}{rrllvm\+::\+Eval\+Volatile\+Stoich\+Code\+Gen}} }{\pageref{classrrllvm_1_1EvalVolatileStoichCodeGen}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrr_1_1Event}{rr\+::\+Event}} }{\pageref{classrr_1_1Event}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrrllvm_1_1Event}{rrllvm\+::\+Event}} }{\pageref{classrrllvm_1_1Event}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrrllvm_1_1EventAssignCodeGen}{rrllvm\+::\+Event\+Assign\+Code\+Gen}} }{\pageref{classrrllvm_1_1EventAssignCodeGen}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrrllvm_1_1EventCodeGenBase}{rrllvm\+::\+Event\+Code\+Gen\+Base$<$ Derived $>$}} }{\pageref{classrrllvm_1_1EventCodeGenBase}}{}
 \item\contentsline{section}{\mbox{\hyperlink{classrr_1_1EventListener}{rr\+::\+Event\+Listener}} \\*Notifies the user of S\+B\+ML events }{\pageref{classrr_1_1EventListener}}{}
 \item\contentsline{section}{\mbox{\hyperlink{classrr_1_1EventListenerException}{rr\+::\+Event\+Listener\+Exception}} }{\pageref{classrr_1_1EventListenerException}}{}
+\item\contentsline{section}{\mbox{\hyperlink{structrrllvm_1_1EventPredicate}{rrllvm\+::\+Event\+Predicate}} }{\pageref{structrrllvm_1_1EventPredicate}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrrllvm_1_1EventQueue}{rrllvm\+::\+Event\+Queue}} }{\pageref{classrrllvm_1_1EventQueue}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrrllvm_1_1EventTriggerCodeGen}{rrllvm\+::\+Event\+Trigger\+Code\+Gen}} }{\pageref{classrrllvm_1_1EventTriggerCodeGen}}{}
 \item\contentsline{section}{\mbox{\hyperlink{classrr_1_1Exception}{rr\+::\+Exception}} }{\pageref{classrr_1_1Exception}}{}
 \item\contentsline{section}{\mbox{\hyperlink{classrr_1_1ExecutableModel}{rr\+::\+Executable\+Model}} \\*Base class for all code generation systems; allows compiling and evaluating the model }{\pageref{classrr_1_1ExecutableModel}}{}
 \item\contentsline{section}{\mbox{\hyperlink{classrr_1_1ExecutableModelFactory}{rr\+::\+Executable\+Model\+Factory}} \\*A factory class to create \mbox{\hyperlink{classrr_1_1ExecutableModel}{Executable\+Model}} objects }{\pageref{classrr_1_1ExecutableModelFactory}}{}
 \item\contentsline{section}{\mbox{\hyperlink{classrr_1_1FileName}{rr\+::\+File\+Name}} }{\pageref{classrr_1_1FileName}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrrllvm_1_1FunctionResolver}{rrllvm\+::\+Function\+Resolver}} \\*Not thread safe -- but perfectly fine if stack allocated }{\pageref{classrrllvm_1_1FunctionResolver}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrrllvm_1_1GetBoundarySpeciesAmountCodeGen}{rrllvm\+::\+Get\+Boundary\+Species\+Amount\+Code\+Gen}} }{\pageref{classrrllvm_1_1GetBoundarySpeciesAmountCodeGen}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrrllvm_1_1GetBoundarySpeciesConcentrationCodeGen}{rrllvm\+::\+Get\+Boundary\+Species\+Concentration\+Code\+Gen}} }{\pageref{classrrllvm_1_1GetBoundarySpeciesConcentrationCodeGen}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrrllvm_1_1GetCompartmentInitVolumeCodeGen}{rrllvm\+::\+Get\+Compartment\+Init\+Volume\+Code\+Gen}} }{\pageref{classrrllvm_1_1GetCompartmentInitVolumeCodeGen}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrrllvm_1_1GetCompartmentVolumeCodeGen}{rrllvm\+::\+Get\+Compartment\+Volume\+Code\+Gen}} }{\pageref{classrrllvm_1_1GetCompartmentVolumeCodeGen}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrrllvm_1_1GetEventDelayCodeGen}{rrllvm\+::\+Get\+Event\+Delay\+Code\+Gen}} }{\pageref{classrrllvm_1_1GetEventDelayCodeGen}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrrllvm_1_1GetEventPriorityCodeGen}{rrllvm\+::\+Get\+Event\+Priority\+Code\+Gen}} }{\pageref{classrrllvm_1_1GetEventPriorityCodeGen}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrrllvm_1_1GetEventTriggerCodeGen}{rrllvm\+::\+Get\+Event\+Trigger\+Code\+Gen}} }{\pageref{classrrllvm_1_1GetEventTriggerCodeGen}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrrllvm_1_1GetEventValueCodeGenBase}{rrllvm\+::\+Get\+Event\+Value\+Code\+Gen\+Base$<$ Derived, Function\+Ptr\+Type $>$}} }{\pageref{classrrllvm_1_1GetEventValueCodeGenBase}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrrllvm_1_1GetFloatingSpeciesAmountCodeGen}{rrllvm\+::\+Get\+Floating\+Species\+Amount\+Code\+Gen}} }{\pageref{classrrllvm_1_1GetFloatingSpeciesAmountCodeGen}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrrllvm_1_1GetFloatingSpeciesConcentrationCodeGen}{rrllvm\+::\+Get\+Floating\+Species\+Concentration\+Code\+Gen}} }{\pageref{classrrllvm_1_1GetFloatingSpeciesConcentrationCodeGen}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrrllvm_1_1GetFloatingSpeciesInitAmountCodeGen}{rrllvm\+::\+Get\+Floating\+Species\+Init\+Amount\+Code\+Gen}} }{\pageref{classrrllvm_1_1GetFloatingSpeciesInitAmountCodeGen}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrrllvm_1_1GetFloatingSpeciesInitConcentrationCodeGen}{rrllvm\+::\+Get\+Floating\+Species\+Init\+Concentration\+Code\+Gen}} }{\pageref{classrrllvm_1_1GetFloatingSpeciesInitConcentrationCodeGen}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrrllvm_1_1GetGlobalParameterCodeGen}{rrllvm\+::\+Get\+Global\+Parameter\+Code\+Gen}} }{\pageref{classrrllvm_1_1GetGlobalParameterCodeGen}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrrllvm_1_1GetGlobalParameterInitValueCodeGen}{rrllvm\+::\+Get\+Global\+Parameter\+Init\+Value\+Code\+Gen}} }{\pageref{classrrllvm_1_1GetGlobalParameterInitValueCodeGen}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrrllvm_1_1GetInitialValueCodeGenBase}{rrllvm\+::\+Get\+Initial\+Value\+Code\+Gen\+Base$<$ Derived, substance\+Units $>$}} }{\pageref{classrrllvm_1_1GetInitialValueCodeGenBase}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrrllvm_1_1GetValueCodeGenBase}{rrllvm\+::\+Get\+Value\+Code\+Gen\+Base$<$ Derived, substance\+Units $>$}} }{\pageref{classrrllvm_1_1GetValueCodeGenBase}}{}
 \item\contentsline{section}{\mbox{\hyperlink{classrr_1_1GillespieIntegrator}{rr\+::\+Gillespie\+Integrator}} \\*\mbox{\hyperlink{classrr_1_1RoadRunner}{Road\+Runner}}\textquotesingle{}s implementation of the Gillespie S\+SA }{\pageref{classrr_1_1GillespieIntegrator}}{}
 \item\contentsline{section}{\mbox{\hyperlink{classrr_1_1GillespieIntegratorRegistrar}{rr\+::\+Gillespie\+Integrator\+Registrar}} }{\pageref{classrr_1_1GillespieIntegratorRegistrar}}{}
 \item\contentsline{section}{\mbox{\hyperlink{classrr_1_1IniFile}{rr\+::\+Ini\+File}} }{\pageref{classrr_1_1IniFile}}{}
@@ -28,10 +70,37 @@ Here are the classes, structs, unions and interfaces with brief descriptions\+:\
 \item\contentsline{section}{\mbox{\hyperlink{classrr_1_1IntegratorListener}{rr\+::\+Integrator\+Listener}} }{\pageref{classrr_1_1IntegratorListener}}{}
 \item\contentsline{section}{\mbox{\hyperlink{classrr_1_1IntegratorRegistrar}{rr\+::\+Integrator\+Registrar}} \\*Handles constructing an integrator and contains meta information about it }{\pageref{classrr_1_1IntegratorRegistrar}}{}
 \item\contentsline{section}{\mbox{\hyperlink{classrr_1_1IntegratorRegistrationMgr}{rr\+::\+Integrator\+Registration\+Mgr}} \\*Registers all integrators at startup via \mbox{\hyperlink{classrr_1_1IntegratorRegistrationMgr_ac32acef6425954a61f242ed99199cdf3}{Integrator\+Registration\+Mgr\+::\+Register}} }{\pageref{classrr_1_1IntegratorRegistrationMgr}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrr_1_1IntStringHashTable}{rr\+::\+Int\+String\+Hash\+Table}} }{\pageref{classrr_1_1IntStringHashTable}}{}
 \item\contentsline{section}{\mbox{\hyperlink{classrr_1_1InvalidKeyException}{rr\+::\+Invalid\+Key\+Exception}} }{\pageref{classrr_1_1InvalidKeyException}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrrllvm_1_1KineticLawParameterResolver}{rrllvm\+::\+Kinetic\+Law\+Parameter\+Resolver}} }{\pageref{classrrllvm_1_1KineticLawParameterResolver}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrrllvm_1_1LLVMCodeGenTest}{rrllvm\+::\+L\+L\+V\+M\+Code\+Gen\+Test}} }{\pageref{classrrllvm_1_1LLVMCodeGenTest}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrrllvm_1_1LLVMCompiler}{rrllvm\+::\+L\+L\+V\+M\+Compiler}} }{\pageref{classrrllvm_1_1LLVMCompiler}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrrllvm_1_1LLVMException}{rrllvm\+::\+L\+L\+V\+M\+Exception}} }{\pageref{classrrllvm_1_1LLVMException}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrrllvm_1_1LLVMExecutableModel}{rrllvm\+::\+L\+L\+V\+M\+Executable\+Model}} \\*L\+L\+VM executable model }{\pageref{classrrllvm_1_1LLVMExecutableModel}}{}
+\item\contentsline{section}{\mbox{\hyperlink{structrrllvm_1_1LLVMModelData}{rrllvm\+::\+L\+L\+V\+M\+Model\+Data}} \\*A data structure that is that allows data to be exchanged with running S\+B\+ML models }{\pageref{structrrllvm_1_1LLVMModelData}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrrllvm_1_1LLVMModelDataIRBuilderTesting}{rrllvm\+::\+L\+L\+V\+M\+Model\+Data\+I\+R\+Builder\+Testing}} \\*Testing class }{\pageref{classrrllvm_1_1LLVMModelDataIRBuilderTesting}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrrllvm_1_1LLVMModelDataSymbols}{rrllvm\+::\+L\+L\+V\+M\+Model\+Data\+Symbols}} \\*Stores the names of all the symbols in the sbml model and thier indexes in the Model\+Data arrays }{\pageref{classrrllvm_1_1LLVMModelDataSymbols}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrrllvm_1_1LLVMModelGenerator}{rrllvm\+::\+L\+L\+V\+M\+Model\+Generator}} \\*General concepts\+: }{\pageref{classrrllvm_1_1LLVMModelGenerator}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrrllvm_1_1LLVMModelSymbols}{rrllvm\+::\+L\+L\+V\+M\+Model\+Symbols}} \\*Hold all the un-\/evaluated symbolic inforamtion in the model }{\pageref{classrrllvm_1_1LLVMModelSymbols}}{}
 \item\contentsline{section}{\mbox{\hyperlink{classrr_1_1LoadSBMLOptions}{rr\+::\+Load\+S\+B\+M\+L\+Options}} \\*Options for loading S\+B\+ML into \mbox{\hyperlink{classrr_1_1RoadRunner}{Road\+Runner}} }{\pageref{classrr_1_1LoadSBMLOptions}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrrllvm_1_1LoadSymbolResolver}{rrllvm\+::\+Load\+Symbol\+Resolver}} }{\pageref{classrrllvm_1_1LoadSymbolResolver}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrrllvm_1_1LoadSymbolResolverBase}{rrllvm\+::\+Load\+Symbol\+Resolver\+Base}} \\*Provide common sbml model functionality to three kinds of resolvers }{\pageref{classrrllvm_1_1LoadSymbolResolverBase}}{}
 \item\contentsline{section}{\mbox{\hyperlink{classrr_1_1Logger}{rr\+::\+Logger}} \\*The roadrunner logger }{\pageref{classrr_1_1Logger}}{}
 \item\contentsline{section}{\mbox{\hyperlink{classrr_1_1LoggingBuffer}{rr\+::\+Logging\+Buffer}} \\*Poco Log\+Stream dumps to the log when a newline i.\+e }{\pageref{classrr_1_1LoggingBuffer}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrrllvm_1_1ModelDataIRBuilder}{rrllvm\+::\+Model\+Data\+I\+R\+Builder}} }{\pageref{classrrllvm_1_1ModelDataIRBuilder}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrrllvm_1_1ModelDataLoadSymbolResolver}{rrllvm\+::\+Model\+Data\+Load\+Symbol\+Resolver}} }{\pageref{classrrllvm_1_1ModelDataLoadSymbolResolver}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrrllvm_1_1ModelDataStoreSymbolResolver}{rrllvm\+::\+Model\+Data\+Store\+Symbol\+Resolver}} }{\pageref{classrrllvm_1_1ModelDataStoreSymbolResolver}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrrllvm_1_1ModelGeneratorContext}{rrllvm\+::\+Model\+Generator\+Context}} \\*All L\+L\+VM code generating objects basically need at a minimum three things to operate\+: }{\pageref{classrrllvm_1_1ModelGeneratorContext}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrrllvm_1_1ModelInitialValueStoreSymbolResolver}{rrllvm\+::\+Model\+Initial\+Value\+Store\+Symbol\+Resolver}} }{\pageref{classrrllvm_1_1ModelInitialValueStoreSymbolResolver}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrrllvm_1_1ModelInitialValueSymbolResolver}{rrllvm\+::\+Model\+Initial\+Value\+Symbol\+Resolver}} \\*Pulls values from the initial conditions data blocks }{\pageref{classrrllvm_1_1ModelInitialValueSymbolResolver}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrrllvm_1_1ModelResources}{rrllvm\+::\+Model\+Resources}} }{\pageref{classrrllvm_1_1ModelResources}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrr_1_1ModelSharedLibrary}{rr\+::\+Model\+Shared\+Library}} \\*Access an actual compiled shared library (.so, .dll or .dylib) that was compiled by a Model\+Generator and provides access to the exported C functions }{\pageref{classrr_1_1ModelSharedLibrary}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrr_1_1ModelSymbols}{rr\+::\+Model\+Symbols}} }{\pageref{classrr_1_1ModelSymbols}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classMTRand}{M\+T\+Rand}} }{\pageref{classMTRand}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classMTRand53}{M\+T\+Rand53}} }{\pageref{classMTRand53}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classMTRand__closed}{M\+T\+Rand\+\_\+closed}} }{\pageref{classMTRand__closed}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classMTRand__int32}{M\+T\+Rand\+\_\+int32}} }{\pageref{classMTRand__int32}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classMTRand__open}{M\+T\+Rand\+\_\+open}} }{\pageref{classMTRand__open}}{}
 \item\contentsline{section}{\mbox{\hyperlink{classrr_1_1NLEQ1Interface}{rr\+::\+N\+L\+E\+Q1\+Interface}} }{\pageref{classrr_1_1NLEQ1Interface}}{}
 \item\contentsline{section}{\mbox{\hyperlink{classrr_1_1NLEQ1Solver}{rr\+::\+N\+L\+E\+Q1\+Solver}} }{\pageref{classrr_1_1NLEQ1Solver}}{}
 \item\contentsline{section}{\mbox{\hyperlink{classrr_1_1NLEQ1SolverRegistrar}{rr\+::\+N\+L\+E\+Q1\+Solver\+Registrar}} }{\pageref{classrr_1_1NLEQ1SolverRegistrar}}{}
@@ -40,7 +109,12 @@ Here are the classes, structs, unions and interfaces with brief descriptions\+:\
 \item\contentsline{section}{\mbox{\hyperlink{classrr_1_1NLEQ2SolverRegistrar}{rr\+::\+N\+L\+E\+Q2\+Solver\+Registrar}} }{\pageref{classrr_1_1NLEQ2SolverRegistrar}}{}
 \item\contentsline{section}{\mbox{\hyperlink{classrr_1_1NLEQException}{rr\+::\+N\+L\+E\+Q\+Exception}} }{\pageref{classrr_1_1NLEQException}}{}
 \item\contentsline{section}{\mbox{\hyperlink{classrr_1_1NOMException}{rr\+::\+N\+O\+M\+Exception}} }{\pageref{classrr_1_1NOMException}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrr_1_1NOMSupport}{rr\+::\+N\+O\+M\+Support}} \\*Methods to query various information from an S\+B\+ML document }{\pageref{classrr_1_1NOMSupport}}{}
 \item\contentsline{section}{\mbox{\hyperlink{classrr_1_1NotImplementedException}{rr\+::\+Not\+Implemented\+Exception}} }{\pageref{classrr_1_1NotImplementedException}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrr_1_1PendingAssignment}{rr\+::\+Pending\+Assignment}} \\*Holds a handle to a block of memory allocated by the model, the model is also responsible for freeing this block }{\pageref{classrr_1_1PendingAssignment}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrrllvm_1_1Random}{rrllvm\+::\+Random}} }{\pageref{classrrllvm_1_1Random}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrr_1_1Random}{rr\+::\+Random}} }{\pageref{classrr_1_1Random}}{}
+\item\contentsline{section}{\mbox{\hyperlink{structrrllvm_1_1LLVMModelSymbols_1_1ReactionSymbols}{rrllvm\+::\+L\+L\+V\+M\+Model\+Symbols\+::\+Reaction\+Symbols}} \\*Hold the symbols that belong to a reactions }{\pageref{structrrllvm_1_1LLVMModelSymbols_1_1ReactionSymbols}}{}
 \item\contentsline{section}{\mbox{\hyperlink{classrr_1_1RK45Integrator}{rr\+::\+R\+K45\+Integrator}} \\*A Runge-\/\+Kutta Fehlberg method for roadrunner }{\pageref{classrr_1_1RK45Integrator}}{}
 \item\contentsline{section}{\mbox{\hyperlink{classrr_1_1RK45IntegratorRegistrar}{rr\+::\+R\+K45\+Integrator\+Registrar}} }{\pageref{classrr_1_1RK45IntegratorRegistrar}}{}
 \item\contentsline{section}{\mbox{\hyperlink{classrr_1_1RK4Integrator}{rr\+::\+R\+K4\+Integrator}} \\*A super basic 4\textquotesingle{}th order fixed step integrator }{\pageref{classrr_1_1RK4Integrator}}{}
@@ -49,20 +123,49 @@ Here are the classes, structs, unions and interfaces with brief descriptions\+:\
 \item\contentsline{section}{\mbox{\hyperlink{classrr_1_1RoadRunnerData}{rr\+::\+Road\+Runner\+Data}} }{\pageref{classrr_1_1RoadRunnerData}}{}
 \item\contentsline{section}{\mbox{\hyperlink{classrr_1_1RoadRunnerImpl}{rr\+::\+Road\+Runner\+Impl}} \\*Implemention class, hide all details here }{\pageref{classrr_1_1RoadRunnerImpl}}{}
 \item\contentsline{section}{\mbox{\hyperlink{structrr_1_1RoadRunnerOptions}{rr\+::\+Road\+Runner\+Options}} \\*A set of options that determine how the top level \mbox{\hyperlink{classrr_1_1RoadRunner}{Road\+Runner}} class should behave }{\pageref{structrr_1_1RoadRunnerOptions}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrr_1_1RRRule}{rr\+::\+R\+R\+Rule}} }{\pageref{classrr_1_1RRRule}}{}
 \item\contentsline{section}{\mbox{\hyperlink{structrr_1_1rrSteadyStateOptions}{rr\+::rr\+Steady\+State\+Options}} \\*Place holder for now }{\pageref{structrr_1_1rrSteadyStateOptions}}{}
 \item\contentsline{section}{\mbox{\hyperlink{classrr_1_1rrSteadyStateSolver}{rr\+::rr\+Steady\+State\+Solver}} \\*Interface that all steady state solvers must implement }{\pageref{classrr_1_1rrSteadyStateSolver}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrrllvm_1_1SBMLInitialValueSymbolResolver}{rrllvm\+::\+S\+B\+M\+L\+Initial\+Value\+Symbol\+Resolver}} \\*Pulls values from the original sbml document }{\pageref{classrrllvm_1_1SBMLInitialValueSymbolResolver}}{}
 \item\contentsline{section}{\mbox{\hyperlink{classrr_1_1SBMLModelSimulation}{rr\+::\+S\+B\+M\+L\+Model\+Simulation}} }{\pageref{classrr_1_1SBMLModelSimulation}}{}
 \item\contentsline{section}{\mbox{\hyperlink{classrr_1_1SBMLReader}{rr\+::\+S\+B\+M\+L\+Reader}} \\*Read an sbml document from either disk, a remote url, or as a string }{\pageref{classrr_1_1SBMLReader}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrr_1_1SBMLSymbol}{rr\+::\+S\+B\+M\+L\+Symbol}} }{\pageref{classrr_1_1SBMLSymbol}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrr_1_1SBMLSymbolDependencies}{rr\+::\+S\+B\+M\+L\+Symbol\+Dependencies}} }{\pageref{classrr_1_1SBMLSymbolDependencies}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrr_1_1Scanner}{rr\+::\+Scanner}} }{\pageref{classrr_1_1Scanner}}{}
 \item\contentsline{section}{\mbox{\hyperlink{classrr_1_1ScannerException}{rr\+::\+Scanner\+Exception}} }{\pageref{classrr_1_1ScannerException}}{}
 \item\contentsline{section}{\mbox{\hyperlink{classrr_1_1SelectionRecord}{rr\+::\+Selection\+Record}} \\*Way to find sbml model elements using the \mbox{\hyperlink{classrr_1_1RoadRunner}{Road\+Runner}} syntax }{\pageref{classrr_1_1SelectionRecord}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrrllvm_1_1SetBoundarySpeciesAmountCodeGen}{rrllvm\+::\+Set\+Boundary\+Species\+Amount\+Code\+Gen}} }{\pageref{classrrllvm_1_1SetBoundarySpeciesAmountCodeGen}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrrllvm_1_1SetBoundarySpeciesConcentrationCodeGen}{rrllvm\+::\+Set\+Boundary\+Species\+Concentration\+Code\+Gen}} }{\pageref{classrrllvm_1_1SetBoundarySpeciesConcentrationCodeGen}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrrllvm_1_1SetCompartmentInitVolumeCodeGen}{rrllvm\+::\+Set\+Compartment\+Init\+Volume\+Code\+Gen}} }{\pageref{classrrllvm_1_1SetCompartmentInitVolumeCodeGen}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrrllvm_1_1SetCompartmentVolumeCodeGen}{rrllvm\+::\+Set\+Compartment\+Volume\+Code\+Gen}} }{\pageref{classrrllvm_1_1SetCompartmentVolumeCodeGen}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrrllvm_1_1SetFloatingSpeciesAmountCodeGen}{rrllvm\+::\+Set\+Floating\+Species\+Amount\+Code\+Gen}} }{\pageref{classrrllvm_1_1SetFloatingSpeciesAmountCodeGen}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrrllvm_1_1SetFloatingSpeciesConcentrationCodeGen}{rrllvm\+::\+Set\+Floating\+Species\+Concentration\+Code\+Gen}} }{\pageref{classrrllvm_1_1SetFloatingSpeciesConcentrationCodeGen}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrrllvm_1_1SetFloatingSpeciesInitAmountCodeGen}{rrllvm\+::\+Set\+Floating\+Species\+Init\+Amount\+Code\+Gen}} }{\pageref{classrrllvm_1_1SetFloatingSpeciesInitAmountCodeGen}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrrllvm_1_1SetFloatingSpeciesInitConcentrationCodeGen}{rrllvm\+::\+Set\+Floating\+Species\+Init\+Concentration\+Code\+Gen}} }{\pageref{classrrllvm_1_1SetFloatingSpeciesInitConcentrationCodeGen}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrrllvm_1_1SetGlobalParameterCodeGen}{rrllvm\+::\+Set\+Global\+Parameter\+Code\+Gen}} }{\pageref{classrrllvm_1_1SetGlobalParameterCodeGen}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrrllvm_1_1SetGlobalParameterInitValueCodeGen}{rrllvm\+::\+Set\+Global\+Parameter\+Init\+Value\+Code\+Gen}} }{\pageref{classrrllvm_1_1SetGlobalParameterInitValueCodeGen}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrrllvm_1_1SetInitialValueCodeGenBase}{rrllvm\+::\+Set\+Initial\+Value\+Code\+Gen\+Base$<$ Derived, substance\+Units $>$}} }{\pageref{classrrllvm_1_1SetInitialValueCodeGenBase}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrrllvm_1_1SetValueCodeGenBase}{rrllvm\+::\+Set\+Value\+Code\+Gen\+Base$<$ Derived, substance\+Units $>$}} }{\pageref{classrrllvm_1_1SetValueCodeGenBase}}{}
 \item\contentsline{section}{\mbox{\hyperlink{classrr_1_1SimulateOptions}{rr\+::\+Simulate\+Options}} \\*This class is frozen, no new features \mbox{\hyperlink{classrr_1_1RoadRunner}{Road\+Runner}} simulation options }{\pageref{classrr_1_1SimulateOptions}}{}
+\item\contentsline{section}{\mbox{\hyperlink{structSModelData}{S\+Model\+Data}} \\*A data structure that is that allows data to be exchanged with running S\+B\+ML models }{\pageref{structSModelData}}{}
 \item\contentsline{section}{\mbox{\hyperlink{classrr_1_1Solver}{rr\+::\+Solver}} \\*Base class for all integrators and steady state solvers }{\pageref{classrr_1_1Solver}}{}
 \item\contentsline{section}{\mbox{\hyperlink{classrr_1_1SolverRegistrationMgr}{rr\+::\+Solver\+Registration\+Mgr}} \\*Registers all solver at startup via \mbox{\hyperlink{classrr_1_1SolverRegistrationMgr_a88573528562b944a40a134b91f490419}{Solver\+Registration\+Mgr\+::\+Register}} }{\pageref{classrr_1_1SolverRegistrationMgr}}{}
 \item\contentsline{section}{\mbox{\hyperlink{structrr_1_1sort__pred}{rr\+::sort\+\_\+pred}} }{\pageref{structrr_1_1sort__pred}}{}
+\item\contentsline{section}{\mbox{\hyperlink{structrr_1_1SortByPriority}{rr\+::\+Sort\+By\+Priority}} }{\pageref{structrr_1_1SortByPriority}}{}
+\item\contentsline{section}{\mbox{\hyperlink{structrrllvm_1_1LLVMModelDataSymbols_1_1SpeciesReferenceInfo}{rrllvm\+::\+L\+L\+V\+M\+Model\+Data\+Symbols\+::\+Species\+Reference\+Info}} \\*Info about an entry in the stoich matrix }{\pageref{structrrllvm_1_1LLVMModelDataSymbols_1_1SpeciesReferenceInfo}}{}
 \item\contentsline{section}{\mbox{\hyperlink{classrr_1_1SteadyStateSolver}{rr\+::\+Steady\+State\+Solver}} }{\pageref{classrr_1_1SteadyStateSolver}}{}
 \item\contentsline{section}{\mbox{\hyperlink{classrr_1_1SteadyStateSolverFactory}{rr\+::\+Steady\+State\+Solver\+Factory}} \\*Constructs new integrators }{\pageref{classrr_1_1SteadyStateSolverFactory}}{}
 \item\contentsline{section}{\mbox{\hyperlink{classrr_1_1SteadyStateSolverRegistrar}{rr\+::\+Steady\+State\+Solver\+Registrar}} \\*Handles constructing a solver and contains meta information about it }{\pageref{classrr_1_1SteadyStateSolverRegistrar}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrrllvm_1_1StoreSymbolResolver}{rrllvm\+::\+Store\+Symbol\+Resolver}} }{\pageref{classrrllvm_1_1StoreSymbolResolver}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrr_1_1StringBuilder}{rr\+::\+String\+Builder}} }{\pageref{classrr_1_1StringBuilder}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrr_1_1StringList}{rr\+::\+String\+List}} }{\pageref{classrr_1_1StringList}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrr_1_1StringListContainer}{rr\+::\+String\+List\+Container}} }{\pageref{classrr_1_1StringListContainer}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrr_1_1StringSymbolHashTable}{rr\+::\+String\+Symbol\+Hash\+Table}} }{\pageref{classrr_1_1StringSymbolHashTable}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrr_1_1Symbol}{rr\+::\+Symbol}} \\*An S\+B\+ML species definition }{\pageref{classrr_1_1Symbol}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrrllvm_1_1SymbolForest}{rrllvm\+::\+Symbol\+Forest}} \\*Similar to a symbol table, except instead of a name / value, we have a name / tree, where the tree is the root of an A\+S\+T\+Node tree }{\pageref{classrrllvm_1_1SymbolForest}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrr_1_1SymbolList}{rr\+::\+Symbol\+List}} }{\pageref{classrr_1_1SymbolList}}{}
 \item\contentsline{section}{\mbox{\hyperlink{classrr_1_1TestSuiteModelSimulation}{rr\+::\+Test\+Suite\+Model\+Simulation}} }{\pageref{classrr_1_1TestSuiteModelSimulation}}{}
+\item\contentsline{section}{\mbox{\hyperlink{classrr_1_1Token}{rr\+::\+Token}} }{\pageref{classrr_1_1Token}}{}
 \item\contentsline{section}{\mbox{\hyperlink{classrr_1_1UninitializedValueException}{rr\+::\+Uninitialized\+Value\+Exception}} \\*Thrown whenever an uninitialized value is encountered, see \href{https://github.com/sys-bio/roadrunner/issues/180}{\texttt{ https\+://github.\+com/sys-\/bio/roadrunner/issues/180}} }{\pageref{classrr_1_1UninitializedValueException}}{}
 \item\contentsline{section}{\mbox{\hyperlink{classrr_1_1Variant}{rr\+::\+Variant}} \\*A basic type to hold a variety of data types }{\pageref{classrr_1_1Variant}}{}
 \item\contentsline{section}{\mbox{\hyperlink{structrr_1_1VariantImpl}{rr\+::\+Variant\+Impl}} }{\pageref{structrr_1_1VariantImpl}}{}

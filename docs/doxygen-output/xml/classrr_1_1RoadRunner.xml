@@ -123,7 +123,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="54" column="9" bodyfile="rrRoadRunner.cpp" bodystart="476" bodyend="500"/>
+        <location file="rrRoadRunner.h" line="54" column="9" bodyfile="rrRoadRunner.cpp" bodystart="492" bodyend="516"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1ad66240360fee4ccad50097e4b4c8460b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -166,7 +166,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="67" column="9" bodyfile="rrRoadRunner.cpp" bodystart="503" bodyend="526"/>
+        <location file="rrRoadRunner.h" line="67" column="9" bodyfile="rrRoadRunner.cpp" bodystart="519" bodyend="542"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a3e326546550b3f4533dd7d6b3f2f4250" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -236,7 +236,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="86" column="9" bodyfile="rrRoadRunner.cpp" bodystart="558" bodyend="601"/>
+        <location file="rrRoadRunner.h" line="86" column="9" bodyfile="rrRoadRunner.cpp" bodystart="574" bodyend="617"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a102e7c27e29219ae56e48ffd607fd621" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type></type>
@@ -250,7 +250,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="91" column="17" bodyfile="rrRoadRunner.cpp" bodystart="603" bodyend="606"/>
+        <location file="rrRoadRunner.h" line="91" column="17" bodyfile="rrRoadRunner.cpp" bodystart="619" bodyend="622"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a6cc53f3668f94b3d88764e14b24bc87e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -264,7 +264,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="96" column="13" bodyfile="rrRoadRunner.cpp" bodystart="471" bodyend="474"/>
+        <location file="rrRoadRunner.h" line="96" column="13" bodyfile="rrRoadRunner.cpp" bodystart="487" bodyend="490"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a4860f41d8552118f3c8c5d5fb6d999f6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -278,7 +278,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="101" column="13" bodyfile="rrRoadRunner.cpp" bodystart="466" bodyend="469"/>
+        <location file="rrRoadRunner.h" line="101" column="13" bodyfile="rrRoadRunner.cpp" bodystart="482" bodyend="485"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a2b7022cadd857fa4fb3cb24703da608a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -292,7 +292,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="112" column="21" bodyfile="rrRoadRunner.cpp" bodystart="623" bodyend="664"/>
+        <location file="rrRoadRunner.h" line="112" column="21" bodyfile="rrRoadRunner.cpp" bodystart="639" bodyend="680"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a329f2009c2688bbedc906c21c4b8b3ef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>class <ref refid="classrr_1_1Compiler" kindref="compound">Compiler</ref> *</type>
@@ -306,7 +306,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="117" column="24" bodyfile="rrRoadRunner.cpp" bodystart="697" bodyend="700"/>
+        <location file="rrRoadRunner.h" line="117" column="24" bodyfile="rrRoadRunner.cpp" bodystart="713" bodyend="716"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a8372249ea83ce40f91b935b09791a920" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -326,7 +326,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="125" column="14" bodyfile="rrRoadRunner.cpp" bodystart="703" bodyend="706"/>
+        <location file="rrRoadRunner.h" line="125" column="14" bodyfile="rrRoadRunner.cpp" bodystart="719" bodyend="722"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1ac7ed0222daee67405616805b1bd02125" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classrr_1_1Integrator" kindref="compound">Integrator</ref> *</type>
@@ -340,7 +340,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="131" column="20" bodyfile="rrRoadRunner.cpp" bodystart="4262" bodyend="4266"/>
+        <location file="rrRoadRunner.h" line="131" column="20" bodyfile="rrRoadRunner.cpp" bodystart="4289" bodyend="4293"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a8acc349df7a67c32d696bb56952a069e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classrr_1_1Integrator" kindref="compound">Integrator</ref> *</type>
@@ -358,7 +358,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="136" column="20" bodyfile="rrRoadRunner.cpp" bodystart="4268" bodyend="4281"/>
+        <location file="rrRoadRunner.h" line="136" column="20" bodyfile="rrRoadRunner.cpp" bodystart="4295" bodyend="4308"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a9733b034ce4b31a0de369aeddbd46b5e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classrr_1_1Integrator" kindref="compound">Integrator</ref> *</type>
@@ -376,7 +376,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="141" column="20" bodyfile="rrRoadRunner.cpp" bodystart="4348" bodyend="4358"/>
+        <location file="rrRoadRunner.h" line="141" column="20" bodyfile="rrRoadRunner.cpp" bodystart="4375" bodyend="4385"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1aaaefc29aa1ff7f6fffdbcaa4425408cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classrr_1_1SteadyStateSolver" kindref="compound">SteadyStateSolver</ref> *</type>
@@ -390,7 +390,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="146" column="27" bodyfile="rrRoadRunner.cpp" bodystart="4283" bodyend="4286"/>
+        <location file="rrRoadRunner.h" line="146" column="27" bodyfile="rrRoadRunner.cpp" bodystart="4310" bodyend="4313"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1ad9d66d24ede15b0c28db4093b782cd28" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::string &gt;</type>
@@ -403,7 +403,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="149" column="21" bodyfile="rrRoadRunner.cpp" bodystart="4288" bodyend="4297"/>
+        <location file="rrRoadRunner.h" line="149" column="21" bodyfile="rrRoadRunner.cpp" bodystart="4315" bodyend="4324"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1ac3ccb06871cfe662abd775801b25f835" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -420,7 +420,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="169" column="14" bodyfile="rrRoadRunner.cpp" bodystart="4325" bodyend="4346"/>
+        <location file="rrRoadRunner.h" line="169" column="14" bodyfile="rrRoadRunner.cpp" bodystart="4352" bodyend="4373"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a6255eb24622f4ff07f88585a689a6a7e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -437,7 +437,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="171" column="14" bodyfile="rrRoadRunner.cpp" bodystart="4361" bodyend="4372"/>
+        <location file="rrRoadRunner.h" line="171" column="14" bodyfile="rrRoadRunner.cpp" bodystart="4388" bodyend="4399"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1abac44c006635091660819ccbfd5a7cff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -454,7 +454,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="173" column="14" bodyfile="rrRoadRunner.cpp" bodystart="4374" bodyend="4397"/>
+        <location file="rrRoadRunner.h" line="173" column="14" bodyfile="rrRoadRunner.cpp" bodystart="4401" bodyend="4424"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a6b74d564136611063908de4a45652f67" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -471,7 +471,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="175" column="14" bodyfile="rrRoadRunner.cpp" bodystart="4400" bodyend="4411"/>
+        <location file="rrRoadRunner.h" line="175" column="14" bodyfile="rrRoadRunner.cpp" bodystart="4427" bodyend="4438"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1aecea2dbffc17d0322b00e18f126058b5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -484,7 +484,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="177" column="14" bodyfile="rrRoadRunner.cpp" bodystart="708" bodyend="711"/>
+        <location file="rrRoadRunner.h" line="177" column="14" bodyfile="rrRoadRunner.cpp" bodystart="724" bodyend="727"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a9519f489ada956e35bd0b65e44e96cdd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -498,7 +498,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="182" column="21" bodyfile="rrRoadRunner.cpp" bodystart="3010" bodyend="3013"/>
+        <location file="rrRoadRunner.h" line="182" column="21" bodyfile="rrRoadRunner.cpp" bodystart="3037" bodyend="3040"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a6486934df5e346da4209a578f4eaea2b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -515,7 +515,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="190" column="14" bodyfile="rrRoadRunner.cpp" bodystart="1146" bodyend="1161"/>
+        <location file="rrRoadRunner.h" line="190" column="14" bodyfile="rrRoadRunner.cpp" bodystart="1162" bodyend="1177"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a27aedd28b2a2d5453200ca4a4a2bf4c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
@@ -568,7 +568,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="200" column="16" bodyfile="rrRoadRunner.cpp" bodystart="2022" bodyend="2041"/>
+        <location file="rrRoadRunner.h" line="200" column="16" bodyfile="rrRoadRunner.cpp" bodystart="2049" bodyend="2068"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a2d4f3df674f8f6500d87a584b4f365cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
@@ -621,7 +621,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="209" column="16" bodyfile="rrRoadRunner.cpp" bodystart="2044" bodyend="2072"/>
+        <location file="rrRoadRunner.h" line="209" column="16" bodyfile="rrRoadRunner.cpp" bodystart="2071" bodyend="2099"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a0843eb317d47d28a27929d326d4f1f88" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>const ls::DoubleMatrix *</type>
@@ -678,7 +678,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="266" column="32" bodyfile="rrRoadRunner.cpp" bodystart="1696" bodyend="2019"/>
+        <location file="rrRoadRunner.h" line="266" column="32" bodyfile="rrRoadRunner.cpp" bodystart="1712" bodyend="2046"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1ac982f0742233d5ad487064734c3b793c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -700,7 +700,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="274" column="14" bodyfile="rrRoadRunner.cpp" bodystart="5191" bodyend="5386"/>
+        <location file="rrRoadRunner.h" line="274" column="14" bodyfile="rrRoadRunner.cpp" bodystart="5218" bodyend="5413"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a38cbd1331c551f4b62b07a3886efd68a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -717,7 +717,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="279" column="14" bodyfile="rrRoadRunner.cpp" bodystart="5401" bodyend="5533"/>
+        <location file="rrRoadRunner.h" line="279" column="14" bodyfile="rrRoadRunner.cpp" bodystart="5428" bodyend="5552"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a899aaac624f8b7c6aadee6beeb12bbdb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const ls::DoubleMatrix *</type>
@@ -732,7 +732,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="285" column="32" bodyfile="rrRoadRunner.cpp" bodystart="5155" bodyend="5158"/>
+        <location file="rrRoadRunner.h" line="285" column="32" bodyfile="rrRoadRunner.cpp" bodystart="5182" bodyend="5185"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1aca42a09b3b1ce89330d42c48ddae21c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -749,7 +749,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="291" column="14" bodyfile="rrRoadRunner.cpp" bodystart="713" bodyend="716"/>
+        <location file="rrRoadRunner.h" line="291" column="14" bodyfile="rrRoadRunner.cpp" bodystart="729" bodyend="732"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a1200e15aa2a3c0b8662e26f74f8320ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classrr_1_1SimulateOptions" kindref="compound">SimulateOptions</ref> &amp;</type>
@@ -763,7 +763,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="297" column="25" bodyfile="rrRoadRunner.cpp" bodystart="718" bodyend="721"/>
+        <location file="rrRoadRunner.h" line="297" column="25" bodyfile="rrRoadRunner.cpp" bodystart="734" bodyend="737"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1abca853c2d24000857a1c0971b99ec004" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="structrr_1_1RoadRunnerOptions" kindref="compound">RoadRunnerOptions</ref> &amp;</type>
@@ -780,7 +780,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="305" column="27" bodyfile="rrRoadRunner.cpp" bodystart="5150" bodyend="5153"/>
+        <location file="rrRoadRunner.h" line="305" column="27" bodyfile="rrRoadRunner.cpp" bodystart="5177" bodyend="5180"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a5e00a39a88bf7d36c165f4ca9fbb3674" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -797,7 +797,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="308" column="14" bodyfile="rrRoadRunner.cpp" bodystart="613" bodyend="616"/>
+        <location file="rrRoadRunner.h" line="308" column="14" bodyfile="rrRoadRunner.cpp" bodystart="629" bodyend="632"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1ae422b8ad65ca1cabcb7bd88b8c1f7264" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -823,7 +823,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="318" column="21" bodyfile="rrRoadRunner.cpp" bodystart="4156" bodyend="4169"/>
+        <location file="rrRoadRunner.h" line="318" column="21" bodyfile="rrRoadRunner.cpp" bodystart="4183" bodyend="4196"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1aee591c512811f899a6d41799728173c5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -850,7 +850,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="331" column="21" bodyfile="rrRoadRunner.cpp" bodystart="4171" bodyend="4236"/>
+        <location file="rrRoadRunner.h" line="331" column="21" bodyfile="rrRoadRunner.cpp" bodystart="4198" bodyend="4263"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1ae4b0eaa39fd37737e5f5fd7f7741e06c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -865,7 +865,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="339" column="14" bodyfile="rrRoadRunner.cpp" bodystart="1163" bodyend="1171"/>
+        <location file="rrRoadRunner.h" line="339" column="14" bodyfile="rrRoadRunner.cpp" bodystart="1179" bodyend="1187"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a807cbac5ca760b0f3ff033851cf5276b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -896,7 +896,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="355" column="14" bodyfile="rrRoadRunner.cpp" bodystart="1173" bodyend="1194"/>
+        <location file="rrRoadRunner.h" line="355" column="14" bodyfile="rrRoadRunner.cpp" bodystart="1189" bodyend="1210"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a5d1d6591131764e8e7a6cdd6a9ae6ae8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -910,7 +910,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="360" column="14" bodyfile="rrRoadRunner.cpp" bodystart="1196" bodyend="1199"/>
+        <location file="rrRoadRunner.h" line="360" column="14" bodyfile="rrRoadRunner.cpp" bodystart="1212" bodyend="1215"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a57f1463dafcc61a90c3122a8fb37b08d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -927,7 +927,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="370" column="14" bodyfile="rrRoadRunner.cpp" bodystart="4238" bodyend="4247"/>
+        <location file="rrRoadRunner.h" line="370" column="14" bodyfile="rrRoadRunner.cpp" bodystart="4265" bodyend="4274"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1afa827d569de3c83dd286ac2aa25d1cf4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classrr_1_1ExecutableModel" kindref="compound">ExecutableModel</ref> *</type>
@@ -941,7 +941,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="376" column="25" bodyfile="rrRoadRunner.cpp" bodystart="608" bodyend="611"/>
+        <location file="rrRoadRunner.h" line="376" column="25" bodyfile="rrRoadRunner.cpp" bodystart="624" bodyend="627"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a9d1e7a6e9b2fff7561bd59d2e8475d6e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -984,7 +984,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="389" column="14" bodyfile="rrRoadRunner.cpp" bodystart="1057" bodyend="1116"/>
+        <location file="rrRoadRunner.h" line="389" column="14" bodyfile="rrRoadRunner.cpp" bodystart="1073" bodyend="1132"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a422a0c1c50dfe1b6ae343e9313a005ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classrr_1_1SelectionRecord" kindref="compound">rr::SelectionRecord</ref></type>
@@ -1003,7 +1003,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="400" column="29" bodyfile="rrRoadRunner.cpp" bodystart="4482" bodyend="4660"/>
+        <location file="rrRoadRunner.h" line="400" column="29" bodyfile="rrRoadRunner.cpp" bodystart="4509" bodyend="4687"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a093f8d8cfe6959e2607eddccfd4a4989" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; <ref refid="classrr_1_1SelectionRecord" kindref="compound">rr::SelectionRecord</ref> &gt; &amp;</type>
@@ -1017,7 +1017,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="406" column="21" bodyfile="rrRoadRunner.cpp" bodystart="1214" bodyend="1217"/>
+        <location file="rrRoadRunner.h" line="406" column="21" bodyfile="rrRoadRunner.cpp" bodystart="1230" bodyend="1233"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1aa030bd78fd18af9737b6798e246dd4cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
@@ -1035,7 +1035,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="412" column="16" bodyfile="rrRoadRunner.cpp" bodystart="4430" bodyend="4433"/>
+        <location file="rrRoadRunner.h" line="412" column="16" bodyfile="rrRoadRunner.cpp" bodystart="4457" bodyend="4460"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a1ffdbba3a4b35b4092bc743aad78ccdd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
@@ -1052,7 +1052,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="414" column="16" bodyfile="rrRoadRunner.cpp" bodystart="852" bodyend="999"/>
+        <location file="rrRoadRunner.h" line="414" column="16" bodyfile="rrRoadRunner.cpp" bodystart="868" bodyend="1015"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1ae2638d52117ad68f9ca1dc7bff285bd6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1086,7 +1086,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="419" column="14" bodyfile="rrRoadRunner.cpp" bodystart="4679" bodyend="4682"/>
+        <location file="rrRoadRunner.h" line="419" column="14" bodyfile="rrRoadRunner.cpp" bodystart="4706" bodyend="4709"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a9c98b4f3d57c4935b744d8cd831d4a61" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; double &gt;</type>
@@ -1100,7 +1100,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="424" column="21" bodyfile="rrRoadRunner.cpp" bodystart="4436" bodyend="4451"/>
+        <location file="rrRoadRunner.h" line="424" column="21" bodyfile="rrRoadRunner.cpp" bodystart="4463" bodyend="4478"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a8891806bc553fef5898f9e81751a9899" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1122,7 +1122,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="429" column="14" bodyfile="rrRoadRunner.cpp" bodystart="4977" bodyend="4997"/>
+        <location file="rrRoadRunner.h" line="429" column="14" bodyfile="rrRoadRunner.cpp" bodystart="5004" bodyend="5024"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1ac713974ee639f493d9d8cdb1577233fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::string &gt;</type>
@@ -1139,7 +1139,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="439" column="21" bodyfile="rrRoadRunner.cpp" bodystart="4999" bodyend="5002"/>
+        <location file="rrRoadRunner.h" line="439" column="21" bodyfile="rrRoadRunner.cpp" bodystart="5026" bodyend="5029"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a0b2d1c7cbaa21d37347dbdca33f4d479" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::string &gt;</type>
@@ -1156,7 +1156,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="447" column="21" bodyfile="rrRoadRunner.cpp" bodystart="5004" bodyend="5007"/>
+        <location file="rrRoadRunner.h" line="447" column="21" bodyfile="rrRoadRunner.cpp" bodystart="5031" bodyend="5034"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a13abd6f7d1bf72686f8637c154a73a58" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::string &gt;</type>
@@ -1173,7 +1173,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="453" column="21" bodyfile="rrRoadRunner.cpp" bodystart="5092" bodyend="5101"/>
+        <location file="rrRoadRunner.h" line="453" column="21" bodyfile="rrRoadRunner.cpp" bodystart="5119" bodyend="5128"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a22758ccedea064c87ccc5fd0c533b32f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::string &gt;</type>
@@ -1188,7 +1188,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="460" column="21" bodyfile="rrRoadRunner.cpp" bodystart="5114" bodyend="5123"/>
+        <location file="rrRoadRunner.h" line="460" column="21" bodyfile="rrRoadRunner.cpp" bodystart="5141" bodyend="5150"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a64fd889ed2292a496bc06739e8fa206e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -1202,7 +1202,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="465" column="13" bodyfile="rrRoadRunner.cpp" bodystart="5009" bodyend="5018"/>
+        <location file="rrRoadRunner.h" line="465" column="13" bodyfile="rrRoadRunner.cpp" bodystart="5036" bodyend="5045"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a2aeb31b55a8f049c27910cd00f90c868" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1225,7 +1225,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="473" column="14" bodyfile="rrRoadRunner.cpp" bodystart="4414" bodyend="4427"/>
+        <location file="rrRoadRunner.h" line="473" column="14" bodyfile="rrRoadRunner.cpp" bodystart="4441" bodyend="4454"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a8ce13b054d539a8d086d03bd7d16b1df" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>ls::DoubleMatrix</type>
@@ -1242,7 +1242,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="483" column="26" bodyfile="rrRoadRunner.cpp" bodystart="2102" bodyend="2122"/>
+        <location file="rrRoadRunner.h" line="483" column="26" bodyfile="rrRoadRunner.cpp" bodystart="2129" bodyend="2149"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1ab5172224c3a2be50cabb013d343d8234" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>ls::DoubleMatrix</type>
@@ -1259,7 +1259,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="489" column="26" bodyfile="rrRoadRunner.cpp" bodystart="2124" bodyend="2144"/>
+        <location file="rrRoadRunner.h" line="489" column="26" bodyfile="rrRoadRunner.cpp" bodystart="2151" bodyend="2171"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1ae7644ffca7f25ccf0c8e2289f8a8280e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>ls::DoubleMatrix</type>
@@ -1276,7 +1276,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="495" column="26" bodyfile="rrRoadRunner.cpp" bodystart="3250" bodyend="3270"/>
+        <location file="rrRoadRunner.h" line="495" column="26" bodyfile="rrRoadRunner.cpp" bodystart="3277" bodyend="3297"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1aa2672c793f21a6ee80da2d6afa3450c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>ls::DoubleMatrix</type>
@@ -1293,7 +1293,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="501" column="26" bodyfile="rrRoadRunner.cpp" bodystart="3227" bodyend="3247"/>
+        <location file="rrRoadRunner.h" line="501" column="26" bodyfile="rrRoadRunner.cpp" bodystart="3254" bodyend="3274"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a129683b1d67a59066a0759983a9be38a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; double &gt;</type>
@@ -1310,7 +1310,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="507" column="21" bodyfile="rrRoadRunner.cpp" bodystart="2146" bodyend="2183"/>
+        <location file="rrRoadRunner.h" line="507" column="21" bodyfile="rrRoadRunner.cpp" bodystart="2173" bodyend="2210"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a11f1ef8cd1d25b7571fe107aa9a6e575" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>ls::DoubleMatrix</type>
@@ -1327,7 +1327,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="513" column="26" bodyfile="rrRoadRunner.cpp" bodystart="2185" bodyend="2223"/>
+        <location file="rrRoadRunner.h" line="513" column="26" bodyfile="rrRoadRunner.cpp" bodystart="2212" bodyend="2250"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a6c974443cc51485d9150c80dc5e730db" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; double &gt;</type>
@@ -1344,7 +1344,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="519" column="21" bodyfile="rrRoadRunner.cpp" bodystart="2225" bodyend="2245"/>
+        <location file="rrRoadRunner.h" line="519" column="21" bodyfile="rrRoadRunner.cpp" bodystart="2252" bodyend="2272"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1abe1f53e8ec576b4fefbafa958625608e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>ls::DoubleMatrix</type>
@@ -1361,7 +1361,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="525" column="26" bodyfile="rrRoadRunner.cpp" bodystart="2247" bodyend="2269"/>
+        <location file="rrRoadRunner.h" line="525" column="26" bodyfile="rrRoadRunner.cpp" bodystart="2274" bodyend="2296"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a8ab4bc9fd188058f67e84ac291d7eacd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; double &gt;</type>
@@ -1378,7 +1378,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="531" column="21" bodyfile="rrRoadRunner.cpp" bodystart="2271" bodyend="2291"/>
+        <location file="rrRoadRunner.h" line="531" column="21" bodyfile="rrRoadRunner.cpp" bodystart="2298" bodyend="2318"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a7c865464a0662174b138b6518bfe9781" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>ls::DoubleMatrix</type>
@@ -1395,7 +1395,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="537" column="26" bodyfile="rrRoadRunner.cpp" bodystart="2293" bodyend="2315"/>
+        <location file="rrRoadRunner.h" line="537" column="26" bodyfile="rrRoadRunner.cpp" bodystart="2320" bodyend="2342"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1af51e91db7ddc73786511271278f6c096" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>ls::DoubleMatrix</type>
@@ -1409,7 +1409,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="542" column="26" bodyfile="rrRoadRunner.cpp" bodystart="2317" bodyend="2506"/>
+        <location file="rrRoadRunner.h" line="542" column="26" bodyfile="rrRoadRunner.cpp" bodystart="2344" bodyend="2533"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a050e99e35e27a60e795825fdeb58c21d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>ls::DoubleMatrix</type>
@@ -1422,7 +1422,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="544" column="26" bodyfile="rrRoadRunner.cpp" bodystart="2508" bodyend="2516"/>
+        <location file="rrRoadRunner.h" line="544" column="26" bodyfile="rrRoadRunner.cpp" bodystart="2535" bodyend="2543"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a25871dd31092c9529365fc00c4c59ef0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>ls::DoubleMatrix</type>
@@ -1451,7 +1451,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="551" column="26" bodyfile="rrRoadRunner.cpp" bodystart="2518" bodyend="2607"/>
+        <location file="rrRoadRunner.h" line="551" column="26" bodyfile="rrRoadRunner.cpp" bodystart="2545" bodyend="2634"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1ab341242b18378b234c07e314d84af2e2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; ls::Complex &gt;</type>
@@ -1466,7 +1466,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="560" column="21" bodyfile="rrRoadRunner.cpp" bodystart="2075" bodyend="2078"/>
+        <location file="rrRoadRunner.h" line="560" column="21" bodyfile="rrRoadRunner.cpp" bodystart="2102" bodyend="2105"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a7efcb153c5d8973d15170548fd69ae66" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; ls::Complex &gt;</type>
@@ -1481,7 +1481,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="569" column="21" bodyfile="rrRoadRunner.cpp" bodystart="2081" bodyend="2084"/>
+        <location file="rrRoadRunner.h" line="569" column="21" bodyfile="rrRoadRunner.cpp" bodystart="2108" bodyend="2111"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a50ad54566b0da23695d6b4e96221b36a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>ls::DoubleMatrix</type>
@@ -1494,7 +1494,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="572" column="26" bodyfile="rrRoadRunner.cpp" bodystart="2609" bodyend="2621"/>
+        <location file="rrRoadRunner.h" line="572" column="26" bodyfile="rrRoadRunner.cpp" bodystart="2636" bodyend="2648"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a764d53843d94cc402479515ebce056ac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>ls::DoubleMatrix</type>
@@ -1510,7 +1510,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="580" column="26" bodyfile="rrRoadRunner.cpp" bodystart="2628" bodyend="2640"/>
+        <location file="rrRoadRunner.h" line="580" column="26" bodyfile="rrRoadRunner.cpp" bodystart="2655" bodyend="2667"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a17f97e936006a4892b963892c2fdb424" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>ls::DoubleMatrix</type>
@@ -1524,7 +1524,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="587" column="26" bodyfile="rrRoadRunner.cpp" bodystart="2642" bodyend="2654"/>
+        <location file="rrRoadRunner.h" line="587" column="26" bodyfile="rrRoadRunner.cpp" bodystart="2669" bodyend="2681"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1aa82daa1f13e3384b9c20b18098f5841c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>ls::DoubleMatrix</type>
@@ -1540,7 +1540,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="595" column="26" bodyfile="rrRoadRunner.cpp" bodystart="2623" bodyend="2626"/>
+        <location file="rrRoadRunner.h" line="595" column="26" bodyfile="rrRoadRunner.cpp" bodystart="2650" bodyend="2653"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a4a2448b0c6518a3dd69573dc95523a59" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>ls::DoubleMatrix</type>
@@ -1554,7 +1554,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="601" column="26" bodyfile="rrRoadRunner.cpp" bodystart="2657" bodyend="2680"/>
+        <location file="rrRoadRunner.h" line="601" column="26" bodyfile="rrRoadRunner.cpp" bodystart="2684" bodyend="2707"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a274aee5c360566f0937a85cb40041675" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>ls::DoubleMatrix</type>
@@ -1567,7 +1567,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="603" column="26" bodyfile="rrRoadRunner.cpp" bodystart="2683" bodyend="2803"/>
+        <location file="rrRoadRunner.h" line="603" column="26" bodyfile="rrRoadRunner.cpp" bodystart="2710" bodyend="2830"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a4a5dc87749458fd1fd2ac471519199a6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>ls::DoubleMatrix</type>
@@ -1580,7 +1580,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="606" column="26" bodyfile="rrRoadRunner.cpp" bodystart="2806" bodyend="2819"/>
+        <location file="rrRoadRunner.h" line="606" column="26" bodyfile="rrRoadRunner.cpp" bodystart="2833" bodyend="2846"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a6fa2cd47bfc3c40d74e775029dab6d4e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>ls::DoubleMatrix</type>
@@ -1593,7 +1593,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="609" column="26" bodyfile="rrRoadRunner.cpp" bodystart="2822" bodyend="2859"/>
+        <location file="rrRoadRunner.h" line="609" column="26" bodyfile="rrRoadRunner.cpp" bodystart="2849" bodyend="2886"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a1926e6503e60ebcc37ae339b597a25a3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>ls::DoubleMatrix</type>
@@ -1606,7 +1606,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="610" column="26" bodyfile="rrRoadRunner.cpp" bodystart="3961" bodyend="4010"/>
+        <location file="rrRoadRunner.h" line="610" column="26" bodyfile="rrRoadRunner.cpp" bodystart="3988" bodyend="4037"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a1ed7c5519b10fea5a9e19eaab5f1fda7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>ls::DoubleMatrix</type>
@@ -1619,7 +1619,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="611" column="26" bodyfile="rrRoadRunner.cpp" bodystart="4013" bodyend="4037"/>
+        <location file="rrRoadRunner.h" line="611" column="26" bodyfile="rrRoadRunner.cpp" bodystart="4040" bodyend="4064"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1ae8f9e20c1586d0a95f538d5c1bf301f2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>ls::DoubleMatrix</type>
@@ -1632,7 +1632,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="612" column="26" bodyfile="rrRoadRunner.cpp" bodystart="4041" bodyend="4061"/>
+        <location file="rrRoadRunner.h" line="612" column="26" bodyfile="rrRoadRunner.cpp" bodystart="4068" bodyend="4088"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1abe4dde40c03d296f2ed45db095779c28" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>ls::DoubleMatrix</type>
@@ -1645,7 +1645,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="613" column="26" bodyfile="rrRoadRunner.cpp" bodystart="4064" bodyend="4102"/>
+        <location file="rrRoadRunner.h" line="613" column="26" bodyfile="rrRoadRunner.cpp" bodystart="4091" bodyend="4129"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1ab0dde69c8f297c32c1ac8e622ece4781" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::string &gt;</type>
@@ -1659,7 +1659,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="620" column="21" bodyfile="rrRoadRunner.cpp" bodystart="5136" bodyend="5143"/>
+        <location file="rrRoadRunner.h" line="620" column="21" bodyfile="rrRoadRunner.cpp" bodystart="5163" bodyend="5170"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1ac755535bf3a1aedfbe9714bcacccc2e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
@@ -1681,7 +1681,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="626" column="16" bodyfile="rrRoadRunner.cpp" bodystart="4827" bodyend="4918"/>
+        <location file="rrRoadRunner.h" line="626" column="16" bodyfile="rrRoadRunner.cpp" bodystart="4854" bodyend="4945"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a90917baf18e5449f3ac093a58f504d00" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>ls::DoubleMatrix</type>
@@ -1722,7 +1722,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="630" column="26" bodyfile="rrRoadRunner.cpp" bodystart="4700" bodyend="4823"/>
+        <location file="rrRoadRunner.h" line="630" column="26" bodyfile="rrRoadRunner.cpp" bodystart="4727" bodyend="4850"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1adbea6710dcab6c825573ce5c9b35dd57" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1740,7 +1740,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="638" column="14" bodyfile="rrRoadRunner.cpp" bodystart="1457" bodyend="1481"/>
+        <location file="rrRoadRunner.h" line="638" column="14" bodyfile="rrRoadRunner.cpp" bodystart="1473" bodyend="1497"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1af69cf22ce68c8d5c4ab869fedefa16f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -1755,7 +1755,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="643" column="14" bodyfile="rrRoadRunner.cpp" bodystart="723" bodyend="726"/>
+        <location file="rrRoadRunner.h" line="643" column="14" bodyfile="rrRoadRunner.cpp" bodystart="739" bodyend="742"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1add8f2cfb1a37ad4e352f43a9529a3035" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
@@ -1772,7 +1772,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="656" column="16" bodyfile="rrRoadRunner.cpp" bodystart="1541" bodyend="1546"/>
+        <location file="rrRoadRunner.h" line="656" column="16" bodyfile="rrRoadRunner.cpp" bodystart="1557" bodyend="1562"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1ae5b37837542f842bd6ac6aef11875e97" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1793,7 +1793,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="662" column="14" bodyfile="rrRoadRunner.cpp" bodystart="1548" bodyend="1553"/>
+        <location file="rrRoadRunner.h" line="662" column="14" bodyfile="rrRoadRunner.cpp" bodystart="1564" bodyend="1569"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1acae600eb92e9bd2a7739040e7148c0ae" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
@@ -1810,7 +1810,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="670" column="16" bodyfile="rrRoadRunner.cpp" bodystart="1555" bodyend="1560"/>
+        <location file="rrRoadRunner.h" line="670" column="16" bodyfile="rrRoadRunner.cpp" bodystart="1571" bodyend="1576"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a64b81cdc2b84a6f28affd212ef474392" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1831,7 +1831,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="678" column="14" bodyfile="rrRoadRunner.cpp" bodystart="1562" bodyend="1567"/>
+        <location file="rrRoadRunner.h" line="678" column="14" bodyfile="rrRoadRunner.cpp" bodystart="1578" bodyend="1583"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a7df50d5a0fa7265b62af24a2e996b6e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
@@ -1855,7 +1855,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="688" column="16" bodyfile="rrRoadRunner.cpp" bodystart="3571" bodyend="3681"/>
+        <location file="rrRoadRunner.h" line="688" column="16" bodyfile="rrRoadRunner.cpp" bodystart="3598" bodyend="3708"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a3d2c1d4727f38714ce6575a70d789429" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
@@ -1879,7 +1879,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="698" column="16" bodyfile="rrRoadRunner.cpp" bodystart="3684" bodyend="3736"/>
+        <location file="rrRoadRunner.h" line="698" column="16" bodyfile="rrRoadRunner.cpp" bodystart="3711" bodyend="3763"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1ad1a582f68475ad9e923dd23b12397d86" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
@@ -1991,7 +1991,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="727" column="26" bodyfile="rrRoadRunner.cpp" bodystart="3871" bodyend="3891"/>
+        <location file="rrRoadRunner.h" line="727" column="26" bodyfile="rrRoadRunner.cpp" bodystart="3898" bodyend="3918"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a43e88b9c81a97a115451b5331b84e603" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>ls::DoubleMatrix</type>
@@ -2005,7 +2005,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="732" column="26" bodyfile="rrRoadRunner.cpp" bodystart="3893" bodyend="3926"/>
+        <location file="rrRoadRunner.h" line="732" column="26" bodyfile="rrRoadRunner.cpp" bodystart="3920" bodyend="3953"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a6a388eb7c0f64e215490fa606f458770" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
@@ -2027,7 +2027,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="737" column="16" bodyfile="rrRoadRunner.cpp" bodystart="3929" bodyend="3956"/>
+        <location file="rrRoadRunner.h" line="737" column="16" bodyfile="rrRoadRunner.cpp" bodystart="3956" bodyend="3983"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a5856b94d04fadfb190b407b126382503" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
@@ -2049,7 +2049,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="745" column="16" bodyfile="rrRoadRunner.cpp" bodystart="3739" bodyend="3867"/>
+        <location file="rrRoadRunner.h" line="745" column="16" bodyfile="rrRoadRunner.cpp" bodystart="3766" bodyend="3894"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1ac4b283ab73c62c17ad2b241f9389f868" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -2138,7 +2138,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="760" column="14" bodyfile="rrRoadRunner.cpp" bodystart="5551" bodyend="5590"/>
+        <location file="rrRoadRunner.h" line="760" column="14" bodyfile="rrRoadRunner.cpp" bodystart="5570" bodyend="5613"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a2d24e223ee2a7b1c44a7b9d6db0d4b93" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -2160,7 +2160,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="774" column="14" bodyfile="rrRoadRunner.cpp" bodystart="5592" bodyend="5676"/>
+        <location file="rrRoadRunner.h" line="774" column="14" bodyfile="rrRoadRunner.cpp" bodystart="5615" bodyend="5699"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a3254de1bcafde8fb4aa28e4241fa7c9c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -2213,7 +2213,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="788" column="14" bodyfile="rrRoadRunner.cpp" bodystart="5679" bodyend="5694"/>
+        <location file="rrRoadRunner.h" line="788" column="14" bodyfile="rrRoadRunner.cpp" bodystart="5702" bodyend="5717"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1af0c85ad9ef78812bfbf31636683b4ddb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -2266,7 +2266,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="801" column="14" bodyfile="rrRoadRunner.cpp" bodystart="5696" bodyend="5711"/>
+        <location file="rrRoadRunner.h" line="801" column="14" bodyfile="rrRoadRunner.cpp" bodystart="5719" bodyend="5734"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a8d8050a4d09992b395de75ff50f66b3f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -2319,7 +2319,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="815" column="14" bodyfile="rrRoadRunner.cpp" bodystart="5713" bodyend="5739"/>
+        <location file="rrRoadRunner.h" line="815" column="14" bodyfile="rrRoadRunner.cpp" bodystart="5736" bodyend="5762"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a968b5f01bf7fe6a76a860794130d15e8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -2372,7 +2372,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="829" column="14" bodyfile="rrRoadRunner.cpp" bodystart="5741" bodyend="5773"/>
+        <location file="rrRoadRunner.h" line="829" column="14" bodyfile="rrRoadRunner.cpp" bodystart="5764" bodyend="5796"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1aa4eff2424c186a5ba3a3d35cf91dce2f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -2425,7 +2425,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="844" column="14" bodyfile="rrRoadRunner.cpp" bodystart="5775" bodyend="5804"/>
+        <location file="rrRoadRunner.h" line="844" column="14" bodyfile="rrRoadRunner.cpp" bodystart="5798" bodyend="5827"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1aa2247347171d5d46c270e18bbeaac4b0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -2447,7 +2447,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="858" column="14" bodyfile="rrRoadRunner.cpp" bodystart="5807" bodyend="5817"/>
+        <location file="rrRoadRunner.h" line="858" column="14" bodyfile="rrRoadRunner.cpp" bodystart="5830" bodyend="5840"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1aa9931b87b88224e2fa86cf298b79647e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -2527,7 +2527,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="890" column="14" bodyfile="rrRoadRunner.cpp" bodystart="5895" bodyend="5942"/>
+        <location file="rrRoadRunner.h" line="890" column="14" bodyfile="rrRoadRunner.cpp" bodystart="5922" bodyend="5969"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a61d920026f1d614669007665c3aec5fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -2553,7 +2553,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="903" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6014" bodyend="6030"/>
+        <location file="rrRoadRunner.h" line="903" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6041" bodyend="6057"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a7424f3dc7d18d5697e66b0d19700aae4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -2579,7 +2579,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="917" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6033" bodyend="6073"/>
+        <location file="rrRoadRunner.h" line="917" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6060" bodyend="6100"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a3e0b8f15b7ab0042dcfd85c14fa207ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -2607,7 +2607,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="923" column="21" bodyfile="rrRoadRunner.cpp" bodystart="6077" bodyend="6106"/>
+        <location file="rrRoadRunner.h" line="923" column="21" bodyfile="rrRoadRunner.cpp" bodystart="6104" bodyend="6133"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a68e98a5de63e4dc8418738290d4c762b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -2660,7 +2660,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="937" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6110" bodyend="6123"/>
+        <location file="rrRoadRunner.h" line="937" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6137" bodyend="6155"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1aa22a0401fda4aa17a3118a833fdde286" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -2701,7 +2701,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="949" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6125" bodyend="6137"/>
+        <location file="rrRoadRunner.h" line="949" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6157" bodyend="6169"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a7e475483794fc8b59d3b1b423607b2f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -2754,7 +2754,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="964" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6140" bodyend="6152"/>
+        <location file="rrRoadRunner.h" line="964" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6172" bodyend="6188"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1ad3f2043bc6e645f5319119df37a9eadb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -2795,7 +2795,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="976" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6155" bodyend="6186"/>
+        <location file="rrRoadRunner.h" line="976" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6191" bodyend="6222"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a8d7d526b65b7f4da57416eef928edc6e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -2821,7 +2821,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="990" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6237" bodyend="6256"/>
+        <location file="rrRoadRunner.h" line="990" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6273" bodyend="6292"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1aa3a9acbff059e9feb7789b730681c86d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -2847,7 +2847,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1004" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6258" bodyend="6277"/>
+        <location file="rrRoadRunner.h" line="1004" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6294" bodyend="6313"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1adc65f44da5821758e912bd109fadfa1e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -2901,7 +2901,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1020" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6280" bodyend="6382"/>
+        <location file="rrRoadRunner.h" line="1020" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6316" bodyend="6418"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1aa27ba6eab817899a3fe14f4ad65527dc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -2927,7 +2927,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1034" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6384" bodyend="6418"/>
+        <location file="rrRoadRunner.h" line="1034" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6420" bodyend="6454"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a4a47d78c63af139f9cbe5aedab5e7b3b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -2968,7 +2968,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1047" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6420" bodyend="6487"/>
+        <location file="rrRoadRunner.h" line="1047" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6456" bodyend="6523"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a30b86079c416eb73b6f4da63ef6734af" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -2998,7 +2998,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1062" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6490" bodyend="6519"/>
+        <location file="rrRoadRunner.h" line="1062" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6526" bodyend="6555"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1aaaac271c2bcebe239646576d48592f01" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -3024,7 +3024,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1077" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6522" bodyend="6550"/>
+        <location file="rrRoadRunner.h" line="1077" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6558" bodyend="6586"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a0c10e1079ae0ae44f0e54b4f9b54c884" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -3050,7 +3050,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1090" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6552" bodyend="6576"/>
+        <location file="rrRoadRunner.h" line="1090" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6588" bodyend="6612"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a6731da1be25ebbe4ab0c7cddcbc8e97b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -3076,7 +3076,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1103" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6578" bodyend="6602"/>
+        <location file="rrRoadRunner.h" line="1103" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6614" bodyend="6638"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1ab2cd3d8f9ca1b79014357b5445ee9bbd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -3102,7 +3102,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1117" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6605" bodyend="6630"/>
+        <location file="rrRoadRunner.h" line="1117" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6641" bodyend="6666"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1aa65de948a2fbc7287c31b33cf676ced6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -3128,7 +3128,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1131" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6633" bodyend="6655"/>
+        <location file="rrRoadRunner.h" line="1131" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6669" bodyend="6691"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1ab1f82e576456f8c7ad94c30f1480a8f2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -3158,7 +3158,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1147" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6658" bodyend="6700"/>
+        <location file="rrRoadRunner.h" line="1147" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6694" bodyend="6736"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a6f5bbcfeff4758a5e91c15e16c880641" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -3211,7 +3211,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1161" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6703" bodyend="6722"/>
+        <location file="rrRoadRunner.h" line="1161" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6739" bodyend="6758"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1ad5e6fc77db2c058d9d165a37c56ce700" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -3252,7 +3252,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1173" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6726" bodyend="6736"/>
+        <location file="rrRoadRunner.h" line="1173" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6762" bodyend="6772"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a4e75cb4bdcd03300133aef022f53b34c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -3266,7 +3266,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1178" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6738" bodyend="6748"/>
+        <location file="rrRoadRunner.h" line="1178" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6774" bodyend="6784"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a018f17c09b36e42f052989a57fc5b2a4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
@@ -3279,7 +3279,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1185" column="16" bodyfile="rrRoadRunner.cpp" bodystart="1220" bodyend="1239"/>
+        <location file="rrRoadRunner.h" line="1185" column="16" bodyfile="rrRoadRunner.cpp" bodystart="1236" bodyend="1255"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a6dca346fbb6e59eb73b0a16212df8165" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
@@ -3310,7 +3310,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1198" column="16" bodyfile="rrRoadRunner.cpp" bodystart="1242" bodyend="1363"/>
+        <location file="rrRoadRunner.h" line="1198" column="16" bodyfile="rrRoadRunner.cpp" bodystart="1258" bodyend="1379"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1ab5066eec084b15094027ec73861a2811" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
@@ -3341,7 +3341,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1209" column="16" bodyfile="rrRoadRunner.cpp" bodystart="1366" bodyend="1445"/>
+        <location file="rrRoadRunner.h" line="1209" column="16" bodyfile="rrRoadRunner.cpp" bodystart="1382" bodyend="1461"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1ae5600ee783e171506e2dc896d7732f40" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>ls::DoubleMatrix</type>
@@ -3360,7 +3360,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1214" column="26" bodyfile="rrRoadRunner.cpp" bodystart="1448" bodyend="1452"/>
+        <location file="rrRoadRunner.h" line="1214" column="26" bodyfile="rrRoadRunner.cpp" bodystart="1464" bodyend="1468"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1adcebd8c406eaaf6ea065828830afd454" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; <ref refid="classrr_1_1SelectionRecord" kindref="compound">rr::SelectionRecord</ref> &gt; &amp;</type>
@@ -3374,7 +3374,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1219" column="21" bodyfile="rrRoadRunner.cpp" bodystart="2948" bodyend="2951"/>
+        <location file="rrRoadRunner.h" line="1219" column="21" bodyfile="rrRoadRunner.cpp" bodystart="2975" bodyend="2978"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a166d905000777fc76767f6625df12bcd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -3411,7 +3411,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1232" column="14" bodyfile="rrRoadRunner.cpp" bodystart="4694" bodyend="4697"/>
+        <location file="rrRoadRunner.h" line="1232" column="14" bodyfile="rrRoadRunner.cpp" bodystart="4721" bodyend="4724"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1aeffa5361c54d45cf24ce21b2cb0e2f29" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; double &gt;</type>
@@ -3425,7 +3425,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1240" column="21" bodyfile="rrRoadRunner.cpp" bodystart="2953" bodyend="2972"/>
+        <location file="rrRoadRunner.h" line="1240" column="21" bodyfile="rrRoadRunner.cpp" bodystart="2980" bodyend="2999"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a1062bc78d3b41301fa97dc5f2167baa2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::string &gt;</type>
@@ -3439,7 +3439,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1245" column="21" bodyfile="rrRoadRunner.cpp" bodystart="2974" bodyend="2984"/>
+        <location file="rrRoadRunner.h" line="1245" column="21" bodyfile="rrRoadRunner.cpp" bodystart="3001" bodyend="3011"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a57d1eee2df9f8b9542a0c450be6097a4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>ls::DoubleMatrix</type>
@@ -3453,7 +3453,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1250" column="26" bodyfile="rrRoadRunner.cpp" bodystart="2986" bodyend="3008"/>
+        <location file="rrRoadRunner.h" line="1250" column="26" bodyfile="rrRoadRunner.cpp" bodystart="3013" bodyend="3035"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a98ea6d84450e10e723fbcabddae2e3c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -3477,7 +3477,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1255" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6760" bodyend="6812"/>
+        <location file="rrRoadRunner.h" line="1255" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6796" bodyend="6848"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1af8d2ff8ebf2c85f918cc2888ac68f479" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -3498,7 +3498,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1267" column="14" bodyfile="rrRoadRunner.cpp" bodystart="3193" bodyend="3208"/>
+        <location file="rrRoadRunner.h" line="1267" column="14" bodyfile="rrRoadRunner.cpp" bodystart="3220" bodyend="3235"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a0cbcdf248d716058325e50adf9239d4d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -3511,7 +3511,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1273" column="13" bodyfile="rrRoadRunner.cpp" bodystart="2882" bodyend="2897"/>
+        <location file="rrRoadRunner.h" line="1273" column="13" bodyfile="rrRoadRunner.cpp" bodystart="2909" bodyend="2924"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a5344345156070f4bab82d9b81b7050de" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::string &gt;</type>
@@ -3524,7 +3524,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1279" column="21" bodyfile="rrRoadRunner.cpp" bodystart="5042" bodyend="5051"/>
+        <location file="rrRoadRunner.h" line="1279" column="21" bodyfile="rrRoadRunner.cpp" bodystart="5069" bodyend="5078"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1afb363e6354cc06772219f3f59b591320" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::string &gt;</type>
@@ -3537,7 +3537,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1285" column="21" bodyfile="rrRoadRunner.cpp" bodystart="5053" bodyend="5062"/>
+        <location file="rrRoadRunner.h" line="1285" column="21" bodyfile="rrRoadRunner.cpp" bodystart="5080" bodyend="5089"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a5acce894eb75998ed93daf3c71c2d4dc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::string &gt;</type>
@@ -3554,7 +3554,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1292" column="21" bodyfile="rrRoadRunner.cpp" bodystart="5064" bodyend="5073"/>
+        <location file="rrRoadRunner.h" line="1292" column="21" bodyfile="rrRoadRunner.cpp" bodystart="5091" bodyend="5100"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1afc7498e1fe7098233c87f4427e74509b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
@@ -3571,7 +3571,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1298" column="16" bodyfile="rrRoadRunner.cpp" bodystart="3211" bodyend="3224"/>
+        <location file="rrRoadRunner.h" line="1298" column="16" bodyfile="rrRoadRunner.cpp" bodystart="3238" bodyend="3251"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a241c4374d564427ef61df52862136574" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
@@ -3588,7 +3588,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1304" column="16" bodyfile="rrRoadRunner.cpp" bodystart="3503" bodyend="3536"/>
+        <location file="rrRoadRunner.h" line="1304" column="16" bodyfile="rrRoadRunner.cpp" bodystart="3530" bodyend="3563"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a1b5525fc1a0ada03bb75f78f77c9bbbc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -3630,7 +3630,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1310" column="14" bodyfile="rrRoadRunner.cpp" bodystart="3464" bodyend="3480"/>
+        <location file="rrRoadRunner.h" line="1310" column="14" bodyfile="rrRoadRunner.cpp" bodystart="3491" bodyend="3507"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1af376e9fce37cc7b50cea8e8642eafb00" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
@@ -3668,7 +3668,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1317" column="16" bodyfile="rrRoadRunner.cpp" bodystart="3482" bodyend="3500"/>
+        <location file="rrRoadRunner.h" line="1317" column="16" bodyfile="rrRoadRunner.cpp" bodystart="3509" bodyend="3527"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a5df415a59e1d2ee85d252d3ed1dea700" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; double &gt;</type>
@@ -3685,7 +3685,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1329" column="21" bodyfile="rrRoadRunner.cpp" bodystart="1052" bodyend="1055"/>
+        <location file="rrRoadRunner.h" line="1329" column="21" bodyfile="rrRoadRunner.cpp" bodystart="1068" bodyend="1071"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a62d2ea867de2953d33298fe9d133e1ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::string &gt;</type>
@@ -3698,7 +3698,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1331" column="21" bodyfile="rrRoadRunner.cpp" bodystart="5075" bodyend="5079"/>
+        <location file="rrRoadRunner.h" line="1331" column="21" bodyfile="rrRoadRunner.cpp" bodystart="5102" bodyend="5106"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1ae505b07023b0c397922690e3cba1c0e9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -4197,7 +4197,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1508" column="14" bodyfile="rrRoadRunner.cpp" bodystart="1686" bodyend="1693"/>
+        <location file="rrRoadRunner.h" line="1508" column="14" bodyfile="rrRoadRunner.cpp" bodystart="1702" bodyend="1709"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1aebcbfa2c066cbc09fc3e9acc1776ab20" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -4268,7 +4268,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1539" column="14" bodyfile="rrRoadRunner.cpp" bodystart="728" bodyend="731"/>
+        <location file="rrRoadRunner.h" line="1539" column="14" bodyfile="rrRoadRunner.cpp" bodystart="744" bodyend="747"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a94654f4838ab67a3d167c63e6b592a6d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -4281,7 +4281,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1548" column="21" bodyfile="rrRoadRunner.cpp" bodystart="733" bodyend="736"/>
+        <location file="rrRoadRunner.h" line="1548" column="21" bodyfile="rrRoadRunner.cpp" bodystart="749" bodyend="752"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-static-func">
@@ -4301,7 +4301,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="107" column="28" bodyfile="rrRoadRunner.cpp" bodystart="808" bodyend="850"/>
+        <location file="rrRoadRunner.h" line="107" column="28" bodyfile="rrRoadRunner.cpp" bodystart="824" bodyend="866"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a862621117012d7e294d7628fed11f82b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::string &gt;</type>
@@ -4315,7 +4315,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="154" column="28" bodyfile="rrRoadRunner.cpp" bodystart="4299" bodyend="4306"/>
+        <location file="rrRoadRunner.h" line="154" column="28" bodyfile="rrRoadRunner.cpp" bodystart="4326" bodyend="4333"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a4064f1dba1c7342c6e81987bfc61d2f7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::string &gt;</type>
@@ -4329,7 +4329,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="159" column="28" bodyfile="rrRoadRunner.cpp" bodystart="4316" bodyend="4323"/>
+        <location file="rrRoadRunner.h" line="159" column="28" bodyfile="rrRoadRunner.cpp" bodystart="4343" bodyend="4350"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a6bc7b431bfe8c1ba10560357ddd72d61" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -4343,7 +4343,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="164" column="21" bodyfile="rrRoadRunner.cpp" bodystart="4308" bodyend="4314"/>
+        <location file="rrRoadRunner.h" line="164" column="21" bodyfile="rrRoadRunner.cpp" bodystart="4335" bodyend="4341"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1afdb1fa322ff0f3d53e33e30558bbe478" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -4357,7 +4357,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="649" column="28" bodyfile="rrRoadRunner.cpp" bodystart="666" bodyend="672"/>
+        <location file="rrRoadRunner.h" line="649" column="28" bodyfile="rrRoadRunner.cpp" bodystart="682" bodyend="688"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-func">
@@ -4380,7 +4380,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1559" column="14" bodyfile="rrRoadRunner.cpp" bodystart="1574" bodyend="1584"/>
+        <location file="rrRoadRunner.h" line="1559" column="14" bodyfile="rrRoadRunner.cpp" bodystart="1590" bodyend="1600"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a0c49373f5b4da7d9bd23c278022b6429" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>size_t</type>
@@ -4393,7 +4393,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1562" column="16" bodyfile="rrRoadRunner.cpp" bodystart="2927" bodyend="2946"/>
+        <location file="rrRoadRunner.h" line="1562" column="16" bodyfile="rrRoadRunner.cpp" bodystart="2954" bodyend="2973"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a51c4d5d1cfd6e8c8177d2bc0d6356cf4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>size_t</type>
@@ -4406,7 +4406,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1563" column="16" bodyfile="rrRoadRunner.cpp" bodystart="738" bodyend="783"/>
+        <location file="rrRoadRunner.h" line="1563" column="16" bodyfile="rrRoadRunner.cpp" bodystart="754" bodyend="799"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a7be498f9a0d78bd85530b10a1b650125" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -4454,7 +4454,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1575" column="14" bodyfile="rrRoadRunner.cpp" bodystart="1038" bodyend="1049"/>
+        <location file="rrRoadRunner.h" line="1575" column="14" bodyfile="rrRoadRunner.cpp" bodystart="1054" bodyend="1065"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1aafcbbfa263f8ca43ac0eda623b86a7b9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -4467,7 +4467,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1577" column="14" bodyfile="rrRoadRunner.cpp" bodystart="1201" bodyend="1211"/>
+        <location file="rrRoadRunner.h" line="1577" column="14" bodyfile="rrRoadRunner.cpp" bodystart="1217" bodyend="1227"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a9c11a913c607be2ec0aaee76e81bef07" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
@@ -4488,7 +4488,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1580" column="16" bodyfile="rrRoadRunner.cpp" bodystart="1001" bodyend="1013"/>
+        <location file="rrRoadRunner.h" line="1580" column="16" bodyfile="rrRoadRunner.cpp" bodystart="1017" bodyend="1029"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1ad7c60d7ae5c8b92b1c4a1490f1d9d929" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -4505,7 +4505,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1582" column="14" bodyfile="rrRoadRunner.cpp" bodystart="5944" bodyend="6011"/>
+        <location file="rrRoadRunner.h" line="1582" column="14" bodyfile="rrRoadRunner.cpp" bodystart="5971" bodyend="6038"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a2937cdfb17c33ce04dc3184b066bb942" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -4526,7 +4526,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1584" column="14" bodyfile="rrRoadRunner.cpp" bodystart="7047" bodyend="7058"/>
+        <location file="rrRoadRunner.h" line="1584" column="14" bodyfile="rrRoadRunner.cpp" bodystart="7083" bodyend="7094"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a0b5a3f0d39365ceef41514fabd1c90d5" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -4540,7 +4540,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1587" column="13" bodyfile="rrRoadRunner.cpp" bodystart="1015" bodyend="1027"/>
+        <location file="rrRoadRunner.h" line="1587" column="13" bodyfile="rrRoadRunner.cpp" bodystart="1031" bodyend="1043"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a1cecf2554210e549f7a379001a57066c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
@@ -4561,7 +4561,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1594" column="16" bodyfile="rrRoadRunner.cpp" bodystart="2899" bodyend="2925"/>
+        <location file="rrRoadRunner.h" line="1594" column="16" bodyfile="rrRoadRunner.cpp" bodystart="2926" bodyend="2952"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1af7bf954facc34a728c55c151a82b4513" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>ls::LibStructural *</type>
@@ -4575,7 +4575,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1600" column="27" bodyfile="rrRoadRunner.cpp" bodystart="676" bodyend="695"/>
+        <location file="rrRoadRunner.h" line="1600" column="27" bodyfile="rrRoadRunner.cpp" bodystart="692" bodyend="711"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a6fef677633e62e8c9cc9a124e4aa4968" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -4589,7 +4589,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1608" column="14" bodyfile="rrRoadRunner.cpp" bodystart="1118" bodyend="1144"/>
+        <location file="rrRoadRunner.h" line="1608" column="14" bodyfile="rrRoadRunner.cpp" bodystart="1134" bodyend="1160"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a8f04709a840ba7ea344db95b3db486c3" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>size_t</type>
@@ -4603,7 +4603,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1614" column="16" bodyfile="rrRoadRunner.cpp" bodystart="785" bodyend="806"/>
+        <location file="rrRoadRunner.h" line="1614" column="16" bodyfile="rrRoadRunner.cpp" bodystart="801" bodyend="822"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a2b0b24adeeb8bcababb2301fb2c28364" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; <ref refid="classrr_1_1SelectionRecord" kindref="compound">SelectionRecord</ref> &gt;</type>
@@ -4616,7 +4616,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1616" column="21" bodyfile="rrRoadRunner.cpp" bodystart="618" bodyend="621"/>
+        <location file="rrRoadRunner.h" line="1616" column="21" bodyfile="rrRoadRunner.cpp" bodystart="634" bodyend="637"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1ae32c3f10a636667166a3547b211bb6ac" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -4631,7 +4631,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1623" column="14" bodyfile="rrRoadRunner.cpp" bodystart="5160" bodyend="5179"/>
+        <location file="rrRoadRunner.h" line="1623" column="14" bodyfile="rrRoadRunner.cpp" bodystart="5187" bodyend="5206"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1ab0091e3fd01aa0d2051ab5136832da68" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::complex&lt; double &gt; &gt;</type>
@@ -4648,7 +4648,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1630" column="21" bodyfile="rrRoadRunner.cpp" bodystart="2086" bodyend="2100"/>
+        <location file="rrRoadRunner.h" line="1630" column="21" bodyfile="rrRoadRunner.cpp" bodystart="2113" bodyend="2127"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1aa7c8c79214cdf3a420a3c6a05cd01360" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -4669,7 +4669,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1641" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6751" bodyend="6757"/>
+        <location file="rrRoadRunner.h" line="1641" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6787" bodyend="6793"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1aff05d5316f9ad9d17af3799889a24e58" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -4694,7 +4694,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1646" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6814" bodyend="6823"/>
+        <location file="rrRoadRunner.h" line="1646" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6850" bodyend="6859"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1ae01a10cac306c4fe96085909c97fa1c8" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -4711,7 +4711,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1651" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6825" bodyend="7045"/>
+        <location file="rrRoadRunner.h" line="1651" column="14" bodyfile="rrRoadRunner.cpp" bodystart="6861" bodyend="7081"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a652699a2e4a3b5aa5fb78040712ccc78" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -4732,7 +4732,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1656" column="14" bodyfile="rrRoadRunner.cpp" bodystart="7060" bodyend="7078"/>
+        <location file="rrRoadRunner.h" line="1656" column="14" bodyfile="rrRoadRunner.cpp" bodystart="7096" bodyend="7114"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1acdfc22ee5b4c4b962e60900567c5eeea" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -4791,7 +4791,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1667" column="14" bodyfile="rrRoadRunner.cpp" bodystart="7109" bodyend="7137"/>
+        <location file="rrRoadRunner.h" line="1667" column="14" bodyfile="rrRoadRunner.cpp" bodystart="7145" bodyend="7173"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1a516972576c9b42e85387307db03f936c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -4812,7 +4812,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1668" column="14" bodyfile="rrRoadRunner.cpp" bodystart="5388" bodyend="5398"/>
+        <location file="rrRoadRunner.h" line="1668" column="14" bodyfile="rrRoadRunner.cpp" bodystart="5415" bodyend="5425"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunner_1afb806cadbfb14bddc33ef82b2ea7bb43" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -4833,7 +4833,7 @@ For example, to perform a simulation from time 0 to 10 with 1000 steps, using a 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.h" line="1669" column="14" bodyfile="rrRoadRunner.cpp" bodystart="5535" bodyend="5549"/>
+        <location file="rrRoadRunner.h" line="1669" column="14" bodyfile="rrRoadRunner.cpp" bodystart="5554" bodyend="5568"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

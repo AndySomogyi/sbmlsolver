@@ -1,0 +1,221 @@
+\hypertarget{classrr_1_1CompiledModelGenerator}{}\doxysection{rr\+::Compiled\+Model\+Generator Class Reference}
+\label{classrr_1_1CompiledModelGenerator}\index{rr::CompiledModelGenerator@{rr::CompiledModelGenerator}}
+
+
+Both compiled model generators (C and C\+Sharp) share a lot of functionality, so implement that here.  
+
+
+
+
+{\ttfamily \#include $<$rr\+Compiled\+Model\+Generator.\+h$>$}
+
+Inheritance diagram for rr\+::Compiled\+Model\+Generator\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classrr_1_1CompiledModelGenerator}
+\end{center}
+\end{figure}
+\doxysubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classrr_1_1CompiledModelGenerator_abd98244a057a721ee0d800050fe57ba5}\label{classrr_1_1CompiledModelGenerator_abd98244a057a721ee0d800050fe57ba5}} 
+string {\bfseries substitute\+Terms} (const string \&reaction\+Name, const string \&input\+Equation, bool b\+Fix\+Amounts)
+\item 
+\mbox{\Hypertarget{classrr_1_1CompiledModelGenerator_a3cc060e27371dc7835462c46e9c0ec15}\label{classrr_1_1CompiledModelGenerator_a3cc060e27371dc7835462c46e9c0ec15}} 
+string {\bfseries substitute\+Terms} (const int \&num\+Reactions, const string \&reaction\+Name, const string \&equation)
+\item 
+\mbox{\Hypertarget{classrr_1_1CompiledModelGenerator_a48ebead7875af1c44056dd7dc9d6bb8c}\label{classrr_1_1CompiledModelGenerator_a48ebead7875af1c44056dd7dc9d6bb8c}} 
+virtual string {\bfseries convert\+User\+Function\+Expression} (const string \&equation)=0
+\item 
+\mbox{\Hypertarget{classrr_1_1CompiledModelGenerator_acf7a75f136c8482de87126e404c08e5c}\label{classrr_1_1CompiledModelGenerator_acf7a75f136c8482de87126e404c08e5c}} 
+virtual void {\bfseries substitute\+Equation} (const string \&reaction\+Name, \mbox{\hyperlink{classrr_1_1Scanner}{Scanner}} \&s, \mbox{\hyperlink{classrr_1_1CodeBuilder}{Code\+Builder}} \&sb)=0
+\item 
+\mbox{\Hypertarget{classrr_1_1CompiledModelGenerator_a6fdc514bfc3b382a7c022e65f82561cb}\label{classrr_1_1CompiledModelGenerator_a6fdc514bfc3b382a7c022e65f82561cb}} 
+virtual void {\bfseries substitute\+Words} (const string \&reaction\+Name, bool b\+Fix\+Amounts, \mbox{\hyperlink{classrr_1_1Scanner}{Scanner}} \&s, \mbox{\hyperlink{classrr_1_1CodeBuilder}{Code\+Builder}} \&sb)=0
+\item 
+\mbox{\Hypertarget{classrr_1_1CompiledModelGenerator_ab130813db5c793df5d1f38f83a2b7b0f}\label{classrr_1_1CompiledModelGenerator_ab130813db5c793df5d1f38f83a2b7b0f}} 
+virtual void {\bfseries substitute\+Token} (const string \&reaction\+Name, bool b\+Fix\+Amounts, \mbox{\hyperlink{classrr_1_1Scanner}{Scanner}} \&s, \mbox{\hyperlink{classrr_1_1CodeBuilder}{Code\+Builder}} \&sb)=0
+\item 
+\mbox{\Hypertarget{classrr_1_1CompiledModelGenerator_a05b33699c155d2001738bd0e10a34084}\label{classrr_1_1CompiledModelGenerator_a05b33699c155d2001738bd0e10a34084}} 
+virtual string {\bfseries find\+Symbol} (const string \&var\+Name)=0
+\item 
+\mbox{\Hypertarget{classrr_1_1CompiledModelGenerator_a2be35b02336535290c544d76af317bcf}\label{classrr_1_1CompiledModelGenerator_a2be35b02336535290c544d76af317bcf}} 
+virtual void {\bfseries write\+Compute\+All\+Rates\+Of\+Change} (\mbox{\hyperlink{classrr_1_1CodeBuilder}{Code\+Builder}} \&sb, const int \&num\+Independent\+Species, const int \&num\+Dependent\+Species, ls\+::\+Double\+Matrix \&L0)=0
+\item 
+\mbox{\Hypertarget{classrr_1_1CompiledModelGenerator_a7574c7fea2bd30e11bd11c260e925987}\label{classrr_1_1CompiledModelGenerator_a7574c7fea2bd30e11bd11c260e925987}} 
+virtual void {\bfseries write\+Compute\+Conserved\+Totals} (\mbox{\hyperlink{classrr_1_1CodeBuilder}{Code\+Builder}} \&sb, const int \&num\+Floating\+Species, const int \&num\+Dependent\+Species)=0
+\item 
+\mbox{\Hypertarget{classrr_1_1CompiledModelGenerator_ab487406bda86417c307862f1b3adc2c4}\label{classrr_1_1CompiledModelGenerator_ab487406bda86417c307862f1b3adc2c4}} 
+virtual void {\bfseries write\+Update\+Dependent\+Species} (\mbox{\hyperlink{classrr_1_1CodeBuilder}{Code\+Builder}} \&sb, const int \&num\+Independent\+Species, const int \&num\+Dependent\+Species, ls\+::\+Double\+Matrix \&L0)=0
+\item 
+\mbox{\Hypertarget{classrr_1_1CompiledModelGenerator_a7dd38c5c2c487cf7d081040471a1e516}\label{classrr_1_1CompiledModelGenerator_a7dd38c5c2c487cf7d081040471a1e516}} 
+virtual void {\bfseries write\+User\+Defined\+Functions} (\mbox{\hyperlink{classrr_1_1CodeBuilder}{Code\+Builder}} \&sb)=0
+\item 
+\mbox{\Hypertarget{classrr_1_1CompiledModelGenerator_aac082f76339145c6aa20bb275d57b2f6}\label{classrr_1_1CompiledModelGenerator_aac082f76339145c6aa20bb275d57b2f6}} 
+virtual void {\bfseries write\+Reset\+Events} (\mbox{\hyperlink{classrr_1_1CodeBuilder}{Code\+Builder}} \&sb, const int \&num\+Events)=0
+\item 
+\mbox{\Hypertarget{classrr_1_1CompiledModelGenerator_a0b7bcf169af7f23f25e1d522dbf4e474}\label{classrr_1_1CompiledModelGenerator_a0b7bcf169af7f23f25e1d522dbf4e474}} 
+virtual void {\bfseries write\+Set\+Concentration} (\mbox{\hyperlink{classrr_1_1CodeBuilder}{Code\+Builder}} \&sb)=0
+\item 
+\mbox{\Hypertarget{classrr_1_1CompiledModelGenerator_a4309e859892e8ea1c21edb4e3507add1}\label{classrr_1_1CompiledModelGenerator_a4309e859892e8ea1c21edb4e3507add1}} 
+virtual void {\bfseries write\+Get\+Concentration} (\mbox{\hyperlink{classrr_1_1CodeBuilder}{Code\+Builder}} \&sb)=0
+\item 
+\mbox{\Hypertarget{classrr_1_1CompiledModelGenerator_af2b05c0636fed729b76b0d069e524da3}\label{classrr_1_1CompiledModelGenerator_af2b05c0636fed729b76b0d069e524da3}} 
+virtual void {\bfseries write\+Convert\+To\+Amounts} (\mbox{\hyperlink{classrr_1_1CodeBuilder}{Code\+Builder}} \&sb)=0
+\item 
+\mbox{\Hypertarget{classrr_1_1CompiledModelGenerator_aaf272e2e6b30ca7d5f2aaf24b31575fe}\label{classrr_1_1CompiledModelGenerator_aaf272e2e6b30ca7d5f2aaf24b31575fe}} 
+virtual void {\bfseries write\+Convert\+To\+Concentrations} (\mbox{\hyperlink{classrr_1_1CodeBuilder}{Code\+Builder}} \&sb)=0
+\item 
+\mbox{\Hypertarget{classrr_1_1CompiledModelGenerator_aa44eec2bf385037245bdb0e0d068923c}\label{classrr_1_1CompiledModelGenerator_aa44eec2bf385037245bdb0e0d068923c}} 
+virtual void {\bfseries write\+Properties} (\mbox{\hyperlink{classrr_1_1CodeBuilder}{Code\+Builder}} \&sb)=0
+\item 
+\mbox{\Hypertarget{classrr_1_1CompiledModelGenerator_adda5594223e404f41f412c552ebda903}\label{classrr_1_1CompiledModelGenerator_adda5594223e404f41f412c552ebda903}} 
+virtual void {\bfseries write\+Accessors} (\mbox{\hyperlink{classrr_1_1CodeBuilder}{Code\+Builder}} \&sb)=0
+\item 
+\mbox{\Hypertarget{classrr_1_1CompiledModelGenerator_ac76213071761d3351f516b7736600187}\label{classrr_1_1CompiledModelGenerator_ac76213071761d3351f516b7736600187}} 
+virtual void {\bfseries write\+Out\+Variables} (\mbox{\hyperlink{classrr_1_1CodeBuilder}{Code\+Builder}} \&sb)=0
+\item 
+\mbox{\Hypertarget{classrr_1_1CompiledModelGenerator_a7482e84ec6d33a486678e4fdc016a77e}\label{classrr_1_1CompiledModelGenerator_a7482e84ec6d33a486678e4fdc016a77e}} 
+virtual void {\bfseries write\+Class\+Header} (\mbox{\hyperlink{classrr_1_1CodeBuilder}{Code\+Builder}} \&sb)=0
+\item 
+\mbox{\Hypertarget{classrr_1_1CompiledModelGenerator_a4973b138fe795329171c5ae5eddbaa37}\label{classrr_1_1CompiledModelGenerator_a4973b138fe795329171c5ae5eddbaa37}} 
+virtual void {\bfseries write\+Test\+Constraints} (\mbox{\hyperlink{classrr_1_1CodeBuilder}{Code\+Builder}} \&sb)=0
+\item 
+\mbox{\Hypertarget{classrr_1_1CompiledModelGenerator_a21ddc6dd30c7f26f9e69b8a552ff7931}\label{classrr_1_1CompiledModelGenerator_a21ddc6dd30c7f26f9e69b8a552ff7931}} 
+virtual void {\bfseries write\+Eval\+Initial\+Assignments} (\mbox{\hyperlink{classrr_1_1CodeBuilder}{Code\+Builder}} \&sb, const int \&num\+Reactions)=0
+\item 
+\mbox{\Hypertarget{classrr_1_1CompiledModelGenerator_aa35e6523a75b19a1a7e53783d63df16d}\label{classrr_1_1CompiledModelGenerator_aa35e6523a75b19a1a7e53783d63df16d}} 
+virtual int {\bfseries write\+Compute\+Rules} (\mbox{\hyperlink{classrr_1_1CodeBuilder}{Code\+Builder}} \&sb, const int \&num\+Reactions)=0
+\item 
+\mbox{\Hypertarget{classrr_1_1CompiledModelGenerator_a1c76c911be10607a23c502ad75a4be39}\label{classrr_1_1CompiledModelGenerator_a1c76c911be10607a23c502ad75a4be39}} 
+virtual void {\bfseries write\+Compute\+Reaction\+Rates} (\mbox{\hyperlink{classrr_1_1CodeBuilder}{Code\+Builder}} \&sb, const int \&num\+Reactions)=0
+\item 
+\mbox{\Hypertarget{classrr_1_1CompiledModelGenerator_aa0f6df64e23106a9c459c3f5cee5a594}\label{classrr_1_1CompiledModelGenerator_aa0f6df64e23106a9c459c3f5cee5a594}} 
+virtual void {\bfseries write\+Eval\+Events} (\mbox{\hyperlink{classrr_1_1CodeBuilder}{Code\+Builder}} \&sb, const int \&num\+Events, const int \&num\+Floating\+Species)=0
+\item 
+\mbox{\Hypertarget{classrr_1_1CompiledModelGenerator_a43ed8efbedeb6d2009f8c6bb769d53d6}\label{classrr_1_1CompiledModelGenerator_a43ed8efbedeb6d2009f8c6bb769d53d6}} 
+virtual void {\bfseries write\+Eval\+Model} (\mbox{\hyperlink{classrr_1_1CodeBuilder}{Code\+Builder}} \&sb, const int \&num\+Reactions, const int \&num\+Independent\+Species, const int \&num\+Floating\+Species, const int \&num\+Of\+Rules)=0
+\item 
+\mbox{\Hypertarget{classrr_1_1CompiledModelGenerator_a5d2f268d7aa8dd15031be226d0d4ee08}\label{classrr_1_1CompiledModelGenerator_a5d2f268d7aa8dd15031be226d0d4ee08}} 
+virtual void {\bfseries write\+Event\+Assignments} (\mbox{\hyperlink{classrr_1_1CodeBuilder}{Code\+Builder}} \&sb, const int \&num\+Reactions, const int \&num\+Events)=0
+\item 
+\mbox{\Hypertarget{classrr_1_1CompiledModelGenerator_a33a94c2f88d626c0ce8c0016aa192685}\label{classrr_1_1CompiledModelGenerator_a33a94c2f88d626c0ce8c0016aa192685}} 
+virtual void {\bfseries write\+Set\+Parameter\+Values} (\mbox{\hyperlink{classrr_1_1CodeBuilder}{Code\+Builder}} \&sb, const int \&num\+Reactions)=0
+\item 
+\mbox{\Hypertarget{classrr_1_1CompiledModelGenerator_a0b1dc554056388c59b3315620712549f}\label{classrr_1_1CompiledModelGenerator_a0b1dc554056388c59b3315620712549f}} 
+virtual void {\bfseries write\+Set\+Compartment\+Volumes} (\mbox{\hyperlink{classrr_1_1CodeBuilder}{Code\+Builder}} \&sb)=0
+\item 
+\mbox{\Hypertarget{classrr_1_1CompiledModelGenerator_a7181d06e66c4f42b07741bb008bee6a4}\label{classrr_1_1CompiledModelGenerator_a7181d06e66c4f42b07741bb008bee6a4}} 
+virtual void {\bfseries write\+Set\+Boundary\+Conditions} (\mbox{\hyperlink{classrr_1_1CodeBuilder}{Code\+Builder}} \&sb)=0
+\item 
+\mbox{\Hypertarget{classrr_1_1CompiledModelGenerator_a6a80d2218a167797574086eba00bc52e}\label{classrr_1_1CompiledModelGenerator_a6a80d2218a167797574086eba00bc52e}} 
+virtual void {\bfseries write\+Set\+Initial\+Conditions} (\mbox{\hyperlink{classrr_1_1CodeBuilder}{Code\+Builder}} \&sb, const int \&num\+Floating\+Species)=0
+\item 
+\mbox{\Hypertarget{classrr_1_1CompiledModelGenerator_a41591dbc45c36f7857594be812370a8b}\label{classrr_1_1CompiledModelGenerator_a41591dbc45c36f7857594be812370a8b}} 
+virtual string {\bfseries convert\+Compartment\+ToC} (const string \&compartment\+Name)=0
+\item 
+\mbox{\Hypertarget{classrr_1_1CompiledModelGenerator_aa25ad9590f682f8a69e4b5ce901c412e}\label{classrr_1_1CompiledModelGenerator_aa25ad9590f682f8a69e4b5ce901c412e}} 
+virtual string {\bfseries convert\+Species\+To\+Bc} (const string \&species\+Name)=0
+\item 
+\mbox{\Hypertarget{classrr_1_1CompiledModelGenerator_a22632a8fab81181365100e062313af7f}\label{classrr_1_1CompiledModelGenerator_a22632a8fab81181365100e062313af7f}} 
+virtual string {\bfseries convert\+Species\+ToY} (const string \&species\+Name)=0
+\item 
+\mbox{\Hypertarget{classrr_1_1CompiledModelGenerator_a7f3f722869fbbdcd7363b4a1b1b700ae}\label{classrr_1_1CompiledModelGenerator_a7f3f722869fbbdcd7363b4a1b1b700ae}} 
+virtual string {\bfseries convert\+Symbol\+ToC} (const string \&compartment\+Name)=0
+\item 
+\mbox{\Hypertarget{classrr_1_1CompiledModelGenerator_a049917c1e071adb6f75cee81a0cc7722}\label{classrr_1_1CompiledModelGenerator_a049917c1e071adb6f75cee81a0cc7722}} 
+virtual string {\bfseries convert\+Symbol\+To\+GP} (const string \&parameter\+Name)=0
+\item 
+\mbox{\Hypertarget{classrr_1_1CompiledModelGenerator_a23c60a02af3670309b5ec6e490014b08}\label{classrr_1_1CompiledModelGenerator_a23c60a02af3670309b5ec6e490014b08}} 
+void {\bfseries reset} ()
+\item 
+\mbox{\Hypertarget{classrr_1_1CompiledModelGenerator_ace639f4abdb8f6eea7c0e945a678ea59}\label{classrr_1_1CompiledModelGenerator_ace639f4abdb8f6eea7c0e945a678ea59}} 
+int {\bfseries num\+Additional\+Rates} ()
+\item 
+\mbox{\Hypertarget{classrr_1_1CompiledModelGenerator_a881aba4028f09e3bf59be8c355cba632}\label{classrr_1_1CompiledModelGenerator_a881aba4028f09e3bf59be8c355cba632}} 
+virtual string \mbox{\hyperlink{classrr_1_1CompiledModelGenerator_a881aba4028f09e3bf59be8c355cba632}{get\+Info}} ()
+\begin{DoxyCompactList}\small\item\em get various information about the model in a user displayable format. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classrr_1_1CompiledModelGenerator_a26729d1790a20eaae1d68e13849b1b67}\label{classrr_1_1CompiledModelGenerator_a26729d1790a20eaae1d68e13849b1b67}} 
+ls\+::\+Double\+Matrix $\ast$ {\bfseries initialize\+L0} (int \&nr\+Rows, int \&nr\+Cols)
+\item 
+\mbox{\Hypertarget{classrr_1_1CompiledModelGenerator_ab1f406a344204df66cd9b11ebfe456e5}\label{classrr_1_1CompiledModelGenerator_ab1f406a344204df66cd9b11ebfe456e5}} 
+bool {\bfseries expression\+Contains\+Symbol} (A\+S\+T\+Node $\ast$ast, const string \&symbol)
+\item 
+\mbox{\Hypertarget{classrr_1_1CompiledModelGenerator_aae54423f611bee69b327019ba7d343cb}\label{classrr_1_1CompiledModelGenerator_aae54423f611bee69b327019ba7d343cb}} 
+bool {\bfseries expression\+Contains\+Symbol} (const string \&expression, const string \&symbol)
+\item 
+\mbox{\Hypertarget{classrr_1_1CompiledModelGenerator_af8f56c134cf542be869f28aee448e493}\label{classrr_1_1CompiledModelGenerator_af8f56c134cf542be869f28aee448e493}} 
+const \mbox{\hyperlink{classrr_1_1Symbol}{Symbol}} $\ast$ {\bfseries get\+Species} (const string \&id)
+\item 
+\mbox{\Hypertarget{classrr_1_1CompiledModelGenerator_ad6a28a2aaa117e3597ff73c40e109aea}\label{classrr_1_1CompiledModelGenerator_ad6a28a2aaa117e3597ff73c40e109aea}} 
+int {\bfseries read\+Global\+Parameters} ()
+\item 
+\mbox{\Hypertarget{classrr_1_1CompiledModelGenerator_a0ecb08d85b193485adce0e4e3e0a1d9f}\label{classrr_1_1CompiledModelGenerator_a0ecb08d85b193485adce0e4e3e0a1d9f}} 
+void {\bfseries read\+Local\+Parameters} (const int \&num\+Reactions, vector$<$ int $>$ \&local\+Parameter\+Dimensions, int \&total\+Local\+Parmeters)
+\item 
+\mbox{\Hypertarget{classrr_1_1CompiledModelGenerator_a4948f3ed624ae2ec84db980b8b309970}\label{classrr_1_1CompiledModelGenerator_a4948f3ed624ae2ec84db980b8b309970}} 
+int {\bfseries read\+Compartments} ()
+\item 
+\mbox{\Hypertarget{classrr_1_1CompiledModelGenerator_a07ed5787c6566e411dae168b5a4b750d}\label{classrr_1_1CompiledModelGenerator_a07ed5787c6566e411dae168b5a4b750d}} 
+string {\bfseries write\+Double} (const double \&value, const string \&format=\char`\"{}\%G\char`\"{})
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classrr_1_1CompiledModelGenerator_ab26b2d6a05b3432f1b07b8bcdd4aa791}\label{classrr_1_1CompiledModelGenerator_ab26b2d6a05b3432f1b07b8bcdd4aa791}} 
+static A\+S\+T\+Node $\ast$ \mbox{\hyperlink{classrr_1_1CompiledModelGenerator_ab26b2d6a05b3432f1b07b8bcdd4aa791}{clean\+Equation}} (A\+S\+T\+Node $\ast$ast)
+\begin{DoxyCompactList}\small\item\em creates a new A\+ST node \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classrr_1_1CompiledModelGenerator_a18e8f63c338062e02f8eca01216a907c}\label{classrr_1_1CompiledModelGenerator_a18e8f63c338062e02f8eca01216a907c}} 
+static string {\bfseries clean\+Equation} (const string \&equation)
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classrr_1_1CompiledModelGenerator_af346298187993ac6d970c58f32a7af4f}\label{classrr_1_1CompiledModelGenerator_af346298187993ac6d970c58f32a7af4f}} 
+ls\+::\+Lib\+Structural $\ast$ \mbox{\hyperlink{classrr_1_1CompiledModelGenerator_af346298187993ac6d970c58f32a7af4f}{m\+Lib\+Struct}}
+\begin{DoxyCompactList}\small\item\em Refernce to libstruct library this are set by create\+Model, and for the time being remain after create\+Model completes. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classrr_1_1NOMSupport}{N\+O\+M\+Support}} $\ast$ \mbox{\hyperlink{classrr_1_1CompiledModelGenerator_a95eb17b0b46dc689ee4e1eb4d737c6f1}{m\+N\+OM}}
+\begin{DoxyCompactList}\small\item\em Object that provide some wrappers and new \char`\"{}\+N\+O\+M\char`\"{} functions. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classrr_1_1CompiledModelGenerator_a2d7614c0af0bd2bc86487f828a98e7ac}\label{classrr_1_1CompiledModelGenerator_a2d7614c0af0bd2bc86487f828a98e7ac}} 
+bool {\bfseries m\+Compute\+And\+Assign\+Consevation\+Laws}
+\item 
+\mbox{\Hypertarget{classrr_1_1CompiledModelGenerator_a1abb35dc53e805a7faef2bfa90411a10}\label{classrr_1_1CompiledModelGenerator_a1abb35dc53e805a7faef2bfa90411a10}} 
+const string {\bfseries m\+Fix\+Amount\+Compartments}
+\item 
+\mbox{\Hypertarget{classrr_1_1CompiledModelGenerator_ad21d16a2d15000f8225e0f21477a22ec}\label{classrr_1_1CompiledModelGenerator_ad21d16a2d15000f8225e0f21477a22ec}} 
+\mbox{\hyperlink{classrr_1_1StringList}{String\+List}} {\bfseries m\+Warnings}
+\item 
+\mbox{\hyperlink{classrr_1_1ModelSymbols}{Model\+Symbols}} \mbox{\hyperlink{classrr_1_1CompiledModelGenerator_aae0da14da795acd4122229c1b306c262}{ms}}
+\begin{DoxyCompactList}\small\item\em hold all the symbolic (A\+KA metadata) information in the model The idea is that all the memebers of this class will be const, and the entire thing will be created anew each time create\+Model is called. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Both compiled model generators (C and C\+Sharp) share a lot of functionality, so implement that here. 
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classrr_1_1CompiledModelGenerator_a95eb17b0b46dc689ee4e1eb4d737c6f1}\label{classrr_1_1CompiledModelGenerator_a95eb17b0b46dc689ee4e1eb4d737c6f1}} 
+\index{rr::CompiledModelGenerator@{rr::CompiledModelGenerator}!mNOM@{mNOM}}
+\index{mNOM@{mNOM}!rr::CompiledModelGenerator@{rr::CompiledModelGenerator}}
+\doxysubsubsection{\texorpdfstring{mNOM}{mNOM}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classrr_1_1NOMSupport}{N\+O\+M\+Support}}$\ast$ rr\+::\+Compiled\+Model\+Generator\+::m\+N\+OM\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Object that provide some wrappers and new \char`\"{}\+N\+O\+M\char`\"{} functions. 
+
+this are set by create\+Model, and for the time being remain after create\+Model completes. \mbox{\Hypertarget{classrr_1_1CompiledModelGenerator_aae0da14da795acd4122229c1b306c262}\label{classrr_1_1CompiledModelGenerator_aae0da14da795acd4122229c1b306c262}} 
+\index{rr::CompiledModelGenerator@{rr::CompiledModelGenerator}!ms@{ms}}
+\index{ms@{ms}!rr::CompiledModelGenerator@{rr::CompiledModelGenerator}}
+\doxysubsubsection{\texorpdfstring{ms}{ms}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classrr_1_1ModelSymbols}{Model\+Symbols}} rr\+::\+Compiled\+Model\+Generator\+::ms\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+hold all the symbolic (A\+KA metadata) information in the model The idea is that all the memebers of this class will be const, and the entire thing will be created anew each time create\+Model is called. 
+
+This thing will creted in one shot, then all the code building will access it. 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+c/rr\+Compiled\+Model\+Generator.\+h\item 
+c/rr\+Compiled\+Model\+Generator.\+cpp\end{DoxyCompactItemize}

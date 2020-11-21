@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+  <compounddef id="classrrllvm_1_1AssignmentRuleEvaluator" kind="class" language="C++" prot="public">
+    <compoundname>rrllvm::AssignmentRuleEvaluator</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">SBMLVisitor</basecompoundref>
+    <includes refid="AssignmentRuleEvaluator_8h" local="no">AssignmentRuleEvaluator.h</includes>
+      <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classrrllvm_1_1AssignmentRuleEvaluator_1a941c2d2ad09d092387c20e90403ea41a" prot="protected" static="no" mutable="no">
+        <type><ref refid="classrrllvm_1_1SymbolForest" kindref="compound">SymbolForest</ref> &amp;</type>
+        <definition>SymbolForest&amp; rrllvm::AssignmentRuleEvaluator::symbols</definition>
+        <argsstring></argsstring>
+        <name>symbols</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/AssignmentRuleEvaluator.h" line="37" column="18" bodyfile="llvm/AssignmentRuleEvaluator.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classrrllvm_1_1AssignmentRuleEvaluator_1a95765b2133aa935fcbe7ef10b062360a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>rrllvm::AssignmentRuleEvaluator::AssignmentRuleEvaluator</definition>
+        <argsstring>(SymbolForest &amp;symbols)</argsstring>
+        <name>AssignmentRuleEvaluator</name>
+        <param>
+          <type><ref refid="classrrllvm_1_1SymbolForest" kindref="compound">SymbolForest</ref> &amp;</type>
+          <declname>symbols</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/AssignmentRuleEvaluator.h" line="30" column="5" bodyfile="llvm/AssignmentRuleEvaluator.cpp" bodystart="18" bodyend="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classrrllvm_1_1AssignmentRuleEvaluator_1a370be5c94becccff0aa3019f57e5b80e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void rrllvm::AssignmentRuleEvaluator::evaluate</definition>
+        <argsstring>(const libsbml::Model &amp;model)</argsstring>
+        <name>evaluate</name>
+        <param>
+          <type>const libsbml::Model &amp;</type>
+          <declname>model</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/AssignmentRuleEvaluator.h" line="32" column="10" bodyfile="llvm/AssignmentRuleEvaluator.cpp" bodystart="24" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classrrllvm_1_1AssignmentRuleEvaluator_1a712c069badcab168459e4219ac9df185" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool rrllvm::AssignmentRuleEvaluator::visit</definition>
+        <argsstring>(const libsbml::AssignmentRule &amp;x)</argsstring>
+        <name>visit</name>
+        <param>
+          <type>const libsbml::AssignmentRule &amp;</type>
+          <declname>x</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/AssignmentRuleEvaluator.h" line="34" column="18" bodyfile="llvm/AssignmentRuleEvaluator.cpp" bodystart="29" bodyend="35"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Attaches to an existing symbol forest and applies any asigment rule found in the model to the forest. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>rrllvm::AssignmentRuleEvaluator</label>
+        <link refid="classrrllvm_1_1AssignmentRuleEvaluator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>SBMLVisitor</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>rrllvm::AssignmentRuleEvaluator</label>
+        <link refid="classrrllvm_1_1AssignmentRuleEvaluator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>symbols</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>SBMLVisitor</label>
+      </node>
+      <node id="3">
+        <label>rrllvm::SymbolForest</label>
+        <link refid="classrrllvm_1_1SymbolForest"/>
+        <childnode refid="4" relation="usage">
+          <edgelabel>boundarySpecies</edgelabel>
+          <edgelabel>compartments</edgelabel>
+          <edgelabel>floatingSpecies</edgelabel>
+          <edgelabel>globalParameters</edgelabel>
+          <edgelabel>speciesReferences</edgelabel>
+        </childnode>
+      </node>
+      <node id="4">
+        <label>map&lt; string, const libsbml::ASTNode * &gt;</label>
+      </node>
+    </collaborationgraph>
+    <location file="llvm/AssignmentRuleEvaluator.h" line="25" column="1" bodyfile="llvm/AssignmentRuleEvaluator.h" bodystart="26" bodyend="38"/>
+    <listofallmembers>
+      <member refid="classrrllvm_1_1AssignmentRuleEvaluator_1a95765b2133aa935fcbe7ef10b062360a" prot="public" virt="non-virtual"><scope>rrllvm::AssignmentRuleEvaluator</scope><name>AssignmentRuleEvaluator</name></member>
+      <member refid="classrrllvm_1_1AssignmentRuleEvaluator_1a370be5c94becccff0aa3019f57e5b80e" prot="public" virt="non-virtual"><scope>rrllvm::AssignmentRuleEvaluator</scope><name>evaluate</name></member>
+      <member refid="classrrllvm_1_1AssignmentRuleEvaluator_1a941c2d2ad09d092387c20e90403ea41a" prot="protected" virt="non-virtual"><scope>rrllvm::AssignmentRuleEvaluator</scope><name>symbols</name></member>
+      <member refid="classrrllvm_1_1AssignmentRuleEvaluator_1a712c069badcab168459e4219ac9df185" prot="public" virt="virtual"><scope>rrllvm::AssignmentRuleEvaluator</scope><name>visit</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

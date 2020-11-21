@@ -1,0 +1,292 @@
+\hypertarget{structSModelData}{}\doxysection{S\+Model\+Data Struct Reference}
+\label{structSModelData}\index{SModelData@{SModelData}}
+
+
+A data structure that is that allows data to be exchanged with running S\+B\+ML models.  
+
+
+
+
+{\ttfamily \#include $<$rr\+Model\+Data.\+h$>$}
+
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structSModelData_a0423ae4f18c2dd6c1faf27332e3f0b66}\label{structSModelData_a0423ae4f18c2dd6c1faf27332e3f0b66}} 
+double \mbox{\hyperlink{structSModelData_a0423ae4f18c2dd6c1faf27332e3f0b66}{time}}
+\begin{DoxyCompactList}\small\item\em current time. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structSModelData_af7c01b47fef3f60602038f85096dfbe4}\label{structSModelData_af7c01b47fef3f60602038f85096dfbe4}} 
+unsigned \mbox{\hyperlink{structSModelData_af7c01b47fef3f60602038f85096dfbe4}{num\+Independent\+Species}}
+\begin{DoxyCompactList}\small\item\em number of linearly independent rows in the stochiometry matrix. \end{DoxyCompactList}\item 
+unsigned \mbox{\hyperlink{structSModelData_a37ea5e768eb56d854f12920c011f0f71}{num\+Dependent\+Species}}
+\begin{DoxyCompactList}\small\item\em number of linerly dependent rows in the stoichiometry matrix. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structSModelData_a1b895f48923f01b35474b4b39d467dca}\label{structSModelData_a1b895f48923f01b35474b4b39d467dca}} 
+double $\ast$ {\bfseries dependent\+Species\+Conserved\+Sums}
+\item 
+\mbox{\Hypertarget{structSModelData_a04711e9b8a95bcfd2a52810bed6d50cf}\label{structSModelData_a04711e9b8a95bcfd2a52810bed6d50cf}} 
+unsigned \mbox{\hyperlink{structSModelData_a04711e9b8a95bcfd2a52810bed6d50cf}{num\+Global\+Parameters}}
+\begin{DoxyCompactList}\small\item\em number of global parameters \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structSModelData_a2257024abd4930f569a2aa98c8eb1b20}\label{structSModelData_a2257024abd4930f569a2aa98c8eb1b20}} 
+double $\ast$ {\bfseries global\+Parameters}
+\item 
+unsigned \mbox{\hyperlink{structSModelData_a657e385e1b95468422191bb50bffe883}{num\+Reactions}}
+\begin{DoxyCompactList}\small\item\em number of reactions, same as rates\+Size. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structSModelData_a2496b3ef2f6fce907607c547b73b82a2}\label{structSModelData_a2496b3ef2f6fce907607c547b73b82a2}} 
+double $\ast$ {\bfseries reaction\+Rates}
+\item 
+\mbox{\Hypertarget{structSModelData_aa6fdceb721280572e9b8bdb54ec16786}\label{structSModelData_aa6fdceb721280572e9b8bdb54ec16786}} 
+unsigned {\bfseries num\+Rate\+Rules}
+\item 
+double $\ast$ \mbox{\hyperlink{structSModelData_ac7df09202d585b7c48e76fe95ad44073}{rate\+Rule\+Values}}
+\begin{DoxyCompactList}\small\item\em All of the elelments which have a rate rule are stored here. \end{DoxyCompactList}\item 
+double $\ast$ \mbox{\hyperlink{structSModelData_a8639637a1926a6f583c02bbd8e83f35a}{rate\+Rule\+Rates}}
+\begin{DoxyCompactList}\small\item\em the rate of change of all elements who\textquotesingle{}s dynamics are determined by rate rules. \end{DoxyCompactList}\item 
+unsigned $\ast$ \mbox{\hyperlink{structSModelData_a164fe6af8658f84db289ae47ee47ba5d}{local\+Parameters\+Offsets}}
+\begin{DoxyCompactList}\small\item\em L\+L\+VM specific C version does not support local parameters This is the offset, or starting index of the local parameters for reaction i. \end{DoxyCompactList}\item 
+unsigned $\ast$ \mbox{\hyperlink{structSModelData_aa311a625134da0823c75c1579de35a99}{local\+Parameters\+Num}}
+\begin{DoxyCompactList}\small\item\em the number of local parameters for each reaction, so legnth is num\+Reactions. \end{DoxyCompactList}\item 
+double $\ast$ \mbox{\hyperlink{structSModelData_afac5f917906b816f2b346226f2d2a544}{local\+Parameters}}
+\begin{DoxyCompactList}\small\item\em All local parameters are stored in this array. \end{DoxyCompactList}\item 
+unsigned \mbox{\hyperlink{structSModelData_adff1d6541495b59dcc98fdffcbd4e9ea}{num\+Floating\+Species}}
+\begin{DoxyCompactList}\small\item\em The total ammounts of the floating species, i.\+e. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structSModelData_aee7d47b121cd3ad5fc70c36b31f3ee6f}\label{structSModelData_aee7d47b121cd3ad5fc70c36b31f3ee6f}} 
+double $\ast$ \mbox{\hyperlink{structSModelData_aee7d47b121cd3ad5fc70c36b31f3ee6f}{floating\+Species\+Concentrations}}
+\begin{DoxyCompactList}\small\item\em number of floating species and floating species concentrations. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structSModelData_ae4e81afd1488e40134882997b5229bff}\label{structSModelData_ae4e81afd1488e40134882997b5229bff}} 
+double $\ast$ \mbox{\hyperlink{structSModelData_ae4e81afd1488e40134882997b5229bff}{floating\+Species\+Init\+Concentrations}}
+\begin{DoxyCompactList}\small\item\em initial concentration values for floating species. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structSModelData_a1072820fb3d2008eda23c879be4cbe4c}\label{structSModelData_a1072820fb3d2008eda23c879be4cbe4c}} 
+double $\ast$ \mbox{\hyperlink{structSModelData_a1072820fb3d2008eda23c879be4cbe4c}{floating\+Species\+Amount\+Rates}}
+\begin{DoxyCompactList}\small\item\em amount rates of change for floating species. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structSModelData_a54840de3549e7ac2ae480e0fa5362873}\label{structSModelData_a54840de3549e7ac2ae480e0fa5362873}} 
+double $\ast$ \mbox{\hyperlink{structSModelData_a54840de3549e7ac2ae480e0fa5362873}{floating\+Species\+Amounts}}
+\begin{DoxyCompactList}\small\item\em The total amount of a species in a compartment. \end{DoxyCompactList}\item 
+unsigned $\ast$ \mbox{\hyperlink{structSModelData_af30c0c6fcfcc6688390714d8246830c6}{floating\+Species\+Compartments}}
+\begin{DoxyCompactList}\small\item\em compartment index for each floating species, e.\+g. \end{DoxyCompactList}\item 
+unsigned \mbox{\hyperlink{structSModelData_a7908ee0a7657cbf8db1cf46fa7d9f3a3}{num\+Boundary\+Species}}
+\begin{DoxyCompactList}\small\item\em number of boundary species and boundary species concentrations. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structSModelData_af0fa0201d2bfb9a590a80189f9c1e2c0}\label{structSModelData_af0fa0201d2bfb9a590a80189f9c1e2c0}} 
+double $\ast$ {\bfseries boundary\+Species\+Concentrations}
+\item 
+\mbox{\Hypertarget{structSModelData_a3496526c8f632f0755fca00b73c4c451}\label{structSModelData_a3496526c8f632f0755fca00b73c4c451}} 
+double $\ast$ {\bfseries boundary\+Species\+Amounts}
+\item 
+unsigned $\ast$ \mbox{\hyperlink{structSModelData_a202df87d3245e913265d3bb09fab77b0}{boundary\+Species\+Compartments}}
+\begin{DoxyCompactList}\small\item\em compartment index for each boundary species, e.\+g. \end{DoxyCompactList}\item 
+unsigned \mbox{\hyperlink{structSModelData_a0ccf5268abb2976bfeab334fcf418268}{num\+Compartments}}
+\begin{DoxyCompactList}\small\item\em number of compartments, and compartment volumes. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structSModelData_a74a1862260bfdd35fa670f0a7741d81e}\label{structSModelData_a74a1862260bfdd35fa670f0a7741d81e}} 
+double $\ast$ {\bfseries compartment\+Volumes}
+\item 
+\mbox{\Hypertarget{structSModelData_a0142686426d797015d4738c1c6f34032}\label{structSModelData_a0142686426d797015d4738c1c6f34032}} 
+unsigned {\bfseries num\+Events}
+\item 
+\mbox{\Hypertarget{structSModelData_ae8cbd33fe54cb3bffa5e960dc34d52a9}\label{structSModelData_ae8cbd33fe54cb3bffa5e960dc34d52a9}} 
+unsigned {\bfseries event\+Type\+Size}
+\item 
+\mbox{\Hypertarget{structSModelData_ad23a71a8ea559803a4652b27f7e0f5bd}\label{structSModelData_ad23a71a8ea559803a4652b27f7e0f5bd}} 
+bool $\ast$ {\bfseries event\+Type}
+\item 
+\mbox{\Hypertarget{structSModelData_af884b41cb9813fce2866b82526996379}\label{structSModelData_af884b41cb9813fce2866b82526996379}} 
+unsigned {\bfseries event\+Persistent\+Type\+Size}
+\item 
+\mbox{\Hypertarget{structSModelData_a94298a9f2106e2907bca1ca149d58dc7}\label{structSModelData_a94298a9f2106e2907bca1ca149d58dc7}} 
+bool $\ast$ {\bfseries event\+Persistent\+Type}
+\item 
+\mbox{\Hypertarget{structSModelData_a5022260d67b3f39ce5fd777165002aca}\label{structSModelData_a5022260d67b3f39ce5fd777165002aca}} 
+unsigned {\bfseries event\+Tests\+Size}
+\item 
+\mbox{\Hypertarget{structSModelData_a11b6a93afdeac303695229f378aad466}\label{structSModelData_a11b6a93afdeac303695229f378aad466}} 
+double $\ast$ {\bfseries event\+Tests}
+\item 
+\mbox{\Hypertarget{structSModelData_a898e52870780523dd81c87810c2af3ae}\label{structSModelData_a898e52870780523dd81c87810c2af3ae}} 
+unsigned {\bfseries event\+Priorities\+Size}
+\item 
+\mbox{\Hypertarget{structSModelData_a5cdb3a76fa804104211f5bd5d5cecfb3}\label{structSModelData_a5cdb3a76fa804104211f5bd5d5cecfb3}} 
+double $\ast$ {\bfseries event\+Priorities}
+\item 
+\mbox{\Hypertarget{structSModelData_a854f6cbf2bfa8a0a8474298e90e1b48e}\label{structSModelData_a854f6cbf2bfa8a0a8474298e90e1b48e}} 
+unsigned {\bfseries event\+Status\+Array\+Size}
+\item 
+\mbox{\Hypertarget{structSModelData_a6ad081dd44225b31902838c54156228f}\label{structSModelData_a6ad081dd44225b31902838c54156228f}} 
+bool $\ast$ {\bfseries event\+Status\+Array}
+\item 
+\mbox{\Hypertarget{structSModelData_a2d11e31a59fb73a3da6d16177892d641}\label{structSModelData_a2d11e31a59fb73a3da6d16177892d641}} 
+unsigned {\bfseries previous\+Event\+Status\+Array\+Size}
+\item 
+\mbox{\Hypertarget{structSModelData_a1a3f7a1212e0954364edd82957cc63b4}\label{structSModelData_a1a3f7a1212e0954364edd82957cc63b4}} 
+bool $\ast$ {\bfseries previous\+Event\+Status\+Array}
+\item 
+\mbox{\Hypertarget{structSModelData_a4727edb78af913970c32183d3bd51080}\label{structSModelData_a4727edb78af913970c32183d3bd51080}} 
+Event\+Delay\+Handler $\ast$ {\bfseries event\+Delays}
+\item 
+\mbox{\Hypertarget{structSModelData_a0a8cfea3cb2a61dbd9734f819a74bbe0}\label{structSModelData_a0a8cfea3cb2a61dbd9734f819a74bbe0}} 
+Event\+Assignment\+Handler $\ast$ {\bfseries event\+Assignments}
+\item 
+\mbox{\Hypertarget{structSModelData_af77d1fac0211befc9ef8d217e928439a}\label{structSModelData_af77d1fac0211befc9ef8d217e928439a}} 
+Compute\+Event\+Assignment\+Handler $\ast$ {\bfseries compute\+Event\+Assignments}
+\item 
+\mbox{\Hypertarget{structSModelData_ab4033c7ac8c762f6135fdb12e40ebb98}\label{structSModelData_ab4033c7ac8c762f6135fdb12e40ebb98}} 
+Perform\+Event\+Assignment\+Handler $\ast$ {\bfseries perform\+Event\+Assignments}
+\item 
+\mbox{\Hypertarget{structSModelData_a7411d36addc07fb2d3195bb1945f5568}\label{structSModelData_a7411d36addc07fb2d3195bb1945f5568}} 
+char $\ast$ \mbox{\hyperlink{structSModelData_a7411d36addc07fb2d3195bb1945f5568}{model\+Name}}
+\begin{DoxyCompactList}\small\item\em model name \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structSModelData_ae7c68870cd0d4f54343b4f120551492f}\label{structSModelData_ae7c68870cd0d4f54343b4f120551492f}} 
+unsigned \mbox{\hyperlink{structSModelData_ae7c68870cd0d4f54343b4f120551492f}{sr\+Size}}
+\begin{DoxyCompactList}\small\item\em C species references, not working correctly... \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structSModelData_aa4a808bf880a0d2b6478b277efd8ef61}\label{structSModelData_aa4a808bf880a0d2b6478b277efd8ef61}} 
+double $\ast$ {\bfseries sr}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+A data structure that is that allows data to be exchanged with running S\+B\+ML models. 
+
+In the case of C\+Executable\+Models, A pointer to this struct is given to the compiled shared library, and the C code there modifies the buffers of this structure.
+
+There are some functions in Executable\+Model.\+h that manage Model\+Data memory. These would have made more sense here, but in order to prevent any issues with generated code interacting with them, they were placed there.
+
+Basic Nomencalture Compartments\+: A well stirred compartment which contains one or more species. the volume of a compartment can change durring the course of a simulation.
+
+Floating Species\+: these are chemical species who\textquotesingle{}s values (ammount / concentration) change over time.
+
+Boundary Species\+: chemical species that who\textquotesingle{}s values are fixed to their initial conditions, these function as boundary conditions.
+
+\begin{DoxySeeAlso}{See also}
+Executable\+Model.\+h 
+\end{DoxySeeAlso}
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{structSModelData_a202df87d3245e913265d3bb09fab77b0}\label{structSModelData_a202df87d3245e913265d3bb09fab77b0}} 
+\index{SModelData@{SModelData}!boundarySpeciesCompartments@{boundarySpeciesCompartments}}
+\index{boundarySpeciesCompartments@{boundarySpeciesCompartments}!SModelData@{SModelData}}
+\doxysubsubsection{\texorpdfstring{boundarySpeciesCompartments}{boundarySpeciesCompartments}}
+{\footnotesize\ttfamily unsigned$\ast$ S\+Model\+Data\+::boundary\+Species\+Compartments}
+
+
+
+compartment index for each boundary species, e.\+g. 
+
+the volume of the i\textquotesingle{}th species is md-\/$>$compartment\+Volumes\mbox{[}md-\/$>$boundary\+Species\+Compartments\mbox{[}i\mbox{]}\mbox{]} \mbox{\Hypertarget{structSModelData_af30c0c6fcfcc6688390714d8246830c6}\label{structSModelData_af30c0c6fcfcc6688390714d8246830c6}} 
+\index{SModelData@{SModelData}!floatingSpeciesCompartments@{floatingSpeciesCompartments}}
+\index{floatingSpeciesCompartments@{floatingSpeciesCompartments}!SModelData@{SModelData}}
+\doxysubsubsection{\texorpdfstring{floatingSpeciesCompartments}{floatingSpeciesCompartments}}
+{\footnotesize\ttfamily unsigned$\ast$ S\+Model\+Data\+::floating\+Species\+Compartments}
+
+
+
+compartment index for each floating species, e.\+g. 
+
+the volume of the i\textquotesingle{}th species is md-\/$>$compartment\+Volumes\mbox{[}md-\/$>$floating\+Species\+Compartments\mbox{[}i\mbox{]}\mbox{]} \mbox{\Hypertarget{structSModelData_afac5f917906b816f2b346226f2d2a544}\label{structSModelData_afac5f917906b816f2b346226f2d2a544}} 
+\index{SModelData@{SModelData}!localParameters@{localParameters}}
+\index{localParameters@{localParameters}!SModelData@{SModelData}}
+\doxysubsubsection{\texorpdfstring{localParameters}{localParameters}}
+{\footnotesize\ttfamily double$\ast$ S\+Model\+Data\+::local\+Parameters}
+
+
+
+All local parameters are stored in this array. 
+
+This has length sum(local\+Parameter\+Num). \mbox{\Hypertarget{structSModelData_aa311a625134da0823c75c1579de35a99}\label{structSModelData_aa311a625134da0823c75c1579de35a99}} 
+\index{SModelData@{SModelData}!localParametersNum@{localParametersNum}}
+\index{localParametersNum@{localParametersNum}!SModelData@{SModelData}}
+\doxysubsubsection{\texorpdfstring{localParametersNum}{localParametersNum}}
+{\footnotesize\ttfamily unsigned$\ast$ S\+Model\+Data\+::local\+Parameters\+Num}
+
+
+
+the number of local parameters for each reaction, so legnth is num\+Reactions. 
+
+This is an array of counts, hence it is named differently than the rest of the num$\ast$$\ast$$\ast$ fields. \mbox{\Hypertarget{structSModelData_a164fe6af8658f84db289ae47ee47ba5d}\label{structSModelData_a164fe6af8658f84db289ae47ee47ba5d}} 
+\index{SModelData@{SModelData}!localParametersOffsets@{localParametersOffsets}}
+\index{localParametersOffsets@{localParametersOffsets}!SModelData@{SModelData}}
+\doxysubsubsection{\texorpdfstring{localParametersOffsets}{localParametersOffsets}}
+{\footnotesize\ttfamily unsigned$\ast$ S\+Model\+Data\+::local\+Parameters\+Offsets}
+
+
+
+L\+L\+VM specific C version does not support local parameters This is the offset, or starting index of the local parameters for reaction i. 
+
+Length is num\+Reactions.
+
+Rationale\+: It is simple more effecient to store all the local parameters in a single dimensional array with offsets, as the offsets can be computed at compile time, whereas if we used a array of arrays, it would require an additional memory access to determine the location of the parameter. \mbox{\Hypertarget{structSModelData_a7908ee0a7657cbf8db1cf46fa7d9f3a3}\label{structSModelData_a7908ee0a7657cbf8db1cf46fa7d9f3a3}} 
+\index{SModelData@{SModelData}!numBoundarySpecies@{numBoundarySpecies}}
+\index{numBoundarySpecies@{numBoundarySpecies}!SModelData@{SModelData}}
+\doxysubsubsection{\texorpdfstring{numBoundarySpecies}{numBoundarySpecies}}
+{\footnotesize\ttfamily unsigned S\+Model\+Data\+::num\+Boundary\+Species}
+
+
+
+number of boundary species and boundary species concentrations. 
+
+units\+: either Mass Percent = (Mass of Solute) / (Mass of Solution) x 100\% Volume Percent= (Volume of Solute) / (Volume of Solution) x 100\% Mass/\+Volume Percent= (Mass of Solute) / (Volume of Solution) x 100\% \mbox{\Hypertarget{structSModelData_a0ccf5268abb2976bfeab334fcf418268}\label{structSModelData_a0ccf5268abb2976bfeab334fcf418268}} 
+\index{SModelData@{SModelData}!numCompartments@{numCompartments}}
+\index{numCompartments@{numCompartments}!SModelData@{SModelData}}
+\doxysubsubsection{\texorpdfstring{numCompartments}{numCompartments}}
+{\footnotesize\ttfamily unsigned S\+Model\+Data\+::num\+Compartments}
+
+
+
+number of compartments, and compartment volumes. 
+
+units\+: volume \mbox{\Hypertarget{structSModelData_a37ea5e768eb56d854f12920c011f0f71}\label{structSModelData_a37ea5e768eb56d854f12920c011f0f71}} 
+\index{SModelData@{SModelData}!numDependentSpecies@{numDependentSpecies}}
+\index{numDependentSpecies@{numDependentSpecies}!SModelData@{SModelData}}
+\doxysubsubsection{\texorpdfstring{numDependentSpecies}{numDependentSpecies}}
+{\footnotesize\ttfamily unsigned S\+Model\+Data\+::num\+Dependent\+Species}
+
+
+
+number of linerly dependent rows in the stoichiometry matrix. 
+
+num\+Independent\+Variables + num\+Dependent\+Variables had better be equal to num\+Floating\+Species \mbox{\Hypertarget{structSModelData_adff1d6541495b59dcc98fdffcbd4e9ea}\label{structSModelData_adff1d6541495b59dcc98fdffcbd4e9ea}} 
+\index{SModelData@{SModelData}!numFloatingSpecies@{numFloatingSpecies}}
+\index{numFloatingSpecies@{numFloatingSpecies}!SModelData@{SModelData}}
+\doxysubsubsection{\texorpdfstring{numFloatingSpecies}{numFloatingSpecies}}
+{\footnotesize\ttfamily unsigned S\+Model\+Data\+::num\+Floating\+Species}
+
+
+
+The total ammounts of the floating species, i.\+e. 
+
+concentration $\ast$ compartment volume. Everything named floating\+Species??? has length num\+Floating\+Species.
+
+Note, the floating species consist of B\+O\+TH independent A\+ND dependent species. Indexes \mbox{[}0,num\+Indpendent\+Species) values are the indenpendent species, and the \mbox{[}num\+Independent\+Species,num\+Indendent\+Species+num\+Dependent\+Species) contain the dependent species. \mbox{\Hypertarget{structSModelData_a657e385e1b95468422191bb50bffe883}\label{structSModelData_a657e385e1b95468422191bb50bffe883}} 
+\index{SModelData@{SModelData}!numReactions@{numReactions}}
+\index{numReactions@{numReactions}!SModelData@{SModelData}}
+\doxysubsubsection{\texorpdfstring{numReactions}{numReactions}}
+{\footnotesize\ttfamily unsigned S\+Model\+Data\+::num\+Reactions}
+
+
+
+number of reactions, same as rates\+Size. 
+
+These are the calcuated reaction rates, not the species rates. \mbox{\Hypertarget{structSModelData_a8639637a1926a6f583c02bbd8e83f35a}\label{structSModelData_a8639637a1926a6f583c02bbd8e83f35a}} 
+\index{SModelData@{SModelData}!rateRuleRates@{rateRuleRates}}
+\index{rateRuleRates@{rateRuleRates}!SModelData@{SModelData}}
+\doxysubsubsection{\texorpdfstring{rateRuleRates}{rateRuleRates}}
+{\footnotesize\ttfamily double$\ast$ S\+Model\+Data\+::rate\+Rule\+Rates}
+
+
+
+the rate of change of all elements who\textquotesingle{}s dynamics are determined by rate rules. 
+
+In the L\+L\+VM version, this is just a pointer to a data block owned by the integrator. In the C version, lots of strange stuff goes on here, but the C version does allocate this block, and do all sorts of copying back and forth between the integrator\textquotesingle{}s rate rule block. \mbox{\Hypertarget{structSModelData_ac7df09202d585b7c48e76fe95ad44073}\label{structSModelData_ac7df09202d585b7c48e76fe95ad44073}} 
+\index{SModelData@{SModelData}!rateRuleValues@{rateRuleValues}}
+\index{rateRuleValues@{rateRuleValues}!SModelData@{SModelData}}
+\doxysubsubsection{\texorpdfstring{rateRuleValues}{rateRuleValues}}
+{\footnotesize\ttfamily double$\ast$ S\+Model\+Data\+::rate\+Rule\+Values}
+
+
+
+All of the elelments which have a rate rule are stored here. 
+
+As the integrator runs, this pointer can simply point to an offset in the integrator\textquotesingle{}s state vector.
+
+Only used in the L\+L\+VM version. 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+c/rr\+Model\+Data.\+h\end{DoxyCompactItemize}

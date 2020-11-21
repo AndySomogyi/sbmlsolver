@@ -1,0 +1,434 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+  <compounddef id="classrrllvm_1_1LoadSymbolResolverBase" kind="class" language="C++" prot="public">
+    <compoundname>rrllvm::LoadSymbolResolverBase</compoundname>
+    <basecompoundref refid="classrrllvm_1_1LoadSymbolResolver" prot="public" virt="non-virtual">rrllvm::LoadSymbolResolver</basecompoundref>
+    <derivedcompoundref refid="classrrllvm_1_1ModelDataLoadSymbolResolver" prot="public" virt="non-virtual">rrllvm::ModelDataLoadSymbolResolver</derivedcompoundref>
+    <derivedcompoundref refid="classrrllvm_1_1ModelInitialValueSymbolResolver" prot="public" virt="non-virtual">rrllvm::ModelInitialValueSymbolResolver</derivedcompoundref>
+    <derivedcompoundref refid="classrrllvm_1_1SBMLInitialValueSymbolResolver" prot="public" virt="non-virtual">rrllvm::SBMLInitialValueSymbolResolver</derivedcompoundref>
+    <includes refid="LoadSymbolResolverBase_8h" local="no">LoadSymbolResolverBase.h</includes>
+      <sectiondef kind="protected-type">
+      <memberdef kind="typedef" id="classrrllvm_1_1LoadSymbolResolverBase_1ab53501070e5a3b0e35a00f3ab7a63f28" prot="protected" static="no">
+        <type>std::list&lt; std::string &gt;</type>
+        <definition>typedef std::list&lt;std::string&gt; rrllvm::LoadSymbolResolverBase::StringStack</definition>
+        <argsstring></argsstring>
+        <name>StringStack</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/LoadSymbolResolverBase.h" line="71" column="23" bodyfile="llvm/LoadSymbolResolverBase.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classrrllvm_1_1LoadSymbolResolverBase_1a52e2ad673c48da0d98cc5e9715d62161" prot="protected" static="no">
+        <type>cxx11_ns::unordered_map&lt; std::string, llvm::Value * &gt;</type>
+        <definition>typedef cxx11_ns::unordered_map&lt;std::string, llvm::Value*&gt; rrllvm::LoadSymbolResolverBase::ValueMap</definition>
+        <argsstring></argsstring>
+        <name>ValueMap</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/LoadSymbolResolverBase.h" line="72" column="37" bodyfile="llvm/LoadSymbolResolverBase.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classrrllvm_1_1LoadSymbolResolverBase_1aefd7a10503a570504ee99aba37875b36" prot="protected" static="no">
+        <type>std::deque&lt; ValueMap &gt;</type>
+        <definition>typedef std::deque&lt;ValueMap&gt; rrllvm::LoadSymbolResolverBase::ValueMapStack</definition>
+        <argsstring></argsstring>
+        <name>ValueMapStack</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/LoadSymbolResolverBase.h" line="73" column="24" bodyfile="llvm/LoadSymbolResolverBase.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classrrllvm_1_1LoadSymbolResolverBase_1ae13b023d912ca6f0d282a89a10ce3f44" prot="protected" static="no" mutable="no">
+        <type>const <ref refid="classrrllvm_1_1ModelGeneratorContext" kindref="compound">ModelGeneratorContext</ref> &amp;</type>
+        <definition>const ModelGeneratorContext&amp; rrllvm::LoadSymbolResolverBase::modelGenContext</definition>
+        <argsstring></argsstring>
+        <name>modelGenContext</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/LoadSymbolResolverBase.h" line="75" column="33" bodyfile="llvm/LoadSymbolResolverBase.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrrllvm_1_1LoadSymbolResolverBase_1abe5f4775be108223c206dd9748534361" prot="protected" static="no" mutable="no">
+        <type>const libsbml::Model *</type>
+        <definition>const libsbml::Model* rrllvm::LoadSymbolResolverBase::model</definition>
+        <argsstring></argsstring>
+        <name>model</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/LoadSymbolResolverBase.h" line="76" column="26" bodyfile="llvm/LoadSymbolResolverBase.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrrllvm_1_1LoadSymbolResolverBase_1a7c4487a9784c8dd8cce184dff8c4cda4" prot="protected" static="no" mutable="no">
+        <type>const <ref refid="classrrllvm_1_1LLVMModelDataSymbols" kindref="compound">LLVMModelDataSymbols</ref> &amp;</type>
+        <definition>const LLVMModelDataSymbols&amp; rrllvm::LoadSymbolResolverBase::modelDataSymbols</definition>
+        <argsstring></argsstring>
+        <name>modelDataSymbols</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/LoadSymbolResolverBase.h" line="77" column="32" bodyfile="llvm/LoadSymbolResolverBase.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrrllvm_1_1LoadSymbolResolverBase_1a21d2fbcaa66d3de99fb9dc7f8288582c" prot="protected" static="no" mutable="no">
+        <type>const <ref refid="classrrllvm_1_1LLVMModelSymbols" kindref="compound">LLVMModelSymbols</ref> &amp;</type>
+        <definition>const LLVMModelSymbols&amp; rrllvm::LoadSymbolResolverBase::modelSymbols</definition>
+        <argsstring></argsstring>
+        <name>modelSymbols</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/LoadSymbolResolverBase.h" line="78" column="28" bodyfile="llvm/LoadSymbolResolverBase.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrrllvm_1_1LoadSymbolResolverBase_1aa108e3576012f1012ebacd4fe30cf747" prot="protected" static="no" mutable="no">
+        <type>llvm::IRBuilder &amp;</type>
+        <definition>llvm::IRBuilder&amp; rrllvm::LoadSymbolResolverBase::builder</definition>
+        <argsstring></argsstring>
+        <name>builder</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/LoadSymbolResolverBase.h" line="79" column="6" bodyfile="llvm/LoadSymbolResolverBase.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrrllvm_1_1LoadSymbolResolverBase_1a5a0d696ef7f5c0c9db5512a619fdc657" prot="protected" static="no" mutable="no">
+        <type>llvm::Value *</type>
+        <definition>llvm::Value* rrllvm::LoadSymbolResolverBase::modelData</definition>
+        <argsstring></argsstring>
+        <name>modelData</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/LoadSymbolResolverBase.h" line="80" column="17" bodyfile="llvm/LoadSymbolResolverBase.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrrllvm_1_1LoadSymbolResolverBase_1ab6c8b692f1b8ed108e50ce35a268a57f" prot="protected" static="no" mutable="no">
+        <type>StringStack</type>
+        <definition>StringStack rrllvm::LoadSymbolResolverBase::symbolStack</definition>
+        <argsstring></argsstring>
+        <name>symbolStack</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/LoadSymbolResolverBase.h" line="83" column="17" bodyfile="llvm/LoadSymbolResolverBase.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrrllvm_1_1LoadSymbolResolverBase_1a74899bb1f28fb3a75d1447d809e615ec" prot="protected" static="no" mutable="no">
+        <type>ValueMapStack</type>
+        <definition>ValueMapStack rrllvm::LoadSymbolResolverBase::symbolCache</definition>
+        <argsstring></argsstring>
+        <name>symbolCache</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/LoadSymbolResolverBase.h" line="86" column="19" bodyfile="llvm/LoadSymbolResolverBase.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classrrllvm_1_1LoadSymbolResolverBase_1af30e82d88abca4047e01c3cb032b16a3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>llvm::Value *</type>
+        <definition>llvm::Value * rrllvm::LoadSymbolResolverBase::loadReactionRate</definition>
+        <argsstring>(const libsbml::Reaction *)</argsstring>
+        <name>loadReactionRate</name>
+        <param>
+          <type>const libsbml::Reaction *</type>
+          <defname>reaction</defname>
+        </param>
+        <briefdescription>
+<para>shortcut to get a reaction rate, performance wise, quicker than going through all the loadSymbolValue types. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/LoadSymbolResolverBase.h" line="40" column="17" bodyfile="llvm/LoadSymbolResolverBase.cpp" bodystart="39" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="classrrllvm_1_1LoadSymbolResolverBase_1a774ff517a485e464ad00de533461f2b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void rrllvm::LoadSymbolResolverBase::recursiveSymbolPush</definition>
+        <argsstring>(const std::string &amp;symbol)</argsstring>
+        <name>recursiveSymbolPush</name>
+        <reimplements refid="classrrllvm_1_1LoadSymbolResolver_1ae76af01bea67ddc67ca14112ef117867">recursiveSymbolPush</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>symbol</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/LoadSymbolResolverBase.h" line="42" column="18" bodyfile="llvm/LoadSymbolResolverBase.cpp" bodystart="63" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="classrrllvm_1_1LoadSymbolResolverBase_1ade0623a0a82d7594aaa50d28e95eec6b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void rrllvm::LoadSymbolResolverBase::recursiveSymbolPop</definition>
+        <argsstring>()</argsstring>
+        <name>recursiveSymbolPop</name>
+        <reimplements refid="classrrllvm_1_1LoadSymbolResolver_1a0c192e55ced93b4f06d5cf9bc2579d4d">recursiveSymbolPop</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/LoadSymbolResolverBase.h" line="44" column="18" bodyfile="llvm/LoadSymbolResolverBase.cpp" bodystart="79" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="classrrllvm_1_1LoadSymbolResolverBase_1ae380d0e0ba65b430e3ce7c23be4b7829" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void rrllvm::LoadSymbolResolverBase::flushCache</definition>
+        <argsstring>()</argsstring>
+        <name>flushCache</name>
+        <briefdescription>
+<para>Flush the symbol cache. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This is required in branches and switch blocks as a symbol used in a previous block can not be re-used in the current block. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/LoadSymbolResolverBase.h" line="50" column="10" bodyfile="llvm/LoadSymbolResolverBase.cpp" bodystart="85" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="classrrllvm_1_1LoadSymbolResolverBase_1a1c2f43e60c68b47222758a9ed2dc0bb1" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>size_t</type>
+        <definition>size_t rrllvm::LoadSymbolResolverBase::pushCacheBlock</definition>
+        <argsstring>()</argsstring>
+        <name>pushCacheBlock</name>
+        <reimplements refid="classrrllvm_1_1LoadSymbolResolver_1ab388d2fa6565e68437798bc1d566b29b">pushCacheBlock</reimplements>
+        <briefdescription>
+<para>nested conditionals (or functions?) can push a local cache block, where symbols would be chached. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>These need to be popped as these symbols are not valid outside of the local conditional or scope block. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/LoadSymbolResolverBase.h" line="57" column="20" bodyfile="llvm/LoadSymbolResolverBase.cpp" bodystart="91" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="classrrllvm_1_1LoadSymbolResolverBase_1ada819479484b73cc11daa4a22beb0406" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>size_t</type>
+        <definition>size_t rrllvm::LoadSymbolResolverBase::popCacheBlock</definition>
+        <argsstring>()</argsstring>
+        <name>popCacheBlock</name>
+        <reimplements refid="classrrllvm_1_1LoadSymbolResolver_1a64c0e7ee5311a610d252dc603e20a94f">popCacheBlock</reimplements>
+        <briefdescription>
+<para>Pop a scoped cache block, this clears these values, and any subsequent reads re-evaluate the requested symbol. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Will throw an exception if an empty stack pop is attempted. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/LoadSymbolResolverBase.h" line="65" column="20" bodyfile="llvm/LoadSymbolResolverBase.cpp" bodystart="97" bodyend="104"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classrrllvm_1_1LoadSymbolResolverBase_1a74b4695465d18b3f22597055b8a55ad0" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>rrllvm::LoadSymbolResolverBase::LoadSymbolResolverBase</definition>
+        <argsstring>(const ModelGeneratorContext &amp;ctx, llvm::Value *modelData)</argsstring>
+        <name>LoadSymbolResolverBase</name>
+        <param>
+          <type>const <ref refid="classrrllvm_1_1ModelGeneratorContext" kindref="compound">ModelGeneratorContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>llvm::Value *</type>
+          <declname>modelData</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/LoadSymbolResolverBase.h" line="69" column="5" bodyfile="llvm/LoadSymbolResolverBase.cpp" bodystart="25" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="classrrllvm_1_1LoadSymbolResolverBase_1afbdc447a23b2902815eb8e9afb497658" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>llvm::Value *</type>
+        <definition>llvm::Value * rrllvm::LoadSymbolResolverBase::cacheValue</definition>
+        <argsstring>(const std::string &amp;symbol, const llvm::ArrayRef&lt; llvm::Value * &gt; &amp;args, llvm::Value *value=NULL)</argsstring>
+        <name>cacheValue</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>symbol</declname>
+        </param>
+        <param>
+          <type>const llvm::ArrayRef&lt; llvm::Value * &gt; &amp;</type>
+          <declname>args</declname>
+        </param>
+        <param>
+          <type>llvm::Value *</type>
+          <declname>value</declname>
+          <defval>NULL</defval>
+        </param>
+        <briefdescription>
+<para>check in the symbol cache if the symbol exists, if so return it. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>If the value is not NULL, it is cached and returned.</para>
+<para>Cached function args not currently supported (just return NULL). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/LoadSymbolResolverBase.h" line="95" column="17" bodyfile="llvm/LoadSymbolResolverBase.cpp" bodystart="106" bodyend="137"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>provide common sbml model functionality to three kinds of resolvers. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This has common functionality such as dealing with sbml elements such as reactions, species and so forth. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>rrllvm::ModelDataLoadSymbolResolver</label>
+        <link refid="classrrllvm_1_1ModelDataLoadSymbolResolver"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>rrllvm::ModelInitialValueSymbolResolver</label>
+        <link refid="classrrllvm_1_1ModelInitialValueSymbolResolver"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>rrllvm::SBMLInitialValueSymbolResolver</label>
+        <link refid="classrrllvm_1_1SBMLInitialValueSymbolResolver"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>rrllvm::LoadSymbolResolver</label>
+        <link refid="classrrllvm_1_1LoadSymbolResolver"/>
+      </node>
+      <node id="1">
+        <label>rrllvm::LoadSymbolResolverBase</label>
+        <link refid="classrrllvm_1_1LoadSymbolResolverBase"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="5">
+        <label>rrllvm::ASTNodeFactory</label>
+        <link refid="classrrllvm_1_1ASTNodeFactory"/>
+      </node>
+      <node id="3">
+        <label>rrllvm::LLVMModelSymbols</label>
+        <link refid="classrrllvm_1_1LLVMModelSymbols"/>
+        <childnode refid="4" relation="private-inheritance">
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>nodes</edgelabel>
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>assignmentRules</edgelabel>
+          <edgelabel>initialAssignmentRules</edgelabel>
+          <edgelabel>initialValues</edgelabel>
+          <edgelabel>rateRules</edgelabel>
+        </childnode>
+      </node>
+      <node id="9">
+        <label>rrllvm::ModelGeneratorContext</label>
+        <link refid="classrrllvm_1_1ModelGeneratorContext"/>
+      </node>
+      <node id="8">
+        <label>rrllvm::LLVMModelDataSymbols</label>
+        <link refid="classrrllvm_1_1LLVMModelDataSymbols"/>
+      </node>
+      <node id="2">
+        <label>rrllvm::LoadSymbolResolver</label>
+        <link refid="classrrllvm_1_1LoadSymbolResolver"/>
+      </node>
+      <node id="1">
+        <label>rrllvm::LoadSymbolResolverBase</label>
+        <link refid="classrrllvm_1_1LoadSymbolResolverBase"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>modelSymbols</edgelabel>
+        </childnode>
+        <childnode refid="8" relation="usage">
+          <edgelabel>modelDataSymbols</edgelabel>
+        </childnode>
+        <childnode refid="9" relation="usage">
+          <edgelabel>modelGenContext</edgelabel>
+        </childnode>
+      </node>
+      <node id="6">
+        <label>rrllvm::SymbolForest</label>
+        <link refid="classrrllvm_1_1SymbolForest"/>
+        <childnode refid="7" relation="usage">
+          <edgelabel>boundarySpecies</edgelabel>
+          <edgelabel>compartments</edgelabel>
+          <edgelabel>floatingSpecies</edgelabel>
+          <edgelabel>globalParameters</edgelabel>
+          <edgelabel>speciesReferences</edgelabel>
+        </childnode>
+      </node>
+      <node id="4">
+        <label>libsbml::SBMLVisitor</label>
+      </node>
+      <node id="7">
+        <label>map&lt; string, const libsbml::ASTNode * &gt;</label>
+      </node>
+    </collaborationgraph>
+    <location file="llvm/LoadSymbolResolverBase.h" line="33" column="1" bodyfile="llvm/LoadSymbolResolverBase.h" bodystart="34" bodyend="98"/>
+    <listofallmembers>
+      <member refid="classrrllvm_1_1LoadSymbolResolverBase_1aa108e3576012f1012ebacd4fe30cf747" prot="protected" virt="non-virtual"><scope>rrllvm::LoadSymbolResolverBase</scope><name>builder</name></member>
+      <member refid="classrrllvm_1_1LoadSymbolResolverBase_1afbdc447a23b2902815eb8e9afb497658" prot="protected" virt="non-virtual"><scope>rrllvm::LoadSymbolResolverBase</scope><name>cacheValue</name></member>
+      <member refid="classrrllvm_1_1LoadSymbolResolverBase_1ae380d0e0ba65b430e3ce7c23be4b7829" prot="public" virt="non-virtual"><scope>rrllvm::LoadSymbolResolverBase</scope><name>flushCache</name></member>
+      <member refid="classrrllvm_1_1LoadSymbolResolverBase_1af30e82d88abca4047e01c3cb032b16a3" prot="public" virt="non-virtual"><scope>rrllvm::LoadSymbolResolverBase</scope><name>loadReactionRate</name></member>
+      <member refid="classrrllvm_1_1LoadSymbolResolverBase_1a74b4695465d18b3f22597055b8a55ad0" prot="protected" virt="non-virtual"><scope>rrllvm::LoadSymbolResolverBase</scope><name>LoadSymbolResolverBase</name></member>
+      <member refid="classrrllvm_1_1LoadSymbolResolver_1af0c62fdd0c913e2410596d3f785f21db" prot="public" virt="pure-virtual"><scope>rrllvm::LoadSymbolResolverBase</scope><name>loadSymbolValue</name></member>
+      <member refid="classrrllvm_1_1LoadSymbolResolverBase_1abe5f4775be108223c206dd9748534361" prot="protected" virt="non-virtual"><scope>rrllvm::LoadSymbolResolverBase</scope><name>model</name></member>
+      <member refid="classrrllvm_1_1LoadSymbolResolverBase_1a5a0d696ef7f5c0c9db5512a619fdc657" prot="protected" virt="non-virtual"><scope>rrllvm::LoadSymbolResolverBase</scope><name>modelData</name></member>
+      <member refid="classrrllvm_1_1LoadSymbolResolverBase_1a7c4487a9784c8dd8cce184dff8c4cda4" prot="protected" virt="non-virtual"><scope>rrllvm::LoadSymbolResolverBase</scope><name>modelDataSymbols</name></member>
+      <member refid="classrrllvm_1_1LoadSymbolResolverBase_1ae13b023d912ca6f0d282a89a10ce3f44" prot="protected" virt="non-virtual"><scope>rrllvm::LoadSymbolResolverBase</scope><name>modelGenContext</name></member>
+      <member refid="classrrllvm_1_1LoadSymbolResolverBase_1a21d2fbcaa66d3de99fb9dc7f8288582c" prot="protected" virt="non-virtual"><scope>rrllvm::LoadSymbolResolverBase</scope><name>modelSymbols</name></member>
+      <member refid="classrrllvm_1_1LoadSymbolResolverBase_1ada819479484b73cc11daa4a22beb0406" prot="public" virt="virtual"><scope>rrllvm::LoadSymbolResolverBase</scope><name>popCacheBlock</name></member>
+      <member refid="classrrllvm_1_1LoadSymbolResolverBase_1a1c2f43e60c68b47222758a9ed2dc0bb1" prot="public" virt="virtual"><scope>rrllvm::LoadSymbolResolverBase</scope><name>pushCacheBlock</name></member>
+      <member refid="classrrllvm_1_1LoadSymbolResolverBase_1ade0623a0a82d7594aaa50d28e95eec6b" prot="public" virt="virtual"><scope>rrllvm::LoadSymbolResolverBase</scope><name>recursiveSymbolPop</name></member>
+      <member refid="classrrllvm_1_1LoadSymbolResolverBase_1a774ff517a485e464ad00de533461f2b1" prot="public" virt="virtual"><scope>rrllvm::LoadSymbolResolverBase</scope><name>recursiveSymbolPush</name></member>
+      <member refid="classrrllvm_1_1LoadSymbolResolverBase_1ab53501070e5a3b0e35a00f3ab7a63f28" prot="protected" virt="non-virtual"><scope>rrllvm::LoadSymbolResolverBase</scope><name>StringStack</name></member>
+      <member refid="classrrllvm_1_1LoadSymbolResolverBase_1a74899bb1f28fb3a75d1447d809e615ec" prot="protected" virt="non-virtual"><scope>rrllvm::LoadSymbolResolverBase</scope><name>symbolCache</name></member>
+      <member refid="classrrllvm_1_1LoadSymbolResolverBase_1ab6c8b692f1b8ed108e50ce35a268a57f" prot="protected" virt="non-virtual"><scope>rrllvm::LoadSymbolResolverBase</scope><name>symbolStack</name></member>
+      <member refid="classrrllvm_1_1LoadSymbolResolverBase_1a52e2ad673c48da0d98cc5e9715d62161" prot="protected" virt="non-virtual"><scope>rrllvm::LoadSymbolResolverBase</scope><name>ValueMap</name></member>
+      <member refid="classrrllvm_1_1LoadSymbolResolverBase_1aefd7a10503a570504ee99aba37875b36" prot="protected" virt="non-virtual"><scope>rrllvm::LoadSymbolResolverBase</scope><name>ValueMapStack</name></member>
+      <member refid="classrrllvm_1_1LoadSymbolResolver_1a7bbd958412d6caf1da624de9e382dc07" prot="protected" virt="virtual"><scope>rrllvm::LoadSymbolResolverBase</scope><name>~LoadSymbolResolver</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -7,9 +7,6 @@
     <includes local="no">typeinfo</includes>
     <includes local="no">iomanip</includes>
     <incdepgraph>
-      <node id="18">
-        <label>iomanip</label>
-      </node>
       <node id="8">
         <label>Variant.h</label>
         <link refid="Variant_8h_source"/>
@@ -22,32 +19,20 @@
         <childnode refid="11" relation="include">
         </childnode>
       </node>
-      <node id="16">
-        <label>stdexcept</label>
+      <node id="18">
+        <label>iomanip</label>
       </node>
-      <node id="3">
-        <label>rrLogger.h</label>
-        <link refid="rrLogger_8h_source"/>
-        <childnode refid="4" relation="include">
+      <node id="1">
+        <label>Solver.cpp</label>
+        <link refid="Solver_8cpp"/>
+        <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="5" relation="include">
+        <childnode refid="17" relation="include">
         </childnode>
-      </node>
-      <node id="14">
-        <label>rrException.h</label>
-        <link refid="rrException_8h_source"/>
-        <childnode refid="15" relation="include">
+        <childnode refid="9" relation="include">
         </childnode>
-        <childnode refid="10" relation="include">
+        <childnode refid="18" relation="include">
         </childnode>
-        <childnode refid="5" relation="include">
-        </childnode>
-      </node>
-      <node id="10">
-        <label>string</label>
-      </node>
-      <node id="13">
-        <label>tr1proxy/rr_unordered_map.h</label>
       </node>
       <node id="7">
         <label>Dictionary.h</label>
@@ -61,6 +46,33 @@
         <childnode refid="12" relation="include">
         </childnode>
         <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>rrOSSpecifics.h</label>
+        <link refid="rrOSSpecifics_8h_source"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>stdexcept</label>
+      </node>
+      <node id="10">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>rrExporter.h</label>
+        <link refid="rrExporter_8h_source"/>
+      </node>
+      <node id="13">
+        <label>tr1proxy/rr_unordered_map.h</label>
+      </node>
+      <node id="3">
+        <label>rrLogger.h</label>
+        <link refid="rrLogger_8h_source"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
         </childnode>
       </node>
       <node id="15">
@@ -87,6 +99,22 @@
       <node id="9">
         <label>typeinfo</label>
       </node>
+      <node id="11">
+        <label>vector</label>
+      </node>
+      <node id="14">
+        <label>rrException.h</label>
+        <link refid="rrException_8h_source"/>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>sstream</label>
+      </node>
       <node id="17">
         <label>rrConfig.h</label>
         <link refid="rrConfig_8h_source"/>
@@ -99,36 +127,8 @@
         <childnode refid="11" relation="include">
         </childnode>
       </node>
-      <node id="11">
-        <label>vector</label>
-      </node>
-      <node id="4">
-        <label>sstream</label>
-      </node>
-      <node id="6">
-        <label>rrOSSpecifics.h</label>
-        <link refid="rrOSSpecifics_8h_source"/>
-        <childnode refid="5" relation="include">
-        </childnode>
-      </node>
-      <node id="1">
-        <label>Solver.cpp</label>
-        <link refid="Solver_8cpp"/>
-        <childnode refid="2" relation="include">
-        </childnode>
-        <childnode refid="17" relation="include">
-        </childnode>
-        <childnode refid="9" relation="include">
-        </childnode>
-        <childnode refid="18" relation="include">
-        </childnode>
-      </node>
       <node id="12">
         <label>tr1proxy/rr_memory.h</label>
-      </node>
-      <node id="5">
-        <label>rrExporter.h</label>
-        <link refid="rrExporter_8h_source"/>
       </node>
     </incdepgraph>
     <innernamespace refid="namespacerr">rr</innernamespace>

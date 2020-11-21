@@ -9,6 +9,12 @@ interface to manipulate \textquotesingle{}compiler\textquotesingle{} settings.
 
 {\ttfamily \#include $<$rr\+Compiler.\+h$>$}
 
+Inheritance diagram for rr\+::Compiler\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classrr_1_1Compiler}
+\end{center}
+\end{figure}
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
@@ -66,7 +72,11 @@ In the C generating model sytem, an external C compiler is used to compile gener
 
 \mbox{\hyperlink{classrr_1_1Compiler_a244cefa6a995aeb5d2793ff893f1893b}{get\+Default\+Target\+Triple()}} -\/ Return the default target triple the compiler has been configured to produce code for. 
 
-The target triple is a string in the format of\+: C\+P\+U\+\_\+\+T\+Y\+P\+E-\/\+V\+E\+N\+D\+O\+R-\/\+O\+P\+E\+R\+A\+T\+I\+N\+G\+\_\+\+S\+Y\+S\+T\+EM or C\+P\+U\+\_\+\+T\+Y\+P\+E-\/\+V\+E\+N\+D\+O\+R-\/\+K\+E\+R\+N\+E\+L-\/\+O\+P\+E\+R\+A\+T\+I\+N\+G\+\_\+\+S\+Y\+S\+T\+EM \mbox{\Hypertarget{classrr_1_1Compiler_a1718efebfe7936512a299c2f32e8c800}\label{classrr_1_1Compiler_a1718efebfe7936512a299c2f32e8c800}} 
+The target triple is a string in the format of\+: C\+P\+U\+\_\+\+T\+Y\+P\+E-\/\+V\+E\+N\+D\+O\+R-\/\+O\+P\+E\+R\+A\+T\+I\+N\+G\+\_\+\+S\+Y\+S\+T\+EM or C\+P\+U\+\_\+\+T\+Y\+P\+E-\/\+V\+E\+N\+D\+O\+R-\/\+K\+E\+R\+N\+E\+L-\/\+O\+P\+E\+R\+A\+T\+I\+N\+G\+\_\+\+S\+Y\+S\+T\+EM 
+
+Implemented in \mbox{\hyperlink{classrrllvm_1_1LLVMCompiler_af43a6b3d973fee5348bd9d2cea192752}{rrllvm\+::\+L\+L\+V\+M\+Compiler}}, and \mbox{\hyperlink{classrr_1_1CCompiler_a10a08dd7e7b60da34813b2abd75e2791}{rr\+::\+C\+Compiler}}.
+
+\mbox{\Hypertarget{classrr_1_1Compiler_a1718efebfe7936512a299c2f32e8c800}\label{classrr_1_1Compiler_a1718efebfe7936512a299c2f32e8c800}} 
 \index{rr::Compiler@{rr::Compiler}!getHostCPUName@{getHostCPUName}}
 \index{getHostCPUName@{getHostCPUName}!rr::Compiler@{rr::Compiler}}
 \doxysubsubsection{\texorpdfstring{getHostCPUName()}{getHostCPUName()}}
@@ -81,6 +91,10 @@ The particular format of the name is target dependent, and suitable for passing 
 \begin{DoxyReturn}{Returns}
 -\/ The host C\+PU name, or empty if the C\+PU could not be determined. 
 \end{DoxyReturn}
+
+
+Implemented in \mbox{\hyperlink{classrrllvm_1_1LLVMCompiler_ae8f2ba44fbc064d81f77b8aafdaf9109}{rrllvm\+::\+L\+L\+V\+M\+Compiler}}, and \mbox{\hyperlink{classrr_1_1CCompiler_a436bb213157ccc15d60cd0d64c584102}{rr\+::\+C\+Compiler}}.
+
 \mbox{\Hypertarget{classrr_1_1Compiler_afe24151183f7db59208bfe86da2b3c79}\label{classrr_1_1Compiler_afe24151183f7db59208bfe86da2b3c79}} 
 \index{rr::Compiler@{rr::Compiler}!getProcessTriple@{getProcessTriple}}
 \index{getProcessTriple@{getProcessTriple}!rr::Compiler@{rr::Compiler}}
@@ -92,6 +106,10 @@ The particular format of the name is target dependent, and suitable for passing 
 \mbox{\hyperlink{classrr_1_1Compiler_afe24151183f7db59208bfe86da2b3c79}{get\+Process\+Triple()}} -\/ Return an appropriate target triple for generating code to be loaded into the current process, e.\+g. 
 
 when using the J\+IT. 
+
+Implemented in \mbox{\hyperlink{classrrllvm_1_1LLVMCompiler_a8a9f792ca40a9b3826d5b540263f7c05}{rrllvm\+::\+L\+L\+V\+M\+Compiler}}, and \mbox{\hyperlink{classrr_1_1CCompiler_aba426f3074705b9b76bed36be8646627}{rr\+::\+C\+Compiler}}.
+
+
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 

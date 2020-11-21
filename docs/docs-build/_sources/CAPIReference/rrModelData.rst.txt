@@ -1,0 +1,4 @@
+rrModelData
+=======================================================
+
+.. doxygenstruct:: rr::SModelData

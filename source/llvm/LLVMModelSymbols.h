@@ -48,7 +48,7 @@ public:
      *
      * There cannot be both an InitialAssignment and an AssignmentRule for the
      * same symbol in a model, because both kinds of constructs apply prior to
-     * and at the start of simulated timeÑallowing both to exist for a given
+     * and at the start of simulated time allowing both to exist for a given
      * symbol would result in indeterminism.
      *
      *
@@ -112,15 +112,15 @@ protected:
 
     /**
      * * In the case of a species, a RateRule sets the rate of change of the
-     * speciesÕ quantity (concentration or amount) to the value determined
-     * by the formula in math. The unit associated with the ruleÕs math
-     * element should be equal to the unit of the speciesÕ quantity
+     * speciesï¿½ quantity (concentration or amount) to the value determined
+     * by the formula in math. The unit associated with the ruleï¿½s math
+     * element should be equal to the unit of the speciesï¿½ quantity
      * (Section 4.6.5) divided by the model-wide unit of time (Section 4.2.4),
      * or in other words, {unit of species quantity}/{unit of time}.
      *
      * * Restrictions: There must not be both a RateRule variable attribute
      * and a SpeciesReference species attribute having the same value, unless
-     *  that species has its boundaryCondition attribute is set to ÒtrueÓ. This
+     *  that species has its boundaryCondition attribute is set to ï¿½trueï¿½. This
      * means a rate rule cannot be defined for a species that is created or
      * destroyed in a reaction, unless that species is defined as a boundary
      * condition in the model.
@@ -132,14 +132,14 @@ protected:
      * dimensionless}/{unit of time}.
      *
      * * In the case of a compartment, a RateRule sets the rate of change of
-     * the compartmentÕs size to the value determined by the formula in math.
-     * The unit of the ruleÕs math element should be identical to the compartmentÕs
+     * the compartmentï¿½s size to the value determined by the formula in math.
+     * The unit of the ruleï¿½s math element should be identical to the compartmentï¿½s
      * units attribute divided by the model-wide unit of time. (In other words,
      * {unit of compartment size}/{unit of time}.)
      *
      * * In the case of a parameter, a RateRule sets the rate of change of the
-     * parameterÕs value to that determined by the formula in math. The unit
-     * associated with the ruleÕs math element should be equal to the parameterÕs
+     * parameterï¿½s value to that determined by the formula in math. The unit
+     * associated with the ruleï¿½s math element should be equal to the parameterï¿½s
      * units attribute value divided by the model-wide unit of time. (In other
      * words, {parameter units}/{unit of time}.)
      */

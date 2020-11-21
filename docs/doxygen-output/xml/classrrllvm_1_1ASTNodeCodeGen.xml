@@ -1,0 +1,537 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+  <compounddef id="classrrllvm_1_1ASTNodeCodeGen" kind="class" language="C++" prot="public">
+    <compoundname>rrllvm::ASTNodeCodeGen</compoundname>
+    <includes refid="ASTNodeCodeGen_8h" local="no">ASTNodeCodeGen.h</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classrrllvm_1_1ASTNodeCodeGen_1a29dd23efee764653bedf1ffd9dae6e9a" prot="private" static="no" mutable="no">
+        <type>llvm::IRBuilder &amp;</type>
+        <definition>llvm::IRBuilder&amp; rrllvm::ASTNodeCodeGen::builder</definition>
+        <argsstring></argsstring>
+        <name>builder</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ASTNodeCodeGen.h" line="111" column="6" bodyfile="llvm/ASTNodeCodeGen.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrrllvm_1_1ASTNodeCodeGen_1ac3995a66e952a275642758b42b137373" prot="private" static="no" mutable="no">
+        <type><ref refid="classrrllvm_1_1LoadSymbolResolver" kindref="compound">LoadSymbolResolver</ref> &amp;</type>
+        <definition>LoadSymbolResolver&amp; rrllvm::ASTNodeCodeGen::resolver</definition>
+        <argsstring></argsstring>
+        <name>resolver</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ASTNodeCodeGen.h" line="112" column="24" bodyfile="llvm/ASTNodeCodeGen.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrrllvm_1_1ASTNodeCodeGen_1acd765b81f322b76d6d89f08d1008bd6b" prot="private" static="no" mutable="no">
+        <type>const <ref refid="classrrllvm_1_1ModelGeneratorContext" kindref="compound">ModelGeneratorContext</ref> &amp;</type>
+        <definition>const ModelGeneratorContext&amp; rrllvm::ASTNodeCodeGen::ctx</definition>
+        <argsstring></argsstring>
+        <name>ctx</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ASTNodeCodeGen.h" line="113" column="33" bodyfile="llvm/ASTNodeCodeGen.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrrllvm_1_1ASTNodeCodeGen_1a683ddd86336c88f64b01a06372b9424f" prot="private" static="no" mutable="no">
+        <type>llvm::Value *</type>
+        <definition>llvm::Value* rrllvm::ASTNodeCodeGen::modelData</definition>
+        <argsstring></argsstring>
+        <name>modelData</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ASTNodeCodeGen.h" line="114" column="17" bodyfile="llvm/ASTNodeCodeGen.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrrllvm_1_1ASTNodeCodeGen_1aeb0da48ae8c1726f1e579a7c0af55e63" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool rrllvm::ASTNodeCodeGen::scalar_mode_</definition>
+        <argsstring></argsstring>
+        <name>scalar_mode_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ASTNodeCodeGen.h" line="126" column="10" bodyfile="llvm/ASTNodeCodeGen.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="friend">
+      <memberdef kind="friend" id="classrrllvm_1_1ASTNodeCodeGen_1a69559ab4b8ff63c2ff123cc8f3f5593b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>friend class</type>
+        <definition>friend class ASTNodeCodeGenScalarTicket</definition>
+        <argsstring></argsstring>
+        <name>ASTNodeCodeGenScalarTicket</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ASTNodeCodeGen.h" line="128" column="5" bodyfile="llvm/ASTNodeCodeGen.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classrrllvm_1_1ASTNodeCodeGen_1a8f27a81bbe9fbdf8f29dd2d9a54870de" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>rrllvm::ASTNodeCodeGen::ASTNodeCodeGen</definition>
+        <argsstring>(llvm::IRBuilder&lt;&gt; &amp;builder, LoadSymbolResolver &amp;resolver, const ModelGeneratorContext &amp;ctx, llvm::Value *modelData)</argsstring>
+        <name>ASTNodeCodeGen</name>
+        <param>
+          <type>llvm::IRBuilder&lt;&gt; &amp;</type>
+          <declname>builder</declname>
+        </param>
+        <param>
+          <type><ref refid="classrrllvm_1_1LoadSymbolResolver" kindref="compound">LoadSymbolResolver</ref> &amp;</type>
+          <declname>resolver</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classrrllvm_1_1ModelGeneratorContext" kindref="compound">ModelGeneratorContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>llvm::Value *</type>
+          <declname>modelData</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ASTNodeCodeGen.h" line="30" column="5" bodyfile="llvm/ASTNodeCodeGen.cpp" bodystart="49" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="classrrllvm_1_1ASTNodeCodeGen_1a03807b2850f8e7818ad64bf145aa76db" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>rrllvm::ASTNodeCodeGen::~ASTNodeCodeGen</definition>
+        <argsstring>()</argsstring>
+        <name>~ASTNodeCodeGen</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ASTNodeCodeGen.h" line="34" column="5" bodyfile="llvm/ASTNodeCodeGen.cpp" bodystart="58" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="classrrllvm_1_1ASTNodeCodeGen_1a30dc7f36cc8d412257bf2806dd190af7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>llvm::Value *</type>
+        <definition>llvm::Value * rrllvm::ASTNodeCodeGen::codeGen</definition>
+        <argsstring>(const libsbml::ASTNode *ast)</argsstring>
+        <name>codeGen</name>
+        <param>
+          <type>const libsbml::ASTNode *</type>
+          <declname>ast</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ASTNodeCodeGen.h" line="36" column="17" bodyfile="llvm/ASTNodeCodeGen.cpp" bodystart="102" bodyend="266"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="classrrllvm_1_1ASTNodeCodeGen_1a95b42193cf9062cc9d38e6a230f38347" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>llvm::Value *</type>
+        <definition>Value * rrllvm::ASTNodeCodeGen::binaryExprCodeGen</definition>
+        <argsstring>(const libsbml::ASTNode *ast)</argsstring>
+        <name>binaryExprCodeGen</name>
+        <param>
+          <type>const libsbml::ASTNode *</type>
+          <declname>ast</declname>
+        </param>
+        <briefdescription>
+<para>sbml ASTNode does not contain as assigment &apos;=&apos; type, assigment is handled by other sbml elements such as initialAssigment. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ASTNodeCodeGen.h" line="44" column="17" bodyfile="llvm/ASTNodeCodeGen.cpp" bodystart="62" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="classrrllvm_1_1ASTNodeCodeGen_1adff4f1fb164220bc04dbc10a3425ff75" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>llvm::Value *</type>
+        <definition>llvm::Value * rrllvm::ASTNodeCodeGen::notImplemented</definition>
+        <argsstring>(const libsbml::ASTNode *ast)</argsstring>
+        <name>notImplemented</name>
+        <param>
+          <type>const libsbml::ASTNode *</type>
+          <declname>ast</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ASTNodeCodeGen.h" line="46" column="17" bodyfile="llvm/ASTNodeCodeGen.cpp" bodystart="269" bodyend="278"/>
+      </memberdef>
+      <memberdef kind="function" id="classrrllvm_1_1ASTNodeCodeGen_1a5cb7ae45512704e083760ed8111332b0" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>llvm::Value *</type>
+        <definition>llvm::Value * rrllvm::ASTNodeCodeGen::delayExprCodeGen</definition>
+        <argsstring>(const libsbml::ASTNode *ast)</argsstring>
+        <name>delayExprCodeGen</name>
+        <param>
+          <type>const libsbml::ASTNode *</type>
+          <declname>ast</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ASTNodeCodeGen.h" line="48" column="17" bodyfile="llvm/ASTNodeCodeGen.cpp" bodystart="608" bodyend="623"/>
+      </memberdef>
+      <memberdef kind="function" id="classrrllvm_1_1ASTNodeCodeGen_1a87ce24ef5b9f79e74abf28459876902c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>llvm::Value *</type>
+        <definition>llvm::Value * rrllvm::ASTNodeCodeGen::nameExprCodeGen</definition>
+        <argsstring>(const libsbml::ASTNode *ast)</argsstring>
+        <name>nameExprCodeGen</name>
+        <param>
+          <type>const libsbml::ASTNode *</type>
+          <declname>ast</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ASTNodeCodeGen.h" line="50" column="17" bodyfile="llvm/ASTNodeCodeGen.cpp" bodystart="625" bodyend="642"/>
+      </memberdef>
+      <memberdef kind="function" id="classrrllvm_1_1ASTNodeCodeGen_1a61d7251f945d6ac5612b091a5e3ec297" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>llvm::Value *</type>
+        <definition>llvm::Value * rrllvm::ASTNodeCodeGen::realExprCodeGen</definition>
+        <argsstring>(const libsbml::ASTNode *ast)</argsstring>
+        <name>realExprCodeGen</name>
+        <param>
+          <type>const libsbml::ASTNode *</type>
+          <declname>ast</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ASTNodeCodeGen.h" line="52" column="17" bodyfile="llvm/ASTNodeCodeGen.cpp" bodystart="644" bodyend="647"/>
+      </memberdef>
+      <memberdef kind="function" id="classrrllvm_1_1ASTNodeCodeGen_1a2a17f73c0a8fdd785ea7c5de825bec68" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>llvm::Value *</type>
+        <definition>llvm::Value * rrllvm::ASTNodeCodeGen::distribCodeGen</definition>
+        <argsstring>(const libsbml::ASTNode *ast)</argsstring>
+        <name>distribCodeGen</name>
+        <param>
+          <type>const libsbml::ASTNode *</type>
+          <declname>ast</declname>
+        </param>
+        <briefdescription>
+<para>Support new AST nodes for distributions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ASTNodeCodeGen.h" line="57" column="17" bodyfile="llvm/ASTNodeCodeGen.cpp" bodystart="280" bodyend="606"/>
+      </memberdef>
+      <memberdef kind="function" id="classrrllvm_1_1ASTNodeCodeGen_1a8bcb5dcb7f725bf8c72ddc4f5bde0320" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>llvm::Value *</type>
+        <definition>llvm::Value * rrllvm::ASTNodeCodeGen::integerCodeGen</definition>
+        <argsstring>(const libsbml::ASTNode *ast)</argsstring>
+        <name>integerCodeGen</name>
+        <param>
+          <type>const libsbml::ASTNode *</type>
+          <declname>ast</declname>
+        </param>
+        <briefdescription>
+<para>for now, just convert to double, </para>
+        </briefdescription>
+        <detaileddescription>
+<para>TODO: is this right??? </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ASTNodeCodeGen.h" line="65" column="17" bodyfile="llvm/ASTNodeCodeGen.cpp" bodystart="649" bodyend="652"/>
+      </memberdef>
+      <memberdef kind="function" id="classrrllvm_1_1ASTNodeCodeGen_1a681fc8799226d89d97104eae6996808f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>llvm::Value *</type>
+        <definition>llvm::Value * rrllvm::ASTNodeCodeGen::applyArithmeticCodeGen</definition>
+        <argsstring>(const libsbml::ASTNode *ast)</argsstring>
+        <name>applyArithmeticCodeGen</name>
+        <param>
+          <type>const libsbml::ASTNode *</type>
+          <declname>ast</declname>
+        </param>
+        <briefdescription>
+<para>would have made the most sense using templated pointer to a IRBuilder member function, but many compilers seem to have trouble with such templates. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ASTNodeCodeGen.h" line="72" column="17" bodyfile="llvm/ASTNodeCodeGen.cpp" bodystart="654" bodyend="724"/>
+      </memberdef>
+      <memberdef kind="function" id="classrrllvm_1_1ASTNodeCodeGen_1ad010d78c15bc13949234d08d86f91f35" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>llvm::Value *</type>
+        <definition>llvm::Value * rrllvm::ASTNodeCodeGen::minmaxCodeGen</definition>
+        <argsstring>(const libsbml::ASTNode *ast)</argsstring>
+        <name>minmaxCodeGen</name>
+        <param>
+          <type>const libsbml::ASTNode *</type>
+          <declname>ast</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ASTNodeCodeGen.h" line="74" column="17" bodyfile="llvm/ASTNodeCodeGen.cpp" bodystart="1331" bodyend="1385"/>
+      </memberdef>
+      <memberdef kind="function" id="classrrllvm_1_1ASTNodeCodeGen_1a89ceff7379d990bbfc1656bbb757753a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>llvm::Value *</type>
+        <definition>llvm::Value * rrllvm::ASTNodeCodeGen::applyBinaryRelationalCodeGen</definition>
+        <argsstring>(const libsbml::ASTNode *ast, llvm::Value *left, llvm::Value *right)</argsstring>
+        <name>applyBinaryRelationalCodeGen</name>
+        <param>
+          <type>const libsbml::ASTNode *</type>
+          <declname>ast</declname>
+        </param>
+        <param>
+          <type>llvm::Value *</type>
+          <declname>left</declname>
+        </param>
+        <param>
+          <type>llvm::Value *</type>
+          <declname>right</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ASTNodeCodeGen.h" line="79" column="17" bodyfile="llvm/ASTNodeCodeGen.cpp" bodystart="726" bodyend="758"/>
+      </memberdef>
+      <memberdef kind="function" id="classrrllvm_1_1ASTNodeCodeGen_1a391a06f9557390fb1450766e45323228" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>llvm::Value *</type>
+        <definition>llvm::Value * rrllvm::ASTNodeCodeGen::applyScalarRelationalCodeGen</definition>
+        <argsstring>(const libsbml::ASTNode *ast)</argsstring>
+        <name>applyScalarRelationalCodeGen</name>
+        <param>
+          <type>const libsbml::ASTNode *</type>
+          <declname>ast</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ASTNodeCodeGen.h" line="83" column="17" bodyfile="llvm/ASTNodeCodeGen.cpp" bodystart="764" bodyend="815"/>
+      </memberdef>
+      <memberdef kind="function" id="classrrllvm_1_1ASTNodeCodeGen_1aaa976c4998b2b1c31c83eb89ffe8a2f8" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>llvm::Value *</type>
+        <definition>llvm::Value * rrllvm::ASTNodeCodeGen::applyRelationalCodeGen</definition>
+        <argsstring>(const libsbml::ASTNode *ast)</argsstring>
+        <name>applyRelationalCodeGen</name>
+        <param>
+          <type>const libsbml::ASTNode *</type>
+          <declname>ast</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ASTNodeCodeGen.h" line="86" column="13" bodyfile="llvm/ASTNodeCodeGen.cpp" bodystart="760" bodyend="762"/>
+      </memberdef>
+      <memberdef kind="function" id="classrrllvm_1_1ASTNodeCodeGen_1a49a3797a32d3fda940f264afe998a505" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>llvm::Value *</type>
+        <definition>llvm::Value * rrllvm::ASTNodeCodeGen::applyLogicalCodeGen</definition>
+        <argsstring>(const libsbml::ASTNode *ast)</argsstring>
+        <name>applyLogicalCodeGen</name>
+        <param>
+          <type>const libsbml::ASTNode *</type>
+          <declname>ast</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ASTNodeCodeGen.h" line="88" column="17" bodyfile="llvm/ASTNodeCodeGen.cpp" bodystart="817" bodyend="898"/>
+      </memberdef>
+      <memberdef kind="function" id="classrrllvm_1_1ASTNodeCodeGen_1a2d066d9dc08d7d51d28c242cddbb35ba" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>llvm::Value *</type>
+        <definition>llvm::Value * rrllvm::ASTNodeCodeGen::functionCallCodeGen</definition>
+        <argsstring>(const libsbml::ASTNode *ast)</argsstring>
+        <name>functionCallCodeGen</name>
+        <param>
+          <type>const libsbml::ASTNode *</type>
+          <declname>ast</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ASTNodeCodeGen.h" line="90" column="17" bodyfile="llvm/ASTNodeCodeGen.cpp" bodystart="900" bodyend="916"/>
+      </memberdef>
+      <memberdef kind="function" id="classrrllvm_1_1ASTNodeCodeGen_1aaa8b94321e1447e3d088981b65c49442" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>llvm::Value *</type>
+        <definition>llvm::Value * rrllvm::ASTNodeCodeGen::intrinsicCallCodeGen</definition>
+        <argsstring>(const libsbml::ASTNode *ast)</argsstring>
+        <name>intrinsicCallCodeGen</name>
+        <param>
+          <type>const libsbml::ASTNode *</type>
+          <declname>ast</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ASTNodeCodeGen.h" line="92" column="17" bodyfile="llvm/ASTNodeCodeGen.cpp" bodystart="918" bodyend="1154"/>
+      </memberdef>
+      <memberdef kind="function" id="classrrllvm_1_1ASTNodeCodeGen_1a0e467aa87ee3ba4f978df29a48209505" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>llvm::Value *</type>
+        <definition>llvm::Value * rrllvm::ASTNodeCodeGen::piecewiseCodeGen</definition>
+        <argsstring>(const libsbml::ASTNode *ast)</argsstring>
+        <name>piecewiseCodeGen</name>
+        <param>
+          <type>const libsbml::ASTNode *</type>
+          <declname>ast</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ASTNodeCodeGen.h" line="94" column="17" bodyfile="llvm/ASTNodeCodeGen.cpp" bodystart="1214" bodyend="1329"/>
+      </memberdef>
+      <memberdef kind="function" id="classrrllvm_1_1ASTNodeCodeGen_1af33c73725b9b13f8ba14ea522f7063cd" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>llvm::Value *</type>
+        <definition>llvm::Value * rrllvm::ASTNodeCodeGen::toBoolean</definition>
+        <argsstring>(llvm::Value *value)</argsstring>
+        <name>toBoolean</name>
+        <param>
+          <type>llvm::Value *</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>coerces a value to a boolean single bit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>If value is already a boolean, it is unchanged. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ASTNodeCodeGen.h" line="101" column="17" bodyfile="llvm/ASTNodeCodeGen.cpp" bodystart="1156" bodyend="1178"/>
+      </memberdef>
+      <memberdef kind="function" id="classrrllvm_1_1ASTNodeCodeGen_1af1f068a416c4f3d0942f793d63134519" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>llvm::Value *</type>
+        <definition>llvm::Value * rrllvm::ASTNodeCodeGen::toDouble</definition>
+        <argsstring>(llvm::Value *value)</argsstring>
+        <name>toDouble</name>
+        <param>
+          <type>llvm::Value *</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>coerces a value to a double </para>
+        </briefdescription>
+        <detaileddescription>
+<para>If value is already a double, it is unchanged. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ASTNodeCodeGen.h" line="108" column="17" bodyfile="llvm/ASTNodeCodeGen.cpp" bodystart="1180" bodyend="1195"/>
+      </memberdef>
+      <memberdef kind="function" id="classrrllvm_1_1ASTNodeCodeGen_1a468ae1044d08bc88dc2a5d4d0d561ab4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>llvm::Module *</type>
+        <definition>llvm::Module * rrllvm::ASTNodeCodeGen::getModule</definition>
+        <argsstring>()</argsstring>
+        <name>getModule</name>
+        <briefdescription>
+<para>get the module, only valid whilst a BasicBlock is begin filled. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fname</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>name of the calling function, used for generating exception on failure.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>a module on success, throws exeption on failure. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ASTNodeCodeGen.h" line="124" column="18" bodyfile="llvm/ASTNodeCodeGen.cpp" bodystart="1197" bodyend="1212"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>All of the LLVM IR generation is handled here. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="llvm/ASTNodeCodeGen.h" line="27" column="1" bodyfile="llvm/ASTNodeCodeGen.h" bodystart="28" bodyend="129"/>
+    <listofallmembers>
+      <member refid="classrrllvm_1_1ASTNodeCodeGen_1a681fc8799226d89d97104eae6996808f" prot="private" virt="non-virtual"><scope>rrllvm::ASTNodeCodeGen</scope><name>applyArithmeticCodeGen</name></member>
+      <member refid="classrrllvm_1_1ASTNodeCodeGen_1a89ceff7379d990bbfc1656bbb757753a" prot="private" virt="non-virtual"><scope>rrllvm::ASTNodeCodeGen</scope><name>applyBinaryRelationalCodeGen</name></member>
+      <member refid="classrrllvm_1_1ASTNodeCodeGen_1a49a3797a32d3fda940f264afe998a505" prot="private" virt="non-virtual"><scope>rrllvm::ASTNodeCodeGen</scope><name>applyLogicalCodeGen</name></member>
+      <member refid="classrrllvm_1_1ASTNodeCodeGen_1aaa976c4998b2b1c31c83eb89ffe8a2f8" prot="private" virt="non-virtual"><scope>rrllvm::ASTNodeCodeGen</scope><name>applyRelationalCodeGen</name></member>
+      <member refid="classrrllvm_1_1ASTNodeCodeGen_1a391a06f9557390fb1450766e45323228" prot="private" virt="non-virtual"><scope>rrllvm::ASTNodeCodeGen</scope><name>applyScalarRelationalCodeGen</name></member>
+      <member refid="classrrllvm_1_1ASTNodeCodeGen_1a8f27a81bbe9fbdf8f29dd2d9a54870de" prot="public" virt="non-virtual"><scope>rrllvm::ASTNodeCodeGen</scope><name>ASTNodeCodeGen</name></member>
+      <member refid="classrrllvm_1_1ASTNodeCodeGen_1a69559ab4b8ff63c2ff123cc8f3f5593b" prot="private" virt="non-virtual"><scope>rrllvm::ASTNodeCodeGen</scope><name>ASTNodeCodeGenScalarTicket</name></member>
+      <member refid="classrrllvm_1_1ASTNodeCodeGen_1a95b42193cf9062cc9d38e6a230f38347" prot="private" virt="non-virtual"><scope>rrllvm::ASTNodeCodeGen</scope><name>binaryExprCodeGen</name></member>
+      <member refid="classrrllvm_1_1ASTNodeCodeGen_1a29dd23efee764653bedf1ffd9dae6e9a" prot="private" virt="non-virtual"><scope>rrllvm::ASTNodeCodeGen</scope><name>builder</name></member>
+      <member refid="classrrllvm_1_1ASTNodeCodeGen_1a30dc7f36cc8d412257bf2806dd190af7" prot="public" virt="non-virtual"><scope>rrllvm::ASTNodeCodeGen</scope><name>codeGen</name></member>
+      <member refid="classrrllvm_1_1ASTNodeCodeGen_1acd765b81f322b76d6d89f08d1008bd6b" prot="private" virt="non-virtual"><scope>rrllvm::ASTNodeCodeGen</scope><name>ctx</name></member>
+      <member refid="classrrllvm_1_1ASTNodeCodeGen_1a5cb7ae45512704e083760ed8111332b0" prot="private" virt="non-virtual"><scope>rrllvm::ASTNodeCodeGen</scope><name>delayExprCodeGen</name></member>
+      <member refid="classrrllvm_1_1ASTNodeCodeGen_1a2a17f73c0a8fdd785ea7c5de825bec68" prot="private" virt="non-virtual"><scope>rrllvm::ASTNodeCodeGen</scope><name>distribCodeGen</name></member>
+      <member refid="classrrllvm_1_1ASTNodeCodeGen_1a2d066d9dc08d7d51d28c242cddbb35ba" prot="private" virt="non-virtual"><scope>rrllvm::ASTNodeCodeGen</scope><name>functionCallCodeGen</name></member>
+      <member refid="classrrllvm_1_1ASTNodeCodeGen_1a468ae1044d08bc88dc2a5d4d0d561ab4" prot="private" virt="non-virtual"><scope>rrllvm::ASTNodeCodeGen</scope><name>getModule</name></member>
+      <member refid="classrrllvm_1_1ASTNodeCodeGen_1a8bcb5dcb7f725bf8c72ddc4f5bde0320" prot="private" virt="non-virtual"><scope>rrllvm::ASTNodeCodeGen</scope><name>integerCodeGen</name></member>
+      <member refid="classrrllvm_1_1ASTNodeCodeGen_1aaa8b94321e1447e3d088981b65c49442" prot="private" virt="non-virtual"><scope>rrllvm::ASTNodeCodeGen</scope><name>intrinsicCallCodeGen</name></member>
+      <member refid="classrrllvm_1_1ASTNodeCodeGen_1ad010d78c15bc13949234d08d86f91f35" prot="private" virt="non-virtual"><scope>rrllvm::ASTNodeCodeGen</scope><name>minmaxCodeGen</name></member>
+      <member refid="classrrllvm_1_1ASTNodeCodeGen_1a683ddd86336c88f64b01a06372b9424f" prot="private" virt="non-virtual"><scope>rrllvm::ASTNodeCodeGen</scope><name>modelData</name></member>
+      <member refid="classrrllvm_1_1ASTNodeCodeGen_1a87ce24ef5b9f79e74abf28459876902c" prot="private" virt="non-virtual"><scope>rrllvm::ASTNodeCodeGen</scope><name>nameExprCodeGen</name></member>
+      <member refid="classrrllvm_1_1ASTNodeCodeGen_1adff4f1fb164220bc04dbc10a3425ff75" prot="private" virt="non-virtual"><scope>rrllvm::ASTNodeCodeGen</scope><name>notImplemented</name></member>
+      <member refid="classrrllvm_1_1ASTNodeCodeGen_1a0e467aa87ee3ba4f978df29a48209505" prot="private" virt="non-virtual"><scope>rrllvm::ASTNodeCodeGen</scope><name>piecewiseCodeGen</name></member>
+      <member refid="classrrllvm_1_1ASTNodeCodeGen_1a61d7251f945d6ac5612b091a5e3ec297" prot="private" virt="non-virtual"><scope>rrllvm::ASTNodeCodeGen</scope><name>realExprCodeGen</name></member>
+      <member refid="classrrllvm_1_1ASTNodeCodeGen_1ac3995a66e952a275642758b42b137373" prot="private" virt="non-virtual"><scope>rrllvm::ASTNodeCodeGen</scope><name>resolver</name></member>
+      <member refid="classrrllvm_1_1ASTNodeCodeGen_1aeb0da48ae8c1726f1e579a7c0af55e63" prot="private" virt="non-virtual"><scope>rrllvm::ASTNodeCodeGen</scope><name>scalar_mode_</name></member>
+      <member refid="classrrllvm_1_1ASTNodeCodeGen_1af33c73725b9b13f8ba14ea522f7063cd" prot="private" virt="non-virtual"><scope>rrllvm::ASTNodeCodeGen</scope><name>toBoolean</name></member>
+      <member refid="classrrllvm_1_1ASTNodeCodeGen_1af1f068a416c4f3d0942f793d63134519" prot="private" virt="non-virtual"><scope>rrllvm::ASTNodeCodeGen</scope><name>toDouble</name></member>
+      <member refid="classrrllvm_1_1ASTNodeCodeGen_1a03807b2850f8e7818ad64bf145aa76db" prot="public" virt="non-virtual"><scope>rrllvm::ASTNodeCodeGen</scope><name>~ASTNodeCodeGen</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -5,15 +5,15 @@
     <includedby refid="IntegratorRegistration_8cpp" local="yes">IntegratorRegistration.cpp</includedby>
     <includedby refid="rrRoadRunner_8cpp" local="yes">rrRoadRunner.cpp</includedby>
     <invincdepgraph>
-      <node id="2">
-        <label>IntegratorRegistration.cpp</label>
-        <link refid="IntegratorRegistration_8cpp"/>
-      </node>
       <node id="1">
         <label>IntegratorRegistration.h</label>
         <link refid="IntegratorRegistration_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
+      </node>
+      <node id="2">
+        <label>IntegratorRegistration.cpp</label>
+        <link refid="IntegratorRegistration_8cpp"/>
       </node>
     </invincdepgraph>
     <innerclass refid="classrr_1_1IntegratorRegistrationMgr" prot="public">rr::IntegratorRegistrationMgr</innerclass>

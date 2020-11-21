@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+  <compounddef id="structrrllvm_1_1EventPredicate" kind="struct" language="C++" prot="public">
+    <compoundname>rrllvm::EventPredicate</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structrrllvm_1_1EventPredicate_1aba8d53dca9652dc62913bda16fd06f0a" prot="public" static="no" mutable="no">
+        <type>uint</type>
+        <definition>uint rrllvm::EventPredicate::eventId</definition>
+        <argsstring></argsstring>
+        <name>eventId</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/EventQueue.cpp" line="179" column="10" bodyfile="llvm/EventQueue.cpp" bodystart="179" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="structrrllvm_1_1EventPredicate_1a9c47f2d70d0d60f4b6717e2bc50bea4a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>rrllvm::EventPredicate::EventPredicate</definition>
+        <argsstring>(uint eventId)</argsstring>
+        <name>EventPredicate</name>
+        <param>
+          <type>uint</type>
+          <declname>eventId</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/EventQueue.cpp" line="172" column="5" bodyfile="llvm/EventQueue.cpp" bodystart="172" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="function" id="structrrllvm_1_1EventPredicate_1a39b71601e01db5fb7127a39c0d1d988c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool rrllvm::EventPredicate::operator()</definition>
+        <argsstring>(const rrllvm::Event &amp;event) const</argsstring>
+        <name>operator()</name>
+        <param>
+          <type>const <ref refid="classrr_1_1Event" kindref="compound">rrllvm::Event</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/EventQueue.cpp" line="174" column="10" bodyfile="llvm/EventQueue.cpp" bodystart="174" bodyend="177"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="llvm/EventQueue.cpp" line="170" column="1" bodyfile="llvm/EventQueue.cpp" bodystart="171" bodyend="180"/>
+    <listofallmembers>
+      <member refid="structrrllvm_1_1EventPredicate_1aba8d53dca9652dc62913bda16fd06f0a" prot="public" virt="non-virtual"><scope>rrllvm::EventPredicate</scope><name>eventId</name></member>
+      <member refid="structrrllvm_1_1EventPredicate_1a9c47f2d70d0d60f4b6717e2bc50bea4a" prot="public" virt="non-virtual"><scope>rrllvm::EventPredicate</scope><name>EventPredicate</name></member>
+      <member refid="structrrllvm_1_1EventPredicate_1a39b71601e01db5fb7127a39c0d1d988c" prot="public" virt="non-virtual"><scope>rrllvm::EventPredicate</scope><name>operator()</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

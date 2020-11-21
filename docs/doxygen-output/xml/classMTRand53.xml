@@ -1,0 +1,165 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+  <compounddef id="classMTRand53" kind="class" language="C++" prot="public">
+    <compoundname>MTRand53</compoundname>
+    <basecompoundref refid="classMTRand__int32" prot="public" virt="non-virtual">MTRand_int32</basecompoundref>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classMTRand53_1a24711c9e6e5ee72715f34515d1f1939a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>MTRand53::MTRand53</definition>
+        <argsstring>()</argsstring>
+        <name>MTRand53</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/mtrand.h" line="145" column="3" bodyfile="c/mtrand.h" bodystart="145" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="classMTRand53_1ad800887e15d4095f22facdb67f270c5e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>MTRand53::MTRand53</definition>
+        <argsstring>(unsigned long seed)</argsstring>
+        <name>MTRand53</name>
+        <param>
+          <type>unsigned long</type>
+          <declname>seed</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/mtrand.h" line="146" column="3" bodyfile="c/mtrand.h" bodystart="146" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="classMTRand53_1ac77b190d3ac27adea2d2c6c2ce2347c3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>MTRand53::MTRand53</definition>
+        <argsstring>(const unsigned long *seed, int size)</argsstring>
+        <name>MTRand53</name>
+        <param>
+          <type>const unsigned long *</type>
+          <declname>seed</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/mtrand.h" line="147" column="3" bodyfile="c/mtrand.h" bodystart="147" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="classMTRand53_1a947a6a7afd0c8a17612cda3faa705a75" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>MTRand53::~MTRand53</definition>
+        <argsstring>()</argsstring>
+        <name>~MTRand53</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/mtrand.h" line="148" column="3" bodyfile="c/mtrand.h" bodystart="148" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="classMTRand53_1ab6657cb5349f39bc4553d3a970458b45" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double MTRand53::operator()</definition>
+        <argsstring>()</argsstring>
+        <name>operator()</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/mtrand.h" line="149" column="10" bodyfile="c/mtrand.h" bodystart="149" bodyend="151"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="classMTRand53_1a1c5ef2c68542730bb5d90d3b80aabf96" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>MTRand53::MTRand53</definition>
+        <argsstring>(const MTRand53 &amp;)</argsstring>
+        <name>MTRand53</name>
+        <param>
+          <type>const <ref refid="classMTRand53" kindref="compound">MTRand53</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/mtrand.h" line="153" column="3"/>
+      </memberdef>
+      <memberdef kind="function" id="classMTRand53_1a751b892577cc9a7703dc22a7e6b8a65f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void MTRand53::operator=</definition>
+        <argsstring>(const MTRand53 &amp;)</argsstring>
+        <name>operator=</name>
+        <param>
+          <type>const <ref refid="classMTRand53" kindref="compound">MTRand53</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/mtrand.h" line="154" column="8"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>MTRand_int32</label>
+        <link refid="classMTRand__int32"/>
+      </node>
+      <node id="1">
+        <label>MTRand53</label>
+        <link refid="classMTRand53"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>MTRand_int32</label>
+        <link refid="classMTRand__int32"/>
+      </node>
+      <node id="1">
+        <label>MTRand53</label>
+        <link refid="classMTRand53"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="c/mtrand.h" line="143" column="1" bodyfile="c/mtrand.h" bodystart="143" bodyend="155"/>
+    <listofallmembers>
+      <member refid="classMTRand53_1a24711c9e6e5ee72715f34515d1f1939a" prot="public" virt="non-virtual"><scope>MTRand53</scope><name>MTRand53</name></member>
+      <member refid="classMTRand53_1ad800887e15d4095f22facdb67f270c5e" prot="public" virt="non-virtual"><scope>MTRand53</scope><name>MTRand53</name></member>
+      <member refid="classMTRand53_1ac77b190d3ac27adea2d2c6c2ce2347c3" prot="public" virt="non-virtual"><scope>MTRand53</scope><name>MTRand53</name></member>
+      <member refid="classMTRand53_1a1c5ef2c68542730bb5d90d3b80aabf96" prot="private" virt="non-virtual"><scope>MTRand53</scope><name>MTRand53</name></member>
+      <member refid="classMTRand__int32_1a034f223c086f5368bd220b02f2cc12a8" prot="public" virt="non-virtual"><scope>MTRand53</scope><name>MTRand_int32</name></member>
+      <member refid="classMTRand__int32_1ad30f7c63a6f1fb3c3b76b8ce6ffa0206" prot="public" virt="non-virtual"><scope>MTRand53</scope><name>MTRand_int32</name></member>
+      <member refid="classMTRand__int32_1a19acddb3910a7282517b2ffc398b92b4" prot="public" virt="non-virtual"><scope>MTRand53</scope><name>MTRand_int32</name></member>
+      <member refid="classMTRand53_1ab6657cb5349f39bc4553d3a970458b45" prot="public" virt="non-virtual"><scope>MTRand53</scope><name>operator()</name></member>
+      <member refid="classMTRand53_1a751b892577cc9a7703dc22a7e6b8a65f" prot="private" virt="non-virtual"><scope>MTRand53</scope><name>operator=</name></member>
+      <member refid="classMTRand__int32_1a71574e989ce84ce045a136b7c1d7ea90" prot="protected" virt="non-virtual"><scope>MTRand53</scope><name>rand_int32</name></member>
+      <member refid="classMTRand__int32_1a0c57076fe30358e0700a7ce1baa0ea27" prot="public" virt="non-virtual"><scope>MTRand53</scope><name>seed</name></member>
+      <member refid="classMTRand__int32_1a3cabc1e3445716236a570ffd2f69686d" prot="public" virt="non-virtual"><scope>MTRand53</scope><name>seed</name></member>
+      <member refid="classMTRand53_1a947a6a7afd0c8a17612cda3faa705a75" prot="public" virt="non-virtual"><scope>MTRand53</scope><name>~MTRand53</name></member>
+      <member refid="classMTRand__int32_1a364900abea0758d070ce89922159923a" prot="public" virt="virtual"><scope>MTRand53</scope><name>~MTRand_int32</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

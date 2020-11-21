@@ -1,0 +1,128 @@
+\hypertarget{classrr_1_1ModelSymbols}{}\doxysection{rr\+::Model\+Symbols Class Reference}
+\label{classrr_1_1ModelSymbols}\index{rr::ModelSymbols@{rr::ModelSymbols}}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classrr_1_1ModelSymbols_a15bab69f79c0daa617b4b694b96bee3f}\label{classrr_1_1ModelSymbols_a15bab69f79c0daa617b4b694b96bee3f}} 
+{\bfseries Model\+Symbols} (\mbox{\hyperlink{classrr_1_1NOMSupport}{N\+O\+M\+Support}} \&nom, ls\+::\+Lib\+Structural \&libs, bool compute\+And\+Assign\+Consevation\+Laws)
+\item 
+\mbox{\Hypertarget{classrr_1_1ModelSymbols_a579773a20fc82347148d24eb8fd74f22}\label{classrr_1_1ModelSymbols_a579773a20fc82347148d24eb8fd74f22}} 
+\mbox{\hyperlink{classrr_1_1ModelSymbols}{Model\+Symbols}} \& \mbox{\hyperlink{classrr_1_1ModelSymbols_a579773a20fc82347148d24eb8fd74f22}{operator=}} (const \mbox{\hyperlink{classrr_1_1ModelSymbols}{Model\+Symbols}} \&)
+\begin{DoxyCompactList}\small\item\em have to define assignment operator if you want assignable types with const member vars. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+const string \mbox{\hyperlink{classrr_1_1ModelSymbols_a868750824ff39027f62a56d0e5ef1bd2}{m\+Model\+Name}}
+\begin{DoxyCompactList}\small\item\em ! C\+R\+I\+T\+I\+C\+A\+L\+LY I\+M\+P\+O\+R\+T\+A\+NT ! T\+HE O\+R\+D\+ER OF T\+HE M\+E\+M\+B\+ER V\+A\+R\+I\+A\+B\+LE D\+E\+F\+I\+N\+I\+T\+I\+O\+NS B\+E\+L\+OW H\+A\+VE TO BE IN T\+H\+IS O\+R\+D\+ER. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classrr_1_1ModelSymbols_a7910e9cae91a8477f752fa79781302f2}\label{classrr_1_1ModelSymbols_a7910e9cae91a8477f752fa79781302f2}} 
+const int {\bfseries m\+Num\+Reactions}
+\item 
+\mbox{\Hypertarget{classrr_1_1ModelSymbols_a9db5764f0691047281cf0d2f2e5e78d8}\label{classrr_1_1ModelSymbols_a9db5764f0691047281cf0d2f2e5e78d8}} 
+const bool {\bfseries m\+Compute\+And\+Assign\+Consevation\+Laws}
+\item 
+const \mbox{\hyperlink{classrr_1_1StringList}{String\+List}} \mbox{\hyperlink{classrr_1_1ModelSymbols_a215ce854979c423a02495fe856949e2b}{m\+Independent\+Species\+List}}
+\begin{DoxyCompactList}\small\item\em if we compute\+And\+Assign\+Consevation\+Laws, this is the actual Independent species, otherwise, its just species. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classrr_1_1ModelSymbols_a6bb2defe447036d86201ac9824144cfe}\label{classrr_1_1ModelSymbols_a6bb2defe447036d86201ac9824144cfe}} 
+const int {\bfseries m\+Num\+Independent\+Species}
+\item 
+\mbox{\Hypertarget{classrr_1_1ModelSymbols_a3f353e7e5cd69f066fed17cef5cbc944}\label{classrr_1_1ModelSymbols_a3f353e7e5cd69f066fed17cef5cbc944}} 
+const \mbox{\hyperlink{classrr_1_1StringList}{String\+List}} \mbox{\hyperlink{classrr_1_1ModelSymbols_a3f353e7e5cd69f066fed17cef5cbc944}{m\+Dependent\+Species\+List}}
+\begin{DoxyCompactList}\small\item\em copied straight from the N\+OM \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classrr_1_1ModelSymbols_abba45543954c21d6663935def6b12e54}\label{classrr_1_1ModelSymbols_abba45543954c21d6663935def6b12e54}} 
+const \mbox{\hyperlink{classrr_1_1SymbolList}{Symbol\+List}} {\bfseries m\+Compartment\+List}
+\item 
+\mbox{\Hypertarget{classrr_1_1ModelSymbols_a41239c46f00d462719946980b6758794}\label{classrr_1_1ModelSymbols_a41239c46f00d462719946980b6758794}} 
+const int {\bfseries m\+Num\+Compartments}
+\item 
+\mbox{\Hypertarget{classrr_1_1ModelSymbols_a0631a1e120636ff822482eb9ea0d253c}\label{classrr_1_1ModelSymbols_a0631a1e120636ff822482eb9ea0d253c}} 
+const \mbox{\hyperlink{classrr_1_1SymbolList}{Symbol\+List}} {\bfseries m\+Floating\+Species\+Concentration\+List}
+\item 
+\mbox{\Hypertarget{classrr_1_1ModelSymbols_a6a62e9646ee59393573efaf0082e44bb}\label{classrr_1_1ModelSymbols_a6a62e9646ee59393573efaf0082e44bb}} 
+const int {\bfseries m\+Num\+Floating\+Species}
+\item 
+\mbox{\Hypertarget{classrr_1_1ModelSymbols_ad71ac15a4206930264e5576c4a8ce78f}\label{classrr_1_1ModelSymbols_ad71ac15a4206930264e5576c4a8ce78f}} 
+const int {\bfseries m\+Num\+Dependent\+Species}
+\item 
+\mbox{\Hypertarget{classrr_1_1ModelSymbols_a254a466e8ee498cc1d7d44a8fc4fe290}\label{classrr_1_1ModelSymbols_a254a466e8ee498cc1d7d44a8fc4fe290}} 
+const \mbox{\hyperlink{classrr_1_1SymbolList}{Symbol\+List}} {\bfseries m\+Boundary\+Species\+List}
+\item 
+\mbox{\Hypertarget{classrr_1_1ModelSymbols_a370adfc201ee4b83abc3cef994d04cae}\label{classrr_1_1ModelSymbols_a370adfc201ee4b83abc3cef994d04cae}} 
+const int {\bfseries m\+Num\+Boundary\+Species}
+\item 
+\mbox{\Hypertarget{classrr_1_1ModelSymbols_af16838c10e0c77beded765088b739e2d}\label{classrr_1_1ModelSymbols_af16838c10e0c77beded765088b739e2d}} 
+const \mbox{\hyperlink{classrr_1_1SymbolList}{Symbol\+List}} {\bfseries m\+Global\+Parameter\+List}
+\item 
+\mbox{\Hypertarget{classrr_1_1ModelSymbols_a8bb045c78bb7cef43042e08b34e111ef}\label{classrr_1_1ModelSymbols_a8bb045c78bb7cef43042e08b34e111ef}} 
+const int {\bfseries m\+Num\+Global\+Parameters}
+\item 
+\mbox{\Hypertarget{classrr_1_1ModelSymbols_a3a5ee5efcbb2aac36b3ca07ec749e97c}\label{classrr_1_1ModelSymbols_a3a5ee5efcbb2aac36b3ca07ec749e97c}} 
+const \mbox{\hyperlink{classrr_1_1SymbolList}{Symbol\+List}} {\bfseries m\+Modifiable\+Species\+Reference\+List}
+\item 
+\mbox{\Hypertarget{classrr_1_1ModelSymbols_a453ce7066f12df64cae098aa80ac89db}\label{classrr_1_1ModelSymbols_a453ce7066f12df64cae098aa80ac89db}} 
+const int {\bfseries m\+Num\+Modifiable\+Species\+References}
+\item 
+\mbox{\Hypertarget{classrr_1_1ModelSymbols_ab714a1d89b13db06b067a1392646cc98}\label{classrr_1_1ModelSymbols_ab714a1d89b13db06b067a1392646cc98}} 
+const \mbox{\hyperlink{classrr_1_1SymbolList}{Symbol\+List}} {\bfseries m\+Reaction\+List}
+\item 
+\mbox{\Hypertarget{classrr_1_1ModelSymbols_a10236db4d09765076df69ac748a34e91}\label{classrr_1_1ModelSymbols_a10236db4d09765076df69ac748a34e91}} 
+const vector$<$ int $>$ {\bfseries m\+Local\+Parameter\+Dimensions}
+\item 
+\mbox{\Hypertarget{classrr_1_1ModelSymbols_a691f15e4bbc32f025db4a2a68d821f94}\label{classrr_1_1ModelSymbols_a691f15e4bbc32f025db4a2a68d821f94}} 
+const vector$<$ \mbox{\hyperlink{classrr_1_1SymbolList}{Symbol\+List}} $>$ {\bfseries m\+Local\+Parameter\+List}
+\item 
+\mbox{\Hypertarget{classrr_1_1ModelSymbols_a195537068ba5b71e7b29a959877bf477}\label{classrr_1_1ModelSymbols_a195537068ba5b71e7b29a959877bf477}} 
+const \mbox{\hyperlink{classrr_1_1SymbolList}{Symbol\+List}} {\bfseries m\+Conservation\+List}
+\item 
+\mbox{\Hypertarget{classrr_1_1ModelSymbols_ac6290a1adde3a5f9929b6f9558f30be8}\label{classrr_1_1ModelSymbols_ac6290a1adde3a5f9929b6f9558f30be8}} 
+const int {\bfseries m\+Total\+Local\+Parmeters}
+\item 
+\mbox{\Hypertarget{classrr_1_1ModelSymbols_a1d175c520bce2af9b375dd6a470ff840}\label{classrr_1_1ModelSymbols_a1d175c520bce2af9b375dd6a470ff840}} 
+const int {\bfseries m\+Num\+Events}
+\item 
+\mbox{\Hypertarget{classrr_1_1ModelSymbols_abc14e1ee4b217df81e46c29fe2981602}\label{classrr_1_1ModelSymbols_abc14e1ee4b217df81e46c29fe2981602}} 
+const \mbox{\hyperlink{classrr_1_1StringList}{String\+List}} {\bfseries m\+Function\+Names}
+\item 
+\mbox{\Hypertarget{classrr_1_1ModelSymbols_a86a69e6eda74274aff2706946381b19a}\label{classrr_1_1ModelSymbols_a86a69e6eda74274aff2706946381b19a}} 
+const \mbox{\hyperlink{classrr_1_1StringList}{String\+List}} {\bfseries m\+Function\+Parameters}
+\item 
+\mbox{\Hypertarget{classrr_1_1ModelSymbols_a0cad7c180924a4ab5e64465e95247ca1}\label{classrr_1_1ModelSymbols_a0cad7c180924a4ab5e64465e95247ca1}} 
+const \mbox{\hyperlink{classrr_1_1IntStringHashTable}{Int\+String\+Hash\+Table}} {\bfseries m\+Rate\+Rules}
+\item 
+\mbox{\Hypertarget{classrr_1_1ModelSymbols_ac7261aad851465ee08975bd5f6849c3e}\label{classrr_1_1ModelSymbols_ac7261aad851465ee08975bd5f6849c3e}} 
+const int {\bfseries m\+Num\+Rules}
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classrr_1_1ModelSymbols_a35bcd9f3e5abff46921aca4c3b651671}\label{classrr_1_1ModelSymbols_a35bcd9f3e5abff46921aca4c3b651671}} 
+static const string {\bfseries m\+Double\+Format}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classrr_1_1ModelSymbols_a215ce854979c423a02495fe856949e2b}\label{classrr_1_1ModelSymbols_a215ce854979c423a02495fe856949e2b}} 
+\index{rr::ModelSymbols@{rr::ModelSymbols}!mIndependentSpeciesList@{mIndependentSpeciesList}}
+\index{mIndependentSpeciesList@{mIndependentSpeciesList}!rr::ModelSymbols@{rr::ModelSymbols}}
+\doxysubsubsection{\texorpdfstring{mIndependentSpeciesList}{mIndependentSpeciesList}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{classrr_1_1StringList}{String\+List}} rr\+::\+Model\+Symbols\+::m\+Independent\+Species\+List}
+
+
+
+if we compute\+And\+Assign\+Consevation\+Laws, this is the actual Independent species, otherwise, its just species. 
+
+Independent species are the linearly independent species in the stochiometry matrix. \mbox{\Hypertarget{classrr_1_1ModelSymbols_a868750824ff39027f62a56d0e5ef1bd2}\label{classrr_1_1ModelSymbols_a868750824ff39027f62a56d0e5ef1bd2}} 
+\index{rr::ModelSymbols@{rr::ModelSymbols}!mModelName@{mModelName}}
+\index{mModelName@{mModelName}!rr::ModelSymbols@{rr::ModelSymbols}}
+\doxysubsubsection{\texorpdfstring{mModelName}{mModelName}}
+{\footnotesize\ttfamily const string rr\+::\+Model\+Symbols\+::m\+Model\+Name}
+
+
+
+! C\+R\+I\+T\+I\+C\+A\+L\+LY I\+M\+P\+O\+R\+T\+A\+NT ! T\+HE O\+R\+D\+ER OF T\+HE M\+E\+M\+B\+ER V\+A\+R\+I\+A\+B\+LE D\+E\+F\+I\+N\+I\+T\+I\+O\+NS B\+E\+L\+OW H\+A\+VE TO BE IN T\+H\+IS O\+R\+D\+ER. 
+
+This class is created entierly in the initialization list, and the initialization list order is determined by the order of variable definitions. Many variables depend on previous variables. A little squirly, but thats the price to pay for having all const member vars. name of the model 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+c/rr\+Model\+Symbols.\+h\item 
+c/rr\+Model\+Symbols.\+cpp\end{DoxyCompactItemize}

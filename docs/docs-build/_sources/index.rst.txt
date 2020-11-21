@@ -3,8 +3,27 @@ RoadRunner Documentation
 ########################
 
 The Roadrunner Simulatin Engine is a C++ library for simulating and analysing
-systems of differential equations in [SBML]() format. Roadrunner was designed
+systems of differential equations. Roadrunner was designed
 with performance as a priority and is an exceptionally fast simulator.
+
+Features
+========
+
+* Time Dependent Simulation (with optional conservation law reduction) using CVODE from the sundials suite.
+* Steady State evaluation using NLEQ2
+* Supports SBML Level 2 to 3 but currently excludes algebraic rules and delay differential equations
+* Uses latest libSBML distribution
+* Defaults to LLVM code generation on the backend, resulting is very fast simulation times
+* Optional generation of model C code and linking at run-time
+* Add plugins, distribution comes with Levenberg-Marquardt optimizer plugin
+* Supports Metabolic Control Analysis
+* Supports Frequency Domain Analysis
+* Additional Plugin API (C and C++)
+* APIs support fast access to model quantities
+* Access to other items such as:
+* Eigenvalues and Eigenvectors
+* Jacobian, full and reduced
+* Structural Matrices of the stoichiometry matrix
 
 .. todo::
 
@@ -35,27 +54,6 @@ simulation and plot the results.
 
 Looking for a model to start with? We included a couple with libRoadRunner, see :ref:`loading-models`.
 
-Features
-========
-
-.. todo::
-
-    list all the things that you can do with roadrunner. Be inclusive.
-    Eventually I want hyperlinks here directing people to the relevant example or section.
-
-* Construct SBML models
-
-* Run time series tasks on SBML models with the following integrators:
-
-    * CVODE
-
-    * RK4
-
-    * RK5
-
-* Compute steady state of SBML models using the following methods:
-
-    * [insert methods here]
 
 .. toctree::
     :maxdepth: 1
@@ -76,6 +74,8 @@ Features
     utility_functions
     accessing_model
     api_reference
+    C++APIReference/index
+    CAPIReference/index
 
 
 

@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+  <compounddef id="structrr_1_1SortByPriority" kind="struct" language="C++" prot="public">
+    <compoundname>rr::SortByPriority</compoundname>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="structrr_1_1SortByPriority_1adb2b25eaf8b375a807036bc613b13db7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool rr::SortByPriority::operator()</definition>
+        <argsstring>(const rr::Event &amp;lx, const rr::Event &amp;rx) const</argsstring>
+        <name>operator()</name>
+        <param>
+          <type>const <ref refid="classrr_1_1Event" kindref="compound">rr::Event</ref> &amp;</type>
+          <declname>lx</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classrr_1_1Event" kindref="compound">rr::Event</ref> &amp;</type>
+          <declname>rx</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrEvent.h" line="42" column="10" bodyfile="c/rrEvent.h" bodystart="42" bodyend="45"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="c/rrEvent.h" line="40" column="1" bodyfile="c/rrEvent.h" bodystart="41" bodyend="46"/>
+    <listofallmembers>
+      <member refid="structrr_1_1SortByPriority_1adb2b25eaf8b375a807036bc613b13db7" prot="public" virt="non-virtual"><scope>rr::SortByPriority</scope><name>operator()</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

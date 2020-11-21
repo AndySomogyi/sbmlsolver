@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+  <compounddef id="classrrllvm_1_1CodeGen" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>rrllvm::CodeGen</compoundname>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classrrllvm_1_1CodeGen_1af1a158a3ff95da1aca739af03a35b0e2" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>llvm::Value *</type>
+        <definition>virtual llvm::Value* rrllvm::CodeGen::codeGen</definition>
+        <argsstring>()=0</argsstring>
+        <name>codeGen</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/CodeGen.h" line="20" column="25"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classrrllvm_1_1CodeGen_1ad5b6e2f80e0c4788b291277e0315e9b8" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>rrllvm::CodeGen::~CodeGen</definition>
+        <argsstring>()</argsstring>
+        <name>~CodeGen</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/CodeGen.h" line="22" column="5" bodyfile="llvm/CodeGen.h" bodystart="22" bodyend="22"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="llvm/CodeGen.h" line="17" column="1" bodyfile="llvm/CodeGen.h" bodystart="18" bodyend="23"/>
+    <listofallmembers>
+      <member refid="classrrllvm_1_1CodeGen_1af1a158a3ff95da1aca739af03a35b0e2" prot="public" virt="pure-virtual"><scope>rrllvm::CodeGen</scope><name>codeGen</name></member>
+      <member refid="classrrllvm_1_1CodeGen_1ad5b6e2f80e0c4788b291277e0315e9b8" prot="protected" virt="non-virtual"><scope>rrllvm::CodeGen</scope><name>~CodeGen</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

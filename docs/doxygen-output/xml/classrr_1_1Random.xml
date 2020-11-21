@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+  <compounddef id="classrr_1_1Random" kind="class" language="C++" prot="public">
+    <compoundname>rr::Random</compoundname>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classrr_1_1Random_1aa80a117148114c6079369fd647cf307c" prot="private" static="no" mutable="no">
+        <type><ref refid="classMTRand" kindref="compound">MTRand</ref></type>
+        <definition>MTRand rr::Random::mRand</definition>
+        <argsstring></argsstring>
+        <name>mRand</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrRandom.h" line="17" column="25" bodyfile="c/rrRandom.h" bodystart="17" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classrr_1_1Random_1a72e84ec8e83847899adfb999bbee6bbe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>rrllvm::Random::Random</definition>
+        <argsstring>()</argsstring>
+        <name>Random</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrRandom.h" line="19" column="25" bodyfile="c/rrRandom.cpp" bodystart="9" bodyend="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1Random_1a341a4b5c89f7e0e34e7f1316b9e52bac" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double rr::Random::NextDouble</definition>
+        <argsstring>() const</argsstring>
+        <name>NextDouble</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrRandom.h" line="20" column="25" bodyfile="c/rrRandom.cpp" bodystart="11" bodyend="14"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="c/rrRandom.h" line="13" column="1" bodyfile="c/rrRandom.h" bodystart="14" bodyend="21"/>
+    <listofallmembers>
+      <member refid="classrr_1_1Random_1aa80a117148114c6079369fd647cf307c" prot="private" virt="non-virtual"><scope>rr::Random</scope><name>mRand</name></member>
+      <member refid="classrr_1_1Random_1a341a4b5c89f7e0e34e7f1316b9e52bac" prot="public" virt="non-virtual"><scope>rr::Random</scope><name>NextDouble</name></member>
+      <member refid="classrr_1_1Random_1a72e84ec8e83847899adfb999bbee6bbe" prot="public" virt="non-virtual"><scope>rr::Random</scope><name>Random</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

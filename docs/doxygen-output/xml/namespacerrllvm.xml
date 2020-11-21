@@ -1,0 +1,2069 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+  <compounddef id="namespacerrllvm" kind="namespace" language="C++">
+    <compoundname>rrllvm</compoundname>
+    <innerclass refid="classrrllvm_1_1AssignmentRuleEvaluator" prot="public">rrllvm::AssignmentRuleEvaluator</innerclass>
+    <innerclass refid="classrrllvm_1_1ASTNodeCodeGen" prot="public">rrllvm::ASTNodeCodeGen</innerclass>
+    <innerclass refid="classrrllvm_1_1ASTNodeCodeGenScalarTicket" prot="public">rrllvm::ASTNodeCodeGenScalarTicket</innerclass>
+    <innerclass refid="classrrllvm_1_1ASTNodeFactory" prot="public">rrllvm::ASTNodeFactory</innerclass>
+    <innerclass refid="classrrllvm_1_1CodeGen" prot="public">rrllvm::CodeGen</innerclass>
+    <innerclass refid="classrrllvm_1_1CodeGenBase" prot="public">rrllvm::CodeGenBase</innerclass>
+    <innerclass refid="classrrllvm_1_1EvalConversionFactorCodeGen" prot="public">rrllvm::EvalConversionFactorCodeGen</innerclass>
+    <innerclass refid="classrrllvm_1_1EvalInitialConditionsCodeGen" prot="public">rrllvm::EvalInitialConditionsCodeGen</innerclass>
+    <innerclass refid="classrrllvm_1_1EvalRateRuleRatesCodeGen" prot="public">rrllvm::EvalRateRuleRatesCodeGen</innerclass>
+    <innerclass refid="classrrllvm_1_1EvalReactionRatesCodeGen" prot="public">rrllvm::EvalReactionRatesCodeGen</innerclass>
+    <innerclass refid="classrrllvm_1_1EvalVolatileStoichCodeGen" prot="public">rrllvm::EvalVolatileStoichCodeGen</innerclass>
+    <innerclass refid="classrrllvm_1_1Event" prot="public">rrllvm::Event</innerclass>
+    <innerclass refid="classrrllvm_1_1EventAssignCodeGen" prot="public">rrllvm::EventAssignCodeGen</innerclass>
+    <innerclass refid="classrrllvm_1_1EventCodeGenBase" prot="public">rrllvm::EventCodeGenBase</innerclass>
+    <innerclass refid="structrrllvm_1_1EventPredicate" prot="public">rrllvm::EventPredicate</innerclass>
+    <innerclass refid="classrrllvm_1_1EventQueue" prot="public">rrllvm::EventQueue</innerclass>
+    <innerclass refid="classrrllvm_1_1EventTriggerCodeGen" prot="public">rrllvm::EventTriggerCodeGen</innerclass>
+    <innerclass refid="classrrllvm_1_1FunctionResolver" prot="public">rrllvm::FunctionResolver</innerclass>
+    <innerclass refid="classrrllvm_1_1GetBoundarySpeciesAmountCodeGen" prot="public">rrllvm::GetBoundarySpeciesAmountCodeGen</innerclass>
+    <innerclass refid="classrrllvm_1_1GetBoundarySpeciesConcentrationCodeGen" prot="public">rrllvm::GetBoundarySpeciesConcentrationCodeGen</innerclass>
+    <innerclass refid="classrrllvm_1_1GetCompartmentInitVolumeCodeGen" prot="public">rrllvm::GetCompartmentInitVolumeCodeGen</innerclass>
+    <innerclass refid="classrrllvm_1_1GetCompartmentVolumeCodeGen" prot="public">rrllvm::GetCompartmentVolumeCodeGen</innerclass>
+    <innerclass refid="classrrllvm_1_1GetEventDelayCodeGen" prot="public">rrllvm::GetEventDelayCodeGen</innerclass>
+    <innerclass refid="classrrllvm_1_1GetEventPriorityCodeGen" prot="public">rrllvm::GetEventPriorityCodeGen</innerclass>
+    <innerclass refid="classrrllvm_1_1GetEventTriggerCodeGen" prot="public">rrllvm::GetEventTriggerCodeGen</innerclass>
+    <innerclass refid="classrrllvm_1_1GetEventValueCodeGenBase" prot="public">rrllvm::GetEventValueCodeGenBase</innerclass>
+    <innerclass refid="classrrllvm_1_1GetFloatingSpeciesAmountCodeGen" prot="public">rrllvm::GetFloatingSpeciesAmountCodeGen</innerclass>
+    <innerclass refid="classrrllvm_1_1GetFloatingSpeciesConcentrationCodeGen" prot="public">rrllvm::GetFloatingSpeciesConcentrationCodeGen</innerclass>
+    <innerclass refid="classrrllvm_1_1GetFloatingSpeciesInitAmountCodeGen" prot="public">rrllvm::GetFloatingSpeciesInitAmountCodeGen</innerclass>
+    <innerclass refid="classrrllvm_1_1GetFloatingSpeciesInitConcentrationCodeGen" prot="public">rrllvm::GetFloatingSpeciesInitConcentrationCodeGen</innerclass>
+    <innerclass refid="classrrllvm_1_1GetGlobalParameterCodeGen" prot="public">rrllvm::GetGlobalParameterCodeGen</innerclass>
+    <innerclass refid="classrrllvm_1_1GetGlobalParameterInitValueCodeGen" prot="public">rrllvm::GetGlobalParameterInitValueCodeGen</innerclass>
+    <innerclass refid="classrrllvm_1_1GetInitialValueCodeGenBase" prot="public">rrllvm::GetInitialValueCodeGenBase</innerclass>
+    <innerclass refid="classrrllvm_1_1GetValueCodeGenBase" prot="public">rrllvm::GetValueCodeGenBase</innerclass>
+    <innerclass refid="classrrllvm_1_1KineticLawParameterResolver" prot="public">rrllvm::KineticLawParameterResolver</innerclass>
+    <innerclass refid="classrrllvm_1_1LLVMCodeGenTest" prot="public">rrllvm::LLVMCodeGenTest</innerclass>
+    <innerclass refid="classrrllvm_1_1LLVMCompiler" prot="public">rrllvm::LLVMCompiler</innerclass>
+    <innerclass refid="classrrllvm_1_1LLVMException" prot="public">rrllvm::LLVMException</innerclass>
+    <innerclass refid="classrrllvm_1_1LLVMExecutableModel" prot="public">rrllvm::LLVMExecutableModel</innerclass>
+    <innerclass refid="structrrllvm_1_1LLVMModelData" prot="public">rrllvm::LLVMModelData</innerclass>
+    <innerclass refid="classrrllvm_1_1LLVMModelDataIRBuilderTesting" prot="public">rrllvm::LLVMModelDataIRBuilderTesting</innerclass>
+    <innerclass refid="classrrllvm_1_1LLVMModelDataSymbols" prot="public">rrllvm::LLVMModelDataSymbols</innerclass>
+    <innerclass refid="classrrllvm_1_1LLVMModelGenerator" prot="public">rrllvm::LLVMModelGenerator</innerclass>
+    <innerclass refid="classrrllvm_1_1LLVMModelSymbols" prot="public">rrllvm::LLVMModelSymbols</innerclass>
+    <innerclass refid="classrrllvm_1_1LoadSymbolResolver" prot="public">rrllvm::LoadSymbolResolver</innerclass>
+    <innerclass refid="classrrllvm_1_1LoadSymbolResolverBase" prot="public">rrllvm::LoadSymbolResolverBase</innerclass>
+    <innerclass refid="classrrllvm_1_1ModelDataIRBuilder" prot="public">rrllvm::ModelDataIRBuilder</innerclass>
+    <innerclass refid="classrrllvm_1_1ModelDataLoadSymbolResolver" prot="public">rrllvm::ModelDataLoadSymbolResolver</innerclass>
+    <innerclass refid="classrrllvm_1_1ModelDataStoreSymbolResolver" prot="public">rrllvm::ModelDataStoreSymbolResolver</innerclass>
+    <innerclass refid="classrrllvm_1_1ModelGeneratorContext" prot="public">rrllvm::ModelGeneratorContext</innerclass>
+    <innerclass refid="classrrllvm_1_1ModelInitialValueStoreSymbolResolver" prot="public">rrllvm::ModelInitialValueStoreSymbolResolver</innerclass>
+    <innerclass refid="classrrllvm_1_1ModelInitialValueSymbolResolver" prot="public">rrllvm::ModelInitialValueSymbolResolver</innerclass>
+    <innerclass refid="classrrllvm_1_1ModelResources" prot="public">rrllvm::ModelResources</innerclass>
+    <innerclass refid="classrrllvm_1_1Random" prot="public">rrllvm::Random</innerclass>
+    <innerclass refid="classrrllvm_1_1SBMLInitialValueSymbolResolver" prot="public">rrllvm::SBMLInitialValueSymbolResolver</innerclass>
+    <innerclass refid="classrrllvm_1_1SetBoundarySpeciesAmountCodeGen" prot="public">rrllvm::SetBoundarySpeciesAmountCodeGen</innerclass>
+    <innerclass refid="classrrllvm_1_1SetBoundarySpeciesConcentrationCodeGen" prot="public">rrllvm::SetBoundarySpeciesConcentrationCodeGen</innerclass>
+    <innerclass refid="classrrllvm_1_1SetCompartmentInitVolumeCodeGen" prot="public">rrllvm::SetCompartmentInitVolumeCodeGen</innerclass>
+    <innerclass refid="classrrllvm_1_1SetCompartmentVolumeCodeGen" prot="public">rrllvm::SetCompartmentVolumeCodeGen</innerclass>
+    <innerclass refid="classrrllvm_1_1SetFloatingSpeciesAmountCodeGen" prot="public">rrllvm::SetFloatingSpeciesAmountCodeGen</innerclass>
+    <innerclass refid="classrrllvm_1_1SetFloatingSpeciesConcentrationCodeGen" prot="public">rrllvm::SetFloatingSpeciesConcentrationCodeGen</innerclass>
+    <innerclass refid="classrrllvm_1_1SetFloatingSpeciesInitAmountCodeGen" prot="public">rrllvm::SetFloatingSpeciesInitAmountCodeGen</innerclass>
+    <innerclass refid="classrrllvm_1_1SetFloatingSpeciesInitConcentrationCodeGen" prot="public">rrllvm::SetFloatingSpeciesInitConcentrationCodeGen</innerclass>
+    <innerclass refid="classrrllvm_1_1SetGlobalParameterCodeGen" prot="public">rrllvm::SetGlobalParameterCodeGen</innerclass>
+    <innerclass refid="classrrllvm_1_1SetGlobalParameterInitValueCodeGen" prot="public">rrllvm::SetGlobalParameterInitValueCodeGen</innerclass>
+    <innerclass refid="classrrllvm_1_1SetInitialValueCodeGenBase" prot="public">rrllvm::SetInitialValueCodeGenBase</innerclass>
+    <innerclass refid="classrrllvm_1_1SetValueCodeGenBase" prot="public">rrllvm::SetValueCodeGenBase</innerclass>
+    <innerclass refid="classrrllvm_1_1StoreSymbolResolver" prot="public">rrllvm::StoreSymbolResolver</innerclass>
+    <innerclass refid="classrrllvm_1_1SymbolForest" prot="public">rrllvm::SymbolForest</innerclass>
+      <sectiondef kind="enum">
+      <memberdef kind="enum" id="LLVMModelDataSymbols_8h_1a318154bee3361ded939b3fcf368adab8" prot="public" static="no" strong="no">
+        <type></type>
+        <name>ModelDataFields</name>
+        <enumvalue id="LLVMModelDataSymbols_8h_1a318154bee3361ded939b3fcf368adab8ad5f3d365043ae5dd77be04b11d65c7e4" prot="public">
+          <name>Size</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="LLVMModelDataSymbols_8h_1a318154bee3361ded939b3fcf368adab8aa3aca81df1a84eddcd06ef6e4931a23f" prot="public">
+          <name>Flags</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="LLVMModelDataSymbols_8h_1a318154bee3361ded939b3fcf368adab8ab5bccb51c6ab94d2874a57ff97a0fdaa" prot="public">
+          <name>Time</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="LLVMModelDataSymbols_8h_1a318154bee3361ded939b3fcf368adab8a19eb72693b01b8ab43cc19fb11fec841" prot="public">
+          <name>NumIndCompartments</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="LLVMModelDataSymbols_8h_1a318154bee3361ded939b3fcf368adab8a3f1875fd05663fc9a19e884b756f3a55" prot="public">
+          <name>NumIndFloatingSpecies</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="LLVMModelDataSymbols_8h_1a318154bee3361ded939b3fcf368adab8aea1dc9432c7c28222b943e7136de3661" prot="public">
+          <name>NumIndBoundarySpecies</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="LLVMModelDataSymbols_8h_1a318154bee3361ded939b3fcf368adab8a3e951bdc051a85ac91bb420b4927feb3" prot="public">
+          <name>NumIndGlobalParameters</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="LLVMModelDataSymbols_8h_1a318154bee3361ded939b3fcf368adab8a9d4ee8c03106b290d8b33214522dd8cb" prot="public">
+          <name>NumRateRules</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="LLVMModelDataSymbols_8h_1a318154bee3361ded939b3fcf368adab8a6dff59c242f3695dfe0f44f9b946091f" prot="public">
+          <name>NumReactions</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="LLVMModelDataSymbols_8h_1a318154bee3361ded939b3fcf368adab8ade0f86bb8c7e1370bb83e3956706764e" prot="public">
+          <name>NumInitCompartments</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="LLVMModelDataSymbols_8h_1a318154bee3361ded939b3fcf368adab8a7b5391bd13dc53a5d30325335485ae29" prot="public">
+          <name>NumInitFloatingSpecies</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="LLVMModelDataSymbols_8h_1a318154bee3361ded939b3fcf368adab8a8627a42b7fc674e3487fe8f127956a04" prot="public">
+          <name>NumInitBoundarySpecies</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="LLVMModelDataSymbols_8h_1a318154bee3361ded939b3fcf368adab8a9603baa2e73594f628eecf88335614b0" prot="public">
+          <name>NumInitGlobalParameters</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="LLVMModelDataSymbols_8h_1a318154bee3361ded939b3fcf368adab8a695b6fe1bf7a86114a497d2b875075ee" prot="public">
+          <name>Stoichiometry</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="LLVMModelDataSymbols_8h_1a318154bee3361ded939b3fcf368adab8a86a4fd125ff6330a8f4cf95fe7c6fdd1" prot="public">
+          <name>RandomPtr</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="LLVMModelDataSymbols_8h_1a318154bee3361ded939b3fcf368adab8a8db07edabee3ed7d03a8b4c936e238d8" prot="public">
+          <name>NumEvents</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="LLVMModelDataSymbols_8h_1a318154bee3361ded939b3fcf368adab8a982a09ddb9b58c201939bac89bf39356" prot="public">
+          <name>StateVectorSize</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="LLVMModelDataSymbols_8h_1a318154bee3361ded939b3fcf368adab8a1e6ab1e8feb301f9c93febe4d7542233" prot="public">
+          <name>StateVector</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="LLVMModelDataSymbols_8h_1a318154bee3361ded939b3fcf368adab8a56917f1035901474ef2ebe6e1673a5bd" prot="public">
+          <name>StateVectorRate</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="LLVMModelDataSymbols_8h_1a318154bee3361ded939b3fcf368adab8a180785a4b9a495051feba51e799a64ac" prot="public">
+          <name>RateRuleRates</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="LLVMModelDataSymbols_8h_1a318154bee3361ded939b3fcf368adab8aa0d3da623d9f52a7d22cf850a5765800" prot="public">
+          <name>FloatingSpeciesAmountRates</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="LLVMModelDataSymbols_8h_1a318154bee3361ded939b3fcf368adab8adb749feafe7248e32e380e55a1bb3b85" prot="public">
+          <name>CompartmentVolumesAlias</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="LLVMModelDataSymbols_8h_1a318154bee3361ded939b3fcf368adab8a92fd9de849b0b6bbc0bc2a7f807a8e38" prot="public">
+          <name>InitCompartmentVolumesAlias</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="LLVMModelDataSymbols_8h_1a318154bee3361ded939b3fcf368adab8af4015ba48943381f5802333d13917aa8" prot="public">
+          <name>InitFloatingSpeciesAmountsAlias</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="LLVMModelDataSymbols_8h_1a318154bee3361ded939b3fcf368adab8af01e6de8484d0b9fb1c7a3da3f2e00cf" prot="public">
+          <name>BoundarySpeciesAmountsAlias</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="LLVMModelDataSymbols_8h_1a318154bee3361ded939b3fcf368adab8a59b10defda26695fbc2fadaed5c1c073" prot="public">
+          <name>InitBoundarySpeciesAmountsAlias</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="LLVMModelDataSymbols_8h_1a318154bee3361ded939b3fcf368adab8a2812529589c7dc9bb0c99462785db4ad" prot="public">
+          <name>GlobalParametersAlias</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="LLVMModelDataSymbols_8h_1a318154bee3361ded939b3fcf368adab8a683979825aa4fcf896844ec14c04fa88" prot="public">
+          <name>InitGlobalParametersAlias</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="LLVMModelDataSymbols_8h_1a318154bee3361ded939b3fcf368adab8abb31a2be420784c5883d689c90f4a970" prot="public">
+          <name>ReactionRatesAlias</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="LLVMModelDataSymbols_8h_1a318154bee3361ded939b3fcf368adab8a975a6e408b21af54bfa453f74c8e5468" prot="public">
+          <name>RateRuleValuesAlias</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="LLVMModelDataSymbols_8h_1a318154bee3361ded939b3fcf368adab8a9235d529115d5526001e91b0220d8def" prot="public">
+          <name>FloatingSpeciesAmountsAlias</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="LLVMModelDataSymbols_8h_1a318154bee3361ded939b3fcf368adab8ac462484980f0fb0805ac3aee6e4fc841" prot="public">
+          <name>CompartmentVolumes</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="LLVMModelDataSymbols_8h_1a318154bee3361ded939b3fcf368adab8a036d809cc6f23134e9ef5c779051bb3a" prot="public">
+          <name>InitCompartmentVolumes</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="LLVMModelDataSymbols_8h_1a318154bee3361ded939b3fcf368adab8a46c946d39be70e26a7579dd909f51f3b" prot="public">
+          <name>InitFloatingSpeciesAmounts</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="LLVMModelDataSymbols_8h_1a318154bee3361ded939b3fcf368adab8a716f642fcff6d7de41d6af3609b769e8" prot="public">
+          <name>BoundarySpeciesAmounts</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="LLVMModelDataSymbols_8h_1a318154bee3361ded939b3fcf368adab8a530dca9ac1a7bc8fbd7b628c49d6a283" prot="public">
+          <name>InitBoundarySpeciesAmounts</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="LLVMModelDataSymbols_8h_1a318154bee3361ded939b3fcf368adab8a1302b392a0b33557bfb3cfe1a6f3908b" prot="public">
+          <name>GlobalParameters</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="LLVMModelDataSymbols_8h_1a318154bee3361ded939b3fcf368adab8ab7d6ad69ac8cc1e2cf64ff38ea81010f" prot="public">
+          <name>InitGlobalParameters</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="LLVMModelDataSymbols_8h_1a318154bee3361ded939b3fcf368adab8a502c4cbe42048b4a46b5ba5f5ec263a3" prot="public">
+          <name>ReactionRates</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="LLVMModelDataSymbols_8h_1a318154bee3361ded939b3fcf368adab8afb8b3d060f5ce77c02298f5a349ef788" prot="public">
+          <name>NotSafe_RateRuleValues</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="LLVMModelDataSymbols_8h_1a318154bee3361ded939b3fcf368adab8aa8f0d7019fb9eea7f56a116628a823f3" prot="public">
+          <name>NotSafe_FloatingSpeciesAmounts</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/LLVMModelDataSymbols.h" line="35" column="1" bodyfile="llvm/LLVMModelDataSymbols.h" bodystart="35" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="enum" id="LLVMModelDataSymbols_8h_1a56359a3dc71f6d7451f44e349fec3b81" prot="public" static="no" strong="no">
+        <type></type>
+        <name>EventAtributes</name>
+        <enumvalue id="LLVMModelDataSymbols_8h_1a56359a3dc71f6d7451f44e349fec3b81a9d2ac9d1cb862ab196cb3ccb5ae63ec8" prot="public">
+          <name>EventUseValuesFromTriggerTime</name>
+          <initializer>= (0x1 &lt;&lt; 0)</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="LLVMModelDataSymbols_8h_1a56359a3dc71f6d7451f44e349fec3b81a9096d5f730f7f63cc720dcf0169861db" prot="public">
+          <name>EventInitialValue</name>
+          <initializer>= (0x1 &lt;&lt; 1)</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="LLVMModelDataSymbols_8h_1a56359a3dc71f6d7451f44e349fec3b81acde793a894b740225622bc7b42fd30f4" prot="public">
+          <name>EventPersistent</name>
+          <initializer>= (0x1 &lt;&lt; 2)</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/LLVMModelDataSymbols.h" line="84" column="1" bodyfile="llvm/LLVMModelDataSymbols.h" bodystart="85" bodyend="89"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="CodeGenBase_8h_1aef33411a7292811e02a15d64536a4cdd" prot="public" static="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>typedef std::vector&lt;std::string&gt; rrllvm::StringVector</definition>
+        <argsstring></argsstring>
+        <name>StringVector</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/CodeGenBase.h" line="23" column="21" bodyfile="llvm/CodeGenBase.h" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="CodeGenBase_8h_1a9859c0ff5a569f2373921e8f94e36309" prot="public" static="no">
+        <type>std::pair&lt; std::string, int &gt;</type>
+        <definition>typedef std::pair&lt;std::string, int&gt; rrllvm::StringIntPair</definition>
+        <argsstring></argsstring>
+        <name>StringIntPair</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/CodeGenBase.h" line="24" column="19" bodyfile="llvm/CodeGenBase.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="CodeGenBase_8h_1a96e3b7fadd70491848d3ae50aaf00472" prot="public" static="no">
+        <type>std::vector&lt; StringIntPair &gt;</type>
+        <definition>typedef std::vector&lt;StringIntPair&gt; rrllvm::StringIntVector</definition>
+        <argsstring></argsstring>
+        <name>StringIntVector</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/CodeGenBase.h" line="25" column="21" bodyfile="llvm/CodeGenBase.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="EvalConversionFactorCodeGen_8h_1a781c0200fa4eaf1730e725cb34e0f781" prot="public" static="no">
+        <type>void(*</type>
+        <definition>typedef void(* rrllvm::EvalConversionFactorCodeGen_FunctionPtr) (LLVMModelData *)</definition>
+        <argsstring>)(LLVMModelData *)</argsstring>
+        <name>EvalConversionFactorCodeGen_FunctionPtr</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/EvalConversionFactorCodeGen.h" line="21" column="9" bodyfile="llvm/EvalConversionFactorCodeGen.h" bodystart="21" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="EvalInitialConditionsCodeGen_8h_1a4fd95d494d9f845562862d6d9490b7a7" prot="public" static="no">
+        <type>void(*</type>
+        <definition>typedef void(* rrllvm::EvalInitialConditions_FunctionPtr) (LLVMModelData *, size_t)</definition>
+        <argsstring>)(LLVMModelData *, size_t)</argsstring>
+        <name>EvalInitialConditions_FunctionPtr</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/EvalInitialConditionsCodeGen.h" line="24" column="9" bodyfile="llvm/EvalInitialConditionsCodeGen.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="EvalRateRuleRatesCodeGen_8h_1afb3aa6316dc13440c519039f5ce1190b" prot="public" static="no">
+        <type>void(*</type>
+        <definition>typedef void(* rrllvm::EvalRateRuleRates_FunctionPtr) (LLVMModelData *)</definition>
+        <argsstring>)(LLVMModelData *)</argsstring>
+        <name>EvalRateRuleRates_FunctionPtr</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/EvalRateRuleRatesCodeGen.h" line="21" column="9" bodyfile="llvm/EvalRateRuleRatesCodeGen.h" bodystart="21" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="EvalReactionRatesCodeGen_8h_1a4f2cce1f5667547b573c385980ebe20d" prot="public" static="no">
+        <type>double(*</type>
+        <definition>typedef double(* rrllvm::EvalReactionRates_FunctionPtr) (LLVMModelData *)</definition>
+        <argsstring>)(LLVMModelData *)</argsstring>
+        <name>EvalReactionRates_FunctionPtr</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/EvalReactionRatesCodeGen.h" line="22" column="9" bodyfile="llvm/EvalReactionRatesCodeGen.h" bodystart="22" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="EvalVolatileStoichCodeGen_8h_1ac34b42f6a579c8cc89cd271a4a65deaf" prot="public" static="no">
+        <type>void(*</type>
+        <definition>typedef void(* rrllvm::EvalVolatileStoichCodeGen_FunctionPtr) (LLVMModelData *)</definition>
+        <argsstring>)(LLVMModelData *)</argsstring>
+        <name>EvalVolatileStoichCodeGen_FunctionPtr</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/EvalVolatileStoichCodeGen.h" line="23" column="9" bodyfile="llvm/EvalVolatileStoichCodeGen.h" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="EventCodeGenBase_8h_1aa556095cf20843d786cc97b4b15ad5e8" prot="public" static="no">
+        <type>void(*</type>
+        <definition>typedef void(* rrllvm::EventCodeGenBase_FunctionPtr) (LLVMModelData *, size_t, double *)</definition>
+        <argsstring>)(LLVMModelData *, size_t, double *)</argsstring>
+        <name>EventCodeGenBase_FunctionPtr</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/EventCodeGenBase.h" line="28" column="9" bodyfile="llvm/EventCodeGenBase.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="EventTriggerCodeGen_8h_1a4ce4ba6d297bb990c50f46d89ab7c539" prot="public" static="no">
+        <type>void(*</type>
+        <definition>typedef void(* rrllvm::EventTriggerCodeGen_FunctionPtr) (LLVMModelData *, size_t)</definition>
+        <argsstring>)(LLVMModelData *, size_t)</argsstring>
+        <name>EventTriggerCodeGen_FunctionPtr</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/EventTriggerCodeGen.h" line="16" column="9" bodyfile="llvm/EventTriggerCodeGen.h" bodystart="16" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="GetEventValuesCodeGen_8h_1a83ec817d0275137f1bc5b4f402031c55" prot="public" static="no">
+        <type>double(*</type>
+        <definition>typedef double(* rrllvm::GetEventValueCodeGenBase_FunctionPtr) (LLVMModelData *, size_t)</definition>
+        <argsstring>)(LLVMModelData *, size_t)</argsstring>
+        <name>GetEventValueCodeGenBase_FunctionPtr</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/GetEventValuesCodeGen.h" line="28" column="9" bodyfile="llvm/GetEventValuesCodeGen.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="GetEventValuesCodeGen_8h_1a255e36539af18990d906272ff50e2ea9" prot="public" static="no">
+        <type>unsigned char(*</type>
+        <definition>typedef unsigned char(* rrllvm::GetEventTriggerCodeGen_FunctionPtr) (LLVMModelData *, size_t)</definition>
+        <argsstring>)(LLVMModelData *, size_t)</argsstring>
+        <name>GetEventTriggerCodeGen_FunctionPtr</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/GetEventValuesCodeGen.h" line="131" column="18" bodyfile="llvm/GetEventValuesCodeGen.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="GetInitialValueCodeGenBase_8h_1a45c94878c959f394c7a130d8dc855cde" prot="public" static="no">
+        <type>double(*</type>
+        <definition>typedef double(* rrllvm::GetInitialValueCodeGenBase_FunctionPtr) (LLVMModelData *, size_t)</definition>
+        <argsstring>)(LLVMModelData *, size_t)</argsstring>
+        <name>GetInitialValueCodeGenBase_FunctionPtr</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/GetInitialValueCodeGenBase.h" line="25" column="9" bodyfile="llvm/GetInitialValueCodeGenBase.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="GetValueCodeGenBase_8h_1a5138a371d6753a62f5313a759eebb8c2" prot="public" static="no">
+        <type>double(*</type>
+        <definition>typedef double(* rrllvm::GetValueCodeGenBase_FunctionPtr) (LLVMModelData *, size_t)</definition>
+        <argsstring>)(LLVMModelData *, size_t)</argsstring>
+        <name>GetValueCodeGenBase_FunctionPtr</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/GetValueCodeGenBase.h" line="25" column="9" bodyfile="llvm/GetValueCodeGenBase.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="LLVMModelDataSymbols_8cpp_1a2656f481df8f5daf61df5f11b0a08547" prot="public" static="no">
+        <type>std::vector&lt; LLVMModelDataSymbols::SpeciesReferenceType &gt;::size_type</type>
+        <definition>typedef std::vector&lt;LLVMModelDataSymbols::SpeciesReferenceType&gt;::size_type rrllvm::ssize_type</definition>
+        <argsstring></argsstring>
+        <name>ssize_type</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/LLVMModelDataSymbols.cpp" line="1096" column="33" bodyfile="llvm/LLVMModelDataSymbols.cpp" bodystart="1096" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="LLVMModelDataSymbols_8cpp_1ab7d0be483572f07194fad16c6237afb2" prot="public" static="no">
+        <type>cxx11_ns::unordered_map&lt; uint, ssize_type &gt;</type>
+        <definition>typedef cxx11_ns::unordered_map&lt;uint, ssize_type&gt; rrllvm::UIntUMap</definition>
+        <argsstring></argsstring>
+        <name>UIntUMap</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/LLVMModelDataSymbols.cpp" line="1097" column="33" bodyfile="llvm/LLVMModelDataSymbols.cpp" bodystart="1097" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="LLVMModelGenerator_8cpp_1afa02a92dfc5753a48702b91e35bfe61f" prot="public" static="no">
+        <type>cxx11_ns::weak_ptr&lt; <ref refid="classrrllvm_1_1ModelResources" kindref="compound">ModelResources</ref> &gt;</type>
+        <definition>typedef cxx11_ns::weak_ptr&lt;ModelResources&gt; rrllvm::WeakModelPtr</definition>
+        <argsstring></argsstring>
+        <name>WeakModelPtr</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/LLVMModelGenerator.cpp" line="46" column="28" bodyfile="llvm/LLVMModelGenerator.cpp" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="LLVMModelGenerator_8cpp_1a7f2349504c6b2a2898af95dffd5e3fc6" prot="public" static="no">
+        <type>cxx11_ns::shared_ptr&lt; <ref refid="classrrllvm_1_1ModelResources" kindref="compound">ModelResources</ref> &gt;</type>
+        <definition>typedef cxx11_ns::shared_ptr&lt;ModelResources&gt; rrllvm::SharedModelPtr</definition>
+        <argsstring></argsstring>
+        <name>SharedModelPtr</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/LLVMModelGenerator.cpp" line="47" column="30" bodyfile="llvm/LLVMModelGenerator.cpp" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="LLVMModelGenerator_8cpp_1a7953b9369602fbfd0636455f987cc44b" prot="public" static="no">
+        <type>cxx11_ns::unordered_map&lt; std::string, WeakModelPtr &gt;</type>
+        <definition>typedef cxx11_ns::unordered_map&lt;std::string, WeakModelPtr&gt; rrllvm::ModelPtrMap</definition>
+        <argsstring></argsstring>
+        <name>ModelPtrMap</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/LLVMModelGenerator.cpp" line="48" column="33" bodyfile="llvm/LLVMModelGenerator.cpp" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="Random_8cpp_1a1fb7918e1d72e84f4ea2dc3641d4f709" prot="public" static="no">
+        <type>cxx11_ns::normal_distribution&lt; double &gt;</type>
+        <definition>typedef cxx11_ns::normal_distribution&lt;double&gt; rrllvm::NormalDist</definition>
+        <argsstring></argsstring>
+        <name>NormalDist</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/Random.cpp" line="34" column="39" bodyfile="llvm/Random.cpp" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="Random_8cpp_1ab148d61c61bf9ade0b4022e5556efe5c" prot="public" static="no">
+        <type>cxx11_ns::bernoulli_distribution</type>
+        <definition>typedef cxx11_ns::bernoulli_distribution rrllvm::BernoulliDist</definition>
+        <argsstring></argsstring>
+        <name>BernoulliDist</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/Random.cpp" line="36" column="42" bodyfile="llvm/Random.cpp" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="Random_8cpp_1a419c354c3c8532ad3c3ae6b14aa35539" prot="public" static="no">
+        <type>cxx11_ns::binomial_distribution&lt; long &gt;</type>
+        <definition>typedef cxx11_ns::binomial_distribution&lt;long&gt; rrllvm::BinomialDist</definition>
+        <argsstring></argsstring>
+        <name>BinomialDist</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/Random.cpp" line="38" column="41" bodyfile="llvm/Random.cpp" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="Random_8cpp_1adf325539ce5441819c31f9dc3bd154b0" prot="public" static="no">
+        <type>cxx11_ns::cauchy_distribution&lt; double &gt;</type>
+        <definition>typedef cxx11_ns::cauchy_distribution&lt;double&gt; rrllvm::CauchyDist</definition>
+        <argsstring></argsstring>
+        <name>CauchyDist</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/Random.cpp" line="40" column="39" bodyfile="llvm/Random.cpp" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="Random_8cpp_1aa880c1c6fb5060bca33ee624bf620c1b" prot="public" static="no">
+        <type>cxx11_ns::chi_squared_distribution&lt; double &gt;</type>
+        <definition>typedef cxx11_ns::chi_squared_distribution&lt;double&gt; rrllvm::ChisquareDist</definition>
+        <argsstring></argsstring>
+        <name>ChisquareDist</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/Random.cpp" line="42" column="44" bodyfile="llvm/Random.cpp" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="Random_8cpp_1ad56cd0116892a8aa55250654b03d9ff9" prot="public" static="no">
+        <type>cxx11_ns::exponential_distribution&lt; double &gt;</type>
+        <definition>typedef cxx11_ns::exponential_distribution&lt;double&gt; rrllvm::ExponentialDist</definition>
+        <argsstring></argsstring>
+        <name>ExponentialDist</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/Random.cpp" line="44" column="44" bodyfile="llvm/Random.cpp" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="Random_8cpp_1add5f9edb69c513a9516abb1c63994c91" prot="public" static="no">
+        <type>cxx11_ns::gamma_distribution&lt; double &gt;</type>
+        <definition>typedef cxx11_ns::gamma_distribution&lt;double&gt; rrllvm::GammaDist</definition>
+        <argsstring></argsstring>
+        <name>GammaDist</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/Random.cpp" line="46" column="38" bodyfile="llvm/Random.cpp" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="Random_8cpp_1a2cdb51b55214768305bb0c8a8014be77" prot="public" static="no">
+        <type>cxx11_ns::lognormal_distribution&lt; double &gt;</type>
+        <definition>typedef cxx11_ns::lognormal_distribution&lt;double&gt; rrllvm::LognormalDist</definition>
+        <argsstring></argsstring>
+        <name>LognormalDist</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/Random.cpp" line="48" column="42" bodyfile="llvm/Random.cpp" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="Random_8cpp_1aa80cbcc8cb4807f15b981954a3eb3fe0" prot="public" static="no">
+        <type>cxx11_ns::poisson_distribution&lt; int &gt;</type>
+        <definition>typedef cxx11_ns::poisson_distribution&lt;int&gt; rrllvm::PoissonDist</definition>
+        <argsstring></argsstring>
+        <name>PoissonDist</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/Random.cpp" line="50" column="40" bodyfile="llvm/Random.cpp" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="SetInitialValueCodeGenBase_8h_1aa80c0d1b60622c7ad0d8fb20cd46bbd2" prot="public" static="no">
+        <type>bool(*</type>
+        <definition>typedef bool(* rrllvm::SetInitialValueCodeGenBase_FunctionPtr) (LLVMModelData *, int32_t, double)</definition>
+        <argsstring>)(LLVMModelData *, int32_t, double)</argsstring>
+        <name>SetInitialValueCodeGenBase_FunctionPtr</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/SetInitialValueCodeGenBase.h" line="25" column="9" bodyfile="llvm/SetInitialValueCodeGenBase.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="SetValueCodeGenBase_8h_1a4c6dfd14f64dc7cf0b4a3c67f272f9f2" prot="public" static="no">
+        <type>bool(*</type>
+        <definition>typedef bool(* rrllvm::SetValueCodeGenBase_FunctionPtr) (LLVMModelData *, int32_t, double)</definition>
+        <argsstring>)(LLVMModelData *, int32_t, double)</argsstring>
+        <name>SetValueCodeGenBase_FunctionPtr</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/SetValueCodeGenBase.h" line="25" column="9" bodyfile="llvm/SetValueCodeGenBase.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="LLVMModelGenerator_8cpp_1a29eaa90174b5db9f757876a520c089db" prot="public" static="yes" mutable="no">
+        <type>Poco::Mutex</type>
+        <definition>Poco::Mutex rrllvm::cachedModelsMutex</definition>
+        <argsstring></argsstring>
+        <name>cachedModelsMutex</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/LLVMModelGenerator.cpp" line="50" column="20" bodyfile="llvm/LLVMModelGenerator.cpp" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="LLVMModelGenerator_8cpp_1a2c5eeb8cdcacf269d156fc62aa052190" prot="public" static="yes" mutable="no">
+        <type>ModelPtrMap</type>
+        <definition>ModelPtrMap rrllvm::cachedModels</definition>
+        <argsstring></argsstring>
+        <name>cachedModels</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/LLVMModelGenerator.cpp" line="51" column="20" bodyfile="llvm/LLVMModelGenerator.cpp" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="Random_8cpp_1aee0ae1e7f101ae888b8489d09db259b0" prot="public" static="yes" mutable="no">
+        <type>int</type>
+        <definition>int rrllvm::randomCount</definition>
+        <argsstring></argsstring>
+        <name>randomCount</name>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/Random.cpp" line="52" column="12" bodyfile="llvm/Random.cpp" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="ASTNodeCodeGen_8cpp_1a1bcb2f91ea18317500797c7ef29db41a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool rrllvm::isNegative</definition>
+        <argsstring>(const libsbml::ASTNode *node)</argsstring>
+        <name>isNegative</name>
+        <param>
+          <type>const libsbml::ASTNode *</type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+<para>idiotic test to test for an idiotic condition. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Checks if there is a minus in front of the expression so we can pass tests with arccot(-0)... </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ASTNodeCodeGen.cpp" line="1387" column="13" bodyfile="llvm/ASTNodeCodeGen.cpp" bodystart="1387" bodyend="1398" declfile="llvm/ASTNodeCodeGen.cpp" declline="39" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="ASTNodeCodeGen_8cpp_1ab6e2d1a7bcbe21244fe9d59cd807bcd2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string rrllvm::to_string</definition>
+        <argsstring>(const libsbml::ASTNode *ast)</argsstring>
+        <name>to_string</name>
+        <param>
+          <type>const libsbml::ASTNode *</type>
+          <declname>ast</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ASTNodeCodeGen.cpp" line="41" column="13" bodyfile="llvm/ASTNodeCodeGen.cpp" bodystart="41" bodyend="47" declfile="llvm/ASTNodeCodeGen.h" declline="131" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="CodeGenBase_8cpp_1a4c8acfc52121bbe411d488f4d69b82dd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void rrllvm::foo</definition>
+        <argsstring>()</argsstring>
+        <name>foo</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/CodeGenBase.cpp" line="100" column="6" bodyfile="llvm/CodeGenBase.cpp" bodystart="100" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="EvalVolatileStoichCodeGen_8cpp_1aca20ef9949b7668b5a74a25b2a26e91b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename type</type>
+          </param>
+        </templateparamlist>
+        <type>bool</type>
+        <definition>static bool rrllvm::isSetConstant</definition>
+        <argsstring>(const SBase *e, bool &amp;isSetConst)</argsstring>
+        <name>isSetConstant</name>
+        <param>
+          <type>const SBase *</type>
+          <declname>e</declname>
+        </param>
+        <param>
+          <type>bool &amp;</type>
+          <declname>isSetConst</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/EvalVolatileStoichCodeGen.cpp" line="148" column="17" bodyfile="llvm/EvalVolatileStoichCodeGen.cpp" bodystart="148" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="function" id="EventQueue_8cpp_1a0d825ecc4e905532347cd0e52be7c363" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool rrllvm::operator&lt;</definition>
+        <argsstring>(const Event &amp;a, const Event &amp;b)</argsstring>
+        <name>operator&lt;</name>
+        <param>
+          <type>const <ref refid="classrr_1_1Event" kindref="compound">Event</ref> &amp;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classrr_1_1Event" kindref="compound">Event</ref> &amp;</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/EventQueue.cpp" line="134" column="1" bodyfile="llvm/EventQueue.cpp" bodystart="134" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="EventQueue_8cpp_1acb2ca782b3cb9554876fec9e96bcf899" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::ostream &amp;</type>
+        <definition>std::ostream &amp; rrllvm::operator&lt;&lt;</definition>
+        <argsstring>(std::ostream &amp;os, const Event &amp;event)</argsstring>
+        <name>operator&lt;&lt;</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>os</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classrr_1_1Event" kindref="compound">Event</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/EventQueue.cpp" line="155" column="1" bodyfile="llvm/EventQueue.cpp" bodystart="155" bodyend="168" declfile="llvm/EventQueue.h" declline="76" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="EventQueue_8cpp_1a42c3cb44c8a7ab6ecd5858dafcb315de" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::ostream &amp;</type>
+        <definition>std::ostream &amp; rrllvm::operator&lt;&lt;</definition>
+        <argsstring>(std::ostream &amp;stream, const EventQueue &amp;queue)</argsstring>
+        <name>operator&lt;&lt;</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>stream</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classrrllvm_1_1EventQueue" kindref="compound">EventQueue</ref> &amp;</type>
+          <declname>queue</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/EventQueue.cpp" line="325" column="1" bodyfile="llvm/EventQueue.cpp" bodystart="325" bodyend="336" declfile="llvm/EventQueue.h" declline="151" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="LLVMIncludes_8h_1a50c465a18b6bf5a346e689b93c33953e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string rrllvm::to_string</definition>
+        <argsstring>(const llvm::Value *)</argsstring>
+        <name>to_string</name>
+        <param>
+          <type>const llvm::Value *</type>
+          <defname>value</defname>
+        </param>
+        <briefdescription>
+<para>C++ 11 style to_string for LLVM types. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/LLVMModelGenerator.cpp" line="1017" column="13" bodyfile="llvm/LLVMModelGenerator.cpp" bodystart="1017" bodyend="1023" declfile="llvm/LLVMIncludes.h" declline="101" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="LLVMModelData_8cpp_1a2c8ed62c3575769c8bc81ed568811e81" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::ostream &amp;</type>
+        <definition>std::ostream &amp; rrllvm::operator&lt;&lt;</definition>
+        <argsstring>(std::ostream &amp;os, const LLVMModelData &amp;data)</argsstring>
+        <name>operator&lt;&lt;</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>os</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structrrllvm_1_1LLVMModelData" kindref="compound">LLVMModelData</ref> &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/LLVMModelData.cpp" line="49" column="1" bodyfile="llvm/LLVMModelData.cpp" bodystart="49" bodyend="99" declfile="llvm/LLVMModelData.h" declline="258" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="LLVMModelData_8cpp_1ace95dba9bf735deee2db65c16cc88f26" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void rrllvm::LLVMModelData_save</definition>
+        <argsstring>(LLVMModelData *data, std::ostream &amp;out)</argsstring>
+        <name>LLVMModelData_save</name>
+        <param>
+          <type><ref refid="structrrllvm_1_1LLVMModelData" kindref="compound">LLVMModelData</ref> *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/LLVMModelData.cpp" line="101" column="6" bodyfile="llvm/LLVMModelData.cpp" bodystart="101" bodyend="167" declfile="llvm/LLVMModelData.h" declline="248" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="LLVMModelData_8cpp_1a104516ebe59a471ed7d82b6f5f174553" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structrrllvm_1_1LLVMModelData" kindref="compound">LLVMModelData</ref> *</type>
+        <definition>LLVMModelData * rrllvm::LLVMModelData_from_save</definition>
+        <argsstring>(std::istream &amp;in)</argsstring>
+        <name>LLVMModelData_from_save</name>
+        <param>
+          <type>std::istream &amp;</type>
+          <declname>in</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/LLVMModelData.cpp" line="173" column="15" bodyfile="llvm/LLVMModelData.cpp" bodystart="173" bodyend="253" declfile="llvm/LLVMModelData.h" declline="249" declcolumn="15"/>
+      </memberdef>
+      <memberdef kind="function" id="LLVMModelData_8cpp_1afb50a5a46b5a17f2ab5f90368247b8a8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void rrllvm::LLVMModelData_free</definition>
+        <argsstring>(LLVMModelData *data)</argsstring>
+        <name>LLVMModelData_free</name>
+        <param>
+          <type><ref refid="structrrllvm_1_1LLVMModelData" kindref="compound">LLVMModelData</ref> *</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/LLVMModelData.cpp" line="255" column="7" bodyfile="llvm/LLVMModelData.cpp" bodystart="255" bodyend="263" declfile="llvm/LLVMModelData.h" declline="250" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="LLVMModelGenerator_8cpp_1ab53298cb3bc264117463b07e2452e24f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename a_type</type>
+          </param>
+          <param>
+            <type>typename b_type</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void rrllvm::copyCachedModel</definition>
+        <argsstring>(a_type *src, b_type *dst)</argsstring>
+        <name>copyCachedModel</name>
+        <param>
+          <type>a_type *</type>
+          <declname>src</declname>
+        </param>
+        <param>
+          <type>b_type *</type>
+          <declname>dst</declname>
+        </param>
+        <briefdescription>
+<para>copy the cached model fields between a cached model, and a executable model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>We don&apos;t want to have ExecutableModel inherit from CahcedModel because they do compleltly different things, and have completly differnt deletion semantics </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/LLVMModelGenerator.cpp" line="63" column="6" bodyfile="llvm/LLVMModelGenerator.cpp" bodystart="63" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="LLVMModelGenerator_8cpp_1a7ef274b2c6297cc413b54f38f4a38573" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structrrllvm_1_1LLVMModelData" kindref="compound">LLVMModelData</ref> *</type>
+        <definition>LLVMModelData * rrllvm::createModelData</definition>
+        <argsstring>(const rrllvm::LLVMModelDataSymbols &amp;symbols, const Random *random)</argsstring>
+        <name>createModelData</name>
+        <param>
+          <type>const <ref refid="classrrllvm_1_1LLVMModelDataSymbols" kindref="compound">rrllvm::LLVMModelDataSymbols</ref> &amp;</type>
+          <declname>symbols</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classrr_1_1Random" kindref="compound">Random</ref> *</type>
+          <declname>random</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/LLVMModelGenerator.cpp" line="1025" column="15" bodyfile="llvm/LLVMModelGenerator.cpp" bodystart="1025" bodyend="1124" declfile="llvm/ModelGeneratorContext.h" declline="258" declcolumn="15"/>
+      </memberdef>
+      <memberdef kind="function" id="ModelDataIRBuilder_8cpp_1a9b6f0b05d36838414d31ff2f17f932eb" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool rrllvm::isAliasOrPointer</definition>
+        <argsstring>(ModelDataFields f)</argsstring>
+        <name>isAliasOrPointer</name>
+        <param>
+          <type>ModelDataFields</type>
+          <declname>f</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ModelDataIRBuilder.cpp" line="51" column="13" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="51" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="ModelDataIRBuilder_8cpp_1a1a676d0219c63da5b89b86306ea797e7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool rrllvm::isArray</definition>
+        <argsstring>(ModelDataFields f)</argsstring>
+        <name>isArray</name>
+        <param>
+          <type>ModelDataFields</type>
+          <declname>f</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ModelDataIRBuilder.cpp" line="76" column="13" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="76" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="ModelGeneratorContext_8cpp_1ac743fb9d4fd8600800fcbcb6acf9a59e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void rrllvm::createLibraryFunctions</definition>
+        <argsstring>(Module *module)</argsstring>
+        <name>createLibraryFunctions</name>
+        <param>
+          <type>Module *</type>
+          <declname>module</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>double pow(double x, double y);</para>
+<para>double fabs(double x);</para>
+<para>double acos(double x);</para>
+<para>double asin(double x);</para>
+<para>double atan(double x);</para>
+<para>double ceil(double x);</para>
+<para>double cos(double x);</para>
+<para>double cosh(double x);</para>
+<para>double exp(double x);</para>
+<para>double floor(double x);</para>
+<para>double log(double x);</para>
+<para>double log10(double x);</para>
+<para>double sin(double x);</para>
+<para>double sinh(double x);</para>
+<para>double tan(double x);</para>
+<para>double tanh(double x);</para>
+<para>double fmod(double x, double y);</para>
+<para>double pow(double x, double y);</para>
+<para>double fabs(double x);</para>
+<para>double acos(double x);</para>
+<para>double asin(double x);</para>
+<para>double atan(double x);</para>
+<para>double ceil(double x);</para>
+<para>double cos(double x);</para>
+<para>double cosh(double x);</para>
+<para>double exp(double x);</para>
+<para>double floor(double x);</para>
+<para>double log(double x);</para>
+<para>double log10(double x);</para>
+<para>double sin(double x);</para>
+<para>double sinh(double x);</para>
+<para>double tan(double x);</para>
+<para>double tanh(double x);</para>
+<para>double fmod(double x, double y);</para>
+        </inbodydescription>
+        <location file="llvm/ModelGeneratorContext.cpp" line="719" column="13" bodyfile="llvm/ModelGeneratorContext.cpp" bodystart="719" bodyend="793" declfile="llvm/ModelGeneratorContext.cpp" declline="60" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="ModelGeneratorContext_8cpp_1a07d4e1e7ae3f299766166158377bad9b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void rrllvm::createLibraryFunction</definition>
+        <argsstring>(llvm::LibFunc funcId, llvm::FunctionType *funcType, Module *module)</argsstring>
+        <name>createLibraryFunction</name>
+        <param>
+          <type>llvm::LibFunc</type>
+          <declname>funcId</declname>
+        </param>
+        <param>
+          <type>llvm::FunctionType *</type>
+          <declname>funcType</declname>
+        </param>
+        <param>
+          <type>Module *</type>
+          <declname>module</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ModelGeneratorContext.cpp" line="795" column="13" bodyfile="llvm/ModelGeneratorContext.cpp" bodystart="795" bodyend="815" declfile="llvm/ModelGeneratorContext.cpp" declline="62" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="ModelGeneratorContext_8cpp_1a44448dfc35c6279a87fc131a2b54a545" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Function *</type>
+        <definition>static Function * rrllvm::createGlobalMappingFunction</definition>
+        <argsstring>(const char *funcName, llvm::FunctionType *funcType, Module *module)</argsstring>
+        <name>createGlobalMappingFunction</name>
+        <param>
+          <type>const char *</type>
+          <declname>funcName</declname>
+        </param>
+        <param>
+          <type>llvm::FunctionType *</type>
+          <declname>funcType</declname>
+        </param>
+        <param>
+          <type>Module *</type>
+          <declname>module</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ModelGeneratorContext.cpp" line="817" column="17" bodyfile="llvm/ModelGeneratorContext.cpp" bodystart="817" bodyend="822" declfile="llvm/ModelGeneratorContext.cpp" declline="65" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="ModelGeneratorContext_8cpp_1a05192d98317f5b565127f4d58d164e9e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>SBMLDocument *</type>
+        <definition>static SBMLDocument * rrllvm::checkedReadSBMLFromString</definition>
+        <argsstring>(const char *xml)</argsstring>
+        <name>checkedReadSBMLFromString</name>
+        <param>
+          <type>const char *</type>
+          <declname>xml</declname>
+        </param>
+        <briefdescription>
+<para>returns a VALID sbml document, if the doc has any error, an exception is thrown. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ModelGeneratorContext.cpp" line="824" column="21" bodyfile="llvm/ModelGeneratorContext.cpp" bodystart="824" bodyend="851" declfile="llvm/ModelGeneratorContext.cpp" declline="73" declcolumn="21"/>
+      </memberdef>
+      <memberdef kind="function" id="ModelGeneratorContext_8cpp_1ae8356aaa4689b5a491b99a5bab173123" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>SBMLDocument *</type>
+        <definition>static SBMLDocument* rrllvm::createEmptyDocument</definition>
+        <argsstring>()</argsstring>
+        <name>createEmptyDocument</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ModelGeneratorContext.cpp" line="337" column="21" bodyfile="llvm/ModelGeneratorContext.cpp" bodystart="337" bodyend="342"/>
+      </memberdef>
+      <memberdef kind="function" id="ModelGeneratorContext_8cpp_1a37d587e9ace901251f594c1f8286fc77" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void rrllvm::dispDouble</definition>
+        <argsstring>(double d)</argsstring>
+        <name>dispDouble</name>
+        <param>
+          <type>double</type>
+          <declname>d</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ModelGeneratorContext.cpp" line="543" column="13" bodyfile="llvm/ModelGeneratorContext.cpp" bodystart="543" bodyend="545"/>
+      </memberdef>
+      <memberdef kind="function" id="ModelGeneratorContext_8cpp_1a1ac4ed1aee9978fb7de428f358de275a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void rrllvm::dispInt</definition>
+        <argsstring>(int i)</argsstring>
+        <name>dispInt</name>
+        <param>
+          <type>int</type>
+          <declname>i</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ModelGeneratorContext.cpp" line="547" column="13" bodyfile="llvm/ModelGeneratorContext.cpp" bodystart="547" bodyend="549"/>
+      </memberdef>
+      <memberdef kind="function" id="ModelGeneratorContext_8cpp_1a71bc897a02d49161ad22213ebb03204d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void rrllvm::dispChar</definition>
+        <argsstring>(char c)</argsstring>
+        <name>dispChar</name>
+        <param>
+          <type>char</type>
+          <declname>c</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ModelGeneratorContext.cpp" line="551" column="13" bodyfile="llvm/ModelGeneratorContext.cpp" bodystart="551" bodyend="553"/>
+      </memberdef>
+      <memberdef kind="function" id="Random_8cpp_1a0cdef3eb466def7934ab3a8a4f023447" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double rrllvm::distrib_uniform</definition>
+        <argsstring>(Random *random, double _min, double _max)</argsstring>
+        <name>distrib_uniform</name>
+        <param>
+          <type><ref refid="classrr_1_1Random" kindref="compound">Random</ref> *</type>
+          <declname>random</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>_min</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>_max</declname>
+        </param>
+        <briefdescription>
+<para>random uniform distribution </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/Random.cpp" line="308" column="8" bodyfile="llvm/Random.cpp" bodystart="308" bodyend="320" declfile="llvm/Random.cpp" declline="58" declcolumn="15"/>
+      </memberdef>
+      <memberdef kind="function" id="Random_8cpp_1a6527022b1768f24d8322238a5067b6bd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double rrllvm::distrib_normal</definition>
+        <argsstring>(Random *random, double mu, double sigma)</argsstring>
+        <name>distrib_normal</name>
+        <param>
+          <type><ref refid="classrr_1_1Random" kindref="compound">Random</ref> *</type>
+          <declname>random</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>mu</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>sigma</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/Random.cpp" line="322" column="8" bodyfile="llvm/Random.cpp" bodystart="322" bodyend="330" declfile="llvm/Random.cpp" declline="60" declcolumn="15"/>
+      </memberdef>
+      <memberdef kind="function" id="Random_8cpp_1a6c358bfc6dc5908984655f259445f96b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double rrllvm::distrib_normal_four</definition>
+        <argsstring>(Random *random, double mu, double sigma, double _min, double _max)</argsstring>
+        <name>distrib_normal_four</name>
+        <param>
+          <type><ref refid="classrr_1_1Random" kindref="compound">Random</ref> *</type>
+          <declname>random</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>mu</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>sigma</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>_min</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>_max</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/Random.cpp" line="332" column="8" bodyfile="llvm/Random.cpp" bodystart="332" bodyend="359" declfile="llvm/Random.cpp" declline="62" declcolumn="15"/>
+      </memberdef>
+      <memberdef kind="function" id="Random_8cpp_1a1473f9c8fad2549c53e171cca6269734" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double rrllvm::distrib_bernoulli</definition>
+        <argsstring>(Random *random, double prob)</argsstring>
+        <name>distrib_bernoulli</name>
+        <param>
+          <type><ref refid="classrr_1_1Random" kindref="compound">Random</ref> *</type>
+          <declname>random</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>prob</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/Random.cpp" line="361" column="8" bodyfile="llvm/Random.cpp" bodystart="361" bodyend="369" declfile="llvm/Random.cpp" declline="64" declcolumn="15"/>
+      </memberdef>
+      <memberdef kind="function" id="Random_8cpp_1a91891f7f9237f54ac22b9d5a2aa512d9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double rrllvm::distrib_binomial</definition>
+        <argsstring>(Random *random, double nTrials, double probabilityOfSuccess)</argsstring>
+        <name>distrib_binomial</name>
+        <param>
+          <type><ref refid="classrr_1_1Random" kindref="compound">Random</ref> *</type>
+          <declname>random</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>nTrials</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>probabilityOfSuccess</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/Random.cpp" line="371" column="8" bodyfile="llvm/Random.cpp" bodystart="371" bodyend="379" declfile="llvm/Random.cpp" declline="66" declcolumn="15"/>
+      </memberdef>
+      <memberdef kind="function" id="Random_8cpp_1a5e36ccbb238a35377ce67a51fdf99a32" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double rrllvm::distrib_binomial_four</definition>
+        <argsstring>(Random *random, double nTrials, double probabilityOfSuccess, double _min, double _max)</argsstring>
+        <name>distrib_binomial_four</name>
+        <param>
+          <type><ref refid="classrr_1_1Random" kindref="compound">Random</ref> *</type>
+          <declname>random</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>nTrials</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>probabilityOfSuccess</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>_min</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>_max</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/Random.cpp" line="381" column="8" bodyfile="llvm/Random.cpp" bodystart="381" bodyend="408" declfile="llvm/Random.cpp" declline="68" declcolumn="15"/>
+      </memberdef>
+      <memberdef kind="function" id="Random_8cpp_1aba08203c4e28cce82ece91ae0d951be0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double rrllvm::distrib_cauchy</definition>
+        <argsstring>(Random *random, double location, double scale)</argsstring>
+        <name>distrib_cauchy</name>
+        <param>
+          <type><ref refid="classrr_1_1Random" kindref="compound">Random</ref> *</type>
+          <declname>random</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>location</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>scale</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/Random.cpp" line="410" column="8" bodyfile="llvm/Random.cpp" bodystart="410" bodyend="418" declfile="llvm/Random.cpp" declline="70" declcolumn="15"/>
+      </memberdef>
+      <memberdef kind="function" id="Random_8cpp_1a881f3cc304b827dddb4b1027c1d86fbd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double rrllvm::distrib_cauchy_one</definition>
+        <argsstring>(Random *random, double scale)</argsstring>
+        <name>distrib_cauchy_one</name>
+        <param>
+          <type><ref refid="classrr_1_1Random" kindref="compound">Random</ref> *</type>
+          <declname>random</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>scale</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/Random.cpp" line="420" column="8" bodyfile="llvm/Random.cpp" bodystart="420" bodyend="429" declfile="llvm/Random.cpp" declline="72" declcolumn="15"/>
+      </memberdef>
+      <memberdef kind="function" id="Random_8cpp_1af0fa8a6b697f80f097bd8a14cc4ea95b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double rrllvm::distrib_cauchy_four</definition>
+        <argsstring>(Random *random, double location, double scale, double _min, double _max)</argsstring>
+        <name>distrib_cauchy_four</name>
+        <param>
+          <type><ref refid="classrr_1_1Random" kindref="compound">Random</ref> *</type>
+          <declname>random</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>location</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>scale</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>_min</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>_max</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/Random.cpp" line="431" column="8" bodyfile="llvm/Random.cpp" bodystart="431" bodyend="458" declfile="llvm/Random.cpp" declline="74" declcolumn="15"/>
+      </memberdef>
+      <memberdef kind="function" id="Random_8cpp_1a75d79c0a6e98c76ff15fe0f25285a43e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double rrllvm::distrib_chisquare</definition>
+        <argsstring>(Random *random, double degreesOfFreedom)</argsstring>
+        <name>distrib_chisquare</name>
+        <param>
+          <type><ref refid="classrr_1_1Random" kindref="compound">Random</ref> *</type>
+          <declname>random</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>degreesOfFreedom</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/Random.cpp" line="460" column="8" bodyfile="llvm/Random.cpp" bodystart="460" bodyend="468" declfile="llvm/Random.cpp" declline="76" declcolumn="15"/>
+      </memberdef>
+      <memberdef kind="function" id="Random_8cpp_1acdc359a2a5dcda76252c98f14c2c5b0e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double rrllvm::distrib_chisquare_three</definition>
+        <argsstring>(Random *random, double degreesOfFreedom, double _min, double _max)</argsstring>
+        <name>distrib_chisquare_three</name>
+        <param>
+          <type><ref refid="classrr_1_1Random" kindref="compound">Random</ref> *</type>
+          <declname>random</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>degreesOfFreedom</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>_min</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>_max</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/Random.cpp" line="470" column="8" bodyfile="llvm/Random.cpp" bodystart="470" bodyend="497" declfile="llvm/Random.cpp" declline="78" declcolumn="15"/>
+      </memberdef>
+      <memberdef kind="function" id="Random_8cpp_1a2b1b274665c50e773fa7ed1862234370" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double rrllvm::distrib_exponential</definition>
+        <argsstring>(Random *random, double lambda)</argsstring>
+        <name>distrib_exponential</name>
+        <param>
+          <type><ref refid="classrr_1_1Random" kindref="compound">Random</ref> *</type>
+          <declname>random</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>lambda</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/Random.cpp" line="499" column="8" bodyfile="llvm/Random.cpp" bodystart="499" bodyend="507" declfile="llvm/Random.cpp" declline="80" declcolumn="15"/>
+      </memberdef>
+      <memberdef kind="function" id="Random_8cpp_1a2e1491b984491eb25077d51f3ed325e1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double rrllvm::distrib_exponential_three</definition>
+        <argsstring>(Random *random, double lambda, double _min, double _max)</argsstring>
+        <name>distrib_exponential_three</name>
+        <param>
+          <type><ref refid="classrr_1_1Random" kindref="compound">Random</ref> *</type>
+          <declname>random</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>lambda</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>_min</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>_max</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/Random.cpp" line="509" column="8" bodyfile="llvm/Random.cpp" bodystart="509" bodyend="536" declfile="llvm/Random.cpp" declline="82" declcolumn="15"/>
+      </memberdef>
+      <memberdef kind="function" id="Random_8cpp_1acc7a72b35c4ce30f21092c31c4cf5b9a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double rrllvm::distrib_gamma</definition>
+        <argsstring>(Random *random, double shape, double scale)</argsstring>
+        <name>distrib_gamma</name>
+        <param>
+          <type><ref refid="classrr_1_1Random" kindref="compound">Random</ref> *</type>
+          <declname>random</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>shape</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>scale</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/Random.cpp" line="538" column="8" bodyfile="llvm/Random.cpp" bodystart="538" bodyend="546" declfile="llvm/Random.cpp" declline="84" declcolumn="15"/>
+      </memberdef>
+      <memberdef kind="function" id="Random_8cpp_1abec38352939794d3a7d48e5195818089" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double rrllvm::distrib_gamma_four</definition>
+        <argsstring>(Random *random, double shape, double scale, double _min, double _max)</argsstring>
+        <name>distrib_gamma_four</name>
+        <param>
+          <type><ref refid="classrr_1_1Random" kindref="compound">Random</ref> *</type>
+          <declname>random</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>shape</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>scale</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>_min</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>_max</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/Random.cpp" line="548" column="8" bodyfile="llvm/Random.cpp" bodystart="548" bodyend="575" declfile="llvm/Random.cpp" declline="86" declcolumn="15"/>
+      </memberdef>
+      <memberdef kind="function" id="Random_8cpp_1a976480058b2b493e869677e39ae7ae2d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double rrllvm::distrib_laplace</definition>
+        <argsstring>(Random *random, double location, double scale)</argsstring>
+        <name>distrib_laplace</name>
+        <param>
+          <type><ref refid="classrr_1_1Random" kindref="compound">Random</ref> *</type>
+          <declname>random</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>location</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>scale</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/Random.cpp" line="577" column="8" bodyfile="llvm/Random.cpp" bodystart="577" bodyend="587" declfile="llvm/Random.cpp" declline="88" declcolumn="15"/>
+      </memberdef>
+      <memberdef kind="function" id="Random_8cpp_1a632dcf161590aec0969d09561f48d2a2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double rrllvm::distrib_laplace_one</definition>
+        <argsstring>(Random *random, double scale)</argsstring>
+        <name>distrib_laplace_one</name>
+        <param>
+          <type><ref refid="classrr_1_1Random" kindref="compound">Random</ref> *</type>
+          <declname>random</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>scale</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/Random.cpp" line="589" column="8" bodyfile="llvm/Random.cpp" bodystart="589" bodyend="600" declfile="llvm/Random.cpp" declline="90" declcolumn="15"/>
+      </memberdef>
+      <memberdef kind="function" id="Random_8cpp_1ac628ecaf57fd22b779b6a75cddd43c2d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double rrllvm::distrib_laplace_four</definition>
+        <argsstring>(Random *random, double location, double scale, double _min, double _max)</argsstring>
+        <name>distrib_laplace_four</name>
+        <param>
+          <type><ref refid="classrr_1_1Random" kindref="compound">Random</ref> *</type>
+          <declname>random</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>location</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>scale</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>_min</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>_max</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/Random.cpp" line="602" column="8" bodyfile="llvm/Random.cpp" bodystart="602" bodyend="633" declfile="llvm/Random.cpp" declline="92" declcolumn="15"/>
+      </memberdef>
+      <memberdef kind="function" id="Random_8cpp_1a3af54f1eaae2aec0694cfc71c3f18689" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double rrllvm::distrib_lognormal</definition>
+        <argsstring>(Random *random, double mu, double sigma)</argsstring>
+        <name>distrib_lognormal</name>
+        <param>
+          <type><ref refid="classrr_1_1Random" kindref="compound">Random</ref> *</type>
+          <declname>random</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>mu</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>sigma</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/Random.cpp" line="635" column="8" bodyfile="llvm/Random.cpp" bodystart="635" bodyend="643" declfile="llvm/Random.cpp" declline="94" declcolumn="15"/>
+      </memberdef>
+      <memberdef kind="function" id="Random_8cpp_1a04f32907ab3e02236fb0572c8daf663c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double rrllvm::distrib_lognormal_four</definition>
+        <argsstring>(Random *random, double mu, double sigma, double _min, double _max)</argsstring>
+        <name>distrib_lognormal_four</name>
+        <param>
+          <type><ref refid="classrr_1_1Random" kindref="compound">Random</ref> *</type>
+          <declname>random</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>mu</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>sigma</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>_min</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>_max</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/Random.cpp" line="645" column="8" bodyfile="llvm/Random.cpp" bodystart="645" bodyend="672" declfile="llvm/Random.cpp" declline="96" declcolumn="15"/>
+      </memberdef>
+      <memberdef kind="function" id="Random_8cpp_1a7db3965410c59be7bf7e399655d22295" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double rrllvm::distrib_poisson</definition>
+        <argsstring>(Random *random, double lambda)</argsstring>
+        <name>distrib_poisson</name>
+        <param>
+          <type><ref refid="classrr_1_1Random" kindref="compound">Random</ref> *</type>
+          <declname>random</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>lambda</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/Random.cpp" line="674" column="8" bodyfile="llvm/Random.cpp" bodystart="674" bodyend="682" declfile="llvm/Random.cpp" declline="98" declcolumn="15"/>
+      </memberdef>
+      <memberdef kind="function" id="Random_8cpp_1ad527b7a6141335be69626b02c5492006" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double rrllvm::distrib_poisson_three</definition>
+        <argsstring>(Random *random, double lambda, double _min, double _max)</argsstring>
+        <name>distrib_poisson_three</name>
+        <param>
+          <type><ref refid="classrr_1_1Random" kindref="compound">Random</ref> *</type>
+          <declname>random</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>lambda</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>_min</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>_max</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/Random.cpp" line="684" column="8" bodyfile="llvm/Random.cpp" bodystart="684" bodyend="711" declfile="llvm/Random.cpp" declline="100" declcolumn="15"/>
+      </memberdef>
+      <memberdef kind="function" id="Random_8cpp_1a193ec272e008dee8a6c5b3d78c27d8d1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double rrllvm::distrib_rayleigh</definition>
+        <argsstring>(Random *random, double scale)</argsstring>
+        <name>distrib_rayleigh</name>
+        <param>
+          <type><ref refid="classrr_1_1Random" kindref="compound">Random</ref> *</type>
+          <declname>random</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>scale</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/Random.cpp" line="713" column="8" bodyfile="llvm/Random.cpp" bodystart="713" bodyend="726" declfile="llvm/Random.cpp" declline="102" declcolumn="15"/>
+      </memberdef>
+      <memberdef kind="function" id="Random_8cpp_1aa74176d05915d8e112ea20786a04a33a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double rrllvm::distrib_rayleigh_three</definition>
+        <argsstring>(Random *random, double scale, double _min, double _max)</argsstring>
+        <name>distrib_rayleigh_three</name>
+        <param>
+          <type><ref refid="classrr_1_1Random" kindref="compound">Random</ref> *</type>
+          <declname>random</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>scale</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>_min</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>_max</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/Random.cpp" line="728" column="8" bodyfile="llvm/Random.cpp" bodystart="728" bodyend="759" declfile="llvm/Random.cpp" declline="104" declcolumn="15"/>
+      </memberdef>
+      <memberdef kind="function" id="Random_8cpp_1a9c91dbc70aeddd1d3f879a10a15029a6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Function *</type>
+        <definition>Function * rrllvm::createGlobalMappingFunction</definition>
+        <argsstring>(const char *funcName, llvm::FunctionType *funcType, Module *module)</argsstring>
+        <name>createGlobalMappingFunction</name>
+        <param>
+          <type>const char *</type>
+          <declname>funcName</declname>
+        </param>
+        <param>
+          <type>llvm::FunctionType *</type>
+          <declname>funcType</declname>
+        </param>
+        <param>
+          <type>Module *</type>
+          <declname>module</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/Random.cpp" line="106" column="17" bodyfile="llvm/Random.cpp" bodystart="155" bodyend="159" declfile="llvm/Random.cpp" declline="106" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="Random_8cpp_1ac09e681ea671878c5b11e09875e1ed26" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void rrllvm::addGlobalMappings</definition>
+        <argsstring>(const ModelGeneratorContext &amp;ctx)</argsstring>
+        <name>addGlobalMappings</name>
+        <param>
+          <type>const <ref refid="classrrllvm_1_1ModelGeneratorContext" kindref="compound">ModelGeneratorContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/Random.cpp" line="161" column="6" bodyfile="llvm/Random.cpp" bodystart="161" bodyend="306" declfile="llvm/Random.cpp" declline="109" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="Random_8cpp_1aca27c6f8eacb77ec6d0bc7d8beb2905a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>static int64_t rrllvm::defaultSeed</definition>
+        <argsstring>()</argsstring>
+        <name>defaultSeed</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/Random.cpp" line="111" column="16" bodyfile="llvm/Random.cpp" bodystart="111" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="SetValuesCodeGen_8cpp_1a29066db7d121346ba326d82b1db58af6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>StringIntVector</type>
+        <definition>static StringIntVector rrllvm::independentElements</definition>
+        <argsstring>(const LLVMModelDataSymbols &amp;dataSymbols, const std::vector&lt; string &gt; elements)</argsstring>
+        <name>independentElements</name>
+        <param>
+          <type>const <ref refid="classrrllvm_1_1LLVMModelDataSymbols" kindref="compound">LLVMModelDataSymbols</ref> &amp;</type>
+          <declname>dataSymbols</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; string &gt;</type>
+          <declname>elements</declname>
+        </param>
+        <briefdescription>
+<para>Filter list of elements which are assignable <ndash/> do not have assignment rules. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Rate rule values may be assigned.</para>
+<para>C++ 11 has the copy_if template, but for the time being, we need to be compatible with older C++, so use our own filtering here. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/SetValuesCodeGen.cpp" line="33" column="24" bodyfile="llvm/SetValuesCodeGen.cpp" bodystart="33" bodyend="48"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="llvm/AssignmentRuleEvaluator.cpp" line="16" column="1"/>
+  </compounddef>
+</doxygen>

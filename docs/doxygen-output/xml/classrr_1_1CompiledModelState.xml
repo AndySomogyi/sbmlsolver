@@ -1,0 +1,286 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+  <compounddef id="classrr_1_1CompiledModelState" kind="class" language="C++" prot="public">
+    <compoundname>rr::CompiledModelState</compoundname>
+    <includes refid="rrCompiledModelState_8h" local="no">rrCompiledModelState.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classrr_1_1CompiledModelState_1a5f20ad7fb2c09db4f3c0a786d018484c" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double rr::CompiledModelState::mTime</definition>
+        <argsstring></argsstring>
+        <name>mTime</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledModelState.h" line="30" column="41" bodyfile="c/rrCompiledModelState.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrr_1_1CompiledModelState_1a0f3f7892a832877777a3de4d26375625" prot="public" static="no" mutable="no">
+        <type>vector&lt; double &gt;</type>
+        <definition>vector&lt;double&gt; rr::CompiledModelState::mBoundarySpeciesConcentrations</definition>
+        <argsstring></argsstring>
+        <name>mBoundarySpeciesConcentrations</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledModelState.h" line="31" column="33" bodyfile="c/rrCompiledModelState.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrr_1_1CompiledModelState_1a10324142d12d3a67c6af821361b486b2" prot="public" static="no" mutable="no">
+        <type>vector&lt; double &gt;</type>
+        <definition>vector&lt;double&gt; rr::CompiledModelState::mCompartmentVolumes</definition>
+        <argsstring></argsstring>
+        <name>mCompartmentVolumes</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledModelState.h" line="32" column="33" bodyfile="c/rrCompiledModelState.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrr_1_1CompiledModelState_1acd316d625fae8c7cb704357fe130d5f7" prot="public" static="no" mutable="no">
+        <type>vector&lt; double &gt;</type>
+        <definition>vector&lt;double&gt; rr::CompiledModelState::mConservedTotals</definition>
+        <argsstring></argsstring>
+        <name>mConservedTotals</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledModelState.h" line="33" column="33" bodyfile="c/rrCompiledModelState.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrr_1_1CompiledModelState_1ae3d78b212182ca91bfdff1e618c99f14" prot="public" static="no" mutable="no">
+        <type>vector&lt; double &gt;</type>
+        <definition>vector&lt;double&gt; rr::CompiledModelState::mDyDt</definition>
+        <argsstring></argsstring>
+        <name>mDyDt</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledModelState.h" line="34" column="33" bodyfile="c/rrCompiledModelState.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrr_1_1CompiledModelState_1a2b61c73d8a5321bb66b493083f8d9346" prot="public" static="no" mutable="no">
+        <type>vector&lt; double &gt;</type>
+        <definition>vector&lt;double&gt; rr::CompiledModelState::mFloatingSpeciesConcentrations</definition>
+        <argsstring></argsstring>
+        <name>mFloatingSpeciesConcentrations</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledModelState.h" line="35" column="33" bodyfile="c/rrCompiledModelState.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrr_1_1CompiledModelState_1a2d9a0f11d61381d95ba602d35c3478c3" prot="public" static="no" mutable="no">
+        <type>vector&lt; double &gt;</type>
+        <definition>vector&lt;double&gt; rr::CompiledModelState::mGlobalParameters</definition>
+        <argsstring></argsstring>
+        <name>mGlobalParameters</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledModelState.h" line="36" column="33" bodyfile="c/rrCompiledModelState.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrr_1_1CompiledModelState_1a803d72e6bf36051f77804e2153f435a1" prot="public" static="no" mutable="no">
+        <type>vector&lt; bool &gt;</type>
+        <definition>vector&lt;bool&gt; rr::CompiledModelState::mPreviousEventStatusArray</definition>
+        <argsstring></argsstring>
+        <name>mPreviousEventStatusArray</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledModelState.h" line="37" column="35" bodyfile="c/rrCompiledModelState.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrr_1_1CompiledModelState_1adf44347d9d916b96b3d8b6c2773076fe" prot="public" static="no" mutable="no">
+        <type>vector&lt; double &gt;</type>
+        <definition>vector&lt;double&gt; rr::CompiledModelState::mRateRules</definition>
+        <argsstring></argsstring>
+        <name>mRateRules</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledModelState.h" line="38" column="33" bodyfile="c/rrCompiledModelState.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrr_1_1CompiledModelState_1acec12bc4a38d3651153fb18fe53a5ab1" prot="public" static="no" mutable="no">
+        <type>vector&lt; double &gt;</type>
+        <definition>vector&lt;double&gt; rr::CompiledModelState::mRates</definition>
+        <argsstring></argsstring>
+        <name>mRates</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledModelState.h" line="39" column="33" bodyfile="c/rrCompiledModelState.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrr_1_1CompiledModelState_1ab4da2e0ae151a7f41bca47538bbbf82e" prot="public" static="no" mutable="no">
+        <type>vector&lt; double &gt;</type>
+        <definition>vector&lt;double&gt; rr::CompiledModelState::mModifiableSpeciesReferences</definition>
+        <argsstring></argsstring>
+        <name>mModifiableSpeciesReferences</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledModelState.h" line="40" column="33" bodyfile="c/rrCompiledModelState.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrr_1_1CompiledModelState_1a8a6847d3e4abbab6243f39b382af8d63" prot="public" static="no" mutable="no">
+        <type>vector&lt; bool &gt;</type>
+        <definition>vector&lt;bool&gt; rr::CompiledModelState::mEventStatusArray</definition>
+        <argsstring></argsstring>
+        <name>mEventStatusArray</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledModelState.h" line="41" column="35" bodyfile="c/rrCompiledModelState.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrr_1_1CompiledModelState_1a0fc267215b8f5d032d8f1f7d884da50c" prot="public" static="no" mutable="no">
+        <type>vector&lt; double &gt;</type>
+        <definition>vector&lt;double&gt; rr::CompiledModelState::mEventTests</definition>
+        <argsstring></argsstring>
+        <name>mEventTests</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledModelState.h" line="42" column="33" bodyfile="c/rrCompiledModelState.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classrr_1_1CompiledModelState_1a67ee5c976b4b394013b99397611eb96c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void rr::CompiledModelState::InitializeFromModel</definition>
+        <argsstring>(CompiledExecutableModel &amp;model)</argsstring>
+        <name>InitializeFromModel</name>
+        <param>
+          <type><ref refid="classrr_1_1CompiledExecutableModel" kindref="compound">CompiledExecutableModel</ref> &amp;</type>
+          <declname>model</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledModelState.h" line="44" column="41" bodyfile="c/rrCompiledModelState.cpp" bodystart="14" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1CompiledModelState_1af590b4a8b701d5cd7d59addb543a7e21" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>rr::CompiledModelState::CompiledModelState</definition>
+        <argsstring>(CompiledExecutableModel &amp;model)</argsstring>
+        <name>CompiledModelState</name>
+        <param>
+          <type><ref refid="classrr_1_1CompiledExecutableModel" kindref="compound">CompiledExecutableModel</ref> &amp;</type>
+          <declname>model</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledModelState.h" line="47" column="41" bodyfile="c/rrCompiledModelState.cpp" bodystart="9" bodyend="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1CompiledModelState_1a608ef4344fcd622de580e4db7d62dfd9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void rr::CompiledModelState::AssignToModel</definition>
+        <argsstring>(CompiledExecutableModel &amp;model)</argsstring>
+        <name>AssignToModel</name>
+        <param>
+          <type><ref refid="classrr_1_1CompiledExecutableModel" kindref="compound">CompiledExecutableModel</ref> &amp;</type>
+          <declname>model</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledModelState.h" line="48" column="41" bodyfile="c/rrCompiledModelState.cpp" bodystart="33" bodyend="50"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Saves the &apos;state&apos; of a Model. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>TODO: GET RID OF THIS! Give the a proper clone() method if we need modify it! Or at least, write a ModelData clone function!.</para>
+<para>This class re-implements ModelData, and copies the values out of and into a ModelData struct. </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>rr::CompiledModelState</label>
+        <link refid="classrr_1_1CompiledModelState"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>mEventStatusArray</edgelabel>
+          <edgelabel>mPreviousEventStatusArray</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>mBoundarySpeciesConcentrations</edgelabel>
+          <edgelabel>mCompartmentVolumes</edgelabel>
+          <edgelabel>mConservedTotals</edgelabel>
+          <edgelabel>mDyDt</edgelabel>
+          <edgelabel>mEventTests</edgelabel>
+          <edgelabel>mFloatingSpeciesConcentrations</edgelabel>
+          <edgelabel>mGlobalParameters</edgelabel>
+          <edgelabel>mModifiableSpeciesReferences</edgelabel>
+          <edgelabel>mRateRules</edgelabel>
+          <edgelabel>mRates</edgelabel>
+          <edgelabel>...</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>vector&lt; double &gt;</label>
+      </node>
+      <node id="2">
+        <label>vector&lt; bool &gt;</label>
+      </node>
+    </collaborationgraph>
+    <location file="c/rrCompiledModelState.h" line="25" column="1" bodyfile="c/rrCompiledModelState.h" bodystart="26" bodyend="49"/>
+    <listofallmembers>
+      <member refid="classrr_1_1CompiledModelState_1a608ef4344fcd622de580e4db7d62dfd9" prot="public" virt="non-virtual"><scope>rr::CompiledModelState</scope><name>AssignToModel</name></member>
+      <member refid="classrr_1_1CompiledModelState_1af590b4a8b701d5cd7d59addb543a7e21" prot="public" virt="non-virtual"><scope>rr::CompiledModelState</scope><name>CompiledModelState</name></member>
+      <member refid="classrr_1_1CompiledModelState_1a67ee5c976b4b394013b99397611eb96c" prot="public" virt="non-virtual"><scope>rr::CompiledModelState</scope><name>InitializeFromModel</name></member>
+      <member refid="classrr_1_1CompiledModelState_1a0f3f7892a832877777a3de4d26375625" prot="public" virt="non-virtual"><scope>rr::CompiledModelState</scope><name>mBoundarySpeciesConcentrations</name></member>
+      <member refid="classrr_1_1CompiledModelState_1a10324142d12d3a67c6af821361b486b2" prot="public" virt="non-virtual"><scope>rr::CompiledModelState</scope><name>mCompartmentVolumes</name></member>
+      <member refid="classrr_1_1CompiledModelState_1acd316d625fae8c7cb704357fe130d5f7" prot="public" virt="non-virtual"><scope>rr::CompiledModelState</scope><name>mConservedTotals</name></member>
+      <member refid="classrr_1_1CompiledModelState_1ae3d78b212182ca91bfdff1e618c99f14" prot="public" virt="non-virtual"><scope>rr::CompiledModelState</scope><name>mDyDt</name></member>
+      <member refid="classrr_1_1CompiledModelState_1a8a6847d3e4abbab6243f39b382af8d63" prot="public" virt="non-virtual"><scope>rr::CompiledModelState</scope><name>mEventStatusArray</name></member>
+      <member refid="classrr_1_1CompiledModelState_1a0fc267215b8f5d032d8f1f7d884da50c" prot="public" virt="non-virtual"><scope>rr::CompiledModelState</scope><name>mEventTests</name></member>
+      <member refid="classrr_1_1CompiledModelState_1a2b61c73d8a5321bb66b493083f8d9346" prot="public" virt="non-virtual"><scope>rr::CompiledModelState</scope><name>mFloatingSpeciesConcentrations</name></member>
+      <member refid="classrr_1_1CompiledModelState_1a2d9a0f11d61381d95ba602d35c3478c3" prot="public" virt="non-virtual"><scope>rr::CompiledModelState</scope><name>mGlobalParameters</name></member>
+      <member refid="classrr_1_1CompiledModelState_1ab4da2e0ae151a7f41bca47538bbbf82e" prot="public" virt="non-virtual"><scope>rr::CompiledModelState</scope><name>mModifiableSpeciesReferences</name></member>
+      <member refid="classrr_1_1CompiledModelState_1a803d72e6bf36051f77804e2153f435a1" prot="public" virt="non-virtual"><scope>rr::CompiledModelState</scope><name>mPreviousEventStatusArray</name></member>
+      <member refid="classrr_1_1CompiledModelState_1adf44347d9d916b96b3d8b6c2773076fe" prot="public" virt="non-virtual"><scope>rr::CompiledModelState</scope><name>mRateRules</name></member>
+      <member refid="classrr_1_1CompiledModelState_1acec12bc4a38d3651153fb18fe53a5ab1" prot="public" virt="non-virtual"><scope>rr::CompiledModelState</scope><name>mRates</name></member>
+      <member refid="classrr_1_1CompiledModelState_1a5f20ad7fb2c09db4f3c0a786d018484c" prot="public" virt="non-virtual"><scope>rr::CompiledModelState</scope><name>mTime</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

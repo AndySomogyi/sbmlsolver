@@ -28,6 +28,30 @@
       <node id="4">
         <label>Poco/Net/HTTPStreamFactory.h</label>
       </node>
+      <node id="13">
+        <label>rrSBMLReader.h</label>
+        <link refid="rrSBMLReader_8h_source"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>rrOSSpecifics.h</label>
+        <link refid="rrOSSpecifics_8h_source"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>string</label>
+      </node>
+      <node id="22">
+        <label>sbml/SBMLWriter.h</label>
+      </node>
+      <node id="10">
+        <label>rrExporter.h</label>
+        <link refid="rrExporter_8h_source"/>
+      </node>
       <node id="11">
         <label>rrLogger.h</label>
         <link refid="rrLogger_8h_source"/>
@@ -35,6 +59,21 @@
         </childnode>
         <childnode refid="10" relation="include">
         </childnode>
+      </node>
+      <node id="8">
+        <label>Poco/File.h</label>
+      </node>
+      <node id="16">
+        <label>exception</label>
+      </node>
+      <node id="2">
+        <label>Poco/URI.h</label>
+      </node>
+      <node id="5">
+        <label>Poco/RegularExpression.h</label>
+      </node>
+      <node id="7">
+        <label>Poco/Path.h</label>
       </node>
       <node id="1">
         <label>rrSBMLReader.cpp</label>
@@ -78,6 +117,12 @@
         <childnode refid="22" relation="include">
         </childnode>
       </node>
+      <node id="20">
+        <label>sbml/SBMLReader.h</label>
+      </node>
+      <node id="21">
+        <label>sbml/conversion/SBMLConverterRegistry.h</label>
+      </node>
       <node id="15">
         <label>rrException.h</label>
         <link refid="rrException_8h_source"/>
@@ -88,33 +133,6 @@
         <childnode refid="10" relation="include">
         </childnode>
       </node>
-      <node id="14">
-        <label>string</label>
-      </node>
-      <node id="22">
-        <label>sbml/SBMLWriter.h</label>
-      </node>
-      <node id="8">
-        <label>Poco/File.h</label>
-      </node>
-      <node id="16">
-        <label>exception</label>
-      </node>
-      <node id="2">
-        <label>Poco/URI.h</label>
-      </node>
-      <node id="5">
-        <label>Poco/RegularExpression.h</label>
-      </node>
-      <node id="7">
-        <label>Poco/Path.h</label>
-      </node>
-      <node id="20">
-        <label>sbml/SBMLReader.h</label>
-      </node>
-      <node id="21">
-        <label>sbml/conversion/SBMLConverterRegistry.h</label>
-      </node>
       <node id="12">
         <label>sstream</label>
       </node>
@@ -124,29 +142,11 @@
       <node id="17">
         <label>iostream</label>
       </node>
-      <node id="9">
-        <label>rrOSSpecifics.h</label>
-        <link refid="rrOSSpecifics_8h_source"/>
-        <childnode refid="10" relation="include">
-        </childnode>
-      </node>
-      <node id="10">
-        <label>rrExporter.h</label>
-        <link refid="rrExporter_8h_source"/>
-      </node>
       <node id="18">
         <label>algorithm</label>
       </node>
       <node id="6">
         <label>Poco/Mutex.h</label>
-      </node>
-      <node id="13">
-        <label>rrSBMLReader.h</label>
-        <link refid="rrSBMLReader_8h_source"/>
-        <childnode refid="10" relation="include">
-        </childnode>
-        <childnode refid="14" relation="include">
-        </childnode>
       </node>
     </incdepgraph>
     <innernamespace refid="namespacerr">rr</innernamespace>

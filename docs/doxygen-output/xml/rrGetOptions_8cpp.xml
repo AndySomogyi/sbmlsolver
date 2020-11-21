@@ -16,9 +16,6 @@
         <childnode refid="4" relation="include">
         </childnode>
       </node>
-      <node id="3">
-        <label>string.h</label>
-      </node>
       <node id="4">
         <label>rrGetOptions.h</label>
         <link refid="rrGetOptions_8h_source"/>
@@ -28,6 +25,9 @@
       <node id="5">
         <label>rrExporter.h</label>
         <link refid="rrExporter_8h_source"/>
+      </node>
+      <node id="3">
+        <label>string.h</label>
       </node>
       <node id="2">
         <label>stdio.h</label>

@@ -135,8 +135,8 @@ endif ()
 #        COMMAND ${CMAKE_COMMAND} -E echo ""
 #        VERBATIM
 #        )
-message(STATUS "PYTHON_EXECUTABLE ${PYTHON_EXECUTABLE}")
-get_filename_component(PYTHON_ROOT ${PYTHON_EXECUTABLE} DIRECTORY)
+message(STATUS "Python_EXECUTABLE ${Python_EXECUTABLE}")
+get_filename_component(PYTHON_ROOT ${Python_EXECUTABLE} DIRECTORY)
 find_program(SPHINX_EXECUTABLE
         NAMES sphinx-build sphinx-build.exe
         PATHS
@@ -149,6 +149,7 @@ you will need to install it. In your conda environment do: $conda activate <env>
 pip install breathe sphinx sphinxcontrib-bibtex sphinx-tabs sphinx_rtd_theme; which sphinx-build. Then copy the value of which sphinx-build into
 -DSPHINX_EXECUTABLE"
         )
+message(STATUS "SPHINX_EXECUTABLE: ${SPHINX_EXECUTABLE}")
 
 set(SPHINX_SOURCE "${CMAKE_CURRENT_SOURCE_DIR}/source")
 set(SPHINX_BUILD "${CMAKE_CURRENT_SOURCE_DIR}/docs-build")

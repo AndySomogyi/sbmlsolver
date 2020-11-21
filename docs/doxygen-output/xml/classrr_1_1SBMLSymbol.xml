@@ -1,0 +1,354 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+  <compounddef id="classrr_1_1SBMLSymbol" kind="class" language="C++" prot="public">
+    <compoundname>rr::SBMLSymbol</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classrr_1_1SBMLSymbol_1ab3276160c8c7c056d27485b912d6bda1" prot="public" static="no" mutable="no">
+        <type>string</type>
+        <definition>string rr::SBMLSymbol::mId</definition>
+        <argsstring></argsstring>
+        <name>mId</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrSBMLSymbol.h" line="19" column="41" bodyfile="c/rrSBMLSymbol.h" bodystart="19" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrr_1_1SBMLSymbol_1a56e92ec749e492c6fc80188e7bca308d" prot="public" static="no" mutable="no">
+        <type>enum SBMLType</type>
+        <definition>enum SBMLType rr::SBMLSymbol::mType</definition>
+        <argsstring></argsstring>
+        <name>mType</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrSBMLSymbol.h" line="19" column="41" bodyfile="c/rrSBMLSymbol.h" bodystart="20" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrr_1_1SBMLSymbol_1a5e2771c9bd8d47f0820bb954c24bd83b" prot="public" static="no" mutable="no">
+        <type><ref refid="classrr_1_1SBMLSymbolDependencies" kindref="compound">SBMLSymbolDependencies</ref></type>
+        <definition>SBMLSymbolDependencies rr::SBMLSymbol::mDependencies</definition>
+        <argsstring></argsstring>
+        <name>mDependencies</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrSBMLSymbol.h" line="21" column="41" bodyfile="c/rrSBMLSymbol.h" bodystart="21" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrr_1_1SBMLSymbol_1a0735f3f695e36a6c2d7527c189f1c95a" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double rr::SBMLSymbol::mValue</definition>
+        <argsstring></argsstring>
+        <name>mValue</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrSBMLSymbol.h" line="23" column="41" bodyfile="c/rrSBMLSymbol.h" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrr_1_1SBMLSymbol_1ae97891da156dd0b943d2f7b49e16976c" prot="public" static="no" mutable="no">
+        <type>double &amp;</type>
+        <definition>double&amp; rr::SBMLSymbol::mConcentration</definition>
+        <argsstring></argsstring>
+        <name>mConcentration</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrSBMLSymbol.h" line="26" column="40" bodyfile="c/rrSBMLSymbol.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrr_1_1SBMLSymbol_1a286000708437f2d32b5a71b7fe5852e3" prot="public" static="no" mutable="no">
+        <type>double &amp;</type>
+        <definition>double&amp; rr::SBMLSymbol::mAmount</definition>
+        <argsstring></argsstring>
+        <name>mAmount</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrSBMLSymbol.h" line="27" column="40" bodyfile="c/rrSBMLSymbol.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrr_1_1SBMLSymbol_1aa6678414dcad6174098f5da066d87be1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool rr::SBMLSymbol::IsSetAmount</definition>
+        <argsstring></argsstring>
+        <name>IsSetAmount</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrSBMLSymbol.h" line="29" column="41" bodyfile="c/rrSBMLSymbol.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrr_1_1SBMLSymbol_1a75e7fa9df8ecd054cf015cb514d165da" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool rr::SBMLSymbol::IsSetConcentration</definition>
+        <argsstring></argsstring>
+        <name>IsSetConcentration</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrSBMLSymbol.h" line="30" column="41" bodyfile="c/rrSBMLSymbol.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrr_1_1SBMLSymbol_1a40d2ea329087609068483d9ffdba7485" prot="public" static="no" mutable="no">
+        <type>string</type>
+        <definition>string rr::SBMLSymbol::mInitialAssignment</definition>
+        <argsstring></argsstring>
+        <name>mInitialAssignment</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrSBMLSymbol.h" line="33" column="41" bodyfile="c/rrSBMLSymbol.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrr_1_1SBMLSymbol_1a93b683b06a9e5b51b378d694af91c656" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool rr::SBMLSymbol::mHasRule</definition>
+        <argsstring></argsstring>
+        <name>mHasRule</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrSBMLSymbol.h" line="35" column="41" bodyfile="c/rrSBMLSymbol.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrr_1_1SBMLSymbol_1ab0ceff30fba162d98145e4ca6fe3e19b" prot="public" static="no" mutable="no">
+        <type>string</type>
+        <definition>string rr::SBMLSymbol::mRule</definition>
+        <argsstring></argsstring>
+        <name>mRule</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrSBMLSymbol.h" line="37" column="41" bodyfile="c/rrSBMLSymbol.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classrr_1_1SBMLSymbol_1af1477adbfecd6f644d6170eda96f3157" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool rr::SBMLSymbol::HasValue</definition>
+        <argsstring>()</argsstring>
+        <name>HasValue</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrSBMLSymbol.h" line="24" column="41" bodyfile="c/rrSBMLSymbol.cpp" bodystart="75" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1SBMLSymbol_1af5609886f80906dc5519abd22a7a694f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool rr::SBMLSymbol::HasInitialAssignment</definition>
+        <argsstring>() const</argsstring>
+        <name>HasInitialAssignment</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrSBMLSymbol.h" line="32" column="41" bodyfile="c/rrSBMLSymbol.cpp" bodystart="80" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1SBMLSymbol_1a5501e0dee09e5706b16bf0cd457bc68a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool rr::SBMLSymbol::HasRule</definition>
+        <argsstring>()</argsstring>
+        <name>HasRule</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrSBMLSymbol.h" line="36" column="41" bodyfile="c/rrSBMLSymbol.cpp" bodystart="85" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1SBMLSymbol_1a59d0884b5453892243cb045faa165cfe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>rr::SBMLSymbol::SBMLSymbol</definition>
+        <argsstring>()</argsstring>
+        <name>SBMLSymbol</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrSBMLSymbol.h" line="40" column="41" bodyfile="c/rrSBMLSymbol.cpp" bodystart="14" bodyend="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1SBMLSymbol_1a5ee3763ac25d8809dd1a5d65d7db0541" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>rr::SBMLSymbol::~SBMLSymbol</definition>
+        <argsstring>()</argsstring>
+        <name>~SBMLSymbol</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrSBMLSymbol.h" line="41" column="40" bodyfile="c/rrSBMLSymbol.cpp" bodystart="40" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1SBMLSymbol_1a38d0bcc0ea3064cdca1bc19579fa213a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>rr::SBMLSymbol::SBMLSymbol</definition>
+        <argsstring>(const SBMLSymbol &amp;cp)</argsstring>
+        <name>SBMLSymbol</name>
+        <param>
+          <type>const <ref refid="classrr_1_1SBMLSymbol" kindref="compound">SBMLSymbol</ref> &amp;</type>
+          <declname>cp</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrSBMLSymbol.h" line="42" column="41" bodyfile="c/rrSBMLSymbol.cpp" bodystart="24" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1SBMLSymbol_1a0695740699e943ede2713ab02d9fff20" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classrr_1_1SBMLSymbol" kindref="compound">SBMLSymbol</ref> &amp;</type>
+        <definition>SBMLSymbol &amp; rr::SBMLSymbol::operator=</definition>
+        <argsstring>(const SBMLSymbol &amp;rhs)</argsstring>
+        <name>operator=</name>
+        <param>
+          <type>const <ref refid="classrr_1_1SBMLSymbol" kindref="compound">SBMLSymbol</ref> &amp;</type>
+          <declname>rhs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrSBMLSymbol.h" line="43" column="52" bodyfile="c/rrSBMLSymbol.cpp" bodystart="45" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1SBMLSymbol_1a15e5f01be655dc5de432a4673fea5822" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void rr::SBMLSymbol::AddDependency</definition>
+        <argsstring>(SBMLSymbol *symbol)</argsstring>
+        <name>AddDependency</name>
+        <param>
+          <type><ref refid="classrr_1_1SBMLSymbol" kindref="compound">SBMLSymbol</ref> *</type>
+          <declname>symbol</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrSBMLSymbol.h" line="44" column="41" bodyfile="c/rrSBMLSymbol.cpp" bodystart="65" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1SBMLSymbol_1a4e9c6643d38ffc5ac87d10f9f9d70e35" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int rr::SBMLSymbol::NumberOfDependencies</definition>
+        <argsstring>()</argsstring>
+        <name>NumberOfDependencies</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrSBMLSymbol.h" line="45" column="41" bodyfile="c/rrSBMLSymbol.cpp" bodystart="60" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1SBMLSymbol_1a3bf51322651f2b55d7552060f86f5f4b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classrr_1_1SBMLSymbol" kindref="compound">SBMLSymbol</ref></type>
+        <definition>SBMLSymbol rr::SBMLSymbol::GetDependency</definition>
+        <argsstring>(const int &amp;i)</argsstring>
+        <name>GetDependency</name>
+        <param>
+          <type>const int &amp;</type>
+          <declname>i</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrSBMLSymbol.h" line="46" column="41" bodyfile="c/rrSBMLSymbol.cpp" bodystart="70" bodyend="73"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>rr::SBMLSymbol</label>
+        <link refid="classrr_1_1SBMLSymbol"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>mDependencies</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>mId</edgelabel>
+          <edgelabel>mInitialAssignment</edgelabel>
+          <edgelabel>mRule</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>deque&lt; rr::SBMLSymbol * &gt;</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="2">
+        <label>rr::SBMLSymbolDependencies</label>
+        <link refid="classrr_1_1SBMLSymbolDependencies"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>mDependencies</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="c/rrSBMLSymbol.h" line="15" column="1" bodyfile="c/rrSBMLSymbol.h" bodystart="16" bodyend="48"/>
+    <listofallmembers>
+      <member refid="classrr_1_1SBMLSymbol_1a15e5f01be655dc5de432a4673fea5822" prot="public" virt="non-virtual"><scope>rr::SBMLSymbol</scope><name>AddDependency</name></member>
+      <member refid="classrr_1_1SBMLSymbol_1a3bf51322651f2b55d7552060f86f5f4b" prot="public" virt="non-virtual"><scope>rr::SBMLSymbol</scope><name>GetDependency</name></member>
+      <member refid="classrr_1_1SBMLSymbol_1af5609886f80906dc5519abd22a7a694f" prot="public" virt="non-virtual"><scope>rr::SBMLSymbol</scope><name>HasInitialAssignment</name></member>
+      <member refid="classrr_1_1SBMLSymbol_1a5501e0dee09e5706b16bf0cd457bc68a" prot="public" virt="non-virtual"><scope>rr::SBMLSymbol</scope><name>HasRule</name></member>
+      <member refid="classrr_1_1SBMLSymbol_1af1477adbfecd6f644d6170eda96f3157" prot="public" virt="non-virtual"><scope>rr::SBMLSymbol</scope><name>HasValue</name></member>
+      <member refid="classrr_1_1SBMLSymbol_1aa6678414dcad6174098f5da066d87be1" prot="public" virt="non-virtual"><scope>rr::SBMLSymbol</scope><name>IsSetAmount</name></member>
+      <member refid="classrr_1_1SBMLSymbol_1a75e7fa9df8ecd054cf015cb514d165da" prot="public" virt="non-virtual"><scope>rr::SBMLSymbol</scope><name>IsSetConcentration</name></member>
+      <member refid="classrr_1_1SBMLSymbol_1a286000708437f2d32b5a71b7fe5852e3" prot="public" virt="non-virtual"><scope>rr::SBMLSymbol</scope><name>mAmount</name></member>
+      <member refid="classrr_1_1SBMLSymbol_1ae97891da156dd0b943d2f7b49e16976c" prot="public" virt="non-virtual"><scope>rr::SBMLSymbol</scope><name>mConcentration</name></member>
+      <member refid="classrr_1_1SBMLSymbol_1a5e2771c9bd8d47f0820bb954c24bd83b" prot="public" virt="non-virtual"><scope>rr::SBMLSymbol</scope><name>mDependencies</name></member>
+      <member refid="classrr_1_1SBMLSymbol_1a93b683b06a9e5b51b378d694af91c656" prot="public" virt="non-virtual"><scope>rr::SBMLSymbol</scope><name>mHasRule</name></member>
+      <member refid="classrr_1_1SBMLSymbol_1ab3276160c8c7c056d27485b912d6bda1" prot="public" virt="non-virtual"><scope>rr::SBMLSymbol</scope><name>mId</name></member>
+      <member refid="classrr_1_1SBMLSymbol_1a40d2ea329087609068483d9ffdba7485" prot="public" virt="non-virtual"><scope>rr::SBMLSymbol</scope><name>mInitialAssignment</name></member>
+      <member refid="classrr_1_1SBMLSymbol_1ab0ceff30fba162d98145e4ca6fe3e19b" prot="public" virt="non-virtual"><scope>rr::SBMLSymbol</scope><name>mRule</name></member>
+      <member refid="classrr_1_1SBMLSymbol_1a56e92ec749e492c6fc80188e7bca308d" prot="public" virt="non-virtual"><scope>rr::SBMLSymbol</scope><name>mType</name></member>
+      <member refid="classrr_1_1SBMLSymbol_1a0735f3f695e36a6c2d7527c189f1c95a" prot="public" virt="non-virtual"><scope>rr::SBMLSymbol</scope><name>mValue</name></member>
+      <member refid="classrr_1_1SBMLSymbol_1a4e9c6643d38ffc5ac87d10f9f9d70e35" prot="public" virt="non-virtual"><scope>rr::SBMLSymbol</scope><name>NumberOfDependencies</name></member>
+      <member refid="classrr_1_1SBMLSymbol_1a0695740699e943ede2713ab02d9fff20" prot="public" virt="non-virtual"><scope>rr::SBMLSymbol</scope><name>operator=</name></member>
+      <member refid="classrr_1_1SBMLSymbol_1a59d0884b5453892243cb045faa165cfe" prot="public" virt="non-virtual"><scope>rr::SBMLSymbol</scope><name>SBMLSymbol</name></member>
+      <member refid="classrr_1_1SBMLSymbol_1a38d0bcc0ea3064cdca1bc19579fa213a" prot="public" virt="non-virtual"><scope>rr::SBMLSymbol</scope><name>SBMLSymbol</name></member>
+      <member refid="classrr_1_1SBMLSymbol_1a5ee3763ac25d8809dd1a5d65d7db0541" prot="public" virt="non-virtual"><scope>rr::SBMLSymbol</scope><name>~SBMLSymbol</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>
