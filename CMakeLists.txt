@@ -96,15 +96,18 @@ option(BUILD_LEGACY_C "Build the legacy C code generating backend (deprecated)" 
 
 
 # should we build the swig python wrapper?
-option(BUILD_PYTHON "build the SWIG generated python wrapper" OFF)
-set(PYTHON_PACKAGE_SITE_DIR ${CMAKE_INSTALL_PREFIX}/site-packages CACHE PATH "Path to Python site packages directory")
-set(PYTHON_PACKAGE_INSTALL_PREFIX ${PYTHON_PACKAGE_SITE_DIR}/roadrunner)
+option(BUILD_PYTHON "Build the SWIG generated python wrapper" OFF)
+if (BUILD_PYTHON)
+	set(PYTHON_PACKAGE_SITE_DIR       ${CMAKE_INSTALL_PREFIX}/site-packages CACHE PATH "Path to Python site packages 	directory")
+	set(PYTHON_PACKAGE_INSTALL_PREFIX ${PYTHON_PACKAGE_SITE_DIR}/roadrunner CACHE PATH "Destination for roadrunner python bindings.")
+	set(RR_PLUGINS_INSTALL_PREFIX     ${PYTHON_PACKAGE_SITE_DIR}/rrplugins  CACHE PATH "Destination for rrplugins python bindings.")
+	cmake_dependent_option(RR_PLUGINS_BUILD_PYTHON_API "Build the RR plugin PYTHON API" ON "BUILD_RR_PLUGINS" OFF)
+	cmake_dependent_option(BUILD_PYTHON_CTYPES_API "Build the ctypes python API for roadrunner" ON
+	        "BUILD_PYTHON" OFF)
+	cmake_dependent_option(WITH_CONDA_BUILDER "Include files required to build the conda package" OFF
+	        "BUILD_PYTHON" OFF)
+endif()
 
-# This option requires BUILD_PYTHON and BUILD_RR_CAPI to be on
-cmake_dependent_option(BUILD_PYTHON_CTYPES_API "Build the ctypes python API for roadrunner" ON
-        "BUILD_PYTHON" OFF)
-cmake_dependent_option(WITH_CONDA_BUILDER "Include files required to build the conda package" OFF
-        "BUILD_PYTHON" OFF)
 
 
 #Setup so that roadrunner is always built as a dll and linked statically with 'as much as possible'
@@ -125,6 +128,7 @@ option(WITH_ADDRESS_SANITIZER "Build roadrunner with memory sanitizer tool (assu
 
 # telplugin options
 option(BUILD_RR_PLUGINS "Build the telplugins package" OFF)
+
 # todo consider whether we want to rebrand "telplugins" to rrplugins or something similar. These are actually roadrunner plugins not tellurium.
 ## Feature selection
 
@@ -132,9 +136,7 @@ option(BUILD_RR_PLUGINS "Build the telplugins package" OFF)
 # RR_PLUGINS_BUILD_SHARED_LIB default value to ON, otherwise set to OFF
 cmake_dependent_option(RR_PLUGINS_BUILD_SHARED_LIB "Build the RR plugin shared libraries" ON "BUILD_RR_PLUGINS" OFF)
 cmake_dependent_option(RR_PLUGINS_BUILD_STATIC_LIB "Build the RR plugin static libraries" ON "BUILD_RR_PLUGINS" OFF)
-set(RR_PLUGINS_INSTALL_PREFIX "${PYTHON_PACKAGE_INSTALL_PREFIX}/plugins" CACHE PATH "Destination for plugins")
 cmake_dependent_option(RR_PLUGINS_BUILD_C_API "Build the RR plugin C API" ON "BUILD_RR_PLUGINS" OFF)
-cmake_dependent_option(RR_PLUGINS_BUILD_PYTHON_API "Build the RR plugin PYTHON API" ON "BUILD_RR_PLUGINS" OFF)
 
 # Plugin selection: Released
 # These options default to ON when BUILD_RR_PLUGINS=ON and OFF otherwise
@@ -334,7 +336,6 @@ if (${BORLAND})
     )
 endif ()
 
-
 ##########################################################
 # Building
 #
@@ -354,6 +355,10 @@ add_subdirectory(source)
 ## API's
 
 add_subdirectory(wrappers)
+
+if (BUILD_RR_PLUGINS)
+    add_subdirectory(rrplugins)
+endif ()
 
 
 ##########################################################
@@ -424,13 +429,6 @@ if (${INSTALL_SBML_MODELS})
     add_subdirectory(models)
 endif ()
 
-
-# should we build and install RRPlugins with the roadrunner?
-option(INSTALL_RRPLUGINS "Build and install RRPlugins with the roadrunner" ON)
-
-if (INSTALL_RRPLUGINS)
-    add_subdirectory(rrplugins)
-endif ()
 
 install(FILES README.md LICENSE.txt AUTHORS.txt FUNDING.txt
         DESTINATION .
