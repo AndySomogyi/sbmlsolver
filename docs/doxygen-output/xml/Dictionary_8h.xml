@@ -27,12 +27,6 @@
         <childnode refid="6" relation="include">
         </childnode>
       </node>
-      <node id="5">
-        <label>string</label>
-      </node>
-      <node id="8">
-        <label>tr1proxy/rr_unordered_map.h</label>
-      </node>
       <node id="1">
         <label>Dictionary.h</label>
         <link refid="Dictionary_8h"/>
@@ -47,6 +41,16 @@
         <childnode refid="8" relation="include">
         </childnode>
       </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>rrExporter.h</label>
+        <link refid="rrExporter_8h_source"/>
+      </node>
+      <node id="8">
+        <label>tr1proxy/rr_unordered_map.h</label>
+      </node>
       <node id="4">
         <label>typeinfo</label>
       </node>
@@ -56,86 +60,18 @@
       <node id="7">
         <label>tr1proxy/rr_memory.h</label>
       </node>
-      <node id="3">
-        <label>rrExporter.h</label>
-        <link refid="rrExporter_8h_source"/>
-      </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="19">
-        <label>SolverRegistration.cpp</label>
-        <link refid="SolverRegistration_8cpp"/>
-      </node>
       <node id="7">
         <label>GillespieIntegrator.h</label>
         <link refid="GillespieIntegrator_8h_source"/>
         <childnode refid="5" relation="include">
         </childnode>
       </node>
-      <node id="23">
-        <label>SteadyStateSolver.cpp</label>
-        <link refid="SteadyStateSolver_8cpp"/>
-      </node>
-      <node id="15">
-        <label>rrSteadyStateSolver.h</label>
-        <link refid="rrSteadyStateSolver_8h_source"/>
-        <childnode refid="16" relation="include">
-        </childnode>
-        <childnode refid="17" relation="include">
-        </childnode>
-      </node>
-      <node id="1">
-        <label>Dictionary.h</label>
-        <link refid="Dictionary_8h"/>
-        <childnode refid="2" relation="include">
-        </childnode>
-        <childnode refid="3" relation="include">
-        </childnode>
-        <childnode refid="11" relation="include">
-        </childnode>
-        <childnode refid="15" relation="include">
-        </childnode>
-        <childnode refid="18" relation="include">
-        </childnode>
-        <childnode refid="20" relation="include">
-        </childnode>
-      </node>
-      <node id="21">
+      <node id="22">
         <label>NLEQ1Solver.h</label>
         <link refid="NLEQ1Solver_8h"/>
-        <childnode refid="19" relation="include">
-        </childnode>
-      </node>
-      <node id="18">
-        <label>Solver.h</label>
-        <link refid="Solver_8h"/>
-        <childnode refid="3" relation="include">
-        </childnode>
-        <childnode refid="19" relation="include">
-        </childnode>
         <childnode refid="20" relation="include">
-        </childnode>
-      </node>
-      <node id="9">
-        <label>RK45Integrator.h</label>
-        <link refid="RK45Integrator_8h"/>
-        <childnode refid="5" relation="include">
-        </childnode>
-      </node>
-      <node id="6">
-        <label>EulerIntegrator.h</label>
-        <link refid="EulerIntegrator_8h_source"/>
-        <childnode refid="5" relation="include">
-        </childnode>
-      </node>
-      <node id="5">
-        <label>IntegratorRegistration.cpp</label>
-        <link refid="IntegratorRegistration_8cpp"/>
-      </node>
-      <node id="4">
-        <label>CVODEIntegrator.h</label>
-        <link refid="CVODEIntegrator_8h"/>
-        <childnode refid="5" relation="include">
         </childnode>
       </node>
       <node id="3">
@@ -158,9 +94,75 @@
         <childnode refid="11" relation="include">
         </childnode>
       </node>
-      <node id="8">
-        <label>Integrator.cpp</label>
-        <link refid="Integrator_8cpp"/>
+      <node id="16">
+        <label>rrSteadyStateSolver.h</label>
+        <link refid="rrSteadyStateSolver_8h_source"/>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>Dictionary.h</label>
+        <link refid="Dictionary_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>SolverRegistration.cpp</label>
+        <link refid="SolverRegistration_8cpp"/>
+      </node>
+      <node id="23">
+        <label>NLEQ2Solver.h</label>
+        <link refid="NLEQ2Solver_8h"/>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>SteadyStateSolver.h</label>
+        <link refid="SteadyStateSolver_8h"/>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>Solver.h</label>
+        <link refid="Solver_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>rrRoadRunner.h</label>
+        <link refid="rrRoadRunner_8h_source"/>
+      </node>
+      <node id="17">
+        <label>rrNLEQ1Interface.h</label>
+        <link refid="rrNLEQ1Interface_8h_source"/>
+      </node>
+      <node id="24">
+        <label>SteadyStateSolver.cpp</label>
+        <link refid="SteadyStateSolver_8cpp"/>
+      </node>
+      <node id="15">
+        <label>llvm/LLVMModelGenerator.h</label>
+        <link refid="LLVMModelGenerator_8h_source"/>
       </node>
       <node id="10">
         <label>RK4Integrator.h</label>
@@ -168,37 +170,15 @@
         <childnode refid="5" relation="include">
         </childnode>
       </node>
-      <node id="12">
-        <label>rrRoadRunner.h</label>
-        <link refid="rrRoadRunner_8h_source"/>
-      </node>
-      <node id="22">
-        <label>NLEQ2Solver.h</label>
-        <link refid="NLEQ2Solver_8h"/>
-        <childnode refid="19" relation="include">
+      <node id="4">
+        <label>CVODEIntegrator.h</label>
+        <link refid="CVODEIntegrator_8h"/>
+        <childnode refid="5" relation="include">
         </childnode>
-      </node>
-      <node id="14">
-        <label>rrTestSuiteModelSimulation.h</label>
-        <link refid="rrTestSuiteModelSimulation_8h_source"/>
-      </node>
-      <node id="17">
-        <label>rrNLEQ2Interface.h</label>
-        <link refid="rrNLEQ2Interface_8h_source"/>
       </node>
       <node id="2">
         <label>ExecutableModelFactory.h</label>
         <link refid="ExecutableModelFactory_8h_source"/>
-      </node>
-      <node id="20">
-        <label>SteadyStateSolver.h</label>
-        <link refid="SteadyStateSolver_8h"/>
-        <childnode refid="21" relation="include">
-        </childnode>
-        <childnode refid="22" relation="include">
-        </childnode>
-        <childnode refid="23" relation="include">
-        </childnode>
       </node>
       <node id="11">
         <label>rrRoadRunnerOptions.h</label>
@@ -219,16 +199,42 @@
         </childnode>
         <childnode refid="14" relation="include">
         </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>IntegratorRegistration.cpp</label>
+        <link refid="IntegratorRegistration_8cpp"/>
+      </node>
+      <node id="14">
+        <label>rrTestSuiteModelSimulation.h</label>
+        <link refid="rrTestSuiteModelSimulation_8h_source"/>
+      </node>
+      <node id="8">
+        <label>Integrator.cpp</label>
+        <link refid="Integrator_8cpp"/>
+      </node>
+      <node id="9">
+        <label>RK45Integrator.h</label>
+        <link refid="RK45Integrator_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>rrNLEQ2Interface.h</label>
+        <link refid="rrNLEQ2Interface_8h_source"/>
+      </node>
+      <node id="6">
+        <label>EulerIntegrator.h</label>
+        <link refid="EulerIntegrator_8h_source"/>
+        <childnode refid="5" relation="include">
+        </childnode>
       </node>
       <node id="13">
         <label>rrSBMLModelSimulation.h</label>
         <link refid="rrSBMLModelSimulation_8h_source"/>
         <childnode refid="14" relation="include">
         </childnode>
-      </node>
-      <node id="16">
-        <label>rrNLEQ1Interface.h</label>
-        <link refid="rrNLEQ1Interface_8h_source"/>
       </node>
     </invincdepgraph>
     <innerclass refid="classrr_1_1Dictionary" prot="public">rr::Dictionary</innerclass>

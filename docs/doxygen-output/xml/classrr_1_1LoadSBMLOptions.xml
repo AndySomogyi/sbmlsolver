@@ -285,7 +285,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunnerOptions.h" line="181" column="14" bodyfile="rrRoadRunnerOptions.cpp" bodystart="250" bodyend="253"/>
+        <location file="rrRoadRunnerOptions.h" line="181" column="14" bodyfile="rrRoadRunnerOptions.cpp" bodystart="228" bodyend="231"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1LoadSBMLOptions_1a42644c69463fd75bafb1ead69b9681e6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classrr_1_1Variant" kindref="compound">Variant</ref></type>
@@ -304,7 +304,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunnerOptions.h" line="186" column="17" bodyfile="rrRoadRunnerOptions.cpp" bodystart="255" bodyend="258"/>
+        <location file="rrRoadRunnerOptions.h" line="186" column="17" bodyfile="rrRoadRunnerOptions.cpp" bodystart="233" bodyend="236"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1LoadSBMLOptions_1a5fd757435841abdb20215d65af77bd84" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -324,7 +324,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunnerOptions.h" line="193" column="14" bodyfile="rrRoadRunnerOptions.cpp" bodystart="260" bodyend="263"/>
+        <location file="rrRoadRunnerOptions.h" line="193" column="14" bodyfile="rrRoadRunnerOptions.cpp" bodystart="238" bodyend="241"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1LoadSBMLOptions_1ab1cf127ce1f97bab98be173fd1f48e80" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>size_t</type>
@@ -343,7 +343,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunnerOptions.h" line="198" column="16" bodyfile="rrRoadRunnerOptions.cpp" bodystart="265" bodyend="268"/>
+        <location file="rrRoadRunnerOptions.h" line="198" column="16" bodyfile="rrRoadRunnerOptions.cpp" bodystart="243" bodyend="246"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1LoadSBMLOptions_1ae7eb8e9235b38ece702c662b04da3734" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>std::vector&lt; std::string &gt;</type>
@@ -358,7 +358,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunnerOptions.h" line="203" column="21" bodyfile="rrRoadRunnerOptions.cpp" bodystart="270" bodyend="273"/>
+        <location file="rrRoadRunnerOptions.h" line="203" column="21" bodyfile="rrRoadRunnerOptions.cpp" bodystart="248" bodyend="251"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1LoadSBMLOptions_1a99b7bd04cd04619967e715e344fa956d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
         <type>bool</type>
@@ -418,7 +418,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunnerOptions.h" line="222" column="9" bodyfile="rrRoadRunnerOptions.cpp" bodystart="275" bodyend="277"/>
+        <location file="rrRoadRunnerOptions.h" line="222" column="9" bodyfile="rrRoadRunnerOptions.cpp" bodystart="253" bodyend="255"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-func">
@@ -433,7 +433,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunnerOptions.h" line="227" column="6" bodyfile="rrRoadRunnerOptions.cpp" bodystart="279" bodyend="327"/>
+        <location file="rrRoadRunnerOptions.h" line="227" column="6" bodyfile="rrRoadRunnerOptions.cpp" bodystart="257" bodyend="305"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -494,8 +494,8 @@
       <member refid="classrr_1_1LoadSBMLOptions_1a686f9d0515d333b1551f5afd2db39e2a" prot="public" virt="non-virtual"><scope>rr::LoadSBMLOptions</scope><name>LoadOpt</name></member>
       <member refid="classrr_1_1LoadSBMLOptions_1aa95998812baf41557f365fa6a6118db3" prot="public" virt="non-virtual"><scope>rr::LoadSBMLOptions</scope><name>LoadSBMLOptions</name></member>
       <member refid="classrr_1_1LoadSBMLOptions_1a16a0bc21e030a836579b2c1b9231b29a" prot="public" virt="non-virtual"><scope>rr::LoadSBMLOptions</scope><name>LoadSBMLOptions</name></member>
-      <member refid="classrr_1_1LoadSBMLOptions_1afea20bb329fec8f8ab45be9b0ab78661" prot="public" virt="non-virtual"><scope>rr::LoadSBMLOptions</scope><name>modelGeneratorOpt</name></member>
       <member refid="classrr_1_1LoadSBMLOptions_1a7b6ca6fc32892dbe782f3eb718762ad6" prot="public" virt="non-virtual"><scope>rr::LoadSBMLOptions</scope><name>ModelGeneratorOpt</name></member>
+      <member refid="classrr_1_1LoadSBMLOptions_1afea20bb329fec8f8ab45be9b0ab78661" prot="public" virt="non-virtual"><scope>rr::LoadSBMLOptions</scope><name>modelGeneratorOpt</name></member>
       <member refid="classrr_1_1LoadSBMLOptions_1a7b6ca6fc32892dbe782f3eb718762ad6aac3f87fdc0fe128777ff39245e179386" prot="public" virt="non-virtual"><scope>rr::LoadSBMLOptions</scope><name>MUTABLE_INITIAL_CONDITIONS</name></member>
       <member refid="classrr_1_1LoadSBMLOptions_1a686f9d0515d333b1551f5afd2db39e2aa8b896a0fb0b7b957c11d4624e96c728b" prot="public" virt="non-virtual"><scope>rr::LoadSBMLOptions</scope><name>NO_DEFAULT_SELECTIONS</name></member>
       <member refid="classrr_1_1LoadSBMLOptions_1a7b6ca6fc32892dbe782f3eb718762ad6ad53a6cbbe3215d196e9727e153535ef7" prot="public" virt="non-virtual"><scope>rr::LoadSBMLOptions</scope><name>OPTIMIZE</name></member>

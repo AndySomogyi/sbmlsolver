@@ -10,6 +10,16 @@
         <childnode refid="2" relation="include">
         </childnode>
       </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>rrExporter.h</label>
+        <link refid="rrExporter_8h_source"/>
+      </node>
+      <node id="3">
+        <label>exception</label>
+      </node>
       <node id="2">
         <label>rrException.h</label>
         <link refid="rrException_8h_source"/>
@@ -19,16 +29,6 @@
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
-      </node>
-      <node id="4">
-        <label>string</label>
-      </node>
-      <node id="3">
-        <label>exception</label>
-      </node>
-      <node id="5">
-        <label>rrExporter.h</label>
-        <link refid="rrExporter_8h_source"/>
       </node>
     </incdepgraph>
     <innernamespace refid="namespacerr">rr</innernamespace>

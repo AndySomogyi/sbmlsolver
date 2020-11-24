@@ -1,0 +1,225 @@
+\hypertarget{classrrllvm_1_1LLVMModelSymbols}{}\doxysection{rrllvm\+::L\+L\+V\+M\+Model\+Symbols Class Reference}
+\label{classrrllvm_1_1LLVMModelSymbols}\index{rrllvm::LLVMModelSymbols@{rrllvm::LLVMModelSymbols}}
+
+
+Hold all the un-\/evaluated symbolic inforamtion in the model.  
+
+
+
+
+{\ttfamily \#include $<$L\+L\+V\+M\+Model\+Symbols.\+h$>$}
+
+Inheritance diagram for rrllvm\+::L\+L\+V\+M\+Model\+Symbols\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classrrllvm_1_1LLVMModelSymbols}
+\end{center}
+\end{figure}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structrrllvm_1_1LLVMModelSymbols_1_1ReactionSymbols}{Reaction\+Symbols}}
+\begin{DoxyCompactList}\small\item\em hold the symbols that belong to a reactions. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classrrllvm_1_1LLVMModelSymbols_a9fda0c55204e8ffde65564b535be7bbb}\label{classrrllvm_1_1LLVMModelSymbols_a9fda0c55204e8ffde65564b535be7bbb}} 
+{\bfseries L\+L\+V\+M\+Model\+Symbols} (libsbml\+::\+Model const $\ast$m, \mbox{\hyperlink{classrrllvm_1_1LLVMModelDataSymbols}{L\+L\+V\+M\+Model\+Data\+Symbols}} const \&sym)
+\item 
+libsbml\+::\+A\+S\+T\+Node $\ast$ \mbox{\hyperlink{classrrllvm_1_1LLVMModelSymbols_a67637dde17c580f01ed1a54476e17e2b}{create\+Stoichiometry\+Node}} (int row, int col) const
+\begin{DoxyCompactList}\small\item\em create an A\+S\+T\+Node for the species id / reaction id pair. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classrrllvm_1_1LLVMModelSymbols_afaf501a34dd03317a49d5f3ba70839dd}\label{classrrllvm_1_1LLVMModelSymbols_afaf501a34dd03317a49d5f3ba70839dd}} 
+const \mbox{\hyperlink{classrrllvm_1_1SymbolForest}{Symbol\+Forest}} \& \mbox{\hyperlink{classrrllvm_1_1LLVMModelSymbols_afaf501a34dd03317a49d5f3ba70839dd}{get\+Assigment\+Rules}} () const
+\begin{DoxyCompactList}\small\item\em assignment rules are always active \end{DoxyCompactList}\item 
+const \mbox{\hyperlink{classrrllvm_1_1SymbolForest}{Symbol\+Forest}} \& \mbox{\hyperlink{classrrllvm_1_1LLVMModelSymbols_ad7d0e9e5abc92d6295a5f520436f54e6}{get\+Initial\+Assignment\+Rules}} () const
+\begin{DoxyCompactList}\small\item\em only valid before the model is started. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classrrllvm_1_1LLVMModelSymbols_a49316f650dfad2cd908e12d61d78be50}\label{classrrllvm_1_1LLVMModelSymbols_a49316f650dfad2cd908e12d61d78be50}} 
+const \mbox{\hyperlink{classrrllvm_1_1SymbolForest}{Symbol\+Forest}} \& \mbox{\hyperlink{classrrllvm_1_1LLVMModelSymbols_a49316f650dfad2cd908e12d61d78be50}{get\+Initial\+Values}} () const
+\begin{DoxyCompactList}\small\item\em contains the intial symbols along with the intial assignments which override the initial values. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classrrllvm_1_1LLVMModelSymbols_a386262795c9ce38df4cec2dec51f1104}\label{classrrllvm_1_1LLVMModelSymbols_a386262795c9ce38df4cec2dec51f1104}} 
+const \mbox{\hyperlink{classrrllvm_1_1SymbolForest}{Symbol\+Forest}} \& {\bfseries get\+Rate\+Rules} () const
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classrrllvm_1_1LLVMModelSymbols_aab332944da88f5c74e0b6dd11a7c98b1}\label{classrrllvm_1_1LLVMModelSymbols_aab332944da88f5c74e0b6dd11a7c98b1}} 
+enum {\bfseries Species\+Reference\+Type} \{ {\bfseries Reactant}, 
+{\bfseries Product}
+ \}
+\item 
+typedef std\+::list$<$ const libsbml\+::\+A\+S\+T\+Node $\ast$ $>$ \mbox{\hyperlink{classrrllvm_1_1LLVMModelSymbols_ab3fdc885f2f338870ddd18853a7ab825}{A\+S\+T\+Node\+List}}
+\begin{DoxyCompactList}\small\item\em a species can appear more than once in a reaction, there can be several stoichiometries for a species both as a product and as a reactant, for example, we could have \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classrrllvm_1_1LLVMModelSymbols_a346c6aa644b3297b1319a3f619bdfe9e}\label{classrrllvm_1_1LLVMModelSymbols_a346c6aa644b3297b1319a3f619bdfe9e}} 
+typedef std\+::map$<$ int, \mbox{\hyperlink{classrrllvm_1_1LLVMModelSymbols_ab3fdc885f2f338870ddd18853a7ab825}{A\+S\+T\+Node\+List}} $>$ \mbox{\hyperlink{classrrllvm_1_1LLVMModelSymbols_a346c6aa644b3297b1319a3f619bdfe9e}{Int\+A\+S\+T\+Node\+List\+Map}}
+\begin{DoxyCompactList}\small\item\em we reference the reactants and products by the species index \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classrrllvm_1_1LLVMModelSymbols_a1d24ecf7085ed6d7413963935913d140}\label{classrrllvm_1_1LLVMModelSymbols_a1d24ecf7085ed6d7413963935913d140}} 
+virtual bool {\bfseries visit} (const libsbml\+::\+Compartment \&x)
+\item 
+\mbox{\Hypertarget{classrrllvm_1_1LLVMModelSymbols_a3e98cee17cce98a3e09b31f683c5e2a5}\label{classrrllvm_1_1LLVMModelSymbols_a3e98cee17cce98a3e09b31f683c5e2a5}} 
+virtual bool {\bfseries visit} (const libsbml\+::\+Species \&x)
+\item 
+\mbox{\Hypertarget{classrrllvm_1_1LLVMModelSymbols_a402445cf2bacf7dd2acfe84b7af112c4}\label{classrrllvm_1_1LLVMModelSymbols_a402445cf2bacf7dd2acfe84b7af112c4}} 
+virtual bool {\bfseries visit} (const libsbml\+::\+Assignment\+Rule \&x)
+\item 
+virtual bool \mbox{\hyperlink{classrrllvm_1_1LLVMModelSymbols_a11942961af6c34d90fd7aa33ea2bc8e9}{visit}} (const libsbml\+::\+Initial\+Assignment \&x)
+\begin{DoxyCompactList}\small\item\em Initial\+Assignments override the initial value specified in the element definition. \end{DoxyCompactList}\item 
+virtual bool \mbox{\hyperlink{classrrllvm_1_1LLVMModelSymbols_ab49c19ac0832e343222276be67190bb4}{visit}} (const libsbml\+::\+Rate\+Rule \&rule)
+\item 
+\mbox{\Hypertarget{classrrllvm_1_1LLVMModelSymbols_a62c37bbb6a3226e32748383962e58a4c}\label{classrrllvm_1_1LLVMModelSymbols_a62c37bbb6a3226e32748383962e58a4c}} 
+virtual bool \mbox{\hyperlink{classrrllvm_1_1LLVMModelSymbols_a62c37bbb6a3226e32748383962e58a4c}{visit}} (const libsbml\+::\+Reaction \&x)
+\begin{DoxyCompactList}\small\item\em visit the reactions so we can get all the Species\+References and stuff them in the initial\+Conditions map. \end{DoxyCompactList}\item 
+virtual bool \mbox{\hyperlink{classrrllvm_1_1LLVMModelSymbols_a7a829d1b0ddfb1618c4d1536fd841bf9}{visit}} (const libsbml\+::\+Rule \&x)
+\begin{DoxyCompactList}\small\item\em tell the acceptor to process all rules, even the ones we don\textquotesingle{}t handle so the iteration continues over all rules. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classrrllvm_1_1LLVMModelSymbols_a9c6fb0b90d1ccd464919ac47031ebee8}\label{classrrllvm_1_1LLVMModelSymbols_a9c6fb0b90d1ccd464919ac47031ebee8}} 
+virtual bool \mbox{\hyperlink{classrrllvm_1_1LLVMModelSymbols_a9c6fb0b90d1ccd464919ac47031ebee8}{visit}} (const libsbml\+::\+Event \&event)
+\begin{DoxyCompactList}\small\item\em fatal error if we find these, event not supported yet \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classrrllvm_1_1LLVMModelSymbols_a1a77a8995e4fc70336da702e63c2d0f0}{process\+Element}} (\mbox{\hyperlink{classrrllvm_1_1SymbolForest}{Symbol\+Forest}} \&current\+Symbols, const libsbml\+::\+S\+Base $\ast$element, const libsbml\+::\+A\+S\+T\+Node $\ast$math)
+\begin{DoxyCompactList}\small\item\em The only differences in how initial\+Assigments and assignment\+Rules are handled is whether they are stuffed in the initial\+Assigment or assignment\+Rules maps. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classrrllvm_1_1LLVMModelSymbols_a0d6de412f4d409e3f5e70adaeecd4727}\label{classrrllvm_1_1LLVMModelSymbols_a0d6de412f4d409e3f5e70adaeecd4727}} 
+void \mbox{\hyperlink{classrrllvm_1_1LLVMModelSymbols_a0d6de412f4d409e3f5e70adaeecd4727}{process\+Species}} (\mbox{\hyperlink{classrrllvm_1_1SymbolForest}{Symbol\+Forest}} \&current\+Symbols, const libsbml\+::\+Species $\ast$element, const libsbml\+::\+A\+S\+T\+Node $\ast$math)
+\begin{DoxyCompactList}\small\item\em specialized logic to write both amounts and concentrations here. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classrrllvm_1_1LLVMModelSymbols_add3232506b1afb34e63e18ee4bf56466}\label{classrrllvm_1_1LLVMModelSymbols_add3232506b1afb34e63e18ee4bf56466}} 
+const libsbml\+::\+A\+S\+T\+Node $\ast$ \mbox{\hyperlink{classrrllvm_1_1LLVMModelSymbols_add3232506b1afb34e63e18ee4bf56466}{get\+Species\+Reference\+Stoich\+Math}} (const libsbml\+::\+Species\+Reference $\ast$reference)
+\begin{DoxyCompactList}\small\item\em get the Math\+ML element for a Species\+Reference if it is set, otherwise, create a A\+S\+T\+Node from its stoichiometry field. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classrrllvm_1_1LLVMModelSymbols_a1f4ad92a3ca40b064d3015c19b849617}\label{classrrllvm_1_1LLVMModelSymbols_a1f4ad92a3ca40b064d3015c19b849617}} 
+\mbox{\hyperlink{classrrllvm_1_1SymbolForest}{Symbol\+Forest}} {\bfseries initial\+Values}
+\item 
+\mbox{\Hypertarget{classrrllvm_1_1LLVMModelSymbols_aa336e77aebc8b9dd009048e1ce466146}\label{classrrllvm_1_1LLVMModelSymbols_aa336e77aebc8b9dd009048e1ce466146}} 
+\mbox{\hyperlink{classrrllvm_1_1SymbolForest}{Symbol\+Forest}} {\bfseries assignment\+Rules}
+\item 
+\mbox{\Hypertarget{classrrllvm_1_1LLVMModelSymbols_a4c6126d389448969bc819a7d489ed0f7}\label{classrrllvm_1_1LLVMModelSymbols_a4c6126d389448969bc819a7d489ed0f7}} 
+\mbox{\hyperlink{classrrllvm_1_1SymbolForest}{Symbol\+Forest}} {\bfseries initial\+Assignment\+Rules}
+\item 
+\mbox{\Hypertarget{classrrllvm_1_1LLVMModelSymbols_af0b6a5e622ade1443adb370af0c3fe0d}\label{classrrllvm_1_1LLVMModelSymbols_af0b6a5e622ade1443adb370af0c3fe0d}} 
+\mbox{\hyperlink{classrrllvm_1_1SymbolForest}{Symbol\+Forest}} {\bfseries rate\+Rules}
+\item 
+\mbox{\Hypertarget{classrrllvm_1_1LLVMModelSymbols_af6ee8336c24f1b548a08cb62465faf21}\label{classrrllvm_1_1LLVMModelSymbols_af6ee8336c24f1b548a08cb62465faf21}} 
+\mbox{\hyperlink{classrrllvm_1_1ASTNodeFactory}{A\+S\+T\+Node\+Factory}} \mbox{\hyperlink{classrrllvm_1_1LLVMModelSymbols_af6ee8336c24f1b548a08cb62465faf21}{nodes}}
+\begin{DoxyCompactList}\small\item\em all A\+S\+T\+Nodes we create are stored here. \end{DoxyCompactList}\item 
+std\+::vector$<$ \mbox{\hyperlink{structrrllvm_1_1LLVMModelSymbols_1_1ReactionSymbols}{Reaction\+Symbols}} $>$ \mbox{\hyperlink{classrrllvm_1_1LLVMModelSymbols_ac3d63fce05b0352af53d391871b6f5a8}{reactions}}
+\begin{DoxyCompactList}\small\item\em these are indexed by reaction index. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Hold all the un-\/evaluated symbolic inforamtion in the model. 
+
+T\+O\+DO\+: some real docs... 
+
+\doxysubsection{Member Typedef Documentation}
+\mbox{\Hypertarget{classrrllvm_1_1LLVMModelSymbols_ab3fdc885f2f338870ddd18853a7ab825}\label{classrrllvm_1_1LLVMModelSymbols_ab3fdc885f2f338870ddd18853a7ab825}} 
+\index{rrllvm::LLVMModelSymbols@{rrllvm::LLVMModelSymbols}!ASTNodeList@{ASTNodeList}}
+\index{ASTNodeList@{ASTNodeList}!rrllvm::LLVMModelSymbols@{rrllvm::LLVMModelSymbols}}
+\doxysubsubsection{\texorpdfstring{ASTNodeList}{ASTNodeList}}
+{\footnotesize\ttfamily typedef std\+::list$<$const libsbml\+::\+A\+S\+T\+Node$\ast$$>$ \mbox{\hyperlink{classrrllvm_1_1LLVMModelSymbols_ab3fdc885f2f338870ddd18853a7ab825}{rrllvm\+::\+L\+L\+V\+M\+Model\+Symbols\+::\+A\+S\+T\+Node\+List}}\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+a species can appear more than once in a reaction, there can be several stoichiometries for a species both as a product and as a reactant, for example, we could have 
+
+A + 2A + B -\/$>$ A + C
+
+In this case, we calculate the stochiometry for each species as S(\+A) = -\/1 -\/2 + 1 = -\/1 S(\+B) = -\/1 + 0 = -\/1 S(\+C) = 0 + 1 = 1
+
+Stochiometries can however change, so we have to delay evaluation of them -- if we have a named species reference, we add an A\+S\+T\+Node with a reference to it\+: this way, when it get evaluated, we can look up to see if we have any assigment rules or intitial assigments overriding the original value. each species has a list of stoichiometry nodes, this way it can appear more than once. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classrrllvm_1_1LLVMModelSymbols_a67637dde17c580f01ed1a54476e17e2b}\label{classrrllvm_1_1LLVMModelSymbols_a67637dde17c580f01ed1a54476e17e2b}} 
+\index{rrllvm::LLVMModelSymbols@{rrllvm::LLVMModelSymbols}!createStoichiometryNode@{createStoichiometryNode}}
+\index{createStoichiometryNode@{createStoichiometryNode}!rrllvm::LLVMModelSymbols@{rrllvm::LLVMModelSymbols}}
+\doxysubsubsection{\texorpdfstring{createStoichiometryNode()}{createStoichiometryNode()}}
+{\footnotesize\ttfamily A\+S\+T\+Node $\ast$ rrllvm\+::\+L\+L\+V\+M\+Model\+Symbols\+::create\+Stoichiometry\+Node (\begin{DoxyParamCaption}\item[{int}]{row,  }\item[{int}]{col }\end{DoxyParamCaption}) const}
+
+
+
+create an A\+S\+T\+Node for the species id / reaction id pair. 
+
+This assembles the mess of items stored in the reactions array. \mbox{\Hypertarget{classrrllvm_1_1LLVMModelSymbols_ad7d0e9e5abc92d6295a5f520436f54e6}\label{classrrllvm_1_1LLVMModelSymbols_ad7d0e9e5abc92d6295a5f520436f54e6}} 
+\index{rrllvm::LLVMModelSymbols@{rrllvm::LLVMModelSymbols}!getInitialAssignmentRules@{getInitialAssignmentRules}}
+\index{getInitialAssignmentRules@{getInitialAssignmentRules}!rrllvm::LLVMModelSymbols@{rrllvm::LLVMModelSymbols}}
+\doxysubsubsection{\texorpdfstring{getInitialAssignmentRules()}{getInitialAssignmentRules()}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{classrrllvm_1_1SymbolForest}{Symbol\+Forest}} \& rrllvm\+::\+L\+L\+V\+M\+Model\+Symbols\+::get\+Initial\+Assignment\+Rules (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+only valid before the model is started. 
+
+There cannot be both an Initial\+Assignment and an Assignment\+Rule for the same symbol in a model, because both kinds of constructs apply prior to and at the start of simulated time allowing both to exist for a given symbol would result in indeterminism.
+
+\textbackslash{}conservation\+: In the case of conserved moieties, these are species that are defined by assignment rules, they however can have initial values defined by initial value or assignment rules.
+
+So, at run time, the assignment rule is active, however before run time, the initial value or initial assignment rule is active. \mbox{\Hypertarget{classrrllvm_1_1LLVMModelSymbols_a1a77a8995e4fc70336da702e63c2d0f0}\label{classrrllvm_1_1LLVMModelSymbols_a1a77a8995e4fc70336da702e63c2d0f0}} 
+\index{rrllvm::LLVMModelSymbols@{rrllvm::LLVMModelSymbols}!processElement@{processElement}}
+\index{processElement@{processElement}!rrllvm::LLVMModelSymbols@{rrllvm::LLVMModelSymbols}}
+\doxysubsubsection{\texorpdfstring{processElement()}{processElement()}}
+{\footnotesize\ttfamily void rrllvm\+::\+L\+L\+V\+M\+Model\+Symbols\+::process\+Element (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classrrllvm_1_1SymbolForest}{Symbol\+Forest}} \&}]{current\+Symbols,  }\item[{const libsbml\+::\+S\+Base $\ast$}]{element,  }\item[{const libsbml\+::\+A\+S\+T\+Node $\ast$}]{math }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+The only differences in how initial\+Assigments and assignment\+Rules are handled is whether they are stuffed in the initial\+Assigment or assignment\+Rules maps. 
+
+This figures out what they refer to, and stuffs the A\+ST in the appropriate map. \mbox{\Hypertarget{classrrllvm_1_1LLVMModelSymbols_a11942961af6c34d90fd7aa33ea2bc8e9}\label{classrrllvm_1_1LLVMModelSymbols_a11942961af6c34d90fd7aa33ea2bc8e9}} 
+\index{rrllvm::LLVMModelSymbols@{rrllvm::LLVMModelSymbols}!visit@{visit}}
+\index{visit@{visit}!rrllvm::LLVMModelSymbols@{rrllvm::LLVMModelSymbols}}
+\doxysubsubsection{\texorpdfstring{visit()}{visit()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily bool rrllvm\+::\+L\+L\+V\+M\+Model\+Symbols\+::visit (\begin{DoxyParamCaption}\item[{const libsbml\+::\+Initial\+Assignment \&}]{x }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}
+
+
+
+Initial\+Assignments override the initial value specified in the element definition. 
+
+The actions of all Initial\+Assignment objects are in general terms the same, but differ in the precise details depending on the type of variable being set\+:
+
+
+\begin{DoxyItemize}
+\item In the case of a species, an Initial\+Assignment sets the referenced species initial quantity (concentration or amount) to the value determined by the formula in math. The unit associated with the value produced by the math formula should be equal to the unit associated with the species quantity.
+\item In the case of a species reference, an Initial\+Assignment sets the initial stoichiometry of the reactant or product referenced by the Species\+Reference object to the value determined by the formula in math. The unit associated with the value produced by the math formula should be consistent with the unit dimensionless, because reactant and product stoichiometries in reactions are dimensionless quantities.
+\item In the case of a compartment, an Initial\+Assignment sets the referenced compartment\textquotesingle{}s initial size to the size determined by the formula in math. The unit associated with the value produced by the math formula should be the same as that specified for the compartment\textquotesingle{}s size.
+\item In the case of a parameter, an Initial\+Assignment sets the parameter\textquotesingle{}s initial value to the value of the formula in math. The unit associated with the value produced by the math formula should be the same as parameter\textquotesingle{}s units attribute value. 
+\end{DoxyItemize}\mbox{\Hypertarget{classrrllvm_1_1LLVMModelSymbols_ab49c19ac0832e343222276be67190bb4}\label{classrrllvm_1_1LLVMModelSymbols_ab49c19ac0832e343222276be67190bb4}} 
+\index{rrllvm::LLVMModelSymbols@{rrllvm::LLVMModelSymbols}!visit@{visit}}
+\index{visit@{visit}!rrllvm::LLVMModelSymbols@{rrllvm::LLVMModelSymbols}}
+\doxysubsubsection{\texorpdfstring{visit()}{visit()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily bool rrllvm\+::\+L\+L\+V\+M\+Model\+Symbols\+::visit (\begin{DoxyParamCaption}\item[{const libsbml\+::\+Rate\+Rule \&}]{rule }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}
+
+
+\begin{DoxyItemize}
+\item In the case of a species, a Rate\+Rule sets the rate of change of the species{\ucr} quantity (concentration or amount) to the value determined by the formula in math. The unit associated with the rule{\ucr}s math element should be equal to the unit of the species{\ucr} quantity (Section 4.\+6.\+5) divided by the model-\/wide unit of time (Section 4.\+2.\+4), or in other words, \{unit of species quantity\}/\{unit of time\}.
+\item Restrictions\+: There must not be both a Rate\+Rule variable attribute and a Species\+Reference species attribute having the same value, unless that species has its boundary\+Condition attribute is set to {\ucr}true{\ucr}. This means a rate rule cannot be defined for a species that is created or destroyed in a reaction, unless that species is defined as a boundary condition in the model.
+\item In the case of a species reference, a Rate\+Rule sets the rate of change of the stoichiometry of the referenced reactant or product to the value determined by the formula in math. The unit associated with the value produced by the formula should be consistent with \{unit derived from dimensionless\}/\{unit of time\}.
+\item In the case of a compartment, a Rate\+Rule sets the rate of change of the compartment{\ucr}s size to the value determined by the formula in math. The unit of the rule{\ucr}s math element should be identical to the compartment{\ucr}s units attribute divided by the model-\/wide unit of time. (In other words, \{unit of compartment size\}/\{unit of time\}.)
+\item In the case of a parameter, a Rate\+Rule sets the rate of change of the parameter{\ucr}s value to that determined by the formula in math. The unit associated with the rule{\ucr}s math element should be equal to the parameter{\ucr}s units attribute value divided by the model-\/wide unit of time. (In other words, \{parameter units\}/\{unit of time\}.) 
+\end{DoxyItemize}\mbox{\Hypertarget{classrrllvm_1_1LLVMModelSymbols_a7a829d1b0ddfb1618c4d1536fd841bf9}\label{classrrllvm_1_1LLVMModelSymbols_a7a829d1b0ddfb1618c4d1536fd841bf9}} 
+\index{rrllvm::LLVMModelSymbols@{rrllvm::LLVMModelSymbols}!visit@{visit}}
+\index{visit@{visit}!rrllvm::LLVMModelSymbols@{rrllvm::LLVMModelSymbols}}
+\doxysubsubsection{\texorpdfstring{visit()}{visit()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily bool rrllvm\+::\+L\+L\+V\+M\+Model\+Symbols\+::visit (\begin{DoxyParamCaption}\item[{const libsbml\+::\+Rule \&}]{x }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}
+
+
+
+tell the acceptor to process all rules, even the ones we don\textquotesingle{}t handle so the iteration continues over all rules. 
+
+The left-\/hand side (the variable attribute) of an assignment rule can refer to the identifier of a Species, Species\+Reference, Compartment, or global Parameter object in the model (but not a reaction) 
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classrrllvm_1_1LLVMModelSymbols_ac3d63fce05b0352af53d391871b6f5a8}\label{classrrllvm_1_1LLVMModelSymbols_ac3d63fce05b0352af53d391871b6f5a8}} 
+\index{rrllvm::LLVMModelSymbols@{rrllvm::LLVMModelSymbols}!reactions@{reactions}}
+\index{reactions@{reactions}!rrllvm::LLVMModelSymbols@{rrllvm::LLVMModelSymbols}}
+\doxysubsubsection{\texorpdfstring{reactions}{reactions}}
+{\footnotesize\ttfamily std\+::vector$<$\mbox{\hyperlink{structrrllvm_1_1LLVMModelSymbols_1_1ReactionSymbols}{Reaction\+Symbols}}$>$ rrllvm\+::\+L\+L\+V\+M\+Model\+Symbols\+::reactions\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+these are indexed by reaction index. 
+
+the stoichiometry matrix is a N species x N reaction matrix. 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+llvm/L\+L\+V\+M\+Model\+Symbols.\+h\item 
+llvm/L\+L\+V\+M\+Model\+Symbols.\+cpp\end{DoxyCompactItemize}

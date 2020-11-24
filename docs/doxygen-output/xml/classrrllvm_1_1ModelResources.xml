@@ -1,0 +1,695 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+  <compounddef id="classrrllvm_1_1ModelResources" kind="class" language="C++" prot="public">
+    <compoundname>rrllvm::ModelResources</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classrrllvm_1_1ModelResources_1a9c6561f8bb57a983542c8dd36947c4e2" prot="public" static="no" mutable="no">
+        <type>const <ref refid="classrrllvm_1_1LLVMModelDataSymbols" kindref="compound">LLVMModelDataSymbols</ref> *</type>
+        <definition>const LLVMModelDataSymbols* rrllvm::ModelResources::symbols</definition>
+        <argsstring></argsstring>
+        <name>symbols</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ModelResources.h" line="26" column="32" bodyfile="llvm/ModelResources.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrrllvm_1_1ModelResources_1a34ba55a1519ddf7e7c957140c2b63e86" prot="public" static="no" mutable="no">
+        <type>llvm::LLVMContext *</type>
+        <definition>llvm::LLVMContext* rrllvm::ModelResources::context</definition>
+        <argsstring></argsstring>
+        <name>context</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ModelResources.h" line="27" column="23" bodyfile="llvm/ModelResources.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrrllvm_1_1ModelResources_1a7b94f0ac5d59063096a9bd33db01a951" prot="public" static="no" mutable="no">
+        <type>llvm::ExecutionEngine *</type>
+        <definition>llvm::ExecutionEngine* rrllvm::ModelResources::executionEngine</definition>
+        <argsstring></argsstring>
+        <name>executionEngine</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ModelResources.h" line="28" column="27" bodyfile="llvm/ModelResources.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrrllvm_1_1ModelResources_1a7a953baa21c70b52aa1c0f70590cfff0" prot="public" static="no" mutable="no">
+        <type>llvm::Module *</type>
+        <definition>llvm::Module* rrllvm::ModelResources::module</definition>
+        <argsstring></argsstring>
+        <name>module</name>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ModelResources.h" line="30" column="5" bodyfile="llvm/ModelResources.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrrllvm_1_1ModelResources_1aa60b4e78eca48fd1218eb35379c74bc6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string rrllvm::ModelResources::moduleStr</definition>
+        <argsstring></argsstring>
+        <name>moduleStr</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ModelResources.h" line="31" column="17" bodyfile="llvm/ModelResources.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrrllvm_1_1ModelResources_1ac2ff71061e3be2afee73da4b16da41a7" prot="public" static="no" mutable="no">
+        <type>const class <ref refid="classrr_1_1Random" kindref="compound">Random</ref> *</type>
+        <definition>const class Random* rrllvm::ModelResources::random</definition>
+        <argsstring></argsstring>
+        <name>random</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ModelResources.h" line="32" column="23" bodyfile="llvm/ModelResources.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrrllvm_1_1ModelResources_1a552755a601d193ae30e832e97c843961" prot="public" static="no" mutable="no">
+        <type>const std::string *</type>
+        <definition>const std::string* rrllvm::ModelResources::errStr</definition>
+        <argsstring></argsstring>
+        <name>errStr</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ModelResources.h" line="33" column="23" bodyfile="llvm/ModelResources.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrrllvm_1_1ModelResources_1a5f3830d6d842b4b95e5fe6774e3c501c" prot="public" static="no" mutable="no">
+        <type>EvalInitialConditionsCodeGen::FunctionPtr</type>
+        <definition>EvalInitialConditionsCodeGen::FunctionPtr rrllvm::ModelResources::evalInitialConditionsPtr</definition>
+        <argsstring></argsstring>
+        <name>evalInitialConditionsPtr</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ModelResources.h" line="35" column="47" bodyfile="llvm/ModelResources.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrrllvm_1_1ModelResources_1a7ff8cae308fed0a6d6d75697a6d27fd7" prot="public" static="no" mutable="no">
+        <type>EvalReactionRatesCodeGen::FunctionPtr</type>
+        <definition>EvalReactionRatesCodeGen::FunctionPtr rrllvm::ModelResources::evalReactionRatesPtr</definition>
+        <argsstring></argsstring>
+        <name>evalReactionRatesPtr</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ModelResources.h" line="36" column="43" bodyfile="llvm/ModelResources.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrrllvm_1_1ModelResources_1aca25e18b458fbb458901a6daf7846060" prot="public" static="no" mutable="no">
+        <type>GetBoundarySpeciesAmountCodeGen::FunctionPtr</type>
+        <definition>GetBoundarySpeciesAmountCodeGen::FunctionPtr rrllvm::ModelResources::getBoundarySpeciesAmountPtr</definition>
+        <argsstring></argsstring>
+        <name>getBoundarySpeciesAmountPtr</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ModelResources.h" line="37" column="50" bodyfile="llvm/ModelResources.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrrllvm_1_1ModelResources_1aa2860eb4be1e188030c050122b44862b" prot="public" static="no" mutable="no">
+        <type>GetFloatingSpeciesAmountCodeGen::FunctionPtr</type>
+        <definition>GetFloatingSpeciesAmountCodeGen::FunctionPtr rrllvm::ModelResources::getFloatingSpeciesAmountPtr</definition>
+        <argsstring></argsstring>
+        <name>getFloatingSpeciesAmountPtr</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ModelResources.h" line="38" column="50" bodyfile="llvm/ModelResources.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrrllvm_1_1ModelResources_1af22c4702d2b5e49ceb797bba28f0bf72" prot="public" static="no" mutable="no">
+        <type>GetBoundarySpeciesConcentrationCodeGen::FunctionPtr</type>
+        <definition>GetBoundarySpeciesConcentrationCodeGen::FunctionPtr rrllvm::ModelResources::getBoundarySpeciesConcentrationPtr</definition>
+        <argsstring></argsstring>
+        <name>getBoundarySpeciesConcentrationPtr</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ModelResources.h" line="39" column="57" bodyfile="llvm/ModelResources.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrrllvm_1_1ModelResources_1a1a67c9e9245f135ea8a24fab53c42cec" prot="public" static="no" mutable="no">
+        <type>GetFloatingSpeciesConcentrationCodeGen::FunctionPtr</type>
+        <definition>GetFloatingSpeciesConcentrationCodeGen::FunctionPtr rrllvm::ModelResources::getFloatingSpeciesConcentrationPtr</definition>
+        <argsstring></argsstring>
+        <name>getFloatingSpeciesConcentrationPtr</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ModelResources.h" line="40" column="57" bodyfile="llvm/ModelResources.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrrllvm_1_1ModelResources_1a608a12b7db052e0ba8f06e07f7800a3a" prot="public" static="no" mutable="no">
+        <type>GetCompartmentVolumeCodeGen::FunctionPtr</type>
+        <definition>GetCompartmentVolumeCodeGen::FunctionPtr rrllvm::ModelResources::getCompartmentVolumePtr</definition>
+        <argsstring></argsstring>
+        <name>getCompartmentVolumePtr</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ModelResources.h" line="41" column="46" bodyfile="llvm/ModelResources.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrrllvm_1_1ModelResources_1a6d8c40450de307d91347cd3b87010c7a" prot="public" static="no" mutable="no">
+        <type>GetGlobalParameterCodeGen::FunctionPtr</type>
+        <definition>GetGlobalParameterCodeGen::FunctionPtr rrllvm::ModelResources::getGlobalParameterPtr</definition>
+        <argsstring></argsstring>
+        <name>getGlobalParameterPtr</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ModelResources.h" line="42" column="44" bodyfile="llvm/ModelResources.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrrllvm_1_1ModelResources_1a57de0453be2cb9127070c15ec283b528" prot="public" static="no" mutable="no">
+        <type>EvalRateRuleRatesCodeGen::FunctionPtr</type>
+        <definition>EvalRateRuleRatesCodeGen::FunctionPtr rrllvm::ModelResources::evalRateRuleRatesPtr</definition>
+        <argsstring></argsstring>
+        <name>evalRateRuleRatesPtr</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ModelResources.h" line="43" column="43" bodyfile="llvm/ModelResources.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrrllvm_1_1ModelResources_1a3a976aaaa3f2d9c97e8c20413db1206b" prot="public" static="no" mutable="no">
+        <type>GetEventTriggerCodeGen::FunctionPtr</type>
+        <definition>GetEventTriggerCodeGen::FunctionPtr rrllvm::ModelResources::getEventTriggerPtr</definition>
+        <argsstring></argsstring>
+        <name>getEventTriggerPtr</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ModelResources.h" line="44" column="41" bodyfile="llvm/ModelResources.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrrllvm_1_1ModelResources_1a3cf25f5fe16203389597acbb2e24e810" prot="public" static="no" mutable="no">
+        <type>GetEventPriorityCodeGen::FunctionPtr</type>
+        <definition>GetEventPriorityCodeGen::FunctionPtr rrllvm::ModelResources::getEventPriorityPtr</definition>
+        <argsstring></argsstring>
+        <name>getEventPriorityPtr</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ModelResources.h" line="45" column="42" bodyfile="llvm/ModelResources.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrrllvm_1_1ModelResources_1a6ebf69ed4aed3ffce3196fe782d3dd31" prot="public" static="no" mutable="no">
+        <type>GetEventDelayCodeGen::FunctionPtr</type>
+        <definition>GetEventDelayCodeGen::FunctionPtr rrllvm::ModelResources::getEventDelayPtr</definition>
+        <argsstring></argsstring>
+        <name>getEventDelayPtr</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ModelResources.h" line="46" column="39" bodyfile="llvm/ModelResources.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrrllvm_1_1ModelResources_1a1ae6a797870ebf4d5072e91be8f742b2" prot="public" static="no" mutable="no">
+        <type>EventTriggerCodeGen::FunctionPtr</type>
+        <definition>EventTriggerCodeGen::FunctionPtr rrllvm::ModelResources::eventTriggerPtr</definition>
+        <argsstring></argsstring>
+        <name>eventTriggerPtr</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ModelResources.h" line="47" column="38" bodyfile="llvm/ModelResources.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrrllvm_1_1ModelResources_1a4b3112d29c8e6ed02cc051cfdddce8ad" prot="public" static="no" mutable="no">
+        <type>EventAssignCodeGen::FunctionPtr</type>
+        <definition>EventAssignCodeGen::FunctionPtr rrllvm::ModelResources::eventAssignPtr</definition>
+        <argsstring></argsstring>
+        <name>eventAssignPtr</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ModelResources.h" line="48" column="37" bodyfile="llvm/ModelResources.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrrllvm_1_1ModelResources_1ac821fc100eb931c8ea0f4347ba88457b" prot="public" static="no" mutable="no">
+        <type>EvalVolatileStoichCodeGen::FunctionPtr</type>
+        <definition>EvalVolatileStoichCodeGen::FunctionPtr rrllvm::ModelResources::evalVolatileStoichPtr</definition>
+        <argsstring></argsstring>
+        <name>evalVolatileStoichPtr</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ModelResources.h" line="49" column="44" bodyfile="llvm/ModelResources.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrrllvm_1_1ModelResources_1ad3ff41063e148491ff53555597057fe5" prot="public" static="no" mutable="no">
+        <type>EvalConversionFactorCodeGen::FunctionPtr</type>
+        <definition>EvalConversionFactorCodeGen::FunctionPtr rrllvm::ModelResources::evalConversionFactorPtr</definition>
+        <argsstring></argsstring>
+        <name>evalConversionFactorPtr</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ModelResources.h" line="50" column="46" bodyfile="llvm/ModelResources.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrrllvm_1_1ModelResources_1a13343f59a047e2e4dc3ce00024631938" prot="public" static="no" mutable="no">
+        <type>SetBoundarySpeciesAmountCodeGen::FunctionPtr</type>
+        <definition>SetBoundarySpeciesAmountCodeGen::FunctionPtr rrllvm::ModelResources::setBoundarySpeciesAmountPtr</definition>
+        <argsstring></argsstring>
+        <name>setBoundarySpeciesAmountPtr</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ModelResources.h" line="51" column="50" bodyfile="llvm/ModelResources.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrrllvm_1_1ModelResources_1ac09e1115086b5c785bf6cc4a21d4ec52" prot="public" static="no" mutable="no">
+        <type>SetFloatingSpeciesAmountCodeGen::FunctionPtr</type>
+        <definition>SetFloatingSpeciesAmountCodeGen::FunctionPtr rrllvm::ModelResources::setFloatingSpeciesAmountPtr</definition>
+        <argsstring></argsstring>
+        <name>setFloatingSpeciesAmountPtr</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ModelResources.h" line="52" column="50" bodyfile="llvm/ModelResources.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrrllvm_1_1ModelResources_1ac3569e00c8788d933461f9b19e7afb3e" prot="public" static="no" mutable="no">
+        <type>SetBoundarySpeciesConcentrationCodeGen::FunctionPtr</type>
+        <definition>SetBoundarySpeciesConcentrationCodeGen::FunctionPtr rrllvm::ModelResources::setBoundarySpeciesConcentrationPtr</definition>
+        <argsstring></argsstring>
+        <name>setBoundarySpeciesConcentrationPtr</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ModelResources.h" line="53" column="57" bodyfile="llvm/ModelResources.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrrllvm_1_1ModelResources_1a3f18ac4a8ecdf2fab4e163831a8c97df" prot="public" static="no" mutable="no">
+        <type>SetFloatingSpeciesConcentrationCodeGen::FunctionPtr</type>
+        <definition>SetFloatingSpeciesConcentrationCodeGen::FunctionPtr rrllvm::ModelResources::setFloatingSpeciesConcentrationPtr</definition>
+        <argsstring></argsstring>
+        <name>setFloatingSpeciesConcentrationPtr</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ModelResources.h" line="54" column="57" bodyfile="llvm/ModelResources.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrrllvm_1_1ModelResources_1a6e4d961a944d327da0940082d8185018" prot="public" static="no" mutable="no">
+        <type>SetCompartmentVolumeCodeGen::FunctionPtr</type>
+        <definition>SetCompartmentVolumeCodeGen::FunctionPtr rrllvm::ModelResources::setCompartmentVolumePtr</definition>
+        <argsstring></argsstring>
+        <name>setCompartmentVolumePtr</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ModelResources.h" line="55" column="46" bodyfile="llvm/ModelResources.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrrllvm_1_1ModelResources_1ad334e95682452c3b3536c78439addf6c" prot="public" static="no" mutable="no">
+        <type>SetGlobalParameterCodeGen::FunctionPtr</type>
+        <definition>SetGlobalParameterCodeGen::FunctionPtr rrllvm::ModelResources::setGlobalParameterPtr</definition>
+        <argsstring></argsstring>
+        <name>setGlobalParameterPtr</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ModelResources.h" line="56" column="44" bodyfile="llvm/ModelResources.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrrllvm_1_1ModelResources_1a0e45ca5c07579ce0a9c7ee809edbc350" prot="public" static="no" mutable="no">
+        <type>SetFloatingSpeciesInitConcentrationCodeGen::FunctionPtr</type>
+        <definition>SetFloatingSpeciesInitConcentrationCodeGen::FunctionPtr rrllvm::ModelResources::setFloatingSpeciesInitConcentrationsPtr</definition>
+        <argsstring></argsstring>
+        <name>setFloatingSpeciesInitConcentrationsPtr</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ModelResources.h" line="59" column="61" bodyfile="llvm/ModelResources.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrrllvm_1_1ModelResources_1aee7a0fe12d357491c15823a5eb21b5fb" prot="public" static="no" mutable="no">
+        <type>GetFloatingSpeciesInitConcentrationCodeGen::FunctionPtr</type>
+        <definition>GetFloatingSpeciesInitConcentrationCodeGen::FunctionPtr rrllvm::ModelResources::getFloatingSpeciesInitConcentrationsPtr</definition>
+        <argsstring></argsstring>
+        <name>getFloatingSpeciesInitConcentrationsPtr</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ModelResources.h" line="60" column="61" bodyfile="llvm/ModelResources.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrrllvm_1_1ModelResources_1a661a01ca2beacb761914156632201fcc" prot="public" static="no" mutable="no">
+        <type>SetFloatingSpeciesInitAmountCodeGen::FunctionPtr</type>
+        <definition>SetFloatingSpeciesInitAmountCodeGen::FunctionPtr rrllvm::ModelResources::setFloatingSpeciesInitAmountsPtr</definition>
+        <argsstring></argsstring>
+        <name>setFloatingSpeciesInitAmountsPtr</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ModelResources.h" line="62" column="54" bodyfile="llvm/ModelResources.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrrllvm_1_1ModelResources_1a223503d9c74372cbf3651c12f9203f03" prot="public" static="no" mutable="no">
+        <type>GetFloatingSpeciesInitAmountCodeGen::FunctionPtr</type>
+        <definition>GetFloatingSpeciesInitAmountCodeGen::FunctionPtr rrllvm::ModelResources::getFloatingSpeciesInitAmountsPtr</definition>
+        <argsstring></argsstring>
+        <name>getFloatingSpeciesInitAmountsPtr</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ModelResources.h" line="63" column="54" bodyfile="llvm/ModelResources.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrrllvm_1_1ModelResources_1a5148d7dceb8ff3c4910c0a18a7c62303" prot="public" static="no" mutable="no">
+        <type>GetCompartmentInitVolumeCodeGen::FunctionPtr</type>
+        <definition>GetCompartmentInitVolumeCodeGen::FunctionPtr rrllvm::ModelResources::getCompartmentInitVolumesPtr</definition>
+        <argsstring></argsstring>
+        <name>getCompartmentInitVolumesPtr</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ModelResources.h" line="65" column="50" bodyfile="llvm/ModelResources.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrrllvm_1_1ModelResources_1a5d94485fa11124bd1b53a6261cb4bf4a" prot="public" static="no" mutable="no">
+        <type>SetCompartmentInitVolumeCodeGen::FunctionPtr</type>
+        <definition>SetCompartmentInitVolumeCodeGen::FunctionPtr rrllvm::ModelResources::setCompartmentInitVolumesPtr</definition>
+        <argsstring></argsstring>
+        <name>setCompartmentInitVolumesPtr</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ModelResources.h" line="66" column="50" bodyfile="llvm/ModelResources.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrrllvm_1_1ModelResources_1ad0d73c5ea1f3a83f1878a1ea32a6380a" prot="public" static="no" mutable="no">
+        <type>GetGlobalParameterInitValueCodeGen::FunctionPtr</type>
+        <definition>GetGlobalParameterInitValueCodeGen::FunctionPtr rrllvm::ModelResources::getGlobalParameterInitValuePtr</definition>
+        <argsstring></argsstring>
+        <name>getGlobalParameterInitValuePtr</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ModelResources.h" line="68" column="53" bodyfile="llvm/ModelResources.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrrllvm_1_1ModelResources_1a1c590b87d1ffa56c0effddd12751a701" prot="public" static="no" mutable="no">
+        <type>SetGlobalParameterInitValueCodeGen::FunctionPtr</type>
+        <definition>SetGlobalParameterInitValueCodeGen::FunctionPtr rrllvm::ModelResources::setGlobalParameterInitValuePtr</definition>
+        <argsstring></argsstring>
+        <name>setGlobalParameterInitValuePtr</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ModelResources.h" line="69" column="53" bodyfile="llvm/ModelResources.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classrrllvm_1_1ModelResources_1a765d0c57e57d952bd07b3a7306f0c3f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>rrllvm::ModelResources::ModelResources</definition>
+        <argsstring>()</argsstring>
+        <name>ModelResources</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ModelResources.h" line="20" column="5" bodyfile="llvm/ModelResources.cpp" bodystart="46" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="classrrllvm_1_1ModelResources_1a792b30f01b124f43fc89ee0aae625d20" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>rrllvm::ModelResources::~ModelResources</definition>
+        <argsstring>()</argsstring>
+        <name>~ModelResources</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ModelResources.h" line="21" column="5" bodyfile="llvm/ModelResources.cpp" bodystart="54" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="classrrllvm_1_1ModelResources_1a553c3ea16596a73b08c428cc04566d50" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void rrllvm::ModelResources::saveState</definition>
+        <argsstring>(std::ostream &amp;out) const</argsstring>
+        <name>saveState</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ModelResources.h" line="23" column="6" bodyfile="llvm/ModelResources.cpp" bodystart="72" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="classrrllvm_1_1ModelResources_1a403d0c4e078a9ccd13c1c9bf3734220a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void rrllvm::ModelResources::loadState</definition>
+        <argsstring>(std::istream &amp;in, uint loadOpt)</argsstring>
+        <name>loadState</name>
+        <param>
+          <type>std::istream &amp;</type>
+          <declname>in</declname>
+        </param>
+        <param>
+          <type>uint</type>
+          <declname>loadOpt</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ModelResources.h" line="24" column="6" bodyfile="llvm/ModelResources.cpp" bodystart="204" bodyend="366"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="classrrllvm_1_1ModelResources_1a465d4287f9a2c4618061dde2f5393d20" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void rrllvm::ModelResources::addGlobalMapping</definition>
+        <argsstring>(std::string name, void *)</argsstring>
+        <name>addGlobalMapping</name>
+        <param>
+          <type>std::string</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <defname>addr</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ModelResources.h" line="71" column="6" bodyfile="llvm/ModelResources.cpp" bodystart="79" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classrrllvm_1_1ModelResources_1a62d38070889c85087166276ef30f25ed" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void rrllvm::ModelResources::addGlobalMappings</definition>
+        <argsstring>()</argsstring>
+        <name>addGlobalMappings</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ModelResources.h" line="72" column="6" bodyfile="llvm/ModelResources.cpp" bodystart="84" bodyend="201"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classrrllvm_1_1ModelResources_1a24ca4a9155f7a1783ec33add24e128c3" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>llvm::Function *</type>
+        <definition>static llvm::Function* rrllvm::ModelResources::createGlobalMappingFunction</definition>
+        <argsstring>(const char *funcName, llvm::FunctionType *funcType, llvm::Module *)</argsstring>
+        <name>createGlobalMappingFunction</name>
+        <param>
+          <type>const char *</type>
+          <declname>funcName</declname>
+        </param>
+        <param>
+          <type>llvm::FunctionType *</type>
+          <declname>funcType</declname>
+        </param>
+        <param>
+          <type>llvm::Module *</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ModelResources.h" line="73" column="23"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="4">
+        <label>rr::Random</label>
+        <link refid="classrr_1_1Random"/>
+      </node>
+      <node id="1">
+        <label>rrllvm::ModelResources</label>
+        <link refid="classrrllvm_1_1ModelResources"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>symbols</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>moduleStr</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>random</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="2">
+        <label>rrllvm::LLVMModelDataSymbols</label>
+        <link refid="classrrllvm_1_1LLVMModelDataSymbols"/>
+      </node>
+    </collaborationgraph>
+    <location file="llvm/ModelResources.h" line="17" column="1" bodyfile="llvm/ModelResources.h" bodystart="18" bodyend="74"/>
+    <listofallmembers>
+      <member refid="classrrllvm_1_1ModelResources_1a465d4287f9a2c4618061dde2f5393d20" prot="private" virt="non-virtual"><scope>rrllvm::ModelResources</scope><name>addGlobalMapping</name></member>
+      <member refid="classrrllvm_1_1ModelResources_1a62d38070889c85087166276ef30f25ed" prot="private" virt="non-virtual"><scope>rrllvm::ModelResources</scope><name>addGlobalMappings</name></member>
+      <member refid="classrrllvm_1_1ModelResources_1a34ba55a1519ddf7e7c957140c2b63e86" prot="public" virt="non-virtual"><scope>rrllvm::ModelResources</scope><name>context</name></member>
+      <member refid="classrrllvm_1_1ModelResources_1a24ca4a9155f7a1783ec33add24e128c3" prot="private" virt="non-virtual"><scope>rrllvm::ModelResources</scope><name>createGlobalMappingFunction</name></member>
+      <member refid="classrrllvm_1_1ModelResources_1a552755a601d193ae30e832e97c843961" prot="public" virt="non-virtual"><scope>rrllvm::ModelResources</scope><name>errStr</name></member>
+      <member refid="classrrllvm_1_1ModelResources_1ad3ff41063e148491ff53555597057fe5" prot="public" virt="non-virtual"><scope>rrllvm::ModelResources</scope><name>evalConversionFactorPtr</name></member>
+      <member refid="classrrllvm_1_1ModelResources_1a5f3830d6d842b4b95e5fe6774e3c501c" prot="public" virt="non-virtual"><scope>rrllvm::ModelResources</scope><name>evalInitialConditionsPtr</name></member>
+      <member refid="classrrllvm_1_1ModelResources_1a57de0453be2cb9127070c15ec283b528" prot="public" virt="non-virtual"><scope>rrllvm::ModelResources</scope><name>evalRateRuleRatesPtr</name></member>
+      <member refid="classrrllvm_1_1ModelResources_1a7ff8cae308fed0a6d6d75697a6d27fd7" prot="public" virt="non-virtual"><scope>rrllvm::ModelResources</scope><name>evalReactionRatesPtr</name></member>
+      <member refid="classrrllvm_1_1ModelResources_1ac821fc100eb931c8ea0f4347ba88457b" prot="public" virt="non-virtual"><scope>rrllvm::ModelResources</scope><name>evalVolatileStoichPtr</name></member>
+      <member refid="classrrllvm_1_1ModelResources_1a4b3112d29c8e6ed02cc051cfdddce8ad" prot="public" virt="non-virtual"><scope>rrllvm::ModelResources</scope><name>eventAssignPtr</name></member>
+      <member refid="classrrllvm_1_1ModelResources_1a1ae6a797870ebf4d5072e91be8f742b2" prot="public" virt="non-virtual"><scope>rrllvm::ModelResources</scope><name>eventTriggerPtr</name></member>
+      <member refid="classrrllvm_1_1ModelResources_1a7b94f0ac5d59063096a9bd33db01a951" prot="public" virt="non-virtual"><scope>rrllvm::ModelResources</scope><name>executionEngine</name></member>
+      <member refid="classrrllvm_1_1ModelResources_1aca25e18b458fbb458901a6daf7846060" prot="public" virt="non-virtual"><scope>rrllvm::ModelResources</scope><name>getBoundarySpeciesAmountPtr</name></member>
+      <member refid="classrrllvm_1_1ModelResources_1af22c4702d2b5e49ceb797bba28f0bf72" prot="public" virt="non-virtual"><scope>rrllvm::ModelResources</scope><name>getBoundarySpeciesConcentrationPtr</name></member>
+      <member refid="classrrllvm_1_1ModelResources_1a5148d7dceb8ff3c4910c0a18a7c62303" prot="public" virt="non-virtual"><scope>rrllvm::ModelResources</scope><name>getCompartmentInitVolumesPtr</name></member>
+      <member refid="classrrllvm_1_1ModelResources_1a608a12b7db052e0ba8f06e07f7800a3a" prot="public" virt="non-virtual"><scope>rrllvm::ModelResources</scope><name>getCompartmentVolumePtr</name></member>
+      <member refid="classrrllvm_1_1ModelResources_1a6ebf69ed4aed3ffce3196fe782d3dd31" prot="public" virt="non-virtual"><scope>rrllvm::ModelResources</scope><name>getEventDelayPtr</name></member>
+      <member refid="classrrllvm_1_1ModelResources_1a3cf25f5fe16203389597acbb2e24e810" prot="public" virt="non-virtual"><scope>rrllvm::ModelResources</scope><name>getEventPriorityPtr</name></member>
+      <member refid="classrrllvm_1_1ModelResources_1a3a976aaaa3f2d9c97e8c20413db1206b" prot="public" virt="non-virtual"><scope>rrllvm::ModelResources</scope><name>getEventTriggerPtr</name></member>
+      <member refid="classrrllvm_1_1ModelResources_1aa2860eb4be1e188030c050122b44862b" prot="public" virt="non-virtual"><scope>rrllvm::ModelResources</scope><name>getFloatingSpeciesAmountPtr</name></member>
+      <member refid="classrrllvm_1_1ModelResources_1a1a67c9e9245f135ea8a24fab53c42cec" prot="public" virt="non-virtual"><scope>rrllvm::ModelResources</scope><name>getFloatingSpeciesConcentrationPtr</name></member>
+      <member refid="classrrllvm_1_1ModelResources_1a223503d9c74372cbf3651c12f9203f03" prot="public" virt="non-virtual"><scope>rrllvm::ModelResources</scope><name>getFloatingSpeciesInitAmountsPtr</name></member>
+      <member refid="classrrllvm_1_1ModelResources_1aee7a0fe12d357491c15823a5eb21b5fb" prot="public" virt="non-virtual"><scope>rrllvm::ModelResources</scope><name>getFloatingSpeciesInitConcentrationsPtr</name></member>
+      <member refid="classrrllvm_1_1ModelResources_1ad0d73c5ea1f3a83f1878a1ea32a6380a" prot="public" virt="non-virtual"><scope>rrllvm::ModelResources</scope><name>getGlobalParameterInitValuePtr</name></member>
+      <member refid="classrrllvm_1_1ModelResources_1a6d8c40450de307d91347cd3b87010c7a" prot="public" virt="non-virtual"><scope>rrllvm::ModelResources</scope><name>getGlobalParameterPtr</name></member>
+      <member refid="classrrllvm_1_1ModelResources_1a403d0c4e078a9ccd13c1c9bf3734220a" prot="public" virt="non-virtual"><scope>rrllvm::ModelResources</scope><name>loadState</name></member>
+      <member refid="classrrllvm_1_1ModelResources_1a765d0c57e57d952bd07b3a7306f0c3f9" prot="public" virt="non-virtual"><scope>rrllvm::ModelResources</scope><name>ModelResources</name></member>
+      <member refid="classrrllvm_1_1ModelResources_1a7a953baa21c70b52aa1c0f70590cfff0" prot="public" virt="non-virtual"><scope>rrllvm::ModelResources</scope><name>module</name></member>
+      <member refid="classrrllvm_1_1ModelResources_1aa60b4e78eca48fd1218eb35379c74bc6" prot="public" virt="non-virtual"><scope>rrllvm::ModelResources</scope><name>moduleStr</name></member>
+      <member refid="classrrllvm_1_1ModelResources_1ac2ff71061e3be2afee73da4b16da41a7" prot="public" virt="non-virtual"><scope>rrllvm::ModelResources</scope><name>random</name></member>
+      <member refid="classrrllvm_1_1ModelResources_1a553c3ea16596a73b08c428cc04566d50" prot="public" virt="non-virtual"><scope>rrllvm::ModelResources</scope><name>saveState</name></member>
+      <member refid="classrrllvm_1_1ModelResources_1a13343f59a047e2e4dc3ce00024631938" prot="public" virt="non-virtual"><scope>rrllvm::ModelResources</scope><name>setBoundarySpeciesAmountPtr</name></member>
+      <member refid="classrrllvm_1_1ModelResources_1ac3569e00c8788d933461f9b19e7afb3e" prot="public" virt="non-virtual"><scope>rrllvm::ModelResources</scope><name>setBoundarySpeciesConcentrationPtr</name></member>
+      <member refid="classrrllvm_1_1ModelResources_1a5d94485fa11124bd1b53a6261cb4bf4a" prot="public" virt="non-virtual"><scope>rrllvm::ModelResources</scope><name>setCompartmentInitVolumesPtr</name></member>
+      <member refid="classrrllvm_1_1ModelResources_1a6e4d961a944d327da0940082d8185018" prot="public" virt="non-virtual"><scope>rrllvm::ModelResources</scope><name>setCompartmentVolumePtr</name></member>
+      <member refid="classrrllvm_1_1ModelResources_1ac09e1115086b5c785bf6cc4a21d4ec52" prot="public" virt="non-virtual"><scope>rrllvm::ModelResources</scope><name>setFloatingSpeciesAmountPtr</name></member>
+      <member refid="classrrllvm_1_1ModelResources_1a3f18ac4a8ecdf2fab4e163831a8c97df" prot="public" virt="non-virtual"><scope>rrllvm::ModelResources</scope><name>setFloatingSpeciesConcentrationPtr</name></member>
+      <member refid="classrrllvm_1_1ModelResources_1a661a01ca2beacb761914156632201fcc" prot="public" virt="non-virtual"><scope>rrllvm::ModelResources</scope><name>setFloatingSpeciesInitAmountsPtr</name></member>
+      <member refid="classrrllvm_1_1ModelResources_1a0e45ca5c07579ce0a9c7ee809edbc350" prot="public" virt="non-virtual"><scope>rrllvm::ModelResources</scope><name>setFloatingSpeciesInitConcentrationsPtr</name></member>
+      <member refid="classrrllvm_1_1ModelResources_1a1c590b87d1ffa56c0effddd12751a701" prot="public" virt="non-virtual"><scope>rrllvm::ModelResources</scope><name>setGlobalParameterInitValuePtr</name></member>
+      <member refid="classrrllvm_1_1ModelResources_1ad334e95682452c3b3536c78439addf6c" prot="public" virt="non-virtual"><scope>rrllvm::ModelResources</scope><name>setGlobalParameterPtr</name></member>
+      <member refid="classrrllvm_1_1ModelResources_1a9c6561f8bb57a983542c8dd36947c4e2" prot="public" virt="non-virtual"><scope>rrllvm::ModelResources</scope><name>symbols</name></member>
+      <member refid="classrrllvm_1_1ModelResources_1a792b30f01b124f43fc89ee0aae625d20" prot="public" virt="non-virtual"><scope>rrllvm::ModelResources</scope><name>~ModelResources</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

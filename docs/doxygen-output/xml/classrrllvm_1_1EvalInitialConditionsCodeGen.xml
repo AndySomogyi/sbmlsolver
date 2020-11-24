@@ -1,0 +1,353 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+  <compounddef id="classrrllvm_1_1EvalInitialConditionsCodeGen" kind="class" language="C++" prot="public">
+    <compoundname>rrllvm::EvalInitialConditionsCodeGen</compoundname>
+    <basecompoundref refid="classrrllvm_1_1CodeGenBase" prot="public" virt="non-virtual">rrllvm::CodeGenBase&lt; EvalInitialConditions_FunctionPtr &gt;</basecompoundref>
+    <includes refid="EvalInitialConditionsCodeGen_8h" local="no">EvalInitialConditionsCodeGen.h</includes>
+      <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classrrllvm_1_1EvalInitialConditionsCodeGen_1a290c1629505db0df270a64452d08b739" prot="public" static="no">
+        <type>EvalInitialConditions_FunctionPtr</type>
+        <definition>typedef EvalInitialConditions_FunctionPtr rrllvm::EvalInitialConditionsCodeGen::FunctionPtr</definition>
+        <argsstring></argsstring>
+        <name>FunctionPtr</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/EvalInitialConditionsCodeGen.h" line="45" column="47" bodyfile="llvm/EvalInitialConditionsCodeGen.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classrrllvm_1_1EvalInitialConditionsCodeGen_1a2b19d91b7199ebbd1074d4a411d3aa18" prot="public" static="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char * rrllvm::EvalInitialConditionsCodeGen::FunctionName</definition>
+        <argsstring></argsstring>
+        <name>FunctionName</name>
+        <initializer>= &quot;evalInitialConditions&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/EvalInitialConditionsCodeGen.h" line="44" column="23" bodyfile="llvm/EvalInitialConditionsCodeGen.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classrrllvm_1_1EvalInitialConditionsCodeGen_1a482fe1e5c2b08e75eb9f3f35d97cad86" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>rrllvm::EvalInitialConditionsCodeGen::EvalInitialConditionsCodeGen</definition>
+        <argsstring>(const ModelGeneratorContext &amp;mgc)</argsstring>
+        <name>EvalInitialConditionsCodeGen</name>
+        <param>
+          <type>const <ref refid="classrrllvm_1_1ModelGeneratorContext" kindref="compound">ModelGeneratorContext</ref> &amp;</type>
+          <declname>mgc</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/EvalInitialConditionsCodeGen.h" line="39" column="5" bodyfile="llvm/EvalInitialConditionsCodeGen.cpp" bodystart="34" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="classrrllvm_1_1EvalInitialConditionsCodeGen_1a1781d13ff9d77d1cfd5a3010a98d8796" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>rrllvm::EvalInitialConditionsCodeGen::~EvalInitialConditionsCodeGen</definition>
+        <argsstring>()</argsstring>
+        <name>~EvalInitialConditionsCodeGen</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/EvalInitialConditionsCodeGen.h" line="40" column="13" bodyfile="llvm/EvalInitialConditionsCodeGen.cpp" bodystart="40" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="classrrllvm_1_1EvalInitialConditionsCodeGen_1a2d19d6c49aa02ac8245ec69b561f18c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>llvm::Value *</type>
+        <definition>Value * rrllvm::EvalInitialConditionsCodeGen::codeGen</definition>
+        <argsstring>()</argsstring>
+        <name>codeGen</name>
+        <reimplements refid="classrrllvm_1_1CodeGenBase_1ac59757fb9d9fdb2f2d964a572c3bcae6">codeGen</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/EvalInitialConditionsCodeGen.h" line="42" column="17" bodyfile="llvm/EvalInitialConditionsCodeGen.cpp" bodystart="44" bodyend="131"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="classrrllvm_1_1EvalInitialConditionsCodeGen_1a474667183d4c759fd460b18979101c6a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void rrllvm::EvalInitialConditionsCodeGen::codeGenSpecies</definition>
+        <argsstring>(StoreSymbolResolver &amp;modelDataResolver, LoadSymbolResolver &amp;loadResolver)</argsstring>
+        <name>codeGenSpecies</name>
+        <param>
+          <type><ref refid="classrrllvm_1_1StoreSymbolResolver" kindref="compound">StoreSymbolResolver</ref> &amp;</type>
+          <declname>modelDataResolver</declname>
+        </param>
+        <param>
+          <type><ref refid="classrrllvm_1_1LoadSymbolResolver" kindref="compound">LoadSymbolResolver</ref> &amp;</type>
+          <declname>loadResolver</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/EvalInitialConditionsCodeGen.h" line="49" column="10" bodyfile="llvm/EvalInitialConditionsCodeGen.cpp" bodystart="133" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="classrrllvm_1_1EvalInitialConditionsCodeGen_1aa980b8ab660c0ffdfa82581e2ec9c57f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void rrllvm::EvalInitialConditionsCodeGen::codeGenStoichiometry</definition>
+        <argsstring>(llvm::Value *modelData, ModelDataStoreSymbolResolver &amp;modelDataResolver, LoadSymbolResolver &amp;initialValueResolver)</argsstring>
+        <name>codeGenStoichiometry</name>
+        <param>
+          <type>llvm::Value *</type>
+          <declname>modelData</declname>
+        </param>
+        <param>
+          <type><ref refid="classrrllvm_1_1ModelDataStoreSymbolResolver" kindref="compound">ModelDataStoreSymbolResolver</ref> &amp;</type>
+          <declname>modelDataResolver</declname>
+        </param>
+        <param>
+          <type><ref refid="classrrllvm_1_1LoadSymbolResolver" kindref="compound">LoadSymbolResolver</ref> &amp;</type>
+          <declname>initialValueResolver</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/EvalInitialConditionsCodeGen.h" line="52" column="10" bodyfile="llvm/EvalInitialConditionsCodeGen.cpp" bodystart="172" bodyend="225"/>
+      </memberdef>
+      <memberdef kind="function" id="classrrllvm_1_1EvalInitialConditionsCodeGen_1a65b018ac8e3738b43c752cb591893ef6" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void rrllvm::EvalInitialConditionsCodeGen::codeGenCompartments</definition>
+        <argsstring>(StoreSymbolResolver &amp;modelDataResolver, LoadSymbolResolver &amp;loadResolver)</argsstring>
+        <name>codeGenCompartments</name>
+        <param>
+          <type><ref refid="classrrllvm_1_1StoreSymbolResolver" kindref="compound">StoreSymbolResolver</ref> &amp;</type>
+          <declname>modelDataResolver</declname>
+        </param>
+        <param>
+          <type><ref refid="classrrllvm_1_1LoadSymbolResolver" kindref="compound">LoadSymbolResolver</ref> &amp;</type>
+          <declname>loadResolver</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/EvalInitialConditionsCodeGen.h" line="56" column="10" bodyfile="llvm/EvalInitialConditionsCodeGen.cpp" bodystart="227" bodyend="244"/>
+      </memberdef>
+      <memberdef kind="function" id="classrrllvm_1_1EvalInitialConditionsCodeGen_1a7b110b2cd8acdf2927292814104b83e4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void rrllvm::EvalInitialConditionsCodeGen::codeGenGlobalParameters</definition>
+        <argsstring>(StoreSymbolResolver &amp;modelDataResolver, LoadSymbolResolver &amp;loadResolver)</argsstring>
+        <name>codeGenGlobalParameters</name>
+        <param>
+          <type><ref refid="classrrllvm_1_1StoreSymbolResolver" kindref="compound">StoreSymbolResolver</ref> &amp;</type>
+          <declname>modelDataResolver</declname>
+        </param>
+        <param>
+          <type><ref refid="classrrllvm_1_1LoadSymbolResolver" kindref="compound">LoadSymbolResolver</ref> &amp;</type>
+          <declname>loadResolver</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/EvalInitialConditionsCodeGen.h" line="59" column="10" bodyfile="llvm/EvalInitialConditionsCodeGen.cpp" bodystart="287" bodyend="304"/>
+      </memberdef>
+      <memberdef kind="function" id="classrrllvm_1_1EvalInitialConditionsCodeGen_1a347c4b13ef04beda0f80c0b89321e0b9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void rrllvm::EvalInitialConditionsCodeGen::codeGenInitSpecies</definition>
+        <argsstring>(StoreSymbolResolver &amp;modelDataResolver, LoadSymbolResolver &amp;loadResolver)</argsstring>
+        <name>codeGenInitSpecies</name>
+        <param>
+          <type><ref refid="classrrllvm_1_1StoreSymbolResolver" kindref="compound">StoreSymbolResolver</ref> &amp;</type>
+          <declname>modelDataResolver</declname>
+        </param>
+        <param>
+          <type><ref refid="classrrllvm_1_1LoadSymbolResolver" kindref="compound">LoadSymbolResolver</ref> &amp;</type>
+          <declname>loadResolver</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/EvalInitialConditionsCodeGen.h" line="62" column="10" bodyfile="llvm/EvalInitialConditionsCodeGen.cpp" bodystart="265" bodyend="284"/>
+      </memberdef>
+      <memberdef kind="function" id="classrrllvm_1_1EvalInitialConditionsCodeGen_1afde4b1d4247cf41e10705611020daade" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void rrllvm::EvalInitialConditionsCodeGen::codeGenInitCompartments</definition>
+        <argsstring>(StoreSymbolResolver &amp;modelDataResolver, LoadSymbolResolver &amp;loadResolver)</argsstring>
+        <name>codeGenInitCompartments</name>
+        <param>
+          <type><ref refid="classrrllvm_1_1StoreSymbolResolver" kindref="compound">StoreSymbolResolver</ref> &amp;</type>
+          <declname>modelDataResolver</declname>
+        </param>
+        <param>
+          <type><ref refid="classrrllvm_1_1LoadSymbolResolver" kindref="compound">LoadSymbolResolver</ref> &amp;</type>
+          <declname>loadResolver</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/EvalInitialConditionsCodeGen.h" line="65" column="10" bodyfile="llvm/EvalInitialConditionsCodeGen.cpp" bodystart="246" bodyend="263"/>
+      </memberdef>
+      <memberdef kind="function" id="classrrllvm_1_1EvalInitialConditionsCodeGen_1ad46d8f252f1e2618848e58dd02ca5506" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void rrllvm::EvalInitialConditionsCodeGen::codeGenInitGlobalParameters</definition>
+        <argsstring>(StoreSymbolResolver &amp;modelDataResolver, LoadSymbolResolver &amp;loadResolver)</argsstring>
+        <name>codeGenInitGlobalParameters</name>
+        <param>
+          <type><ref refid="classrrllvm_1_1StoreSymbolResolver" kindref="compound">StoreSymbolResolver</ref> &amp;</type>
+          <declname>modelDataResolver</declname>
+        </param>
+        <param>
+          <type><ref refid="classrrllvm_1_1LoadSymbolResolver" kindref="compound">LoadSymbolResolver</ref> &amp;</type>
+          <declname>loadResolver</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/EvalInitialConditionsCodeGen.h" line="68" column="10" bodyfile="llvm/EvalInitialConditionsCodeGen.cpp" bodystart="306" bodyend="323"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Generates a function called &apos;modeldata_initialvalues_set&apos;, which evaluates all of the initial conditions specified in the sbml model (initial values, initial assigments, etc...) and stores these values in the appropriate fields in the <ref refid="structrrllvm_1_1LLVMModelData" kindref="compound">LLVMModelData</ref> structure. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>generated function signature: void modeldata_initialvalues_set(ModelData *); </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>rrllvm::EvalInitialConditionsCodeGen</label>
+        <link refid="classrrllvm_1_1EvalInitialConditionsCodeGen"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>rrllvm::CodeGenBase&lt; EvalInitialConditions_FunctionPtr &gt;</label>
+        <link refid="classrrllvm_1_1CodeGenBase"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>rrllvm::EvalInitialConditionsCodeGen</label>
+        <link refid="classrrllvm_1_1EvalInitialConditionsCodeGen"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>rrllvm::ASTNodeFactory</label>
+        <link refid="classrrllvm_1_1ASTNodeFactory"/>
+      </node>
+      <node id="3">
+        <label>rrllvm::LLVMModelSymbols</label>
+        <link refid="classrrllvm_1_1LLVMModelSymbols"/>
+        <childnode refid="4" relation="private-inheritance">
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>nodes</edgelabel>
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>assignmentRules</edgelabel>
+          <edgelabel>initialAssignmentRules</edgelabel>
+          <edgelabel>initialValues</edgelabel>
+          <edgelabel>rateRules</edgelabel>
+        </childnode>
+      </node>
+      <node id="9">
+        <label>rrllvm::ModelGeneratorContext</label>
+        <link refid="classrrllvm_1_1ModelGeneratorContext"/>
+      </node>
+      <node id="8">
+        <label>rrllvm::LLVMModelDataSymbols</label>
+        <link refid="classrrllvm_1_1LLVMModelDataSymbols"/>
+      </node>
+      <node id="2">
+        <label>rrllvm::CodeGenBase&lt; EvalInitialConditions_FunctionPtr &gt;</label>
+        <link refid="classrrllvm_1_1CodeGenBase"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>modelSymbols</edgelabel>
+        </childnode>
+        <childnode refid="8" relation="usage">
+          <edgelabel>dataSymbols</edgelabel>
+        </childnode>
+        <childnode refid="9" relation="usage">
+          <edgelabel>modelGenContext</edgelabel>
+        </childnode>
+      </node>
+      <node id="6">
+        <label>rrllvm::SymbolForest</label>
+        <link refid="classrrllvm_1_1SymbolForest"/>
+        <childnode refid="7" relation="usage">
+          <edgelabel>boundarySpecies</edgelabel>
+          <edgelabel>compartments</edgelabel>
+          <edgelabel>floatingSpecies</edgelabel>
+          <edgelabel>globalParameters</edgelabel>
+          <edgelabel>speciesReferences</edgelabel>
+        </childnode>
+      </node>
+      <node id="4">
+        <label>libsbml::SBMLVisitor</label>
+      </node>
+      <node id="7">
+        <label>map&lt; string, const libsbml::ASTNode * &gt;</label>
+      </node>
+    </collaborationgraph>
+    <location file="llvm/EvalInitialConditionsCodeGen.h" line="35" column="1" bodyfile="llvm/EvalInitialConditionsCodeGen.h" bodystart="37" bodyend="70"/>
+    <listofallmembers>
+      <member refid="classrrllvm_1_1CodeGenBase_1a36a54f70488b5dc597b63d51b6339793" prot="protected" virt="non-virtual"><scope>rrllvm::EvalInitialConditionsCodeGen</scope><name>builder</name></member>
+      <member refid="classrrllvm_1_1EvalInitialConditionsCodeGen_1a2d19d6c49aa02ac8245ec69b561f18c0" prot="public" virt="virtual"><scope>rrllvm::EvalInitialConditionsCodeGen</scope><name>codeGen</name></member>
+      <member refid="classrrllvm_1_1CodeGenBase_1a1c131daf92705152a6cf09d08c107c9a" prot="protected" virt="non-virtual"><scope>rrllvm::EvalInitialConditionsCodeGen</scope><name>CodeGenBase</name></member>
+      <member refid="classrrllvm_1_1EvalInitialConditionsCodeGen_1a65b018ac8e3738b43c752cb591893ef6" prot="private" virt="non-virtual"><scope>rrllvm::EvalInitialConditionsCodeGen</scope><name>codeGenCompartments</name></member>
+      <member refid="classrrllvm_1_1EvalInitialConditionsCodeGen_1a7b110b2cd8acdf2927292814104b83e4" prot="private" virt="non-virtual"><scope>rrllvm::EvalInitialConditionsCodeGen</scope><name>codeGenGlobalParameters</name></member>
+      <member refid="classrrllvm_1_1CodeGenBase_1a3a0717caee609a520643ae7c9a7e7d5d" prot="protected" virt="non-virtual"><scope>rrllvm::EvalInitialConditionsCodeGen</scope><name>codeGenHeader</name></member>
+      <member refid="classrrllvm_1_1EvalInitialConditionsCodeGen_1afde4b1d4247cf41e10705611020daade" prot="private" virt="non-virtual"><scope>rrllvm::EvalInitialConditionsCodeGen</scope><name>codeGenInitCompartments</name></member>
+      <member refid="classrrllvm_1_1EvalInitialConditionsCodeGen_1ad46d8f252f1e2618848e58dd02ca5506" prot="private" virt="non-virtual"><scope>rrllvm::EvalInitialConditionsCodeGen</scope><name>codeGenInitGlobalParameters</name></member>
+      <member refid="classrrllvm_1_1EvalInitialConditionsCodeGen_1a347c4b13ef04beda0f80c0b89321e0b9" prot="private" virt="non-virtual"><scope>rrllvm::EvalInitialConditionsCodeGen</scope><name>codeGenInitSpecies</name></member>
+      <member refid="classrrllvm_1_1EvalInitialConditionsCodeGen_1a474667183d4c759fd460b18979101c6a" prot="private" virt="non-virtual"><scope>rrllvm::EvalInitialConditionsCodeGen</scope><name>codeGenSpecies</name></member>
+      <member refid="classrrllvm_1_1EvalInitialConditionsCodeGen_1aa980b8ab660c0ffdfa82581e2ec9c57f" prot="private" virt="non-virtual"><scope>rrllvm::EvalInitialConditionsCodeGen</scope><name>codeGenStoichiometry</name></member>
+      <member refid="classrrllvm_1_1CodeGenBase_1a3fcef26eb9a2eecf5f7cf332f2b41d8b" prot="protected" virt="non-virtual"><scope>rrllvm::EvalInitialConditionsCodeGen</scope><name>codeGenVoidModelDataHeader</name></member>
+      <member refid="classrrllvm_1_1CodeGenBase_1a3eba81738ceb5e5fa7542b0862fac5d3" prot="protected" virt="non-virtual"><scope>rrllvm::EvalInitialConditionsCodeGen</scope><name>context</name></member>
+      <member refid="classrrllvm_1_1CodeGenBase_1aa1851ab17329f6a7854d4c7f9e230af9" prot="public" virt="non-virtual"><scope>rrllvm::EvalInitialConditionsCodeGen</scope><name>createFunction</name></member>
+      <member refid="classrrllvm_1_1CodeGenBase_1ae3d653d51c1ca5840b48d2ebcecbcbd5" prot="protected" virt="non-virtual"><scope>rrllvm::EvalInitialConditionsCodeGen</scope><name>dataSymbols</name></member>
+      <member refid="classrrllvm_1_1CodeGenBase_1adb6e61cddb19488b7b8352c7cb365cb8" prot="protected" virt="non-virtual"><scope>rrllvm::EvalInitialConditionsCodeGen</scope><name>engine</name></member>
+      <member refid="classrrllvm_1_1EvalInitialConditionsCodeGen_1a482fe1e5c2b08e75eb9f3f35d97cad86" prot="public" virt="non-virtual"><scope>rrllvm::EvalInitialConditionsCodeGen</scope><name>EvalInitialConditionsCodeGen</name></member>
+      <member refid="classrrllvm_1_1CodeGenBase_1a0020335232a3ac90dd100aea8a014291" prot="protected" virt="non-virtual"><scope>rrllvm::EvalInitialConditionsCodeGen</scope><name>function</name></member>
+      <member refid="classrrllvm_1_1EvalInitialConditionsCodeGen_1a2b19d91b7199ebbd1074d4a411d3aa18" prot="public" virt="non-virtual"><scope>rrllvm::EvalInitialConditionsCodeGen</scope><name>FunctionName</name></member>
+      <member refid="classrrllvm_1_1CodeGenBase_1addedde72248fde005bff3060843de531" prot="protected" virt="non-virtual"><scope>rrllvm::EvalInitialConditionsCodeGen</scope><name>functionPassManager</name></member>
+      <member refid="classrrllvm_1_1EvalInitialConditionsCodeGen_1a290c1629505db0df270a64452d08b739" prot="public" virt="non-virtual"><scope>rrllvm::EvalInitialConditionsCodeGen</scope><name>FunctionPtr</name></member>
+      <member refid="classrrllvm_1_1CodeGenBase_1afb6ef03ee896534cde79895141a8a666" prot="protected" virt="non-virtual"><scope>rrllvm::EvalInitialConditionsCodeGen</scope><name>model</name></member>
+      <member refid="classrrllvm_1_1CodeGenBase_1ab15bd110eca7b61396290deb400df94a" prot="protected" virt="non-virtual"><scope>rrllvm::EvalInitialConditionsCodeGen</scope><name>modelGenContext</name></member>
+      <member refid="classrrllvm_1_1CodeGenBase_1a76bc0630ead4ce14f0d09bad805da8e4" prot="protected" virt="non-virtual"><scope>rrllvm::EvalInitialConditionsCodeGen</scope><name>modelSymbols</name></member>
+      <member refid="classrrllvm_1_1CodeGenBase_1a9b4d2847b012317dd134feac72211b5c" prot="protected" virt="non-virtual"><scope>rrllvm::EvalInitialConditionsCodeGen</scope><name>module</name></member>
+      <member refid="classrrllvm_1_1CodeGenBase_1a747be8f3c35284547ad6f31b36736471" prot="protected" virt="non-virtual"><scope>rrllvm::EvalInitialConditionsCodeGen</scope><name>options</name></member>
+      <member refid="classrrllvm_1_1CodeGenBase_1ae2c5677c9b195984feb6c3a06aa801bd" prot="protected" virt="non-virtual"><scope>rrllvm::EvalInitialConditionsCodeGen</scope><name>verifyFunction</name></member>
+      <member refid="classrrllvm_1_1CodeGenBase_1a8552beca29efafd91e21bc2b043ae568" prot="protected" virt="virtual"><scope>rrllvm::EvalInitialConditionsCodeGen</scope><name>~CodeGenBase</name></member>
+      <member refid="classrrllvm_1_1EvalInitialConditionsCodeGen_1a1781d13ff9d77d1cfd5a3010a98d8796" prot="public" virt="virtual"><scope>rrllvm::EvalInitialConditionsCodeGen</scope><name>~EvalInitialConditionsCodeGen</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

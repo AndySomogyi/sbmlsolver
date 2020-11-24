@@ -1,0 +1,258 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+  <compounddef id="classrrllvm_1_1LLVMModelDataIRBuilderTesting" kind="class" language="C++" prot="public">
+    <compoundname>rrllvm::LLVMModelDataIRBuilderTesting</compoundname>
+    <includes refid="ModelDataIRBuilder_8h" local="no">ModelDataIRBuilder.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classrrllvm_1_1LLVMModelDataIRBuilderTesting_1a6df58983509191024a7db828fcede090" prot="public" static="no" mutable="no">
+        <type>llvm::IRBuilder &amp;</type>
+        <definition>llvm::IRBuilder&amp; rrllvm::LLVMModelDataIRBuilderTesting::builder</definition>
+        <argsstring></argsstring>
+        <name>builder</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ModelDataIRBuilder.h" line="377" column="6" bodyfile="llvm/ModelDataIRBuilder.h" bodystart="377" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrrllvm_1_1LLVMModelDataIRBuilderTesting_1ae521bb132b3656a4ec8b8c9943fef80d" prot="public" static="no" mutable="no">
+        <type><ref refid="classrrllvm_1_1LLVMModelDataSymbols" kindref="compound">LLVMModelDataSymbols</ref> const  &amp;</type>
+        <definition>LLVMModelDataSymbols const&amp; rrllvm::LLVMModelDataIRBuilderTesting::symbols</definition>
+        <argsstring></argsstring>
+        <name>symbols</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ModelDataIRBuilder.h" line="379" column="32" bodyfile="llvm/ModelDataIRBuilder.h" bodystart="379" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classrrllvm_1_1LLVMModelDataIRBuilderTesting_1a54f75235394949aaf6204fc3051d42c7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>rrllvm::LLVMModelDataIRBuilderTesting::LLVMModelDataIRBuilderTesting</definition>
+        <argsstring>(LLVMModelDataSymbols const &amp;, llvm::IRBuilder&lt;&gt; &amp;)</argsstring>
+        <name>LLVMModelDataIRBuilderTesting</name>
+        <param>
+          <type><ref refid="classrrllvm_1_1LLVMModelDataSymbols" kindref="compound">LLVMModelDataSymbols</ref> const &amp;</type>
+          <defname>symbols</defname>
+        </param>
+        <param>
+          <type>llvm::IRBuilder&lt;&gt; &amp;</type>
+          <defname>b</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ModelDataIRBuilder.h" line="351" column="5" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="754" bodyend="759"/>
+      </memberdef>
+      <memberdef kind="function" id="classrrllvm_1_1LLVMModelDataIRBuilderTesting_1ae836f10c8517191839751f68f2dadbcd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void rrllvm::LLVMModelDataIRBuilderTesting::createAccessors</definition>
+        <argsstring>(llvm::Module *module)</argsstring>
+        <name>createAccessors</name>
+        <param>
+          <type>llvm::Module *</type>
+          <declname>module</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ModelDataIRBuilder.h" line="356" column="10" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="762" bodyend="801"/>
+      </memberdef>
+      <memberdef kind="function" id="classrrllvm_1_1LLVMModelDataIRBuilderTesting_1af8f75fddd60e6c3619ffdd11ebef139e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; llvm::Function *, llvm::Function * &gt;</type>
+        <definition>pair&lt; Function *, Function * &gt; rrllvm::LLVMModelDataIRBuilderTesting::createFloatingSpeciesAccessors</definition>
+        <argsstring>(llvm::Module *module, const std::string id)</argsstring>
+        <name>createFloatingSpeciesAccessors</name>
+        <param>
+          <type>llvm::Module *</type>
+          <declname>module</declname>
+        </param>
+        <param>
+          <type>const std::string</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ModelDataIRBuilder.h" line="358" column="15" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="819" bodyend="895"/>
+      </memberdef>
+      <memberdef kind="function" id="classrrllvm_1_1LLVMModelDataIRBuilderTesting_1a3acf1c33d7c1db89eff672ea72294a7e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void rrllvm::LLVMModelDataIRBuilderTesting::test</definition>
+        <argsstring>(llvm::Module *module, llvm::IRBuilder&lt;&gt; *build, llvm::ExecutionEngine *engine)</argsstring>
+        <name>test</name>
+        <param>
+          <type>llvm::Module *</type>
+          <declname>module</declname>
+        </param>
+        <param>
+          <type>llvm::IRBuilder&lt;&gt; *</type>
+          <declname>build</declname>
+        </param>
+        <param>
+          <type>llvm::ExecutionEngine *</type>
+          <declname>engine</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ModelDataIRBuilder.h" line="361" column="10" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="936" bodyend="973"/>
+      </memberdef>
+      <memberdef kind="function" id="classrrllvm_1_1LLVMModelDataIRBuilderTesting_1ac1e3994a80caf7abc90ca954ae837e97" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>llvm::CallInst *</type>
+        <definition>llvm::CallInst * rrllvm::LLVMModelDataIRBuilderTesting::createDispInt</definition>
+        <argsstring>(llvm::Value *intVal)</argsstring>
+        <name>createDispInt</name>
+        <param>
+          <type>llvm::Value *</type>
+          <declname>intVal</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ModelDataIRBuilder.h" line="366" column="20" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="813" bodyend="816"/>
+      </memberdef>
+      <memberdef kind="function" id="classrrllvm_1_1LLVMModelDataIRBuilderTesting_1a5c507ec16d3aa0a1b5dede938dd27c03" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>llvm::CallInst *</type>
+        <definition>llvm::CallInst * rrllvm::LLVMModelDataIRBuilderTesting::createDispDouble</definition>
+        <argsstring>(llvm::Value *doubleVal)</argsstring>
+        <name>createDispDouble</name>
+        <param>
+          <type>llvm::Value *</type>
+          <declname>doubleVal</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ModelDataIRBuilder.h" line="369" column="20" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="808" bodyend="811"/>
+      </memberdef>
+      <memberdef kind="function" id="classrrllvm_1_1LLVMModelDataIRBuilderTesting_1a975a612ff0296de6e17b058ea60b4761" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>llvm::CallInst *</type>
+        <definition>llvm::CallInst * rrllvm::LLVMModelDataIRBuilderTesting::createDispChar</definition>
+        <argsstring>(llvm::Value *doubleVal)</argsstring>
+        <name>createDispChar</name>
+        <param>
+          <type>llvm::Value *</type>
+          <declname>doubleVal</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ModelDataIRBuilder.h" line="372" column="20" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="803" bodyend="806"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classrrllvm_1_1LLVMModelDataIRBuilderTesting_1a44c59e036bcd2f7dd352af7740de31db" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>llvm::Function *</type>
+        <definition>llvm::Function * rrllvm::LLVMModelDataIRBuilderTesting::getDispIntDecl</definition>
+        <argsstring>(llvm::Module *module)</argsstring>
+        <name>getDispIntDecl</name>
+        <param>
+          <type>llvm::Module *</type>
+          <declname>module</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ModelDataIRBuilder.h" line="365" column="27" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="922" bodyend="931"/>
+      </memberdef>
+      <memberdef kind="function" id="classrrllvm_1_1LLVMModelDataIRBuilderTesting_1a6f12d1ee07dc74ee42812122b7548154" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>llvm::Function *</type>
+        <definition>llvm::Function * rrllvm::LLVMModelDataIRBuilderTesting::getDispDoubleDecl</definition>
+        <argsstring>(llvm::Module *module)</argsstring>
+        <name>getDispDoubleDecl</name>
+        <param>
+          <type>llvm::Module *</type>
+          <declname>module</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ModelDataIRBuilder.h" line="368" column="27" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="910" bodyend="919"/>
+      </memberdef>
+      <memberdef kind="function" id="classrrllvm_1_1LLVMModelDataIRBuilderTesting_1a5c7f0c6e2c739d3a5cc3ef07d3d68605" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>llvm::Function *</type>
+        <definition>llvm::Function * rrllvm::LLVMModelDataIRBuilderTesting::getDispCharDecl</definition>
+        <argsstring>(llvm::Module *module)</argsstring>
+        <name>getDispCharDecl</name>
+        <param>
+          <type>llvm::Module *</type>
+          <declname>module</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ModelDataIRBuilder.h" line="371" column="27" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="897" bodyend="906"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>testing class </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>rrllvm::LLVMModelDataIRBuilderTesting</label>
+        <link refid="classrrllvm_1_1LLVMModelDataIRBuilderTesting"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>symbols</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>rrllvm::LLVMModelDataSymbols</label>
+        <link refid="classrrllvm_1_1LLVMModelDataSymbols"/>
+      </node>
+    </collaborationgraph>
+    <location file="llvm/ModelDataIRBuilder.h" line="347" column="1" bodyfile="llvm/ModelDataIRBuilder.h" bodystart="348" bodyend="380"/>
+    <listofallmembers>
+      <member refid="classrrllvm_1_1LLVMModelDataIRBuilderTesting_1a6df58983509191024a7db828fcede090" prot="public" virt="non-virtual"><scope>rrllvm::LLVMModelDataIRBuilderTesting</scope><name>builder</name></member>
+      <member refid="classrrllvm_1_1LLVMModelDataIRBuilderTesting_1ae836f10c8517191839751f68f2dadbcd" prot="public" virt="non-virtual"><scope>rrllvm::LLVMModelDataIRBuilderTesting</scope><name>createAccessors</name></member>
+      <member refid="classrrllvm_1_1LLVMModelDataIRBuilderTesting_1a975a612ff0296de6e17b058ea60b4761" prot="public" virt="non-virtual"><scope>rrllvm::LLVMModelDataIRBuilderTesting</scope><name>createDispChar</name></member>
+      <member refid="classrrllvm_1_1LLVMModelDataIRBuilderTesting_1a5c507ec16d3aa0a1b5dede938dd27c03" prot="public" virt="non-virtual"><scope>rrllvm::LLVMModelDataIRBuilderTesting</scope><name>createDispDouble</name></member>
+      <member refid="classrrllvm_1_1LLVMModelDataIRBuilderTesting_1ac1e3994a80caf7abc90ca954ae837e97" prot="public" virt="non-virtual"><scope>rrllvm::LLVMModelDataIRBuilderTesting</scope><name>createDispInt</name></member>
+      <member refid="classrrllvm_1_1LLVMModelDataIRBuilderTesting_1af8f75fddd60e6c3619ffdd11ebef139e" prot="public" virt="non-virtual"><scope>rrllvm::LLVMModelDataIRBuilderTesting</scope><name>createFloatingSpeciesAccessors</name></member>
+      <member refid="classrrllvm_1_1LLVMModelDataIRBuilderTesting_1a5c7f0c6e2c739d3a5cc3ef07d3d68605" prot="public" virt="non-virtual"><scope>rrllvm::LLVMModelDataIRBuilderTesting</scope><name>getDispCharDecl</name></member>
+      <member refid="classrrllvm_1_1LLVMModelDataIRBuilderTesting_1a6f12d1ee07dc74ee42812122b7548154" prot="public" virt="non-virtual"><scope>rrllvm::LLVMModelDataIRBuilderTesting</scope><name>getDispDoubleDecl</name></member>
+      <member refid="classrrllvm_1_1LLVMModelDataIRBuilderTesting_1a44c59e036bcd2f7dd352af7740de31db" prot="public" virt="non-virtual"><scope>rrllvm::LLVMModelDataIRBuilderTesting</scope><name>getDispIntDecl</name></member>
+      <member refid="classrrllvm_1_1LLVMModelDataIRBuilderTesting_1a54f75235394949aaf6204fc3051d42c7" prot="public" virt="non-virtual"><scope>rrllvm::LLVMModelDataIRBuilderTesting</scope><name>LLVMModelDataIRBuilderTesting</name></member>
+      <member refid="classrrllvm_1_1LLVMModelDataIRBuilderTesting_1ae521bb132b3656a4ec8b8c9943fef80d" prot="public" virt="non-virtual"><scope>rrllvm::LLVMModelDataIRBuilderTesting</scope><name>symbols</name></member>
+      <member refid="classrrllvm_1_1LLVMModelDataIRBuilderTesting_1a3acf1c33d7c1db89eff672ea72294a7e" prot="public" virt="non-virtual"><scope>rrllvm::LLVMModelDataIRBuilderTesting</scope><name>test</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -3,6 +3,12 @@
   <compounddef id="namespacerr" kind="namespace" language="C++">
     <compoundname>rr</compoundname>
     <innerclass refid="classrr_1_1BasicDictionary" prot="public">rr::BasicDictionary</innerclass>
+    <innerclass refid="classrr_1_1CCompiler" prot="public">rr::CCompiler</innerclass>
+    <innerclass refid="classrr_1_1CModelGenerator" prot="public">rr::CModelGenerator</innerclass>
+    <innerclass refid="classrr_1_1CodeBuilder" prot="public">rr::CodeBuilder</innerclass>
+    <innerclass refid="classrr_1_1CompiledExecutableModel" prot="public">rr::CompiledExecutableModel</innerclass>
+    <innerclass refid="classrr_1_1CompiledModelGenerator" prot="public">rr::CompiledModelGenerator</innerclass>
+    <innerclass refid="classrr_1_1CompiledModelState" prot="public">rr::CompiledModelState</innerclass>
     <innerclass refid="classrr_1_1Compiler" prot="public">rr::Compiler</innerclass>
     <innerclass refid="classrr_1_1Config" prot="public">rr::Config</innerclass>
     <innerclass refid="classrr_1_1CoreException" prot="public">rr::CoreException</innerclass>
@@ -13,6 +19,7 @@
     <innerclass refid="classrr_1_1Dictionary" prot="public">rr::Dictionary</innerclass>
     <innerclass refid="classrr_1_1EulerIntegrator" prot="public">rr::EulerIntegrator</innerclass>
     <innerclass refid="classrr_1_1EulerIntegratorRegistrar" prot="public">rr::EulerIntegratorRegistrar</innerclass>
+    <innerclass refid="classrr_1_1Event" prot="public">rr::Event</innerclass>
     <innerclass refid="classrr_1_1EventListener" prot="public">rr::EventListener</innerclass>
     <innerclass refid="classrr_1_1EventListenerException" prot="public">rr::EventListenerException</innerclass>
     <innerclass refid="classrr_1_1Exception" prot="public">rr::Exception</innerclass>
@@ -30,10 +37,13 @@
     <innerclass refid="classrr_1_1IntegratorListener" prot="public">rr::IntegratorListener</innerclass>
     <innerclass refid="classrr_1_1IntegratorRegistrar" prot="public">rr::IntegratorRegistrar</innerclass>
     <innerclass refid="classrr_1_1IntegratorRegistrationMgr" prot="public">rr::IntegratorRegistrationMgr</innerclass>
+    <innerclass refid="classrr_1_1IntStringHashTable" prot="public">rr::IntStringHashTable</innerclass>
     <innerclass refid="classrr_1_1InvalidKeyException" prot="public">rr::InvalidKeyException</innerclass>
     <innerclass refid="classrr_1_1LoadSBMLOptions" prot="public">rr::LoadSBMLOptions</innerclass>
     <innerclass refid="classrr_1_1Logger" prot="public">rr::Logger</innerclass>
     <innerclass refid="classrr_1_1LoggingBuffer" prot="public">rr::LoggingBuffer</innerclass>
+    <innerclass refid="classrr_1_1ModelSharedLibrary" prot="public">rr::ModelSharedLibrary</innerclass>
+    <innerclass refid="classrr_1_1ModelSymbols" prot="public">rr::ModelSymbols</innerclass>
     <innerclass refid="classrr_1_1NLEQ1Interface" prot="public">rr::NLEQ1Interface</innerclass>
     <innerclass refid="classrr_1_1NLEQ1Solver" prot="public">rr::NLEQ1Solver</innerclass>
     <innerclass refid="classrr_1_1NLEQ1SolverRegistrar" prot="public">rr::NLEQ1SolverRegistrar</innerclass>
@@ -42,7 +52,10 @@
     <innerclass refid="classrr_1_1NLEQ2SolverRegistrar" prot="public">rr::NLEQ2SolverRegistrar</innerclass>
     <innerclass refid="classrr_1_1NLEQException" prot="public">rr::NLEQException</innerclass>
     <innerclass refid="classrr_1_1NOMException" prot="public">rr::NOMException</innerclass>
+    <innerclass refid="classrr_1_1NOMSupport" prot="public">rr::NOMSupport</innerclass>
     <innerclass refid="classrr_1_1NotImplementedException" prot="public">rr::NotImplementedException</innerclass>
+    <innerclass refid="classrr_1_1PendingAssignment" prot="public">rr::PendingAssignment</innerclass>
+    <innerclass refid="classrr_1_1Random" prot="public">rr::Random</innerclass>
     <innerclass refid="classrr_1_1RK45Integrator" prot="public">rr::RK45Integrator</innerclass>
     <innerclass refid="classrr_1_1RK45IntegratorRegistrar" prot="public">rr::RK45IntegratorRegistrar</innerclass>
     <innerclass refid="classrr_1_1RK4Integrator" prot="public">rr::RK4Integrator</innerclass>
@@ -51,23 +64,38 @@
     <innerclass refid="classrr_1_1RoadRunnerData" prot="public">rr::RoadRunnerData</innerclass>
     <innerclass refid="classrr_1_1RoadRunnerImpl" prot="public">rr::RoadRunnerImpl</innerclass>
     <innerclass refid="structrr_1_1RoadRunnerOptions" prot="public">rr::RoadRunnerOptions</innerclass>
+    <innerclass refid="classrr_1_1RRRule" prot="public">rr::RRRule</innerclass>
     <innerclass refid="structrr_1_1rrSteadyStateOptions" prot="public">rr::rrSteadyStateOptions</innerclass>
     <innerclass refid="classrr_1_1rrSteadyStateSolver" prot="public">rr::rrSteadyStateSolver</innerclass>
     <innerclass refid="classrr_1_1SBMLModelSimulation" prot="public">rr::SBMLModelSimulation</innerclass>
     <innerclass refid="classrr_1_1SBMLReader" prot="public">rr::SBMLReader</innerclass>
+    <innerclass refid="classrr_1_1SBMLSymbol" prot="public">rr::SBMLSymbol</innerclass>
+    <innerclass refid="classrr_1_1SBMLSymbolDependencies" prot="public">rr::SBMLSymbolDependencies</innerclass>
+    <innerclass refid="classrr_1_1Scanner" prot="public">rr::Scanner</innerclass>
     <innerclass refid="classrr_1_1ScannerException" prot="public">rr::ScannerException</innerclass>
     <innerclass refid="classrr_1_1SelectionRecord" prot="public">rr::SelectionRecord</innerclass>
     <innerclass refid="classrr_1_1SimulateOptions" prot="public">rr::SimulateOptions</innerclass>
     <innerclass refid="classrr_1_1Solver" prot="public">rr::Solver</innerclass>
     <innerclass refid="classrr_1_1SolverRegistrationMgr" prot="public">rr::SolverRegistrationMgr</innerclass>
     <innerclass refid="structrr_1_1sort__pred" prot="public">rr::sort_pred</innerclass>
+    <innerclass refid="structrr_1_1SortByPriority" prot="public">rr::SortByPriority</innerclass>
     <innerclass refid="classrr_1_1SteadyStateSolver" prot="public">rr::SteadyStateSolver</innerclass>
     <innerclass refid="classrr_1_1SteadyStateSolverFactory" prot="public">rr::SteadyStateSolverFactory</innerclass>
     <innerclass refid="classrr_1_1SteadyStateSolverRegistrar" prot="public">rr::SteadyStateSolverRegistrar</innerclass>
+    <innerclass refid="classrr_1_1StringBuilder" prot="public">rr::StringBuilder</innerclass>
+    <innerclass refid="classrr_1_1StringList" prot="public">rr::StringList</innerclass>
+    <innerclass refid="classrr_1_1StringListContainer" prot="public">rr::StringListContainer</innerclass>
+    <innerclass refid="classrr_1_1StringSymbolHashTable" prot="public">rr::StringSymbolHashTable</innerclass>
+    <innerclass refid="classrr_1_1Symbol" prot="public">rr::Symbol</innerclass>
+    <innerclass refid="classrr_1_1SymbolList" prot="public">rr::SymbolList</innerclass>
     <innerclass refid="classrr_1_1TestSuiteModelSimulation" prot="public">rr::TestSuiteModelSimulation</innerclass>
+    <innerclass refid="classrr_1_1Token" prot="public">rr::Token</innerclass>
     <innerclass refid="classrr_1_1UninitializedValueException" prot="public">rr::UninitializedValueException</innerclass>
     <innerclass refid="classrr_1_1Variant" prot="public">rr::Variant</innerclass>
     <innerclass refid="structrr_1_1VariantImpl" prot="public">rr::VariantImpl</innerclass>
+    <innernamespace refid="namespacerr_1_1CodeTypes">rr::CodeTypes</innernamespace>
+    <innernamespace refid="namespacerr_1_1conservation">rr::conservation</innernamespace>
+    <innernamespace refid="namespacerr_1_1TCharCode">rr::TCharCode</innernamespace>
       <sectiondef kind="enum">
       <memberdef kind="enum" id="rrConstants_8h_1a2f22df52beab4b09418ce2a7966f5838" prot="public" static="no" strong="no">
         <type></type>
@@ -250,7 +278,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="159" column="1" bodyfile="rrRoadRunner.cpp" bodystart="160" bodyend="166"/>
+        <location file="rrRoadRunner.cpp" line="160" column="1" bodyfile="rrRoadRunner.cpp" bodystart="161" bodyend="167"/>
       </memberdef>
       <memberdef kind="enum" id="rrVersionInfo_8h_1a50723fed79be1ce514a65d4e010aff3b" prot="public" static="no" strong="no">
         <type></type>
@@ -401,6 +429,46 @@
         </inbodydescription>
         <location file="SBMLValidator.h" line="17" column="1" bodyfile="SBMLValidator.h" bodystart="18" bodyend="59"/>
       </memberdef>
+      <memberdef kind="enum" id="rrRule_8h_1a9bbb2a987a64c4d215fbc4c44d30d3e8" prot="public" static="no" strong="no">
+        <type></type>
+        <name>RuleType</name>
+        <enumvalue id="rrRule_8h_1a9bbb2a987a64c4d215fbc4c44d30d3e8a1566bfe16090d5b3189a3f5e28ef3588" prot="public">
+          <name>rtAlgebraic</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="rrRule_8h_1a9bbb2a987a64c4d215fbc4c44d30d3e8a39a03f55e676c6ab847c4dac31280cd5" prot="public">
+          <name>rtAssignment</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="rrRule_8h_1a9bbb2a987a64c4d215fbc4c44d30d3e8a46e91e4c6302952dc3d4bde624f42ea3" prot="public">
+          <name>rtRate</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="rrRule_8h_1a9bbb2a987a64c4d215fbc4c44d30d3e8a7aa96bf9d4067897e3823acaeed63886" prot="public">
+          <name>rtUnknown</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrRule.h" line="10" column="1" bodyfile="c/rrRule.h" bodystart="10" bodyend="10"/>
+      </memberdef>
       </sectiondef>
       <sectiondef kind="typedef">
       <memberdef kind="typedef" id="Integrator_8h_1af88f77fb0c8c61ee1848be4c0894ac02" prot="public" static="no">
@@ -441,7 +509,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="72" column="34" bodyfile="rrExecutableModel.h" bodystart="72" bodyend="-1"/>
+        <location file="rrExecutableModel.h" line="71" column="34" bodyfile="rrExecutableModel.h" bodystart="71" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="rrIniFile_8h_1ab9ebf92da929093088c06d28fedd9d45" prot="public" static="no">
         <type>std::vector&lt; <ref refid="classrr_1_1IniKey" kindref="compound">IniKey</ref> * &gt;</type>
@@ -532,7 +600,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="77" column="21" bodyfile="rrRoadRunner.cpp" bodystart="77" bodyend="-1"/>
+        <location file="rrRoadRunner.cpp" line="78" column="21" bodyfile="rrRoadRunner.cpp" bodystart="78" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="rrRoadRunner_8cpp_1a3b120721e4a0aa35296922f8bc7f6083" prot="public" static="no">
         <type>string(ExecutableModel::*</type>
@@ -545,7 +613,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="83" column="9" bodyfile="rrRoadRunner.cpp" bodystart="83" bodyend="-1"/>
+        <location file="rrRoadRunner.cpp" line="84" column="9" bodyfile="rrRoadRunner.cpp" bodystart="84" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="rrRoadRunner_8cpp_1af48f09ff45a9173cae0c3617ac84ea11" prot="public" static="no">
         <type>int(ExecutableModel::*</type>
@@ -558,7 +626,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="84" column="9" bodyfile="rrRoadRunner.cpp" bodystart="84" bodyend="-1"/>
+        <location file="rrRoadRunner.cpp" line="85" column="9" bodyfile="rrRoadRunner.cpp" bodystart="85" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="rrRoadRunner_8cpp_1a67c05b3923fa2ea722f9eb140e00957b" prot="public" static="no">
         <type>std::list&lt; std::vector&lt; double &gt; &gt;</type>
@@ -572,7 +640,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="129" column="19" bodyfile="rrRoadRunner.cpp" bodystart="129" bodyend="-1"/>
+        <location file="rrRoadRunner.cpp" line="130" column="19" bodyfile="rrRoadRunner.cpp" bodystart="130" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="rrSparse_8h_1aa8a36b3ce021dddb42f59ad71b3346d8" prot="public" static="no">
         <type>struct <ref refid="structrr_1_1csr__matrix__t" kindref="compound">rr::csr_matrix_t</ref></type>
@@ -586,6 +654,136 @@
         <inbodydescription>
         </inbodydescription>
         <location file="rrSparse.h" line="68" column="12"/>
+      </memberdef>
+      <memberdef kind="typedef" id="rrCompiledExecutableModel_8h_1aa5df535cc25cd452b0f5448498644ea5" prot="public" static="no">
+        <type>int(RR_CDECL *</type>
+        <definition>typedef int(RR_CDECL * rr::c_int_MDS) (ModelData *)</definition>
+        <argsstring>)(ModelData *)</argsstring>
+        <name>c_int_MDS</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledExecutableModel.h" line="24" column="9" bodyfile="c/rrCompiledExecutableModel.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="rrCompiledExecutableModel_8h_1a9fdfc422f7f96caa4561118193bd665b" prot="public" static="no">
+        <type>int(RR_CDECL *</type>
+        <definition>typedef int(RR_CDECL * rr::c_int_MDS_int) (ModelData *, int)</definition>
+        <argsstring>)(ModelData *, int)</argsstring>
+        <name>c_int_MDS_int</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledExecutableModel.h" line="25" column="9" bodyfile="c/rrCompiledExecutableModel.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="rrCompiledExecutableModel_8h_1adb96e5ecb334350abc2204609b9dda31" prot="public" static="no">
+        <type>char *(RR_CDECL *</type>
+        <definition>typedef char*(RR_CDECL * rr::c_charStar_MDS) (ModelData *)</definition>
+        <argsstring>)(ModelData *)</argsstring>
+        <name>c_charStar_MDS</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledExecutableModel.h" line="26" column="9" bodyfile="c/rrCompiledExecutableModel.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="rrCompiledExecutableModel_8h_1af41f5bd12df5c2538c31b43c95a83c2a" prot="public" static="no">
+        <type>void(RR_CDECL *</type>
+        <definition>typedef void(RR_CDECL * rr::c_void_MDS_doubleStar) (ModelData *, const double *)</definition>
+        <argsstring>)(ModelData *, const double *)</argsstring>
+        <name>c_void_MDS_doubleStar</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledExecutableModel.h" line="27" column="9" bodyfile="c/rrCompiledExecutableModel.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="rrCompiledExecutableModel_8h_1acfb274e82c0dc63dcd7cb6b397400882" prot="public" static="no">
+        <type>double(RR_CDECL *</type>
+        <definition>typedef double(RR_CDECL * rr::c_double_MDS_int) (ModelData *, int)</definition>
+        <argsstring>)(ModelData *, int)</argsstring>
+        <name>c_double_MDS_int</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledExecutableModel.h" line="28" column="9" bodyfile="c/rrCompiledExecutableModel.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="rrCompiledExecutableModel_8h_1a5ab604eea88e3c520e2ccaa36140a844" prot="public" static="no">
+        <type>double *(RR_CDECL *</type>
+        <definition>typedef double*(RR_CDECL * rr::c_doubleStar_MDS) (ModelData *)</definition>
+        <argsstring>)(ModelData *)</argsstring>
+        <name>c_doubleStar_MDS</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledExecutableModel.h" line="29" column="9" bodyfile="c/rrCompiledExecutableModel.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="rrCompiledExecutableModel_8h_1af4cab55bec030a8a082302f5ab37de7c" prot="public" static="no">
+        <type>void(RR_CDECL *</type>
+        <definition>typedef void(RR_CDECL * rr::c_void_MDS_double_doubleStar) (ModelData *, double, const double *)</definition>
+        <argsstring>)(ModelData *, double, const double *)</argsstring>
+        <name>c_void_MDS_double_doubleStar</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledExecutableModel.h" line="30" column="9" bodyfile="c/rrCompiledExecutableModel.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="rrCompiledExecutableModel_8h_1ad143bce0f6f2dc8f27cd26bddf3981c9" prot="public" static="no">
+        <type>void(RR_CDECL *</type>
+        <definition>typedef void(RR_CDECL * rr::c_void_MDS_int_double) (ModelData *, int, double)</definition>
+        <argsstring>)(ModelData *, int, double)</argsstring>
+        <name>c_void_MDS_int_double</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledExecutableModel.h" line="31" column="9" bodyfile="c/rrCompiledExecutableModel.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="rrCompiledExecutableModel_8h_1afdeb81fc2ac03774cd10940b61fc9e75" prot="public" static="no">
+        <type>ComputeEventAssignmentHandler *(RR_CDECL *</type>
+        <definition>typedef ComputeEventAssignmentHandler*(RR_CDECL * rr::c_ComputeEventAssignmentHandlerStar) ()</definition>
+        <argsstring>)()</argsstring>
+        <name>c_ComputeEventAssignmentHandlerStar</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledExecutableModel.h" line="33" column="9" bodyfile="c/rrCompiledExecutableModel.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="rrCompiledExecutableModel_8h_1ae77b4098fbc6863676451471a814c2d9" prot="public" static="no">
+        <type>EventDelayHandler *(RR_CDECL *</type>
+        <definition>typedef EventDelayHandler*(RR_CDECL * rr::c_GetEventDelayHandlerStar) ()</definition>
+        <argsstring>)()</argsstring>
+        <name>c_GetEventDelayHandlerStar</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledExecutableModel.h" line="34" column="9" bodyfile="c/rrCompiledExecutableModel.h" bodystart="34" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="var">
@@ -899,7 +1097,7 @@
         <definition>const Logger::Level rr::defaultLogLevel</definition>
         <argsstring></argsstring>
         <name>defaultLogLevel</name>
-        <initializer>= <ref refid="classrr_1_1Logger_1a72a52e7fe7be48e2ecad639c641ee8aaaa3e3ead40b6448c9d7893f1a33573984" kindref="member">Logger::LOG_NOTICE</ref></initializer>
+        <initializer>= <ref refid="classrr_1_1Logger_1a72a52e7fe7be48e2ecad639c641ee8aaafdb1b7e45fd5de96e098cd30c552fa7b" kindref="member">Logger::LOG_ERROR</ref></initializer>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -1067,7 +1265,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="75" column="14" bodyfile="rrRoadRunner.cpp" bodystart="75" bodyend="-1"/>
+        <location file="rrRoadRunner.cpp" line="76" column="14" bodyfile="rrRoadRunner.cpp" bodystart="76" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="rrRoadRunner_8cpp_1a7c3eab0b2c50956fefffc2708511c999" prot="public" static="yes" mutable="no">
         <type>int</type>
@@ -1081,7 +1279,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="151" column="12" bodyfile="rrRoadRunner.cpp" bodystart="151" bodyend="-1"/>
+        <location file="rrRoadRunner.cpp" line="152" column="12" bodyfile="rrRoadRunner.cpp" bodystart="152" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="rrSBMLReader_8cpp_1a888d8a9ffcc502f666e2216b17ae8c66" prot="public" static="yes" mutable="no">
         <type>Mutex</type>
@@ -1139,7 +1337,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="CVODEIntegrator.cpp" line="1238" column="5" bodyfile="CVODEIntegrator.cpp" bodystart="1238" bodyend="1259" declfile="CVODEIntegrator.cpp" declline="35" declcolumn="5"/>
+        <location file="CVODEIntegrator.cpp" line="1240" column="5" bodyfile="CVODEIntegrator.cpp" bodystart="1240" bodyend="1261" declfile="CVODEIntegrator.cpp" declline="35" declcolumn="5"/>
       </memberdef>
       <memberdef kind="function" id="CVODEIntegrator_8cpp_1ad01271862994ece03d70c65edb3bb5d8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -1168,7 +1366,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="CVODEIntegrator.cpp" line="1307" column="5" bodyfile="CVODEIntegrator.cpp" bodystart="1307" bodyend="1320" declfile="CVODEIntegrator.cpp" declline="36" declcolumn="5"/>
+        <location file="CVODEIntegrator.cpp" line="1309" column="5" bodyfile="CVODEIntegrator.cpp" bodystart="1309" bodyend="1322" declfile="CVODEIntegrator.cpp" declline="36" declcolumn="5"/>
       </memberdef>
       <memberdef kind="function" id="CVODEIntegrator_8cpp_1a5c0899abfe5f1d2057c866d8c77875b9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>void</type>
@@ -1250,7 +1448,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="CVODEIntegrator.cpp" line="1493" column="6" bodyfile="CVODEIntegrator.cpp" bodystart="1493" bodyend="1510" declfile="CVODEIntegrator.cpp" declline="70" declcolumn="13"/>
+        <location file="CVODEIntegrator.cpp" line="1495" column="6" bodyfile="CVODEIntegrator.cpp" bodystart="1495" bodyend="1512" declfile="CVODEIntegrator.cpp" declline="70" declcolumn="13"/>
       </memberdef>
       <memberdef kind="function" id="GillespieIntegrator_8cpp_1ab9d4e29b9a395362e1745bfc7ebaf5a6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>unsigned long</type>
@@ -1389,7 +1587,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.cpp" line="37" column="1" bodyfile="rrExecutableModel.cpp" bodystart="37" bodyend="103" declfile="rrExecutableModel.h" declline="781" declcolumn="17"/>
+        <location file="rrExecutableModel.cpp" line="37" column="1" bodyfile="rrExecutableModel.cpp" bodystart="37" bodyend="103" declfile="rrExecutableModel.h" declline="782" declcolumn="17"/>
       </memberdef>
       <memberdef kind="function" id="rrFileName_8cpp_1ab319c5c75e448d1128d9ce1112c11bbc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>ostream &amp;</type>
@@ -1733,7 +1931,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="87" column="15" bodyfile="rrRoadRunner.cpp" bodystart="87" bodyend="104"/>
+        <location file="rrRoadRunner.cpp" line="88" column="15" bodyfile="rrRoadRunner.cpp" bodystart="88" bodyend="105"/>
       </memberdef>
       <memberdef kind="function" id="rrRoadRunner_8cpp_1aed3558708e5fa7c09e2b78d62ad5bbc3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::string &gt;</type>
@@ -1751,7 +1949,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="4454" column="20" bodyfile="rrRoadRunner.cpp" bodystart="4454" bodyend="4480" declfile="rrRoadRunner.cpp" declline="110" declcolumn="20"/>
+        <location file="rrRoadRunner.cpp" line="4481" column="20" bodyfile="rrRoadRunner.cpp" bodystart="4481" bodyend="4507" declfile="rrRoadRunner.cpp" declline="111" declcolumn="20"/>
       </memberdef>
       <memberdef kind="function" id="rrRoadRunner_8cpp_1a5fce47cc2a4247082462c9d38b6b54c4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>vector&lt; double &gt;</type>
@@ -1779,7 +1977,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="4922" column="8" bodyfile="rrRoadRunner.cpp" bodystart="4922" bodyend="4935" declfile="rrRoadRunner.cpp" declline="122" declcolumn="16"/>
+        <location file="rrRoadRunner.cpp" line="4949" column="8" bodyfile="rrRoadRunner.cpp" bodystart="4949" bodyend="4962" declfile="rrRoadRunner.cpp" declline="123" declcolumn="16"/>
       </memberdef>
       <memberdef kind="function" id="rrRoadRunner_8cpp_1a99a59182a1c1049b7ec6d6758d59b858" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
@@ -1796,7 +1994,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="4937" column="8" bodyfile="rrRoadRunner.cpp" bodystart="4937" bodyend="4947" declfile="rrRoadRunner.cpp" declline="123" declcolumn="24"/>
+        <location file="rrRoadRunner.cpp" line="4964" column="8" bodyfile="rrRoadRunner.cpp" bodystart="4964" bodyend="4974" declfile="rrRoadRunner.cpp" declline="124" declcolumn="24"/>
       </memberdef>
       <memberdef kind="function" id="rrRoadRunner_8cpp_1ab28f88ea2697b14c6e150126038170a0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
@@ -1813,7 +2011,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="4950" column="8" bodyfile="rrRoadRunner.cpp" bodystart="4950" bodyend="4970" declfile="rrRoadRunner.cpp" declline="124" declcolumn="24"/>
+        <location file="rrRoadRunner.cpp" line="4977" column="8" bodyfile="rrRoadRunner.cpp" bodystart="4977" bodyend="4997" declfile="rrRoadRunner.cpp" declline="125" declcolumn="24"/>
       </memberdef>
       <memberdef kind="function" id="rrRoadRunner_8cpp_1acf824e8a1d12cf613cbff9f108fb55e5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1833,7 +2031,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="5182" column="13" bodyfile="rrRoadRunner.cpp" bodystart="5182" bodyend="5189" declfile="rrRoadRunner.cpp" declline="140" declcolumn="13"/>
+        <location file="rrRoadRunner.cpp" line="5209" column="13" bodyfile="rrRoadRunner.cpp" bodystart="5209" bodyend="5216" declfile="rrRoadRunner.cpp" declline="141" declcolumn="13"/>
       </memberdef>
       <memberdef kind="function" id="rrRoadRunner_8cpp_1a0600f1d6e25aacf7e78a999c5f09ea47" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1854,7 +2052,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="7138" column="6" bodyfile="rrRoadRunner.cpp" bodystart="7138" bodyend="7148" declfile="rrRoadRunner.cpp" declline="146" declcolumn="13"/>
+        <location file="rrRoadRunner.cpp" line="7174" column="6" bodyfile="rrRoadRunner.cpp" bodystart="7174" bodyend="7184" declfile="rrRoadRunner.cpp" declline="147" declcolumn="13"/>
       </memberdef>
       <memberdef kind="function" id="rrRoadRunner_8cpp_1ad900af7633d26b2608f329edb942501a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1879,7 +2077,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="7150" column="6" bodyfile="rrRoadRunner.cpp" bodystart="7150" bodyend="7162" declfile="rrRoadRunner.cpp" declline="148" declcolumn="13"/>
+        <location file="rrRoadRunner.cpp" line="7186" column="6" bodyfile="rrRoadRunner.cpp" bodystart="7186" bodyend="7198" declfile="rrRoadRunner.cpp" declline="149" declcolumn="13"/>
       </memberdef>
       <memberdef kind="function" id="rrRoadRunner_8cpp_1ad850b7c1fe5f141aab4e1b61d1a21d20" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1905,7 +2103,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="3018" column="13" bodyfile="rrRoadRunner.cpp" bodystart="3018" bodyend="3065"/>
+        <location file="rrRoadRunner.cpp" line="3045" column="13" bodyfile="rrRoadRunner.cpp" bodystart="3045" bodyend="3092"/>
       </memberdef>
       <memberdef kind="function" id="rrRoadRunner_8cpp_1a9340eba32ac3e950d46e7341034fef90" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1930,7 +2128,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="3068" column="13" bodyfile="rrRoadRunner.cpp" bodystart="3068" bodyend="3085"/>
+        <location file="rrRoadRunner.cpp" line="3095" column="13" bodyfile="rrRoadRunner.cpp" bodystart="3095" bodyend="3112"/>
       </memberdef>
       <memberdef kind="function" id="rrRoadRunner_8cpp_1a1cafd89e37efd387f265f4ec951aeb94" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>string</type>
@@ -1955,7 +2153,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="4104" column="15" bodyfile="rrRoadRunner.cpp" bodystart="4104" bodyend="4154"/>
+        <location file="rrRoadRunner.cpp" line="4131" column="15" bodyfile="rrRoadRunner.cpp" bodystart="4131" bodyend="4181"/>
       </memberdef>
       <memberdef kind="function" id="rrRoadRunner_8cpp_1a410ba7a28b6d72c94782c0b8d6a02902" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1976,7 +2174,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="6188" column="6" bodyfile="rrRoadRunner.cpp" bodystart="6188" bodyend="6234"/>
+        <location file="rrRoadRunner.cpp" line="6224" column="6" bodyfile="rrRoadRunner.cpp" bodystart="6224" bodyend="6270"/>
       </memberdef>
       <memberdef kind="function" id="rrRoadRunnerData_8cpp_1ae1f3a3183fdbf583f0e3689b63572665" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>ostream &amp;</type>
@@ -2019,23 +2217,6 @@
         <inbodydescription>
         </inbodydescription>
         <location file="rrRoadRunnerData.cpp" line="452" column="9" bodyfile="rrRoadRunnerData.cpp" bodystart="452" bodyend="553"/>
-      </memberdef>
-      <memberdef kind="function" id="rrRoadRunnerOptions_8cpp_1aa4340d7eb4783c643c77b908dbbbc927" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>void</type>
-        <definition>static void rr::getConfigValues</definition>
-        <argsstring>(SimulateOptions *s)</argsstring>
-        <name>getConfigValues</name>
-        <param>
-          <type><ref refid="classrr_1_1SimulateOptions" kindref="compound">SimulateOptions</ref> *</type>
-          <declname>s</declname>
-        </param>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="rrRoadRunnerOptions.cpp" line="55" column="13" bodyfile="rrRoadRunnerOptions.cpp" bodystart="55" bodyend="75"/>
       </memberdef>
       <memberdef kind="function" id="rrSBMLReader_8cpp_1a8335d385693dd8fa56df30c73c372d8d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>const Poco::RegularExpression</type>
@@ -5296,6 +5477,841 @@
         <inbodydescription>
         </inbodydescription>
         <location file="Variant.cpp" line="118" column="20" bodyfile="Variant.cpp" bodystart="118" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="rrCCompiler_8cpp_1a7f209135e80b720c56908cb68157b822" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>string</type>
+        <definition>string rr::getCompilerMessages</definition>
+        <argsstring>()</argsstring>
+        <name>getCompilerMessages</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCCompiler.cpp" line="406" column="8" bodyfile="c/rrCCompiler.cpp" bodystart="406" bodyend="409"/>
+      </memberdef>
+      <memberdef kind="function" id="rrCModelDataUtil_8cpp_1abdc46d37935e3b8673e0f5039338c70e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>RR_DECLSPEC void rr::initModelData</definition>
+        <argsstring>(ModelData &amp;data)</argsstring>
+        <name>initModelData</name>
+        <param>
+          <type><ref refid="structSModelData" kindref="compound">ModelData</ref> &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>zero out the memory occupied by a ModelData struct, equivalent to memset(&amp;data, 0, sizeof(ModelData)); </para>
+        </briefdescription>
+        <detaileddescription>
+<para>performs NO allocaation of memory. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCModelDataUtil.cpp" line="46" column="6" bodyfile="c/rrCModelDataUtil.cpp" bodystart="46" bodyend="50" declfile="c/rrCModelDataUtil.h" declline="32" declcolumn="18"/>
+      </memberdef>
+      <memberdef kind="function" id="rrCModelDataUtil_8cpp_1a1c4cb1d6a06d74a8843c83c7a5c09d63" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void *</type>
+        <definition>static void* rr::rrCalloc</definition>
+        <argsstring>(size_t nmemb, size_t size)</argsstring>
+        <name>rrCalloc</name>
+        <param>
+          <type>size_t</type>
+          <declname>nmemb</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+<para>many implementations have a rrCalloc which returns a non zero pointer if a zero size data block is requested, this returns zero which makes debugging easier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCModelDataUtil.cpp" line="57" column="13" bodyfile="c/rrCModelDataUtil.cpp" bodystart="57" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="rrCModelDataUtil_8cpp_1a61fff89a7ec720e2fc390b9d20bcb84c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void rr::allocModelDataBuffers</definition>
+        <argsstring>(ModelData &amp;data, const string &amp;modelName)</argsstring>
+        <name>allocModelDataBuffers</name>
+        <param>
+          <type><ref refid="structSModelData" kindref="compound">ModelData</ref> &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>const string &amp;</type>
+          <declname>modelName</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCModelDataUtil.cpp" line="62" column="6" bodyfile="c/rrCModelDataUtil.cpp" bodystart="62" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="rrCModelDataUtil_8cpp_1a496ee94670b38706eedda7e8a8bcf6bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::ostream &amp;</type>
+        <definition>RR_DECLSPEC std::ostream &amp; rr::operator&lt;&lt;</definition>
+        <argsstring>(std::ostream &amp;os, const ModelData &amp;data)</argsstring>
+        <name>operator&lt;&lt;</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>os</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structSModelData" kindref="compound">ModelData</ref> &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>dump the ModelData to an output stream. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCModelDataUtil.cpp" line="104" column="1" bodyfile="c/rrCModelDataUtil.cpp" bodystart="104" bodyend="190" declfile="c/rrCModelDataUtil.h" declline="22" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="rrCModelDataUtil_8cpp_1af3b8e5f621c195103b54ff87f1812bc4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void RR_DECLSPEC rr::freeModelDataBuffers</definition>
+        <argsstring>(ModelData &amp;data)</argsstring>
+        <name>freeModelDataBuffers</name>
+        <param>
+          <type><ref refid="structSModelData" kindref="compound">ModelData</ref> &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Free all the data referenced by the ModelData pointers. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Does NOT free the ModelData itself, ONLY the buffer data. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCModelDataUtil.cpp" line="192" column="7" bodyfile="c/rrCModelDataUtil.cpp" bodystart="192" bodyend="222" declfile="c/rrCModelDataUtil.h" declline="56" declcolumn="18"/>
+      </memberdef>
+      <memberdef kind="function" id="rrCModelDataUtil_8h_1ae075bf7ea3c36e31bf96732975fdc3f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void RR_DECLSPEC</type>
+        <definition>void RR_DECLSPEC rr::allocModelDataBuffers</definition>
+        <argsstring>(ModelData &amp;data, const std::string &amp;modelName)</argsstring>
+        <name>allocModelDataBuffers</name>
+        <param>
+          <type><ref refid="structSModelData" kindref="compound">ModelData</ref> &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modelName</declname>
+        </param>
+        <briefdescription>
+<para>Allocate memory for all the data buffers in a ModelData structure, (with the exception of the stoichiometry struct), based on what each buffer size variable indicates, i.e. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>if data.ySize is 10, data.y will now point to a length 10 double array. The data.modelName field will be a newly allocated null terminated c string.</para>
+<para>The ModelData structure buffers should be freed with freeModelDataBuffers.</para>
+<para>The following arrays are also allocated here, the model populates these with pointers to static strings.</para>
+<para>char** variableTable; char** boundaryTable; char** globalParameterTable; </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCModelDataUtil.h" line="50" column="18" declfile="c/rrCModelDataUtil.h" declline="50" declcolumn="18"/>
+      </memberdef>
+      <memberdef kind="function" id="rrCModelGenerator_8cpp_1a35d6c71a09c9498c68d265f6fd667880" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>string</type>
+        <definition>static string rr::getSupportCodeDir</definition>
+        <argsstring>(const std::string supdir)</argsstring>
+        <name>getSupportCodeDir</name>
+        <param>
+          <type>const std::string</type>
+          <declname>supdir</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCModelGenerator.cpp" line="26" column="15" bodyfile="c/rrCModelGenerator.cpp" bodystart="26" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="rrCompiledExecutableModel_8h_1ab22af03490427c18693b07d646f104e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>typedef</type>
+        <definition>typedef rr::void</definition>
+        <argsstring>(RR_CDECL *c_void_MDS)(ModelData *)</argsstring>
+        <name>void</name>
+        <param>
+          <type>RR_CDECL *</type>
+          <declname>c_void_MDS</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledExecutableModel.h" line="23" column="9" declfile="c/rrCompiledExecutableModel.h" declline="23" declcolumn="9"/>
+      </memberdef>
+      <memberdef kind="function" id="rrEvent_8cpp_1abf3d9c52411e9ca4aa82651bf95f781a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool rr::operator==</definition>
+        <argsstring>(const Event &amp;e1, const Event &amp;e2)</argsstring>
+        <name>operator==</name>
+        <param>
+          <type>const <ref refid="classrr_1_1Event" kindref="compound">Event</ref> &amp;</type>
+          <declname>e1</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classrr_1_1Event" kindref="compound">Event</ref> &amp;</type>
+          <declname>e2</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrEvent.cpp" line="50" column="6" bodyfile="c/rrEvent.cpp" bodystart="50" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="rrEvent_8cpp_1a22a1ea44cf8f7bc5ecb594c2e9a95ad9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool rr::operator&lt;</definition>
+        <argsstring>(const Event &amp;e1, const Event &amp;e2)</argsstring>
+        <name>operator&lt;</name>
+        <param>
+          <type>const <ref refid="classrr_1_1Event" kindref="compound">Event</ref> &amp;</type>
+          <declname>e1</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classrr_1_1Event" kindref="compound">Event</ref> &amp;</type>
+          <declname>e2</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrEvent.cpp" line="59" column="1" bodyfile="c/rrEvent.cpp" bodystart="59" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="rrEvent_8cpp_1a20e24001bbb695112dff07d59eea47ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::ostream &amp;</type>
+        <definition>RR_DECLSPEC std::ostream &amp; rr::operator&lt;&lt;</definition>
+        <argsstring>(std::ostream &amp;stream, const Event &amp;anEvent)</argsstring>
+        <name>operator&lt;&lt;</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>stream</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classrr_1_1Event" kindref="compound">Event</ref> &amp;</type>
+          <declname>anEvent</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrEvent.cpp" line="70" column="1" bodyfile="c/rrEvent.cpp" bodystart="70" bodyend="81" declfile="c/rrEvent.h" declline="37" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="rrHashTable_8cpp_1a42259b5a737ba7cf697df46de4fae251" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>ostream &amp;</type>
+        <definition>ostream &amp; rr::operator&lt;&lt;</definition>
+        <argsstring>(ostream &amp;stream, StringSymbolHashTable &amp;hash)</argsstring>
+        <name>operator&lt;&lt;</name>
+        <param>
+          <type>ostream &amp;</type>
+          <declname>stream</declname>
+        </param>
+        <param>
+          <type><ref refid="classrr_1_1StringSymbolHashTable" kindref="compound">StringSymbolHashTable</ref> &amp;</type>
+          <declname>hash</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrHashTable.cpp" line="22" column="1" bodyfile="c/rrHashTable.cpp" bodystart="22" bodyend="31" declfile="c/rrHashTable.h" declline="26" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="rrModelSymbols_8cpp_1af0fbb33672f6ec019b15ca4d76bb4df2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classrr_1_1SymbolList" kindref="compound">SymbolList</ref></type>
+        <definition>SymbolList rr::test1</definition>
+        <argsstring>()</argsstring>
+        <name>test1</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrModelSymbols.cpp" line="27" column="12" bodyfile="c/rrModelSymbols.cpp" bodystart="27" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="rrModelSymbols_8cpp_1a306ac65c11f87292c11f72228a8f05d2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classrr_1_1SymbolList" kindref="compound">SymbolList</ref></type>
+        <definition>SymbolList rr::test2</definition>
+        <argsstring>(SymbolList &amp;s)</argsstring>
+        <name>test2</name>
+        <param>
+          <type><ref refid="classrr_1_1SymbolList" kindref="compound">SymbolList</ref> &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrModelSymbols.cpp" line="31" column="12" bodyfile="c/rrModelSymbols.cpp" bodystart="31" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="rrModelSymbols_8cpp_1a38debb3237ff03fe38522b144cfe4608" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classrr_1_1StringList" kindref="compound">StringList</ref></type>
+        <definition>static StringList rr::readIndependentSpeciesList</definition>
+        <argsstring>(const LibStructural &amp;libs, bool mComputeAndAssignConsevationLaws)</argsstring>
+        <name>readIndependentSpeciesList</name>
+        <param>
+          <type>const LibStructural &amp;</type>
+          <declname>libs</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>mComputeAndAssignConsevationLaws</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrModelSymbols.cpp" line="486" column="19" bodyfile="c/rrModelSymbols.cpp" bodystart="486" bodyend="501" declfile="c/rrModelSymbols.cpp" declline="165" declcolumn="19"/>
+      </memberdef>
+      <memberdef kind="function" id="rrModelSymbols_8cpp_1a478195c8b7189dab8315fbf40f26b210" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classrr_1_1StringList" kindref="compound">StringList</ref></type>
+        <definition>static StringList rr::readDependentSpeciesList</definition>
+        <argsstring>(const LibStructural &amp;libs, bool mComputeAndAssignConsevationLaws)</argsstring>
+        <name>readDependentSpeciesList</name>
+        <param>
+          <type>const LibStructural &amp;</type>
+          <declname>libs</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>mComputeAndAssignConsevationLaws</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrModelSymbols.cpp" line="503" column="19" bodyfile="c/rrModelSymbols.cpp" bodystart="503" bodyend="507" declfile="c/rrModelSymbols.cpp" declline="166" declcolumn="19"/>
+      </memberdef>
+      <memberdef kind="function" id="rrModelSymbols_8cpp_1ad8119cb82f74b4354bb1aa5207c8ae16" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classrr_1_1SymbolList" kindref="compound">SymbolList</ref></type>
+        <definition>static SymbolList rr::readCompartments</definition>
+        <argsstring>(NOMSupport &amp;nom)</argsstring>
+        <name>readCompartments</name>
+        <param>
+          <type><ref refid="classrr_1_1NOMSupport" kindref="compound">NOMSupport</ref> &amp;</type>
+          <declname>nom</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrModelSymbols.cpp" line="318" column="19" bodyfile="c/rrModelSymbols.cpp" bodystart="318" bodyend="335" declfile="c/rrModelSymbols.cpp" declline="167" declcolumn="19"/>
+      </memberdef>
+      <memberdef kind="function" id="rrModelSymbols_8cpp_1a89359f16a17fc87d01f7f8f96943fe98" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classrr_1_1SymbolList" kindref="compound">SymbolList</ref></type>
+        <definition>static SymbolList rr::readBoundarySpecies</definition>
+        <argsstring>(NOMSupport &amp;nom, const SymbolList &amp;compartmentList)</argsstring>
+        <name>readBoundarySpecies</name>
+        <param>
+          <type><ref refid="classrr_1_1NOMSupport" kindref="compound">NOMSupport</ref> &amp;</type>
+          <declname>nom</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classrr_1_1SymbolList" kindref="compound">SymbolList</ref> &amp;</type>
+          <declname>compartmentList</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrModelSymbols.cpp" line="339" column="19" bodyfile="c/rrModelSymbols.cpp" bodystart="339" bodyend="404" declfile="c/rrModelSymbols.cpp" declline="168" declcolumn="19"/>
+      </memberdef>
+      <memberdef kind="function" id="rrModelSymbols_8cpp_1aeb00febe028b6a9d6fdc3ed63e2c9e8e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classrr_1_1SymbolList" kindref="compound">SymbolList</ref></type>
+        <definition>static SymbolList rr::readConservationList</definition>
+        <argsstring>(const int &amp;numDependentSpecies)</argsstring>
+        <name>readConservationList</name>
+        <param>
+          <type>const int &amp;</type>
+          <declname>numDependentSpecies</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrModelSymbols.cpp" line="474" column="19" bodyfile="c/rrModelSymbols.cpp" bodystart="474" bodyend="483" declfile="c/rrModelSymbols.cpp" declline="169" declcolumn="19"/>
+      </memberdef>
+      <memberdef kind="function" id="rrModelSymbols_8cpp_1ad91a594d1d3f8f15e1e4793d46918375" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classrr_1_1SymbolList" kindref="compound">SymbolList</ref></type>
+        <definition>static SymbolList rr::readFloatingSpeciesConcentrationList</definition>
+        <argsstring>(NOMSupport &amp;nom, ls::LibStructural &amp;libs, bool mComputeAndAssignConsevationLaws, const SymbolList &amp;mCompartmentList)</argsstring>
+        <name>readFloatingSpeciesConcentrationList</name>
+        <param>
+          <type><ref refid="classrr_1_1NOMSupport" kindref="compound">NOMSupport</ref> &amp;</type>
+          <declname>nom</declname>
+        </param>
+        <param>
+          <type>ls::LibStructural &amp;</type>
+          <declname>libs</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>mComputeAndAssignConsevationLaws</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classrr_1_1SymbolList" kindref="compound">SymbolList</ref> &amp;</type>
+          <declname>mCompartmentList</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrModelSymbols.cpp" line="170" column="19" declfile="c/rrModelSymbols.cpp" declline="170" declcolumn="19"/>
+      </memberdef>
+      <memberdef kind="function" id="rrModelSymbols_8cpp_1a9f3c363679715b99950b2cced63f2f4f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classrr_1_1SymbolList" kindref="compound">SymbolList</ref></type>
+        <definition>static SymbolList rr::readGlobalParameters</definition>
+        <argsstring>(NOMSupport &amp;nom)</argsstring>
+        <name>readGlobalParameters</name>
+        <param>
+          <type><ref refid="classrr_1_1NOMSupport" kindref="compound">NOMSupport</ref> &amp;</type>
+          <declname>nom</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrModelSymbols.cpp" line="807" column="19" bodyfile="c/rrModelSymbols.cpp" bodystart="807" bodyend="828" declfile="c/rrModelSymbols.cpp" declline="172" declcolumn="19"/>
+      </memberdef>
+      <memberdef kind="function" id="rrModelSymbols_8cpp_1af5060658de5711f150aaab14127e7a73" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classrr_1_1SymbolList" kindref="compound">SymbolList</ref></type>
+        <definition>static SymbolList rr::readModifiableSpeciesReferences</definition>
+        <argsstring>(NOMSupport &amp;nom)</argsstring>
+        <name>readModifiableSpeciesReferences</name>
+        <param>
+          <type><ref refid="classrr_1_1NOMSupport" kindref="compound">NOMSupport</ref> &amp;</type>
+          <declname>nom</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrModelSymbols.cpp" line="852" column="19" bodyfile="c/rrModelSymbols.cpp" bodystart="852" bodyend="914" declfile="c/rrModelSymbols.cpp" declline="173" declcolumn="19"/>
+      </memberdef>
+      <memberdef kind="function" id="rrModelSymbols_8cpp_1af90b1ed97e7616d9dfa22b01aaf0a4d4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classrr_1_1SymbolList" kindref="compound">SymbolList</ref></type>
+        <definition>static SymbolList rr::readReactionList</definition>
+        <argsstring>(NOMSupport &amp;nom)</argsstring>
+        <name>readReactionList</name>
+        <param>
+          <type><ref refid="classrr_1_1NOMSupport" kindref="compound">NOMSupport</ref> &amp;</type>
+          <declname>nom</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrModelSymbols.cpp" line="919" column="19" bodyfile="c/rrModelSymbols.cpp" bodystart="919" bodyend="929" declfile="c/rrModelSymbols.cpp" declline="174" declcolumn="19"/>
+      </memberdef>
+      <memberdef kind="function" id="rrModelSymbols_8cpp_1a6de893008ea1116d19ce9510e753018c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>vector&lt; int &gt;</type>
+        <definition>static vector&lt; int &gt; rr::readLocalParameterDimensions</definition>
+        <argsstring>(NOMSupport &amp;nom)</argsstring>
+        <name>readLocalParameterDimensions</name>
+        <param>
+          <type><ref refid="classrr_1_1NOMSupport" kindref="compound">NOMSupport</ref> &amp;</type>
+          <declname>nom</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrModelSymbols.cpp" line="931" column="15" bodyfile="c/rrModelSymbols.cpp" bodystart="931" bodyend="942" declfile="c/rrModelSymbols.cpp" declline="175" declcolumn="15"/>
+      </memberdef>
+      <memberdef kind="function" id="rrModelSymbols_8cpp_1a1fd81bd0ca168e97860cf37ff53b3c61" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>vector&lt; <ref refid="classrr_1_1SymbolList" kindref="compound">SymbolList</ref> &gt;</type>
+        <definition>static vector&lt; SymbolList &gt; rr::readLocalParameterList</definition>
+        <argsstring>(NOMSupport &amp;nom)</argsstring>
+        <name>readLocalParameterList</name>
+        <param>
+          <type><ref refid="classrr_1_1NOMSupport" kindref="compound">NOMSupport</ref> &amp;</type>
+          <declname>nom</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrModelSymbols.cpp" line="944" column="15" bodyfile="c/rrModelSymbols.cpp" bodystart="944" bodyend="965" declfile="c/rrModelSymbols.cpp" declline="176" declcolumn="15"/>
+      </memberdef>
+      <memberdef kind="function" id="rrModelSymbols_8cpp_1a11bc23e7ae1601b1693d29e2fc756421" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classrr_1_1StringList" kindref="compound">StringList</ref></type>
+        <definition>StringList rr::readFunctionNames</definition>
+        <argsstring>(NOMSupport &amp;nom)</argsstring>
+        <name>readFunctionNames</name>
+        <param>
+          <type><ref refid="classrr_1_1NOMSupport" kindref="compound">NOMSupport</ref> &amp;</type>
+          <declname>nom</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrModelSymbols.cpp" line="997" column="12" bodyfile="c/rrModelSymbols.cpp" bodystart="997" bodyend="1020" declfile="c/rrModelSymbols.cpp" declline="177" declcolumn="19"/>
+      </memberdef>
+      <memberdef kind="function" id="rrModelSymbols_8cpp_1aed21405c88a5fa639dc22d428ff3bebb" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classrr_1_1StringList" kindref="compound">StringList</ref></type>
+        <definition>StringList rr::readFunctionParameters</definition>
+        <argsstring>(NOMSupport &amp;nom)</argsstring>
+        <name>readFunctionParameters</name>
+        <param>
+          <type><ref refid="classrr_1_1NOMSupport" kindref="compound">NOMSupport</ref> &amp;</type>
+          <declname>nom</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrModelSymbols.cpp" line="1022" column="12" bodyfile="c/rrModelSymbols.cpp" bodystart="1022" bodyend="1047" declfile="c/rrModelSymbols.cpp" declline="178" declcolumn="19"/>
+      </memberdef>
+      <memberdef kind="function" id="rrModelSymbols_8cpp_1a3d9e308ad6e07b678b32070fe41c2a7e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>string</type>
+        <definition>static string rr::readModelName</definition>
+        <argsstring>(const NOMSupport &amp;nom)</argsstring>
+        <name>readModelName</name>
+        <param>
+          <type>const <ref refid="classrr_1_1NOMSupport" kindref="compound">NOMSupport</ref> &amp;</type>
+          <declname>nom</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrModelSymbols.cpp" line="304" column="15" bodyfile="c/rrModelSymbols.cpp" bodystart="304" bodyend="313" declfile="c/rrModelSymbols.cpp" declline="179" declcolumn="15"/>
+      </memberdef>
+      <memberdef kind="function" id="rrModelSymbols_8cpp_1a2450f3abc2d37dc6c5387321a064caa1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classrr_1_1IntStringHashTable" kindref="compound">IntStringHashTable</ref></type>
+        <definition>static IntStringHashTable rr::readRateRules</definition>
+        <argsstring>(NOMSupport &amp;nom, const SymbolList &amp;floatingSpeciesConcentrationList, const SymbolList &amp;globalParameterList, const SymbolList &amp;boundarySpeciesList, const SymbolList &amp;compartmentList, const SymbolList &amp;modifiableSpeciesReferenceList)</argsstring>
+        <name>readRateRules</name>
+        <param>
+          <type><ref refid="classrr_1_1NOMSupport" kindref="compound">NOMSupport</ref> &amp;</type>
+          <declname>nom</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classrr_1_1SymbolList" kindref="compound">SymbolList</ref> &amp;</type>
+          <declname>floatingSpeciesConcentrationList</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classrr_1_1SymbolList" kindref="compound">SymbolList</ref> &amp;</type>
+          <declname>globalParameterList</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classrr_1_1SymbolList" kindref="compound">SymbolList</ref> &amp;</type>
+          <declname>boundarySpeciesList</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classrr_1_1SymbolList" kindref="compound">SymbolList</ref> &amp;</type>
+          <declname>compartmentList</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classrr_1_1SymbolList" kindref="compound">SymbolList</ref> &amp;</type>
+          <declname>modifiableSpeciesReferenceList</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrModelSymbols.cpp" line="758" column="27" bodyfile="c/rrModelSymbols.cpp" bodystart="758" bodyend="802" declfile="c/rrModelSymbols.cpp" declline="180" declcolumn="27"/>
+      </memberdef>
+      <memberdef kind="function" id="rrModelSymbols_8cpp_1a50fa45a6e3b4f01f1b786686fbb4cad9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classrr_1_1SymbolList" kindref="compound">SymbolList</ref></type>
+        <definition>static SymbolList rr::readFloatingSpeciesConcentrationList</definition>
+        <argsstring>(NOMSupport &amp;nom, LibStructural &amp;libs, bool mComputeAndAssignConsevationLaws, const SymbolList &amp;mCompartmentList)</argsstring>
+        <name>readFloatingSpeciesConcentrationList</name>
+        <param>
+          <type><ref refid="classrr_1_1NOMSupport" kindref="compound">NOMSupport</ref> &amp;</type>
+          <declname>nom</declname>
+        </param>
+        <param>
+          <type>LibStructural &amp;</type>
+          <declname>libs</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>mComputeAndAssignConsevationLaws</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classrr_1_1SymbolList" kindref="compound">SymbolList</ref> &amp;</type>
+          <declname>mCompartmentList</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrModelSymbols.cpp" line="509" column="19" bodyfile="c/rrModelSymbols.cpp" bodystart="509" bodyend="636"/>
+      </memberdef>
+      <memberdef kind="function" id="rrModelSymbols_8cpp_1a70ebb4f1b373afc5e34f0af185161f6c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>string</type>
+        <definition>static string rr::findSymbol</definition>
+        <argsstring>(const string &amp;varName, const SymbolList &amp;floatingSpeciesConcentrationList, const SymbolList &amp;globalParameterList, const SymbolList &amp;boundarySpeciesList, const SymbolList &amp;compartmentList, const SymbolList &amp;modifiableSpeciesReferenceList)</argsstring>
+        <name>findSymbol</name>
+        <param>
+          <type>const string &amp;</type>
+          <declname>varName</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classrr_1_1SymbolList" kindref="compound">SymbolList</ref> &amp;</type>
+          <declname>floatingSpeciesConcentrationList</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classrr_1_1SymbolList" kindref="compound">SymbolList</ref> &amp;</type>
+          <declname>globalParameterList</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classrr_1_1SymbolList" kindref="compound">SymbolList</ref> &amp;</type>
+          <declname>boundarySpeciesList</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classrr_1_1SymbolList" kindref="compound">SymbolList</ref> &amp;</type>
+          <declname>compartmentList</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classrr_1_1SymbolList" kindref="compound">SymbolList</ref> &amp;</type>
+          <declname>modifiableSpeciesReferenceList</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrModelSymbols.cpp" line="724" column="15" bodyfile="c/rrModelSymbols.cpp" bodystart="724" bodyend="756"/>
+      </memberdef>
+      <memberdef kind="function" id="rrNOMSupport_8cpp_1ad0422ec5914fc066b04c271fa74d1222" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string rr::SBML_formulaToStdString</definition>
+        <argsstring>(const ASTNode *tree)</argsstring>
+        <name>SBML_formulaToStdString</name>
+        <param>
+          <type>const ASTNode *</type>
+          <declname>tree</declname>
+        </param>
+        <briefdescription>
+<para>SBML_formulaToString is used all over the place here, SBML_formulaToString returns a char* that MUST BE FREED!!! </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function frees the string and returns a std::string with its contents. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrNOMSupport.cpp" line="27" column="13" bodyfile="c/rrNOMSupport.cpp" bodystart="27" bodyend="33" declfile="c/rrNOMSupport.h" declline="333" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="rrNOMSupport_8cpp_1a31b30ba63af9b802de25928a3bef85e5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void rr::changeSymbol</definition>
+        <argsstring>(ASTNode *node, const string &amp;time, const int &amp;targetType)</argsstring>
+        <name>changeSymbol</name>
+        <param>
+          <type>ASTNode *</type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type>const string &amp;</type>
+          <declname>time</declname>
+        </param>
+        <param>
+          <type>const int &amp;</type>
+          <declname>targetType</declname>
+        </param>
+        <briefdescription>
+<para>some helper functions for changeSymbol. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>These are private symbols inside this file so they are not even visible anywhere else.</para>
+<para>Recursivly go through a ASTNode tree and change the name to time </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrNOMSupport.cpp" line="334" column="13" bodyfile="c/rrNOMSupport.cpp" bodystart="334" bodyend="342" declfile="c/rrNOMSupport.cpp" declline="44" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="rrNOMSupport_8cpp_1a7291a90e8d1f126c120b33cabbfae009" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>class MathT</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>static void rr::changeSymbolT</definition>
+        <argsstring>(MathT *thing, const string &amp;sTimeSymbol, const int &amp;targetType)</argsstring>
+        <name>changeSymbolT</name>
+        <param>
+          <type>MathT *</type>
+          <declname>thing</declname>
+        </param>
+        <param>
+          <type>const string &amp;</type>
+          <declname>sTimeSymbol</declname>
+        </param>
+        <param>
+          <type>const int &amp;</type>
+          <declname>targetType</declname>
+        </param>
+        <briefdescription>
+<para>Many sbml classes have isSetMath, setMath and getMath methods. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This template replaces the name of each ASTNode item with sTimeSymbol </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrNOMSupport.cpp" line="346" column="13" bodyfile="c/rrNOMSupport.cpp" bodystart="346" bodyend="355" declfile="c/rrNOMSupport.cpp" declline="51" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="rrRule_8cpp_1a5b77227c9134ff46c2fc4ed138c99377" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>RuleType</type>
+        <definition>RuleType rr::GetRuleTypeFromString</definition>
+        <argsstring>(const string &amp;str)</argsstring>
+        <name>GetRuleTypeFromString</name>
+        <param>
+          <type>const string &amp;</type>
+          <declname>str</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrRule.cpp" line="43" column="10" bodyfile="c/rrRule.cpp" bodystart="43" bodyend="61" declfile="c/rrRule.h" declline="12" declcolumn="10"/>
+      </memberdef>
+      <memberdef kind="function" id="rrSBMLSymbol_8cpp_1aee30a7611d03d26bba48c56ac94ed74d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>ostream &amp;</type>
+        <definition>RR_DECLSPEC std::ostream &amp; rr::operator&lt;&lt;</definition>
+        <argsstring>(ostream &amp;stream, const SBMLSymbol &amp;symbol)</argsstring>
+        <name>operator&lt;&lt;</name>
+        <param>
+          <type>ostream &amp;</type>
+          <declname>stream</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classrr_1_1SBMLSymbol" kindref="compound">SBMLSymbol</ref> &amp;</type>
+          <declname>symbol</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrSBMLSymbol.cpp" line="91" column="1" bodyfile="c/rrSBMLSymbol.cpp" bodystart="91" bodyend="110" declfile="c/rrSBMLSymbol.h" declline="50" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="rrStringList_8cpp_1afa77a1111ab6d68b5ac02c900cc36b1e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>ostream &amp;</type>
+        <definition>ostream&amp; rr::operator&lt;&lt;</definition>
+        <argsstring>(ostream &amp;stream, const StringList &amp;list)</argsstring>
+        <name>operator&lt;&lt;</name>
+        <param>
+          <type>ostream &amp;</type>
+          <declname>stream</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classrr_1_1StringList" kindref="compound">StringList</ref> &amp;</type>
+          <declname>list</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrStringList.cpp" line="218" column="1" bodyfile="c/rrStringList.cpp" bodystart="218" bodyend="232"/>
+      </memberdef>
+      <memberdef kind="function" id="rrStringListContainer_8cpp_1a144e4785450d0e259b65c6f5cbc040cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>ostream &amp;</type>
+        <definition>ostream &amp; rr::operator&lt;&lt;</definition>
+        <argsstring>(ostream &amp;stream, const StringListContainer &amp;list)</argsstring>
+        <name>operator&lt;&lt;</name>
+        <param>
+          <type>ostream &amp;</type>
+          <declname>stream</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classrr_1_1StringListContainer" kindref="compound">StringListContainer</ref> &amp;</type>
+          <declname>list</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrStringListContainer.cpp" line="112" column="1" bodyfile="c/rrStringListContainer.cpp" bodystart="112" bodyend="121" declfile="c/rrStringListContainer.h" declline="42" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="rrSymbol_8cpp_1a39ecebc21e6b8a2ba0295c27eebb9e94" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>ostream &amp;</type>
+        <definition>ostream &amp; rr::operator&lt;&lt;</definition>
+        <argsstring>(ostream &amp;stream, const Symbol &amp;symbol)</argsstring>
+        <name>operator&lt;&lt;</name>
+        <param>
+          <type>ostream &amp;</type>
+          <declname>stream</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classrr_1_1Symbol" kindref="compound">Symbol</ref> &amp;</type>
+          <declname>symbol</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrSymbol.cpp" line="43" column="1" bodyfile="c/rrSymbol.cpp" bodystart="43" bodyend="47" declfile="c/rrSymbol.h" declline="79" declcolumn="1"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

@@ -11,12 +11,12 @@
       <node id="2">
         <label>string</label>
       </node>
-      <node id="3">
-        <label>ostream</label>
-      </node>
       <node id="4">
         <label>rrExporter.h</label>
         <link refid="rrExporter_8h_source"/>
+      </node>
+      <node id="3">
+        <label>ostream</label>
       </node>
       <node id="1">
         <label>rrFileName.h</label>

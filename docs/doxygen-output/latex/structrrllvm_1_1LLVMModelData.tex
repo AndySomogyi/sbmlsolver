@@ -1,0 +1,245 @@
+\hypertarget{structrrllvm_1_1LLVMModelData}{}\doxysection{rrllvm\+::L\+L\+V\+M\+Model\+Data Struct Reference}
+\label{structrrllvm_1_1LLVMModelData}\index{rrllvm::LLVMModelData@{rrllvm::LLVMModelData}}
+
+
+A data structure that is that allows data to be exchanged with running S\+B\+ML models.  
+
+
+
+
+{\ttfamily \#include $<$L\+L\+V\+M\+Model\+Data.\+h$>$}
+
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structrrllvm_1_1LLVMModelData_a14eb8ba27b1fcee72817ab9a05638afe}\label{structrrllvm_1_1LLVMModelData_a14eb8ba27b1fcee72817ab9a05638afe}} 
+unsigned \mbox{\hyperlink{structrrllvm_1_1LLVMModelData_a14eb8ba27b1fcee72817ab9a05638afe}{size}}
+\begin{DoxyCompactList}\small\item\em sizeof this struct, make sure we use the correct size in L\+L\+VM land. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structrrllvm_1_1LLVMModelData_ab37211359aa6f8055e0f2dbdd944496a}\label{structrrllvm_1_1LLVMModelData_ab37211359aa6f8055e0f2dbdd944496a}} 
+unsigned {\bfseries flags}
+\item 
+\mbox{\Hypertarget{structrrllvm_1_1LLVMModelData_a7659d7d4f6ba53d3456f2b29b8631c28}\label{structrrllvm_1_1LLVMModelData_a7659d7d4f6ba53d3456f2b29b8631c28}} 
+double \mbox{\hyperlink{structrrllvm_1_1LLVMModelData_a7659d7d4f6ba53d3456f2b29b8631c28}{time}}
+\begin{DoxyCompactList}\small\item\em current time. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structrrllvm_1_1LLVMModelData_a419e418e6e2758990ca5e7a1416a4a78}\label{structrrllvm_1_1LLVMModelData_a419e418e6e2758990ca5e7a1416a4a78}} 
+unsigned {\bfseries num\+Ind\+Compartments}
+\item 
+unsigned \mbox{\hyperlink{structrrllvm_1_1LLVMModelData_a00d623dc7588f7eacc2fa3ce2e1bade0}{num\+Ind\+Floating\+Species}}
+\begin{DoxyCompactList}\small\item\em The total ammounts of the independent floating species that don\textquotesingle{}t have rules, i.\+e. \end{DoxyCompactList}\item 
+unsigned \mbox{\hyperlink{structrrllvm_1_1LLVMModelData_acb67b3d0e45edcb2e936b39cb0ebe109}{num\+Ind\+Boundary\+Species}}
+\begin{DoxyCompactList}\small\item\em number of boundary species and boundary species concentrations. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structrrllvm_1_1LLVMModelData_a2f418efb9d6e16d6f4f226ea4363fc66}\label{structrrllvm_1_1LLVMModelData_a2f418efb9d6e16d6f4f226ea4363fc66}} 
+unsigned \mbox{\hyperlink{structrrllvm_1_1LLVMModelData_a2f418efb9d6e16d6f4f226ea4363fc66}{num\+Ind\+Global\+Parameters}}
+\begin{DoxyCompactList}\small\item\em number of global parameters \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structrrllvm_1_1LLVMModelData_abd8ea24653988b3040b45f77a8a149c6}\label{structrrllvm_1_1LLVMModelData_abd8ea24653988b3040b45f77a8a149c6}} 
+unsigned \mbox{\hyperlink{structrrllvm_1_1LLVMModelData_abd8ea24653988b3040b45f77a8a149c6}{num\+Rate\+Rules}}
+\begin{DoxyCompactList}\small\item\em all rate rules are by definition dependent \end{DoxyCompactList}\item 
+unsigned \mbox{\hyperlink{structrrllvm_1_1LLVMModelData_a6d14b37c5ab67fe41314c82b7124c6ab}{num\+Reactions}}
+\begin{DoxyCompactList}\small\item\em number of reactions, same as rates\+Size. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structrrllvm_1_1LLVMModelData_af5ebd0e373173edbb513665ac53076df}\label{structrrllvm_1_1LLVMModelData_af5ebd0e373173edbb513665ac53076df}} 
+unsigned {\bfseries num\+Init\+Compartments}
+\item 
+\mbox{\Hypertarget{structrrllvm_1_1LLVMModelData_aabbaf9908bfabf8e34c2b5b10fdbdd98}\label{structrrllvm_1_1LLVMModelData_aabbaf9908bfabf8e34c2b5b10fdbdd98}} 
+unsigned {\bfseries num\+Init\+Floating\+Species}
+\item 
+\mbox{\Hypertarget{structrrllvm_1_1LLVMModelData_ab4278c9b27b758c33e25aa445209b60c}\label{structrrllvm_1_1LLVMModelData_ab4278c9b27b758c33e25aa445209b60c}} 
+unsigned {\bfseries num\+Init\+Boundary\+Species}
+\item 
+\mbox{\Hypertarget{structrrllvm_1_1LLVMModelData_ad988d3c12d0950530ace3c0275d0db72}\label{structrrllvm_1_1LLVMModelData_ad988d3c12d0950530ace3c0275d0db72}} 
+unsigned {\bfseries num\+Init\+Global\+Parameters}
+\item 
+\mbox{\Hypertarget{structrrllvm_1_1LLVMModelData_a49e6b41b71f22d6a7a68c1c667d86dbf}\label{structrrllvm_1_1LLVMModelData_a49e6b41b71f22d6a7a68c1c667d86dbf}} 
+\mbox{\hyperlink{structrr_1_1csr__matrix__t}{rr\+::csr\+\_\+matrix}} $\ast$ \mbox{\hyperlink{structrrllvm_1_1LLVMModelData_a49e6b41b71f22d6a7a68c1c667d86dbf}{stoichiometry}}
+\begin{DoxyCompactList}\small\item\em stoichiometry matrix \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structrrllvm_1_1LLVMModelData_a9df55f11ff25e0a045ce4d7fcee6a29b}\label{structrrllvm_1_1LLVMModelData_a9df55f11ff25e0a045ce4d7fcee6a29b}} 
+class \mbox{\hyperlink{classrr_1_1Random}{Random}} $\ast$ \mbox{\hyperlink{structrrllvm_1_1LLVMModelData_a9df55f11ff25e0a045ce4d7fcee6a29b}{random}}
+\begin{DoxyCompactList}\small\item\em The \mbox{\hyperlink{classrrllvm_1_1Random}{rrllvm\+::\+Random}} class holds a R\+NG and caches random distributions used by the distrib package. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structrrllvm_1_1LLVMModelData_a4f16cba09056ef9ddbce8c46a46f70fc}\label{structrrllvm_1_1LLVMModelData_a4f16cba09056ef9ddbce8c46a46f70fc}} 
+unsigned {\bfseries num\+Events}
+\item 
+unsigned \mbox{\hyperlink{structrrllvm_1_1LLVMModelData_a13d7b1094bd407bc0422943c196f4f09}{state\+Vector\+Size}}
+\begin{DoxyCompactList}\small\item\em number of items in the state vector. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structrrllvm_1_1LLVMModelData_a1d6d7fb287227490a08abd550f10074c}\label{structrrllvm_1_1LLVMModelData_a1d6d7fb287227490a08abd550f10074c}} 
+double $\ast$ \mbox{\hyperlink{structrrllvm_1_1LLVMModelData_a1d6d7fb287227490a08abd550f10074c}{state\+Vector}}
+\begin{DoxyCompactList}\small\item\em the state vector, this is usually a pointer to a block of data owned by the integrator. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structrrllvm_1_1LLVMModelData_aab22d8a200ecb761c1255711401298dc}\label{structrrllvm_1_1LLVMModelData_aab22d8a200ecb761c1255711401298dc}} 
+double $\ast$ \mbox{\hyperlink{structrrllvm_1_1LLVMModelData_aab22d8a200ecb761c1255711401298dc}{state\+Vector\+Rate}}
+\begin{DoxyCompactList}\small\item\em the rate of change of the state vector, this is usually a pointer to a block of data owned by the integrator. \end{DoxyCompactList}\item 
+double $\ast$ \mbox{\hyperlink{structrrllvm_1_1LLVMModelData_a56b5c0718c3ada5dcbba2162778badcc}{rate\+Rule\+Rates}}
+\begin{DoxyCompactList}\small\item\em the rate of change of all elements who\textquotesingle{}s dynamics are determined by rate rules. \end{DoxyCompactList}\item 
+double $\ast$ \mbox{\hyperlink{structrrllvm_1_1LLVMModelData_a466783f9f4d8c673d400024969195874}{floating\+Species\+Amount\+Rates}}
+\begin{DoxyCompactList}\small\item\em amount rates of change for floating species. \end{DoxyCompactList}\item 
+double $\ast$ \mbox{\hyperlink{structrrllvm_1_1LLVMModelData_a82b40561feb7109b0d8cfa034f014e0c}{compartment\+Volumes\+Alias}}
+\begin{DoxyCompactList}\small\item\em $\ast$$\ast$$\ast$$\ast$$\ast$$\ast$$\ast$ Permanent data section $\ast$$\ast$$\ast$$\ast$$\ast$$\ast$$\ast$ \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structrrllvm_1_1LLVMModelData_a9799c886fe4155a007f5ef88fd1a7ee9}\label{structrrllvm_1_1LLVMModelData_a9799c886fe4155a007f5ef88fd1a7ee9}} 
+double $\ast$ {\bfseries init\+Compartment\+Volumes\+Alias}
+\item 
+double $\ast$ \mbox{\hyperlink{structrrllvm_1_1LLVMModelData_a34634a6ccba0369823b9f085acfd2b76}{init\+Floating\+Species\+Amounts\+Alias}}
+\begin{DoxyCompactList}\small\item\em \textbackslash{}conservation \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structrrllvm_1_1LLVMModelData_a56b0a9fcbdeafb7b801928ba755e5a4d}\label{structrrllvm_1_1LLVMModelData_a56b0a9fcbdeafb7b801928ba755e5a4d}} 
+double $\ast$ {\bfseries boundary\+Species\+Amounts\+Alias}
+\item 
+\mbox{\Hypertarget{structrrllvm_1_1LLVMModelData_ac01f3bdc23dbe0ef5e82c36a7d91d226}\label{structrrllvm_1_1LLVMModelData_ac01f3bdc23dbe0ef5e82c36a7d91d226}} 
+double $\ast$ {\bfseries init\+Boundary\+Species\+Amounts\+Alias}
+\item 
+\mbox{\Hypertarget{structrrllvm_1_1LLVMModelData_ac5aa5c4de40573c1593b85283048682b}\label{structrrllvm_1_1LLVMModelData_ac5aa5c4de40573c1593b85283048682b}} 
+double $\ast$ {\bfseries global\+Parameters\+Alias}
+\item 
+\mbox{\Hypertarget{structrrllvm_1_1LLVMModelData_a556c403065965d6301e79532f6cfb149}\label{structrrllvm_1_1LLVMModelData_a556c403065965d6301e79532f6cfb149}} 
+double $\ast$ {\bfseries init\+Global\+Parameters\+Alias}
+\item 
+\mbox{\Hypertarget{structrrllvm_1_1LLVMModelData_a1dacff15b0a7413770b68298caa272ed}\label{structrrllvm_1_1LLVMModelData_a1dacff15b0a7413770b68298caa272ed}} 
+double $\ast$ {\bfseries reaction\+Rates\+Alias}
+\item 
+double $\ast$ \mbox{\hyperlink{structrrllvm_1_1LLVMModelData_a8c97c01aea7c7e1f8584447fe8296b7f}{rate\+Rule\+Values\+Alias}}
+\begin{DoxyCompactList}\small\item\em All of the elelments which have a rate rule are stored here, including the dependent floating species, which will not be stored in the independent floating species block. \end{DoxyCompactList}\item 
+double $\ast$ \mbox{\hyperlink{structrrllvm_1_1LLVMModelData_ae481882dda1cfd8bacab33b05fc86557}{floating\+Species\+Amounts\+Alias}}
+\begin{DoxyCompactList}\small\item\em has length num\+Ind\+Floating\+Species \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{structrrllvm_1_1LLVMModelData_a6ea5c7859174d56f11254b889fb0da1a}{data}} \mbox{[}0\mbox{]}
+\begin{DoxyCompactList}\small\item\em binary data layout\+: \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+A data structure that is that allows data to be exchanged with running S\+B\+ML models. 
+
+In the case of C\+Executable\+Models, A pointer to this struct is given to the compiled shared library, and the C code there modifies the buffers of this structure.
+
+There are some functions in Executable\+Model.\+h that manage Model\+Data memory. These would have made more sense here, but in order to prevent any issues with generated code interacting with them, they were placed there.
+
+Basic Nomencalture Compartments\+: A well stirred compartment which contains one or more species. the volume of a compartment can change durring the course of a simulation.
+
+Floating Species\+: these are chemical species who\textquotesingle{}s values (ammount / concentration) change over time.
+
+Boundary Species\+: chemical species that who\textquotesingle{}s values are fixed to their initial conditions, these function as boundary conditions.
+
+\begin{DoxySeeAlso}{See also}
+Executable\+Model.\+h 
+\end{DoxySeeAlso}
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{structrrllvm_1_1LLVMModelData_a82b40561feb7109b0d8cfa034f014e0c}\label{structrrllvm_1_1LLVMModelData_a82b40561feb7109b0d8cfa034f014e0c}} 
+\index{rrllvm::LLVMModelData@{rrllvm::LLVMModelData}!compartmentVolumesAlias@{compartmentVolumesAlias}}
+\index{compartmentVolumesAlias@{compartmentVolumesAlias}!rrllvm::LLVMModelData@{rrllvm::LLVMModelData}}
+\doxysubsubsection{\texorpdfstring{compartmentVolumesAlias}{compartmentVolumesAlias}}
+{\footnotesize\ttfamily double$\ast$ rrllvm\+::\+L\+L\+V\+M\+Model\+Data\+::compartment\+Volumes\+Alias}
+
+
+
+$\ast$$\ast$$\ast$$\ast$$\ast$$\ast$$\ast$ Permanent data section $\ast$$\ast$$\ast$$\ast$$\ast$$\ast$$\ast$ 
+
+Ten Alias pointers below point to ten arrays stored continously in data\mbox{[}0\mbox{]} at the end of this struct. number of compartments, and compartment volumes. units\+: volume \mbox{\Hypertarget{structrrllvm_1_1LLVMModelData_a6ea5c7859174d56f11254b889fb0da1a}\label{structrrllvm_1_1LLVMModelData_a6ea5c7859174d56f11254b889fb0da1a}} 
+\index{rrllvm::LLVMModelData@{rrllvm::LLVMModelData}!data@{data}}
+\index{data@{data}!rrllvm::LLVMModelData@{rrllvm::LLVMModelData}}
+\doxysubsubsection{\texorpdfstring{data}{data}}
+{\footnotesize\ttfamily double rrllvm\+::\+L\+L\+V\+M\+Model\+Data\+::data\mbox{[}0\mbox{]}}
+
+
+
+binary data layout\+: 
+
+compartment\+Volumes \mbox{[}num\+Ind\+Compartment\+Volumes\mbox{]} // 31 init\+Compartment\+Volumes \mbox{[}num\+Init\+Compartment\+Volumes\mbox{]} // 32 init\+Floating\+Species\+Amounts \mbox{[}num\+Init\+Floating\+Species\mbox{]} // 33 boundary\+Species\+Amounts \mbox{[}num\+Ind\+Boundary\+Species\mbox{]} // 34 init\+Boundary\+Species\+Amounts \mbox{[}num\+Init\+Boundary\+Species\mbox{]} // 35 global\+Parameters \mbox{[}num\+Ind\+Global\+Parameters\mbox{]} // 36 init\+Global\+Parameters \mbox{[}num\+Init\+Global\+Parameters\mbox{]} // 37 reaction\+Rates \mbox{[}num\+Reactions\mbox{]} // 38
+
+rate\+Rule\+Values \mbox{[}num\+Rate\+Rules\mbox{]} // 39 floating\+Species\+Amounts \mbox{[}num\+Ind\+Floating\+Species\mbox{]} // 40 This dynamic-\/sized array will be allocated while this Model\+Data is allocated. Ten array in the permanent data section is stored contiously in this chunck. Size of each array is defined by ten unsigned integer above. Values can be accessed using ten alias pointers defined above. \mbox{\Hypertarget{structrrllvm_1_1LLVMModelData_a466783f9f4d8c673d400024969195874}\label{structrrllvm_1_1LLVMModelData_a466783f9f4d8c673d400024969195874}} 
+\index{rrllvm::LLVMModelData@{rrllvm::LLVMModelData}!floatingSpeciesAmountRates@{floatingSpeciesAmountRates}}
+\index{floatingSpeciesAmountRates@{floatingSpeciesAmountRates}!rrllvm::LLVMModelData@{rrllvm::LLVMModelData}}
+\doxysubsubsection{\texorpdfstring{floatingSpeciesAmountRates}{floatingSpeciesAmountRates}}
+{\footnotesize\ttfamily double$\ast$ rrllvm\+::\+L\+L\+V\+M\+Model\+Data\+::floating\+Species\+Amount\+Rates}
+
+
+
+amount rates of change for floating species. 
+
+This pointer is O\+N\+LY valid during an eval\+Model call, otherwise it is zero. T\+O\+DO, this needs be be moved to a parameter. \mbox{\Hypertarget{structrrllvm_1_1LLVMModelData_ae481882dda1cfd8bacab33b05fc86557}\label{structrrllvm_1_1LLVMModelData_ae481882dda1cfd8bacab33b05fc86557}} 
+\index{rrllvm::LLVMModelData@{rrllvm::LLVMModelData}!floatingSpeciesAmountsAlias@{floatingSpeciesAmountsAlias}}
+\index{floatingSpeciesAmountsAlias@{floatingSpeciesAmountsAlias}!rrllvm::LLVMModelData@{rrllvm::LLVMModelData}}
+\doxysubsubsection{\texorpdfstring{floatingSpeciesAmountsAlias}{floatingSpeciesAmountsAlias}}
+{\footnotesize\ttfamily double$\ast$ rrllvm\+::\+L\+L\+V\+M\+Model\+Data\+::floating\+Species\+Amounts\+Alias}
+
+
+
+has length num\+Ind\+Floating\+Species 
+
+This pointer is part of the state vector. When any function is called by C\+V\+O\+DE, this is actually a pointer to a C\+V\+O\+DE owned memory block. \mbox{\Hypertarget{structrrllvm_1_1LLVMModelData_a34634a6ccba0369823b9f085acfd2b76}\label{structrrllvm_1_1LLVMModelData_a34634a6ccba0369823b9f085acfd2b76}} 
+\index{rrllvm::LLVMModelData@{rrllvm::LLVMModelData}!initFloatingSpeciesAmountsAlias@{initFloatingSpeciesAmountsAlias}}
+\index{initFloatingSpeciesAmountsAlias@{initFloatingSpeciesAmountsAlias}!rrllvm::LLVMModelData@{rrllvm::LLVMModelData}}
+\doxysubsubsection{\texorpdfstring{initFloatingSpeciesAmountsAlias}{initFloatingSpeciesAmountsAlias}}
+{\footnotesize\ttfamily double$\ast$ rrllvm\+::\+L\+L\+V\+M\+Model\+Data\+::init\+Floating\+Species\+Amounts\+Alias}
+
+
+
+\textbackslash{}conservation 
+
+length num\+Ind\+Floating\+Species
+
+Note that dependent floating species which have a rate rule will not be stored in this block, instead, they will be stored in Rate\+Rule block \mbox{\Hypertarget{structrrllvm_1_1LLVMModelData_acb67b3d0e45edcb2e936b39cb0ebe109}\label{structrrllvm_1_1LLVMModelData_acb67b3d0e45edcb2e936b39cb0ebe109}} 
+\index{rrllvm::LLVMModelData@{rrllvm::LLVMModelData}!numIndBoundarySpecies@{numIndBoundarySpecies}}
+\index{numIndBoundarySpecies@{numIndBoundarySpecies}!rrllvm::LLVMModelData@{rrllvm::LLVMModelData}}
+\doxysubsubsection{\texorpdfstring{numIndBoundarySpecies}{numIndBoundarySpecies}}
+{\footnotesize\ttfamily unsigned rrllvm\+::\+L\+L\+V\+M\+Model\+Data\+::num\+Ind\+Boundary\+Species}
+
+
+
+number of boundary species and boundary species concentrations. 
+
+units\+: either Mass Percent = (Mass of Solute) / (Mass of Solution) x 100\% Volume Percent= (Volume of Solute) / (Volume of Solution) x 100\% Mass/\+Volume Percent= (Mass of Solute) / (Volume of Solution) x 100\% \mbox{\Hypertarget{structrrllvm_1_1LLVMModelData_a00d623dc7588f7eacc2fa3ce2e1bade0}\label{structrrllvm_1_1LLVMModelData_a00d623dc7588f7eacc2fa3ce2e1bade0}} 
+\index{rrllvm::LLVMModelData@{rrllvm::LLVMModelData}!numIndFloatingSpecies@{numIndFloatingSpecies}}
+\index{numIndFloatingSpecies@{numIndFloatingSpecies}!rrllvm::LLVMModelData@{rrllvm::LLVMModelData}}
+\doxysubsubsection{\texorpdfstring{numIndFloatingSpecies}{numIndFloatingSpecies}}
+{\footnotesize\ttfamily unsigned rrllvm\+::\+L\+L\+V\+M\+Model\+Data\+::num\+Ind\+Floating\+Species}
+
+
+
+The total ammounts of the independent floating species that don\textquotesingle{}t have rules, i.\+e. 
+
+concentration $\ast$ compartment volume.
+
+Note, the floating species consist of B\+O\+TH independent A\+ND dependent species. Indexes \mbox{[}0,num\+Indpendent\+Species) values are the indenpendent species, other dependent species stored in Rate\+Rule block \mbox{\Hypertarget{structrrllvm_1_1LLVMModelData_a6d14b37c5ab67fe41314c82b7124c6ab}\label{structrrllvm_1_1LLVMModelData_a6d14b37c5ab67fe41314c82b7124c6ab}} 
+\index{rrllvm::LLVMModelData@{rrllvm::LLVMModelData}!numReactions@{numReactions}}
+\index{numReactions@{numReactions}!rrllvm::LLVMModelData@{rrllvm::LLVMModelData}}
+\doxysubsubsection{\texorpdfstring{numReactions}{numReactions}}
+{\footnotesize\ttfamily unsigned rrllvm\+::\+L\+L\+V\+M\+Model\+Data\+::num\+Reactions}
+
+
+
+number of reactions, same as rates\+Size. 
+
+These are the calcuated reaction rates, not the species rates. \mbox{\Hypertarget{structrrllvm_1_1LLVMModelData_a56b5c0718c3ada5dcbba2162778badcc}\label{structrrllvm_1_1LLVMModelData_a56b5c0718c3ada5dcbba2162778badcc}} 
+\index{rrllvm::LLVMModelData@{rrllvm::LLVMModelData}!rateRuleRates@{rateRuleRates}}
+\index{rateRuleRates@{rateRuleRates}!rrllvm::LLVMModelData@{rrllvm::LLVMModelData}}
+\doxysubsubsection{\texorpdfstring{rateRuleRates}{rateRuleRates}}
+{\footnotesize\ttfamily double$\ast$ rrllvm\+::\+L\+L\+V\+M\+Model\+Data\+::rate\+Rule\+Rates}
+
+
+
+the rate of change of all elements who\textquotesingle{}s dynamics are determined by rate rules. 
+
+This is just a pointer to a data block owned by the integrator.
+
+Normally N\+U\+LL, only valid durring an eval\+Model call. \mbox{\Hypertarget{structrrllvm_1_1LLVMModelData_a8c97c01aea7c7e1f8584447fe8296b7f}\label{structrrllvm_1_1LLVMModelData_a8c97c01aea7c7e1f8584447fe8296b7f}} 
+\index{rrllvm::LLVMModelData@{rrllvm::LLVMModelData}!rateRuleValuesAlias@{rateRuleValuesAlias}}
+\index{rateRuleValuesAlias@{rateRuleValuesAlias}!rrllvm::LLVMModelData@{rrllvm::LLVMModelData}}
+\doxysubsubsection{\texorpdfstring{rateRuleValuesAlias}{rateRuleValuesAlias}}
+{\footnotesize\ttfamily double$\ast$ rrllvm\+::\+L\+L\+V\+M\+Model\+Data\+::rate\+Rule\+Values\+Alias}
+
+
+
+All of the elelments which have a rate rule are stored here, including the dependent floating species, which will not be stored in the independent floating species block. 
+
+As the integrator runs, this pointer can simply point to an offset in the integrator\textquotesingle{}s state vector.
+
+This pointer is part of the state vector. When any function is called by C\+V\+O\+DE, this is actually a pointer to a C\+V\+O\+DE owned memory block. Otherwise, this points to the alocated rate\+Rule\+Values block at the end of this struct. \mbox{\Hypertarget{structrrllvm_1_1LLVMModelData_a13d7b1094bd407bc0422943c196f4f09}\label{structrrllvm_1_1LLVMModelData_a13d7b1094bd407bc0422943c196f4f09}} 
+\index{rrllvm::LLVMModelData@{rrllvm::LLVMModelData}!stateVectorSize@{stateVectorSize}}
+\index{stateVectorSize@{stateVectorSize}!rrllvm::LLVMModelData@{rrllvm::LLVMModelData}}
+\doxysubsubsection{\texorpdfstring{stateVectorSize}{stateVectorSize}}
+{\footnotesize\ttfamily unsigned rrllvm\+::\+L\+L\+V\+M\+Model\+Data\+::state\+Vector\+Size}
+
+
+
+number of items in the state vector. 
+
+should be num\+Ind\+Floating\+Species + num\+Rate\+Rules 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+llvm/L\+L\+V\+M\+Model\+Data.\+h\end{DoxyCompactItemize}

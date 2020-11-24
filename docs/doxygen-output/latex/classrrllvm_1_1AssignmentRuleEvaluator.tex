@@ -1,0 +1,44 @@
+\hypertarget{classrrllvm_1_1AssignmentRuleEvaluator}{}\doxysection{rrllvm\+::Assignment\+Rule\+Evaluator Class Reference}
+\label{classrrllvm_1_1AssignmentRuleEvaluator}\index{rrllvm::AssignmentRuleEvaluator@{rrllvm::AssignmentRuleEvaluator}}
+
+
+Attaches to an existing symbol forest and applies any asigment rule found in the model to the forest.  
+
+
+
+
+{\ttfamily \#include $<$Assignment\+Rule\+Evaluator.\+h$>$}
+
+Inheritance diagram for rrllvm\+::Assignment\+Rule\+Evaluator\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classrrllvm_1_1AssignmentRuleEvaluator}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classrrllvm_1_1AssignmentRuleEvaluator_a95765b2133aa935fcbe7ef10b062360a}\label{classrrllvm_1_1AssignmentRuleEvaluator_a95765b2133aa935fcbe7ef10b062360a}} 
+{\bfseries Assignment\+Rule\+Evaluator} (\mbox{\hyperlink{classrrllvm_1_1SymbolForest}{Symbol\+Forest}} \&symbols)
+\item 
+\mbox{\Hypertarget{classrrllvm_1_1AssignmentRuleEvaluator_a370be5c94becccff0aa3019f57e5b80e}\label{classrrllvm_1_1AssignmentRuleEvaluator_a370be5c94becccff0aa3019f57e5b80e}} 
+void {\bfseries evaluate} (const libsbml\+::\+Model \&model)
+\item 
+\mbox{\Hypertarget{classrrllvm_1_1AssignmentRuleEvaluator_a712c069badcab168459e4219ac9df185}\label{classrrllvm_1_1AssignmentRuleEvaluator_a712c069badcab168459e4219ac9df185}} 
+virtual bool {\bfseries visit} (const libsbml\+::\+Assignment\+Rule \&x)
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classrrllvm_1_1AssignmentRuleEvaluator_a941c2d2ad09d092387c20e90403ea41a}\label{classrrllvm_1_1AssignmentRuleEvaluator_a941c2d2ad09d092387c20e90403ea41a}} 
+\mbox{\hyperlink{classrrllvm_1_1SymbolForest}{Symbol\+Forest}} \& {\bfseries symbols}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Attaches to an existing symbol forest and applies any asigment rule found in the model to the forest. 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+llvm/Assignment\+Rule\+Evaluator.\+h\item 
+llvm/Assignment\+Rule\+Evaluator.\+cpp\end{DoxyCompactItemize}

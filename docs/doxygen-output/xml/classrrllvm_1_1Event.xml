@@ -1,0 +1,331 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+  <compounddef id="classrrllvm_1_1Event" kind="class" language="C++" prot="public">
+    <compoundname>rrllvm::Event</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classrrllvm_1_1Event_1a6998c57a7bc0bbd7e59b435137e09b55" prot="public" static="no" mutable="no">
+        <type><ref refid="classrrllvm_1_1LLVMExecutableModel" kindref="compound">LLVMExecutableModel</ref> &amp;</type>
+        <definition>LLVMExecutableModel&amp; rrllvm::Event::model</definition>
+        <argsstring></argsstring>
+        <name>model</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/EventQueue.h" line="54" column="25" bodyfile="llvm/EventQueue.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrrllvm_1_1Event_1a83a6728dc04b25f42d64fb1c0ebd694a" prot="public" static="no" mutable="no">
+        <type>uint</type>
+        <definition>uint rrllvm::Event::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/EventQueue.h" line="55" column="10" bodyfile="llvm/EventQueue.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrrllvm_1_1Event_1a9b2ab0c8cdccfcfde6f3f8c789eb98f7" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double rrllvm::Event::delay</definition>
+        <argsstring></argsstring>
+        <name>delay</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/EventQueue.h" line="56" column="12" bodyfile="llvm/EventQueue.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrrllvm_1_1Event_1a6bec3e789e5179cd715632b47b6c59bb" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double rrllvm::Event::assignTime</definition>
+        <argsstring></argsstring>
+        <name>assignTime</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/EventQueue.h" line="57" column="12" bodyfile="llvm/EventQueue.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrrllvm_1_1Event_1ab27892be72c31547eb1435e655fd43c9" prot="public" static="no" mutable="no">
+        <type>uint</type>
+        <definition>uint rrllvm::Event::dataSize</definition>
+        <argsstring></argsstring>
+        <name>dataSize</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/EventQueue.h" line="58" column="10" bodyfile="llvm/EventQueue.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrrllvm_1_1Event_1aa209f97e1960c357d4a2108050aab330" prot="public" static="no" mutable="no">
+        <type>double *</type>
+        <definition>double* rrllvm::Event::data</definition>
+        <argsstring></argsstring>
+        <name>data</name>
+        <briefdescription>
+<para>data block where assignment rules evaluations are stored if useValuesFromTriggerTime is set. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>TODO: this should probably be allocated with the ModelData structure. Original idea was that more than one event of a type may be queued, but I don&apos;t think this is possible. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/EventQueue.h" line="69" column="12" bodyfile="llvm/EventQueue.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classrrllvm_1_1Event_1a21ce749643495d93b51048dab56559ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>rrllvm::Event::Event</definition>
+        <argsstring>(LLVMExecutableModel &amp;, uint id)</argsstring>
+        <name>Event</name>
+        <param>
+          <type><ref refid="classrrllvm_1_1LLVMExecutableModel" kindref="compound">LLVMExecutableModel</ref> &amp;</type>
+        </param>
+        <param>
+          <type>uint</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/EventQueue.h" line="25" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classrrllvm_1_1Event_1ae324e7f672147244ea90a1b2982406d3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>rrllvm::Event::Event</definition>
+        <argsstring>(const Event &amp;other)</argsstring>
+        <name>Event</name>
+        <param>
+          <type>const <ref refid="classrr_1_1Event" kindref="compound">Event</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/EventQueue.h" line="26" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classrrllvm_1_1Event_1a069991382182b808e5bcff4d3ff22e05" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classrr_1_1Event" kindref="compound">Event</ref> &amp;</type>
+        <definition>Event&amp; rrllvm::Event::operator=</definition>
+        <argsstring>(const Event &amp;rhs)</argsstring>
+        <name>operator=</name>
+        <param>
+          <type>const <ref refid="classrr_1_1Event" kindref="compound">Event</ref> &amp;</type>
+          <declname>rhs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/EventQueue.h" line="27" column="11"/>
+      </memberdef>
+      <memberdef kind="function" id="classrrllvm_1_1Event_1a43c33410cf8325b6e671bc9e50eaa841" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>rrllvm::Event::~Event</definition>
+        <argsstring>()</argsstring>
+        <name>~Event</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/EventQueue.h" line="28" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classrrllvm_1_1Event_1a7833d4f2c70a42ca97b3fd920a007b30" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void rrllvm::Event::assign</definition>
+        <argsstring>() const</argsstring>
+        <name>assign</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/EventQueue.h" line="31" column="10" bodyfile="llvm/EventQueue.cpp" bodystart="109" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="classrrllvm_1_1Event_1a62c05f332974a4ba6dc8dc60f178d4c8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool rrllvm::Event::isExpired</definition>
+        <argsstring>() const</argsstring>
+        <name>isExpired</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/EventQueue.h" line="33" column="10" bodyfile="llvm/EventQueue.cpp" bodystart="93" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="classrrllvm_1_1Event_1af22cd236be520ffe6c26cf37b1a53be8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool rrllvm::Event::isCurrent</definition>
+        <argsstring>() const</argsstring>
+        <name>isCurrent</name>
+        <briefdescription>
+<para>delay is zero and either persistent or triggered. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/EventQueue.h" line="38" column="10" bodyfile="llvm/EventQueue.cpp" bodystart="98" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="classrrllvm_1_1Event_1a2984456fc3edf6bc653d12a3ec73031e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double rrllvm::Event::getPriority</definition>
+        <argsstring>() const</argsstring>
+        <name>getPriority</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/EventQueue.h" line="40" column="12" bodyfile="llvm/EventQueue.cpp" bodystart="104" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="classrrllvm_1_1Event_1a69ee9c33388e5b0a0823b5560b5f4b1c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool rrllvm::Event::isPersistent</definition>
+        <argsstring>() const</argsstring>
+        <name>isPersistent</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/EventQueue.h" line="42" column="10" bodyfile="llvm/EventQueue.cpp" bodystart="119" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="classrrllvm_1_1Event_1ad2c770e700d16f84cfc421afc1763ab3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool rrllvm::Event::useValuesFromTriggerTime</definition>
+        <argsstring>() const</argsstring>
+        <name>useValuesFromTriggerTime</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/EventQueue.h" line="44" column="10" bodyfile="llvm/EventQueue.cpp" bodystart="124" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="classrrllvm_1_1Event_1acb47766244aaef9103dd24aaa6f3dc53" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool rrllvm::Event::isTriggered</definition>
+        <argsstring>() const</argsstring>
+        <name>isTriggered</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/EventQueue.h" line="46" column="10" bodyfile="llvm/EventQueue.cpp" bodystart="129" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="classrrllvm_1_1Event_1a2ce6cec1d57bb2fb173af09a5ef1b337" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool rrllvm::Event::isRipe</definition>
+        <argsstring>() const</argsstring>
+        <name>isRipe</name>
+        <briefdescription>
+<para>is this event ready to be applied </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/EventQueue.h" line="51" column="10" bodyfile="llvm/EventQueue.cpp" bodystart="148" bodyend="153"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="friend">
+      <memberdef kind="friend" id="classrrllvm_1_1Event_1a7e9a71edff5dada6a376bd88a8eb087b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>friend bool</type>
+        <definition>bool operator&lt;</definition>
+        <argsstring>(const Event &amp;a, const Event &amp;b)</argsstring>
+        <name>operator&lt;</name>
+        <param>
+          <type>const <ref refid="classrr_1_1Event" kindref="compound">Event</ref> &amp;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classrr_1_1Event" kindref="compound">Event</ref> &amp;</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/EventQueue.h" line="72" column="12" bodyfile="c/rrEvent.cpp" bodystart="59" bodyend="68"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>rrllvm::LLVMExecutableModel</label>
+        <link refid="classrrllvm_1_1LLVMExecutableModel"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>rrllvm::Event</label>
+        <link refid="classrrllvm_1_1Event"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>model</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>rr::ExecutableModel</label>
+        <link refid="classrr_1_1ExecutableModel"/>
+      </node>
+    </collaborationgraph>
+    <location file="llvm/EventQueue.h" line="22" column="1" bodyfile="llvm/EventQueue.h" bodystart="23" bodyend="74"/>
+    <listofallmembers>
+      <member refid="classrrllvm_1_1Event_1a7833d4f2c70a42ca97b3fd920a007b30" prot="public" virt="non-virtual"><scope>rrllvm::Event</scope><name>assign</name></member>
+      <member refid="classrrllvm_1_1Event_1a6bec3e789e5179cd715632b47b6c59bb" prot="public" virt="non-virtual"><scope>rrllvm::Event</scope><name>assignTime</name></member>
+      <member refid="classrrllvm_1_1Event_1aa209f97e1960c357d4a2108050aab330" prot="public" virt="non-virtual"><scope>rrllvm::Event</scope><name>data</name></member>
+      <member refid="classrrllvm_1_1Event_1ab27892be72c31547eb1435e655fd43c9" prot="public" virt="non-virtual"><scope>rrllvm::Event</scope><name>dataSize</name></member>
+      <member refid="classrrllvm_1_1Event_1a9b2ab0c8cdccfcfde6f3f8c789eb98f7" prot="public" virt="non-virtual"><scope>rrllvm::Event</scope><name>delay</name></member>
+      <member refid="classrrllvm_1_1Event_1a21ce749643495d93b51048dab56559ca" prot="public" virt="non-virtual"><scope>rrllvm::Event</scope><name>Event</name></member>
+      <member refid="classrrllvm_1_1Event_1ae324e7f672147244ea90a1b2982406d3" prot="public" virt="non-virtual"><scope>rrllvm::Event</scope><name>Event</name></member>
+      <member refid="classrrllvm_1_1Event_1a2984456fc3edf6bc653d12a3ec73031e" prot="public" virt="non-virtual"><scope>rrllvm::Event</scope><name>getPriority</name></member>
+      <member refid="classrrllvm_1_1Event_1a83a6728dc04b25f42d64fb1c0ebd694a" prot="public" virt="non-virtual"><scope>rrllvm::Event</scope><name>id</name></member>
+      <member refid="classrrllvm_1_1Event_1af22cd236be520ffe6c26cf37b1a53be8" prot="public" virt="non-virtual"><scope>rrllvm::Event</scope><name>isCurrent</name></member>
+      <member refid="classrrllvm_1_1Event_1a62c05f332974a4ba6dc8dc60f178d4c8" prot="public" virt="non-virtual"><scope>rrllvm::Event</scope><name>isExpired</name></member>
+      <member refid="classrrllvm_1_1Event_1a69ee9c33388e5b0a0823b5560b5f4b1c" prot="public" virt="non-virtual"><scope>rrllvm::Event</scope><name>isPersistent</name></member>
+      <member refid="classrrllvm_1_1Event_1a2ce6cec1d57bb2fb173af09a5ef1b337" prot="public" virt="non-virtual"><scope>rrllvm::Event</scope><name>isRipe</name></member>
+      <member refid="classrrllvm_1_1Event_1acb47766244aaef9103dd24aaa6f3dc53" prot="public" virt="non-virtual"><scope>rrllvm::Event</scope><name>isTriggered</name></member>
+      <member refid="classrrllvm_1_1Event_1a6998c57a7bc0bbd7e59b435137e09b55" prot="public" virt="non-virtual"><scope>rrllvm::Event</scope><name>model</name></member>
+      <member refid="classrrllvm_1_1Event_1a7e9a71edff5dada6a376bd88a8eb087b" prot="public" virt="non-virtual"><scope>rrllvm::Event</scope><name>operator&lt;</name></member>
+      <member refid="classrrllvm_1_1Event_1a069991382182b808e5bcff4d3ff22e05" prot="public" virt="non-virtual"><scope>rrllvm::Event</scope><name>operator=</name></member>
+      <member refid="classrrllvm_1_1Event_1ad2c770e700d16f84cfc421afc1763ab3" prot="public" virt="non-virtual"><scope>rrllvm::Event</scope><name>useValuesFromTriggerTime</name></member>
+      <member refid="classrrllvm_1_1Event_1a43c33410cf8325b6e671bc9e50eaa841" prot="public" virt="non-virtual"><scope>rrllvm::Event</scope><name>~Event</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

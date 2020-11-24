@@ -11,12 +11,6 @@
     <includes local="yes">testing/CXXExecutableModel.h</includes>
     <includes local="yes">testing/CXXEnzymeExecutableModel.h</includes>
     <incdepgraph>
-      <node id="12">
-        <label>list</label>
-      </node>
-      <node id="9">
-        <label>sbml/SBMLDocument.h</label>
-      </node>
       <node id="16">
         <label>Variant.h</label>
         <link refid="Variant_8h_source"/>
@@ -29,38 +23,59 @@
         <childnode refid="11" relation="include">
         </childnode>
       </node>
-      <node id="27">
-        <label>testing/CXXExecutableModel.h</label>
+      <node id="12">
+        <label>list</label>
       </node>
-      <node id="10">
-        <label>stdint.h</label>
-      </node>
-      <node id="25">
-        <label>stdexcept</label>
-      </node>
-      <node id="22">
-        <label>rrLogger.h</label>
-        <link refid="rrLogger_8h_source"/>
-        <childnode refid="23" relation="include">
+      <node id="3">
+        <label>rrExecutableModel.h</label>
+        <link refid="rrExecutableModel_8h"/>
+        <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="5" relation="include">
+        <childnode refid="6" relation="include">
         </childnode>
-      </node>
-      <node id="6">
-        <label>rrException.h</label>
-        <link refid="rrException_8h_source"/>
-        <childnode refid="7" relation="include">
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="5" relation="include">
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
         </childnode>
       </node>
-      <node id="8">
-        <label>string</label>
+      <node id="9">
+        <label>sbml/SBMLDocument.h</label>
       </node>
-      <node id="18">
-        <label>tr1proxy/rr_unordered_map.h</label>
+      <node id="27">
+        <label>testing/CXXExecutableModel.h</label>
+      </node>
+      <node id="21">
+        <label>Integrator.h</label>
+        <link refid="Integrator_8h"/>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>stdint.h</label>
       </node>
       <node id="15">
         <label>Dictionary.h</label>
@@ -74,6 +89,33 @@
         <childnode refid="14" relation="include">
         </childnode>
         <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>rrOSSpecifics.h</label>
+        <link refid="rrOSSpecifics_8h_source"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>stdexcept</label>
+      </node>
+      <node id="8">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>rrExporter.h</label>
+        <link refid="rrExporter_8h_source"/>
+      </node>
+      <node id="18">
+        <label>tr1proxy/rr_unordered_map.h</label>
+      </node>
+      <node id="22">
+        <label>rrLogger.h</label>
+        <link refid="rrLogger_8h_source"/>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
         </childnode>
       </node>
       <node id="7">
@@ -100,53 +142,21 @@
         <childnode refid="25" relation="include">
         </childnode>
       </node>
-      <node id="21">
-        <label>Integrator.h</label>
-        <link refid="Integrator_8h"/>
-        <childnode refid="22" relation="include">
-        </childnode>
-        <childnode refid="4" relation="include">
-        </childnode>
-        <childnode refid="15" relation="include">
-        </childnode>
-        <childnode refid="6" relation="include">
-        </childnode>
-        <childnode refid="24" relation="include">
-        </childnode>
-        <childnode refid="14" relation="include">
-        </childnode>
-        <childnode refid="18" relation="include">
-        </childnode>
-        <childnode refid="25" relation="include">
-        </childnode>
-      </node>
-      <node id="3">
-        <label>rrExecutableModel.h</label>
-        <link refid="rrExecutableModel_8h"/>
-        <childnode refid="4" relation="include">
-        </childnode>
-        <childnode refid="6" relation="include">
-        </childnode>
-        <childnode refid="9" relation="include">
-        </childnode>
-        <childnode refid="10" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
-        <childnode refid="11" relation="include">
-        </childnode>
-        <childnode refid="12" relation="include">
-        </childnode>
-        <childnode refid="13" relation="include">
-        </childnode>
-        <childnode refid="14" relation="include">
-        </childnode>
-      </node>
       <node id="17">
         <label>typeinfo</label>
       </node>
       <node id="11">
         <label>vector</label>
+      </node>
+      <node id="6">
+        <label>rrException.h</label>
+        <link refid="rrException_8h_source"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
       </node>
       <node id="28">
         <label>testing/CXXEnzymeExecutableModel.h</label>
@@ -166,21 +176,31 @@
         <childnode refid="19" relation="include">
         </childnode>
       </node>
+      <node id="20">
+        <label>rrRoadRunnerOptions.h</label>
+        <link refid="rrRoadRunnerOptions_8h_source"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
       <node id="19">
         <label>iostream</label>
       </node>
-      <node id="4">
-        <label>rrOSSpecifics.h</label>
-        <link refid="rrOSSpecifics_8h_source"/>
-        <childnode refid="5" relation="include">
-        </childnode>
-      </node>
       <node id="14">
         <label>tr1proxy/rr_memory.h</label>
-      </node>
-      <node id="5">
-        <label>rrExporter.h</label>
-        <link refid="rrExporter_8h_source"/>
       </node>
       <node id="1">
         <label>ExecutableModelFactory.cpp</label>
@@ -204,26 +224,6 @@
       </node>
       <node id="26">
         <label>algorithm</label>
-      </node>
-      <node id="20">
-        <label>rrRoadRunnerOptions.h</label>
-        <link refid="rrRoadRunnerOptions_8h_source"/>
-        <childnode refid="5" relation="include">
-        </childnode>
-        <childnode refid="15" relation="include">
-        </childnode>
-        <childnode refid="21" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
-        <childnode refid="11" relation="include">
-        </childnode>
-        <childnode refid="14" relation="include">
-        </childnode>
-        <childnode refid="18" relation="include">
-        </childnode>
-        <childnode refid="10" relation="include">
-        </childnode>
       </node>
     </incdepgraph>
     <innernamespace refid="namespacerr">rr</innernamespace>
@@ -252,7 +252,7 @@
 <codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;llvm/LLVMModelGenerator.h&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;llvm/LLVMCompiler.h&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;llvm/LLVMExecutableModel.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="LLVMExecutableModel_8h" kindref="compound">llvm/LLVMExecutableModel.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>_MSC_VER</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>warning(default:<sp/>4146)</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>warning(default:<sp/>4141)</highlight><highlight class="normal"></highlight></codeline>
@@ -296,7 +296,7 @@
 <codeline lineno="66"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="67"><highlight class="normal"></highlight></codeline>
 <codeline lineno="68"><highlight class="normal">Compiler*<sp/>Compiler::New()<sp/>{</highlight></codeline>
-<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/>rrllvm::LLVMCompiler();</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/><ref refid="classrrllvm_1_1LLVMCompiler" kindref="compound">rrllvm::LLVMCompiler</ref>();</highlight></codeline>
 <codeline lineno="70"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="71"><highlight class="normal"></highlight></codeline>
 <codeline lineno="72"><highlight class="normal">ExecutableModel*<sp/><ref refid="classrr_1_1ExecutableModelFactory_1a522884de93dc83ce2958b32874a956a8" kindref="member">rr::ExecutableModelFactory::createModel</ref>(</highlight></codeline>
@@ -307,17 +307,17 @@
 <codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(opt.hasKey(</highlight><highlight class="stringliteral">&quot;cxxEnzymeTest&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
 <codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/>rrtesting::CXXEnzymeExecutableModel(dict);</highlight></codeline>
 <codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>rrllvm::LLVMModelGenerator::createModel(sbml,<sp/>opt.modelGeneratorOpt);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classrrllvm_1_1LLVMModelGenerator_1a4356fc010a0aa998ff588c210427f09b" kindref="member">rrllvm::LLVMModelGenerator::createModel</ref>(sbml,<sp/>opt.modelGeneratorOpt);</highlight></codeline>
 <codeline lineno="81"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="82"><highlight class="normal"></highlight></codeline>
 <codeline lineno="83"><highlight class="normal">ExecutableModel<sp/>*<ref refid="classrr_1_1ExecutableModelFactory_1a522884de93dc83ce2958b32874a956a8" kindref="member">rr::ExecutableModelFactory::createModel</ref>(std::istream&amp;<sp/>in,<sp/>uint<sp/>modelGeneratorOpt)</highlight></codeline>
 <codeline lineno="84"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/>rrllvm::LLVMExecutableModel(in,<sp/>modelGeneratorOpt);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/><ref refid="classrrllvm_1_1LLVMExecutableModel" kindref="compound">rrllvm::LLVMExecutableModel</ref>(in,<sp/>modelGeneratorOpt);</highlight></codeline>
 <codeline lineno="86"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="87"><highlight class="normal"></highlight></codeline>
 <codeline lineno="88"><highlight class="normal">ExecutableModel*<sp/>ExecutableModelFactory::regenerateModel(ExecutableModel*<sp/>oldModel,<sp/>libsbml::SBMLDocument*<sp/>doc,<sp/>uint<sp/>options)</highlight></codeline>
 <codeline lineno="89"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><sp/>rrllvm::LLVMModelGenerator::regenerateModel(oldModel,<sp/>doc,<sp/>options);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><sp/><ref refid="classrrllvm_1_1LLVMModelGenerator_1acca1a198b41b71a1abfc28f45422b861" kindref="member">rrllvm::LLVMModelGenerator::regenerateModel</ref>(oldModel,<sp/>doc,<sp/>options);</highlight></codeline>
 <codeline lineno="91"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="92"><highlight class="normal"></highlight></codeline>
 <codeline lineno="93"><highlight class="normal"></highlight><highlight class="comment">/*</highlight></codeline>

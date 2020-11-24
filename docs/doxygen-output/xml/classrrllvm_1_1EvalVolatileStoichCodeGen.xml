@@ -1,0 +1,216 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+  <compounddef id="classrrllvm_1_1EvalVolatileStoichCodeGen" kind="class" language="C++" prot="public">
+    <compoundname>rrllvm::EvalVolatileStoichCodeGen</compoundname>
+    <basecompoundref refid="classrrllvm_1_1CodeGenBase" prot="public" virt="non-virtual">rrllvm::CodeGenBase&lt; EvalVolatileStoichCodeGen_FunctionPtr &gt;</basecompoundref>
+      <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classrrllvm_1_1EvalVolatileStoichCodeGen_1a3e0bc04e2e9d1f6585fffeec0be8343a" prot="public" static="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char * rrllvm::EvalVolatileStoichCodeGen::FunctionName</definition>
+        <argsstring></argsstring>
+        <name>FunctionName</name>
+        <initializer>= &quot;evalVolatileStoich&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/EvalVolatileStoichCodeGen.h" line="34" column="23" bodyfile="llvm/EvalVolatileStoichCodeGen.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classrrllvm_1_1EvalVolatileStoichCodeGen_1a56edec15958f6329000dbc85a7bab85e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>rrllvm::EvalVolatileStoichCodeGen::EvalVolatileStoichCodeGen</definition>
+        <argsstring>(const ModelGeneratorContext &amp;mgc)</argsstring>
+        <name>EvalVolatileStoichCodeGen</name>
+        <param>
+          <type>const <ref refid="classrrllvm_1_1ModelGeneratorContext" kindref="compound">ModelGeneratorContext</ref> &amp;</type>
+          <declname>mgc</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/EvalVolatileStoichCodeGen.h" line="29" column="5" bodyfile="llvm/EvalVolatileStoichCodeGen.cpp" bodystart="29" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="classrrllvm_1_1EvalVolatileStoichCodeGen_1a4769900d8a2cf771c9485e60ce7b517c" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>rrllvm::EvalVolatileStoichCodeGen::~EvalVolatileStoichCodeGen</definition>
+        <argsstring>()</argsstring>
+        <name>~EvalVolatileStoichCodeGen</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/EvalVolatileStoichCodeGen.h" line="30" column="13" bodyfile="llvm/EvalVolatileStoichCodeGen.cpp" bodystart="34" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="classrrllvm_1_1EvalVolatileStoichCodeGen_1a5e26d4f400905d317c4309c353de7ad1" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>llvm::Value *</type>
+        <definition>Value * rrllvm::EvalVolatileStoichCodeGen::codeGen</definition>
+        <argsstring>()</argsstring>
+        <name>codeGen</name>
+        <reimplements refid="classrrllvm_1_1CodeGenBase_1ac59757fb9d9fdb2f2d964a572c3bcae6">codeGen</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/EvalVolatileStoichCodeGen.h" line="32" column="17" bodyfile="llvm/EvalVolatileStoichCodeGen.cpp" bodystart="37" bodyend="125"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="classrrllvm_1_1EvalVolatileStoichCodeGen_1a7262921c1c8f0a40cd58c457047b54f7" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool rrllvm::EvalVolatileStoichCodeGen::isConstantSpeciesReference</definition>
+        <argsstring>(const libsbml::SimpleSpeciesReference *ref) const</argsstring>
+        <name>isConstantSpeciesReference</name>
+        <param>
+          <type>const libsbml::SimpleSpeciesReference *</type>
+          <declname>ref</declname>
+        </param>
+        <briefdescription>
+<para>determine if the given reference dpends on any non-constant elements. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>only support non-constant species reference on l3v1 docs or above, currently we can&apos;t determine if earlier version species references are constant or not. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/EvalVolatileStoichCodeGen.h" line="44" column="10" bodyfile="llvm/EvalVolatileStoichCodeGen.cpp" bodystart="127" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="classrrllvm_1_1EvalVolatileStoichCodeGen_1ac6f1d4560979b128ac255ebb4c2542f3" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool rrllvm::EvalVolatileStoichCodeGen::isConstantASTNode</definition>
+        <argsstring>(const libsbml::ASTNode *ast) const</argsstring>
+        <name>isConstantASTNode</name>
+        <param>
+          <type>const libsbml::ASTNode *</type>
+          <declname>ast</declname>
+        </param>
+        <briefdescription>
+<para>go through the AST tree and see if any names reference non-constant document elements. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/EvalVolatileStoichCodeGen.h" line="51" column="9" bodyfile="llvm/EvalVolatileStoichCodeGen.cpp" bodystart="183" bodyend="211"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>rrllvm::EvalVolatileStoichCodeGen</label>
+        <link refid="classrrllvm_1_1EvalVolatileStoichCodeGen"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>rrllvm::CodeGenBase&lt; EvalVolatileStoichCodeGen_FunctionPtr &gt;</label>
+        <link refid="classrrllvm_1_1CodeGenBase"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>rrllvm::EvalVolatileStoichCodeGen</label>
+        <link refid="classrrllvm_1_1EvalVolatileStoichCodeGen"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>rrllvm::ASTNodeFactory</label>
+        <link refid="classrrllvm_1_1ASTNodeFactory"/>
+      </node>
+      <node id="3">
+        <label>rrllvm::LLVMModelSymbols</label>
+        <link refid="classrrllvm_1_1LLVMModelSymbols"/>
+        <childnode refid="4" relation="private-inheritance">
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>nodes</edgelabel>
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>assignmentRules</edgelabel>
+          <edgelabel>initialAssignmentRules</edgelabel>
+          <edgelabel>initialValues</edgelabel>
+          <edgelabel>rateRules</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>rrllvm::CodeGenBase&lt; EvalVolatileStoichCodeGen_FunctionPtr &gt;</label>
+        <link refid="classrrllvm_1_1CodeGenBase"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>modelSymbols</edgelabel>
+        </childnode>
+        <childnode refid="8" relation="usage">
+          <edgelabel>dataSymbols</edgelabel>
+        </childnode>
+        <childnode refid="9" relation="usage">
+          <edgelabel>modelGenContext</edgelabel>
+        </childnode>
+      </node>
+      <node id="9">
+        <label>rrllvm::ModelGeneratorContext</label>
+        <link refid="classrrllvm_1_1ModelGeneratorContext"/>
+      </node>
+      <node id="8">
+        <label>rrllvm::LLVMModelDataSymbols</label>
+        <link refid="classrrllvm_1_1LLVMModelDataSymbols"/>
+      </node>
+      <node id="6">
+        <label>rrllvm::SymbolForest</label>
+        <link refid="classrrllvm_1_1SymbolForest"/>
+        <childnode refid="7" relation="usage">
+          <edgelabel>boundarySpecies</edgelabel>
+          <edgelabel>compartments</edgelabel>
+          <edgelabel>floatingSpecies</edgelabel>
+          <edgelabel>globalParameters</edgelabel>
+          <edgelabel>speciesReferences</edgelabel>
+        </childnode>
+      </node>
+      <node id="4">
+        <label>libsbml::SBMLVisitor</label>
+      </node>
+      <node id="7">
+        <label>map&lt; string, const libsbml::ASTNode * &gt;</label>
+      </node>
+    </collaborationgraph>
+    <location file="llvm/EvalVolatileStoichCodeGen.h" line="25" column="1" bodyfile="llvm/EvalVolatileStoichCodeGen.h" bodystart="27" bodyend="52"/>
+    <listofallmembers>
+      <member refid="classrrllvm_1_1CodeGenBase_1a36a54f70488b5dc597b63d51b6339793" prot="protected" virt="non-virtual"><scope>rrllvm::EvalVolatileStoichCodeGen</scope><name>builder</name></member>
+      <member refid="classrrllvm_1_1EvalVolatileStoichCodeGen_1a5e26d4f400905d317c4309c353de7ad1" prot="public" virt="virtual"><scope>rrllvm::EvalVolatileStoichCodeGen</scope><name>codeGen</name></member>
+      <member refid="classrrllvm_1_1CodeGenBase_1a1c131daf92705152a6cf09d08c107c9a" prot="protected" virt="non-virtual"><scope>rrllvm::EvalVolatileStoichCodeGen</scope><name>CodeGenBase</name></member>
+      <member refid="classrrllvm_1_1CodeGenBase_1a3a0717caee609a520643ae7c9a7e7d5d" prot="protected" virt="non-virtual"><scope>rrllvm::EvalVolatileStoichCodeGen</scope><name>codeGenHeader</name></member>
+      <member refid="classrrllvm_1_1CodeGenBase_1a3fcef26eb9a2eecf5f7cf332f2b41d8b" prot="protected" virt="non-virtual"><scope>rrllvm::EvalVolatileStoichCodeGen</scope><name>codeGenVoidModelDataHeader</name></member>
+      <member refid="classrrllvm_1_1CodeGenBase_1a3eba81738ceb5e5fa7542b0862fac5d3" prot="protected" virt="non-virtual"><scope>rrllvm::EvalVolatileStoichCodeGen</scope><name>context</name></member>
+      <member refid="classrrllvm_1_1CodeGenBase_1aa1851ab17329f6a7854d4c7f9e230af9" prot="public" virt="non-virtual"><scope>rrllvm::EvalVolatileStoichCodeGen</scope><name>createFunction</name></member>
+      <member refid="classrrllvm_1_1CodeGenBase_1ae3d653d51c1ca5840b48d2ebcecbcbd5" prot="protected" virt="non-virtual"><scope>rrllvm::EvalVolatileStoichCodeGen</scope><name>dataSymbols</name></member>
+      <member refid="classrrllvm_1_1CodeGenBase_1adb6e61cddb19488b7b8352c7cb365cb8" prot="protected" virt="non-virtual"><scope>rrllvm::EvalVolatileStoichCodeGen</scope><name>engine</name></member>
+      <member refid="classrrllvm_1_1EvalVolatileStoichCodeGen_1a56edec15958f6329000dbc85a7bab85e" prot="public" virt="non-virtual"><scope>rrllvm::EvalVolatileStoichCodeGen</scope><name>EvalVolatileStoichCodeGen</name></member>
+      <member refid="classrrllvm_1_1CodeGenBase_1a0020335232a3ac90dd100aea8a014291" prot="protected" virt="non-virtual"><scope>rrllvm::EvalVolatileStoichCodeGen</scope><name>function</name></member>
+      <member refid="classrrllvm_1_1EvalVolatileStoichCodeGen_1a3e0bc04e2e9d1f6585fffeec0be8343a" prot="public" virt="non-virtual"><scope>rrllvm::EvalVolatileStoichCodeGen</scope><name>FunctionName</name></member>
+      <member refid="classrrllvm_1_1CodeGenBase_1addedde72248fde005bff3060843de531" prot="protected" virt="non-virtual"><scope>rrllvm::EvalVolatileStoichCodeGen</scope><name>functionPassManager</name></member>
+      <member refid="classrrllvm_1_1CodeGenBase_1a9d96e6639b50797a36026fe90b5945aa" prot="public" virt="non-virtual"><scope>rrllvm::EvalVolatileStoichCodeGen</scope><name>FunctionPtr</name></member>
+      <member refid="classrrllvm_1_1EvalVolatileStoichCodeGen_1ac6f1d4560979b128ac255ebb4c2542f3" prot="private" virt="non-virtual"><scope>rrllvm::EvalVolatileStoichCodeGen</scope><name>isConstantASTNode</name></member>
+      <member refid="classrrllvm_1_1EvalVolatileStoichCodeGen_1a7262921c1c8f0a40cd58c457047b54f7" prot="private" virt="non-virtual"><scope>rrllvm::EvalVolatileStoichCodeGen</scope><name>isConstantSpeciesReference</name></member>
+      <member refid="classrrllvm_1_1CodeGenBase_1afb6ef03ee896534cde79895141a8a666" prot="protected" virt="non-virtual"><scope>rrllvm::EvalVolatileStoichCodeGen</scope><name>model</name></member>
+      <member refid="classrrllvm_1_1CodeGenBase_1ab15bd110eca7b61396290deb400df94a" prot="protected" virt="non-virtual"><scope>rrllvm::EvalVolatileStoichCodeGen</scope><name>modelGenContext</name></member>
+      <member refid="classrrllvm_1_1CodeGenBase_1a76bc0630ead4ce14f0d09bad805da8e4" prot="protected" virt="non-virtual"><scope>rrllvm::EvalVolatileStoichCodeGen</scope><name>modelSymbols</name></member>
+      <member refid="classrrllvm_1_1CodeGenBase_1a9b4d2847b012317dd134feac72211b5c" prot="protected" virt="non-virtual"><scope>rrllvm::EvalVolatileStoichCodeGen</scope><name>module</name></member>
+      <member refid="classrrllvm_1_1CodeGenBase_1a747be8f3c35284547ad6f31b36736471" prot="protected" virt="non-virtual"><scope>rrllvm::EvalVolatileStoichCodeGen</scope><name>options</name></member>
+      <member refid="classrrllvm_1_1CodeGenBase_1ae2c5677c9b195984feb6c3a06aa801bd" prot="protected" virt="non-virtual"><scope>rrllvm::EvalVolatileStoichCodeGen</scope><name>verifyFunction</name></member>
+      <member refid="classrrllvm_1_1CodeGenBase_1a8552beca29efafd91e21bc2b043ae568" prot="protected" virt="virtual"><scope>rrllvm::EvalVolatileStoichCodeGen</scope><name>~CodeGenBase</name></member>
+      <member refid="classrrllvm_1_1EvalVolatileStoichCodeGen_1a4769900d8a2cf771c9485e60ce7b517c" prot="public" virt="virtual"><scope>rrllvm::EvalVolatileStoichCodeGen</scope><name>~EvalVolatileStoichCodeGen</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

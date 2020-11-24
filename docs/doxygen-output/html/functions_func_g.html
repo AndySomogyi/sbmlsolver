@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">roadrunner
-   &#160;<span id="projectnumber">2.0.1</span>
+   &#160;<span id="projectnumber">2.0.2</span>
    </div>
    <div id="projectbrief">Fast simulator for SBML models</div>
   </td>
@@ -66,8 +66,13 @@ $(function() {
 &#160;
 
 <h3><a id="index_g"></a>- g -</h3><ul>
+<li>getAssigmentRules()
+: <a class="el" href="classrrllvm_1_1LLVMModelSymbols.html#afaf501a34dd03317a49d5f3ba70839dd">rrllvm::LLVMModelSymbols</a>
+</li>
 <li>getBoundarySpeciesAmounts()
-: <a class="el" href="classrr_1_1ExecutableModel.html#a892be60159e501929cbb1169533d5104">rr::ExecutableModel</a>
+: <a class="el" href="classrr_1_1CompiledExecutableModel.html#a09681dd060af48372696dee3427a509b">rr::CompiledExecutableModel</a>
+, <a class="el" href="classrr_1_1ExecutableModel.html#a892be60159e501929cbb1169533d5104">rr::ExecutableModel</a>
+, <a class="el" href="classrrllvm_1_1LLVMExecutableModel.html#ac7547346f83f0407259f9aa83fba2f2a">rrllvm::LLVMExecutableModel</a>
 </li>
 <li>getBoundarySpeciesAmountsNamedArray()
 : <a class="el" href="classrr_1_1RoadRunner.html#ae7644ffca7f25ccf0c8e2289f8a8280e">rr::RoadRunner</a>
@@ -76,7 +81,9 @@ $(function() {
 : <a class="el" href="classrr_1_1RoadRunner.html#a5acce894eb75998ed93daf3c71c2d4dc">rr::RoadRunner</a>
 </li>
 <li>getBoundarySpeciesConcentrations()
-: <a class="el" href="classrr_1_1ExecutableModel.html#a17dbc546d79fe987ff625e0c387f5cbd">rr::ExecutableModel</a>
+: <a class="el" href="classrr_1_1CompiledExecutableModel.html#a050290614fc5e788ec8d839909cb362e">rr::CompiledExecutableModel</a>
+, <a class="el" href="classrr_1_1ExecutableModel.html#a17dbc546d79fe987ff625e0c387f5cbd">rr::ExecutableModel</a>
+, <a class="el" href="classrrllvm_1_1LLVMExecutableModel.html#af242105f0b29c521b8bc7a438d09b43b">rrllvm::LLVMExecutableModel</a>
 </li>
 <li>getBoundarySpeciesConcentrationsNamedArray()
 : <a class="el" href="classrr_1_1RoadRunner.html#aa2672c793f21a6ee80da2d6afa3450c0">rr::RoadRunner</a>
@@ -87,14 +94,24 @@ $(function() {
 <li>getColoredOutput()
 : <a class="el" href="classrr_1_1Logger.html#a0f01c4474b91e705040db1ba59eccd07">rr::Logger</a>
 </li>
+<li>getCompartmentIndexForFloatingSpecies()
+: <a class="el" href="classrrllvm_1_1LLVMModelDataSymbols.html#ac8c9d2e8c243bcbfc4b524dcee460be0">rrllvm::LLVMModelDataSymbols</a>
+</li>
+<li>getCompartmentInitIndex()
+: <a class="el" href="classrrllvm_1_1LLVMModelDataSymbols.html#af08014c2f00c6f8721f5ec253e9af2a2">rrllvm::LLVMModelDataSymbols</a>
+</li>
 <li>getCompartmentInitVolumes()
 : <a class="el" href="classrr_1_1ExecutableModel.html#afbc91472ec905f668e0cc5714fdc30db">rr::ExecutableModel</a>
+, <a class="el" href="classrrllvm_1_1LLVMExecutableModel.html#a959d502139b048414115f71be9f06603">rrllvm::LLVMExecutableModel</a>
 </li>
 <li>getCompartmentVolumes()
-: <a class="el" href="classrr_1_1ExecutableModel.html#a977a5a3a7ed0fcfa04fe74369a4526ae">rr::ExecutableModel</a>
+: <a class="el" href="classrr_1_1CompiledExecutableModel.html#a17ab2cef550fed61c4e2162ade95c62c">rr::CompiledExecutableModel</a>
+, <a class="el" href="classrr_1_1ExecutableModel.html#a977a5a3a7ed0fcfa04fe74369a4526ae">rr::ExecutableModel</a>
+, <a class="el" href="classrrllvm_1_1LLVMExecutableModel.html#ae93515327eae8af56a12b24bd545df33">rrllvm::LLVMExecutableModel</a>
 </li>
 <li>getCompiler()
-: <a class="el" href="classrr_1_1RoadRunner.html#a329f2009c2688bbedc906c21c4b8b3ef">rr::RoadRunner</a>
+: <a class="el" href="classrr_1_1CModelGenerator.html#a6a647572e44637d5704049b402d7f26b">rr::CModelGenerator</a>
+, <a class="el" href="classrr_1_1RoadRunner.html#a329f2009c2688bbedc906c21c4b8b3ef">rr::RoadRunner</a>
 </li>
 <li>getConcentrationTolerance()
 : <a class="el" href="classrr_1_1CVODEIntegrator.html#ab4c042d6db38872117a3c0196c3af9cf">rr::CVODEIntegrator</a>
@@ -106,8 +123,29 @@ $(function() {
 <li>getConservedMoietyAnalysis()
 : <a class="el" href="classrr_1_1RoadRunner.html#af69cf22ce68c8d5c4ab869fedefa16f9">rr::RoadRunner</a>
 </li>
+<li>getConservedMoietyGlobalParameterIndex()
+: <a class="el" href="classrrllvm_1_1LLVMModelDataSymbols.html#a4cb1789b52faa73f68f50cd1dd8d7705">rrllvm::LLVMModelDataSymbols</a>
+</li>
+<li>getConservedMoietyId()
+: <a class="el" href="classrrllvm_1_1LLVMModelDataSymbols.html#adfa3954a853a482b31714be8d7e16280">rrllvm::LLVMModelDataSymbols</a>
+</li>
+<li>getConservedMoietyIndex()
+: <a class="el" href="classrrllvm_1_1LLVMModelDataSymbols.html#a7236921758c3602ce5d77acd73aa61b2">rrllvm::LLVMModelDataSymbols</a>
+</li>
+<li>getConservedMoietySize()
+: <a class="el" href="classrrllvm_1_1LLVMModelDataSymbols.html#a9270500be0ded95f93647ae6ef84f16e">rrllvm::LLVMModelDataSymbols</a>
+</li>
 <li>getConservedMoietyValues()
 : <a class="el" href="classrr_1_1RoadRunner.html#a5df415a59e1d2ee85d252d3ed1dea700">rr::RoadRunner</a>
+</li>
+<li>getCSRMatrixGetNZDecl()
+: <a class="el" href="classrrllvm_1_1ModelDataIRBuilder.html#a43814b580c9cb37b7f19bd3835ff2852">rrllvm::ModelDataIRBuilder</a>
+</li>
+<li>getCSRMatrixSetNZDecl()
+: <a class="el" href="classrrllvm_1_1ModelDataIRBuilder.html#a71f439ded73bbea7284d7675f824f177">rrllvm::ModelDataIRBuilder</a>
+</li>
+<li>getCSRSparseStructType()
+: <a class="el" href="classrrllvm_1_1ModelDataIRBuilder.html#a3dd75d52850dbecf8f2ce22209aca7b4">rrllvm::ModelDataIRBuilder</a>
 </li>
 <li>getCurrentLevelAsString()
 : <a class="el" href="classrr_1_1Logger.html#adc95de06b2cfb00d95b327329893e767">rr::Logger</a>
@@ -128,7 +166,9 @@ $(function() {
 : <a class="el" href="classrr_1_1Compiler.html#a5144b370c3c98e8d4d3ae93a2e4bb57b">rr::Compiler</a>
 </li>
 <li>getDefaultTargetTriple()
-: <a class="el" href="classrr_1_1Compiler.html#a244cefa6a995aeb5d2793ff893f1893b">rr::Compiler</a>
+: <a class="el" href="classrr_1_1CCompiler.html#a10a08dd7e7b60da34813b2abd75e2791">rr::CCompiler</a>
+, <a class="el" href="classrr_1_1Compiler.html#a244cefa6a995aeb5d2793ff893f1893b">rr::Compiler</a>
+, <a class="el" href="classrrllvm_1_1LLVMCompiler.html#af43a6b3d973fee5348bd9d2cea192752">rrllvm::LLVMCompiler</a>
 </li>
 <li>getDependentFloatingSpeciesIds()
 : <a class="el" href="classrr_1_1RoadRunner.html#a0b2d1c7cbaa21d37347dbdca33f4d479">rr::RoadRunner</a>
@@ -138,6 +178,9 @@ $(function() {
 </li>
 <li>getDependentRatesOfChangeNamedArray()
 : <a class="el" href="classrr_1_1RoadRunner.html#a7c865464a0662174b138b6518bfe9781">rr::RoadRunner</a>
+</li>
+<li>getDepSpeciesIndexForConservedMoietyId()
+: <a class="el" href="classrrllvm_1_1LLVMModelDataSymbols.html#ad61a2037d76721bade273a24383870d2">rrllvm::LLVMModelDataSymbols</a>
 </li>
 <li>getDescription()
 : <a class="el" href="classrr_1_1CVODEIntegrator.html#a41af2579ae0fbca95fdf2eb36990e3ae">rr::CVODEIntegrator</a>
@@ -182,32 +225,50 @@ $(function() {
 <li>getEulerName()
 : <a class="el" href="classrr_1_1EulerIntegrator.html#a61e5f7ed9ff9833c39df310797dd8bb5">rr::EulerIntegrator</a>
 </li>
+<li>getEventBufferSize()
+: <a class="el" href="classrrllvm_1_1LLVMModelDataSymbols.html#aaa8a9bca324a06ec19edbc2c50b3f262">rrllvm::LLVMModelDataSymbols</a>
+</li>
 <li>getEventIndex()
-: <a class="el" href="classrr_1_1ExecutableModel.html#ae9b3e5baef45072822f9ccaf9d13ffa8">rr::ExecutableModel</a>
+: <a class="el" href="classrr_1_1CompiledExecutableModel.html#ac7a3dc4d4e4df17dad7e521d09671189">rr::CompiledExecutableModel</a>
+, <a class="el" href="classrr_1_1ExecutableModel.html#ae9b3e5baef45072822f9ccaf9d13ffa8">rr::ExecutableModel</a>
+, <a class="el" href="classrrllvm_1_1LLVMExecutableModel.html#a2e869485a6748bd33b3320dc955422a4">rrllvm::LLVMExecutableModel</a>
 </li>
 <li>getEventRoots()
-: <a class="el" href="classrr_1_1ExecutableModel.html#a2c4d631f32873d4d98d613add078d9b3">rr::ExecutableModel</a>
+: <a class="el" href="classrr_1_1CompiledExecutableModel.html#ae88b85f7caac07acbeed3d429bc74afb">rr::CompiledExecutableModel</a>
+, <a class="el" href="classrr_1_1ExecutableModel.html#a2c4d631f32873d4d98d613add078d9b3">rr::ExecutableModel</a>
+, <a class="el" href="classrrllvm_1_1LLVMExecutableModel.html#aee3874c5ef6f6eaf4997b0a22abedbbb">rrllvm::LLVMExecutableModel</a>
 </li>
 <li>getEventTriggers()
 : <a class="el" href="classrr_1_1ExecutableModel.html#a6402d7445658e1828be487e1a63bbc89">rr::ExecutableModel</a>
+, <a class="el" href="classrrllvm_1_1LLVMExecutableModel.html#a6720985571bb7836a43f054dc8b60a60">rrllvm::LLVMExecutableModel</a>
 </li>
 <li>getExecutableModelDesc()
-: <a class="el" href="classrr_1_1ExecutableModel.html#a07791b0ccd6feeb665278e9888cb8af7">rr::ExecutableModel</a>
+: <a class="el" href="classrr_1_1CompiledExecutableModel.html#ac831d54ccdde2cd5df4a086ff944102e">rr::CompiledExecutableModel</a>
+, <a class="el" href="classrr_1_1ExecutableModel.html#a07791b0ccd6feeb665278e9888cb8af7">rr::ExecutableModel</a>
+, <a class="el" href="classrrllvm_1_1LLVMExecutableModel.html#a2fa49b7f906b27eb2848a308eda2cdaa">rrllvm::LLVMExecutableModel</a>
 </li>
 <li>getExtendedVersionInfo()
 : <a class="el" href="classrr_1_1RoadRunner.html#afdb1fa322ff0f3d53e33e30558bbe478">rr::RoadRunner</a>
+</li>
+<li>getFieldName()
+: <a class="el" href="classrrllvm_1_1LLVMModelDataSymbols.html#a32e6b447a358eb4a0aa22723cc7ea2e6">rrllvm::LLVMModelDataSymbols</a>
 </li>
 <li>getFileName()
 : <a class="el" href="classrr_1_1Logger.html#a40f208d7bf2af73894ba3872296dbe9c">rr::Logger</a>
 </li>
 <li>getFlags()
-: <a class="el" href="classrr_1_1ExecutableModel.html#a86c218fc4ad993ddd532a50f2918f383">rr::ExecutableModel</a>
+: <a class="el" href="classrr_1_1CompiledExecutableModel.html#a1db2b94da9271085a088c16acba2462e">rr::CompiledExecutableModel</a>
+, <a class="el" href="classrr_1_1ExecutableModel.html#a86c218fc4ad993ddd532a50f2918f383">rr::ExecutableModel</a>
+, <a class="el" href="classrrllvm_1_1LLVMExecutableModel.html#a806e03b71cc2026bfdc23cd3d5d344ef">rrllvm::LLVMExecutableModel</a>
 </li>
 <li>getFloatingSpeciesAmountRate()
 : <a class="el" href="classrr_1_1ExecutableModel.html#a460387891972dfb029d5fdd6134c10eb">rr::ExecutableModel</a>
+, <a class="el" href="classrrllvm_1_1LLVMExecutableModel.html#aba4cbc143e2a9ad641e8db160837e466">rrllvm::LLVMExecutableModel</a>
 </li>
 <li>getFloatingSpeciesAmounts()
-: <a class="el" href="classrr_1_1ExecutableModel.html#ac83c1f5b678079babd5eeb76c87a4e02">rr::ExecutableModel</a>
+: <a class="el" href="classrr_1_1CompiledExecutableModel.html#a578a753970f79d1576172fc032f1e411">rr::CompiledExecutableModel</a>
+, <a class="el" href="classrr_1_1ExecutableModel.html#ac83c1f5b678079babd5eeb76c87a4e02">rr::ExecutableModel</a>
+, <a class="el" href="classrrllvm_1_1LLVMExecutableModel.html#ab7af45309d8f1c09fbca57365328cdc9">rrllvm::LLVMExecutableModel</a>
 </li>
 <li>getFloatingSpeciesAmountsNamedArray()
 : <a class="el" href="classrr_1_1RoadRunner.html#a8ce13b054d539a8d086d03bd7d16b1df">rr::RoadRunner</a>
@@ -216,19 +277,38 @@ $(function() {
 : <a class="el" href="classrr_1_1RoadRunner.html#a13abd6f7d1bf72686f8637c154a73a58">rr::RoadRunner</a>
 </li>
 <li>getFloatingSpeciesConcentrations()
-: <a class="el" href="classrr_1_1ExecutableModel.html#afdb9b1204d85b4baf496e685e16c0479">rr::ExecutableModel</a>
+: <a class="el" href="classrr_1_1CompiledExecutableModel.html#aadcc3bd8f08ff2e62efe7c7a0c484f79">rr::CompiledExecutableModel</a>
+, <a class="el" href="classrr_1_1ExecutableModel.html#afdb9b1204d85b4baf496e685e16c0479">rr::ExecutableModel</a>
+, <a class="el" href="classrrllvm_1_1LLVMExecutableModel.html#a8c5aff102586a6b652ac912d7a674a32">rrllvm::LLVMExecutableModel</a>
 </li>
 <li>getFloatingSpeciesConcentrationsNamedArray()
 : <a class="el" href="classrr_1_1RoadRunner.html#ab5172224c3a2be50cabb013d343d8234">rr::RoadRunner</a>
 </li>
+<li>getFloatingSpeciesId()
+: <a class="el" href="classrrllvm_1_1LLVMModelDataSymbols.html#a87b3733f8993e9654c1385256a370685">rrllvm::LLVMModelDataSymbols</a>
+</li>
+<li>getFloatingSpeciesIds()
+: <a class="el" href="classrrllvm_1_1LLVMModelDataSymbols.html#a330dc333f5b9116091f8f79c10f4db46">rrllvm::LLVMModelDataSymbols</a>
+</li>
+<li>getFloatingSpeciesIndex()
+: <a class="el" href="classrrllvm_1_1LLVMModelDataSymbols.html#a4686047d567ae2d05491afc81514c4e1">rrllvm::LLVMModelDataSymbols</a>
+</li>
 <li>getFloatingSpeciesInitAmounts()
 : <a class="el" href="classrr_1_1ExecutableModel.html#a21232f10be3c16a112ddd93170d9caa8">rr::ExecutableModel</a>
+, <a class="el" href="classrrllvm_1_1LLVMExecutableModel.html#a296f9db380418db1d6320fb50d839b40">rrllvm::LLVMExecutableModel</a>
 </li>
 <li>getFloatingSpeciesInitConcentrations()
 : <a class="el" href="classrr_1_1ExecutableModel.html#a6545a8afda7e5a52d9fb0ae945990d80">rr::ExecutableModel</a>
+, <a class="el" href="classrrllvm_1_1LLVMExecutableModel.html#a0b370d57c274830d88084d2c232377ef">rrllvm::LLVMExecutableModel</a>
 </li>
 <li>getFloatingSpeciesInitialConcentrationIds()
 : <a class="el" href="classrr_1_1RoadRunner.html#a22758ccedea064c87ccc5fd0c533b32f">rr::RoadRunner</a>
+</li>
+<li>getFloatingSpeciesInitIndex()
+: <a class="el" href="classrrllvm_1_1LLVMModelDataSymbols.html#ac7d78cdbadcc805571ab7ce9ff8870be">rrllvm::LLVMModelDataSymbols</a>
+</li>
+<li>getFloatingSpeciesSize()
+: <a class="el" href="classrrllvm_1_1LLVMModelDataSymbols.html#af008f3b08eec501c2a338403cd33ef07">rrllvm::LLVMModelDataSymbols</a>
 </li>
 <li>getFormattingPattern()
 : <a class="el" href="classrr_1_1Logger.html#a7b4e8ed1391f383f27ff6f12d951beff">rr::Logger</a>
@@ -241,6 +321,9 @@ $(function() {
 </li>
 <li>getFullStoichiometryMatrix()
 : <a class="el" href="classrr_1_1RoadRunner.html#a4a2448b0c6518a3dd69573dc95523a59">rr::RoadRunner</a>
+</li>
+<li>getFunctionPassManager()
+: <a class="el" href="classrrllvm_1_1ModelGeneratorContext.html#aaa8b5072ebd323f0640b6d90cbda6f11">rrllvm::ModelGeneratorContext</a>
 </li>
 <li>getGillespieDescription()
 : <a class="el" href="classrr_1_1GillespieIntegrator.html#a9a4886181bbcb6f7e74e84180047efce">rr::GillespieIntegrator</a>
@@ -256,15 +339,28 @@ $(function() {
 </li>
 <li>getGlobalParameterId()
 : <a class="el" href="classrr_1_1ExecutableModel.html#a741aa1e4a24bca93c8eb12019a33cd81">rr::ExecutableModel</a>
+, <a class="el" href="classrrllvm_1_1LLVMExecutableModel.html#a1a7c7caaa08ed5046f3f99c18651b734">rrllvm::LLVMExecutableModel</a>
+, <a class="el" href="classrrllvm_1_1LLVMModelDataSymbols.html#af4ff843ba9adeebe28e935a7a20e4c1c">rrllvm::LLVMModelDataSymbols</a>
 </li>
 <li>getGlobalParameterIndex()
-: <a class="el" href="classrr_1_1ExecutableModel.html#abcdcc03c4563dfbe6b64f932812906ee">rr::ExecutableModel</a>
+: <a class="el" href="classrr_1_1CompiledExecutableModel.html#a8b0dec616b4154c8a56c68cc3265d502">rr::CompiledExecutableModel</a>
+, <a class="el" href="classrr_1_1ExecutableModel.html#abcdcc03c4563dfbe6b64f932812906ee">rr::ExecutableModel</a>
+, <a class="el" href="classrrllvm_1_1LLVMModelDataSymbols.html#a76465828770aec3ce22b2de0e7e569f2">rrllvm::LLVMModelDataSymbols</a>
+</li>
+<li>getGlobalParameterInitIndex()
+: <a class="el" href="classrrllvm_1_1LLVMModelDataSymbols.html#ade8b52affdb741d79c538f14c0813acf">rrllvm::LLVMModelDataSymbols</a>
 </li>
 <li>getGlobalParameterInitValues()
 : <a class="el" href="classrr_1_1ExecutableModel.html#a8a1693fc65e2e34772ca5acecad1e90b">rr::ExecutableModel</a>
+, <a class="el" href="classrrllvm_1_1LLVMExecutableModel.html#a22fb361bb1ca724923fc67b160e73c2f">rrllvm::LLVMExecutableModel</a>
 </li>
 <li>getGlobalParameterValues()
-: <a class="el" href="classrr_1_1ExecutableModel.html#af598ac63c984d7101b0d026dd217a822">rr::ExecutableModel</a>
+: <a class="el" href="classrr_1_1CompiledExecutableModel.html#a84cf75aaef544e60e2a786bbaec39392">rr::CompiledExecutableModel</a>
+, <a class="el" href="classrr_1_1ExecutableModel.html#af598ac63c984d7101b0d026dd217a822">rr::ExecutableModel</a>
+, <a class="el" href="classrrllvm_1_1LLVMExecutableModel.html#a7326ff8b52c44cc6ebe88bad8495f175">rrllvm::LLVMExecutableModel</a>
+</li>
+<li>getHeaderCode()
+: <a class="el" href="classrr_1_1CModelGenerator.html#acb11493b8869f548a39d23f6f3b54073">rr::CModelGenerator</a>
 </li>
 <li>getHint()
 : <a class="el" href="classrr_1_1CVODEIntegrator.html#a89b7e1161329480ae2fe84e7f2a8ca1e">rr::CVODEIntegrator</a>
@@ -286,14 +382,30 @@ $(function() {
 , <a class="el" href="classrr_1_1SteadyStateSolverRegistrar.html#a00f5ff21ffc7322a244ed27d8cff4d64">rr::SteadyStateSolverRegistrar</a>
 </li>
 <li>getHostCPUName()
-: <a class="el" href="classrr_1_1Compiler.html#a1718efebfe7936512a299c2f32e8c800">rr::Compiler</a>
+: <a class="el" href="classrr_1_1CCompiler.html#a436bb213157ccc15d60cd0d64c584102">rr::CCompiler</a>
+, <a class="el" href="classrr_1_1Compiler.html#a1718efebfe7936512a299c2f32e8c800">rr::Compiler</a>
+, <a class="el" href="classrrllvm_1_1LLVMCompiler.html#ae8f2ba44fbc064d81f77b8aafdaf9109">rrllvm::LLVMCompiler</a>
 </li>
 <li>getIds()
-: <a class="el" href="classrr_1_1ExecutableModel.html#a172aeacd0685bcce8153ae67718fc697">rr::ExecutableModel</a>
+: <a class="el" href="classrr_1_1CompiledExecutableModel.html#a9c5f0f3045d073ae63d4f1e2b3cb232a">rr::CompiledExecutableModel</a>
+, <a class="el" href="classrr_1_1ExecutableModel.html#a172aeacd0685bcce8153ae67718fc697">rr::ExecutableModel</a>
 , <a class="el" href="classrr_1_1RoadRunner.html#a8891806bc553fef5898f9e81751a9899">rr::RoadRunner</a>
+, <a class="el" href="classrrllvm_1_1LLVMExecutableModel.html#aeede1447cf35aa59a2efc4ae8973924b">rrllvm::LLVMExecutableModel</a>
+</li>
+<li>getIndependentBoundarySpeciesSize()
+: <a class="el" href="classrrllvm_1_1LLVMModelDataSymbols.html#abb28706ff4c68035973b79779cd932c2">rrllvm::LLVMModelDataSymbols</a>
+</li>
+<li>getIndependentCompartmentSize()
+: <a class="el" href="classrrllvm_1_1LLVMModelDataSymbols.html#af15296d2d5be06122ee753e6d13f61e1">rrllvm::LLVMModelDataSymbols</a>
 </li>
 <li>getIndependentFloatingSpeciesIds()
 : <a class="el" href="classrr_1_1RoadRunner.html#ac713974ee639f493d9d8cdb1577233fe">rr::RoadRunner</a>
+</li>
+<li>getIndependentFloatingSpeciesSize()
+: <a class="el" href="classrrllvm_1_1LLVMModelDataSymbols.html#a262c5cc26d6bd5fc7c3b4efdf49a76b9">rrllvm::LLVMModelDataSymbols</a>
+</li>
+<li>getIndependentGlobalParameterSize()
+: <a class="el" href="classrrllvm_1_1LLVMModelDataSymbols.html#aeace8ad2fe12479179b7b882270e92f5">rrllvm::LLVMModelDataSymbols</a>
 </li>
 <li>getIndependentRatesOfChange()
 : <a class="el" href="classrr_1_1RoadRunner.html#a6c974443cc51485d9150c80dc5e730db">rr::RoadRunner</a>
@@ -301,8 +413,18 @@ $(function() {
 <li>getIndependentRatesOfChangeNamedArray()
 : <a class="el" href="classrr_1_1RoadRunner.html#abe1f53e8ec576b4fefbafa958625608e">rr::RoadRunner</a>
 </li>
+<li>getIndSpeciesIndexForConservedMoietyId()
+: <a class="el" href="classrrllvm_1_1LLVMModelDataSymbols.html#a60afb2eed41a8fed24efdc44306bb23f">rrllvm::LLVMModelDataSymbols</a>
+</li>
 <li>getInfo()
-: <a class="el" href="classrr_1_1RoadRunner.html#a2b7022cadd857fa4fb3cb24703da608a">rr::RoadRunner</a>
+: <a class="el" href="classrr_1_1CompiledModelGenerator.html#a881aba4028f09e3bf59be8c355cba632">rr::CompiledModelGenerator</a>
+, <a class="el" href="classrr_1_1RoadRunner.html#a2b7022cadd857fa4fb3cb24703da608a">rr::RoadRunner</a>
+</li>
+<li>getInitialAssignmentRules()
+: <a class="el" href="classrrllvm_1_1LLVMModelSymbols.html#ad7d0e9e5abc92d6295a5f520436f54e6">rrllvm::LLVMModelSymbols</a>
+</li>
+<li>getInitialValues()
+: <a class="el" href="classrrllvm_1_1LLVMModelSymbols.html#a49316f650dfad2cd908e12d61d78be50">rrllvm::LLVMModelSymbols</a>
 </li>
 <li>getInstance()
 : <a class="el" href="classrr_1_1IntegratorFactory.html#a3bd934950b0c1523d8c1b482bb85ab15">rr::IntegratorFactory</a>
@@ -347,7 +469,8 @@ $(function() {
 , <a class="el" href="classrr_1_1NLEQ2Interface.html#afad85315aa2373f52cbfb12262df8c3f">rr::NLEQ2Interface</a>
 </li>
 <li>getKineticLaw()
-: <a class="el" href="classrr_1_1RoadRunner.html#a3e0b8f15b7ab0042dcfd85c14fa207ca">rr::RoadRunner</a>
+: <a class="el" href="classrr_1_1NOMSupport.html#a9397f260f931befe29ed252770f18195">rr::NOMSupport</a>
+, <a class="el" href="classrr_1_1RoadRunner.html#a3e0b8f15b7ab0042dcfd85c14fa207ca">rr::RoadRunner</a>
 </li>
 <li>getKMatrix()
 : <a class="el" href="classrr_1_1RoadRunner.html#a17f97e936006a4892b963892c2fdb424">rr::RoadRunner</a>
@@ -362,12 +485,23 @@ $(function() {
 , <a class="el" href="classrr_1_1RK45Integrator.html#af31a4d9eaff51261d8589f6020f2d612">rr::RK45Integrator</a>
 , <a class="el" href="classrr_1_1RK4Integrator.html#a11d4c8c5a4f0b807af86254d9005577d">rr::RK4Integrator</a>
 </li>
+<li>getMatchForSymbol()
+: <a class="el" href="classrr_1_1NOMSupport.html#a5c2d33909c7b791a421cccc393c0e6be">rr::NOMSupport</a>
+</li>
+<li>getMaxTries()
+: <a class="el" href="classrrllvm_1_1Random.html#ad009ff45cd685be754370b668e99f6f2">rrllvm::Random</a>
+</li>
 <li>getModel()
 : <a class="el" href="classrr_1_1RoadRunner.html#afa827d569de3c83dd286ac2aa25d1cf4">rr::RoadRunner</a>
 </li>
 <li>getModelName()
-: <a class="el" href="classrr_1_1ExecutableModel.html#a6ad7fd317a2335c337d7c8a3aeb8e044">rr::ExecutableModel</a>
+: <a class="el" href="classrr_1_1CompiledExecutableModel.html#a4fa5acc0a12a75fe89579acdd6c1e62a">rr::CompiledExecutableModel</a>
+, <a class="el" href="classrr_1_1ExecutableModel.html#a6ad7fd317a2335c337d7c8a3aeb8e044">rr::ExecutableModel</a>
 , <a class="el" href="classrr_1_1RoadRunner.html#a9519f489ada956e35bd0b65e44e96cdd">rr::RoadRunner</a>
+, <a class="el" href="classrrllvm_1_1LLVMExecutableModel.html#ae1a203ae31724ca175835507c43e8639">rrllvm::LLVMExecutableModel</a>
+</li>
+<li>getModule()
+: <a class="el" href="classrrllvm_1_1ModelGeneratorContext.html#ac05b77257df7b20fd7a4875729f9ec56">rrllvm::ModelGeneratorContext</a>
 </li>
 <li>getName()
 : <a class="el" href="classrr_1_1CVODEIntegrator.html#a8cf0e265974ca6cfba2b22d98c77801a">rr::CVODEIntegrator</a>
@@ -388,6 +522,9 @@ $(function() {
 , <a class="el" href="classrr_1_1Solver.html#a417cca64a18c63535f2091584f8fed91">rr::Solver</a>
 , <a class="el" href="classrr_1_1SteadyStateSolverRegistrar.html#adf5cbf8f2c5df0d1a25807c80fbc3549">rr::SteadyStateSolverRegistrar</a>
 </li>
+<li>getNextPendingEventTime()
+: <a class="el" href="classrrllvm_1_1EventQueue.html#ae48e013f7f46e5affcb6d23ab5e9b261">rrllvm::EventQueue</a>
+</li>
 <li>getNLEQDescription()
 : <a class="el" href="classrr_1_1NLEQ1Solver.html#a1a4630dc439bbe7a9662aa0c824246f5">rr::NLEQ1Solver</a>
 , <a class="el" href="classrr_1_1NLEQ2Solver.html#a2dce04a263ddd71cef9b5b96e57650dc">rr::NLEQ2Solver</a>
@@ -403,26 +540,45 @@ $(function() {
 <li>getNrMatrix()
 : <a class="el" href="classrr_1_1RoadRunner.html#a764d53843d94cc402479515ebce056ac">rr::RoadRunner</a>
 </li>
+<li>getNthFloatingSpeciesCompartmentName()
+: <a class="el" href="classrr_1_1NOMSupport.html#a82d3449a09bcbbc2992c6ca048d2ce7b">rr::NOMSupport</a>
+</li>
 <li>getNumBoundarySpecies()
-: <a class="el" href="classrr_1_1ExecutableModel.html#a6ee272090a6b7a4a6808f091c1930495">rr::ExecutableModel</a>
+: <a class="el" href="classrr_1_1CompiledExecutableModel.html#a1c5cb4c75584906946d426d1193da39e">rr::CompiledExecutableModel</a>
+, <a class="el" href="classrr_1_1ExecutableModel.html#a6ee272090a6b7a4a6808f091c1930495">rr::ExecutableModel</a>
+, <a class="el" href="classrrllvm_1_1LLVMExecutableModel.html#ace107b09d4c39196136a7827a9a267c1">rrllvm::LLVMExecutableModel</a>
 </li>
 <li>getNumDepFloatingSpecies()
-: <a class="el" href="classrr_1_1ExecutableModel.html#a2acd2a498cee58cfdc676d9010be5ec0">rr::ExecutableModel</a>
+: <a class="el" href="classrr_1_1CompiledExecutableModel.html#a60e52e1aaa1b775cc85a61567c1a13b0">rr::CompiledExecutableModel</a>
+, <a class="el" href="classrr_1_1ExecutableModel.html#a2acd2a498cee58cfdc676d9010be5ec0">rr::ExecutableModel</a>
+, <a class="el" href="classrrllvm_1_1LLVMExecutableModel.html#a8a7a29a431e37d256f86838595b0eec6">rrllvm::LLVMExecutableModel</a>
 </li>
 <li>getNumFloatingSpecies()
-: <a class="el" href="classrr_1_1ExecutableModel.html#aa2999a84a5a0d691dc08f3f78b94636d">rr::ExecutableModel</a>
+: <a class="el" href="classrr_1_1CompiledExecutableModel.html#a08951a49b979f2fd3653f6376e18fd15">rr::CompiledExecutableModel</a>
+, <a class="el" href="classrr_1_1ExecutableModel.html#aa2999a84a5a0d691dc08f3f78b94636d">rr::ExecutableModel</a>
+, <a class="el" href="classrrllvm_1_1LLVMExecutableModel.html#ac614862f06602cd7b7df02a81d4fecb2">rrllvm::LLVMExecutableModel</a>
 </li>
 <li>getNumGlobalParameters()
-: <a class="el" href="classrr_1_1ExecutableModel.html#aabbf6f025ea3c064f0dcaa5e4afaa87e">rr::ExecutableModel</a>
+: <a class="el" href="classrr_1_1CompiledExecutableModel.html#ab362cc56a36821440b5737ca3cf07496">rr::CompiledExecutableModel</a>
+, <a class="el" href="classrr_1_1ExecutableModel.html#aabbf6f025ea3c064f0dcaa5e4afaa87e">rr::ExecutableModel</a>
+, <a class="el" href="classrrllvm_1_1LLVMExecutableModel.html#ad5e1d402a4fac02f00da526bcd1cdb73">rrllvm::LLVMExecutableModel</a>
 </li>
 <li>getNumIndFloatingSpecies()
-: <a class="el" href="classrr_1_1ExecutableModel.html#ace75e9d47e3eeb59661e7c2e2b2ed6e4">rr::ExecutableModel</a>
+: <a class="el" href="classrr_1_1CompiledExecutableModel.html#a57547419a8ad6d372ba861116850b788">rr::CompiledExecutableModel</a>
+, <a class="el" href="classrr_1_1ExecutableModel.html#ace75e9d47e3eeb59661e7c2e2b2ed6e4">rr::ExecutableModel</a>
+, <a class="el" href="classrrllvm_1_1LLVMExecutableModel.html#a8517e8900c832aeef3a5c17224664abf">rrllvm::LLVMExecutableModel</a>
+</li>
+<li>getNumParameters()
+: <a class="el" href="classrr_1_1NOMSupport.html#a1291a825f520b10575aa6703166db75e">rr::NOMSupport</a>
 </li>
 <li>getNumParams()
 : <a class="el" href="classrr_1_1Solver.html#abbefd0f38dfa2651c74f8abbd6d7b143">rr::Solver</a>
 </li>
 <li>getNumReactions()
-: <a class="el" href="classrr_1_1ExecutableModel.html#acb056a72125190c2abe39dba9c3600f1">rr::ExecutableModel</a>
+: <a class="el" href="classrr_1_1CompiledExecutableModel.html#aeab495d246324b89051360053c9ca42b">rr::CompiledExecutableModel</a>
+, <a class="el" href="classrr_1_1ExecutableModel.html#acb056a72125190c2abe39dba9c3600f1">rr::ExecutableModel</a>
+, <a class="el" href="classrr_1_1NOMSupport.html#ae37000c3877a19cb3792ba6b249411fd">rr::NOMSupport</a>
+, <a class="el" href="classrrllvm_1_1LLVMExecutableModel.html#a44eafee99d943d187bc60d9ab93a9f0c">rrllvm::LLVMExecutableModel</a>
 </li>
 <li>getOptions()
 : <a class="el" href="classrr_1_1RoadRunner.html#abca853c2d24000857a1c0971b99ec004">rr::RoadRunner</a>
@@ -443,19 +599,36 @@ $(function() {
 : <a class="el" href="classrr_1_1RoadRunner.html#ab04e0b440a74f7d49f55751b346f4212">rr::RoadRunner</a>
 </li>
 <li>getProcessTriple()
-: <a class="el" href="classrr_1_1Compiler.html#afe24151183f7db59208bfe86da2b3c79">rr::Compiler</a>
+: <a class="el" href="classrr_1_1CCompiler.html#aba426f3074705b9b76bed36be8646627">rr::CCompiler</a>
+, <a class="el" href="classrr_1_1Compiler.html#afe24151183f7db59208bfe86da2b3c79">rr::Compiler</a>
+, <a class="el" href="classrrllvm_1_1LLVMCompiler.html#a8a9f792ca40a9b3826d5b540263f7c05">rrllvm::LLVMCompiler</a>
 </li>
 <li>getRandom()
-: <a class="el" href="classrr_1_1ExecutableModel.html#a1f69d29d4291440935ed41122ed83e7f">rr::ExecutableModel</a>
+: <a class="el" href="classrr_1_1CompiledExecutableModel.html#a02b3938fd3ad7d20d33ed3e0b42da21a">rr::CompiledExecutableModel</a>
+, <a class="el" href="classrr_1_1ExecutableModel.html#a1f69d29d4291440935ed41122ed83e7f">rr::ExecutableModel</a>
+, <a class="el" href="classrrllvm_1_1LLVMExecutableModel.html#a99ee742fbcd0a2fab7957f319991a234">rrllvm::LLVMExecutableModel</a>
+, <a class="el" href="classrrllvm_1_1ModelGeneratorContext.html#aae03d74871964f0ee688a5531d713c1b">rrllvm::ModelGeneratorContext</a>
 </li>
 <li>getRandomSeed()
-: <a class="el" href="classrr_1_1ExecutableModel.html#a7a543cc2ccca4130d26c871308fa2b4d">rr::ExecutableModel</a>
+: <a class="el" href="classrr_1_1CompiledExecutableModel.html#a728ba55db8c4d193990452c9303ea133">rr::CompiledExecutableModel</a>
+, <a class="el" href="classrr_1_1ExecutableModel.html#a7a543cc2ccca4130d26c871308fa2b4d">rr::ExecutableModel</a>
+, <a class="el" href="classrrllvm_1_1LLVMExecutableModel.html#a4e903b2a5bbd26d442a87850a8a2b435">rrllvm::LLVMExecutableModel</a>
+, <a class="el" href="classrrllvm_1_1Random.html#ada656438a7c126e74d0263fcbea6e058">rrllvm::Random</a>
+</li>
+<li>getRateRueRates()
+: <a class="el" href="classrrllvm_1_1LLVMExecutableModel.html#a8713add3c03f6f8c95bc533d2b4bbca9">rrllvm::LLVMExecutableModel</a>
+</li>
+<li>getRateRuleId()
+: <a class="el" href="classrrllvm_1_1LLVMModelDataSymbols.html#ae1b9fb86d935f840f8ad9e60585ac8a4">rrllvm::LLVMModelDataSymbols</a>
 </li>
 <li>getRateRuleSymbols()
 : <a class="el" href="classrr_1_1ExecutableModel.html#ab045cbd84ce98fb9dff8ff250fdb131c">rr::ExecutableModel</a>
+, <a class="el" href="classrrllvm_1_1LLVMExecutableModel.html#a1b73548f88c353066c8758ac671e29f9">rrllvm::LLVMExecutableModel</a>
 </li>
 <li>getRateRuleValues()
-: <a class="el" href="classrr_1_1ExecutableModel.html#a8372872ec5858e91adc81080ad763c84">rr::ExecutableModel</a>
+: <a class="el" href="classrr_1_1CompiledExecutableModel.html#a2a820ae64f278087b85f836aef5afb32">rr::CompiledExecutableModel</a>
+, <a class="el" href="classrr_1_1ExecutableModel.html#a8372872ec5858e91adc81080ad763c84">rr::ExecutableModel</a>
+, <a class="el" href="classrrllvm_1_1LLVMExecutableModel.html#adfe1a7598ad23c18db90c3fcfe708d5e">rrllvm::LLVMExecutableModel</a>
 </li>
 <li>getRatesOfChange()
 : <a class="el" href="classrr_1_1RoadRunner.html#a129683b1d67a59066a0759983a9be38a">rr::RoadRunner</a>
@@ -464,13 +637,17 @@ $(function() {
 : <a class="el" href="classrr_1_1RoadRunner.html#a11f1ef8cd1d25b7571fe107aa9a6e575">rr::RoadRunner</a>
 </li>
 <li>getReactionId()
-: <a class="el" href="classrr_1_1ExecutableModel.html#aeb911dc90408981370c78149680d9027">rr::ExecutableModel</a>
+: <a class="el" href="classrr_1_1CompiledExecutableModel.html#a448c9bcff065fbb2e0c12015beea16c2">rr::CompiledExecutableModel</a>
+, <a class="el" href="classrr_1_1ExecutableModel.html#aeb911dc90408981370c78149680d9027">rr::ExecutableModel</a>
+, <a class="el" href="classrrllvm_1_1LLVMExecutableModel.html#a3145d2fcb796185f968430b56152d7c5">rrllvm::LLVMExecutableModel</a>
 </li>
 <li>getReactionIndex()
-: <a class="el" href="classrr_1_1ExecutableModel.html#a86fe96598b06cee5ca9a28dfdfd9d437">rr::ExecutableModel</a>
+: <a class="el" href="classrr_1_1CompiledExecutableModel.html#a9a2275b0715bc7461c8f402492462b05">rr::CompiledExecutableModel</a>
+, <a class="el" href="classrr_1_1ExecutableModel.html#a86fe96598b06cee5ca9a28dfdfd9d437">rr::ExecutableModel</a>
 </li>
 <li>getReactionRates()
 : <a class="el" href="classrr_1_1ExecutableModel.html#a37c53cc370ff236657272f5596fd27ff">rr::ExecutableModel</a>
+, <a class="el" href="classrrllvm_1_1LLVMExecutableModel.html#abdd14f103eb20ad8a4b5d5c89750f85b">rrllvm::LLVMExecutableModel</a>
 </li>
 <li>getReducedEigenValues()
 : <a class="el" href="classrr_1_1RoadRunner.html#a7efcb153c5d8973d15170548fd69ae66">rr::RoadRunner</a>
@@ -486,6 +663,9 @@ $(function() {
 </li>
 <li>getRegisteredSteadyStateSolverNames()
 : <a class="el" href="classrr_1_1RoadRunner.html#a4064f1dba1c7342c6e81987bfc61d2f7">rr::RoadRunner</a>
+</li>
+<li>getRetType()
+: <a class="el" href="classrrllvm_1_1GetEventValueCodeGenBase.html#a72911128b80b0ab3b23257750de4497d">rrllvm::GetEventValueCodeGenBase&lt; Derived, FunctionPtrType &gt;</a>
 </li>
 <li>getRK45Description()
 : <a class="el" href="classrr_1_1RK45Integrator.html#a4540762ed7dca923baa3849f25c4a88f">rr::RK45Integrator</a>
@@ -533,14 +713,22 @@ $(function() {
 <li>getSimulationData()
 : <a class="el" href="classrr_1_1RoadRunner.html#a899aaac624f8b7c6aadee6beeb12bbdb">rr::RoadRunner</a>
 </li>
+<li>getSpeciesReferenceStoichMath()
+: <a class="el" href="classrrllvm_1_1LLVMModelSymbols.html#add3232506b1afb34e63e18ee4bf56466">rrllvm::LLVMModelSymbols</a>
+</li>
 <li>getStateVector()
-: <a class="el" href="classrr_1_1ExecutableModel.html#a75b6f37ac538d2d2a0709fe4080b0570">rr::ExecutableModel</a>
+: <a class="el" href="classrr_1_1CompiledExecutableModel.html#a6ba2d5c65fa0c94f521c22ff440a56bc">rr::CompiledExecutableModel</a>
+, <a class="el" href="classrr_1_1ExecutableModel.html#a75b6f37ac538d2d2a0709fe4080b0570">rr::ExecutableModel</a>
+, <a class="el" href="classrrllvm_1_1LLVMExecutableModel.html#a1bab14a8a11c8fe0e23521e107105447">rrllvm::LLVMExecutableModel</a>
 </li>
 <li>getStateVectorId()
 : <a class="el" href="classrr_1_1ExecutableModel.html#ac6c245edd9ecea5feea84cff15db7b26">rr::ExecutableModel</a>
+, <a class="el" href="classrrllvm_1_1LLVMExecutableModel.html#a83a31e1ae1cba11535146063f45786e6">rrllvm::LLVMExecutableModel</a>
 </li>
 <li>getStateVectorRate()
-: <a class="el" href="classrr_1_1ExecutableModel.html#a0495c2ece9edad29d61849b2443d4274">rr::ExecutableModel</a>
+: <a class="el" href="classrr_1_1CompiledExecutableModel.html#a4333e3139f974ae771ad2d2fb317208f">rr::CompiledExecutableModel</a>
+, <a class="el" href="classrr_1_1ExecutableModel.html#a0495c2ece9edad29d61849b2443d4274">rr::ExecutableModel</a>
+, <a class="el" href="classrrllvm_1_1LLVMExecutableModel.html#abd45bf12bc33c31f5a02dd52c019783f">rrllvm::LLVMExecutableModel</a>
 </li>
 <li>getSteadyStateOptions()
 : <a class="el" href="classrr_1_1NLEQ1Interface.html#a53a8fc2f367213fafc6f325c1f0dc707">rr::NLEQ1Interface</a>
@@ -564,18 +752,45 @@ $(function() {
 <li>getSteadyStateValuesNamedArray()
 : <a class="el" href="classrr_1_1RoadRunner.html#a57d1eee2df9f8b9542a0c450be6097a4">rr::RoadRunner</a>
 </li>
+<li>getStoichColIndx()
+: <a class="el" href="classrrllvm_1_1LLVMModelDataSymbols.html#a2c749029ee8a4a5f3dcfa3e49ee54824">rrllvm::LLVMModelDataSymbols</a>
+</li>
 <li>getStoichiometry()
-: <a class="el" href="classrr_1_1ExecutableModel.html#af9f7809b903426c14942b01a8e24a2b7">rr::ExecutableModel</a>
+: <a class="el" href="classrr_1_1CompiledExecutableModel.html#a15522874be17399807aa1f0f1e2fd655">rr::CompiledExecutableModel</a>
+, <a class="el" href="classrr_1_1ExecutableModel.html#af9f7809b903426c14942b01a8e24a2b7">rr::ExecutableModel</a>
+, <a class="el" href="classrrllvm_1_1LLVMExecutableModel.html#a5de8a96030e376804d05413cf10f0338">rrllvm::LLVMExecutableModel</a>
+</li>
+<li>getStoichiometryIndx()
+: <a class="el" href="classrrllvm_1_1LLVMModelDataSymbols.html#ace13c6c788427ff65704820837096248">rrllvm::LLVMModelDataSymbols</a>
 </li>
 <li>getStoichiometryMatrix()
-: <a class="el" href="classrr_1_1ExecutableModel.html#a2aacbf75ac32b2b188f7850cd48b8f71">rr::ExecutableModel</a>
+: <a class="el" href="classrr_1_1CompiledExecutableModel.html#add13e9f74b8918a43bee644d27dac876">rr::CompiledExecutableModel</a>
+, <a class="el" href="classrr_1_1ExecutableModel.html#a2aacbf75ac32b2b188f7850cd48b8f71">rr::ExecutableModel</a>
+, <a class="el" href="classrrllvm_1_1LLVMExecutableModel.html#a1475e0cd372f9bea14493c595fe024fa">rrllvm::LLVMExecutableModel</a>
+</li>
+<li>getStoichRowIndx()
+: <a class="el" href="classrrllvm_1_1LLVMModelDataSymbols.html#a32e0b4d1aa32145bc261775d323e67b0">rrllvm::LLVMModelDataSymbols</a>
 </li>
 <li>getString()
 : <a class="el" href="classrr_1_1Config.html#a0370467d1593491eac5e443ce0c03224">rr::Config</a>
 </li>
+<li>getStructType()
+: <a class="el" href="classrrllvm_1_1ModelDataIRBuilder.html#a0ef021e16b99691a0cde663060898c4c">rrllvm::ModelDataIRBuilder</a>
+</li>
 <li>getSupportedIdTypes()
-: <a class="el" href="classrr_1_1ExecutableModel.html#a200b81cd9a7f1f9a6b3af6a35fcc4c63">rr::ExecutableModel</a>
+: <a class="el" href="classrr_1_1CompiledExecutableModel.html#af50e6358c72134961ae87dd4406ababa">rr::CompiledExecutableModel</a>
+, <a class="el" href="classrr_1_1ExecutableModel.html#a200b81cd9a7f1f9a6b3af6a35fcc4c63">rr::ExecutableModel</a>
 , <a class="el" href="classrr_1_1RoadRunner.html#a64fd889ed2292a496bc06739e8fa206e">rr::RoadRunner</a>
+, <a class="el" href="classrrllvm_1_1LLVMExecutableModel.html#afc9f70eb3c72dfb52433629f8bb4bce2">rrllvm::LLVMExecutableModel</a>
+</li>
+<li>getSymbolIndex()
+: <a class="el" href="classrrllvm_1_1LLVMModelDataSymbols.html#a2e17c59cadacce94bb68f93bcb7431bb">rrllvm::LLVMModelDataSymbols</a>
+</li>
+<li>getSymbols()
+: <a class="el" href="classrr_1_1NOMSupport.html#a88fb6cac272bc681f168299168df9721">rr::NOMSupport</a>
+</li>
+<li>getTemporaryDirectory()
+: <a class="el" href="classrr_1_1CModelGenerator.html#ada76f183cbdffdc0936a8f97f268463b">rr::CModelGenerator</a>
 </li>
 <li>getType()
 : <a class="el" href="classrr_1_1Solver.html#a20add37bbd73f50d14047171f5f8e921">rr::Solver</a>
@@ -584,7 +799,7 @@ $(function() {
 : <a class="el" href="classrr_1_1RoadRunner.html#a7df50d5a0fa7265b62af24a2e996b6e0">rr::RoadRunner</a>
 </li>
 <li>getuEE()
-: <a class="el" href="classrr_1_1RoadRunner.html#ad1a582f68475ad9e923dd23b12397d86">rr::RoadRunner</a>
+: <a class="el" href="classrr_1_1RoadRunner.html#a6957a9119e32959e4bbd47107a22f8a5">rr::RoadRunner</a>
 </li>
 <li>getUnscaledElasticityMatrix()
 : <a class="el" href="classrr_1_1RoadRunner.html#a60d096cd0738a337899ae6c6109c178e">rr::RoadRunner</a>
@@ -596,9 +811,11 @@ $(function() {
 : <a class="el" href="classrr_1_1RoadRunner.html#a5856b94d04fadfb190b407b126382503">rr::RoadRunner</a>
 </li>
 <li>getValue()
-: <a class="el" href="classrr_1_1ExecutableModel.html#aebaced13ef2afd070d7a1c35eec8d9f2">rr::ExecutableModel</a>
+: <a class="el" href="classrr_1_1CompiledExecutableModel.html#ab7bc9e9b4426d9d22080bb64bd900cab">rr::CompiledExecutableModel</a>
+, <a class="el" href="classrr_1_1ExecutableModel.html#aebaced13ef2afd070d7a1c35eec8d9f2">rr::ExecutableModel</a>
 , <a class="el" href="classrr_1_1RoadRunner.html#aa030bd78fd18af9737b6798e246dd4cb">rr::RoadRunner</a>
 , <a class="el" href="classrr_1_1Solver.html#a773a06f0d64c9d79423efcef1b381da1">rr::Solver</a>
+, <a class="el" href="classrrllvm_1_1LLVMExecutableModel.html#ac4f4fe1667dcf4f0f848e3569e8bbe2b">rrllvm::LLVMExecutableModel</a>
 </li>
 <li>getValueAsBool()
 : <a class="el" href="classrr_1_1Solver.html#a9f6e5069f1606a5f5e3d517ee01cfede">rr::Solver</a>
@@ -634,7 +851,9 @@ $(function() {
 : <a class="el" href="classrr_1_1Solver.html#aafabb2cc0b41558dc3edae324977372c">rr::Solver</a>
 </li>
 <li>getVersion()
-: <a class="el" href="classrr_1_1Compiler.html#ace56af18a4bc2cd882bdf4685e18fb33">rr::Compiler</a>
+: <a class="el" href="classrr_1_1CCompiler.html#a1a5ee3dac691018a04f9fb166fd19246">rr::CCompiler</a>
+, <a class="el" href="classrr_1_1Compiler.html#ace56af18a4bc2cd882bdf4685e18fb33">rr::Compiler</a>
+, <a class="el" href="classrrllvm_1_1LLVMCompiler.html#a6b936a4ca2bde133b99505ef2e5f7cdd">rrllvm::LLVMCompiler</a>
 </li>
 </ul>
 </div><!-- contents -->

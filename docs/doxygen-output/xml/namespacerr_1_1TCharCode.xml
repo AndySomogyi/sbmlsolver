@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+  <compounddef id="namespacerr_1_1TCharCode" kind="namespace" language="C++">
+    <compoundname>rr::TCharCode</compoundname>
+      <sectiondef kind="enum">
+      <memberdef kind="enum" id="rrScanner_8h_1a318977a7e14cbc4109d7c0fba76efea5" prot="public" static="no" strong="no">
+        <type></type>
+        <name>TCharCode</name>
+        <enumvalue id="rrScanner_8h_1a318977a7e14cbc4109d7c0fba76efea5a4b4f13bce12af415e649aba18653fe24" prot="public">
+          <name>cLETTER</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="rrScanner_8h_1a318977a7e14cbc4109d7c0fba76efea5a4a6117cef999532b1010af09b823c384" prot="public">
+          <name>cDIGIT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="rrScanner_8h_1a318977a7e14cbc4109d7c0fba76efea5a28e5c82d836b793cda6b5e74b1ae2602" prot="public">
+          <name>cPOINT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="rrScanner_8h_1a318977a7e14cbc4109d7c0fba76efea5a6d71bf437ad3856469849079636657f6" prot="public">
+          <name>cDOUBLEQUOTE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="rrScanner_8h_1a318977a7e14cbc4109d7c0fba76efea5aa95afc1f07e520dbb0f6511a91e8ffa8" prot="public">
+          <name>cUNDERSCORE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="rrScanner_8h_1a318977a7e14cbc4109d7c0fba76efea5a9239929c9e652befe081825157b19945" prot="public">
+          <name>cSPECIAL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="rrScanner_8h_1a318977a7e14cbc4109d7c0fba76efea5a1b9cd34a2527522282bf6a9ac3e5050f" prot="public">
+          <name>cWHITESPACE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="rrScanner_8h_1a318977a7e14cbc4109d7c0fba76efea5a485b6ffffbfd792f368398ffbf01d5db" prot="public">
+          <name>cETX</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrScanner.h" line="21" column="1" bodyfile="c/rrScanner.h" bodystart="22" bodyend="31"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="c/rrScanner.h" line="19" column="1"/>
+  </compounddef>
+</doxygen>

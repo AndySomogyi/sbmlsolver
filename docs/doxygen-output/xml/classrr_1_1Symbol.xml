@@ -1,0 +1,265 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+  <compounddef id="classrr_1_1Symbol" kind="class" language="C++" prot="public">
+    <compoundname>rr::Symbol</compoundname>
+    <includes refid="rrSymbol_8h" local="no">rrSymbol.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classrr_1_1Symbol_1a16e22ed776b62e27b1f01cf56d53646c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool rr::Symbol::rateRule</definition>
+        <argsstring></argsstring>
+        <name>rateRule</name>
+        <briefdescription>
+<para>Set if species also has a rate rule. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Use to prevent a floatingSpeciesAmountRates being output in the model function if there is a rate rule for it. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrSymbol.h" line="25" column="25" bodyfile="c/rrSymbol.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrr_1_1Symbol_1a26a8cefd0db2d6038bde4a10ece1377c" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double rr::Symbol::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <briefdescription>
+<para>set to initial concentration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>If initialAmmount is given, this is converted to a concentration via initialAmmount / initialCompartmentVolume. TODO: should this be named &apos;initialConcentration&apos;??? </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrSymbol.h" line="32" column="25" bodyfile="c/rrSymbol.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrr_1_1Symbol_1a3eea02180a917e9edec0a5db22422d78" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool rr::Symbol::constant</definition>
+        <argsstring></argsstring>
+        <name>constant</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrSymbol.h" line="33" column="25" bodyfile="c/rrSymbol.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrr_1_1Symbol_1a473a1eeae3075d253cbf831976f90e11" prot="public" static="no" mutable="no">
+        <type>string</type>
+        <definition>string rr::Symbol::compartmentName</definition>
+        <argsstring></argsstring>
+        <name>compartmentName</name>
+        <briefdescription>
+<para>Used when symbol is a species. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrSymbol.h" line="39" column="25" bodyfile="c/rrSymbol.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrr_1_1Symbol_1aa7cce3c13a89ffa8e3fcd49aca796138" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool rr::Symbol::hasOnlySubstance</definition>
+        <argsstring></argsstring>
+        <name>hasOnlySubstance</name>
+        <briefdescription>
+<para>used when symbol is a species </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrSymbol.h" line="44" column="25" bodyfile="c/rrSymbol.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrr_1_1Symbol_1af566d56893099e936a83fd3bd645a8fe" prot="public" static="no" mutable="no">
+        <type>string</type>
+        <definition>string rr::Symbol::formula</definition>
+        <argsstring></argsstring>
+        <name>formula</name>
+        <briefdescription>
+<para>There are only two places where formula was created, in rrModelSymbols.cpp, readBoundarySpecies and readFloatingSpeciesConcentrationList In both cases, formula was formated as the exact same C language string of formula &lt; &lt;toString(dValue, ModelSymbols::mDoubleFormat)&lt;&lt; &quot;/ md-&gt;c[&quot; &lt;&lt; nCompartmentIndex &lt;&lt; &quot;]&quot;;,. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>where dValue was always the initialAmmount. So, ammount / volume = concentration.</para>
+<para>General idea behind &apos;formula&apos; was to convert initialAmmount to an initial concentration, that logic belongs in the code generator, not the symbolic processor, so we just declare what the initialAmmount and compartment volume here and leave the logic of converting to concentration in the code generators.</para>
+<para>There is no need to keep the compartment index here, the code generators can just grab it from the compartment list using the compartment name. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrSymbol.h" line="63" column="25" bodyfile="c/rrSymbol.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrr_1_1Symbol_1a0339929a2864775ddcff335aa5f76fa1" prot="public" static="no" mutable="no">
+        <type>string</type>
+        <definition>string rr::Symbol::keyName</definition>
+        <argsstring></argsstring>
+        <name>keyName</name>
+        <briefdescription>
+<para>Used when storing local parameters, keyName is the reaction name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrSymbol.h" line="68" column="25" bodyfile="c/rrSymbol.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrr_1_1Symbol_1a5f7de6b7c858536fbbf7aed3b6ade86f" prot="public" static="no" mutable="no">
+        <type>string</type>
+        <definition>string rr::Symbol::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrSymbol.h" line="69" column="25" bodyfile="c/rrSymbol.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classrr_1_1Symbol_1acc89566047d357736e2262591c41e7d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>rr::Symbol::Symbol</definition>
+        <argsstring>(const string &amp;_name=&quot;&quot;, const double &amp;_value=std::numeric_limits&lt; double &gt;::quiet_NaN())</argsstring>
+        <name>Symbol</name>
+        <param>
+          <type>const string &amp;</type>
+          <declname>_name</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>const double &amp;</type>
+          <declname>_value</declname>
+          <defval>std::numeric_limits&lt; double &gt;::quiet_NaN()</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrSymbol.h" line="72" column="5" bodyfile="c/rrSymbol.cpp" bodystart="7" bodyend="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1Symbol_1a74c8e02611494b3d865d5e6e30e73294" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>rr::Symbol::Symbol</definition>
+        <argsstring>(const string &amp;_keyName, const string &amp;_name, const double &amp;_value=std::numeric_limits&lt; double &gt;::quiet_NaN())</argsstring>
+        <name>Symbol</name>
+        <param>
+          <type>const string &amp;</type>
+          <declname>_keyName</declname>
+        </param>
+        <param>
+          <type>const string &amp;</type>
+          <declname>_name</declname>
+        </param>
+        <param>
+          <type>const double &amp;</type>
+          <declname>_value</declname>
+          <defval>std::numeric_limits&lt; double &gt;::quiet_NaN()</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrSymbol.h" line="73" column="5" bodyfile="c/rrSymbol.cpp" bodystart="15" bodyend="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1Symbol_1afe98ed2041f54ad01f65ac1ac871240d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>rr::Symbol::Symbol</definition>
+        <argsstring>(const string &amp;_name, const double &amp;_value, const string &amp;_compartmentName)</argsstring>
+        <name>Symbol</name>
+        <param>
+          <type>const string &amp;</type>
+          <declname>_name</declname>
+        </param>
+        <param>
+          <type>const double &amp;</type>
+          <declname>_value</declname>
+        </param>
+        <param>
+          <type>const string &amp;</type>
+          <declname>_compartmentName</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrSymbol.h" line="74" column="5" bodyfile="c/rrSymbol.cpp" bodystart="24" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1Symbol_1a2ec9721a31e83f2ed26a35095d189fa4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>rr::Symbol::Symbol</definition>
+        <argsstring>(const string &amp;_name, const double &amp;_value, const string &amp;_compartmentName, const string &amp;_formula)</argsstring>
+        <name>Symbol</name>
+        <param>
+          <type>const string &amp;</type>
+          <declname>_name</declname>
+        </param>
+        <param>
+          <type>const double &amp;</type>
+          <declname>_value</declname>
+        </param>
+        <param>
+          <type>const string &amp;</type>
+          <declname>_compartmentName</declname>
+        </param>
+        <param>
+          <type>const string &amp;</type>
+          <declname>_formula</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrSymbol.h" line="75" column="5" bodyfile="c/rrSymbol.cpp" bodystart="33" bodyend="41"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>An SBML species definition. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>TODO: should this be named something better than &apos;<ref refid="classrr_1_1Symbol" kindref="compound">Symbol</ref>&apos;, say SpeciesDefinition or something??? TODO: Why do we even have this? Shoud&apos;nt this just be a sbml::Species ??? </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="1">
+        <label>rr::Symbol</label>
+        <link refid="classrr_1_1Symbol"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>compartmentName</edgelabel>
+          <edgelabel>formula</edgelabel>
+          <edgelabel>keyName</edgelabel>
+          <edgelabel>name</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="c/rrSymbol.h" line="17" column="1" bodyfile="c/rrSymbol.h" bodystart="18" bodyend="77"/>
+    <listofallmembers>
+      <member refid="classrr_1_1Symbol_1a473a1eeae3075d253cbf831976f90e11" prot="public" virt="non-virtual"><scope>rr::Symbol</scope><name>compartmentName</name></member>
+      <member refid="classrr_1_1Symbol_1a3eea02180a917e9edec0a5db22422d78" prot="public" virt="non-virtual"><scope>rr::Symbol</scope><name>constant</name></member>
+      <member refid="classrr_1_1Symbol_1af566d56893099e936a83fd3bd645a8fe" prot="public" virt="non-virtual"><scope>rr::Symbol</scope><name>formula</name></member>
+      <member refid="classrr_1_1Symbol_1aa7cce3c13a89ffa8e3fcd49aca796138" prot="public" virt="non-virtual"><scope>rr::Symbol</scope><name>hasOnlySubstance</name></member>
+      <member refid="classrr_1_1Symbol_1a0339929a2864775ddcff335aa5f76fa1" prot="public" virt="non-virtual"><scope>rr::Symbol</scope><name>keyName</name></member>
+      <member refid="classrr_1_1Symbol_1a5f7de6b7c858536fbbf7aed3b6ade86f" prot="public" virt="non-virtual"><scope>rr::Symbol</scope><name>name</name></member>
+      <member refid="classrr_1_1Symbol_1a16e22ed776b62e27b1f01cf56d53646c" prot="public" virt="non-virtual"><scope>rr::Symbol</scope><name>rateRule</name></member>
+      <member refid="classrr_1_1Symbol_1acc89566047d357736e2262591c41e7d4" prot="public" virt="non-virtual"><scope>rr::Symbol</scope><name>Symbol</name></member>
+      <member refid="classrr_1_1Symbol_1a74c8e02611494b3d865d5e6e30e73294" prot="public" virt="non-virtual"><scope>rr::Symbol</scope><name>Symbol</name></member>
+      <member refid="classrr_1_1Symbol_1afe98ed2041f54ad01f65ac1ac871240d" prot="public" virt="non-virtual"><scope>rr::Symbol</scope><name>Symbol</name></member>
+      <member refid="classrr_1_1Symbol_1a2ec9721a31e83f2ed26a35095d189fa4" prot="public" virt="non-virtual"><scope>rr::Symbol</scope><name>Symbol</name></member>
+      <member refid="classrr_1_1Symbol_1a26a8cefd0db2d6038bde4a10ece1377c" prot="public" virt="non-virtual"><scope>rr::Symbol</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

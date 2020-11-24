@@ -10,6 +10,10 @@
       <node id="3">
         <label>string</label>
       </node>
+      <node id="2">
+        <label>rrExporter.h</label>
+        <link refid="rrExporter_8h_source"/>
+      </node>
       <node id="1">
         <label>rrVersionInfo.h</label>
         <link refid="rrVersionInfo_8h"/>
@@ -17,10 +21,6 @@
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
-      </node>
-      <node id="2">
-        <label>rrExporter.h</label>
-        <link refid="rrExporter_8h_source"/>
       </node>
     </incdepgraph>
     <innernamespace refid="namespacerr">rr</innernamespace>

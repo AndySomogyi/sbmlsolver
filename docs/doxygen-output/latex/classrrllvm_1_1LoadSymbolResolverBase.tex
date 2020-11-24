@@ -1,0 +1,146 @@
+\hypertarget{classrrllvm_1_1LoadSymbolResolverBase}{}\doxysection{rrllvm\+::Load\+Symbol\+Resolver\+Base Class Reference}
+\label{classrrllvm_1_1LoadSymbolResolverBase}\index{rrllvm::LoadSymbolResolverBase@{rrllvm::LoadSymbolResolverBase}}
+
+
+provide common sbml model functionality to three kinds of resolvers.  
+
+
+
+
+{\ttfamily \#include $<$Load\+Symbol\+Resolver\+Base.\+h$>$}
+
+Inheritance diagram for rrllvm\+::Load\+Symbol\+Resolver\+Base\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.276423cm]{classrrllvm_1_1LoadSymbolResolverBase}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classrrllvm_1_1LoadSymbolResolverBase_af30e82d88abca4047e01c3cb032b16a3}\label{classrrllvm_1_1LoadSymbolResolverBase_af30e82d88abca4047e01c3cb032b16a3}} 
+llvm\+::\+Value $\ast$ \mbox{\hyperlink{classrrllvm_1_1LoadSymbolResolverBase_af30e82d88abca4047e01c3cb032b16a3}{load\+Reaction\+Rate}} (const libsbml\+::\+Reaction $\ast$)
+\begin{DoxyCompactList}\small\item\em shortcut to get a reaction rate, performance wise, quicker than going through all the load\+Symbol\+Value types. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classrrllvm_1_1LoadSymbolResolverBase_a774ff517a485e464ad00de533461f2b1}\label{classrrllvm_1_1LoadSymbolResolverBase_a774ff517a485e464ad00de533461f2b1}} 
+virtual void {\bfseries recursive\+Symbol\+Push} (const std\+::string \&symbol)
+\item 
+\mbox{\Hypertarget{classrrllvm_1_1LoadSymbolResolverBase_ade0623a0a82d7594aaa50d28e95eec6b}\label{classrrllvm_1_1LoadSymbolResolverBase_ade0623a0a82d7594aaa50d28e95eec6b}} 
+virtual void {\bfseries recursive\+Symbol\+Pop} ()
+\item 
+void \mbox{\hyperlink{classrrllvm_1_1LoadSymbolResolverBase_ae380d0e0ba65b430e3ce7c23be4b7829}{flush\+Cache}} ()
+\begin{DoxyCompactList}\small\item\em Flush the symbol cache. \end{DoxyCompactList}\item 
+virtual size\+\_\+t \mbox{\hyperlink{classrrllvm_1_1LoadSymbolResolverBase_a1c2f43e60c68b47222758a9ed2dc0bb1}{push\+Cache\+Block}} ()
+\begin{DoxyCompactList}\small\item\em nested conditionals (or functions?) can push a local cache block, where symbols would be chached. \end{DoxyCompactList}\item 
+virtual size\+\_\+t \mbox{\hyperlink{classrrllvm_1_1LoadSymbolResolverBase_ada819479484b73cc11daa4a22beb0406}{pop\+Cache\+Block}} ()
+\begin{DoxyCompactList}\small\item\em Pop a scoped cache block, this clears these values, and any subsequent reads re-\/evaluate the requested symbol. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Protected Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classrrllvm_1_1LoadSymbolResolverBase_ab53501070e5a3b0e35a00f3ab7a63f28}\label{classrrllvm_1_1LoadSymbolResolverBase_ab53501070e5a3b0e35a00f3ab7a63f28}} 
+typedef std\+::list$<$ std\+::string $>$ {\bfseries String\+Stack}
+\item 
+\mbox{\Hypertarget{classrrllvm_1_1LoadSymbolResolverBase_a52e2ad673c48da0d98cc5e9715d62161}\label{classrrllvm_1_1LoadSymbolResolverBase_a52e2ad673c48da0d98cc5e9715d62161}} 
+typedef cxx11\+\_\+ns\+::unordered\+\_\+map$<$ std\+::string, llvm\+::\+Value $\ast$ $>$ {\bfseries Value\+Map}
+\item 
+\mbox{\Hypertarget{classrrllvm_1_1LoadSymbolResolverBase_aefd7a10503a570504ee99aba37875b36}\label{classrrllvm_1_1LoadSymbolResolverBase_aefd7a10503a570504ee99aba37875b36}} 
+typedef std\+::deque$<$ Value\+Map $>$ {\bfseries Value\+Map\+Stack}
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classrrllvm_1_1LoadSymbolResolverBase_a74b4695465d18b3f22597055b8a55ad0}\label{classrrllvm_1_1LoadSymbolResolverBase_a74b4695465d18b3f22597055b8a55ad0}} 
+{\bfseries Load\+Symbol\+Resolver\+Base} (const \mbox{\hyperlink{classrrllvm_1_1ModelGeneratorContext}{Model\+Generator\+Context}} \&ctx, llvm\+::\+Value $\ast$model\+Data)
+\item 
+llvm\+::\+Value $\ast$ \mbox{\hyperlink{classrrllvm_1_1LoadSymbolResolverBase_afbdc447a23b2902815eb8e9afb497658}{cache\+Value}} (const std\+::string \&symbol, const llvm\+::\+Array\+Ref$<$ llvm\+::\+Value $\ast$ $>$ \&args, llvm\+::\+Value $\ast$value=N\+U\+LL)
+\begin{DoxyCompactList}\small\item\em check in the symbol cache if the symbol exists, if so return it. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classrrllvm_1_1LoadSymbolResolverBase_ae13b023d912ca6f0d282a89a10ce3f44}\label{classrrllvm_1_1LoadSymbolResolverBase_ae13b023d912ca6f0d282a89a10ce3f44}} 
+const \mbox{\hyperlink{classrrllvm_1_1ModelGeneratorContext}{Model\+Generator\+Context}} \& {\bfseries model\+Gen\+Context}
+\item 
+\mbox{\Hypertarget{classrrllvm_1_1LoadSymbolResolverBase_abe5f4775be108223c206dd9748534361}\label{classrrllvm_1_1LoadSymbolResolverBase_abe5f4775be108223c206dd9748534361}} 
+const libsbml\+::\+Model $\ast$ {\bfseries model}
+\item 
+\mbox{\Hypertarget{classrrllvm_1_1LoadSymbolResolverBase_a7c4487a9784c8dd8cce184dff8c4cda4}\label{classrrllvm_1_1LoadSymbolResolverBase_a7c4487a9784c8dd8cce184dff8c4cda4}} 
+const \mbox{\hyperlink{classrrllvm_1_1LLVMModelDataSymbols}{L\+L\+V\+M\+Model\+Data\+Symbols}} \& {\bfseries model\+Data\+Symbols}
+\item 
+\mbox{\Hypertarget{classrrllvm_1_1LoadSymbolResolverBase_a21d2fbcaa66d3de99fb9dc7f8288582c}\label{classrrllvm_1_1LoadSymbolResolverBase_a21d2fbcaa66d3de99fb9dc7f8288582c}} 
+const \mbox{\hyperlink{classrrllvm_1_1LLVMModelSymbols}{L\+L\+V\+M\+Model\+Symbols}} \& {\bfseries model\+Symbols}
+\item 
+\mbox{\Hypertarget{classrrllvm_1_1LoadSymbolResolverBase_aa108e3576012f1012ebacd4fe30cf747}\label{classrrllvm_1_1LoadSymbolResolverBase_aa108e3576012f1012ebacd4fe30cf747}} 
+llvm\+::\+I\+R\+Builder \& {\bfseries builder}
+\item 
+\mbox{\Hypertarget{classrrllvm_1_1LoadSymbolResolverBase_a5a0d696ef7f5c0c9db5512a619fdc657}\label{classrrllvm_1_1LoadSymbolResolverBase_a5a0d696ef7f5c0c9db5512a619fdc657}} 
+llvm\+::\+Value $\ast$ {\bfseries model\+Data}
+\item 
+\mbox{\Hypertarget{classrrllvm_1_1LoadSymbolResolverBase_ab6c8b692f1b8ed108e50ce35a268a57f}\label{classrrllvm_1_1LoadSymbolResolverBase_ab6c8b692f1b8ed108e50ce35a268a57f}} 
+String\+Stack {\bfseries symbol\+Stack}
+\item 
+\mbox{\Hypertarget{classrrllvm_1_1LoadSymbolResolverBase_a74899bb1f28fb3a75d1447d809e615ec}\label{classrrllvm_1_1LoadSymbolResolverBase_a74899bb1f28fb3a75d1447d809e615ec}} 
+Value\+Map\+Stack {\bfseries symbol\+Cache}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+provide common sbml model functionality to three kinds of resolvers. 
+
+This has common functionality such as dealing with sbml elements such as reactions, species and so forth. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classrrllvm_1_1LoadSymbolResolverBase_afbdc447a23b2902815eb8e9afb497658}\label{classrrllvm_1_1LoadSymbolResolverBase_afbdc447a23b2902815eb8e9afb497658}} 
+\index{rrllvm::LoadSymbolResolverBase@{rrllvm::LoadSymbolResolverBase}!cacheValue@{cacheValue}}
+\index{cacheValue@{cacheValue}!rrllvm::LoadSymbolResolverBase@{rrllvm::LoadSymbolResolverBase}}
+\doxysubsubsection{\texorpdfstring{cacheValue()}{cacheValue()}}
+{\footnotesize\ttfamily llvm\+::\+Value $\ast$ rrllvm\+::\+Load\+Symbol\+Resolver\+Base\+::cache\+Value (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{symbol,  }\item[{const llvm\+::\+Array\+Ref$<$ llvm\+::\+Value $\ast$ $>$ \&}]{args,  }\item[{llvm\+::\+Value $\ast$}]{value = {\ttfamily NULL} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+check in the symbol cache if the symbol exists, if so return it. 
+
+If the value is not N\+U\+LL, it is cached and returned.
+
+Cached function args not currently supported (just return N\+U\+LL). \mbox{\Hypertarget{classrrllvm_1_1LoadSymbolResolverBase_ae380d0e0ba65b430e3ce7c23be4b7829}\label{classrrllvm_1_1LoadSymbolResolverBase_ae380d0e0ba65b430e3ce7c23be4b7829}} 
+\index{rrllvm::LoadSymbolResolverBase@{rrllvm::LoadSymbolResolverBase}!flushCache@{flushCache}}
+\index{flushCache@{flushCache}!rrllvm::LoadSymbolResolverBase@{rrllvm::LoadSymbolResolverBase}}
+\doxysubsubsection{\texorpdfstring{flushCache()}{flushCache()}}
+{\footnotesize\ttfamily void rrllvm\+::\+Load\+Symbol\+Resolver\+Base\+::flush\+Cache (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Flush the symbol cache. 
+
+This is required in branches and switch blocks as a symbol used in a previous block can not be re-\/used in the current block. \mbox{\Hypertarget{classrrllvm_1_1LoadSymbolResolverBase_ada819479484b73cc11daa4a22beb0406}\label{classrrllvm_1_1LoadSymbolResolverBase_ada819479484b73cc11daa4a22beb0406}} 
+\index{rrllvm::LoadSymbolResolverBase@{rrllvm::LoadSymbolResolverBase}!popCacheBlock@{popCacheBlock}}
+\index{popCacheBlock@{popCacheBlock}!rrllvm::LoadSymbolResolverBase@{rrllvm::LoadSymbolResolverBase}}
+\doxysubsubsection{\texorpdfstring{popCacheBlock()}{popCacheBlock()}}
+{\footnotesize\ttfamily size\+\_\+t rrllvm\+::\+Load\+Symbol\+Resolver\+Base\+::pop\+Cache\+Block (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Pop a scoped cache block, this clears these values, and any subsequent reads re-\/evaluate the requested symbol. 
+
+Will throw an exception if an empty stack pop is attempted. 
+
+Reimplemented from \mbox{\hyperlink{classrrllvm_1_1LoadSymbolResolver_a64c0e7ee5311a610d252dc603e20a94f}{rrllvm\+::\+Load\+Symbol\+Resolver}}.
+
+\mbox{\Hypertarget{classrrllvm_1_1LoadSymbolResolverBase_a1c2f43e60c68b47222758a9ed2dc0bb1}\label{classrrllvm_1_1LoadSymbolResolverBase_a1c2f43e60c68b47222758a9ed2dc0bb1}} 
+\index{rrllvm::LoadSymbolResolverBase@{rrllvm::LoadSymbolResolverBase}!pushCacheBlock@{pushCacheBlock}}
+\index{pushCacheBlock@{pushCacheBlock}!rrllvm::LoadSymbolResolverBase@{rrllvm::LoadSymbolResolverBase}}
+\doxysubsubsection{\texorpdfstring{pushCacheBlock()}{pushCacheBlock()}}
+{\footnotesize\ttfamily size\+\_\+t rrllvm\+::\+Load\+Symbol\+Resolver\+Base\+::push\+Cache\+Block (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+nested conditionals (or functions?) can push a local cache block, where symbols would be chached. 
+
+These need to be popped as these symbols are not valid outside of the local conditional or scope block. 
+
+Reimplemented from \mbox{\hyperlink{classrrllvm_1_1LoadSymbolResolver_ab388d2fa6565e68437798bc1d566b29b}{rrllvm\+::\+Load\+Symbol\+Resolver}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+llvm/Load\+Symbol\+Resolver\+Base.\+h\item 
+llvm/Load\+Symbol\+Resolver\+Base.\+cpp\end{DoxyCompactItemize}

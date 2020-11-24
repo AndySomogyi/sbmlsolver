@@ -23,39 +23,6 @@
     <includes local="no">map</includes>
     <includes local="no">assert.h</includes>
     <incdepgraph>
-      <node id="19">
-        <label>list</label>
-      </node>
-      <node id="32">
-        <label>Poco/AutoPtr.h</label>
-      </node>
-      <node id="18">
-        <label>rrStringUtils.h</label>
-        <link refid="rrStringUtils_8h_source"/>
-        <childnode refid="7" relation="include">
-        </childnode>
-        <childnode refid="19" relation="include">
-        </childnode>
-        <childnode refid="10" relation="include">
-        </childnode>
-        <childnode refid="20" relation="include">
-        </childnode>
-        <childnode refid="21" relation="include">
-        </childnode>
-        <childnode refid="22" relation="include">
-        </childnode>
-        <childnode refid="14" relation="include">
-        </childnode>
-        <childnode refid="15" relation="include">
-        </childnode>
-        <childnode refid="4" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
-      </node>
-      <node id="16">
-        <label>limits</label>
-      </node>
       <node id="8">
         <label>Variant.h</label>
         <link refid="Variant_8h_source"/>
@@ -68,6 +35,15 @@
         <childnode refid="10" relation="include">
         </childnode>
       </node>
+      <node id="19">
+        <label>list</label>
+      </node>
+      <node id="32">
+        <label>Poco/AutoPtr.h</label>
+      </node>
+      <node id="16">
+        <label>limits</label>
+      </node>
       <node id="37">
         <label>assert.h</label>
       </node>
@@ -76,60 +52,6 @@
       </node>
       <node id="27">
         <label>Poco/SimpleFileChannel.h</label>
-      </node>
-      <node id="23">
-        <label>stdint.h</label>
-      </node>
-      <node id="15">
-        <label>rrConstants.h</label>
-        <link refid="rrConstants_8h_source"/>
-        <childnode refid="16" relation="include">
-        </childnode>
-        <childnode refid="7" relation="include">
-        </childnode>
-        <childnode refid="17" relation="include">
-        </childnode>
-        <childnode refid="4" relation="include">
-        </childnode>
-      </node>
-      <node id="31">
-        <label>Poco/Formatter.h</label>
-      </node>
-      <node id="2">
-        <label>rrLogger.h</label>
-        <link refid="rrLogger_8h_source"/>
-        <childnode refid="3" relation="include">
-        </childnode>
-        <childnode refid="4" relation="include">
-        </childnode>
-      </node>
-      <node id="26">
-        <label>Poco/ConsoleChannel.h</label>
-      </node>
-      <node id="11">
-        <label>rrUtils.h</label>
-        <link refid="rrUtils_8h_source"/>
-        <childnode refid="12" relation="include">
-        </childnode>
-        <childnode refid="10" relation="include">
-        </childnode>
-        <childnode refid="7" relation="include">
-        </childnode>
-        <childnode refid="13" relation="include">
-        </childnode>
-        <childnode refid="14" relation="include">
-        </childnode>
-        <childnode refid="4" relation="include">
-        </childnode>
-        <childnode refid="15" relation="include">
-        </childnode>
-        <childnode refid="18" relation="include">
-        </childnode>
-        <childnode refid="23" relation="include">
-        </childnode>
-      </node>
-      <node id="7">
-        <label>string</label>
       </node>
       <node id="1">
         <label>rrLogger.cpp</label>
@@ -175,6 +97,36 @@
         <childnode refid="37" relation="include">
         </childnode>
       </node>
+      <node id="23">
+        <label>stdint.h</label>
+      </node>
+      <node id="5">
+        <label>rrOSSpecifics.h</label>
+        <link refid="rrOSSpecifics_8h_source"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="31">
+        <label>Poco/Formatter.h</label>
+      </node>
+      <node id="26">
+        <label>Poco/ConsoleChannel.h</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>rrExporter.h</label>
+        <link refid="rrExporter_8h_source"/>
+      </node>
+      <node id="2">
+        <label>rrLogger.h</label>
+        <link refid="rrLogger_8h_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
       <node id="21">
         <label>map</label>
       </node>
@@ -187,20 +139,32 @@
       <node id="36">
         <label>Poco/Path.h</label>
       </node>
-      <node id="9">
-        <label>typeinfo</label>
-      </node>
-      <node id="6">
-        <label>rrConfig.h</label>
-        <link refid="rrConfig_8h_source"/>
+      <node id="18">
+        <label>rrStringUtils.h</label>
+        <link refid="rrStringUtils_8h_source"/>
         <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="10" relation="include">
-        </childnode>
+      </node>
+      <node id="9">
+        <label>typeinfo</label>
       </node>
       <node id="25">
         <label>Poco/AsyncChannel.h</label>
@@ -217,17 +181,23 @@
       <node id="29">
         <label>Poco/FormattingChannel.h</label>
       </node>
+      <node id="6">
+        <label>rrConfig.h</label>
+        <link refid="rrConfig_8h_source"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
       <node id="17">
         <label>cstdlib</label>
       </node>
       <node id="13">
         <label>iostream</label>
-      </node>
-      <node id="5">
-        <label>rrOSSpecifics.h</label>
-        <link refid="rrOSSpecifics_8h_source"/>
-        <childnode refid="4" relation="include">
-        </childnode>
       </node>
       <node id="22">
         <label>unordered_map</label>
@@ -235,9 +205,39 @@
       <node id="33">
         <label>Poco/LogStream.h</label>
       </node>
-      <node id="4">
-        <label>rrExporter.h</label>
-        <link refid="rrExporter_8h_source"/>
+      <node id="11">
+        <label>rrUtils.h</label>
+        <link refid="rrUtils_8h_source"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>rrConstants.h</label>
+        <link refid="rrConstants_8h_source"/>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
       </node>
       <node id="24">
         <label>Poco/Logger.h</label>
@@ -312,7 +312,7 @@
 <codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">//<sp/>owned<sp/>by<sp/>poco,<sp/>it<sp/>takes<sp/>care<sp/>of<sp/>clearing<sp/>in<sp/>static<sp/>dtor.</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="53"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>Poco::Logger<sp/>*pocoLogger<sp/>=<sp/>0;</highlight></codeline>
 <codeline lineno="54"><highlight class="normal"></highlight><highlight class="keyword">volatile</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>logLevel<sp/>=<sp/>-1;</highlight></codeline>
-<codeline lineno="55"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classrr_1_1Logger_1a72a52e7fe7be48e2ecad639c641ee8aa" kindref="member">Logger::Level</ref><sp/>defaultLogLevel<sp/>=<sp/><ref refid="classrr_1_1Logger_1a72a52e7fe7be48e2ecad639c641ee8aaaa3e3ead40b6448c9d7893f1a33573984" kindref="member">Logger::LOG_NOTICE</ref>;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classrr_1_1Logger_1a72a52e7fe7be48e2ecad639c641ee8aa" kindref="member">Logger::Level</ref><sp/>defaultLogLevel<sp/>=<sp/><ref refid="classrr_1_1Logger_1a72a52e7fe7be48e2ecad639c641ee8aaafdb1b7e45fd5de96e098cd30c552fa7b" kindref="member">Logger::LOG_ERROR</ref>;</highlight></codeline>
 <codeline lineno="56"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>logFileName;</highlight></codeline>
 <codeline lineno="57"><highlight class="normal"></highlight></codeline>
 <codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>pointer<sp/>to<sp/>an<sp/>object<sp/>created<sp/>elsewhere.<sp/>Ideally<sp/>static.</highlight><highlight class="normal"></highlight></codeline>

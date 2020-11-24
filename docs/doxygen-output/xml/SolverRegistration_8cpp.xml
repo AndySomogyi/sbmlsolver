@@ -8,26 +8,6 @@
     <includes refid="NLEQ1Solver_8h" local="yes">NLEQ1Solver.h</includes>
     <includes refid="NLEQ2Solver_8h" local="yes">NLEQ2Solver.h</includes>
     <incdepgraph>
-      <node id="24">
-        <label>list</label>
-      </node>
-      <node id="1">
-        <label>SolverRegistration.cpp</label>
-        <link refid="SolverRegistration_8cpp"/>
-        <childnode refid="2" relation="include">
-        </childnode>
-        <childnode refid="3" relation="include">
-        </childnode>
-        <childnode refid="4" relation="include">
-        </childnode>
-        <childnode refid="19" relation="include">
-        </childnode>
-        <childnode refid="26" relation="include">
-        </childnode>
-      </node>
-      <node id="22">
-        <label>sbml/SBMLDocument.h</label>
-      </node>
       <node id="10">
         <label>Variant.h</label>
         <link refid="Variant_8h_source"/>
@@ -40,91 +20,8 @@
         <childnode refid="13" relation="include">
         </childnode>
       </node>
-      <node id="23">
-        <label>stdint.h</label>
-      </node>
-      <node id="3">
-        <label>SolverRegistration.h</label>
-        <link refid="SolverRegistration_8h"/>
-      </node>
-      <node id="18">
-        <label>stdexcept</label>
-      </node>
-      <node id="5">
-        <label>rrLogger.h</label>
-        <link refid="rrLogger_8h_source"/>
-        <childnode refid="6" relation="include">
-        </childnode>
-        <childnode refid="7" relation="include">
-        </childnode>
-      </node>
-      <node id="16">
-        <label>rrException.h</label>
-        <link refid="rrException_8h_source"/>
-        <childnode refid="17" relation="include">
-        </childnode>
-        <childnode refid="12" relation="include">
-        </childnode>
-        <childnode refid="7" relation="include">
-        </childnode>
-      </node>
-      <node id="12">
-        <label>string</label>
-      </node>
-      <node id="15">
-        <label>tr1proxy/rr_unordered_map.h</label>
-      </node>
-      <node id="9">
-        <label>Dictionary.h</label>
-        <link refid="Dictionary_8h_source"/>
-        <childnode refid="10" relation="include">
-        </childnode>
-        <childnode refid="12" relation="include">
-        </childnode>
-        <childnode refid="13" relation="include">
-        </childnode>
-        <childnode refid="14" relation="include">
-        </childnode>
-        <childnode refid="15" relation="include">
-        </childnode>
-      </node>
-      <node id="17">
-        <label>exception</label>
-      </node>
-      <node id="19">
-        <label>NLEQ1Solver.h</label>
-        <link refid="NLEQ1Solver_8h"/>
-        <childnode refid="13" relation="include">
-        </childnode>
-        <childnode refid="20" relation="include">
-        </childnode>
-        <childnode refid="21" relation="include">
-        </childnode>
-      </node>
-      <node id="2">
-        <label>rrConfigure.h</label>
-        <link refid="rrConfigure_8h_source"/>
-      </node>
-      <node id="25">
-        <label>ostream</label>
-      </node>
-      <node id="4">
-        <label>Solver.h</label>
-        <link refid="Solver_8h"/>
-        <childnode refid="5" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
-        <childnode refid="9" relation="include">
-        </childnode>
-        <childnode refid="16" relation="include">
-        </childnode>
-        <childnode refid="14" relation="include">
-        </childnode>
-        <childnode refid="15" relation="include">
-        </childnode>
-        <childnode refid="18" relation="include">
-        </childnode>
+      <node id="24">
+        <label>list</label>
       </node>
       <node id="21">
         <label>rrExecutableModel.h</label>
@@ -148,11 +45,76 @@
         <childnode refid="14" relation="include">
         </childnode>
       </node>
-      <node id="11">
-        <label>typeinfo</label>
+      <node id="22">
+        <label>sbml/SBMLDocument.h</label>
       </node>
-      <node id="13">
-        <label>vector</label>
+      <node id="19">
+        <label>NLEQ1Solver.h</label>
+        <link refid="NLEQ1Solver_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>stdint.h</label>
+      </node>
+      <node id="9">
+        <label>Dictionary.h</label>
+        <link refid="Dictionary_8h_source"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>rrOSSpecifics.h</label>
+        <link refid="rrOSSpecifics_8h_source"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>stdexcept</label>
+      </node>
+      <node id="12">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>rrExporter.h</label>
+        <link refid="rrExporter_8h_source"/>
+      </node>
+      <node id="15">
+        <label>tr1proxy/rr_unordered_map.h</label>
+      </node>
+      <node id="5">
+        <label>rrLogger.h</label>
+        <link refid="rrLogger_8h_source"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>SolverRegistration.cpp</label>
+        <link refid="SolverRegistration_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
       </node>
       <node id="26">
         <label>NLEQ2Solver.h</label>
@@ -164,21 +126,11 @@
         <childnode refid="21" relation="include">
         </childnode>
       </node>
-      <node id="6">
-        <label>sstream</label>
+      <node id="17">
+        <label>exception</label>
       </node>
-      <node id="8">
-        <label>rrOSSpecifics.h</label>
-        <link refid="rrOSSpecifics_8h_source"/>
-        <childnode refid="7" relation="include">
-        </childnode>
-      </node>
-      <node id="14">
-        <label>tr1proxy/rr_memory.h</label>
-      </node>
-      <node id="7">
-        <label>rrExporter.h</label>
-        <link refid="rrExporter_8h_source"/>
+      <node id="25">
+        <label>ostream</label>
       </node>
       <node id="20">
         <label>SteadyStateSolver.h</label>
@@ -199,6 +151,54 @@
         </childnode>
         <childnode refid="18" relation="include">
         </childnode>
+      </node>
+      <node id="4">
+        <label>Solver.h</label>
+        <link refid="Solver_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>SolverRegistration.h</label>
+        <link refid="SolverRegistration_8h"/>
+      </node>
+      <node id="11">
+        <label>typeinfo</label>
+      </node>
+      <node id="13">
+        <label>vector</label>
+      </node>
+      <node id="16">
+        <label>rrException.h</label>
+        <link refid="rrException_8h_source"/>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>sstream</label>
+      </node>
+      <node id="2">
+        <label>rrConfigure.h</label>
+        <link refid="rrConfigure_8h_source"/>
+      </node>
+      <node id="14">
+        <label>tr1proxy/rr_memory.h</label>
       </node>
     </incdepgraph>
     <innernamespace refid="namespacerr">rr</innernamespace>

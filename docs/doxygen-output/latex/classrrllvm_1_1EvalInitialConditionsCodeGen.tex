@@ -1,0 +1,50 @@
+\hypertarget{classrrllvm_1_1EvalInitialConditionsCodeGen}{}\doxysection{rrllvm\+::Eval\+Initial\+Conditions\+Code\+Gen Class Reference}
+\label{classrrllvm_1_1EvalInitialConditionsCodeGen}\index{rrllvm::EvalInitialConditionsCodeGen@{rrllvm::EvalInitialConditionsCodeGen}}
+
+
+Generates a function called \textquotesingle{}modeldata\+\_\+initialvalues\+\_\+set\textquotesingle{}, which evaluates all of the initial conditions specified in the sbml model (initial values, initial assigments, etc...) and stores these values in the appropriate fields in the \mbox{\hyperlink{structrrllvm_1_1LLVMModelData}{L\+L\+V\+M\+Model\+Data}} structure.  
+
+
+
+
+{\ttfamily \#include $<$Eval\+Initial\+Conditions\+Code\+Gen.\+h$>$}
+
+Inheritance diagram for rrllvm\+::Eval\+Initial\+Conditions\+Code\+Gen\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classrrllvm_1_1EvalInitialConditionsCodeGen}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classrrllvm_1_1EvalInitialConditionsCodeGen_a290c1629505db0df270a64452d08b739}\label{classrrllvm_1_1EvalInitialConditionsCodeGen_a290c1629505db0df270a64452d08b739}} 
+typedef Eval\+Initial\+Conditions\+\_\+\+Function\+Ptr {\bfseries Function\+Ptr}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classrrllvm_1_1EvalInitialConditionsCodeGen_a482fe1e5c2b08e75eb9f3f35d97cad86}\label{classrrllvm_1_1EvalInitialConditionsCodeGen_a482fe1e5c2b08e75eb9f3f35d97cad86}} 
+{\bfseries Eval\+Initial\+Conditions\+Code\+Gen} (const \mbox{\hyperlink{classrrllvm_1_1ModelGeneratorContext}{Model\+Generator\+Context}} \&mgc)
+\item 
+\mbox{\Hypertarget{classrrllvm_1_1EvalInitialConditionsCodeGen_a2d19d6c49aa02ac8245ec69b561f18c0}\label{classrrllvm_1_1EvalInitialConditionsCodeGen_a2d19d6c49aa02ac8245ec69b561f18c0}} 
+llvm\+::\+Value $\ast$ {\bfseries code\+Gen} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classrrllvm_1_1EvalInitialConditionsCodeGen_a2b19d91b7199ebbd1074d4a411d3aa18}\label{classrrllvm_1_1EvalInitialConditionsCodeGen_a2b19d91b7199ebbd1074d4a411d3aa18}} 
+static const char $\ast$ {\bfseries Function\+Name} = \char`\"{}eval\+Initial\+Conditions\char`\"{}
+\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Detailed Description}
+Generates a function called \textquotesingle{}modeldata\+\_\+initialvalues\+\_\+set\textquotesingle{}, which evaluates all of the initial conditions specified in the sbml model (initial values, initial assigments, etc...) and stores these values in the appropriate fields in the \mbox{\hyperlink{structrrllvm_1_1LLVMModelData}{L\+L\+V\+M\+Model\+Data}} structure. 
+
+generated function signature\+: void modeldata\+\_\+initialvalues\+\_\+set(\+Model\+Data $\ast$); 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+llvm/Eval\+Initial\+Conditions\+Code\+Gen.\+h\item 
+llvm/Eval\+Initial\+Conditions\+Code\+Gen.\+cpp\end{DoxyCompactItemize}

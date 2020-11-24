@@ -1,0 +1,293 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+  <compounddef id="classrr_1_1PendingAssignment" kind="class" language="C++" prot="public">
+    <compoundname>rr::PendingAssignment</compoundname>
+    <includes refid="rrPendingAssignment_8h" local="no">rrPendingAssignment.h</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classrr_1_1PendingAssignment_1a2e6ceccaa1f3861dc53a048ae3bcf19c" prot="private" static="no" mutable="no">
+        <type>double *</type>
+        <definition>double* rr::PendingAssignment::computedValues</definition>
+        <argsstring></argsstring>
+        <name>computedValues</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrPendingAssignment.h" line="53" column="12" bodyfile="c/rrPendingAssignment.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrr_1_1PendingAssignment_1a3d8ccc41a66bbd1ebe804aae079c9af7" prot="private" static="no" mutable="no">
+        <type><ref refid="structSModelData" kindref="compound">ModelData</ref> *</type>
+        <definition>ModelData* rr::PendingAssignment::modelData</definition>
+        <argsstring></argsstring>
+        <name>modelData</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrPendingAssignment.h" line="54" column="15" bodyfile="c/rrPendingAssignment.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrr_1_1PendingAssignment_1aeae224290badab05adbf19687c36cbc0" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double rr::PendingAssignment::time</definition>
+        <argsstring></argsstring>
+        <name>time</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrPendingAssignment.h" line="55" column="12" bodyfile="c/rrPendingAssignment.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrr_1_1PendingAssignment_1a23459036d193409d16dca3a5f536134d" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int rr::PendingAssignment::index</definition>
+        <argsstring></argsstring>
+        <name>index</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrPendingAssignment.h" line="56" column="9" bodyfile="c/rrPendingAssignment.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrr_1_1PendingAssignment_1ac0657b580ad8e110503f46c83023eb24" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool rr::PendingAssignment::useValuesFromTriggerTime</definition>
+        <argsstring></argsstring>
+        <name>useValuesFromTriggerTime</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrPendingAssignment.h" line="57" column="10" bodyfile="c/rrPendingAssignment.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrr_1_1PendingAssignment_1adfc38c150f130c5927c62b3e821773d6" prot="private" static="no" mutable="no">
+        <type>ComputeEventAssignmentHandler</type>
+        <definition>ComputeEventAssignmentHandler rr::PendingAssignment::computeAssignment</definition>
+        <argsstring></argsstring>
+        <name>computeAssignment</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrPendingAssignment.h" line="58" column="35" bodyfile="c/rrPendingAssignment.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrr_1_1PendingAssignment_1ad1b3e996b9c26b261cbc3f9141911d56" prot="private" static="no" mutable="no">
+        <type>PerformEventAssignmentHandler</type>
+        <definition>PerformEventAssignmentHandler rr::PendingAssignment::performAssignment</definition>
+        <argsstring></argsstring>
+        <name>performAssignment</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrPendingAssignment.h" line="59" column="35" bodyfile="c/rrPendingAssignment.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classrr_1_1PendingAssignment_1a7aa4919f80b530dc223e581b526434bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>rr::PendingAssignment::PendingAssignment</definition>
+        <argsstring>(ModelData *md, double time, ComputeEventAssignmentHandler computeAssignment, PerformEventAssignmentHandler performAssignment, bool useValuesFromTriggerTime, int index, double *preComputedValues)</argsstring>
+        <name>PendingAssignment</name>
+        <param>
+          <type><ref refid="structSModelData" kindref="compound">ModelData</ref> *</type>
+          <declname>md</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>time</declname>
+        </param>
+        <param>
+          <type>ComputeEventAssignmentHandler</type>
+          <declname>computeAssignment</declname>
+        </param>
+        <param>
+          <type>PerformEventAssignmentHandler</type>
+          <declname>performAssignment</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>useValuesFromTriggerTime</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>double *</type>
+          <declname>preComputedValues</declname>
+        </param>
+        <briefdescription>
+<para>Initializes a new instance of the <ref refid="classrr_1_1PendingAssignment" kindref="compound">PendingAssignment</ref> class. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name=&quot;time&quot;</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrPendingAssignment.h" line="25" column="5" bodyfile="c/rrPendingAssignment.cpp" bodystart="13" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1PendingAssignment_1a2c8fcf003e336c5a268a426b78af976e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>rr::PendingAssignment::~PendingAssignment</definition>
+        <argsstring>()</argsstring>
+        <name>~PendingAssignment</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrPendingAssignment.h" line="31" column="5" bodyfile="c/rrPendingAssignment.cpp" bodystart="117" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1PendingAssignment_1a426187e5dd44493656aa4d2de425834c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>rr::PendingAssignment::PendingAssignment</definition>
+        <argsstring>()</argsstring>
+        <name>PendingAssignment</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrPendingAssignment.h" line="33" column="5" bodyfile="c/rrPendingAssignment.cpp" bodystart="43" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1PendingAssignment_1a9658641f9bf576f5521d6360fe8cc39b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>rr::PendingAssignment::PendingAssignment</definition>
+        <argsstring>(const PendingAssignment &amp;other)</argsstring>
+        <name>PendingAssignment</name>
+        <param>
+          <type>const <ref refid="classrr_1_1PendingAssignment" kindref="compound">PendingAssignment</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>move all the fields to the new PendingAssigment, the current fields are zeroed out. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrPendingAssignment.h" line="39" column="5" bodyfile="c/rrPendingAssignment.cpp" bodystart="54" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1PendingAssignment_1aa2944c510f2b54704c339e02b0a86219" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classrr_1_1PendingAssignment" kindref="compound">PendingAssignment</ref> &amp;</type>
+        <definition>PendingAssignment &amp; rr::PendingAssignment::operator=</definition>
+        <argsstring>(const PendingAssignment &amp;)</argsstring>
+        <name>operator=</name>
+        <param>
+          <type>const <ref refid="classrr_1_1PendingAssignment" kindref="compound">PendingAssignment</ref> &amp;</type>
+          <defname>other</defname>
+        </param>
+        <briefdescription>
+<para>same as copy ctor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrPendingAssignment.h" line="44" column="23" bodyfile="c/rrPendingAssignment.cpp" bodystart="79" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1PendingAssignment_1a6596502a69cf20d5891e47bd08a6f3a5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void rr::PendingAssignment::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrPendingAssignment.h" line="46" column="10" bodyfile="c/rrPendingAssignment.cpp" bodystart="68" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1PendingAssignment_1a50bd33f18b6db79c3f9a8dcd67818757" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int rr::PendingAssignment::getIndex</definition>
+        <argsstring>()</argsstring>
+        <name>getIndex</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrPendingAssignment.h" line="48" column="9" bodyfile="c/rrPendingAssignment.cpp" bodystart="107" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1PendingAssignment_1ad4b6adbc5cc3974197c02161cc857c82" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double rr::PendingAssignment::getTime</definition>
+        <argsstring>()</argsstring>
+        <name>getTime</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrPendingAssignment.h" line="49" column="12" bodyfile="c/rrPendingAssignment.cpp" bodystart="112" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1PendingAssignment_1afcc9ae8e1d2f7a755e4be8a33bd5604e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void rr::PendingAssignment::eval</definition>
+        <argsstring>()</argsstring>
+        <name>eval</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrPendingAssignment.h" line="50" column="10" bodyfile="c/rrPendingAssignment.cpp" bodystart="95" bodyend="105"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Holds a handle to a block of memory allocated by the model, the model is also responsible for freeing this block. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Therefore, this class can not be copied, the copy constructors are actually a move, so that these can be stored in a vector. </para>
+    </detaileddescription>
+    <location file="c/rrPendingAssignment.h" line="17" column="1" bodyfile="c/rrPendingAssignment.h" bodystart="18" bodyend="61"/>
+    <listofallmembers>
+      <member refid="classrr_1_1PendingAssignment_1a6596502a69cf20d5891e47bd08a6f3a5" prot="public" virt="non-virtual"><scope>rr::PendingAssignment</scope><name>clear</name></member>
+      <member refid="classrr_1_1PendingAssignment_1adfc38c150f130c5927c62b3e821773d6" prot="private" virt="non-virtual"><scope>rr::PendingAssignment</scope><name>computeAssignment</name></member>
+      <member refid="classrr_1_1PendingAssignment_1a2e6ceccaa1f3861dc53a048ae3bcf19c" prot="private" virt="non-virtual"><scope>rr::PendingAssignment</scope><name>computedValues</name></member>
+      <member refid="classrr_1_1PendingAssignment_1afcc9ae8e1d2f7a755e4be8a33bd5604e" prot="public" virt="non-virtual"><scope>rr::PendingAssignment</scope><name>eval</name></member>
+      <member refid="classrr_1_1PendingAssignment_1a50bd33f18b6db79c3f9a8dcd67818757" prot="public" virt="non-virtual"><scope>rr::PendingAssignment</scope><name>getIndex</name></member>
+      <member refid="classrr_1_1PendingAssignment_1ad4b6adbc5cc3974197c02161cc857c82" prot="public" virt="non-virtual"><scope>rr::PendingAssignment</scope><name>getTime</name></member>
+      <member refid="classrr_1_1PendingAssignment_1a23459036d193409d16dca3a5f536134d" prot="private" virt="non-virtual"><scope>rr::PendingAssignment</scope><name>index</name></member>
+      <member refid="classrr_1_1PendingAssignment_1a3d8ccc41a66bbd1ebe804aae079c9af7" prot="private" virt="non-virtual"><scope>rr::PendingAssignment</scope><name>modelData</name></member>
+      <member refid="classrr_1_1PendingAssignment_1aa2944c510f2b54704c339e02b0a86219" prot="public" virt="non-virtual"><scope>rr::PendingAssignment</scope><name>operator=</name></member>
+      <member refid="classrr_1_1PendingAssignment_1a7aa4919f80b530dc223e581b526434bd" prot="public" virt="non-virtual"><scope>rr::PendingAssignment</scope><name>PendingAssignment</name></member>
+      <member refid="classrr_1_1PendingAssignment_1a426187e5dd44493656aa4d2de425834c" prot="public" virt="non-virtual"><scope>rr::PendingAssignment</scope><name>PendingAssignment</name></member>
+      <member refid="classrr_1_1PendingAssignment_1a9658641f9bf576f5521d6360fe8cc39b" prot="public" virt="non-virtual"><scope>rr::PendingAssignment</scope><name>PendingAssignment</name></member>
+      <member refid="classrr_1_1PendingAssignment_1ad1b3e996b9c26b261cbc3f9141911d56" prot="private" virt="non-virtual"><scope>rr::PendingAssignment</scope><name>performAssignment</name></member>
+      <member refid="classrr_1_1PendingAssignment_1aeae224290badab05adbf19687c36cbc0" prot="private" virt="non-virtual"><scope>rr::PendingAssignment</scope><name>time</name></member>
+      <member refid="classrr_1_1PendingAssignment_1ac0657b580ad8e110503f46c83023eb24" prot="private" virt="non-virtual"><scope>rr::PendingAssignment</scope><name>useValuesFromTriggerTime</name></member>
+      <member refid="classrr_1_1PendingAssignment_1a2c8fcf003e336c5a268a426b78af976e" prot="public" virt="non-virtual"><scope>rr::PendingAssignment</scope><name>~PendingAssignment</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

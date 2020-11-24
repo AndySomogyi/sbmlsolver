@@ -10,9 +10,15 @@
     <includedby refid="rrRoadRunnerOptions_8cpp" local="yes">rrRoadRunnerOptions.cpp</includedby>
     <includedby refid="rrSelectionRecord_8cpp" local="yes">rrSelectionRecord.cpp</includedby>
     <includedby refid="rrUtils_8cpp" local="yes">rrUtils.cpp</includedby>
+    <includedby refid="rrCompiledExecutableModel_8cpp" local="yes">c/rrCompiledExecutableModel.cpp</includedby>
+    <includedby refid="LLVMExecutableModel_8h" local="yes">llvm/LLVMExecutableModel.h</includedby>
     <incdepgraph>
       <node id="4">
         <label>string</label>
+      </node>
+      <node id="2">
+        <label>rrExporter.h</label>
+        <link refid="rrExporter_8h_source"/>
       </node>
       <node id="3">
         <label>ostream</label>
@@ -27,21 +33,35 @@
         <childnode refid="4" relation="include">
         </childnode>
       </node>
-      <node id="2">
-        <label>rrExporter.h</label>
-        <link refid="rrExporter_8h_source"/>
-      </node>
     </incdepgraph>
     <invincdepgraph>
+      <node id="3">
+        <label>llvm/LLVMExecutableModel.h</label>
+        <link refid="LLVMExecutableModel_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
       <node id="2">
         <label>rrRoadRunner.h</label>
         <link refid="rrRoadRunner_8h_source"/>
+      </node>
+      <node id="4">
+        <label>llvm/LLVMModelGenerator.h</label>
+        <link refid="LLVMModelGenerator_8h_source"/>
       </node>
       <node id="1">
         <label>rrSelectionRecord.h</label>
         <link refid="rrSelectionRecord_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>llvm/ModelResources.h</label>
+        <link refid="ModelResources_8h_source"/>
       </node>
     </invincdepgraph>
     <innerclass refid="classrr_1_1SelectionRecord" prot="public">rr::SelectionRecord</innerclass>

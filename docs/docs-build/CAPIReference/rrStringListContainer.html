@@ -1,0 +1,361 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>rrStringListContainer &mdash; libRoadRunner 1.1.16 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/sphinx_tabs/semantic-ui-2.4.1/segment.min.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/sphinx_tabs/semantic-ui-2.4.1/menu.min.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/sphinx_tabs/semantic-ui-2.4.1/tab.min.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/sphinx_tabs/tabs.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="rrSymbol" href="rrSymbol.html" />
+    <link rel="prev" title="rrStringList" href="rrStringList.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> libRoadRunner
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">RoadRunner Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Installation/installation.html">Installing RoadRunner</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../read_write_functions.html">SBML Read/Write Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../selecting_values.html">Selecting Values</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../steady_state.html">Steady State Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../stochastic.html">Stochastic Simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../metabolic.html">Metabolic Control Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../stability.html">Stability Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../stoichiometric.html">Stoichiometric Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bifurcation.html">Bifurcation Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../integration.html">Simulation and Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utility_functions.html">Utility Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../accessing_model.html">Accessing the SBML Model Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_reference.html">RoadRunner API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../C%2B%2BAPIReference/index.html">The LibRoadRunner C++ Library</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">The LibRoadRunner C Library</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="rrCCompiler.html">rrCCompiler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrCModelGenerator.html">rrCModelGenerator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrCodeTypes.html">rrCodeTypes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrCompiledExecutableModel.html">rrCompiledExecutableModel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrCompiledModelGenerator.html">rrCompiledModelGenerator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrCompiledModelState.html">rrCompiledModelState</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrEvent.html">rrEvent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrHashTable.html">rrHashTable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrModelData.html">rrModelData</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrModelSharedLibrary.html">rrModelSharedLibrary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrModelSymbols.html">rrModelSymbols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrNOMSupport.html">rrNOMSupport</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrPendingAssignment.html">rrPendingAssignment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrRandom.html">rrRandom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrRule.html">rrRule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrSBMLSymbol.html">rrSBMLSymbol</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrSBMLSymbolDependencies.html">rrSBMLSymbolDependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrScanner.html">rrScanner</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrStringBuilder.html">rrStringBuilder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrStringList.html">rrStringList</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">rrStringListContainer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrSymbol.html">rrSymbol</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrSymbolList.html">rrSymbolList</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrToken.html">rrToken</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">libRoadRunner</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="index.html">The LibRoadRunner C Library</a> &raquo;</li>
+        
+      <li>rrStringListContainer</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/CAPIReference/rrStringListContainer.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="rrstringlistcontainer">
+<h1>rrStringListContainer<a class="headerlink" href="#rrstringlistcontainer" title="Permalink to this headline">¶</a></h1>
+<dl class="cpp class">
+<dt id="_CPPv4N2rr19StringListContainerE">
+<span id="_CPPv3N2rr19StringListContainerE"></span><span id="_CPPv2N2rr19StringListContainerE"></span><span id="rr::StringListContainer"></span><span class="target" id="classrr_1_1StringListContainer"></span><em class="property">class </em><code class="sig-prename descclassname">rr<code class="sig-prename descclassname">::</code></code><code class="sig-name descname">StringListContainer</code><a class="headerlink" href="#_CPPv4N2rr19StringListContainerE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="cpp function">
+<dt id="_CPPv4N2rr19StringListContainer19StringListContainerEv">
+<span id="_CPPv3N2rr19StringListContainer19StringListContainerEv"></span><span id="_CPPv2N2rr19StringListContainer19StringListContainerEv"></span><span id="rr::StringListContainer::StringListContainer"></span><span class="target" id="classrr_1_1StringListContainer_1a5434b614bd11d6f97ce8c850aff121f8"></span><code class="sig-name descname">StringListContainer</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr19StringListContainer19StringListContainerEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N2rr19StringListContainer19StringListContainerERK6stringRK19StringListContainer">
+<span id="_CPPv3N2rr19StringListContainer19StringListContainerERK6stringRK19StringListContainer"></span><span id="_CPPv2N2rr19StringListContainer19StringListContainerERK6stringRK19StringListContainer"></span><span id="rr::StringListContainer::StringListContainer__stringCR.StringListContainerCR"></span><span class="target" id="classrr_1_1StringListContainer_1ace1c66380039e931b35d65fa8b21b9f0"></span><code class="sig-name descname">StringListContainer</code><span class="sig-paren">(</span><em class="property">const</em> string &amp;<em>lbl</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv4N2rr19StringListContainer19StringListContainerERK6stringRK19StringListContainer" title="rr::StringListContainer::StringListContainer">StringListContainer</a> &amp;<em>cp</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr19StringListContainer19StringListContainerERK6stringRK19StringListContainer" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N2rr19StringListContainer19StringListContainerERK19StringListContainer">
+<span id="_CPPv3N2rr19StringListContainer19StringListContainerERK19StringListContainer"></span><span id="_CPPv2N2rr19StringListContainer19StringListContainerERK19StringListContainer"></span><span id="rr::StringListContainer::StringListContainer__StringListContainerCR"></span><span class="target" id="classrr_1_1StringListContainer_1a10145cd42d7bbdb1fd272bde47eaaa92"></span><code class="sig-name descname">StringListContainer</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv4N2rr19StringListContainer19StringListContainerERK19StringListContainer" title="rr::StringListContainer::StringListContainer">StringListContainer</a> &amp;<em>cp</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr19StringListContainer19StringListContainerERK19StringListContainer" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N2rr19StringListContainer19StringListContainerERK10StringList">
+<span id="_CPPv3N2rr19StringListContainer19StringListContainerERK10StringList"></span><span id="_CPPv2N2rr19StringListContainer19StringListContainerERK10StringList"></span><span id="rr::StringListContainer::StringListContainer__StringListCR"></span><span class="target" id="classrr_1_1StringListContainer_1a85c0c5019bb6e2fad4cb6ea2e1086b3c"></span><code class="sig-name descname">StringListContainer</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="rrStringList.html#_CPPv4N2rr10StringListE" title="rr::StringList">StringList</a> &amp;<em>cp</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr19StringListContainer19StringListContainerERK10StringList" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N2rr19StringListContaineraSERK19StringListContainer">
+<span id="_CPPv3N2rr19StringListContaineraSERK19StringListContainer"></span><span id="_CPPv2N2rr19StringListContaineraSERK19StringListContainer"></span><span id="rr::StringListContainer::assign-operator__StringListContainerCR"></span><span class="target" id="classrr_1_1StringListContainer_1a37fb9e1bd6498fdce821b6641d111293"></span>void <code class="sig-name descname">operator=</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv4N2rr19StringListContainerE" title="rr::StringListContainer">StringListContainer</a> &amp;<em>rhs</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr19StringListContaineraSERK19StringListContainer" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N2rr19StringListContainer3AddERK19StringListContainer">
+<span id="_CPPv3N2rr19StringListContainer3AddERK19StringListContainer"></span><span id="_CPPv2N2rr19StringListContainer3AddERK19StringListContainer"></span><span id="rr::StringListContainer::Add__StringListContainerCR"></span><span class="target" id="classrr_1_1StringListContainer_1a9dc950c03d0651773239a946a1b9b56d"></span>void <code class="sig-name descname">Add</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv4N2rr19StringListContainerE" title="rr::StringListContainer">StringListContainer</a> &amp;<em>lists</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr19StringListContainer3AddERK19StringListContainer" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N2rr19StringListContainer3AddERK6stringRK10StringList">
+<span id="_CPPv3N2rr19StringListContainer3AddERK6stringRK10StringList"></span><span id="_CPPv2N2rr19StringListContainer3AddERK6stringRK10StringList"></span><span id="rr::StringListContainer::Add__stringCR.StringListCR"></span><span class="target" id="classrr_1_1StringListContainer_1a3c85610f5edf18cd4b7374dde7c3d23d"></span>void <code class="sig-name descname">Add</code><span class="sig-paren">(</span><em class="property">const</em> string &amp;<em>listName</em>, <em class="property">const</em> <a class="reference internal" href="rrStringList.html#_CPPv4N2rr10StringListE" title="rr::StringList">StringList</a> &amp;<em>coll</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr19StringListContainer3AddERK6stringRK10StringList" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N2rr19StringListContainer3AddERK10StringList">
+<span id="_CPPv3N2rr19StringListContainer3AddERK10StringList"></span><span id="_CPPv2N2rr19StringListContainer3AddERK10StringList"></span><span id="rr::StringListContainer::Add__StringListCR"></span><span class="target" id="classrr_1_1StringListContainer_1a56f973d2d901409d27b88185cff068f0"></span>void <code class="sig-name descname">Add</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="rrStringList.html#_CPPv4N2rr10StringListE" title="rr::StringList">StringList</a> &amp;<em>coll</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr19StringListContainer3AddERK10StringList" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N2rr19StringListContainer3AddERK6string">
+<span id="_CPPv3N2rr19StringListContainer3AddERK6string"></span><span id="_CPPv2N2rr19StringListContainer3AddERK6string"></span><span id="rr::StringListContainer::Add__stringCR"></span><span class="target" id="classrr_1_1StringListContainer_1a8d577a9d7eeabe3dd893948e525dd363"></span>void <code class="sig-name descname">Add</code><span class="sig-paren">(</span><em class="property">const</em> string &amp;<em>coll</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr19StringListContainer3AddERK6string" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N2rr19StringListContainer3AddERKi">
+<span id="_CPPv3N2rr19StringListContainer3AddERKi"></span><span id="_CPPv2N2rr19StringListContainer3AddERKi"></span><span id="rr::StringListContainer::Add__iCR"></span><span class="target" id="classrr_1_1StringListContainer_1a1a6199853a60571a6636a35eae8c83fd"></span>void <code class="sig-name descname">Add</code><span class="sig-paren">(</span><em class="property">const</em> int &amp;<em>coll</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr19StringListContainer3AddERKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK2rr19StringListContainer5CountEv">
+<span id="_CPPv3NK2rr19StringListContainer5CountEv"></span><span id="_CPPv2NK2rr19StringListContainer5CountEv"></span><span id="rr::StringListContainer::CountC"></span><span class="target" id="classrr_1_1StringListContainer_1a9fbfcceda151e6129dd79ca5899151ec"></span>int <code class="sig-name descname">Count</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK2rr19StringListContainer5CountEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK2rr19StringListContainer9ListCountEv">
+<span id="_CPPv3NK2rr19StringListContainer9ListCountEv"></span><span id="_CPPv2NK2rr19StringListContainer9ListCountEv"></span><span id="rr::StringListContainer::ListCountC"></span><span class="target" id="classrr_1_1StringListContainer_1ae0a4861918f40c5ee6cbf9275e60d7c8"></span>int <code class="sig-name descname">ListCount</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK2rr19StringListContainer9ListCountEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK2rr19StringListContainer10TotalCountEv">
+<span id="_CPPv3NK2rr19StringListContainer10TotalCountEv"></span><span id="_CPPv2NK2rr19StringListContainer10TotalCountEv"></span><span id="rr::StringListContainer::TotalCountC"></span><span class="target" id="classrr_1_1StringListContainer_1a7017ff52273bc5e0fa23b621b6235080"></span>int <code class="sig-name descname">TotalCount</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK2rr19StringListContainer10TotalCountEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N2rr19StringListContainerixERKi">
+<span id="_CPPv3N2rr19StringListContainerixERKi"></span><span id="_CPPv2N2rr19StringListContainerixERKi"></span><span id="rr::StringListContainer::subscript-operator__iCR"></span><span class="target" id="classrr_1_1StringListContainer_1ae6b288dbbde7b6a71db453fabdd13e3a"></span><a class="reference internal" href="rrStringList.html#_CPPv4N2rr10StringListE" title="rr::StringList">StringList</a> &amp;<code class="sig-name descname">operator[]</code><span class="sig-paren">(</span><em class="property">const</em> int &amp;<em>index</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr19StringListContainerixERKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK2rr19StringListContainerixERKi">
+<span id="_CPPv3NK2rr19StringListContainerixERKi"></span><span id="_CPPv2NK2rr19StringListContainerixERKi"></span><span id="rr::StringListContainer::subscript-operator__iCRC"></span><span class="target" id="classrr_1_1StringListContainer_1ae0663dbfdcebf2083e5e6217fdd3884d"></span><em class="property">const</em> <a class="reference internal" href="rrStringList.html#_CPPv4N2rr10StringListE" title="rr::StringList">StringList</a> &amp;<code class="sig-name descname">operator[]</code><span class="sig-paren">(</span><em class="property">const</em> int &amp;<em>index</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK2rr19StringListContainerixERKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N2rr19StringListContainer5beginEv">
+<span id="_CPPv3N2rr19StringListContainer5beginEv"></span><span id="_CPPv2N2rr19StringListContainer5beginEv"></span><span id="rr::StringListContainer::begin"></span><span class="target" id="classrr_1_1StringListContainer_1aea2d1b681381efc71b21eeb425ac1279"></span>vector&lt;<a class="reference internal" href="rrStringList.html#_CPPv4N2rr10StringListE" title="rr::StringList">StringList</a>&gt;::iterator <code class="sig-name descname">begin</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr19StringListContainer5beginEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N2rr19StringListContainer3endEv">
+<span id="_CPPv3N2rr19StringListContainer3endEv"></span><span id="_CPPv2N2rr19StringListContainer3endEv"></span><span id="rr::StringListContainer::end"></span><span class="target" id="classrr_1_1StringListContainer_1a4b127b80234153b06e6a583d1109b185"></span>vector&lt;<a class="reference internal" href="rrStringList.html#_CPPv4N2rr10StringListE" title="rr::StringList">StringList</a>&gt;::iterator <code class="sig-name descname">end</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr19StringListContainer3endEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Protected Attributes</p>
+<dl class="cpp var">
+<dt id="_CPPv4N2rr19StringListContainer10mContainerE">
+<span id="_CPPv3N2rr19StringListContainer10mContainerE"></span><span id="_CPPv2N2rr19StringListContainer10mContainerE"></span><span id="rr::StringListContainer::mContainer__vector:StringList:"></span><span class="target" id="classrr_1_1StringListContainer_1a2ef3db4260313525c3ffef3dc8b3d6ce"></span>vector&lt;<a class="reference internal" href="rrStringList.html#_CPPv4N2rr10StringListE" title="rr::StringList">StringList</a>&gt; <code class="sig-name descname">mContainer</code><a class="headerlink" href="#_CPPv4N2rr19StringListContainer10mContainerE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="rrSymbol.html" class="btn btn-neutral float-right" title="rrSymbol" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="rrStringList.html" class="btn btn-neutral float-left" title="rrStringList" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2013-2018, Andy Somogyi, J Kyle Medley, Kiri Choi, Herbert Suaro
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

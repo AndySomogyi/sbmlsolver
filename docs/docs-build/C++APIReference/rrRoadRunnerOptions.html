@@ -1,0 +1,497 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>rrRoadRunnerOptions &mdash; libRoadRunner 1.1.16 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/sphinx_tabs/semantic-ui-2.4.1/segment.min.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/sphinx_tabs/semantic-ui-2.4.1/menu.min.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/sphinx_tabs/semantic-ui-2.4.1/tab.min.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/sphinx_tabs/tabs.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="rrSBMLModelSimulation" href="rrSBMLModelSimulation.html" />
+    <link rel="prev" title="rrRoadRunnerData" href="rrRoadRunnerData.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> libRoadRunner
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">RoadRunner Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Installation/installation.html">Installing RoadRunner</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../read_write_functions.html">SBML Read/Write Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../selecting_values.html">Selecting Values</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../steady_state.html">Steady State Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../stochastic.html">Stochastic Simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../metabolic.html">Metabolic Control Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../stability.html">Stability Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../stoichiometric.html">Stoichiometric Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bifurcation.html">Bifurcation Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../integration.html">Simulation and Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utility_functions.html">Utility Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../accessing_model.html">Accessing the SBML Model Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_reference.html">RoadRunner API Reference</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">The LibRoadRunner C++ Library</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="llvm/index.html">LLVM Docs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CVODEIntegrator.html">CVODEIntegrator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Dictionary.html">Dictionary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="EulerIntegrator.html">EulerIntegrator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ExecutableModelFactory.html">ExecutableModelFactory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GillespieIntegrator.html">GillespieIntegrator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Integrator.html">Integrator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="IntegratorRegistration.html">IntegratorRegistration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="NLEQ1Solver.html">NLEQ1Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="NLEQ2Solver.html">NLEQ2Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RK45Integrator.html">RK45Integrator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RK4Integrator.html">RK4Integrator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SBMLValidator.html">SBMLValidator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Solver.html">Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SolverRegistration.html">SolverRegistration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SteadyStateSolver.html">SteadyStateSolver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Variant.html">Variant</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrCompiler.html">rrCompiler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrConfig.html">rrConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrException.html">rrException</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrExecutableModel.html">rrExecutableModel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrFileName.html">rrFileName</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrIniFile.html">rrIniFile</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrIniKey.html">rrIniKey</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrIniSection.html">rrIniSection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrLogger.html">rrLogger</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrNLEQ1Interface.html">rrNLEQ1Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrNLEQ2Interface.html">rrNLEQ2Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrRoadRunner.html">rrRoadRunner</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrRoadRunnerData.html">rrRoadRunnerData</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">rrRoadRunnerOptions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrSBMLModelSimulation.html">rrSBMLModelSimulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrSBMLReader.html">rrSBMLReader</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrSelectionRecord.html">rrSelectionRecord</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrSparse.html">rrSparse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrSteadyStateSolver.html">rrSteadyStateSolver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#creating-a-new-integrator">Creating a new Integrator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#implementing-the-integrator-interface">Implementing the Integrator interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#telling-roadrunner-about-the-new-integrator">Telling RoadRunner about the new Integrator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#a-complete-example-of-creating-an-integrator">A complete example of creating an integrator</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../CAPIReference/index.html">The LibRoadRunner C Library</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">libRoadRunner</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="index.html">The LibRoadRunner C++ Library</a> &raquo;</li>
+        
+      <li>rrRoadRunnerOptions</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/C++APIReference/rrRoadRunnerOptions.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="rrroadrunneroptions">
+<h1>rrRoadRunnerOptions<a class="headerlink" href="#rrroadrunneroptions" title="Permalink to this headline">¶</a></h1>
+<dl class="cpp class">
+<dt id="_CPPv4N2rr15LoadSBMLOptionsE">
+<span id="_CPPv3N2rr15LoadSBMLOptionsE"></span><span id="_CPPv2N2rr15LoadSBMLOptionsE"></span><span id="rr::LoadSBMLOptions"></span><span class="target" id="classrr_1_1LoadSBMLOptions"></span><em class="property">class </em><code class="sig-prename descclassname">rr<code class="sig-prename descclassname">::</code></code><code class="sig-name descname">LoadSBMLOptions</code> : <em class="property">public</em> rr::BasicDictionary<a class="headerlink" href="#_CPPv4N2rr15LoadSBMLOptionsE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Options for loading SBML into <a class="reference internal" href="rrRoadRunner.html#classrr_1_1RoadRunner"><span class="std std-ref">RoadRunner</span></a>. </p>
+<p>Future version may add additional fields to the end of this struct, this way we can maintain binary compatibility with older <a class="reference internal" href="rrRoadRunner.html#classrr_1_1RoadRunner"><span class="std std-ref">RoadRunner</span></a> versions. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Types</p>
+<dl class="cpp enum">
+<dt id="_CPPv4N2rr15LoadSBMLOptions17ModelGeneratorOptE">
+<span id="_CPPv3N2rr15LoadSBMLOptions17ModelGeneratorOptE"></span><span id="_CPPv2N2rr15LoadSBMLOptions17ModelGeneratorOptE"></span><span class="target" id="classrr_1_1LoadSBMLOptions_1a7b6ca6fc32892dbe782f3eb718762ad6"></span><em class="property">enum </em><code class="sig-name descname">ModelGeneratorOpt</code><a class="headerlink" href="#_CPPv4N2rr15LoadSBMLOptions17ModelGeneratorOptE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><em>Values:</em></p>
+<dl class="cpp enumerator">
+<dt id="_CPPv4N2rr15LoadSBMLOptions17ModelGeneratorOpt18CONSERVED_MOIETIESE">
+<span id="_CPPv3N2rr15LoadSBMLOptions17ModelGeneratorOpt18CONSERVED_MOIETIESE"></span><span id="_CPPv2N2rr15LoadSBMLOptions17ModelGeneratorOpt18CONSERVED_MOIETIESE"></span><span class="target" id="classrr_1_1LoadSBMLOptions_1a7b6ca6fc32892dbe782f3eb718762ad6ae77d97fa1a40a716d3e15f216965a26f"></span><em class="property">enumerator </em><code class="sig-name descname">CONSERVED_MOIETIES</code><a class="headerlink" href="#_CPPv4N2rr15LoadSBMLOptions17ModelGeneratorOpt18CONSERVED_MOIETIESE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>perform conservation analysis. </p>
+<p>This causes a re-ordering of the species, so results generated with this flag enabled can not be compared index wise to results generated otherwise.</p>
+<p>currently only implemented with the C code generating model </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt id="_CPPv4N2rr15LoadSBMLOptions17ModelGeneratorOpt9RECOMPILEE">
+<span id="_CPPv3N2rr15LoadSBMLOptions17ModelGeneratorOpt9RECOMPILEE"></span><span id="_CPPv2N2rr15LoadSBMLOptions17ModelGeneratorOpt9RECOMPILEE"></span><span class="target" id="classrr_1_1LoadSBMLOptions_1a7b6ca6fc32892dbe782f3eb718762ad6a9dcbd508a994cd5a803e231e0054ff3d"></span><em class="property">enumerator </em><code class="sig-name descname">RECOMPILE</code><a class="headerlink" href="#_CPPv4N2rr15LoadSBMLOptions17ModelGeneratorOpt9RECOMPILEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Should the model be recompiled? The LLVM ModelGenerator maintins a hash table of currently running models. </p>
+<p>If this flag is NOT set, then the generator will look to see if there is already a running instance of the given model and use the generated code from that one.</p>
+<p>If only a single instance of a model is run, there is no need to cache the models, and this can safetly be enabled, realizing some performance gains. </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt id="_CPPv4N2rr15LoadSBMLOptions17ModelGeneratorOpt9READ_ONLYE">
+<span id="_CPPv3N2rr15LoadSBMLOptions17ModelGeneratorOpt9READ_ONLYE"></span><span id="_CPPv2N2rr15LoadSBMLOptions17ModelGeneratorOpt9READ_ONLYE"></span><span class="target" id="classrr_1_1LoadSBMLOptions_1a7b6ca6fc32892dbe782f3eb718762ad6a8058d91b0aebc14e1045b721a5162d60"></span><em class="property">enumerator </em><code class="sig-name descname">READ_ONLY</code><a class="headerlink" href="#_CPPv4N2rr15LoadSBMLOptions17ModelGeneratorOpt9READ_ONLYE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>If this is set, then a read-only model is generated. </p>
+<p>A read-only model can be simulated, but no code is generated to set model values, i.e. parameters, amounts, values, etc…</p>
+<p>It takes a finite amount of time to generate the model value setting functions, and if they are not needed, one may see some performance gains, especially in very large models. </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt id="_CPPv4N2rr15LoadSBMLOptions17ModelGeneratorOpt26MUTABLE_INITIAL_CONDITIONSE">
+<span id="_CPPv3N2rr15LoadSBMLOptions17ModelGeneratorOpt26MUTABLE_INITIAL_CONDITIONSE"></span><span id="_CPPv2N2rr15LoadSBMLOptions17ModelGeneratorOpt26MUTABLE_INITIAL_CONDITIONSE"></span><span class="target" id="classrr_1_1LoadSBMLOptions_1a7b6ca6fc32892dbe782f3eb718762ad6aac3f87fdc0fe128777ff39245e179386"></span><em class="property">enumerator </em><code class="sig-name descname">MUTABLE_INITIAL_CONDITIONS</code><a class="headerlink" href="#_CPPv4N2rr15LoadSBMLOptions17ModelGeneratorOpt26MUTABLE_INITIAL_CONDITIONSE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Generate accessor functions to allow changing of initial conditions. </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt id="_CPPv4N2rr15LoadSBMLOptions17ModelGeneratorOpt12OPTIMIZE_GVNE">
+<span id="_CPPv3N2rr15LoadSBMLOptions17ModelGeneratorOpt12OPTIMIZE_GVNE"></span><span id="_CPPv2N2rr15LoadSBMLOptions17ModelGeneratorOpt12OPTIMIZE_GVNE"></span><span class="target" id="classrr_1_1LoadSBMLOptions_1a7b6ca6fc32892dbe782f3eb718762ad6a394b597c8d7ad74dbeae9b1dbf5c506c"></span><em class="property">enumerator </em><code class="sig-name descname">OPTIMIZE_GVN</code><a class="headerlink" href="#_CPPv4N2rr15LoadSBMLOptions17ModelGeneratorOpt12OPTIMIZE_GVNE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>GVN - This pass performs global value numbering and redundant load elimination cotemporaneously. </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt id="_CPPv4N2rr15LoadSBMLOptions17ModelGeneratorOpt27OPTIMIZE_CFG_SIMPLIFICATIONE">
+<span id="_CPPv3N2rr15LoadSBMLOptions17ModelGeneratorOpt27OPTIMIZE_CFG_SIMPLIFICATIONE"></span><span id="_CPPv2N2rr15LoadSBMLOptions17ModelGeneratorOpt27OPTIMIZE_CFG_SIMPLIFICATIONE"></span><span class="target" id="classrr_1_1LoadSBMLOptions_1a7b6ca6fc32892dbe782f3eb718762ad6a835bf2f8dc46986611fb3964cba2e16c"></span><em class="property">enumerator </em><code class="sig-name descname">OPTIMIZE_CFG_SIMPLIFICATION</code><a class="headerlink" href="#_CPPv4N2rr15LoadSBMLOptions17ModelGeneratorOpt27OPTIMIZE_CFG_SIMPLIFICATIONE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>CFGSimplification - Merge basic blocks, eliminate unreachable blocks, simplify terminator instructions, etc… </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt id="_CPPv4N2rr15LoadSBMLOptions17ModelGeneratorOpt30OPTIMIZE_INSTRUCTION_COMBININGE">
+<span id="_CPPv3N2rr15LoadSBMLOptions17ModelGeneratorOpt30OPTIMIZE_INSTRUCTION_COMBININGE"></span><span id="_CPPv2N2rr15LoadSBMLOptions17ModelGeneratorOpt30OPTIMIZE_INSTRUCTION_COMBININGE"></span><span class="target" id="classrr_1_1LoadSBMLOptions_1a7b6ca6fc32892dbe782f3eb718762ad6a79d5b76ab944a753edbe6f17afcba245"></span><em class="property">enumerator </em><code class="sig-name descname">OPTIMIZE_INSTRUCTION_COMBINING</code><a class="headerlink" href="#_CPPv4N2rr15LoadSBMLOptions17ModelGeneratorOpt30OPTIMIZE_INSTRUCTION_COMBININGE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>InstructionCombining - Combine instructions to form fewer, simple instructions. </p>
+<p>This pass does not modify the CFG, and has a tendency to make instructions dead, so a subsequent DCE pass is useful. </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt id="_CPPv4N2rr15LoadSBMLOptions17ModelGeneratorOpt30OPTIMIZE_DEAD_INST_ELIMINATIONE">
+<span id="_CPPv3N2rr15LoadSBMLOptions17ModelGeneratorOpt30OPTIMIZE_DEAD_INST_ELIMINATIONE"></span><span id="_CPPv2N2rr15LoadSBMLOptions17ModelGeneratorOpt30OPTIMIZE_DEAD_INST_ELIMINATIONE"></span><span class="target" id="classrr_1_1LoadSBMLOptions_1a7b6ca6fc32892dbe782f3eb718762ad6aeb5debe90dbf97e493c575344d400f1d"></span><em class="property">enumerator </em><code class="sig-name descname">OPTIMIZE_DEAD_INST_ELIMINATION</code><a class="headerlink" href="#_CPPv4N2rr15LoadSBMLOptions17ModelGeneratorOpt30OPTIMIZE_DEAD_INST_ELIMINATIONE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>DeadInstElimination - This pass quickly removes trivially dead instructions without modifying the CFG of the function. </p>
+<p>It is a BasicBlockPass, so it runs efficiently when queued next to other BasicBlockPass’s. </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt id="_CPPv4N2rr15LoadSBMLOptions17ModelGeneratorOpt30OPTIMIZE_DEAD_CODE_ELIMINATIONE">
+<span id="_CPPv3N2rr15LoadSBMLOptions17ModelGeneratorOpt30OPTIMIZE_DEAD_CODE_ELIMINATIONE"></span><span id="_CPPv2N2rr15LoadSBMLOptions17ModelGeneratorOpt30OPTIMIZE_DEAD_CODE_ELIMINATIONE"></span><span class="target" id="classrr_1_1LoadSBMLOptions_1a7b6ca6fc32892dbe782f3eb718762ad6ad2af9d75e3a874196cead78d2b77e4ef"></span><em class="property">enumerator </em><code class="sig-name descname">OPTIMIZE_DEAD_CODE_ELIMINATION</code><a class="headerlink" href="#_CPPv4N2rr15LoadSBMLOptions17ModelGeneratorOpt30OPTIMIZE_DEAD_CODE_ELIMINATIONE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>DeadCodeElimination - This pass is more powerful than DeadInstElimination, because it is worklist driven that can potentially revisit instructions when their other instructions become dead, to eliminate chains of dead computations. </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt id="_CPPv4N2rr15LoadSBMLOptions17ModelGeneratorOpt31OPTIMIZE_INSTRUCTION_SIMPLIFIERE">
+<span id="_CPPv3N2rr15LoadSBMLOptions17ModelGeneratorOpt31OPTIMIZE_INSTRUCTION_SIMPLIFIERE"></span><span id="_CPPv2N2rr15LoadSBMLOptions17ModelGeneratorOpt31OPTIMIZE_INSTRUCTION_SIMPLIFIERE"></span><span class="target" id="classrr_1_1LoadSBMLOptions_1a7b6ca6fc32892dbe782f3eb718762ad6ad7277e17a05d1916c93fd12ba5ec7bf2"></span><em class="property">enumerator </em><code class="sig-name descname">OPTIMIZE_INSTRUCTION_SIMPLIFIER</code><a class="headerlink" href="#_CPPv4N2rr15LoadSBMLOptions17ModelGeneratorOpt31OPTIMIZE_INSTRUCTION_SIMPLIFIERE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>InstructionSimplifier - Remove redundant instructions. </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt id="_CPPv4N2rr15LoadSBMLOptions17ModelGeneratorOpt8OPTIMIZEE">
+<span id="_CPPv3N2rr15LoadSBMLOptions17ModelGeneratorOpt8OPTIMIZEE"></span><span id="_CPPv2N2rr15LoadSBMLOptions17ModelGeneratorOpt8OPTIMIZEE"></span><span class="target" id="classrr_1_1LoadSBMLOptions_1a7b6ca6fc32892dbe782f3eb718762ad6ad53a6cbbe3215d196e9727e153535ef7"></span><em class="property">enumerator </em><code class="sig-name descname">OPTIMIZE</code><a class="headerlink" href="#_CPPv4N2rr15LoadSBMLOptions17ModelGeneratorOpt8OPTIMIZEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>all optimizations, use to check if bit mask has any optimizations. </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt id="_CPPv4N2rr15LoadSBMLOptions17ModelGeneratorOpt9USE_MCJITE">
+<span id="_CPPv3N2rr15LoadSBMLOptions17ModelGeneratorOpt9USE_MCJITE"></span><span id="_CPPv2N2rr15LoadSBMLOptions17ModelGeneratorOpt9USE_MCJITE"></span><span class="target" id="classrr_1_1LoadSBMLOptions_1a7b6ca6fc32892dbe782f3eb718762ad6a9d06cd74f97fe87123e9fd1733438b87"></span><em class="property">enumerator </em><code class="sig-name descname">USE_MCJIT</code><a class="headerlink" href="#_CPPv4N2rr15LoadSBMLOptions17ModelGeneratorOpt9USE_MCJITE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Use the LLVM MCJIT JIT engine. </p>
+<p>Defaults to false.</p>
+<p>The MCJIT is the new LLVM JIT engine, it is not as well tested as the original JIT engine. Does NOT work on LLVM 3.1 </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt id="_CPPv4N2rr15LoadSBMLOptions17ModelGeneratorOpt17LLVM_SYMBOL_CACHEE">
+<span id="_CPPv3N2rr15LoadSBMLOptions17ModelGeneratorOpt17LLVM_SYMBOL_CACHEE"></span><span id="_CPPv2N2rr15LoadSBMLOptions17ModelGeneratorOpt17LLVM_SYMBOL_CACHEE"></span><span class="target" id="classrr_1_1LoadSBMLOptions_1a7b6ca6fc32892dbe782f3eb718762ad6a8247e6c2cbac74940a03f90078719085"></span><em class="property">enumerator </em><code class="sig-name descname">LLVM_SYMBOL_CACHE</code><a class="headerlink" href="#_CPPv4N2rr15LoadSBMLOptions17ModelGeneratorOpt17LLVM_SYMBOL_CACHEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp enumerator">
+<dt id="_CPPv4N2rr15LoadSBMLOptions17ModelGeneratorOpt18TURN_ON_VALIDATIONE">
+<span id="_CPPv3N2rr15LoadSBMLOptions17ModelGeneratorOpt18TURN_ON_VALIDATIONE"></span><span id="_CPPv2N2rr15LoadSBMLOptions17ModelGeneratorOpt18TURN_ON_VALIDATIONE"></span><span class="target" id="classrr_1_1LoadSBMLOptions_1a7b6ca6fc32892dbe782f3eb718762ad6a02ec96c88cb0ed7374b72474bc4e5be0"></span><em class="property">enumerator </em><code class="sig-name descname">TURN_ON_VALIDATION</code><a class="headerlink" href="#_CPPv4N2rr15LoadSBMLOptions17ModelGeneratorOpt18TURN_ON_VALIDATIONE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Turn on SBML validation. </p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="cpp enum">
+<dt id="_CPPv4N2rr15LoadSBMLOptions7LoadOptE">
+<span id="_CPPv3N2rr15LoadSBMLOptions7LoadOptE"></span><span id="_CPPv2N2rr15LoadSBMLOptions7LoadOptE"></span><span class="target" id="classrr_1_1LoadSBMLOptions_1a686f9d0515d333b1551f5afd2db39e2a"></span><em class="property">enum </em><code class="sig-name descname">LoadOpt</code><a class="headerlink" href="#_CPPv4N2rr15LoadSBMLOptions7LoadOptE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><em>Values:</em></p>
+<dl class="cpp enumerator">
+<dt id="_CPPv4N2rr15LoadSBMLOptions7LoadOpt21NO_DEFAULT_SELECTIONSE">
+<span id="_CPPv3N2rr15LoadSBMLOptions7LoadOpt21NO_DEFAULT_SELECTIONSE"></span><span id="_CPPv2N2rr15LoadSBMLOptions7LoadOpt21NO_DEFAULT_SELECTIONSE"></span><span class="target" id="classrr_1_1LoadSBMLOptions_1a686f9d0515d333b1551f5afd2db39e2aa8b896a0fb0b7b957c11d4624e96c728b"></span><em class="property">enumerator </em><code class="sig-name descname">NO_DEFAULT_SELECTIONS</code><a class="headerlink" href="#_CPPv4N2rr15LoadSBMLOptions7LoadOpt21NO_DEFAULT_SELECTIONSE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Do not create a default selection list when the model is loaded. </p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="cpp function">
+<dt id="_CPPv4N2rr15LoadSBMLOptions15LoadSBMLOptionsEv">
+<span id="_CPPv3N2rr15LoadSBMLOptions15LoadSBMLOptionsEv"></span><span id="_CPPv2N2rr15LoadSBMLOptions15LoadSBMLOptionsEv"></span><span id="rr::LoadSBMLOptions::LoadSBMLOptions"></span><span class="target" id="classrr_1_1LoadSBMLOptions_1aa95998812baf41557f365fa6a6118db3"></span><code class="sig-name descname">LoadSBMLOptions</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr15LoadSBMLOptions15LoadSBMLOptionsEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>initializes the struct with the default options. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N2rr15LoadSBMLOptions15LoadSBMLOptionsEPK10Dictionary">
+<span id="_CPPv3N2rr15LoadSBMLOptions15LoadSBMLOptionsEPK10Dictionary"></span><span id="_CPPv2N2rr15LoadSBMLOptions15LoadSBMLOptionsEPK10Dictionary"></span><span id="rr::LoadSBMLOptions::LoadSBMLOptions__DictionaryCP"></span><span class="target" id="classrr_1_1LoadSBMLOptions_1a16a0bc21e030a836579b2c1b9231b29a"></span><code class="sig-name descname">LoadSBMLOptions</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="Dictionary.html#_CPPv4N2rr10DictionaryE" title="rr::Dictionary">Dictionary</a> *<em>dict</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr15LoadSBMLOptions15LoadSBMLOptionsEPK10Dictionary" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>creates an object from an existing dictionary. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N2rr15LoadSBMLOptions7setItemERKNSt6stringERKN2rr7VariantE">
+<span id="_CPPv3N2rr15LoadSBMLOptions7setItemERKNSt6stringERKN2rr7VariantE"></span><span id="_CPPv2N2rr15LoadSBMLOptions7setItemERKNSt6stringERKN2rr7VariantE"></span><span id="rr::LoadSBMLOptions::setItem__ssCR.rr::VariantCR"></span><span class="target" id="classrr_1_1LoadSBMLOptions_1a0ea929664c0ac7b28120ad131ae08ae9"></span>void <code class="sig-name descname">setItem</code><span class="sig-paren">(</span><em class="property">const</em> std::string &amp;<em>key</em>, <em class="property">const</em> rr::<a class="reference internal" href="Variant.html#_CPPv4N2rr7VariantE" title="rr::Variant">Variant</a> &amp;<em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr15LoadSBMLOptions7setItemERKNSt6stringERKN2rr7VariantE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>sets an item in the internal unordered map. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK2rr15LoadSBMLOptions7getItemERKNSt6stringE">
+<span id="_CPPv3NK2rr15LoadSBMLOptions7getItemERKNSt6stringE"></span><span id="_CPPv2NK2rr15LoadSBMLOptions7getItemERKNSt6stringE"></span><span id="rr::LoadSBMLOptions::getItem__ssCRC"></span><span class="target" id="classrr_1_1LoadSBMLOptions_1a42644c69463fd75bafb1ead69b9681e6"></span><a class="reference internal" href="Variant.html#_CPPv4N2rr7VariantE" title="rr::Variant">Variant</a> <code class="sig-name descname">getItem</code><span class="sig-paren">(</span><em class="property">const</em> std::string &amp;<em>key</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK2rr15LoadSBMLOptions7getItemERKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>gets an item from the internal unordered map. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK2rr15LoadSBMLOptions6hasKeyERKNSt6stringE">
+<span id="_CPPv3NK2rr15LoadSBMLOptions6hasKeyERKNSt6stringE"></span><span id="_CPPv2NK2rr15LoadSBMLOptions6hasKeyERKNSt6stringE"></span><span id="rr::LoadSBMLOptions::hasKey__ssCRC"></span><span class="target" id="classrr_1_1LoadSBMLOptions_1a5fd757435841abdb20215d65af77bd84"></span>bool <code class="sig-name descname">hasKey</code><span class="sig-paren">(</span><em class="property">const</em> std::string &amp;<em>key</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK2rr15LoadSBMLOptions6hasKeyERKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>is there a key matching this name. </p>
+<p>&#64;retruns true if this key exists, false otherwise. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N2rr15LoadSBMLOptions10deleteItemERKNSt6stringE">
+<span id="_CPPv3N2rr15LoadSBMLOptions10deleteItemERKNSt6stringE"></span><span id="_CPPv2N2rr15LoadSBMLOptions10deleteItemERKNSt6stringE"></span><span id="rr::LoadSBMLOptions::deleteItem__ssCR"></span><span class="target" id="classrr_1_1LoadSBMLOptions_1ab1cf127ce1f97bab98be173fd1f48e80"></span>size_t <code class="sig-name descname">deleteItem</code><span class="sig-paren">(</span><em class="property">const</em> std::string &amp;<em>key</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr15LoadSBMLOptions10deleteItemERKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>remove a value </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK2rr15LoadSBMLOptions7getKeysEv">
+<span id="_CPPv3NK2rr15LoadSBMLOptions7getKeysEv"></span><span id="_CPPv2NK2rr15LoadSBMLOptions7getKeysEv"></span><span id="rr::LoadSBMLOptions::getKeysC"></span><span class="target" id="classrr_1_1LoadSBMLOptions_1ae7eb8e9235b38ece702c662b04da3734"></span>std::vector&lt;std::string&gt; <code class="sig-name descname">getKeys</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK2rr15LoadSBMLOptions7getKeysEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>list of keys in this object. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK2rr15LoadSBMLOptions28getConservedMoietyConversionEv">
+<span id="_CPPv3NK2rr15LoadSBMLOptions28getConservedMoietyConversionEv"></span><span id="_CPPv2NK2rr15LoadSBMLOptions28getConservedMoietyConversionEv"></span><span id="rr::LoadSBMLOptions::getConservedMoietyConversionC"></span><span class="target" id="classrr_1_1LoadSBMLOptions_1a99b7bd04cd04619967e715e344fa956d"></span>bool <code class="sig-name descname">getConservedMoietyConversion</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK2rr15LoadSBMLOptions28getConservedMoietyConversionEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N2rr15LoadSBMLOptions28setConservedMoietyConversionEb">
+<span id="_CPPv3N2rr15LoadSBMLOptions28setConservedMoietyConversionEb"></span><span id="_CPPv2N2rr15LoadSBMLOptions28setConservedMoietyConversionEb"></span><span id="rr::LoadSBMLOptions::setConservedMoietyConversion__b"></span><span class="target" id="classrr_1_1LoadSBMLOptions_1a61e314efca08b481df81f8cd5724d22a"></span>void <code class="sig-name descname">setConservedMoietyConversion</code><span class="sig-paren">(</span>bool <em>val</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr15LoadSBMLOptions28setConservedMoietyConversionEb" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N2rr15LoadSBMLOptions13setValidationEb">
+<span id="_CPPv3N2rr15LoadSBMLOptions13setValidationEb"></span><span id="_CPPv2N2rr15LoadSBMLOptions13setValidationEb"></span><span id="rr::LoadSBMLOptions::setValidation__b"></span><span class="target" id="classrr_1_1LoadSBMLOptions_1ac6491b53bfe499f254c1655586daf7b8"></span>void <code class="sig-name descname">setValidation</code><span class="sig-paren">(</span>bool <em>val</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr15LoadSBMLOptions13setValidationEb" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N2rr15LoadSBMLOptionsD0Ev">
+<span id="_CPPv3N2rr15LoadSBMLOptionsD0Ev"></span><span id="_CPPv2N2rr15LoadSBMLOptionsD0Ev"></span><span id="rr::LoadSBMLOptions::~LoadSBMLOptions"></span><span class="target" id="classrr_1_1LoadSBMLOptions_1a7dbd7dfdedbcdddb0dbfc3f2d123748c"></span><code class="sig-name descname">~LoadSBMLOptions</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr15LoadSBMLOptionsD0Ev" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="cpp var">
+<dt id="_CPPv4N2rr15LoadSBMLOptions7versionE">
+<span id="_CPPv3N2rr15LoadSBMLOptions7versionE"></span><span id="_CPPv2N2rr15LoadSBMLOptions7versionE"></span><span id="rr::LoadSBMLOptions::version__uint16_t"></span><span class="target" id="classrr_1_1LoadSBMLOptions_1a131407b1f65a4bba3e7a4af04af5bfe6"></span>uint16_t <code class="sig-name descname">version</code><a class="headerlink" href="#_CPPv4N2rr15LoadSBMLOptions7versionE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>the version this struct </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt id="_CPPv4N2rr15LoadSBMLOptions4sizeE">
+<span id="_CPPv3N2rr15LoadSBMLOptions4sizeE"></span><span id="_CPPv2N2rr15LoadSBMLOptions4sizeE"></span><span id="rr::LoadSBMLOptions::size__uint16_t"></span><span class="target" id="classrr_1_1LoadSBMLOptions_1aa73e004cfce50848e0ea5a9803800d3c"></span>uint16_t <code class="sig-name descname">size</code><a class="headerlink" href="#_CPPv4N2rr15LoadSBMLOptions4sizeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>sizeof this struct </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt id="_CPPv4N2rr15LoadSBMLOptions17modelGeneratorOptE">
+<span id="_CPPv3N2rr15LoadSBMLOptions17modelGeneratorOptE"></span><span id="_CPPv2N2rr15LoadSBMLOptions17modelGeneratorOptE"></span><span id="rr::LoadSBMLOptions::modelGeneratorOpt__uint32_t"></span><span class="target" id="classrr_1_1LoadSBMLOptions_1afea20bb329fec8f8ab45be9b0ab78661"></span>uint32_t <code class="sig-name descname">modelGeneratorOpt</code><a class="headerlink" href="#_CPPv4N2rr15LoadSBMLOptions17modelGeneratorOptE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt id="_CPPv4N2rr15LoadSBMLOptions9loadFlagsE">
+<span id="_CPPv3N2rr15LoadSBMLOptions9loadFlagsE"></span><span id="_CPPv2N2rr15LoadSBMLOptions9loadFlagsE"></span><span id="rr::LoadSBMLOptions::loadFlags__uint32_t"></span><span class="target" id="classrr_1_1LoadSBMLOptions_1a4db75c9edf3f0f0fba4373965a4a8c29"></span>uint32_t <code class="sig-name descname">loadFlags</code><a class="headerlink" href="#_CPPv4N2rr15LoadSBMLOptions9loadFlagsE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Private Functions</p>
+<dl class="cpp function">
+<dt id="_CPPv4N2rr15LoadSBMLOptions11defaultInitEv">
+<span id="_CPPv3N2rr15LoadSBMLOptions11defaultInitEv"></span><span id="_CPPv2N2rr15LoadSBMLOptions11defaultInitEv"></span><span id="rr::LoadSBMLOptions::defaultInit"></span><span class="target" id="classrr_1_1LoadSBMLOptions_1a6cc8569d880ed2a6a031ed58701c3e61"></span>void <code class="sig-name descname">defaultInit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr15LoadSBMLOptions11defaultInitEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="rrSBMLModelSimulation.html" class="btn btn-neutral float-right" title="rrSBMLModelSimulation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="rrRoadRunnerData.html" class="btn btn-neutral float-left" title="rrRoadRunnerData" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2013-2018, Andy Somogyi, J Kyle Medley, Kiri Choi, Herbert Suaro
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

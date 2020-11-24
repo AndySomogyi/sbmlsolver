@@ -53,6 +53,8 @@ todo_include_todos = True
 
 # Breathe Configuration
 breathe_default_project = "roadrunner"
+breathe_implementation_filename_extensions = ['.c', '.cc', '.cpp']
+
 import os
 DOCS_SOURCE_DIR = os.path.dirname(__file__)
 DOCS_DIR = os.path.dirname(DOCS_SOURCE_DIR)

@@ -9,6 +9,10 @@
         <label>SolverRegistration.cpp</label>
         <link refid="SolverRegistration_8cpp"/>
       </node>
+      <node id="2">
+        <label>IntegratorRegistration.cpp</label>
+        <link refid="IntegratorRegistration_8cpp"/>
+      </node>
       <node id="1">
         <label>rrConfigure.h</label>
         <link refid="rrConfigure_8h"/>
@@ -16,10 +20,6 @@
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
-      </node>
-      <node id="2">
-        <label>IntegratorRegistration.cpp</label>
-        <link refid="IntegratorRegistration_8cpp"/>
       </node>
     </invincdepgraph>
       <sectiondef kind="define">

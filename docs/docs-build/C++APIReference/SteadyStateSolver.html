@@ -1,0 +1,356 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>SteadyStateSolver &mdash; libRoadRunner 1.1.16 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/sphinx_tabs/semantic-ui-2.4.1/segment.min.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/sphinx_tabs/semantic-ui-2.4.1/menu.min.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/sphinx_tabs/semantic-ui-2.4.1/tab.min.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/sphinx_tabs/tabs.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Variant" href="Variant.html" />
+    <link rel="prev" title="SolverRegistration" href="SolverRegistration.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> libRoadRunner
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">RoadRunner Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Installation/installation.html">Installing RoadRunner</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../read_write_functions.html">SBML Read/Write Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../selecting_values.html">Selecting Values</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../steady_state.html">Steady State Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../stochastic.html">Stochastic Simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../metabolic.html">Metabolic Control Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../stability.html">Stability Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../stoichiometric.html">Stoichiometric Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bifurcation.html">Bifurcation Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../integration.html">Simulation and Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utility_functions.html">Utility Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../accessing_model.html">Accessing the SBML Model Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_reference.html">RoadRunner API Reference</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">The LibRoadRunner C++ Library</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="llvm/index.html">LLVM Docs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CVODEIntegrator.html">CVODEIntegrator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Dictionary.html">Dictionary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="EulerIntegrator.html">EulerIntegrator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ExecutableModelFactory.html">ExecutableModelFactory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GillespieIntegrator.html">GillespieIntegrator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Integrator.html">Integrator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="IntegratorRegistration.html">IntegratorRegistration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="NLEQ1Solver.html">NLEQ1Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="NLEQ2Solver.html">NLEQ2Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RK45Integrator.html">RK45Integrator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RK4Integrator.html">RK4Integrator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SBMLValidator.html">SBMLValidator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Solver.html">Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SolverRegistration.html">SolverRegistration</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">SteadyStateSolver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Variant.html">Variant</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrCompiler.html">rrCompiler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrConfig.html">rrConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrException.html">rrException</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrExecutableModel.html">rrExecutableModel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrFileName.html">rrFileName</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrIniFile.html">rrIniFile</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrIniKey.html">rrIniKey</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrIniSection.html">rrIniSection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrLogger.html">rrLogger</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrNLEQ1Interface.html">rrNLEQ1Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrNLEQ2Interface.html">rrNLEQ2Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrRoadRunner.html">rrRoadRunner</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrRoadRunnerData.html">rrRoadRunnerData</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrRoadRunnerOptions.html">rrRoadRunnerOptions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrSBMLModelSimulation.html">rrSBMLModelSimulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrSBMLReader.html">rrSBMLReader</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrSelectionRecord.html">rrSelectionRecord</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrSparse.html">rrSparse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrSteadyStateSolver.html">rrSteadyStateSolver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#creating-a-new-integrator">Creating a new Integrator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#implementing-the-integrator-interface">Implementing the Integrator interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#telling-roadrunner-about-the-new-integrator">Telling RoadRunner about the new Integrator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#a-complete-example-of-creating-an-integrator">A complete example of creating an integrator</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../CAPIReference/index.html">The LibRoadRunner C Library</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">libRoadRunner</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="index.html">The LibRoadRunner C++ Library</a> &raquo;</li>
+        
+      <li>SteadyStateSolver</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/C++APIReference/SteadyStateSolver.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="steadystatesolver">
+<h1>SteadyStateSolver<a class="headerlink" href="#steadystatesolver" title="Permalink to this headline">¶</a></h1>
+<dl class="cpp class">
+<dt id="_CPPv4N2rr17SteadyStateSolverE">
+<span id="_CPPv3N2rr17SteadyStateSolverE"></span><span id="_CPPv2N2rr17SteadyStateSolverE"></span><span id="rr::SteadyStateSolver"></span><span class="target" id="classrr_1_1SteadyStateSolver"></span><em class="property">class </em><code class="sig-prename descclassname">rr<code class="sig-prename descclassname">::</code></code><code class="sig-name descname">SteadyStateSolver</code> : <em class="property">public</em> rr::<a class="reference internal" href="Solver.html#_CPPv4N2rr6SolverE" title="rr::Solver">Solver</a><a class="headerlink" href="#_CPPv4N2rr17SteadyStateSolverE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Subclassed by <a class="reference internal" href="NLEQ1Solver.html#classrr_1_1NLEQ1Solver"><span class="std std-ref">rr::NLEQ1Solver</span></a>, <a class="reference internal" href="NLEQ2Solver.html#classrr_1_1NLEQ2Solver"><span class="std std-ref">rr::NLEQ2Solver</span></a></p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="cpp function">
+<dt id="_CPPv4N2rr17SteadyStateSolverD0Ev">
+<span id="_CPPv3N2rr17SteadyStateSolverD0Ev"></span><span id="_CPPv2N2rr17SteadyStateSolverD0Ev"></span><span id="rr::SteadyStateSolver::~SteadyStateSolver"></span><span class="target" id="classrr_1_1SteadyStateSolver_1ade09831f8f396dcaa240abf94604fc69"></span><code class="sig-name descname">~SteadyStateSolver</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr17SteadyStateSolverD0Ev" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N2rr17SteadyStateSolver13syncWithModelEP15ExecutableModel">
+<span id="_CPPv3N2rr17SteadyStateSolver13syncWithModelEP15ExecutableModel"></span><span id="_CPPv2N2rr17SteadyStateSolver13syncWithModelEP15ExecutableModel"></span><span id="rr::SteadyStateSolver::syncWithModel__ExecutableModelP"></span><span class="target" id="classrr_1_1SteadyStateSolver_1ac69478bcf73ab02178b001250293c4c9"></span>void <code class="sig-name descname">syncWithModel</code><span class="sig-paren">(</span><a class="reference internal" href="rrExecutableModel.html#_CPPv4N2rr15ExecutableModelE" title="rr::ExecutableModel">ExecutableModel</a> *<em>m</em><span class="sig-paren">)</span> = 0<a class="headerlink" href="#_CPPv4N2rr17SteadyStateSolver13syncWithModelEP15ExecutableModel" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Called whenever a new model is loaded to allow integrator to reset internal state. </p>
+<p><dl class="simple">
+<dt><strong>Author</strong></dt><dd><p>JKM </p>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N2rr17SteadyStateSolver5solveEv">
+<span id="_CPPv3N2rr17SteadyStateSolver5solveEv"></span><span id="_CPPv2N2rr17SteadyStateSolver5solveEv"></span><span id="rr::SteadyStateSolver::solve"></span><span class="target" id="classrr_1_1SteadyStateSolver_1ae7ef6c028ac70664cb37c2cb69e546a2"></span>double <code class="sig-name descname">solve</code><span class="sig-paren">(</span><span class="sig-paren">)</span> = 0<a class="headerlink" href="#_CPPv4N2rr17SteadyStateSolver5solveEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N2rr17SteadyStateSolver18loadConfigSettingsEv">
+<span id="_CPPv3N2rr17SteadyStateSolver18loadConfigSettingsEv"></span><span id="_CPPv2N2rr17SteadyStateSolver18loadConfigSettingsEv"></span><span id="rr::SteadyStateSolver::loadConfigSettings"></span><span class="target" id="classrr_1_1SteadyStateSolver_1a613605d22b7da35a526473d107ca65bd"></span>void <code class="sig-name descname">loadConfigSettings</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr17SteadyStateSolver18loadConfigSettingsEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK2rr17SteadyStateSolver15getSettingsReprEv">
+<span id="_CPPv3NK2rr17SteadyStateSolver15getSettingsReprEv"></span><span id="_CPPv2NK2rr17SteadyStateSolver15getSettingsReprEv"></span><span id="rr::SteadyStateSolver::getSettingsReprC"></span><span class="target" id="classrr_1_1SteadyStateSolver_1ab07b512395ec018885548aa83a79f5ae"></span>std::string <code class="sig-name descname">getSettingsRepr</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK2rr17SteadyStateSolver15getSettingsReprEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the solver settings as a string. </p>
+<p><dl class="simple">
+<dt><strong>Author</strong></dt><dd><p>KC </p>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK2rr17SteadyStateSolver18settingsPyDictReprEv">
+<span id="_CPPv3NK2rr17SteadyStateSolver18settingsPyDictReprEv"></span><span id="_CPPv2NK2rr17SteadyStateSolver18settingsPyDictReprEv"></span><span id="rr::SteadyStateSolver::settingsPyDictReprC"></span><span class="target" id="classrr_1_1SteadyStateSolver_1a0dcf06495066f67d790ca41656bb6c4c"></span>std::string <code class="sig-name descname">settingsPyDictRepr</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK2rr17SteadyStateSolver18settingsPyDictReprEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Python dictionary-style string representation of settings. </p>
+<p><dl class="simple">
+<dt><strong>Author</strong></dt><dd><p>KC </p>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK2rr17SteadyStateSolver8toStringEv">
+<span id="_CPPv3NK2rr17SteadyStateSolver8toStringEv"></span><span id="_CPPv2NK2rr17SteadyStateSolver8toStringEv"></span><span id="rr::SteadyStateSolver::toStringC"></span><span class="target" id="classrr_1_1SteadyStateSolver_1afcc15369d04e99ad76cdb8390a94b103"></span>std::string <code class="sig-name descname">toString</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK2rr17SteadyStateSolver8toStringEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return a string representation of the solver. </p>
+<p><dl class="simple">
+<dt><strong>Author</strong></dt><dd><p>KC </p>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK2rr17SteadyStateSolver6toReprEv">
+<span id="_CPPv3NK2rr17SteadyStateSolver6toReprEv"></span><span id="_CPPv2NK2rr17SteadyStateSolver6toReprEv"></span><span id="rr::SteadyStateSolver::toReprC"></span><span class="target" id="classrr_1_1SteadyStateSolver_1a1ce4941762d7605e03655432a0a38283"></span>std::string <code class="sig-name descname">toRepr</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv4NK2rr17SteadyStateSolver6toReprEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return string representation a la Python <strong>repr</strong> method. </p>
+<p><dl class="simple">
+<dt><strong>Author</strong></dt><dd><p>KC </p>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="Variant.html" class="btn btn-neutral float-right" title="Variant" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="SolverRegistration.html" class="btn btn-neutral float-left" title="SolverRegistration" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2013-2018, Andy Somogyi, J Kyle Medley, Kiri Choi, Herbert Suaro
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
