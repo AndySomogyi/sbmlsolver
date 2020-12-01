@@ -23,7 +23,7 @@ endif ()
 
 target_link_libraries(${target} PUBLIC
         rr-libstruct::rr-libstruct-static
-        telplugins_core
+        telplugins_core-static
         libAuto-static
         )
 add_dependencies(${target} telplugins_core)

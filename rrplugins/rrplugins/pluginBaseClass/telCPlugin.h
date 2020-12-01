@@ -62,7 +62,8 @@ typedef void* (*getAPropertyF)(const char*);
  * The CPlugin class is containing the framework to load plugins that are written in pure C.
  * The shared library need to export an execute and destroy function.
  */
-class CORE_DECLSPEC CPlugin : public Plugin
+//class CORE_DECLSPEC CPlugin : public Plugin
+class CPlugin : public Plugin
 {
     friend class PluginManager;
     public:

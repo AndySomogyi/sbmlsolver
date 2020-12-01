@@ -84,7 +84,8 @@ typedef void    (event_cc *PluginEvent)(void* data1, void* data2);
   -# A plugin may embed documentation in various forms, e.g. PDF (getPDFManual(), or simple text getExtendedInfo().
  */
 //      CORE_DECLSPEC
-class CORE_DECLSPEC Plugin
+//class CORE_DECLSPEC Plugin
+class Plugin
 {
     friend class PluginManager;
     public:

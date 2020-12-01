@@ -20,8 +20,8 @@ add_library(${target} MODULE ${RRP_TEST_MODEL_SOURCES})
 target_compile_definitions(${target} PRIVATE -DEXPORT_TEL_PLUGIN -DEXPORT_TEST_MODEL)
 
 target_link_libraries(${target} PRIVATE
-        telpluginsBaseClass
-        telplugins_math
+        telpluginsBaseClass-static
+        telplugins_math-static
         ${RRPLUGINS_COMMON_SHARED_LIBS})
 
 if (UNIX)
