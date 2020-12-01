@@ -2997,7 +2997,7 @@ C_DECL_SPEC int rrcCallConv getConfigInt(const char* key);
 C_DECL_SPEC int rrcCallConv setConfigDouble(const char* key, double value);
 
 
-//RRPLugins
+//RRPlugins
 /*!
     \return the number of floating species pointed by the model by handle
 */

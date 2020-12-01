@@ -1,5 +1,6 @@
 # Debashish Roy
 
+project(hello)
 set(target tel_hello)
 
 set(RRP_HELLO_SOURCES
@@ -10,11 +11,16 @@ set(RRP_HELLO_SOURCES
 add_library(${target} MODULE ${RRP_HELLO_SOURCES})
 
 target_link_libraries ( ${target} PUBLIC
-  telpluginsBaseClass
+  telpluginsBaseClass-static
+  telplugins_math-static
+  telplugins_common-static
   ${RRPLUGINS_COMMON_SHARED_LIBS}
 )
 
-target_compile_definitions(${target} PRIVATE EXPORT_HELLO)
+target_compile_definitions(${target} PRIVATE
+     -DEXPORT_TEL_PLUGIN
+     -DEXPORT_HELLO
+     )
 
 if (UNIX)
   set_target_properties( ${target} PROPERTIES INSTALL_RPATH "$ORIGIN/./" )

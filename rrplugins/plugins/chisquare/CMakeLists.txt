@@ -15,8 +15,8 @@ set(RRP_CHISQUARED_SOURCES
 add_library(${target} MODULE ${RRP_CHISQUARED_SOURCES})
 
 target_link_libraries (${target} PRIVATE
-  telpluginsBaseClass
-  telplugins_math
+  telpluginsBaseClass-static
+  telplugins_math-static
   #telplugins_common
   ${RRPLUGINS_COMMON_SHARED_LIBS}
 )

@@ -25,7 +25,7 @@ mCategory(category),
 mDescription("<none>"),
 mHint("<none>"),
 mVersion("0.0"),
-mCopyright("Totte Karlsson, J Kyle Medley, Wilbert Copeland and Herbert Sauro, Systems Biology, UW 2012-2015"),
+mCopyright("Totte Karlsson, J Kyle Medley, Wilbert Copeland and Herbert Sauro, Systems Biology, UW 2012-2020"),
 mWorkStartedEvent(NULL),
 mWorkProgressEvent(NULL),
 mWorkFinishedEvent(NULL),
@@ -355,7 +355,7 @@ string Plugin::getPropertyValueAsString(const string& propName)
     {
         stringstream str;
         str<<"No property with name: "<<propName;
-        throw(Exception(str.str()));
+        throw(tlp::Exception(str.str()));
     }
 }
 

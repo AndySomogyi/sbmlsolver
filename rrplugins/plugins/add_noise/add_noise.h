@@ -9,13 +9,13 @@
 //---------------------------------------------------------------------------
 namespace addNoise
 {
-using namespace tlp;
+    using namespace tlp;
 
-class AddNoise : public CPPPlugin
-{
+    class AddNoise : public CPPPlugin
+    {
     public:
         friend class AddNoiseWorker;
-        enum NoiseType {ntGaussian = 0, ntPsychological, ntUndefined};
+        enum NoiseType { ntGaussian = 0, ntPsychological, ntUndefined };
 
     private:
         Property<int>               mNoiseType;
@@ -26,24 +26,24 @@ class AddNoise : public CPPPlugin
         void                        assignPropertyDescriptions();
 
     public:
-                                    AddNoise(rrc::THostInterface* aRR = NULL, PluginEvent fn1 = NULL, PluginEvent fn2 = NULL, PluginEvent fn3 = NULL);
-                                   ~AddNoise();
+        AddNoise(rrc::THostInterface* aRR = NULL, PluginEvent fn1 = NULL, PluginEvent fn2 = NULL, PluginEvent fn3 = NULL);
+        ~AddNoise();
 
-                                
+
         bool                        execute(bool inThread = false);
         bool                        isWorking() const; //Returns true as long the thread is active..
-        unsigned char*              getManualAsPDF() const;
+        unsigned char* getManualAsPDF() const;
         size_t                      getPDFManualByteSize();
-};
+    };
 
 #ifdef EXPORT_ADD_NOISE
 
-extern "C"
-{
-TLP_DS Plugin*      plugins_cc createPlugin();
-TLP_DS const char*  plugins_cc getImplementationLanguage();
-TLP_DS void         plugins_cc setHostInterface(rrc::THostInterface* _hostInterface);
-}
+    extern "C"
+    {
+        TLP_DS Plugin* plugins_cc createPlugin();
+        TLP_DS const char* plugins_cc getImplementationLanguage();
+        TLP_DS void         plugins_cc setHostInterface(rrc::THostInterface* _hostInterface);
+    }
 
 #endif
 
@@ -52,44 +52,44 @@ TLP_DS void         plugins_cc setHostInterface(rrc::THostInterface* _hostInterf
 namespace tlp
 {
 
-template<>
-inline string getPropertyType(const addNoise::AddNoise::NoiseType& value)
-{
-    return "NoiseType";
-}
-
-template<>
-inline string Property<addNoise::AddNoise::NoiseType>::getValueAsString() const
-{
-    switch(mValue)
+    template<>
+    inline string getPropertyType(const addNoise::AddNoise::NoiseType& value)
     {
+        return "NoiseType";
+    }
+
+    template<>
+    inline string Property<addNoise::AddNoise::NoiseType>::getValueAsString() const
+    {
+        switch (mValue)
+        {
         case addNoise::AddNoise::ntGaussian:
             return "Gaussian";
         case addNoise::AddNoise::ntPsychological:
             return "SomethingElse";
         case addNoise::AddNoise::ntUndefined:
             return "Undefined";
+        }
+        return "";
     }
-    return "";
-}
 
-template<>
-inline void Property< addNoise::AddNoise::NoiseType >::setValueFromString(const string& val)
-{
-    //Only gaussian noise is available at this time
-    if(val == "0")
+    template<>
+    inline void Property< addNoise::AddNoise::NoiseType >::setValueFromString(const string& val)
     {
-        mValue = addNoise::AddNoise::ntGaussian;
+        //Only gaussian noise is available at this time
+        if (val == "0")
+        {
+            mValue = addNoise::AddNoise::ntGaussian;
+        }
+        else if (val == "1")
+        {
+            mValue = addNoise::AddNoise::ntPsychological;
+        }
+        else
+        {
+            mValue = addNoise::AddNoise::ntUndefined;
+        }
     }
-    else if(val == "1")
-    {
-        mValue = addNoise::AddNoise::ntPsychological;
-    }
-    else
-    {
-        mValue = addNoise::AddNoise::ntUndefined;
-    }
-}
 
 }
 

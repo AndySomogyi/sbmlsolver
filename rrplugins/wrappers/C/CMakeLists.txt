@@ -16,10 +16,10 @@ add_library(${target} SHARED
         )
 
 target_link_libraries(${target} PUBLIC
-        telplugins_common
-        telplugins_core
-        telplugins_math
-        telpluginsBaseClass
+        telplugins_common-static
+        telplugins_core-static
+        telplugins_math-static
+        telpluginsBaseClass-static
         ${RRPLUGINS_COMMON_SHARED_LIBS}
         )
 
@@ -51,4 +51,4 @@ install(
         LIBRARY DESTINATION lib COMPONENT rrplugins
 )
 
-install(TARGETS ${target} DESTINATION "${PYTHON_PACKAGE_INSTALL_PREFIX}/rrplugins")
+install(TARGETS ${target} DESTINATION "${RR_PLUGINS_INSTALL_PREFIX}")

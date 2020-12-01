@@ -47,7 +47,8 @@ if (RR_PLUGINS_BUILD_SHARED_LIB)
 
     target_link_libraries(${target} PUBLIC
             ${RRPLUGINS_COMMON_SHARED_LIBS}
-            roadrunner roadrunner_c_api
+            roadrunner-static
+            roadrunner_c_api
             )
     target_include_directories(${target}
             PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
@@ -59,7 +60,7 @@ if (RR_PLUGINS_BUILD_SHARED_LIB)
     endif ()
 
     # Install shared library
-    install(TARGETS ${target} DESTINATION "${PYTHON_PACKAGE_INSTALL_PREFIX}/rrplugins")
+    install(TARGETS ${target} DESTINATION "${RR_PLUGINS_INSTALL_PREFIX}")
 
     # disable the auto addition of "lib" onto target name
     set_target_properties(${target} PROPERTIES PREFIX "")
