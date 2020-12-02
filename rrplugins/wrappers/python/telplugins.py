@@ -108,7 +108,7 @@ Examples
 """
 
 
-import roadrunner.rrplugins.telplugins_c_api as tpc
+import rrplugins.telplugins_c_api as tpc
 import matplotlib.pyplot as plt
 import numpy as np
 import os.path
@@ -446,7 +446,7 @@ class Plugin:
 
         """
         if (isinstance (value, DataSeries)):
-            if not tpc.setPluginProperty (self.plugin, name, value.data):
+            if not tpc.setPluginProperty (self.plugin, name, value._data):
                 raise TypeError ("Unable to locate property: ", name)
         else:
             handle  = tpc.getPluginProperty(self.plugin, name);
