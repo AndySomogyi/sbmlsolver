@@ -98,9 +98,10 @@ option(BUILD_LEGACY_C "Build the legacy C code generating backend (deprecated)" 
 # should we build the swig python wrapper?
 option(BUILD_PYTHON "Build the SWIG generated python wrapper" OFF)
 if (BUILD_PYTHON)
-	set(PYTHON_PACKAGE_SITE_DIR       ${CMAKE_INSTALL_PREFIX}/site-packages CACHE PATH "Path to Python site packages 	directory")
-	set(PYTHON_PACKAGE_INSTALL_PREFIX ${PYTHON_PACKAGE_SITE_DIR}/roadrunner CACHE PATH "Destination for roadrunner python bindings.")
-	set(RR_PLUGINS_INSTALL_PREFIX     ${PYTHON_PACKAGE_SITE_DIR}/rrplugins  CACHE PATH "Destination for rrplugins python bindings.")
+	set(PYTHON_PACKAGE_SITE_DIR          ${CMAKE_INSTALL_PREFIX}/site-packages      CACHE PATH "Path to Python site packages directory")
+	set(PYTHON_PACKAGE_INSTALL_PREFIX    ${PYTHON_PACKAGE_SITE_DIR}/roadrunner      CACHE PATH "Destination for roadrunner python bindings.")
+	set(RR_PLUGINS_PYTHON_INSTALL_PREFIX ${PYTHON_PACKAGE_SITE_DIR}/rrplugins       CACHE PATH "Destination for rrplugins python bindings.")
+	set(RR_PLUGINS_PYLIB_INSTALL_PREFIX  ${PYTHON_PACKAGE_SITE_DIR}/rrplugins/libs  CACHE PATH "Destination for rrplugins python binding libraries.")
 	cmake_dependent_option(RR_PLUGINS_BUILD_PYTHON_API "Build the RR plugin PYTHON API" ON "BUILD_RR_PLUGINS" OFF)
 	cmake_dependent_option(BUILD_PYTHON_CTYPES_API "Build the ctypes python API for roadrunner" ON
 	        "BUILD_PYTHON" OFF)

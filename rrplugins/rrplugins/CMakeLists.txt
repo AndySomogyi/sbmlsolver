@@ -9,5 +9,5 @@ add_subdirectory(core)
 
 
 install(TARGETS roadrunner_c_api 
-    DESTINATION "${RR_PLUGINS_INSTALL_PREFIX}"
+    DESTINATION "${RR_PLUGINS_PYLIB_INSTALL_PREFIX}"
     COMPONENT rrplugins)

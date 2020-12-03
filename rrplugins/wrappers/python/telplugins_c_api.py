@@ -5,8 +5,9 @@ import sys
 import numpy as np
 import tempfile
 import ctypes
-from ctypes import CDLL, POINTER, CFUNCTYPE, cast, byref, windll
+from ctypes import CDLL, POINTER, CFUNCTYPE, cast, byref
 from ctypes import c_double, c_bool, c_int, c_void_p, c_char_p, c_ubyte, c_uint, c_char
+import _ctypes
 import matplotlib
 import matplotlib.pyplot as plt
 from os.path import isfile
@@ -40,14 +41,16 @@ def decodeIfBytes(x):
 # question: can we turn plugin path into a list of paths?
 rrplugins_path = os.path.abspath(os.path.dirname(__file__)) #i.e. 'the directory of this file'
 
+# We can't put the libraries in the same directory as this file, since
+#  one of the libraries has the same name, and python on unix gets terribly
+#  confused by this.
+rrplugins_path = os.path.join(rrplugins_path, "libs")
+if not os.path.isdir(rrplugins_path):
+    raise NotADirectoryError(f"Looking for plugins in \"{rrplugins_path}\" but not found")
+
 # This is where the plugins manager will look for the plugin libraries by default
 #gDefaultPluginsPath = os.path.join(rrplugins_path, "plugins")
 gDefaultPluginsPath = rrplugins_path
-
-# This is the directory containing plugins libraries (common, core, math and base class)
-#rrplugins_path = os.path.join(rrplugins_path, "rrplugins")
-#if not os.path.isdir(rrplugins_path):
-#    raise NotADirectoryError(f"Looking for plugins in \"{rrplugins_path}\" but not found")
 
 # bail if the path still hasn't been found
 if not os.path.exists(rrplugins_path):
@@ -1597,7 +1600,10 @@ def getLastError():
 ## \brief Unload the plugins api shared library
 ## \ingroup utilities
 def unLoadAPI():
-    windll.kernel32.FreeLibrary(rrpLib._handle)
+    if hasattr(_ctypes, "FreeLibrary"):
+        _ctypes.FreeLibrary(rrpLib._handle)
+    if hasattr(_ctypes, "dlclose"):
+        _ctypes.dlclose(rrpLib._handle)
 
 
 

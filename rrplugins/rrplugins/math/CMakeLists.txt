@@ -33,7 +33,7 @@ if (RR_PLUGINS_BUILD_SHARED_LIB)
             ARCHIVE DESTINATION lib COMPONENT rrplugins
             )
 
-    install(TARGETS ${target} DESTINATION "${RR_PLUGINS_INSTALL_PREFIX}")
+    install(TARGETS ${target} DESTINATION "${RR_PLUGINS_PYLIB_INSTALL_PREFIX}")
 
     # disable the auto addition of "lib" onto target name
     set_target_properties(${target} PROPERTIES PREFIX "")
