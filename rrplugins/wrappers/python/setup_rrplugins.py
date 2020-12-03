@@ -33,7 +33,7 @@ setup(name='rrplugins',
     version=_version,
     description='rrplugins: Plugins to extend libroadrunner.',
     url='http://libroadrunner.org',
-    packages=['roadrunner'],
+    packages=['rrplugins'],
     package_dir={
         'rrplugins' : 'site-packages/rrplugins',
 #        'rrplugins.testing' : 'site-packages/rrplugins/testing',
