@@ -24,4 +24,10 @@ install(
   COMPONENT rrplugins
 )
 
+install(
+  FILES
+  ${CMAKE_CURRENT_SOURCE_DIR}/setup_rrplugins.py
+  DESTINATION .
+  COMPONENT rrplugins
+)
 
