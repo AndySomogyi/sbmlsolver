@@ -8,4 +8,6 @@ add_subdirectory(pluginBaseClass)
 add_subdirectory(core)
 
 
-install(TARGETS roadrunner_c_api DESTINATION "${PYTHON_PACKAGE_INSTALL_PREFIX}/rrplugins")
+install(TARGETS roadrunner_c_api 
+    DESTINATION "${RR_PLUGINS_INSTALL_PREFIX}"
+    COMPONENT rrplugins)

@@ -3,12 +3,10 @@
 import os
 import sys
 import numpy as np
-import roadrunner
 import tempfile
-import time
 import ctypes
-from ctypes import * # FIXME: remove this sinful line
-from ctypes import CDLL
+from ctypes import CDLL, POINTER, CFUNCTYPE, cast, byref, windll
+from ctypes import c_double, c_bool, c_int, c_void_p, c_char_p, c_ubyte, c_uint, c_char
 import matplotlib
 import matplotlib.pyplot as plt
 from os.path import isfile
@@ -40,15 +38,16 @@ def decodeIfBytes(x):
 # if not os.path.exists(rrplugins_path):
 
 # question: can we turn plugin path into a list of paths?
-rrplugins_path = os.path.abspath(os.path.dirname(roadrunner.__file__))
+rrplugins_path = os.path.abspath(os.path.dirname(__file__)) #i.e. 'the directory of this file'
 
 # This is where the plugins manager will look for the plugin libraries by default
-gDefaultPluginsPath = os.path.join(rrplugins_path, "plugins")
+#gDefaultPluginsPath = os.path.join(rrplugins_path, "plugins")
+gDefaultPluginsPath = rrplugins_path
 
 # This is the directory containing plugins libraries (common, core, math and base class)
-rrplugins_path = os.path.join(rrplugins_path, "rrplugins")
-if not os.path.isdir(rrplugins_path):
-    raise NotADirectoryError(f"Looking for plugins in \"{rrplugins_path}\" but not found")
+#rrplugins_path = os.path.join(rrplugins_path, "rrplugins")
+#if not os.path.isdir(rrplugins_path):
+#    raise NotADirectoryError(f"Looking for plugins in \"{rrplugins_path}\" but not found")
 
 # bail if the path still hasn't been found
 if not os.path.exists(rrplugins_path):
@@ -65,9 +64,9 @@ for name in [
              libTitle + '.dll',
              'lib' + libTitle + '.dylib',
              'lib' + libTitle + '.so',
-            libTitle + ".dylib",
-            libTitle + ".so",
-]:
+             libTitle + ".dylib",
+             libTitle + ".so",
+            ]:
     fullpath = os.path.join(rrplugins_path, name)
 
     # if the lib file exists, try to load it
@@ -1245,7 +1244,7 @@ def getPropertyValue(propertyHandle):
 ## \return Returns a numpy data object
 ## \ingroup utilities
 def getNumpyData(telDataHandle):
-    colHeader = getTelluriumDataColumnHeader(telDataHandle)
+    #colHeader = getTelluriumDataColumnHeader(telDataHandle)
     rowCount = rrpLib.tpGetTelluriumDataNumRows(telDataHandle)
     colCount = rrpLib.tpGetTelluriumDataNumCols(telDataHandle)
     resultArray = np.zeros([rowCount, colCount])
@@ -1437,7 +1436,7 @@ def getTelluriumDataElement(telDataHandle, row, col):
     if rrpLib.tpGetTelluriumDataElement(telDataHandle, row, col, byref(val)) == True:
         return val.value
     else:
-        throw('Failed retrieving data at (row, col) = ({}'.format(row) + ', {}'.format(col) + ')')
+        raise RuntimeError('Failed retrieving data at (row, col) = ({}'.format(row) + ', {}'.format(col) + ')')
 
 ## \brief Set Tellurium data element at row,col
 ## \param telDataHandle A handle to a tellurium data object
@@ -1459,7 +1458,7 @@ def getTelluriumDataWeight(telDataHandle, row, col):
     if rrpLib.tpGetTelluriumDataWeight(telDataHandle, row, col, byref(val)) == True:
         return val.value
     else:
-        throw('Failed retrieving weight data at (row, col) = ({}'.format(row) + ', {}'.format(col) + ')')
+        raise RuntimeError('Failed retrieving weight data at (row, col) = ({}'.format(row) + ', {}'.format(col) + ')')
 
 ## \brief Set Tellurium data element at row,col
 ## \param telDataHandle A handle to a tellurium data object
@@ -1547,7 +1546,7 @@ rrpLib.tpHasWeights.argtypes = [c_void_p, c_bool_p]
 def hasWeights(dataHandle):
     hasIt = c_bool()
     if not rrpLib.tpHasWeights(dataHandle, byref(hasIt)):
-        throw(getLastError())
+        raise RuntimeError(getLastError())
     else:
         return hasIt.value
 
@@ -1560,7 +1559,7 @@ rrpLib.tpAllocateWeights.argtypes = [c_void_p, c_bool_p]
 def allocateWeights(dataHandle):
     success = c_bool()
     if not rrpLib.tpAllocateWeights(dataHandle, byref(success)):
-        throw(getLastError())
+        raise RuntimeError(getLastError())
     else:
         return success.value
 
