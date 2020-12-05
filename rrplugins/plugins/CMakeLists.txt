@@ -31,8 +31,9 @@ if (RR_PLUGINS_BUILD_HELLO_PLUGIN)
     add_subdirectory(hello_roadrunner)
 endif()
 
-
-install(
-  FILES README.txt
-  DESTINATION ${RR_PLUGINS_PYTHON_INSTALL_PREFIX}
-)
+if (WITH_PYTHON)
+    install(
+        FILES README.txt
+        DESTINATION ${RR_PLUGINS_PYTHON_INSTALL_PREFIX}
+    )
+endif()

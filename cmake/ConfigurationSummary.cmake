@@ -10,6 +10,33 @@ For up-to-date news and releases visit libroadrunner.org
 Configured on host $ENV{COMPUTERNAME} ${HOSTNAME}
 
 -------------------------------------------------------------------------------
+CMake variables
+-------------------------------------------------------------------------------
+    CMAKE_C_COMPILER                   ${CMAKE_C_COMPILER}
+    CMAKE_CXX_COMPILER                 ${CMAKE_CXX_COMPILER}
+    BUILD_DEFINITIONS                  ${BUILD_DEFINITIONS}
+    CMAKE_SYSTEM_VERSION               ${CMAKE_SYSTEM_VERSION}
+    ROADRUNNER_VERSION                 ${ROADRUNNER_VERSION}
+    CMAKE_CXX_COMPILER_ID              ${CMAKE_CXX_COMPILER_ID}
+    CMAKE_CXX_COMPILER_VERSION         ${CMAKE_CXX_COMPILER_VERSION}
+    CMAKE_CXX_STANDARD                 ${CMAKE_CXX_STANDARD}
+    CMAKE_POSITION_INDEPENDENT_CODE    ${CMAKE_POSITION_INDEPENDENT_CODE}
+    CMAKE_INSTALL_RPATH                ${CMAKE_INSTALL_RPATH}
+    CMAKE_CXX_FLAGS                    ${CMAKE_CXX_FLAGS}
+    CMAKE_C_FLAGS                      ${CMAKE_C_FLAGS}
+    CMAKE_CXX_FLAGS_RELEASE            ${CMAKE_CXX_FLAGS_RELEASE}
+    CMAKE_C_FLAGS_RELEASE              ${CMAKE_C_FLAGS_RELEASE}
+    CMAKE_CXX_FLAGS_DEBUG              ${CMAKE_CXX_FLAGS_DEBUG}
+    CMAKE_C_FLAGS_DEBUG                ${CMAKE_C_FLAGS_DEBUG}
+    CMAKE_INSTALL_PREFIX               ${CMAKE_INSTALL_PREFIX}
+    CMAKE_VERBOSE_MAKEFILE             ${CMAKE_VERBOSE_MAKEFILE}
+    CMAKE_BUILD_TYPE                   ${CMAKE_BUILD_TYPE}
+    CMAKE_RUNTIME_OUTPUT_DIRECTORY     ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
+    CMAKE_LIBRARY_OUTPUT_DIRECTORY     ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
+    CMAKE_ARCHIVE_OUTPUT_DIRECTORY     ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}
+
+
+-------------------------------------------------------------------------------
 Options
 -------------------------------------------------------------------------------
 
@@ -41,7 +68,7 @@ rrplugins
         Build rrplugins package?           ${BUILD_RR_PLUGINS}
         Build rrplugins as shared library? ${RR_PLUGINS_BUILD_SHARED_LIB}
         Build rrplugins as static library? ${RR_PLUGINS_BUILD_STATIC_LIB}
-        Where to install rrplugins?        ${RR_PLUGINS_INSTALL_PREFIX}
+        Where to install python rrplugins? ${RR_PLUGINS_PYTHON_INSTALL_PREFIX}
 
     Languages
 
@@ -59,41 +86,16 @@ rrplugins
 -------------------------------------------------------------------------------
 Python Variables
 -------------------------------------------------------------------------------
-Note: you can change this to another conda environment to build
-    for another Python version. For instance, the following
-    works on mac: /full/path/to/conda/root/miniconda/envs/py37/lib/libpython3.7m.dylib
+Note: you can change these by setting the Python_ROOT_DIR variable
 
-PYTHON_LIBRARIES                           ${PYTHON_LIBRARIES}
-
-
--------------------------------------------------------------------------------
-CMake variables
--------------------------------------------------------------------------------
-    CMAKE_C_COMPILER                   ${CMAKE_C_COMPILER}
-    CMAKE_CXX_COMPILER                 ${CMAKE_CXX_COMPILER}
-    BUILD_DEFINITIONS                  ${BUILD_DEFINITIONS}
-    CMAKE_SYSTEM_VERSION               ${CMAKE_SYSTEM_VERSION}
-    ROADRUNNER_VERSION                 ${ROADRUNNER_VERSION}
-    CMAKE_CXX_COMPILER_ID              ${CMAKE_CXX_COMPILER_ID}
-    CMAKE_CXX_COMPILER_VERSION         ${CMAKE_CXX_COMPILER_VERSION}
-    CMAKE_CXX_STANDARD                 ${CMAKE_CXX_STANDARD}
-    CMAKE_POSITION_INDEPENDENT_CODE    ${CMAKE_POSITION_INDEPENDENT_CODE}
-    CMAKE_INSTALL_RPATH                ${CMAKE_INSTALL_RPATH}
-    CMAKE_CXX_FLAGS                    ${CMAKE_CXX_FLAGS}
-    CMAKE_C_FLAGS                      ${CMAKE_C_FLAGS}
-    CMAKE_CXX_FLAGS_RELEASE            ${CMAKE_CXX_FLAGS_RELEASE}
-    CMAKE_C_FLAGS_RELEASE              ${CMAKE_C_FLAGS_RELEASE}
-    CMAKE_CXX_FLAGS_DEBUG              ${CMAKE_CXX_FLAGS_DEBUG}
-    CMAKE_C_FLAGS_DEBUG                ${CMAKE_C_FLAGS_DEBUG}
-    CMAKE_INSTALL_PREFIX               ${CMAKE_INSTALL_PREFIX}
-    CMAKE_VERBOSE_MAKEFILE             ${CMAKE_VERBOSE_MAKEFILE}
-    CMAKE_BUILD_TYPE                   ${CMAKE_BUILD_TYPE}
-    CMAKE_RUNTIME_OUTPUT_DIRECTORY     ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
-    CMAKE_LIBRARY_OUTPUT_DIRECTORY     ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
-    CMAKE_ARCHIVE_OUTPUT_DIRECTORY     ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}
-
+BUILD_PYTHON                               ${BUILD_PYTHON}
+Python_ROOT_DIR                            ${Python_ROOT_DIR}
+Python_VERSION                             ${Python_VERSION}
+Python_EXECUTABLE                          ${Python_EXECUTABLE}
+Python_LIBRARIES                           ${Python_LIBRARIES}
+Python_INCLUDE_DIRS                        ${Python_INCLUDE_DIRS}
 
 End Summary
-########################################################################################
+################################################################################
 ")
 endmacro()

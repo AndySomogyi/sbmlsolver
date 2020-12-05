@@ -44,9 +44,6 @@ endif ()
 set(CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH}" "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
 
-# defines a macro for printing out a configuration summary
-include(ConfigurationSummary)
-
 # External project. Try to avoid
 include(ExternalProject)
 
@@ -98,6 +95,22 @@ option(BUILD_LEGACY_C "Build the legacy C code generating backend (deprecated)" 
 # should we build the swig python wrapper?
 option(BUILD_PYTHON "Build the SWIG generated python wrapper" OFF)
 if (BUILD_PYTHON)
+	find_package (Python COMPONENTS Interpreter Development NumPy REQUIRED)
+	if (NOT ${Python_FOUND})
+	    message(FATAL_ERROR "Could not find Python")
+	endif()
+	
+	if ("${Python_ROOT_DIR}" STREQUAL "")
+	   get_filename_component(PRD ${Python_EXECUTABLE} DIRECTORY)
+	   set(Python_ROOT_DIR "${PRD}" CACHE PATH "Path to python executable and libraries (optional).")
+	endif()
+
+
+	#set_property(CACHE ADVANCED VARIABLE Python_EXECUTABLE)
+	#mark_as_advanced(Python_EXECUTABLE)
+	#set_property(CACHE Python_LIBRARY)
+	#set_property(CACHE Python_INCLUDE_DIR)
+
 	set(PYTHON_PACKAGE_SITE_DIR          ${CMAKE_INSTALL_PREFIX}/site-packages      CACHE PATH "Path to Python site packages directory")
 	set(PYTHON_PACKAGE_INSTALL_PREFIX    ${PYTHON_PACKAGE_SITE_DIR}/roadrunner      CACHE PATH "Destination for roadrunner python bindings.")
 	set(RR_PLUGINS_PYTHON_INSTALL_PREFIX ${PYTHON_PACKAGE_SITE_DIR}/rrplugins       CACHE PATH "Destination for rrplugins python bindings.")
@@ -467,6 +480,8 @@ install(FILES cmake/FindLLVM.cmake DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake)
 
 
 # print out configuration summary
+include(ConfigurationSummary)
+
 ConfigurationSummary()
 
 

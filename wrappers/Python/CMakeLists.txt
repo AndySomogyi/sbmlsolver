@@ -1,13 +1,3 @@
-set(Python_ADDITIONAL_VERSIONS ${PYTHON_VERSION_STRING})
-
-find_package (Python COMPONENTS Interpreter Development NumPy REQUIRED)
-if (NOT ${Python_FOUND})
-    message(FATAL_ERROR "Could not find Python")
-endif()
-
-message(STATUS "Using Python Version ${Python_VERSION}")
-
-set(PYINTERFACE_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/pyinterface)
 set(CMAKE_SWIG_FLAGS "")
 
 if (SWIG_FOUND)
