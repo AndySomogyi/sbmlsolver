@@ -10,8 +10,13 @@ project( rrplugins_python_api )
 # in the repository. Otherwise, if we make changes in future we cannot regenerate the
 # python api!
 
+configure_file(
+        ${CMAKE_CURRENT_SOURCE_DIR}/__init__.py.in
+        ${CMAKE_CURRENT_BINARY_DIR}/__init__.py
+)
+
 set (RRP_PYTHON_API_SOURCE
-  __init__.py
+  ${CMAKE_CURRENT_BINARY_DIR}/__init__.py
   telplugins.py
   telplugins_c_api.py
 )

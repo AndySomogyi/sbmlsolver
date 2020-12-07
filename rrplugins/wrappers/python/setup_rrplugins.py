@@ -40,9 +40,20 @@ setup(name='rrplugins',
     },
     package_data={
         # add dll, won't hurt unix, not there anyway
-        'rrplugins' : ['*.py', '*.so', '*.so.*', '*.dll', '*.lib', '*.txt', '*.dylib', '*.pyd'],
+        'rrplugins' : [
+              '*.py',
+              '*.txt',
+              'libs/*.so',
+              'libs/*.so.*',
+              'libs/*.dll',
+              'libs/*.lib',
+              'libs/*.txt',
+              'libs/*.dylib'],
 #        'rrplugins.testing' : ['*.xml', '*.txt', '*.dat', 'dsmts/*.xml', 'dsmts/*.csv', 'test_data/*']
     },
-    install_requires=['numpy>=1.19'],
+    install_requires=[
+          'numpy>=1.19',
+          'matplotlib>=3',
+          ],
     distclass=BinaryDistribution,
 )
