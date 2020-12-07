@@ -28,7 +28,7 @@ stages:
             64-bit Linux Release:
               BuildType: Release
               SelfHost: false
-              CMakeArgs: "-DCMAKE_INSTALL_PREFIX=$(Build.BinariesDirectory)/install-azure-release -DBUILD_PYTHON=ON"
+              CMakeArgs: "-DCMAKE_INSTALL_PREFIX=$(Build.BinariesDirectory)/install-azure-release"
             64-bit Linux Debug:
               BuildType: Debug
               SelfHost: false
@@ -146,7 +146,7 @@ stages:
             64-bit Mac Release:
               BuildType: Release
               SelfHost: false
-              CMakeArgs: "-DCMAKE_INSTALL_PREFIX=$(Build.BinariesDirectory)/install-azure-release -DBUILD_PYTHON=ON"
+              CMakeArgs: "-DCMAKE_INSTALL_PREFIX=$(Build.BinariesDirectory)/install-azure-release"
               llvm_link: https://github.com/sys-bio/llvm-6.x/releases/download/release%2F6.x/llvm-6.x-clang11.0.3-x64-release.zip
               llvm_zip: llvm-6.x-clang11.0.3-x64-release.zip
               llvm_install: llvm-6.x-clang11.0.3-x64-release
@@ -202,7 +202,7 @@ stages:
             64-bit Windows Debug:
               BuildType: Debug
               SelfHost: false
-              CMakeArgs: "-DCMAKE_INSTALL_PREFIX=$(Build.BinariesDirectory)/install-azure-debug -DBUILD_PYTHON=ON"
+              CMakeArgs: "-DCMAKE_INSTALL_PREFIX=$(Build.BinariesDirectory)/install-azure-debug"
               llvm_link: https://github.com/sys-bio/llvm-6.x/releases/download/release%2F6.x/llvm-6.x-msvc2019-x64-debug.zip
               llvm_zip: llvm-6.x-msvc2019-x64-debug.zip
               llvm_install: llvm-6.x-msvc2019-x64-debug
