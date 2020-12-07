@@ -176,6 +176,9 @@ class DataSeries:
                 tpc.setTelluriumDataElement(dataHandle, row, col, val)
         return cls(dataHandle, True)
 
+    def toNumPy(self):
+        return tpc.getNumpyData(self._data)
+
     def __del__ (self):
         if (self._data != 0):
             try:
