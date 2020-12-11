@@ -308,13 +308,20 @@ set(DEPENDENCY_CMAKE_CONFIG_PATHS "${RR_DEPENDENCIES_INSTALL_PREFIX}/lib/cmake")
 set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} "${DEPENDENCY_CMAKE_CONFIG_PATHS}")
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${DEPENDENCY_CMAKE_CONFIG_PATHS}")
 
+if (WIN32)
+    set(SBML_TARGET_NAME "libsbml-static")
+else()
+    set(SBML_TARGET_NAME "sbml-static")
+endif(WIN32)
+
+
 find_package(Threads) # for libxml2, FindThreads.cmake is shipped with cmake
 find_package(LibLZMA) # for libxml2, LibLZMA.cmake is shipped with cmake
 find_package(zlib CONFIG REQUIRED)
 find_package(bzip2 CONFIG REQUIRED)
 find_package(iconv CONFIG REQUIRED)
 find_package(libxml2 CONFIG REQUIRED)
-find_package(libsbml-static CONFIG REQUIRED)
+find_package(${SBML_TARGET_NAME} CONFIG REQUIRED)
 find_package(rr-libstruct CONFIG REQUIRED)
 find_package(clapack CONFIG REQUIRED)
 find_package(nleq1 CONFIG REQUIRED)

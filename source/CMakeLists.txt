@@ -369,7 +369,7 @@ target_link_libraries(
         PUBLIC
         ${LLVM_LIBRARIES}
         rr-libstruct::rr-libstruct-static
-        libsbml-static
+        ${SBML_TARGET_NAME}
 #These libraries libraries seem to be already linked in a different way.
         #libz2
         #LibXml2::LibXml2
