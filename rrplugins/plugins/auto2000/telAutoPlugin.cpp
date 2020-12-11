@@ -303,190 +303,190 @@ void AutoPlugin::assignPropertyDescriptions()
 {
     stringstream s;
 
-s << "SBML document as a string. Model to be used by AUTO.";
-assignDescription(mSBML, s);
+    s << "SBML document as a string. Model to be used by AUTO.";
+    assignDescription(mSBML, s);
 
-s.str("Tempfolder used by auto and the plugin for saving temporary files.");
-assignDescription(mTempFolder, s);
+    s.str("Tempfolder used by auto and the plugin for saving temporary files.");
+    assignDescription(mTempFolder, s);
 
-s << "Boolean indicating if temporary files should be deleted after an AUTO session or not. ";
-assignDescription(mKeepTempFiles, s);
+    s << "Boolean indicating if temporary files should be deleted after an AUTO session or not. ";
+    assignDescription(mKeepTempFiles, s);
 
-s << "Parameter instructing AUTO how to sweep its principal continuation parameter. Possible values: 'Positive', 'Negative'";
-assignDescription(mScanDirection, s);
+    s << "Parameter instructing AUTO how to sweep its principal continuation parameter. Possible values: 'Positive', 'Negative'";
+    assignDescription(mScanDirection, s);
 
-s << "Instructs bifurcation plugin to simulate model prior to attempting to estimate steady-state species concentrations.";
-assignDescription(mPreSimulation, s);
+    s << "Instructs bifurcation plugin to simulate model prior to attempting to estimate steady-state species concentrations.";
+    assignDescription(mPreSimulation, s);
 
-s << "Explictly define the duration for the pre-simulation.";
-assignDescription(mPreSimulationDuration, s);
+    s << "Explictly define the duration for the pre-simulation.";
+    assignDescription(mPreSimulationDuration, s);
 
-s << "Explictly define the start time for the pre-simulation.";
-assignDescription(mPreSimulationStart, s);
+    s << "Explictly define the start time for the pre-simulation.";
+    assignDescription(mPreSimulationStart, s);
 
-s << "Explicity define the number of time steps for the pre-simulation.";
-assignDescription(mPreSimulationSteps, s);
+    s << "Explicity define the number of time steps for the pre-simulation.";
+    assignDescription(mPreSimulationSteps, s);
 
-s << "The principal continuation parameter (PCP) is the first parameter that AUTO will sweep. Currently only one parameter is \
+    s << "The principal continuation parameter (PCP) is the first parameter that AUTO will sweep. Currently only one parameter is \
 supported, which then by default is the PCP.";
-assignDescription(mPrincipalContinuationParameter, s);
+    assignDescription(mPrincipalContinuationParameter, s);
 
-s << "Property containing the content of the AUTO temporary file, fort.2. Fort.2 is the input file for AUTO and created by the plugin.";
-assignDescription(mFort2, s);
+    s << "Property containing the content of the AUTO temporary file, fort.2. Fort.2 is the input file for AUTO and created by the plugin.";
+    assignDescription(mFort2, s);
 
-s << "Property containing the content of the AUTO temporary file, fort.3. The content of fort.3 file is undocumented in AUTO's documentation.";
-assignDescription(mFort3, s);
+    s << "Property containing the content of the AUTO temporary file, fort.3. The content of fort.3 file is undocumented in AUTO's documentation.";
+    assignDescription(mFort3, s);
 
-s << "Property containing the content of the AUTO temporary file, fort.6. The content of fort.6 file is a bifurcation session summary.";
-assignDescription(mFort6, s);
+    s << "Property containing the content of the AUTO temporary file, fort.6. The content of fort.6 file is a bifurcation session summary.";
+    assignDescription(mFort6, s);
 
-s << "Property containing the content of the AUTO temporary file, fort.7. The content of fort.7 file is a bifurcation diagram on success.";
-assignDescription(mFort7, s);
+    s << "Property containing the content of the AUTO temporary file, fort.7. The content of fort.7 file is a bifurcation diagram on success.";
+    assignDescription(mFort7, s);
 
-s << "Property containing the content of the AUTO temporary file, fort.8. The content of fort.8 file contain various statistics from the session.";
-assignDescription(mFort8, s);
+    s << "Property containing the content of the AUTO temporary file, fort.8. The content of fort.8 file contain various statistics from the session.";
+    assignDescription(mFort8, s);
 
-s << "Property containing the content of the AUTO temporary file, fort.8. Diagnostic messages, convergence history, eigenvalues, and Floquet multipliers \
+    s << "Property containing the content of the AUTO temporary file, fort.8. Diagnostic messages, convergence history, eigenvalues, and Floquet multipliers \
 are written in fort.9";
-assignDescription(mFort9, s);
+    assignDescription(mFort9, s);
 
-s << "This integer vector holds the exact point number (in the sequence of all output data) for an AUTO solution point. It can be used together with the labels in the bifurcationlabels property to asssist in \
+    s << "This integer vector holds the exact point number (in the sequence of all output data) for an AUTO solution point. It can be used together with the labels in the bifurcationlabels property to asssist in \
 plotting a bifurcation diagram.";
-assignDescription(mBifurcationPoints, s);
+    assignDescription(mBifurcationPoints, s);
 
-s << "The bifurcation labels stinglist holds the AUTO designated solution type label for a solution point, as found in the bifurcationpoints property. Consult the AUTO documentation for\
+    s << "The bifurcation labels stinglist holds the AUTO designated solution type label for a solution point, as found in the bifurcationpoints property. Consult the AUTO documentation for\
 possible label types and their meaning.";
-assignDescription(mBifurcationLabels, s);
+    assignDescription(mBifurcationLabels, s);
 
-s << "The Tellurium type property, BifurcationData holds the bifurcation diagram after a session. First column is the values of the selected parameter, and succesive columns are selected species.";
-assignDescription(mBifurcationData, s);
+    s << "The Tellurium type property, BifurcationData holds the bifurcation diagram after a session. First column is the values of the selected parameter, and succesive columns are selected species.";
+    assignDescription(mBifurcationData, s);
 
-s << "Instructs the plugin to perform conserved moiety conversion. Note that if turned off, plugin might fail to return proper output.";
-assignDescription(mAllowConservedMoiety, s);
+    s << "Instructs the plugin to perform conserved moiety conversion. Note that if turned off, plugin might fail to return proper output.";
+    assignDescription(mAllowConservedMoiety, s);
 
-s << "The NDIM property correspond to the dimension of the system of equations.";
-assignDescription(mNDIM, s);
+    s << "The NDIM property correspond to the dimension of the system of equations.";
+    assignDescription(mNDIM, s);
 
-s << "Constant defining the problem type (-2 -> 14) : 1 : stationary states 2 : periodic solutions 4 : BVP";
-assignDescription(mIPS, s);
+    s << "Constant defining the problem type (-2 -> 14) : 1 : stationary states 2 : periodic solutions 4 : BVP";
+    assignDescription(mIPS, s);
 
-s << "This constant sets the label of the solution where the computation is to be restarted. Typically 0. ";
-assignDescription(mIRS, s);
+    s << "This constant sets the label of the solution where the computation is to be restarted. Typically 0. ";
+    assignDescription(mIRS, s);
 
-s << "Fold detection; 1=ON, 0=OFF";
-assignDescription(mILP, s);
+    s << "Fold detection; 1=ON, 0=OFF";
+    assignDescription(mILP, s);
 
-s << "Property denoting the number of free parameters";
-assignDescription(mNICP, s);
+    s << "Property denoting the number of free parameters";
+    assignDescription(mNICP, s);
 
-s << "Free parameters.";
-assignDescription(mICP, s);
+    s << "Free parameters.";
+    assignDescription(mICP, s);
 
-s << "The number of mesh intervalls.";
-assignDescription(mNTST, s);
+    s << "The number of mesh intervalls.";
+    assignDescription(mNTST, s);
 
-s << "The number of collocation points per mesh interval";
-assignDescription(mNCOL, s);
+    s << "The number of collocation points per mesh interval";
+    assignDescription(mNCOL, s);
 
-        
-s << "Mesh adaption every IAD steps; 0=OFF";
-assignDescription(mIAD, s);
 
-s << "Bifurcation detection; 0=OFF, 1=BP(FP), 3=BP(PO,BVP), 2=all";
-assignDescription(mISP, s);
+    s << "Mesh adaption every IAD steps; 0=OFF";
+    assignDescription(mIAD, s);
 
-s << "Branch switching: 1=normal, -1=switch branch (BP, HB, PD), \
+    s << "Bifurcation detection; 0=OFF, 1=BP(FP), 3=BP(PO,BVP), 2=all";
+    assignDescription(mISP, s);
+
+    s << "Branch switching: 1=normal, -1=switch branch (BP, HB, PD), \
 2=switch to two-parameter continuation (LP, BP, HB, TR) 3=switch to three-parameter continuation (BP)";
-assignDescription(mISW, s);
+    assignDescription(mISW, s);
 
-s << "This constant allows redefinition of the principal solution measure, which is printed as the second \
+    s << "This constant allows redefinition of the principal solution measure, which is printed as the second \
 (real) column in the fort.7 output-file. See AUTO manual for possible settings.";
-assignDescription(mIPLT, s);
+    assignDescription(mIPLT, s);
 
-s << "Number of boundary conditions.";
-assignDescription(mNBC, s);
+    s << "Number of boundary conditions.";
+    assignDescription(mNBC, s);
 
-s << "Number of integral conditions.";
-assignDescription(mNINT, s);
+    s << "Number of integral conditions.";
+    assignDescription(mNINT, s);
 
-s << "Maximum number of steps.";
-assignDescription(mNMX, s);
+    s << "Maximum number of steps.";
+    assignDescription(mNMX, s);
 
-s << "The lower bound on the principal continuation parameter.";;
-assignDescription(mRL0, s);
+    s << "The lower bound on the principal continuation parameter.";;
+    assignDescription(mRL0, s);
 
-s << "The upper bound on the principal continuation parameter.";;
-assignDescription(mRL1, s);
+    s << "The upper bound on the principal continuation parameter.";;
+    assignDescription(mRL1, s);
 
-s << "The lower bound on the principal solution measure.";
-assignDescription(mA0, s);
+    s << "The lower bound on the principal solution measure.";
+    assignDescription(mA0, s);
 
-s << "The upper bound on the principal solution measure.";
-assignDescription(mA1, s);
+    s << "The upper bound on the principal solution measure.";
+    assignDescription(mA1, s);
 
-s << "Save the solution in the solution file every NPR continuation steps.";
-assignDescription(mNPR, s);
+    s << "Save the solution in the solution file every NPR continuation steps.";
+    assignDescription(mNPR, s);
 
-s << "Automatic branch switching for the first MXBF bifurcation \
+    s << "Automatic branch switching for the first MXBF bifurcation \
 points if IPS=0, 1";
-assignDescription(mMXBF, s);
+    assignDescription(mMXBF, s);
 
-s << "Control diagnostic output; 0=none, 1=little, 2=normal, 4=extensive.";
-assignDescription(mIID, s);
+    s << "Control diagnostic output; 0=none, 1=little, 2=normal, 4=extensive.";
+    assignDescription(mIID, s);
 
-s << "Maximum number of iterations for locating special solutions/points.";
-assignDescription(mITMX, s);
+    s << "Maximum number of iterations for locating special solutions/points.";
+    assignDescription(mITMX, s);
 
-s << "Maximum # of correction steps.";
-assignDescription(mITNW, s);
+    s << "Maximum # of correction steps.";
+    assignDescription(mITNW, s);
 
-s << "Corrector uses full newton for NWTN steps.";
-assignDescription(mNWTN, s);
+    s << "Corrector uses full newton for NWTN steps.";
+    assignDescription(mNWTN, s);
 
-s << "User defines derivatives; 0=no, 1=yes";
-assignDescription(mJAC, s);
+    s << "User defines derivatives; 0=no, 1=yes";
+    assignDescription(mJAC, s);
 
-s << "Property setting the convergence criterion for parameters";
-assignDescription(mEPSL, s);
+    s << "Property setting the convergence criterion for parameters";
+    assignDescription(mEPSL, s);
 
-s << "Property setting the convergence criterion for solution components";
-assignDescription(mEPSU, s);
+    s << "Property setting the convergence criterion for solution components";
+    assignDescription(mEPSU, s);
 
-s << "Property setting the convergence criterion for special points";
-assignDescription(mEPSS, s);
+    s << "Property setting the convergence criterion for special points";
+    assignDescription(mEPSS, s);
 
-s << "Session start step size";
-assignDescription(mDS, s);
+    s << "Session start step size";
+    assignDescription(mDS, s);
 
-s << "Minimum continuation step size";
-assignDescription(mDSMIN, s);
+    s << "Minimum continuation step size";
+    assignDescription(mDSMIN, s);
 
-s << "Maximum continuation step size";
-assignDescription(mDSMAX, s);
+    s << "Maximum continuation step size";
+    assignDescription(mDSMAX, s);
 
-s << "Step size adaption every IADS steps; 0=OFF";
-assignDescription(mIADS, s);
+    s << "Step size adaption every IADS steps; 0=OFF";
+    assignDescription(mIADS, s);
 
-s << "The number of modified parameter weights (for BVP)";
-assignDescription(mNTHL, s);
+    s << "The number of modified parameter weights (for BVP)";
+    assignDescription(mNTHL, s);
 
-s << "Parameter index, parameter weight (e.g., ICP(11)=0 means PAR(11) is excluded from the step size)";
-assignDescription(mTHL, s);
+    s << "Parameter index, parameter weight (e.g., ICP(11)=0 means PAR(11) is excluded from the step size)";
+    assignDescription(mTHL, s);
 
-s << "The number of modified solution component weights (for BVP)";
-assignDescription(mNTHU, s);
+    s << "The number of modified solution component weights (for BVP)";
+    assignDescription(mNTHU, s);
 
-s << "Component index, Component weight";
-assignDescription(mTHU, s);
+    s << "Component index, Component weight";
+    assignDescription(mTHU, s);
 
-s << "The number of user output points specified";
-assignDescription(mNUZR, s);
+    s << "The number of user output points specified";
+    assignDescription(mNUZR, s);
 
-s << "Parameter index, parameter value (if I is negative the continuation stops at the parameter value)";
-assignDescription(mUZR, s);
+    s << "Parameter index, parameter value (if I is negative the continuation stops at the parameter value)";
+    assignDescription(mUZR, s);
 
-s << "The maximum number of columns that the auto library can write out at one time";
-assignDescription(mMaxColumns, s);
+    s << "The maximum number of columns that the auto library can write out at one time";
+    assignDescription(mMaxColumns, s);
 
 
 }

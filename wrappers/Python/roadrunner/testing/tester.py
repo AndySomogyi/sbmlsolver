@@ -1189,11 +1189,13 @@ def checkGillespieSeed(rrInstance, testId):
     rrInstance.setIntegrator('gillespie')
     words = divide(readLine())
     rrInstance.getIntegrator().setValue('seed', words[0])
-    arr1 = rrInstance.simulate(0,100,steps=10)
+    arr1 = rrInstance.simulate(0,100)
+    arr1_t1 = arr1[1,0]
     rrInstance.reset()
     rrInstance.getIntegrator().setValue('seed', words[1])
-    arr2 = rrInstance.simulate(0,100,steps=10)
-    if arr1[1,0] == arr2[1,0]:
+    arr2 = rrInstance.simulate(0,100)
+    arr2_t1 = arr2[1,0]
+    if arr1_t1 == arr2_t1:
         errorFlag = True
     rrInstance.setIntegrator('cvode')
     print(passMsg (errorFlag))
