@@ -1,0 +1,705 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+  <compounddef id="structSModelData" kind="struct" language="C++" prot="public">
+    <compoundname>SModelData</compoundname>
+    <includes refid="rrModelData_8h" local="no">rrModelData.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structSModelData_1a0423ae4f18c2dd6c1faf27332e3f0b66" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double SModelData::time</definition>
+        <argsstring></argsstring>
+        <name>time</name>
+        <briefdescription>
+<para>current time. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrModelData.h" line="53" column="41" bodyfile="c/rrModelData.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structSModelData_1af7c01b47fef3f60602038f85096dfbe4" prot="public" static="no" mutable="no">
+        <type>unsigned</type>
+        <definition>unsigned SModelData::numIndependentSpecies</definition>
+        <argsstring></argsstring>
+        <name>numIndependentSpecies</name>
+        <briefdescription>
+<para>number of linearly independent rows in the stochiometry matrix. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrModelData.h" line="58" column="41" bodyfile="c/rrModelData.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structSModelData_1a37ea5e768eb56d854f12920c011f0f71" prot="public" static="no" mutable="no">
+        <type>unsigned</type>
+        <definition>unsigned SModelData::numDependentSpecies</definition>
+        <argsstring></argsstring>
+        <name>numDependentSpecies</name>
+        <briefdescription>
+<para>number of linerly dependent rows in the stoichiometry matrix. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>numIndependentVariables + numDependentVariables had better be equal to numFloatingSpecies </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrModelData.h" line="66" column="41" bodyfile="c/rrModelData.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structSModelData_1a1b895f48923f01b35474b4b39d467dca" prot="public" static="no" mutable="no">
+        <type>double *</type>
+        <definition>double* SModelData::dependentSpeciesConservedSums</definition>
+        <argsstring></argsstring>
+        <name>dependentSpeciesConservedSums</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrModelData.h" line="67" column="40" bodyfile="c/rrModelData.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structSModelData_1a04711e9b8a95bcfd2a52810bed6d50cf" prot="public" static="no" mutable="no">
+        <type>unsigned</type>
+        <definition>unsigned SModelData::numGlobalParameters</definition>
+        <argsstring></argsstring>
+        <name>numGlobalParameters</name>
+        <briefdescription>
+<para>number of global parameters </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrModelData.h" line="72" column="41" bodyfile="c/rrModelData.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structSModelData_1a2257024abd4930f569a2aa98c8eb1b20" prot="public" static="no" mutable="no">
+        <type>double *</type>
+        <definition>double* SModelData::globalParameters</definition>
+        <argsstring></argsstring>
+        <name>globalParameters</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrModelData.h" line="73" column="40" bodyfile="c/rrModelData.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structSModelData_1a657e385e1b95468422191bb50bffe883" prot="public" static="no" mutable="no">
+        <type>unsigned</type>
+        <definition>unsigned SModelData::numReactions</definition>
+        <argsstring></argsstring>
+        <name>numReactions</name>
+        <briefdescription>
+<para>number of reactions, same as ratesSize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>These are the calcuated reaction rates, not the species rates. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrModelData.h" line="80" column="41" bodyfile="c/rrModelData.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structSModelData_1a2496b3ef2f6fce907607c547b73b82a2" prot="public" static="no" mutable="no">
+        <type>double *</type>
+        <definition>double* SModelData::reactionRates</definition>
+        <argsstring></argsstring>
+        <name>reactionRates</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrModelData.h" line="81" column="40" bodyfile="c/rrModelData.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structSModelData_1aa6fdceb721280572e9b8bdb54ec16786" prot="public" static="no" mutable="no">
+        <type>unsigned</type>
+        <definition>unsigned SModelData::numRateRules</definition>
+        <argsstring></argsstring>
+        <name>numRateRules</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrModelData.h" line="83" column="41" bodyfile="c/rrModelData.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structSModelData_1ac7df09202d585b7c48e76fe95ad44073" prot="public" static="no" mutable="no">
+        <type>double *</type>
+        <definition>double* SModelData::rateRuleValues</definition>
+        <argsstring></argsstring>
+        <name>rateRuleValues</name>
+        <briefdescription>
+<para>All of the elelments which have a rate rule are stored here. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>As the integrator runs, this pointer can simply point to an offset in the integrator&apos;s state vector.</para>
+<para>Only used in the LLVM version. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrModelData.h" line="93" column="40" bodyfile="c/rrModelData.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structSModelData_1a8639637a1926a6f583c02bbd8e83f35a" prot="public" static="no" mutable="no">
+        <type>double *</type>
+        <definition>double* SModelData::rateRuleRates</definition>
+        <argsstring></argsstring>
+        <name>rateRuleRates</name>
+        <briefdescription>
+<para>the rate of change of all elements who&apos;s dynamics are determined by rate rules. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>In the LLVM version, this is just a pointer to a data block owned by the integrator. In the C version, lots of strange stuff goes on here, but the C version does allocate this block, and do all sorts of copying back and forth between the integrator&apos;s rate rule block. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrModelData.h" line="105" column="40" bodyfile="c/rrModelData.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structSModelData_1a164fe6af8658f84db289ae47ee47ba5d" prot="public" static="no" mutable="no">
+        <type>unsigned *</type>
+        <definition>unsigned* SModelData::localParametersOffsets</definition>
+        <argsstring></argsstring>
+        <name>localParametersOffsets</name>
+        <briefdescription>
+<para>LLVM specific C version does not support local parameters This is the offset, or starting index of the local parameters for reaction i. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Length is numReactions.</para>
+<para>Rationale: It is simple more effecient to store all the local parameters in a single dimensional array with offsets, as the offsets can be computed at compile time, whereas if we used a array of arrays, it would require an additional memory access to determine the location of the parameter. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrModelData.h" line="119" column="40" bodyfile="c/rrModelData.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structSModelData_1aa311a625134da0823c75c1579de35a99" prot="public" static="no" mutable="no">
+        <type>unsigned *</type>
+        <definition>unsigned* SModelData::localParametersNum</definition>
+        <argsstring></argsstring>
+        <name>localParametersNum</name>
+        <briefdescription>
+<para>the number of local parameters for each reaction, so legnth is numReactions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This is an array of counts, hence it is named differently than the rest of the num*** fields. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrModelData.h" line="126" column="40" bodyfile="c/rrModelData.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structSModelData_1afac5f917906b816f2b346226f2d2a544" prot="public" static="no" mutable="no">
+        <type>double *</type>
+        <definition>double* SModelData::localParameters</definition>
+        <argsstring></argsstring>
+        <name>localParameters</name>
+        <briefdescription>
+<para>All local parameters are stored in this array. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This has length sum(localParameterNum). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrModelData.h" line="132" column="40" bodyfile="c/rrModelData.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structSModelData_1adff1d6541495b59dcc98fdffcbd4e9ea" prot="public" static="no" mutable="no">
+        <type>unsigned</type>
+        <definition>unsigned SModelData::numFloatingSpecies</definition>
+        <argsstring></argsstring>
+        <name>numFloatingSpecies</name>
+        <briefdescription>
+<para>The total ammounts of the floating species, i.e. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>concentration * compartment volume. Everything named floatingSpecies??? has length numFloatingSpecies.</para>
+<para>Note, the floating species consist of BOTH independent AND dependent species. Indexes [0,numIndpendentSpecies) values are the indenpendent species, and the [numIndependentSpecies,numIndendentSpecies+numDependentSpecies) contain the dependent species. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrModelData.h" line="144" column="41" bodyfile="c/rrModelData.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structSModelData_1aee7d47b121cd3ad5fc70c36b31f3ee6f" prot="public" static="no" mutable="no">
+        <type>double *</type>
+        <definition>double* SModelData::floatingSpeciesConcentrations</definition>
+        <argsstring></argsstring>
+        <name>floatingSpeciesConcentrations</name>
+        <briefdescription>
+<para>number of floating species and floating species concentrations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrModelData.h" line="149" column="40" bodyfile="c/rrModelData.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structSModelData_1ae4e81afd1488e40134882997b5229bff" prot="public" static="no" mutable="no">
+        <type>double *</type>
+        <definition>double* SModelData::floatingSpeciesInitConcentrations</definition>
+        <argsstring></argsstring>
+        <name>floatingSpeciesInitConcentrations</name>
+        <briefdescription>
+<para>initial concentration values for floating species. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrModelData.h" line="154" column="40" bodyfile="c/rrModelData.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structSModelData_1a1072820fb3d2008eda23c879be4cbe4c" prot="public" static="no" mutable="no">
+        <type>double *</type>
+        <definition>double* SModelData::floatingSpeciesAmountRates</definition>
+        <argsstring></argsstring>
+        <name>floatingSpeciesAmountRates</name>
+        <briefdescription>
+<para>amount rates of change for floating species. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrModelData.h" line="159" column="40" bodyfile="c/rrModelData.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structSModelData_1a54840de3549e7ac2ae480e0fa5362873" prot="public" static="no" mutable="no">
+        <type>double *</type>
+        <definition>double* SModelData::floatingSpeciesAmounts</definition>
+        <argsstring></argsstring>
+        <name>floatingSpeciesAmounts</name>
+        <briefdescription>
+<para>The total amount of a species in a compartment. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrModelData.h" line="164" column="40" bodyfile="c/rrModelData.h" bodystart="164" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structSModelData_1af30c0c6fcfcc6688390714d8246830c6" prot="public" static="no" mutable="no">
+        <type>unsigned *</type>
+        <definition>unsigned* SModelData::floatingSpeciesCompartments</definition>
+        <argsstring></argsstring>
+        <name>floatingSpeciesCompartments</name>
+        <briefdescription>
+<para>compartment index for each floating species, e.g. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>the volume of the i&apos;th species is md-&gt;compartmentVolumes[md-&gt;floatingSpeciesCompartments[i]] </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrModelData.h" line="171" column="40" bodyfile="c/rrModelData.h" bodystart="171" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structSModelData_1a7908ee0a7657cbf8db1cf46fa7d9f3a3" prot="public" static="no" mutable="no">
+        <type>unsigned</type>
+        <definition>unsigned SModelData::numBoundarySpecies</definition>
+        <argsstring></argsstring>
+        <name>numBoundarySpecies</name>
+        <briefdescription>
+<para>number of boundary species and boundary species concentrations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>units: either Mass Percent = (Mass of Solute) / (Mass of Solution) x 100% Volume Percent= (Volume of Solute) / (Volume of Solution) x 100% Mass/Volume Percent= (Mass of Solute) / (Volume of Solution) x 100% </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrModelData.h" line="180" column="41" bodyfile="c/rrModelData.h" bodystart="180" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structSModelData_1af0fa0201d2bfb9a590a80189f9c1e2c0" prot="public" static="no" mutable="no">
+        <type>double *</type>
+        <definition>double* SModelData::boundarySpeciesConcentrations</definition>
+        <argsstring></argsstring>
+        <name>boundarySpeciesConcentrations</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrModelData.h" line="181" column="40" bodyfile="c/rrModelData.h" bodystart="181" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structSModelData_1a3496526c8f632f0755fca00b73c4c451" prot="public" static="no" mutable="no">
+        <type>double *</type>
+        <definition>double* SModelData::boundarySpeciesAmounts</definition>
+        <argsstring></argsstring>
+        <name>boundarySpeciesAmounts</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrModelData.h" line="182" column="40" bodyfile="c/rrModelData.h" bodystart="182" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structSModelData_1a202df87d3245e913265d3bb09fab77b0" prot="public" static="no" mutable="no">
+        <type>unsigned *</type>
+        <definition>unsigned* SModelData::boundarySpeciesCompartments</definition>
+        <argsstring></argsstring>
+        <name>boundarySpeciesCompartments</name>
+        <briefdescription>
+<para>compartment index for each boundary species, e.g. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>the volume of the i&apos;th species is md-&gt;compartmentVolumes[md-&gt;boundarySpeciesCompartments[i]] </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrModelData.h" line="189" column="40" bodyfile="c/rrModelData.h" bodystart="189" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structSModelData_1a0ccf5268abb2976bfeab334fcf418268" prot="public" static="no" mutable="no">
+        <type>unsigned</type>
+        <definition>unsigned SModelData::numCompartments</definition>
+        <argsstring></argsstring>
+        <name>numCompartments</name>
+        <briefdescription>
+<para>number of compartments, and compartment volumes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>units: volume </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrModelData.h" line="195" column="41" bodyfile="c/rrModelData.h" bodystart="195" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structSModelData_1a74a1862260bfdd35fa670f0a7741d81e" prot="public" static="no" mutable="no">
+        <type>double *</type>
+        <definition>double* SModelData::compartmentVolumes</definition>
+        <argsstring></argsstring>
+        <name>compartmentVolumes</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrModelData.h" line="196" column="40" bodyfile="c/rrModelData.h" bodystart="196" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structSModelData_1a0142686426d797015d4738c1c6f34032" prot="public" static="no" mutable="no">
+        <type>unsigned</type>
+        <definition>unsigned SModelData::numEvents</definition>
+        <argsstring></argsstring>
+        <name>numEvents</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrModelData.h" line="200" column="41" bodyfile="c/rrModelData.h" bodystart="200" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structSModelData_1ae8cbd33fe54cb3bffa5e960dc34d52a9" prot="public" static="no" mutable="no">
+        <type>unsigned</type>
+        <definition>unsigned SModelData::eventTypeSize</definition>
+        <argsstring></argsstring>
+        <name>eventTypeSize</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrModelData.h" line="201" column="41" bodyfile="c/rrModelData.h" bodystart="201" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structSModelData_1ad23a71a8ea559803a4652b27f7e0f5bd" prot="public" static="no" mutable="no">
+        <type>bool *</type>
+        <definition>bool* SModelData::eventType</definition>
+        <argsstring></argsstring>
+        <name>eventType</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrModelData.h" line="202" column="40" bodyfile="c/rrModelData.h" bodystart="202" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structSModelData_1af884b41cb9813fce2866b82526996379" prot="public" static="no" mutable="no">
+        <type>unsigned</type>
+        <definition>unsigned SModelData::eventPersistentTypeSize</definition>
+        <argsstring></argsstring>
+        <name>eventPersistentTypeSize</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrModelData.h" line="204" column="41" bodyfile="c/rrModelData.h" bodystart="204" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structSModelData_1a94298a9f2106e2907bca1ca149d58dc7" prot="public" static="no" mutable="no">
+        <type>bool *</type>
+        <definition>bool* SModelData::eventPersistentType</definition>
+        <argsstring></argsstring>
+        <name>eventPersistentType</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrModelData.h" line="205" column="40" bodyfile="c/rrModelData.h" bodystart="205" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structSModelData_1a5022260d67b3f39ce5fd777165002aca" prot="public" static="no" mutable="no">
+        <type>unsigned</type>
+        <definition>unsigned SModelData::eventTestsSize</definition>
+        <argsstring></argsstring>
+        <name>eventTestsSize</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrModelData.h" line="207" column="41" bodyfile="c/rrModelData.h" bodystart="207" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structSModelData_1a11b6a93afdeac303695229f378aad466" prot="public" static="no" mutable="no">
+        <type>double *</type>
+        <definition>double* SModelData::eventTests</definition>
+        <argsstring></argsstring>
+        <name>eventTests</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrModelData.h" line="208" column="40" bodyfile="c/rrModelData.h" bodystart="208" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structSModelData_1a898e52870780523dd81c87810c2af3ae" prot="public" static="no" mutable="no">
+        <type>unsigned</type>
+        <definition>unsigned SModelData::eventPrioritiesSize</definition>
+        <argsstring></argsstring>
+        <name>eventPrioritiesSize</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrModelData.h" line="210" column="41" bodyfile="c/rrModelData.h" bodystart="210" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structSModelData_1a5cdb3a76fa804104211f5bd5d5cecfb3" prot="public" static="no" mutable="no">
+        <type>double *</type>
+        <definition>double* SModelData::eventPriorities</definition>
+        <argsstring></argsstring>
+        <name>eventPriorities</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrModelData.h" line="211" column="40" bodyfile="c/rrModelData.h" bodystart="211" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structSModelData_1a854f6cbf2bfa8a0a8474298e90e1b48e" prot="public" static="no" mutable="no">
+        <type>unsigned</type>
+        <definition>unsigned SModelData::eventStatusArraySize</definition>
+        <argsstring></argsstring>
+        <name>eventStatusArraySize</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrModelData.h" line="213" column="41" bodyfile="c/rrModelData.h" bodystart="213" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structSModelData_1a6ad081dd44225b31902838c54156228f" prot="public" static="no" mutable="no">
+        <type>bool *</type>
+        <definition>bool* SModelData::eventStatusArray</definition>
+        <argsstring></argsstring>
+        <name>eventStatusArray</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrModelData.h" line="214" column="40" bodyfile="c/rrModelData.h" bodystart="214" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structSModelData_1a2d11e31a59fb73a3da6d16177892d641" prot="public" static="no" mutable="no">
+        <type>unsigned</type>
+        <definition>unsigned SModelData::previousEventStatusArraySize</definition>
+        <argsstring></argsstring>
+        <name>previousEventStatusArraySize</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrModelData.h" line="216" column="41" bodyfile="c/rrModelData.h" bodystart="216" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structSModelData_1a1a3f7a1212e0954364edd82957cc63b4" prot="public" static="no" mutable="no">
+        <type>bool *</type>
+        <definition>bool* SModelData::previousEventStatusArray</definition>
+        <argsstring></argsstring>
+        <name>previousEventStatusArray</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrModelData.h" line="217" column="40" bodyfile="c/rrModelData.h" bodystart="217" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structSModelData_1a4727edb78af913970c32183d3bd51080" prot="public" static="no" mutable="no">
+        <type>EventDelayHandler *</type>
+        <definition>EventDelayHandler* SModelData::eventDelays</definition>
+        <argsstring></argsstring>
+        <name>eventDelays</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrModelData.h" line="220" column="40" bodyfile="c/rrModelData.h" bodystart="220" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structSModelData_1a0a8cfea3cb2a61dbd9734f819a74bbe0" prot="public" static="no" mutable="no">
+        <type>EventAssignmentHandler *</type>
+        <definition>EventAssignmentHandler* SModelData::eventAssignments</definition>
+        <argsstring></argsstring>
+        <name>eventAssignments</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrModelData.h" line="221" column="40" bodyfile="c/rrModelData.h" bodystart="221" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structSModelData_1af77d1fac0211befc9ef8d217e928439a" prot="public" static="no" mutable="no">
+        <type>ComputeEventAssignmentHandler *</type>
+        <definition>ComputeEventAssignmentHandler* SModelData::computeEventAssignments</definition>
+        <argsstring></argsstring>
+        <name>computeEventAssignments</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrModelData.h" line="223" column="40" bodyfile="c/rrModelData.h" bodystart="223" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structSModelData_1ab4033c7ac8c762f6135fdb12e40ebb98" prot="public" static="no" mutable="no">
+        <type>PerformEventAssignmentHandler *</type>
+        <definition>PerformEventAssignmentHandler* SModelData::performEventAssignments</definition>
+        <argsstring></argsstring>
+        <name>performEventAssignments</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrModelData.h" line="224" column="40" bodyfile="c/rrModelData.h" bodystart="224" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structSModelData_1a7411d36addc07fb2d3195bb1945f5568" prot="public" static="no" mutable="no">
+        <type>char *</type>
+        <definition>char* SModelData::modelName</definition>
+        <argsstring></argsstring>
+        <name>modelName</name>
+        <briefdescription>
+<para>model name </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrModelData.h" line="229" column="40" bodyfile="c/rrModelData.h" bodystart="229" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structSModelData_1ae7c68870cd0d4f54343b4f120551492f" prot="public" static="no" mutable="no">
+        <type>unsigned</type>
+        <definition>unsigned SModelData::srSize</definition>
+        <argsstring></argsstring>
+        <name>srSize</name>
+        <briefdescription>
+<para>C species references, not working correctly... </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrModelData.h" line="235" column="41" bodyfile="c/rrModelData.h" bodystart="235" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structSModelData_1aa4a808bf880a0d2b6478b277efd8ef61" prot="public" static="no" mutable="no">
+        <type>double *</type>
+        <definition>double* SModelData::sr</definition>
+        <argsstring></argsstring>
+        <name>sr</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrModelData.h" line="236" column="40" bodyfile="c/rrModelData.h" bodystart="236" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>A data structure that is that allows data to be exchanged with running SBML models. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>In the case of CExecutableModels, A pointer to this struct is given to the compiled shared library, and the C code there modifies the buffers of this structure.</para>
+<para>There are some functions in ExecutableModel.h that manage ModelData memory. These would have made more sense here, but in order to prevent any issues with generated code interacting with them, they were placed there.</para>
+<para>Basic Nomencalture Compartments: A well stirred compartment which contains one or more species. the volume of a compartment can change durring the course of a simulation.</para>
+<para>Floating Species: these are chemical species who&apos;s values (ammount / concentration) change over time.</para>
+<para>Boundary Species: chemical species that who&apos;s values are fixed to their initial conditions, these function as boundary conditions.</para>
+<para><simplesect kind="see"><para>ExecutableModel.h </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="c/rrModelData.h" line="48" column="1" bodyfile="c/rrModelData.h" bodystart="49" bodyend="237"/>
+    <listofallmembers>
+      <member refid="structSModelData_1a3496526c8f632f0755fca00b73c4c451" prot="public" virt="non-virtual"><scope>SModelData</scope><name>boundarySpeciesAmounts</name></member>
+      <member refid="structSModelData_1a202df87d3245e913265d3bb09fab77b0" prot="public" virt="non-virtual"><scope>SModelData</scope><name>boundarySpeciesCompartments</name></member>
+      <member refid="structSModelData_1af0fa0201d2bfb9a590a80189f9c1e2c0" prot="public" virt="non-virtual"><scope>SModelData</scope><name>boundarySpeciesConcentrations</name></member>
+      <member refid="structSModelData_1a74a1862260bfdd35fa670f0a7741d81e" prot="public" virt="non-virtual"><scope>SModelData</scope><name>compartmentVolumes</name></member>
+      <member refid="structSModelData_1af77d1fac0211befc9ef8d217e928439a" prot="public" virt="non-virtual"><scope>SModelData</scope><name>computeEventAssignments</name></member>
+      <member refid="structSModelData_1a1b895f48923f01b35474b4b39d467dca" prot="public" virt="non-virtual"><scope>SModelData</scope><name>dependentSpeciesConservedSums</name></member>
+      <member refid="structSModelData_1a0a8cfea3cb2a61dbd9734f819a74bbe0" prot="public" virt="non-virtual"><scope>SModelData</scope><name>eventAssignments</name></member>
+      <member refid="structSModelData_1a4727edb78af913970c32183d3bd51080" prot="public" virt="non-virtual"><scope>SModelData</scope><name>eventDelays</name></member>
+      <member refid="structSModelData_1a94298a9f2106e2907bca1ca149d58dc7" prot="public" virt="non-virtual"><scope>SModelData</scope><name>eventPersistentType</name></member>
+      <member refid="structSModelData_1af884b41cb9813fce2866b82526996379" prot="public" virt="non-virtual"><scope>SModelData</scope><name>eventPersistentTypeSize</name></member>
+      <member refid="structSModelData_1a5cdb3a76fa804104211f5bd5d5cecfb3" prot="public" virt="non-virtual"><scope>SModelData</scope><name>eventPriorities</name></member>
+      <member refid="structSModelData_1a898e52870780523dd81c87810c2af3ae" prot="public" virt="non-virtual"><scope>SModelData</scope><name>eventPrioritiesSize</name></member>
+      <member refid="structSModelData_1a6ad081dd44225b31902838c54156228f" prot="public" virt="non-virtual"><scope>SModelData</scope><name>eventStatusArray</name></member>
+      <member refid="structSModelData_1a854f6cbf2bfa8a0a8474298e90e1b48e" prot="public" virt="non-virtual"><scope>SModelData</scope><name>eventStatusArraySize</name></member>
+      <member refid="structSModelData_1a11b6a93afdeac303695229f378aad466" prot="public" virt="non-virtual"><scope>SModelData</scope><name>eventTests</name></member>
+      <member refid="structSModelData_1a5022260d67b3f39ce5fd777165002aca" prot="public" virt="non-virtual"><scope>SModelData</scope><name>eventTestsSize</name></member>
+      <member refid="structSModelData_1ad23a71a8ea559803a4652b27f7e0f5bd" prot="public" virt="non-virtual"><scope>SModelData</scope><name>eventType</name></member>
+      <member refid="structSModelData_1ae8cbd33fe54cb3bffa5e960dc34d52a9" prot="public" virt="non-virtual"><scope>SModelData</scope><name>eventTypeSize</name></member>
+      <member refid="structSModelData_1a1072820fb3d2008eda23c879be4cbe4c" prot="public" virt="non-virtual"><scope>SModelData</scope><name>floatingSpeciesAmountRates</name></member>
+      <member refid="structSModelData_1a54840de3549e7ac2ae480e0fa5362873" prot="public" virt="non-virtual"><scope>SModelData</scope><name>floatingSpeciesAmounts</name></member>
+      <member refid="structSModelData_1af30c0c6fcfcc6688390714d8246830c6" prot="public" virt="non-virtual"><scope>SModelData</scope><name>floatingSpeciesCompartments</name></member>
+      <member refid="structSModelData_1aee7d47b121cd3ad5fc70c36b31f3ee6f" prot="public" virt="non-virtual"><scope>SModelData</scope><name>floatingSpeciesConcentrations</name></member>
+      <member refid="structSModelData_1ae4e81afd1488e40134882997b5229bff" prot="public" virt="non-virtual"><scope>SModelData</scope><name>floatingSpeciesInitConcentrations</name></member>
+      <member refid="structSModelData_1a2257024abd4930f569a2aa98c8eb1b20" prot="public" virt="non-virtual"><scope>SModelData</scope><name>globalParameters</name></member>
+      <member refid="structSModelData_1afac5f917906b816f2b346226f2d2a544" prot="public" virt="non-virtual"><scope>SModelData</scope><name>localParameters</name></member>
+      <member refid="structSModelData_1aa311a625134da0823c75c1579de35a99" prot="public" virt="non-virtual"><scope>SModelData</scope><name>localParametersNum</name></member>
+      <member refid="structSModelData_1a164fe6af8658f84db289ae47ee47ba5d" prot="public" virt="non-virtual"><scope>SModelData</scope><name>localParametersOffsets</name></member>
+      <member refid="structSModelData_1a7411d36addc07fb2d3195bb1945f5568" prot="public" virt="non-virtual"><scope>SModelData</scope><name>modelName</name></member>
+      <member refid="structSModelData_1a7908ee0a7657cbf8db1cf46fa7d9f3a3" prot="public" virt="non-virtual"><scope>SModelData</scope><name>numBoundarySpecies</name></member>
+      <member refid="structSModelData_1a0ccf5268abb2976bfeab334fcf418268" prot="public" virt="non-virtual"><scope>SModelData</scope><name>numCompartments</name></member>
+      <member refid="structSModelData_1a37ea5e768eb56d854f12920c011f0f71" prot="public" virt="non-virtual"><scope>SModelData</scope><name>numDependentSpecies</name></member>
+      <member refid="structSModelData_1a0142686426d797015d4738c1c6f34032" prot="public" virt="non-virtual"><scope>SModelData</scope><name>numEvents</name></member>
+      <member refid="structSModelData_1adff1d6541495b59dcc98fdffcbd4e9ea" prot="public" virt="non-virtual"><scope>SModelData</scope><name>numFloatingSpecies</name></member>
+      <member refid="structSModelData_1a04711e9b8a95bcfd2a52810bed6d50cf" prot="public" virt="non-virtual"><scope>SModelData</scope><name>numGlobalParameters</name></member>
+      <member refid="structSModelData_1af7c01b47fef3f60602038f85096dfbe4" prot="public" virt="non-virtual"><scope>SModelData</scope><name>numIndependentSpecies</name></member>
+      <member refid="structSModelData_1aa6fdceb721280572e9b8bdb54ec16786" prot="public" virt="non-virtual"><scope>SModelData</scope><name>numRateRules</name></member>
+      <member refid="structSModelData_1a657e385e1b95468422191bb50bffe883" prot="public" virt="non-virtual"><scope>SModelData</scope><name>numReactions</name></member>
+      <member refid="structSModelData_1ab4033c7ac8c762f6135fdb12e40ebb98" prot="public" virt="non-virtual"><scope>SModelData</scope><name>performEventAssignments</name></member>
+      <member refid="structSModelData_1a1a3f7a1212e0954364edd82957cc63b4" prot="public" virt="non-virtual"><scope>SModelData</scope><name>previousEventStatusArray</name></member>
+      <member refid="structSModelData_1a2d11e31a59fb73a3da6d16177892d641" prot="public" virt="non-virtual"><scope>SModelData</scope><name>previousEventStatusArraySize</name></member>
+      <member refid="structSModelData_1a8639637a1926a6f583c02bbd8e83f35a" prot="public" virt="non-virtual"><scope>SModelData</scope><name>rateRuleRates</name></member>
+      <member refid="structSModelData_1ac7df09202d585b7c48e76fe95ad44073" prot="public" virt="non-virtual"><scope>SModelData</scope><name>rateRuleValues</name></member>
+      <member refid="structSModelData_1a2496b3ef2f6fce907607c547b73b82a2" prot="public" virt="non-virtual"><scope>SModelData</scope><name>reactionRates</name></member>
+      <member refid="structSModelData_1aa4a808bf880a0d2b6478b277efd8ef61" prot="public" virt="non-virtual"><scope>SModelData</scope><name>sr</name></member>
+      <member refid="structSModelData_1ae7c68870cd0d4f54343b4f120551492f" prot="public" virt="non-virtual"><scope>SModelData</scope><name>srSize</name></member>
+      <member refid="structSModelData_1a0423ae4f18c2dd6c1faf27332e3f0b66" prot="public" virt="non-virtual"><scope>SModelData</scope><name>time</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

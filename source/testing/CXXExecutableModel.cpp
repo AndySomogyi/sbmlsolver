@@ -397,6 +397,9 @@ std::string CXXExecutableModel::getEventId(int index)
     return "";
 }
 
+void CXXExecutableModel::getEventIds(std::list<std::string>&) {
+}
+
 void CXXExecutableModel::setEventListener(int index,
         rr::EventListenerPtr eventHandler)
 {

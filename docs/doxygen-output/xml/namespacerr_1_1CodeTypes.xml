@@ -1,0 +1,417 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+  <compounddef id="namespacerr_1_1CodeTypes" kind="namespace" language="C++">
+    <compoundname>rr::CodeTypes</compoundname>
+      <sectiondef kind="enum">
+      <memberdef kind="enum" id="rrCodeTypes_8h_1a8e672719c727080696cce917c938c3c6" prot="public" static="no" strong="no">
+        <type></type>
+        <name>CodeTypes</name>
+        <enumvalue id="rrCodeTypes_8h_1a8e672719c727080696cce917c938c3c6a21e0d3349572080c5b579c85e40a1e8b" prot="public">
+          <name>tEmptyToken</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="rrCodeTypes_8h_1a8e672719c727080696cce917c938c3c6aede019544424c42ac7cfba6c81b11a5e" prot="public">
+          <name>tEndOfStreamToken</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="rrCodeTypes_8h_1a8e672719c727080696cce917c938c3c6ac7b0eb29ebcfc711064f4d7eb06507fe" prot="public">
+          <name>tIntToken</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="rrCodeTypes_8h_1a8e672719c727080696cce917c938c3c6a25f2e79c48c6b2544bc479c3fdacf685" prot="public">
+          <name>tDoubleToken</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="rrCodeTypes_8h_1a8e672719c727080696cce917c938c3c6a23b133c61c6af3a87eda06fbf33d4518" prot="public">
+          <name>tComplexToken</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="rrCodeTypes_8h_1a8e672719c727080696cce917c938c3c6af8a46a080168ab1ff4b3b0a37ea1c382" prot="public">
+          <name>tStringToken</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="rrCodeTypes_8h_1a8e672719c727080696cce917c938c3c6aeaa7ad295e9549f0e543069da3d7358c" prot="public">
+          <name>tWordToken</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="rrCodeTypes_8h_1a8e672719c727080696cce917c938c3c6a4f749938ae14bbd8ebca3e8d93c2a37c" prot="public">
+          <name>tEolToken</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="rrCodeTypes_8h_1a8e672719c727080696cce917c938c3c6ab1c5c7ab17b977b16fb9ba87c7206bfd" prot="public">
+          <name>tSemiColonToken</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="rrCodeTypes_8h_1a8e672719c727080696cce917c938c3c6af73e54402a3f68d2367d3fcf2700d378" prot="public">
+          <name>tCommaToken</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="rrCodeTypes_8h_1a8e672719c727080696cce917c938c3c6a3f068fdcace3841cf32f2d639dd02c78" prot="public">
+          <name>tEqualsToken</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="rrCodeTypes_8h_1a8e672719c727080696cce917c938c3c6a5be358c9a1acd846304bef5e040832f1" prot="public">
+          <name>tPlusToken</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="rrCodeTypes_8h_1a8e672719c727080696cce917c938c3c6ae43fad0e66ca0eb41885b64e63439a7d" prot="public">
+          <name>tMinusToken</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="rrCodeTypes_8h_1a8e672719c727080696cce917c938c3c6a2bc1b10a32c33b7cdd4fef653033f614" prot="public">
+          <name>tMultToken</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="rrCodeTypes_8h_1a8e672719c727080696cce917c938c3c6a3f6d19a755d42133502624d819d2bf42" prot="public">
+          <name>tDivToken</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="rrCodeTypes_8h_1a8e672719c727080696cce917c938c3c6aca6ecb40c44f5cb6139761e6bcd29af3" prot="public">
+          <name>tLParenToken</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="rrCodeTypes_8h_1a8e672719c727080696cce917c938c3c6afe6091be0722b80fa55d6d57eadc1cd0" prot="public">
+          <name>tRParenToken</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="rrCodeTypes_8h_1a8e672719c727080696cce917c938c3c6a67277627d93eb51ee290868a131a3171" prot="public">
+          <name>tLBracToken</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="rrCodeTypes_8h_1a8e672719c727080696cce917c938c3c6ae359bcebac7a7b1910f61f7afdab1f02" prot="public">
+          <name>tRBracToken</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="rrCodeTypes_8h_1a8e672719c727080696cce917c938c3c6a3ac9661a73f820d4b63e1624c9b81b3f" prot="public">
+          <name>tLCBracToken</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="rrCodeTypes_8h_1a8e672719c727080696cce917c938c3c6a0aba8dd335766035330b80eac6b59a48" prot="public">
+          <name>tRCBracToken</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="rrCodeTypes_8h_1a8e672719c727080696cce917c938c3c6ad19514c4e349e9ddd07b59e900653e57" prot="public">
+          <name>tOrToken</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="rrCodeTypes_8h_1a8e672719c727080696cce917c938c3c6a7f8899d01d2536b500e7abfb61824070" prot="public">
+          <name>tAndToken</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="rrCodeTypes_8h_1a8e672719c727080696cce917c938c3c6a4381158fea75e5587dbf2033ca0a3ad0" prot="public">
+          <name>tNotToken</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="rrCodeTypes_8h_1a8e672719c727080696cce917c938c3c6ab35dc5d0770e6f93117c04543946d4a9" prot="public">
+          <name>tXorToken</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="rrCodeTypes_8h_1a8e672719c727080696cce917c938c3c6a08a69994732fc89c243c44598487a2a8" prot="public">
+          <name>tTimeWord1</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="rrCodeTypes_8h_1a8e672719c727080696cce917c938c3c6ab334935b86a48d2e44bb1cfdebfb994a" prot="public">
+          <name>tTimeWord2</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="rrCodeTypes_8h_1a8e672719c727080696cce917c938c3c6a0fce3f12736161a705f820e4fdf5f5ad" prot="public">
+          <name>tTimeWord3</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="rrCodeTypes_8h_1a8e672719c727080696cce917c938c3c6a7d8bf815bd820b8c87a1101cd9f07587" prot="public">
+          <name>tColonToken</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="rrCodeTypes_8h_1a8e672719c727080696cce917c938c3c6aa3782ba3b1489192eb4a5f517a59257a" prot="public">
+          <name>tPowerToken</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="rrCodeTypes_8h_1a8e672719c727080696cce917c938c3c6a66dd803fd3ad8086356fec0b611a2f66" prot="public">
+          <name>tLessThanToken</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="rrCodeTypes_8h_1a8e672719c727080696cce917c938c3c6aacd84c159f38ea8ac02f70d7b8ff3bdd" prot="public">
+          <name>tLessThanOrEqualToken</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="rrCodeTypes_8h_1a8e672719c727080696cce917c938c3c6aca0b3c341e42a78c0e05853379329155" prot="public">
+          <name>tMoreThanToken</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="rrCodeTypes_8h_1a8e672719c727080696cce917c938c3c6aca85158e3fc3c749e6a8aedcf4ea4693" prot="public">
+          <name>tMoreThanOrEqualToken</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="rrCodeTypes_8h_1a8e672719c727080696cce917c938c3c6ad41f888d0a25df04862aa8a85cb64b11" prot="public">
+          <name>tNotEqualToken</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="rrCodeTypes_8h_1a8e672719c727080696cce917c938c3c6afa9442face368d683b263c6810a3138d" prot="public">
+          <name>tReversibleArrow</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="rrCodeTypes_8h_1a8e672719c727080696cce917c938c3c6a361d718a27f69523eb15470a4845f0c1" prot="public">
+          <name>tIrreversibleArrow</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="rrCodeTypes_8h_1a8e672719c727080696cce917c938c3c6ac192d72534d93e2f3e79f3a87fff022c" prot="public">
+          <name>tStartComment</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="rrCodeTypes_8h_1a8e672719c727080696cce917c938c3c6a982e96bc5e45bb3f0073dbb757d2eea8" prot="public">
+          <name>tInternalToken</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="rrCodeTypes_8h_1a8e672719c727080696cce917c938c3c6a253d585ef87d067f5e635904df354a91" prot="public">
+          <name>tVarToken</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="rrCodeTypes_8h_1a8e672719c727080696cce917c938c3c6a98a40e921169f59ac54bf17168618257" prot="public">
+          <name>tVolToken</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="rrCodeTypes_8h_1a8e672719c727080696cce917c938c3c6a4ba03712dcb552a10ad7c9168f3fecab" prot="public">
+          <name>tExternalToken</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="rrCodeTypes_8h_1a8e672719c727080696cce917c938c3c6afcadab86a15f7510df28a11c62d42361" prot="public">
+          <name>tExtToken</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="rrCodeTypes_8h_1a8e672719c727080696cce917c938c3c6aef0494be0996025d67810b6b7f9afed9" prot="public">
+          <name>tParameterToken</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="rrCodeTypes_8h_1a8e672719c727080696cce917c938c3c6ad547739b0864cbf5e3a528acd90d34a7" prot="public">
+          <name>tIfToken</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="rrCodeTypes_8h_1a8e672719c727080696cce917c938c3c6ab9e135369978f21b525665ad36028d71" prot="public">
+          <name>tDollarToken</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="rrCodeTypes_8h_1a8e672719c727080696cce917c938c3c6ab1d6c3e19482132c2e431e1b4cbd8deb" prot="public">
+          <name>tUnaryMinusToken</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="rrCodeTypes_8h_1a8e672719c727080696cce917c938c3c6ae09b1b1bfc6117c74eeafd90410de418" prot="public">
+          <name>tPrintToken</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="rrCodeTypes_8h_1a8e672719c727080696cce917c938c3c6afd26b32aaacc3eed0001bc5d1f8b0824" prot="public">
+          <name>tWhileToken</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="rrCodeTypes_8h_1a8e672719c727080696cce917c938c3c6a6dd1b041ecae1aa7a6e5504e6a4bf2e4" prot="public">
+          <name>tdefnToken</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="rrCodeTypes_8h_1a8e672719c727080696cce917c938c3c6a32d1fb9739e5c354a063db1b5e10d1e0" prot="public">
+          <name>tEndToken</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="rrCodeTypes_8h_1a8e672719c727080696cce917c938c3c6a43348f23a0f5342432f929cb43f1f9d8" prot="public">
+          <name>tTimeStartToken</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="rrCodeTypes_8h_1a8e672719c727080696cce917c938c3c6a99a65f11f2be500e2629d6701ed55809" prot="public">
+          <name>tTimeEndToken</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="rrCodeTypes_8h_1a8e672719c727080696cce917c938c3c6a2577edbdcf57034e1b8dad39e0d4c630" prot="public">
+          <name>tNumPointsToken</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="rrCodeTypes_8h_1a8e672719c727080696cce917c938c3c6aa255833acc5a9b93f1f4ba8b2290a894" prot="public">
+          <name>tSimulateToken</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="rrCodeTypes_8h_1a8e672719c727080696cce917c938c3c6a5f43d1844d09bcfb6bfa154188829494" prot="public">
+          <name>tPointToken</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCodeTypes.h" line="8" column="1" bodyfile="c/rrCodeTypes.h" bodystart="9" bodyend="66"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="c/rrCodeTypes.h" line="6" column="1"/>
+  </compounddef>
+</doxygen>

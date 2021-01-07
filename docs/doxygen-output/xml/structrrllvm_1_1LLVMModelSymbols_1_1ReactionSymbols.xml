@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+  <compounddef id="structrrllvm_1_1LLVMModelSymbols_1_1ReactionSymbols" kind="struct" language="C++" prot="protected">
+    <compoundname>rrllvm::LLVMModelSymbols::ReactionSymbols</compoundname>
+    <includes refid="LLVMModelSymbols_8h" local="no">LLVMModelSymbols.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structrrllvm_1_1LLVMModelSymbols_1_1ReactionSymbols_1a7daf929e832629367e1280a781d8dd8a" prot="public" static="no" mutable="no">
+        <type><ref refid="classrrllvm_1_1LLVMModelSymbols_1a346c6aa644b3297b1319a3f619bdfe9e" kindref="member">IntASTNodeListMap</ref></type>
+        <definition>IntASTNodeListMap rrllvm::LLVMModelSymbols::ReactionSymbols::reactants</definition>
+        <argsstring></argsstring>
+        <name>reactants</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/LLVMModelSymbols.h" line="239" column="27" bodyfile="llvm/LLVMModelSymbols.h" bodystart="239" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structrrllvm_1_1LLVMModelSymbols_1_1ReactionSymbols_1a0f60bcb603807a90b267cd57b25f90de" prot="public" static="no" mutable="no">
+        <type><ref refid="classrrllvm_1_1LLVMModelSymbols_1a346c6aa644b3297b1319a3f619bdfe9e" kindref="member">IntASTNodeListMap</ref></type>
+        <definition>IntASTNodeListMap rrllvm::LLVMModelSymbols::ReactionSymbols::products</definition>
+        <argsstring></argsstring>
+        <name>products</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/LLVMModelSymbols.h" line="240" column="27" bodyfile="llvm/LLVMModelSymbols.h" bodystart="240" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>hold the symbols that belong to a reactions. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="llvm/LLVMModelSymbols.h" line="238" column="5" bodyfile="llvm/LLVMModelSymbols.h" bodystart="238" bodyend="241"/>
+    <listofallmembers>
+      <member refid="structrrllvm_1_1LLVMModelSymbols_1_1ReactionSymbols_1a0f60bcb603807a90b267cd57b25f90de" prot="public" virt="non-virtual"><scope>rrllvm::LLVMModelSymbols::ReactionSymbols</scope><name>products</name></member>
+      <member refid="structrrllvm_1_1LLVMModelSymbols_1_1ReactionSymbols_1a7daf929e832629367e1280a781d8dd8a" prot="public" virt="non-virtual"><scope>rrllvm::LLVMModelSymbols::ReactionSymbols</scope><name>reactants</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

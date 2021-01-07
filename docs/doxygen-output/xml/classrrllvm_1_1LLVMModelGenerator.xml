@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+  <compounddef id="classrrllvm_1_1LLVMModelGenerator" kind="class" language="C++" prot="public">
+    <compoundname>rrllvm::LLVMModelGenerator</compoundname>
+    <includes refid="LLVMModelGenerator_8h" local="no">LLVMModelGenerator.h</includes>
+      <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classrrllvm_1_1LLVMModelGenerator_1a4356fc010a0aa998ff588c210427f09b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classrr_1_1ExecutableModel" kindref="compound">rr::ExecutableModel</ref> *</type>
+        <definition>ExecutableModel * rrllvm::LLVMModelGenerator::createModel</definition>
+        <argsstring>(const std::string &amp;sbml, uint options)</argsstring>
+        <name>createModel</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>sbml</declname>
+        </param>
+        <param>
+          <type>uint</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Create an executable model from an sbml string. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/LLVMModelGenerator.h" line="40" column="32" bodyfile="llvm/LLVMModelGenerator.cpp" bodystart="624" bodyend="1008"/>
+      </memberdef>
+      <memberdef kind="function" id="classrrllvm_1_1LLVMModelGenerator_1acca1a198b41b71a1abfc28f45422b861" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classrr_1_1ExecutableModel" kindref="compound">rr::ExecutableModel</ref> *</type>
+        <definition>ExecutableModel * rrllvm::LLVMModelGenerator::regenerateModel</definition>
+        <argsstring>(rr::ExecutableModel *oldModel, libsbml::SBMLDocument *doc, uint options)</argsstring>
+        <name>regenerateModel</name>
+        <param>
+          <type><ref refid="classrr_1_1ExecutableModel" kindref="compound">rr::ExecutableModel</ref> *</type>
+          <declname>oldModel</declname>
+        </param>
+        <param>
+          <type>libsbml::SBMLDocument *</type>
+          <declname>doc</declname>
+        </param>
+        <param>
+          <type>uint</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Regenerate an executable model from an existing sbml document i.e. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>generate the model normally from the SBML document, but copy the values of the floating species (initial and current), boundary species, compartments (initial and current), global parameters (initial and current) that are in both oldModel and doc, as well as time from the old model into the one returned </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/LLVMModelGenerator.h" line="48" column="28" bodyfile="llvm/LLVMModelGenerator.cpp" bodystart="89" bodyend="621"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>General concepts: </para>
+    </briefdescription>
+    <detaileddescription>
+<para>SBML defines chemical species.</para>
+<para>Floating Species: species whose value varies over time, i.e. they can &apos;float&apos; Boundary Species: boundary condition species, values are fixed to initial conditions. </para>
+    </detaileddescription>
+    <location file="llvm/LLVMModelGenerator.h" line="33" column="1" bodyfile="llvm/LLVMModelGenerator.h" bodystart="34" bodyend="50"/>
+    <listofallmembers>
+      <member refid="classrrllvm_1_1LLVMModelGenerator_1a4356fc010a0aa998ff588c210427f09b" prot="public" virt="non-virtual"><scope>rrllvm::LLVMModelGenerator</scope><name>createModel</name></member>
+      <member refid="classrrllvm_1_1LLVMModelGenerator_1acca1a198b41b71a1abfc28f45422b861" prot="public" virt="non-virtual"><scope>rrllvm::LLVMModelGenerator</scope><name>regenerateModel</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

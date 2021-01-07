@@ -25,7 +25,7 @@
     // see discussion on import array,
     // http://docs.scipy.org/doc/numpy/reference/c-api.array.html#miscellaneous
     #define PY_ARRAY_UNIQUE_SYMBOL RoadRunner_ARRAY_API
-    //Can't require new API on MacOS 10.9
+    //Can't require new wrappers on MacOS 10.9
     //#define NPY_NO_DEPRECATED_API NPY_1_7_API_VERSION
     #include <numpy/arrayobject.h>
     #ifdef _MSC_VER
@@ -139,7 +139,7 @@
 %include "rr_docstrings.i"
 
 
-// the cmake CMakeLists.txt file in this directory sets the value of the
+// the cmake _CMakeLists.txt file in this directory sets the value of the
 // SWIG_SHARED_PTR_SUBNAMESPACE as a pre-processor symbol based on the
 // USE_TR1_CXX_NS CMake option. SWIG has no way of getting this info
 // from the compiler so have to reley on the CMake system.
@@ -1265,10 +1265,15 @@ namespace std { class ostream{}; }
 
             o = self.__simulateOptions
             originalSteps = o.steps
-
+            originalVSS = True;
+        
             if self.getIntegrator().hasValue('variable_step_size'):
-                if self.getIntegrator().getValue('variable_step_size') == True:
-                    o.steps = 0
+                originalVSS = self.getIntegrator().getValue('variable_step_size')
+                if end is not None and (points is not None or steps is not None):
+                   self.getIntegrator().setValue('variable_step_size', False)
+                else:
+                   if originalVSS == True:
+                        o.steps = 0
 
             if start is not None:
                 o.start = start
@@ -1292,7 +1297,16 @@ namespace std { class ostream{}; }
 
             result = self._simulate(o)
 
+            #Check to make sure we made it to the 'end'.
+            if end is not None:
+                lastresult_time = result[len(result)-1][0]
+                if end - lastresult_time > end/10000:
+                    warnings.warn("Simulation requested end point (" + str(end) + ") not reached, because the maximum number of steps reached.  Possible solutions include:\n  * Setting an explicit number of points (i.e. r.simulate(" + str(start) + ", " + str(end) + ", 1001)\n  * Setting r.integrator.variable_step_size to 'False'\n* Setting ")
+
+            #Reset any integrator variables we might have changed
             o.steps = originalSteps
+            if self.getIntegrator().hasValue('variable_step_size'):
+                self.getIntegrator().setValue('variable_step_size', originalVSS)
 
             if has_output_file:
                 # result should be empty here.
@@ -1368,10 +1382,10 @@ namespace std { class ostream{}; }
                 will have N+1 data rows.
 
             stiff
-                DEPRECATED: use solver API (this setting only available for some solvers).
+                DEPRECATED: use solver wrappers (this setting only available for some solvers).
 
             seed
-                DEPRECATED: use solver API (this setting only available for some solvers).
+                DEPRECATED: use solver wrappers (this setting only available for some solvers).
 
 
             :returns: a numpy array with each selected output time series being a
@@ -1501,7 +1515,7 @@ namespace std { class ostream{}; }
                 # check if variableStep was explicitly specified, this overrides the steps
                 # positional arg
                 if k == "variableStep":
-                    raise KeyError('Do NOT pass variableStep to simulate. Use integrator API: r.getIntegrator().setValue("variable_step_size", True)')
+                    raise KeyError('Do NOT pass variableStep to simulate. Use integrator wrappers: r.getIntegrator().setValue("variable_step_size", True)')
                     haveVariableStep = True
                     self.getIntegrator().setValue('variable_step_size', v)
                     if not stepsSpecified:
@@ -1517,7 +1531,7 @@ namespace std { class ostream{}; }
                     continue
 
                 if k == "stiff" and self.getIntegrator().hasValue('stiff'):
-                    raise KeyError('Do NOT pass stiff to simulate. Use the integrator API: r.getIntegrator().setValue("stiff", True)')
+                    raise KeyError('Do NOT pass stiff to simulate. Use the integrator wrappers: r.getIntegrator().setValue("stiff", True)')
                     def stiff_restore(v):
                         def f():
                             self.getIntegrator().setValue('stiff', v)
@@ -1988,6 +2002,31 @@ namespace std { class ostream{}; }
         return pyList;
     }
 
+    /**
+     * creates a function signature of
+     * SWIGINTERN PyObject *rr_ExecutableModel_getEventIds(rr::ExecutableModel *self);
+     */
+    PyObject *getEventIds() {
+        std::list<std::string> ids;
+
+        ($self)->getEventIds(ids);
+
+        size_t size = ids.size();
+
+        PyObject* pyList = PyList_New(size);
+
+        unsigned j = 0;
+
+        for (std::list<std::string>::const_iterator i = ids.begin(); i != ids.end(); ++i)
+        {
+            const std::string& id  = *i;
+            PyObject* pyStr = PyString_FromString(id.c_str());
+            PyList_SET_ITEM(pyList, j++, pyStr);
+        }
+
+        return pyList;
+    }
+
     /***
      ** get values section
      ***/
@@ -2143,7 +2182,7 @@ namespace std { class ostream{}; }
     }
 
     PyObject *getEventIds() {
-        return rr_ExecutableModel_getIds($self, rr::SelectionRecord::EVENT);
+        return rr_ExecutableModel_getEventIds($self);
     }
 
     %pythoncode %{

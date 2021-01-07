@@ -1,0 +1,256 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+  <compounddef id="classrr_1_1Event" kind="class" language="C++" prot="public">
+    <compoundname>rr::Event</compoundname>
+      <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classrr_1_1Event_1abe28472ed1da336fbc4e2598f3ba1534" prot="protected" static="no" mutable="no">
+        <type>int</type>
+        <definition>int rr::Event::mID</definition>
+        <argsstring></argsstring>
+        <name>mID</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrEvent.h" line="27" column="29" bodyfile="c/rrEvent.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrr_1_1Event_1a603d396f19c6c109e7ef7b3bc42a6d04" prot="protected" static="no" mutable="no">
+        <type>double</type>
+        <definition>double rr::Event::mPriority</definition>
+        <argsstring></argsstring>
+        <name>mPriority</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrEvent.h" line="28" column="29" bodyfile="c/rrEvent.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrr_1_1Event_1ae545d1383f2706e9f37c890b85db430f" prot="protected" static="no" mutable="no">
+        <type>double</type>
+        <definition>double rr::Event::mDelay</definition>
+        <argsstring></argsstring>
+        <name>mDelay</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrEvent.h" line="29" column="29" bodyfile="c/rrEvent.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrr_1_1Event_1ae2b1df1b000b30276730b5b47e9edd4c" prot="protected" static="no" mutable="no">
+        <type><ref refid="classrr_1_1Random" kindref="compound">Random</ref></type>
+        <definition>Random rr::Event::mRandom</definition>
+        <argsstring></argsstring>
+        <name>mRandom</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrEvent.h" line="30" column="29" bodyfile="c/rrEvent.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classrr_1_1Event_1a0c324047e5c8d83af3600b4763c0c58b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>rr::Event::Event</definition>
+        <argsstring>(int id, double prior=0, double delay=0)</argsstring>
+        <name>Event</name>
+        <param>
+          <type>int</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>prior</declname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>delay</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrEvent.h" line="16" column="5" bodyfile="c/rrEvent.cpp" bodystart="10" bodyend="15"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1Event_1acfcb00936be61984fe1cbe18d6119fbb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>rrllvm::Event::Event</definition>
+        <argsstring>(const Event &amp;id)</argsstring>
+        <name>Event</name>
+        <param>
+          <type>const <ref refid="classrr_1_1Event" kindref="compound">Event</ref> &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrEvent.h" line="17" column="5" bodyfile="c/rrEvent.cpp" bodystart="17" bodyend="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1Event_1a43c33410cf8325b6e671bc9e50eaa841" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>rrllvm::Event::~Event</definition>
+        <argsstring>()</argsstring>
+        <name>~Event</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrEvent.h" line="18" column="5" bodyfile="c/rrEvent.h" bodystart="18" bodyend="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1Event_1a4f51cb84ea248f66d903c7d86a3530f2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double rr::Event::GetPriority</definition>
+        <argsstring>() const</argsstring>
+        <name>GetPriority</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrEvent.h" line="19" column="29" bodyfile="c/rrEvent.cpp" bodystart="44" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1Event_1a86b7ad953e8d768e2ec8566a6f9a7261" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void rr::Event::SetPriority</definition>
+        <argsstring>(double prior)</argsstring>
+        <name>SetPriority</name>
+        <param>
+          <type>double</type>
+          <declname>prior</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrEvent.h" line="20" column="29" bodyfile="c/rrEvent.cpp" bodystart="39" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1Event_1a9ed47b3bb5bf404e675b5918dc870b45" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int rr::Event::GetID</definition>
+        <argsstring>() const</argsstring>
+        <name>GetID</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrEvent.h" line="21" column="29" bodyfile="c/rrEvent.cpp" bodystart="34" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1Event_1a732efdbcd548d693d38e4fa93ba31bbb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classrr_1_1Event" kindref="compound">Event</ref> &amp;</type>
+        <definition>Event &amp; rrllvm::Event::operator=</definition>
+        <argsstring>(const Event &amp;rhs)</argsstring>
+        <name>operator=</name>
+        <param>
+          <type>const <ref refid="classrr_1_1Event" kindref="compound">Event</ref> &amp;</type>
+          <declname>rhs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrEvent.h" line="22" column="28" bodyfile="c/rrEvent.cpp" bodystart="22" bodyend="32"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="friend">
+      <memberdef kind="friend" id="classrr_1_1Event_1a3c6b541ec4b5e3b1ffefb13ea8a84e8c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>friend bool</type>
+        <definition>bool operator&lt;</definition>
+        <argsstring>(const Event &amp;e1, const Event &amp;e2)</argsstring>
+        <name>operator&lt;</name>
+        <param>
+          <type>const <ref refid="classrr_1_1Event" kindref="compound">Event</ref> &amp;</type>
+          <declname>e1</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classrr_1_1Event" kindref="compound">Event</ref> &amp;</type>
+          <declname>e2</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrEvent.h" line="23" column="12" bodyfile="c/rrEvent.cpp" bodystart="59" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="friend" id="classrr_1_1Event_1a989f14bf1e6434897b5fb8644247f826" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>friend bool</type>
+        <definition>bool operator==</definition>
+        <argsstring>(const Event &amp;e1, const Event &amp;e2)</argsstring>
+        <name>operator==</name>
+        <param>
+          <type>const <ref refid="classrr_1_1Event" kindref="compound">Event</ref> &amp;</type>
+          <declname>e1</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classrr_1_1Event" kindref="compound">Event</ref> &amp;</type>
+          <declname>e2</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrEvent.h" line="24" column="29" bodyfile="c/rrEvent.cpp" bodystart="50" bodyend="57"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>rr::Random</label>
+        <link refid="classrr_1_1Random"/>
+      </node>
+      <node id="1">
+        <label>rr::Event</label>
+        <link refid="classrr_1_1Event"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>mRandom</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="c/rrEvent.h" line="11" column="1" bodyfile="c/rrEvent.h" bodystart="12" bodyend="31"/>
+    <listofallmembers>
+      <member refid="classrr_1_1Event_1a0c324047e5c8d83af3600b4763c0c58b" prot="public" virt="non-virtual"><scope>rr::Event</scope><name>Event</name></member>
+      <member refid="classrr_1_1Event_1acfcb00936be61984fe1cbe18d6119fbb" prot="public" virt="non-virtual"><scope>rr::Event</scope><name>Event</name></member>
+      <member refid="classrr_1_1Event_1a9ed47b3bb5bf404e675b5918dc870b45" prot="public" virt="non-virtual"><scope>rr::Event</scope><name>GetID</name></member>
+      <member refid="classrr_1_1Event_1a4f51cb84ea248f66d903c7d86a3530f2" prot="public" virt="non-virtual"><scope>rr::Event</scope><name>GetPriority</name></member>
+      <member refid="classrr_1_1Event_1ae545d1383f2706e9f37c890b85db430f" prot="protected" virt="non-virtual"><scope>rr::Event</scope><name>mDelay</name></member>
+      <member refid="classrr_1_1Event_1abe28472ed1da336fbc4e2598f3ba1534" prot="protected" virt="non-virtual"><scope>rr::Event</scope><name>mID</name></member>
+      <member refid="classrr_1_1Event_1a603d396f19c6c109e7ef7b3bc42a6d04" prot="protected" virt="non-virtual"><scope>rr::Event</scope><name>mPriority</name></member>
+      <member refid="classrr_1_1Event_1ae2b1df1b000b30276730b5b47e9edd4c" prot="protected" virt="non-virtual"><scope>rr::Event</scope><name>mRandom</name></member>
+      <member refid="classrr_1_1Event_1a3c6b541ec4b5e3b1ffefb13ea8a84e8c" prot="public" virt="non-virtual"><scope>rr::Event</scope><name>operator&lt;</name></member>
+      <member refid="classrr_1_1Event_1a732efdbcd548d693d38e4fa93ba31bbb" prot="public" virt="non-virtual"><scope>rr::Event</scope><name>operator=</name></member>
+      <member refid="classrr_1_1Event_1a989f14bf1e6434897b5fb8644247f826" prot="public" virt="non-virtual"><scope>rr::Event</scope><name>operator==</name></member>
+      <member refid="classrr_1_1Event_1a86b7ad953e8d768e2ec8566a6f9a7261" prot="public" virt="non-virtual"><scope>rr::Event</scope><name>SetPriority</name></member>
+      <member refid="classrr_1_1Event_1a43c33410cf8325b6e671bc9e50eaa841" prot="public" virt="non-virtual"><scope>rr::Event</scope><name>~Event</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

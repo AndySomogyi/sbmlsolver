@@ -1,0 +1,1300 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+  <compounddef id="classrr_1_1CompiledModelGenerator" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>rr::CompiledModelGenerator</compoundname>
+    <derivedcompoundref refid="classrr_1_1CModelGenerator" prot="public" virt="non-virtual">rr::CModelGenerator</derivedcompoundref>
+    <includes refid="rrCompiledModelGenerator_8h" local="no">rrCompiledModelGenerator.h</includes>
+      <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classrr_1_1CompiledModelGenerator_1af346298187993ac6d970c58f32a7af4f" prot="protected" static="no" mutable="no">
+        <type>ls::LibStructural *</type>
+        <definition>ls::LibStructural* rr::CompiledModelGenerator::mLibStruct</definition>
+        <argsstring></argsstring>
+        <name>mLibStruct</name>
+        <briefdescription>
+<para>Refernce to libstruct library this are set by createModel, and for the time being remain after createModel completes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledModelGenerator.h" line="90" column="44" bodyfile="c/rrCompiledModelGenerator.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrr_1_1CompiledModelGenerator_1a95eb17b0b46dc689ee4e1eb4d737c6f1" prot="protected" static="no" mutable="no">
+        <type><ref refid="classrr_1_1NOMSupport" kindref="compound">NOMSupport</ref> *</type>
+        <definition>NOMSupport* rr::CompiledModelGenerator::mNOM</definition>
+        <argsstring></argsstring>
+        <name>mNOM</name>
+        <briefdescription>
+<para>Object that provide some wrappers and new &quot;NOM&quot; functions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>this are set by createModel, and for the time being remain after createModel completes. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledModelGenerator.h" line="97" column="40" bodyfile="c/rrCompiledModelGenerator.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrr_1_1CompiledModelGenerator_1a2d7614c0af0bd2bc86487f828a98e7ac" prot="protected" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool rr::CompiledModelGenerator::mComputeAndAssignConsevationLaws</definition>
+        <argsstring></argsstring>
+        <name>mComputeAndAssignConsevationLaws</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledModelGenerator.h" line="99" column="41" bodyfile="c/rrCompiledModelGenerator.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrr_1_1CompiledModelGenerator_1a1abb35dc53e805a7faef2bfa90411a10" prot="protected" static="no" mutable="no">
+        <type>const string</type>
+        <definition>const string rr::CompiledModelGenerator::mFixAmountCompartments</definition>
+        <argsstring></argsstring>
+        <name>mFixAmountCompartments</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledModelGenerator.h" line="101" column="41" bodyfile="c/rrCompiledModelGenerator.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrr_1_1CompiledModelGenerator_1ad21d16a2d15000f8225e0f21477a22ec" prot="protected" static="no" mutable="no">
+        <type><ref refid="classrr_1_1StringList" kindref="compound">StringList</ref></type>
+        <definition>StringList rr::CompiledModelGenerator::mWarnings</definition>
+        <argsstring></argsstring>
+        <name>mWarnings</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledModelGenerator.h" line="103" column="41" bodyfile="c/rrCompiledModelGenerator.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrr_1_1CompiledModelGenerator_1aae0da14da795acd4122229c1b306c262" prot="protected" static="no" mutable="no">
+        <type><ref refid="classrr_1_1ModelSymbols" kindref="compound">ModelSymbols</ref></type>
+        <definition>ModelSymbols rr::CompiledModelGenerator::ms</definition>
+        <argsstring></argsstring>
+        <name>ms</name>
+        <briefdescription>
+<para>hold all the symbolic (AKA metadata) information in the model The idea is that all the memebers of this class will be const, and the entire thing will be created anew each time createModel is called. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This thing will creted in one shot, then all the code building will access it. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledModelGenerator.h" line="133" column="42" bodyfile="c/rrCompiledModelGenerator.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classrr_1_1CompiledModelGenerator_1a5ffa64213446af781e6460a92c86c3ed" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>rr::CompiledModelGenerator::CompiledModelGenerator</definition>
+        <argsstring>()</argsstring>
+        <name>CompiledModelGenerator</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledModelGenerator.h" line="34" column="5" bodyfile="c/rrCompiledModelGenerator.cpp" bodystart="36" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1CompiledModelGenerator_1a8a0d39a1cac8f7f9eb81933543ef13dd" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>rr::CompiledModelGenerator::~CompiledModelGenerator</definition>
+        <argsstring>()</argsstring>
+        <name>~CompiledModelGenerator</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledModelGenerator.h" line="35" column="16" bodyfile="c/rrCompiledModelGenerator.cpp" bodystart="45" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1CompiledModelGenerator_1abd98244a057a721ee0d800050fe57ba5" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>string</type>
+        <definition>string rr::CompiledModelGenerator::substituteTerms</definition>
+        <argsstring>(const string &amp;reactionName, const string &amp;inputEquation, bool bFixAmounts)</argsstring>
+        <name>substituteTerms</name>
+        <param>
+          <type>const string &amp;</type>
+          <declname>reactionName</declname>
+        </param>
+        <param>
+          <type>const string &amp;</type>
+          <declname>inputEquation</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>bFixAmounts</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledModelGenerator.h" line="37" column="41" bodyfile="c/rrCompiledModelGenerator.cpp" bodystart="52" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1CompiledModelGenerator_1a3cc060e27371dc7835462c46e9c0ec15" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>string</type>
+        <definition>string rr::CompiledModelGenerator::substituteTerms</definition>
+        <argsstring>(const int &amp;numReactions, const string &amp;reactionName, const string &amp;equation)</argsstring>
+        <name>substituteTerms</name>
+        <param>
+          <type>const int &amp;</type>
+          <declname>numReactions</declname>
+        </param>
+        <param>
+          <type>const string &amp;</type>
+          <declname>reactionName</declname>
+        </param>
+        <param>
+          <type>const string &amp;</type>
+          <declname>equation</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledModelGenerator.h" line="38" column="41" bodyfile="c/rrCompiledModelGenerator.cpp" bodystart="47" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1CompiledModelGenerator_1a48ebead7875af1c44056dd7dc9d6bb8c" prot="protected" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>string</type>
+        <definition>virtual string rr::CompiledModelGenerator::convertUserFunctionExpression</definition>
+        <argsstring>(const string &amp;equation)=0</argsstring>
+        <name>convertUserFunctionExpression</name>
+        <reimplementedby refid="classrr_1_1CModelGenerator_1afd5e080f04cf75959af0f7cdf6b40c1b">convertUserFunctionExpression</reimplementedby>
+        <param>
+          <type>const string &amp;</type>
+          <declname>equation</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledModelGenerator.h" line="40" column="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1CompiledModelGenerator_1acf7a75f136c8482de87126e404c08e5c" prot="protected" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void rr::CompiledModelGenerator::substituteEquation</definition>
+        <argsstring>(const string &amp;reactionName, Scanner &amp;s, CodeBuilder &amp;sb)=0</argsstring>
+        <name>substituteEquation</name>
+        <reimplementedby refid="classrr_1_1CModelGenerator_1a2898c4f6890098f77379a55d64830c36">substituteEquation</reimplementedby>
+        <param>
+          <type>const string &amp;</type>
+          <declname>reactionName</declname>
+        </param>
+        <param>
+          <type><ref refid="classrr_1_1Scanner" kindref="compound">Scanner</ref> &amp;</type>
+          <declname>s</declname>
+        </param>
+        <param>
+          <type><ref refid="classrr_1_1CodeBuilder" kindref="compound">CodeBuilder</ref> &amp;</type>
+          <declname>sb</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledModelGenerator.h" line="41" column="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1CompiledModelGenerator_1a6fdc514bfc3b382a7c022e65f82561cb" prot="protected" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void rr::CompiledModelGenerator::substituteWords</definition>
+        <argsstring>(const string &amp;reactionName, bool bFixAmounts, Scanner &amp;s, CodeBuilder &amp;sb)=0</argsstring>
+        <name>substituteWords</name>
+        <reimplementedby refid="classrr_1_1CModelGenerator_1a2db53476a50240610c352005848ab118">substituteWords</reimplementedby>
+        <param>
+          <type>const string &amp;</type>
+          <declname>reactionName</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>bFixAmounts</declname>
+        </param>
+        <param>
+          <type><ref refid="classrr_1_1Scanner" kindref="compound">Scanner</ref> &amp;</type>
+          <declname>s</declname>
+        </param>
+        <param>
+          <type><ref refid="classrr_1_1CodeBuilder" kindref="compound">CodeBuilder</ref> &amp;</type>
+          <declname>sb</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledModelGenerator.h" line="42" column="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1CompiledModelGenerator_1ab130813db5c793df5d1f38f83a2b7b0f" prot="protected" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void rr::CompiledModelGenerator::substituteToken</definition>
+        <argsstring>(const string &amp;reactionName, bool bFixAmounts, Scanner &amp;s, CodeBuilder &amp;sb)=0</argsstring>
+        <name>substituteToken</name>
+        <reimplementedby refid="classrr_1_1CModelGenerator_1a440e2a6fa846fc53d9b3e113f9750b94">substituteToken</reimplementedby>
+        <param>
+          <type>const string &amp;</type>
+          <declname>reactionName</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>bFixAmounts</declname>
+        </param>
+        <param>
+          <type><ref refid="classrr_1_1Scanner" kindref="compound">Scanner</ref> &amp;</type>
+          <declname>s</declname>
+        </param>
+        <param>
+          <type><ref refid="classrr_1_1CodeBuilder" kindref="compound">CodeBuilder</ref> &amp;</type>
+          <declname>sb</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledModelGenerator.h" line="43" column="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1CompiledModelGenerator_1a05b33699c155d2001738bd0e10a34084" prot="protected" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>string</type>
+        <definition>virtual string rr::CompiledModelGenerator::findSymbol</definition>
+        <argsstring>(const string &amp;varName)=0</argsstring>
+        <name>findSymbol</name>
+        <reimplementedby refid="classrr_1_1CModelGenerator_1a3d1ed35c8df988c936fead2578c31a42">findSymbol</reimplementedby>
+        <param>
+          <type>const string &amp;</type>
+          <declname>varName</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledModelGenerator.h" line="44" column="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1CompiledModelGenerator_1a2be35b02336535290c544d76af317bcf" prot="protected" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void rr::CompiledModelGenerator::writeComputeAllRatesOfChange</definition>
+        <argsstring>(CodeBuilder &amp;sb, const int &amp;numIndependentSpecies, const int &amp;numDependentSpecies, ls::DoubleMatrix &amp;L0)=0</argsstring>
+        <name>writeComputeAllRatesOfChange</name>
+        <param>
+          <type><ref refid="classrr_1_1CodeBuilder" kindref="compound">CodeBuilder</ref> &amp;</type>
+          <declname>sb</declname>
+        </param>
+        <param>
+          <type>const int &amp;</type>
+          <declname>numIndependentSpecies</declname>
+        </param>
+        <param>
+          <type>const int &amp;</type>
+          <declname>numDependentSpecies</declname>
+        </param>
+        <param>
+          <type>ls::DoubleMatrix &amp;</type>
+          <declname>L0</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledModelGenerator.h" line="45" column="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1CompiledModelGenerator_1a7574c7fea2bd30e11bd11c260e925987" prot="protected" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void rr::CompiledModelGenerator::writeComputeConservedTotals</definition>
+        <argsstring>(CodeBuilder &amp;sb, const int &amp;numFloatingSpecies, const int &amp;numDependentSpecies)=0</argsstring>
+        <name>writeComputeConservedTotals</name>
+        <reimplementedby refid="classrr_1_1CModelGenerator_1a25f27c7ae55177925122ef6fbf1e97e2">writeComputeConservedTotals</reimplementedby>
+        <param>
+          <type><ref refid="classrr_1_1CodeBuilder" kindref="compound">CodeBuilder</ref> &amp;</type>
+          <declname>sb</declname>
+        </param>
+        <param>
+          <type>const int &amp;</type>
+          <declname>numFloatingSpecies</declname>
+        </param>
+        <param>
+          <type>const int &amp;</type>
+          <declname>numDependentSpecies</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledModelGenerator.h" line="48" column="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1CompiledModelGenerator_1ab487406bda86417c307862f1b3adc2c4" prot="protected" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void rr::CompiledModelGenerator::writeUpdateDependentSpecies</definition>
+        <argsstring>(CodeBuilder &amp;sb, const int &amp;numIndependentSpecies, const int &amp;numDependentSpecies, ls::DoubleMatrix &amp;L0)=0</argsstring>
+        <name>writeUpdateDependentSpecies</name>
+        <param>
+          <type><ref refid="classrr_1_1CodeBuilder" kindref="compound">CodeBuilder</ref> &amp;</type>
+          <declname>sb</declname>
+        </param>
+        <param>
+          <type>const int &amp;</type>
+          <declname>numIndependentSpecies</declname>
+        </param>
+        <param>
+          <type>const int &amp;</type>
+          <declname>numDependentSpecies</declname>
+        </param>
+        <param>
+          <type>ls::DoubleMatrix &amp;</type>
+          <declname>L0</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledModelGenerator.h" line="51" column="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1CompiledModelGenerator_1a7dd38c5c2c487cf7d081040471a1e516" prot="protected" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void rr::CompiledModelGenerator::writeUserDefinedFunctions</definition>
+        <argsstring>(CodeBuilder &amp;sb)=0</argsstring>
+        <name>writeUserDefinedFunctions</name>
+        <reimplementedby refid="classrr_1_1CModelGenerator_1a7ac36662ed5955b92207b8e5fcea2cc9">writeUserDefinedFunctions</reimplementedby>
+        <param>
+          <type><ref refid="classrr_1_1CodeBuilder" kindref="compound">CodeBuilder</ref> &amp;</type>
+          <declname>sb</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledModelGenerator.h" line="54" column="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1CompiledModelGenerator_1aac082f76339145c6aa20bb275d57b2f6" prot="protected" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void rr::CompiledModelGenerator::writeResetEvents</definition>
+        <argsstring>(CodeBuilder &amp;sb, const int &amp;numEvents)=0</argsstring>
+        <name>writeResetEvents</name>
+        <reimplementedby refid="classrr_1_1CModelGenerator_1af2cff64b274e3e4f96dfa5d237b0a1a9">writeResetEvents</reimplementedby>
+        <param>
+          <type><ref refid="classrr_1_1CodeBuilder" kindref="compound">CodeBuilder</ref> &amp;</type>
+          <declname>sb</declname>
+        </param>
+        <param>
+          <type>const int &amp;</type>
+          <declname>numEvents</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledModelGenerator.h" line="55" column="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1CompiledModelGenerator_1a0b7bcf169af7f23f25e1d522dbf4e474" prot="protected" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void rr::CompiledModelGenerator::writeSetConcentration</definition>
+        <argsstring>(CodeBuilder &amp;sb)=0</argsstring>
+        <name>writeSetConcentration</name>
+        <reimplementedby refid="classrr_1_1CModelGenerator_1a419bd7c6e71dcca3bcedac846cdb9010">writeSetConcentration</reimplementedby>
+        <param>
+          <type><ref refid="classrr_1_1CodeBuilder" kindref="compound">CodeBuilder</ref> &amp;</type>
+          <declname>sb</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledModelGenerator.h" line="56" column="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1CompiledModelGenerator_1a4309e859892e8ea1c21edb4e3507add1" prot="protected" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void rr::CompiledModelGenerator::writeGetConcentration</definition>
+        <argsstring>(CodeBuilder &amp;sb)=0</argsstring>
+        <name>writeGetConcentration</name>
+        <reimplementedby refid="classrr_1_1CModelGenerator_1ac3def860efdaddce98a2d8e851c7b7f5">writeGetConcentration</reimplementedby>
+        <param>
+          <type><ref refid="classrr_1_1CodeBuilder" kindref="compound">CodeBuilder</ref> &amp;</type>
+          <declname>sb</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledModelGenerator.h" line="57" column="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1CompiledModelGenerator_1af2b05c0636fed729b76b0d069e524da3" prot="protected" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void rr::CompiledModelGenerator::writeConvertToAmounts</definition>
+        <argsstring>(CodeBuilder &amp;sb)=0</argsstring>
+        <name>writeConvertToAmounts</name>
+        <reimplementedby refid="classrr_1_1CModelGenerator_1a96f805ae9c0bfdbbabe7f5c49e3b64c8">writeConvertToAmounts</reimplementedby>
+        <param>
+          <type><ref refid="classrr_1_1CodeBuilder" kindref="compound">CodeBuilder</ref> &amp;</type>
+          <declname>sb</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledModelGenerator.h" line="58" column="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1CompiledModelGenerator_1aaf272e2e6b30ca7d5f2aaf24b31575fe" prot="protected" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void rr::CompiledModelGenerator::writeConvertToConcentrations</definition>
+        <argsstring>(CodeBuilder &amp;sb)=0</argsstring>
+        <name>writeConvertToConcentrations</name>
+        <reimplementedby refid="classrr_1_1CModelGenerator_1a3c4adef7181079d076482fa1b2c2649c">writeConvertToConcentrations</reimplementedby>
+        <param>
+          <type><ref refid="classrr_1_1CodeBuilder" kindref="compound">CodeBuilder</ref> &amp;</type>
+          <declname>sb</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledModelGenerator.h" line="59" column="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1CompiledModelGenerator_1aa44eec2bf385037245bdb0e0d068923c" prot="protected" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void rr::CompiledModelGenerator::writeProperties</definition>
+        <argsstring>(CodeBuilder &amp;sb)=0</argsstring>
+        <name>writeProperties</name>
+        <reimplementedby refid="classrr_1_1CModelGenerator_1adb815adcc488c88dd8344f38757b7583">writeProperties</reimplementedby>
+        <param>
+          <type><ref refid="classrr_1_1CodeBuilder" kindref="compound">CodeBuilder</ref> &amp;</type>
+          <declname>sb</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledModelGenerator.h" line="60" column="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1CompiledModelGenerator_1adda5594223e404f41f412c552ebda903" prot="protected" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void rr::CompiledModelGenerator::writeAccessors</definition>
+        <argsstring>(CodeBuilder &amp;sb)=0</argsstring>
+        <name>writeAccessors</name>
+        <reimplementedby refid="classrr_1_1CModelGenerator_1ad7f67f8b36645aa4a45efa2b070fdee5">writeAccessors</reimplementedby>
+        <param>
+          <type><ref refid="classrr_1_1CodeBuilder" kindref="compound">CodeBuilder</ref> &amp;</type>
+          <declname>sb</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledModelGenerator.h" line="61" column="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1CompiledModelGenerator_1ac76213071761d3351f516b7736600187" prot="protected" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void rr::CompiledModelGenerator::writeOutVariables</definition>
+        <argsstring>(CodeBuilder &amp;sb)=0</argsstring>
+        <name>writeOutVariables</name>
+        <reimplementedby refid="classrr_1_1CModelGenerator_1ad422de27ae0f1bb98b3fac4979ff1d0c">writeOutVariables</reimplementedby>
+        <param>
+          <type><ref refid="classrr_1_1CodeBuilder" kindref="compound">CodeBuilder</ref> &amp;</type>
+          <declname>sb</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledModelGenerator.h" line="62" column="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1CompiledModelGenerator_1a7482e84ec6d33a486678e4fdc016a77e" prot="protected" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void rr::CompiledModelGenerator::writeClassHeader</definition>
+        <argsstring>(CodeBuilder &amp;sb)=0</argsstring>
+        <name>writeClassHeader</name>
+        <reimplementedby refid="classrr_1_1CModelGenerator_1a438c961e2ccc982f70add0042dfa5d4a">writeClassHeader</reimplementedby>
+        <param>
+          <type><ref refid="classrr_1_1CodeBuilder" kindref="compound">CodeBuilder</ref> &amp;</type>
+          <declname>sb</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledModelGenerator.h" line="63" column="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1CompiledModelGenerator_1a4973b138fe795329171c5ae5eddbaa37" prot="protected" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void rr::CompiledModelGenerator::writeTestConstraints</definition>
+        <argsstring>(CodeBuilder &amp;sb)=0</argsstring>
+        <name>writeTestConstraints</name>
+        <reimplementedby refid="classrr_1_1CModelGenerator_1aa5e0e8cf7e7d5585ac2ad50b0178a9ce">writeTestConstraints</reimplementedby>
+        <param>
+          <type><ref refid="classrr_1_1CodeBuilder" kindref="compound">CodeBuilder</ref> &amp;</type>
+          <declname>sb</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledModelGenerator.h" line="64" column="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1CompiledModelGenerator_1a21ddc6dd30c7f26f9e69b8a552ff7931" prot="protected" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void rr::CompiledModelGenerator::writeEvalInitialAssignments</definition>
+        <argsstring>(CodeBuilder &amp;sb, const int &amp;numReactions)=0</argsstring>
+        <name>writeEvalInitialAssignments</name>
+        <reimplementedby refid="classrr_1_1CModelGenerator_1a6a987a5b2c6d9d96bba717cb799b2590">writeEvalInitialAssignments</reimplementedby>
+        <param>
+          <type><ref refid="classrr_1_1CodeBuilder" kindref="compound">CodeBuilder</ref> &amp;</type>
+          <declname>sb</declname>
+        </param>
+        <param>
+          <type>const int &amp;</type>
+          <declname>numReactions</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledModelGenerator.h" line="65" column="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1CompiledModelGenerator_1aa35e6523a75b19a1a7e53783d63df16d" prot="protected" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>int</type>
+        <definition>virtual int rr::CompiledModelGenerator::writeComputeRules</definition>
+        <argsstring>(CodeBuilder &amp;sb, const int &amp;numReactions)=0</argsstring>
+        <name>writeComputeRules</name>
+        <reimplementedby refid="classrr_1_1CModelGenerator_1a54f7296aa81ec8d507d294f00762a94d">writeComputeRules</reimplementedby>
+        <param>
+          <type><ref refid="classrr_1_1CodeBuilder" kindref="compound">CodeBuilder</ref> &amp;</type>
+          <declname>sb</declname>
+        </param>
+        <param>
+          <type>const int &amp;</type>
+          <declname>numReactions</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledModelGenerator.h" line="66" column="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1CompiledModelGenerator_1a1c76c911be10607a23c502ad75a4be39" prot="protected" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void rr::CompiledModelGenerator::writeComputeReactionRates</definition>
+        <argsstring>(CodeBuilder &amp;sb, const int &amp;numReactions)=0</argsstring>
+        <name>writeComputeReactionRates</name>
+        <reimplementedby refid="classrr_1_1CModelGenerator_1a2ecd298a0590bc4a627927dfe2a6c764">writeComputeReactionRates</reimplementedby>
+        <param>
+          <type><ref refid="classrr_1_1CodeBuilder" kindref="compound">CodeBuilder</ref> &amp;</type>
+          <declname>sb</declname>
+        </param>
+        <param>
+          <type>const int &amp;</type>
+          <declname>numReactions</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledModelGenerator.h" line="67" column="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1CompiledModelGenerator_1aa0f6df64e23106a9c459c3f5cee5a594" prot="protected" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void rr::CompiledModelGenerator::writeEvalEvents</definition>
+        <argsstring>(CodeBuilder &amp;sb, const int &amp;numEvents, const int &amp;numFloatingSpecies)=0</argsstring>
+        <name>writeEvalEvents</name>
+        <reimplementedby refid="classrr_1_1CModelGenerator_1ac3ffbba366e5e0227dd4dd1163cb2e59">writeEvalEvents</reimplementedby>
+        <param>
+          <type><ref refid="classrr_1_1CodeBuilder" kindref="compound">CodeBuilder</ref> &amp;</type>
+          <declname>sb</declname>
+        </param>
+        <param>
+          <type>const int &amp;</type>
+          <declname>numEvents</declname>
+        </param>
+        <param>
+          <type>const int &amp;</type>
+          <declname>numFloatingSpecies</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledModelGenerator.h" line="68" column="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1CompiledModelGenerator_1a43ed8efbedeb6d2009f8c6bb769d53d6" prot="protected" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void rr::CompiledModelGenerator::writeEvalModel</definition>
+        <argsstring>(CodeBuilder &amp;sb, const int &amp;numReactions, const int &amp;numIndependentSpecies, const int &amp;numFloatingSpecies, const int &amp;numOfRules)=0</argsstring>
+        <name>writeEvalModel</name>
+        <reimplementedby refid="classrr_1_1CModelGenerator_1a2bbf6198f45838bc787bf337e4f72215">writeEvalModel</reimplementedby>
+        <param>
+          <type><ref refid="classrr_1_1CodeBuilder" kindref="compound">CodeBuilder</ref> &amp;</type>
+          <declname>sb</declname>
+        </param>
+        <param>
+          <type>const int &amp;</type>
+          <declname>numReactions</declname>
+        </param>
+        <param>
+          <type>const int &amp;</type>
+          <declname>numIndependentSpecies</declname>
+        </param>
+        <param>
+          <type>const int &amp;</type>
+          <declname>numFloatingSpecies</declname>
+        </param>
+        <param>
+          <type>const int &amp;</type>
+          <declname>numOfRules</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledModelGenerator.h" line="69" column="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1CompiledModelGenerator_1a5d2f268d7aa8dd15031be226d0d4ee08" prot="protected" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void rr::CompiledModelGenerator::writeEventAssignments</definition>
+        <argsstring>(CodeBuilder &amp;sb, const int &amp;numReactions, const int &amp;numEvents)=0</argsstring>
+        <name>writeEventAssignments</name>
+        <reimplementedby refid="classrr_1_1CModelGenerator_1a1176724f1f2f2e3fd6331f7a61e16624">writeEventAssignments</reimplementedby>
+        <param>
+          <type><ref refid="classrr_1_1CodeBuilder" kindref="compound">CodeBuilder</ref> &amp;</type>
+          <declname>sb</declname>
+        </param>
+        <param>
+          <type>const int &amp;</type>
+          <declname>numReactions</declname>
+        </param>
+        <param>
+          <type>const int &amp;</type>
+          <declname>numEvents</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledModelGenerator.h" line="70" column="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1CompiledModelGenerator_1a33a94c2f88d626c0ce8c0016aa192685" prot="protected" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void rr::CompiledModelGenerator::writeSetParameterValues</definition>
+        <argsstring>(CodeBuilder &amp;sb, const int &amp;numReactions)=0</argsstring>
+        <name>writeSetParameterValues</name>
+        <reimplementedby refid="classrr_1_1CModelGenerator_1aeebf25492388e79854a78951c570ee50">writeSetParameterValues</reimplementedby>
+        <param>
+          <type><ref refid="classrr_1_1CodeBuilder" kindref="compound">CodeBuilder</ref> &amp;</type>
+          <declname>sb</declname>
+        </param>
+        <param>
+          <type>const int &amp;</type>
+          <declname>numReactions</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledModelGenerator.h" line="71" column="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1CompiledModelGenerator_1a0b1dc554056388c59b3315620712549f" prot="protected" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void rr::CompiledModelGenerator::writeSetCompartmentVolumes</definition>
+        <argsstring>(CodeBuilder &amp;sb)=0</argsstring>
+        <name>writeSetCompartmentVolumes</name>
+        <reimplementedby refid="classrr_1_1CModelGenerator_1a735c55bc1c82c62b427c5b5327337595">writeSetCompartmentVolumes</reimplementedby>
+        <param>
+          <type><ref refid="classrr_1_1CodeBuilder" kindref="compound">CodeBuilder</ref> &amp;</type>
+          <declname>sb</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledModelGenerator.h" line="72" column="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1CompiledModelGenerator_1a7181d06e66c4f42b07741bb008bee6a4" prot="protected" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void rr::CompiledModelGenerator::writeSetBoundaryConditions</definition>
+        <argsstring>(CodeBuilder &amp;sb)=0</argsstring>
+        <name>writeSetBoundaryConditions</name>
+        <reimplementedby refid="classrr_1_1CModelGenerator_1a5fd8e060e80d575ff6af35ce36c3f19e">writeSetBoundaryConditions</reimplementedby>
+        <param>
+          <type><ref refid="classrr_1_1CodeBuilder" kindref="compound">CodeBuilder</ref> &amp;</type>
+          <declname>sb</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledModelGenerator.h" line="73" column="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1CompiledModelGenerator_1a6a80d2218a167797574086eba00bc52e" prot="protected" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void rr::CompiledModelGenerator::writeSetInitialConditions</definition>
+        <argsstring>(CodeBuilder &amp;sb, const int &amp;numFloatingSpecies)=0</argsstring>
+        <name>writeSetInitialConditions</name>
+        <reimplementedby refid="classrr_1_1CModelGenerator_1a1969434759671f515c749e227b51fcf1">writeSetInitialConditions</reimplementedby>
+        <param>
+          <type><ref refid="classrr_1_1CodeBuilder" kindref="compound">CodeBuilder</ref> &amp;</type>
+          <declname>sb</declname>
+        </param>
+        <param>
+          <type>const int &amp;</type>
+          <declname>numFloatingSpecies</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledModelGenerator.h" line="74" column="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1CompiledModelGenerator_1a41591dbc45c36f7857594be812370a8b" prot="protected" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>string</type>
+        <definition>virtual string rr::CompiledModelGenerator::convertCompartmentToC</definition>
+        <argsstring>(const string &amp;compartmentName)=0</argsstring>
+        <name>convertCompartmentToC</name>
+        <reimplementedby refid="classrr_1_1CModelGenerator_1a06eaae84299f214a0dda8757bceeb86f">convertCompartmentToC</reimplementedby>
+        <param>
+          <type>const string &amp;</type>
+          <declname>compartmentName</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledModelGenerator.h" line="75" column="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1CompiledModelGenerator_1aa25ad9590f682f8a69e4b5ce901c412e" prot="protected" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>string</type>
+        <definition>virtual string rr::CompiledModelGenerator::convertSpeciesToBc</definition>
+        <argsstring>(const string &amp;speciesName)=0</argsstring>
+        <name>convertSpeciesToBc</name>
+        <reimplementedby refid="classrr_1_1CModelGenerator_1a259c5e99b01e019d963c5ee8f7fe1e3d">convertSpeciesToBc</reimplementedby>
+        <param>
+          <type>const string &amp;</type>
+          <declname>speciesName</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledModelGenerator.h" line="76" column="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1CompiledModelGenerator_1a22632a8fab81181365100e062313af7f" prot="protected" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>string</type>
+        <definition>virtual string rr::CompiledModelGenerator::convertSpeciesToY</definition>
+        <argsstring>(const string &amp;speciesName)=0</argsstring>
+        <name>convertSpeciesToY</name>
+        <reimplementedby refid="classrr_1_1CModelGenerator_1a9cf4ffcbd2e6f8e27561863c2f6bfb7a">convertSpeciesToY</reimplementedby>
+        <param>
+          <type>const string &amp;</type>
+          <declname>speciesName</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledModelGenerator.h" line="77" column="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1CompiledModelGenerator_1a7f3f722869fbbdcd7363b4a1b1b700ae" prot="protected" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>string</type>
+        <definition>virtual string rr::CompiledModelGenerator::convertSymbolToC</definition>
+        <argsstring>(const string &amp;compartmentName)=0</argsstring>
+        <name>convertSymbolToC</name>
+        <reimplementedby refid="classrr_1_1CModelGenerator_1a014ce484e0373eefee09dee0939e2444">convertSymbolToC</reimplementedby>
+        <param>
+          <type>const string &amp;</type>
+          <declname>compartmentName</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledModelGenerator.h" line="78" column="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1CompiledModelGenerator_1a049917c1e071adb6f75cee81a0cc7722" prot="protected" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>string</type>
+        <definition>virtual string rr::CompiledModelGenerator::convertSymbolToGP</definition>
+        <argsstring>(const string &amp;parameterName)=0</argsstring>
+        <name>convertSymbolToGP</name>
+        <reimplementedby refid="classrr_1_1CModelGenerator_1a771a0840d142ca304f03ceaf7c6a9c40">convertSymbolToGP</reimplementedby>
+        <param>
+          <type>const string &amp;</type>
+          <declname>parameterName</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledModelGenerator.h" line="79" column="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1CompiledModelGenerator_1a23c60a02af3670309b5ec6e490014b08" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void rr::CompiledModelGenerator::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledModelGenerator.h" line="81" column="41" bodyfile="c/rrCompiledModelGenerator.cpp" bodystart="84" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1CompiledModelGenerator_1ace639f4abdb8f6eea7c0e945a678ea59" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int rr::CompiledModelGenerator::numAdditionalRates</definition>
+        <argsstring>()</argsstring>
+        <name>numAdditionalRates</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledModelGenerator.h" line="83" column="41" bodyfile="c/rrCompiledModelGenerator.cpp" bodystart="90" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1CompiledModelGenerator_1a881aba4028f09e3bf59be8c355cba632" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>string</type>
+        <definition>string rr::CompiledModelGenerator::getInfo</definition>
+        <argsstring>()</argsstring>
+        <name>getInfo</name>
+        <briefdescription>
+<para>get various information about the model in a user displayable format. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledModelGenerator.h" line="108" column="41" bodyfile="c/rrCompiledModelGenerator.cpp" bodystart="95" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1CompiledModelGenerator_1a26729d1790a20eaae1d68e13849b1b67" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>ls::DoubleMatrix *</type>
+        <definition>ls::DoubleMatrix * rr::CompiledModelGenerator::initializeL0</definition>
+        <argsstring>(int &amp;nrRows, int &amp;nrCols)</argsstring>
+        <name>initializeL0</name>
+        <param>
+          <type>int &amp;</type>
+          <declname>nrRows</declname>
+        </param>
+        <param>
+          <type>int &amp;</type>
+          <declname>nrCols</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledModelGenerator.h" line="116" column="40" bodyfile="c/rrCompiledModelGenerator.cpp" bodystart="187" bodyend="213"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1CompiledModelGenerator_1ab1f406a344204df66cd9b11ebfe456e5" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool rr::CompiledModelGenerator::expressionContainsSymbol</definition>
+        <argsstring>(ASTNode *ast, const string &amp;symbol)</argsstring>
+        <name>expressionContainsSymbol</name>
+        <param>
+          <type>ASTNode *</type>
+          <declname>ast</declname>
+        </param>
+        <param>
+          <type>const string &amp;</type>
+          <declname>symbol</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledModelGenerator.h" line="117" column="41" bodyfile="c/rrCompiledModelGenerator.cpp" bodystart="215" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1CompiledModelGenerator_1aae54423f611bee69b327019ba7d343cb" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool rr::CompiledModelGenerator::expressionContainsSymbol</definition>
+        <argsstring>(const string &amp;expression, const string &amp;symbol)</argsstring>
+        <name>expressionContainsSymbol</name>
+        <param>
+          <type>const string &amp;</type>
+          <declname>expression</declname>
+        </param>
+        <param>
+          <type>const string &amp;</type>
+          <declname>symbol</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledModelGenerator.h" line="118" column="41" bodyfile="c/rrCompiledModelGenerator.cpp" bodystart="238" bodyend="246"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1CompiledModelGenerator_1af8f56c134cf542be869f28aee448e493" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="classrr_1_1Symbol" kindref="compound">Symbol</ref> *</type>
+        <definition>const Symbol * rr::CompiledModelGenerator::getSpecies</definition>
+        <argsstring>(const string &amp;id)</argsstring>
+        <name>getSpecies</name>
+        <param>
+          <type>const string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledModelGenerator.h" line="119" column="40" bodyfile="c/rrCompiledModelGenerator.cpp" bodystart="248" bodyend="261"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1CompiledModelGenerator_1ad6a28a2aaa117e3597ff73c40e109aea" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int rr::CompiledModelGenerator::readGlobalParameters</definition>
+        <argsstring>()</argsstring>
+        <name>readGlobalParameters</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledModelGenerator.h" line="120" column="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1CompiledModelGenerator_1a0ecb08d85b193485adce0e4e3e0a1d9f" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void rr::CompiledModelGenerator::readLocalParameters</definition>
+        <argsstring>(const int &amp;numReactions, vector&lt; int &gt; &amp;localParameterDimensions, int &amp;totalLocalParmeters)</argsstring>
+        <name>readLocalParameters</name>
+        <param>
+          <type>const int &amp;</type>
+          <declname>numReactions</declname>
+        </param>
+        <param>
+          <type>vector&lt; int &gt; &amp;</type>
+          <declname>localParameterDimensions</declname>
+        </param>
+        <param>
+          <type>int &amp;</type>
+          <declname>totalLocalParmeters</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledModelGenerator.h" line="121" column="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1CompiledModelGenerator_1a4948f3ed624ae2ec84db980b8b309970" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int rr::CompiledModelGenerator::readCompartments</definition>
+        <argsstring>()</argsstring>
+        <name>readCompartments</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledModelGenerator.h" line="122" column="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1CompiledModelGenerator_1a07ed5787c6566e411dae168b5a4b750d" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>string</type>
+        <definition>string rr::CompiledModelGenerator::writeDouble</definition>
+        <argsstring>(const double &amp;value, const string &amp;format=&quot;%G&quot;)</argsstring>
+        <name>writeDouble</name>
+        <param>
+          <type>const double &amp;</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>const string &amp;</type>
+          <declname>format</declname>
+          <defval>&quot;%G&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledModelGenerator.h" line="124" column="41" bodyfile="c/rrCompiledModelGenerator.cpp" bodystart="263" bodyend="266"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="classrr_1_1CompiledModelGenerator_1ab26b2d6a05b3432f1b07b8bcdd4aa791" prot="protected" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>ASTNode *</type>
+        <definition>ASTNode * rr::CompiledModelGenerator::cleanEquation</definition>
+        <argsstring>(ASTNode *ast)</argsstring>
+        <name>cleanEquation</name>
+        <param>
+          <type>ASTNode *</type>
+          <declname>ast</declname>
+        </param>
+        <briefdescription>
+<para>creates a new AST node </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledModelGenerator.h" line="113" column="40" bodyfile="c/rrCompiledModelGenerator.cpp" bodystart="103" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1CompiledModelGenerator_1a18e8f63c338062e02f8eca01216a907c" prot="protected" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>string</type>
+        <definition>string rr::CompiledModelGenerator::cleanEquation</definition>
+        <argsstring>(const string &amp;equation)</argsstring>
+        <name>cleanEquation</name>
+        <param>
+          <type>const string &amp;</type>
+          <declname>equation</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrCompiledModelGenerator.h" line="114" column="41" bodyfile="c/rrCompiledModelGenerator.cpp" bodystart="136" bodyend="185"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Both compiled model generators (C and CSharp) share a lot of functionality, so implement that here. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>rr::CModelGenerator</label>
+        <link refid="classrr_1_1CModelGenerator"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>rr::CompiledModelGenerator</label>
+        <link refid="classrr_1_1CompiledModelGenerator"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="10">
+        <label>rr::SymbolList</label>
+        <link refid="classrr_1_1SymbolList"/>
+        <childnode refid="11" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>vector&lt; string &gt;</label>
+      </node>
+      <node id="6">
+        <label>rr::ModelSymbols</label>
+        <link refid="classrr_1_1ModelSymbols"/>
+        <childnode refid="7" relation="usage">
+          <edgelabel>mLocalParameterList</edgelabel>
+        </childnode>
+        <childnode refid="2" relation="usage">
+          <edgelabel>mDependentSpeciesList</edgelabel>
+          <edgelabel>mFunctionNames</edgelabel>
+          <edgelabel>mFunctionParameters</edgelabel>
+          <edgelabel>mIndependentSpeciesList</edgelabel>
+        </childnode>
+        <childnode refid="8" relation="usage">
+          <edgelabel>mRateRules</edgelabel>
+        </childnode>
+        <childnode refid="10" relation="usage">
+          <edgelabel>mBoundarySpeciesList</edgelabel>
+          <edgelabel>mCompartmentList</edgelabel>
+          <edgelabel>mConservationList</edgelabel>
+          <edgelabel>mFloatingSpeciesConcentrationList</edgelabel>
+          <edgelabel>mGlobalParameterList</edgelabel>
+          <edgelabel>mModifiableSpeciesReferenceList</edgelabel>
+          <edgelabel>mReactionList</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>mDoubleFormat</edgelabel>
+          <edgelabel>mModelName</edgelabel>
+        </childnode>
+        <childnode refid="12" relation="usage">
+          <edgelabel>mLocalParameterDimensions</edgelabel>
+        </childnode>
+      </node>
+      <node id="7">
+        <label>vector&lt; rr::SymbolList &gt;</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>rr::IntStringHashTable</label>
+        <link refid="classrr_1_1IntStringHashTable"/>
+        <childnode refid="9" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>rr::NOMSupport</label>
+        <link refid="classrr_1_1NOMSupport"/>
+      </node>
+      <node id="12">
+        <label>vector&lt; int &gt;</label>
+      </node>
+      <node id="11">
+        <label>std::vector&lt; Symbol &gt;</label>
+      </node>
+      <node id="9">
+        <label>std::map&lt; int, string &gt;</label>
+      </node>
+      <node id="2">
+        <label>rr::StringList</label>
+        <link refid="classrr_1_1StringList"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>mLI</edgelabel>
+          <edgelabel>mStrings</edgelabel>
+        </childnode>
+      </node>
+      <node id="1">
+        <label>rr::CompiledModelGenerator</label>
+        <link refid="classrr_1_1CompiledModelGenerator"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>mWarnings</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>mNOM</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>mFixAmountCompartments</edgelabel>
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>ms</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="c/rrCompiledModelGenerator.h" line="31" column="1" bodyfile="c/rrCompiledModelGenerator.h" bodystart="32" bodyend="134"/>
+    <listofallmembers>
+      <member refid="classrr_1_1CompiledModelGenerator_1ab26b2d6a05b3432f1b07b8bcdd4aa791" prot="protected" virt="non-virtual"><scope>rr::CompiledModelGenerator</scope><name>cleanEquation</name></member>
+      <member refid="classrr_1_1CompiledModelGenerator_1a18e8f63c338062e02f8eca01216a907c" prot="protected" virt="non-virtual"><scope>rr::CompiledModelGenerator</scope><name>cleanEquation</name></member>
+      <member refid="classrr_1_1CompiledModelGenerator_1a5ffa64213446af781e6460a92c86c3ed" prot="protected" virt="non-virtual"><scope>rr::CompiledModelGenerator</scope><name>CompiledModelGenerator</name></member>
+      <member refid="classrr_1_1CompiledModelGenerator_1a41591dbc45c36f7857594be812370a8b" prot="protected" virt="pure-virtual"><scope>rr::CompiledModelGenerator</scope><name>convertCompartmentToC</name></member>
+      <member refid="classrr_1_1CompiledModelGenerator_1aa25ad9590f682f8a69e4b5ce901c412e" prot="protected" virt="pure-virtual"><scope>rr::CompiledModelGenerator</scope><name>convertSpeciesToBc</name></member>
+      <member refid="classrr_1_1CompiledModelGenerator_1a22632a8fab81181365100e062313af7f" prot="protected" virt="pure-virtual"><scope>rr::CompiledModelGenerator</scope><name>convertSpeciesToY</name></member>
+      <member refid="classrr_1_1CompiledModelGenerator_1a7f3f722869fbbdcd7363b4a1b1b700ae" prot="protected" virt="pure-virtual"><scope>rr::CompiledModelGenerator</scope><name>convertSymbolToC</name></member>
+      <member refid="classrr_1_1CompiledModelGenerator_1a049917c1e071adb6f75cee81a0cc7722" prot="protected" virt="pure-virtual"><scope>rr::CompiledModelGenerator</scope><name>convertSymbolToGP</name></member>
+      <member refid="classrr_1_1CompiledModelGenerator_1a48ebead7875af1c44056dd7dc9d6bb8c" prot="protected" virt="pure-virtual"><scope>rr::CompiledModelGenerator</scope><name>convertUserFunctionExpression</name></member>
+      <member refid="classrr_1_1CompiledModelGenerator_1ab1f406a344204df66cd9b11ebfe456e5" prot="protected" virt="non-virtual"><scope>rr::CompiledModelGenerator</scope><name>expressionContainsSymbol</name></member>
+      <member refid="classrr_1_1CompiledModelGenerator_1aae54423f611bee69b327019ba7d343cb" prot="protected" virt="non-virtual"><scope>rr::CompiledModelGenerator</scope><name>expressionContainsSymbol</name></member>
+      <member refid="classrr_1_1CompiledModelGenerator_1a05b33699c155d2001738bd0e10a34084" prot="protected" virt="pure-virtual"><scope>rr::CompiledModelGenerator</scope><name>findSymbol</name></member>
+      <member refid="classrr_1_1CompiledModelGenerator_1a881aba4028f09e3bf59be8c355cba632" prot="protected" virt="virtual"><scope>rr::CompiledModelGenerator</scope><name>getInfo</name></member>
+      <member refid="classrr_1_1CompiledModelGenerator_1af8f56c134cf542be869f28aee448e493" prot="protected" virt="non-virtual"><scope>rr::CompiledModelGenerator</scope><name>getSpecies</name></member>
+      <member refid="classrr_1_1CompiledModelGenerator_1a26729d1790a20eaae1d68e13849b1b67" prot="protected" virt="non-virtual"><scope>rr::CompiledModelGenerator</scope><name>initializeL0</name></member>
+      <member refid="classrr_1_1CompiledModelGenerator_1a2d7614c0af0bd2bc86487f828a98e7ac" prot="protected" virt="non-virtual"><scope>rr::CompiledModelGenerator</scope><name>mComputeAndAssignConsevationLaws</name></member>
+      <member refid="classrr_1_1CompiledModelGenerator_1a1abb35dc53e805a7faef2bfa90411a10" prot="protected" virt="non-virtual"><scope>rr::CompiledModelGenerator</scope><name>mFixAmountCompartments</name></member>
+      <member refid="classrr_1_1CompiledModelGenerator_1af346298187993ac6d970c58f32a7af4f" prot="protected" virt="non-virtual"><scope>rr::CompiledModelGenerator</scope><name>mLibStruct</name></member>
+      <member refid="classrr_1_1CompiledModelGenerator_1a95eb17b0b46dc689ee4e1eb4d737c6f1" prot="protected" virt="non-virtual"><scope>rr::CompiledModelGenerator</scope><name>mNOM</name></member>
+      <member refid="classrr_1_1CompiledModelGenerator_1aae0da14da795acd4122229c1b306c262" prot="protected" virt="non-virtual"><scope>rr::CompiledModelGenerator</scope><name>ms</name></member>
+      <member refid="classrr_1_1CompiledModelGenerator_1ad21d16a2d15000f8225e0f21477a22ec" prot="protected" virt="non-virtual"><scope>rr::CompiledModelGenerator</scope><name>mWarnings</name></member>
+      <member refid="classrr_1_1CompiledModelGenerator_1ace639f4abdb8f6eea7c0e945a678ea59" prot="protected" virt="non-virtual"><scope>rr::CompiledModelGenerator</scope><name>numAdditionalRates</name></member>
+      <member refid="classrr_1_1CompiledModelGenerator_1a4948f3ed624ae2ec84db980b8b309970" prot="protected" virt="non-virtual"><scope>rr::CompiledModelGenerator</scope><name>readCompartments</name></member>
+      <member refid="classrr_1_1CompiledModelGenerator_1ad6a28a2aaa117e3597ff73c40e109aea" prot="protected" virt="non-virtual"><scope>rr::CompiledModelGenerator</scope><name>readGlobalParameters</name></member>
+      <member refid="classrr_1_1CompiledModelGenerator_1a0ecb08d85b193485adce0e4e3e0a1d9f" prot="protected" virt="non-virtual"><scope>rr::CompiledModelGenerator</scope><name>readLocalParameters</name></member>
+      <member refid="classrr_1_1CompiledModelGenerator_1a23c60a02af3670309b5ec6e490014b08" prot="protected" virt="non-virtual"><scope>rr::CompiledModelGenerator</scope><name>reset</name></member>
+      <member refid="classrr_1_1CompiledModelGenerator_1acf7a75f136c8482de87126e404c08e5c" prot="protected" virt="pure-virtual"><scope>rr::CompiledModelGenerator</scope><name>substituteEquation</name></member>
+      <member refid="classrr_1_1CompiledModelGenerator_1abd98244a057a721ee0d800050fe57ba5" prot="protected" virt="non-virtual"><scope>rr::CompiledModelGenerator</scope><name>substituteTerms</name></member>
+      <member refid="classrr_1_1CompiledModelGenerator_1a3cc060e27371dc7835462c46e9c0ec15" prot="protected" virt="non-virtual"><scope>rr::CompiledModelGenerator</scope><name>substituteTerms</name></member>
+      <member refid="classrr_1_1CompiledModelGenerator_1ab130813db5c793df5d1f38f83a2b7b0f" prot="protected" virt="pure-virtual"><scope>rr::CompiledModelGenerator</scope><name>substituteToken</name></member>
+      <member refid="classrr_1_1CompiledModelGenerator_1a6fdc514bfc3b382a7c022e65f82561cb" prot="protected" virt="pure-virtual"><scope>rr::CompiledModelGenerator</scope><name>substituteWords</name></member>
+      <member refid="classrr_1_1CompiledModelGenerator_1adda5594223e404f41f412c552ebda903" prot="protected" virt="pure-virtual"><scope>rr::CompiledModelGenerator</scope><name>writeAccessors</name></member>
+      <member refid="classrr_1_1CompiledModelGenerator_1a7482e84ec6d33a486678e4fdc016a77e" prot="protected" virt="pure-virtual"><scope>rr::CompiledModelGenerator</scope><name>writeClassHeader</name></member>
+      <member refid="classrr_1_1CompiledModelGenerator_1a2be35b02336535290c544d76af317bcf" prot="protected" virt="pure-virtual"><scope>rr::CompiledModelGenerator</scope><name>writeComputeAllRatesOfChange</name></member>
+      <member refid="classrr_1_1CompiledModelGenerator_1a7574c7fea2bd30e11bd11c260e925987" prot="protected" virt="pure-virtual"><scope>rr::CompiledModelGenerator</scope><name>writeComputeConservedTotals</name></member>
+      <member refid="classrr_1_1CompiledModelGenerator_1a1c76c911be10607a23c502ad75a4be39" prot="protected" virt="pure-virtual"><scope>rr::CompiledModelGenerator</scope><name>writeComputeReactionRates</name></member>
+      <member refid="classrr_1_1CompiledModelGenerator_1aa35e6523a75b19a1a7e53783d63df16d" prot="protected" virt="pure-virtual"><scope>rr::CompiledModelGenerator</scope><name>writeComputeRules</name></member>
+      <member refid="classrr_1_1CompiledModelGenerator_1af2b05c0636fed729b76b0d069e524da3" prot="protected" virt="pure-virtual"><scope>rr::CompiledModelGenerator</scope><name>writeConvertToAmounts</name></member>
+      <member refid="classrr_1_1CompiledModelGenerator_1aaf272e2e6b30ca7d5f2aaf24b31575fe" prot="protected" virt="pure-virtual"><scope>rr::CompiledModelGenerator</scope><name>writeConvertToConcentrations</name></member>
+      <member refid="classrr_1_1CompiledModelGenerator_1a07ed5787c6566e411dae168b5a4b750d" prot="protected" virt="non-virtual"><scope>rr::CompiledModelGenerator</scope><name>writeDouble</name></member>
+      <member refid="classrr_1_1CompiledModelGenerator_1aa0f6df64e23106a9c459c3f5cee5a594" prot="protected" virt="pure-virtual"><scope>rr::CompiledModelGenerator</scope><name>writeEvalEvents</name></member>
+      <member refid="classrr_1_1CompiledModelGenerator_1a21ddc6dd30c7f26f9e69b8a552ff7931" prot="protected" virt="pure-virtual"><scope>rr::CompiledModelGenerator</scope><name>writeEvalInitialAssignments</name></member>
+      <member refid="classrr_1_1CompiledModelGenerator_1a43ed8efbedeb6d2009f8c6bb769d53d6" prot="protected" virt="pure-virtual"><scope>rr::CompiledModelGenerator</scope><name>writeEvalModel</name></member>
+      <member refid="classrr_1_1CompiledModelGenerator_1a5d2f268d7aa8dd15031be226d0d4ee08" prot="protected" virt="pure-virtual"><scope>rr::CompiledModelGenerator</scope><name>writeEventAssignments</name></member>
+      <member refid="classrr_1_1CompiledModelGenerator_1a4309e859892e8ea1c21edb4e3507add1" prot="protected" virt="pure-virtual"><scope>rr::CompiledModelGenerator</scope><name>writeGetConcentration</name></member>
+      <member refid="classrr_1_1CompiledModelGenerator_1ac76213071761d3351f516b7736600187" prot="protected" virt="pure-virtual"><scope>rr::CompiledModelGenerator</scope><name>writeOutVariables</name></member>
+      <member refid="classrr_1_1CompiledModelGenerator_1aa44eec2bf385037245bdb0e0d068923c" prot="protected" virt="pure-virtual"><scope>rr::CompiledModelGenerator</scope><name>writeProperties</name></member>
+      <member refid="classrr_1_1CompiledModelGenerator_1aac082f76339145c6aa20bb275d57b2f6" prot="protected" virt="pure-virtual"><scope>rr::CompiledModelGenerator</scope><name>writeResetEvents</name></member>
+      <member refid="classrr_1_1CompiledModelGenerator_1a7181d06e66c4f42b07741bb008bee6a4" prot="protected" virt="pure-virtual"><scope>rr::CompiledModelGenerator</scope><name>writeSetBoundaryConditions</name></member>
+      <member refid="classrr_1_1CompiledModelGenerator_1a0b1dc554056388c59b3315620712549f" prot="protected" virt="pure-virtual"><scope>rr::CompiledModelGenerator</scope><name>writeSetCompartmentVolumes</name></member>
+      <member refid="classrr_1_1CompiledModelGenerator_1a0b7bcf169af7f23f25e1d522dbf4e474" prot="protected" virt="pure-virtual"><scope>rr::CompiledModelGenerator</scope><name>writeSetConcentration</name></member>
+      <member refid="classrr_1_1CompiledModelGenerator_1a6a80d2218a167797574086eba00bc52e" prot="protected" virt="pure-virtual"><scope>rr::CompiledModelGenerator</scope><name>writeSetInitialConditions</name></member>
+      <member refid="classrr_1_1CompiledModelGenerator_1a33a94c2f88d626c0ce8c0016aa192685" prot="protected" virt="pure-virtual"><scope>rr::CompiledModelGenerator</scope><name>writeSetParameterValues</name></member>
+      <member refid="classrr_1_1CompiledModelGenerator_1a4973b138fe795329171c5ae5eddbaa37" prot="protected" virt="pure-virtual"><scope>rr::CompiledModelGenerator</scope><name>writeTestConstraints</name></member>
+      <member refid="classrr_1_1CompiledModelGenerator_1ab487406bda86417c307862f1b3adc2c4" prot="protected" virt="pure-virtual"><scope>rr::CompiledModelGenerator</scope><name>writeUpdateDependentSpecies</name></member>
+      <member refid="classrr_1_1CompiledModelGenerator_1a7dd38c5c2c487cf7d081040471a1e516" prot="protected" virt="pure-virtual"><scope>rr::CompiledModelGenerator</scope><name>writeUserDefinedFunctions</name></member>
+      <member refid="classrr_1_1CompiledModelGenerator_1a8a0d39a1cac8f7f9eb81933543ef13dd" prot="protected" virt="virtual"><scope>rr::CompiledModelGenerator</scope><name>~CompiledModelGenerator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

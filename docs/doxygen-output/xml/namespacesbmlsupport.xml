@@ -1,0 +1,540 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+  <compounddef id="namespacesbmlsupport" kind="namespace" language="C++">
+    <compoundname>sbmlsupport</compoundname>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="SBMLSupportFunctions_8cpp_1ad9cf0c8c16ec610a369358b044aecfd0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double sbmlsupport::trunc</definition>
+        <argsstring>(double d)</argsstring>
+        <name>trunc</name>
+        <param>
+          <type>double</type>
+          <declname>d</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/SBMLSupportFunctions.cpp" line="16" column="8" bodyfile="llvm/SBMLSupportFunctions.cpp" bodystart="16" bodyend="19" declfile="llvm/SBMLSupportFunctions.h" declline="15" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="SBMLSupportFunctions_8cpp_1acef68935c61c3e569ca22c18d924cbbb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double sbmlsupport::poweri</definition>
+        <argsstring>(double x, int y)</argsstring>
+        <name>poweri</name>
+        <param>
+          <type>double</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>y</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/SBMLSupportFunctions.cpp" line="21" column="8" bodyfile="llvm/SBMLSupportFunctions.cpp" bodystart="21" bodyend="57" declfile="llvm/SBMLSupportFunctions.h" declline="17" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="SBMLSupportFunctions_8cpp_1a634b8f32d30418671054b9137fb08009" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double sbmlsupport::spf_abs</definition>
+        <argsstring>(double x)</argsstring>
+        <name>spf_abs</name>
+        <param>
+          <type>double</type>
+          <declname>x</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/SBMLSupportFunctions.cpp" line="59" column="8" bodyfile="llvm/SBMLSupportFunctions.cpp" bodystart="59" bodyend="67" declfile="llvm/SBMLSupportFunctions.h" declline="19" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="SBMLSupportFunctions_8cpp_1af3391d7553edee64d6bf72b402a69a0f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double sbmlsupport::powerf</definition>
+        <argsstring>(double base, double exponent)</argsstring>
+        <name>powerf</name>
+        <param>
+          <type>double</type>
+          <declname>base</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>exponent</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/SBMLSupportFunctions.cpp" line="69" column="8" bodyfile="llvm/SBMLSupportFunctions.cpp" bodystart="69" bodyend="101" declfile="llvm/SBMLSupportFunctions.h" declline="21" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="SBMLSupportFunctions_8cpp_1a8c97244a050fadf1c71a4f858a924111" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double sbmlsupport::logd</definition>
+        <argsstring>(double base, double number)</argsstring>
+        <name>logd</name>
+        <param>
+          <type>double</type>
+          <declname>base</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>number</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/SBMLSupportFunctions.cpp" line="103" column="8" bodyfile="llvm/SBMLSupportFunctions.cpp" bodystart="103" bodyend="106" declfile="llvm/SBMLSupportFunctions.h" declline="29" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="SBMLSupportFunctions_8cpp_1a7970330200bb8d7163df5cba4a964fa2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double sbmlsupport::factoriald</definition>
+        <argsstring>(double a)</argsstring>
+        <name>factoriald</name>
+        <param>
+          <type>double</type>
+          <declname>a</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/SBMLSupportFunctions.cpp" line="108" column="8" bodyfile="llvm/SBMLSupportFunctions.cpp" bodystart="108" bodyend="116" declfile="llvm/SBMLSupportFunctions.h" declline="25" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="SBMLSupportFunctions_8cpp_1af1db43b882ed83de04557635386af0af" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int sbmlsupport::factoriali</definition>
+        <argsstring>(int a)</argsstring>
+        <name>factoriali</name>
+        <param>
+          <type>int</type>
+          <declname>a</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/SBMLSupportFunctions.cpp" line="118" column="5" bodyfile="llvm/SBMLSupportFunctions.cpp" bodystart="118" bodyend="126" declfile="llvm/SBMLSupportFunctions.h" declline="23" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="SBMLSupportFunctions_8cpp_1a9f572bedab4cfbff7712dcb16c5861ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double sbmlsupport::rootd</definition>
+        <argsstring>(double a, double b)</argsstring>
+        <name>rootd</name>
+        <param>
+          <type>double</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/SBMLSupportFunctions.cpp" line="128" column="8" bodyfile="llvm/SBMLSupportFunctions.cpp" bodystart="128" bodyend="138" declfile="llvm/SBMLSupportFunctions.h" declline="27" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="SBMLSupportFunctions_8cpp_1a8aae2e6a2fe511218136996da43f7106" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double sbmlsupport::sec</definition>
+        <argsstring>(double a)</argsstring>
+        <name>sec</name>
+        <param>
+          <type>double</type>
+          <declname>a</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/SBMLSupportFunctions.cpp" line="141" column="8" bodyfile="llvm/SBMLSupportFunctions.cpp" bodystart="141" bodyend="144" declfile="llvm/SBMLSupportFunctions.h" declline="31" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="SBMLSupportFunctions_8cpp_1a21bfd8de51b7807c0408570c97dd3836" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double sbmlsupport::cot</definition>
+        <argsstring>(double a)</argsstring>
+        <name>cot</name>
+        <param>
+          <type>double</type>
+          <declname>a</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/SBMLSupportFunctions.cpp" line="147" column="8" bodyfile="llvm/SBMLSupportFunctions.cpp" bodystart="147" bodyend="150" declfile="llvm/SBMLSupportFunctions.h" declline="34" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="SBMLSupportFunctions_8cpp_1a253927b5dc3abc5da2de518a6844f49b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double sbmlsupport::arccot</definition>
+        <argsstring>(double a)</argsstring>
+        <name>arccot</name>
+        <param>
+          <type>double</type>
+          <declname>a</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/SBMLSupportFunctions.cpp" line="153" column="8" bodyfile="llvm/SBMLSupportFunctions.cpp" bodystart="153" bodyend="165" declfile="llvm/SBMLSupportFunctions.h" declline="37" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="SBMLSupportFunctions_8cpp_1aff15eddec741ebfb9c25c82f91445996" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double sbmlsupport::arccot_negzero</definition>
+        <argsstring>(double a)</argsstring>
+        <name>arccot_negzero</name>
+        <param>
+          <type>double</type>
+          <declname>a</declname>
+        </param>
+        <briefdescription>
+<para>flavor of arccot that returns -pi/2 for 0. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Idiotic hack to pass test case 959 </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/SBMLSupportFunctions.cpp" line="167" column="8" bodyfile="llvm/SBMLSupportFunctions.cpp" bodystart="167" bodyend="179" declfile="llvm/SBMLSupportFunctions.h" declline="44" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="SBMLSupportFunctions_8cpp_1ae624cff3fe2fabce43fa6366be1f370c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double sbmlsupport::arccot2</definition>
+        <argsstring>(double a, double b)</argsstring>
+        <name>arccot2</name>
+        <param>
+          <type>double</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/SBMLSupportFunctions.cpp" line="182" column="8" bodyfile="llvm/SBMLSupportFunctions.cpp" bodystart="182" bodyend="185" declfile="llvm/SBMLSupportFunctions.h" declline="47" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="SBMLSupportFunctions_8cpp_1ac8bd531eb7bb06ec642c19dcd3d6fd10" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double sbmlsupport::arcsec</definition>
+        <argsstring>(double a)</argsstring>
+        <name>arcsec</name>
+        <param>
+          <type>double</type>
+          <declname>a</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/SBMLSupportFunctions.cpp" line="188" column="8" bodyfile="llvm/SBMLSupportFunctions.cpp" bodystart="188" bodyend="191" declfile="llvm/SBMLSupportFunctions.h" declline="50" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="SBMLSupportFunctions_8cpp_1ab52e133afca99a24bf5f00dc1d6768bb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double sbmlsupport::csc</definition>
+        <argsstring>(double a)</argsstring>
+        <name>csc</name>
+        <param>
+          <type>double</type>
+          <declname>a</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/SBMLSupportFunctions.cpp" line="194" column="8" bodyfile="llvm/SBMLSupportFunctions.cpp" bodystart="194" bodyend="197" declfile="llvm/SBMLSupportFunctions.h" declline="53" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="SBMLSupportFunctions_8cpp_1a399d027d56ca8f48285626d12329af64" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double sbmlsupport::arccsc</definition>
+        <argsstring>(double a)</argsstring>
+        <name>arccsc</name>
+        <param>
+          <type>double</type>
+          <declname>a</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/SBMLSupportFunctions.cpp" line="200" column="8" bodyfile="llvm/SBMLSupportFunctions.cpp" bodystart="200" bodyend="203" declfile="llvm/SBMLSupportFunctions.h" declline="69" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="SBMLSupportFunctions_8cpp_1ae7c1eed42e260b4bcd94f9329ca46b3b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double sbmlsupport::sech</definition>
+        <argsstring>(double a)</argsstring>
+        <name>sech</name>
+        <param>
+          <type>double</type>
+          <declname>a</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/SBMLSupportFunctions.cpp" line="206" column="8" bodyfile="llvm/SBMLSupportFunctions.cpp" bodystart="206" bodyend="209" declfile="llvm/SBMLSupportFunctions.h" declline="59" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="SBMLSupportFunctions_8cpp_1ac985c2dfb3c4a60d3747d114adf654c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double sbmlsupport::asech</definition>
+        <argsstring>(double a)</argsstring>
+        <name>asech</name>
+        <param>
+          <type>double</type>
+          <declname>a</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/SBMLSupportFunctions.cpp" line="212" column="8" bodyfile="llvm/SBMLSupportFunctions.cpp" bodystart="212" bodyend="215"/>
+      </memberdef>
+      <memberdef kind="function" id="SBMLSupportFunctions_8cpp_1a1f9a3953470bcd7b42392bc00dc31ab4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double sbmlsupport::arcsech</definition>
+        <argsstring>(double z)</argsstring>
+        <name>arcsech</name>
+        <param>
+          <type>double</type>
+          <declname>z</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/SBMLSupportFunctions.cpp" line="217" column="8" bodyfile="llvm/SBMLSupportFunctions.cpp" bodystart="217" bodyend="220" declfile="llvm/SBMLSupportFunctions.h" declline="64" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="SBMLSupportFunctions_8cpp_1afb98d511b970c1ca0720f4f749322afd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double sbmlsupport::csch</definition>
+        <argsstring>(double a)</argsstring>
+        <name>csch</name>
+        <param>
+          <type>double</type>
+          <declname>a</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/SBMLSupportFunctions.cpp" line="223" column="8" bodyfile="llvm/SBMLSupportFunctions.cpp" bodystart="223" bodyend="226" declfile="llvm/SBMLSupportFunctions.h" declline="67" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="SBMLSupportFunctions_8cpp_1a7744bb60dacec0b99422c97c9694b48a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double sbmlsupport::arccsch</definition>
+        <argsstring>(double z)</argsstring>
+        <name>arccsch</name>
+        <param>
+          <type>double</type>
+          <declname>z</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/SBMLSupportFunctions.cpp" line="229" column="8" bodyfile="llvm/SBMLSupportFunctions.cpp" bodystart="229" bodyend="232" declfile="llvm/SBMLSupportFunctions.h" declline="71" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="SBMLSupportFunctions_8cpp_1a7eb1189804fa654b017a53f70adbee42" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double sbmlsupport::coth</definition>
+        <argsstring>(double a)</argsstring>
+        <name>coth</name>
+        <param>
+          <type>double</type>
+          <declname>a</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/SBMLSupportFunctions.cpp" line="235" column="8" bodyfile="llvm/SBMLSupportFunctions.cpp" bodystart="235" bodyend="238" declfile="llvm/SBMLSupportFunctions.h" declline="74" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="SBMLSupportFunctions_8cpp_1a7d9345078fdd36b624578c803fb04ce9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double sbmlsupport::arccoth</definition>
+        <argsstring>(double a)</argsstring>
+        <name>arccoth</name>
+        <param>
+          <type>double</type>
+          <declname>a</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/SBMLSupportFunctions.cpp" line="241" column="8" bodyfile="llvm/SBMLSupportFunctions.cpp" bodystart="241" bodyend="244" declfile="llvm/SBMLSupportFunctions.h" declline="77" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="SBMLSupportFunctions_8cpp_1a2d7e64a62ace35ffbf950f5268bd32ff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double sbmlsupport::arcsinh</definition>
+        <argsstring>(double a)</argsstring>
+        <name>arcsinh</name>
+        <param>
+          <type>double</type>
+          <declname>a</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/SBMLSupportFunctions.cpp" line="249" column="8" bodyfile="llvm/SBMLSupportFunctions.cpp" bodystart="249" bodyend="252" declfile="llvm/SBMLSupportFunctions.h" declline="82" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="SBMLSupportFunctions_8cpp_1a9528f8f776ebe0a5e2d07e1fb3a70656" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double sbmlsupport::arccosh</definition>
+        <argsstring>(double a)</argsstring>
+        <name>arccosh</name>
+        <param>
+          <type>double</type>
+          <declname>a</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/SBMLSupportFunctions.cpp" line="255" column="8" bodyfile="llvm/SBMLSupportFunctions.cpp" bodystart="255" bodyend="258" declfile="llvm/SBMLSupportFunctions.h" declline="85" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="SBMLSupportFunctions_8cpp_1a96adca367cc0bc46433634ecfa1ef0c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double sbmlsupport::arctanh</definition>
+        <argsstring>(double a)</argsstring>
+        <name>arctanh</name>
+        <param>
+          <type>double</type>
+          <declname>a</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/SBMLSupportFunctions.cpp" line="261" column="8" bodyfile="llvm/SBMLSupportFunctions.cpp" bodystart="261" bodyend="264" declfile="llvm/SBMLSupportFunctions.h" declline="88" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="SBMLSupportFunctions_8cpp_1ac678fa0b6cdc9d3402585718b3895a7c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double sbmlsupport::quotient</definition>
+        <argsstring>(double a, double b)</argsstring>
+        <name>quotient</name>
+        <param>
+          <type>double</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/SBMLSupportFunctions.cpp" line="267" column="8" bodyfile="llvm/SBMLSupportFunctions.cpp" bodystart="267" bodyend="270" declfile="llvm/SBMLSupportFunctions.h" declline="91" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="SBMLSupportFunctions_8cpp_1aa33c8e302b807b6f7a97170aba603256" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double sbmlsupport::max</definition>
+        <argsstring>(double a, double b)</argsstring>
+        <name>max</name>
+        <param>
+          <type>double</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/SBMLSupportFunctions.cpp" line="273" column="8" bodyfile="llvm/SBMLSupportFunctions.cpp" bodystart="273" bodyend="276" declfile="llvm/SBMLSupportFunctions.h" declline="94" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="SBMLSupportFunctions_8cpp_1a284dee4e8ecac5f6476b47a1f07b71bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double sbmlsupport::min</definition>
+        <argsstring>(double a, double b)</argsstring>
+        <name>min</name>
+        <param>
+          <type>double</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/SBMLSupportFunctions.cpp" line="279" column="8" bodyfile="llvm/SBMLSupportFunctions.cpp" bodystart="279" bodyend="282" declfile="llvm/SBMLSupportFunctions.h" declline="97" declcolumn="8"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="llvm/SBMLSupportFunctions.cpp" line="13" column="1"/>
+  </compounddef>
+</doxygen>

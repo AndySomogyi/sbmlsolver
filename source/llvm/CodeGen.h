@@ -11,7 +11,6 @@
 #include "LLVMIncludes.h"
 #include <stack>
 #include <string>
-
 namespace rrllvm
 {
 

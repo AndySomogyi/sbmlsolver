@@ -52,36 +52,14 @@ namespace rr
 	}
 
 
-	static void getConfigValues(SimulateOptions *s)
-	{
-		if (Config::getBool(Config::SIMULATEOPTIONS_STRUCTURED_RESULT)) 
-		{
-			s->structured_result = true;
-		}
-		else 
-		{
-			s->structured_result = false;
-		}
-
-		if (rr::Config::getBool(rr::Config::SIMULATEOPTIONS_COPY_RESULT)) {
-			s->copy_result = true;
-		}
-		else {
-			s->copy_result = false;
-		}
-
-		// initially false, set to true to reset model
-		s->reset_model = false;
-	}
-	
-
 	SimulateOptions::SimulateOptions()
-		:
-		steps(Config::getInt(Config::SIMULATEOPTIONS_STEPS)),
-		start(0),
-		duration(Config::getDouble(Config::SIMULATEOPTIONS_DURATION))
+		: reset_model(false)
+		, structured_result(Config::getBool(Config::SIMULATEOPTIONS_STRUCTURED_RESULT))
+		, copy_result(Config::getBool(Config::SIMULATEOPTIONS_COPY_RESULT))
+		, steps(Config::getInt(Config::SIMULATEOPTIONS_STEPS))
+		, start(0)
+		, duration(Config::getDouble(Config::SIMULATEOPTIONS_DURATION))
 	{
-		getConfigValues(this);
 	}
 
 	void SimulateOptions::loadSBMLSettings(const std::string &fname)

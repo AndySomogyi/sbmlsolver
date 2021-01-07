@@ -52,7 +52,7 @@ static bool coloredOutput = true;
 // owned by poco, it takes care of clearing in static dtor.
 static Poco::Logger *pocoLogger = 0;
 volatile int logLevel = -1;
-const Logger::Level defaultLogLevel = Logger::LOG_NOTICE;
+const Logger::Level defaultLogLevel = Logger::LOG_ERROR;
 static std::string logFileName;
 
 // pointer to an object created elsewhere. Ideally static.
@@ -157,10 +157,11 @@ static Channel *createConsoleChannel()
 
 Poco::Logger& getLogger()
 {
-    Mutex::ScopedLock lock(loggerMutex);
-
     if (pocoLogger == 0)
     {
+        //Must put the lock here because other functions in this block call 'getLogger' themselves.
+        Mutex::ScopedLock lock(loggerMutex);
+
         pocoLogger = &Poco::Logger::get("RoadRunner");
 
         // first time this is called, channels better be null

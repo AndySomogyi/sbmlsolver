@@ -1,0 +1,502 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>rrScanner &mdash; libRoadRunner 1.1.16 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/sphinx_tabs/semantic-ui-2.4.1/segment.min.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/sphinx_tabs/semantic-ui-2.4.1/menu.min.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/sphinx_tabs/semantic-ui-2.4.1/tab.min.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/sphinx_tabs/tabs.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="rrStringBuilder" href="rrStringBuilder.html" />
+    <link rel="prev" title="rrSBMLSymbolDependencies" href="rrSBMLSymbolDependencies.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> libRoadRunner
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">RoadRunner Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Installation/installation.html">Installing RoadRunner</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../read_write_functions.html">SBML Read/Write Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../selecting_values.html">Selecting Values</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../steady_state.html">Steady State Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../stochastic.html">Stochastic Simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../metabolic.html">Metabolic Control Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../stability.html">Stability Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../stoichiometric.html">Stoichiometric Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bifurcation.html">Bifurcation Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../integration.html">Simulation and Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utility_functions.html">Utility Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../accessing_model.html">Accessing the SBML Model Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_reference.html">RoadRunner API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../C%2B%2BAPIReference/index.html">The LibRoadRunner C++ Library</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">The LibRoadRunner C Library</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="rrCCompiler.html">rrCCompiler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrCModelGenerator.html">rrCModelGenerator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrCodeTypes.html">rrCodeTypes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrCompiledExecutableModel.html">rrCompiledExecutableModel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrCompiledModelGenerator.html">rrCompiledModelGenerator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrCompiledModelState.html">rrCompiledModelState</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrEvent.html">rrEvent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrHashTable.html">rrHashTable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrModelData.html">rrModelData</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrModelSharedLibrary.html">rrModelSharedLibrary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrModelSymbols.html">rrModelSymbols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrNOMSupport.html">rrNOMSupport</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrPendingAssignment.html">rrPendingAssignment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrRandom.html">rrRandom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrRule.html">rrRule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrSBMLSymbol.html">rrSBMLSymbol</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrSBMLSymbolDependencies.html">rrSBMLSymbolDependencies</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">rrScanner</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrStringBuilder.html">rrStringBuilder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrStringList.html">rrStringList</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrStringListContainer.html">rrStringListContainer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrSymbol.html">rrSymbol</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrSymbolList.html">rrSymbolList</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rrToken.html">rrToken</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">libRoadRunner</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="index.html">The LibRoadRunner C Library</a> &raquo;</li>
+        
+      <li>rrScanner</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/CAPIReference/rrScanner.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="rrscanner">
+<h1>rrScanner<a class="headerlink" href="#rrscanner" title="Permalink to this headline">¶</a></h1>
+<dl class="cpp class">
+<dt id="_CPPv4N2rr7ScannerE">
+<span id="_CPPv3N2rr7ScannerE"></span><span id="_CPPv2N2rr7ScannerE"></span><span id="rr::Scanner"></span><span class="target" id="classrr_1_1Scanner"></span><em class="property">class </em><code class="sig-prename descclassname">rr<code class="sig-prename descclassname">::</code></code><code class="sig-name descname">Scanner</code><a class="headerlink" href="#_CPPv4N2rr7ScannerE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="cpp function">
+<dt id="_CPPv4N2rr7Scanner10lineNumberEv">
+<span id="_CPPv3N2rr7Scanner10lineNumberEv"></span><span id="_CPPv2N2rr7Scanner10lineNumberEv"></span><span id="rr::Scanner::lineNumber"></span><span class="target" id="classrr_1_1Scanner_1ade260fc1ce3bbb5cd591c7cc20282cbf"></span>int <code class="sig-name descname">lineNumber</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr7Scanner10lineNumberEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N2rr7Scanner5tokenEv">
+<span id="_CPPv3N2rr7Scanner5tokenEv"></span><span id="_CPPv2N2rr7Scanner5tokenEv"></span><span id="rr::Scanner::token"></span><span class="target" id="classrr_1_1Scanner_1aeb3b54bd471574e2836311fc64dcf518"></span>CodeTypes::<a class="reference internal" href="rrCodeTypes.html#_CPPv4N2rr9CodeTypes9CodeTypesE" title="rr::CodeTypes::CodeTypes">CodeTypes</a> <code class="sig-name descname">token</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr7Scanner5tokenEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N2rr7Scanner7ScannerEv">
+<span id="_CPPv3N2rr7Scanner7ScannerEv"></span><span id="_CPPv2N2rr7Scanner7ScannerEv"></span><span id="rr::Scanner::Scanner"></span><span class="target" id="classrr_1_1Scanner_1a5ab9c23a0fb5c0d461a9d365c430dbe6"></span><code class="sig-name descname">Scanner</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr7Scanner7ScannerEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N2rr7Scanner12startScannerEv">
+<span id="_CPPv3N2rr7Scanner12startScannerEv"></span><span id="_CPPv2N2rr7Scanner12startScannerEv"></span><span id="rr::Scanner::startScanner"></span><span class="target" id="classrr_1_1Scanner_1a7beb13b7439a0ceca3a1a60b54330218"></span>void <code class="sig-name descname">startScanner</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr7Scanner12startScannerEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N2rr7Scanner12IsQueueEmptyEv">
+<span id="_CPPv3N2rr7Scanner12IsQueueEmptyEv"></span><span id="_CPPv2N2rr7Scanner12IsQueueEmptyEv"></span><span id="rr::Scanner::IsQueueEmpty"></span><span class="target" id="classrr_1_1Scanner_1ad7ab2416d6a23f8619115325f021f7c5"></span>bool <code class="sig-name descname">IsQueueEmpty</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr7Scanner12IsQueueEmptyEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N2rr7Scanner8nextCharEv">
+<span id="_CPPv3N2rr7Scanner8nextCharEv"></span><span id="_CPPv2N2rr7Scanner8nextCharEv"></span><span id="rr::Scanner::nextChar"></span><span class="target" id="classrr_1_1Scanner_1a9291a2a0303624cc17fe2945334fa36b"></span>char <code class="sig-name descname">nextChar</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr7Scanner8nextCharEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N2rr7Scanner13tokenToStringERKN9CodeTypes9CodeTypesE">
+<span id="_CPPv3N2rr7Scanner13tokenToStringERKN9CodeTypes9CodeTypesE"></span><span id="_CPPv2N2rr7Scanner13tokenToStringERKN9CodeTypes9CodeTypesE"></span><span id="rr::Scanner::tokenToString__CodeTypes::CodeTypesCR"></span><span class="target" id="classrr_1_1Scanner_1a71add00ce4bb3dcd6b4fce4f7786f2ce"></span>string <code class="sig-name descname">tokenToString</code><span class="sig-paren">(</span><em class="property">const</em> CodeTypes::<a class="reference internal" href="rrCodeTypes.html#_CPPv4N2rr9CodeTypes9CodeTypesE" title="rr::CodeTypes::CodeTypes">CodeTypes</a> &amp;<em>code</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr7Scanner13tokenToStringERKN9CodeTypes9CodeTypesE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N2rr7Scanner15AddTokenToQueueEv">
+<span id="_CPPv3N2rr7Scanner15AddTokenToQueueEv"></span><span id="_CPPv2N2rr7Scanner15AddTokenToQueueEv"></span><span id="rr::Scanner::AddTokenToQueue"></span><span class="target" id="classrr_1_1Scanner_1a690d62eac64a15baf3be1159d1c3f8d7"></span>void <code class="sig-name descname">AddTokenToQueue</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr7Scanner15AddTokenToQueueEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N2rr7Scanner9nextTokenEv">
+<span id="_CPPv3N2rr7Scanner9nextTokenEv"></span><span id="_CPPv2N2rr7Scanner9nextTokenEv"></span><span id="rr::Scanner::nextToken"></span><span class="target" id="classrr_1_1Scanner_1ad220853962ed958e00d0f958ec0b0856"></span>void <code class="sig-name descname">nextToken</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr7Scanner9nextTokenEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N2rr7Scanner10skipBlanksEv">
+<span id="_CPPv3N2rr7Scanner10skipBlanksEv"></span><span id="_CPPv2N2rr7Scanner10skipBlanksEv"></span><span id="rr::Scanner::skipBlanks"></span><span class="target" id="classrr_1_1Scanner_1a642ffe7b9f3882904b1517b990f729b5"></span>void <code class="sig-name descname">skipBlanks</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr7Scanner10skipBlanksEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N2rr7Scanner10UnGetTokenEv">
+<span id="_CPPv3N2rr7Scanner10UnGetTokenEv"></span><span id="_CPPv2N2rr7Scanner10UnGetTokenEv"></span><span id="rr::Scanner::UnGetToken"></span><span class="target" id="classrr_1_1Scanner_1a7c13a7be2e0c1fa03c0bf814c435a063"></span>void <code class="sig-name descname">UnGetToken</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr7Scanner10UnGetTokenEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N2rr7Scanner12AssignStreamER12stringstream">
+<span id="_CPPv3N2rr7Scanner12AssignStreamER12stringstream"></span><span id="_CPPv2N2rr7Scanner12AssignStreamER12stringstream"></span><span id="rr::Scanner::AssignStream__stringstreamR"></span><span class="target" id="classrr_1_1Scanner_1a2d1411f472fd2a8b0659534157d8cdee"></span>void <code class="sig-name descname">AssignStream</code><span class="sig-paren">(</span>stringstream &amp;<em>str</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr7Scanner12AssignStreamER12stringstream" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="cpp var">
+<dt id="_CPPv4N2rr7Scanner9timeWord1E">
+<span id="_CPPv3N2rr7Scanner9timeWord1E"></span><span id="_CPPv2N2rr7Scanner9timeWord1E"></span><span id="rr::Scanner::timeWord1__string"></span><span class="target" id="classrr_1_1Scanner_1ab77dc221cc4546e243156e2ca4d25e23"></span>string <code class="sig-name descname">timeWord1</code><a class="headerlink" href="#_CPPv4N2rr7Scanner9timeWord1E" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt id="_CPPv4N2rr7Scanner9timeWord2E">
+<span id="_CPPv3N2rr7Scanner9timeWord2E"></span><span id="_CPPv2N2rr7Scanner9timeWord2E"></span><span id="rr::Scanner::timeWord2__string"></span><span class="target" id="classrr_1_1Scanner_1a6ea34fa61037c8b1b0d3f922d445911c"></span>string <code class="sig-name descname">timeWord2</code><a class="headerlink" href="#_CPPv4N2rr7Scanner9timeWord2E" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt id="_CPPv4N2rr7Scanner9timeWord3E">
+<span id="_CPPv3N2rr7Scanner9timeWord3E"></span><span id="_CPPv2N2rr7Scanner9timeWord3E"></span><span id="rr::Scanner::timeWord3__string"></span><span class="target" id="classrr_1_1Scanner_1a94584ed152c97361367b399185f6c307"></span>string <code class="sig-name descname">timeWord3</code><a class="headerlink" href="#_CPPv4N2rr7Scanner9timeWord3E" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt id="_CPPv4N2rr7Scanner9FromQueueE">
+<span id="_CPPv3N2rr7Scanner9FromQueueE"></span><span id="_CPPv2N2rr7Scanner9FromQueueE"></span><span id="rr::Scanner::FromQueue__b"></span><span class="target" id="classrr_1_1Scanner_1aa71131cf1e058b46783dc53fe6812167"></span>bool <code class="sig-name descname">FromQueue</code><a class="headerlink" href="#_CPPv4N2rr7Scanner9FromQueueE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt id="_CPPv4N2rr7Scanner14IgnoreNewLinesE">
+<span id="_CPPv3N2rr7Scanner14IgnoreNewLinesE"></span><span id="_CPPv2N2rr7Scanner14IgnoreNewLinesE"></span><span id="rr::Scanner::IgnoreNewLines__b"></span><span class="target" id="classrr_1_1Scanner_1afb617013c57fc1edd4594734ebd7a443"></span>bool <code class="sig-name descname">IgnoreNewLines</code><a class="headerlink" href="#_CPPv4N2rr7Scanner14IgnoreNewLinesE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt id="_CPPv4N2rr7Scanner12currentTokenE">
+<span id="_CPPv3N2rr7Scanner12currentTokenE"></span><span id="_CPPv2N2rr7Scanner12currentTokenE"></span><span id="rr::Scanner::currentToken__Token"></span><span class="target" id="classrr_1_1Scanner_1a4f25000e2deb0d0bcbc8e57298855796"></span><a class="reference internal" href="rrToken.html#_CPPv4N2rr5TokenE" title="rr::Token">Token</a> <code class="sig-name descname">currentToken</code><a class="headerlink" href="#_CPPv4N2rr7Scanner12currentTokenE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt id="_CPPv4N2rr7Scanner3fchE">
+<span id="_CPPv3N2rr7Scanner3fchE"></span><span id="_CPPv2N2rr7Scanner3fchE"></span><span id="rr::Scanner::fch__c"></span><span class="target" id="classrr_1_1Scanner_1a93a82e7b4ecff024a60033d23a863bb1"></span>char <code class="sig-name descname">fch</code><a class="headerlink" href="#_CPPv4N2rr7Scanner3fchE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt id="_CPPv4N2rr7Scanner13previousTokenE">
+<span id="_CPPv3N2rr7Scanner13previousTokenE"></span><span id="_CPPv2N2rr7Scanner13previousTokenE"></span><span id="rr::Scanner::previousToken__Token"></span><span class="target" id="classrr_1_1Scanner_1a5042ca195491a61935e148631483ff1f"></span><a class="reference internal" href="rrToken.html#_CPPv4N2rr5TokenE" title="rr::Token">Token</a> <code class="sig-name descname">previousToken</code><a class="headerlink" href="#_CPPv4N2rr7Scanner13previousTokenE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt id="_CPPv4N2rr7Scanner11tokenDoubleE">
+<span id="_CPPv3N2rr7Scanner11tokenDoubleE"></span><span id="_CPPv2N2rr7Scanner11tokenDoubleE"></span><span id="rr::Scanner::tokenDouble__double"></span><span class="target" id="classrr_1_1Scanner_1af840f51a27ecf12d7ffcaedad99df109"></span>double <code class="sig-name descname">tokenDouble</code><a class="headerlink" href="#_CPPv4N2rr7Scanner11tokenDoubleE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt id="_CPPv4N2rr7Scanner12tokenIntegerE">
+<span id="_CPPv3N2rr7Scanner12tokenIntegerE"></span><span id="_CPPv2N2rr7Scanner12tokenIntegerE"></span><span id="rr::Scanner::tokenInteger__i"></span><span class="target" id="classrr_1_1Scanner_1a09c81eac0430455c6df03e102e09d0f2"></span>int <code class="sig-name descname">tokenInteger</code><a class="headerlink" href="#_CPPv4N2rr7Scanner12tokenIntegerE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt id="_CPPv4N2rr7Scanner11tokenScalarE">
+<span id="_CPPv3N2rr7Scanner11tokenScalarE"></span><span id="_CPPv2N2rr7Scanner11tokenScalarE"></span><span id="rr::Scanner::tokenScalar__double"></span><span class="target" id="classrr_1_1Scanner_1a9aa0611c2ef1ece43a176385f6293fc2"></span>double <code class="sig-name descname">tokenScalar</code><a class="headerlink" href="#_CPPv4N2rr7Scanner11tokenScalarE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt id="_CPPv4N2rr7Scanner11tokenStringE">
+<span id="_CPPv3N2rr7Scanner11tokenStringE"></span><span id="_CPPv2N2rr7Scanner11tokenStringE"></span><span id="rr::Scanner::tokenString__string"></span><span class="target" id="classrr_1_1Scanner_1a804031495cc55309c1e0d966926dc137"></span>string <code class="sig-name descname">tokenString</code><a class="headerlink" href="#_CPPv4N2rr7Scanner11tokenStringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Protected Functions</p>
+<dl class="cpp function">
+<dt id="_CPPv4N2rr7Scanner11initScannerEv">
+<span id="_CPPv3N2rr7Scanner11initScannerEv"></span><span id="_CPPv2N2rr7Scanner11initScannerEv"></span><span id="rr::Scanner::initScanner"></span><span class="target" id="classrr_1_1Scanner_1ad35f66ceefdd86ecb73f28d8bb0401e8"></span>void <code class="sig-name descname">initScanner</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr7Scanner11initScannerEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N2rr7Scanner17getCharFromBufferEv">
+<span id="_CPPv3N2rr7Scanner17getCharFromBufferEv"></span><span id="_CPPv2N2rr7Scanner17getCharFromBufferEv"></span><span id="rr::Scanner::getCharFromBuffer"></span><span class="target" id="classrr_1_1Scanner_1aa09d7c687558a25b2867dbfa1c14ba4d"></span>char <code class="sig-name descname">getCharFromBuffer</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr7Scanner17getCharFromBufferEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N2rr7Scanner13IsDoubleQuoteEc">
+<span id="_CPPv3N2rr7Scanner13IsDoubleQuoteEc"></span><span id="_CPPv2N2rr7Scanner13IsDoubleQuoteEc"></span><span id="rr::Scanner::IsDoubleQuote__c"></span><span class="target" id="classrr_1_1Scanner_1a7585f9408d465c96d65104abbf75c18e"></span>bool <code class="sig-name descname">IsDoubleQuote</code><span class="sig-paren">(</span>char <em>ch</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr7Scanner13IsDoubleQuoteEc" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N2rr7Scanner9getNumberEv">
+<span id="_CPPv3N2rr7Scanner9getNumberEv"></span><span id="_CPPv2N2rr7Scanner9getNumberEv"></span><span id="rr::Scanner::getNumber"></span><span class="target" id="classrr_1_1Scanner_1a87d1026a28d656df99c01241da1e4a10"></span>void <code class="sig-name descname">getNumber</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr7Scanner9getNumberEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N2rr7Scanner10getSpecialEv">
+<span id="_CPPv3N2rr7Scanner10getSpecialEv"></span><span id="_CPPv2N2rr7Scanner10getSpecialEv"></span><span id="rr::Scanner::getSpecial"></span><span class="target" id="classrr_1_1Scanner_1a785b676e7680300e0ab130d6b2350e87"></span>void <code class="sig-name descname">getSpecial</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr7Scanner10getSpecialEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N2rr7Scanner9getStringEv">
+<span id="_CPPv3N2rr7Scanner9getStringEv"></span><span id="_CPPv2N2rr7Scanner9getStringEv"></span><span id="rr::Scanner::getString"></span><span class="target" id="classrr_1_1Scanner_1af2bac3671ce70f89f371f53d65400f1a"></span>void <code class="sig-name descname">getString</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr7Scanner9getStringEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N2rr7Scanner17getTokenFromQueueEv">
+<span id="_CPPv3N2rr7Scanner17getTokenFromQueueEv"></span><span id="_CPPv2N2rr7Scanner17getTokenFromQueueEv"></span><span id="rr::Scanner::getTokenFromQueue"></span><span class="target" id="classrr_1_1Scanner_1a3607da2613bf49a1926d1b0c07e9dad3"></span>void <code class="sig-name descname">getTokenFromQueue</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr7Scanner17getTokenFromQueueEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N2rr7Scanner7getWordEv">
+<span id="_CPPv3N2rr7Scanner7getWordEv"></span><span id="_CPPv2N2rr7Scanner7getWordEv"></span><span id="rr::Scanner::getWord"></span><span class="target" id="classrr_1_1Scanner_1a7e7bd058b301d7442c72899c52b44e74"></span>void <code class="sig-name descname">getWord</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr7Scanner7getWordEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N2rr7Scanner17nextTokenInternalEv">
+<span id="_CPPv3N2rr7Scanner17nextTokenInternalEv"></span><span id="_CPPv2N2rr7Scanner17nextTokenInternalEv"></span><span id="rr::Scanner::nextTokenInternal"></span><span class="target" id="classrr_1_1Scanner_1a38e8972a1772f8f2670e75f59a445ebf"></span>void <code class="sig-name descname">nextTokenInternal</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr7Scanner17nextTokenInternalEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Protected Attributes</p>
+<dl class="cpp var">
+<dt id="_CPPv4N2rr7Scanner7EOFCHARE">
+<span id="_CPPv3N2rr7Scanner7EOFCHARE"></span><span id="_CPPv2N2rr7Scanner7EOFCHARE"></span><span id="rr::Scanner::EOFCHAR__cC"></span><span class="target" id="classrr_1_1Scanner_1afb7ddd2b05f5514df61fc94727ccfcdf"></span><em class="property">const</em> char <code class="sig-name descname">EOFCHAR</code><a class="headerlink" href="#_CPPv4N2rr7Scanner7EOFCHARE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt id="_CPPv4N2rr7Scanner2CRE">
+<span id="_CPPv3N2rr7Scanner2CRE"></span><span id="_CPPv2N2rr7Scanner2CRE"></span><span id="rr::Scanner::CR__cC"></span><span class="target" id="classrr_1_1Scanner_1af9de4a940d6adbad6dfa11026fc09378"></span><em class="property">const</em> char <code class="sig-name descname">CR</code><a class="headerlink" href="#_CPPv4N2rr7Scanner2CRE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt id="_CPPv4N2rr7Scanner2LFE">
+<span id="_CPPv3N2rr7Scanner2LFE"></span><span id="_CPPv2N2rr7Scanner2LFE"></span><span id="rr::Scanner::LF__cC"></span><span class="target" id="classrr_1_1Scanner_1a9e657d2ee9199a5837d1b1cbd72bdcba"></span><em class="property">const</em> char <code class="sig-name descname">LF</code><a class="headerlink" href="#_CPPv4N2rr7Scanner2LFE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt id="_CPPv4N2rr7Scanner10FCharTableE">
+<span id="_CPPv3N2rr7Scanner10FCharTableE"></span><span id="_CPPv2N2rr7Scanner10FCharTableE"></span><span id="rr::Scanner::FCharTable__vector:TCharCode::TCharCode:"></span><span class="target" id="classrr_1_1Scanner_1ab0074b225961ad7d1e172a54c2a93087"></span>vector&lt;TCharCode::TCharCode&gt; <code class="sig-name descname">FCharTable</code><a class="headerlink" href="#_CPPv4N2rr7Scanner10FCharTableE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt id="_CPPv4N2rr7Scanner6bufferE">
+<span id="_CPPv3N2rr7Scanner6bufferE"></span><span id="_CPPv2N2rr7Scanner6bufferE"></span><span id="rr::Scanner::buffer__vector:c:"></span><span class="target" id="classrr_1_1Scanner_1a9c51d02dae3ae1a3f126f4dacc5770bf"></span>vector&lt;char&gt; <code class="sig-name descname">buffer</code><a class="headerlink" href="#_CPPv4N2rr7Scanner6bufferE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt id="_CPPv4N2rr7Scanner10tokenQueueE">
+<span id="_CPPv3N2rr7Scanner10tokenQueueE"></span><span id="_CPPv2N2rr7Scanner10tokenQueueE"></span><span id="rr::Scanner::tokenQueue__queue:Token:"></span><span class="target" id="classrr_1_1Scanner_1ad2463b5006a0f6086beb0c5938a5f29b"></span>queue&lt;<a class="reference internal" href="rrToken.html#_CPPv4N2rr5TokenE" title="rr::Token">Token</a>&gt; <code class="sig-name descname">tokenQueue</code><a class="headerlink" href="#_CPPv4N2rr7Scanner10tokenQueueE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt id="_CPPv4N2rr7Scanner9wordTableE">
+<span id="_CPPv3N2rr7Scanner9wordTableE"></span><span id="_CPPv2N2rr7Scanner9wordTableE"></span><span id="rr::Scanner::wordTable__map:string.CodeTypes::CodeTypes:"></span><span class="target" id="classrr_1_1Scanner_1a8fc76fbdac3c94038a5d63b149de305e"></span>map&lt;string, CodeTypes::<a class="reference internal" href="rrCodeTypes.html#_CPPv4N2rr9CodeTypes9CodeTypesE" title="rr::CodeTypes::CodeTypes">CodeTypes</a>&gt; <code class="sig-name descname">wordTable</code><a class="headerlink" href="#_CPPv4N2rr7Scanner9wordTableE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt id="_CPPv4N2rr7Scanner7pStreamE">
+<span id="_CPPv3N2rr7Scanner7pStreamE"></span><span id="_CPPv2N2rr7Scanner7pStreamE"></span><span id="rr::Scanner::pStream__stringstreamP"></span><span class="target" id="classrr_1_1Scanner_1a094836ca31b854aedab20a33a4e05292"></span>stringstream *<code class="sig-name descname">pStream</code><a class="headerlink" href="#_CPPv4N2rr7Scanner7pStreamE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt id="_CPPv4N2rr7Scanner12bufferLengthE">
+<span id="_CPPv3N2rr7Scanner12bufferLengthE"></span><span id="_CPPv2N2rr7Scanner12bufferLengthE"></span><span id="rr::Scanner::bufferLength__std::streamsize"></span><span class="target" id="classrr_1_1Scanner_1a42d66399d07d8bd03e315536bdfa8fa4"></span>std::streamsize <code class="sig-name descname">bufferLength</code><a class="headerlink" href="#_CPPv4N2rr7Scanner12bufferLengthE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt id="_CPPv4N2rr7Scanner9bufferPtrE">
+<span id="_CPPv3N2rr7Scanner9bufferPtrE"></span><span id="_CPPv2N2rr7Scanner9bufferPtrE"></span><span id="rr::Scanner::bufferPtr__i"></span><span class="target" id="classrr_1_1Scanner_1a2f59b5c5c4ec1e8dca404f14e2b7f15f"></span>int <code class="sig-name descname">bufferPtr</code><a class="headerlink" href="#_CPPv4N2rr7Scanner9bufferPtrE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt id="_CPPv4N2rr7Scanner6ftokenE">
+<span id="_CPPv3N2rr7Scanner6ftokenE"></span><span id="_CPPv2N2rr7Scanner6ftokenE"></span><span id="rr::Scanner::ftoken__CodeTypes::CodeTypes"></span><span class="target" id="classrr_1_1Scanner_1a563c2930bc695e6f0c232617d5233cdd"></span>CodeTypes::<a class="reference internal" href="rrCodeTypes.html#_CPPv4N2rr9CodeTypes9CodeTypesE" title="rr::CodeTypes::CodeTypes">CodeTypes</a> <code class="sig-name descname">ftoken</code><a class="headerlink" href="#_CPPv4N2rr7Scanner6ftokenE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt id="_CPPv4N2rr7Scanner8yylinenoE">
+<span id="_CPPv3N2rr7Scanner8yylinenoE"></span><span id="_CPPv2N2rr7Scanner8yylinenoE"></span><span id="rr::Scanner::yylineno__i"></span><span class="target" id="classrr_1_1Scanner_1a0ec68351cfe9a74c98713f327beaec28"></span>int <code class="sig-name descname">yylineno</code><a class="headerlink" href="#_CPPv4N2rr7Scanner8yylinenoE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="rrStringBuilder.html" class="btn btn-neutral float-right" title="rrStringBuilder" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="rrSBMLSymbolDependencies.html" class="btn btn-neutral float-left" title="rrSBMLSymbolDependencies" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2013-2018, Andy Somogyi, J Kyle Medley, Kiri Choi, Herbert Suaro
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -516,6 +516,7 @@ public:
      */
     virtual int getEventIndex(const std::string& eid);
     virtual std::string getEventId(size_t index);
+    virtual void getEventIds(std::list<std::string>& out) override;
     virtual void setEventListener(size_t index, rr::EventListenerPtr eventHandler);
     virtual rr::EventListenerPtr getEventListener(size_t index);
 

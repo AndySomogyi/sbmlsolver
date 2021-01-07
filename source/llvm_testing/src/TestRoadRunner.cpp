@@ -9,7 +9,6 @@
 #include "rrUtils.h"
 #include "rrException.h"
 #include "rrLogger.h"
-#include "rrc_api.h"
 #include "rrSBMLReader.h"
 #include "rrExecutableModel.h"
 
@@ -585,64 +584,6 @@ void TestRoadRunner::testLogging(const std::string& logFileName)
     Log(Logger::LOG_TRACE) << "console and file: A tracing message.";
 
 }
-
-#ifndef _WIN32
-void TestRoadRunner::test_fs75()
-{
-    const char* src = "/Users/andy/fs75.xml";
-
-    rrc::RRHandle r = rrc::createRRInstance();
-
-    rrc::loadSBMLFromFile(r, src);
-
-    double conc[] = {1.0, 2.0, 3.0};
-
-    rrc::RRVector concVec;
-
-    concVec.Count = 3;
-    concVec.Data = conc;
-
-    rrc::RRVectorPtr res = rrc::getReactionRatesEx(r, &concVec);
-
-    for (int i = 0; i < res->Count; ++i)
-    {
-        cout << "index " << i << ": " << res->Data[i] << endl;
-    }
-}
-
-void TestRoadRunner::test_fs74()
-{
-    rrc::RRHandle r = rrc::createRRInstance();
-
-    rrc::loadSBMLFromFile(r, "");
-
-    cout << "error:: " << rrc::getLastError() << endl;
-
-}
-
-void TestRoadRunner::test_fs73()
-{
-    const char* src = "/Users/andy/fs75.xml";
-
-    rrc::RRHandle r = rrc::createRRInstance();
-
-    rrc::loadSBMLFromFile(r, src);
-
-    rrc::setFloatingSpeciesByIndex(r, 1, 3.14);
-
-    double result = 0;
-
-    rrc::getFloatingSpeciesByIndex(r, 1, &result);
-
-    cout << "result: " << result << endl;
-}
-#else
-
-void TestRoadRunner::test_fs75() {}
-void TestRoadRunner::test_fs74() {}
-void TestRoadRunner::test_fs73() {}
-
-#endif
 
 } /* namespace rr */
 

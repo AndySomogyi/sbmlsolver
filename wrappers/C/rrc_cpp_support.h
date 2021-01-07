@@ -1,6 +1,6 @@
 /**
  * @file rrc_cpp_support.h
- * @brief roadRunner C API 2012
+ * @brief roadRunner C wrappers 2012
  * @author Totte Karlsson & Herbert M Sauro
  *
  * <--------------------------------------------------------------
@@ -72,7 +72,7 @@ using std::string;
 using std::vector;
 
 /*!
- \brief Set API error
+ \brief Set wrappers error
 
  \param[in] error A string containg the error
  \ingroup cpp_support

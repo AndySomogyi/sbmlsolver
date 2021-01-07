@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+  <compounddef id="classrr_1_1Token" kind="class" language="C++" prot="public">
+    <compoundname>rr::Token</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classrr_1_1Token_1aa99968ad0d76b4ded8dccdf4653c17c3" prot="public" static="no" mutable="no">
+        <type>CodeTypes::CodeTypes</type>
+        <definition>CodeTypes::CodeTypes rr::Token::tokenCode</definition>
+        <argsstring></argsstring>
+        <name>tokenCode</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrToken.h" line="14" column="26" bodyfile="c/rrToken.h" bodystart="14" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrr_1_1Token_1a6c7cb0b1ffe54f4946328d5ba2a3d03c" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double rr::Token::tokenDouble</definition>
+        <argsstring></argsstring>
+        <name>tokenDouble</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrToken.h" line="15" column="12" bodyfile="c/rrToken.h" bodystart="15" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrr_1_1Token_1abf1259f9e156f72cefd0eed4b2716821" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int rr::Token::tokenInteger</definition>
+        <argsstring></argsstring>
+        <name>tokenInteger</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrToken.h" line="16" column="9" bodyfile="c/rrToken.h" bodystart="16" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrr_1_1Token_1a70594e4c1406014394e7eda8536cb666" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string rr::Token::tokenString</definition>
+        <argsstring></argsstring>
+        <name>tokenString</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrToken.h" line="17" column="17" bodyfile="c/rrToken.h" bodystart="17" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrr_1_1Token_1a74dafcc0d315cb0a08eb15fdbaa8c7ce" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double rr::Token::tokenValue</definition>
+        <argsstring></argsstring>
+        <name>tokenValue</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrToken.h" line="18" column="12" bodyfile="c/rrToken.h" bodystart="18" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classrr_1_1Token_1ab385f3af7e5584ec5f047298350be4ce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>rr::Token::Token</definition>
+        <argsstring>(const CodeTypes::CodeTypes &amp;code=CodeTypes::tEmptyToken)</argsstring>
+        <name>Token</name>
+        <param>
+          <type>const CodeTypes::CodeTypes &amp;</type>
+          <declname>code</declname>
+          <defval>CodeTypes::tEmptyToken</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="c/rrToken.h" line="19" column="5" bodyfile="c/rrToken.cpp" bodystart="8" bodyend="15"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="1">
+        <label>rr::Token</label>
+        <link refid="classrr_1_1Token"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>tokenString</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="c/rrToken.h" line="11" column="1" bodyfile="c/rrToken.h" bodystart="12" bodyend="20"/>
+    <listofallmembers>
+      <member refid="classrr_1_1Token_1ab385f3af7e5584ec5f047298350be4ce" prot="public" virt="non-virtual"><scope>rr::Token</scope><name>Token</name></member>
+      <member refid="classrr_1_1Token_1aa99968ad0d76b4ded8dccdf4653c17c3" prot="public" virt="non-virtual"><scope>rr::Token</scope><name>tokenCode</name></member>
+      <member refid="classrr_1_1Token_1a6c7cb0b1ffe54f4946328d5ba2a3d03c" prot="public" virt="non-virtual"><scope>rr::Token</scope><name>tokenDouble</name></member>
+      <member refid="classrr_1_1Token_1abf1259f9e156f72cefd0eed4b2716821" prot="public" virt="non-virtual"><scope>rr::Token</scope><name>tokenInteger</name></member>
+      <member refid="classrr_1_1Token_1a70594e4c1406014394e7eda8536cb666" prot="public" virt="non-virtual"><scope>rr::Token</scope><name>tokenString</name></member>
+      <member refid="classrr_1_1Token_1a74dafcc0d315cb0a08eb15fdbaa8c7ce" prot="public" virt="non-virtual"><scope>rr::Token</scope><name>tokenValue</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

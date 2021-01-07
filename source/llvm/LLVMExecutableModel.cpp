@@ -1450,6 +1450,12 @@ std::string LLVMExecutableModel::getEventId(size_t index)
     }
 }
 
+void LLVMExecutableModel::getEventIds(std::list<std::string>& out)
+{
+    std::vector<std::string> eventIds = symbols->getEventIds();
+    std::copy(eventIds.begin(), eventIds.end(), std::back_inserter(out));
+}
+
 void LLVMExecutableModel::setEventListener(size_t index,
         rr::EventListenerPtr eventHandler)
 {

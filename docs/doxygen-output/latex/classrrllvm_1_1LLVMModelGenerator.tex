@@ -1,0 +1,45 @@
+\hypertarget{classrrllvm_1_1LLVMModelGenerator}{}\doxysection{rrllvm\+::L\+L\+V\+M\+Model\+Generator Class Reference}
+\label{classrrllvm_1_1LLVMModelGenerator}\index{rrllvm::LLVMModelGenerator@{rrllvm::LLVMModelGenerator}}
+
+
+General concepts\+:  
+
+
+
+
+{\ttfamily \#include $<$L\+L\+V\+M\+Model\+Generator.\+h$>$}
+
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classrrllvm_1_1LLVMModelGenerator_a4356fc010a0aa998ff588c210427f09b}\label{classrrllvm_1_1LLVMModelGenerator_a4356fc010a0aa998ff588c210427f09b}} 
+static \mbox{\hyperlink{classrr_1_1ExecutableModel}{rr\+::\+Executable\+Model}} $\ast$ \mbox{\hyperlink{classrrllvm_1_1LLVMModelGenerator_a4356fc010a0aa998ff588c210427f09b}{create\+Model}} (const std\+::string \&sbml, uint options)
+\begin{DoxyCompactList}\small\item\em Create an executable model from an sbml string. \end{DoxyCompactList}\item 
+static \mbox{\hyperlink{classrr_1_1ExecutableModel}{rr\+::\+Executable\+Model}} $\ast$ \mbox{\hyperlink{classrrllvm_1_1LLVMModelGenerator_acca1a198b41b71a1abfc28f45422b861}{regenerate\+Model}} (\mbox{\hyperlink{classrr_1_1ExecutableModel}{rr\+::\+Executable\+Model}} $\ast$old\+Model, libsbml\+::\+S\+B\+M\+L\+Document $\ast$doc, uint options)
+\begin{DoxyCompactList}\small\item\em Regenerate an executable model from an existing sbml document i.\+e. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+General concepts\+: 
+
+S\+B\+ML defines chemical species.
+
+Floating Species\+: species whose value varies over time, i.\+e. they can \textquotesingle{}float\textquotesingle{} Boundary Species\+: boundary condition species, values are fixed to initial conditions. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classrrllvm_1_1LLVMModelGenerator_acca1a198b41b71a1abfc28f45422b861}\label{classrrllvm_1_1LLVMModelGenerator_acca1a198b41b71a1abfc28f45422b861}} 
+\index{rrllvm::LLVMModelGenerator@{rrllvm::LLVMModelGenerator}!regenerateModel@{regenerateModel}}
+\index{regenerateModel@{regenerateModel}!rrllvm::LLVMModelGenerator@{rrllvm::LLVMModelGenerator}}
+\doxysubsubsection{\texorpdfstring{regenerateModel()}{regenerateModel()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classrr_1_1ExecutableModel}{Executable\+Model}} $\ast$ rrllvm\+::\+L\+L\+V\+M\+Model\+Generator\+::regenerate\+Model (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classrr_1_1ExecutableModel}{rr\+::\+Executable\+Model}} $\ast$}]{old\+Model,  }\item[{libsbml\+::\+S\+B\+M\+L\+Document $\ast$}]{doc,  }\item[{uint}]{options }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Regenerate an executable model from an existing sbml document i.\+e. 
+
+generate the model normally from the S\+B\+ML document, but copy the values of the floating species (initial and current), boundary species, compartments (initial and current), global parameters (initial and current) that are in both old\+Model and doc, as well as time from the old model into the one returned 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+llvm/L\+L\+V\+M\+Model\+Generator.\+h\item 
+llvm/L\+L\+V\+M\+Model\+Generator.\+cpp\end{DoxyCompactItemize}

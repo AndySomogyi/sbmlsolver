@@ -1,0 +1,83 @@
+\hypertarget{classrrllvm_1_1Event}{}\doxysection{rrllvm\+::Event Class Reference}
+\label{classrrllvm_1_1Event}\index{rrllvm::Event@{rrllvm::Event}}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classrrllvm_1_1Event_a21ce749643495d93b51048dab56559ca}\label{classrrllvm_1_1Event_a21ce749643495d93b51048dab56559ca}} 
+{\bfseries Event} (\mbox{\hyperlink{classrrllvm_1_1LLVMExecutableModel}{L\+L\+V\+M\+Executable\+Model}} \&, uint id)
+\item 
+\mbox{\Hypertarget{classrrllvm_1_1Event_ae324e7f672147244ea90a1b2982406d3}\label{classrrllvm_1_1Event_ae324e7f672147244ea90a1b2982406d3}} 
+{\bfseries Event} (const \mbox{\hyperlink{classrr_1_1Event}{Event}} \&other)
+\item 
+\mbox{\Hypertarget{classrrllvm_1_1Event_a069991382182b808e5bcff4d3ff22e05}\label{classrrllvm_1_1Event_a069991382182b808e5bcff4d3ff22e05}} 
+\mbox{\hyperlink{classrr_1_1Event}{Event}} \& {\bfseries operator=} (const \mbox{\hyperlink{classrr_1_1Event}{Event}} \&rhs)
+\item 
+\mbox{\Hypertarget{classrrllvm_1_1Event_a7833d4f2c70a42ca97b3fd920a007b30}\label{classrrllvm_1_1Event_a7833d4f2c70a42ca97b3fd920a007b30}} 
+void {\bfseries assign} () const
+\item 
+\mbox{\Hypertarget{classrrllvm_1_1Event_a62c05f332974a4ba6dc8dc60f178d4c8}\label{classrrllvm_1_1Event_a62c05f332974a4ba6dc8dc60f178d4c8}} 
+bool {\bfseries is\+Expired} () const
+\item 
+\mbox{\Hypertarget{classrrllvm_1_1Event_af22cd236be520ffe6c26cf37b1a53be8}\label{classrrllvm_1_1Event_af22cd236be520ffe6c26cf37b1a53be8}} 
+bool \mbox{\hyperlink{classrrllvm_1_1Event_af22cd236be520ffe6c26cf37b1a53be8}{is\+Current}} () const
+\begin{DoxyCompactList}\small\item\em delay is zero and either persistent or triggered. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classrrllvm_1_1Event_a2984456fc3edf6bc653d12a3ec73031e}\label{classrrllvm_1_1Event_a2984456fc3edf6bc653d12a3ec73031e}} 
+double {\bfseries get\+Priority} () const
+\item 
+\mbox{\Hypertarget{classrrllvm_1_1Event_a69ee9c33388e5b0a0823b5560b5f4b1c}\label{classrrllvm_1_1Event_a69ee9c33388e5b0a0823b5560b5f4b1c}} 
+bool {\bfseries is\+Persistent} () const
+\item 
+\mbox{\Hypertarget{classrrllvm_1_1Event_ad2c770e700d16f84cfc421afc1763ab3}\label{classrrllvm_1_1Event_ad2c770e700d16f84cfc421afc1763ab3}} 
+bool {\bfseries use\+Values\+From\+Trigger\+Time} () const
+\item 
+\mbox{\Hypertarget{classrrllvm_1_1Event_acb47766244aaef9103dd24aaa6f3dc53}\label{classrrllvm_1_1Event_acb47766244aaef9103dd24aaa6f3dc53}} 
+bool {\bfseries is\+Triggered} () const
+\item 
+\mbox{\Hypertarget{classrrllvm_1_1Event_a2ce6cec1d57bb2fb173af09a5ef1b337}\label{classrrllvm_1_1Event_a2ce6cec1d57bb2fb173af09a5ef1b337}} 
+bool \mbox{\hyperlink{classrrllvm_1_1Event_a2ce6cec1d57bb2fb173af09a5ef1b337}{is\+Ripe}} () const
+\begin{DoxyCompactList}\small\item\em is this event ready to be applied \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classrrllvm_1_1Event_a6998c57a7bc0bbd7e59b435137e09b55}\label{classrrllvm_1_1Event_a6998c57a7bc0bbd7e59b435137e09b55}} 
+\mbox{\hyperlink{classrrllvm_1_1LLVMExecutableModel}{L\+L\+V\+M\+Executable\+Model}} \& {\bfseries model}
+\item 
+\mbox{\Hypertarget{classrrllvm_1_1Event_a83a6728dc04b25f42d64fb1c0ebd694a}\label{classrrllvm_1_1Event_a83a6728dc04b25f42d64fb1c0ebd694a}} 
+uint {\bfseries id}
+\item 
+\mbox{\Hypertarget{classrrllvm_1_1Event_a9b2ab0c8cdccfcfde6f3f8c789eb98f7}\label{classrrllvm_1_1Event_a9b2ab0c8cdccfcfde6f3f8c789eb98f7}} 
+double {\bfseries delay}
+\item 
+\mbox{\Hypertarget{classrrllvm_1_1Event_a6bec3e789e5179cd715632b47b6c59bb}\label{classrrllvm_1_1Event_a6bec3e789e5179cd715632b47b6c59bb}} 
+double {\bfseries assign\+Time}
+\item 
+\mbox{\Hypertarget{classrrllvm_1_1Event_ab27892be72c31547eb1435e655fd43c9}\label{classrrllvm_1_1Event_ab27892be72c31547eb1435e655fd43c9}} 
+uint {\bfseries data\+Size}
+\item 
+double $\ast$ \mbox{\hyperlink{classrrllvm_1_1Event_aa209f97e1960c357d4a2108050aab330}{data}}
+\begin{DoxyCompactList}\small\item\em data block where assignment rules evaluations are stored if use\+Values\+From\+Trigger\+Time is set. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classrrllvm_1_1Event_a7e9a71edff5dada6a376bd88a8eb087b}\label{classrrllvm_1_1Event_a7e9a71edff5dada6a376bd88a8eb087b}} 
+bool {\bfseries operator$<$} (const \mbox{\hyperlink{classrr_1_1Event}{Event}} \&a, const \mbox{\hyperlink{classrr_1_1Event}{Event}} \&b)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classrrllvm_1_1Event_aa209f97e1960c357d4a2108050aab330}\label{classrrllvm_1_1Event_aa209f97e1960c357d4a2108050aab330}} 
+\index{rrllvm::Event@{rrllvm::Event}!data@{data}}
+\index{data@{data}!rrllvm::Event@{rrllvm::Event}}
+\doxysubsubsection{\texorpdfstring{data}{data}}
+{\footnotesize\ttfamily double$\ast$ rrllvm\+::\+Event\+::data}
+
+
+
+data block where assignment rules evaluations are stored if use\+Values\+From\+Trigger\+Time is set. 
+
+T\+O\+DO\+: this should probably be allocated with the Model\+Data structure. Original idea was that more than one event of a type may be queued, but I don\textquotesingle{}t think this is possible. 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+llvm/Event\+Queue.\+h\item 
+llvm/Event\+Queue.\+cpp\end{DoxyCompactItemize}

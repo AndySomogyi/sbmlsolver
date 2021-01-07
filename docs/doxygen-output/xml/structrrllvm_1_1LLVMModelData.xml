@@ -1,0 +1,528 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+  <compounddef id="structrrllvm_1_1LLVMModelData" kind="struct" language="C++" prot="public">
+    <compoundname>rrllvm::LLVMModelData</compoundname>
+    <includes refid="LLVMModelData_8h" local="no">LLVMModelData.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structrrllvm_1_1LLVMModelData_1a14eb8ba27b1fcee72817ab9a05638afe" prot="public" static="no" mutable="no">
+        <type>unsigned</type>
+        <definition>unsigned rrllvm::LLVMModelData::size</definition>
+        <argsstring></argsstring>
+        <name>size</name>
+        <briefdescription>
+<para>sizeof this struct, make sure we use the correct size in LLVM land. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/LLVMModelData.h" line="52" column="41" bodyfile="llvm/LLVMModelData.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structrrllvm_1_1LLVMModelData_1ab37211359aa6f8055e0f2dbdd944496a" prot="public" static="no" mutable="no">
+        <type>unsigned</type>
+        <definition>unsigned rrllvm::LLVMModelData::flags</definition>
+        <argsstring></argsstring>
+        <name>flags</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/LLVMModelData.h" line="54" column="41" bodyfile="llvm/LLVMModelData.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structrrllvm_1_1LLVMModelData_1a7659d7d4f6ba53d3456f2b29b8631c28" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double rrllvm::LLVMModelData::time</definition>
+        <argsstring></argsstring>
+        <name>time</name>
+        <briefdescription>
+<para>current time. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/LLVMModelData.h" line="59" column="41" bodyfile="llvm/LLVMModelData.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structrrllvm_1_1LLVMModelData_1a419e418e6e2758990ca5e7a1416a4a78" prot="public" static="no" mutable="no">
+        <type>unsigned</type>
+        <definition>unsigned rrllvm::LLVMModelData::numIndCompartments</definition>
+        <argsstring></argsstring>
+        <name>numIndCompartments</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/LLVMModelData.h" line="61" column="41" bodyfile="llvm/LLVMModelData.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structrrllvm_1_1LLVMModelData_1a00d623dc7588f7eacc2fa3ce2e1bade0" prot="public" static="no" mutable="no">
+        <type>unsigned</type>
+        <definition>unsigned rrllvm::LLVMModelData::numIndFloatingSpecies</definition>
+        <argsstring></argsstring>
+        <name>numIndFloatingSpecies</name>
+        <briefdescription>
+<para>The total ammounts of the independent floating species that don&apos;t have rules, i.e. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>concentration * compartment volume.</para>
+<para>Note, the floating species consist of BOTH independent AND dependent species. Indexes [0,numIndpendentSpecies) values are the indenpendent species, other dependent species stored in RateRule block </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/LLVMModelData.h" line="71" column="41" bodyfile="llvm/LLVMModelData.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structrrllvm_1_1LLVMModelData_1acb67b3d0e45edcb2e936b39cb0ebe109" prot="public" static="no" mutable="no">
+        <type>unsigned</type>
+        <definition>unsigned rrllvm::LLVMModelData::numIndBoundarySpecies</definition>
+        <argsstring></argsstring>
+        <name>numIndBoundarySpecies</name>
+        <briefdescription>
+<para>number of boundary species and boundary species concentrations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>units: either Mass Percent = (Mass of Solute) / (Mass of Solution) x 100% Volume Percent= (Volume of Solute) / (Volume of Solution) x 100% Mass/Volume Percent= (Mass of Solute) / (Volume of Solution) x 100% </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/LLVMModelData.h" line="80" column="41" bodyfile="llvm/LLVMModelData.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structrrllvm_1_1LLVMModelData_1a2f418efb9d6e16d6f4f226ea4363fc66" prot="public" static="no" mutable="no">
+        <type>unsigned</type>
+        <definition>unsigned rrllvm::LLVMModelData::numIndGlobalParameters</definition>
+        <argsstring></argsstring>
+        <name>numIndGlobalParameters</name>
+        <briefdescription>
+<para>number of global parameters </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/LLVMModelData.h" line="85" column="41" bodyfile="llvm/LLVMModelData.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structrrllvm_1_1LLVMModelData_1abd8ea24653988b3040b45f77a8a149c6" prot="public" static="no" mutable="no">
+        <type>unsigned</type>
+        <definition>unsigned rrllvm::LLVMModelData::numRateRules</definition>
+        <argsstring></argsstring>
+        <name>numRateRules</name>
+        <briefdescription>
+<para>all rate rules are by definition dependent </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/LLVMModelData.h" line="91" column="41" bodyfile="llvm/LLVMModelData.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structrrllvm_1_1LLVMModelData_1a6d14b37c5ab67fe41314c82b7124c6ab" prot="public" static="no" mutable="no">
+        <type>unsigned</type>
+        <definition>unsigned rrllvm::LLVMModelData::numReactions</definition>
+        <argsstring></argsstring>
+        <name>numReactions</name>
+        <briefdescription>
+<para>number of reactions, same as ratesSize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>These are the calcuated reaction rates, not the species rates. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/LLVMModelData.h" line="98" column="41" bodyfile="llvm/LLVMModelData.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structrrllvm_1_1LLVMModelData_1af5ebd0e373173edbb513665ac53076df" prot="public" static="no" mutable="no">
+        <type>unsigned</type>
+        <definition>unsigned rrllvm::LLVMModelData::numInitCompartments</definition>
+        <argsstring></argsstring>
+        <name>numInitCompartments</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/LLVMModelData.h" line="100" column="41" bodyfile="llvm/LLVMModelData.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structrrllvm_1_1LLVMModelData_1aabbaf9908bfabf8e34c2b5b10fdbdd98" prot="public" static="no" mutable="no">
+        <type>unsigned</type>
+        <definition>unsigned rrllvm::LLVMModelData::numInitFloatingSpecies</definition>
+        <argsstring></argsstring>
+        <name>numInitFloatingSpecies</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/LLVMModelData.h" line="101" column="41" bodyfile="llvm/LLVMModelData.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structrrllvm_1_1LLVMModelData_1ab4278c9b27b758c33e25aa445209b60c" prot="public" static="no" mutable="no">
+        <type>unsigned</type>
+        <definition>unsigned rrllvm::LLVMModelData::numInitBoundarySpecies</definition>
+        <argsstring></argsstring>
+        <name>numInitBoundarySpecies</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/LLVMModelData.h" line="102" column="41" bodyfile="llvm/LLVMModelData.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structrrllvm_1_1LLVMModelData_1ad988d3c12d0950530ace3c0275d0db72" prot="public" static="no" mutable="no">
+        <type>unsigned</type>
+        <definition>unsigned rrllvm::LLVMModelData::numInitGlobalParameters</definition>
+        <argsstring></argsstring>
+        <name>numInitGlobalParameters</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/LLVMModelData.h" line="103" column="41" bodyfile="llvm/LLVMModelData.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structrrllvm_1_1LLVMModelData_1a49e6b41b71f22d6a7a68c1c667d86dbf" prot="public" static="no" mutable="no">
+        <type><ref refid="structrr_1_1csr__matrix__t" kindref="compound">rr::csr_matrix</ref> *</type>
+        <definition>rr::csr_matrix* rrllvm::LLVMModelData::stoichiometry</definition>
+        <argsstring></argsstring>
+        <name>stoichiometry</name>
+        <briefdescription>
+<para>stoichiometry matrix </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/LLVMModelData.h" line="108" column="40" bodyfile="llvm/LLVMModelData.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structrrllvm_1_1LLVMModelData_1a9df55f11ff25e0a045ce4d7fcee6a29b" prot="public" static="no" mutable="no">
+        <type>class <ref refid="classrr_1_1Random" kindref="compound">Random</ref> *</type>
+        <definition>class Random* rrllvm::LLVMModelData::random</definition>
+        <argsstring></argsstring>
+        <name>random</name>
+        <briefdescription>
+<para>The <ref refid="classrrllvm_1_1Random" kindref="compound">rrllvm::Random</ref> class holds a RNG and caches random distributions used by the distrib package. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/LLVMModelData.h" line="114" column="40" bodyfile="llvm/LLVMModelData.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structrrllvm_1_1LLVMModelData_1a4f16cba09056ef9ddbce8c46a46f70fc" prot="public" static="no" mutable="no">
+        <type>unsigned</type>
+        <definition>unsigned rrllvm::LLVMModelData::numEvents</definition>
+        <argsstring></argsstring>
+        <name>numEvents</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/LLVMModelData.h" line="118" column="41" bodyfile="llvm/LLVMModelData.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structrrllvm_1_1LLVMModelData_1a13d7b1094bd407bc0422943c196f4f09" prot="public" static="no" mutable="no">
+        <type>unsigned</type>
+        <definition>unsigned rrllvm::LLVMModelData::stateVectorSize</definition>
+        <argsstring></argsstring>
+        <name>stateVectorSize</name>
+        <briefdescription>
+<para>number of items in the state vector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>should be numIndFloatingSpecies + numRateRules </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/LLVMModelData.h" line="124" column="41" bodyfile="llvm/LLVMModelData.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structrrllvm_1_1LLVMModelData_1a1d6d7fb287227490a08abd550f10074c" prot="public" static="no" mutable="no">
+        <type>double *</type>
+        <definition>double* rrllvm::LLVMModelData::stateVector</definition>
+        <argsstring></argsstring>
+        <name>stateVector</name>
+        <briefdescription>
+<para>the state vector, this is usually a pointer to a block of data owned by the integrator. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/LLVMModelData.h" line="130" column="40" bodyfile="llvm/LLVMModelData.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structrrllvm_1_1LLVMModelData_1aab22d8a200ecb761c1255711401298dc" prot="public" static="no" mutable="no">
+        <type>double *</type>
+        <definition>double* rrllvm::LLVMModelData::stateVectorRate</definition>
+        <argsstring></argsstring>
+        <name>stateVectorRate</name>
+        <briefdescription>
+<para>the rate of change of the state vector, this is usually a pointer to a block of data owned by the integrator. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/LLVMModelData.h" line="136" column="40" bodyfile="llvm/LLVMModelData.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structrrllvm_1_1LLVMModelData_1a56b5c0718c3ada5dcbba2162778badcc" prot="public" static="no" mutable="no">
+        <type>double *</type>
+        <definition>double* rrllvm::LLVMModelData::rateRuleRates</definition>
+        <argsstring></argsstring>
+        <name>rateRuleRates</name>
+        <briefdescription>
+<para>the rate of change of all elements who&apos;s dynamics are determined by rate rules. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This is just a pointer to a data block owned by the integrator.</para>
+<para>Normally NULL, only valid durring an evalModel call. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/LLVMModelData.h" line="147" column="40" bodyfile="llvm/LLVMModelData.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structrrllvm_1_1LLVMModelData_1a466783f9f4d8c673d400024969195874" prot="public" static="no" mutable="no">
+        <type>double *</type>
+        <definition>double* rrllvm::LLVMModelData::floatingSpeciesAmountRates</definition>
+        <argsstring></argsstring>
+        <name>floatingSpeciesAmountRates</name>
+        <briefdescription>
+<para>amount rates of change for floating species. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This pointer is ONLY valid during an evalModel call, otherwise it is zero. TODO, this needs be be moved to a parameter. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/LLVMModelData.h" line="157" column="40" bodyfile="llvm/LLVMModelData.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structrrllvm_1_1LLVMModelData_1a82b40561feb7109b0d8cfa034f014e0c" prot="public" static="no" mutable="no">
+        <type>double *</type>
+        <definition>double* rrllvm::LLVMModelData::compartmentVolumesAlias</definition>
+        <argsstring></argsstring>
+        <name>compartmentVolumesAlias</name>
+        <briefdescription>
+<para>******* Permanent data section ******* </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Ten Alias pointers below point to ten arrays stored continously in data[0] at the end of this struct. number of compartments, and compartment volumes. units: volume </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/LLVMModelData.h" line="173" column="40" bodyfile="llvm/LLVMModelData.h" bodystart="173" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structrrllvm_1_1LLVMModelData_1a9799c886fe4155a007f5ef88fd1a7ee9" prot="public" static="no" mutable="no">
+        <type>double *</type>
+        <definition>double* rrllvm::LLVMModelData::initCompartmentVolumesAlias</definition>
+        <argsstring></argsstring>
+        <name>initCompartmentVolumesAlias</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/LLVMModelData.h" line="174" column="40" bodyfile="llvm/LLVMModelData.h" bodystart="174" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structrrllvm_1_1LLVMModelData_1a34634a6ccba0369823b9f085acfd2b76" prot="public" static="no" mutable="no">
+        <type>double *</type>
+        <definition>double* rrllvm::LLVMModelData::initFloatingSpeciesAmountsAlias</definition>
+        <argsstring></argsstring>
+        <name>initFloatingSpeciesAmountsAlias</name>
+        <briefdescription>
+<para>\conservation </para>
+        </briefdescription>
+        <detaileddescription>
+<para>length numIndFloatingSpecies</para>
+<para>Note that dependent floating species which have a rate rule will not be stored in this block, instead, they will be stored in RateRule block </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/LLVMModelData.h" line="185" column="40" bodyfile="llvm/LLVMModelData.h" bodystart="185" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structrrllvm_1_1LLVMModelData_1a56b0a9fcbdeafb7b801928ba755e5a4d" prot="public" static="no" mutable="no">
+        <type>double *</type>
+        <definition>double* rrllvm::LLVMModelData::boundarySpeciesAmountsAlias</definition>
+        <argsstring></argsstring>
+        <name>boundarySpeciesAmountsAlias</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/LLVMModelData.h" line="188" column="40" bodyfile="llvm/LLVMModelData.h" bodystart="188" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structrrllvm_1_1LLVMModelData_1ac01f3bdc23dbe0ef5e82c36a7d91d226" prot="public" static="no" mutable="no">
+        <type>double *</type>
+        <definition>double* rrllvm::LLVMModelData::initBoundarySpeciesAmountsAlias</definition>
+        <argsstring></argsstring>
+        <name>initBoundarySpeciesAmountsAlias</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/LLVMModelData.h" line="189" column="40" bodyfile="llvm/LLVMModelData.h" bodystart="189" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structrrllvm_1_1LLVMModelData_1ac5aa5c4de40573c1593b85283048682b" prot="public" static="no" mutable="no">
+        <type>double *</type>
+        <definition>double* rrllvm::LLVMModelData::globalParametersAlias</definition>
+        <argsstring></argsstring>
+        <name>globalParametersAlias</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/LLVMModelData.h" line="191" column="40" bodyfile="llvm/LLVMModelData.h" bodystart="191" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structrrllvm_1_1LLVMModelData_1a556c403065965d6301e79532f6cfb149" prot="public" static="no" mutable="no">
+        <type>double *</type>
+        <definition>double* rrllvm::LLVMModelData::initGlobalParametersAlias</definition>
+        <argsstring></argsstring>
+        <name>initGlobalParametersAlias</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/LLVMModelData.h" line="192" column="40" bodyfile="llvm/LLVMModelData.h" bodystart="192" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structrrllvm_1_1LLVMModelData_1a1dacff15b0a7413770b68298caa272ed" prot="public" static="no" mutable="no">
+        <type>double *</type>
+        <definition>double* rrllvm::LLVMModelData::reactionRatesAlias</definition>
+        <argsstring></argsstring>
+        <name>reactionRatesAlias</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/LLVMModelData.h" line="194" column="40" bodyfile="llvm/LLVMModelData.h" bodystart="194" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structrrllvm_1_1LLVMModelData_1a8c97c01aea7c7e1f8584447fe8296b7f" prot="public" static="no" mutable="no">
+        <type>double *</type>
+        <definition>double* rrllvm::LLVMModelData::rateRuleValuesAlias</definition>
+        <argsstring></argsstring>
+        <name>rateRuleValuesAlias</name>
+        <briefdescription>
+<para>All of the elelments which have a rate rule are stored here, including the dependent floating species, which will not be stored in the independent floating species block. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>As the integrator runs, this pointer can simply point to an offset in the integrator&apos;s state vector.</para>
+<para>This pointer is part of the state vector. When any function is called by CVODE, this is actually a pointer to a CVODE owned memory block. Otherwise, this points to the alocated rateRuleValues block at the end of this struct. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/LLVMModelData.h" line="210" column="40" bodyfile="llvm/LLVMModelData.h" bodystart="210" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structrrllvm_1_1LLVMModelData_1ae481882dda1cfd8bacab33b05fc86557" prot="public" static="no" mutable="no">
+        <type>double *</type>
+        <definition>double* rrllvm::LLVMModelData::floatingSpeciesAmountsAlias</definition>
+        <argsstring></argsstring>
+        <name>floatingSpeciesAmountsAlias</name>
+        <briefdescription>
+<para>has length numIndFloatingSpecies </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This pointer is part of the state vector. When any function is called by CVODE, this is actually a pointer to a CVODE owned memory block. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/LLVMModelData.h" line="221" column="40" bodyfile="llvm/LLVMModelData.h" bodystart="221" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structrrllvm_1_1LLVMModelData_1a6ea5c7859174d56f11254b889fb0da1a" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double rrllvm::LLVMModelData::data[0]</definition>
+        <argsstring>[0]</argsstring>
+        <name>data</name>
+        <briefdescription>
+<para>binary data layout: </para>
+        </briefdescription>
+        <detaileddescription>
+<para>compartmentVolumes [numIndCompartmentVolumes] // 31 initCompartmentVolumes [numInitCompartmentVolumes] // 32 initFloatingSpeciesAmounts [numInitFloatingSpecies] // 33 boundarySpeciesAmounts [numIndBoundarySpecies] // 34 initBoundarySpeciesAmounts [numInitBoundarySpecies] // 35 globalParameters [numIndGlobalParameters] // 36 initGlobalParameters [numInitGlobalParameters] // 37 reactionRates [numReactions] // 38</para>
+<para>rateRuleValues [numRateRules] // 39 floatingSpeciesAmounts [numIndFloatingSpecies] // 40 This dynamic-sized array will be allocated while this ModelData is allocated. Ten array in the permanent data section is stored contiously in this chunck. Size of each array is defined by ten unsigned integer above. Values can be accessed using ten alias pointers defined above. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/LLVMModelData.h" line="246" column="41" bodyfile="llvm/LLVMModelData.h" bodystart="246" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>A data structure that is that allows data to be exchanged with running SBML models. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>In the case of CExecutableModels, A pointer to this struct is given to the compiled shared library, and the C code there modifies the buffers of this structure.</para>
+<para>There are some functions in ExecutableModel.h that manage ModelData memory. These would have made more sense here, but in order to prevent any issues with generated code interacting with them, they were placed there.</para>
+<para>Basic Nomencalture Compartments: A well stirred compartment which contains one or more species. the volume of a compartment can change durring the course of a simulation.</para>
+<para>Floating Species: these are chemical species who&apos;s values (ammount / concentration) change over time.</para>
+<para>Boundary Species: chemical species that who&apos;s values are fixed to their initial conditions, these function as boundary conditions.</para>
+<para><simplesect kind="see"><para>ExecutableModel.h </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="3">
+        <label>rr::Random</label>
+        <link refid="classrr_1_1Random"/>
+      </node>
+      <node id="1">
+        <label>rrllvm::LLVMModelData</label>
+        <link refid="structrrllvm_1_1LLVMModelData"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>stoichiometry</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>random</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>rr::csr_matrix_t</label>
+        <link refid="structrr_1_1csr__matrix__t"/>
+      </node>
+    </collaborationgraph>
+    <location file="llvm/LLVMModelData.h" line="46" column="1" bodyfile="llvm/LLVMModelData.h" bodystart="47" bodyend="247"/>
+    <listofallmembers>
+      <member refid="structrrllvm_1_1LLVMModelData_1a56b0a9fcbdeafb7b801928ba755e5a4d" prot="public" virt="non-virtual"><scope>rrllvm::LLVMModelData</scope><name>boundarySpeciesAmountsAlias</name></member>
+      <member refid="structrrllvm_1_1LLVMModelData_1a82b40561feb7109b0d8cfa034f014e0c" prot="public" virt="non-virtual"><scope>rrllvm::LLVMModelData</scope><name>compartmentVolumesAlias</name></member>
+      <member refid="structrrllvm_1_1LLVMModelData_1a6ea5c7859174d56f11254b889fb0da1a" prot="public" virt="non-virtual"><scope>rrllvm::LLVMModelData</scope><name>data</name></member>
+      <member refid="structrrllvm_1_1LLVMModelData_1ab37211359aa6f8055e0f2dbdd944496a" prot="public" virt="non-virtual"><scope>rrllvm::LLVMModelData</scope><name>flags</name></member>
+      <member refid="structrrllvm_1_1LLVMModelData_1a466783f9f4d8c673d400024969195874" prot="public" virt="non-virtual"><scope>rrllvm::LLVMModelData</scope><name>floatingSpeciesAmountRates</name></member>
+      <member refid="structrrllvm_1_1LLVMModelData_1ae481882dda1cfd8bacab33b05fc86557" prot="public" virt="non-virtual"><scope>rrllvm::LLVMModelData</scope><name>floatingSpeciesAmountsAlias</name></member>
+      <member refid="structrrllvm_1_1LLVMModelData_1ac5aa5c4de40573c1593b85283048682b" prot="public" virt="non-virtual"><scope>rrllvm::LLVMModelData</scope><name>globalParametersAlias</name></member>
+      <member refid="structrrllvm_1_1LLVMModelData_1ac01f3bdc23dbe0ef5e82c36a7d91d226" prot="public" virt="non-virtual"><scope>rrllvm::LLVMModelData</scope><name>initBoundarySpeciesAmountsAlias</name></member>
+      <member refid="structrrllvm_1_1LLVMModelData_1a9799c886fe4155a007f5ef88fd1a7ee9" prot="public" virt="non-virtual"><scope>rrllvm::LLVMModelData</scope><name>initCompartmentVolumesAlias</name></member>
+      <member refid="structrrllvm_1_1LLVMModelData_1a34634a6ccba0369823b9f085acfd2b76" prot="public" virt="non-virtual"><scope>rrllvm::LLVMModelData</scope><name>initFloatingSpeciesAmountsAlias</name></member>
+      <member refid="structrrllvm_1_1LLVMModelData_1a556c403065965d6301e79532f6cfb149" prot="public" virt="non-virtual"><scope>rrllvm::LLVMModelData</scope><name>initGlobalParametersAlias</name></member>
+      <member refid="structrrllvm_1_1LLVMModelData_1a4f16cba09056ef9ddbce8c46a46f70fc" prot="public" virt="non-virtual"><scope>rrllvm::LLVMModelData</scope><name>numEvents</name></member>
+      <member refid="structrrllvm_1_1LLVMModelData_1acb67b3d0e45edcb2e936b39cb0ebe109" prot="public" virt="non-virtual"><scope>rrllvm::LLVMModelData</scope><name>numIndBoundarySpecies</name></member>
+      <member refid="structrrllvm_1_1LLVMModelData_1a419e418e6e2758990ca5e7a1416a4a78" prot="public" virt="non-virtual"><scope>rrllvm::LLVMModelData</scope><name>numIndCompartments</name></member>
+      <member refid="structrrllvm_1_1LLVMModelData_1a00d623dc7588f7eacc2fa3ce2e1bade0" prot="public" virt="non-virtual"><scope>rrllvm::LLVMModelData</scope><name>numIndFloatingSpecies</name></member>
+      <member refid="structrrllvm_1_1LLVMModelData_1a2f418efb9d6e16d6f4f226ea4363fc66" prot="public" virt="non-virtual"><scope>rrllvm::LLVMModelData</scope><name>numIndGlobalParameters</name></member>
+      <member refid="structrrllvm_1_1LLVMModelData_1ab4278c9b27b758c33e25aa445209b60c" prot="public" virt="non-virtual"><scope>rrllvm::LLVMModelData</scope><name>numInitBoundarySpecies</name></member>
+      <member refid="structrrllvm_1_1LLVMModelData_1af5ebd0e373173edbb513665ac53076df" prot="public" virt="non-virtual"><scope>rrllvm::LLVMModelData</scope><name>numInitCompartments</name></member>
+      <member refid="structrrllvm_1_1LLVMModelData_1aabbaf9908bfabf8e34c2b5b10fdbdd98" prot="public" virt="non-virtual"><scope>rrllvm::LLVMModelData</scope><name>numInitFloatingSpecies</name></member>
+      <member refid="structrrllvm_1_1LLVMModelData_1ad988d3c12d0950530ace3c0275d0db72" prot="public" virt="non-virtual"><scope>rrllvm::LLVMModelData</scope><name>numInitGlobalParameters</name></member>
+      <member refid="structrrllvm_1_1LLVMModelData_1abd8ea24653988b3040b45f77a8a149c6" prot="public" virt="non-virtual"><scope>rrllvm::LLVMModelData</scope><name>numRateRules</name></member>
+      <member refid="structrrllvm_1_1LLVMModelData_1a6d14b37c5ab67fe41314c82b7124c6ab" prot="public" virt="non-virtual"><scope>rrllvm::LLVMModelData</scope><name>numReactions</name></member>
+      <member refid="structrrllvm_1_1LLVMModelData_1a9df55f11ff25e0a045ce4d7fcee6a29b" prot="public" virt="non-virtual"><scope>rrllvm::LLVMModelData</scope><name>random</name></member>
+      <member refid="structrrllvm_1_1LLVMModelData_1a56b5c0718c3ada5dcbba2162778badcc" prot="public" virt="non-virtual"><scope>rrllvm::LLVMModelData</scope><name>rateRuleRates</name></member>
+      <member refid="structrrllvm_1_1LLVMModelData_1a8c97c01aea7c7e1f8584447fe8296b7f" prot="public" virt="non-virtual"><scope>rrllvm::LLVMModelData</scope><name>rateRuleValuesAlias</name></member>
+      <member refid="structrrllvm_1_1LLVMModelData_1a1dacff15b0a7413770b68298caa272ed" prot="public" virt="non-virtual"><scope>rrllvm::LLVMModelData</scope><name>reactionRatesAlias</name></member>
+      <member refid="structrrllvm_1_1LLVMModelData_1a14eb8ba27b1fcee72817ab9a05638afe" prot="public" virt="non-virtual"><scope>rrllvm::LLVMModelData</scope><name>size</name></member>
+      <member refid="structrrllvm_1_1LLVMModelData_1a1d6d7fb287227490a08abd550f10074c" prot="public" virt="non-virtual"><scope>rrllvm::LLVMModelData</scope><name>stateVector</name></member>
+      <member refid="structrrllvm_1_1LLVMModelData_1aab22d8a200ecb761c1255711401298dc" prot="public" virt="non-virtual"><scope>rrllvm::LLVMModelData</scope><name>stateVectorRate</name></member>
+      <member refid="structrrllvm_1_1LLVMModelData_1a13d7b1094bd407bc0422943c196f4f09" prot="public" virt="non-virtual"><scope>rrllvm::LLVMModelData</scope><name>stateVectorSize</name></member>
+      <member refid="structrrllvm_1_1LLVMModelData_1a49e6b41b71f22d6a7a68c1c667d86dbf" prot="public" virt="non-virtual"><scope>rrllvm::LLVMModelData</scope><name>stoichiometry</name></member>
+      <member refid="structrrllvm_1_1LLVMModelData_1a7659d7d4f6ba53d3456f2b29b8631c28" prot="public" virt="non-virtual"><scope>rrllvm::LLVMModelData</scope><name>time</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>
