@@ -160,9 +160,14 @@ cmake_dependent_option(RR_PLUGINS_BUILD_CHISQUARE_PLUGIN "Build the ChiSquare Pl
 cmake_dependent_option(RR_PLUGINS_BUILD_AUTO2000_PLUGIN "Build the Auto 2000 Plugin" ON "BUILD_RR_PLUGINS" OFF)
 cmake_dependent_option(RR_PLUGINS_BUILD_HELLO_PLUGIN "Build the Demo Plugin" ON "BUILD_RR_PLUGINS" OFF)
 
-#todo do these exist???
-#set (RR_PLUGINS_BUILD_LEVENBERG_MARQUARDT_PLUGIN ON CACHE BOOL "Build the Levenberg-Marquardt Plugin")
-#set (RR_PLUGINS_BUILD_NELDER_MEAD_PLUGIN ON CACHE BOOL "Build the Nelder-Mead Plugin")
+# Plugin selection: Unreleased
+cmake_dependent_option(RR_PLUGINS_BUILD_LEVENBERG_MARQUARDT_PLUGIN "Build the Levenberg-Marquardt Plugin (beta)" OFF "BUILD_RR_PLUGINS" OFF)
+cmake_dependent_option(RR_PLUGINS_BUILD_NELDER_MEAD_PLUGIN "Build the Nelder-Mead Plugin (beta)" OFF "BUILD_RR_PLUGINS" OFF)
+cmake_dependent_option(RR_PLUGINS_BUILD_MONTE_CARLO_PLUGIN "Build the Monte Carlo Plugin (beta)" OFF "BUILD_RR_PLUGINS" OFF)
+
+mark_as_advanced(RR_PLUGINS_BUILD_LEVENBERG_MARQUARDT_PLUGIN)
+mark_as_advanced(RR_PLUGINS_BUILD_NELDER_MEAD_PLUGIN)
+mark_as_advanced(RR_PLUGINS_BUILD_MONTE_CARLO_PLUGIN)
 
 set(CXX_STANDARD 14 CACHE STRING "set the cmake standard to use")
 
