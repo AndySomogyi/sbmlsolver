@@ -17,6 +17,7 @@ class NelderMead : public CPPPlugin
     friend class nmWorker;
 
     public:
+        PluginManager*                          mPM;                            //The plugin manager
         Property<string>                        mSBML;                          //This is the model
         Property<TelluriumData>				    mExperimentalData;
         Property<TelluriumData>			        mModelData;
@@ -81,6 +82,7 @@ class NelderMead : public CPPPlugin
         void                                    assignPropertyDescriptions();
         RoadRunner*                             getRoadRunner();
         Plugin*                                 getChiSquarePlugin();
+        PluginManager*                          getPluginManager();
 };
 
 extern "C"

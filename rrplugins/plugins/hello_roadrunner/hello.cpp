@@ -12,8 +12,11 @@ namespace hello
 
     bool Hello::execute(bool inThread)
     {
-        if (mhostInterface)mVersion= mhostInterface->getVersionStr();
-        else return false;
+        if (!mhostInterface)
+        {
+            return false;
+        }
+        mVersion = mhostInterface->getVersionStr();
         std::cout<< "Executing the Hello plugin by Debashish Roy: " << mVersion << std::endl;
         return true;
     }

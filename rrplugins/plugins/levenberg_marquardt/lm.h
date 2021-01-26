@@ -19,6 +19,7 @@ class LM : public CPPPlugin
     friend class lmWorker;
 
     public:
+        PluginManager*                          mPM;                            //The Plugin Manager
         Property<string>                        mSBML;                          //This is the model
         Property<TelluriumData>				    mExperimentalData;
         Property<TelluriumData>			        mModelData;
@@ -84,8 +85,8 @@ class LM : public CPPPlugin
 
 extern "C"
 {
-TLP_DS LM*         plugins_cc       createPlugin(void* manager);
-TLP_DS const char* plugins_cc       getImplementationLanguage();
+    TLP_DS LM* plugins_cc               createPlugin(void* manager);
+    TLP_DS const char* plugins_cc       getImplementationLanguage();
 }
 
 }

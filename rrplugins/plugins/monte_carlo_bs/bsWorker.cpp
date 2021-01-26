@@ -21,12 +21,12 @@ double getRandomElement(const vector<double>& vec);
 bsWorker::bsWorker(MonteCarlo& host)
 :
 mParent(host),
-mPM(mParent.getPluginManager()),
+mPM(NULL),//mParent.getPluginManager()),
 mRandom( (unsigned long) time( NULL ))
 {
     if(!mPM)
     {
-        throw(Exception("Monte carlo plugin need a plugin manager"));
+        throw(Exception("The Monte Carlo plugin needs a plugin manager"));
     }
 }
 
