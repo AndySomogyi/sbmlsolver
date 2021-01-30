@@ -9,7 +9,7 @@
 //---------------------------------------------------------------------------
 namespace addNoise
 {
-rrc::THostInterface* mhostInterface;
+rrc::THostInterface* gHostInterface;
 
 AddNoise::AddNoise(rrc::THostInterface* mhost, PluginEvent fn1, PluginEvent fn2, PluginEvent fn3):
 CPPPlugin(  "AddNoise",                 "Signal Processing"),//Construct Base
@@ -103,7 +103,7 @@ const char* plugins_cc getImplementationLanguage()
 }
 
 void plugins_cc setHostInterface(rrc::THostInterface* _hostInterface) {
-    mhostInterface = _hostInterface;
+    gHostInterface = _hostInterface;
 }
 
 #endif

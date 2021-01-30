@@ -19,13 +19,14 @@
 
 namespace lmfit
 {
+    rrc::THostInterface* gHostInterface;
+    TELHandle gPluginManager;
     using namespace std;
     using tlp::StringList;
 
-    LM::LM(PluginManager* manager)
+    LM::LM()
         :
-        CPPPlugin("Levenberg-Marquardt", "Fitting"),//,       NULL, manager),
-        mPM(manager),
+        CPPPlugin("Levenberg-Marquardt", "Fitting"),
 
         //Properties.                   //value,                name,                                   hint,                                                           description, alias, readonly);
         mSBML("<none>", "SBML", "SBML document as a string. Model to be used in the fitting"),
@@ -221,15 +222,23 @@ The Plugin has numerous parameters for fine tuning the algorithm. See the embedd
     }
 
     // Plugin factory function
-    LM* plugins_cc createPlugin(void* manager)
+    LM* plugins_cc createPlugin()
     {
         //allocate a new object and return it
-        return new LM((PluginManager*)manager);
+        return new LM();
     }
 
     const char* plugins_cc getImplementationLanguage()
     {
         return "CPP";
+    }
+
+    void plugins_cc setHostInterface(rrc::THostInterface* _hostInterface) {
+        gHostInterface = _hostInterface;
+    }
+
+    void plugins_cc setPluginManager(TELHandle manager) {
+        gPluginManager = manager;
     }
 
     void LM::assignPropertyDescriptions()

@@ -13,6 +13,7 @@
 #include "telCPlugin.h"
 #include "telStringList.h"
 #include "telUtils.h"
+#include "../../wrappers/C/telplugins_c_api.h"
 
 
 namespace tlp
@@ -41,6 +42,7 @@ typedef bool        (*setupCPluginFnc)(Plugin*);
 typedef bool        (*destroyRRPluginFunc)(Plugin* );
 
 typedef void* (*hostInterfacePtr) (rrc::THostInterface*);
+typedef void* (*pluginManagerPtr) (tlp::PluginManager*);
 
 
 bool destroyRRPlugin(Plugin *plugin);
@@ -272,6 +274,12 @@ bool PluginManager::loadPlugin(const string& _libName)
         }
         else 
             RRPLOG(lError) << "Roadrunner functionality can't be loaded. If plugin needed roadrunner support plugins won't work\n";
+
+        // Intialize plugin's pointer back to this plugin manager (if it needs it).
+        if (libHandle->hasSymbol(string(exp_fnc_prefix) + "setPluginManager")) {
+            pluginManagerPtr setPluginManager = (pluginManagerPtr)libHandle->getSymbol(string(exp_fnc_prefix) + "setPluginManager");
+            setPluginManager(this);
+        }
 
         //throw exception if not get loaded
         if(strcmp(language, "C") == 0)
@@ -637,6 +645,8 @@ rrc::THostInterface *initializeRoadRunnerAPI()
         host_Interface->setValue = rrc::setValue;
         host_Interface->simulateEx = rrc::simulateEx;
         host_Interface->simulate=rrc::simulate;
+        host_Interface->simulateExNoReturn = rrc::simulateExNoReturn;
+        host_Interface->simulateNoReturn = rrc::simulateNoReturn;
         host_Interface->getBoundarySpeciesByIndex = rrc::getBoundarySpeciesByIndex;
         host_Interface->getGlobalParameterByIndex = rrc::getGlobalParameterByIndex;
         host_Interface->getSteadyStateSelectionList = rrc::getSteadyStateSelectionList;
@@ -654,7 +664,10 @@ rrc::THostInterface *initializeRoadRunnerAPI()
         host_Interface->getVersionStr = rrc::getVersionStr;
         host_Interface->reset = rrc::reset;
         host_Interface->getSimulationResult = rrc::getSimulationResult;
+        host_Interface->getSimulationResultAsDoubleMatrix = rrc::getSimulationResultAsDoubleMatrix;
         host_Interface->setTimeCourseSelectionList = rrc::setTimeCourseSelectionList;
+
+        host_Interface->getPlugin = tpGetPlugin;
     }
     else
     {

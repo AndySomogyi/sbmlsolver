@@ -2,8 +2,13 @@
 #define lmH
 #include <vector>
 #include "telProperty.h"
+#include "rrplugins/pluginBaseClass/telCPPPlugin.h"
+#include "telPluginManager.h"
+#include "telProperty.h"
 #include "telCPPPlugin.h"
 #include "rr-libstruct/lsMatrix.h"
+#include "telTelluriumData.h"
+#include "lmUtils.h"
 #include "lmWorker.h"
 #include "lib/lmmin.h"
 //---------------------------------------------------------------------------
@@ -19,7 +24,6 @@ class LM : public CPPPlugin
     friend class lmWorker;
 
     public:
-        PluginManager*                          mPM;                            //The Plugin Manager
         Property<string>                        mSBML;                          //This is the model
         Property<TelluriumData>				    mExperimentalData;
         Property<TelluriumData>			        mModelData;
@@ -56,10 +60,10 @@ class LM : public CPPPlugin
         Property< ls::Matrix<double> >          mCovarianceMatrix;              //Covariance Matrix
 
 		//Utility functions for the thread
-        string                                  getTempFolder();
         string                                  getSBML();
 
 		lmDataStructure							&mLMData;        //LevenbergMarq.. data structure
+        rrc::RRHandle                           rrHandle;
 
     protected:
         //The worker is doing the work
@@ -67,7 +71,7 @@ class LM : public CPPPlugin
         lm_status_struct                        mLMStatus;      //Check afterwards.
 
     public:
-                                                LM(PluginManager* manager);
+                                                LM();
                                                ~LM();
 
         bool                                    execute(bool inThread = false);
@@ -85,8 +89,10 @@ class LM : public CPPPlugin
 
 extern "C"
 {
-    TLP_DS LM* plugins_cc               createPlugin(void* manager);
-    TLP_DS const char* plugins_cc       getImplementationLanguage();
+    TLP_DS LM* plugins_cc createPlugin();
+    TLP_DS const char* plugins_cc getImplementationLanguage();
+    TLP_DS void plugins_cc setHostInterface(rrc::THostInterface* _hostInterface);
+    TLP_DS void plugins_cc setPluginManager(TELHandle* manager);
 }
 
 }

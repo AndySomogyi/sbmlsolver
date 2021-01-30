@@ -10,7 +10,7 @@
 
 extern string theModel;
 namespace testModel {
-    rrc::THostInterface* mhostInterface;
+    rrc::THostInterface* gHostInterface;
     //---------------------------------------------------------------------------
     TestModel::TestModel() :
         CPPPlugin("TestModel", "Examples"),//Construct Base
@@ -61,11 +61,11 @@ The TestModel plugin was developed at the University of Washington by Totte Karl
         RRPLOG(lInfo) << "Executing the TestModel plugin by J Kyle Medley and Totte Karlsson";
         RRPLOG(lInfo) << "Using SBML model: \n" << mModel.getValue();
 
-        rrc::RRHandle rrHandle = mhostInterface->createRRInstance();        //start
+        rrc::RRHandle rrHandle = gHostInterface->createRRInstance();        //start
         rrc::RRCDataPtr result = NULL;
-        mhostInterface->loadSBML(rrHandle, (mModel.getValue()).c_str());
+        gHostInterface->loadSBML(rrHandle, (mModel.getValue()).c_str());
 
-        result = mhostInterface->simulateEx(rrHandle, 0, 10, 14);
+        result = gHostInterface->simulateEx(rrHandle, 0, 10, 14);
 
         //convert rrcptr to matrix <double> 
         Matrix <double> output(result->RSize, result->CSize);
@@ -166,7 +166,7 @@ The TestModel plugin was developed at the University of Washington by Totte Karl
     }
 
     void plugins_cc setHostInterface(rrc::THostInterface* _hostInterface) {
-        mhostInterface = _hostInterface;
+        gHostInterface = _hostInterface;
     }
     #endif 
 

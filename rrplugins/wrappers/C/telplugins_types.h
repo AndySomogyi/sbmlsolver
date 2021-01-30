@@ -47,7 +47,7 @@
 namespace tlpc { extern "C"  {
 #endif
 
-/*!@brief Void pointer to a RoadRunner instance */
+/*!@brief Void pointer to a plugin object */
 typedef void* TELHandle; /*! Void pointer to a Tellurium object*/
 
 /*!

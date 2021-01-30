@@ -3,7 +3,8 @@
 //Debashish Roy
 // API used to connect roadrunner functionality with plugins
 
-#include "../../../wrappers/C/rrc_types.h"		//decleration of types such as rrhandle		
+#include "../../../rrplugins/wrappers/C/telplugins_types.h"
+#include "../../../wrappers/C/rrc_types.h"		//declaration of types such as rrhandle
 
 #if defined(__cplusplus)
 	namespace rrc { 
@@ -24,6 +25,13 @@ typedef struct {			// THostInterface
 	 \ingroup initialization
 	*/
 	RRHandle  (*createRRInstance)(void);
+
+	/*!
+	 \brief Find and return the requested plugin.
+	 \return Returns a plugin with the given name, returns null if it fails
+	 \ingroup initialization
+	*/
+	tlpc::TELHandle(*getPlugin)(tlpc::TELHandle pmhandle, const char* name);
 
 	/*!
 	 \brief Retrieve info about current state of roadrunner, e.g. loaded model, conservationAnalysis etc.
@@ -57,6 +65,22 @@ typedef struct {			// THostInterface
 	*/
 
 	RRCDataPtr (*simulateEx)(RRHandle handle, const double timeStart, const double timeEnd, const int numberOfPoints);
+
+	/*!
+	\brief Carry out a time-course simulation based on the given arguments, time start,
+	time end and number of points, but don't return results.
+
+	\param[in] handle Handle to a RoadRunner instance
+	\param[in] timeStart Time start
+	\param[in] timeEnd Time end
+	\param[in] numberOfPoints Number of points to generate
+	\return Returns an array (RRCDataPtr) of columns containing the results of the
+	simulation including string labels for the individual columns. The client is
+	responsible for freeing the resulting RRCDataPtr structure.
+	\ingroup simulation
+	*/
+
+	void (*simulateExNoReturn)(RRHandle handle, const double timeStart, const double timeEnd, const int numberOfPoints);
 
 	/*!
 	\brief Specify the current steady state solver to be used for simulation.
@@ -146,6 +170,14 @@ typedef struct {			// THostInterface
 	\ingroup simulation
 	*/
 	RRCDataPtr (*simulate)(RRHandle handle);
+
+	/*!
+	\brief Carry out a time-course simulation, but don't return results.
+	The simulation parameters are used as stored in the RoadRunner instance itself.
+	\param[in] handle Handle to a RoadRunner instance
+	\ingroup simulation
+	*/
+	void (*simulateNoReturn)(RRHandle handle);
 
 	/*!
 	\brief Retrieve the concentration for a particular floating species.
@@ -270,6 +302,16 @@ typedef struct {			// THostInterface
 	\ingroup simulation
 	*/
 	RRCDataPtr (*getSimulationResult)(RRHandle handle);
+
+	/*!
+	\brief Retrieve the result of the last simulation.
+	\param[in] handle Handle to a RoadRunner instance
+	\return Returns a pointer (RRHandle) to a double matrix containing the results of the
+	simulation. This is a non-owning pointer, and the client 
+	should not attempt to free the resulting structure.
+	\ingroup simulation
+	*/
+	RRHandle(*getSimulationResultAsDoubleMatrix)(RRHandle handle);
 
 	/*!
 	\brief Set the selection list for output from simulate(void) or simulateEx(void)

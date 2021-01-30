@@ -647,6 +647,14 @@ RRCDataPtr rrcCallConv simulate(RRHandle handle)
     catch_ptr_macro
 }
 
+void rrcCallConv simulateNoReturn(RRHandle handle)
+{
+    start_try
+        RoadRunner* rri = castToRoadRunner(handle);
+        rri->simulate();
+    catch_void_macro
+}
+
 RRCDataPtr rrcCallConv simulateEx(RRHandle handle, const double timeStart, const double timeEnd, const int numberOfPoints)
 {
     start_try
@@ -657,6 +665,16 @@ RRCDataPtr rrcCallConv simulateEx(RRHandle handle, const double timeStart, const
     catch_ptr_macro
 }
 
+void rrcCallConv simulateExNoReturn(RRHandle handle, const double timeStart, const double timeEnd, const int numberOfPoints)
+{
+    start_try
+        setTimeStart(handle, timeStart);
+        setTimeEnd(handle, timeEnd);
+        setNumPoints(handle, numberOfPoints);
+        return simulateNoReturn(handle);
+    catch_void_macro
+}
+
 RRCDataPtr rrcCallConv getSimulationResult(RRHandle handle)
 {
     start_try
@@ -664,6 +682,17 @@ RRCDataPtr rrcCallConv getSimulationResult(RRHandle handle)
 
         //Extract the data and return struct..
         return  createRRCData(*rri);
+    catch_ptr_macro
+}
+
+
+RRHandle rrcCallConv getSimulationResultAsDoubleMatrix(RRHandle handle)
+{
+    start_try
+        RoadRunner* rri = castToRoadRunner(handle);
+
+        //Extract the data and return struct..
+        return const_cast<void*>(static_cast<const void*>(rri->getSimulationData()));
     catch_ptr_macro
 }
 

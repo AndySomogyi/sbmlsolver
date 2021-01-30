@@ -22,8 +22,6 @@ class lmWorker : public Poco::Runnable
     friend class LM;
 
     protected:
-        rr::RoadRunner             *mRRI;
-
         lmDataStructure             mLMData;        //LevenbergMarq.. data structure
         Poco::Thread                mThread;
 
