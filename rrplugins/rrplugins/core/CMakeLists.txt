@@ -24,6 +24,7 @@ if (RR_PLUGINS_BUILD_SHARED_LIB)
     target_link_libraries(${target} PUBLIC
             telplugins_common-static
             telpluginsBaseClass-static
+            telplugins_c_api
             ${RRPLUGINS_COMMON_STATIC_LIBS}
             roadrunner_c_api
             roadrunner-static
