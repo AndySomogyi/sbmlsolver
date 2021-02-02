@@ -6,18 +6,20 @@
 #include "telProperty.h"
 #include "telCPPPlugin.h"
 #include "nmWorker.h"
+#include "telCPPPlugin.h"
 //---------------------------------------------------------------------------
 
-using rr::RoadRunner;
-using std::string;
-using namespace tlp;
-
-class NelderMead : public CPPPlugin
+namespace nmfit
 {
-    friend class nmWorker;
+    using rr::RoadRunner;
+    using std::string;
+    using namespace tlp;
+
+    class NelderMead : public CPPPlugin
+    {
+        friend class nmWorker;
 
     public:
-        PluginManager*                          mPM;                            //The plugin manager
         Property<string>                        mSBML;                          //This is the model
         Property<TelluriumData>				    mExperimentalData;
         Property<TelluriumData>			        mModelData;
@@ -43,7 +45,7 @@ class NelderMead : public CPPPlugin
         Property<string>                        mStatusMessage;                 //Message regarding the status of the fit
         Property<double>                        mNorm;                          //Part of minimization result
         Property<TelluriumData>                 mNorms;                         //Norm values from the fitting
-        TelluriumData&                          rNormsData;                     //Setup a reference to Norms Data
+        TelluriumData& rNormsData;                     //Setup a reference to Norms Data
 
         Property<TelluriumData>			        mResidualsData;                 //Residuals from the fitting
         Property<TelluriumData>			        mStandardizedResiduals;         //Standardized Residuals from the fitting
@@ -54,20 +56,18 @@ class NelderMead : public CPPPlugin
         Property< ls::Matrix<double> >          mHessian;                       //Hessian
         Property< ls::Matrix<double> >          mCovarianceMatrix;              //Covariance Matrix
 
-         vector<double>                          mTheNorms;              //For effiency
-		//Utility functions for the thread
-        string                                  getTempFolder();
+        vector<double>                          mTheNorms;              //For effiency
+       //Utility functions for the thread
         string                                  getSBML();
 
     protected:
         //The worker is doing the work
         nmWorker                                mWorker;
-        rr::RoadRunner                         *mRRI;
-        Plugin*                                 mChiSquarePlugin;
+        Plugin* mChiSquarePlugin;
 
     public:
-                                                NelderMead(PluginManager* manager);
-                                               ~NelderMead();
+        NelderMead();
+        ~NelderMead();
 
         bool                                    execute(bool inThread = false);
         string                                  getResult();
@@ -76,19 +76,20 @@ class NelderMead : public CPPPlugin
         string                                  getStatus();
         bool                                    isWorking() const;
 
-        unsigned char*                          getManualAsPDF() const;
+        unsigned char* getManualAsPDF() const;
         size_t                                  getPDFManualByteSize();
         tlp::StringList                         getExperimentalDataSelectionList();
         void                                    assignPropertyDescriptions();
-        RoadRunner*                             getRoadRunner();
-        Plugin*                                 getChiSquarePlugin();
-        PluginManager*                          getPluginManager();
-};
+        Plugin* getChiSquarePlugin();
+    };
 
-extern "C"
-{
-TLP_DS NelderMead* plugins_cc       createPlugin(void* manager);
-TLP_DS const char* plugins_cc       getImplementationLanguage();
+    extern "C"
+    {
+        TLP_DS NelderMead* plugins_cc  createPlugin();
+        TLP_DS const char* plugins_cc  getImplementationLanguage();
+        TLP_DS void        plugins_cc  setHostInterface(rrc::THostInterface* _hostInterface);
+        TLP_DS void        plugins_cc  setPluginManager(tlpc::TELHandle manager);
+    }
+
 }
-
 #endif

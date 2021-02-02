@@ -7,13 +7,11 @@ set(target tel_nelder_mead )
 set(RRP_NELDER_MEAD_SOURCES
   nelder_mead_doc.cpp
   nmWorker.cpp
-  nmUtils.cpp
   nmObjectiveFunction.cpp
   nmNelderMead.cpp
   lib/nmsimplex2.cpp
   nelder_mead_doc.h
   nmWorker.h
-  nmUtils.h
   nmObjectiveFunction.h
   nmNelderMead.h
 )
