@@ -31,7 +31,6 @@ class MonteCarlo : public CPPPlugin
         Property<string>                        mMinimizerPlugin;
 
 		//Utility functions for the thread
-        string                                  getTempFolder();
         string                                  getSBML();
 
     protected:

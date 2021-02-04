@@ -57,7 +57,7 @@ The TestModel plugin was developed at the University of Washington by Totte Karl
 
     bool TestModel::execute(bool inThread)
     {
-        tlp::Logger::setLevel(tlp::Logger::LOG_DEBUG);
+        //tlp::Logger::setLevel(tlp::Logger::LOG_DEBUG);
         RRPLOG(lInfo) << "Executing the TestModel plugin by J Kyle Medley and Totte Karlsson";
         RRPLOG(lInfo) << "Using SBML model: \n" << mModel.getValue();
 

@@ -2,7 +2,7 @@
 #   Add the googletest framework as a subdirectory
 #
 add_subdirectory(googletest-release-1.10.0)
-# we be naughty and use include_directories here to include googletest globally
+# we'll be naughty and use include_directories here to include googletest globally
 include_directories(googletest-release-1.10.0/googletest/include)
 ########################################################
 #   Tests
@@ -43,7 +43,6 @@ foreach (dirid IN LISTS TESTDIRS)
     # causes the resulting program to crash in Poco.
     target_link_libraries(${testid}
             roadrunner_c_api
-            roadrunner-static
             PocoXML::PocoXML
             gtest gtest_main
             )
@@ -52,6 +51,47 @@ foreach (dirid IN LISTS TESTDIRS)
             "testdir=${RR_ROOT}/test")
 
     target_include_directories(${testid} PRIVATE "$<TARGET_PROPERTY:roadrunner_c_api,INCLUDE_DIRECTORIES>")
+    add_test(${testid}_run ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${testid})
+    # set the testdir variable for when using ctest to run tests
+
+    set(TEST_ENV_VARS "testdir=${RR_ROOT}/test" "CTEST_OUTPUT_ON_FAILURE=TRUE")
+    set_tests_properties(${testid}_run PROPERTIES ENVIRONMENT "${TEST_ENV_VARS}")
+
+
+endforeach ()
+
+
+set(PLUGIN_TESTDIRS
+        plugin_auto2000
+        plugin_test_model
+        )
+
+foreach (dirid IN LISTS PLUGIN_TESTDIRS)
+    file(GLOB MAIN_FILE ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp)
+    file(GLOB UTIL_FILE ${CMAKE_CURRENT_SOURCE_DIR}/test_util.cpp)
+    file(GLOB UTIL_HEADER ${CMAKE_CURRENT_SOURCE_DIR}/test_util.h)
+    file(GLOB CPP_FILES ${CMAKE_CURRENT_SOURCE_DIR}/${dirid}/*.cpp)
+    file(GLOB H_FILES ${CMAKE_CURRENT_SOURCE_DIR}/${dirid}/*.h)
+
+    set(TEST_FILES ${MAIN_FILE} ${UTIL_FILE} ${UTIL_HEADER} ${CPP_FILES} ${H_FILES})
+
+    set(testid "test_${dirid}")
+    add_executable(${testid} ${TEST_FILES})
+
+    add_compile_definitions(${testid} PRIVATE STATIC_RR)
+
+    # This order is important:  on linux, including the core library before the C api library
+    # causes the resulting program to crash in Poco.
+    target_link_libraries(${testid}
+            telplugins_core-static
+            PocoXML::PocoXML
+            gtest gtest_main
+            )
+
+    set_target_properties(${testid} PROPERTIES ENVIRONMENT
+            "testdir=${RR_ROOT}/test plugindir=${CMAKE_BUILD_DIRECTORY}")
+
+    target_include_directories(${testid} PRIVATE "$<TARGET_PROPERTY:telplugins_c_api,INCLUDE_DIRECTORIES>")
     add_test(${testid}_run ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${testid})
     # set the testdir variable for when using ctest to run tests
 

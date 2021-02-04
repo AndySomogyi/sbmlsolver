@@ -876,7 +876,7 @@ def createProperty(name, the_type, hint="", value=None):
     else:
         if the_type == 'string':    #Otherwise underlying string type will be char*, don't
             the_type = 'std::string'
-        ptr = rrpLib.tpCreateProperty(name, the_type, hint, None)
+        ptr = rrpLib.tpCreateProperty(name.encode('utf-8'), the_type.encode('utf-8'), hint.encode('utf-8'), None)
         if not ptr:
             raise TypeError('Unable to create property {}'.format(name))
         if the_type == "bool":

@@ -6,11 +6,13 @@
 
 std::string     gRRTestDir= "";
 std::string     gRROutputDir = "";
+std::string     gRRPluginDir = "";
 std::string     TestModelFileName = "";
 rrc::RRHandle gRR = rrc::createRRInstance();;
 rr::IniFile iniFile;
 
-// question, is there a reason you wrote your own "main" rather than using gtest_main?
+// In theory, we could use gtest_main instead, if we moved the content here 
+//  somewhere else. But it works as-is.
 int main(int argc, char** argv)
 {
     //Setup googletest
@@ -36,6 +38,12 @@ int main(int argc, char** argv)
         gRROutputDir = "output";
     }
     gRROutputDir += "/";
+
+    //Setup the plugin directory
+    char* plugindir = getenv("plugindir");
+    if (plugindir) {
+        gRRPluginDir = plugindir;
+    }
 
     //Set the logging level to 'notice':
     rr::Logger::enableConsoleLogging(rr::Logger::LOG_NOTICE);

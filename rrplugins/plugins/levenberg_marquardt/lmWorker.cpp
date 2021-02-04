@@ -103,19 +103,19 @@ namespace lmfit
         }
 
         //Post fitting data calculations
-        RRPLOG(lError) << "==================== Fitting Result ================================";
-        RRPLOG(lError) << "Nr of function evaluations: " << mTheHost.mLMStatus.nfev;
-        RRPLOG(lError) << "Status message: " << lm_infmsg[mTheHost.mLMStatus.outcome];
-        RRPLOG(lError) << "Minimized parameter values: ";
+        RRPLOG(lInfo) << "==================== Fitting Result ================================";
+        RRPLOG(lInfo) << "Nr of function evaluations: " << mTheHost.mLMStatus.nfev;
+        RRPLOG(lInfo) << "Status message: " << lm_infmsg[mTheHost.mLMStatus.outcome];
+        RRPLOG(lInfo) << "Minimized parameter values: ";
 
         mTheHost.mStatusMessage.setValueFromString(lm_infmsg[mTheHost.mLMStatus.outcome]);
 
         for (int i = 0; i < mLMData.nrOfParameters; ++i)
         {
-            RRPLOG(lError) << "Parameter " << mLMData.parameterLabels[i] << " = " << mLMData.parameters[i];
+            RRPLOG(lInfo) << "Parameter " << mLMData.parameterLabels[i] << " = " << mLMData.parameters[i];
         }
 
-        RRPLOG(lError) << "Norm:  " << mTheHost.mLMStatus.fnorm;
+        RRPLOG(lInfo) << "Norm:  " << mTheHost.mLMStatus.fnorm;
         postFittingWork();
         workerFinished();
     }
@@ -165,13 +165,20 @@ namespace lmfit
             probPlot = getNormalProbabilityPlot(stdRes);
 
             calculateChiSquare();
+        }
+        catch (std::exception& e)
+        {
+            RRPLOG(lError) << "There were problems calculating the chi square: " << e.what() << endl;
+        }
+        try
+        {
             calculateHessian();
             calculateCovariance();
             calculateConfidenceLimits();
         }
-        catch (...)
+        catch (std::exception& e)
         {
-            RRPLOG(lError) << "There was problems calculating fit statistics";
+            RRPLOG(lError) << "There were problems calculating fit statistics: " << e.what() << endl;
         }
 
     }
@@ -186,7 +193,15 @@ namespace lmfit
 
         if (!chi)
         {
-            throw(Exception("Failed to get chisquare plugin in lmfit plugin"));
+            //LS DEBUG:  extra messages for now; remove on release.
+            string msg = "Failed to get chisquare plugin in lmfit plugin.";
+            if (gPluginManager == NULL) {
+                msg += " The Plugin Manager pointer is NULL.";
+            }
+            else {
+                msg += " (At least the Plugin Manager itself wasn't NULL.)";
+            }
+            throw(Exception(msg.c_str()));
         }
 
         Property<TelluriumData>* para = dynamic_cast<Property<TelluriumData>*>(chi->getProperty("ExperimentalData"));

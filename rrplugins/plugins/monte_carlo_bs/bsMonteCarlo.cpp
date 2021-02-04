@@ -13,7 +13,7 @@ using tlp::StringList;
 
 MonteCarlo::MonteCarlo(PluginManager* manager)
 :
-CPPPlugin(                      "MonteCarlo-Bootstrap", "Fitting"),//,       NULL, manager),
+CPPPlugin(                      "MonteCarlo-Bootstrap", "Fitting"),
 
 //Properties.                   //value,                name,                                   hint,                                                           description, alias, readonly);
 mSBML(                          "<none>",               "SBML",                                 "SBML document as a string. Model to be used in the fitting"),
