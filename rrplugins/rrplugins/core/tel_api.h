@@ -9,6 +9,9 @@
 #if defined(__cplusplus)
 	namespace rrc { 
 	extern "C" {
+#define TLPCTELHANDLE tlpc::TELHandle 
+#else
+#define TLPCTELHANDLE TELHandle 
 #endif
 
 typedef struct
@@ -31,7 +34,7 @@ typedef struct {			// THostInterface
 	 \return Returns a plugin with the given name, returns null if it fails
 	 \ingroup initialization
 	*/
-	tlpc::TELHandle(*getPlugin)(tlpc::TELHandle pmhandle, const char* name);
+	TLPCTELHANDLE(*getPlugin)(TLPCTELHANDLE pmhandle, const char* name);
 
 	/*!
 	 \brief Retrieve info about current state of roadrunner, e.g. loaded model, conservationAnalysis etc.
