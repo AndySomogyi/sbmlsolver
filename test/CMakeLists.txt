@@ -83,7 +83,8 @@ foreach (dirid IN LISTS PLUGIN_TESTDIRS)
     # This order is important:  on linux, including the core library before the C api library
     # causes the resulting program to crash in Poco.
     target_link_libraries(${testid}
-            telplugins_core-static
+            roadrunner_c_api
+            telplugins_c_api
             PocoXML::PocoXML
             gtest gtest_main
             )
@@ -99,6 +100,8 @@ foreach (dirid IN LISTS PLUGIN_TESTDIRS)
     set_tests_properties(${testid}_run PROPERTIES ENVIRONMENT "${TEST_ENV_VARS}")
 
 
+    add_dependencies(${testid} tel_test_model tel_levenberg_marquardt)
+
 endforeach ()
 
 
@@ -106,4 +109,3 @@ add_custom_target(
         run-ctest
             ctest --progress  --verbose --extra-verbose ${CMAKE_BINARY_DIR}
 )
-

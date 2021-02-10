@@ -168,8 +168,15 @@ size_t tlp_cc tpGetNumberOfPlugins(TELHandle handle)
 TELHandle tlp_cc tpGetPlugin(TELHandle handle, const char* pluginName)
 {
     start_try
-        PluginManager *pm = castHandle<PluginManager>(handle, __FUNC__);
+        PluginManager *pm = static_cast<PluginManager*>(handle);
+        if (pm == NULL) {
+            throw(tlp::Exception("Unable to cast handle as a PluginManger."));
+        }
         Plugin* aPlugin = pm->getPlugin(pluginName);
+        if (aPlugin == NULL) {
+            pm->load(pluginName);
+            aPlugin = pm->getPlugin(pluginName);
+        }
         return aPlugin;
     tel_catch_ptr_macro
 }

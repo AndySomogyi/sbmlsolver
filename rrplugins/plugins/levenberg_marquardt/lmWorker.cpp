@@ -246,6 +246,10 @@ namespace lmfit
         TelluriumData& obsData = *(TelluriumData*)mTheHost.mExperimentalData.getValuePointer();
         Plugin* chi = (Plugin*)gHostInterface->getPlugin(gPluginManager, "tel_chisquare");
 
+        if (chi == NULL) {
+            chi = (Plugin*)gHostInterface->getPlugin(gPluginManager, "tel_chisquared");
+        }
+
         Property<TelluriumData>* para = dynamic_cast<Property<TelluriumData>*>(chi->getProperty("ExperimentalData"));
         para->setValue(obsData);
 
@@ -405,7 +409,7 @@ namespace lmfit
             }
             else
             {
-                throw("Bad stuff..");
+                throw("Parameter was not a Property<double> object.");
             }
         }
 

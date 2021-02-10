@@ -53,7 +53,10 @@ PluginManager::PluginManager(const std::string& folder)
     :   mPluginFolder(folder),
         mPluginExtension(getPluginExtension()),
         mPluginPrefix(getPluginOSPrefix()),
-        hostInterface(initializeRoadRunnerAPI()){}
+        hostInterface(initializeRoadRunnerAPI())
+{
+    load();
+}
 
 PluginManager::~PluginManager()
 {
@@ -192,6 +195,9 @@ int PluginManager::load(const string& pluginName)
     {
         string temp = joinPath(mPluginFolder, getPluginOSPrefix() + pluginName + "." + mPluginExtension);
         files.insert(temp);
+        //Also try the debug version of the plugin
+        temp = joinPath(mPluginFolder, getPluginOSPrefix() + pluginName + "d." + mPluginExtension);
+        files.insert(temp);
     }
     else
     {
@@ -204,20 +210,29 @@ int PluginManager::load(const string& pluginName)
     for (; it != files.end(); ++it)
     {
         string plugin = getFileName(*it);
-        RRPLOG(lInfo)<<"Loading plugin: "<<plugin;
         try
         {
             bool res = loadPlugin(plugin);
-            if(!res)
+            if (res)
             {
-                RRPLOG(lError)<<"There was a problem loading plugin: "<<plugin;
-                continue;
+                RRPLOG(lInfo) << "Successfully loaded plugin: " << plugin;
+                nrOfLoadedPlugins++;
             }
-            nrOfLoadedPlugins++;
         }
         catch(...)
         {
-            RRPLOG(lError)<<"There was a serious problem loading plugin: "<<plugin;
+            RRPLOG(lError) << "There was a serious problem loading plugin: " << plugin << endl;
+        }
+    }
+    if (nrOfLoadedPlugins==0)
+    {
+        if (pluginName.empty())
+        {
+            RRPLOG(lError) << "Unable to load any plugins from the directory " << mPluginFolder << endl;
+        }
+        else
+        {
+            RRPLOG(lError) << "There was a problem loading plugin: " << pluginName << endl;
         }
     }
     return nrOfLoadedPlugins;
@@ -273,7 +288,7 @@ bool PluginManager::loadPlugin(const string& _libName)
             setHostInterface(hostInterface);
         }
         else 
-            RRPLOG(lError) << "Roadrunner functionality can't be loaded. If plugin needed roadrunner support plugins won't work\n";
+            RRPLOG(lWarning) << "Roadrunner functionality can't be loaded. If plugin needed roadrunner support plugins won't work." << endl;
 
         // Intialize plugin's pointer back to this plugin manager (if it needs it).
         if (libHandle->hasSymbol(string(exp_fnc_prefix) + "setPluginManager")) {
@@ -332,7 +347,7 @@ bool PluginManager::loadPlugin(const string& _libName)
         info<<"========== In attempt to load plugin: "<<_libName<<" ==========="<<endl;
         info<<"Exception: "<<e.what()<<endl;
         mLoadPluginErrors<<info.str();
-        RRPLOG(lError)<<info.str();
+        RRPLOG(lWarning)<<info.str();
         return false;
     }
     catch(const Poco::Exception& ex)
@@ -346,7 +361,7 @@ bool PluginManager::loadPlugin(const string& _libName)
     catch(...)
     {
         info<<"========== In attempt to load plugin: "<<_libName<<" ==========="<<endl;
-        info<<"Unknown error occured attempting to load plugin"<<_libName;
+        info<<"Unknown error occured attempting to load plugin "<<_libName;
         mLoadPluginErrors<<info.str();
         RRPLOG(lError)<<info.str();
         return false;
@@ -517,6 +532,7 @@ Plugin* PluginManager::getPlugin(const string& _name) const
 {
     //Strip the extension
     string name = getFileNameNoExtension(_name);
+    string namedebug = name + "d";
     for(int i = 0; i < getNumberOfPlugins(); i++)
     {
         telPlugin aPluginLib = mPlugins[i];
@@ -525,14 +541,26 @@ Plugin* PluginManager::getPlugin(const string& _name) const
             Plugin* aPlugin = (Plugin*) aPluginLib.second;
             if(aPlugin && aPlugin->getName() == name)
             {
+                   //cout << "Found " << name << endl;
                    return aPlugin;
             }
             if(aPlugin && (aPlugin->getLibraryName() == name|| aPlugin->getLibraryName() == getPluginOSPrefix() + name))
             {
                    return aPlugin;
             }
+            if (aPlugin && aPlugin->getName() == namedebug)
+            {
+                //cout << "Found " << name << endl;
+                return aPlugin;
+            }
+            if (aPlugin && (aPlugin->getLibraryName() == namedebug || aPlugin->getLibraryName() == getPluginOSPrefix() + namedebug))
+            {
+                return aPlugin;
+            }
+            //cout << "Not " << aPlugin->getName() << " or " << aPlugin->getLibraryName() << endl;
         }
     }
+    //cout << "Couldn't find " << _name << " (aka '" << name << "')." << endl;
     return NULL;
 }
 

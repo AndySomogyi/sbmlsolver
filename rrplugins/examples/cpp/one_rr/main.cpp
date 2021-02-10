@@ -70,7 +70,7 @@ int main(int argc, char** argv)
     catch(const exception& ex)
     {
 
-        RRPLOG(tlp::Logger::LOG_ERROR)<<"There was a  problem: "<<ex.what();
+        RRPLOG(tlp::Logger::LOG_ERROR)<<"There was a problem: "<<ex.what();
     }
 
     return 0;

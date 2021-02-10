@@ -20,7 +20,7 @@ c_plugin_demo.h
 add_library(${target} MODULE ${sources})
 
 target_link_libraries (${target}
-    roadrunner-static
+    roadrunner
     telplugins_c_api
     roadrunner_c_api
 )

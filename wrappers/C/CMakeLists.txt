@@ -77,7 +77,7 @@ install(
         EXPORT_LINK_INTERFACE_LIBRARIES
 )
 
-#Also build a static library that can be used in the plugins, since using the shared one seem to be problematic.
+# Create a static c api, too.
 
 #The C-api is built as a shared library..
 add_library(${target}-static STATIC ${HEADERS} ${SOURCES})
@@ -96,6 +96,4 @@ target_link_libraries(${target}-static PUBLIC roadrunner-static)
 add_dependencies(${target}-static roadrunner-static)
 
 target_compile_definitions(${target}-static PRIVATE EXPORT_RRC STATIC_RR)
-
-
 

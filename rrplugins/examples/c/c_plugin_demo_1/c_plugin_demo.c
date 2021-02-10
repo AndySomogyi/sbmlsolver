@@ -6,7 +6,7 @@
 #include "c_plugin_demo.h"
 
 char* gLastError = 0;
-void setError(const char* err);
+//void setError(const char* err);
 
 const char* call_conv getImplementationLanguage()
 {
@@ -56,13 +56,13 @@ bool call_conv setupCPlugin(TELHandle aPlugin)
     if(!gDemoProperty)
     {
         //Failed to create property! Set last error and return false
-        setError("Failed creating Property in c_plugin_demo");
+        //setError("Failed creating Property in c_plugin_demo");
         return false;
     }
 
     if(!tpSetPropertyByString(gDemoProperty, "Intial Demo Property Value"))
     {
-        setError("Failed setting Property in c_plugin_demo");
+        //setError("Failed setting Property in c_plugin_demo");
         return false;
     }
 
@@ -70,7 +70,7 @@ bool call_conv setupCPlugin(TELHandle aPlugin)
     gProperties = tpCreatePropertyList();
     if(!tpAddPropertyToList(gProperties, gDemoProperty))
     {
-        setError("Failed adding property to Property list in c_plugin_demo");
+        //setError("Failed adding property to Property list in c_plugin_demo");
         return false;
     }
 
@@ -108,13 +108,17 @@ char* getCLastError()
     return gLastError;
 }
 
-void setError(const char* err)
-{
-    if(gLastError)
-    {
-        tpFreeText(gLastError);
-    }
+//When this function was called, it was failing for some reason.  So, I ditched it!
+// It was only there for demo purposes anyway...
 
-    gLastError = tpCreateText(err);
-}
-
+//void setError(const char* err)
+//{
+//    if(gLastError)
+//    {
+//        tpFreeText(gLastError);
+//    }
+//
+//    char* temp = tpCreateText(err);
+//    gLastError = temp;
+//}
+//

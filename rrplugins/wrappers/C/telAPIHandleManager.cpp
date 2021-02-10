@@ -68,7 +68,7 @@ TELHandle APIHandleManager::validate(TELHandle handle, const char* type, const c
         stringstream msg;
         msg<<"Invalid Handle passed to API function: "<<fnc<<endl;
         msg<<"No such handle is registered. "<<endl;
-        RRPLOG(lError)<<msg.str();
+        RRPLOG(lWarning)<<msg.str();
         throw(BadHandleException(msg.str()));
     }
     return NULL;
