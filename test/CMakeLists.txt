@@ -62,8 +62,8 @@ endforeach ()
 
 
 set(PLUGIN_TESTDIRS
-        plugin_auto2000
-        plugin_test_model
+        plugin_levenberg_marquardt
+#        plugin_test_model
         )
 
 foreach (dirid IN LISTS PLUGIN_TESTDIRS)
@@ -96,14 +96,15 @@ foreach (dirid IN LISTS PLUGIN_TESTDIRS)
     add_test(${testid}_run ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${testid})
     # set the testdir variable for when using ctest to run tests
 
-    set(TEST_ENV_VARS "testdir=${RR_ROOT}/test" "CTEST_OUTPUT_ON_FAILURE=TRUE")
+    set(TEST_ENV_VARS "testdir=${RR_ROOT}/test" "plugindir=${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/${CMAKE_BUILD_TYPE}" "CTEST_OUTPUT_ON_FAILURE=TRUE")
     set_tests_properties(${testid}_run PROPERTIES ENVIRONMENT "${TEST_ENV_VARS}")
 
 
-    add_dependencies(${testid} tel_test_model tel_levenberg_marquardt)
+    add_dependencies(${testid} tel_test_model tel_levenberg_marquardt tel_nelder_mead)
 
 endforeach ()
 
+message(STATUS "config: ${CONFIG}")
 
 add_custom_target(
         run-ctest

@@ -223,7 +223,7 @@ The Plugin has a number of parameters for fine tuning the algorithm. See the emb
     }
 
     // Plugin factory function
-    NelderMead* plugins_cc createPlugin(void* manager)
+    NelderMead* plugins_cc createPlugin()
     {
         //allocate a new object and return it
         return new NelderMead();

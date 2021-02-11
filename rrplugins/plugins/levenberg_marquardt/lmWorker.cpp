@@ -56,12 +56,12 @@ namespace lmfit
         setupRoadRunner();
 
         StringList& species = mTheHost.mExperimentalDataSelectionList.getValueReference();//mMinData.getExperimentalDataSelectionList();
-        RRPLOG(lError) << "The following species are selected: " << species.asString();
+        RRPLOG(lInfo) << "The following species are selected: " << species.asString();
         Properties& Paras = mTheHost.mInputParameterList.getValueReference(); //mMinData.getProperties();
-        RRPLOG(lError) << "The following parameters are to be minimized";
+        RRPLOG(lInfo) << "The following parameters are to be minimized";
         for (int i = 0; i < Paras.count(); i++)
         {
-            RRPLOG(lError) << Paras[i]->getName() << " with initial value: " << Paras[i]->getValueAsString();
+            RRPLOG(lInfo) << Paras[i]->getName() << " with initial value: " << Paras[i]->getValueAsString();
         }
 
         mTheHost.mNrOfIter.setValue(0);
@@ -82,7 +82,9 @@ namespace lmfit
 
         //Setup data structures
         setup();
-        RRPLOG(lError) << mLMData.nrOfParameters << " " << mLMData.parameters[0] << " " << mLMData.nrOfResiduePoints;
+        RRPLOG(lInfo) << mLMData.nrOfParameters << " parameters." << endl;
+        RRPLOG(lInfo) << mLMData.parameters[0] << " (start value of first parameter)." << endl;
+        RRPLOG(lInfo) << mLMData.nrOfResiduePoints << " residue points." << endl;
         //This is the library function doing the minimization.
         lmmin(mLMData.nrOfParameters,
             mLMData.parameters,
@@ -274,7 +276,7 @@ namespace lmfit
 
         Properties& ref = mTheHost.mOutputParameterList.getValueReference();
 
-        Properties copy; //Gotta add a copy/assignemnt opertor to Properties..
+        Properties copy; //Gotta add a copy/assignemnt operator to Properties..
         for (int i = 0; i < ref.count(); i++)
         {
             copy.add(ref[i]);
