@@ -63,6 +63,7 @@ endforeach ()
 
 set(PLUGIN_TESTDIRS
         plugin_levenberg_marquardt
+        plugin_nelder_mead
 #        plugin_test_model
         )
 

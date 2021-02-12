@@ -61,8 +61,7 @@ namespace lmfit
         patience(100, "patience", "Maximum number of iterations as patience*(nr_of_parameters +1). "),
         mWorker(*this),
         mLMData(mWorker.mLMData),
-        rNormsData(mNorms.getValueReference()),
-        rrHandle(NULL)
+        rNormsData(mNorms.getValueReference())
     {
         mVersion = "1.0.0";
 

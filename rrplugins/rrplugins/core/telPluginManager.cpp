@@ -55,9 +55,10 @@ namespace tlp
         , mPluginPrefix(getPluginOSPrefix())
         , hostInterface(initializeRoadRunnerAPI())
     {
-        load();
         //Register this so that we can pass around handles between our plugins.
         tpRegisterHandle(this, typeid(this).name());
+        //Load the plugins after we're registered, as some plugins rely on other plugins.
+        load();
     }
 
     PluginManager::~PluginManager()

@@ -57,7 +57,6 @@ namespace lmfit
         string                                  getSBML();
 
         lmDataStructure&                        mLMData;        //LevenbergMarq.. data structure
-        rrc::RRHandle                           rrHandle;
 
     protected:
         //The worker is doing the work
