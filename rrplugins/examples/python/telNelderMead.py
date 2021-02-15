@@ -5,22 +5,22 @@
 #
 # Author: Totte Karlsson (totte@dunescientific.com)
 #-------------------------------------------------------------------------------
-from teplugins import *
+import rrplugins
 
 # Load Plugins
-chiPlugin       = Plugin("tel_chisquare")
-nm              = Plugin("tel_nelder_mead")
-modelPlugin     = Plugin("tel_test_model")
-addNoisePlugin  = Plugin("tel_add_noise")
+chiPlugin       = rrplugins.Plugin("tel_chisquare")
+nm              = rrplugins.Plugin("tel_nelder_mead")
+modelPlugin     = rrplugins.Plugin("tel_test_model")
+addNoisePlugin  = rrplugins.Plugin("tel_add_noise")
 
 try:    
     #========== EVENT FUNCTION SETUP ===========================
-    def myEvent(dummy): #We are not capturing any data from the plugin, so just pass a dummy
-        print 'Iteration, Norm = ' + `nm.getProperty("NrOfIter")`  + ', ' + `nm.getProperty("Norm")`
+    def myEvent(dummy, dummy2): #We are not capturing any data from the plugin, so just pass a dummy
+        print('Iteration, Norm = ', nm.getProperty("NrOfIter") , ', ', nm.getProperty("Norm"))
 
     #Setup progress event function
-    progressEvent =  NotifyEventEx(myEvent)     
-    assignOnProgressEvent(nm.plugin, progressEvent)
+    progressEvent =  rrplugins.NotifyEventEx(myEvent)     
+    rrplugins.assignOnProgressEvent(nm.plugin, progressEvent)
     #============================================================
     
     #Create model data, with and without noise using the test_model plugin
@@ -38,48 +38,48 @@ try:
     # Start minimization
     nm.execute()
     
-    print 'Minimization finished. \n==== Result ===='        
+    print('Minimization finished. \n==== Result ====')
 
-    print 'Hessian Matrix'
-    print nm.getProperty("Hessian")
+    print('Hessian Matrix')
+    print(nm.getProperty("Hessian").toNumPy())
     
-    print 'Covariance  Matrix'
-    print nm.getProperty("CovarianceMatrix")
+    print('Covariance  Matrix')
+    print(nm.getProperty("CovarianceMatrix").toNumPy())
              
-    print 'ChiSquare = '            + `nm.getProperty("ChiSquare")`
-    print 'Reduced ChiSquare = '    + `nm.getProperty("ReducedChiSquare")`
+    print('ChiSquare = '           , nm.getProperty("ChiSquare"))
+    print('Reduced ChiSquare = '   , nm.getProperty("ReducedChiSquare"))
         
     #This is a list of parameters
-    parameters = tpc.getPluginProperty (nm.plugin, "OutputParameterList")
-    confLimits = tpc.getPluginProperty (nm.plugin, "ConfidenceLimits")    
+    parameters = rrplugins.tpc.getPluginProperty (nm.plugin, "OutputParameterList")
+    confLimits = rrplugins.tpc.getPluginProperty (nm.plugin, "ConfidenceLimits")    
     
     #Iterate trough list of parameters and confidence limits
-    para  = getFirstProperty(parameters)
-    limit = getFirstProperty(confLimits)     
+    para  = rrplugins.getFirstProperty(parameters)
+    limit = rrplugins.getFirstProperty(confLimits)     
     while para and limit:           
-        print getPropertyName(para) + ' = ' + `getPropertyValue(para)` + ' +/- ' + `getPropertyValue(limit)`
-        para  = getNextProperty(parameters)
-        limit = getNextProperty(confLimits)                        
+        print(rrplugins.getPropertyName(para), ' = ', rrplugins.getPropertyValue(para), ' +/- ', rrplugins.getPropertyValue(limit))
+        para  = rrplugins.getNextProperty(parameters)
+        limit = rrplugins.getNextProperty(confLimits)                        
                                  
     
     # Get the fitted and residual data
-    fittedData = nm.getProperty ("FittedData").toNumpy
-    residuals  = nm.getProperty ("Residuals").toNumpy
+    fittedData = nm.getProperty ("FittedData").toNumPy()
+    residuals  = nm.getProperty ("Residuals").toNumPy()
 
     # Get the experimental data as a numpy array
-    experimentalData = modelPlugin.TestDataWithNoise.toNumpy
+    experimentalData = modelPlugin.TestDataWithNoise.toNumPy()
     
-    telplugins.plot(fittedData         [:,[0,1]], "blue", "-",    "",    "S1 Fitted")
-    telplugins.plot(fittedData         [:,[0,2]], "blue", "-",    "",    "S2 Fitted")
-    telplugins.plot(residuals          [:,[0,1]], "blue", "None", "x",   "S1 Residual")
-    telplugins.plot(residuals          [:,[0,2]], "red",  "None", "x",   "S2 Residual")
-    telplugins.plot(experimentalData   [:,[0,1]], "red",  "",     "*",   "S1 Data")
-    telplugins.plot(experimentalData   [:,[0,2]], "blue", "",     "*",   "S2 Data")
-    telplugins.plt.show()
+    rrplugins.plot(fittedData         [:,[0,1]], "blue", "-",    "",    "S1 Fitted")
+    rrplugins.plot(fittedData         [:,[0,2]], "blue", "-",    "",    "S2 Fitted")
+    rrplugins.plot(residuals          [:,[0,1]], "blue", "None", "x",   "S1 Residual")
+    rrplugins.plot(residuals          [:,[0,2]], "red",  "None", "x",   "S2 Residual")
+    rrplugins.plot(experimentalData   [:,[0,1]], "red",  "",     "*",   "S1 Data")
+    rrplugins.plot(experimentalData   [:,[0,2]], "blue", "",     "*",   "S2 Data")
+    rrplugins.plt.show()
     
     #Finally, view the manual and version
     #nm.viewManual()    
-    print 'Plugin version: ' + `nm.getVersion()`
+    print('Plugin version: ', nm.getVersion())
     
 except Exception as e:
-    print 'Problem.. ' + `e`         
+    print('Problem: ', e)    

@@ -283,7 +283,7 @@ namespace lmfit
         }
 
         //We need to calculate ChiSquares for various perturbatin around a parameter value, in order to get the Hessian
-        DoubleMatrix mat(nrOfParameters, nrOfParameters);
+        TelluriumData mat(nrOfParameters, nrOfParameters);
 
         for (int i = 0; i < nrOfParameters; i++)
         {
@@ -346,13 +346,13 @@ namespace lmfit
     void lmWorker::calculateCovariance()
     {
         //Check if Hessain is invertible
-        DoubleMatrix mat = mTheHost.mHessian.getValue();
+        TelluriumData mat = mTheHost.mHessian.getValue();
 
-        ls::ComplexMatrix temp(mat); //Get a complex matrix from a double one. Imag part is zero
+        ls::ComplexMatrix temp(mat.getData()); //Get a complex matrix from a double one. Imag part is zero
         ls::ComplexMatrix Inv = GetInverse(temp);
 
-        DoubleMatrix temp2(mat.RSize(), mat.CSize());
-        temp2 = Inv;
+        TelluriumData temp2(mat.rSize(), mat.cSize());
+        temp2.setData(Inv);
 
         mTheHost.mCovarianceMatrix.setValue(temp2);
     }
@@ -364,7 +364,7 @@ namespace lmfit
         Properties& conf = mTheHost.mConfidenceLimits.getValueReference();
         conf.clear();
 
-        DoubleMatrix mat = mTheHost.mCovarianceMatrix.getValue();
+        TelluriumData mat = mTheHost.mCovarianceMatrix.getValue();
         double chiReduced = mTheHost.mReducedChiSquare.getValue();
         for (int i = 0; i < mLMData.nrOfParameters; ++i)
         {

@@ -58,17 +58,17 @@ TEST(RRPLUGIN_TEST_MODEL, OPTIMIZE_TEST_MODEL)
 
     PropertyBase* hessian_property = lmplugin->getProperty("Hessian");
     ASSERT_TRUE(hessian_property != NULL);
-    ls::DoubleMatrix* hessian = static_cast<ls::DoubleMatrix*>(hessian_property->getValueHandle());
-    EXPECT_EQ(hessian->numRows(), 1);
-    EXPECT_EQ(hessian->numCols(), 1);
-    EXPECT_NEAR(*hessian[0][0], 3300, 1500); //Determined empirically.
+    TelluriumData* hessian = static_cast<TelluriumData*>(hessian_property->getValueHandle());
+    EXPECT_EQ(hessian->rSize(), 1);
+    EXPECT_EQ(hessian->cSize(), 1);
+    EXPECT_NEAR(hessian->getDataElement(0, 0), 3300, 1500); //Determined empirically.
 
     PropertyBase* cov_property = lmplugin->getProperty("CovarianceMatrix");
     ASSERT_TRUE(cov_property != NULL);
-    ls::DoubleMatrix* covariance = static_cast<ls::DoubleMatrix*>(cov_property->getValueHandle());
-    EXPECT_EQ(covariance->numRows(), 1);
-    EXPECT_EQ(covariance->numCols(), 1);
-    EXPECT_NEAR(*covariance[0][0], 0.0003, 0.0001); //Determined empirically.
+    TelluriumData* covariance = static_cast<TelluriumData*>(cov_property->getValueHandle());
+    EXPECT_EQ(covariance->rSize(), 1);
+    EXPECT_EQ(covariance->cSize(), 1);
+    EXPECT_NEAR(covariance->getDataElement(0, 0), 0.0003, 0.0001); //Determined empirically.
 
     PropertyBase* chi_property = lmplugin->getProperty("ChiSquare");
     ASSERT_TRUE(chi_property != NULL);

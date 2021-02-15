@@ -361,12 +361,13 @@ namespace tlp
             RRPLOG(lError) << info.str();
             return false;
         }
-        catch (...)
+        catch (const std::exception& e)
         {
             info << "========== In attempt to load plugin: " << _libName << " ===========" << endl;
-            info << "Unknown error occured attempting to load plugin " << _libName;
+            info << "Unknown error occured attempting to load plugin " << _libName << ": " << endl;
+            info << e.what() << endl;
             mLoadPluginErrors << info.str();
-            RRPLOG(lError) << info.str();
+            RRPLOG(lInfo) << info.str();
             return false;
         }
     }

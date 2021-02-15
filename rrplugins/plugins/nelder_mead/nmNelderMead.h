@@ -53,8 +53,8 @@ namespace nmfit
         Property<double>			            mChiSquare;                     //Chi square for the fitting
         Property<double>			            mReducedChiSquare;              //Reduced Chi Square
 
-        Property< ls::Matrix<double> >          mHessian;                       //Hessian
-        Property< ls::Matrix<double> >          mCovarianceMatrix;              //Covariance Matrix
+        Property<TelluriumData>                 mHessian;                       //Hessian
+        Property<TelluriumData>                 mCovarianceMatrix;              //Covariance Matrix
 
         vector<double>                          mTheNorms;              //For effiency
        //Utility functions for the thread
