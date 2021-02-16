@@ -1,0 +1,282 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>KineticLawParameterResolver &mdash; libRoadRunner 1.1.16 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/sphinx_tabs/semantic-ui-2.4.1/segment.min.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/sphinx_tabs/semantic-ui-2.4.1/menu.min.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/sphinx_tabs/semantic-ui-2.4.1/tab.min.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/sphinx_tabs/tabs.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> libRoadRunner
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">RoadRunner Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Installation/installation.html">Installing RoadRunner</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../read_write_functions.html">SBML Read/Write Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../selecting_values.html">Selecting Values</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../steady_state.html">Steady State Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../stochastic.html">Stochastic Simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../metabolic.html">Metabolic Control Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../stability.html">Stability Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../stoichiometric.html">Stoichiometric Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bifurcation.html">Bifurcation Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../integration.html">Simulation and Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../utility_functions.html">Utility Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../accessing_model.html">Accessing the SBML Model Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">The LibRoadRunner C++ Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CAPIReference/index.html">The LibRoadRunner C Library</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">libRoadRunner</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>KineticLawParameterResolver</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../../_sources/C++APIReference/classes/llvm/KineticLawParameterResolver.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="kineticlawparameterresolver">
+<h1>KineticLawParameterResolver<a class="headerlink" href="#kineticlawparameterresolver" title="Permalink to this headline">¶</a></h1>
+<dl class="cpp class">
+<dt id="_CPPv4N6rrllvm27KineticLawParameterResolverE">
+<span id="_CPPv3N6rrllvm27KineticLawParameterResolverE"></span><span id="_CPPv2N6rrllvm27KineticLawParameterResolverE"></span><span id="rrllvm::KineticLawParameterResolver"></span><span class="target" id="classrrllvm_1_1KineticLawParameterResolver"></span><em class="property">class </em><code class="sig-prename descclassname">rrllvm<code class="sig-prename descclassname">::</code></code><code class="sig-name descname">KineticLawParameterResolver</code> : <em class="property">public</em> rrllvm::LoadSymbolResolver<a class="headerlink" href="#_CPPv4N6rrllvm27KineticLawParameterResolverE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="cpp function">
+<dt id="_CPPv4N6rrllvm27KineticLawParameterResolver27KineticLawParameterResolverER18LoadSymbolResolverRKN7libsbml10KineticLawERN4llvm9IRBuilderIEE">
+<span id="_CPPv3N6rrllvm27KineticLawParameterResolver27KineticLawParameterResolverER18LoadSymbolResolverRKN7libsbml10KineticLawERN4llvm9IRBuilderIEE"></span><span id="_CPPv2N6rrllvm27KineticLawParameterResolver27KineticLawParameterResolverER18LoadSymbolResolverRKN7libsbml10KineticLawERN4llvm9IRBuilderIEE"></span><span id="rrllvm::KineticLawParameterResolver::KineticLawParameterResolver__LoadSymbolResolverR.libsbml::KineticLawCR.llvm::IRBuilder::R"></span><span class="target" id="classrrllvm_1_1KineticLawParameterResolver_1a95573b8de0eebac9335ef204cae39a2f"></span><code class="sig-name descname">KineticLawParameterResolver</code><span class="sig-paren">(</span>LoadSymbolResolver &amp;<em>parentResolver</em>, <em class="property">const</em> libsbml::KineticLaw &amp;<em>kineticLaw</em>, llvm::IRBuilder&lt;&gt; &amp;<em>builder</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6rrllvm27KineticLawParameterResolver27KineticLawParameterResolverER18LoadSymbolResolverRKN7libsbml10KineticLawERN4llvm9IRBuilderIEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6rrllvm27KineticLawParameterResolverD0Ev">
+<span id="_CPPv3N6rrllvm27KineticLawParameterResolverD0Ev"></span><span id="_CPPv2N6rrllvm27KineticLawParameterResolverD0Ev"></span><span id="rrllvm::KineticLawParameterResolver::~KineticLawParameterResolver"></span><span class="target" id="classrrllvm_1_1KineticLawParameterResolver_1acc03d93766e494c72dbf306bb4e5d3b2"></span><code class="sig-name descname">~KineticLawParameterResolver</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6rrllvm27KineticLawParameterResolverD0Ev" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6rrllvm27KineticLawParameterResolver15loadSymbolValueERKNSt6stringERKN4llvm8ArrayRefIPN4llvm5ValueEEE">
+<span id="_CPPv3N6rrllvm27KineticLawParameterResolver15loadSymbolValueERKNSt6stringERKN4llvm8ArrayRefIPN4llvm5ValueEEE"></span><span id="_CPPv2N6rrllvm27KineticLawParameterResolver15loadSymbolValueERKNSt6stringERKN4llvm8ArrayRefIPN4llvm5ValueEEE"></span><span id="rrllvm::KineticLawParameterResolver::loadSymbolValue__ssCR.llvm::ArrayRef:llvm::ValueP:CR"></span><span class="target" id="classrrllvm_1_1KineticLawParameterResolver_1ac04cd2cdb1aebcbb28dc7c59325d604d"></span>llvm::Value *<code class="sig-name descname">loadSymbolValue</code><span class="sig-paren">(</span><em class="property">const</em> std::string &amp;<em>symbol</em>, <em class="property">const</em> llvm::ArrayRef&lt;llvm::Value*&gt; &amp;<em>args</em> = llvm::ArrayRef&lt;llvm::Value*&gt;()<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6rrllvm27KineticLawParameterResolver15loadSymbolValueERKNSt6stringERKN4llvm8ArrayRefIPN4llvm5ValueEEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>generate an LLVM load instruction. </p>
+<p><dl class="simple">
+<dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">symbol</span></code>: the symbol name to resolve </p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">args</span></code>: function argument list </p></li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6rrllvm27KineticLawParameterResolver19recursiveSymbolPushERKNSt6stringE">
+<span id="_CPPv3N6rrllvm27KineticLawParameterResolver19recursiveSymbolPushERKNSt6stringE"></span><span id="_CPPv2N6rrllvm27KineticLawParameterResolver19recursiveSymbolPushERKNSt6stringE"></span><span id="rrllvm::KineticLawParameterResolver::recursiveSymbolPush__ssCR"></span><span class="target" id="classrrllvm_1_1KineticLawParameterResolver_1aea67c8b5d643ae2fc1fd29ccbad2c0cd"></span>void <code class="sig-name descname">recursiveSymbolPush</code><span class="sig-paren">(</span><em class="property">const</em> std::string &amp;<em>symbol</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6rrllvm27KineticLawParameterResolver19recursiveSymbolPushERKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6rrllvm27KineticLawParameterResolver18recursiveSymbolPopEv">
+<span id="_CPPv3N6rrllvm27KineticLawParameterResolver18recursiveSymbolPopEv"></span><span id="_CPPv2N6rrllvm27KineticLawParameterResolver18recursiveSymbolPopEv"></span><span id="rrllvm::KineticLawParameterResolver::recursiveSymbolPop"></span><span class="target" id="classrrllvm_1_1KineticLawParameterResolver_1a1083e93635d2154a8a50a0d0064ba98b"></span>void <code class="sig-name descname">recursiveSymbolPop</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6rrllvm27KineticLawParameterResolver18recursiveSymbolPopEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Private Members</p>
+<dl class="cpp var">
+<dt id="_CPPv4N6rrllvm27KineticLawParameterResolver14parentResolverE">
+<span id="_CPPv3N6rrllvm27KineticLawParameterResolver14parentResolverE"></span><span id="_CPPv2N6rrllvm27KineticLawParameterResolver14parentResolverE"></span><span id="rrllvm::KineticLawParameterResolver::parentResolver__LoadSymbolResolverR"></span><span class="target" id="classrrllvm_1_1KineticLawParameterResolver_1a62575a943e56292120e90bfc1ee5e5de"></span>LoadSymbolResolver &amp;<code class="sig-name descname">parentResolver</code><a class="headerlink" href="#_CPPv4N6rrllvm27KineticLawParameterResolver14parentResolverE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt id="_CPPv4N6rrllvm27KineticLawParameterResolver10kineticLawE">
+<span id="_CPPv3N6rrllvm27KineticLawParameterResolver10kineticLawE"></span><span id="_CPPv2N6rrllvm27KineticLawParameterResolver10kineticLawE"></span><span id="rrllvm::KineticLawParameterResolver::kineticLaw__libsbml::KineticLawCR"></span><span class="target" id="classrrllvm_1_1KineticLawParameterResolver_1ae90e663a745783f757a20064bb408e06"></span><em class="property">const</em> libsbml::KineticLaw &amp;<code class="sig-name descname">kineticLaw</code><a class="headerlink" href="#_CPPv4N6rrllvm27KineticLawParameterResolver10kineticLawE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt id="_CPPv4N6rrllvm27KineticLawParameterResolver7builderE">
+<span id="_CPPv3N6rrllvm27KineticLawParameterResolver7builderE"></span><span id="_CPPv2N6rrllvm27KineticLawParameterResolver7builderE"></span><span id="rrllvm::KineticLawParameterResolver::builder__llvm::IRBuilderR"></span><span class="target" id="classrrllvm_1_1KineticLawParameterResolver_1aea28856094e05544c11d144be09ecae5"></span>llvm::IRBuilder &amp;<code class="sig-name descname">builder</code><a class="headerlink" href="#_CPPv4N6rrllvm27KineticLawParameterResolver7builderE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2013-2018, Andy Somogyi, J Kyle Medley, Kiri Choi, Herbert Suaro.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

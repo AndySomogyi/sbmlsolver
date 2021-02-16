@@ -1,0 +1,347 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>LoadSymbolResolverBase &mdash; libRoadRunner 1.1.16 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/sphinx_tabs/semantic-ui-2.4.1/segment.min.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/sphinx_tabs/semantic-ui-2.4.1/menu.min.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/sphinx_tabs/semantic-ui-2.4.1/tab.min.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/sphinx_tabs/tabs.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> libRoadRunner
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">RoadRunner Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Installation/installation.html">Installing RoadRunner</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../read_write_functions.html">SBML Read/Write Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../selecting_values.html">Selecting Values</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../steady_state.html">Steady State Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../stochastic.html">Stochastic Simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../metabolic.html">Metabolic Control Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../stability.html">Stability Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../stoichiometric.html">Stoichiometric Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bifurcation.html">Bifurcation Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../integration.html">Simulation and Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../utility_functions.html">Utility Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../accessing_model.html">Accessing the SBML Model Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">The LibRoadRunner C++ Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CAPIReference/index.html">The LibRoadRunner C Library</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">libRoadRunner</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>LoadSymbolResolverBase</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../../_sources/C++APIReference/classes/llvm/LoadSymbolResolverBase.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="loadsymbolresolverbase">
+<h1>LoadSymbolResolverBase<a class="headerlink" href="#loadsymbolresolverbase" title="Permalink to this headline">¶</a></h1>
+<dl class="cpp class">
+<dt id="_CPPv4N6rrllvm22LoadSymbolResolverBaseE">
+<span id="_CPPv3N6rrllvm22LoadSymbolResolverBaseE"></span><span id="_CPPv2N6rrllvm22LoadSymbolResolverBaseE"></span><span id="rrllvm::LoadSymbolResolverBase"></span><span class="target" id="classrrllvm_1_1LoadSymbolResolverBase"></span><em class="property">class </em><code class="sig-prename descclassname">rrllvm<code class="sig-prename descclassname">::</code></code><code class="sig-name descname">LoadSymbolResolverBase</code> : <em class="property">public</em> rrllvm::LoadSymbolResolver<a class="headerlink" href="#_CPPv4N6rrllvm22LoadSymbolResolverBaseE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>provide common sbml model functionality to three kinds of resolvers. </p>
+<p>This has common functionality such as dealing with sbml elements such as reactions, species and so forth. </p>
+<p>Subclassed by rrllvm::ModelDataLoadSymbolResolver, <a class="reference internal" href="ModelInitialValueSymbolResolver.html#classrrllvm_1_1ModelInitialValueSymbolResolver"><span class="std std-ref">rrllvm::ModelInitialValueSymbolResolver</span></a>, <a class="reference internal" href="SBMLInitialValueSymbolResolver.html#classrrllvm_1_1SBMLInitialValueSymbolResolver"><span class="std std-ref">rrllvm::SBMLInitialValueSymbolResolver</span></a></p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="cpp function">
+<dt id="_CPPv4N6rrllvm22LoadSymbolResolverBase16loadReactionRateEPKN7libsbml8ReactionE">
+<span id="_CPPv3N6rrllvm22LoadSymbolResolverBase16loadReactionRateEPKN7libsbml8ReactionE"></span><span id="_CPPv2N6rrllvm22LoadSymbolResolverBase16loadReactionRateEPKN7libsbml8ReactionE"></span><span id="rrllvm::LoadSymbolResolverBase::loadReactionRate__libsbml::ReactionCP"></span><span class="target" id="classrrllvm_1_1LoadSymbolResolverBase_1af30e82d88abca4047e01c3cb032b16a3"></span>llvm::Value *<code class="sig-name descname">loadReactionRate</code><span class="sig-paren">(</span><em class="property">const</em> libsbml::Reaction*<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6rrllvm22LoadSymbolResolverBase16loadReactionRateEPKN7libsbml8ReactionE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>shortcut to get a reaction rate, performance wise, quicker than going through all the loadSymbolValue types. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6rrllvm22LoadSymbolResolverBase19recursiveSymbolPushERKNSt6stringE">
+<span id="_CPPv3N6rrllvm22LoadSymbolResolverBase19recursiveSymbolPushERKNSt6stringE"></span><span id="_CPPv2N6rrllvm22LoadSymbolResolverBase19recursiveSymbolPushERKNSt6stringE"></span><span id="rrllvm::LoadSymbolResolverBase::recursiveSymbolPush__ssCR"></span><span class="target" id="classrrllvm_1_1LoadSymbolResolverBase_1a774ff517a485e464ad00de533461f2b1"></span>void <code class="sig-name descname">recursiveSymbolPush</code><span class="sig-paren">(</span><em class="property">const</em> std::string &amp;<em>symbol</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6rrllvm22LoadSymbolResolverBase19recursiveSymbolPushERKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6rrllvm22LoadSymbolResolverBase18recursiveSymbolPopEv">
+<span id="_CPPv3N6rrllvm22LoadSymbolResolverBase18recursiveSymbolPopEv"></span><span id="_CPPv2N6rrllvm22LoadSymbolResolverBase18recursiveSymbolPopEv"></span><span id="rrllvm::LoadSymbolResolverBase::recursiveSymbolPop"></span><span class="target" id="classrrllvm_1_1LoadSymbolResolverBase_1ade0623a0a82d7594aaa50d28e95eec6b"></span>void <code class="sig-name descname">recursiveSymbolPop</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6rrllvm22LoadSymbolResolverBase18recursiveSymbolPopEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6rrllvm22LoadSymbolResolverBase10flushCacheEv">
+<span id="_CPPv3N6rrllvm22LoadSymbolResolverBase10flushCacheEv"></span><span id="_CPPv2N6rrllvm22LoadSymbolResolverBase10flushCacheEv"></span><span id="rrllvm::LoadSymbolResolverBase::flushCache"></span><span class="target" id="classrrllvm_1_1LoadSymbolResolverBase_1ae380d0e0ba65b430e3ce7c23be4b7829"></span>void <code class="sig-name descname">flushCache</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6rrllvm22LoadSymbolResolverBase10flushCacheEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Flush the symbol cache. </p>
+<p>This is required in branches and switch blocks as a symbol used in a previous block can not be re-used in the current block. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6rrllvm22LoadSymbolResolverBase14pushCacheBlockEv">
+<span id="_CPPv3N6rrllvm22LoadSymbolResolverBase14pushCacheBlockEv"></span><span id="_CPPv2N6rrllvm22LoadSymbolResolverBase14pushCacheBlockEv"></span><span id="rrllvm::LoadSymbolResolverBase::pushCacheBlock"></span><span class="target" id="classrrllvm_1_1LoadSymbolResolverBase_1a1c2f43e60c68b47222758a9ed2dc0bb1"></span>size_t <code class="sig-name descname">pushCacheBlock</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6rrllvm22LoadSymbolResolverBase14pushCacheBlockEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>nested conditionals (or functions?) can push a local cache block, where symbols would be chached. </p>
+<p>These need to be popped as these symbols are not valid outside of the local conditional or scope block. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6rrllvm22LoadSymbolResolverBase13popCacheBlockEv">
+<span id="_CPPv3N6rrllvm22LoadSymbolResolverBase13popCacheBlockEv"></span><span id="_CPPv2N6rrllvm22LoadSymbolResolverBase13popCacheBlockEv"></span><span id="rrllvm::LoadSymbolResolverBase::popCacheBlock"></span><span class="target" id="classrrllvm_1_1LoadSymbolResolverBase_1ada819479484b73cc11daa4a22beb0406"></span>size_t <code class="sig-name descname">popCacheBlock</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6rrllvm22LoadSymbolResolverBase13popCacheBlockEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Pop a scoped cache block, this clears these values, and any subsequent reads re-evaluate the requested symbol. </p>
+<p>Will throw an exception if an empty stack pop is attempted. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Protected Types</p>
+<dl class="cpp type">
+<dt id="_CPPv4N6rrllvm22LoadSymbolResolverBase11StringStackE">
+<span id="_CPPv3N6rrllvm22LoadSymbolResolverBase11StringStackE"></span><span id="_CPPv2N6rrllvm22LoadSymbolResolverBase11StringStackE"></span><span id="rrllvm::LoadSymbolResolverBase::StringStack"></span><span class="target" id="classrrllvm_1_1LoadSymbolResolverBase_1ab53501070e5a3b0e35a00f3ab7a63f28"></span><em class="property">typedef </em>std::list&lt;std::string&gt; <code class="sig-name descname">StringStack</code><a class="headerlink" href="#_CPPv4N6rrllvm22LoadSymbolResolverBase11StringStackE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp type">
+<dt id="_CPPv4N6rrllvm22LoadSymbolResolverBase8ValueMapE">
+<span id="_CPPv3N6rrllvm22LoadSymbolResolverBase8ValueMapE"></span><span id="_CPPv2N6rrllvm22LoadSymbolResolverBase8ValueMapE"></span><span id="rrllvm::LoadSymbolResolverBase::ValueMap"></span><span class="target" id="classrrllvm_1_1LoadSymbolResolverBase_1a52e2ad673c48da0d98cc5e9715d62161"></span><em class="property">typedef </em>cxx11_ns::unordered_map&lt;std::string, llvm::Value*&gt; <code class="sig-name descname">ValueMap</code><a class="headerlink" href="#_CPPv4N6rrllvm22LoadSymbolResolverBase8ValueMapE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp type">
+<dt id="_CPPv4N6rrllvm22LoadSymbolResolverBase13ValueMapStackE">
+<span id="_CPPv3N6rrllvm22LoadSymbolResolverBase13ValueMapStackE"></span><span id="_CPPv2N6rrllvm22LoadSymbolResolverBase13ValueMapStackE"></span><span id="rrllvm::LoadSymbolResolverBase::ValueMapStack"></span><span class="target" id="classrrllvm_1_1LoadSymbolResolverBase_1aefd7a10503a570504ee99aba37875b36"></span><em class="property">typedef </em>std::deque&lt;<a class="reference internal" href="#_CPPv4N6rrllvm22LoadSymbolResolverBase8ValueMapE" title="rrllvm::LoadSymbolResolverBase::ValueMap">ValueMap</a>&gt; <code class="sig-name descname">ValueMapStack</code><a class="headerlink" href="#_CPPv4N6rrllvm22LoadSymbolResolverBase13ValueMapStackE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Protected Functions</p>
+<dl class="cpp function">
+<dt id="_CPPv4N6rrllvm22LoadSymbolResolverBase22LoadSymbolResolverBaseERK21ModelGeneratorContextPN4llvm5ValueE">
+<span id="_CPPv3N6rrllvm22LoadSymbolResolverBase22LoadSymbolResolverBaseERK21ModelGeneratorContextPN4llvm5ValueE"></span><span id="_CPPv2N6rrllvm22LoadSymbolResolverBase22LoadSymbolResolverBaseERK21ModelGeneratorContextPN4llvm5ValueE"></span><span id="rrllvm::LoadSymbolResolverBase::LoadSymbolResolverBase__ModelGeneratorContextCR.llvm::ValueP"></span><span class="target" id="classrrllvm_1_1LoadSymbolResolverBase_1a74b4695465d18b3f22597055b8a55ad0"></span><code class="sig-name descname">LoadSymbolResolverBase</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="ModelGeneratorContext.html#_CPPv4N6rrllvm21ModelGeneratorContextE" title="rrllvm::ModelGeneratorContext">ModelGeneratorContext</a> &amp;<em>ctx</em>, llvm::Value *<em>modelData</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6rrllvm22LoadSymbolResolverBase22LoadSymbolResolverBaseERK21ModelGeneratorContextPN4llvm5ValueE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6rrllvm22LoadSymbolResolverBase10cacheValueERKNSt6stringERKN4llvm8ArrayRefIPN4llvm5ValueEEEPN4llvm5ValueE">
+<span id="_CPPv3N6rrllvm22LoadSymbolResolverBase10cacheValueERKNSt6stringERKN4llvm8ArrayRefIPN4llvm5ValueEEEPN4llvm5ValueE"></span><span id="_CPPv2N6rrllvm22LoadSymbolResolverBase10cacheValueERKNSt6stringERKN4llvm8ArrayRefIPN4llvm5ValueEEEPN4llvm5ValueE"></span><span id="rrllvm::LoadSymbolResolverBase::cacheValue__ssCR.llvm::ArrayRef:llvm::ValueP:CR.llvm::ValueP"></span><span class="target" id="classrrllvm_1_1LoadSymbolResolverBase_1afbdc447a23b2902815eb8e9afb497658"></span>llvm::Value *<code class="sig-name descname">cacheValue</code><span class="sig-paren">(</span><em class="property">const</em> std::string &amp;<em>symbol</em>, <em class="property">const</em> llvm::ArrayRef&lt;llvm::Value*&gt; &amp;<em>args</em>, llvm::Value *<em>value</em> = NULL<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6rrllvm22LoadSymbolResolverBase10cacheValueERKNSt6stringERKN4llvm8ArrayRefIPN4llvm5ValueEEEPN4llvm5ValueE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>check in the symbol cache if the symbol exists, if so return it. </p>
+<p>If the value is not NULL, it is cached and returned.</p>
+<p>Cached function args not currently supported (just return NULL). </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Protected Attributes</p>
+<dl class="cpp var">
+<dt id="_CPPv4N6rrllvm22LoadSymbolResolverBase15modelGenContextE">
+<span id="_CPPv3N6rrllvm22LoadSymbolResolverBase15modelGenContextE"></span><span id="_CPPv2N6rrllvm22LoadSymbolResolverBase15modelGenContextE"></span><span id="rrllvm::LoadSymbolResolverBase::modelGenContext__ModelGeneratorContextCR"></span><span class="target" id="classrrllvm_1_1LoadSymbolResolverBase_1ae13b023d912ca6f0d282a89a10ce3f44"></span><em class="property">const</em> <a class="reference internal" href="ModelGeneratorContext.html#_CPPv4N6rrllvm21ModelGeneratorContextE" title="rrllvm::ModelGeneratorContext">ModelGeneratorContext</a> &amp;<code class="sig-name descname">modelGenContext</code><a class="headerlink" href="#_CPPv4N6rrllvm22LoadSymbolResolverBase15modelGenContextE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt id="_CPPv4N6rrllvm22LoadSymbolResolverBase5modelE">
+<span id="_CPPv3N6rrllvm22LoadSymbolResolverBase5modelE"></span><span id="_CPPv2N6rrllvm22LoadSymbolResolverBase5modelE"></span><span id="rrllvm::LoadSymbolResolverBase::model__libsbml::ModelCP"></span><span class="target" id="classrrllvm_1_1LoadSymbolResolverBase_1abe5f4775be108223c206dd9748534361"></span><em class="property">const</em> libsbml::Model *<code class="sig-name descname">model</code><a class="headerlink" href="#_CPPv4N6rrllvm22LoadSymbolResolverBase5modelE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt id="_CPPv4N6rrllvm22LoadSymbolResolverBase16modelDataSymbolsE">
+<span id="_CPPv3N6rrllvm22LoadSymbolResolverBase16modelDataSymbolsE"></span><span id="_CPPv2N6rrllvm22LoadSymbolResolverBase16modelDataSymbolsE"></span><span id="rrllvm::LoadSymbolResolverBase::modelDataSymbols__LLVMModelDataSymbolsCR"></span><span class="target" id="classrrllvm_1_1LoadSymbolResolverBase_1a7c4487a9784c8dd8cce184dff8c4cda4"></span><em class="property">const</em> <a class="reference internal" href="LLVMModelDataSymbols.html#_CPPv4N6rrllvm20LLVMModelDataSymbolsE" title="rrllvm::LLVMModelDataSymbols">LLVMModelDataSymbols</a> &amp;<code class="sig-name descname">modelDataSymbols</code><a class="headerlink" href="#_CPPv4N6rrllvm22LoadSymbolResolverBase16modelDataSymbolsE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt id="_CPPv4N6rrllvm22LoadSymbolResolverBase12modelSymbolsE">
+<span id="_CPPv3N6rrllvm22LoadSymbolResolverBase12modelSymbolsE"></span><span id="_CPPv2N6rrllvm22LoadSymbolResolverBase12modelSymbolsE"></span><span id="rrllvm::LoadSymbolResolverBase::modelSymbols__LLVMModelSymbolsCR"></span><span class="target" id="classrrllvm_1_1LoadSymbolResolverBase_1a21d2fbcaa66d3de99fb9dc7f8288582c"></span><em class="property">const</em> <a class="reference internal" href="LLVMModelSymbols.html#_CPPv4N6rrllvm16LLVMModelSymbolsE" title="rrllvm::LLVMModelSymbols">LLVMModelSymbols</a> &amp;<code class="sig-name descname">modelSymbols</code><a class="headerlink" href="#_CPPv4N6rrllvm22LoadSymbolResolverBase12modelSymbolsE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt id="_CPPv4N6rrllvm22LoadSymbolResolverBase7builderE">
+<span id="_CPPv3N6rrllvm22LoadSymbolResolverBase7builderE"></span><span id="_CPPv2N6rrllvm22LoadSymbolResolverBase7builderE"></span><span id="rrllvm::LoadSymbolResolverBase::builder__llvm::IRBuilderR"></span><span class="target" id="classrrllvm_1_1LoadSymbolResolverBase_1aa108e3576012f1012ebacd4fe30cf747"></span>llvm::IRBuilder &amp;<code class="sig-name descname">builder</code><a class="headerlink" href="#_CPPv4N6rrllvm22LoadSymbolResolverBase7builderE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt id="_CPPv4N6rrllvm22LoadSymbolResolverBase9modelDataE">
+<span id="_CPPv3N6rrllvm22LoadSymbolResolverBase9modelDataE"></span><span id="_CPPv2N6rrllvm22LoadSymbolResolverBase9modelDataE"></span><span id="rrllvm::LoadSymbolResolverBase::modelData__llvm::ValueP"></span><span class="target" id="classrrllvm_1_1LoadSymbolResolverBase_1a5a0d696ef7f5c0c9db5512a619fdc657"></span>llvm::Value *<code class="sig-name descname">modelData</code><a class="headerlink" href="#_CPPv4N6rrllvm22LoadSymbolResolverBase9modelDataE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt id="_CPPv4N6rrllvm22LoadSymbolResolverBase11symbolStackE">
+<span id="_CPPv3N6rrllvm22LoadSymbolResolverBase11symbolStackE"></span><span id="_CPPv2N6rrllvm22LoadSymbolResolverBase11symbolStackE"></span><span id="rrllvm::LoadSymbolResolverBase::symbolStack__StringStack"></span><span class="target" id="classrrllvm_1_1LoadSymbolResolverBase_1ab6c8b692f1b8ed108e50ce35a268a57f"></span><a class="reference internal" href="#_CPPv4N6rrllvm22LoadSymbolResolverBase11StringStackE" title="rrllvm::LoadSymbolResolverBase::StringStack">StringStack</a> <code class="sig-name descname">symbolStack</code><a class="headerlink" href="#_CPPv4N6rrllvm22LoadSymbolResolverBase11symbolStackE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt id="_CPPv4N6rrllvm22LoadSymbolResolverBase11symbolCacheE">
+<span id="_CPPv3N6rrllvm22LoadSymbolResolverBase11symbolCacheE"></span><span id="_CPPv2N6rrllvm22LoadSymbolResolverBase11symbolCacheE"></span><span id="rrllvm::LoadSymbolResolverBase::symbolCache__ValueMapStack"></span><span class="target" id="classrrllvm_1_1LoadSymbolResolverBase_1a74899bb1f28fb3a75d1447d809e615ec"></span><a class="reference internal" href="#_CPPv4N6rrllvm22LoadSymbolResolverBase13ValueMapStackE" title="rrllvm::LoadSymbolResolverBase::ValueMapStack">ValueMapStack</a> <code class="sig-name descname">symbolCache</code><a class="headerlink" href="#_CPPv4N6rrllvm22LoadSymbolResolverBase11symbolCacheE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2013-2018, Andy Somogyi, J Kyle Medley, Kiri Choi, Herbert Suaro.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

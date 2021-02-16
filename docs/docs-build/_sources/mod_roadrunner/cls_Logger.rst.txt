@@ -32,7 +32,7 @@ Logging the following messages::
 
 will produce the following output:
 
-.. image:: logging.png
+.. image:: ./logging.png
 
 
 If one wants different colors on the log, these can be set via::
@@ -178,7 +178,7 @@ Logging Methods
       
    would produce the following output:
 
-   .. image:: logging2.png
+   .. image:: ./logging2.png
  
    |
 

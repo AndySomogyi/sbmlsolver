@@ -3,9 +3,9 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
   <title>The Main RoadRunner Class &mdash; libRoadRunner 1.1.16 documentation</title>
   
@@ -20,7 +20,10 @@
 
   
   
+
   
+  
+
   
 
   
@@ -39,7 +42,9 @@
 
     
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" /> 
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Solver Class" href="cls_Solver.html" />
+    <link rel="prev" title="Configuration" href="cls_Config.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -53,7 +58,7 @@
           
 
           
-            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> libRoadRunner
+            <a href="../index.html" class="icon icon-home"> libRoadRunner
           
 
           
@@ -84,9 +89,11 @@
               
             
             
-              <ul>
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../index.html">RoadRunner Documentation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introduction/introduction.html">Basic Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introduction/introduction.html#what-is-sbml">What Is SBML?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introduction/introduction.html#what-is-libroadrunner">What is libRoadRunner</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Installation/installation.html">Installing RoadRunner</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../read_write_functions.html">SBML Read/Write Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../selecting_values.html">Selecting Values</a></li>
@@ -99,9 +106,34 @@
 <li class="toctree-l1"><a class="reference internal" href="../integration.html">Simulation and Integration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utility_functions.html">Utility Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../accessing_model.html">Accessing the SBML Model Variables</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../api_reference.html">RoadRunner API Reference</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="api_reference.html">RoadRunner API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="api_reference.html">RoadRunner API Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cls_Config.html">Configuration</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">The Main RoadRunner Class</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#selections">Selections</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#model-access">Model Access</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#model-editing">Model Editing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#simulation">Simulation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#steady-state">Steady State</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#metabolic-control-analysis">Metabolic control analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#stoichiometric-analysis">Stoichiometric Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#analysis">Analysis</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cls_Solver.html">Solver Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cls_Integrator.html">Integrator Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cls_SteadyStateSolver.html">Steady State Solver Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cls_SelectionRecord.html">SelectionRecord</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cls_LoadSBMLOptions.html">SBML Compile Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cls_ExecutableModel.html">Accessing the SBML Model Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cls_Logger.html">Logging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cls_Compiler.html">JIT Compilation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cls_Misc.html">Miscellaneous Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cls_PyConservedMoietyConverter.html">Conserved Moiety Conversion</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../C%2B%2BAPIReference/index.html">The LibRoadRunner C++ Library</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../CAPIReference/index.html">C API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CAPIReference/index.html">The LibRoadRunner C Library</a></li>
 </ul>
 
             
@@ -142,18 +174,22 @@
 
 
 
+
+
 <div role="navigation" aria-label="breadcrumbs navigation">
 
   <ul class="wy-breadcrumbs">
     
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
         
+          <li><a href="api_reference.html">RoadRunner API Reference</a> &raquo;</li>
+        
       <li>The Main RoadRunner Class</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
-            
+          
             <a href="../_sources/mod_roadrunner/cls_RoadRunner.rst.txt" rel="nofollow"> View page source</a>
           
         
@@ -340,14 +376,14 @@ into a single xml document which is returned as a string.</p>
 <dt id="RoadRunner.RoadRunner.getIntegrator">
 <code class="sig-prename descclassname">RoadRunner.</code><code class="sig-name descname">getIntegrator</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#RoadRunner.RoadRunner.getIntegrator" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the solver instance. See <a class="reference internal" href="cls_Solver.html#roadrunner.Solver" title="roadrunner.Solver"><code class="xref py py-class docutils literal notranslate"><span class="pre">roadrunner.Solver</span></code></a>.
-For more information on the possible settings, see <a class="reference internal" href="../using_roadrunner.html#roadrunner-solver"><span class="std std-ref">Solvers</span></a>.</p>
+For more information on the possible settings, see <a class="reference internal" href="../introduction/using_roadrunner.html#roadrunner-solver"><span class="std std-ref">Solvers</span></a>.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="RoadRunner.RoadRunner.getIntegratorByName">
 <code class="sig-prename descclassname">RoadRunner.</code><code class="sig-name descname">getIntegratorByName</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span></em><span class="sig-paren">)</span><a class="headerlink" href="#RoadRunner.RoadRunner.getIntegratorByName" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the solver instance by given name. See <a class="reference internal" href="cls_Solver.html#roadrunner.Solver" title="roadrunner.Solver"><code class="xref py py-class docutils literal notranslate"><span class="pre">roadrunner.Solver</span></code></a>.
-For more information on the possible settings, see <a class="reference internal" href="../using_roadrunner.html#roadrunner-solver"><span class="std std-ref">Solvers</span></a>.</p>
+For more information on the possible settings, see <a class="reference internal" href="../introduction/using_roadrunner.html#roadrunner-solver"><span class="std std-ref">Solvers</span></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – Name of the integrator</p>
@@ -412,7 +448,7 @@ the initial model parameters.</p>
 <dl class="py method">
 <dt id="RoadRunner.RoadRunner.setIntegrator">
 <code class="sig-prename descclassname">RoadRunner.</code><code class="sig-name descname">setIntegrator</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span></em><span class="sig-paren">)</span><a class="headerlink" href="#RoadRunner.RoadRunner.setIntegrator" title="Permalink to this definition">¶</a></dt>
-<dd><p>Sets specific integrator. For more information on the possible settings, see <a class="reference internal" href="../using_roadrunner.html#roadrunner-solver"><span class="std std-ref">Solvers</span></a>.</p>
+<dd><p>Sets specific integrator. For more information on the possible settings, see <a class="reference internal" href="../introduction/using_roadrunner.html#roadrunner-solver"><span class="std std-ref">Solvers</span></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – name of the integrator.</p>
@@ -424,7 +460,7 @@ the initial model parameters.</p>
 <dt id="RoadRunner.RoadRunner.setIntegratorSetting">
 <code class="sig-prename descclassname">RoadRunner.</code><code class="sig-name descname">setIntegratorSetting</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span></em>, <em class="sig-param"><span class="n">key</span></em>, <em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#RoadRunner.RoadRunner.setIntegratorSetting" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets settings for a specific integrator. See <a class="reference internal" href="cls_Solver.html#roadrunner.Solver" title="roadrunner.Solver"><code class="xref py py-class docutils literal notranslate"><span class="pre">roadrunner.Solver</span></code></a>.
-For more information on the possible settings, see <a class="reference internal" href="../using_roadrunner.html#roadrunner-solver"><span class="std std-ref">Solvers</span></a>.</p>
+For more information on the possible settings, see <a class="reference internal" href="../introduction/using_roadrunner.html#roadrunner-solver"><span class="std std-ref">Solvers</span></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -1186,10 +1222,12 @@ entire result matrix in memory.</p>
 </div></blockquote>
 <p>All five of the positional arguments are optional. If any of the positional arguments are
 a list of string instead of a number, then they are interpreted as a list of selections.</p>
+<p>By default, the gillespie algorithm output uses a variable step size.  However, if both the end time and the number of steps is defined, the output is constrained to a grid instead.  If just the end time is defined, a variable number of steps will be taken until that end time is reached, or until the maximum number of output rows is reached.  If just the number of steps is defined, that many variable steps will be taken.</p>
+<p>The maximum number of output rows is set to 100,000 by default, though this is ignored if the variable step size is set to false, or if the output is being written directly to a file.  It can be changed by with the argument ‘max_output_rows’.</p>
 <p>There are a number of ways to call simulate.</p>
 <dl class="simple">
 <dt>1: With no arguments. In this case, the current set of options from the previous</dt><dd><p><code class="docutils literal notranslate"><span class="pre">simulate</span></code> call will be used. If this is the first time <code class="docutils literal notranslate"><span class="pre">simulate</span></code> is called,
-then a default set of values is used. The default set of values are (start = 0, end = 5, points = 51).</p>
+then a default set of values is used. The default set of values are (start = 0, end = 5).</p>
 </dd>
 </dl>
 <p>2: With up to five positions arguments, described above.</p>
@@ -1834,28 +1872,29 @@ given by the order of Ids returned by getDependentFloatingSpeciesIds()</p>
            
           </div>
           <footer>
-  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="cls_Solver.html" class="btn btn-neutral float-right" title="Solver Class" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="cls_Config.html" class="btn btn-neutral float-left" title="Configuration" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        
-        &copy; Copyright 2013-2018, Andy Somogyi, J Kyle Medley, Kiri Choi, Herbert Suaro
+        &#169; Copyright 2013-2018, Andy Somogyi, J Kyle Medley, Kiri Choi, Herbert Suaro.
 
     </p>
   </div>
     
     
     
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
     
     provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 

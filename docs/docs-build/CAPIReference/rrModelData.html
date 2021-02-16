@@ -3,9 +3,9 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
   <title>rrModelData &mdash; libRoadRunner 1.1.16 documentation</title>
   
@@ -20,7 +20,10 @@
 
   
   
+
   
+  
+
   
 
   
@@ -55,7 +58,7 @@
           
 
           
-            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> libRoadRunner
+            <a href="../index.html" class="icon icon-home"> libRoadRunner
           
 
           
@@ -88,7 +91,9 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../index.html">RoadRunner Documentation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introduction/introduction.html">Basic Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introduction/introduction.html#what-is-sbml">What Is SBML?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introduction/introduction.html#what-is-libroadrunner">What is libRoadRunner</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Installation/installation.html">Installing RoadRunner</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../read_write_functions.html">SBML Read/Write Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../selecting_values.html">Selecting Values</a></li>
@@ -101,7 +106,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../integration.html">Simulation and Integration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utility_functions.html">Utility Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../accessing_model.html">Accessing the SBML Model Variables</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../api_reference.html">RoadRunner API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mod_roadrunner/api_reference.html">RoadRunner API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../C%2B%2BAPIReference/index.html">The LibRoadRunner C++ Library</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">The LibRoadRunner C Library</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="rrCCompiler.html">rrCCompiler</a></li>
@@ -170,6 +175,8 @@
 
 
 
+
+
 <div role="navigation" aria-label="breadcrumbs navigation">
 
   <ul class="wy-breadcrumbs">
@@ -183,7 +190,7 @@
     
       <li class="wy-breadcrumbs-aside">
         
-            
+          
             <a href="../_sources/CAPIReference/rrModelData.rst.txt" rel="nofollow"> View page source</a>
           
         
@@ -199,10 +206,22 @@
             
   <div class="section" id="rrmodeldata">
 <h1>rrModelData<a class="headerlink" href="#rrmodeldata" title="Permalink to this headline">¶</a></h1>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>doxygenstruct: Cannot find class “rr::SModelData” in doxygen xml output for project “roadrunner” from directory: /Users/ciaranwelsh/Documents/roadrunner/docs/doxygen-output/xml</p>
-</div>
+<dl class="cpp struct">
+<dt id="_CPPv410SModelData">
+<span id="_CPPv310SModelData"></span><span id="_CPPv210SModelData"></span><span id="SModelData"></span><span class="target" id="structSModelData"></span><em class="property">struct </em><code class="sig-name descname">SModelData</code><a class="headerlink" href="#_CPPv410SModelData" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>A data structure that is that allows data to be exchanged with running SBML models. </p>
+<p>In the case of CExecutableModels, A pointer to this struct is given to the compiled shared library, and the C code there modifies the buffers of this structure.</p>
+<p>There are some functions in ExecutableModel.h that manage ModelData memory. These would have made more sense here, but in order to prevent any issues with generated code interacting with them, they were placed there.</p>
+<p>Basic Nomencalture Compartments: A well stirred compartment which contains one or more species. the volume of a compartment can change durring the course of a simulation.</p>
+<p>Floating Species: these are chemical species who’s values (ammount / concentration) change over time.</p>
+<p>Boundary Species: chemical species that who’s values are fixed to their initial conditions, these function as boundary conditions.</p>
+<p><dl class="simple">
+<dt><strong>See</strong></dt><dd><p>ExecutableModel.h </p>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
 </div>
 
 
@@ -210,37 +229,29 @@
            
           </div>
           <footer>
-  
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="rrModelSharedLibrary.html" class="btn btn-neutral float-right" title="rrModelSharedLibrary" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="rrHashTable.html" class="btn btn-neutral float-left" title="rrHashTable" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+        <a href="rrModelSharedLibrary.html" class="btn btn-neutral float-right" title="rrModelSharedLibrary" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="rrHashTable.html" class="btn btn-neutral float-left" title="rrHashTable" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        
-        &copy; Copyright 2013-2018, Andy Somogyi, J Kyle Medley, Kiri Choi, Herbert Suaro
+        &#169; Copyright 2013-2018, Andy Somogyi, J Kyle Medley, Kiri Choi, Herbert Suaro.
 
     </p>
   </div>
     
     
     
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
     
     provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 

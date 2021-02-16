@@ -46,24 +46,24 @@ Rates of Change: ``'``
 Elasticity: ``ee(ReactionId, ParameterId)``
     Represents elasticity slection in the form of ``ee(ReactionId, ParameterId)`` where ``ReactionId`` is a reaction name
     and ``ParameterId`` is a global parameter id. This selection intentionally has a function form, it
-    selects the elasticity control coefficient, :meth:`~RoadRunner.getEE`
+    selects the elasticity control coefficient, :cpp:func:`rr::RoadRunner::getEE`
 
 Unscaled Elasticity: ``uee(ReactionId, ParameterId)``
     Represents unscaled elasticity slection in the form of ``uee(ReactionId, ParameterId)`` where ``ReactionId`` 
     is a reaction name and ``ParameterId`` is a global parameter id. This selection intentionally has a function form, it
-    selects the elasticity control coefficient, :meth:`~RoadRunner.getuEE`
+    selects the elasticity control coefficient, :cpp:func:`rr::RoadRunner::getuEE`
 
 Control Coefficient: ``cc(Id, ParameterId)``
     Represents control coefficient selection in the form of ``cc(Id, ParameterId)`` where ``Id`` is
     a flux or species name and ``ParameterId`` is a global parameter id. The string ``Id`` and ``ParameterId`` 
-    must be valid arguments	for :meth:`~RoadRunner.getCC`. This selection intentionally has a function form, it 
-    selects the elasticity control coefficient, :meth:`~RoadRunner.getCC`
+    must be valid arguments	for :cpp:func:`rr::RoadRunner::getCC`. This selection intentionally has a function form, it
+    selects the elasticity control coefficient, :cpp:func:`rr::RoadRunner::getCC`
 
 Unscaled Control Coefficient: ``ucc(Id, ParameterId)``
     Represents unscaled control coefficient selections in the form of ``ucc(Id, ParameterId)`` where `Id`` is
     a flux or species name and ``ParameterId`` is a global parameter id. The string ``Id`` and ``ParameterId`` 
-    must be valid arguments for :meth:`~RoadRunner.getuCC`. This selection intentionally has a function form, it
-    selects the unscaled elasticity control coefficient, :meth:`~RoadRunner.getuCC`
+    must be valid arguments for :cpp:func:`rr::RoadRunner::getuCC`. This selection intentionally has a function form, it
+    selects the unscaled elasticity control coefficient, :cpp:func:`rr::RoadRunner::getuCC`
 
 Eigenvalue: ``eigen()``, ``eigenReal()``, ``eigenImag()`` 
     Represents the eigenvalue of a floating species. ``eigen(identifier)`` is complex number whereas ``eigenReal(identifier)`` is the real part of eigenvalue and
@@ -71,9 +71,9 @@ Eigenvalue: ``eigen()``, ``eigenReal()``, ``eigenImag()``
 
 Initial Value: ``init()``
     Represents the initial value of an identifier (species or global parameter) specified in the SBML document, i.e. ``init(S1)``.
-    Setting this value does not reset the *current* value of the quantity. When :meth:`~roadrunner.RoadRunner.resetAll()` is
+    Setting this value does not reset the *current* value of the quantity. When :cpp:class:`rr::RoadRunner::resetAll` is
     called, the current values of all quantities will be reset to the designated initial values, including any changes
-    made to the initial values via this syntax. This is in contrast to :meth:`~roadrunner.RoadRunner.resetToOrigin()`,
+    made to the initial values via this syntax. This is in contrast to :cpp:class:`rr::RoadRunner::resetToOrigin`,
     which resets all current and initial values to the values specified in the SBML document.
 
 Stoichiometry: ``stoich(ParameterId, ReactionId)``
@@ -112,7 +112,7 @@ Finally, the syntax for setting the value of a species is analogous to above, e.
 
 Experimenting With Selections
 -----------------------------
-One might try individual selection string using the :meth:`~roadrunner.RoadRunner.getValue()` method. This
+One might try individual selection string using the :cpp:func:`rr::RoadRunner::getValue` method. This
 takes a selection string, determines if it is valid, and returns the value it selects. For example::
 
 
@@ -120,7 +120,7 @@ takes a selection string, determines if it is valid, and returns the value it se
     -0.42955738179207886
 
 Even though they are almost always specified by a string, RoadRunner selections are actually
-objects. One can create a selection object using :meth:`~roadrunner.RoadRunner.createSelection()`. In
+objects. One can create a selection object using :cpp:func:`rr::RoadRunner::createSelection`. In
 order to see extended information about the selection, try::
 
     >>> sel = rr.createSelection("cc(S1, J4_KS4)")
@@ -130,7 +130,7 @@ order to see extended information about the selection, try::
 We can see that this is a CONTROL record. 
 
 It is also possible to modify the simulation selection list by deleting existing items and adding
-new ones created with :meth:`~roadrunner.RoadRunner.createSelection()`. If someone has does not want to display
+new ones created with :cpp:func:`rr::RoadRunner::createSelection()`. If someone has does not want to display
 the concentration of species ``S2`` and instead wants to display the rate of change of species
 ``S1``, try::
 
@@ -144,7 +144,7 @@ the concentration of species ``S2`` and instead wants to display the rate of cha
 
 Even though the selection list intentionally appears as a list of strings, it is actually a list of
 selection objects. So, elements that are inserted or appended to this list must be selection objects
-created by :meth:`~roadrunner.RoadRunner.createSelection()`.
+created by :cpp:func:`rr::RoadRunner::createSelection()`.
 
 
 

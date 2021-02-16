@@ -60,7 +60,7 @@ Looking for a model to start with? We included a couple with libRoadRunner, see 
     :hidden:
 
     self
-    introduction
+    introduction/introduction.rst
     Installation/installation
     read_write_functions
     selecting_values
@@ -73,7 +73,7 @@ Looking for a model to start with? We included a couple with libRoadRunner, see 
     integration
     utility_functions
     accessing_model
-    api_reference
+    mod_roadrunner/api_reference
     C++APIReference/index
     CAPIReference/index
 

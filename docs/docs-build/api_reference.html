@@ -3,9 +3,9 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
   <title>RoadRunner API Reference &mdash; libRoadRunner 1.1.16 documentation</title>
   
@@ -20,7 +20,10 @@
 
   
   
+
   
+  
+
   
 
   
@@ -55,7 +58,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home" alt="Documentation Home"> libRoadRunner
+            <a href="index.html" class="icon icon-home"> libRoadRunner
           
 
           
@@ -157,7 +160,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="C%2B%2BAPIReference/index.html">The LibRoadRunner C++ Library</a></li>
-<li class="toctree-l1"><a class="reference internal" href="CAPIReference/index.html">C API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CAPIReference/index.html">The LibRoadRunner C Library</a></li>
 </ul>
 
             
@@ -198,6 +201,8 @@
 
 
 
+
+
 <div role="navigation" aria-label="breadcrumbs navigation">
 
   <ul class="wy-breadcrumbs">
@@ -209,7 +214,7 @@
     
       <li class="wy-breadcrumbs-aside">
         
-            
+          
             <a href="_sources/api_reference.rst.txt" rel="nofollow"> View page source</a>
           
         
@@ -1494,10 +1499,12 @@ entire result matrix in memory.</p>
 </div></blockquote>
 <p>All five of the positional arguments are optional. If any of the positional arguments are
 a list of string instead of a number, then they are interpreted as a list of selections.</p>
+<p>By default, the gillespie algorithm output uses a variable step size.  However, if both the end time and the number of steps is defined, the output is constrained to a grid instead.  If just the end time is defined, a variable number of steps will be taken until that end time is reached, or until the maximum number of output rows is reached.  If just the number of steps is defined, that many variable steps will be taken.</p>
+<p>The maximum number of output rows is set to 100,000 by default, though this is ignored if the variable step size is set to false, or if the output is being written directly to a file.  It can be changed by with the argument ‘max_output_rows’.</p>
 <p>There are a number of ways to call simulate.</p>
 <dl class="simple">
 <dt>1: With no arguments. In this case, the current set of options from the previous</dt><dd><p><code class="docutils literal notranslate"><span class="pre">simulate</span></code> call will be used. If this is the first time <code class="docutils literal notranslate"><span class="pre">simulate</span></code> is called,
-then a default set of values is used. The default set of values are (start = 0, end = 5, points = 51).</p>
+then a default set of values is used. The default set of values are (start = 0, end = 5).</p>
 </dd>
 </dl>
 <p>2: With up to five positions arguments, described above.</p>
@@ -2655,7 +2662,7 @@ The vector includes tolerances for each independent floating species that doesn�
 <dl class="py attribute">
 <dt id="roadrunner.Integrator.variable_step_size">
 <code class="sig-prename descclassname">Integrator.</code><code class="sig-name descname">variable_step_size</code><a class="headerlink" href="#roadrunner.Integrator.variable_step_size" title="Permalink to this definition">¶</a></dt>
-<dd><p>Perform a variable time step simulation. Enabling this setting will allow the integrator to adapt the size of each time step. This will result in a non-uniform time column. Default value is flase.</p>
+<dd><p>Perform a variable time step simulation. Enabling this setting will allow the integrator to adapt the size of each time step. This will result in a non-uniform time column. Default value is false.</p>
 </dd></dl>
 
 </div>
@@ -2696,13 +2703,19 @@ The vector includes tolerances for each independent floating species that doesn�
 <dl class="py attribute">
 <dt id="roadrunner.Integrator.seed">
 <code class="sig-prename descclassname">Integrator.</code><code class="sig-name descname">seed</code><a class="headerlink" href="#roadrunner.Integrator.seed" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set the seed into the random engine.</p>
+<dd><p>Set the seed into the random engine.  By default, this value is set by the system clock in microseconds.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt id="id6">
 <code class="sig-prename descclassname">Integrator.</code><code class="sig-name descname">variable_step_size</code><a class="headerlink" href="#id6" title="Permalink to this definition">¶</a></dt>
-<dd><p>Perform a variable time step simulation. Enabling this setting will allow the integrator to adapt the size of each time step. This will result in a non-uniform time column. Default value is flase.</p>
+<dd><p>Perform a variable time step simulation. Enabling this setting will allow the integrator to adapt the size of each time step. This will result in a non-uniform time column. Default value is true.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="roadrunner.Integrator.max_output_rows">
+<code class="sig-prename descclassname">Integrator.</code><code class="sig-name descname">max_output_rows</code><a class="headerlink" href="#roadrunner.Integrator.max_output_rows" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the maximum number of output rows for variable step size integration.  This may truncate some simulations that may not reach the desired end time, but prevents massive output for simulations where the variable step size ends up decreasing too much.  This setting is ignored when the variable_step_size is false, and is also ignored when the output is being written directly to a file.  Default value is 100,000.</p>
 </dd></dl>
 
 </div>
@@ -2754,7 +2767,7 @@ The vector includes tolerances for each independent floating species that doesn�
 <dl class="py attribute">
 <dt id="id9">
 <code class="sig-prename descclassname">Integrator.</code><code class="sig-name descname">variable_step_size</code><a class="headerlink" href="#id9" title="Permalink to this definition">¶</a></dt>
-<dd><p>Perform a variable time step simulation. Enabling this setting will allow the integrator to adapt the size of each time step. This will result in a non-uniform time column. Default value is flase.</p>
+<dd><p>Perform a variable time step simulation. Enabling this setting will allow the integrator to adapt the size of each time step. This will result in a non-uniform time column. Default value is false.</p>
 </dd></dl>
 
 </div>
@@ -4670,37 +4683,29 @@ Raises exception if the string is not a valid SBML string.</p>
            
           </div>
           <footer>
-  
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="C%2B%2BAPIReference/index.html" class="btn btn-neutral float-right" title="The LibRoadRunner C++ Library" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="accessing_model.html" class="btn btn-neutral float-left" title="Accessing the SBML Model Variables" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+        <a href="C%2B%2BAPIReference/index.html" class="btn btn-neutral float-right" title="The LibRoadRunner C++ Library" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="accessing_model.html" class="btn btn-neutral float-left" title="Accessing the SBML Model Variables" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        
-        &copy; Copyright 2013-2018, Andy Somogyi, J Kyle Medley, Kiri Choi, Herbert Suaro
+        &#169; Copyright 2013-2018, Andy Somogyi, J Kyle Medley, Kiri Choi, Herbert Suaro.
 
     </p>
   </div>
     
     
     
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
     
     provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 

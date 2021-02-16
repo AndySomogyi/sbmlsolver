@@ -3,9 +3,9 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
   <title>Logging &mdash; libRoadRunner 1.1.16 documentation</title>
   
@@ -20,7 +20,10 @@
 
   
   
+
   
+  
+
   
 
   
@@ -39,7 +42,9 @@
 
     
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" /> 
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="JIT Compilation" href="cls_Compiler.html" />
+    <link rel="prev" title="Accessing the SBML Model Variables" href="cls_ExecutableModel.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -53,7 +58,7 @@
           
 
           
-            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> libRoadRunner
+            <a href="../index.html" class="icon icon-home"> libRoadRunner
           
 
           
@@ -84,9 +89,11 @@
               
             
             
-              <ul>
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../index.html">RoadRunner Documentation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introduction/introduction.html">Basic Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introduction/introduction.html#what-is-sbml">What Is SBML?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introduction/introduction.html#what-is-libroadrunner">What is libRoadRunner</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Installation/installation.html">Installing RoadRunner</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../read_write_functions.html">SBML Read/Write Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../selecting_values.html">Selecting Values</a></li>
@@ -99,7 +106,26 @@
 <li class="toctree-l1"><a class="reference internal" href="../integration.html">Simulation and Integration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utility_functions.html">Utility Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../accessing_model.html">Accessing the SBML Model Variables</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../api_reference.html">RoadRunner API Reference</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="api_reference.html">RoadRunner API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="api_reference.html">RoadRunner API Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cls_Config.html">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cls_RoadRunner.html">The Main RoadRunner Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cls_Solver.html">Solver Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cls_Integrator.html">Integrator Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cls_SteadyStateSolver.html">Steady State Solver Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cls_SelectionRecord.html">SelectionRecord</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cls_LoadSBMLOptions.html">SBML Compile Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cls_ExecutableModel.html">Accessing the SBML Model Variables</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Logging</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#logging-levels">Logging Levels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#logging-methods">Logging Methods</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cls_Compiler.html">JIT Compilation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cls_Misc.html">Miscellaneous Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cls_PyConservedMoietyConverter.html">Conserved Moiety Conversion</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../C%2B%2BAPIReference/index.html">The LibRoadRunner C++ Library</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../CAPIReference/index.html">The LibRoadRunner C Library</a></li>
 </ul>
@@ -142,18 +168,22 @@
 
 
 
+
+
 <div role="navigation" aria-label="breadcrumbs navigation">
 
   <ul class="wy-breadcrumbs">
     
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
         
+          <li><a href="api_reference.html">RoadRunner API Reference</a> &raquo;</li>
+        
       <li>Logging</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
-            
+          
             <a href="../_sources/mod_roadrunner/cls_Logger.rst.txt" rel="nofollow"> View page source</a>
           
         
@@ -195,7 +225,7 @@ displayed, one would run:</p>
 </pre></div>
 </div>
 <p>will produce the following output:</p>
-<img alt="mod_roadrunner/logging.png" src="mod_roadrunner/logging.png" />
+<img alt="../_images/logging.png" src="../_images/logging.png" />
 <p>If one wants different colors on the log, these can be set via:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">rr</span><span class="o">.</span><span class="n">Logger</span><span class="o">.</span><span class="n">setProperty</span><span class="p">(</span><span class="s2">&quot;traceColor&quot;</span><span class="p">,</span> <span class="s2">&quot;red&quot;</span><span class="p">)</span>
 <span class="n">rr</span><span class="o">.</span><span class="n">Logger</span><span class="o">.</span><span class="n">setProperty</span><span class="p">(</span><span class="s2">&quot;debugColor&quot;</span><span class="p">,</span> <span class="s2">&quot;green&quot;</span><span class="p">)</span>
@@ -348,7 +378,7 @@ which are replaced by the corresponding value.</p>
 </pre></div>
 </div>
 <p>would produce the following output:</p>
-<img alt="mod_roadrunner/logging2.png" src="mod_roadrunner/logging2.png" />
+<img alt="../_images/logging2.png" src="../_images/logging2.png" />
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -513,28 +543,29 @@ which are replaced by the corresponding value.</p>
            
           </div>
           <footer>
-  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="cls_Compiler.html" class="btn btn-neutral float-right" title="JIT Compilation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="cls_ExecutableModel.html" class="btn btn-neutral float-left" title="Accessing the SBML Model Variables" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        
-        &copy; Copyright 2013-2018, Andy Somogyi, J Kyle Medley, Kiri Choi, Herbert Suaro
+        &#169; Copyright 2013-2018, Andy Somogyi, J Kyle Medley, Kiri Choi, Herbert Suaro.
 
     </p>
   </div>
     
     
     
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
     
     provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 
