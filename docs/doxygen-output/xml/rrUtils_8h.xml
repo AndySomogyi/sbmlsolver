@@ -41,21 +41,25 @@
     <includedby refid="LLVMCompiler_8cpp" local="yes">llvm/LLVMCompiler.cpp</includedby>
     <includedby refid="LLVMModelGenerator_8cpp" local="no">llvm/LLVMModelGenerator.cpp</includedby>
     <includedby refid="Random_8cpp" local="yes">llvm/Random.cpp</includedby>
+    <includedby refid="__rrc__api_8cpp" local="yes">D:/roadrunner/roadrunner/wrappers/C/_rrc_api.cpp</includedby>
+    <includedby refid="rrc__api_8cpp" local="yes">D:/roadrunner/roadrunner/wrappers/C/rrc_api.cpp</includedby>
+    <includedby refid="rrc__utilities_8cpp" local="yes">D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.cpp</includedby>
+    <includedby refid="rrcStringList_8cpp" local="yes">D:/roadrunner/roadrunner/wrappers/C/rrcStringList.cpp</includedby>
     <incdepgraph>
-      <node id="16">
-        <label>Variant.h</label>
-        <link refid="Variant_8h_source"/>
-        <childnode refid="7" relation="include">
-        </childnode>
-        <childnode refid="17" relation="include">
+      <node id="12">
+        <label>list</label>
+      </node>
+      <node id="8">
+        <label>rrConstants.h</label>
+        <link refid="rrConstants_8h_source"/>
+        <childnode refid="9" relation="include">
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="3" relation="include">
+        <childnode refid="10" relation="include">
         </childnode>
-      </node>
-      <node id="12">
-        <label>list</label>
+        <childnode refid="7" relation="include">
+        </childnode>
       </node>
       <node id="9">
         <label>limits</label>
@@ -63,18 +67,52 @@
       <node id="2">
         <label>float.h</label>
       </node>
+      <node id="7">
+        <label>rrExporter.h</label>
+        <link refid="rrExporter_8h_source"/>
+      </node>
       <node id="18">
         <label>stdint.h</label>
       </node>
       <node id="4">
         <label>string</label>
       </node>
-      <node id="7">
-        <label>rrExporter.h</label>
-        <link refid="rrExporter_8h_source"/>
-      </node>
       <node id="14">
         <label>map</label>
+      </node>
+      <node id="17">
+        <label>typeinfo</label>
+      </node>
+      <node id="1">
+        <label>rrUtils.h</label>
+        <link refid="rrUtils_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+      <node id="10">
+        <label>cstdlib</label>
+      </node>
+      <node id="5">
+        <label>iostream</label>
       </node>
       <node id="11">
         <label>rrStringUtils.h</label>
@@ -100,54 +138,20 @@
         <childnode refid="16" relation="include">
         </childnode>
       </node>
-      <node id="17">
-        <label>typeinfo</label>
-      </node>
-      <node id="3">
-        <label>vector</label>
-      </node>
-      <node id="10">
-        <label>cstdlib</label>
-      </node>
-      <node id="5">
-        <label>iostream</label>
-      </node>
-      <node id="15">
-        <label>unordered_map</label>
-      </node>
-      <node id="1">
-        <label>rrUtils.h</label>
-        <link refid="rrUtils_8h"/>
-        <childnode refid="2" relation="include">
+      <node id="16">
+        <label>Variant.h</label>
+        <link refid="Variant_8h_source"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="4" relation="include">
-        </childnode>
-        <childnode refid="5" relation="include">
-        </childnode>
-        <childnode refid="6" relation="include">
-        </childnode>
-        <childnode refid="7" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
-        <childnode refid="11" relation="include">
-        </childnode>
-        <childnode refid="18" relation="include">
-        </childnode>
       </node>
-      <node id="8">
-        <label>rrConstants.h</label>
-        <link refid="rrConstants_8h_source"/>
-        <childnode refid="9" relation="include">
-        </childnode>
-        <childnode refid="4" relation="include">
-        </childnode>
-        <childnode refid="10" relation="include">
-        </childnode>
-        <childnode refid="7" relation="include">
-        </childnode>
+      <node id="15">
+        <label>unordered_map</label>
       </node>
       <node id="6">
         <label>set</label>
@@ -157,33 +161,9 @@
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="6">
-        <label>c/rrModelSymbols.h</label>
-        <link refid="rrModelSymbols_8h_source"/>
-        <childnode refid="7" relation="include">
-        </childnode>
-      </node>
-      <node id="7">
-        <label>c/rrCompiledModelGenerator.h</label>
-        <link refid="rrCompiledModelGenerator_8h_source"/>
-        <childnode refid="8" relation="include">
-        </childnode>
-      </node>
-      <node id="3">
-        <label>SteadyStateSolver.cpp</label>
-        <link refid="SteadyStateSolver_8cpp"/>
-      </node>
-      <node id="4">
-        <label>c/rrSBMLSymbol.h</label>
-        <link refid="rrSBMLSymbol_8h_source"/>
-        <childnode refid="5" relation="include">
-        </childnode>
-      </node>
-      <node id="8">
-        <label>c/rrCModelGenerator.h</label>
-        <link refid="rrCModelGenerator_8h_source"/>
-        <childnode refid="9" relation="include">
-        </childnode>
+      <node id="13">
+        <label>D:/roadrunner/roadrunner/wrappers/C/rrc_api.cpp</label>
+        <link refid="rrc__api_8cpp"/>
       </node>
       <node id="11">
         <label>c/rrScanner.h</label>
@@ -191,22 +171,20 @@
         <childnode refid="7" relation="include">
         </childnode>
       </node>
-      <node id="9">
-        <label>c/rrCompiledExecutableModel.h</label>
-        <link refid="rrCompiledExecutableModel_8h_source"/>
+      <node id="3">
+        <label>SteadyStateSolver.cpp</label>
+        <link refid="SteadyStateSolver_8cpp"/>
       </node>
-      <node id="2">
-        <label>Integrator.cpp</label>
-        <link refid="Integrator_8cpp"/>
+      <node id="7">
+        <label>c/rrCompiledModelGenerator.h</label>
+        <link refid="rrCompiledModelGenerator_8h_source"/>
+        <childnode refid="8" relation="include">
+        </childnode>
       </node>
-      <node id="5">
-        <label>c/rrHashTable.h</label>
-        <link refid="rrHashTable_8h_source"/>
-        <childnode refid="6" relation="include">
-        </childnode>
-        <childnode refid="10" relation="include">
-        </childnode>
-        <childnode refid="11" relation="include">
+      <node id="12">
+        <label>c/rrSBMLSymbolDependencies.h</label>
+        <link refid="rrSBMLSymbolDependencies_8h_source"/>
+        <childnode refid="4" relation="include">
         </childnode>
       </node>
       <node id="1">
@@ -220,6 +198,24 @@
         </childnode>
         <childnode refid="12" relation="include">
         </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>c/rrSBMLSymbol.h</label>
+        <link refid="rrSBMLSymbol_8h_source"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>c/rrCompiledExecutableModel.h</label>
+        <link refid="rrCompiledExecutableModel_8h_source"/>
+      </node>
+      <node id="6">
+        <label>c/rrModelSymbols.h</label>
+        <link refid="rrModelSymbols_8h_source"/>
+        <childnode refid="7" relation="include">
+        </childnode>
       </node>
       <node id="10">
         <label>c/rrNOMSupport.h</label>
@@ -231,10 +227,24 @@
         <childnode refid="6" relation="include">
         </childnode>
       </node>
-      <node id="12">
-        <label>c/rrSBMLSymbolDependencies.h</label>
-        <link refid="rrSBMLSymbolDependencies_8h_source"/>
-        <childnode refid="4" relation="include">
+      <node id="2">
+        <label>Integrator.cpp</label>
+        <link refid="Integrator_8cpp"/>
+      </node>
+      <node id="8">
+        <label>c/rrCModelGenerator.h</label>
+        <link refid="rrCModelGenerator_8h_source"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>c/rrHashTable.h</label>
+        <link refid="rrHashTable_8h_source"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
         </childnode>
       </node>
     </invincdepgraph>
@@ -320,7 +330,7 @@
 <codeline lineno="103"><highlight class="normal">RR_DECLSPEC<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>getPathSeparator();</highlight></codeline>
 <codeline lineno="104"><highlight class="normal"></highlight></codeline>
 <codeline lineno="105"><highlight class="normal">RR_DECLSPEC<sp/>vector&lt;string&gt;<sp/><sp/>getLinesInFile(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>fName);</highlight></codeline>
-<codeline lineno="106"><highlight class="normal">RR_DECLSPEC<sp/></highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>getFileContent(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>fName);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal">RR_DECLSPEC<sp/></highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="rrc__utilities_8h_1acc9949f745af42ea6b3539620e2b8d9d" kindref="member">getFileContent</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>fName);</highlight></codeline>
 <codeline lineno="107"><highlight class="normal">RR_DECLSPEC<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>createTestSuiteFileNameParts(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>caseNr,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>postFixPart,<sp/></highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>FilePath,<sp/></highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>modelFileName,<sp/></highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>settingsFileName,<sp/></highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>descriptionFileName);</highlight></codeline>
 <codeline lineno="108"><highlight class="normal">RR_DECLSPEC<sp/></highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>getTestSuiteSubFolderName(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>caseNr);</highlight></codeline>
 <codeline lineno="109"><highlight class="normal"></highlight></codeline>
@@ -337,8 +347,8 @@
 <codeline lineno="120"><highlight class="normal">RR_DECLSPEC<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>copyCArrayToStdVector(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">*<sp/>src,<sp/><sp/><sp/><sp/>vector&lt;bool&gt;&amp;<sp/>dest,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>size);</highlight></codeline>
 <codeline lineno="121"><highlight class="normal">RR_DECLSPEC<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>copyStdVectorToCArray(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>vector&lt;double&gt;&amp;<sp/>src,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">*<sp/>dest,<sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>size);</highlight></codeline>
 <codeline lineno="122"><highlight class="normal">RR_DECLSPEC<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>copyStdVectorToCArray(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>vector&lt;bool&gt;&amp;<sp/><sp/><sp/>src,<sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">*<sp/><sp/>dest,<sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>size);</highlight></codeline>
-<codeline lineno="123"><highlight class="normal">RR_DECLSPEC<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>createVector(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>vector&lt;double&gt;&amp;<sp/>vec);</highlight></codeline>
-<codeline lineno="124"><highlight class="normal">RR_DECLSPEC<sp/>vector&lt;double&gt;<sp/><sp/>createVector(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">*<sp/>src,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">&amp;<sp/>size);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal">RR_DECLSPEC<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="group__helperRoutines_1ga9f52eab51dfe4dcd3d87538bf8ecd453" kindref="member">createVector</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>vector&lt;double&gt;&amp;<sp/>vec);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal">RR_DECLSPEC<sp/>vector&lt;double&gt;<sp/><sp/><ref refid="group__helperRoutines_1ga9f52eab51dfe4dcd3d87538bf8ecd453" kindref="member">createVector</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">*<sp/>src,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">&amp;<sp/>size);</highlight></codeline>
 <codeline lineno="125"><highlight class="normal"></highlight></codeline>
 <codeline lineno="126"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(_WIN32)<sp/>||<sp/>defined(__WIN32__)</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="127"><highlight class="normal">RR_DECLSPEC<sp/>HINSTANCE<sp/><sp/><sp/><sp/><sp/><sp/><sp/>loadDLL(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>dll);</highlight></codeline>

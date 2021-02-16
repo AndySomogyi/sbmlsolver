@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">roadrunner
-   &#160;<span id="projectnumber">2.0.2</span>
+   &#160;<span id="projectnumber">2.0.5</span>
    </div>
    <div id="projectbrief">Fast simulator for SBML models</div>
   </td>
@@ -107,7 +107,7 @@ $(function() {
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">void</span> resetSettings();</div>
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        <span class="keyword">virtual</span> <a class="code" href="classrr_1_1Variant.html">Variant</a> getValue(std::string key) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        <span class="keyword">virtual</span> <a class="code" href="classrr_1_1Variant.html">Variant</a> <a class="code" href="group__state.html#ga6ff35b4282c583424f4d5708330012b9">getValue</a>(std::string key) <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160; </div>
 <div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        <span class="keyword">virtual</span> <a class="code" href="classrr_1_1Variant.html">Variant</a> hasValue(std::string key) <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160; </div>
@@ -147,7 +147,7 @@ $(function() {
 <div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">bool</span> getValueAsBool(std::string key);</div>
 <div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160; </div>
 <div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160; </div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">void</span> setValue(std::string key, <span class="keyword">const</span> <a class="code" href="classrr_1_1Variant.html">Variant</a>&amp; value);</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="group__state.html#gab8416894a99ef18924c1a719be4521f3">setValue</a>(std::string key, <span class="keyword">const</span> <a class="code" href="classrr_1_1Variant.html">Variant</a>&amp; value);</div>
 <div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160; </div>
 <div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;        <span class="keyword">const</span> std::string&amp; getDisplayName(std::string key) <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160; </div>
@@ -187,10 +187,12 @@ $(function() {
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="aclassrr_1_1Solver_html_a86067147c7631ca80d51667322f1a8f5"><div class="ttname"><a href="classrr_1_1Solver.html#a86067147c7631ca80d51667322f1a8f5">rr::Solver::getDescription</a></div><div class="ttdeci">virtual std::string getDescription() const =0</div><div class="ttdoc">Get the description of this solver.</div></div>
 <div class="ttc" id="aclassrr_1_1Variant_html"><div class="ttname"><a href="classrr_1_1Variant.html">rr::Variant</a></div><div class="ttdoc">A basic type to hold a variety of data types.</div><div class="ttdef"><b>Definition:</b> Variant.h:75</div></div>
+<div class="ttc" id="agroup__state_html_ga6ff35b4282c583424f4d5708330012b9"><div class="ttname"><a href="group__state.html#ga6ff35b4282c583424f4d5708330012b9">getValue</a></div><div class="ttdeci">C_DECL_SPEC bool rrcCallConv getValue(RRHandle handle, const char *symbolId, double *value)</div><div class="ttdoc">Get the value for a given symbol, use getAvailableTimeCourseSymbols(void) for a list of symbols.</div></div>
 <div class="ttc" id="aclassrr_1_1Variant_html_a64c7b2189f8d391527919e46a72402a8"><div class="ttname"><a href="classrr_1_1Variant.html#a64c7b2189f8d391527919e46a72402a8">rr::Variant::TypeId</a></div><div class="ttdeci">TypeId</div><div class="ttdoc">list of currently supported types that a Variant can hold.</div><div class="ttdef"><b>Definition:</b> Variant.h:82</div></div>
 <div class="ttc" id="aclassrr_1_1Solver_html_a417cca64a18c63535f2091584f8fed91"><div class="ttname"><a href="classrr_1_1Solver.html#a417cca64a18c63535f2091584f8fed91">rr::Solver::getName</a></div><div class="ttdeci">virtual std::string getName() const =0</div><div class="ttdoc">Get the name of this solver.</div></div>
 <div class="ttc" id="aclassrr_1_1Solver_html_aff005f7e71bc73123ecbd511a77f71b6"><div class="ttname"><a href="classrr_1_1Solver.html#aff005f7e71bc73123ecbd511a77f71b6">rr::Solver::getHint</a></div><div class="ttdeci">virtual std::string getHint() const =0</div><div class="ttdoc">Get a (user-readable) hint for this solver.</div></div>
 <div class="ttc" id="aclassrr_1_1Solver_html"><div class="ttname"><a href="classrr_1_1Solver.html">rr::Solver</a></div><div class="ttdoc">Base class for all integrators and steady state solvers.</div><div class="ttdef"><b>Definition:</b> Solver.h:37</div></div>
+<div class="ttc" id="agroup__state_html_gab8416894a99ef18924c1a719be4521f3"><div class="ttname"><a href="group__state.html#gab8416894a99ef18924c1a719be4521f3">setValue</a></div><div class="ttdeci">C_DECL_SPEC bool rrcCallConv setValue(RRHandle handle, const char *symbolId, const double value)</div><div class="ttdoc">Set the value for a given symbol, use getAvailableTimeCourseSymbols(void) for a list of symbols.</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by&#160;<a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.20

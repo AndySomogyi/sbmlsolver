@@ -85,7 +85,7 @@
         </childnode>
       </node>
       <node id="2">
-        <label>SBMLVisitor</label>
+        <label>libsbml::SBMLVisitor</label>
       </node>
     </inheritancegraph>
     <collaborationgraph>
@@ -98,9 +98,6 @@
           <edgelabel>symbols</edgelabel>
         </childnode>
       </node>
-      <node id="2">
-        <label>SBMLVisitor</label>
-      </node>
       <node id="3">
         <label>rrllvm::SymbolForest</label>
         <link refid="classrrllvm_1_1SymbolForest"/>
@@ -111,6 +108,9 @@
           <edgelabel>globalParameters</edgelabel>
           <edgelabel>speciesReferences</edgelabel>
         </childnode>
+      </node>
+      <node id="2">
+        <label>libsbml::SBMLVisitor</label>
       </node>
       <node id="4">
         <label>map&lt; string, const libsbml::ASTNode * &gt;</label>

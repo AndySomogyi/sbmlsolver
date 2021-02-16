@@ -11,20 +11,20 @@
     <includes refid="rrUtils_8h" local="yes">rrUtils.h</includes>
     <includes refid="rrRoadRunner_8h" local="yes">rrRoadRunner.h</includes>
     <incdepgraph>
-      <node id="24">
-        <label>Variant.h</label>
-        <link refid="Variant_8h_source"/>
-        <childnode refid="5" relation="include">
-        </childnode>
-        <childnode refid="25" relation="include">
+      <node id="19">
+        <label>list</label>
+      </node>
+      <node id="12">
+        <label>rrConstants.h</label>
+        <link refid="rrConstants_8h_source"/>
+        <childnode refid="13" relation="include">
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="7" relation="include">
+        <childnode refid="14" relation="include">
         </childnode>
-      </node>
-      <node id="19">
-        <label>list</label>
+        <childnode refid="5" relation="include">
+        </childnode>
       </node>
       <node id="13">
         <label>limits</label>
@@ -34,6 +34,25 @@
       </node>
       <node id="15">
         <label>../wrappers/C/rrc_types.h</label>
+      </node>
+      <node id="11">
+        <label>rrStringList.h</label>
+        <link refid="rrStringList_8h_source"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>rrExporter.h</label>
+        <link refid="rrExporter_8h_source"/>
+      </node>
+      <node id="29">
+        <label>stdint.h</label>
       </node>
       <node id="37">
         <label>Integrator.h</label>
@@ -55,84 +74,8 @@
         <childnode refid="39" relation="include">
         </childnode>
       </node>
-      <node id="29">
-        <label>stdint.h</label>
-      </node>
-      <node id="34">
-        <label>Dictionary.h</label>
-        <link refid="Dictionary_8h_source"/>
-        <childnode refid="24" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
-        <childnode refid="7" relation="include">
-        </childnode>
-        <childnode refid="35" relation="include">
-        </childnode>
-        <childnode refid="36" relation="include">
-        </childnode>
-      </node>
-      <node id="10">
-        <label>rrOSSpecifics.h</label>
-        <link refid="rrOSSpecifics_8h_source"/>
-        <childnode refid="5" relation="include">
-        </childnode>
-      </node>
       <node id="39">
         <label>stdexcept</label>
-      </node>
-      <node id="8">
-        <label>string</label>
-      </node>
-      <node id="5">
-        <label>rrExporter.h</label>
-        <link refid="rrExporter_8h_source"/>
-      </node>
-      <node id="36">
-        <label>tr1proxy/rr_unordered_map.h</label>
-      </node>
-      <node id="4">
-        <label>rrLogger.h</label>
-        <link refid="rrLogger_8h_source"/>
-        <childnode refid="2" relation="include">
-        </childnode>
-        <childnode refid="5" relation="include">
-        </childnode>
-      </node>
-      <node id="21">
-        <label>map</label>
-      </node>
-      <node id="40">
-        <label>sbml/Species.h</label>
-      </node>
-      <node id="3">
-        <label>Poco/File.h</label>
-      </node>
-      <node id="17">
-        <label>exception</label>
-      </node>
-      <node id="32">
-        <label>ostream</label>
-      </node>
-      <node id="9">
-        <label>rrCompiler.h</label>
-        <link refid="rrCompiler_8h_source"/>
-        <childnode refid="10" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
-      </node>
-      <node id="6">
-        <label>rrCCompiler.h</label>
-        <link refid="rrCCompiler_8h_source"/>
-        <childnode refid="7" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
-        <childnode refid="9" relation="include">
-        </childnode>
-        <childnode refid="11" relation="include">
-        </childnode>
       </node>
       <node id="38">
         <label>Solver.h</label>
@@ -152,27 +95,146 @@
         <childnode refid="39" relation="include">
         </childnode>
       </node>
-      <node id="30">
-        <label>rrRoadRunner.h</label>
-        <link refid="rrRoadRunner_8h_source"/>
-        <childnode refid="10" relation="include">
+      <node id="4">
+        <label>rrLogger.h</label>
+        <link refid="rrLogger_8h_source"/>
+        <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="31" relation="include">
+        <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="33" relation="include">
+      </node>
+      <node id="8">
+        <label>string</label>
+      </node>
+      <node id="36">
+        <label>tr1proxy/rr_unordered_map.h</label>
+      </node>
+      <node id="21">
+        <label>map</label>
+      </node>
+      <node id="40">
+        <label>sbml/Species.h</label>
+      </node>
+      <node id="3">
+        <label>Poco/File.h</label>
+      </node>
+      <node id="17">
+        <label>exception</label>
+      </node>
+      <node id="32">
+        <label>ostream</label>
+      </node>
+      <node id="16">
+        <label>rrException.h</label>
+        <link refid="rrException_8h_source"/>
+        <childnode refid="17" relation="include">
         </childnode>
-        <childnode refid="40" relation="include">
+        <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="41" relation="include">
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="31">
+        <label>rrSelectionRecord.h</label>
+        <link refid="rrSelectionRecord_8h_source"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>typeinfo</label>
+      </node>
+      <node id="33">
+        <label>rrRoadRunnerOptions.h</label>
+        <link refid="rrRoadRunnerOptions_8h_source"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
-        <childnode refid="19" relation="include">
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+      </node>
+      <node id="41">
+        <label>rr-libstruct/lsMatrix.h</label>
+      </node>
+      <node id="26">
+        <label>rrUtils.h</label>
+        <link refid="rrUtils_8h_source"/>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
         </childnode>
         <childnode refid="23" relation="include">
         </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+      <node id="2">
+        <label>sstream</label>
+      </node>
+      <node id="6">
+        <label>rrCCompiler.h</label>
+        <link refid="rrCCompiler_8h_source"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>c/rrCCompiler.cpp</label>
+        <link refid="rrCCompiler_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>cstdlib</label>
+      </node>
+      <node id="28">
+        <label>iostream</label>
       </node>
       <node id="18">
         <label>rrStringUtils.h</label>
@@ -198,68 +260,64 @@
         <childnode refid="24" relation="include">
         </childnode>
       </node>
-      <node id="1">
-        <label>c/rrCCompiler.cpp</label>
-        <link refid="rrCCompiler_8cpp"/>
-        <childnode refid="2" relation="include">
+      <node id="24">
+        <label>Variant.h</label>
+        <link refid="Variant_8h_source"/>
+        <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="3" relation="include">
-        </childnode>
-        <childnode refid="4" relation="include">
-        </childnode>
-        <childnode refid="6" relation="include">
-        </childnode>
-        <childnode refid="16" relation="include">
-        </childnode>
-        <childnode refid="18" relation="include">
-        </childnode>
-        <childnode refid="26" relation="include">
-        </childnode>
-        <childnode refid="30" relation="include">
-        </childnode>
-      </node>
-      <node id="25">
-        <label>typeinfo</label>
-      </node>
-      <node id="41">
-        <label>rr-libstruct/lsMatrix.h</label>
-      </node>
-      <node id="7">
-        <label>vector</label>
-      </node>
-      <node id="16">
-        <label>rrException.h</label>
-        <link refid="rrException_8h_source"/>
-        <childnode refid="17" relation="include">
+        <childnode refid="25" relation="include">
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="5" relation="include">
-        </childnode>
-      </node>
-      <node id="2">
-        <label>sstream</label>
-      </node>
-      <node id="11">
-        <label>rrStringList.h</label>
-        <link refid="rrStringList_8h_source"/>
         <childnode refid="7" relation="include">
         </childnode>
+      </node>
+      <node id="22">
+        <label>unordered_map</label>
+      </node>
+      <node id="35">
+        <label>tr1proxy/rr_memory.h</label>
+      </node>
+      <node id="30">
+        <label>rrRoadRunner.h</label>
+        <link refid="rrRoadRunner_8h_source"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="41" relation="include">
+        </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="12" relation="include">
+        <childnode refid="7" relation="include">
         </childnode>
-        <childnode refid="15" relation="include">
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
         </childnode>
       </node>
-      <node id="33">
-        <label>rrRoadRunnerOptions.h</label>
-        <link refid="rrRoadRunnerOptions_8h_source"/>
-        <childnode refid="5" relation="include">
+      <node id="9">
+        <label>rrCompiler.h</label>
+        <link refid="rrCompiler_8h_source"/>
+        <childnode refid="10" relation="include">
         </childnode>
-        <childnode refid="34" relation="include">
+        <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="37" relation="include">
+      </node>
+      <node id="23">
+        <label>set</label>
+      </node>
+      <node id="20">
+        <label>complex</label>
+      </node>
+      <node id="34">
+        <label>Dictionary.h</label>
+        <link refid="Dictionary_8h_source"/>
+        <childnode refid="24" relation="include">
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
@@ -269,69 +327,11 @@
         </childnode>
         <childnode refid="36" relation="include">
         </childnode>
-        <childnode refid="29" relation="include">
-        </childnode>
       </node>
-      <node id="14">
-        <label>cstdlib</label>
-      </node>
-      <node id="28">
-        <label>iostream</label>
-      </node>
-      <node id="22">
-        <label>unordered_map</label>
-      </node>
-      <node id="35">
-        <label>tr1proxy/rr_memory.h</label>
-      </node>
-      <node id="26">
-        <label>rrUtils.h</label>
-        <link refid="rrUtils_8h_source"/>
-        <childnode refid="27" relation="include">
-        </childnode>
-        <childnode refid="7" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
-        <childnode refid="28" relation="include">
-        </childnode>
-        <childnode refid="23" relation="include">
-        </childnode>
+      <node id="10">
+        <label>rrOSSpecifics.h</label>
+        <link refid="rrOSSpecifics_8h_source"/>
         <childnode refid="5" relation="include">
-        </childnode>
-        <childnode refid="12" relation="include">
-        </childnode>
-        <childnode refid="18" relation="include">
-        </childnode>
-        <childnode refid="29" relation="include">
-        </childnode>
-      </node>
-      <node id="12">
-        <label>rrConstants.h</label>
-        <link refid="rrConstants_8h_source"/>
-        <childnode refid="13" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
-        <childnode refid="14" relation="include">
-        </childnode>
-        <childnode refid="5" relation="include">
-        </childnode>
-      </node>
-      <node id="23">
-        <label>set</label>
-      </node>
-      <node id="20">
-        <label>complex</label>
-      </node>
-      <node id="31">
-        <label>rrSelectionRecord.h</label>
-        <link refid="rrSelectionRecord_8h_source"/>
-        <childnode refid="5" relation="include">
-        </childnode>
-        <childnode refid="32" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
         </childnode>
       </node>
     </incdepgraph>
@@ -401,7 +401,7 @@
 <codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="59"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="60"><highlight class="normal"></highlight></codeline>
-<codeline lineno="61"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>CCompiler::compileSource(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>sourceFileName)</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="group__helperRoutines_1ga15cdab183a7e81c1e7beba9b80a6544c" kindref="member">CCompiler::compileSource</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>sourceFileName)</highlight></codeline>
 <codeline lineno="62"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//Compile<sp/>the<sp/>code<sp/>and<sp/>load<sp/>the<sp/>resulting<sp/>dll,<sp/>and<sp/>call<sp/>an<sp/>exported<sp/>function<sp/>in<sp/>it...</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="64"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(_WIN32)<sp/>||<sp/>defined(__CODEGEARC__)</highlight><highlight class="normal"></highlight></codeline>
@@ -432,19 +432,19 @@
 <codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>fileExists(mDLLFileName);</highlight></codeline>
 <codeline lineno="90"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="91"><highlight class="normal"></highlight></codeline>
-<codeline lineno="92"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>CCompiler::setCompiler(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>compiler)</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="group__utility_1ga452d753989b5142b29528ae5865224ae" kindref="member">CCompiler::setCompiler</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>compiler)</highlight></codeline>
 <codeline lineno="93"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>mCompilerName<sp/>=<sp/>getFileName(compiler);</highlight></codeline>
 <codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>mCompilerLocation<sp/>=<sp/>getFilePath(compiler);</highlight></codeline>
 <codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="97"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="98"><highlight class="normal"></highlight></codeline>
-<codeline lineno="99"><highlight class="normal"></highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/>CCompiler::getCompiler()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/><ref refid="group__utility_1gab3490137aa84bb6424ae8ccba0eb135c" kindref="member">CCompiler::getCompiler</ref>()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
 <codeline lineno="100"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
 <codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>mCompilerName;</highlight></codeline>
 <codeline lineno="102"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="103"><highlight class="normal"></highlight></codeline>
-<codeline lineno="104"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>CCompiler::setCompilerLocation(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>path)</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="group__utility_1gab910a88973c4f823b1f576c7767cc0d5" kindref="member">CCompiler::setCompilerLocation</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>path)</highlight></codeline>
 <codeline lineno="105"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(!folderExists(path))</highlight></codeline>
 <codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
@@ -455,12 +455,12 @@
 <codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="113"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="114"><highlight class="normal"></highlight></codeline>
-<codeline lineno="115"><highlight class="normal"></highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/>CCompiler::getCompilerLocation()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/><ref refid="group__utility_1ga601a1298cfd5bea6847975ddd1ab5a2a" kindref="member">CCompiler::getCompilerLocation</ref>()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
 <codeline lineno="116"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
 <codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>mCompilerLocation;</highlight></codeline>
 <codeline lineno="118"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="119"><highlight class="normal"></highlight></codeline>
-<codeline lineno="120"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>CCompiler::setSupportCodeFolder(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>path)</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="group__utility_1ga0d8069e1538d2c41f243e3b6d56abf41" kindref="member">CCompiler::setSupportCodeFolder</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>path)</highlight></codeline>
 <codeline lineno="121"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(!folderExists(path))</highlight></codeline>
 <codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
@@ -471,7 +471,7 @@
 <codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="129"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="130"><highlight class="normal"></highlight></codeline>
-<codeline lineno="131"><highlight class="normal"></highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/>CCompiler::getSupportCodeFolder()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/><ref refid="group__utility_1ga1462be979b060f04caa87394d5a53173" kindref="member">CCompiler::getSupportCodeFolder</ref>()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
 <codeline lineno="132"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
 <codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>mSupportCodeFolder;</highlight></codeline>
 <codeline lineno="134"><highlight class="normal">}</highlight></codeline>
@@ -692,7 +692,7 @@
 <codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//Read<sp/>the<sp/>log<sp/>file<sp/>and<sp/>log<sp/>it</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(fileExists(compilerTempFile))</highlight></codeline>
 <codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/>log<sp/>=<sp/>getFileContent(compilerTempFile.c_str());</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/>log<sp/>=<sp/><ref refid="rrc__utilities_8h_1acc9949f745af42ea6b3539620e2b8d9d" kindref="member">getFileContent</ref>(compilerTempFile.c_str());</highlight></codeline>
 <codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Log(lDebug)&lt;&lt;</highlight><highlight class="stringliteral">&quot;Compiler<sp/>output:<sp/>&quot;</highlight><highlight class="normal">&lt;&lt;log&lt;&lt;endl;</highlight></codeline>
 <codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="355"><highlight class="normal"></highlight></codeline>
@@ -741,7 +741,7 @@
 <codeline lineno="398"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/><ref refid="classrr_1_1Exception" kindref="compound">rr::Exception</ref>(std::string(__FUNC__)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;<sp/>not<sp/>supported<sp/>with<sp/>legacy<sp/>C<sp/>back<sp/>end&quot;</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="399"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="400"><highlight class="normal"></highlight></codeline>
-<codeline lineno="401"><highlight class="normal">std::string<sp/>CCompiler::getVersion()</highlight></codeline>
+<codeline lineno="401"><highlight class="normal">std::string<sp/><ref refid="rrc__api_8h_1a2d799defcade869e5610bbe3b547f39c" kindref="member">CCompiler::getVersion</ref>()</highlight></codeline>
 <codeline lineno="402"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="403"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/><ref refid="classrr_1_1Exception" kindref="compound">rr::Exception</ref>(std::string(__FUNC__)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;<sp/>not<sp/>supported<sp/>with<sp/>legacy<sp/>C<sp/>back<sp/>end&quot;</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="404"><highlight class="normal">}</highlight></codeline>

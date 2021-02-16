@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+  <compounddef id="group__stringArray" kind="group">
+    <compoundname>stringArray</compoundname>
+    <title>StringArray routines</title>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__stringArray_1ga4fcdcd7af4041c61ad958b7444ed0263" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC int rrcCallConv</type>
+        <definition>C_DECL_SPEC int rrcCallConv getNumberOfStringElements</definition>
+        <argsstring>(const RRStringArrayPtr list)</argsstring>
+        <name>getNumberOfStringElements</name>
+        <param>
+          <type>const <ref refid="rrc__types_8h_1a7c9475df6c7337d99482b13a365e7596" kindref="member">RRStringArrayPtr</ref></type>
+          <declname>list</declname>
+        </param>
+        <briefdescription>
+<para>Returns the length of a string array. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Returns the length of a string array, return -1 if string array is NULL </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="616" column="29" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="616" declcolumn="29"/>
+      </memberdef>
+      <memberdef kind="function" id="group__stringArray_1ga6543d536e989bd4cbf52b53e000cf025" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC char *rrcCallConv</type>
+        <definition>C_DECL_SPEC char* rrcCallConv getStringElement</definition>
+        <argsstring>(RRStringArrayPtr list, int index)</argsstring>
+        <name>getStringElement</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a7c9475df6c7337d99482b13a365e7596" kindref="member">RRStringArrayPtr</ref></type>
+          <declname>list</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+<para>Returns the indexth element from the string array in the argument value. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Returns pointer to string else return null if error </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="623" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="623" declcolumn="30"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Utility routines to deal with the string array type. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

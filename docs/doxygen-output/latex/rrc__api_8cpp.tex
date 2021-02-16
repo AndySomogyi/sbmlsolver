@@ -1,0 +1,913 @@
+\hypertarget{rrc__api_8cpp}{}\doxysection{D\+:/roadrunner/roadrunner/wrappers/\+C/rrc\+\_\+api.cpp File Reference}
+\label{rrc__api_8cpp}\index{D:/roadrunner/roadrunner/wrappers/C/rrc\_api.cpp@{D:/roadrunner/roadrunner/wrappers/C/rrc\_api.cpp}}
+
+
+road\+Runner C wrappers 2012  
+
+
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$sstream$>$}\newline
+{\ttfamily \#include $<$fstream$>$}\newline
+{\ttfamily \#include \char`\"{}rr\+Road\+Runner.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}rr\+Road\+Runner\+Options.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}rr\+Executable\+Model.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}rr\+Compiler.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}rr\+Logger.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}rr\+Exception.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}rr\+Version\+Info.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}rr\+Utils.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}rrc\+\_\+types.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}rrc\+\_\+api.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}rrc\+\_\+utilities.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}rrc\+\_\+cpp\+\_\+support.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Integrator.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Steady\+State\+Solver.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Dictionary.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}rr\+Config.\+h\char`\"{}}\newline
+{\ttfamily \#include $<$ctime$>$}\newline
+{\ttfamily \#include $<$unistd.\+h$>$}\newline
+{\ttfamily \#include $<$limits.\+h$>$}\newline
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_af3b54520e40857c14ac49a364ba094a8}\label{rrc__api_8cpp_af3b54520e40857c14ac49a364ba094a8}} 
+\#define \mbox{\hyperlink{rrc__api_8cpp_af3b54520e40857c14ac49a364ba094a8}{R\+R\+\_\+\+M\+A\+X\+\_\+\+P\+A\+TH}}~P\+A\+T\+H\+\_\+\+M\+AX
+\begin{DoxyCompactList}\small\item\em macro for M\+A\+X\+\_\+\+P\+A\+TH \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a07b9a6fcfe9807f0c3b21b9ee055a546}\label{__rrc__api_8cpp_a07b9a6fcfe9807f0c3b21b9ee055a546}} 
+\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} rrc\+Call\+Conv {\bfseries rrc\+::create\+R\+R\+Instance} ()
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a57fb3cca86618dcac0d915cb28d9a5d6}\label{__rrc__api_8cpp_a57fb3cca86618dcac0d915cb28d9a5d6}} 
+\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} rrc\+Call\+Conv {\bfseries rrc\+::create\+R\+R\+Instance\+Ex} (const char $\ast$temp\+Folder, const char $\ast$compiler\+\_\+cstr)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a008391359b8a2d71ed8ddf0e46dd2e57}\label{__rrc__api_8cpp_a008391359b8a2d71ed8ddf0e46dd2e57}} 
+char $\ast$ {\bfseries rrc\+::get\+Install\+Folder} ()
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a45092d42631b33e710652265c53c5bde}\label{__rrc__api_8cpp_a45092d42631b33e710652265c53c5bde}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::set\+Install\+Folder} (const char $\ast$folder)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a7434b47c81b1128a76f2493a5557e9f9}\label{__rrc__api_8cpp_a7434b47c81b1128a76f2493a5557e9f9}} 
+char $\ast$rrc\+Call\+Conv {\bfseries rrc\+::get\+A\+P\+I\+Version} ()
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_ae594b88162820345c469be2fd03b8cbf}\label{__rrc__api_8cpp_ae594b88162820345c469be2fd03b8cbf}} 
+char $\ast$rrc\+Call\+Conv {\bfseries rrc\+::get\+C\+P\+P\+A\+P\+I\+Version} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a50d0373fceb5e97d08a08219e74157a3}\label{__rrc__api_8cpp_a50d0373fceb5e97d08a08219e74157a3}} 
+int rrc\+Call\+Conv {\bfseries rrc\+::get\+Version} ()
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_aa36d6f500e55f59b85ed7e26b7527d8c}\label{__rrc__api_8cpp_aa36d6f500e55f59b85ed7e26b7527d8c}} 
+char $\ast$rrc\+Call\+Conv {\bfseries rrc\+::get\+Version\+Str} ()
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_aae475180f8f463d69774b26724839f20}\label{__rrc__api_8cpp_aae475180f8f463d69774b26724839f20}} 
+char $\ast$rrc\+Call\+Conv {\bfseries rrc\+::get\+Version\+Ex} ()
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a89e4dbf6168d51d35c82a1cdb401fdd1}\label{__rrc__api_8cpp_a89e4dbf6168d51d35c82a1cdb401fdd1}} 
+char $\ast$rrc\+Call\+Conv {\bfseries rrc\+::get\+R\+R\+C\+A\+P\+I\+Location} ()
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a4b570977d5466d104de17c28ef164106}\label{__rrc__api_8cpp_a4b570977d5466d104de17c28ef164106}} 
+char $\ast$rrc\+Call\+Conv {\bfseries rrc\+::get\+Copyright} ()
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_ab000edd8a21423471d34e5cd5ff4164f}\label{__rrc__api_8cpp_ab000edd8a21423471d34e5cd5ff4164f}} 
+char $\ast$rrc\+Call\+Conv {\bfseries rrc\+::get\+Info} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_aaa1a9cc0f8c90c0193223b8b11fd07c0}\label{__rrc__api_8cpp_aaa1a9cc0f8c90c0193223b8b11fd07c0}} 
+char $\ast$rrc\+Call\+Conv {\bfseries rrc\+::get\+Extended\+A\+P\+I\+Info} ()
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_ac5c5c303d96d9f87d7913a9fb264cca8}\label{__rrc__api_8cpp_ac5c5c303d96d9f87d7913a9fb264cca8}} 
+char $\ast$rrc\+Call\+Conv {\bfseries rrc\+::getlib\+S\+B\+M\+L\+Version} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a67e740bc1361c12c8bcd8b4eeb6e0c04}\label{__rrc__api_8cpp_a67e740bc1361c12c8bcd8b4eeb6e0c04}} 
+char $\ast$rrc\+Call\+Conv {\bfseries rrc\+::get\+Current\+S\+B\+ML} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a6c06f1b623322c8597292930026b03f9}\label{__rrc__api_8cpp_a6c06f1b623322c8597292930026b03f9}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::set\+Compute\+And\+Assign\+Conservation\+Laws} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const bool On\+Or\+Off)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a7702ca95b0105083ce703ec7af21cbdd}\label{rrc__api_8cpp_a7702ca95b0105083ce703ec7af21cbdd}} 
+int rrc\+Call\+Conv {\bfseries rrc\+::get\+Compute\+And\+Assign\+Conservation\+Laws} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, int $\ast$value)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_ab44d87f7ac8c593bae753019beb83d93}\label{__rrc__api_8cpp_ab44d87f7ac8c593bae753019beb83d93}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::set\+Temp\+Folder} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$folder)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a5019cb7381fd94904ff34ff9e8e6110b}\label{__rrc__api_8cpp_a5019cb7381fd94904ff34ff9e8e6110b}} 
+char $\ast$rrc\+Call\+Conv {\bfseries rrc\+::get\+Temp\+Folder} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_ad2df1b2ab17176122be38bf24987684d}\label{__rrc__api_8cpp_ad2df1b2ab17176122be38bf24987684d}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::set\+Compiler} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$f\+Name)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a8a021d0528c42fa76ccf2087c7d956d5}\label{__rrc__api_8cpp_a8a021d0528c42fa76ccf2087c7d956d5}} 
+char $\ast$rrc\+Call\+Conv {\bfseries rrc\+::get\+Compiler} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_ad383d98bf4a8ada43dfb81174b01c452}\label{__rrc__api_8cpp_ad383d98bf4a8ada43dfb81174b01c452}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::set\+Compiler\+Location} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$folder)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a27e3e4a4d5bfdc0f28f94433caf3076e}\label{__rrc__api_8cpp_a27e3e4a4d5bfdc0f28f94433caf3076e}} 
+char $\ast$rrc\+Call\+Conv {\bfseries rrc\+::get\+Compiler\+Location} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a4cc821e1f0ff5a7b610b885ee4263526}\label{__rrc__api_8cpp_a4cc821e1f0ff5a7b610b885ee4263526}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::set\+Support\+Code\+Folder} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$folder)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_aa337502eda7e7876c35f5c3136c8aa2c}\label{__rrc__api_8cpp_aa337502eda7e7876c35f5c3136c8aa2c}} 
+char $\ast$rrc\+Call\+Conv {\bfseries rrc\+::get\+Support\+Code\+Folder} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_acf0fdcc9faa22870d3790e53ccd8b502}\label{__rrc__api_8cpp_acf0fdcc9faa22870d3790e53ccd8b502}} 
+char $\ast$rrc\+Call\+Conv {\bfseries rrc\+::get\+Working\+Directory} ()
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a011047cd247953027b8a8f8219ad5081}\label{__rrc__api_8cpp_a011047cd247953027b8a8f8219ad5081}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::load\+S\+B\+M\+L\+From\+File} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} \+\_\+handle, const char $\ast$file\+Name)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_ae4b92dc926143facef26b6d49fa079d4}\label{__rrc__api_8cpp_ae4b92dc926143facef26b6d49fa079d4}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::load\+S\+B\+M\+L\+From\+FileE} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} \+\_\+handle, const char $\ast$file\+Name, bool force\+Recompile)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a1f3f74404bb4de1fce908cb673f2ab08}\label{__rrc__api_8cpp_a1f3f74404bb4de1fce908cb673f2ab08}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::load\+S\+B\+ML} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$sbml)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_af7c3399f7ef8fadc9e51a99de7a07d6e}\label{__rrc__api_8cpp_af7c3399f7ef8fadc9e51a99de7a07d6e}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::load\+S\+B\+M\+L\+Ex} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$sbml, bool force\+Recompile)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_af9cf0613245cb82d3463f0acd0f02fdb}\label{rrc__api_8cpp_af9cf0613245cb82d3463f0acd0f02fdb}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::save\+State} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$filename)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a26cd662fb0b9b62ca358c0894531dd90}\label{rrc__api_8cpp_a26cd662fb0b9b62ca358c0894531dd90}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::load\+State} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$filename)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a78a2e2ae3e1879a62c602ae43db69ced}\label{__rrc__api_8cpp_a78a2e2ae3e1879a62c602ae43db69ced}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::load\+Simulation\+Settings} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$file\+Name)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a24df12ae72ac44c79a6a7e2ad82d59bc}\label{__rrc__api_8cpp_a24df12ae72ac44c79a6a7e2ad82d59bc}} 
+char $\ast$rrc\+Call\+Conv {\bfseries rrc\+::get\+S\+B\+ML} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a08241512d282e30a01cd69136ea345a3}\label{__rrc__api_8cpp_a08241512d282e30a01cd69136ea345a3}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::is\+Model\+Loaded} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a1bb33312cae0823ac87620668e50867e}\label{__rrc__api_8cpp_a1bb33312cae0823ac87620668e50867e}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::clear\+Model} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_ab3384e36dfcb16f44a684469d17dfb37}\label{__rrc__api_8cpp_ab3384e36dfcb16f44a684469d17dfb37}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::set\+Time\+Start} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const double time\+Start)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a3d165422bee86f4662beb89784216d8b}\label{__rrc__api_8cpp_a3d165422bee86f4662beb89784216d8b}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::set\+Time\+End} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const double time\+End)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a7a132e807b8243aa0079a8134119bc84}\label{__rrc__api_8cpp_a7a132e807b8243aa0079a8134119bc84}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::set\+Num\+Points} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const int nr\+Points)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a2933ecafd293baf16a5840585e48ca24}\label{__rrc__api_8cpp_a2933ecafd293baf16a5840585e48ca24}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::get\+Time\+Start} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, double $\ast$time\+Start)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a7f57fdf1c3bb7282d0639019bba19467}\label{__rrc__api_8cpp_a7f57fdf1c3bb7282d0639019bba19467}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::get\+Time\+End} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, double $\ast$time\+End)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a4552f3fa41307b7aaccb01ec17294079}\label{__rrc__api_8cpp_a4552f3fa41307b7aaccb01ec17294079}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::get\+Num\+Points} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, int $\ast$num\+Points)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a7937a2286d2641fb0f13aee44c79ba48}\label{__rrc__api_8cpp_a7937a2286d2641fb0f13aee44c79ba48}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::set\+Time\+Course\+Selection\+List} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$list)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a1d5d2e0537a00dda270e6b5180aa354e}\label{__rrc__api_8cpp_a1d5d2e0537a00dda270e6b5180aa354e}} 
+\mbox{\hyperlink{rrc__types_8h_a7c9475df6c7337d99482b13a365e7596}{R\+R\+String\+Array\+Ptr}} rrc\+Call\+Conv {\bfseries rrc\+::get\+Time\+Course\+Selection\+List} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_acd0799df482b82ca5f278728183b3ad4}\label{__rrc__api_8cpp_acd0799df482b82ca5f278728183b3ad4}} 
+\mbox{\hyperlink{rrc__types_8h_a9da8b124eb9c3c0045f8926c6a420b4a}{R\+R\+C\+Data\+Ptr}} rrc\+Call\+Conv {\bfseries rrc\+::simulate} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a6fa478bae5afbe10ad6c1cf7c54ec23e}\label{__rrc__api_8cpp_a6fa478bae5afbe10ad6c1cf7c54ec23e}} 
+\mbox{\hyperlink{rrc__types_8h_a9da8b124eb9c3c0045f8926c6a420b4a}{R\+R\+C\+Data\+Ptr}} rrc\+Call\+Conv {\bfseries rrc\+::simulate\+Ex} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const double time\+Start, const double time\+End, const int number\+Of\+Points)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a783c64c652ae5d151c8feb67574bbe0a}\label{__rrc__api_8cpp_a783c64c652ae5d151c8feb67574bbe0a}} 
+\mbox{\hyperlink{rrc__types_8h_a9da8b124eb9c3c0045f8926c6a420b4a}{R\+R\+C\+Data\+Ptr}} rrc\+Call\+Conv {\bfseries rrc\+::get\+Simulation\+Result} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a28f43438d80f217502721f97b576870b}\label{__rrc__api_8cpp_a28f43438d80f217502721f97b576870b}} 
+\mbox{\hyperlink{rrc__types_8h_a7c9475df6c7337d99482b13a365e7596}{R\+R\+String\+Array\+Ptr}} rrc\+Call\+Conv {\bfseries rrc\+::get\+Reaction\+Ids} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_afe0b91307d656ae3350b7b01bacddfe0}\label{__rrc__api_8cpp_afe0b91307d656ae3350b7b01bacddfe0}} 
+\mbox{\hyperlink{rrc__types_8h_a3be72d6006034fd349f753d2bf441bf7}{R\+R\+Vector\+Ptr}} rrc\+Call\+Conv {\bfseries rrc\+::get\+Rates\+Of\+Change} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a080c39422addcc21fe1144e0264fe731}\label{__rrc__api_8cpp_a080c39422addcc21fe1144e0264fe731}} 
+\mbox{\hyperlink{rrc__types_8h_a7c9475df6c7337d99482b13a365e7596}{R\+R\+String\+Array\+Ptr}} rrc\+Call\+Conv {\bfseries rrc\+::get\+Rates\+Of\+Change\+Ids} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_ac0120f8d399c600a9c97c3cbdedf21dc}\label{__rrc__api_8cpp_ac0120f8d399c600a9c97c3cbdedf21dc}} 
+\mbox{\hyperlink{rrc__types_8h_ae586a879d30f0823087e42d93464b5dd}{R\+R\+Double\+Matrix\+Ptr}} rrc\+Call\+Conv {\bfseries rrc\+::get\+Unscaled\+Elasticity\+Matrix} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a0e998dc73614201db8f0fcfe071621f6}\label{__rrc__api_8cpp_a0e998dc73614201db8f0fcfe071621f6}} 
+\mbox{\hyperlink{rrc__types_8h_ae586a879d30f0823087e42d93464b5dd}{R\+R\+Double\+Matrix\+Ptr}} rrc\+Call\+Conv {\bfseries rrc\+::get\+Scaled\+Elasticity\+Matrix} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a66c9d37bb72ee2e2e0612d612ec38011}\label{__rrc__api_8cpp_a66c9d37bb72ee2e2e0612d612ec38011}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::get\+Value} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$symbol\+Id, double $\ast$value)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a9f2922694cd892c201496781256c4b9e}\label{__rrc__api_8cpp_a9f2922694cd892c201496781256c4b9e}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::set\+Value} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$symbol\+Id, const double value)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a88a810fe6f1210191633fc4f126dcf68}\label{rrc__api_8cpp_a88a810fe6f1210191633fc4f126dcf68}} 
+double rrc\+Call\+Conv {\bfseries rrc\+::\+\_\+get\+Time} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_afb2c260d8afb76a095665852f0d27592}\label{rrc__api_8cpp_afb2c260d8afb76a095665852f0d27592}} 
+int rrc\+Call\+Conv {\bfseries rrc\+::\+\_\+get\+Num\+Ind\+Floating\+Species} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a4deb17a319f18b144a5e06743cb5ce87}\label{rrc__api_8cpp_a4deb17a319f18b144a5e06743cb5ce87}} 
+int rrc\+Call\+Conv {\bfseries rrc\+::\+\_\+get\+State\+Vector} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a9420dc8df19dcf1cff059dd0a5cea7f7}\label{rrc__api_8cpp_a9420dc8df19dcf1cff059dd0a5cea7f7}} 
+void rrc\+Call\+Conv {\bfseries rrc\+::\+\_\+get\+State\+Vector\+Rate} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, double time, double $\ast$value)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a0b522fa59b6e8f4d34e2e52627d7372f}\label{rrc__api_8cpp_a0b522fa59b6e8f4d34e2e52627d7372f}} 
+int rrc\+Call\+Conv {\bfseries rrc\+::\+\_\+get\+Num\+Rate\+Rules} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a9a0485ee76017e69a74f7eaaa90476af}\label{__rrc__api_8cpp_a9a0485ee76017e69a74f7eaaa90476af}} 
+\mbox{\hyperlink{rrc__types_8h_ae586a879d30f0823087e42d93464b5dd}{R\+R\+Double\+Matrix\+Ptr}} rrc\+Call\+Conv {\bfseries rrc\+::get\+Stoichiometry\+Matrix} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a361dcea8767facb1fefad2603edef6b8}\label{__rrc__api_8cpp_a361dcea8767facb1fefad2603edef6b8}} 
+\mbox{\hyperlink{rrc__types_8h_ae586a879d30f0823087e42d93464b5dd}{R\+R\+Double\+Matrix\+Ptr}} rrc\+Call\+Conv {\bfseries rrc\+::get\+Conservation\+Matrix} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a698516d209e772dddd6e72ca7d918096}\label{__rrc__api_8cpp_a698516d209e772dddd6e72ca7d918096}} 
+\mbox{\hyperlink{rrc__types_8h_ae586a879d30f0823087e42d93464b5dd}{R\+R\+Double\+Matrix\+Ptr}} rrc\+Call\+Conv {\bfseries rrc\+::get\+Link\+Matrix} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_ad1a301c8022e4fcffbc7825c383317b4}\label{__rrc__api_8cpp_ad1a301c8022e4fcffbc7825c383317b4}} 
+\mbox{\hyperlink{rrc__types_8h_ae586a879d30f0823087e42d93464b5dd}{R\+R\+Double\+Matrix\+Ptr}} rrc\+Call\+Conv {\bfseries rrc\+::get\+Nr\+Matrix} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a9ecb64cfe48d306c51d91efbf8b3ef8c}\label{__rrc__api_8cpp_a9ecb64cfe48d306c51d91efbf8b3ef8c}} 
+C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC bool rrc\+Call\+Conv {\bfseries rrc\+::has\+Error} ()
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_ac8fb6ec69747aedb1b423360aeb38ffc}\label{__rrc__api_8cpp_ac8fb6ec69747aedb1b423360aeb38ffc}} 
+char $\ast$rrc\+Call\+Conv {\bfseries rrc\+::get\+Last\+Error} ()
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a977231173afb5b8156ee1b7804374b04}\label{__rrc__api_8cpp_a977231173afb5b8156ee1b7804374b04}} 
+int rrc\+Call\+Conv {\bfseries rrc\+::get\+Number\+Of\+Reactions} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a0c9a9e7cacac707ca6feef4b31c72790}\label{__rrc__api_8cpp_a0c9a9e7cacac707ca6feef4b31c72790}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::get\+Reaction\+Rate} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const int rate\+Nr, double $\ast$value)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a4a0246932fe65017388d195063715f40}\label{__rrc__api_8cpp_a4a0246932fe65017388d195063715f40}} 
+\mbox{\hyperlink{rrc__types_8h_a3be72d6006034fd349f753d2bf441bf7}{R\+R\+Vector\+Ptr}} rrc\+Call\+Conv {\bfseries rrc\+::get\+Reaction\+Rates} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_aead0dd90f834575c913a6ec6ad21e112}\label{__rrc__api_8cpp_aead0dd90f834575c913a6ec6ad21e112}} 
+int rrc\+Call\+Conv {\bfseries rrc\+::get\+Number\+Of\+Boundary\+Species} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a7c713bc327b4c1b4ae27c9fae82b38c3}\label{__rrc__api_8cpp_a7c713bc327b4c1b4ae27c9fae82b38c3}} 
+\mbox{\hyperlink{rrc__types_8h_a7c9475df6c7337d99482b13a365e7596}{R\+R\+String\+Array\+Ptr}} rrc\+Call\+Conv {\bfseries rrc\+::get\+Boundary\+Species\+Ids} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a2bf097ff0aa746f4774a193626e265c7}\label{rrc__api_8cpp_a2bf097ff0aa746f4774a193626e265c7}} 
+\mbox{\hyperlink{rrc__types_8h_a7c9475df6c7337d99482b13a365e7596}{R\+R\+String\+Array\+Ptr}} rrc\+Call\+Conv {\bfseries rrc\+::get\+Boundary\+Species\+Concentration\+Ids} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a4fc4e1fdc765a7b39553da69ff15e86a}\label{__rrc__api_8cpp_a4fc4e1fdc765a7b39553da69ff15e86a}} 
+int rrc\+Call\+Conv {\bfseries rrc\+::get\+Number\+Of\+Floating\+Species} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_aafeaf42f12c6707472d58cc849c6ae14}\label{__rrc__api_8cpp_aafeaf42f12c6707472d58cc849c6ae14}} 
+\mbox{\hyperlink{rrc__types_8h_a7c9475df6c7337d99482b13a365e7596}{R\+R\+String\+Array\+Ptr}} rrc\+Call\+Conv {\bfseries rrc\+::get\+Floating\+Species\+Ids} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_ad942b572e0e7209b5dc2e5398827d5d7}\label{rrc__api_8cpp_ad942b572e0e7209b5dc2e5398827d5d7}} 
+\mbox{\hyperlink{rrc__types_8h_a7c9475df6c7337d99482b13a365e7596}{R\+R\+String\+Array\+Ptr}} rrc\+Call\+Conv {\bfseries rrc\+::get\+Dependent\+Floating\+Species\+Ids} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a9fe0bf363add617bf7cdd0e7a559f87b}\label{rrc__api_8cpp_a9fe0bf363add617bf7cdd0e7a559f87b}} 
+\mbox{\hyperlink{rrc__types_8h_a7c9475df6c7337d99482b13a365e7596}{R\+R\+String\+Array\+Ptr}} rrc\+Call\+Conv {\bfseries rrc\+::get\+Floating\+Species\+Concentration\+Ids} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_afee143b23b4843bfc06d20d18284e954}\label{__rrc__api_8cpp_afee143b23b4843bfc06d20d18284e954}} 
+int rrc\+Call\+Conv {\bfseries rrc\+::get\+Number\+Of\+Global\+Parameters} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a4e16089a80034d9f91cec1738a0e8974}\label{__rrc__api_8cpp_a4e16089a80034d9f91cec1738a0e8974}} 
+\mbox{\hyperlink{rrc__types_8h_a7c9475df6c7337d99482b13a365e7596}{R\+R\+String\+Array\+Ptr}} rrc\+Call\+Conv {\bfseries rrc\+::get\+Global\+Parameter\+Ids} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_ab4b72720f68d13735a13836014179d7e}\label{__rrc__api_8cpp_ab4b72720f68d13735a13836014179d7e}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::get\+Floating\+Species\+Initial\+Concentration\+By\+Index} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, int index, double $\ast$value)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a271b489ee07b246b7eacc8641e4f28b6}\label{__rrc__api_8cpp_a271b489ee07b246b7eacc8641e4f28b6}} 
+\mbox{\hyperlink{rrc__types_8h_a3be72d6006034fd349f753d2bf441bf7}{R\+R\+Vector\+Ptr}} rrc\+Call\+Conv {\bfseries rrc\+::get\+Floating\+Species\+Concentrations} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a8d8c15bc61f5060dab62d075329faef0}\label{rrc__api_8cpp_a8d8c15bc61f5060dab62d075329faef0}} 
+\mbox{\hyperlink{rrc__types_8h_a3be72d6006034fd349f753d2bf441bf7}{R\+R\+Vector\+Ptr}} rrc\+Call\+Conv {\bfseries rrc\+::get\+Floating\+Species\+Amounts} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a266a6c0ef89382915472ce2feec4496d}\label{__rrc__api_8cpp_a266a6c0ef89382915472ce2feec4496d}} 
+\mbox{\hyperlink{rrc__types_8h_a3be72d6006034fd349f753d2bf441bf7}{R\+R\+Vector\+Ptr}} rrc\+Call\+Conv {\bfseries rrc\+::get\+Boundary\+Species\+Concentrations} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a8b3e37e5264c524e7a25a6749f26c934}\label{rrc__api_8cpp_a8b3e37e5264c524e7a25a6749f26c934}} 
+\mbox{\hyperlink{rrc__types_8h_a3be72d6006034fd349f753d2bf441bf7}{R\+R\+Vector\+Ptr}} rrc\+Call\+Conv {\bfseries rrc\+::get\+Boundary\+Species\+Amounts} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a5b1399a88428f5db098e18dc2a4260c4}\label{__rrc__api_8cpp_a5b1399a88428f5db098e18dc2a4260c4}} 
+\mbox{\hyperlink{rrc__types_8h_a3be72d6006034fd349f753d2bf441bf7}{R\+R\+Vector\+Ptr}} rrc\+Call\+Conv {\bfseries rrc\+::get\+Floating\+Species\+Initial\+Concentrations} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a95355031c27328157e2a5bb9a52e8d56}\label{__rrc__api_8cpp_a95355031c27328157e2a5bb9a52e8d56}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::set\+Floating\+Species\+By\+Index} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const int index, const double value)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a6955feb1ff4b7a9ac9c4d0fff36b36a6}\label{rrc__api_8cpp_a6955feb1ff4b7a9ac9c4d0fff36b36a6}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::set\+Boundary\+Species\+By\+Index} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const unsigned int index, const double value)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a6ca8f23aa6b952f38a7dc7f09745b643}\label{__rrc__api_8cpp_a6ca8f23aa6b952f38a7dc7f09745b643}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::set\+Global\+Parameter\+By\+Index} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const int index, const double value)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_addb7020fc7b729803e6e1c10405e9e8f}\label{__rrc__api_8cpp_addb7020fc7b729803e6e1c10405e9e8f}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::set\+Floating\+Species\+Initial\+Concentration\+By\+Index} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const int index, const double value)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a46122ffb1aafcb40bbeba5fd7f8e48b3}\label{__rrc__api_8cpp_a46122ffb1aafcb40bbeba5fd7f8e48b3}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::set\+Floating\+Species\+Initial\+Concentrations} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const \mbox{\hyperlink{rrc__types_8h_a3be72d6006034fd349f753d2bf441bf7}{R\+R\+Vector\+Ptr}} vec)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a30bb36b27a9f9096a9c3af22ff85c3d2}\label{__rrc__api_8cpp_a30bb36b27a9f9096a9c3af22ff85c3d2}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::set\+Floating\+Species\+Concentrations} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const \mbox{\hyperlink{rrc__types_8h_a3be72d6006034fd349f753d2bf441bf7}{R\+R\+Vector\+Ptr}} vec)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a50ebb7ec99afca994560874890a61386}\label{__rrc__api_8cpp_a50ebb7ec99afca994560874890a61386}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::set\+Boundary\+Species\+Concentrations} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const \mbox{\hyperlink{rrc__types_8h_a3be72d6006034fd349f753d2bf441bf7}{R\+R\+Vector\+Ptr}} vec)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a4e8b271a8c927a33407f373014f989b1}\label{__rrc__api_8cpp_a4e8b271a8c927a33407f373014f989b1}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::one\+Step} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const double current\+Time, const double step\+Size, double $\ast$value)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a2904b3df69eb61e562d203a8a57db3d3}\label{__rrc__api_8cpp_a2904b3df69eb61e562d203a8a57db3d3}} 
+\mbox{\hyperlink{rrc__types_8h_a3be72d6006034fd349f753d2bf441bf7}{R\+R\+Vector\+Ptr}} rrc\+Call\+Conv {\bfseries rrc\+::get\+Global\+Parameter\+Values} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_ad3736a321a1aeb3ef016cb185c19f5dc}\label{__rrc__api_8cpp_ad3736a321a1aeb3ef016cb185c19f5dc}} 
+\mbox{\hyperlink{rrc__types_8h_a32a8a60ac06858ff3a791672bd2bec73}{R\+R\+List\+Ptr}} rrc\+Call\+Conv {\bfseries rrc\+::get\+Available\+Time\+Course\+Symbols} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a8d2a55263df504f49fa6d9ff89acb68f}\label{__rrc__api_8cpp_a8d2a55263df504f49fa6d9ff89acb68f}} 
+\mbox{\hyperlink{rrc__types_8h_a32a8a60ac06858ff3a791672bd2bec73}{R\+R\+List\+Ptr}} rrc\+Call\+Conv {\bfseries rrc\+::get\+Available\+Steady\+State\+Symbols} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a12ba77c0e61abb5c494a7ebb37d9922f}\label{__rrc__api_8cpp_a12ba77c0e61abb5c494a7ebb37d9922f}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::get\+Boundary\+Species\+By\+Index} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const int index, double $\ast$value)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a7ceb64b45a71995ea698b0a9f08b3ebc}\label{__rrc__api_8cpp_a7ceb64b45a71995ea698b0a9f08b3ebc}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::get\+Floating\+Species\+By\+Index} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const int index, double $\ast$value)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a74291dff790ec26ea677486305d6f4ba}\label{__rrc__api_8cpp_a74291dff790ec26ea677486305d6f4ba}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::get\+Global\+Parameter\+By\+Index} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const int index, double $\ast$value)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a08c146c645803997b0ecdee0bbc39bf4}\label{__rrc__api_8cpp_a08c146c645803997b0ecdee0bbc39bf4}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::getu\+CC} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$variable, const char $\ast$parameter, double $\ast$value)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a0d3f64853e74dbf5600f1e4bf4e92bec}\label{__rrc__api_8cpp_a0d3f64853e74dbf5600f1e4bf4e92bec}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::get\+CC} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$variable, const char $\ast$parameter, double $\ast$value)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a1885ddf53ed149d5b3ba46a60ef9781e}\label{__rrc__api_8cpp_a1885ddf53ed149d5b3ba46a60ef9781e}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::getu\+EE} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$name, const char $\ast$species, double $\ast$value)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_abdad652fbfc04886eee7605adcfe6ad6}\label{__rrc__api_8cpp_abdad652fbfc04886eee7605adcfe6ad6}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::get\+EE} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$name, const char $\ast$species, double $\ast$value)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_aa9b9eaa4d36a01e40da69d4e505d3cf6}\label{__rrc__api_8cpp_aa9b9eaa4d36a01e40da69d4e505d3cf6}} 
+int rrc\+Call\+Conv {\bfseries rrc\+::get\+Number\+Of\+Dependent\+Species} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a5739e7baa64d5941ec5d4f8b41a152ec}\label{__rrc__api_8cpp_a5739e7baa64d5941ec5d4f8b41a152ec}} 
+int rrc\+Call\+Conv {\bfseries rrc\+::get\+Number\+Of\+Independent\+Species} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a6fc4475e2da3e44a9399bbf02882b069}\label{__rrc__api_8cpp_a6fc4475e2da3e44a9399bbf02882b069}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::steady\+State} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, double $\ast$value)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_aa3bf6e313e21489cbabe8ce74365d3bf}\label{__rrc__api_8cpp_aa3bf6e313e21489cbabe8ce74365d3bf}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::eval\+Model} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a36d9c639d485a1ef276d50a73e2b3278}\label{__rrc__api_8cpp_a36d9c639d485a1ef276d50a73e2b3278}} 
+char $\ast$rrc\+Call\+Conv {\bfseries rrc\+::get\+Param\+Promoted\+S\+B\+ML} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$s\+Arg)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_ab728681e1373d1824982d77e0cde0efb}\label{__rrc__api_8cpp_ab728681e1373d1824982d77e0cde0efb}} 
+\mbox{\hyperlink{rrc__types_8h_a3be72d6006034fd349f753d2bf441bf7}{R\+R\+Vector\+Ptr}} rrc\+Call\+Conv {\bfseries rrc\+::compute\+Steady\+State\+Values} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_ac416dd3f357a5e6502bc9bce2901a048}\label{__rrc__api_8cpp_ac416dd3f357a5e6502bc9bce2901a048}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::set\+Steady\+State\+Selection\+List} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$list)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_adfa9083700b3bcc93c563ee5a3d35e0b}\label{__rrc__api_8cpp_adfa9083700b3bcc93c563ee5a3d35e0b}} 
+\mbox{\hyperlink{rrc__types_8h_a7c9475df6c7337d99482b13a365e7596}{R\+R\+String\+Array\+Ptr}} rrc\+Call\+Conv {\bfseries rrc\+::get\+Steady\+State\+Selection\+List} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a81901c938de88dcf611af85d803d7e7d}\label{__rrc__api_8cpp_a81901c938de88dcf611af85d803d7e7d}} 
+\mbox{\hyperlink{rrc__types_8h_ae586a879d30f0823087e42d93464b5dd}{R\+R\+Double\+Matrix\+Ptr}} rrc\+Call\+Conv {\bfseries rrc\+::get\+Full\+Jacobian} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a129dd36bec2067c29aaee64736148837}\label{__rrc__api_8cpp_a129dd36bec2067c29aaee64736148837}} 
+\mbox{\hyperlink{rrc__types_8h_ae586a879d30f0823087e42d93464b5dd}{R\+R\+Double\+Matrix\+Ptr}} rrc\+Call\+Conv {\bfseries rrc\+::get\+Reduced\+Jacobian} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_ac857216f4ec4a0e88c855c3b13af9ba8}\label{__rrc__api_8cpp_ac857216f4ec4a0e88c855c3b13af9ba8}} 
+\mbox{\hyperlink{rrc__types_8h_ae586a879d30f0823087e42d93464b5dd}{R\+R\+Double\+Matrix\+Ptr}} rrc\+Call\+Conv {\bfseries rrc\+::get\+Eigenvalues} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a6ad0496f7e5fc5bfecf76277980a2b9b}\label{__rrc__api_8cpp_a6ad0496f7e5fc5bfecf76277980a2b9b}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::set\+Code\+Generation\+Mode} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, int mode)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a5a4efe17985b5765d52f31c1f213b881}\label{__rrc__api_8cpp_a5a4efe17985b5765d52f31c1f213b881}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::get\+Scaled\+Floating\+Species\+Elasticity} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$reaction\+Id, const char $\ast$species\+Id, double $\ast$value)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a300e701f4241f75c50bc8959a28490c1}\label{__rrc__api_8cpp_a300e701f4241f75c50bc8959a28490c1}} 
+\mbox{\hyperlink{rrc__types_8h_a7c9475df6c7337d99482b13a365e7596}{R\+R\+String\+Array\+Ptr}} rrc\+Call\+Conv {\bfseries rrc\+::get\+Floating\+Species\+Initial\+Condition\+Ids} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a97f538765c13795167c8534be658c5c4}\label{rrc__api_8cpp_a97f538765c13795167c8534be658c5c4}} 
+\mbox{\hyperlink{rrc__types_8h_a7c9475df6c7337d99482b13a365e7596}{R\+R\+String\+Array\+Ptr}} rrc\+Call\+Conv {\bfseries rrc\+::get\+Floating\+Species\+Initial\+Concentration\+Ids} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_ab459b134ffb4964c95c5059fa0a7baff}\label{__rrc__api_8cpp_ab459b134ffb4964c95c5059fa0a7baff}} 
+\mbox{\hyperlink{rrc__types_8h_a3be72d6006034fd349f753d2bf441bf7}{R\+R\+Vector\+Ptr}} rrc\+Call\+Conv {\bfseries rrc\+::get\+Rates\+Of\+Change\+Ex} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const \mbox{\hyperlink{rrc__types_8h_a3be72d6006034fd349f753d2bf441bf7}{R\+R\+Vector\+Ptr}} vec)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a322dfdf0893c475a6e62c21c6927ded1}\label{__rrc__api_8cpp_a322dfdf0893c475a6e62c21c6927ded1}} 
+\mbox{\hyperlink{rrc__types_8h_a3be72d6006034fd349f753d2bf441bf7}{R\+R\+Vector\+Ptr}} rrc\+Call\+Conv {\bfseries rrc\+::get\+Reaction\+Rates\+Ex} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const \mbox{\hyperlink{rrc__types_8h_a3be72d6006034fd349f753d2bf441bf7}{R\+R\+Vector\+Ptr}} vec)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_ad105990f07f7c88a3f3b05ac993cc2b3}\label{__rrc__api_8cpp_ad105990f07f7c88a3f3b05ac993cc2b3}} 
+\mbox{\hyperlink{rrc__types_8h_a32a8a60ac06858ff3a791672bd2bec73}{R\+R\+List\+Ptr}} rrc\+Call\+Conv {\bfseries rrc\+::get\+Elasticity\+Coefficient\+Ids} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_ad3e1e73db3d85c8a9b024dda90613a6a}\label{rrc__api_8cpp_ad3e1e73db3d85c8a9b024dda90613a6a}} 
+int rrc\+Call\+Conv {\bfseries rrc\+::get\+Num\+Registered\+Integrators} ()
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_afdd7516ae699222113b2ac69884880c3}\label{rrc__api_8cpp_afdd7516ae699222113b2ac69884880c3}} 
+char $\ast$rrc\+Call\+Conv {\bfseries rrc\+::get\+Registered\+Integrator\+Name} (int n)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_aac0000e8e1b90517bc92184aa67124d8}\label{rrc__api_8cpp_aac0000e8e1b90517bc92184aa67124d8}} 
+char $\ast$rrc\+Call\+Conv {\bfseries rrc\+::get\+Registered\+Integrator\+Hint} (int n)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_ac5d142476e14cf78d292b83f0aeaa4b1}\label{rrc__api_8cpp_ac5d142476e14cf78d292b83f0aeaa4b1}} 
+char $\ast$rrc\+Call\+Conv {\bfseries rrc\+::get\+Registered\+Integrator\+Description} (int n)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_ad41e584aea286cb034f63b2cefc36487}\label{rrc__api_8cpp_ad41e584aea286cb034f63b2cefc36487}} 
+int rrc\+Call\+Conv {\bfseries rrc\+::get\+Num\+Instantiated\+Integrators} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_ad020bc0c97b8af7a2ea01e8476e0626a}\label{rrc__api_8cpp_ad020bc0c97b8af7a2ea01e8476e0626a}} 
+int rrc\+Call\+Conv {\bfseries rrc\+::set\+Current\+Integrator} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, char $\ast$name\+Of\+Integrator)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a8d9f6285b983512eff2838549dc4cab9}\label{rrc__api_8cpp_a8d9f6285b983512eff2838549dc4cab9}} 
+char $\ast$rrc\+Call\+Conv {\bfseries rrc\+::get\+Current\+Integrator\+Name} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_af46b53242b7a057bd50a1bea6341c0ec}\label{rrc__api_8cpp_af46b53242b7a057bd50a1bea6341c0ec}} 
+char $\ast$rrc\+Call\+Conv {\bfseries rrc\+::get\+Current\+Integrator\+Description} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a7bb54bc488bbcb8557110b94fdd96225}\label{rrc__api_8cpp_a7bb54bc488bbcb8557110b94fdd96225}} 
+char $\ast$rrc\+Call\+Conv {\bfseries rrc\+::get\+Current\+Integrator\+Hint} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_add8162864212cf4cb7a4d24ed4a9ecfa}\label{rrc__api_8cpp_add8162864212cf4cb7a4d24ed4a9ecfa}} 
+int rrc\+Call\+Conv {\bfseries rrc\+::get\+Number\+Of\+Current\+Integrator\+Parameters} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a19e5dd3c8fbea6cd43b3baafc6a8679c}\label{rrc__api_8cpp_a19e5dd3c8fbea6cd43b3baafc6a8679c}} 
+char $\ast$rrc\+Call\+Conv {\bfseries rrc\+::get\+Current\+Integrator\+Nth\+Parameter\+Name} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, int n)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_ae4501091140173421dc675a4ff71dc65}\label{rrc__api_8cpp_ae4501091140173421dc675a4ff71dc65}} 
+char $\ast$rrc\+Call\+Conv {\bfseries rrc\+::get\+Current\+Integrator\+Nth\+Parameter\+Display\+Name} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, int n)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a1dcb38b5cade0bd2dd97ec9fc2560f9c}\label{rrc__api_8cpp_a1dcb38b5cade0bd2dd97ec9fc2560f9c}} 
+char $\ast$rrc\+Call\+Conv {\bfseries rrc\+::get\+Current\+Integrator\+Nth\+Parameter\+Hint} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, int n)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a4a906940c3e1c7ea9cec0caa1e3ee500}\label{rrc__api_8cpp_a4a906940c3e1c7ea9cec0caa1e3ee500}} 
+int rrc\+Call\+Conv {\bfseries rrc\+::get\+Current\+Integrator\+Nth\+Parameter\+Type} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, int n)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_adf5d857880e39794015e1b2e740d2240}\label{rrc__api_8cpp_adf5d857880e39794015e1b2e740d2240}} 
+char $\ast$rrc\+Call\+Conv {\bfseries rrc\+::get\+Current\+Integrator\+Nth\+Parameter\+Description} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, int n)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_ab35bba871b7214ddfe30af1d090eeb99}\label{rrc__api_8cpp_ab35bba871b7214ddfe30af1d090eeb99}} 
+int rrc\+Call\+Conv {\bfseries rrc\+::reset\+Current\+Integrator\+Parameters} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a80f56e82aa28ab241484518b74b3e200}\label{rrc__api_8cpp_a80f56e82aa28ab241484518b74b3e200}} 
+\mbox{\hyperlink{rrc__types_8h_a7c9475df6c7337d99482b13a365e7596}{R\+R\+String\+Array\+Ptr}} rrc\+Call\+Conv {\bfseries rrc\+::get\+List\+Of\+Current\+Integrator\+Parameter\+Names} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a4c95e11b253b23b9c3c567c22a625a25}\label{rrc__api_8cpp_a4c95e11b253b23b9c3c567c22a625a25}} 
+char $\ast$rrc\+Call\+Conv {\bfseries rrc\+::get\+Current\+Integrator\+Parameter\+Description} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, char $\ast$parameter\+Name)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_af634535bbd0c6050dee99f40ab736b51}\label{rrc__api_8cpp_af634535bbd0c6050dee99f40ab736b51}} 
+char $\ast$rrc\+Call\+Conv {\bfseries rrc\+::get\+Current\+Integrator\+Parameter\+Hint} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, char $\ast$parameter\+Name)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a5d6a8f4782b09a0f5785024d92997dcd}\label{rrc__api_8cpp_a5d6a8f4782b09a0f5785024d92997dcd}} 
+int rrc\+Call\+Conv {\bfseries rrc\+::get\+Current\+Integrator\+Parameter\+Type} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, char $\ast$parameter\+Name)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_aeff99b44688e00cfc0a021619376e739}\label{rrc__api_8cpp_aeff99b44688e00cfc0a021619376e739}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::add\+Species} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$sid, const char $\ast$compartment, double initial\+Amount, bool has\+Only\+Substance\+Units, bool boundary\+Condition)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_ab47f032865e2453f98b1ead510dd85e5}\label{rrc__api_8cpp_ab47f032865e2453f98b1ead510dd85e5}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::add\+Species\+No\+Regen} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$sid, const char $\ast$compartment, double initial\+Amount, bool has\+Only\+Substance\+Units, bool boundary\+Condition)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a2ca2cf1a7e9b686cb9d808149696c494}\label{rrc__api_8cpp_a2ca2cf1a7e9b686cb9d808149696c494}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::remove\+Species} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$sid)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a54f5a671a16d4b717fc4eb51444aa0d3}\label{rrc__api_8cpp_a54f5a671a16d4b717fc4eb51444aa0d3}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::remove\+Species\+No\+Regen} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$sid)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a5a23ce1709b14bfc2b58bfe1e2246dc8}\label{rrc__api_8cpp_a5a23ce1709b14bfc2b58bfe1e2246dc8}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::set\+Boundary} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$sid, bool boundary\+Condition)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a446c5717376c3c60368391abbf334bed}\label{rrc__api_8cpp_a446c5717376c3c60368391abbf334bed}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::set\+Boundary\+No\+Regen} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$sid, bool boundary\+Condition)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_aa271985045c74ba66d0bff4066274719}\label{rrc__api_8cpp_aa271985045c74ba66d0bff4066274719}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::set\+Has\+Only\+Substance\+Units} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$sid, bool has\+Only\+Substance\+Units)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a9e972bee799a57bbe8a0c4f83ca1813a}\label{rrc__api_8cpp_a9e972bee799a57bbe8a0c4f83ca1813a}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::set\+Has\+Only\+Substance\+Units\+No\+Regen} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$sid, bool has\+Only\+Substance\+Units)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a4662ad8ba0b52722b7aaae595b7431a0}\label{rrc__api_8cpp_a4662ad8ba0b52722b7aaae595b7431a0}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::set\+Init\+Amount} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$sid, double init\+Amount)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_acde51b1237de8edd6510fec8a3c7e378}\label{rrc__api_8cpp_acde51b1237de8edd6510fec8a3c7e378}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::set\+Init\+Amount\+No\+Regen} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$sid, double init\+Amount)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_ac422065b41f84d2d22159b6fe7049c98}\label{rrc__api_8cpp_ac422065b41f84d2d22159b6fe7049c98}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::set\+Init\+Concentration} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$sid, double init\+Concentration)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a649b67636a0a1e455ec68b3736387343}\label{rrc__api_8cpp_a649b67636a0a1e455ec68b3736387343}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::set\+Init\+Concentration\+No\+Regen} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$sid, double init\+Concentration)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a0852b088d5701a925086efe42c401199}\label{rrc__api_8cpp_a0852b088d5701a925086efe42c401199}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::set\+Constant} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$sid, bool constant)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a4ab4e442a69766d381d5229433a97abe}\label{rrc__api_8cpp_a4ab4e442a69766d381d5229433a97abe}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::set\+Constant\+No\+Regen} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$sid, bool constant)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a001209a1133f6faf7a354e3990c5535a}\label{rrc__api_8cpp_a001209a1133f6faf7a354e3990c5535a}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::add\+Reaction\+From\+S\+B\+ML} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$sbml\+Rep)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_ab763b9ccbd525dac68b7445aa7f00666}\label{rrc__api_8cpp_ab763b9ccbd525dac68b7445aa7f00666}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::add\+Reaction\+From\+S\+B\+M\+L\+No\+Regen} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$sbml\+Rep)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_ab93f41d7f7227be22a6e3388e2db5ed7}\label{rrc__api_8cpp_ab93f41d7f7227be22a6e3388e2db5ed7}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::add\+Reaction} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$rid, const char $\ast$$\ast$reactants, int num\+Reactants, const char $\ast$$\ast$products, int num\+Products, const char $\ast$kinetic\+Law)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_ae5d87f56af0b769f1c76d874db3fe524}\label{rrc__api_8cpp_ae5d87f56af0b769f1c76d874db3fe524}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::add\+Reaction\+No\+Regen} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$rid, const char $\ast$$\ast$reactants, int num\+Reactants, const char $\ast$$\ast$products, int num\+Products, const char $\ast$kinetic\+Law)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_ac4d4bd985c3e1309867a52011f339b13}\label{rrc__api_8cpp_ac4d4bd985c3e1309867a52011f339b13}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::remove\+Reaction} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$rid)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a9187fb37db6700c52087187d5d58512b}\label{rrc__api_8cpp_a9187fb37db6700c52087187d5d58512b}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::remove\+Reaction\+No\+Regen} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$rid)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a6568c5063fca786b74310a31d1ecb68c}\label{rrc__api_8cpp_a6568c5063fca786b74310a31d1ecb68c}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::set\+Reversible} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$rid, bool reversible)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a692275ee3d27be6a6da40ddba70e35e1}\label{rrc__api_8cpp_a692275ee3d27be6a6da40ddba70e35e1}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::set\+Reversible\+No\+Regen} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$rid, bool reversible)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a9b0ce99af8ffd6ba392fd54bd33fa356}\label{rrc__api_8cpp_a9b0ce99af8ffd6ba392fd54bd33fa356}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::set\+Kinetic\+Law} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$rid, const char $\ast$kinetic\+Law)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a7dd746721c7035e9d71d8c2d835fbd8d}\label{rrc__api_8cpp_a7dd746721c7035e9d71d8c2d835fbd8d}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::set\+Kinetic\+Law\+No\+Regen} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$rid, const char $\ast$kinetic\+Law)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_ad4015889ada283f59011cbccbeae4b59}\label{rrc__api_8cpp_ad4015889ada283f59011cbccbeae4b59}} 
+C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC char $\ast$rrc\+Call\+Conv {\bfseries rrc\+::get\+Kinetic\+Law} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$rid)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a773159d625dcaa54fea3f07bc0811120}\label{rrc__api_8cpp_a773159d625dcaa54fea3f07bc0811120}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::add\+Parameter} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$pid, double value)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a41cc296f9cd4c9c3d59dde47e03f4948}\label{rrc__api_8cpp_a41cc296f9cd4c9c3d59dde47e03f4948}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::add\+Parameter\+No\+Regen} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$pid, double value)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a0f55aa24c004bf6429254e2e45b8905a}\label{rrc__api_8cpp_a0f55aa24c004bf6429254e2e45b8905a}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::remove\+Parameter} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$pid)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a709e58fa882bd08fb8e03b5c7ff0a946}\label{rrc__api_8cpp_a709e58fa882bd08fb8e03b5c7ff0a946}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::remove\+Parameter\+No\+Regen} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$pid)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a973ba784e379f6cc16941ff8b7e98140}\label{rrc__api_8cpp_a973ba784e379f6cc16941ff8b7e98140}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::add\+Compartment} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$cid, double init\+Volume)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a7c277098571f051a5158fa8848c232a2}\label{rrc__api_8cpp_a7c277098571f051a5158fa8848c232a2}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::add\+Compartment\+No\+Regen} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$cid, double init\+Volume)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a6f209955e885846c2d9609dd3cf764de}\label{rrc__api_8cpp_a6f209955e885846c2d9609dd3cf764de}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::remove\+Compartment} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$cid)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a5e934fd6954de2fff4b2dd629c657679}\label{rrc__api_8cpp_a5e934fd6954de2fff4b2dd629c657679}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::remove\+Compartment\+No\+Regen} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$cid)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a616d37bfc017fefabb409a5cf72de581}\label{rrc__api_8cpp_a616d37bfc017fefabb409a5cf72de581}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::add\+Assignment\+Rule} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$vid, const char $\ast$formula)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a77454968622eff35b86216e3e79664f5}\label{rrc__api_8cpp_a77454968622eff35b86216e3e79664f5}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::add\+Assignment\+Rule\+No\+Regen} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$vid, const char $\ast$formula)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_ab48f5a4ef946cce00b9dca2a67fc6759}\label{rrc__api_8cpp_ab48f5a4ef946cce00b9dca2a67fc6759}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::add\+Rate\+Rule} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$vid, const char $\ast$formula)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a3e46e7c2adf3720c65e1dfdafdf3a900}\label{rrc__api_8cpp_a3e46e7c2adf3720c65e1dfdafdf3a900}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::add\+Rate\+Rule\+No\+Regen} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$vid, const char $\ast$formula)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a3fdde6284446cf34270ee57ed553acc5}\label{rrc__api_8cpp_a3fdde6284446cf34270ee57ed553acc5}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::remove\+Rules} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$vid)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_aa43c1400cf4af66b7a888438a950c689}\label{rrc__api_8cpp_aa43c1400cf4af66b7a888438a950c689}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::remove\+Rules\+No\+Regen} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$vid)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a7441d00eae532806798405ad0852e96d}\label{rrc__api_8cpp_a7441d00eae532806798405ad0852e96d}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::add\+Event} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$eid, bool use\+Values\+From\+Trigger\+Time, const char $\ast$trigger)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a178e6af96d1863e5bc3ef349f14b4971}\label{rrc__api_8cpp_a178e6af96d1863e5bc3ef349f14b4971}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::add\+Event\+No\+Regen} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$eid, bool use\+Values\+From\+Trigger\+Time, const char $\ast$trigger)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_ab0827804dc884f16e5985a7869be17b4}\label{rrc__api_8cpp_ab0827804dc884f16e5985a7869be17b4}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::add\+Trigger} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$eid, const char $\ast$trigger)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a0971b6b3331038aaf1f017444911eee2}\label{rrc__api_8cpp_a0971b6b3331038aaf1f017444911eee2}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::add\+Trigger\+No\+Regen} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$eid, const char $\ast$trigger)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_abc5419eca66e35c51113b1fa4535523a}\label{rrc__api_8cpp_abc5419eca66e35c51113b1fa4535523a}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::set\+Persistent} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$eid, bool persistent)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a61c78ff1dd3e04d3496c58f72a4a77e3}\label{rrc__api_8cpp_a61c78ff1dd3e04d3496c58f72a4a77e3}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::set\+Persistent\+No\+Regen} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$eid, bool persistent)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a8919af146753f653085ea52db8c66d1e}\label{rrc__api_8cpp_a8919af146753f653085ea52db8c66d1e}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::set\+Trigger\+Initial\+Value} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$eid, bool init\+Value)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a4af26248a043c854d4d00996304cb0d9}\label{rrc__api_8cpp_a4af26248a043c854d4d00996304cb0d9}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::set\+Trigger\+Initial\+Value\+No\+Regen} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$eid, bool init\+Value)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_aa87b6fe0e0ef2e67b2b5b3154f49b6af}\label{rrc__api_8cpp_aa87b6fe0e0ef2e67b2b5b3154f49b6af}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::add\+Priority} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$eid, const char $\ast$priority)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a790206115e853bdf8648694a830114d2}\label{rrc__api_8cpp_a790206115e853bdf8648694a830114d2}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::add\+Priority\+No\+Regen} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$eid, const char $\ast$priority)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a9d35088b7b71b92e9cb0ea5a030582c2}\label{rrc__api_8cpp_a9d35088b7b71b92e9cb0ea5a030582c2}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::add\+Delay} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$eid, const char $\ast$delay)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_adebf9d491c354047ee3e159e4cd2d78e}\label{rrc__api_8cpp_adebf9d491c354047ee3e159e4cd2d78e}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::add\+Delay\+No\+Regen} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$eid, const char $\ast$delay)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_abc685e43875dc3ddef57d6a2e1893e70}\label{rrc__api_8cpp_abc685e43875dc3ddef57d6a2e1893e70}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::add\+Event\+Assignment} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$eid, const char $\ast$vid, const char $\ast$formula)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a499e1fc68d0f5d4a81b2fb98c5a7bcd5}\label{rrc__api_8cpp_a499e1fc68d0f5d4a81b2fb98c5a7bcd5}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::add\+Event\+Assignment\+No\+Regen} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$eid, const char $\ast$vid, const char $\ast$formula)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_acc29022fd8ca90247733ba93a027e24e}\label{rrc__api_8cpp_acc29022fd8ca90247733ba93a027e24e}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::remove\+Event\+Assignments} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$eid, const char $\ast$vid)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_ab27aab7f8ade7ecefb495095ebf54933}\label{rrc__api_8cpp_ab27aab7f8ade7ecefb495095ebf54933}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::remove\+Event\+Assignments\+No\+Regen} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$eid, const char $\ast$vid)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a94057aed96b17546b0a637f38d8aac32}\label{rrc__api_8cpp_a94057aed96b17546b0a637f38d8aac32}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::remove\+Event} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$eid)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_ac7ecabe9d11b79c4158ea518fee55539}\label{rrc__api_8cpp_ac7ecabe9d11b79c4158ea518fee55539}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::remove\+Events\+No\+Regen} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$eid)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a53423a5720ed7b47d1dbec6b1274ac9a}\label{rrc__api_8cpp_a53423a5720ed7b47d1dbec6b1274ac9a}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::validate\+Current\+S\+B\+ML} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a37bad09b9c7f4fc90fbbc6536dc02025}\label{rrc__api_8cpp_a37bad09b9c7f4fc90fbbc6536dc02025}} 
+int rrc\+Call\+Conv {\bfseries rrc\+::get\+Current\+Integrator\+Parameter\+Int} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, char $\ast$parameter\+Name)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a8f00e495b471b53561cb91e9951b9c08}\label{rrc__api_8cpp_a8f00e495b471b53561cb91e9951b9c08}} 
+int rrc\+Call\+Conv {\bfseries rrc\+::set\+Current\+Integrator\+Parameter\+Int} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, char $\ast$parameter\+Name, int value)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a1c18326941dc154baf469fdac43668f0}\label{rrc__api_8cpp_a1c18326941dc154baf469fdac43668f0}} 
+unsigned int rrc\+Call\+Conv {\bfseries rrc\+::get\+Current\+Integrator\+Parameter\+U\+Int} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, char $\ast$parameter\+Name)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a2dbf2d168a2cf5bb84d6cb22b1a46390}\label{rrc__api_8cpp_a2dbf2d168a2cf5bb84d6cb22b1a46390}} 
+int rrc\+Call\+Conv {\bfseries rrc\+::set\+Current\+Integrator\+Parameter\+U\+Int} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, char $\ast$parameter\+Name, unsigned int value)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_aa00f8dd323f38f7c97472bf9fa7ff95d}\label{rrc__api_8cpp_aa00f8dd323f38f7c97472bf9fa7ff95d}} 
+double rrc\+Call\+Conv {\bfseries rrc\+::get\+Current\+Integrator\+Parameter\+Double} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, char $\ast$parameter\+Name)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a058693c672ab6b666215d95037c65ccc}\label{rrc__api_8cpp_a058693c672ab6b666215d95037c65ccc}} 
+int rrc\+Call\+Conv {\bfseries rrc\+::set\+Current\+Integrator\+Parameter\+Double} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, char $\ast$parameter\+Name, double value)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a8e65873668c0e256116856c4afefcb1b}\label{rrc__api_8cpp_a8e65873668c0e256116856c4afefcb1b}} 
+char $\ast$rrc\+Call\+Conv {\bfseries rrc\+::get\+Current\+Integrator\+Parameter\+String} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, char $\ast$parameter\+Name)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_ad0433bd7886e541d51aaefc6bb378684}\label{rrc__api_8cpp_ad0433bd7886e541d51aaefc6bb378684}} 
+int rrc\+Call\+Conv {\bfseries rrc\+::set\+Current\+Integrator\+Parameter\+String} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, char $\ast$parameter\+Name, char $\ast$value)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a6f1f5aabed36eea50580b21ec8ca5742}\label{rrc__api_8cpp_a6f1f5aabed36eea50580b21ec8ca5742}} 
+int rrc\+Call\+Conv {\bfseries rrc\+::get\+Current\+Integrator\+Parameter\+Boolean} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, char $\ast$parameter\+Name)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a4a12ba7f478e28329195d159a60fdd97}\label{rrc__api_8cpp_a4a12ba7f478e28329195d159a60fdd97}} 
+int rrc\+Call\+Conv {\bfseries rrc\+::set\+Current\+Integrator\+Parameter\+Boolean} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, char $\ast$parameter\+Name, int value)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a8ade7795a497a61779b6ceb1edb11f40}\label{rrc__api_8cpp_a8ade7795a497a61779b6ceb1edb11f40}} 
+int rrc\+Call\+Conv {\bfseries rrc\+::get\+Current\+Integrator\+Parameter\+Double\+Array} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, char $\ast$parameter\+Name, double $\ast$$\ast$value, int $\ast$len)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a12d4724543e329614c90ca75901e6d2b}\label{rrc__api_8cpp_a12d4724543e329614c90ca75901e6d2b}} 
+int rrc\+Call\+Conv {\bfseries rrc\+::set\+Current\+Integrator\+Parameter\+Double\+Array} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, char $\ast$parameter\+Name, double $\ast$value, int len)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a843a7e2cb6e02829c407b0298f8e0190}\label{rrc__api_8cpp_a843a7e2cb6e02829c407b0298f8e0190}} 
+int rrc\+Call\+Conv {\bfseries rrc\+::set\+Current\+Integrator\+Scalar\+Concentration\+Tolerance} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, double value)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a3abc38b5a8ec40315845e72932c42933}\label{rrc__api_8cpp_a3abc38b5a8ec40315845e72932c42933}} 
+int rrc\+Call\+Conv {\bfseries rrc\+::set\+Current\+Integrator\+Vector\+Concentration\+Tolerance} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, double $\ast$value, int len)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a66038ed718b84a64a2264339011cb3c5}\label{rrc__api_8cpp_a66038ed718b84a64a2264339011cb3c5}} 
+int rrc\+Call\+Conv {\bfseries rrc\+::set\+Current\+Integrator\+Individual\+Tolerance} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, char $\ast$sid, double value)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a8bc25e247991d54541ec73c23404425d}\label{rrc__api_8cpp_a8bc25e247991d54541ec73c23404425d}} 
+int rrc\+Call\+Conv {\bfseries rrc\+::get\+Num\+Registered\+Steady\+State\+Solvers} ()
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a7c486f4d993fc363ced98af7518093a6}\label{rrc__api_8cpp_a7c486f4d993fc363ced98af7518093a6}} 
+char $\ast$rrc\+Call\+Conv {\bfseries rrc\+::get\+Registered\+Steady\+State\+Solver\+Name} (int n)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a2b499fc985b21d0ce227788f6db8af9a}\label{rrc__api_8cpp_a2b499fc985b21d0ce227788f6db8af9a}} 
+char $\ast$rrc\+Call\+Conv {\bfseries rrc\+::get\+Registered\+Steady\+State\+Solver\+Hint} (int n)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a64b91536b4ed79a85521de48ae6c558a}\label{rrc__api_8cpp_a64b91536b4ed79a85521de48ae6c558a}} 
+char $\ast$rrc\+Call\+Conv {\bfseries rrc\+::get\+Registered\+Steady\+State\+Solver\+Description} (int n)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a38b0423ba0462070def33ca9efcfe6f4}\label{rrc__api_8cpp_a38b0423ba0462070def33ca9efcfe6f4}} 
+int rrc\+Call\+Conv {\bfseries rrc\+::set\+Current\+Steady\+State\+Solver} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, char $\ast$name\+Of\+Steady\+State\+Solver)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a170f383bcb2d2d9ecc14ddc8724708dc}\label{rrc__api_8cpp_a170f383bcb2d2d9ecc14ddc8724708dc}} 
+char $\ast$rrc\+Call\+Conv {\bfseries rrc\+::get\+Current\+Steady\+State\+Solver\+Name} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a7efa1cd5a036d2c90cc4d7fc1733c155}\label{rrc__api_8cpp_a7efa1cd5a036d2c90cc4d7fc1733c155}} 
+char $\ast$rrc\+Call\+Conv {\bfseries rrc\+::get\+Current\+Steady\+State\+Solver\+Description} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a7a2ba4ff4b45dba4f2e75873c57071d8}\label{rrc__api_8cpp_a7a2ba4ff4b45dba4f2e75873c57071d8}} 
+char $\ast$rrc\+Call\+Conv {\bfseries rrc\+::get\+Current\+Steady\+State\+Solver\+Hint} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a810d46849843c1fcb49e5351013de169}\label{rrc__api_8cpp_a810d46849843c1fcb49e5351013de169}} 
+int rrc\+Call\+Conv {\bfseries rrc\+::get\+Number\+Of\+Current\+Steady\+State\+Solver\+Parameters} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_af27ed244701b15e1d77cfe3989359c3f}\label{rrc__api_8cpp_af27ed244701b15e1d77cfe3989359c3f}} 
+char $\ast$rrc\+Call\+Conv {\bfseries rrc\+::get\+Current\+Steady\+State\+Solver\+Nth\+Parameter\+Name} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, int n)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a0b1e27e38e398926e2ebe947e7b1287b}\label{rrc__api_8cpp_a0b1e27e38e398926e2ebe947e7b1287b}} 
+char $\ast$rrc\+Call\+Conv {\bfseries rrc\+::get\+Current\+Steady\+State\+Solver\+Nth\+Parameter\+Hint} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, int n)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_acd7b0fe5235d05fdedeaa8688a3924a0}\label{rrc__api_8cpp_acd7b0fe5235d05fdedeaa8688a3924a0}} 
+int rrc\+Call\+Conv {\bfseries rrc\+::get\+Current\+Steady\+State\+Solver\+Nth\+Parameter\+Type} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, int n)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_abb9ec11d29e58007f09024287067e490}\label{rrc__api_8cpp_abb9ec11d29e58007f09024287067e490}} 
+char $\ast$rrc\+Call\+Conv {\bfseries rrc\+::get\+Current\+Steady\+State\+Solver\+Nth\+Parameter\+Display\+Name} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, int n)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_aa62fe4a150355befdcb68e877070d1e0}\label{rrc__api_8cpp_aa62fe4a150355befdcb68e877070d1e0}} 
+char $\ast$rrc\+Call\+Conv {\bfseries rrc\+::get\+Current\+Steady\+State\+Solver\+Nth\+Parameter\+Description} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, int n)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a979b6a64807e339af13d71fd8eeff436}\label{rrc__api_8cpp_a979b6a64807e339af13d71fd8eeff436}} 
+int rrc\+Call\+Conv {\bfseries rrc\+::reset\+Current\+Steady\+State\+Solver\+Parameters} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a27d2cde0c66d279efb50b81ac0701553}\label{rrc__api_8cpp_a27d2cde0c66d279efb50b81ac0701553}} 
+const char $\ast$rrc\+Call\+Conv {\bfseries rrc\+::solver\+Type\+To\+String} (int code)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a8ba7650072048b0835ddcf6079dc7a01}\label{rrc__api_8cpp_a8ba7650072048b0835ddcf6079dc7a01}} 
+\mbox{\hyperlink{rrc__types_8h_a7c9475df6c7337d99482b13a365e7596}{R\+R\+String\+Array\+Ptr}} rrc\+Call\+Conv {\bfseries rrc\+::get\+List\+Of\+Current\+Steady\+State\+Solver\+Parameter\+Names} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_adf350bb38e4cd1035711f09ce5c19358}\label{rrc__api_8cpp_adf350bb38e4cd1035711f09ce5c19358}} 
+char $\ast$rrc\+Call\+Conv {\bfseries rrc\+::get\+Current\+Steady\+State\+Solver\+Parameter\+Description} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, char $\ast$parameter\+Name)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_abcbdad4cc90639786c8f49382f301041}\label{rrc__api_8cpp_abcbdad4cc90639786c8f49382f301041}} 
+char $\ast$rrc\+Call\+Conv {\bfseries rrc\+::get\+Current\+Steady\+State\+Solver\+Parameter\+Hint} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, char $\ast$parameter\+Name)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_adfeda294fdf3b2307ebef8ca0a82001f}\label{rrc__api_8cpp_adfeda294fdf3b2307ebef8ca0a82001f}} 
+int rrc\+Call\+Conv {\bfseries rrc\+::get\+Current\+Steady\+State\+Solver\+Parameter\+Type} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, char $\ast$parameter\+Name)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a4d20412f428f7ba1cc0d47b7721046cd}\label{rrc__api_8cpp_a4d20412f428f7ba1cc0d47b7721046cd}} 
+int rrc\+Call\+Conv {\bfseries rrc\+::get\+Current\+Steady\+State\+Solver\+Parameter\+Int} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, char $\ast$parameter\+Name)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a86258fae627878923936cece73cb0b11}\label{rrc__api_8cpp_a86258fae627878923936cece73cb0b11}} 
+int rrc\+Call\+Conv {\bfseries rrc\+::set\+Current\+Steady\+State\+Solver\+Parameter\+Int} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, char $\ast$parameter\+Name, int value)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_aec457a1ad3e2cf9ff0af973210041ec7}\label{rrc__api_8cpp_aec457a1ad3e2cf9ff0af973210041ec7}} 
+unsigned int rrc\+Call\+Conv {\bfseries rrc\+::get\+Current\+Steady\+State\+Solver\+Parameter\+U\+Int} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, char $\ast$parameter\+Name)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a38da82871341e50f93f601c0aea38369}\label{rrc__api_8cpp_a38da82871341e50f93f601c0aea38369}} 
+int rrc\+Call\+Conv {\bfseries rrc\+::set\+Current\+Steady\+State\+Solver\+Parameter\+U\+Int} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, char $\ast$parameter\+Name, unsigned int value)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a03140fc09fd250b9f0c36965c2481e16}\label{rrc__api_8cpp_a03140fc09fd250b9f0c36965c2481e16}} 
+double rrc\+Call\+Conv {\bfseries rrc\+::get\+Current\+Steady\+State\+Solver\+Parameter\+Double} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, char $\ast$parameter\+Name)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_ae1834f55dd987322581102e38ef4650a}\label{rrc__api_8cpp_ae1834f55dd987322581102e38ef4650a}} 
+int rrc\+Call\+Conv {\bfseries rrc\+::set\+Current\+Steady\+State\+Solver\+Parameter\+Double} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, char $\ast$parameter\+Name, double value)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_ace2af6bbb6696280ef8b3dba8ec379a8}\label{rrc__api_8cpp_ace2af6bbb6696280ef8b3dba8ec379a8}} 
+char $\ast$rrc\+Call\+Conv {\bfseries rrc\+::get\+Current\+Steady\+State\+Solver\+Parameter\+String} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, char $\ast$parameter\+Name)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_af946ba00245fdc99f0a727557777e808}\label{rrc__api_8cpp_af946ba00245fdc99f0a727557777e808}} 
+int rrc\+Call\+Conv {\bfseries rrc\+::set\+Current\+Steady\+State\+Solver\+Parameter\+String} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, char $\ast$parameter\+Name, char $\ast$value)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a48429117b3fdd8defe898f191cd30ab8}\label{rrc__api_8cpp_a48429117b3fdd8defe898f191cd30ab8}} 
+int rrc\+Call\+Conv {\bfseries rrc\+::get\+Current\+Steady\+State\+Solver\+Parameter\+Boolean} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, char $\ast$parameter\+Name)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a8e2f3324a496c2fe899f69129721bc61}\label{rrc__api_8cpp_a8e2f3324a496c2fe899f69129721bc61}} 
+int rrc\+Call\+Conv {\bfseries rrc\+::set\+Current\+Steady\+State\+Solver\+Parameter\+Boolean} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, char $\ast$parameter\+Name, int value)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_aa6d429cd1c9a707b74a1e0e8b0e503dc}\label{__rrc__api_8cpp_aa6d429cd1c9a707b74a1e0e8b0e503dc}} 
+\mbox{\hyperlink{rrc__types_8h_a7c9475df6c7337d99482b13a365e7596}{R\+R\+String\+Array\+Ptr}} rrc\+Call\+Conv {\bfseries rrc\+::get\+Eigenvalue\+Ids} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a872d669c6d4f935a1b387b720c2ac12c}\label{__rrc__api_8cpp_a872d669c6d4f935a1b387b720c2ac12c}} 
+\mbox{\hyperlink{rrc__types_8h_a32a8a60ac06858ff3a791672bd2bec73}{R\+R\+List\+Ptr}} rrc\+Call\+Conv {\bfseries rrc\+::get\+Flux\+Control\+Coefficient\+Ids} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a843fb259efa949e83d4ce6c379385b4f}\label{__rrc__api_8cpp_a843fb259efa949e83d4ce6c379385b4f}} 
+\mbox{\hyperlink{rrc__types_8h_ae586a879d30f0823087e42d93464b5dd}{R\+R\+Double\+Matrix\+Ptr}} rrc\+Call\+Conv {\bfseries rrc\+::get\+Unscaled\+Concentration\+Control\+Coefficient\+Matrix} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a9cacfc6bc06fdbd01bbda2f1e491cb95}\label{__rrc__api_8cpp_a9cacfc6bc06fdbd01bbda2f1e491cb95}} 
+\mbox{\hyperlink{rrc__types_8h_ae586a879d30f0823087e42d93464b5dd}{R\+R\+Double\+Matrix\+Ptr}} rrc\+Call\+Conv {\bfseries rrc\+::get\+Scaled\+Concentration\+Control\+Coefficient\+Matrix} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_aef2e183cb56caacbe6ad458d633fb60e}\label{__rrc__api_8cpp_aef2e183cb56caacbe6ad458d633fb60e}} 
+\mbox{\hyperlink{rrc__types_8h_ae586a879d30f0823087e42d93464b5dd}{R\+R\+Double\+Matrix\+Ptr}} rrc\+Call\+Conv {\bfseries rrc\+::get\+Unscaled\+Flux\+Control\+Coefficient\+Matrix} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_aa3f1c64557f9341c47d26484144e2acf}\label{__rrc__api_8cpp_aa3f1c64557f9341c47d26484144e2acf}} 
+\mbox{\hyperlink{rrc__types_8h_ae586a879d30f0823087e42d93464b5dd}{R\+R\+Double\+Matrix\+Ptr}} rrc\+Call\+Conv {\bfseries rrc\+::get\+Scaled\+Flux\+Control\+Coefficient\+Matrix} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a7c500b8a66f7ca4ff60ec6cc74d0a073}\label{__rrc__api_8cpp_a7c500b8a66f7ca4ff60ec6cc74d0a073}} 
+\mbox{\hyperlink{rrc__types_8h_a32a8a60ac06858ff3a791672bd2bec73}{R\+R\+List\+Ptr}} rrc\+Call\+Conv {\bfseries rrc\+::get\+Unscaled\+Flux\+Control\+Coefficient\+Ids} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a28365453cc0df0affacc70bde15dac7f}\label{__rrc__api_8cpp_a28365453cc0df0affacc70bde15dac7f}} 
+\mbox{\hyperlink{structRRList}{R\+R\+List}} $\ast$rrc\+Call\+Conv {\bfseries rrc\+::get\+Concentration\+Control\+Coefficient\+Ids} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_acd4fa9405da6e050655426292111d6bc}\label{__rrc__api_8cpp_acd4fa9405da6e050655426292111d6bc}} 
+\mbox{\hyperlink{rrc__types_8h_a32a8a60ac06858ff3a791672bd2bec73}{R\+R\+List\+Ptr}} rrc\+Call\+Conv {\bfseries rrc\+::get\+Unscaled\+Concentration\+Control\+Coefficient\+Ids} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a3624b4d9c1c72121b4379bc8b5f6b206}\label{__rrc__api_8cpp_a3624b4d9c1c72121b4379bc8b5f6b206}} 
+int rrc\+Call\+Conv {\bfseries rrc\+::get\+Number\+Of\+Compartments} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_af83e3a6ca7bc22338684158becf175d0}\label{__rrc__api_8cpp_af83e3a6ca7bc22338684158becf175d0}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::get\+Compartment\+By\+Index} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const int index, double $\ast$value)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_ad36ba69238964c3eda5b1488cbe81193}\label{__rrc__api_8cpp_ad36ba69238964c3eda5b1488cbe81193}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::set\+Compartment\+By\+Index} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const int index, const double value)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a95e79012f2017408afd4f7add07bd985}\label{__rrc__api_8cpp_a95e79012f2017408afd4f7add07bd985}} 
+\mbox{\hyperlink{rrc__types_8h_a7c9475df6c7337d99482b13a365e7596}{R\+R\+String\+Array\+Ptr}} rrc\+Call\+Conv {\bfseries rrc\+::get\+Compartment\+Ids} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a3a6de234caca92ced022dcded0df9542}\label{__rrc__api_8cpp_a3a6de234caca92ced022dcded0df9542}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::get\+Rate\+Of\+Change} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const int index, double $\ast$value)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a0777ce366f9d47050cd7b83e9ee5ae9e}\label{__rrc__api_8cpp_a0777ce366f9d47050cd7b83e9ee5ae9e}} 
+char $\ast$rrc\+Call\+Conv {\bfseries rrc\+::get\+Build\+Date} ()
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_ac393fd0ed8dc3d8d162e086a8e38e145}\label{__rrc__api_8cpp_ac393fd0ed8dc3d8d162e086a8e38e145}} 
+char $\ast$rrc\+Call\+Conv {\bfseries rrc\+::get\+Build\+Time} ()
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a85c204671cec1345d1e5d3cd9c3fa4ca}\label{__rrc__api_8cpp_a85c204671cec1345d1e5d3cd9c3fa4ca}} 
+char $\ast$rrc\+Call\+Conv {\bfseries rrc\+::get\+Build\+Date\+Time} ()
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a059b577f7319312c73e043c32e08ff77}\label{__rrc__api_8cpp_a059b577f7319312c73e043c32e08ff77}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::free\+R\+R\+Instance} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a1cc839af068f140dc5b3925e93c08409}\label{__rrc__api_8cpp_a1cc839af068f140dc5b3925e93c08409}} 
+C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC bool rrc\+Call\+Conv {\bfseries rrc\+::get\+Seed} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} h, long $\ast$result)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_ad56d06d45c96f4ef61354383f088371f}\label{__rrc__api_8cpp_ad56d06d45c96f4ef61354383f088371f}} 
+C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC bool rrc\+Call\+Conv {\bfseries rrc\+::set\+Seed} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} h, long result)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a75f2a837c098f0c113182d676f9f4a94}\label{__rrc__api_8cpp_a75f2a837c098f0c113182d676f9f4a94}} 
+C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC \mbox{\hyperlink{rrc__types_8h_a9da8b124eb9c3c0045f8926c6a420b4a}{R\+R\+C\+Data\+Ptr}} rrc\+Call\+Conv {\bfseries rrc\+::gillespie} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_afd0e7ff5616a1a18c8b526dd3f1dd9a5}\label{__rrc__api_8cpp_afd0e7ff5616a1a18c8b526dd3f1dd9a5}} 
+C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC \mbox{\hyperlink{rrc__types_8h_a9da8b124eb9c3c0045f8926c6a420b4a}{R\+R\+C\+Data\+Ptr}} rrc\+Call\+Conv {\bfseries rrc\+::gillespie\+Ex} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, double time\+Start, double time\+End)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_afc29158d93f00f546544065516617e1d}\label{__rrc__api_8cpp_afc29158d93f00f546544065516617e1d}} 
+C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC \mbox{\hyperlink{rrc__types_8h_a9da8b124eb9c3c0045f8926c6a420b4a}{R\+R\+C\+Data\+Ptr}} rrc\+Call\+Conv {\bfseries rrc\+::gillespie\+On\+Grid} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a16237ddb8ce649b5653170d093f56698}\label{__rrc__api_8cpp_a16237ddb8ce649b5653170d093f56698}} 
+C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC \mbox{\hyperlink{rrc__types_8h_a9da8b124eb9c3c0045f8926c6a420b4a}{R\+R\+C\+Data\+Ptr}} rrc\+Call\+Conv {\bfseries rrc\+::gillespie\+On\+Grid\+Ex} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, double time\+Start, double time\+End, int number\+Of\+Points)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a2e1c95016fc17dcee2a6fbf0db5d4039}\label{__rrc__api_8cpp_a2e1c95016fc17dcee2a6fbf0db5d4039}} 
+C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC \mbox{\hyperlink{rrc__types_8h_a9da8b124eb9c3c0045f8926c6a420b4a}{R\+R\+C\+Data\+Ptr}} rrc\+Call\+Conv {\bfseries rrc\+::gillespie\+Mean\+On\+Grid} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, int number\+Of\+Simulations)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_ad5d77268d2a75bcf1498a8a4ec145b34}\label{__rrc__api_8cpp_ad5d77268d2a75bcf1498a8a4ec145b34}} 
+C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC \mbox{\hyperlink{rrc__types_8h_a9da8b124eb9c3c0045f8926c6a420b4a}{R\+R\+C\+Data\+Ptr}} rrc\+Call\+Conv {\bfseries rrc\+::gillespie\+Mean\+On\+Grid\+Ex} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, double time\+Start, double time\+End, int number\+Of\+Points, int number\+Of\+Simulations)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a705727cde1cd394f793fa0c53d0070b8}\label{__rrc__api_8cpp_a705727cde1cd394f793fa0c53d0070b8}} 
+C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC \mbox{\hyperlink{rrc__types_8h_a9da8b124eb9c3c0045f8926c6a420b4a}{R\+R\+C\+Data\+Ptr}} rrc\+Call\+Conv {\bfseries rrc\+::gillespie\+Mean\+S\+D\+On\+Grid} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, int number\+Of\+Simulations)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_a649a0a4b4ebe71f3da70135e52c55a0e}\label{__rrc__api_8cpp_a649a0a4b4ebe71f3da70135e52c55a0e}} 
+C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC \mbox{\hyperlink{rrc__types_8h_a9da8b124eb9c3c0045f8926c6a420b4a}{R\+R\+C\+Data\+Ptr}} rrc\+Call\+Conv {\bfseries rrc\+::gillespie\+Mean\+S\+D\+On\+Grid\+Ex} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, double time\+Start, double time\+End, int number\+Of\+Points, int number\+Of\+Simulations)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_af76893e3ac297cef97213a32c6f7f586}\label{__rrc__api_8cpp_af76893e3ac297cef97213a32c6f7f586}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::reset} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_ae8f7fb07bfab266608a59fe23a720509}\label{__rrc__api_8cpp_ae8f7fb07bfab266608a59fe23a720509}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::reset\+All} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{__rrc__api_8cpp_aa046e6ded36780b0b3d0c11868c5ba17}\label{__rrc__api_8cpp_aa046e6ded36780b0b3d0c11868c5ba17}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::reset\+To\+Origin} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_ab2823e411b77e1334fda592d04de6da6}\label{rrc__api_8cpp_ab2823e411b77e1334fda592d04de6da6}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::reset\+Parameter} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_aad04cdddd1b26a32e3bf1dad53a0dd34}\label{rrc__api_8cpp_aad04cdddd1b26a32e3bf1dad53a0dd34}} 
+int rrc\+Call\+Conv {\bfseries rrc\+::set\+Config\+Bool} (const char $\ast$key, int value)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_aafd8d7c9d2440da5e62b8b5705d2f223}\label{rrc__api_8cpp_aafd8d7c9d2440da5e62b8b5705d2f223}} 
+int rrc\+Call\+Conv {\bfseries rrc\+::get\+Config\+Bool} (const char $\ast$key)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_ae084f440dc73adb5db08398d14a2b2b3}\label{rrc__api_8cpp_ae084f440dc73adb5db08398d14a2b2b3}} 
+int rrc\+Call\+Conv {\bfseries rrc\+::set\+Config\+Int} (const char $\ast$key, int value)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a4044925edf85475a036d513ab8d437af}\label{rrc__api_8cpp_a4044925edf85475a036d513ab8d437af}} 
+int rrc\+Call\+Conv {\bfseries rrc\+::get\+Config\+Int} (const char $\ast$key)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_ac73879575b0a5ddd16cacce523dc8d03}\label{rrc__api_8cpp_ac73879575b0a5ddd16cacce523dc8d03}} 
+int rrc\+Call\+Conv {\bfseries rrc\+::set\+Config\+Double} (const char $\ast$key, double value)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a02c91f4391a8a64c7a528316ba663852}\label{rrc__api_8cpp_a02c91f4391a8a64c7a528316ba663852}} 
+double rrc\+Call\+Conv {\bfseries rrc\+::get\+Config\+Double} (const char $\ast$key)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a5ffcdadc0799db716f01734cbe6f2569}\label{rrc__api_8cpp_a5ffcdadc0799db716f01734cbe6f2569}} 
+\mbox{\hyperlink{rrc__types_8h_a7c9475df6c7337d99482b13a365e7596}{R\+R\+String\+Array\+Ptr}} rrc\+Call\+Conv {\bfseries rrc\+::get\+List\+Of\+Config\+Keys} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+road\+Runner C wrappers 2012 
+
+\begin{DoxyAuthor}{Author}
+Totte Karlsson \& Herbert M Sauro
+\end{DoxyAuthor}
+$<$-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/--- This file is part of c\+Road\+Runner. See \href{http://code.google.com/p/roadrunnerlib}{\texttt{ http\+://code.\+google.\+com/p/roadrunnerlib}} for more details.
+
+Copyright (C) 2012-\/2013 University of Washington, Seattle, WA, U\+SA
+
+Licensed under the Apache License, Version 2.\+0 (the \char`\"{}\+License\char`\"{}); you may not use this file except in compliance with the License. You may obtain a copy of the License at \begin{DoxyVerb}http://www.apache.org/licenses/LICENSE-2.0
+\end{DoxyVerb}
+
+
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an \char`\"{}\+A\+S I\+S\char`\"{} B\+A\+S\+IS, W\+I\+T\+H\+O\+UT W\+A\+R\+R\+A\+N\+T\+I\+ES OR C\+O\+N\+D\+I\+T\+I\+O\+NS OF A\+NY K\+I\+ND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
+
+In plain english this means\+:
+
+You C\+AN freely download and use this software, in whole or in part, for personal, company internal, or commercial purposes;
+
+You C\+AN use the software in packages or distributions that you create.
+
+You S\+H\+O\+U\+LD include a copy of the license in any redistribution you may make;
+
+You are N\+OT required include the source of software, or of any modifications you may have made to it, in any redistribution you may assemble that includes it.
+
+Y\+OU C\+A\+N\+N\+OT\+:
+
+redistribute any piece of this software without proper attribution; 

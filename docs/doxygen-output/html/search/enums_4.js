@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['options_1638',['Options',['../structrr_1_1RoadRunnerOptions.html#a835c7d4848b4611885e41029261ef2db',1,'rr::RoadRunnerOptions']]]
+  ['modelgeneratoropt_2370',['ModelGeneratorOpt',['../classrr_1_1LoadSBMLOptions.html#a7b6ca6fc32892dbe782f3eb718762ad6',1,'rr::LoadSBMLOptions']]]
 ];

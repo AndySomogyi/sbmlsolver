@@ -4,13 +4,6 @@
     <compoundname>rrRule.cpp</compoundname>
     <includes refid="rrRule_8h" local="yes">rrRule.h</includes>
     <incdepgraph>
-      <node id="3">
-        <label>string</label>
-      </node>
-      <node id="4">
-        <label>rrExporter.h</label>
-        <link refid="rrExporter_8h_source"/>
-      </node>
       <node id="2">
         <label>rrRule.h</label>
         <link refid="rrRule_8h_source"/>
@@ -18,6 +11,13 @@
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
+      </node>
+      <node id="4">
+        <label>rrExporter.h</label>
+        <link refid="rrExporter_8h_source"/>
+      </node>
+      <node id="3">
+        <label>string</label>
       </node>
       <node id="1">
         <label>c/rrRule.cpp</label>

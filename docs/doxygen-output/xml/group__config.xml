@@ -1,0 +1,244 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+  <compounddef id="group__config" kind="group">
+    <compoundname>config</compoundname>
+    <title>Configuration keys/values</title>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__config_1ga40e2c5a001c602ed3c3391a11197058a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC int rrcCallConv</type>
+        <definition>C_DECL_SPEC int rrcCallConv setConfigBool</definition>
+        <argsstring>(const char *key, int value)</argsstring>
+        <name>setConfigBool</name>
+        <param>
+          <type>const char *</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Set a boolean configuration value. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The configuration key </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The value to assign to the configuration key </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns positive if successful </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="2959" column="29" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="2959" declcolumn="29"/>
+      </memberdef>
+      <memberdef kind="function" id="group__config_1ga1b7b8b7da9293048efbf9b5f7516e343" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC int rrcCallConv</type>
+        <definition>C_DECL_SPEC int rrcCallConv getConfigBool</definition>
+        <argsstring>(const char *key)</argsstring>
+        <name>getConfigBool</name>
+        <param>
+          <type>const char *</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Get a boolean configuration value. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The configuration key </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>On error, sets an error message which can be retrieved via <ref refid="group__errorfunctions_1ga0a0d2c042920c6fc648bcb4ce8091ede" kindref="member">getLastError</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="2968" column="29" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="2968" declcolumn="29"/>
+      </memberdef>
+      <memberdef kind="function" id="group__config_1ga7b6dbe4176018c39aeaacbda1e7e3bdf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC int rrcCallConv</type>
+        <definition>C_DECL_SPEC int rrcCallConv setConfigInt</definition>
+        <argsstring>(const char *key, int value)</argsstring>
+        <name>setConfigInt</name>
+        <param>
+          <type>const char *</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Set an integer configuration value. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The configuration key </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The value to assign to the configuration key </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns positive if successful </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="2978" column="29" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="2978" declcolumn="29"/>
+      </memberdef>
+      <memberdef kind="function" id="group__config_1ga98c02a19a1b4f8670f7325d76fa765d3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC int rrcCallConv</type>
+        <definition>C_DECL_SPEC int rrcCallConv getConfigInt</definition>
+        <argsstring>(const char *key)</argsstring>
+        <name>getConfigInt</name>
+        <param>
+          <type>const char *</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Get an integer configuration value. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The configuration key </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>On error, sets an error message which can be retrieved via <ref refid="group__errorfunctions_1ga0a0d2c042920c6fc648bcb4ce8091ede" kindref="member">getLastError</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="2987" column="29" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="2987" declcolumn="29"/>
+      </memberdef>
+      <memberdef kind="function" id="group__config_1ga7d88b86313f205f7048083cfce654736" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC int rrcCallConv</type>
+        <definition>C_DECL_SPEC int rrcCallConv setConfigDouble</definition>
+        <argsstring>(const char *key, double value)</argsstring>
+        <name>setConfigDouble</name>
+        <param>
+          <type>const char *</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Set a double configuration value. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The configuration key </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The value to assign to the configuration key </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns positive if successful </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="2997" column="29" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="2997" declcolumn="29"/>
+      </memberdef>
+      <memberdef kind="function" id="group__config_1ga6528c643dd196a5c91a95455f954076d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC double rrcCallConv</type>
+        <definition>C_DECL_SPEC double rrcCallConv getConfigDouble</definition>
+        <argsstring>(const char *key)</argsstring>
+        <name>getConfigDouble</name>
+        <param>
+          <type>const char *</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Get a double configuration value. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The configuration key </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>On error, sets an error message which can be retrieved via <ref refid="group__errorfunctions_1ga0a0d2c042920c6fc648bcb4ce8091ede" kindref="member">getLastError</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="3035" column="32" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="3035" declcolumn="32"/>
+      </memberdef>
+      <memberdef kind="function" id="group__config_1gaa2b527610b79828322a6b5d03ab4ace9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC <ref refid="rrc__types_8h_1a7c9475df6c7337d99482b13a365e7596" kindref="member">RRStringArrayPtr</ref> rrcCallConv</type>
+        <definition>C_DECL_SPEC RRStringArrayPtr rrcCallConv getListOfConfigKeys</definition>
+        <argsstring>()</argsstring>
+        <name>getListOfConfigKeys</name>
+        <briefdescription>
+<para>Get a list of all possible config keys. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="3042" column="42" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="3042" declcolumn="42"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Loads and sets configuration options. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

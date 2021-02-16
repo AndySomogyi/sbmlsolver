@@ -7,21 +7,21 @@
       <node id="4">
         <label>list</label>
       </node>
+      <node id="1">
+        <label>llvm/ASTNodeFactory.cpp</label>
+        <link refid="ASTNodeFactory_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>sbml/math/ASTNode.h</label>
+      </node>
       <node id="2">
         <label>ASTNodeFactory.h</label>
         <link refid="ASTNodeFactory_8h_source"/>
         <childnode refid="3" relation="include">
         </childnode>
         <childnode refid="4" relation="include">
-        </childnode>
-      </node>
-      <node id="3">
-        <label>sbml/math/ASTNode.h</label>
-      </node>
-      <node id="1">
-        <label>llvm/ASTNodeFactory.cpp</label>
-        <link refid="ASTNodeFactory_8cpp"/>
-        <childnode refid="2" relation="include">
         </childnode>
       </node>
     </incdepgraph>

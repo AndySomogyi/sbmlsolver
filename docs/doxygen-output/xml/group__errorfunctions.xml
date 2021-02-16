@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+  <compounddef id="group__errorfunctions" kind="group">
+    <compoundname>errorfunctions</compoundname>
+    <title>Error handling functions</title>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__errorfunctions_1ga5ff7d55f1f52b72f5f17a687c0c361fd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC bool rrcCallConv</type>
+        <definition>C_DECL_SPEC bool rrcCallConv hasError</definition>
+        <argsstring>(void)</argsstring>
+        <name>hasError</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+<para>Check if there is an error string to retrieve. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Example: status = hasError (void)</para>
+<para><simplesect kind="return"><para>Returns true if there is an error waiting to be retrieved </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" line="304" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" declline="304" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="group__errorfunctions_1ga0a0d2c042920c6fc648bcb4ce8091ede" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC char *rrcCallConv</type>
+        <definition>C_DECL_SPEC char *rrcCallConv getLastError</definition>
+        <argsstring>(void)</argsstring>
+        <name>getLastError</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+<para>Retrieve the current error string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Example:<programlisting><codeline><highlight class="normal">str<sp/>=<sp/>getLastError<sp/>(void);<sp/></highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>Return null if fails, otherwise returns a pointer to the error string </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" line="314" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" declline="314" declcolumn="30"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Error handling routines. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

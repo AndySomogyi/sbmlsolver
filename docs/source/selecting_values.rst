@@ -163,13 +163,3 @@ wanted to plot the elasticity of a particular reaction ``J1``::
 
 
 
-Methods and properties which accept selections
-______________________________________________
-
-.. autosummary::
-
-   ExecutableModel.__getitem__
-   ExecutableModel.__setitem__
-
-
-

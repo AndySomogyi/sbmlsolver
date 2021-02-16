@@ -1,0 +1,682 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+  <compounddef id="group__simulation" kind="group">
+    <compoundname>simulation</compoundname>
+    <title>Time-course simulation</title>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__simulation_1ga704215830b7d1b353cbd990c04a766c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC bool rrcCallConv</type>
+        <definition>C_DECL_SPEC bool rrcCallConv setConfigurationXML</definition>
+        <argsstring>(RRHandle handle, const char *caps)</argsstring>
+        <name>setConfigurationXML</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>caps</declname>
+        </param>
+        <briefdescription>
+<para>Set the simulator&apos;s capabilities. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">caps</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An XML string that specifies the simulators capabilities </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns true if successful </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" line="435" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" declline="435" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="group__simulation_1ga40f63e6f1505d91ecf40bed49d8d717e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC char *rrcCallConv</type>
+        <definition>C_DECL_SPEC char *rrcCallConv getConfigurationXML</definition>
+        <argsstring>(RRHandle handle)</argsstring>
+        <name>getConfigurationXML</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+<para>Get the simulator&apos;s capabilities. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Example:</para>
+<para><programlisting><codeline><highlight class="normal"><sp/>&lt;caps<sp/>name=&quot;RoadRunner&quot;<sp/>description=&quot;Settings<sp/>For<sp/>RoadRunner&quot;&gt;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>&lt;section<sp/>name=&quot;integration&quot;<sp/>method=&quot;CVODE&quot;<sp/>description=&quot;CVODE<sp/>Integrator&quot;&gt;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>&lt;cap<sp/>name=&quot;BDFOrder&quot;<sp/>value=&quot;5&quot;<sp/>hint=&quot;Maximum<sp/>order<sp/>for<sp/>BDF<sp/>Method&quot;<sp/>type=&quot;integer&quot;<sp/>/&gt;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>&lt;cap<sp/>name=&quot;AdamsOrder&quot;<sp/>value=&quot;12&quot;<sp/>hint=&quot;Maximum<sp/>order<sp/>for<sp/>Adams<sp/>Method&quot;<sp/>type=&quot;integer&quot;<sp/>/&gt;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>&lt;cap<sp/>name=&quot;rtol&quot;<sp/>value=&quot;1E-06&quot;<sp/>hint=&quot;Relative<sp/>Tolerance&quot;<sp/>type=&quot;double&quot;<sp/>/&gt;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>&lt;cap<sp/>name=&quot;atol&quot;<sp/>value=&quot;1E-12&quot;<sp/>hint=&quot;Absolute<sp/>Tolerance&quot;<sp/>type=&quot;double&quot;<sp/>/&gt;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>&lt;cap<sp/>name=&quot;maxsteps&quot;<sp/>value=&quot;10000&quot;<sp/>hint=&quot;Maximum<sp/>number<sp/>of<sp/>internal<sp/>stepsc&quot;<sp/>type=&quot;integer&quot;<sp/>/&gt;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>&lt;cap<sp/>name=&quot;initstep&quot;<sp/>value=&quot;0&quot;<sp/>hint=&quot;the<sp/>initial<sp/>step<sp/>size&quot;<sp/>type=&quot;double&quot;<sp/>/&gt;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>&lt;cap<sp/>name=&quot;minstep&quot;<sp/>value=&quot;0&quot;<sp/>hint=&quot;specifies<sp/>a<sp/>lower<sp/>bound<sp/>on<sp/>the<sp/>magnitude<sp/>of<sp/>the<sp/>step<sp/>size.&quot;<sp/>type=&quot;double&quot;<sp/>/&gt;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>&lt;cap<sp/>name=&quot;maxstep&quot;<sp/>value=&quot;0&quot;<sp/>hint=&quot;specifies<sp/>an<sp/>upper<sp/>bound<sp/>on<sp/>the<sp/>magnitude<sp/>of<sp/>the<sp/>step<sp/>size.&quot;<sp/>type=&quot;double&quot;<sp/>/&gt;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>&lt;cap<sp/>name=&quot;conservation&quot;<sp/>value=&quot;1&quot;<sp/>hint=&quot;enables<sp/>(=1)<sp/>or<sp/>disables<sp/>(=0)<sp/>the<sp/>conservation<sp/>analysis<sp/>of<sp/>models<sp/>for<sp/>timecourse<sp/>simulations.&quot;<sp/>type=&quot;int&quot;<sp/>/&gt;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>&lt;cap<sp/>name=&quot;allowRandom&quot;<sp/>value=&quot;1&quot;<sp/>hint=&quot;if<sp/>enabled<sp/>(=1),<sp/>reinterprets<sp/>certain<sp/>function<sp/>definitions<sp/>as<sp/>distributions<sp/>and<sp/>draws<sp/>random<sp/>numbers<sp/>for<sp/>it.&quot;<sp/>type=&quot;int&quot;<sp/>/&gt;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>&lt;cap<sp/>name=&quot;usekinsol&quot;<sp/>value=&quot;0&quot;<sp/>hint=&quot;Is<sp/>KinSol<sp/>used<sp/>as<sp/>steady<sp/>state<sp/>integrator&quot;<sp/>type=&quot;int&quot;<sp/>/&gt;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>&lt;/section&gt;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/>&lt;section<sp/>name=&quot;SteadyState&quot;<sp/>method=&quot;NLEQ2&quot;<sp/>description=&quot;NLEQ2<sp/>Steady<sp/>State<sp/>Solver&quot;&gt;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>&lt;cap<sp/>name=&quot;MaxIterations&quot;<sp/>value=&quot;100&quot;<sp/>hint=&quot;Maximum<sp/>number<sp/>of<sp/>newton<sp/>iterations&quot;<sp/>type=&quot;integer&quot;<sp/>/&gt;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>&lt;cap<sp/>name=&quot;relativeTolerance&quot;<sp/>value=&quot;0.0001&quot;<sp/>hint=&quot;Relative<sp/>precision<sp/>of<sp/>solution<sp/>components&quot;<sp/>type=&quot;double&quot;<sp/>/&gt;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>&lt;/section&gt;</highlight></codeline>
+<codeline><highlight class="normal">&lt;/caps&gt;</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns null if it fails, otherwise it returns the simulator&apos;s capabilities in the form of an XML string </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" line="469" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" declline="469" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="group__simulation_1ga6f2c769375399d14087d6e5e99339aa7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC bool rrcCallConv</type>
+        <definition>C_DECL_SPEC bool rrcCallConv setTimeStart</definition>
+        <argsstring>(RRHandle handle, double timeStart)</argsstring>
+        <name>setTimeStart</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>timeStart</declname>
+        </param>
+        <briefdescription>
+<para>Set the time start for a time course simulation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">timeStart</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns True if successful </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" line="479" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" declline="479" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="group__simulation_1ga93f6c401b6a9e301fcdc380a6048b28c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC bool rrcCallConv</type>
+        <definition>C_DECL_SPEC bool rrcCallConv setTimeEnd</definition>
+        <argsstring>(RRHandle handle, double timeEnd)</argsstring>
+        <name>setTimeEnd</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>timeEnd</declname>
+        </param>
+        <briefdescription>
+<para>Set the time end for a time course simulation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">timeEnd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns true if successful </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" line="488" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" declline="488" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="group__simulation_1ga4575f315d9794b53adf78bfb60973d58" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC bool rrcCallConv</type>
+        <definition>C_DECL_SPEC bool rrcCallConv setNumPoints</definition>
+        <argsstring>(RRHandle handle, int numberOfPoints)</argsstring>
+        <name>setNumPoints</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>numberOfPoints</declname>
+        </param>
+        <briefdescription>
+<para>Set the number of points to generate in a time course simulation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">numberOfPoints</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of points to generate in the time course simulation </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns true if successful </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" line="497" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" declline="497" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="group__simulation_1ga61cca45bb48776d12f5bcc52d0c77e04" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC bool rrcCallConv</type>
+        <definition>C_DECL_SPEC bool rrcCallConv setTimeCourseSelectionList</definition>
+        <argsstring>(RRHandle handle, const char *list)</argsstring>
+        <name>setTimeCourseSelectionList</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>list</declname>
+        </param>
+        <briefdescription>
+<para>Set the selection list for output from simulate(void) or simulateEx(void) </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Use getAvailableTimeCourseSymbols(void) to retrieve the list of all possible symbols.</para>
+<para>Example:<programlisting><codeline><highlight class="normal">setTimeCourseSelectionList<sp/>(&quot;Time,<sp/>S1,<sp/>J1,<sp/>J2&quot;);<sp/></highlight></codeline>
+</programlisting></para>
+<para>or</para>
+<para>setTimeCourseSelectionList (&quot;Time S1 J1 J2&quot;)</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">list</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A string of Ids separated by spaces <bold>or</bold> comma characters </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns true if successful </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" line="516" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" declline="516" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="group__simulation_1gab58d3101cad36a26f0d421e64cf0d0f6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC <ref refid="rrc__types_8h_1a7c9475df6c7337d99482b13a365e7596" kindref="member">RRStringArrayPtr</ref> rrcCallConv</type>
+        <definition>C_DECL_SPEC RRStringArrayPtr rrcCallConv getTimeCourseSelectionList</definition>
+        <argsstring>(RRHandle handle)</argsstring>
+        <name>getTimeCourseSelectionList</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+<para>Get the current selection list for simulate(void) or simulateEx(void) </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A list of symbol Ids indicating the current selection list </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" line="526" column="42" declfile="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" declline="526" declcolumn="42"/>
+      </memberdef>
+      <memberdef kind="function" id="group__simulation_1ga9ac99f6909eb0a6244035fc9cdeff94d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC <ref refid="rrc__types_8h_1a9da8b124eb9c3c0045f8926c6a420b4a" kindref="member">RRCDataPtr</ref> rrcCallConv</type>
+        <definition>C_DECL_SPEC RRCDataPtr rrcCallConv simulate</definition>
+        <argsstring>(RRHandle handle)</argsstring>
+        <name>simulate</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+<para>Carry out a time-course simulation. setTimeStart, setTimeEnd, setNumPoints, etc are used to set the simulation characteristics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns an array (RRCDataPtr) of columns containing the results of the simulation including string labels for the individual columns. The client is responsible for freeing the resulting RRCDataPtr structure. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" line="538" column="36" declfile="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" declline="538" declcolumn="36"/>
+      </memberdef>
+      <memberdef kind="function" id="group__simulation_1gaa52283eaebe340a4a39cc4900441be93" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC <ref refid="rrc__types_8h_1a9da8b124eb9c3c0045f8926c6a420b4a" kindref="member">RRCDataPtr</ref> rrcCallConv</type>
+        <definition>C_DECL_SPEC RRCDataPtr rrcCallConv getSimulationResult</definition>
+        <argsstring>(RRHandle handle)</argsstring>
+        <name>getSimulationResult</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve the result of the last simulation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns an array (RRCDataPtr) of columns containing the results of the simulation including string labels for the individual columns. The client is responsible for freeing the resulting RRCDataPtr structure. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" line="548" column="36" declfile="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" declline="548" declcolumn="36"/>
+      </memberdef>
+      <memberdef kind="function" id="group__simulation_1ga12a2129f06507eafbace57a8612cc600" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC <ref refid="rrc__types_8h_1a9da8b124eb9c3c0045f8926c6a420b4a" kindref="member">RRCDataPtr</ref> rrcCallConv</type>
+        <definition>C_DECL_SPEC RRCDataPtr rrcCallConv simulateEx</definition>
+        <argsstring>(RRHandle handle, const double timeStart, const double timeEnd, const int numberOfPoints)</argsstring>
+        <name>simulateEx</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <param>
+          <type>const double</type>
+          <declname>timeStart</declname>
+        </param>
+        <param>
+          <type>const double</type>
+          <declname>timeEnd</declname>
+        </param>
+        <param>
+          <type>const int</type>
+          <declname>numberOfPoints</declname>
+        </param>
+        <briefdescription>
+<para>Carry out a time-course simulation based on the given arguments, time start, time end and number of points. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Example: <programlisting><codeline><highlight class="normal">RRCDataPtr<sp/>m;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">double<sp/>timeStart<sp/>=<sp/>0.0;</highlight></codeline>
+<codeline><highlight class="normal">double<sp/>timeEnd<sp/>=<sp/>25;</highlight></codeline>
+<codeline><highlight class="normal">int<sp/>numberOfPoints<sp/>=<sp/>200;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">m<sp/>=<sp/>simulateEx<sp/>(rrHandle,<sp/>timeStart,<sp/>timeEnd,<sp/>numberOfPoints);</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">timeStart</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Time start </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">timeEnd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Time end </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">numberOfPoints</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of points to generate </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns an array (RRCDataPtr) of columns containing the results of the simulation including string labels for the individual columns. The client is responsible for freeing the resulting RRCDataPtr structure. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" line="575" column="36" declfile="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" declline="575" declcolumn="36"/>
+      </memberdef>
+      <memberdef kind="function" id="group__simulation_1ga8f7109b90040ff57b8366c2f1867f066" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC bool rrcCallConv</type>
+        <definition>C_DECL_SPEC bool rrcCallConv oneStep</definition>
+        <argsstring>(RRHandle handle, const double currentTime, const double stepSize, double *value)</argsstring>
+        <name>oneStep</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <param>
+          <type>const double</type>
+          <declname>currentTime</declname>
+        </param>
+        <param>
+          <type>const double</type>
+          <declname>stepSize</declname>
+        </param>
+        <param>
+          <type>double *</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Carry out a one step integration of the model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Example:<programlisting><codeline><highlight class="normal">status<sp/>=<sp/>OneStep<sp/>(rrHandle,<sp/>currentTime,<sp/>timeStep,<sp/>newTimeStep);<sp/></highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">currentTime</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The current time in the simulation </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">stepSize</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The step size to use in the integration </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The new time (currentTime + stepSize)</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns true if successful</para>
+</simplesect>
+Example:<programlisting><codeline><highlight class="normal">status<sp/>=<sp/>OneStep<sp/>(rrHandle,<sp/>currentTime,<sp/>stepSize,<sp/>newTime);<sp/></highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">currentTime</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The current time in the simulation </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">stepSize</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The step size to use in the integration </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">newTime</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The new time (currentTime + stepSize)</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns true if successful </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" line="590" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" declline="590" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="group__simulation_1ga0d05bdfec6dd9387c64dd196ec3d880d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC bool rrcCallConv</type>
+        <definition>C_DECL_SPEC bool rrcCallConv getTimeStart</definition>
+        <argsstring>(RRHandle handle, double *timeStart)</argsstring>
+        <name>getTimeStart</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <param>
+          <type>double *</type>
+          <declname>timeStart</declname>
+        </param>
+        <briefdescription>
+<para>Get the value of the current time start. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Example:<programlisting><codeline><highlight class="normal">status<sp/>=<sp/>getTimeStart<sp/>(rrHandle,<sp/>&amp;timeStart);<sp/></highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">timeStart</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The current value for the time start </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns true if successful </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" line="602" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" declline="602" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="group__simulation_1ga83a02783c6a1c48eb05eafce742972cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC bool rrcCallConv</type>
+        <definition>C_DECL_SPEC bool rrcCallConv getTimeEnd</definition>
+        <argsstring>(RRHandle handle, double *timeEnd)</argsstring>
+        <name>getTimeEnd</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <param>
+          <type>double *</type>
+          <declname>timeEnd</declname>
+        </param>
+        <briefdescription>
+<para>Get the value of the current time end. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Example:<programlisting><codeline><highlight class="normal">status<sp/>=<sp/>getTimeEnd<sp/>(rrHandle,<sp/>&amp;timeEnd);<sp/></highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>timeEnd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The current value for the time end </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns true if successful </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" line="614" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" declline="614" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="group__simulation_1gaaa761b3be4a3348a60c7ae7083d57947" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC bool rrcCallConv</type>
+        <definition>C_DECL_SPEC bool rrcCallConv getNumPoints</definition>
+        <argsstring>(RRHandle handle, int *numPoints)</argsstring>
+        <name>getNumPoints</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <param>
+          <type>int *</type>
+          <declname>numPoints</declname>
+        </param>
+        <briefdescription>
+<para>Get the value of the current number of points. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Example:<programlisting><codeline><highlight class="normal">status<sp/>=<sp/>getNumPoints<sp/>(rrHandle,<sp/>&amp;numberOfPoints);<sp/></highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>numPoints</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The current value for the number of points </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns true if successful </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" line="626" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" declline="626" declcolumn="30"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Deterministic, stochastic, and hybrid simulation algorithms. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

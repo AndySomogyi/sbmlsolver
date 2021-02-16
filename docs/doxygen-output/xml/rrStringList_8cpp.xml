@@ -10,41 +10,23 @@
     <includes refid="rrUtils_8h" local="yes">rrUtils.h</includes>
     <includes refid="rrException_8h" local="yes">rrException.h</includes>
     <incdepgraph>
-      <node id="17">
-        <label>Variant.h</label>
-        <link refid="Variant_8h_source"/>
-        <childnode refid="16" relation="include">
-        </childnode>
-        <childnode refid="18" relation="include">
-        </childnode>
-        <childnode refid="6" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
-      </node>
       <node id="7">
         <label>list</label>
       </node>
+      <node id="13">
+        <label>rrConstants.h</label>
+        <link refid="rrConstants_8h_source"/>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
       <node id="14">
         <label>limits</label>
-      </node>
-      <node id="1">
-        <label>c/rrStringList.cpp</label>
-        <link refid="rrStringList_8cpp"/>
-        <childnode refid="2" relation="include">
-        </childnode>
-        <childnode refid="3" relation="include">
-        </childnode>
-        <childnode refid="4" relation="include">
-        </childnode>
-        <childnode refid="5" relation="include">
-        </childnode>
-        <childnode refid="19" relation="include">
-        </childnode>
-        <childnode refid="21" relation="include">
-        </childnode>
-        <childnode refid="24" relation="include">
-        </childnode>
       </node>
       <node id="22">
         <label>float.h</label>
@@ -52,21 +34,80 @@
       <node id="20">
         <label>../wrappers/C/rrc_types.h</label>
       </node>
+      <node id="19">
+        <label>rrStringList.h</label>
+        <link refid="rrStringList_8h_source"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>rrExporter.h</label>
+        <link refid="rrExporter_8h_source"/>
+      </node>
       <node id="23">
         <label>stdint.h</label>
       </node>
       <node id="6">
         <label>string</label>
       </node>
-      <node id="16">
-        <label>rrExporter.h</label>
-        <link refid="rrExporter_8h_source"/>
-      </node>
       <node id="10">
         <label>map</label>
       </node>
       <node id="25">
         <label>exception</label>
+      </node>
+      <node id="24">
+        <label>rrException.h</label>
+        <link refid="rrException_8h_source"/>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>typeinfo</label>
+      </node>
+      <node id="21">
+        <label>rrUtils.h</label>
+        <link refid="rrUtils_8h_source"/>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+      <node id="4">
+        <label>sstream</label>
+      </node>
+      <node id="15">
+        <label>cstdlib</label>
+      </node>
+      <node id="3">
+        <label>iostream</label>
       </node>
       <node id="5">
         <label>rrStringUtils.h</label>
@@ -92,78 +133,37 @@
         <childnode refid="17" relation="include">
         </childnode>
       </node>
-      <node id="18">
-        <label>typeinfo</label>
-      </node>
-      <node id="8">
-        <label>vector</label>
-      </node>
-      <node id="24">
-        <label>rrException.h</label>
-        <link refid="rrException_8h_source"/>
-        <childnode refid="25" relation="include">
-        </childnode>
-        <childnode refid="6" relation="include">
-        </childnode>
+      <node id="17">
+        <label>Variant.h</label>
+        <link refid="Variant_8h_source"/>
         <childnode refid="16" relation="include">
         </childnode>
-      </node>
-      <node id="4">
-        <label>sstream</label>
-      </node>
-      <node id="19">
-        <label>rrStringList.h</label>
-        <link refid="rrStringList_8h_source"/>
-        <childnode refid="8" relation="include">
+        <childnode refid="18" relation="include">
         </childnode>
         <childnode refid="6" relation="include">
         </childnode>
-        <childnode refid="13" relation="include">
+        <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="20" relation="include">
-        </childnode>
-      </node>
-      <node id="15">
-        <label>cstdlib</label>
-      </node>
-      <node id="3">
-        <label>iostream</label>
       </node>
       <node id="11">
         <label>unordered_map</label>
       </node>
-      <node id="21">
-        <label>rrUtils.h</label>
-        <link refid="rrUtils_8h_source"/>
-        <childnode refid="22" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
-        <childnode refid="6" relation="include">
+      <node id="1">
+        <label>c/rrStringList.cpp</label>
+        <link refid="rrStringList_8cpp"/>
+        <childnode refid="2" relation="include">
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="12" relation="include">
-        </childnode>
-        <childnode refid="16" relation="include">
-        </childnode>
-        <childnode refid="13" relation="include">
+        <childnode refid="4" relation="include">
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="23" relation="include">
+        <childnode refid="19" relation="include">
         </childnode>
-      </node>
-      <node id="13">
-        <label>rrConstants.h</label>
-        <link refid="rrConstants_8h_source"/>
-        <childnode refid="14" relation="include">
+        <childnode refid="21" relation="include">
         </childnode>
-        <childnode refid="6" relation="include">
-        </childnode>
-        <childnode refid="15" relation="include">
-        </childnode>
-        <childnode refid="16" relation="include">
+        <childnode refid="24" relation="include">
         </childnode>
       </node>
       <node id="12">
@@ -177,7 +177,6 @@
       </node>
     </incdepgraph>
     <innernamespace refid="namespacerr">rr</innernamespace>
-    <innernamespace refid="namespacerrc">rrc</innernamespace>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
@@ -207,16 +206,16 @@
 <codeline lineno="22"><highlight class="normal">mStrings(strings)</highlight></codeline>
 <codeline lineno="23"><highlight class="normal">{}</highlight></codeline>
 <codeline lineno="24"><highlight class="normal"></highlight></codeline>
-<codeline lineno="25"><highlight class="normal">StringList::StringList(RRStringArray*<sp/>cp)</highlight></codeline>
+<codeline lineno="25"><highlight class="normal">StringList::StringList(<ref refid="structRRStringArray" kindref="compound">RRStringArray</ref>*<sp/>cp)</highlight></codeline>
 <codeline lineno="26"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(!cp)</highlight></codeline>
 <codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
 <codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="31"><highlight class="normal"></highlight></codeline>
-<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal">(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>cp-&gt;Count;<sp/>i++)</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal">(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>cp-&gt;<ref refid="structRRStringArray_1ac36cf70dc7a2832c24c5dec622fec2fb" kindref="member">Count</ref>;<sp/>i++)</highlight></codeline>
 <codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mStrings.push_back(cp-&gt;String[i]);</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mStrings.push_back(cp-&gt;<ref refid="structRRStringArray_1a848b81ad8aeeb26b39411c462aab1312" kindref="member">String</ref>[i]);</highlight></codeline>
 <codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="36"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="37"><highlight class="normal"></highlight></codeline>
@@ -234,7 +233,7 @@
 <codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="50"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="51"><highlight class="normal"></highlight></codeline>
-<codeline lineno="52"><highlight class="normal">StringList::StringList(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>StringList&amp;<sp/>cp)</highlight></codeline>
+<codeline lineno="52"><highlight class="normal">StringList::StringList(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classrr_1_1StringList" kindref="compound">StringList</ref>&amp;<sp/>cp)</highlight></codeline>
 <codeline lineno="53"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>mStrings<sp/>=<sp/>cp.mStrings;</highlight></codeline>
 <codeline lineno="55"><highlight class="normal">}</highlight></codeline>
@@ -277,7 +276,7 @@
 <codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>mStrings[index];</highlight></codeline>
 <codeline lineno="93"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="94"><highlight class="normal"></highlight></codeline>
-<codeline lineno="95"><highlight class="normal"></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classrr_1_1StringList_1a7256639adee237b46746b9ed67a74ee9" kindref="member">StringList::size</ref>()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classrr_1_1StringList_1ab1c2e10fd65a3a6c3600114b8d704760" kindref="member">StringList::size</ref>()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
 <codeline lineno="96"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
 <codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>mStrings.size();</highlight></codeline>
 <codeline lineno="98"><highlight class="normal">}</highlight></codeline>
@@ -317,9 +316,9 @@
 <codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="133"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="134"><highlight class="normal"></highlight></codeline>
-<codeline lineno="135"><highlight class="normal">StringList<sp/>StringList::operator-(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>StringList&amp;<sp/>rhs)</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><ref refid="classrr_1_1StringList" kindref="compound">StringList</ref><sp/>StringList::operator-(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classrr_1_1StringList" kindref="compound">StringList</ref>&amp;<sp/>rhs)</highlight></codeline>
 <codeline lineno="136"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>StringList<sp/>newList;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classrr_1_1StringList" kindref="compound">StringList</ref><sp/>newList;</highlight></codeline>
 <codeline lineno="138"><highlight class="normal"></highlight></codeline>
 <codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal">(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>Count();<sp/>i++)</highlight></codeline>
 <codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
@@ -339,7 +338,7 @@
 <codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="155"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="156"><highlight class="normal"></highlight></codeline>
-<codeline lineno="157"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>StringList::Append(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>StringList&amp;<sp/>list)</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>StringList::Append(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classrr_1_1StringList" kindref="compound">StringList</ref>&amp;<sp/>list)</highlight></codeline>
 <codeline lineno="158"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal">(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>list.Count();<sp/>i++)</highlight></codeline>
 <codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
@@ -388,19 +387,19 @@
 <codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>mStrings.clear();</highlight></codeline>
 <codeline lineno="204"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="205"><highlight class="normal"></highlight></codeline>
-<codeline lineno="206"><highlight class="normal">StringList&amp;<sp/>StringList::operator=(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>StringList&amp;<sp/>rhs)</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><ref refid="classrr_1_1StringList" kindref="compound">StringList</ref>&amp;<sp/>StringList::operator=(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classrr_1_1StringList" kindref="compound">StringList</ref>&amp;<sp/>rhs)</highlight></codeline>
 <codeline lineno="207"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>mStrings<sp/>=<sp/>rhs.mStrings;</highlight></codeline>
 <codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="210"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="211"><highlight class="normal"></highlight></codeline>
-<codeline lineno="212"><highlight class="normal">StringList&amp;<sp/>StringList::operator=(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>vector&lt;string&gt;&amp;<sp/>rhs)</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><ref refid="classrr_1_1StringList" kindref="compound">StringList</ref>&amp;<sp/>StringList::operator=(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>vector&lt;string&gt;&amp;<sp/>rhs)</highlight></codeline>
 <codeline lineno="213"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>mStrings<sp/>=<sp/>rhs;</highlight></codeline>
 <codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="216"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="217"><highlight class="normal"></highlight></codeline>
-<codeline lineno="218"><highlight class="normal">ostream&amp;<sp/>operator&lt;&lt;(ostream&amp;<sp/>stream,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>StringList&amp;<sp/>list)</highlight></codeline>
+<codeline lineno="218"><highlight class="normal">ostream&amp;<sp/>operator&lt;&lt;(ostream&amp;<sp/>stream,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classrr_1_1StringList" kindref="compound">StringList</ref>&amp;<sp/>list)</highlight></codeline>
 <codeline lineno="219"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>stream&lt;&lt;</highlight><highlight class="stringliteral">&quot;{&quot;</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal">(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>list.Count();<sp/>i++)</highlight></codeline>

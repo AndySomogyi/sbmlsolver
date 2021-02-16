@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">roadrunner
-   &#160;<span id="projectnumber">2.0.2</span>
+   &#160;<span id="projectnumber">2.0.5</span>
    </div>
    <div id="projectbrief">Fast simulator for SBML models</div>
   </td>
@@ -63,7 +63,7 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_1784a01aa976a8c78ef5dfc3737bcac8.html">c</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_34dbdef0d0e5ad676053452b99dda973.html">c</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -98,9 +98,9 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">string</span>                      getTemporaryDirectory();</div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keyword">virtual</span>                             <a class="code" href="classrr_1_1Compiler.html">Compiler</a>* getCompiler();</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keyword">virtual</span>                             <a class="code" href="classrr_1_1Compiler.html">Compiler</a>* <a class="code" href="group__utility.html#gab3490137aa84bb6424ae8ccba0eb135c">getCompiler</a>();</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keyword">virtual</span>                             <span class="keywordtype">bool</span> setCompiler(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; compiler);</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keyword">virtual</span>                             <span class="keywordtype">bool</span> <a class="code" href="group__utility.html#ga452d753989b5142b29528ae5865224ae">setCompiler</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; compiler);</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordtype">string</span>                              getHeaderCode();</div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordtype">string</span>                              getSourceCode();</div>
@@ -141,7 +141,7 @@ $(function() {
 <div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160; </div>
 <div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    <span class="keywordtype">string</span>                              getHeaderCodeFileName();</div>
 <div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    <span class="keywordtype">bool</span>                                saveSourceCodeToFolder(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; folder, <span class="keyword">const</span> <span class="keywordtype">string</span>&amp; baseName);</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    <span class="keywordtype">int</span>                                 getNumberOfFloatingSpecies();</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    <span class="keywordtype">int</span>                                 <a class="code" href="group__floating.html#gab520e3bf495d490a96c5ee19870e7691">getNumberOfFloatingSpecies</a>();</div>
 <div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160; </div>
 <div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160; </div>
 <div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    <span class="keywordtype">string</span>                              convertUserFunctionExpression(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; equation);</div>
@@ -210,10 +210,13 @@ $(function() {
 <div class="ttc" id="aclassrr_1_1CCompiler_html"><div class="ttname"><a href="classrr_1_1CCompiler.html">rr::CCompiler</a></div><div class="ttdoc">compiler class for the C based model system.</div><div class="ttdef"><b>Definition:</b> rrCCompiler.h:18</div></div>
 <div class="ttc" id="aclassrr_1_1Scanner_html"><div class="ttname"><a href="classrr_1_1Scanner.html">rr::Scanner</a></div><div class="ttdef"><b>Definition:</b> rrScanner.h:36</div></div>
 <div class="ttc" id="aclassrr_1_1ExecutableModel_html"><div class="ttname"><a href="classrr_1_1ExecutableModel.html">rr::ExecutableModel</a></div><div class="ttdoc">Base class for all code generation systems; allows compiling and evaluating the model.</div><div class="ttdef"><b>Definition:</b> rrExecutableModel.h:118</div></div>
+<div class="ttc" id="agroup__utility_html_ga452d753989b5142b29528ae5865224ae"><div class="ttname"><a href="group__utility.html#ga452d753989b5142b29528ae5865224ae">setCompiler</a></div><div class="ttdeci">C_DECL_SPEC bool rrcCallConv setCompiler(RRHandle handle, const char *fNameWithPath)</div><div class="ttdoc">Set the path and filename to the compiler to be used by roadrunner.</div></div>
+<div class="ttc" id="agroup__utility_html_gab3490137aa84bb6424ae8ccba0eb135c"><div class="ttname"><a href="group__utility.html#gab3490137aa84bb6424ae8ccba0eb135c">getCompiler</a></div><div class="ttdeci">C_DECL_SPEC char *rrcCallConv getCompiler(RRHandle handle)</div><div class="ttdoc">Get the name of the compiler currently being used by roadrunner.</div></div>
 <div class="ttc" id="aclassrr_1_1CModelGenerator_html"><div class="ttname"><a href="classrr_1_1CModelGenerator.html">rr::CModelGenerator</a></div><div class="ttdoc">Generate executable SBML models by generating and compiling C source code into shared libraries with ...</div><div class="ttdef"><b>Definition:</b> rrCModelGenerator.h:20</div></div>
 <div class="ttc" id="aclassrr_1_1Compiler_html"><div class="ttname"><a href="classrr_1_1Compiler.html">rr::Compiler</a></div><div class="ttdoc">interface to manipulate 'compiler' settings.</div><div class="ttdef"><b>Definition:</b> rrCompiler.h:26</div></div>
 <div class="ttc" id="aclassrr_1_1CodeBuilder_html"><div class="ttname"><a href="classrr_1_1CodeBuilder.html">rr::CodeBuilder</a></div><div class="ttdef"><b>Definition:</b> rrCodeBuilder.h:9</div></div>
 <div class="ttc" id="aclassrr_1_1NOMSupport_html"><div class="ttname"><a href="classrr_1_1NOMSupport.html">rr::NOMSupport</a></div><div class="ttdoc">Methods to query various information from an SBML document.</div><div class="ttdef"><b>Definition:</b> rrNOMSupport.h:41</div></div>
+<div class="ttc" id="agroup__floating_html_gab520e3bf495d490a96c5ee19870e7691"><div class="ttname"><a href="group__floating.html#gab520e3bf495d490a96c5ee19870e7691">getNumberOfFloatingSpecies</a></div><div class="ttdeci">C_DECL_SPEC int rrcCallConv getNumberOfFloatingSpecies(RRHandle handle)</div><div class="ttdoc">Returns the number of floating species in the model.</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by&#160;<a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.20

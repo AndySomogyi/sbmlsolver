@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">roadrunner
-   &#160;<span id="projectnumber">2.0.2</span>
+   &#160;<span id="projectnumber">2.0.5</span>
    </div>
    <div id="projectbrief">Fast simulator for SBML models</div>
   </td>
@@ -63,7 +63,7 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_211fb134ce6a4c3329568c5b3817f0ae.html">llvm</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_86ef421483dbf1ca9f08de3e5d2b2c52.html">llvm</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -95,14 +95,14 @@ $(function() {
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <a class="code" href="classrrllvm_1_1LLVMCompiler.html">LLVMCompiler</a>();</div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keyword">virtual</span> ~<a class="code" href="classrrllvm_1_1LLVMCompiler.html">LLVMCompiler</a>();</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <span class="keyword">virtual</span> std::string getCompiler() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> setCompiler(<span class="keyword">const</span> std::string&amp; compiler);</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <span class="keyword">virtual</span> std::string <a class="code" href="group__utility.html#gab3490137aa84bb6424ae8ccba0eb135c">getCompiler</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="group__utility.html#ga452d753989b5142b29528ae5865224ae">setCompiler</a>(<span class="keyword">const</span> std::string&amp; compiler);</div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="keyword">virtual</span> std::string getCompilerLocation() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> setCompilerLocation(<span class="keyword">const</span> std::string&amp; path);</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="keyword">virtual</span> std::string <a class="code" href="group__utility.html#ga601a1298cfd5bea6847975ddd1ab5a2a">getCompilerLocation</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="group__utility.html#gab910a88973c4f823b1f576c7767cc0d5">setCompilerLocation</a>(<span class="keyword">const</span> std::string&amp; path);</div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keyword">virtual</span> std::string getSupportCodeFolder() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> setSupportCodeFolder(<span class="keyword">const</span> std::string&amp; path);</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keyword">virtual</span> std::string <a class="code" href="group__utility.html#ga1462be979b060f04caa87394d5a53173">getSupportCodeFolder</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="group__utility.html#ga0d8069e1538d2c41f243e3b6d56abf41">setSupportCodeFolder</a>(<span class="keyword">const</span> std::string&amp; path);</div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keyword">virtual</span> std::string getDefaultTargetTriple();</div>
@@ -111,14 +111,21 @@ $(function() {
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keyword">virtual</span> std::string getHostCPUName();</div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keyword">virtual</span> std::string getVersion();</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keyword">virtual</span> std::string <a class="code" href="rrc__api_8h.html#a2d799defcade869e5610bbe3b547f39c">getVersion</a>();</div>
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;};</div>
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;} <span class="comment">/* namespace rr */</span></div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* LLVMCompilerH */</span><span class="preprocessor"></span></div>
 </div><!-- fragment --></div><!-- contents -->
+<div class="ttc" id="agroup__utility_html_ga452d753989b5142b29528ae5865224ae"><div class="ttname"><a href="group__utility.html#ga452d753989b5142b29528ae5865224ae">setCompiler</a></div><div class="ttdeci">C_DECL_SPEC bool rrcCallConv setCompiler(RRHandle handle, const char *fNameWithPath)</div><div class="ttdoc">Set the path and filename to the compiler to be used by roadrunner.</div></div>
+<div class="ttc" id="agroup__utility_html_gab3490137aa84bb6424ae8ccba0eb135c"><div class="ttname"><a href="group__utility.html#gab3490137aa84bb6424ae8ccba0eb135c">getCompiler</a></div><div class="ttdeci">C_DECL_SPEC char *rrcCallConv getCompiler(RRHandle handle)</div><div class="ttdoc">Get the name of the compiler currently being used by roadrunner.</div></div>
+<div class="ttc" id="arrc__api_8h_html_a2d799defcade869e5610bbe3b547f39c"><div class="ttname"><a href="rrc__api_8h.html#a2d799defcade869e5610bbe3b547f39c">getVersion</a></div><div class="ttdeci">C_DECL_SPEC int rrcCallConv getVersion()</div></div>
 <div class="ttc" id="aclassrr_1_1Compiler_html"><div class="ttname"><a href="classrr_1_1Compiler.html">rr::Compiler</a></div><div class="ttdoc">interface to manipulate 'compiler' settings.</div><div class="ttdef"><b>Definition:</b> rrCompiler.h:26</div></div>
+<div class="ttc" id="agroup__utility_html_ga601a1298cfd5bea6847975ddd1ab5a2a"><div class="ttname"><a href="group__utility.html#ga601a1298cfd5bea6847975ddd1ab5a2a">getCompilerLocation</a></div><div class="ttdeci">C_DECL_SPEC char *rrcCallConv getCompilerLocation(RRHandle handle)</div><div class="ttdoc">Get the path to a folder containing the compiler being used.</div></div>
+<div class="ttc" id="agroup__utility_html_ga0d8069e1538d2c41f243e3b6d56abf41"><div class="ttname"><a href="group__utility.html#ga0d8069e1538d2c41f243e3b6d56abf41">setSupportCodeFolder</a></div><div class="ttdeci">C_DECL_SPEC bool rrcCallConv setSupportCodeFolder(RRHandle handle, const char *folder)</div><div class="ttdoc">Set the path to a folder containing support code for model generation.</div></div>
+<div class="ttc" id="agroup__utility_html_gab910a88973c4f823b1f576c7767cc0d5"><div class="ttname"><a href="group__utility.html#gab910a88973c4f823b1f576c7767cc0d5">setCompilerLocation</a></div><div class="ttdeci">C_DECL_SPEC bool rrcCallConv setCompilerLocation(RRHandle handle, const char *folder)</div><div class="ttdoc">Set the path to a folder containing the compiler to be used.</div></div>
 <div class="ttc" id="aclassrrllvm_1_1LLVMCompiler_html"><div class="ttname"><a href="classrrllvm_1_1LLVMCompiler.html">rrllvm::LLVMCompiler</a></div><div class="ttdef"><b>Definition:</b> LLVMCompiler.h:20</div></div>
+<div class="ttc" id="agroup__utility_html_ga1462be979b060f04caa87394d5a53173"><div class="ttname"><a href="group__utility.html#ga1462be979b060f04caa87394d5a53173">getSupportCodeFolder</a></div><div class="ttdeci">C_DECL_SPEC char *rrcCallConv getSupportCodeFolder(RRHandle handle)</div><div class="ttdoc">Get the path to a folder containing support code.</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by&#160;<a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.20

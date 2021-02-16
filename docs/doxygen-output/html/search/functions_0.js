@@ -1,8 +1,8 @@
 var searchData=
 [
-  ['addcompartment_1096',['addCompartment',['../classrr_1_1RoadRunner.html#a7e475483794fc8b59d3b1b423607b2f5',1,'rr::RoadRunner']]],
-  ['addparameter_1097',['addParameter',['../classrr_1_1RoadRunner.html#a68e98a5de63e4dc8418738290d4c762b',1,'rr::RoadRunner']]],
-  ['addspecies_1098',['addSpecies',['../classrr_1_1RoadRunner.html#ac4b283ab73c62c17ad2b241f9389f868',1,'rr::RoadRunner']]],
-  ['applyevents_1099',['applyEvents',['../classrr_1_1ExecutableModel.html#ae30181bdbfd3e4fedc2dedcf988ecb95',1,'rr::ExecutableModel::applyEvents()'],['../classrr_1_1CompiledExecutableModel.html#ab377d0bba85bbd8c8eec4f2ad132c41b',1,'rr::CompiledExecutableModel::applyEvents()'],['../classrrllvm_1_1EventQueue.html#aba1c38087a2d466d482c5d9f6a01ca01',1,'rrllvm::EventQueue::applyEvents()'],['../classrrllvm_1_1LLVMExecutableModel.html#abf91b16221e311777c120258a1e8ef39',1,'rrllvm::LLVMExecutableModel::applyEvents()']]],
-  ['assignevent_1100',['assignEvent',['../classrrllvm_1_1LLVMExecutableModel.html#ad9f43f6861cfa13d83210e4dfdadd7d7',1,'rrllvm::LLVMExecutableModel']]]
+  ['_5fgetnumindfloatingspecies_1503',['_getNumIndFloatingSpecies',['../rrc__api_8h.html#a711847942dd7b81a1474cb5556603ff3',1,'rrc_api.h']]],
+  ['_5fgetnumraterules_1504',['_getNumRateRules',['../rrc__api_8h.html#ae6f06ba2a0d999cf6867a242217fea6b',1,'rrc_api.h']]],
+  ['_5fgetstatevector_1505',['_getStateVector',['../rrc__api_8h.html#a6afff8019f209e1bbe3e79cc0fc82cef',1,'rrc_api.h']]],
+  ['_5fgetstatevectorrate_1506',['_getStateVectorRate',['../rrc__api_8h.html#a50a085cd827a2aedfd8cd905beca1847',1,'rrc_api.h']]],
+  ['_5fgettime_1507',['_getTime',['../rrc__api_8h.html#a1b426ce35bbc4cffe2b1ac03824e4ec6',1,'rrc_api.h']]]
 ];

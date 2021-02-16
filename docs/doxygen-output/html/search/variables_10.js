@@ -1,15 +1,14 @@
 var searchData=
 [
-  ['selectiontype_1612',['selectionType',['../classrr_1_1SelectionRecord.html#adae706f827ce8b7c3873b2fd77fa833c',1,'rr::SelectionRecord']]],
-  ['simulateopt_1613',['simulateOpt',['../classrr_1_1RoadRunnerImpl.html#a4097a1eb7855c1ddc66c9a18db9f3bfc',1,'rr::RoadRunnerImpl']]],
-  ['size_1614',['size',['../classrr_1_1LoadSBMLOptions.html#aa73e004cfce50848e0ea5a9803800d3c',1,'rr::LoadSBMLOptions::size()'],['../structrrllvm_1_1LLVMModelData.html#a14eb8ba27b1fcee72817ab9a05638afe',1,'rrllvm::LLVMModelData::size()']]],
-  ['srsize_1615',['srSize',['../structSModelData.html#ae7c68870cd0d4f54343b4f120551492f',1,'SModelData']]],
-  ['start_1616',['start',['../classrr_1_1SimulateOptions.html#ae25c38171cedd08bf0cc43932c07822e',1,'rr::SimulateOptions']]],
-  ['statevector_1617',['stateVector',['../structrrllvm_1_1LLVMModelData.html#a1d6d7fb287227490a08abd550f10074c',1,'rrllvm::LLVMModelData']]],
-  ['statevectorrate_1618',['stateVectorRate',['../structrrllvm_1_1LLVMModelData.html#aab22d8a200ecb761c1255711401298dc',1,'rrllvm::LLVMModelData']]],
-  ['statevectorsize_1619',['stateVectorSize',['../structrrllvm_1_1LLVMModelData.html#a13d7b1094bd407bc0422943c196f4f09',1,'rrllvm::LLVMModelData']]],
-  ['steady_5fstate_5fsolver_1620',['steady_state_solver',['../classrr_1_1RoadRunnerImpl.html#a63ac6d4a8a7ff2a6ccd257f524a90207',1,'rr::RoadRunnerImpl']]],
-  ['steps_1621',['steps',['../classrr_1_1SimulateOptions.html#a20008b16d84ef52a564648671d0c544b',1,'rr::SimulateOptions']]],
-  ['stoichiometry_1622',['stoichiometry',['../structrrllvm_1_1LLVMModelData.html#a49e6b41b71f22d6a7a68c1c667d86dbf',1,'rrllvm::LLVMModelData']]],
-  ['structured_5fresult_1623',['structured_result',['../classrr_1_1SimulateOptions.html#a9087842fab7661b93dbc103e02f8908d',1,'rr::SimulateOptions']]]
+  ['random_2319',['random',['../structrrllvm_1_1LLVMModelData.html#a9df55f11ff25e0a045ce4d7fcee6a29b',1,'rrllvm::LLVMModelData']]],
+  ['raterule_2320',['rateRule',['../classrr_1_1Symbol.html#a16e22ed776b62e27b1f01cf56d53646c',1,'rr::Symbol']]],
+  ['raterulerates_2321',['rateRuleRates',['../structSModelData.html#a8639637a1926a6f583c02bbd8e83f35a',1,'SModelData::rateRuleRates()'],['../structrrllvm_1_1LLVMModelData.html#a56b5c0718c3ada5dcbba2162778badcc',1,'rrllvm::LLVMModelData::rateRuleRates()']]],
+  ['raterulevalues_2322',['rateRuleValues',['../structSModelData.html#ac7df09202d585b7c48e76fe95ad44073',1,'SModelData']]],
+  ['raterulevaluesalias_2323',['rateRuleValuesAlias',['../structrrllvm_1_1LLVMModelData.html#a8c97c01aea7c7e1f8584447fe8296b7f',1,'rrllvm::LLVMModelData']]],
+  ['re_2324',['re',['../structRRComplex.html#a0579715e217fe445879e93003ff90117',1,'RRComplex']]],
+  ['reactions_2325',['reactions',['../classrrllvm_1_1LLVMModelSymbols.html#ac3d63fce05b0352af53d391871b6f5a8',1,'rrllvm::LLVMModelSymbols']]],
+  ['reset_5fmodel_2326',['reset_model',['../classrr_1_1SimulateOptions.html#a4fd459e58c6ad47dc8cd271591f28a3a',1,'rr::SimulateOptions']]],
+  ['roadrunneroptions_2327',['roadRunnerOptions',['../classrr_1_1RoadRunnerImpl.html#ab0d81fec655750d5e7a46be8be2d7aaa',1,'rr::RoadRunnerImpl']]],
+  ['rowptr_2328',['rowptr',['../structrr_1_1csr__matrix__t.html#ac4f924004760ce3905ab171a054813c0',1,'rr::csr_matrix_t']]],
+  ['rsize_2329',['RSize',['../structRRDoubleMatrix.html#a674431f97c6ce4a6ef05248a67ea1c54',1,'RRDoubleMatrix::RSize()'],['../structRRComplexMatrix.html#ad576272aa8a6bbd752dc3628307f512a',1,'RRComplexMatrix::RSize()'],['../structRRCData.html#aaebd12e68638f3572eea166c7dd0af69',1,'RRCData::RSize()']]]
 ];

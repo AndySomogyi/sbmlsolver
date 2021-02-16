@@ -31,11 +31,5 @@ By using :meth:`~roadrunner.Solver.getSettings`, you can check settings accepted
 
 For information on what the settings represent, try :meth:`~roadrunner.Solver.getDescription`.
 Check :ref:`roadrunner-solver` for additional information.
-	  
-The following methods deal with stochastic simulation:
-
-.. autosummary::
-
-   RoadRunner.gillespie
 
    

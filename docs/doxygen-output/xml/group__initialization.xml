@@ -1,0 +1,259 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+  <compounddef id="group__initialization" kind="group">
+    <compoundname>initialization</compoundname>
+    <title>Library initialization and termination methods</title>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__initialization_1ga3285113641ecf1dc35c39fceb39b60fc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC <ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref> rrcCallConv</type>
+        <definition>C_DECL_SPEC RRHandle rrcCallConv createRRInstance</definition>
+        <argsstring>(void)</argsstring>
+        <name>createRRInstance</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+<para>Initialize a new roadRunner instance and return a handle to it. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Returns a RoadRunner instance, returns null if it fails </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" line="59" column="34" declfile="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" declline="59" declcolumn="34"/>
+      </memberdef>
+      <memberdef kind="function" id="group__initialization_1ga0bd8e459a637346cdf196f91148015ec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC <ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref> rrcCallConv</type>
+        <definition>C_DECL_SPEC RRHandle rrcCallConv createRRInstanceEx</definition>
+        <argsstring>(const char *tempFolder, const char *compiler)</argsstring>
+        <name>createRRInstanceEx</name>
+        <param>
+          <type>const char *</type>
+          <declname>tempFolder</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>compiler</declname>
+        </param>
+        <briefdescription>
+<para>Initialize a new roadRunner instance and return a handle to it. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tempFolder</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>set the roadrunner temporary folder </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">compiler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>may be NULL, if NULL, uses default compiler. If LLVM build is enabled, setting compiler to &quot;llvm&quot; enables llvm based model generation. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns a RoadRunner instance, returns null if it fails</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tempFolder</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>set roadrunners temporary folder </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">compiler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>may be NULL, if NULL, uses default compiler. If LLVM build is enabled, setting compiler to &quot;llvm&quot; enables llvm based model generation. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns a RoadRunner instance, returns null if it fails </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" line="71" column="34" declfile="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" declline="71" declcolumn="34"/>
+      </memberdef>
+      <memberdef kind="function" id="group__initialization_1gae0b2f65464742bba3beb0ad38dcdd863" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC bool rrcCallConv</type>
+        <definition>C_DECL_SPEC bool rrcCallConv freeRRInstance</definition>
+        <argsstring>(RRHandle handle)</argsstring>
+        <name>freeRRInstance</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+<para>Free the roadRunner instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" line="78" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" declline="78" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="group__initialization_1ga0717cdb4fb8684f97a2b6793544ba6e2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC char *rrcCallConv</type>
+        <definition>char * getInstallFolder</definition>
+        <argsstring>(void)</argsstring>
+        <name>getInstallFolder</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+<para>Returns the folder in which the RoadRunner wrappers is installed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Pointer to string holding the install folder</para>
+</simplesect>
+<simplesect kind="return"><para>Pointer to string holding the install folder </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" line="85" column="31" declfile="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" declline="85" declcolumn="31"/>
+      </memberdef>
+      <memberdef kind="function" id="group__initialization_1gabe314ab514c04cd902c078b864f22a64" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC bool rrcCallConv</type>
+        <definition>C_DECL_SPEC bool rrcCallConv setInstallFolder</definition>
+        <argsstring>(const char *folder)</argsstring>
+        <name>setInstallFolder</name>
+        <param>
+          <type>const char *</type>
+          <declname>folder</declname>
+        </param>
+        <briefdescription>
+<para>Set the internal string containing the folder in where the RoadRunner C wrappers is installed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">folder</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to string holding the install folder </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Boolean indicating success </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" line="93" column="32" declfile="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" declline="93" declcolumn="32"/>
+      </memberdef>
+      <memberdef kind="function" id="group__initialization_1gacb21c6ed7c891635f41cfd43e99cda2f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC bool rrcCallConv</type>
+        <definition>C_DECL_SPEC bool rrcCallConv setComputeAndAssignConservationLaws</definition>
+        <argsstring>(RRHandle handle, const bool On_Or_Off)</argsstring>
+        <name>setComputeAndAssignConservationLaws</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <param>
+          <type>const bool</type>
+          <declname>On_Or_Off</declname>
+        </param>
+        <briefdescription>
+<para>Enable or disable conservation analysis. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">On_Or_Off</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Set true to switch on conservation analysis </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns true if successful </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" line="324" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" declline="324" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="group__initialization_1ga3e9ca24ab5e08fa5a5c70aad4d9d255c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC int rrcCallConv</type>
+        <definition>C_DECL_SPEC int rrcCallConv getComputeAndAssignConservationLaws</definition>
+        <argsstring>(RRHandle handle, int *value)</argsstring>
+        <name>getComputeAndAssignConservationLaws</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <param>
+          <type>int *</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Get the value of the moiety conservation setting. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A place to store the value </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns true if successful </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="333" column="29" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="333" declcolumn="29"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Initialize library and terminate library instance. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

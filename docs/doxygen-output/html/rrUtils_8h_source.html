@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">roadrunner
-   &#160;<span id="projectnumber">2.0.2</span>
+   &#160;<span id="projectnumber">2.0.5</span>
    </div>
    <div id="projectbrief">Fast simulator for SBML models</div>
   </td>
@@ -143,7 +143,7 @@ $(function() {
 <div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;RR_DECLSPEC <span class="keyword">const</span> <span class="keywordtype">char</span>      getPathSeparator();</div>
 <div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160; </div>
 <div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;RR_DECLSPEC vector&lt;string&gt;  getLinesInFile(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; fName);</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;RR_DECLSPEC <span class="keywordtype">string</span>          getFileContent(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; fName);</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;RR_DECLSPEC <span class="keywordtype">string</span>          <a class="code" href="rrc__utilities_8h.html#acc9949f745af42ea6b3539620e2b8d9d">getFileContent</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; fName);</div>
 <div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;RR_DECLSPEC <span class="keywordtype">void</span>            createTestSuiteFileNameParts(<span class="keywordtype">int</span> caseNr, <span class="keyword">const</span> <span class="keywordtype">string</span>&amp; postFixPart, <span class="keywordtype">string</span>&amp; FilePath, <span class="keywordtype">string</span>&amp; modelFileName, <span class="keywordtype">string</span>&amp; settingsFileName, <span class="keywordtype">string</span>&amp; descriptionFileName);</div>
 <div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;RR_DECLSPEC <span class="keywordtype">string</span>          getTestSuiteSubFolderName(<span class="keywordtype">int</span> caseNr);</div>
 <div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160; </div>
@@ -160,8 +160,8 @@ $(function() {
 <div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;RR_DECLSPEC <span class="keywordtype">bool</span>            copyCArrayToStdVector(<span class="keyword">const</span> <span class="keywordtype">bool</span>* src,    vector&lt;bool&gt;&amp; dest, <span class="keywordtype">int</span> size);</div>
 <div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;RR_DECLSPEC <span class="keywordtype">bool</span>            copyStdVectorToCArray(<span class="keyword">const</span> vector&lt;double&gt;&amp; src, <span class="keywordtype">double</span>* dest,  <span class="keywordtype">int</span> size);</div>
 <div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;RR_DECLSPEC <span class="keywordtype">bool</span>            copyStdVectorToCArray(<span class="keyword">const</span> vector&lt;bool&gt;&amp;   src,  <span class="keywordtype">bool</span>*  dest,  <span class="keywordtype">int</span> size);</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;RR_DECLSPEC <span class="keywordtype">double</span>*         createVector(<span class="keyword">const</span> vector&lt;double&gt;&amp; vec);</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;RR_DECLSPEC vector&lt;double&gt;  createVector(<span class="keyword">const</span> <span class="keywordtype">double</span>* src, <span class="keyword">const</span> <span class="keywordtype">int</span>&amp; size);</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;RR_DECLSPEC <span class="keywordtype">double</span>*         <a class="code" href="group__helperRoutines.html#ga9f52eab51dfe4dcd3d87538bf8ecd453">createVector</a>(<span class="keyword">const</span> vector&lt;double&gt;&amp; vec);</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;RR_DECLSPEC vector&lt;double&gt;  <a class="code" href="group__helperRoutines.html#ga9f52eab51dfe4dcd3d87538bf8ecd453">createVector</a>(<span class="keyword">const</span> <span class="keywordtype">double</span>* src, <span class="keyword">const</span> <span class="keywordtype">int</span>&amp; size);</div>
 <div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160; </div>
 <div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;<span class="preprocessor">#if defined(_WIN32) || defined(__WIN32__)</span></div>
 <div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;RR_DECLSPEC HINSTANCE       loadDLL(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; dll);</div>
@@ -180,6 +180,8 @@ $(function() {
 <div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;} <span class="comment">// rr Namespace</span></div>
 <div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
+<div class="ttc" id="agroup__helperRoutines_html_ga9f52eab51dfe4dcd3d87538bf8ecd453"><div class="ttname"><a href="group__helperRoutines.html#ga9f52eab51dfe4dcd3d87538bf8ecd453">createVector</a></div><div class="ttdeci">C_DECL_SPEC RRVectorPtr rrcCallConv createVector(int size)</div><div class="ttdoc">Create a new vector with a given size.</div></div>
+<div class="ttc" id="arrc__utilities_8h_html_acc9949f745af42ea6b3539620e2b8d9d"><div class="ttname"><a href="rrc__utilities_8h.html#acc9949f745af42ea6b3539620e2b8d9d">getFileContent</a></div><div class="ttdeci">C_DECL_SPEC char *rrcCallConv getFileContent(const char *fName)</div><div class="ttdoc">Retrieves the the content of a file.</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by&#160;<a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.20

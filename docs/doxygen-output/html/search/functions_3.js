@@ -1,10 +1,9 @@
 var searchData=
 [
-  ['enableconsolelogging_1158',['enableConsoleLogging',['../classrr_1_1Logger.html#a859a9358480196476351e5e2a3466b71',1,'rr::Logger']]],
-  ['enablefilelogging_1159',['enableFileLogging',['../classrr_1_1Logger.html#a2353c535f4e74dead4f0f1267556a906',1,'rr::Logger']]],
-  ['ensuresolversregistered_1160',['ensureSolversRegistered',['../classrr_1_1RoadRunner.html#a6bc7b431bfe8c1ba10560357ddd72d61',1,'rr::RoadRunner']]],
-  ['eraseexpiredevents_1161',['eraseExpiredEvents',['../classrrllvm_1_1EventQueue.html#ae8910363f048acba859cdff811a5cbdb',1,'rrllvm::EventQueue']]],
-  ['eulerintegrator_1162',['EulerIntegrator',['../classrr_1_1EulerIntegrator.html#afc90e9a20043ba1a05db9adba8d53cfe',1,'rr::EulerIntegrator']]],
-  ['evalinitialconditions_1163',['evalInitialConditions',['../classrrllvm_1_1LLVMExecutableModel.html#aa0e78adf76883e1eadcf4cdd1f0179ff',1,'rrllvm::LLVMExecutableModel']]],
-  ['eventcodegen_1164',['eventCodeGen',['../classrrllvm_1_1EventCodeGenBase.html#a825eadbbdc0c0240646a375f82295113',1,'rrllvm::EventCodeGenBase']]]
+  ['deleteitem_1604',['deleteItem',['../classrr_1_1Dictionary.html#aafd395297acc9cb73ea1e244b3f02d5c',1,'rr::Dictionary::deleteItem()'],['../classrr_1_1BasicDictionary.html#af80331f200f57eaa1d22c85104731dda',1,'rr::BasicDictionary::deleteItem()'],['../classrr_1_1EulerIntegrator.html#a370a0145394d1a9ed17a798565651369',1,'rr::EulerIntegrator::deleteItem()'],['../classrr_1_1NLEQ1Interface.html#ac6515e4785ab7094a19bf3e0747c5f6b',1,'rr::NLEQ1Interface::deleteItem()'],['../classrr_1_1NLEQ2Interface.html#a923f768a00e878aed2fd762fec66479a',1,'rr::NLEQ2Interface::deleteItem()'],['../classrr_1_1LoadSBMLOptions.html#ab1cf127ce1f97bab98be173fd1f48e80',1,'rr::LoadSBMLOptions::deleteItem()']]],
+  ['disableconsolelogging_1605',['disableConsoleLogging',['../classrr_1_1Logger.html#a65631bebd188023ff23a263e8d1b2ea2',1,'rr::Logger']]],
+  ['disablefilelogging_1606',['disableFileLogging',['../classrr_1_1Logger.html#a64d56c09af0322f3ec3164f4376fd624',1,'rr::Logger']]],
+  ['disablelogging_1607',['disableLogging',['../classrr_1_1Logger.html#adb9e082ec2b6d896fe4f8f3158cf8dbc',1,'rr::Logger']]],
+  ['disableloggingtoconsole_1608',['disableLoggingToConsole',['../group__logging.html#gaa5be6edee1af88ca1f87bf17568ea1cb',1,'rrc_logging_api.h']]],
+  ['disableloggingtofile_1609',['disableLoggingToFile',['../group__logging.html#gaed2bf69408c13ca8e3d65149261e6689',1,'rrc_logging_api.h']]]
 ];

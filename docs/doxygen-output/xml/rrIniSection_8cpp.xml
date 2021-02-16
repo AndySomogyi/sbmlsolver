@@ -7,20 +7,20 @@
     <includes refid="rrLogger_8h" local="yes">rrLogger.h</includes>
     <includes refid="rrIniSection_8h" local="yes">rrIniSection.h</includes>
     <incdepgraph>
-      <node id="17">
-        <label>Variant.h</label>
-        <link refid="Variant_8h_source"/>
-        <childnode refid="8" relation="include">
-        </childnode>
-        <childnode refid="18" relation="include">
+      <node id="13">
+        <label>list</label>
+      </node>
+      <node id="9">
+        <label>rrConstants.h</label>
+        <link refid="rrConstants_8h_source"/>
+        <childnode refid="10" relation="include">
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="4" relation="include">
+        <childnode refid="11" relation="include">
         </childnode>
-      </node>
-      <node id="13">
-        <label>list</label>
+        <childnode refid="8" relation="include">
+        </childnode>
       </node>
       <node id="10">
         <label>limits</label>
@@ -28,15 +28,12 @@
       <node id="3">
         <label>float.h</label>
       </node>
-      <node id="19">
-        <label>stdint.h</label>
-      </node>
-      <node id="5">
-        <label>string</label>
-      </node>
       <node id="8">
         <label>rrExporter.h</label>
         <link refid="rrExporter_8h_source"/>
+      </node>
+      <node id="19">
+        <label>stdint.h</label>
       </node>
       <node id="20">
         <label>rrLogger.h</label>
@@ -46,11 +43,54 @@
         <childnode refid="8" relation="include">
         </childnode>
       </node>
+      <node id="5">
+        <label>string</label>
+      </node>
       <node id="15">
         <label>map</label>
       </node>
       <node id="24">
         <label>fstream</label>
+      </node>
+      <node id="1">
+        <label>rrIniSection.cpp</label>
+        <link refid="rrIniSection_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>typeinfo</label>
+      </node>
+      <node id="2">
+        <label>rrUtils.h</label>
+        <link refid="rrUtils_8h_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>vector</label>
       </node>
       <node id="23">
         <label>rrIniKey.h</label>
@@ -70,17 +110,14 @@
         <childnode refid="22" relation="include">
         </childnode>
       </node>
-      <node id="22">
-        <label>rrIniSection.h</label>
-        <link refid="rrIniSection_8h_source"/>
-        <childnode refid="4" relation="include">
-        </childnode>
-        <childnode refid="5" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
-        <childnode refid="23" relation="include">
-        </childnode>
+      <node id="21">
+        <label>sstream</label>
+      </node>
+      <node id="11">
+        <label>cstdlib</label>
+      </node>
+      <node id="6">
+        <label>iostream</label>
       </node>
       <node id="12">
         <label>rrStringUtils.h</label>
@@ -106,75 +143,38 @@
         <childnode refid="17" relation="include">
         </childnode>
       </node>
-      <node id="18">
-        <label>typeinfo</label>
-      </node>
-      <node id="4">
-        <label>vector</label>
-      </node>
-      <node id="21">
-        <label>sstream</label>
-      </node>
-      <node id="11">
-        <label>cstdlib</label>
-      </node>
-      <node id="6">
-        <label>iostream</label>
-      </node>
-      <node id="1">
-        <label>rrIniSection.cpp</label>
-        <link refid="rrIniSection_8cpp"/>
-        <childnode refid="2" relation="include">
+      <node id="17">
+        <label>Variant.h</label>
+        <link refid="Variant_8h_source"/>
+        <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="12" relation="include">
+        <childnode refid="18" relation="include">
         </childnode>
-        <childnode refid="20" relation="include">
+        <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="22" relation="include">
+        <childnode refid="4" relation="include">
         </childnode>
       </node>
       <node id="16">
         <label>unordered_map</label>
-      </node>
-      <node id="2">
-        <label>rrUtils.h</label>
-        <link refid="rrUtils_8h_source"/>
-        <childnode refid="3" relation="include">
-        </childnode>
-        <childnode refid="4" relation="include">
-        </childnode>
-        <childnode refid="5" relation="include">
-        </childnode>
-        <childnode refid="6" relation="include">
-        </childnode>
-        <childnode refid="7" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
-        <childnode refid="9" relation="include">
-        </childnode>
-        <childnode refid="12" relation="include">
-        </childnode>
-        <childnode refid="19" relation="include">
-        </childnode>
-      </node>
-      <node id="9">
-        <label>rrConstants.h</label>
-        <link refid="rrConstants_8h_source"/>
-        <childnode refid="10" relation="include">
-        </childnode>
-        <childnode refid="5" relation="include">
-        </childnode>
-        <childnode refid="11" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
       </node>
       <node id="7">
         <label>set</label>
       </node>
       <node id="14">
         <label>complex</label>
+      </node>
+      <node id="22">
+        <label>rrIniSection.h</label>
+        <link refid="rrIniSection_8h_source"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
       </node>
     </incdepgraph>
     <innernamespace refid="namespacerr">rr</innernamespace>

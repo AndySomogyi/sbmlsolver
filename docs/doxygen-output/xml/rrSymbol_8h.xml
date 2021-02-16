@@ -13,12 +13,12 @@
       <node id="4">
         <label>limits</label>
       </node>
-      <node id="2">
-        <label>string</label>
-      </node>
       <node id="5">
         <label>rrExporter.h</label>
         <link refid="rrExporter_8h_source"/>
+      </node>
+      <node id="2">
+        <label>string</label>
       </node>
       <node id="3">
         <label>ostream</label>
@@ -37,10 +37,10 @@
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="6">
-        <label>c/rrModelSymbols.h</label>
-        <link refid="rrModelSymbols_8h_source"/>
-        <childnode refid="2" relation="include">
+      <node id="5">
+        <label>c/rrSymbolList.h</label>
+        <link refid="rrSymbolList_8h_source"/>
+        <childnode refid="6" relation="include">
         </childnode>
       </node>
       <node id="2">
@@ -49,11 +49,9 @@
         <childnode refid="3" relation="include">
         </childnode>
       </node>
-      <node id="5">
-        <label>c/rrSymbolList.h</label>
-        <link refid="rrSymbolList_8h_source"/>
-        <childnode refid="6" relation="include">
-        </childnode>
+      <node id="4">
+        <label>c/rrCompiledExecutableModel.h</label>
+        <link refid="rrCompiledExecutableModel_8h_source"/>
       </node>
       <node id="1">
         <label>c/rrSymbol.h</label>
@@ -63,15 +61,17 @@
         <childnode refid="5" relation="include">
         </childnode>
       </node>
+      <node id="6">
+        <label>c/rrModelSymbols.h</label>
+        <link refid="rrModelSymbols_8h_source"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
       <node id="3">
         <label>c/rrCModelGenerator.h</label>
         <link refid="rrCModelGenerator_8h_source"/>
         <childnode refid="4" relation="include">
         </childnode>
-      </node>
-      <node id="4">
-        <label>c/rrCompiledExecutableModel.h</label>
-        <link refid="rrCompiledExecutableModel_8h_source"/>
       </node>
     </invincdepgraph>
     <innerclass refid="classrr_1_1Symbol" prot="public">rr::Symbol</innerclass>

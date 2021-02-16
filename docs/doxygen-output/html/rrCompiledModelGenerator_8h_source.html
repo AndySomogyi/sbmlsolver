@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">roadrunner
-   &#160;<span id="projectnumber">2.0.2</span>
+   &#160;<span id="projectnumber">2.0.5</span>
    </div>
    <div id="projectbrief">Fast simulator for SBML models</div>
   </td>
@@ -63,7 +63,7 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_1784a01aa976a8c78ef5dfc3737bcac8.html">c</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_34dbdef0d0e5ad676053452b99dda973.html">c</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -147,7 +147,7 @@ $(function() {
 <div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">string</span>                      convertSymbolToC(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; compartmentName) = 0;</div>
 <div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">string</span>                      convertSymbolToGP(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; parameterName) = 0;</div>
 <div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160; </div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="keywordtype">void</span>                                reset();</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="keywordtype">void</span>                                <a class="code" href="group__reset.html#gabde768cf80e67fe8f2811a28843e41f4">reset</a>();</div>
 <div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160; </div>
 <div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="keywordtype">int</span>                                 numAdditionalRates();        <span class="comment">//this variable is the size of moMapRateRule</span></div>
 <div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160; </div>
@@ -161,7 +161,7 @@ $(function() {
 <div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160; </div>
 <div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    <a class="code" href="classrr_1_1StringList.html">StringList</a>                          mWarnings;</div>
 <div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160; </div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">string</span>                      getInfo();</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">string</span>                      <a class="code" href="group__utility.html#gae657705965d7a22b555f62a44d90a15f">getInfo</a>();</div>
 <div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160; </div>
 <div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    <span class="keyword">static</span> ASTNode*                     cleanEquation(ASTNode* ast);</div>
 <div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">string</span>                       cleanEquation(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; equation);</div>
@@ -185,6 +185,7 @@ $(function() {
 <div class="ttc" id="aclassrr_1_1CompiledModelGenerator_html"><div class="ttname"><a href="classrr_1_1CompiledModelGenerator.html">rr::CompiledModelGenerator</a></div><div class="ttdoc">Both compiled model generators (C and CSharp) share a lot of functionality, so implement that here.</div><div class="ttdef"><b>Definition:</b> rrCompiledModelGenerator.h:32</div></div>
 <div class="ttc" id="aclassrr_1_1Symbol_html"><div class="ttname"><a href="classrr_1_1Symbol.html">rr::Symbol</a></div><div class="ttdoc">An SBML species definition.</div><div class="ttdef"><b>Definition:</b> rrSymbol.h:18</div></div>
 <div class="ttc" id="aclassrr_1_1Scanner_html"><div class="ttname"><a href="classrr_1_1Scanner.html">rr::Scanner</a></div><div class="ttdef"><b>Definition:</b> rrScanner.h:36</div></div>
+<div class="ttc" id="agroup__utility_html_gae657705965d7a22b555f62a44d90a15f"><div class="ttname"><a href="group__utility.html#gae657705965d7a22b555f62a44d90a15f">getInfo</a></div><div class="ttdeci">C_DECL_SPEC char *rrcCallConv getInfo(RRHandle handle)</div><div class="ttdoc">Retrieve info about current state of roadrunner, e.g. loaded model, conservationAnalysis etc.</div></div>
 <div class="ttc" id="aclassrr_1_1ModelSymbols_html"><div class="ttname"><a href="classrr_1_1ModelSymbols.html">rr::ModelSymbols</a></div><div class="ttdef"><b>Definition:</b> rrModelSymbols.h:20</div></div>
 <div class="ttc" id="aclassrr_1_1CompiledModelGenerator_html_aae0da14da795acd4122229c1b306c262"><div class="ttname"><a href="classrr_1_1CompiledModelGenerator.html#aae0da14da795acd4122229c1b306c262">rr::CompiledModelGenerator::ms</a></div><div class="ttdeci">ModelSymbols ms</div><div class="ttdoc">hold all the symbolic (AKA metadata) information in the model The idea is that all the memebers of th...</div><div class="ttdef"><b>Definition:</b> rrCompiledModelGenerator.h:133</div></div>
 <div class="ttc" id="aclassrr_1_1CompiledModelGenerator_html_a95eb17b0b46dc689ee4e1eb4d737c6f1"><div class="ttname"><a href="classrr_1_1CompiledModelGenerator.html#a95eb17b0b46dc689ee4e1eb4d737c6f1">rr::CompiledModelGenerator::mNOM</a></div><div class="ttdeci">NOMSupport * mNOM</div><div class="ttdoc">Object that provide some wrappers and new &quot;NOM&quot; functions.</div><div class="ttdef"><b>Definition:</b> rrCompiledModelGenerator.h:97</div></div>
@@ -192,6 +193,7 @@ $(function() {
 <div class="ttc" id="aclassrr_1_1StringList_html"><div class="ttname"><a href="classrr_1_1StringList.html">rr::StringList</a></div><div class="ttdef"><b>Definition:</b> rrStringList.h:19</div></div>
 <div class="ttc" id="aclassrr_1_1CodeBuilder_html"><div class="ttname"><a href="classrr_1_1CodeBuilder.html">rr::CodeBuilder</a></div><div class="ttdef"><b>Definition:</b> rrCodeBuilder.h:9</div></div>
 <div class="ttc" id="aclassrr_1_1NOMSupport_html"><div class="ttname"><a href="classrr_1_1NOMSupport.html">rr::NOMSupport</a></div><div class="ttdoc">Methods to query various information from an SBML document.</div><div class="ttdef"><b>Definition:</b> rrNOMSupport.h:41</div></div>
+<div class="ttc" id="agroup__reset_html_gabde768cf80e67fe8f2811a28843e41f4"><div class="ttname"><a href="group__reset.html#gabde768cf80e67fe8f2811a28843e41f4">reset</a></div><div class="ttdeci">C_DECL_SPEC bool rrcCallConv reset(RRHandle handle)</div><div class="ttdoc">Resets all variables of the model to their current initial values. Does not change the parameters.</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by&#160;<a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.20

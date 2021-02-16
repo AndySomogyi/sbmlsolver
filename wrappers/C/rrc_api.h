@@ -77,12 +77,12 @@ C_DECL_SPEC RRHandle rrcCallConv createRRInstanceEx(const char* tempFolder, cons
 */
 C_DECL_SPEC bool rrcCallConv freeRRInstance(RRHandle handle);
 
-/*!
- \brief Returns the folder in which the RoadRunner wrappers is installed
- \return Pointer to string holding the install folder
- \ingroup initialization
+/**
+ @brief Returns the folder in which the RoadRunner wrappers is installed
+ @return Pointer to string holding the install folder
+ @ingroup initialization
 */
-C_DECL_SPEC char* rrcCallConv  getInstallFolder(void);
+C_DECL_SPEC char* rrcCallConv getInstallFolder(void);
 
 /*!
  \brief Set the internal string containing the folder in where the RoadRunner C wrappers is installed

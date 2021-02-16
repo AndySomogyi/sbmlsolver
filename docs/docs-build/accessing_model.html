@@ -91,10 +91,8 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="index.html">RoadRunner Documentation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="introduction/introduction.html">Basic Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="introduction/introduction.html#what-is-sbml">What Is SBML?</a></li>
-<li class="toctree-l1"><a class="reference internal" href="introduction/introduction.html#what-is-libroadrunner">What is libRoadRunner</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Installation/installation.html">Installing RoadRunner</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/tutorial.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="read_write_functions.html">SBML Read/Write Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="selecting_values.html">Selecting Values</a></li>
 <li class="toctree-l1"><a class="reference internal" href="steady_state.html">Steady State Analysis</a></li>
@@ -103,7 +101,6 @@
 <li class="toctree-l1"><a class="reference internal" href="stability.html">Stability Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="stoichiometric.html">Stoichiometric Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bifurcation.html">Bifurcation Analysis</a></li>
-<li class="toctree-l1"><a class="reference internal" href="integration.html">Simulation and Integration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utility_functions.html">Utility Functions</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Accessing the SBML Model Variables</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#compartments">Compartments</a></li>
@@ -190,80 +187,81 @@
 <p>The following methods allow users to obtain information on the model</p>
 <div class="section" id="compartments">
 <h2>Compartments<a class="headerlink" href="#compartments" title="Permalink to this headline">¶</a></h2>
-<table class="longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
-<tbody>
-</tbody>
-</table>
+<blockquote>
+<div><ul class="simple">
+<li><p><a class="reference internal" href="C%2B%2BAPIReference/rrExecutableModel.html#_CPPv4N2rr15ExecutableModel21getCompartmentVolumesE6size_tPKiPd" title="rr::ExecutableModel::getCompartmentVolumes"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">rr::ExecutableModel::getCompartmentVolumes</span></code></a></p></li>
+<li><p><a class="reference internal" href="C%2B%2BAPIReference/rrExecutableModel.html#_CPPv4N2rr15ExecutableModel18getNumCompartmentsEv" title="rr::ExecutableModel::getNumCompartments"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">rr::ExecutableModel::getNumCompartments</span></code></a></p></li>
+<li><p><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">rr::ExecutableModel::getCompartmentIds</span></code></p></li>
+<li><p><a class="reference internal" href="C%2B%2BAPIReference/rrExecutableModel.html#_CPPv4N2rr15ExecutableModel21setCompartmentVolumesE6size_tPKiPKd" title="rr::ExecutableModel::setCompartmentVolumes"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">rr::ExecutableModel::setCompartmentVolumes</span></code></a></p></li>
+</ul>
+</div></blockquote>
 </div>
 <div class="section" id="boundary-species">
 <h2>Boundary Species<a class="headerlink" href="#boundary-species" title="Permalink to this headline">¶</a></h2>
-<table class="longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
-<tbody>
-</tbody>
-</table>
+<blockquote>
+<div><ul class="simple">
+<li><p><a class="reference internal" href="C%2B%2BAPIReference/rrExecutableModel.html#_CPPv4N2rr15ExecutableModel32getBoundarySpeciesConcentrationsE6size_tPKiPd" title="rr::ExecutableModel::getBoundarySpeciesConcentrations"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">rr::ExecutableModel::getBoundarySpeciesConcentrations</span></code></a></p></li>
+<li><p><a class="reference internal" href="C%2B%2BAPIReference/rrExecutableModel.html#_CPPv4N2rr15ExecutableModel32setBoundarySpeciesConcentrationsE6size_tPKiPKd" title="rr::ExecutableModel::setBoundarySpeciesConcentrations"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">rr::ExecutableModel::setBoundarySpeciesConcentrations</span></code></a></p></li>
+<li><p><a class="reference internal" href="C%2B%2BAPIReference/rrExecutableModel.html#_CPPv4N2rr15ExecutableModel21getNumBoundarySpeciesEv" title="rr::ExecutableModel::getNumBoundarySpecies"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">rr::ExecutableModel::getNumBoundarySpecies</span></code></a></p></li>
+<li><p><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">rr::ExecutableModel::getBoundarySpeciesIds</span></code></p></li>
+</ul>
+</div></blockquote>
 </div>
 <div class="section" id="floating-species">
 <h2>Floating Species<a class="headerlink" href="#floating-species" title="Permalink to this headline">¶</a></h2>
-<table class="longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
-<tbody>
-</tbody>
-</table>
+<blockquote>
+<div><ul class="simple">
+<li><p><a class="reference internal" href="C%2B%2BAPIReference/rrExecutableModel.html#_CPPv4N2rr15ExecutableModel32getFloatingSpeciesConcentrationsE6size_tPKiPd" title="rr::ExecutableModel::getFloatingSpeciesConcentrations"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">rr::ExecutableModel::getFloatingSpeciesConcentrations</span></code></a></p></li>
+<li><p><a class="reference internal" href="C%2B%2BAPIReference/rrExecutableModel.html#_CPPv4N2rr15ExecutableModel32setFloatingSpeciesConcentrationsE6size_tPKiPKd" title="rr::ExecutableModel::setFloatingSpeciesConcentrations"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">rr::ExecutableModel::setFloatingSpeciesConcentrations</span></code></a></p></li>
+<li><p><a class="reference internal" href="C%2B%2BAPIReference/rrExecutableModel.html#_CPPv4N2rr15ExecutableModel21getNumFloatingSpeciesEv" title="rr::ExecutableModel::getNumFloatingSpecies"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">rr::ExecutableModel::getNumFloatingSpecies</span></code></a></p></li>
+<li><p><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">rr::ExecutableModel::getFloatingSpeciesIds</span></code></p></li>
+</ul>
+</div></blockquote>
 </div>
 <div class="section" id="initial-conditions">
 <h2>Initial Conditions<a class="headerlink" href="#initial-conditions" title="Permalink to this headline">¶</a></h2>
-<table class="longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
-<tbody>
-</tbody>
-</table>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">rr::ExecutableModel::getFloatingSpeciesInitAmountIds</span></code></p></li>
+<li><p><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">rr::ExecutableModel::getFloatingSpeciesInitConcentrationIds</span></code></p></li>
+<li><p><a class="reference internal" href="C%2B%2BAPIReference/rrExecutableModel.html#_CPPv4N2rr15ExecutableModel29getFloatingSpeciesInitAmountsE6size_tPKiPd" title="rr::ExecutableModel::getFloatingSpeciesInitAmounts"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">rr::ExecutableModel::getFloatingSpeciesInitAmounts</span></code></a></p></li>
+<li><p><a class="reference internal" href="C%2B%2BAPIReference/rrExecutableModel.html#_CPPv4N2rr15ExecutableModel29setFloatingSpeciesInitAmountsE6size_tPKiPKd" title="rr::ExecutableModel::setFloatingSpeciesInitAmounts"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">rr::ExecutableModel::setFloatingSpeciesInitAmounts</span></code></a></p></li>
+<li><p><a class="reference internal" href="C%2B%2BAPIReference/rrExecutableModel.html#_CPPv4N2rr15ExecutableModel36getFloatingSpeciesInitConcentrationsE6size_tPKiPd" title="rr::ExecutableModel::getFloatingSpeciesInitConcentrations"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">rr::ExecutableModel::getFloatingSpeciesInitConcentrations</span></code></a></p></li>
+<li><p><a class="reference internal" href="C%2B%2BAPIReference/rrExecutableModel.html#_CPPv4N2rr15ExecutableModel36setFloatingSpeciesInitConcentrationsE6size_tPKiPKd" title="rr::ExecutableModel::setFloatingSpeciesInitConcentrations"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">rr::ExecutableModel::setFloatingSpeciesInitConcentrations</span></code></a></p></li>
+</ul>
+</div></blockquote>
 </div>
 <div class="section" id="reactions">
 <h2>Reactions<a class="headerlink" href="#reactions" title="Permalink to this headline">¶</a></h2>
-<table class="longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
-<tbody>
-</tbody>
-</table>
+<blockquote>
+<div><ul class="simple">
+<li><p><a class="reference internal" href="C%2B%2BAPIReference/rrExecutableModel.html#_CPPv4N2rr15ExecutableModel15getNumReactionsEv" title="rr::ExecutableModel::getNumReactions"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">rr::ExecutableModel::getNumReactions</span></code></a></p></li>
+<li><p><a class="reference internal" href="C%2B%2BAPIReference/rrExecutableModel.html#_CPPv4N2rr15ExecutableModel16getReactionRatesE6size_tPKiPd" title="rr::ExecutableModel::getReactionRates"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">rr::ExecutableModel::getReactionRates</span></code></a></p></li>
+<li><p><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">rr::ExecutableModel::getReactionIds</span></code></p></li>
+</ul>
+</div></blockquote>
 </div>
 <div class="section" id="reaction-rates">
 <h2>Reaction Rates<a class="headerlink" href="#reaction-rates" title="Permalink to this headline">¶</a></h2>
-<table class="longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
-<tbody>
-</tbody>
-</table>
+<blockquote>
+<div><ul class="simple">
+<li><p><a class="reference internal" href="C%2B%2BAPIReference/rrExecutableModel.html#_CPPv4N2rr15ExecutableModel29getFloatingSpeciesAmountRatesE6size_tPKiPd" title="rr::ExecutableModel::getFloatingSpeciesAmountRates"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">rr::ExecutableModel::getFloatingSpeciesAmountRates</span></code></a></p></li>
+<li><p><a class="reference internal" href="C%2B%2BAPIReference/rrExecutableModel.html#_CPPv4N2rr15ExecutableModel16getReactionRatesE6size_tPKiPd" title="rr::ExecutableModel::getReactionRates"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">rr::ExecutableModel::getReactionRates</span></code></a></p></li>
+<li><p><a class="reference internal" href="C%2B%2BAPIReference/rrExecutableModel.html#_CPPv4N2rr15ExecutableModel15getNumReactionsEv" title="rr::ExecutableModel::getNumReactions"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">rr::ExecutableModel::getNumReactions</span></code></a></p></li>
+<li><p><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">rr::ExecutableModel::getReactionIds</span></code></p></li>
+</ul>
+</div></blockquote>
 </div>
 <div class="section" id="global-parameters">
 <h2>Global Parameters<a class="headerlink" href="#global-parameters" title="Permalink to this headline">¶</a></h2>
-<table class="longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
-<tbody>
-</tbody>
-</table>
+<blockquote>
+<div><ul class="simple">
+<li><p><a class="reference internal" href="C%2B%2BAPIReference/rrExecutableModel.html#_CPPv4N2rr15ExecutableModel24setGlobalParameterValuesE6size_tPKiPKd" title="rr::ExecutableModel::setGlobalParameterValues"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">rr::ExecutableModel::setGlobalParameterValues</span></code></a></p></li>
+<li><p><a class="reference internal" href="C%2B%2BAPIReference/rrExecutableModel.html#_CPPv4N2rr15ExecutableModel24getGlobalParameterValuesE6size_tPKiPd" title="rr::ExecutableModel::getGlobalParameterValues"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">rr::ExecutableModel::getGlobalParameterValues</span></code></a></p></li>
+<li><p><a class="reference internal" href="C%2B%2BAPIReference/rrExecutableModel.html#_CPPv4N2rr15ExecutableModel22getNumGlobalParametersEv" title="rr::ExecutableModel::getNumGlobalParameters"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">rr::ExecutableModel::getNumGlobalParameters</span></code></a></p></li>
+<li><p><a class="reference internal" href="C%2B%2BAPIReference/rrExecutableModel.html#_CPPv4N2rr15ExecutableModel22getNumGlobalParametersEv" title="rr::ExecutableModel::getNumGlobalParameters"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">rr::ExecutableModel::getNumGlobalParameters</span></code></a></p></li>
+</ul>
+</div></blockquote>
 </div>
 </div>
 

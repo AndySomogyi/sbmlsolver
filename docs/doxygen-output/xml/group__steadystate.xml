@@ -1,0 +1,197 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+  <compounddef id="group__steadystate" kind="group">
+    <compoundname>steadystate</compoundname>
+    <title>Steady state routines</title>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__steadystate_1gab1db24cab922136cc3a6a57b4bfbf80a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC bool rrcCallConv</type>
+        <definition>C_DECL_SPEC bool rrcCallConv steadyState</definition>
+        <argsstring>(RRHandle handle, double *value)</argsstring>
+        <name>steadyState</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <param>
+          <type>double *</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Compute the steady state of the current model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Example:<programlisting><codeline><highlight class="normal">status<sp/>=<sp/>steadyState<sp/>(rrHandle,<sp/>&amp;closenessToSteadyState);<sp/></highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>This value is set during the call and indicates how close the solution is to the steady state. The smaller the value the better. Values less than 1E-6 usually indicate a steady state has been found. If necessary call the method a second time to improve the solution. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns true if successful </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" line="640" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" declline="640" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="group__steadystate_1ga808060f5094396e4697434eb5a41f14f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC <ref refid="rrc__types_8h_1a3be72d6006034fd349f753d2bf441bf7" kindref="member">RRVectorPtr</ref> rrcCallConv</type>
+        <definition>C_DECL_SPEC RRVectorPtr rrcCallConv computeSteadyStateValues</definition>
+        <argsstring>(RRHandle handle)</argsstring>
+        <name>computeSteadyStateValues</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+<para>A convenient method for returning a vector of the steady state species concentrations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Example:<programlisting><codeline><highlight class="normal">RRVectorHandle<sp/>values<sp/>=<sp/>computeSteadyStateValues<sp/>(void);<sp/></highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns the vector of steady state values or null if an error occurred. The order of species in the vector is indicated by the order of species Ids in a call to getFloatingSpeciesIds(void) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" line="652" column="37" declfile="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" declline="652" declcolumn="37"/>
+      </memberdef>
+      <memberdef kind="function" id="group__steadystate_1gaff273d8a9038c411779b206bf58d71eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC bool rrcCallConv</type>
+        <definition>C_DECL_SPEC bool rrcCallConv setSteadyStateSelectionList</definition>
+        <argsstring>(RRHandle handle, const char *list)</argsstring>
+        <name>setSteadyStateSelectionList</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>list</declname>
+        </param>
+        <briefdescription>
+<para>Set the selection list of the steady state analysis. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Use getSteadyStateSelectionList(handle) to retrieve the list of all selections.</para>
+<para>Example:</para>
+<para><programlisting><codeline><highlight class="normal">setSteadyStateSelectionList<sp/>(&quot;S1,<sp/>J1,<sp/>J2&quot;)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">or</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">setSteadyStateSelectionList<sp/>(&quot;S1<sp/>J1<sp/>J2&quot;)</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">list</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The string argument should be a space separated list of symbols.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns true if successful</para>
+</simplesect>
+Use getAvailableTimeCourseSymbols(void) to retrieve the list of all possible symbols.</para>
+<para>Example:</para>
+<para><programlisting><codeline><highlight class="normal">setSteadyStateSelectionList<sp/>(&quot;S1,<sp/>J1,<sp/>J2&quot;)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">or</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">setSteadyStateSelectionList<sp/>(&quot;S1<sp/>J1<sp/>J2&quot;)</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">list</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The string argument should be a space separated list of symbols.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns true if successful </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" line="675" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" declline="675" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="group__steadystate_1gaadc456216e3ed8cd9f75c15ac1685616" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC <ref refid="rrc__types_8h_1a7c9475df6c7337d99482b13a365e7596" kindref="member">RRStringArrayPtr</ref> rrcCallConv</type>
+        <definition>C_DECL_SPEC RRStringArrayPtr rrcCallConv getSteadyStateSelectionList</definition>
+        <argsstring>(RRHandle handle)</argsstring>
+        <name>getSteadyStateSelectionList</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+<para>Get the selection list for the steady state analysis. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns null if it fails, otherwise it returns a list of strings representing symbols in the selection list </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" line="684" column="42" declfile="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" declline="684" declcolumn="42"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Compute and obtain basic information about the steady state. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

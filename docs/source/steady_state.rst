@@ -52,8 +52,8 @@ To see all available steady state solvers, type:
      ('nleq',)
      
 The following methods deal with steady state analysis:
-   * :cpp::class::`rr::RoadRunner::steadyStateSelections`
-   * :cpp::class::`rr::RoadRunner::steadyState`
-   * :cpp::class::`rr::RoadRunner::getSteadyStateValues`
-   * :cpp::class::`rr::RoadRunner::conservedMoietyAnalysis`
+   * :cpp:class:`rr::RoadRunner::getSteadyStateSelections`
+   * :cpp:class:`rr::RoadRunner::steadyState`
+   * :cpp:class:`rr::RoadRunner::getSteadyStateValues`
+   * :cpp:class:`rr::RoadRunner::conservedMoietyAnalysis`
    
