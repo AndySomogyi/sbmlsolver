@@ -104,12 +104,8 @@
 <li class="toctree-l1"><a class="reference internal" href="simulation_and_integration.html">Simulation and Integration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utility_functions.html">Utility Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="accessing_model.html">Accessing the SBML Model Variables</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rrplugins/rrplugins_documentation.html">The basic philosophy behind the design  of the new architecture of rrplugins as compared to the old one</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rrplugins/rrplugins_documentation.html#extending-support-to-c-and-other-languages">Extending support to C and other languages</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rrplugins/rrplugins_documentation.html#how-to-write-a-new-plugin-and-use-it-in-python">How to write a new plugin and use it in Python</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rrplugins/rrplugins_documentation.html#current-issues">Current issues</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rrplugins/rrplugins_documentation.html#scope-of-improvements">Scope of Improvements</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ApiReferenceManual/api_reference.html">RoadRunner API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rrplugins/rrplugins_documentation.html">rrPlugins Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PythonAPIReference/api_reference.html">Python RoadRunner API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="C%2B%2BAPIReference/index.html">The LibRoadRunner C++ Library</a></li>
 </ul>
 
@@ -197,7 +193,7 @@ species, <img class="math" src="_images/math/464e1592f73b030553a806f080b3a0370d1
 <p>The call to <code class="docutils literal notranslate"><span class="pre">steadyState</span></code> returns a value that represents the sum of squares of the rates of change. Therefore the
 smaller this value the more likely the steady state solution has been found. Often a value less that 10E-6 indicates
 a steady state has been found. After a successful call all the species levels will be at their steady state values.</p>
-<p>Steady state values can be obtained using <a class="reference internal" href="C%2B%2BAPIReference/rrRoadRunner.html#_CPPv4N2rr10RoadRunner20getSteadyStateValuesEv" title="rr::RoadRunner::getSteadyStateValues"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">rr::RoadRunner::getSteadyStateValues</span></code></a> and :cpp:class::<cite>rr::RoadRunner::steadyStateSelections</cite> can be used to
+<p>Steady state values can be obtained using <a class="reference internal" href="C%2B%2BAPIReference/rrRoadRunner.html#_CPPv4N2rr10RoadRunner20getSteadyStateValuesEv" title="rr::RoadRunner::getSteadyStateValues"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">rr::RoadRunner::getSteadyStateValues()</span></code></a> and :cpp:class::<cite>rr::RoadRunner::steadyStateSelections</cite> can be used to
 decide what values to return. For example the following would retrieve a single value:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">steadyStateSelections</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;S1&#39;</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">getSteadyStateValues</span><span class="p">()</span>
@@ -222,10 +218,10 @@ decide what values to return. For example the following would retrieve a single 
 </div>
 <dl class="simple">
 <dt>The following methods deal with steady state analysis:</dt><dd><ul class="simple">
-<li><p><a class="reference internal" href="C%2B%2BAPIReference/rrRoadRunner.html#_CPPv4N2rr10RoadRunner24getSteadyStateSelectionsEv" title="rr::RoadRunner::getSteadyStateSelections"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">rr::RoadRunner::getSteadyStateSelections</span></code></a></p></li>
-<li><p><a class="reference internal" href="C%2B%2BAPIReference/rrRoadRunner.html#_CPPv4N2rr10RoadRunner11steadyStateEPK10Dictionary" title="rr::RoadRunner::steadyState"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">rr::RoadRunner::steadyState</span></code></a></p></li>
-<li><p><a class="reference internal" href="C%2B%2BAPIReference/rrRoadRunner.html#_CPPv4N2rr10RoadRunner20getSteadyStateValuesEv" title="rr::RoadRunner::getSteadyStateValues"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">rr::RoadRunner::getSteadyStateValues</span></code></a></p></li>
-<li><p><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">rr::RoadRunner::conservedMoietyAnalysis</span></code></p></li>
+<li><p><a class="reference internal" href="C%2B%2BAPIReference/rrRoadRunner.html#_CPPv4N2rr10RoadRunner24getSteadyStateSelectionsEv" title="rr::RoadRunner::getSteadyStateSelections"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">rr::RoadRunner::getSteadyStateSelections()</span></code></a></p></li>
+<li><p><a class="reference internal" href="C%2B%2BAPIReference/rrRoadRunner.html#_CPPv4N2rr10RoadRunner11steadyStateEPK10Dictionary" title="rr::RoadRunner::steadyState"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">rr::RoadRunner::steadyState()</span></code></a></p></li>
+<li><p><a class="reference internal" href="C%2B%2BAPIReference/rrRoadRunner.html#_CPPv4N2rr10RoadRunner20getSteadyStateValuesEv" title="rr::RoadRunner::getSteadyStateValues"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">rr::RoadRunner::getSteadyStateValues()</span></code></a></p></li>
+<li><p><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">rr::RoadRunner::conservedMoietyAnalysis()</span></code></p></li>
 </ul>
 </dd>
 </dl>

@@ -105,7 +105,7 @@ the rest are whatever is selected. The easies way to plot is to use :meth:`RoadR
    >>>  results = rr.simulate()
    >>>  rr.plot(results)
    
-.. seealso:: :ref:`plotting-data`
+.. seealso:: :ref:`Plotting Data`
    
 Using libRoadRunner in `IPython <http://ipython.org/>`_ you can **get documentation** 
 easily using a ``?`` after the object or method::
@@ -132,24 +132,24 @@ easily using a ``?`` after the object or method::
 Technical Footnotes
 -------------------
 
-.. [#] Most of the time, Numpy array holds a pointer to a block of data owned
-       by RoadRunner. For example, the array returned by `rr.simulate()` has a pointer 
-       to the results matrix which is owned by the `RoadRunner`, therefore NO COPYING 
-       is involved. If you have no need for the result, simply ignore it, since it costs virtually nothing to return it. 
-       
-.. [#] Current State of the System Group
-       
-       When using the LLVM back end, all model state calculation are automatically 
-       performed using a techinque called lazy evaluation. If one sets the concentration 
-       of a specie, the amount of of that specie is automatically available without 
-       having to perform any addition operations, similar to any other value in the model. 
-       If an SBML parameter is defined by an assigment rule or a function and its value  
-       depends on a number of other values, simply setting to other values automatically 
-       cause the value of the most dependent variable to be set. 
-       This is identical how one operates in a spredsheet such as Microsoft Excel. For 
-       example, if one has a cell with an equation that depends on other cell, and those
-       other cell depend on other values, setting the value of any upstream cell automatically
-       causes that value to cascade down to the terminal cells. The LLVM back end roadruner
-       function identically. 
+**Numpy arrays**
 
-.. highlight:: python
+Most of the time, Numpy array holds a pointer to a block of data owned
+by RoadRunner. For example, the array returned by `rr.simulate()` has a pointer
+to the results matrix which is owned by the `RoadRunner`, therefore NO COPYING
+is involved. If you have no need for the result, simply ignore it, since it costs virtually nothing to return it.
+       
+**Current State of the System Group**
+       
+When using the LLVM back end, all model state calculation are automatically
+performed using a techinque called lazy evaluation. If one sets the concentration
+of a specie, the amount of of that specie is automatically available without
+having to perform any addition operations, similar to any other value in the model.
+If an SBML parameter is defined by an assigment rule or a function and its value
+depends on a number of other values, simply setting to other values automatically
+cause the value of the most dependent variable to be set.
+This is identical how one operates in a spredsheet such as Microsoft Excel. For
+example, if one has a cell with an equation that depends on other cell, and those
+other cell depend on other values, setting the value of any upstream cell automatically
+causes that value to cascade down to the terminal cells. The LLVM back end roadruner
+function identically.

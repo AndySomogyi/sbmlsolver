@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Solvers &mdash; libRoadRunner 1.1.16 documentation</title>
+  <title>Roadrunner Solvers &mdash; libRoadRunner 1.1.16 documentation</title>
   
 
   
@@ -102,7 +102,7 @@
 <li class="toctree-l2"><a class="reference internal" href="selecting_output.html">Selecting Simulation Output</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plotting_data.html">Plotting Data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="changing_initial_conditions.html">Changing Initial Conditions</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Solvers</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Roadrunner Solvers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorial.html#quickstart">Quickstart</a></li>
 </ul>
 </li>
@@ -117,12 +117,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../simulation_and_integration.html">Simulation and Integration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utility_functions.html">Utility Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../accessing_model.html">Accessing the SBML Model Variables</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../rrplugins/rrplugins_documentation.html">The basic philosophy behind the design  of the new architecture of rrplugins as compared to the old one</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../rrplugins/rrplugins_documentation.html#extending-support-to-c-and-other-languages">Extending support to C and other languages</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../rrplugins/rrplugins_documentation.html#how-to-write-a-new-plugin-and-use-it-in-python">How to write a new plugin and use it in Python</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../rrplugins/rrplugins_documentation.html#current-issues">Current issues</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../rrplugins/rrplugins_documentation.html#scope-of-improvements">Scope of Improvements</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../ApiReferenceManual/api_reference.html">RoadRunner API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rrplugins/rrplugins_documentation.html">rrPlugins Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../PythonAPIReference/api_reference.html">Python RoadRunner API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../C%2B%2BAPIReference/index.html">The LibRoadRunner C++ Library</a></li>
 </ul>
 
@@ -174,7 +170,7 @@
         
           <li><a href="tutorial.html">Tutorial</a> &raquo;</li>
         
-      <li>Solvers</li>
+      <li>Roadrunner Solvers</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -193,8 +189,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="solvers">
-<h1>Solvers<a class="headerlink" href="#solvers" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="roadrunner-solvers">
+<h1>Roadrunner Solvers<a class="headerlink" href="#roadrunner-solvers" title="Permalink to this headline">¶</a></h1>
 <p>RoadRunner has multiple types of solvers including integrators and steady-state solvers.
 Integrators control numerical timecourse integration via the <code class="xref py py-meth docutils literal notranslate"><span class="pre">simulate()</span></code> method.
 By default, RoadRunner uses CVODE, a real differential equation solver from the

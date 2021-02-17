@@ -30,6 +30,6 @@ By using :meth:`~roadrunner.Solver.getSettings`, you can check settings accepted
       'nonnegative')
 
 For information on what the settings represent, try :meth:`~roadrunner.Solver.getDescription`.
-Check :ref:`roadrunner-solver` for additional information.
+Check :ref:`Roadrunner Solvers` for additional information.
 
    

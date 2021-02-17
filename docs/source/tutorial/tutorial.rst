@@ -37,7 +37,7 @@ simulation and plot the results.
    rr.plot()
 
 
-Looking for a model to start with? We included a couple with libRoadRunner, see :ref:`loading-models`.
+Looking for a model to start with? We included a couple with libRoadRunner, see :ref:`Loading Models`.
 
 
 

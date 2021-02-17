@@ -34,4 +34,3 @@ Some additional examples include:
    # using square brackets, e.g.
    rr.timeCourseSelections = ['time', '[S1]', '[S2]']
 
-.. seealso:: More details on :doc:`selecting_values`

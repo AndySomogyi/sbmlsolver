@@ -107,12 +107,8 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="accessing_model.html">Accessing the SBML Model Variables</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rrplugins/rrplugins_documentation.html">The basic philosophy behind the design  of the new architecture of rrplugins as compared to the old one</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rrplugins/rrplugins_documentation.html#extending-support-to-c-and-other-languages">Extending support to C and other languages</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rrplugins/rrplugins_documentation.html#how-to-write-a-new-plugin-and-use-it-in-python">How to write a new plugin and use it in Python</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rrplugins/rrplugins_documentation.html#current-issues">Current issues</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rrplugins/rrplugins_documentation.html#scope-of-improvements">Scope of Improvements</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ApiReferenceManual/api_reference.html">RoadRunner API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rrplugins/rrplugins_documentation.html">rrPlugins Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PythonAPIReference/api_reference.html">Python RoadRunner API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="C%2B%2BAPIReference/index.html">The LibRoadRunner C++ Library</a></li>
 </ul>
 
@@ -186,7 +182,7 @@
 <p>The following methodsprovide basic information about the current roadRunner installation.</p>
 <div class="section" id="information-group">
 <h2>Information Group<a class="headerlink" href="#information-group" title="Permalink to this headline">¶</a></h2>
-<p><a class="reference internal" href="ApiReferenceManual/cls_RoadRunner.html#RoadRunner.RoadRunner.getInfo" title="RoadRunner.RoadRunner.getInfo"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getInfo()</span></code></a> returns useful information about libRoadRunner’s current state:</p>
+<p><a class="reference internal" href="PythonAPIReference/cls_RoadRunner.html#RoadRunner.RoadRunner.getInfo" title="RoadRunner.RoadRunner.getInfo"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getInfo()</span></code></a> returns useful information about libRoadRunner’s current state:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span> <span class="n">rr</span><span class="o">.</span><span class="n">getInfo</span><span class="p">()</span>
 <span class="go">Model Loaded: false</span>
 <span class="go">ConservationAnalysis: 0</span>
@@ -197,7 +193,7 @@
 <span class="go">Working Directory: C:\dev\eclipse</span>
 </pre></div>
 </div>
-<p><a class="reference internal" href="ApiReferenceManual/cls_Misc.html#roadrunner.getVersionStr" title="roadrunner.getVersionStr"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getVersionStr()</span></code></a> returns specific information Strings based on arguments passed to it.
+<p><a class="reference internal" href="PythonAPIReference/cls_Misc.html#roadrunner.getVersionStr" title="roadrunner.getVersionStr"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getVersionStr()</span></code></a> returns specific information Strings based on arguments passed to it.
 For example to get the libSBML version used, you can:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">roadrunner</span>
 
@@ -220,6 +216,7 @@ when the module is loaded from <code class="docutils literal notranslate"><span 
 <span class="go">1.4.3; Compiler: Microsoft Visual Studio 2013; Date: Dec 18 2013, 22:59:30</span>
 </pre></div>
 </div>
+<p>See <a class="reference internal" href="C%2B%2BAPIReference/rrRoadRunner.html#_CPPv4N2rr10RoadRunner7getInfoEv" title="rr::RoadRunner::getInfo"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">rr::RoadRunner::getInfo()</span></code></a></p>
 </div>
 </div>
 

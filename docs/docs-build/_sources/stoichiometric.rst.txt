@@ -72,8 +72,8 @@ The extended stoichiometry matrix for this system is:
       reaction2_sink    [         0,         1,         0,         0,         0,         0,         0],
       reaction3_sink    [         0,         0,         1,         0,         0,         0,         0]]
 
-Methods
--------
+Methods for Stoichiometric Analysis
+-------------------------------------
 
 The following methods are related to the analysis of the stoichiometric matrix.
 

@@ -28,7 +28,7 @@ The call to ``steadyState`` returns a value that represents the sum of squares o
 smaller this value the more likely the steady state solution has been found. Often a value less that 10E-6 indicates
 a steady state has been found. After a successful call all the species levels will be at their steady state values.
 
-Steady state values can be obtained using :cpp:class:`rr::RoadRunner::getSteadyStateValues` and :cpp:class::`rr::RoadRunner::steadyStateSelections` can be used to
+Steady state values can be obtained using :cpp:func:`rr::RoadRunner::getSteadyStateValues` and :cpp:class::`rr::RoadRunner::steadyStateSelections` can be used to
 decide what values to return. For example the following would retrieve a single value:
 
      >>> rr.steadyStateSelections = ['S1']
@@ -52,8 +52,8 @@ To see all available steady state solvers, type:
      ('nleq',)
      
 The following methods deal with steady state analysis:
-   * :cpp:class:`rr::RoadRunner::getSteadyStateSelections`
-   * :cpp:class:`rr::RoadRunner::steadyState`
-   * :cpp:class:`rr::RoadRunner::getSteadyStateValues`
-   * :cpp:class:`rr::RoadRunner::conservedMoietyAnalysis`
+   * :cpp:func:`rr::RoadRunner::getSteadyStateSelections`
+   * :cpp:func:`rr::RoadRunner::steadyState`
+   * :cpp:func:`rr::RoadRunner::getSteadyStateValues`
+   * :cpp:func:`rr::RoadRunner::conservedMoietyAnalysis`
    

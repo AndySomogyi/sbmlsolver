@@ -104,12 +104,8 @@
 <li class="toctree-l1"><a class="reference internal" href="simulation_and_integration.html">Simulation and Integration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utility_functions.html">Utility Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="accessing_model.html">Accessing the SBML Model Variables</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rrplugins/rrplugins_documentation.html">The basic philosophy behind the design  of the new architecture of rrplugins as compared to the old one</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rrplugins/rrplugins_documentation.html#extending-support-to-c-and-other-languages">Extending support to C and other languages</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rrplugins/rrplugins_documentation.html#how-to-write-a-new-plugin-and-use-it-in-python">How to write a new plugin and use it in Python</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rrplugins/rrplugins_documentation.html#current-issues">Current issues</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rrplugins/rrplugins_documentation.html#scope-of-improvements">Scope of Improvements</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ApiReferenceManual/api_reference.html">RoadRunner API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rrplugins/rrplugins_documentation.html">rrPlugins Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PythonAPIReference/api_reference.html">Python RoadRunner API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="C%2B%2BAPIReference/index.html">The LibRoadRunner C++ Library</a></li>
 </ul>
 
@@ -186,7 +182,7 @@ Monte Carlo method.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span> <span class="n">rr</span><span class="o">.</span><span class="n">setIntegrator</span><span class="p">(</span><span class="s1">&#39;gillespie&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>RoadRunner also supports a simplified method to run Gillespie solver through <a class="reference internal" href="ApiReferenceManual/cls_RoadRunner.html#RoadRunner.RoadRunner.gillespie" title="RoadRunner.RoadRunner.gillespie"><code class="xref py py-meth docutils literal notranslate"><span class="pre">gillespie()</span></code></a>.</p>
+<p>RoadRunner also supports a simplified method to run Gillespie solver through <a class="reference internal" href="PythonAPIReference/cls_RoadRunner.html#RoadRunner.RoadRunner.gillespie" title="RoadRunner.RoadRunner.gillespie"><code class="xref py py-meth docutils literal notranslate"><span class="pre">gillespie()</span></code></a>.</p>
 <p>One of the important component of stochastic simulation is setting the seed. Random number genetration in
 computers are known to be ‘pseudo-random’, meaning it can only ‘approximate’ randomness. Seed is an initial
 key value for generating a sequence of numbers. This means that when a seed is given, it is possible to
@@ -203,7 +199,7 @@ perposes but undesireable for multiple iterations of random number creation.</p>
 </pre></div>
 </div>
 <p>For information on what the settings represent, try <code class="xref py py-meth docutils literal notranslate"><span class="pre">getDescription()</span></code>.
-Check <span class="xref std std-ref">roadrunner-solver</span> for additional information.</p>
+Check <a class="reference internal" href="tutorial/solvers.html#roadrunner-solvers"><span class="std std-ref">Roadrunner Solvers</span></a> for additional information.</p>
 </div>
 
 

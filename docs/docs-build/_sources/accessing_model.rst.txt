@@ -10,64 +10,64 @@ The following methods allow users to obtain information on the model
 Compartments
 ------------
 
-   * :cpp:class:`rr::ExecutableModel::getCompartmentVolumes`
-   * :cpp:class:`rr::ExecutableModel::getNumCompartments`
-   * :cpp:class:`rr::ExecutableModel::getCompartmentIds`
-   * :cpp:class:`rr::ExecutableModel::setCompartmentVolumes`
+   * :cpp:func:`rr::ExecutableModel::getCompartmentVolumes`
+   * :cpp:func:`rr::ExecutableModel::getNumCompartments`
+   * :cpp:func:`rr::ExecutableModel::getCompartmentIds`
+   * :cpp:func:`rr::ExecutableModel::setCompartmentVolumes`
 
    
 Boundary Species
 ----------------
 
-   * :cpp:class:`rr::ExecutableModel::getBoundarySpeciesConcentrations`
-   * :cpp:class:`rr::ExecutableModel::setBoundarySpeciesConcentrations`
-   * :cpp:class:`rr::ExecutableModel::getNumBoundarySpecies`
-   * :cpp:class:`rr::ExecutableModel::getBoundarySpeciesIds`
+   * :cpp:func:`rr::ExecutableModel::getBoundarySpeciesConcentrations`
+   * :cpp:func:`rr::ExecutableModel::setBoundarySpeciesConcentrations`
+   * :cpp:func:`rr::ExecutableModel::getNumBoundarySpecies`
+   * :cpp:func:`rr::ExecutableModel::getBoundarySpeciesIds`
 
 
 Floating Species
 ----------------
 
-   * :cpp:class:`rr::ExecutableModel::getFloatingSpeciesConcentrations`
-   * :cpp:class:`rr::ExecutableModel::setFloatingSpeciesConcentrations`
-   * :cpp:class:`rr::ExecutableModel::getNumFloatingSpecies`
-   * :cpp:class:`rr::ExecutableModel::getFloatingSpeciesIds`
+   * :cpp:func:`rr::ExecutableModel::getFloatingSpeciesConcentrations`
+   * :cpp:func:`rr::ExecutableModel::setFloatingSpeciesConcentrations`
+   * :cpp:func:`rr::ExecutableModel::getNumFloatingSpecies`
+   * :cpp:func:`rr::ExecutableModel::getFloatingSpeciesIds`
 
 
 Initial Conditions
 ------------------
 
-   * :cpp:class:`rr::ExecutableModel::getFloatingSpeciesInitAmountIds`
-   * :cpp:class:`rr::ExecutableModel::getFloatingSpeciesInitConcentrationIds`
-   * :cpp:class:`rr::ExecutableModel::getFloatingSpeciesInitAmounts`
-   * :cpp:class:`rr::ExecutableModel::setFloatingSpeciesInitAmounts`
-   * :cpp:class:`rr::ExecutableModel::getFloatingSpeciesInitConcentrations`
-   * :cpp:class:`rr::ExecutableModel::setFloatingSpeciesInitConcentrations`
+   * :cpp:func:`rr::ExecutableModel::getFloatingSpeciesInitAmountIds`
+   * :cpp:func:`rr::ExecutableModel::getFloatingSpeciesInitConcentrationIds`
+   * :cpp:func:`rr::ExecutableModel::getFloatingSpeciesInitAmounts`
+   * :cpp:func:`rr::ExecutableModel::setFloatingSpeciesInitAmounts`
+   * :cpp:func:`rr::ExecutableModel::getFloatingSpeciesInitConcentrations`
+   * :cpp:func:`rr::ExecutableModel::setFloatingSpeciesInitConcentrations`
 
 Reactions
 ---------
 
-   * :cpp:class:`rr::ExecutableModel::getNumReactions`
-   * :cpp:class:`rr::ExecutableModel::getReactionRates`
-   * :cpp:class:`rr::ExecutableModel::getReactionIds`
+   * :cpp:func:`rr::ExecutableModel::getNumReactions`
+   * :cpp:func:`rr::ExecutableModel::getReactionRates`
+   * :cpp:func:`rr::ExecutableModel::getReactionIds`
 
 
 Reaction Rates
 ---------------
 
-   * :cpp:class:`rr::ExecutableModel::getFloatingSpeciesAmountRates`
-   * :cpp:class:`rr::ExecutableModel::getReactionRates`
-   * :cpp:class:`rr::ExecutableModel::getNumReactions`
-   * :cpp:class:`rr::ExecutableModel::getReactionIds`
+   * :cpp:func:`rr::ExecutableModel::getFloatingSpeciesAmountRates`
+   * :cpp:func:`rr::ExecutableModel::getReactionRates`
+   * :cpp:func:`rr::ExecutableModel::getNumReactions`
+   * :cpp:func:`rr::ExecutableModel::getReactionIds`
 
 
 Global Parameters
 -----------------
 
-   * :cpp:class:`rr::ExecutableModel::setGlobalParameterValues`
-   * :cpp:class:`rr::ExecutableModel::getGlobalParameterValues`
-   * :cpp:class:`rr::ExecutableModel::getNumGlobalParameters`
-   * :cpp:class:`rr::ExecutableModel::getNumGlobalParameters`
+   * :cpp:func:`rr::ExecutableModel::setGlobalParameterValues`
+   * :cpp:func:`rr::ExecutableModel::getGlobalParameterValues`
+   * :cpp:func:`rr::ExecutableModel::getNumGlobalParameters`
+   * :cpp:func:`rr::ExecutableModel::getNumGlobalParameters`
    
 
 

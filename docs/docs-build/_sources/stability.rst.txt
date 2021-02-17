@@ -20,5 +20,5 @@ where :math:`F_i` is the ith differential equation and :math:`S_i` the ith float
 
 which returns the Jacobian matrix in the variable Jac.
 
-It is possible for full Jacobian to be singular. In these situations one should call the related method, :cpp:class:`rr::RoadRunner::getReducedJacobian`.
+It is possible for full Jacobian to be singular. In these situations one should call the related method, :cpp:func:`rr::RoadRunner::getReducedJacobian`.
 
