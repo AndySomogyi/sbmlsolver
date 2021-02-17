@@ -332,8 +332,18 @@ find_package(nleq2 CONFIG REQUIRED)
 find_package(PocoFoundation CONFIG REQUIRED)
 find_package(PocoNet CONFIG REQUIRED)
 find_package(PocoXML CONFIG REQUIRED)
-find_package(Sundials CONFIG REQUIRED)
+#find_package(Sundials CONFIG REQUIRED)
 find_package(LLVM REQUIRED)
+
+
+
+
+set(CMAKE_PREFIX_PATH   "${CMAKE_PREFIX_PATH}" "D:/sundials/install-msvc-rel/lib/cmake/sundials")
+find_package(SUNDIALS CONFIG REQUIRED)
+
+
+
+
 
 # install dependencies so clients can use roadrunner from c++/cmake
 message(STATUS "CMAKE_INSTALL_LIBDIR ${CMAKE_INSTALL_LIBDIR}")
