@@ -52,31 +52,31 @@ namespace rr
          * @author WBC, ETS, MTK
          * @brief Constructor: takes an executable model, does not own the pointer
          */
-        CVODEIntegrator(ExecutableModel* oModel);
+        explicit CVODEIntegrator(ExecutableModel* oModel);
 
         /**
          * @author WBC, ETS, MTK
          * @brief Destructor
          */
-        virtual ~CVODEIntegrator();
+        ~CVODEIntegrator() override;
 
         /**
         * @author JKM
         * @brief Called whenever a new model is loaded to allow integrator
         * to reset internal state
         */
-        virtual void syncWithModel(ExecutableModel* m);
+        void syncWithModel(ExecutableModel* m) override;
 
         // ** Loading Settings *************************************************
 
-        void loadConfigSettings();
+        void loadConfigSettings() override;
 
         /**
          * @author WBC
          * @brief Load an SBML settings file and apply the configuration options
          * @note Can assign relative and absolute tolerances
          */
-        void loadSBMLSettings(const std::string& filename);
+        void loadSBMLSettings(const std::string& filename) override;
 
         // ** Meta Info ********************************************************
 
@@ -85,7 +85,7 @@ namespace rr
          * @brief Get the name for this integrator
          * @note Delegates to @ref getName
          */
-        std::string getName() const;
+        std::string getName() const override;
 
         /**
          * @author JKM
@@ -98,7 +98,7 @@ namespace rr
          * @brief Get the description for this integrator
          * @note Delegates to @ref getDescription
          */
-        std::string getDescription() const;
+        std::string getDescription() const override;
 
         /**
          * @author JKM
@@ -111,7 +111,7 @@ namespace rr
          * @brief Get the hint for this integrator
          * @note Delegates to @ref getHint
          */
-        std::string getHint() const;
+        std::string getHint() const override;
 
         /**
          * @author JKM
@@ -125,20 +125,20 @@ namespace rr
          * @author WBC, ETS, MTK
          * @brief Always deterministic for CVODE
          */
-        IntegrationMethod getIntegrationMethod() const;
+        IntegrationMethod getIntegrationMethod() const override;
 
         /**
          * @author WBC, ETS, MTK
          * @brief Sets the value of an integrator setting (e.g. absolute_tolerance)
          */
-        void setValue(std::string setting, const Variant& value);
+        void setValue(std::string setting, const Variant& value) override;
 
 
 		/**
 		 * @author FY
 		 * @brief Sets tolerance for individual species
 		 */
-		void setIndividualTolerance(string sid, double value);
+		void setIndividualTolerance(string sid, double value) override;
 
 		/**
 		 * @author FY
@@ -147,19 +147,19 @@ namespace rr
 		 * by multiplying the compartment volume of species. Whichever is smaller
 		 * will be stored as absolute_tolerance and used in the integration process.
 		 */
-		void setConcentrationTolerance(const Variant& value);
+		void setConcentrationTolerance(const Variant& value) override;
 
 		/**
 		 * @author FY
 		 * @brief Gets tolerance based on concentration of species
 		 */
-		std::vector<double> getConcentrationTolerance();
+		std::vector<double> getConcentrationTolerance() override;
 
         /**
         * @author JKM
         * @brief Reset all integrator settings to their respective default values
         */
-        void resetSettings();
+        void resetSettings() override;
 
 
         /**
@@ -170,7 +170,7 @@ namespace rr
          * Sets minimum absolute and relative tolerances to
          * Config::CVODE_MIN_ABSOLUTE and Config::CVODE_MIN_RELATIVE resp.
          */
-        void tweakTolerances();
+        void tweakTolerances() override;
 
 
         // ** Integration Routines *********************************************
@@ -179,7 +179,7 @@ namespace rr
          * @author WBC, ETS, MTK
          * @brief Main integration routine
          */
-        double integrate(double t0, double tf);
+        double integrate(double t0, double tf) override;
 
         /**
          * @author WBC, ETS, MTK
@@ -187,7 +187,7 @@ namespace rr
          * @details Applies events which occur before time zero.
          * Reinitializes CVODE and the executable model.
          */
-        void restart(double timeStart);
+        void restart(double timeStart) override;
 
         // ** Listeners ********************************************************
 
@@ -195,13 +195,13 @@ namespace rr
          * @author WBC, ETS
          * @brief Gets the integrator listener
          */
-        IntegratorListenerPtr getListener();
+        IntegratorListenerPtr getListener() override;
 
         /**
          * @author WBC, ETS
          * @brief Sets the integrator listener
          */
-        void setListener(IntegratorListenerPtr);
+        void setListener(IntegratorListenerPtr) override;
 
         /**
          * @author JKM
@@ -302,7 +302,7 @@ namespace rr
             * @author JKM
             * @brief Gets the name associated with this integrator type
             */
-            virtual std::string getName() const {
+            std::string getName() const override {
                 return CVODEIntegrator::getCVODEIntegratorName();
             }
 
@@ -310,7 +310,7 @@ namespace rr
             * @author JKM
             * @brief Gets the description associated with this integrator type
             */
-            virtual std::string getDescription() const {
+            std::string getDescription() const override {
                 return CVODEIntegrator::getCVODEIntegratorDescription();
             }
 
@@ -318,7 +318,7 @@ namespace rr
             * @author JKM
             * @brief Gets the hint associated with this integrator type
             */
-            virtual std::string getHint() const {
+            std::string getHint() const override {
                 return CVODEIntegrator::getCVODEIntegratorHint();
             }
 
@@ -326,7 +326,7 @@ namespace rr
             * @author JKM
             * @brief Constructs a new integrator of a given type
             */
-            virtual Integrator* construct(ExecutableModel *model) const {
+            Integrator* construct(ExecutableModel *model) const override {
                 return new CVODEIntegrator(model);
             }
     };
