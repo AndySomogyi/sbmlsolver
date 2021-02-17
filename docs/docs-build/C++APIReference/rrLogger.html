@@ -104,6 +104,11 @@
 <li class="toctree-l1"><a class="reference internal" href="../simulation_and_integration.html">Simulation and Integration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utility_functions.html">Utility Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../accessing_model.html">Accessing the SBML Model Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rrplugins/rrplugins_documentation.html">The basic philosophy behind the design  of the new architecture of rrplugins as compared to the old one</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rrplugins/rrplugins_documentation.html#extending-support-to-c-and-other-languages">Extending support to C and other languages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rrplugins/rrplugins_documentation.html#how-to-write-a-new-plugin-and-use-it-in-python">How to write a new plugin and use it in Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rrplugins/rrplugins_documentation.html#current-issues">Current issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rrplugins/rrplugins_documentation.html#scope-of-improvements">Scope of Improvements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../ApiReferenceManual/api_reference.html">RoadRunner API Reference</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">The LibRoadRunner C++ Library</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="llvm/index.html">LLVM Docs</a></li>
@@ -149,7 +154,6 @@
 <li class="toctree-l2"><a class="reference internal" href="index.html#a-complete-example-of-creating-an-integrator">A complete example of creating an integrator</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../CAPIReference/index.html">The LibRoadRunner C Library</a></li>
 </ul>
 
             
@@ -294,7 +298,7 @@
 <p class="breathe-sectiondef-title rubric">Public Static Functions</p>
 <dl class="cpp function">
 <dt id="_CPPv4N2rr6Logger8setLevelEi">
-<span id="_CPPv3N2rr6Logger8setLevelEi"></span><span id="_CPPv2N2rr6Logger8setLevelEi"></span><span id="rr::Logger::setLevel__i"></span><span class="target" id="classrr_1_1Logger_1a932fba9c85c6a5eb806851e06b02e957"></span>void <code class="sig-name descname">setLevel</code><span class="sig-paren">(</span>int <em>level</em> = LOG_CURRENT<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr6Logger8setLevelEi" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3N2rr6Logger8setLevelEi"></span><span id="_CPPv2N2rr6Logger8setLevelEi"></span><span id="rr::Logger::setLevel__i"></span><span class="target" id="classrr_1_1Logger_1a932fba9c85c6a5eb806851e06b02e957"></span>void <code class="sig-name descname">setLevel</code><span class="sig-paren">(</span>int <em>level</em> = <a class="reference internal" href="#_CPPv4N2rr6Logger5Level11LOG_CURRENTE" title="rr::Logger::LOG_CURRENT">LOG_CURRENT</a><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr6Logger8setLevelEi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>sets the logging level to one a value from <a class="reference internal" href="#classrr_1_1Logger_1a72a52e7fe7be48e2ecad639c641ee8aa"><span class="std std-ref">Logger::Level</span></a> </p>
 </dd></dl>
 
@@ -318,13 +322,13 @@
 
 <dl class="cpp function">
 <dt id="_CPPv4N2rr6Logger20enableConsoleLoggingEi">
-<span id="_CPPv3N2rr6Logger20enableConsoleLoggingEi"></span><span id="_CPPv2N2rr6Logger20enableConsoleLoggingEi"></span><span id="rr::Logger::enableConsoleLogging__i"></span><span class="target" id="classrr_1_1Logger_1a859a9358480196476351e5e2a3466b71"></span>void <code class="sig-name descname">enableConsoleLogging</code><span class="sig-paren">(</span>int <em>level</em> = LOG_CURRENT<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr6Logger20enableConsoleLoggingEi" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3N2rr6Logger20enableConsoleLoggingEi"></span><span id="_CPPv2N2rr6Logger20enableConsoleLoggingEi"></span><span id="rr::Logger::enableConsoleLogging__i"></span><span class="target" id="classrr_1_1Logger_1a859a9358480196476351e5e2a3466b71"></span>void <code class="sig-name descname">enableConsoleLogging</code><span class="sig-paren">(</span>int <em>level</em> = <a class="reference internal" href="#_CPPv4N2rr6Logger5Level11LOG_CURRENTE" title="rr::Logger::LOG_CURRENT">LOG_CURRENT</a><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr6Logger20enableConsoleLoggingEi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>turns on console logging at the given level. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt id="_CPPv4N2rr6Logger17enableFileLoggingERKNSt6stringEi">
-<span id="_CPPv3N2rr6Logger17enableFileLoggingERKNSt6stringEi"></span><span id="_CPPv2N2rr6Logger17enableFileLoggingERKNSt6stringEi"></span><span id="rr::Logger::enableFileLogging__ssCR.i"></span><span class="target" id="classrr_1_1Logger_1a2353c535f4e74dead4f0f1267556a906"></span>void <code class="sig-name descname">enableFileLogging</code><span class="sig-paren">(</span><em class="property">const</em> std::string &amp;<em>fileName</em> = &quot;&quot;, int <em>level</em> = LOG_CURRENT<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr6Logger17enableFileLoggingERKNSt6stringEi" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3N2rr6Logger17enableFileLoggingERKNSt6stringEi"></span><span id="_CPPv2N2rr6Logger17enableFileLoggingERKNSt6stringEi"></span><span id="rr::Logger::enableFileLogging__ssCR.i"></span><span class="target" id="classrr_1_1Logger_1a2353c535f4e74dead4f0f1267556a906"></span>void <code class="sig-name descname">enableFileLogging</code><span class="sig-paren">(</span><em class="property">const</em> std::string &amp;<em>fileName</em> = &quot;&quot;, int <em>level</em> = <a class="reference internal" href="#_CPPv4N2rr6Logger5Level11LOG_CURRENTE" title="rr::Logger::LOG_CURRENT">LOG_CURRENT</a><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr6Logger17enableFileLoggingERKNSt6stringEi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>turns on file logging to the given file as the given level. </p>
 <p>If fileName is an empty string, then this will use the file specified in the <a class="reference internal" href="rrConfig.html#classrr_1_1Config_1aed7c550b9e34222675cd152c9154d053aebebe893536932bb96d066c77d56ea1f"><span class="std std-ref">Config::LOGGER_LOG_FILE_PATH</span></a>. If this is empty, a file called “roadrunner.log” will be created in the temp directory.</p>
 <p>The temp directory may be specified via <a class="reference internal" href="rrConfig.html#classrr_1_1Config_1aed7c550b9e34222675cd152c9154d053aeed2c355140f97162b0a894e6c3c7710"><span class="std std-ref">Config::TEMP_DIR_PATH</span></a>. If this is empty, then the system spefified temp dir is used. </p>

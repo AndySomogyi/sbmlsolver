@@ -35,14 +35,11 @@ extensions = [
     'sphinx.ext.coverage',
     'sphinx.ext.imgmath',
     'sphinx.ext.todo',
-    'sphinx.ext.autosummary',
     "sphinx.ext.autosectionlabel",
     "breathe",
     "sphinx.ext.doctest",
     "sphinx_tabs.tabs",
     "sphinx_rtd_theme",
-    # "PyExec"
-    # "sphinx_execute_code" #didnt work
 ]
 
 # make todo items show in docs

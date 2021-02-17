@@ -7,7 +7,7 @@ systems of differential equations. Roadrunner was designed
 with performance as a priority and is an exceptionally fast simulator.
 
 For the C API documentation, please find the doxygen generated webpage here:
-    * `Original Doxygen Style Docs <OriginalDoxygenStyleDocs/html/index.html>`_
+    * `Original Doxygen Style Docs <../OriginalDoxygenStyleDocs/html/index.html>`_
 
 Features
 ========

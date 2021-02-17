@@ -174,14 +174,14 @@ _________________________
 .. method:: RoadRunner.getIntegrator()
    :module: RoadRunner
 
-   Returns the solver instance. See :class:`roadrunner.Solver`.
+   Returns the solver instance. See :cpp:class::cpp:class:`rr::roadrunner::Solver`.
    For more information on the possible settings, see :ref:`roadrunner-solver`.
    
    
 .. method:: RoadRunner.getIntegratorByName(name)
    :module: RoadRunner
    
-   Returns the solver instance by given name. See :class:`roadrunner.Solver`.
+   Returns the solver instance by given name. See :cpp:class:`rr::roadrunner::Solver`.
    For more information on the possible settings, see :ref:`roadrunner-solver`.
 
    :param str name: Name of the integrator
@@ -240,7 +240,7 @@ _________________________
 .. method:: RoadRunner.setIntegratorSetting(name, key, value)
    :module: RoadRunner
 
-   Sets settings for a specific integrator. See :class:`roadrunner.Solver`.
+   Sets settings for a specific integrator. See :cpp:class:`roadrunner::Solver`.
    For more information on the possible settings, see :ref:`roadrunner-solver`.
    
    :param str name: name of the integrator.

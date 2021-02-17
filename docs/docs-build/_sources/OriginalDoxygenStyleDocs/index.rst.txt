@@ -1,6 +1,0 @@
-Original Doxygen Docs
-----------------------
-
-.. raw:: html
-
-    <a href="html/index.html">testurl</a>

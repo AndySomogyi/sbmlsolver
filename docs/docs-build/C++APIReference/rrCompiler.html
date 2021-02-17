@@ -104,6 +104,11 @@
 <li class="toctree-l1"><a class="reference internal" href="../simulation_and_integration.html">Simulation and Integration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utility_functions.html">Utility Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../accessing_model.html">Accessing the SBML Model Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rrplugins/rrplugins_documentation.html">The basic philosophy behind the design  of the new architecture of rrplugins as compared to the old one</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rrplugins/rrplugins_documentation.html#extending-support-to-c-and-other-languages">Extending support to C and other languages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rrplugins/rrplugins_documentation.html#how-to-write-a-new-plugin-and-use-it-in-python">How to write a new plugin and use it in Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rrplugins/rrplugins_documentation.html#current-issues">Current issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rrplugins/rrplugins_documentation.html#scope-of-improvements">Scope of Improvements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../ApiReferenceManual/api_reference.html">RoadRunner API Reference</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">The LibRoadRunner C++ Library</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="llvm/index.html">LLVM Docs</a></li>
@@ -149,7 +154,6 @@
 <li class="toctree-l2"><a class="reference internal" href="index.html#a-complete-example-of-creating-an-integrator">A complete example of creating an integrator</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../CAPIReference/index.html">The LibRoadRunner C Library</a></li>
 </ul>
 
             
@@ -226,7 +230,7 @@
 <span id="_CPPv3N2rr8CompilerE"></span><span id="_CPPv2N2rr8CompilerE"></span><span id="rr::Compiler"></span><span class="target" id="classrr_1_1Compiler"></span><em class="property">class </em><code class="sig-prename descclassname">rr<code class="sig-prename descclassname">::</code></code><code class="sig-name descname">Compiler</code><a class="headerlink" href="#_CPPv4N2rr8CompilerE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>interface to manipulate ‘compiler’ settings. </p>
 <p>In the C generating model sytem, an external C compiler is used to compile generated C code. However, in the LLVM system, there is no code generation nor compilation, so this interface is not really usefull, but is implemented for compatiblity with the C system. </p>
-<p>Subclassed by <a class="reference internal" href="../CAPIReference.old/rrCCompiler.html#classrr_1_1CCompiler"><span class="std std-ref">rr::CCompiler</span></a>, <a class="reference internal" href="llvm/LLVMCompiler.html#classrrllvm_1_1LLVMCompiler"><span class="std std-ref">rrllvm::LLVMCompiler</span></a></p>
+<p>Subclassed by rr::CCompiler, <a class="reference internal" href="llvm/LLVMCompiler.html#classrrllvm_1_1LLVMCompiler"><span class="std std-ref">rrllvm::LLVMCompiler</span></a></p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric">Public Functions</p>
 <dl class="cpp function">
