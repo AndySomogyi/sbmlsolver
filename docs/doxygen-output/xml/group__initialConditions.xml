@@ -1,0 +1,156 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+  <compounddef id="group__initialConditions" kind="group">
+    <compoundname>initialConditions</compoundname>
+    <title>Initial conditions group</title>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__initialConditions_1ga669ae93bd60148aaf48f7105748a551e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC bool rrcCallConv</type>
+        <definition>C_DECL_SPEC bool rrcCallConv setFloatingSpeciesInitialConcentrations</definition>
+        <argsstring>(RRHandle handle, const RRVectorPtr vec)</argsstring>
+        <name>setFloatingSpeciesInitialConcentrations</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <param>
+          <type>const <ref refid="rrc__types_8h_1a3be72d6006034fd349f753d2bf441bf7" kindref="member">RRVectorPtr</ref></type>
+          <declname>vec</declname>
+        </param>
+        <briefdescription>
+<para>Set the initial floating species concentrations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Example:<programlisting><codeline><highlight class="normal">status<sp/>=<sp/>setFloatingSpeciesInitialConcentrations<sp/>(vec);<sp/></highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>vec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A vector of species concentrations: order given by <ref refid="group__floating_1gadfa89aaae617d977977469f3c8e0efae" kindref="member">getFloatingSpeciesIds(RRHandle handle)</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns true if successful </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="2250" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="2250" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="group__initialConditions_1ga69c0a516f028a0608d8b9167ff56111f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC <ref refid="rrc__types_8h_1a3be72d6006034fd349f753d2bf441bf7" kindref="member">RRVectorPtr</ref> rrcCallConv</type>
+        <definition>C_DECL_SPEC RRVectorPtr rrcCallConv getFloatingSpeciesInitialConcentrations</definition>
+        <argsstring>(RRHandle handle)</argsstring>
+        <name>getFloatingSpeciesInitialConcentrations</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+<para>Get the initial floating species concentrations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Example:<programlisting><codeline><highlight class="normal">vec<sp/>=<sp/>getFloatingSpeciesInitialConcentrations<sp/>(RRHandle<sp/>handle);<sp/></highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns null if it fails otherwise returns a vector containing the initial conditions </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="2261" column="37" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="2261" declcolumn="37"/>
+      </memberdef>
+      <memberdef kind="function" id="group__initialConditions_1ga1e19db0cfd663b9648f59191afdc64c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC <ref refid="rrc__types_8h_1a7c9475df6c7337d99482b13a365e7596" kindref="member">RRStringArrayPtr</ref> rrcCallConv</type>
+        <definition>C_DECL_SPEC RRStringArrayPtr rrcCallConv getFloatingSpeciesInitialConditionIds</definition>
+        <argsstring>(RRHandle handle)</argsstring>
+        <name>getFloatingSpeciesInitialConditionIds</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+<para>Get the initial floating species Ids. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="deprecated_1_deprecated000003"><xreftitle>Deprecated</xreftitle><xrefdescription><para>Use <ref refid="group__initialConditions_1ga205905d483bb876f0557d8b40cba2213" kindref="member">getFloatingSpeciesInitialConcentrationIds</ref> </para>
+</xrefdescription></xrefsect></para>
+<para>Example:<programlisting><codeline><highlight class="normal">vec<sp/>=<sp/>getFloatingSpeciesInitialConditionIds<sp/>(RRHandle<sp/>handle);<sp/></highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns null if it fails otherwise returns a vector containing names of the floating species </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="2273" column="42" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="2273" declcolumn="42"/>
+      </memberdef>
+      <memberdef kind="function" id="group__initialConditions_1ga205905d483bb876f0557d8b40cba2213" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC <ref refid="rrc__types_8h_1a7c9475df6c7337d99482b13a365e7596" kindref="member">RRStringArrayPtr</ref> rrcCallConv</type>
+        <definition>C_DECL_SPEC RRStringArrayPtr rrcCallConv getFloatingSpeciesInitialConcentrationIds</definition>
+        <argsstring>(RRHandle handle)</argsstring>
+        <name>getFloatingSpeciesInitialConcentrationIds</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+<para>Get the initial floating species Ids. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Example:<programlisting><codeline><highlight class="normal">vec<sp/>=<sp/>getFloatingSpeciesInitialConcentrationIds<sp/>(RRHandle<sp/>handle);<sp/></highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns null if it fails otherwise returns a vector containing names of the floating species </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="2284" column="42" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="2284" declcolumn="42"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Set or get initial conditions. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

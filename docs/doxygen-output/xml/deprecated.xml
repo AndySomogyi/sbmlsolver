@@ -8,7 +8,10 @@
     <detaileddescription>
 <para><variablelist>
 <varlistentry><term>Class <ref refid="classrr_1_1RoadRunnerData" kindref="compound">rr::RoadRunnerData</ref>  </term></varlistentry>
-<listitem><para><anchor id="deprecated_1_deprecated000002"/></para>
+<listitem><para><anchor id="deprecated_1_deprecated000002"/> </para>
+</listitem>
+<varlistentry><term>Member <ref refid="group__initialConditions_1ga1e19db0cfd663b9648f59191afdc64c6" kindref="member">getFloatingSpeciesInitialConditionIds</ref>  (RRHandle handle)</term></varlistentry>
+<listitem><para><anchor id="deprecated_1_deprecated000003"/>Use <ref refid="group__initialConditions_1ga205905d483bb876f0557d8b40cba2213" kindref="member">getFloatingSpeciesInitialConcentrationIds</ref> </para>
 </listitem>
 </variablelist>
 </para>

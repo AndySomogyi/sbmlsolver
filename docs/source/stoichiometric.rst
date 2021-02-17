@@ -1,5 +1,3 @@
-.. currentmodule:: RoadRunner
-
 ***********************
 Stoichiometric Analysis
 ***********************
@@ -74,22 +72,20 @@ The extended stoichiometry matrix for this system is:
       reaction2_sink    [         0,         1,         0,         0,         0,         0,         0],
       reaction3_sink    [         0,         0,         1,         0,         0,         0,         0]]
 
-Methods
--------
+Methods for Stoichiometric Analysis
+-------------------------------------
 
 The following methods are related to the analysis of the stoichiometric matrix.
 
-.. autosummary::
-
-   RoadRunner.getLinkMatrix
-   RoadRunner.getNrMatrix
-   RoadRunner.getKMatrix
-   RoadRunner.getConservationMatrix
-   RoadRunner.getL0Matrix
-   RoadRunner.getFullStoichiometryMatrix
-   RoadRunner.getExtendedStoichiometryMatrix
-   RoadRunner.getReducedStoichiometryMatrix
-   ExecutableModel.getNumConservedMoieties
-   ExecutableModel.getConservedMoietyIds
-   ExecutableModel.getConservedMoietyValues
-   ExecutableModel.setConservedMoietyValues
+   :cpp:class:`RoadRunner::getLinkMatrix`
+   :cpp:class:`RoadRunner::getNrMatrix`
+   :cpp:class:`RoadRunner::getKMatrix`
+   :cpp:class:`RoadRunner::getConservationMatrix`
+   :cpp:class:`RoadRunner::getL0Matrix`
+   :cpp:class:`RoadRunner::getFullStoichiometryMatrix`
+   :cpp:class:`RoadRunner::getExtendedStoichiometryMatrix`
+   :cpp:class:`RoadRunner::getReducedStoichiometryMatrix`
+   :cpp:class:`ExecutableModel::getNumConservedMoieties`
+   :cpp:class:`ExecutableModel::getConservedMoietyIds`
+   :cpp:class:`ExecutableModel::getConservedMoietyValues`
+   :cpp:class:`ExecutableModel::setConservedMoietyValues`

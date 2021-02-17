@@ -1,0 +1,282 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Loading Models &mdash; libRoadRunner 1.1.16 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/sphinx_tabs/semantic-ui-2.4.1/segment.min.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/sphinx_tabs/semantic-ui-2.4.1/menu.min.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/sphinx_tabs/semantic-ui-2.4.1/tab.min.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/sphinx_tabs/tabs.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Running Simulations" href="running_simulations.html" />
+    <link rel="prev" title="Import RoadRunner" href="import_roadrunner.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> libRoadRunner
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">RoadRunner Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Installation/installation.html">Installing RoadRunner</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="tutorial.html">Tutorial</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="what_is_sbml.html">What Is SBML?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="what_is_rr.html">What is libRoadRunner</a></li>
+<li class="toctree-l2"><a class="reference internal" href="import_roadrunner.html">Import RoadRunner</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Loading Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="running_simulations.html">Running Simulations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changing_parameters.html">Changing Parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="selecting_output.html">Selecting Simulation Output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plotting_data.html">Plotting Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changing_initial_conditions.html">Changing Initial Conditions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="solvers.html">Roadrunner Solvers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#quickstart">Quickstart</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../read_write_functions.html">SBML Read/Write Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../selecting_values.html">Selecting Values</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../steady_state.html">Steady State Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../stochastic.html">Stochastic Simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../metabolic.html">Metabolic Control Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../stability.html">Stability Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../stoichiometric.html">Stoichiometric Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bifurcation.html">Bifurcation Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../simulation_and_integration.html">Simulation and Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utility_functions.html">Utility Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../accessing_model.html">Accessing the SBML Model Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rrplugins/rrplugins_documentation.html">rrPlugins Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../PythonAPIReference/api_reference.html">Python RoadRunner API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../C%2B%2BAPIReference/index.html">The LibRoadRunner C++ Library</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">libRoadRunner</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="tutorial.html">Tutorial</a> &raquo;</li>
+        
+      <li>Loading Models</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/tutorial/loading_models.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="loading-models">
+<h1>Loading Models<a class="headerlink" href="#loading-models" title="Permalink to this headline">¶</a></h1>
+<p>RoadRunner reads models using the SBML format. If you have a SBML model stored on your hard drive, it is
+possible to load that model either by giving he document contents or path to the Roadrunner
+constructor, or later by using the method, <code class="xref py py-meth docutils literal notranslate"><span class="pre">load()</span></code>. Let’s assume you have a model called
+mymodel.xml in <code class="docutils literal notranslate"><span class="pre">C:\MyModels</span></code>. To load this model in <strong>Windows</strong> we would use the command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">rr</span> <span class="o">=</span> <span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="p">(</span><span class="s2">&quot;C:/MyModels/mymodel.xml&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Note, Windows typically used the back slash, ‘\’ to indicate a directory separator, however in
+most languages including python, this is the escape character, therefore one can also enter Windows
+paths using the forward slash ‘/’ which does not cause issues. If one want to use the backslash,
+these must be typed twice, i.e. <code class="docutils literal notranslate"><span class="pre">'C:\\MyModels\\mymodel.xml'</span></code>.</p>
+<p>On the <strong>Mac or Linux</strong> we might use:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">rr</span> <span class="o">=</span> <span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="p">(</span><span class="s2">&quot;/home/MyModels/mymodel.xml&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>RoadRunner can also load models directly from a URL via:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">rr</span> <span class="o">=</span> <span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="p">(</span><span class="s2">&quot;http://www.ebi.ac.uk/biomodels-main/download?mid=BIOMD0000000010&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If the model was loaded successfully, the RoadRunner object is now ready to use,  otherwise an exception will
+be raised that contains extended information detailing exactly what failed. If any warnings are
+found in the SBML document, these will be displayed in the console error log.</p>
+<p>It is also possible to load a model from a string containing a SBML model, for example:</p>
+<blockquote>
+<div><p>rr = roadrunner.RoadRunner (sbmlStr)</p>
+</div></blockquote>
+<p>This is useful when one wishes to create a new roadrunner instance from an existing model, eg:</p>
+<blockquote>
+<div><p>sbmlStr = rr.getCurrentSBML()
+rrnew = roadrunner.RoadRunner (sbmlStr)</p>
+</div></blockquote>
+<p>Additionally, there are a couple models <strong>included with libRoadRunner</strong>. The models  <code class="docutils literal notranslate"><span class="pre">feedback.xml</span></code>
+and <code class="docutils literal notranslate"><span class="pre">Test_1.xml</span></code> are available in the <code class="docutils literal notranslate"><span class="pre">roadrunner.testing</span></code> module. To access these use:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">roadrunner.testing</span> <span class="k">as</span> <span class="nn">test</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">test</span><span class="o">.</span><span class="n">getRoadRunner</span><span class="p">(</span><span class="s1">&#39;feedback.xml&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>There are a few additional models in the <code class="docutils literal notranslate"><span class="pre">models/</span></code> directory of the distribution, where you installed libRoadRunner.</p>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="running_simulations.html" class="btn btn-neutral float-right" title="Running Simulations" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="import_roadrunner.html" class="btn btn-neutral float-left" title="Import RoadRunner" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2013-2018, Andy Somogyi, J Kyle Medley, Kiri Choi, Herbert Suaro.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

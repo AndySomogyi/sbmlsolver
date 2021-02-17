@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+  <compounddef id="structRRComplexMatrix" kind="struct" language="C++" prot="public">
+    <compoundname>RRComplexMatrix</compoundname>
+    <includes refid="rrc__types_8h" local="no">rrc_types.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structRRComplexMatrix_1ad576272aa8a6bbd752dc3628307f512a" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int RRComplexMatrix::RSize</definition>
+        <argsstring></argsstring>
+        <name>RSize</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>The number of rows in the matrix </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_types.h" line="102" column="25" bodyfile="D:/roadrunner/roadrunner/wrappers/C/rrc_types.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structRRComplexMatrix_1ac78072d57b04058c4a816b23abcdff2a" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int RRComplexMatrix::CSize</definition>
+        <argsstring></argsstring>
+        <name>CSize</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>The number of columns in the matrix </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_types.h" line="103" column="25" bodyfile="D:/roadrunner/roadrunner/wrappers/C/rrc_types.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structRRComplexMatrix_1ade1afed558e746cb1f1c375ed3b8240a" prot="public" static="no" mutable="no">
+        <type><ref refid="rrc__types_8h_1ada2046d7326c56ae29d8510fbf6622ee" kindref="member">RRComplexPtr</ref></type>
+        <definition>RRComplexPtr RRComplexMatrix::Data</definition>
+        <argsstring></argsstring>
+        <name>Data</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Items in the matrix stored as a linear array. Access an element using Data[row*CSize + col], where i,j represent the row and column numberof the element. Indexing is from zero </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_types.h" line="104" column="25" bodyfile="D:/roadrunner/roadrunner/wrappers/C/rrc_types.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Structure for a simple complex Matrix type. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>RRComplexMatrix</label>
+        <link refid="structRRComplexMatrix"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>Data</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>RRComplex</label>
+        <link refid="structRRComplex"/>
+      </node>
+    </collaborationgraph>
+    <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_types.h" line="100" column="1" bodyfile="D:/roadrunner/roadrunner/wrappers/C/rrc_types.h" bodystart="101" bodyend="106"/>
+    <listofallmembers>
+      <member refid="structRRComplexMatrix_1ac78072d57b04058c4a816b23abcdff2a" prot="public" virt="non-virtual"><scope>RRComplexMatrix</scope><name>CSize</name></member>
+      <member refid="structRRComplexMatrix_1ade1afed558e746cb1f1c375ed3b8240a" prot="public" virt="non-virtual"><scope>RRComplexMatrix</scope><name>Data</name></member>
+      <member refid="structRRComplexMatrix_1ad576272aa8a6bbd752dc3628307f512a" prot="public" virt="non-virtual"><scope>RRComplexMatrix</scope><name>RSize</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

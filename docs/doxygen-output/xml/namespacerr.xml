@@ -280,81 +280,6 @@
         </inbodydescription>
         <location file="rrRoadRunner.cpp" line="160" column="1" bodyfile="rrRoadRunner.cpp" bodystart="161" bodyend="167"/>
       </memberdef>
-      <memberdef kind="enum" id="rrVersionInfo_8h_1a50723fed79be1ce514a65d4e010aff3b" prot="public" static="no" strong="no">
-        <type></type>
-        <name>VersionStrOptions</name>
-        <enumvalue id="rrVersionInfo_8h_1a50723fed79be1ce514a65d4e010aff3ba6629a8b77bfe508c80f97b575d4a23df" prot="public">
-          <name>VERSIONSTR_BASIC</name>
-          <initializer>= (0x1 &lt;&lt; 0)</initializer>
-          <briefdescription>
-<para>the basic version string, i.e. </para>
-          </briefdescription>
-          <detaileddescription>
-<para>&quot;1.0.0&quot; </para>
-          </detaileddescription>
-        </enumvalue>
-        <enumvalue id="rrVersionInfo_8h_1a50723fed79be1ce514a65d4e010aff3bae0e5e919c0af20e824ce3ce0d5bcc4b1" prot="public">
-          <name>VERSIONSTR_COMPILER</name>
-          <initializer>= (0x1 &lt;&lt; 1)</initializer>
-          <briefdescription>
-<para>the compiler string </para>
-          </briefdescription>
-          <detaileddescription>
-          </detaileddescription>
-        </enumvalue>
-        <enumvalue id="rrVersionInfo_8h_1a50723fed79be1ce514a65d4e010aff3ba2a835cad56772ffa8c765cd58c1c5634" prot="public">
-          <name>VERSIONSTR_DATE</name>
-          <initializer>= (0x1 &lt;&lt; 2)</initializer>
-          <briefdescription>
-<para>when roadrunner was compiled </para>
-          </briefdescription>
-          <detaileddescription>
-          </detaileddescription>
-        </enumvalue>
-        <enumvalue id="rrVersionInfo_8h_1a50723fed79be1ce514a65d4e010aff3baf0440a04cdcb35f3631313271311b8af" prot="public">
-          <name>VERSIONSTR_LIBSBML</name>
-          <initializer>= (0x1 &lt;&lt; 3)</initializer>
-          <briefdescription>
-<para>the version of libSBML we&apos;re using </para>
-          </briefdescription>
-          <detaileddescription>
-          </detaileddescription>
-        </enumvalue>
-        <enumvalue id="rrVersionInfo_8h_1a50723fed79be1ce514a65d4e010aff3ba245d09cebef10dc72e44559d0f173fe8" prot="public">
-          <name>VERSIONSTR_JITCOMPILER</name>
-          <initializer>= (0x1 &lt;&lt; 4)</initializer>
-          <briefdescription>
-          </briefdescription>
-          <detaileddescription>
-          </detaileddescription>
-        </enumvalue>
-        <enumvalue id="rrVersionInfo_8h_1a50723fed79be1ce514a65d4e010aff3ba60f8eb486c3078c258f5518a5a7eb54e" prot="public">
-          <name>VERSIONSTR_GIT_BRANCH</name>
-          <initializer>= (0x1 &lt;&lt; 5)</initializer>
-          <briefdescription>
-<para>what git branch we are on. </para>
-          </briefdescription>
-          <detaileddescription>
-          </detaileddescription>
-        </enumvalue>
-        <enumvalue id="rrVersionInfo_8h_1a50723fed79be1ce514a65d4e010aff3ba47aea2b9e3498cbec0d49c1774619e40" prot="public">
-          <name>VERSIONSTR_GIT_COMMIT</name>
-          <initializer>= (0x1 &lt;&lt; 6)</initializer>
-          <briefdescription>
-<para>the last commit. </para>
-          </briefdescription>
-          <detaileddescription>
-          </detaileddescription>
-        </enumvalue>
-        <briefdescription>
-<para>various options of how the get the version string. </para>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="rrVersionInfo.h" line="62" column="1" bodyfile="rrVersionInfo.h" bodystart="63" bodyend="95"/>
-      </memberdef>
       <memberdef kind="enum" id="SBMLValidator_8h_1ae9b68e1552acb4d494177d09c229a409" prot="public" static="no" strong="no">
         <type></type>
         <name>ValidateSBML</name>
@@ -2052,7 +1977,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="7174" column="6" bodyfile="rrRoadRunner.cpp" bodystart="7174" bodyend="7184" declfile="rrRoadRunner.cpp" declline="147" declcolumn="13"/>
+        <location file="rrRoadRunner.cpp" line="7172" column="6" bodyfile="rrRoadRunner.cpp" bodystart="7172" bodyend="7182" declfile="rrRoadRunner.cpp" declline="147" declcolumn="13"/>
       </memberdef>
       <memberdef kind="function" id="rrRoadRunner_8cpp_1ad900af7633d26b2608f329edb942501a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -2077,7 +2002,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="7186" column="6" bodyfile="rrRoadRunner.cpp" bodystart="7186" bodyend="7198" declfile="rrRoadRunner.cpp" declline="149" declcolumn="13"/>
+        <location file="rrRoadRunner.cpp" line="7184" column="6" bodyfile="rrRoadRunner.cpp" bodystart="7184" bodyend="7196" declfile="rrRoadRunner.cpp" declline="149" declcolumn="13"/>
       </memberdef>
       <memberdef kind="function" id="rrRoadRunner_8cpp_1ad850b7c1fe5f141aab4e1b61d1a21d20" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -2174,7 +2099,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="6224" column="6" bodyfile="rrRoadRunner.cpp" bodystart="6224" bodyend="6270"/>
+        <location file="rrRoadRunner.cpp" line="6222" column="6" bodyfile="rrRoadRunner.cpp" bodystart="6222" bodyend="6268"/>
       </memberdef>
       <memberdef kind="function" id="rrRoadRunnerData_8cpp_1ae1f3a3183fdbf583f0e3689b63572665" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>ostream &amp;</type>
@@ -5296,40 +5221,35 @@
         </inbodydescription>
         <location file="rrUtils.h" line="46" column="29" declfile="rrUtils.h" declline="46" declcolumn="29"/>
       </memberdef>
-      <memberdef kind="function" id="rrVersionInfo_8cpp_1abe5db9b8271f41644fa2c6b6b2b6f614" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="rrVersionInfo_8cpp_1af920920c8778b635f231f004abe1733c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
-        <definition>RR_DECLSPEC std::string rr::getVersionStr</definition>
-        <argsstring>(unsigned options=VERSIONSTR_BASIC|VERSIONSTR_COMPILER|VERSIONSTR_LIBSBML|VERSIONSTR_JITCOMPILER|VERSIONSTR_DATE)</argsstring>
+        <definition>std::string rr::getVersionStr</definition>
+        <argsstring>(unsigned options)</argsstring>
         <name>getVersionStr</name>
         <param>
           <type>unsigned</type>
           <declname>options</declname>
-          <defval>VERSIONSTR_BASIC|VERSIONSTR_COMPILER|VERSIONSTR_LIBSBML|VERSIONSTR_JITCOMPILER|VERSIONSTR_DATE</defval>
         </param>
         <briefdescription>
-<para>get the roadrunner version string. </para>
         </briefdescription>
         <detaileddescription>
-<para>The options can be any set of the values from the VersionStrOptions enum.</para>
-<para>Each one of these options are concatenated into the output string and there are &apos;;&apos; separators between each of them. </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrVersionInfo.cpp" line="17" column="13" bodyfile="rrVersionInfo.cpp" bodystart="17" bodyend="102" declfile="rrVersionInfo.h" declline="105" declcolumn="25"/>
+        <location file="rrVersionInfo.cpp" line="17" column="13" bodyfile="rrVersionInfo.cpp" bodystart="17" bodyend="102"/>
       </memberdef>
-      <memberdef kind="function" id="rrVersionInfo_8cpp_1a93ac3ac049826f33c95dd1f6e9835900" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="rrVersionInfo_8cpp_1aea285419594d847528e94d7a4091862b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
-        <definition>RR_DECLSPEC std::string rr::getCopyrightStr</definition>
+        <definition>std::string rr::getCopyrightStr</definition>
         <argsstring>()</argsstring>
         <name>getCopyrightStr</name>
         <briefdescription>
-<para>get the copyright string. </para>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrVersionInfo.cpp" line="104" column="13" bodyfile="rrVersionInfo.cpp" bodystart="104" bodyend="107" declfile="rrVersionInfo.h" declline="112" declcolumn="25"/>
+        <location file="rrVersionInfo.cpp" line="104" column="13" bodyfile="rrVersionInfo.cpp" bodystart="104" bodyend="107"/>
       </memberdef>
       <memberdef kind="function" id="SBMLValidator_8cpp_1a7f405d05e71fef7173969b80f7dfb1d7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>

@@ -1,0 +1,180 @@
+\hypertarget{rrc__macros_8h}{}\doxysection{D\+:/roadrunner/roadrunner/wrappers/\+C/rrc\+\_\+macros.h File Reference}
+\label{rrc__macros_8h}\index{D:/roadrunner/roadrunner/wrappers/C/rrc\_macros.h@{D:/roadrunner/roadrunner/wrappers/C/rrc\_macros.h}}
+
+
+road\+Runner C wrappers 2012  
+
+
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{rrc__macros_8h_af21ae6629abfdec1764f2d56b2e11b6c}{start\+\_\+try}}
+\begin{DoxyCompactList}\small\item\em macro to open a try/catch statement \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{rrc__macros_8h_a71a22664597e60878fce59b688632467}{catch\+\_\+bool\+\_\+macro}}
+\begin{DoxyCompactList}\small\item\em macro for catch statement in a routine returning a bool \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{rrc__macros_8h_a1ae943be35ee4f94f68c62328ba54869}{catch\+\_\+ptr\+\_\+macro}}
+\begin{DoxyCompactList}\small\item\em macro for catch statement in a routine returning a pointer \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{rrc__macros_8h_a2d915135cd4d9ccf48a7784826e23774}{catch\+\_\+int\+\_\+macro}}
+\begin{DoxyCompactList}\small\item\em macro for catch statement in a routine returning a positive integer \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{rrc__macros_8h_ab5528e4d10d925b625c20550e7ed7e0b}{catch\+\_\+double\+\_\+macro}}
+\begin{DoxyCompactList}\small\item\em macro for catch statement in a routine returning a real numbers \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{rrc__macros_8h_a031f18333c04ef2c39fbff49ad2032b0}{catch\+\_\+void\+\_\+macro}}
+\begin{DoxyCompactList}\small\item\em macro for catch statement in a routine returning void \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+road\+Runner C wrappers 2012 
+
+\begin{DoxyAuthor}{Author}
+Totte Karlsson \& Herbert M Sauro
+\end{DoxyAuthor}
+$<$-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/--- This file is part of c\+Road\+Runner. See \href{http://code.google.com/p/roadrunnerlib}{\texttt{ http\+://code.\+google.\+com/p/roadrunnerlib}} for more details.
+
+Copyright (C) 2012-\/2013 University of Washington, Seattle, WA, U\+SA
+
+Licensed under the Apache License, Version 2.\+0 (the \char`\"{}\+License\char`\"{}); you may not use this file except in compliance with the License. You may obtain a copy of the License at \begin{DoxyVerb}http://www.apache.org/licenses/LICENSE-2.0
+\end{DoxyVerb}
+
+
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an \char`\"{}\+A\+S I\+S\char`\"{} B\+A\+S\+IS, W\+I\+T\+H\+O\+UT W\+A\+R\+R\+A\+N\+T\+I\+ES OR C\+O\+N\+D\+I\+T\+I\+O\+NS OF A\+NY K\+I\+ND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
+
+In plain english this means\+:
+
+You C\+AN freely download and use this software, in whole or in part, for personal, company internal, or commercial purposes;
+
+You C\+AN use the software in packages or distributions that you create.
+
+You S\+H\+O\+U\+LD include a copy of the license in any redistribution you may make;
+
+You are N\+OT required include the source of software, or of any modifications you may have made to it, in any redistribution you may assemble that includes it.
+
+Y\+OU C\+A\+N\+N\+OT\+:
+
+redistribute any piece of this software without proper attribution; 
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{rrc__macros_8h_a71a22664597e60878fce59b688632467}\label{rrc__macros_8h_a71a22664597e60878fce59b688632467}} 
+\index{rrc\_macros.h@{rrc\_macros.h}!catch\_bool\_macro@{catch\_bool\_macro}}
+\index{catch\_bool\_macro@{catch\_bool\_macro}!rrc\_macros.h@{rrc\_macros.h}}
+\doxysubsubsection{\texorpdfstring{catch\_bool\_macro}{catch\_bool\_macro}}
+{\footnotesize\ttfamily \#define catch\+\_\+bool\+\_\+macro}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{    \}                                                       \(\backslash\)}
+\DoxyCodeLine{    catch(exception\& ex)                                    \(\backslash\)}
+\DoxyCodeLine{    \{                                                       \(\backslash\)}
+\DoxyCodeLine{        stringstream msg;                                   \(\backslash\)}
+\DoxyCodeLine{        msg<<\textcolor{stringliteral}{"{}RoadRunner exception: "{}}<<ex.what()<<endl;     \(\backslash\)}
+\DoxyCodeLine{        setError(msg.str());                                \(\backslash\)}
+\DoxyCodeLine{        return \textcolor{keyword}{false};                                       \(\backslash\)}
+\DoxyCodeLine{    \}}
+
+\end{DoxyCode}
+
+
+macro for catch statement in a routine returning a bool 
+
+\mbox{\Hypertarget{rrc__macros_8h_ab5528e4d10d925b625c20550e7ed7e0b}\label{rrc__macros_8h_ab5528e4d10d925b625c20550e7ed7e0b}} 
+\index{rrc\_macros.h@{rrc\_macros.h}!catch\_double\_macro@{catch\_double\_macro}}
+\index{catch\_double\_macro@{catch\_double\_macro}!rrc\_macros.h@{rrc\_macros.h}}
+\doxysubsubsection{\texorpdfstring{catch\_double\_macro}{catch\_double\_macro}}
+{\footnotesize\ttfamily \#define catch\+\_\+double\+\_\+macro}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{    \}                                                       \(\backslash\)}
+\DoxyCodeLine{    catch(exception\& ex)                                    \(\backslash\)}
+\DoxyCodeLine{    \{                                                       \(\backslash\)}
+\DoxyCodeLine{        stringstream msg;                                   \(\backslash\)}
+\DoxyCodeLine{        msg<<\textcolor{stringliteral}{"{}RoadRunner exception: "{}}<<ex.what()<<endl;     \(\backslash\)}
+\DoxyCodeLine{        setError(msg.str());                                \(\backslash\)}
+\DoxyCodeLine{        return -\/1;                                          \(\backslash\)}
+\DoxyCodeLine{    \}}
+
+\end{DoxyCode}
+
+
+macro for catch statement in a routine returning a real numbers 
+
+\mbox{\Hypertarget{rrc__macros_8h_a2d915135cd4d9ccf48a7784826e23774}\label{rrc__macros_8h_a2d915135cd4d9ccf48a7784826e23774}} 
+\index{rrc\_macros.h@{rrc\_macros.h}!catch\_int\_macro@{catch\_int\_macro}}
+\index{catch\_int\_macro@{catch\_int\_macro}!rrc\_macros.h@{rrc\_macros.h}}
+\doxysubsubsection{\texorpdfstring{catch\_int\_macro}{catch\_int\_macro}}
+{\footnotesize\ttfamily \#define catch\+\_\+int\+\_\+macro}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{    \}                                                       \(\backslash\)}
+\DoxyCodeLine{    catch(exception\& ex)                                    \(\backslash\)}
+\DoxyCodeLine{    \{                                                       \(\backslash\)}
+\DoxyCodeLine{        stringstream msg;                                   \(\backslash\)}
+\DoxyCodeLine{        msg<<\textcolor{stringliteral}{"{}RoadRunner exception: "{}}<<ex.what()<<endl;     \(\backslash\)}
+\DoxyCodeLine{        setError(msg.str());                                \(\backslash\)}
+\DoxyCodeLine{        return -\/1;                                          \(\backslash\)}
+\DoxyCodeLine{    \}}
+
+\end{DoxyCode}
+
+
+macro for catch statement in a routine returning a positive integer 
+
+\mbox{\Hypertarget{rrc__macros_8h_a1ae943be35ee4f94f68c62328ba54869}\label{rrc__macros_8h_a1ae943be35ee4f94f68c62328ba54869}} 
+\index{rrc\_macros.h@{rrc\_macros.h}!catch\_ptr\_macro@{catch\_ptr\_macro}}
+\index{catch\_ptr\_macro@{catch\_ptr\_macro}!rrc\_macros.h@{rrc\_macros.h}}
+\doxysubsubsection{\texorpdfstring{catch\_ptr\_macro}{catch\_ptr\_macro}}
+{\footnotesize\ttfamily \#define catch\+\_\+ptr\+\_\+macro}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{    \}                                                       \(\backslash\)}
+\DoxyCodeLine{    catch(exception\& ex)                                    \(\backslash\)}
+\DoxyCodeLine{    \{                                                       \(\backslash\)}
+\DoxyCodeLine{        stringstream msg;                                   \(\backslash\)}
+\DoxyCodeLine{        msg<<\textcolor{stringliteral}{"{}RoadRunner exception: "{}}<<ex.what()<<endl;     \(\backslash\)}
+\DoxyCodeLine{        setError(msg.str());                                \(\backslash\)}
+\DoxyCodeLine{        return NULL;                                        \(\backslash\)}
+\DoxyCodeLine{    \}}
+
+\end{DoxyCode}
+
+
+macro for catch statement in a routine returning a pointer 
+
+\mbox{\Hypertarget{rrc__macros_8h_a031f18333c04ef2c39fbff49ad2032b0}\label{rrc__macros_8h_a031f18333c04ef2c39fbff49ad2032b0}} 
+\index{rrc\_macros.h@{rrc\_macros.h}!catch\_void\_macro@{catch\_void\_macro}}
+\index{catch\_void\_macro@{catch\_void\_macro}!rrc\_macros.h@{rrc\_macros.h}}
+\doxysubsubsection{\texorpdfstring{catch\_void\_macro}{catch\_void\_macro}}
+{\footnotesize\ttfamily \#define catch\+\_\+void\+\_\+macro}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{    \}                                                       \(\backslash\)}
+\DoxyCodeLine{    catch(\textcolor{keyword}{const} exception\& ex)                              \(\backslash\)}
+\DoxyCodeLine{    \{                                                       \(\backslash\)}
+\DoxyCodeLine{        stringstream msg;                                   \(\backslash\)}
+\DoxyCodeLine{        msg<<\textcolor{stringliteral}{"{}RoadRunner exception: "{}}<<ex.what()<<endl;     \(\backslash\)}
+\DoxyCodeLine{        setError(msg.str());                                \(\backslash\)}
+\DoxyCodeLine{    \}}
+
+\end{DoxyCode}
+
+
+macro for catch statement in a routine returning void 
+
+\mbox{\Hypertarget{rrc__macros_8h_af21ae6629abfdec1764f2d56b2e11b6c}\label{rrc__macros_8h_af21ae6629abfdec1764f2d56b2e11b6c}} 
+\index{rrc\_macros.h@{rrc\_macros.h}!start\_try@{start\_try}}
+\index{start\_try@{start\_try}!rrc\_macros.h@{rrc\_macros.h}}
+\doxysubsubsection{\texorpdfstring{start\_try}{start\_try}}
+{\footnotesize\ttfamily \#define start\+\_\+try}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{        \textcolor{keywordflow}{try}                                                 \(\backslash\)}
+\DoxyCodeLine{        \{}
+
+\end{DoxyCode}
+
+
+macro to open a try/catch statement 
+

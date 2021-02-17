@@ -18,63 +18,37 @@
     <includes refid="rrCompiledExecutableModel_8h" local="yes">rrCompiledExecutableModel.h</includes>
     <includes refid="rrRoadRunnerOptions_8h" local="yes">rrRoadRunnerOptions.h</includes>
     <incdepgraph>
-      <node id="21">
-        <label>Variant.h</label>
-        <link refid="Variant_8h_source"/>
-        <childnode refid="9" relation="include">
-        </childnode>
-        <childnode refid="22" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
-        <childnode refid="7" relation="include">
-        </childnode>
-      </node>
       <node id="16">
         <label>list</label>
       </node>
-      <node id="64">
-        <label>rrModelSymbols.h</label>
-        <link refid="rrModelSymbols_8h_source"/>
-        <childnode refid="65" relation="include">
-        </childnode>
-        <childnode refid="32" relation="include">
-        </childnode>
-        <childnode refid="60" relation="include">
-        </childnode>
-        <childnode refid="5" relation="include">
+      <node id="58">
+        <label>rrCodeBuilder.h</label>
+        <link refid="rrCodeBuilder_8h_source"/>
+        <childnode refid="59" relation="include">
         </childnode>
       </node>
-      <node id="74">
-        <label>mtrand.h</label>
-        <link refid="mtrand_8h_source"/>
-        <childnode refid="9" relation="include">
-        </childnode>
-      </node>
-      <node id="69">
-        <label>rrExecutableModel.h</label>
-        <link refid="rrExecutableModel_8h"/>
-        <childnode refid="41" relation="include">
-        </childnode>
-        <childnode refid="48" relation="include">
-        </childnode>
-        <childnode refid="4" relation="include">
-        </childnode>
-        <childnode refid="26" relation="include">
-        </childnode>
+      <node id="27">
+        <label>rrRule.h</label>
+        <link refid="rrRule_8h_source"/>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="7" relation="include">
-        </childnode>
-        <childnode refid="16" relation="include">
-        </childnode>
-        <childnode refid="34" relation="include">
-        </childnode>
-        <childnode refid="45" relation="include">
+        <childnode refid="9" relation="include">
         </childnode>
       </node>
       <node id="29">
         <label>queue</label>
+      </node>
+      <node id="11">
+        <label>rrConstants.h</label>
+        <link refid="rrConstants_8h_source"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
       </node>
       <node id="12">
         <label>limits</label>
@@ -87,6 +61,45 @@
       </node>
       <node id="14">
         <label>../wrappers/C/rrc_types.h</label>
+      </node>
+      <node id="10">
+        <label>rrStringList.h</label>
+        <link refid="rrStringList_8h_source"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>rrExporter.h</label>
+        <link refid="rrExporter_8h_source"/>
+      </node>
+      <node id="26">
+        <label>stdint.h</label>
+      </node>
+      <node id="28">
+        <label>rrScanner.h</label>
+        <link refid="rrScanner_8h_source"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
       </node>
       <node id="73">
         <label>rrRandom.h</label>
@@ -114,34 +127,84 @@
         <childnode refid="51" relation="include">
         </childnode>
       </node>
-      <node id="26">
-        <label>stdint.h</label>
+      <node id="51">
+        <label>stdexcept</label>
       </node>
-      <node id="44">
-        <label>Dictionary.h</label>
-        <link refid="Dictionary_8h_source"/>
-        <childnode refid="21" relation="include">
+      <node id="50">
+        <label>Solver.h</label>
+        <link refid="Solver_8h"/>
+        <childnode refid="39" relation="include">
         </childnode>
-        <childnode refid="8" relation="include">
+        <childnode refid="41" relation="include">
         </childnode>
-        <childnode refid="7" relation="include">
+        <childnode refid="44" relation="include">
+        </childnode>
+        <childnode refid="48" relation="include">
         </childnode>
         <childnode refid="45" relation="include">
         </childnode>
         <childnode refid="46" relation="include">
         </childnode>
-      </node>
-      <node id="41">
-        <label>rrOSSpecifics.h</label>
-        <link refid="rrOSSpecifics_8h_source"/>
-        <childnode refid="9" relation="include">
+        <childnode refid="51" relation="include">
         </childnode>
-      </node>
-      <node id="51">
-        <label>stdexcept</label>
       </node>
       <node id="57">
         <label>Poco/SharedLibrary.h</label>
+      </node>
+      <node id="62">
+        <label>sbml/math/ASTNode.h</label>
+      </node>
+      <node id="39">
+        <label>rrLogger.h</label>
+        <link refid="rrLogger_8h_source"/>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>string</label>
+      </node>
+      <node id="46">
+        <label>tr1proxy/rr_unordered_map.h</label>
+      </node>
+      <node id="18">
+        <label>map</label>
+      </node>
+      <node id="52">
+        <label>sbml/Species.h</label>
+      </node>
+      <node id="3">
+        <label>sbml/Model.h</label>
+      </node>
+      <node id="49">
+        <label>exception</label>
+      </node>
+      <node id="72">
+        <label>rrEvent.h</label>
+        <link refid="rrEvent_8h_source"/>
+        <childnode refid="73" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+      </node>
+      <node id="30">
+        <label>fstream</label>
+      </node>
+      <node id="34">
+        <label>ostream</label>
+      </node>
+      <node id="65">
+        <label>rrSymbolList.h</label>
+        <link refid="rrSymbolList_8h_source"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="63" relation="include">
+        </childnode>
       </node>
       <node id="55">
         <label>rrCompiledModelGenerator.h</label>
@@ -163,70 +226,129 @@
         <childnode refid="5" relation="include">
         </childnode>
       </node>
-      <node id="62">
-        <label>sbml/math/ASTNode.h</label>
+      <node id="70">
+        <label>rrModelData.h</label>
+        <link refid="rrModelData_8h_source"/>
       </node>
-      <node id="8">
-        <label>string</label>
-      </node>
-      <node id="9">
-        <label>rrExporter.h</label>
-        <link refid="rrExporter_8h_source"/>
-      </node>
-      <node id="46">
-        <label>tr1proxy/rr_unordered_map.h</label>
-      </node>
-      <node id="39">
-        <label>rrLogger.h</label>
-        <link refid="rrLogger_8h_source"/>
-        <childnode refid="31" relation="include">
+      <node id="56">
+        <label>rrModelSharedLibrary.h</label>
+        <link refid="rrModelSharedLibrary_8h_source"/>
+        <childnode refid="57" relation="include">
         </childnode>
         <childnode refid="9" relation="include">
         </childnode>
-      </node>
-      <node id="18">
-        <label>map</label>
-      </node>
-      <node id="52">
-        <label>sbml/Species.h</label>
-      </node>
-      <node id="27">
-        <label>rrRule.h</label>
-        <link refid="rrRule_8h_source"/>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="9" relation="include">
+      </node>
+      <node id="36">
+        <label>rrSBMLSymbolDependencies.h</label>
+        <link refid="rrSBMLSymbolDependencies_8h_source"/>
+        <childnode refid="34" relation="include">
         </childnode>
-      </node>
-      <node id="3">
-        <label>sbml/Model.h</label>
-      </node>
-      <node id="49">
-        <label>exception</label>
-      </node>
-      <node id="30">
-        <label>fstream</label>
-      </node>
-      <node id="65">
-        <label>rrSymbolList.h</label>
-        <link refid="rrSymbolList_8h_source"/>
         <childnode refid="7" relation="include">
         </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
         <childnode refid="9" relation="include">
         </childnode>
-        <childnode refid="63" relation="include">
+        <childnode refid="23" relation="include">
         </childnode>
       </node>
-      <node id="34">
-        <label>ostream</label>
-      </node>
-      <node id="67">
-        <label>rrCompiler.h</label>
-        <link refid="rrCompiler_8h_source"/>
-        <childnode refid="41" relation="include">
+      <node id="48">
+        <label>rrException.h</label>
+        <link refid="rrException_8h_source"/>
+        <childnode refid="49" relation="include">
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="42">
+        <label>rrSelectionRecord.h</label>
+        <link refid="rrSelectionRecord_8h_source"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>typeinfo</label>
+      </node>
+      <node id="43">
+        <label>rrRoadRunnerOptions.h</label>
+        <link refid="rrRoadRunnerOptions_8h_source"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="44" relation="include">
+        </childnode>
+        <childnode refid="47" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="45" relation="include">
+        </childnode>
+        <childnode refid="46" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>rr-libstruct/lsLibStructural.h</label>
+      </node>
+      <node id="53">
+        <label>rr-libstruct/lsMatrix.h</label>
+      </node>
+      <node id="23">
+        <label>rrUtils.h</label>
+        <link refid="rrUtils_8h_source"/>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+      </node>
+      <node id="61">
+        <label>stack</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+      <node id="33">
+        <label>rrSBMLSymbol.h</label>
+        <link refid="rrSBMLSymbol_8h_source"/>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+      </node>
+      <node id="31">
+        <label>sstream</label>
       </node>
       <node id="66">
         <label>rrCCompiler.h</label>
@@ -240,71 +362,21 @@
         <childnode refid="10" relation="include">
         </childnode>
       </node>
-      <node id="50">
-        <label>Solver.h</label>
-        <link refid="Solver_8h"/>
-        <childnode refid="39" relation="include">
-        </childnode>
-        <childnode refid="41" relation="include">
-        </childnode>
-        <childnode refid="44" relation="include">
-        </childnode>
-        <childnode refid="48" relation="include">
-        </childnode>
-        <childnode refid="45" relation="include">
-        </childnode>
-        <childnode refid="46" relation="include">
-        </childnode>
-        <childnode refid="51" relation="include">
-        </childnode>
-      </node>
-      <node id="70">
-        <label>rrModelData.h</label>
-        <link refid="rrModelData_8h_source"/>
-      </node>
-      <node id="72">
-        <label>rrEvent.h</label>
-        <link refid="rrEvent_8h_source"/>
-        <childnode refid="73" relation="include">
-        </childnode>
-        <childnode refid="9" relation="include">
-        </childnode>
-        <childnode refid="34" relation="include">
-        </childnode>
-      </node>
-      <node id="40">
-        <label>rrRoadRunner.h</label>
-        <link refid="rrRoadRunner_8h_source"/>
-        <childnode refid="41" relation="include">
-        </childnode>
-        <childnode refid="42" relation="include">
-        </childnode>
-        <childnode refid="43" relation="include">
-        </childnode>
-        <childnode refid="52" relation="include">
-        </childnode>
-        <childnode refid="53" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
+      <node id="71">
+        <label>rrPendingAssignment.h</label>
+        <link refid="rrPendingAssignment_8h_source"/>
         <childnode refid="7" relation="include">
         </childnode>
-        <childnode refid="16" relation="include">
-        </childnode>
-        <childnode refid="20" relation="include">
-        </childnode>
-      </node>
-      <node id="63">
-        <label>rrSymbol.h</label>
-        <link refid="rrSymbol_8h_source"/>
-        <childnode refid="8" relation="include">
-        </childnode>
-        <childnode refid="34" relation="include">
-        </childnode>
-        <childnode refid="12" relation="include">
-        </childnode>
         <childnode refid="9" relation="include">
         </childnode>
+        <childnode refid="70" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>cstdlib</label>
+      </node>
+      <node id="25">
+        <label>iostream</label>
       </node>
       <node id="15">
         <label>rrStringUtils.h</label>
@@ -330,130 +402,35 @@
         <childnode refid="21" relation="include">
         </childnode>
       </node>
-      <node id="22">
-        <label>typeinfo</label>
-      </node>
-      <node id="5">
-        <label>rr-libstruct/lsLibStructural.h</label>
-      </node>
-      <node id="53">
-        <label>rr-libstruct/lsMatrix.h</label>
-      </node>
-      <node id="37">
-        <label>rrCodeTypes.h</label>
-        <link refid="rrCodeTypes_8h_source"/>
-      </node>
-      <node id="33">
-        <label>rrSBMLSymbol.h</label>
-        <link refid="rrSBMLSymbol_8h_source"/>
-        <childnode refid="34" relation="include">
-        </childnode>
-        <childnode refid="7" relation="include">
-        </childnode>
-        <childnode refid="35" relation="include">
-        </childnode>
-        <childnode refid="9" relation="include">
-        </childnode>
-        <childnode refid="23" relation="include">
-        </childnode>
-        <childnode refid="36" relation="include">
-        </childnode>
-      </node>
-      <node id="61">
-        <label>stack</label>
-      </node>
-      <node id="7">
-        <label>vector</label>
-      </node>
-      <node id="54">
-        <label>rrCModelGenerator.h</label>
-        <link refid="rrCModelGenerator_8h_source"/>
-        <childnode refid="55" relation="include">
-        </childnode>
-        <childnode refid="56" relation="include">
-        </childnode>
-        <childnode refid="58" relation="include">
-        </childnode>
-        <childnode refid="66" relation="include">
-        </childnode>
-      </node>
-      <node id="38">
-        <label>rrToken.h</label>
-        <link refid="rrToken_8h_source"/>
-        <childnode refid="9" relation="include">
-        </childnode>
-        <childnode refid="37" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
-      </node>
-      <node id="48">
-        <label>rrException.h</label>
-        <link refid="rrException_8h_source"/>
-        <childnode refid="49" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
-        <childnode refid="9" relation="include">
-        </childnode>
-      </node>
-      <node id="28">
-        <label>rrScanner.h</label>
-        <link refid="rrScanner_8h_source"/>
-        <childnode refid="9" relation="include">
-        </childnode>
-        <childnode refid="7" relation="include">
-        </childnode>
-        <childnode refid="29" relation="include">
-        </childnode>
-        <childnode refid="30" relation="include">
-        </childnode>
-        <childnode refid="31" relation="include">
-        </childnode>
-        <childnode refid="32" relation="include">
-        </childnode>
-        <childnode refid="37" relation="include">
-        </childnode>
-        <childnode refid="38" relation="include">
-        </childnode>
-      </node>
-      <node id="31">
-        <label>sstream</label>
-      </node>
-      <node id="10">
-        <label>rrStringList.h</label>
-        <link refid="rrStringList_8h_source"/>
+      <node id="6">
+        <label>rrStringListContainer.h</label>
+        <link refid="rrStringListContainer_8h_source"/>
         <childnode refid="7" relation="include">
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="11" relation="include">
-        </childnode>
-        <childnode refid="14" relation="include">
-        </childnode>
-      </node>
-      <node id="43">
-        <label>rrRoadRunnerOptions.h</label>
-        <link refid="rrRoadRunnerOptions_8h_source"/>
         <childnode refid="9" relation="include">
         </childnode>
-        <childnode refid="44" relation="include">
+        <childnode refid="10" relation="include">
         </childnode>
-        <childnode refid="47" relation="include">
+      </node>
+      <node id="35">
+        <label>deque</label>
+      </node>
+      <node id="21">
+        <label>Variant.h</label>
+        <link refid="Variant_8h_source"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
-        <childnode refid="45" relation="include">
-        </childnode>
-        <childnode refid="46" relation="include">
-        </childnode>
-        <childnode refid="26" relation="include">
-        </childnode>
       </node>
-      <node id="13">
-        <label>cstdlib</label>
+      <node id="19">
+        <label>unordered_map</label>
       </node>
       <node id="68">
         <label>rrCompiledExecutableModel.h</label>
@@ -479,110 +456,82 @@
         <childnode refid="61" relation="include">
         </childnode>
       </node>
-      <node id="25">
-        <label>iostream</label>
-      </node>
-      <node id="71">
-        <label>rrPendingAssignment.h</label>
-        <link refid="rrPendingAssignment_8h_source"/>
-        <childnode refid="7" relation="include">
+      <node id="69">
+        <label>rrExecutableModel.h</label>
+        <link refid="rrExecutableModel_8h"/>
+        <childnode refid="41" relation="include">
         </childnode>
-        <childnode refid="9" relation="include">
+        <childnode refid="48" relation="include">
         </childnode>
-        <childnode refid="70" relation="include">
+        <childnode refid="4" relation="include">
         </childnode>
-      </node>
-      <node id="35">
-        <label>deque</label>
-      </node>
-      <node id="19">
-        <label>unordered_map</label>
-      </node>
-      <node id="32">
-        <label>rrHashTable.h</label>
-        <link refid="rrHashTable_8h_source"/>
-        <childnode refid="18" relation="include">
+        <childnode refid="26" relation="include">
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="9" relation="include">
+        <childnode refid="7" relation="include">
         </childnode>
-        <childnode refid="33" relation="include">
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="45" relation="include">
         </childnode>
       </node>
       <node id="45">
         <label>tr1proxy/rr_memory.h</label>
       </node>
-      <node id="6">
-        <label>rrStringListContainer.h</label>
-        <link refid="rrStringListContainer_8h_source"/>
-        <childnode refid="7" relation="include">
-        </childnode>
+      <node id="63">
+        <label>rrSymbol.h</label>
+        <link refid="rrSymbol_8h_source"/>
         <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
         </childnode>
         <childnode refid="9" relation="include">
         </childnode>
-        <childnode refid="10" relation="include">
-        </childnode>
       </node>
-      <node id="23">
-        <label>rrUtils.h</label>
-        <link refid="rrUtils_8h_source"/>
-        <childnode refid="24" relation="include">
+      <node id="40">
+        <label>rrRoadRunner.h</label>
+        <link refid="rrRoadRunner_8h_source"/>
+        <childnode refid="41" relation="include">
         </childnode>
-        <childnode refid="7" relation="include">
+        <childnode refid="42" relation="include">
+        </childnode>
+        <childnode refid="43" relation="include">
+        </childnode>
+        <childnode refid="52" relation="include">
+        </childnode>
+        <childnode refid="53" relation="include">
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="25" relation="include">
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
         </childnode>
         <childnode refid="20" relation="include">
         </childnode>
+      </node>
+      <node id="64">
+        <label>rrModelSymbols.h</label>
+        <link refid="rrModelSymbols_8h_source"/>
+        <childnode refid="65" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="60" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="74">
+        <label>mtrand.h</label>
+        <link refid="mtrand_8h_source"/>
         <childnode refid="9" relation="include">
         </childnode>
-        <childnode refid="11" relation="include">
-        </childnode>
-        <childnode refid="15" relation="include">
-        </childnode>
-        <childnode refid="26" relation="include">
-        </childnode>
-      </node>
-      <node id="56">
-        <label>rrModelSharedLibrary.h</label>
-        <link refid="rrModelSharedLibrary_8h_source"/>
-        <childnode refid="57" relation="include">
-        </childnode>
-        <childnode refid="9" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
-      </node>
-      <node id="58">
-        <label>rrCodeBuilder.h</label>
-        <link refid="rrCodeBuilder_8h_source"/>
-        <childnode refid="59" relation="include">
-        </childnode>
-      </node>
-      <node id="11">
-        <label>rrConstants.h</label>
-        <link refid="rrConstants_8h_source"/>
-        <childnode refid="12" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
-        <childnode refid="13" relation="include">
-        </childnode>
-        <childnode refid="9" relation="include">
-        </childnode>
-      </node>
-      <node id="20">
-        <label>set</label>
-      </node>
-      <node id="17">
-        <label>complex</label>
-      </node>
-      <node id="2">
-        <label>algorithm</label>
       </node>
       <node id="60">
         <label>rrNOMSupport.h</label>
@@ -606,6 +555,91 @@
         <childnode refid="6" relation="include">
         </childnode>
         <childnode refid="32" relation="include">
+        </childnode>
+      </node>
+      <node id="59">
+        <label>rrStringBuilder.h</label>
+        <link refid="rrStringBuilder_8h_source"/>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="67">
+        <label>rrCompiler.h</label>
+        <link refid="rrCompiler_8h_source"/>
+        <childnode refid="41" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="37">
+        <label>rrCodeTypes.h</label>
+        <link refid="rrCodeTypes_8h_source"/>
+      </node>
+      <node id="20">
+        <label>set</label>
+      </node>
+      <node id="38">
+        <label>rrToken.h</label>
+        <link refid="rrToken_8h_source"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>complex</label>
+      </node>
+      <node id="54">
+        <label>rrCModelGenerator.h</label>
+        <link refid="rrCModelGenerator_8h_source"/>
+        <childnode refid="55" relation="include">
+        </childnode>
+        <childnode refid="56" relation="include">
+        </childnode>
+        <childnode refid="58" relation="include">
+        </childnode>
+        <childnode refid="66" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>algorithm</label>
+      </node>
+      <node id="44">
+        <label>Dictionary.h</label>
+        <link refid="Dictionary_8h_source"/>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="45" relation="include">
+        </childnode>
+        <childnode refid="46" relation="include">
+        </childnode>
+      </node>
+      <node id="32">
+        <label>rrHashTable.h</label>
+        <link refid="rrHashTable_8h_source"/>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+      </node>
+      <node id="41">
+        <label>rrOSSpecifics.h</label>
+        <link refid="rrOSSpecifics_8h_source"/>
+        <childnode refid="9" relation="include">
         </childnode>
       </node>
       <node id="1">
@@ -640,40 +674,6 @@
         <childnode refid="68" relation="include">
         </childnode>
         <childnode refid="43" relation="include">
-        </childnode>
-      </node>
-      <node id="36">
-        <label>rrSBMLSymbolDependencies.h</label>
-        <link refid="rrSBMLSymbolDependencies_8h_source"/>
-        <childnode refid="34" relation="include">
-        </childnode>
-        <childnode refid="7" relation="include">
-        </childnode>
-        <childnode refid="35" relation="include">
-        </childnode>
-        <childnode refid="9" relation="include">
-        </childnode>
-        <childnode refid="23" relation="include">
-        </childnode>
-      </node>
-      <node id="42">
-        <label>rrSelectionRecord.h</label>
-        <link refid="rrSelectionRecord_8h_source"/>
-        <childnode refid="9" relation="include">
-        </childnode>
-        <childnode refid="34" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
-      </node>
-      <node id="59">
-        <label>rrStringBuilder.h</label>
-        <link refid="rrStringBuilder_8h_source"/>
-        <childnode refid="31" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
-        <childnode refid="9" relation="include">
         </childnode>
       </node>
     </incdepgraph>

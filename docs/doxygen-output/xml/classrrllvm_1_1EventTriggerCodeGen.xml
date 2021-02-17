@@ -138,6 +138,9 @@
         <label>rrllvm::LLVMModelDataSymbols</label>
         <link refid="classrrllvm_1_1LLVMModelDataSymbols"/>
       </node>
+      <node id="5">
+        <label>SBMLVisitor</label>
+      </node>
       <node id="3">
         <label>rrllvm::CodeGenBase&lt; EventCodeGenBase_FunctionPtr &gt;</label>
         <link refid="classrrllvm_1_1CodeGenBase"/>
@@ -161,9 +164,6 @@
           <edgelabel>globalParameters</edgelabel>
           <edgelabel>speciesReferences</edgelabel>
         </childnode>
-      </node>
-      <node id="5">
-        <label>libsbml::SBMLVisitor</label>
       </node>
       <node id="8">
         <label>map&lt; string, const libsbml::ASTNode * &gt;</label>

@@ -7,12 +7,6 @@
     <includedby refid="rrCompiledExecutableModel_8cpp" local="yes">c/rrCompiledExecutableModel.cpp</includedby>
     <includedby refid="rrCompiledModelState_8cpp" local="yes">c/rrCompiledModelState.cpp</includedby>
     <incdepgraph>
-      <node id="2">
-        <label>rrOSSpecifics.h</label>
-        <link refid="rrOSSpecifics_8h_source"/>
-        <childnode refid="3" relation="include">
-        </childnode>
-      </node>
       <node id="3">
         <label>rrExporter.h</label>
         <link refid="rrExporter_8h_source"/>
@@ -26,6 +20,12 @@
         <childnode refid="2" relation="include">
         </childnode>
         <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>rrOSSpecifics.h</label>
+        <link refid="rrOSSpecifics_8h_source"/>
+        <childnode refid="3" relation="include">
         </childnode>
       </node>
     </incdepgraph>
