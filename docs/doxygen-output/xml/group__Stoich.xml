@@ -32,7 +32,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" line="915" column="43" declfile="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" declline="915" declcolumn="43"/>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="2171" column="43" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="2171" declcolumn="43"/>
       </memberdef>
       <memberdef kind="function" id="group__Stoich_1ga0f121b1c3787ad8c932174a777a865e2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>C_DECL_SPEC <ref refid="rrc__types_8h_1ae586a879d30f0823087e42d93464b5dd" kindref="member">RRDoubleMatrixPtr</ref> rrcCallConv</type>
@@ -63,7 +63,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" line="926" column="43" declfile="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" declline="926" declcolumn="43"/>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="2182" column="43" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="2182" declcolumn="43"/>
       </memberdef>
       <memberdef kind="function" id="group__Stoich_1ga2f8e012b9cefe206bdbac30f07619613" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>C_DECL_SPEC <ref refid="rrc__types_8h_1ae586a879d30f0823087e42d93464b5dd" kindref="member">RRDoubleMatrixPtr</ref> rrcCallConv</type>
@@ -93,7 +93,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" line="935" column="43" declfile="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" declline="935" declcolumn="43"/>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="2191" column="43" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="2191" declcolumn="43"/>
       </memberdef>
       <memberdef kind="function" id="group__Stoich_1ga162f8d37e89e83e5e14cee87c02f89f2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>C_DECL_SPEC <ref refid="rrc__types_8h_1ae586a879d30f0823087e42d93464b5dd" kindref="member">RRDoubleMatrixPtr</ref> rrcCallConv</type>
@@ -123,7 +123,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" line="949" column="43" declfile="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" declline="949" declcolumn="43"/>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="2205" column="43" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="2205" declcolumn="43"/>
       </memberdef>
       <memberdef kind="function" id="group__Stoich_1gad42abf401bcd8f7bbe9255d6013b512b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>C_DECL_SPEC <ref refid="rrc__types_8h_1ae586a879d30f0823087e42d93464b5dd" kindref="member">RRDoubleMatrixPtr</ref> rrcCallConv</type>
@@ -153,7 +153,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" line="958" column="43" declfile="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" declline="958" declcolumn="43"/>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="2214" column="43" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="2214" declcolumn="43"/>
       </memberdef>
       <memberdef kind="function" id="group__Stoich_1ga6f7995e073044c3e1767c9eda148e0c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>C_DECL_SPEC <ref refid="rrc__types_8h_1ae586a879d30f0823087e42d93464b5dd" kindref="member">RRDoubleMatrixPtr</ref> rrcCallConv</type>
@@ -183,7 +183,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" line="967" column="43" declfile="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" declline="967" declcolumn="43"/>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="2223" column="43" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="2223" declcolumn="43"/>
       </memberdef>
       <memberdef kind="function" id="group__Stoich_1gab253411012b1974cf831970034453aef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>C_DECL_SPEC <ref refid="rrc__types_8h_1ae586a879d30f0823087e42d93464b5dd" kindref="member">RRDoubleMatrixPtr</ref> rrcCallConv</type>
@@ -214,7 +214,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" line="978" column="43" declfile="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" declline="978" declcolumn="43"/>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="2234" column="43" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="2234" declcolumn="43"/>
       </memberdef>
       <memberdef kind="function" id="group__Stoich_1gabcc1c1d88e91e4c17888f63a1158fade" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>C_DECL_SPEC <ref refid="rrc__types_8h_1ae586a879d30f0823087e42d93464b5dd" kindref="member">RRDoubleMatrixPtr</ref> rrcCallConv</type>

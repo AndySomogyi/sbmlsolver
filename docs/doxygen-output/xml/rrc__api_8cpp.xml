@@ -715,7 +715,7 @@
 <codeline lineno="151"><highlight class="normal"><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref><sp/>rrcCallConv<sp/><ref refid="group__initialization_1ga3285113641ecf1dc35c39fceb39b60fc" kindref="member">createRRInstance</ref>()</highlight></codeline>
 <codeline lineno="152"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="rrc__macros_8h_1af21ae6629abfdec1764f2d56b2e11b6c" kindref="member">start_try</ref></highlight></codeline>
-<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/>rrInstallFolder(getParentFolder(<ref refid="group__utility_1ga98a4ed176eeff87e87fa4a4acf5240a6" kindref="member">getRRCAPILocation</ref>()));</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/>rrInstallFolder(getParentFolder(<ref refid="group__utility_1ga128bafde3b10f0ce64ca3c6b06b14cde" kindref="member">getRRCAPILocation</ref>()));</highlight></codeline>
 <codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/><ref refid="classrr_1_1RoadRunner" kindref="compound">RoadRunner</ref>(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/>getTempDir(),<sp/>joinPath(rrInstallFolder,<sp/></highlight><highlight class="stringliteral">&quot;rr_support&quot;</highlight><highlight class="normal">));</highlight></codeline>
 <codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="rrc__macros_8h_1a1ae943be35ee4f94f68c62328ba54869" kindref="member">catch_ptr_macro</ref></highlight></codeline>
 <codeline lineno="157"><highlight class="normal">}</highlight></codeline>
@@ -723,7 +723,7 @@
 <codeline lineno="159"><highlight class="normal"><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref><sp/>rrcCallConv<sp/><ref refid="group__initialization_1ga0bd8e459a637346cdf196f91148015ec" kindref="member">createRRInstanceEx</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>tempFolder,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>compiler_cstr)</highlight></codeline>
 <codeline lineno="160"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="rrc__macros_8h_1af21ae6629abfdec1764f2d56b2e11b6c" kindref="member">start_try</ref></highlight></codeline>
-<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>text1<sp/>=<sp/><ref refid="group__utility_1ga98a4ed176eeff87e87fa4a4acf5240a6" kindref="member">getRRCAPILocation</ref>();</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>text1<sp/>=<sp/><ref refid="group__utility_1ga128bafde3b10f0ce64ca3c6b06b14cde" kindref="member">getRRCAPILocation</ref>();</highlight></codeline>
 <codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/>text2<sp/>=<sp/>getParentFolder(text1);</highlight></codeline>
 <codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/>rrInstallFolder(text2);</highlight></codeline>
 <codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="group__freeRoutines_1gaaaea1b8264a6d7511153ef611fa88e53" kindref="member">rr::freeText</ref>(text1);</highlight></codeline>
@@ -747,7 +747,7 @@
 <codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="rrc__macros_8h_1a1ae943be35ee4f94f68c62328ba54869" kindref="member">catch_ptr_macro</ref></highlight></codeline>
 <codeline lineno="184"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="185"><highlight class="normal"></highlight></codeline>
-<codeline lineno="186"><highlight class="normal"></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="group__initialization_1ga0717cdb4fb8684f97a2b6793544ba6e2" kindref="member">getInstallFolder</ref>()</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="group__initialization_1gad1a68a41c939d388df3d8cf1f14023a5" kindref="member">getInstallFolder</ref>()</highlight></codeline>
 <codeline lineno="187"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(!<ref refid="rrc__utilities_8h_1ae4404be9766c980f2b2065a726ad42a6" kindref="member">gInstallFolder</ref>[0])</highlight></codeline>
 <codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
@@ -763,14 +763,14 @@
 <codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="rrc__macros_8h_1a71a22664597e60878fce59b688632467" kindref="member">catch_bool_macro</ref></highlight></codeline>
 <codeline lineno="200"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="201"><highlight class="normal"></highlight></codeline>
-<codeline lineno="202"><highlight class="normal"></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>rrcCallConv<sp/><ref refid="group__utility_1ga205f62add6103bac0fb26cad7e2e5914" kindref="member">getAPIVersion</ref>()</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>rrcCallConv<sp/><ref refid="group__utility_1gaff2a26066f24b54f39c68beeb5338c3c" kindref="member">getAPIVersion</ref>()</highlight></codeline>
 <codeline lineno="203"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="rrc__macros_8h_1af21ae6629abfdec1764f2d56b2e11b6c" kindref="member">start_try</ref></highlight></codeline>
 <codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="rrc__utilities_8h_1ac28208e24619f20c9cc90f7319ea270e" kindref="member">rr::createText</ref>(</highlight><highlight class="stringliteral">&quot;1.0&quot;</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="rrc__macros_8h_1a1ae943be35ee4f94f68c62328ba54869" kindref="member">catch_ptr_macro</ref></highlight></codeline>
 <codeline lineno="207"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="208"><highlight class="normal"></highlight></codeline>
-<codeline lineno="209"><highlight class="normal"></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>rrcCallConv<sp/><ref refid="group__utility_1ga176e563b3d7f32037c56ba1273d4c919" kindref="member">getCPPAPIVersion</ref>(<ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref><sp/>handle)</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>rrcCallConv<sp/><ref refid="group__utility_1ga090ca781c38ddbb220cfad882b172f53" kindref="member">getCPPAPIVersion</ref>(<ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref><sp/>handle)</highlight></codeline>
 <codeline lineno="210"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="rrc__macros_8h_1af21ae6629abfdec1764f2d56b2e11b6c" kindref="member">start_try</ref></highlight></codeline>
 <codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="rrc__utilities_8h_1ac28208e24619f20c9cc90f7319ea270e" kindref="member">rr::createText</ref>(<ref refid="rrc__api_8h_1a3ed15ae076fbdc30ee6f58705beb0763" kindref="member">rr::getVersionStr</ref>());</highlight></codeline>
@@ -797,7 +797,7 @@
 <codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="rrc__utilities_8h_1ac28208e24619f20c9cc90f7319ea270e" kindref="member">rr::createText</ref>(<ref refid="rrc__api_8h_1a3ed15ae076fbdc30ee6f58705beb0763" kindref="member">rr::getVersionStr</ref>(VERSIONSTR_BASIC<sp/>|<sp/>VERSIONSTR_COMPILER<sp/>|<sp/>VERSIONSTR_DATE).c_str());</highlight></codeline>
 <codeline lineno="234"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="235"><highlight class="normal"></highlight></codeline>
-<codeline lineno="236"><highlight class="normal"></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>rrcCallConv<sp/><ref refid="group__utility_1ga98a4ed176eeff87e87fa4a4acf5240a6" kindref="member">getRRCAPILocation</ref>()</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>rrcCallConv<sp/><ref refid="group__utility_1ga128bafde3b10f0ce64ca3c6b06b14cde" kindref="member">getRRCAPILocation</ref>()</highlight></codeline>
 <codeline lineno="237"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="238"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(_WIN32)<sp/>||<sp/>defined(WIN32)</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>path[MAX_PATH];</highlight></codeline>
@@ -813,11 +813,11 @@
 <codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NULL;</highlight></codeline>
 <codeline lineno="251"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="rrc__utilities_8h_1ac28208e24619f20c9cc90f7319ea270e" kindref="member">rr::createText</ref>(joinPath(<ref refid="group__initialization_1ga0717cdb4fb8684f97a2b6793544ba6e2" kindref="member">getInstallFolder</ref>(),</highlight><highlight class="stringliteral">&quot;/lib&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="rrc__utilities_8h_1ac28208e24619f20c9cc90f7319ea270e" kindref="member">rr::createText</ref>(joinPath(<ref refid="group__initialization_1gad1a68a41c939d388df3d8cf1f14023a5" kindref="member">getInstallFolder</ref>(),</highlight><highlight class="stringliteral">&quot;/lib&quot;</highlight><highlight class="normal">));</highlight></codeline>
 <codeline lineno="253"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="254"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="255"><highlight class="normal"></highlight></codeline>
-<codeline lineno="256"><highlight class="normal"></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>rrcCallConv<sp/><ref refid="group__utility_1ga909790f456d1a032049c75013814edd2" kindref="member">getCopyright</ref>()</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>rrcCallConv<sp/><ref refid="group__utility_1ga67a7b431f66978753a8837718fd0112f" kindref="member">getCopyright</ref>()</highlight></codeline>
 <codeline lineno="257"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="rrc__macros_8h_1af21ae6629abfdec1764f2d56b2e11b6c" kindref="member">start_try</ref></highlight></codeline>
 <codeline lineno="259"><highlight class="normal"></highlight></codeline>
@@ -827,7 +827,7 @@
 <codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="rrc__macros_8h_1a1ae943be35ee4f94f68c62328ba54869" kindref="member">catch_ptr_macro</ref></highlight></codeline>
 <codeline lineno="264"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="265"><highlight class="normal"></highlight></codeline>
-<codeline lineno="266"><highlight class="normal"></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>rrcCallConv<sp/><ref refid="group__utility_1gae657705965d7a22b555f62a44d90a15f" kindref="member">getInfo</ref>(<ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref><sp/>handle)</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>rrcCallConv<sp/><ref refid="group__utility_1ga84805d87e0b75fcaff3b7ad3d1179002" kindref="member">getInfo</ref>(<ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref><sp/>handle)</highlight></codeline>
 <codeline lineno="267"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="rrc__macros_8h_1af21ae6629abfdec1764f2d56b2e11b6c" kindref="member">start_try</ref></highlight></codeline>
 <codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classrr_1_1RoadRunner" kindref="compound">RoadRunner</ref>*<sp/>rri<sp/>=<sp/>castToRoadRunner(handle);</highlight></codeline>
@@ -835,7 +835,7 @@
 <codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="rrc__macros_8h_1a1ae943be35ee4f94f68c62328ba54869" kindref="member">catch_ptr_macro</ref></highlight></codeline>
 <codeline lineno="272"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="273"><highlight class="normal"></highlight></codeline>
-<codeline lineno="274"><highlight class="normal"></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>rrcCallConv<sp/><ref refid="group__utility_1gafce4606b138efa3b17e28f3966c1b93c" kindref="member">getExtendedAPIInfo</ref>()</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>rrcCallConv<sp/><ref refid="group__utility_1ga61250a85fdc6cc67f331bc4030bfeeed" kindref="member">getExtendedAPIInfo</ref>()</highlight></codeline>
 <codeline lineno="275"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="rrc__macros_8h_1af21ae6629abfdec1764f2d56b2e11b6c" kindref="member">start_try</ref></highlight></codeline>
 <codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref><sp/>handle<sp/>=<sp/><ref refid="group__initialization_1ga3285113641ecf1dc35c39fceb39b60fc" kindref="member">createRRInstance</ref>();</highlight></codeline>
@@ -846,14 +846,14 @@
 <codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="rrc__macros_8h_1a1ae943be35ee4f94f68c62328ba54869" kindref="member">catch_ptr_macro</ref></highlight></codeline>
 <codeline lineno="283"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="284"><highlight class="normal"></highlight></codeline>
-<codeline lineno="285"><highlight class="normal"></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>rrcCallConv<sp/><ref refid="group__utility_1ga3289ab11b43ae71cb77e7d72905e4b21" kindref="member">getlibSBMLVersion</ref>(<ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref><sp/>handle)</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>rrcCallConv<sp/><ref refid="group__utility_1ga2235582889c86de1bcef3c2a83631183" kindref="member">getlibSBMLVersion</ref>(<ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref><sp/>handle)</highlight></codeline>
 <codeline lineno="286"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="rrc__macros_8h_1af21ae6629abfdec1764f2d56b2e11b6c" kindref="member">start_try</ref></highlight></codeline>
 <codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>::strdup(<ref refid="rrc__api_8h_1a3ed15ae076fbdc30ee6f58705beb0763" kindref="member">rr::getVersionStr</ref>(VERSIONSTR_LIBSBML).c_str());</highlight></codeline>
 <codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="rrc__macros_8h_1a1ae943be35ee4f94f68c62328ba54869" kindref="member">catch_ptr_macro</ref></highlight></codeline>
 <codeline lineno="290"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="291"><highlight class="normal"></highlight></codeline>
-<codeline lineno="292"><highlight class="normal"></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>rrcCallConv<sp/><ref refid="group__loadsave_1ga9e8bda764dbeedb6b377d2050f6254f9" kindref="member">getCurrentSBML</ref>(<ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref><sp/>handle)</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>rrcCallConv<sp/><ref refid="group__loadsave_1gacc85b81616a8a3cee83ce6b2913e6382" kindref="member">getCurrentSBML</ref>(<ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref><sp/>handle)</highlight></codeline>
 <codeline lineno="293"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="rrc__macros_8h_1af21ae6629abfdec1764f2d56b2e11b6c" kindref="member">start_try</ref></highlight></codeline>
 <codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classrr_1_1RoadRunner" kindref="compound">RoadRunner</ref>*<sp/>rri<sp/>=<sp/>castToRoadRunner(handle);</highlight></codeline>
@@ -894,7 +894,7 @@
 <codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="rrc__macros_8h_1a71a22664597e60878fce59b688632467" kindref="member">catch_bool_macro</ref></highlight></codeline>
 <codeline lineno="331"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="332"><highlight class="normal"></highlight></codeline>
-<codeline lineno="333"><highlight class="normal"></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>rrcCallConv<sp/><ref refid="group__utility_1ga6ee2696295901d265494a18228cfcc4c" kindref="member">getTempFolder</ref>(<ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref><sp/>handle)</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>rrcCallConv<sp/><ref refid="group__utility_1ga2aa2fbec7d08c77d38e62df4c48e428e" kindref="member">getTempFolder</ref>(<ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref><sp/>handle)</highlight></codeline>
 <codeline lineno="334"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="rrc__macros_8h_1af21ae6629abfdec1764f2d56b2e11b6c" kindref="member">start_try</ref></highlight></codeline>
 <codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classrr_1_1RoadRunner" kindref="compound">RoadRunner</ref>*<sp/>rri<sp/>=<sp/>castToRoadRunner(handle);</highlight></codeline>
@@ -917,7 +917,7 @@
 <codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="rrc__macros_8h_1a71a22664597e60878fce59b688632467" kindref="member">catch_bool_macro</ref></highlight></codeline>
 <codeline lineno="354"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="355"><highlight class="normal"></highlight></codeline>
-<codeline lineno="356"><highlight class="normal"></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>rrcCallConv<sp/><ref refid="group__utility_1gab3490137aa84bb6424ae8ccba0eb135c" kindref="member">getCompiler</ref>(<ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref><sp/>handle)</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>rrcCallConv<sp/><ref refid="group__utility_1gae7a9642fcd8b299d57007bb45238fc82" kindref="member">getCompiler</ref>(<ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref><sp/>handle)</highlight></codeline>
 <codeline lineno="357"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="rrc__macros_8h_1af21ae6629abfdec1764f2d56b2e11b6c" kindref="member">start_try</ref></highlight></codeline>
 <codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classrr_1_1RoadRunner" kindref="compound">RoadRunner</ref>*<sp/>rri<sp/>=<sp/>castToRoadRunner(handle);</highlight></codeline>
@@ -941,7 +941,7 @@
 <codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="rrc__macros_8h_1a71a22664597e60878fce59b688632467" kindref="member">catch_bool_macro</ref></highlight></codeline>
 <codeline lineno="378"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="379"><highlight class="normal"></highlight></codeline>
-<codeline lineno="380"><highlight class="normal"></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>rrcCallConv<sp/><ref refid="group__utility_1ga601a1298cfd5bea6847975ddd1ab5a2a" kindref="member">getCompilerLocation</ref>(<ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref><sp/>handle)</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>rrcCallConv<sp/><ref refid="group__utility_1ga254939fcaf8c8ae7caaea2471fedc8b8" kindref="member">getCompilerLocation</ref>(<ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref><sp/>handle)</highlight></codeline>
 <codeline lineno="381"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="rrc__macros_8h_1af21ae6629abfdec1764f2d56b2e11b6c" kindref="member">start_try</ref></highlight></codeline>
 <codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classrr_1_1RoadRunner" kindref="compound">RoadRunner</ref>*<sp/>rri<sp/>=<sp/>castToRoadRunner(handle);</highlight></codeline>
@@ -964,7 +964,7 @@
 <codeline lineno="400"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="rrc__macros_8h_1a71a22664597e60878fce59b688632467" kindref="member">catch_bool_macro</ref></highlight></codeline>
 <codeline lineno="401"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="402"><highlight class="normal"></highlight></codeline>
-<codeline lineno="403"><highlight class="normal"></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>rrcCallConv<sp/><ref refid="group__utility_1ga1462be979b060f04caa87394d5a53173" kindref="member">getSupportCodeFolder</ref>(<ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref><sp/>handle)</highlight></codeline>
+<codeline lineno="403"><highlight class="normal"></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>rrcCallConv<sp/><ref refid="group__utility_1gad6fb8cb063c5cd3cae8cbdffc8a5f477" kindref="member">getSupportCodeFolder</ref>(<ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref><sp/>handle)</highlight></codeline>
 <codeline lineno="404"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="405"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="rrc__macros_8h_1af21ae6629abfdec1764f2d56b2e11b6c" kindref="member">start_try</ref></highlight></codeline>
 <codeline lineno="406"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classrr_1_1RoadRunner" kindref="compound">RoadRunner</ref>*<sp/>rri<sp/>=<sp/>castToRoadRunner(handle);</highlight></codeline>
@@ -972,7 +972,7 @@
 <codeline lineno="408"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="rrc__macros_8h_1a1ae943be35ee4f94f68c62328ba54869" kindref="member">catch_ptr_macro</ref></highlight></codeline>
 <codeline lineno="409"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="410"><highlight class="normal"></highlight></codeline>
-<codeline lineno="411"><highlight class="normal"></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>rrcCallConv<sp/><ref refid="group__utility_1gaa589240169c653747f7c702a614489c8" kindref="member">getWorkingDirectory</ref>()</highlight></codeline>
+<codeline lineno="411"><highlight class="normal"></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>rrcCallConv<sp/><ref refid="group__utility_1gad7dc449357c2b600b81c9e2990ad38dc" kindref="member">getWorkingDirectory</ref>()</highlight></codeline>
 <codeline lineno="412"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="413"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="rrc__macros_8h_1af21ae6629abfdec1764f2d56b2e11b6c" kindref="member">start_try</ref></highlight></codeline>
 <codeline lineno="414"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="rrc__utilities_8h_1ac28208e24619f20c9cc90f7319ea270e" kindref="member">rr::createText</ref>(rr::getCWD());</highlight></codeline>
@@ -1085,7 +1085,7 @@
 <codeline lineno="521"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="rrc__macros_8h_1a71a22664597e60878fce59b688632467" kindref="member">catch_bool_macro</ref></highlight></codeline>
 <codeline lineno="522"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="523"><highlight class="normal"></highlight></codeline>
-<codeline lineno="524"><highlight class="normal"></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>rrcCallConv<sp/><ref refid="group__loadsave_1gae45f7a34ebfdc69fb71d8b559213cb4c" kindref="member">getSBML</ref>(<ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref><sp/>handle)</highlight></codeline>
+<codeline lineno="524"><highlight class="normal"></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>rrcCallConv<sp/><ref refid="group__loadsave_1ga583d80e8a54f0d41b8600bb4ece0e552" kindref="member">getSBML</ref>(<ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref><sp/>handle)</highlight></codeline>
 <codeline lineno="525"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="526"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="rrc__macros_8h_1af21ae6629abfdec1764f2d56b2e11b6c" kindref="member">start_try</ref></highlight></codeline>
 <codeline lineno="527"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classrr_1_1RoadRunner" kindref="compound">RoadRunner</ref>*<sp/>rri<sp/>=<sp/>castToRoadRunner(handle);</highlight></codeline>
@@ -1430,7 +1430,7 @@
 <codeline lineno="866"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(<ref refid="rrc__utilities_8h_1a8f3828dfd1294cbcf4e57b4e382f8a8c" kindref="member">gLastError</ref><sp/>!=<sp/>NULL)<sp/>?<sp/>true<sp/>:<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="867"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="868"><highlight class="normal"></highlight></codeline>
-<codeline lineno="869"><highlight class="normal"></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>rrcCallConv<sp/><ref refid="group__errorfunctions_1ga0a0d2c042920c6fc648bcb4ce8091ede" kindref="member">getLastError</ref>()</highlight></codeline>
+<codeline lineno="869"><highlight class="normal"></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>rrcCallConv<sp/><ref refid="group__errorfunctions_1gaa698640f13467d87966d8b90f0c3944c" kindref="member">getLastError</ref>()</highlight></codeline>
 <codeline lineno="870"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="871"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(!<ref refid="rrc__utilities_8h_1a8f3828dfd1294cbcf4e57b4e382f8a8c" kindref="member">gLastError</ref>)</highlight></codeline>
 <codeline lineno="872"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
@@ -1656,7 +1656,7 @@
 <codeline lineno="1092"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="rrc__macros_8h_1a71a22664597e60878fce59b688632467" kindref="member">catch_bool_macro</ref></highlight></codeline>
 <codeline lineno="1093"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="1094"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1095"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>rrcCallConv<sp/>setBoundarySpeciesByIndex<sp/>(<ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref><sp/>handle,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>index,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>value)</highlight></codeline>
+<codeline lineno="1095"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>rrcCallConv<sp/><ref refid="group__boundary_1ga12e16a139a2f3d77a8cda20518e21b18" kindref="member">setBoundarySpeciesByIndex</ref><sp/>(<ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref><sp/>handle,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>index,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>value)</highlight></codeline>
 <codeline lineno="1096"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="1097"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="rrc__macros_8h_1af21ae6629abfdec1764f2d56b2e11b6c" kindref="member">start_try</ref></highlight></codeline>
 <codeline lineno="1098"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classrr_1_1RoadRunner" kindref="compound">RoadRunner</ref>*<sp/>rri<sp/>=<sp/>castToRoadRunner(handle);</highlight></codeline>
@@ -3473,17 +3473,17 @@
 <codeline lineno="2910"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="rrc__macros_8h_1a71a22664597e60878fce59b688632467" kindref="member">catch_bool_macro</ref></highlight></codeline>
 <codeline lineno="2911"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="2912"><highlight class="normal"></highlight></codeline>
-<codeline lineno="2913"><highlight class="normal"></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>rrcCallConv<sp/><ref refid="group__utility_1ga6ffcdff4d0099d5c94fee9d1abf93f3d" kindref="member">getBuildDate</ref>()</highlight></codeline>
+<codeline lineno="2913"><highlight class="normal"></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>rrcCallConv<sp/><ref refid="group__utility_1gacf6956b3e7546fce03a36d3e52301358" kindref="member">getBuildDate</ref>()</highlight></codeline>
 <codeline lineno="2914"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="2915"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="rrc__utilities_8h_1ac28208e24619f20c9cc90f7319ea270e" kindref="member">rr::createText</ref>(__DATE__);</highlight></codeline>
 <codeline lineno="2916"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="2917"><highlight class="normal"></highlight></codeline>
-<codeline lineno="2918"><highlight class="normal"></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>rrcCallConv<sp/><ref refid="group__utility_1ga13bdcd39aaa18268a31afc060417437d" kindref="member">getBuildTime</ref>()</highlight></codeline>
+<codeline lineno="2918"><highlight class="normal"></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>rrcCallConv<sp/><ref refid="group__utility_1ga27b6009b7b7f8de5445787ad839a0246" kindref="member">getBuildTime</ref>()</highlight></codeline>
 <codeline lineno="2919"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="2920"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="rrc__utilities_8h_1ac28208e24619f20c9cc90f7319ea270e" kindref="member">rr::createText</ref>(__TIME__);</highlight></codeline>
 <codeline lineno="2921"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="2922"><highlight class="normal"></highlight></codeline>
-<codeline lineno="2923"><highlight class="normal"></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>rrcCallConv<sp/><ref refid="group__utility_1ga53e63bf5237b8e8839c5dd1fd5607e43" kindref="member">getBuildDateTime</ref>()</highlight></codeline>
+<codeline lineno="2923"><highlight class="normal"></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>rrcCallConv<sp/><ref refid="group__utility_1ga372decc8acef5346f330148594844f68" kindref="member">getBuildDateTime</ref>()</highlight></codeline>
 <codeline lineno="2924"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="2925"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="rrc__utilities_8h_1ac28208e24619f20c9cc90f7319ea270e" kindref="member">rr::createText</ref>(</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">(__DATE__)<sp/>+<sp/></highlight><highlight class="keywordtype">string</highlight><highlight class="normal">(</highlight><highlight class="stringliteral">&quot;<sp/>&quot;</highlight><highlight class="normal">)<sp/>+<sp/></highlight><highlight class="keywordtype">string</highlight><highlight class="normal">(__TIME__));</highlight></codeline>
 <codeline lineno="2926"><highlight class="normal">}</highlight></codeline>

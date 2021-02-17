@@ -6,15 +6,12 @@ The LibRoadRunner C++ Library
     :hidden:
     :maxdepth: 1
 
-    C/index.rst
     llvm/index.rst
     CVODEIntegrator.rst
     Dictionary.rst
     EulerIntegrator.rst
     ExecutableModelFactory.rst
     GillespieIntegrator.rst
-    GitInfo.h.rst
-    GitInfo.rst
     Integrator.rst
     IntegratorRegistration.rst
     NLEQ1Solver.rst
@@ -28,22 +25,15 @@ The LibRoadRunner C++ Library
     Variant.rst
     rrCompiler.rst
     rrConfig.rst
-    rrConfigure.h.rst
-    rrConfigure.rst
-    rrConstants.rst
     rrException.rst
     rrExecutableModel.rst
-    rrExporter.rst
     rrFileName.rst
-    rrGetOptions.rst
     rrIniFile.rst
     rrIniKey.rst
     rrIniSection.rst
-    rrLibMain.rst
     rrLogger.rst
     rrNLEQ1Interface.rst
     rrNLEQ2Interface.rst
-    rrOSSpecifics.rst
     rrRoadRunner.rst
     rrRoadRunnerData.rst
     rrRoadRunnerOptions.rst
@@ -52,12 +42,6 @@ The LibRoadRunner C++ Library
     rrSelectionRecord.rst
     rrSparse.rst
     rrSteadyStateSolver.rst
-    rrStringUtils.rst
-    rrTestSuiteModelSimulation.rst
-    rrUnresolvedSTDExternals.rst
-    rrUtils.rst
-    rrVersionInfo.rst
-    rr_pch.rst
 
 
 Introduction

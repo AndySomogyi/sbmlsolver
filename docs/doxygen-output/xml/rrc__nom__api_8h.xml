@@ -4,7 +4,6 @@
     <compoundname>rrc_nom_api.h</compoundname>
     <includes refid="rrc__exporter_8h" local="yes">rrc_exporter.h</includes>
     <includes refid="rrc__types_8h" local="yes">rrc_types.h</includes>
-    <includedby refid="__rrc__api_8h" local="yes">D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h</includedby>
     <includedby refid="rrc__api_8h" local="yes">D:/roadrunner/roadrunner/wrappers/C/rrc_api.h</includedby>
     <includedby refid="rrc__nom__api_8cpp" local="yes">D:/roadrunner/roadrunner/wrappers/C/rrc_nom_api.cpp</includedby>
     <incdepgraph>
@@ -31,26 +30,20 @@
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="4">
+      <node id="3">
         <label>D:/roadrunner/roadrunner/wrappers/C/rrc_api.cpp</label>
         <link refid="rrc__api_8cpp"/>
-      </node>
-      <node id="2">
-        <label>D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h</label>
-        <link refid="__rrc__api_8h_source"/>
       </node>
       <node id="1">
         <label>D:/roadrunner/roadrunner/wrappers/C/rrc_nom_api.h</label>
         <link refid="rrc__nom__api_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="3" relation="include">
-        </childnode>
       </node>
-      <node id="3">
+      <node id="2">
         <label>D:/roadrunner/roadrunner/wrappers/C/rrc_api.h</label>
         <link refid="rrc__api_8h"/>
-        <childnode refid="4" relation="include">
+        <childnode refid="3" relation="include">
         </childnode>
       </node>
     </invincdepgraph>

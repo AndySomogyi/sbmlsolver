@@ -12,6 +12,10 @@ C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC bool rrc\+Call\+Conv \mbox{\hyperlink{group_
 \begin{DoxyCompactList}\small\item\em Load a model from an S\+B\+ML string. \end{DoxyCompactList}\item 
 C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC bool rrc\+Call\+Conv \mbox{\hyperlink{group__loadsave_ga255d17e06e104da6a2f9e0696b1aa9e3}{load\+S\+B\+M\+L\+Ex}} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$sbml, bool force\+Recompile)
 \begin{DoxyCompactList}\small\item\em Load a model from an S\+B\+ML string. \end{DoxyCompactList}\item 
+C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC bool rrc\+Call\+Conv \mbox{\hyperlink{group__loadsave_gae6b66c032a09e36e6372fb822b8cef24}{save\+State}} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$filename)
+\begin{DoxyCompactList}\small\item\em Save a road runner instance\textquotesingle{}s state to a platform-\/specific binary file. \end{DoxyCompactList}\item 
+C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC bool rrc\+Call\+Conv \mbox{\hyperlink{group__loadsave_ga7617e5077d82655849795bb019d7ff46}{load\+State}} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$filename)
+\begin{DoxyCompactList}\small\item\em Reload a road runner instance\textquotesingle{}s state saved by save\+State. \end{DoxyCompactList}\item 
 C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC bool rrc\+Call\+Conv \mbox{\hyperlink{group__loadsave_ga03cb924c6790b039f77a1a9c5dbcdda1}{load\+S\+B\+M\+L\+From\+File}} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$file\+Name)
 \begin{DoxyCompactList}\small\item\em Load a model from a S\+B\+ML file. \end{DoxyCompactList}\item 
 C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC bool rrc\+Call\+Conv \mbox{\hyperlink{group__loadsave_gab2aa4b93a3037879a0da7dc85b3a9746}{load\+S\+B\+M\+L\+From\+FileE}} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$file\+Name, bool force\+Recompile)
@@ -22,14 +26,10 @@ C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC bool rrc\+Call\+Conv \mbox{\hyperlink{group_
 \begin{DoxyCompactList}\small\item\em check if a model is loaded \end{DoxyCompactList}\item 
 C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC bool rrc\+Call\+Conv \mbox{\hyperlink{group__loadsave_ga387b0694ce78f6f82e089cfade9faef8}{load\+Simulation\+Settings}} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$file\+Name)
 \begin{DoxyCompactList}\small\item\em Load simulation settings from a file. \end{DoxyCompactList}\item 
-C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC char $\ast$rrc\+Call\+Conv \mbox{\hyperlink{group__loadsave_ga9e8bda764dbeedb6b377d2050f6254f9}{get\+Current\+S\+B\+ML}} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC char $\ast$rrc\+Call\+Conv \mbox{\hyperlink{group__loadsave_gacc85b81616a8a3cee83ce6b2913e6382}{get\+Current\+S\+B\+ML}} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
 \begin{DoxyCompactList}\small\item\em Retrieve the {\bfseries{current state}} of the model in the form of an S\+B\+ML string. \end{DoxyCompactList}\item 
-C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC char $\ast$rrc\+Call\+Conv \mbox{\hyperlink{group__loadsave_gae45f7a34ebfdc69fb71d8b559213cb4c}{get\+S\+B\+ML}} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
-\begin{DoxyCompactList}\small\item\em Retrieve the S\+B\+ML model that was last loaded into road\+Runner. \end{DoxyCompactList}\item 
-C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC bool rrc\+Call\+Conv \mbox{\hyperlink{group__loadsave_gae6b66c032a09e36e6372fb822b8cef24}{save\+State}} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$filename)
-\begin{DoxyCompactList}\small\item\em Save a road runner instance\textquotesingle{}s state to a platform-\/specific binary file. \end{DoxyCompactList}\item 
-C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC bool rrc\+Call\+Conv \mbox{\hyperlink{group__loadsave_ga7617e5077d82655849795bb019d7ff46}{load\+State}} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$filename)
-\begin{DoxyCompactList}\small\item\em Reload a road runner instance\textquotesingle{}s state saved by save\+State. \end{DoxyCompactList}\end{DoxyCompactItemize}
+C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC char $\ast$rrc\+Call\+Conv \mbox{\hyperlink{group__loadsave_ga583d80e8a54f0d41b8600bb4ece0e552}{get\+S\+B\+ML}} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\begin{DoxyCompactList}\small\item\em Retrieve the S\+B\+ML model that was last loaded into road\+Runner. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
@@ -56,11 +56,11 @@ Unload current model.
 \begin{DoxyReturn}{Returns}
 Returns true if successful 
 \end{DoxyReturn}
-\mbox{\Hypertarget{group__loadsave_ga9e8bda764dbeedb6b377d2050f6254f9}\label{group__loadsave_ga9e8bda764dbeedb6b377d2050f6254f9}} 
+\mbox{\Hypertarget{group__loadsave_gacc85b81616a8a3cee83ce6b2913e6382}\label{group__loadsave_gacc85b81616a8a3cee83ce6b2913e6382}} 
 \index{Read and write models@{Read and write models}!getCurrentSBML@{getCurrentSBML}}
 \index{getCurrentSBML@{getCurrentSBML}!Read and write models@{Read and write models}}
 \doxysubsubsection{\texorpdfstring{getCurrentSBML()}{getCurrentSBML()}}
-{\footnotesize\ttfamily C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC char $\ast$rrc\+Call\+Conv get\+Current\+S\+B\+ML (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}}}]{handle }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC char$\ast$ rrc\+Call\+Conv get\+Current\+S\+B\+ML (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}}}]{handle }\end{DoxyParamCaption})}
 
 
 
@@ -74,11 +74,11 @@ Retrieve the {\bfseries{current state}} of the model in the form of an S\+B\+ML 
 \begin{DoxyReturn}{Returns}
 Returns null if the call fails, otherwise returns a pointer to the S\+B\+ML string 
 \end{DoxyReturn}
-\mbox{\Hypertarget{group__loadsave_gae45f7a34ebfdc69fb71d8b559213cb4c}\label{group__loadsave_gae45f7a34ebfdc69fb71d8b559213cb4c}} 
+\mbox{\Hypertarget{group__loadsave_ga583d80e8a54f0d41b8600bb4ece0e552}\label{group__loadsave_ga583d80e8a54f0d41b8600bb4ece0e552}} 
 \index{Read and write models@{Read and write models}!getSBML@{getSBML}}
 \index{getSBML@{getSBML}!Read and write models@{Read and write models}}
 \doxysubsubsection{\texorpdfstring{getSBML()}{getSBML()}}
-{\footnotesize\ttfamily C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC char $\ast$rrc\+Call\+Conv get\+S\+B\+ML (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}}}]{handle }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC char$\ast$ rrc\+Call\+Conv get\+S\+B\+ML (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}}}]{handle }\end{DoxyParamCaption})}
 
 
 

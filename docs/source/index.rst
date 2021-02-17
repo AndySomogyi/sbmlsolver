@@ -6,6 +6,9 @@ The Roadrunner Simulation Engine is a C++ library for simulating and analysing
 systems of differential equations. Roadrunner was designed
 with performance as a priority and is an exceptionally fast simulator.
 
+For the C API documentation, please find the doxygen generated webpage here:
+    * `Original Doxygen Style Docs <OriginalDoxygenStyleDocs/html/index.html>`_
+
 Features
 ========
 
@@ -52,13 +55,9 @@ For instructions on how to install roadrunner please see the :ref:`installation 
     simulation_and_integration
     utility_functions
     accessing_model
+    rrplugins/rrplugins_documentation
     ApiReferenceManual/api_reference
     C++APIReference/index
-    CAPIReference/index
-
-
-
-
 
 
 Indices and tables

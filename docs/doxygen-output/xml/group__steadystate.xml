@@ -46,7 +46,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" line="640" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" declline="640" declcolumn="30"/>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="1892" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="1892" declcolumn="30"/>
       </memberdef>
       <memberdef kind="function" id="group__steadystate_1ga808060f5094396e4697434eb5a41f14f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>C_DECL_SPEC <ref refid="rrc__types_8h_1a3be72d6006034fd349f753d2bf441bf7" kindref="member">RRVectorPtr</ref> rrcCallConv</type>
@@ -78,7 +78,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" line="652" column="37" declfile="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" declline="652" declcolumn="37"/>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="1904" column="37" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="1904" declcolumn="37"/>
       </memberdef>
       <memberdef kind="function" id="group__steadystate_1gaff273d8a9038c411779b206bf58d71eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>C_DECL_SPEC bool rrcCallConv</type>
@@ -97,34 +97,7 @@
 <para>Set the selection list of the steady state analysis. </para>
         </briefdescription>
         <detaileddescription>
-<para>Use getSteadyStateSelectionList(handle) to retrieve the list of all selections.</para>
-<para>Example:</para>
-<para><programlisting><codeline><highlight class="normal">setSteadyStateSelectionList<sp/>(&quot;S1,<sp/>J1,<sp/>J2&quot;)</highlight></codeline>
-<codeline></codeline>
-<codeline><highlight class="normal">or</highlight></codeline>
-<codeline></codeline>
-<codeline><highlight class="normal">setSteadyStateSelectionList<sp/>(&quot;S1<sp/>J1<sp/>J2&quot;)</highlight></codeline>
-</programlisting></para>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername direction="in">handle</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>Handle to a RoadRunner instance </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername direction="in">list</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>The string argument should be a space separated list of symbols.</para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-<simplesect kind="return"><para>Returns true if successful</para>
-</simplesect>
-Use getAvailableTimeCourseSymbols(void) to retrieve the list of all possible symbols.</para>
+<para>Use getAvailableTimeCourseSymbols(void) to retrieve the list of all possible symbols.</para>
 <para>Example:</para>
 <para><programlisting><codeline><highlight class="normal">setSteadyStateSelectionList<sp/>(&quot;S1,<sp/>J1,<sp/>J2&quot;)</highlight></codeline>
 <codeline></codeline>
@@ -155,7 +128,7 @@ Use getAvailableTimeCourseSymbols(void) to retrieve the list of all possible sym
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" line="675" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" declline="675" declcolumn="30"/>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="1927" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="1927" declcolumn="30"/>
       </memberdef>
       <memberdef kind="function" id="group__steadystate_1gaadc456216e3ed8cd9f75c15ac1685616" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>C_DECL_SPEC <ref refid="rrc__types_8h_1a7c9475df6c7337d99482b13a365e7596" kindref="member">RRStringArrayPtr</ref> rrcCallConv</type>
@@ -185,7 +158,7 @@ Use getAvailableTimeCourseSymbols(void) to retrieve the list of all possible sym
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" line="684" column="42" declfile="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" declline="684" declcolumn="42"/>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="1936" column="42" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="1936" declcolumn="42"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

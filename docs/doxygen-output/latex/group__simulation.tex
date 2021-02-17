@@ -10,7 +10,7 @@ Deterministic, stochastic, and hybrid simulation algorithms.
 \item 
 C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC bool rrc\+Call\+Conv \mbox{\hyperlink{group__simulation_ga704215830b7d1b353cbd990c04a766c2}{set\+Configuration\+X\+ML}} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$caps)
 \begin{DoxyCompactList}\small\item\em Set the simulator\textquotesingle{}s capabilities. \end{DoxyCompactList}\item 
-C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC char $\ast$rrc\+Call\+Conv \mbox{\hyperlink{group__simulation_ga40f63e6f1505d91ecf40bed49d8d717e}{get\+Configuration\+X\+ML}} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC char $\ast$rrc\+Call\+Conv \mbox{\hyperlink{group__simulation_ga8529fc3333deee1eb8f966b70bcf4cac}{get\+Configuration\+X\+ML}} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
 \begin{DoxyCompactList}\small\item\em Get the simulator\textquotesingle{}s capabilities. \end{DoxyCompactList}\item 
 C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC bool rrc\+Call\+Conv \mbox{\hyperlink{group__simulation_ga6f2c769375399d14087d6e5e99339aa7}{set\+Time\+Start}} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, double time\+Start)
 \begin{DoxyCompactList}\small\item\em Set the time start for a time course simulation. \end{DoxyCompactList}\item 
@@ -44,11 +44,11 @@ Deterministic, stochastic, and hybrid simulation algorithms.
 
 
 \doxysubsection{Function Documentation}
-\mbox{\Hypertarget{group__simulation_ga40f63e6f1505d91ecf40bed49d8d717e}\label{group__simulation_ga40f63e6f1505d91ecf40bed49d8d717e}} 
+\mbox{\Hypertarget{group__simulation_ga8529fc3333deee1eb8f966b70bcf4cac}\label{group__simulation_ga8529fc3333deee1eb8f966b70bcf4cac}} 
 \index{Time-\/course simulation@{Time-\/course simulation}!getConfigurationXML@{getConfigurationXML}}
 \index{getConfigurationXML@{getConfigurationXML}!Time-\/course simulation@{Time-\/course simulation}}
 \doxysubsubsection{\texorpdfstring{getConfigurationXML()}{getConfigurationXML()}}
-{\footnotesize\ttfamily C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC char $\ast$rrc\+Call\+Conv get\+Configuration\+X\+ML (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}}}]{handle }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC char$\ast$ rrc\+Call\+Conv get\+Configuration\+X\+ML (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}}}]{handle }\end{DoxyParamCaption})}
 
 
 
@@ -213,26 +213,6 @@ Returns true if successful
 
 Carry out a one step integration of the model. 
 
-Example\+:
-\begin{DoxyCode}{0}
-\DoxyCodeLine{status = OneStep (rrHandle, currentTime, timeStep, newTimeStep); }
-\end{DoxyCode}
-
-
-
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em handle} & Handle to a Road\+Runner instance \\
-\hline
-\mbox{\texttt{ in}}  & {\em current\+Time} & The current time in the simulation \\
-\hline
-\mbox{\texttt{ in}}  & {\em step\+Size} & The step size to use in the integration \\
-\hline
-\mbox{\texttt{ in}}  & {\em value} & The new time (current\+Time + step\+Size)\\
-\hline
-\end{DoxyParams}
-\begin{DoxyReturn}{Returns}
-Returns true if successful
-\end{DoxyReturn}
 Example\+:
 \begin{DoxyCode}{0}
 \DoxyCodeLine{status = OneStep (rrHandle, currentTime, stepSize, newTime); }

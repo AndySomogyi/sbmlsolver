@@ -2,7 +2,7 @@
 \label{rrc__api_8h}\index{D:/roadrunner/roadrunner/wrappers/C/rrc\_api.h@{D:/roadrunner/roadrunner/wrappers/C/rrc\_api.h}}
 
 
-lib\+Road\+Runner C wrappers 2012-\/2015  
+lib\+Road\+Runner C wrappers 2012-\/2013  
 
 
 {\ttfamily \#include \char`\"{}rrc\+\_\+exporter.\+h\char`\"{}}\newline
@@ -20,13 +20,13 @@ C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC \mbox{\hyperlink{rrc__types_8h_a1d68f0592372
 \begin{DoxyCompactList}\small\item\em Initialize a new road\+Runner instance and return a handle to it. \end{DoxyCompactList}\item 
 C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC bool rrc\+Call\+Conv \mbox{\hyperlink{group__initialization_gae0b2f65464742bba3beb0ad38dcdd863}{free\+R\+R\+Instance}} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
 \begin{DoxyCompactList}\small\item\em Free the road\+Runner instance. \end{DoxyCompactList}\item 
-C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC char $\ast$rrc\+Call\+Conv \mbox{\hyperlink{group__initialization_ga0717cdb4fb8684f97a2b6793544ba6e2}{get\+Install\+Folder}} (void)
+char $\ast$ \mbox{\hyperlink{group__initialization_gad1a68a41c939d388df3d8cf1f14023a5}{get\+Install\+Folder}} (void)
 \begin{DoxyCompactList}\small\item\em Returns the folder in which the Road\+Runner wrappers is installed. \end{DoxyCompactList}\item 
 C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC bool rrc\+Call\+Conv \mbox{\hyperlink{group__initialization_gabe314ab514c04cd902c078b864f22a64}{set\+Install\+Folder}} (const char $\ast$folder)
 \begin{DoxyCompactList}\small\item\em Set the internal string containing the folder in where the Road\+Runner C wrappers is installed. \end{DoxyCompactList}\item 
-C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC char $\ast$rrc\+Call\+Conv \mbox{\hyperlink{group__utility_ga205f62add6103bac0fb26cad7e2e5914}{get\+A\+P\+I\+Version}} (void)
+C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC char $\ast$rrc\+Call\+Conv \mbox{\hyperlink{group__utility_gaff2a26066f24b54f39c68beeb5338c3c}{get\+A\+P\+I\+Version}} (void)
 \begin{DoxyCompactList}\small\item\em Retrieve the current version number of the C wrappers library. \end{DoxyCompactList}\item 
-C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC char $\ast$rrc\+Call\+Conv \mbox{\hyperlink{group__utility_ga176e563b3d7f32037c56ba1273d4c919}{get\+C\+P\+P\+A\+P\+I\+Version}} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC char $\ast$rrc\+Call\+Conv \mbox{\hyperlink{group__utility_ga090ca781c38ddbb220cfad882b172f53}{get\+C\+P\+P\+A\+P\+I\+Version}} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
 \begin{DoxyCompactList}\small\item\em Retrieve the current version number of the C++ wrappers (Core Road\+Runner wrappers) library. \end{DoxyCompactList}\item 
 C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC int rrc\+Call\+Conv \mbox{\hyperlink{rrc__api_8h_a2d799defcade869e5610bbe3b547f39c}{get\+Version}} ()
 \item 
@@ -34,45 +34,45 @@ C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC char $\ast$rrc\+Call\+Conv \mbox{\hyperlink{
 \item 
 C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC char $\ast$rrc\+Call\+Conv \mbox{\hyperlink{rrc__api_8h_a847f64fd6fdda38c19fdedc386272c01}{get\+Version\+Ex}} ()
 \item 
-C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC char $\ast$rrc\+Call\+Conv \mbox{\hyperlink{group__utility_gafce4606b138efa3b17e28f3966c1b93c}{get\+Extended\+A\+P\+I\+Info}} ()
+C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC char $\ast$rrc\+Call\+Conv \mbox{\hyperlink{group__utility_ga61250a85fdc6cc67f331bc4030bfeeed}{get\+Extended\+A\+P\+I\+Info}} ()
 \begin{DoxyCompactList}\small\item\em Retrieve extended wrappers info. \end{DoxyCompactList}\item 
-C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC char $\ast$rrc\+Call\+Conv \mbox{\hyperlink{group__utility_ga6ffcdff4d0099d5c94fee9d1abf93f3d}{get\+Build\+Date}} (void)
+C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC char $\ast$rrc\+Call\+Conv \mbox{\hyperlink{group__utility_gacf6956b3e7546fce03a36d3e52301358}{get\+Build\+Date}} (void)
 \begin{DoxyCompactList}\small\item\em Retrieve the current build date of the library. \end{DoxyCompactList}\item 
-C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC char $\ast$rrc\+Call\+Conv \mbox{\hyperlink{group__utility_ga13bdcd39aaa18268a31afc060417437d}{get\+Build\+Time}} (void)
+C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC char $\ast$rrc\+Call\+Conv \mbox{\hyperlink{group__utility_ga27b6009b7b7f8de5445787ad839a0246}{get\+Build\+Time}} (void)
 \begin{DoxyCompactList}\small\item\em Retrieve the current build time (H\+H\+:\+MM\+:SS) of the library. \end{DoxyCompactList}\item 
-C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC char $\ast$rrc\+Call\+Conv \mbox{\hyperlink{group__utility_ga53e63bf5237b8e8839c5dd1fd5607e43}{get\+Build\+Date\+Time}} (void)
+C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC char $\ast$rrc\+Call\+Conv \mbox{\hyperlink{group__utility_ga372decc8acef5346f330148594844f68}{get\+Build\+Date\+Time}} (void)
 \begin{DoxyCompactList}\small\item\em Retrieve the current build date + time of the library. \end{DoxyCompactList}\item 
-C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC char $\ast$rrc\+Call\+Conv \mbox{\hyperlink{group__utility_ga909790f456d1a032049c75013814edd2}{get\+Copyright}} (void)
+C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC char $\ast$rrc\+Call\+Conv \mbox{\hyperlink{group__utility_ga67a7b431f66978753a8837718fd0112f}{get\+Copyright}} (void)
 \begin{DoxyCompactList}\small\item\em Retrieve the current copyright notice for the library. \end{DoxyCompactList}\item 
-C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC char $\ast$rrc\+Call\+Conv \mbox{\hyperlink{group__utility_gae657705965d7a22b555f62a44d90a15f}{get\+Info}} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC char $\ast$rrc\+Call\+Conv \mbox{\hyperlink{group__utility_ga84805d87e0b75fcaff3b7ad3d1179002}{get\+Info}} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
 \begin{DoxyCompactList}\small\item\em Retrieve info about current state of roadrunner, e.\+g. loaded model, conservation\+Analysis etc. \end{DoxyCompactList}\item 
-C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC char $\ast$rrc\+Call\+Conv \mbox{\hyperlink{group__utility_ga3289ab11b43ae71cb77e7d72905e4b21}{getlib\+S\+B\+M\+L\+Version}} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC char $\ast$rrc\+Call\+Conv \mbox{\hyperlink{group__utility_ga2235582889c86de1bcef3c2a83631183}{getlib\+S\+B\+M\+L\+Version}} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
 \begin{DoxyCompactList}\small\item\em Retrieve the current version number of the lib\+S\+B\+ML library. \end{DoxyCompactList}\item 
 C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC bool rrc\+Call\+Conv \mbox{\hyperlink{group__utility_ga40e0e9b3f96c37bad8b0313eddf6caed}{set\+Temp\+Folder}} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$folder)
 \begin{DoxyCompactList}\small\item\em Set the path to the temporary folder where the C code will be stored. \end{DoxyCompactList}\item 
-C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC char $\ast$rrc\+Call\+Conv \mbox{\hyperlink{group__utility_ga6ee2696295901d265494a18228cfcc4c}{get\+Temp\+Folder}} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC char $\ast$rrc\+Call\+Conv \mbox{\hyperlink{group__utility_ga2aa2fbec7d08c77d38e62df4c48e428e}{get\+Temp\+Folder}} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
 \begin{DoxyCompactList}\small\item\em Retrieve the current temporary folder path. \end{DoxyCompactList}\item 
-C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC char $\ast$rrc\+Call\+Conv \mbox{\hyperlink{group__utility_gaa589240169c653747f7c702a614489c8}{get\+Working\+Directory}} (void)
+C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC char $\ast$rrc\+Call\+Conv \mbox{\hyperlink{group__utility_gad7dc449357c2b600b81c9e2990ad38dc}{get\+Working\+Directory}} (void)
 \begin{DoxyCompactList}\small\item\em Retrieve the current working directory path. \end{DoxyCompactList}\item 
-C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC char $\ast$rrc\+Call\+Conv \mbox{\hyperlink{group__utility_ga98a4ed176eeff87e87fa4a4acf5240a6}{get\+R\+R\+C\+A\+P\+I\+Location}} (void)
+C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC char $\ast$rrc\+Call\+Conv \mbox{\hyperlink{group__utility_ga128bafde3b10f0ce64ca3c6b06b14cde}{get\+R\+R\+C\+A\+P\+I\+Location}} (void)
 \begin{DoxyCompactList}\small\item\em Retrieve the directory path of the shared rr\+C\+Api library. \end{DoxyCompactList}\item 
 C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC bool rrc\+Call\+Conv \mbox{\hyperlink{group__utility_ga452d753989b5142b29528ae5865224ae}{set\+Compiler}} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$f\+Name\+With\+Path)
 \begin{DoxyCompactList}\small\item\em Set the path and filename to the compiler to be used by roadrunner. \end{DoxyCompactList}\item 
-C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC char $\ast$rrc\+Call\+Conv \mbox{\hyperlink{group__utility_gab3490137aa84bb6424ae8ccba0eb135c}{get\+Compiler}} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC char $\ast$rrc\+Call\+Conv \mbox{\hyperlink{group__utility_gae7a9642fcd8b299d57007bb45238fc82}{get\+Compiler}} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
 \begin{DoxyCompactList}\small\item\em Get the name of the compiler currently being used by roadrunner. \end{DoxyCompactList}\item 
 C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC bool rrc\+Call\+Conv \mbox{\hyperlink{group__utility_gab910a88973c4f823b1f576c7767cc0d5}{set\+Compiler\+Location}} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$folder)
 \begin{DoxyCompactList}\small\item\em Set the path to a folder containing the compiler to be used. \end{DoxyCompactList}\item 
-C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC char $\ast$rrc\+Call\+Conv \mbox{\hyperlink{group__utility_ga601a1298cfd5bea6847975ddd1ab5a2a}{get\+Compiler\+Location}} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC char $\ast$rrc\+Call\+Conv \mbox{\hyperlink{group__utility_ga254939fcaf8c8ae7caaea2471fedc8b8}{get\+Compiler\+Location}} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
 \begin{DoxyCompactList}\small\item\em Get the path to a folder containing the compiler being used. \end{DoxyCompactList}\item 
 C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC bool rrc\+Call\+Conv \mbox{\hyperlink{group__utility_ga0d8069e1538d2c41f243e3b6d56abf41}{set\+Support\+Code\+Folder}} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$folder)
 \begin{DoxyCompactList}\small\item\em Set the path to a folder containing support code for model generation. \end{DoxyCompactList}\item 
-C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC char $\ast$rrc\+Call\+Conv \mbox{\hyperlink{group__utility_ga1462be979b060f04caa87394d5a53173}{get\+Support\+Code\+Folder}} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC char $\ast$rrc\+Call\+Conv \mbox{\hyperlink{group__utility_gad6fb8cb063c5cd3cae8cbdffc8a5f477}{get\+Support\+Code\+Folder}} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
 \begin{DoxyCompactList}\small\item\em Get the path to a folder containing support code. \end{DoxyCompactList}\item 
 C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC bool rrc\+Call\+Conv \mbox{\hyperlink{group__utility_ga92ba42b5fab8b387744eedd03df10b60}{set\+Code\+Generation\+Mode}} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, int mode)
 \begin{DoxyCompactList}\small\item\em Set the runtime generation option \mbox{[}Not yet implemented\mbox{]}. \end{DoxyCompactList}\item 
 C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC bool rrc\+Call\+Conv \mbox{\hyperlink{group__errorfunctions_ga5ff7d55f1f52b72f5f17a687c0c361fd}{has\+Error}} (void)
 \begin{DoxyCompactList}\small\item\em Check if there is an error string to retrieve. \end{DoxyCompactList}\item 
-C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC char $\ast$rrc\+Call\+Conv \mbox{\hyperlink{group__errorfunctions_ga0a0d2c042920c6fc648bcb4ce8091ede}{get\+Last\+Error}} (void)
+C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC char $\ast$rrc\+Call\+Conv \mbox{\hyperlink{group__errorfunctions_gaa698640f13467d87966d8b90f0c3944c}{get\+Last\+Error}} (void)
 \begin{DoxyCompactList}\small\item\em Retrieve the current error string. \end{DoxyCompactList}\item 
 C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC bool rrc\+Call\+Conv \mbox{\hyperlink{group__initialization_gacb21c6ed7c891635f41cfd43e99cda2f}{set\+Compute\+And\+Assign\+Conservation\+Laws}} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const bool On\+\_\+\+Or\+\_\+\+Off)
 \begin{DoxyCompactList}\small\item\em Enable or disable conservation analysis. \end{DoxyCompactList}\item 
@@ -96,9 +96,9 @@ C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC bool rrc\+Call\+Conv \mbox{\hyperlink{group_
 \begin{DoxyCompactList}\small\item\em check if a model is loaded \end{DoxyCompactList}\item 
 C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC bool rrc\+Call\+Conv \mbox{\hyperlink{group__loadsave_ga387b0694ce78f6f82e089cfade9faef8}{load\+Simulation\+Settings}} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$file\+Name)
 \begin{DoxyCompactList}\small\item\em Load simulation settings from a file. \end{DoxyCompactList}\item 
-C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC char $\ast$rrc\+Call\+Conv \mbox{\hyperlink{group__loadsave_ga9e8bda764dbeedb6b377d2050f6254f9}{get\+Current\+S\+B\+ML}} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC char $\ast$rrc\+Call\+Conv \mbox{\hyperlink{group__loadsave_gacc85b81616a8a3cee83ce6b2913e6382}{get\+Current\+S\+B\+ML}} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
 \begin{DoxyCompactList}\small\item\em Retrieve the {\bfseries{current state}} of the model in the form of an S\+B\+ML string. \end{DoxyCompactList}\item 
-C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC char $\ast$rrc\+Call\+Conv \mbox{\hyperlink{group__loadsave_gae45f7a34ebfdc69fb71d8b559213cb4c}{get\+S\+B\+ML}} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC char $\ast$rrc\+Call\+Conv \mbox{\hyperlink{group__loadsave_ga583d80e8a54f0d41b8600bb4ece0e552}{get\+S\+B\+ML}} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
 \begin{DoxyCompactList}\small\item\em Retrieve the S\+B\+ML model that was last loaded into road\+Runner. \end{DoxyCompactList}\item 
 C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC bool rrc\+Call\+Conv \mbox{\hyperlink{group__edit_ga8046c3bfa3d0c126ff1a64dc875e914e}{add\+Species}} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$sid, const char $\ast$compartment, double initial\+Amount, bool has\+Only\+Substance\+Units, bool boundary\+Condition)
 \begin{DoxyCompactList}\small\item\em Add a species to the current model. \end{DoxyCompactList}\item 
@@ -220,7 +220,7 @@ C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC char $\ast$rrc\+Call\+Conv \mbox{\hyperlink{
 \begin{DoxyCompactList}\small\item\em Promote any local parameters to global status. \end{DoxyCompactList}\item 
 C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC bool rrc\+Call\+Conv \mbox{\hyperlink{group__simulation_ga704215830b7d1b353cbd990c04a766c2}{set\+Configuration\+X\+ML}} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$caps)
 \begin{DoxyCompactList}\small\item\em Set the simulator\textquotesingle{}s capabilities. \end{DoxyCompactList}\item 
-C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC char $\ast$rrc\+Call\+Conv \mbox{\hyperlink{group__simulation_ga40f63e6f1505d91ecf40bed49d8d717e}{get\+Configuration\+X\+ML}} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC char $\ast$rrc\+Call\+Conv \mbox{\hyperlink{group__simulation_ga8529fc3333deee1eb8f966b70bcf4cac}{get\+Configuration\+X\+ML}} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
 \begin{DoxyCompactList}\small\item\em Get the simulator\textquotesingle{}s capabilities. \end{DoxyCompactList}\item 
 C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC int rrc\+Call\+Conv \mbox{\hyperlink{group__simopts_gaa8601a5e07c4ecf51504c93698dd8bd3}{get\+Num\+Registered\+Integrators}} ()
 \begin{DoxyCompactList}\small\item\em Get the number of registered integrators. \end{DoxyCompactList}\item 
@@ -586,36 +586,7 @@ C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC \mbox{\hyperlink{rrc__types_8h_a7c9475df6c73
 
 
 \doxysubsection{Detailed Description}
-lib\+Road\+Runner C wrappers 2012-\/2015 
-
-lib\+Road\+Runner C wrappers 2012-\/2013
-
-\begin{DoxyAuthor}{Author}
-Totte Karlsson \& Herbert M Sauro
-\end{DoxyAuthor}
-$<$-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/--- This file is part of lib\+Road\+Runner. See \href{http://code.google.com/p/roadrunnerlib/}{\texttt{ http\+://code.\+google.\+com/p/roadrunnerlib/}} for more details.
-
-Copyright (C) 2012-\/2015 University of Washington, Seattle, WA, U\+SA
-
-Licensed under the Apache License, Version 2.\+0 (the \char`\"{}\+License\char`\"{}); you may not use this file except in compliance with the License. You may obtain a copy of the License at \begin{DoxyVerb}http://www.apache.org/licenses/LICENSE-2.0
-\end{DoxyVerb}
-
-
-Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an \char`\"{}\+A\+S I\+S\char`\"{} B\+A\+S\+IS, W\+I\+T\+H\+O\+UT W\+A\+R\+R\+A\+N\+T\+I\+ES OR C\+O\+N\+D\+I\+T\+I\+O\+NS OF A\+NY K\+I\+ND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
-
-In plain english this means\+:
-
-You C\+AN freely download and use this software, in whole or in part, for personal, company internal, or commercial purposes;
-
-You C\+AN use the software in packages or distributions that you create.
-
-You S\+H\+O\+U\+LD include a copy of the license in any redistribution you may make;
-
-You are N\+OT required include the source of software, or of any modifications you may have made to it, in any redistribution you may assemble that includes it.
-
-Y\+OU C\+A\+N\+N\+OT\+:
-
-redistribute any piece of this software without proper attribution;
+lib\+Road\+Runner C wrappers 2012-\/2013 
 
 \begin{DoxyAuthor}{Author}
 Totte Karlsson \& Herbert M Sauro

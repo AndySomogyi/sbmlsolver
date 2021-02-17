@@ -14,7 +14,7 @@ C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC \mbox{\hyperlink{rrc__types_8h_a1d68f0592372
 \begin{DoxyCompactList}\small\item\em Initialize a new road\+Runner instance and return a handle to it. \end{DoxyCompactList}\item 
 C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC bool rrc\+Call\+Conv \mbox{\hyperlink{group__initialization_gae0b2f65464742bba3beb0ad38dcdd863}{free\+R\+R\+Instance}} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
 \begin{DoxyCompactList}\small\item\em Free the road\+Runner instance. \end{DoxyCompactList}\item 
-C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC char $\ast$rrc\+Call\+Conv \mbox{\hyperlink{group__initialization_ga0717cdb4fb8684f97a2b6793544ba6e2}{get\+Install\+Folder}} (void)
+char $\ast$ \mbox{\hyperlink{group__initialization_gad1a68a41c939d388df3d8cf1f14023a5}{get\+Install\+Folder}} (void)
 \begin{DoxyCompactList}\small\item\em Returns the folder in which the Road\+Runner wrappers is installed. \end{DoxyCompactList}\item 
 C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC bool rrc\+Call\+Conv \mbox{\hyperlink{group__initialization_gabe314ab514c04cd902c078b864f22a64}{set\+Install\+Folder}} (const char $\ast$folder)
 \begin{DoxyCompactList}\small\item\em Set the internal string containing the folder in where the Road\+Runner C wrappers is installed. \end{DoxyCompactList}\item 
@@ -53,16 +53,6 @@ Returns a Road\+Runner instance, returns null if it fails
 
 Initialize a new road\+Runner instance and return a handle to it. 
 
-
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em temp\+Folder} & set the roadrunner temporary folder \\
-\hline
-\mbox{\texttt{ in}}  & {\em compiler} & may be N\+U\+LL, if N\+U\+LL, uses default compiler. If L\+L\+VM build is enabled, setting compiler to \char`\"{}llvm\char`\"{} enables llvm based model generation. \\
-\hline
-\end{DoxyParams}
-\begin{DoxyReturn}{Returns}
-Returns a Road\+Runner instance, returns null if it fails
-\end{DoxyReturn}
 
 \begin{DoxyParams}[1]{Parameters}
 \mbox{\texttt{ in}}  & {\em temp\+Folder} & set roadrunners temporary folder \\
@@ -108,19 +98,17 @@ Get the value of the moiety conservation setting.
 \begin{DoxyReturn}{Returns}
 Returns true if successful 
 \end{DoxyReturn}
-\mbox{\Hypertarget{group__initialization_ga0717cdb4fb8684f97a2b6793544ba6e2}\label{group__initialization_ga0717cdb4fb8684f97a2b6793544ba6e2}} 
+\mbox{\Hypertarget{group__initialization_gad1a68a41c939d388df3d8cf1f14023a5}\label{group__initialization_gad1a68a41c939d388df3d8cf1f14023a5}} 
 \index{Library initialization and termination methods@{Library initialization and termination methods}!getInstallFolder@{getInstallFolder}}
 \index{getInstallFolder@{getInstallFolder}!Library initialization and termination methods@{Library initialization and termination methods}}
 \doxysubsubsection{\texorpdfstring{getInstallFolder()}{getInstallFolder()}}
-{\footnotesize\ttfamily char $\ast$ get\+Install\+Folder (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily char$\ast$ get\+Install\+Folder (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
 
 
 
 Returns the folder in which the Road\+Runner wrappers is installed. 
 
 \begin{DoxyReturn}{Returns}
-Pointer to string holding the install folder
-
 Pointer to string holding the install folder 
 \end{DoxyReturn}
 \mbox{\Hypertarget{group__initialization_gacb21c6ed7c891635f41cfd43e99cda2f}\label{group__initialization_gacb21c6ed7c891635f41cfd43e99cda2f}} 

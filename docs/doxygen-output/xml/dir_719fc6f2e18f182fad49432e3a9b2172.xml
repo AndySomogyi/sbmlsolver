@@ -2,8 +2,6 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
   <compounddef id="dir_719fc6f2e18f182fad49432e3a9b2172" kind="dir">
     <compoundname>D:/roadrunner/roadrunner/wrappers/C</compoundname>
-    <innerfile refid="__rrc__api_8cpp">_rrc_api.cpp</innerfile>
-    <innerfile refid="__rrc__api_8h">_rrc_api.h</innerfile>
     <innerfile refid="libMain_8cpp">libMain.cpp</innerfile>
     <innerfile refid="rrArrayList_8cpp">rrArrayList.cpp</innerfile>
     <innerfile refid="rrArrayList_8h">rrArrayList.h</innerfile>

@@ -68,7 +68,7 @@
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="note"><para>On error, sets an error message which can be retrieved via <ref refid="group__errorfunctions_1ga0a0d2c042920c6fc648bcb4ce8091ede" kindref="member">getLastError</ref> </para>
+<simplesect kind="note"><para>On error, sets an error message which can be retrieved via <ref refid="group__errorfunctions_1gaa698640f13467d87966d8b90f0c3944c" kindref="member">getLastError</ref> </para>
 </simplesect>
 </para>
         </detaileddescription>
@@ -140,7 +140,7 @@
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="note"><para>On error, sets an error message which can be retrieved via <ref refid="group__errorfunctions_1ga0a0d2c042920c6fc648bcb4ce8091ede" kindref="member">getLastError</ref> </para>
+<simplesect kind="note"><para>On error, sets an error message which can be retrieved via <ref refid="group__errorfunctions_1gaa698640f13467d87966d8b90f0c3944c" kindref="member">getLastError</ref> </para>
 </simplesect>
 </para>
         </detaileddescription>
@@ -212,7 +212,7 @@
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="note"><para>On error, sets an error message which can be retrieved via <ref refid="group__errorfunctions_1ga0a0d2c042920c6fc648bcb4ce8091ede" kindref="member">getLastError</ref> </para>
+<simplesect kind="note"><para>On error, sets an error message which can be retrieved via <ref refid="group__errorfunctions_1gaa698640f13467d87966d8b90f0c3944c" kindref="member">getLastError</ref> </para>
 </simplesect>
 </para>
         </detaileddescription>

@@ -44,7 +44,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" line="337" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" declline="337" declcolumn="30"/>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="346" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="346" declcolumn="30"/>
       </memberdef>
       <memberdef kind="function" id="group__loadsave_1ga255d17e06e104da6a2f9e0696b1aa9e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>C_DECL_SPEC bool rrcCallConv</type>
@@ -98,265 +98,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" line="347" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" declline="347" declcolumn="30"/>
-      </memberdef>
-      <memberdef kind="function" id="group__loadsave_1ga03cb924c6790b039f77a1a9c5dbcdda1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>C_DECL_SPEC bool rrcCallConv</type>
-        <definition>C_DECL_SPEC bool rrcCallConv loadSBMLFromFile</definition>
-        <argsstring>(RRHandle handle, const char *fileName)</argsstring>
-        <name>loadSBMLFromFile</name>
-        <param>
-          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
-          <declname>handle</declname>
-        </param>
-        <param>
-          <type>const char *</type>
-          <declname>fileName</declname>
-        </param>
-        <briefdescription>
-<para>Load a model from a SBML file. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername direction="in">handle</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>Handle to a RoadRunner instance </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername direction="in">fileName</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>file name (or full path) to file that holds the SBML model </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-<simplesect kind="return"><para>Returns true if successful </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" line="357" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" declline="357" declcolumn="30"/>
-      </memberdef>
-      <memberdef kind="function" id="group__loadsave_1gab2aa4b93a3037879a0da7dc85b3a9746" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>C_DECL_SPEC bool rrcCallConv</type>
-        <definition>C_DECL_SPEC bool rrcCallConv loadSBMLFromFileE</definition>
-        <argsstring>(RRHandle handle, const char *fileName, bool forceRecompile)</argsstring>
-        <name>loadSBMLFromFileE</name>
-        <param>
-          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
-          <declname>handle</declname>
-        </param>
-        <param>
-          <type>const char *</type>
-          <declname>fileName</declname>
-        </param>
-        <param>
-          <type>bool</type>
-          <declname>forceRecompile</declname>
-        </param>
-        <briefdescription>
-<para>Load a model from a SBML file, force recompilation. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername direction="in">handle</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>Handle to a RoadRunner instance </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername direction="in">fileName</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>file name (or full path) to file that holds the SBML model </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername direction="in">forceRecompile</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>Boolean that forces recompilation if true. If false, no compilation occur if model dll exists </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-<simplesect kind="return"><para>Returns true if successful </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" line="367" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" declline="367" declcolumn="30"/>
-      </memberdef>
-      <memberdef kind="function" id="group__loadsave_1gac32d078c249651e7ea7af43055df8382" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>C_DECL_SPEC bool rrcCallConv</type>
-        <definition>C_DECL_SPEC bool rrcCallConv clearModel</definition>
-        <argsstring>(RRHandle handle)</argsstring>
-        <name>clearModel</name>
-        <param>
-          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
-          <declname>handle</declname>
-        </param>
-        <briefdescription>
-<para>Unload current model. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername direction="in">handle</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>Handle to a RoadRunner instance </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-<simplesect kind="return"><para>Returns true if successful </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" line="375" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" declline="375" declcolumn="30"/>
-      </memberdef>
-      <memberdef kind="function" id="group__loadsave_1ga1522e7efbb34bc40fd88376327a9535d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>C_DECL_SPEC bool rrcCallConv</type>
-        <definition>C_DECL_SPEC bool rrcCallConv isModelLoaded</definition>
-        <argsstring>(RRHandle handle)</argsstring>
-        <name>isModelLoaded</name>
-        <param>
-          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
-          <declname>handle</declname>
-        </param>
-        <briefdescription>
-<para>check if a model is loaded </para>
-        </briefdescription>
-        <detaileddescription>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername direction="in">handle</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>Handle to a RoadRunner instance </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-<simplesect kind="return"><para>Returns true/false indicating whether a model is loaded or not </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" line="383" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" declline="383" declcolumn="30"/>
-      </memberdef>
-      <memberdef kind="function" id="group__loadsave_1ga387b0694ce78f6f82e089cfade9faef8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>C_DECL_SPEC bool rrcCallConv</type>
-        <definition>C_DECL_SPEC bool rrcCallConv loadSimulationSettings</definition>
-        <argsstring>(RRHandle handle, const char *fileName)</argsstring>
-        <name>loadSimulationSettings</name>
-        <param>
-          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
-          <declname>handle</declname>
-        </param>
-        <param>
-          <type>const char *</type>
-          <declname>fileName</declname>
-        </param>
-        <briefdescription>
-<para>Load simulation settings from a file. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername direction="in">handle</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>Handle to a RoadRunner instance </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername direction="in">fileName</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>file name (or full path) to file that holds simulation settings </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-<simplesect kind="return"><para>Returns true if successful </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" line="393" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" declline="393" declcolumn="30"/>
-      </memberdef>
-      <memberdef kind="function" id="group__loadsave_1ga9e8bda764dbeedb6b377d2050f6254f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>C_DECL_SPEC char *rrcCallConv</type>
-        <definition>C_DECL_SPEC char *rrcCallConv getCurrentSBML</definition>
-        <argsstring>(RRHandle handle)</argsstring>
-        <name>getCurrentSBML</name>
-        <param>
-          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
-          <declname>handle</declname>
-        </param>
-        <briefdescription>
-<para>Retrieve the <bold>current state</bold> of the model in the form of an SBML string. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername direction="in">handle</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>Handle to a RoadRunner instance </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-<simplesect kind="return"><para>Returns null if the call fails, otherwise returns a pointer to the SBML string </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" line="401" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" declline="401" declcolumn="30"/>
-      </memberdef>
-      <memberdef kind="function" id="group__loadsave_1gae45f7a34ebfdc69fb71d8b559213cb4c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>C_DECL_SPEC char *rrcCallConv</type>
-        <definition>C_DECL_SPEC char *rrcCallConv getSBML</definition>
-        <argsstring>(RRHandle handle)</argsstring>
-        <name>getSBML</name>
-        <param>
-          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
-          <declname>handle</declname>
-        </param>
-        <briefdescription>
-<para>Retrieve the SBML model that was last loaded into roadRunner. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername direction="in">handle</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>Handle to a RoadRunner instance </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-<simplesect kind="return"><para>Returns null if the call fails, otherwise returns a pointer to the SBML string </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" line="409" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h" declline="409" declcolumn="30"/>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="356" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="356" declcolumn="30"/>
       </memberdef>
       <memberdef kind="function" id="group__loadsave_1gae6b66c032a09e36e6372fb822b8cef24" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>C_DECL_SPEC bool rrcCallConv</type>
@@ -441,6 +183,264 @@
         <inbodydescription>
         </inbodydescription>
         <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="375" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="375" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="group__loadsave_1ga03cb924c6790b039f77a1a9c5dbcdda1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC bool rrcCallConv</type>
+        <definition>C_DECL_SPEC bool rrcCallConv loadSBMLFromFile</definition>
+        <argsstring>(RRHandle handle, const char *fileName)</argsstring>
+        <name>loadSBMLFromFile</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>fileName</declname>
+        </param>
+        <briefdescription>
+<para>Load a model from a SBML file. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fileName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>file name (or full path) to file that holds the SBML model </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns true if successful </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="385" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="385" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="group__loadsave_1gab2aa4b93a3037879a0da7dc85b3a9746" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC bool rrcCallConv</type>
+        <definition>C_DECL_SPEC bool rrcCallConv loadSBMLFromFileE</definition>
+        <argsstring>(RRHandle handle, const char *fileName, bool forceRecompile)</argsstring>
+        <name>loadSBMLFromFileE</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>fileName</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>forceRecompile</declname>
+        </param>
+        <briefdescription>
+<para>Load a model from a SBML file, force recompilation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fileName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>file name (or full path) to file that holds the SBML model </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">forceRecompile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Boolean that forces recompilation if true. If false, no compilation occur if model dll exists </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns true if successful </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="395" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="395" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="group__loadsave_1gac32d078c249651e7ea7af43055df8382" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC bool rrcCallConv</type>
+        <definition>C_DECL_SPEC bool rrcCallConv clearModel</definition>
+        <argsstring>(RRHandle handle)</argsstring>
+        <name>clearModel</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+<para>Unload current model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns true if successful </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="403" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="403" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="group__loadsave_1ga1522e7efbb34bc40fd88376327a9535d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC bool rrcCallConv</type>
+        <definition>C_DECL_SPEC bool rrcCallConv isModelLoaded</definition>
+        <argsstring>(RRHandle handle)</argsstring>
+        <name>isModelLoaded</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+<para>check if a model is loaded </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns true/false indicating whether a model is loaded or not </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="411" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="411" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="group__loadsave_1ga387b0694ce78f6f82e089cfade9faef8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC bool rrcCallConv</type>
+        <definition>C_DECL_SPEC bool rrcCallConv loadSimulationSettings</definition>
+        <argsstring>(RRHandle handle, const char *fileName)</argsstring>
+        <name>loadSimulationSettings</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>fileName</declname>
+        </param>
+        <briefdescription>
+<para>Load simulation settings from a file. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fileName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>file name (or full path) to file that holds simulation settings </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns true if successful </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="421" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="421" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="group__loadsave_1gacc85b81616a8a3cee83ce6b2913e6382" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC char *rrcCallConv</type>
+        <definition>C_DECL_SPEC char* rrcCallConv getCurrentSBML</definition>
+        <argsstring>(RRHandle handle)</argsstring>
+        <name>getCurrentSBML</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve the <bold>current state</bold> of the model in the form of an SBML string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns null if the call fails, otherwise returns a pointer to the SBML string </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="429" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="429" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="group__loadsave_1ga583d80e8a54f0d41b8600bb4ece0e552" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC char *rrcCallConv</type>
+        <definition>C_DECL_SPEC char* rrcCallConv getSBML</definition>
+        <argsstring>(RRHandle handle)</argsstring>
+        <name>getSBML</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve the SBML model that was last loaded into roadRunner. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns null if the call fails, otherwise returns a pointer to the SBML string </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="437" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="437" declcolumn="30"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

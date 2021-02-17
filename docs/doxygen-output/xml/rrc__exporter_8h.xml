@@ -3,7 +3,6 @@
   <compounddef id="rrc__exporter_8h" kind="file" language="C++">
     <compoundname>rrc_exporter.h</compoundname>
     <includes local="yes">stdbool.h</includes>
-    <includedby refid="__rrc__api_8h" local="yes">D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h</includedby>
     <includedby refid="rrArrayList_8h" local="yes">D:/roadrunner/roadrunner/wrappers/C/rrArrayList.h</includedby>
     <includedby refid="rrArrayListItemBase_8h" local="yes">D:/roadrunner/roadrunner/wrappers/C/rrArrayListItemBase.h</includedby>
     <includedby refid="rrc__api_8h" local="yes">D:/roadrunner/roadrunner/wrappers/C/rrc_api.h</includedby>
@@ -26,60 +25,50 @@
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="7">
+      <node id="6">
         <label>D:/roadrunner/roadrunner/wrappers/C/rrArrayListItem.h</label>
         <link refid="rrArrayListItem_8h_source"/>
-        <childnode refid="3" relation="include">
+        <childnode refid="2" relation="include">
         </childnode>
       </node>
-      <node id="5">
+      <node id="4">
         <label>D:/roadrunner/roadrunner/wrappers/C/rrc_api.cpp</label>
         <link refid="rrc__api_8cpp"/>
       </node>
-      <node id="10">
+      <node id="9">
         <label>D:/roadrunner/roadrunner/wrappers/C/rrc_logging_api.h</label>
         <link refid="rrc__logging__api_8h"/>
-        <childnode refid="2" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
-      </node>
-      <node id="2">
-        <label>D:/roadrunner/roadrunner/wrappers/C/_rrc_api.h</label>
-        <link refid="__rrc__api_8h_source"/>
-      </node>
-      <node id="4">
-        <label>D:/roadrunner/roadrunner/wrappers/C/rrc_cpp_support.h</label>
-        <link refid="rrc__cpp__support_8h"/>
-        <childnode refid="5" relation="include">
+        <childnode refid="7" relation="include">
         </childnode>
       </node>
       <node id="3">
-        <label>D:/roadrunner/roadrunner/wrappers/C/rrArrayList.h</label>
-        <link refid="rrArrayList_8h_source"/>
+        <label>D:/roadrunner/roadrunner/wrappers/C/rrc_cpp_support.h</label>
+        <link refid="rrc__cpp__support_8h"/>
         <childnode refid="4" relation="include">
         </childnode>
       </node>
-      <node id="9">
-        <label>D:/roadrunner/roadrunner/wrappers/C/rrc_libstruct_api.h</label>
-        <link refid="rrc__libstruct__api_8h"/>
-        <childnode refid="2" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
-      </node>
-      <node id="11">
-        <label>D:/roadrunner/roadrunner/wrappers/C/rrc_nom_api.h</label>
-        <link refid="rrc__nom__api_8h"/>
-        <childnode refid="2" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
+      <node id="2">
+        <label>D:/roadrunner/roadrunner/wrappers/C/rrArrayList.h</label>
+        <link refid="rrArrayList_8h_source"/>
+        <childnode refid="3" relation="include">
         </childnode>
       </node>
       <node id="8">
+        <label>D:/roadrunner/roadrunner/wrappers/C/rrc_libstruct_api.h</label>
+        <link refid="rrc__libstruct__api_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>D:/roadrunner/roadrunner/wrappers/C/rrc_nom_api.h</label>
+        <link refid="rrc__nom__api_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
         <label>D:/roadrunner/roadrunner/wrappers/C/rrc_api.h</label>
         <link refid="rrc__api_8h"/>
-        <childnode refid="5" relation="include">
+        <childnode refid="4" relation="include">
         </childnode>
       </node>
       <node id="1">
@@ -87,13 +76,13 @@
         <link refid="rrc__exporter_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
         <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="6" relation="include">
-        </childnode>
         <childnode refid="8" relation="include">
-        </childnode>
-        <childnode refid="4" relation="include">
         </childnode>
         <childnode refid="9" relation="include">
         </childnode>
@@ -103,33 +92,29 @@
         </childnode>
         <childnode refid="12" relation="include">
         </childnode>
-        <childnode refid="13" relation="include">
-        </childnode>
-      </node>
-      <node id="13">
-        <label>D:/roadrunner/roadrunner/wrappers/C/rrcStringList.h</label>
-        <link refid="rrcStringList_8h_source"/>
-        <childnode refid="3" relation="include">
-        </childnode>
-        <childnode refid="7" relation="include">
-        </childnode>
-        <childnode refid="4" relation="include">
-        </childnode>
-      </node>
-      <node id="6">
-        <label>D:/roadrunner/roadrunner/wrappers/C/rrArrayListItemBase.h</label>
-        <link refid="rrArrayListItemBase_8h_source"/>
-        <childnode refid="7" relation="include">
-        </childnode>
       </node>
       <node id="12">
-        <label>D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h</label>
-        <link refid="rrc__utilities_8h"/>
+        <label>D:/roadrunner/roadrunner/wrappers/C/rrcStringList.h</label>
+        <link refid="rrcStringList_8h_source"/>
         <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="5" relation="include">
+        <childnode refid="6" relation="include">
         </childnode>
-        <childnode refid="8" relation="include">
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>D:/roadrunner/roadrunner/wrappers/C/rrArrayListItemBase.h</label>
+        <link refid="rrArrayListItemBase_8h_source"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h</label>
+        <link refid="rrc__utilities_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
         </childnode>
       </node>
     </invincdepgraph>
