@@ -18,13 +18,15 @@ namespace testModel {
         mModel("", "Model", "A SBML model"),
         mTestData(TelluriumData(), "TestData", "Simulated Data"),
         mTestDataWithNoise(TelluriumData(), "TestDataWithNoise", "Simulated Data With Noise"),
-        mSigma(3.e-6, "Sigma", "Sigma (<=> size of applied noise)")
+        mSigma(3.e-6, "Sigma", "Sigma (<=> size of applied noise)"),
+        mSeed(0, "Seed", "Random number seed for applying noise to data (0 to ignore)")
     {
         mVersion = "1.0.0";
         //Setup the plugins properties
         mProperties.add(&mModel);
         mProperties.add(&mTestData);
         mProperties.add(&mTestDataWithNoise);
+        mProperties.add(&mSeed);
 
         mHint = "Get access to a SBML model, and simulated data using the model.";
         mDescription = "The TestModel plugin exposes properties representing a simple SBML model and simulated data using the model. The purpose of this plugin is to give a client easy access to a test model \
@@ -93,7 +95,8 @@ The TestModel plugin was developed at the University of Washington by Totte Karl
         addNoise::AddNoise noise;           //replace this
         noise.setPropertyValue("Sigma", mSigma.getValueHandle());
         noise.setPropertyValue("InputData", mTestDataWithNoise.getValueHandle());
-        noise.execute();        
+        noise.setPropertyValue("Seed", mSeed.getValueHandle());
+        noise.execute();
 
 
         mTestDataWithNoise.setValue(noise.getPropertyValueHandle("InputData"));

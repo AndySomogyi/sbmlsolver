@@ -269,6 +269,15 @@ bool tlp_cc tpSetIntProperty(TELHandle handle, int value)
     tel_catch_bool_macro
 }
 
+bool tlp_cc tpSetUnsignedLongProperty(TELHandle handle, unsigned long value)
+{
+    start_try
+        Property<unsigned long>* para = castHandle< Property<unsigned long> >(handle, __FUNC__);
+    para->setValue(value);
+    return true;
+    tel_catch_bool_macro
+}
+
 bool tlp_cc tpGetIntProperty(TELHandle handle, int *value)
 {
     start_try

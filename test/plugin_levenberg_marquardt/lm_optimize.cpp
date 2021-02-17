@@ -73,13 +73,12 @@ TEST(RRPLUGIN_TEST_MODEL, OPTIMIZE_TEST_MODEL)
     PropertyBase* chi_property = lmplugin->getProperty("ChiSquare");
     ASSERT_TRUE(chi_property != NULL);
     double* chisquare = static_cast<double*>(chi_property->getValueHandle());
-    EXPECT_LT(*chisquare, 100); //Determined empirically.
+    EXPECT_NEAR(*chisquare, 76, 70); //Determined empirically.
 
-    PropertyBase* red_chi_property = lmplugin->getProperty("ChiSquare");
+    PropertyBase* red_chi_property = lmplugin->getProperty("ReducedChiSquare");
     ASSERT_TRUE(red_chi_property != NULL);
     double* reduced_chi = static_cast<double*>(red_chi_property->getValueHandle());
-    EXPECT_LT(*reduced_chi, 100); //Determined empirically.
-    EXPECT_EQ(*chisquare, *reduced_chi); //True when there's only one estimated parameter, at least.
+    EXPECT_NEAR(*reduced_chi, 2.8, 2.4); //Determined empirically.
 
     PropertyBase* outparam_property = lmplugin->getProperty("OutputParameterList");
     ASSERT_TRUE(outparam_property != NULL);

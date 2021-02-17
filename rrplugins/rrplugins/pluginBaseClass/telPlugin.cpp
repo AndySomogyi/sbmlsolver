@@ -203,6 +203,14 @@ namespace tlp
                 return;
             }
 
+            if (type == "unsigned long")
+            {
+                Property<unsigned long>* prop = dynamic_cast<Property<unsigned long>*>(property);
+                const unsigned long* theData = (unsigned long*)value;
+                prop->setValue(*theData);
+                return;
+            }
+
             if (type == "double")
             {
                 Property<double>* prop = dynamic_cast<Property<double>*>(property);

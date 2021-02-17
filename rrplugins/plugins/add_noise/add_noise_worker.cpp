@@ -40,6 +40,11 @@ bool AddNoiseWorker::isRunning() const
     return mThread.isRunning();
 }
 
+void AddNoiseWorker::setSeed(unsigned long val)
+{
+    mNoise.setSeed(val);
+}
+
 void AddNoiseWorker::run()
 {
     if(mTheHost.mWorkStartedEvent)

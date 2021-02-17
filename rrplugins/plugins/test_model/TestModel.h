@@ -25,6 +25,7 @@ namespace testModel {
         Property<TelluriumData>     mTestData;
         Property<TelluriumData>     mTestDataWithNoise;
         Property<double>            mSigma;
+        Property<unsigned long>     mSeed;
         void                        addWeights();
         void                        assignPropertyDescriptions();
     };

@@ -311,6 +311,41 @@ namespace tlp
         return mValue;
     }
 
+    //================= unsigned long ======================
+    /**
+        Set an unsigned long properties value, from a string.
+    */
+    template<>
+    inline void Property<unsigned long>::setValue(const void* val)
+    {
+        mValue = *((unsigned long*)(val));
+    }
+
+    template<>
+    inline void Property<unsigned long>::setValueFromString(const string& val)
+    {
+        mValue = tlp::toUnsignedInt(val);
+    }
+
+    template<>
+    inline bool Property<unsigned long>::clearValue()
+    {
+        mValue = 0;
+        return true;
+    }
+
+    template<>
+    inline Property<unsigned long>::operator unsigned long() const
+    {
+        return mValue;
+    }
+
+    template<>
+    inline Property<unsigned long>::operator unsigned long& ()
+    {
+        return mValue;
+    }
+
     //================= Double ===============================
     template<>
     inline Property<double>::operator double& ()
@@ -541,6 +576,12 @@ namespace tlp
     inline string getPropertyType(const int& a)
     {
         return "int";
+    }
+
+    template<>
+    inline string getPropertyType(const unsigned long& a)
+    {
+        return "unsigned long";
     }
 
     /**

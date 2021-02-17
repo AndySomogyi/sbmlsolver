@@ -16,6 +16,7 @@ namespace addNoise
         mNoiseType(ntGaussian, "NoiseType", "Type of noise (Gaussian = 0)."),
         mSigma(1, "Sigma", "Size of applied noise"),
         mData(TelluriumData(), "InputData", "Data on which noise will be applied to"),
+        mSeed(0, "Seed", "Seed to use for each use of 'execute' (0 to ignore)"),
         mProgress(0, "Progress", "Indicate progress in (0-100%)"),
         mAddNoiseWorker(*this)
     {
@@ -27,6 +28,7 @@ namespace addNoise
         mProperties.add(&mData);
 
         mProperties.add(&mProgress);
+        mProperties.add(&mSeed);
 
         mHint = "Add Gaussian Noise to RoadRunner Data";
         mDescription = "The AddNoise plugin adds Gaussian noise to synthetic data. The amount of noise is controlled \
@@ -64,6 +66,9 @@ The AddNoise plugin was developed at the University of Washington by Totte Karls
     {
         RRPLOG(lDebug) << "Executing the AddNoise plugin by Totte Karlsson";
         //go away and carry out the work in a thread
+        if (mSeed.getValue() != 0) {
+            mAddNoiseWorker.setSeed(mSeed.getValue());
+        }
         return mAddNoiseWorker.start(inThread);
     }
 

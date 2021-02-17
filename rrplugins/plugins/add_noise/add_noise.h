@@ -22,6 +22,7 @@ namespace addNoise
         Property<double>            mSigma;
         Property<TelluriumData>     mData;
         Property<double>            mProgress;
+        Property<unsigned long>     mSeed;
         AddNoiseWorker              mAddNoiseWorker;
         void                        assignPropertyDescriptions();
 

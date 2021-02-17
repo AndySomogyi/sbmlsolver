@@ -25,7 +25,7 @@ namespace nmfit
         for (int i = 0; i < nrOfParameters; i++)
         {
             Property<double>* para = (Property<double>*) (inParas->getPropertyAt(i));
-            gHostInterface->setValue(plugin.rrHandle, para->getName().c_str(), para->getValue());
+            gHostInterface->setValue(plugin.rrHandle, para->getName().c_str(), par[i]);
         }
 
         //Simulate

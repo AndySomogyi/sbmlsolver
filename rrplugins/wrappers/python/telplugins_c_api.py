@@ -765,6 +765,8 @@ def setPluginProperty(pluginHandle, propertyName, propertyValue):
             return setBoolProperty(propertyHandle, propertyValue)
         if paraType == 'int':
             return setIntProperty(propertyHandle, propertyValue)
+        if paraType == 'unsigned long':
+            return setUnsignedLongProperty(propertyHandle, propertyValue)
         if paraType == 'double':
             return setDoubleProperty(propertyHandle, propertyValue)
         if paraType == 'string':
@@ -1056,6 +1058,16 @@ rrpLib.tpSetIntProperty.restype = c_bool
 rrpLib.tpSetIntProperty.argtypes = [c_void_p, c_int]
 def setIntProperty(propertyHandle, value):
     return rrpLib.tpSetIntProperty(propertyHandle, c_int(value))
+
+## \brief Set an unsigned long property
+## \param propertyHandle to a property instance
+## \param value to assign to the property.
+## \return Returns true if successful, false otherwise
+## \ingroup plugin_properties
+rrpLib.tpSetUnsignedLongProperty.restype = c_uint
+rrpLib.tpSetUnsignedLongProperty.argtypes = [c_void_p, c_uint]
+def setUnsignedLongProperty(propertyHandle, value):
+    return rrpLib.tpSetUnsignedLongProperty(propertyHandle, c_uint(value))
 
 ## \brief Get the double value for a property
 ## \param propertyHandle to a property instance
