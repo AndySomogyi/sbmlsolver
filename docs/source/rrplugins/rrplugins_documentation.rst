@@ -1,7 +1,9 @@
+************************
+rrPlugins Documentation
+************************
 
-The basic philosophy behind the design  of the new architecture of rrplugins as compared to the old one
+The basic philosophy behind the design of the new architecture of rrplugins as compared to the old one
 -------------------------------------------------------------------------------------------------------
-
 
 Let’s first discuss what is the problem with the `old architecture <https://github.com/sys-bio/rrplugins/>`_ of rrplugins . Earlier roadrunner and rrplugins were separate entities. To build rrplugins first we need to build roadrunner then rrplugins using the libraries of libRoadRunner. In short rrplugins is dependent on roadrunner, so any change in roadrunner will need to rebuild the plugins. Also, there are two separate installations. So the primary objective was **any change in roadrunner will not affect plugins and any change in plugins will not affect roadrunner.**  
 
@@ -20,9 +22,6 @@ Every plugin requires certain classes to be used. For example, cpp plugins requi
 Now plugins are dependent on Base classes only not the part which requires roadrunner as a dependency. So, a change in roadrunner will have no impact on plugins. 
 
 To use roadrunner functionalities, the structure that consists of function pointers pointing towards C API functions of the roadrunner is used. Whenever a plugin loads, the plugin manager passes a pointer to the structure, so that plugin can access the roadrunner functionality using the function pointer.
-
-
-
 
 
 **A block diagram describing the interaction is given below**
