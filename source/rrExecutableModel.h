@@ -780,6 +780,5 @@ namespace rr {
  * dump the model to a stream convenience func
  */
     RR_DECLSPEC std::ostream &operator<<(std::ostream &stream, ExecutableModel *model);
-
-
 }
+#endif // rrExecutableModelH
