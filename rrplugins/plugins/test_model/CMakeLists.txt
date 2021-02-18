@@ -7,12 +7,6 @@ set(RRP_TEST_MODEL_SOURCES
         test_model_doc.h
         TestModel.cpp
         test_model_doc.cpp
-        ../add_noise/add_noise.cpp
-        ../add_noise/add_noise_worker.cpp
-        ../add_noise/noise.cpp
-        ../add_noise/add_noise.h
-        ../add_noise/add_noise_worker.h
-        ../add_noise/noise.h
         )
 
 add_library(${target} MODULE ${RRP_TEST_MODEL_SOURCES})

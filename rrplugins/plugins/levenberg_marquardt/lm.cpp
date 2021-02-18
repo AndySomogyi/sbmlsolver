@@ -19,8 +19,8 @@
 
 namespace lmfit
 {
-    rrc::THostInterface* gHostInterface;
-    TELHandle gPluginManager;
+    rrc::THostInterface* gHostInterface = NULL;
+    TELHandle gPluginManager = NULL;
     using namespace std;
     using tlp::StringList;
 

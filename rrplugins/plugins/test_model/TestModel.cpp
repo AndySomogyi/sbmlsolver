@@ -10,7 +10,8 @@
 
 extern string theModel;
 namespace testModel {
-    rrc::THostInterface* gHostInterface;
+    rrc::THostInterface* gHostInterface = NULL;
+    tlpc::TELHandle gPluginManager = NULL;
     //---------------------------------------------------------------------------
     TestModel::TestModel() :
         CPPPlugin("TestModel", "Examples"),//Construct Base
@@ -26,6 +27,7 @@ namespace testModel {
         mProperties.add(&mModel);
         mProperties.add(&mTestData);
         mProperties.add(&mTestDataWithNoise);
+        mProperties.add(&mSigma);
         mProperties.add(&mSeed);
 
         mHint = "Get access to a SBML model, and simulated data using the model.";
@@ -92,14 +94,14 @@ The TestModel plugin was developed at the University of Washington by Totte Karl
 
         mTestDataWithNoise.setValue(mTestData.getValue());
 
-        addNoise::AddNoise noise;           //replace this
-        noise.setPropertyValue("Sigma", mSigma.getValueHandle());
-        noise.setPropertyValue("InputData", mTestDataWithNoise.getValueHandle());
-        noise.setPropertyValue("Seed", mSeed.getValueHandle());
-        noise.execute();
+        Plugin* noise = (Plugin*)gHostInterface->getPlugin(gPluginManager, "tel_add_noise");
+        noise->setPropertyValue("Sigma", mSigma.getValueHandle());
+        noise->setPropertyValue("InputData", mTestDataWithNoise.getValueHandle());
+        noise->setPropertyValue("Seed", mSeed.getValueHandle());
+        noise->execute();
 
 
-        mTestDataWithNoise.setValue(noise.getPropertyValueHandle("InputData"));
+        mTestDataWithNoise.setValue(noise->getPropertyValueHandle("InputData"));
 
         //Add weights
         addWeights();
@@ -157,7 +159,7 @@ The TestModel plugin was developed at the University of Washington by Totte Karl
 
     #ifdef EXPORT_TEST_MODEL
     // Plugin factory function
-    Plugin* plugins_cc createPlugin()
+    TestModel* plugins_cc createPlugin()
     {
         //allocate a new object and return it
         return new TestModel;
@@ -170,6 +172,10 @@ The TestModel plugin was developed at the University of Washington by Totte Karl
 
     void plugins_cc setHostInterface(rrc::THostInterface* _hostInterface) {
         gHostInterface = _hostInterface;
+    }
+
+    void plugins_cc setPluginManager(tlpc::TELHandle manager) {
+        gPluginManager = manager;
     }
     #endif 
 

@@ -14,7 +14,7 @@
 namespace nmfit
 {
     rrc::THostInterface* gHostInterface = NULL;
-    tlpc::TELHandle gPluginManager;
+    tlpc::TELHandle gPluginManager = NULL;
 
     using namespace std;
     using tlp::StringList;
