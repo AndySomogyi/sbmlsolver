@@ -382,6 +382,7 @@ double gamma
 
 		if (s < epsilon)
         {
+			plugin.setPropertyByString("StatusMessage", "converged");
             break;
         }
 	}

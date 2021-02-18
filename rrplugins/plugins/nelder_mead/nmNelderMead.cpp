@@ -42,7 +42,7 @@ namespace nmfit
         mNormalProbabilityOfResiduals(TelluriumData(), "NormalProbabilityOfResiduals", "Normal Probability of Residuals.", "", "", true),
         mChiSquare(0, "ChiSquare", "Chi-Square after fitting", "", "", true),
         mReducedChiSquare(0, "ReducedChiSquare", "Reduced Chi-Square after fitting", "", "", true),
-        mStatusMessage("<none>", "StatusMessage", "Status message from fitting engine", "", "", true),
+        mStatusMessage("", "StatusMessage", "Set to either 'converged' or 'failed' after each 'execute' based on whether epsilon was reached.", "", "", true),
 
         //The following Properties are properties controlling the internal working of the algorithm.
         //Changing their default values may be needed depending on the problem.
@@ -193,7 +193,7 @@ The Plugin has a number of parameters for fine tuning the algorithm. See the emb
         msg << "Norm: " << mNorm.getValue() << endl;
         msg << "Chi Square: " << mChiSquare.getValue() << endl;
         msg << "Reduced Chi Square: " << mReducedChiSquare.getValue() << endl;
-        //    msg<<"Fit Engine Status: "<<mStatusMessage.getValue()<<endl;
+        msg << "Fit Engine Status: " << mStatusMessage.getValue() << endl;
         return msg.str();
     }
 
@@ -301,7 +301,7 @@ Model data can only be generated for selections present in the experimental data
         mNrOfFuncIter.setDescription(s.str());
         s.str("");
 
-        s << "The status message give information on the status of an obtained fit (currently unused).";
+        s << "The status message give information on the status of an obtained fit.";
         mStatusMessage.setDescription(s.str());
         s.str("");
 

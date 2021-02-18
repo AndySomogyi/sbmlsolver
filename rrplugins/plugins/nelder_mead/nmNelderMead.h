@@ -45,7 +45,7 @@ namespace nmfit
         Property<string>                        mStatusMessage;                 //Message regarding the status of the fit
         Property<double>                        mNorm;                          //Part of minimization result
         Property<TelluriumData>                 mNorms;                         //Norm values from the fitting
-        TelluriumData& rNormsData;                     //Setup a reference to Norms Data
+        TelluriumData&                          rNormsData;                     //Setup a reference to Norms Data
 
         Property<TelluriumData>			        mResidualsData;                 //Residuals from the fitting
         Property<TelluriumData>			        mStandardizedResiduals;         //Standardized Residuals from the fitting
@@ -56,7 +56,7 @@ namespace nmfit
         Property<TelluriumData>                 mHessian;                       //Hessian
         Property<TelluriumData>                 mCovarianceMatrix;              //Covariance Matrix
 
-        vector<double>                          mTheNorms;              //For effiency
+        vector<double>                          mTheNorms;                      //For effiency
        //Utility functions for the thread
         string                                  getSBML();
 

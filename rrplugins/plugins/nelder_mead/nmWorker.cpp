@@ -80,6 +80,7 @@ namespace nmfit
         mTheHost.mNrOfIter.setValue(0);
         mTheHost.mNrOfFuncIter.setValue(0);
         mTheHost.mNorm.setValue(0.0);
+        mTheHost.mStatusMessage.setValueFromString("failed");
 
         //Parameters for the Algorithm..
         double* intialParameters = new double[nrOfParameters];
