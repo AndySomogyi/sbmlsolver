@@ -21,6 +21,7 @@
 
 #include <string>
 #include <vector>
+#include <sundials/sundials_linearsolver.h>
 
 // == CODE ====================================================
 
@@ -290,6 +291,11 @@ namespace rr
         friend int cvodeRootFcn(double t, N_Vector y, double *gout, void *g_data);
 
         unsigned long typecode_;
+
+    private:
+        // section separated from the rest of this class by (cw) for testing (for now)
+        SUNLinearSolver linearSolver_;
+        SUNMatrix sunDenseMatrix_;
     };
 
 
