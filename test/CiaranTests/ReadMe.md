@@ -1,1 +1,2 @@
-This directory is not important. It can be deleted at any time. This is just a place to isolate some tests I"m running. 
+These tests were developed whilst updating CVODE from version 2.x to version 5.7. 
+todo: rename the folder to something more appropriate. 

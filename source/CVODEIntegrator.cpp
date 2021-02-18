@@ -896,13 +896,13 @@ namespace rr {
             return;
         }
 
-        assert(mStateVector == 0 && mCVODE_Memory == 0 &&
+        assert(mStateVector == nullptr && mCVODE_Memory == nullptr &&
                "calling cvodeCreate, but cvode objects already exist");
 
         // still need cvode state vector size if we have no vars, but have
         // events, needed so root finder works.
         int allocStateVectorSize = 0;
-        int realStateVectorSize = mModel->getStateVector(0);
+        int realStateVectorSize = mModel->getStateVector(nullptr);
 
         // cvode return code
         int err;
@@ -962,9 +962,17 @@ namespace rr {
             Log(Logger::LOG_TRACE) << "CVRootInit executed.....";
         }
 
-        SUNMatrix A = SUNDenseMatrix(mModel->getNumReactions(), mModel->getNumReactions());
-        SUNLinearSolver LS = SUNLinSol_Dense(mStateVector, A);
-        CVodeSetLinearSolver(mCVODE_Memory, LS, A);
+
+        sunDenseMatrix_ = SUNDenseMatrix(mModel->getNumReactions(), mModel->getNumReactions());
+        linearSolver_ = SUNLinSol_Dense(mStateVector, sunDenseMatrix_);
+
+        if ((err = CVodeSetLinearSolver(mCVODE_Memory, linearSolver_, sunDenseMatrix_)) != CV_SUCCESS)
+        {
+            handleCVODEError(err);
+        };
+
+
+//        CVodeSetLinearSolver(mCVODE_Memory, LS, A);
 //		// only allocate this if we are using stiff solver.
 //		// otherwise, CVode will NOT free it if using standard solver.
 //		if (getValueAsBool("stiff"))
@@ -1184,8 +1192,8 @@ namespace rr {
             N_VDestroy_Serial(mStateVector);
         }
 
-        mCVODE_Memory = 0;
-        mStateVector = 0;
+        mCVODE_Memory = nullptr;
+        mStateVector = nullptr;
     }
 
     double CVODEIntegrator::applyVariableStepPendingEvents() {

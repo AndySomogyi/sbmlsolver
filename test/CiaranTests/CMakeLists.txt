@@ -1,8 +1,6 @@
 
 
 
-
-
 function(add_test_executable BINARY OUT_VARIABLE)
     add_executable(${BINARY} ${ARGN})
 
@@ -20,7 +18,8 @@ function(add_test_executable BINARY OUT_VARIABLE)
 
 endfunction()
 
-
+add_test_executable(CVODEIntegratorUnitTest CiaranTests CVODEIntegratorUnitTest.cpp MockExecutableModel.h)
+add_test_executable(CVODEIntegratorIntegrationTest CiaranTests CVODEIntegratorIntegrationTest.cpp MockExecutableModel.h)
 
 
 
