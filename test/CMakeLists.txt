@@ -23,7 +23,7 @@ set(TESTDIRS
         semantic_STS
         )
 
-#set(test_targets)
+set(test_targets)
 foreach (dirid IN LISTS TESTDIRS)
 #    message(STATUS "dirid = ${dirid}")
     file(GLOB MAIN_FILE ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp)
@@ -58,8 +58,13 @@ foreach (dirid IN LISTS TESTDIRS)
     set(TEST_ENV_VARS "testdir=${RR_ROOT}/test" "CTEST_OUTPUT_ON_FAILURE=TRUE")
     set_tests_properties(${testid}_run PROPERTIES ENVIRONMENT "${TEST_ENV_VARS}")
 
+    set(test_targets "${test_targets}" "${testid}")
 
 endforeach ()
+
+install(TARGETS ${test_targets})
+
+add_subdirectory(CiaranTests)
 
 
 add_custom_target(
