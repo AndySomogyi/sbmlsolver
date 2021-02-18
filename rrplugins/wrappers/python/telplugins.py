@@ -458,14 +458,16 @@ class Plugin:
             t1 = tpc.getPropertyType (handle)
             if (t1 == "listOfProperties"):
                 if isinstance (value, list):
-                    if len(value) != 2:
-                        raise TypeError ("Expecting two elements in the property list")
-                    if not isinstance(value[0], str):
-                        raise TypeError("Expecting property name in first element of list")
-                    if (not isinstance(value[1], float)) and (isinstance(value[1], int)):
-                        raise TypeError("Expecting floating value in second element of list")
-                    para1 = tpc.createProperty(value[0], "double", "", value[1])
-                    tpc.addPropertyToList (handle, para1)
+                    if len(value) % 2 != 0:
+                        raise TypeError ("Expecting even numbers of elements in the property list")
+                    for pair in range(int(len(value)/2)):
+                        p = pair*2
+                        if not isinstance(value[p], str):
+                            raise TypeError("Expecting property name in first element of list")
+                        if (not isinstance(value[p+1], float)) and (isinstance(value[p+1], int)):
+                            raise TypeError("Expecting floating value in second element of list")
+                        para1 = tpc.createProperty(value[p], "double", "", value[p+1])
+                        tpc.addPropertyToList (handle, para1)
                 else:
                     raise  TypeError ("Expecting a list in setProperty")
             else:
