@@ -493,9 +493,8 @@ namespace rr {
          * @brief Gets the symbols defined by rate rules, i.e.
          * returns all x such that x' = f(x) is a rule which defines parameter x.
          */
-        virtual std::vector<std::string> getRateRuleSymbols() const {
-            throw NotImplementedException("getRateRuleSymbols not implemented in " + getExecutableModelDesc());
-        }
+        virtual std::vector<std::string> getRateRuleSymbols() const = 0;
+
 
         /**
          * get the number of reactions the model has
