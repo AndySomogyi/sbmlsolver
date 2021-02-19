@@ -681,7 +681,7 @@ namespace rr {
     void CVODEIntegrator::reInit(double t0) {
         // if we have no state vector variables and no events, we never
         // created an integrator.
-        if (mCVODE_Memory == 0) {
+        if (mCVODE_Memory == nullptr) {
             return;
         }
 
@@ -887,7 +887,7 @@ namespace rr {
     }
 
 
-    bool CVODEIntegrator::haveVariables() {
+    bool CVODEIntegrator::haveVariables() const {
         return stateVectorVariables;
     }
 
@@ -962,11 +962,21 @@ namespace rr {
             Log(Logger::LOG_TRACE) << "CVRootInit executed.....";
         }
 
+        int jacSize = mModel->getNumBoundarySpecies() + mModel->getNumFloatingSpecies();
+        jac_ = SUNDenseMatrix(jacSize, jacSize);
+        linearSolver_ = SUNLinSol_Dense(mStateVector, jac_);
+        if (linearSolver_ == nullptr){
+            throw std::runtime_error("CVODEIntegrator::createCVODE: call to SunLinSol_Dense returned nullptr. "
+                                     "This means that the matrix CVODE uses for jacobian is "
+                                     "the wrong size.\n");
+        }
 
-        sunDenseMatrix_ = SUNDenseMatrix(mModel->getNumReactions(), mModel->getNumReactions());
-        linearSolver_ = SUNLinSol_Dense(mStateVector, sunDenseMatrix_);
+        if ((err = CVodeSetLinearSolver(mCVODE_Memory, linearSolver_, jac_)) != CV_SUCCESS)
+        {
+            handleCVODEError(err);
+        };
 
-        if ((err = CVodeSetLinearSolver(mCVODE_Memory, linearSolver_, sunDenseMatrix_)) != CV_SUCCESS)
+        if ((err = CVodeSetJacFn(mCVODE_Memory, NULL)) != CV_SUCCESS)
         {
             handleCVODEError(err);
         };
@@ -1184,16 +1194,30 @@ namespace rr {
 
     void CVODEIntegrator::freeCVode() {
         // cvode does not check for null values.
-        if (mCVODE_Memory) {
-            CVodeFree(&mCVODE_Memory);
-        }
-
         if (mStateVector) {
             N_VDestroy_Serial(mStateVector);
         }
 
+        if (mCVODE_Memory) {
+            CVodeFree(&mCVODE_Memory);
+        }
+        if (linearSolver_){
+            SUNLinSolFree(linearSolver_);
+        }
+
+        if (nonLinearSolver_){
+            SUNNonlinSolFree(nonLinearSolver_);
+        }
+
+        if (jac_) {
+            SUNMatDestroy(jac_);
+        }
+
         mCVODE_Memory = nullptr;
         mStateVector = nullptr;
+        linearSolver_ = nullptr;
+        nonLinearSolver_ = nullptr;
+        jac_ = nullptr;
     }
 
     double CVODEIntegrator::applyVariableStepPendingEvents() {

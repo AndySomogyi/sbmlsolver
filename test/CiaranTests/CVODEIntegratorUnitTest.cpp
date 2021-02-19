@@ -11,40 +11,6 @@
 
 using namespace rr;
 using namespace testing;
-/**
- * Warning: Rant.
- *
- * CVODEIntegrator static vs public methods
- * -----------------------------------------
- *
- * I don't know what the objective was but having a static method
- * which then gets used by a pubilc method for returning information
- * is just bad design - because now we have two methods which do the same
- * thing. For instance :
- *
- *     std::string CVODEIntegrator::getHint() const {
- *          return CVODEIntegrator::getCVODEIntegratorHint();
- *      }
- *
- *      std::string CVODEIntegrator::getCVODEIntegratorHint() {
- *          return "Deterministic ODE solver";
- *      }
- * Either just have a static method and use it or just have a public method
- * return a non-statically allocated string each time.
- *
- * The ExecutableModel pure abstract virtual class (aka an interface).
- * ---------------------------------------------------------------------
- * - This is a bloated class that seriously violates the
- *   inteface segregation rule.
- *
- * standard namespace
- * ------------------
- * Why do we use "using namespace std"? This is coding 101.
- *
- *
- * Rant over.
- *
- */
 
 /**
  * Test fixture for CVODEIntegrator class
@@ -55,7 +21,7 @@ public:
     MockExecutableModel mockExecutableModel;
 
     CVODEIntegratorTests() {
-        Logger::setLevel(Logger::LOG_DEBUG);
+//        Logger::setLevel(Logger::LOG_DEBUG);
     };
 
 };
@@ -125,6 +91,16 @@ TEST_F(CVODEIntegratorTests, CheckThatWeCanChangeIndvidualTolerances) {
 }
 
 TEST_F(CVODEIntegratorTests, CreateCVODE) {
+    // When we create a CVODEIntegrator the createCVODE method is called
+    CVODEIntegrator integrator(&mockExecutableModel);
+
+    // check that mStateVector, a sundials NVector is initialized.
+//    integrator
+
+
+}
+
+TEST_F(CVODEIntegratorTests, SyncAllSolversWithModel) {
     // When we create a CVODEIntegrator the createCVODE method is called
     CVODEIntegrator integrator(&mockExecutableModel);
 

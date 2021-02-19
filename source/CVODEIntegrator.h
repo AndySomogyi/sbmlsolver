@@ -22,6 +22,7 @@
 #include <string>
 #include <vector>
 #include <sundials/sundials_linearsolver.h>
+#include <sundials/sundials_nonlinearsolver.h>
 
 // == CODE ====================================================
 
@@ -245,8 +246,12 @@ namespace rr
         static const int mDefaultMaxAdamsOrder;
         static const int mDefaultMaxBDFOrder;
 
+        // cvode components
         void* mCVODE_Memory;
         N_Vector mStateVector;
+        SUNLinearSolver linearSolver_ = nullptr;
+        SUNMatrix jac_ = nullptr;
+        SUNNonlinearSolver nonLinearSolver_ = nullptr;
         ExecutableModel* mModel;
 
         IntegratorListenerPtr listener;
@@ -257,7 +262,7 @@ namespace rr
         std::vector<unsigned char> eventStatus;
 
         void testRootsAtInitialTime();
-        bool haveVariables();
+        bool haveVariables() const;
         void assignResultsToModel();
         /**
          * @author WBC, ETS, JKM
@@ -292,10 +297,6 @@ namespace rr
 
         unsigned long typecode_;
 
-    private:
-        // section separated from the rest of this class by (cw) for testing (for now)
-        SUNLinearSolver linearSolver_;
-        SUNMatrix sunDenseMatrix_;
     };
 
 

@@ -111,7 +111,7 @@ namespace rr {
  * values are stored in the ModelData struct, i.e. the dynamic state
  * of the model is fully contained in the ModelData structure.
  *
- * An ExecutableModel shoud also contain all of the initial condisions,
+ * An ExecutableModel should also contain all of the initial conditions,
  * rules, functions and whatever other semantic information that was
  * specified in the sbml model.
  */

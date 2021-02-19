@@ -88,77 +88,77 @@ namespace rr
 		virtual double integrate(double t0, double hstep) = 0;
 		virtual void restart(double t0) = 0;
 
-    /**
-     * @author JKM, WBC, ETS, MTK
-     * @brief Fix tolerances for SBML tests
-     * @details In order to ensure that the results of the SBML test suite
-     * remain valid, this method enforces a lower bound on tolerance values.
-     * Sets minimum absolute and relative tolerances to
-     * Config::CVODE_MIN_ABSOLUTE and Config::CVODE_MIN_RELATIVE resp.
-     */
-    virtual void tweakTolerances();
+        /**
+         * @author JKM, WBC, ETS, MTK
+         * @brief Fix tolerances for SBML tests
+         * @details In order to ensure that the results of the SBML test suite
+         * remain valid, this method enforces a lower bound on tolerance values.
+         * Sets minimum absolute and relative tolerances to
+         * Config::CVODE_MIN_ABSOLUTE and Config::CVODE_MIN_RELATIVE resp.
+         */
+        virtual void tweakTolerances();
 
-	/**
-	* @author FY
-	* @brief Set tolerance for floating species or variables that have a rate rule, will only be used in CVODEIntegrator
-	*/
-	virtual void setIndividualTolerance(string sid, double value);
-
-
-	/**
-	* @author FY
-	* @brief Set tolerance based on concentration of species, will only be used in CVODEIntegrator
-	*/
-	virtual void setConcentrationTolerance(const Variant& value);
-
-	/**
-	* @author FY
-	* @brief Get tolerance based on concentration of species, will only be used in CVODEIntegrator
-	*/
-	virtual std::vector<double> getConcentrationTolerance();
+        /**
+        * @author FY
+        * @brief Set tolerance for floating species or variables that have a rate rule, will only be used in CVODEIntegrator
+        */
+        virtual void setIndividualTolerance(string sid, double value);
 
 
-	/* CARRYOVER METHODS */
-	virtual void setListener(IntegratorListenerPtr) = 0;
-	virtual IntegratorListenerPtr getListener() = 0;
-	std::string toString() const;
+        /**
+        * @author FY
+        * @brief Set tolerance based on concentration of species, will only be used in CVODEIntegrator
+        */
+        virtual void setConcentrationTolerance(const Variant& value);
 
-    /**
-    * @author JKM
-    * @brief Return string representation a la Python __repr__ method
-    */
-    virtual std::string toRepr() const;
-		/* !-- END OF CARRYOVER METHODS */
-	};
+        /**
+        * @author FY
+        * @brief Get tolerance based on concentration of species, will only be used in CVODEIntegrator
+        */
+        virtual std::vector<double> getConcentrationTolerance();
+
+
+        /* CARRYOVER METHODS */
+        virtual void setListener(IntegratorListenerPtr) = 0;
+        virtual IntegratorListenerPtr getListener() = 0;
+        std::string toString() const;
+
+        /**
+        * @author JKM
+        * @brief Return string representation a la Python __repr__ method
+        */
+        virtual std::string toRepr() const;
+            /* !-- END OF CARRYOVER METHODS */
+        };
 
 
 	class IntegratorException : public std::runtime_error
-	{
-	public:
-		explicit IntegratorException(const std::string& what) :
-			std::runtime_error(what)
-		{
-				Log(rr::Logger::LOG_ERROR) << __FUNC__ << "what: " << what;
-			}
-
-		explicit IntegratorException(const std::string& what, const std::string &where) :
-			std::runtime_error(what + "; In " + where)
-		{
-				Log(rr::Logger::LOG_ERROR) << __FUNC__ << "what: " << what << ", where: " << where;
-			}
-	};
-
-    /**
-     * @author JKM, WBC
-     * @brief Handles constructing an integrator and contains meta
-     * information about it
-     */
-    class RR_DECLSPEC IntegratorRegistrar
     {
-    protected:
-        typedef Integrator* (*IntegratorCtor)(ExecutableModel *model);
     public:
-        virtual ~IntegratorRegistrar();
+        explicit IntegratorException(const std::string& what) :
+            std::runtime_error(what)
+        {
+                Log(rr::Logger::LOG_ERROR) << __FUNC__ << "what: " << what;
+            }
+
+        explicit IntegratorException(const std::string& what, const std::string &where) :
+            std::runtime_error(what + "; In " + where)
+        {
+                Log(rr::Logger::LOG_ERROR) << __FUNC__ << "what: " << what << ", where: " << where;
+            }
+        };
+
+        /**
+         * @author JKM, WBC
+         * @brief Handles constructing an integrator and contains meta
+         * information about it
+         */
+        class RR_DECLSPEC IntegratorRegistrar
+        {
+        protected:
+            typedef Integrator* (*IntegratorCtor)(ExecutableModel *model);
+        public:
+            virtual ~IntegratorRegistrar();
 
         /**
          * @author JKM, WBC
