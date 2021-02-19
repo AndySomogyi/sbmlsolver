@@ -324,6 +324,8 @@ namespace tlp
                 Plugin* aPlugin = create(this);
                 if (aPlugin)
                 {
+                    createRRPluginFunc create = (createRRPluginFunc)libHandle->getSymbol(string(exp_fnc_prefix) + "createPlugin");
+                    tpRegisterHandle(aPlugin, typeid(aPlugin).name());
                     aPlugin->setLibraryName(getFileNameNoExtension(libName));
                     telPlugin storeMe(libHandle, aPlugin);
                     mPlugins.push_back(storeMe);

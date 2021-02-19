@@ -6,13 +6,15 @@
 #include "telTelluriumData.h"
 #include "bsWorker.h"
 
-//---------------------------------------------------------------------------
-using namespace tlp;
-using std::string;
-
-class MonteCarlo : public CPPPlugin
+namespace bsmc
 {
-    friend class bsWorker;
+    //---------------------------------------------------------------------------
+    using namespace tlp;
+    using std::string;
+
+    class MonteCarlo : public CPPPlugin
+    {
+        friend class bsWorker;
 
     protected:
         Property<string>                        mSBML;                          //This is the model
@@ -30,7 +32,7 @@ class MonteCarlo : public CPPPlugin
         Property<int>                           mNrOfMCRuns;
         Property<string>                        mMinimizerPlugin;
 
-		//Utility functions for the thread
+        //Utility functions for the thread
         string                                  getSBML();
 
     protected:
@@ -39,8 +41,8 @@ class MonteCarlo : public CPPPlugin
         bsWorker                                mWorker;
 
     public:
-                                                MonteCarlo(PluginManager* manager);
-                                               ~MonteCarlo();
+        MonteCarlo();
+        ~MonteCarlo();
 
         bool                                    execute(bool inThread = false);
         string                                  getResult();
@@ -49,19 +51,21 @@ class MonteCarlo : public CPPPlugin
         string                                  getStatus();
         bool                                    isWorking() const;
 
-        unsigned char*                          getManualAsPDF() const;
+        unsigned char* getManualAsPDF() const;
         size_t                                  getPDFManualByteSize();
         tlp::StringList                         getExperimentalDataSelectionList();
         void                                    assignPropertyDescriptions();
-};
+    };
 
-extern "C"
-{
-TLP_DS MonteCarlo*    plugins_cc    createPlugin(void* manager);
-TLP_DS const char*    plugins_cc    getImplementationLanguage();
+    extern "C"
+    {
+        TLP_DS MonteCarlo* plugins_cc    createPlugin();
+        TLP_DS const char* plugins_cc    getImplementationLanguage();
+        TLP_DS void plugins_cc setHostInterface(rrc::THostInterface* _hostInterface);
+        TLP_DS void plugins_cc setPluginManager(TELHandle manager);
+    }
+
 }
-
-
 
 
 #endif

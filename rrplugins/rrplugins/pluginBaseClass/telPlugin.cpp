@@ -229,6 +229,14 @@ namespace tlp
                 return;
             }
 
+            if (type == "stringList")
+            {
+                Property<StringList>* prop = dynamic_cast<Property<StringList>*>(property);
+                const StringList* theData = (StringList*)value;
+                prop->setValue(*theData);
+                return;
+            }
+
             if (type == "telluriumData")
             {
                 Property<TelluriumData>* prop = dynamic_cast<Property<TelluriumData>*>(property);

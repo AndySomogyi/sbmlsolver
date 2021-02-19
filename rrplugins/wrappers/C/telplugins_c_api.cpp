@@ -111,7 +111,7 @@ bool tlp_cc tpLoadPlugins(TELHandle handle)
 
         //Register plugins with Handle manager.
         //We also need to register plugin attributes that may be
-        //accessed trough the API
+        //accessed through the API
         Plugin* pl = pm->getFirstPlugin();
         while(pl)
         {
