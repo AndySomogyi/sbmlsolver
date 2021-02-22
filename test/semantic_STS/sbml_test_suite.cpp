@@ -17,7 +17,14 @@ void LoadAndSimulate(const string& version, int caseNumber, RoadRunner& rr, Test
 
 TEST(OneTest, 1)
 {
-    ASSERT_TRUE(RunTest(28)); //Use when need to run one test.
+    // 1502, but this is different exception
+    // 1517
+    std::vector<int> models({954, 955, 956, 1485, 1487, 1502, 1515, 1516, 1517, 1530, 1531, 1532, 1533, 1561, 1562, 1563, 1564, 1565, 1566});
+    for (auto &i: models){
+
+        EXPECT_TRUE(RunTest(i)); //Use when need to run one test.
+    }
+//    ASSERT_TRUE(RunTest(1515)); //Use when need to run one test.
 }
 
 TEST(SBMLtestsuite, A)
@@ -274,6 +281,7 @@ TEST(SBMLtestsuite, A)
     ASSERT_TRUE(RunTest(249));
     ASSERT_TRUE(RunTest(250));
 }
+
 TEST(SBMLtestsuite, B)
 {
     ASSERT_TRUE(RunTest(251));

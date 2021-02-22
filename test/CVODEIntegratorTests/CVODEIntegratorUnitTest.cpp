@@ -21,7 +21,7 @@ public:
     MockExecutableModel mockExecutableModel;
 
     CVODEIntegratorTests() {
-//        Logger::setLevel(Logger::LOG_DEBUG);
+        Logger::setLevel(Logger::LOG_DEBUG);
     };
 
 };
@@ -90,23 +90,12 @@ TEST_F(CVODEIntegratorTests, CheckThatWeCanChangeIndvidualTolerances) {
     ASSERT_EQ(actual[0], 0.000001);
 }
 
-TEST_F(CVODEIntegratorTests, CreateCVODE) {
-    // When we create a CVODEIntegrator the createCVODE method is called
+TEST_F(CVODEIntegratorTests, CheckConfigSettings) {
     CVODEIntegrator integrator(&mockExecutableModel);
+    integrator.setValue("stiff", false);
+    //integrator.loadConfigSettings();
 
-    // check that mStateVector, a sundials NVector is initialized.
-//    integrator
-
-
-}
-
-TEST_F(CVODEIntegratorTests, SyncAllSolversWithModel) {
-    // When we create a CVODEIntegrator the createCVODE method is called
-    CVODEIntegrator integrator(&mockExecutableModel);
-
-    // check that mStateVector, a sundials NVector is initialized.
-//    integrator
-
+    int x = 4;
 
 }
 
@@ -115,7 +104,12 @@ TEST_F(CVODEIntegratorTests, SyncAllSolversWithModel) {
 //updateCVODE
 //integrate
 //createCVode
-
+//loadConfigSettings
+//loadSBMLSettings
+//setValue
+//resetSettings
+//integrate
+//restart
 
 
 

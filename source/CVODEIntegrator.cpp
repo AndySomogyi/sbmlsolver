@@ -963,7 +963,7 @@ namespace rr {
         }
 
         // A SUNDenseMatrix cannot be created with 0x0 dimensions.
-        if (allocStateVectorSize != 0) {
+//        if (allocStateVectorSize != 0) {
             jac_ = SUNDenseMatrix(allocStateVectorSize, allocStateVectorSize);
             linearSolver_ = SUNLinSol_Dense(mStateVector, jac_);
             if (linearSolver_ == nullptr) {
@@ -981,7 +981,7 @@ namespace rr {
             if ((err = CVodeSetJacFn(mCVODE_Memory, NULL)) != CV_SUCCESS) {
                 handleCVODEError(err);
             };
-        }
+//        }
 
         setCVODETolerances();
         mModel->resetEvents();
