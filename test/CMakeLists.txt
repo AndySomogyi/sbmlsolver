@@ -39,6 +39,10 @@ foreach (dirid IN LISTS TESTDIRS)
 
     add_compile_definitions(${testid} PRIVATE STATIC_RR)
 
+    if(WIN32)
+        add_definitions(/bigobj)
+    endif()
+
     # This order is important:  on linux, including the core library before the C api library
     # causes the resulting program to crash in Poco.
     target_link_libraries(${testid}
