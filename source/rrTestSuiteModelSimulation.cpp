@@ -141,6 +141,7 @@ double TestSuiteModelSimulation::LargestError()
 
 bool TestSuiteModelSimulation::CreateErrorData()
 {
+    std::cout << __FILE__ <<":"<<__LINE__ << ": Failing test result comparison is here (remember to delete me)" << std::endl;
      mResultData = GetResult();
     //Check that result data and reference data has the same dimensions
     if(mResultData.cSize() != mReferenceData.cSize() || mResultData.rSize() != mReferenceData.rSize())
@@ -149,13 +150,21 @@ bool TestSuiteModelSimulation::CreateErrorData()
         return false;
     }
 
+    std::cout << "expected: " << std::endl;
+    std::cout << mReferenceData << std::endl;
+    std::cout << "actual: " << std::endl;
+    std::cout << mResultData << std::endl;
+
     mErrorData.allocate(mResultData.rSize(), mResultData.cSize());
+
     mLargestError = 0;
     for(int row = 0; row < mResultData.rSize(); row++)
     {
         for(int col = 0; col < mResultData.cSize(); col++)
         {
-            double error = fabsl(mResultData(row, col) - mReferenceData(row,col));
+            const double& actual = mResultData(row, col);
+            const double& expected = mReferenceData(row,col);
+            double error = fabsl(actual - expected);
             mErrorData(row, col) = error;
 
 			double absTol = mAbsolute;

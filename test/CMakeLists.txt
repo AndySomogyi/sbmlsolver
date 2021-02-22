@@ -64,7 +64,7 @@ endforeach ()
 
 install(TARGETS ${test_targets})
 
-add_subdirectory(CiaranTests)
+add_subdirectory(CVODEIntegratorTests)
 
 
 add_custom_target(

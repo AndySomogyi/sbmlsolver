@@ -731,7 +731,7 @@ namespace rr {
             // here we bail in case we have no ODEs set up with CVODE ... though we should
             // still at least evaluate the model function
             if (!haveVariables() && mModel->getNumEvents() == 0) {
-                mModel->getStateVectorRate(tout, 0, 0);
+                mModel->getStateVectorRate(tout, nullptr, nullptr);
                 return tout;
             }
 
@@ -743,7 +743,7 @@ namespace rr {
             }
 
             // event status before time step
-            mModel->getEventTriggers(eventStatus.size(), 0, eventStatus.size() == 0 ? NULL : &eventStatus[0]);
+            mModel->getEventTriggers(eventStatus.size(), nullptr, eventStatus.empty() ? nullptr : &eventStatus[0]);
 
             // time step
             int nResult = CVode(mCVODE_Memory, nextTargetEndTime, mStateVector, &timeEnd, itask);
@@ -962,37 +962,26 @@ namespace rr {
             Log(Logger::LOG_TRACE) << "CVRootInit executed.....";
         }
 
-        int jacSize = mModel->getNumBoundarySpecies() + mModel->getNumFloatingSpecies();
-        jac_ = SUNDenseMatrix(jacSize, jacSize);
-        linearSolver_ = SUNLinSol_Dense(mStateVector, jac_);
-        if (linearSolver_ == nullptr){
-            throw std::runtime_error("CVODEIntegrator::createCVODE: call to SunLinSol_Dense returned nullptr. "
-                                     "This means that the matrix CVODE uses for jacobian is "
-                                     "the wrong size.\n");
+        // A SUNDenseMatrix cannot be created with 0x0 dimensions.
+        if (allocStateVectorSize != 0) {
+            jac_ = SUNDenseMatrix(allocStateVectorSize, allocStateVectorSize);
+            linearSolver_ = SUNLinSol_Dense(mStateVector, jac_);
+            if (linearSolver_ == nullptr) {
+                throw std::runtime_error("CVODEIntegrator::createCVODE: call to SunLinSol_Dense returned nullptr. "
+                                         "The size of the sundials matrix (created with SUNDenseMatrix) used for the jacobian "
+                                         "(" + std::to_string(allocStateVectorSize) + "x" +
+                                         std::to_string(allocStateVectorSize)
+                                         + ") is inappropriate for this model\n");
+            }
+
+            if ((err = CVodeSetLinearSolver(mCVODE_Memory, linearSolver_, jac_)) != CV_SUCCESS) {
+                handleCVODEError(err);
+            };
+
+            if ((err = CVodeSetJacFn(mCVODE_Memory, NULL)) != CV_SUCCESS) {
+                handleCVODEError(err);
+            };
         }
-
-        if ((err = CVodeSetLinearSolver(mCVODE_Memory, linearSolver_, jac_)) != CV_SUCCESS)
-        {
-            handleCVODEError(err);
-        };
-
-        if ((err = CVodeSetJacFn(mCVODE_Memory, NULL)) != CV_SUCCESS)
-        {
-            handleCVODEError(err);
-        };
-
-
-//        CVodeSetLinearSolver(mCVODE_Memory, LS, A);
-//		// only allocate this if we are using stiff solver.
-//		// otherwise, CVode will NOT free it if using standard solver.
-//		if (getValueAsBool("stiff"))
-//		{
-//
-//			if ((err = CVDense(mCVODE_Memory, allocStateVectorSize)) != CV_SUCCESS)
-//			{
-//				handleCVODEError(err);
-//			}
-//		}
 
         setCVODETolerances();
         mModel->resetEvents();
@@ -1201,11 +1190,11 @@ namespace rr {
         if (mCVODE_Memory) {
             CVodeFree(&mCVODE_Memory);
         }
-        if (linearSolver_){
+        if (linearSolver_) {
             SUNLinSolFree(linearSolver_);
         }
 
-        if (nonLinearSolver_){
+        if (nonLinearSolver_) {
             SUNNonlinSolFree(nonLinearSolver_);
         }
 

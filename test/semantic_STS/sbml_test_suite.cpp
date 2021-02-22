@@ -17,7 +17,7 @@ void LoadAndSimulate(const string& version, int caseNumber, RoadRunner& rr, Test
 
 TEST(OneTest, 1)
 {
-    //ASSERT_TRUE(RunTest(1630)); //Use when need to run one test.
+    ASSERT_TRUE(RunTest(28)); //Use when need to run one test.
 }
 
 TEST(SBMLtestsuite, A)
@@ -1861,12 +1861,12 @@ bool RunTest(int caseNumber)
     //Run the first and last version of the file.
     string modelFileName, settingsFileName, descriptionFileName;
     vector<string> lvs;
-    lvs.push_back("l1v2"); 
-    lvs.push_back("l2v1"); 
-    lvs.push_back("l2v2"); 
-    lvs.push_back("l2v3"); 
-    lvs.push_back("l2v4"); 
-    lvs.push_back("l2v5"); 
+    lvs.push_back("l1v2");
+    lvs.push_back("l2v1");
+    lvs.push_back("l2v2");
+    lvs.push_back("l2v3");
+    lvs.push_back("l2v4");
+    lvs.push_back("l2v5");
     lvs.push_back("l3v1");
     lvs.push_back("l3v2");
     string testsuitedir = gRRTestDir + "sbml-test-suite/semantic/";
