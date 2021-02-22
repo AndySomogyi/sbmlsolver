@@ -4,18 +4,12 @@
     <compoundname>rrException.cpp</compoundname>
     <includes refid="rrException_8h" local="yes">rrException.h</includes>
     <incdepgraph>
-      <node id="1">
-        <label>rrException.cpp</label>
-        <link refid="rrException_8cpp"/>
-        <childnode refid="2" relation="include">
-        </childnode>
-      </node>
-      <node id="4">
-        <label>string</label>
-      </node>
       <node id="5">
         <label>rrExporter.h</label>
         <link refid="rrExporter_8h_source"/>
+      </node>
+      <node id="4">
+        <label>string</label>
       </node>
       <node id="3">
         <label>exception</label>
@@ -28,6 +22,12 @@
         <childnode refid="4" relation="include">
         </childnode>
         <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>rrException.cpp</label>
+        <link refid="rrException_8cpp"/>
+        <childnode refid="2" relation="include">
         </childnode>
       </node>
     </incdepgraph>

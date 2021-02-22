@@ -1,0 +1,169 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+  <compounddef id="group__rateOfChange" kind="group">
+    <compoundname>rateOfChange</compoundname>
+    <title>Rates of change group</title>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__rateOfChange_1gad6f6fb8bf6b5e05b6337ec3c802709b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC <ref refid="rrc__types_8h_1a3be72d6006034fd349f753d2bf441bf7" kindref="member">RRVectorPtr</ref> rrcCallConv</type>
+        <definition>C_DECL_SPEC RRVectorPtr rrcCallConv getRatesOfChange</definition>
+        <argsstring>(RRHandle handle)</argsstring>
+        <name>getRatesOfChange</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve the vector of rates of change as determined by the current state of the model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Example:<programlisting><codeline><highlight class="normal">values<sp/>=<sp/>getRatesOfChange<sp/>(RRHandle<sp/>handle);<sp/></highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns null if it fails, otherwise returns a vector of rates of change values </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="2345" column="37" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="2345" declcolumn="37"/>
+      </memberdef>
+      <memberdef kind="function" id="group__rateOfChange_1gaba7873ab3d30fc5b84bc3a901dcca811" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC <ref refid="rrc__types_8h_1a7c9475df6c7337d99482b13a365e7596" kindref="member">RRStringArrayPtr</ref> rrcCallConv</type>
+        <definition>C_DECL_SPEC RRStringArrayPtr rrcCallConv getRatesOfChangeIds</definition>
+        <argsstring>(RRHandle handle)</argsstring>
+        <name>getRatesOfChangeIds</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve the string list of rates of change Ids. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Example:<programlisting><codeline><highlight class="normal">Ids<sp/>=<sp/>getRatesOfChangeIds<sp/>(RRHandle<sp/>handle);<sp/></highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns null if it fails, otherwise returns a list of rates of change Ids </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="2356" column="42" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="2356" declcolumn="42"/>
+      </memberdef>
+      <memberdef kind="function" id="group__rateOfChange_1gacf4b39414587f2d4a51c8f90d7c4a571" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC bool rrcCallConv</type>
+        <definition>C_DECL_SPEC bool rrcCallConv getRateOfChange</definition>
+        <argsstring>(RRHandle handle, const int, double *value)</argsstring>
+        <name>getRateOfChange</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <param>
+          <type>const int</type>
+        </param>
+        <param>
+          <type>double *</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve the rate of change for a given floating species. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Example:<programlisting><codeline><highlight class="normal">status<sp/>=<sp/>getRateOfChange<sp/>(&amp;index,<sp/>*value);<sp/></highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to double, holding the rate of change </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns false if it fails, otherwise value contains the rate of change. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="2369" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="2369" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="group__rateOfChange_1ga353516c3b4889b3751e3422cad518c0e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC <ref refid="rrc__types_8h_1a3be72d6006034fd349f753d2bf441bf7" kindref="member">RRVectorPtr</ref> rrcCallConv</type>
+        <definition>C_DECL_SPEC RRVectorPtr rrcCallConv getRatesOfChangeEx</definition>
+        <argsstring>(RRHandle handle, const RRVectorPtr vec)</argsstring>
+        <name>getRatesOfChangeEx</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <param>
+          <type>const <ref refid="rrc__types_8h_1a3be72d6006034fd349f753d2bf441bf7" kindref="member">RRVectorPtr</ref></type>
+          <declname>vec</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve the vector of rates of change given a vector of floating species concentrations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Example:<programlisting><codeline><highlight class="normal">values<sp/>=<sp/>getRatesOfChangeEx<sp/>(vector);<sp/></highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">vec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector handle holding rates of change </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns null if it fails </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="2382" column="37" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="2382" declcolumn="37"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Get information about rates of change. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

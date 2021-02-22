@@ -1,0 +1,455 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+  <compounddef id="group__floating" kind="group">
+    <compoundname>floating</compoundname>
+    <title>Floating species group</title>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__floating_1ga0659eab040dbdfde46b9fc73b46b65d6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC <ref refid="rrc__types_8h_1a3be72d6006034fd349f753d2bf441bf7" kindref="member">RRVectorPtr</ref> rrcCallConv</type>
+        <definition>C_DECL_SPEC RRVectorPtr rrcCallConv getFloatingSpeciesConcentrations</definition>
+        <argsstring>(RRHandle handle)</argsstring>
+        <name>getFloatingSpeciesConcentrations</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve in a vector the concentrations for all the floating species. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Example:<programlisting><codeline><highlight class="normal">RRVectorPtr<sp/>values<sp/>=<sp/>getFloatingSpeciesConcentrations<sp/>(void);<sp/></highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns the vector of floating species concentrations or null if an error occurred </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="1980" column="37" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="1980" declcolumn="37"/>
+      </memberdef>
+      <memberdef kind="function" id="group__floating_1ga1a86710f9772e7a7072aa7de264b0c45" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC bool rrcCallConv</type>
+        <definition>C_DECL_SPEC bool rrcCallConv setFloatingSpeciesInitialConcentrationByIndex</definition>
+        <argsstring>(RRHandle handle, int index, double value)</argsstring>
+        <name>setFloatingSpeciesInitialConcentrationByIndex</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Set the initial concentration for a particular floating species. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The index to the floating species (corresponds to position in <ref refid="group__floating_1gadfa89aaae617d977977469f3c8e0efae" kindref="member">getFloatingSpeciesIds(RRHandle handle)</ref>) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The concentration of the species to set </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns true if successful </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="2033" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="2033" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="group__floating_1ga7dcf8267460ec9fec7559194ed7e7e1d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC bool rrcCallConv</type>
+        <definition>C_DECL_SPEC bool rrcCallConv getFloatingSpeciesInitialConcentrationByIndex</definition>
+        <argsstring>(RRHandle handle, int index, double *value)</argsstring>
+        <name>getFloatingSpeciesInitialConcentrationByIndex</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>double *</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Get the initial concentration for a particular floating species. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The index to the floating species (corresponds to position in <ref refid="group__floating_1gadfa89aaae617d977977469f3c8e0efae" kindref="member">getFloatingSpeciesIds(RRHandle handle)</ref>) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The concentration of the species </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns true if successful </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="2044" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="2044" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="group__floating_1ga892e70470a45d8be4e443c6048064c0e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC bool rrcCallConv</type>
+        <definition>C_DECL_SPEC bool rrcCallConv setFloatingSpeciesByIndex</definition>
+        <argsstring>(RRHandle handle, const int index, const double value)</argsstring>
+        <name>setFloatingSpeciesByIndex</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <param>
+          <type>const int</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>const double</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Set the concentration for a particular floating species. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The index to the floating species (corresponds to position in <ref refid="group__floating_1gadfa89aaae617d977977469f3c8e0efae" kindref="member">getFloatingSpeciesIds(RRHandle handle)</ref>) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The concentration of the species to set </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns true if successful </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="2055" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="2055" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="group__floating_1gaa5ab4c688801aa88c60bea9c745a8d7d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC bool rrcCallConv</type>
+        <definition>C_DECL_SPEC bool rrcCallConv getFloatingSpeciesByIndex</definition>
+        <argsstring>(RRHandle handle, const int index, double *value)</argsstring>
+        <name>getFloatingSpeciesByIndex</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <param>
+          <type>const int</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>double *</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve the concentration for a particular floating species. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The index to the floating species (corresponds to position in <ref refid="group__floating_1gadfa89aaae617d977977469f3c8e0efae" kindref="member">getFloatingSpeciesIds(RRHandle handle)</ref>) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The value returned by the method </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns true if successful </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="2087" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="2087" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="group__floating_1gab6bde54c81fa570ab09da91b65e92327" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC bool rrcCallConv</type>
+        <definition>C_DECL_SPEC bool rrcCallConv setFloatingSpeciesConcentrations</definition>
+        <argsstring>(RRHandle handle, const RRVectorPtr vec)</argsstring>
+        <name>setFloatingSpeciesConcentrations</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <param>
+          <type>const <ref refid="rrc__types_8h_1a3be72d6006034fd349f753d2bf441bf7" kindref="member">RRVectorPtr</ref></type>
+          <declname>vec</declname>
+        </param>
+        <briefdescription>
+<para>Set the floating species concentration to the vector vec. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Example:</para>
+<para><programlisting><codeline><highlight class="normal">myVector<sp/>=<sp/>createVector<sp/>(getNumberOfFloatingSpecies(RRHandle<sp/>handle));</highlight></codeline>
+<codeline><highlight class="normal">setVectorElement<sp/>(myVector,<sp/>0,<sp/>1.2);</highlight></codeline>
+<codeline><highlight class="normal">setVectorElement<sp/>(myVector,<sp/>1,<sp/>5.7);</highlight></codeline>
+<codeline><highlight class="normal">setVectorElement<sp/>(myVector,<sp/>2,<sp/>3.4);</highlight></codeline>
+<codeline><highlight class="normal">setFloatingSpeciesConcentrations(myVector);</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">vec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to a <ref refid="structRRVector" kindref="compound">RRVector</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns true if successful </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="2141" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="2141" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="group__floating_1gab520e3bf495d490a96c5ee19870e7691" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC int rrcCallConv</type>
+        <definition>C_DECL_SPEC int rrcCallConv getNumberOfFloatingSpecies</definition>
+        <argsstring>(RRHandle handle)</argsstring>
+        <name>getNumberOfFloatingSpecies</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+<para>Returns the number of floating species in the model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="2416" column="29" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="2416" declcolumn="29"/>
+      </memberdef>
+      <memberdef kind="function" id="group__floating_1ga284f3c15160144a2639f1d3379f7766b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC int rrcCallConv</type>
+        <definition>C_DECL_SPEC int rrcCallConv getNumberOfDependentSpecies</definition>
+        <argsstring>(RRHandle handle)</argsstring>
+        <name>getNumberOfDependentSpecies</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+<para>Returns the number of dependent species in the model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="2435" column="29" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="2435" declcolumn="29"/>
+      </memberdef>
+      <memberdef kind="function" id="group__floating_1gaf41fdcb9fb98b278742bb5269a317741" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC int rrcCallConv</type>
+        <definition>C_DECL_SPEC int rrcCallConv getNumberOfIndependentSpecies</definition>
+        <argsstring>(RRHandle handle)</argsstring>
+        <name>getNumberOfIndependentSpecies</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+<para>Returns the number of independent species in the model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="2444" column="29" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="2444" declcolumn="29"/>
+      </memberdef>
+      <memberdef kind="function" id="group__floating_1gadfa89aaae617d977977469f3c8e0efae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC <ref refid="rrc__types_8h_1a7c9475df6c7337d99482b13a365e7596" kindref="member">RRStringArrayPtr</ref> rrcCallConv</type>
+        <definition>C_DECL_SPEC RRStringArrayPtr rrcCallConv getFloatingSpeciesIds</definition>
+        <argsstring>(RRHandle handle)</argsstring>
+        <name>getFloatingSpeciesIds</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+<para>Obtain the list of floating species Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns null if it fails, if successful it returns a pointer to a RRStringArrayPtr struct </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="2485" column="42" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="2485" declcolumn="42"/>
+      </memberdef>
+      <memberdef kind="function" id="group__floating_1gaefe22d500854d4fe991c0435f80c3b35" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC <ref refid="rrc__types_8h_1a7c9475df6c7337d99482b13a365e7596" kindref="member">RRStringArrayPtr</ref> rrcCallConv</type>
+        <definition>C_DECL_SPEC RRStringArrayPtr rrcCallConv getFloatingSpeciesConcentrationIds</definition>
+        <argsstring>(RRHandle handle)</argsstring>
+        <name>getFloatingSpeciesConcentrationIds</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+<para>Obtain the list of floating species concentrations Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns null if it fails, if successful it returns a pointer to a RRStringArrayPtr struct </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="2499" column="42" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="2499" declcolumn="42"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Get information about floating species. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

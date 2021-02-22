@@ -9,12 +9,12 @@
     <includedby refid="rrNOMSupport_8cpp" local="yes">c/rrNOMSupport.cpp</includedby>
     <includedby refid="rrStringBuilder_8cpp" local="yes">c/rrStringBuilder.cpp</includedby>
     <incdepgraph>
-      <node id="3">
-        <label>string</label>
-      </node>
       <node id="4">
         <label>rrExporter.h</label>
         <link refid="rrExporter_8h_source"/>
+      </node>
+      <node id="3">
+        <label>string</label>
       </node>
       <node id="2">
         <label>sstream</label>
@@ -31,22 +31,6 @@
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="5">
-        <label>c/rrCompiledModelGenerator.h</label>
-        <link refid="rrCompiledModelGenerator_8h_source"/>
-        <childnode refid="3" relation="include">
-        </childnode>
-      </node>
-      <node id="3">
-        <label>c/rrCModelGenerator.h</label>
-        <link refid="rrCModelGenerator_8h_source"/>
-        <childnode refid="4" relation="include">
-        </childnode>
-      </node>
-      <node id="4">
-        <label>c/rrCompiledExecutableModel.h</label>
-        <link refid="rrCompiledExecutableModel_8h_source"/>
-      </node>
       <node id="2">
         <label>c/rrCodeBuilder.h</label>
         <link refid="rrCodeBuilder_8h_source"/>
@@ -55,10 +39,26 @@
         <childnode refid="5" relation="include">
         </childnode>
       </node>
+      <node id="5">
+        <label>c/rrCompiledModelGenerator.h</label>
+        <link refid="rrCompiledModelGenerator_8h_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>c/rrCompiledExecutableModel.h</label>
+        <link refid="rrCompiledExecutableModel_8h_source"/>
+      </node>
       <node id="1">
         <label>c/rrStringBuilder.h</label>
         <link refid="rrStringBuilder_8h"/>
         <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>c/rrCModelGenerator.h</label>
+        <link refid="rrCModelGenerator_8h_source"/>
+        <childnode refid="4" relation="include">
         </childnode>
       </node>
     </invincdepgraph>

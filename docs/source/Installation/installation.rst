@@ -11,29 +11,6 @@ The recommended way to use roadrunner is by installing the Python front end and 
 
    $ pip install libroadrunner
 
-.. todo:
-
-    Find out whether we support conda package?
-
-Prebuilt binaries (C/C++ Front End)
-===================================
-
-If you want to use roadrunner from C++ or C, you may be able to use a prebuilt binary distribution
-if one is suitable. To determine suitability, ensure your compiler, architecture (i.e. x86 vs x64)
-and build configuration (i.e. Release or Debug) matches what was used to build the binaries.
-
-.. todo::
-
-    Put roadrunner binaries on sourceforce and update the links below
-
-* `VisualStudio 2019 x64 release <>`_
-* `VisualStudio 2019 x64 debug<>`_
-* `GCC7.5.0 x64 release<>`_
-* `GCC7.5.0 x64 debug<>`_
-* `AppleClang11.0.3 darwin19.4.0 x86-64 release<>`_
-* `AppleClang11.0.3 darwin19.4.0 x86-64 debug<>`_
-
-If you cannot use the prebuilt binaries or want to built from source please see the following instructions.
 
 Building Roadrunner from Source
 ==================================
@@ -138,7 +115,7 @@ These are controlled by turning on or off desired options in cmake.
 
 .. note::
 
-    Generally speaking, the cmake-gui tool
+    Generally speaking, the `cmake-gui <https://cmake.org/cmake/help/latest/manual/cmake-gui.1.html>`_  tool
     is the best way to get a good oversight of the available options.
 
 Build the Python Bindings

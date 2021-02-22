@@ -49,7 +49,7 @@
     </detaileddescription>
     <inheritancegraph>
       <node id="2">
-        <label>std::runtime_error</label>
+        <label>runtime_error</label>
       </node>
       <node id="1">
         <label>rrllvm::LLVMException</label>
@@ -60,7 +60,7 @@
     </inheritancegraph>
     <collaborationgraph>
       <node id="2">
-        <label>std::runtime_error</label>
+        <label>runtime_error</label>
       </node>
       <node id="1">
         <label>rrllvm::LLVMException</label>

@@ -1,0 +1,291 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+  <compounddef id="group__boundary" kind="group">
+    <compoundname>boundary</compoundname>
+    <title>Boundary species group</title>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__boundary_1gaa36e026ba8f7488c7a57e96c0471763b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC <ref refid="rrc__types_8h_1a3be72d6006034fd349f753d2bf441bf7" kindref="member">RRVectorPtr</ref> rrcCallConv</type>
+        <definition>C_DECL_SPEC RRVectorPtr rrcCallConv getBoundarySpeciesConcentrations</definition>
+        <argsstring>(RRHandle handle)</argsstring>
+        <name>getBoundarySpeciesConcentrations</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve the concentrations for all the boundary species in a vector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Example:<programlisting><codeline><highlight class="normal">RRVectorPtr<sp/>values<sp/>=<sp/>getBoundarySpeciesConcentrations<sp/>(void);<sp/></highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns the vector of boundary species concentrations or null if an error occurred </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="1994" column="37" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="1994" declcolumn="37"/>
+      </memberdef>
+      <memberdef kind="function" id="group__boundary_1ga12e16a139a2f3d77a8cda20518e21b18" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC bool rrcCallConv</type>
+        <definition>C_DECL_SPEC bool rrcCallConv setBoundarySpeciesByIndex</definition>
+        <argsstring>(RRHandle handle, const unsigned int index, const double value)</argsstring>
+        <name>setBoundarySpeciesByIndex</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <param>
+          <type>const unsigned int</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>const double</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Set the concentration for a particular boundary species. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The index to the boundary species (corresponds to position in getBoundarySpeciesIds(void)) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The concentration of the species to set </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns true if successful </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="2022" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="2022" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="group__boundary_1ga5bdb50a2653fc268731aaba05d7b7377" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC bool rrcCallConv</type>
+        <definition>C_DECL_SPEC bool rrcCallConv getBoundarySpeciesByIndex</definition>
+        <argsstring>(RRHandle handle, const int index, double *value)</argsstring>
+        <name>getBoundarySpeciesByIndex</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <param>
+          <type>const int</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>double *</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve the concentration for a particular floating species. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The index to the boundary species (corresponds to position in <ref refid="group__boundary_1ga31cfec3f7179f15a44eead1d45564a7c" kindref="member">getBoundarySpeciesIds(RRHandle handle)</ref>) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The value returned by the method </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns true if successful </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="2076" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="2076" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="group__boundary_1gacc067866a08d07a196d681328b5b3e38" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC bool rrcCallConv</type>
+        <definition>C_DECL_SPEC bool rrcCallConv setBoundarySpeciesConcentrations</definition>
+        <argsstring>(RRHandle handle, const RRVectorPtr vec)</argsstring>
+        <name>setBoundarySpeciesConcentrations</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <param>
+          <type>const <ref refid="rrc__types_8h_1a3be72d6006034fd349f753d2bf441bf7" kindref="member">RRVectorPtr</ref></type>
+          <declname>vec</declname>
+        </param>
+        <briefdescription>
+<para>Set the boundary species concentration to the vector vec. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Example:</para>
+<para><programlisting><codeline><highlight class="normal">myVector<sp/>=<sp/>createVector<sp/>(getNumberOfBoundarySpecies(RRHandle<sp/>handle));</highlight></codeline>
+<codeline><highlight class="normal">setVectorElement<sp/>(myVector,<sp/>0,<sp/>1.2);</highlight></codeline>
+<codeline><highlight class="normal">setVectorElement<sp/>(myVector,<sp/>1,<sp/>5.7);</highlight></codeline>
+<codeline><highlight class="normal">setVectorElement<sp/>(myVector,<sp/>2,<sp/>3.4);</highlight></codeline>
+<codeline><highlight class="normal">setBoundarySpeciesConcentrations(myVector);</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>vec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A vector of boundary species concentrations </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns true if successful </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="2161" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="2161" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="group__boundary_1ga7baf198510082275b3648b5691dd16b5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC int rrcCallConv</type>
+        <definition>C_DECL_SPEC int rrcCallConv getNumberOfBoundarySpecies</definition>
+        <argsstring>(RRHandle handle)</argsstring>
+        <name>getNumberOfBoundarySpecies</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+<para>Returns the number of boundary species in the model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="2408" column="29" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="2408" declcolumn="29"/>
+      </memberdef>
+      <memberdef kind="function" id="group__boundary_1ga31cfec3f7179f15a44eead1d45564a7c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC <ref refid="rrc__types_8h_1a7c9475df6c7337d99482b13a365e7596" kindref="member">RRStringArrayPtr</ref> rrcCallConv</type>
+        <definition>C_DECL_SPEC RRStringArrayPtr rrcCallConv getBoundarySpeciesIds</definition>
+        <argsstring>(RRHandle handle)</argsstring>
+        <name>getBoundarySpeciesIds</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+<para>Obtain the list of boundary species Ids. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns null if it fails, if successful it returns a pointer to a RRStringArrayPtr struct </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="2466" column="42" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="2466" declcolumn="42"/>
+      </memberdef>
+      <memberdef kind="function" id="group__boundary_1ga1dd9b776439e7b3e9ea157ade596dc59" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC <ref refid="rrc__types_8h_1a7c9475df6c7337d99482b13a365e7596" kindref="member">RRStringArrayPtr</ref> rrcCallConv</type>
+        <definition>C_DECL_SPEC RRStringArrayPtr rrcCallConv getBoundarySpeciesConcentrationIds</definition>
+        <argsstring>(RRHandle handle)</argsstring>
+        <name>getBoundarySpeciesConcentrationIds</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+<para>Obtain the list of boundary species concentration Ids. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns null if it fails, if successful it returns a pointer to a RRStringArrayPtr struct </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="2476" column="42" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="2476" declcolumn="42"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Get information about boundary species. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

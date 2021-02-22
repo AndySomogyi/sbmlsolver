@@ -52,7 +52,7 @@ The following methods allow users to obtain various metabolic control coefficien
 
 This first block of methods are for parameter independent coefficients.
 
-.. autosummary::
+
 
    RoadRunner.getUnscaledFluxControlCoefficientMatrix
    RoadRunner.getUnscaledConcentrationControlCoefficientMatrix
@@ -65,7 +65,7 @@ This first block of methods are for parameter independent coefficients.
 
 Use these to obtain metabolic control coefficients.
 
-.. autosummary::   
+
    
    RoadRunner.getuCC
    RoadRunner.getCC

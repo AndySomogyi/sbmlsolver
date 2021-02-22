@@ -8,24 +8,18 @@
     <includedby refid="rrRandom_8cpp" local="yes">c/rrRandom.cpp</includedby>
     <includedby refid="rrRandom_8h" local="yes">c/rrRandom.h</includedby>
     <incdepgraph>
-      <node id="1">
-        <label>c/mtrand.h</label>
-        <link refid="mtrand_8h"/>
-        <childnode refid="2" relation="include">
-        </childnode>
-      </node>
       <node id="2">
         <label>rrExporter.h</label>
         <link refid="rrExporter_8h_source"/>
       </node>
-    </incdepgraph>
-    <invincdepgraph>
       <node id="1">
         <label>c/mtrand.h</label>
         <link refid="mtrand_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
       </node>
+    </incdepgraph>
+    <invincdepgraph>
       <node id="2">
         <label>c/rrRandom.h</label>
         <link refid="rrRandom_8h_source"/>
@@ -41,6 +35,12 @@
       <node id="4">
         <label>c/rrCompiledExecutableModel.h</label>
         <link refid="rrCompiledExecutableModel_8h_source"/>
+      </node>
+      <node id="1">
+        <label>c/mtrand.h</label>
+        <link refid="mtrand_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
       </node>
     </invincdepgraph>
     <innerclass refid="classMTRand__int32" prot="public">MTRand_int32</innerclass>

@@ -55,7 +55,7 @@
         </childnode>
       </node>
       <node id="2">
-        <label>runtime_error</label>
+        <label>std::runtime_error</label>
       </node>
     </inheritancegraph>
     <collaborationgraph>
@@ -66,7 +66,7 @@
         </childnode>
       </node>
       <node id="2">
-        <label>runtime_error</label>
+        <label>std::runtime_error</label>
       </node>
     </collaborationgraph>
     <location file="Integrator.h" line="135" column="1" bodyfile="Integrator.h" bodystart="136" bodyend="149"/>

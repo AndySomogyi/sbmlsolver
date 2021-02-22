@@ -7,29 +7,26 @@
     <includes refid="rrStringUtils_8h" local="yes">rrStringUtils.h</includes>
     <includes refid="rrLogger_8h" local="yes">rrLogger.h</includes>
     <incdepgraph>
-      <node id="17">
-        <label>Variant.h</label>
-        <link refid="Variant_8h_source"/>
-        <childnode refid="6" relation="include">
-        </childnode>
-        <childnode refid="18" relation="include">
-        </childnode>
-        <childnode refid="5" relation="include">
-        </childnode>
-        <childnode refid="9" relation="include">
-        </childnode>
-      </node>
       <node id="8">
         <label>list</label>
       </node>
       <node id="2">
         <label>iomanip</label>
       </node>
+      <node id="14">
+        <label>rrConstants.h</label>
+        <link refid="rrConstants_8h_source"/>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
       <node id="15">
         <label>limits</label>
-      </node>
-      <node id="5">
-        <label>string</label>
       </node>
       <node id="6">
         <label>rrExporter.h</label>
@@ -43,8 +40,35 @@
         <childnode refid="6" relation="include">
         </childnode>
       </node>
+      <node id="5">
+        <label>string</label>
+      </node>
       <node id="11">
         <label>map</label>
+      </node>
+      <node id="1">
+        <label>c/rrStringBuilder.cpp</label>
+        <link refid="rrStringBuilder_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>typeinfo</label>
+      </node>
+      <node id="9">
+        <label>vector</label>
+      </node>
+      <node id="4">
+        <label>sstream</label>
+      </node>
+      <node id="16">
+        <label>cstdlib</label>
       </node>
       <node id="7">
         <label>rrStringUtils.h</label>
@@ -70,50 +94,20 @@
         <childnode refid="17" relation="include">
         </childnode>
       </node>
-      <node id="18">
-        <label>typeinfo</label>
-      </node>
-      <node id="1">
-        <label>c/rrStringBuilder.cpp</label>
-        <link refid="rrStringBuilder_8cpp"/>
-        <childnode refid="2" relation="include">
+      <node id="17">
+        <label>Variant.h</label>
+        <link refid="Variant_8h_source"/>
+        <childnode refid="6" relation="include">
         </childnode>
-        <childnode refid="3" relation="include">
-        </childnode>
-        <childnode refid="7" relation="include">
-        </childnode>
-        <childnode refid="19" relation="include">
-        </childnode>
-      </node>
-      <node id="9">
-        <label>vector</label>
-      </node>
-      <node id="4">
-        <label>sstream</label>
-      </node>
-      <node id="16">
-        <label>cstdlib</label>
-      </node>
-      <node id="12">
-        <label>unordered_map</label>
-      </node>
-      <node id="14">
-        <label>rrConstants.h</label>
-        <link refid="rrConstants_8h_source"/>
-        <childnode refid="15" relation="include">
+        <childnode refid="18" relation="include">
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="16" relation="include">
-        </childnode>
-        <childnode refid="6" relation="include">
+        <childnode refid="9" relation="include">
         </childnode>
       </node>
-      <node id="13">
-        <label>set</label>
-      </node>
-      <node id="10">
-        <label>complex</label>
+      <node id="12">
+        <label>unordered_map</label>
       </node>
       <node id="3">
         <label>rrStringBuilder.h</label>
@@ -124,6 +118,12 @@
         </childnode>
         <childnode refid="6" relation="include">
         </childnode>
+      </node>
+      <node id="13">
+        <label>set</label>
+      </node>
+      <node id="10">
+        <label>complex</label>
       </node>
     </incdepgraph>
     <innernamespace refid="namespacerr">rr</innernamespace>

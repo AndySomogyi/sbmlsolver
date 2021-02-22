@@ -185,7 +185,7 @@ RRHandle rrcCallConv createRRInstanceEx(const char* tempFolder, const char* comp
     catch_ptr_macro
 }
 
-char* rrcCallConv getInstallFolder()
+char* getInstallFolder()
 {
     if(!gInstallFolder[0])
     {
