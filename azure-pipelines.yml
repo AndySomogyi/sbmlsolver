@@ -98,9 +98,14 @@ stages:
             displayName: "Get LLVM"
             condition: ne(variables.LLVM_CACHE, 'true')
           - task: DownloadPipelineArtifact@2
+            # In this task we go and grab the build artefacts from
+            # the libroadrunner-dependencies package
             inputs:
               source: 'specific'
               project: 'libroadrunner-deps'
+              # pipeline is found in the url when looking at azure in browser.
+              # for example, it looks like this:
+              # - https://dev.azure.com/TheRoadrunnerProject/libroadrunner-deps/_build?definitionId=9
               pipeline: 9
               runVersion: 'latest'
               artifact: libroadrunner-deps-$(Agent.OS)-$(BuildType)
