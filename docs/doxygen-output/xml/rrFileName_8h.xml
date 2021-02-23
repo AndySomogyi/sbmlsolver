@@ -8,12 +8,12 @@
     <includedby refid="rrFileName_8cpp" local="yes">rrFileName.cpp</includedby>
     <includedby refid="rrIniFile_8h" local="yes">rrIniFile.h</includedby>
     <incdepgraph>
-      <node id="2">
-        <label>string</label>
-      </node>
       <node id="4">
         <label>rrExporter.h</label>
         <link refid="rrExporter_8h_source"/>
+      </node>
+      <node id="2">
+        <label>string</label>
       </node>
       <node id="3">
         <label>ostream</label>

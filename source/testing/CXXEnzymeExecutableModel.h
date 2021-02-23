@@ -384,6 +384,8 @@ public:
 
     virtual int getNumRateRules();
 
+    virtual std::vector<std::string> getRateRuleSymbols() const override;
+
     /**
      * get the number of reactions the model has
      */

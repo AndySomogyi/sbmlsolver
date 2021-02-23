@@ -14,53 +14,19 @@
     <includes local="no">limits</includes>
     <includes local="no">sstream</includes>
     <incdepgraph>
-      <node id="9">
-        <label>Variant.h</label>
-        <link refid="Variant_8h_source"/>
-        <childnode refid="6" relation="include">
-        </childnode>
-        <childnode refid="10" relation="include">
-        </childnode>
-        <childnode refid="11" relation="include">
-        </childnode>
-        <childnode refid="12" relation="include">
-        </childnode>
-      </node>
       <node id="23">
         <label>list</label>
       </node>
-      <node id="2">
-        <label>GillespieIntegrator.h</label>
-        <link refid="GillespieIntegrator_8h_source"/>
-        <childnode refid="3" relation="include">
-        </childnode>
-        <childnode refid="19" relation="include">
-        </childnode>
-        <childnode refid="21" relation="include">
-        </childnode>
-        <childnode refid="25" relation="include">
-        </childnode>
-      </node>
-      <node id="21">
-        <label>rrExecutableModel.h</label>
-        <link refid="rrExecutableModel_8h"/>
-        <childnode refid="7" relation="include">
-        </childnode>
-        <childnode refid="15" relation="include">
-        </childnode>
-        <childnode refid="22" relation="include">
-        </childnode>
-        <childnode refid="20" relation="include">
+      <node id="30">
+        <label>rrConstants.h</label>
+        <link refid="rrConstants_8h_source"/>
+        <childnode refid="31" relation="include">
         </childnode>
         <childnode refid="11" relation="include">
         </childnode>
-        <childnode refid="12" relation="include">
+        <childnode refid="32" relation="include">
         </childnode>
-        <childnode refid="23" relation="include">
-        </childnode>
-        <childnode refid="24" relation="include">
-        </childnode>
-        <childnode refid="13" relation="include">
+        <childnode refid="6" relation="include">
         </childnode>
       </node>
       <node id="31">
@@ -78,139 +44,12 @@
       <node id="25">
         <label>tr1proxy/rr_random.h</label>
       </node>
-      <node id="3">
-        <label>Integrator.h</label>
-        <link refid="Integrator_8h"/>
-        <childnode refid="4" relation="include">
-        </childnode>
-        <childnode refid="7" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
-        <childnode refid="15" relation="include">
-        </childnode>
-        <childnode refid="17" relation="include">
-        </childnode>
-        <childnode refid="13" relation="include">
-        </childnode>
-        <childnode refid="14" relation="include">
-        </childnode>
-        <childnode refid="18" relation="include">
-        </childnode>
-      </node>
-      <node id="20">
-        <label>stdint.h</label>
-      </node>
-      <node id="8">
-        <label>Dictionary.h</label>
-        <link refid="Dictionary_8h_source"/>
-        <childnode refid="9" relation="include">
-        </childnode>
-        <childnode refid="11" relation="include">
-        </childnode>
-        <childnode refid="12" relation="include">
-        </childnode>
-        <childnode refid="13" relation="include">
-        </childnode>
-        <childnode refid="14" relation="include">
-        </childnode>
-      </node>
-      <node id="7">
-        <label>rrOSSpecifics.h</label>
-        <link refid="rrOSSpecifics_8h_source"/>
-        <childnode refid="6" relation="include">
-        </childnode>
-      </node>
-      <node id="18">
-        <label>stdexcept</label>
-      </node>
-      <node id="11">
-        <label>string</label>
-      </node>
       <node id="6">
         <label>rrExporter.h</label>
         <link refid="rrExporter_8h_source"/>
       </node>
-      <node id="14">
-        <label>tr1proxy/rr_unordered_map.h</label>
-      </node>
-      <node id="4">
-        <label>rrLogger.h</label>
-        <link refid="rrLogger_8h_source"/>
-        <childnode refid="5" relation="include">
-        </childnode>
-        <childnode refid="6" relation="include">
-        </childnode>
-      </node>
-      <node id="35">
-        <label>map</label>
-      </node>
-      <node id="16">
-        <label>exception</label>
-      </node>
-      <node id="24">
-        <label>ostream</label>
-      </node>
-      <node id="17">
-        <label>Solver.h</label>
-        <link refid="Solver_8h"/>
-        <childnode refid="4" relation="include">
-        </childnode>
-        <childnode refid="7" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
-        <childnode refid="15" relation="include">
-        </childnode>
-        <childnode refid="13" relation="include">
-        </childnode>
-        <childnode refid="14" relation="include">
-        </childnode>
-        <childnode refid="18" relation="include">
-        </childnode>
-      </node>
-      <node id="33">
-        <label>rrStringUtils.h</label>
-        <link refid="rrStringUtils_8h_source"/>
-        <childnode refid="11" relation="include">
-        </childnode>
-        <childnode refid="23" relation="include">
-        </childnode>
-        <childnode refid="12" relation="include">
-        </childnode>
-        <childnode refid="34" relation="include">
-        </childnode>
-        <childnode refid="35" relation="include">
-        </childnode>
-        <childnode refid="36" relation="include">
-        </childnode>
-        <childnode refid="29" relation="include">
-        </childnode>
-        <childnode refid="30" relation="include">
-        </childnode>
-        <childnode refid="6" relation="include">
-        </childnode>
-        <childnode refid="9" relation="include">
-        </childnode>
-      </node>
-      <node id="10">
-        <label>typeinfo</label>
-      </node>
-      <node id="40">
-        <label>ctime</label>
-      </node>
-      <node id="12">
-        <label>vector</label>
-      </node>
-      <node id="15">
-        <label>rrException.h</label>
-        <link refid="rrException_8h_source"/>
-        <childnode refid="16" relation="include">
-        </childnode>
-        <childnode refid="11" relation="include">
-        </childnode>
-        <childnode refid="6" relation="include">
-        </childnode>
+      <node id="20">
+        <label>stdint.h</label>
       </node>
       <node id="1">
         <label>GillespieIntegrator.cpp</label>
@@ -238,8 +77,57 @@
         <childnode refid="5" relation="include">
         </childnode>
       </node>
-      <node id="5">
-        <label>sstream</label>
+      <node id="3">
+        <label>Integrator.h</label>
+        <link refid="Integrator_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>stdexcept</label>
+      </node>
+      <node id="17">
+        <label>Solver.h</label>
+        <link refid="Solver_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>rrLogger.h</label>
+        <link refid="rrLogger_8h_source"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>string</label>
       </node>
       <node id="37">
         <label>rrConfig.h</label>
@@ -252,6 +140,31 @@
         </childnode>
         <childnode refid="12" relation="include">
         </childnode>
+      </node>
+      <node id="14">
+        <label>tr1proxy/rr_unordered_map.h</label>
+      </node>
+      <node id="35">
+        <label>map</label>
+      </node>
+      <node id="16">
+        <label>exception</label>
+      </node>
+      <node id="24">
+        <label>ostream</label>
+      </node>
+      <node id="15">
+        <label>rrException.h</label>
+        <link refid="rrException_8h_source"/>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>typeinfo</label>
       </node>
       <node id="19">
         <label>rrRoadRunnerOptions.h</label>
@@ -273,17 +186,8 @@
         <childnode refid="20" relation="include">
         </childnode>
       </node>
-      <node id="32">
-        <label>cstdlib</label>
-      </node>
-      <node id="28">
-        <label>iostream</label>
-      </node>
-      <node id="36">
-        <label>unordered_map</label>
-      </node>
-      <node id="13">
-        <label>tr1proxy/rr_memory.h</label>
+      <node id="40">
+        <label>ctime</label>
       </node>
       <node id="26">
         <label>rrUtils.h</label>
@@ -307,17 +211,81 @@
         <childnode refid="20" relation="include">
         </childnode>
       </node>
-      <node id="30">
-        <label>rrConstants.h</label>
-        <link refid="rrConstants_8h_source"/>
-        <childnode refid="31" relation="include">
-        </childnode>
+      <node id="12">
+        <label>vector</label>
+      </node>
+      <node id="5">
+        <label>sstream</label>
+      </node>
+      <node id="32">
+        <label>cstdlib</label>
+      </node>
+      <node id="28">
+        <label>iostream</label>
+      </node>
+      <node id="33">
+        <label>rrStringUtils.h</label>
+        <link refid="rrStringUtils_8h_source"/>
         <childnode refid="11" relation="include">
         </childnode>
-        <childnode refid="32" relation="include">
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
         </childnode>
         <childnode refid="6" relation="include">
         </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>Variant.h</label>
+        <link refid="Variant_8h_source"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="36">
+        <label>unordered_map</label>
+      </node>
+      <node id="21">
+        <label>rrExecutableModel.h</label>
+        <link refid="rrExecutableModel_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>tr1proxy/rr_memory.h</label>
       </node>
       <node id="29">
         <label>set</label>
@@ -327,6 +295,38 @@
       </node>
       <node id="38">
         <label>cstring</label>
+      </node>
+      <node id="8">
+        <label>Dictionary.h</label>
+        <link refid="Dictionary_8h_source"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>rrOSSpecifics.h</label>
+        <link refid="rrOSSpecifics_8h_source"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>GillespieIntegrator.h</label>
+        <link refid="GillespieIntegrator_8h_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
       </node>
     </incdepgraph>
     <innernamespace refid="namespacerr">rr</innernamespace>
@@ -365,10 +365,10 @@
 <codeline lineno="28"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/>defaultSeed()</highlight></codeline>
 <codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>seed<sp/>=<sp/>Config::getValue(Config::RANDOM_SEED).convert&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">&gt;();</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>seed<sp/>=<sp/><ref refid="group__state_1ga6ff35b4282c583424f4d5708330012b9" kindref="member">Config::getValue</ref>(Config::RANDOM_SEED).convert&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">&gt;();</highlight></codeline>
 <codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(seed<sp/>&lt;<sp/>0)</highlight></codeline>
 <codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>system<sp/>time<sp/>in<sp/>mirsoseconds<sp/>since<sp/>1970</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>system<sp/>time<sp/>in<sp/>microseconds<sp/>since<sp/>1970</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>seed<sp/>=<sp/>getMicroSeconds();</highlight></codeline>
 <codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="37"><highlight class="normal"></highlight></codeline>
@@ -401,7 +401,7 @@
 <codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>fill<sp/>stoichData</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>model-&gt;getStoichiometryMatrix(&amp;stoichRows,<sp/>&amp;stoichCols,<sp/>&amp;stoichData);</highlight></codeline>
 <codeline lineno="66"><highlight class="normal"></highlight></codeline>
-<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>setEngineSeed(getValue(</highlight><highlight class="stringliteral">&quot;seed&quot;</highlight><highlight class="normal">).convert&lt;unsigned<sp/>long&gt;());</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>setEngineSeed(<ref refid="group__state_1ga6ff35b4282c583424f4d5708330012b9" kindref="member">getValue</ref>(</highlight><highlight class="stringliteral">&quot;seed&quot;</highlight><highlight class="normal">).convert&lt;unsigned<sp/>long&gt;());</highlight></codeline>
 <codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="69"><highlight class="normal"></highlight></codeline>
 <codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>GillespieIntegrator::GillespieIntegrator(ExecutableModel*<sp/>m)<sp/>:</highlight></codeline>
@@ -536,7 +536,7 @@
 <codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>addSetting(</highlight><highlight class="stringliteral">&quot;minimum_time_step&quot;</highlight><highlight class="normal">,<sp/>0.0,<sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Minimum<sp/>Time<sp/>Step&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Specifies<sp/>the<sp/>minimum<sp/>absolute<sp/>value<sp/>of<sp/>step<sp/>size<sp/>allowed.<sp/>(double)&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;(double)<sp/>The<sp/>minimum<sp/>absolute<sp/>value<sp/>of<sp/>step<sp/>size<sp/>allowed.&quot;</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>addSetting(</highlight><highlight class="stringliteral">&quot;maximum_time_step&quot;</highlight><highlight class="normal">,<sp/>0.0,<sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Maximum<sp/>Time<sp/>Step&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Specifies<sp/>the<sp/>maximum<sp/>absolute<sp/>value<sp/>of<sp/>step<sp/>size<sp/>allowed.<sp/>(double)&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;(double)<sp/>The<sp/>maximum<sp/>absolute<sp/>value<sp/>of<sp/>step<sp/>size<sp/>allowed.&quot;</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>addSetting(</highlight><highlight class="stringliteral">&quot;nonnegative&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Non-negative<sp/>species<sp/>only&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Prevents<sp/>species<sp/>amounts<sp/>from<sp/>going<sp/>negative<sp/>during<sp/>a<sp/>simulation.<sp/>(bool)&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;(bool)<sp/>Enforce<sp/>non-negative<sp/>species<sp/>constraint.&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>addSetting(</highlight><highlight class="stringliteral">&quot;max_output_rows&quot;</highlight><highlight class="normal">,<sp/><ref refid="classrr_1_1Config_1a66454fca7b7357d5b3180d8589bacebf" kindref="member">Config::getInt</ref>(<ref refid="classrr_1_1Config_1aed7c550b9e34222675cd152c9154d053a132d11f5ad8d479acc917f91916a2060" kindref="member">Config::MAX_OUTPUT_ROWS</ref>),<sp/></highlight><highlight class="stringliteral">&quot;Maximum<sp/>Output<sp/>Rows&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;For<sp/>variable<sp/>step<sp/>size<sp/>simulations,<sp/>the<sp/>maximum<sp/>number<sp/>of<sp/>output<sp/>rows<sp/>produced<sp/>(int).&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;(int)<sp/>This<sp/>will<sp/>set<sp/>the<sp/>maximum<sp/>number<sp/>of<sp/>output<sp/>rows<sp/>for<sp/>variable<sp/>step<sp/>size<sp/>integration.<sp/><sp/>This<sp/>may<sp/>truncate<sp/>some<sp/>simulations<sp/>that<sp/>may<sp/>not<sp/>reach<sp/>the<sp/>desired<sp/>end<sp/>time,<sp/>but<sp/>prevents<sp/>infinite<sp/>or<sp/>massive<sp/>output<sp/>for<sp/>simulations<sp/>where<sp/>the<sp/>variable<sp/>step<sp/>size<sp/>ends<sp/>up<sp/>decreasing<sp/>too<sp/>much.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>addSetting(</highlight><highlight class="stringliteral">&quot;max_output_rows&quot;</highlight><highlight class="normal">,<sp/><ref refid="classrr_1_1Config_1a66454fca7b7357d5b3180d8589bacebf" kindref="member">Config::getInt</ref>(<ref refid="classrr_1_1Config_1aed7c550b9e34222675cd152c9154d053a132d11f5ad8d479acc917f91916a2060" kindref="member">Config::MAX_OUTPUT_ROWS</ref>),<sp/></highlight><highlight class="stringliteral">&quot;Maximum<sp/>Output<sp/>Rows&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;For<sp/>variable<sp/>step<sp/>size<sp/>simulations,<sp/>the<sp/>maximum<sp/>number<sp/>of<sp/>output<sp/>rows<sp/>produced<sp/>(int).&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;(int)<sp/>This<sp/>will<sp/>set<sp/>the<sp/>maximum<sp/>number<sp/>of<sp/>output<sp/>rows<sp/>for<sp/>variable<sp/>step<sp/>size<sp/>integration.<sp/><sp/>This<sp/>may<sp/>truncate<sp/>some<sp/>simulations<sp/>that<sp/>may<sp/>not<sp/>reach<sp/>the<sp/>desired<sp/>end<sp/>time,<sp/>but<sp/>prevents<sp/>massive<sp/>output<sp/>for<sp/>simulations<sp/>where<sp/>the<sp/>variable<sp/>step<sp/>size<sp/>ends<sp/>up<sp/>decreasing<sp/>too<sp/>much.<sp/><sp/>This<sp/>setting<sp/>is<sp/>ignored<sp/>when<sp/>the<sp/>variable_step_size<sp/>is<sp/>false,<sp/>and<sp/>is<sp/>also<sp/>ignored<sp/>when<sp/>the<sp/>output<sp/>is<sp/>being<sp/>written<sp/>directly<sp/>to<sp/>a<sp/>file.&quot;</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="204"><highlight class="normal"></highlight></codeline>
 <codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classrr_1_1GillespieIntegrator_1a73574edf62f01ef8b2eeadf6c70e802f" kindref="member">GillespieIntegrator::integrate</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>t,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>hstep)</highlight></codeline>

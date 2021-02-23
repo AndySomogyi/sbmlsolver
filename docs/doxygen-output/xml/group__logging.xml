@@ -1,0 +1,228 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+  <compounddef id="group__logging" kind="group">
+    <compoundname>logging</compoundname>
+    <title>Logging functionality</title>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__logging_1ga26aae545bbc31c1505ade0579741a4b9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC bool rrcCallConv</type>
+        <definition>C_DECL_SPEC bool rrcCallConv enableLoggingToConsole</definition>
+        <argsstring>(void)</argsstring>
+        <name>enableLoggingToConsole</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+<para>Enable logging to console. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Returns true if successful, false otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_logging_api.h" line="83" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_logging_api.h" declline="83" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="group__logging_1gaa5be6edee1af88ca1f87bf17568ea1cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC bool rrcCallConv</type>
+        <definition>C_DECL_SPEC bool rrcCallConv disableLoggingToConsole</definition>
+        <argsstring>(void)</argsstring>
+        <name>disableLoggingToConsole</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+<para>Disable logging to console. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Returns true if successful, false otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_logging_api.h" line="90" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_logging_api.h" declline="90" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="group__logging_1ga94829307689bb7f93c59d3098b83a9f7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC bool rrcCallConv</type>
+        <definition>C_DECL_SPEC bool rrcCallConv enableLoggingToFile</definition>
+        <argsstring>()</argsstring>
+        <name>enableLoggingToFile</name>
+        <briefdescription>
+<para>Enable logging to logFile. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Returns true if successful, false otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_logging_api.h" line="97" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_logging_api.h" declline="97" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="group__logging_1ga9ccf608e3864a75bdca868af6b511b17" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC bool rrcCallConv</type>
+        <definition>C_DECL_SPEC bool rrcCallConv enableLoggingToFileWithPath</definition>
+        <argsstring>(const char *path)</argsstring>
+        <name>enableLoggingToFileWithPath</name>
+        <param>
+          <type>const char *</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Enable logging to a log file with the specified path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Returns true if successful, false otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_logging_api.h" line="104" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_logging_api.h" declline="104" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="group__logging_1gaed2bf69408c13ca8e3d65149261e6689" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC bool rrcCallConv</type>
+        <definition>C_DECL_SPEC bool rrcCallConv disableLoggingToFile</definition>
+        <argsstring>()</argsstring>
+        <name>disableLoggingToFile</name>
+        <briefdescription>
+<para>Disable logging to logFile. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Returns true if successful, false otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_logging_api.h" line="111" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_logging_api.h" declline="111" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="group__logging_1ga6e6cb15a163ea13e5ef9f0ebfded2c78" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC bool rrcCallConv</type>
+        <definition>C_DECL_SPEC bool rrcCallConv setLogLevel</definition>
+        <argsstring>(const char *lvl)</argsstring>
+        <name>setLogLevel</name>
+        <param>
+          <type>const char *</type>
+          <declname>lvl</declname>
+        </param>
+        <briefdescription>
+<para>Set the logging status level The logging level is determined by the following strings. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>&quot;ANY&quot;, &quot;DEBUG5&quot;, &quot;DEBUG4&quot;, &quot;DEBUG3&quot;, &quot;DEBUG2&quot;, &quot;DEBUG1&quot;, &quot;DEBUG&quot;, &quot;INFO&quot;, &quot;WARNING&quot;, &quot;ERROR&quot;</para>
+<para>Example:<programlisting><codeline><highlight class="normal">setLogLevel<sp/>(&quot;DEBUG4&quot;)<sp/></highlight></codeline>
+</programlisting></para>
+<para>Will show log messages with levels DEBUG4, DEBUG3 -&gt; Error</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>lvl</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to the logging level string. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns true if successful </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_logging_api.h" line="128" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_logging_api.h" declline="128" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="group__logging_1ga0d9810fbff78ccdf4912d5789d55f49e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC char *rrcCallConv</type>
+        <definition>C_DECL_SPEC char* rrcCallConv getLogLevel</definition>
+        <argsstring>(void)</argsstring>
+        <name>getLogLevel</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+<para>Get the logging status level as a pointer to a string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The logging level can be one of the following strings</para>
+<para>&quot;ANY&quot;, &quot;DEBUG5&quot;, &quot;DEBUG4&quot;, &quot;DEBUG3&quot;, &quot;DEBUG2&quot;, &quot;DEBUG1&quot;, &quot;DEBUG&quot;, &quot;INFO&quot;, &quot;WARNING&quot;, &quot;ERROR&quot;</para>
+<para>Example:<programlisting><codeline><highlight class="normal">str<sp/>=<sp/>getLogLevel<sp/>(void)<sp/></highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>Returns null if it fails else returns a pointer to the logging string </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_logging_api.h" line="143" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_logging_api.h" declline="143" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="group__logging_1ga05133e19d88371f05908ba5f87ca57ad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC char *rrcCallConv</type>
+        <definition>C_DECL_SPEC char* rrcCallConv getLogFileName</definition>
+        <argsstring>(void)</argsstring>
+        <name>getLogFileName</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+<para>Get a pointer to the string that holds the logging file name path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Example: str = getLogFileName (void)</para>
+<para><simplesect kind="return"><para>Returns null if it fails otherwise returns the full path to the logging file name </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_logging_api.h" line="153" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_logging_api.h" declline="153" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="group__logging_1gaa6fb15f5bbab056c9351695bcb0775a6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC void rrcCallConv</type>
+        <definition>C_DECL_SPEC void rrcCallConv logMsg</definition>
+        <argsstring>(enum CLogLevel lvl, const char *msg)</argsstring>
+        <name>logMsg</name>
+        <param>
+          <type>enum <ref refid="rrc__logging__api_8h_1a588bd44cc2c96622ce20b8aba702686a" kindref="member">CLogLevel</ref></type>
+          <declname>lvl</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>msg</declname>
+        </param>
+        <briefdescription>
+<para>Create a log message. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>lvl</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Loglevel for message </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>msg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Log message </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_logging_api.h" line="161" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_logging_api.h" declline="161" declcolumn="30"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>RoadRunner logging routines. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

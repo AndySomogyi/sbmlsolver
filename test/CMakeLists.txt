@@ -23,7 +23,7 @@ set(TESTDIRS
         semantic_STS
         )
 
-#set(test_targets)
+set(test_targets)
 foreach (dirid IN LISTS TESTDIRS)
 #    message(STATUS "dirid = ${dirid}")
     file(GLOB MAIN_FILE ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp)
@@ -38,6 +38,10 @@ foreach (dirid IN LISTS TESTDIRS)
     add_executable(${testid} ${TEST_FILES})
 
     add_compile_definitions(${testid} PRIVATE STATIC_RR)
+
+    if(WIN32)
+        add_definitions(/bigobj)
+    endif()
 
     # This order is important:  on linux, including the core library before the C api library
     # causes the resulting program to crash in Poco.
@@ -58,8 +62,13 @@ foreach (dirid IN LISTS TESTDIRS)
     set(TEST_ENV_VARS "testdir=${RR_ROOT}/test" "CTEST_OUTPUT_ON_FAILURE=TRUE")
     set_tests_properties(${testid}_run PROPERTIES ENVIRONMENT "${TEST_ENV_VARS}")
 
+    set(test_targets "${test_targets}" "${testid}")
 
 endforeach ()
+
+install(TARGETS ${test_targets})
+
+add_subdirectory(CVODEIntegratorTests)
 
 
 add_custom_target(

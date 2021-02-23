@@ -25,23 +25,118 @@
     <includes refid="rrConfig_8h" local="yes">rrConfig.h</includes>
     <includes local="no">Poco/Timestamp.h</includes>
     <incdepgraph>
-      <node id="29">
-        <label>Variant.h</label>
-        <link refid="Variant_8h_source"/>
-        <childnode refid="28" relation="include">
-        </childnode>
-        <childnode refid="30" relation="include">
-        </childnode>
-        <childnode refid="18" relation="include">
-        </childnode>
-        <childnode refid="20" relation="include">
-        </childnode>
-      </node>
       <node id="3">
         <label>sys/stat.h</label>
       </node>
       <node id="19">
         <label>list</label>
+      </node>
+      <node id="8">
+        <label>iomanip</label>
+      </node>
+      <node id="25">
+        <label>rrConstants.h</label>
+        <link refid="rrConstants_8h_source"/>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+      </node>
+      <node id="26">
+        <label>limits</label>
+      </node>
+      <node id="11">
+        <label>float.h</label>
+      </node>
+      <node id="28">
+        <label>rrExporter.h</label>
+        <link refid="rrExporter_8h_source"/>
+      </node>
+      <node id="32">
+        <label>stdint.h</label>
+      </node>
+      <node id="12">
+        <label>Poco/MD5Engine.h</label>
+      </node>
+      <node id="9">
+        <label>cmath</label>
+      </node>
+      <node id="33">
+        <label>rrLogger.h</label>
+        <link refid="rrLogger_8h_source"/>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>string</label>
+      </node>
+      <node id="39">
+        <label>rrConfig.h</label>
+        <link refid="rrConfig_8h_source"/>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>map</label>
+      </node>
+      <node id="40">
+        <label>Poco/Timestamp.h</label>
+      </node>
+      <node id="14">
+        <label>Poco/Glob.h</label>
+      </node>
+      <node id="15">
+        <label>Poco/File.h</label>
+      </node>
+      <node id="38">
+        <label>exception</label>
+      </node>
+      <node id="7">
+        <label>fstream</label>
+      </node>
+      <node id="36">
+        <label>ostream</label>
+      </node>
+      <node id="4">
+        <label>limits.h</label>
+      </node>
+      <node id="16">
+        <label>Poco/Path.h</label>
+      </node>
+      <node id="37">
+        <label>rrException.h</label>
+        <link refid="rrException_8h_source"/>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+      </node>
+      <node id="35">
+        <label>rrSelectionRecord.h</label>
+        <link refid="rrSelectionRecord_8h_source"/>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="30">
+        <label>typeinfo</label>
       </node>
       <node id="1">
         <label>rrUtils.cpp</label>
@@ -91,65 +186,48 @@
         <childnode refid="40" relation="include">
         </childnode>
       </node>
-      <node id="8">
-        <label>iomanip</label>
-      </node>
-      <node id="26">
-        <label>limits</label>
-      </node>
-      <node id="11">
-        <label>float.h</label>
-      </node>
-      <node id="32">
-        <label>stdint.h</label>
-      </node>
-      <node id="12">
-        <label>Poco/MD5Engine.h</label>
-      </node>
-      <node id="9">
-        <label>cmath</label>
-      </node>
-      <node id="18">
-        <label>string</label>
-      </node>
-      <node id="28">
-        <label>rrExporter.h</label>
-        <link refid="rrExporter_8h_source"/>
-      </node>
-      <node id="33">
-        <label>rrLogger.h</label>
-        <link refid="rrLogger_8h_source"/>
-        <childnode refid="34" relation="include">
+      <node id="31">
+        <label>rrUtils.h</label>
+        <link refid="rrUtils_8h_source"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
         </childnode>
         <childnode refid="28" relation="include">
         </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
       </node>
-      <node id="22">
-        <label>map</label>
+      <node id="2">
+        <label>unistd.h</label>
       </node>
-      <node id="40">
-        <label>Poco/Timestamp.h</label>
+      <node id="20">
+        <label>vector</label>
       </node>
-      <node id="14">
-        <label>Poco/Glob.h</label>
+      <node id="13">
+        <label>Poco/Thread.h</label>
       </node>
-      <node id="15">
-        <label>Poco/File.h</label>
+      <node id="34">
+        <label>sstream</label>
       </node>
-      <node id="38">
-        <label>exception</label>
+      <node id="10">
+        <label>math.h</label>
       </node>
-      <node id="7">
-        <label>fstream</label>
+      <node id="27">
+        <label>cstdlib</label>
       </node>
-      <node id="36">
-        <label>ostream</label>
-      </node>
-      <node id="4">
-        <label>limits.h</label>
-      </node>
-      <node id="16">
-        <label>Poco/Path.h</label>
+      <node id="6">
+        <label>iostream</label>
       </node>
       <node id="17">
         <label>rrStringUtils.h</label>
@@ -175,88 +253,20 @@
         <childnode refid="29" relation="include">
         </childnode>
       </node>
-      <node id="30">
-        <label>typeinfo</label>
-      </node>
-      <node id="2">
-        <label>unistd.h</label>
-      </node>
-      <node id="20">
-        <label>vector</label>
-      </node>
-      <node id="37">
-        <label>rrException.h</label>
-        <link refid="rrException_8h_source"/>
-        <childnode refid="38" relation="include">
-        </childnode>
-        <childnode refid="18" relation="include">
-        </childnode>
+      <node id="29">
+        <label>Variant.h</label>
+        <link refid="Variant_8h_source"/>
         <childnode refid="28" relation="include">
         </childnode>
-      </node>
-      <node id="13">
-        <label>Poco/Thread.h</label>
-      </node>
-      <node id="34">
-        <label>sstream</label>
-      </node>
-      <node id="39">
-        <label>rrConfig.h</label>
-        <link refid="rrConfig_8h_source"/>
+        <childnode refid="30" relation="include">
+        </childnode>
         <childnode refid="18" relation="include">
-        </childnode>
-        <childnode refid="28" relation="include">
-        </childnode>
-        <childnode refid="29" relation="include">
         </childnode>
         <childnode refid="20" relation="include">
         </childnode>
-      </node>
-      <node id="10">
-        <label>math.h</label>
-      </node>
-      <node id="27">
-        <label>cstdlib</label>
-      </node>
-      <node id="6">
-        <label>iostream</label>
       </node>
       <node id="23">
         <label>unordered_map</label>
-      </node>
-      <node id="31">
-        <label>rrUtils.h</label>
-        <link refid="rrUtils_8h_source"/>
-        <childnode refid="11" relation="include">
-        </childnode>
-        <childnode refid="20" relation="include">
-        </childnode>
-        <childnode refid="18" relation="include">
-        </childnode>
-        <childnode refid="6" relation="include">
-        </childnode>
-        <childnode refid="24" relation="include">
-        </childnode>
-        <childnode refid="28" relation="include">
-        </childnode>
-        <childnode refid="25" relation="include">
-        </childnode>
-        <childnode refid="17" relation="include">
-        </childnode>
-        <childnode refid="32" relation="include">
-        </childnode>
-      </node>
-      <node id="25">
-        <label>rrConstants.h</label>
-        <link refid="rrConstants_8h_source"/>
-        <childnode refid="26" relation="include">
-        </childnode>
-        <childnode refid="18" relation="include">
-        </childnode>
-        <childnode refid="27" relation="include">
-        </childnode>
-        <childnode refid="28" relation="include">
-        </childnode>
       </node>
       <node id="24">
         <label>set</label>
@@ -266,16 +276,6 @@
       </node>
       <node id="5">
         <label>algorithm</label>
-      </node>
-      <node id="35">
-        <label>rrSelectionRecord.h</label>
-        <link refid="rrSelectionRecord_8h_source"/>
-        <childnode refid="28" relation="include">
-        </childnode>
-        <childnode refid="36" relation="include">
-        </childnode>
-        <childnode refid="18" relation="include">
-        </childnode>
       </node>
     </incdepgraph>
     <innernamespace refid="namespacerr">rr</innernamespace>
@@ -606,7 +606,7 @@
 <codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>gPathSeparator;</highlight></codeline>
 <codeline lineno="298"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="299"><highlight class="normal"></highlight></codeline>
-<codeline lineno="300"><highlight class="normal"></highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/>getFileContent(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>fName)</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"></highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/><ref refid="rrc__utilities_8h_1acc9949f745af42ea6b3539620e2b8d9d" kindref="member">getFileContent</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>fName)</highlight></codeline>
 <codeline lineno="301"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/>content;</highlight></codeline>
 <codeline lineno="303"><highlight class="normal"></highlight></codeline>
@@ -878,7 +878,7 @@
 <codeline lineno="578"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="579"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="580"><highlight class="normal"></highlight></codeline>
-<codeline lineno="581"><highlight class="normal">vector&lt;double&gt;<sp/>createVector(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">*<sp/>src,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">&amp;<sp/>size)</highlight></codeline>
+<codeline lineno="581"><highlight class="normal">vector&lt;double&gt;<sp/><ref refid="group__helperRoutines_1ga9f52eab51dfe4dcd3d87538bf8ecd453" kindref="member">createVector</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">*<sp/>src,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">&amp;<sp/>size)</highlight></codeline>
 <codeline lineno="582"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="583"><highlight class="normal"><sp/><sp/><sp/><sp/>vector&lt;double&gt;<sp/>dest;</highlight></codeline>
 <codeline lineno="584"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(size<sp/>&amp;&amp;<sp/>!src)</highlight></codeline>
@@ -943,7 +943,7 @@
 <codeline lineno="643"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="644"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="645"><highlight class="normal"></highlight></codeline>
-<codeline lineno="646"><highlight class="normal"></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">*<sp/>createVector(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>vector&lt;double&gt;&amp;<sp/>vec)</highlight></codeline>
+<codeline lineno="646"><highlight class="normal"></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">*<sp/><ref refid="group__helperRoutines_1ga9f52eab51dfe4dcd3d87538bf8ecd453" kindref="member">createVector</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>vector&lt;double&gt;&amp;<sp/>vec)</highlight></codeline>
 <codeline lineno="647"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="648"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">*<sp/>avec<sp/>=<sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">[vec.size()];</highlight></codeline>
 <codeline lineno="649"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(!avec)</highlight></codeline>

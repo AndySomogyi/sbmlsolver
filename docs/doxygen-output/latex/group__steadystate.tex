@@ -1,0 +1,128 @@
+\hypertarget{group__steadystate}{}\doxysection{Steady state routines}
+\label{group__steadystate}\index{Steady state routines@{Steady state routines}}
+
+
+Compute and obtain basic information about the steady state.  
+
+
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC bool rrc\+Call\+Conv \mbox{\hyperlink{group__steadystate_gab1db24cab922136cc3a6a57b4bfbf80a}{steady\+State}} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, double $\ast$value)
+\begin{DoxyCompactList}\small\item\em Compute the steady state of the current model. \end{DoxyCompactList}\item 
+C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC \mbox{\hyperlink{rrc__types_8h_a3be72d6006034fd349f753d2bf441bf7}{R\+R\+Vector\+Ptr}} rrc\+Call\+Conv \mbox{\hyperlink{group__steadystate_ga808060f5094396e4697434eb5a41f14f}{compute\+Steady\+State\+Values}} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\begin{DoxyCompactList}\small\item\em A convenient method for returning a vector of the steady state species concentrations. \end{DoxyCompactList}\item 
+C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC bool rrc\+Call\+Conv \mbox{\hyperlink{group__steadystate_gaff273d8a9038c411779b206bf58d71eb}{set\+Steady\+State\+Selection\+List}} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const char $\ast$list)
+\begin{DoxyCompactList}\small\item\em Set the selection list of the steady state analysis. \end{DoxyCompactList}\item 
+C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC \mbox{\hyperlink{rrc__types_8h_a7c9475df6c7337d99482b13a365e7596}{R\+R\+String\+Array\+Ptr}} rrc\+Call\+Conv \mbox{\hyperlink{group__steadystate_gaadc456216e3ed8cd9f75c15ac1685616}{get\+Steady\+State\+Selection\+List}} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\begin{DoxyCompactList}\small\item\em Get the selection list for the steady state analysis. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Compute and obtain basic information about the steady state. 
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{group__steadystate_ga808060f5094396e4697434eb5a41f14f}\label{group__steadystate_ga808060f5094396e4697434eb5a41f14f}} 
+\index{Steady state routines@{Steady state routines}!computeSteadyStateValues@{computeSteadyStateValues}}
+\index{computeSteadyStateValues@{computeSteadyStateValues}!Steady state routines@{Steady state routines}}
+\doxysubsubsection{\texorpdfstring{computeSteadyStateValues()}{computeSteadyStateValues()}}
+{\footnotesize\ttfamily C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC \mbox{\hyperlink{rrc__types_8h_a3be72d6006034fd349f753d2bf441bf7}{R\+R\+Vector\+Ptr}} rrc\+Call\+Conv compute\+Steady\+State\+Values (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}}}]{handle }\end{DoxyParamCaption})}
+
+
+
+A convenient method for returning a vector of the steady state species concentrations. 
+
+Example\+:
+\begin{DoxyCode}{0}
+\DoxyCodeLine{RRVectorHandle values = \mbox{\hyperlink{group__steadystate_ga808060f5094396e4697434eb5a41f14f}{computeSteadyStateValues}} (\textcolor{keywordtype}{void}); }
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em handle} & Handle to a Road\+Runner instance \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns the vector of steady state values or null if an error occurred. The order of species in the vector is indicated by the order of species Ids in a call to get\+Floating\+Species\+Ids(void) 
+\end{DoxyReturn}
+\mbox{\Hypertarget{group__steadystate_gaadc456216e3ed8cd9f75c15ac1685616}\label{group__steadystate_gaadc456216e3ed8cd9f75c15ac1685616}} 
+\index{Steady state routines@{Steady state routines}!getSteadyStateSelectionList@{getSteadyStateSelectionList}}
+\index{getSteadyStateSelectionList@{getSteadyStateSelectionList}!Steady state routines@{Steady state routines}}
+\doxysubsubsection{\texorpdfstring{getSteadyStateSelectionList()}{getSteadyStateSelectionList()}}
+{\footnotesize\ttfamily C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC \mbox{\hyperlink{rrc__types_8h_a7c9475df6c7337d99482b13a365e7596}{R\+R\+String\+Array\+Ptr}} rrc\+Call\+Conv get\+Steady\+State\+Selection\+List (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}}}]{handle }\end{DoxyParamCaption})}
+
+
+
+Get the selection list for the steady state analysis. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em handle} & Handle to a Road\+Runner instance \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns null if it fails, otherwise it returns a list of strings representing symbols in the selection list 
+\end{DoxyReturn}
+\mbox{\Hypertarget{group__steadystate_gaff273d8a9038c411779b206bf58d71eb}\label{group__steadystate_gaff273d8a9038c411779b206bf58d71eb}} 
+\index{Steady state routines@{Steady state routines}!setSteadyStateSelectionList@{setSteadyStateSelectionList}}
+\index{setSteadyStateSelectionList@{setSteadyStateSelectionList}!Steady state routines@{Steady state routines}}
+\doxysubsubsection{\texorpdfstring{setSteadyStateSelectionList()}{setSteadyStateSelectionList()}}
+{\footnotesize\ttfamily C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC bool rrc\+Call\+Conv set\+Steady\+State\+Selection\+List (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}}}]{handle,  }\item[{const char $\ast$}]{list }\end{DoxyParamCaption})}
+
+
+
+Set the selection list of the steady state analysis. 
+
+Use get\+Available\+Time\+Course\+Symbols(void) to retrieve the list of all possible symbols.
+
+Example\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\mbox{\hyperlink{group__steadystate_gaff273d8a9038c411779b206bf58d71eb}{setSteadyStateSelectionList}} (\textcolor{stringliteral}{"{}S1, J1, J2"{}})}
+\DoxyCodeLine{}
+\DoxyCodeLine{or}
+\DoxyCodeLine{}
+\DoxyCodeLine{\mbox{\hyperlink{group__steadystate_gaff273d8a9038c411779b206bf58d71eb}{setSteadyStateSelectionList}} ("{}S1 J1 J2"{})}
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em handle} & Handle to a Road\+Runner instance \\
+\hline
+\mbox{\texttt{ in}}  & {\em list} & The string argument should be a space separated list of symbols.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns true if successful 
+\end{DoxyReturn}
+\mbox{\Hypertarget{group__steadystate_gab1db24cab922136cc3a6a57b4bfbf80a}\label{group__steadystate_gab1db24cab922136cc3a6a57b4bfbf80a}} 
+\index{Steady state routines@{Steady state routines}!steadyState@{steadyState}}
+\index{steadyState@{steadyState}!Steady state routines@{Steady state routines}}
+\doxysubsubsection{\texorpdfstring{steadyState()}{steadyState()}}
+{\footnotesize\ttfamily C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC bool rrc\+Call\+Conv steady\+State (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}}}]{handle,  }\item[{double $\ast$}]{value }\end{DoxyParamCaption})}
+
+
+
+Compute the steady state of the current model. 
+
+Example\+:
+\begin{DoxyCode}{0}
+\DoxyCodeLine{status = \mbox{\hyperlink{group__steadystate_gab1db24cab922136cc3a6a57b4bfbf80a}{steadyState}} (rrHandle, \&closenessToSteadyState); }
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em handle} & Handle to a Road\+Runner instance \\
+\hline
+ & {\em value} & This value is set during the call and indicates how close the solution is to the steady state. The smaller the value the better. Values less than 1E-\/6 usually indicate a steady state has been found. If necessary call the method a second time to improve the solution. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns true if successful 
+\end{DoxyReturn}

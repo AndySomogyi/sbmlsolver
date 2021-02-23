@@ -10,9 +10,9 @@
 #include "rrUtils.h"
 
 
-#include <cvode/cvode.h>
-#include <nvector/nvector_serial.h>
-#include <sunlinsol/sunlinsol_dense.h>
+#include <cvode/cvode.h>                          /* prototypes for CVODE fcts., consts.          */
+#include <nvector/nvector_serial.h>               /* access to serial N_Vector                    */
+#include <sunnonlinsol/sunnonlinsol_fixedpoint.h> /* access to the fixed point SUNNonlinearSolver */
 
 #include <cstring>
 #include <iomanip>
@@ -76,6 +76,37 @@ namespace rr {
     { std::string _err_what = std::string("CVODE Error: ") + \
     cvodeDecodeError(errCode); \
     throw IntegratorException(_err_what, std::string(__FUNC__)); }
+
+
+    CVODEIntegrator::CVODEIntegrator(ExecutableModel *aModel)
+            :
+            mStateVector(nullptr),
+            mCVODE_Memory(nullptr),
+            lastEventTime(0),
+            mModel(aModel),
+            stateVectorVariables(false),
+            variableStepPendingEvent(false),
+            variableStepTimeEndEvent(false),
+            typecode_(CVODE_INT_TYPECODE) {
+        Log(Logger::LOG_INFORMATION) << "creating CVODEIntegrator";
+
+        resetSettings();
+
+        if (aModel) {
+            createCVode();
+
+            // allocate space for the event status array
+            eventStatus = std::vector<unsigned char>(mModel->getEventTriggers(0, nullptr, nullptr), false);
+        }
+
+        // Update parameter settings within CVODE.
+        updateCVODE();
+    }
+
+    CVODEIntegrator::~CVODEIntegrator() {
+        freeCVode();
+    }
+
 
     void CVODEIntegrator::setListener(IntegratorListenerPtr p) {
         listener = p;
@@ -156,35 +187,6 @@ namespace rr {
         CVODEIntegrator::loadConfigSettings();
     }
 
-
-    CVODEIntegrator::CVODEIntegrator(ExecutableModel *aModel)
-            :
-            mStateVector(NULL),
-            mCVODE_Memory(NULL),
-            lastEventTime(0),
-            mModel(aModel),
-            stateVectorVariables(false),
-            variableStepPendingEvent(false),
-            variableStepTimeEndEvent(false),
-            typecode_(CVODE_INT_TYPECODE) {
-        Log(Logger::LOG_INFORMATION) << "creating CVODEIntegrator";
-
-        resetSettings();
-
-        if (aModel) {
-            createCVode();
-
-            // allocate space for the event status array
-            eventStatus = std::vector<unsigned char>(mModel->getEventTriggers(0, 0, 0), false);
-        }
-
-        // Update parameter settings within CVODE.
-        updateCVODE();
-    }
-
-    CVODEIntegrator::~CVODEIntegrator() {
-        freeCVode();
-    }
 
     void CVODEIntegrator::syncWithModel(ExecutableModel *m) {
         freeCVode();
@@ -662,7 +664,7 @@ namespace rr {
     }
 
     void CVODEIntegrator::updateCVODE() {
-        if (mCVODE_Memory == NULL) {
+        if (mCVODE_Memory == nullptr) {
             return;
         }
 
@@ -681,7 +683,7 @@ namespace rr {
     void CVODEIntegrator::reInit(double t0) {
         // if we have no state vector variables and no events, we never
         // created an integrator.
-        if (mCVODE_Memory == 0) {
+        if (mCVODE_Memory == nullptr) {
             return;
         }
 
@@ -731,7 +733,7 @@ namespace rr {
             // here we bail in case we have no ODEs set up with CVODE ... though we should
             // still at least evaluate the model function
             if (!haveVariables() && mModel->getNumEvents() == 0) {
-                mModel->getStateVectorRate(tout, 0, 0);
+                mModel->getStateVectorRate(tout, nullptr, nullptr);
                 return tout;
             }
 
@@ -743,7 +745,7 @@ namespace rr {
             }
 
             // event status before time step
-            mModel->getEventTriggers(eventStatus.size(), 0, eventStatus.size() == 0 ? NULL : &eventStatus[0]);
+            mModel->getEventTriggers(eventStatus.size(), nullptr, eventStatus.empty() ? nullptr : &eventStatus[0]);
 
             // time step
             int nResult = CVode(mCVODE_Memory, nextTargetEndTime, mStateVector, &timeEnd, itask);
@@ -887,7 +889,7 @@ namespace rr {
     }
 
 
-    bool CVODEIntegrator::haveVariables() {
+    bool CVODEIntegrator::haveVariables() const {
         return stateVectorVariables;
     }
 
@@ -896,13 +898,15 @@ namespace rr {
             return;
         }
 
-        assert(mStateVector == 0 && mCVODE_Memory == 0 &&
+        assert(mStateVector == nullptr && mCVODE_Memory == nullptr &&
                "calling cvodeCreate, but cvode objects already exist");
 
         // still need cvode state vector size if we have no vars, but have
         // events, needed so root finder works.
         int allocStateVectorSize = 0;
-        int realStateVectorSize = mModel->getStateVector(0);
+        // when argument is null, returns size of state vector (see rrExecutableModel::getStateVector)
+        int realStateVectorSize = mModel->getStateVector(nullptr);
+
 
         // cvode return code
         int err;
@@ -962,19 +966,27 @@ namespace rr {
             Log(Logger::LOG_TRACE) << "CVRootInit executed.....";
         }
 
-        SUNMatrix A = SUNDenseMatrix(mModel->getNumReactions(), mModel->getNumReactions());
-        SUNLinearSolver LS = SUNLinSol_Dense(mStateVector, A);
-        CVodeSetLinearSolver(mCVODE_Memory, LS, A);
-//		// only allocate this if we are using stiff solver.
-//		// otherwise, CVode will NOT free it if using standard solver.
-//		if (getValueAsBool("stiff"))
-//		{
-//
-//			if ((err = CVDense(mCVODE_Memory, allocStateVectorSize)) != CV_SUCCESS)
-//			{
-//				handleCVODEError(err);
-//			}
-//		}
+        /**
+         * @note the cvDirectDemo.c example from sundials is useful here
+         *
+         * When using stiff solver, we create a nonLinearSolver using the
+         * FixedPoint strategy and backwards
+         *
+         * Also, the newton method didn't work with the tests, but I'm
+         * guessing that with a bit of effort we can figure out whats wrong.
+         * nonlinearSolver_ = SUNNonlinSol_Newton(mStateVector);
+         */
+
+        /* create fixed point nonlinear solver object */
+        solver_ = SUNNonlinSol_FixedPoint(mStateVector, 0);
+
+        if (solver_ == nullptr) {
+            throw std::runtime_error("CVODEIntegrator::createCVODE: nonLinearSolver_ is nullptr\n");
+        }
+
+        if ((err = CVodeSetNonlinearSolver(mCVODE_Memory, solver_)) != CV_SUCCESS) {
+            handleCVODEError(err);
+        }
 
         setCVODETolerances();
         mModel->resetEvents();
@@ -1176,16 +1188,21 @@ namespace rr {
 
     void CVODEIntegrator::freeCVode() {
         // cvode does not check for null values.
-        if (mCVODE_Memory) {
-            CVodeFree(&mCVODE_Memory);
-        }
-
         if (mStateVector) {
             N_VDestroy_Serial(mStateVector);
         }
 
-        mCVODE_Memory = 0;
-        mStateVector = 0;
+        if (mCVODE_Memory) {
+            CVodeFree(&mCVODE_Memory);
+        }
+
+        if (solver_) {
+            SUNNonlinSolFree(solver_);
+        }
+
+        mCVODE_Memory = nullptr;
+        mStateVector = nullptr;
+        solver_ = nullptr;
     }
 
     double CVODEIntegrator::applyVariableStepPendingEvents() {
@@ -1364,6 +1381,17 @@ namespace rr {
         return result;
     }
 
+    void *CVODEIntegrator::getCvodeMemory() const {
+        return mCVODE_Memory;
+    }
+
+    N_Vector CVODEIntegrator::getStateVector() const {
+        return mStateVector;
+    }
+
+    SUNNonlinearSolver CVODEIntegrator::getSolver() const {
+        return solver_;
+    }
 
     /**
     * Purpose

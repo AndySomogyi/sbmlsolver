@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+  <compounddef id="dir_86ef421483dbf1ca9f08de3e5d2b2c52" kind="dir">
+    <compoundname>llvm</compoundname>
+    <innerfile refid="AssignmentRuleEvaluator_8cpp">AssignmentRuleEvaluator.cpp</innerfile>
+    <innerfile refid="AssignmentRuleEvaluator_8h">AssignmentRuleEvaluator.h</innerfile>
+    <innerfile refid="ASTNodeCodeGen_8cpp">ASTNodeCodeGen.cpp</innerfile>
+    <innerfile refid="ASTNodeCodeGen_8h">ASTNodeCodeGen.h</innerfile>
+    <innerfile refid="ASTNodeFactory_8cpp">ASTNodeFactory.cpp</innerfile>
+    <innerfile refid="ASTNodeFactory_8h">ASTNodeFactory.h</innerfile>
+    <innerfile refid="CodeGen_8h">CodeGen.h</innerfile>
+    <innerfile refid="CodeGenBase_8cpp">CodeGenBase.cpp</innerfile>
+    <innerfile refid="CodeGenBase_8h">CodeGenBase.h</innerfile>
+    <innerfile refid="EvalConversionFactorCodeGen_8cpp">EvalConversionFactorCodeGen.cpp</innerfile>
+    <innerfile refid="EvalConversionFactorCodeGen_8h">EvalConversionFactorCodeGen.h</innerfile>
+    <innerfile refid="EvalInitialConditionsCodeGen_8cpp">EvalInitialConditionsCodeGen.cpp</innerfile>
+    <innerfile refid="EvalInitialConditionsCodeGen_8h">EvalInitialConditionsCodeGen.h</innerfile>
+    <innerfile refid="EvalRateRuleRatesCodeGen_8cpp">EvalRateRuleRatesCodeGen.cpp</innerfile>
+    <innerfile refid="EvalRateRuleRatesCodeGen_8h">EvalRateRuleRatesCodeGen.h</innerfile>
+    <innerfile refid="EvalReactionRatesCodeGen_8cpp">EvalReactionRatesCodeGen.cpp</innerfile>
+    <innerfile refid="EvalReactionRatesCodeGen_8h">EvalReactionRatesCodeGen.h</innerfile>
+    <innerfile refid="EvalVolatileStoichCodeGen_8cpp">EvalVolatileStoichCodeGen.cpp</innerfile>
+    <innerfile refid="EvalVolatileStoichCodeGen_8h">EvalVolatileStoichCodeGen.h</innerfile>
+    <innerfile refid="EventAssignCodeGen_8cpp">EventAssignCodeGen.cpp</innerfile>
+    <innerfile refid="EventAssignCodeGen_8h">EventAssignCodeGen.h</innerfile>
+    <innerfile refid="EventCodeGenBase_8h">EventCodeGenBase.h</innerfile>
+    <innerfile refid="EventQueue_8cpp">EventQueue.cpp</innerfile>
+    <innerfile refid="EventQueue_8h">EventQueue.h</innerfile>
+    <innerfile refid="EventTriggerCodeGen_8cpp">EventTriggerCodeGen.cpp</innerfile>
+    <innerfile refid="EventTriggerCodeGen_8h">EventTriggerCodeGen.h</innerfile>
+    <innerfile refid="FunctionResolver_8cpp">FunctionResolver.cpp</innerfile>
+    <innerfile refid="FunctionResolver_8h">FunctionResolver.h</innerfile>
+    <innerfile refid="GetEventValuesCodeGen_8cpp">GetEventValuesCodeGen.cpp</innerfile>
+    <innerfile refid="GetEventValuesCodeGen_8h">GetEventValuesCodeGen.h</innerfile>
+    <innerfile refid="GetInitialValueCodeGenBase_8h">GetInitialValueCodeGenBase.h</innerfile>
+    <innerfile refid="GetInitialValuesCodeGen_8cpp">GetInitialValuesCodeGen.cpp</innerfile>
+    <innerfile refid="GetInitialValuesCodeGen_8h">GetInitialValuesCodeGen.h</innerfile>
+    <innerfile refid="GetValueCodeGenBase_8h">GetValueCodeGenBase.h</innerfile>
+    <innerfile refid="GetValuesCodeGen_8cpp">GetValuesCodeGen.cpp</innerfile>
+    <innerfile refid="GetValuesCodeGen_8h">GetValuesCodeGen.h</innerfile>
+    <innerfile refid="KineticLawParameterResolver_8cpp">KineticLawParameterResolver.cpp</innerfile>
+    <innerfile refid="KineticLawParameterResolver_8h">KineticLawParameterResolver.h</innerfile>
+    <innerfile refid="LLVMCompiler_8cpp">LLVMCompiler.cpp</innerfile>
+    <innerfile refid="LLVMCompiler_8h">LLVMCompiler.h</innerfile>
+    <innerfile refid="LLVMException_8h">LLVMException.h</innerfile>
+    <innerfile refid="LLVMExecutableModel_8cpp">LLVMExecutableModel.cpp</innerfile>
+    <innerfile refid="LLVMExecutableModel_8h">LLVMExecutableModel.h</innerfile>
+    <innerfile refid="LLVMIncludes_8h">LLVMIncludes.h</innerfile>
+    <innerfile refid="LLVMModelData_8cpp">LLVMModelData.cpp</innerfile>
+    <innerfile refid="LLVMModelData_8h">LLVMModelData.h</innerfile>
+    <innerfile refid="LLVMModelDataSymbols_8cpp">LLVMModelDataSymbols.cpp</innerfile>
+    <innerfile refid="LLVMModelDataSymbols_8h">LLVMModelDataSymbols.h</innerfile>
+    <innerfile refid="LLVMModelGenerator_8cpp">LLVMModelGenerator.cpp</innerfile>
+    <innerfile refid="LLVMModelGenerator_8h">LLVMModelGenerator.h</innerfile>
+    <innerfile refid="LLVMModelSymbols_8cpp">LLVMModelSymbols.cpp</innerfile>
+    <innerfile refid="LLVMModelSymbols_8h">LLVMModelSymbols.h</innerfile>
+    <innerfile refid="LoadSymbolResolverBase_8cpp">LoadSymbolResolverBase.cpp</innerfile>
+    <innerfile refid="LoadSymbolResolverBase_8h">LoadSymbolResolverBase.h</innerfile>
+    <innerfile refid="ModelDataIRBuilder_8cpp">ModelDataIRBuilder.cpp</innerfile>
+    <innerfile refid="ModelDataIRBuilder_8h">ModelDataIRBuilder.h</innerfile>
+    <innerfile refid="ModelDataSymbolResolver_8cpp">ModelDataSymbolResolver.cpp</innerfile>
+    <innerfile refid="ModelDataSymbolResolver_8h">ModelDataSymbolResolver.h</innerfile>
+    <innerfile refid="ModelGeneratorContext_8cpp">ModelGeneratorContext.cpp</innerfile>
+    <innerfile refid="ModelGeneratorContext_8h">ModelGeneratorContext.h</innerfile>
+    <innerfile refid="ModelInitialValueSymbolResolver_8cpp">ModelInitialValueSymbolResolver.cpp</innerfile>
+    <innerfile refid="ModelInitialValueSymbolResolver_8h">ModelInitialValueSymbolResolver.h</innerfile>
+    <innerfile refid="ModelResources_8cpp">ModelResources.cpp</innerfile>
+    <innerfile refid="ModelResources_8h">ModelResources.h</innerfile>
+    <innerfile refid="Random_8cpp">Random.cpp</innerfile>
+    <innerfile refid="Random_8h">Random.h</innerfile>
+    <innerfile refid="SBMLInitialValueSymbolResolver_8cpp">SBMLInitialValueSymbolResolver.cpp</innerfile>
+    <innerfile refid="SBMLInitialValueSymbolResolver_8h">SBMLInitialValueSymbolResolver.h</innerfile>
+    <innerfile refid="SBMLSupportFunctions_8cpp">SBMLSupportFunctions.cpp</innerfile>
+    <innerfile refid="SBMLSupportFunctions_8h">SBMLSupportFunctions.h</innerfile>
+    <innerfile refid="SetInitialValueCodeGenBase_8h">SetInitialValueCodeGenBase.h</innerfile>
+    <innerfile refid="SetInitialValuesCodeGen_8cpp">SetInitialValuesCodeGen.cpp</innerfile>
+    <innerfile refid="SetInitialValuesCodeGen_8h">SetInitialValuesCodeGen.h</innerfile>
+    <innerfile refid="SetValueCodeGenBase_8h">SetValueCodeGenBase.h</innerfile>
+    <innerfile refid="SetValuesCodeGen_8cpp">SetValuesCodeGen.cpp</innerfile>
+    <innerfile refid="SetValuesCodeGen_8h">SetValuesCodeGen.h</innerfile>
+    <innerfile refid="SymbolForest_8h">SymbolForest.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="llvm/"/>
+  </compounddef>
+</doxygen>

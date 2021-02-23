@@ -3,9 +3,9 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
   <title>Stability Analysis &mdash; libRoadRunner 1.1.16 documentation</title>
   
@@ -20,7 +20,10 @@
 
   
   
+
   
+  
+
   
 
   
@@ -55,7 +58,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home" alt="Documentation Home"> libRoadRunner
+            <a href="index.html" class="icon icon-home"> libRoadRunner
           
 
           
@@ -88,8 +91,8 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="index.html">RoadRunner Documentation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Installation/installation.html">Installing RoadRunner</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/tutorial.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="read_write_functions.html">SBML Read/Write Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="selecting_values.html">Selecting Values</a></li>
 <li class="toctree-l1"><a class="reference internal" href="steady_state.html">Steady State Analysis</a></li>
@@ -98,12 +101,12 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Stability Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="stoichiometric.html">Stoichiometric Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bifurcation.html">Bifurcation Analysis</a></li>
-<li class="toctree-l1"><a class="reference internal" href="integration.html">Simulation and Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="simulation_and_integration.html">Simulation and Integration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utility_functions.html">Utility Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="accessing_model.html">Accessing the SBML Model Variables</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api_reference.html">RoadRunner API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rrplugins/rrplugins_documentation.html">rrPlugins Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PythonAPIReference/api_reference.html">Python RoadRunner API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="C%2B%2BAPIReference/index.html">The LibRoadRunner C++ Library</a></li>
-<li class="toctree-l1"><a class="reference internal" href="CAPIReference/index.html">C API Reference</a></li>
 </ul>
 
             
@@ -144,6 +147,8 @@
 
 
 
+
+
 <div role="navigation" aria-label="breadcrumbs navigation">
 
   <ul class="wy-breadcrumbs">
@@ -155,7 +160,7 @@
     
       <li class="wy-breadcrumbs-aside">
         
-            
+          
             <a href="_sources/stability.rst.txt" rel="nofollow"> View page source</a>
           
         
@@ -177,12 +182,12 @@
 <p><img src="_images/math/42aa9b3e5961e8ef47f28cde7e2011ea9fb47e16.png" alt="J=\begin{bmatrix} \dfrac{\partial F_1}{\partial S_1} &amp; \cdots &amp; \dfrac{\partial F_1}{\partial S_m} \\
 \vdots &amp; \ddots &amp; \vdots \\ \dfrac{\partial F_n}{\partial S_1} &amp; \cdots &amp; \dfrac{\partial F_n}{\partial S_m}
 \end{bmatrix}"/></p>
-</div><p>where <img class="math" src="_images/math/d907a3c4e1257ec91ba2b8475cc048392650b648.png" alt="F_i"/> is the ith differential equation and <img class="math" src="_images/math/f18bf639d8e5490eec40c8a4a6a7a1389c3dd6a5.png" alt="S_i"/> the ith floating species. From RoadRunner it is easy to obtain the Jacobian matrix using <a class="reference internal" href="mod_roadrunner/cls_RoadRunner.html#RoadRunner.RoadRunner.getFullJacobian" title="RoadRunner.RoadRunner.getFullJacobian"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getFullJacobian()</span></code></a>, i.e.:</p>
+</div><p>where <img class="math" src="_images/math/d907a3c4e1257ec91ba2b8475cc048392650b648.png" alt="F_i"/> is the ith differential equation and <img class="math" src="_images/math/f18bf639d8e5490eec40c8a4a6a7a1389c3dd6a5.png" alt="S_i"/> the ith floating species. From RoadRunner it is easy to obtain the Jacobian matrix using :cpp:<code class="xref py py-class docutils literal notranslate"><span class="pre">rr::RoadRunner::getFullJacobian</span></code>, i.e.:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Jac</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">getFullJacobian</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>which returns the Jacobian matrix in the variable Jac.</p>
-<p>It is possible for full Jacobian to be singular. In these situations one should call the related method, <a class="reference internal" href="mod_roadrunner/cls_RoadRunner.html#RoadRunner.RoadRunner.getReducedJacobian" title="RoadRunner.RoadRunner.getReducedJacobian"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getReducedJacobian()</span></code></a>.</p>
+<p>It is possible for full Jacobian to be singular. In these situations one should call the related method, <a class="reference internal" href="C%2B%2BAPIReference/rrRoadRunner.html#_CPPv4N2rr10RoadRunner18getReducedJacobianEd" title="rr::RoadRunner::getReducedJacobian"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">rr::RoadRunner::getReducedJacobian()</span></code></a>.</p>
 </div>
 
 
@@ -190,37 +195,29 @@
            
           </div>
           <footer>
-  
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="stoichiometric.html" class="btn btn-neutral float-right" title="Stoichiometric Analysis" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="metabolic.html" class="btn btn-neutral float-left" title="Metabolic Control Analysis" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+        <a href="stoichiometric.html" class="btn btn-neutral float-right" title="Stoichiometric Analysis" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="metabolic.html" class="btn btn-neutral float-left" title="Metabolic Control Analysis" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        
-        &copy; Copyright 2013-2018, Andy Somogyi, J Kyle Medley, Kiri Choi, Herbert Suaro
+        &#169; Copyright 2013-2018, Andy Somogyi, J Kyle Medley, Kiri Choi, Herbert Suaro.
 
     </p>
   </div>
     
     
     
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
     
     provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 

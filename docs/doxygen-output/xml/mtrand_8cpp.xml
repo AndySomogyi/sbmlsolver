@@ -4,12 +4,6 @@
     <compoundname>mtrand.cpp</compoundname>
     <includes refid="mtrand_8h" local="yes">mtrand.h</includes>
     <incdepgraph>
-      <node id="2">
-        <label>mtrand.h</label>
-        <link refid="mtrand_8h_source"/>
-        <childnode refid="3" relation="include">
-        </childnode>
-      </node>
       <node id="3">
         <label>rrExporter.h</label>
         <link refid="rrExporter_8h_source"/>
@@ -18,6 +12,12 @@
         <label>c/mtrand.cpp</label>
         <link refid="mtrand_8cpp"/>
         <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>mtrand.h</label>
+        <link refid="mtrand_8h_source"/>
+        <childnode refid="3" relation="include">
         </childnode>
       </node>
     </incdepgraph>

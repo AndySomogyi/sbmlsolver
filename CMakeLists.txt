@@ -95,33 +95,32 @@ option(BUILD_LEGACY_C "Build the legacy C code generating backend (deprecated)" 
 # should we build the swig python wrapper?
 option(BUILD_PYTHON "Build the SWIG generated python wrapper" OFF)
 if (BUILD_PYTHON)
-	find_package (Python COMPONENTS Interpreter Development NumPy REQUIRED)
-	if (NOT ${Python_FOUND})
-	    message(FATAL_ERROR "Could not find Python")
-	endif()
-	
-	if ("${Python_ROOT_DIR}" STREQUAL "")
-	   get_filename_component(PRD ${Python_EXECUTABLE} DIRECTORY)
-	   set(Python_ROOT_DIR "${PRD}" CACHE PATH "Path to python executable and libraries (optional).")
-	endif()
+    find_package(Python COMPONENTS Interpreter Development NumPy REQUIRED)
+    if (NOT ${Python_FOUND})
+        message(FATAL_ERROR "Could not find Python")
+    endif ()
+
+    if ("${Python_ROOT_DIR}" STREQUAL "")
+        get_filename_component(PRD ${Python_EXECUTABLE} DIRECTORY)
+        set(Python_ROOT_DIR "${PRD}" CACHE PATH "Path to python executable and libraries (optional).")
+    endif ()
 
 
-	#set_property(CACHE ADVANCED VARIABLE Python_EXECUTABLE)
-	#mark_as_advanced(Python_EXECUTABLE)
-	#set_property(CACHE Python_LIBRARY)
-	#set_property(CACHE Python_INCLUDE_DIR)
+    #set_property(CACHE ADVANCED VARIABLE Python_EXECUTABLE)
+    #mark_as_advanced(Python_EXECUTABLE)
+    #set_property(CACHE Python_LIBRARY)
+    #set_property(CACHE Python_INCLUDE_DIR)
 
-	set(PYTHON_PACKAGE_SITE_DIR          ${CMAKE_INSTALL_PREFIX}/site-packages      CACHE PATH "Path to Python site packages directory")
-	set(PYTHON_PACKAGE_INSTALL_PREFIX    ${PYTHON_PACKAGE_SITE_DIR}/roadrunner      )#CACHE PATH "Destination for roadrunner python bindings.")
-	set(RR_PLUGINS_PYTHON_INSTALL_PREFIX ${PYTHON_PACKAGE_SITE_DIR}/rrplugins       )#CACHE PATH "Destination for rrplugins python bindings.")
-	set(RR_PLUGINS_PYLIB_INSTALL_PREFIX  ${PYTHON_PACKAGE_SITE_DIR}/rrplugins/libs  )#CACHE PATH "Destination for rrplugins python binding libraries.")
-	cmake_dependent_option(RR_PLUGINS_BUILD_PYTHON_API "Build the RR plugin PYTHON API" ON "BUILD_RR_PLUGINS" OFF)
-#	cmake_dependent_option(BUILD_PYTHON_CTYPES_API "Build the ctypes python API for roadrunner" ON
-#	        "BUILD_PYTHON" OFF)
-#	cmake_dependent_option(WITH_CONDA_BUILDER "Include files required to build the conda package" OFF
-#	        "BUILD_PYTHON" OFF)
-endif()
-
+    set(PYTHON_PACKAGE_SITE_DIR ${CMAKE_INSTALL_PREFIX}/site-packages CACHE PATH "Path to Python site packages directory")
+    set(PYTHON_PACKAGE_INSTALL_PREFIX ${PYTHON_PACKAGE_SITE_DIR}/roadrunner)#CACHE PATH "Destination for roadrunner python bindings.")
+    set(RR_PLUGINS_PYTHON_INSTALL_PREFIX ${PYTHON_PACKAGE_SITE_DIR}/rrplugins)#CACHE PATH "Destination for rrplugins python bindings.")
+    set(RR_PLUGINS_PYLIB_INSTALL_PREFIX ${PYTHON_PACKAGE_SITE_DIR}/rrplugins/libs)#CACHE PATH "Destination for rrplugins python binding libraries.")
+    cmake_dependent_option(RR_PLUGINS_BUILD_PYTHON_API "Build the RR plugin PYTHON API" ON "BUILD_RR_PLUGINS" OFF)
+    #	cmake_dependent_option(BUILD_PYTHON_CTYPES_API "Build the ctypes python API for roadrunner" ON
+    #	        "BUILD_PYTHON" OFF)
+    #	cmake_dependent_option(WITH_CONDA_BUILDER "Include files required to build the conda package" OFF
+    #	        "BUILD_PYTHON" OFF)
+endif ()
 
 
 #Setup so that roadrunner is always built as a dll and linked statically with 'as much as possible'
@@ -313,9 +312,9 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${DEPENDENCY_CMAKE_CONFIG_PATHS}")
 
 if (WIN32)
     set(SBML_TARGET_NAME "libsbml-static")
-else()
+else ()
     set(SBML_TARGET_NAME "sbml-static")
-endif(WIN32)
+endif (WIN32)
 
 
 find_package(Threads) # for libxml2, FindThreads.cmake is shipped with cmake
@@ -336,21 +335,15 @@ find_package(PocoXML CONFIG REQUIRED)
 find_package(LLVM REQUIRED)
 
 
-
-
-set(CMAKE_PREFIX_PATH   "${CMAKE_PREFIX_PATH}" "D:/sundials/install-msvc-rel/lib/cmake/sundials")
 find_package(SUNDIALS CONFIG REQUIRED)
-
-
-
 
 
 # install dependencies so clients can use roadrunner from c++/cmake
 message(STATUS "CMAKE_INSTALL_LIBDIR ${CMAKE_INSTALL_LIBDIR}")
-install(DIRECTORY ${RR_DEPENDENCIES_INSTALL_PREFIX}/lib DESTINATION     ${CMAKE_INSTALL_PREFIX})
-install(DIRECTORY ${RR_DEPENDENCIES_INSTALL_PREFIX}/bin DESTINATION     ${CMAKE_INSTALL_PREFIX})
+install(DIRECTORY ${RR_DEPENDENCIES_INSTALL_PREFIX}/lib DESTINATION ${CMAKE_INSTALL_PREFIX})
+install(DIRECTORY ${RR_DEPENDENCIES_INSTALL_PREFIX}/bin DESTINATION ${CMAKE_INSTALL_PREFIX})
 install(DIRECTORY ${RR_DEPENDENCIES_INSTALL_PREFIX}/include DESTINATION ${CMAKE_INSTALL_PREFIX})
-install(DIRECTORY ${RR_DEPENDENCIES_INSTALL_PREFIX}/share DESTINATION   ${CMAKE_INSTALL_PREFIX})
+install(DIRECTORY ${RR_DEPENDENCIES_INSTALL_PREFIX}/share DESTINATION ${CMAKE_INSTALL_PREFIX})
 
 # install a cmake script for consumer libraries to easily import roadrunner targets
 install(FILES cmake/ImportRoadrunnerAndDependencies.cmake DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake")
@@ -377,14 +370,6 @@ endif ()
 # We always have to build the roadrunner core, everything depends on this
 add_subdirectory(source)
 
-
-##########################################################
-# Tests
-#
-
-# Empty space ready for when tests arrive.
-
-#
 ###########################################################
 ## API's
 
@@ -420,6 +405,12 @@ endif ()
 #
 
 if (BUILD_TESTS)
+    # these two must be present at top level cmake
+    # so that we can use gtest_discover_tests as opposed
+    # to add_test.
+    enable_testing()
+    include(GoogleTest)
+
     add_subdirectory(test)
 
     message(STATUS "building tests")

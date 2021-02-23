@@ -10,78 +10,64 @@ The following methods allow users to obtain information on the model
 Compartments
 ------------
 
-.. autosummary::
-
-   ExecutableModel.getCompartmentVolumes
-   ExecutableModel.getNumCompartments
-   ExecutableModel.getCompartmentIds
-   ExecutableModel.setCompartmentVolumes
+   * :cpp:func:`rr::ExecutableModel::getCompartmentVolumes`
+   * :cpp:func:`rr::ExecutableModel::getNumCompartments`
+   * :cpp:func:`rr::ExecutableModel::getCompartmentIds`
+   * :cpp:func:`rr::ExecutableModel::setCompartmentVolumes`
 
    
 Boundary Species
 ----------------
 
-.. autosummary::
-
-   ExecutableModel.getBoundarySpeciesConcentrations
-   ExecutableModel.setBoundarySpeciesConcentrations
-   ExecutableModel.getNumBoundarySpecies
-   ExecutableModel.getBoundarySpeciesIds
+   * :cpp:func:`rr::ExecutableModel::getBoundarySpeciesConcentrations`
+   * :cpp:func:`rr::ExecutableModel::setBoundarySpeciesConcentrations`
+   * :cpp:func:`rr::ExecutableModel::getNumBoundarySpecies`
+   * :cpp:func:`rr::ExecutableModel::getBoundarySpeciesIds`
 
 
 Floating Species
 ----------------
 
-.. autosummary::
-
-   ExecutableModel.getFloatingSpeciesConcentrations
-   ExecutableModel.setFloatingSpeciesConcentrations
-   ExecutableModel.getNumFloatingSpecies
-   ExecutableModel.getFloatingSpeciesIds
+   * :cpp:func:`rr::ExecutableModel::getFloatingSpeciesConcentrations`
+   * :cpp:func:`rr::ExecutableModel::setFloatingSpeciesConcentrations`
+   * :cpp:func:`rr::ExecutableModel::getNumFloatingSpecies`
+   * :cpp:func:`rr::ExecutableModel::getFloatingSpeciesIds`
 
 
 Initial Conditions
 ------------------
 
-.. autosummary::
-
-   ExecutableModel.getFloatingSpeciesInitAmountIds
-   ExecutableModel.getFloatingSpeciesInitConcentrationIds
-   ExecutableModel.getFloatingSpeciesInitAmounts
-   ExecutableModel.setFloatingSpeciesInitAmounts
-   ExecutableModel.getFloatingSpeciesInitConcentrations
-   ExecutableModel.setFloatingSpeciesInitConcentrations
+   * :cpp:func:`rr::ExecutableModel::getFloatingSpeciesInitAmountIds`
+   * :cpp:func:`rr::ExecutableModel::getFloatingSpeciesInitConcentrationIds`
+   * :cpp:func:`rr::ExecutableModel::getFloatingSpeciesInitAmounts`
+   * :cpp:func:`rr::ExecutableModel::setFloatingSpeciesInitAmounts`
+   * :cpp:func:`rr::ExecutableModel::getFloatingSpeciesInitConcentrations`
+   * :cpp:func:`rr::ExecutableModel::setFloatingSpeciesInitConcentrations`
 
 Reactions
 ---------
 
-.. autosummary::
-
-   ExecutableModel.getNumReactions
-   ExecutableModel.getReactionRates
-   ExecutableModel.getReactionIds
+   * :cpp:func:`rr::ExecutableModel::getNumReactions`
+   * :cpp:func:`rr::ExecutableModel::getReactionRates`
+   * :cpp:func:`rr::ExecutableModel::getReactionIds`
 
 
 Reaction Rates
 ---------------
 
-.. autosummary::
-
-   ExecutableModel.getFloatingSpeciesAmountRates
-   ExecutableModel.getReactionRates
-   ExecutableModel.getNumReactions
-   ExecutableModel.getReactionIds
+   * :cpp:func:`rr::ExecutableModel::getFloatingSpeciesAmountRates`
+   * :cpp:func:`rr::ExecutableModel::getReactionRates`
+   * :cpp:func:`rr::ExecutableModel::getNumReactions`
+   * :cpp:func:`rr::ExecutableModel::getReactionIds`
 
 
 Global Parameters
 -----------------
 
-.. autosummary::
-
-   ExecutableModel.setGlobalParameterValues
-   ExecutableModel.getGlobalParameterValues
-   ExecutableModel.getNumGlobalParameters
-   ExecutableModel.getNumGlobalParameters
+   * :cpp:func:`rr::ExecutableModel::setGlobalParameterValues`
+   * :cpp:func:`rr::ExecutableModel::getGlobalParameterValues`
+   * :cpp:func:`rr::ExecutableModel::getNumGlobalParameters`
+   * :cpp:func:`rr::ExecutableModel::getNumGlobalParameters`
    
 
 

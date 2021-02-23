@@ -30,12 +30,6 @@ By using :meth:`~roadrunner.Solver.getSettings`, you can check settings accepted
       'nonnegative')
 
 For information on what the settings represent, try :meth:`~roadrunner.Solver.getDescription`.
-Check :ref:`roadrunner-solver` for additional information.
-	  
-The following methods deal with stochastic simulation:
-
-.. autosummary::
-
-   RoadRunner.gillespie
+Check :ref:`Roadrunner Solvers` for additional information.
 
    

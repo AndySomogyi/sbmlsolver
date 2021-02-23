@@ -1,1 +1,0 @@
-This directory is not important. It can be deleted at any time. This is just a place to isolate some tests I"m running. 

@@ -118,6 +118,9 @@
         <label>rrllvm::LLVMModelDataSymbols</label>
         <link refid="classrrllvm_1_1LLVMModelDataSymbols"/>
       </node>
+      <node id="4">
+        <label>SBMLVisitor</label>
+      </node>
       <node id="6">
         <label>rrllvm::SymbolForest</label>
         <link refid="classrrllvm_1_1SymbolForest"/>
@@ -147,9 +150,6 @@
         <link refid="classrrllvm_1_1SetInitialValueCodeGenBase"/>
         <childnode refid="2" relation="public-inheritance">
         </childnode>
-      </node>
-      <node id="4">
-        <label>libsbml::SBMLVisitor</label>
       </node>
       <node id="7">
         <label>map&lt; string, const libsbml::ASTNode * &gt;</label>
