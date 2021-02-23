@@ -378,7 +378,6 @@ target_link_libraries(
         nleq1::nleq1-static
         clapack::lapack clapack::blas clapack::f2c
 
-        #sundials::sundials_cvode_static sundials::sundials_nvecserial_static
         SUNDIALS::generic_static SUNDIALS::nvecserial_static SUNDIALS::nvecmanyvector_static SUNDIALS::sunmatrixband_static SUNDIALS::sunmatrixdense_static SUNDIALS::sunmatrixsparse_static SUNDIALS::sunlinsolband_static SUNDIALS::sunlinsoldense_static SUNDIALS::sunlinsolpcg_static SUNDIALS::sunlinsolspbcgs_static SUNDIALS::sunlinsolspfgmr_static SUNDIALS::sunlinsolspgmr_static SUNDIALS::sunlinsolsptfqmr_static SUNDIALS::sunnonlinsolnewton_static SUNDIALS::sunnonlinsolfixedpoint_static SUNDIALS::arkode_static SUNDIALS::cvode_static SUNDIALS::cvodes_static SUNDIALS::ida_static SUNDIALS::idas_static SUNDIALS::kinsol_static
 
         PocoFoundation::PocoFoundation

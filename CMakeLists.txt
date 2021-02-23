@@ -335,9 +335,6 @@ find_package(PocoXML CONFIG REQUIRED)
 find_package(LLVM REQUIRED)
 
 
-#set(CMAKE_PREFIX_PATH "${CMAKE_PREFIX_PATH}" "//wsl$/Ubuntu-18.04/home/ciaran/sundials/install-gcc7.5-dbg/lib/cmake/sundials")
-#set(CMAKE_PREFIX_PATH "${CMAKE_PREFIX_PATH}" "/mnt/d/home/ciaran/sundials/install-gcc7.5-dbg/lib/cmake/sundials")
-#set(CMAKE_PREFIX_PATH "${CMAKE_PREFIX_PATH}" "/home/ciaran/sundials/install-gcc7.5-dbg/lib/cmake/sundials")
 find_package(SUNDIALS CONFIG REQUIRED)
 
 

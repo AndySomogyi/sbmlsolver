@@ -62,6 +62,7 @@ namespace rr
          */
         ~CVODEIntegrator() override;
 
+
         /**
         * @author JKM
         * @brief Called whenever a new model is loaded to allow integrator
@@ -241,18 +242,60 @@ namespace rr
          */
         std::string cvodeDecodeError(int cvodeError, bool exInfo = true);
 
-    private:
+
+        /**
+         * @brief getter for the internal state vector
+         * @author CW
+         * @note This method was created to
+         * enable external access (mostly for tests)
+         * to the Sundials N_Vector object. This method
+         * should not be exposed at the Python level.
+         */
+        const _generic_N_Vector *getStateVector() const;
+
+        /**
+         * @brief getter for the internal Sundials linear solver object
+         * @author CW
+         * @note This method was created to
+         * enable external access (mostly for tests)
+         * to the Sundials SUNLinearSolver object. This method
+         * should not be exposed at the Python level.
+         */
+        const _generic_SUNLinearSolver *getLinearSolver() const;
+
+        /**
+         * @brief getter for the internal jacobian matrix
+         * @author CW
+         * @note This method was created to
+         * enable external access (mostly for tests)
+         * to the Sundials SUNMatrix object. This method
+         * should not be exposed at the Python level.
+         */
+        const _generic_SUNMatrix *getJac() const;
+
+        /**
+         * @brief getter for the internal CVode memory buffer
+         * @author CW
+         * @note This method was created to
+         * enable external access (mostly for tests)
+         * to the Sundials memory buffer object. This method
+         * should not be exposed at the Python level.
+         */
+        void *getCvodeMemory() const;
+
+    public:
         static const int mDefaultMaxNumSteps;
         static const int mDefaultMaxAdamsOrder;
         static const int mDefaultMaxBDFOrder;
 
+        ExecutableModel* mModel;
+
         // cvode components
         void* mCVODE_Memory;
         N_Vector mStateVector;
-        SUNLinearSolver linearSolver_ = nullptr;
         SUNMatrix jac_ = nullptr;
-        SUNNonlinearSolver nonLinearSolver_ = nullptr;
-        ExecutableModel* mModel;
+        SUNLinearSolver linearSolver_ = nullptr;
+        SUNNonlinearSolver nonlinearSolver_ = nullptr;
 
         IntegratorListenerPtr listener;
         double lastEventTime;
@@ -270,6 +313,10 @@ namespace rr
          * "relative_tolerance" settings to the CVODE library.
          */
         void setCVODETolerances();
+
+        /**
+         * @brief Reinitialize sundials objects
+         */
         void reInit(double t0);
 
         /**
@@ -283,19 +330,26 @@ namespace rr
          * *  relative_tolerance (via @ref setCVODETolerances) \n
          */
         void updateCVODE();
+
         void applyPendingEvents(double timeEnd);
+
         void applyEvents(double timeEnd, std::vector<unsigned char> &previousEventStatus);
+
         double applyVariableStepPendingEvents();
 
         void createCVode();
+
         void freeCVode();
+
         bool stateVectorVariables;
 
+        unsigned long typecode_;
 
         friend int cvodeDyDtFcn(double t, N_Vector cv_y, N_Vector cv_ydot, void *f_data);
+
         friend int cvodeRootFcn(double t, N_Vector y, double *gout, void *g_data);
 
-        unsigned long typecode_;
+
 
     };
 

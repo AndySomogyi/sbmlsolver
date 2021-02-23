@@ -20,7 +20,7 @@ class CVODEIntegratorIntegrationTests : public ::testing::TestWithParam<std::str
 public:
 
     CVODEIntegratorIntegrationTests() {
-        Logger::setLevel(Logger::LOG_DEBUG);
+//        Logger::setLevel(Logger::LOG_DEBUG);
 //        Logger::setLevel(Logger::LOG_INFORMATION);
 //        Logger::setLevel(Logger::LOG_ERROR);
     };
@@ -36,7 +36,7 @@ TEST_P(CVODEIntegratorIntegrationTests, CheckModelSimulates) {
     SBMLTestModel *testModel = SBMLTestModelFactory(GetParam());
     // load model
     RoadRunner r(testModel->str());
-    r.getIntegrator();
+    r.getIntegrator()->setValue("stiff", true);
 
     // do a simulation
     SimulateOptions options;
@@ -68,6 +68,7 @@ TEST_P(CVODEIntegratorIntegrationTests, CheckModelSimulates) {
         std::string speciesName = r.getModel()->getStateVectorId(i);
         ASSERT_NEAR(trueValues[speciesName], state[i], 0.0001);
     }
+
     free(state);
     delete testModel;
 }
@@ -75,13 +76,13 @@ TEST_P(CVODEIntegratorIntegrationTests, CheckModelSimulates) {
 
 /**
  * This is where we actually supply the parameters to the
- * CVODEIntegratorIntegrationTests suite. All test fixtures
- * (those that start with TEST_P) will be run on all
+ * CVODEIntegratorIntegrationTests suite. All tests
+ * (start with TEST_P) will be run on all
  * models with the name provided here.
  *
  * @note If a particular model fails a particular test,
  * the best strategy is to temporarily comment out
- * all ::testing::Values to run the failing test in
+ * all other ::testing::Values to run the failing test in
  * isolation
  */
 INSTANTIATE_TEST_SUITE_P(
@@ -89,7 +90,8 @@ INSTANTIATE_TEST_SUITE_P(
         ::testing::Values(
 //                "SimpleFlux",
 //                "Feedback",
-                "Model269"
+//                "Model269",
+                "Model28"
 //                "CeilInRateLaw",
 //                "FactorialInRateLaw"
         )

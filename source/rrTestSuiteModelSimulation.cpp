@@ -141,7 +141,6 @@ double TestSuiteModelSimulation::LargestError()
 
 bool TestSuiteModelSimulation::CreateErrorData()
 {
-    std::cout << __FILE__ <<":"<<__LINE__ << ": Failing test result comparison is here (remember to delete me)" << std::endl;
      mResultData = GetResult();
     //Check that result data and reference data has the same dimensions
     if(mResultData.cSize() != mReferenceData.cSize() || mResultData.rSize() != mReferenceData.rSize())
@@ -149,11 +148,6 @@ bool TestSuiteModelSimulation::CreateErrorData()
         mNrOfFailingPoints = mResultData.rSize();
         return false;
     }
-
-    std::cout << "expected: " << std::endl;
-    std::cout << mReferenceData << std::endl;
-    std::cout << "actual: " << std::endl;
-    std::cout << mResultData << std::endl;
 
     mErrorData.allocate(mResultData.rSize(), mResultData.cSize());
 

@@ -28,50 +28,54 @@
 
 // == CODE ====================================================
 
-namespace rr
-{
+namespace rr {
 
-	class Integrator;
-	class ExecutableModel;
+    class Integrator;
 
-	/*-------------------------------------------------------------------------------------------
-		IntegratorListener listens for integrator events.
-	---------------------------------------------------------------------------------------------*/
-	class IntegratorListener
-	{
-	public:
+    class ExecutableModel;
 
-		/**
-		* is called after the internal integrator completes each internal time step.
-		*/
-		virtual uint onTimeStep(Integrator* integrator, ExecutableModel* model, double time) = 0;
+    /*-------------------------------------------------------------------------------------------
+        IntegratorListener listens for integrator events.
+    ---------------------------------------------------------------------------------------------*/
+    class IntegratorListener {
+    public:
 
-		/**
-		* whenever model event occurs and after it is procesed.
-		*/
-		virtual uint onEvent(Integrator* integrator, ExecutableModel* model, double time) = 0;
+        /**
+        * is called after the internal integrator completes each internal time step.
+        */
+        virtual uint onTimeStep(Integrator *integrator, ExecutableModel *model, double time) = 0;
 
-		virtual ~IntegratorListener() {};
-	};
+        /**
+        * whenever model event occurs and after it is procesed.
+        */
+        virtual uint onEvent(Integrator *integrator, ExecutableModel *model, double time) = 0;
 
-	typedef cxx11_ns::shared_ptr<IntegratorListener> IntegratorListenerPtr;
+        virtual ~IntegratorListener() {};
+    };
 
-	/*-------------------------------------------------------------------------------------------
-		Integrator is an abstract base class that provides an interface to specific integrator
-		class implementations.
-	---------------------------------------------------------------------------------------------*/
-	class RR_DECLSPEC Integrator : public Solver
-	{
-	public:
-		enum IntegrationMethod
-		{
-			Deterministic,
-			Stochastic,
-			Hybrid,
-			Other
-		};
+    typedef cxx11_ns::shared_ptr<IntegratorListener> IntegratorListenerPtr;
 
-		virtual ~Integrator() {};
+    /*-------------------------------------------------------------------------------------------
+        Integrator is an abstract base class that provides an interface to specific integrator
+        class implementations.
+    ---------------------------------------------------------------------------------------------*/
+    class RR_DECLSPEC Integrator : public Solver {
+    public:
+        /**
+        * Pull down the setValue from superclass.
+        * We do not need to reimplement this
+        * but we make it explicit.
+        */
+        using Solver::setValue;
+
+        enum IntegrationMethod {
+            Deterministic,
+            Stochastic,
+            Hybrid,
+            Other
+        };
+
+        virtual ~Integrator() {};
 
         virtual IntegrationMethod getIntegrationMethod() const = 0;
 
@@ -80,13 +84,15 @@ namespace rr
         * @brief Called whenever a new model is loaded to allow integrator
         * to reset internal state
         */
-        virtual void syncWithModel(ExecutableModel* m);
+        virtual void syncWithModel(ExecutableModel *m);
 
-		virtual void loadConfigSettings();
-		virtual void loadSBMLSettings(const std::string& filename);
+        virtual void loadConfigSettings();
 
-		virtual double integrate(double t0, double hstep) = 0;
-		virtual void restart(double t0) = 0;
+        virtual void loadSBMLSettings(const std::string &filename);
+
+        virtual double integrate(double t0, double hstep) = 0;
+
+        virtual void restart(double t0) = 0;
 
         /**
          * @author JKM, WBC, ETS, MTK
@@ -109,7 +115,7 @@ namespace rr
         * @author FY
         * @brief Set tolerance based on concentration of species, will only be used in CVODEIntegrator
         */
-        virtual void setConcentrationTolerance(const Variant& value);
+        virtual void setConcentrationTolerance(const Variant &value);
 
         /**
         * @author FY
@@ -120,7 +126,9 @@ namespace rr
 
         /* CARRYOVER METHODS */
         virtual void setListener(IntegratorListenerPtr) = 0;
+
         virtual IntegratorListenerPtr getListener() = 0;
+
         std::string toString() const;
 
         /**
@@ -128,37 +136,34 @@ namespace rr
         * @brief Return string representation a la Python __repr__ method
         */
         virtual std::string toRepr() const;
-            /* !-- END OF CARRYOVER METHODS */
-        };
+        /* !-- END OF CARRYOVER METHODS */
+    };
 
 
-	class IntegratorException : public std::runtime_error
-    {
+    class IntegratorException : public std::runtime_error {
     public:
-        explicit IntegratorException(const std::string& what) :
-            std::runtime_error(what)
-        {
-                Log(rr::Logger::LOG_ERROR) << __FUNC__ << "what: " << what;
-            }
+        explicit IntegratorException(const std::string &what) :
+                std::runtime_error(what) {
+            Log(rr::Logger::LOG_ERROR) << __FUNC__ << "what: " << what;
+        }
 
-        explicit IntegratorException(const std::string& what, const std::string &where) :
-            std::runtime_error(what + "; In " + where)
-        {
-                Log(rr::Logger::LOG_ERROR) << __FUNC__ << "what: " << what << ", where: " << where;
-            }
-        };
+        explicit IntegratorException(const std::string &what, const std::string &where) :
+                std::runtime_error(what + "; In " + where) {
+            Log(rr::Logger::LOG_ERROR) << __FUNC__ << "what: " << what << ", where: " << where;
+        }
+    };
 
-        /**
-         * @author JKM, WBC
-         * @brief Handles constructing an integrator and contains meta
-         * information about it
-         */
-        class RR_DECLSPEC IntegratorRegistrar
-        {
-        protected:
-            typedef Integrator* (*IntegratorCtor)(ExecutableModel *model);
-        public:
-            virtual ~IntegratorRegistrar();
+    /**
+     * @author JKM, WBC
+     * @brief Handles constructing an integrator and contains meta
+     * information about it
+     */
+    class RR_DECLSPEC IntegratorRegistrar {
+    protected:
+        typedef Integrator *(*IntegratorCtor)(ExecutableModel *model);
+
+    public:
+        virtual ~IntegratorRegistrar();
 
         /**
          * @author JKM, WBC
@@ -182,7 +187,7 @@ namespace rr
          * @author JKM, WBC
          * @brief Constructs a new integrator of a given type
          */
-        virtual Integrator* construct(ExecutableModel *model) const = 0;
+        virtual Integrator *construct(ExecutableModel *model) const = 0;
     };
 
     /**
@@ -192,8 +197,7 @@ namespace rr
      * Constructs a new integrator given the name (e.g. cvode, gillespie)
      * and returns a base pointer to @ref rr::Integrator.
      */
-    class RR_DECLSPEC IntegratorFactory
-    {
+    class RR_DECLSPEC IntegratorFactory {
     public:
         virtual ~IntegratorFactory();
 
@@ -202,7 +206,7 @@ namespace rr
          * @brief Constructs a new integrator given the name
          * (e.g. cvode, gillespie)
          */
-        Integrator* New(std::string name, ExecutableModel *m) const;
+        Integrator *New(std::string name, ExecutableModel *m) const;
 
         /**
          * @author JKM, WBC
@@ -210,13 +214,13 @@ namespace rr
          * so that it can be constructed
          * @details Should be called at startup for new integrators.
          */
-        void registerIntegrator(IntegratorRegistrar* i);
+        void registerIntegrator(IntegratorRegistrar *i);
 
         /**
          * @author JKM, WBC
          * @brief Returns the singleton instance of the integrator factory
          */
-        static IntegratorFactory& getInstance();
+        static IntegratorFactory &getInstance();
 
         // ** Indexing *********************************************************
 
@@ -234,7 +238,8 @@ namespace rr
          * @brief Prevents external instantiation
          */
         IntegratorFactory() {}
-        typedef std::vector<IntegratorRegistrar*> IntegratorRegistrars;
+
+        typedef std::vector<IntegratorRegistrar *> IntegratorRegistrars;
         IntegratorRegistrars mRegisteredIntegrators;
     };
 
