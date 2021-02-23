@@ -7,7 +7,7 @@ trigger:
   - master
   - develop
   - issue-*
-  - develop-ciaran*
+  - can-we-update-sundials
 
 pr:
   - master
