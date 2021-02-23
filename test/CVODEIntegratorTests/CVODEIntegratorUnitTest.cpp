@@ -120,8 +120,7 @@ TEST_F(CVODEIntegratorTests, CheckConstructorDoesNotCreateSundialsObjectsWhenMod
     CVODEIntegrator integrator(&mockExecutableModel);
     ASSERT_EQ(integrator.getStateVector(), nullptr);
     ASSERT_EQ(integrator.getCvodeMemory(), nullptr);
-    ASSERT_EQ(integrator.getLinearSolver(), nullptr);
-    ASSERT_EQ(integrator.getJac(), nullptr);
+    ASSERT_EQ(integrator.getSolver(), nullptr);
 }
 
 /**
@@ -133,8 +132,7 @@ TEST_F(CVODEIntegratorTests, CheckConstructorInitSundialsObjectsWhenGT0StateVari
     CVODEIntegrator integrator(&mockExecutableModel);
     ASSERT_NE(integrator.getStateVector(), nullptr);
     ASSERT_NE(integrator.getCvodeMemory(), nullptr);
-    ASSERT_NE(integrator.getLinearSolver(), nullptr);
-    ASSERT_NE(integrator.getJac(), nullptr);
+    ASSERT_NE(integrator.getSolver(), nullptr);
 }
 
 /**
@@ -147,8 +145,7 @@ TEST_F(CVODEIntegratorTests, CheckThatWeCanDestroyIntegrator) {
     integrator.freeCVode();
     ASSERT_EQ(integrator.getStateVector(), nullptr);
     ASSERT_EQ(integrator.getCvodeMemory(), nullptr);
-    ASSERT_EQ(integrator.getLinearSolver(), nullptr);
-    ASSERT_EQ(integrator.getJac(), nullptr);
+    ASSERT_EQ(integrator.getSolver(), nullptr);
 }
 
 /**
@@ -163,39 +160,15 @@ TEST_F(CVODEIntegratorTests, CheckThatWeCanRecreateCvodeAfterDestroy) {
     integrator.createCVode();
     ASSERT_NE(integrator.getStateVector(), nullptr);
     ASSERT_NE(integrator.getCvodeMemory(), nullptr);
-    ASSERT_NE(integrator.getLinearSolver(), nullptr);
-    ASSERT_NE(integrator.getJac(), nullptr);
+    ASSERT_NE(integrator.getSolver(), nullptr);
 }
 
 /**
- * We compute next time step with stiff solver, then with
- * non-stiff solver and make sure they are doing different
- * things.
+ * Note: This set of unit tests isn't what I'd call "complete"
+ * but combined with the main test suite its enough for now.
  */
-TEST_F(CVODEIntegratorTests, CheckStiffVsNonStiff) {
-    // we need to tell our mock to return 3 when CVODEIntegrator
-    // ask how many state variables the model has, or sundials objects
-    // will not be created
-    EXPECT_CALL(mockExecutableModel, getStateVector(nullptr))
-            .WillRepeatedly(Return(3));
 
-    CVODEIntegrator integrator(&mockExecutableModel);
-    // integrate 0.1 time steps
-    integrator.integrate(0.0, 0.1);
-
-    // result from integrator with default "stiff" setting
-    auto result1 = integrator.getStateVector();
-
-    // restart the clock
-    integrator.restart(0.0);
-
-    // change to non-stiff solver
-//    integrat
-
-}
-
-
-// other methods to test:
+// other methods:
 //setConcentrationTolerance
 //updateCVODE
 //integrate

@@ -978,13 +978,13 @@ namespace rr {
          */
 
         /* create fixed point nonlinear solver object */
-        nonlinearSolver_ = SUNNonlinSol_FixedPoint(mStateVector, 0);
+        solver_ = SUNNonlinSol_FixedPoint(mStateVector, 0);
 
-        if (nonlinearSolver_ == nullptr) {
+        if (solver_ == nullptr) {
             throw std::runtime_error("CVODEIntegrator::createCVODE: nonLinearSolver_ is nullptr\n");
         }
 
-        if ((err = CVodeSetNonlinearSolver(mCVODE_Memory, nonlinearSolver_)) != CV_SUCCESS) {
+        if ((err = CVodeSetNonlinearSolver(mCVODE_Memory, solver_)) != CV_SUCCESS) {
             handleCVODEError(err);
         }
 
@@ -1196,18 +1196,13 @@ namespace rr {
             CVodeFree(&mCVODE_Memory);
         }
 
-        if (linearSolver_) {
-            SUNLinSolFree(linearSolver_);
-        }
-
-        if (jac_) {
-            SUNMatDestroy(jac_);
+        if (solver_) {
+            SUNNonlinSolFree(solver_);
         }
 
         mCVODE_Memory = nullptr;
         mStateVector = nullptr;
-        linearSolver_ = nullptr;
-        jac_ = nullptr;
+        solver_ = nullptr;
     }
 
     double CVODEIntegrator::applyVariableStepPendingEvents() {
@@ -1390,16 +1385,12 @@ namespace rr {
         return mCVODE_Memory;
     }
 
-    const _generic_N_Vector *CVODEIntegrator::getStateVector() const {
+    N_Vector CVODEIntegrator::getStateVector() const {
         return mStateVector;
     }
 
-    const _generic_SUNLinearSolver *CVODEIntegrator::getLinearSolver() const {
-        return linearSolver_;
-    }
-
-    const _generic_SUNMatrix *CVODEIntegrator::getJac() const {
-        return jac_;
+    SUNNonlinearSolver CVODEIntegrator::getSolver() const {
+        return solver_;
     }
 
     /**
