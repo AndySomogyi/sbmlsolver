@@ -184,9 +184,9 @@ namespace nmfit
             probPlot = getNormalProbabilityPlot(stdRes);
 
             calculateChiSquare();
-            calculateHessian();
-            calculateCovariance();
-            calculateConfidenceLimits();
+            //calculateHessian();
+            //calculateCovariance();
+            //calculateConfidenceLimits();
         }
         catch (...)
         {

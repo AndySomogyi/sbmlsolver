@@ -25,8 +25,13 @@ namespace bsmc
     bsWorker::bsWorker(MonteCarlo& host)
         :
         mParent(host),
-        mRandom((unsigned long)time(NULL))
+        mRandom(new tlp::Random((unsigned long)time(NULL)))
     {
+    }
+
+    bsWorker::~bsWorker()
+    {
+        delete mRandom;
     }
 
     bool bsWorker::setup()
@@ -64,6 +69,12 @@ namespace bsmc
 
     void bsWorker::start(bool runInThread)
     {
+        unsigned long* seed = (unsigned long*)(mParent.getPropertyValueHandle("Seed"));
+        if (*seed != 0.0)
+        {
+            delete mRandom;
+            mRandom = new tlp::Random(*seed);
+        }
         if (runInThread)
         {
             if (mThread.isRunning())
@@ -310,7 +321,7 @@ namespace bsmc
             {
                 for (int row = 0; row < data.rSize(); row++)
                 {
-                    data(row, col) = data(row, col) + getRandomElement(mResiduals, mRandom);
+                    data(row, col) = data(row, col) + getRandomElement(mResiduals, *mRandom);
                 }
             }
             all.append(data);

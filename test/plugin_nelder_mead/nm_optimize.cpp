@@ -53,18 +53,10 @@ TEST(RRPLUGIN_TEST_MODEL, OPTIMIZE_TEST_MODEL)
     //EXPECT_EQ(nmplugin->getPropertyValueAsString("StatusMessage").find("converged"), 0);
 
     PropertyBase* hessian_property = nmplugin->getProperty("Hessian");
-    ASSERT_TRUE(hessian_property != NULL);
-    TelluriumData* hessian = static_cast<TelluriumData*>(hessian_property->getValueHandle());
-    EXPECT_EQ(hessian->rSize(), 1);
-    EXPECT_EQ(hessian->cSize(), 1);
-    EXPECT_NEAR(hessian->getDataElement(0, 0), 5500, 3300); //Determined empirically.
+    ASSERT_TRUE(hessian_property == NULL);
 
     PropertyBase* cov_property = nmplugin->getProperty("CovarianceMatrix");
-    ASSERT_TRUE(cov_property != NULL);
-    TelluriumData* covariance = static_cast<TelluriumData*>(cov_property->getValueHandle());
-    EXPECT_EQ(covariance->rSize(), 1);
-    EXPECT_EQ(covariance->cSize(), 1);
-    EXPECT_NEAR(covariance->getDataElement(0, 0), 0.0003, 0.0002); //Determined empirically.
+    ASSERT_TRUE(cov_property == NULL);
 
     PropertyBase* chi_property = nmplugin->getProperty("ChiSquare");
     ASSERT_TRUE(chi_property != NULL);
@@ -87,14 +79,7 @@ TEST(RRPLUGIN_TEST_MODEL, OPTIMIZE_TEST_MODEL)
     EXPECT_TRUE(outparams->getNext() == NULL);
 
     PropertyBase* conflimit_property = nmplugin->getProperty("ConfidenceLimits");
-    ASSERT_TRUE(conflimit_property != NULL);
-    Properties* conflimits = static_cast<Properties*>(conflimit_property->getValueHandle());
-    PropertyBase* conflimit = conflimits->getFirst();
-    ASSERT_TRUE(conflimit != NULL);
-    EXPECT_EQ(conflimit->getName(), "k1_confidence");
-    double* conflimit_val = static_cast<double*>(conflimit->getValueHandle());
-    EXPECT_NEAR(*conflimit_val, 0.03, 0.02);
-    EXPECT_TRUE(conflimits->getNext() == NULL);
+    ASSERT_TRUE(conflimit_property == NULL);
 
     PropertyBase* fit_property = nmplugin->getProperty("FittedData");
     ASSERT_TRUE(fit_property != NULL);
@@ -203,6 +188,7 @@ TEST(RRPLUGIN_TEST_MODEL, OPTIMIZE_NEW_MODEL)
 
     tmplugin->setPropertyByString("Model", newModel.c_str());
     nmplugin->setPropertyByString("SBML", newModel.c_str());
+    //tmplugin->setPropertyByString("Seed", "215"); //Will give you nan confidence limits, if allowed.
 
     Property<double> k1val(0.3, "k1", "", "", "", true);
     Property<double> k2val(0.1, "k2", "", "", "", true);
@@ -232,57 +218,39 @@ TEST(RRPLUGIN_TEST_MODEL, OPTIMIZE_NEW_MODEL)
     //EXPECT_EQ(nmplugin->getPropertyValueAsString("StatusMessage").find("converged"), 0);
 
     PropertyBase* hessian_property = nmplugin->getProperty("Hessian");
-    ASSERT_TRUE(hessian_property != NULL);
-    TelluriumData* hessian = static_cast<TelluriumData*>(hessian_property->getValueHandle());
-    EXPECT_EQ(hessian->rSize(), 2);
-    EXPECT_EQ(hessian->cSize(), 2);
-    //EXPECT_NEAR(hessian->getDataElement(0, 0), -3200000, 3000000); //Determined empirically.
-    //EXPECT_NEAR(hessian->getDataElement(0, 0), 5500, 3300); //Determined empirically.
-    //EXPECT_NEAR(hessian->getDataElement(0, 0), 5500, 3300); //Determined empirically.
-    //EXPECT_EQ(hessian->getDataElement(0, 1), hessian->getDataElement(1, 0));
+    ASSERT_TRUE(hessian_property == NULL);
 
     PropertyBase* cov_property = nmplugin->getProperty("CovarianceMatrix");
-    ASSERT_TRUE(cov_property != NULL);
-    TelluriumData* covariance = static_cast<TelluriumData*>(cov_property->getValueHandle());
-    EXPECT_EQ(covariance->rSize(), 2);
-    EXPECT_EQ(covariance->cSize(), 2);
-    //EXPECT_NEAR(covariance->getDataElement(0, 0), 0.0003, 0.0002); //Determined empirically.
+    ASSERT_TRUE(cov_property == NULL);
 
     PropertyBase* chi_property = nmplugin->getProperty("ChiSquare");
     ASSERT_TRUE(chi_property != NULL);
-    //double* chisquare = static_cast<double*>(chi_property->getValueHandle());
-    //EXPECT_NEAR(*chisquare, 76, 70); //Determined empirically.
+    double* chisquare = static_cast<double*>(chi_property->getValueHandle());
+    EXPECT_NEAR(*chisquare, 175, 160); //Determined empirically.
 
     PropertyBase* red_chi_property = nmplugin->getProperty("ReducedChiSquare");
     ASSERT_TRUE(red_chi_property != NULL);
-    //double* reduced_chi = static_cast<double*>(red_chi_property->getValueHandle());
-    //EXPECT_NEAR(*reduced_chi, 2.8, 2.4); //Determined empirically.
+    double* reduced_chi = static_cast<double*>(red_chi_property->getValueHandle());
+    EXPECT_NEAR(*reduced_chi, 4, 3.7); //Determined empirically.
 
     PropertyBase* outparam_property = nmplugin->getProperty("OutputParameterList");
     ASSERT_TRUE(outparam_property != NULL);
     Properties* outparams = static_cast<Properties*>(outparam_property->getValueHandle());
     PropertyBase* outparam = outparams->getFirst();
     ASSERT_TRUE(outparam != NULL);
-    //EXPECT_EQ(outparam->getName(), "k1");
-    //double* outparam_val = static_cast<double*>(outparam->getValueHandle());
-    //EXPECT_NEAR(*outparam_val, 0.925, 0.2);
-    //EXPECT_TRUE(outparams->getNext() == NULL);
+    EXPECT_EQ(outparam->getName(), "k1");
+    double* outparam_val = static_cast<double*>(outparam->getValueHandle());
+    EXPECT_NEAR(*outparam_val, 0.98, 0.35);
+
+    outparam = outparams->getNext();
+    ASSERT_TRUE(outparam != NULL);
+    EXPECT_EQ(outparam->getName(), "k2");
+    outparam_val = static_cast<double*>(outparam->getValueHandle());
+    EXPECT_NEAR(*outparam_val, 0.6, 0.17);
+    EXPECT_TRUE(outparams->getNext() == NULL);
 
     PropertyBase* conflimit_property = nmplugin->getProperty("ConfidenceLimits");
-    ASSERT_TRUE(conflimit_property != NULL);
-    Properties* conflimits = static_cast<Properties*>(conflimit_property->getValueHandle());
-    PropertyBase* conflimit = conflimits->getFirst();
-    ASSERT_TRUE(conflimit != NULL);
-    EXPECT_EQ(conflimit->getName(), "k1_confidence");
-    //double* conflimit_val = static_cast<double*>(conflimit->getValueHandle());
-    //EXPECT_NEAR(*conflimit_val, 0.03, 0.02);
-    //EXPECT_TRUE(conflimits->getNext() == NULL);
-    conflimit = conflimits->getNext();
-    ASSERT_TRUE(conflimit != NULL);
-    EXPECT_EQ(conflimit->getName(), "k2_confidence");
-
-    conflimit = conflimits->getNext();
-    ASSERT_TRUE(conflimit == NULL);
+    ASSERT_TRUE(conflimit_property == NULL);
 
     PropertyBase* fit_property = nmplugin->getProperty("FittedData");
     ASSERT_TRUE(fit_property != NULL);
@@ -296,23 +264,23 @@ TEST(RRPLUGIN_TEST_MODEL, OPTIMIZE_NEW_MODEL)
     EXPECT_EQ(residuals->cSize(), 4);
     EXPECT_EQ(residuals->rSize(), 14);
 
-    //for (int c = 0; c < fit->cSize(); c++)
-    //{
-    //    for (int r = 0; r < fit->rSize(); r++)
-    //    {
-    //        double fitval = fit->getDataElement(r, c);
-    //        double origval = exdata->getDataElement(r, c);
-    //        double tol = max(abs(origval / 10), 0.0001);
-    //        EXPECT_NEAR(fitval, origval, tol);
+    for (int c = 0; c < fit->cSize(); c++)
+    {
+        for (int r = 0; r < fit->rSize(); r++)
+        {
+            double fitval = fit->getDataElement(r, c);
+            double origval = exdata->getDataElement(r, c);
+            double tol = max(abs(origval / 10), 0.0001);
+            EXPECT_NEAR(fitval, origval, tol);
 
-    //        if (c > 0) {
-    //            double residual = abs(residuals->getDataElement(r, c));
-    //            EXPECT_NEAR(abs(origval - fitval), residual, 0.0002);
-    //            EXPECT_LT(residual, 2.2e-5);
-    //            //cout << origval << ", " << fitval << ", " << residual << ", " << abs(origval - fitval) << endl;
-    //        }
-    //    }
-    //}
+            if (c > 0) {
+                double residual = abs(residuals->getDataElement(r, c));
+                EXPECT_NEAR(abs(origval - fitval), residual, 0.0002);
+                EXPECT_LT(residual, 2.5e-5);
+                //cout << origval << ", " << fitval << ", " << residual << ", " << abs(origval - fitval) << endl;
+            }
+        }
+    }
 
 
 

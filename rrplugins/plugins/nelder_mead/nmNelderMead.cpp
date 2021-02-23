@@ -64,7 +64,6 @@ namespace nmfit
         mProperties.add(&mResidualsData);
         mProperties.add(&mInputParameterList);
         mProperties.add(&mOutputParameterList);
-        mProperties.add(&mConfidenceLimits);
         mProperties.add(&mExperimentalDataSelectionList);
         mProperties.add(&mModelDataSelectionList);
         mProperties.add(&mNorm);
@@ -75,8 +74,12 @@ namespace nmfit
         mProperties.add(&mNormalProbabilityOfResiduals);
         mProperties.add(&mChiSquare);
         mProperties.add(&mReducedChiSquare);
-        mProperties.add(&mHessian);
-        mProperties.add(&mCovarianceMatrix);
+        //We took out the Hessian, covariance, and CLs because they semi-often
+        // produced unstable results.  Users that want these should find a good
+        // set of values from the NM solver, then switch to Levenberg-Marquardt
+        //mProperties.add(&mHessian);
+        //mProperties.add(&mCovarianceMatrix);
+        //mProperties.add(&mConfidenceLimits);
 
         //Add the lmfit parameters
         mProperties.add(&mEpsilon);

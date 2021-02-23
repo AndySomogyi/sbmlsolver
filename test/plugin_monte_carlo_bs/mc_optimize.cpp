@@ -127,3 +127,67 @@ TEST(RRPLUGIN_TEST_MODEL, OPTIMIZE_NELDER_MEAD)
 
 
 }
+
+TEST(RRPLUGIN_TEST_MODEL, CHECK_SEED)
+{
+    if (gRRPluginDir.empty()) {
+        std::cerr << "Please set the 'plugindir' environment variable before running the plugin tests.  This should be the directory where the plugin dlls are created." << std::endl;
+        EXPECT_TRUE(false);
+    }
+    PluginManager* PM = new PluginManager(gRRPluginDir);
+
+    Plugin* tmplugin = PM->getPlugin("tel_test_model");
+    ASSERT_TRUE(tmplugin != NULL);
+    tmplugin->execute();
+
+    Plugin* mcplugin = PM->getPlugin("tel_monte_carlo_bs");
+    ASSERT_TRUE(mcplugin != NULL);
+
+    mcplugin->setPropertyByString("Seed", "1001");
+
+    PropertyBase* sbml = tmplugin->getProperty("Model");
+    mcplugin->setPropertyByString("SBML", sbml->getValueAsString().c_str());
+
+    PropertyBase* testdata = tmplugin->getProperty("TestDataWithNoise");
+    TelluriumData* exdata = static_cast<TelluriumData*>(testdata->getValueHandle());
+    mcplugin->setPropertyValue("ExperimentalData", exdata);
+
+    Property<double> k1val(0.3, "k1", "", "", "", true);
+    Properties ipl;
+    ipl.add(&k1val);
+    //tlp::Property tpcre();
+    mcplugin->setPropertyValue("InputParameterList", &ipl);
+    mcplugin->setPropertyByString("NrOfMCRuns", "5");
+    mcplugin->setPropertyByString("FittedDataSelectionList", "[S1] [S2]");
+    mcplugin->setPropertyByString("ExperimentalDataSelectionList", "[S1] [S2]");
+
+    mcplugin->execute();
+    //EXPECT_EQ(mcplugin->getPropertyValueAsString("StatusMessage").find("converged"), 0);
+
+    TelluriumData* params = static_cast<TelluriumData*>(mcplugin->getPropertyValueHandle("MonteCarloParameters"));
+    ASSERT_TRUE(params != NULL);
+    TelluriumData copy(*params);
+
+    Properties* conf_limits = static_cast<Properties*>(mcplugin->getPropertyValueHandle("ConfidenceLimits"));
+    ASSERT_TRUE(conf_limits != NULL);
+    Property<double>* cl = static_cast<Property<double>*>(conf_limits->getFirst());
+    double cl_one = cl->getValue();
+
+    mcplugin->execute();
+    params = static_cast<TelluriumData*>(mcplugin->getPropertyValueHandle("MonteCarloParameters"));
+    ASSERT_TRUE(params != NULL);
+
+    EXPECT_EQ(params->rSize(), 5);
+    EXPECT_EQ(params->cSize(), 1);
+    for (int r = 0; r < params->rSize(); r++)
+    {
+        EXPECT_EQ(params->getDataElement(r, 0), copy.getDataElement(r, 0));
+    }
+
+    conf_limits = static_cast<Properties*>(mcplugin->getPropertyValueHandle("ConfidenceLimits"));
+    ASSERT_TRUE(conf_limits != NULL);
+    cl = static_cast<Property<double>*>(conf_limits->getFirst());
+
+    EXPECT_EQ(cl_one, cl->getValue());
+}
+

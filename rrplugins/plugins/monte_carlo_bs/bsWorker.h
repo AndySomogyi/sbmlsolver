@@ -24,6 +24,7 @@ namespace bsmc
 
     public:
         bsWorker(MonteCarlo& plugin);
+        ~bsWorker();
         void                            start(bool runInThread = true);
         void                            run();
         bool                            isRunning() const;
@@ -40,7 +41,7 @@ namespace bsmc
 
 
     private:
-        tlp::Random                     mRandom;
+        tlp::Random*                    mRandom;
 
         tlp::Plugin*                    mMinimizerPlugin;
         std::vector<double>             mResiduals;

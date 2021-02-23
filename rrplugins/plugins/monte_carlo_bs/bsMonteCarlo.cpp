@@ -30,6 +30,7 @@ namespace bsmc
         mModelDataSelectionList(StringList(), "FittedDataSelectionList", "Model data selection list"),
         mNrOfMCRuns(5, "NrOfMCRuns", "Number of Monte Carlo Data Sets"),
         mMinimizerPlugin("tel_levenberg_marquardt", "MinimizerPlugin", "Which plugin to use as a minimizer.  'tel_levenberg_marquardt' and 'tel_nelder_mead' should both work."),
+        mSeed(0, "Seed", "Seed to use for each use of 'execute' (0 to ignore)"),
         mWorker(*this)
     {
         mVersion = "1.0.0";
@@ -45,6 +46,7 @@ namespace bsmc
         mProperties.add(&mModelDataSelectionList);
         mProperties.add(&mNrOfMCRuns);
         mProperties.add(&mMinimizerPlugin);
+        mProperties.add(&mSeed);
 
         //Add the lmfit parameters
         mHint = "Monte Carlo bootstrap algorithm.";

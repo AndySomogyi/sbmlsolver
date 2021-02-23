@@ -9,9 +9,6 @@ from rrplugins import Plugin
 
 modelPlugin = Plugin("tel_test_model")            
 
-#Test model plugin depends on the add_noise plugin
-noisePlugin = Plugin("tel_add_noise")
-
 #Generate internal test data
 modelPlugin.execute()
 test_data = modelPlugin.TestData

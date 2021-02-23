@@ -31,6 +31,7 @@ namespace bsmc
         Property<StringList>                    mModelDataSelectionList;
         Property<int>                           mNrOfMCRuns;
         Property<string>                        mMinimizerPlugin;
+        Property<unsigned long>                 mSeed;
 
         //Utility functions for the thread
         string                                  getSBML();
