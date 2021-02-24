@@ -1,6 +1,7 @@
 #pragma hdrstop
 #include "bsWorker.h"
 #include <time.h>
+#include <algorithm>
 #include "telLogger.h"
 #include "rrRoadRunnerOptions.h"
 #include "telException.h"
@@ -172,10 +173,14 @@ namespace bsmc
             }
         }
 
-        //Calculate confidence limits
+        //Calculate confidence intervals
         Properties& inpParaList = mParent.mInputParameterList.getValueReference();
-        Properties& confidenceLimits = mParent.mConfidenceLimits.getValueReference();
-        confidenceLimits.clear();
+        Properties& means = mParent.mMeans.getValueReference();
+        means.clear();
+        Properties& confidenceIntervals = mParent.mConfidenceIntervals.getValueReference();
+        confidenceIntervals.clear();
+        Properties& percentiles = mParent.mPercentiles.getValueReference();
+        percentiles.clear();
 
         for (int para = 0; para < inpParaList.count(); para++)
         {
@@ -188,15 +193,49 @@ namespace bsmc
             }
             //Do the statistics for each parameter
             if (values.size() > 0) {
-                double mean;
-                double sigma = getStandardDeviation(values, &mean);
-                double limit = 1.96 * sigma / (sqrt((double)mParent.mNrOfMCRuns));
+                double mean = getMean(values);
+                Property<double>* prop = new Property<double>(mean, inpParaList[para]->getName());
+                means.add(prop);
+                RRPLOG(lInfo) << inpParaList[para]->getName() << "mean: " << mean << endl;
+                sort(values.begin(), values.end());
+                if (values.size() >= 4) {
+                    //Calculate the quartiles
+                    size_t index = roundl(values.size() / 4.0);
+                    double lowest = values[index];
+                    double highest = values[values.size() - index - 1];
 
-                Property<double>* prop = new Property<double>(limit, inpParaList[para]->getName());
-                confidenceLimits.add(prop);
-                RRPLOG(lInfo) << "Parameter means: " << mean;
+                    prop = new Property<double>(lowest, inpParaList[para]->getName() + "_25_percentile");
+                    percentiles.add(prop);
+                    prop = new Property<double>(highest, inpParaList[para]->getName() + "_75_percentile");
+                    percentiles.add(prop);
+                }
+                if (values.size() >= 40) {
+                    size_t index = roundl(values.size() / 40.0);
+                    double lowest = values[index];
+                    double highest = values[values.size() - index - 1];
+                    double interval = (highest - lowest) / 2;
+
+                    prop = new Property<double>(interval, inpParaList[para]->getName());
+                    confidenceIntervals.add(prop);
+
+                    prop = new Property<double>(lowest, inpParaList[para]->getName() + "_02.5_percentile");
+                    percentiles.add(prop);
+                    prop = new Property<double>(highest, inpParaList[para]->getName() + "_97.5_percentile");
+                    percentiles.add(prop);
+
+                    RRPLOG(lInfo) << inpParaList[para]->getName() << "95% confidence interval: " << lowest << " - " << highest << endl;
+                }
+                if (values.size() >= 100) {
+                    size_t index = roundl(values.size() / 100.0);
+                    double lowest = values[index];
+                    double highest = values[values.size() - index - 1];
+
+                    prop = new Property<double>(lowest, inpParaList[para]->getName() + "_01_percentile");
+                    percentiles.add(prop);
+                    prop = new Property<double>(highest, inpParaList[para]->getName() + "_99_percentile");
+                    percentiles.add(prop);
+                }
             }
-
         }
         workerFinished();
     }

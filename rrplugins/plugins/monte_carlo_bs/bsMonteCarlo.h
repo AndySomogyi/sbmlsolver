@@ -17,16 +17,14 @@ namespace bsmc
         friend class bsWorker;
 
     protected:
-        Property<string>                        mSBML;                          //This is the model
+        Property<string>                        mSBML;                    //This is the model
         Property<TelluriumData>				    mExperimentalData;
-
-        Property<Properties>                    mInputParameterList;            //Parameters to fit
-
-        Property<Properties>                    mCurrentParameters;            //This property can be checked in OnProgress event
-        Property<TelluriumData>                 mMonteCarloParameters;         //Obtained parameter values from each MC run
-
-        Property<Properties>                    mConfidenceLimits;              //Final Confidence limits for each parameter
-
+        Property<Properties>                    mInputParameterList;      //Parameters to fit
+        Property<Properties>                    mCurrentParameters;       //This property can be checked in OnProgress event
+        Property<TelluriumData>                 mMonteCarloParameters;    //Obtained parameter values from each MC run
+        Property<Properties>                    mMeans;                   //Final mean values for each parameter
+        Property<Properties>                    mConfidenceIntervals;     //Final Confidence Intervals for each parameter
+        Property<Properties>                    mPercentiles;             //Final percentiles for each parameter
         Property<StringList>                    mExperimentalDataSelectionList;
         Property<StringList>                    mModelDataSelectionList;
         Property<int>                           mNrOfMCRuns;

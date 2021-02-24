@@ -24,8 +24,9 @@ namespace bsmc
         mExperimentalData(TelluriumData(), "ExperimentalData", "Data object holding Experimental data: Provided by client"),
         mInputParameterList(Properties(), "InputParameterList", "List of parameters to fit"),
         mMonteCarloParameters(TelluriumData(), "MonteCarloParameters", "Parameters obtained from a Monte Carlo session."),
-        mCurrentParameters(Properties(), "CurrentParameters", "List of parameters (to be removed)"),
-        mConfidenceLimits(Properties(), "ConfidenceLimits", "Confidence limits for each parameter"),
+        mMeans(Properties(), "Means", "Mean values for each parameter"),
+        mConfidenceIntervals(Properties(), "ConfidenceIntervals", "Confidence Intervals for each parameter"),
+        mPercentiles(Properties(), "Percentiles", "Percentile values for each parameter"),
         mExperimentalDataSelectionList(StringList(), "ExperimentalDataSelectionList", "Experimental data selection list"),
         mModelDataSelectionList(StringList(), "FittedDataSelectionList", "Model data selection list"),
         mNrOfMCRuns(5, "NrOfMCRuns", "Number of Monte Carlo Data Sets"),
@@ -40,8 +41,9 @@ namespace bsmc
         mProperties.add(&mExperimentalData);
         mProperties.add(&mInputParameterList);
         mProperties.add(&mMonteCarloParameters);
-        mProperties.add(&mCurrentParameters);
-        mProperties.add(&mConfidenceLimits);
+        mProperties.add(&mMeans);
+        mProperties.add(&mConfidenceIntervals);
+        mProperties.add(&mPercentiles);
         mProperties.add(&mExperimentalDataSelectionList);
         mProperties.add(&mModelDataSelectionList);
         mProperties.add(&mNrOfMCRuns);
@@ -50,7 +52,7 @@ namespace bsmc
 
         //Add the lmfit parameters
         mHint = "Monte Carlo bootstrap algorithm.";
-        mDescription = "The Monte Carlo plugin is used to get estimates of a models parameters confidence limits. This is in a context where experimental data exists and a parameter minimization method, such as Levenberg-Marquardt or Nelder-Mead is used first in order to find a parameter minimum.";
+        mDescription = "The Monte Carlo plugin is used to get estimates of a models parameters confidence intervals. This is in a context where experimental data exists and a parameter minimization method, such as Levenberg-Marquardt or Nelder-Mead is used first in order to find a parameter minimum.";
 
         //The function below assigns property descriptions
         assignPropertyDescriptions();
@@ -117,14 +119,14 @@ namespace bsmc
     string MonteCarlo::getResult()
     {
         stringstream msg;
-        Properties& conf = mConfidenceLimits;
+        Properties& conf = mConfidenceIntervals;
         if (conf.count())
         {
-            msg << "Parameter confidence limits ========\n";
+            msg << "Parameter confidence intervals ========\n";
         }
         else
         {
-            msg << "No confidence limits to report ========";
+            msg << "No confidence intervals to report ========";
         }
 
         for (int i = 0; i < conf.count(); i++)
@@ -196,8 +198,16 @@ The input parameters are properties of the input SBML model";
         mMonteCarloParameters.setDescription(s.str());
         s.str("");
 
-        s << "The confidence limits parameter list holds resulting confidence limits, as calculated using the obtained Monte Carlo Parameters";
-        mConfidenceLimits.setDescription(s.str());
+        s << "The mean values parameter list holds resulting mean values of the obtained Monte Carlo Parameters";
+        mMeans.setDescription(s.str());
+        s.str("");
+
+         s << "The confidence intervals list holds the 95% confidence intervals, as calculated using the obtained Monte Carlo Parameters";
+        mConfidenceIntervals.setDescription(s.str());
+        s.str("");
+
+        s << "The percentiles list holds the calculable percentiles from the obtained Monte Carlo Parameters.  If at least four repeats are made, the 25 and 75 percentiles are added; at 40 repeats, the 2.5 and 97.5 percentiles are added; at 100 repeats, the 1 and 99 percentiles are added.";
+        mPercentiles.setDescription(s.str());
         s.str("");
 
         s << "The data input may contain multiple columns of data. The Experimental data selection list \

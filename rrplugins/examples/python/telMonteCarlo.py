@@ -59,18 +59,23 @@ try:
     print('Monte Carlo Finished. \n==== Result ====')
     print(mcP.MonteCarloParameters.getColumnHeaders())
     paras = mcP.MonteCarloParameters.toNumPy()
-    print(paras)
+    # print(paras)
        
-    #Get mean (assuming normal distribution).
-    print("The mean: k1= ", np.mean(paras))   
-    
-     
-    PropertyOfTypeListHandle = rrplugins.getPluginProperty(mcP.plugin, "ConfidenceLimits")           
-    print("Optimized parameters:", rrplugins.getNamesFromPropertyList(PropertyOfTypeListHandle))         
+    PropertyOfTypeListHandle = rrplugins.getPluginProperty(mcP.plugin, "Means")
+    print("Optimized parameters:", rrplugins.getNamesFromPropertyList(PropertyOfTypeListHandle))
     aProperty = rrplugins.getFirstProperty(PropertyOfTypeListHandle)
-    if aProperty:
-        print("Confidence limits:", rrplugins.getPropertyValueAsString(aProperty))
+    print("Means:", rrplugins.getPropertyValueAsString(aProperty))
     
+    PropertyOfTypeListHandle = rrplugins.getPluginProperty(mcP.plugin, "ConfidenceIntervals")
+    aProperty = rrplugins.getFirstProperty(PropertyOfTypeListHandle)
+    print("Confidence intervals:", rrplugins.getPropertyValueAsString(aProperty))
+    
+    PropertyOfTypeListHandle = rrplugins.getPluginProperty(mcP.plugin, "Percentiles")           
+    aProperty = rrplugins.getFirstProperty(PropertyOfTypeListHandle)
+    while aProperty:
+        print("Percentile:", rrplugins.getPropertyName(aProperty), "=", rrplugins.getPropertyValueAsString(aProperty))
+        aProperty = rrplugins.getNextProperty(PropertyOfTypeListHandle)
+
     #Show Monte Carlo parameters as a histogram
     plt.hist(paras, 30)
     plt.show()

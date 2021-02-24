@@ -58,16 +58,54 @@ TEST(RRPLUGIN_TEST_MODEL, OPTIMIZE_TEST_MODEL)
     EXPECT_EQ(params->cSize(), 1);
     for (int r = 0; r < params->rSize(); r++)
     {
-        EXPECT_NEAR(params->getDataElement(r, 0), 1.0, 0.5);
+        EXPECT_NEAR(params->getDataElement(r, 0), 1.0, 0.2);
     }
 
-    Properties* conf_limits = static_cast<Properties*>(mcplugin->getPropertyValueHandle("ConfidenceLimits"));
-    ASSERT_TRUE(conf_limits != NULL);
-    Property<double>* cl = static_cast<Property<double>* >(conf_limits->getFirst());
-    EXPECT_EQ(cl->getName(), "k1");
-    EXPECT_NEAR(cl->getValue(), 0.01, 0.008);
+    Properties* means = static_cast<Properties*>(mcplugin->getPropertyValueHandle("Means"));
+    ASSERT_TRUE(means != NULL);
+    Property<double>* mean1 = static_cast<Property<double>*>(means->getFirst());
+    EXPECT_EQ(mean1->getName(), "k1");
+    EXPECT_NEAR(mean1->getValue(), 1.0, 0.1);
 
-    EXPECT_TRUE(conf_limits->getNext() == NULL);
+    Properties* conf_intervals = static_cast<Properties*>(mcplugin->getPropertyValueHandle("ConfidenceIntervals"));
+    ASSERT_TRUE(conf_intervals != NULL);
+    Property<double>* ci = static_cast<Property<double>* >(conf_intervals->getFirst());
+    EXPECT_EQ(ci->getName(), "k1");
+    EXPECT_NEAR(ci->getValue(), 0.05, 0.03);
+
+    Properties* percentiles = static_cast<Properties*>(mcplugin->getPropertyValueHandle("Percentiles"));
+    ASSERT_TRUE(percentiles != NULL);
+    Property<double>* percentile = static_cast<Property<double>*>(percentiles->getFirst());
+    ASSERT_TRUE(percentile != NULL);
+    EXPECT_EQ(percentile->getName(), "k1_25_percentile");
+    EXPECT_NEAR(percentile->getValue(), 0.99, 0.12);
+
+    percentile = static_cast<Property<double>*>(percentiles->getNext());
+    ASSERT_TRUE(percentile != NULL);
+    EXPECT_EQ(percentile->getName(), "k1_75_percentile");
+    EXPECT_NEAR(percentile->getValue(), 1.01, 0.12);
+
+    percentile = static_cast<Property<double>*>(percentiles->getNext());
+    ASSERT_TRUE(percentile != NULL);
+    EXPECT_EQ(percentile->getName(), "k1_02.5_percentile");
+    EXPECT_NEAR(percentile->getValue(), 0.96, 0.13);
+
+    percentile = static_cast<Property<double>*>(percentiles->getNext());
+    ASSERT_TRUE(percentile != NULL);
+    EXPECT_EQ(percentile->getName(), "k1_97.5_percentile");
+    EXPECT_NEAR(percentile->getValue(), 1.04, 0.13);
+
+    percentile = static_cast<Property<double>*>(percentiles->getNext());
+    ASSERT_TRUE(percentile != NULL);
+    EXPECT_EQ(percentile->getName(), "k1_01_percentile");
+    EXPECT_NEAR(percentile->getValue(), 0.95, 0.14);
+
+    percentile = static_cast<Property<double>*>(percentiles->getNext());
+    ASSERT_TRUE(percentile != NULL);
+    EXPECT_EQ(percentile->getName(), "k1_99_percentile");
+    EXPECT_NEAR(percentile->getValue(), 1.05, 0.14);
+
+    EXPECT_TRUE(percentiles->getNext() == NULL);
 
 
 }
@@ -114,18 +152,54 @@ TEST(RRPLUGIN_TEST_MODEL, OPTIMIZE_NELDER_MEAD)
     EXPECT_EQ(params->cSize(), 1);
     for (int r = 0; r < params->rSize(); r++)
     {
-        EXPECT_NEAR(params->getDataElement(r, 0), 1.0, 0.5);
+        EXPECT_NEAR(params->getDataElement(r, 0), 1.0, 0.3);
     }
 
-    Properties* conf_limits = static_cast<Properties*>(mcplugin->getPropertyValueHandle("ConfidenceLimits"));
-    ASSERT_TRUE(conf_limits != NULL);
-    Property<double>* cl = static_cast<Property<double>*>(conf_limits->getFirst());
-    EXPECT_EQ(cl->getName(), "k1");
-    EXPECT_NEAR(cl->getValue(), 0.01, 0.008);
+    Properties* means = static_cast<Properties*>(mcplugin->getPropertyValueHandle("Means"));
+    ASSERT_TRUE(means != NULL);
+    Property<double>* mean1 = static_cast<Property<double>*>(means->getFirst());
+    EXPECT_EQ(mean1->getName(), "k1");
+    EXPECT_NEAR(mean1->getValue(), 1.0, 0.2);
 
-    EXPECT_TRUE(conf_limits->getNext() == NULL);
+    Properties* conf_intervals = static_cast<Properties*>(mcplugin->getPropertyValueHandle("ConfidenceIntervals"));
+    ASSERT_TRUE(conf_intervals != NULL);
+    Property<double>* ci = static_cast<Property<double>*>(conf_intervals->getFirst());
+    EXPECT_EQ(ci->getName(), "k1");
+    EXPECT_NEAR(ci->getValue(), 0.0625, 0.0625);
 
+    Properties* percentiles = static_cast<Properties*>(mcplugin->getPropertyValueHandle("Percentiles"));
+    ASSERT_TRUE(percentiles != NULL);
+    Property<double>* percentile = static_cast<Property<double>*>(percentiles->getFirst());
+    ASSERT_TRUE(percentile != NULL);
+    EXPECT_EQ(percentile->getName(), "k1_25_percentile");
+    EXPECT_NEAR(percentile->getValue(), 1.0, 0.17);
 
+    percentile = static_cast<Property<double>*>(percentiles->getNext());
+    ASSERT_TRUE(percentile != NULL);
+    EXPECT_EQ(percentile->getName(), "k1_75_percentile");
+    EXPECT_NEAR(percentile->getValue(), 1.03, 0.17);
+
+    percentile = static_cast<Property<double>*>(percentiles->getNext());
+    ASSERT_TRUE(percentile != NULL);
+    EXPECT_EQ(percentile->getName(), "k1_02.5_percentile");
+    EXPECT_NEAR(percentile->getValue(), 0.875, 0.18);
+
+    percentile = static_cast<Property<double>*>(percentiles->getNext());
+    ASSERT_TRUE(percentile != NULL);
+    EXPECT_EQ(percentile->getName(), "k1_97.5_percentile");
+    EXPECT_NEAR(percentile->getValue(), 1.09, 0.18);
+
+    percentile = static_cast<Property<double>*>(percentiles->getNext());
+    ASSERT_TRUE(percentile != NULL);
+    EXPECT_EQ(percentile->getName(), "k1_01_percentile");
+    EXPECT_NEAR(percentile->getValue(), 0.875, 0.18);
+
+    percentile = static_cast<Property<double>*>(percentiles->getNext());
+    ASSERT_TRUE(percentile != NULL);
+    EXPECT_EQ(percentile->getName(), "k1_99_percentile");
+    EXPECT_NEAR(percentile->getValue(), 1.09, 0.18);
+
+    EXPECT_TRUE(percentiles->getNext() == NULL);
 }
 
 TEST(RRPLUGIN_TEST_MODEL, CHECK_SEED)
@@ -157,7 +231,7 @@ TEST(RRPLUGIN_TEST_MODEL, CHECK_SEED)
     ipl.add(&k1val);
     //tlp::Property tpcre();
     mcplugin->setPropertyValue("InputParameterList", &ipl);
-    mcplugin->setPropertyByString("NrOfMCRuns", "5");
+    mcplugin->setPropertyByString("NrOfMCRuns", "40");
     mcplugin->setPropertyByString("FittedDataSelectionList", "[S1] [S2]");
     mcplugin->setPropertyByString("ExperimentalDataSelectionList", "[S1] [S2]");
 
@@ -168,25 +242,27 @@ TEST(RRPLUGIN_TEST_MODEL, CHECK_SEED)
     ASSERT_TRUE(params != NULL);
     TelluriumData copy(*params);
 
-    Properties* conf_limits = static_cast<Properties*>(mcplugin->getPropertyValueHandle("ConfidenceLimits"));
-    ASSERT_TRUE(conf_limits != NULL);
-    Property<double>* cl = static_cast<Property<double>*>(conf_limits->getFirst());
+    Properties* conf_intervals = static_cast<Properties*>(mcplugin->getPropertyValueHandle("ConfidenceIntervals"));
+    ASSERT_TRUE(conf_intervals != NULL);
+    Property<double>* cl = static_cast<Property<double>*>(conf_intervals->getFirst());
+    ASSERT_TRUE(cl != NULL);
     double cl_one = cl->getValue();
 
     mcplugin->execute();
     params = static_cast<TelluriumData*>(mcplugin->getPropertyValueHandle("MonteCarloParameters"));
     ASSERT_TRUE(params != NULL);
 
-    EXPECT_EQ(params->rSize(), 5);
+    EXPECT_EQ(params->rSize(), 40);
     EXPECT_EQ(params->cSize(), 1);
     for (int r = 0; r < params->rSize(); r++)
     {
         EXPECT_EQ(params->getDataElement(r, 0), copy.getDataElement(r, 0));
     }
 
-    conf_limits = static_cast<Properties*>(mcplugin->getPropertyValueHandle("ConfidenceLimits"));
-    ASSERT_TRUE(conf_limits != NULL);
-    cl = static_cast<Property<double>*>(conf_limits->getFirst());
+    conf_intervals = static_cast<Properties*>(mcplugin->getPropertyValueHandle("ConfidenceIntervals"));
+    ASSERT_TRUE(conf_intervals != NULL);
+    cl = static_cast<Property<double>*>(conf_intervals->getFirst());
+    ASSERT_TRUE(cl != NULL);
 
     EXPECT_EQ(cl_one, cl->getValue());
 }
