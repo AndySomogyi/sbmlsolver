@@ -370,14 +370,34 @@ target_link_libraries(
         ${LLVM_LIBRARIES}
         rr-libstruct::rr-libstruct-static
         ${SBML_TARGET_NAME}
-#These libraries libraries seem to be already linked in a different way.
+        #These libraries libraries seem to be already linked in a different way.
         #libz2
         #LibXml2::LibXml2
         zlib::zlibstatic
         nleq2::nleq2-static
         nleq1::nleq1-static
         clapack::lapack clapack::blas clapack::f2c
-        sundials::sundials_cvode_static sundials::sundials_nvecserial_static
+
+        #sundials::sundials_cvode_static sundials::sundials_nvecserial_static
+        SUNDIALS::generic_static
+        SUNDIALS::nvecserial_static
+        SUNDIALS::nvecmanyvector_static
+        SUNDIALS::sunmatrixband_static
+        SUNDIALS::sunmatrixdense_static
+        SUNDIALS::sunmatrixsparse_static
+        SUNDIALS::sunlinsolband_static
+        SUNDIALS::sunlinsoldense_static
+        SUNDIALS::sunlinsolpcg_static
+        SUNDIALS::sunlinsolspbcgs_static
+        SUNDIALS::sunlinsolspfgmr_static
+        SUNDIALS::sunlinsolspgmr_static
+        SUNDIALS::sunlinsolsptfqmr_static
+        SUNDIALS::sunnonlinsolnewton_static
+        SUNDIALS::sunnonlinsolfixedpoint_static
+        SUNDIALS::cvode_static
+        SUNDIALS::cvodes_static
+        SUNDIALS::kinsol_static
+
         PocoFoundation::PocoFoundation
         PocoNet::PocoNet
         iconv::libcharset iconv::libiconv-static
@@ -386,7 +406,7 @@ target_link_libraries(
 
 add_library(${target} SHARED ${rrSources} ${rrHeaders})
 target_compile_definitions(${target} PRIVATE EXPORT_RR)
-target_link_libraries(${target} PUBLIC $<TARGET_PROPERTY:${target}-static,LINK_LIBRARIES> )
+target_link_libraries(${target} PUBLIC $<TARGET_PROPERTY:${target}-static,LINK_LIBRARIES>)
 target_include_directories(${target} PUBLIC $<TARGET_PROPERTY:${target}-static,INCLUDE_DIRECTORIES>)
 
 
@@ -434,13 +454,13 @@ install(
 
 
 #Libxml we can't build right now
-if(${BORLAND})
-    target_link_libraries (${target}-static libxml2_xe)
-endif()
+if (${BORLAND})
+    target_link_libraries(${target}-static libxml2_xe)
+endif ()
 
 
-if(BUILD_TEST_TOOLS)
-    if(BUILD_LLVM)
+if (BUILD_TEST_TOOLS)
+    if (BUILD_LLVM)
         add_subdirectory(llvm_testing)
-    endif(BUILD_LLVM)
-endif()
+    endif (BUILD_LLVM)
+endif ()

@@ -150,12 +150,15 @@ bool TestSuiteModelSimulation::CreateErrorData()
     }
 
     mErrorData.allocate(mResultData.rSize(), mResultData.cSize());
+
     mLargestError = 0;
     for(int row = 0; row < mResultData.rSize(); row++)
     {
         for(int col = 0; col < mResultData.cSize(); col++)
         {
-            double error = fabsl(mResultData(row, col) - mReferenceData(row,col));
+            const double& actual = mResultData(row, col);
+            const double& expected = mReferenceData(row,col);
+            double error = fabsl(actual - expected);
             mErrorData(row, col) = error;
 
 			double absTol = mAbsolute;

@@ -151,7 +151,9 @@ static std::vector<std::string> rr_getReactionIds(RoadRunner* r);
 RRHandle rrcCallConv createRRInstance()
 {
     start_try
-        string rrInstallFolder(getParentFolder(getRRCAPILocation()));
+        char* capiLocation = getRRCAPILocation(); // return type is dynamically allocated.
+        string rrInstallFolder(getParentFolder(capiLocation));
+        free(capiLocation);
         return new RoadRunner("", getTempDir(), joinPath(rrInstallFolder, "rr_support"));
     catch_ptr_macro
 }

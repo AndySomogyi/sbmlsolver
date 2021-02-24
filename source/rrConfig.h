@@ -19,8 +19,8 @@ namespace rr
 /**
  * read or store default values.
  *
- * Many of RoadRunner classes use a number of configration parameters. Most of these can be set
- * using the Config class. The values stored in the Config class only determine the defaut values of
+ * Many of RoadRunner classes use a number of configuration parameters. Most of these can be set
+ * using the Config class. The values stored in the Config class only determine the default values of
  * parameters.
  *
  * The Config class will look in the following locations for the config file, and will load the

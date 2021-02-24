@@ -405,6 +405,11 @@ int CXXEnzymeExecutableModel::getNumRateRules()
     return 0;
 }
 
+std::vector<std::string> CXXEnzymeExecutableModel::getRateRuleSymbols() const {
+    return std::vector<std::string>();
+}
+
+
 int CXXEnzymeExecutableModel::getNumReactions()
 {
     return numReactions;
