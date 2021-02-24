@@ -283,9 +283,9 @@ namespace rr
         // cvode components
         void* mCVODE_Memory;
         N_Vector mStateVector;
-        SUNMatrix jac_ = nullptr;
-        SUNNonlinearSolver nonLinSolver_ = nullptr;
-        SUNLinearSolver  linSolver_ = nullptr;
+        SUNMatrix jac = nullptr;
+        SUNNonlinearSolver nonLinSolver = nullptr;
+        SUNLinearSolver  linSolver = nullptr;
 
         IntegratorListenerPtr listener;
         double lastEventTime;
