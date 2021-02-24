@@ -133,7 +133,7 @@ TEST(RRPLUGIN_TEST_MODEL, OPTIMIZE_NEW_MODEL)
 <sbml xmlns=\"http://www.sbml.org/sbml/level3/version2\" level=\"3\" version=\"2\">\n\
   <model metaid=\"_case00001\" id=\"case00001\" name=\"case00001\">\n\
     <listOfCompartments>\n\
-      <compartment id=\"compartment\" name=\"compartment\" size=\"1\" units=\"volume\"/>\n\
+      <compartment id=\"compartment\" name=\"compartment\" size=\"1\" units=\"volume\"constant=\"true\"/>\n\
     </listOfCompartments>\n\
     <listOfSpecies>\n\
       <species id=\"S1\" name=\"S1\" compartment=\"compartment\" initialAmount=\"0.00015\"  hasOnlySubstanceUnits=\"false\" boundaryCondition=\"false\" constant=\"false\"/>\n\
@@ -141,16 +141,16 @@ TEST(RRPLUGIN_TEST_MODEL, OPTIMIZE_NEW_MODEL)
       <species id=\"S3\" name=\"S3\" compartment=\"compartment\" initialAmount=\"0\" hasOnlySubstanceUnits=\"false\" boundaryCondition=\"false\" constant=\"false\"/>\n\
     </listOfSpecies>\n\
     <listOfParameters>\n\
-      <parameter id=\"k1\" name=\"k1\" value=\"1\"/>\n\
-      <parameter id=\"k2\" name=\"k1\" value=\"0.5\"/>\n\
+      <parameter id=\"k1\" name=\"k1\" value=\"1\" constant=\"true\"/>\n\
+      <parameter id=\"k2\" name=\"k1\" value=\"0.5\" constant=\"true\"/>\n\
     </listOfParameters>\n\
     <listOfReactions>\n\
       <reaction id=\"reaction1\" name=\"reaction1\" reversible=\"false\" fast=\"false\">\n\
         <listOfReactants>\n\
-          <speciesReference species=\"S1\"/>\n\
+          <speciesReference species=\"S1\" constant=\"true\"/>\n\
         </listOfReactants>\n\
         <listOfProducts>\n\
-          <speciesReference species=\"S2\"/>\n\
+          <speciesReference species=\"S2\" constant=\"true\"/>\n\
         </listOfProducts>\n\
         <kineticLaw>\n\
           <math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n\
