@@ -130,10 +130,10 @@ TEST(RRPLUGIN_TEST_MODEL, OPTIMIZE_NEW_MODEL)
     ASSERT_TRUE(nmplugin != NULL);
 
     string  newModel = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n\
-<sbml xmlns=\"http://www.sbml.org/sbml/level3/version2\" level=\"3\" version=\"2\">\n\
+<sbml xmlns=\"http://www.sbml.org/sbml/level3/version2/core\" level=\"3\" version=\"2\">\n\
   <model metaid=\"_case00001\" id=\"case00001\" name=\"case00001\">\n\
     <listOfCompartments>\n\
-      <compartment id=\"compartment\" name=\"compartment\" size=\"1\" units=\"volume\"constant=\"true\"/>\n\
+      <compartment id=\"compartment\" name=\"compartment\" size=\"1\" constant=\"true\"/>\n\
     </listOfCompartments>\n\
     <listOfSpecies>\n\
       <species id=\"S1\" name=\"S1\" compartment=\"compartment\" initialAmount=\"0.00015\"  hasOnlySubstanceUnits=\"false\" boundaryCondition=\"false\" constant=\"false\"/>\n\
@@ -145,7 +145,7 @@ TEST(RRPLUGIN_TEST_MODEL, OPTIMIZE_NEW_MODEL)
       <parameter id=\"k2\" name=\"k1\" value=\"0.5\" constant=\"true\"/>\n\
     </listOfParameters>\n\
     <listOfReactions>\n\
-      <reaction id=\"reaction1\" name=\"reaction1\" reversible=\"false\" fast=\"false\">\n\
+      <reaction id=\"reaction1\" name=\"reaction1\" reversible=\"false\">\n\
         <listOfReactants>\n\
           <speciesReference species=\"S1\" constant=\"true\"/>\n\
         </listOfReactants>\n\
