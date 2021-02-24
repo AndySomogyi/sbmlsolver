@@ -284,7 +284,8 @@ namespace rr
         void* mCVODE_Memory;
         N_Vector mStateVector;
         SUNMatrix jac_ = nullptr;
-        SUNNonlinearSolver solver_ = nullptr;
+        SUNNonlinearSolver nonLinSolver_ = nullptr;
+        SUNLinearSolver  linSolver_ = nullptr;
 
         IntegratorListenerPtr listener;
         double lastEventTime;
@@ -295,7 +296,7 @@ namespace rr
 
         void testRootsAtInitialTime();
         bool haveVariables() const;
-        void assignResultsToModel();
+        void assignResultsToModel() const;
         /**
          * @author WBC, ETS, JKM
          * @brief Propagates changes in the "absolute_tolerance" and

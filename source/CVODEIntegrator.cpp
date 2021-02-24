@@ -13,6 +13,8 @@
 #include <cvode/cvode.h>                          /* prototypes for CVODE fcts., consts.          */
 #include <nvector/nvector_serial.h>               /* access to serial N_Vector                    */
 #include <sunnonlinsol/sunnonlinsol_fixedpoint.h> /* access to the fixed point SUNNonlinearSolver */
+#include <sunnonlinsol/sunnonlinsol_newton.h> /* access to the fixed point SUNNonlinearSolver */
+#include <sunlinsol/sunlinsol_dense.h>
 
 #include <cstring>
 #include <iomanip>
@@ -967,25 +969,52 @@ namespace rr {
         }
 
         /**
-         * @note the cvDirectDemo.c example from sundials is useful here
-         *
-         * When using stiff solver, we create a nonLinearSolver using the
-         * FixedPoint strategy and backwards
-         *
-         * Also, the newton method didn't work with the tests, but I'm
-         * guessing that with a bit of effort we can figure out whats wrong.
-         * nonlinearSolver_ = SUNNonlinSol_Newton(mStateVector);
+         * note the cvDirectDemo.c example from sundials is useful
+         * to see the different cvode options in action
          */
 
         /* create fixed point nonlinear solver object */
-        solver_ = SUNNonlinSol_FixedPoint(mStateVector, 0);
+        if (getValueAsBool("stiff")) {
+            // as per the cvode docs (look closely at docs for CVodeCreate)
+            // we use the default Newton iteration for stiff
 
-        if (solver_ == nullptr) {
-            throw std::runtime_error("CVODEIntegrator::createCVODE: nonLinearSolver_ is nullptr\n");
-        }
+            nonLinSolver_ = SUNNonlinSol_Newton(mStateVector);
 
-        if ((err = CVodeSetNonlinearSolver(mCVODE_Memory, solver_)) != CV_SUCCESS) {
-            handleCVODEError(err);
+            if (nonLinSolver_ == nullptr) {
+                throw std::runtime_error("CVODEIntegrator::createCVODE: nonLinearSolver_ is nullptr\n");
+            }
+
+            if ((err = CVodeSetNonlinearSolver(mCVODE_Memory, nonLinSolver_)) != CV_SUCCESS) {
+                handleCVODEError(err);
+            }
+
+            // the newton method requires use of a linear solver, which we set up here.
+            jac_ = SUNDenseMatrix(allocStateVectorSize, allocStateVectorSize);
+            linSolver_ = SUNLinSol_Dense(mStateVector, jac_);
+            if (linSolver_ == nullptr) {
+                throw std::runtime_error("CVODEIntegrator::createCVODE: call to SunLinSol_Dense returned nullptr. "
+                                         "The size of the sundials matrix (created with SUNDenseMatrix) used for the jacobian "
+                                         "(" + std::to_string(allocStateVectorSize) + "x" +
+                                         std::to_string(allocStateVectorSize)
+                                         + ") is inappropriate for this model\n");
+            }
+            if ((err = CVodeSetLinearSolver(mCVODE_Memory, linSolver_, jac_)) != CV_SUCCESS) {
+                handleCVODEError(err);
+            };
+
+            // Use a difference quotient Jacobian by not passing Jac to CVodeSetJacFn
+            // the alternative is to fill the jacobian matrix and pass that to CVodeSetJacFn.
+            //  this has not been tried, but certainly worth experimenting with.
+            if ((err = CVodeSetJacFn(mCVODE_Memory, nullptr)) != CV_SUCCESS) {
+                handleCVODEError(err);
+            }
+        } else {
+            // and fixed point solver (which used to be called functional iteration)
+            // for nonstiff problems
+            nonLinSolver_ = SUNNonlinSol_FixedPoint(mStateVector, 0);
+            if ((err = CVodeSetNonlinearSolver(mCVODE_Memory, nonLinSolver_)) != CV_SUCCESS) {
+                handleCVODEError(err);
+            }
         }
 
         setCVODETolerances();
@@ -995,13 +1024,13 @@ namespace rr {
     void CVODEIntegrator::testRootsAtInitialTime() {
         vector<unsigned char> initialEventStatus(mModel->getEventTriggers(0, 0, 0), false);
         mModel->getEventTriggers(initialEventStatus.size(), 0,
-                                 initialEventStatus.size() == 0 ? NULL : &initialEventStatus[0]);
+                                 initialEventStatus.empty() ? nullptr : &initialEventStatus[0]);
         applyEvents(0, initialEventStatus);
     }
 
     void CVODEIntegrator::applyEvents(double timeEnd, vector<unsigned char> &previousEventStatus) {
-        double *stateVector = mStateVector ? NV_DATA_S(mStateVector) : 0;
-        mModel->applyEvents(timeEnd, previousEventStatus.size() == 0 ? NULL : &previousEventStatus[0], stateVector,
+        double *stateVector = mStateVector ? NV_DATA_S(mStateVector) : nullptr;
+        mModel->applyEvents(timeEnd, previousEventStatus.empty() ? nullptr : &previousEventStatus[0], stateVector,
                             stateVector);
 
         if (timeEnd > 0.0) {
@@ -1030,14 +1059,14 @@ namespace rr {
         }
     }
 
-    void CVODEIntegrator::assignResultsToModel() {
+    void CVODEIntegrator::assignResultsToModel() const {
         if (mStateVector) {
             mModel->setStateVector(NV_DATA_S(mStateVector));
         }
     }
 
     void CVODEIntegrator::setCVODETolerances() {
-        if (mStateVector == 0 || mModel == 0) {
+        if (mStateVector == nullptr || mModel == nullptr) {
             return;
         }
 
@@ -1196,13 +1225,18 @@ namespace rr {
             CVodeFree(&mCVODE_Memory);
         }
 
-        if (solver_) {
-            SUNNonlinSolFree(solver_);
+        if (nonLinSolver_) {
+            SUNNonlinSolFree(nonLinSolver_);
+        }
+
+        if (linSolver_) {
+            SUNLinSolFree(linSolver_);
         }
 
         mCVODE_Memory = nullptr;
         mStateVector = nullptr;
-        solver_ = nullptr;
+        nonLinSolver_ = nullptr;
+        linSolver_ = nullptr;
     }
 
     double CVODEIntegrator::applyVariableStepPendingEvents() {
@@ -1390,7 +1424,7 @@ namespace rr {
     }
 
     SUNNonlinearSolver CVODEIntegrator::getSolver() const {
-        return solver_;
+        return nonLinSolver_;
     }
 
     /**

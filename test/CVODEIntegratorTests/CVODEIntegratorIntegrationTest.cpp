@@ -36,7 +36,7 @@ TEST_P(CVODEIntegratorIntegrationTests, CheckModelSimulates) {
     SBMLTestModel *testModel = SBMLTestModelFactory(GetParam());
     // load model
     RoadRunner r(testModel->str());
-    r.getIntegrator()->setValue("stiff", true);
+    r.getIntegrator()->setValue("stiff", false);
 
     // do a simulation
     SimulateOptions options;
@@ -88,12 +88,12 @@ TEST_P(CVODEIntegratorIntegrationTests, CheckModelSimulates) {
 INSTANTIATE_TEST_SUITE_P(
         CheckModelSimulates, CVODEIntegratorIntegrationTests,
         ::testing::Values(
-//                "SimpleFlux",
-//                "Feedback",
-//                "Model269",
-                "Model28"
-//                "CeilInRateLaw",
-//                "FactorialInRateLaw"
+                "SimpleFlux",
+                "Feedback",
+                "Model269",
+                "Model28",
+                "CeilInRateLaw",
+                "FactorialInRateLaw"
         )
 );
 
