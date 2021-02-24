@@ -3,9 +3,9 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
   <title>rrLogger &mdash; libRoadRunner 1.1.16 documentation</title>
   
@@ -20,7 +20,10 @@
 
   
   
+
   
+  
+
   
 
   
@@ -55,7 +58,7 @@
           
 
           
-            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> libRoadRunner
+            <a href="../index.html" class="icon icon-home"> libRoadRunner
           
 
           
@@ -88,8 +91,8 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../index.html">RoadRunner Documentation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Installation/installation.html">Installing RoadRunner</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/tutorial.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../read_write_functions.html">SBML Read/Write Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../selecting_values.html">Selecting Values</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../steady_state.html">Steady State Analysis</a></li>
@@ -98,10 +101,11 @@
 <li class="toctree-l1"><a class="reference internal" href="../stability.html">Stability Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../stoichiometric.html">Stoichiometric Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../bifurcation.html">Bifurcation Analysis</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../integration.html">Simulation and Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../simulation_and_integration.html">Simulation and Integration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utility_functions.html">Utility Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../accessing_model.html">Accessing the SBML Model Variables</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../api_reference.html">RoadRunner API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rrplugins/rrplugins_documentation.html">rrPlugins Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../PythonAPIReference/api_reference.html">Python RoadRunner API Reference</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">The LibRoadRunner C++ Library</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="llvm/index.html">LLVM Docs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="CVODEIntegrator.html">CVODEIntegrator</a></li>
@@ -146,7 +150,6 @@
 <li class="toctree-l2"><a class="reference internal" href="index.html#a-complete-example-of-creating-an-integrator">A complete example of creating an integrator</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../CAPIReference/index.html">The LibRoadRunner C Library</a></li>
 </ul>
 
             
@@ -187,6 +190,8 @@
 
 
 
+
+
 <div role="navigation" aria-label="breadcrumbs navigation">
 
   <ul class="wy-breadcrumbs">
@@ -200,7 +205,7 @@
     
       <li class="wy-breadcrumbs-aside">
         
-            
+          
             <a href="../_sources/C++APIReference/rrLogger.rst.txt" rel="nofollow"> View page source</a>
           
         
@@ -289,7 +294,7 @@
 <p class="breathe-sectiondef-title rubric">Public Static Functions</p>
 <dl class="cpp function">
 <dt id="_CPPv4N2rr6Logger8setLevelEi">
-<span id="_CPPv3N2rr6Logger8setLevelEi"></span><span id="_CPPv2N2rr6Logger8setLevelEi"></span><span id="rr::Logger::setLevel__i"></span><span class="target" id="classrr_1_1Logger_1a932fba9c85c6a5eb806851e06b02e957"></span>void <code class="sig-name descname">setLevel</code><span class="sig-paren">(</span>int <em>level</em> = LOG_CURRENT<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr6Logger8setLevelEi" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3N2rr6Logger8setLevelEi"></span><span id="_CPPv2N2rr6Logger8setLevelEi"></span><span id="rr::Logger::setLevel__i"></span><span class="target" id="classrr_1_1Logger_1a932fba9c85c6a5eb806851e06b02e957"></span>void <code class="sig-name descname">setLevel</code><span class="sig-paren">(</span>int <em>level</em> = <a class="reference internal" href="#_CPPv4N2rr6Logger5Level11LOG_CURRENTE" title="rr::Logger::LOG_CURRENT">LOG_CURRENT</a><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr6Logger8setLevelEi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>sets the logging level to one a value from <a class="reference internal" href="#classrr_1_1Logger_1a72a52e7fe7be48e2ecad639c641ee8aa"><span class="std std-ref">Logger::Level</span></a> </p>
 </dd></dl>
 
@@ -313,13 +318,13 @@
 
 <dl class="cpp function">
 <dt id="_CPPv4N2rr6Logger20enableConsoleLoggingEi">
-<span id="_CPPv3N2rr6Logger20enableConsoleLoggingEi"></span><span id="_CPPv2N2rr6Logger20enableConsoleLoggingEi"></span><span id="rr::Logger::enableConsoleLogging__i"></span><span class="target" id="classrr_1_1Logger_1a859a9358480196476351e5e2a3466b71"></span>void <code class="sig-name descname">enableConsoleLogging</code><span class="sig-paren">(</span>int <em>level</em> = LOG_CURRENT<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr6Logger20enableConsoleLoggingEi" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3N2rr6Logger20enableConsoleLoggingEi"></span><span id="_CPPv2N2rr6Logger20enableConsoleLoggingEi"></span><span id="rr::Logger::enableConsoleLogging__i"></span><span class="target" id="classrr_1_1Logger_1a859a9358480196476351e5e2a3466b71"></span>void <code class="sig-name descname">enableConsoleLogging</code><span class="sig-paren">(</span>int <em>level</em> = <a class="reference internal" href="#_CPPv4N2rr6Logger5Level11LOG_CURRENTE" title="rr::Logger::LOG_CURRENT">LOG_CURRENT</a><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr6Logger20enableConsoleLoggingEi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>turns on console logging at the given level. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt id="_CPPv4N2rr6Logger17enableFileLoggingERKNSt6stringEi">
-<span id="_CPPv3N2rr6Logger17enableFileLoggingERKNSt6stringEi"></span><span id="_CPPv2N2rr6Logger17enableFileLoggingERKNSt6stringEi"></span><span id="rr::Logger::enableFileLogging__ssCR.i"></span><span class="target" id="classrr_1_1Logger_1a2353c535f4e74dead4f0f1267556a906"></span>void <code class="sig-name descname">enableFileLogging</code><span class="sig-paren">(</span><em class="property">const</em> std::string &amp;<em>fileName</em> = &quot;&quot;, int <em>level</em> = LOG_CURRENT<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr6Logger17enableFileLoggingERKNSt6stringEi" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3N2rr6Logger17enableFileLoggingERKNSt6stringEi"></span><span id="_CPPv2N2rr6Logger17enableFileLoggingERKNSt6stringEi"></span><span id="rr::Logger::enableFileLogging__ssCR.i"></span><span class="target" id="classrr_1_1Logger_1a2353c535f4e74dead4f0f1267556a906"></span>void <code class="sig-name descname">enableFileLogging</code><span class="sig-paren">(</span><em class="property">const</em> std::string &amp;<em>fileName</em> = &quot;&quot;, int <em>level</em> = <a class="reference internal" href="#_CPPv4N2rr6Logger5Level11LOG_CURRENTE" title="rr::Logger::LOG_CURRENT">LOG_CURRENT</a><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr6Logger17enableFileLoggingERKNSt6stringEi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>turns on file logging to the given file as the given level. </p>
 <p>If fileName is an empty string, then this will use the file specified in the <a class="reference internal" href="rrConfig.html#classrr_1_1Config_1aed7c550b9e34222675cd152c9154d053aebebe893536932bb96d066c77d56ea1f"><span class="std std-ref">Config::LOGGER_LOG_FILE_PATH</span></a>. If this is empty, a file called “roadrunner.log” will be created in the temp directory.</p>
 <p>The temp directory may be specified via <a class="reference internal" href="rrConfig.html#classrr_1_1Config_1aed7c550b9e34222675cd152c9154d053aeed2c355140f97162b0a894e6c3c7710"><span class="std std-ref">Config::TEMP_DIR_PATH</span></a>. If this is empty, then the system spefified temp dir is used. </p>
@@ -459,37 +464,29 @@
            
           </div>
           <footer>
-  
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="rrNLEQ1Interface.html" class="btn btn-neutral float-right" title="rrNLEQ1Interface" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="rrIniSection.html" class="btn btn-neutral float-left" title="rrIniSection" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+        <a href="rrNLEQ1Interface.html" class="btn btn-neutral float-right" title="rrNLEQ1Interface" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="rrIniSection.html" class="btn btn-neutral float-left" title="rrIniSection" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        
-        &copy; Copyright 2013-2018, Andy Somogyi, J Kyle Medley, Kiri Choi, Herbert Suaro
+        &#169; Copyright 2013-2018, Andy Somogyi, J Kyle Medley, Kiri Choi, Herbert Suaro.
 
     </p>
   </div>
     
     
     
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
     
     provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 

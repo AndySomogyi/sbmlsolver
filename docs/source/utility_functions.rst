@@ -46,7 +46,5 @@ when the module is loaded from ``getVersionStr``::
    1.4.3; Compiler: Microsoft Visual Studio 2013; Date: Dec 18 2013, 22:59:30
 
 
-.. autosummary::
-
-   RoadRunner.getInfo
+See :cpp:func:`rr::RoadRunner::getInfo`
 

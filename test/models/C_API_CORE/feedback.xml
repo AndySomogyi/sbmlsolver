@@ -9,7 +9,7 @@
           <jd2:TimeCourseDetails timeStart="0" timeEnd="25" numberOfPoints="200"/>
         </jd2:header>
         <jd2:JDGraphicsHeader BackGroundColor="FFFFFFEF"/>
-        <jd2:listOfCompartments>
+        <jd2:lisatOfCompartments>
           <jd2:compartment id="compartment" size="1" visible="false">
             <jd2:boundingBox x="0" y="0" w="0" h="0"/>
             <jd2:membraneStyle thickness="12" color="FF00A5FF"/>
@@ -19,7 +19,7 @@
               <jd2:font fontName="Arial" fontSize="8" fontColor="FF000000"/>
             </jd2:text>
           </jd2:compartment>
-        </jd2:listOfCompartments>
+        </jd2:lisatOfCompartments>
         <jd2:listOfSpecies>
           <jd2:species id="S1" boundaryCondition="false" compartment="compartment" initialConcentration="0">
             <jd2:positionLocked value="false"/>

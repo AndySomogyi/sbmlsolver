@@ -1,0 +1,580 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+  <compounddef id="group__utility" kind="group">
+    <compoundname>utility</compoundname>
+    <title>Utility functions</title>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__utility_1gaff2a26066f24b54f39c68beeb5338c3c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC char *rrcCallConv</type>
+        <definition>C_DECL_SPEC char* rrcCallConv getAPIVersion</definition>
+        <argsstring>(void)</argsstring>
+        <name>getAPIVersion</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+<para>Retrieve the current version number of the C wrappers library. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Returns null if it fails, otherwise it returns the version number of the C wrappers library </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="100" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="100" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="group__utility_1ga090ca781c38ddbb220cfad882b172f53" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC char *rrcCallConv</type>
+        <definition>C_DECL_SPEC char* rrcCallConv getCPPAPIVersion</definition>
+        <argsstring>(RRHandle handle)</argsstring>
+        <name>getCPPAPIVersion</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve the current version number of the C++ wrappers (Core RoadRunner wrappers) library. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>RoadRunner instance handle </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns null if it fails, otherwise it returns the version number of the C++ wrappers library </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="108" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="108" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="group__utility_1ga61250a85fdc6cc67f331bc4030bfeeed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC char *rrcCallConv</type>
+        <definition>C_DECL_SPEC char* rrcCallConv getExtendedAPIInfo</definition>
+        <argsstring>()</argsstring>
+        <name>getExtendedAPIInfo</name>
+        <briefdescription>
+<para>Retrieve extended wrappers info. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Returns null if it fails, otherwise it returns a string with the info </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="138" column="31" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="138" declcolumn="31"/>
+      </memberdef>
+      <memberdef kind="function" id="group__utility_1gacf6956b3e7546fce03a36d3e52301358" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC char *rrcCallConv</type>
+        <definition>C_DECL_SPEC char* rrcCallConv getBuildDate</definition>
+        <argsstring>(void)</argsstring>
+        <name>getBuildDate</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+<para>Retrieve the current build date of the library. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Returns null if it fails, otherwise it returns the build date </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="145" column="31" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="145" declcolumn="31"/>
+      </memberdef>
+      <memberdef kind="function" id="group__utility_1ga27b6009b7b7f8de5445787ad839a0246" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC char *rrcCallConv</type>
+        <definition>C_DECL_SPEC char* rrcCallConv getBuildTime</definition>
+        <argsstring>(void)</argsstring>
+        <name>getBuildTime</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+<para>Retrieve the current build time (HH:MM:SS) of the library. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Returns null if it fails, otherwise it returns the build time </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="152" column="31" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="152" declcolumn="31"/>
+      </memberdef>
+      <memberdef kind="function" id="group__utility_1ga372decc8acef5346f330148594844f68" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC char *rrcCallConv</type>
+        <definition>C_DECL_SPEC char* rrcCallConv getBuildDateTime</definition>
+        <argsstring>(void)</argsstring>
+        <name>getBuildDateTime</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+<para>Retrieve the current build date + time of the library. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Returns null if it fails, otherwise it returns the build date + time </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="159" column="31" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="159" declcolumn="31"/>
+      </memberdef>
+      <memberdef kind="function" id="group__utility_1ga67a7b431f66978753a8837718fd0112f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC char *rrcCallConv</type>
+        <definition>C_DECL_SPEC char* rrcCallConv getCopyright</definition>
+        <argsstring>(void)</argsstring>
+        <name>getCopyright</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+<para>Retrieve the current copyright notice for the library. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Returns null if it fails, otherwise it returns the copyright string </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="166" column="31" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="166" declcolumn="31"/>
+      </memberdef>
+      <memberdef kind="function" id="group__utility_1ga84805d87e0b75fcaff3b7ad3d1179002" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC char *rrcCallConv</type>
+        <definition>C_DECL_SPEC char* rrcCallConv getInfo</definition>
+        <argsstring>(RRHandle handle)</argsstring>
+        <name>getInfo</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve info about current state of roadrunner, e.g. loaded model, conservationAnalysis etc. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns null if it fails, otherwise it returns a string with the info </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="174" column="31" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="174" declcolumn="31"/>
+      </memberdef>
+      <memberdef kind="function" id="group__utility_1ga2235582889c86de1bcef3c2a83631183" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC char *rrcCallConv</type>
+        <definition>C_DECL_SPEC char* rrcCallConv getlibSBMLVersion</definition>
+        <argsstring>(RRHandle handle)</argsstring>
+        <name>getlibSBMLVersion</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve the current version number of the libSBML library. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns null if it fails, otherwise it returns the version number of the library </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="182" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="182" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="group__utility_1ga40e0e9b3f96c37bad8b0313eddf6caed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC bool rrcCallConv</type>
+        <definition>C_DECL_SPEC bool rrcCallConv setTempFolder</definition>
+        <argsstring>(RRHandle handle, const char *folder)</argsstring>
+        <name>setTempFolder</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>folder</declname>
+        </param>
+        <briefdescription>
+<para>Set the path to the temporary folder where the C code will be stored. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When RoadRunner is run in C generation mode its uses a temporary folder to store the generated C source code. This method can be used to set the temporary folder path if necessary. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">folder</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to string holding folder path</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns true if successful </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="195" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="195" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="group__utility_1ga2aa2fbec7d08c77d38e62df4c48e428e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC char *rrcCallConv</type>
+        <definition>C_DECL_SPEC char* rrcCallConv getTempFolder</definition>
+        <argsstring>(RRHandle handle)</argsstring>
+        <name>getTempFolder</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve the current temporary folder path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When RoadRunner is run in C generation mode its uses a temporary folder to store the generate C source code. This method can be used to get the current value for the temporary folder path. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns null if it fails, otherwise it returns the path </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="207" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="207" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="group__utility_1gad7dc449357c2b600b81c9e2990ad38dc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC char *rrcCallConv</type>
+        <definition>C_DECL_SPEC char* rrcCallConv getWorkingDirectory</definition>
+        <argsstring>(void)</argsstring>
+        <name>getWorkingDirectory</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+<para>Retrieve the current working directory path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Returns null if it fails, otherwise it returns the path </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="215" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="215" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="group__utility_1ga128bafde3b10f0ce64ca3c6b06b14cde" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC char *rrcCallConv</type>
+        <definition>C_DECL_SPEC char* rrcCallConv getRRCAPILocation</definition>
+        <argsstring>(void)</argsstring>
+        <name>getRRCAPILocation</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+<para>Retrieve the directory path of the shared rrCApi library. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Returns null if it fails, otherwise it returns the path </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="223" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="223" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="group__utility_1ga452d753989b5142b29528ae5865224ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC bool rrcCallConv</type>
+        <definition>C_DECL_SPEC bool rrcCallConv setCompiler</definition>
+        <argsstring>(RRHandle handle, const char *fNameWithPath)</argsstring>
+        <name>setCompiler</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>fNameWithPath</declname>
+        </param>
+        <briefdescription>
+<para>Set the path and filename to the compiler to be used by roadrunner. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fNameWithPath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to string holding the fileName and path to a compiler </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns true if successful </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="233" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="233" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="group__utility_1gae7a9642fcd8b299d57007bb45238fc82" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC char *rrcCallConv</type>
+        <definition>C_DECL_SPEC char* rrcCallConv getCompiler</definition>
+        <argsstring>(RRHandle handle)</argsstring>
+        <name>getCompiler</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+<para>Get the name of the compiler currently being used by roadrunner. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="239" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="239" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="group__utility_1gab910a88973c4f823b1f576c7767cc0d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC bool rrcCallConv</type>
+        <definition>C_DECL_SPEC bool rrcCallConv setCompilerLocation</definition>
+        <argsstring>(RRHandle handle, const char *folder)</argsstring>
+        <name>setCompilerLocation</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>folder</declname>
+        </param>
+        <briefdescription>
+<para>Set the path to a folder containing the compiler to be used. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">folder</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to string holding the path to a compiler </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns true if successful </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="249" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="249" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="group__utility_1ga254939fcaf8c8ae7caaea2471fedc8b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC char *rrcCallConv</type>
+        <definition>C_DECL_SPEC char* rrcCallConv getCompilerLocation</definition>
+        <argsstring>(RRHandle handle)</argsstring>
+        <name>getCompilerLocation</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+<para>Get the path to a folder containing the compiler being used. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns the path if successful, NULL otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="259" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="259" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="group__utility_1ga0d8069e1538d2c41f243e3b6d56abf41" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC bool rrcCallConv</type>
+        <definition>C_DECL_SPEC bool rrcCallConv setSupportCodeFolder</definition>
+        <argsstring>(RRHandle handle, const char *folder)</argsstring>
+        <name>setSupportCodeFolder</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>folder</declname>
+        </param>
+        <briefdescription>
+<para>Set the path to a folder containing support code for model generation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">folder</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to string holding the path to the support code folder </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns true if successful </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="268" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="268" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="group__utility_1gad6fb8cb063c5cd3cae8cbdffc8a5f477" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC char *rrcCallConv</type>
+        <definition>C_DECL_SPEC char* rrcCallConv getSupportCodeFolder</definition>
+        <argsstring>(RRHandle handle)</argsstring>
+        <name>getSupportCodeFolder</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+<para>Get the path to a folder containing support code. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns the path if successful, NULL otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="278" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="278" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="group__utility_1ga92ba42b5fab8b387744eedd03df10b60" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC bool rrcCallConv</type>
+        <definition>C_DECL_SPEC bool rrcCallConv setCodeGenerationMode</definition>
+        <argsstring>(RRHandle handle, int mode)</argsstring>
+        <name>setCodeGenerationMode</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>mode</declname>
+        </param>
+        <briefdescription>
+<para>Set the runtime generation option [Not yet implemented]. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>RoadRunner can either execute a model by generating, compiling and linking self-generated C code or it can employ an internal interpreter to evaluate the model equations. The later method is useful when the OS forbids the compiling of externally generated code.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>is set to 0 RoadRunner generates C Code, if set to 1 RoadRunner uses its internal math interpreter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns false if it fails, </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="293" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="293" declcolumn="30"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Various miscellaneous routines that return useful information about the library. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

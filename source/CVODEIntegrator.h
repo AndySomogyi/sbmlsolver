@@ -21,6 +21,8 @@
 
 #include <string>
 #include <vector>
+#include <sundials/sundials_linearsolver.h>
+#include <sundials/sundials_nonlinearsolver.h>
 
 // == CODE ====================================================
 
@@ -52,31 +54,32 @@ namespace rr
          * @author WBC, ETS, MTK
          * @brief Constructor: takes an executable model, does not own the pointer
          */
-        CVODEIntegrator(ExecutableModel* oModel);
+        explicit CVODEIntegrator(ExecutableModel* oModel);
 
         /**
          * @author WBC, ETS, MTK
          * @brief Destructor
          */
-        virtual ~CVODEIntegrator();
+        ~CVODEIntegrator() override;
+
 
         /**
         * @author JKM
         * @brief Called whenever a new model is loaded to allow integrator
         * to reset internal state
         */
-        virtual void syncWithModel(ExecutableModel* m);
+        void syncWithModel(ExecutableModel* m) override;
 
         // ** Loading Settings *************************************************
 
-        void loadConfigSettings();
+        void loadConfigSettings() override;
 
         /**
          * @author WBC
          * @brief Load an SBML settings file and apply the configuration options
          * @note Can assign relative and absolute tolerances
          */
-        void loadSBMLSettings(const std::string& filename);
+        void loadSBMLSettings(const std::string& filename) override;
 
         // ** Meta Info ********************************************************
 
@@ -85,7 +88,7 @@ namespace rr
          * @brief Get the name for this integrator
          * @note Delegates to @ref getName
          */
-        std::string getName() const;
+        std::string getName() const override;
 
         /**
          * @author JKM
@@ -98,7 +101,7 @@ namespace rr
          * @brief Get the description for this integrator
          * @note Delegates to @ref getDescription
          */
-        std::string getDescription() const;
+        std::string getDescription() const override;
 
         /**
          * @author JKM
@@ -111,7 +114,7 @@ namespace rr
          * @brief Get the hint for this integrator
          * @note Delegates to @ref getHint
          */
-        std::string getHint() const;
+        std::string getHint() const override;
 
         /**
          * @author JKM
@@ -125,20 +128,20 @@ namespace rr
          * @author WBC, ETS, MTK
          * @brief Always deterministic for CVODE
          */
-        IntegrationMethod getIntegrationMethod() const;
+        IntegrationMethod getIntegrationMethod() const override;
 
         /**
          * @author WBC, ETS, MTK
          * @brief Sets the value of an integrator setting (e.g. absolute_tolerance)
          */
-        void setValue(std::string setting, const Variant& value);
+        void setValue(std::string setting, const Variant& value) override;
 
 
 		/**
 		 * @author FY
 		 * @brief Sets tolerance for individual species
 		 */
-		void setIndividualTolerance(string sid, double value);
+		void setIndividualTolerance(string sid, double value) override;
 
 		/**
 		 * @author FY
@@ -147,19 +150,19 @@ namespace rr
 		 * by multiplying the compartment volume of species. Whichever is smaller
 		 * will be stored as absolute_tolerance and used in the integration process.
 		 */
-		void setConcentrationTolerance(const Variant& value);
+		void setConcentrationTolerance(const Variant& value) override;
 
 		/**
 		 * @author FY
 		 * @brief Gets tolerance based on concentration of species
 		 */
-		std::vector<double> getConcentrationTolerance();
+		std::vector<double> getConcentrationTolerance() override;
 
         /**
         * @author JKM
         * @brief Reset all integrator settings to their respective default values
         */
-        void resetSettings();
+        void resetSettings() override;
 
 
         /**
@@ -170,7 +173,7 @@ namespace rr
          * Sets minimum absolute and relative tolerances to
          * Config::CVODE_MIN_ABSOLUTE and Config::CVODE_MIN_RELATIVE resp.
          */
-        void tweakTolerances();
+        void tweakTolerances() override;
 
 
         // ** Integration Routines *********************************************
@@ -179,7 +182,7 @@ namespace rr
          * @author WBC, ETS, MTK
          * @brief Main integration routine
          */
-        double integrate(double t0, double tf);
+        double integrate(double t0, double tf) override;
 
         /**
          * @author WBC, ETS, MTK
@@ -187,7 +190,7 @@ namespace rr
          * @details Applies events which occur before time zero.
          * Reinitializes CVODE and the executable model.
          */
-        void restart(double timeStart);
+        void restart(double timeStart) override;
 
         // ** Listeners ********************************************************
 
@@ -195,13 +198,13 @@ namespace rr
          * @author WBC, ETS
          * @brief Gets the integrator listener
          */
-        IntegratorListenerPtr getListener();
+        IntegratorListenerPtr getListener() override;
 
         /**
          * @author WBC, ETS
          * @brief Sets the integrator listener
          */
-        void setListener(IntegratorListenerPtr);
+        void setListener(IntegratorListenerPtr) override;
 
         /**
          * @author JKM
@@ -239,14 +242,50 @@ namespace rr
          */
         std::string cvodeDecodeError(int cvodeError, bool exInfo = true);
 
-    private:
+
+        /**
+         * @brief getter for the internal state vector
+         * @author CW
+         * @note This method was created to
+         * enable external access (mostly for tests)
+         * to the Sundials N_Vector object. This method
+         * should not be exposed at the Python level.
+         */
+        N_Vector getStateVector() const;
+
+        /**
+         * @brief getter for the internal Sundials linear solver object
+         * @author CW
+         * @note This method was created to
+         * enable external access (mostly for tests)
+         * to the Sundials SUNLinearSolver object. This method
+         * should not be exposed at the Python level.
+         */
+        SUNNonlinearSolver getSolver() const;
+
+        /**
+         * @brief getter for the internal CVode memory buffer
+         * @author CW
+         * @note This method was created to
+         * enable external access (mostly for tests)
+         * to the Sundials memory buffer object. This method
+         * should not be exposed at the Python level.
+         */
+        void *getCvodeMemory() const;
+
+    public:
         static const int mDefaultMaxNumSteps;
         static const int mDefaultMaxAdamsOrder;
         static const int mDefaultMaxBDFOrder;
 
+        ExecutableModel* mModel;
+
+        // cvode components
         void* mCVODE_Memory;
         N_Vector mStateVector;
-        ExecutableModel* mModel;
+        SUNMatrix jac = nullptr;
+        SUNNonlinearSolver nonLinSolver = nullptr;
+        SUNLinearSolver  linSolver = nullptr;
 
         IntegratorListenerPtr listener;
         double lastEventTime;
@@ -256,14 +295,18 @@ namespace rr
         std::vector<unsigned char> eventStatus;
 
         void testRootsAtInitialTime();
-        bool haveVariables();
-        void assignResultsToModel();
+        bool haveVariables() const;
+        void assignResultsToModel() const;
         /**
          * @author WBC, ETS, JKM
          * @brief Propagates changes in the "absolute_tolerance" and
          * "relative_tolerance" settings to the CVODE library.
          */
         void setCVODETolerances();
+
+        /**
+         * @brief Reinitialize sundials objects
+         */
         void reInit(double t0);
 
         /**
@@ -277,19 +320,27 @@ namespace rr
          * *  relative_tolerance (via @ref setCVODETolerances) \n
          */
         void updateCVODE();
+
         void applyPendingEvents(double timeEnd);
+
         void applyEvents(double timeEnd, std::vector<unsigned char> &previousEventStatus);
+
         double applyVariableStepPendingEvents();
 
         void createCVode();
+
         void freeCVode();
+
         bool stateVectorVariables;
 
+        unsigned long typecode_;
 
         friend int cvodeDyDtFcn(double t, N_Vector cv_y, N_Vector cv_ydot, void *f_data);
+
         friend int cvodeRootFcn(double t, N_Vector y, double *gout, void *g_data);
 
-        unsigned long typecode_;
+
+
     };
 
 
@@ -302,7 +353,7 @@ namespace rr
             * @author JKM
             * @brief Gets the name associated with this integrator type
             */
-            virtual std::string getName() const {
+            std::string getName() const override {
                 return CVODEIntegrator::getCVODEIntegratorName();
             }
 
@@ -310,7 +361,7 @@ namespace rr
             * @author JKM
             * @brief Gets the description associated with this integrator type
             */
-            virtual std::string getDescription() const {
+            std::string getDescription() const override {
                 return CVODEIntegrator::getCVODEIntegratorDescription();
             }
 
@@ -318,7 +369,7 @@ namespace rr
             * @author JKM
             * @brief Gets the hint associated with this integrator type
             */
-            virtual std::string getHint() const {
+            std::string getHint() const override {
                 return CVODEIntegrator::getCVODEIntegratorHint();
             }
 
@@ -326,7 +377,7 @@ namespace rr
             * @author JKM
             * @brief Constructs a new integrator of a given type
             */
-            virtual Integrator* construct(ExecutableModel *model) const {
+            Integrator* construct(ExecutableModel *model) const override {
                 return new CVODEIntegrator(model);
             }
     };

@@ -153,6 +153,9 @@
         <childnode refid="2" relation="public-inheritance">
         </childnode>
       </node>
+      <node id="5">
+        <label>SBMLVisitor</label>
+      </node>
       <node id="7">
         <label>rrllvm::SymbolForest</label>
         <link refid="classrrllvm_1_1SymbolForest"/>
@@ -163,9 +166,6 @@
           <edgelabel>globalParameters</edgelabel>
           <edgelabel>speciesReferences</edgelabel>
         </childnode>
-      </node>
-      <node id="5">
-        <label>libsbml::SBMLVisitor</label>
       </node>
       <node id="8">
         <label>map&lt; string, const libsbml::ASTNode * &gt;</label>

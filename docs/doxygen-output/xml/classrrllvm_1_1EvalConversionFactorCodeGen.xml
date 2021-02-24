@@ -122,6 +122,9 @@
         <label>rrllvm::LLVMModelDataSymbols</label>
         <link refid="classrrllvm_1_1LLVMModelDataSymbols"/>
       </node>
+      <node id="4">
+        <label>SBMLVisitor</label>
+      </node>
       <node id="1">
         <label>rrllvm::EvalConversionFactorCodeGen</label>
         <link refid="classrrllvm_1_1EvalConversionFactorCodeGen"/>
@@ -138,9 +141,6 @@
           <edgelabel>globalParameters</edgelabel>
           <edgelabel>speciesReferences</edgelabel>
         </childnode>
-      </node>
-      <node id="4">
-        <label>libsbml::SBMLVisitor</label>
       </node>
       <node id="7">
         <label>map&lt; string, const libsbml::ASTNode * &gt;</label>

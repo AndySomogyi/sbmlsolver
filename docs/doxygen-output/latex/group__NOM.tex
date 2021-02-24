@@ -1,0 +1,58 @@
+\hypertarget{group__NOM}{}\doxysection{Network object model (N\+OM) functions}
+\label{group__NOM}\index{Network object model (NOM) functions@{Network object model (NOM) functions}}
+
+
+Network object model functions.  
+
+
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC int rrc\+Call\+Conv \mbox{\hyperlink{group__NOM_ga97df6daacbf87b1b2d3b4dd3f4e05876}{get\+Number\+Of\+Rules}} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\begin{DoxyCompactList}\small\item\em Returns the number of rules in the current model. \end{DoxyCompactList}\item 
+C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC char $\ast$rrc\+Call\+Conv \mbox{\hyperlink{group__NOM_gadd064802065aece47c2e966f9fff5958}{get\+Model\+Name}} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+\begin{DoxyCompactList}\small\item\em Returns the name of currently loaded S\+B\+ML model. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Network object model functions. 
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{group__NOM_gadd064802065aece47c2e966f9fff5958}\label{group__NOM_gadd064802065aece47c2e966f9fff5958}} 
+\index{Network object model (NOM) functions@{Network object model (NOM) functions}!getModelName@{getModelName}}
+\index{getModelName@{getModelName}!Network object model (NOM) functions@{Network object model (NOM) functions}}
+\doxysubsubsection{\texorpdfstring{getModelName()}{getModelName()}}
+{\footnotesize\ttfamily C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC char$\ast$ rrc\+Call\+Conv get\+Model\+Name (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}}}]{handle }\end{DoxyParamCaption})}
+
+
+
+Returns the name of currently loaded S\+B\+ML model. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em handle} & Handle to a Road\+Runner instance \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns a char$\ast$ containing the name if successful, N\+U\+LL otherwise 
+\end{DoxyReturn}
+\mbox{\Hypertarget{group__NOM_ga97df6daacbf87b1b2d3b4dd3f4e05876}\label{group__NOM_ga97df6daacbf87b1b2d3b4dd3f4e05876}} 
+\index{Network object model (NOM) functions@{Network object model (NOM) functions}!getNumberOfRules@{getNumberOfRules}}
+\index{getNumberOfRules@{getNumberOfRules}!Network object model (NOM) functions@{Network object model (NOM) functions}}
+\doxysubsubsection{\texorpdfstring{getNumberOfRules()}{getNumberOfRules()}}
+{\footnotesize\ttfamily C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC int rrc\+Call\+Conv get\+Number\+Of\+Rules (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}}}]{handle }\end{DoxyParamCaption})}
+
+
+
+Returns the number of rules in the current model. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em handle} & Handle to a Road\+Runner instance \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns an integer larger or equal to 0 if successful, or -\/1 on failure 
+\end{DoxyReturn}

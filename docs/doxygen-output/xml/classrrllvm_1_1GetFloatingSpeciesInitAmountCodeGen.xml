@@ -134,6 +134,9 @@
         <label>rrllvm::LLVMModelDataSymbols</label>
         <link refid="classrrllvm_1_1LLVMModelDataSymbols"/>
       </node>
+      <node id="5">
+        <label>SBMLVisitor</label>
+      </node>
       <node id="1">
         <label>rrllvm::GetFloatingSpeciesInitAmountCodeGen</label>
         <link refid="classrrllvm_1_1GetFloatingSpeciesInitAmountCodeGen"/>
@@ -163,9 +166,6 @@
           <edgelabel>globalParameters</edgelabel>
           <edgelabel>speciesReferences</edgelabel>
         </childnode>
-      </node>
-      <node id="5">
-        <label>libsbml::SBMLVisitor</label>
       </node>
       <node id="8">
         <label>map&lt; string, const libsbml::ASTNode * &gt;</label>

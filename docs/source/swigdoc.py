@@ -40,7 +40,7 @@ def listRoadRunnerModFiles():
 
     dname = path.dirname(path.abspath(__file__))
 
-    moddir = path.join("mod_roadrunner")
+    moddir = path.join("ApiReferenceManual")
 
     glb = path.join(moddir, "*.rst")
 
