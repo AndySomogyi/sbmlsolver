@@ -4,15 +4,15 @@
 #
 # Author: Totte Karlsson (totte@dunescientific.com)
 #-------------------------------------------------------------------------------
-from rrplugins import *
+import rrplugins
 
 sbmlModel ="bistable.xml"                              
-auto = Plugin("tel_auto2000")              
+auto = rrplugins.Plugin("tel_auto2000")              
 
 #print auto.listOfPropertyNames()
 
 #Setup Auto Properties
-auto.setProperty("SBML", readAllText(sbmlModel))
+auto.setProperty("SBML", rrplugins.readAllText(sbmlModel))
 
 #Auto specific properties
 auto.setProperty("ScanDirection", "Negative")    

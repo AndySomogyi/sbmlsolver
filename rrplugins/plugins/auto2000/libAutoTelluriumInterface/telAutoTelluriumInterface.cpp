@@ -11,14 +11,15 @@
 #include "rrplugins/core/tel_api.h"
 #include "../../../wrappers/C/rrc_types.h"
 
+extern rrc::THostInterface* gHostInterface;
+
 namespace telauto
 {
 using namespace tlp;
 using namespace autolib;
 
 //Statics
-rrc::RRHandle AutoTellurimInterface::mRR = NULL;		
-rrc::THostInterface* gHostInterface = NULL;
+rrc::RRHandle AutoTellurimInterface::mRR = NULL;
 
 Properties*     AutoTellurimInterface::mProperties              = NULL;
 AutoConstants   AutoTellurimInterface::mAutoConstants;

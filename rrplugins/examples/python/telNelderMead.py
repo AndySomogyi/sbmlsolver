@@ -40,26 +40,17 @@ try:
     
     print('Minimization finished. \n==== Result ====')
 
-    print('Hessian Matrix')
-    print(nm.getProperty("Hessian").toNumPy())
-    
-    print('Covariance  Matrix')
-    print(nm.getProperty("CovarianceMatrix").toNumPy())
-             
     print('ChiSquare = '           , nm.getProperty("ChiSquare"))
     print('Reduced ChiSquare = '   , nm.getProperty("ReducedChiSquare"))
         
     #This is a list of parameters
     parameters = rrplugins.tpc.getPluginProperty (nm.plugin, "OutputParameterList")
-    confLimits = rrplugins.tpc.getPluginProperty (nm.plugin, "ConfidenceLimits")    
     
     #Iterate trough list of parameters and confidence limits
     para  = rrplugins.getFirstProperty(parameters)
-    limit = rrplugins.getFirstProperty(confLimits)     
-    while para and limit:           
-        print(rrplugins.getPropertyName(para), ' = ', rrplugins.getPropertyValue(para), ' +/- ', rrplugins.getPropertyValue(limit))
+    while para:
+        print(rrplugins.getPropertyName(para), ' = ', rrplugins.getPropertyValue(para))
         para  = rrplugins.getNextProperty(parameters)
-        limit = rrplugins.getNextProperty(confLimits)                        
                                  
     
     # Get the fitted and residual data

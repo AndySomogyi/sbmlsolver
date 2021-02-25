@@ -11,7 +11,7 @@ using namespace std;
 using namespace tlp;
 using namespace telauto;
 
-rrc::THostInterface* gHostInterface;
+rrc::THostInterface* gHostInterface = NULL;
 
 AutoPlugin::AutoPlugin()
 :

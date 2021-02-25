@@ -71,6 +71,7 @@ add_subdirectory(CVODEIntegratorTests)
 
 
 set(PLUGIN_TESTDIRS
+        plugin_auto2000
         plugin_levenberg_marquardt
         plugin_monte_carlo_bs
         plugin_nelder_mead
@@ -117,7 +118,7 @@ foreach (dirid IN LISTS PLUGIN_TESTDIRS)
     set_tests_properties(${testid}_run PROPERTIES ENVIRONMENT "${TEST_ENV_VARS}")
 
 
-    add_dependencies(${testid} tel_test_model tel_levenberg_marquardt tel_nelder_mead tel_monte_carlo_bs)
+    add_dependencies(${testid} tel_auto2000 tel_test_model tel_levenberg_marquardt tel_nelder_mead tel_monte_carlo_bs)
 
 endforeach ()
 

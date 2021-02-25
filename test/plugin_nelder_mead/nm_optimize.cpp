@@ -147,10 +147,10 @@ TEST(RRPLUGIN_TEST_MODEL, OPTIMIZE_NEW_MODEL)
     <listOfReactions>\n\
       <reaction id=\"reaction1\" name=\"reaction1\" reversible=\"false\">\n\
         <listOfReactants>\n\
-          <speciesReference species=\"S1\" constant=\"true\"/>\n\
+          <speciesReference species=\"S1\" stoichiometry=\"1\" constant=\"true\"/>\n\
         </listOfReactants>\n\
         <listOfProducts>\n\
-          <speciesReference species=\"S2\" constant=\"true\"/>\n\
+          <speciesReference species=\"S2\" stoichiometry=\"1\" constant=\"true\"/>\n\
         </listOfProducts>\n\
         <kineticLaw>\n\
           <math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n\

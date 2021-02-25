@@ -5,7 +5,7 @@
 
 namespace hello
 {
-    rrc::THostInterface* gHostInterface;
+    rrc::THostInterface* gHostInterface = NULL;
 
     Hello::Hello():CPPPlugin("Hello","General Plugin")//Construct Base
     {}

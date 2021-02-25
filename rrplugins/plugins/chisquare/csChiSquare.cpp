@@ -11,7 +11,7 @@
 namespace cs_ChiSquare {
     using namespace std;
     using tlp::StringList;
-    rrc::THostInterface* gHostInterface;
+    rrc::THostInterface* gHostInterface = NULL;
 
 
     ChiSquare::ChiSquare() :
