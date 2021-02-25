@@ -9,7 +9,7 @@ import rrplugins as tel
 
 noisePlugin = tel.Plugin("tel_add_noise")
 
-r = te.loadSBMLModel(te.getTestModel("test_1.xml"))
+r = te.loadSBMLModel(te.getTestModel("Test_1.xml"))
 d = r.simulate()
 test_data = tel.getDataSeries(d)
         

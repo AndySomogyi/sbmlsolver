@@ -113,11 +113,6 @@ c_int_p    = POINTER(c_int)
 NotifyEvent  = CFUNCTYPE(None, c_void_p, c_void_p)
 NotifyEventEx  = CFUNCTYPE(None, c_void_p, c_void_p)
 
-rrpLib.tpFreeText.restype = c_bool
-rrpLib.tpFreeText.argtypes = [c_void_p]
-def freeText(text):
-    rrpLib.tpFreeText(text)
-
 ## \brief Get Tellurium Plugins copyright.
 ## \return Returns a string if successful, None otherwise
 ## \ingroup utilities
@@ -125,7 +120,6 @@ rrpLib.tpGetCopyright.restype = c_char_p
 def getCopyright():
     data =  rrpLib.tpGetCopyright()
     res = data
-    freeText(data)
     return decodeIfBytes(res)
 
 ## \brief Get Tellurium plugin API version.
@@ -135,7 +129,6 @@ rrpLib.tpGetVersion.restype = c_char_p
 def getVersion():
     data =  rrpLib.tpGetVersion()
     res = data
-    freeText(data)
     return decodeIfBytes(res)
 
 ## \brief Create a new instance of a plugin manager.
@@ -267,7 +260,6 @@ rrpLib.tpGetPluginNames.argtypes = [c_void_p]
 def getPluginNames(pm):
     names = rrpLib.tpGetPluginNames(pm)
     res = decodeIfBytes(ctypes.cast(names, ctypes.c_char_p).value)
-    freeText(names)
     if not res:
         return list()
     return res.split(",")
@@ -374,7 +366,6 @@ rrpLib.tpGetPluginCategory.argtypes = [c_void_p]
 def getPluginCategory(pluginHandle):
     data =  rrpLib.tpGetPluginCategory(pluginHandle)
     res = decodeIfBytes(ctypes.cast(data, ctypes.c_char_p).value)
-    freeText(data)
     return res
 
 ## \brief Get the author of a Plugin. This is assigned by the pluging developer
@@ -386,7 +377,6 @@ rrpLib.tpGetPluginAuthor.argtypes = [c_void_p]
 def getPluginAuthor(pluginHandle):
     data =  rrpLib.tpGetPluginAuthor(pluginHandle)
     res = decodeIfBytes(ctypes.cast(data, ctypes.c_char_p).value)
-    freeText(data)
     return res
 
 ## \brief Get the plugin copyright.
@@ -398,7 +388,6 @@ rrpLib.tpGetPluginCopyright.argtypes = [c_void_p]
 def getPluginCopyright(pluginHandle):
     data =  rrpLib.tpGetPluginCopyright(pluginHandle)
     res = decodeIfBytes(ctypes.cast(data, ctypes.c_char_p).value)
-    freeText(data)
     return res
 
 ## \brief Get the plugin version.
@@ -410,7 +399,6 @@ rrpLib.tpGetPluginVersion.argtypes = [c_void_p]
 def getPluginVersion(pluginHandle):
     ptr = rrpLib.tpGetPluginVersion(pluginHandle)
     res = decodeIfBytes(ctypes.cast(ptr, ctypes.c_char_p).value)
-    freeText(ptr)
     return res
 
 ## \brief Get the Description of a Plugin. This is assigned by the pluging developer
@@ -428,7 +416,6 @@ rrpLib.tpGetPluginDescription.argtypes = [c_void_p]
 def getPluginDescription(pluginHandle):
     data =  rrpLib.tpGetPluginDescription(pluginHandle)
     res = decodeIfBytes(ctypes.cast(data, ctypes.c_char_p).value)
-    freeText(data)
     return res
 
 ## \brief Get a plugins Hint. A plugins hint is a short description on what the plugin is doing.This is assigned by the pluging developer
@@ -446,7 +433,6 @@ rrpLib.tpGetPluginHint.argtypes = [c_void_p]
 def getPluginHint(pluginHandle):
     data =  rrpLib.tpGetPluginHint(pluginHandle)
     res = decodeIfBytes(ctypes.cast(data, ctypes.c_char_p).value)
-    freeText(data)
     return res
 
 ## \brief Returns information about a Plugin.
@@ -458,7 +444,6 @@ rrpLib.tpGetPluginInfo.argtypes = [c_void_p]
 def getPluginInfo(pluginHandle):
     data =  rrpLib.tpGetPluginInfo(pluginHandle)
     res = decodeIfBytes(ctypes.cast(data, ctypes.c_char_p).value)
-    freeText(data)
     return res
 
 ## \brief Get Plugin manual as PDF. A plugin may embedd a help manual as a PDF.
@@ -838,7 +823,6 @@ def getPropertyDescription(propertyHandle):
         return None
 
     val = decodeIfBytes(ctypes.cast(descr, ctypes.c_char_p).value)
-    freeText(descr)
     return val
 
 ## \brief Set the hint property of a Property
@@ -1404,7 +1388,6 @@ def getTelluriumDataColumnHeader(telDataHandle):
 
     if hdr:
         res = decodeIfBytes(ctypes.cast(hdr, ctypes.c_char_p).value)
-        freeText(hdr)
         return res.split(',')
     else:
         return None

@@ -195,7 +195,7 @@ class DataSeries:
         return self._data
 
     @property
-    def __getNumberOfRows (self):
+    def rows (self):
         """Use x.rows to get the number of rows"""
         return tpc.getTelluriumDataNumRows(self._data)
     # Use x.toNumpy to get NumPy array
@@ -205,7 +205,7 @@ class DataSeries:
         return tpc.getNumpyData (self._data)
 
     @property
-    def __getNumberOfColumns (self):
+    def cols (self):
         """Use x.cols to get the number of columns"""
         return tpc.getTelluriumDataNumCols(self._data)
 
@@ -272,7 +272,7 @@ class DataSeries:
         if col >= colCount:
             raise Exception("Column index out of bounds in dataseries element access")
 
-        if not tpc.rrpLib.tpHasWeights(self._data):
+        if not tpc.hasWeights(self._data):
             raise Exception("This data object do not have any weights allocated. Allocate weights first before using.")
 
         val = ctypes.c_double()
@@ -298,7 +298,7 @@ class DataSeries:
         if col >= colCount:
             raise Exception("Column index out of bounds in dataseries element access")
 
-        if not tpc.rrpLib.tpHasWeights(self._data):
+        if not tpc.hasWeights(self._data):
             raise Exception("This data object do not have any weights allocated. Allocate weights first before using.")
 
         tpc.setTelluriumDataWeight(self._data, row, col, value)
@@ -318,7 +318,7 @@ class DataSeries:
         """
         if not os.path.isfile (fileName):
             raise Exception ("File not found: " + fileName)
-        data = tpc.createTelluriumDataFromFile (fileName)
+        data = tpc.createTelluriumDataFromFile(ctypes.c_char_p(fileName.encode('utf-8')))
         return cls (data, True)
 
     def writeDataSeries(self, fileName):

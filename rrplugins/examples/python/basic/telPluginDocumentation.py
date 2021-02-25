@@ -6,28 +6,24 @@
 # Author: Totte Karlsson
 #-------------------------------------------------------------------------------
 
-from rrplugins import *
+import rrplugins
 
-try:
-    pluginName = "auto2000"
-    plugin = Plugin('tel_' + pluginName)
+pluginName = "auto2000"
+plugin = rrplugins.Plugin('tel_' + pluginName)
 
-    #Get some general info about the plugin
-    props = plugin.listOfProperties()
+#Get some general info about the plugin
+props = plugin.listOfProperties()
 
-    propNr = 1
-    for aProperty in props:
-        print('Property ', propNr, '  ', aProperty)
-        propNr += 1
+propNr = 1
+for aProperty in props:
+    print('Property ', propNr, '  ', aProperty)
+    propNr += 1
 
-    descriptions = plugin.listOfPropertyDescriptions()
+descriptions = plugin.listOfPropertyDescriptions()
 
-    descrpNr = 1
-    for aDescr in descriptions:
-        print('Description ', descrpNr, '  ', aDescr)
-        descrpNr += 1
+descrpNr = 1
+for aDescr in descriptions:
+    print('Description ', descrpNr, '  ', aDescr)
+    descrpNr += 1
 
-    plugin.viewManual()
-
-except Exception as e:
-    print('Problem: ', e)
+plugin.viewManual()
