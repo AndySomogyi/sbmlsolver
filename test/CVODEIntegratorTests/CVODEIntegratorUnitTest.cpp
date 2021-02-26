@@ -135,51 +135,6 @@ TEST_F(CVODEIntegratorTests, CheckConstructorInitSundialsObjectsWhenGT0StateVari
     ASSERT_NE(integrator.getSolver(), nullptr);
 }
 
-/**
- * Once an integrator is created, we need to be able to destroy it again
- */
-TEST_F(CVODEIntegratorTests, CheckThatWeCanDestroyIntegrator) {
-    EXPECT_CALL(mockExecutableModel, getStateVector(nullptr))
-            .WillRepeatedly(Return(3));
-    CVODEIntegrator integrator(&mockExecutableModel);
-    integrator.freeCVode();
-    ASSERT_EQ(integrator.getStateVector(), nullptr);
-    ASSERT_EQ(integrator.getCvodeMemory(), nullptr);
-    ASSERT_EQ(integrator.getSolver(), nullptr);
-}
-
-/**
- * Once an integrator is created and distroyed, we want to be able
- * to create it again.
- */
-TEST_F(CVODEIntegratorTests, CheckThatWeCanRecreateCvodeAfterDestroy) {
-    EXPECT_CALL(mockExecutableModel, getStateVector(nullptr))
-            .WillRepeatedly(Return(3));
-    CVODEIntegrator integrator(&mockExecutableModel);
-    integrator.freeCVode();
-    integrator.createCVode();
-    ASSERT_NE(integrator.getStateVector(), nullptr);
-    ASSERT_NE(integrator.getCvodeMemory(), nullptr);
-    ASSERT_NE(integrator.getSolver(), nullptr);
-}
-
-/**
- * Note: This set of unit tests isn't what I'd call "complete"
- * but combined with the main test suite its enough for now.
- */
-
-// other methods:
-//setConcentrationTolerance
-//updateCVODE
-//integrate
-//createCVode
-//loadConfigSettings
-//loadSBMLSettings
-//setValue
-//resetSettings
-//integrate
-//restart
-
 
 
 
