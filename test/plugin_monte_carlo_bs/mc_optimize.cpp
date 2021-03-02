@@ -165,7 +165,7 @@ TEST(RRPLUGIN_TEST_MODEL, OPTIMIZE_NELDER_MEAD)
     ASSERT_TRUE(conf_intervals != NULL);
     Property<double>* ci = static_cast<Property<double>*>(conf_intervals->getFirst());
     EXPECT_EQ(ci->getName(), "k1");
-    EXPECT_NEAR(ci->getValue(), 0.0625, 0.0625);
+    EXPECT_NEAR(ci->getValue(), 0.2, 0.2);
 
     Properties* percentiles = static_cast<Properties*>(mcplugin->getPropertyValueHandle("Percentiles"));
     ASSERT_TRUE(percentiles != NULL);

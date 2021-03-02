@@ -175,14 +175,16 @@ TEST(RRPLUGIN_TEST_MODEL, OPTIMIZE_HENRICH_WILBERT)
     lmplugin->execute();
     EXPECT_EQ(lmplugin->getPropertyValueAsString("StatusMessage").find("converged"), 0);
 
+#ifdef NDEBUG
+    //These routines return different values if in debug mode vs. release.
     PropertyBase* hessian_property = lmplugin->getProperty("Hessian");
     ASSERT_TRUE(hessian_property != NULL);
     TelluriumData* hessian = static_cast<TelluriumData*>(hessian_property->getValueHandle());
     EXPECT_EQ(hessian->rSize(), 4);
     EXPECT_EQ(hessian->cSize(), 4);
     //Spot checks
-    EXPECT_NEAR(hessian->getDataElement(0, 0), 6976.946, 0.01); //Determined empirically.
-    EXPECT_NEAR(hessian->getDataElement(3, 2), -1030.652, 0.01); //Determined empirically.
+    EXPECT_NEAR(hessian->getDataElement(0, 0), 432.75, 0.01); //Determined empirically.
+    EXPECT_NEAR(hessian->getDataElement(3, 2), -1023.15, 0.01); //Determined empirically.
 
     PropertyBase* cov_property = lmplugin->getProperty("CovarianceMatrix");
     ASSERT_TRUE(cov_property != NULL);
@@ -190,8 +192,8 @@ TEST(RRPLUGIN_TEST_MODEL, OPTIMIZE_HENRICH_WILBERT)
     EXPECT_EQ(covariance->rSize(), 4);
     EXPECT_EQ(covariance->cSize(), 4);
     //Spot checks
-    EXPECT_NEAR(covariance->getDataElement(0, 0), -0.00024339, 0.0000001); //Determined empirically.
-    EXPECT_NEAR(covariance->getDataElement(1, 3), -1.5432038e-05, 1e-8); //Determined empirically.
+    EXPECT_NEAR(covariance->getDataElement(0, 0), 0.09313539, 0.0000001); //Determined empirically.
+    EXPECT_NEAR(covariance->getDataElement(1, 3), 1.6250418-05, 1e-8); //Determined empirically.
 
     PropertyBase* chi_property = lmplugin->getProperty("ChiSquare");
     ASSERT_TRUE(chi_property != NULL);
@@ -240,25 +242,25 @@ TEST(RRPLUGIN_TEST_MODEL, OPTIMIZE_HENRICH_WILBERT)
     ASSERT_TRUE(conflimit != NULL);
     EXPECT_EQ(conflimit->getName(), "p0_confidence");
     double* conflimit_val = static_cast<double*>(conflimit->getValueHandle());
-    //EXPECT_NEAR(*conflimit_val, 0.03, 0.015);
+    EXPECT_NEAR(*conflimit_val, 0.124128, 0.0001);
 
     conflimit = conflimits->getNext();
     ASSERT_TRUE(conflimit != NULL);
     EXPECT_EQ(conflimit->getName(), "p1_confidence");
     conflimit_val = static_cast<double*>(conflimit->getValueHandle());
-    //EXPECT_NEAR(*conflimit_val, 0.03, 0.015);
+    EXPECT_NEAR(*conflimit_val, 0.000591761, 0.0001);
 
     conflimit = conflimits->getNext();
     ASSERT_TRUE(conflimit != NULL);
     EXPECT_EQ(conflimit->getName(), "p4_confidence");
     conflimit_val = static_cast<double*>(conflimit->getValueHandle());
-    //EXPECT_NEAR(*conflimit_val, 0.03, 0.015);
+    EXPECT_NEAR(*conflimit_val, 0.192354, 0.0001);
 
     conflimit = conflimits->getNext();
     ASSERT_TRUE(conflimit != NULL);
     EXPECT_EQ(conflimit->getName(), "p6_confidence");
     conflimit_val = static_cast<double*>(conflimit->getValueHandle());
-    //EXPECT_NEAR(*conflimit_val, 0.03, 0.015);
+    EXPECT_NEAR(*conflimit_val, 0.210358, 0.0001);
 
     EXPECT_TRUE(conflimits->getNext() == NULL);
 
@@ -281,15 +283,16 @@ TEST(RRPLUGIN_TEST_MODEL, OPTIMIZE_HENRICH_WILBERT)
         {
             double fitval = fit->getDataElement(r, c);
             double origval = exdata.getDataElement(r, c);
-            double tol = max(abs(origval / 10), 1.0);
+            double tol = max(abs(origval / 10), 0.0001);
             EXPECT_NEAR(fitval, origval, tol);
 
             if (c > 0) {
                 double residual = abs(residuals->getDataElement(r, c));
-                EXPECT_NEAR(abs(origval - fitval), residual, 0.1);
-                EXPECT_LT(residual, 1.0);
+                EXPECT_NEAR(abs(origval - fitval), residual, 0.00001);
+                EXPECT_LT(residual, 0.0001);
                 //cout << origval << ", " << fitval << ", " << residual << ", " << abs(origval - fitval) << endl;
             }
         }
     }
+#endif
 }
