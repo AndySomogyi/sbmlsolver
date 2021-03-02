@@ -212,7 +212,7 @@ TEST(RRPLUGIN_TEST_MODEL, OPTIMIZE_HENRICH_WILBERT)
     ASSERT_TRUE(outparam != NULL);
     EXPECT_EQ(outparam->getName(), "p0");
     double* outparam_val = static_cast<double*>(outparam->getValueHandle());
-    EXPECT_NEAR(*outparam_val, 6.9017, 0.0001);
+    EXPECT_NEAR(*outparam_val, 6.9019, 0.001);
 
     outparam = outparams->getNext();
     ASSERT_TRUE(outparam != NULL);
