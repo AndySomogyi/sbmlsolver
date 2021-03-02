@@ -36,17 +36,20 @@ namespace lmfit
             gHostInterface->setValue(myData->mTheHost->rrHandle, myData->parameterLabels[i], par[i]);
         }
 
-        gHostInterface->simulateExNoReturn(myData->mTheHost->rrHandle, myData->timeStart, myData->timeEnd, myData->nrOfTimePoints);
+        bool ret = gHostInterface->simulateExNoReturn(myData->mTheHost->rrHandle, myData->timeStart, myData->timeEnd, myData->nrOfTimePoints);
+        if (!ret)
+        {
+            setTerribleResiduals(fvec, myData->nrOfSpecies * myData->nrOfTimePoints, thePlugin);
+            return;
+        }
         DoubleMatrix* modelData = (DoubleMatrix*)gHostInterface->getSimulationResult(myData->mTheHost->rrHandle);
 
         if (!modelData)
         {
-            stringstream msg;
-            msg << "NULL data returned after RoadRunner simulation.";
-            RRPLOG(lError) << msg.str();
-            throw std::runtime_error("NULL data returned after RoadRunner simulation");
+            setTerribleResiduals(fvec, myData->nrOfSpecies * myData->nrOfTimePoints, thePlugin);
+            return;
         }
-        //calculate fvec for each specie
+        //calculate fvec for each species
         int count = 0;
         vector<double> residuals(myData->nrOfSpecies * myData->nrOfTimePoints);
         for (int i = 0; i < myData->nrOfSpecies; i++)
@@ -93,5 +96,23 @@ namespace lmfit
             pair<void*, void*> passTroughData = thePlugin->getWorkProgressData();
             thePlugin->WorkProgressEvent(passTroughData.first, passTroughData.second);
         }
+    }
+
+    void setTerribleResiduals(double* fvec, int len, LM* thePlugin)
+    {
+        for (int count = 0; count < len; count++)
+        {
+            fvec[count] = DBL_MAX;
+        }
+        thePlugin->mNrOfIter.setValue(thePlugin->mNrOfIter.getValue() + 1);
+        thePlugin->mNorm.setValue(DBL_MAX);
+        thePlugin->rNormsData(thePlugin->mNrOfIter.getValue() - 1, 0) = thePlugin->mNorm.getValue();
+        if (thePlugin->hasProgressEvent())
+        {
+            //Pass trough event data
+            pair<void*, void*> passTroughData = thePlugin->getWorkProgressData();
+            thePlugin->WorkProgressEvent(passTroughData.first, passTroughData.second);
+        }
+
     }
 }

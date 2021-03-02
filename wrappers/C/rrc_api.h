@@ -1799,7 +1799,7 @@ C_DECL_SPEC RRCDataPtr rrcCallConv simulate(RRHandle handle);
  responsible for freeing the resulting RRCDataPtr structure.
  \ingroup simulation
 */
-C_DECL_SPEC void rrcCallConv simulateNoReturn(RRHandle handle);
+C_DECL_SPEC bool rrcCallConv simulateNoReturn(RRHandle handle);
 
 /*!
  \brief Retrieve the result of the last simulation.
@@ -1872,7 +1872,7 @@ C_DECL_SPEC RRCDataPtr rrcCallConv simulateEx(RRHandle handle, const double time
  responsible for freeing the resulting RRCDataPtr structure.
  \ingroup simulation
 */
-C_DECL_SPEC void rrcCallConv simulateExNoReturn(RRHandle handle, const double timeStart, const double timeEnd, const int numberOfPoints);
+C_DECL_SPEC bool rrcCallConv simulateExNoReturn(RRHandle handle, const double timeStart, const double timeEnd, const int numberOfPoints);
 
 /*!
  \brief Carry out a one step integration of the model

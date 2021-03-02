@@ -242,7 +242,13 @@ namespace lmfit
 
         gHostInterface->reset(mTheHost.rrHandle);
 
-        gHostInterface->simulateExNoReturn(mTheHost.rrHandle, mLMData.timeStart, mLMData.timeEnd, mLMData.nrOfTimePoints);
+        bool ret = gHostInterface->simulateExNoReturn(mTheHost.rrHandle, mLMData.timeStart, mLMData.timeEnd, mLMData.nrOfTimePoints);
+        if (!ret)
+        {
+            string msg = "Roadrunner simulaton failed.";
+            RRPLOG(lError) << msg;
+            //throw std::runtime_error(msg.c_str());
+        }
         DoubleMatrix* modelData = (DoubleMatrix*)gHostInterface->getSimulationResultAsDoubleMatrix(mTheHost.rrHandle);
 
         TelluriumData& obsData = *(TelluriumData*)mTheHost.mExperimentalData.getValuePointer();
@@ -519,7 +525,13 @@ namespace lmfit
 
         gHostInterface->reset(mTheHost.rrHandle);
 
-        gHostInterface->simulateExNoReturn(mTheHost.rrHandle, mLMData.timeStart, mLMData.timeEnd, mLMData.nrOfTimePoints);
+        bool ret = gHostInterface->simulateExNoReturn(mTheHost.rrHandle, mLMData.timeStart, mLMData.timeEnd, mLMData.nrOfTimePoints);
+        if (!ret)
+        {
+            string msg = "Roadrunner simulaton failed.";
+            RRPLOG(lError) << msg;
+            //throw std::runtime_error(msg.c_str());
+        }
         data.setData(*(DoubleMatrix*)gHostInterface->getSimulationResultAsDoubleMatrix(mTheHost.rrHandle));
     }
 
@@ -535,11 +547,8 @@ namespace lmfit
         resData.setColumnNames(modData.getColumnNames());
 
         StringList& allspecies = mTheHost.mExperimentalDataSelectionList.getValueReference();
-        for (int sel = 0, selection = 0; sel < mLMData.nrOfSpecies + 1; sel++, selection++)//selection 1 becuase of time column..
+        for (int sel = 0; sel < mLMData.nrOfSpecies + 1; sel++)
         {
-
-            if (sel)while (!allspecies.contains("[S" + to_string(selection) + "]"))selection++;//wont work
-
             for (int i = 0; i < mLMData.nrOfTimePoints; i++)
             {
                 if (sel == 0)
@@ -550,13 +559,13 @@ namespace lmfit
                 {
                     //The modData may contain data for other species than that was fitted..
                     //We need to find out what coulmn correspond to what..
-                    string specie = obsData.getColumnName(selection);
+                    string specie = obsData.getColumnName(sel);
                     int colNr = modData.getColumnIndex(specie);
                     if (colNr != -1)
                     {
                         //printf("%d ", colNr);
-                        //printf("%d \n", selection);
-                        resData(i, sel) = obsData(i, selection) - modData(i, colNr);
+                        //printf("%d \n", sel);
+                        resData(i, sel) = obsData(i, sel) - modData(i, colNr);
                     }
                     else
                     {

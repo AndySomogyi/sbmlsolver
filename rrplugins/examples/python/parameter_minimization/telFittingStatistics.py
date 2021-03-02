@@ -8,85 +8,81 @@
 import roadrunner
 import numpy as np
 import matplotlib.pyplot as plt
-import teplugins as tel
+import rrplugins as tel
 from roadrunner import Config
-try:
-    Config.setValue(Config.LOADSBMLOPTIONS_CONSERVED_MOIETIES, False)    
-    Config.setValue(Config.SIMULATEOPTIONS_STRUCTURED_RESULT, True)
-    chiPlugin   = tel.Plugin("tel_chisquare")
 
-    #Retrieve a SBML model from plugin
-    modelPlugin= tel.Plugin("tel_test_model")
-    test_model = modelPlugin.Model
+Config.setValue(Config.LOADSBMLOPTIONS_CONSERVED_MOIETIES, False)    
+Config.setValue(Config.SIMULATEOPTIONS_STRUCTURED_RESULT, True)
+chiPlugin   = tel.Plugin("tel_chisquare")
 
-    # Create a roadrunner instance and create some data
-    rr = roadrunner.RoadRunner()
-    rr.load(test_model)
-    data = rr.simulate(0, 10, 15000)
+#Retrieve a SBML model from plugin
+modelPlugin= tel.Plugin("tel_test_model")
+test_model = modelPlugin.Model
 
-    #Add noise to the data
-    noisePlugin = tel.Plugin ("tel_add_noise")
+# Create a roadrunner instance and create some data
+rr = roadrunner.RoadRunner()
+rr.load(test_model)
+data = rr.simulate(0, 10, 15000)
 
-    # Get the dataseries from data returned by roadrunner
-    d = tel.getDataSeries (data)
+#Add noise to the data
+noisePlugin = tel.Plugin ("tel_add_noise")
 
-    # Assign the dataseries to the plugin inputdata
-    noisePlugin.InputData = d
+# Get the dataseries from data returned by roadrunner
+d = tel.getDataSeries (data)
 
-    # Set parameter for the 'size' of the noise
-    noisePlugin.Sigma = 3.e-6
+# Assign the dataseries to the plugin inputdata
+noisePlugin.InputData = d
 
-    # Add the noise
-    noisePlugin.execute()
-    fName = 'testData3.dat'
-    noisePlugin.InputData.writeDataSeries (fName)
-    #===================================================================
+# Set parameter for the 'size' of the noise
+noisePlugin.Sigma = 3.e-6
 
-    lmPlugin = tel.Plugin ("tel_levenberg_marquardt")
-    experimentalData = tel.DataSeries.readDataSeries (fName)
+# Add the noise
+noisePlugin.execute()
+fName = 'testData3.dat'
+noisePlugin.InputData.writeDataSeries (fName)
+#===================================================================
 
-    lmPlugin.ExperimentalData = experimentalData;
-    lmPlugin.SBML = test_model
+lmPlugin = tel.Plugin ("tel_levenberg_marquardt")
+experimentalData = tel.DataSeries.readDataSeries (fName)
 
-    # Add the parameters that we're going to fit and the initial value
-    lmPlugin.InputParameterList = ["k1", .1]
-    lmPlugin.FittedDataSelectionList = "[S1] [S2]"
-    lmPlugin.ExperimentalDataSelectionList = "[S1] [S2]"
+lmPlugin.ExperimentalData = experimentalData;
+lmPlugin.SBML = test_model
 
-    # Execute lmPluginfit plugin
-    res = lmPlugin.execute()
+# Add the parameters that we're going to fit and the initial value
+lmPlugin.InputParameterList = ["k1", .1]
+lmPlugin.FittedDataSelectionList = "[S1] [S2]"
+lmPlugin.ExperimentalDataSelectionList = "[S1] [S2]"
 
-    # Get the residuals
-    residuals  = lmPlugin.Residuals.toNumpy
-    residuals = residuals[:,[1,2]]
+# Execute lmPluginfit plugin
+res = lmPlugin.execute()
 
-    #Plot as a histogram
-    plt.hist(residuals, 50, normed=True)
-    plt.show()
+# Get the residuals
+residuals  = lmPlugin.Residuals.toNumPy()
+residuals = residuals[:,[1,2]]
 
-    stdResiduals = lmPlugin.StandardizedResiduals.toNumpy
-    stdResiduals = stdResiduals[:,[1,2]]
-    plt.hist(stdResiduals, 50, normed=True)
-    plt.show()
+#Plot as a histogram
+plt.hist(residuals, 50)
+plt.show()
 
-    #Plot normal probability plots
-    probPlots = lmPlugin.NormalProbabilityOfResiduals.toNumpy
+stdResiduals = lmPlugin.StandardizedResiduals.toNumPy()
+stdResiduals = stdResiduals[:,[1,2]]
+plt.hist(stdResiduals, 50)
+plt.show()
 
-    x1 = probPlots[:,[0]]
-    y1 = probPlots[:,[1]]
+#Plot normal probability plots
+probPlots = lmPlugin.NormalProbabilityOfResiduals.toNumPy()
 
-    x2 = probPlots[:,[2]]
-    y2 = probPlots[:,[3]]
+x1 = probPlots[:,[0]]
+y1 = probPlots[:,[1]]
 
-    lineX = np.arange(-5, 5, .1)
-    lineY = lineX
-    plt.plot(lineX, lineY, '-r')
-    plt.plot(x1,y1, 'o')
-    plt.plot(x2,y2, 'x')
+x2 = probPlots[:,[2]]
+y2 = probPlots[:,[3]]
 
-    plt.show()
-    Config.setValue(Config.SIMULATEOPTIONS_STRUCTURED_RESULT, False)
+lineX = np.arange(-5, 5, .1)
+lineY = lineX
+plt.plot(lineX, lineY, '-r')
+plt.plot(x1,y1, 'o')
+plt.plot(x2,y2, 'x')
 
-except Exception as e:
-    print 'Exception: ' + `e`
-
+plt.show()
+Config.setValue(Config.SIMULATEOPTIONS_STRUCTURED_RESULT, False)

@@ -4,6 +4,7 @@
 
 namespace lmfit
 {
+    class LM;
     void lmObjectiveFunction(
         const double* par,     //Parameter vector
         int m_dat,             //Dimension of residue vector
@@ -11,5 +12,6 @@ namespace lmfit
         double* fvec,          //residue vector..
         int* userBreak         //Non zero value means termination
     );
+    void setTerribleResiduals(double* fvec, int len, LM* thePlugin);
 }
 #endif

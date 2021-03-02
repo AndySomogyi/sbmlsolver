@@ -29,29 +29,33 @@ namespace nmfit
         }
 
         //Simulate
-        gHostInterface->simulateExNoReturn(plugin.rrHandle, expData.getTimeStart(), expData.getTimeEnd(), expData.rSize());
-        DoubleMatrix* modelData = (DoubleMatrix*)gHostInterface->getSimulationResultAsDoubleMatrix(plugin.rrHandle);
-        TelluriumData   simData;
-        simData.setData(*modelData);
-
-        StringList* species = (StringList*)plugin.mExperimentalDataSelectionList.getValueHandle();
-        int nrOfSpecies = species->count();
-
-        //Calculate residuals
-        vector<double> residuals(simData.rSize() * nrOfSpecies);
-
-        int resIndex = 0;
-        for (int specie = 0; specie < nrOfSpecies; specie++)
+        double norm = DBL_MAX; //For if the simulation fails.
+        bool ret = gHostInterface->simulateExNoReturn(plugin.rrHandle, expData.getTimeStart(), expData.getTimeEnd(), expData.rSize());
+        if (ret)
         {
-            for (int timePoint = 0; timePoint < simData.rSize(); timePoint++)
-            {
-                residuals[resIndex] = expData(timePoint, specie + 1) - simData(timePoint, specie); //+1 because of time
-                resIndex++;
-            }
-        }
+            DoubleMatrix* modelData = (DoubleMatrix*)gHostInterface->getSimulationResultAsDoubleMatrix(plugin.rrHandle);
+            TelluriumData   simData;
+            simData.setData(*modelData);
 
-        //Calculate Norm
-        double norm = getEuclideanNorm(residuals);
+            StringList* species = (StringList*)plugin.mExperimentalDataSelectionList.getValueHandle();
+            int nrOfSpecies = species->count();
+
+            //Calculate residuals
+            vector<double> residuals(simData.rSize() * nrOfSpecies);
+
+            int resIndex = 0;
+            for (int specie = 0; specie < nrOfSpecies; specie++)
+            {
+                for (int timePoint = 0; timePoint < simData.rSize(); timePoint++)
+                {
+                    residuals[resIndex] = expData(timePoint, specie + 1) - simData(timePoint, specie); //+1 because of time
+                    resIndex++;
+                }
+            }
+
+            //Calculate Norm
+            norm = getEuclideanNorm(residuals);
+        }
         plugin.mNorm.setValue(norm);
         plugin.mTheNorms.push_back(norm);
         //Assign data relevant to the progress

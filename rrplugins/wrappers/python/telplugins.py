@@ -133,7 +133,7 @@ class DataSeries:
         """
         if handle == None:
             self._myData = True
-            self._data = tpc.rrpLib.tpCreateTelluriumData(0, 0, "")
+            self._data = tpc.createTelluriumData(0, 0)
         else:
             self._data = handle
             self._myData = myData

@@ -649,12 +649,13 @@ RRCDataPtr rrcCallConv simulate(RRHandle handle)
     catch_ptr_macro
 }
 
-void rrcCallConv simulateNoReturn(RRHandle handle)
+bool rrcCallConv simulateNoReturn(RRHandle handle)
 {
     start_try
         RoadRunner* rri = castToRoadRunner(handle);
         rri->simulate();
-    catch_void_macro
+        return true;
+    catch_bool_macro
 }
 
 RRCDataPtr rrcCallConv simulateEx(RRHandle handle, const double timeStart, const double timeEnd, const int numberOfPoints)
@@ -667,14 +668,14 @@ RRCDataPtr rrcCallConv simulateEx(RRHandle handle, const double timeStart, const
     catch_ptr_macro
 }
 
-void rrcCallConv simulateExNoReturn(RRHandle handle, const double timeStart, const double timeEnd, const int numberOfPoints)
+bool rrcCallConv simulateExNoReturn(RRHandle handle, const double timeStart, const double timeEnd, const int numberOfPoints)
 {
     start_try
         setTimeStart(handle, timeStart);
         setTimeEnd(handle, timeEnd);
         setNumPoints(handle, numberOfPoints);
         return simulateNoReturn(handle);
-    catch_void_macro
+    catch_bool_macro
 }
 
 RRCDataPtr rrcCallConv getSimulationResult(RRHandle handle)

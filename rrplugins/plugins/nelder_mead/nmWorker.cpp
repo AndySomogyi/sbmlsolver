@@ -244,7 +244,13 @@ namespace nmfit
 
         gHostInterface->reset(mTheHost.rrHandle);
 
-        gHostInterface->simulateExNoReturn(mTheHost.rrHandle, expData->getTimeStart(), expData->getTimeEnd(), expData->rSize());
+        bool ret = gHostInterface->simulateExNoReturn(mTheHost.rrHandle, expData->getTimeStart(), expData->getTimeEnd(), expData->rSize());
+        if (!ret)
+        {
+            string msg = "Roadrunner simulaton failed when calculating chi in the Nelder-Mead plugin.";
+            RRPLOG(lError) << msg;
+            //throw std::runtime_error(msg.c_str());
+        }
         DoubleMatrix* modelData = (DoubleMatrix*)gHostInterface->getSimulationResultAsDoubleMatrix(mTheHost.rrHandle);
 
         TelluriumData& obsData = *(TelluriumData*)mTheHost.mExperimentalData.getValuePointer();
@@ -404,7 +410,13 @@ namespace nmfit
 
         gHostInterface->reset(mTheHost.rrHandle);
 
-        gHostInterface->simulateExNoReturn(mTheHost.rrHandle, expData->getTimeStart(), expData->getTimeEnd(), expData->rSize());
+        bool ret = gHostInterface->simulateExNoReturn(mTheHost.rrHandle, expData->getTimeStart(), expData->getTimeEnd(), expData->rSize());
+        if (!ret)
+        {
+            string msg = "Roadrunner simulaton failed when creating model data in the Nelder-Mead plugin.";
+            RRPLOG(lError) << msg;
+            throw std::runtime_error(msg.c_str());
+        }
         DoubleMatrix* modelData = (DoubleMatrix*)gHostInterface->getSimulationResultAsDoubleMatrix(mTheHost.rrHandle);
         if (modelData)
         {

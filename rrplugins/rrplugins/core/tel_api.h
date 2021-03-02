@@ -83,7 +83,7 @@ typedef struct {			// THostInterface
 	\ingroup simulation
 	*/
 
-	void (*simulateExNoReturn)(RRHandle handle, const double timeStart, const double timeEnd, const int numberOfPoints);
+	bool (*simulateExNoReturn)(RRHandle handle, const double timeStart, const double timeEnd, const int numberOfPoints);
 
 	/*!
 	\brief Specify the current steady state solver to be used for simulation.
@@ -180,7 +180,7 @@ typedef struct {			// THostInterface
 	\param[in] handle Handle to a RoadRunner instance
 	\ingroup simulation
 	*/
-	void (*simulateNoReturn)(RRHandle handle);
+	bool (*simulateNoReturn)(RRHandle handle);
 
 	/*!
 	\brief Retrieve the concentration for a particular floating species.
@@ -328,6 +328,22 @@ typedef struct {			// THostInterface
 	\ingroup simulation
 	*/
 	bool (*setTimeCourseSelectionList)(RRHandle handle, const char* list);
+
+	/*!
+	\brief Set the current logging level for Roadrunner functions.
+	\param[in] level level to set for RoadRunner functions.
+	\return Success (true) or failur (false).
+	\ingroup simulation
+	*/
+	bool (*setLogLevel)(const char* level);// = rrc::setLogLevel;
+
+	/*!
+	\brief Get the current logging level for Roadrunner functions.
+	\return the log level currently being used.
+	\ingroup simulation
+	*/
+	char* (*getLogLevel)();
+
 
 } THostInterface;
 

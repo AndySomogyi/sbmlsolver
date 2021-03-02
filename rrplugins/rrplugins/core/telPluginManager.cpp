@@ -701,6 +701,9 @@ namespace tlp
             host_Interface->getSimulationResultAsDoubleMatrix = rrc::getSimulationResultAsDoubleMatrix;
             host_Interface->setTimeCourseSelectionList = rrc::setTimeCourseSelectionList;
 
+            host_Interface->setLogLevel = rrc::setLogLevel;
+            host_Interface->getLogLevel = rrc::getLogLevel;
+
             host_Interface->getPlugin = tpGetPlugin;
         }
         else

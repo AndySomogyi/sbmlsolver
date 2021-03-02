@@ -199,26 +199,38 @@ The Plugin has numerous parameters for fine tuning the algorithm. See the embedd
     bool LM::execute(bool inThread)
     {
         stringstream msg;
+        //Sometimes, roadrunner will fail to simulate, and will want to report this to
+        // the user.  However, this is actually handled by our own system, so we don't
+        // need to log anything to the console.  So, while running, stop normal error logging,
+        // and turn it back on afterwards.
+        char* origloglevel = gHostInterface->getLogLevel();
+        gHostInterface->setLogLevel("LOG_FATAL"); //Only log fatal errors.
         try
         {
             RRPLOG(lInfo) << "Executing the Levenberg-Marquardt plugin";
             mWorker.start(inThread);
+            gHostInterface->setLogLevel(origloglevel);
             return true;
         }
         catch (const Exception& ex)
         {
             msg << "There was a problem in the execute of the LMFIT plugin: " << ex.getMessage();
+            gHostInterface->setLogLevel(origloglevel);
             throw(Exception(msg.str()));
         }
         catch (rr::Exception& ex)
         {
             msg << "There was a roadrunner problem in the execute of the LMFIT plugin: " << ex.getMessage();
+            gHostInterface->setLogLevel(origloglevel);
             throw(Exception(msg.str()));
         }
-        catch (...)
+        catch (exception& ex)
         {
-            throw(Exception("There was an unknown problem in the execute method of the LMFIT plugin."));
+            msg << "There was a problem in the execute method of the LMFIT plugin: " << ex.what();
+            gHostInterface->setLogLevel(origloglevel);
+            throw(Exception(msg.str()));
         }
+        gHostInterface->setLogLevel(origloglevel);
     }
 
     // Plugin factory function
