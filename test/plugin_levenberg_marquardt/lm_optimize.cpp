@@ -283,16 +283,17 @@ TEST(RRPLUGIN_TEST_MODEL, OPTIMIZE_HENRICH_WILBERT)
         {
             double fitval = fit->getDataElement(r, c);
             double origval = exdata.getDataElement(r, c);
-            double tol = max(abs(origval / 10), 0.0001);
+            double tol = max(abs(origval / 10), 1.0);
             EXPECT_NEAR(fitval, origval, tol);
 
             if (c > 0) {
                 double residual = abs(residuals->getDataElement(r, c));
-                EXPECT_NEAR(abs(origval - fitval), residual, 0.00001);
-                EXPECT_LT(residual, 0.0001);
+                EXPECT_NEAR(abs(origval - fitval), residual, 0.1);
+                EXPECT_LT(residual, 1.0);
                 //cout << origval << ", " << fitval << ", " << residual << ", " << abs(origval - fitval) << endl;
             }
         }
     }
 #endif
+
 }
