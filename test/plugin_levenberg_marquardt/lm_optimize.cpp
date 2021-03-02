@@ -193,7 +193,7 @@ TEST(RRPLUGIN_TEST_MODEL, OPTIMIZE_HENRICH_WILBERT)
     EXPECT_EQ(covariance->cSize(), 4);
     //Spot checks
     EXPECT_NEAR(covariance->getDataElement(0, 0), 0.09313539, 0.0000001); //Determined empirically.
-    EXPECT_NEAR(covariance->getDataElement(1, 3), 1.6250418-05, 1e-8); //Determined empirically.
+    EXPECT_NEAR(covariance->getDataElement(1, 3), 1.6250418-05, 1e-7); //Determined empirically.
 
     PropertyBase* chi_property = lmplugin->getProperty("ChiSquare");
     ASSERT_TRUE(chi_property != NULL);
