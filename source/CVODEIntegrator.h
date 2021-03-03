@@ -273,7 +273,7 @@ namespace rr
          */
         void *getCvodeMemory() const;
 
-    public:
+    private:
         static const int mDefaultMaxNumSteps;
         static const int mDefaultMaxAdamsOrder;
         static const int mDefaultMaxBDFOrder;

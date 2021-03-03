@@ -21,12 +21,7 @@ using namespace rr;
  * unwanted dependencies in our unit test. Instead
  * whenever an ExecutableModel is needed, we use the 
  * mock object instead. 
- * 
- * @note The ExecutableModel class violates the 
- * interface segregation principle, but to conform 
- * to standard best practice would require a pretty 
- * big refactoring job that I doubt anybody would
- * actually do. 
+ *
  */
 class MockExecutableModel : public rr::ExecutableModel {
 public:
