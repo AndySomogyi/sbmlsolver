@@ -28,6 +28,8 @@ namespace rr
 	/*------------------------------------------------------------------------------------------
 		SteadyStateSolver
 	  ------------------------------------------------------------------------------------------*/
+	SteadyStateSolver::SteadyStateSolver()
+	    : Solver(){}
 
 	void SteadyStateSolver::loadConfigSettings()
 	{
@@ -128,4 +130,5 @@ namespace rr
 		ss << "< roadrunner.SteadyStateSolver() \"" << getName() << "\" " << settingsPyDictRepr() << " >\n";
 		return ss.str();
 	}
+
 }

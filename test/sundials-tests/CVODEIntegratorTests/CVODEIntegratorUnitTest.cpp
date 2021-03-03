@@ -6,6 +6,13 @@
 // code under test
 #include "CVODEIntegrator.h"
 
+/**
+ * The tests in this file depend on gmock.h, but we cannot use it
+ * because there is a conflict with the symbol "Log" between rr
+ * and gmock.
+ *
+ */
+
 // mockup of executable model interfaec
 #include "MockExecutableModel.h"
 
@@ -23,7 +30,6 @@ public:
     CVODEIntegratorTests() {
         Logger::setLevel(Logger::LOG_DEBUG);
     };
-
 };
 
 TEST_F(CVODEIntegratorTests, getName) {

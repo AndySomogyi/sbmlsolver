@@ -5,11 +5,15 @@
 #ifndef ROADRUNNER_MOCKEXECUTABLEMODEL_H
 #define ROADRUNNER_MOCKEXECUTABLEMODEL_H
 
-#include "gmock/gmock.h"
 #include "rrExecutableModel.h"
 #include <iostream>
 
-using namespace rr;
+#include "gmock/gmock.h"
+
+/**
+ * Note: gmock.h uses a macro called "Log" but rr already
+ * defines a macro called "Log". Therefore we cannot use gmock.
+ */
 
 
 /**
@@ -184,7 +188,7 @@ public:
 
     MOCK_METHOD(void, getEventIds, (std::list<std::string> & ), (override));
 
-    MOCK_METHOD(void, setEventListener, (size_t index, EventListenerPtr eventHandler), (override));
+    MOCK_METHOD(void, setEventListener, (size_t index, rr::EventListenerPtr eventHandler), (override));
 
     MOCK_METHOD(EventListenerPtr, getEventListener, (size_t index), (override));
 

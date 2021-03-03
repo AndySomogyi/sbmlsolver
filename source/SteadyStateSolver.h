@@ -41,6 +41,8 @@ namespace rr
     {
     public:
 
+        SteadyStateSolver();
+
         virtual ~SteadyStateSolver() {};
 
         /**
@@ -58,25 +60,25 @@ namespace rr
 		* @author KC
 		* @brief Get the solver settings as a string
 		*/
-		std::string getSettingsRepr() const;
+		std::string getSettingsRepr() const override;
 
 		/**
 		* @author KC
 		* @brief Python dictionary-style string representation of settings
 		*/
-		std::string settingsPyDictRepr() const;
+		std::string settingsPyDictRepr() const override;
 
 		/**
 		* @author KC
 		* @brief Return a string representation of the solver
 		*/
-		virtual std::string toString() const;
+		std::string toString() const override;
 
 		/**
 		* @author KC
 		* @brief Return string representation a la Python __repr__ method
 		*/
-		virtual std::string toRepr() const;
+		std::string toRepr() const override;
     };
 
     /**

@@ -283,9 +283,8 @@ const char* ConservationExtension::getStringFromTypeCode(int typeCode) const
 
 bool ConservationExtension::getConservedMoiety(const libsbml::Species& s)
 {
-    const ConservedMoietyPlugin* plugin =
-            dynamic_cast<const ConservedMoietyPlugin*>(
-                    s.getPlugin("conservation"));
+    const ConservedMoietyPlugin* plugin = dynamic_cast<const ConservedMoietyPlugin*>(
+            s.getPlugin("conservation"));
     return plugin ? plugin->getConservedMoiety() : false;
 }
 

@@ -33,6 +33,7 @@ namespace rr
         descriptions[name] = description;
     }
 
+    // todo refactor this misleading method so that it is called "getSettingKeys"
     std::vector<string> Solver::getSettings() const
     {
         std::vector<string> keys;

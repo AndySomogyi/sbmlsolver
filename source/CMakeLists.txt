@@ -74,6 +74,12 @@ set(
         Solver.cpp
         SolverRegistration.cpp
         Variant.cpp
+
+        KinsolSteadyStateSolver.cpp
+        FixedPointIteration.cpp
+        NewtonIteration.cpp
+        KinsolErrHandler.cpp
+
         conservation/ConservationExtension.cpp
         conservation/ConservationDocumentPlugin.cpp
         conservation/ConservedMoietyPlugin.cpp
@@ -128,6 +134,11 @@ set(
         Solver.h
         SolverRegistration.h
         Variant.h
+
+        KinsolErrHandler.h
+        KinsolSteadyStateSolver.h
+        FixedPointIteration.h
+        NewtonIteration.h
 )
 install(FILES ${rrCoreHeaders} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/rr)
 

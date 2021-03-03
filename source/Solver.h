@@ -37,7 +37,7 @@ namespace rr
     {
     public:
 
-        virtual ~Solver() {};
+        virtual ~Solver() = default;;
 
         /**
         * @author JKM
@@ -181,8 +181,31 @@ namespace rr
         */
         virtual bool getValueAsBool(std::string key);
 
-
         virtual void setValue(std::string key, const Variant& value);
+
+        /**
+        * @author JKM
+        * @brief Get the solver settings as a string
+        */
+        virtual std::string getSettingsRepr() const;
+
+        /**
+        * @author JKM
+        * @brief Python dictionary-style string representation of settings
+        */
+        virtual std::string settingsPyDictRepr() const;
+
+        /**
+        * @author JKM
+        * @brief Return a string representation of the solver
+        */
+        virtual std::string toString() const;
+
+        /**
+        * @author JKM
+        * @brief Return string representation a la Python __repr__ method
+        */
+        virtual std::string toRepr() const;
 
         /**
         * @author WBC
@@ -207,30 +230,6 @@ namespace rr
         * @brief Gets the type associated with a given key
         */
         const Variant::TypeId getType(std::string key);
-
-        /**
-        * @author JKM
-        * @brief Get the solver settings as a string
-        */
-        std::string getSettingsRepr() const;
-
-        /**
-        * @author JKM
-        * @brief Python dictionary-style string representation of settings
-        */
-        std::string settingsPyDictRepr() const;
-
-        /**
-        * @author JKM
-        * @brief Return a string representation of the solver
-        */
-        virtual std::string toString() const;
-
-        /**
-        * @author JKM
-        * @brief Return string representation a la Python __repr__ method
-        */
-        virtual std::string toRepr() const;
 
     protected:
         typedef std::vector<std::string> SettingsList;

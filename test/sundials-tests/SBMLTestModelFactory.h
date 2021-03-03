@@ -1,5 +1,6 @@
 #include <vector>
 #include <unordered_map>
+#include <stdexcept>
 /**
  * This is a small module for handling SBML content
  * without introducing external dependencies. Most
@@ -7,6 +8,11 @@
  * present under the models folder.
  */
 
+/**
+ * Alias for string to double map. String is for
+ * model species names and double are for their values.
+ */
+using ResultMap = std::unordered_map<std::string, double>;
 
 /**
  * Abstract type to store sbml string
@@ -25,75 +31,99 @@ public:
      */
     virtual std::string modelName() = 0;
 
+};
+
+/**
+ * Interface for time series result.
+ * Models that implement this interface
+ * are models to be used in testing time integrators
+ */
+class TimeSeriesResult {
+public:
     /**
-     * @brief returns the state of the system at t=10 time units. 
-     * This method is used for storing the true values of 
-     * the model simulation at time point 10. These values 
-     * must not be computed by roadrunner (otherwise what 
-     * are we testing). Instead an independent sbml simulator 
-     * should be used to extract the state vector at t=10
+     * @brief returns the state of the system at t=10 time units.
+     * This method is used for storing the true values of
+     * the model simulation at time point 10. These values
+     * must not be computed by roadrunner (otherwise what
+     * are we testing?). Instead an independent sbml simulator
+     * should be used to extract the state vector at t=10.
+     *
+     * todo turn t=10 into an argument so that we can test
+     * any time step.
+     *
      */
-    virtual std::unordered_map<std::string, double> stateVectorAtT10() = 0;
+    virtual ResultMap stateVectorAtT10() = 0;
+};
+
+/**
+ * Interface for test models that are meant for testing steady state
+ * solvers.
+ */
+class SteadyStateResult {
+    /**
+     * Returns the steady state of the system
+     */
+    virtual ResultMap steadyState() = 0;
 
 };
 
 /**
  * A -> B; k1
  * B -> A; k2
- * k1 = 0.1
+ * k1 = 0.5
  * k2 = 1.0
  * A = 10;
- * B = 0;
+ * B = 1;
  */
-class SimpleFlux : public SBMLTestModel {
+class SimpleFlux : public SBMLTestModel, TimeSeriesResult, SteadyStateResult {
 public:
 
     std::string str() override {
         return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
                "<sbml xmlns=\"http://www.sbml.org/sbml/level3/version1/core\" level=\"3\" version=\"1\">\n"
-               "  <model metaid=\"__main\" id=\"__main\">\n"
+               "  <model metaid=\"x\" id=\"x\">\n"
                "    <listOfCompartments>\n"
                "      <compartment sboTerm=\"SBO:0000410\" id=\"default_compartment\" spatialDimensions=\"3\" size=\"1\" constant=\"true\"/>\n"
                "    </listOfCompartments>\n"
                "    <listOfSpecies>\n"
-               "      <species id=\"A\" compartment=\"default_compartment\" initialConcentration=\"10\" hasOnlySubstanceUnits=\"false\" boundaryCondition=\"false\" constant=\"false\"/>\n"
-               "      <species id=\"B\" compartment=\"default_compartment\" initialConcentration=\"0\" hasOnlySubstanceUnits=\"false\" boundaryCondition=\"false\" constant=\"false\"/>\n"
+               "      <species id=\"S1\" compartment=\"default_compartment\" initialConcentration=\"10\" hasOnlySubstanceUnits=\"false\" boundaryCondition=\"false\" constant=\"false\"/>\n"
+               "      <species id=\"S2\" compartment=\"default_compartment\" initialConcentration=\"1\" hasOnlySubstanceUnits=\"false\" boundaryCondition=\"false\" constant=\"false\"/>\n"
                "    </listOfSpecies>\n"
                "    <listOfParameters>\n"
-               "      <parameter id=\"k1\" value=\"0.1\" constant=\"true\"/>\n"
-               "      <parameter id=\"k2\" value=\"1\" constant=\"true\"/>\n"
+               "      <parameter id=\"kf\" value=\"0.1\" constant=\"true\"/>\n"
+               "      <parameter id=\"kb\" value=\"0.01\" constant=\"true\"/>\n"
                "    </listOfParameters>\n"
                "    <listOfReactions>\n"
-               "      <reaction id=\"_J0\" reversible=\"true\" fast=\"false\">\n"
+               "      <reaction id=\"_J0\" reversible=\"false\" fast=\"false\">\n"
                "        <listOfReactants>\n"
-               "          <speciesReference species=\"A\" stoichiometry=\"1\" constant=\"true\"/>\n"
+               "          <speciesReference species=\"S1\" stoichiometry=\"1\" constant=\"true\"/>\n"
                "        </listOfReactants>\n"
                "        <listOfProducts>\n"
-               "          <speciesReference species=\"B\" stoichiometry=\"1\" constant=\"true\"/>\n"
+               "          <speciesReference species=\"S2\" stoichiometry=\"1\" constant=\"true\"/>\n"
                "        </listOfProducts>\n"
                "        <kineticLaw>\n"
                "          <math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n"
                "            <apply>\n"
                "              <times/>\n"
-               "              <ci> k1 </ci>\n"
-               "              <ci> A </ci>\n"
+               "              <ci> kf </ci>\n"
+               "              <ci> S1 </ci>\n"
                "            </apply>\n"
                "          </math>\n"
                "        </kineticLaw>\n"
                "      </reaction>\n"
-               "      <reaction id=\"_J1\" reversible=\"true\" fast=\"false\">\n"
+               "      <reaction id=\"_J1\" reversible=\"false\" fast=\"false\">\n"
                "        <listOfReactants>\n"
-               "          <speciesReference species=\"B\" stoichiometry=\"1\" constant=\"true\"/>\n"
+               "          <speciesReference species=\"S2\" stoichiometry=\"1\" constant=\"true\"/>\n"
                "        </listOfReactants>\n"
                "        <listOfProducts>\n"
-               "          <speciesReference species=\"A\" stoichiometry=\"1\" constant=\"true\"/>\n"
+               "          <speciesReference species=\"S1\" stoichiometry=\"1\" constant=\"true\"/>\n"
                "        </listOfProducts>\n"
                "        <kineticLaw>\n"
                "          <math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n"
                "            <apply>\n"
                "              <times/>\n"
-               "              <ci> k2 </ci>\n"
-               "              <ci> B </ci>\n"
+               "              <ci> kb </ci>\n"
+               "              <ci> S2 </ci>\n"
                "            </apply>\n"
                "          </math>\n"
                "        </kineticLaw>\n"
@@ -107,20 +137,128 @@ public:
         return "SimpleFlux";
     }
 
-    std::unordered_map<std::string, double> stateVectorAtT10() override {
-        return std::unordered_map<std::string, double>
+    ResultMap stateVectorAtT10() override {
+        return ResultMap
                 {
-                        {"A", 9.090924288825768},
-                        {"B", 0.9090757111742356}
+                        {"S1", 9.090924288825768},
+                        {"S2", 0.9090757111742356}
                 };
+    }
 
+    ResultMap steadyState() override {
+        return ResultMap{
+                {"S1", 1.0},
+                {"S2", 10.0}
+        };
+    }
+};
+
+/**
+ * In [33]:  def ss(s):
+    ...:      m = te.loada(s)
+    ...:      m.conservedMoietyAnalysis = False
+    ...:      m.steadyState()
+    ...:      print(m.getFloatingSpeciesConcentrations())
+    ...:      print(m.getFloatingSpeciesConcentrationIds())
+    ...:      print(m.getFullJacobian())
+    ...:      return m
+    ...:
+    ...:  r = ss("""
+    ...:  model x
+    ...:      S1 = 0;
+    ...:      S2 = 0;
+    ...:      => S1; kin
+    ...:      S1 => S2; kf*S1;
+    ...:      S2 => ; S2*kout;
+    ...:      kf = 0.1;
+    ...:      kb = 0.01;
+    ...:      kin = 1;
+    ...:      kout = 0.1
+    ...:  end
+    ...:  """)
+ */
+class OpenLinearFlux: public SBMLTestModel, SteadyStateResult {
+public:
+    std::string str() override {
+        return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+               "<sbml xmlns=\"http://www.sbml.org/sbml/level3/version1/core\" level=\"3\" version=\"1\">\n"
+               "  <model metaid=\"x\" id=\"x\">\n"
+               "    <listOfCompartments>\n"
+               "      <compartment sboTerm=\"SBO:0000410\" id=\"default_compartment\" spatialDimensions=\"3\" size=\"1\" constant=\"true\"/>\n"
+               "    </listOfCompartments>\n"
+               "    <listOfSpecies>\n"
+               "      <species id=\"S1\" compartment=\"default_compartment\" initialConcentration=\"0\" hasOnlySubstanceUnits=\"false\" boundaryCondition=\"false\" constant=\"false\"/>\n"
+               "      <species id=\"S2\" compartment=\"default_compartment\" initialConcentration=\"0\" hasOnlySubstanceUnits=\"false\" boundaryCondition=\"false\" constant=\"false\"/>\n"
+               "    </listOfSpecies>\n"
+               "    <listOfParameters>\n"
+               "      <parameter id=\"kin\" value=\"1\" constant=\"true\"/>\n"
+               "      <parameter id=\"kf\" value=\"0.1\" constant=\"true\"/>\n"
+               "      <parameter id=\"kout\" value=\"0.1\" constant=\"true\"/>\n"
+               "      <parameter id=\"kb\" value=\"0.01\" constant=\"true\"/>\n"
+               "    </listOfParameters>\n"
+               "    <listOfReactions>\n"
+               "      <reaction id=\"_J0\" reversible=\"false\" fast=\"false\">\n"
+               "        <listOfProducts>\n"
+               "          <speciesReference species=\"S1\" stoichiometry=\"1\" constant=\"true\"/>\n"
+               "        </listOfProducts>\n"
+               "        <kineticLaw>\n"
+               "          <math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n"
+               "            <ci> kin </ci>\n"
+               "          </math>\n"
+               "        </kineticLaw>\n"
+               "      </reaction>\n"
+               "      <reaction id=\"_J1\" reversible=\"false\" fast=\"false\">\n"
+               "        <listOfReactants>\n"
+               "          <speciesReference species=\"S1\" stoichiometry=\"1\" constant=\"true\"/>\n"
+               "        </listOfReactants>\n"
+               "        <listOfProducts>\n"
+               "          <speciesReference species=\"S2\" stoichiometry=\"1\" constant=\"true\"/>\n"
+               "        </listOfProducts>\n"
+               "        <kineticLaw>\n"
+               "          <math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n"
+               "            <apply>\n"
+               "              <times/>\n"
+               "              <ci> kf </ci>\n"
+               "              <ci> S1 </ci>\n"
+               "            </apply>\n"
+               "          </math>\n"
+               "        </kineticLaw>\n"
+               "      </reaction>\n"
+               "      <reaction id=\"_J2\" reversible=\"false\" fast=\"false\">\n"
+               "        <listOfReactants>\n"
+               "          <speciesReference species=\"S2\" stoichiometry=\"1\" constant=\"true\"/>\n"
+               "        </listOfReactants>\n"
+               "        <kineticLaw>\n"
+               "          <math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n"
+               "            <apply>\n"
+               "              <times/>\n"
+               "              <ci> S2 </ci>\n"
+               "              <ci> kout </ci>\n"
+               "            </apply>\n"
+               "          </math>\n"
+               "        </kineticLaw>\n"
+               "      </reaction>\n"
+               "    </listOfReactions>\n"
+               "  </model>\n"
+               "</sbml>";
+    }
+
+    ResultMap steadyState() override {
+        return ResultMap {
+                {"S1", 10},
+                {"S2", 10},
+        };
+    }
+
+    std::string modelName() override{
+        return "OpenLinearFlux";
     }
 };
 
 /**
  * This is the feedback model from test/models/feedback.xml
  */
-class Feedback : public SBMLTestModel {
+class Feedback : public SBMLTestModel, TimeSeriesResult {
 public:
 
     std::string str() override {
@@ -601,8 +739,8 @@ public:
         return "Feedback";
     }
 
-    std::unordered_map<std::string, double> stateVectorAtT10() override {
-        return std::unordered_map<std::string, double>
+    ResultMap stateVectorAtT10() override {
+        return ResultMap
                 {
                         {"S1", 0.26942985546551135},
                         {"S2", 0.678092484380656},
@@ -617,7 +755,7 @@ public:
 /**
  * model 269 from the sbml test suite
  */
-class Model269 : public SBMLTestModel {
+class Model269 : public SBMLTestModel, TimeSeriesResult {
 public:
 
     std::string str() override {
@@ -716,8 +854,8 @@ public:
         return "Model269";
     }
 
-    std::unordered_map<std::string, double> stateVectorAtT10() override {
-        return std::unordered_map<std::string, double>{
+    ResultMap stateVectorAtT10() override {
+        return ResultMap{
                 {"S1", 0.0270834},
                 {"S2", 0.972917}
         };
@@ -727,7 +865,7 @@ public:
 /**
  * model 28 from the sbml test suite
  */
-class Model28 : public SBMLTestModel {
+class Model28 : public SBMLTestModel, TimeSeriesResult {
 public:
 
     std::string str() override {
@@ -803,8 +941,8 @@ public:
         return "Model28";
     }
 
-    std::unordered_map<std::string, double> stateVectorAtT10() override {
-        return std::unordered_map<std::string, double>{
+    ResultMap stateVectorAtT10() override {
+        return ResultMap{
                 {"S1", 0.0270834},
                 {"S2", 0.972917}
         };
@@ -815,7 +953,7 @@ public:
 /**
  * A model that uses "ceil" in the rate law
  */
-class CeilInRateLaw : public SBMLTestModel {
+class CeilInRateLaw : public SBMLTestModel, TimeSeriesResult {
 public:
 
     std::string str() override {
@@ -867,8 +1005,8 @@ public:
         return "CeilInRateLaw";
     }
 
-    std::unordered_map<std::string, double> stateVectorAtT10() override {
-        return std::unordered_map<std::string, double>{
+    ResultMap stateVectorAtT10() override {
+        return ResultMap{
                 {"S1", 9.02844e-13},
                 {"S2", 10}
         };
@@ -878,7 +1016,7 @@ public:
 /**
  * A model that uses "Factorial" in the rate law
  */
-class FactorialInRateLaw : public SBMLTestModel {
+class FactorialInRateLaw : public SBMLTestModel, TimeSeriesResult {
 public:
 
     std::string str() override {
@@ -930,22 +1068,215 @@ public:
         return "FactorialInRateLaw";
     }
 
-    std::unordered_map<std::string, double> stateVectorAtT10() override {
-        return std::unordered_map<std::string, double>{
+    ResultMap stateVectorAtT10() override {
+        return ResultMap{
                 {"S1", 1.46671e-12},
                 {"S2", 10}
         };
     }
 };
 
-//1517
+/**
+ * Model from the Venkatraman 2010 paper
+ */
+class Venkatraman2010 : public SBMLTestModel, SteadyStateResult {
+public:
+
+    std::string str() override {
+        return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+               "<sbml xmlns=\"http://www.sbml.org/sbml/level3/version1/core\" level=\"3\" version=\"1\">\n"
+               "  <model metaid=\"__main\" id=\"__main\">\n"
+               "    <listOfCompartments>\n"
+               "      <compartment sboTerm=\"SBO:0000410\" id=\"default_compartment\" spatialDimensions=\"3\" size=\"1\" constant=\"true\"/>\n"
+               "    </listOfCompartments>\n"
+               "    <listOfSpecies>\n"
+               "      <species id=\"scUPA\" compartment=\"default_compartment\" initialConcentration=\"10\" hasOnlySubstanceUnits=\"false\" boundaryCondition=\"false\" constant=\"false\"/>\n"
+               "      <species id=\"PLG\" compartment=\"default_compartment\" initialConcentration=\"10\" hasOnlySubstanceUnits=\"false\" boundaryCondition=\"false\" constant=\"false\"/>\n"
+               "      <species id=\"PLS\" compartment=\"default_compartment\" initialConcentration=\"10\" hasOnlySubstanceUnits=\"false\" boundaryCondition=\"false\" constant=\"false\"/>\n"
+               "      <species id=\"tcUPA\" compartment=\"default_compartment\" initialConcentration=\"10\" hasOnlySubstanceUnits=\"false\" boundaryCondition=\"false\" constant=\"false\"/>\n"
+               "    </listOfSpecies>\n"
+               "    <listOfParameters>\n"
+               "      <parameter id=\"keff1\" value=\"0.0017\" constant=\"true\"/>\n"
+               "      <parameter id=\"keff2\" value=\"1\" constant=\"true\"/>\n"
+               "      <parameter id=\"keff3\" value=\"0.03\" constant=\"true\"/>\n"
+               "      <parameter id=\"n\" value=\"3\" constant=\"true\"/>\n"
+               "      <parameter id=\"u1\" value=\"0.0001\" constant=\"true\"/>\n"
+               "      <parameter id=\"u3\" value=\"0.0001\" constant=\"true\"/>\n"
+               "      <parameter id=\"u2\" value=\"0.001\" constant=\"true\"/>\n"
+               "      <parameter id=\"u4\" value=\"0.001\" constant=\"true\"/>\n"
+               "      <parameter id=\"alpha1\" value=\"9e-05\" constant=\"true\"/>\n"
+               "      <parameter id=\"alpha2\" value=\"0.001\" constant=\"true\"/>\n"
+               "    </listOfParameters>\n"
+               "    <listOfReactions>\n"
+               "      <reaction id=\"r1\" reversible=\"true\" fast=\"false\">\n"
+               "        <listOfProducts>\n"
+               "          <speciesReference species=\"scUPA\" stoichiometry=\"1\" constant=\"true\"/>\n"
+               "        </listOfProducts>\n"
+               "        <kineticLaw>\n"
+               "          <math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n"
+               "            <ci> alpha1 </ci>\n"
+               "          </math>\n"
+               "        </kineticLaw>\n"
+               "      </reaction>\n"
+               "      <reaction id=\"r2\" reversible=\"true\" fast=\"false\">\n"
+               "        <listOfReactants>\n"
+               "          <speciesReference species=\"scUPA\" stoichiometry=\"1\" constant=\"true\"/>\n"
+               "        </listOfReactants>\n"
+               "        <kineticLaw>\n"
+               "          <math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n"
+               "            <apply>\n"
+               "              <times/>\n"
+               "              <ci> scUPA </ci>\n"
+               "              <ci> u1 </ci>\n"
+               "            </apply>\n"
+               "          </math>\n"
+               "        </kineticLaw>\n"
+               "      </reaction>\n"
+               "      <reaction id=\"r3\" reversible=\"true\" fast=\"false\">\n"
+               "        <listOfProducts>\n"
+               "          <speciesReference species=\"PLG\" stoichiometry=\"1\" constant=\"true\"/>\n"
+               "        </listOfProducts>\n"
+               "        <kineticLaw>\n"
+               "          <math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n"
+               "            <ci> alpha2 </ci>\n"
+               "          </math>\n"
+               "        </kineticLaw>\n"
+               "      </reaction>\n"
+               "      <reaction id=\"r4\" reversible=\"true\" fast=\"false\">\n"
+               "        <listOfReactants>\n"
+               "          <speciesReference species=\"PLG\" stoichiometry=\"1\" constant=\"true\"/>\n"
+               "        </listOfReactants>\n"
+               "        <kineticLaw>\n"
+               "          <math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n"
+               "            <apply>\n"
+               "              <times/>\n"
+               "              <ci> PLG </ci>\n"
+               "              <ci> u2 </ci>\n"
+               "            </apply>\n"
+               "          </math>\n"
+               "        </kineticLaw>\n"
+               "      </reaction>\n"
+               "      <reaction id=\"r5\" reversible=\"true\" fast=\"false\">\n"
+               "        <listOfReactants>\n"
+               "          <speciesReference species=\"PLG\" stoichiometry=\"1\" constant=\"true\"/>\n"
+               "        </listOfReactants>\n"
+               "        <listOfProducts>\n"
+               "          <speciesReference species=\"PLS\" stoichiometry=\"1\" constant=\"true\"/>\n"
+               "        </listOfProducts>\n"
+               "        <listOfModifiers>\n"
+               "          <modifierSpeciesReference species=\"scUPA\"/>\n"
+               "        </listOfModifiers>\n"
+               "        <kineticLaw>\n"
+               "          <math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n"
+               "            <apply>\n"
+               "              <times/>\n"
+               "              <ci> keff1 </ci>\n"
+               "              <ci> scUPA </ci>\n"
+               "              <ci> PLG </ci>\n"
+               "            </apply>\n"
+               "          </math>\n"
+               "        </kineticLaw>\n"
+               "      </reaction>\n"
+               "      <reaction id=\"r6\" reversible=\"true\" fast=\"false\">\n"
+               "        <listOfReactants>\n"
+               "          <speciesReference species=\"scUPA\" stoichiometry=\"1\" constant=\"true\"/>\n"
+               "        </listOfReactants>\n"
+               "        <listOfProducts>\n"
+               "          <speciesReference species=\"tcUPA\" stoichiometry=\"1\" constant=\"true\"/>\n"
+               "        </listOfProducts>\n"
+               "        <listOfModifiers>\n"
+               "          <modifierSpeciesReference species=\"PLS\"/>\n"
+               "        </listOfModifiers>\n"
+               "        <kineticLaw>\n"
+               "          <math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n"
+               "            <apply>\n"
+               "              <times/>\n"
+               "              <ci> keff2 </ci>\n"
+               "              <ci> scUPA </ci>\n"
+               "              <apply>\n"
+               "                <power/>\n"
+               "                <ci> PLS </ci>\n"
+               "                <ci> n </ci>\n"
+               "              </apply>\n"
+               "            </apply>\n"
+               "          </math>\n"
+               "        </kineticLaw>\n"
+               "      </reaction>\n"
+               "      <reaction id=\"r7\" reversible=\"true\" fast=\"false\">\n"
+               "        <listOfReactants>\n"
+               "          <speciesReference species=\"PLG\" stoichiometry=\"1\" constant=\"true\"/>\n"
+               "        </listOfReactants>\n"
+               "        <listOfProducts>\n"
+               "          <speciesReference species=\"PLS\" stoichiometry=\"1\" constant=\"true\"/>\n"
+               "        </listOfProducts>\n"
+               "        <listOfModifiers>\n"
+               "          <modifierSpeciesReference species=\"tcUPA\"/>\n"
+               "        </listOfModifiers>\n"
+               "        <kineticLaw>\n"
+               "          <math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n"
+               "            <apply>\n"
+               "              <times/>\n"
+               "              <ci> keff3 </ci>\n"
+               "              <ci> tcUPA </ci>\n"
+               "              <ci> PLG </ci>\n"
+               "            </apply>\n"
+               "          </math>\n"
+               "        </kineticLaw>\n"
+               "      </reaction>\n"
+               "      <reaction id=\"r8\" reversible=\"true\" fast=\"false\">\n"
+               "        <listOfReactants>\n"
+               "          <speciesReference species=\"tcUPA\" stoichiometry=\"1\" constant=\"true\"/>\n"
+               "        </listOfReactants>\n"
+               "        <kineticLaw>\n"
+               "          <math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n"
+               "            <apply>\n"
+               "              <times/>\n"
+               "              <ci> tcUPA </ci>\n"
+               "              <ci> u3 </ci>\n"
+               "            </apply>\n"
+               "          </math>\n"
+               "        </kineticLaw>\n"
+               "      </reaction>\n"
+               "      <reaction id=\"r9\" reversible=\"true\" fast=\"false\">\n"
+               "        <listOfReactants>\n"
+               "          <speciesReference species=\"PLS\" stoichiometry=\"1\" constant=\"true\"/>\n"
+               "        </listOfReactants>\n"
+               "        <kineticLaw>\n"
+               "          <math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n"
+               "            <apply>\n"
+               "              <times/>\n"
+               "              <ci> PLS </ci>\n"
+               "              <ci> u4 </ci>\n"
+               "            </apply>\n"
+               "          </math>\n"
+               "        </kineticLaw>\n"
+               "      </reaction>\n"
+               "    </listOfReactions>\n"
+               "  </model>\n"
+               "</sbml>";
+    }
+
+    std::string modelName() override {
+        return "Venkatraman2010";
+    }
+
+    ResultMap steadyState() override {
+        return ResultMap{
+                {"scUPA", 0.0009},
+                {"PLG",   0.00999847},
+                {"PLS",   0.00001},
+                {"tcUPA", 0.0}
+        };
+    }
+};
+
 
 /**
  * Basic factory that creates sbml strings
  * for use in tests.
  *
  * The caller is responsible for deleting memory
- * associated with the createe SBMLTestModel
+ * associated with the create SBMLTestModel
  */
 SBMLTestModel *SBMLTestModelFactory(const std::string &modelName) {
     if (modelName == "SimpleFlux") {
@@ -960,10 +1291,15 @@ SBMLTestModel *SBMLTestModelFactory(const std::string &modelName) {
         return new CeilInRateLaw();
     } else if (modelName == "FactorialInRateLaw") {
         return new FactorialInRateLaw();
+    } else if (modelName == "Venkatraman2010") {
+        return new Venkatraman2010();
+    } else if (modelName == "OpenLinearFlux") {
+        return new OpenLinearFlux();
     } else {
         throw std::runtime_error("SBMLTestModelFactory::SBMLTestModelFactory(): no model found\n");
     }
 }
+
 
 
 

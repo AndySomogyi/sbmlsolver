@@ -72,6 +72,18 @@ class RR_DECLSPEC CVODEException : public Exception
         CVODEException(const string& msg);
 };
 
+class RR_DECLSPEC KinsolException : public Exception
+{
+    public:
+        explicit KinsolException(const string& msg);
+};
+
+class RR_DECLSPEC NullPointerException : public Exception
+{
+    public:
+        explicit NullPointerException(const string& msg);
+};
+
 class RR_DECLSPEC NotImplementedException : public Exception
 {
     public:

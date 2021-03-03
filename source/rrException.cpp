@@ -59,6 +59,12 @@ CVODEException::CVODEException(const string& msg)
 Exception(msg)
 {}
 
+KinsolException::KinsolException(const string &msg)
+    : Exception(msg){}
+
+NullPointerException::NullPointerException(const string &msg)
+    : Exception(msg){}
+
 NotImplementedException::NotImplementedException(const string& msg)
 :
 Exception(msg)
