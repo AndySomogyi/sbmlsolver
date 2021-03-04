@@ -1021,7 +1021,7 @@ def setBoolProperty(propertyHandle, value):
 ## \param propertyHandle to a property instance
 ## \return Returns an integer value. Throws an exception if the property type is not an integer
 ## \ingroup plugin_properties
-rrpLib.tpGetIntProperty.restype = c_int
+rrpLib.tpGetIntProperty.restype = c_bool
 rrpLib.tpGetIntProperty.argtypes = [c_void_p, c_int_p]
 def getIntProperty (propertyHandle):
     if getPropertyType (propertyHandle) == "int":
@@ -1048,7 +1048,7 @@ def setIntProperty(propertyHandle, value):
 ## \param value to assign to the property.
 ## \return Returns true if successful, false otherwise
 ## \ingroup plugin_properties
-rrpLib.tpSetUnsignedLongProperty.restype = c_uint
+rrpLib.tpSetUnsignedLongProperty.restype = c_bool
 rrpLib.tpSetUnsignedLongProperty.argtypes = [c_void_p, c_uint]
 def setUnsignedLongProperty(propertyHandle, value):
     return rrpLib.tpSetUnsignedLongProperty(propertyHandle, c_uint(value))
@@ -1057,7 +1057,7 @@ def setUnsignedLongProperty(propertyHandle, value):
 ## \param propertyHandle to a property instance
 ## \return Returns a double value. Throws an exception if the property type is not a double
 ## \ingroup plugin_properties
-rrpLib.tpGetDoubleProperty.restype = c_double
+rrpLib.tpGetDoubleProperty.restype = c_bool
 rrpLib.tpGetDoubleProperty.argtypes = [c_void_p, c_double_p]
 def getDoubleProperty (propertyHandle):
     if getPropertyType (propertyHandle) == "double":

@@ -1,6 +1,6 @@
 # Show that add noise plugin correctly computes Sigma (standard deviation)
 
-import teplugins as tel
+import rrplugins as tel
 import numpy
 
 p = tel.Plugin ("tel_add_noise")
@@ -13,18 +13,18 @@ for i in range (n):
 data = tel.DataSeries.fromNumPy (timeSeries)
 
 p.InputData = data
+p.AssumeTime = True
 p.Sigma = 0.25
 
 p.execute()
 
-values = p.InputData.toNumpy
+values = p.InputData.toNumPy()
 
-print
-print "Testing that Sigma is generating the expected data..."
-print "The following data should roughly equal 1.0 and 0.25\n"
+print("Testing that Sigma is generating the expected data...")
+print("The following data should roughly equal 1.0 and 0.25\n")
 
-print "mean=", numpy.mean (values[:,1])
-print "std=", numpy.std (values[:,1])
+print("mean=", numpy.mean (values[:,1]))
+print("std=", numpy.std (values[:,1]))
 
 
 

@@ -71,6 +71,7 @@ add_subdirectory(CVODEIntegratorTests)
 
 
 set(PLUGIN_TESTDIRS
+        plugin_api
         plugin_auto2000
         plugin_levenberg_marquardt
         plugin_monte_carlo_bs

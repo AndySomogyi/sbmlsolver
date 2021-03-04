@@ -524,7 +524,17 @@ namespace tlp
     inline string Property<Properties>::getValueAsString() const
     {
         stringstream ss;
-        ss << mValue;
+        Properties* props = const_cast<Properties*>(&mValue);
+        PropertyBase* prop = props->getFirst();
+        bool first = true;
+        while (prop != NULL) {
+            if (!first) {
+                ss << ", ";
+            }
+            first = false;
+            ss << "[" << prop->getName() << ", " << prop->getValueAsString() << "]";
+            prop = props->getNext();
+        }
         return ss.str();
     }
 

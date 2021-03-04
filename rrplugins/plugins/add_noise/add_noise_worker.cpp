@@ -58,7 +58,7 @@ void AddNoiseWorker::run()
     double sigma = mTheHost.mSigma.getValue();
 
     //Don't add noise to a column that has name 'time'
-    bool ignoreFirstColumn = data.isFirstColumnTime();
+    bool ignoreFirstColumn = mTheHost.mAssumeTime.getValue() || data.isFirstColumnTime();
     for(int row = 0; row < data.rSize(); row++)
     {
         for(int col = 0; col < data.cSize(); col++)

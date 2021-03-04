@@ -20,6 +20,8 @@ namespace testModel {
         mTestData(TelluriumData(), "TestData", "Simulated Data"),
         mTestDataWithNoise(TelluriumData(), "TestDataWithNoise", "Simulated Data With Noise"),
         mSigma(3.e-6, "Sigma", "Sigma (<=> size of applied noise)"),
+        mNumPoints(14, "NumPoints", "Number of points in the simulation."),
+        mTimeEnd(10, "TimeEnd", "End time of the simulation."),
         mSeed(0, "Seed", "Random number seed for applying noise to data (0 to ignore)")
     {
         mVersion = "1.0.0";
@@ -28,6 +30,8 @@ namespace testModel {
         mProperties.add(&mTestData);
         mProperties.add(&mTestDataWithNoise);
         mProperties.add(&mSigma);
+        mProperties.add(&mNumPoints);
+        mProperties.add(&mTimeEnd);
         mProperties.add(&mSeed);
 
         mHint = "Get access to a SBML model, and simulated data using the model.";
@@ -69,7 +73,7 @@ The TestModel plugin was developed at the University of Washington by Totte Karl
         rrc::RRCDataPtr result = NULL;
         gHostInterface->loadSBML(rrHandle, (mModel.getValue()).c_str());
 
-        result = gHostInterface->simulateEx(rrHandle, 0, 10, 14);
+        result = gHostInterface->simulateEx(rrHandle, 0, mTimeEnd.getValue(), mNumPoints.getValue());
 
         //convert rrcptr to matrix <double> 
         Matrix <double> output(result->RSize, result->CSize);

@@ -1,118 +1,119 @@
-from teplugins import *
+import rrplugins
 
 #Create a plugin manager
-pm = createPluginManager()
+pm = rrplugins.createPluginManager()
 
 #Load the 'noise' plugin in order to add some noise to the data
-plugin = loadPlugin(pm, "tel_add_noise")
+plugin = rrplugins.loadPlugin(pm, "tel_add_noise")
 if not plugin:
-    print getLastError()
+    print(rrplugins.getLastError())
     exit()
 
-print getPluginInfo(plugin)
+print(rrplugins.getPluginInfo(plugin))
 
 #Get a plugins properties as names
-print getListOfPluginPropertyNames(plugin)
+print(rrplugins.getListOfPluginPropertyNames(plugin))
 
-paraHandle   = getPluginProperty(plugin, "NoiseType")
+paraHandle   = rrplugins.getPluginProperty(plugin, "NoiseType")
 
-print 'getting some info about the property'
-print getPropertyInfo(paraHandle)
+print('getting some info about the property')
+print(rrplugins.getPropertyInfo(paraHandle))
 
-paraValueString = getPropertyValueAsString(paraHandle)
-print 'property value is ' + paraValueString
+paraValueString = rrplugins.getPropertyValueAsString(paraHandle)
+print('property value is ', paraValueString)
 
-setPropertyByString(paraHandle, "1")
-paraValueString = getPropertyValueAsString(paraHandle)
-print 'Property value is now: ' + paraValueString
+rrplugins.setPropertyByString(paraHandle, "1")
+paraValueString = rrplugins.getPropertyValueAsString(paraHandle)
+print('Property value is now: ', paraValueString)
 
-setIntProperty(paraHandle, 0)
-test = getIntProperty(paraHandle)
-print test
+rrplugins.setIntProperty(paraHandle, 0)
+test = rrplugins.getIntProperty(paraHandle)
+print(test)
 
-paraValueString = getPropertyValueAsString(paraHandle)
-print 'Property value is now: ' + paraValueString
+paraValueString = rrplugins.getPropertyValueAsString(paraHandle)
+print('Property value is now: ', paraValueString)
 
 ## Retrieve a property handle
-paraHandle = getPluginProperty(plugin, "Sigma")
+paraHandle = rrplugins.getPluginProperty(plugin, "Sigma")
 
-print 'getting some info about the property'
-print getPropertyInfo(paraHandle)
+print('getting some info about the property')
+print(rrplugins.getPropertyInfo(paraHandle))
 
-paraValueString = getPropertyValueAsString(paraHandle)
-print 'property is ' + paraValueString
+paraValueString = rrplugins.getPropertyValueAsString(paraHandle)
+print('property is ', paraValueString)
 
-setPropertyByString(paraHandle, "1.23")
-paraValueString = getPropertyValueAsString(paraHandle)
-print 'Property is now: ' + paraValueString
+rrplugins.setPropertyByString(paraHandle, "1.23")
+paraValueString = rrplugins.getPropertyValueAsString(paraHandle)
+print('Property is now: ', paraValueString)
 
 var = 2.23
-setDoubleProperty(paraHandle, var)
-test = getPropertyValue(paraHandle)
-print test
+rrplugins.setDoubleProperty(paraHandle, var)
+test = rrplugins.getPropertyValue(paraHandle)
+print(test)
 
-paraValueString = getPropertyValueAsString(paraHandle)
-print 'Property is now: ' + paraValueString
+paraValueString = rrplugins.getPropertyValueAsString(paraHandle)
+print('Property is now: ', paraValueString)
 
 #======= Test bools
-boolParaHandle = createProperty("bool", "bool", "Hint", True)
-print getBoolProperty(boolParaHandle)
-setBoolProperty(boolParaHandle, False)
-print getBoolProperty(boolParaHandle)
+boolParaHandle = rrplugins.createProperty("bool", "bool", "Hint", True)
+print(rrplugins.getBoolProperty(boolParaHandle))
+rrplugins.setBoolProperty(boolParaHandle, False)
+print(rrplugins.getBoolProperty(boolParaHandle))
 
 #====Test some strings
-stringParaHandle = createProperty("myStringProperty", "string", "Hello", "Hello2")
-print getStringProperty(stringParaHandle)
-setStringProperty(stringParaHandle, "Setting a string value")
-print getStringProperty(stringParaHandle)
+stringParaHandle = rrplugins.createProperty("myStringProperty", "string", "Hello", "Hello2")
+print(rrplugins.getPropertyValueAsString(stringParaHandle))
+# print(rrplugins.getStringProperty(stringParaHandle))
+rrplugins.setStringProperty(stringParaHandle, "Setting a string value")
+print(rrplugins.getPropertyValueAsString(stringParaHandle))
 
 #====Test list of propertys Todo:: clean this up!!
-lOfP = createProperty("test", "listOfProperties", "Hello1")
-print 'Names in property list:' + `getNamesFromPropertyList(lOfP)`
-lOfP2 = createProperty("test", "listOfProperties", "Hello2")
+lOfP = rrplugins.createProperty("test", "listOfProperties", "Hello1")
+print('Names in property list:', rrplugins.getNamesFromPropertyList(lOfP))
+lOfP2 = rrplugins.createProperty("test", "listOfProperties", "Hello2")
 
-addPropertyToList(lOfP, stringParaHandle)
-addPropertyToList(lOfP, stringParaHandle)
-addPropertyToList(lOfP2, stringParaHandle)
+rrplugins.addPropertyToList(lOfP, stringParaHandle)
+rrplugins.addPropertyToList(lOfP, stringParaHandle)
+rrplugins.addPropertyToList(lOfP2, stringParaHandle)
 
-print 'Names in property list:' + `getNamesFromPropertyList(lOfP)`
+print('Names in property list:', rrplugins.getNamesFromPropertyList(lOfP))
 
 #Assignment 
-setListProperty(lOfP, lOfP2)
-print 'Names in property list:' + `getNamesFromPropertyList(lOfP)`
-print 'Names in property list:' + `getNamesFromPropertyList(lOfP2)`
+rrplugins.setListProperty(lOfP, lOfP2)
+print('Names in property list:', rrplugins.getNamesFromPropertyList(lOfP))
+print('Names in property list:', rrplugins.getNamesFromPropertyList(lOfP2))
 
 
 
-listParaHandle = createProperty("myList", "listOfProperties", "a Hint")
+listParaHandle = rrplugins.createProperty("myList", "listOfProperties", "a Hint")
 
 #Should be empty
-print getNamesFromPropertyList(listParaHandle)
+print(rrplugins.getNamesFromPropertyList(listParaHandle))
 
 #Add a new parameter
-aParameterHandle = createProperty("newOne", "double", "the hint")
-addPropertyToList(listParaHandle, aParameterHandle)
+aParameterHandle = rrplugins.createProperty("newOne", "double", "the hint")
+rrplugins.addPropertyToList(listParaHandle, aParameterHandle)
 
-setDoubleProperty(aParameterHandle, 34)
-print getDoubleProperty(aParameterHandle)
+rrplugins.setDoubleProperty(aParameterHandle, 34)
+print(rrplugins.getDoubleProperty(aParameterHandle))
 
 #Or you can use
-print getProperty(aParameterHandle)
+print(rrplugins.getProperty(aParameterHandle))
 
 #Should not be empty
-print getNamesFromPropertyList (listParaHandle)
+print(rrplugins.getNamesFromPropertyList (listParaHandle))
 
 #Get the parameter
-paraHandle = getFirstProperty(listParaHandle)
+paraHandle = rrplugins.getFirstProperty(listParaHandle)
 
-print getPropertyHint (paraHandle)
-print getPropertyInfo (paraHandle)
-print getNamesFromPropertyList (listParaHandle)
+print(rrplugins.getPropertyHint (paraHandle))
+print(rrplugins.getPropertyInfo (paraHandle))
+print(rrplugins.getNamesFromPropertyList (listParaHandle))
 
 
-print clearPropertyList(listParaHandle)
+print(rrplugins.clearPropertyList(listParaHandle))
 #Should be empty
-print getNamesFromPropertyList (listParaHandle)
+print(rrplugins.getNamesFromPropertyList (listParaHandle))
 
-freeProperty(listParaHandle)
+rrplugins.freeProperty(listParaHandle)
 

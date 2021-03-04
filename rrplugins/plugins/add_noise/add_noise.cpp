@@ -18,6 +18,7 @@ namespace addNoise
         mData(TelluriumData(), "InputData", "Data on which noise will be applied to"),
         mSeed(0, "Seed", "Seed to use for each use of 'execute' (0 to ignore)"),
         mProgress(0, "Progress", "Indicate progress in (0-100%)"),
+        mAssumeTime(false, "AssumeTime", "Assume the first column in the input data is time, and don't add noise to it."),
         mAddNoiseWorker(*this)
     {
         mVersion = "1.0.1";
@@ -26,7 +27,7 @@ namespace addNoise
         mProperties.add(&mNoiseType);
         mProperties.add(&mSigma);
         mProperties.add(&mData);
-
+        mProperties.add(&mAssumeTime);
         mProperties.add(&mProgress);
         mProperties.add(&mSeed);
 

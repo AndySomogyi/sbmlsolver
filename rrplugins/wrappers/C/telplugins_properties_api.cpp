@@ -124,6 +124,7 @@ TELHandle tlp_cc tpCreateProperty(const char* label, const char* type, const cha
 
             Property<Properties> *para = new Property<Properties>(iniVal, label, hint);
             gHM.registerHandle(para, typeid(static_cast<PropertyBase*>(para)).name());
+            gHM.registerHandle(para->getValueHandle(), typeid(&iniVal).name());
             return para;
         }
 

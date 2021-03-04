@@ -97,7 +97,7 @@ TEST(RRPLUGIN_TEST_MODEL, OPTIMIZE_TEST_MODEL)
     ASSERT_TRUE(conflimit != NULL);
     EXPECT_EQ(conflimit->getName(), "k1_confidence");
     double* conflimit_val = static_cast<double*>(conflimit->getValueHandle());
-    EXPECT_NEAR(*conflimit_val, 0.03, 0.015);
+    EXPECT_NEAR(*conflimit_val, 0.03, 0.02);
     EXPECT_TRUE(conflimits->getNext() == NULL);
 
     PropertyBase* fit_property = lmplugin->getProperty("FittedData");
