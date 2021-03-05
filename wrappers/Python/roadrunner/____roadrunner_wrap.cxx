@@ -3250,7 +3250,7 @@ namespace swig {
         DictionaryHolder() { dict = NULL; }
 
         ~DictionaryHolder() {
-            Log(Logger::LOG_TRACE) << __FUNC__ << ", deleting dictionary " << (void*)dict;
+            rrLog(Logger::LOG_TRACE) << __FUNC__ << ", deleting dictionary " << (void*)dict;
             delete dict;
         }
     };
@@ -5674,7 +5674,7 @@ SWIGINTERN void std_vector_Sl_rr_Dictionary_SS_const_Sm__Sg__insert__SWIG_1(std:
 
     static void rr_sighandler(int sig) {
         std::cout << "handling signal " << sig << std::endl;
-        Log(rr::Logger::LOG_WARNING) << "signal handler : " << sig;
+        rrLog(rr::Logger::LOG_WARNING) << "signal handler : " << sig;
     }
 
     static unsigned long sigtrap() {
@@ -5685,7 +5685,7 @@ SWIGINTERN void std_vector_Sl_rr_Dictionary_SS_const_Sm__Sg__insert__SWIG_1(std:
 #else
 
     static unsigned long sigtrap() {
-        Log(rr::Logger::LOG_WARNING) << "sigtrap not supported on Windows";
+        rrLog(rr::Logger::LOG_WARNING) << "sigtrap not supported on Windows";
         return 0;
     }
 
@@ -6749,23 +6749,23 @@ struct SWIG_null_deleter {
 
 
     rr::SimulateOptions* rr_RoadRunner___simulateOptions_get(RoadRunner* r) {
-        //Log(Logger::LOG_WARNING) << "DO NOT USE simulateOptions, it is DEPRECATED";
+        //rrLog(Logger::LOG_WARNING) << "DO NOT USE simulateOptions, it is DEPRECATED";
         return &r->getSimulateOptions();
     }
 
     void rr_RoadRunner___simulateOptions_set(RoadRunner* r, const rr::SimulateOptions* opt) {
-        //Log(Logger::LOG_WARNING) << "DO NOT USE simulateOptions, it is DEPRECATED";
+        //rrLog(Logger::LOG_WARNING) << "DO NOT USE simulateOptions, it is DEPRECATED";
         r->setSimulateOptions(*opt);
     }
 
 
     rr::RoadRunnerOptions* rr_RoadRunner_options_get(RoadRunner* r) {
-        Log(Logger::LOG_WARNING) << "DO NOT USE options, it is DEPRECATED";
+        rrLog(Logger::LOG_WARNING) << "DO NOT USE options, it is DEPRECATED";
         return &r->getOptions();
     }
 
     void rr_RoadRunner_options_set(RoadRunner* r, const rr::RoadRunnerOptions* opt) {
-        Log(Logger::LOG_WARNING) << "DO NOT USE options, it is DEPRECATED";
+        rrLog(Logger::LOG_WARNING) << "DO NOT USE options, it is DEPRECATED";
         rr::RoadRunnerOptions *rropt = &r->getOptions();
         *rropt = *opt;
     }
