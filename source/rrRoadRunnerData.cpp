@@ -280,7 +280,7 @@ double RoadRunnerData::operator() (const unsigned& row, const unsigned& col) con
 void RoadRunnerData::setColumnNames(const std::vector<std::string>& colNames)
 {
     mColumnNames = colNames;
-    Log(Logger::LOG_DEBUG) << "Simulation Data Columns: " << rr::toString(mColumnNames);
+    rrLog(Logger::LOG_DEBUG) << "Simulation Data Columns: " << rr::toString(mColumnNames);
 }
 
 
@@ -292,7 +292,7 @@ void RoadRunnerData::reSize(int rows, int cols)
 void RoadRunnerData::setData(const DoubleMatrix& theData)
 {
     mTheData = theData;
-    Log(Logger::LOG_DEBUG) << "Simulation Data =========== \n" << mTheData;
+    rrLog(Logger::LOG_DEBUG) << "Simulation Data =========== \n" << mTheData;
     check();
 }
 
@@ -300,7 +300,7 @@ bool RoadRunnerData::check() const
 {
     if(mTheData.CSize() != mColumnNames.size())
     {
-        Log(Logger::LOG_ERROR)<<"Number of columns ("<<mTheData.CSize()<<") in simulation data is not equal to number of columns in column header ("<<mColumnNames.size()<<")";
+        rrLog(Logger::LOG_ERROR)<<"Number of columns ("<<mTheData.CSize()<<") in simulation data is not equal to number of columns in column header ("<<mColumnNames.size()<<")";
         return false;
     }
     return true;
@@ -316,12 +316,12 @@ bool RoadRunnerData::loadSimpleFormat(const string& fName)
     vector<string> lines = getLinesInFile(fName.c_str());
     if(!lines.size())
     {
-        Log(Logger::LOG_ERROR)<<"Failed reading/opening file "<<fName;
+        rrLog(Logger::LOG_ERROR)<<"Failed reading/opening file "<<fName;
         return false;
     }
 
     mColumnNames = rr::splitString(lines[0], ",");
-    Log(lInfo) << rr::toString(mColumnNames);
+    rrLog(lInfo) << rr::toString(mColumnNames);
 
     mTheData.resize(static_cast<unsigned long>(lines.size()) -1, static_cast<unsigned long>(mColumnNames.size()));
 
@@ -342,13 +342,13 @@ bool RoadRunnerData::writeTo(const string& fileName) const
     ofstream aFile(fileName.c_str());
     if(!aFile)
     {
-        Log(Logger::LOG_ERROR)<<"Failed opening file: "<<fileName;
+        rrLog(Logger::LOG_ERROR)<<"Failed opening file: "<<fileName;
         return false;
     }
 
     if(!check())
     {
-        Log(Logger::LOG_ERROR)<<"Can't write data.. the dimension of the header don't agree with nr of cols of data";
+        rrLog(Logger::LOG_ERROR)<<"Can't write data.. the dimension of the header don't agree with nr of cols of data";
         return false;
     }
 
@@ -362,7 +362,7 @@ bool RoadRunnerData::readFrom(const string& fileName)
     ifstream aFile(fileName.c_str());
     if(!aFile)
     {
-        Log(Logger::LOG_ERROR)<<"Failed opening file: "<<fileName;
+        rrLog(Logger::LOG_ERROR)<<"Failed opening file: "<<fileName;
         return false;
     }
 
@@ -376,7 +376,7 @@ ostream& operator << (ostream& ss, const RoadRunnerData& data)
     //Check that the dimensions of col header and data is ok
     if(!data.check())
     {
-        Log(Logger::LOG_ERROR)<<"Can't write data.. the dimension of the header don't agree with nr of cols of data";
+        rrLog(Logger::LOG_ERROR)<<"Can't write data.. the dimension of the header don't agree with nr of cols of data";
         return ss;
     }
 
@@ -467,7 +467,7 @@ istream& operator >> (istream& ss, RoadRunnerData& data)
     IniSection* infoSection = ini.GetSection("INFO");
     if(!infoSection)
     {
-        Log(Logger::LOG_ERROR)<<"RoadRunnder data file is missing section: [INFO]. Exiting reading file...";
+        rrLog(Logger::LOG_ERROR)<<"RoadRunnder data file is missing section: [INFO]. Exiting reading file...";
         return ss;
     }
 
@@ -476,7 +476,7 @@ istream& operator >> (istream& ss, RoadRunnerData& data)
 
     if(!colNames)
     {
-        Log(Logger::LOG_ERROR)<<"RoadRunnder data file is missing ini key: COLUMN_HEADERS. Exiting reading file...";
+        rrLog(Logger::LOG_ERROR)<<"RoadRunnder data file is missing ini key: COLUMN_HEADERS. Exiting reading file...";
         return ss;
     }
 
@@ -487,7 +487,7 @@ istream& operator >> (istream& ss, RoadRunnerData& data)
     IniKey* aKey2 = infoSection->GetKey("NUMBER_OF_ROWS");
     if(!aKey1 || !aKey2)
     {
-        Log(Logger::LOG_ERROR)<<"RoadRunnder data file is missing ini key: NUMBER_OF_COLS and/or NUMBER_OF_ROWS. Exiting reading file...";
+        rrLog(Logger::LOG_ERROR)<<"RoadRunnder data file is missing ini key: NUMBER_OF_COLS and/or NUMBER_OF_ROWS. Exiting reading file...";
         return ss;
     }
 
@@ -499,7 +499,7 @@ istream& operator >> (istream& ss, RoadRunnerData& data)
     IniSection* dataSection = ini.GetSection("DATA");
     if(!dataSection)
     {
-        Log(Logger::LOG_ERROR)<<"RoadRunnder data file is missing ini section: DATA. Exiting reading file...";
+        rrLog(Logger::LOG_ERROR)<<"RoadRunnder data file is missing ini section: DATA. Exiting reading file...";
         return ss;
     }
 
@@ -515,7 +515,7 @@ istream& operator >> (istream& ss, RoadRunnerData& data)
 
         for(int col = 0; col < cDim; col++)
         {
-            Log(lDebug5)<<"Word "<<aLine[col];
+            rrLog(lDebug5)<<"Word "<<aLine[col];
             double value = toDouble(trim(aLine[col],' '));
             data(row, col) = value;
         }
@@ -526,7 +526,7 @@ istream& operator >> (istream& ss, RoadRunnerData& data)
     IniSection* weightsSection = ini.GetSection("WEIGHTS");
     if(!weightsSection)    //Optional
     {
-        Log(lDebug)<<"RoadRunnder data file is missing section: WEIGHTS. ";
+        rrLog(lDebug)<<"RoadRunnder data file is missing section: WEIGHTS. ";
         return ss;
     }
     data.mWeights.Allocate(rDim, cDim);
@@ -543,7 +543,7 @@ istream& operator >> (istream& ss, RoadRunnerData& data)
 
         for(int col = 0; col < cDim; col++)
         {
-            Log(lDebug5)<<"Word "<<aLine[col];
+            rrLog(lDebug5)<<"Word "<<aLine[col];
             double value = toDouble(aLine[col]);
             data.mWeights(row, col) = value;
         }

@@ -234,7 +234,7 @@ namespace rr
 
 		assert(hstep > 0 || singleStep && "hstep must be > 0 or we must be taking a single step.");
 
-		Log(Logger::LOG_DEBUG) << "ssa(" << t << ", " << tf << ")";
+		rrLog(Logger::LOG_DEBUG) << "ssa(" << t << ", " << tf << ")";
 
 		// get the initial state vector
 		model->setTime(t);
@@ -260,7 +260,7 @@ namespace rr
 			// sum the propensity
 			for (int k = 0; k < nReactions; k++)
 			{
-				Log(Logger::LOG_DEBUG) << "reac rate: " << k << ": "
+				rrLog(Logger::LOG_DEBUG) << "reac rate: " << k << ": "
 					<< reactionRates[k];
 
 				// if reaction rate is negative, that means reaction goes in reverse,
@@ -332,7 +332,7 @@ namespace rr
 						* stoichScale * sign;
 
 					if (stateVector[i] < 0.0) {
-						Log(Logger::LOG_WARNING) << "Error, negative value of "
+						rrLog(Logger::LOG_WARNING) << "Error, negative value of "
 							<< stateVector[i]
 							<< " encountred for floating species "
 							<< model->getFloatingSpeciesId(i - floatingSpeciesStart);
@@ -423,7 +423,7 @@ namespace rr
 
 	void GillespieIntegrator::setEngineSeed(unsigned long seed)
 	{
-		Log(Logger::LOG_INFORMATION) << "Using user specified seed value: " << seed;
+		rrLog(Logger::LOG_INFORMATION) << "Using user specified seed value: " << seed;
 
 		// MSVC needs an explicit cast, fail to compile otherwise.
 		engine.seed((unsigned long)seed);

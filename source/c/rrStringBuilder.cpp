@@ -27,14 +27,14 @@ void StringBuilder::Clear()
 stringstream& StringBuilder::operator<<(const string& str)
 {
     mStringing<<str;
-    Log(lDebug5)<<"Appended :"<<removeNewLines(str, 1);
+    rrLog(lDebug5)<<"Appended :"<<removeNewLines(str, 1);
     return mStringing;
 }
 
 stringstream& StringBuilder::operator<<(const char& ch)
 {
     mStringing<<ch;
-    Log(lDebug5)<<"Appended :"<<ch;
+    rrLog(lDebug5)<<"Appended :"<<ch;
     return mStringing;
 }
 

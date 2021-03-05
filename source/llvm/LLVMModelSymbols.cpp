@@ -51,7 +51,7 @@ LLVMModelSymbols::LLVMModelSymbols(const libsbml::Model *m, LLVMModelDataSymbols
     {
         const Parameter* param = params->get(i);
 
-        Log(Logger::LOG_TRACE) << "global parameter " << param->getId() <<
+        rrLog(Logger::LOG_TRACE) << "global parameter " << param->getId() <<
                 " initial value: " << param->getValue();
 
         ASTNode *value = nodes.create(AST_REAL);
@@ -73,7 +73,7 @@ LLVMModelSymbols::LLVMModelSymbols(const libsbml::Model *m, LLVMModelDataSymbols
             }
             else
             {
-                Log(Logger::LOG_INFORMATION) << "parameter " << param->getId()
+                rrLog(Logger::LOG_INFORMATION) << "parameter " << param->getId()
                         << " missing value, but has init rule or rule, setting "
                         " value to " << param->getValue();
                 value->setValue(param->getValue());
@@ -109,7 +109,7 @@ bool LLVMModelSymbols::visit(const libsbml::Compartment& x)
         if (model->getInitialAssignment(compid) == NULL &&
             model->getAssignmentRule(compid) == NULL &&
             x.getSpatialDimensions() != 0) {
-            Log(Logger::LOG_WARNING) << "volume not set for compartment '"
+            rrLog(Logger::LOG_WARNING) << "volume not set for compartment '"
               << compid << "'.  Defaulting to 1.0";
         }
         //We still need to set up a fake initial value if we need one, even though it'll be overwritten or is unneeded.
@@ -127,7 +127,7 @@ bool LLVMModelSymbols::visit(const libsbml::Species& x)
 
 bool LLVMModelSymbols::visit(const libsbml::AssignmentRule& x)
 {
-    Log(Logger::LOG_TRACE) << "processing AssignmentRule, id: " << x.getId();
+    rrLog(Logger::LOG_TRACE) << "processing AssignmentRule, id: " << x.getId();
     SBase *element = const_cast<Model*>(model)->getElementBySId(x.getVariable());
 
     if (element)
@@ -136,7 +136,7 @@ bool LLVMModelSymbols::visit(const libsbml::AssignmentRule& x)
     }
     else
     {
-        Log(Logger::LOG_ERROR) << "Could not get elment for assignment rule \""
+        rrLog(Logger::LOG_ERROR) << "Could not get elment for assignment rule \""
                 << const_cast<libsbml::AssignmentRule&>(x).toSBML()
                 << "\", it will be ignored";
     }
@@ -146,7 +146,7 @@ bool LLVMModelSymbols::visit(const libsbml::AssignmentRule& x)
 
 bool LLVMModelSymbols::visit(const libsbml::InitialAssignment& x)
 {
-    Log(Logger::LOG_TRACE) << "processing InitialAssignment, id: " +  x.getId();
+    rrLog(Logger::LOG_TRACE) << "processing InitialAssignment, id: " +  x.getId();
     SBase *element = const_cast<Model*>(model)->getElementBySId(x.getSymbol());
     processElement(initialValues, element, x.getMath());
     processElement(initialAssignmentRules, element, x.getMath());
@@ -155,7 +155,7 @@ bool LLVMModelSymbols::visit(const libsbml::InitialAssignment& x)
 
 bool LLVMModelSymbols::visit(const libsbml::RateRule& rule)
 {
-    Log(Logger::LOG_TRACE) << "processing RateRule, id: " +  rule.getId();
+    rrLog(Logger::LOG_TRACE) << "processing RateRule, id: " +  rule.getId();
     SBase *element = const_cast<Model*>(model)->getElementBySId(rule.getVariable());
     processElement(rateRules, element, rule.getMath());
     return true;
@@ -192,7 +192,7 @@ void LLVMModelSymbols::processElement(SymbolForest& currentSymbols,
     else
     {
         char* sbml = const_cast<SBase*>(element)->toSBML();
-        Log(Logger::LOG_WARNING) << "Unknown element whilst processing symbols: "
+        rrLog(Logger::LOG_WARNING) << "Unknown element whilst processing symbols: "
                 << sbml;
         free(sbml);
     }
@@ -200,7 +200,7 @@ void LLVMModelSymbols::processElement(SymbolForest& currentSymbols,
 
 bool LLVMModelSymbols::visit(const libsbml::Rule& x)
 {
-    Log(Logger::LOG_TRACE) << "Rule, id: " << x.getId();
+    rrLog(Logger::LOG_TRACE) << "Rule, id: " << x.getId();
     return true;
 }
 
@@ -289,7 +289,7 @@ void LLVMModelSymbols::processSpecies(SymbolForest &currentSymbols,
 {
     // ASTNode takes ownership of children, so only allocate the ones that
     // are NOT given to an ASTNode addChild.
-    Log(Logger::LOG_TRACE) << "processing species " << species->getId() << endl;
+    rrLog(Logger::LOG_TRACE) << "processing species " << species->getId() << endl;
 
     if (!math)
     {
@@ -324,7 +324,7 @@ void LLVMModelSymbols::processSpecies(SymbolForest &currentSymbols,
                 if (model->getInitialAssignment(spid) == NULL &&
                         model->getAssignmentRule(spid) == NULL)
                 {
-                    Log(Logger::LOG_WARNING) << "species '" << spid
+                    rrLog(Logger::LOG_WARNING) << "species '" << spid
                             << "' has neither initial amount nor concentration set. "
                             << " Setting initial amount to 0.0";
                 }
@@ -366,7 +366,7 @@ void LLVMModelSymbols::processSpecies(SymbolForest &currentSymbols,
                 if (model->getInitialAssignment(spid) == NULL &&
                         model->getAssignmentRule(spid) == NULL)
                 {
-                    Log(Logger::LOG_WARNING) << "species '" << spid
+                    rrLog(Logger::LOG_WARNING) << "species '" << spid
                             << "' has neither initial amount nor concentration set. "
                             << " Setting initial concentration to 0.0";
                 }
@@ -447,7 +447,7 @@ ASTNode* LLVMModelSymbols::createStoichiometryNode(int row, int col) const
     ASTNode *reactants = 0;
     ASTNode *products = 0;
 
-    Log(Logger::LOG_TRACE) << "\t{" + rr::toString((int)row) + ", " + rr::toString((int)col) +
+    rrLog(Logger::LOG_TRACE) << "\t{" + rr::toString((int)row) + ", " + rr::toString((int)col) +
             "}, #reactants: " + rr::toString((int)reactantList.size()) + " #products: " +
             rr::toString((int)productList.size());
 

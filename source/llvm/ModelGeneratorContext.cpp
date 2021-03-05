@@ -111,9 +111,9 @@ ModelGeneratorContext::ModelGeneratorContext(std::string const &sbml,
         random(0)
 {
     if(useSymbolCache()) {
-        Log(Logger::LOG_INFORMATION) << "Using LLVM symbol/value cache";
+        rrLog(Logger::LOG_INFORMATION) << "Using LLVM symbol/value cache";
     } else {
-        Log(Logger::LOG_INFORMATION) << "Not using LLVM symbol/value cache";
+        rrLog(Logger::LOG_INFORMATION) << "Not using LLVM symbol/value cache";
     }
 
     try
@@ -125,7 +125,7 @@ ModelGeneratorContext::ModelGeneratorContext(std::string const &sbml,
             if ((rr::Config::getInt(rr::Config::ROADRUNNER_DISABLE_WARNINGS) &
                     rr::Config::ROADRUNNER_DISABLE_WARNINGS_CONSERVED_MOIETY) == 0)
             {
-                Log(Logger::LOG_NOTICE) << "performing conserved moiety conversion";
+                rrLog(Logger::LOG_NOTICE) << "performing conserved moiety conversion";
             }
 
             // check if already conserved doc
@@ -152,9 +152,9 @@ ModelGeneratorContext::ModelGeneratorContext(std::string const &sbml,
                 SBMLWriter sw;
                 char* convertedStr = sw.writeToString(doc);
 
-                Log(Logger::LOG_INFORMATION) << "***************** Conserved Moiety Converted Document ***************";
-                Log(Logger::LOG_INFORMATION) << convertedStr;
-                Log(Logger::LOG_INFORMATION) << "*********************************************************************";
+                rrLog(Logger::LOG_INFORMATION) << "***************** Conserved Moiety Converted Document ***************";
+                rrLog(Logger::LOG_INFORMATION) << convertedStr;
+                rrLog(Logger::LOG_INFORMATION) << "*********************************************************************";
 
                 free(convertedStr);
             }
@@ -240,16 +240,16 @@ ModelGeneratorContext::ModelGeneratorContext(libsbml::SBMLDocument const *_doc,
         random(0)
 {
     if(useSymbolCache()) {
-        Log(Logger::LOG_INFORMATION) << "Using LLVM symbol/value cache";
+        rrLog(Logger::LOG_INFORMATION) << "Using LLVM symbol/value cache";
     } else {
-        Log(Logger::LOG_INFORMATION) << "Not using LLVM symbol/value cache";
+        rrLog(Logger::LOG_INFORMATION) << "Not using LLVM symbol/value cache";
     }
 
     try
     {
         if (options & LoadSBMLOptions::CONSERVED_MOIETIES)
         {
-            Log(Logger::LOG_NOTICE) << "performing conserved moiety conversion";
+            rrLog(Logger::LOG_NOTICE) << "performing conserved moiety conversion";
 
             moietyConverter = new rr::conservation::ConservedMoietyConverter();
 
@@ -268,9 +268,9 @@ ModelGeneratorContext::ModelGeneratorContext(libsbml::SBMLDocument const *_doc,
             SBMLWriter sw;
             char* convertedStr = sw.writeToString(_doc);
 
-            Log(Logger::LOG_INFORMATION) << "***************** Conserved Moiety Converted Document ***************";
-            Log(Logger::LOG_INFORMATION) << convertedStr;
-            Log(Logger::LOG_INFORMATION) << "*********************************************************************";
+            rrLog(Logger::LOG_INFORMATION) << "***************** Conserved Moiety Converted Document ***************";
+            rrLog(Logger::LOG_INFORMATION) << convertedStr;
+            rrLog(Logger::LOG_INFORMATION) << "*********************************************************************";
 
             delete convertedStr;
         }
@@ -497,38 +497,38 @@ void ModelGeneratorContext::initFunctionPassManager()
 
         if (options & LoadSBMLOptions::OPTIMIZE_INSTRUCTION_SIMPLIFIER)
         {
-            Log(Logger::LOG_INFORMATION) << "using OPTIMIZE_INSTRUCTION_SIMPLIFIER";
+            rrLog(Logger::LOG_INFORMATION) << "using OPTIMIZE_INSTRUCTION_SIMPLIFIER";
             functionPassManager->add(createInstructionSimplifierPass());
         }
 
         if (options & LoadSBMLOptions::OPTIMIZE_INSTRUCTION_COMBINING)
         {
-            Log(Logger::LOG_INFORMATION) << "using OPTIMIZE_INSTRUCTION_COMBINING";
+            rrLog(Logger::LOG_INFORMATION) << "using OPTIMIZE_INSTRUCTION_COMBINING";
             functionPassManager->add(createInstructionCombiningPass());
         }
 
         if(options & LoadSBMLOptions::OPTIMIZE_GVN)
         {
-            Log(Logger::LOG_INFORMATION) << "using GVN optimization";
+            rrLog(Logger::LOG_INFORMATION) << "using GVN optimization";
             functionPassManager->add(createNewGVNPass());
 			
         }
 
         if (options & LoadSBMLOptions::OPTIMIZE_CFG_SIMPLIFICATION)
         {
-            Log(Logger::LOG_INFORMATION) << "using OPTIMIZE_CFG_SIMPLIFICATION";
+            rrLog(Logger::LOG_INFORMATION) << "using OPTIMIZE_CFG_SIMPLIFICATION";
             functionPassManager->add(createCFGSimplificationPass());
         }
 
         if (options & LoadSBMLOptions::OPTIMIZE_DEAD_INST_ELIMINATION)
         {
-            Log(Logger::LOG_INFORMATION) << "using OPTIMIZE_DEAD_INST_ELIMINATION";
+            rrLog(Logger::LOG_INFORMATION) << "using OPTIMIZE_DEAD_INST_ELIMINATION";
             functionPassManager->add(createDeadInstEliminationPass());
         }
 
         if (options & LoadSBMLOptions::OPTIMIZE_DEAD_CODE_ELIMINATION)
         {
-            Log(Logger::LOG_INFORMATION) << "using OPTIMIZE_DEAD_CODE_ELIMINATION";
+            rrLog(Logger::LOG_INFORMATION) << "using OPTIMIZE_DEAD_CODE_ELIMINATION";
             functionPassManager->add(createDeadCodeEliminationPass());
         }
 
@@ -839,7 +839,7 @@ static SBMLDocument *checkedReadSBMLFromString(const char* xml)
         {
             SBMLErrorLog *log = doc->getErrorLog();
             string errors = log ? log->toString() : " NULL SBML Error Log";
-            Log(rr::Logger::LOG_WARNING) << "Warning, errors found in sbml document: " + errors;
+            rrLog(rr::Logger::LOG_WARNING) << "Warning, errors found in sbml document: " + errors;
         }
     }
     else

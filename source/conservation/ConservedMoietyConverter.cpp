@@ -191,20 +191,20 @@ int ConservedMoietyConverter::convert()
 
     if (mDocument == NULL)
     {
-        Log(Logger::LOG_ERROR) << "ConservedMoietyConverter document as not been set";
+        rrLog(Logger::LOG_ERROR) << "ConservedMoietyConverter document as not been set";
         return LIBSBML_INVALID_OBJECT;
     }
 
     if (mDocument->checkL3v2Compatibility() != 0)
     {
-        Log(Logger::LOG_ERROR) << "ConservedMoietyConverter document not compatible with L3v2 "
+        rrLog(Logger::LOG_ERROR) << "ConservedMoietyConverter document not compatible with L3v2 "
                 << std::endl;
         return 1;
     }
 
     if (!mDocument->setLevelAndVersion(3,2))
     {
-        Log(Logger::LOG_ERROR) << "ConservedMoietyConverter mDocument->setLevelAndVersion failed "
+        rrLog(Logger::LOG_ERROR) << "ConservedMoietyConverter mDocument->setLevelAndVersion failed "
                 << std::endl;
         return 1;
     }
@@ -213,7 +213,7 @@ int ConservedMoietyConverter::convert()
     Model* mModel = mDocument->getModel();
     if (mModel == NULL)
     {
-        Log(Logger::LOG_ERROR) << "ConservedMoietyConverter document does not have a model";
+        rrLog(Logger::LOG_ERROR) << "ConservedMoietyConverter document does not have a model";
         return LIBSBML_INVALID_OBJECT;
     }
 
@@ -236,7 +236,7 @@ int ConservedMoietyConverter::convert()
 
     if ((err = docPlugin->setRequired(true)) != LIBSBML_OPERATION_SUCCESS)
     {
-        Log(Logger::LOG_ERROR) << "ConservedMoietyConverter docPlugin->setRequired(true) failed: "
+        rrLog(Logger::LOG_ERROR) << "ConservedMoietyConverter docPlugin->setRequired(true) failed: "
                 << std::endl
                 << OperationReturnValue_toString(err);
         return err;
@@ -245,7 +245,7 @@ int ConservedMoietyConverter::convert()
     // makes a clone of the model
     if((err = resultDoc->setModel(mModel)) != LIBSBML_OPERATION_SUCCESS)
     {
-        Log(Logger::LOG_ERROR) << "ConservedMoietyConverter resultDoc->setModel(mModel) failed: "
+        rrLog(Logger::LOG_ERROR) << "ConservedMoietyConverter resultDoc->setModel(mModel) failed: "
                 << std::endl
                 << OperationReturnValue_toString(err);
         return err;
@@ -264,13 +264,13 @@ int ConservedMoietyConverter::convert()
 
     if (rr::Logger::getLevel() >= loggingLevel)
     {
-        Log(loggingLevel) << "performing conversion on " << mModel->getName();
-        Log(loggingLevel) << "independent species: " << toString(indSpecies);
-        Log(loggingLevel) << "dependent species: " << toString(depSpecies);
-        Log(loggingLevel) << "L0 matrix: " << endl << *L0;
-        Log(loggingLevel) << "Stoichiometry Matrix: " << endl
+        rrLog(loggingLevel) << "performing conversion on " << mModel->getName();
+        rrLog(loggingLevel) << "independent species: " << toString(indSpecies);
+        rrLog(loggingLevel) << "dependent species: " << toString(depSpecies);
+        rrLog(loggingLevel) << "L0 matrix: " << endl << *L0;
+        rrLog(loggingLevel) << "Stoichiometry Matrix: " << endl
                 << *(structural->getStoichiometryMatrix());
-        Log(loggingLevel) << "Reordered Stoichiometry Matrix: "
+        rrLog(loggingLevel) << "Reordered Stoichiometry Matrix: "
                 << endl << *(structural->getReorderedStoichiometryMatrix());
     }
 
@@ -308,7 +308,7 @@ int ConservedMoietyConverter::setDocument(const libsbml::SBMLDocument* doc)
 
     if (doc == 0)
     {
-        Log(Logger::LOG_ERROR) << "ConservedMoietyConverter::setDocument argument is NULL";
+        rrLog(Logger::LOG_ERROR) << "ConservedMoietyConverter::setDocument argument is NULL";
         return LIBSBML_INVALID_OBJECT;
     }
 
@@ -323,7 +323,7 @@ int ConservedMoietyConverter::setDocument(const libsbml::SBMLDocument* doc)
         if ((rr::Config::getInt(rr::Config::ROADRUNNER_DISABLE_WARNINGS) &
                 rr::Config::ROADRUNNER_DISABLE_WARNINGS_CONSERVED_MOIETY) == 0)
         {
-            Log(rr::Logger::LOG_NOTICE) << "source document is level " << doc->getLevel()
+            rrLog(rr::Logger::LOG_NOTICE) << "source document is level " << doc->getLevel()
                         << ", version " << doc->getVersion() << ", converting to "
                         << "level " << ConservationExtension::getDefaultLevel()
                         << ", version " << ConservationExtension::getDefaultVersion()
@@ -349,11 +349,11 @@ int ConservedMoietyConverter::setDocument(const libsbml::SBMLDocument* doc)
 
         if ((result = versionConverter.convert()) != LIBSBML_OPERATION_SUCCESS)
         {
-            Log(rr::Logger::LOG_ERROR) << "could not upgrade source sbml level or version";
+            rrLog(rr::Logger::LOG_ERROR) << "could not upgrade source sbml level or version";
 
             const SBMLErrorLog *log = doc->getErrorLog();
             string errors = log ? log->toString() : string(" NULL SBML Error Log");
-            Log(rr::Logger::LOG_ERROR) << "Conversion Errors: " + errors;
+            rrLog(rr::Logger::LOG_ERROR) << "Conversion Errors: " + errors;
 
             return result;
         }
@@ -394,11 +394,11 @@ int ConservedMoietyConverter::setDocument(const libsbml::SBMLDocument* doc)
             */
             if (errors > 0)
             {
-                Log(rr::Logger::LOG_ERROR) << "Invalid document for moiety conversion:";
+                rrLog(rr::Logger::LOG_ERROR) << "Invalid document for moiety conversion:";
 
                 const SBMLErrorLog *log = pdoc->getErrorLog();
                 string errors = log ? log->toString() : string(" NULL SBML Error Log");
-                Log(rr::Logger::LOG_ERROR) << "Conversion Errors: " + errors;
+                rrLog(rr::Logger::LOG_ERROR) << "Conversion Errors: " + errors;
 
                 return LIBSBML_CONV_INVALID_SRC_DOCUMENT;
             }
@@ -719,7 +719,7 @@ static ASTNode *createSpeciesAmountNode(const Model* model, const std::string& n
 
 static inline void conservedMoietyException(const std::string& what)
 {
-    Log(rr::Logger::LOG_INFORMATION) << what;
+    rrLog(rr::Logger::LOG_INFORMATION) << what;
 
     static const char* help = "\n To disable conserved moiety conversion, either \n"
             "\t a: set [Your roadrunner variable].conservedMoietyAnalysis = False, \n"

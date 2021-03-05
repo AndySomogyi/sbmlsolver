@@ -69,7 +69,7 @@ bool TestSuiteSimulation::Simulate()
 
     if (!resultData )
     {
-        Log(Logger::LOG_ERROR) << "Failed simulate in test " << mCurrentCaseNumber
+        rrLog(Logger::LOG_ERROR) << "Failed simulate in test " << mCurrentCaseNumber
                 << ", error: " << rrc::getLastError();
         return false;
     }
@@ -145,7 +145,7 @@ bool RunTest(const string& version, int caseNumber, const std::string& compiler)
 
     try
     {
-        Log(Logger::LOG_NOTICE) << "Running Test: "<<caseNumber<<endl;
+        rrLog(Logger::LOG_NOTICE) << "Running Test: "<<caseNumber<<endl;
         string dataOutputFolder(gTempFolder);
         string dummy;
         string logFileName;
@@ -218,17 +218,17 @@ bool RunTest(const string& version, int caseNumber, const std::string& compiler)
         simulation.SaveModelAsXML(dataOutputFolder);
         if(!result)
         {
-            Log(Logger::LOG_NOTICE) << "\t\tTest failed using compiler \'" << getCompiler(gRR) << "\'" << endl;
+            rrLog(Logger::LOG_NOTICE) << "\t\tTest failed using compiler \'" << getCompiler(gRR) << "\'" << endl;
         }
         else
         {
-            Log(Logger::LOG_NOTICE) <<"\t\tTest passed using compiler \'" << getCompiler(gRR) << "\'" << endl;
+            rrLog(Logger::LOG_NOTICE) <<"\t\tTest passed using compiler \'" << getCompiler(gRR) << "\'" << endl;
         }
     }
     catch(rr::Exception& ex)
     {
         string error = ex.what();
-        Log(Logger::LOG_NOTICE) << "Case "<<caseNumber<<": Exception: "<<error<<endl;
+        rrLog(Logger::LOG_NOTICE) << "Case "<<caseNumber<<": Exception: "<<error<<endl;
         result = false;;
     }
 

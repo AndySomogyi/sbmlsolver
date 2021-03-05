@@ -356,7 +356,7 @@ public:
     }
     ~RoadRunnerImpl()
     {
-        Log(Logger::LOG_DEBUG) << __FUNC__ << ", global instance count: " << mInstanceCount;
+        rrLog(Logger::LOG_DEBUG) << __FUNC__ << ", global instance count: " << mInstanceCount;
 
 		delete compiler;
         delete mLS;
@@ -700,7 +700,7 @@ ls::LibStructural* RoadRunner::getLibStruct()
     else if (impl->document)
     {
         impl->mLS = new ls::LibStructural(getSBML());
-        Log(Logger::LOG_INFORMATION) << "created structural analysis, messages: "
+        rrLog(Logger::LOG_INFORMATION) << "created structural analysis, messages: "
                 << impl->mLS->getAnalysisMsg();
         return impl->mLS;
     }
@@ -777,7 +777,7 @@ size_t RoadRunner::createDefaultTimeCourseSelectionList()
 				// not push the species again
 				selections_with_ratelaws.push_back(*i);
     } catch (NotImplementedException) {
-        Log(Logger::LOG_WARNING) << "Querying rate rule symbols not supported with this executable model";
+        rrLog(Logger::LOG_WARNING) << "Querying rate rule symbols not supported with this executable model";
     }
 
     // try to apply selections including rate laws,
@@ -786,14 +786,14 @@ size_t RoadRunner::createDefaultTimeCourseSelectionList()
     try {
         setSelections(selections_with_ratelaws);
     } catch (...) {
-        Log(Logger::LOG_WARNING) << "Rate laws exist but cannot be added to default selections";
+        rrLog(Logger::LOG_WARNING) << "Rate laws exist but cannot be added to default selections";
         setSelections(selections);
     }
 
-    Log(lDebug)<<"The following is selected:";
+    rrLog(lDebug)<<"The following is selected:";
     for(int i = 0; i < impl->mSelectionList.size(); i++)
     {
-        Log(lDebug)<<impl->mSelectionList[i];
+        rrLog(lDebug)<<impl->mSelectionList[i];
     }
     return impl->mSelectionList.size();
 }
@@ -809,13 +809,13 @@ size_t RoadRunner::createTimeCourseSelectionList()
     // if settings has any selections, this overrides the selection list.
     if (settingsList.size() > 1)
     {
-        Log(Logger::LOG_INFORMATION) << "overriding selection list with values from SimulateOptions.";
+        rrLog(Logger::LOG_INFORMATION) << "overriding selection list with values from SimulateOptions.";
         setSelections(settingsList);
     }
 
     for(int i = 0; i < impl->mSelectionList.size(); i++)
     {
-        Log(Logger::LOG_DEBUG) << "Selection Value [" << i << "]: " << impl->mSelectionList[i].to_repr();
+        rrLog(Logger::LOG_DEBUG) << "Selection Value [" << i << "]: " << impl->mSelectionList[i].to_repr();
     }
 
     return impl->mSelectionList.size();
@@ -1115,7 +1115,7 @@ void RoadRunner::load(const string& uriOrSbml, const Dictionary *dict)
         string errors = validateSBML(mCurrentSBML);
 
         if(!errors.empty()) {
-            Log(Logger::LOG_ERROR) << "Invalid SBML: " << endl << errors;
+            rrLog(Logger::LOG_ERROR) << "Invalid SBML: " << endl << errors;
         }
 
         // re-throw the exception
@@ -1138,23 +1138,23 @@ bool RoadRunner::createDefaultSelectionLists()
     //Create a default timecourse selectionlist
     if(!createDefaultTimeCourseSelectionList())
     {
-        Log(lDebug)<<"Failed creating default timecourse selectionList.";
+        rrLog(lDebug)<<"Failed creating default timecourse selectionList.";
         result = false;
     }
     else
     {
-        Log(lDebug)<<"Created default TimeCourse selection list.";
+        rrLog(lDebug)<<"Created default TimeCourse selection list.";
     }
 
     //Create a defualt steady state selectionlist
     if(!createDefaultSteadyStateSelectionList())
     {
-        Log(lDebug)<<"Failed creating default steady state selectionList.";
+        rrLog(lDebug)<<"Failed creating default steady state selectionList.";
         result = false;
     }
     else
     {
-        Log(lDebug)<<"Created default SteadyState selection list.";
+        rrLog(lDebug)<<"Created default SteadyState selection list.";
     }
     return result;
 }
@@ -1204,7 +1204,7 @@ void RoadRunner::reset(int options)
         }
         catch (const Exception& e)
         {
-            Log(lWarning)<<"Constraint Violated at time = 0\n"<<e.Message();
+            rrLog(lWarning)<<"Constraint Violated at time = 0\n"<<e.Message();
         }
     }
 }
@@ -1257,7 +1257,7 @@ double RoadRunner::mcaSteadyState()
 
 double RoadRunner::steadyState(const Dictionary* dict)
 {
-    Log(Logger::LOG_DEBUG)<<"RoadRunner::steadyState...";
+    rrLog(Logger::LOG_DEBUG)<<"RoadRunner::steadyState...";
     if (!impl->model)
     {
         throw CoreException(gEmptyModelMessage);
@@ -1266,19 +1266,19 @@ double RoadRunner::steadyState(const Dictionary* dict)
             (Config::getBool(Config::ROADRUNNER_DISABLE_WARNINGS)
                 & Config::ROADRUNNER_DISABLE_WARNINGS_STEADYSTATE) == 0)
     {
-        Log(Logger::LOG_WARNING) << "Conserved Moiety Analysis is not enabled, steady state may fail with singular Jacobian";
-        Log(Logger::LOG_WARNING) << "Conserved Moiety Analysis may be enabled via the conservedMoeityAnalysis property or "
+        rrLog(Logger::LOG_WARNING) << "Conserved Moiety Analysis is not enabled, steady state may fail with singular Jacobian";
+        rrLog(Logger::LOG_WARNING) << "Conserved Moiety Analysis may be enabled via the conservedMoeityAnalysis property or "
                                     "via the configuration file or the Config class setValue, see roadrunner documentation";
-        Log(Logger::LOG_WARNING) << "to remove this warning, set ROADRUNNER_DISABLE_WARNINGS to 1 or 3 in the config file";
+        rrLog(Logger::LOG_WARNING) << "to remove this warning, set ROADRUNNER_DISABLE_WARNINGS to 1 or 3 in the config file";
     }
     metabolicControlCheck(impl->model.get());
 
     if (!impl->steady_state_solver) {
-        Log(Logger::LOG_ERROR)<<"No steady state solver";
+        rrLog(Logger::LOG_ERROR)<<"No steady state solver";
         throw std::runtime_error("No steady state solver");
     }
 
-    Log(Logger::LOG_DEBUG)<<"Attempting to find steady state using solver '" << impl->steady_state_solver->getName() << "'...";
+    rrLog(Logger::LOG_DEBUG)<<"Attempting to find steady state using solver '" << impl->steady_state_solver->getName() << "'...";
 
     double ss;
 
@@ -1320,7 +1320,7 @@ double RoadRunner::steadyState(const Dictionary* dict)
 
         setIntegrator(currint);
 
-        Log(Logger::LOG_DEBUG) << "Steady state presimulation done";
+        rrLog(Logger::LOG_DEBUG) << "Steady state presimulation done";
     }
 
     // NLEQ
@@ -1336,7 +1336,7 @@ double RoadRunner::steadyState(const Dictionary* dict)
 
             if (ss < 0)
             {
-                Log(Logger::LOG_ERROR) << "Steady State solver failed...";
+                rrLog(Logger::LOG_ERROR) << "Steady State solver failed...";
             }
             return ss;
         }
@@ -1354,7 +1354,7 @@ double RoadRunner::steadyState(const Dictionary* dict)
 
                 ss = steadyStateApproximate();
 
-                Log(Logger::LOG_WARNING) << "Steady state solver failed. However, RoadRunner approximated the solution successfully.";
+                rrLog(Logger::LOG_WARNING) << "Steady state solver failed. However, RoadRunner approximated the solution successfully.";
 
                 return ss;
             }
@@ -1370,7 +1370,7 @@ double RoadRunner::steadyState(const Dictionary* dict)
 
         if (ss < 0)
         {
-            Log(Logger::LOG_ERROR) << "Steady State solver failed...";
+            rrLog(Logger::LOG_ERROR) << "Steady State solver failed...";
         }
 
         return ss;
@@ -1381,7 +1381,7 @@ double RoadRunner::steadyState(const Dictionary* dict)
 
 double RoadRunner::steadyStateApproximate(const Dictionary* dict)
 {
-    Log(Logger::LOG_DEBUG) << "RoadRunner::steadStateApproximate";
+    rrLog(Logger::LOG_DEBUG) << "RoadRunner::steadStateApproximate";
 
     get_self();
     check_model();
@@ -1422,9 +1422,9 @@ double RoadRunner::steadyStateApproximate(const Dictionary* dict)
     double* vals1 = new double[l];
     double* vals2 = new double[l];
 
-    Log(Logger::LOG_DEBUG) << "tol thres: " << self.steady_state_solver->getValueAsDouble("approx_tolerance");
-    Log(Logger::LOG_DEBUG) << "Max steps: " << self.steady_state_solver->getValueAsInt("approx_maximum_steps");
-    Log(Logger::LOG_DEBUG) << "Max time: " << self.steady_state_solver->getValueAsDouble("approx_time");
+    rrLog(Logger::LOG_DEBUG) << "tol thres: " << self.steady_state_solver->getValueAsDouble("approx_tolerance");
+    rrLog(Logger::LOG_DEBUG) << "Max steps: " << self.steady_state_solver->getValueAsInt("approx_maximum_steps");
+    rrLog(Logger::LOG_DEBUG) << "Max time: " << self.steady_state_solver->getValueAsDouble("approx_time");
 
     try
     {
@@ -1439,7 +1439,7 @@ double RoadRunner::steadyStateApproximate(const Dictionary* dict)
     }
     catch (EventListenerException& e)
     {
-        Log(Logger::LOG_ERROR) << e.what();
+        rrLog(Logger::LOG_ERROR) << e.what();
     }
 
     self.simulateOpt.start = start_temp;
@@ -1448,7 +1448,7 @@ double RoadRunner::steadyStateApproximate(const Dictionary* dict)
     setIntegrator(currint);
     setSelections(currsel);
 
-    Log(Logger::LOG_DEBUG) << "Steady state approximation done";
+    rrLog(Logger::LOG_DEBUG) << "Steady state approximation done";
 
     if (tol > self.steady_state_solver->getValueAsDouble("approx_tolerance"))
     {
@@ -1476,7 +1476,7 @@ void RoadRunner::setConservedMoietyAnalysis(bool value)
 
     if(value == self.loadOpt.getConservedMoietyConversion())
     {
-        Log(lDebug)<<"The compute and assign conservation laws flag already set to : " << toString(value);
+        rrLog(lDebug)<<"The compute and assign conservation laws flag already set to : " << toString(value);
     }
 
     self.loadOpt.setConservedMoietyConversion(value);
@@ -1742,7 +1742,7 @@ const DoubleMatrix* RoadRunner::simulate(const Dictionary* dict)
     unsigned int bufSize = writeToFile ? kRowsPerWrite : (self.simulateOpt.steps + 1);
     if (writeToFile) {
         std::string outfname = changeFileExtensionTo(self.simulateOpt.output_file, ".csv");
-        Log(Logger::LOG_DEBUG) << "Writing simulation result to output file '" << outfname
+        rrLog(Logger::LOG_DEBUG) << "Writing simulation result to output file '" << outfname
             << "'...";
         outfile = std::ofstream();
         outfile.open(outfname);
@@ -1765,7 +1765,7 @@ const DoubleMatrix* RoadRunner::simulate(const Dictionary* dict)
     // Variable Time Step Integration
     if (self.integrator->hasValue("variable_step_size") && self.integrator->getValueAsBool("variable_step_size"))
     {
-        Log(Logger::LOG_INFORMATION) << "Performing variable step integration";
+        rrLog(Logger::LOG_INFORMATION) << "Performing variable step integration";
 
         int max_output_rows = Config::getInt(Config::MAX_OUTPUT_ROWS);
         if (self.integrator->hasValue("max_output_rows"))
@@ -1808,7 +1808,7 @@ const DoubleMatrix* RoadRunner::simulate(const Dictionary* dict)
                     results.clear();
                 }
 
-                Log(Logger::LOG_DEBUG) << "variable step, start: " << tout
+                rrLog(Logger::LOG_DEBUG) << "variable step, start: " << tout
                         << ", end: " << timeEnd;
                 tout = self.integrator->integrate(tout, timeEnd - tout);
 
@@ -1834,7 +1834,7 @@ const DoubleMatrix* RoadRunner::simulate(const Dictionary* dict)
                     if (getIntegrator()->getName() == "gillespie")
                     {
                         // stochastic simulations use flat interpolation
-                        Log(Logger::LOG_DEBUG) << "simulate: use flat interpolation for last value with timeEnd = " <<  timeEnd << ", tout = " << tout << ", last_tout = " << last_tout;
+                        rrLog(Logger::LOG_DEBUG) << "simulate: use flat interpolation for last value with timeEnd = " <<  timeEnd << ", tout = " << tout << ", last_tout = " << last_tout;
 
                         for (int n = 0; n<row.size(); ++n) {
                             row.at(n) = results.back().at(n);
@@ -1851,7 +1851,7 @@ const DoubleMatrix* RoadRunner::simulate(const Dictionary* dict)
                     {
                         // ODE simulations use linear interpolation
                         double alpha = (timeEnd - last_tout)/(tout - last_tout);
-                        Log(Logger::LOG_DEBUG) << "simulate: use linear interpolation for last value with timeEnd = " <<  timeEnd << ", tout = " << tout << ", last_tout = " << last_tout;
+                        rrLog(Logger::LOG_DEBUG) << "simulate: use linear interpolation for last value with timeEnd = " <<  timeEnd << ", tout = " << tout << ", last_tout = " << last_tout;
 
                         for(int n = 0; n<row.size(); ++n) {
                             row.at(n) = results.back().at(n) + alpha*(row.at(n) - results.back().at(n));
@@ -1873,7 +1873,7 @@ const DoubleMatrix* RoadRunner::simulate(const Dictionary* dict)
         }
         catch (EventListenerException& e)
         {
-            Log(Logger::LOG_NOTICE) << e.what();
+            rrLog(Logger::LOG_NOTICE) << e.what();
         }
 
         // stuff list values into result matrix
@@ -1893,7 +1893,7 @@ const DoubleMatrix* RoadRunner::simulate(const Dictionary* dict)
     // and stochastic.
 	else if (self.integrator->getIntegrationMethod() == Integrator::Stochastic)
     {
-        Log(Logger::LOG_INFORMATION)
+        rrLog(Logger::LOG_INFORMATION)
                 << "Performing stochastic fixed step integration for "
                 << self.simulateOpt.steps + 1 << " steps";
 
@@ -1907,7 +1907,7 @@ const DoubleMatrix* RoadRunner::simulate(const Dictionary* dict)
         const double hstep = (timeEnd - timeStart) / (numPoints - 1);
         unsigned int nrCols = static_cast<unsigned int>(self.mSelectionList.size());
 
-        Log(Logger::LOG_DEBUG) << "starting simulation with " << nrCols << " selected columns";
+        rrLog(Logger::LOG_DEBUG) << "starting simulation with " << nrCols << " selected columns";
 
         // ignored if same
         self.simulationResult.resize(bufSize, nrCols);
@@ -1929,7 +1929,7 @@ const DoubleMatrix* RoadRunner::simulate(const Dictionary* dict)
             // index gets bumped in do-while loop.
             for (int i = 1; i < self.simulateOpt.steps + 1;)
             {
-                Log(Logger::LOG_DEBUG) << "step: " << i << "t0: " << tout << "hstep: " << next - tout;
+                rrLog(Logger::LOG_DEBUG) << "step: " << i << "t0: " << tout << "hstep: " << next - tout;
 
                 // stochastic frequently overshoots time end
                 // may also be infinite
@@ -1963,14 +1963,14 @@ const DoubleMatrix* RoadRunner::simulate(const Dictionary* dict)
         }
         catch (EventListenerException& e)
         {
-            Log(Logger::LOG_NOTICE) << e.what();
+            rrLog(Logger::LOG_NOTICE) << e.what();
         }
     }
 
     // Deterministic Fixed Step Integration
     else
     {
-        Log(Logger::LOG_INFORMATION)
+        rrLog(Logger::LOG_INFORMATION)
                 << "Perfroming deterministic fixed step integration for  "
                 << self.simulateOpt.steps + 1 << " steps";
 
@@ -1984,7 +1984,7 @@ const DoubleMatrix* RoadRunner::simulate(const Dictionary* dict)
         double hstep = (timeEnd - timeStart) / (numPoints - 1);
         unsigned int nrCols = static_cast<unsigned int>(self.mSelectionList.size());
 
-        Log(Logger::LOG_DEBUG) << "starting simulation with " << nrCols << " selected columns";
+        rrLog(Logger::LOG_DEBUG) << "starting simulation with " << nrCols << " selected columns";
 
         // ignored if same
         self.simulationResult.resize(bufSize, nrCols);
@@ -2012,7 +2012,7 @@ const DoubleMatrix* RoadRunner::simulate(const Dictionary* dict)
                     self.simulationResult = ls::DoubleMatrix(bufSize, nrCols);
                     bufIndex = 0;
                 }
-                Log(Logger::LOG_DEBUG)<<"Step "<<i;
+                rrLog(Logger::LOG_DEBUG)<<"Step "<<i;
                 double itime = self.integrator->integrate(tout, hstep);
 
                 // the test suite is extremly sensetive to time differences,
@@ -2032,7 +2032,7 @@ const DoubleMatrix* RoadRunner::simulate(const Dictionary* dict)
         }
         catch (EventListenerException& e)
         {
-            Log(Logger::LOG_NOTICE) << e.what();
+            rrLog(Logger::LOG_NOTICE) << e.what();
         }
     }
 
@@ -2040,7 +2040,7 @@ const DoubleMatrix* RoadRunner::simulate(const Dictionary* dict)
 
     self.model->setIntegration(false);
 
-    Log(Logger::LOG_DEBUG) << "Simulation done..";
+    rrLog(Logger::LOG_DEBUG) << "Simulation done..";
 
     return &self.simulationResult;
 }
@@ -2062,7 +2062,7 @@ double RoadRunner::oneStep(const double currentTime, const double stepSize, cons
     }
     catch (EventListenerException& e)
     {
-        Log(Logger::LOG_NOTICE) << e.what();
+        rrLog(Logger::LOG_NOTICE) << e.what();
         return self.model->getTime();
     }
 }
@@ -2086,12 +2086,12 @@ double RoadRunner::internalOneStep(const double currentTime, const double stepSi
         }
         endTime = self.integrator->integrate(currentTime, stepSize);
         self.integrator->setValue("variable_step_size", temp_var);
-        Log(Logger::LOG_DEBUG) << "internalOneStep: " << endTime;
+        rrLog(Logger::LOG_DEBUG) << "internalOneStep: " << endTime;
         return endTime;
     }
     catch (EventListenerException& e)
     {
-        Log(Logger::LOG_NOTICE) << e.what();
+        rrLog(Logger::LOG_NOTICE) << e.what();
         endTime = self.model->getTime();
         self.integrator->setValue("variable_step_size", temp_var);
         return endTime;
@@ -2587,14 +2587,14 @@ DoubleMatrix RoadRunner::getReducedJacobian(double h)
     if (Config::getValue(Config::ROADRUNNER_JACOBIAN_MODE).convert<unsigned>()
             == Config::ROADRUNNER_JACOBIAN_MODE_AMOUNTS)
     {
-        Log(Logger::LOG_DEBUG) << "getReducedJacobian in AMOUNT mode";
+        rrLog(Logger::LOG_DEBUG) << "getReducedJacobian in AMOUNT mode";
         getValuePtr =     &ExecutableModel::getFloatingSpeciesAmounts;
         getRateValuePtr = &ExecutableModel::getFloatingSpeciesAmountRates;
         setValuePtr =     &ExecutableModel::setFloatingSpeciesAmounts;
     }
     else
     {
-        Log(Logger::LOG_DEBUG) << "getReducedJacobian in CONCENTRATION mode";
+        rrLog(Logger::LOG_DEBUG) << "getReducedJacobian in CONCENTRATION mode";
         getValuePtr =     &ExecutableModel::getFloatingSpeciesConcentrations;
         getRateValuePtr = &ExecutableModel::getFloatingSpeciesAmountRates;
         setValuePtr =     &ExecutableModel::setFloatingSpeciesConcentrations;
@@ -4159,11 +4159,11 @@ static string convertSBMLVersion(const std::string& str, int level, int version)
 
         if (versionConverter.convert() != libsbml::LIBSBML_OPERATION_SUCCESS)
         {
-            Log(rr::Logger::LOG_ERROR) << "could not change source sbml level or version";
+            rrLog(rr::Logger::LOG_ERROR) << "could not change source sbml level or version";
 
             const libsbml::SBMLErrorLog *log = doc->getErrorLog();
             string errors = log ? log->toString() : string(" NULL SBML Error Log");
-            Log(rr::Logger::LOG_ERROR) << "Conversion Errors: " + errors;
+            rrLog(rr::Logger::LOG_ERROR) << "Conversion Errors: " + errors;
 
             throw std::logic_error("Error version converting sbml: " + errors);
         }
@@ -4351,7 +4351,7 @@ std::vector<std::string> RoadRunner::getRegisteredSteadyStateSolverNames()
 
 void RoadRunner::setIntegrator(std::string name)
 {
-    Log(Logger::LOG_DEBUG) << "Setting integrator to " << name;
+    rrLog(Logger::LOG_DEBUG) << "Setting integrator to " << name;
     // Try to set integrator from an existing reference.
     if (integratorExists(name))
     {
@@ -4360,7 +4360,7 @@ void RoadRunner::setIntegrator(std::string name)
       {
         if (impl->integrators.at(i)->getName() == name)
         {
-            Log(Logger::LOG_DEBUG) << "Using pre-existing integrator for " << name;
+            rrLog(Logger::LOG_DEBUG) << "Using pre-existing integrator for " << name;
             impl->integrator = impl->integrators.at(i);
         }
       }
@@ -4375,10 +4375,10 @@ void RoadRunner::setIntegrator(std::string name)
 Integrator* RoadRunner::makeIntegrator(std::string name)
 {
     if (integratorExists(name)) {
-        Log(Logger::LOG_DEBUG) << "Integrator \"" << name << "\" already exists";
+        rrLog(Logger::LOG_DEBUG) << "Integrator \"" << name << "\" already exists";
         return NULL;
     }
-    Log(Logger::LOG_DEBUG) << "Creating new integrator for " << name;
+    rrLog(Logger::LOG_DEBUG) << "Creating new integrator for " << name;
     Integrator* result = IntegratorFactory::getInstance().New(name, impl->model.get());
     impl->integrators.push_back(result);
     return result;
@@ -4400,7 +4400,7 @@ bool RoadRunner::integratorExists(std::string name)
 
 void RoadRunner::setSteadyStateSolver(std::string name)
 {
-    Log(Logger::LOG_DEBUG) << "Setting steady state solver to " << name;
+    rrLog(Logger::LOG_DEBUG) << "Setting steady state solver to " << name;
     // Try to set steady_state_solver from an existing reference.
     if (steadyStateSolverExists(name))
     {
@@ -4409,7 +4409,7 @@ void RoadRunner::setSteadyStateSolver(std::string name)
         {
             if (impl->steady_state_solvers.at(i)->getName() == name)
             {
-                Log(Logger::LOG_DEBUG) << "Using pre-existing steady state solver for " << name;
+                rrLog(Logger::LOG_DEBUG) << "Using pre-existing steady state solver for " << name;
                 impl->steady_state_solver = impl->steady_state_solvers.at(i);
             }
         }
@@ -4417,7 +4417,7 @@ void RoadRunner::setSteadyStateSolver(std::string name)
     // Otherwise, create a new steady state solver.
     else
     {
-        Log(Logger::LOG_DEBUG) << "Creating new steady state solver for " << name;
+        rrLog(Logger::LOG_DEBUG) << "Creating new steady state solver for " << name;
         impl->steady_state_solver = SteadyStateSolverFactory::getInstance().New(name, impl->model.get());
         impl->steady_state_solvers.push_back(impl->steady_state_solver);
     }
@@ -4573,7 +4573,7 @@ SelectionRecord RoadRunner::createSelection(const std::string& str)
         else
         {
             string msg = "No sbml element exists for concentration selection '" + str + "'";
-            Log(Logger::LOG_ERROR) << msg;
+            rrLog(Logger::LOG_ERROR) << msg;
             throw Exception(msg);
             break;
         }
@@ -4600,7 +4600,7 @@ SelectionRecord RoadRunner::createSelection(const std::string& str)
                     impl->model->getBoundarySpeciesIndex(sel.p2) >= 0 ||
                     impl->model->getConservedMoietyIndex(sel.p2) >= 0)
             {
-                Log(Logger::LOG_INFORMATION) <<
+                rrLog(Logger::LOG_INFORMATION) <<
                         "Valid metabolic control selection: " << sel.to_repr();
             }
             else
@@ -4678,7 +4678,7 @@ SelectionRecord RoadRunner::createSelection(const std::string& str)
             break;
         }
     default:
-        Log(Logger::LOG_ERROR) << "A new SelectionRecord should not have this value: "
+        rrLog(Logger::LOG_ERROR) << "A new SelectionRecord should not have this value: "
             << sel.to_repr();
         break;
     }
@@ -4762,13 +4762,13 @@ Matrix<double> RoadRunner::getFrequencyResponse(double startFrequency,
         {
             double val = getUnscaledParameterElasticity(reactionNames[j], parameterName);
             dvdp(j, 0) = Complex(val, 0.0);
-            Log(lDebug)<<"dv/dp: " << dvdp(j, 0);
+            rrLog(lDebug)<<"dv/dp: " << dvdp(j, 0);
         }
 
         // Compute the Jacobian first
         ComplexMatrix T1(Nr.RSize(), uelast.CSize());
         T1 = mult(Nr, uelast);
-        Log(lInfo)<<T1;
+        rrLog(lInfo)<<T1;
 
         ComplexMatrix Jac(Nr.RSize(), LinkMatrix.CSize());
         Jac = mult(T1, LinkMatrix);
@@ -5576,7 +5576,7 @@ void RoadRunner::addSpecies(const std::string& sid, const std::string& compartme
         throw std::invalid_argument("Roadrunner::addSpecies failed, no compartment " + compartment + " existed in the model");
     }
 
-    Log(Logger::LOG_DEBUG) << "Adding species " << sid << " in compartment " << compartment << "..." << endl;
+    rrLog(Logger::LOG_DEBUG) << "Adding species " << sid << " in compartment " << compartment << "..." << endl;
     libsbml::Species* newSpecies = impl->document->getModel()->createSpecies();
 
     int ret = newSpecies->setId(sid);
@@ -5621,7 +5621,7 @@ void RoadRunner::removeSpecies(const std::string& sid, bool forceRegenerate)
 		throw std::invalid_argument("Roadrunner::removeSpecies failed, no species with ID " + sid + " existed in the model");
 	}
 
-	Log(Logger::LOG_DEBUG) << "Removing species " << sid << "..." << endl;
+	rrLog(Logger::LOG_DEBUG) << "Removing species " << sid << "..." << endl;
 
 
 	// delete all related reactions as well
@@ -5708,7 +5708,7 @@ void RoadRunner::setBoundary(const std::string& sid, bool boundaryCondition, boo
 		throw std::invalid_argument("Roadrunner::setBoundarySpecies failed, no species with ID " + sid + " existed in the model");
 	}
 
-	Log(Logger::LOG_DEBUG) << "Setting boundary condition for species " << sid << "..." << endl;
+	rrLog(Logger::LOG_DEBUG) << "Setting boundary condition for species " << sid << "..." << endl;
 	species->setBoundaryCondition(boundaryCondition);
 
 	regenerate(forceRegenerate);
@@ -5725,7 +5725,7 @@ void RoadRunner::setHasOnlySubstanceUnits(const std::string& sid, bool hasOnlySu
 		throw std::invalid_argument("Roadrunner::setHasOnlySubstanceUnits failed, no species with ID " + sid + " existed in the model");
 	}
 
-	Log(Logger::LOG_DEBUG) << "Setting hasOnlySubstanceUnits attribute for species " << sid << "..." << endl;
+	rrLog(Logger::LOG_DEBUG) << "Setting hasOnlySubstanceUnits attribute for species " << sid << "..." << endl;
 	species->setHasOnlySubstanceUnits(hasOnlySubstanceUnits);
 
 	regenerate(forceRegenerate);
@@ -5742,7 +5742,7 @@ void RoadRunner::setInitAmount(const std::string& sid, double initAmount, bool f
 		throw std::invalid_argument("Roadrunner::setInitAmount failed, no species with ID " + sid + " existed in the model");
 	}
 
-	Log(Logger::LOG_DEBUG) << "Setting initial amount for species " << sid << "..." << endl;
+	rrLog(Logger::LOG_DEBUG) << "Setting initial amount for species " << sid << "..." << endl;
 	if (species->isSetInitialAmount())
 	{
 		species->unsetInitialAmount();
@@ -5770,7 +5770,7 @@ void RoadRunner::setInitConcentration(const std::string& sid, double initConcent
 		throw std::invalid_argument("Roadrunner::setInitConcentration failed, no species with ID " + sid + " existed in the model");
 	}
 
-	Log(Logger::LOG_DEBUG) << "Setting initial concentration for species " << sid << "..." << endl;
+	rrLog(Logger::LOG_DEBUG) << "Setting initial concentration for species " << sid << "..." << endl;
 	if (species->isSetInitialConcentration())
 	{
 		species->unsetInitialConcentration();
@@ -5803,17 +5803,17 @@ void RoadRunner::setConstant(const std::string& sid, bool constant, bool forceRe
 
 	if (species != NULL)
 	{
-		Log(Logger::LOG_DEBUG) << "Setting constant attribute for species " << sid << "..." << endl;
+		rrLog(Logger::LOG_DEBUG) << "Setting constant attribute for species " << sid << "..." << endl;
 		species->setConstant(constant);
 	}
 	else if (parameter != NULL)
 	{
-		Log(Logger::LOG_DEBUG) << "Setting constant attribute for parameter " << sid << "..." << endl;
+		rrLog(Logger::LOG_DEBUG) << "Setting constant attribute for parameter " << sid << "..." << endl;
 		parameter->setConstant(constant);
 	}
 	else if (compartment != NULL)
 	{
-		Log(Logger::LOG_DEBUG) << "Setting constant attribute for compartment " << sid << "..." << endl;
+		rrLog(Logger::LOG_DEBUG) << "Setting constant attribute for compartment " << sid << "..." << endl;
 		compartment->setConstant(constant);
 	}
 	else
@@ -5828,7 +5828,7 @@ void RoadRunner::setConstant(const std::string& sid, bool constant, bool forceRe
 void RoadRunner::addReaction(const std::string& sbmlRep, bool forceRegenerate)
 {
 
-	Log(Logger::LOG_DEBUG) << "Adding new reaction ..." << endl;
+	rrLog(Logger::LOG_DEBUG) << "Adding new reaction ..." << endl;
 	libsbml::Reaction *newReaction = impl->document->getModel()->createReaction();
 	libsbml::XMLInputStream stream(sbmlRep.c_str(), false);
 	newReaction->read(stream);
@@ -5845,7 +5845,7 @@ void RoadRunner::addReaction(const string& rid, vector<string> reactants, vector
 
 	checkID("addReaction", rid);
 
-	Log(Logger::LOG_DEBUG) << "Adding reaction " << rid << "..." << endl;
+	rrLog(Logger::LOG_DEBUG) << "Adding reaction " << rid << "..." << endl;
 	Reaction* newReaction = sbmlModel->createReaction();
 
     int ret = newReaction->setId(rid);
@@ -5925,7 +5925,7 @@ void RoadRunner::removeReaction(const std::string& rid, bool deleteUnusedParamet
 	{
 		throw std::invalid_argument("Roadrunner::removeReaction failed, no reaction with ID " + rid + " existed in the model");
 	}
-	Log(Logger::LOG_DEBUG) << "Removing reaction " << rid << "..." << endl;
+	rrLog(Logger::LOG_DEBUG) << "Removing reaction " << rid << "..." << endl;
     if (deleteUnusedParameters)
     {
         std::set<std::string> toCheck;
@@ -6048,7 +6048,7 @@ void RoadRunner::setReversible(const std::string& rid,bool reversible, bool forc
 		throw std::invalid_argument("Roadrunner::setReversible failed, no reaction with ID " + rid + " existed in the model");
 	}
 
-	Log(Logger::LOG_DEBUG) << "Setting reversible attribute for reaction " << rid << "..." << endl;
+	rrLog(Logger::LOG_DEBUG) << "Setting reversible attribute for reaction " << rid << "..." << endl;
 	reaction->setReversible(reversible);
 
 	regenerate(forceRegenerate);
@@ -6067,7 +6067,7 @@ void RoadRunner::setKineticLaw(const std::string& rid, const std::string& kineti
         throw std::invalid_argument("Roadrunner::setKineticLaw failed, no reaction with ID " + rid + " existed in the model");
     }
 
-    Log(Logger::LOG_DEBUG) << "Setting kinetic law for reaction " << rid << "..." << endl;
+    rrLog(Logger::LOG_DEBUG) << "Setting kinetic law for reaction " << rid << "..." << endl;
 
 
     KineticLaw* law = reaction->getKineticLaw();
@@ -6111,7 +6111,7 @@ std::string RoadRunner::getKineticLaw(const std::string& rid)
         throw std::invalid_argument("Roadrunner::getKineticLaw failed, no reaction with ID " + rid + " exists in the model");
     }
 
-    Log(Logger::LOG_DEBUG) << "Getting kinetic law for reaction " << rid << endl;
+    rrLog(Logger::LOG_DEBUG) << "Getting kinetic law for reaction " << rid << endl;
 
 
     KineticLaw* law = reaction->getKineticLaw();
@@ -6136,7 +6136,7 @@ void RoadRunner::addParameter(const std::string& pid, double value, bool forceRe
 {
 	checkID("addParameter", pid);
 
-	Log(Logger::LOG_DEBUG) << "Adding parameter " << pid << " with value " << value << endl;
+	rrLog(Logger::LOG_DEBUG) << "Adding parameter " << pid << " with value " << value << endl;
 	libsbml::Parameter* newParameter = impl->document->getModel()->createParameter();
 
 
@@ -6159,7 +6159,7 @@ void RoadRunner::removeParameter(const std::string& pid, bool forceRegenerate)
 	{
 		throw std::invalid_argument("Roadrunner::removeParameter failed, no parameter with ID " + pid + " existed in the model");
 	}
-	Log(Logger::LOG_DEBUG) << "Removing parameter " << pid << "..." << endl;
+	rrLog(Logger::LOG_DEBUG) << "Removing parameter " << pid << "..." << endl;
 	removeVariable(pid);
 	delete toDelete;
 
@@ -6170,7 +6170,7 @@ void RoadRunner::removeParameter(const std::string& pid, bool forceRegenerate)
 void RoadRunner::addCompartment(const std::string& cid, double initVolume, bool forceRegenerate)
 {
 	checkID("addCompartment", cid);
-	Log(Logger::LOG_DEBUG) << "Adding compartment " << cid << " with initial volume " << initVolume << endl;
+	rrLog(Logger::LOG_DEBUG) << "Adding compartment " << cid << " with initial volume " << initVolume << endl;
 	libsbml::Compartment* newCompartment = impl->document->getModel()->createCompartment();
 
     int ret = newCompartment->setId(cid);
@@ -6196,7 +6196,7 @@ void RoadRunner::removeCompartment(const std::string& cid, bool forceRegenerate)
 	{
 		throw std::invalid_argument("Roadrunner::removeCompartment failed, no compartment with ID " + cid + " existed in the model");
 	}
-	Log(Logger::LOG_DEBUG) << "Removing compartment " << cid << "..." << endl;
+	rrLog(Logger::LOG_DEBUG) << "Removing compartment " << cid << "..." << endl;
 
 
 	// remove all species in the compartment
@@ -6275,7 +6275,7 @@ void RoadRunner::addAssignmentRule(const std::string& vid, const std::string& fo
     checkAddRule(vid, sbmlModel);
 
 
-	Log(Logger::LOG_DEBUG) << "Adding assignment rule for" << vid << "..." << endl;
+	rrLog(Logger::LOG_DEBUG) << "Adding assignment rule for" << vid << "..." << endl;
 	AssignmentRule* newRule = sbmlModel->createAssignmentRule();
 
 	// potential errors with these two inputs will be detected during regeneration and ignored
@@ -6296,7 +6296,7 @@ void RoadRunner::addRateRule(const std::string& vid, const std::string& formula,
 
     checkAddRule(vid, sbmlModel);
 
-	Log(Logger::LOG_DEBUG) << "Adding rate rule for" << vid << "..." << endl;
+	rrLog(Logger::LOG_DEBUG) << "Adding rate rule for" << vid << "..." << endl;
 	RateRule* newRule = sbmlModel->createRateRule();
 
 	// potential errors with these two inputs will be detected during regeneration
@@ -6327,7 +6327,7 @@ void RoadRunner::removeRules(const std::string& vid, bool useInitialValueAsCurre
 	{
 		throw std::invalid_argument("Roadrunner::removeRules failed, no rules for variable " + vid + " existed in the model");
 	}
-	Log(Logger::LOG_DEBUG) << "Removing rule for variable" << vid << "..." << endl;
+	rrLog(Logger::LOG_DEBUG) << "Removing rule for variable" << vid << "..." << endl;
 	delete toDelete;
 	checkGlobalParameters();
 
@@ -6435,7 +6435,7 @@ void RoadRunner::addInitialAssignment(const std::string& vid, const std::string&
 		throw std::invalid_argument("Roadrunner::addInitialAssignment failed, symbol " + vid + " already has an initial assignment existing in the model");
 	}
 
-	Log(Logger::LOG_DEBUG) << "Adding initial assignment for" << vid << "..." << endl;
+	rrLog(Logger::LOG_DEBUG) << "Adding initial assignment for" << vid << "..." << endl;
 	InitialAssignment* newAssignment = sbmlModel->createInitialAssignment();
 
 	newAssignment->setSymbol(vid);
@@ -6461,7 +6461,7 @@ void RoadRunner::removeInitialAssignment(const std::string& vid, bool forceRegen
 	{
 		throw std::invalid_argument("Roadrunner::removeInitialAssignment failed, no initial assignment for symbol " + vid + " existed in the model");
 	}
-	Log(Logger::LOG_DEBUG) << "Removing initial assignment for variable" << vid << "..." << endl;
+	rrLog(Logger::LOG_DEBUG) << "Removing initial assignment for variable" << vid << "..." << endl;
 	delete toDelete;
 	checkGlobalParameters();
 
@@ -6527,7 +6527,7 @@ void RoadRunner::addEvent(const std::string& eid, bool useValuesFromTriggerTime,
 	Model* sbmlModel = impl->document->getModel();
 	checkID("addEvent", eid);
 
-	Log(Logger::LOG_DEBUG) << "Adding event " << eid << "..." << endl;
+	rrLog(Logger::LOG_DEBUG) << "Adding event " << eid << "..." << endl;
 	Event* newEvent = sbmlModel->createEvent();
 	newEvent->setId(eid);
 	newEvent->setUseValuesFromTriggerTime(useValuesFromTriggerTime);
@@ -6564,7 +6564,7 @@ void RoadRunner::addTrigger(const std::string& eid, const std::string& trigger, 
 
 	Trigger* newTrigger = event->createTrigger();
 
-	Log(Logger::LOG_DEBUG) << "Adding trigger for event " << eid << "..." << endl;
+	rrLog(Logger::LOG_DEBUG) << "Adding trigger for event " << eid << "..." << endl;
 	ASTNode_t* formula = libsbml::SBML_parseL3Formula(trigger.c_str());
 	if (formula == NULL)
 	{
@@ -6603,7 +6603,7 @@ void RoadRunner::setPersistent(const std::string& eid, bool persistent, bool for
 		throw std::invalid_argument("Roadrunner::setPersistent failed, given event " + eid + " does not have a trigger");
 	}
 
-	Log(Logger::LOG_DEBUG) << "Setting persistent for trigger of " << eid << "..." << endl;
+	rrLog(Logger::LOG_DEBUG) << "Setting persistent for trigger of " << eid << "..." << endl;
 	trigger->setPersistent(persistent);
 
 	regenerate(forceRegenerate, true);
@@ -6629,7 +6629,7 @@ void RoadRunner::setTriggerInitialValue(const std::string& eid, bool initValue, 
 		throw std::invalid_argument("Roadrunner::setTriggerInitialValue failed, given event " + eid + " does not have a trigger");
 	}
 
-	Log(Logger::LOG_DEBUG) << "Setting initial value for trigger of " << eid << "..." << endl;
+	rrLog(Logger::LOG_DEBUG) << "Setting initial value for trigger of " << eid << "..." << endl;
 	trigger->setInitialValue(initValue);
 
 	regenerate(forceRegenerate, true);
@@ -6650,7 +6650,7 @@ void RoadRunner::addPriority(const std::string& eid, const std::string& priority
 	{
 		throw std::runtime_error("Roadrunner::addPriority failed, current SBML level and version does not support Priority in event");
 	}
-	Log(Logger::LOG_DEBUG) << "Adding priority for event " << eid << "..." << endl;
+	rrLog(Logger::LOG_DEBUG) << "Adding priority for event " << eid << "..." << endl;
 	ASTNode_t* formula = libsbml::SBML_parseL3Formula(priority.c_str());
 	if (formula == NULL)
 	{
@@ -6673,7 +6673,7 @@ void RoadRunner::addDelay(const std::string& eid, const std::string& delay, bool
 		throw std::invalid_argument("Roadrunner::addDelay failed, no event " + eid + " existed in the model");
 	}
 
-	Log(Logger::LOG_DEBUG) << "Adding delay for event " << eid << "..." << endl;
+	rrLog(Logger::LOG_DEBUG) << "Adding delay for event " << eid << "..." << endl;
 	Delay* newDelay = event->createDelay();
 	ASTNode_t* formula = libsbml::SBML_parseL3Formula(delay.c_str());
 	if (formula == NULL)
@@ -6717,7 +6717,7 @@ void RoadRunner::addEventAssignment(const std::string& eid, const std::string& v
 	}
 
 
-	Log(Logger::LOG_DEBUG) << "Adding event assignment for variable " << vid << " to event " << eid << "..." << endl;
+	rrLog(Logger::LOG_DEBUG) << "Adding event assignment for variable " << vid << " to event " << eid << "..." << endl;
 	EventAssignment* assignment = event->createEventAssignment();
 	assignment->setVariable(vid);
 
@@ -6748,7 +6748,7 @@ void RoadRunner::removeEventAssignments(const std::string & eid, const std::stri
 		throw std::invalid_argument("Roadrunner::removeEventAssignment failed, no event assignment for variable " + vid + " existed in the event " + eid);
 	}
 
-	Log(Logger::LOG_DEBUG) << "Removing event assignment for variable" << vid << " in event " << eid << "..." << endl;
+	rrLog(Logger::LOG_DEBUG) << "Removing event assignment for variable" << vid << " in event " << eid << "..." << endl;
 	delete toDelete;
 
 	regenerate(forceRegenerate, true);
@@ -6764,7 +6764,7 @@ void RoadRunner::removeEvent(const std::string & eid, bool forceRegenerate)
 	{
 		throw std::invalid_argument("Roadrunner::removeEvent failed, no event with ID " + eid + " existed in the model");
 	}
-	Log(Logger::LOG_DEBUG) << "Removing event " << eid << "..." << endl;
+	rrLog(Logger::LOG_DEBUG) << "Removing event " << eid << "..." << endl;
 	delete toDelete;
 	regenerate(forceRegenerate, true);
 }
@@ -6795,7 +6795,7 @@ void RoadRunner::regenerate(bool forceRegenerate, bool reset)
 {
 	if (forceRegenerate)
 	{
-		Log(Logger::LOG_DEBUG) << "Regenerating model..." << endl;
+		rrLog(Logger::LOG_DEBUG) << "Regenerating model..." << endl;
 		unordered_map<string, double> indTolerances;
 
 		bool toleranceVector = impl->integrator->getType("absolute_tolerance") == Variant::DOUBLEVECTOR;
@@ -6864,7 +6864,7 @@ void RoadRunner::removeVariable(const std::string& sid) {
 	using namespace libsbml;
 	Model* sbmlModel = impl->document->getModel();
 
-	Log(Logger::LOG_DEBUG) << "Removing reactions related to " << sid << "..." << endl;
+	rrLog(Logger::LOG_DEBUG) << "Removing reactions related to " << sid << "..." << endl;
 
 	SBase* toDelete = nullptr;
 	int index = 0;
@@ -6933,7 +6933,7 @@ void RoadRunner::removeVariable(const std::string& sid) {
 		index++;
 	}
 
-	Log(Logger::LOG_DEBUG) << "Removing rules related to " << sid << "..." << endl;
+	rrLog(Logger::LOG_DEBUG) << "Removing rules related to " << sid << "..." << endl;
 	// remove all rules that use this as variable
     toDelete = sbmlModel->removeRule(sid);
 	while (toDelete != NULL)
@@ -6959,7 +6959,7 @@ void RoadRunner::removeVariable(const std::string& sid) {
 		}
 	}
 
-	Log(Logger::LOG_DEBUG) << "Removing function definitions related to " << sid << "..." << endl;
+	rrLog(Logger::LOG_DEBUG) << "Removing function definitions related to " << sid << "..." << endl;
 	index = 0;
 	num = sbmlModel->getNumFunctionDefinitions();
 	for (uint i = 0; i < num; i++)
@@ -6975,7 +6975,7 @@ void RoadRunner::removeVariable(const std::string& sid) {
 		}
 	}
 
-	Log(Logger::LOG_DEBUG) << "Removing constraints related to " << sid << "..." << endl;
+	rrLog(Logger::LOG_DEBUG) << "Removing constraints related to " << sid << "..." << endl;
 	index = 0;
 	num = sbmlModel->getNumConstraints();
 	for (uint i = 0; i < num; i++)
@@ -6991,7 +6991,7 @@ void RoadRunner::removeVariable(const std::string& sid) {
 		}
 	}
 
-	Log(Logger::LOG_DEBUG) << "Removing initial assignments related to " << sid << "..." << endl;
+	rrLog(Logger::LOG_DEBUG) << "Removing initial assignments related to " << sid << "..." << endl;
 	// fisrt remove initial assignment that use this variable as symbol
 	toDelete = sbmlModel->removeInitialAssignment(sid);
 	while (toDelete != NULL)
@@ -7017,7 +7017,7 @@ void RoadRunner::removeVariable(const std::string& sid) {
 	}
 
 
-	Log(Logger::LOG_DEBUG) << "Removing event elements related to " << sid << "..." << endl;
+	rrLog(Logger::LOG_DEBUG) << "Removing event elements related to " << sid << "..." << endl;
 	index = 0;
 	num = sbmlModel->getNumEvents();
 	for (uint i = 0; i < num; i++)

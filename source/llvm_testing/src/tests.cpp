@@ -97,7 +97,7 @@ bool runInitialValueAssigmentTest(const string& version, int caseNumber)
 
         pfunc(md, 0);
 
-        Log(lInfo) << md;
+        rrLog(lInfo) << md;
 
         cout << "done with " << modelFileName << endl;
 

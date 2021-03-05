@@ -66,7 +66,7 @@ namespace rr
 	{
 		if (!fname.size())
 		{
-			Log(Logger::LOG_ERROR) << "Empty file name for setings file";
+			rrLog(Logger::LOG_ERROR) << "Empty file name for setings file";
 		}
 		else
 		{
@@ -83,16 +83,16 @@ namespace rr
 				}
 				else
 				{
-					Log(lDebug2) << "Empty line in settings file: " << lines[i];
+					rrLog(lDebug2) << "Empty line in settings file: " << lines[i];
 				}
 			}
 
-			Log(lDebug3) << "Settings File =============";
+			rrLog(lDebug3) << "Settings File =============";
 			for (it = settings.begin(); it != settings.end(); it++)
 			{
-				Log(lDebug) << (*it).first << " => " << (*it).second;
+				rrLog(lDebug) << (*it).first << " => " << (*it).second;
 			}
-			Log(lDebug) << "===========================";
+			rrLog(lDebug) << "===========================";
 
 			//Assign values
 			it = settings.find("start");

@@ -51,7 +51,7 @@ bool SBMLTestSuiteSimulation_CAPI::LoadSBMLFromFile()
         //Check first if file exists first
         if(!fileExists(fileName))
         {
-            Log(Logger::LOG_ERROR) << "sbml file " << fileName << " not found";
+            rrLog(Logger::LOG_ERROR) << "sbml file " << fileName << " not found";
             return false;
         }
 
@@ -78,7 +78,7 @@ bool SBMLTestSuiteSimulation_CAPI::LoadSBMLFromFile()
     }
     catch(std::exception& e)
     {
-        Log(Logger::LOG_ERROR) << "exception while loading sbml: " << e.what();
+        rrLog(Logger::LOG_ERROR) << "exception while loading sbml: " << e.what();
         return false;
     }
 }
@@ -106,7 +106,7 @@ bool SBMLTestSuiteSimulation_CAPI::Simulate()
 
     if (!(resultData = simulate(mRRHandle)))
     {
-        Log(Logger::LOG_ERROR) << "Failed simulate in test " << mCurrentCaseNumber
+        rrLog(Logger::LOG_ERROR) << "Failed simulate in test " << mCurrentCaseNumber
                 << ", error: " << rrc::getLastError();
         return false;
     }
@@ -196,7 +196,7 @@ bool RunTest(const string& version, int caseNumber)
 
     try
     {
-        //Log(Logger::LOG_NOTICE) << "Running Test: "<< caseNumber << endl;
+        //rrLog(Logger::LOG_NOTICE) << "Running Test: "<< caseNumber << endl;
         string dummy;
         string logFileName;
         string settingsFileName;
@@ -261,7 +261,7 @@ bool RunTest(const string& version, int caseNumber)
         //result = simulation.SaveModelAsXML() && result;
         if(!result)
         {
-            Log(Logger::LOG_WARNING)<<"\t\t =============== Test "<<caseNumber<<" failed =============\n";
+            rrLog(Logger::LOG_WARNING)<<"\t\t =============== Test "<<caseNumber<<" failed =============\n";
         }
     }
     catch(std::exception& ex)

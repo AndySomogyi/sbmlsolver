@@ -171,7 +171,7 @@ static string flatten_comp(const string& sbml, const std::string fname)
                     msg << "SBMLError(" << i << "): " << error->getMessage();
                 }
             }
-            Log(rr::Logger::LOG_WARNING) << msg.str();
+            rrLog(rr::Logger::LOG_WARNING) << msg.str();
         }
     }
 
@@ -233,10 +233,10 @@ std::string SBMLReader::read(const std::string& str)
         std::string urischeme = Poco::URI(str).getScheme();
         std::transform(urischeme.begin(), urischeme.end(), urischeme.begin(), mytolower);
         if (urischeme == "https") {
-            Log(Logger::LOG_ERROR) << "HTTPS transport not supported";
+            rrLog(Logger::LOG_ERROR) << "HTTPS transport not supported";
             throw Exception("Could not open stream: HTTPS transport not supported");
         } else {
-            Log(Logger::LOG_ERROR) << "Could not open stream: " << e.what();
+            rrLog(Logger::LOG_ERROR) << "Could not open stream: " << e.what();
         }
         // stream should still be NULL
     }

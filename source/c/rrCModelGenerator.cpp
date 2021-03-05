@@ -83,7 +83,7 @@ string CModelGenerator::generateModelCode(const string& sbmlStr, const bool& _co
 {
     //This function now assume that the sbml already been loaded into NOM and libstruct..
     mComputeAndAssignConsevationLaws  = _computeAndAssignConsevationLaws;
-    Log(lDebug2)<<"Entering CModelGenerators generateModelCode function";
+    rrLog(lDebug2)<<"Entering CModelGenerators generateModelCode function";
     StringList  Warnings;
     CodeBuilder ignore;     //The Write functions below are inherited with a CodeBuilder in the
                             //prototype that is not to be used..
@@ -92,8 +92,8 @@ string CModelGenerator::generateModelCode(const string& sbmlStr, const bool& _co
     mHeader.Clear();
     mSource.Clear();
 
-    Log(lDebug1)<<"Processing model: "<< ms.mModelName;
-    Log(lDebug3)<<"Number of reactions:"<< ms.mNumReactions;
+    rrLog(lDebug1)<<"Processing model: "<< ms.mModelName;
+    rrLog(lDebug3)<<"Number of reactions:"<< ms.mNumReactions;
 
     //Write model to String builder...
     writeClassHeader(ignore);
@@ -148,7 +148,7 @@ string CModelGenerator::generateModelCode(const string& sbmlStr, const bool& _co
     mHeader<<"\n\n#endif //modelH"<<NL();
     string modelCode = mHeader.ToString() + mSource.ToString();
 
-    Log(lDebug5)<<" ------ Model Code --------\n"
+    rrLog(lDebug5)<<" ------ Model Code --------\n"
             <<modelCode
             <<" ----- End of Model Code -----\n";
 
@@ -695,7 +695,7 @@ int CModelGenerator::writeComputeRules(CodeBuilder& ignore, const int& numReacti
             switch (aRule.GetType())
             {
                 case rtAlgebraic:
-                    Log(lWarning)<<"RoadRunner does not yet support algebraic rules in SBML, they will be ignored.";
+                    rrLog(lWarning)<<"RoadRunner does not yet support algebraic rules in SBML, they will be ignored.";
                     leftSideRule = "";//NULL;
                 break;
 
@@ -720,7 +720,7 @@ int CModelGenerator::writeComputeRules(CodeBuilder& ignore, const int& numReacti
                     }
                     break;
                 case rtUnknown:
-                    Log(Logger::LOG_ERROR) << "Unknown rule type in " << __FUNC__;
+                    rrLog(Logger::LOG_ERROR) << "Unknown rule type in " << __FUNC__;
                     break;
             }
 
@@ -1541,7 +1541,7 @@ bool CModelGenerator::saveSourceCodeToFolder(const string& folder, const string&
     }
 
     outFile<<getHeaderCode();
-    Log(lDebug3)<<"Wrote header to file: "<<mHeaderCodeFileName;
+    rrLog(lDebug3)<<"Wrote header to file: "<<mHeaderCodeFileName;
     outFile.close();
 
     mSourceCodeFileName = changeFileExtensionTo(mHeaderCodeFileName, ".c");
@@ -1556,7 +1556,7 @@ bool CModelGenerator::saveSourceCodeToFolder(const string& folder, const string&
     outFile<<"#include \""<<getFileName(headerFName)<<"\"\n"<<endl;
     outFile<<getSourceCode();
     outFile.close();
-    Log(lDebug3)<<"Wrote source code to file: "<<mSourceCodeFileName;
+    rrLog(lDebug3)<<"Wrote source code to file: "<<mSourceCodeFileName;
 
     return true;
 }
@@ -1565,7 +1565,7 @@ string CModelGenerator::convertUserFunctionExpression(const string& equation)
 {
     if(!equation.size())
     {
-        Log(Logger::LOG_ERROR)<<"The equation string supplied to "<<__FUNCTION__<<" is empty";
+        rrLog(Logger::LOG_ERROR)<<"The equation string supplied to "<<__FUNCTION__<<" is empty";
         return "";
     }
     Scanner s;
@@ -2101,7 +2101,7 @@ void CModelGenerator::substituteEquation(const string& reactionName, Scanner& s,
     else if(theToken == "delay")
     {
         mSource<<append("spf_delay");
-        Log(lWarning)<<"RoadRunner does not yet support delay differential equations in SBML, they will be ignored (i.e. treated as delay = 0).";
+        rrLog(lWarning)<<"RoadRunner does not yet support delay differential equations in SBML, they will be ignored (i.e. treated as delay = 0).";
     }
     else
     {
@@ -2286,13 +2286,13 @@ bool CModelGenerator::generateModelCode(const string& sbml, const string& modelN
 
     if(!modelCode.size())
     {
-        Log(Logger::LOG_ERROR)<<"Failed to generate model code";
+        rrLog(Logger::LOG_ERROR)<<"Failed to generate model code";
         return false;
     }
 
     if(!saveSourceCodeToFolder(mTempFileFolder, modelName))
     {
-        Log(Logger::LOG_ERROR)<<"Failed saving generated source code";
+        rrLog(Logger::LOG_ERROR)<<"Failed saving generated source code";
     }
 
     return true;
@@ -2302,7 +2302,7 @@ bool CModelGenerator::compileModel()
 {
     if(!compileCurrentModel())
     {
-        Log(Logger::LOG_ERROR)<<"Failed compiling model";
+        rrLog(Logger::LOG_ERROR)<<"Failed compiling model";
         return false;
     }
 
@@ -2315,18 +2315,18 @@ bool CModelGenerator::compileCurrentModel()
     //*if(!codeGen)
     //*{
     //*    //CodeGenerator has not been allocaed
-    //*    Log(lError)<<"Generate code before compiling....";
+    //*    rrLog(lError)<<"Generate code before compiling....";
     //*    return false;
     //*}
 
     //Compile the model
     if(!mCompiler.compileSource(getSourceCodeFileName()))
     {
-        Log(Logger::LOG_ERROR)<<"Model failed compilation";
+        rrLog(Logger::LOG_ERROR)<<"Model failed compilation";
         return false;
     }
-    Log(lDebug)<<"Model compiled successfully. ";
-    Log(lDebug)<<mModelLib->getFullFileName()<<" was created";
+    rrLog(lDebug)<<"Model compiled successfully. ";
+    rrLog(lDebug)<<mModelLib->getFullFileName()<<" was created";
     return true;
 }
 
@@ -2341,7 +2341,7 @@ bool CModelGenerator::setTemporaryDirectory(const string& _path)
 
     if(folderExists(path))
     {
-        Log(lDebug2)<<"Setting model generators temp file folder to "<< path;
+        rrLog(lDebug2)<<"Setting model generators temp file folder to "<< path;
         mCompiler.setOutputPath(path);
         mTempFileFolder = path;
         return true;
@@ -2350,7 +2350,7 @@ bool CModelGenerator::setTemporaryDirectory(const string& _path)
     {
         stringstream msg;
         msg<<"The folder: "<<path<<" don't exist...";
-        Log(Logger::LOG_ERROR)<<msg.str();
+        rrLog(Logger::LOG_ERROR)<<msg.str();
         CoreException e(msg.str());
         throw(e);
     }
@@ -2387,7 +2387,7 @@ ExecutableModel *CModelGenerator::createModel(const string& sbml, LibStructural 
 
 
     //clear temp folder of roadrunner generated files, only if roadRunner instance == 1
-    Log(lDebug)<<"Loading SBML into simulator";
+    rrLog(lDebug)<<"Loading SBML into simulator";
     if (!sbml.size())
     {
         throw(CoreException("SBML string is empty!"));
@@ -2419,37 +2419,37 @@ ExecutableModel *CModelGenerator::createModel(const string& sbml, LibStructural 
         {
             if(!compileModel())
             {
-                Log(Logger::LOG_ERROR)<<"Failed to generate and compile model";
+                rrLog(Logger::LOG_ERROR)<<"Failed to generate and compile model";
                 return 0;
             }
 
             if(!mModelLib->load())
             {
-                Log(Logger::LOG_ERROR)<<"Failed to load model DLL";
+                rrLog(Logger::LOG_ERROR)<<"Failed to load model DLL";
                 return 0;
             }
         }
         else
         {
-            Log(lDebug)<<"Model compiled files already generated.";
+            rrLog(lDebug)<<"Model compiled files already generated.";
             if(!mModelLib->isLoaded())
             {
                 if(!mModelLib->load())
                 {
-                    Log(Logger::LOG_ERROR)<<"Failed to load model DLL";
+                    rrLog(Logger::LOG_ERROR)<<"Failed to load model DLL";
                     return 0;
                 }
             }
             else
             {
-                Log(lDebug)<<"Model lib is already loaded.";
+                rrLog(lDebug)<<"Model lib is already loaded.";
             }
         }
 
     }//End of scope for compile Mutex
     catch(const Exception& ex)
     {
-        Log(Logger::LOG_ERROR)<<"Compiler problem: "<<ex.what();
+        rrLog(Logger::LOG_ERROR)<<"Compiler problem: "<<ex.what();
     }
 
     CompiledExecutableModel *model = 0;
@@ -2461,7 +2461,7 @@ ExecutableModel *CModelGenerator::createModel(const string& sbml, LibStructural 
     }
     else
     {
-        Log(Logger::LOG_ERROR)<<"Failed to create model from DLL";
+        rrLog(Logger::LOG_ERROR)<<"Failed to create model from DLL";
         model = NULL;
     }
 
@@ -2530,7 +2530,7 @@ bool CModelGenerator::loadSBMLIntoNOM(NOMSupport &nom, const string& sbml)
 {
     string sASCII = NOMSupport::convertTime(sbml, "time");
 
-    Log(lDebug4)<<"Loading SBML into NOM";
+    rrLog(lDebug4)<<"Loading SBML into NOM";
     nom.loadSBML(sASCII.c_str(), "time");
     return true;
 }

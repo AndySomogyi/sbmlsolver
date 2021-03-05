@@ -53,11 +53,11 @@ ModelResources::ModelResources() :
 
 ModelResources::~ModelResources()
 {
-    Log(Logger::LOG_DEBUG) << __FUNC__;
+    rrLog(Logger::LOG_DEBUG) << __FUNC__;
 
     if (errStr && errStr->size() > 0)
     {
-        Log(Logger::LOG_WARNING) << "Non-empty LLVM ExecutionEngine error string: " << *errStr;
+        rrLog(Logger::LOG_WARNING) << "Non-empty LLVM ExecutionEngine error string: " << *errStr;
     }
 
     delete symbols;

@@ -90,14 +90,14 @@ bool TestSuiteModelSimulation::LoadReferenceData(string refDataFileName)
 
     if(!fileExists(refDataFileName))
     {
-        Log(lWarning)<<"Could not open reference data file: "<<refDataFileName;
+        rrLog(lWarning)<<"Could not open reference data file: "<<refDataFileName;
         return false;
     }
 
     vector<string> lines = getLinesInFile(refDataFileName);
     if(!lines.size())
     {
-        Log(lWarning)<<"This file is empty..";
+        rrLog(lWarning)<<"This file is empty..";
         return false;
     }
 
@@ -197,7 +197,7 @@ bool TestSuiteModelSimulation::SaveAllData()
        mResultData.dimension() != mErrorData.dimension()        ||
        mErrorData.dimension()  != mReferenceData.dimension() )
     {
-        Log(lWarning)<<"Data dimensions are not equal, not saving to one file..";
+        rrLog(lWarning)<<"Data dimensions are not equal, not saving to one file..";
         return false;
     }
     for(int row = 0; row < mResultData.rSize(); row++)

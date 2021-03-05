@@ -14,11 +14,11 @@ using rr::Logger;
 namespace rrtesting {
 
     CXXBrusselatorExecutableModel::CXXBrusselatorExecutableModel(const rr::Dictionary *dict) {
-        Log(Logger::LOG_NOTICE) << __FUNC__;
+        rrLog(Logger::LOG_NOTICE) << __FUNC__;
     }
 
     CXXBrusselatorExecutableModel::~CXXBrusselatorExecutableModel() {
-        Log(Logger::LOG_NOTICE) << __FUNC__;
+        rrLog(Logger::LOG_NOTICE) << __FUNC__;
     }
 
     std::string CXXBrusselatorExecutableModel::getModelName() {

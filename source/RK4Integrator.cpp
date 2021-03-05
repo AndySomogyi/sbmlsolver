@@ -20,7 +20,7 @@ namespace rr
 
     RK4Integrator::RK4Integrator(ExecutableModel *m)
     {
-        Log(Logger::LOG_NOTICE) << "creating runge-kutta integrator";
+        rrLog(Logger::LOG_NOTICE) << "creating runge-kutta integrator";
         resetSettings();
         stateVectorSize = 0;
         k1 = k2 = k3 = k4 = y = ytmp = NULL;
@@ -79,7 +79,7 @@ namespace rr
             throw std::runtime_error("RK4Integrator::integrate: No model");
         }
 
-        Log(Logger::LOG_DEBUG) <<
+        rrLog(Logger::LOG_DEBUG) <<
                 "RK4Integrator::integrate(" << t << ", " << h << ")";
 
         // blas daxpy: y -> y + \alpha x

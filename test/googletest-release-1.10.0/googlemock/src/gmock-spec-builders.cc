@@ -71,7 +71,7 @@ GTEST_API_ void LogWithLocation(testing::internal::LogSeverity severity,
                                 const std::string& message) {
   ::std::ostringstream s;
   s << file << ":" << line << ": " << message << ::std::endl;
-  Log(severity, s.str(), 0);
+  rrLog(severity, s.str(), 0);
 }
 
 // Constructs an ExpectationBase object.
@@ -249,7 +249,7 @@ void ExpectationBase::CheckActionCountIfNotDone() const
       ss << " and a WillRepeatedly()";
     }
     ss << ".";
-    Log(kWarning, ss.str(), -1);  // -1 means "don't print stack trace".
+    rrLog(kWarning, ss.str(), -1);  // -1 means "don't print stack trace".
   }
 }
 
@@ -282,10 +282,10 @@ void ReportUninterestingCall(CallReaction reaction, const std::string& msg) {
       GMOCK_FLAG(verbose) == kInfoVerbosity ? 3 : -1;
   switch (reaction) {
     case kAllow:
-      Log(kInfo, msg, stack_frames_to_skip);
+      rrLog(kInfo, msg, stack_frames_to_skip);
       break;
     case kWarn:
-      Log(kWarning,
+      rrLog(kWarning,
           msg +
               "\nNOTE: You can safely ignore the above warning unless this "
               "call should not happen.  Do not suppress it by blindly adding "
@@ -438,7 +438,7 @@ UntypedActionResultHolderBase* UntypedFunctionMockerBase::UntypedInvokeWith(
   // True if and only if we need to print the call's arguments
   // and return value.
   // This definition must be kept in sync with the uses of Expect()
-  // and Log() in this function.
+  // and rrLog() in this function.
   const bool need_to_report_call =
       !found || is_excessive || LogIsVisible(kInfo);
   if (!need_to_report_call) {
@@ -474,7 +474,7 @@ UntypedActionResultHolderBase* UntypedFunctionMockerBase::UntypedInvokeWith(
   } else {
     // We had an expected call and the matching expectation is
     // described in ss.
-    Log(kInfo, loc.str() + ss.str(), 2);
+    rrLog(kInfo, loc.str() + ss.str(), 2);
   }
 
   return result;

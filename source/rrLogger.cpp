@@ -311,7 +311,7 @@ void Logger::enableFileLogging(const std::string& fileName, int level)
         if(!fdir.exists())
         {
             realName = joinPath(getTempDir(), "roadrunner.log");
-            Log(Logger::LOG_ERROR) << "The specified log file directory path, "
+            rrLog(Logger::LOG_ERROR) << "The specified log file directory path, "
                     << fdir.path() << " does not exist, using default log file path: "
                     << realName;
         }

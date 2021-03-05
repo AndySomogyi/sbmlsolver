@@ -57,7 +57,7 @@ Event::Event(LLVMExecutableModel& model, uint id) :
         std::memset(data, 0, dataSize * sizeof(double));
     }
 
-    Log(Logger::LOG_DEBUG) << "created event at time " << model.getTime() <<
+    rrLog(Logger::LOG_DEBUG) << "created event at time " << model.getTime() <<
             ": " << *this;
 }
 
@@ -112,7 +112,7 @@ void Event::assign() const
     {
         model.getEventData(id, data);
     }
-    Log(Logger::LOG_DEBUG) << "assigning event: " << *this;
+    rrLog(Logger::LOG_DEBUG) << "assigning event: " << *this;
     model.assignEvent(id, data);
 }
 
@@ -191,7 +191,7 @@ bool EventQueue::eraseExpiredEvents()
         }
         else
         {
-            Log(Logger::LOG_DEBUG) << "removing expired event: " << *i;
+            rrLog(Logger::LOG_DEBUG) << "removing expired event: " << *i;
             i = sequence.erase(i);
             erased = true;
         }
@@ -211,11 +211,11 @@ bool EventQueue::applyEvents()
     bool applied = false;
     if (sequence.size())
     {
-        Log(Logger::LOG_DEBUG) << "event list before sort: " << *this;
+        rrLog(Logger::LOG_DEBUG) << "event list before sort: " << *this;
 
         sequence.sort();
 
-        Log(Logger::LOG_DEBUG) << "event list after sort, before apply: " << *this;
+        rrLog(Logger::LOG_DEBUG) << "event list after sort, before apply: " << *this;
 
         std::deque<iterator> ripe;
         iterator i = sequence.begin();
@@ -234,21 +234,21 @@ bool EventQueue::applyEvents()
             }
         }
 
-        Log(Logger::LOG_DEBUG) << "found " << ripe.size() << " ripe events";
+        rrLog(Logger::LOG_DEBUG) << "found " << ripe.size() << " ripe events";
 
         if (ripe.size())
         {
             uint index = std::rand() % ripe.size();
             iterator i = ripe[index];
 
-            Log(Logger::LOG_DEBUG) << "assigning the " << index << "\'th item";
+            rrLog(Logger::LOG_DEBUG) << "assigning the " << index << "\'th item";
             (*i).assign();
 
             sequence.erase(i);
 
             applied = true;
 
-            Log(Logger::LOG_DEBUG) << "event list after apply: " << *this;
+            rrLog(Logger::LOG_DEBUG) << "event list after apply: " << *this;
         }
     }
 

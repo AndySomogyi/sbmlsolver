@@ -80,7 +80,7 @@ namespace rr
             model = m;
             exampleParameter1 = 3.14;
             exampleParameter2 = "hello";
-			Log(Logger::LOG_WARNING) << "Euler integrator is inaccurate";
+			rrLog(Logger::LOG_WARNING) << "Euler integrator is inaccurate";
 			//std::cerr << "Number of event triggers: " << m->getEventTriggers(0, 0, 0) << std::endl;
 
             if(model) {
