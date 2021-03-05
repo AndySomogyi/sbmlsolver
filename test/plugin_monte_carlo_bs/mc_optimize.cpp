@@ -152,14 +152,14 @@ TEST(RRPLUGIN_TEST_MODEL, OPTIMIZE_NELDER_MEAD)
     EXPECT_EQ(params->cSize(), 1);
     for (int r = 0; r < params->rSize(); r++)
     {
-        EXPECT_NEAR(params->getDataElement(r, 0), 1.0, 0.3);
+        EXPECT_NEAR(params->getDataElement(r, 0), 1.0, 0.5);
     }
 
     Properties* means = static_cast<Properties*>(mcplugin->getPropertyValueHandle("Means"));
     ASSERT_TRUE(means != NULL);
     Property<double>* mean1 = static_cast<Property<double>*>(means->getFirst());
     EXPECT_EQ(mean1->getName(), "k1");
-    EXPECT_NEAR(mean1->getValue(), 1.0, 0.2);
+    EXPECT_NEAR(mean1->getValue(), 1.0, 0.4);
 
     Properties* conf_intervals = static_cast<Properties*>(mcplugin->getPropertyValueHandle("ConfidenceIntervals"));
     ASSERT_TRUE(conf_intervals != NULL);
@@ -172,32 +172,32 @@ TEST(RRPLUGIN_TEST_MODEL, OPTIMIZE_NELDER_MEAD)
     Property<double>* percentile = static_cast<Property<double>*>(percentiles->getFirst());
     ASSERT_TRUE(percentile != NULL);
     EXPECT_EQ(percentile->getName(), "k1_25_percentile");
-    EXPECT_NEAR(percentile->getValue(), 1.0, 0.17);
+    EXPECT_NEAR(percentile->getValue(), 1.0, 0.25);
 
     percentile = static_cast<Property<double>*>(percentiles->getNext());
     ASSERT_TRUE(percentile != NULL);
     EXPECT_EQ(percentile->getName(), "k1_75_percentile");
-    EXPECT_NEAR(percentile->getValue(), 1.03, 0.17);
+    EXPECT_NEAR(percentile->getValue(), 1.03, 0.3);
 
     percentile = static_cast<Property<double>*>(percentiles->getNext());
     ASSERT_TRUE(percentile != NULL);
     EXPECT_EQ(percentile->getName(), "k1_02.5_percentile");
-    EXPECT_NEAR(percentile->getValue(), 0.875, 0.18);
+    EXPECT_NEAR(percentile->getValue(), 0.875, 0.32);
 
     percentile = static_cast<Property<double>*>(percentiles->getNext());
     ASSERT_TRUE(percentile != NULL);
     EXPECT_EQ(percentile->getName(), "k1_97.5_percentile");
-    EXPECT_NEAR(percentile->getValue(), 1.09, 0.18);
+    EXPECT_NEAR(percentile->getValue(), 1.09, 0.4);
 
     percentile = static_cast<Property<double>*>(percentiles->getNext());
     ASSERT_TRUE(percentile != NULL);
     EXPECT_EQ(percentile->getName(), "k1_01_percentile");
-    EXPECT_NEAR(percentile->getValue(), 0.875, 0.18);
+    EXPECT_NEAR(percentile->getValue(), 0.875, 0.4);
 
     percentile = static_cast<Property<double>*>(percentiles->getNext());
     ASSERT_TRUE(percentile != NULL);
     EXPECT_EQ(percentile->getName(), "k1_99_percentile");
-    EXPECT_NEAR(percentile->getValue(), 1.09, 0.18);
+    EXPECT_NEAR(percentile->getValue(), 1.09, 0.4);
 
     EXPECT_TRUE(percentiles->getNext() == NULL);
 }

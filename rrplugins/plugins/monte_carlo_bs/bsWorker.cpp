@@ -70,11 +70,11 @@ namespace bsmc
 
     void bsWorker::start(bool runInThread)
     {
-        unsigned long* seed = (unsigned long*)(mParent.getPropertyValueHandle("Seed"));
-        if (*seed != 0.0)
+        unsigned long seed = *(unsigned long*)(mParent.getPropertyValueHandle("Seed"));
+        if (seed != 0.0)
         {
             delete mRandom;
-            mRandom = new tlp::Random(*seed);
+            mRandom = new tlp::Random(seed);
         }
         if (runInThread)
         {
