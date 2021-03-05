@@ -217,7 +217,7 @@ TEST(RRPLUGIN_TEST_MODEL, CHECK_SEED)
     Plugin* mcplugin = PM->getPlugin("tel_monte_carlo_bs");
     ASSERT_TRUE(mcplugin != NULL);
 
-    mcplugin->setPropertyByString("Seed", "1001");
+    mcplugin->setPropertyByString("Seed", "2001");
 
     PropertyBase* sbml = tmplugin->getProperty("Model");
     mcplugin->setPropertyByString("SBML", sbml->getValueAsString().c_str());
