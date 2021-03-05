@@ -48,7 +48,7 @@ namespace rr
         }
     }
 
-    SteadyStateSolver* SteadyStateSolverFactory::New(std::string name, ExecutableModel* m) const {
+    SteadyStateSolver* SteadyStateSolverFactory::New(const std::string& name, ExecutableModel* m) const {
         for (SteadyStateSolverRegistrars::const_iterator it(mRegisteredSteadyStateSolvers.begin()); it != mRegisteredSteadyStateSolvers.end(); ++it) {
             if ((*it)->getName() == name) {
                 return (*it)->construct(m);

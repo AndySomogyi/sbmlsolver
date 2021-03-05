@@ -52,42 +52,6 @@ class SettingsTests :
         public ::testing::WithParamInterface<std::pair<std::string, Variant>> {
 };
 
-TEST_P(SettingsTests, TestSettings) {
-    // pair of string: variant
-    auto settingUnderTest = GetParam();
-    std::string settingName = settingUnderTest.first;
-    Variant settingValue = settingUnderTest.second;
-
-    auto *testModel = (SimpleFlux *) SBMLTestModelFactory("SimpleFlux");
-    RoadRunner rr(testModel->str());
-    FixedPointIteration fixedPointIteration(rr.getModel());
-    auto settings = fixedPointIteration.getSettings();
-
-    if (settingValue.isInteger()) {
-        ASSERT_EQ((int) settingValue, fixedPointIteration.getValueAsInt(settingName));
-    } else if (settingValue.isNumeric()) {
-        ASSERT_NEAR((double) settingValue, fixedPointIteration.getValueAsDouble(settingName), 0.001);
-    } else if (settingValue.isBool()) {
-        ASSERT_TRUE((bool) settingValue == fixedPointIteration.getValueAsBool(settingName));
-    } else if (settingValue.isString()) {
-        ASSERT_STREQ(((std::string) settingValue).c_str(), fixedPointIteration.getValueAsString(settingName).c_str());
-    }
-}
-
-/**
- * Run the parameterized test suite "SettingsTests" with these parameter
- * combinations. The first item of the tuple is the parameter name, the
- * second is its value, stored as a rr::Variant. It is sometimes useful
- * to run these one at a time. To do so, just temporarily comment out
- * the ones you dont want to run.
- */
-INSTANTIATE_TEST_CASE_P
-
-(SettingsTests, SettingsTests, ::testing::Values(
-        std::pair<std::string, Variant>("Step", Variant(1))
-)
-);
-
 
 TEST(How, t) {
     auto *testModel = (SimpleFlux *) SBMLTestModelFactory("SimpleFlux");

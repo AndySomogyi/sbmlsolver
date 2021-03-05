@@ -113,7 +113,6 @@ namespace rr
         */
         virtual std::string getParamDesc(int n) const;
 
-
         /**
         * @author WBC, JKM
         * @brief Wrapper for @ref getValue which converts output to a specific type

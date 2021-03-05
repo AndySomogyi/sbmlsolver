@@ -109,6 +109,9 @@ namespace rr {
             N_VConst(std::numeric_limits<double>::max(), stateVecOut);
             double *dydt = NV_DATA_S(stateVecOut);
 
+            std::cout << "State vec in: ";
+            stateVecIn->ops->nvprint(stateVecIn);
+
             // cast user data back into our solver type
             auto solver = (KinsolSteadyStateSolverType *) userData;
 
@@ -142,17 +145,21 @@ namespace rr {
             }
             Log(Logger::LOG_TRACE) << __FUNC__ << ", model: " << model;
 
+            std::cout << "State vec out: ";
+            stateVecOut->ops->nvprint(stateVecOut);
+            //std::cout << "size of system: " << stateVecIn->ops->nvgetlength(stateVecIn) << std::endl;
             return KIN_SUCCESS;
         };
 
 
-    private:
+    protected:
 
         /**
-         * @brief free kinsol objects
-         * @details must call KinsolSteadyStateSolver::freeKinsol_().
+         * @brief Destory kinsol objects
+         * @details Destroys the kinsol objects that
+         * are shared among KinsolSteadyStateSolvers
          */
-        virtual void freeKinsol() = 0;
+        virtual void freeKinsol();
 
         /**
          * @brief calls freeKinsol then createKinsol
@@ -162,18 +169,11 @@ namespace rr {
         virtual void updateKinsol() = 0;
 
         /**
-         * @brief initialize the kinsol objects.
-         * @details This method must call
-         * KinsolSteadyStateSolver::createKinsol_ as it
-         * does the initialization that is shared by all
-         * derived types.
-         * @note Spliting initialization functionality into
-         * createKinsol and createKinsol_ was a design choice
-         * to prevent the hiding of a non-virtual method - which
-         * would result from having the derived type call
-         * KinsolSteadyStateSolver::createKinsol.
+         * @brief Initialize kinsol objects.
+         * @details All subclasses require some of the same
+         * initial calls (such as N_VNew_Serial and KINCreate).
          */
-        virtual void createKinsol() = 0;
+        virtual void createKinsol();
 
         /**
          * @brief add settings to the Solver::settings
@@ -182,27 +182,6 @@ namespace rr {
          * when called subsequent times.
          */
         void resetSettings() override;
-
-
-    protected:
-        /**
-         * @brief Initialize kinsol objects.
-         * @details All subclasses require some of the same
-         * initial calls (such as N_VNew_Serial and KINCreate).
-         * We do all shared initializations here in a non-virtual
-         * method so that we can call the KinsolSteadyStateSolver::createKinsol_ from
-         * subclasses.
-         * @see KinsolSteadyStateSolver::createKinsol
-         */
-        void createKinsol_();
-
-        /**
-         * @brief Destory kinsol objects
-         * @details Destroys the kinsol objects that
-         * are shared among KinsolSteadyStateSolvers. Called
-         * by subclass freeKinsol methods.
-         */
-        void freeKinsol_();
 
         /**
          * @brief reference to the model

@@ -135,7 +135,7 @@ namespace rr
          * @brief Constructs a new solver given the name
          * (e.g. cvode, gillespie)
          */
-        SteadyStateSolver* New(std::string name, ExecutableModel *m) const;
+        SteadyStateSolver* New(const std::string& name, ExecutableModel *m) const;
 
         /**
          * @author JKM, WBC

@@ -1,18 +1,23 @@
 #include <vector>
 #include <unordered_map>
 #include <stdexcept>
-/**
- * This is a small module for handling SBML content
- * without introducing external dependencies. Most
- * of the models contained in this Factory were already
- * present under the models folder.
- */
+
+
+using DoublePair = std::pair<double, double>;
 
 /**
- * Alias for string to double map. String is for
- * model species names and double are for their values.
+ * Data structure for storing reference simulation results.
+ * std::string: model species name
+ * std::pair<double, double>: mapping between starting value and simulation result.
  */
-using ResultMap = std::unordered_map<std::string, double>;
+using ResultMap = std::unordered_map<std::string, DoublePair>;
+
+/**
+ * A collection of ResultMap objects
+ * for testing models from multiple starting states.
+ */
+using MultiResultsMap = std::vector<ResultMap>;
+
 
 /**
  * Abstract type to store sbml string
@@ -49,23 +54,36 @@ public:
      * should be used to extract the state vector at t=10.
      *
      * todo turn t=10 into an argument so that we can test
-     * any time step.
+     *  any time step.
+     *  ... or better, a full matrix
      *
      */
     virtual ResultMap stateVectorAtT10() = 0;
 };
 
 /**
- * Interface for test models that are meant for testing steady state
- * solvers.
+ * @brief Interface for classes that compute the steady state
+ * from single parameter set.
  */
 class SteadyStateResult {
-    /**
-     * Returns the steady state of the system
-     */
-    virtual ResultMap steadyState() = 0;
+public:
 
+    virtual ResultMap steadyState() = 0;
 };
+
+/**
+ * @brief Interface for classes that compute the steady state
+ * from multiple parameter sets.
+ * @details SteadyStateResult was a bit limiting in that we can
+ * only encode a single steady state test result from a single
+ * parameter set. This interface addresses this problem.
+ */
+class SteadyStateMultiStart {
+public:
+
+    virtual MultiResultsMap steadyState() = 0;
+};
+
 
 /**
  * A -> B; k1
@@ -140,16 +158,177 @@ public:
     ResultMap stateVectorAtT10() override {
         return ResultMap
                 {
-                        {"S1", 9.090924288825768},
-                        {"S2", 0.9090757111742356}
+                        {"S1", DoublePair(10, 9.090924288825768)},
+                        {"S2", DoublePair(1, 0.9090757111742356)}
                 };
     }
 
     ResultMap steadyState() override {
-        return ResultMap{
-                {"S1", 1.0},
-                {"S2", 10.0}
-        };
+        return ResultMap (
+                {
+                        {"S1", DoublePair(10, 1.0)},
+                        {"S2", DoublePair(1, 10.0)}
+                }
+        );
+    }
+};
+
+/**
+ * @brief This model is the same as SimpleFlux but the network has been reduced
+ * using conservation analysis manually before encoding in sbml.
+ *
+ * @details The system we solve is:
+ *      f(x) =
+ *       dS1/dt = - kf*S1 + kb*S2
+ *       dS2/dt = + kf*S1 - kb*S2
+ * We use
+ *  - kf = 0.1
+ *  - kb = 0.01
+ *  - S1 @t0 = 10
+ *  - S2 @t0 = 1
+ *  - TOTAL = S1 + S2
+ *
+ * The solution to f(x) = 0 is:
+ *  - S1 = 1
+ *  - S2 = 10
+ *
+ * To get to this solution, we need to do conservation
+ * analysis. Otherwise the jacobian matrix is singular,
+ * and cannot be inverted (to solve newton iteration).
+ * For this, we note that S1 + S2 = TOTAL, where TOTAL
+ * is constant. Therefore we can reduce this system of
+ * 2 equations into 1 differential and 1 algebraic.
+ *
+ * The reduced system is:
+ *      f(x) =
+ *       Total = S1 + S2
+ *       S2Conserved = (Total - S1)
+ *       dS1/dt = - kf*S1 + kb*S2Conserved
+ *
+ * The equivalent roadrunner/tellurium code is:
+ *
+ *  def ss(s):
+ *      m = te.loada(s)
+ *      m.conservedMoietyAnalysis = True
+ *      m.steadyState()
+ *      print(m.getFloatingSpeciesConcentrationIds())
+ *      print(m.getFloatingSpeciesConcentrations())
+ *      print(m.getFullJacobian())
+ *      print(m.getReducedJacobian())
+ *      print(m.getReducedStoichiometryMatrix())
+ *      print(m.getGlobalParameterIds())
+ *      print(m.getGlobalParameterValues())
+ *      return m
+ *  r = ss("""
+ *  model x
+ *      S1 = 10;
+ *      S20 = 1;
+ *      Total = S1 + S20;
+ *      S1 => ; - kf*S1 + kb*(Total - S1);
+ *      S2 := Total - S1;
+ *      kf = 0.1;
+ *      kb = 0.01;
+ *  end
+ *  """)
+ *  The expected output:
+ *      ['[S1]']
+ *      [1.]
+ *              S1
+ *      S1 [[ 0.11]]
+ *
+ *              S1
+ *      S1 [[ 0.11]]
+ *
+ *            _J0
+ *      S1 [[  -1]]
+ *
+ *      ['S20', 'Total', 'kf', 'kb', 'S2']
+ *      [1.0e+00 1.1e+01 1.0e-01 1.0e-02 1.0e+01]
+ */
+class SimpleFluxManuallyReduced : public SBMLTestModel, SteadyStateResult {
+public:
+    std::string str() override {
+        return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+               "<sbml xmlns=\"http://www.sbml.org/sbml/level3/version1/core\" level=\"3\" version=\"1\">\n"
+               "  <model metaid=\"x\" id=\"x\">\n"
+               "    <listOfCompartments>\n"
+               "      <compartment sboTerm=\"SBO:0000410\" id=\"default_compartment\" spatialDimensions=\"3\" size=\"1\" constant=\"true\"/>\n"
+               "    </listOfCompartments>\n"
+               "    <listOfSpecies>\n"
+               "      <species id=\"S1\" compartment=\"default_compartment\" initialConcentration=\"10\" hasOnlySubstanceUnits=\"false\" boundaryCondition=\"false\" constant=\"false\"/>\n"
+               "    </listOfSpecies>\n"
+               "    <listOfParameters>\n"
+               "      <parameter id=\"S20\" value=\"1\" constant=\"true\"/>\n"
+               "      <parameter id=\"Total\" constant=\"false\"/>\n"
+               "      <parameter id=\"kf\" value=\"0.1\" constant=\"true\"/>\n"
+               "      <parameter id=\"kb\" value=\"0.01\" constant=\"true\"/>\n"
+               "      <parameter id=\"S2\" constant=\"false\"/>\n"
+               "    </listOfParameters>\n"
+               "    <listOfInitialAssignments>\n"
+               "      <initialAssignment symbol=\"Total\">\n"
+               "        <math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n"
+               "          <apply>\n"
+               "            <plus/>\n"
+               "            <ci> S1 </ci>\n"
+               "            <ci> S20 </ci>\n"
+               "          </apply>\n"
+               "        </math>\n"
+               "      </initialAssignment>\n"
+               "    </listOfInitialAssignments>\n"
+               "    <listOfRules>\n"
+               "      <assignmentRule variable=\"S2\">\n"
+               "        <math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n"
+               "          <apply>\n"
+               "            <minus/>\n"
+               "            <ci> Total </ci>\n"
+               "            <ci> S1 </ci>\n"
+               "          </apply>\n"
+               "        </math>\n"
+               "      </assignmentRule>\n"
+               "    </listOfRules>\n"
+               "    <listOfReactions>\n"
+               "      <reaction id=\"_J0\" reversible=\"false\" fast=\"false\">\n"
+               "        <listOfReactants>\n"
+               "          <speciesReference species=\"S1\" stoichiometry=\"1\" constant=\"true\"/>\n"
+               "        </listOfReactants>\n"
+               "        <kineticLaw>\n"
+               "          <math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n"
+               "            <apply>\n"
+               "              <plus/>\n"
+               "              <apply>\n"
+               "                <times/>\n"
+               "                <apply>\n"
+               "                  <minus/>\n"
+               "                  <ci> kf </ci>\n"
+               "                </apply>\n"
+               "                <ci> S1 </ci>\n"
+               "              </apply>\n"
+               "              <apply>\n"
+               "                <times/>\n"
+               "                <ci> kb </ci>\n"
+               "                <apply>\n"
+               "                  <minus/>\n"
+               "                  <ci> Total </ci>\n"
+               "                  <ci> S1 </ci>\n"
+               "                </apply>\n"
+               "              </apply>\n"
+               "            </apply>\n"
+               "          </math>\n"
+               "        </kineticLaw>\n"
+               "      </reaction>\n"
+               "    </listOfReactions>\n"
+               "  </model>\n"
+               "</sbml>";
+    }
+
+    std::string modelName() override {
+        return "SimpleFluxManuallyReduced";
+    }
+
+    ResultMap steadyState() override {
+        return ResultMap({
+                            {"S1", DoublePair(10, 1.0)}
+                    });
     }
 };
 
@@ -177,7 +356,7 @@ public:
     ...:  end
     ...:  """)
  */
-class OpenLinearFlux: public SBMLTestModel, SteadyStateResult {
+class OpenLinearFlux : public SBMLTestModel, SteadyStateResult {
 public:
     std::string str() override {
         return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
@@ -244,513 +423,16 @@ public:
     }
 
     ResultMap steadyState() override {
-        return ResultMap {
-                {"S1", 10},
-                {"S2", 10},
-        };
-    }
-
-    std::string modelName() override{
-        return "OpenLinearFlux";
-    }
-};
-
-/**
- * This is the feedback model from test/models/feedback.xml
- */
-class Feedback : public SBMLTestModel, TimeSeriesResult {
-public:
-
-    std::string str() override {
-        return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-               "<sbml xmlns=\"http://www.sbml.org/sbml/level2\" xmlns:jd2=\"http://www.sys-bio.org/sbml/jd2\" level=\"2\" version=\"1\">\n"
-               "  <model id=\"feedback\" name=\"Feedback\">\n"
-               "    <annotation>\n"
-               "      <jd2:JDesignerLayout xmlns:jd2=\"http://www.sys-bio.org/sbml/jd2\" version=\"2.0\" MajorVersion=\"2\" MinorVersion=\"3\" BuildVersion=\"45\">\n"
-               "        <jd2:header>\n"
-               "          <jd2:VersionHeader JDesignerVersion=\"1.0\"/>\n"
-               "          <jd2:ModelHeader ModelTitle=\"Feedback\"/>\n"
-               "          <jd2:TimeCourseDetails timeStart=\"0\" timeEnd=\"25\" numberOfPoints=\"200\"/>\n"
-               "        </jd2:header>\n"
-               "        <jd2:JDGraphicsHeader BackGroundColor=\"FFFFFFEF\"/>\n"
-               "        <jd2:lisatOfCompartments>\n"
-               "          <jd2:compartment id=\"compartment\" size=\"1\" visible=\"false\">\n"
-               "            <jd2:boundingBox x=\"0\" y=\"0\" w=\"0\" h=\"0\"/>\n"
-               "            <jd2:membraneStyle thickness=\"12\" color=\"FF00A5FF\"/>\n"
-               "            <jd2:interiorStyle color=\"FFEEEEFF\"/>\n"
-               "            <jd2:text value=\"compartment\" visible=\"true\">\n"
-               "              <jd2:position rx=\"-31\" ry=\"-16\"/>\n"
-               "              <jd2:font fontName=\"Arial\" fontSize=\"8\" fontColor=\"FF000000\"/>\n"
-               "            </jd2:text>\n"
-               "          </jd2:compartment>\n"
-               "        </jd2:lisatOfCompartments>\n"
-               "        <jd2:listOfSpecies>\n"
-               "          <jd2:species id=\"S1\" boundaryCondition=\"false\" compartment=\"compartment\" initialConcentration=\"0\">\n"
-               "            <jd2:positionLocked value=\"false\"/>\n"
-               "            <jd2:boundingBox x=\"138\" y=\"104\"/>\n"
-               "            <jd2:displayValue visible=\"false\">\n"
-               "              <jd2:position rx=\"0\" ry=\"0\"/>\n"
-               "              <jd2:font fontName=\"Arial\" fontSize=\"8\" fontColor=\"FF000000\"/>\n"
-               "            </jd2:displayValue>\n"
-               "            <jd2:text value=\"S1\" visible=\"true\">\n"
-               "              <jd2:position rx=\"4\" ry=\"6\"/>\n"
-               "              <jd2:font fontName=\"Arial\" fontSize=\"8\" fontColor=\"FF000000\"/>\n"
-               "            </jd2:text>\n"
-               "            <jd2:complex id=\"DefaultMolecule\" w=\"24\" h=\"24\" boundarySpeciesStyle=\"bsBox\" boundaryStyleColor=\"FF0000FF\" captionPosition=\"npCenter\" aliasBoundaryColor=\"FFFF0000\" aliasBoundaryThickness=\"3\">\n"
-               "              <jd2:subunit shape=\"suRoundSquare\">\n"
-               "                <jd2:boundingBox rx=\"0\" ry=\"0\" w=\"24\" h=\"24\"/>\n"
-               "                <jd2:text value=\"S1\" visible=\"false\">\n"
-               "                  <jd2:position rx=\"6\" ry=\"5\"/>\n"
-               "                  <jd2:font fontName=\"Arial\" fontSize=\"8\" fontColor=\"FF000000\"/>\n"
-               "                </jd2:text>\n"
-               "                <jd2:color scheme=\"gtHorizLinear\" startColor=\"FFCCFFFF\" endColor=\"FFFFFFFF\"/>\n"
-               "                <jd2:edgeStyle color=\"FF969696\" thickness=\"1\" stroke=\"dsSolid\"/>\n"
-               "              </jd2:subunit>\n"
-               "            </jd2:complex>\n"
-               "          </jd2:species>\n"
-               "          <jd2:species id=\"S2\" boundaryCondition=\"false\" compartment=\"compartment\" initialConcentration=\"0\">\n"
-               "            <jd2:positionLocked value=\"false\"/>\n"
-               "            <jd2:boundingBox x=\"234\" y=\"143\"/>\n"
-               "            <jd2:displayValue visible=\"false\">\n"
-               "              <jd2:position rx=\"0\" ry=\"0\"/>\n"
-               "              <jd2:font fontName=\"Arial\" fontSize=\"8\" fontColor=\"FF000000\"/>\n"
-               "            </jd2:displayValue>\n"
-               "            <jd2:text value=\"S2\" visible=\"true\">\n"
-               "              <jd2:position rx=\"4\" ry=\"6\"/>\n"
-               "              <jd2:font fontName=\"Arial\" fontSize=\"8\" fontColor=\"FF000000\"/>\n"
-               "            </jd2:text>\n"
-               "            <jd2:complex id=\"DefaultMolecule\" w=\"24\" h=\"24\" boundarySpeciesStyle=\"bsBox\" boundaryStyleColor=\"FF0000FF\" captionPosition=\"npCenter\" aliasBoundaryColor=\"FFFF0000\" aliasBoundaryThickness=\"3\">\n"
-               "              <jd2:subunit shape=\"suRoundSquare\">\n"
-               "                <jd2:boundingBox rx=\"0\" ry=\"0\" w=\"24\" h=\"24\"/>\n"
-               "                <jd2:text value=\"S1\" visible=\"false\">\n"
-               "                  <jd2:position rx=\"6\" ry=\"5\"/>\n"
-               "                  <jd2:font fontName=\"Arial\" fontSize=\"8\" fontColor=\"FF000000\"/>\n"
-               "                </jd2:text>\n"
-               "                <jd2:color scheme=\"gtHorizLinear\" startColor=\"FFCCFFFF\" endColor=\"FFFFFFFF\"/>\n"
-               "                <jd2:edgeStyle color=\"FF969696\" thickness=\"1\" stroke=\"dsSolid\"/>\n"
-               "              </jd2:subunit>\n"
-               "            </jd2:complex>\n"
-               "          </jd2:species>\n"
-               "          <jd2:species id=\"S3\" boundaryCondition=\"false\" compartment=\"compartment\" initialConcentration=\"0\">\n"
-               "            <jd2:positionLocked value=\"false\"/>\n"
-               "            <jd2:boundingBox x=\"318\" y=\"178\"/>\n"
-               "            <jd2:displayValue visible=\"false\">\n"
-               "              <jd2:position rx=\"0\" ry=\"0\"/>\n"
-               "              <jd2:font fontName=\"Arial\" fontSize=\"8\" fontColor=\"FF000000\"/>\n"
-               "            </jd2:displayValue>\n"
-               "            <jd2:text value=\"S3\" visible=\"true\">\n"
-               "              <jd2:position rx=\"4\" ry=\"6\"/>\n"
-               "              <jd2:font fontName=\"Arial\" fontSize=\"8\" fontColor=\"FF000000\"/>\n"
-               "            </jd2:text>\n"
-               "            <jd2:complex id=\"DefaultMolecule\" w=\"24\" h=\"24\" boundarySpeciesStyle=\"bsBox\" boundaryStyleColor=\"FF0000FF\" captionPosition=\"npCenter\" aliasBoundaryColor=\"FFFF0000\" aliasBoundaryThickness=\"3\">\n"
-               "              <jd2:subunit shape=\"suRoundSquare\">\n"
-               "                <jd2:boundingBox rx=\"0\" ry=\"0\" w=\"24\" h=\"24\"/>\n"
-               "                <jd2:text value=\"S1\" visible=\"false\">\n"
-               "                  <jd2:position rx=\"6\" ry=\"5\"/>\n"
-               "                  <jd2:font fontName=\"Arial\" fontSize=\"8\" fontColor=\"FF000000\"/>\n"
-               "                </jd2:text>\n"
-               "                <jd2:color scheme=\"gtHorizLinear\" startColor=\"FFCCFFFF\" endColor=\"FFFFFFFF\"/>\n"
-               "                <jd2:edgeStyle color=\"FF969696\" thickness=\"1\" stroke=\"dsSolid\"/>\n"
-               "              </jd2:subunit>\n"
-               "            </jd2:complex>\n"
-               "          </jd2:species>\n"
-               "          <jd2:species id=\"S4\" boundaryCondition=\"false\" compartment=\"compartment\" initialConcentration=\"0\">\n"
-               "            <jd2:positionLocked value=\"false\"/>\n"
-               "            <jd2:boundingBox x=\"411\" y=\"212\"/>\n"
-               "            <jd2:displayValue visible=\"false\">\n"
-               "              <jd2:position rx=\"0\" ry=\"0\"/>\n"
-               "              <jd2:font fontName=\"Arial\" fontSize=\"8\" fontColor=\"FF000000\"/>\n"
-               "            </jd2:displayValue>\n"
-               "            <jd2:text value=\"S4\" visible=\"true\">\n"
-               "              <jd2:position rx=\"4\" ry=\"6\"/>\n"
-               "              <jd2:font fontName=\"Arial\" fontSize=\"8\" fontColor=\"FF000000\"/>\n"
-               "            </jd2:text>\n"
-               "            <jd2:complex id=\"DefaultMolecule\" w=\"24\" h=\"24\" boundarySpeciesStyle=\"bsBox\" boundaryStyleColor=\"FF0000FF\" captionPosition=\"npCenter\" aliasBoundaryColor=\"FFFF0000\" aliasBoundaryThickness=\"3\">\n"
-               "              <jd2:subunit shape=\"suRoundSquare\">\n"
-               "                <jd2:boundingBox rx=\"0\" ry=\"0\" w=\"24\" h=\"24\"/>\n"
-               "                <jd2:text value=\"S1\" visible=\"false\">\n"
-               "                  <jd2:position rx=\"6\" ry=\"5\"/>\n"
-               "                  <jd2:font fontName=\"Arial\" fontSize=\"8\" fontColor=\"FF000000\"/>\n"
-               "                </jd2:text>\n"
-               "                <jd2:color scheme=\"gtHorizLinear\" startColor=\"FFCCFFFF\" endColor=\"FFFFFFFF\"/>\n"
-               "                <jd2:edgeStyle color=\"FF969696\" thickness=\"1\" stroke=\"dsSolid\"/>\n"
-               "              </jd2:subunit>\n"
-               "            </jd2:complex>\n"
-               "          </jd2:species>\n"
-               "          <jd2:species id=\"X0\" boundaryCondition=\"true\" compartment=\"compartment\" initialConcentration=\"10\">\n"
-               "            <jd2:positionLocked value=\"false\"/>\n"
-               "            <jd2:boundingBox x=\"33\" y=\"60\"/>\n"
-               "            <jd2:displayValue visible=\"false\">\n"
-               "              <jd2:position rx=\"0\" ry=\"0\"/>\n"
-               "              <jd2:font fontName=\"Arial\" fontSize=\"8\" fontColor=\"FF000000\"/>\n"
-               "            </jd2:displayValue>\n"
-               "            <jd2:text value=\"X0\" visible=\"true\">\n"
-               "              <jd2:position rx=\"4\" ry=\"6\"/>\n"
-               "              <jd2:font fontName=\"Arial\" fontSize=\"8\" fontColor=\"FF000000\"/>\n"
-               "            </jd2:text>\n"
-               "            <jd2:complex id=\"DefaultMolecule\" w=\"24\" h=\"24\" boundarySpeciesStyle=\"bsBox\" boundaryStyleColor=\"FF0000FF\" captionPosition=\"npCenter\" aliasBoundaryColor=\"FFFF0000\" aliasBoundaryThickness=\"3\">\n"
-               "              <jd2:subunit shape=\"suRoundSquare\">\n"
-               "                <jd2:boundingBox rx=\"0\" ry=\"0\" w=\"24\" h=\"24\"/>\n"
-               "                <jd2:text value=\"S1\" visible=\"false\">\n"
-               "                  <jd2:position rx=\"6\" ry=\"5\"/>\n"
-               "                  <jd2:font fontName=\"Arial\" fontSize=\"8\" fontColor=\"FF000000\"/>\n"
-               "                </jd2:text>\n"
-               "                <jd2:color scheme=\"gtHorizLinear\" startColor=\"FFCCFFFF\" endColor=\"FFFFFFFF\"/>\n"
-               "                <jd2:edgeStyle color=\"FF969696\" thickness=\"1\" stroke=\"dsSolid\"/>\n"
-               "              </jd2:subunit>\n"
-               "            </jd2:complex>\n"
-               "          </jd2:species>\n"
-               "          <jd2:species id=\"X1\" boundaryCondition=\"true\" compartment=\"compartment\" initialConcentration=\"0\">\n"
-               "            <jd2:positionLocked value=\"false\"/>\n"
-               "            <jd2:boundingBox x=\"415\" y=\"292\"/>\n"
-               "            <jd2:displayValue visible=\"false\">\n"
-               "              <jd2:position rx=\"0\" ry=\"0\"/>\n"
-               "              <jd2:font fontName=\"Arial\" fontSize=\"8\" fontColor=\"FF000000\"/>\n"
-               "            </jd2:displayValue>\n"
-               "            <jd2:text value=\"X1\" visible=\"true\">\n"
-               "              <jd2:position rx=\"4\" ry=\"6\"/>\n"
-               "              <jd2:font fontName=\"Arial\" fontSize=\"8\" fontColor=\"FF000000\"/>\n"
-               "            </jd2:text>\n"
-               "            <jd2:complex id=\"DefaultMolecule\" w=\"24\" h=\"24\" boundarySpeciesStyle=\"bsBox\" boundaryStyleColor=\"FF0000FF\" captionPosition=\"npCenter\" aliasBoundaryColor=\"FFFF0000\" aliasBoundaryThickness=\"3\">\n"
-               "              <jd2:subunit shape=\"suRoundSquare\">\n"
-               "                <jd2:boundingBox rx=\"0\" ry=\"0\" w=\"24\" h=\"24\"/>\n"
-               "                <jd2:text value=\"S1\" visible=\"false\">\n"
-               "                  <jd2:position rx=\"6\" ry=\"5\"/>\n"
-               "                  <jd2:font fontName=\"Arial\" fontSize=\"8\" fontColor=\"FF000000\"/>\n"
-               "                </jd2:text>\n"
-               "                <jd2:color scheme=\"gtHorizLinear\" startColor=\"FFCCFFFF\" endColor=\"FFFFFFFF\"/>\n"
-               "                <jd2:edgeStyle color=\"FF969696\" thickness=\"1\" stroke=\"dsSolid\"/>\n"
-               "              </jd2:subunit>\n"
-               "            </jd2:complex>\n"
-               "          </jd2:species>\n"
-               "        </jd2:listOfSpecies>\n"
-               "        <jd2:listOfReactions>\n"
-               "          <jd2:reaction id=\"J0\" reversible=\"false\">\n"
-               "            <jd2:listOfReactants>\n"
-               "              <jd2:speciesReference species=\"X0\" stoichiometry=\"1\"/>\n"
-               "            </jd2:listOfReactants>\n"
-               "            <jd2:listOfProducts>\n"
-               "              <jd2:speciesReference species=\"S1\" stoichiometry=\"1\"/>\n"
-               "            </jd2:listOfProducts>\n"
-               "            <jd2:listOfModifierEdges>\n"
-               "              <jd2:modifierEdge>\n"
-               "                <jd2:speciesReference species=\"S4\"/>\n"
-               "                <jd2:destinationReaction name=\"J0\" regulatorType=\"rtNegative\" relativePosition=\"0.415929203539823\" destinationArcId=\"0\" destinationLineSegmentId=\"0\"/>\n"
-               "                <jd2:display lineThickness=\"2\" lineColor=\"FF0000FF\" lineDashStyle=\"dsSolid\" negativeMarkerStyle=\"rmBar\">\n"
-               "                  <jd2:lineType type=\"ltSegmentedLine\">\n"
-               "                    <jd2:pt x=\"423\" y=\"224\" type=\"modifier\" speciesRef=\"S4\"/>\n"
-               "                    <jd2:pt x=\"353\" y=\"243\"/>\n"
-               "                    <jd2:pt x=\"69\" y=\"127\"/>\n"
-               "                    <jd2:pt x=\"84\" y=\"101\"/>\n"
-               "                  </jd2:lineType>\n"
-               "                </jd2:display>\n"
-               "              </jd2:modifierEdge>\n"
-               "            </jd2:listOfModifierEdges>\n"
-               "            <jd2:kineticLaw type=\"explicit\">\n"
-               "              <jd2:rateEquation value=\"J0_VM1*(X0-S1/J0_Keq1)/(1+X0+S1+pow(S4,J0_h))\"/>\n"
-               "            </jd2:kineticLaw>\n"
-               "            <jd2:display arrowStyle=\"ar1\" arrowFillColor=\"FF000000\" lineColor=\"FF838464\" lineThickness=\"2\">\n"
-               "              <jd2:lineType type=\"ltLine\">\n"
-               "                <jd2:edge>\n"
-               "                  <jd2:pt x=\"45\" y=\"72\" type=\"substrate\" speciesRef=\"X0\"/>\n"
-               "                  <jd2:pt x=\"150\" y=\"116\" type=\"product\" speciesRef=\"S1\"/>\n"
-               "                </jd2:edge>\n"
-               "              </jd2:lineType>\n"
-               "            </jd2:display>\n"
-               "          </jd2:reaction>\n"
-               "          <jd2:reaction id=\"J1\" reversible=\"false\">\n"
-               "            <jd2:listOfReactants>\n"
-               "              <jd2:speciesReference species=\"S1\" stoichiometry=\"1\"/>\n"
-               "            </jd2:listOfReactants>\n"
-               "            <jd2:listOfProducts>\n"
-               "              <jd2:speciesReference species=\"S2\" stoichiometry=\"1\"/>\n"
-               "            </jd2:listOfProducts>\n"
-               "            <jd2:listOfModifierEdges/>\n"
-               "            <jd2:kineticLaw type=\"explicit\">\n"
-               "              <jd2:rateEquation value=\"(10*S1-2*S2)/(1+S1+S2)\"/>\n"
-               "            </jd2:kineticLaw>\n"
-               "            <jd2:display arrowStyle=\"ar1\" arrowFillColor=\"FF000000\" lineColor=\"FF838464\" lineThickness=\"2\">\n"
-               "              <jd2:lineType type=\"ltLine\">\n"
-               "                <jd2:edge>\n"
-               "                  <jd2:pt x=\"150\" y=\"116\" type=\"substrate\" speciesRef=\"S1\"/>\n"
-               "                  <jd2:pt x=\"246\" y=\"155\" type=\"product\" speciesRef=\"S2\"/>\n"
-               "                </jd2:edge>\n"
-               "              </jd2:lineType>\n"
-               "            </jd2:display>\n"
-               "          </jd2:reaction>\n"
-               "          <jd2:reaction id=\"J2\" reversible=\"false\">\n"
-               "            <jd2:listOfReactants>\n"
-               "              <jd2:speciesReference species=\"S2\" stoichiometry=\"1\"/>\n"
-               "            </jd2:listOfReactants>\n"
-               "            <jd2:listOfProducts>\n"
-               "              <jd2:speciesReference species=\"S3\" stoichiometry=\"1\"/>\n"
-               "            </jd2:listOfProducts>\n"
-               "            <jd2:listOfModifierEdges/>\n"
-               "            <jd2:kineticLaw type=\"explicit\">\n"
-               "              <jd2:rateEquation value=\"(10*S2-2*S3)/(1+S2+S3)\"/>\n"
-               "            </jd2:kineticLaw>\n"
-               "            <jd2:display arrowStyle=\"ar1\" arrowFillColor=\"FF000000\" lineColor=\"FF838464\" lineThickness=\"2\">\n"
-               "              <jd2:lineType type=\"ltLine\">\n"
-               "                <jd2:edge>\n"
-               "                  <jd2:pt x=\"246\" y=\"155\" type=\"substrate\" speciesRef=\"S2\"/>\n"
-               "                  <jd2:pt x=\"330\" y=\"190\" type=\"product\" speciesRef=\"S3\"/>\n"
-               "                </jd2:edge>\n"
-               "              </jd2:lineType>\n"
-               "            </jd2:display>\n"
-               "          </jd2:reaction>\n"
-               "          <jd2:reaction id=\"J3\" reversible=\"false\">\n"
-               "            <jd2:listOfReactants>\n"
-               "              <jd2:speciesReference species=\"S3\" stoichiometry=\"1\"/>\n"
-               "            </jd2:listOfReactants>\n"
-               "            <jd2:listOfProducts>\n"
-               "              <jd2:speciesReference species=\"S4\" stoichiometry=\"1\"/>\n"
-               "            </jd2:listOfProducts>\n"
-               "            <jd2:listOfModifierEdges/>\n"
-               "            <jd2:kineticLaw type=\"explicit\">\n"
-               "              <jd2:rateEquation value=\"(10*S3-2*S4)/(1+S3+S4)\"/>\n"
-               "            </jd2:kineticLaw>\n"
-               "            <jd2:display arrowStyle=\"ar1\" arrowFillColor=\"FF000000\" lineColor=\"FF838464\" lineThickness=\"2\">\n"
-               "              <jd2:lineType type=\"ltLine\">\n"
-               "                <jd2:edge>\n"
-               "                  <jd2:pt x=\"330\" y=\"190\" type=\"substrate\" speciesRef=\"S3\"/>\n"
-               "                  <jd2:pt x=\"423\" y=\"224\" type=\"product\" speciesRef=\"S4\"/>\n"
-               "                </jd2:edge>\n"
-               "              </jd2:lineType>\n"
-               "            </jd2:display>\n"
-               "          </jd2:reaction>\n"
-               "          <jd2:reaction id=\"J4\" reversible=\"false\">\n"
-               "            <jd2:listOfReactants>\n"
-               "              <jd2:speciesReference species=\"S4\" stoichiometry=\"1\"/>\n"
-               "            </jd2:listOfReactants>\n"
-               "            <jd2:listOfProducts>\n"
-               "              <jd2:speciesReference species=\"X1\" stoichiometry=\"1\"/>\n"
-               "            </jd2:listOfProducts>\n"
-               "            <jd2:listOfModifierEdges/>\n"
-               "            <jd2:kineticLaw type=\"explicit\">\n"
-               "              <jd2:rateEquation value=\"J4_V4*S4/(J4_KS4+S4)\"/>\n"
-               "            </jd2:kineticLaw>\n"
-               "            <jd2:display arrowStyle=\"ar1\" arrowFillColor=\"FF000000\" lineColor=\"FF838464\" lineThickness=\"2\">\n"
-               "              <jd2:lineType type=\"ltLine\">\n"
-               "                <jd2:edge>\n"
-               "                  <jd2:pt x=\"423\" y=\"224\" type=\"substrate\" speciesRef=\"S4\"/>\n"
-               "                  <jd2:pt x=\"427\" y=\"304\" type=\"product\" speciesRef=\"X1\"/>\n"
-               "                </jd2:edge>\n"
-               "              </jd2:lineType>\n"
-               "            </jd2:display>\n"
-               "          </jd2:reaction>\n"
-               "        </jd2:listOfReactions>\n"
-               "      </jd2:JDesignerLayout>\n"
-               "    </annotation>\n"
-               "    <listOfCompartments>\n"
-               "      <compartment id=\"compartment\" size=\"1\"/>\n"
-               "    </listOfCompartments>\n"
-               "    <listOfSpecies>\n"
-               "      <species id=\"S1\" compartment=\"compartment\" initialConcentration=\"0\"/>\n"
-               "      <species id=\"S2\" compartment=\"compartment\" initialConcentration=\"0\"/>\n"
-               "      <species id=\"S3\" compartment=\"compartment\" initialConcentration=\"0\"/>\n"
-               "      <species id=\"S4\" compartment=\"compartment\" initialConcentration=\"0\"/>\n"
-               "      <species id=\"X0\" compartment=\"compartment\" initialConcentration=\"10\" boundaryCondition=\"true\"/>\n"
-               "      <species id=\"X1\" compartment=\"compartment\" initialConcentration=\"0\" boundaryCondition=\"true\"/>\n"
-               "    </listOfSpecies>\n"
-               "    <listOfParameters>\n"
-               "      <parameter id=\"J0_VM1\" value=\"10\"/>\n"
-               "      <parameter id=\"J0_Keq1\" value=\"10\"/>\n"
-               "      <parameter id=\"J0_h\" value=\"10\"/>\n"
-               "      <parameter id=\"J4_V4\" value=\"2.5\"/>\n"
-               "      <parameter id=\"J4_KS4\" value=\"0.5\"/>\n"
-               "    </listOfParameters>\n"
-               "    <listOfReactions>\n"
-               "      <reaction id=\"J0\" reversible=\"false\">\n"
-               "        <listOfReactants>\n"
-               "          <speciesReference species=\"X0\"/>\n"
-               "        </listOfReactants>\n"
-               "        <listOfProducts>\n"
-               "          <speciesReference species=\"S1\"/>\n"
-               "        </listOfProducts>\n"
-               "        <listOfModifiers>\n"
-               "          <modifierSpeciesReference species=\"S4\"/>\n"
-               "          <modifierSpeciesReference species=\"S4\"/>\n"
-               "        </listOfModifiers>\n"
-               "        <kineticLaw>\n"
-               "          <math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n"
-               "            <apply>\n"
-               "              <divide/>\n"
-               "              <apply>\n"
-               "                <times/>\n"
-               "                <ci> J0_VM1 </ci>\n"
-               "                <apply>\n"
-               "                  <minus/>\n"
-               "                  <ci> X0 </ci>\n"
-               "                  <apply>\n"
-               "                    <divide/>\n"
-               "                    <ci> S1 </ci>\n"
-               "                    <ci> J0_Keq1 </ci>\n"
-               "                  </apply>\n"
-               "                </apply>\n"
-               "              </apply>\n"
-               "              <apply>\n"
-               "                <plus/>\n"
-               "                <cn type=\"integer\"> 1 </cn>\n"
-               "                <ci> X0 </ci>\n"
-               "                <ci> S1 </ci>\n"
-               "                <apply>\n"
-               "                  <power/>\n"
-               "                  <ci> S4 </ci>\n"
-               "                  <ci> J0_h </ci>\n"
-               "                </apply>\n"
-               "              </apply>\n"
-               "            </apply>\n"
-               "          </math>\n"
-               "        </kineticLaw>\n"
-               "      </reaction>\n"
-               "      <reaction id=\"J1\" reversible=\"false\">\n"
-               "        <listOfReactants>\n"
-               "          <speciesReference species=\"S1\"/>\n"
-               "        </listOfReactants>\n"
-               "        <listOfProducts>\n"
-               "          <speciesReference species=\"S2\"/>\n"
-               "        </listOfProducts>\n"
-               "        <kineticLaw>\n"
-               "          <math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n"
-               "            <apply>\n"
-               "              <divide/>\n"
-               "              <apply>\n"
-               "                <minus/>\n"
-               "                <apply>\n"
-               "                  <times/>\n"
-               "                  <cn type=\"integer\"> 10 </cn>\n"
-               "                  <ci> S1 </ci>\n"
-               "                </apply>\n"
-               "                <apply>\n"
-               "                  <times/>\n"
-               "                  <cn type=\"integer\"> 2 </cn>\n"
-               "                  <ci> S2 </ci>\n"
-               "                </apply>\n"
-               "              </apply>\n"
-               "              <apply>\n"
-               "                <plus/>\n"
-               "                <cn type=\"integer\"> 1 </cn>\n"
-               "                <ci> S1 </ci>\n"
-               "                <ci> S2 </ci>\n"
-               "              </apply>\n"
-               "            </apply>\n"
-               "          </math>\n"
-               "        </kineticLaw>\n"
-               "      </reaction>\n"
-               "      <reaction id=\"J2\" reversible=\"false\">\n"
-               "        <listOfReactants>\n"
-               "          <speciesReference species=\"S2\"/>\n"
-               "        </listOfReactants>\n"
-               "        <listOfProducts>\n"
-               "          <speciesReference species=\"S3\"/>\n"
-               "        </listOfProducts>\n"
-               "        <kineticLaw>\n"
-               "          <math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n"
-               "            <apply>\n"
-               "              <divide/>\n"
-               "              <apply>\n"
-               "                <minus/>\n"
-               "                <apply>\n"
-               "                  <times/>\n"
-               "                  <cn type=\"integer\"> 10 </cn>\n"
-               "                  <ci> S2 </ci>\n"
-               "                </apply>\n"
-               "                <apply>\n"
-               "                  <times/>\n"
-               "                  <cn type=\"integer\"> 2 </cn>\n"
-               "                  <ci> S3 </ci>\n"
-               "                </apply>\n"
-               "              </apply>\n"
-               "              <apply>\n"
-               "                <plus/>\n"
-               "                <cn type=\"integer\"> 1 </cn>\n"
-               "                <ci> S2 </ci>\n"
-               "                <ci> S3 </ci>\n"
-               "              </apply>\n"
-               "            </apply>\n"
-               "          </math>\n"
-               "        </kineticLaw>\n"
-               "      </reaction>\n"
-               "      <reaction id=\"J3\" reversible=\"false\">\n"
-               "        <listOfReactants>\n"
-               "          <speciesReference species=\"S3\"/>\n"
-               "        </listOfReactants>\n"
-               "        <listOfProducts>\n"
-               "          <speciesReference species=\"S4\"/>\n"
-               "        </listOfProducts>\n"
-               "        <kineticLaw>\n"
-               "          <math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n"
-               "            <apply>\n"
-               "              <divide/>\n"
-               "              <apply>\n"
-               "                <minus/>\n"
-               "                <apply>\n"
-               "                  <times/>\n"
-               "                  <cn type=\"integer\"> 10 </cn>\n"
-               "                  <ci> S3 </ci>\n"
-               "                </apply>\n"
-               "                <apply>\n"
-               "                  <times/>\n"
-               "                  <cn type=\"integer\"> 2 </cn>\n"
-               "                  <ci> S4 </ci>\n"
-               "                </apply>\n"
-               "              </apply>\n"
-               "              <apply>\n"
-               "                <plus/>\n"
-               "                <cn type=\"integer\"> 1 </cn>\n"
-               "                <ci> S3 </ci>\n"
-               "                <ci> S4 </ci>\n"
-               "              </apply>\n"
-               "            </apply>\n"
-               "          </math>\n"
-               "        </kineticLaw>\n"
-               "      </reaction>\n"
-               "      <reaction id=\"J4\" reversible=\"false\">\n"
-               "        <listOfReactants>\n"
-               "          <speciesReference species=\"S4\"/>\n"
-               "        </listOfReactants>\n"
-               "        <listOfProducts>\n"
-               "          <speciesReference species=\"X1\"/>\n"
-               "        </listOfProducts>\n"
-               "        <kineticLaw>\n"
-               "          <math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n"
-               "            <apply>\n"
-               "              <divide/>\n"
-               "              <apply>\n"
-               "                <times/>\n"
-               "                <ci> J4_V4 </ci>\n"
-               "                <ci> S4 </ci>\n"
-               "              </apply>\n"
-               "              <apply>\n"
-               "                <plus/>\n"
-               "                <ci> J4_KS4 </ci>\n"
-               "                <ci> S4 </ci>\n"
-               "              </apply>\n"
-               "            </apply>\n"
-               "          </math>\n"
-               "        </kineticLaw>\n"
-               "      </reaction>\n"
-               "    </listOfReactions>\n"
-               "  </model>\n"
-               "</sbml>";
+        return ResultMap ({
+                {"S1", DoublePair(0, 10)},
+                {"S2", DoublePair(0, 10)},
+        });
     }
 
     std::string modelName() override {
-        return "Feedback";
-    }
-
-    ResultMap stateVectorAtT10() override {
-        return ResultMap
-                {
-                        {"S1", 0.26942985546551135},
-                        {"S2", 0.678092484380656},
-                        {"S3", 1.1993552974554607},
-                        {"S4", 1.8682526589726127}
-                };
-
+        return "OpenLinearFlux";
     }
 };
-
 
 /**
  * model 269 from the sbml test suite
@@ -856,8 +538,8 @@ public:
 
     ResultMap stateVectorAtT10() override {
         return ResultMap{
-                {"S1", 0.0270834},
-                {"S2", 0.972917}
+                {"S1", DoublePair(1, 0.0270834)},
+                {"S2", DoublePair(1, 0.972917)}
         };
     }
 };
@@ -943,8 +625,8 @@ public:
 
     ResultMap stateVectorAtT10() override {
         return ResultMap{
-                {"S1", 0.0270834},
-                {"S2", 0.972917}
+                {"S1", DoublePair(1, 0.0270834)},
+                {"S2", DoublePair(1, 0.972917)}
         };
     }
 };
@@ -1007,8 +689,8 @@ public:
 
     ResultMap stateVectorAtT10() override {
         return ResultMap{
-                {"S1", 9.02844e-13},
-                {"S2", 10}
+                {"S1", DoublePair(10, 9.02844e-13)},
+                {"S2", DoublePair(10, 10)}
         };
     }
 };
@@ -1070,8 +752,8 @@ public:
 
     ResultMap stateVectorAtT10() override {
         return ResultMap{
-                {"S1", 1.46671e-12},
-                {"S2", 10}
+                {"S1", DoublePair(10, 1.46671e-12)},
+                {"S2", DoublePair(10, 10)}
         };
     }
 };
@@ -1079,7 +761,7 @@ public:
 /**
  * Model from the Venkatraman 2010 paper
  */
-class Venkatraman2010 : public SBMLTestModel, SteadyStateResult {
+class Venkatraman2010 : public SBMLTestModel, SteadyStateMultiStart {
 public:
 
     std::string str() override {
@@ -1090,10 +772,10 @@ public:
                "      <compartment sboTerm=\"SBO:0000410\" id=\"default_compartment\" spatialDimensions=\"3\" size=\"1\" constant=\"true\"/>\n"
                "    </listOfCompartments>\n"
                "    <listOfSpecies>\n"
-               "      <species id=\"scUPA\" compartment=\"default_compartment\" initialConcentration=\"10\" hasOnlySubstanceUnits=\"false\" boundaryCondition=\"false\" constant=\"false\"/>\n"
-               "      <species id=\"PLG\" compartment=\"default_compartment\" initialConcentration=\"10\" hasOnlySubstanceUnits=\"false\" boundaryCondition=\"false\" constant=\"false\"/>\n"
-               "      <species id=\"PLS\" compartment=\"default_compartment\" initialConcentration=\"10\" hasOnlySubstanceUnits=\"false\" boundaryCondition=\"false\" constant=\"false\"/>\n"
-               "      <species id=\"tcUPA\" compartment=\"default_compartment\" initialConcentration=\"10\" hasOnlySubstanceUnits=\"false\" boundaryCondition=\"false\" constant=\"false\"/>\n"
+               "      <species id=\"scUPA\" compartment=\"default_compartment\" initialConcentration=\"1.16213e-8\" hasOnlySubstanceUnits=\"false\" boundaryCondition=\"false\" constant=\"false\"/>\n"
+               "      <species id=\"PLG\" compartment=\"default_compartment\" initialConcentration=\"0.0262792\" hasOnlySubstanceUnits=\"false\" boundaryCondition=\"false\" constant=\"false\"/>\n"
+               "      <species id=\"PLS\" compartment=\"default_compartment\" initialConcentration=\"19.7847\" hasOnlySubstanceUnits=\"false\" boundaryCondition=\"false\" constant=\"false\"/>\n"
+               "      <species id=\"tcUPA\" compartment=\"default_compartment\" initialConcentration=\"19.9809\" hasOnlySubstanceUnits=\"false\" boundaryCondition=\"false\" constant=\"false\"/>\n"
                "    </listOfSpecies>\n"
                "    <listOfParameters>\n"
                "      <parameter id=\"keff1\" value=\"0.0017\" constant=\"true\"/>\n"
@@ -1260,13 +942,27 @@ public:
         return "Venkatraman2010";
     }
 
-    ResultMap steadyState() override {
-        return ResultMap{
-                {"scUPA", 0.0009},
-                {"PLG",   0.00999847},
-                {"PLS",   0.00001},
-                {"tcUPA", 0.0}
-        };
+    MultiResultsMap steadyState() override {
+        MultiResultsMap results;
+        results.push_back(
+                {
+                        // This parameter set doesn't solve
+                        {"scUPA", DoublePair(10, 0.00010036488071501325)},
+                        {"PLG",   DoublePair(10, 0.03571790894678159)},
+                        {"PLS",   DoublePair(10, 0.9642820910532185)},
+                        {"tcUPA", DoublePair(10, 0.8998996351192852)}
+                }
+        );
+        results.push_back(
+                {
+                        // this starting set comes from integrating the model to t=10 before solving
+                        {"scUPA", DoublePair(1.16213e-8, 0.00010036488071501325)},
+                        {"PLG",   DoublePair(0.0262792, 0.03571790894678159)},
+                        {"PLS",   DoublePair(19.7847, 0.9642820910532185)},
+                        {"tcUPA", DoublePair(19.9809, 0.8998996351192852)}
+                }
+        );
+        return results;
     }
 };
 
@@ -1281,8 +977,6 @@ public:
 SBMLTestModel *SBMLTestModelFactory(const std::string &modelName) {
     if (modelName == "SimpleFlux") {
         return new SimpleFlux();
-    } else if (modelName == "Feedback") {
-        return new Feedback();
     } else if (modelName == "Model269") {
         return new Model269();
     } else if (modelName == "Model28") {
@@ -1295,8 +989,11 @@ SBMLTestModel *SBMLTestModelFactory(const std::string &modelName) {
         return new Venkatraman2010();
     } else if (modelName == "OpenLinearFlux") {
         return new OpenLinearFlux();
+    } else if (modelName == "SimpleFluxManuallyReduced") {
+        return new SimpleFluxManuallyReduced();
     } else {
-        throw std::runtime_error("SBMLTestModelFactory::SBMLTestModelFactory(): no model found\n");
+        throw std::runtime_error(
+                "SBMLTestModelFactory::SBMLTestModelFactory(): no model called \"" + modelName + "\" found\n");
     }
 }
 

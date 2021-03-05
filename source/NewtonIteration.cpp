@@ -16,14 +16,15 @@ namespace rr {
             executableModel) {
         // note: we deliberately use the NewtonIteration namespace here
         // because calling virtual methods from constructors is dangerous.
-        // We *must* ensure we call the right version of createKinsol
+        // We must ensure we call the right version of createKinsol
         NewtonIteration::createKinsol();
+        NewtonIteration::resetSettings();
     }
 
     void NewtonIteration::createKinsol() {
         int err;
 
-        createKinsol_();
+        KinsolSteadyStateSolver::createKinsol();
 
         // todo don't forget about this.
         KINSetPrintLevel(mKinsol_Memory, 3);
@@ -43,20 +44,20 @@ namespace rr {
         KinsolCheckForNull(jac, "SUNLinSol_Dense", "SUNLinearSolver")
 
         /* Attach the matrix and linear solver to KINSOL */
-        if ((err = KINSetLinearSolver(mKinsol_Memory, linearSolver, jac))){
+        if ((err = KINSetLinearSolver(mKinsol_Memory, linearSolver, jac))) {
             decodeKinsolError(err);
         }
 
     }
 
     void NewtonIteration::freeKinsol() {
-        freeKinsol_();
+        KinsolSteadyStateSolver::freeKinsol();
 
-        if( linearSolver){
+        if (linearSolver) {
             SUNLinSolFree(linearSolver);
         }
 
-        if(jac){
+        if (jac) {
             SUNMatDestroy(jac);
         }
 
@@ -68,7 +69,8 @@ namespace rr {
         KINSol(
                 mKinsol_Memory,   // kinsol memory block
                 mStateVector,     // initial guess and solution vector
-                KIN_NONE,  // global strategy, other options defined in kinsol.h
+                // global strategy, options defined in kinsol.h
+                getValueAsString("strategy") == "basic" ? KIN_NONE : KIN_LINESEARCH,
                 uscale,      //scaling vector for the variable cc
                 fscale      //scaling vector for the variable fval
         );
@@ -85,18 +87,49 @@ namespace rr {
 
     }
 
+    void NewtonIteration::resetSettings() {
+        KinsolSteadyStateSolver::resetSettings();
+
+        // options are: basic or linesearch
+        std::string desc = "Two options, basic or linesearch. When basic, the algorithm follows "
+                           "the Newton iteration algorithm which solves Xn+1 = Xn - J^-1(Xn) * f(Xn). "
+                           "There are two update strategies implemented, the first (basic) and simplest is the "
+                           "standard Newton strategy. The other method (linesearch) is a global strategy, "
+                           "which attempts to use the direction implied by delta_n in the most efficient way for"
+                           " furthering convergence of the nonlinear problem. This"
+                           "technique is implemented in the second strategy, called Linesearch";
+        addSetting(
+                "strategy",
+                "basic",
+                "strategy",
+                R"(Either "basic" or "linesearch". Strategy for underlying algorithm to use)",
+                desc
+        );
+    }
+
     std::string NewtonIteration::getName() const {
-        return "NewtonIteration";
+        return NewtonIteration::getNewtonIterationName();
     }
 
     std::string NewtonIteration::getDescription() const {
+        return NewtonIteration::getNewtonIterationDescription();
+    }
+
+    std::string NewtonIteration::getHint() const {
+        return NewtonIteration::getNewtonIterationHint();
+    }
+
+    std::string NewtonIteration::getNewtonIterationName() {
+        return "NewtonIteration";
+    }
+
+    std::string NewtonIteration::getNewtonIterationDescription() {
         return "Uses the sundials implementation of newton "
                "iteration";
     }
 
-    std::string NewtonIteration::getHint() const {
+    std::string NewtonIteration::getNewtonIterationHint() {
         return "Newton Iteration";
     }
-
 
 }

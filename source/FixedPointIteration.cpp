@@ -19,7 +19,7 @@ namespace rr {
         int err;
 
         // call shared initialization protocol
-        KinsolSteadyStateSolver::createKinsol_();
+        KinsolSteadyStateSolver::createKinsol();
 
         int stateVectorSize = mModel->getStateVector(nullptr);
 
@@ -37,17 +37,13 @@ namespace rr {
 
         KINSetNoResMon(mKinsol_Memory, false);
 
-
         KINSetMAA(mKinsol_Memory, stateVectorSize);
-//         KINSysFn
-//        if ((err = KINInit(mKinsol_Memory, kinsolDyDtFcn < FixedPointIteration > , mStateVector)) != KIN_SUCCESS) {
-//            decodeKinsolError(err);
-//        }
+
         KINInit(mKinsol_Memory, kinsolDyDtFcn < FixedPointIteration > , mStateVector);
     }
 
     void FixedPointIteration::freeKinsol() {
-        freeKinsol_();
+        KinsolSteadyStateSolver::freeKinsol();
     }
 
     double FixedPointIteration::solve() {
@@ -61,8 +57,6 @@ namespace rr {
 
         getSolverStats();
 
-        //KINGetNumNonlinSolvIters(mKinsol_Memory, &nSolverIterations);
-        //KINGetNumFuncEvals(mKinsol_Memory, &nFuncEvals);
         return 0.0;
     }
 

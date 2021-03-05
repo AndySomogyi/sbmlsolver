@@ -25,8 +25,7 @@ namespace rr {
         updateKinsol();
     }
 
-
-    void KinsolSteadyStateSolver::createKinsol_() {
+    void KinsolSteadyStateSolver::createKinsol() {
         if (!mModel) {
             return;
         }
@@ -43,11 +42,11 @@ namespace rr {
 
         fscale = N_VNew_Serial(stateVectorSize);
         assert(fscale && "Sundials failed to create N_Vector for fscale");
-        N_VConst(0.1, fscale);
+        N_VConst(getValueAsDouble("fScaleDefault"), fscale);
 
         uscale = N_VNew_Serial(stateVectorSize);
         assert(uscale && "Sundials failed to create N_Vector for fscale");
-        N_VConst(0.1, uscale);
+        N_VConst(getValueAsDouble("uScaleDefault"), uscale);
 
         // initialise to model values
         mModel->getStateVector(mStateVector->ops->nvgetarraypointer(mStateVector));
@@ -83,7 +82,7 @@ namespace rr {
         KINSetPrintLevel(mKinsol_Memory, getValueAsInt("kinLogLevel"));
     }
 
-    void KinsolSteadyStateSolver::freeKinsol_() {
+    void KinsolSteadyStateSolver::freeKinsol() {
 
         if (mKinsol_Memory) {
             KINFree(&mKinsol_Memory);
@@ -126,6 +125,16 @@ namespace rr {
         desc = "Integer between 0 and 3 inclusive. Higher the level, the more detail "
                "kinsol outputs during computation. Default 0.";
         addSetting("kinLogLevel", 0, "kinLogLevel", desc, desc);
+
+        //fscale and uscale
+        desc = "The default value used for the fscale parameter. This is the diagonal of a matrix used for scaling matrices "
+               "internally in kinsol";
+        addSetting("fScaleDefault", 0.1,
+                   "fScaleDefault", desc, desc);
+        desc = "The default value used for the uscale parameter. This is the diagonal of a matrix used for scaling matrices "
+               "internally in kinsol";
+        addSetting("uScaleDefault", 0.1,
+                   "uScaleDefault", desc, desc);
 
     }
 
