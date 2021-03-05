@@ -22,7 +22,7 @@ namespace rr
 
     RK45Integrator::RK45Integrator(ExecutableModel *m)
     {
-        Log(Logger::LOG_NOTICE) << "Creating Runge-Kutta-Fehlberg integrator";
+        rrLog(Logger::LOG_NOTICE) << "Creating Runge-Kutta-Fehlberg integrator";
         resetSettings();
         stateVectorSize = 0;
         hmin = hmax = 0;
@@ -88,7 +88,7 @@ namespace rr
             throw std::runtime_error("RK45Integrator::integrate: No model");
         }
 
-        Log(Logger::LOG_DEBUG) <<
+        rrLog(Logger::LOG_DEBUG) <<
                 "RK45Integrator::integrate(" << t << ", " << h << ")";
 
         integer n = stateVectorSize;
@@ -178,7 +178,7 @@ namespace rr
           error = dnrm2_(&n, err, &inc);
           q = 0.84*pow(getValueAsDouble("epsilon")/error, 0.25);
 
-          Log(Logger::LOG_DEBUG) <<
+          rrLog(Logger::LOG_DEBUG) <<
 	    "RK45 step: t = " << t << ", error = " << error << ", epsilon = " << getValueAsDouble("epsilon") << ", h = " << h;
           if (q <= 0.1) {
             h = 0.1*h;
@@ -204,7 +204,7 @@ namespace rr
 
         } while ( error > getValueAsDouble("epsilon"));
 
-        Log(Logger::LOG_DEBUG) << "RK45: Update state vector";
+        rrLog(Logger::LOG_DEBUG) << "RK45: Update state vector";
 
         // y = y + (1408*h/2565) k_3
         alpha = 1408.*h / 2565;
@@ -226,10 +226,10 @@ namespace rr
         model->setStateVector(y);
 
         for (int i = 0; i<stateVectorSize; ++i) {
-            Log(Logger::LOG_DEBUG) << "  " << y[i];
+            rrLog(Logger::LOG_DEBUG) << "  " << y[i];
         }
 
-        Log(Logger::LOG_DEBUG) <<
+        rrLog(Logger::LOG_DEBUG) <<
                 "RK45: end of step";
 
         return t + h;

@@ -229,7 +229,7 @@ ExecutableModel* LLVMModelGenerator::regenerateModel(ExecutableModel* oldModel, 
 		//LS DEBUG:  find a way to get the text out of the error.
 		auto err = objectFileExpected.takeError();
 		string s = "LLVM object supposed to be file, but is not.";
-		Log(Logger::LOG_FATAL) << s;
+		rrLog(Logger::LOG_FATAL) << s;
 		throw_llvm_exception(s);
 	}
 
@@ -378,7 +378,7 @@ context.getExecutionEngine().getFunctionAddress("setGlobalParameter");
 
 		LLVMModelData_free(modelData);
 
-		Log(Logger::LOG_FATAL) << s.str();
+		rrLog(Logger::LOG_FATAL) << s.str();
 
 		throw_llvm_exception(s.str());
 	}
@@ -656,12 +656,12 @@ ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml,
 
         if (sp)
         {
-            Log(Logger::LOG_DEBUG) << "found a cached model for " << md5;
+            rrLog(Logger::LOG_DEBUG) << "found a cached model for " << md5;
             return new LLVMExecutableModel(sp, createModelData(*sp->symbols, sp->random));
         }
         else
         {
-            Log(Logger::LOG_TRACE) << "no cached model found for " << md5
+            rrLog(Logger::LOG_TRACE) << "no cached model found for " << md5
                     << ", creating new one";
         }
     }
@@ -801,7 +801,7 @@ ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml,
 		//LS DEBUG:  find a way to get the text out of the error.
 		auto err = objectFileExpected.takeError();
 		string s = "LLVM object supposed to be file, but is not.";
-		Log(Logger::LOG_FATAL) << s;
+		rrLog(Logger::LOG_FATAL) << s;
 		throw_llvm_exception(s);
 	}
 
@@ -953,7 +953,7 @@ ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml,
 
         LLVMModelData_free(modelData);
 
-        Log(Logger::LOG_FATAL) << s.str();
+        rrLog(Logger::LOG_FATAL) << s.str();
 
         throw_llvm_exception(s.str());
     }
@@ -981,7 +981,7 @@ ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml,
         {
             if (j->second.expired())
             {
-                Log(Logger::LOG_DEBUG) <<
+                rrLog(Logger::LOG_DEBUG) <<
                         "removing expired model resource for hash " << md5;
 
                 j = cachedModels.erase(j);
@@ -994,7 +994,7 @@ ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml,
 
         if ((i = cachedModels.find(md5)) == cachedModels.end())
         {
-            Log(Logger::LOG_DEBUG) << "could not find existing cached resource "
+            rrLog(Logger::LOG_DEBUG) << "could not find existing cached resource "
                     "resources, for hash " << md5 <<
                     ", inserting new resources into cache";
 

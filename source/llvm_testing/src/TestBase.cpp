@@ -31,7 +31,7 @@ TestBase::TestBase(const std::string& compiler, const std::string& version, int 
     {
         stringstream msg;
         msg<<"File: "<<fileName<<" does not exist";
-        Log(Logger::LOG_ERROR)<<msg.str();
+        rrLog(Logger::LOG_ERROR)<<msg.str();
 
         throw std::runtime_error(msg.str());
     }
@@ -41,7 +41,7 @@ TestBase::TestBase(const std::string& compiler, const std::string& version, int 
     {
         stringstream msg;
         msg<<"Failed opening file: "<<fileName;
-        Log(Logger::LOG_ERROR)<<msg.str();
+        rrLog(Logger::LOG_ERROR)<<msg.str();
 
         throw std::runtime_error(msg.str());
     }
@@ -49,7 +49,7 @@ TestBase::TestBase(const std::string& compiler, const std::string& version, int 
     std::string sbml((std::istreambuf_iterator<char>(ifs)), std::istreambuf_iterator<char>());
 
     ifs.close();
-    Log(Logger::LOG_INFORMATION)
+    rrLog(Logger::LOG_INFORMATION)
         << "/*** SBML " << fileName << " ***/" << endl
         << sbml << endl
         << "/****************************************************************************************/"
@@ -67,7 +67,7 @@ TestBase::TestBase(const std::string& compiler, const std::string& version, int 
 
 TestBase::~TestBase()
 {
-    Log(lInfo) << "deleting model, " << __FUNC__;
+    rrLog(lInfo) << "deleting model, " << __FUNC__;
     delete model;
 }
 

@@ -68,7 +68,7 @@ bool SBMLModelSimulation::SetModelFileName(const string& name)
 
     if(!fileExists(joinPath(mModelFilePath, mModelFileName)))
     {
-        Log(Logger::LOG_ERROR)<<"The file: "<<joinPath(mModelFilePath, mModelFileName)<<" doesn't exist.";
+        rrLog(Logger::LOG_ERROR)<<"The file: "<<joinPath(mModelFilePath, mModelFileName)<<" doesn't exist.";
         return false;
     }
 
@@ -116,7 +116,7 @@ void SBMLModelSimulation::loadSBMLTolerances(std::string const& filename)
 {
     if (!filename.size())
     {
-        Log(Logger::LOG_ERROR) << "Empty file name for settings file";
+        rrLog(Logger::LOG_ERROR) << "Empty file name for settings file";
     }
     else
     {
@@ -133,16 +133,16 @@ void SBMLModelSimulation::loadSBMLTolerances(std::string const& filename)
             }
             else
             {
-                Log(Logger::LOG_DEBUG) << "Empty line in settings file: " << lines[i];
+                rrLog(Logger::LOG_DEBUG) << "Empty line in settings file: " << lines[i];
             }
         }
 
-        Log(Logger::LOG_DEBUG) << "Settings File =============";
+        rrLog(Logger::LOG_DEBUG) << "Settings File =============";
         for (it = options.begin(); it != options.end(); it++)
         {
-            Log(Logger::LOG_DEBUG) << (*it).first << " => " << (*it).second;
+            rrLog(Logger::LOG_DEBUG) << (*it).first << " => " << (*it).second;
         }
-        Log(Logger::LOG_DEBUG) << "===========================";
+        rrLog(Logger::LOG_DEBUG) << "===========================";
 
         //Assign values
         it = options.find("absolute");
@@ -165,7 +165,7 @@ bool SBMLModelSimulation::LoadSettings(const string& settingsFName)
 
     if(!fName.size())
     {
-        Log(Logger::LOG_ERROR)<<"Empty file name for setings file";
+        rrLog(Logger::LOG_ERROR)<<"Empty file name for setings file";
         return false;
     }
 
@@ -262,7 +262,7 @@ bool SBMLModelSimulation::SaveModelAsXML(const string& folder)
 
     if(!fs)
     {
-        Log(Logger::LOG_ERROR)<<"Failed writing sbml to file "<< fName;
+        rrLog(Logger::LOG_ERROR)<<"Failed writing sbml to file "<< fName;
         return false;
     }
     fs<<mEngine->getSBML();
@@ -300,7 +300,7 @@ bool SBMLModelSimulation::SaveResult()
 {
     string resultFileName(joinPath(mDataOutputFolder, "rr_" + mModelFileName));
     resultFileName = changeFileExtensionTo(resultFileName, ".csv");
-    Log(lInfo)<<"Saving result to file: "<<resultFileName;
+    rrLog(lInfo)<<"Saving result to file: "<<resultFileName;
     RoadRunnerData resultData(mEngine);
 
     ofstream fs(resultFileName.c_str());

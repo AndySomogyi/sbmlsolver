@@ -100,7 +100,7 @@ std::string NLEQ1Solver::getNLEQHint() {
 
 double NLEQ1Solver::solve()
 {
-    Log(Logger::LOG_DEBUG) << "NLEQ1Solver::solve";
+    rrLog(Logger::LOG_DEBUG) << "NLEQ1Solver::solve";
 
     NLEQ1Interface* nleq1 = new NLEQ1Interface(model);
 

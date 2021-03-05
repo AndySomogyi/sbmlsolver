@@ -101,7 +101,7 @@ void TestRoadRunner::loadSBML(const std::string& compiler)
     string settingsOveride("");
     if (!simulation->LoadSettingsEx(settingsOveride))
     {
-        Log(Logger::LOG_ERROR) << "Failed loading SBML model settings";
+        rrLog(Logger::LOG_ERROR) << "Failed loading SBML model settings";
         throw Exception("Failed loading SBML model settings");
     }
 
@@ -145,11 +145,11 @@ void TestRoadRunner::compareReference()
     simulation->SaveModelAsXML(dataOutputFolder);
     if (!result)
     {
-        Log(Logger::LOG_NOTICE) << "Test failed..\n";
+        rrLog(Logger::LOG_NOTICE) << "Test failed..\n";
     }
     else
     {
-        Log(Logger::LOG_NOTICE) << "Test passed..\n";
+        rrLog(Logger::LOG_NOTICE) << "Test passed..\n";
     }
 }
 
@@ -506,9 +506,9 @@ void TestRoadRunner::testLogging(const std::string& logFileName)
 {
     Logger::enableConsoleLogging(Logger::LOG_NOTICE);
 
-    Log(Logger::LOG_NOTICE) << "console only notice";
+    rrLog(Logger::LOG_NOTICE) << "console only notice";
 
-    Log(Logger::LOG_NOTICE) << "setting logging to file: " << logFileName;
+    rrLog(Logger::LOG_NOTICE) << "setting logging to file: " << logFileName;
 
     Logger::enableFileLogging(logFileName, Logger::LOG_NOTICE);
 
@@ -516,14 +516,14 @@ void TestRoadRunner::testLogging(const std::string& logFileName)
 
     cout << "log file name: " << Logger::getFileName() << endl;
 
-    Log(Logger::LOG_FATAL) << "console and file: A fatal error";
-    Log(Logger::LOG_CRITICAL) << "console and file: A critical error";
-    Log(Logger::LOG_ERROR) << "console and file: An error";
-    Log(Logger::LOG_WARNING) << "console and file: A warning. ";
-    Log(Logger::LOG_NOTICE) << "console and file: A notice.";
-    Log(Logger::LOG_INFORMATION) << "console and file: An informational message";
-    Log(Logger::LOG_DEBUG) << "console and file: A debugging message.";
-    Log(Logger::LOG_TRACE) << "console and file: A tracing message.";
+    rrLog(Logger::LOG_FATAL) << "console and file: A fatal error";
+    rrLog(Logger::LOG_CRITICAL) << "console and file: A critical error";
+    rrLog(Logger::LOG_ERROR) << "console and file: An error";
+    rrLog(Logger::LOG_WARNING) << "console and file: A warning. ";
+    rrLog(Logger::LOG_NOTICE) << "console and file: A notice.";
+    rrLog(Logger::LOG_INFORMATION) << "console and file: An informational message";
+    rrLog(Logger::LOG_DEBUG) << "console and file: A debugging message.";
+    rrLog(Logger::LOG_TRACE) << "console and file: A tracing message.";
 
     Logger::disableConsoleLogging();
 
@@ -531,14 +531,14 @@ void TestRoadRunner::testLogging(const std::string& logFileName)
 
     cout << "log file name: " << Logger::getFileName() << endl;
 
-    Log(Logger::LOG_FATAL) << "file only: A fatal error";
-    Log(Logger::LOG_CRITICAL) << "file only: A critical error";
-    Log(Logger::LOG_ERROR) << "file only: An error";
-    Log(Logger::LOG_WARNING) << "file only: A warning. ";
-    Log(Logger::LOG_NOTICE) << "file only: A notice.";
-    Log(Logger::LOG_INFORMATION) << "file only: An informational message";
-    Log(Logger::LOG_DEBUG) << "file only: A debugging message.";
-    Log(Logger::LOG_TRACE) << "file only: A tracing message.";
+    rrLog(Logger::LOG_FATAL) << "file only: A fatal error";
+    rrLog(Logger::LOG_CRITICAL) << "file only: A critical error";
+    rrLog(Logger::LOG_ERROR) << "file only: An error";
+    rrLog(Logger::LOG_WARNING) << "file only: A warning. ";
+    rrLog(Logger::LOG_NOTICE) << "file only: A notice.";
+    rrLog(Logger::LOG_INFORMATION) << "file only: An informational message";
+    rrLog(Logger::LOG_DEBUG) << "file only: A debugging message.";
+    rrLog(Logger::LOG_TRACE) << "file only: A tracing message.";
 
     cout << "no logging: " << endl;
 
@@ -546,27 +546,27 @@ void TestRoadRunner::testLogging(const std::string& logFileName)
 
     cout << "log file name: " << Logger::getFileName() << endl;
 
-    Log(Logger::LOG_FATAL) << "no log: A fatal error";
-    Log(Logger::LOG_CRITICAL) << "no log: A critical error";
-    Log(Logger::LOG_ERROR) << "no log: An error";
-    Log(Logger::LOG_WARNING) << "no log: A warning. ";
-    Log(Logger::LOG_NOTICE) << "no log: A notice.";
-    Log(Logger::LOG_INFORMATION) << "no log: An informational message";
-    Log(Logger::LOG_DEBUG) << "no log: A debugging message.";
-    Log(Logger::LOG_TRACE) << "no log: A tracing message.";
+    rrLog(Logger::LOG_FATAL) << "no log: A fatal error";
+    rrLog(Logger::LOG_CRITICAL) << "no log: A critical error";
+    rrLog(Logger::LOG_ERROR) << "no log: An error";
+    rrLog(Logger::LOG_WARNING) << "no log: A warning. ";
+    rrLog(Logger::LOG_NOTICE) << "no log: A notice.";
+    rrLog(Logger::LOG_INFORMATION) << "no log: An informational message";
+    rrLog(Logger::LOG_DEBUG) << "no log: A debugging message.";
+    rrLog(Logger::LOG_TRACE) << "no log: A tracing message.";
 
     Logger::enableConsoleLogging();
 
     cout << "console logging: " << endl;
 
-    Log(Logger::LOG_FATAL) << "console logging: A fatal error";
-    Log(Logger::LOG_CRITICAL) << "console logging: A critical error";
-    Log(Logger::LOG_ERROR) << "console logging: An error";
-    Log(Logger::LOG_WARNING) << "console logging: A warning. ";
-    Log(Logger::LOG_NOTICE) << "console logging: A notice.";
-    Log(Logger::LOG_INFORMATION) << "console logging: An informational message";
-    Log(Logger::LOG_DEBUG) << "console logging: A debugging message.";
-    Log(Logger::LOG_TRACE) << "console logging: A tracing message.";
+    rrLog(Logger::LOG_FATAL) << "console logging: A fatal error";
+    rrLog(Logger::LOG_CRITICAL) << "console logging: A critical error";
+    rrLog(Logger::LOG_ERROR) << "console logging: An error";
+    rrLog(Logger::LOG_WARNING) << "console logging: A warning. ";
+    rrLog(Logger::LOG_NOTICE) << "console logging: A notice.";
+    rrLog(Logger::LOG_INFORMATION) << "console logging: An informational message";
+    rrLog(Logger::LOG_DEBUG) << "console logging: A debugging message.";
+    rrLog(Logger::LOG_TRACE) << "console logging: A tracing message.";
 
     Logger::enableFileLogging(logFileName, Logger::LOG_NOTICE);
 
@@ -574,14 +574,14 @@ void TestRoadRunner::testLogging(const std::string& logFileName)
 
     cout << "log file name: " << Logger::getFileName() << endl;
 
-    Log(Logger::LOG_FATAL) << "console and file: A fatal error";
-    Log(Logger::LOG_CRITICAL) << "console and file: A critical error";
-    Log(Logger::LOG_ERROR) << "console and file: An error";
-    Log(Logger::LOG_WARNING) << "console and file: A warning. ";
-    Log(Logger::LOG_NOTICE) << "console and file: A notice.";
-    Log(Logger::LOG_INFORMATION) << "console and file: An informational message";
-    Log(Logger::LOG_DEBUG) << "console and file: A debugging message.";
-    Log(Logger::LOG_TRACE) << "console and file: A tracing message.";
+    rrLog(Logger::LOG_FATAL) << "console and file: A fatal error";
+    rrLog(Logger::LOG_CRITICAL) << "console and file: A critical error";
+    rrLog(Logger::LOG_ERROR) << "console and file: An error";
+    rrLog(Logger::LOG_WARNING) << "console and file: A warning. ";
+    rrLog(Logger::LOG_NOTICE) << "console and file: A notice.";
+    rrLog(Logger::LOG_INFORMATION) << "console and file: An informational message";
+    rrLog(Logger::LOG_DEBUG) << "console and file: A debugging message.";
+    rrLog(Logger::LOG_TRACE) << "console and file: A tracing message.";
 
 }
 

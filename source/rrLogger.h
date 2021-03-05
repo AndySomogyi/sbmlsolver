@@ -310,11 +310,11 @@ RR_DECLSPEC Poco::Logger &getLogger();
 #define gLog Logger()
 
 #ifndef NO_LOGGER
-#define Log(level) \
+#define rrLog(level) \
     if (level > rr::Logger::getLevel()) { ; } \
     else rr::LoggingBuffer(level, __FILE__, __LINE__).stream()
 #else
-#define Log(level) \
+#define rrLog(level) \
     if (true) {  }\
     else \
     LoggingBuffer(level, __FILE__, __LINE__)

@@ -1178,7 +1178,7 @@ class TypedExpectation : public ExpectationBase {
          << action_count << " WillOnce()"
          << (action_count == 1 ? " is" : "s are") << " specified - ";
       mocker->DescribeDefaultActionTo(args, &ss);
-      Log(kWarning, ss.str(), 1);
+      rrLog(kWarning, ss.str(), 1);
     }
 
     return count <= action_count

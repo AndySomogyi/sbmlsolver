@@ -90,7 +90,7 @@ void NLEQ1Interface::setup()
 {
     // size of state vector
     n = model->getStateVector(0);
-    Log(Logger::LOG_DEBUG) << "NLEQ1Interface: size of state vector = " << n;
+    rrLog(Logger::LOG_DEBUG) << "NLEQ1Interface: size of state vector = " << n;
 
     // Allocate space, see NLEQ docs for details
     LRWK = (n + 2 + 15)*n + 61;
@@ -149,7 +149,7 @@ double NLEQ1Interface::solve()
     // lock so only one thread can be here.
     Mutex::ScopedLock lock(mutex);
 
-    Log(Logger::LOG_DEBUG) << "NLEQ1Interface::solve";
+    rrLog(Logger::LOG_DEBUG) << "NLEQ1Interface::solve";
 
     // Set up a dummy Jacobian, actual Jacobian is computed
     // by NLEQ1 using finite differences
@@ -229,10 +229,10 @@ double NLEQ1Interface::solve()
     if(ierr > 0 )
     {
         if (isWarning(ierr)) {
-            Log(Logger::LOG_WARNING) << ErrorForStatus(ierr);
+            rrLog(Logger::LOG_WARNING) << ErrorForStatus(ierr);
         } else {
             string err = ErrorForStatus(ierr);
-            Log(Logger::LOG_ERROR)<<"Error :"<<err;
+            rrLog(Logger::LOG_ERROR)<<"Error :"<<err;
             throw NLEQException(err);
         }
     }
@@ -308,7 +308,7 @@ void ModelFunction(int* nx, double* y, double* fval, int* pErr)
         }
         ss << "]" << std::endl;
 
-        Log(Logger::LOG_DEBUG) << ss.str();
+        rrLog(Logger::LOG_DEBUG) << ss.str();
     }
 
     *pErr = 0;

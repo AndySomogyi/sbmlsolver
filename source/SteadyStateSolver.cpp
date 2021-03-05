@@ -52,7 +52,7 @@ namespace rr
                 return (*it)->construct(m);
             }
         }
-        Log(Logger::LOG_ERROR) << "No such SteadyStateSolver '" << name << "'";
+        rrLog(Logger::LOG_ERROR) << "No such SteadyStateSolver '" << name << "'";
         throw InvalidKeyException("No such SteadyStateSolver: " + name);
     }
 

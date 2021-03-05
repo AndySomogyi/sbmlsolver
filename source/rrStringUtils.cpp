@@ -608,7 +608,7 @@ double toDouble(const string& str)
 
     if(!str.size())
     {
-        Log(Logger::LOG_WARNING) << "returning 0.0 for empty string in toDouble()";
+        rrLog(Logger::LOG_WARNING) << "returning 0.0 for empty string in toDouble()";
         return 0;
     }
 
@@ -635,7 +635,7 @@ double toDouble(const string& str)
         }
     }
 
-    Log(Logger::LOG_WARNING) << "could not parse string \"" << str << "\" to double, returning NaN";
+    rrLog(Logger::LOG_WARNING) << "could not parse string \"" << str << "\" to double, returning NaN";
     return std::numeric_limits<double>::quiet_NaN();
 }
 

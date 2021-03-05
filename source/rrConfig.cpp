@@ -159,7 +159,7 @@ static void readDefaultConfig() {
         rr::Config::readConfigFile(confPath);
       }
     } catch (std::exception &e) {
-      Log(rr::Logger::LOG_WARNING)
+      rrLog(rr::Logger::LOG_WARNING)
           << "error reading configuration file: " << confPath << ", "
           << e.what();
     }
@@ -309,7 +309,7 @@ std::string Config::getConfigFilePath() {
   std::string path;
   Poco::Path ppath;
 
-  Log(rr::Logger::LOG_DEBUG)
+  rrLog(rr::Logger::LOG_DEBUG)
       << "trying config file from ROADRUNNER_CONFIG " << (env ? env : "NULL");
 
   if (env && rr::fileExists(env, 4)) {
@@ -320,14 +320,14 @@ std::string Config::getConfigFilePath() {
   ppath.assign(Poco::Path::home());
   ppath.setFileName("roadrunner.conf");
   path = ppath.toString();
-  Log(rr::Logger::LOG_DEBUG) << "trying config file " << path;
+  rrLog(rr::Logger::LOG_DEBUG) << "trying config file " << path;
   if (rr::fileExists(path, 4)) {
     return path;
   }
 
   ppath.setFileName(".roadrunner.conf");
   path = ppath.toString();
-  Log(rr::Logger::LOG_DEBUG) << "trying config file " << path;
+  rrLog(rr::Logger::LOG_DEBUG) << "trying config file " << path;
   if (rr::fileExists(path, 4)) {
     return path;
   }
@@ -345,7 +345,7 @@ std::string Config::getConfigFilePath() {
   ppath.assign(chkDir);
   ppath.setFileName("roadrunner.conf");
   path = ppath.toString();
-  Log(rr::Logger::LOG_DEBUG) << "trying config file " << path;
+  rrLog(rr::Logger::LOG_DEBUG) << "trying config file " << path;
   if (rr::fileExists(path, 4)) {
     return path;
   }
@@ -355,12 +355,12 @@ std::string Config::getConfigFilePath() {
   ppath.popDirectory();
   ppath.setFileName("roadrunner.conf");
   path = ppath.toString();
-  Log(rr::Logger::LOG_DEBUG) << "trying config file " << path;
+  rrLog(rr::Logger::LOG_DEBUG) << "trying config file " << path;
   if (rr::fileExists(path, 4)) {
     return path;
   }
 
-  Log(rr::Logger::LOG_DEBUG) << "no config file found; using built-in defaults";
+  rrLog(rr::Logger::LOG_DEBUG) << "no config file found; using built-in defaults";
   return "";
 }
 
@@ -405,11 +405,11 @@ void Config::readConfigFile(const std::string &path) {
       StringIntMap::const_iterator i = keys.find(matches[1]);
       if (i != keys.end()) {
         values[i->second] = Variant::parse((matches[2]));
-        Log(Logger::LOG_INFORMATION)
+        rrLog(Logger::LOG_INFORMATION)
             << "read key " << i->first
             << " with value: " << values[i->second].toString();
       } else {
-        Log(Logger::LOG_WARNING)
+        rrLog(Logger::LOG_WARNING)
             << "invalid key: \"" << matches[1] << "\" in " << path;
       }
     }

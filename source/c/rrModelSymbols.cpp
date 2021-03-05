@@ -36,7 +36,7 @@ SymbolList test2(SymbolList& s) {
 //{
 //    //This function now assume that the sbml already been loaded into NOM and libstruct..
 //    mComputeAndAssignConsevationLaws  = _computeAndAssignConsevationLaws;
-//    Log(lDebug2)<<"Entering CModelGenerators generateModelCode function";
+//    rrLog(lDebug2)<<"Entering CModelGenerators generateModelCode function";
 //    StringList  Warnings;
 //    CodeBuilder ignore;     //The Write functions below are inherited with a CodeBuilder in the
 //                            //prototype that is not to be used..
@@ -48,14 +48,14 @@ SymbolList test2(SymbolList& s) {
 //    mModelName = mNOM->getModelName();
 //    if(!mModelName.size())
 //    {
-//        Log(lWarning)<<"Model name is empty. ModelName is assigned 'NameNotSet'.";
+//        rrLog(lWarning)<<"Model name is empty. ModelName is assigned 'NameNotSet'.";
 //        mModelName = "NameNotSet";
 //    }
 //
-//    Log(lDebug1)<<"Processing model: "<<mModelName;
+//    rrLog(lDebug1)<<"Processing model: "<<mModelName;
 //    mNumReactions  = mNOM->getNumReactions();
 //
-//    Log(lDebug3)<<"Number of reactions:"<<mNumReactions;
+//    rrLog(lDebug3)<<"Number of reactions:"<<mNumReactions;
 //
 //    mGlobalParameterList.Clear();
 //    mModifiableSpeciesReferenceList.Clear();
@@ -155,7 +155,7 @@ SymbolList test2(SymbolList& s) {
 //    mHeader<<"\n\n#endif //modelH"<<NL();
 //    string modelCode = mHeader.ToString() + mSource.ToString();
 //
-//    Log(lDebug5)<<" ------ Model Code --------\n"
+//    rrLog(lDebug5)<<" ------ Model Code --------\n"
 //            <<modelCode
 //            <<" ----- End of Model Code -----\n";
 //
@@ -306,7 +306,7 @@ static string readModelName(const NOMSupport &nom)
     string modelName = nom.getModelName();
     if(!modelName.size())
     {
-        Log(lWarning)<<"Model name is empty. ModelName is assigned 'NameNotSet'.";
+        rrLog(lWarning)<<"Model name is empty. ModelName is assigned 'NameNotSet'.";
         modelName = "NameNotSet";
     }
     return modelName;
@@ -586,7 +586,7 @@ static SymbolList readFloatingSpeciesConcentrationList(NOMSupport& nom, LibStruc
                 //Log an error...
                 symbol.hasOnlySubstance = false;
             }
-            Log(lDebug5) << "Adding symbol to floatingSpeciesConcentrationList:" << (symbol);
+            rrLog(lDebug5) << "Adding symbol to floatingSpeciesConcentrationList:" << (symbol);
             floatingSpeciesConcentrationList.Add(symbol);
             break;
         }
@@ -709,7 +709,7 @@ static SymbolList readFloatingSpeciesConcentrationList(NOMSupport& nom, LibStruc
 //                //Log an error...
 //                symbol->hasOnlySubstance = false;
 //            }
-//            Log(lDebug5)<<"Adding symbol to ms.mFloatingSpeciesConcentrationList:"<<(*symbol);
+//            rrLog(lDebug5)<<"Adding symbol to ms.mFloatingSpeciesConcentrationList:"<<(*symbol);
 //            ms.mFloatingSpeciesConcentrationList.Add(*(symbol));
 //            delete symbol;
 //            break;
@@ -819,7 +819,7 @@ static SymbolList readGlobalParameters(NOMSupport &nom)
         string name = parameter[0];
         double value = toDouble(parameter[1]);
         Symbol aSymbol(name, value);
-        Log(lDebug5) << "Adding symbol" << aSymbol
+        rrLog(lDebug5) << "Adding symbol" << aSymbol
                 << " to global parameters";
 
         gblobalParameterList.Add(aSymbol);
@@ -841,7 +841,7 @@ static SymbolList readGlobalParameters(NOMSupport &nom)
 //        string name     = parameter[0];
 //        double value     = toDouble(parameter[1]);
 //        Symbol aSymbol(name, value);
-//        Log(lDebug5)<<"Adding symbol"<<aSymbol<<" to global parameters";
+//        rrLog(lDebug5)<<"Adding symbol"<<aSymbol<<" to global parameters";
 //
 //        ms.mGlobalParameterList.Add(aSymbol);
 //    }

@@ -125,7 +125,7 @@ int LLVMExecutableModel::getValues(double (*funcPtr)(LLVMModelData*, size_t),
 
         if (isnan(value))
         {
-            Log(Logger::LOG_WARNING) << "NaN value for index " << j
+            rrLog(Logger::LOG_WARNING) << "NaN value for index " << j
                                    << ".  Could be out of range or illegal computation.";
         }
 
@@ -312,7 +312,7 @@ LLVMExecutableModel::~LLVMExecutableModel()
 
     LLVMModelData_free(modelData);
 
-    Log(Logger::LOG_DEBUG) << __FUNC__;
+    rrLog(Logger::LOG_DEBUG) << __FUNC__;
 }
 
 string LLVMExecutableModel::getModelName()
@@ -652,7 +652,7 @@ void LLVMExecutableModel::evalInitialConditions(uint32_t flags)
 void LLVMExecutableModel::reset()
 {
     uint opt = rr::Config::getInt(rr::Config::MODEL_RESET);
-    Log(Logger::LOG_DEBUG) << "calling reset with default values: " << opt;
+    rrLog(Logger::LOG_DEBUG) << "calling reset with default values: " << opt;
     reset(opt);
 }
 
@@ -663,14 +663,14 @@ void LLVMExecutableModel::reset(int opt)
     // sets the 'init(...)' values to the sbml specified init values.
     if (opt & SelectionRecord::SBML_INITIALIZE)
     {
-        Log(Logger::LOG_INFORMATION) << "resetting init conditions";
+        rrLog(Logger::LOG_INFORMATION) << "resetting init conditions";
         evalInitialConditions();
     }
 
     // eval the initial conditions and rates
     if (opt & SelectionRecord::TIME)
     {
-        Log(Logger::LOG_INFORMATION) << "resetting time";
+        rrLog(Logger::LOG_INFORMATION) << "resetting time";
         setTime(0.0);
     }
 
@@ -689,7 +689,7 @@ void LLVMExecutableModel::reset(int opt)
 
         if (checkExact(SelectionRecord::COMPARTMENT, opt))
         {
-            Log(Logger::LOG_INFORMATION) << "resetting compartment volumes";
+            rrLog(Logger::LOG_INFORMATION) << "resetting compartment volumes";
             getCompartmentInitVolumes(modelData->numIndCompartments, 0, buffer);
             setCompartmentVolumes(modelData->numIndCompartments, 0, buffer);
         }
@@ -697,11 +697,11 @@ void LLVMExecutableModel::reset(int opt)
         if(opt & SelectionRecord::FLOATING)
         {
             if(opt & SelectionRecord::CONCENTRATION) {
-                Log(Logger::LOG_INFORMATION) << "resetting floating species concentrations";
+                rrLog(Logger::LOG_INFORMATION) << "resetting floating species concentrations";
                 getFloatingSpeciesInitConcentrations(modelData->numIndFloatingSpecies, 0, buffer);
                 setFloatingSpeciesConcentrations(modelData->numIndFloatingSpecies, 0, buffer);
             } else {
-                Log(Logger::LOG_INFORMATION) << "resetting floating species amounts";
+                rrLog(Logger::LOG_INFORMATION) << "resetting floating species amounts";
                 getFloatingSpeciesInitAmounts(modelData->numIndFloatingSpecies, 0, buffer);
                 setFloatingSpeciesAmounts(modelData->numIndFloatingSpecies, 0, buffer);
             }
@@ -732,7 +732,7 @@ void LLVMExecutableModel::reset(int opt)
                     // or reseting global params which have init assignment rules
                     || (checkExact(SelectionRecord::DEPENDENT_INITIAL_GLOBAL_PARAMETER, opt) && depInit))
             {
-                Log(Logger::LOG_DEBUG) << "!resetting global parameter, "
+                rrLog(Logger::LOG_DEBUG) << "!resetting global parameter, "
                         << gid << ", GLOBAL_PARAMETER: "
                         << checkExact(opt, SelectionRecord::GLOBAL_PARAMETER)
                         << ", CONSERVED_MOIETY: "
@@ -741,9 +741,9 @@ void LLVMExecutableModel::reset(int opt)
                             (checkExact(SelectionRecord::DEPENDENT_INITIAL_GLOBAL_PARAMETER, opt) && depInit);
                 reset_cm |= cm;
                 getGlobalParameterInitValues(1, &gid, buffer);
-		Log(Logger::LOG_DEBUG) << "read global param init values";
+		rrLog(Logger::LOG_DEBUG) << "read global param init values";
                 setGlobalParameterValues(1, &gid, buffer);
-		Log(Logger::LOG_DEBUG) << "set global param current values";
+		rrLog(Logger::LOG_DEBUG) << "set global param current values";
             }
         }
 
@@ -752,7 +752,7 @@ void LLVMExecutableModel::reset(int opt)
             // warn if we were forced to reset CMs
             if (dirty_cm)
             {
-                Log(Logger::LOG_ERROR) << "Both initial conditions and "
+                rrLog(Logger::LOG_ERROR) << "Both initial conditions and "
                         "conserved moieties were user modified. As conserved moieties "
                         "are defined in terms of initial conditions, the conserved "
                         "moiety values were forcibly reset in terms of the species "
@@ -768,7 +768,7 @@ void LLVMExecutableModel::reset(int opt)
 
         if(opt & SelectionRecord::RATE)
         {
-            Log(Logger::LOG_INFORMATION) << "resetting rate rule values";
+            rrLog(Logger::LOG_INFORMATION) << "resetting rate rule values";
 
             for (int gid = modelData->numIndGlobalParameters;
                     gid < symbols->getGlobalParametersSize(); ++gid)
@@ -792,14 +792,14 @@ void LLVMExecutableModel::reset(int opt)
     // we've reset the species to their init values.
     dirty &= ~DIRTY_INIT_SPECIES;
 
-    Log(Logger::LOG_DEBUG) << __FUNC__ << *modelData;
+    rrLog(Logger::LOG_DEBUG) << __FUNC__ << *modelData;
 }
 
 int LLVMExecutableModel::getStateVector(double* stateVector)
 {
     if (stateVector == 0)
     {
-        Log(Logger::LOG_TRACE) << __FUNC__ << ", stateVector: null, returning "
+        rrLog(Logger::LOG_TRACE) << __FUNC__ << ", stateVector: null, returning "
                 << modelData->numRateRules + modelData->numIndFloatingSpecies;
         return modelData->numRateRules + modelData->numIndFloatingSpecies;
     }
@@ -1117,7 +1117,7 @@ double LLVMExecutableModel::getValue(const std::string& id)
         }
         break;
     default:
-        Log(Logger::LOG_ERROR) << "A new SelectionRecord should not have this value: "
+        rrLog(Logger::LOG_ERROR) << "A new SelectionRecord should not have this value: "
         << sel.to_repr();
         throw LLVMException("Invalid selection '" + id + "' for setting value");
         break;
@@ -1249,7 +1249,7 @@ const rr::SelectionRecord& LLVMExecutableModel::getSelection(const std::string& 
             break;
 
         default:
-            Log(Logger::LOG_ERROR) << "A new SelectionRecord should not have this value: "
+            rrLog(Logger::LOG_ERROR) << "A new SelectionRecord should not have this value: "
                 << sel.to_repr();
             throw LLVMException("Invalid selection '" + str + "' for setting value");
             break;
@@ -1258,7 +1258,7 @@ const rr::SelectionRecord& LLVMExecutableModel::getSelection(const std::string& 
         // if we get here, should have a valid and set sel record.
         selectionRecordCache[str] = sel;
 
-        Log(Logger::LOG_DEBUG) << "caching selection record stirng " << str;
+        rrLog(Logger::LOG_DEBUG) << "caching selection record stirng " << str;
 
         i = selectionRecordCache.find(str);
         assert(i != selectionRecordCache.end());
@@ -1385,7 +1385,7 @@ int LLVMExecutableModel::getFloatingSpeciesConcentrationRates(size_t len,
                                         + __FUNC__);
             }
 
-            Log(Logger::LOG_DEBUG) << "i: " << i << ", j: " << j
+            rrLog(Logger::LOG_DEBUG) << "i: " << i << ", j: " << j
                     << ", comp index: "
                     << symbols->getCompartmentIndexForFloatingSpecies(j)
                     << ", vol: "
@@ -1461,7 +1461,7 @@ void LLVMExecutableModel::setEventListener(size_t index,
 {
     if (index < modelData->numEvents)
     {
-        Log(Logger::LOG_DEBUG) << "setting event handler " << index << " to " << eventHandler;
+        rrLog(Logger::LOG_DEBUG) << "setting event handler " << index << " to " << eventHandler;
         eventListeners[index] = eventHandler;
     }
     else
@@ -1533,7 +1533,7 @@ int LLVMExecutableModel::setFloatingSpeciesAmounts(size_t len, int const *indx,
 
                 double newCmVal = currCmVal + diff;
 
-                Log(Logger::LOG_INFORMATION) << "updating CM "
+                rrLog(Logger::LOG_INFORMATION) << "updating CM "
                         << symbols->getConservedMoietyId(cmIndex)
                         << " for conserved species "
                         << symbols->getFloatingSpeciesId(j)
@@ -1594,7 +1594,7 @@ int LLVMExecutableModel::setFloatingSpeciesConcentrations(size_t len,
 
                 double newCmVal = currCmVal + diff;
 
-                Log(Logger::LOG_INFORMATION) << "updating CM "
+                rrLog(Logger::LOG_INFORMATION) << "updating CM "
                         << symbols->getConservedMoietyId(cmIndex)
                         << " for conserved species "
                         << symbols->getFloatingSpeciesId(j)
@@ -1747,7 +1747,7 @@ int LLVMExecutableModel::getConservedMoietyIndex(const string& name)
     int ret = symbols->getConservedMoietyIndex(name);
     if (ret<0)
     {
-        Log(Logger::LOG_DEBUG) << __FUNC__ << ", invalid conserved moiety index " << name << ".";
+        rrLog(Logger::LOG_DEBUG) << __FUNC__ << ", invalid conserved moiety index " << name << ".";
     }
     return ret;
 }
@@ -2031,7 +2031,7 @@ bool LLVMExecutableModel::applyEvents(unsigned char* prevEventState,
         bool c = getEventTrigger(i);
         currEventState[i] = c;
 
-        Log(Logger::LOG_DEBUG) << "event " << i << ", previous state: " <<
+        rrLog(Logger::LOG_DEBUG) << "event " << i << ", previous state: " <<
                 (bool)prevEventState[i] << ", current state: " << (bool)c;
 		/*std::cerr << "event " << i << ", previous state: " <<
 			(bool)prevEventState[i] << ", current state: " << (bool)c << std::endl;*/
@@ -2083,7 +2083,7 @@ bool LLVMExecutableModel::getEventTieBreak(size_t eventA, size_t eventB)
 
 
 
-    Log(Logger::LOG_DEBUG) << "tie break, a: " << eventA << ", b: " <<
+    rrLog(Logger::LOG_DEBUG) << "tie break, a: " << eventA << ", b: " <<
             eventB << ", result: " << result;
 
     return result;

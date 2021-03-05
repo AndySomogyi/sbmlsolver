@@ -59,7 +59,7 @@ mModel(NULL)
 
 NOMSupport::~NOMSupport()
 {
-    Log(lDebug3) << __FUNC__ << "\n";
+    rrLog(lDebug3) << __FUNC__ << "\n";
     // the mModel is owned by the sbml doc.
     delete mSBMLDoc;
 }
@@ -255,7 +255,7 @@ string NOMSupport::convertTime(const string& sArg, const string& sTimeSymbol)
     Model* oModel = 0;
     string sbml;
 
-    Log(lDebug4)<<"Entering function "<<__FUNC__<<" in file "<<__FILE__;
+    rrLog(lDebug4)<<"Entering function "<<__FUNC__<<" in file "<<__FILE__;
     try
     {
         oSBMLDoc = readSBMLFromString(sArg.c_str());
@@ -1462,7 +1462,7 @@ void NOMSupport::loadSBML(const string& var0, const string& sTimeSymbol)
     loadSBML(var0);
     if(!mModel)
     {
-        Log(Logger::LOG_ERROR)<<"No model is allocated in function "<<__FUNC__<<" file "<<__FILE__;
+        rrLog(Logger::LOG_ERROR)<<"No model is allocated in function "<<__FUNC__<<" file "<<__FILE__;
         return;
     }
 
@@ -1483,12 +1483,12 @@ void NOMSupport::changeTimeSymbol(Model& model, const string& timeSymbol)
 void NOMSupport::buildSymbolTable()
 {
     // Read CompartmentSymbols
-    Log(lDebug5)<<"Building Symbol Table";
+    rrLog(lDebug5)<<"Building Symbol Table";
     for (int i = 0; i < mModel->getNumCompartments(); i++)
     {
         Compartment *temp = mModel->getCompartment(i);
 
-        Log(lDebug1)<<"Processing compartment with ID: "<<temp->getId();
+        rrLog(lDebug1)<<"Processing compartment with ID: "<<temp->getId();
         SBMLSymbol symbol;
         symbol.mId = temp->getId();
 
@@ -1508,7 +1508,7 @@ void NOMSupport::buildSymbolTable()
     for (int i = 0; i < mModel->getNumParameters(); i++)
     {
         libsbml::Parameter *temp = mModel->getParameter(i);
-        Log(lDebug1)<<"Processing parameter with ID:"<<temp->getId();
+        rrLog(lDebug1)<<"Processing parameter with ID:"<<temp->getId();
         SBMLSymbol symbol;
         symbol.mId = temp->getId();
         if (temp->isSetValue())
@@ -1526,7 +1526,7 @@ void NOMSupport::buildSymbolTable()
     for (int i = 0; i < mModel->getNumSpecies(); i++)
     {
         Species *temp = mModel->getSpecies(i);
-        Log(lDebug1)<<"Processing species with ID: "<<temp->getId();
+        rrLog(lDebug1)<<"Processing species with ID: "<<temp->getId();
         SBMLSymbol symbol;
         symbol.mId = temp->getId();
         if (temp->isSetInitialConcentration())
@@ -1547,11 +1547,11 @@ void NOMSupport::buildSymbolTable()
     }
 
     StringSymbolHashTable::iterator iter;
-    Log(lDebug4)<<"========== Symbols read into Symbol Table ("<<mSymbolTable.size()<<") ==============";
+    rrLog(lDebug4)<<"========== Symbols read into Symbol Table ("<<mSymbolTable.size()<<") ==============";
     for (iter = mSymbolTable.begin(); iter != mSymbolTable.end(); iter++)//string sbmlId in mSymbolTable.Keys)
     {
         SBMLSymbol& aSymbol = (iter->second);
-        Log(lDebug3)<<"Key = "<<iter->first<<endl<<aSymbol;
+        rrLog(lDebug3)<<"Key = "<<iter->first<<endl<<aSymbol;
     }
 
     lookForDependencies();
@@ -1559,7 +1559,7 @@ void NOMSupport::buildSymbolTable()
 
 void NOMSupport::lookForDependencies()
 {
-    Log(lDebug5)<<"In function "<<__FUNCTION__;
+    rrLog(lDebug5)<<"In function "<<__FUNCTION__;
 
     // Go through each found Id, and test for dependencies
     StringSymbolHashTable::iterator iter;
@@ -1850,7 +1850,7 @@ stack<string> NOMSupport::getMatchForSymbol(const string& sbmlId)
 
 void NOMSupport::fillStack(stack<string>& stack, SBMLSymbol& symbol)
 {
-    Log(lDebug5)<<"In "<<__FUNCTION__<<" Filling stack with symbol: "<<(symbol);
+    rrLog(lDebug5)<<"In "<<__FUNCTION__<<" Filling stack with symbol: "<<(symbol);
     if (!symbol.mId.size())
     {
         return;

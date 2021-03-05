@@ -21,7 +21,7 @@ namespace rrtesting
 
 CXXEnzymeExecutableModel::CXXEnzymeExecutableModel(const rr::Dictionary* dict)
 {
-    Log(Logger::LOG_NOTICE) << __FUNC__;
+    rrLog(Logger::LOG_NOTICE) << __FUNC__;
 
     volumes = new double[1];
 
@@ -35,7 +35,7 @@ CXXEnzymeExecutableModel::CXXEnzymeExecutableModel(const rr::Dictionary* dict)
     numReactions = numSource;
     numSpecies = 2*numSource;
 
-    Log(Logger::LOG_NOTICE) << "creating " << numSpecies << " number of species test";
+    rrLog(Logger::LOG_NOTICE) << "creating " << numSpecies << " number of species test";
 
 
     floatingSpeciesAmounts = new double[numSpecies];
@@ -65,7 +65,7 @@ CXXEnzymeExecutableModel::CXXEnzymeExecutableModel(const rr::Dictionary* dict)
 
 CXXEnzymeExecutableModel::~CXXEnzymeExecutableModel()
 {
-    Log(Logger::LOG_NOTICE) << __FUNC__;
+    rrLog(Logger::LOG_NOTICE) << __FUNC__;
 
     delete[] volumes;
     delete[] floatingSpeciesAmounts;

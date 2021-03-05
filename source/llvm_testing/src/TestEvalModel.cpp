@@ -26,48 +26,48 @@ TestEvalModel::~TestEvalModel()
 
 bool TestEvalModel::test()
 {
-    Log(Logger::LOG_INFORMATION) << "Evaluating Initial Conditions for " << fileName << endl;
+    rrLog(Logger::LOG_INFORMATION) << "Evaluating Initial Conditions for " << fileName << endl;
 
 
-    Log(Logger::LOG_INFORMATION) << model << endl;
+    rrLog(Logger::LOG_INFORMATION) << model << endl;
 
-    Log(Logger::LOG_INFORMATION) << "Evaluating Reaction Rates for " << fileName << endl;
+    rrLog(Logger::LOG_INFORMATION) << "Evaluating Reaction Rates for " << fileName << endl;
 
 
-    Log(Logger::LOG_INFORMATION) << model << endl;
+    rrLog(Logger::LOG_INFORMATION) << model << endl;
 
-    Log(Logger::LOG_INFORMATION) << "Evaluating Model for " << fileName << endl;
+    rrLog(Logger::LOG_INFORMATION) << "Evaluating Model for " << fileName << endl;
 
     model->getStateVectorRate(0, 0, 0);
 
-    Log(Logger::LOG_INFORMATION) << model << endl;
+    rrLog(Logger::LOG_INFORMATION) << model << endl;
 
     double vol = 23;
 
     model->setCompartmentInitVolumes(1, 0, &vol);
 
-    Log(Logger::LOG_INFORMATION) << "After set init vol:" << endl;
-    Log(Logger::LOG_INFORMATION) << model << endl;
+    rrLog(Logger::LOG_INFORMATION) << "After set init vol:" << endl;
+    rrLog(Logger::LOG_INFORMATION) << model << endl;
 
     double newvol = 0;
 
     model->getCompartmentInitVolumes(1, 0, &newvol);
 
-    Log(Logger::LOG_INFORMATION) << "new vol:" << newvol << endl;
+    rrLog(Logger::LOG_INFORMATION) << "new vol:" << newvol << endl;
 
 
     vol = -1;
 
     model->setCompartmentInitVolumes(1, 0, &vol);
 
-    Log(Logger::LOG_INFORMATION) << "After set init vol:" << endl;
-    Log(Logger::LOG_INFORMATION) << model << endl;
+    rrLog(Logger::LOG_INFORMATION) << "After set init vol:" << endl;
+    rrLog(Logger::LOG_INFORMATION) << model << endl;
 
     newvol = 0;
 
     model->getCompartmentInitVolumes(1, 0, &newvol);
 
-    Log(Logger::LOG_INFORMATION) << "new vol:" << newvol << endl;
+    rrLog(Logger::LOG_INFORMATION) << "new vol:" << newvol << endl;
 
     return true;
 }
