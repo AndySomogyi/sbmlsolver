@@ -1771,18 +1771,18 @@ constexpr unsigned int hashc(const char* s, int off = 0) {
     return !s[off] ? 5381 : (hashc(s, off + 1) * 33) ^ s[off];
 }
 
+class CApiRRTests : public ::testing::Test {
+public:
+    CApiRRTests() = default;
 
-TEST(C_API_RRTESTS, RRTESTS)
-{
-    disableLoggingToConsole();
-    set<string> files = getTestFiles(joinPath(gRRTestDir, "rrtest_files"));
-    for (set<string>::iterator file = files.begin(); file != files.end(); file++) {
-        rrTestFileName = *file;
+    void checkRRTest(const std::string& fname){
+        std::string rrTestFileDir = joinPath(gRRTestDir, "rrtest_files");
+        rrTestFileName = joinPath(rrTestFileDir, fname + ".rrtest");
         check_LoadData();
         if (check_Unimplemented()) {
             clog << "Skipping file " << rrTestFileName << ": unimplemented tests" << endl;
             check_FREE_RR_INSTANCE();
-            continue;
+            return;
         }
         clog << endl << "Checking file " << rrTestFileName << endl;
         ASSERT_TRUE(gRR != NULL);
@@ -2006,4 +2006,394 @@ TEST(C_API_RRTESTS, RRTESTS)
         check_CHECK_UNUSED_TESTS();
         check_FREE_RR_INSTANCE();
     }
+};
+
+TEST_F(CApiRRTests, TestAbsolute_Tolerance1){
+    checkRRTest("Absolute_Tolerance1");
 }
+
+TEST_F(CApiRRTests, TestAdd_Event_Assignment1){
+    checkRRTest("Add_Event_Assignment1");
+}
+
+TEST_F(CApiRRTests, TestAdd_Reactions1){
+    checkRRTest("Add_Reactions1");
+}
+
+TEST_F(CApiRRTests, TestAdd_Reactions2){
+    checkRRTest("Add_Reactions2");
+}
+
+TEST_F(CApiRRTests, TestAdd_Species1){
+    checkRRTest("Add_Species1");
+}
+
+TEST_F(CApiRRTests, TestBimolecular_end){
+    checkRRTest("Bimolecular_end");
+}
+
+TEST_F(CApiRRTests, TestComp){
+    checkRRTest("Comp");
+}
+
+TEST_F(CApiRRTests, TestConserved_Cycle){
+    checkRRTest("Conserved_Cycle");
+}
+
+TEST_F(CApiRRTests, TestConserved_Cycle_and_Branch){
+    checkRRTest("Conserved_Cycle_and_Branch");
+}
+
+TEST_F(CApiRRTests, TestCycle){
+    checkRRTest("Cycle");
+}
+
+TEST_F(CApiRRTests, TestCycle_across_branches){
+    checkRRTest("Cycle_across_branches");
+}
+
+TEST_F(CApiRRTests, TestCycle_to_Input_and_Branch){
+    checkRRTest("Cycle_to_Input_and_Branch");
+}
+
+TEST_F(CApiRRTests, TestEvent_timings_276){
+    checkRRTest("Event_timings_276");
+}
+
+TEST_F(CApiRRTests, TestFour_Steps){
+    checkRRTest("Four_Steps");
+}
+
+TEST_F(CApiRRTests, TestFutile_Cycle){
+    checkRRTest("Futile_Cycle");
+}
+
+TEST_F(CApiRRTests, TestGillespie){
+    checkRRTest("Gillespie");
+}
+
+TEST_F(CApiRRTests, TestMultiBranch2){
+    checkRRTest("MultiBranch2");
+}
+
+TEST_F(CApiRRTests, TestMultibranch1){
+    checkRRTest("Multibranch1");
+}
+
+TEST_F(CApiRRTests, TestRatesOfChange){
+    checkRRTest("RatesOfChange");
+}
+
+TEST_F(CApiRRTests, TestRemove_Compartment1){
+    checkRRTest("Remove_Compartment1");
+}
+
+TEST_F(CApiRRTests, TestRemove_Parameter1){
+    checkRRTest("Remove_Parameter1");
+}
+
+TEST_F(CApiRRTests, TestRemove_Parameter2){
+    checkRRTest("Remove_Parameter2");
+}
+
+TEST_F(CApiRRTests, TestRemove_Rules1){
+    checkRRTest("Remove_Rules1");
+}
+
+TEST_F(CApiRRTests, TestRemove_Rules2){
+    checkRRTest("Remove_Rules2");
+}
+
+TEST_F(CApiRRTests, TestRemove_Species1){
+    checkRRTest("Remove_Species1");
+}
+
+TEST_F(CApiRRTests, TestSet_Kinetic_Law1){
+    checkRRTest("Set_Kinetic_Law1");
+}
+
+TEST_F(CApiRRTests, TestSimpleUniUni){
+    checkRRTest("SimpleUniUni");
+}
+
+TEST_F(CApiRRTests, TestSimple_Branch){
+    checkRRTest("Simple_Branch");
+}
+
+TEST_F(CApiRRTests, TestTest_1){
+    checkRRTest("Test_1");
+}
+
+TEST_F(CApiRRTests, TestTest_2){
+    checkRRTest("Test_2");
+}
+
+TEST_F(CApiRRTests, TestTest_3){
+    checkRRTest("Test_3");
+}
+
+TEST_F(CApiRRTests, TestThree_Steps){
+    checkRRTest("Three_Steps");
+}
+
+TEST_F(CApiRRTests, TestTwo_Cycles){
+    checkRRTest("Two_Cycles");
+}
+
+TEST_F(CApiRRTests, TestTwo_Steps){
+    checkRRTest("Two_Steps");
+}
+
+TEST_F(CApiRRTests, Testjacobian_1){
+    checkRRTest("jacobian_1");
+}
+
+TEST_F(CApiRRTests, Testoscli){
+    checkRRTest("oscli");
+}
+
+TEST_F(CApiRRTests, Testreversible_Jacobian){
+    checkRRTest("reversible_Jacobian");
+}
+
+TEST_F(CApiRRTests, Testvariable_time_step){
+    checkRRTest("variable_time_step");
+}
+
+
+//
+//TEST(C_API_RRTESTS, RRTESTS)
+//{
+//    disableLoggingToConsole();
+//    set<string> files = getTestFiles(joinPath(gRRTestDir, "rrtest_files"));
+//    for (set<string>::iterator file = files.begin(); file != files.end(); file++) {
+//        rrTestFileName = *file;
+//        check_LoadData();
+//        if (check_Unimplemented()) {
+//            clog << "Skipping file " << rrTestFileName << ": unimplemented tests" << endl;
+//            check_FREE_RR_INSTANCE();
+//            continue;
+//        }
+//        clog << endl << "Checking file " << rrTestFileName << endl;
+//        ASSERT_TRUE(gRR != NULL);
+//        for (size_t sec = 0; sec < iniFile.GetNumberOfSections(); sec++) {
+//            IniSection* aSection = iniFile.GetSection(sec);
+//            aSection->mIsUsed = true;
+//            switch (hashc(toLower(aSection->mName).c_str())) {
+//            case hashc("sbml"):
+//                //Already managed this section in DATA_FILES
+//                break;
+//            case hashc("conservation laws"):
+//                check_SET_COMPUTE_AND_ASSIGN_CONSERVATION_LAWS(aSection);
+//                break;
+//            case hashc("set steady state selection list"):
+//                check_SET_STEADY_STATE_SELECTION_LIST(aSection);
+//                break;
+//            case hashc("get steady state selection list"):
+//                check_GET_STEADY_STATE_SELECTION_LIST(aSection);
+//                break;
+//            case hashc("species concentrations"):
+//                check_SPECIES_CONCENTRATIONS(aSection);
+//                break;
+//            case hashc("get species initial concentrations"):
+//                check_GET_SPECIES_INITIAL_CONCENTRATIONS(aSection);
+//                break;
+//            case hashc("get species initial concentrations by index"):
+//                check_GET_SPECIES_INITIAL_CONCENTRATION_BY_INDEX(aSection);
+//                break;
+//            case hashc("get initial floating species concs"):
+//                check_GET_INITIAL_FLOATING_SPECIES_CONCENTRATIONS(aSection);
+//                break;
+//            case hashc("set species initial concentrations by index"):
+//                check_SET_SPECIES_INITIAL_CONCENTRATION_BY_INDEX(aSection);
+//                break;
+//            case hashc("set species initial concentrations"):
+//                check_SET_SPECIES_INITIAL_CONCENTRATIONS(aSection);
+//                break;
+//            case hashc("steady state fluxes"):
+//                check_STEADY_STATE_FLUXES(aSection);
+//                break;
+//            case hashc("full jacobian"):
+//                check_FULL_JACOBIAN(aSection);
+//                break;
+//            case hashc("reduced jacobian"):
+//                check_REDUCED_JACOBIAN(aSection);
+//                break;
+//            case hashc("amount jacobian"):
+//                check_AMOUNT_JACOBIAN(aSection);
+//                break;
+//            case hashc("individual eigenvalues"):
+//                check_INDIVIDUAL_EIGENVALUES(aSection);
+//                break;
+//            case hashc("individual amount eigenvalues"):
+//                check_INDIVIDUAL_AMOUNT_EIGENVALUES(aSection);
+//                break;
+//            case hashc("eigenvalue matrix"):
+//                check_GET_EIGENVALUE_MATRIX(aSection);
+//                break;
+//            case hashc("eigenvalue amount matrix"):
+//                check_GET_EIGENVALUE_AMOUNT_MATRIX(aSection);
+//                break;
+//            case hashc("reduced eigenvalue matrix"):
+//                check_GET_REDUCED_EIGENVALUE_MATRIX(aSection);
+//                break;
+//            case hashc("stoichiometry matrix"):
+//                check_STOICHIOMETRY_MATRIX(aSection);
+//                break;
+//            case hashc("reduced stoichiometry matrix"):
+//                check_REDUCED_STOICHIOMETRY_MATRIX(aSection);
+//                break;
+//            case hashc("link matrix"):
+//                check_LINK_MATRIX(aSection);
+//                break;
+//            case hashc("unscaled elasticity matrix"):
+//                check_UNSCALED_ELASTICITY_MATRIX(aSection);
+//                break;
+//            case hashc("unscaled elasticity amount matrix"):
+//                check_UNSCALED_ELASTICITY_AMOUNT_MATRIX(aSection);
+//                break;
+//            case hashc("scaled elasticity matrix"):
+//                check_SCALED_ELASTICITY_MATRIX(aSection);
+//                break;
+//            case hashc("scaled elasticity amount matrix"):
+//                check_SCALED_ELASTICITY_AMOUNT_MATRIX(aSection);
+//                break;
+//            case hashc("unscaled concentration control matrix"):
+//                check_UNSCALED_CONCENTRATION_CONTROL_MATRIX(aSection);
+//                break;
+//            case hashc("scaled concentration control matrix"):
+//                check_SCALED_CONCENTRATION_CONTROL_MATRIX(aSection);
+//                break;
+//            case hashc("unscaled flux control matrix"):
+//                check_UNSCALED_FLUX_CONTROL_MATRIX(aSection);
+//                break;
+//            case hashc("scaled flux control matrix"):
+//                check_SCALED_FLUX_CONTROL_MATRIX(aSection);
+//                break;
+//            case hashc("get control coefficient"):
+//                check_GET_CONTROL_COEFFICIENT(aSection);
+//                break;
+//            case hashc("test reset"):
+//                check_CHECK_RESET(aSection);
+//                break;
+//            case hashc("test resetall"):
+//                check_CHECK_RESETALL(aSection);
+//                break;
+//            case hashc("test resettoorigin"):
+//                check_CHECK_RESETTOORIGIN(aSection);
+//                break;
+//            case hashc("check rk4 output"):
+//                check_CHECK_RK4_OUTPUT(aSection);
+//                break;
+//            case hashc("check rk45 output"):
+//                check_CHECK_RK45_OUTPUT(aSection);
+//                break;
+//            case hashc("test setvalues"):
+//                check_CHECK_SETVALUES(aSection);
+//                break;
+//            case hashc("floating species ids"):
+//                check_FLOATING_SPECIES_IDS(aSection);
+//                break;
+//            case hashc("boundary species ids"):
+//                check_BOUNDARY_SPECIES_IDS(aSection);
+//                break;
+//            case hashc("global parameter ids"):
+//                check_GLOBAL_PARAMETER_IDS(aSection);
+//                break;
+//            case hashc("compartment ids"):
+//                check_COMPARTMENT_IDS(aSection);
+//                break;
+//            case hashc("reaction ids"):
+//                check_REACTION_IDS(aSection);
+//                break;
+//            case hashc("species initial concentration ids"):
+//                check_SPECIES_INITIAL_CONDITION_IDS(aSection);
+//                break;
+//            case hashc("get eigenvalue ids"):
+//                check_GET_EIGENVALUE_IDS(aSection);
+//                break;
+//            case hashc("get rates of change ids"):
+//                check_GET_RATES_OF_CHANGE_IDS(aSection);
+//                break;
+//            case hashc("set steady state selection list 2"):
+//                check_SET_STEADY_STATE_SELECTION_LIST_2(aSection);
+//                break;
+//            case hashc("get steady state selection list 2"):
+//                check_GET_STEADY_STATE_SELECTION_LIST_2(aSection);
+//                break;
+//            case hashc("set time course selection list"):
+//                check_SET_TIME_COURSE_SELECTION_LIST(aSection);
+//                break;
+//            case hashc("get time course selection list"):
+//                check_GET_TIME_COURSE_SELECTION_LIST(aSection);
+//                break;
+//            case hashc("compute steady state values"):
+//                check_COMPUTE_STEADY_STATE_VALUES(aSection);
+//                break;
+//            case hashc("floating species concentrations"):
+//                check_FLOATING_SPECIES_CONCENTRATIONS(aSection);
+//                break;
+//            case hashc("boundary species concentrations"):
+//                check_BOUNDARY_SPECIES_CONCENTRATIONS(aSection);
+//                break;
+//            case hashc("get global parameter values"):
+//                check_GET_GLOBAL_PARAMETER_VALUES(aSection);
+//                break;
+//            case hashc("get reaction rates"):
+//                check_GET_REACTION_RATES(aSection);
+//                break;
+//            case hashc("get reaction rates by index"):
+//                check_GET_REACTION_RATE_BY_INDEX(aSection);
+//                break;
+//            case hashc("number of dependent species"):
+//                check_NUMBER_OF_DEPENDENT_SPECIES(aSection);
+//                break;
+//            case hashc("number of independent species"):
+//                check_NUMBER_OF_INDEPENDENT_SPECIES(aSection);
+//                break;
+//            case hashc("number of rate rules"):
+//                check_NUMBER_OF_RATE_RULES(aSection);
+//                break;
+//            case hashc("get rates of change"):
+//                check_GET_RATES_OF_CHANGE(aSection);
+//                break;
+//            case hashc("get reaction rates ex"):
+//                check_GET_REACTION_RATES_EX(aSection);
+//                break;
+//            case hashc("get rates of change ex"):
+//                check_GET_RATES_OF_CHANGE_EX(aSection);
+//                break;
+//            case hashc("get rates of change by index"):
+//                check_GET_RATES_OF_CHANGE_BY_INDEX(aSection);
+//                break;
+//            case hashc("amount/concentration jacobians"):
+//                check_AMOUNT_CONCENTRATION_JACOBIANS(aSection);
+//                break;
+//            case hashc("check default time step"):
+//                check_CHECK_DEFAULT_TIME_STEP(aSection);
+//                break;
+//            case hashc("check simulate points vs steps"):
+//                check_CHECK_SIMULATE_POINTS_VS_STEPS(aSection);
+//                break;
+//            case hashc("check monotonic timepoints"):
+//                check_CHECK_MONOTONIC_TIMEPOINTS(aSection);
+//                break;
+//            case hashc("check event pre and postfire timepoints"):
+//                check_CHECK_EVENT_PRE_AND_POSTFIRE_TIMEPOINTS(aSection);
+//                break;
+//            case hashc("test resetconservedtotal"):
+//                check_CHECK_RESETCONSERVEDTOTAL(aSection);
+//                break;
+//            //case hashc(""):
+//            //    (aSection);
+//            //    break;
+//            default:
+//                EXPECT_TRUE(false);
+//                clog << "Unused section:\t" << aSection->mName << endl;
+//                break;
+//            }
+//        }
+//        check_CHECK_UNUSED_TESTS();
+//        check_FREE_RR_INSTANCE();
+//    }
+//}

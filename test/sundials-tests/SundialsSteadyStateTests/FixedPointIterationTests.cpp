@@ -42,7 +42,7 @@ TEST_F(FixedPointIterationTests, TestCalculatedSteadyStateValuesAreCorrect) {
     for (int i = 0; i < names.size(); i++) {
         std::string speciesID = names[i];
         double actualResult = result[0][i];
-        EXPECT_NEAR(expectedResult[speciesID], actualResult, 0.0001);
+        EXPECT_NEAR(expectedResult[speciesID].second, actualResult, 0.0001);
     }
 
 }

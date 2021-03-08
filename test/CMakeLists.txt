@@ -4,6 +4,7 @@
 add_subdirectory(googletest-release-1.10.0)
 # we be naughty and use include_directories here to include googletest globally
 include_directories(googletest-release-1.10.0/googletest/include)
+
 ########################################################
 #   Tests
 #

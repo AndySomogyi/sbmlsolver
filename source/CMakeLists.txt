@@ -55,6 +55,7 @@ set(
         RK45Integrator.cpp
         NLEQ1Solver.cpp
         NLEQ2Solver.cpp
+        NLEQSolver.cpp
         rrNLEQ1Interface.cpp
         rrNLEQ2Interface.cpp
         rrTestSuiteModelSimulation.cpp
@@ -115,6 +116,7 @@ set(
         RK45Integrator.h
         NLEQ1Solver.h
         NLEQ2Solver.h
+        NLEQSolver.h
         rrNLEQ1Interface.h
         rrNLEQ2Interface.h
         rrTestSuiteModelSimulation.h

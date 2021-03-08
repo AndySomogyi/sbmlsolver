@@ -251,20 +251,20 @@ namespace rr {
 
         // throw if invalid option chosen.
         std::vector<std::string> validEtaForms({"eta_choice1", "eta_choice2", "eta_constant"});
-        const std::string& etaChoice = getValueAsString("EtaForm");
-        if (std::find(validEtaForms.begin(), validEtaForms.end(), etaChoice) == validEtaForms.end()){
+        const std::string &etaChoice = getValueAsString("EtaForm");
+        if (std::find(validEtaForms.begin(), validEtaForms.end(), etaChoice) == validEtaForms.end()) {
             std::ostringstream err;
             err << "\"" << etaChoice << "\". Valid options are ";
-            for (auto &x: validEtaForms){
+            for (auto &x: validEtaForms) {
                 err << "\"" << x << "\", ";
             }
             throw InvalidKeyException(err.str());
         }
-        if (etaChoice == "eta_choice1"){
+        if (etaChoice == "eta_choice1") {
             KINSetEtaForm(mKinsol_Memory, KIN_ETACHOICE1);
-        } else if (etaChoice == "eta_choice2"){
+        } else if (etaChoice == "eta_choice2") {
             KINSetEtaForm(mKinsol_Memory, KIN_ETACHOICE2);
-        } else if (etaChoice == "eta_constant"){
+        } else if (etaChoice == "eta_constant") {
             KINSetEtaForm(mKinsol_Memory, KIN_ETACONSTANT);
         }
 

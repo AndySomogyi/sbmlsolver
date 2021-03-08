@@ -5,7 +5,8 @@
 #include "Dictionary.h"
 #include <vector>
 
-
+// todo this clearly was abandoned in favour of SteadyStateSolver
+//  delete before merge with develop branch
 namespace rr
 {
 
