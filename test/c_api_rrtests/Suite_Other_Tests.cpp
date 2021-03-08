@@ -121,7 +121,7 @@ TEST(OTHER_TESTS, OUTPUT_FILE_VARIABLE_TIMESTEP) {
     // confirm output files are the same
     EXPECT_TRUE(fileExists(expectedFileName) && fileExists(outputFileName));
     EXPECT_TRUE(filesAreEqual(outputFileName, expectedFileName));
-    //remove(outputFileName.c_str()); // clean up
+    remove(outputFileName.c_str()); // clean up
 
 }
 
@@ -156,6 +156,6 @@ TEST(OTHER_TESTS, OUTPUT_FILE_FIXED_TIMESTEP) {
     // confirm output files are the same
     EXPECT_TRUE(fileExists(expectedFileName) && fileExists(outputFileName));
     EXPECT_TRUE(filesAreEqual(expectedFileName, outputFileName));
-    //remove(outputFileName.c_str()); // clean up
+    remove(outputFileName.c_str()); // clean up
 
 }
