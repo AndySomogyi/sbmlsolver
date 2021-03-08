@@ -41,9 +41,9 @@ namespace rr
     {
     public:
 
-        SteadyStateSolver();
+        using Solver::Solver;
 
-        virtual ~SteadyStateSolver() {};
+        ~SteadyStateSolver() override = default;
 
         /**
         * @author JKM

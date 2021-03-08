@@ -32,6 +32,8 @@ namespace rr
 	/*------------------------------------------------------------------------------------------
 		INTEGRATOR
 	  ------------------------------------------------------------------------------------------*/
+	Integrator::Integrator(ExecutableModel *model)
+	    : Solver(model){}
 
     void Integrator::syncWithModel(ExecutableModel* m) {}
 

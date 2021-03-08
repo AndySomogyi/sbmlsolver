@@ -73,8 +73,6 @@ class RR_DECLSPEC NLEQ1Solver : public NLEQSolver
         // ** Solver routines
         double solve() override;
 
-    private:
-        ExecutableModel *model; // Model generated from the SBML. Static so we can access it from standalone function
 };
 
 

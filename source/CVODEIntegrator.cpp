@@ -18,18 +18,17 @@
 
 #include <cstring>
 #include <iomanip>
-#include <math.h>
+#include <cmath>
 #include <map>
 #include <algorithm>
 #include <limits>
-#include <assert.h>
+#include <cassert>
 #include <Poco/Logger.h>
 
 #include <iostream>
 
 #define CVODE_INT_TYPECODE 0x7799ff00
 
-using namespace std;
 namespace rr {
     const int CVODEIntegrator::mDefaultMaxNumSteps = 20000;
     const int CVODEIntegrator::mDefaultMaxAdamsOrder = 12;
@@ -82,10 +81,10 @@ namespace rr {
 
     CVODEIntegrator::CVODEIntegrator(ExecutableModel *aModel)
             :
+            Integrator(aModel),
             mStateVector(nullptr),
             mCVODE_Memory(nullptr),
             lastEventTime(0),
-            mModel(aModel),
             stateVectorVariables(false),
             variableStepPendingEvent(false),
             variableStepTimeEndEvent(false),
@@ -245,14 +244,14 @@ namespace rr {
         if (!filename.size()) {
             rrLog(Logger::LOG_ERROR) << "Empty file name for settings file";
         } else {
-            map<string, string> options;
-            map<string, string>::iterator it;
+            std::map<std::string, std::string> options;
+            std::map<std::string, std::string>::iterator it;
             //Read each line in the settings file
-            vector<string> lines = getLinesInFile(filename);
+            vector<std::string> lines = getLinesInFile(filename);
             for (int i = 0; i < lines.size(); i++) {
-                vector<string> line = splitString(lines[i], ":");
+                vector<std::string> line = splitString(lines[i], ":");
                 if (line.size() == 2) {
-                    options.insert(pair<string, string>(line[0], line[1]));
+                    options.insert(std::pair<std::string, std::string>(line[0], line[1]));
                 } else {
                     rrLog(lDebug2) << "Empty line in settings file: " << lines[i];
                 }
@@ -267,7 +266,7 @@ namespace rr {
             //Assign values
             it = options.find("absolute");
             if (it != options.end()) {
-                if ((*it).second.find("[") == string::npos) {
+                if ((*it).second.find("[") == std::string::npos) {
                     // scalar absolute tolerance
                     CVODEIntegrator::setValue("absolute_tolerance", std::abs(toDouble((*it).second)));
                 } else {
@@ -338,7 +337,7 @@ namespace rr {
     }
 
 
-    void CVODEIntegrator::setIndividualTolerance(string sid, double value) {
+    void CVODEIntegrator::setIndividualTolerance(std::string sid, double value) {
 
         // the tolerance vector that will be stored
         // [0, numIndFloatingSpecies) stores tolerances for independent floating species
@@ -352,8 +351,8 @@ namespace rr {
             index = speciesIndex;
         } else {
             // sid might has a rate rule
-            vector<string> symbols = mModel->getRateRuleSymbols();
-            std::vector<string>::iterator it = std::find(symbols.begin(), symbols.end(), sid);
+            vector<std::string> symbols = mModel->getRateRuleSymbols();
+            std::vector<std::string>::iterator it = std::find(symbols.begin(), symbols.end(), sid);
             if (it != symbols.end()) {
                 // found it
                 index = mModel->getNumIndFloatingSpecies() + std::distance(symbols.begin(), it);
@@ -440,7 +439,7 @@ namespace rr {
                 }
 
 
-                vector<string> symbols = mModel->getRateRuleSymbols();
+                vector<std::string> symbols = mModel->getRateRuleSymbols();
                 for (int i = 0; i < mModel->getNumRateRules(); i++) {
                     int speciesIndex = mModel->getFloatingSpeciesIndex(symbols[i]);
                     if (speciesIndex > -1) {
@@ -487,10 +486,10 @@ namespace rr {
                 }
 
 
-                vector<string> symbols = mModel->getRateRuleSymbols();
+                vector<std::string> symbols = mModel->getRateRuleSymbols();
                 for (int i = mModel->getNumIndFloatingSpecies();
                      i < mModel->getNumRateRules() + mModel->getNumIndFloatingSpecies(); i++) {
-                    string symbol = symbols[i];
+                    std::string symbol = symbols[i];
                     int speciesIndex = mModel->getFloatingSpeciesIndex(symbol);
                     if (speciesIndex > -1) {
                         // the symbol defined by the rate rule is a species
@@ -552,7 +551,7 @@ namespace rr {
                 }
 
 
-                vector<string> symbols = mModel->getRateRuleSymbols();
+                vector<std::string> symbols = mModel->getRateRuleSymbols();
                 for (int i = 0; i < mModel->getNumRateRules(); i++) {
                     int speciesIndex = mModel->getFloatingSpeciesIndex(symbols[i]);
                     if (speciesIndex > -1) {
@@ -592,10 +591,10 @@ namespace rr {
                 }
 
 
-                vector<string> symbols = mModel->getRateRuleSymbols();
+                vector<std::string> symbols = mModel->getRateRuleSymbols();
                 for (int i = mModel->getNumIndFloatingSpecies();
                      i < mModel->getNumRateRules() + mModel->getNumIndFloatingSpecies(); i++) {
-                    string symbol = symbols[i];
+                    std::string symbol = symbols[i];
                     int speciesIndex = mModel->getFloatingSpeciesIndex(symbol);
                     if (speciesIndex > -1) {
                         // the symbol defined by the rate rule is a species
@@ -617,7 +616,7 @@ namespace rr {
         return v;
     }
 
-    void CVODEIntegrator::setValue(string key, const Variant &val) {
+    void CVODEIntegrator::setValue(const std::string& key, const Variant &val) {
         // if vector tolerance is set, the size of vector must be equal to
         // the number of floating species
         if (key == "absolute_tolerance" && val.type() == Variant::DOUBLEVECTOR)
@@ -626,10 +625,10 @@ namespace rr {
 
         Integrator::setValue(key, val);
 
-        /// Values and keys are stored in the settings map, which is updated
+        /// Values and keys are stored in the settings std::map, which is updated
         /// in every call to @ref setValue. In addition, changing CVODE-specific
         /// parameters requires a call into the CVODE library to synchronize
-        /// CVODE's internal memory with the settings map.
+        /// CVODE's internal memory with the settings std::map.
         if (mCVODE_Memory) {
             if (key == "maximum_bdf_order") {
                 CVodeSetMaxOrd(mCVODE_Memory, getValueAsInt("maximum_bdf_order"));
@@ -1129,14 +1128,14 @@ namespace rr {
             case Variant::UINT64:
             case Variant::FLOAT:
             case Variant::DOUBLE:
-                rrLog(Logger::LOG_INFORMATION) << "Set tolerance to abs: " << setprecision(16)
+                rrLog(Logger::LOG_INFORMATION) << "Set tolerance to abs: " << std::setprecision(16)
                                              << getValueAsDouble("absolute_tolerance") << ", rel: "
-                                             << getValueAsDouble("relative_tolerance") << endl;
+                                             << getValueAsDouble("relative_tolerance") << std::endl;
                 break;
 
                 // vector tolerance
             case Variant::DOUBLEVECTOR: {
-                rrLog(Logger::LOG_INFORMATION) << "Set tolerance to abs: " << setprecision(16) << "[";
+                rrLog(Logger::LOG_INFORMATION) << "Set tolerance to abs: " << std::setprecision(16) << "[";
                 vector<double> v = getValueAsDoubleVector("absolute_tolerance");
                 for (int i = 0; i < v.size(); i++) {
                     if (i != 0) {
@@ -1144,7 +1143,7 @@ namespace rr {
                     }
                     rrLog(Logger::LOG_INFORMATION) << v[i];
                 }
-                rrLog(Logger::LOG_INFORMATION) << "], rel: " << getValueAsDouble("relative_tolerance") << endl;
+                rrLog(Logger::LOG_INFORMATION) << "], rel: " << getValueAsDouble("relative_tolerance") << std::endl;
 
                 break;
             }

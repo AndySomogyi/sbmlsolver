@@ -73,20 +73,21 @@ namespace rr
         * parameters will be read from.
         */
         EulerIntegrator(ExecutableModel *m)
-			:	eventStatus(std::vector<unsigned char>(m->getNumEvents(),false)),
+			:	Integrator(m),
+			    eventStatus(std::vector<unsigned char>(m->getNumEvents(),false)),
 				previousEventStatus(std::vector<unsigned char>(m->getNumEvents(), false)) {
-            resetSettings();
+            EulerIntegrator::resetSettings();
 
-            model = m;
+            mModel = m;
             exampleParameter1 = 3.14;
             exampleParameter2 = "hello";
 			rrLog(Logger::LOG_WARNING) << "Euler integrator is inaccurate";
 			//std::cerr << "Number of event triggers: " << m->getEventTriggers(0, 0, 0) << std::endl;
 
-            if(model) {
+            if(mModel) {
                 // calling the getStateVector with a NULL argument returns
                 // the size of teh state vector.
-                stateVectorSize = model->getStateVector(NULL);
+                stateVectorSize = mModel->getStateVector(NULL);
                 rateBuffer = new double[stateVectorSize];
                 stateBufferBegin = new double[stateVectorSize];
                 stateBufferEnd = new double[stateVectorSize];
@@ -117,7 +118,7 @@ namespace rr
         */
         virtual double integrate(double t0, double h) {
 			int internal_steps = getValueAsInt("subdivision_steps");
-			if (model == (rr::ExecutableModel*)NULL) return 0;
+			if (mModel == (rr::ExecutableModel*)NULL) return 0;
 
             double finalTimeEnd;
 
@@ -125,12 +126,12 @@ namespace rr
 			for (int subdiv = 0; subdiv < internal_steps; ++subdiv) {
 				// evaluate and copy the rate of change of the state vector
 				// rate into the local buffer. If the 2nd argument is NULL,
-				// the current model state is used to evaluate the
+				// the current mModel state is used to evaluate the
 				// state vector rate.
-				model->getStateVectorRate(t0, NULL, rateBuffer);
+				mModel->getStateVectorRate(t0, NULL, rateBuffer);
 
 				// copy the current state vector into a local buffer
-				model->getStateVector(stateBufferBegin);
+				mModel->getStateVector(stateBufferBegin);
 
 				// perform the Euler integration step, i.e.
 				// y_{n+1} = y_{n} + h * y'_{n}
@@ -138,23 +139,23 @@ namespace rr
 					stateBufferEnd[i] = stateBufferBegin[i] + h * rateBuffer[i];
 				}
 
-				// set the model state to the newly calculated state
-				model->setStateVector(stateBufferEnd);
+				// set the mModel state to the newly calculated state
+				mModel->setStateVector(stateBufferEnd);
 
-				// update the model time to the new time
+				// update the mModel time to the new time
 				double timeEnd = t0 + h;
-				model->setTime(timeEnd);
+				mModel->setTime(timeEnd);
 
 				// if we have a client, notify them that we have taken
 				// a time step
 				if (listener) {
-					listener->onTimeStep(this, model, timeEnd);
+					listener->onTimeStep(this, mModel, timeEnd);
 				}
 
 				// events
 				bool triggered = false;
 
-				model->getEventTriggers(eventStatus.size(), NULL, eventStatus.size() ? &eventStatus[0] : NULL);
+				mModel->getEventTriggers(eventStatus.size(), NULL, eventStatus.size() ? &eventStatus[0] : NULL);
 				for (int k_ = 0; k_ < eventStatus.size(); ++k_) {
 					if (eventStatus.at(k_)) {
 						triggered = true;
@@ -168,7 +169,7 @@ namespace rr
 					applyEvents(timeEnd, previousEventStatus);
 				}
 
-				if (eventStatus.size()) {
+				if (!eventStatus.empty()) {
 					previousEventStatus = eventStatus;
 				}
 
@@ -181,10 +182,10 @@ namespace rr
 		void applyEvents(double timeEnd, std::vector<unsigned char> &previousEventStatus) {
 			//std::cerr << "Size of previous events: " << previousEventStatus.size() << std::endl;
 			// If we pass in the events including the ones just triggered, they won't be applied, so use previousEventStatus
-			model->applyEvents(timeEnd, previousEventStatus.size() == 0 ? NULL : &previousEventStatus[0], stateBufferEnd, NULL);
-			// AHu: jk I think that model->applyEvents does update the mode's state vector
-			// The previous statement loaded the result into the final stateBufferEnd, so now update the model's state vector
-			//model->setStateVector(stateBufferEnd);
+			mModel->applyEvents(timeEnd, previousEventStatus.size() == 0 ? NULL : &previousEventStatus[0], stateBufferEnd, NULL);
+			// AHu: jk I think that mModel->applyEvents does update the mode's state vector
+			// The previous statement loaded the result into the final stateBufferEnd, so now update the mModel's state vector
+			//mModel->setStateVector(stateBufferEnd);
 		}
 
         /**
@@ -383,11 +384,6 @@ namespace rr
         * another parameter which does nothing
         */
         string exampleParameter2;
-
-        /**
-        * a stolen reference to an existing model object.
-        */
-        ExecutableModel *model;
 
         /**
         * two buffers to store the state vector rate, and

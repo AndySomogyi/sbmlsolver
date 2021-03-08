@@ -29,6 +29,9 @@
 
 namespace rr
 {
+    // fwd decl
+    class ExecutableModel;
+
     /**
      * @author JKM
      * @brief Base class for all integrators and steady state solvers
@@ -36,6 +39,10 @@ namespace rr
     class RR_DECLSPEC Solver
     {
     public:
+
+        Solver() = default;
+
+        explicit Solver(ExecutableModel* model);
 
         virtual ~Solver() = default;;
 
@@ -75,13 +82,13 @@ namespace rr
         * @note Use one of the type-concrete versions like @ref getValueAsInt
         * to avoid type conversion gotchas
         */
-        virtual Variant getValue(std::string key) const;
+        virtual Variant getValue(const std::string& key) const;
 
         /**
         * @author JKM
         * @brief Return true if this setting is supported by the integrator
         */
-        virtual Variant hasValue(std::string key) const;
+        virtual Variant hasValue(const std::string& key) const;
 
         /**
         * @author JKM
@@ -117,70 +124,70 @@ namespace rr
         * @author WBC, JKM
         * @brief Wrapper for @ref getValue which converts output to a specific type
         */
-        virtual int getValueAsInt(std::string key);
+        virtual int getValueAsInt(const std::string& key);
 
         /**
         * @author WBC, JKM
         * @brief Wrapper for @ref getValue which converts output to a specific type
         */
-        virtual unsigned int getValueAsUInt(std::string key);
+        virtual unsigned int getValueAsUInt(const std::string& key);
 
         /**
         * @author WBC, JKM
         * @brief Wrapper for @ref getValue which converts output to a specific type
         */
-        virtual long getValueAsLong(std::string key);
+        virtual long getValueAsLong(const std::string& key);
 
         /**
         * @author WBC, JKM
         * @brief Wrapper for @ref getValue which converts output to a specific type
         */
-        virtual unsigned long getValueAsULong(std::string key);
+        virtual unsigned long getValueAsULong(const std::string& key);
 
         /**
         * @author WBC, JKM
         * @brief Wrapper for @ref getValue which converts output to a specific type
         */
-        virtual float getValueAsFloat(std::string key);
+        virtual float getValueAsFloat(const std::string& key);
 
         /**
         * @author WBC, JKM
         * @brief Wrapper for @ref getValue which converts output to a specific type
         */
-        virtual double getValueAsDouble(std::string key);
+        virtual double getValueAsDouble(const std::string& key);
 
 
 		/**
 		* @brief Wrapper for @ref getValue which converts output to a specific type
 		*/
-		virtual std::vector<double> getValueAsDoubleVector(std::string key);
+		virtual std::vector<double> getValueAsDoubleVector(const std::string& key);
 
 
         /**
         * @author WBC, JKM
         * @brief Wrapper for @ref getValue which converts output to a specific type
         */
-        virtual char getValueAsChar(std::string key);
+        virtual char getValueAsChar(const std::string& key);
 
         /**
         * @author WBC, JKM
         * @brief Wrapper for @ref getValue which converts output to a specific type
         */
-        virtual unsigned char getValueAsUChar(std::string key);
+        virtual unsigned char getValueAsUChar(const std::string& key);
 
         /**
         * @author WBC, JKM
         * @brief Wrapper for @ref getValue which converts output to a specific type
         */
-        virtual std::string getValueAsString(std::string key);
+        virtual std::string getValueAsString(const std::string& key);
 
         /**
         * @author WBC, JKM
         * @brief Wrapper for @ref getValue which converts output to a specific type
         */
-        virtual bool getValueAsBool(std::string key);
+        virtual bool getValueAsBool(const std::string& key);
 
-        virtual void setValue(std::string key, const Variant& value);
+        virtual void setValue(const std::string& key, const Variant& value);
 
         /**
         * @author JKM
@@ -210,25 +217,25 @@ namespace rr
         * @author WBC
         * @brief Gets the hint associated with a given key
         */
-        const std::string& getDisplayName(std::string key) const;
+        const std::string& getDisplayName(const std::string& key) const;
 
         /**
         * @author WBC
         * @brief Gets the hint associated with a given key
         */
-        const std::string& getHint(std::string key) const;
+        const std::string& getHint(const std::string& key) const;
 
         /**
         * @author WBC
         * @brief Gets the description associated with a given key
         */
-        const std::string& getDescription(std::string key) const;
+        const std::string& getDescription(const std::string& key) const;
 
         /**
         * @author WBC
         * @brief Gets the type associated with a given key
         */
-        const Variant::TypeId getType(std::string key);
+        Variant::TypeId getType(const std::string& key) const;
 
     protected:
         typedef std::vector<std::string> SettingsList;
@@ -243,7 +250,12 @@ namespace rr
         HintMap hints;
         DescriptionMap descriptions;
 
-        void addSetting(std::string name, Variant val, string display_name, std::string hint, std::string description);
+        /**
+         * non-owning pointer to model
+         */
+        ExecutableModel* mModel = nullptr;
+
+        void addSetting(const std::string& name, const Variant& val, string display_name, std::string hint, std::string description);
     };
 
 }

@@ -35,10 +35,9 @@ extern string gRRTestDir;
 extern string gRROutputDir;
 extern RRHandle gRR;
 
-string getListOfReactionsText(const string& fName);
+string getListOfReactionsText(const string &fName);
 
-TEST(OTHER_TESTS, EMPTY_EVENT_ASSIGNMENTS)
-{
+TEST(OTHER_TESTS, EMPTY_EVENT_ASSIGNMENTS) {
     // Event assignments in L3v2 can be empty
     RRHandle aRR = createRRInstance();
     string TestModelFileName = joinPath(gRRTestDir, "rrtest_files/eventassignment_nomath.xml");
@@ -50,8 +49,7 @@ TEST(OTHER_TESTS, EMPTY_EVENT_ASSIGNMENTS)
 
 }
 
-TEST(OTHER_TESTS, SAVED_SPECIES_AMOUNT)
-{
+TEST(OTHER_TESTS, SAVED_SPECIES_AMOUNT) {
     string TestModelFileName = joinPath(gRRTestDir, "rrtest_files/species_conc.xml");
     EXPECT_TRUE(fileExists(TestModelFileName));
     RoadRunner rr(TestModelFileName, NULL);
@@ -64,8 +62,7 @@ TEST(OTHER_TESTS, SAVED_SPECIES_AMOUNT)
     EXPECT_TRUE(rr3.getFloatingSpeciesByIndex(0) == 5.0);
 }
 
-TEST(OTHER_TESTS, SPECIES_UNITS)
-{
+TEST(OTHER_TESTS, SPECIES_UNITS) {
     string TestModelFileName = joinPath(gRRTestDir, "rrtest_files/species_hosu1.xml");
     EXPECT_TRUE(fileExists(TestModelFileName));
     RoadRunner rr(TestModelFileName, NULL);
@@ -78,8 +75,7 @@ TEST(OTHER_TESTS, SPECIES_UNITS)
     EXPECT_TRUE(rr3.getFloatingSpeciesByIndex(0) == 3.0);
 }
 
-TEST(OTHER_TESTS, SPECIES_UNITS2)
-{
+TEST(OTHER_TESTS, SPECIES_UNITS2) {
     string TestModelFileName = joinPath(gRRTestDir, "rrtest_files/species_hosu2.xml");
     EXPECT_TRUE(fileExists(TestModelFileName));
     RoadRunner rr(TestModelFileName, NULL);
@@ -94,13 +90,18 @@ TEST(OTHER_TESTS, SPECIES_UNITS2)
 
 TEST(OTHER_TESTS, OUTPUT_FILE_VARIABLE_TIMESTEP) {
     string TestModelFileName = joinPath(gRRTestDir, "rrtest_files/output_testmodel.xml");
-    string outputFileName = "output_testmodel_variable.csv";
+    string outputFileName = joinPath(gRRTestDir, "rrtest_files/output_testmodel_variable.csv");
     string expectedFileName = joinPath(gRRTestDir, "rrtest_files/expected_testmodel_variable.csv");
     EXPECT_TRUE(fileExists(TestModelFileName));
+
+    std::cout << TestModelFileName << std::endl;
+    std::cout << outputFileName << std::endl;
 
     RoadRunner rr(TestModelFileName, NULL);
     rr.setIntegrator("gillespie");
     rr.getIntegrator()->setValue("seed", 123);
+
+    std::cout << "seed is: " << rr.getIntegrator()->getValueAsInt("seed") << std::endl;
     SimulateOptions opt;
     opt.start = 0;
     opt.duration = 100;
@@ -113,19 +114,20 @@ TEST(OTHER_TESTS, OUTPUT_FILE_VARIABLE_TIMESTEP) {
     selections.push_back("S1");
     rr.setSelections(selections);
 
-    const ls::DoubleMatrix* result = rr.simulate();
+    const ls::DoubleMatrix *result = rr.simulate();
     // the result returned should be empty
     EXPECT_TRUE(result->size() == 0);
 
     // confirm output files are the same
     EXPECT_TRUE(fileExists(expectedFileName) && fileExists(outputFileName));
     EXPECT_TRUE(filesAreEqual(outputFileName, expectedFileName));
+    //remove(outputFileName.c_str()); // clean up
 
 }
 
 TEST(OTHER_TESTS, OUTPUT_FILE_FIXED_TIMESTEP) {
     string TestModelFileName = joinPath(gRRTestDir, "rrtest_files/output_testmodel.xml");
-    string outputFileName = "output_testmodel_fixed.csv";
+    string outputFileName = joinPath(gRRTestDir, "rrtest_files/output_testmodel_fixed.csv");
     string expectedFileName = joinPath(gRRTestDir, "rrtest_files/expected_testmodel_fixed.csv");
 
     EXPECT_TRUE(fileExists(TestModelFileName));
@@ -134,6 +136,7 @@ TEST(OTHER_TESTS, OUTPUT_FILE_FIXED_TIMESTEP) {
     rr.setIntegrator("gillespie");
     rr.getIntegrator()->setValue("seed", 123);
     rr.getIntegrator()->setValue("variable_step_size", false);
+    std::cout << rr.getIntegrator()->getValueAsInt("seed") << std::endl;
     opt.start = 0;
     opt.duration = 50;
     opt.steps = 100;
@@ -145,7 +148,7 @@ TEST(OTHER_TESTS, OUTPUT_FILE_FIXED_TIMESTEP) {
     selections.push_back("S1");
     rr.setSelections(selections);
 
-    const ls::DoubleMatrix* result = rr.simulate();
+    const ls::DoubleMatrix *result = rr.simulate();
 
     // the result returned should have size 0
     EXPECT_TRUE(result->size() == 0);
@@ -153,4 +156,6 @@ TEST(OTHER_TESTS, OUTPUT_FILE_FIXED_TIMESTEP) {
     // confirm output files are the same
     EXPECT_TRUE(fileExists(expectedFileName) && fileExists(outputFileName));
     EXPECT_TRUE(filesAreEqual(expectedFileName, outputFileName));
+    //remove(outputFileName.c_str()); // clean up
+
 }

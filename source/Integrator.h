@@ -75,6 +75,8 @@ namespace rr {
             Other
         };
 
+        explicit Integrator(ExecutableModel* model);
+
         virtual ~Integrator() {};
 
         virtual IntegrationMethod getIntegrationMethod() const = 0;

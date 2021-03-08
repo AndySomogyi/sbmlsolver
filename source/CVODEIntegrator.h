@@ -134,7 +134,7 @@ namespace rr
          * @author WBC, ETS, MTK
          * @brief Sets the value of an integrator setting (e.g. absolute_tolerance)
          */
-        void setValue(std::string setting, const Variant& value) override;
+        void setValue(const std::string& setting, const Variant& value) override;
 
 
 		/**
@@ -277,8 +277,6 @@ namespace rr
         static const int mDefaultMaxNumSteps;
         static const int mDefaultMaxAdamsOrder;
         static const int mDefaultMaxBDFOrder;
-
-        ExecutableModel* mModel;
 
         // cvode components
         void* mCVODE_Memory;

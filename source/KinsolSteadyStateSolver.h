@@ -194,11 +194,6 @@ namespace rr {
         void resetSettings() override;
 
         /**
-         * @brief reference to the model
-         */
-        ExecutableModel *mModel;
-
-        /**
         * @brief Pointer to the kinsol memory block
         */
         void *mKinsol_Memory = nullptr;

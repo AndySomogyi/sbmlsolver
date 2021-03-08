@@ -17,6 +17,7 @@
 #include <ctime>
 #include <limits>
 #include <sstream>
+#include <chrono>
 
 using namespace std;
 
@@ -31,44 +32,38 @@ namespace rr
 		int64_t seed = Config::getValue(Config::RANDOM_SEED).convert<int>();
 		if (seed < 0)
 		{
-			// system time in microseconds since 1970
-			seed = getMicroSeconds();
+			seed = std::chrono::high_resolution_clock::now().time_since_epoch().count();
 		}
-
-		unsigned long maxl = std::numeric_limits<unsigned long>::max() - 2;
-
-		seed = seed % maxl;
-
-		return (unsigned long)seed;
+		return seed	;
 	}
 
 	void GillespieIntegrator::initializeFromModel() {
-        nReactions = model->getNumReactions();
+        nReactions = mModel->getNumReactions();
         reactionRates = new double[nReactions];
         reactionRatesBuffer = new double[nReactions];
-        stateVectorSize = model->getStateVector(0);
+        stateVectorSize = mModel->getStateVector(0);
         stateVector = new double[stateVectorSize];
         stateVectorRate = new double[stateVectorSize];
 
-        eventStatus = std::vector<unsigned char>(model->getEventTriggers(0, 0, 0), false);
-        previousEventStatus = std::vector<unsigned char>(model->getEventTriggers(0, 0, 0), false);
+        eventStatus = std::vector<unsigned char>(mModel->getEventTriggers(0, 0, 0), false);
+        previousEventStatus = std::vector<unsigned char>(mModel->getEventTriggers(0, 0, 0), false);
 
-        floatingSpeciesStart = stateVectorSize - model->getNumIndFloatingSpecies();
+        floatingSpeciesStart = stateVectorSize - mModel->getNumIndFloatingSpecies();
 
         assert(floatingSpeciesStart >= 0);
 
         // get rows and columns
-        model->getStoichiometryMatrix(&stoichRows, &stoichCols, 0);
+        mModel->getStoichiometryMatrix(&stoichRows, &stoichCols, 0);
         stoichData = new double[stoichRows * stoichCols];
 
         // fill stoichData
-        model->getStoichiometryMatrix(&stoichRows, &stoichCols, &stoichData);
+        mModel->getStoichiometryMatrix(&stoichRows, &stoichCols, &stoichData);
 
         setEngineSeed(getValue("seed").convert<unsigned long>());
 	}
 
-	GillespieIntegrator::GillespieIntegrator(ExecutableModel* m) :
-			model(m),
+	GillespieIntegrator::GillespieIntegrator(ExecutableModel* m)
+	    :   Integrator(m),
 			timeScale(1.0),
 			stoichScale(1.0),
 			stoichRows(0),
@@ -79,9 +74,9 @@ namespace rr
 			stateVector(NULL),
 			stateVectorRate(NULL)
 	{
-		resetSettings();
+		GillespieIntegrator::resetSettings();
 
-        if (model)
+        if (mModel)
             initializeFromModel();
 	}
 
@@ -113,8 +108,8 @@ namespace rr
         stateVectorRate = NULL;
         stoichData = NULL;
 
-        model = m;
-        model->reset();
+        mModel = m;
+        mModel->reset();
 
         nReactions = 0;
         stateVectorSize = 0;
@@ -237,8 +232,8 @@ namespace rr
 		rrLog(Logger::LOG_DEBUG) << "ssa(" << t << ", " << tf << ")";
 
 		// get the initial state vector
-		model->setTime(t);
-		model->getStateVector(stateVector);
+		mModel->setTime(t);
+		mModel->getStateVector(stateVector);
 
 		while (singleStep || t < tf)
 		{
@@ -255,7 +250,7 @@ namespace rr
 			double tau = 0;
 
 			// get the 'propensity' -- reaction rates
-			model->getReactionRates(nReactions, 0, reactionRates);
+			mModel->getReactionRates(nReactions, 0, reactionRates);
 
 			// sum the propensity
 			for (int k = 0; k < nReactions; k++)
@@ -335,20 +330,20 @@ namespace rr
 						rrLog(Logger::LOG_WARNING) << "Error, negative value of "
 							<< stateVector[i]
 							<< " encountred for floating species "
-							<< model->getFloatingSpeciesId(i - floatingSpeciesStart);
+							<< mModel->getFloatingSpeciesId(i - floatingSpeciesStart);
 						t = std::numeric_limits<double>::infinity();
 					}
 				}
 			}
 
 			// rates could be time dependent
-			model->setTime(t);
-			model->setStateVector(stateVector);
+			mModel->setTime(t);
+			mModel->setStateVector(stateVector);
 
 			// events
 			bool triggered = false;
 
-			model->getEventTriggers(eventStatus.size(), NULL, eventStatus.size() ? &eventStatus[0] : NULL);
+			mModel->getEventTriggers(eventStatus.size(), NULL, eventStatus.size() ? &eventStatus[0] : NULL);
 			for(int k_=0; k_<eventStatus.size(); ++k_) {
 				if (eventStatus.at(k_))
 					triggered = true;
@@ -373,37 +368,37 @@ namespace rr
 
     void GillespieIntegrator::testRootsAtInitialTime()
     {
-        vector<unsigned char> initialEventStatus(model->getEventTriggers(0, 0, 0), false);
-        model->getEventTriggers(initialEventStatus.size(), 0, initialEventStatus.size() == 0 ? NULL : &initialEventStatus[0]);
+        vector<unsigned char> initialEventStatus(mModel->getEventTriggers(0, 0, 0), false);
+        mModel->getEventTriggers(initialEventStatus.size(), 0, initialEventStatus.size() == 0 ? NULL : &initialEventStatus[0]);
         applyEvents(0, initialEventStatus);
     }
 
     void GillespieIntegrator::applyEvents(double timeEnd, vector<unsigned char> &previousEventStatus)
     {
-        model->applyEvents(timeEnd, previousEventStatus.size() == 0 ? NULL : &previousEventStatus[0], stateVector, stateVector);
+        mModel->applyEvents(timeEnd, previousEventStatus.size() == 0 ? NULL : &previousEventStatus[0], stateVector, stateVector);
     }
 
 	void GillespieIntegrator::restart(double t0)
 	{
-        if (!model) {
+        if (!mModel) {
             return;
         }
 
         if (t0 <= 0.0) {
             if (stateVector)
             {
-                model->getStateVector(stateVector);
+                mModel->getStateVector(stateVector);
             }
 
             testRootsAtInitialTime();
         }
 
-        model->setTime(t0);
+        mModel->setTime(t0);
 
         // copy state vector into memory
         if (stateVector)
         {
-            model->getStateVector(stateVector);
+            mModel->getStateVector(stateVector);
         }
 	}
 
@@ -418,7 +413,7 @@ namespace rr
 
 	double GillespieIntegrator::urand()
 	{
-		return (double)engine() / (double)engine.max();
+		return (double)engine() / (double)std::mt19937::max();
 	}
 
 	void GillespieIntegrator::setEngineSeed(unsigned long seed)
@@ -426,6 +421,7 @@ namespace rr
 		rrLog(Logger::LOG_INFORMATION) << "Using user specified seed value: " << seed;
 
 		// MSVC needs an explicit cast, fail to compile otherwise.
+		std::cout << "seed " << seed  << std::endl;
 		engine.seed((unsigned long)seed);
 	}
 

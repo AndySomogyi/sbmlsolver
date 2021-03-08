@@ -135,8 +135,7 @@ namespace rr
         void setListener(IntegratorListenerPtr);
 
     private:
-        ExecutableModel *model;
-        cxx11_ns::mt19937 engine;
+        std::mt19937 engine;
         //unsigned long seed;
         double timeScale;
         double stoichScale;

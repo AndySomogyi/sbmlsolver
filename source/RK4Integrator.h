@@ -185,7 +185,6 @@ namespace rr
 
 
     private:
-        ExecutableModel *model;
 
         unsigned stateVectorSize;
 

@@ -21,6 +21,7 @@ namespace rr
 {
 
     RK45Integrator::RK45Integrator(ExecutableModel *m)
+        : Integrator(m)
     {
         rrLog(Logger::LOG_NOTICE) << "Creating Runge-Kutta-Fehlberg integrator";
         resetSettings();
@@ -43,12 +44,12 @@ namespace rr
         delete []y;
         delete []ytmp;
 
-        model = m;
+        mModel = m;
 
         resetSettings();
 
-        if (model) {
-            stateVectorSize = model->getStateVector(NULL);
+        if (mModel) {
+            stateVectorSize = mModel->getStateVector(NULL);
             k1 = new double[stateVectorSize];
             k2 = new double[stateVectorSize];
             k3 = new double[stateVectorSize];
@@ -84,7 +85,7 @@ namespace rr
     {
         double h = getValueAsDouble("maximum_time_step");
 
-        if (!model) {
+        if (!mModel) {
             throw std::runtime_error("RK45Integrator::integrate: No model");
         }
 
@@ -100,18 +101,18 @@ namespace rr
         do {
           assert(h > 1e-13);
 
-          model->setTime(t);
+          mModel->setTime(t);
 
-          model->getStateVector(y);
+          mModel->getStateVector(y);
 
           // k1 = f(t_n, y_n)
-          model->getStateVectorRate(t, y, k1);
+          mModel->getStateVectorRate(t, y, k1);
 
           // k2 = f(t_n + h/4, y_n + (h/4) * k_1)
           alpha = h/4.;
           dcopy_(&n, y, &inc, ytmp, &inc);
           daxpy_(&n, &alpha, k1, &inc, ytmp, &inc);
-          model->getStateVectorRate(t + alpha, ytmp, k2);
+          mModel->getStateVectorRate(t + alpha, ytmp, k2);
 
           // k3 = f(t_n + 3*h/8, y_n + (3*h/32) * k_1 + (9*h/32) * k_2)
           alpha = 3*h/32.;
@@ -120,7 +121,7 @@ namespace rr
           alpha = 9*h/32.;
           daxpy_(&n, &alpha, k2, &inc, ytmp, &inc);
           alpha = 3*h/8.;
-          model->getStateVectorRate(t + alpha, ytmp, k3);
+          mModel->getStateVectorRate(t + alpha, ytmp, k3);
 
           // k4 = f(t_n + 12*h/13, y_n + (1932*h/2197) * k_1 - (7200*h/2197) * k_2 + (7296*h/2197) * k_3)
           alpha = 1932*h/2197.;
@@ -131,7 +132,7 @@ namespace rr
           alpha = 7296*h/2197.;
           daxpy_(&n, &alpha, k3, &inc, ytmp, &inc);
           alpha = 12*h/13.;
-          model->getStateVectorRate(t + alpha, ytmp, k4);
+          mModel->getStateVectorRate(t + alpha, ytmp, k4);
 
           // k5 = f(t_n + h, y_n + (439*h/216) * k_1 - (8*h) * k_2 + (3680*h/513) * k_3 - (845*h/4104) * k_4)
           alpha = 439*h/216.;
@@ -144,7 +145,7 @@ namespace rr
           alpha = -845*h/4104.;
           daxpy_(&n, &alpha, k4, &inc, ytmp, &inc);
           alpha = h;
-          model->getStateVectorRate(t + alpha, ytmp, k5);
+          mModel->getStateVectorRate(t + alpha, ytmp, k5);
 
           // k6 = f(t_n + h/2, y_n - (8*h/27) * k_1 + (2*h) * k_2 - (3544*h/2565) * k_3 + (1859*h/4104) * k_4 - (11*h/40) * k_5)
           alpha = -8*h/27.;
@@ -159,7 +160,7 @@ namespace rr
           alpha = -11*h/40.;
           daxpy_(&n, &alpha, k5, &inc, ytmp, &inc);
           alpha = h/2.;
-          model->getStateVectorRate(t + alpha, ytmp, k6);
+          mModel->getStateVectorRate(t + alpha, ytmp, k6);
 
           // E = abs(k1/360 - (128/4275)*k3 - (2197/75240)*k4 + (1/50)*k5 + (2/55)*k6)
           for (i = 0; i < stateVectorSize; i++) {
@@ -222,8 +223,8 @@ namespace rr
         alpha = (25. / 216)*h;
         daxpy_(&n, &alpha, k1, &inc, y, &inc);
 
-        model->setTime(t + h);
-        model->setStateVector(y);
+        mModel->setTime(t + h);
+        mModel->setStateVector(y);
 
         for (int i = 0; i<stateVectorSize; ++i) {
             rrLog(Logger::LOG_DEBUG) << "  " << y[i];
@@ -237,37 +238,37 @@ namespace rr
 
     void RK45Integrator::testRootsAtInitialTime()
     {
-        std::vector<unsigned char> initialEventStatus(model->getEventTriggers(0, 0, 0), false);
-        model->getEventTriggers(initialEventStatus.size(), 0, initialEventStatus.size() == 0 ? NULL : &initialEventStatus[0]);
+        std::vector<unsigned char> initialEventStatus(mModel->getEventTriggers(0, 0, 0), false);
+        mModel->getEventTriggers(initialEventStatus.size(), 0, initialEventStatus.size() == 0 ? NULL : &initialEventStatus[0]);
         applyEvents(0, initialEventStatus);
     }
 
     void RK45Integrator::applyEvents(double timeEnd, std::vector<unsigned char> &previousEventStatus)
     {
-        model->applyEvents(timeEnd, previousEventStatus.size() == 0 ? NULL : &previousEventStatus[0], y, y);
+        mModel->applyEvents(timeEnd, previousEventStatus.size() == 0 ? NULL : &previousEventStatus[0], y, y);
     }
 
     void RK45Integrator::restart(double t0)
     {
-        if (!model) {
+        if (!mModel) {
             return;
         }
 
         if (t0 <= 0.0) {
             if (y)
             {
-                model->getStateVector(y);
+                mModel->getStateVector(y);
             }
 
             testRootsAtInitialTime();
         }
 
-        model->setTime(t0);
+        mModel->setTime(t0);
 
         // copy state vector into memory
         if (y)
         {
-            model->getStateVector(y);
+            mModel->getStateVector(y);
         }
     }
 
