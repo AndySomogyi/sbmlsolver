@@ -42,11 +42,11 @@ namespace rr {
 
         fscale = N_VNew_Serial(stateVectorSize);
         assert(fscale && "Sundials failed to create N_Vector for fscale");
-        N_VConst(getValueAsDouble("fScaleDefault"), fscale);
+        N_VConst(1, fscale); // no scaling. Implement if wanted.
 
         uscale = N_VNew_Serial(stateVectorSize);
         assert(uscale && "Sundials failed to create N_Vector for fscale");
-        N_VConst(getValueAsDouble("uScaleDefault"), uscale);
+        N_VConst(1, uscale); // no scaling. Implement if wanted.
 
         // initialise to model values
         mModel->getStateVector(mStateVector->ops->nvgetarraypointer(mStateVector));
@@ -75,11 +75,7 @@ namespace rr {
         // cast back to "FixedPointIteration".
         KINSetUserData(mKinsol_Memory, (void *) this);
 
-        // set some optional features of kinsol
-
-        KINSetFuncNormTol(mKinsol_Memory, getValueAsDouble("fnormtol"));
-        KINSetScaledStepTol(mKinsol_Memory, getValueAsDouble("scsteptol"));
-        KINSetPrintLevel(mKinsol_Memory, getValueAsInt("kinLogLevel"));
+        updateKinsol();
     }
 
     void KinsolSteadyStateSolver::freeKinsol() {
@@ -107,30 +103,11 @@ namespace rr {
     void KinsolSteadyStateSolver::resetSettings() {
         Solver::resetSettings();
 
-        // Set default integrator settings.
-        // todo delete step if not needed
-        std::string desc = "Step size used in calculation of steady state";
-        addSetting("Step", 1, "Step", desc, desc);
-
-        // fnormtol
-        desc = "specifies the scalar used as a stopping tolerance on the scaled"
-               " maximum norm of the system function F(u). Defaults to 'unit roundoff ^ 1/3'";
-        addSetting("fnormtol", 0, "fnormtol", desc, desc);
-
-        // scsteptol
-        desc = "stopping tolerance on the minimum scaled step length. Defaults to 'unit roundoff ^ 2/3";
-        addSetting("scsteptol", 0, "scsteptol", desc, desc);
-
-        // kinsol logging level
-        desc = "Integer between 0 and 3 inclusive. Higher the level, the more detail "
-               "kinsol outputs during computation. Default 0.";
-        addSetting("kinLogLevel", 0, "kinLogLevel", desc, desc);
-
-        desc = "Max. number of nonlinear iterations";
+        std::string desc = "Max. number of nonlinear iterations";
         addSetting("NumMaxIters", 200, "NumMaxIters", desc, desc);
 
         desc = "Kinsol logger level. Default=0, no additional output. Max=3.";
-        addSetting("KinsolPrintLevel", 0, "KinsolPrintLevel", desc, desc);
+        addSetting("PrintLevel", 0, "KinsolPrintLevel", desc, desc);
 
         desc = "Form of nu coefficient. One of eta_choice1, eta_choice2 or eta_constant";
         addSetting("EtaForm", "eta_choice1", "EtaForm", desc, desc);
@@ -150,11 +127,11 @@ namespace rr {
         desc = "Constant value of nu";
         addSetting("EtaConstValue", 0.1, "EtaConstValue", desc, desc);
 
-        desc = "Value of gamma";
-        addSetting("EtaParamGamma", 0.9, "EtaParamGamma", desc, desc);
+        desc = "Value of gamma where 0 << gamma << 1.0. Use 0 to indidate default value of 0.9.";
+        addSetting("EtaParamGamma", 0, "EtaParamGamma", desc, desc);
 
-        desc = "Value of alpha";
-        addSetting("EtaParamAlpha", 2.9, "EtaParamAlpha", desc, desc);
+        desc = "Value of alpha where 1.0 < alpha < 2.0. Use 0 to indicate default value of 2.0. ";
+        addSetting("EtaParamAlpha", 0, "EtaParamAlpha", desc, desc);
 
         desc = "Value of omega_min - lower bound residual monitoring";
         addSetting("ResMonMin", 0.00001, "ResMonParams", desc, desc);
@@ -186,6 +163,10 @@ namespace rr {
         desc = "Anderson Acceleration damping parameter";
         addSetting("DampingAA", 1.0, "DampingAA", desc, desc);
 
+        desc = "The function KINSetRelErrFunc speciffies the relative error in computing F(u), which "
+               "is used in the difference quotient approximation to the Jacobian matrix. "
+               "Set to 0 for default which equals U = unit roundoff.";
+        addSetting("RelErrFunc", 0, "DampingAA", desc, desc);
 
     }
 
@@ -253,37 +234,58 @@ namespace rr {
         return mKinsol_Memory;
     }
 
+    /**
+     * The settings configuration system in roadrunner make this particular
+     * aspect of interacting with sundials libraries a little akward.
+     * When a user updates a setting with setValue, they are only
+     * updating the value in roadrunner. The change doesn't occur in sundials
+     * until we call the corresponding sundials function with the new value.
+     * We cannot use regular "setters" because they won't get called when a user
+     * changes a value. Instead, here we update all kinsol options
+     * at once, and this method is called before we call KIN_Solve.
+     */
     void KinsolSteadyStateSolver::updateKinsol() {
         KINSetNumMaxIters(mKinsol_Memory, getValueAsInt("NumMaxIters"));
+
         KINSetPrintLevel(mKinsol_Memory, getValueAsInt("PrintLevel"));
-        std::vector<std::string> validEtaForms({"eta_"})
-        KINSetEtaForm(mKinsol_Memory, getValueAsInt("EtaForm"));
-        KINSetNoInitSetup(mKinsol_Memory, getValueAsInt())
-        KINSetNoResMon(mKinsol_Memory, getValueAsInt());
+
+        // throw if invalid option chosen.
+        std::vector<std::string> validEtaForms({"eta_choice1", "eta_choice2", "eta_constant"});
+        const std::string& etaChoice = getValueAsString("EtaForm");
+        if (std::find(validEtaForms.begin(), validEtaForms.end(), etaChoice) == validEtaForms.end()){
+            std::ostringstream err;
+            err << "\"" << etaChoice << "\". Valid options are ";
+            for (auto &x: validEtaForms){
+                err << "\"" << x << "\", ";
+            }
+            throw InvalidKeyException(err.str());
+        }
+        if (etaChoice == "eta_choice1"){
+            KINSetEtaForm(mKinsol_Memory, KIN_ETACHOICE1);
+        } else if (etaChoice == "eta_choice2"){
+            KINSetEtaForm(mKinsol_Memory, KIN_ETACHOICE2);
+        } else if (etaChoice == "eta_constant"){
+            KINSetEtaForm(mKinsol_Memory, KIN_ETACONSTANT);
+        }
+
+        KINSetNoInitSetup(mKinsol_Memory, getValueAsBool("NoInitSetup"));
+        KINSetNoResMon(mKinsol_Memory, getValueAsBool("NoResMon"));
         KINSetMaxSetupCalls(mKinsol_Memory, getValueAsInt("MaxSetupCalls"));
         KINSetMaxSubSetupCalls(mKinsol_Memory, getValueAsInt("MaxSubSetupCalls"));
-        KINSetEtaForm(mKinsol_Memory, getValueAsInt("EtaForm"));
-        KINSetEtaConstValue(mKinsol_Memory, getValueAsInt("EtaConstValue"));
-        KINSetEtaParams(mKinsol_Memory, getValueAsInt("EtaParams"));
-        KINSetResMonParams(mKinsol_Memory, getValueAsInt("ResMonParams"));
-        KINSetResMonConstValue(mKinsol_Memory, getValueAsInt("ResMonConstValue"));
-        KINSetNoMinEps(mKinsol_Memory, getValueAsInt("NoMinEps"));
+        KINSetEtaConstValue(mKinsol_Memory, getValueAsDouble("EtaConstValue"));
+        KINSetEtaParams(mKinsol_Memory, getValueAsDouble("EtaParamGamma"), getValueAsDouble("EtaParamAlpha"));
+        KINSetResMonParams(mKinsol_Memory, getValueAsDouble("ResMonMin"), getValueAsDouble("ResMonMax"));
+        KINSetResMonConstValue(mKinsol_Memory, getValueAsBool("ResMonConstValue"));
+        KINSetNoMinEps(mKinsol_Memory, getValueAsBool("NoMinEps"));
         KINSetMaxNewtonStep(mKinsol_Memory, getValueAsInt("MaxNewtonStep"));
         KINSetMaxBetaFails(mKinsol_Memory, getValueAsInt("MaxBetaFails"));
-        KINSetRelErrFunc(mKinsol_Memory, getValueAsInt("RelErrFunc"));
-        KINSetFuncNormTol(mKinsol_Memory, getValueAsInt("FuncNormTol"));
-        KINSetScaledSteptol(mKinsol_Memory, getValueAsInt("ScaledSteptol"));
-        KINSetConstraints(mKinsol_Memory, getValueAsInt("Constraints"));
-        KINSetMAA(mKinsol_Memory, getValueAsInt("MAA"));
-        KINSetDampingAA(mKinsol_Memory, getValueAsInt("DampingAA"))
-
-
-
-
-/*
- *
- */
-
+        KINSetRelErrFunc(mKinsol_Memory, getValueAsDouble("RelErrFunc"));
+        KINSetFuncNormTol(mKinsol_Memory, getValueAsDouble("FuncNormTol"));
+        KINSetScaledStepTol(mKinsol_Memory, getValueAsDouble("ScaledSteptol"));
+        KINSetMAA(mKinsol_Memory, getValueAsLong("MAA"));
+        KINSetDampingAA(mKinsol_Memory, getValueAsDouble("DampingAA"));
+        // constraints not implemented at the moment. Maybe later???
+        // KINSetConstraints(mKinsol_Memory, getValueAsInt("Constraints"));
 
 
     }

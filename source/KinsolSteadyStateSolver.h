@@ -124,13 +124,16 @@ namespace rr {
 
             // multiply by step size (which defaults to 1)
             // this has an affect on accuracy and convergence
-            double step = solver->getValueAsDouble("Step");
+            // todo in testing a step was added, like in one of the examples
+            //   but it may not be needed. So comment out for now. Remove before
+            //   merge into develop branch!
+            // double step = solver->getValueAsDouble("Step");
 
             // get rates from the model
             // note: some of the examples used a "step" of 0.1, I'm not sure how important this is
             //  given that it doesn't seem to be needed. Keep for now.
             // model->getStateVectorRate(model->getTime() + step, y, dydt);
-            model->getStateVectorRate(model->getTime() + step, y, dydt);
+            model->getStateVectorRate(model->getTime() , y, dydt);
 
             for (int i = 0; i < numStates; i++) {
                 if (dydt[i] == std::numeric_limits<double>::max()) {
@@ -143,7 +146,7 @@ namespace rr {
                     throw KinsolException(err.str());
                 }
             }
-            Log(Logger::LOG_TRACE) << __FUNC__ << ", model: " << model;
+            rrLog(Logger::LOG_TRACE) << __FUNC__ << ", model: " << model;
 
             std::cout << "State vec out: ";
             stateVecOut->ops->nvprint(stateVecOut);

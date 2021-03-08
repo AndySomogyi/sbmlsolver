@@ -93,7 +93,7 @@ class RR_DECLSPEC NotImplementedException : public Exception
 class RR_DECLSPEC InvalidKeyException : public Exception
 {
     public:
-        InvalidKeyException(const string& msg);
+        explicit InvalidKeyException(const string& msg);
 };
 
 /**

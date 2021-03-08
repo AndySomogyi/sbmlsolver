@@ -118,16 +118,36 @@ TEST_P(SettingsTests, TestSettings) {
  * second is its value, stored as a rr::Variant. It is sometimes useful
  * to run these one at a time. To do so, just temporarily comment out
  * the ones you dont want to run.
+ *
+ * Note this does not test the interface between roadrunner and kinsol,
+ * only the users ability to change a parameter in roadrunner.
  */
 INSTANTIATE_TEST_SUITE_P(
         SettingsTests,
         SettingsTests,
         ::testing::Values(
-                std::pair<std::string, Variant>("Step", Variant(1)),
-                std::pair<std::string, Variant>("fnormtol", Variant(1.25e-4)),
-                std::pair<std::string, Variant>("scsteptol", Variant(4.68e-8)),
-                std::pair<std::string, Variant>("kinLogLevel", Variant(2)),
-                std::pair<std::string, Variant>("strategy", Variant("linesearch"))
+                std::pair<std::string, Variant>("strategy", Variant("linesearch")),
+
+                std::pair<std::string, Variant>("NumMaxIters", Variant(153)),
+                std::pair<std::string, Variant>("PrintLevel", Variant(2)),
+                std::pair<std::string, Variant>("EtaForm", Variant("eta_choice2")),
+                std::pair<std::string, Variant>("NoInitSetup", Variant(true)),
+                std::pair<std::string, Variant>("NoResMon", Variant(true)),
+                std::pair<std::string, Variant>("MaxSetupCalls", Variant(974)),
+                std::pair<std::string, Variant>("MaxSubSetupCalls", Variant(132)),
+                std::pair<std::string, Variant>("EtaConstValue", Variant(6)),
+                std::pair<std::string, Variant>("EtaParamGamma", Variant(0.5234)),
+                std::pair<std::string, Variant>("EtaParamAlpha", Variant(0.1234)),
+                std::pair<std::string, Variant>("ResMonMin", Variant(0.01)),
+                std::pair<std::string, Variant>("ResMonMax", Variant(0.9999)),
+                std::pair<std::string, Variant>("ResMonConstValue", Variant(0.25)),
+                std::pair<std::string, Variant>("NoMinEps", Variant(true)),
+                std::pair<std::string, Variant>("MaxNewtonStep", Variant(15)),
+                std::pair<std::string, Variant>("MaxBetaFails", Variant(3)),
+                std::pair<std::string, Variant>("FuncNormTol", Variant(0.5)),
+                std::pair<std::string, Variant>("ScaledSteptol", Variant(0.3)),
+                std::pair<std::string, Variant>("MAA", Variant(4)),
+                std::pair<std::string, Variant>("DampingAA", Variant(0.35))
         )
 );
 

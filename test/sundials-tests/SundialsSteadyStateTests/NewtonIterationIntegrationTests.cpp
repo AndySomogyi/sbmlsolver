@@ -38,31 +38,14 @@ public:
 
         // turn on/off conservation analysis
         rr.setConservedMoietyAnalysis(useMoietyConservation);
-//        std::cout << rr.getFullJacobian() << std::endl;
-//        std::cout << rr.getFullStoichiometryMatrix() << std::endl;
-//        std::cout << rr.getReducedJacobian() << std::endl;
-//        std::cout << rr.getReducedStoichiometryMatrix() << std::endl;
-
-//        std::cout << "link matrix : " << std::endl;
-//        if (useMoietyConservation)
-//            std::cout << rr.getConservationMatrix() << std::endl;
 
         // instantiate our solver
         NewtonIteration newtonIteration(rr.getModel());
 
         // collect reference results
         ResultMap expectedResult = testModel->steadyState();
-        // set the model parameters for this run
-//        for (const auto &parameterInfo : expectedResult) {
-//            std::string speciesName = parameterInfo.first;
-//            double startingValue = parameterInfo.second.first; // second is a std::pair of doubles
-//            rr.setInitConcentration(speciesName, startingValue, false);
-//        }
-//        rr.regenerate();
 
         // set some parameters
-        newtonIteration.setValue("fScaleDefault", 0.1);
-        newtonIteration.setValue("uScaleDefault", 0.1);
         newtonIteration.setValue("strategy", strategy);
 
         //openInCopasi(testModel->str());
@@ -123,8 +106,6 @@ public:
             rr.regenerate();
 
             // set some parameters
-            newtonIteration.setValue("fScaleDefault", 0.1);
-            newtonIteration.setValue("uScaleDefault", 0.1);
             newtonIteration.setValue("strategy", strategy);
 
             std::cout << rr.getSBML() << std::endl;
