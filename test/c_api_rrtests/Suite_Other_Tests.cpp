@@ -134,9 +134,9 @@ TEST(OTHER_TESTS, OUTPUT_FILE_FIXED_TIMESTEP) {
     RoadRunner rr(TestModelFileName, NULL);
     SimulateOptions opt;
     rr.setIntegrator("gillespie");
+    ASSERT_STREQ("gillespie", rr.getIntegrator()->getName().c_str());
     rr.getIntegrator()->setValue("seed", 123);
     rr.getIntegrator()->setValue("variable_step_size", false);
-    std::cout << rr.getIntegrator()->getValueAsInt("seed") << std::endl;
     opt.start = 0;
     opt.duration = 50;
     opt.steps = 100;

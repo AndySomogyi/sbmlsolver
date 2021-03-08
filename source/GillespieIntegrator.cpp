@@ -7,16 +7,13 @@
 
 #include "GillespieIntegrator.h"
 #include "rrUtils.h"
-#include "rrLogger.h"
 #include "rrConfig.h"
 
 #include <cstring>
-#include <assert.h>
+#include <cassert>
 #include <iostream>
 #include <exception>
-#include <ctime>
 #include <limits>
-#include <sstream>
 #include <chrono>
 
 using namespace std;
@@ -41,19 +38,19 @@ namespace rr
         nReactions = mModel->getNumReactions();
         reactionRates = new double[nReactions];
         reactionRatesBuffer = new double[nReactions];
-        stateVectorSize = mModel->getStateVector(0);
+        stateVectorSize = mModel->getStateVector(nullptr);
         stateVector = new double[stateVectorSize];
         stateVectorRate = new double[stateVectorSize];
 
-        eventStatus = std::vector<unsigned char>(mModel->getEventTriggers(0, 0, 0), false);
-        previousEventStatus = std::vector<unsigned char>(mModel->getEventTriggers(0, 0, 0), false);
+        eventStatus = std::vector<unsigned char>(mModel->getEventTriggers(0, nullptr, nullptr), false);
+        previousEventStatus = std::vector<unsigned char>(mModel->getEventTriggers(0, nullptr, nullptr), false);
 
         floatingSpeciesStart = stateVectorSize - mModel->getNumIndFloatingSpecies();
 
         assert(floatingSpeciesStart >= 0);
 
         // get rows and columns
-        mModel->getStoichiometryMatrix(&stoichRows, &stoichCols, 0);
+        mModel->getStoichiometryMatrix(&stoichRows, &stoichCols, nullptr);
         stoichData = new double[stoichRows * stoichCols];
 
         // fill stoichData
@@ -68,11 +65,11 @@ namespace rr
 			stoichScale(1.0),
 			stoichRows(0),
 			stoichCols(0),
-			stoichData(NULL),
-			reactionRates(NULL),
-			reactionRatesBuffer(NULL),
-			stateVector(NULL),
-			stateVectorRate(NULL)
+			stoichData(nullptr),
+			reactionRates(nullptr),
+			reactionRatesBuffer(nullptr),
+			stateVector(nullptr),
+			stateVectorRate(nullptr)
 	{
 		GillespieIntegrator::resetSettings();
 
@@ -87,11 +84,11 @@ namespace rr
 		delete[] stateVector;
 		delete[] stateVectorRate;
 		delete[] stoichData;
-        reactionRates = NULL;
-        reactionRatesBuffer = NULL;
-        stateVector = NULL;
-        stateVectorRate = NULL;
-        stoichData = NULL;
+        reactionRates = nullptr;
+        reactionRatesBuffer = nullptr;
+        stateVector = nullptr;
+        stateVectorRate = nullptr;
+        stoichData = nullptr;
 	}
 
     void GillespieIntegrator::syncWithModel(ExecutableModel* m)
@@ -102,11 +99,11 @@ namespace rr
         delete[] stateVector;
         delete[] stateVectorRate;
         delete[] stoichData;
-        reactionRates = NULL;
-        reactionRatesBuffer = NULL;
-        stateVector = NULL;
-        stateVectorRate = NULL;
-        stoichData = NULL;
+        reactionRates = nullptr;
+        reactionRatesBuffer = nullptr;
+        stateVector = nullptr;
+        stateVectorRate = nullptr;
+        stoichData = nullptr;
 
         mModel = m;
         mModel->reset();
@@ -119,7 +116,7 @@ namespace rr
 
         stoichRows = 0;
         stoichCols = 0;
-        stoichData = NULL;
+        stoichData = nullptr;
 
         initializeFromModel();
     }
@@ -157,7 +154,7 @@ namespace rr
 		return Integrator::Deterministic;
 	}
 
-	void GillespieIntegrator::setValue(string key, const Variant& val)
+	void GillespieIntegrator::setValue(const std::string& key, const Variant& val)
 	{
 		Integrator::setValue(key, val);
 
@@ -167,7 +164,7 @@ namespace rr
 		{
 			try
 			{
-				unsigned long seed = val.convert<unsigned long>();
+				auto seed = val.convert<unsigned long>();
 				setEngineSeed(seed);
 			}
 			catch (std::exception& e)
@@ -199,10 +196,10 @@ namespace rr
 
 	double GillespieIntegrator::integrate(double t, double hstep)
 	{
-		double tf = 0;
+		double tf;
 		bool singleStep;
 		bool varStep = getValue("variable_step_size").convert<bool>();
-		double minTimeStep = getValue("minimum_time_step").convert<double>();
+		auto minTimeStep = getValue("minimum_time_step").convert<double>();
 
 		if (varStep)
 		{
@@ -247,10 +244,10 @@ namespace rr
 			double s = 0;
 
 			// next time
-			double tau = 0;
+			double tau;
 
 			// get the 'propensity' -- reaction rates
-			mModel->getReactionRates(nReactions, 0, reactionRates);
+			mModel->getReactionRates(nReactions, nullptr, reactionRates);
 
 			// sum the propensity
 			for (int k = 0; k < nReactions; k++)
@@ -343,9 +340,9 @@ namespace rr
 			// events
 			bool triggered = false;
 
-			mModel->getEventTriggers(eventStatus.size(), NULL, eventStatus.size() ? &eventStatus[0] : NULL);
-			for(int k_=0; k_<eventStatus.size(); ++k_) {
-				if (eventStatus.at(k_))
+			mModel->getEventTriggers(eventStatus.size(), nullptr, !eventStatus.empty() ? &eventStatus[0] : nullptr);
+			for(unsigned char eventStatu : eventStatus) {
+				if (eventStatu)
 					triggered = true;
 			}
 
@@ -353,7 +350,7 @@ namespace rr
 				applyEvents(t, previousEventStatus);
 			}
 
-			if (eventStatus.size())
+			if (!eventStatus.empty())
 				memcpy(&previousEventStatus[0], &eventStatus[0], eventStatus.size()*sizeof(unsigned char));
 
 
@@ -368,14 +365,14 @@ namespace rr
 
     void GillespieIntegrator::testRootsAtInitialTime()
     {
-        vector<unsigned char> initialEventStatus(mModel->getEventTriggers(0, 0, 0), false);
-        mModel->getEventTriggers(initialEventStatus.size(), 0, initialEventStatus.size() == 0 ? NULL : &initialEventStatus[0]);
+        vector<unsigned char> initialEventStatus(mModel->getEventTriggers(0, nullptr, nullptr), false);
+        mModel->getEventTriggers(initialEventStatus.size(), nullptr, initialEventStatus.empty() ? nullptr : &initialEventStatus[0]);
         applyEvents(0, initialEventStatus);
     }
 
-    void GillespieIntegrator::applyEvents(double timeEnd, vector<unsigned char> &previousEventStatus)
+    void GillespieIntegrator::applyEvents(double timeEnd, vector<unsigned char> &prevEventStatus)
     {
-        mModel->applyEvents(timeEnd, previousEventStatus.size() == 0 ? NULL : &previousEventStatus[0], stateVector, stateVector);
+        mModel->applyEvents(timeEnd, prevEventStatus.empty() ? nullptr : &prevEventStatus[0], stateVector, stateVector);
     }
 
 	void GillespieIntegrator::restart(double t0)
@@ -421,7 +418,6 @@ namespace rr
 		rrLog(Logger::LOG_INFORMATION) << "Using user specified seed value: " << seed;
 
 		// MSVC needs an explicit cast, fail to compile otherwise.
-		std::cout << "seed " << seed  << std::endl;
 		engine.seed((unsigned long)seed);
 	}
 
