@@ -32,7 +32,7 @@ mCompilerLocation(getFilePath(compiler))
     {
         if(!setupCompiler(mSupportCodeFolder))
         {
-            Log(lWarning)<<"Roadrunner internal compiler setup failed. ";
+            rrLog(lWarning)<<"Roadrunner internal compiler setup failed. ";
         }
     }
 }
@@ -45,7 +45,7 @@ bool CCompiler::setupCompiler(const string& supportCodeFolder)
 
     if(!folderExists(mSupportCodeFolder))
     {
-        Log(Logger::LOG_ERROR)<<"The roadrunner support code folder : "<<mSupportCodeFolder<<" does not exist.";
+        rrLog(Logger::LOG_ERROR)<<"The roadrunner support code folder : "<<mSupportCodeFolder<<" does not exist.";
         return false;
     }
 
@@ -76,12 +76,12 @@ bool CCompiler::compileSource(const string& sourceFileName)
     string exeCmd = createCompilerCommand(sourceFileName);
 
     //exeCmd += " > compileLog.log";
-    Log(lDebug2)<<"Compiling model..";
-    Log(lDebug)<<"\nExecuting compile command: "<<exeCmd;
+    rrLog(lDebug2)<<"Compiling model..";
+    rrLog(lDebug)<<"\nExecuting compile command: "<<exeCmd;
 
     if(!compile(exeCmd))
     {
-        Log(Logger::LOG_ERROR)<<"Creating DLL failed..";
+        rrLog(Logger::LOG_ERROR)<<"Creating DLL failed..";
         throw Exception("Creating Model DLL failed..");
     }
 
@@ -105,7 +105,7 @@ bool CCompiler::setCompilerLocation(const string& path)
 {
     if(!folderExists(path))
     {
-        Log(Logger::LOG_ERROR)<<"Tried to set invalid path: "<<path<<" for compiler location";
+        rrLog(Logger::LOG_ERROR)<<"Tried to set invalid path: "<<path<<" for compiler location";
         return false;
     }
     mCompilerLocation = path;
@@ -121,7 +121,7 @@ bool CCompiler::setSupportCodeFolder(const string& path)
 {
     if(!folderExists(path))
     {
-        Log(Logger::LOG_ERROR)<<"Tried to set invalid path: "<<path<<" for compiler location";
+        rrLog(Logger::LOG_ERROR)<<"Tried to set invalid path: "<<path<<" for compiler location";
         return false;
     }
     mSupportCodeFolder = path;
@@ -275,8 +275,8 @@ bool CCompiler::compile(const string& cmdLine)
         // Retrieve the system error message for the last-error code
         DWORD errorCode = GetLastError();
         string anError = getWINAPIError(errorCode, TEXT("CreateFile"));
-        Log(Logger::LOG_ERROR)<<"WIN wrappers Error (after CreateFile): "<<anError;
-        Log(Logger::LOG_ERROR)<<"Failed creating logFile for compiler output";
+        rrLog(Logger::LOG_ERROR)<<"WIN wrappers Error (after CreateFile): "<<anError;
+        rrLog(Logger::LOG_ERROR)<<"Failed creating logFile for compiler output";
     }
 
     SetFilePointer(outFile, 0, NULL, FILE_END); //set pointer position to end file
@@ -315,7 +315,7 @@ bool CCompiler::compile(const string& cmdLine)
         DWORD errorCode = GetLastError();
 
         string anError = getWINAPIError(errorCode, TEXT("CreateProcess"));
-        Log(Logger::LOG_ERROR)<<"WIN wrappers Error: (after CreateProcess) "<<anError;
+        rrLog(Logger::LOG_ERROR)<<"WIN wrappers Error: (after CreateProcess) "<<anError;
 
         // Close process and thread handles.
         CloseHandle(pi.hProcess);
@@ -335,7 +335,7 @@ bool CCompiler::compile(const string& cmdLine)
     if(errorCode != 0)
     {
         string anError = getWINAPIError(errorCode, TEXT("CloseHandle"));
-        Log(lDebug)<<"WIN wrappers error: (pi.hProcess)"<<anError;
+        rrLog(lDebug)<<"WIN wrappers error: (pi.hProcess)"<<anError;
     }
 
     CloseHandle(pi.hThread);
@@ -343,14 +343,14 @@ bool CCompiler::compile(const string& cmdLine)
     if(errorCode != 0)
     {
         string anError = getWINAPIError(errorCode, TEXT("CloseHandle"));
-        Log(lDebug)<<"WIN wrappers error: (pi.hThread)"<<anError;
+        rrLog(lDebug)<<"WIN wrappers error: (pi.hThread)"<<anError;
     }
 
     //Read the log file and log it
     if(fileExists(compilerTempFile))
     {
         string log = getFileContent(compilerTempFile.c_str());
-        Log(lDebug)<<"Compiler output: "<<log<<endl;
+        rrLog(lDebug)<<"Compiler output: "<<log<<endl;
     }
 
     return true;
@@ -365,18 +365,18 @@ bool CCompiler::compile(const string& cmdLine)
     toFile += joinPath(mOutputPath, "compilation.log");
     toFile += " 2>&1";
 
-    Log(lDebug)<<"Compiler command: "<<toFile;
+    rrLog(lDebug)<<"Compiler command: "<<toFile;
 
     //Create the shared library, using system call
     int val = system(toFile.c_str());
     if(val == 0)
     {
-        Log(lDebug)<<"Compile system call was succesful";
+        rrLog(lDebug)<<"Compile system call was succesful";
         return true;
     }
     else
     {
-        Log(Logger::LOG_ERROR)<<"Compile system call returned: "<<val;
+        rrLog(Logger::LOG_ERROR)<<"Compile system call returned: "<<val;
         return false;
     }
 }

@@ -155,10 +155,10 @@ string getTempDir()
 
         if (file.exists() && file.isDirectory()) {
             tmpPath = path.toString();
-            Log(Logger::LOG_DEBUG) << "getTempDir(): " << tmpPath;
+            rrLog(Logger::LOG_DEBUG) << "getTempDir(): " << tmpPath;
             return tmpPath;
         } else {
-            Log(Logger::LOG_WARNING) << "Temp dir path specified in config, \""
+            rrLog(Logger::LOG_WARNING) << "Temp dir path specified in config, \""
                     << tmpPath << "\" is not a valid path, returning sytem tmp path: "
                     << Poco::Path::temp();
         }
@@ -166,7 +166,7 @@ string getTempDir()
 
     Poco::Path temp(Poco::Path::temp());
     tmpPath = temp.makeAbsolute().toString();
-    Log(Logger::LOG_DEBUG) << "getTempDir(): " << tmpPath;
+    rrLog(Logger::LOG_DEBUG) << "getTempDir(): " << tmpPath;
     return tmpPath;
 }
 
@@ -228,12 +228,12 @@ string getCurrentExeFolder()
     if (_NSGetExecutablePath(exepath, &bufsize) == 0)
     {
         string thePath = getFilePath(exepath);
-        Log(lDebug1) << "Current exe folder says:" << thePath;
+        rrLog(lDebug1) << "Current exe folder says:" << thePath;
         return thePath;
     }
     else
     {
-        Log(Logger::LOG_ERROR) << "_NSGetExecutablePath failed";
+        rrLog(Logger::LOG_ERROR) << "_NSGetExecutablePath failed";
         return "";
     }
 #elif defined (__linux)
@@ -249,7 +249,7 @@ string getCurrentExeFolder()
     }
 
     string thePath = getFilePath(exepath);
-    Log(lDebug1) << "Current exe folder says:" << thePath;
+    rrLog(lDebug1) << "Current exe folder says:" << thePath;
     return thePath;
 #endif
 
@@ -275,7 +275,7 @@ string getCWD()
     // Get the current working directory:
     if( (buffer = getcwd( NULL, 512 )) == NULL )
     {
-        Log(Logger::LOG_ERROR)<<"getCWD failed";
+        rrLog(Logger::LOG_ERROR)<<"getCWD failed";
         return "";
     }
     else
@@ -318,7 +318,7 @@ vector<string> getLinesInFile(const string& fName)
     ifstream ifs(fName.c_str());
     if(!ifs)
     {
-        Log(Logger::LOG_ERROR)<<"Failed opening file: "<<fName;
+        rrLog(Logger::LOG_ERROR)<<"Failed opening file: "<<fName;
         return lines;
     }
 
@@ -552,7 +552,7 @@ bool copyStdVectorToCArray(const vector<double>& src, double* dest,  int size)
 {
     if((size && !dest) || size > src.size())
     {
-        Log(Logger::LOG_ERROR)<<"Tried to copy to NULL vector, or incompatible size of vectors";
+        rrLog(Logger::LOG_ERROR)<<"Tried to copy to NULL vector, or incompatible size of vectors";
         return false;
     }
 
@@ -567,7 +567,7 @@ bool copyStdVectorToCArray(const vector<bool>&   src,  bool*  dest,  int size)
 {
     if((size && !dest) || size > src.size())
     {
-        Log(Logger::LOG_ERROR)<<"Tried to copy to NULL vector, or incompatible size of vectors";
+        rrLog(Logger::LOG_ERROR)<<"Tried to copy to NULL vector, or incompatible size of vectors";
         return false;
     }
 
@@ -583,7 +583,7 @@ vector<double> createVector(const double* src, const int& size)
     vector<double> dest;
     if(size && !src)
     {
-        Log(Logger::LOG_ERROR)<<"Tried to copy from NULL vector";
+        rrLog(Logger::LOG_ERROR)<<"Tried to copy from NULL vector";
         return dest;
     }
 
@@ -599,7 +599,7 @@ bool copyCArrayToStdVector(const int* src, vector<int>& dest, int size)
 {
     if(size && !src)
     {
-        Log(Logger::LOG_ERROR)<<"Tried to copy from NULL vector";
+        rrLog(Logger::LOG_ERROR)<<"Tried to copy from NULL vector";
         return false;
     }
 
@@ -615,7 +615,7 @@ bool copyCArrayToStdVector(const double* src, vector<double>& dest, int size)
 {
     if(size && !src)
     {
-        Log(Logger::LOG_ERROR)<<"Tried to copy from NULL vector";
+        rrLog(Logger::LOG_ERROR)<<"Tried to copy from NULL vector";
         return false;
     }
 
@@ -631,7 +631,7 @@ bool copyCArrayToStdVector(const bool* src, vector<bool>& dest, int size)
 {
     if(size && !src)
     {
-        Log(Logger::LOG_ERROR)<<"Tried to copy from NULL vector";
+        rrLog(Logger::LOG_ERROR)<<"Tried to copy from NULL vector";
         return false;
     }
 
@@ -648,7 +648,7 @@ double* createVector(const vector<double>& vec)
     double* avec = new double[vec.size()];
     if(!avec)
     {
-        Log(Logger::LOG_ERROR)<<"Failed to allocate c vector";
+        rrLog(Logger::LOG_ERROR)<<"Failed to allocate c vector";
         return NULL;
     }
 

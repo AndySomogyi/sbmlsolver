@@ -155,7 +155,7 @@ int path_test(int argc, char* argv[])
 
         cout << "log file: " << Logger::getFileName() << endl;
 
-        Log(Logger::LOG_NOTICE) << "log messsage";
+        rrLog(Logger::LOG_NOTICE) << "log messsage";
     }
     catch (std::exception& e)
     {

@@ -96,7 +96,7 @@ ModelGenerator* createModelGenerator(const string& compiler, const string& tempF
 {
 #if defined(BUILD_LLVM) && !defined(BUILD_LEGACY_C)
 
-    Log(Logger::LOG_INFORMATION) << "Creating LLVM based model generator.";
+    rrLog(Logger::LOG_INFORMATION) << "Creating LLVM based model generator.";
     return new rrllvm::LLVMModelGenerator();
 
 #endif
@@ -107,18 +107,18 @@ ModelGenerator* createModelGenerator(const string& compiler, const string& tempF
 
     if (ucomp == "LLVM")
     {
-        Log(Logger::LOG_INFORMATION) << "Creating LLVM based model generator.";
+        rrLog(Logger::LOG_INFORMATION) << "Creating LLVM based model generator.";
         return new rrllvm::LLVMModelGenerator();
     }
 
-    Log(Logger::LOG_INFORMATION) << "Creating C based model generator using " << compiler << " compiler.";
+    rrLog(Logger::LOG_INFORMATION) << "Creating C based model generator using " << compiler << " compiler.";
 
     return new CModelGenerator(tempFolder, supportCodeFolder, compiler);
 #endif
 
 #if !defined(BUILD_LLVM) && defined(BUILD_LEGACY_C)
 
-    Log(Logger::LOG_INFORMATION) << "Creating C based model generator using " << compiler << " compiler.";
+    rrLog(Logger::LOG_INFORMATION) << "Creating C based model generator using " << compiler << " compiler.";
 
     // default (for now...), the old C code generating model generator.
     return new CModelGenerator(tempFolder, supportCodeFolder, compiler);

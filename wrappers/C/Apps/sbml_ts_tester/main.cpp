@@ -75,11 +75,11 @@ int main(int argc, char* argv[])
             Logger::setLevel(Logger::LOG_NOTICE);
         }
 
-        Log(Logger::LOG_NOTICE) << "Notice";
+        rrLog(Logger::LOG_NOTICE) << "Notice";
 
         // set full model path (read from cmd line)
         gTSModelsPath = joinPath(joinPath(gTSModelsPath, "cases"), "semantic");
-        Log(lInfo)<<"Testing model: "<<args.ModelNumber;
+        rrLog(lInfo)<<"Testing model: "<<args.ModelNumber;
 
         switch(args.ModelVersion)
         {

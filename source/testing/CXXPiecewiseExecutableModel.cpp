@@ -16,12 +16,12 @@ namespace rrtesting
 
 CXXPiecewiseExecutableModel::CXXPiecewiseExecutableModel(const rr::Dictionary* dict)
 {
-    Log(Logger::LOG_NOTICE) << __FUNC__;
+    rrLog(Logger::LOG_NOTICE) << __FUNC__;
 }
 
 CXXPiecewiseExecutableModel::~CXXPiecewiseExecutableModel()
 {
-    Log(Logger::LOG_NOTICE) << __FUNC__;
+    rrLog(Logger::LOG_NOTICE) << __FUNC__;
 }
 
 std::string CXXPiecewiseExecutableModel::getModelName()

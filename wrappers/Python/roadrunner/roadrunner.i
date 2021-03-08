@@ -105,7 +105,7 @@
         DictionaryHolder() { dict = NULL; }
 
         ~DictionaryHolder() {
-            Log(Logger::LOG_TRACE) << __FUNC__ << ", deleting dictionary " << (void*)dict;
+            rrLog(Logger::LOG_TRACE) << __FUNC__ << ", deleting dictionary " << (void*)dict;
             delete dict;
         }
     };
@@ -387,7 +387,7 @@ rr::pyutil_init(m);
 
     static void rr_sighandler(int sig) {
         std::cout << "handling signal " << sig << std::endl;
-        Log(rr::Logger::LOG_WARNING) << "signal handler : " << sig;
+        rrLog(rr::Logger::LOG_WARNING) << "signal handler : " << sig;
     }
 
     static unsigned long sigtrap() {
@@ -398,7 +398,7 @@ rr::pyutil_init(m);
 #else
 
     static unsigned long sigtrap() {
-        Log(rr::Logger::LOG_WARNING) << "sigtrap not supported on Windows";
+        rrLog(rr::Logger::LOG_WARNING) << "sigtrap not supported on Windows";
         return 0;
     }
 
@@ -1764,23 +1764,23 @@ namespace std { class ostream{}; }
 
 %{
     rr::SimulateOptions* rr_RoadRunner___simulateOptions_get(RoadRunner* r) {
-        //Log(Logger::LOG_WARNING) << "DO NOT USE simulateOptions, it is DEPRECATED";
+        //rrLog(Logger::LOG_WARNING) << "DO NOT USE simulateOptions, it is DEPRECATED";
         return &r->getSimulateOptions();
     }
 
     void rr_RoadRunner___simulateOptions_set(RoadRunner* r, const rr::SimulateOptions* opt) {
-        //Log(Logger::LOG_WARNING) << "DO NOT USE simulateOptions, it is DEPRECATED";
+        //rrLog(Logger::LOG_WARNING) << "DO NOT USE simulateOptions, it is DEPRECATED";
         r->setSimulateOptions(*opt);
     }
 
 
     rr::RoadRunnerOptions* rr_RoadRunner_options_get(RoadRunner* r) {
-        Log(Logger::LOG_WARNING) << "DO NOT USE options, it is DEPRECATED";
+        rrLog(Logger::LOG_WARNING) << "DO NOT USE options, it is DEPRECATED";
         return &r->getOptions();
     }
 
     void rr_RoadRunner_options_set(RoadRunner* r, const rr::RoadRunnerOptions* opt) {
-        Log(Logger::LOG_WARNING) << "DO NOT USE options, it is DEPRECATED";
+        rrLog(Logger::LOG_WARNING) << "DO NOT USE options, it is DEPRECATED";
         rr::RoadRunnerOptions *rropt = &r->getOptions();
         *rropt = *opt;
     }
@@ -2528,26 +2528,26 @@ namespace std { class ostream{}; }
 
     void _setListener(const rr::PyIntegratorListenerPtr &listener) {
 
-        Log(rr::Logger::LOG_INFORMATION) << __FUNC__ << ", use count: " << listener.use_count();
+        rrLog(rr::Logger::LOG_INFORMATION) << __FUNC__ << ", use count: " << listener.use_count();
 
         cxx11_ns::shared_ptr<rr::IntegratorListener> i =
             cxx11_ns::dynamic_pointer_cast<rr::IntegratorListener>(listener);
 
-        Log(rr::Logger::LOG_INFORMATION) << __FUNC__ << ", after cast use count: " << listener.use_count();
+        rrLog(rr::Logger::LOG_INFORMATION) << __FUNC__ << ", after cast use count: " << listener.use_count();
 
         ($self)->setListener(i);
     }
 
     rr::PyIntegratorListenerPtr _getListener() {
 
-        Log(rr::Logger::LOG_INFORMATION) << __FUNC__;
+        rrLog(rr::Logger::LOG_INFORMATION) << __FUNC__;
 
         rr::IntegratorListenerPtr l = ($self)->getListener();
 
         rr::PyIntegratorListenerPtr ptr =
             cxx11_ns::dynamic_pointer_cast<rr::PyIntegratorListener>(l);
 
-        Log(rr::Logger::LOG_INFORMATION) << __FUNC__ << ", use count: " << ptr.use_count();
+        rrLog(rr::Logger::LOG_INFORMATION) << __FUNC__ << ", use count: " << ptr.use_count();
 
         return ptr;
     }
@@ -2555,11 +2555,11 @@ namespace std { class ostream{}; }
     void _clearListener() {
         rr::IntegratorListenerPtr current = ($self)->getListener();
 
-        Log(rr::Logger::LOG_INFORMATION) << __FUNC__ << ", current use count before clear: " << current.use_count();
+        rrLog(rr::Logger::LOG_INFORMATION) << __FUNC__ << ", current use count before clear: " << current.use_count();
 
         ($self)->setListener(rr::IntegratorListenerPtr());
 
-        Log(rr::Logger::LOG_INFORMATION) << __FUNC__ << ", current use count after clear: " << current.use_count();
+        rrLog(rr::Logger::LOG_INFORMATION) << __FUNC__ << ", current use count after clear: " << current.use_count();
     }
 
     // we want to get the listener back as a PyIntegratorListener, however

@@ -26,17 +26,17 @@ TestEvalReactionRates::~TestEvalReactionRates()
 
 bool TestEvalReactionRates::test()
 {
-    Log(Logger::LOG_INFORMATION) << "Evaluating Initial Conditions for " << fileName << endl;
+    rrLog(Logger::LOG_INFORMATION) << "Evaluating Initial Conditions for " << fileName << endl;
 
 
 
-    Log(Logger::LOG_INFORMATION) << model << endl;
+    rrLog(Logger::LOG_INFORMATION) << model << endl;
 
-    Log(Logger::LOG_INFORMATION) << "Evaluating Reaction Rates for " << fileName << endl;
+    rrLog(Logger::LOG_INFORMATION) << "Evaluating Reaction Rates for " << fileName << endl;
 
 
 
-    Log(Logger::LOG_INFORMATION) << model << endl;
+    rrLog(Logger::LOG_INFORMATION) << model << endl;
 
     return true;
 }

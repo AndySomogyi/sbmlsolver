@@ -615,7 +615,7 @@ llvm::Value* ASTNodeCodeGen::delayExprCodeGen(const libsbml::ASTNode* ast)
     string str = formula;
     free(formula);
 
-    Log(Logger::LOG_WARNING)
+    rrLog(Logger::LOG_WARNING)
       << "Unable to handle SBML csymbol 'delay'. Delay ignored in expression '"
       << str << "'.";
 
@@ -909,7 +909,7 @@ llvm::Value* ASTNodeCodeGen::functionCallCodeGen(const libsbml::ASTNode* ast)
         args[i] = toDouble(codeGen(c));
     }
 
-    Log(Logger::LOG_TRACE) << "ASTNodeCodeGen::functionCallCodeGen, name: "
+    rrLog(Logger::LOG_TRACE) << "ASTNodeCodeGen::functionCallCodeGen, name: "
             << ast->getName() << ", numChild: " << nargs;
 
     return resolver.loadSymbolValue(ast->getName(), ArrayRef<Value*>(args, nargs));
@@ -1296,7 +1296,7 @@ llvm::Value* ASTNodeCodeGen::piecewiseCodeGen(const libsbml::ASTNode* ast)
     }
     else
     {
-        Log(Logger::LOG_WARNING) << "No \"otherwise\" element in MathML "
+        rrLog(Logger::LOG_WARNING) << "No \"otherwise\" element in MathML "
                 "piecewise, returning NaN as \"otherwise\" value";
 
         owVal = ConstantFP::get(builder.getContext(),

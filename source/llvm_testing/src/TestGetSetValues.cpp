@@ -27,34 +27,34 @@ TestGetSetValues::~TestGetSetValues()
 
 bool TestGetSetValues::test()
 {
-    Log(Logger::LOG_INFORMATION) << "Evaluating Initial Conditions for " << fileName << endl;
+    rrLog(Logger::LOG_INFORMATION) << "Evaluating Initial Conditions for " << fileName << endl;
 
 
-    Log(Logger::LOG_INFORMATION) << "before set: " << model << endl;
+    rrLog(Logger::LOG_INFORMATION) << "before set: " << model << endl;
 
     double val = 0;
     model->getCompartmentVolumes(1, 0, &val);
 
-    Log(Logger::LOG_INFORMATION) << "initial volume: " << val << endl;
+    rrLog(Logger::LOG_INFORMATION) << "initial volume: " << val << endl;
 
     val = 2;
     model->setCompartmentVolumes(1, 0, &val);
 
-    Log(Logger::LOG_INFORMATION) << "after: " << model << endl;
+    rrLog(Logger::LOG_INFORMATION) << "after: " << model << endl;
 
     model->getCompartmentVolumes(1, 0, &val);
 
-    Log(Logger::LOG_INFORMATION) << "new volume: " << val << endl;
+    rrLog(Logger::LOG_INFORMATION) << "new volume: " << val << endl;
 
     double amt = 2;
 
     model->setFloatingSpeciesAmounts(1, 0, &amt);
 
-    Log(Logger::LOG_INFORMATION) << "after set amt: " << model << endl;
+    rrLog(Logger::LOG_INFORMATION) << "after set amt: " << model << endl;
 
     model->setFloatingSpeciesConcentrations(1, 0, &amt);
 
-    Log(Logger::LOG_INFORMATION) << "after set conc: " << model << endl;
+    rrLog(Logger::LOG_INFORMATION) << "after set conc: " << model << endl;
 
 
 

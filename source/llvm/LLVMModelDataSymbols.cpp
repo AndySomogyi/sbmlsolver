@@ -155,7 +155,7 @@ LLVMModelDataSymbols::LLVMModelDataSymbols(const libsbml::Model *model,
             else if (rule->getTypeCode() == SBML_ALGEBRAIC_RULE)
             {
                 char* formula = SBML_formulaToL3String(rule->getMath());
-                Log(Logger::LOG_WARNING)
+                rrLog(Logger::LOG_WARNING)
                     << "Unable to handle algebraic rules. Formula '0 = "
                     << formula << "' ignored.";
                 free(formula);
@@ -1106,7 +1106,7 @@ void LLVMModelDataSymbols::initReactions(const libsbml::Model* model)
     {
         const Reaction *reaction = reactions->get(i);
         if (reaction->isSetFast() && reaction->getFast()==true) {
-          Log(Logger::LOG_WARNING)
+          rrLog(Logger::LOG_WARNING)
             << "Unable to handle SBML fast reactions. Reaction '"
             << reaction->getId() << "' treated as a slow reaction.";
         }
@@ -1164,7 +1164,7 @@ void LLVMModelDataSymbols::initReactions(const libsbml::Model* model)
                 }
                 else
                 {
-                    Log(Logger::LOG_INFORMATION)
+                    rrLog(Logger::LOG_INFORMATION)
                         << "Experimental multi product-reactant stochiometry code"
                         << "with reactant " << r->getSpecies();
 
@@ -1236,7 +1236,7 @@ void LLVMModelDataSymbols::initReactions(const libsbml::Model* model)
                 }
                 else
                 {
-                    Log(Logger::LOG_INFORMATION)
+                    rrLog(Logger::LOG_INFORMATION)
                         << "Experimental multi product stochiometry code "
                         << "with product " << p->getSpecies();
 
@@ -1311,7 +1311,7 @@ bool LLVMModelDataSymbols::isValidFloatingSpeciesReference(
         err += "because it is not a species.";
     }
 
-    Log(Logger::LOG_WARNING) << err;
+    rrLog(Logger::LOG_WARNING) << err;
 
     return false;
 }

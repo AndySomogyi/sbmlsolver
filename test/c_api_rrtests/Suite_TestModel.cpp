@@ -269,7 +269,7 @@ void check_LoadData()
     if (!sbmlsec)
     {
         EXPECT_TRUE(false);
-        Log(Logger::LOG_FATAL) << "No 'SBML' section found in " << rrTestFileName;
+        rrLog(Logger::LOG_FATAL) << "No 'SBML' section found in " << rrTestFileName;
         return;
     }
     sbmlsec->mIsUsed = true;
@@ -282,7 +282,7 @@ void check_LoadData()
     if (!loadSBMLEx(gRR, sbml.c_str(), true))
     {
         EXPECT_TRUE(false);
-        Log(Logger::LOG_FATAL) << "Unable to load SBML:" << endl << sbml;
+        rrLog(Logger::LOG_FATAL) << "Unable to load SBML:" << endl << sbml;
     }
 }
 

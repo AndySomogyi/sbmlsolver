@@ -548,7 +548,7 @@ PyObject* doublematrix_to_py(const ls::DoubleMatrix* m, bool structured_result, 
 
         if (copy_result) {
 
-            Log(rr::Logger::LOG_DEBUG) << "copying result data";
+            rrLog(rr::Logger::LOG_DEBUG) << "copying result data";
 
         // passing a NULL for data tells numpy to allocate its own data
 
@@ -575,7 +575,7 @@ PyObject* doublematrix_to_py(const ls::DoubleMatrix* m, bool structured_result, 
         }
         else {
 
-            Log(rr::Logger::LOG_DEBUG) << "wraping existing data";
+            rrLog(rr::Logger::LOG_DEBUG) << "wraping existing data";
 
             double *data = mat->getArray();
 
@@ -617,7 +617,7 @@ static PyObject *NamedArray_str(NamedArrayObject *self);
 
 static void NamedArrayObject_dealloc(NamedArrayObject *self)
 {
-    Log(Logger::LOG_INFORMATION) << __FUNC__;
+    rrLog(Logger::LOG_INFORMATION) << __FUNC__;
     Py_XDECREF(self->rowNames);
     Py_XDECREF(self->colNames);
 
@@ -626,14 +626,14 @@ static void NamedArrayObject_dealloc(NamedArrayObject *self)
     assert(pself->ob_type->tp_base == &PyArray_Type);
     PyArray_Type.tp_dealloc(pself);
 
-    Log(Logger::LOG_INFORMATION) <<  __FUNC__ << ", Done";
+    rrLog(Logger::LOG_INFORMATION) <<  __FUNC__ << ", Done";
 }
 
 
 
 static PyObject *NamedArrayObject_alloc(PyTypeObject *type, Py_ssize_t nitems)
 {
-    Log(Logger::LOG_INFORMATION) << __FUNC__;
+    rrLog(Logger::LOG_INFORMATION) << __FUNC__;
     PyObject *obj;
 
     assert(type->tp_basicsize == sizeof(NamedArrayObject));
@@ -646,7 +646,7 @@ static PyObject *NamedArrayObject_alloc(PyTypeObject *type, Py_ssize_t nitems)
     ((NamedArrayObject *)obj)->test2 = 11;
     ((NamedArrayObject *)obj)->test3 = 12;
 
-    Log(Logger::LOG_INFORMATION) << "created obj: " << obj;
+    rrLog(Logger::LOG_INFORMATION) << "created obj: " << obj;
     return obj;
 }
 
@@ -858,7 +858,7 @@ static PyTypeObject NamedArray_Type = {
 
 PyObject* NamedArrayObject_Finalize(NamedArrayObject * self, PyObject *parent)
 {
-    Log(Logger::LOG_INFORMATION) << __FUNC__;
+    rrLog(Logger::LOG_INFORMATION) << __FUNC__;
 
     if(parent != NULL && parent->ob_type == &NamedArray_Type)
     {
@@ -919,7 +919,7 @@ PyObject* NamedArray_New(int nd, npy_intp *dims, double *data, int pyFlags,
     bool named = Config::getValue(Config::PYTHON_ENABLE_NAMED_MATRIX);
 
     if(named) {
-        Log(Logger::LOG_INFORMATION) << "creating NEW style array";
+        rrLog(Logger::LOG_INFORMATION) << "creating NEW style array";
 
         NamedArrayObject *array = (NamedArrayObject*)PyArray_New(
                 &NamedArray_Type, nd, dims, NPY_DOUBLE, NULL, data, 0,
@@ -927,7 +927,7 @@ PyObject* NamedArray_New(int nd, npy_intp *dims, double *data, int pyFlags,
 
         if (array == NULL) {
             const char* error = rrGetPyErrMessage();
-            Log(Logger::LOG_CRITICAL) << error;
+            rrLog(Logger::LOG_CRITICAL) << error;
             rr_strfree(error);
             return NULL;
         }
@@ -940,7 +940,7 @@ PyObject* NamedArray_New(int nd, npy_intp *dims, double *data, int pyFlags,
         return (PyObject*)array;
 
     } else {
-        Log(Logger::LOG_INFORMATION) << "creating old style array";
+        rrLog(Logger::LOG_INFORMATION) << "creating old style array";
         return PyArray_New(&PyArray_Type, nd, dims, NPY_DOUBLE, NULL, data, 0,
                 pyFlags, NULL);
     }

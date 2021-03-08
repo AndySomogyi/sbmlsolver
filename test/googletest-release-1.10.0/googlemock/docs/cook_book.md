@@ -476,12 +476,12 @@ class ScopedMockLog : public LogSink {
                     const char* message, size_t message_len) {
     // We are only interested in the log severity, full file name, and
     // log message.
-    Log(severity, full_filename, std::string(message, message_len));
+    rrLog(severity, full_filename, std::string(message, message_len));
   }
 
   // Implements the mock method:
   //
-  //   void Log(LogSeverity severity,
+  //   void rrLog(LogSeverity severity,
   //            const string& file_path,
   //            const string& message);
   MOCK_METHOD(void, Log,
@@ -1775,12 +1775,12 @@ using ::testing::Sequence;
 ...
   Sequence s1, s2;
 
-  EXPECT_CALL(log, Log(WARNING, _, "File too large."))      // #1
+  EXPECT_CALL(log, rrLog(WARNING, _, "File too large."))      // #1
       .Times(AnyNumber())
       .InSequence(s1, s2);
-  EXPECT_CALL(log, Log(WARNING, _, "Data set is empty."))   // #2
+  EXPECT_CALL(log, rrLog(WARNING, _, "Data set is empty."))   // #2
       .InSequence(s1);
-  EXPECT_CALL(log, Log(WARNING, _, "User not found."))      // #3
+  EXPECT_CALL(log, rrLog(WARNING, _, "User not found."))      // #3
       .InSequence(s2);
 ```
 
@@ -1793,8 +1793,8 @@ example,
 ```cpp
 using ::testing::_;
 ...
-  EXPECT_CALL(log, Log(WARNING, _, _));                     // #1
-  EXPECT_CALL(log, Log(WARNING, _, "File too large."));     // #2
+  EXPECT_CALL(log, rrLog(WARNING, _, _));                     // #1
+  EXPECT_CALL(log, rrLog(WARNING, _, "File too large."));     // #2
 ```
 
 says that there will be exactly one warning with the message `"File too
@@ -1807,8 +1807,8 @@ becomes saturated:
 ```cpp
 using ::testing::_;
 ...
-  EXPECT_CALL(log, Log(WARNING, _, _));                     // #1
-  EXPECT_CALL(log, Log(WARNING, _, "File too large."))      // #2
+  EXPECT_CALL(log, rrLog(WARNING, _, _));                     // #1
+  EXPECT_CALL(log, rrLog(WARNING, _, "File too large."))      // #2
       .RetiresOnSaturation();
 ```
 

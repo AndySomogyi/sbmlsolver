@@ -144,12 +144,12 @@ namespace rr {
     public:
         explicit IntegratorException(const std::string &what) :
                 std::runtime_error(what) {
-            Log(rr::Logger::LOG_ERROR) << __FUNC__ << "what: " << what;
+            rrLog(rr::Logger::LOG_ERROR) << __FUNC__ << "what: " << what;
         }
 
         explicit IntegratorException(const std::string &what, const std::string &where) :
                 std::runtime_error(what + "; In " + where) {
-            Log(rr::Logger::LOG_ERROR) << __FUNC__ << "what: " << what << ", where: " << where;
+            rrLog(rr::Logger::LOG_ERROR) << __FUNC__ << "what: " << what << ", where: " << where;
         }
     };
 

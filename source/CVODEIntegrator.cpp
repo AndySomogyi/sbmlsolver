@@ -90,7 +90,7 @@ namespace rr {
             variableStepPendingEvent(false),
             variableStepTimeEndEvent(false),
             typecode_(CVODE_INT_TYPECODE) {
-        Log(Logger::LOG_INFORMATION) << "creating CVODEIntegrator";
+        rrLog(Logger::LOG_INFORMATION) << "creating CVODEIntegrator";
 
         resetSettings();
 
@@ -243,7 +243,7 @@ namespace rr {
 
     void CVODEIntegrator::loadSBMLSettings(std::string const &filename) {
         if (!filename.size()) {
-            Log(Logger::LOG_ERROR) << "Empty file name for settings file";
+            rrLog(Logger::LOG_ERROR) << "Empty file name for settings file";
         } else {
             map<string, string> options;
             map<string, string>::iterator it;
@@ -254,15 +254,15 @@ namespace rr {
                 if (line.size() == 2) {
                     options.insert(pair<string, string>(line[0], line[1]));
                 } else {
-                    Log(lDebug2) << "Empty line in settings file: " << lines[i];
+                    rrLog(lDebug2) << "Empty line in settings file: " << lines[i];
                 }
             }
 
-            Log(lDebug3) << "Settings File =============";
+            rrLog(lDebug3) << "Settings File =============";
             for (it = options.begin(); it != options.end(); it++) {
-                Log(lDebug) << (*it).first << " => " << (*it).second;
+                rrLog(lDebug) << (*it).first << " => " << (*it).second;
             }
-            Log(lDebug) << "===========================";
+            rrLog(lDebug) << "===========================";
 
             //Assign values
             it = options.find("absolute");
@@ -659,7 +659,7 @@ namespace rr {
         }
         if (key == "stiff") {
             // If the integrator is changed from stiff to standard, we must re-create CVode.
-            Log(Logger::LOG_INFORMATION) << "Integrator stiffness has been changed. Re-creating CVode.";
+            rrLog(Logger::LOG_INFORMATION) << "Integrator stiffness has been changed. Re-creating CVode.";
             freeCVode();
             createCVode();
         }
@@ -703,7 +703,7 @@ namespace rr {
         // CVODE root tolerance, used for backing up when an event fires (see CVODE User Doc pp. 13)
         static const double roottol = 100. * (32. * epsilon) * (fabs(timeStart) + fabs(hstep));
 
-        Log(Logger::LOG_DEBUG) << "CVODEIntegrator::integrate("
+        rrLog(Logger::LOG_DEBUG) << "CVODEIntegrator::integrate("
                                << timeStart << ", " << hstep << ")";
 
         if (variableStepPendingEvent || variableStepTimeEndEvent) {
@@ -753,7 +753,7 @@ namespace rr {
             int nResult = CVode(mCVODE_Memory, nextTargetEndTime, mStateVector, &timeEnd, itask);
 
             if (nResult == CV_ROOT_RETURN) {
-                Log(Logger::LOG_DEBUG) << "Event detected at time " << timeEnd;
+                rrLog(Logger::LOG_DEBUG) << "Event detected at time " << timeEnd;
 
                 bool tooCloseToStart = fabs(timeEnd - lastEventTime) > relTol;
 
@@ -830,7 +830,7 @@ namespace rr {
                 mModel->testConstraints();
             }
             catch (const std::exception &e) {
-                Log(Logger::LOG_WARNING) << "Constraint Violated at time = " << timeEnd << ": " << e.what();
+                rrLog(Logger::LOG_WARNING) << "Constraint Violated at time = " << timeEnd << ": " << e.what();
             }
 
             if (varstep && (timeEnd - timeStart > 2. * epsilon)) {
@@ -841,7 +841,7 @@ namespace rr {
             if (tout - timeEnd > epsilon) {
                 timeStart = timeEnd;
             }
-            Log(Logger::LOG_TRACE) << "time step, tout: " << tout << ", timeEnd: " << timeEnd;
+            rrLog(Logger::LOG_TRACE) << "time step, tout: " << tout << ", timeEnd: " << timeEnd;
         }
         return timeEnd;
     }
@@ -885,7 +885,7 @@ namespace rr {
 
         // FIXME: log for vector tolearances
 
-        Log(Logger::LOG_INFORMATION) << "tweaking CVODE tolerances to abs="
+        rrLog(Logger::LOG_INFORMATION) << "tweaking CVODE tolerances to abs="
                                      << CVODEIntegrator::getValueAsDouble("absolute_tolerance") << ", rel="
                                      << CVODEIntegrator::getValueAsDouble("relative_tolerance");
     }
@@ -933,10 +933,10 @@ namespace rr {
         }
 
         if (getValueAsBool("stiff")) {
-            Log(Logger::LOG_INFORMATION) << "using stiff integrator";
+            rrLog(Logger::LOG_INFORMATION) << "using stiff integrator";
             mCVODE_Memory = (void *) CVodeCreate(CV_BDF);
         } else {
-            Log(Logger::LOG_INFORMATION) << "using non-stiff integrator";
+            rrLog(Logger::LOG_INFORMATION) << "using non-stiff integrator";
             mCVODE_Memory = (void *) CVodeCreate(CV_ADAMS);
         }
 
@@ -965,7 +965,7 @@ namespace rr {
                                      cvodeRootFcn)) != CV_SUCCESS) {
                 handleCVODEError(err);
             }
-            Log(Logger::LOG_TRACE) << "CVRootInit executed.....";
+            rrLog(Logger::LOG_TRACE) << "CVRootInit executed.....";
         }
 
         /**
@@ -1053,7 +1053,7 @@ namespace rr {
             mModel->getEventTriggers(eventStatus.size(), 0, eventStatus.size() == 0 ? NULL : &eventStatus[0]);
             int handled = mModel->applyEvents(timeEnd, eventStatus.size() == 0 ? NULL : &eventStatus[0], NULL, NULL);
             if (handled > 0) {
-                Log(Logger::LOG_DEBUG) << __FUNC__;
+                rrLog(Logger::LOG_DEBUG) << __FUNC__;
                 restart(timeEnd);
             }
         }
@@ -1129,22 +1129,22 @@ namespace rr {
             case Variant::UINT64:
             case Variant::FLOAT:
             case Variant::DOUBLE:
-                Log(Logger::LOG_INFORMATION) << "Set tolerance to abs: " << setprecision(16)
+                rrLog(Logger::LOG_INFORMATION) << "Set tolerance to abs: " << setprecision(16)
                                              << getValueAsDouble("absolute_tolerance") << ", rel: "
                                              << getValueAsDouble("relative_tolerance") << endl;
                 break;
 
                 // vector tolerance
             case Variant::DOUBLEVECTOR: {
-                Log(Logger::LOG_INFORMATION) << "Set tolerance to abs: " << setprecision(16) << "[";
+                rrLog(Logger::LOG_INFORMATION) << "Set tolerance to abs: " << setprecision(16) << "[";
                 vector<double> v = getValueAsDoubleVector("absolute_tolerance");
                 for (int i = 0; i < v.size(); i++) {
                     if (i != 0) {
-                        Log(Logger::LOG_INFORMATION) << ", ";
+                        rrLog(Logger::LOG_INFORMATION) << ", ";
                     }
-                    Log(Logger::LOG_INFORMATION) << v[i];
+                    rrLog(Logger::LOG_INFORMATION) << v[i];
                 }
-                Log(Logger::LOG_INFORMATION) << "], rel: " << getValueAsDouble("relative_tolerance") << endl;
+                rrLog(Logger::LOG_INFORMATION) << "], rel: " << getValueAsDouble("relative_tolerance") << endl;
 
                 break;
             }
@@ -1210,7 +1210,7 @@ namespace rr {
             ydot[0] = 0.0;
         }
 
-        Log(Logger::LOG_TRACE) << __FUNC__ << ", model: " << model;
+        rrLog(Logger::LOG_TRACE) << __FUNC__ << ", model: " << model;
 
         return CV_SUCCESS;
     }
@@ -1457,12 +1457,12 @@ namespace rr {
         i->checkType();
 
         if (error_code < 0) {
-            Log(Logger::LOG_ERROR) << "CVODE Error: " << i->cvodeDecodeError(error_code, false)
+            rrLog(Logger::LOG_ERROR) << "CVODE Error: " << i->cvodeDecodeError(error_code, false)
                                    << ", Module: " << module << ", Function: " << function
                                    << ", Message: " << msg;
 
         } else if (error_code == CV_WARNING) {
-            Log(Logger::LOG_WARNING) << "CVODE Warning: "
+            rrLog(Logger::LOG_WARNING) << "CVODE Warning: "
                                      << ", Module: " << module << ", Function: " << function
                                      << ", Message: " << msg;
         }
