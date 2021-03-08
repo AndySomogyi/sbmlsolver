@@ -10,6 +10,7 @@ include_directories(googletest-release-1.10.0/googletest/include)
 
 add_subdirectory(python)
 add_subdirectory(rrtest_files)
+add_subdirectory(CVODEIntegratorTests)
 
 set(TESTDIRS
         c_api_core
@@ -67,10 +68,9 @@ endforeach ()
 
 install(TARGETS ${test_targets})
 
-add_subdirectory(CVODEIntegratorTests)
+if (BUILD_RR_PLUGINS)
 
-
-set(PLUGIN_TESTDIRS
+   set(PLUGIN_TESTDIRS
         plugin_api
         plugin_auto2000
         plugin_levenberg_marquardt
@@ -79,51 +79,51 @@ set(PLUGIN_TESTDIRS
         plugin_test_model
         )
 
-foreach (dirid IN LISTS PLUGIN_TESTDIRS)
-    file(GLOB MAIN_FILE ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp)
-    file(GLOB UTIL_FILE ${CMAKE_CURRENT_SOURCE_DIR}/test_util.cpp)
-    file(GLOB UTIL_HEADER ${CMAKE_CURRENT_SOURCE_DIR}/test_util.h)
-    file(GLOB CPP_FILES ${CMAKE_CURRENT_SOURCE_DIR}/${dirid}/*.cpp)
-    file(GLOB H_FILES ${CMAKE_CURRENT_SOURCE_DIR}/${dirid}/*.h)
+    foreach (dirid IN LISTS PLUGIN_TESTDIRS)
+        file(GLOB MAIN_FILE ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp)
+        file(GLOB UTIL_FILE ${CMAKE_CURRENT_SOURCE_DIR}/test_util.cpp)
+        file(GLOB UTIL_HEADER ${CMAKE_CURRENT_SOURCE_DIR}/test_util.h)
+        file(GLOB CPP_FILES ${CMAKE_CURRENT_SOURCE_DIR}/${dirid}/*.cpp)
+        file(GLOB H_FILES ${CMAKE_CURRENT_SOURCE_DIR}/${dirid}/*.h)
 
-    set(TEST_FILES ${MAIN_FILE} ${UTIL_FILE} ${UTIL_HEADER} ${CPP_FILES} ${H_FILES})
+        set(TEST_FILES ${MAIN_FILE} ${UTIL_FILE} ${UTIL_HEADER} ${CPP_FILES} ${H_FILES})
 
-    set(testid "test_${dirid}")
-    add_executable(${testid} ${TEST_FILES})
+        set(testid "test_${dirid}")
+        add_executable(${testid} ${TEST_FILES})
 
-    add_compile_definitions(${testid} PRIVATE STATIC_RR)
+        add_compile_definitions(${testid} PRIVATE STATIC_RR)
 
-    # This order is important:  on linux, including the core library before the C api library
-    # causes the resulting program to crash in Poco.
-    target_link_libraries(${testid}
+        # This order is important:  on linux, including the core library before the C api library
+        # causes the resulting program to crash in Poco.
+        target_link_libraries(${testid}
             roadrunner_c_api
             telplugins_c_api
             PocoXML::PocoXML
             gtest gtest_main
             )
 
-    set_target_properties(${testid} PROPERTIES ENVIRONMENT
+        set_target_properties(${testid} PROPERTIES ENVIRONMENT
             "testdir=${RR_ROOT}/test plugindir=${CMAKE_BUILD_DIRECTORY}")
 
-    target_include_directories(${testid} PRIVATE "$<TARGET_PROPERTY:telplugins_c_api,INCLUDE_DIRECTORIES>")
-    add_test(${testid}_run ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${testid})
-    # set the testdir variable for when using ctest to run tests
+        target_include_directories(${testid} PRIVATE "$<TARGET_PROPERTY:telplugins_c_api,INCLUDE_DIRECTORIES>")
+        add_test(${testid}_run ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${testid})
+        # set the testdir variable for when using ctest to run tests
 
-    if(WIN32)
-        set(libdir ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/${CMAKE_BUILD_TYPE})
-    else()
-        set(libdir ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
-    endif()
+        if(WIN32)
+            set(libdir ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/${CMAKE_BUILD_TYPE})
+        else()
+            set(libdir ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
+        endif()
 
-    set(TEST_ENV_VARS "testdir=${RR_ROOT}/test" "plugindir=${libdir}" "CTEST_OUTPUT_ON_FAILURE=TRUE")
-    set_tests_properties(${testid}_run PROPERTIES ENVIRONMENT "${TEST_ENV_VARS}")
+        set(TEST_ENV_VARS "testdir=${RR_ROOT}/test" "plugindir=${libdir}" "CTEST_OUTPUT_ON_FAILURE=TRUE")
+        set_tests_properties(${testid}_run PROPERTIES ENVIRONMENT "${TEST_ENV_VARS}")
 
 
-    add_dependencies(${testid} tel_auto2000 tel_test_model tel_levenberg_marquardt tel_nelder_mead tel_monte_carlo_bs)
+        add_dependencies(${testid} tel_auto2000 tel_test_model tel_levenberg_marquardt tel_nelder_mead tel_monte_carlo_bs)
 
-endforeach ()
+    endforeach ()
 
-message(STATUS "config: ${CONFIG}")
+endif() #BUILD_RR_PLUGINS
 
 add_custom_target(
         run-ctest

@@ -22,7 +22,6 @@ target_link_libraries (${target} PRIVATE
   telpluginsBaseClass-static
   telplugins_math-static
   #telplugins_common
-  ${RRPLUGINS_COMMON_SHARED_LIBS}
 )
 
 if(UNIX)

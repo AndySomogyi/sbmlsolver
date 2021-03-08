@@ -19,8 +19,8 @@ function(add_test_executable BINARY OUT_VARIABLE)
 endfunction()
 
 set(SHARED_SOURCES MockExecutableModel.h SBMLTestModelFactory.h)
-add_test_executable(CVODEIntegratorUnitTest CiaranTests CVODEIntegratorUnitTest.cpp ${SHARED_SOURCES})
-add_test_executable(CVODEIntegratorIntegrationTest CiaranTests CVODEIntegratorIntegrationTest.cpp ${SHARED_SOURCES})
+add_test_executable(test_CVODEIntegratorUnitTest CiaranTests CVODEIntegratorUnitTest.cpp ${SHARED_SOURCES})
+add_test_executable(test_CVODEIntegratorIntegrationTest CiaranTests CVODEIntegratorIntegrationTest.cpp ${SHARED_SOURCES})
 
 
 

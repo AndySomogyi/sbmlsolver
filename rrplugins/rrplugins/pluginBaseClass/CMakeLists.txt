@@ -18,8 +18,8 @@ if (RR_PLUGINS_BUILD_SHARED_LIB)
     target_compile_definitions(${target} PUBLIC SHARED_PLUGIN_API)
 
     target_link_libraries(${target} PUBLIC
-            telplugins_common-static 
-            ${RRPLUGINS_COMMON_SHARED_LIBS})
+            telplugins_common-static
+            )
 
     target_include_directories(${target} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} ${RR_PLUGINS_ROOT})
 

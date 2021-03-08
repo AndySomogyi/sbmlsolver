@@ -29,12 +29,10 @@ target_link_libraries(${target} PUBLIC
         telplugins_core-static
         telplugins_math-static
         telpluginsBaseClass-static
-        ${RRPLUGINS_COMMON_SHARED_LIBS}
         )
 
 # remove the "lib" prefix on some platforms
 set_target_properties(${target} PROPERTIES PREFIX "")
-message(STATUS "C API: RRPLUGINS_COMMON_SHARED_LIBS = ${RRPLUGINS_COMMON_SHARED_LIBS}")
 
 #Link C_api shared lib statically to roadrunner and libsbml
 if (WIN32)

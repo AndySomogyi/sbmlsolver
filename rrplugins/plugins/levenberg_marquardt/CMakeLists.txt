@@ -43,7 +43,6 @@ target_link_libraries (${target} PRIVATE
         telplugins_common-static
         telplugins_c_api
         #libTelluriumAutoInterface-static
-        #${RRPLUGINS_COMMON_SHARED_LIBS}
 )
 
 if(UNIX)

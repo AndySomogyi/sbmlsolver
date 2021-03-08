@@ -20,7 +20,6 @@ target_link_libraries (${target} PRIVATE
         telplugins_math-static
         telplugins_common-static
         telplugins_c_api
-        ${RRPLUGINS_COMMON_SHARED_LIBS}
 )
 
 if(UNIX)

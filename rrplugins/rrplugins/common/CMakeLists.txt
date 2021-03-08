@@ -51,7 +51,6 @@ if (RR_PLUGINS_BUILD_SHARED_LIB)
     target_compile_definitions(${target} PRIVATE EXPORT_COMMON_API)
 
     target_link_libraries(${target} PUBLIC
-            ${RRPLUGINS_COMMON_SHARED_LIBS}
             roadrunner_c_api-static
             )
     target_include_directories(${target}
