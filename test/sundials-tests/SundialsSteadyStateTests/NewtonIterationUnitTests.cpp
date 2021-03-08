@@ -46,22 +46,12 @@ TEST_F(NewtonIterationUnitTests, solve) {
 }
 
 TEST_F(NewtonIterationUnitTests, CheckWeCanChangeAndResetSettings) {
-
-}
-
-/**
- * @brief to test that we can sync with the model,
- * @details we note that
- *  model regeneration destroys the existing pointer to the model
- *  and creates a new one. So its the job of syncWithModel to
- *  to update RoadRunner objects with the new pointer after regeneration.
- *  To mimick this situation we use a second roadrunner model
- *  and check to see if after sync with the new model, we have a
- *  pointer to the new model.
- */
-TEST_F(NewtonIterationUnitTests, CheckWeCanSyncWithModel) {
     NewtonIteration solver(rr.getModel());
+    solver.setValue("strategy", Variant("linesearch"));
+    solver.resetSettings();
+    ASSERT_STREQ("basic", solver.getValueAsString("strategy").c_str());
 }
+
 
 TEST_F(NewtonIterationUnitTests, CheckWeCanRegenerateTheModelBeforeCreatingSolver) {
     rr.regenerate();
@@ -75,8 +65,6 @@ TEST_F(NewtonIterationUnitTests, CheckWeCanRegenerateTheModelAfterCreatingSolver
     rr.regenerate();
     // after regeneration, the pointer to the model is different
     // so we must sync with model before solving.
-    // todo should regenerate call syncWithModel on all solvers
-    //  before continuing. Prevents the need to do it manyally.
     solver.syncWithModel(rr.getModel());
     solver.solve();
     checkResults(rr.getFloatingSpeciesConcentrationsNamedArray());

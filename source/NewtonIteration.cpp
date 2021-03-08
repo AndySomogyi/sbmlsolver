@@ -84,7 +84,7 @@ namespace rr {
     }
 
     void NewtonIteration::updateKinsol() {
-
+        KinsolSteadyStateSolver::updateKinsol();
     }
 
     void NewtonIteration::resetSettings() {

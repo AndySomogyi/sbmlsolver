@@ -151,6 +151,12 @@ namespace rr {
             return KIN_SUCCESS;
         };
 
+        /**
+         * @brief getter for the underlying memory block
+         * that is used by kinsol.
+         * @details mostly useful in testing.
+         */
+        void *getKinsolMemory() const;
 
     protected:
 
@@ -162,11 +168,12 @@ namespace rr {
         virtual void freeKinsol();
 
         /**
-         * @brief calls freeKinsol then createKinsol
-         * with any other reconfiguration required to
-         * reconfigure the solver in the middle.
+         * @brief Calls methods for updating options in kinsol
+         * @details User passes in arguments like uScale and they
+         * are stored at the class level. This method passed them
+         * on to kinsol.
          */
-        virtual void updateKinsol() = 0;
+        virtual void updateKinsol();
 
         /**
          * @brief Initialize kinsol objects.

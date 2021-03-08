@@ -126,15 +126,66 @@ namespace rr {
                "kinsol outputs during computation. Default 0.";
         addSetting("kinLogLevel", 0, "kinLogLevel", desc, desc);
 
-        //fscale and uscale
-        desc = "The default value used for the fscale parameter. This is the diagonal of a matrix used for scaling matrices "
-               "internally in kinsol";
-        addSetting("fScaleDefault", 0.1,
-                   "fScaleDefault", desc, desc);
-        desc = "The default value used for the uscale parameter. This is the diagonal of a matrix used for scaling matrices "
-               "internally in kinsol";
-        addSetting("uScaleDefault", 0.1,
-                   "uScaleDefault", desc, desc);
+        desc = "Max. number of nonlinear iterations";
+        addSetting("NumMaxIters", 200, "NumMaxIters", desc, desc);
+
+        desc = "Kinsol logger level. Default=0, no additional output. Max=3.";
+        addSetting("KinsolPrintLevel", 0, "KinsolPrintLevel", desc, desc);
+
+        desc = "Form of nu coefficient. One of eta_choice1, eta_choice2 or eta_constant";
+        addSetting("EtaForm", "eta_choice1", "EtaForm", desc, desc);
+
+        desc = "No initial matrix setup";
+        addSetting("NoInitSetup", false, "NoInitSetup", desc, desc);
+
+        desc = "No residual monitoring";
+        addSetting("NoResMon", false, "NoResMon", desc, desc);
+
+        desc = "Max. iterations without matrix setup";
+        addSetting("MaxSetupCalls", 10, "MaxSetupCalls", desc, desc);
+
+        desc = "Max. iterations without residual check";
+        addSetting("MaxSubSetupCalls", 5, "MaxSubSetupCalls", desc, desc);
+
+        desc = "Constant value of nu";
+        addSetting("EtaConstValue", 0.1, "EtaConstValue", desc, desc);
+
+        desc = "Value of gamma";
+        addSetting("EtaParamGamma", 0.9, "EtaParamGamma", desc, desc);
+
+        desc = "Value of alpha";
+        addSetting("EtaParamAlpha", 2.9, "EtaParamAlpha", desc, desc);
+
+        desc = "Value of omega_min - lower bound residual monitoring";
+        addSetting("ResMonMin", 0.00001, "ResMonParams", desc, desc);
+
+        desc = "Value of omega_max - upper bound residual monitoring";
+        addSetting("ResMonMax", 0.9, "ResMonParams", desc, desc);
+
+        desc = "Constant value of omega";
+        addSetting("ResMonConstValue", 0.9, "ResMonConstValue", desc, desc);
+
+        desc = "Lower bound on epsilon";
+        addSetting("NoMinEps", false, "NoMinEps", desc, desc);
+
+        desc = "Max. scaled length of Newton step. If 0 use default value which is 1000*||D_u*u_0||2.";
+        addSetting("MaxNewtonStep", 0, "MaxNewtonStep", desc, desc);
+
+        desc = "Max. number of beta-condition failures";
+        addSetting("MaxBetaFails", 10, "MaxBetaFails", desc, desc);
+
+        desc = "Function-norm stopping tolerance. If 0 use default of uround^1/3.";
+        addSetting("FuncNormTol", 0, "FuncNormTol", desc, desc);
+
+        desc = "Scaled-step stopping tolerance. If 0 use default of uround^2/3";
+        addSetting("ScaledSteptol", 0, "ScaledSteptol", desc, desc);
+
+        desc = "Anderson Acceleration subspace size. Default is 0.";
+        addSetting("MAA", 0, "MAA", desc, desc);
+
+        desc = "Anderson Acceleration damping parameter";
+        addSetting("DampingAA", 1.0, "DampingAA", desc, desc);
+
 
     }
 
@@ -168,16 +219,16 @@ namespace rr {
         N_VConst(value, fscale);
     }
 
-    void KinsolSteadyStateSolver::setFScale(const std::vector<double>& value) {
+    void KinsolSteadyStateSolver::setFScale(const std::vector<double> &value) {
         int stateSize = mStateVector->ops->nvgetlength(mStateVector);
-        if (value.size() != stateSize){
+        if (value.size() != stateSize) {
             std::ostringstream err;
-            err << __FILE__ <<":"<<__LINE__<<":"<<__FUNC__
-                <<": size of vector to set the fscale variable does not "
-                  "equal the number of states in the model (" << stateSize <<"!="<<value.size()<<")"<<std::endl;
+            err << __FILE__ << ":" << __LINE__ << ":" << __FUNC__
+                << ": size of vector to set the fscale variable does not "
+                   "equal the number of states in the model (" << stateSize << "!=" << value.size() << ")" << std::endl;
             throw std::runtime_error(err.str());
         }
-        double* dptr = mStateVector->ops->nvgetarraypointer(fscale);
+        double *dptr = mStateVector->ops->nvgetarraypointer(fscale);
         *dptr = *value.data();
     }
 
@@ -187,15 +238,54 @@ namespace rr {
 
     void KinsolSteadyStateSolver::setUScale(std::vector<double> value) {
         int stateSize = mStateVector->ops->nvgetlength(mStateVector);
-        if (value.size() != stateSize){
+        if (value.size() != stateSize) {
             std::ostringstream err;
-            err << __FILE__ <<":"<<__LINE__<<":"<<__FUNC__
-                <<": size of vector to set the uscale variable does not "
-                  "equal the number of states in the model (" << stateSize <<"!="<<value.size()<<")"<<std::endl;
+            err << __FILE__ << ":" << __LINE__ << ":" << __FUNC__
+                << ": size of vector to set the uscale variable does not "
+                   "equal the number of states in the model (" << stateSize << "!=" << value.size() << ")" << std::endl;
             throw std::runtime_error(err.str());
         }
-        double* dptr = mStateVector->ops->nvgetarraypointer(uscale);
+        double *dptr = mStateVector->ops->nvgetarraypointer(uscale);
         *dptr = *value.data();
+    }
+
+    void *KinsolSteadyStateSolver::getKinsolMemory() const {
+        return mKinsol_Memory;
+    }
+
+    void KinsolSteadyStateSolver::updateKinsol() {
+        KINSetNumMaxIters(mKinsol_Memory, getValueAsInt("NumMaxIters"));
+        KINSetPrintLevel(mKinsol_Memory, getValueAsInt("PrintLevel"));
+        std::vector<std::string> validEtaForms({"eta_"})
+        KINSetEtaForm(mKinsol_Memory, getValueAsInt("EtaForm"));
+        KINSetNoInitSetup(mKinsol_Memory, getValueAsInt())
+        KINSetNoResMon(mKinsol_Memory, getValueAsInt());
+        KINSetMaxSetupCalls(mKinsol_Memory, getValueAsInt("MaxSetupCalls"));
+        KINSetMaxSubSetupCalls(mKinsol_Memory, getValueAsInt("MaxSubSetupCalls"));
+        KINSetEtaForm(mKinsol_Memory, getValueAsInt("EtaForm"));
+        KINSetEtaConstValue(mKinsol_Memory, getValueAsInt("EtaConstValue"));
+        KINSetEtaParams(mKinsol_Memory, getValueAsInt("EtaParams"));
+        KINSetResMonParams(mKinsol_Memory, getValueAsInt("ResMonParams"));
+        KINSetResMonConstValue(mKinsol_Memory, getValueAsInt("ResMonConstValue"));
+        KINSetNoMinEps(mKinsol_Memory, getValueAsInt("NoMinEps"));
+        KINSetMaxNewtonStep(mKinsol_Memory, getValueAsInt("MaxNewtonStep"));
+        KINSetMaxBetaFails(mKinsol_Memory, getValueAsInt("MaxBetaFails"));
+        KINSetRelErrFunc(mKinsol_Memory, getValueAsInt("RelErrFunc"));
+        KINSetFuncNormTol(mKinsol_Memory, getValueAsInt("FuncNormTol"));
+        KINSetScaledSteptol(mKinsol_Memory, getValueAsInt("ScaledSteptol"));
+        KINSetConstraints(mKinsol_Memory, getValueAsInt("Constraints"));
+        KINSetMAA(mKinsol_Memory, getValueAsInt("MAA"));
+        KINSetDampingAA(mKinsol_Memory, getValueAsInt("DampingAA"))
+
+
+
+
+/*
+ *
+ */
+
+
+
     }
 
 
