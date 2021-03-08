@@ -67,7 +67,7 @@ public:
     static const Dictionary* getSteadyStateOptions();
 
 
-private:
+public:
     int nOpts;
     long *IWK;
     long LIWK;

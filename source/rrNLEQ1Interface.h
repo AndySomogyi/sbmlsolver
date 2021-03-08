@@ -84,6 +84,7 @@ private:
 
     bool isAvailable();
 
+public:
     bool allowPreSim;
     double preSimTolerance;
     int preSimMaximumSteps;

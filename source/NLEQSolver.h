@@ -44,21 +44,21 @@ namespace rr {
         template<class NLEQSolverType>
         double solveNLEQ() {
 
-            auto nleq = std::unique_ptr<NLEQSolverType>(new NLEQSolverType(model));
-            //rrLog(Logger::LOG_DEBUG) << "NLEQSolver::solve: " << std::endl;
+            auto nleq = std::unique_ptr<NLEQSolverType>( new NLEQSolverType(model));
+            rrLog(Logger::LOG_DEBUG) << "NLEQSolver::solve: " << std::endl;
 
-            nleq->setItem("allowPreSim", getValue("allow_presimulation"));
-            nleq->setItem("preSimMaximumSteps", getValue("presimulation_maximum_steps"));
-            nleq->setItem("preSimTime", getValue("presimulation_time"));
-            nleq->setItem("allowApprox", getValue("allow_approx"));
-            nleq->setItem("approxTolerance", getValue("approx_tolerance"));
-            nleq->setItem("approxMaximumSteps", getValue("approx_maximum_steps"));
-            nleq->setItem("approxTime", getValue("approx_time"));
-            nleq->setItem("relativeTolerance", getValue("relative_tolerance"));
-            nleq->setItem("maxIterations", getValue("maximum_iterations"));
-            nleq->setItem("minDamping", getValue("minimum_damping"));
-            nleq->setItem("broyden", getValue("broyden_method"));
-            nleq->setItem("linearity", getValue("linearity"));
+            nleq->allowPreSim = getValue("allow_presimulation");
+            nleq->preSimMaximumSteps = getValue("presimulation_maximum_steps");
+            nleq->preSimTime = getValue("presimulation_time");
+            nleq->allowApprox = getValue("allow_approx");
+            nleq->approxTolerance = getValue("approx_tolerance");
+            nleq->approxMaximumSteps = getValue("approx_maximum_steps");
+            nleq->approxTime = getValue("approx_time");
+            nleq->relativeTolerance = getValue("relative_tolerance");
+            nleq->maxIterations = getValue("maximum_iterations");
+            nleq->minDamping = getValue("minimum_damping");
+            nleq->broyden = getValue("broyden_method");
+            nleq->linearity = getValue("linearity");
 
             double result = nleq->solve();
             return result;
