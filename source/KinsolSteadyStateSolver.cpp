@@ -105,8 +105,11 @@ namespace rr {
         std::string desc = "Max. number of nonlinear iterations";
         addSetting("NumMaxIters", 200, "NumMaxIters", desc, desc);
 
+        desc = "When presimulation is set to true, use stiff solver for integration";
+        addSetting("stiff", false, "stiff", desc, desc);
+
         desc = "Kinsol logger level. Default=0, no additional output. Max=3.";
-        addSetting("PrintLevel", 0, "KinsolPrintLevel", desc, desc);
+        addSetting("PrintLevel", 0, "PrintLevel", desc, desc);
 
         desc = "Form of nu coefficient. One of eta_choice1, eta_choice2 or eta_constant";
         addSetting("EtaForm", "eta_choice1", "EtaForm", desc, desc);
@@ -169,30 +172,23 @@ namespace rr {
 
     }
 
-    void KinsolSteadyStateSolver::getSolverStats() {
+    void KinsolSteadyStateSolver::getSolverStatsFromKinsol() {
         // todo fixme. Get main solver working first, then come back and polish up
-//        KINGetWorkSpace(mKinsol_Memory, &);
-//        KINGetNumFuncEvals(mKinsol_Memory, &);
-//        KINGetNumNolinSolvIters(mKinsol_Memory, &);
-//        KINGetNumBetaCondFails(mKinsol_Memory, &);
-//        KINGetNumBacktrackOps(mKinsol_Memory, &);
-//        KINGetFuncNorm(mKinsol_Memory, &);
-//        KINGetStepLength(mKinsol_Memory, &);
-//        KINGetLinWorkSpace(mKinsol_Memory, &);
-//        KINGetNumJacEvals(mKinsol_Memory, &);
-//        KINGetNumBacktrackOps(mKinsol_Memory, &backtrackOps);
-//        KINGetNumBetaCondFails(mKinsol_Memory, &betaCondFails);
-//        KINGetNumFuncEvals(mKinsol_Memory, &funcEvals);
-//        KINGetNumJacEvals(mKinsol_Memory, &jacEvals);
-//        KINGetNumJtimesEvals(mKinsol_Memory, &jtimesEvals);
-//        KINGetNumLinConvFails(mKinsol_Memory, &linConvFails);
-//        KINGetNumLinFuncEvals(mKinsol_Memory, &linFuncEvals);
-//        KINGetNumLinIters(mKinsol_Memory, &linIters);
-//        KINGetNumNonlinSolvIters(mKinsol_Memory, &nonlinSolvIters);
-//        KINGetNumPrecEvals(mKinsol_Memory, &precEvals);
-//        KINGetNumPrecSolves(mKinsol_Memory, &precSolves);
-//        KINGetLastLinFlag(mKinsol_Memory, )
-//        KINGetLinReturnFlagName(mmKinsol_Memory)
+        KINGetNumFuncEvals(mKinsol_Memory, &numFuncEvals);
+        KINGetNumNonlinSolvIters(mKinsol_Memory, &numNolinSolvIters);
+        KINGetNumBetaCondFails(mKinsol_Memory, &numBetaCondFails);
+        KINGetNumBacktrackOps(mKinsol_Memory, &numBacktrackOps);
+        KINGetFuncNorm(mKinsol_Memory, &funcNorm);
+        KINGetStepLength(mKinsol_Memory, &stepLength);
+        KINGetNumJacEvals(mKinsol_Memory, &numJacEvals);
+        KINGetNumJtimesEvals(mKinsol_Memory, &numJtimesEvals);
+        KINGetNumLinConvFails(mKinsol_Memory, &numLinConvFails);
+        KINGetNumLinFuncEvals(mKinsol_Memory, &numLinFuncEvals);
+        KINGetNumLinIters(mKinsol_Memory, &numLinIters);
+        KINGetNumNonlinSolvIters(mKinsol_Memory, &numNonlinSolvIters);
+        KINGetNumPrecEvals(mKinsol_Memory, &numPrecEvals);
+        KINGetNumPrecSolves(mKinsol_Memory, &numPrecSolves);
+
     }
 
     void KinsolSteadyStateSolver::setFScale(double value) {
@@ -298,22 +294,51 @@ namespace rr {
         Presimulation presimulation(
                 mModel,
                 getValueAsDouble("presimulation_time"),
-                getValueAsInt("presimulation_maximum_steps")
+                getValueAsInt("presimulation_maximum_steps"),
+                getValueAsBool("stiff")
         );
         presimulation.simulate();
         // remember to update the model
         syncWithModel(mModel);
     }
 
+    std::unordered_map<std::string, Variant> KinsolSteadyStateSolver::getSolverStats() {
+        std::unordered_map<std::string, Variant> map;
+        map["numFuncEvals"] = Variant(numFuncEvals);
+        map["numNolinSolvIters"] = Variant(numNolinSolvIters);
+        map["numBetaCondFails"] = Variant(numBetaCondFails);
+        map["numBacktrackOps"] = Variant(numBacktrackOps);
+        map["funcNorm"] = Variant(funcNorm);
+        map["stepLength"] = Variant(stepLength);
+        map["numJacEvals"] = Variant(numJacEvals);
+        map["numJtimesEvals"] = Variant(numJtimesEvals);
+        map["numLinConvFails"] = Variant(numLinConvFails);
+        map["numLinFuncEvals"] = Variant(numLinFuncEvals);
+        map["numLinIters"] = Variant(numLinIters);
+        map["numNonlinSolvIters"] = Variant(numNonlinSolvIters);
+        map["numPrecEvals"] = Variant(numPrecEvals);
+        map["numPrecSolves"] = Variant(numPrecSolves);
+        return map;
+    }
 
-    Presimulation::Presimulation(ExecutableModel *model, double presimulation_time, int presimulation_maximum_steps)
+    void KinsolSteadyStateSolver::printSolverStats() {
+        std::cout << "Solver Stats: " << std::endl;
+        for (auto &it: getSolverStats()){
+            std::cout << "\t" << it.first << " = " << it.second.toString() << std::endl;
+        }
+    }
+
+
+    Presimulation::Presimulation(ExecutableModel *model, double presimulation_time, int presimulation_maximum_steps, bool stiff)
             : model_(model),
               presimulation_maximum_steps_(presimulation_maximum_steps),
-              presimulation_time_(presimulation_time) {}
+              presimulation_time_(presimulation_time),
+              stiff_(stiff){}
 
     void Presimulation::simulate() {
         CVODEIntegrator integrator(model_);
         integrator.setValue("maximum_num_steps", presimulation_maximum_steps_);
+        integrator.setValue("stiff", stiff_);
         integrator.integrate(0, presimulation_time_);
 
     }

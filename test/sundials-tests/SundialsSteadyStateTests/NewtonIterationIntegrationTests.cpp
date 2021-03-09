@@ -7,7 +7,7 @@
 
 using namespace rr;
 
-//todo remember to delete this method.
+//todo remember to delete this method before merge with develop.
 void openInCopasi(const std::string &sbml) {
     std::string f = R"(D:\roadrunner\roadrunner\test\sundials-tests\SundialsSteadyStateTests\tmp.cps)";
     std::ofstream cps;
@@ -39,6 +39,19 @@ public:
 
         // load it into rr
         RoadRunner rr(testModel->str());
+//        RoadRunner rr("C:\\Users\\Ciaran\\Downloads\\BIOMD0000000033_url.xml");
+
+        // collect reference results
+        ResultMap expectedResult = testModel->steadyState();
+
+        for (auto &it: expectedResult){
+            const std::string& speciesName = it.first;
+            const double& startingValue = it.second.first;
+            rr.setInitConcentration(speciesName, startingValue, false);
+        }
+        rr.regenerate();
+
+        //openInCopasi(rr.getSBML());
 
         // turn on/off conservation analysis
         rr.setConservedMoietyAnalysis(useMoietyConservation);
@@ -51,15 +64,19 @@ public:
             newtonIteration.setValue("presimulation_time", presimulationEndTime);
         }
 
-        // collect reference results
-        ResultMap expectedResult = testModel->steadyState();
-
         // set some parameters
         newtonIteration.setValue("strategy", strategy);
+        newtonIteration.setValue("PrintLevel", 3);
+
+        newtonIteration.setValue("FuncNormTol", 1e-15);
 
         // openInCopasi(testModel->str());
         // solve the problem
-        newtonIteration.solve();
+        double res = newtonIteration.solve();
+
+        newtonIteration.printSolverStats();
+
+        std::cout << "res: " << res << std::endl;
 
         // collect actual results from model
         auto result = rr.getFloatingSpeciesConcentrationsNamedArray();
@@ -111,8 +128,12 @@ TEST_F(BasicNewtonIterationTests, CheckCorrectSteadyStateSimpleFlux) {
     testSteadyState<SimpleFlux>("SimpleFlux", true, strategy);
 }
 
-TEST_F(BasicNewtonIterationTests, CheckCorrectSteadyStateVenkatraman2010) {
-    testSteadyState<Venkatraman2010>("Venkatraman2010", false, strategy, true, 1);
+//TEST_F(BasicNewtonIterationTests, CheckCorrectSteadyStateVenkatraman2010) {
+//    testSteadyState<Venkatraman2010>("Venkatraman2010", false, strategy, true, 5);
+//}
+
+TEST_F(BasicNewtonIterationTests, CheckCorrectSteadyStateBrown2004) {
+    testSteadyState<Brown2004>("Brown2004", false, strategy, false, 1);
 }
 
 
@@ -142,40 +163,9 @@ TEST_F(LineSearchNewtonIterationTests, CheckCorrectSteadyStateSimpleFlux) {
     testSteadyState<SimpleFlux>("SimpleFlux", true, strategy);
 }
 
-TEST_F(LineSearchNewtonIterationTests, CheckCorrectSteadyStateVenkatraman2010) {
-    testSteadyState<Venkatraman2010>("Venkatraman2010", false, strategy, false, 1);
-}
-
-
-
-
-
-
-
-
-
-
-
-
-// Need to write a function to make a call to lapack's dgetrf
-// function for computing the determinent.
-// Then compute it for the jacobian of this system.
-// This operation is potentially computationally intensive,
-// so it should be possible to turn this check off.
-// However, if it is on, and we find that the determinent is 0,
-// (i.e. we have a singular matrix), then we automatically turn on
-// moiety conservation analysis, which should* fix the error.
-//
-// But the question remains, how does moiety conservation analysis reduce the system
-// in such a way as to bypass the problem?
-
-
-// Also, todo: must consider whether stiochoimetry is already considered when
-// roadrunner gives us the vector of rates.
-
-
-// todo test the same model from different initial conditions. all 0's seems to be a problem.
-
+//TEST_F(LineSearchNewtonIterationTests, CheckCorrectSteadyStateVenkatraman2010) {
+//    testSteadyState<Venkatraman2010>("Venkatraman2010", false, strategy, true, 3);
+//}
 
 
 

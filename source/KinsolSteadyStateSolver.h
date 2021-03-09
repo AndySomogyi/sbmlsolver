@@ -146,6 +146,19 @@ namespace rr {
          */
         void *getKinsolMemory() const;
 
+        /**
+         * @brief return a mapping containing solver statistics.
+         * @details only filled once solve has been called.
+         * @see getSolverStatsFromKinsol which actually collects the data
+         * from kinsol. Whereas this method returns the data in a unordered_map
+         */
+         std::unordered_map<std::string, Variant> getSolverStats();
+
+         /**
+          * @brief display solver stats to console
+          */
+          void printSolverStats();
+
     protected:
 
         /**
@@ -214,22 +227,26 @@ namespace rr {
          * collects some details such as number of function evals
          *
          */
-        void getSolverStats();
+        void getSolverStatsFromKinsol();
 
         /**
-         * @brief
+         * @brief kinsol output variables.
+         * @details fileld when
          */
-        long int backtrackOps;
-        long int betaCondFails;
-        long int funcEvals;
-        long int jacEvals;
-        long int jtimesEvals;
-        long int linConvFails;
-        long int linFuncEvals;
-        long int linIters;
-        long int nonlinSolvIters;
-        long int precEvals;
-        long int precSolves;
+        long int numFuncEvals;
+        long int numNolinSolvIters;
+        long int numBetaCondFails;
+        long int numBacktrackOps;
+        double funcNorm;
+        double stepLength;
+        long int numJacEvals;
+        long int numJtimesEvals;
+        long int numLinConvFails;
+        long int numLinFuncEvals;
+        long int numLinIters;
+        long int numNonlinSolvIters;
+        long int numPrecEvals;
+        long int numPrecSolves;
 
         /**
          * @brief stores the number of iterations required
@@ -295,8 +312,9 @@ namespace rr {
          * @param model: a model to integrate
          * @param presimulation_maximum_steps: maximal steps CVODEIntegrator is allowed
          * @param presimulation_time: end time for presimulation
+         * @param stiff: use stiff solver for integration
          */
-        Presimulation(ExecutableModel *model, double presimulation_time, int presimulation_maximum_steps);
+        Presimulation(ExecutableModel *model, double presimulation_time, int presimulation_maximum_steps, bool stiff);
 
         void simulate();
 
@@ -304,6 +322,7 @@ namespace rr {
     private:
         double presimulation_time_;
         int presimulation_maximum_steps_;
+        bool stiff_;
         ExecutableModel *model_;
 
     };

@@ -58,18 +58,6 @@ namespace rr
 
 		/**
 		* @author KC
-		* @brief Get the solver settings as a std::string
-		*/
-		std::string getSettingsRepr() const override;
-
-		/**
-		* @author KC
-		* @brief Python dictionary-style std::string representation of settings
-		*/
-		std::string settingsPyDictRepr() const override;
-
-		/**
-		* @author KC
 		* @brief Return a std::string representation of the solver
 		*/
 		std::string toString() const override;

@@ -71,7 +71,7 @@ namespace rr {
         assert(mKinsol_Memory && "Kinsol memory block is nullptr");
         assert(mStateVector && "Solvers state std::vector is nullptr");
 
-        KINSol(
+        int flag = KINSol(
                 mKinsol_Memory,   // kinsol memory block
                 mStateVector,     // initial guess and solution std::vector
                 // global strategy, options defined in kinsol.h
@@ -80,7 +80,9 @@ namespace rr {
                 fscale      //scaling std::vector for the variable fval
         );
 
-        getSolverStats();
+        std::cout << "flag: " << flag << std::endl;
+
+        getSolverStatsFromKinsol();
 
         // update the model's state values
         mModel->setStateVector(mStateVector->ops->nvgetarraypointer(mStateVector));

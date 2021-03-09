@@ -55,7 +55,7 @@ namespace rr {
                 fscale      //scaling std::vector for the variable fval
         );
 
-        getSolverStats();
+        getSolverStatsFromKinsol();
 
         return 0.0;
     }
