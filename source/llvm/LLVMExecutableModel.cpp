@@ -36,7 +36,7 @@ using rr::Config;
 #define isnan std::isnan
 #endif
 
-using namespace std;
+
 
 // static assertion, taken from
 // http://msdn.microsoft.com/en-us/library/windows/desktop/ms679289(v=vs.85).aspx
@@ -49,7 +49,7 @@ static void dump_array(std::ostream &os, int n, const numeric_type *p)
 {
     if (p)
     {
-        os << setiosflags(ios::floatfield) << setprecision(8);
+        os << setiosflags(std::ios::floatfield) << std::setprecision(8);
         os << '[';
         for (int i = 0; i < n; ++i)
         {
@@ -59,15 +59,15 @@ static void dump_array(std::ostream &os, int n, const numeric_type *p)
                 os << ", ";
             }
         }
-        os << ']' << endl;
+        os << ']' << std::endl;
     }
     else
     {
-        os << "NULL" << endl;
+        os << "NULL" << std::endl;
     }
 }
 
-typedef string (rr::ExecutableModel::*getNamePtr)(size_t);
+typedef std::string (rr::ExecutableModel::*getNamePtr)(size_t);
 typedef int (rr::ExecutableModel::*getNumPtr)();
 
 /**
@@ -145,7 +145,7 @@ int LLVMExecutableModel::setValues(bool (*funcPtr)(LLVMModelData*, int, double),
         if (!result)
         {
             std::stringstream s;
-            string id = (this->*getNameFuncPtr)(j);
+            std::string id = (this->*getNameFuncPtr)(j);
             s << "could not set value for " << id;
 
             if (symbols->hasAssignmentRule(id))
@@ -243,7 +243,7 @@ LLVMExecutableModel::LLVMExecutableModel(
     setCompartmentInitVolumesPtr(rc->setCompartmentInitVolumesPtr),
     getGlobalParameterInitValuePtr(rc->getGlobalParameterInitValuePtr),
     setGlobalParameterInitValuePtr(rc->setGlobalParameterInitValuePtr),
-    eventListeners(modelData->numEvents, EventListenerPtr()), // init eventHandlers vector
+    eventListeners(modelData->numEvents, EventListenerPtr()), // init eventHandlers std::vector
     dirty(0),
     flags(defaultFlags())
 {
@@ -315,7 +315,7 @@ LLVMExecutableModel::~LLVMExecutableModel()
     rrLog(Logger::LOG_DEBUG) << __FUNC__;
 }
 
-string LLVMExecutableModel::getModelName()
+std::string LLVMExecutableModel::getModelName()
 {
     return symbols->getModelName();
 }
@@ -387,7 +387,7 @@ void LLVMExecutableModel::getStateVectorRate(double time, const double *y, doubl
 
     if (y && dydt)
     {
-        // save and assign state vector
+        // save and assign state std::vector
         double *savedRateRules = modelData->rateRuleValuesAlias;
         double *savedFloatingSpeciesAmounts = modelData->floatingSpeciesAmountsAlias;
 
@@ -395,7 +395,7 @@ void LLVMExecutableModel::getStateVectorRate(double time, const double *y, doubl
         modelData->floatingSpeciesAmountsAlias = const_cast<double*>(y + modelData->numRateRules);
         evalVolatileStoichPtr(modelData);
 
-        // not setting state vector, react rates get dirty
+        // not setting state std::vector, react rates get dirty
         conversionFactor = evalReactionRatesPtr(modelData);
         dirty |= DIRTY_REACTION_RATES;
 
@@ -416,7 +416,7 @@ void LLVMExecutableModel::getStateVectorRate(double time, const double *y, doubl
         evalRateRuleRatesPtr(modelData);
         modelData->rateRuleRates = 0;
 
-        // restore original pointers for state vector
+        // restore original pointers for state std::vector
         modelData->rateRuleValuesAlias = savedRateRules;
         modelData->floatingSpeciesAmountsAlias = savedFloatingSpeciesAmounts;
     }
@@ -454,7 +454,7 @@ void LLVMExecutableModel::getStateVectorRate(double time, const double *y, doubl
     /*
 	if (Logger::LOG_PRIO_TRACE <= rr::Logger::LOG_GetLogLevel()) {
 		LoggingBuffer log(Logger::LOG_PRIO_TRACE, __FILE__, __LINE__);
-		log.stream() << __FUNC__ << endl;
+		log.stream() << __FUNC__ << std::endl;
 		log.stream() << "y: ";
 		if (y) {
 			dump_array(log.stream(), modelData->numRateRules + modelData->numFloatingSpecies, y);
@@ -462,14 +462,14 @@ void LLVMExecutableModel::getStateVectorRate(double time, const double *y, doubl
 		else {
 			log.stream() << "null";
 		}
-		log.stream() << endl << "dydt: ";
+		log.stream() << std::endl << "dydt: ";
 		if (dydt) {
 			dump_array(log.stream(), modelData->numRateRules + modelData->numFloatingSpecies, dydt);
 		}
 		else {
 			log.stream() << "null";
 		}
-		log.stream() << endl << "Model: " << endl << this;
+		log.stream() << std::endl << "Model: " << std::endl << this;
 	}
 	*/
 }
@@ -489,9 +489,9 @@ void LLVMExecutableModel::testConstraints()
 {
 }
 
-string LLVMExecutableModel::getInfo()
+std::string LLVMExecutableModel::getInfo()
 {
-    stringstream stream;
+    std::stringstream stream;
 
     double *tmp;
 
@@ -502,63 +502,63 @@ string LLVMExecutableModel::getInfo()
     int nEvents = getNumEvents();
     int nReactions = getNumReactions();
 
-    stream << "* Calculated Values *" << endl;
+    stream << "* Calculated Values *" << std::endl;
 
     tmp = new double[nFloat];
     getFloatingSpeciesAmounts(nFloat, 0, tmp);
-    stream << "FloatingSpeciesAmounts:" << endl;
+    stream << "FloatingSpeciesAmounts:" << std::endl;
     dump_array(stream, nFloat, tmp);
 
     getFloatingSpeciesConcentrations(nFloat, 0, tmp);
-    stream << "FloatingSpeciesConcentrations:" << endl;
+    stream << "FloatingSpeciesConcentrations:" << std::endl;
     dump_array(stream, nFloat, tmp);
 
     this->getFloatingSpeciesInitConcentrations(nFloat, 0, tmp);
-    stream << "FloatingSpeciesInitConcentrations:" << endl;
+    stream << "FloatingSpeciesInitConcentrations:" << std::endl;
     dump_array(stream, nFloat, tmp);
     delete[] tmp;
 
     tmp = new double[nReactions];
     getReactionRates(nReactions, 0, tmp);
-    stream << "Reaction Rates:" << endl;
+    stream << "Reaction Rates:" << std::endl;
     dump_array(stream, nReactions, tmp);
     delete[] tmp;
 
     tmp = new double[nBound];
     getBoundarySpeciesAmounts(nBound, 0, tmp);
-    stream << "BoundarySpeciesAmounts:" << endl;
+    stream << "BoundarySpeciesAmounts:" << std::endl;
     dump_array(stream, nBound, tmp);
 
     getBoundarySpeciesConcentrations(nBound, 0, tmp);
-    stream << "BoundarySpeciesConcentrations:" << endl;
+    stream << "BoundarySpeciesConcentrations:" << std::endl;
     dump_array(stream, nBound, tmp);
     delete[] tmp;
 
     tmp = new double[nComp];
     getCompartmentVolumes(nComp, 0, tmp);
-    stream << "CompartmentVolumes:" << endl;
+    stream << "CompartmentVolumes:" << std::endl;
     dump_array(stream, nComp, tmp);
 
     this->getCompartmentInitVolumes(nComp, 0, tmp);
-    stream << "CompartmentInitVolumes:" << endl;
+    stream << "CompartmentInitVolumes:" << std::endl;
     dump_array(stream, nComp, tmp);
     delete[] tmp;
 
     tmp = new double[nGlobalParam];
     getGlobalParameterValues(nGlobalParam, 0, tmp);
-    stream << "GlobalParameters:" << endl;
+    stream << "GlobalParameters:" << std::endl;
     dump_array(stream, nGlobalParam, tmp);
     delete[] tmp;
 
     tmp = new double[nGlobalParam];
     getGlobalParameterValues(nGlobalParam, 0, tmp);
-    stream << "GlobalParameters:" << endl;
+    stream << "GlobalParameters:" << std::endl;
     dump_array(stream, nGlobalParam, tmp);
     delete[] tmp;
 
     unsigned char *tmpEvents = new unsigned char[nEvents];
     getEventTriggers(nEvents, 0, tmpEvents);
-    stream << "Events Trigger Status:" << endl;
+    stream << "Events Trigger Status:" << std::endl;
     dump_array(stream, nEvents, (bool*)tmpEvents);
     delete[] tmpEvents;
 
@@ -567,24 +567,24 @@ string LLVMExecutableModel::getInfo()
     return stream.str();
 }
 
-int LLVMExecutableModel::getFloatingSpeciesIndex(const string& id)
+int LLVMExecutableModel::getFloatingSpeciesIndex(const std::string& id)
 {
     return symbols->getFloatingSpeciesIndex(id, false);
 }
 
-string LLVMExecutableModel::getFloatingSpeciesId(size_t index)
+std::string LLVMExecutableModel::getFloatingSpeciesId(size_t index)
 {
     return symbols->getFloatingSpeciesId(index);
 }
 
-int LLVMExecutableModel::getBoundarySpeciesIndex(const string& id)
+int LLVMExecutableModel::getBoundarySpeciesIndex(const std::string& id)
 {
     return symbols->getBoundarySpeciesIndex(id);
 }
 
-string LLVMExecutableModel::getBoundarySpeciesId(size_t index)
+std::string LLVMExecutableModel::getBoundarySpeciesId(size_t index)
 {
-    vector<string> ids = symbols->getBoundarySpeciesIds();
+    std::vector<std::string> ids = symbols->getBoundarySpeciesIds();
     if (index < ids.size())
     {
         return ids[index];
@@ -596,24 +596,24 @@ string LLVMExecutableModel::getBoundarySpeciesId(size_t index)
     }
 }
 
-int LLVMExecutableModel::getGlobalParameterIndex(const string& id)
+int LLVMExecutableModel::getGlobalParameterIndex(const std::string& id)
 {
     return symbols->getGlobalParameterIndex(id);
 }
 
-string LLVMExecutableModel::getGlobalParameterId(size_t id)
+std::string LLVMExecutableModel::getGlobalParameterId(size_t id)
 {
     return symbols->getGlobalParameterId(id);
 }
 
-int LLVMExecutableModel::getCompartmentIndex(const string& id)
+int LLVMExecutableModel::getCompartmentIndex(const std::string& id)
 {
     return symbols->getCompartmentIndex(id);
 }
 
-string LLVMExecutableModel::getCompartmentId(size_t id)
+std::string LLVMExecutableModel::getCompartmentId(size_t id)
 {
-    vector<string> ids = symbols->getCompartmentIds();
+    std::vector<std::string> ids = symbols->getCompartmentIds();
     if (id < ids.size())
     {
         return ids[id];
@@ -625,14 +625,14 @@ string LLVMExecutableModel::getCompartmentId(size_t id)
     }
 }
 
-int LLVMExecutableModel::getReactionIndex(const string& id)
+int LLVMExecutableModel::getReactionIndex(const std::string& id)
 {
     return symbols->getReactionIndex(id);
 }
 
-string LLVMExecutableModel::getReactionId(size_t id)
+std::string LLVMExecutableModel::getReactionId(size_t id)
 {
-    vector<string> ids = symbols->getReactionIds();
+    std::vector<std::string> ids = symbols->getReactionIds();
     if (id < ids.size())
     {
         return ids[id];
@@ -822,7 +822,7 @@ int LLVMExecutableModel::getStateVector(double* stateVector)
             log.stream() << "null";
         }
 
-        log.stream() << endl << __FUNC__ <<  ", Model: " << endl << this;
+        log.stream() << std::endl << __FUNC__ <<  ", Model: " << std::endl << this;
     }
 
     return modelData->numRateRules + modelData->numIndFloatingSpecies;
@@ -850,7 +850,7 @@ int LLVMExecutableModel::setStateVector(const double* stateVector)
 
 void LLVMExecutableModel::print(std::ostream &stream)
 {
-    stream << "LLVMExecutableModel" << endl;
+    stream << "LLVMExecutableModel" << std::endl;
     stream << getInfo();
 }
 
@@ -1138,7 +1138,7 @@ const rr::SelectionRecord& LLVMExecutableModel::getSelection(const std::string& 
 
         if (sel.selectionType == SelectionRecord::UNKNOWN)
         {
-            throw LLVMException("invalid selection string " + str);
+            throw LLVMException("invalid selection std::string " + str);
         }
 
         // check to see that we have valid selection ids
@@ -1193,7 +1193,7 @@ const rr::SelectionRecord& LLVMExecutableModel::getSelection(const std::string& 
                 sel.index = index;
                 break;
             default:
-                string msg = "No sbml element exists for concentration selection '" + str + "'";
+                std::string msg = "No sbml element exists for concentration selection '" + str + "'";
                 throw LLVMException(msg);
             }
             break;
@@ -1228,7 +1228,7 @@ const rr::SelectionRecord& LLVMExecutableModel::getSelection(const std::string& 
                 sel.index = index;
                 break;
             default:
-                string msg = "Invalid Id for initial value: '" + str + "'";
+                std::string msg = "Invalid Id for initial value: '" + str + "'";
                 throw LLVMException(msg);
             }
             assert(sel.index >= 0);
@@ -1370,7 +1370,7 @@ int LLVMExecutableModel::getFloatingSpeciesConcentrationRates(size_t len,
 
         getCompartmentVolumes(ncomp, 0, volumes);
 
-        // state vector is packed such that first numRateRules are the rate rule rates,
+        // state std::vector is packed such that first numRateRules are the rate rule rates,
         // and the last numIndFloatingSpecies are the number of independent species.
         getStateVectorRate(this->getTime(), 0, dydt);
 
@@ -1390,7 +1390,7 @@ int LLVMExecutableModel::getFloatingSpeciesConcentrationRates(size_t len,
                     << symbols->getCompartmentIndexForFloatingSpecies(j)
                     << ", vol: "
                     << volumes[symbols->getCompartmentIndexForFloatingSpecies(j)]
-                    << endl;
+                    << std::endl;
             values[i] = amountRates[j] /
                     volumes[symbols->getCompartmentIndexForFloatingSpecies(j)];
         }
@@ -1438,7 +1438,7 @@ int LLVMExecutableModel::getEventIndex(const std::string& eventId)
 
 std::string LLVMExecutableModel::getEventId(size_t index)
 {
-    vector<string> ids = symbols->getEventIds();
+    std::vector<std::string> ids = symbols->getEventIds();
     if (index < ids.size())
     {
         return ids[index];
@@ -1545,7 +1545,7 @@ int LLVMExecutableModel::setFloatingSpeciesAmounts(size_t len, int const *indx,
             else
             {
             std::stringstream s;
-            string id = symbols->getFloatingSpeciesId(j);
+            std::string id = symbols->getFloatingSpeciesId(j);
             s << "could not set value for NON conserved moiety floating species " << id;
 
             if (symbols->hasAssignmentRule(id))
@@ -1606,7 +1606,7 @@ int LLVMExecutableModel::setFloatingSpeciesConcentrations(size_t len,
             else
             {
                 std::stringstream s;
-                string id = symbols->getFloatingSpeciesId(j);
+                std::string id = symbols->getFloatingSpeciesId(j);
                 s << "could not set value for NON conserved moiety floating species " << id;
 
                 if (symbols->hasAssignmentRule(id))
@@ -1742,7 +1742,7 @@ int LLVMExecutableModel::getNumConservedMoieties()
     return static_cast<int>(symbols->getConservedMoietySize());
 }
 
-int LLVMExecutableModel::getConservedMoietyIndex(const string& name)
+int LLVMExecutableModel::getConservedMoietyIndex(const std::string& name)
 {
     int ret = symbols->getConservedMoietyIndex(name);
     if (ret<0)
@@ -1752,7 +1752,7 @@ int LLVMExecutableModel::getConservedMoietyIndex(const string& name)
     return ret;
 }
 
-string LLVMExecutableModel::getConservedMoietyId(size_t index)
+std::string LLVMExecutableModel::getConservedMoietyId(size_t index)
 {
     return symbols->getConservedMoietyId(index);
 }
@@ -1790,7 +1790,7 @@ int LLVMExecutableModel::getFloatingSpeciesAmountRates(size_t len,
 
     double* dydt = (double*)calloc(dydtSize, sizeof(double));
 
-    // state vector is packed such that first numRateRules are the rate rule rates,
+    // state std::vector is packed such that first numRateRules are the rate rule rates,
     // and the last numIndFloatingSpecies are the number of independent species.
     this->getStateVectorRate(this->getTime(), 0, dydt);
 
@@ -1949,10 +1949,10 @@ int LLVMExecutableModel::applyEvents(double timeEnd,
         // copy event status into local vars, these
         // are modified via applyEvents
 		// Uses pointers as iterators
-        vector<unsigned char> prevEventState(previousEventStatus,
+        std::vector<unsigned char> prevEventState(previousEventStatus,
                 previousEventStatus + modelData->numEvents);
 
-        vector<unsigned char> currEventStatus(modelData->numEvents);
+        std::vector<unsigned char> currEventStatus(modelData->numEvents);
 
         unsigned char *p1 = &prevEventState[0];
         unsigned char *p2 = &currEventStatus[0];

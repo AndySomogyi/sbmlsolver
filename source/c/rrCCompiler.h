@@ -17,27 +17,27 @@ namespace rr
 class RR_DECLSPEC CCompiler : public Compiler
 {
 public:
-    CCompiler(const string& supportCodeFolder, const string& compiler);
+    CCompiler(const std::string& supportCodeFolder, const std::string& compiler);
     virtual ~CCompiler();
 
-    virtual string              getCompiler() const;
-    virtual bool                setCompiler(const string& compiler);
+    virtual std::string              getCompiler() const;
+    virtual bool                setCompiler(const std::string& compiler);
 
-    bool                        setupCompiler(const string& supportCodeFolder);
-    bool                        compile(const string& cmdLine);
+    bool                        setupCompiler(const std::string& supportCodeFolder);
+    bool                        compile(const std::string& cmdLine);
 
-    virtual bool                setCompilerLocation(const string& path);
-    virtual string              getCompilerLocation() const;
+    virtual bool                setCompilerLocation(const std::string& path);
+    virtual std::string              getCompilerLocation() const;
 
-    virtual bool                setSupportCodeFolder(const string& path);
-    virtual string              getSupportCodeFolder() const;
+    virtual bool                setSupportCodeFolder(const std::string& path);
+    virtual std::string              getSupportCodeFolder() const;
 
-    bool                        setIncludePath(const string& path);
-    bool                        setLibraryPath(const string& path);
+    bool                        setIncludePath(const std::string& path);
+    bool                        setLibraryPath(const std::string& path);
     void                        execute(StringList& oProxyCode);
-    bool                        compileSource(const string& cSource);
-    string                      getCompilerMessages();
-    bool                        setOutputPath(const string& path);
+    bool                        compileSource(const std::string& cSource);
+    std::string                      getCompilerMessages();
+    bool                        setOutputPath(const std::string& path);
 
 
     virtual std::string getDefaultTargetTriple();
@@ -49,18 +49,18 @@ public:
     virtual std::string getVersion();
 
 private:
-    string                      mDLLFileName;
-    string                      mSupportCodeFolder;
-    string                      mCompilerName;
-    string                      mCompilerLocation;    //Path to executable
+    std::string                      mDLLFileName;
+    std::string                      mSupportCodeFolder;
+    std::string                      mCompilerName;
+    std::string                      mCompilerLocation;    //Path to executable
 
-    vector<string>              mCompilerOutput;
-    vector<string>              mIncludePaths;
-    vector<string>              mLibraryPaths;
-    vector<string>              mCompilerFlags;
-    string                      createCompilerCommand(const string& sourceFileName);
+    std::vector<std::string>              mCompilerOutput;
+    std::vector<std::string>              mIncludePaths;
+    std::vector<std::string>              mLibraryPaths;
+    std::vector<std::string>              mCompilerFlags;
+    std::string                      createCompilerCommand(const std::string& sourceFileName);
     bool                        setupCompilerEnvironment();
-    string                      mOutputPath;
+    std::string                      mOutputPath;
 
 };
 

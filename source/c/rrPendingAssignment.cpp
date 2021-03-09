@@ -8,7 +8,7 @@
 namespace rr
 {
 
-using namespace std;
+
 
 PendingAssignment::PendingAssignment(
         ModelData* md,

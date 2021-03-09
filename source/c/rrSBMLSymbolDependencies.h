@@ -36,8 +36,8 @@ class RR_DECLSPEC SBMLSymbolDependencies
 ////{
 ////    public class SBMLSymbol
 ////    {
-////        private string _Id;
-////        public string Id
+////        private std::string _Id;
+////        public std::string Id
 ////        {
 ////            get { return _Id; }
 ////            set { _Id = value; }
@@ -104,11 +104,11 @@ class RR_DECLSPEC SBMLSymbolDependencies
 ////
 ////        public bool HasInitialAssignment
 ////        {
-////            get { return !string.IsNullOrEmpty(_InitialAssignment); }
+////            get { return !std::string.IsNullOrEmpty(_InitialAssignment); }
 ////        }
 ////
-////        private string _InitialAssignment;
-////        public string InitialAssignment
+////        private std::string _InitialAssignment;
+////        public std::string InitialAssignment
 ////        {
 ////            get { return _InitialAssignment; }
 ////            set { _InitialAssignment = value; }
@@ -117,11 +117,11 @@ class RR_DECLSPEC SBMLSymbolDependencies
 ////
 ////        public bool HasRule
 ////        {
-////            get { return !string.IsNullOrEmpty(_Rule); }
+////            get { return !std::string.IsNullOrEmpty(_Rule); }
 ////        }
 ////
-////        private string _Rule;
-////        public string Rule
+////        private std::string _Rule;
+////        public std::string Rule
 ////        {
 ////            get { return _Rule; }
 ////            set { _Rule = value; }

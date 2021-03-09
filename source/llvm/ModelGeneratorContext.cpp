@@ -48,7 +48,7 @@
 #endif
 
 using namespace llvm;
-using namespace std;
+
 using namespace libsbml;
 
 using rr::Logger;
@@ -101,7 +101,7 @@ ModelGeneratorContext::ModelGeneratorContext(std::string const &sbml,
         doc(0),
         symbols(0),
         modelSymbols(0),
-        errString(new string()),
+        errString(new std::string()),
         context(0),
         executionEngine(0),
         builder(0),
@@ -177,7 +177,7 @@ ModelGeneratorContext::ModelGeneratorContext(std::string const &sbml,
 
         context = new LLVMContext();
         // Make the module, which holds all the code.
-        module_uniq = unique_ptr<Module>(new Module("LLVM Module", *context));
+        module_uniq = std::unique_ptr<Module>(new Module("LLVM Module", *context));
 		module = module_uniq.get();
 
 		// These were moved up here because they require the module ptr. May need to further edit these functions
@@ -190,7 +190,7 @@ ModelGeneratorContext::ModelGeneratorContext(std::string const &sbml,
         EngineBuilder engineBuilder(std::move(module_uniq));
 		
 		engineBuilder.setErrorStr(errString)
-			.setMCJITMemoryManager(unique_ptr<SectionMemoryManager>(new SectionMemoryManager()));
+			.setMCJITMemoryManager(std::unique_ptr<SectionMemoryManager>(new SectionMemoryManager()));
 
         executionEngine = engineBuilder.create();
 
@@ -230,7 +230,7 @@ ModelGeneratorContext::ModelGeneratorContext(libsbml::SBMLDocument const *_doc,
         doc(_doc),
         symbols(NULL),
         modelSymbols(NULL),
-        errString(new string()),
+        errString(new std::string()),
         context(0),
         executionEngine(0),
         builder(0),
@@ -288,13 +288,13 @@ ModelGeneratorContext::ModelGeneratorContext(libsbml::SBMLDocument const *_doc,
 
         context = new LLVMContext();
         // Make the module, which holds all the code.
-        module_uniq = unique_ptr<Module>(new Module("LLVM Module", *context));
+        module_uniq = std::unique_ptr<Module>(new Module("LLVM Module", *context));
 		module = module_uniq.get();
 
         builder = new IRBuilder<>(*context);
 
         // engine take ownership of module
-        EngineBuilder engineBuilder(unique_ptr<Module>(new Module("Empty LLVM Module", *context)));
+        EngineBuilder engineBuilder(std::unique_ptr<Module>(new Module("Empty LLVM Module", *context)));
 
         //engineBuilder.setEngineKind(EngineKind::JIT);
         engineBuilder.setErrorStr(errString);
@@ -346,7 +346,7 @@ ModelGeneratorContext::ModelGeneratorContext() :
         doc(ownedDoc),
         symbols(new LLVMModelDataSymbols(doc->getModel(), 0)),
         modelSymbols(new LLVMModelSymbols(getModel(), *symbols)),
-        errString(new string()),
+        errString(new std::string()),
         options(0),
         functionPassManager(0)
 {
@@ -356,7 +356,7 @@ ModelGeneratorContext::ModelGeneratorContext() :
 
     context = new LLVMContext();
     // Make the module, which holds all the code.
-    module_uniq = unique_ptr<Module>(new Module("LLVM Module", *context));
+    module_uniq = std::unique_ptr<Module>(new Module("LLVM Module", *context));
 	module = module_uniq.get();
 
     builder = new IRBuilder<>(*context);
@@ -433,7 +433,7 @@ llvm::IRBuilder<> &ModelGeneratorContext::getBuilder() const
 }
 
 
-void ModelGeneratorContext::transferObjectsToResources(shared_ptr<rrllvm::ModelResources> rc)
+void ModelGeneratorContext::transferObjectsToResources(std::shared_ptr<rrllvm::ModelResources> rc)
 {
     rc->symbols = symbols;
     symbols = 0;
@@ -541,15 +541,15 @@ void ModelGeneratorContext::initFunctionPassManager()
 /*********************** TESTING STUFF WILL GO AWAY EVENTUALLY ***********************/
 
 static void dispDouble(double d) {
-    cout << __FUNC__ << ": " << d << "\n";
+    std::cout << __FUNC__ << ": " << d << "\n";
 }
 
 static void dispInt(int i) {
-    cout << __FUNC__ << ": " << i << "\n";
+    std::cout << __FUNC__ << ": " << i << "\n";
 }
 
 static void dispChar(char c) {
-    cout << __FUNC__ << ": " << (int)c << "\n";
+    std::cout << __FUNC__ << ": " << (int)c << "\n";
 }
 
 /*************************************************************************************/
@@ -808,7 +808,7 @@ static void createLibraryFunction(llvm::LibFunc funcId,
     }
     else
     {
-        string msg = "native target does not have library function for ";
+        std::string msg = "native target does not have library function for ";
         msg += targetLib.getName(funcId);
         throw_llvm_exception(msg);
     }
@@ -831,14 +831,14 @@ static SBMLDocument *checkedReadSBMLFromString(const char* xml)
         {
             // fatal error
             SBMLErrorLog *log = doc->getErrorLog();
-            string errors = log ? log->toString() : " NULL SBML Error Log";
+            std::string errors = log ? log->toString() : " NULL SBML Error Log";
             delete doc;
             throw_llvm_exception("Fatal SBML error, no model, errors in sbml document: " + errors);
         }
         else if (doc->getNumErrors() > 0)
         {
             SBMLErrorLog *log = doc->getErrorLog();
-            string errors = log ? log->toString() : " NULL SBML Error Log";
+            std::string errors = log ? log->toString() : " NULL SBML Error Log";
             rrLog(rr::Logger::LOG_WARNING) << "Warning, errors found in sbml document: " + errors;
         }
     }

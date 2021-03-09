@@ -19,7 +19,7 @@ namespace rr
  * This object allows us to to use the new Poco logging system and maintain
  * compatability with all existing code.
  *
- * This object is returne from the rr::Logger, exposes a ostream interface, and
+ * This object is returne from the rr::Logger, exposes a std::ostream interface, and
  * and dumps to the log when it goes out of scope.
  */
 class RR_DECLSPEC LoggingBuffer
@@ -28,7 +28,7 @@ public:
     LoggingBuffer(int level, const char* file, int line);
 
     /**
-     * dump the contents of the stringstream to the log.
+     * dump the contents of the std::stringstream to the log.
      */
     ~LoggingBuffer();
 
@@ -98,7 +98,7 @@ public:
     /**
      * turns on file logging to the given file as the given level.
      *
-     * If fileName is an empty string, then this will use the file
+     * If fileName is an empty std::string, then this will use the file
      * specified in the Config::LOGGER_LOG_FILE_PATH. If this is empty,
      * a file called "roadrunner.log" will be created in the
      * temp directory.
@@ -128,7 +128,7 @@ public:
     /**
      * Internally, RoadRunner uses the Poco logging framework, so we
      * can custom format logging output based on a formatting pattern
-     * string.
+     * std::string.
      *
      * The format pattern is used as a template to format the message and
      * is copied character by character except for the following special characters,
@@ -156,7 +156,7 @@ public:
      *   * %T - message thread name
      *   * %I - message thread identifier (numeric)
      *   * %N - node or host name
-     *   * %U - message source file path (empty string if not set)
+     *   * %U - message source file path (empty std::string if not set)
      *   * %u - message source line number (0 if not set)
      *   * %w - message date/time abbreviated weekday (Mon, Tue, ...)
      *   * %W - message date/time full weekday (Monday, Tuesday, ...)
@@ -198,7 +198,7 @@ public:
     static std::string levelToString(int level);
 
     /**
-     * parses a string and returns a Logger::Level
+     * parses a std::string and returns a Logger::Level
      */
     static Level stringToLevel(const std::string& str);
 
@@ -264,7 +264,7 @@ public:
 #ifndef SWIG // don't expose this to SWIG
 
     /**
-     * Set a pointer to an ostream object where the console logger should
+     * Set a pointer to an std::ostream object where the console logger should
      * log to.
      *
      * Normally, this points to std::clog.

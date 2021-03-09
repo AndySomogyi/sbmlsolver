@@ -5,16 +5,16 @@
 #include "rrLogger.h"
 //---------------------------------------------------------------------------
 
-using namespace std;
+
 namespace rr
 {
 
-StringBuilder::StringBuilder(const string& aStr)
+StringBuilder::StringBuilder(const std::string& aStr)
 {
     mStringing<<aStr;
 }
 
-string StringBuilder::ToString()
+std::string StringBuilder::ToString()
 {
     return mStringing.str();
 }
@@ -24,39 +24,39 @@ void StringBuilder::Clear()
     mStringing.str("");
 }
 
-stringstream& StringBuilder::operator<<(const string& str)
+std::stringstream& StringBuilder::operator<<(const std::string& str)
 {
     mStringing<<str;
     rrLog(lDebug5)<<"Appended :"<<removeNewLines(str, 1);
     return mStringing;
 }
 
-stringstream& StringBuilder::operator<<(const char& ch)
+std::stringstream& StringBuilder::operator<<(const char& ch)
 {
     mStringing<<ch;
     rrLog(lDebug5)<<"Appended :"<<ch;
     return mStringing;
 }
 
-void StringBuilder::NewLine(const string& line)
+void StringBuilder::NewLine(const std::string& line)
 {
-    mStringing<<"\n"<<line<<endl;
+    mStringing<<"\n"<<line<<std::endl;
 }
 
-void StringBuilder::Line(const string& line)
+void StringBuilder::Line(const std::string& line)
 {
-    mStringing<<line<<endl;
+    mStringing<<line<<std::endl;
 }
 
-void StringBuilder::TLine(const string& line, const int& nrTabs)
+void StringBuilder::TLine(const std::string& line, const int& nrTabs)
 {
-    string tabs;
+    std::string tabs;
     for(int i = 0; i < nrTabs; i++)
     {
         tabs +="\t";
     }
 
-    mStringing<<tabs<<line<<endl;
+    mStringing<<tabs<<line<<std::endl;
 }
 
 }

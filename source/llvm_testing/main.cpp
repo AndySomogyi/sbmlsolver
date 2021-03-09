@@ -32,7 +32,7 @@
 
 
 
-using namespace std;
+
 using namespace rr;
 
 
@@ -99,16 +99,16 @@ void run_ensemble(const char* fname, unsigned long seed)
 
         DoubleMatrix result = ensemble(r, 5, seed, 0, 10, 150);
 
-        cout.precision(6);
+        std::cout.precision(6);
 
         for(int row = 0; row < result.numRows(); ++row) {
             for(int col = 0; col < result.numCols(); ++col) {
-                cout << result(row, col) << ", ";
+                std::cout << result(row, col) << ", ";
             }
-            cout << endl;
+            std::cout << std::endl;
         }
     } catch (std::exception& e) {
-        cout << "Error running ensemble: " << e.what() << endl;
+        std::cout << "Error running ensemble: " << e.what() << std::endl;
     }
 }
 
@@ -116,7 +116,7 @@ int ensemble_test(int argc, char* argv[])
 {
     if (argc < 4)
     {
-        cout << "usage: llvm_testing ensemble fname num_ensembles" << endl;
+        std::cout << "usage: llvm_testing ensemble fname num_ensembles" << std::endl;
         return -1;
     }
 
@@ -130,36 +130,36 @@ int path_test(int argc, char* argv[])
     try
     {
         std::string cmpTest = joinPath("..", "compilers", "tcc", "tcc.exe");
-        cout << "comp test: " << cmpTest << endl;
+        std::cout << "comp test: " << cmpTest << std::endl;
 
-        cout << "default tmp dir: " << getTempDir() << endl;
+        std::cout << "default tmp dir: " << getTempDir() << std::endl;
 
         Logger::enableFileLogging();
         std::string defLogFile = Logger::getFileName();
 
-        cout << "default log file path: " << defLogFile << endl;
+        std::cout << "default log file path: " << defLogFile << std::endl;
 
         if (argc >= 3) {
-            cout << "setting config temp dir to: " << argv[2] << endl;
+            std::cout << "setting config temp dir to: " << argv[2] << std::endl;
             Config::setValue(Config::TEMP_DIR_PATH, std::string(argv[2]));
         }
 
         if (argc >= 4) {
-            cout << "setting config log file path to " << argv[3] << endl;
+            std::cout << "setting config log file path to " << argv[3] << std::endl;
             Config::setValue(Config::LOGGER_LOG_FILE_PATH, std::string(argv[3]));
         }
 
-        cout << "getTempDir: " << getTempDir() << endl;
+        std::cout << "getTempDir: " << getTempDir() << std::endl;
 
         Logger::enableFileLogging();
 
-        cout << "log file: " << Logger::getFileName() << endl;
+        std::cout << "log file: " << Logger::getFileName() << std::endl;
 
         rrLog(Logger::LOG_NOTICE) << "log messsage";
     }
     catch (std::exception& e)
     {
-        cout << "Fatal error: " << e.what() << endl;
+        std::cout << "Fatal error: " << e.what() << std::endl;
     }
 
     return 0;
@@ -171,46 +171,46 @@ int jacobian_test(int argc, char* argv[])
     {
         if (argc < 3)
         {
-            cout << "usage: llvm_testing jacobian fname";
+            std::cout << "usage: llvm_testing jacobian fname";
         }
 
         RoadRunner r(argv[2]);
 
-        cout << "amount mode" << endl;
+        std::cout << "amount mode" << std::endl;
         Config::setValue(Config::ROADRUNNER_JACOBIAN_MODE, (unsigned)Config::ROADRUNNER_JACOBIAN_MODE_AMOUNTS);
 
         ls::DoubleMatrix mat = r.getFullJacobian();
 
-        cout << "amount mode full jacobian: " << endl;
+        std::cout << "amount mode full jacobian: " << std::endl;
 
-        cout << mat << endl;
+        std::cout << mat << std::endl;
 
         mat = r.getReducedJacobian();
 
-        cout << "amount mode reduced jacobian: " << endl;
+        std::cout << "amount mode reduced jacobian: " << std::endl;
 
-        cout << mat << endl;
+        std::cout << mat << std::endl;
 
-        cout << "concentration mode" << endl;
+        std::cout << "concentration mode" << std::endl;
 
         Config::setValue(Config::ROADRUNNER_JACOBIAN_MODE, (unsigned)Config::ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS);
 
         mat = r.getFullJacobian();
 
-        cout << "concentration mode full jacobian: " << endl;
+        std::cout << "concentration mode full jacobian: " << std::endl;
 
-        cout << mat << endl;
+        std::cout << mat << std::endl;
 
         mat = r.getReducedJacobian();
 
-        cout << "concentration mode reduced jacobian: " << endl;
+        std::cout << "concentration mode reduced jacobian: " << std::endl;
 
-        cout << mat << endl;
+        std::cout << mat << std::endl;
 
     }
     catch(std::exception &e)
     {
-        cout << e.what() << endl;
+        std::cout << e.what() << std::endl;
         return -1;
     }
     return 0;
@@ -222,7 +222,7 @@ int cm_1_test(int argc, char* argv[])
     try {
         if (argc < 3)
         {
-            cout << "usage: llvm_testing jacobian fname";
+            std::cout << "usage: llvm_testing jacobian fname";
         }
 
         RoadRunner r(argv[2]);
@@ -233,7 +233,7 @@ int cm_1_test(int argc, char* argv[])
 
         int ncm = m->getNumConservedMoieties();
 
-        cout << "num conserved moieties: " << ncm << endl;
+        std::cout << "num conserved moieties: " << ncm << std::endl;
 
         double val;
 
@@ -241,12 +241,12 @@ int cm_1_test(int argc, char* argv[])
             std::string name = m->getConservedMoietyId(i);
             m->getConservedMoietyValues(1, &i, &val);
 
-            cout << "cm name: " << name << ", value: " << val << endl;
+            std::cout << "cm name: " << name << ", value: " << val << std::endl;
         }
 
 
     } catch (std::exception& e) {
-        cout << "Error running ensemble: " << e.what() << endl;
+        std::cout << "Error running ensemble: " << e.what() << std::endl;
     }
 
     return 0;
@@ -258,7 +258,7 @@ int reset_test(int argc, char* argv[])
     try {
         if (argc < 4)
         {
-            cout << "usage: llvm_testing reset fname what";
+            std::cout << "usage: llvm_testing reset fname what";
             return -1;
         }
 
@@ -270,32 +270,32 @@ int reset_test(int argc, char* argv[])
 
         uint opt = 0;
 
-        if(what.find("GLOBAL_PARAMETER") != string::npos)
+        if(what.find("GLOBAL_PARAMETER") != std::string::npos)
         {
             opt |= SelectionRecord::GLOBAL_PARAMETER;
         }
 
-        if(what.find("TIME") != string::npos)
+        if(what.find("TIME") != std::string::npos)
         {
             opt |= SelectionRecord::TIME;
         }
 
-        if(what.find("FLOATING") != string::npos)
+        if(what.find("FLOATING") != std::string::npos)
         {
             opt |= SelectionRecord::FLOATING;
         }
 
-        if(what.find("COMPARTMENT") != string::npos)
+        if(what.find("COMPARTMENT") != std::string::npos)
         {
             opt |= SelectionRecord::COMPARTMENT;
         }
 
-        if(what.find("RATE") != string::npos)
+        if(what.find("RATE") != std::string::npos)
         {
             opt |= SelectionRecord::RATE;
         }
 
-        if(what.find("ALL") != string::npos)
+        if(what.find("ALL") != std::string::npos)
         {
             opt |= SelectionRecord::ALL;
         }
@@ -305,7 +305,7 @@ int reset_test(int argc, char* argv[])
         return opt;
     }
     catch(std::exception& e) {
-        cout << e.what();
+        std::cout << e.what();
     }
     return -1;
 }
@@ -316,18 +316,18 @@ int validate_test(int argc, char* argv[])
     try {
         if (argc < 3)
         {
-            cout << "usage: llvm_testing validate fname";
+            std::cout << "usage: llvm_testing validate fname";
             return -1;
         }
 
 
         std::string errors = rr::validateSBML(argv[2], (rr::ValidateSBML)0);
 
-        cout << errors << endl;
+        std::cout << errors << std::endl;
 
     }
     catch(std::exception& e) {
-        cout << e.what();
+        std::cout << e.what();
     }
     return -1;
 }
@@ -337,40 +337,40 @@ int distrib_test(int argc, char* argv[])
     try {
         if (argc < 3)
         {
-            cout << "usage: llvm_testing distrib fname";
+            std::cout << "usage: llvm_testing distrib fname";
             return -1;
         }
 
-        cout << "r1 values:" << endl;
+        std::cout << "r1 values:" << std::endl;
 
         RoadRunner r1(argv[2]);
 
         for (int i = 0; i < 5; ++i) {
-            cout << "value: " << r1.getValue("rand") << endl;
+            std::cout << "value: " << r1.getValue("rand") << std::endl;
         }
 
-        cout << "r2 values: " << endl;
+        std::cout << "r2 values: " << std::endl;
 
         RoadRunner r2(argv[2]);
 
         for (int i = 0; i < 5; ++i) {
-            cout << "value: " << r2.getValue("rand") << endl;
+            std::cout << "value: " << r2.getValue("rand") << std::endl;
         }
 
 
     }
     catch(std::exception& e) {
-        cout << e.what();
+        std::cout << e.what();
     }
     return -1;
 }
 
-typedef vector<string> strvec;
+typedef std::vector<std::string> strvec;
 
 
 std::string variantName(const Variant& var) {
     switch(var.type()) {
-    case Variant::STRING: return "string";
+    case Variant::STRING: return "std::string";
     case Variant::INT32: return "int32";
     case Variant::UINT32: return "uint32";
     case Variant::INT64: return "int64";
@@ -392,14 +392,14 @@ int variant_test(int argc, char* argv[])
     d.setItem("long", (long)123);
     d.setItem("bool", false);
     d.setItem("ulong", (unsigned long)123);
-    d.setItem("string", "hello");
+    d.setItem("std::string", "hello");
     d.setItem("double", 1.23);
     d.setItem("char", 'a');
 
-    vector<string> keys = d.getKeys();
+    std::vector<std::string> keys = d.getKeys();
 
     for(int i = 0; i < keys.size(); ++i) {
-        cout << "key: " << keys[i] << ", type: " << variantName(d.getItem(keys[i])) << endl;
+        std::cout << "key: " << keys[i] << ", type: " << variantName(d.getItem(keys[i])) << std::endl;
     }
 
     return 0;
@@ -412,18 +412,18 @@ int intparam_test(int argc, char* argv[])
 	// Function suppressed by Wilbert Copeland on June 18, 2015.
 
     //// get a list of all of the integrator options
-    //vector<const Dictionary*> opts = IntegratorFactory::getIntegratorOptions();
+    //std::vector<const Dictionary*> opts = IntegratorFactory::getIntegratorOptions();
 
     //// iterate through the integrator options
     //for(int i = 0; i < opts.size(); ++i) {
     //    // each dictionary will contain all the keys that
     //    // are valid for a particular integrator.
     //    const Dictionary &d = *opts[i];
-    //    vector<string> keys = d.getKeys();
+    //    std::vector<std::string> keys = d.getKeys();
     //    for(int j = 0; j < keys.size(); ++j) {
-    //        string key = keys[j];
-    //        string item = (string)d.getItem(key);
-    //        cout << "key: " << key << ", value: " << item << std::endl;
+    //        std::string key = keys[j];
+    //        std::string item = (std::string)d.getItem(key);
+    //        std::cout << "key: " << key << ", value: " << item << std::endl;
     //    }
     //}
 
@@ -452,17 +452,17 @@ int matnames_test(int argc, char* argv[]) {
 
 
     for(strvec::const_iterator i = mat.getRowNames().begin(); i != mat.getRowNames().end(); ++i) {
-        cout << *i << ", ";
+        std::cout << *i << ", ";
     }
 
-    cout << endl;
+    std::cout << std::endl;
 
 
     for(strvec::const_iterator i = mat.getColNames().begin(); i != mat.getColNames().end(); ++i) {
-        cout << *i << ", ";
+        std::cout << *i << ", ";
     }
 
-    cout << endl;
+    std::cout << std::endl;
 
 
     return 0;
@@ -473,7 +473,7 @@ int matnames_test(int argc, char* argv[]) {
 int main(int argc, char* argv[])
 {
     if (argc < 2) {
-        cout << "usage: llvm_testing test" << endl;
+        std::cout << "usage: llvm_testing test" << std::endl;
         return -1;
     }
 
@@ -518,7 +518,7 @@ int main(int argc, char* argv[])
         return matnames_test(argc, argv);
     }
 
-    cout << "error, invalid test name: " << argv[1] << endl;
+    std::cout << "error, invalid test name: " << argv[1] << std::endl;
     return -1;
 }
 

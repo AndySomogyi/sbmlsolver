@@ -89,7 +89,7 @@ public:
     /**
      * get the name of the model
      */
-    virtual string getModelName();
+    virtual std::string getModelName();
     virtual void setTime(double _time);
     virtual double getTime();
 
@@ -174,24 +174,24 @@ public:
     virtual std::string getStateVectorId(size_t index);
 
     /**
-     * copies the internal model state vector into the provided
+     * copies the internal model state std::vector into the provided
      * buffer.
      *
-     * @param[out] stateVector a buffer to copy the state vector into, if NULL,
+     * @param[out] stateVector a buffer to copy the state std::vector into, if NULL,
      *         return the size required.
      *
      * @return the number of items coppied into the provided buffer, if
-     *         stateVector is NULL, returns the length of the state vector.
+     *         stateVector is NULL, returns the length of the state std::vector.
      */
     virtual int getStateVector(double *stateVector);
 
     /**
-     * sets the internal model state to the provided packed state vector.
+     * sets the internal model state to the provided packed state std::vector.
      *
-     * @param[in] an array which holds the packed state vector, must be
+     * @param[in] an array which holds the packed state std::vector, must be
      *         at least the size returned by getStateVector.
      *
-     * @return the number of items copied from the state vector, negative
+     * @return the number of items copied from the state std::vector, negative
      *         on failure.
      */
     virtual int setStateVector(const double *stateVector);
@@ -199,16 +199,16 @@ public:
     /**
      * where most of the juicy bits occur.
      *
-     * the state vector y is the rate rule values and floating species
+     * the state std::vector y is the rate rule values and floating species
      * concentrations concatenated. y is of length numFloatingSpecies + numRateRules.
      *
-     * The state vector is packed such that the first n raterule elements are the
+     * The state std::vector is packed such that the first n raterule elements are the
      * values of the rate rules, and the last n floatingspecies are the floating
      * species values.
      *
      * @param[in] time current simulator time
-     * @param[in] y state vector, must be of size returned by getStateVector
-     * @param[out] dydt calculated rate of change of the state vector, if null,
+     * @param[in] y state std::vector, must be of size returned by getStateVector
+     * @param[out] dydt calculated rate of change of the state std::vector, if null,
      * it is ignored.
      */
     virtual void getStateVectorRate(double time, const double *y, double* dydt=0);
@@ -216,12 +216,12 @@ public:
 
     virtual void testConstraints();
 
-    virtual string getInfo();
+    virtual std::string getInfo();
 
-    virtual int getFloatingSpeciesIndex(const string&);
-    virtual string getFloatingSpeciesId(size_t index);
-    virtual int getBoundarySpeciesIndex(const string&);
-    virtual string getBoundarySpeciesId(size_t index);
+    virtual int getFloatingSpeciesIndex(const std::string&);
+    virtual std::string getFloatingSpeciesId(size_t index);
+    virtual int getBoundarySpeciesIndex(const std::string&);
+    virtual std::string getBoundarySpeciesId(size_t index);
 
     /**
      * get the floating species amounts
@@ -312,18 +312,18 @@ public:
              double const *values);
 
 
-    virtual int getGlobalParameterIndex(const string&);
-    virtual string getGlobalParameterId(size_t);
-    virtual int getCompartmentIndex(const string&);
-    virtual string getCompartmentId(size_t);
-    virtual int getReactionIndex(const string&);
-    virtual string getReactionId(size_t);
+    virtual int getGlobalParameterIndex(const std::string&);
+    virtual std::string getGlobalParameterId(size_t);
+    virtual int getCompartmentIndex(const std::string&);
+    virtual std::string getCompartmentId(size_t);
+    virtual int getReactionIndex(const std::string&);
+    virtual std::string getReactionId(size_t);
 
     virtual void print(std::ostream &stream);
 
     virtual int getNumConservedMoieties();
-    virtual int getConservedMoietyIndex(const string& name);
-    virtual string getConservedMoietyId(size_t index);
+    virtual int getConservedMoietyIndex(const std::string& name);
+    virtual std::string getConservedMoietyId(size_t index);
     virtual int getConservedMoietyValues(size_t len, int const *indx, double *values);
     virtual int setConservedMoietyValues(size_t len, int const *indx,
             const double *values);
@@ -396,8 +396,8 @@ public:
     virtual int getSupportedIdTypes();
 
     /**
-     * gets the value for the given id string. The string must be a SelectionRecord
-     * string that is accepted by this class.
+     * gets the value for the given id std::string. The std::string must be a SelectionRecord
+     * std::string that is accepted by this class.
      */
     virtual double getValue(const std::string& id);
 
@@ -582,10 +582,10 @@ public:
 private:
 
     /**
-     * get a selection record for a given stirng. if the string is valid,
+     * get a selection record for a given stirng. if the std::string is valid,
      * the SelectionRecord is created and cached.
      *
-     * if the string is invalid, and exception is thrown.
+     * if the std::string is invalid, and exception is thrown.
      */
     const rr::SelectionRecord& getSelection(const std::string& sel);
 
@@ -660,7 +660,7 @@ private:
     SetGlobalParameterInitValueCodeGen::FunctionPtr setGlobalParameterInitValuePtr;
 
 
-    typedef string (LLVMExecutableModel::*GetNameFuncPtr)(size_t);
+    typedef std::string (LLVMExecutableModel::*GetNameFuncPtr)(size_t);
 
     /**
      * cache the selection records

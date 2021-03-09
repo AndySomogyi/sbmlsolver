@@ -69,7 +69,7 @@ private:
   static const int n;//
   static const int m;//= 624, m = 397; // compile time constants
 // the variables below are static (no duplicates can exist)
-  static unsigned long state[]; // state vector array
+  static unsigned long state[]; // state std::vector array
   static int p; // position in state array
   static bool init; // true if init function is called
 // private functions used to generate the pseudo random numbers
@@ -87,7 +87,7 @@ inline unsigned long MTRand_int32::twiddle(unsigned long u, unsigned long v) con
 }
 
 inline unsigned long MTRand_int32::rand_int32() const { // generate 32 bit random int
-  if (p == n) gen_state(); // new state vector needed
+  if (p == n) gen_state(); // new state std::vector needed
 // gen_state() is split off to be non-inline, because it is only called once
 // in every 624 calls and otherwise irand() would become too big to get inlined
   unsigned long x = state[p++];

@@ -10,13 +10,13 @@
 
 #include <string>
 
-using namespace std;
 
-string getModelFileName(const string& version, int caseNumber);
 
-bool runModelDataAccessorTest(const string& version, int caseNumber);
+std::string getModelFileName(const std::string& version, int caseNumber);
 
-bool runInitialValueAssigmentTest(const string& version, int caseNumber) ;
+bool runModelDataAccessorTest(const std::string& version, int caseNumber);
+
+bool runInitialValueAssigmentTest(const std::string& version, int caseNumber) ;
 
 
 

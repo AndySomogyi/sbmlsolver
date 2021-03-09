@@ -15,14 +15,14 @@
 #include "rrRule.h"
 #include <sstream>
 
-using namespace std;
+
 using namespace libsbml;
 using namespace ls;
 
 namespace rr
 {
 
-const string ModelSymbols::mDoubleFormat("%.19G");
+const std::string ModelSymbols::mDoubleFormat("%.19G");
 
 SymbolList test1() {
     return SymbolList();
@@ -32,7 +32,7 @@ SymbolList test2(SymbolList& s) {
     return s;
 }
 
-//string CModelGenerator::generateModelCode(const string& sbmlStr, const bool& _computeAndAssignConsevationLaws)
+//std::string CModelGenerator::generateModelCode(const std::string& sbmlStr, const bool& _computeAndAssignConsevationLaws)
 //{
 //    //This function now assume that the sbml already been loaded into NOM and libstruct..
 //    mComputeAndAssignConsevationLaws  = _computeAndAssignConsevationLaws;
@@ -153,7 +153,7 @@ SymbolList test2(SymbolList& s) {
 //    writeInitFunction(mHeader, mSource);
 //
 //    mHeader<<"\n\n#endif //modelH"<<NL();
-//    string modelCode = mHeader.ToString() + mSource.ToString();
+//    std::string modelCode = mHeader.ToString() + mSource.ToString();
 //
 //    rrLog(lDebug5)<<" ------ Model Code --------\n"
 //            <<modelCode
@@ -172,11 +172,11 @@ static SymbolList readFloatingSpeciesConcentrationList(NOMSupport& nom, ls::LibS
 static SymbolList readGlobalParameters(NOMSupport &nom);
 static SymbolList readModifiableSpeciesReferences(NOMSupport &nom);
 static SymbolList readReactionList(NOMSupport &nom);
-static vector<int> readLocalParameterDimensions(NOMSupport &nom);
-static vector<SymbolList> readLocalParameterList(NOMSupport &nom);
+static std::vector<int> readLocalParameterDimensions(NOMSupport &nom);
+static std::vector<SymbolList> readLocalParameterList(NOMSupport &nom);
 static StringList readFunctionNames(NOMSupport &nom);
 static StringList readFunctionParameters(NOMSupport &nom);
-static string readModelName(const NOMSupport &nom);
+static std::string readModelName(const NOMSupport &nom);
 static IntStringHashTable readRateRules(NOMSupport &nom,
         const SymbolList &floatingSpeciesConcentrationList,
         const SymbolList &globalParameterList,
@@ -261,20 +261,20 @@ ModelSymbols::~ModelSymbols()
 //void ModelSymbols::print()
 //{
 //
-//    cout << "mModelName: " << mModelName << "\n";
-//    cout << "mNumReactions: "  << mNumReactions << "\n";
-//    cout << "mIndependentSpeciesList:\n";
+//    std::cout << "mModelName: " << mModelName << "\n";
+//    std::cout << "mNumReactions: "  << mNumReactions << "\n";
+//    std::cout << "mIndependentSpeciesList:\n";
 //    for (int i = 0; i < mIndependentSpeciesList.size(); i++) {
-//        cout << "\t" << mIndependentSpeciesList[i] << "\n";
+//        std::cout << "\t" << mIndependentSpeciesList[i] << "\n";
 //    }
-//    cout << "mNumIndependentSpecies: " <<  mNumIndependentSpecies << "\n";
-//    cout << "mDependentSpeciesList\n";
+//    std::cout << "mNumIndependentSpecies: " <<  mNumIndependentSpecies << "\n";
+//    std::cout << "mDependentSpeciesList\n";
 //    for (int i = 0; i <  mDependentSpeciesList.size(); i++) {
-//        cout << "\t" << mDependentSpeciesList[i] << "\n";
+//        std::cout << "\t" << mDependentSpeciesList[i] << "\n";
 //    }
-//    cout << "mCompartmentList: \n";
+//    std::cout << "mCompartmentList: \n";
 //    for (int i = 0; i < mCompartmentList.size(); i++) {
-//        cout << "\t" << mCompartmentList[i] << "\n";
+//        std::cout << "\t" << mCompartmentList[i] << "\n";
 //    }
 //    /*
 //    int mNumCompartments;
@@ -288,8 +288,8 @@ ModelSymbols::~ModelSymbols()
 //    SymbolList mModifiableSpeciesReferenceList;
 //    int mNumModifiableSpeciesReferences;
 //    SymbolList mReactionList;
-//    vector<int> mLocalParameterDimensions;
-//    vector<SymbolList> mLocalParameterList;
+//    std::vector<int> mLocalParameterDimensions;
+//    std::vector<SymbolList> mLocalParameterList;
 //    SymbolList mConservationList;
 //    int mTotalLocalParmeters;
 //    int mNumEvents;
@@ -301,9 +301,9 @@ ModelSymbols::~ModelSymbols()
 //
 //}
 
-static string readModelName(const NOMSupport &nom)
+static std::string readModelName(const NOMSupport &nom)
 {
-    string modelName = nom.getModelName();
+    std::string modelName = nom.getModelName();
     if(!modelName.size())
     {
         rrLog(lWarning)<<"Model name is empty. ModelName is assigned 'NameNotSet'.";
@@ -317,12 +317,12 @@ static string readModelName(const NOMSupport &nom)
 
 static SymbolList readCompartments(NOMSupport &nom)
 {
-    // cout << __FUNC__ << "\n";
+    // std::cout << __FUNC__ << "\n";
     SymbolList compartmentList;
     const int numCompartments = nom.getNumCompartments();
     for (u_int i = 0; i < numCompartments; i++)
     {
-        string sCompartmentId = nom.getNthCompartmentId(i);
+        std::string sCompartmentId = nom.getNthCompartmentId(i);
         double value = nom.getValue(sCompartmentId);
 
         if(isNaN(value))
@@ -338,15 +338,15 @@ static SymbolList readCompartments(NOMSupport &nom)
 
 static SymbolList readBoundarySpecies(NOMSupport &nom, const SymbolList &compartmentList)
 {
-    // cout << __FUNC__ << "\n";
+    // std::cout << __FUNC__ << "\n";
     StringListContainer oBoundarySpecies = nom.getListOfBoundarySpecies();
     const int numBoundarySpecies = oBoundarySpecies.Count(); // sp1.size();
     SymbolList boundarySpeciesList;
     for (int i = 0; i < numBoundarySpecies; i++)
     {
         StringList oTempList     = oBoundarySpecies[i];
-        string sName             = oTempList[0];
-        string compartmentName     = nom.getNthBoundarySpeciesCompartmentName(i);
+        std::string sName             = oTempList[0];
+        std::string compartmentName     = nom.getNthBoundarySpeciesCompartmentName(i);
         bool bIsConcentration     = toBool(oTempList[2]);
         double dValue             = toDouble(oTempList[1]);
         if (isNaN(dValue))
@@ -374,7 +374,7 @@ static SymbolList readBoundarySpecies(NOMSupport &nom, const SymbolList &compart
                     dVolume = 1;
                 }
             }
-            stringstream formula;
+            std::stringstream formula;
             formula<<toString(dValue, ModelSymbols::mDoubleFormat)<<"/ md->compartmentVolumes["<<nCompartmentIndex<<"]";
             symbol = Symbol(sName,
                                 dValue / dVolume,
@@ -411,8 +411,8 @@ static SymbolList readBoundarySpecies(NOMSupport &nom, const SymbolList &compart
 //    for (int i = 0; i < numBoundarySpecies; i++)
 //    {
 //        StringList oTempList     = oBoundarySpecies[i];
-//        string sName             = oTempList[0];
-//        string compartmentName     = mNOM->getNthBoundarySpeciesCompartmentName(i);
+//        std::string sName             = oTempList[0];
+//        std::string compartmentName     = mNOM->getNthBoundarySpeciesCompartmentName(i);
 //        bool bIsConcentration     = toBool(oTempList[2]);
 //        double dValue             = toDouble(oTempList[1]);
 //        if (isNaN(dValue))
@@ -441,7 +441,7 @@ static SymbolList readBoundarySpecies(NOMSupport &nom, const SymbolList &compart
 //                    dVolume = 1;
 //                }
 //            }
-//            stringstream formula;
+//            std::stringstream formula;
 //            formula<<toString(dValue, ms.mDoubleFormat)<<"/ md->c["<<nCompartmentIndex<<"]";
 //            symbol = new Symbol(sName,
 //                                dValue / dVolume,
@@ -473,7 +473,7 @@ static SymbolList readBoundarySpecies(NOMSupport &nom, const SymbolList &compart
 
 static SymbolList readConservationList(const int& numDependentSpecies)
 {
-    // cout << __FUNC__ << "\n";
+    // std::cout << __FUNC__ << "\n";
     SymbolList conservationList;
     for (int i = 0; i < numDependentSpecies; i++)
     {
@@ -485,7 +485,7 @@ static SymbolList readConservationList(const int& numDependentSpecies)
 
 static StringList readIndependentSpeciesList(const LibStructural &libs, bool mComputeAndAssignConsevationLaws)
 {
-    // cout << __FUNC__ << "\n";
+    // std::cout << __FUNC__ << "\n";
     //    if(mComputeAndAssignConsevationLaws)
     //    {
     //        mNumIndependentSpecies     = mLibStruct->getNumIndSpecies();
@@ -502,14 +502,14 @@ static StringList readIndependentSpeciesList(const LibStructural &libs, bool mCo
 
 static StringList readDependentSpeciesList(const LibStructural &libs, bool mComputeAndAssignConsevationLaws)
 {
-    // cout << __FUNC__ << "\n";
+    // std::cout << __FUNC__ << "\n";
     return mComputeAndAssignConsevationLaws ? StringList(libs.getDependentSpecies()) : StringList();
 }
 
 static SymbolList readFloatingSpeciesConcentrationList(NOMSupport& nom, LibStructural &libs,
         bool mComputeAndAssignConsevationLaws, const SymbolList &mCompartmentList)
 {
-    // cout << __FUNC__ << "\n";
+    // std::cout << __FUNC__ << "\n";
     IntStringHashTable mapVariables;
     const int numOfRules = nom.getNumRules();
 
@@ -534,12 +534,12 @@ static SymbolList readFloatingSpeciesConcentrationList(NOMSupport& nom, LibStruc
         for (int j = 0; j < oFloatingSpecies.Count(); j++)
         {
             StringList oTempList = oFloatingSpecies[j];
-            if (reOrderedList[i] != (const string&) oTempList[0])
+            if (reOrderedList[i] != (const std::string&) oTempList[0])
             {
                 continue;
             }
 
-            string compartmentName = nom.getNthFloatingSpeciesCompartmentName(j);
+            std::string compartmentName = nom.getNthFloatingSpeciesCompartmentName(j);
             bool bIsConcentration = toBool(oTempList[2]);
             double dValue = toDouble(oTempList[1]);
             if (isNaN(dValue))
@@ -563,7 +563,7 @@ static SymbolList readFloatingSpeciesConcentrationList(NOMSupport& nom, LibStruc
                     dVolume = 1;
                 }
 
-                stringstream formula;
+                std::stringstream formula;
                 formula << toString(dValue, ModelSymbols::mDoubleFormat)
                             << "/ md->compartmentVolumes[" << nCompartmentIndex << "]";
 
@@ -597,12 +597,12 @@ static SymbolList readFloatingSpeciesConcentrationList(NOMSupport& nom, LibStruc
     {
         try
         {
-            string ruleType = nom.getNthRuleType(i);
+            std::string ruleType = nom.getNthRuleType(i);
 
             // We only support assignment and ode rules at the moment
-            string eqnRule = nom.getNthRule(i);
+            std::string eqnRule = nom.getNthRule(i);
             RRRule aRule(eqnRule, ruleType);
-            string varName = trim(aRule.GetLHS());
+            std::string varName = trim(aRule.GetLHS());
 
             bool isRateRule = false;
 
@@ -656,12 +656,12 @@ static SymbolList readFloatingSpeciesConcentrationList(NOMSupport& nom, LibStruc
 //        for (int j = 0; j < oFloatingSpecies.Count(); j++)
 //        {
 //            StringList oTempList = oFloatingSpecies[j];
-//              if(reOrderedList[i] != (const string&) oTempList[0])
+//              if(reOrderedList[i] != (const std::string&) oTempList[0])
 //              {
 //                  continue;
 //              }
 //
-//            string compartmentName = mNOM->getNthFloatingSpeciesCompartmentName(j);
+//            std::string compartmentName = mNOM->getNthFloatingSpeciesCompartmentName(j);
 //            bool bIsConcentration  = toBool(oTempList[2]);
 //            double dValue = toDouble(oTempList[1]);
 //            if (isNaN(dValue))
@@ -685,7 +685,7 @@ static SymbolList readFloatingSpeciesConcentrationList(NOMSupport& nom, LibStruc
 //                dVolume = 1;
 //              }
 //
-//              stringstream formula;
+//              std::stringstream formula;
 //              formula<<toString(dValue,ms.mDoubleFormat)<<"/ md->c["<<nCompartmentIndex<<"]";
 //
 //              symbol = new Symbol(reOrderedList[i],
@@ -721,7 +721,7 @@ static SymbolList readFloatingSpeciesConcentrationList(NOMSupport& nom, LibStruc
 //
 
 
-static string findSymbol(const string& varName,
+static std::string findSymbol(const std::string& varName,
                          const SymbolList &floatingSpeciesConcentrationList,
                          const SymbolList &globalParameterList,
                          const SymbolList &boundarySpeciesList,
@@ -770,12 +770,12 @@ static IntStringHashTable readRateRules(NOMSupport &nom,
     {
         try
         {
-            string ruleType = nom.getNthRuleType(i);
+            std::string ruleType = nom.getNthRuleType(i);
 
             // We only support assignment and ode rules at the moment
-            string eqnRule = nom.getNthRule(i);
+            std::string eqnRule = nom.getNthRule(i);
             RRRule aRule(eqnRule, ruleType);
-            string varName = trim(aRule.GetLHS());
+            std::string varName = trim(aRule.GetLHS());
 
             bool isRateRule = false;
 
@@ -806,7 +806,7 @@ static IntStringHashTable readRateRules(NOMSupport &nom,
 
 static SymbolList readGlobalParameters(NOMSupport &nom)
 {
-    // cout << __FUNC__ << "\n";
+    // std::cout << __FUNC__ << "\n";
     SymbolList gblobalParameterList;
 
     int numGlobalParameters;
@@ -816,7 +816,7 @@ static SymbolList readGlobalParameters(NOMSupport &nom)
     {
         StringList parameter = oParameters[i];
 
-        string name = parameter[0];
+        std::string name = parameter[0];
         double value = toDouble(parameter[1]);
         Symbol aSymbol(name, value);
         rrLog(lDebug5) << "Adding symbol" << aSymbol
@@ -838,7 +838,7 @@ static SymbolList readGlobalParameters(NOMSupport &nom)
 //    {
 //        StringList parameter = oParameters[i];
 //
-//        string name     = parameter[0];
+//        std::string name     = parameter[0];
 //        double value     = toDouble(parameter[1]);
 //        Symbol aSymbol(name, value);
 //        rrLog(lDebug5)<<"Adding symbol"<<aSymbol<<" to global parameters";
@@ -851,7 +851,7 @@ static SymbolList readGlobalParameters(NOMSupport &nom)
 
 static SymbolList readModifiableSpeciesReferences(NOMSupport &nom)
 {
-    // cout << __FUNC__ << "\n";
+    // std::cout << __FUNC__ << "\n";
     SymbolList modifiableSpeciesReferenceList;
 
     if(!nom.getSBMLDocument())
@@ -867,7 +867,7 @@ static SymbolList readModifiableSpeciesReferences(NOMSupport &nom)
         return modifiableSpeciesReferenceList;
     }
 
-    string id;
+    std::string id;
     double value;
     int numReactions = SbmlModel.getNumReactions();
     for (u_int i = 0; i < numReactions; i++)
@@ -918,7 +918,7 @@ static SymbolList readModifiableSpeciesReferences(NOMSupport &nom)
 //Todo: totalLocalParmeters is not used
 static SymbolList readReactionList(NOMSupport &nom)
 {
-    // cout << __FUNC__ << "\n";
+    // std::cout << __FUNC__ << "\n";
     SymbolList reactionList;
     const int numReactions = nom.getNumReactions();
     for (int i = 0; i < numReactions; i++)
@@ -928,10 +928,10 @@ static SymbolList readReactionList(NOMSupport &nom)
     return reactionList;
 }
 
-static vector<int> readLocalParameterDimensions(NOMSupport &nom)
+static std::vector<int> readLocalParameterDimensions(NOMSupport &nom)
 {
-    // cout << __FUNC__ << "\n";
-    vector<int> localParameterDimensions;
+    // std::cout << __FUNC__ << "\n";
+    std::vector<int> localParameterDimensions;
     const int numReactions = nom.getNumReactions();
     localParameterDimensions.resize(numReactions);
     for (int i = 0; i < numReactions; i++)
@@ -941,21 +941,21 @@ static vector<int> readLocalParameterDimensions(NOMSupport &nom)
     return localParameterDimensions;
 }
 
-static vector<SymbolList> readLocalParameterList(NOMSupport &nom)
+static std::vector<SymbolList> readLocalParameterList(NOMSupport &nom)
 {
-    // cout << __FUNC__ << "\n";
-    vector<SymbolList> localParameterList;
+    // std::cout << __FUNC__ << "\n";
+    std::vector<SymbolList> localParameterList;
     const int numReactions = nom.getNumReactions();
     localParameterList.resize(numReactions);
 
     for (int i = 0; i < numReactions; i++)
     {
         const int numLocalParameters = nom.getNumParameters(i);
-        string reactionName = nom.getNthReactionId(i);
+        std::string reactionName = nom.getNthReactionId(i);
         SymbolList newList;
         for (u_int j = 0; j < numLocalParameters; j++)
         {
-            string name = nom.getNthParameterId(i, j);
+            std::string name = nom.getNthParameterId(i, j);
             double value = nom.getNthParameterValue(i, j);
             newList.Add(Symbol(reactionName, name, value));
         }
@@ -965,15 +965,15 @@ static vector<SymbolList> readLocalParameterList(NOMSupport &nom)
 }
 
 ////Todo: totalLocalParmeters is not used
-//void ModelGenerator::readLocalParameters(const int& numReactions,  vector<int>& localParameterDimensions, int& totalLocalParmeters)
+//void ModelGenerator::readLocalParameters(const int& numReactions,  std::vector<int>& localParameterDimensions, int& totalLocalParmeters)
 //{
 //    CHECK_LIB_NOM();
 //
-//    string name;
+//    std::string name;
 //    double value;
 //    int numLocalParameters;
 //    totalLocalParmeters = 0;
-//    string reactionName;
+//    std::string reactionName;
 //    localParameterDimensions.resize(numReactions);
 //    for (int i = 0; i < numReactions; i++)
 //    {
@@ -996,7 +996,7 @@ static vector<SymbolList> readLocalParameterList(NOMSupport &nom)
 
 StringList readFunctionNames(NOMSupport &nom)
 {
-    // cout << __FUNC__ << "\n";
+    // std::cout << __FUNC__ << "\n";
     StringList mFunctionNames;
     for (int i = 0; i < nom.getNumFunctionDefinitions(); i++)
     {
@@ -1005,7 +1005,7 @@ StringList readFunctionNames(NOMSupport &nom)
             StringListContainer oList = nom.getNthFunctionDefinition(i);
             StringList aList = oList[0];
 
-            string sName = aList[0];
+            std::string sName = aList[0];
             mFunctionNames.add(sName);
         }
         catch (const Exception& ex)
@@ -1021,7 +1021,7 @@ StringList readFunctionNames(NOMSupport &nom)
 
 StringList readFunctionParameters(NOMSupport &nom)
 {
-    // cout << __FUNC__ << "\n";
+    // std::cout << __FUNC__ << "\n";
     StringList mFunctionParameters;
     for (int i = 0; i < nom.getNumFunctionDefinitions(); i++)
     {
@@ -1032,7 +1032,7 @@ StringList readFunctionParameters(NOMSupport &nom)
 
             for (int j = 0; j < oArguments.size(); j++)
             {
-                mFunctionParameters.add((string) oArguments[j]);
+                mFunctionParameters.add((std::string) oArguments[j]);
             }
         }
         catch (const Exception& ex)
@@ -1055,7 +1055,7 @@ StringList readFunctionParameters(NOMSupport &nom)
 //    int numCompartments = mNOM->getNumCompartments();
 //    for (u_int i = 0; i < numCompartments; i++)
 //    {
-//        string sCompartmentId = mNOM->getNthCompartmentId(i);
+//        std::string sCompartmentId = mNOM->getNthCompartmentId(i);
 //        double value = mNOM->getValue(sCompartmentId);
 //
 //        if(isNaN(value))

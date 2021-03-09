@@ -8,11 +8,11 @@
 #include "rrUtils.h"
 #include "rrRoadRunner.h"
 
-using namespace std;
+
 namespace rr
 {
 
-TestSuiteModelSimulation::TestSuiteModelSimulation(const string& dataOutputFolder, const string& modelFilePath, const string& modelFileName)
+TestSuiteModelSimulation::TestSuiteModelSimulation(const std::string& dataOutputFolder, const std::string& modelFilePath, const std::string& modelFileName)
 :
 SBMLModelSimulation(dataOutputFolder, dataOutputFolder),
 mCurrentCaseNumber(-1),
@@ -40,7 +40,7 @@ bool TestSuiteModelSimulation::CopyFilesToOutputFolder()
         mModelSettingsFileName = joinPath(mModelFilePath, GetSettingsFileNameForCase(mCurrentCaseNumber));
     }
 
-    string fName = getFileName(mModelSettingsFileName);
+    std::string fName = getFileName(mModelSettingsFileName);
     fName = joinPath(mDataOutputFolder, fName);
 #if defined(WIN32)
     return CopyFileA(mModelSettingsFileName.c_str(), fName.c_str(), false) == TRUE ? true : false;
@@ -49,7 +49,7 @@ bool TestSuiteModelSimulation::CopyFilesToOutputFolder()
 #endif
 }
 
-bool TestSuiteModelSimulation::LoadSettings(const string& settingsFName)
+bool TestSuiteModelSimulation::LoadSettings(const std::string& settingsFName)
 {
     mModelSettingsFileName = (settingsFName);
 
@@ -60,7 +60,7 @@ bool TestSuiteModelSimulation::LoadSettings(const string& settingsFName)
     return SBMLModelSimulation::LoadSettings(mModelSettingsFileName);
 }
 
-bool TestSuiteModelSimulation::LoadSettingsEx(const string& settingsFName)
+bool TestSuiteModelSimulation::LoadSettingsEx(const std::string& settingsFName)
 {
     mModelSettingsFileName = (settingsFName);
 
@@ -80,7 +80,7 @@ bool TestSuiteModelSimulation::LoadSettingsEx(const string& settingsFName)
     return result;
 }
 
-bool TestSuiteModelSimulation::LoadReferenceData(string refDataFileName)
+bool TestSuiteModelSimulation::LoadReferenceData(std::string refDataFileName)
 {
     //The reference data is located in the folder where the model is located
     if (refDataFileName.size() == 0)
@@ -94,7 +94,7 @@ bool TestSuiteModelSimulation::LoadReferenceData(string refDataFileName)
         return false;
     }
 
-    vector<string> lines = getLinesInFile(refDataFileName);
+    std::vector<std::string> lines = getLinesInFile(refDataFileName);
     if(!lines.size())
     {
         rrLog(lWarning)<<"This file is empty..";
@@ -104,7 +104,7 @@ bool TestSuiteModelSimulation::LoadReferenceData(string refDataFileName)
     //Create the data..
     for(int row = 0; row < lines.size(); row++)
     {
-           vector<string> recs = splitString(lines[row], ",");
+           std::vector<std::string> recs = splitString(lines[row], ",");
         if(row == 0) //This is the header
         {
             mReferenceData.setColumnNames(recs);
@@ -182,13 +182,13 @@ bool TestSuiteModelSimulation::SaveAllData()
     //Save all data to one file that can be plotted "as one"
 
     //First save the reference data to a file for comparison to result data
-    string refDataFileName = joinPath(mDataOutputFolder, GetReferenceDataFileNameForCase(mCurrentCaseNumber));
-    ofstream fs(refDataFileName.c_str());
+    std::string refDataFileName = joinPath(mDataOutputFolder, GetReferenceDataFileNameForCase(mCurrentCaseNumber));
+    std::ofstream fs(refDataFileName.c_str());
     fs<<mReferenceData;
     fs.close();
 
-    string outputAllFileName;
-    string dummy;
+    std::string outputAllFileName;
+    std::string dummy;
     createTestSuiteFileNameParts(mCurrentCaseNumber, "-result-comparison.csv", dummy, outputAllFileName, dummy, dummy);
     fs.open(joinPath(mDataOutputFolder, outputAllFileName).c_str());
 
@@ -208,21 +208,21 @@ bool TestSuiteModelSimulation::SaveAllData()
             {
                 if(col == 0)
                 {
-                    vector<string> ref_cnames =  mReferenceData.getColumnNames();
-                    for(vector<string>::iterator i = ref_cnames.begin();
+                    std::vector<std::string> ref_cnames =  mReferenceData.getColumnNames();
+                    for(std::vector<std::string>::iterator i = ref_cnames.begin();
                             i != ref_cnames.end(); ++i) {
                         *i = *i + "_ref";
                     }
                     fs << rr::toString(ref_cnames);
                     fs << ",";
-                    vector<string> res_cnames =  mResultData.getColumnNames();
-                    for(vector<string>::iterator i = ref_cnames.begin();
+                    std::vector<std::string> res_cnames =  mResultData.getColumnNames();
+                    for(std::vector<std::string>::iterator i = ref_cnames.begin();
                             i != ref_cnames.end(); ++i) {
                         *i = *i + "_rr";
                     }
                     fs << rr::toString(res_cnames);
                     fs << ",";
-                    vector<string> err_names(ref_cnames.size(), "");
+                    std::vector<std::string> err_names(ref_cnames.size(), "");
                     for(int i = 0; i < err_names.size(); ++i ) {
                         err_names[i] = ref_cnames[i] + "-" + res_cnames[i];
                     }
@@ -233,7 +233,7 @@ bool TestSuiteModelSimulation::SaveAllData()
             //First column is the time...
             if(col == 0)
             {
-                fs << endl << setw(10)<<left<<setprecision(6)<< mReferenceData(row, col); // this is time..
+                fs << std::endl << std::setw(10)<<std::left<<std::setprecision(6)<< mReferenceData(row, col); // this is time..
             }
             else
             {
@@ -254,7 +254,7 @@ bool TestSuiteModelSimulation::SaveAllData()
             //First column is the time...
             if(col == 0)
             {
-                fs << "," << setw(10)<<left<<setprecision(6)<< mResultData(row , col);
+                fs << "," << std::setw(10)<<std::left<<std::setprecision(6)<< mResultData(row , col);
             }
             else
             {
@@ -268,7 +268,7 @@ bool TestSuiteModelSimulation::SaveAllData()
             //First column is the time...
             if(col == 0)
             {
-                fs << "," << setw(10)<<left<<setprecision(6)<<mErrorData(row, col); //Becuase row 0 is the header
+                fs << "," << std::setw(10)<<std::left<<std::setprecision(6)<<mErrorData(row, col); //Becuase row 0 is the header
             }
             else
             {
@@ -280,19 +280,19 @@ bool TestSuiteModelSimulation::SaveAllData()
     return true;
 }
 
-string TestSuiteModelSimulation::GetSettingsFileNameForCase(int caseNr)
+std::string TestSuiteModelSimulation::GetSettingsFileNameForCase(int caseNr)
 {
-    stringstream name;
-    name<<setfill('0')<<setw(5)<<caseNr;
-    name<<string("-settings.txt");        //create the "00023" subfolder format
-    string theName = name.str();
+    std::stringstream name;
+    name<<std::setfill('0')<<std::setw(5)<<caseNr;
+    name<<std::string("-settings.txt");        //create the "00023" subfolder format
+    std::string theName = name.str();
     return theName;
 }
 
-string TestSuiteModelSimulation::GetReferenceDataFileNameForCase(int caseNr)
+std::string TestSuiteModelSimulation::GetReferenceDataFileNameForCase(int caseNr)
 {
-    stringstream name;
-    name<<setfill('0')<<setw(5)<<caseNr<<"-results.csv";
+    std::stringstream name;
+    name<<std::setfill('0')<<std::setw(5)<<caseNr<<"-results.csv";
     return name.str();
 
 }

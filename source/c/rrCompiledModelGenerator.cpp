@@ -17,7 +17,7 @@
 
 namespace rr
 {
-using namespace std;
+
 using namespace libsbml;
 
 
@@ -44,21 +44,21 @@ mNOM(0)
 
 CompiledModelGenerator::~CompiledModelGenerator() {}
 
-string CompiledModelGenerator::substituteTerms(const int& numReactions, const string& reactionName, const string& equation)
+std::string CompiledModelGenerator::substituteTerms(const int& numReactions, const std::string& reactionName, const std::string& equation)
 {
     return substituteTerms(reactionName, equation, false);
 }
 
-string CompiledModelGenerator::substituteTerms(const string& reactionName, const string& inputEquation, bool bFixAmounts)
+std::string CompiledModelGenerator::substituteTerms(const std::string& reactionName, const std::string& inputEquation, bool bFixAmounts)
 {
-    string equation = cleanEquation(inputEquation);
+    std::string equation = cleanEquation(inputEquation);
     if (equation.size() < 1)
     {
-        return string("0");
+        return std::string("0");
     }
 
      Scanner s;
-     stringstream ss;
+     std::stringstream ss;
      ss<<equation;
 
      s.AssignStream(ss);
@@ -92,11 +92,11 @@ int CompiledModelGenerator::numAdditionalRates()
     return ms.mRateRules.size();
 }
 
-string CompiledModelGenerator::getInfo()
+std::string CompiledModelGenerator::getInfo()
 {
     // TODO placeholder for
-    //info<<"Compiler location: "     <<  getCompiler()->getCompilerLocation()<<endl;
-    //info<<"Support Code Folder: "   <<  getCompiler()->getSupportCodeFolder()<<endl;
+    //info<<"Compiler location: "     <<  getCompiler()->getCompilerLocation()<<std::endl;
+    //info<<"Support Code Folder: "   <<  getCompiler()->getSupportCodeFolder()<<std::endl;
     return "";
 }
 
@@ -133,13 +133,13 @@ ASTNode* CompiledModelGenerator::cleanEquation(ASTNode* astP)
     return new ASTNode(ast);
 }
 
-string CompiledModelGenerator::cleanEquation(const string& eqn)
+std::string CompiledModelGenerator::cleanEquation(const std::string& eqn)
 {
     if (eqn.size() < 1)
     {
         return "0";
     }
-    string equation(eqn);
+    std::string equation(eqn);
     if (equation == " + ")
     {
         return "0";
@@ -159,13 +159,13 @@ string CompiledModelGenerator::cleanEquation(const string& eqn)
               equation = equation.substr(0, equation.size() - 2);
         }
 
-           string sought("*  +");
-        if(equation.find(sought) != string::npos)
+           std::string sought("*  +");
+        if(equation.find(sought) != std::string::npos)
         {
-            equation.replace(equation.find(sought), sought.size(), string("+"));
+            equation.replace(equation.find(sought), sought.size(), std::string("+"));
         }
         sought = ("*  -");
-        if(equation.find(sought) != string::npos)
+        if(equation.find(sought) != std::string::npos)
         {
             equation = equation.replace(equation.find(sought), sought.size(), "-");
         }
@@ -178,7 +178,7 @@ string CompiledModelGenerator::cleanEquation(const string& eqn)
     }
 
     ASTNode *ast2 = cleanEquation(ast);
-    string result = SBML_formulaToStdString(ast2);
+    std::string result = SBML_formulaToStdString(ast2);
     delete ast;
     delete ast2;
     return result;
@@ -191,8 +191,8 @@ ls::DoubleMatrix* CompiledModelGenerator::initializeL0(int& nrRows, int& nrCols)
     {
         if (ms.mNumDependentSpecies > 0)
         {
-            vector<string> RowLabels;
-            vector<string> ColumnLabels; //Todo: Filling these out here is meaningless?
+            std::vector<std::string> RowLabels;
+            std::vector<std::string> ColumnLabels; //Todo: Filling these out here is meaningless?
             L0 = mLibStruct->getL0Matrix();//(RowLabels, ColumnLabels);
             nrRows = L0->RSize();//.size();
             nrCols = L0->CSize();//.size();
@@ -212,7 +212,7 @@ ls::DoubleMatrix* CompiledModelGenerator::initializeL0(int& nrRows, int& nrCols)
     return L0;
 }
 
-bool CompiledModelGenerator::expressionContainsSymbol(ASTNode *ast, const string& symbol)
+bool CompiledModelGenerator::expressionContainsSymbol(ASTNode *ast, const std::string& symbol)
 {
     if (ast == NULL || isNullOrEmpty(symbol))
     {
@@ -235,7 +235,7 @@ bool CompiledModelGenerator::expressionContainsSymbol(ASTNode *ast, const string
     return false;
 }
 
-bool CompiledModelGenerator::expressionContainsSymbol(const string& expression,const string& symbol)
+bool CompiledModelGenerator::expressionContainsSymbol(const std::string& expression,const std::string& symbol)
 {
       if (isNullOrEmpty(expression) || isNullOrEmpty(symbol))
       {
@@ -245,7 +245,7 @@ bool CompiledModelGenerator::expressionContainsSymbol(const string& expression,c
       return expressionContainsSymbol(ast, symbol);
 }
 
-const Symbol* CompiledModelGenerator::getSpecies(const string& id)
+const Symbol* CompiledModelGenerator::getSpecies(const std::string& id)
 {
     int index;
     if (ms.mFloatingSpeciesConcentrationList.find(id, index))
@@ -260,7 +260,7 @@ const Symbol* CompiledModelGenerator::getSpecies(const string& id)
     return NULL;
 }
 
-string CompiledModelGenerator::writeDouble(const double& value, const string& format)
+std::string CompiledModelGenerator::writeDouble(const double& value, const std::string& format)
 {
     return toString(value, format);
 }

@@ -16,7 +16,7 @@
 #include <cassert>
 #include <cctype>
 #include <cstdlib>
-#include <fstream> // std::ofstream
+#include <fstream> // ofstream
 #include <stdexcept>
 
 // TODO When we have gcc 4.4 as minimal compiler, drop poco and use C++ standard
@@ -152,7 +152,7 @@ static void readDefaultConfig() {
     assert(rr::Config::CONFIG_END == sizeof(values) / sizeof(Variant) &&
            "values array size different than CONFIG_END");
 
-    string confPath = rr::Config::getConfigFilePath();
+    std::string confPath = rr::Config::getConfigFilePath();
 
     try {
       if (confPath.size() > 0) {
@@ -168,7 +168,7 @@ static void readDefaultConfig() {
 }
 
 /**
- * load the names of the keys and values into a map
+ * load the names of the keys and values into a std::map
  */
 static void getKeyNames(StringIntMap &keys) {
   keys["LOADSBMLOPTIONS_CONSERVED_MOIETIES"] =
@@ -257,7 +257,7 @@ static void getKeyNames(StringIntMap &keys) {
   assert(rr::Config::CONFIG_END == sizeof(values) / sizeof(Variant) &&
          "values array size different than CONFIG_END");
   assert(rr::Config::CONFIG_END == keys.size() &&
-         "number of keys in map does not match static values");
+         "number of keys in std::map does not match static values");
 }
 
 static std::string reverseLookup(StringIntMap &keys, Config::Keys k) {
@@ -268,8 +268,8 @@ static std::string reverseLookup(StringIntMap &keys, Config::Keys k) {
   throw std::runtime_error("No such key");
 }
 
-std::vector<string> Config::getKeyList() {
-  std::vector<string> result;
+std::vector<std::string> Config::getKeyList() {
+  std::vector<std::string> result;
   StringIntMap m;
 
   getKeyNames(m);
@@ -332,9 +332,9 @@ std::string Config::getConfigFilePath() {
     return path;
   }
 
-  // this could be an empty string if we are in a statically
+  // this could be an empty std::string if we are in a statically
   // linked executable, if so, Poco::Path will puke if popDir is called
-  string chkDir = rr::getCurrentSharedLibDir();
+  std::string chkDir = rr::getCurrentSharedLibDir();
   if (chkDir.empty()) {
     chkDir = rr::getCurrentExeFolder();
   }

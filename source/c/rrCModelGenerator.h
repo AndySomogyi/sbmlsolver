@@ -20,17 +20,17 @@ class RR_DECLSPEC CModelGenerator : public CompiledModelGenerator
 {
 
 public:
-    CModelGenerator(const string& tempFolder, const string& supportCodeFolder, const string& compiler);
+    CModelGenerator(const std::string& tempFolder, const std::string& supportCodeFolder, const std::string& compiler);
     virtual                            ~CModelGenerator();
 
-    virtual  ExecutableModel            *createModel(const string& sbml, uint options);
+    virtual  ExecutableModel            *createModel(const std::string& sbml, uint options);
 
-    virtual bool                        setTemporaryDirectory(const string& path);
+    virtual bool                        setTemporaryDirectory(const std::string& path);
 
     /**
      * Get the location where this model generator creates source file and shared libraries.
      */
-    virtual string                      getTemporaryDirectory();
+    virtual std::string                      getTemporaryDirectory();
 
     /**
      * Get the compiler object that the model generator is using to
@@ -42,14 +42,14 @@ public:
      * Set the name of the compiler to use. As this is a C source code compiler, this
      * is the name of the external C compiler, which would typically be 'gcc', 'cc', 'icc', etc...
      */
-    virtual                             bool setCompiler(const string& compiler);
+    virtual                             bool setCompiler(const std::string& compiler);
 
     /**
      * These are access in the c_api, should they be??? TODO: fix this.
      */
-    string                              getHeaderCode();
-    string                              getSourceCode();
-    string                              getSourceCodeFileName();
+    std::string                              getHeaderCode();
+    std::string                              getSourceCode();
+    std::string                              getSourceCodeFileName();
 
 private:
     /**
@@ -57,16 +57,16 @@ private:
      *
      * The caller own this.
      */
-    ExecutableModel                     *createModel(const string& sbml, ls::LibStructural *ls,
+    ExecutableModel                     *createModel(const std::string& sbml, ls::LibStructural *ls,
                                                      bool forceReCompile, bool computeAndAssignConsevationLaws);
 
     CodeBuilder                         mHeader;
     CodeBuilder                         mSource;
 
-    string                              mHeaderCodeFileName;
-    string                              mSourceCodeFileName;
+    std::string                              mHeaderCodeFileName;
+    std::string                              mSourceCodeFileName;
 
-    string                              mCurrentSBML;
+    std::string                              mCurrentSBML;
 
     // the shared lib thats created.
     // this needs to belong to the model
@@ -75,9 +75,9 @@ private:
 
     CCompiler                           mCompiler;
 
-    string                              mTempFileFolder;
+    std::string                              mTempFileFolder;
 
-    bool generateModelCode(const string& sbml, const string& modelName, bool computeAndAssignConsevationLaws);
+    bool generateModelCode(const std::string& sbml, const std::string& modelName, bool computeAndAssignConsevationLaws);
 
     static Mutex                        mCompileMutex;
 
@@ -89,27 +89,27 @@ private:
 
     //C Specifics..
 
-    string                              getHeaderCodeFileName();
-    bool                                saveSourceCodeToFolder(const string& folder, const string& baseName);
+    std::string                              getHeaderCodeFileName();
+    bool                                saveSourceCodeToFolder(const std::string& folder, const std::string& baseName);
     int                                 getNumberOfFloatingSpecies();
 
 
-    string                              convertUserFunctionExpression(const string& equation);
-    string                              convertCompartmentToC(const string& compartmentName);
-    string                              convertSpeciesToBc(const string& speciesName);
-    string                              convertSpeciesToY(const string& speciesName);
+    std::string                              convertUserFunctionExpression(const std::string& equation);
+    std::string                              convertCompartmentToC(const std::string& compartmentName);
+    std::string                              convertSpeciesToBc(const std::string& speciesName);
+    std::string                              convertSpeciesToY(const std::string& speciesName);
 
     /**
-     * creates a string of the format "md->c[comp_index]", where
+     * creates a std::string of the format "md->c[comp_index]", where
      * comp_index is the index of the named compartment
      */
-    string                              convertSymbolToC(const string& compartmentName);
-    string                              convertSymbolToGP(const string& parameterName);
+    std::string                              convertSymbolToC(const std::string& compartmentName);
+    std::string                              convertSymbolToGP(const std::string& parameterName);
 
-    void                                substituteEquation(const string& reactionName, Scanner& s, CodeBuilder& sb);
-    void                                substituteWords(const string& reactionName, bool bFixAmounts, Scanner& s, CodeBuilder& sb);
-    void                                substituteToken(const string& reactionName, bool bFixAmounts, Scanner& s, CodeBuilder& sb);
-    string                              findSymbol(const string& varName);
+    void                                substituteEquation(const std::string& reactionName, Scanner& s, CodeBuilder& sb);
+    void                                substituteWords(const std::string& reactionName, bool bFixAmounts, Scanner& s, CodeBuilder& sb);
+    void                                substituteToken(const std::string& reactionName, bool bFixAmounts, Scanner& s, CodeBuilder& sb);
+    std::string                              findSymbol(const std::string& varName);
     void                                write_getModelNameFunction(CodeBuilder& ignore, CodeBuilder& source);
     void                                writeComputeAllRatesOfChange(CodeBuilder& sb, const int& numIndependentSpecies, const int& numDependentSpecies, DoubleMatrix& L0);
     void                                writeComputeConservedTotals(CodeBuilder& sb, const int& numFloatingSpecies, const int& numDependentSpecies);
@@ -141,16 +141,16 @@ private:
     int                                 readFloatingSpecies();
     // int                                 readBoundarySpecies();
 
-    // Generates the Model Code from the SBML string
+    // Generates the Model Code from the SBML std::string
     // TODO major clean up
-    string                              generateModelCode(const string& sbmlStr, const bool& _computeAndAssignConsevationLaws);
+    std::string                              generateModelCode(const std::string& sbmlStr, const bool& _computeAndAssignConsevationLaws);
 
-    // Generates the Model Code from th e SBML string
+    // Generates the Model Code from th e SBML std::string
     // TODO major clean up also
-    string                              generateModelCode(const string& sbmlStr, LibStructural *ls, NOMSupport *nom,
+    std::string                              generateModelCode(const std::string& sbmlStr, LibStructural *ls, NOMSupport *nom,
                                                           const bool& _computeAndAssignConsevationLaws = false);
 
-    static bool                         loadSBMLIntoNOM(NOMSupport &nom, const string& sbml);
+    static bool                         loadSBMLIntoNOM(NOMSupport &nom, const std::string& sbml);
 
 };
 

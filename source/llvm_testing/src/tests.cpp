@@ -38,7 +38,7 @@
 
 #include "cpplapack.h"
 
-using namespace std;
+
 using namespace rr;
 using namespace llvm;
 using namespace libsbml;
@@ -46,22 +46,22 @@ using namespace rrllvm;
 
 
 
-string getModelFileName(const string& version, int caseNumber)
+std::string getModelFileName(const std::string& version, int caseNumber)
 {
-    string dummy;
-    string logFileName;
-    string settingsFileName;
+    std::string dummy;
+    std::string logFileName;
+    std::string settingsFileName;
 
     //Create a log file name
     createTestSuiteFileNameParts(caseNumber, ".log", dummy, logFileName,
             settingsFileName, dummy);
 
     //Read SBML models.....
-    string home = getenv("HOME");
-    string modelFilePath = home + "/src/sbml_test/";
+    std::string home = getenv("HOME");
+    std::string modelFilePath = home + "/src/sbml_test/";
 
     modelFilePath = joinPath(joinPath(modelFilePath, "cases"), "semantic");
-    string modelFileName;
+    std::string modelFileName;
 
     createTestSuiteFileNameParts(caseNumber, "-sbml-" + version + ".xml",
             modelFilePath, modelFileName, settingsFileName, dummy);
@@ -71,10 +71,10 @@ string getModelFileName(const string& version, int caseNumber)
     return modelFileName;
 }
 
-bool runInitialValueAssigmentTest(const string& version, int caseNumber)
+bool runInitialValueAssigmentTest(const std::string& version, int caseNumber)
 {
     LLVMModelData *md = 0;
-    string modelFileName = getModelFileName(version, caseNumber);
+    std::string modelFileName = getModelFileName(version, caseNumber);
 
     SBMLDocument *doc = readSBMLFromFile(modelFileName.c_str());
 
@@ -99,12 +99,12 @@ bool runInitialValueAssigmentTest(const string& version, int caseNumber)
 
         rrLog(lInfo) << md;
 
-        cout << "done with " << modelFileName << endl;
+        std::cout << "done with " << modelFileName << std::endl;
 
     }
     catch(std::exception &e)
     {
-        cout << "Failure in " << modelFileName.c_str() << ", " << e.what() << "\n";
+        std::cout << "Failure in " << modelFileName.c_str() << ", " << e.what() << "\n";
     }
 
     delete doc;
@@ -112,10 +112,10 @@ bool runInitialValueAssigmentTest(const string& version, int caseNumber)
     return true;
 }
 
-bool runModelDataAccessorTest(const string& version, int caseNumber)
+bool runModelDataAccessorTest(const std::string& version, int caseNumber)
 {
     LLVMModelData *md;
-    string modelFileName = getModelFileName(version, caseNumber);
+    std::string modelFileName = getModelFileName(version, caseNumber);
 
     SBMLDocument *doc = readSBMLFromFile(modelFileName.c_str());
 
@@ -143,11 +143,11 @@ bool runModelDataAccessorTest(const string& version, int caseNumber)
 
     double value = pfunc(md);
 
-    cout << "get_size returned " << value << "\n";
+    std::cout << "get_size returned " << value << "\n";
 
 
 
-    vector<string> floatSpeciesIds = c.getModelDataSymbols().getFloatingSpeciesIds();
+    std::vector<std::string> floatSpeciesIds = c.getModelDataSymbols().getFloatingSpeciesIds();
 
 
     for(int i = 0; i < md->numIndCompartments; i++)
@@ -157,7 +157,7 @@ bool runModelDataAccessorTest(const string& version, int caseNumber)
 
     for(int i = 0; i < floatSpeciesIds.size(); i++)
     {
-        string getName = "get_floatingspecies_conc_" + floatSpeciesIds[i];
+        std::string getName = "get_floatingspecies_conc_" + floatSpeciesIds[i];
         Function *getFunc = engine.FindFunctionNamed(getName.c_str());
 
         //getFunc->dump();
@@ -171,9 +171,9 @@ bool runModelDataAccessorTest(const string& version, int caseNumber)
 
         double value = pfunc(md);
 
-        cout << getName << " returned " << value << "\n";
+        std::cout << getName << " returned " << value << "\n";
 
-        string setName = "set_floatingspecies_conc_" + floatSpeciesIds[i];
+        std::string setName = "set_floatingspecies_conc_" + floatSpeciesIds[i];
         Function *setFunc = engine.FindFunctionNamed(setName.c_str());
 
         void (*psetfunc)(LLVMModelData*,double) = (void (*)(LLVMModelData*,double))engine.getPointerToFunction(setFunc);

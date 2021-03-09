@@ -59,7 +59,7 @@ namespace rr {
                               "current iterate, or could not find an iterate satisfying the suffcient decrease condition. "
                               "Failure to satisfy the suffcient decrease condition could mean the current iterate "
                               "is close to an approximate solution of the given nonlinear system, the difference "
-                              "approximation of the matrix-vector product J(u)v is inaccurate, or the real scalar "
+                              "approximation of the matrix-std::vector product J(u)v is inaccurate, or the real scalar "
                               "scsteptol is too large." << std::endl;
                 }
                 break;
@@ -150,7 +150,7 @@ namespace rr {
             case KIN_VECTOROP_ERR: {
                 errMsg << "KIN_VECTOROP_ERR: ";
                 if (exInfo) {
-                    errMsg << "a vector operation error occurred" << std::endl;
+                    errMsg << "a std::vector operation error occurred" << std::endl;
                 }
                 break;
             }

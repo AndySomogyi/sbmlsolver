@@ -75,7 +75,7 @@ namespace rr {
 
         /**
          * @brief set elements of the fscale variable to @param value.
-         * @param value should have the same size as the state vector
+         * @param value should have the same size as the state std::vector
          */
         void setFScale(const std::vector<double> &value);
 
@@ -86,7 +86,7 @@ namespace rr {
 
         /**
          * @brief set elements of the uscale variable to @param value.
-         * @param value should have the same size as the state vector
+         * @param value should have the same size as the state std::vector
          */
         void setUScale(std::vector<double> value);
 
@@ -100,8 +100,8 @@ namespace rr {
          */
         template<class KinsolSteadyStateSolverType>
         static int kinsolDyDtFcn(N_Vector stateVecIn, N_Vector stateVecOut, void *userData) {
-            // we need to use the state vector y (chosen by the solver)
-            // to compute the rates dydt and then update the state vector
+            // we need to use the state std::vector y (chosen by the solver)
+            // to compute the rates dydt and then update the state std::vector
             // using the rates.
             double *y = NV_DATA_S(stateVecIn);
 
@@ -172,8 +172,8 @@ namespace rr {
 
         /**
          * @brief add settings to the Solver::settings
-         * map when called for the first time or
-         * reset the settings map back to default values
+         * std::map when called for the first time or
+         * reset the settings std::map back to default values
          * when called subsequent times.
          */
         void resetSettings() override;
@@ -189,21 +189,21 @@ namespace rr {
         N_Vector mStateVector = nullptr;
 
         /**
-         * @brief vector containing diagonal elements of scaling matrix DF for F(u)
+         * @brief std::vector containing diagonal elements of scaling matrix DF for F(u)
          * chosen so that the components of D_F*F(u) (as a matrix multiplication) all
          * have roughly the same magnitude when u is not too near a root of F(u). In
          * the case of a fixed-point iteration, consider F(u) = G(u) - u.
-         * @note here u is mStateVector, F is the vector of rate functions and D_u an internal
+         * @note here u is mStateVector, F is the std::vector of rate functions and D_u an internal
          * variable inside kinsol
          *
          */
         N_Vector fscale = nullptr;
 
         /**
-         * @brief vector containing diagonal elements of scaling matrix Du for vector
+         * @brief std::vector containing diagonal elements of scaling matrix Du for std::vector
          * u chosen so that the components of D_u*u (as a matrix multiplication) all
          * have roughly the same magnitude when u is close to a root of F(u).
-         * @note here u is mStateVector, F is the vector of rate functions and D_u an internal
+         * @note here u is mStateVector, F is the std::vector of rate functions and D_u an internal
          * variable inside kinsol
          */
         N_Vector uscale = nullptr;

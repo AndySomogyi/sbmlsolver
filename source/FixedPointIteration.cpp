@@ -49,10 +49,10 @@ namespace rr {
     double FixedPointIteration::solve() {
         KINSol(
                 mKinsol_Memory,   // kinsol memory block
-                mStateVector,     // initial guess and solution vector
+                mStateVector,     // initial guess and solution std::vector
                 KIN_FP,  // global strategy, other options defined in kinsol.h
-                uscale,      //scaling vector for the variable cc
-                fscale      //scaling vector for the variable fval
+                uscale,      //scaling std::vector for the variable cc
+                fscale      //scaling std::vector for the variable fval
         );
 
         getSolverStats();

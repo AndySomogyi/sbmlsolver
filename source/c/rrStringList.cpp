@@ -7,7 +7,7 @@
 #include "rrUtils.h"
 #include "rrException.h"
 
-using namespace std;
+
 
 namespace rr
 {
@@ -17,7 +17,7 @@ using namespace rrc;
 StringList::StringList()
 {}
 
-StringList::StringList(const vector<string>& strings)
+StringList::StringList(const std::vector<std::string>& strings)
 :
 mStrings(strings)
 {}
@@ -35,7 +35,7 @@ StringList::StringList(RRStringArray* cp)
     }
 }
 
-StringList::StringList(const string& str, const string& delimiter)
+StringList::StringList(const std::string& str, const std::string& delimiter)
 {
     mStrings = splitString(str, delimiter);
 }
@@ -57,21 +57,21 @@ StringList::StringList(const StringList& cp)
 StringList::~StringList()
 {}
 
-vector<string>::iterator StringList::begin()
+std::vector<std::string>::iterator StringList::begin()
 {
     return mStrings.begin();
 }
 
-vector<string>::iterator StringList::end()
+std::vector<std::string>::iterator StringList::end()
 {
     return mStrings.end();
 }
 
-string& StringList::operator[](const int& index)
+std::string& StringList::operator[](const int& index)
 {
     if(index > Count() -1 )
     {
-        stringstream msg;
+        std::stringstream msg;
         msg<<"index ("<<index<<") out of bounds in StringList with count "<<Count();
 
         throw(CoreException(msg.str()));
@@ -79,11 +79,11 @@ string& StringList::operator[](const int& index)
     return mStrings[index];
 }
 
-const string& StringList::operator[](const int& index) const
+const std::string& StringList::operator[](const int& index) const
 {
     if(index > Count() -1 )
     {
-        stringstream msg;
+        std::stringstream msg;
         msg<<"index ("<<index<<") out of bounds in StringList with count "<<Count();
 
         throw(CoreException(msg.str()));
@@ -102,9 +102,9 @@ unsigned int StringList::Count() const
     return mStrings.size();
 }
 
-string StringList::AsString(const string& delimiter) const
+std::string StringList::AsString(const std::string& delimiter) const
 {
-    stringstream names;
+    std::stringstream names;
     for(int i = 0; i < mStrings.size(); i++)
     {
         names<<mStrings[i];
@@ -116,7 +116,7 @@ string StringList::AsString(const string& delimiter) const
     return names.str();
 }
 
-void StringList::PreFix(const string& fix)
+void StringList::PreFix(const std::string& fix)
 {
      for(mLI = mStrings.begin(); mLI != mStrings.end(); mLI++)
     {
@@ -124,7 +124,7 @@ void StringList::PreFix(const string& fix)
     }
 }
 
-void StringList::PostFix(const string& fix)
+void StringList::PostFix(const std::string& fix)
 {
     for(mLI = mStrings.begin(); mLI != mStrings.end(); mLI++)
     {
@@ -138,14 +138,14 @@ StringList StringList::operator-(const StringList& rhs)
 
     for(int i = 0; i < Count(); i++)
     {
-        string item = mStrings[i] + "-" + rhs[i];
+        std::string item = mStrings[i] + "-" + rhs[i];
         newList.add(item);
     }
 
     return newList;
 }
 
-void StringList::InsertAt(const int& index, const string& item)
+void StringList::InsertAt(const int& index, const std::string& item)
 {
     mLI = mStrings.begin() + index;
     if(mLI != mStrings.end())
@@ -162,17 +162,17 @@ void StringList::Append(const StringList& list)
     }
 }
 
-void StringList::add(const string& item)
+void StringList::add(const std::string& item)
 {
     mStrings.push_back(item);
 }
 
-int StringList::find(const string& item)
+int StringList::find(const std::string& item)
 {
     return rr::indexOf(mStrings, item);
 }
 
-int StringList::indexOf(const string& item)
+int StringList::indexOf(const std::string& item)
 {
     return rr::indexOf(mStrings, item);
 }
@@ -183,12 +183,12 @@ void StringList::removeAt(const int& index)
     mStrings.erase(mLI);
 }
 
-bool StringList::Contains(const string& item) const
+bool StringList::Contains(const std::string& item) const
 {
     return std::find(mStrings.begin(), mStrings.end(), item) != mStrings.end() ? true : false;
 }
 
-bool StringList::DontContain(const string& item) const
+bool StringList::DontContain(const std::string& item) const
 {
     return !Contains(item);
 }
@@ -209,13 +209,13 @@ StringList& StringList::operator=(const StringList& rhs)
     return *this;
 }
 
-StringList& StringList::operator=(const vector<string>& rhs)
+StringList& StringList::operator=(const std::vector<std::string>& rhs)
 {
     mStrings = rhs;
     return *this;
 }
 
-ostream& operator<<(ostream& stream, const StringList& list)
+std::ostream& operator<<(std::ostream& stream, const StringList& list)
 {
     stream<<"{";
     for(int i = 0; i < list.Count(); i++)

@@ -16,14 +16,14 @@
 
 // == INCLUDES ================================================
 
-# include "rrLogger.h"
-# include "rrOSSpecifics.h"
-# include "Dictionary.h"
-# include "rrException.h"
+#include "rrLogger.h"
+#include "rrOSSpecifics.h"
+#include "Dictionary.h"
+#include "rrException.h"
 
-# include "tr1proxy/rr_memory.h"
-# include "tr1proxy/rr_unordered_map.h"
-# include <stdexcept>
+#include "tr1proxy/rr_memory.h"
+#include "tr1proxy/rr_unordered_map.h"
+#include <stdexcept>
 
 // == CODE ====================================================
 
@@ -191,25 +191,25 @@ namespace rr
 
         /**
         * @author JKM
-        * @brief Get the solver settings as a string
+        * @brief Get the solver settings as a std::string
         */
         virtual std::string getSettingsRepr() const;
 
         /**
         * @author JKM
-        * @brief Python dictionary-style string representation of settings
+        * @brief Python dictionary-style std::string representation of settings
         */
         virtual std::string settingsPyDictRepr() const;
 
         /**
         * @author JKM
-        * @brief Return a string representation of the solver
+        * @brief Return a std::string representation of the solver
         */
         virtual std::string toString() const;
 
         /**
         * @author JKM
-        * @brief Return string representation a la Python __repr__ method
+        * @brief Return std::string representation a la Python __repr__ method
         */
         virtual std::string toRepr() const;
 
@@ -255,7 +255,7 @@ namespace rr
          */
         ExecutableModel* mModel = nullptr;
 
-        void addSetting(const std::string& name, const Variant& val, string display_name, std::string hint, std::string description);
+        void addSetting(const std::string& name, const Variant& val, std::string display_name, std::string hint, std::string description);
     };
 
 }

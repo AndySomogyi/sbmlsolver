@@ -28,18 +28,18 @@ class RR_DECLSPEC CompiledModelState
     public:
         //Todo:  Lot of stuff is wrong here.. ??
         double                          mTime;
-        vector<double>                  mBoundarySpeciesConcentrations;
-        vector<double>                  mCompartmentVolumes;
-        vector<double>                  mConservedTotals;
-        vector<double>                  mDyDt;
-        vector<double>                  mFloatingSpeciesConcentrations;
-        vector<double>                  mGlobalParameters;
-        vector<bool>                    mPreviousEventStatusArray;
-        vector<double>                  mRateRules;
-        vector<double>                  mRates;
-        vector<double>                  mModifiableSpeciesReferences;
-        vector<bool>                    mEventStatusArray;
-        vector<double>                  mEventTests;
+        std::vector<double>                  mBoundarySpeciesConcentrations;
+        std::vector<double>                  mCompartmentVolumes;
+        std::vector<double>                  mConservedTotals;
+        std::vector<double>                  mDyDt;
+        std::vector<double>                  mFloatingSpeciesConcentrations;
+        std::vector<double>                  mGlobalParameters;
+        std::vector<bool>                    mPreviousEventStatusArray;
+        std::vector<double>                  mRateRules;
+        std::vector<double>                  mRates;
+        std::vector<double>                  mModifiableSpeciesReferences;
+        std::vector<bool>                    mEventStatusArray;
+        std::vector<double>                  mEventTests;
 
         void                            InitializeFromModel(CompiledExecutableModel& model);
 

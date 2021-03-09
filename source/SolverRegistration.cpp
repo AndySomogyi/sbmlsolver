@@ -13,12 +13,12 @@
 
 // == INCLUDES ================================================
 
-# include "rrConfigure.h"
-# include "SolverRegistration.h"
-# include "Solver.h"
-# include "NLEQ1Solver.h"
-# include "NLEQ2Solver.h"
-# include "NewtonIteration.h"
+#include "rrConfigure.h"
+#include "SolverRegistration.h"
+#include "Solver.h"
+#include "NLEQ1Solver.h"
+#include "NLEQ2Solver.h"
+#include "NewtonIteration.h"
 
 # if RR_USE_CXX14
 #   include <mutex>

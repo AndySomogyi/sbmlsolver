@@ -155,10 +155,10 @@ namespace rr {
         // Set default integrator settings.
         addSetting("relative_tolerance", Config::getDouble(Config::CVODE_MIN_RELATIVE), "Relative Tolerance",
                    "Specifies the scalar relative tolerance (double).",
-                   "(double) CVODE calculates a vector of error weights which is used in all error and convergence tests. The weighted RMS norm for the relative tolerance should not become smaller than this value.");
+                   "(double) CVODE calculates a std::vector of error weights which is used in all error and convergence tests. The weighted RMS norm for the relative tolerance should not become smaller than this value.");
         addSetting("absolute_tolerance", Config::getDouble(Config::CVODE_MIN_ABSOLUTE), "Absolute Tolerance",
-                   "Specifies the scalar or vector absolute tolerance based on amounts (double or double vector).",
-                   "(double or double vector) CVODE calculates a vector of error weights which is used in all error and convergence tests. The weighted RMS norm for the absolute tolerance should not become smaller than this value.");
+                   "Specifies the scalar or std::vector absolute tolerance based on amounts (double or double std::vector).",
+                   "(double or double std::vector) CVODE calculates a std::vector of error weights which is used in all error and convergence tests. The weighted RMS norm for the absolute tolerance should not become smaller than this value.");
         addSetting("stiff", true, "Stiff", "Specifies whether the integrator attempts to solve stiff equations. (bool)",
                    "(bool) Specifies whether the integrator attempts to solve stiff equations. Ensure the integrator can solver stiff differential equations by setting this value to true.");
         addSetting("maximum_bdf_order", mDefaultMaxBDFOrder, "Maximum BDF Order",
@@ -247,9 +247,9 @@ namespace rr {
             std::map<std::string, std::string> options;
             std::map<std::string, std::string>::iterator it;
             //Read each line in the settings file
-            vector<std::string> lines = getLinesInFile(filename);
+            std::vector<std::string> lines = getLinesInFile(filename);
             for (int i = 0; i < lines.size(); i++) {
-                vector<std::string> line = splitString(lines[i], ":");
+                std::vector<std::string> line = splitString(lines[i], ":");
                 if (line.size() == 2) {
                     options.insert(std::pair<std::string, std::string>(line[0], line[1]));
                 } else {
@@ -270,9 +270,9 @@ namespace rr {
                     // scalar absolute tolerance
                     CVODEIntegrator::setValue("absolute_tolerance", std::abs(toDouble((*it).second)));
                 } else {
-                    // vector absolute tolerance
+                    // std::vector absolute tolerance
 
-                    vector<double> v = toDoubleVector((*it).second);
+                    std::vector<double> v = toDoubleVector((*it).second);
                     // take absolute value of each element
                     for (unsigned int i = 0; i < v.size(); i++)
                         v[i] = std::abs(v[i]);
@@ -289,8 +289,8 @@ namespace rr {
 
             //	}
             //	else {
-            // vector absolute tolerance based on concentration
-            //		vector<double> v = toDoubleVector((*it).second);
+            // std::vector absolute tolerance based on concentration
+            //		std::vector<double> v = toDoubleVector((*it).second);
             // take absolute value of each element
             //		for (unsigned int i = 0; i < v.size(); i++)
             //			v[i] = std::abs(v[i]);
@@ -339,10 +339,10 @@ namespace rr {
 
     void CVODEIntegrator::setIndividualTolerance(std::string sid, double value) {
 
-        // the tolerance vector that will be stored
+        // the tolerance std::vector that will be stored
         // [0, numIndFloatingSpecies) stores tolerances for independent floating species
         // [numIndFloatingSpecies, numIndFloatingSpecies+numRateRule) stores tolerances for variables that have rate rule
-        vector<double> v;
+        std::vector<double> v;
 
         int speciesIndex = mModel->getFloatingSpeciesIndex(sid);
         std::ptrdiff_t index;
@@ -351,7 +351,7 @@ namespace rr {
             index = speciesIndex;
         } else {
             // sid might has a rate rule
-            vector<std::string> symbols = mModel->getRateRuleSymbols();
+            std::vector<std::string> symbols = mModel->getRateRuleSymbols();
             std::vector<std::string>::iterator it = std::find(symbols.begin(), symbols.end(), sid);
             if (it != symbols.end()) {
                 // found it
@@ -374,7 +374,7 @@ namespace rr {
             case Variant::FLOAT:
             case Variant::DOUBLE: {
                 // scalar tolerance
-                // need to be converted to vector tolerance since tolerance of individual variables is set
+                // need to be converted to std::vector tolerance since tolerance of individual variables is set
 
                 double abstol = CVODEIntegrator::getValueAsDouble("absolute_tolerance");
                 for (int i = 0; i < mModel->getNumFloatingSpecies(); i++)
@@ -383,7 +383,7 @@ namespace rr {
             }
 
             case Variant::DOUBLEVECTOR: {
-                // vector tolerance
+                // std::vector tolerance
                 v = CVODEIntegrator::getValueAsDoubleVector("absolute_tolerance");
                 // only need to update the corresponding index
                 v[index] = value;
@@ -392,7 +392,7 @@ namespace rr {
 
             default:
                 throw std::runtime_error(
-                        "CVODEIntegrator::setIndividualTolerance failed, double or double vector expected");
+                        "CVODEIntegrator::setIndividualTolerance failed, double or double std::vector expected");
                 break;
         }
 
@@ -408,8 +408,8 @@ namespace rr {
         double *volumes = (double *) calloc(ncomp, sizeof(double));
         mModel->getCompartmentVolumes(ncomp, 0, volumes);
 
-        // the tolerance vector that will be stored
-        vector<double> v;
+        // the tolerance std::vector that will be stored
+        std::vector<double> v;
 
         switch (value.type()) {
 
@@ -421,7 +421,7 @@ namespace rr {
             case Variant::FLOAT:
             case Variant::DOUBLE: {
                 // scalar concentration tolerance
-                // need to be converted to vector tolerance since speices might have various compartment sizes
+                // need to be converted to std::vector tolerance since speices might have various compartment sizes
                 double abstol = value.convert<double>();
                 int index;
                 for (int i = 0; i < mModel->getNumIndFloatingSpecies(); i++) {
@@ -439,7 +439,7 @@ namespace rr {
                 }
 
 
-                vector<std::string> symbols = mModel->getRateRuleSymbols();
+                std::vector<std::string> symbols = mModel->getRateRuleSymbols();
                 for (int i = 0; i < mModel->getNumRateRules(); i++) {
                     int speciesIndex = mModel->getFloatingSpeciesIndex(symbols[i]);
                     if (speciesIndex > -1) {
@@ -465,12 +465,12 @@ namespace rr {
             }
 
             case Variant::DOUBLEVECTOR: {
-                // vector concentration tolerance
+                // std::vector concentration tolerance
 
                 // [0, numIndFloatingSpecies) stores tolerances for independent floating species
                 // [numIndFloatingSpecies, numIndFloatingSpecies+numRateRule) stores tolerances for variables that have rate rule
 
-                v = value.convert<vector<double> >();
+                v = value.convert<std::vector<double> >();
 
                 checkVectorSize(mModel->getNumIndFloatingSpecies() + mModel->getNumRateRules(), v.size());
 
@@ -486,7 +486,7 @@ namespace rr {
                 }
 
 
-                vector<std::string> symbols = mModel->getRateRuleSymbols();
+                std::vector<std::string> symbols = mModel->getRateRuleSymbols();
                 for (int i = mModel->getNumIndFloatingSpecies();
                      i < mModel->getNumRateRules() + mModel->getNumIndFloatingSpecies(); i++) {
                     std::string symbol = symbols[i];
@@ -507,7 +507,7 @@ namespace rr {
 
             default:
                 throw std::runtime_error(
-                        "CVODEIntegrator::setIndividualTolerance failed, double or double vector expected");
+                        "CVODEIntegrator::setIndividualTolerance failed, double or double std::vector expected");
                 break;
         }
 
@@ -516,14 +516,14 @@ namespace rr {
         CVODEIntegrator::setValue("absolute_tolerance", v);
     }
 
-    vector<double> CVODEIntegrator::getConcentrationTolerance() {
+    std::vector<double> CVODEIntegrator::getConcentrationTolerance() {
         uint ncomp = mModel->getNumCompartments();
 
         double *volumes = (double *) calloc(ncomp, sizeof(double));
         mModel->getCompartmentVolumes(ncomp, 0, volumes);
 
-        // the tolerance vector
-        vector<double> v;
+        // the tolerance std::vector
+        std::vector<double> v;
 
         switch (getType("absolute_tolerance")) {
 
@@ -551,7 +551,7 @@ namespace rr {
                 }
 
 
-                vector<std::string> symbols = mModel->getRateRuleSymbols();
+                std::vector<std::string> symbols = mModel->getRateRuleSymbols();
                 for (int i = 0; i < mModel->getNumRateRules(); i++) {
                     int speciesIndex = mModel->getFloatingSpeciesIndex(symbols[i]);
                     if (speciesIndex > -1) {
@@ -572,7 +572,7 @@ namespace rr {
 
 
             case Variant::DOUBLEVECTOR: {
-                // vector concentration tolerance
+                // std::vector concentration tolerance
 
                 // [0, numIndFloatingSpecies) stores tolerances for independent floating species
                 // [numIndFloatingSpecies, numIndFloatingSpecies+numRateRule) stores tolerances for variables that have rate rule
@@ -591,7 +591,7 @@ namespace rr {
                 }
 
 
-                vector<std::string> symbols = mModel->getRateRuleSymbols();
+                std::vector<std::string> symbols = mModel->getRateRuleSymbols();
                 for (int i = mModel->getNumIndFloatingSpecies();
                      i < mModel->getNumRateRules() + mModel->getNumIndFloatingSpecies(); i++) {
                     std::string symbol = symbols[i];
@@ -617,11 +617,11 @@ namespace rr {
     }
 
     void CVODEIntegrator::setValue(const std::string& key, const Variant &val) {
-        // if vector tolerance is set, the size of vector must be equal to
+        // if std::vector tolerance is set, the size of std::vector must be equal to
         // the number of floating species
         if (key == "absolute_tolerance" && val.type() == Variant::DOUBLEVECTOR)
             checkVectorSize(mModel->getNumIndFloatingSpecies() + mModel->getNumRateRules(),
-                            val.convert<vector<double> >().size());
+                            val.convert<std::vector<double> >().size());
 
         Integrator::setValue(key, val);
 
@@ -682,7 +682,7 @@ namespace rr {
     }
 
     void CVODEIntegrator::reInit(double t0) {
-        // if we have no state vector variables and no events, we never
+        // if we have no state std::vector variables and no events, we never
         // created an integrator.
         if (mCVODE_Memory == nullptr) {
             return;
@@ -777,7 +777,7 @@ namespace rr {
                         return timeEnd - roottol;
                     }
 
-                    // apply events, copy post event status into integrator state vector.
+                    // apply events, copy post event status into integrator state std::vector.
                     applyEvents(timeEnd, eventStatus);
 
                     if (listener) {
@@ -785,7 +785,7 @@ namespace rr {
                     }
                 }
             } else if (nResult == CV_SUCCESS) {
-                // copy integrator state vector into model
+                // copy integrator state std::vector into model
                 assignResultsToModel();
 
 
@@ -866,8 +866,8 @@ namespace rr {
 
 
             case Variant::DOUBLEVECTOR: {
-                // vector tolerance
-                vector<double> v = CVODEIntegrator::getValueAsDoubleVector("absolute_tolerance");
+                // std::vector tolerance
+                std::vector<double> v = CVODEIntegrator::getValueAsDoubleVector("absolute_tolerance");
                 for (int i = 0; i < v.size(); i++)
                     v[i] = std::min(v[i], minAbs);
                 CVODEIntegrator::setValue("absolute_tolerance", v);
@@ -882,7 +882,7 @@ namespace rr {
         CVODEIntegrator::setValue("relative_tolerance",
                                   std::min(CVODEIntegrator::getValueAsDouble("relative_tolerance"), minRel));
 
-        // FIXME: log for vector tolearances
+        // FIXME: log for std::vector tolearances
 
         rrLog(Logger::LOG_INFORMATION) << "tweaking CVODE tolerances to abs="
                                      << CVODEIntegrator::getValueAsDouble("absolute_tolerance") << ", rel="
@@ -902,10 +902,10 @@ namespace rr {
         assert(mStateVector == nullptr && mCVODE_Memory == nullptr &&
                "calling cvodeCreate, but cvode objects already exist");
 
-        // still need cvode state vector size if we have no vars, but have
+        // still need cvode state std::vector size if we have no vars, but have
         // events, needed so root finder works.
         int allocStateVectorSize = 0;
-        // when argument is null, returns size of state vector (see rrExecutableModel::getStateVector)
+        // when argument is null, returns size of state std::vector (see rrExecutableModel::getStateVector)
         int realStateVectorSize = mModel->getStateVector(nullptr);
 
 
@@ -1021,13 +1021,13 @@ namespace rr {
     }
 
     void CVODEIntegrator::testRootsAtInitialTime() {
-        vector<unsigned char> initialEventStatus(mModel->getEventTriggers(0, 0, 0), false);
+        std::vector<unsigned char> initialEventStatus(mModel->getEventTriggers(0, 0, 0), false);
         mModel->getEventTriggers(initialEventStatus.size(), 0,
                                  initialEventStatus.empty() ? nullptr : &initialEventStatus[0]);
         applyEvents(0, initialEventStatus);
     }
 
-    void CVODEIntegrator::applyEvents(double timeEnd, vector<unsigned char> &previousEventStatus) {
+    void CVODEIntegrator::applyEvents(double timeEnd, std::vector<unsigned char> &previousEventStatus) {
         double *stateVector = mStateVector ? NV_DATA_S(mStateVector) : nullptr;
         mModel->applyEvents(timeEnd, previousEventStatus.empty() ? nullptr : &previousEventStatus[0], stateVector,
                             stateVector);
@@ -1035,7 +1035,7 @@ namespace rr {
         if (timeEnd > 0.0) {
             mModel->setTime(timeEnd);
 
-            // copy state vector into cvode memory
+            // copy state std::vector into cvode memory
             if (mStateVector) {
                 mModel->getStateVector(NV_DATA_S(mStateVector));
             }
@@ -1069,13 +1069,13 @@ namespace rr {
             return;
         }
 
-        // If we have a model with only events, cvode still needs a state vector of length 1 to integrate.
+        // If we have a model with only events, cvode still needs a state std::vector of length 1 to integrate.
         if (!haveVariables() && mModel->getNumEvents() > 0) {
             SetVector(mStateVector, 0, 1.0);
         }
 
         int err;
-        // switch on different cases that the absolute tolerance is scalar or vector
+        // switch on different cases that the absolute tolerance is scalar or std::vector
         switch (getType("absolute_tolerance")) {
 
             // all cases below could be convert to a double type
@@ -1092,8 +1092,8 @@ namespace rr {
 
 
             case Variant::DOUBLEVECTOR: {
-                // vector tolerance
-                // convert a double vector to a n_vector?
+                // std::vector tolerance
+                // convert a double std::vector to a n_vector?
                 std::vector<double> v = getValueAsDoubleVector("absolute_tolerance");
                 double *arr = new double[v.size()];
                 for (int i = 0; i < v.size(); i++)
@@ -1133,10 +1133,10 @@ namespace rr {
                                              << getValueAsDouble("relative_tolerance") << std::endl;
                 break;
 
-                // vector tolerance
+                // std::vector tolerance
             case Variant::DOUBLEVECTOR: {
                 rrLog(Logger::LOG_INFORMATION) << "Set tolerance to abs: " << std::setprecision(16) << "[";
-                vector<double> v = getValueAsDoubleVector("absolute_tolerance");
+                std::vector<double> v = getValueAsDoubleVector("absolute_tolerance");
                 for (int i = 0; i < v.size(); i++) {
                     if (i != 0) {
                         rrLog(Logger::LOG_INFORMATION) << ", ";
@@ -1167,8 +1167,8 @@ namespace rr {
         // the initial event state, initially time is < 0.
         if (time <= 0.0) {
 
-            // copy state vector into cvode memory, need to do this before evaluating
-            // roots because the applyEvents method copies the cvode state vector
+            // copy state std::vector into cvode memory, need to do this before evaluating
+            // roots because the applyEvents method copies the cvode state std::vector
             // into the model
             if (mStateVector) {
                 mModel->getStateVector(NV_DATA_S(mStateVector));
@@ -1179,7 +1179,7 @@ namespace rr {
 
         mModel->setTime(time);
 
-        // copy state vector into cvode memory
+        // copy state std::vector into cvode memory
         if (mStateVector && mCVODE_Memory) {
             mModel->getStateVector(NV_DATA_S(mStateVector));
         }
@@ -1247,14 +1247,14 @@ namespace rr {
         if (variableStepTimeEndEvent) {
             // post event state allready calcuated.
             mModel->setStateVector(&variableStepPostEventState[0]);
-            // copy state vector into cvode memory
+            // copy state std::vector into cvode memory
             if (mStateVector) {
                 mModel->getStateVector(NV_DATA_S(mStateVector));
             }
             mModel->setTime(lastEventTime);
             reInit(lastEventTime);
         } else {
-            // apply events, copy post event status into integrator state vector.
+            // apply events, copy post event status into integrator state std::vector.
             applyEvents(lastEventTime, eventStatus);
         }
 

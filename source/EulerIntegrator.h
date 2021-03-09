@@ -86,7 +86,7 @@ namespace rr
 
             if(mModel) {
                 // calling the getStateVector with a NULL argument returns
-                // the size of teh state vector.
+                // the size of teh state std::vector.
                 stateVectorSize = mModel->getStateVector(NULL);
                 rateBuffer = new double[stateVectorSize];
                 stateBufferBegin = new double[stateVectorSize];
@@ -124,13 +124,13 @@ namespace rr
 
 			h /= internal_steps;
 			for (int subdiv = 0; subdiv < internal_steps; ++subdiv) {
-				// evaluate and copy the rate of change of the state vector
+				// evaluate and copy the rate of change of the state std::vector
 				// rate into the local buffer. If the 2nd argument is NULL,
 				// the current mModel state is used to evaluate the
-				// state vector rate.
+				// state std::vector rate.
 				mModel->getStateVectorRate(t0, NULL, rateBuffer);
 
-				// copy the current state vector into a local buffer
+				// copy the current state std::vector into a local buffer
 				mModel->getStateVector(stateBufferBegin);
 
 				// perform the Euler integration step, i.e.
@@ -183,8 +183,8 @@ namespace rr
 			//std::cerr << "Size of previous events: " << previousEventStatus.size() << std::endl;
 			// If we pass in the events including the ones just triggered, they won't be applied, so use previousEventStatus
 			mModel->applyEvents(timeEnd, previousEventStatus.size() == 0 ? NULL : &previousEventStatus[0], stateBufferEnd, NULL);
-			// AHu: jk I think that mModel->applyEvents does update the mode's state vector
-			// The previous statement loaded the result into the final stateBufferEnd, so now update the mModel's state vector
+			// AHu: jk I think that mModel->applyEvents does update the mode's state std::vector
+			// The previous statement loaded the result into the final stateBufferEnd, so now update the mModel's state std::vector
 			//mModel->setStateVector(stateBufferEnd);
 		}
 
@@ -307,12 +307,12 @@ namespace rr
 
             if(key == "exampleParameter2") {
 				// Ahu: Why is this cast here, and is this a static or dynamic cast?
-                exampleParameter2 = (string)value;
+                exampleParameter2 = (std::string)value;
 				return;
             }
 
             // they did not give a valid key, so throw an exception.
-            throw invalid_argument("Error, attempt to set invalid key: " + key);
+            throw std::invalid_argument("Error, attempt to set invalid key: " + key);
         }
 
         /**
@@ -331,7 +331,7 @@ namespace rr
             }
 
             // they did not give a valid key, so throw an exception.
-            throw invalid_argument("Error, attempt to read invalid key: " + key);
+            throw std::invalid_argument("Error, attempt to read invalid key: " + key);
         }
 
         /**
@@ -350,7 +350,7 @@ namespace rr
         * keys, so just raise an exception if someone tries to do so.
         */
         virtual int deleteItem(const std::string& key) {
-            throw invalid_argument(
+            throw std::invalid_argument(
                     "Error, the EulerIntegrator does not support deleting keys");
         }
 
@@ -383,16 +383,16 @@ namespace rr
         /**
         * another parameter which does nothing
         */
-        string exampleParameter2;
+        std::string exampleParameter2;
 
         /**
-        * two buffers to store the state vector rate, and
-        * new state vector
+        * two buffers to store the state std::vector rate, and
+        * new state std::vector
         */
         double *rateBuffer, *stateBufferBegin, *stateBufferEnd;
 
         /**
-        * size of state vector
+        * size of state std::vector
         */
         int stateVectorSize;
 

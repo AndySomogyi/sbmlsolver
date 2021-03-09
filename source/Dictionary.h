@@ -43,7 +43,7 @@ public:                       // *mistakenly* complains in ONE instance.
      * @code
      * Dictionary*d = (...);
      * d->setItem("someIntKey", 1);
-     * d->setItem("someStrKey", string("some string"));
+     * d->setItem("someStrKey", std::string("some std::string"));
      * d->setItem("someFloatVal, 0.123);
      * @endcode
      */
@@ -60,7 +60,7 @@ public:                       // *mistakenly* complains in ONE instance.
      * @code
      * Dictionary* d = ...;
      * int a = d->getItem("someIntKey");
-     * string s = d->getItem("someStrVal");
+     * std::string s = d->getItem("someStrVal");
      * double val = d->getItem("someDoubleVal");
      * @endcode
      */
@@ -135,7 +135,7 @@ public:                       // *mistakenly* complains in ONE instance.
 /**
  * @brief This class is frozen, no new features
  * Basic implementation of the Dictionary interface which uses a
- * std unordered map to store the values.
+ * std unordered std::map to store the values.
  */
 class RR_DECLSPEC BasicDictionary : public Dictionary
 {
@@ -143,12 +143,12 @@ public:
     BasicDictionary() = default;;
 
     /**
-     * sets an item in the internal unordered map.
+     * sets an item in the internal unordered std::map.
      */
     void setItem(const std::string& key, const rr::Variant& value) override;
 
     /**
-     * gets an item from the internal unordered map.
+     * gets an item from the internal unordered std::map.
      */
     Variant getItem(const std::string& key) const override;
 

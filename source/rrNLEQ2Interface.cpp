@@ -30,7 +30,7 @@ static Mutex mutex;
 // the NLEQ callback, we use same data types as f2c here.
 static void ModelFunction(int* nx, double* y, double* fval, int* pErr);
 
-static string ErrorForStatus(int error);
+static std::string ErrorForStatus(int error);
 
 static bool isError(int e)
 {
@@ -88,9 +88,9 @@ NLEQ2Interface::~NLEQ2Interface()
 
 void NLEQ2Interface::setup()
 {
-    // size of state vector
+    // size of state std::vector
     n = model->getStateVector(0);
-    rrLog(Logger::LOG_DEBUG) << "NLEQ2Interface: size of state vector = " << n;
+    rrLog(Logger::LOG_DEBUG) << "NLEQ2Interface: size of state std::vector = " << n;
 
     // Allocate space, see NLEQ docs for details
     if (broyden == 1)
@@ -207,7 +207,7 @@ double NLEQ2Interface::solve()
     try
     {
         callbackModel = model;
-        vector<double> stateVector(n);
+        std::vector<double> stateVector(n);
         model->getStateVector(&stateVector[0]);
 
         NLEQ2(  &n,
@@ -238,7 +238,7 @@ double NLEQ2Interface::solve()
         if (isWarning(ierr)) {
             rrLog(Logger::LOG_WARNING) << ErrorForStatus(ierr);
         } else {
-            string err = ErrorForStatus(ierr);
+            std::string err = ErrorForStatus(ierr);
             rrLog(Logger::LOG_ERROR)<<"Error :"<<err;
             throw NLEQException(err);
         }
@@ -250,7 +250,7 @@ double NLEQ2Interface::solve()
 
 
 /*     FCN(N,X,F,IFAIL) Ext    Function subroutine */
-/*       N              Int    Number of vector components (input) */
+/*       N              Int    Number of std::vector components (input) */
 /*       X(N)           Dble   Vector of unknowns (input) */
 /*       F(N)           Dble   Vector of function values (output) */
 /*       IFAIL          Int    FCN evaluation-failure indicator. (output) */
@@ -280,9 +280,9 @@ void ModelFunction(int* nx, double* y, double* fval, int* pErr)
     ExecutableModel* model = callbackModel;
     assert(model && "model is NULL");
 
-    assert(*nx == model->getStateVector(0) && "incorrect state vector size");
+    assert(*nx == model->getStateVector(0) && "incorrect state std::vector size");
 
-    // sets the state vector
+    // sets the state std::vector
     model->setStateVector(y);
 
     model->getStateVectorRate(0, y, fval);
@@ -329,7 +329,7 @@ void ModelFunction(int* nx, double* y, double* fval, int* pErr)
     }
 }
 
-void NLEQ2Interface::setScalingFactors(const vector<double>& sx)
+void NLEQ2Interface::setScalingFactors(const std::vector<double>& sx)
 {
     for (int i = 0; i < n; i++)
     {
@@ -362,7 +362,7 @@ int NLEQ2Interface::getNumberOfModelEvaluationsForJacobian()
     return IWK[7];
 }
 
-string ErrorForStatus(int error)
+std::string ErrorForStatus(int error)
 {
     switch (error)
     {
@@ -374,7 +374,7 @@ string ErrorForStatus(int error)
     case 10:    return ("Integer or real workspace too small in NLEQ");
     case 20:    return ("Bad input to size of model parameter");
     case 21:    return ("Nonpositive value for RTOL supplied to NLEQ");
-    case 22:    return ("Negative scaling value via vector XSCAL supplied");
+    case 22:    return ("Negative scaling value via std::vector XSCAL supplied");
     case 30:    return ("One or more fields specified in IOPT are invalid (NLEQ)");
     case 80:    return ("Error signalled by linear solver routine N1FACT, in NLEQ");
     case 81:    return ("Error signalled by linear solver routine N1SOLV, in NLEQ");
@@ -510,7 +510,7 @@ const Dictionary* NLEQ2Interface::getSteadyStateOptions()
 double NLEQ2Interface::computeSumsOfSquares()
 {
     double sum = 0;
-    vector<double> rates(model->getStateVector(0));
+    std::vector<double> rates(model->getStateVector(0));
     model->getStateVectorRate(0, 0, &rates[0]);
 
     for (int i = 0; i < n; i++)

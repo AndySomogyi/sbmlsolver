@@ -15,7 +15,7 @@
 #include <algorithm>
 
 using namespace llvm;
-using namespace std;
+
 
 
 
@@ -31,11 +31,11 @@ namespace rrllvm
  * compatible with older C++, so use our own filtering here.
  */
 static StringIntVector independentElements(const LLVMModelDataSymbols &dataSymbols,
-        const std::vector<string> elements)
+        const std::vector<std::string> elements)
 {
     StringIntVector result;
 
-    for(std::vector<string>::const_iterator i = elements.begin();
+    for(std::vector<std::string>::const_iterator i = elements.begin();
             i != elements.end(); ++i)
     {
         if (!dataSymbols.hasAssignmentRule(*i))

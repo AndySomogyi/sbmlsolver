@@ -20,42 +20,42 @@ class RoadRunner;
 class RR_DECLSPEC SBMLModelSimulation
 {
     protected:
-        string                  mModelFileName;
-        string                  mModelFilePath;
-        string                  mModelSettingsFileName;
-        string                  mSimulationLogFile;
-        string                  mDataOutputFolder;
-        string                  mTempDataFolder;
+        std::string                  mModelFileName;
+        std::string                  mModelFilePath;
+        std::string                  mModelSettingsFileName;
+        std::string                  mSimulationLogFile;
+        std::string                  mDataOutputFolder;
+        std::string                  mTempDataFolder;
         RoadRunner             *mEngine;
         SimulateOptions         mSettings;
         bool                    mCompileIfDllExists;
 
     public:
-                                SBMLModelSimulation(const string& dataOutputFolder = "", const string& tempDataFilePath = "");
+                                SBMLModelSimulation(const std::string& dataOutputFolder = "", const std::string& tempDataFilePath = "");
         virtual                ~SBMLModelSimulation();
-        bool                    SetModelFilePath(const string& path);
-        bool                    SetModelFileName(const string& name);
-        bool                    SetDataOutputFolder(const string& name);
-        string                  GetModelsFullFilePath();
-        string                  GetDataOutputFolder();
-        string                  GetTempDataFolder();
+        bool                    SetModelFilePath(const std::string& path);
+        bool                    SetModelFileName(const std::string& name);
+        bool                    SetDataOutputFolder(const std::string& name);
+        std::string                  GetModelsFullFilePath();
+        std::string                  GetDataOutputFolder();
+        std::string                  GetTempDataFolder();
         bool                    UseEngine(RoadRunner* engine);
 
 
 
 
-        bool                    SaveModelAsXML(const string& folder);
+        bool                    SaveModelAsXML(const std::string& folder);
 
         //wrappers
         bool                    SetTimeStart(const double& tStart);
         bool                    SetTimeEnd(const double& tEnd);
         bool                    SetNumberOfPoints(const int& pts);
-        bool                    SetSelectionList(const string& list);
+        bool                    SetSelectionList(const std::string& list);
         virtual bool            LoadSBMLFromFile();                    //Use current file information to load sbml from file
         virtual bool            Simulate();
         virtual bool            SaveResult();
         void                    loadSBMLTolerances(std::string const& filename);
-        virtual bool            LoadSettings(const string& fName = "");
+        virtual bool            LoadSettings(const std::string& fName = "");
         virtual RoadRunnerData  GetResult();
 
         void                    ReCompileIfDllExists(const bool& doIt);

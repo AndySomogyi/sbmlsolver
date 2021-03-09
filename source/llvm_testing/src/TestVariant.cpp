@@ -19,7 +19,7 @@
 
 #include <iostream>
 
-using namespace std;
+
 
 typedef struct {
     int a;
@@ -46,9 +46,9 @@ int testPythonVariant(int argc, char* argv[])
     PyObject *obj = v.convert<PyObject*>();
 
     if (PyString_Check(obj)) {
-        cout << "is string" << std::endl;
+        std::cout << "is std::string" << std::endl;
 
-        cout << "value: " <<  PyString_AsString(obj) << endl;
+        std::cout << "value: " <<  PyString_AsString(obj) << std::endl;
 
         Py_XDECREF(obj);
     }
@@ -89,9 +89,9 @@ void tryConv(Variant& v, T t) {
 
     try {
         T res = v.convert<T>();
-        cout << "converted " << v.toString() << " to " << info.name() << " OK" << endl;
+        std::cout << "converted " << v.toString() << " to " << info.name() << " OK" << std::endl;
     } catch (std::exception& e) {
-        cout << "could not convert " << v.toString() << " to " << info.name() << ", what: " << e.what() << endl;
+        std::cout << "could not convert " << v.toString() << " to " << info.name() << ", what: " << e.what() << std::endl;
     }
 
 }
@@ -104,7 +104,7 @@ void TestVariant::test(int argc, char* argv[])
 
     Variant v = Variant::parse(argv[1]);
 
-    cout << "converted \'" << argv[1] << "\' to \'" << v.toString() << "\', with type " << v.typeInfo().name() << endl;
+    std::cout << "converted \'" << argv[1] << "\' to \'" << v.toString() << "\', with type " << v.typeInfo().name() << std::endl;
 
     Config::writeConfigFile("/Users/andy/temp.conf");
 }

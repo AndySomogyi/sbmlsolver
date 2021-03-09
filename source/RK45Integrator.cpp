@@ -205,7 +205,7 @@ namespace rr
 
         } while ( error > getValueAsDouble("epsilon"));
 
-        rrLog(Logger::LOG_DEBUG) << "RK45: Update state vector";
+        rrLog(Logger::LOG_DEBUG) << "RK45: Update state std::vector";
 
         // y = y + (1408*h/2565) k_3
         alpha = 1408.*h / 2565;
@@ -265,7 +265,7 @@ namespace rr
 
         mModel->setTime(t0);
 
-        // copy state vector into memory
+        // copy state std::vector into memory
         if (y)
         {
             mModel->getStateVector(y);

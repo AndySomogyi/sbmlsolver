@@ -164,7 +164,7 @@ namespace rr
 
         mModel->setTime(t0);
 
-        // copy state vector into memory
+        // copy state std::vector into memory
         if (y)
         {
             mModel->getStateVector(y);

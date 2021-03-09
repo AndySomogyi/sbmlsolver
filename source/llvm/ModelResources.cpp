@@ -57,7 +57,7 @@ ModelResources::~ModelResources()
 
     if (errStr && errStr->size() > 0)
     {
-        rrLog(Logger::LOG_WARNING) << "Non-empty LLVM ExecutionEngine error string: " << *errStr;
+        rrLog(Logger::LOG_WARNING) << "Non-empty LLVM ExecutionEngine error std::string: " << *errStr;
     }
 
     delete symbols;
@@ -201,7 +201,7 @@ void ModelResources::addGlobalMappings()
 }
 
 
-void ModelResources::loadState(std::istream& in, uint modelGeneratorOpt) 
+void ModelResources::loadState(std::istream& in, uint modelGeneratorOpt)
 {
 	if (symbols)
 		delete symbols;

@@ -17,17 +17,17 @@ namespace rr
 class RR_DECLSPEC StringBuilder
 {
     protected:
-        stringstream                 mStringing;
+        std::stringstream                 mStringing;
 
     public:
-                                    StringBuilder(const string& aStr = "");
-        stringstream&                  operator<<(const string& str);
-        stringstream&                  operator<<(const char& ch);
-        string                      ToString();
+                                    StringBuilder(const std::string& aStr = "");
+        std::stringstream&                  operator<<(const std::string& str);
+        std::stringstream&                  operator<<(const char& ch);
+        std::string                      ToString();
 
-        void                        NewLine(const string& line = "");
-        void                        Line(const string& line);
-        void                        TLine(const string& line, const int& tabs = 1);
+        void                        NewLine(const std::string& line = "");
+        void                        Line(const std::string& line);
+        void                        TLine(const std::string& line, const int& tabs = 1);
         void                        Clear();
 };
 

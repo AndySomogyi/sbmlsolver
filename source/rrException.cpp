@@ -6,7 +6,7 @@
 namespace rr
 {
 
-Exception::Exception(const string& desc)
+Exception::Exception(const std::string& desc)
 :
 mMessage(desc)//, Message(mMessage)
 {
@@ -19,68 +19,68 @@ const char* Exception::what() const throw()
     return mMessage.c_str();
 }
 
-string Exception::Message() const
+std::string Exception::Message() const
 {
     return mMessage;
 }
 
-string Exception::getMessage() const
+std::string Exception::getMessage() const
 {
     return mMessage;
 }
 
-CoreException::CoreException(const string& msg)
+CoreException::CoreException(const std::string& msg)
 :
 Exception(msg)
 {}
 
-CoreException::CoreException(const string& msg1, const string& msg2)
+CoreException::CoreException(const std::string& msg1, const std::string& msg2)
 :
 Exception(msg1 + msg2)
 {}
 
-ScannerException::ScannerException(const string& msg)
+ScannerException::ScannerException(const std::string& msg)
 :
 Exception(msg)
 {}
 
-NLEQException::NLEQException(const string& msg)
+NLEQException::NLEQException(const std::string& msg)
 :
 Exception(msg)
 {}
 
-NOMException::NOMException(const string& msg)
+NOMException::NOMException(const std::string& msg)
 :
 Exception(msg)
 {}
 
-CVODEException::CVODEException(const string& msg)
+CVODEException::CVODEException(const std::string& msg)
 :
 Exception(msg)
 {}
 
-KinsolException::KinsolException(const string &msg)
+KinsolException::KinsolException(const std::string &msg)
     : Exception(msg){}
 
-NullPointerException::NullPointerException(const string &msg)
+NullPointerException::NullPointerException(const std::string &msg)
     : Exception(msg){}
 
-NotImplementedException::NotImplementedException(const string& msg)
+NotImplementedException::NotImplementedException(const std::string& msg)
 :
 Exception(msg)
 {}
 
-InvalidKeyException::InvalidKeyException(const string& msg)
+InvalidKeyException::InvalidKeyException(const std::string& msg)
 :
 Exception(msg)
 {}
 
-UninitializedValueException::UninitializedValueException(const string& msg)
+UninitializedValueException::UninitializedValueException(const std::string& msg)
 :
 Exception(msg)
 {}
 
-void UninitializedValue(const string& msg) {
+void UninitializedValue(const std::string& msg) {
     throw UninitializedValueException(msg);
 }
 

@@ -16,15 +16,15 @@
 
 // == INCLUDES ================================================
 
-# include "rrLogger.h"
-# include "rrOSSpecifics.h"
-# include "Dictionary.h"
-# include "rrException.h"
-# include "Solver.h"
+#include "rrLogger.h"
+#include "rrOSSpecifics.h"
+#include "Dictionary.h"
+#include "rrException.h"
+#include "Solver.h"
 
-# include "tr1proxy/rr_memory.h"
-# include "tr1proxy/rr_unordered_map.h"
-# include <stdexcept>
+#include "tr1proxy/rr_memory.h"
+#include "tr1proxy/rr_unordered_map.h"
+#include <stdexcept>
 
 // == CODE ====================================================
 
@@ -58,25 +58,25 @@ namespace rr
 
 		/**
 		* @author KC
-		* @brief Get the solver settings as a string
+		* @brief Get the solver settings as a std::string
 		*/
 		std::string getSettingsRepr() const override;
 
 		/**
 		* @author KC
-		* @brief Python dictionary-style string representation of settings
+		* @brief Python dictionary-style std::string representation of settings
 		*/
 		std::string settingsPyDictRepr() const override;
 
 		/**
 		* @author KC
-		* @brief Return a string representation of the solver
+		* @brief Return a std::string representation of the solver
 		*/
 		std::string toString() const override;
 
 		/**
 		* @author KC
-		* @brief Return string representation a la Python __repr__ method
+		* @brief Return std::string representation a la Python __repr__ method
 		*/
 		std::string toRepr() const override;
 

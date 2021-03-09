@@ -32,7 +32,7 @@ namespace rr {
         assert(mStateVector == nullptr && mKinsol_Memory == nullptr &&
                "calling createKinsol, but kinsol objects already exist");
 
-        // when argument is null, returns size of state vector (see rrExecutableModel::getStateVector)
+        // when argument is null, returns size of state std::vector (see rrExecutableModel::getStateVector)
         int stateVectorSize = mModel->getStateVector(nullptr);
 
         // create our N_Vector
@@ -204,7 +204,7 @@ namespace rr {
         if (value.size() != stateSize) {
             std::ostringstream err;
             err << __FILE__ << ":" << __LINE__ << ":" << __FUNC__
-                << ": size of vector to set the fscale variable does not "
+                << ": size of std::vector to set the fscale variable does not "
                    "equal the number of states in the model (" << stateSize << "!=" << value.size() << ")" << std::endl;
             throw std::runtime_error(err.str());
         }
@@ -221,7 +221,7 @@ namespace rr {
         if (value.size() != stateSize) {
             std::ostringstream err;
             err << __FILE__ << ":" << __LINE__ << ":" << __FUNC__
-                << ": size of vector to set the uscale variable does not "
+                << ": size of std::vector to set the uscale variable does not "
                    "equal the number of states in the model (" << stateSize << "!=" << value.size() << ")" << std::endl;
             throw std::runtime_error(err.str());
         }

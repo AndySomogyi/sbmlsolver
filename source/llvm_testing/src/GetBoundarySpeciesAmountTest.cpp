@@ -26,7 +26,7 @@
 
 namespace rr
 {
-using namespace std;
+
 
 
 GetBoundarySpeciesAmountTest::~GetBoundarySpeciesAmountTest()
@@ -54,7 +54,7 @@ bool rr::GetBoundarySpeciesAmountTest::test()
     double result = functionPtr(0, 0);
 
 
-    cout << "result: " << result;
+    std::cout << "result: " << result;
 
     return true;
     */
@@ -66,14 +66,14 @@ bool rr::GetBoundarySpeciesAmountTest::test()
 
 
     int n = model->getNumBoundarySpecies();
-    vector<double> values(n, 0);
+    std::vector<double> values(n, 0);
 
     model->getBoundarySpeciesAmounts(n, 0, &values[0]);
 
     for(int i = 0; i < n; ++i)
     {
         rrLog(Logger::LOG_INFORMATION) << "boundary species " <<
-                model->getBoundarySpeciesId(i) << ": " << values[i] << endl;
+                model->getBoundarySpeciesId(i) << ": " << values[i] << std::endl;
     }
 
     return true;

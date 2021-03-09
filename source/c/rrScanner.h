@@ -35,14 +35,14 @@ enum TCharCode
 class RR_DECLSPEC Scanner
 {
     protected:
-        const char                                EOFCHAR; // Deemed end of string marker, used internally
+        const char                                EOFCHAR; // Deemed end of std::string marker, used internally
         const char                                CR;
         const char                                LF;
-        vector<TCharCode::TCharCode>              FCharTable;
-        vector<char>                              buffer;
+        std::vector<TCharCode::TCharCode>              FCharTable;
+        std::vector<char>                              buffer;
         queue<Token>                              tokenQueue;
-        map<string, CodeTypes::CodeTypes>         wordTable;
-        stringstream                              *pStream;
+        std::map<std::string, CodeTypes::CodeTypes>         wordTable;
+        std::stringstream                              *pStream;
         std::streamsize                           bufferLength;
         int                                       bufferPtr; // Index of position in buffer containing current char
         CodeTypes::CodeTypes                      ftoken;
@@ -58,9 +58,9 @@ class RR_DECLSPEC Scanner
         void                                      nextTokenInternal();
 
     public:
-        string                                    timeWord1;
-        string                                    timeWord2;
-        string                                    timeWord3;
+        std::string                                    timeWord1;
+        std::string                                    timeWord2;
+        std::string                                    timeWord3;
         bool                                      FromQueue;
         bool                                      IgnoreNewLines;
         Token                                     currentToken;
@@ -69,7 +69,7 @@ class RR_DECLSPEC Scanner
         double                                    tokenDouble;
         int                                       tokenInteger;
         double                                    tokenScalar; // Used to retrieve int or double
-        string                                    tokenString;
+        std::string                                    tokenString;
         int                                       lineNumber();
 
         CodeTypes::CodeTypes                      token();
@@ -79,12 +79,12 @@ class RR_DECLSPEC Scanner
         void                                      startScanner();
         bool                                      IsQueueEmpty();
         char                                      nextChar();
-        string                                    tokenToString(const CodeTypes::CodeTypes& code);
+        std::string                                    tokenToString(const CodeTypes::CodeTypes& code);
         void                                      AddTokenToQueue();
         void                                      nextToken();
         void                                      skipBlanks();
         void                                      UnGetToken();
-        void                                      AssignStream(stringstream& str);
+        void                                      AssignStream(std::stringstream& str);
 }; //class scanner
 
 } //rr

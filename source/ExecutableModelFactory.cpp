@@ -38,12 +38,12 @@
 #include "testing/CXXExecutableModel.h"
 #include "testing/CXXEnzymeExecutableModel.h"
 
-using namespace std;
+
 namespace rr {
 
 /*
-static ModelGenerator* createModelGenerator(const string& compiler, const string& tempFolder,
-            const string& supportCodeFolder);
+static ModelGenerator* createModelGenerator(const std::string& compiler, const std::string& tempFolder,
+            const std::string& supportCodeFolder);
 */
 
 /**
@@ -91,8 +91,8 @@ ExecutableModel* ExecutableModelFactory::regenerateModel(ExecutableModel* oldMod
 }
 
 /*
-ModelGenerator* createModelGenerator(const string& compiler, const string& tempFolder,
-            const string& supportCodeFolder)
+ModelGenerator* createModelGenerator(const std::string& compiler, const std::string& tempFolder,
+            const std::string& supportCodeFolder)
 {
 #if defined(BUILD_LLVM) && !defined(BUILD_LEGACY_C)
 
@@ -102,7 +102,7 @@ ModelGenerator* createModelGenerator(const string& compiler, const string& tempF
 #endif
 
 #if defined(BUILD_LLVM) && defined(BUILD_LEGACY_C)
-    string ucomp = compiler;
+    std::string ucomp = compiler;
     std::transform(ucomp.begin(), ucomp.end(),ucomp.begin(), ::toupper);
 
     if (ucomp == "LLVM")

@@ -71,7 +71,7 @@ namespace rr
         virtual double integrate(double t0, double tf);
 
         /**
-        * copies the state vector out of the model and into cvode vector,
+        * copies the state std::vector out of the model and into cvode std::vector,
         * re-initializes cvode.
         */
         virtual void restart(double t0);

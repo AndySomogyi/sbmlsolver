@@ -16,15 +16,15 @@
 
 // == INCLUDES ================================================
 
-# include "rrLogger.h"
-# include "rrOSSpecifics.h"
-# include "Dictionary.h"
-# include "rrException.h"
-# include "Solver.h"
+#include "rrLogger.h"
+#include "rrOSSpecifics.h"
+#include "Dictionary.h"
+#include "rrException.h"
+#include "Solver.h"
 
-# include "tr1proxy/rr_memory.h"
-# include "tr1proxy/rr_unordered_map.h"
-# include <stdexcept>
+#include "tr1proxy/rr_memory.h"
+#include "tr1proxy/rr_unordered_map.h"
+#include <stdexcept>
 
 // == CODE ====================================================
 
@@ -110,7 +110,7 @@ namespace rr {
         * @author FY
         * @brief Set tolerance for floating species or variables that have a rate rule, will only be used in CVODEIntegrator
         */
-        virtual void setIndividualTolerance(string sid, double value);
+        virtual void setIndividualTolerance(std::string sid, double value);
 
 
         /**
@@ -135,7 +135,7 @@ namespace rr {
 
         /**
         * @author JKM
-        * @brief Return string representation a la Python __repr__ method
+        * @brief Return std::string representation a la Python __repr__ method
         */
         virtual std::string toRepr() const;
         /* !-- END OF CARRYOVER METHODS */

@@ -69,15 +69,15 @@ namespace rr {
         doPresimulation();
 
         assert(mKinsol_Memory && "Kinsol memory block is nullptr");
-        assert(mStateVector && "Solvers state vector is nullptr");
+        assert(mStateVector && "Solvers state std::vector is nullptr");
 
         KINSol(
                 mKinsol_Memory,   // kinsol memory block
-                mStateVector,     // initial guess and solution vector
+                mStateVector,     // initial guess and solution std::vector
                 // global strategy, options defined in kinsol.h
                 getValueAsString("strategy") == "basic" ? KIN_NONE : KIN_LINESEARCH,
-                uscale,      //scaling vector for the variable cc
-                fscale      //scaling vector for the variable fval
+                uscale,      //scaling std::vector for the variable cc
+                fscale      //scaling std::vector for the variable fval
         );
 
         getSolverStats();

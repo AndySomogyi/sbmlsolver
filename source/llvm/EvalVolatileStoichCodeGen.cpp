@@ -22,7 +22,7 @@ namespace rrllvm {
     using namespace rr;
     using namespace llvm;
     using namespace libsbml;
-    using namespace std;
+
 
     const char *EvalVolatileStoichCodeGen::FunctionName = "evalVolatileStoich";
 

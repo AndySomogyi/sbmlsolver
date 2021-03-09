@@ -3,7 +3,7 @@
 #include "rrNLEQ1Interface.h"
 #include "rrNLEQ2Interface.h"
 
-using namespace std;
+
 
 
 namespace rr

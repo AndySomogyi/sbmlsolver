@@ -16,18 +16,18 @@
 
 // == INCLUDES ================================================
 
-# include "rrOSSpecifics.h"
-# include "rrException.h"
-# include "sbml/SBMLDocument.h"
+#include "rrOSSpecifics.h"
+#include "rrException.h"
+#include "sbml/SBMLDocument.h"
 
-# include <stdint.h>
-# include <string>
-# include <vector>
-# include <list>
-# include <ostream>
+#include <stdint.h>
+#include <string>
+#include <vector>
+#include <list>
+#include <ostream>
 
 
-# include "tr1proxy/rr_memory.h"
+#include "tr1proxy/rr_memory.h"
 
 // == CODE ====================================================
 
@@ -439,8 +439,8 @@ namespace rr {
         virtual int getSupportedIdTypes() = 0;
 
         /**
-         * gets the value for the given id string. The string must be a SelectionRecord
-         * string that is accepted by this class.
+         * gets the value for the given id std::string. The std::string must be a SelectionRecord
+         * std::string that is accepted by this class.
          */
         virtual double getValue(const std::string &id) = 0;
 
@@ -513,7 +513,7 @@ namespace rr {
         virtual std::string getReactionId(size_t index) = 0;
 
         /**
-         * get the vector of reaction rates.
+         * get the std::vector of reaction rates.
          *
          * @param len: the length of the suplied buffer, must be >= reaction rates size.
          * @param indx: pointer to index array. If NULL, then it is ignored and the
@@ -533,53 +533,53 @@ namespace rr {
         virtual void getRateRuleValues(double *rateRuleValues) = 0;
 
         /**
-         * get the id of an element of the state vector.
+         * get the id of an element of the state std::vector.
          */
         virtual std::string getStateVectorId(size_t index) = 0;
 
         /**
-         * The state vector is a vector of elements that are defined by
+         * The state std::vector is a std::vector of elements that are defined by
          * differential equations (rate rules) or independent floating species
          * are defined by reactions.
          *
-         * To get the ids of the state vector elements, use getStateVectorId.
+         * To get the ids of the state std::vector elements, use getStateVectorId.
          *
-         * copies the internal model state vector into the provided
+         * copies the internal model state std::vector into the provided
          * buffer.
          *
-         * @param[out] stateVector a buffer to copy the state vector into, if NULL,
+         * @param[out] stateVector a buffer to copy the state std::vector into, if NULL,
          *         return the size required.
          *
          * @return the number of items coppied into the provided buffer, if
-         *         stateVector is NULL, returns the length of the state vector.
+         *         stateVector is NULL, returns the length of the state std::vector.
          */
         virtual int getStateVector(double *stateVector) = 0;
 
         /**
-         * sets the internal model state to the provided packed state vector.
+         * sets the internal model state to the provided packed state std::vector.
          *
-         * @param[in] an array which holds the packed state vector, must be
+         * @param[in] an array which holds the packed state std::vector, must be
          *         at least the size returned by getStateVector.
          *
-         * @return the number of items copied from the state vector, negative
+         * @return the number of items copied from the state std::vector, negative
          *         on failure.
          */
         virtual int setStateVector(const double *stateVector) = 0;
 
         /**
-         * the state vector y is the rate rule values and floating species
+         * the state std::vector y is the rate rule values and floating species
          * concentrations concatenated. y is of length numFloatingSpecies + numRateRules.
          *
-         * The state vector is packed such that the first n raterule elements are the
+         * The state std::vector is packed such that the first n raterule elements are the
          * values of the rate rules, and the last n floatingspecies are the floating
          * species values.
          *
          * @param[in] time current simulator time
-         * @param[in] y state vector, must be either null, or have a size of that
+         * @param[in] y state std::vector, must be either null, or have a size of that
          *         speciefied by getStateVector. If y is null, then the model is
          *         evaluated using its current state. If y is not null, then the
-         *         y is considered the state vector.
-         * @param[out] dydt calculated rate of change of the state vector, if null,
+         *         y is considered the state std::vector.
+         * @param[out] dydt calculated rate of change of the state std::vector, if null,
          *         it is ignored.
          */
         virtual void getStateVectorRate(double time, const double *y, double *dydt = 0) = 0;
@@ -618,9 +618,9 @@ namespace rr {
          *
          * @param timeEnd: model time when the event occured.
          * @param previousEventStatus: array of previous event triggered states.
-         * @param initialState (optional): initial state vector, may be NULL, in which
+         * @param initialState (optional): initial state std::vector, may be NULL, in which
          * the current state is used.
-         * @param finalState (optional): final state vector, where the final state is
+         * @param finalState (optional): final state std::vector, where the final state is
          * coppied to. May be NULL, in which case, ignored.
          */
         virtual int applyEvents(double timeEnd, const unsigned char *previousEventStatus,
@@ -635,7 +635,7 @@ namespace rr {
          * as there is a zero crossing.
          *
          * @param time[in] current time
-         * @param y[in] the state vector
+         * @param y[in] the state std::vector
          * @param gdot[out] result event roots, this is of length numEvents.
          */
         virtual void getEventRoots(double time, const double *y, double *gdot) = 0;
@@ -675,13 +675,13 @@ namespace rr {
 
         /**
          * Get the amount rate of change for the i'th floating species
-         * given a reaction rates vector.
+         * given a reaction rates std::vector.
          *
          * TODO: This should be merged with getFloatingSpeciesAmountRates, but that will
          * break inteface, will do in next point release.
          *
          * TODO: If the conversion factor changes in between getting the
-         * reaction rates vector via getReactionRates
+         * reaction rates std::vector via getReactionRates
          *
          * @param index: index of the desired floating speceis rate.
          * @param reactionRates: pointer to buffer of reaction rates.
@@ -728,7 +728,7 @@ namespace rr {
         enum ExecutableModelFlags {
             /**
              * A simulation is currently running. This means that the model
-             * should not have to re-calculate the reaction rate vector
+             * should not have to re-calculate the reaction rate std::vector
              * as it was calculated in the previous integration step.
              */
             INTEGRATION = (0x1 << 0),  // => 0x00000001

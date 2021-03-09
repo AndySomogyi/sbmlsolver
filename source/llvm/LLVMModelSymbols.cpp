@@ -20,7 +20,7 @@
 
 using namespace libsbml;
 using namespace llvm;
-using namespace std;
+
 
 using rr::Logger;
 using rr::getLogger;
@@ -63,7 +63,7 @@ LLVMModelSymbols::LLVMModelSymbols(const libsbml::Model *m, LLVMModelDataSymbols
         else
         {
             // check if we have an initial assignment for this param.
-            const string& id = param->getId();
+            const std::string& id = param->getId();
             if (model->getInitialAssignment(id) == NULL &&
                     model->getAssignmentRule(id) == NULL)
             {
@@ -104,7 +104,7 @@ bool LLVMModelSymbols::visit(const libsbml::Compartment& x)
         node->setValue(x.getVolume());
     } else
     {
-        string compid = x.getId();
+        std::string compid = x.getId();
         const Model* model = x.getSBMLDocument()->getModel();
         if (model->getInitialAssignment(compid) == NULL &&
             model->getAssignmentRule(compid) == NULL &&
@@ -269,14 +269,14 @@ bool LLVMModelSymbols::visit(const libsbml::Reaction& r)
      const ListOf *list = dynamic_cast<const ListOf *>(sr.getParentSBMLObject());
      const Reaction *r = dynamic_cast<const Reaction*>(list->getParentSBMLObject());
 
-     string speciesId = sr.getSpecies();
-     string reactionId = r->getId();
+     std::string speciesId = sr.getSpecies();
+     std::string reactionId = r->getId();
 
-     cout << "species: " << sr.getSpecies() << "\n";
-     cout << "reaction: " << r->getId() << "\n";
-     cout << "sr.isSetStoichiometry(): " << sr.isSetStoichiometry() << "\n";
-     cout << "sr.isSetStoichiometryMath(): " << sr.isSetStoichiometryMath() << "\n";
-     cout << "stoichiometry: " << sr.getStoichiometry() << "\n";
+     std::cout << "species: " << sr.getSpecies() << "\n";
+     std::cout << "reaction: " << r->getId() << "\n";
+     std::cout << "sr.isSetStoichiometry(): " << sr.isSetStoichiometry() << "\n";
+     std::cout << "sr.isSetStoichiometryMath(): " << sr.isSetStoichiometryMath() << "\n";
+     std::cout << "stoichiometry: " << sr.getStoichiometry() << "\n";
      */
 
     return true;
@@ -289,7 +289,7 @@ void LLVMModelSymbols::processSpecies(SymbolForest &currentSymbols,
 {
     // ASTNode takes ownership of children, so only allocate the ones that
     // are NOT given to an ASTNode addChild.
-    rrLog(Logger::LOG_TRACE) << "processing species " << species->getId() << endl;
+    rrLog(Logger::LOG_TRACE) << "processing species " << species->getId() << std::endl;
 
     if (!math)
     {
@@ -319,7 +319,7 @@ void LLVMModelSymbols::processSpecies(SymbolForest &currentSymbols,
             }
             else
             {
-                string spid = species->getId();
+                std::string spid = species->getId();
                 const Model* model = species->getSBMLDocument()->getModel();
                 if (model->getInitialAssignment(spid) == NULL &&
                         model->getAssignmentRule(spid) == NULL)
@@ -361,7 +361,7 @@ void LLVMModelSymbols::processSpecies(SymbolForest &currentSymbols,
             }
             else
             {
-                string spid = species->getId();
+                std::string spid = species->getId();
                 const Model* model = species->getSBMLDocument()->getModel();
                 if (model->getInitialAssignment(spid) == NULL &&
                         model->getAssignmentRule(spid) == NULL)
@@ -434,7 +434,7 @@ ASTNode* LLVMModelSymbols::createStoichiometryNode(int row, int col) const
 
     if (productList.size() == 0 && reactantList.size() == 0)
     {
-        string err = "species " + symbols.getFloatingSpeciesIds()[row] +
+        std::string err = "species " + symbols.getFloatingSpeciesIds()[row] +
                 " has neither products nor reactants in reaction " +
                 symbols.getReactionIds()[col];
         throw LLVMException(err, __FUNC__);

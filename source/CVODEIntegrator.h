@@ -27,7 +27,7 @@
 // == CODE ====================================================
 
 /**
-* CVode vector struct
+* CVode std::vector struct
 */
 typedef struct _generic_N_Vector *N_Vector;
 
@@ -141,7 +141,7 @@ namespace rr
 		 * @author FY
 		 * @brief Sets tolerance for individual species
 		 */
-		void setIndividualTolerance(string sid, double value) override;
+		void setIndividualTolerance(std::string sid, double value) override;
 
 		/**
 		 * @author FY
@@ -227,24 +227,24 @@ namespace rr
 
 		/**
 		* @author FY
-		* @brief Converts integer to string for error print
+		* @brief Converts integer to std::string for error print
 		*/
 		std::string ToString(int val) const;
 
         /**
         * @author LPS
-        * @brief Converts size_t to string for error print
+        * @brief Converts size_t to std::string for error print
         */
         std::string ToString(size_t val) const;
 
         /**
-         * @brief decode the cvode error code to a string
+         * @brief decode the cvode error code to a std::string
          */
         std::string cvodeDecodeError(int cvodeError, bool exInfo = true);
 
 
         /**
-         * @brief getter for the internal state vector
+         * @brief getter for the internal state std::vector
          * @author CW
          * @note This method was created to
          * enable external access (mostly for tests)

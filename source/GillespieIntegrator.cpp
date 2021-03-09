@@ -16,7 +16,7 @@
 #include <limits>
 #include <chrono>
 
-using namespace std;
+
 
 // min and max macros on windows interfer with max method of engine.
 #undef max
@@ -171,7 +171,7 @@ namespace rr
 			{
 				std::stringstream ss;
 				ss << "Could not convert the value \"" << val.toString();
-				ss << "\" to an unsigned long integer. " << endl;
+				ss << "\" to an unsigned long integer. " << std::endl;
 				ss << "The seed must be a number between 0 and ";
 				ss << std::numeric_limits<unsigned long>::max();
 				ss << "; error message: " << e.what() << ".";
@@ -228,7 +228,7 @@ namespace rr
 
 		rrLog(Logger::LOG_DEBUG) << "ssa(" << t << ", " << tf << ")";
 
-		// get the initial state vector
+		// get the initial state std::vector
 		mModel->setTime(t);
 		mModel->getStateVector(stateVector);
 
@@ -365,12 +365,12 @@ namespace rr
 
     void GillespieIntegrator::testRootsAtInitialTime()
     {
-        vector<unsigned char> initialEventStatus(mModel->getEventTriggers(0, nullptr, nullptr), false);
+        std::vector<unsigned char> initialEventStatus(mModel->getEventTriggers(0, nullptr, nullptr), false);
         mModel->getEventTriggers(initialEventStatus.size(), nullptr, initialEventStatus.empty() ? nullptr : &initialEventStatus[0]);
         applyEvents(0, initialEventStatus);
     }
 
-    void GillespieIntegrator::applyEvents(double timeEnd, vector<unsigned char> &prevEventStatus)
+    void GillespieIntegrator::applyEvents(double timeEnd, std::vector<unsigned char> &prevEventStatus)
     {
         mModel->applyEvents(timeEnd, prevEventStatus.empty() ? nullptr : &prevEventStatus[0], stateVector, stateVector);
     }
@@ -392,7 +392,7 @@ namespace rr
 
         mModel->setTime(t0);
 
-        // copy state vector into memory
+        // copy state std::vector into memory
         if (stateVector)
         {
             mModel->getStateVector(stateVector);

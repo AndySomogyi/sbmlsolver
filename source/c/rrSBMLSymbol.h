@@ -16,7 +16,7 @@ class RR_DECLSPEC SBMLSymbol
 {
     protected:
     public:
-        string                          mId;
+        std::string                          mId;
         enum SBMLType                   mType;
         SBMLSymbolDependencies          mDependencies;
 
@@ -30,11 +30,11 @@ class RR_DECLSPEC SBMLSymbol
         bool                            IsSetConcentration;
 
         bool                            HasInitialAssignment() const;
-        string                          mInitialAssignment;
+        std::string                          mInitialAssignment;
 
         bool                            mHasRule;
         bool                            HasRule();
-        string                          mRule;
+        std::string                          mRule;
 
     public:
                                         SBMLSymbol();
@@ -47,7 +47,7 @@ class RR_DECLSPEC SBMLSymbol
 
 };
 
-RR_DECLSPEC std::ostream& operator<<(ostream& stream, const SBMLSymbol& symbol);
+RR_DECLSPEC std::ostream& operator<<(std::ostream& stream, const SBMLSymbol& symbol);
 }
 #endif
 
@@ -57,8 +57,8 @@ RR_DECLSPEC std::ostream& operator<<(ostream& stream, const SBMLSymbol& symbol);
 ////{
 ////    public class SBMLSymbol
 ////    {
-////        private string _Id;
-////        public string Id
+////        private std::string _Id;
+////        public std::string Id
 ////        {
 ////            get { return _Id; }
 ////            set { _Id = value; }
@@ -125,11 +125,11 @@ RR_DECLSPEC std::ostream& operator<<(ostream& stream, const SBMLSymbol& symbol);
 ////
 ////        public bool HasInitialAssignment
 ////        {
-////            get { return !string.IsNullOrEmpty(_InitialAssignment); }
+////            get { return !std::string.IsNullOrEmpty(_InitialAssignment); }
 ////        }
 ////
-////        private string _InitialAssignment;
-////        public string InitialAssignment
+////        private std::string _InitialAssignment;
+////        public std::string InitialAssignment
 ////        {
 ////            get { return _InitialAssignment; }
 ////            set { _InitialAssignment = value; }
@@ -138,11 +138,11 @@ RR_DECLSPEC std::ostream& operator<<(ostream& stream, const SBMLSymbol& symbol);
 ////
 ////        public bool HasRule
 ////        {
-////            get { return !string.IsNullOrEmpty(_Rule); }
+////            get { return !std::string.IsNullOrEmpty(_Rule); }
 ////        }
 ////
-////        private string _Rule;
-////        public string Rule
+////        private std::string _Rule;
+////        public std::string Rule
 ////        {
 ////            get { return _Rule; }
 ////            set { _Rule = value; }

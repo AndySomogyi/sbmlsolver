@@ -16,31 +16,31 @@ namespace rr
 class RR_DECLSPEC FileName
 {
     private:
-        mutable string              mPathAndName;
-        string                      mPath;
-        string                      mName;
+        mutable std::string              mPathAndName;
+        std::string                      mPath;
+        std::string                      mName;
         void                        MakeFileString();
 
     public:
-                                    FileName(const string& name = "", const string& path = "");
+                                    FileName(const std::string& name = "", const std::string& path = "");
                                     FileName(const FileName& fN);
                                    ~FileName();
 
         FileName&                   operator = (const FileName& fN);
-        FileName&                   operator = (const string& fN);
+        FileName&                   operator = (const std::string& fN);
         FileName&                   operator = (const char* fN);
         bool                        operator !=(const char* fN);
-                                    operator string();// {return mPathAndName;}
-        bool                        SetPath(const string& path);
-        void                        SetFileName(const string& name);
-        void                        SetNameAndPath(const string& path, const string& name);
-        void                        SetFileNameAndPath(const string& name);
+                                    operator std::string();// {return mPathAndName;}
+        bool                        SetPath(const std::string& path);
+        void                        SetFileName(const std::string& name);
+        void                        SetNameAndPath(const std::string& path, const std::string& name);
+        void                        SetFileNameAndPath(const std::string& name);
 
-        string                      GetFileName() const;
-        string                      GetPath() const;
-        string                      GetPathAndFileName() const;
-        string                      Get();
-        string                      GetFileNameNoExtension();
+        std::string                      GetFileName() const;
+        std::string                      GetPath() const;
+        std::string                      GetPathAndFileName() const;
+        std::string                      Get();
+        std::string                      GetFileNameNoExtension();
         size_t                      size();
 };
 

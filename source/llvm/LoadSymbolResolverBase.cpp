@@ -12,7 +12,7 @@
 #include "rrLogger.h"
 #include <sbml/Model.h>
 
-using namespace std;
+
 using namespace libsbml;
 using namespace llvm;
 

@@ -103,7 +103,7 @@ public:
     /// Sets the Scaling Factors
     /// </summary>
     /// <param name="sx">Array of Scaling factors</param>
-    void                            setScalingFactors(const vector<double>& sx);
+    void                            setScalingFactors(const std::vector<double>& sx);
 
     /// <summary>
     /// Returns the Number of Newton Iterations

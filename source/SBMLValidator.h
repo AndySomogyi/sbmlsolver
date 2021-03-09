@@ -66,7 +66,7 @@ std::string validateSBML(const std::string src, unsigned opt
 * @author JKM
 * @brief Adds missing stoichiometry information.
 * Assumes unit stoichiometry where not specified
-* @return SBML string with stoich fixed
+* @return SBML std::string with stoich fixed
 */
 std::string fixMissingStoich(const std::string sbml);
 

@@ -18,7 +18,7 @@
 #include <algorithm>
 #include <assert.h>
 
-using namespace std;
+
 
 namespace rr
 {
@@ -70,16 +70,16 @@ namespace rr
 		}
 		else
 		{
-			map<string, string> settings;
-			map<string, string>::iterator it;
+			std::map<std::string, std::string> settings;
+			std::map<std::string, std::string>::iterator it;
 			//Read each line in the settings file
-			vector<string> lines = getLinesInFile(fname);
+			std::vector<std::string> lines = getLinesInFile(fname);
 			for (int i = 0; i < lines.size(); i++)
 			{
-				vector<string> line = splitString(lines[i], ":");
+				std::vector<std::string> line = splitString(lines[i], ":");
 				if (line.size() == 2)
 				{
-					settings.insert(pair<string, string>(line[0], line[1]));
+					settings.insert(std::pair<std::string, std::string>(line[0], line[1]));
 				}
 				else
 				{
@@ -107,7 +107,7 @@ namespace rr
 			it = settings.find("variables");
 			if (it != settings.end())
 			{
-				vector<string> vars = splitString((*it).second, ",");
+				std::vector<std::string> vars = splitString((*it).second, ",");
 				for (int i = 0; i < vars.size(); i++)
 				{
 					variables.push_back(trim(vars[i]));
@@ -117,10 +117,10 @@ namespace rr
 			it = settings.find("amount");
 			if (it != settings.end())
 			{
-				vector<string> vars = splitString((*it).second, ",");
+				std::vector<std::string> vars = splitString((*it).second, ",");
 				for (int i = 0; i < vars.size(); i++)
 				{
-					string rec = trim(vars[i]);
+					std::string rec = trim(vars[i]);
 					if (rec.size())
 					{
 						amounts.push_back(rec);
@@ -131,10 +131,10 @@ namespace rr
 			it = settings.find("concentration");
 			if (it != settings.end())
 			{
-				vector<string> vars = splitString((*it).second, ",");
+				std::vector<std::string> vars = splitString((*it).second, ",");
 				for (int i = 0; i < vars.size(); i++)
 				{
-					string rec = trim(vars[i]);
+					std::string rec = trim(vars[i]);
 					if (rec.size())
 					{
 						concentrations.push_back(rec);
@@ -169,8 +169,8 @@ namespace rr
 	{
 		std::stringstream ss;
 
-		ss << "< roadrunner.SimulateOptions() " << endl << "{ "
-			<< endl << "'this' : " << (void*)this << ", " << std::endl;
+		ss << "< roadrunner.SimulateOptions() " << std::endl << "{ "
+			<< std::endl << "'this' : " << (void*)this << ", " << std::endl;
 
 		ss << "'reset' : " << reset_model << "," << std::endl;
 

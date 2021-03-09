@@ -12,7 +12,7 @@
 
 
 //---------------------------------------------------------------------------
-using namespace std;
+
 
 namespace rr
 {
@@ -49,7 +49,7 @@ RoadRunnerData::RoadRunnerData(const RoadRunner* rr) :
 
     const std::vector<SelectionRecord> sel = r->getSelections();
 
-    vector<string> list(sel.size());
+    std::vector<std::string> list(sel.size());
 
     for(int i = 0; i < sel.size(); ++i)
     {
@@ -102,7 +102,7 @@ double RoadRunnerData::getTimeEnd() const
     return gDoubleNaN;
 }
 
-void RoadRunnerData::setName(const string& name)
+void RoadRunnerData::setName(const std::string& name)
 {
     mName = name;
 }
@@ -184,7 +184,7 @@ const std::vector<std::string>& RoadRunnerData::getColumnNames() const
     return mColumnNames;
 }
 
-string RoadRunnerData::getColumnName(const int col) const
+std::string RoadRunnerData::getColumnName(const int col) const
 {
     if(col < mColumnNames.size())
     {
@@ -194,17 +194,17 @@ string RoadRunnerData::getColumnName(const int col) const
     return "Bad Column..";
 }
 
-ptrdiff_t RoadRunnerData::getColumnIndex(const string& colName) const
+ptrdiff_t RoadRunnerData::getColumnIndex(const std::string& colName) const
 {
     return rr::indexOf(mColumnNames, colName);
 }
 
-pair<int,int> RoadRunnerData::dimension() const
+std::pair<int,int> RoadRunnerData::dimension() const
 {
-    return pair<int,int>(mTheData.RSize(), mTheData.CSize());
+    return std::pair<int,int>(mTheData.RSize(), mTheData.CSize());
 }
 
-string RoadRunnerData::getName() const
+std::string RoadRunnerData::getName() const
 {
     return mName;
 }
@@ -219,9 +219,9 @@ void RoadRunnerData::setDataPrecision(const int& prec)
     mDataPrecision = prec;
 }
 
-string RoadRunnerData::getColumnNamesAsString() const
+std::string RoadRunnerData::getColumnNamesAsString() const
 {
-    string lbls;
+    std::string lbls;
     for(int i = 0; i < mColumnNames.size(); i++)
     {
         lbls.append(mColumnNames[i]);
@@ -306,14 +306,14 @@ bool RoadRunnerData::check() const
     return true;
 }
 
-bool RoadRunnerData::loadSimpleFormat(const string& fName)
+bool RoadRunnerData::loadSimpleFormat(const std::string& fName)
 {
     if(!fileExists(fName))
     {
         return false;
     }
 
-    vector<string> lines = getLinesInFile(fName.c_str());
+    std::vector<std::string> lines = getLinesInFile(fName.c_str());
     if(!lines.size())
     {
         rrLog(Logger::LOG_ERROR)<<"Failed reading/opening file "<<fName;
@@ -327,7 +327,7 @@ bool RoadRunnerData::loadSimpleFormat(const string& fName)
 
     for(int i = 0; i < mTheData.RSize(); i++)
     {
-        vector<string> aLine = splitString(lines[i+1], ", ");
+        std::vector<std::string> aLine = splitString(lines[i+1], ", ");
         for(int j = 0; j < aLine.size(); j++)
         {
             mTheData(i,j) = toDouble(aLine[j]);
@@ -337,9 +337,9 @@ bool RoadRunnerData::loadSimpleFormat(const string& fName)
     return true;
 }
 
-bool RoadRunnerData::writeTo(const string& fileName) const
+bool RoadRunnerData::writeTo(const std::string& fileName) const
 {
-    ofstream aFile(fileName.c_str());
+    std::ofstream aFile(fileName.c_str());
     if(!aFile)
     {
         rrLog(Logger::LOG_ERROR)<<"Failed opening file: "<<fileName;
@@ -357,9 +357,9 @@ bool RoadRunnerData::writeTo(const string& fileName) const
     return true;
 }
 
-bool RoadRunnerData::readFrom(const string& fileName)
+bool RoadRunnerData::readFrom(const std::string& fileName)
 {
-    ifstream aFile(fileName.c_str());
+    std::ifstream aFile(fileName.c_str());
     if(!aFile)
     {
         rrLog(Logger::LOG_ERROR)<<"Failed opening file: "<<fileName;
@@ -371,7 +371,7 @@ bool RoadRunnerData::readFrom(const string& fileName)
     return true;
 }
 
-ostream& operator << (ostream& ss, const RoadRunnerData& data)
+std::ostream& operator << (std::ostream& ss, const RoadRunnerData& data)
 {
     //Check that the dimensions of col header and data is ok
     if(!data.check())
@@ -380,15 +380,15 @@ ostream& operator << (ostream& ss, const RoadRunnerData& data)
         return ss;
     }
 
-    ss<<"[INFO]"<<endl;
-    ss<<"DATA_FORMAT_VERSION=1.0"   <<endl;
-    ss<<"CREATOR=libRoadRunner"      <<endl;
-    ss<<"NUMBER_OF_COLS="            <<data.cSize()<<endl;
-    ss<<"NUMBER_OF_ROWS="            <<data.rSize()<<endl;
-    ss<<"COLUMN_HEADERS="            <<data.getColumnNamesAsString()<<endl;
+    ss<<"[INFO]"<<std::endl;
+    ss<<"DATA_FORMAT_VERSION=1.0"   <<std::endl;
+    ss<<"CREATOR=libRoadRunner"      <<std::endl;
+    ss<<"NUMBER_OF_COLS="            <<data.cSize()<<std::endl;
+    ss<<"NUMBER_OF_ROWS="            <<data.rSize()<<std::endl;
+    ss<<"COLUMN_HEADERS="            <<data.getColumnNamesAsString()<<std::endl;
 
-    ss<<endl;
-    ss<<"[DATA]"<<endl;
+    ss<<std::endl;
+    ss<<"[DATA]"<<std::endl;
     //Then the data
     for(u_int row = 0; row < data.mTheData.RSize(); row++)
     {
@@ -396,11 +396,11 @@ ostream& operator << (ostream& ss, const RoadRunnerData& data)
         {
             if(col == 0)
             {
-                ss<<setprecision(data.mTimePrecision)<<data.mTheData(row, col);
+                ss<<std::setprecision(data.mTimePrecision)<<data.mTheData(row, col);
             }
             else
             {
-                ss<<setprecision(data.mDataPrecision)<<data.mTheData(row, col);
+                ss<<std::setprecision(data.mDataPrecision)<<data.mTheData(row, col);
             }
 
             if(col <data.mTheData.CSize() -1)
@@ -409,7 +409,7 @@ ostream& operator << (ostream& ss, const RoadRunnerData& data)
             }
             else
             {
-                ss << endl;
+                ss << std::endl;
             }
         }
     }
@@ -417,8 +417,8 @@ ostream& operator << (ostream& ss, const RoadRunnerData& data)
     if(data.mWeights.isAllocated())
     {
         //Write weights section
-        ss<<endl;
-        ss<<"[WEIGHTS]"<<endl;
+        ss<<std::endl;
+        ss<<"[WEIGHTS]"<<std::endl;
 
         //Then the data
         for(u_int row = 0; row < data.mWeights.RSize(); row++)
@@ -427,11 +427,11 @@ ostream& operator << (ostream& ss, const RoadRunnerData& data)
             {
                 if(col == 0)
                 {
-                    ss<<setprecision(data.mTimePrecision)<<data.mWeights(row, col);
+                    ss<<std::setprecision(data.mTimePrecision)<<data.mWeights(row, col);
                 }
                 else
                 {
-                    ss<<setprecision(data.mDataPrecision)<<data.mWeights(row, col);
+                    ss<<std::setprecision(data.mDataPrecision)<<data.mWeights(row, col);
                 }
 
                 if(col <data.mTheData.CSize() -1)
@@ -440,7 +440,7 @@ ostream& operator << (ostream& ss, const RoadRunnerData& data)
                 }
                 else
                 {
-                    ss << endl;
+                    ss << std::endl;
                 }
             }
         }
@@ -449,14 +449,14 @@ ostream& operator << (ostream& ss, const RoadRunnerData& data)
 }
 
 //Stream data from a file
-istream& operator >> (istream& ss, RoadRunnerData& data)
+std::istream& operator >> (std::istream& ss, RoadRunnerData& data)
 {
-    //Read in all lines into a string
+    //Read in all lines into a std::string
     std::string oneLine((std::istreambuf_iterator<char>(ss)), std::istreambuf_iterator<char>());
 
     //This is pretty inefficient
-    string tempFileName = joinPath(getTempDir(), "rrTempFile.dat");
-    ofstream tempFile(tempFileName.c_str());
+    std::string tempFileName = joinPath(getTempDir(), "rrTempFile.dat");
+    std::ofstream tempFile(tempFileName.c_str());
 
     tempFile << oneLine;
     tempFile.close();
@@ -503,11 +503,11 @@ istream& operator >> (istream& ss, RoadRunnerData& data)
         return ss;
     }
 
-    vector<string> lines = splitString(dataSection->GetNonKeysAsString(), "\n");
+    std::vector<std::string> lines = splitString(dataSection->GetNonKeysAsString(), "\n");
     for(int row = 0; row < lines.size(); row++)
     {
-        string oneLine = lines[row];
-        vector<string> aLine = splitString(oneLine, ',');
+        std::string oneLine = lines[row];
+        std::vector<std::string> aLine = splitString(oneLine, ',');
         if(aLine.size() != cDim)
         {
             throw(CoreException("Bad roadrunner data in data file"));
@@ -534,8 +534,8 @@ istream& operator >> (istream& ss, RoadRunnerData& data)
     lines = splitString(weightsSection->GetNonKeysAsString(), "\n");
     for(int row = 0; row < lines.size(); row++)
     {
-        string oneLine = lines[row];
-        vector<string> aLine  = splitString(oneLine, ',');
+        std::string oneLine = lines[row];
+        std::vector<std::string> aLine  = splitString(oneLine, ',');
         if(aLine.size() != cDim)
         {
             throw(CoreException("Bad roadrunner data in data file"));

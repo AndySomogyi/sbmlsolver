@@ -490,12 +490,12 @@ void CXXEnzymeExecutableModel::getStateVectorRate(double time, const double* y,
 
     if (y && dydt)
     {
-        // save and assign state vector
+        // save and assign state std::vector
         double *savedFloatingSpeciesAmounts = floatingSpeciesAmounts;
         floatingSpeciesAmounts = const_cast<double*>(y);
         floatingSpeciesAmountRates = dydt;
 
-        // not setting state vector, react rates get dirty
+        // not setting state std::vector, react rates get dirty
         double conversionFactor = evalReactionRates();
 
         csr_matrix_dgemv(conversionFactor, stoichiometry, reactionRates, 0.0, floatingSpeciesAmountRates);

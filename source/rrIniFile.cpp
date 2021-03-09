@@ -1,7 +1,7 @@
 #pragma hdrstop
 #include <float.h>
 #include <stdarg.h>
-#include <string.h>
+#include <string>
 #include <stdio.h>
 #include "rrUtils.h"
 #include "rrOSSpecifics.h"
@@ -15,7 +15,7 @@ namespace rr
 //const bool IniFile::mAutoCreateSections = true;
 //const bool IniFile::mAutoCreateKeys		= true;
 
-IniFile::IniFile(const string& szFileName, bool autoLoad, bool autoSave)
+IniFile::IniFile(const std::string& szFileName, bool autoLoad, bool autoSave)
 :
 mCommentIndicators(";#"),
 mEqualIndicator("="),
@@ -56,12 +56,12 @@ void IniFile::Clear()
 	mSections.clear();
 }
 
-bool IniFile::SetFilePath(const string& path)
+bool IniFile::SetFilePath(const std::string& path)
 {
 	return mIniFileName.SetPath(path);
 }
 
-bool IniFile::ClearSection(const string& aSection)
+bool IniFile::ClearSection(const std::string& aSection)
 {
 	IniSection* section = GetSection(aSection);
 	if(section)
@@ -74,7 +74,7 @@ bool IniFile::ClearSection(const string& aSection)
 
 // Set's the mFileName member variable. For use when creating the IniFile
 // object by hand versus loading it from a file
-void IniFile::SetFileName(const string& FileName)
+void IniFile::SetFileName(const std::string& FileName)
 {
 	if (mIniFileName.size() != 0 && compareNoCase(FileName, mIniFileName) != 0)
 	{
@@ -87,7 +87,7 @@ void IniFile::SetFileName(const string& FileName)
 // Attempts to load in the text file. If successful it will populate the
 // Section list with the key/value pairs found in the file. Note that comments
 // are saved so that they can be rewritten to the file later.
-bool IniFile::Load(const string& newfName)
+bool IniFile::Load(const std::string& newfName)
 {
 	if(newfName.size())
     {
@@ -114,9 +114,9 @@ bool IniFile::Load(const string& newfName)
         }
 	}
 
-	string fName(mIniFileName);
-    fstream file;
-	file.open(fName.c_str(), ios::in|ios::out);
+	std::string fName(mIniFileName);
+    std::fstream file;
+	file.open(fName.c_str(), std::ios::in|std::ios::out);
 	if(file.fail())
     {
     								rrLog(Logger::LOG_ERROR)<<"Opening file caused failbit to be set";
@@ -142,12 +142,12 @@ bool IniFile::Load(const string& newfName)
         int lines = 0;
 		while(!bDone)
 		{
-			string Comment;
+			std::string Comment;
 			memset(buffer, 0, MAX_LINE_BUFFER_SIZE);
 			file.getline(buffer, MAX_LINE_BUFFER_SIZE);
 			lines++;
 
-			string Line = buffer;
+			std::string Line = buffer;
 			Trim(Line);
 
 			bDone = ( file.eof() || file.bad() || file.fail() );
@@ -163,10 +163,10 @@ bool IniFile::Load(const string& newfName)
 				Line.erase( Line.find_last_of(']'), 1 );
 				pSection = GetSection(Line, true);
             	rrLog(lDebug3)<<"Located section: " + pSection->mName;
-				Comment = string("");
+				Comment = std::string("");
             }
-            else if ( Line.find_first_of('<') != string::npos &&
-                      Line.find_first_of('>') != string::npos)     //XML
+            else if ( Line.find_first_of('<') != std::string::npos &&
+                      Line.find_first_of('>') != std::string::npos)     //XML
             {
                 if(pSection)
                 {
@@ -174,18 +174,18 @@ bool IniFile::Load(const string& newfName)
                 }
                 rrLog(lDebug5)<<"Read NonKey on line: " << lines;
             }
-            else if ( Line.size() > 0 ) // we have a key, add this key/value pair
+            else if ( Line.size() > 0 ) // we have a key, add this key/value std::pair
 			{
-                string Comment = "";
-                string Key = "";
-                string Value = "";
+                std::string Comment = "";
+                std::string Key = "";
+                std::string Value = "";
 
-            	vector<string> record = splitString(Line, mEqualIndicator + mCommentIndicators);
+            	std::vector<std::string> record = splitString(Line, mEqualIndicator + mCommentIndicators);
                 if(record.size() > 1)
 				{
-	                string Comment = "";
-                	string Key = Trim(record[0]);
-                    string Value = Trim(record[1]);
+	                std::string Comment = "";
+                	std::string Key = Trim(record[0]);
+                    std::string Value = Trim(record[1]);
                     if(record.size() > 2)
                     {
                     	Comment = record[2];
@@ -201,7 +201,7 @@ bool IniFile::Load(const string& newfName)
                 		rrLog(lDebug5)<<Key << " = " << Value;
 						rrLog(lWarning)<<"No section for key"<<Key<<". Key was ignored..";
 					}
-					Comment = string("");
+					Comment = std::string("");
 				}
 				else	//Not a valid Key. Store as a NonKey
 				{
@@ -230,7 +230,7 @@ bool IniFile::Load(const string& newfName)
 	return true;
 }
 
-IniSection* IniFile::LoadSection(const string& theSection)
+IniSection* IniFile::LoadSection(const std::string& theSection)
 {
     IniSection* pSection = NULL;
 	if(mIniFileName.size() < 1)
@@ -243,14 +243,14 @@ IniSection* IniFile::LoadSection(const string& theSection)
 									rrLog(lDebug3)<<"Loading IniFile: " <<mIniFileName.Get();
 	}
 
-    fstream file;
+    std::fstream file;
     if(!fileExists(mIniFileName))
     {
 									rrLog(lDebug2)<<"The ini file: \"" <<mIniFileName.Get()<<"\" does not exist. It will be created";
 	}
 
-	string fName(mIniFileName);
-	file.open(fName.c_str(), ios::in|ios::out);
+	std::string fName(mIniFileName);
+	file.open(fName.c_str(), std::ios::in|std::ios::out);
 	if(file.fail())
     {
     								rrLog(Logger::LOG_ERROR)<<"Opening file caused failbit to be set";
@@ -276,11 +276,11 @@ IniSection* IniFile::LoadSection(const string& theSection)
 
 		while(!bDone)
 		{
-			string Comment;
+			std::string Comment;
 			memset(buffer, 0, MAX_LINE_BUFFER_SIZE);
 			file.getline(buffer, MAX_LINE_BUFFER_SIZE);
 
-			string Line = buffer;
+			std::string Line = buffer;
 			Trim(Line);
 
 			bDone = ( file.eof() || file.bad() || file.fail() );
@@ -301,14 +301,14 @@ IniSection* IniFile::LoadSection(const string& theSection)
     				CreateSection(Line, Comment);
 	    			pSection = GetSection(Line);
 										rrLog(lDebug3)<<"Located ini section: " + pSection->mName;
-				    Comment = string("");
+				    Comment = std::string("");
                     bDone = true;
                 }
 			}
-			else if ( Line.size() > 0 ) // we have a key, add this key/value pair
+			else if ( Line.size() > 0 ) // we have a key, add this key/value std::pair
 			{
-				string Key = GetNextWord(Line);
-				string Value = Line;
+				std::string Key = GetNextWord(Line);
+				std::string Value = Line;
 
 				if ( Key.size() > 0 && Value.size() > 0 )
 				{
@@ -322,7 +322,7 @@ IniSection* IniFile::LoadSection(const string& theSection)
 										rrLog(lDebug5)<<"Read Key " + Key + " Value = " + Value;
 										rrLog(lWarning)<<"No section for key" + Key + ". Key was ignored..";
 					}
-					Comment = string("");
+					Comment = std::string("");
 				}
 				else	//Not a valid Key. Store as a NonKey
 				{
@@ -362,8 +362,8 @@ bool IniFile::Save(ios_base::openmode openMode)
 		return false;
 	}
 
-    string aFName = mIniFileName.Get();
-	fstream aFstream(aFName.c_str(), openMode);
+    std::string aFName = mIniFileName.Get();
+	std::fstream aFstream(aFName.c_str(), openMode);
 
 	if(aFstream.is_open())
 	{
@@ -421,7 +421,7 @@ bool IniFile::Save(ios_base::openmode openMode)
 }
 
 // Set the comment of a given key. Returns true if the key is not found.
-bool IniFile::SetKeyComment(const string& mKey, const string& mComment, const string& szSection)
+bool IniFile::SetKeyComment(const std::string& mKey, const std::string& mComment, const std::string& szSection)
 {
 	KeyItor k_pos;
 	IniSection* pSection;
@@ -444,13 +444,13 @@ bool IniFile::SetKeyComment(const string& mKey, const string& mComment, const st
 
 // Set the comment for a given section. Returns false if the section
 // was not found.
-bool IniFile::SetSectionComment(const string& Section, const string& Comment)
+bool IniFile::SetSectionComment(const std::string& Section, const std::string& Comment)
 {
 	SectionItor s_pos;
 
 	for (s_pos = mSections.begin(); s_pos != mSections.end(); s_pos++)
 	{
-    	string name = (*s_pos)->mName;
+    	std::string name = (*s_pos)->mName;
 		if ( compareNoCase( name , Section ) == 0 )
 		{
 		    (*s_pos)->mComment = Comment;
@@ -462,7 +462,7 @@ bool IniFile::SetSectionComment(const string& Section, const string& Comment)
 	return false;
 }
 
-bool IniFile::SectionExists(const string& section)
+bool IniFile::SectionExists(const std::string& section)
 {
 	SectionItor s_pos;
 	IniSection* Section;
@@ -480,7 +480,7 @@ bool IniFile::SectionExists(const string& section)
 // Key within the given section, and if it finds it, change the keys value to
 // the new value. If it does not locate the key, it will create a new key with
 // the proper value and place it in the section requested.
-bool IniFile::WriteValue(const string& mKey, const string& mValue, const string& mComment, const string& szSection)
+bool IniFile::WriteValue(const std::string& mKey, const std::string& mValue, const std::string& mComment, const std::string& szSection)
 {
 	IniKey* 		pKey 		= GetKey(mKey, szSection);
 	IniSection* 	pSection 	= GetSection(szSection);
@@ -498,7 +498,7 @@ bool IniFile::WriteValue(const string& mKey, const string& mValue, const string&
 		return false;
 
 	// if the key does not exist in that section, and the value passed
-	// is not string("") then add the new key.
+	// is not std::string("") then add the new key.
 	if ( pKey == NULL && mValue.size() > 0 && (mFlags & mAutoCreateKeys))
 	{
 		pKey = new IniKey;
@@ -522,7 +522,7 @@ bool IniFile::WriteValue(const string& mKey, const string& mValue, const string&
 	return false;
 }
 
-bool IniFile::WriteNonKey(const string& nonKey, const string& section)
+bool IniFile::WriteNonKey(const std::string& nonKey, const std::string& section)
 {
 	IniSection* 	pSection 	= GetSection(section);
 	if (pSection == NULL)
@@ -541,38 +541,38 @@ bool IniFile::WriteNonKey(const string& nonKey, const string& section)
 	return true;
 }
 
-// Passes the given float to WriteValue as a string
-bool IniFile::WriteFloat(const string& mKey, double value, const string& mComment, const string& szSection)
+// Passes the given float to WriteValue as a std::string
+bool IniFile::WriteFloat(const std::string& mKey, double value, const std::string& mComment, const std::string& szSection)
 {
 	char szStr[64];
 	snprintf(szStr, 64, "%g", value);
 	return WriteValue(mKey, szStr, mComment, szSection);
 }
 
-// Passes the given int to WriteValue as a string
-bool IniFile::WriteInteger(const string& mKey, int nValue, const string& mComment, const string& szSection)
+// Passes the given int to WriteValue as a std::string
+bool IniFile::WriteInteger(const std::string& mKey, int nValue, const std::string& mComment, const std::string& szSection)
 {
 	char szStr[64];
 	snprintf(szStr, 64, "%d", nValue);
 	return WriteValue(mKey, szStr, mComment, szSection);
 }
 
-// Passes the given bool to WriteValue as a string
-bool IniFile::WriteBool(const string& mKey, bool bValue, const string& mComment, const string& szSection)
+// Passes the given bool to WriteValue as a std::string
+bool IniFile::WriteBool(const std::string& mKey, bool bValue, const std::string& mComment, const std::string& szSection)
 {
-	string mValue = bValue ?  "true" : "false";
+	std::string mValue = bValue ?  "true" : "false";
 
 	return WriteValue(mKey, mValue, mComment, szSection);
 }
 
-// Returns the key value as a string object. A return value of
-// string("") indicates that the key could not be found.
-string IniFile::ReadValue(const string& mKey, const string& szSection)
+// Returns the key value as a std::string object. A return value of
+// std::string("") indicates that the key could not be found.
+std::string IniFile::ReadValue(const std::string& mKey, const std::string& szSection)
 {
 	IniKey* pKey = GetKey(mKey, szSection);
   	mWasFound = pKey ? true : false;
 
-    string value;
+    std::string value;
     if(pKey)
     {
         value = pKey->mValue;
@@ -585,11 +585,11 @@ string IniFile::ReadValue(const string& mKey, const string& szSection)
 	return value;
 }
 
-// Returns the key value as a string object. A return value of
-// string("") indicates that the key could not be found.
-string IniFile::ReadString(const string& mKey, const string& szSection, const string& def_val)
+// Returns the key value as a std::string object. A return value of
+// std::string("") indicates that the key could not be found.
+std::string IniFile::ReadString(const std::string& mKey, const std::string& szSection, const std::string& def_val)
 {
-	string 	str =  ReadValue(mKey, szSection);
+	std::string 	str =  ReadValue(mKey, szSection);
 	if(mWasFound)
 	{
 		return str;
@@ -599,9 +599,9 @@ string IniFile::ReadString(const string& mKey, const string& szSection, const st
 
 // Returns the key value as a double type. Returns FLT_MIN if the key is
 // not found.
-double IniFile::ReadDouble(const string& mKey, const string& szSection, double def_value)
+double IniFile::ReadDouble(const std::string& mKey, const std::string& szSection, double def_value)
 {
-	string mValue = ReadValue(mKey, szSection);
+	std::string mValue = ReadValue(mKey, szSection);
 
 	if(mWasFound)
 	{
@@ -613,9 +613,9 @@ double IniFile::ReadDouble(const string& mKey, const string& szSection, double d
 
 // Returns the key value as an integer type. Returns INT_MIN if the key is
 // not found.
-int	IniFile::ReadInteger(const string& mKey, const string& szSection, int def_val)
+int	IniFile::ReadInteger(const std::string& mKey, const std::string& szSection, int def_val)
 {
-	string mValue = ReadValue(mKey, szSection);
+	std::string mValue = ReadValue(mKey, szSection);
 
 	if(mWasFound)
 	{
@@ -626,10 +626,10 @@ int	IniFile::ReadInteger(const string& mKey, const string& szSection, int def_va
 
 // Returns the key value as a bool type. Returns false if the key is
 // not found.
-bool IniFile::ReadBool(const string& mKey, const string& szSection, bool def_value)
+bool IniFile::ReadBool(const std::string& mKey, const std::string& szSection, bool def_value)
 {
 	bool bValue = def_value;
-	string mValue = ReadValue(mKey, szSection);
+	std::string mValue = ReadValue(mKey, szSection);
 
 	if(mWasFound)
 	{
@@ -650,7 +650,7 @@ bool IniFile::ReadBool(const string& mKey, const string& szSection, bool def_val
 
 // Delete a specific section. Returns false if the section cannot be
 // found or true when sucessfully deleted.
-bool IniFile::DeleteSection(const string& Section)
+bool IniFile::DeleteSection(const std::string& Section)
 {
 	SectionItor s_pos;
 
@@ -669,7 +669,7 @@ bool IniFile::DeleteSection(const string& Section)
 	return false;
 }
 
-bool IniFile::DeleteSectionsWithKeyValue(const string& keyName, const string& value)
+bool IniFile::DeleteSectionsWithKeyValue(const std::string& keyName, const std::string& value)
 {
 	//First find sections containing the key
 	SectionItor s_pos = mSections.begin();
@@ -695,7 +695,7 @@ bool IniFile::DeleteSectionsWithKeyValue(const string& keyName, const string& va
 
 // Delete a specific key in a specific section. Returns false if the key
 // cannot be found or true when sucessfully deleted.
-bool IniFile::DeleteKey(const string& Key, const string& FromSection)
+bool IniFile::DeleteKey(const std::string& Key, const std::string& FromSection)
 {
 	KeyItor k_pos;
 	IniSection* pSection;
@@ -721,7 +721,7 @@ bool IniFile::DeleteKey(const string& Key, const string& FromSection)
 // Key within the given section, and if it finds it, change the keys value to
 // the new value. If it does not locate the key, it will create a new key with
 // the proper value and place it in the section requested.
-bool IniFile::CreateKey(const string& mKey, const string& mValue, const string& mComment, const string& szSection)
+bool IniFile::CreateKey(const std::string& mKey, const std::string& mValue, const std::string& mComment, const std::string& szSection)
 {
 	bool bAutoKey = (mFlags & mAutoCreateKeys) == mAutoCreateKeys;
 	bool bReturn  = false;
@@ -742,7 +742,7 @@ bool IniFile::CreateKey(const string& mKey, const string& mValue, const string& 
 // allready exists in the list or not, if not, it creates the new section and
 // assigns it the comment given in mComment.  The function returns true if
 // sucessfully created, or false otherwise.
-bool IniFile::CreateSection(const string& Section, const string& mComment)
+bool IniFile::CreateSection(const std::string& Section, const std::string& mComment)
 {
 	IniSection* pSection = GetSection(Section);
 
@@ -765,7 +765,7 @@ bool IniFile::CreateSection(const string& Section, const string& mComment)
 // assigns it the comment given in mComment.  The function returns true if
 // sucessfully created, or false otherwise. This version accpets a KeyList
 // and Writes up the newly created Section with the keys in the list.
-bool IniFile::CreateSection(const string& Section, const string& Comment, KeyList Keys)
+bool IniFile::CreateSection(const std::string& Section, const std::string& Comment, KeyList Keys)
 {
 	if ( !CreateSection(Section, Comment) )
 		return false;
@@ -811,7 +811,7 @@ size_t IniFile::KeyCount()
 	return nCounter;
 }
 
-size_t IniFile::KeyCount(const string& section)
+size_t IniFile::KeyCount(const std::string& section)
 {
 	//Get the section
     IniSection* iniSection = GetSection(section);
@@ -820,12 +820,12 @@ size_t IniFile::KeyCount(const string& section)
 
 // Given a key and section name, looks up the key and if found, returns a
 // pointer to that key, otherwise returns NULL.
-IniKey*	IniFile::GetKey(const string& Key, const string& Section)
+IniKey*	IniFile::GetKey(const std::string& Key, const std::string& Section)
 {
 	IniSection* pSection;
 	KeyItor k_pos;
 
-	// Since our default section has a name value of string("") this should
+	// Since our default section has a name value of std::string("") this should
 	// always return a valid section, wether or not it has any keys in it is
 	// another matter.
 	if ( (pSection = GetSection(Section)) == NULL )
@@ -842,7 +842,7 @@ IniKey*	IniFile::GetKey(const string& Key, const string& Section)
 
 // Given a section name, locates that section in the list and returns a pointer
 // to it. If the section was not found, returns NULL
-IniSection* IniFile::GetSection(const string& Section, bool create)
+IniSection* IniFile::GetSection(const std::string& Section, bool create)
 {
 	SectionItor s_pos;
 	for (s_pos = mSections.begin(); s_pos != mSections.end(); s_pos++)
@@ -851,7 +851,7 @@ IniSection* IniFile::GetSection(const string& Section, bool create)
         {
         	return NULL;
         }
-        string secName = (*s_pos)->mName;
+        std::string secName = (*s_pos)->mName;
 		if ( compareNoCase( secName, Section ) == 0 )
         {
         	IniSection* sec = (*s_pos);
@@ -876,9 +876,9 @@ IniSection* IniFile::GetSection(const unsigned int sectionNr)
 	return NULL;
 }
 
-string IniFile::CommentStr(string& mComment)
+std::string IniFile::CommentStr(std::string& mComment)
 {
-	string szNewStr = string("");
+	std::string szNewStr = std::string("");
 
 	Trim(mComment);
 
@@ -897,15 +897,15 @@ string IniFile::CommentStr(string& mComment)
 	return szNewStr;
 }
 
-// Given a key+delimiter+ value string, pulls the key name from the string,
-// deletes the delimiter and alters the original string to contain the
+// Given a key+delimiter+ value std::string, pulls the key name from the std::string,
+// deletes the delimiter and alters the original std::string to contain the
 // remainder.  Returns the key
-string IniFile::GetNextWord(string& CommandLine)
+std::string IniFile::GetNextWord(std::string& CommandLine)
 {
 	size_t nPos = CommandLine.find_first_of(mEqualIndicator);
-	string sWord = string("");
+	std::string sWord = std::string("");
 
-	if ( nPos != string::npos )
+	if ( nPos != std::string::npos )
 	{
 		sWord = CommandLine.substr(0, nPos);
 		CommandLine.erase(0, nPos+1);
@@ -913,24 +913,24 @@ string IniFile::GetNextWord(string& CommandLine)
 	else
 	{
 		sWord = CommandLine;
-		CommandLine = string("");
+		CommandLine = std::string("");
 	}
 
 	Trim(sWord);
 	return sWord;
 }
 
-string IniFile::Trim(string& str)
+std::string IniFile::Trim(std::string& str)
 {
-	string szTrimChars 	= mWhiteSpace;
+	std::string szTrimChars 	= mWhiteSpace;
 	szTrimChars 		+= mEqualIndicator;
 
 	// Trim Both leading and trailing spaces
 	size_t startpos = str.find_first_not_of(szTrimChars); 	// Find the first character position after excluding leading blank spaces
 	size_t endpos 	= str.find_last_not_of(szTrimChars); 	// Find the first character position from reverse af
 
-	// if all spaces or empty return an empty string
-	if(( string::npos == startpos ) || ( string::npos == endpos))
+	// if all spaces or empty return an empty std::string
+	if(( std::string::npos == startpos ) || ( std::string::npos == endpos))
 	{
 		str = "";
 	}
@@ -944,11 +944,11 @@ string IniFile::Trim(string& str)
 
 // Writes the formatted output to the file stream, returning the number of
 // bytes written.
-int IniFile::WriteLine(fstream& stream, const char* fmt, ...)
+int IniFile::WriteLine(std::fstream& stream, const char* fmt, ...)
 {
 	char *buf = new char[MAX_LINE_BUFFER_SIZE];
 	int nLength;
-	string szMsg;
+	std::string szMsg;
 
 	memset(buf, 0, MAX_LINE_BUFFER_SIZE);
 	va_list args;

@@ -1,6 +1,6 @@
 #pragma hdrstop
 #include <stdio.h>
-#include <string.h>
+#include <string>
 #include "rrGetOptions.h"
 //---------------------------------------------------------------------------
 namespace rr
