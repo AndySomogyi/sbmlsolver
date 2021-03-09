@@ -22,7 +22,8 @@ function(add_test_executable BINARY OUT_VARIABLE)
     set_target_properties(${BINARY} PROPERTIES LINKER_LANGUAGE CXX)
 
     # Add to ctest.
-    add_test(NAME ${BINARY} COMMAND "$<TARGET_FILE:${BINARY}>")
+    # add_test(NAME ${BINARY} COMMAND "$<TARGET_FILE:${BINARY}>")
+    gtest_discover_tests(${BINARY})
 
     set(test_targets "${test_targets}" "${testid}")
     if ("${${OUT_VARIABLE}}" STREQUAL "")

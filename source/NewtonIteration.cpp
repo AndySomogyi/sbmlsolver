@@ -66,6 +66,8 @@ namespace rr {
     }
 
     double NewtonIteration::solve() {
+        doPresimulation();
+
         KINSol(
                 mKinsol_Memory,   // kinsol memory block
                 mStateVector,     // initial guess and solution vector
@@ -74,6 +76,7 @@ namespace rr {
                 uscale,      //scaling vector for the variable cc
                 fscale      //scaling vector for the variable fval
         );
+
 
         getSolverStats();
 

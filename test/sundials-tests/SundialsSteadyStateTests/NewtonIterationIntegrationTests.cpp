@@ -29,7 +29,8 @@ public:
     // todo pull this into superclass, as other types of solver will also need it.
     template<class TestModelType>
     void testSteadyState(const std::string &modelName, bool useMoietyConservation = false,
-                         const std::string &strategy = "basic") {
+                         const std::string &strategy = "basic",
+                         bool presimulation = false, double presimulationEndTime = 1 ) {
         // get the model
         auto *testModel = (TestModelType *) SBMLTestModelFactory(modelName);
 
@@ -42,13 +43,18 @@ public:
         // instantiate our solver
         NewtonIteration newtonIteration(rr.getModel());
 
+        if (presimulation){
+            newtonIteration.setValue("allow_presimulation", presimulation);
+            newtonIteration.setValue("presimulation_time", presimulationEndTime);
+        }
+
         // collect reference results
         ResultMap expectedResult = testModel->steadyState();
 
         // set some parameters
         newtonIteration.setValue("strategy", strategy);
 
-        //openInCopasi(testModel->str());
+        // openInCopasi(testModel->str());
         // solve the problem
         newtonIteration.solve();
 
@@ -67,7 +73,6 @@ public:
             EXPECT_NEAR(expected, actualResult, 0.0001);
         }
     }
-
 
     template<class TestModelType>
     void testSteadyStateMultiStart(const std::string &modelName, bool useMoietyConservation = false,
@@ -148,7 +153,12 @@ public:
 };
 
 TEST_F(BasicNewtonIterationTests, CheckCorrectSteadyStateOpenLinearFlux) {
-    testSteadyState<OpenLinearFlux>("OpenLinearFlux", false, strategy);
+    testSteadyState<OpenLinearFlux>(
+            "OpenLinearFlux",
+            false,
+            strategy,
+            true, 1
+            );
 }
 
 TEST_F(BasicNewtonIterationTests, CheckCorrectSteadyStateSimpleFluxManuallyReduced) {

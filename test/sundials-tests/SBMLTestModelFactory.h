@@ -372,7 +372,7 @@ public:
                "    <listOfParameters>\n"
                "      <parameter id=\"kin\" value=\"1\" constant=\"true\"/>\n"
                "      <parameter id=\"kf\" value=\"0.1\" constant=\"true\"/>\n"
-               "      <parameter id=\"kout\" value=\"0.1\" constant=\"true\"/>\n"
+               "      <parameter id=\"kout\" value=\"0.2\" constant=\"true\"/>\n"
                "      <parameter id=\"kb\" value=\"0.01\" constant=\"true\"/>\n"
                "    </listOfParameters>\n"
                "    <listOfReactions>\n"
@@ -425,7 +425,7 @@ public:
     ResultMap steadyState() override {
         return ResultMap ({
                 {"S1", DoublePair(0, 10)},
-                {"S2", DoublePair(0, 10)},
+                {"S2", DoublePair(0, 5)},
         });
     }
 

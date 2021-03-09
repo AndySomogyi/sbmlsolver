@@ -77,7 +77,7 @@ namespace rr {
          * @brief set elements of the fscale variable to @param value.
          * @param value should have the same size as the state vector
          */
-        void setFScale(const std::vector<double>& value);
+        void setFScale(const std::vector<double> &value);
 
         /**
          * @brief set all elements of the uscale variable to @param value.
@@ -133,7 +133,7 @@ namespace rr {
             // note: some of the examples used a "step" of 0.1, I'm not sure how important this is
             //  given that it doesn't seem to be needed. Keep for now.
             // model->getStateVectorRate(model->getTime() + step, y, dydt);
-            model->getStateVectorRate(model->getTime() , y, dydt);
+            model->getStateVectorRate(model->getTime(), y, dydt);
 
             for (int i = 0; i < numStates; i++) {
                 if (dydt[i] == std::numeric_limits<double>::max()) {
@@ -261,6 +261,65 @@ namespace rr {
          * This method uses kinsol's KINGetNumFuncEvals function
          */
         long int nFuncEvals = 0;
+
+        /**
+         * @brief Integrate model to time @param presimulation_time before using the
+         * steady state solving algorithm.
+         * @details The "allow_presimulation"
+         * option must be set to true for this to happen (default = false).
+         * Uses the CVODEIntegrator to integrate the model
+         * between boundary of 0 and presimulation_time. The argument
+         * to presimulation_maximum_steps gets passed on to CVODEIntegrator's
+         * maximum_num_steps argument. All other CVODEIntegrator options are
+         * set to their default. If the model is stiff, the user will have to
+         * set the stiff flag in the RoadRunner before solving.
+         * @note presimulation has been refactored into its own class for
+         * testability - we can't test this feature if it is encoded directly
+         * in KinsolSteadyStateSolver where it needs to be a private method
+         * @see Presimulation
+         */
+        void doPresimulation();
+    };
+
+
+    /**
+     * @brief Integrate model before using the
+     * steady state solving algorithm.
+     * @details This is a private class used by KinsolSteadyStateSolver.
+     * The "allow_presimulation"
+     * option must be set to true for this to happen (default = false).
+     * Uses the CVODEIntegrator to integrate the model
+     * between boundary of 0 and presimulation_time. The argument
+     * to presimulation_maximum_steps gets passed on to CVODEIntegrator's
+     * maximum_num_steps argument. All other CVODEIntegrator options are
+     * set to their default. If the model is stiff, the user will have to
+     * set the stiff flag in the RoadRunner before solving.
+     * @note presimulation has been refactored into its own class for
+     * testability - we can't test this feature if it is encoded directly
+     * in KinsolSteadyStateSolver where it needs to be a private method
+     */
+    class Presimulation {
+    public:
+        /**
+         * @brief default constructor for presimulation class
+         */
+        Presimulation() = default;
+
+        /**
+         * @brief construct a Presimulation class from
+         * @param model: a model to integrate
+         * @param presimulation_maximum_steps: maximal steps CVODEIntegrator is allowed
+         * @param presimulation_time: end time for presimulation
+         */
+        Presimulation(ExecutableModel *model, double presimulation_time, int presimulation_maximum_steps);
+
+        void simulate();
+
+
+    private:
+        double presimulation_time_;
+        int presimulation_maximum_steps_;
+        ExecutableModel *model_;
 
     };
 }

@@ -79,6 +79,12 @@ namespace rr
 		* @brief Return string representation a la Python __repr__ method
 		*/
 		std::string toRepr() const override;
+
+		/**
+		 * Implements settings shared by
+		 * all steady state solvers.
+		 */
+		void resetSettings() override;
     };
 
     /**

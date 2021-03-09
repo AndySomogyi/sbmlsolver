@@ -6,7 +6,7 @@
 #include <cassert>
 #include "KinsolErrHandler.h"
 #include "rrConfig.h"
-
+#include "CVODEIntegrator.h"
 
 namespace rr {
 
@@ -101,7 +101,7 @@ namespace rr {
     }
 
     void KinsolSteadyStateSolver::resetSettings() {
-        Solver::resetSettings();
+        SteadyStateSolver::resetSettings();
 
         std::string desc = "Max. number of nonlinear iterations";
         addSetting("NumMaxIters", 200, "NumMaxIters", desc, desc);
@@ -286,9 +286,36 @@ namespace rr {
         KINSetDampingAA(mKinsol_Memory, getValueAsDouble("DampingAA"));
         // constraints not implemented at the moment. Maybe later???
         // KINSetConstraints(mKinsol_Memory, getValueAsInt("Constraints"));
+    }
 
+    void KinsolSteadyStateSolver::doPresimulation() {
+        bool allowPresimulation = getValueAsBool("allow_presimulation");
+        if (!allowPresimulation)
+            return;
 
+        // do presimulation in side class so that we can test it.
+        assert(mModel && "Model is null");
+
+        Presimulation presimulation(
+                mModel,
+                getValueAsDouble("presimulation_time"),
+                getValueAsInt("presimulation_maximum_steps")
+        );
+        presimulation.simulate();
+        // remember to update the model
+        syncWithModel(mModel);
     }
 
 
+    Presimulation::Presimulation(ExecutableModel *model, double presimulation_time, int presimulation_maximum_steps)
+            : model_(model),
+              presimulation_maximum_steps_(presimulation_maximum_steps),
+              presimulation_time_(presimulation_time) {}
+
+    void Presimulation::simulate() {
+        CVODEIntegrator integrator(model_);
+        integrator.setValue("maximum_num_steps", presimulation_maximum_steps_);
+        integrator.integrate(0, presimulation_time_);
+
+    }
 }
