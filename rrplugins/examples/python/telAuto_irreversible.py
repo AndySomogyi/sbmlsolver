@@ -4,8 +4,7 @@
 #
 # Author:      Totte Karlsson (totte@dunescientific.com)
 #-------------------------------------------------------------------------------
-from rrplugins import *
-import roadrunner as rr
+import rrplugins
 
 sbmlModel ="irreversible_bistability.xml"                              
 
@@ -13,12 +12,12 @@ sbmlModel ="irreversible_bistability.xml"
 #result = rrm.simulate()
 #rrm.plot()
 
-auto = Plugin("tel_auto2000")              
+auto = rrplugins.Plugin("tel_auto2000")              
 
 #print auto.listOfPropertyNames()
 
 #Setup Auto Propertys
-auto.setProperty("SBML", readAllText(sbmlModel))
+auto.setProperty("SBML", rrplugins.readAllText(sbmlModel))
 
 #Auto specific properties
 auto.setProperty("ScanDirection", "Positive")    
