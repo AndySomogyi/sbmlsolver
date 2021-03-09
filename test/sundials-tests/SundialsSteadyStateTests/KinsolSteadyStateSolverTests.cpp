@@ -21,7 +21,14 @@ public:
 
     DerivedKinsolSteadyStateSolver() = default;
 
-    void syncWithModel(ExecutableModel *m) override {};
+    void syncWithModel(ExecutableModel *m) override {
+        // although this does no extra work compared
+        // to superclass implementation, we need it
+        // in this class, so the right implementations
+        // of freeKinsol and createKinsol get called.
+        //   --> otherwise memory leaks or worse
+        KinsolSteadyStateSolver::syncWithModel(m);
+    }
 
     void freeKinsol() override {};
 

@@ -2163,7 +2163,7 @@ DoubleMatrix RoadRunner::getFloatingSpeciesConcentrationsNamedArray()
     for (int i = 0; i<l; ++i)
         v(0, i) = vals[i];
 
-    delete vals;
+    delete[] vals;
 
     v.setColNames(getFloatingSpeciesIds());
 

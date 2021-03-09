@@ -164,7 +164,7 @@ public:
     }
 
     ResultMap steadyState() override {
-        return ResultMap (
+        return ResultMap(
                 {
                         {"S1", DoublePair(10, 1.0)},
                         {"S2", DoublePair(1, 10.0)}
@@ -327,8 +327,8 @@ public:
 
     ResultMap steadyState() override {
         return ResultMap({
-                            {"S1", DoublePair(10, 1.0)}
-                    });
+                                 {"S1", DoublePair(10, 1.0)}
+                         });
     }
 };
 
@@ -423,10 +423,10 @@ public:
     }
 
     ResultMap steadyState() override {
-        return ResultMap ({
-                {"S1", DoublePair(0, 10)},
-                {"S2", DoublePair(0, 5)},
-        });
+        return ResultMap({
+                                 {"S1", DoublePair(0, 10)},
+                                 {"S2", DoublePair(0, 5)},
+                         });
     }
 
     std::string modelName() override {
@@ -761,7 +761,7 @@ public:
 /**
  * Model from the Venkatraman 2010 paper
  */
-class Venkatraman2010 : public SBMLTestModel, SteadyStateMultiStart {
+class Venkatraman2010 : public SBMLTestModel, SteadyStateResult {
 public:
 
     std::string str() override {
@@ -942,55 +942,39 @@ public:
         return "Venkatraman2010";
     }
 
-    MultiResultsMap steadyState() override {
-        MultiResultsMap results;
-        results.push_back(
-                {
-                        // This parameter set doesn't solve
+    ResultMap steadyState() override {
+        return ResultMap{
                         {"scUPA", DoublePair(10, 0.00010036488071501325)},
                         {"PLG",   DoublePair(10, 0.03571790894678159)},
                         {"PLS",   DoublePair(10, 0.9642820910532185)},
                         {"tcUPA", DoublePair(10, 0.8998996351192852)}
-                }
-        );
-        results.push_back(
-                {
-                        // this starting set comes from integrating the model to t=10 before solving
-                        {"scUPA", DoublePair(1.16213e-8, 0.00010036488071501325)},
-                        {"PLG",   DoublePair(0.0262792, 0.03571790894678159)},
-                        {"PLS",   DoublePair(19.7847, 0.9642820910532185)},
-                        {"tcUPA", DoublePair(19.9809, 0.8998996351192852)}
-                }
-        );
-        return results;
+                };
     }
 };
-
 
 /**
  * Basic factory that creates sbml strings
  * for use in tests.
- *
- * The caller is responsible for deleting memory
- * associated with the create SBMLTestModel
  */
-SBMLTestModel *SBMLTestModelFactory(const std::string &modelName) {
+std::unique_ptr<SBMLTestModel>
+
+SBMLTestModelFactory(const std::string &modelName) {
     if (modelName == "SimpleFlux") {
-        return new SimpleFlux();
+        return std::make_unique<SimpleFlux>();
     } else if (modelName == "Model269") {
-        return new Model269();
+        return std::make_unique<Model269>();
     } else if (modelName == "Model28") {
-        return new Model28();
+        return std::make_unique<Model28>();
     } else if (modelName == "CeilInRateLaw") {
-        return new CeilInRateLaw();
+        return std::make_unique<CeilInRateLaw>();
     } else if (modelName == "FactorialInRateLaw") {
-        return new FactorialInRateLaw();
+        return std::make_unique<FactorialInRateLaw>();
     } else if (modelName == "Venkatraman2010") {
-        return new Venkatraman2010();
+        return std::make_unique<Venkatraman2010>();
     } else if (modelName == "OpenLinearFlux") {
-        return new OpenLinearFlux();
+        return std::make_unique<OpenLinearFlux>();
     } else if (modelName == "SimpleFluxManuallyReduced") {
-        return new SimpleFluxManuallyReduced();
+        return std::make_unique<SimpleFluxManuallyReduced>();
     } else {
         throw std::runtime_error(
                 "SBMLTestModelFactory::SBMLTestModelFactory(): no model called \"" + modelName + "\" found\n");

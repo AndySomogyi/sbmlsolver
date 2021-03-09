@@ -109,30 +109,18 @@ namespace rr {
             N_VConst(std::numeric_limits<double>::max(), stateVecOut);
             double *dydt = NV_DATA_S(stateVecOut);
 
-            std::cout << "State vec in: ";
-            stateVecIn->ops->nvprint(stateVecIn);
-
             // cast user data back into our solver type
             auto solver = (KinsolSteadyStateSolverType *) userData;
 
-            assert(solver && "userData pointer is NULL in callback kinsolDyDtFcn");
+            assert(solver && "userData pointer is nullptr in callback kinsolDyDtFcn");
 
             ExecutableModel *model = solver->mModel;
 
+            assert(model && "model is nullptr");
+
             // collect the number of states in this model
-            int numStates = model->getStateVector(nullptr);
+            int numStates = stateVecIn->ops->nvgetlength(stateVecIn);
 
-            // multiply by step size (which defaults to 1)
-            // this has an affect on accuracy and convergence
-            // todo in testing a step was added, like in one of the examples
-            //   but it may not be needed. So comment out for now. Remove before
-            //   merge into develop branch!
-            // double step = solver->getValueAsDouble("Step");
-
-            // get rates from the model
-            // note: some of the examples used a "step" of 0.1, I'm not sure how important this is
-            //  given that it doesn't seem to be needed. Keep for now.
-            // model->getStateVectorRate(model->getTime() + step, y, dydt);
             model->getStateVectorRate(model->getTime(), y, dydt);
 
             for (int i = 0; i < numStates; i++) {
@@ -148,9 +136,6 @@ namespace rr {
             }
             rrLog(Logger::LOG_TRACE) << __FUNC__ << ", model: " << model;
 
-            std::cout << "State vec out: ";
-            stateVecOut->ops->nvprint(stateVecOut);
-            //std::cout << "size of system: " << stateVecIn->ops->nvgetlength(stateVecIn) << std::endl;
             return KIN_SUCCESS;
         };
 

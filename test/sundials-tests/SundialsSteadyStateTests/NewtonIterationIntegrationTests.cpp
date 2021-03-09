@@ -32,7 +32,9 @@ public:
                          const std::string &strategy = "basic",
                          bool presimulation = false, double presimulationEndTime = 1 ) {
         // get the model
-        auto *testModel = (TestModelType *) SBMLTestModelFactory(modelName);
+        auto testModelPtr = SBMLTestModelFactory(modelName);
+        auto testModel = dynamic_cast<TestModelType*>(testModelPtr.get());
+        assert(testModel && "testModel is nullptr");
 
         // load it into rr
         RoadRunner rr(testModel->str());
@@ -74,69 +76,69 @@ public:
         }
     }
 
-    template<class TestModelType>
-    void testSteadyStateMultiStart(const std::string &modelName, bool useMoietyConservation = false,
-                                   const std::string &strategy = "basic") {
-        // get the model
-        auto *testModel = (TestModelType *) SBMLTestModelFactory(modelName);
-
-        // load it into rr
-        RoadRunner rr(testModel->str());
-
-        // turn on/off conservation analysis
-        rr.setConservedMoietyAnalysis(useMoietyConservation);
-//        std::cout << rr.getFullJacobian() << std::endl;
-//        std::cout << rr.getFullStoichiometryMatrix() << std::endl;
-//        std::cout << rr.getReducedJacobian() << std::endl;
-//        std::cout << rr.getReducedStoichiometryMatrix() << std::endl;
-
-//        std::cout << "link matrix : " << std::endl;
-//        if (useMoietyConservation)
-//            std::cout << rr.getConservationMatrix() << std::endl;
-
-        // instantiate our solver
-        NewtonIteration newtonIteration(rr.getModel());
-
-        // iterate over reference results
-        for (ResultMap &steadyStateResult: testModel->steadyState()) {
-            // ensure we start from a 'clean' model
-            rr.reset();
-
-            // set the model parameters for this run
-            for (const auto &parameterInfo : steadyStateResult) {
-                std::string speciesName = parameterInfo.first;
-                double startingValue = parameterInfo.second.first; // second is a std::pair of doubles
-                rr.setInitConcentration(speciesName, startingValue, false);
-            }
-            rr.regenerate();
-
-            // set some parameters
-            newtonIteration.setValue("strategy", strategy);
-
-            std::cout << rr.getSBML() << std::endl;
-
-
-            //openInCopasi(testModel->str());
-            // solve the problem
-            newtonIteration.solve();
-
-            // collect actual results from model
-            auto result = rr.getFloatingSpeciesConcentrationsNamedArray();
-            std::vector<std::string> names = result.getColNames();
-
-            // check to see if actual result are near expected.
-            for (int i = 0; i < names.size(); i++) {
-                std::string speciesID = names[i];
-                double expectedResult = steadyStateResult[speciesID].second;
-                double actualResult = result[0][i];
-
-                std::cout << "Comparing \"" << speciesID << "\" expected result: " << expectedResult
-                          << " with actual result " << actualResult << std::endl;
-                EXPECT_NEAR(expectedResult, actualResult, 0.0001);
-            }
-        }
-    }
-
+//    template<class TestModelType>
+//    void testSteadyStateMultiStart(const std::string &modelName, bool useMoietyConservation = false,
+//                                   const std::string &strategy = "basic",
+//                                   bool presimulation = false, double presimulationEndTime = 1 ) {
+//        // get the model
+//        auto testModelPtr = SBMLTestModelFactory(modelName);
+//        auto testModel = dynamic_cast<TestModelType*>(testModelPtr.get());
+//        assert(testModel && "testModel is nullptr");
+//
+//        // load it into rr
+//        RoadRunner rr(testModel->str());
+//
+//        // turn on/off conservation analysis
+//        rr.setConservedMoietyAnalysis(useMoietyConservation);
+////        std::cout << rr.getFullJacobian() << std::endl;
+////        std::cout << rr.getFullStoichiometryMatrix() << std::endl;
+////        std::cout << rr.getReducedJacobian() << std::endl;
+////        std::cout << rr.getReducedStoichiometryMatrix() << std::endl;
+//
+////        std::cout << "link matrix : " << std::endl;
+////        if (useMoietyConservation)
+////            std::cout << rr.getConservationMatrix() << std::endl;
+//
+//        // instantiate our solver
+//        NewtonIteration newtonIteration(rr.getModel());
+//
+//        // iterate over reference results
+//        for (auto &steadyStateResult: testModel->steadyState()) {
+//            // ensure we start from a 'clean' model
+//            rr.reset();
+//
+//            // set the model parameters for this run
+//            for (const auto &parameterInfo : steadyStateResult) {
+//                std::string speciesName = parameterInfo.first;
+//                double startingValue = parameterInfo.second.first; // second is a std::pair of doubles
+//                rr.setInitConcentration(speciesName, startingValue, false);
+//            }
+//            rr.regenerate();
+//
+//            // set some parameters
+//            newtonIteration.setValue("strategy", strategy);
+//
+//            //openInCopasi(testModel->str());
+//            // solve the problem
+//            newtonIteration.solve();
+//
+//            // collect actual results from model
+////            auto result = rr.getFloatingSpeciesConcentrationsNamedArray();
+////            std::vector<std::string> names = result.getColNames();
+////
+////            // check to see if actual result are near expected.
+////            for (int i = 0; i < names.size(); i++) {
+////                std::string speciesID = names[i];
+////                double expectedResult = steadyStateResult[speciesID].second;
+////                double actualResult = result[0][i];
+////
+////                std::cout << "Comparing \"" << speciesID << "\" expected result: " << expectedResult
+////                          << " with actual result " << actualResult << std::endl;
+////                EXPECT_NEAR(expectedResult, actualResult, 0.0001);
+////            }
+//        }
+//    }
+//
 
 };
 
@@ -173,7 +175,7 @@ TEST_F(BasicNewtonIterationTests, CheckCorrectSteadyStateSimpleFlux) {
 }
 
 TEST_F(BasicNewtonIterationTests, CheckCorrectSteadyStateVenkatraman2010) {
-    testSteadyStateMultiStart<Venkatraman2010>("Venkatraman2010", false, strategy);
+    testSteadyState<Venkatraman2010>("Venkatraman2010", false, strategy, true, 1);
 }
 
 
@@ -190,7 +192,7 @@ public:
 };
 
 TEST_F(LineSearchNewtonIterationTests, CheckCorrectSteadyStateOpenLinearFlux) {
-    testSteadyState<OpenLinearFlux>("OpenLinearFlux", false, strategy);
+    testSteadyState<OpenLinearFlux>("OpenLinearFlux", false, strategy, true, 1);
 }
 
 TEST_F(LineSearchNewtonIterationTests, CheckCorrectSteadyStateSimpleFluxManuallyReduced) {
@@ -204,7 +206,7 @@ TEST_F(LineSearchNewtonIterationTests, CheckCorrectSteadyStateSimpleFlux) {
 }
 
 TEST_F(LineSearchNewtonIterationTests, CheckCorrectSteadyStateVenkatraman2010) {
-    testSteadyStateMultiStart<Venkatraman2010>("Venkatraman2010", false, strategy);
+    testSteadyState<Venkatraman2010>("Venkatraman2010", false, strategy, false, 1);
 }
 
 

@@ -44,9 +44,11 @@ namespace rr {
         KinsolCheckForNull(jac, "SUNLinSol_Dense", "SUNLinearSolver")
 
         /* Attach the matrix and linear solver to KINSOL */
+        // memory leak somewhere???
         if ((err = KINSetLinearSolver(mKinsol_Memory, linearSolver, jac))) {
             decodeKinsolError(err);
         }
+
 
     }
 
@@ -68,6 +70,9 @@ namespace rr {
     double NewtonIteration::solve() {
         doPresimulation();
 
+        assert(mKinsol_Memory && "Kinsol memory block is nullptr");
+        assert(mStateVector && "Solvers state vector is nullptr");
+
         KINSol(
                 mKinsol_Memory,   // kinsol memory block
                 mStateVector,     // initial guess and solution vector
@@ -83,7 +88,9 @@ namespace rr {
         // update the model's state values
         mModel->setStateVector(mStateVector->ops->nvgetarraypointer(mStateVector));
 
-        return 0.0;
+        auto scaledNormOfF = std::make_unique<double>();
+        KINGetFuncNorm(mKinsol_Memory, scaledNormOfF.get());
+        return *scaledNormOfF;
     }
 
     void NewtonIteration::updateKinsol() {
