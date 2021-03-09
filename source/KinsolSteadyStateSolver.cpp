@@ -10,7 +10,6 @@
 
 namespace rr {
 
-
     KinsolSteadyStateSolver::KinsolSteadyStateSolver(ExecutableModel *executableModel)
             : SteadyStateSolver(executableModel) {
         KinsolSteadyStateSolver::resetSettings();

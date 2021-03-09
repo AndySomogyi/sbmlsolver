@@ -18,9 +18,12 @@ public:
 
     // we introduce this test dependency (in the absence of mocking).
     // These unit tests are tightly coupled to this model.
-    OpenLinearFlux *testModel = (OpenLinearFlux *) SBMLTestModelFactory("OpenLinearFlux");
+    std::unique_ptr<SBMLTestModel> testModelPtr = SBMLTestModelFactory("OpenLinearFlux");
+    std::unique_ptr<OpenLinearFlux> testModel;
+
 
     NewtonIterationUnitTests() {
+        testModel = std::unique_ptr<OpenLinearFlux>(dynamic_cast<OpenLinearFlux*>(testModelPtr.release()));
         rr.load(testModel->str()); // load our sbml
     };
 
@@ -69,11 +72,6 @@ TEST_F(NewtonIterationUnitTests, CheckWeCanRegenerateTheModelAfterCreatingSolver
     checkResults(rr.getFloatingSpeciesConcentrationsNamedArray());
 }
 
-TEST_F(NewtonIterationUnitTests, TestUpdate) {
-    NewtonIteration solver(rr.getModel());
-    ASSERT_TRUE(false); // so I don't forget to implement this
-}
-
 TEST_F(NewtonIterationUnitTests, TestPresimulation) {
     ls::DoubleMatrix before = rr.getFloatingSpeciesConcentrationsNamedArray();
     Presimulation presimulation(rr.getModel(), 10, 1000);
@@ -84,9 +82,9 @@ TEST_F(NewtonIterationUnitTests, TestPresimulation) {
     // before and after are different.
 
     // No equality operators in ls::DoubleMatrix so we need to do it ourselves. Sad face =[
-    for (int i=0; i<before.numRows(); i++){
-        for (int j=0; j<before.numCols(); j++){
-            std::cout << "comparing before: " << before(i, j) << " to after: " << after(i, j) <<  std::endl;
+    for (int i = 0; i < before.numRows(); i++) {
+        for (int j = 0; j < before.numCols(); j++) {
+            std::cout << "comparing before: " << before(i, j) << " to after: " << after(i, j) << std::endl;
             ASSERT_NE(before(i, j), after(i, j));
         }
     }
@@ -111,7 +109,13 @@ TEST_P(SettingsTests, TestSettings) {
     Variant settingValue = settingUnderTest.second;
     std::cout << "Testing setting \"" << settingName << "\"" << std::endl;
 
-    auto *testModel = (OpenLinearFlux *) SBMLTestModelFactory("OpenLinearFlux");
+    // a bit of a faffy way to downcast
+    std::unique_ptr<SBMLTestModel> testModelPtr = SBMLTestModelFactory("OpenLinearFlux");
+    auto* testModelPtrRaw = dynamic_cast<OpenLinearFlux*>(testModelPtr.get());
+    std::unique_ptr<OpenLinearFlux> testModel;
+    testModelPtr.release();
+    testModel.reset(testModelPtrRaw);
+
     RoadRunner rr(testModel->str());
     NewtonIteration solver(rr.getModel());
 

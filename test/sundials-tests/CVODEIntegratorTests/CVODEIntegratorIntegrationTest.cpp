@@ -29,10 +29,15 @@ public:
     template<class ModelType>
     void CheckModelSimulates(const std::string &modelName) {
         // get the sbml from the parameterised test (google "googlemock parameterised tests" for more info)
-        auto *testModel = (ModelType *) SBMLTestModelFactory(modelName);
+        std::unique_ptr<SBMLTestModel> testModelPtr = SBMLTestModelFactory(modelName);
+        auto testModel = std::unique_ptr<ModelType>(dynamic_cast<ModelType*>(testModelPtr.release()));
+
         // load model
         RoadRunner r(testModel->str());
         r.getIntegrator()->setValue("stiff", false);
+
+        // get handle on the *known true values.
+        auto trueValues = testModel->stateVectorAtT10();
 
         // do a simulation
         SimulateOptions options;
@@ -50,14 +55,12 @@ public:
         int numStateVariables = r.getModel()->getNumFloatingSpecies();
 
         // allocate
-        double *state = (double *) malloc(sizeof(double) * numStateVariables);
+        auto *state = (double *) malloc(sizeof(double) * numStateVariables);
 
         // returns number of states copied, which may as well be used to clarify what we think we know
         int numCopied = r.getModel()->getStateVector(state);
         ASSERT_EQ(numCopied, numStateVariables);
 
-        // get handle on the *known true values.
-        auto trueValues = testModel->stateVectorAtT10();
 
         // we can now iterate over the collected states and compare them to the output of stateVectorAtT10.
         for (int i = 0; i < numStateVariables; i++) {
@@ -66,7 +69,6 @@ public:
         }
 
         free(state);
-        delete testModel;
     }
 };
 

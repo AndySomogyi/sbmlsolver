@@ -1,7 +1,7 @@
 #include <vector>
 #include <unordered_map>
 #include <stdexcept>
-
+#include <memory>
 
 using DoublePair = std::pair<double, double>;
 
@@ -158,8 +158,8 @@ public:
     ResultMap stateVectorAtT10() override {
         return ResultMap
                 {
-                        {"S1", DoublePair(10, 9.090924288825768)},
-                        {"S2", DoublePair(1, 0.9090757111742356)}
+                        {"S1", DoublePair(10, 3.99584)},
+                        {"S2", DoublePair(1, 7.00416)}
                 };
     }
 
@@ -956,9 +956,7 @@ public:
  * Basic factory that creates sbml strings
  * for use in tests.
  */
-std::unique_ptr<SBMLTestModel>
-
-SBMLTestModelFactory(const std::string &modelName) {
+std::unique_ptr<SBMLTestModel> SBMLTestModelFactory(const std::string &modelName) {
     if (modelName == "SimpleFlux") {
         return std::make_unique<SimpleFlux>();
     } else if (modelName == "Model269") {

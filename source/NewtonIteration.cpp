@@ -48,8 +48,6 @@ namespace rr {
         if ((err = KINSetLinearSolver(mKinsol_Memory, linearSolver, jac))) {
             decodeKinsolError(err);
         }
-
-
     }
 
     void NewtonIteration::freeKinsol() {
@@ -81,7 +79,6 @@ namespace rr {
                 uscale,      //scaling vector for the variable cc
                 fscale      //scaling vector for the variable fval
         );
-
 
         getSolverStats();
 
