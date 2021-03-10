@@ -221,6 +221,13 @@ namespace rr {
          */
         N_Vector uscale = nullptr;
 
+        /**
+         * @brief vector of constraints used to ensure
+         * positive solution.
+         * @details only in effect when allow_negative option set to false
+         */
+        N_Vector constraints = nullptr;
+
 
         /**
          * @brief after solve() has been called, this method

@@ -16,7 +16,10 @@ function(add_test_executable BINARY OUT_VARIABLE)
             "${ThisDirectory}"
     )
 
-    target_link_libraries(${BINARY} PUBLIC roadrunner-static gtest gtest_main gmock gmock_main)
+    target_link_libraries(${BINARY} PUBLIC
+            roadrunner-static gtest gtest_main gmock gmock_main
+
+            )
 
     add_dependencies(${BINARY} roadrunner-static gtest gtest_main gmock gmock_main)
     set_target_properties(${BINARY} PROPERTIES LINKER_LANGUAGE CXX)

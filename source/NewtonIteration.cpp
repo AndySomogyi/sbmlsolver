@@ -66,7 +66,7 @@ namespace rr {
     }
 
     double NewtonIteration::solve() {
-        doPresimulation();
+        //doPresimulation();
 
         assert(mKinsol_Memory && "Kinsol memory block is nullptr");
         assert(mStateVector && "Solvers state std::vector is nullptr");
@@ -80,16 +80,50 @@ namespace rr {
                 fscale      //scaling std::vector for the variable fval
         );
 
-        std::cout << "flag: " << flag << std::endl;
+        char *flagName = KINGetReturnFlagName(flag);
+        std::cout << "KINSol function returned \"" << flagName << "\" flag" << std::endl;
+
+        // errors are handled automatically by the error handler for kinsol.
+        // here we handle warnings and success flags
+        switch (flag) {
+            case KIN_SUCCESS: {
+                rrLog(Logger::LOG_INFORMATION) << "Steady state found";
+                break;
+            }
+            case KIN_INITIAL_GUESS_OK:{
+                rrLog(Logger::LOG_INFORMATION) << "Steady state found. The guess u = u0 satisifed the "
+                                            "system F(u) = 0 within the tolerances specified (the"
+                                            "scaled norm of F(u0) is less than 0.01*fnormtol)." << std::endl;
+                break;
+            }
+            case KIN_STEP_LT_STPTOL:{
+                rrLog(Logger::LOG_WARNING) << "kinsol stopped based on scaled step length. This means that the current iterate may"
+                                            "be an approximate solution of the given nonlinear system, but it is also quite possible"
+                                            "that the algorithm is \"stalled\" (making insufficient progress) near an invalid solution,"
+                                            "or that the scalar scsteptol is too large (see ScaledStepTol to"
+                                            "change ScaledStepTol from its default value)." << std::endl;
+                break;
+            }
+            default: {
+                // if the solver failed, we do a check for singular jacobian,
+                // as this is common problem.
+                // Slight issue, moiety conservation is defined and implemented
+                // at the rrRoadRunner level. But Solvers only have access to the
+                // ExecutableModel, so there is no flag which states whether we
+                // are currently using the full or reduced stoic or jacobian matrix.
+
+
+                break;
+
+            };
+        }
 
         getSolverStatsFromKinsol();
 
         // update the model's state values
         mModel->setStateVector(mStateVector->ops->nvgetarraypointer(mStateVector));
 
-        auto scaledNormOfF = std::make_unique<double>();
-        KINGetFuncNorm(mKinsol_Memory, scaledNormOfF.get());
-        return *scaledNormOfF;
+        return funcNorm;
     }
 
     void NewtonIteration::updateKinsol() {

@@ -334,8 +334,10 @@ find_package(PocoXML CONFIG REQUIRED)
 #find_package(Sundials CONFIG REQUIRED)
 find_package(LLVM REQUIRED)
 
-
-find_package(SUNDIALS CONFIG REQUIRED)
+set(BUILD_SHARED_LIBS OFF)
+set(BUILD_STATIC_LIBS ON)
+add_subdirectory(sundials)
+#find_package(SUNDIALS CONFIG REQUIRED)
 
 
 # install dependencies so clients can use roadrunner from c++/cmake

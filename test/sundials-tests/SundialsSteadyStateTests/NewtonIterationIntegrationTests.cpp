@@ -19,7 +19,6 @@ void openInCopasi(const std::string &sbml) {
 }
 
 /**
- * Takes test model name as argument
  */
 class NewtonIterationIntegrationTests : public ::testing::Test {
 
@@ -29,8 +28,7 @@ public:
     // todo pull this into superclass, as other types of solver will also need it.
     template<class TestModelType>
     void testSteadyState(const std::string &modelName, bool useMoietyConservation = false,
-                         const std::string &strategy = "basic",
-                         bool presimulation = false, double presimulationEndTime = 1 ) {
+                         const std::string &strategy = "basic") {
         // get the model
         std::unique_ptr<SBMLTestModel> testModelPtr = SBMLTestModelFactory(modelName);
         auto testModel = std::unique_ptr<TestModelType>(dynamic_cast<TestModelType*>(testModelPtr.release()));
@@ -39,44 +37,69 @@ public:
 
         // load it into rr
         RoadRunner rr(testModel->str());
-//        RoadRunner rr("C:\\Users\\Ciaran\\Downloads\\BIOMD0000000033_url.xml");
 
         // collect reference results
         ResultMap expectedResult = testModel->steadyState();
 
+        // insert starting values
         for (auto &it: expectedResult){
             const std::string& speciesName = it.first;
             const double& startingValue = it.second.first;
+            std::cout << "Setting \"" << speciesName << "\" to " << startingValue << std::endl;
             rr.setInitConcentration(speciesName, startingValue, false);
         }
         rr.regenerate();
 
-        //openInCopasi(rr.getSBML());
+        rr.setSteadyStateSolver("NewtonIteration");
+
+        // add any settings specific for this problem
+        BasicDictionary steadyStateOptions;
+        steadyStateOptions.setItem("strategy", strategy); // injected strategy here
+        steadyStateOptions.setItem("PrintLevel", 3);
+
+        for (auto &settingsIterator : testModel->settings()){
+            steadyStateOptions.setItem(settingsIterator.first, Variant(settingsIterator.second));
+        }
 
         // turn on/off conservation analysis
         rr.setConservedMoietyAnalysis(useMoietyConservation);
 
-        // instantiate our solver
-        NewtonIteration newtonIteration(rr.getModel());
+        std::cout << "rr.getFullStoichiometryMatrix" << std::endl;
+        std::cout << rr.getFullStoichiometryMatrix().numRows() << "x" <<
+        rr.getFullStoichiometryMatrix().numCols()<< std::endl;
 
-        if (presimulation){
-            newtonIteration.setValue("allow_presimulation", presimulation);
-            newtonIteration.setValue("presimulation_time", presimulationEndTime);
-        }
+        std::cout << "rr.getReducedStoichiometryMatrix" << std::endl;
+        std::cout << rr.getReducedStoichiometryMatrix().numRows() << "x" <<
+        rr.getReducedStoichiometryMatrix().numCols()<< std::endl;
 
-        // set some parameters
-        newtonIteration.setValue("strategy", strategy);
-        newtonIteration.setValue("PrintLevel", 3);
+        std::cout << "rr.getFullJacobian" << std::endl;
+        std::cout << rr.getFullJacobian() << std::endl;
 
-        newtonIteration.setValue("FuncNormTol", 1e-15);
+        std::cout << "rr.getReducedJacobian" << std::endl;
+        std::cout << rr.getReducedJacobian() << std::endl;
 
-        // openInCopasi(testModel->str());
-        // solve the problem
-        double res = newtonIteration.solve();
+        /*
+            [[0,0,0,-13.4333,382.691,0,0,0,0,0,0,0,0],
+            [0,-14.2784,0,0,0,0,0,0,0,0,0,0,0],
+            [0,2.30835,-0.655209,0,0,0,34.4364,0,0,0,0,0,0],
+            [0,0,0,-220.307,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,-0.0716435,0,0,0,0,0,0,0,0],
+            [24.8873,0,0,0,0,-126.447,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,-4.86736,0,0,0.231518,0,0,0],
+            [0,0,0.553919,0,0,0,0,-0.305147,0,0,0,0,0],
+            [0,0,0,-4.2007,0,0.0236007,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,-11.0538,0,0,1.28411],
+            [0,0,0,0,0,0,0,0.00290243,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,132.676,0,0,0,0,0,0,0,0]]
+         */
 
-        newtonIteration.printSolverStats();
+        rr.steadyState(&steadyStateOptions);
 
-        std::cout << "res: " << res << std::endl;
+        NewtonIteration * newtonIteration = dynamic_cast<NewtonIteration*>(
+                rr.getSteadyStateSolver()
+        );
+        newtonIteration->printSolverStats();
 
         // collect actual results from model
         auto result = rr.getFloatingSpeciesConcentrationsNamedArray();
@@ -92,6 +115,7 @@ public:
                       << " with actual result " << actualResult << std::endl;
             EXPECT_NEAR(expected, actualResult, 0.0001);
         }
+        //openInCopasi(testModel->str());
     }
 
 };
@@ -105,15 +129,16 @@ class BasicNewtonIterationTests : public NewtonIterationIntegrationTests {
 public:
     std::string strategy = "basic";
 
-    BasicNewtonIterationTests() = default;
+    BasicNewtonIterationTests() {
+//        Logger::setLevel(Logger::LOG_DEBUG);
+    };
 };
 
 TEST_F(BasicNewtonIterationTests, CheckCorrectSteadyStateOpenLinearFlux) {
     testSteadyState<OpenLinearFlux>(
             "OpenLinearFlux",
             false,
-            strategy,
-            true, 1
+            strategy
             );
 }
 
@@ -132,8 +157,27 @@ TEST_F(BasicNewtonIterationTests, CheckCorrectSteadyStateSimpleFlux) {
 //    testSteadyState<Venkatraman2010>("Venkatraman2010", false, strategy, true, 5);
 //}
 
+/**
+ * The reduced jacobian for the Brown2004 model is singular. This is the matrix:
+ *
+ * j = np.array([[0,0,0,-13.4333,382.691,0,0,0,0,0,0,0,0],^M
+ *           [0,-14.2784,0,0,0,0,0,0,0,0,0,0,0],^M
+ *           [0,2.30835,-0.655209,0,0,0,34.4364,0,0,0,0,0,0],^M
+ *           [0,0,0,-220.307,0,0,0,0,0,0,0,0,0],^M
+ *           [0,0,0,0,-0.0716435,0,0,0,0,0,0,0,0],^M
+ *           [24.8873,0,0,0,0,-126.447,0,0,0,0,0,0,0],^M
+ *           [0,0,0,0,0,0,-4.86736,0,0,0.231518,0,0,0],^M
+ *           [0,0,0.553919,0,0,0,0,-0.305147,0,0,0,0,0],^M
+ *           [0,0,0,-4.2007,0,0.0236007,0,0,0,0,0,0,0],^M
+ *           [0,0,0,0,0,0,0,0,0,-11.0538,0,0,1.28411],^M
+ *           [0,0,0,0,0,0,0,0.00290243,0,0,0,0,0],^M
+ *           [0,0,0,0,0,0,0,0,0,0,0,0,0],^M
+ *           [0,0,0,0,132.676,0,0,0,0,0,0,0,0]])
+ *
+ *  But, copasi can solve this problem. So what's going on?
+ */
 TEST_F(BasicNewtonIterationTests, CheckCorrectSteadyStateBrown2004) {
-    testSteadyState<Brown2004>("Brown2004", false, strategy, false, 1);
+    testSteadyState<Brown2004>("Brown2004", true, strategy);
 }
 
 
@@ -150,7 +194,7 @@ public:
 };
 
 TEST_F(LineSearchNewtonIterationTests, CheckCorrectSteadyStateOpenLinearFlux) {
-    testSteadyState<OpenLinearFlux>("OpenLinearFlux", false, strategy, true, 1);
+    testSteadyState<OpenLinearFlux>("OpenLinearFlux", false, strategy);
 }
 
 TEST_F(LineSearchNewtonIterationTests, CheckCorrectSteadyStateSimpleFluxManuallyReduced) {
@@ -167,6 +211,10 @@ TEST_F(LineSearchNewtonIterationTests, CheckCorrectSteadyStateSimpleFlux) {
 //    testSteadyState<Venkatraman2010>("Venkatraman2010", false, strategy, true, 3);
 //}
 
+
+//TEST_F(LineSearchNewtonIterationTests, CheckCorrectSteadyStateBrown2004) {
+//    testSteadyState<Brown2004>("Brown2004", true, strategy);
+//}
 
 
 

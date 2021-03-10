@@ -62,6 +62,9 @@ Exception(msg)
 KinsolException::KinsolException(const std::string &msg)
     : Exception(msg){}
 
+DidNotConvergeException::DidNotConvergeException(const std::string &msg)
+    : Exception(msg){}
+
 NullPointerException::NullPointerException(const std::string &msg)
     : Exception(msg){}
 

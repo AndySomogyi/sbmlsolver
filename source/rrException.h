@@ -78,6 +78,12 @@ class RR_DECLSPEC KinsolException : public Exception
         explicit KinsolException(const std::string& msg);
 };
 
+class RR_DECLSPEC DidNotConvergeException : public Exception
+{
+    public:
+        explicit DidNotConvergeException(const std::string& msg);
+};
+
 class RR_DECLSPEC NullPointerException : public Exception
 {
     public:

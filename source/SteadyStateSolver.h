@@ -73,6 +73,7 @@ namespace rr
 		 * all steady state solvers.
 		 */
 		void resetSettings() override;
+
     };
 
     /**

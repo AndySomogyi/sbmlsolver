@@ -120,6 +120,18 @@ namespace rr {
         addSetting("presimulation_maximum_steps", getValueAsDouble("presimulation_time")*100, "Presimulation Maximum Steps",
                    "Maximum number of steps that can be taken for presimulation before steady state analysis (int).",
                    "(int) Takes priority over presimulation_time. Only used when allow_presimulation is True");
+        addSetting("allow_approx", false, "Allow Approximiation",
+                   "Flag for using steady state approximation routine when steady state solver fails (bool).",
+                   "(bool) Approximation routine will run only when the default solver fails to fine a solution. This flag does not affect usage of approximation routine for pre-simulation");
+        addSetting("approx_tolerance", 1e-6, "Approximation Tolerance",
+                   "Tolerance for steady state approximation routine (double).",
+                   "(double) Absolute tolerance used by steady state approximation routine. Only used when steady state approximation routine is used");
+        addSetting("approx_maximum_steps", 10000, "Approximation Maximum Steps",
+                   "Maximum number of steps that can be taken for steady state approximation routine (int).",
+                   "(int) Takes priority over approx_time. Only used when steady state approximation routine is used");
+        addSetting("approx_time", 10000, "Approximation Time",
+                   "End time for steady state approximation routine (double).",
+                   "(double) approx_maximum_steps takes priority. Only used when steady state approximation routine is used");
 
     }
 

@@ -19,7 +19,7 @@ namespace rr {
      * from the kinsol documentation. More information
      * can be found in 9.1.5
      */
-    std::string decodeKinsolError(int cvodeError, bool exInfo = true);
+    std::string decodeKinsolError(int cvodeError);
 
 
     /**

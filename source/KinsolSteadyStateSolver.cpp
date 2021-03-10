@@ -47,6 +47,21 @@ namespace rr {
         assert(uscale && "Sundials failed to create N_Vector for fscale");
         N_VConst(1, uscale); // no scaling. Implement if wanted.
 
+        constraints = N_VNew_Serial(stateVectorSize);
+        assert(constraints && "Sundials failed to create N_Vector for fscale");
+        // constraints. If,
+        //  0 -> No constraints
+        //  1 -> >= 0
+        // -1 -> <= 0
+        //  2  -> >0
+        // -2  -> <0
+        N_VConst(2, constraints);
+
+        if (getValueAsBool("allow_negative")) {
+            KINSetConstraints(mKinsol_Memory, constraints);
+        }
+
+
         // initialise to model values
         mModel->getStateVector(mStateVector->ops->nvgetarraypointer(mStateVector));
 
@@ -92,11 +107,15 @@ namespace rr {
         if (uscale) {
             N_VDestroy_Serial(uscale);
         }
+        if (constraints) {
+            N_VDestroy_Serial(constraints);
+        }
 
         mKinsol_Memory = nullptr;
         mStateVector = nullptr;
         fscale = nullptr;
         uscale = nullptr;
+        constraints = nullptr;
     }
 
     void KinsolSteadyStateSolver::resetSettings() {
@@ -104,6 +123,11 @@ namespace rr {
 
         std::string desc = "Max. number of nonlinear iterations";
         addSetting("NumMaxIters", 200, "NumMaxIters", desc, desc);
+
+        addSetting("allow_negative", false, "Allow negative values",
+                   "Ensures non-negative results",
+                   "(bool)Constrains the problem such that all values are non-negative at all times");
+
 
         desc = "When presimulation is set to true, use stiff solver for integration";
         addSetting("stiff", false, "stiff", desc, desc);
@@ -173,7 +197,6 @@ namespace rr {
     }
 
     void KinsolSteadyStateSolver::getSolverStatsFromKinsol() {
-        // todo fixme. Get main solver working first, then come back and polish up
         KINGetNumFuncEvals(mKinsol_Memory, &numFuncEvals);
         KINGetNumNonlinSolvIters(mKinsol_Memory, &numNolinSolvIters);
         KINGetNumBetaCondFails(mKinsol_Memory, &numBetaCondFails);
@@ -323,17 +346,18 @@ namespace rr {
 
     void KinsolSteadyStateSolver::printSolverStats() {
         std::cout << "Solver Stats: " << std::endl;
-        for (auto &it: getSolverStats()){
+        for (auto &it: getSolverStats()) {
             std::cout << "\t" << it.first << " = " << it.second.toString() << std::endl;
         }
     }
 
 
-    Presimulation::Presimulation(ExecutableModel *model, double presimulation_time, int presimulation_maximum_steps, bool stiff)
+    Presimulation::Presimulation(ExecutableModel *model, double presimulation_time, int presimulation_maximum_steps,
+                                 bool stiff)
             : model_(model),
               presimulation_maximum_steps_(presimulation_maximum_steps),
               presimulation_time_(presimulation_time),
-              stiff_(stiff){}
+              stiff_(stiff) {}
 
     void Presimulation::simulate() {
         CVODEIntegrator integrator(model_);

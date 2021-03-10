@@ -74,7 +74,7 @@
   <compound refid="classrrllvm_1_1ASTNodeCodeGenScalarTicket" kind="class"><name>rrllvm::ASTNodeCodeGenScalarTicket</name>
     <member refid="classrrllvm_1_1ASTNodeCodeGenScalarTicket_1a920a895e3a736ddbaee64369bc8bc91b" kind="variable"><name>z_</name></member>
     <member refid="classrrllvm_1_1ASTNodeCodeGenScalarTicket_1a9b7c8b8db417da1aba99cdeb8ffa3dbb" kind="variable"><name>v_</name></member>
-    <member refid="classrrllvm_1_1ASTNodeCodeGenScalarTicket_1a680c4414cdb6edb0b73bd7ecbd33d397" kind="variable"><name>n_</name></member>
+    <member refid="classrrllvm_1_1ASTNodeCodeGenScalarTicket_1a680c4414cdb6edb0b73bd7ecbd33d397" kind="variable"><name>nCols_</name></member>
     <member refid="classrrllvm_1_1ASTNodeCodeGenScalarTicket_1aa515958747449dfff092fc2283bd0bee" kind="function"><name>ASTNodeCodeGenScalarTicket</name></member>
     <member refid="classrrllvm_1_1ASTNodeCodeGenScalarTicket_1a2b42ba4a3497bd1e1d6282d8aea2ffea" kind="function"><name>~ASTNodeCodeGenScalarTicket</name></member>
   </compound>
