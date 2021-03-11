@@ -31,6 +31,11 @@ public:
      * Right singular vectors. Each row is a right singular vector
      */
     virtual ls::DoubleMatrix rightSingularVectors() = 0;
+
+    /**
+     * Rank of matrix
+     */
+    virtual unsigned int rank() = 0;
 };
 
 /**
@@ -114,6 +119,10 @@ public:
         );
     }
 
+    unsigned int rank() override {
+        return 5;
+    }
+
 };
 
 class TwoByThreeMatrix : public SVDResult {
@@ -147,6 +156,10 @@ public:
                                         {-2.35702260e-01, 2.35702260e-01,  -9.42809042e-01},
                                         {-6.66666667e-01, 6.66666667e-01,  3.33333333e-01}
                                 });
+    }
+
+    unsigned int rank() override {
+        return 2;
     }
 };
 
@@ -198,6 +211,42 @@ public:
                         {-0.12486436, -0.21242671, -0.08284956, 0.96561884},
                 });
     };
+
+    unsigned int rank() override {
+        return 2;
+    }
+};
+
+class SingularMatrix : public SVDResult {
+public:
+    ls::DoubleMatrix inputMatrix() override {
+        return ls::DoubleMatrix({
+                                        {1, -1},
+                                        {-1,  1}
+                                });
+    }
+
+    ls::DoubleMatrix singularValues() override {
+        return ls::DoubleMatrix({{2.0, 0.0}});
+    }
+
+    ls::DoubleMatrix leftSingularVectors() override {
+        return ls::DoubleMatrix({
+                                        {-0.70710678, 0.70710678},
+                                        {0.70710678,  0.70710678},
+                                });
+    }
+
+    ls::DoubleMatrix rightSingularVectors() override {
+        return ls::DoubleMatrix({
+                                        {-0.70710678, 0.70710678},
+                                        {0.70710678,  0.70710678},
+                                });
+    }
+
+    unsigned int rank() override {
+        return 1;
+    }
 };
 
 class SVGTests : public ::testing::Test {
@@ -214,13 +263,11 @@ public:
             std::cout << "Checking row dimensions: expected " << expectedMatrix.numRows() << " vs actual "
                       << actualMatrix.numRows()
                       << std::endl;
-            std::cout << "Checking col dimensions expcted " << expectedMatrix.numCols() << " vs actual "
+            std::cout << "Checking col dimensions expected " << expectedMatrix.numCols() << " vs actual "
                       << actualMatrix.numCols()
                       << std::endl;
             ASSERT_TRUE(false && "expectedMatrix dimensions not equal to actualMatrix");
         }
-//        unsigned int M = expectedMatrix.numRows();
-//        unsigned int N = expectedMatrix.numCols();
         for (int i = 0; i < expectedMatrix.numRows(); i++) {
             for (int j = 0; j < expectedMatrix.numCols(); j++) {
                 //std::cout << "i: " << i << "; j: " << j << std::endl;
@@ -230,26 +277,129 @@ public:
     }
 
     template<class SVDType>
-    void checkSVDValues() {
+    void checkSVDValuesSingularValues() {
         SVDType svdReference;
         auto input = svdReference.inputMatrix();
         SVD svd(input);
         checkMatrixEquality(svdReference.singularValues(), svd.getSingularValues());
+    }
+
+    template<class SVDType>
+    void checkSVDValuesLeftSingularVectors() {
+        SVDType svdReference;
+        auto input = svdReference.inputMatrix();
+        SVD svd(input);
         checkMatrixEquality(svdReference.leftSingularVectors(), svd.getLeftSingularVectors());
+    }
+
+    template<class SVDType>
+    void checkSVDValuesRightSingularVectors() {
+        SVDType svdReference;
+        auto input = svdReference.inputMatrix();
+        SVD svd(input);
         checkMatrixEquality(svdReference.rightSingularVectors(), svd.getRightSingularVectors());
+    }
+
+    template<class SVDType>
+    void checkRank() {
+        SVDType svdReference;
+        auto input = svdReference.inputMatrix();
+        SVD svd(input);
+        ASSERT_EQ(svdReference.rank(), svd.rank());
     }
 };
 
-TEST_F(SVGTests, TestASixByFiveMatrix) {
-    checkSVDValues<SixByFiveMatrix>();
+
+/**
+ * Note: Each test case only does *one* thing.
+ * This means we we don't need to untangle the a problem when
+ * there is one =]
+ */
+
+class SixByFiveMatrixTests : public SVGTests {
+public:
+    SixByFiveMatrixTests() = default;
+};
+
+TEST_F(SixByFiveMatrixTests, SingularValues) {
+    checkSVDValuesSingularValues<SixByFiveMatrix>();
 }
 
-TEST_F(SVGTests, TestATwoByThreeMatrix) {
-    checkSVDValues<TwoByThreeMatrix>();
+TEST_F(SixByFiveMatrixTests, LeftSingularVectors) {
+    checkSVDValuesLeftSingularVectors<SixByFiveMatrix>();
 }
 
-TEST_F(SVGTests, TwoByFour) {
-    checkSVDValues<TwoByFour>();
+TEST_F(SixByFiveMatrixTests, RightingularVectors) {
+    checkSVDValuesRightSingularVectors<SixByFiveMatrix>();
+}
+
+TEST_F(SixByFiveMatrixTests, Rank) {
+    checkRank<SixByFiveMatrix>();
+}
+
+class TwoByThreeMatrixTests : public SVGTests {
+public:
+    TwoByThreeMatrixTests() = default;
+
+};
+
+TEST_F(TwoByThreeMatrixTests, SingularValues) {
+    checkSVDValuesSingularValues<TwoByThreeMatrix>();
+}
+
+TEST_F(TwoByThreeMatrixTests, LeftSingularVector) {
+    checkSVDValuesLeftSingularVectors<TwoByThreeMatrix>();
+}
+
+TEST_F(TwoByThreeMatrixTests, RightSingularVector) {
+    checkSVDValuesRightSingularVectors<TwoByThreeMatrix>();
+}
+
+TEST_F(TwoByThreeMatrixTests, Rank) {
+    checkRank<TwoByThreeMatrix>();
+}
+
+class TwoByFourMatrixTests : public SVGTests {
+public:
+    TwoByFourMatrixTests() = default;
+};
+
+
+TEST_F(TwoByFourMatrixTests, SingularValues) {
+    checkSVDValuesSingularValues<TwoByFour>();
+}
+
+TEST_F(TwoByFourMatrixTests, LeftSingularVector) {
+    checkSVDValuesLeftSingularVectors<TwoByFour>();
+}
+
+TEST_F(TwoByFourMatrixTests, RightSingularVector) {
+    checkSVDValuesRightSingularVectors<TwoByFour>();
+}
+
+TEST_F(TwoByFourMatrixTests, Rank) {
+    checkRank<TwoByFour>();
+}
+
+class SingularMatrixTests : public SVGTests {
+public:
+    SingularMatrixTests() = default;
+};
+
+TEST_F(SingularMatrixTests, SingularValues) {
+    checkSVDValuesSingularValues<SingularMatrix>();
+}
+
+TEST_F(SingularMatrixTests, LeftSingularVector) {
+    checkSVDValuesLeftSingularVectors<SingularMatrix>();
+}
+
+TEST_F(SingularMatrixTests, RightSingularVector) {
+    checkSVDValuesRightSingularVectors<SingularMatrix>();
+}
+
+TEST_F(SingularMatrixTests, Rank) {
+    checkRank<SingularMatrix>();
 }
 
 

@@ -59,6 +59,17 @@ namespace rr {
          */
         const ls::DoubleMatrix &getRightSingularVectors() const;
 
+        /**
+         * @brief estimates the rank of the matrix
+         * by counting non 0 singular values.
+         * @details the rank of a matrix is equal to the number
+         * of non-zero singular values!
+         * @param tol tolerance by which we consider close enough
+         * to zero to be called zero
+         */
+        int rank(double tol = 1e-15) const;
+
+
     private:
 
         void compute();

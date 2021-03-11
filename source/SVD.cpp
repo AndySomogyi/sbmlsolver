@@ -47,14 +47,14 @@ namespace rr {
         lwork = -1;
         // dgesdd_ or dgesvd_?
         // note: "dgesdd_" is an alternative algorithm. Implement only if needed.
-        dgesvd_("All", "All", &nRows_, &nCols_, (*inputMatrixTranspose_).getArray(),
+        dgesvd_((char*)"All", (char*)"All", &nRows_, &nCols_, (*inputMatrixTranspose_).getArray(),
                 &lda_, singularValues_.getArray(), leftSingularVectors_.getArray(),
                 &ldu_, rightSingularVectors_.getArray(), &ldvt_, &wkopt, &lwork, &info);
         lwork = (int) wkopt;
 
         work = (doublereal *) malloc(lwork * sizeof(doublereal));
         /* Compute SVD */
-        dgesvd_("All", "All", &nRows_, &nCols_, (*inputMatrixTranspose_).getArray(),
+        dgesvd_((char*)"All", (char*)"All", &nRows_, &nCols_, (*inputMatrixTranspose_).getArray(),
                 &lda_, singularValues_.getArray(), leftSingularVectors_.getArray(),
                 &ldu_, rightSingularVectors_.getArray(), &ldvt_, work, &lwork, &info);
 
@@ -83,5 +83,19 @@ namespace rr {
 
     const ls::DoubleMatrix &SVD::getRightSingularVectors() const {
         return rightSingularVectors_;
+    }
+
+    int SVD::rank(double tol) const {
+        const auto& s = getSingularValues();
+        int rank = 0;
+        for (int i=0; i<s.numCols(); i++){
+            const double& value = s(0, i);
+            std::cout << "value: " << value << "; tol: " << tol << "value - tol: " << value - tol << std::endl;
+            if (value - tol > 0 ){
+                // we consider this close enough to be called 0
+                rank += 1;
+            }
+        }
+        return rank;
     }
 }

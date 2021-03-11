@@ -20,6 +20,8 @@
 #include <iomanip>
 #include <cstdlib>
 #include <iostream>
+#include <algorithm>
+
 
 using rr::Logger;
 using rr::getLogger;
@@ -658,6 +660,8 @@ void LLVMExecutableModel::reset()
 
 void LLVMExecutableModel::reset(int opt)
 {
+    using std::max; // weird linux vs windows thing
+
     // initializes the the model the init values specifie in the sbml, and
     // copies these to the initial initial conditions (not a typo),
     // sets the 'init(...)' values to the sbml specified init values.
@@ -679,11 +683,11 @@ void LLVMExecutableModel::reset(int opt)
     {
         // have to set compartments first, these are used to
         // convert between concentrations and amounts.
-        unsigned size = std::max(modelData->numIndCompartments,
+        unsigned size = max(modelData->numIndCompartments,
                 modelData->numIndFloatingSpecies);
 
         // need at least 1 for global params
-        size = std::max(size, 1u);
+        size = max(size, 1u);
 
         double *buffer = new double[size];
 
