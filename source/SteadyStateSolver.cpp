@@ -28,10 +28,6 @@ namespace rr {
         SteadyStateSolver
       ------------------------------------------------------------------------------------------*/
 
-    void SteadyStateSolver::loadConfigSettings() {
-        // empty
-    }
-
     SteadyStateSolverRegistrar::~SteadyStateSolverRegistrar() {}
 
     /********************************************************************************************

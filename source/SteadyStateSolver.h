@@ -54,7 +54,7 @@ namespace rr
 
         virtual double solve() = 0;
 
-        virtual void loadConfigSettings();
+        virtual void loadConfigSettings() = 0;
 
 		/**
 		* @author KC
