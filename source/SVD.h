@@ -69,6 +69,16 @@ namespace rr {
          */
         int rank(double tol = 1e-15) const;
 
+        /**
+         * @brief return true when the input matrix
+         * is singular.
+         * @details this is determined by testing
+         * whether than rank of the matrix is less than
+         * the smaller of the number of rows or number of
+         * columns.
+         */
+        bool isSingular();
+
 
     private:
 

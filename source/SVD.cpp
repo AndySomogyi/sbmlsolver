@@ -90,12 +90,15 @@ namespace rr {
         int rank = 0;
         for (int i=0; i<s.numCols(); i++){
             const double& value = s(0, i);
-            std::cout << "value: " << value << "; tol: " << tol << "value - tol: " << value - tol << std::endl;
             if (value - tol > 0 ){
                 // we consider this close enough to be called 0
                 rank += 1;
             }
         }
         return rank;
+    }
+
+    bool SVD::isSingular(){
+        return rank() < min(nRows_,nCols_);
     }
 }

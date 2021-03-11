@@ -36,6 +36,11 @@ public:
      * Rank of matrix
      */
     virtual unsigned int rank() = 0;
+
+    /**
+     * Whether matrix is singular or not
+     */
+    virtual bool isSingular() = 0;
 };
 
 /**
@@ -123,6 +128,11 @@ public:
         return 5;
     }
 
+    bool isSingular() override {
+        return false;
+    }
+
+
 };
 
 class TwoByThreeMatrix : public SVDResult {
@@ -160,6 +170,10 @@ public:
 
     unsigned int rank() override {
         return 2;
+    }
+
+    bool isSingular() override {
+        return false;
     }
 };
 
@@ -215,14 +229,18 @@ public:
     unsigned int rank() override {
         return 2;
     }
+
+    bool isSingular() override {
+        return false;
+    }
 };
 
 class SingularMatrix : public SVDResult {
 public:
     ls::DoubleMatrix inputMatrix() override {
         return ls::DoubleMatrix({
-                                        {1, -1},
-                                        {-1,  1}
+                                        {1,  -1},
+                                        {-1, 1}
                                 });
     }
 
@@ -246,6 +264,10 @@ public:
 
     unsigned int rank() override {
         return 1;
+    }
+
+    bool isSingular() override {
+        return true;
     }
 };
 
@@ -307,6 +329,19 @@ public:
         SVD svd(input);
         ASSERT_EQ(svdReference.rank(), svd.rank());
     }
+
+    template<class SVDType>
+    void checkSingular() {
+        SVDType svdReference;
+        auto input = svdReference.inputMatrix();
+        SVD svd(input);
+        auto expectedSingularStatus = svdReference.isSingular();
+        if (expectedSingularStatus) {
+            ASSERT_TRUE(svd.isSingular());
+        } else {
+            ASSERT_FALSE(svd.isSingular());
+        }
+    }
 };
 
 
@@ -337,6 +372,10 @@ TEST_F(SixByFiveMatrixTests, Rank) {
     checkRank<SixByFiveMatrix>();
 }
 
+TEST_F(SixByFiveMatrixTests, IsSingular) {
+    checkSingular<SixByFiveMatrix>();
+}
+
 class TwoByThreeMatrixTests : public SVGTests {
 public:
     TwoByThreeMatrixTests() = default;
@@ -357,6 +396,10 @@ TEST_F(TwoByThreeMatrixTests, RightSingularVector) {
 
 TEST_F(TwoByThreeMatrixTests, Rank) {
     checkRank<TwoByThreeMatrix>();
+}
+
+TEST_F(TwoByThreeMatrixTests, IsSingular) {
+    checkSingular<SixByFiveMatrix>();
 }
 
 class TwoByFourMatrixTests : public SVGTests {
@@ -381,6 +424,10 @@ TEST_F(TwoByFourMatrixTests, Rank) {
     checkRank<TwoByFour>();
 }
 
+TEST_F(TwoByFourMatrixTests, IsSingular) {
+    checkSingular<SixByFiveMatrix>();
+}
+
 class SingularMatrixTests : public SVGTests {
 public:
     SingularMatrixTests() = default;
@@ -402,6 +449,9 @@ TEST_F(SingularMatrixTests, Rank) {
     checkRank<SingularMatrix>();
 }
 
+TEST_F(SingularMatrixTests, IsSingular) {
+    checkSingular<SixByFiveMatrix>();
+}
 
 
 
