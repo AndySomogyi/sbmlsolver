@@ -34,6 +34,15 @@ namespace rr
         descriptions[name] = std::move(description);
     }
 
+    void Solver::updateSettings(Dictionary * inputSettings){
+        const std::vector<std::string>& thisSolversSettings = getSettings();
+        for (const auto& setting: thisSolversSettings){
+            if (inputSettings->hasKey(setting)){
+                setValue(setting, inputSettings->getItem(setting));
+            }
+        }
+    }
+
     // todo refactor this misleading method so that it is called "getSettingKeys"
     std::vector<std::string> Solver::getSettings() const
     {

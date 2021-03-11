@@ -65,6 +65,13 @@ namespace rr
         virtual std::string getHint() const = 0;
 
         /**
+         * @brief Update settings values
+         * @details update the values of keys in @param inputSettings
+         * with the values. Keys that are not in Solver are ignored
+         */
+         void updateSettings(Dictionary * inputSettings);
+
+        /**
         * @author JKM
         * @brief Get a list of all settings for this solver
         */
