@@ -82,14 +82,6 @@ public:
                         {-3.49, 4.02,  9.80,  10.00, 4.27},
                         {9.84,  0.15,  -8.99, -6.02, -5.31},
                 }
-//                {// manually transposed input
-//                        {8.79, 6.11,  -9.15, 9.57, -3.49, 9.84},
-//                        {9.93, 6.91,  -7.93, 1.64, 4.02,  0.15},
-//                        {9.83, 5.04,  4.86,  8.83, 9.80,  -8.99},
-//                        {5.45, -0.27, 4.85,  0.74, 10.00, -6.02},
-//                        {3.16, 7.98,  3.01,  5.80, 4.27,  -5.31}
-//                }
-
         );
     }
 
@@ -100,12 +92,12 @@ public:
     ls::DoubleMatrix leftSingularVectors() override {
         return ls::DoubleMatrix(
                 {
-                        {-0.59, 0.26,  0.36,  0.31,  0.23},
-                        {-0.40, 0.24,  -0.22, -0.75, -0.36},
-                        {-0.03, -0.60, -0.45, 0.23,  -0.31},
-                        {-0.43, 0.24,  -0.69, 0.33,  0.16},
-                        {-0.47, -0.35, 0.39,  0.16,  -0.52},
-                        {0.29,  0.58,  -0.02, 0.38,  -0.65},
+                        {-0.59, 0.26,  0.36,  0.31,  0.23,  0.55},
+                        {-0.40, 0.24,  -0.22, -0.75, -0.36, 0.18},
+                        {-0.03, -0.60, -0.45, 0.23,  -0.31, 0.54},
+                        {-0.43, 0.24,  -0.69, 0.33,  0.16,  -0.39},
+                        {-0.47, -0.35, 0.39,  0.16,  -0.52, -0.46},
+                        {0.29,  0.58,  -0.02, 0.38,  -0.65, 0.11},
                 }
         );
     }
@@ -158,6 +150,55 @@ public:
     }
 };
 
+/**
+ * @brief 5 by 14 matrix
+ * @details numpy code:
+In [21]: a = np.random.randint(0, 100, (2, 4))
+In [23]: a
+Out[23]:
+array([[76, 54, 85, 29],
+       [45, 93, 90, 34]])
+In [22]: np.linalg.svd(a)
+Out[22]:
+(array([[-0.67362077, -0.73907717],
+        [-0.73907717,  0.67362077]]),
+ array([188.40245814,  34.53279263]),
+ array([[-0.44826194, -0.55789982, -0.65696972, -0.23706499],
+        [-0.74876453,  0.65840503, -0.06358276,  0.04256442],
+        [-0.47204005, -0.45839448,  0.74664849, -0.09781987],
+        [-0.12486436, -0.21242671, -0.08284956,  0.96561884]]))
+ */
+class TwoByFour : public SVDResult {
+public:
+    ls::DoubleMatrix inputMatrix() override {
+        return ls::DoubleMatrix(
+                {
+                        {76, 54, 85, 29},
+                        {45, 93, 90, 34}
+                });
+    }
+
+    ls::DoubleMatrix singularValues() override {
+        return ls::DoubleMatrix({{188.40245814, 34.53279263}});
+    }
+
+    ls::DoubleMatrix leftSingularVectors() override {
+        return ls::DoubleMatrix({
+                                        {-0.67362077, -0.73907717},
+                                        {-0.73907717, 0.67362077}
+                                });
+    }
+
+    ls::DoubleMatrix rightSingularVectors() override {
+        return ls::DoubleMatrix(
+                {
+                        {-0.44826194, -0.55789982, -0.65696972, -0.23706499},
+                        {-0.74876453, 0.65840503,  -0.06358276, 0.04256442},
+                        {-0.47204005, -0.45839448, 0.74664849,  -0.09781987},
+                        {-0.12486436, -0.21242671, -0.08284956, 0.96561884},
+                });
+    };
+};
 
 class SVGTests : public ::testing::Test {
 public:
@@ -168,17 +209,21 @@ public:
         std::cout << expectedMatrix << std::endl;
         std::cout << "with actual matrix: " << std::endl;
         std::cout << actualMatrix << std::endl;
-        if (expectedMatrix.numCols() != actualMatrix.numCols() || expectedMatrix.numRows() != actualMatrix.numRows()) {
-            std::cout << "Checking row dimensions " << expectedMatrix.numRows() << " vs " << actualMatrix.numRows()
+        if (expectedMatrix.numCols() != actualMatrix.numCols() ||
+            expectedMatrix.numRows() != actualMatrix.numRows()) {
+            std::cout << "Checking row dimensions: expected " << expectedMatrix.numRows() << " vs actual "
+                      << actualMatrix.numRows()
                       << std::endl;
-            std::cout << "Checking col dimensions " << expectedMatrix.numCols() << " vs " << actualMatrix.numCols()
+            std::cout << "Checking col dimensions expcted " << expectedMatrix.numCols() << " vs actual "
+                      << actualMatrix.numCols()
                       << std::endl;
             ASSERT_TRUE(false && "expectedMatrix dimensions not equal to actualMatrix");
         }
-        unsigned int M = expectedMatrix.numRows();
-        unsigned int N = expectedMatrix.numCols();
-        for (int i = 0; i < M; i++) {
-            for (int j = 0; i < N; i++) {
+//        unsigned int M = expectedMatrix.numRows();
+//        unsigned int N = expectedMatrix.numCols();
+        for (int i = 0; i < expectedMatrix.numRows(); i++) {
+            for (int j = 0; j < expectedMatrix.numCols(); j++) {
+                //std::cout << "i: " << i << "; j: " << j << std::endl;
                 EXPECT_NEAR(expectedMatrix(i, j), actualMatrix(i, j), 0.1);
             }
         }
@@ -190,9 +235,8 @@ public:
         auto input = svdReference.inputMatrix();
         SVD svd(input);
         checkMatrixEquality(svdReference.singularValues(), svd.getSingularValues());
-//        checkMatrixEquality(svdReference.leftSingularVectors(), svd.getLeftSingularVectors());
-//        checkMatrixEquality(svdReference.rightSingularVectors(), svd.getRightSingularVectors());
-
+        checkMatrixEquality(svdReference.leftSingularVectors(), svd.getLeftSingularVectors());
+        checkMatrixEquality(svdReference.rightSingularVectors(), svd.getRightSingularVectors());
     }
 };
 
@@ -202,6 +246,10 @@ TEST_F(SVGTests, TestASixByFiveMatrix) {
 
 TEST_F(SVGTests, TestATwoByThreeMatrix) {
     checkSVDValues<TwoByThreeMatrix>();
+}
+
+TEST_F(SVGTests, TwoByFour) {
+    checkSVDValues<TwoByFour>();
 }
 
 

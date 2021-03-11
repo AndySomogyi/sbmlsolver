@@ -12,45 +12,64 @@ extern "C" {
     #include "clapack/clapack.h"
     #include "clapack/blaswrap.h"
 }
+#include <memory>
+
 namespace rr {
 
     /**
      * @brief The routine computes the singular value decomposition
      * (SVD) of a real m-by-n matrix.
-     * @details Often when computing the steady state of a system the
+     * @details
+     * Often when computing the steady state of a system the
      * jacobian matrix is singular. SVD is a way of computing the
      * rank of a matrix, which in turn can be used to determine
      * whether a rank is singular:
      *      - if rank < min(N, M) of an NxM matrix then it is singular.
-     * SVD uses xGESDD from clapack, the same routine used by numpy.
-     * @see https://scicomp.stackexchange.com/questions/1861/understanding-how-numpy-does-svd/1863#1863
      *
      */
     class SVD {
 
     public:
 
+        /**
+         * @brief constructor for SVD
+         * @param matrix a ls::Matrix<double>
+         * @details SVG is conducted on instantiation
+         *      @see SVD::getSingularValues
+         *      @see SVD::getLeftSingularVectors
+         *      @see SVD::getRightSingularVectors
+         */
         explicit SVD(ls::DoubleMatrix& matrix);
 
+        /**
+         * @brief returns the singular values computed for
+         * input matrix
+         */
         const ls::DoubleMatrix &getSingularValues() const;
 
+        /**
+         * @brief returns left singular vectors where columns
+         * are the left vectors
+         */
         const ls::DoubleMatrix &getLeftSingularVectors() const;
 
+        /**
+         * @brief returns right singular vectors where rows
+         * are the right vectors
+         */
         const ls::DoubleMatrix &getRightSingularVectors() const;
 
     private:
 
         void compute();
 
-        ls::DoubleMatrix& inputMatrix_;
+        ls::DoubleMatrix inputMatrix_;
+        std::unique_ptr<ls::DoubleMatrix> inputMatrixTranspose_ = nullptr;
         integer nRows_;
         integer nCols_;
         integer lda_;
         integer ldu_;
         integer ldvt_;
-//        integer info{}, lwork{};
-//        doublereal wkopt{};
-//        doublereal *work = nullptr;
 
         ls::DoubleMatrix singularValues_;
         ls::DoubleMatrix leftSingularVectors_;
