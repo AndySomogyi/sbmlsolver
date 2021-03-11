@@ -54,7 +54,7 @@ namespace rr {
 
         addSetting("linearity", 3, "Problem Linearity", "Specifies linearity of the problem (int).",
                    "(int) 1 is for linear problem and 4 is for extremly nonlinear problem");
-        //NLEQSolver::loadConfigSettings();
+        NLEQSolver::loadConfigSettings();
     }
 
 }    //end of namespace
