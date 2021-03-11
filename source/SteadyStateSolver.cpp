@@ -119,7 +119,8 @@ namespace rr {
                    "End time for presimulation steady state analysis (double).",
                    "(double) presimulation_maximum_steps takes priority. Only used when allow_presimulation is True");
 
-        addSetting("presimulation_maximum_steps", getValueAsDouble("presimulation_time")*100, "Presimulation Maximum Steps",
+        addSetting("presimulation_maximum_steps", getValueAsDouble("presimulation_time") * 100,
+                   "Presimulation Maximum Steps",
                    "Maximum number of steps that can be taken for presimulation before steady state analysis (int).",
                    "(int) Takes priority over presimulation_time. Only used when allow_presimulation is True");
 
@@ -138,6 +139,10 @@ namespace rr {
         addSetting("approx_time", 10000, "Approximation Time",
                    "End time for steady state approximation routine (double).",
                    "(double) approx_maximum_steps takes priority. Only used when steady state approximation routine is used");
+
+    }
+
+    void SteadyStateSolver::presimulate() {
 
     }
 

@@ -271,68 +271,9 @@ namespace rr {
          */
         long int nFuncEvals = 0;
 
-        /**
-         * @brief Integrate model to time @param presimulation_time before using the
-         * steady state solving algorithm.
-         * @details The "allow_presimulation"
-         * option must be set to true for this to happen (default = false).
-         * Uses the CVODEIntegrator to integrate the model
-         * between boundary of 0 and presimulation_time. The argument
-         * to presimulation_maximum_steps gets passed on to CVODEIntegrator's
-         * maximum_num_steps argument. All other CVODEIntegrator options are
-         * set to their default. If the model is stiff, the user will have to
-         * set the stiff flag in the RoadRunner before solving.
-         * @note presimulation has been refactored into its own class for
-         * testability - we can't test this feature if it is encoded directly
-         * in KinsolSteadyStateSolver where it needs to be a private method
-         * @see Presimulation
-         */
-        void doPresimulation();
     };
 
 
-    /**
-     * @brief Integrate model before using the
-     * steady state solving algorithm.
-     * @details This is a private class used by KinsolSteadyStateSolver.
-     * The "allow_presimulation"
-     * option must be set to true for this to happen (default = false).
-     * Uses the CVODEIntegrator to integrate the model
-     * between boundary of 0 and presimulation_time. The argument
-     * to presimulation_maximum_steps gets passed on to CVODEIntegrator's
-     * maximum_num_steps argument. All other CVODEIntegrator options are
-     * set to their default. If the model is stiff, the user will have to
-     * set the stiff flag in the RoadRunner before solving.
-     * @note presimulation has been refactored into its own class for
-     * testability - we can't test this feature if it is encoded directly
-     * in KinsolSteadyStateSolver where it needs to be a private method
-     */
-    class Presimulation {
-    public:
-        /**
-         * @brief default constructor for presimulation class
-         */
-        Presimulation() = default;
-
-        /**
-         * @brief construct a Presimulation class from
-         * @param model: a model to integrate
-         * @param presimulation_maximum_steps: maximal steps CVODEIntegrator is allowed
-         * @param presimulation_time: end time for presimulation
-         * @param stiff: use stiff solver for integration
-         */
-        Presimulation(ExecutableModel *model, double presimulation_time, int presimulation_maximum_steps, bool stiff);
-
-        void simulate();
-
-
-    private:
-        double presimulation_time_;
-        int presimulation_maximum_steps_;
-        bool stiff_;
-        ExecutableModel *model_;
-
-    };
 }
 
 

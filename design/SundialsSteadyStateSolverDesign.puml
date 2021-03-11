@@ -8,6 +8,17 @@ class SundialsSteadyStateSolver
 
 SteadyStateSolver <|-- SundialsSteadyStateSolver
 
+class NLEQSolver
+
+SteadyStateSolver <|-- NLEQSolver
+
+class NLEQ1
+
+class NLEQ2
+
+NLEQSolver <|-- NLEQ1
+NLEQSolver <|-- NLEQ2
+
 class NewtonIteration {
     inexact: bool
     modified: bool
@@ -24,7 +35,15 @@ SundialsSteadyStateSolver <|-- PicardIteration
 SundialsSteadyStateSolver <|-- FixedPointIteration
 
 
+class Presimulation
 
+note left of Presimulation{
+    Used by
+    all steady
+    state solvers.
+    Dependency
+    injection.
+}
 
 
 

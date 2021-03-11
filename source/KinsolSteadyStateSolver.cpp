@@ -303,24 +303,24 @@ namespace rr {
         KINSetRelErrFunc(mKinsol_Memory, getValueAsDouble("rel_err_func"));
     }
 
-    void KinsolSteadyStateSolver::doPresimulation() {
-        bool allowPresimulation = getValueAsBool("allow_presimulation");
-        if (!allowPresimulation)
-            return;
-
-        // do presimulation in side class so that we can test it.
-        assert(mModel && "Model is null");
-
-        Presimulation presimulation(
-                mModel,
-                getValueAsDouble("presimulation_time"),
-                getValueAsInt("presimulation_maximum_steps"),
-                getValueAsBool("stiff")
-        );
-        presimulation.simulate();
-        // remember to update the model
-        syncWithModel(mModel);
-    }
+//    void KinsolSteadyStateSolver::presimulate() {
+//        bool allowPresimulation = getValueAsBool("allow_presimulation");
+//        if (!allowPresimulation)
+//            return;
+//
+//        // do presimulation in side class so that we can test it.
+//        assert(mModel && "Model is null");
+//
+//        Presimulation presimulation(
+//                mModel,
+//                getValueAsDouble("presimulation_time"),
+//                getValueAsInt("presimulation_maximum_steps"),
+//                getValueAsBool("stiff")
+//        );
+//        presimulation.simulate();
+//        // remember to update the model
+//        syncWithModel(mModel);
+//    }
 
     std::unordered_map<std::string, Variant> KinsolSteadyStateSolver::getSolverStats() {
         std::unordered_map<std::string, Variant> map;
@@ -349,18 +349,4 @@ namespace rr {
     }
 
 
-    Presimulation::Presimulation(ExecutableModel *model, double presimulation_time, int presimulation_maximum_steps,
-                                 bool stiff)
-            : model_(model),
-              presimulation_maximum_steps_(presimulation_maximum_steps),
-              presimulation_time_(presimulation_time),
-              stiff_(stiff) {}
-
-    void Presimulation::simulate() {
-        CVODEIntegrator integrator(model_);
-        integrator.setValue("maximum_num_steps", presimulation_maximum_steps_);
-        integrator.setValue("stiff", stiff_);
-        integrator.integrate(0, presimulation_time_);
-
-    }
 }

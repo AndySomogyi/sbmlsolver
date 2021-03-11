@@ -81,6 +81,7 @@ set(
         NewtonIteration.cpp
         KinsolErrHandler.cpp
         SVD.cpp
+        Presimulation.cpp
 
         conservation/ConservationExtension.cpp
         conservation/ConservationDocumentPlugin.cpp
@@ -143,6 +144,7 @@ set(
         FixedPointIteration.h
         NewtonIteration.h
         SVD.h
+        Presimulation.h
 )
 install(FILES ${rrCoreHeaders} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/rr)
 
@@ -393,46 +395,47 @@ target_link_libraries(
         nleq1::nleq1-static
         clapack::lapack clapack::blas clapack::f2c
 
-        #        SUNDIALS::generic_static
-        #        SUNDIALS::nvecserial_static
-        #        SUNDIALS::nvecmanyvector_static
-        #        SUNDIALS::sunmatrixband_static
-        #        SUNDIALS::sunmatrixdense_static
-        #        SUNDIALS::sunmatrixsparse_static
-        #        SUNDIALS::sunlinsolband_static
-        #        SUNDIALS::sunlinsoldense_static
-        #        SUNDIALS::sunlinsolpcg_static
-        #        SUNDIALS::sunlinsolspbcgs_static
-        #        SUNDIALS::sunlinsolspfgmr_static
-        #        SUNDIALS::sunlinsolspgmr_static
-        #        SUNDIALS::sunlinsolsptfqmr_static
-        #        SUNDIALS::sunnonlinsolnewton_static
-        #        SUNDIALS::sunnonlinsolfixedpoint_static
-        #        SUNDIALS::cvode_static
-        #        SUNDIALS::cvodes_static
-        #        SUNDIALS::kinsol_static
+        SUNDIALS::generic_static
+        SUNDIALS::nvecserial_static
+        SUNDIALS::nvecmanyvector_static
+        SUNDIALS::sunmatrixband_static
+        SUNDIALS::sunmatrixdense_static
+        SUNDIALS::sunmatrixsparse_static
+        SUNDIALS::sunlinsolband_static
+        SUNDIALS::sunlinsoldense_static
+        SUNDIALS::sunlinsolpcg_static
+        SUNDIALS::sunlinsolspbcgs_static
+        SUNDIALS::sunlinsolspfgmr_static
+        SUNDIALS::sunlinsolspgmr_static
+        SUNDIALS::sunlinsolsptfqmr_static
+        SUNDIALS::sunnonlinsolnewton_static
+        SUNDIALS::sunnonlinsolfixedpoint_static
+        SUNDIALS::cvode_static
+        SUNDIALS::cvodes_static
+        SUNDIALS::kinsol_static
 
-        sundials_generic_static
-        sundials_nvecserial_static
-        sundials_nvecmanyvector_static
-        sundials_sunmatrixband_static
-        sundials_sunmatrixdense_static
-        sundials_sunmatrixsparse_static
-        sundials_sunlinsolband_static
-        sundials_sunlinsoldense_static
-        sundials_sunlinsolpcg_static
-        sundials_sunlinsolspbcgs_static
-        sundials_sunlinsolspfgmr_static
-        sundials_sunlinsolspgmr_static
-        sundials_sunlinsolsptfqmr_static
-        sundials_sunnonlinsolnewton_static
-        sundials_sunnonlinsolfixedpoint_static
-        sundials_arkode_static
-        sundials_cvode_static
-        sundials_cvodes_static
-        sundials_ida_static
-        sundials_idas_static
-        sundials_kinsol_static
+        #  todo delete before merge into develop
+        # sundials_generic_static
+        # sundials_nvecserial_static
+        # sundials_nvecmanyvector_static
+        # sundials_sunmatrixband_static
+        # sundials_sunmatrixdense_static
+        # sundials_sunmatrixsparse_static
+        # sundials_sunlinsolband_static
+        # sundials_sunlinsoldense_static
+        # sundials_sunlinsolpcg_static
+        # sundials_sunlinsolspbcgs_static
+        # sundials_sunlinsolspfgmr_static
+        # sundials_sunlinsolspgmr_static
+        # sundials_sunlinsolsptfqmr_static
+        # sundials_sunnonlinsolnewton_static
+        # sundials_sunnonlinsolfixedpoint_static
+        # sundials_arkode_static
+        # sundials_cvode_static
+        # sundials_cvodes_static
+        # sundials_ida_static
+        # sundials_idas_static
+        # sundials_kinsol_static
 
         PocoFoundation::PocoFoundation
         PocoNet::PocoNet

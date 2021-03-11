@@ -31,7 +31,7 @@ public:
                          const std::string &strategy = "basic") {
         // get the model
         std::unique_ptr<SBMLTestModel> testModelPtr = SBMLTestModelFactory(modelName);
-        auto testModel = std::unique_ptr<TestModelType>(dynamic_cast<TestModelType*>(testModelPtr.release()));
+        auto testModel = std::unique_ptr<TestModelType>(dynamic_cast<TestModelType *>(testModelPtr.release()));
 
         assert(testModel && "testModel is nullptr");
 
@@ -42,9 +42,9 @@ public:
         ResultMap expectedResult = testModel->steadyState();
 
         // insert starting values
-        for (auto &it: expectedResult){
-            const std::string& speciesName = it.first;
-            const double& startingValue = it.second.first;
+        for (auto &it: expectedResult) {
+            const std::string &speciesName = it.first;
+            const double &startingValue = it.second.first;
             std::cout << "Setting \"" << speciesName << "\" to " << startingValue << std::endl;
             rr.setInitConcentration(speciesName, startingValue, false);
         }
@@ -52,25 +52,34 @@ public:
 
         rr.setSteadyStateSolver("NewtonIteration");
 
-        // add any settings specific for this problem
         BasicDictionary steadyStateOptions;
         steadyStateOptions.setItem("strategy", strategy); // injected strategy here
         steadyStateOptions.setItem("PrintLevel", 3);
 
-        for (auto &settingsIterator : testModel->settings()){
+//        for (int i=0; i<steadyStateOptions.getKeys().size(); i++){
+//            std::cout << "key: " << steadyStateOptions.getKeys()[i] << std::endl;
+//            std::cout << "value: " << steadyStateOptions.getItem(steadyStateOptions.getKeys()[i]).toString() << std::endl;
+//        }
+
+        for (auto &settingsIterator : testModel->settings()) {
             steadyStateOptions.setItem(settingsIterator.first, Variant(settingsIterator.second));
         }
+
+//        for (int i=0; i<steadyStateOptions.getKeys().size(); i++){
+//            std::cout << "key: " << steadyStateOptions.getKeys()[i] << std::endl;
+//            std::cout << "value: " << steadyStateOptions.getItem(steadyStateOptions.getKeys()[i]).toString() << std::endl;
+//        }
 
         // turn on/off conservation analysis
         rr.setConservedMoietyAnalysis(useMoietyConservation);
 
         std::cout << "rr.getFullStoichiometryMatrix" << std::endl;
         std::cout << rr.getFullStoichiometryMatrix().numRows() << "x" <<
-        rr.getFullStoichiometryMatrix().numCols()<< std::endl;
+                  rr.getFullStoichiometryMatrix().numCols() << std::endl;
 
         std::cout << "rr.getReducedStoichiometryMatrix" << std::endl;
         std::cout << rr.getReducedStoichiometryMatrix().numRows() << "x" <<
-        rr.getReducedStoichiometryMatrix().numCols()<< std::endl;
+                  rr.getReducedStoichiometryMatrix().numCols() << std::endl;
 
         std::cout << "rr.getFullJacobian" << std::endl;
         std::cout << rr.getFullJacobian() << std::endl;
@@ -80,7 +89,7 @@ public:
 
         rr.steadyState(&steadyStateOptions);
 
-        NewtonIteration * newtonIteration = dynamic_cast<NewtonIteration*>(
+        NewtonIteration *newtonIteration = dynamic_cast<NewtonIteration *>(
                 rr.getSteadyStateSolver()
         );
         newtonIteration->printSolverStats();
@@ -124,7 +133,7 @@ TEST_F(BasicNewtonIterationTests, CheckCorrectSteadyStateOpenLinearFlux) {
             "OpenLinearFlux",
             false,
             strategy
-            );
+    );
 }
 
 TEST_F(BasicNewtonIterationTests, CheckCorrectSteadyStateSimpleFluxManuallyReduced) {

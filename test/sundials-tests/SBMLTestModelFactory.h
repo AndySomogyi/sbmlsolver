@@ -447,6 +447,8 @@ public:
         return ResultMap({
                                  {"S1", DoublePair(0, 10)},
                                  {"S2", DoublePair(0, 5)},
+//                                 {"S1", DoublePair(3.93469, 10)},
+//                                 {"S2", DoublePair(0.774092, 5)},
                          });
     }
 
@@ -456,7 +458,7 @@ public:
 
     std::unordered_map<std::string, rr::Variant> settings() override {
         return std::unordered_map<std::string, rr::Variant>{
-                {"allow_presimulation", true},
+                {"allow_presimulation", false},
                 {"presimulation_time",  5}
         };
     }
@@ -1963,6 +1965,9 @@ public:
 /**
  * Basic factory that creates sbml strings
  * for use in tests.
+ *
+ * todo now that this is getting bit bigger might want to consider self
+ *  registering factory
  */
 std::unique_ptr<SBMLTestModel> SBMLTestModelFactory(const std::string &modelName) {
     if (modelName == "SimpleFlux") {

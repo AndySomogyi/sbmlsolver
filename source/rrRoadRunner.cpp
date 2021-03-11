@@ -1281,9 +1281,14 @@ double RoadRunner::steadyState(const Dictionary* dict)
 
     double ss;
 
+
     // Rough estimation
     if (impl->steady_state_solver->getValueAsBool("allow_presimulation"))
     {
+         for (int i=0; i<dict->getKeys().size(); i++){
+            std::cout << "key: " << dict->getKeys()[i] << std::endl;
+            std::cout << "value: " << dict->getItem(dict->getKeys()[i]).toString() << std::endl;
+        }
         std::string currint = impl->integrator->getName();
 
         // use cvode
@@ -1294,12 +1299,28 @@ double RoadRunner::steadyState(const Dictionary* dict)
         int steps_temp = impl->simulateOpt.steps;
 
         impl->simulateOpt.start = 0;
-        impl->simulateOpt.duration = impl->steady_state_solver->getValueAsDouble("presimulation_time");
-        impl->simulateOpt.steps = impl->steady_state_solver->getValueAsInt("presimulation_maximum_steps");
+        std::cout << "impl->steady_state_solver->getValueAsDouble(\"presimulation_time\"): " << impl->steady_state_solver->getValueAsDouble("presimulation_time") << std::endl;
+        std::cout << "impl->steady_state_solver->getValueAsInt(\"presimulation_maximum_steps\"): " << impl->steady_state_solver->getValueAsInt("presimulation_maximum_steps") << std::endl;
+
+        if (dict->hasKey("presimulation_time")){
+            impl->simulateOpt.duration = dict->getItem("presimulation_time");
+        } else {
+            impl->simulateOpt.duration = impl->steady_state_solver->getValueAsDouble("presimulation_time");
+        }
+
+        if (dict->hasKey("presimulation_maximum_steps")){
+            impl->simulateOpt.steps = dict->getItem("presimulation_maximum_steps");
+        } else {
+            impl->simulateOpt.steps = impl->steady_state_solver->getValueAsDouble("presimulation_maximum_steps");
+        }
 
         try
         {
-            simulate();
+    std::cout << "time before: " << getModel()->getTime() << std::endl;
+    std::cout << getFloatingSpeciesConcentrationsNamedArray() << std::endl;
+            simulate(&impl->simulateOpt);
+    std::cout << "Time after: " << getModel()->getTime() << std::endl;
+    std::cout << getFloatingSpeciesConcentrationsNamedArray() << std::endl;
         }
         catch (const CoreException& e)
         {
