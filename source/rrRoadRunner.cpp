@@ -31,6 +31,7 @@
 #include "sbml/Model.h"
 #include "sbml/math/FormulaParser.h"
 #include "sbml/common/operationReturnValues.h"
+#include "SVD.h"
 
 
 #ifdef _MSC_VER
@@ -42,6 +43,7 @@
 #include "llvm/LLVMExecutableModel.h"
 #include "llvm/ModelResources.h"
 #include "llvm/IR/IRBuilder.h"
+
 #ifdef _MSC_VER
 #pragma warning(default: 4146)
 #pragma warning(default: 4141)
@@ -60,6 +62,7 @@
 #include <Poco/File.h>
 #include <Poco/Mutex.h>
 #include <list>
+#include <cstdlib>
 
 
 #ifdef _MSC_VER
@@ -180,7 +183,11 @@ enum ParameterType
 /**
  * assert that numbers are similar.
  */
+#ifdef abs
+#define assert_similar(a, b) assert(abs(a - b) < 1e-13)
+#else
 #define assert_similar(a, b) assert(std::abs(a - b) < 1e-13)
+#endif
 
 /**
  * implemention class, hide all details here.
@@ -1254,22 +1261,38 @@ double RoadRunner::mcaSteadyState()
     return steadyState();
 }
 
-
-double RoadRunner::steadyState(const Dictionary* dict)
-{
-    rrLog(Logger::LOG_DEBUG)<<"RoadRunner::steadyState...";
+double RoadRunner::steadyState(const Dictionary* dict) {
+    rrLog ( Logger::LOG_DEBUG) << "RoadRunner::steadyState...";
     if (!impl->model)
     {
         throw CoreException(gEmptyModelMessage);
     }
-    if (!impl->loadOpt.getConservedMoietyConversion() &&
-            (Config::getBool(Config::ROADRUNNER_DISABLE_WARNINGS)
-                & Config::ROADRUNNER_DISABLE_WARNINGS_STEADYSTATE) == 0){
-        rrLog(Logger::LOG_WARNING) << "Conserved Moiety Analysis is not enabled, steady state may fail with singular Jacobian";
-        rrLog(Logger::LOG_WARNING) << "Conserved Moiety Analysis may be enabled via the conservedMoietyAnalysis property or "
-                                    "via the configuration file or the Config class setValue, see roadrunner documentation";
-        rrLog(Logger::LOG_WARNING) << "to remove this warning, set ROADRUNNER_DISABLE_WARNINGS to 1 or 3 in the config file";
+
+    // check for singular jacobian
+    if (!impl->loadOpt.getConservedMoietyConversion()) {
+        ls::DoubleMatrix fullJ = getFullJacobian();
+        SVD svdFull(fullJ);
+        if (svdFull.isSingular()) {
+            rrLog(Logger::LOG_WARNING) << "Full jacobian matrix is singular "
+                                          "and therefore the steady state cannot be computed. "
+                                          "Automatically turning on moiety conservation...";
+            setConservedMoietyAnalysis(true);
+        }
     }
+
+    if (impl->loadOpt.getConservedMoietyConversion()){
+        ls::DoubleMatrix reducedJ = getReducedJacobian();
+        // todo can the reduced jacobian ever be singular?
+        SVD svdReduced(reducedJ);
+        if (svdReduced.isSingular()){
+            std::string msg = "The reduced jacobian matrix "
+                                "is singular and therefore steady state cannot "
+                                "be computed";
+            rrLog(Logger::LOG_ERROR) << msg;
+            throw CoreException(msg);
+        }
+    }
+
     metabolicControlCheck(impl->model.get());
 
     if (!impl->steady_state_solver) {
@@ -1277,126 +1300,158 @@ double RoadRunner::steadyState(const Dictionary* dict)
         throw std::runtime_error("No steady state solver");
     }
 
-    rrLog(Logger::LOG_DEBUG)<<"Attempting to find steady state using solver '" << impl->steady_state_solver->getName() << "'...";
+    // All relevant options such as presimulation and
+    // approximation are handled within solver (where they
+    // can be properly tested)
+    impl->steady_state_solver->solve();
 
-    double ss;
-
-
-    // Rough estimation
-    if (impl->steady_state_solver->getValueAsBool("allow_presimulation"))
-    {
-         for (int i=0; i<dict->getKeys().size(); i++){
-            std::cout << "key: " << dict->getKeys()[i] << std::endl;
-            std::cout << "value: " << dict->getItem(dict->getKeys()[i]).toString() << std::endl;
-        }
-        std::string currint = impl->integrator->getName();
-
-        // use cvode
-        setIntegrator("cvode");
-
-        double start_temp = impl->simulateOpt.start;
-        double duration_temp = impl->simulateOpt.duration;
-        int steps_temp = impl->simulateOpt.steps;
-
-        impl->simulateOpt.start = 0;
-        std::cout << "impl->steady_state_solver->getValueAsDouble(\"presimulation_time\"): " << impl->steady_state_solver->getValueAsDouble("presimulation_time") << std::endl;
-        std::cout << "impl->steady_state_solver->getValueAsInt(\"presimulation_maximum_steps\"): " << impl->steady_state_solver->getValueAsInt("presimulation_maximum_steps") << std::endl;
-
-        if (dict->hasKey("presimulation_time")){
-            impl->simulateOpt.duration = dict->getItem("presimulation_time");
-        } else {
-            impl->simulateOpt.duration = impl->steady_state_solver->getValueAsDouble("presimulation_time");
-        }
-
-        if (dict->hasKey("presimulation_maximum_steps")){
-            impl->simulateOpt.steps = dict->getItem("presimulation_maximum_steps");
-        } else {
-            impl->simulateOpt.steps = impl->steady_state_solver->getValueAsDouble("presimulation_maximum_steps");
-        }
-
-        try
-        {
-    std::cout << "time before: " << getModel()->getTime() << std::endl;
-    std::cout << getFloatingSpeciesConcentrationsNamedArray() << std::endl;
-            simulate(&impl->simulateOpt);
-    std::cout << "Time after: " << getModel()->getTime() << std::endl;
-    std::cout << getFloatingSpeciesConcentrationsNamedArray() << std::endl;
-        }
-        catch (const CoreException& e)
-        {
-            impl->simulateOpt.start = start_temp;
-            impl->simulateOpt.duration = duration_temp;
-            impl->simulateOpt.steps = steps_temp;
-
-            setIntegrator(currint);
-
-            throw CoreException("Steady state presimulation failed. Try turning off allow_presimulation flag to False "
-                "via r.steadyStateSolver.allow_presimulation = False where r is an roadrunner instance; ", e.Message());
-        }
-
-        impl->simulateOpt.start = start_temp;
-        impl->simulateOpt.duration = duration_temp;
-        impl->simulateOpt.steps = steps_temp;
-
-        setIntegrator(currint);
-
-        rrLog(Logger::LOG_DEBUG) << "Steady state presimulation done";
-    }
-
-    // NLEQ
-    if (impl->steady_state_solver->getValueAsBool("allow_approx"))
-    {
-        int l = impl->model->getNumFloatingSpecies();
-        double* vals = new double[l];
-        impl->model->getFloatingSpeciesConcentrations(l, NULL, vals);
-
-        try
-        {
-            ss = impl->steady_state_solver->solve();
-
-            if (ss < 0)
-            {
-                rrLog(Logger::LOG_ERROR) << "Steady State solver failed...";
-            }
-            return ss;
-        }
-        catch (NLEQException& e1)
-        {
-            try
-            {
-                // Reset to t = 0;
-                reset();
-
-                // Restore initial concentrations
-                for (int i = 0; i<l; ++i) {
-                    impl->model->setFloatingSpeciesConcentrations(1, &i, &vals[i]);
-                }
-
-                ss = steadyStateApproximate();
-
-                rrLog(Logger::LOG_WARNING) << "Steady state solver failed. However, RoadRunner approximated the solution successfully.";
-
-                return ss;
-            }
-            catch (CoreException& e2)
-            {
-                throw CoreException("Both steady state solver and approximation routine failed: ", e1.Message() + "; " + e2.Message());
-            }
-        }
-    }
-    else
-    {
-        ss = impl->steady_state_solver->solve();
-
-        if (ss < 0)
-        {
-            rrLog(Logger::LOG_ERROR) << "Steady State solver failed...";
-        }
-
-        return ss;
-    }
-
+//    if (dict->hasKey(""))
 }
+
+
+
+//double RoadRunner::steadyState(const Dictionary* dict)
+//{
+//    rrLog(Logger::LOG_DEBUG)<<"RoadRunner::steadyState...";
+//    if (!impl->model)
+//    {
+//        throw CoreException(gEmptyModelMessage);
+//    }
+//    if (!impl->loadOpt.getConservedMoietyConversion() &&
+//            (Config::getBool(Config::ROADRUNNER_DISABLE_WARNINGS)
+//                & Config::ROADRUNNER_DISABLE_WARNINGS_STEADYSTATE) == 0){
+//        rrLog(Logger::LOG_WARNING) << "Conserved Moiety Analysis is not enabled, steady state may fail with singular Jacobian";
+//        rrLog(Logger::LOG_WARNING) << "Conserved Moiety Analysis may be enabled via the conservedMoietyAnalysis property or "
+//                                    "via the configuration file or the Config class setValue, see roadrunner documentation";
+//        rrLog(Logger::LOG_WARNING) << "to remove this warning, set ROADRUNNER_DISABLE_WARNINGS to 1 or 3 in the config file";
+//    }
+//    metabolicControlCheck(impl->model.get());
+//
+//    if (!impl->steady_state_solver) {
+//        rrLog(Logger::LOG_ERROR)<<"No steady state solver";
+//        throw std::runtime_error("No steady state solver");
+//    }
+//
+//    rrLog(Logger::LOG_DEBUG)<<"Attempting to find steady state using solver '" << impl->steady_state_solver->getName() << "'...";
+//
+//    double ss;
+//
+//
+//    // Rough estimation
+//    if (impl->steady_state_solver->getValueAsBool("allow_presimulation"))
+//    {
+//         for (int i=0; i<dict->getKeys().size(); i++){
+//            std::cout << "key: " << dict->getKeys()[i] << std::endl;
+//            std::cout << "value: " << dict->getItem(dict->getKeys()[i]).toString() << std::endl;
+//        }
+//        std::string currint = impl->integrator->getName();
+//
+//        // use cvode
+//        setIntegrator("cvode");
+//
+//        double start_temp = impl->simulateOpt.start;
+//        double duration_temp = impl->simulateOpt.duration;
+//        int steps_temp = impl->simulateOpt.steps;
+//
+//        impl->simulateOpt.start = 0;
+//        std::cout << "impl->steady_state_solver->getValueAsDouble(\"presimulation_time\"): " << impl->steady_state_solver->getValueAsDouble("presimulation_time") << std::endl;
+//        std::cout << "impl->steady_state_solver->getValueAsInt(\"presimulation_maximum_steps\"): " << impl->steady_state_solver->getValueAsInt("presimulation_maximum_steps") << std::endl;
+//
+//        if (dict->hasKey("presimulation_time")){
+//            impl->simulateOpt.duration = dict->getItem("presimulation_time");
+//        } else {
+//            impl->simulateOpt.duration = impl->steady_state_solver->getValueAsDouble("presimulation_time");
+//        }
+//
+//        if (dict->hasKey("presimulation_maximum_steps")){
+//            impl->simulateOpt.steps = dict->getItem("presimulation_maximum_steps");
+//        } else {
+//            impl->simulateOpt.steps = impl->steady_state_solver->getValueAsDouble("presimulation_maximum_steps");
+//        }
+//
+//        try
+//        {
+//    std::cout << "time before: " << getModel()->getTime() << std::endl;
+//    std::cout << getFloatingSpeciesConcentrationsNamedArray() << std::endl;
+//            simulate(&impl->simulateOpt);
+//    std::cout << "Time after: " << getModel()->getTime() << std::endl;
+//    std::cout << getFloatingSpeciesConcentrationsNamedArray() << std::endl;
+//        }
+//        catch (const CoreException& e)
+//        {
+//            impl->simulateOpt.start = start_temp;
+//            impl->simulateOpt.duration = duration_temp;
+//            impl->simulateOpt.steps = steps_temp;
+//
+//            setIntegrator(currint);
+//
+//            throw CoreException("Steady state presimulation failed. Try turning off allow_presimulation flag to False "
+//                "via r.steadyStateSolver.allow_presimulation = False where r is an roadrunner instance; ", e.Message());
+//        }
+//
+//        impl->simulateOpt.start = start_temp;
+//        impl->simulateOpt.duration = duration_temp;
+//        impl->simulateOpt.steps = steps_temp;
+//
+//        setIntegrator(currint);
+//
+//        rrLog(Logger::LOG_DEBUG) << "Steady state presimulation done";
+//    }
+//
+//    // NLEQ
+//    if (impl->steady_state_solver->getValueAsBool("allow_approx"))
+//    {
+//        int l = impl->model->getNumFloatingSpecies();
+//        double* vals = new double[l];
+//        impl->model->getFloatingSpeciesConcentrations(l, NULL, vals);
+//
+//        try
+//        {
+//            ss = impl->steady_state_solver->solve();
+//
+//            if (ss < 0)
+//            {
+//                rrLog(Logger::LOG_ERROR) << "Steady State solver failed...";
+//            }
+//            return ss;
+//        }
+//        catch (NLEQException& e1)
+//        {
+//            try
+//            {
+//                // Reset to t = 0;
+//                reset();
+//
+//                // Restore initial concentrations
+//                for (int i = 0; i<l; ++i) {
+//                    impl->model->setFloatingSpeciesConcentrations(1, &i, &vals[i]);
+//                }
+//
+//                ss = steadyStateApproximate();
+//
+//                rrLog(Logger::LOG_WARNING) << "Steady state solver failed. However, RoadRunner approximated the solution successfully.";
+//
+//                return ss;
+//            }
+//            catch (CoreException& e2)
+//            {
+//                throw CoreException("Both steady state solver and approximation routine failed: ", e1.Message() + "; " + e2.Message());
+//            }
+//        }
+//    }
+//    else
+//    {
+//        ss = impl->steady_state_solver->solve();
+//
+//        if (ss < 0)
+//        {
+//            rrLog(Logger::LOG_ERROR) << "Steady State solver failed...";
+//        }
+//
+//        return ss;
+//    }
+//
+//}
 
 
 double RoadRunner::steadyStateApproximate(const Dictionary* dict)
@@ -4837,7 +4892,8 @@ Matrix<double> RoadRunner::getFrequencyResponse(double startFrequency,
             {
                 if (speciesNames[j] == variableName)
                 {
-                    double dw = abs(T5(j, 0));
+//                    double dw = abs(T5(j, 0));
+                    double dw = ((T5(j, 0)) >= 0 ? (T5(j, 0)) : -(T5(j, 0)));
                     if (useDB)
                     {
                         dw = 20.0*log10(dw);
