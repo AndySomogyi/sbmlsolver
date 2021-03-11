@@ -78,22 +78,6 @@ public:
         std::cout << "rr.getReducedJacobian" << std::endl;
         std::cout << rr.getReducedJacobian() << std::endl;
 
-        /*
-            [[0,0,0,-13.4333,382.691,0,0,0,0,0,0,0,0],
-            [0,-14.2784,0,0,0,0,0,0,0,0,0,0,0],
-            [0,2.30835,-0.655209,0,0,0,34.4364,0,0,0,0,0,0],
-            [0,0,0,-220.307,0,0,0,0,0,0,0,0,0],
-            [0,0,0,0,-0.0716435,0,0,0,0,0,0,0,0],
-            [24.8873,0,0,0,0,-126.447,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,-4.86736,0,0,0.231518,0,0,0],
-            [0,0,0.553919,0,0,0,0,-0.305147,0,0,0,0,0],
-            [0,0,0,-4.2007,0,0.0236007,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0,0,-11.0538,0,0,1.28411],
-            [0,0,0,0,0,0,0,0.00290243,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0,0,0,0,0,0],
-            [0,0,0,0,132.676,0,0,0,0,0,0,0,0]]
-         */
-
         rr.steadyState(&steadyStateOptions);
 
         NewtonIteration * newtonIteration = dynamic_cast<NewtonIteration*>(
@@ -133,6 +117,7 @@ public:
 //        Logger::setLevel(Logger::LOG_DEBUG);
     };
 };
+
 
 TEST_F(BasicNewtonIterationTests, CheckCorrectSteadyStateOpenLinearFlux) {
     testSteadyState<OpenLinearFlux>(

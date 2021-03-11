@@ -1264,8 +1264,7 @@ double RoadRunner::steadyState(const Dictionary* dict)
     }
     if (!impl->loadOpt.getConservedMoietyConversion() &&
             (Config::getBool(Config::ROADRUNNER_DISABLE_WARNINGS)
-                & Config::ROADRUNNER_DISABLE_WARNINGS_STEADYSTATE) == 0)
-    {
+                & Config::ROADRUNNER_DISABLE_WARNINGS_STEADYSTATE) == 0){
         rrLog(Logger::LOG_WARNING) << "Conserved Moiety Analysis is not enabled, steady state may fail with singular Jacobian";
         rrLog(Logger::LOG_WARNING) << "Conserved Moiety Analysis may be enabled via the conservedMoietyAnalysis property or "
                                     "via the configuration file or the Config class setValue, see roadrunner documentation";

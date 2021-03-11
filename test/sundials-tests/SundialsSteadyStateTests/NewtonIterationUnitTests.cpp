@@ -74,7 +74,7 @@ TEST_F(NewtonIterationUnitTests, CheckWeCanRegenerateTheModelAfterCreatingSolver
 
 TEST_F(NewtonIterationUnitTests, TestPresimulation) {
     ls::DoubleMatrix before = rr.getFloatingSpeciesConcentrationsNamedArray();
-    Presimulation presimulation(rr.getModel(), 10, 1000);
+    Presimulation presimulation(rr.getModel(), 10, 1000, false);
     presimulation.simulate();
     ls::DoubleMatrix after = rr.getFloatingSpeciesConcentrationsNamedArray();
     // it is the domain of CVODEIntegrator tests to ensure model
@@ -149,45 +149,31 @@ INSTANTIATE_TEST_SUITE_P(
         SettingsTests,
         ::testing::Values(
                 std::pair<std::string, Variant>("strategy", Variant("linesearch")),
-
-                std::pair<std::string, Variant>("NumMaxIters", Variant(153)),
-                std::pair<std::string, Variant>("PrintLevel", Variant(2)),
-                std::pair<std::string, Variant>("EtaForm", Variant("eta_choice2")),
-                std::pair<std::string, Variant>("NoInitSetup", Variant(true)),
-                std::pair<std::string, Variant>("NoResMon", Variant(true)),
-                std::pair<std::string, Variant>("MaxSetupCalls", Variant(974)),
-                std::pair<std::string, Variant>("MaxSubSetupCalls", Variant(132)),
-                std::pair<std::string, Variant>("EtaConstValue", Variant(6)),
-                std::pair<std::string, Variant>("EtaParamGamma", Variant(0.5234)),
-                std::pair<std::string, Variant>("EtaParamAlpha", Variant(0.1234)),
-                std::pair<std::string, Variant>("ResMonMin", Variant(0.01)),
-                std::pair<std::string, Variant>("ResMonMax", Variant(0.9999)),
-                std::pair<std::string, Variant>("ResMonConstValue", Variant(0.25)),
-                std::pair<std::string, Variant>("NoMinEps", Variant(true)),
-                std::pair<std::string, Variant>("MaxNewtonStep", Variant(15)),
-                std::pair<std::string, Variant>("MaxBetaFails", Variant(3)),
-                std::pair<std::string, Variant>("FuncNormTol", Variant(0.5)),
-                std::pair<std::string, Variant>("ScaledSteptol", Variant(0.3)),
-                std::pair<std::string, Variant>("MAA", Variant(4)),
-                std::pair<std::string, Variant>("DampingAA", Variant(0.35))
+                std::pair<std::string, Variant>("num_max_iters", Variant(153)),
+                std::pair<std::string, Variant>("print_level", Variant(2)),
+                std::pair<std::string, Variant>("eta_form", Variant("eta_choice2")),
+                std::pair<std::string, Variant>("no_init_setup", Variant(true)),
+                std::pair<std::string, Variant>("no_res_monitoring", Variant(true)),
+                std::pair<std::string, Variant>("max_setup_calls", Variant(974)),
+                std::pair<std::string, Variant>("max_subsetup_calls", Variant(132)),
+                std::pair<std::string, Variant>("eta_constant_value", Variant(6)),
+                std::pair<std::string, Variant>("eta_param_gamma", Variant(0.5234)),
+                std::pair<std::string, Variant>("eta_param_alpha", Variant(0.1234)),
+                std::pair<std::string, Variant>("res_mon_min", Variant(0.01)),
+                std::pair<std::string, Variant>("res_mon_max", Variant(0.9999)),
+                std::pair<std::string, Variant>("res_mon_constant_value", Variant(0.25)),
+                std::pair<std::string, Variant>("no_min_eps", Variant(true)),
+                std::pair<std::string, Variant>("max_newton_step", Variant(15)),
+                std::pair<std::string, Variant>("max_beta_fails", Variant(3)),
+                std::pair<std::string, Variant>("func_norm_tol", Variant(0.5)),
+                std::pair<std::string, Variant>("scaled_step_tol", Variant(0.3)),
+                std::pair<std::string, Variant>("maa", Variant(4)),
+                std::pair<std::string, Variant>("damping_aa", Variant(0.35))
         )
 );
 
 
 
-/**
- * todo rr has an akward set up right now regarding registration of solvers.
- *  problems
- *  1) need both static and non-static implementation of same method in solvers.
- *  2) solver registration class should be renamed steady state solver reg
- *  3) I thought the point of registrar was so that solvers are not instantiated until needed.
- *      But digging deeper, I think they are all allocated with every rr model anyway.
- *  4) Solver registration manager has static method for making it a singleton.
- *      - Note, we cannot make solvers singletons as they will break
- *        if we try to solve multiple models at the same time with it.
- *  5) Why is roadrunner managing memory for solvers? Why not use
- *      RAII for what is was designed for?
- */
 
 
 

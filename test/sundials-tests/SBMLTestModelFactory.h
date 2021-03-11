@@ -457,7 +457,7 @@ public:
     std::unordered_map<std::string, rr::Variant> settings() override {
         return std::unordered_map<std::string, rr::Variant>{
                 {"allow_presimulation", true},
-                {"presimulation_time",  1}
+                {"presimulation_time",  5}
         };
     }
 

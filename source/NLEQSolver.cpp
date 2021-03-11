@@ -41,13 +41,17 @@ namespace rr {
         // Set default settings.
         addSetting("relative_tolerance", 1e-12, "Relative Tolerance", "Specifies the relative tolerance (double).",
                    "(double) Relative tolerance used by the solver");
+
         addSetting("maximum_iterations", 100, "Maximum Iterations",
                    "The maximum number of iterations the solver is allowed to use (int)",
                    "(int) Iteration caps off at the maximum, regardless of whether a solution has been reached");
+
         addSetting("minimum_damping", 1e-20, "Minimum Damping", "The minimum damping factor (double).",
                    "(double) Minumum damping factor used by the algorithm");
+
         addSetting("broyden_method", 0, "Broyden Method", "Switches on Broyden method (int)",
                    "(int) Broyden method is a quasi-Newton approximation for rank-1 updates");
+
         addSetting("linearity", 3, "Problem Linearity", "Specifies linearity of the problem (int).",
                    "(int) 1 is for linear problem and 4 is for extremly nonlinear problem");
         //NLEQSolver::loadConfigSettings();

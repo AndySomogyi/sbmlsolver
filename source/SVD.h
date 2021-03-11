@@ -79,7 +79,6 @@ namespace rr {
          */
         bool isSingular();
 
-
     private:
 
         void compute();

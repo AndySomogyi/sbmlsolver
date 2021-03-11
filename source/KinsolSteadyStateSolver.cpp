@@ -121,78 +121,77 @@ namespace rr {
     void KinsolSteadyStateSolver::resetSettings() {
         SteadyStateSolver::resetSettings();
 
-        std::string desc = "Max. number of nonlinear iterations";
-        addSetting("NumMaxIters", 200, "NumMaxIters", desc, desc);
+        std::string desc = "Max. number of iterations the nonlinear solver is allowed to use. ";
+        addSetting("num_max_iters", 200, "Maximum Nonlinear Iterations", desc, desc);
 
         addSetting("allow_negative", false, "Allow negative values",
                    "Ensures non-negative results",
                    "(bool)Constrains the problem such that all values are non-negative at all times");
 
-
-        desc = "When presimulation is set to true, use stiff solver for integration";
-        addSetting("stiff", false, "stiff", desc, desc);
+        desc = "When presimulation is set to true, use stiff solver for integration. No effect otherwise.";
+        addSetting("stiff", false, "Stiff integrator", desc, desc);
 
         desc = "Kinsol logger level. Default=0, no additional output. Max=3.";
-        addSetting("PrintLevel", 0, "PrintLevel", desc, desc);
+        addSetting("print_level", 0, "Kinsol Print Level", desc, desc);
 
         desc = "Form of nu coefficient. One of eta_choice1, eta_choice2 or eta_constant";
-        addSetting("EtaForm", "eta_choice1", "EtaForm", desc, desc);
+        addSetting("eta_form", "eta_choice1", "ETA Form", desc, desc);
 
         desc = "No initial matrix setup";
-        addSetting("NoInitSetup", false, "NoInitSetup", desc, desc);
+        addSetting("no_init_setup", false, "No Init Setup", desc, desc);
 
         desc = "No residual monitoring";
-        addSetting("NoResMon", false, "NoResMon", desc, desc);
+        addSetting("no_res_monitoring", false, "No Residual Monitoring", desc, desc);
 
         desc = "Max. iterations without matrix setup";
-        addSetting("MaxSetupCalls", 10, "MaxSetupCalls", desc, desc);
+        addSetting("max_setup_calls", 10, "Max Setup Calls", desc, desc);
 
         desc = "Max. iterations without residual check";
-        addSetting("MaxSubSetupCalls", 5, "MaxSubSetupCalls", desc, desc);
+        addSetting("max_subsetup_calls", 5, "Max Sub Setup Calls", desc, desc);
 
         desc = "Constant value of nu";
-        addSetting("EtaConstValue", 0.1, "EtaConstValue", desc, desc);
+        addSetting("eta_constant_value", 0.1, "ETA Constant Value", desc, desc);
 
         desc = "Value of gamma where 0 << gamma << 1.0. Use 0 to indidate default value of 0.9.";
-        addSetting("EtaParamGamma", 0, "EtaParamGamma", desc, desc);
+        addSetting("eta_param_gamma", 0, "ETA Gamma", desc, desc);
 
         desc = "Value of alpha where 1.0 < alpha < 2.0. Use 0 to indicate default value of 2.0. ";
-        addSetting("EtaParamAlpha", 0, "EtaParamAlpha", desc, desc);
+        addSetting("eta_param_alpha", 0, "ETA lpha", desc, desc);
 
         desc = "Value of omega_min - lower bound residual monitoring";
-        addSetting("ResMonMin", 0.00001, "ResMonParams", desc, desc);
+        addSetting("res_mon_min", 0.00001, "Residual Monitoring Param Minimum", desc, desc);
 
         desc = "Value of omega_max - upper bound residual monitoring";
-        addSetting("ResMonMax", 0.9, "ResMonParams", desc, desc);
+        addSetting("res_mon_max", 0.9, "Residual Monitoring Param Minimum", desc, desc);
 
         desc = "Constant value of omega";
-        addSetting("ResMonConstValue", 0.9, "ResMonConstValue", desc, desc);
+        addSetting("res_mon_constant_value", 0.9, "Residual Monitoring Constant Value", desc, desc);
 
         desc = "Lower bound on epsilon";
-        addSetting("NoMinEps", false, "NoMinEps", desc, desc);
+        addSetting("no_min_eps", false, "No Minimum Epsilon", desc, desc);
 
         desc = "Max. scaled length of Newton step. If 0 use default value which is 1000*||D_u*u_0||2.";
-        addSetting("MaxNewtonStep", 0, "MaxNewtonStep", desc, desc);
+        addSetting("max_newton_step", 0, "Max Newton Step size", desc, desc);
 
         desc = "Max. number of beta-condition failures";
-        addSetting("MaxBetaFails", 10, "MaxBetaFails", desc, desc);
+        addSetting("max_beta_fails", 10, "Max Beta Fails", desc, desc);
 
         desc = "Function-norm stopping tolerance. If 0 use default of uround^1/3.";
-        addSetting("FuncNormTol", 0, "FuncNormTol", desc, desc);
+        addSetting("func_norm_tol", 0, "Func Norm Tol", desc, desc);
 
         desc = "Scaled-step stopping tolerance. If 0 use default of uround^2/3";
-        addSetting("ScaledSteptol", 0, "ScaledSteptol", desc, desc);
+        addSetting("scaled_step_tol", 0, "Scaled Step Tol", desc, desc);
 
         desc = "Anderson Acceleration subspace size. Default is 0.";
-        addSetting("MAA", 0, "MAA", desc, desc);
+        addSetting("maa", 0, "Anderson Acceleration", desc, desc);
 
         desc = "Anderson Acceleration damping parameter";
-        addSetting("DampingAA", 1.0, "DampingAA", desc, desc);
+        addSetting("damping_aa", 1.0, "Anderson Acceleration Damping Parameter", desc, desc);
 
         desc = "The function KINSetRelErrFunc speciffies the relative error in computing F(u), which "
                "is used in the difference quotient approximation to the Jacobian matrix. "
                "Set to 0 for default which equals U = unit roundoff.";
-        addSetting("RelErrFunc", 0, "DampingAA", desc, desc);
+        addSetting("rel_err_func", 0, "Relative Error Function", desc, desc);
 
     }
 
@@ -263,13 +262,13 @@ namespace rr {
      * at once, and this method is called before we call KIN_Solve.
      */
     void KinsolSteadyStateSolver::updateKinsol() {
-        KINSetNumMaxIters(mKinsol_Memory, getValueAsInt("NumMaxIters"));
+        KINSetNumMaxIters(mKinsol_Memory, getValueAsInt("num_max_iters")); //
 
-        KINSetPrintLevel(mKinsol_Memory, getValueAsInt("PrintLevel"));
+        KINSetPrintLevel(mKinsol_Memory, getValueAsInt("print_level")); //
 
         // throw if invalid option chosen.
         std::vector<std::string> validEtaForms({"eta_choice1", "eta_choice2", "eta_constant"});
-        const std::string &etaChoice = getValueAsString("EtaForm");
+        const std::string &etaChoice = getValueAsString("eta_form"); //
         if (std::find(validEtaForms.begin(), validEtaForms.end(), etaChoice) == validEtaForms.end()) {
             std::ostringstream err;
             err << "\"" << etaChoice << "\". Valid options are ";
@@ -286,24 +285,22 @@ namespace rr {
             KINSetEtaForm(mKinsol_Memory, KIN_ETACONSTANT);
         }
 
-        KINSetNoInitSetup(mKinsol_Memory, getValueAsBool("NoInitSetup"));
-        KINSetNoResMon(mKinsol_Memory, getValueAsBool("NoResMon"));
-        KINSetMaxSetupCalls(mKinsol_Memory, getValueAsInt("MaxSetupCalls"));
-        KINSetMaxSubSetupCalls(mKinsol_Memory, getValueAsInt("MaxSubSetupCalls"));
-        KINSetEtaConstValue(mKinsol_Memory, getValueAsDouble("EtaConstValue"));
-        KINSetEtaParams(mKinsol_Memory, getValueAsDouble("EtaParamGamma"), getValueAsDouble("EtaParamAlpha"));
-        KINSetResMonParams(mKinsol_Memory, getValueAsDouble("ResMonMin"), getValueAsDouble("ResMonMax"));
-        KINSetResMonConstValue(mKinsol_Memory, getValueAsBool("ResMonConstValue"));
-        KINSetNoMinEps(mKinsol_Memory, getValueAsBool("NoMinEps"));
-        KINSetMaxNewtonStep(mKinsol_Memory, getValueAsInt("MaxNewtonStep"));
-        KINSetMaxBetaFails(mKinsol_Memory, getValueAsInt("MaxBetaFails"));
-        KINSetRelErrFunc(mKinsol_Memory, getValueAsDouble("RelErrFunc"));
-        KINSetFuncNormTol(mKinsol_Memory, getValueAsDouble("FuncNormTol"));
-        KINSetScaledStepTol(mKinsol_Memory, getValueAsDouble("ScaledSteptol"));
-        KINSetMAA(mKinsol_Memory, getValueAsLong("MAA"));
-        KINSetDampingAA(mKinsol_Memory, getValueAsDouble("DampingAA"));
-        // constraints not implemented at the moment. Maybe later???
-        // KINSetConstraints(mKinsol_Memory, getValueAsInt("Constraints"));
+        KINSetNoInitSetup(mKinsol_Memory, getValueAsBool("no_init_setup"));
+        KINSetNoResMon(mKinsol_Memory, getValueAsBool("no_res_monitoring"));
+        KINSetMaxSetupCalls(mKinsol_Memory, getValueAsInt("max_setup_calls"));
+        KINSetMaxSubSetupCalls(mKinsol_Memory, getValueAsInt("max_subsetup_calls"));
+        KINSetEtaConstValue(mKinsol_Memory, getValueAsDouble("eta_constant_value"));
+        KINSetEtaParams(mKinsol_Memory, getValueAsDouble("eta_param_gamma"), getValueAsDouble("eta_param_alpha"));
+        KINSetResMonParams(mKinsol_Memory, getValueAsDouble("res_mon_min"), getValueAsDouble("res_mon_max"));
+        KINSetResMonConstValue(mKinsol_Memory, getValueAsBool("res_mon_constant_value"));
+        KINSetNoMinEps(mKinsol_Memory, getValueAsBool("no_min_eps"));
+        KINSetMaxNewtonStep(mKinsol_Memory, getValueAsInt("max_newton_step"));
+        KINSetMaxBetaFails(mKinsol_Memory, getValueAsInt("max_beta_fails"));
+        KINSetDampingAA(mKinsol_Memory, getValueAsDouble("damping_aa"));
+        KINSetFuncNormTol(mKinsol_Memory, getValueAsDouble("func_norm_tol"));
+        KINSetScaledStepTol(mKinsol_Memory, getValueAsDouble("scaled_step_tol"));
+        KINSetMAA(mKinsol_Memory, getValueAsLong("maa"));
+        KINSetRelErrFunc(mKinsol_Memory, getValueAsDouble("rel_err_func"));
     }
 
     void KinsolSteadyStateSolver::doPresimulation() {
