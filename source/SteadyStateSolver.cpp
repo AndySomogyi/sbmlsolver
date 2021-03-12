@@ -137,9 +137,21 @@ namespace rr {
                    "(double) approx_maximum_steps takes priority. Only used when steady state approximation routine is used");
 
     }
+    void SteadyStateSolver::loadConfigSettings() {
+
+        SteadyStateSolver::setValue("allow_presimulation", Config::getBool(Config::STEADYSTATE_PRESIMULATION));
+        SteadyStateSolver::setValue("presimulation_maximum_steps",
+                             Config::getInt(Config::STEADYSTATE_PRESIMULATION_MAX_STEPS));
+        SteadyStateSolver::setValue("presimulation_time", Config::getDouble(Config::STEADYSTATE_PRESIMULATION_TIME));
+        SteadyStateSolver::setValue("allow_approx", Config::getBool(Config::STEADYSTATE_APPROX));
+        SteadyStateSolver::setValue("approx_tolerance", Config::getDouble(Config::STEADYSTATE_APPROX_TOL));
+        SteadyStateSolver::setValue("approx_maximum_steps", Config::getInt(Config::STEADYSTATE_APPROX_MAX_STEPS));
+        SteadyStateSolver::setValue("approx_time", Config::getDouble(Config::STEADYSTATE_APPROX_TIME));
+    }
 
     void SteadyStateSolver::presimulate() {
 
     }
+
 
 }

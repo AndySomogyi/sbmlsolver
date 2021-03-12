@@ -4892,8 +4892,7 @@ Matrix<double> RoadRunner::getFrequencyResponse(double startFrequency,
             {
                 if (speciesNames[j] == variableName)
                 {
-//                    double dw = abs(T5(j, 0));
-                    double dw = ((T5(j, 0)) >= 0 ? (T5(j, 0)) : -(T5(j, 0)));
+                    double dw = abs(T5(j, 0));
                     if (useDB)
                     {
                         dw = 20.0*log10(dw);

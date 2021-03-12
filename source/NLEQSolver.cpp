@@ -20,14 +20,6 @@ namespace rr {
 
     void NLEQSolver::loadConfigSettings() {
         SteadyStateSolver::loadConfigSettings();
-        NLEQSolver::setValue("allow_presimulation", Config::getBool(Config::STEADYSTATE_PRESIMULATION));
-        NLEQSolver::setValue("presimulation_maximum_steps",
-                             Config::getInt(Config::STEADYSTATE_PRESIMULATION_MAX_STEPS));
-        NLEQSolver::setValue("presimulation_time", Config::getDouble(Config::STEADYSTATE_PRESIMULATION_TIME));
-        NLEQSolver::setValue("allow_approx", Config::getBool(Config::STEADYSTATE_APPROX));
-        NLEQSolver::setValue("approx_tolerance", Config::getDouble(Config::STEADYSTATE_APPROX_TOL));
-        NLEQSolver::setValue("approx_maximum_steps", Config::getInt(Config::STEADYSTATE_APPROX_MAX_STEPS));
-        NLEQSolver::setValue("approx_time", Config::getDouble(Config::STEADYSTATE_APPROX_TIME));
         NLEQSolver::setValue("relative_tolerance", Config::getDouble(Config::STEADYSTATE_RELATIVE));
         NLEQSolver::setValue("maximum_iterations", Config::getInt(Config::STEADYSTATE_MAXIMUM_NUM_STEPS));
         NLEQSolver::setValue("minimum_damping", Config::getDouble(Config::STEADYSTATE_MINIMUM_DAMPING));
