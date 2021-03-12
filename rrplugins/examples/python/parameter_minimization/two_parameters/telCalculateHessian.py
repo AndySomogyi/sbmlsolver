@@ -3,7 +3,7 @@ import numpy as np
 #from numpy import linalg
 import matplotlib.pyplot as plt
 import roadrunner
-import teplugins as tel
+import rrplugins as tel
 
 
 def getHessElement(r,c, k1, k2, eta):
@@ -30,41 +30,35 @@ def chiFun(k1,k2):
         raise Exception( tel.getLastError() )
            
     return chiSquare.ReducedChiSquare                   
-            
-try:
-    #Read some 'experimental' data   
-    expData = tel.DataSeries()
-    
-    #This does not look right.. but it works..
-    expData = expData.readDataSeries('ExperimentalData.dat')   
-            
-    test_model = 'two_parameters.xml'            
 
-    # Create a roadrunner instance and create some MODEL data
-    rr = roadrunner.RoadRunner()
-    rr.load(test_model)
+#Read some 'experimental' data   
+expData = tel.DataSeries()
 
-    #Get chi square plugin and set it up
-    chiSquare =  tel.Plugin("tel_chisquare")    
-    chiSquare.ExperimentalData = expData    
-    chiSquare.NrOfModelParameters = 2  
-             
-    k1 = 1.3;  k2 = 2.5       
-    timeStart = 0;  timeEnd = 1.5 ;  nrPoints = 15
-             
-    eta = 6.0e-6
-    
-    H = np.matrix('0.0 0.0; 0.0 0.0')
-    #Diagonal elements
-    H[0,0] = getHessElement(1, 1, k1, k2, eta)
-    H[0,1] = getHessElement(1, 2, k1, k2, eta)    
-    H[1,0] = getHessElement(2, 1, k1, k2, eta)
-    H[1,1] = getHessElement(2, 2, k1, k2, eta)                                                                                         
-    
-    print 'The Hessian: \n' + `H`    
-    print '\nInverse Hessian \nH.' + `H.I`
-                                                    
-    print "done"
+#This does not look right.. but it works..
+expData = expData.readDataSeries('ExperimentalData.dat')   
+        
+test_model = 'two_parameters.xml'            
 
-except Exception as e:
-    print 'Problem: ' + `e`
+# Create a roadrunner instance and create some MODEL data
+rr = roadrunner.RoadRunner()
+rr.load(test_model)
+
+#Get chi square plugin and set it up
+chiSquare =  tel.Plugin("tel_chisquare")    
+chiSquare.ExperimentalData = expData    
+chiSquare.NrOfModelParameters = 2  
+         
+k1 = 1.3;  k2 = 2.5       
+timeStart = 0;  timeEnd = 1.5 ;  nrPoints = 15
+         
+eta = 6.0e-6
+
+H = np.matrix('0.0 0.0; 0.0 0.0')
+#Diagonal elements
+H[0,0] = getHessElement(1, 1, k1, k2, eta)
+H[0,1] = getHessElement(1, 2, k1, k2, eta)    
+H[1,0] = getHessElement(2, 1, k1, k2, eta)
+H[1,1] = getHessElement(2, 2, k1, k2, eta)                                                                                         
+
+print('The Hessian: \n', H) 
+print('\nInverse Hessian \nH.', H.I)
