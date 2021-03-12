@@ -1304,8 +1304,6 @@ double RoadRunner::steadyState(const Dictionary* dict) {
     // approximation are handled within solver (where they
     // can be properly tested)
     impl->steady_state_solver->solve();
-
-//    if (dict->hasKey(""))
 }
 
 
