@@ -3304,7 +3304,7 @@
     <member refid="classrr_1_1Solver_1a417cca64a18c63535f2091584f8fed91" kind="function"><name>getName</name></member>
     <member refid="classrr_1_1Solver_1a86067147c7631ca80d51667322f1a8f5" kind="function"><name>getDescription</name></member>
     <member refid="classrr_1_1Solver_1aff005f7e71bc73123ecbd511a77f71b6" kind="function"><name>getHint</name></member>
-    <member refid="classrr_1_1Solver_1ac12d82cf9d7f03ba39f82ae81ee0e168" kind="function"><name>getSettings</name></member>
+    <member refid="classrr_1_1Solver_1ac12d82cf9d7f03ba39f82ae81ee0e168" kind="function"><name>getSettingsKeys</name></member>
     <member refid="classrr_1_1Solver_1a71c8b404a40447f879b2253e7dcc3b85" kind="function"><name>resetSettings</name></member>
     <member refid="classrr_1_1Solver_1a773a06f0d64c9d79423efcef1b381da1" kind="function"><name>getValue</name></member>
     <member refid="classrr_1_1Solver_1a104f619f19529d57869310cd67fcc6d1" kind="function"><name>hasValue</name></member>

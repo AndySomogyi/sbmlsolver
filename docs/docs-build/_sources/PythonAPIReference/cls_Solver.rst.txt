@@ -73,7 +73,7 @@ _________________________
     :param str k: settings name
 
 
-.. method:: Solver.getSettings()
+.. method:: Solver.getSettingsKeys()
 
    Returns a list of all settings for this solver.
 

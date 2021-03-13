@@ -2138,7 +2138,7 @@
 <codeline lineno="1574"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="1575"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="rrc__macros_8h_1af21ae6629abfdec1764f2d56b2e11b6c" kindref="member">start_try</ref></highlight></codeline>
 <codeline lineno="1576"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classrr_1_1RoadRunner" kindref="compound">RoadRunner</ref>*<sp/>rri<sp/>=<sp/>castToRoadRunner(handle);</highlight></codeline>
-<codeline lineno="1577"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>vector&lt;std::string&gt;<sp/>keys<sp/>=<sp/>rri-&gt;getIntegrator()-&gt;getSettings();</highlight></codeline>
+<codeline lineno="1577"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>vector&lt;std::string&gt;<sp/>keys<sp/>=<sp/>rri-&gt;getIntegrator()-&gt;getSettingsKeys();</highlight></codeline>
 <codeline lineno="1578"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(keys.size());</highlight></codeline>
 <codeline lineno="1579"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="rrc__macros_8h_1a2d915135cd4d9ccf48a7784826e23774" kindref="member">catch_int_macro</ref></highlight></codeline>
 <codeline lineno="1580"><highlight class="normal">}</highlight></codeline>
@@ -2206,7 +2206,7 @@
 <codeline lineno="1642"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="1643"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="rrc__macros_8h_1af21ae6629abfdec1764f2d56b2e11b6c" kindref="member">start_try</ref></highlight></codeline>
 <codeline lineno="1644"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classrr_1_1RoadRunner" kindref="compound">RoadRunner</ref>*<sp/>rri<sp/>=<sp/>castToRoadRunner(handle);</highlight></codeline>
-<codeline lineno="1645"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classrr_1_1StringList" kindref="compound">StringList</ref><sp/>settingsList<sp/>=<sp/>rri-&gt;getIntegrator()-&gt;getSettings();</highlight></codeline>
+<codeline lineno="1645"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classrr_1_1StringList" kindref="compound">StringList</ref><sp/>settingsList<sp/>=<sp/>rri-&gt;getIntegrator()-&gt;getSettingsKeys();</highlight></codeline>
 <codeline lineno="1646"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>createList(settingsList);</highlight></codeline>
 <codeline lineno="1647"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="rrc__macros_8h_1a1ae943be35ee4f94f68c62328ba54869" kindref="member">catch_ptr_macro</ref></highlight></codeline>
 <codeline lineno="1648"><highlight class="normal">}</highlight></codeline>
@@ -3061,7 +3061,7 @@
 <codeline lineno="2497"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="2498"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="rrc__macros_8h_1af21ae6629abfdec1764f2d56b2e11b6c" kindref="member">start_try</ref></highlight></codeline>
 <codeline lineno="2499"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classrr_1_1RoadRunner" kindref="compound">RoadRunner</ref>*<sp/>rri<sp/>=<sp/>castToRoadRunner(handle);</highlight></codeline>
-<codeline lineno="2500"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>vector&lt;std::string&gt;<sp/>keys<sp/>=<sp/>rri-&gt;getSteadyStateSolver()-&gt;getSettings();</highlight></codeline>
+<codeline lineno="2500"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>vector&lt;std::string&gt;<sp/>keys<sp/>=<sp/>rri-&gt;getSteadyStateSolver()-&gt;getSettingsKeys();</highlight></codeline>
 <codeline lineno="2501"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(keys.size());</highlight></codeline>
 <codeline lineno="2502"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="rrc__macros_8h_1a2d915135cd4d9ccf48a7784826e23774" kindref="member">catch_int_macro</ref></highlight></codeline>
 <codeline lineno="2503"><highlight class="normal">}</highlight></codeline>
@@ -3160,7 +3160,7 @@
 <codeline lineno="2596"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="2597"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="rrc__macros_8h_1af21ae6629abfdec1764f2d56b2e11b6c" kindref="member">start_try</ref></highlight></codeline>
 <codeline lineno="2598"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classrr_1_1RoadRunner" kindref="compound">RoadRunner</ref>*<sp/>rri<sp/>=<sp/>castToRoadRunner(handle);</highlight></codeline>
-<codeline lineno="2599"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classrr_1_1StringList" kindref="compound">StringList</ref><sp/>settingsList<sp/>=<sp/>rri-&gt;getSteadyStateSolver()-&gt;getSettings();</highlight></codeline>
+<codeline lineno="2599"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classrr_1_1StringList" kindref="compound">StringList</ref><sp/>settingsList<sp/>=<sp/>rri-&gt;getSteadyStateSolver()-&gt;getSettingsKeys();</highlight></codeline>
 <codeline lineno="2600"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>createList(settingsList);</highlight></codeline>
 <codeline lineno="2601"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="rrc__macros_8h_1a1ae943be35ee4f94f68c62328ba54869" kindref="member">catch_ptr_macro</ref></highlight></codeline>
 <codeline lineno="2602"><highlight class="normal">}</highlight></codeline>

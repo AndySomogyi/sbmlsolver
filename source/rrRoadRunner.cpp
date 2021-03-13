@@ -43,6 +43,7 @@
 #include "llvm/LLVMExecutableModel.h"
 #include "llvm/ModelResources.h"
 #include "llvm/IR/IRBuilder.h"
+#include "PresimulationDecorator.h"
 
 #ifdef _MSC_VER
 #pragma warning(default: 4146)
@@ -371,6 +372,7 @@ public:
 		deleteAllSolvers();
 
         mInstanceCount--;
+        std::cout << "decrementing mInstanceCount to "<< mInstanceCount<<std::endl;
     }
 
     void deleteAllSolvers()
@@ -545,7 +547,6 @@ RoadRunner::RoadRunner(const std::string& uriOrSBML,
     //Increase instance count..
     mInstanceCount++;
     impl->mInstanceID = mInstanceCount;
-
 }
 
 
@@ -588,7 +589,7 @@ RoadRunner::RoadRunner(const RoadRunner& rr)
     for (size_t in = 0; in < rr.impl->integrators.size(); in++)
     {
         setIntegrator(rr.impl->integrators[in]->getName());
-        for (std::string k : rr.impl->integrators[in]->getSettings())
+        for (std::string k : rr.impl->integrators[in]->getSettingsKeys())
         {
             impl->integrator->setValue(k, rr.impl->integrators[in]->getValue(k));
         }
@@ -607,7 +608,7 @@ RoadRunner::RoadRunner(const RoadRunner& rr)
     for (size_t ss = 0; ss < rr.impl->integrators.size(); ss++)
     {
         setSteadyStateSolver(rr.impl->steady_state_solvers[ss]->getName());
-        for (std::string k : rr.impl->steady_state_solvers[ss]->getSettings())
+        for (std::string k : rr.impl->steady_state_solvers[ss]->getSettingsKeys())
         {
             impl->steady_state_solver->setValue(k, rr.impl->steady_state_solvers[ss]->getValue(k));
         }
@@ -621,6 +622,7 @@ RoadRunner::RoadRunner(const RoadRunner& rr)
     //Increase instance count..
     mInstanceCount++;
     impl->mInstanceID = mInstanceCount;
+
 }
 
 RoadRunner::~RoadRunner()
@@ -1268,6 +1270,8 @@ double RoadRunner::steadyState(const Dictionary* dict) {
         throw CoreException(gEmptyModelMessage);
     }
 
+    // todo move this logic to another decorator
+    //
     // check for singular jacobian
     if (!impl->loadOpt.getConservedMoietyConversion()) {
         ls::DoubleMatrix fullJ = getFullJacobian();
@@ -1300,10 +1304,22 @@ double RoadRunner::steadyState(const Dictionary* dict) {
         throw std::runtime_error("No steady state solver");
     }
 
-    // All relevant options such as presimulation and
-    // approximation are handled within solver (where they
-    // can be properly tested)
-    impl->steady_state_solver->solve();
+    if (!impl->steady_state_solver->getValueAsBool("allow_presimulation")){
+        SteadyStateSolverDecorator solverDecorator(impl->steady_state_solver);
+        *impl->steady_state_solver = solverDecorator;
+    } else {
+        PresimulationDecorator presimulation(impl->steady_state_solver);
+        *impl->steady_state_solver = presimulation;
+    }
+
+    double ss = impl->steady_state_solver->solve();
+
+
+    // Cast back to original type before return
+    //
+    return ss;
+
+
 }
 
 
@@ -5356,7 +5372,7 @@ void RoadRunner::saveState(std::string filename, char opt)
 			rr::saveBinary(out, impl->integrator->getName());
 			rr::saveBinary(out, static_cast<unsigned long>(impl->integrator->getNumParams()));
 
-			for (std::string k : impl->integrator->getSettings())
+			for (std::string k : impl->integrator->getSettingsKeys())
 			{
 				rr::saveBinary(out, k);
 				rr::saveBinary(out, impl->integrator->getValue(k));
@@ -5365,7 +5381,7 @@ void RoadRunner::saveState(std::string filename, char opt)
 			rr::saveBinary(out, impl->steady_state_solver->getName());
 			rr::saveBinary(out, static_cast<unsigned long>(impl->steady_state_solver->getNumParams()));
 
-			for (std::string k : impl->steady_state_solver->getSettings())
+			for (std::string k : impl->steady_state_solver->getSettingsKeys())
 			{
 				rr::saveBinary(out, k);
 				rr::saveBinary(out, impl->steady_state_solver->getValue(k));

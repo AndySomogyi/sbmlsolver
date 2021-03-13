@@ -19,9 +19,9 @@ key value for generating a sequence of numbers. This means that when a seed is g
 regenerate identical sequence of numbers from random number generator. This might be desireable for reproducibility
 perposes but undesireable for multiple iterations of random number creation.
 
-By using :meth:`~roadrunner.Solver.getSettings`, you can check settings accepted by Gillespie solver.
+By using :meth:`~roadrunner.Solver.getSettingsKeys`, you can check settings accepted by Gillespie solver.
 
-     >>>  rr.getIntegrator().getSettings()
+     >>>  rr.getIntegrator().getSettingsKeys()
      ('seed',
       'variable_step_size',
       'initial_time_step',

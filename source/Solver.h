@@ -44,7 +44,7 @@ namespace rr
 
         explicit Solver(ExecutableModel* model);
 
-        virtual ~Solver() = default;;
+        virtual ~Solver() = default;
 
         /**
         * @author JKM
@@ -74,8 +74,19 @@ namespace rr
         /**
         * @author JKM
         * @brief Get a list of all settings for this solver
+        * @details In an earlier version of roadrunner this
+        * method was called Solver::getSettings.
+        * @see Solver::getSettings
         */
-        std::vector<std::string> getSettings() const;
+        std::vector<std::string> getSettingsKeys() const;
+
+        /**
+         * @brief get settings for this solver
+         * @return mapping of keys which are setting names
+         * to values stored as Variants.
+         * @see getSettingsKeys for
+         */
+        std::unordered_map<std::string, Variant>& getSettings();
 
         /**
         * @author JKM
@@ -243,6 +254,11 @@ namespace rr
         * @brief Gets the type associated with a given key
         */
         Variant::TypeId getType(const std::string& key) const;
+
+        /**
+         * @brief returns the pointer to the ExecutableModel
+         */
+        virtual ExecutableModel *getModel() const;
 
     protected:
         typedef std::vector<std::string> SettingsList;

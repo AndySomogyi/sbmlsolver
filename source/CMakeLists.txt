@@ -82,6 +82,8 @@ set(
         KinsolErrHandler.cpp
         SVD.cpp
         Presimulation.cpp
+        SteadyStateSolverDecorator.cpp
+        PresimulationDecorator.cpp
 
         conservation/ConservationExtension.cpp
         conservation/ConservationDocumentPlugin.cpp
@@ -145,6 +147,8 @@ set(
         NewtonIteration.h
         SVD.h
         Presimulation.h
+        SteadyStateSolverDecorator.h
+        PresimulationDecorator.h
 )
 install(FILES ${rrCoreHeaders} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/rr)
 

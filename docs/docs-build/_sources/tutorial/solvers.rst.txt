@@ -69,7 +69,7 @@ Also, if you find yourself switching back and forth between integrators a lot, y
 
 The other type of solver is a steady-state solver, which works in essentially the same way:
 
-  >>>  r.getSteadyStateSolver().getSettings()
+  >>>  r.getSteadyStateSolver().getSettingsKeys()
   ('maximum_iterations',
   'minimum_damping',
   'relative_tolerance')

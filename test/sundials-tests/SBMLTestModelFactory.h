@@ -377,7 +377,7 @@ public:
     ...:  end
     ...:  """)
  */
-class OpenLinearFlux : public SBMLTestModel, SteadyStateResult {
+class OpenLinearFlux : public SBMLTestModel, SteadyStateResult, TimeSeriesResult {
 public:
     std::string str() override {
         return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
@@ -447,9 +447,16 @@ public:
         return ResultMap({
                                  {"S1", DoublePair(0, 10)},
                                  {"S2", DoublePair(0, 5)},
-//                                 {"S1", DoublePair(3.93469, 10)},
-//                                 {"S2", DoublePair(0.774092, 5)},
+//                                 {"S1", DoublePair(6.32121, 10)},
+//                                 {"S2", DoublePair(1.99788, 5)},
                          });
+    }
+
+    ResultMap stateVectorAtT10() override{
+        return ResultMap {
+                {"S1",DoublePair (0, 6.32121)},
+                {"S2", DoublePair(0, 1.99788)}
+        };
     }
 
     std::string modelName() override {
@@ -458,7 +465,7 @@ public:
 
     std::unordered_map<std::string, rr::Variant> settings() override {
         return std::unordered_map<std::string, rr::Variant>{
-                {"allow_presimulation", false},
+                {"allow_presimulation", true},
                 {"presimulation_time",  5}
         };
     }

@@ -21,6 +21,10 @@ namespace rr {
         NewtonIteration::resetSettings();
     }
 
+    NewtonIteration::~NewtonIteration() {
+        NewtonIteration::freeKinsol();
+    }
+
     void NewtonIteration::createKinsol() {
         int err;
 
@@ -117,6 +121,7 @@ namespace rr {
 
             };
         }
+        free(flagName);
 
         getSolverStatsFromKinsol();
 
@@ -174,5 +179,6 @@ namespace rr {
     std::string NewtonIteration::getNewtonIterationHint() {
         return "Newton Iteration";
     }
+
 
 }

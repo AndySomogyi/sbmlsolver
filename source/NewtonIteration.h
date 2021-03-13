@@ -16,7 +16,7 @@ namespace rr {
 
     public:
 
-        ~NewtonIteration() override = default;
+        ~NewtonIteration() override ;
 
         explicit NewtonIteration(ExecutableModel *executableModel);
 

@@ -17,7 +17,7 @@ namespace rr {
 
         // configure any relevant options
         if (options) {
-            const std::vector<std::string> &settings = integrator.getSettings();
+            const std::vector<std::string> &settings = integrator.getSettingsKeys();
             for (auto &setting: settings) {
                 if (options->hasKey(setting)) {
                     integrator.setValue(setting, options->getItem(setting));

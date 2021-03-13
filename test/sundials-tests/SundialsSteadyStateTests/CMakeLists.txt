@@ -6,6 +6,7 @@ add_test_executable(NewtonIterationIntegrationTests test_targets NewtonIteration
 add_test_executable(NewtonIterationUnitTests test_targets NewtonIterationUnitTests.cpp)
 add_test_executable(SVDTests test_targets SVDTests.cpp)
 add_test_executable(PresimulationTests test_targets PresimulationTests.cpp)
+add_test_executable(DecoratorTests test_targets PresimulationDecoratorTests.cpp)
 
 
 

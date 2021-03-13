@@ -21,7 +21,7 @@ perposes but undesireable for multiple iterations of random number creation.
 
 By using :meth:`~roadrunner.Solver.getSettings`, you can check settings accepted by Gillespie solver.
 
-     >>>  rr.getIntegrator().getSettings()
+     >>>  rr.getIntegrator().getSettingsKeys()
      ('seed',
       'variable_step_size',
       'initial_time_step',

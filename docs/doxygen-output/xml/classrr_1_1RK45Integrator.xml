@@ -603,7 +603,7 @@ Integrates the model from t to t + h.  Attempts to find the state vector at t + 
       <member refid="classrr_1_1RK45Integrator_1a4540762ed7dca923baa3849f25c4a88f" prot="public" virt="non-virtual"><scope>rr::RK45Integrator</scope><name>getRK45Description</name></member>
       <member refid="classrr_1_1RK45Integrator_1a0adfabeb7354eb4b364106b30d7b91e1" prot="public" virt="non-virtual"><scope>rr::RK45Integrator</scope><name>getRK45Hint</name></member>
       <member refid="classrr_1_1RK45Integrator_1a79b1afc7612cb7646fa288dea1425655" prot="public" virt="non-virtual"><scope>rr::RK45Integrator</scope><name>getRK45Name</name></member>
-      <member refid="classrr_1_1Solver_1ac12d82cf9d7f03ba39f82ae81ee0e168" prot="public" virt="non-virtual"><scope>rr::RK45Integrator</scope><name>getSettings</name></member>
+      <member refid="classrr_1_1Solver_1ac12d82cf9d7f03ba39f82ae81ee0e168" prot="public" virt="non-virtual"><scope>rr::RK45Integrator</scope><name>getSettingsKeys</name></member>
       <member refid="classrr_1_1Solver_1a3f7a3671a4f2ee508fa015ed4b164213" prot="public" virt="non-virtual"><scope>rr::RK45Integrator</scope><name>getSettingsRepr</name></member>
       <member refid="classrr_1_1Solver_1a20add37bbd73f50d14047171f5f8e921" prot="public" virt="non-virtual"><scope>rr::RK45Integrator</scope><name>getType</name></member>
       <member refid="classrr_1_1RK45Integrator_1a00de0a531065bed24f6a31e68194bb39" prot="public" virt="virtual"><scope>rr::RK45Integrator</scope><name>getValue</name></member>

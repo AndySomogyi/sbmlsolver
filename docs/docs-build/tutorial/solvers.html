@@ -213,8 +213,8 @@ RoadRunner supports Runge-Kutta-Fehlberg Method (‘rkf45’) as well as a stoch
 </pre></div>
 </div>
 <p>Some integrators, such as CVODE, have parameters which can be set by the user.
-To see a list of these settings, use <code class="xref py py-meth docutils literal notranslate"><span class="pre">getSettings()</span></code> on an integrator instance:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span> <span class="n">r</span><span class="o">.</span><span class="n">getIntegrator</span><span class="p">()</span><span class="o">.</span><span class="n">getSettings</span><span class="p">()</span>
+To see a list of these settings, use <code class="xref py py-meth docutils literal notranslate"><span class="pre">getSettingsKeys()</span></code> on an integrator instance:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span> <span class="n">r</span><span class="o">.</span><span class="n">getIntegrator</span><span class="p">()</span><span class="o">.</span><span class="n">getSettingsKeys</span><span class="p">()</span>
 <span class="go">(&#39;relative_tolerance&#39;,</span>
 <span class="go">&#39;absolute_tolerance&#39;,</span>
 <span class="go">&#39;stiff&#39;,</span>
@@ -257,7 +257,7 @@ you can use <code class="xref py py-meth docutils literal notranslate"><span cla
 </pre></div>
 </div>
 <p>The other type of solver is a steady-state solver, which works in essentially the same way:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span> <span class="n">r</span><span class="o">.</span><span class="n">getSteadyStateSolver</span><span class="p">()</span><span class="o">.</span><span class="n">getSettings</span><span class="p">()</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span> <span class="n">r</span><span class="o">.</span><span class="n">getSteadyStateSolver</span><span class="p">()</span><span class="o">.</span><span class="n">getSettingsKeys</span><span class="p">()</span>
 <span class="go">(&#39;maximum_iterations&#39;,</span>
 <span class="go">&#39;minimum_damping&#39;,</span>
 <span class="go">&#39;relative_tolerance&#39;)</span>

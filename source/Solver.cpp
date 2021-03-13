@@ -34,8 +34,9 @@ namespace rr
         descriptions[name] = std::move(description);
     }
 
-    void Solver::updateSettings(Dictionary * inputSettings){
-        const std::vector<std::string>& thisSolversSettings = getSettings();
+    void Solver::updateSettings(Dictionary * inputSettings)
+    {
+        const std::vector<std::string>& thisSolversSettings = getSettingsKeys();
         for (const auto& setting: thisSolversSettings){
             if (inputSettings->hasKey(setting)){
                 setValue(setting, inputSettings->getItem(setting));
@@ -43,8 +44,12 @@ namespace rr
         }
     }
 
-    // todo refactor this misleading method so that it is called "getSettingKeys"
-    std::vector<std::string> Solver::getSettings() const
+    std::unordered_map<std::string, Variant>& Solver::getSettings()
+    {
+        return settings;
+    }
+
+    std::vector<std::string> Solver::getSettingsKeys() const
     {
         std::vector<std::string> keys;
         for (const auto & sorted_setting : sorted_settings)
@@ -235,6 +240,13 @@ namespace rr
         std::stringstream ss;
         ss << "< roadrunner.Solver() \"" << getName() << "\" " << settingsPyDictRepr() << " >\n";
         return ss.str();
+    }
+
+    ExecutableModel *Solver::getModel() const {
+        if (!mModel){
+            throw NullPointerException("Solver::getModel(): mModel pointer is null");
+        }
+        return mModel;
     }
 }
 

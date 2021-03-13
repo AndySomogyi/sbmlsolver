@@ -18,12 +18,12 @@ public:
 
     // we introduce this test dependency (in the absence of mocking).
     // These unit tests are tightly coupled to this model.
-    std::unique_ptr<SBMLTestModel> testModelPtr = SBMLTestModelFactory("OpenLinearFlux");
-    std::unique_ptr<OpenLinearFlux> testModel;
+    std::unique_ptr<SBMLTestModel> testModelPtr = SBMLTestModelFactory("SimpleFluxManuallyReduced");
+    std::unique_ptr<SimpleFluxManuallyReduced> testModel;
 
 
     NewtonIterationUnitTests() {
-        testModel = std::unique_ptr<OpenLinearFlux>(dynamic_cast<OpenLinearFlux*>(testModelPtr.release()));
+        testModel = std::unique_ptr<SimpleFluxManuallyReduced>(dynamic_cast<SimpleFluxManuallyReduced*>(testModelPtr.release()));
         rr.load(testModel->str()); // load our sbml
     };
 
@@ -41,13 +41,13 @@ public:
 };
 
 
-TEST_F(NewtonIterationUnitTests, solve) {
+TEST_F(NewtonIterationUnitTests, SolveUsingSolverDirectly) {
     NewtonIteration solver(rr.getModel());
     solver.solve();
     checkResults(rr.getFloatingSpeciesConcentrationsNamedArray());
 }
 
-TEST_F(NewtonIterationUnitTests, CheckWeCanChangeAndResetSettings) {
+TEST_F(NewtonIterationUnitTests, ChangeAndResetSettings) {
     NewtonIteration solver(rr.getModel());
     solver.setValue("strategy", Variant("linesearch"));
     solver.resetSettings();
@@ -55,14 +55,14 @@ TEST_F(NewtonIterationUnitTests, CheckWeCanChangeAndResetSettings) {
 }
 
 
-TEST_F(NewtonIterationUnitTests, CheckWeCanRegenerateTheModelBeforeCreatingSolver) {
+TEST_F(NewtonIterationUnitTests, RegenerateTheModelBeforeCreatingSolver) {
     rr.regenerate();
     NewtonIteration solver(rr.getModel());
     solver.solve();
     checkResults(rr.getFloatingSpeciesConcentrationsNamedArray());
 }
 
-TEST_F(NewtonIterationUnitTests, CheckWeCanRegenerateTheModelAfterCreatingSolver) {
+TEST_F(NewtonIterationUnitTests, RegenerateTheModelAfterCreatingSolver) {
     NewtonIteration solver(rr.getModel());
     rr.regenerate();
     // after regeneration, the pointer to the model is different
@@ -72,23 +72,9 @@ TEST_F(NewtonIterationUnitTests, CheckWeCanRegenerateTheModelAfterCreatingSolver
     checkResults(rr.getFloatingSpeciesConcentrationsNamedArray());
 }
 
-//TEST_F(NewtonIterationUnitTests, TestPresimulation) {
-//    ls::DoubleMatrix before = rr.getFloatingSpeciesConcentrationsNamedArray();
-//    Presimulation presimulation(rr.getModel(), 10, 1000, false);
-//    presimulation.simulate();
-//    ls::DoubleMatrix after = rr.getFloatingSpeciesConcentrationsNamedArray();
-//    // it is the domain of CVODEIntegrator tests to ensure model
-//    // is integrated correctly. Here, we only care that state vector
-//    // before and after are different.
-//
-//    // No equality operators in ls::DoubleMatrix so we need to do it ourselves. Sad face =[
-//    for (int i = 0; i < before.numRows(); i++) {
-//        for (int j = 0; j < before.numCols(); j++) {
-//            std::cout << "comparing before: " << before(i, j) << " to after: " << after(i, j) << std::endl;
-//            ASSERT_NE(before(i, j), after(i, j));
-//        }
-//    }
-//}
+
+
+
 
 /**
  * Tests each of the settings can be changed
