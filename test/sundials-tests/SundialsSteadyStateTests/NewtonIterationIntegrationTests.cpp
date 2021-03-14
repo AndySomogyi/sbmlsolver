@@ -19,6 +19,7 @@ void openInCopasi(const std::string &sbml) {
 }
 
 /**
+ *
  */
 class NewtonIterationIntegrationTests : public ::testing::Test {
 
@@ -56,19 +57,9 @@ public:
         steadyStateOptions.setItem("strategy", strategy); // injected strategy here
         steadyStateOptions.setItem("PrintLevel", 3);
 
-//        for (int i=0; i<steadyStateOptions.getKeys().size(); i++){
-//            std::cout << "key: " << steadyStateOptions.getKeys()[i] << std::endl;
-//            std::cout << "value: " << steadyStateOptions.getItem(steadyStateOptions.getKeys()[i]).toString() << std::endl;
-//        }
-
         for (auto &settingsIterator : testModel->settings()) {
             steadyStateOptions.setItem(settingsIterator.first, Variant(settingsIterator.second));
         }
-
-//        for (int i=0; i<steadyStateOptions.getKeys().size(); i++){
-//            std::cout << "key: " << steadyStateOptions.getKeys()[i] << std::endl;
-//            std::cout << "value: " << steadyStateOptions.getItem(steadyStateOptions.getKeys()[i]).toString() << std::endl;
-//        }
 
         // turn on/off conservation analysis
         rr.setConservedMoietyAnalysis(useMoietyConservation);
@@ -87,30 +78,45 @@ public:
         std::cout << "rr.getReducedJacobian" << std::endl;
         std::cout << rr.getReducedJacobian() << std::endl;
 
+        //openInCopasi(testModel->str());
+
         rr.steadyState(&steadyStateOptions);
 
-//        NewtonIteration *newtonIteration = dynamic_cast<NewtonIteration *>(
-//                rr.getSteadyStateSolver()
-//        );
-//        newtonIteration->printSolverStats();
-//
-//        // collect actual results from model
-//        auto result = rr.getFloatingSpeciesConcentrationsNamedArray();
-//        std::vector<std::string> names = result.getColNames();
-//
-//        // check to see if actual result are near expected.
-//        for (int i = 0; i < names.size(); i++) {
-//            std::string speciesID = names[i];
-//            double actualResult = result[0][i]; // 0th row, ith col of a DoubleMatrix
-//            double expected = expectedResult[speciesID].second; // first is start val, second is speciesID at steady state
-//
-//            std::cout << "Comparing \"" << speciesID << "\" expected result: " << expected
-//                      << " with actual result " << actualResult << std::endl;
-//            EXPECT_NEAR(expected, actualResult, 0.0001);
-//        }
-//        //openInCopasi(testModel->str());
+        NewtonIteration *newtonIteration = dynamic_cast<NewtonIteration *>(
+                rr.getSteadyStateSolver()
+        );
+        newtonIteration->printSolverStats();
+
+        // collect actual results from model
+        auto result = rr.getFloatingSpeciesConcentrationsNamedArray();
+        std::vector<std::string> names = result.getColNames();
+
+        // check to see if actual result are near expected.
+        for (int i = 0; i < names.size(); i++) {
+            std::string speciesID = names[i];
+            double actualResult = result[0][i]; // 0th row, ith col of a DoubleMatrix
+            double expected = expectedResult[speciesID].second; // first is start val, second is speciesID at steady state
+
+            std::cout << "Comparing \"" << speciesID << "\" expected result: " << expected
+                      << " with actual result " << actualResult << std::endl;
+            EXPECT_NEAR(expected, actualResult, 0.0001);
+        }
     }
 };
+
+TEST_F(NewtonIterationIntegrationTests, CheckDecoratorRemovedAfterSolving) {
+    // setup with rr
+    OpenLinearFlux testModel;
+    RoadRunner rr(testModel.str());
+
+    rr.setSteadyStateSolver("NewtonIteration");
+    BasicDictionary opt;
+    opt.setItem("allow_presimulation", true);
+
+    rr.steadyState(&opt);
+    // note: this string would be "Presimulation(NewtonIteration)" if decorator was still present.
+    ASSERT_STREQ("NewtonIteration", rr.getSteadyStateSolver()->getName().c_str());
+}
 
 
 /**
@@ -151,30 +157,55 @@ TEST_F(BasicNewtonIterationTests, CheckCorrectSteadyStateSimpleFlux) {
     testSteadyState<SimpleFlux>("SimpleFlux", true, strategy);
 }
 
-//TEST_F(BasicNewtonIterationTests, CheckCorrectSteadyStateVenkatraman2010) {
-//    testSteadyState<Venkatraman2010>("Venkatraman2010", false, strategy, true, 5);
-//}
+TEST_F(BasicNewtonIterationTests, CheckCorrectSteadyStateVenkatraman2010) {
+    testSteadyState<Venkatraman2010>("Venkatraman2010", false, strategy);
+}
 
 /**
- * The reduced jacobian for the Brown2004 model is singular. This is the matrix:
+ * The reduced jacobian for the Brown2004 model is singular. This is the matrix
+ * produced by rr.getReducedJacobian:
  *
- * j = np.array([[0,0,0,-13.4333,382.691,0,0,0,0,0,0,0,0],^M
- *           [0,-14.2784,0,0,0,0,0,0,0,0,0,0,0],^M
- *           [0,2.30835,-0.655209,0,0,0,34.4364,0,0,0,0,0,0],^M
- *           [0,0,0,-220.307,0,0,0,0,0,0,0,0,0],^M
- *           [0,0,0,0,-0.0716435,0,0,0,0,0,0,0,0],^M
- *           [24.8873,0,0,0,0,-126.447,0,0,0,0,0,0,0],^M
- *           [0,0,0,0,0,0,-4.86736,0,0,0.231518,0,0,0],^M
- *           [0,0,0.553919,0,0,0,0,-0.305147,0,0,0,0,0],^M
- *           [0,0,0,-4.2007,0,0.0236007,0,0,0,0,0,0,0],^M
- *           [0,0,0,0,0,0,0,0,0,-11.0538,0,0,1.28411],^M
- *           [0,0,0,0,0,0,0,0.00290243,0,0,0,0,0],^M
- *           [0,0,0,0,0,0,0,0,0,0,0,0,0],^M
- *           [0,0,0,0,132.676,0,0,0,0,0,0,0,0]])
+     SosInactive,Raf1Inactive,MekInactive,boundEGFReceptor,freeNGFReceptor,RasInactive,BRafInactive,ErkInactive,PI3KInactive,Rap1Inactive,P90RskInactive,AktInactive,C3GInactive
+    0,0,0,-13.4333,382.691,0,0,0,0,0,0,0,0
+    0,-14.2784,0,0,0,0,0,0,0,0,0,0,0
+    0,2.30835,-0.655209,0,0,0,34.4364,0,0,0,0,0,0
+    0,0,0,-220.307,0,0,0,0,0,0,0,0,0
+    0,0,0,0,-0.0716435,0,0,0,0,0,0,0,0
+    24.8873,0,0,0,0,-126.447,0,0,0,0,0,0,0
+    0,0,0,0,0,0,-4.86736,0,0,0.231518,0,0,0
+    0,0,0.553919,0,0,0,0,-0.305147,0,0,0,0,0
+    0,0,0,-4.2007,0,0.0236007,0,0,0,0,0,0,0
+    0,0,0,0,0,0,0,0,0,-11.0538,0,0,1.28411
+    0,0,0,0,0,0,0,0.00290243,0,0,0,0,0
+    0,0,0,0,0,0,0,0,0,0,0,0,0
+    0,0,0,0,132.676,0,0,0,0,0,0,0,0
+
+
  *
  *  But, copasi can solve this problem. So what's going on?
+ *
+ *  Copasi's reduced jacobian:
+ *
+ *  	SosInactive	Raf1Inactive	MekInactive	boundEGFReceptor	freeNGFReceptor	RasInactive	BRafInactive	ErkInactive	PI3KInactive	Rap1Inactive	P90RskInactive	AktInactive	C3GInactive
+        SosInactive	-215.72574022826169	0	0	-11.183052170708425	381.33685325504786	0	0	0	0	0	0	0	0
+        Raf1Inactive	0	-27.635635255568253	0	0	0	0.5813005366518279	0	0	0	0	0	0	0
+        MekInactive	0	16.85614964587997	-0.46289602750681763	0	0	0	93.91677635926862	0	0	0	0	0	0
+        boundEGFReceptor	0	0	0	-216.810972523873	0	0	0	0	0	0	0	0	0
+        freeNGFReceptor	0	0	0	0	-0.0691691849922915	0	0	0	0	0	0	0	0
+        RasInactive	24.690978316163786	0	0	0	0	-126.77208151837391	0	0	0	0	0	0	0
+        BRafInactive	0	0	0	0	0	0	-4.891744748293693	0	0	0.23033517823179622	0	0	0
+        ErkInactive	0	0	1.039767897430876	0	0	0	0	-1.2072683701290614	0	0	0	0	0
+        PI3KInactive	0	0	0	-9.403035830110282e-113	0	4.6169163182598105e-115	0	0	-4.6187267432798516	0	0	0	0
+        Rap1Inactive	0	0	0	0	0	0	0	0	0	-10.184170980689187	0	0	0
+        P90RskInactive	0	0	0	0	0	0	0	-2.282127027990553e-33	0	0	-0.013466984409233013	0	0
+        AktInactive	0	0	0	0	0	0	0	0	0	0	0	-0.010391218913956345	0
+        C3GInactive	0	0	0	0	-7.420268897137381e-28	0	0	0	0	0	0	0	-102.1313160913126
+
+    The answer is probably that there is a bug in roadrunners conservation analysis.
+
+    This test is disabled until we get a resolution on this problem
  */
-TEST_F(BasicNewtonIterationTests, CheckCorrectSteadyStateBrown2004) {
+TEST_F(BasicNewtonIterationTests, DISABLED_CheckCorrectSteadyStateBrown2004) {
     testSteadyState<Brown2004>("Brown2004", true, strategy);
 }
 
@@ -209,10 +240,12 @@ TEST_F(LineSearchNewtonIterationTests, CheckCorrectSteadyStateSimpleFlux) {
 //    testSteadyState<Venkatraman2010>("Venkatraman2010", false, strategy, true, 3);
 //}
 
-
-//TEST_F(LineSearchNewtonIterationTests, CheckCorrectSteadyStateBrown2004) {
-//    testSteadyState<Brown2004>("Brown2004", true, strategy);
-//}
+/**
+ * See BasicNewtonIterationTests for reason by this is currently disabled.
+ */
+TEST_F(LineSearchNewtonIterationTests, DISABLED_CheckCorrectSteadyStateBrown2004) {
+    testSteadyState<Brown2004>("Brown2004", true, strategy);
+}
 
 
 

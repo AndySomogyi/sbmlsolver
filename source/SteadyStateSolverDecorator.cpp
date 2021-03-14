@@ -20,19 +20,23 @@ namespace rr {
     }
 
     std::string SteadyStateSolverDecorator::getName() const {
-        return solver_->getName();
+        return decoratorName() + "(" + solver_->getName() + ")";
     }
 
     std::string SteadyStateSolverDecorator::getDescription() const {
-        return solver_->getDescription();
+        return decoratorName() + "(" + solver_->getDescription() + ")";
     }
 
     std::string SteadyStateSolverDecorator::getHint() const {
-        return solver_->getHint();
+        return decoratorName() + "(" + solver_->getHint() + ")";
     }
 
     void SteadyStateSolverDecorator::resetSettings()  {
         return solver_->resetSettings();
+    }
+
+    std::string SteadyStateSolverDecorator::decoratorName() const {
+        return "SteadyStateSolverDecorator";
     }
 
 }

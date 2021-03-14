@@ -149,9 +149,5 @@ namespace rr {
         SteadyStateSolver::setValue("approx_time", Config::getDouble(Config::STEADYSTATE_APPROX_TIME));
     }
 
-    void SteadyStateSolver::presimulate() {
-
-    }
-
 
 }

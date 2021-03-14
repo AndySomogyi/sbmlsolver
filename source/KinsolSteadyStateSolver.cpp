@@ -128,9 +128,6 @@ namespace rr {
                    "Ensures non-negative results",
                    "(bool)Constrains the problem such that all values are non-negative at all times");
 
-        desc = "When presimulation is set to true, use stiff solver for integration. No effect otherwise.";
-        addSetting("stiff", false, "Stiff integrator", desc, desc);
-
         desc = "Kinsol logger level. Default=0, no additional output. Max=3.";
         addSetting("print_level", 0, "Kinsol Print Level", desc, desc);
 
@@ -192,6 +189,8 @@ namespace rr {
                "is used in the difference quotient approximation to the Jacobian matrix. "
                "Set to 0 for default which equals U = unit roundoff.";
         addSetting("rel_err_func", 0, "Relative Error Function", desc, desc);
+
+
 
     }
 

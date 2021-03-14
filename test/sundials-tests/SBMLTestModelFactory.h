@@ -452,9 +452,9 @@ public:
                          });
     }
 
-    ResultMap stateVectorAtT10() override{
-        return ResultMap {
-                {"S1",DoublePair (0, 6.32121)},
+    ResultMap stateVectorAtT10() override {
+        return ResultMap{
+                {"S1", DoublePair(0, 6.32121)},
                 {"S2", DoublePair(0, 1.99788)}
         };
     }
@@ -1002,15 +1002,24 @@ public:
 
     ResultMap steadyState() override {
         return ResultMap{
-                {"scUPA", DoublePair(10, 0.00010036488071501325)},
-                {"PLG",   DoublePair(10, 0.03571790894678159)},
-                {"PLS",   DoublePair(10, 0.9642820910532185)},
-                {"tcUPA", DoublePair(10, 0.8998996351192852)}
+//                {"scUPA", DoublePair(10, 0.00010036488071501325)},
+//                {"PLG",   DoublePair(10, 0.03571790894678159)},
+//                {"PLS",   DoublePair(10, 0.9642820910532185)},
+//                {"tcUPA", DoublePair(10, 0.8998996351192852)}
+
+                {"scUPA", DoublePair(2.2e-6, 0.00010036488071501325)},
+                {"PLG",   DoublePair(0.002, 0.03571790894678159)},
+                {"PLS",   DoublePair(3.54, 0.9642820910532185)},
+                {"tcUPA", DoublePair(16.52, 0.8998996351192852)}
         };
     }
 
     std::unordered_map<std::string, rr::Variant> settings() override {
-        return std::unordered_map<std::string, rr::Variant>();
+        return std::unordered_map<std::string, rr::Variant>(
+                {
+                        {"allow_presimulation", true},
+                        {"presimulation_time", 100000},
+                });
     }
 
 };
@@ -1961,7 +1970,7 @@ public:
     std::unordered_map<std::string, rr::Variant> settings() override {
         return std::unordered_map<std::string, rr::Variant>{
                 {"allow_presimulation", true},
-                {"presimulation_time",  10}
+                {"presimulation_time",  10000}
         };
     }
 

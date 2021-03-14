@@ -20,31 +20,31 @@ namespace rr {
      * todo should the right now the error just goes to the logger.
      *  but should we throw instead?
      */
-    std::string decodeKinsolError(int cvodeError) {
+    std::string decodeKinsolError(int errCode) {
         std::ostringstream errMsg;
 
-        switch (cvodeError) {
+        char* errorString = KINGetReturnFlagName(errCode);
+        errMsg << errorString << ":";
+
+        switch (errCode) {
             case KIN_MEM_NULL: {
-                errMsg << "KIN_MEM_NULL: The kinsol memory block was not initialized through a "
+                errMsg << ": The kinsol memory block was not initialized through a "
                           "previous call to KINCreate." << std::endl;
                 break;
             }
             case KIN_ILL_INPUT: {
-                errMsg << "KIN_ILL_INPUT: An input argument to KINInit has an illegal value" << std::endl;
+                errMsg << ": An input argument to KINInit has an illegal value" << std::endl;
                 break;
             }
             case KIN_NO_MALLOC: {
-                errMsg << "KIN_NO_MALLOC: ";
                 errMsg << "The kinsol memory was not allocated by a call to KINCreate." << std::endl;
                 break;
             }
             case KIN_MEM_FAIL: {
-                errMsg << "KIN_MEM_FAIL: ";
                 errMsg << "A memory allocation request has failed." << std::endl;
                 break;
             }
             case KIN_LINESEARCH_NONCONV: {
-                errMsg << "KIN_LINESEARCH_NONCONV: ";
                 errMsg << "The line search algorithm was unable to find an iterate suffciently distinct from the "
                           "current iterate, or could not find an iterate satisfying the suffcient decrease condition. "
                           "Failure to satisfy the suffcient decrease condition could mean the current iterate "
@@ -54,12 +54,10 @@ namespace rr {
                 break;
             }
             case KIN_MAXITER_REACHED: {
-                errMsg << "KIN_MAXITER_REACHED: ";
                 errMsg << "The maximum number of nonlinear iterations has been reached." << std::endl;
                 break;
             }
             case KIN_MXNEWT_5X_EXCEEDED: {
-                errMsg << "KIN_MXNEWT_5X_EXCEEDED: ";
                 errMsg << "Five consecutive steps have been taken that satisfy the inequality kDupkL2 > 0:99 "
                           "mxnewtstep, where p denotes the current step and mxnewtstep is a scalar upper "
                           "bound on the scaled step length. Such a failure may mean that kDFF(u)kL2 asymptotes "
@@ -68,26 +66,22 @@ namespace rr {
                 break;
             }
             case KIN_LINESEARCH_BCFAIL: {
-                errMsg << "KIN_LINESEARCH_BCFAIL: ";
                 errMsg << "The line search algorithm was unable to satisfy the \\beta-condition\" for MXNBCF +1 "
                           "nonlinear iterations (not necessarily consecutive), which may indicate the algorithm "
                           "is making poor progress." << std::endl;
                 break;
             }
             case KIN_LINSOLV_NO_RECOVERY: {
-                errMsg << "KIN_LINSOLV_NO_RECOVERY: ";
                 errMsg
                         << "The user-supplied routine psolve encountered a recoverable error, but the preconditioner "
                            "is already current." << std::endl;
                 break;
             }
             case KIN_LINIT_FAIL: {
-                errMsg << "KIN_LINIT_FAIL: ";
                 errMsg << "The kinls initialization routine (linit) encountered an error." << std::endl;
                 break;
             }
             case KIN_LSETUP_FAIL: {
-                errMsg << "KIN_LSETUP_FAIL: ";
                 errMsg << "The kinls setup routine (lsetup) encountered an error; e.g., the user-supplied routine "
                           "pset (used to set up the preconditioner data) encountered an unrecoverable error. It is possible "
                           "that the jacobian for your system is singular. If not already, set conservedMoietyAnalysis = true"
@@ -95,35 +89,31 @@ namespace rr {
                 break;
             }
             case KIN_LSOLVE_FAIL: {
-                errMsg << "KIN_LSOLVE_FAIL: ";
                 errMsg << "The kinls solve routine (lsolve) encountered an error; e.g., the user-supplied routine "
                           "psolve (used to to solve the preconditioned linear system) encountered an unrecoverable "
                           "error." << std::endl;
                 break;
             }
             case KIN_SYSFUNC_FAIL: {
-                errMsg << "KIN_SYSFUNC_FAIL: ";
                 errMsg << "The system function failed in an unrecoverable manner." << std::endl;
                 break;
             }
             case KIN_FIRST_SYSFUNC_ERR: {
-                errMsg << "KIN_FIRST_SYSFUNC_ERR: ";
                 errMsg << "The system function failed recoverably at the first call." << std::endl;
                 break;
             }
             case KIN_REPTD_SYSFUNC_ERR: {
-                errMsg << "KIN_REPTD_SYSFUNC_ERR: ";
                 errMsg << "The system function had repeated recoverable errors. No recovery is possible."
                        << std::endl;
                 break;
             }
             case KIN_VECTOROP_ERR: {
-                errMsg << "KIN_VECTOROP_ERR: ";
                 errMsg << "a std::vector operation error occurred" << std::endl;
                 break;
             }
             default:
-                throw std::runtime_error("unhandled exception");
+
+                throw std::runtime_error("Unrecognized kinsol errorunhandled exception");
         }
         return errMsg.str();
     }

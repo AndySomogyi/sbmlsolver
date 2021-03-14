@@ -14,6 +14,16 @@ public:
     OpenLinearFlux testModel = OpenLinearFlux();
 
     PresimulationDecoratorTests() {}
+
+    void checkResults(RoadRunner& rr) {
+        const auto &expectedResult = testModel.steadyState();
+        for (auto &r: expectedResult) {
+            const auto &speciesName = r.first;
+            const auto &expectedValue = r.second.second;
+            const auto &actualValue = rr.getValue(speciesName);
+            ASSERT_NEAR(expectedValue, actualValue, 1e-5);
+        }
+    }
 };
 
 TEST_F(PresimulationDecoratorTests, CheckModelNotNullptr) {
@@ -31,6 +41,20 @@ TEST_F(PresimulationDecoratorTests, CheckModelNotNullptr) {
     // wrap solver in decorator
     PresimulationDecorator decorator(solver);
     ASSERT_NE(nullptr, decorator.getModel());
+}
+
+TEST_F(PresimulationDecoratorTests, CheckPresimulationNameField) {
+    // setup with rr
+    RoadRunner rr(testModel.str());
+
+    // create steady state solver
+    SteadyStateSolver *solver = nullptr;
+    NewtonIteration newtonIteration(rr.getModel());
+    solver = &newtonIteration;
+
+    PresimulationDecorator decorator(solver);
+    solver = &decorator;
+    ASSERT_STREQ("Presimulation(NewtonIteration)", solver->getName().c_str());
 }
 
 TEST_F(PresimulationDecoratorTests, CheckModelTimeAfterPresimulation) {
@@ -59,7 +83,7 @@ TEST_F(PresimulationDecoratorTests, CheckSteadyStateValuesAfterPresimulation) {
 
     RoadRunner rr(testModel.str());
 
-    SteadyStateSolver* solver;
+    SteadyStateSolver *solver;
     NewtonIteration newtonIteration(rr.getModel());
 
     newtonIteration.setValue("presimulation_time", 10);
@@ -68,45 +92,84 @@ TEST_F(PresimulationDecoratorTests, CheckSteadyStateValuesAfterPresimulation) {
     solver = &presim;
     solver->solve();
 
-    const auto& expectedResult = testModel.steadyState();
-    for (auto& r: expectedResult){
-        const auto& speciesName = r.first;
-        const auto& expectedValue = r.second.second;
-        const auto& actualValue = rr.getValue(speciesName);
-        ASSERT_NEAR(expectedValue, actualValue, 1e-5);
-    }
+    checkResults(rr);
 }
 
 
-
-TEST_F(PresimulationDecoratorTests,CheckPresimulationDecoratorHasAccessToSolverVariables) {
+TEST_F(PresimulationDecoratorTests, CheckPresimulationDecoratorHasAccessToSolverVariables) {
 
     RoadRunner rr(testModel.str());
 
-    NewtonIteration* newtonIteration = new NewtonIteration(rr.getModel());
+    NewtonIteration *newtonIteration = new NewtonIteration(rr.getModel());
 
     newtonIteration->setValue("presimulation_time", 14.37);
     ASSERT_EQ(14.37, newtonIteration->getValueAsDouble("presimulation_time"));
 
-    SteadyStateSolver* solver = newtonIteration;
+    SteadyStateSolver *solver = newtonIteration;
     PresimulationDecorator decorator(solver);
     solver = &decorator;
     solver->getValueAsDouble("presimulation_time");
     ASSERT_EQ(14.37, solver->getValueAsDouble("presimulation_time"));
+    delete newtonIteration;
+}
 
+TEST_F(PresimulationDecoratorTests, CheckSolveTwiceTwoRRInstances) {
 
+    // make independent copies of input string to ensure these
+    // two rr instances are independent.
+    std::string sbml1 = testModel.str();
+    std::string sbml2 = testModel.str();
 
+    RoadRunner rr1(sbml1);
+    RoadRunner rr2(sbml2);
 
+    NewtonIteration newtonIteration1(rr1.getModel());
+    NewtonIteration newtonIteration2(rr2.getModel());
 
-//    SteadyStateSolver* solver;
-//    NewtonIteration* newtonIteration = new NewtonIteration(rr.getModel());
-//    newtonIteration->setValue("presimulation_time", 10);
-//    solver = newtonIteration;
-//
-//    SteadyStateSolverDecorator solverDecorator(rr.getSteadyStateSolver());
-//    localSolver = &solverDecorator;
+    newtonIteration1.setValue("presimulation_time", 2);
+    newtonIteration2.setValue("presimulation_time", 4);
+
+    SteadyStateSolver *solver1 = &newtonIteration1;
+    SteadyStateSolver *solver2 = &newtonIteration2;
+    PresimulationDecorator decorator1(solver1);
+    PresimulationDecorator decorator2(solver2);
+    solver1 = &decorator1;
+    solver2 = &decorator2;
+    solver1->solve();
+    solver2->solve();
+    checkResults(rr1);
+    checkResults(rr2);
 
 }
+
+TEST_F(PresimulationDecoratorTests, CheckSolveTwiceBackToBack) {
+
+    RoadRunner rr(testModel.str());
+
+    NewtonIteration *newtonIteration = new NewtonIteration(rr.getModel());
+
+    newtonIteration->setValue("presimulation_time", 2);
+
+    SteadyStateSolver *solver = newtonIteration;
+    PresimulationDecorator decorator1(solver);
+    solver = &decorator1;
+    solver->solve();
+    checkResults(rr);
+
+    rr.setValue("S1", 0);
+    rr.setValue("S2", 0);
+
+    solver->solve();
+    checkResults(rr);
+
+    delete newtonIteration;
+
+}
+
+
+
+
+
 
 
 

@@ -81,7 +81,6 @@ set(
         NewtonIteration.cpp
         KinsolErrHandler.cpp
         SVD.cpp
-        Presimulation.cpp
         SteadyStateSolverDecorator.cpp
         PresimulationDecorator.cpp
 
@@ -146,7 +145,6 @@ set(
         FixedPointIteration.h
         NewtonIteration.h
         SVD.h
-        Presimulation.h
         SteadyStateSolverDecorator.h
         PresimulationDecorator.h
 )

@@ -372,7 +372,6 @@ public:
 		deleteAllSolvers();
 
         mInstanceCount--;
-        std::cout << "decrementing mInstanceCount to "<< mInstanceCount<<std::endl;
     }
 
     void deleteAllSolvers()
@@ -1270,6 +1269,9 @@ double RoadRunner::steadyState(const Dictionary* dict) {
         throw CoreException(gEmptyModelMessage);
     }
 
+    // store the name of the solver for later use.
+    const std::string& solverName = impl->steady_state_solver->getName();
+
     // todo move this logic to another decorator
     //
     // check for singular jacobian
@@ -1287,13 +1289,15 @@ double RoadRunner::steadyState(const Dictionary* dict) {
     if (impl->loadOpt.getConservedMoietyConversion()){
         ls::DoubleMatrix reducedJ = getReducedJacobian();
         // todo can the reduced jacobian ever be singular?
+        //  if answer is no, there is a bug in conservation analysis
         SVD svdReduced(reducedJ);
         if (svdReduced.isSingular()){
             std::string msg = "The reduced jacobian matrix "
                                 "is singular and therefore steady state cannot "
                                 "be computed";
             rrLog(Logger::LOG_ERROR) << msg;
-            throw CoreException(msg);
+            // todo consider whether to throw or not?
+            throw std::runtime_error(msg);
         }
     }
 
@@ -1304,19 +1308,35 @@ double RoadRunner::steadyState(const Dictionary* dict) {
         throw std::runtime_error("No steady state solver");
     }
 
+    impl->steady_state_solver->setValue("allow_presimulation", true);
+
+    // init pointer to local solver
+    SteadyStateSolverDecorator *decorator = nullptr;
+
     if (!impl->steady_state_solver->getValueAsBool("allow_presimulation")){
-        SteadyStateSolverDecorator solverDecorator(impl->steady_state_solver);
-        *impl->steady_state_solver = solverDecorator;
+        // Base decorator needed? I'd say no right now since we
+        //  reset the solver at the end of this method - hence we'll never
+        //  need to implement a decorator that does nothing.
+        // SteadyStateSolverDecorator decorator(impl->steady_state_solver);
+        // *impl->steady_state_solver = decorator;
     } else {
-        PresimulationDecorator presimulation(impl->steady_state_solver);
-        *impl->steady_state_solver = presimulation;
+        decorator = new PresimulationDecorator(impl->steady_state_solver);
+        impl->steady_state_solver = decorator;
     }
 
     double ss = impl->steady_state_solver->solve();
 
+    if (decorator){
+        delete decorator;
+        decorator = nullptr;
+    }
 
-    // Cast back to original type before return
-    //
+
+    // put back to original type before return
+    // so the next call to steadyState starts
+    // without any decorators.
+     setSteadyStateSolver(solverName);
+
     return ss;
 
 

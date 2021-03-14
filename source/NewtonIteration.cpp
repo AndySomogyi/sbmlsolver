@@ -70,8 +70,6 @@ namespace rr {
     }
 
     double NewtonIteration::solve() {
-        //doPresimulation();
-
         assert(mKinsol_Memory && "Kinsol memory block is nullptr");
         assert(mStateVector && "Solvers state std::vector is nullptr");
 
@@ -85,7 +83,7 @@ namespace rr {
         );
 
         char *flagName = KINGetReturnFlagName(flag);
-        std::cout << "KINSol function returned \"" << flagName << "\" flag" << std::endl;
+        //std::cout << "KINSol function returned \"" << flagName << "\" flag" << std::endl;
 
         // errors are handled automatically by the error handler for kinsol.
         // here we handle warnings and success flags
@@ -109,16 +107,8 @@ namespace rr {
                 break;
             }
             default: {
-                // if the solver failed, we do a check for singular jacobian,
-                // as this is common problem.
-                // Slight issue, moiety conservation is defined and implemented
-                // at the rrRoadRunner level. But Solvers only have access to the
-                // ExecutableModel, so there is no flag which states whether we
-                // are currently using the full or reduced stoic or jacobian matrix.
-
-
-                break;
-
+                std::string errMsg = decodeKinsolError(flag);
+                throw std::runtime_error("Kinsol Error: " + errMsg);
             };
         }
         free(flagName);

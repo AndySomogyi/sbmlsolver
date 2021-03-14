@@ -30,6 +30,9 @@ namespace rr {
         PresimulationDecorator(SteadyStateSolver *solver);
 
         double solve() override;
+
+    private:
+        std::string decoratorName() const override;
     };
 
 }

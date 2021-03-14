@@ -10,16 +10,18 @@
 
 namespace rr {
 
-/**
- * The base class Decorator follows the same interface as other
- * SteadyStateSolvers. The primary purpose of this class is the define
- * the wrapping interface for all concrete decorators. The default
- * implementation of the wrapping code might include a field for
- * storing a wrapped component and a means to initialize it.
- */
+    /**
+     * The base class Decorator follows the same interface as other
+     * SteadyStateSolvers. The primary purpose of this class is the define
+     * the wrapping interface for all concrete decorators. The default
+     * implementation of the wrapping code might include a field for
+     * storing a wrapped component and a means to initialize it.
+     */
     class SteadyStateSolverDecorator : public SteadyStateSolver {
     public:
         ~SteadyStateSolverDecorator() override = default;
+
+        SteadyStateSolverDecorator() = default;
 
         SteadyStateSolverDecorator(SteadyStateSolver *solver);
 
@@ -28,20 +30,29 @@ namespace rr {
          * Subclass decorators may modify any or all of these operations.
          */
 
-         void syncWithModel(ExecutableModel *m) override;
+        void syncWithModel(ExecutableModel *m) override;
 
-         double solve() override;
+        double solve() override;
 
-         std::string getName() const override;
+        std::string getName() const override;
 
-         std::string getDescription() const override;
+        std::string getDescription() const override;
 
-         std::string getHint() const override;
+        std::string getHint() const override;
 
-         void resetSettings() override;
+        void resetSettings() override;
 
     protected:
         SteadyStateSolver *solver_;
+
+    private:
+
+        /**
+         * @brief get the name of this decorator.
+         * @details used for modifying the name, description
+         * and hint for solver
+         */
+        virtual std::string decoratorName() const;
 
     };
 
