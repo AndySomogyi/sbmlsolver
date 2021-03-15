@@ -182,7 +182,7 @@ namespace rr
          * @author WBC, ETS, MTK
          * @brief Main integration routine
          */
-        double integrate(double t0, double tf) override;
+        double integrate(double t0, double hstep) override;
 
         /**
          * @author WBC, ETS, MTK

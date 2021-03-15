@@ -28,7 +28,6 @@ namespace rr {
          * associated with the solver are respected.
          */
         explicit PresimulationDecorator(SteadyStateSolver *solver);
-//        using SteadyStateSolverDecorator::SteadyStateSolverDecorator;
 
         double solve() override;
 

@@ -22,6 +22,7 @@ namespace rr {
             return SteadyStateSolverDecorator::solve();
         } catch (std::runtime_error &e) {
             CVODEIntegrator integrator(solver_->getModel());
+            // integrate one interval between 0 and presimulation_time.
             integrator.integrate(0, solver_->getValueAsDouble("presimulation_time"));
             solver_->syncWithModel(solver_->getModel());
             return solver_->solve();

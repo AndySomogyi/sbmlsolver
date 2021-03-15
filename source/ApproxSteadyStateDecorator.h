@@ -19,7 +19,6 @@ namespace rr {
 
     private:
         std::string decoratorName() const override;
-        std::vector<std::string> steadyStateSelections_;
 
     };
 }

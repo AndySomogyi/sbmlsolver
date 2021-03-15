@@ -78,7 +78,7 @@ public:
         std::cout << "rr.getReducedJacobian" << std::endl;
         std::cout << rr.getReducedJacobian() << std::endl;
 
-        //openInCopasi(testModel->str());
+        openInCopasi(testModel->str());
 
         rr.steadyState(&steadyStateOptions);
 
