@@ -643,15 +643,8 @@ namespace rr {
             } else if (key == "maximum_num_steps") {
                 CVodeSetMaxNumSteps(mCVODE_Memory, getValueAsInt("maximum_num_steps"));
             }
-                //else if (key == "absolute_concentration_tolerance")
-                //{
-                //	CVodeSetMaxNumSteps(mCVODE_Memory, getValueAsInt("maximum_num_steps")); // FIXME: is this intentional?
-                //	convertTolerances();
-                //	setCVODETolerances();
-                //}
             else if (key == "absolute_tolerance" || key == "relative_tolerance") {
-
-                CVodeSetMaxNumSteps(mCVODE_Memory, getValueAsInt("maximum_num_steps")); // FIXME: is this intentional?
+                CVodeSetMaxNumSteps(mCVODE_Memory, getValueAsInt("maximum_num_steps"));
                 setCVODETolerances();
 
             }
@@ -721,13 +714,6 @@ namespace rr {
         if (getValueAsBool("multiple_steps") || getValueAsBool("variable_step_size")) {
             itask = CV_ONE_STEP;
         }
-
-
-        // TODO: CONFIRM THIS WITH HERBERT, BUT I THINK THAT THIS WAS SET UP INCORRECTLY.
-        /*
-        const int itask = ((options.integratorFlags & MULTI_STEP)
-        || (options.integratorFlags & VARIABLE_STEP))
-        ? CV_ONE_STEP : CV_NORMAL;*/
 
         // loop until machine epislon
         while (tout - timeEnd >= epsilon) {
@@ -881,8 +867,6 @@ namespace rr {
 
         CVODEIntegrator::setValue("relative_tolerance",
                                   std::min(CVODEIntegrator::getValueAsDouble("relative_tolerance"), minRel));
-
-        // FIXME: log for std::vector tolearances
 
         rrLog(Logger::LOG_INFORMATION) << "tweaking CVODE tolerances to abs="
                                      << CVODEIntegrator::getValueAsDouble("absolute_tolerance") << ", rel="
@@ -1187,7 +1171,6 @@ namespace rr {
         // set tolerances and so forth.
         if (mCVODE_Memory) {
             reInit(time);
-            // FIXME: Passing setting to CVODE? -JKM
         }
     }
 

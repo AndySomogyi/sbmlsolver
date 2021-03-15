@@ -17,8 +17,6 @@ namespace rr {
      * from the kinsol documentation. More information
      * can be found in 9.1.5.
      *
-     * todo should the right now the error just goes to the logger.
-     *  but should we throw instead?
      */
     std::string decodeKinsolError(int errCode) {
         std::ostringstream errMsg;

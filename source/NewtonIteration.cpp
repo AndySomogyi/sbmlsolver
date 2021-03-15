@@ -30,9 +30,6 @@ namespace rr {
 
         KinsolSteadyStateSolver::createKinsol();
 
-        // todo don't forget about this.
-        KINSetPrintLevel(mKinsol_Memory, 3);
-
         // kinsolDyDtFcn has the signature of "KINSysFn"
         if ((err = KINInit(mKinsol_Memory, kinsolDyDtFcn < NewtonIteration > , mStateVector)) != KIN_SUCCESS) {
             decodeKinsolError(err);

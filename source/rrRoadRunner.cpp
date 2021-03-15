@@ -261,11 +261,6 @@ public:
 	*/
 	bool simulatedSinceReset = false;
 
-    /**
-     * TODO get rid of this garbage
-     */
-    friend class aFinalizer;
-
 	std::unique_ptr<libsbml::SBMLDocument> document;
 
     RoadRunnerImpl(const std::string& uriOrSBML,
@@ -4105,14 +4100,6 @@ DoubleMatrix RoadRunner::getUnscaledConcentrationControlCoefficientMatrix()
 
     check_model();
 
-    //int orig_steps = impl->simulateOpt.steps;
-
-    //impl->simulateOpt.start = 0;
-    //impl->simulateOpt.duration = 50.0;
-    //impl->simulateOpt.steps = 100;
-
-    //// TODO why is simulate called here???
-    //simulate();
     if (steadyState() > impl->mSteadyStateThreshold)
     {
         if (steadyState() > 1E-2)

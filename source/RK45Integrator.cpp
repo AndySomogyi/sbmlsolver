@@ -59,8 +59,8 @@ namespace rr
             err = new double[stateVectorSize];
             y = new double[stateVectorSize];
             ytmp = new double[stateVectorSize];
-            hmin = getValueAsDouble("minimum_time_step"); // TODO: replace hmin with getValueAsDouble("minimum_time_step")
-            hmax = getValueAsDouble("maximum_time_step"); // TODO: replace hmax with getValueAsDouble("maximum_time_step")
+            hmin = getValueAsDouble("minimum_time_step");
+            hmax = getValueAsDouble("maximum_time_step");
         } else {
             stateVectorSize = 0;
             hmin = hmax = 0;

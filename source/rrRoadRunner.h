@@ -1205,8 +1205,11 @@ namespace rr
         *
         * @param dict a pointer to a dictionary which has the steady state options.
         * May be NULL, in this case the existing options are used.
+        *
+        * @deprecated use the main RoadRunner::steadyState() method with
+        * the "allow_approx" option set to true.
         */
-        double steadyStateApproximate(const Dictionary* dict = 0);
+        RR_DEPRECATED(double steadyStateApproximate(const Dictionary* dict = 0));
 
         /**
          * Like @ref steadyState but returns a named array of the steady state values

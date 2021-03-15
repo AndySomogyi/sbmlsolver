@@ -44,8 +44,6 @@ namespace rr
         // Stub for loading SBML settings (can override in derived classes).
     }
 
-    /* TODO: Create getType() method. */
-
     std::string Integrator::toString() const
     {
         std::stringstream ss;
