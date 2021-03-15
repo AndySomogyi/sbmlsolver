@@ -44,6 +44,7 @@
 #include "llvm/ModelResources.h"
 #include "llvm/IR/IRBuilder.h"
 #include "PresimulationDecorator.h"
+#include "ApproxSteadyStateDecorator.h"
 
 #ifdef _MSC_VER
 #pragma warning(default: 4146)
@@ -1262,7 +1263,7 @@ double RoadRunner::mcaSteadyState()
     return steadyState();
 }
 
-double RoadRunner::steadyState(const Dictionary* dict) {
+double RoadRunner::steadyState(Dictionary* dict) {
     rrLog ( Logger::LOG_DEBUG) << "RoadRunner::steadyState...";
     if (!impl->model)
     {
@@ -1272,8 +1273,6 @@ double RoadRunner::steadyState(const Dictionary* dict) {
     // store the name of the solver for later use.
     const std::string& solverName = impl->steady_state_solver->getName();
 
-    // todo move this logic to another decorator
-    //
     // check for singular jacobian
     if (!impl->loadOpt.getConservedMoietyConversion()) {
         ls::DoubleMatrix fullJ = getFullJacobian();
@@ -1296,7 +1295,6 @@ double RoadRunner::steadyState(const Dictionary* dict) {
                                 "is singular and therefore steady state cannot "
                                 "be computed";
             rrLog(Logger::LOG_ERROR) << msg;
-            // todo consider whether to throw or not?
             throw std::runtime_error(msg);
         }
     }
@@ -1308,21 +1306,33 @@ double RoadRunner::steadyState(const Dictionary* dict) {
         throw std::runtime_error("No steady state solver");
     }
 
-    impl->steady_state_solver->setValue("allow_presimulation", true);
+    // apply user settings
+    impl->steady_state_solver->updateSettings(dict);
 
-    // init pointer to local solver
+    // initialize pointer to decorator
+    // Decorators wrap the solve method and modifies its behaviour.
+    // first decorator applied is the first attempted to be executed.
+    // The first solve method attempted is always the undecorated version
     SteadyStateSolverDecorator *decorator = nullptr;
 
-    if (!impl->steady_state_solver->getValueAsBool("allow_presimulation")){
-        // Base decorator needed? I'd say no right now since we
-        //  reset the solver at the end of this method - hence we'll never
-        //  need to implement a decorator that does nothing.
-        // SteadyStateSolverDecorator decorator(impl->steady_state_solver);
-        // *impl->steady_state_solver = decorator;
-    } else {
+    // apply presimulation decorator if requested by user
+    if (impl->steady_state_solver->getValueAsBool("allow_presimulation")){
         decorator = new PresimulationDecorator(impl->steady_state_solver);
         impl->steady_state_solver = decorator;
     }
+
+    // apply approximation decorator if requested by user
+    if (impl->steady_state_solver->getValueAsBool("allow_approx")){
+        decorator = new ApproxSteadyStateDecorator(impl->steady_state_solver);
+        impl->steady_state_solver = decorator;
+    }
+
+
+    // when both presimulation and approximate options allowed, presimulation is
+    // tried first, then approximation
+
+
+    std::cout << "solver naem: " << impl->steady_state_solver->getName() << std::endl;
 
     double ss = impl->steady_state_solver->solve();
 

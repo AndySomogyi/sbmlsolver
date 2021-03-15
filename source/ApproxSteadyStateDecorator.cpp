@@ -71,7 +71,6 @@ namespace rr {
                        "your model might not have a steady state";
                 throw CoreException(err.str());
             }
-
             return tol;
         }
     }

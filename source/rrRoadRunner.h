@@ -1195,7 +1195,7 @@ namespace rr
          * @param dict a pointer to a dictionary which has the steady state options.
          * May be NULL, in this case the existing options are used.
          */
-        double steadyState(const Dictionary* dict = 0);
+        double steadyState(Dictionary* dict = 0);
 
         /**
         * Appoximate the steady state of the model by checking the changes in time course

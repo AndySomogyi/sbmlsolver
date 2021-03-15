@@ -81,6 +81,7 @@ class SteadyStateResult : public Result {
 public:
 
     virtual ResultMap steadyState() = 0;
+
 };
 
 /**
@@ -447,8 +448,6 @@ public:
         return ResultMap({
                                  {"S1", DoublePair(0, 10)},
                                  {"S2", DoublePair(0, 5)},
-//                                 {"S1", DoublePair(6.32121, 10)},
-//                                 {"S2", DoublePair(1.99788, 5)},
                          });
     }
 

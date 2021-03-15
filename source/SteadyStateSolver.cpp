@@ -111,7 +111,7 @@ namespace rr {
                    "Flag for starting steady state analysis with simulation (bool).",
                    "(bool) This flag does not affect the usage of NLEQ1/2 approximation routine when the default steaty state solver fails");
 
-        addSetting("presimulation_time", 1, "Presimulation Time",
+        addSetting("presimulation_time", true, "Presimulation Time",
                    "End time for presimulation steady state analysis (double).",
                    "(double) presimulation_maximum_steps takes priority. Only used when allow_presimulation is True");
 
@@ -120,7 +120,7 @@ namespace rr {
                    "Maximum number of steps that can be taken for presimulation before steady state analysis (int).",
                    "(int) Takes priority over presimulation_time. Only used when allow_presimulation is True");
 
-        addSetting("allow_approx", false, "Allow Approximiation",
+        addSetting("allow_approx", true, "Allow Approximiation",
                    "Flag for using steady state approximation routine when steady state solver fails (bool).",
                    "(bool) Approximation routine will run only when the default solver fails to fine a solution. This flag does not affect usage of approximation routine for pre-simulation");
 
