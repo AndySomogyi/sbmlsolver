@@ -2,7 +2,6 @@
 
 set(SHARED_TEST_FILES )
 
-add_test_executable(KinsolSteadyStateSolverTests test_targets KinsolSteadyStateSolverTests.cpp ${SHARED_TEST_FILES})
 add_test_executable(FixedPointIterationTests test_targets FixedPointIterationTests.cpp ${SHARED_TEST_FILES})
 add_test_executable(NewtonIterationIntegrationTests test_targets NewtonIterationIntegrationTests.cpp ${SHARED_TEST_FILES})
 add_test_executable(NewtonIterationUnitTests test_targets NewtonIterationUnitTests.cpp ${SHARED_TEST_FILES})
