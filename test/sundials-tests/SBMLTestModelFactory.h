@@ -2,6 +2,7 @@
 #include <unordered_map>
 #include <stdexcept>
 #include <memory>
+#include "Variant.h"
 
 using DoublePair = std::pair<double, double>;
 
