@@ -3,7 +3,7 @@
 #include <vector>
 #include "rrExporter.h"
 #include "rrExecutableModel.h"
-#include "rrSteadyStateSolver.h"
+#include "Dictionary.h"
 
 
 using std::vector;
