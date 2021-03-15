@@ -23,7 +23,7 @@ static void dump_array(std::ostream &os, int n, const double *p)
 {
     if (p)
     {
-        os << setiosflags(std::ios::floatfield) << std::setprecision(8);
+        os << std::setiosflags(std::ios::floatfield) << std::setprecision(8);
         os << '[';
         for (int i = 0; i < n; ++i)
         {

@@ -1705,7 +1705,7 @@ void RoadRunner::fixDependentSpeciesValues(int except, double* ref) {
             impl->model->setFloatingSpeciesConcentrations(1, &i, &ref[i]);
         }
     }
-    delete vals;
+    delete[] vals;
 }
 
 double RoadRunner::getuEE(const std::string& reactionName, const std::string& parameterName, bool computeSteadystate)
@@ -2250,7 +2250,7 @@ DoubleMatrix RoadRunner::getFloatingSpeciesAmountsNamedArray()
     for (int i = 0; i<l; ++i)
         v(0, i) = vals[i];
 
-    delete vals;
+    delete[] vals;
 
     v.setColNames(getFloatingSpeciesIds());
 
@@ -2312,8 +2312,8 @@ std::vector<double> RoadRunner::getRatesOfChange()
             v[i] = vals[i];
     }
 
-    delete vals;
-    delete ssv;
+    delete[] vals;
+    delete[] ssv;
 
     return v;
 }
@@ -2350,8 +2350,8 @@ DoubleMatrix RoadRunner::getRatesOfChangeNamedArray()
             v(0, i) = vals[i];
     }
 
-    delete vals;
-    delete ssv;
+    delete[] vals;
+    delete[] ssv;
 
     v.setColNames(getFloatingSpeciesIds());
 
@@ -3375,7 +3375,7 @@ DoubleMatrix RoadRunner::getBoundarySpeciesConcentrationsNamedArray()
     for (int i = 0; i<l; ++i)
         v(0, i) = vals[i];
 
-    delete vals;
+    delete[] vals;
 
     v.setColNames(getBoundarySpeciesIds());
 
@@ -3398,7 +3398,7 @@ DoubleMatrix RoadRunner::getBoundarySpeciesAmountsNamedArray()
     for (int i = 0; i<l; ++i)
         v(0, i) = vals[i];
 
-    delete vals;
+    delete[] vals;
 
     v.setColNames(getBoundarySpeciesIds());
 
