@@ -80,7 +80,7 @@ TEST_F(NewtonIterationUnitTests, RegenerateTheModelAfterCreatingSolver) {
     checkResults(rr.getFloatingSpeciesConcentrationsNamedArray());
 }
 
-
+// check steady state selections works
 
 
 

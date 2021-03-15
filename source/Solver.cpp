@@ -36,6 +36,8 @@ namespace rr
 
     void Solver::updateSettings(Dictionary * inputSettings)
     {
+        if (!inputSettings)
+            return;
         const std::vector<std::string>& thisSolversSettings = getSettingsKeys();
         for (const auto& setting: thisSolversSettings){
             if (inputSettings->hasKey(setting)){
