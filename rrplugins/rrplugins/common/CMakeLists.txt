@@ -51,7 +51,9 @@ if (RR_PLUGINS_BUILD_SHARED_LIB)
     target_compile_definitions(${target} PRIVATE EXPORT_COMMON_API)
 
     target_link_libraries(${target} PUBLIC
-            roadrunner_c_api-static
+            rr-libstruct::rr-libstruct-static
+            LibXml2::LibXml2
+            PocoXML::PocoXML
             )
     target_include_directories(${target}
             PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}

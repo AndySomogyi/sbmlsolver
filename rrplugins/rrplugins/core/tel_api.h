@@ -45,6 +45,13 @@ typedef struct {			// THostInterface
 	char*   (*getInfo)(RRHandle handle);
 
 	/*!
+	 \brief Retrieve the last error message from roadrunner.
+	 \return Returns "No error" if none was set, otherwise it returns a string with the error message.
+	 \ingroup utility
+	*/
+	char* (*getLastError)();
+
+	/*!
 	\brief Load a model from an SBML string
 	\param[in] handle Handle to a RoadRunner instance
 	\param[in] sbml string

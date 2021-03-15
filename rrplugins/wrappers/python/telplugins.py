@@ -156,12 +156,14 @@ class DataSeries:
             raise ValueError ('fromNumPy only accepts two dimensional arrays')
 
         # If there are no column names then make some up
-        if numPyData.dtype.names == None:
+        if hasattr(numPyData, "colnames") and not numPyData.colnames == None:
+            colHdr  = numPyData.colnames
+        elif not numPyData.colnames == None:
+            colHdr  = numPyData.colnames
+        else:
             colHdr = []
             for i in range (nrCols):
                 colHdr.append ('x' + str (i))
-        else:
-            colHdr  = numPyData.dtype.names
 
         columnStr = str(colHdr).strip('[]')
         columnStr = columnStr.strip('()')

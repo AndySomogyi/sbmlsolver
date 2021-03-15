@@ -16,38 +16,14 @@ add_definitions(
     -DPOCO_STATIC
 )
 
-if(WIN32)
 target_link_libraries (${target}
     roadrunner-static
     telplugins_core-static
 )
+if(APPLE)
+    set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,-no_implicit_dylibs -undefined error")
 else()
-    if(APPLE)
-        set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,-no_implicit_dylibs -undefined error")
-    else()
-        set(CMAKE_SHARED_LINKER_FLAGS "-Wl,--no-undefined")
-    endif()
-
-    set_property(TARGET ${target}
-        PROPERTY  COMPILE_DEFINITIONS
-        LIBSBML_STATIC
-        LIBLAX_STATIC
-        STATIC_PUGI
-        STATIC_LIBSTRUCT
-        )
-
-    target_link_libraries ( ${target}
-        roadrunner-static
-        rr-libstruct-static
-        nleq-static
-        sbml-static
-        lapack
-        blas
-        f2c
-        pthread
-        #roadrunner_c_api
-        telplugins_c_api
-        )
+    set(CMAKE_SHARED_LINKER_FLAGS "-Wl,--no-undefined")
 endif()
 
 install (TARGETS ${target}

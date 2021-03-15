@@ -501,7 +501,13 @@ namespace lmfit
         }
 
         mTheHost.rrHandle = gHostInterface->createRRInstance();
-        gHostInterface->loadSBML(mTheHost.rrHandle, mTheHost.mSBML.getValue().c_str());
+        bool ret = gHostInterface->loadSBML(mTheHost.rrHandle, mTheHost.mSBML.getValue().c_str());
+        if (!ret)
+        {
+            string msg = "Failed to load SBML model: ";
+            msg += gHostInterface->getLastError();
+            throw Exception(msg);
+        }
         gHostInterface->setTimeCourseSelectionList(mTheHost.rrHandle, mTheHost.getExperimentalDataSelectionList().asString().c_str());
 
         return true;
@@ -569,7 +575,7 @@ namespace lmfit
                     }
                     else
                     {
-                        RRPLOG(lError) << "Problem with column names when creating residual data!";
+                        RRPLOG(lError) << "Unable to find species '" << specie << "' in the loaded model, but it is one of the expected outputs.";
                     }
                 }
             }

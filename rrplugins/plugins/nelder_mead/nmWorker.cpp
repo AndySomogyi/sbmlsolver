@@ -2,8 +2,6 @@
 #include "nmWorker.h"
 #include "rrRoadRunnerOptions.h"
 #include "rr-libstruct/lsLA.h"
-#include "C/rrc_api.h" //Todo: no reason using the roaddrunner C API here, convert and use the CPP api directly
-#include "C/rrc_utilities.h"
 #include "lib/nmsimplex.h"
 #include "telLogger.h"
 #include "telException.h"
@@ -143,7 +141,13 @@ namespace nmfit
         }
 
         mTheHost.rrHandle = gHostInterface->createRRInstance();
-        gHostInterface->loadSBML(mTheHost.rrHandle, mTheHost.mSBML.getValue().c_str());
+        bool ret = gHostInterface->loadSBML(mTheHost.rrHandle, mTheHost.mSBML.getValue().c_str());
+        if (!ret)
+        {
+            string msg = "Failed to load SBML model: ";
+            msg += gHostInterface->getLastError();
+            throw Exception(msg);
+        }
         gHostInterface->setTimeCourseSelectionList(mTheHost.rrHandle, mTheHost.getExperimentalDataSelectionList().asString().c_str());
 
         return true;
@@ -457,7 +461,7 @@ namespace nmfit
                     }
                     else
                     {
-                        RRPLOG(lError) << "Problem with column names when creating residual data!";
+                        RRPLOG(lError) << "Unable to find species '" << specie << "' in the loaded model, but it is one of the expected outputs.";
                     }
                 }
             }

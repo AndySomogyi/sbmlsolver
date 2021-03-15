@@ -668,6 +668,7 @@ namespace tlp
         {
             host_Interface->createRRInstance = rrc::createRRInstance;
             host_Interface->getInfo = rrc::getInfo;
+            host_Interface->getLastError = rrc::getLastError;
             host_Interface->loadSBML = rrc::loadSBML;
             host_Interface->simulateEx = rrc::simulateEx;
             host_Interface->setCurrentSteadyStateSolver = rrc::setCurrentSteadyStateSolver;

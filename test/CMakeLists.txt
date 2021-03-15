@@ -98,7 +98,6 @@ if (BUILD_RR_PLUGINS)
         target_link_libraries(${testid}
             roadrunner_c_api
             telplugins_c_api
-            PocoXML::PocoXML
             gtest gtest_main
             )
 
