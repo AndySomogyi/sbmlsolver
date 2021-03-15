@@ -55,7 +55,7 @@ public:
 
         BasicDictionary steadyStateOptions;
         steadyStateOptions.setItem("strategy", strategy); // injected strategy here
-        steadyStateOptions.setItem("PrintLevel", 3);
+        steadyStateOptions.setItem("PrintLevel", 0);
 
         for (auto &settingsIterator : testModel->settings()) {
             steadyStateOptions.setItem(settingsIterator.first, Variant(settingsIterator.second));
@@ -111,10 +111,12 @@ TEST_F(NewtonIterationIntegrationTests, CheckDecoratorRemovedAfterSolving) {
 
     rr.setSteadyStateSolver("NewtonIteration");
     BasicDictionary opt;
+
+    // will add PresimulationDecorator inside rr.steadyState()
     opt.setItem("allow_presimulation", true);
 
     rr.steadyState(&opt);
-    // note: this string would be "Presimulation(NewtonIteration)" if decorator was still present.
+    // this string would be "Presimulation(NewtonIteration)" if decorator was not removed before setadyState returns.
     ASSERT_STREQ("NewtonIteration", rr.getSteadyStateSolver()->getName().c_str());
 }
 
@@ -128,9 +130,7 @@ class BasicNewtonIterationTests : public NewtonIterationIntegrationTests {
 public:
     std::string strategy = "basic";
 
-    BasicNewtonIterationTests() {
-//        Logger::setLevel(Logger::LOG_DEBUG);
-    };
+    BasicNewtonIterationTests() {};
 };
 
 /**
@@ -236,9 +236,9 @@ TEST_F(LineSearchNewtonIterationTests, CheckCorrectSteadyStateSimpleFlux) {
     testSteadyState<SimpleFlux>("SimpleFlux", true, strategy);
 }
 
-//TEST_F(LineSearchNewtonIterationTests, CheckCorrectSteadyStateVenkatraman2010) {
-//    testSteadyState<Venkatraman2010>("Venkatraman2010", false, strategy, true, 3);
-//}
+TEST_F(LineSearchNewtonIterationTests, CheckCorrectSteadyStateVenkatraman2010) {
+    testSteadyState<Venkatraman2010>("Venkatraman2010", false, strategy);
+}
 
 /**
  * See BasicNewtonIterationTests for reason by this is currently disabled.
@@ -246,6 +246,8 @@ TEST_F(LineSearchNewtonIterationTests, CheckCorrectSteadyStateSimpleFlux) {
 TEST_F(LineSearchNewtonIterationTests, DISABLED_CheckCorrectSteadyStateBrown2004) {
     testSteadyState<Brown2004>("Brown2004", true, strategy);
 }
+
+
 
 
 

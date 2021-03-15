@@ -134,7 +134,7 @@ namespace rr {
                     throw KinsolException(err.str());
                 }
             }
-            rrLog(Logger::LOG_TRACE) << __FUNC__ << ", model: " << model;
+            rrLog(Logger::LOG_TRACE) << __FUNCTION__ << ", model: " << model;
 
             return KIN_SUCCESS;
         };
@@ -190,6 +190,7 @@ namespace rr {
          * when called subsequent times.
          */
         void resetSettings() override;
+
 
         /**
         * @brief Pointer to the kinsol memory block

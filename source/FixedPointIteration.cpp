@@ -31,8 +31,6 @@ namespace rr {
          */
 
         // todo don't forget about these.
-        KINSetPrintLevel(mKinsol_Memory, 3);
-
         KINSetDampingAA(mKinsol_Memory, 1.0);
 
         KINSetNoResMon(mKinsol_Memory, false);

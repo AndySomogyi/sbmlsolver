@@ -12,13 +12,13 @@
 
 namespace rr {
 
-    NewtonIteration::NewtonIteration(ExecutableModel *executableModel) : KinsolSteadyStateSolver(
-            executableModel) {
+    NewtonIteration::NewtonIteration(ExecutableModel *executableModel)
+    : KinsolSteadyStateSolver(executableModel) {
         // note: we deliberately use the NewtonIteration namespace here
         // because calling virtual methods from constructors is dangerous.
         // We must ensure we call the right version of createKinsol
+        NewtonIteration::resetSettings(); // note: must be called before createKinsol
         NewtonIteration::createKinsol();
-        NewtonIteration::resetSettings();
     }
 
     NewtonIteration::~NewtonIteration() {
@@ -72,6 +72,10 @@ namespace rr {
     double NewtonIteration::solve() {
         assert(mKinsol_Memory && "Kinsol memory block is nullptr");
         assert(mStateVector && "Solvers state std::vector is nullptr");
+
+        // ensures options have been correctly propagated to kinsol
+        // before solving
+        updateKinsol();
 
         int flag = KINSol(
                 mKinsol_Memory,   // kinsol memory block

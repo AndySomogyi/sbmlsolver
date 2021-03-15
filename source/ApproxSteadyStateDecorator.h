@@ -5,10 +5,24 @@
 #ifndef ROADRUNNER_APPROXSTEADYSTATEDECORATOR_H
 #define ROADRUNNER_APPROXSTEADYSTATEDECORATOR_H
 
+#include "SteadyStateSolverDecorator.h"
 
-class ApproxSteadyStateDecorator {
+namespace rr {
 
-};
+    class ApproxSteadyStateDecorator : public SteadyStateSolverDecorator {
+    public:
+        ~ApproxSteadyStateDecorator() override = default;
+
+        explicit ApproxSteadyStateDecorator(SteadyStateSolver* solver) ;
+
+        double solve() override;
+
+    private:
+        std::string decoratorName() const override;
+        std::vector<std::string> steadyStateSelections_;
+
+    };
+}
 
 
 #endif //ROADRUNNER_APPROXSTEADYSTATEDECORATOR_H

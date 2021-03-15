@@ -27,7 +27,8 @@ namespace rr {
          * @details options already present in the solver or the model
          * associated with the solver are respected.
          */
-        PresimulationDecorator(SteadyStateSolver *solver);
+        explicit PresimulationDecorator(SteadyStateSolver *solver);
+//        using SteadyStateSolverDecorator::SteadyStateSolverDecorator;
 
         double solve() override;
 

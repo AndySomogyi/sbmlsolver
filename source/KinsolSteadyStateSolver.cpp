@@ -21,7 +21,6 @@ namespace rr {
         if (m) {
             createKinsol();
         }
-        updateKinsol();
     }
 
     void KinsolSteadyStateSolver::createKinsol() {
@@ -88,12 +87,9 @@ namespace rr {
         // Kinsol passes a void* memory buffer to `FixedPointIteration::kinsolDyDtFcn` where we
         // cast back to "FixedPointIteration".
         KINSetUserData(mKinsol_Memory, (void *) this);
-
-        updateKinsol();
     }
 
     void KinsolSteadyStateSolver::freeKinsol() {
-
         if (mKinsol_Memory) {
             KINFree(&mKinsol_Memory);
         }
@@ -190,8 +186,6 @@ namespace rr {
                "Set to 0 for default which equals U = unit roundoff.";
         addSetting("rel_err_func", 0, "Relative Error Function", desc, desc);
 
-
-
     }
 
     void KinsolSteadyStateSolver::getSolverStatsFromKinsol() {
@@ -209,7 +203,6 @@ namespace rr {
         KINGetNumNonlinSolvIters(mKinsol_Memory, &numNonlinSolvIters);
         KINGetNumPrecEvals(mKinsol_Memory, &numPrecEvals);
         KINGetNumPrecSolves(mKinsol_Memory, &numPrecSolves);
-
     }
 
     void KinsolSteadyStateSolver::setFScale(double value) {
@@ -220,7 +213,7 @@ namespace rr {
         int stateSize = mStateVector->ops->nvgetlength(mStateVector);
         if (value.size() != stateSize) {
             std::ostringstream err;
-            err << __FILE__ << ":" << __LINE__ << ":" << __FUNC__
+            err << __FILE__ << ":" << __LINE__ << ":" << __FUNCTION__
                 << ": size of std::vector to set the fscale variable does not "
                    "equal the number of states in the model (" << stateSize << "!=" << value.size() << ")" << std::endl;
             throw std::runtime_error(err.str());
@@ -237,7 +230,7 @@ namespace rr {
         int stateSize = mStateVector->ops->nvgetlength(mStateVector);
         if (value.size() != stateSize) {
             std::ostringstream err;
-            err << __FILE__ << ":" << __LINE__ << ":" << __FUNC__
+            err << __FILE__ << ":" << __LINE__ << ":" << __FUNCTION__
                 << ": size of std::vector to set the uscale variable does not "
                    "equal the number of states in the model (" << stateSize << "!=" << value.size() << ")" << std::endl;
             throw std::runtime_error(err.str());
@@ -261,10 +254,6 @@ namespace rr {
      * at once, and this method is called before we call KIN_Solve.
      */
     void KinsolSteadyStateSolver::updateKinsol() {
-        KINSetNumMaxIters(mKinsol_Memory, getValueAsInt("num_max_iters")); //
-
-        KINSetPrintLevel(mKinsol_Memory, getValueAsInt("print_level")); //
-
         // throw if invalid option chosen.
         std::vector<std::string> validEtaForms({"eta_choice1", "eta_choice2", "eta_constant"});
         const std::string &etaChoice = getValueAsString("eta_form"); //
@@ -283,7 +272,8 @@ namespace rr {
         } else if (etaChoice == "eta_constant") {
             KINSetEtaForm(mKinsol_Memory, KIN_ETACONSTANT);
         }
-
+        KINSetNumMaxIters(mKinsol_Memory, getValueAsInt("num_max_iters"));
+        KINSetPrintLevel(mKinsol_Memory, getValueAsInt("print_level"));
         KINSetNoInitSetup(mKinsol_Memory, getValueAsBool("no_init_setup"));
         KINSetNoResMon(mKinsol_Memory, getValueAsBool("no_res_monitoring"));
         KINSetMaxSetupCalls(mKinsol_Memory, getValueAsInt("max_setup_calls"));
@@ -301,25 +291,6 @@ namespace rr {
         KINSetMAA(mKinsol_Memory, getValueAsLong("maa"));
         KINSetRelErrFunc(mKinsol_Memory, getValueAsDouble("rel_err_func"));
     }
-
-//    void KinsolSteadyStateSolver::presimulate() {
-//        bool allowPresimulation = getValueAsBool("allow_presimulation");
-//        if (!allowPresimulation)
-//            return;
-//
-//        // do presimulation in side class so that we can test it.
-//        assert(mModel && "Model is null");
-//
-//        Presimulation presimulation(
-//                mModel,
-//                getValueAsDouble("presimulation_time"),
-//                getValueAsInt("presimulation_maximum_steps"),
-//                getValueAsBool("stiff")
-//        );
-//        presimulation.simulate();
-//        // remember to update the model
-//        syncWithModel(mModel);
-//    }
 
     std::unordered_map<std::string, Variant> KinsolSteadyStateSolver::getSolverStats() {
         std::unordered_map<std::string, Variant> map;
@@ -346,6 +317,5 @@ namespace rr {
             std::cout << "\t" << it.first << " = " << it.second.toString() << std::endl;
         }
     }
-
 
 }

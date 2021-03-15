@@ -23,7 +23,7 @@ namespace rr {
 
         SteadyStateSolverDecorator() = default;
 
-        SteadyStateSolverDecorator(SteadyStateSolver *solver);
+        explicit SteadyStateSolverDecorator(SteadyStateSolver *solver);
 
         /**
          * Base decorator delegates all work to the wrapped steady state solver.

@@ -1537,10 +1537,11 @@ double RoadRunner::steadyStateApproximate(const Dictionary* dict)
 
     try
     {
-        simulate();
+        simulate(); // todo no arguments being passed to simulate ? Does this make all of above irrelevant?
         vals1 = self.simulationResult[steps - 1];
         vals2 = self.simulationResult[steps - 2];
 
+        // todo why does this start from i=1? Is this a bug? (cw)
         for (int i = 1; i < l; i++)
         {
             tol += sqrt(pow((vals2[i] - vals1[i]) / (duration / steps), 2));

@@ -50,8 +50,14 @@ namespace rr {
          */
         static std::string getNewtonIterationHint();
 
+        /**
+         * @brief solve the currently defined problem
+         */
         double solve() override;
 
+        /**
+         * @brief reset settings back to default.
+         */
         void resetSettings() override;
 
     private:

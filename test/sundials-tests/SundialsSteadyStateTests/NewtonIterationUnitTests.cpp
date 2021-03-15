@@ -42,7 +42,15 @@ public:
 
 
 TEST_F(NewtonIterationUnitTests, SolveUsingSolverDirectly) {
+    // aka without a RoadRunner instance
     NewtonIteration solver(rr.getModel());
+    solver.solve();
+    checkResults(rr.getFloatingSpeciesConcentrationsNamedArray());
+}
+
+TEST_F(NewtonIterationUnitTests, CheckKinsolOptionIsPassedToKinsol) {
+    NewtonIteration solver(rr.getModel());
+    solver.setValue("print_level", 0);
     solver.solve();
     checkResults(rr.getFloatingSpeciesConcentrationsNamedArray());
 }
