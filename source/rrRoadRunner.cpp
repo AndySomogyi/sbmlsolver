@@ -1311,8 +1311,9 @@ double RoadRunner::steadyState(Dictionary* dict) {
 
     // initialize pointer to decorator
     // Decorators wrap the solve method and modifies its behaviour.
-    // first decorator applied is the first attempted to be executed.
-    // The first solve method attempted is always the undecorated version
+    // The first solve() method attempted is always the undecorated version
+    // The first decorator applied is the first attempted to be executed.
+    //  i.e. we try Presimulation then approximation.
     SteadyStateSolverDecorator *decorator = nullptr;
 
     // apply presimulation decorator if requested by user
@@ -1326,13 +1327,6 @@ double RoadRunner::steadyState(Dictionary* dict) {
         decorator = new ApproxSteadyStateDecorator(impl->steady_state_solver);
         impl->steady_state_solver = decorator;
     }
-
-
-    // when both presimulation and approximate options allowed, presimulation is
-    // tried first, then approximation
-
-
-    std::cout << "solver naem: " << impl->steady_state_solver->getName() << std::endl;
 
     double ss = impl->steady_state_solver->solve();
 
