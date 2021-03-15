@@ -77,8 +77,7 @@ public:
 
         std::cout << "rr.getReducedJacobian" << std::endl;
         std::cout << rr.getReducedJacobian() << std::endl;
-
-        openInCopasi(testModel->str());
+        //openInCopasi(testModel->str());
 
         rr.steadyState(&steadyStateOptions);
 
@@ -118,6 +117,20 @@ TEST_F(NewtonIterationIntegrationTests, CheckDecoratorRemovedAfterSolving) {
     rr.steadyState(&opt);
     // this string would be "Presimulation(NewtonIteration)" if decorator was not removed before setadyState returns.
     ASSERT_STREQ("NewtonIteration", rr.getSteadyStateSolver()->getName().c_str());
+}
+
+/**
+ * The OpenLinearFlux does not converge from the initial starting position (0, 0).
+ * In this situation we raise an error. Here we test that it does
+ */
+TEST_F(NewtonIterationIntegrationTests, CheckRaiseErrorWhenNotConverge) {
+    // setup with rr
+    OpenLinearFlux testModel;
+    RoadRunner rr(testModel.str());
+
+    rr.setSteadyStateSolver("NewtonIteration");
+
+    ASSERT_THROW(rr.steadyState(), std::logic_error);
 }
 
 
