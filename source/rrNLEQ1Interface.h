@@ -14,7 +14,7 @@ namespace rr
 /**
  * @internal
  */
-class RR_DECLSPEC NLEQ1Interface : public rrSteadyStateSolver
+class RR_DECLSPEC NLEQ1Interface : public Dictionary
 {
 
 public:
