@@ -7,20 +7,6 @@
 
 using namespace rr;
 
-//todo remember to delete this method before merge with develop.
-void openInCopasi(const std::string &sbml) {
-    std::string f = R"(D:\roadrunner\roadrunner\test\sundials-tests\SundialsSteadyStateTests\tmp.cps)";
-    std::ofstream cps;
-    cps.open(f);
-    cps << sbml;
-    cps.close();
-    std::string cmd = "CopasiUI -i " + f;
-    system(cmd.c_str());
-}
-
-/**
- *
- */
 class NewtonIterationIntegrationTests : public ::testing::Test {
 
 public:
@@ -128,7 +114,9 @@ TEST_F(NewtonIterationIntegrationTests, CheckRaiseErrorWhenNotConverge) {
     OpenLinearFlux testModel;
     RoadRunner rr(testModel.str());
     rr.setSteadyStateSolver("NewtonIteration");
-    ASSERT_THROW(rr.steadyState(), std::logic_error);
+    rr.getSteadyStateSolver()->setValue("allow_presimulation", false);
+    rr.getSteadyStateSolver()->setValue("allow_approx", false);
+    ASSERT_THROW(rr.steadyState(), std::runtime_error);
 }
 
 
