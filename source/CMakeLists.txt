@@ -36,7 +36,6 @@ set(rrHeaders)
 set(
         rrCoreSources
         rrConfig.cpp
-        rrSteadyStateSolver.cpp
         rrConstants.cpp
         rrException.cpp
         rrGetOptions.cpp
@@ -101,7 +100,6 @@ set(
         rrExporter.h
         rrOSSpecifics.h
         rrConfig.h
-        rrSteadyStateSolver.h
         rrConstants.h
         rrException.h
         rrGetOptions.h
