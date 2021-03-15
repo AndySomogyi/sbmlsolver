@@ -140,10 +140,10 @@ namespace rr {
         // note, we do not use msg. The error messages in decodeKinsolError are from the docs
         // and are more detailed than those that kinsol automatically provides with msg.
         if (error_code < 0) {
-            rrLog(Logger::LOG_ERROR) << "Kinsol Error: "
-                                     << "Module: " << module << ", Function: " << function
+            std::ostringstream err;
+            err << "Kinsol Error: Module: " << module << ", Function: " << function
                                      << "Message: " << decodeKinsolError(error_code);
-
+            throw std::runtime_error(err.str());
         } else if (error_code > 0) {
             rrLog(Logger::LOG_WARNING) << "Kinsol Warning: "
                                        << ", Module: " << module << ", Function: " << function
