@@ -170,6 +170,9 @@ stages:
             py38:
               PythonVersion: 3.8
               PythonName: py38
+            py39:
+              PythonVersion: 3.9
+              PythonName: py39
         variables:
           MinicondaRoot : '/usr/local/miniconda'
           PythonRoot: '$(MinicondaRoot)/envs/$(PythonName)'
@@ -498,6 +501,9 @@ stages:
             py38:
               PythonVersion: 3.8
               PythonName: py38
+            py39:
+              PythonVersion: 3.9
+              PythonName: py39
         variables:
           MinicondaRoot : 'C:\Miniconda'
           PythonRoot: '$(MinicondaRoot)\envs\$(PythonName)'
@@ -807,6 +813,9 @@ stages:
             py38:
               PythonVersion: 3.8
               PythonName: py38
+            py39:
+              PythonVersion: 3.9
+              PythonName: py39
         variables:
           MinicondaRoot : '/usr/share/miniconda'
           PythonRoot: '$(MinicondaRoot)/envs/$(PythonName)'
