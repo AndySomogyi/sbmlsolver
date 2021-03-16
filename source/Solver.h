@@ -74,19 +74,16 @@ namespace rr
         /**
         * @author JKM
         * @brief Get a list of all settings for this solver
-        * @details In an earlier version of roadrunner this
-        * method was called Solver::getSettings.
-        * @see Solver::getSettings
         */
-        std::vector<std::string> getSettingsKeys() const;
+        std::vector<std::string> getSettings() const;
 
         /**
          * @brief get settings for this solver
          * @return mapping of keys which are setting names
          * to values stored as Variants.
-         * @see getSettingsKeys for
+         * @see getSettings
          */
-        std::unordered_map<std::string, Variant>& getSettings();
+        std::unordered_map<std::string, Variant>& getSettingsMap();
 
         /**
         * @author JKM

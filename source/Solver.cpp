@@ -38,7 +38,7 @@ namespace rr
     {
         if (!inputSettings)
             return;
-        const std::vector<std::string>& thisSolversSettings = getSettingsKeys();
+        const std::vector<std::string>& thisSolversSettings = getSettings();
         for (const auto& setting: thisSolversSettings){
             if (inputSettings->hasKey(setting)){
                 setValue(setting, inputSettings->getItem(setting));
@@ -46,12 +46,12 @@ namespace rr
         }
     }
 
-    std::unordered_map<std::string, Variant>& Solver::getSettings()
+    std::unordered_map<std::string, Variant>& Solver::getSettingsMap()
     {
         return settings;
     }
 
-    std::vector<std::string> Solver::getSettingsKeys() const
+    std::vector<std::string> Solver::getSettings() const
     {
         std::vector<std::string> keys;
         for (const auto & sorted_setting : sorted_settings)

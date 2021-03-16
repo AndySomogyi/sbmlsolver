@@ -16,7 +16,7 @@ namespace rr {
 
     SteadyStateSolverDecorator::SteadyStateSolverDecorator(SteadyStateSolver *solver)
         : SteadyStateSolver(solver->getModel()), solver_(solver){
-        settings = solver_->getSettings();
+        settings = solver_->getSettingsMap();
     }
 
     std::string SteadyStateSolverDecorator::getName() const {

@@ -188,8 +188,8 @@ computers are known to be ‘pseudo-random’, meaning it can only ‘approximat
 key value for generating a sequence of numbers. This means that when a seed is given, it is possible to
 regenerate identical sequence of numbers from random number generator. This might be desireable for reproducibility
 perposes but undesireable for multiple iterations of random number creation.</p>
-<p>By using <code class="xref py py-meth docutils literal notranslate"><span class="pre">getSettingsKeys()</span></code>, you can check settings accepted by Gillespie solver.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span> <span class="n">rr</span><span class="o">.</span><span class="n">getIntegrator</span><span class="p">()</span><span class="o">.</span><span class="n">getSettingsKeys</span><span class="p">()</span>
+<p>By using <code class="xref py py-meth docutils literal notranslate"><span class="pre">getSettings()</span></code>, you can check settings accepted by Gillespie solver.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span> <span class="n">rr</span><span class="o">.</span><span class="n">getIntegrator</span><span class="p">()</span><span class="o">.</span><span class="n">getSettings</span><span class="p">()</span>
 <span class="go">(&#39;seed&#39;,</span>
 <span class="go"> &#39;variable_step_size&#39;,</span>
 <span class="go"> &#39;initial_time_step&#39;,</span>

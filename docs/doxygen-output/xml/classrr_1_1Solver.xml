@@ -227,9 +227,9 @@
       </memberdef>
       <memberdef kind="function" id="classrr_1_1Solver_1ac12d82cf9d7f03ba39f82ae81ee0e168" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::string &gt;</type>
-        <definition>std::vector&lt; string &gt; rr::Solver::getSettingsKeys</definition>
+        <definition>std::vector&lt; string &gt; rr::Solver::getSettings</definition>
         <argsstring>() const</argsstring>
-        <name>getSettingsKeys</name>
+        <name>getSettings</name>
         <briefdescription>
 <para>Get a list of all settings for this solver. </para>
         </briefdescription>
@@ -942,7 +942,7 @@
       <member refid="classrr_1_1Solver_1afc0a667f204105aa133376144ce14c75" prot="public" virt="virtual"><scope>rr::Solver</scope><name>getParamDisplayName</name></member>
       <member refid="classrr_1_1Solver_1aa604b810ab3f1a2c8bc6dfa6fc731dc2" prot="public" virt="virtual"><scope>rr::Solver</scope><name>getParamHint</name></member>
       <member refid="classrr_1_1Solver_1ae2bb88ffce40a0136c86a020b4c39037" prot="public" virt="virtual"><scope>rr::Solver</scope><name>getParamName</name></member>
-      <member refid="classrr_1_1Solver_1ac12d82cf9d7f03ba39f82ae81ee0e168" prot="public" virt="non-virtual"><scope>rr::Solver</scope><name>getSettingsKeys</name></member>
+      <member refid="classrr_1_1Solver_1ac12d82cf9d7f03ba39f82ae81ee0e168" prot="public" virt="non-virtual"><scope>rr::Solver</scope><name>getSettings</name></member>
       <member refid="classrr_1_1Solver_1a3f7a3671a4f2ee508fa015ed4b164213" prot="public" virt="non-virtual"><scope>rr::Solver</scope><name>getSettingsRepr</name></member>
       <member refid="classrr_1_1Solver_1a20add37bbd73f50d14047171f5f8e921" prot="public" virt="non-virtual"><scope>rr::Solver</scope><name>getType</name></member>
       <member refid="classrr_1_1Solver_1a773a06f0d64c9d79423efcef1b381da1" prot="public" virt="virtual"><scope>rr::Solver</scope><name>getValue</name></member>

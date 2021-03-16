@@ -584,7 +584,7 @@ RoadRunner::RoadRunner(const RoadRunner& rr)
     for (size_t in = 0; in < rr.impl->integrators.size(); in++)
     {
         setIntegrator(rr.impl->integrators[in]->getName());
-        for (std::string k : rr.impl->integrators[in]->getSettingsKeys())
+        for (std::string k : rr.impl->integrators[in]->getSettings())
         {
             impl->integrator->setValue(k, rr.impl->integrators[in]->getValue(k));
         }
@@ -603,7 +603,7 @@ RoadRunner::RoadRunner(const RoadRunner& rr)
     for (size_t ss = 0; ss < rr.impl->integrators.size(); ss++)
     {
         setSteadyStateSolver(rr.impl->steady_state_solvers[ss]->getName());
-        for (std::string k : rr.impl->steady_state_solvers[ss]->getSettingsKeys())
+        for (std::string k : rr.impl->steady_state_solvers[ss]->getSettings())
         {
             impl->steady_state_solver->setValue(k, rr.impl->steady_state_solvers[ss]->getValue(k));
         }
@@ -5384,7 +5384,7 @@ void RoadRunner::saveState(std::string filename, char opt)
 			rr::saveBinary(out, impl->integrator->getName());
 			rr::saveBinary(out, static_cast<unsigned long>(impl->integrator->getNumParams()));
 
-			for (std::string k : impl->integrator->getSettingsKeys())
+			for (std::string k : impl->integrator->getSettings())
 			{
 				rr::saveBinary(out, k);
 				rr::saveBinary(out, impl->integrator->getValue(k));
@@ -5393,7 +5393,7 @@ void RoadRunner::saveState(std::string filename, char opt)
 			rr::saveBinary(out, impl->steady_state_solver->getName());
 			rr::saveBinary(out, static_cast<unsigned long>(impl->steady_state_solver->getNumParams()));
 
-			for (std::string k : impl->steady_state_solver->getSettingsKeys())
+			for (std::string k : impl->steady_state_solver->getSettings())
 			{
 				rr::saveBinary(out, k);
 				rr::saveBinary(out, impl->steady_state_solver->getValue(k));

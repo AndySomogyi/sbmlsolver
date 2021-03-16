@@ -153,15 +153,15 @@
 %template(StringVector) std::vector<std::string>;
 %template(StringList) std::list<std::string>;
 
-%apply std::vector<std::string> {vector<std::string>, vector<string>, std::vector<string> };
+%apply std::vector<std::string> {std::vector<std::string>, std::vector<std::string>, std::vector<std::string> };
 
 //%template(SelectionRecordVector) std::vector<rr::SelectionRecord>;
-//%apply std::vector<rr::SelectionRecord> {std::vector<SelectionRecord>, std::vector<rr::SelectionRecord>, vector<SelectionRecord>};
+//%apply std::vector<rr::SelectionRecord> {std::vector<SelectionRecord>, std::vector<rr::SelectionRecord>, std::vector<SelectionRecord>};
 
 %apply std::list<std::string>& OUTPUT {std::list<std::string>};
 
 %template(DictionaryVector) std::vector<const rr::Dictionary*>;
-%apply std::vector<const rr::Dictionary*> {std::vector<const Dictionary*>, vector<const rr::Dictionary*>, vector<const Dictionary*>};
+%apply std::vector<const rr::Dictionary*> {std::vector<const Dictionary*>, std::vector<const rr::Dictionary*>, std::vector<const Dictionary*>};
 
 %exception {
   try {
@@ -365,7 +365,7 @@
 }
 */
 
-//%apply std::vector<std::string> {vector<std::string>, vector<string>, std::vector<string> };
+//%apply std::vector<std::string> {std::vector<std::string>, std::vector<std::string>, std::vector<std::string> };
 
 
 
@@ -707,7 +707,7 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 %rename (_addParameter) rr::RoadRunner::addParameter(const std::string&, double, bool);
 %rename (_addSpecies) rr::RoadRunner::addSpecies(const std::string&, const std::string&, double, bool, bool, const std::string&, bool);
 %rename (_addCompartment) rr::RoadRunner::addCompartment(const std::string&, double, bool);
-%rename (_addReaction) rr::RoadRunner::addReaction(const std::string&, std::vector<string>, std::vector<string>, const std::string&, bool);
+%rename (_addReaction) rr::RoadRunner::addReaction(const std::string&, std::vector<std::string>, std::vector<std::string>, const std::string&, bool);
 
 
 // Swig wraps C++ vectors to tuples, need to wrap lists instead on some methods

@@ -1576,7 +1576,7 @@ int rrcCallConv getNumberOfCurrentIntegratorParameters (RRHandle handle)
 {
 	start_try
 		RoadRunner* rri = castToRoadRunner(handle);
-	    vector<std::string> keys = rri->getIntegrator()->getSettingsKeys();
+	    vector<std::string> keys = rri->getIntegrator()->getSettings();
 		return static_cast<int>(keys.size());
     catch_int_macro
 }
@@ -1644,7 +1644,7 @@ RRStringArrayPtr rrcCallConv getListOfCurrentIntegratorParameterNames (RRHandle 
 {
 	start_try
 		RoadRunner* rri = castToRoadRunner(handle);
-		StringList settingsList = rri->getIntegrator()->getSettingsKeys();
+		StringList settingsList = rri->getIntegrator()->getSettings();
 		return createList(settingsList);
     catch_ptr_macro
 }
@@ -2499,7 +2499,7 @@ int rrcCallConv getNumberOfCurrentSteadyStateSolverParameters (RRHandle handle)
 {
     start_try
         RoadRunner* rri = castToRoadRunner(handle);
-        vector<std::string> keys = rri->getSteadyStateSolver()->getSettingsKeys();
+        vector<std::string> keys = rri->getSteadyStateSolver()->getSettings();
         return static_cast<int>(keys.size());
     catch_int_macro
 }
@@ -2598,7 +2598,7 @@ RRStringArrayPtr rrcCallConv getListOfCurrentSteadyStateSolverParameterNames (RR
 {
     start_try
         RoadRunner* rri = castToRoadRunner(handle);
-        StringList settingsList = rri->getSteadyStateSolver()->getSettingsKeys();
+        StringList settingsList = rri->getSteadyStateSolver()->getSettings();
         return createList(settingsList);
     catch_ptr_macro
 }
