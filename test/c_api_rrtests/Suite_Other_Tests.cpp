@@ -101,7 +101,6 @@ TEST(OTHER_TESTS, OUTPUT_FILE_VARIABLE_TIMESTEP) {
     rr.setIntegrator("gillespie");
     rr.getIntegrator()->setValue("seed", 123);
 
-    std::cout << "seed is: " << rr.getIntegrator()->getValueAsInt("seed") << std::endl;
     SimulateOptions opt;
     opt.start = 0;
     opt.duration = 100;
