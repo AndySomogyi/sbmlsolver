@@ -4,7 +4,7 @@
 
 #include "NewtonIteration.h"
 #include "rrRoadRunner.h"
-#include "SBMLTestModelFactory.h"
+#include "TestModelFactory.h"
 
 using namespace rr;
 
@@ -16,23 +16,16 @@ class NewtonIterationUnitTests : public ::testing::Test {
 public:
     RoadRunner rr;
 
-    // we introduce this test dependency (in the absence of mocking).
-    // These unit tests are tightly coupled to this model.
-    std::unique_ptr<SBMLTestModel> testModelPtr = SBMLTestModelFactory("SimpleFluxManuallyReduced");
-    std::unique_ptr<SimpleFluxManuallyReduced> testModel;
+    SimpleFluxManuallyReduced testModel;
 
+    NewtonIterationUnitTests() = default;
 
-    NewtonIterationUnitTests() {
-        testModel = std::unique_ptr<SimpleFluxManuallyReduced>(dynamic_cast<SimpleFluxManuallyReduced*>(testModelPtr.release()));
-        rr.load(testModel->str()); // load our sbml
-    };
-
-    void checkResults(ls::DoubleMatrix result) const {
+    void checkResults(ls::DoubleMatrix result) {
         std::vector<std::string> names = result.getColNames();
         for (int i = 0; i < names.size(); i++) {
             std::string speciesID = names[i];
             double actualResult = result[0][i]; // 0th row, ith col of a DoubleMatrix
-            double expected = testModel->steadyState()[speciesID].second; // first is start val, second is speciesID at steady state
+            double expected = testModel.steadyState()[speciesID].second; // first is start val, second is speciesID at steady state
             std::cout << "Comparing \"" << speciesID << "\" expected result: " << expected
                       << " with actual result " << actualResult << std::endl;
             EXPECT_NEAR(expected, actualResult, 0.0001);
@@ -104,13 +97,9 @@ TEST_P(SettingsTests, TestSettings) {
     std::cout << "Testing setting \"" << settingName << "\"" << std::endl;
 
     // a bit of a faffy way to downcast
-    std::unique_ptr<SBMLTestModel> testModelPtr = SBMLTestModelFactory("OpenLinearFlux");
-    auto* testModelPtrRaw = dynamic_cast<OpenLinearFlux*>(testModelPtr.get());
-    std::unique_ptr<OpenLinearFlux> testModel;
-    testModelPtr.release();
-    testModel.reset(testModelPtrRaw);
+    OpenLinearFlux testModel;
 
-    RoadRunner rr(testModel->str());
+    RoadRunner rr(testModel.str());
     NewtonIteration solver(rr.getModel());
 
     // actually change the setting to our new value

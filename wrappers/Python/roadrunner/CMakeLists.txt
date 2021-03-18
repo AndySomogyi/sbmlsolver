@@ -45,12 +45,10 @@ if (WIN32)
     set_target_properties(roadrunner_python PROPERTIES SUFFIX ".pyd")
 elseif (UNIX AND NOT APPLE)
     # Linux specific code
-    #SET_TARGET_PROPERTIES(roadrunner_python PROPERTIES LINK_FLAGS "-Wl,--no-undefined")
     swig_link_libraries(roadrunner_python
             roadrunner-static
             ${Python_LIBRARIES}
             )
-    # Note: elseif(APPLE) did not work
 elseif (APPLE)
 
     # OSX section.
@@ -116,14 +114,6 @@ install(
     FILES ${rrtest_files2}
     DESTINATION ${PYTHON_PACKAGE_INSTALL_PREFIX}/testing/test_data
 )
-
-#todo add building of python bindings to azure. Generate python wheels and export artefacts
-
-
-
-
-
-
 
 
 

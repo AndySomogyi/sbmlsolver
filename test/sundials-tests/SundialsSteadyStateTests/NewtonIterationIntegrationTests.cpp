@@ -3,7 +3,7 @@
 
 #include "NewtonIteration.h"
 #include "rrRoadRunner.h"
-#include "SBMLTestModelFactory.h"
+#include "TestModelFactory.h"
 
 using namespace rr;
 
@@ -17,8 +17,8 @@ public:
     void testSteadyState(const std::string &modelName, bool useMoietyConservation = false,
                          const std::string &strategy = "basic") {
         // get the model
-        std::unique_ptr<SBMLTestModel> testModelPtr = SBMLTestModelFactory(modelName);
-        auto testModel = std::unique_ptr<TestModelType>(dynamic_cast<TestModelType *>(testModelPtr.release()));
+        SBMLTestModel* testModel_ = TestModelFactory(modelName);
+        TestModelType* testModel = dynamic_cast<TestModelType*>(testModel_);
 
         assert(testModel && "testModel is nullptr");
 
@@ -86,6 +86,8 @@ public:
                       << " with actual result " << actualResult << std::endl;
             EXPECT_NEAR(expected, actualResult, 0.0001);
         }
+
+        delete testModel;
     }
 };
 
@@ -105,6 +107,25 @@ TEST_F(NewtonIterationIntegrationTests, CheckDecoratorRemovedAfterSolving) {
     ASSERT_STREQ("NewtonIteration", rr.getSteadyStateSolver()->getName().c_str());
 }
 
+TEST_F(NewtonIterationIntegrationTests, CheckDecoratorRemovedAfterFailureToSolve) {
+    OpenLinearFlux testModel;
+    RoadRunner rr(testModel.str());
+
+    rr.setSteadyStateSolver("NewtonIteration");
+    rr.getSteadyStateSolver()->setValue("allow_presimulation", false);
+    rr.getSteadyStateSolver()->setValue("allow_approx", false);
+
+    try {
+        rr.steadyState();
+    }catch (std::runtime_error& err){
+        ASSERT_STREQ("NewtonIteration", rr.getSteadyStateSolver()->getName().c_str());
+    } catch (std::exception){
+        ASSERT_FALSE("Test Failed"); // should never get here
+    }
+
+}
+
+
 /**
  * The OpenLinearFlux does not converge from the initial starting position (0, 0).
  * In this situation we raise an error. Here we test that it does
@@ -118,6 +139,22 @@ TEST_F(NewtonIterationIntegrationTests, CheckRaiseErrorWhenNotConverge) {
     rr.getSteadyStateSolver()->setValue("allow_approx", false);
     ASSERT_THROW(rr.steadyState(), std::runtime_error);
 }
+
+TEST_F(NewtonIterationIntegrationTests, CheckNewtonIterationIsARegisteredSolver) {
+    OpenLinearFlux testModel;
+    RoadRunner rr(testModel.str());
+    const auto& solverNames = rr.getRegisteredSteadyStateSolverNames();
+
+    // name of bool should be expressive; it shows up on gtest failure.
+    bool foundNewtonIterationInRegisteredSolverNames = false;
+    if (std::find(solverNames.begin(), solverNames.end(), "NewtonIteration") != solverNames.end()){
+        foundNewtonIterationInRegisteredSolverNames = true;
+    }
+    ASSERT_TRUE(foundNewtonIterationInRegisteredSolverNames);
+}
+
+
+
 
 
 /**

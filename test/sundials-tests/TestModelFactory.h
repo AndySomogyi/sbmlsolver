@@ -4,21 +4,22 @@
 #include <memory>
 #include "Variant.h"
 
-using DoublePair = std::pair<double, double>;
+//using DoublePair = std::pair<double, double>; // old swig no handle using statements
+typedef std::pair<double, double> DoublePair ;
 
 /**
  * Data structure for storing reference simulation results.
  * std::string: model species name
  * std::pair<double, double>: mapping between starting value and simulation result.
  */
-using ResultMap = std::unordered_map<std::string, DoublePair>;
-
+//using ResultMap = std::unordered_map<std::string, DoublePair>;
+typedef std::unordered_map<std::string, DoublePair> ResultMap ;
 /**
  * A collection of ResultMap objects
  * for testing models from multiple starting states.
  */
-using MultiResultsMap = std::vector<ResultMap>;
-
+//using MultiResultsMap = std::vector<ResultMap>;
+typedef std::vector<ResultMap> MultiResultsMap ;
 
 /**
  * Abstract type to store sbml string
@@ -32,7 +33,7 @@ public:
     virtual std::string str() = 0;
 
     /**
-     * Returns the model name. This is used by SBMLTestModelFactory
+     * Returns the model name. This is used by TestModelFactory
      * for instantiating instances of SBMLTestModel
      */
     virtual std::string modelName() = 0;
@@ -46,7 +47,7 @@ public:
  * solving the task at hand
  */
 class Result {
-
+public:
     virtual std::unordered_map<std::string, rr::Variant> settings() = 0;
 
 };
@@ -107,7 +108,7 @@ public:
  * A = 10;
  * B = 1;
  */
-class SimpleFlux : public SBMLTestModel, TimeSeriesResult, SteadyStateResult {
+class SimpleFlux : public SBMLTestModel, public TimeSeriesResult, public SteadyStateResult {
 public:
 
     std::string str() override {
@@ -263,7 +264,7 @@ public:
  *      ['S20', 'Total', 'kf', 'kb', 'S2']
  *      [1.0e+00 1.1e+01 1.0e-01 1.0e-02 1.0e+01]
  */
-class SimpleFluxManuallyReduced : public SBMLTestModel, SteadyStateResult {
+class SimpleFluxManuallyReduced : public SBMLTestModel, public SteadyStateResult {
 public:
     std::string str() override {
         return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
@@ -379,7 +380,7 @@ public:
     ...:  end
     ...:  """)
  */
-class OpenLinearFlux : public SBMLTestModel, SteadyStateResult, TimeSeriesResult {
+class OpenLinearFlux : public SBMLTestModel, public SteadyStateResult, public TimeSeriesResult {
 public:
     std::string str() override {
         return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
@@ -475,7 +476,7 @@ public:
 /**
  * model 269 from the sbml test suite
  */
-class Model269 : public SBMLTestModel, TimeSeriesResult {
+class Model269 : public SBMLTestModel, public TimeSeriesResult {
 public:
 
     std::string str() override {
@@ -590,7 +591,7 @@ public:
 /**
  * model 28 from the sbml test suite
  */
-class Model28 : public SBMLTestModel, TimeSeriesResult {
+class Model28 : public SBMLTestModel, public TimeSeriesResult {
 public:
 
     std::string str() override {
@@ -683,7 +684,7 @@ public:
 /**
  * A model that uses "ceil" in the rate law
  */
-class CeilInRateLaw : public SBMLTestModel, TimeSeriesResult {
+class CeilInRateLaw : public SBMLTestModel, public TimeSeriesResult {
 public:
 
     std::string str() override {
@@ -751,7 +752,7 @@ public:
 /**
  * A model that uses "Factorial" in the rate law
  */
-class FactorialInRateLaw : public SBMLTestModel, TimeSeriesResult {
+class FactorialInRateLaw : public SBMLTestModel, public TimeSeriesResult {
 public:
 
     std::string str() override {
@@ -819,7 +820,7 @@ public:
 /**
  * Model from the Venkatraman 2010 paper
  */
-class Venkatraman2010 : public SBMLTestModel, SteadyStateResult {
+class Venkatraman2010 : public SBMLTestModel, public SteadyStateResult {
 public:
 
     std::string str() override {
@@ -1974,39 +1975,30 @@ public:
         };
     }
 
-
 };
 
-
-/**
- * Basic factory that creates sbml strings
- * for use in tests.
- *
- * todo now that this is getting bit bigger might want to consider self
- *  registering factory
- */
-std::unique_ptr<SBMLTestModel> SBMLTestModelFactory(const std::string &modelName) {
+SBMLTestModel* TestModelFactory(const std::string &modelName) {
     if (modelName == "SimpleFlux") {
-        return std::make_unique<SimpleFlux>();
+        return new SimpleFlux();
     } else if (modelName == "Model269") {
-        return std::make_unique<Model269>();
+        return new Model269();
     } else if (modelName == "Model28") {
-        return std::make_unique<Model28>();
+        return new Model28();
     } else if (modelName == "CeilInRateLaw") {
-        return std::make_unique<CeilInRateLaw>();
+        return new CeilInRateLaw();
     } else if (modelName == "FactorialInRateLaw") {
-        return std::make_unique<FactorialInRateLaw>();
+        return new FactorialInRateLaw();
     } else if (modelName == "Venkatraman2010") {
-        return std::make_unique<Venkatraman2010>();
+        return new Venkatraman2010();
     } else if (modelName == "OpenLinearFlux") {
-        return std::make_unique<OpenLinearFlux>();
+        return new OpenLinearFlux();
     } else if (modelName == "SimpleFluxManuallyReduced") {
-        return std::make_unique<SimpleFluxManuallyReduced>();
+        return new SimpleFluxManuallyReduced();
     } else if (modelName == "Brown2004") {
-        return std::make_unique<Brown2004>();
+        return new Brown2004();
     } else {
         throw std::runtime_error(
-                "SBMLTestModelFactory::SBMLTestModelFactory(): no model called \"" + modelName + "\" found\n");
+                "TestModelFactory::TestModelFactory(): no model called \"" + modelName + "\" found\n");
     }
 }
 

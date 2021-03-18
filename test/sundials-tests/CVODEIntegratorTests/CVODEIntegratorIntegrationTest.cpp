@@ -6,7 +6,7 @@
 #include "rrExecutableModel.h"
 #include "CVODEIntegrator.h"
 #include "Solver.h"
-#include "SBMLTestModelFactory.h"
+#include "TestModelFactory.h"
 
 using namespace rr;
 using namespace testing;
@@ -14,7 +14,7 @@ using namespace testing;
 
 /**
  * Parameterised fixture for passing models through a series of tests.
- * The template parameter is a string and is used as input into SBMLTestModelFactory.
+ * The template parameter is a string and is used as input into TestModelFactory.
  */
 class CVODEIntegratorIntegrationTests : public ::testing::Test {
 public:
@@ -28,9 +28,8 @@ public:
      */
     template<class ModelType>
     void CheckModelSimulates(const std::string &modelName) {
-        // get the sbml from the parameterised test (google "googlemock parameterised tests" for more info)
-        std::unique_ptr<SBMLTestModel> testModelPtr = SBMLTestModelFactory(modelName);
-        auto testModel = std::unique_ptr<ModelType>(dynamic_cast<ModelType*>(testModelPtr.release()));
+        SBMLTestModel* testModelPtr = TestModelFactory(modelName);
+        ModelType* testModel = dynamic_cast<ModelType*>(testModelPtr);
 
         // load model
         RoadRunner r(testModel->str());
@@ -69,6 +68,7 @@ public:
         }
 
         free(state);
+        delete testModel;
     }
 };
 

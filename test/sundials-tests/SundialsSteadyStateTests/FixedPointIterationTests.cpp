@@ -3,7 +3,7 @@
 
 #include "FixedPointIteration.h"
 #include "rrRoadRunner.h"
-#include "SBMLTestModelFactory.h"
+#include "TestModelFactory.h"
 
 using namespace rr;
 
@@ -28,8 +28,8 @@ public:
 //     - case where we already have a steady state. Should return a special kinsol code
 //
 //TEST_F(FixedPointIterationTests, TestCalculatedSteadyStateValuesAreCorrect) {
-////    auto testModel = (Venkatraman2010*) SBMLTestModelFactory("Venkatraman2010");
-//    auto *testModel = (OpenLinearFlux *) SBMLTestModelFactory("OpenLinearFlux");
+////    auto testModel = (Venkatraman2010*) TestModelFactory("Venkatraman2010");
+//    auto *testModel = (OpenLinearFlux *) TestModelFactory("OpenLinearFlux");
 //    RoadRunner rr(testModel->str());
 //    FixedPointIteration fixedPointIteration(rr.getModel());
 //
@@ -54,7 +54,7 @@ public:
 //
 //
 //TEST(How, t) {
-//    auto *testModel = (SimpleFlux *) SBMLTestModelFactory("SimpleFlux");
+//    auto *testModel = (SimpleFlux *) TestModelFactory("SimpleFlux");
 //    RoadRunner rr(testModel->str());
 //
 //    SimulateOptions options;

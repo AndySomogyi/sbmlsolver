@@ -15,7 +15,7 @@ project(
         roadrunner
         DESCRIPTION "roadrunner project"
         VERSION ${ROADRUNNER_VERSION}
-        LANGUAGES CXX
+        LANGUAGES CXX C
 )
 
 
@@ -95,7 +95,7 @@ option(BUILD_LEGACY_C "Build the legacy C code generating backend (deprecated)" 
 # should we build the swig python wrapper?
 option(BUILD_PYTHON "Build the SWIG generated python wrapper" OFF)
 if (BUILD_PYTHON)
-    find_package(Python COMPONENTS Interpreter Development NumPy REQUIRED)
+        find_package(Python COMPONENTS Interpreter Development NumPy REQUIRED)
     if (NOT ${Python_FOUND})
         message(FATAL_ERROR "Could not find Python")
     endif ()

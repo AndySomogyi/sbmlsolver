@@ -5,7 +5,7 @@
 #include "SteadyStateSolverDecorator.h"
 #include "ApproxSteadyStateDecorator.h"
 #include "NewtonIteration.h"
-#include "SBMLTestModelFactory.h"
+#include "TestModelFactory.h"
 
 using namespace rr;
 

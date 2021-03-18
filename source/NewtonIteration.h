@@ -12,7 +12,7 @@
 
 namespace rr {
 
-    class NewtonIteration : public KinsolSteadyStateSolver {
+    class RR_DECLSPEC NewtonIteration : public KinsolSteadyStateSolver {
 
     public:
 

@@ -39,3 +39,80 @@ endfunction()
 
 add_subdirectory(CVODEIntegratorTests)
 add_subdirectory(SundialsSteadyStateTests)
+
+if (BUILD_PYTHON AND BUILD_TESTS)
+    # temporary: See if this works before cleaning it up
+    find_package(Python COMPONENTS Interpreter Development NumPy REQUIRED)
+    find_package(SWIG 3.0.0 REQUIRED
+            COMPONENTS python
+            )
+    include(UseSWIG)
+
+    message(STATUS "SWIG_USE_FILE ${SWIG_USE_FILE}")
+
+    set_source_files_properties(TestModelFactory.i
+            PROPERTIES
+            CPLUSPLUS ON
+            )
+
+    swig_add_library(TestModelFactory
+            TYPE MODULE
+            LANGUAGE python
+            SOURCES TestModelFactory.i TestModelFactory.h)
+
+    set(CMAKE_SWIG_FLAGS "-py3 -castmode -keyword")
+    set_target_properties(TestModelFactory PROPERTIES
+#            RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib/site-packages/roadrunner/testing
+#            LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib/site-packages/roadrunner/testing
+#            ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib/site-packages/roadrunner/testing
+#            OUTPUT_NAME TestModelFactory
+            SWIG_USE_TARGET_INCLUDE_DIRECTORIES TRUE
+            )
+
+    message(STATUS "Python_INCLUDE_DIRS ${Python_INCLUDE_DIRS}")
+    message(STATUS "Python_LIBRARIES ${Python_LIBRARIES}")
+
+    target_include_directories(TestModelFactory PUBLIC
+            ${Python_INCLUDE_DIRS}
+            ${CMAKE_CURRENT_SOURCE_DIR}
+            $<TARGET_PROPERTY:roadrunner-static,INCLUDE_DIRECTORIES>
+            )
+    target_link_libraries(TestModelFactory PUBLIC
+            roadrunner-static
+            ${Python_LIBRARIES}
+            )
+    # affect only this target.
+    unset(CMAKE_SWIG_FLAGS)
+
+    install(TARGETS TestModelFactory DESTINATION site-packages/roadrunner/testing)
+    install(FILES "${CMAKE_CURRENT_BINARY_DIR}/TestModelFactory.py" DESTINATION site-packages/roadrunner/testing)
+
+endif ()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
