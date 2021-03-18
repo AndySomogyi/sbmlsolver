@@ -1,3 +1,6 @@
+#ifndef ROADRUNNER_TESTMODELFACTORY
+#define ROADRUNNER_TESTMODELFACTORY
+
 #include <vector>
 #include <unordered_map>
 #include <stdexcept>
@@ -14,6 +17,7 @@ typedef std::pair<double, double> DoublePair ;
  */
 //using ResultMap = std::unordered_map<std::string, DoublePair>;
 typedef std::unordered_map<std::string, DoublePair> ResultMap ;
+
 /**
  * A collection of ResultMap objects
  * for testing models from multiple starting states.
@@ -2008,7 +2012,7 @@ SBMLTestModel* TestModelFactory(const std::string &modelName) {
 
 
 
-
+#endif // ROADRUNNER_TESTMODELFACTORY
 
 
 

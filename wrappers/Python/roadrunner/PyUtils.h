@@ -13,7 +13,7 @@
 
 #include "Variant.h"
 #include <Python.h>
-#include <lsMatrix.h>
+#include <rr-libstruct/lsMatrix.h>
 #include <stdint.h>
 
 namespace rr

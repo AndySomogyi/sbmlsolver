@@ -23,7 +23,7 @@
 %{
     #define SWIG_FILE_WITH_INIT
     // see discussion on import array,
-    // http://docs.scipy.org/doc/numpy/reference/c-api.array.html#miscellaneous
+    // https://numpy.org/doc/stable/reference/c-api/array.html#importing-the-api
     #define PY_ARRAY_UNIQUE_SYMBOL RoadRunner_ARRAY_API
     //Can't require new wrappers on MacOS 10.9
     //#define NPY_NO_DEPRECATED_API NPY_1_7_API_VERSION
@@ -278,39 +278,8 @@
 }
 
 
+%include "rr_variant.i"
 
-%typemap(out) const rr::Variant& {
-    try {
-        const rr::Variant& temp = *($1);
-        $result = Variant_to_py(temp);
-    } catch (const std::exception& e) {
-        SWIG_exception(SWIG_RuntimeError, e.what());
-    }
-}
-
-
-%typemap(out) const rr::Variant {
-    try {
-        $result = Variant_to_py($1);
-    } catch (const std::exception& e) {
-        SWIG_exception(SWIG_RuntimeError, e.what());
-    }
-}
-
-%apply const rr::Variant {Variant, rr::Variant, const Variant};
-
-
-%typemap(in) const rr::Variant& (rr::Variant temp) {
-
-    try {
-        temp = Variant_from_py($input);
-        $1 = &temp;
-    } catch (const std::exception& e) {
-        SWIG_exception(SWIG_RuntimeError, e.what());
-    }
-}
-
-%apply const rr::Variant& {rr::Variant&, Variant&, const Variant&};
 
 /**
  * input map, convert an incomming object to a roadrunner Dictionary*
