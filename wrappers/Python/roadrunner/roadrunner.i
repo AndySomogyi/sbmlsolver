@@ -47,7 +47,7 @@
     #include <rrRoadRunnerOptions.h>
     #include <rrRoadRunner.h>
     #include <SteadyStateSolver.h>
-    #include <rrLogger.h>
+//    #include <rrLogger.h>
     #include <rrConfig.h>
     #include <conservation/ConservationExtension.h>
     #include "conservation/ConservedMoietyConverter.h"
@@ -62,7 +62,7 @@
     #include <math.h>
     #include <cmath>
     #include "PyUtils.h"
-    #include "PyLoggerStream.h"
+//    #include "PyLoggerStream.h"
 
     // make a python obj out of the C++ ExecutableModel, this is used by the PyEventListener
     // class. This function is defined later in this compilation unit.
@@ -105,7 +105,7 @@
         DictionaryHolder() { dict = NULL; }
 
         ~DictionaryHolder() {
-            rrLog(Logger::LOG_TRACE) << __FUNC__ << ", deleting dictionary " << (void*)dict;
+            //rrLog(Logger::LOG_TRACE) << __FUNC__ << ", deleting dictionary " << (void*)dict;
             delete dict;
         }
     };
@@ -123,6 +123,7 @@
 
 // C++ std::map handling
 %include "std_unordered_map.i"
+//%include "std_map.i"
 
 // C++ std::map handling
 %include "std_vector.i"
@@ -356,7 +357,7 @@ rr::pyutil_init(m);
 
     static void rr_sighandler(int sig) {
         std::cout << "handling signal " << sig << std::endl;
-        rrLog(rr::Logger::LOG_WARNING) << "signal handler : " << sig;
+        //rrLog(rr::Logger::LOG_WARNING) << "signal handler : " << sig;
     }
 
     static unsigned long sigtrap() {
@@ -367,7 +368,7 @@ rr::pyutil_init(m);
 #else
 
     static unsigned long sigtrap() {
-        rrLog(rr::Logger::LOG_WARNING) << "sigtrap not supported on Windows";
+        //rrLog(rr::Logger::LOG_WARNING) << "sigtrap not supported on Windows";
         return 0;
     }
 
@@ -842,7 +843,7 @@ namespace std { class ostream{}; }
 
 %include <Dictionary.h>
 %include <rrRoadRunnerOptions.h>
-%include <rrLogger.h>
+//%include <rrLogger.h>
 %include <rrCompiler.h>
 %include <rrExecutableModel.h>
 %include <ExecutableModelFactory.h>
@@ -998,41 +999,50 @@ namespace std { class ostream{}; }
             self._setConservedMoietyAnalysis(value)
             self._makeProperties()
 
-        __swig_getmethods__["selections"] = _getSelections # DEPRECATED
-        __swig_setmethods__["selections"] = _setSelections # DEPRECATED
-        __swig_getmethods__["timeCourseSelections"] = _getSelections
-        __swig_setmethods__["timeCourseSelections"] = _setSelections
-        __swig_getmethods__["steadyStateSelections"] = _getSteadyStateSelections
-        __swig_setmethods__["steadyStateSelections"] = _setSteadyStateSelections
-        __swig_getmethods__["conservedMoietyAnalysis"] = _getConservedMoietyAnalysis
-        __swig_setmethods__["conservedMoietyAnalysis"] = _setConservedMoietyAnalysisProxy
-        __swig_getmethods__["model"] = _getModel
-        __swig_getmethods__["integrator"] = getIntegrator
-        __swig_setmethods__["integrator"] = setIntegrator
+        selections = property(_getSelections, _setSelections)
+        timeCourseSelections = property(_getSelections, _setSelections)
+        steadyStateSelections = property(_getSteadyStateSelections, _setSteadyStateSelections)
+        conservedMoietyAnalysis = property(_getConservedMoietyAnalysis)
+        model = property(_getModel)
+        integrator = property(getIntegrator, setIntegrator)
+        #__swig_getmethods__["selections"] = _getSelections # DEPRECATED
+        #__swig_setmethods__["selections"] = _setSelections # DEPRECATED
+        #__swig_getmethods__["timeCourseSelections"] = _getSelections
+        #__swig_setmethods__["timeCourseSelections"] = _setSelections
+        #__swig_getmethods__["steadyStateSelections"] = _getSteadyStateSelections
+        #__swig_setmethods__["steadyStateSelections"] = _setSteadyStateSelections
+        #__swig_getmethods__["conservedMoietyAnalysis"] = _getConservedMoietyAnalysis
+        #__swig_setmethods__["conservedMoietyAnalysis"] = _setConservedMoietyAnalysisProxy
+        #__swig_getmethods__["model"] = _getModel
+        #__swig_getmethods__["integrator"] = getIntegrator
+        #__swig_setmethods__["integrator"] = setIntegrator
 
-        if _newclass:
-            selections = property(_getSelections, _setSelections)
-            timeCourseSelections = property(_getSelections, _setSelections)
-            steadyStateSelections = property(_getSteadyStateSelections, _setSteadyStateSelections)
-            conservedMoietyAnalysis=property(_getConservedMoietyAnalysis, _setConservedMoietyAnalysis)
-            model = property(getModel)
-            integrator = property(getIntegrator)
+        #if _newclass:
+        #    selections = property(_getSelections, _setSelections)
+        #    timeCourseSelections = property(_getSelections, _setSelections)
+        #    steadyStateSelections = property(_getSteadyStateSelections, _setSteadyStateSelections)
+        #    conservedMoietyAnalysis=property(_getConservedMoietyAnalysis, _setConservedMoietyAnalysis)
+        #    model = property(getModel)
+        #    integrator = property(getIntegrator)
 
 
-        # static list of properties added to the RoadRunner
-        # class object
+        # static list of properties added to the RoadRunner class object
         _properties = []
+
+        def _listProperties(self):
+            return [i for i in dir(self) if isinstance(getattr(self, i), property)]
 
         def _makeProperties(self):
 
             #global _properties
 
             # always clear the old properties
-            for s in RoadRunner._properties:
-                if s in RoadRunner.__swig_getmethods__:
-                    del RoadRunner.__swig_getmethods__[s]
-                if s in RoadRunner.__swig_setmethods__:
-                    del RoadRunner.__swig_setmethods__[s]
+
+            for s in self._listProperties():
+                #if s in RoadRunner.__swig_getmethods__:
+                #    del RoadRunner.__swig_getmethods__[s]
+                #if s in RoadRunner.__swig_setmethods__:
+                #    del RoadRunner.__swig_setmethods__[s]
                 if hasattr(RoadRunner, s):
                     delattr(RoadRunner, s)
 
@@ -1054,10 +1064,11 @@ namespace std { class ostream{}; }
             def makeProperty(name, sel):
                 fget = mk_fget(sel)
                 fset = mk_fset(sel)
-                RoadRunner.__swig_getmethods__[name] = fget
-                RoadRunner.__swig_setmethods__[name] = fset
-                setattr(RoadRunner, name, property(fget, fset))
-                RoadRunner._properties.append(name)
+                prop = property(fget, fset)
+                #RoadRunner.__swig_getmethods__[name] = fget
+                #RoadRunner.__swig_setmethods__[name] = fset
+                setattr(RoadRunner, name, prop)
+                #RoadRunner._properties.append(name) # no need for this, properties are dynamically computed when call to _properties
 
             model = self.getModel()
             for s in model.getFloatingSpeciesIds():
@@ -1654,8 +1665,9 @@ namespace std { class ostream{}; }
         def getReactionRates(self):
             return self.getModel().getReactionRates()
 
-        if _newclass:
-            integrator = property(getIntegrator, setIntegrator)
+        integrator = property(getIntegrator, setIntegrator)
+        #if _newclass:
+            #integrator = property(getIntegrator, setIntegrator)
 
         def setIntegratorSetting(self, integratorName, settingName, value):
             import sys
@@ -1710,11 +1722,12 @@ namespace std { class ostream{}; }
             print('diffstep.setter')
             self.setDiffStepSize(v)
 
-        __swig_getmethods__['diffstep'] = _diffstep_getter
-        __swig_setmethods__['diffstep'] = _diffstep_stter
+        diffstep = property(_diffstep_getter, _diffstep_stter)
+        #__swig_getmethods__['diffstep'] = _diffstep_getter
+        #__swig_setmethods__['diffstep'] = _diffstep_stter
 
-        if _newclass:
-            diffstep = property(_diffstep_getter, _diffstep_stter)
+        #if _newclass:
+        #    diffstep = property(_diffstep_getter, _diffstep_stter)
 
         def _steadyStateThresh_getter(self):
             '''Steady state threshold used in MCA'''
@@ -1723,11 +1736,12 @@ namespace std { class ostream{}; }
         def _steadyStateThresh_setter(self, v):
             self.setSteadyStateThreshold(v)
 
-        __swig_getmethods__['steadyStateThresh'] = _steadyStateThresh_getter
-        __swig_setmethods__['steadyStateThresh'] = _steadyStateThresh_setter
+        steadyStateThresh = property(_steadyStateThresh_getter, _steadyStateThresh_setter)
+        #__swig_getmethods__['steadyStateThresh'] = _steadyStateThresh_getter
+        #__swig_setmethods__['steadyStateThresh'] = _steadyStateThresh_setter
 
-        if _newclass:
-            steadyStateThresh = property(_steadyStateThresh_getter, _steadyStateThresh_setter)
+        #if _newclass:
+        #    steadyStateThresh = property(_steadyStateThresh_getter, _steadyStateThresh_setter)
     %}
 }
 
@@ -1744,12 +1758,12 @@ namespace std { class ostream{}; }
 
 
     rr::RoadRunnerOptions* rr_RoadRunner_options_get(RoadRunner* r) {
-        rrLog(Logger::LOG_WARNING) << "DO NOT USE options, it is DEPRECATED";
+        //rrLog(Logger::LOG_WARNING) << "DO NOT USE options, it is DEPRECATED";
         return &r->getOptions();
     }
 
     void rr_RoadRunner_options_set(RoadRunner* r, const rr::RoadRunnerOptions* opt) {
-        rrLog(Logger::LOG_WARNING) << "DO NOT USE options, it is DEPRECATED";
+        //rrLog(Logger::LOG_WARNING) << "DO NOT USE options, it is DEPRECATED";
         rr::RoadRunnerOptions *rropt = &r->getOptions();
         *rropt = *opt;
     }
@@ -2452,15 +2466,15 @@ namespace std { class ostream{}; }
     %}
 }
 
-%extend rr::Logger {
-    static void enablePythonLogging() {
-        PyLoggerStream::enablePythonLogging();
-    }
-
-    static void disablePythonLogging() {
-        PyLoggerStream::disablePythonLogging();
-    }
-}
+//%extend rr::Logger {
+//    static void enablePythonLogging() {
+//        PyLoggerStream::enablePythonLogging();
+//    }
+//
+//    static void disablePythonLogging() {
+//        PyLoggerStream::disablePythonLogging();
+//    }
+//}
 
 %extend rr::Solver {
     %pythoncode %{
@@ -2473,13 +2487,15 @@ namespace std { class ostream{}; }
             if(name in self.getSettings()):
                 return Solver.getValue(self, name)
             else:
-                return _swig_getattr(self, Integrator, name)
+                return self.__dict__[name]
+                #return _swig_getattr(self, Integrator, name)
 
         def __setattr__(self, name, value):
             if(name != 'this' and name in self.getSettings()):
                 self.setValue(name, value)
             else:
-                _swig_setattr(self, Integrator, name, value)
+                self.__dict__[name] = value
+                #_swig_setattr(self, Integrator, name, value)
 
         def getSetting(self, k):
             return self.getValue(k)
@@ -2497,26 +2513,26 @@ namespace std { class ostream{}; }
 
     void _setListener(const rr::PyIntegratorListenerPtr &listener) {
 
-        rrLog(rr::Logger::LOG_INFORMATION) << __FUNC__ << ", use count: " << listener.use_count();
+        //rrLog(rr::Logger::LOG_INFORMATION) << __FUNC__ << ", use count: " << listener.use_count();
 
         cxx11_ns::shared_ptr<rr::IntegratorListener> i =
             cxx11_ns::dynamic_pointer_cast<rr::IntegratorListener>(listener);
 
-        rrLog(rr::Logger::LOG_INFORMATION) << __FUNC__ << ", after cast use count: " << listener.use_count();
+//        rrLog(rr::Logger::LOG_INFORMATION) << __FUNC__ << ", after cast use count: " << listener.use_count();
 
         ($self)->setListener(i);
     }
 
     rr::PyIntegratorListenerPtr _getListener() {
 
-        rrLog(rr::Logger::LOG_INFORMATION) << __FUNC__;
+//        rrLog(rr::Logger::LOG_INFORMATION) << __FUNC__;
 
         rr::IntegratorListenerPtr l = ($self)->getListener();
 
         rr::PyIntegratorListenerPtr ptr =
             cxx11_ns::dynamic_pointer_cast<rr::PyIntegratorListener>(l);
 
-        rrLog(rr::Logger::LOG_INFORMATION) << __FUNC__ << ", use count: " << ptr.use_count();
+//        rrLog(rr::Logger::LOG_INFORMATION) << __FUNC__ << ", use count: " << ptr.use_count();
 
         return ptr;
     }
@@ -2524,11 +2540,11 @@ namespace std { class ostream{}; }
     void _clearListener() {
         rr::IntegratorListenerPtr current = ($self)->getListener();
 
-        rrLog(rr::Logger::LOG_INFORMATION) << __FUNC__ << ", current use count before clear: " << current.use_count();
+//        rrLog(rr::Logger::LOG_INFORMATION) << __FUNC__ << ", current use count before clear: " << current.use_count();
 
         ($self)->setListener(rr::IntegratorListenerPtr());
 
-        rrLog(rr::Logger::LOG_INFORMATION) << __FUNC__ << ", current use count after clear: " << current.use_count();
+//        rrLog(rr::Logger::LOG_INFORMATION) << __FUNC__ << ", current use count after clear: " << current.use_count();
     }
 
     // we want to get the listener back as a PyIntegratorListener, however
@@ -2545,10 +2561,11 @@ namespace std { class ostream{}; }
             else:
                 self._setListener(listener)
 
-        __swig_getmethods__["listener"] = getListener
-        __swig_setmethods__["listener"] = setListener
-        if _newclass:
-            listener = property(getListener, setListener)
+        listener = property(getListener, setListener)
+        #__swig_getmethods__["listener"] = getListener
+        #__swig_setmethods__["listener"] = setListener
+        #if _newclass:
+        #    listener = property(getListener, setListener)
 
         def __dir__(self):
             x = dir(type(self))
@@ -2559,13 +2576,15 @@ namespace std { class ostream{}; }
             if(name in self.getSettings()):
                 return Solver.getValue(self, name)
             else:
-                return _swig_getattr(self, Integrator, name)
+                return self.__dict__[name]
+                #return _swig_getattr(self, Integrator, name)
 
         def __setattr__(self, name, value):
             if(name != 'this' and name in self.getSettings()):
                 self.setValue(name, value)
             else:
-                _swig_setattr(self, Integrator, name, value)
+                self.__dict__[name] = value
+                #_swig_setattr(self, Integrator, name, value)
 
         def __repr__(self):
             return self.toRepr()
@@ -2589,13 +2608,15 @@ namespace std { class ostream{}; }
             if(name in self.getSettings()):
                 return Solver.getValue(self, name)
             else:
-                return _swig_getattr(self, Integrator, name)
+                return self.__dict__[name]
+                #return _swig_getattr(self, Integrator, name)
 
         def __setattr__(self, name, value):
             if(name != 'this' and name in self.getSettings()):
                 self.setValue(name, value)
             else:
-                _swig_setattr(self, Integrator, name, value)
+                self.__dict__[name] = value
+                #_swig_setattr(self, Integrator, name, value)
 
         def __repr__(self):
             return self.toRepr()
@@ -2610,25 +2631,33 @@ namespace std { class ostream{}; }
 
 %extend rr::PyIntegratorListener {
     %pythoncode %{
-        __swig_getmethods__["onTimeStep"] = getOnTimeStep
-        __swig_setmethods__["onTimeStep"] = setOnTimeStep
-        if _newclass: onTimeStep = property(getOnTimeStep, setOnTimeStep)
+        onTimeStep = property(getOnTimeStep, setOnTimeStep)
+        #__swig_getmethods__["onTimeStep"] = getOnTimeStep
+        #__swig_setmethods__["onTimeStep"] = setOnTimeStep
+        #if _newclass:
+        #    onTimeStep = property(getOnTimeStep, setOnTimeStep)
 
-        __swig_getmethods__["onEvent"] = getOnEvent
-        __swig_setmethods__["onEvent"] = setOnEvent
-        if _newclass: onEvent = property(getOnEvent, setOnEvent)
+        onEvent = property(getOnEvent, setOnEvent)
+        #__swig_getmethods__["onEvent"] = getOnEvent
+        #__swig_setmethods__["onEvent"] = setOnEvent
+        #if _newclass:
+        #    onEvent = property(getOnEvent, setOnEvent)
      %}
 }
 
 %extend rr::PyEventListener {
     %pythoncode %{
-        __swig_getmethods__["onTrigger"] = getOnTrigger
-        __swig_setmethods__["onTrigger"] = setOnTrigger
-        if _newclass: onTrigger = property(getOnTrigger, setOnTrigger)
+        onTrigger = property(getOnTrigger, setOnTrigger)
+        #__swig_getmethods__["onTrigger"] = getOnTrigger
+        #__swig_setmethods__["onTrigger"] = setOnTrigger
+        #if _newclass:
+        #    onTrigger = property(getOnTrigger, setOnTrigger)
 
-        __swig_getmethods__["onAssignment"] = getOnAssignment
-        __swig_setmethods__["onAssignment"] = setOnAssignment
-        if _newclass: onAssignment = property(getOnAssignment, setOnAssignment)
+        onAssignment = property(getOnAssignment, setOnAssignment)
+        #__swig_getmethods__["onAssignment"] = getOnAssignment
+        #__swig_setmethods__["onAssignment"] = setOnAssignment
+        #if _newclass:
+        #    onAssignment = property(getOnAssignment, setOnAssignment)
      %}
 }
 

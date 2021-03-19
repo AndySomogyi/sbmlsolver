@@ -53,38 +53,42 @@ if (BUILD_PYTHON AND BUILD_TESTS)
     set_source_files_properties(TestModelFactory.i
             PROPERTIES
             CPLUSPLUS ON
+            SWIG_FLAGS
+                # turns on automatic annotation of python arg and return types
+                # BUT does so in c++ types. Therefore I'm not sure how much value this adds.
+                "-py3"
             )
 
-    swig_add_library(TestModelFactory
-            TYPE MODULE
-            LANGUAGE python
-            SOURCES TestModelFactory.i TestModelFactory.h
-            "../../wrappers/Python/roadrunner/PyUtils"
-            )
+#    swig_add_library(TestModelFactory
+#            TYPE MODULE
+#            LANGUAGE python
+#            SOURCES TestModelFactory.i TestModelFactory.h
+#            "../../wrappers/Python/roadrunner/PyUtils"
+#            )
+#
+#    #    set(CMAKE_SWIG_FLAGS "-py3 -castmode -keyword")
+#    set_target_properties(TestModelFactory PROPERTIES
+#            SWIG_USE_TARGET_INCLUDE_DIRECTORIES TRUE
+#            )
+#
+#    message(STATUS "Python_INCLUDE_DIRS ${Python_INCLUDE_DIRS}")
+#    message(STATUS "Python_LIBRARIES ${Python_LIBRARIES}")
+#
+#    target_include_directories(TestModelFactory PUBLIC
+#            ${Python_INCLUDE_DIRS}
+#            ${CMAKE_CURRENT_SOURCE_DIR}
+#            $<TARGET_PROPERTY:roadrunner-static,INCLUDE_DIRECTORIES>
+#            $<TARGET_PROPERTY:roadrunner_python,INCLUDE_DIRECTORIES>
+#            )
+#    target_link_libraries(TestModelFactory PUBLIC
+#            roadrunner-static
+#            ${Python_LIBRARIES}
+#            )
 
-    set(CMAKE_SWIG_FLAGS "-py3 -castmode -keyword")
-    set_target_properties(TestModelFactory PROPERTIES
-            SWIG_USE_TARGET_INCLUDE_DIRECTORIES TRUE
-            )
+#    install(TARGETS TestModelFactory DESTINATION site-packages/roadrunner/testing)
+#    install(FILES "${CMAKE_CURRENT_BINARY_DIR}/TestModelFactory.py" DESTINATION site-packages/roadrunner/testing)
 
-    message(STATUS "Python_INCLUDE_DIRS ${Python_INCLUDE_DIRS}")
-    message(STATUS "Python_LIBRARIES ${Python_LIBRARIES}")
-
-    target_include_directories(TestModelFactory PUBLIC
-            ${Python_INCLUDE_DIRS}
-            ${CMAKE_CURRENT_SOURCE_DIR}
-            $<TARGET_PROPERTY:roadrunner-static,INCLUDE_DIRECTORIES>
-            $<TARGET_PROPERTY:roadrunner_python,INCLUDE_DIRECTORIES>
-            )
-    target_link_libraries(TestModelFactory PUBLIC
-            roadrunner-static
-            ${Python_LIBRARIES}
-            )
-
-    install(TARGETS TestModelFactory DESTINATION site-packages/roadrunner/testing)
-    install(FILES "${CMAKE_CURRENT_BINARY_DIR}/TestModelFactory.py" DESTINATION site-packages/roadrunner/testing)
-
-    unset(CMAKE_SWIG_FLAGS) # just in case this interferes with the roadrunner_python target
+    #    unset(CMAKE_SWIG_FLAGS) # just in case this interferes with the roadrunner_python target
 
 endif ()
 
