@@ -122,7 +122,7 @@
 %include "std_string.i"
 
 // C++ std::map handling
-%include "std_map.i"
+%include "std_unordered_map.i"
 
 // C++ std::map handling
 %include "std_vector.i"
