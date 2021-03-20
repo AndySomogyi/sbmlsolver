@@ -14,3 +14,9 @@ import tester
 roadrunner.sigtrap()
 
 tester.runTester(test_data_dir)
+
+
+# also run python_api_tests
+import unittest
+import python_api_tests
+unittest.main(module="python_api_tests")

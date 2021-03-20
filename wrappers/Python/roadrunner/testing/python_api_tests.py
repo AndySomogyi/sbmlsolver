@@ -7,16 +7,32 @@ little part of the API works in isolation.
 
 """
 
+import os
 import sys
 import unittest
-import os
+
+thisDir = os.path.dirname(os.path.realpath(__file__))
+rr_site_packages = os.path.dirname(os.path.dirname(thisDir))
+print("thisDir", thisDir)
+print("rr_site_packages", rr_site_packages)
 
 sys.path += [
+    rr_site_packages
     # r"D:\roadrunner\roadrunner\install-msvc2019-rel-swig3.0.0\site-packages",
-    r"D:\roadrunner\roadrunner\install-msvc2019-rel-swig-4.0.2\site-packages",
+    # r"D:\roadrunner\roadrunner\install-msvc2019-rel-swig-4.0.2\site-packages",
 ]
 import roadrunner
-from roadrunner.roadrunner import RoadRunner
+
+try:
+    from roadrunner.roadrunner import (
+        RoadRunner, Integrator, SteadyStateSolver,
+        ExecutableModel, RoadRunnerOptions
+    )
+except ImportError:
+    from roadrunner import (
+        RoadRunner, Integrator, SteadyStateSolver,
+        ExecutableModel, RoadRunnerOptions
+    )
 
 sbml = """<?xml version="1.0" encoding="UTF-8"?>
 <!-- Created by libAntimony version v2.5 on 2014-08-04 19:56 with libSBML version 5.9.1. -->
@@ -413,14 +429,14 @@ class RoadRunnerTests(unittest.TestCase):
         print(self.rr.getIntegrator())
         self.assertIsInstance(
             self.rr.getIntegrator(),
-            roadrunner.roadrunner.Integrator
+            Integrator
         )
 
     def test_getIntegratorByName(self):
         print(self.rr.getIntegratorByName("cvode"))
         self.assertIsInstance(
             self.rr.getIntegratorByName("cvode"),
-            roadrunner.roadrunner.Integrator
+            Integrator
         )
 
     def test_getKMatrix(self):
@@ -456,7 +472,7 @@ class RoadRunnerTests(unittest.TestCase):
         print(self.rr.getModel())
         self.assertIsInstance(
             self.rr.getModel(),
-            roadrunner.roadrunner.ExecutableModel
+            ExecutableModel
         )
 
     def test_getNrMatrix(self):
@@ -590,7 +606,7 @@ class RoadRunnerTests(unittest.TestCase):
         print(self.rr.getSteadyStateSolver())
         self.assertIsInstance(
             self.rr.getSteadyStateSolver(),
-            roadrunner.roadrunner.SteadyStateSolver
+            SteadyStateSolver
         )
 
     def test_getSteadyStateThreshold(self):
@@ -685,7 +701,7 @@ class RoadRunnerTests(unittest.TestCase):
         print(self.rr.integrator)
         self.assertIsInstance(
             self.rr.integrator,
-            roadrunner.roadrunner.Integrator
+            Integrator
         )
 
     def test_integratorExists(self):
@@ -773,7 +789,7 @@ class RoadRunnerTests(unittest.TestCase):
         integrator = self.rr.makeIntegrator("gillespie")
         self.assertIsInstance(
             integrator,
-            roadrunner.roadrunner.Integrator
+            Integrator
         )
 
     def test_mcaSteadyState(self):
@@ -787,7 +803,7 @@ class RoadRunnerTests(unittest.TestCase):
         print(self.rr.model)
         self.assertIsInstance(
             self.rr.model,
-            roadrunner.roadrunner.ExecutableModel
+            ExecutableModel
         )
 
     def test_oneStep(self):
@@ -800,7 +816,7 @@ class RoadRunnerTests(unittest.TestCase):
         print(self.rr.options)
         self.assertIsInstance(
             self.rr.options,
-            roadrunner.roadrunner.RoadRunnerOptions
+            RoadRunnerOptions
         )
 
     def test_regenerate(self):
@@ -910,7 +926,7 @@ class RoadRunnerTests(unittest.TestCase):
         self.rr.setIntegrator("gillespie")
         self.assertIsInstance(
             self.rr.integrator,
-            roadrunner.roadrunner.Integrator
+            Integrator
         )
 
     def test_setIntegratorSetting(self):
@@ -928,7 +944,7 @@ class RoadRunnerTests(unittest.TestCase):
 
     @unittest.skip("What should go in RoadRunnerOptions?")
     def test_setOptions(self):
-        opt = roadrunner.roadrunner.RoadRunnerOptions()
+        opt = RoadRunnerOptions()
         print(self.rr.setOptions())
         self.assertEqual(
             self.rr.setOptions(),
@@ -1006,7 +1022,7 @@ class RoadRunnerTests(unittest.TestCase):
         print(self.rr.steadyStateSolver)
         self.assertIsInstance(
             self.rr.steadyStateSolver,
-            roadrunner.roadrunner.SteadyStateSolver
+            SteadyStateSolver
         )
 
     def test_steadyStateSolverExists(self):
