@@ -1035,16 +1035,13 @@ namespace std { class ostream{}; }
         # static list of properties added to the RoadRunner class object
         _properties = []
 
-        def _listProperties(self):
-            return [i for i in dir(self) if isinstance(getattr(self, i), property)]
-
         def _makeProperties(self):
 
             #global _properties
 
             # always clear the old properties
 
-            for s in self._listProperties():
+            for s in self._properties:
                 #if s in RoadRunner.__swig_getmethods__:
                 #    del RoadRunner.__swig_getmethods__[s]
                 #if s in RoadRunner.__swig_setmethods__:
@@ -1076,7 +1073,7 @@ namespace std { class ostream{}; }
                 #RoadRunner.__swig_getmethods__[name] = fget
                 #RoadRunner.__swig_setmethods__[name] = fset
                 setattr(RoadRunner, name, prop)
-                RoadRunner._properties.append(name) # no need for this, properties are dynamically computed when call to _properties
+                RoadRunner._properties.append(name)
 
             model = self.getModel()
             for s in model.getFloatingSpeciesIds():
