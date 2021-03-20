@@ -1011,41 +1011,15 @@ namespace std { class ostream{}; }
         conservedMoietyAnalysis = property(_getConservedMoietyAnalysis)
         model = property(_getModel)
         integrator = property(getIntegrator, setIntegrator)
-        #__swig_getmethods__["selections"] = _getSelections # DEPRECATED
-        #__swig_setmethods__["selections"] = _setSelections # DEPRECATED
-        #__swig_getmethods__["timeCourseSelections"] = _getSelections
-        #__swig_setmethods__["timeCourseSelections"] = _setSelections
-        #__swig_getmethods__["steadyStateSelections"] = _getSteadyStateSelections
-        #__swig_setmethods__["steadyStateSelections"] = _setSteadyStateSelections
-        #__swig_getmethods__["conservedMoietyAnalysis"] = _getConservedMoietyAnalysis
-        #__swig_setmethods__["conservedMoietyAnalysis"] = _setConservedMoietyAnalysisProxy
-        #__swig_getmethods__["model"] = _getModel
-        #__swig_getmethods__["integrator"] = getIntegrator
-        #__swig_setmethods__["integrator"] = setIntegrator
-
-        #if _newclass:
-        #    selections = property(_getSelections, _setSelections)
-        #    timeCourseSelections = property(_getSelections, _setSelections)
-        #    steadyStateSelections = property(_getSteadyStateSelections, _setSteadyStateSelections)
-        #    conservedMoietyAnalysis=property(_getConservedMoietyAnalysis, _setConservedMoietyAnalysis)
-        #    model = property(getModel)
-        #    integrator = property(getIntegrator)
-
 
         # static list of properties added to the RoadRunner class object
         _properties = []
 
         def _makeProperties(self):
-
             #global _properties
 
             # always clear the old properties
-
             for s in self._properties:
-                #if s in RoadRunner.__swig_getmethods__:
-                #    del RoadRunner.__swig_getmethods__[s]
-                #if s in RoadRunner.__swig_setmethods__:
-                #    del RoadRunner.__swig_setmethods__[s]
                 if hasattr(RoadRunner, s):
                     delattr(RoadRunner, s)
 
@@ -1060,18 +1034,11 @@ namespace std { class ostream{}; }
             if self.getModel() is None:
                 return
 
-            def mk_fget(sel):
-                return lambda self: self.getModel().__getitem__(sel)
-            def mk_fset(sel):
-                return lambda self, val: self.getModel().__setitem__(sel, val)
-
-
             def makeProperty(name, sel):
-                fget = mk_fget(sel)
-                fset = mk_fset(sel)
-                prop = property(fget, fset)
-                #RoadRunner.__swig_getmethods__[name] = fget
-                #RoadRunner.__swig_setmethods__[name] = fset
+                prop = property(
+                        lambda self: self.getModel().__getitem__(sel),
+                        self.getModel().__setitem__(sel, val)
+                )
                 setattr(RoadRunner, name, prop)
                 RoadRunner._properties.append(name)
 
@@ -1123,13 +1090,9 @@ namespace std { class ostream{}; }
         # set the ctor to use the new init
         __init__ = _new_init
 
-
-
-
         def load(self, *args):
             self._load(*args)
             RoadRunner._makeProperties(self)
-
 
         def keys(self, types=_roadrunner.SelectionRecord_ALL):
             return self.getIds(types)
@@ -1164,40 +1127,40 @@ namespace std { class ostream{}; }
         def simulate(self, start=None, end=None, points=None, selections=None, output_file=None, steps=None):
             '''
             Simulate and optionally plot current SBML model. This is the one stop shopping method
-            for simulation and plotting. 
+            for simulation and plotting.
 
-            simulate accepts up to five positional arguments. 
+            simulate accepts up to five positional arguments.
 
             The first five (optional) arguments are treated as:
-                    
-                1: Start Time, if this is a number. 
+
+                1: Start Time, if this is a number.
 
                 2: End Time, if this is a number.
 
                 3: Number of points, if this is a number.
-                    
+
                 4: List of Selections. A list of variables to include in the output, e.g. ``['time','A']`` for a model with species ``A``. More below.
 
                 5: output file path. The file to which simulation results will be written. If this is specified and
                 nonempty, simulation output will be written to output_file every Config::K_ROWS_PER_WRITE generated.
                 Note that simulate() will not return the result matrix if it is writing to output_file.
                 It will also not keep any simulation data, so in that case one should not call ``r.plot()``
-                without arguments. This should be specified when one cannot, or does not want to, keep the 
+                without arguments. This should be specified when one cannot, or does not want to, keep the
                 entire result matrix in memory.
 
 
             All five of the positional arguments are optional. If any of the positional arguments are
-            a list of string instead of a number, then they are interpreted as a list of selections. 
+            a list of string instead of a number, then they are interpreted as a list of selections.
 
             There are a number of ways to call simulate.
 
-            1: With no arguments. In this case, the current set of options from the previous 
-              ``simulate`` call will be used. If this is the first time ``simulate`` is called, 
+            1: With no arguments. In this case, the current set of options from the previous
+              ``simulate`` call will be used. If this is the first time ``simulate`` is called,
               then a default set of values is used. The default set of values are (start = 0, end = 5, points = 51).
 
-            2: With up to five positions arguments, described above. 
+            2: With up to five positions arguments, described above.
 
-            Finally, you can pass steps keyword argument instead of points. 
+            Finally, you can pass steps keyword argument instead of points.
 
             steps (Optional) Number of steps at which the output is sampled where the samples are evenly spaced. Steps = points-1. Steps and points may not both be specified.
 
@@ -1251,7 +1214,7 @@ namespace std { class ostream{}; }
             o = self.__simulateOptions
             originalSteps = o.steps
             originalVSS = True;
-        
+
             if self.getIntegrator().hasValue('variable_step_size'):
                 originalVSS = self.getIntegrator().getValue('variable_step_size')
                 if end is not None and (points is not None or steps is not None):
@@ -1576,7 +1539,7 @@ namespace std { class ostream{}; }
                        SelectionRecord.RATE |
                        SelectionRecord.FLOATING |
                        SelectionRecord.GLOBAL_PARAMETER)
-        
+
         def resetParameter(self):
             """ Reset parameters to CURRENT init(X) values.
 
@@ -1710,7 +1673,7 @@ namespace std { class ostream{}; }
         def addReaction(self, *args):
             self._addReaction(*args)
             self._makeProperties()
-                
+
         def addSpecies(self, sid, compartment, initAmount = 0.0, hasOnlySubstanceUnits=False, boundaryCondition=False, substanceUnits = "", forceRegenerate = True):
             self._addSpecies(sid, compartment, initAmount, hasOnlySubstanceUnits, boundaryCondition, substanceUnits, forceRegenerate)
             self._makeProperties()
@@ -1728,11 +1691,6 @@ namespace std { class ostream{}; }
             self.setDiffStepSize(v)
 
         diffstep = property(_diffstep_getter, _diffstep_stter)
-        #__swig_getmethods__['diffstep'] = _diffstep_getter
-        #__swig_setmethods__['diffstep'] = _diffstep_stter
-
-        #if _newclass:
-        #    diffstep = property(_diffstep_getter, _diffstep_stter)
 
         def _steadyStateThresh_getter(self):
             '''Steady state threshold used in MCA'''
@@ -1742,11 +1700,6 @@ namespace std { class ostream{}; }
             self.setSteadyStateThreshold(v)
 
         steadyStateThresh = property(_steadyStateThresh_getter, _steadyStateThresh_setter)
-        #__swig_getmethods__['steadyStateThresh'] = _steadyStateThresh_getter
-        #__swig_setmethods__['steadyStateThresh'] = _steadyStateThresh_setter
-
-        #if _newclass:
-        #    steadyStateThresh = property(_steadyStateThresh_getter, _steadyStateThresh_setter)
     %}
 }
 
@@ -1952,7 +1905,6 @@ namespace std { class ostream{}; }
         } else {
             opt->modelGeneratorOpt &= ~rr::LoadSBMLOptions::READ_ONLY;
         }
-
     }
 %}
 
@@ -2120,7 +2072,7 @@ namespace std { class ostream{}; }
                                           &rr::ExecutableModel::getNumCompartments, (size_t)0, (int const*)0);
     }
 
-    
+
     /***
      ** get ids section
      ***/
@@ -2493,14 +2445,12 @@ namespace std { class ostream{}; }
                 return Solver.getValue(self, name)
             else:
                 return self.__dict__[name]
-                #return _swig_getattr(self, Integrator, name)
 
         def __setattr__(self, name, value):
             if(name != 'this' and name in self.getSettings()):
                 self.setValue(name, value)
             else:
                 self.__dict__[name] = value
-                #_swig_setattr(self, Integrator, name, value)
 
         def getSetting(self, k):
             return self.getValue(k)
@@ -2567,10 +2517,6 @@ namespace std { class ostream{}; }
                 self._setListener(listener)
 
         listener = property(getListener, setListener)
-        #__swig_getmethods__["listener"] = getListener
-        #__swig_setmethods__["listener"] = setListener
-        #if _newclass:
-        #    listener = property(getListener, setListener)
 
         def __dir__(self):
             x = dir(type(self))
@@ -2582,14 +2528,12 @@ namespace std { class ostream{}; }
                 return Solver.getValue(self, name)
             else:
                 return self.__dict__[name]
-                #return _swig_getattr(self, Integrator, name)
 
         def __setattr__(self, name, value):
             if(name != 'this' and name in self.getSettings()):
                 self.setValue(name, value)
             else:
                 self.__dict__[name] = value
-                #_swig_setattr(self, Integrator, name, value)
 
         def __repr__(self):
             return self.toRepr()
@@ -2614,14 +2558,12 @@ namespace std { class ostream{}; }
                 return Solver.getValue(self, name)
             else:
                 return self.__dict__[name]
-                #return _swig_getattr(self, Integrator, name)
 
         def __setattr__(self, name, value):
             if(name != 'this' and name in self.getSettings()):
                 self.setValue(name, value)
             else:
                 self.__dict__[name] = value
-                #_swig_setattr(self, Integrator, name, value)
 
         def __repr__(self):
             return self.toRepr()
@@ -2637,32 +2579,16 @@ namespace std { class ostream{}; }
 %extend rr::PyIntegratorListener {
     %pythoncode %{
         onTimeStep = property(getOnTimeStep, setOnTimeStep)
-        #__swig_getmethods__["onTimeStep"] = getOnTimeStep
-        #__swig_setmethods__["onTimeStep"] = setOnTimeStep
-        #if _newclass:
-        #    onTimeStep = property(getOnTimeStep, setOnTimeStep)
 
         onEvent = property(getOnEvent, setOnEvent)
-        #__swig_getmethods__["onEvent"] = getOnEvent
-        #__swig_setmethods__["onEvent"] = setOnEvent
-        #if _newclass:
-        #    onEvent = property(getOnEvent, setOnEvent)
      %}
 }
 
 %extend rr::PyEventListener {
     %pythoncode %{
         onTrigger = property(getOnTrigger, setOnTrigger)
-        #__swig_getmethods__["onTrigger"] = getOnTrigger
-        #__swig_setmethods__["onTrigger"] = setOnTrigger
-        #if _newclass:
-        #    onTrigger = property(getOnTrigger, setOnTrigger)
 
         onAssignment = property(getOnAssignment, setOnAssignment)
-        #__swig_getmethods__["onAssignment"] = getOnAssignment
-        #__swig_setmethods__["onAssignment"] = setOnAssignment
-        #if _newclass:
-        #    onAssignment = property(getOnAssignment, setOnAssignment)
      %}
 }
 
