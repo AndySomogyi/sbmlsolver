@@ -95,15 +95,6 @@ class RoadRunnerTests(unittest.TestCase):
             for j in range(len(expected[0])):
                 self.assertAlmostEqual(expected[i][j], actual[i][j])
 
-    def test_property_list(self):
-        expected_property_list = ['S1', 'S1_amt', 'S1_conc', 'S2', 'S2_amt', 'S2_conc', 'S3', 'S3_amt', 'S3_conc',
-                                  '_J0', '_J1', '_RoadRunner__simulateOptions', 'conservedMoietyAnalysis',
-                                  'default_compartment', 'diffstep', 'integrator', 'k1', 'k2', 'model', 'options',
-                                  'selections', 'steadyStateSelections', 'steadyStateSolver', 'steadyStateThresh',
-                                  'timeCourseSelections']
-        actual_property_list = [i for i in dir(RoadRunner) if isinstance(getattr(RoadRunner, i), property)]
-        self.assertListEqual(expected_property_list, actual_property_list)
-
     def test(self):
         print(self.rr.S1_amt)
 
@@ -124,75 +115,6 @@ class RoadRunnerTests(unittest.TestCase):
     def test_reaction_flux(self):
         self.assertEqual(self.rr._J0, 1)
 
-    def test___class__(self):
-        """
-        Warning: brittle test that will break as soon
-        as we update something in roadruner. Useful for
-        updating swig though. If this test has broken,
-        your build, just delete it.
-        """
-        class_contents = ['S1', 'S1_amt', 'S1_conc', 'S2', 'S2_amt', 'S2_conc', 'S3', 'S3_amt', 'S3_conc', '_J0',
-                          '_J1',
-                          '_RoadRunner__simulateOld', '_RoadRunner__simulateOptions', '__class__', '__del__',
-                          '__delattr__', '__dict__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__',
-                          '__getattr__', '__getattribute__', '__getitem__', '__gt__', '__hash__', '__init__',
-                          '__init_subclass__', '__le__', '__len__', '__lt__', '__module__', '__ne__', '__new__',
-                          '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__setitem__', '__sizeof__',
-                          '__str__', '__subclasshook__', '__swig_destroy__', '__swig_getmethods__',
-                          '__swig_setmethods__', '__weakref__', '_addCompartment', '_addParameter', '_addReaction',
-                          '_addSpecies', '_diffstep_getter', '_diffstep_stter', '_getConservedMoietyAnalysis',
-                          '_getDependentFloatingSpeciesIds', '_getIndependentFloatingSpeciesIds', '_getModel',
-                          '_getSelections', '_getSteadyStateSelections', '_getValue', '_load', '_makeProperties',
-                          '_new_init', '_properties', '_setConservedMoietyAnalysis',
-                          '_setConservedMoietyAnalysisProxy',
-                          '_setSelections', '_setSteadyStateSelections', '_simulate', '_steadyStateThresh_getter',
-                          '_steadyStateThresh_setter', '_swig_init', 'addAssignmentRule', 'addCompartment',
-                          'addDelay',
-                          'addEvent', 'addEventAssignment', 'addInitialAssignment', 'addParameter', 'addPriority',
-                          'addRateRule', 'addReaction', 'addSpecies', 'addTrigger', 'clearModel',
-                          'conservedMoietyAnalysis', 'createSelection', 'default_compartment', 'diffstep',
-                          'ensureSolversRegistered', 'getAvailableIntegrators',
-                          'getBoundarySpeciesAmountsNamedArray',
-                          'getBoundarySpeciesConcentrationsNamedArray', 'getCC', 'getCompiler',
-                          'getConservationMatrix',
-                          'getConservedMoietyIds', 'getConservedMoietyValues', 'getCurrentSBML',
-                          'getDependentFloatingSpeciesIds', 'getDependentRatesOfChange',
-                          'getDependentRatesOfChangeNamedArray', 'getDiffStepSize', 'getEE', 'getEigenValueIds',
-                          'getExistingIntegratorNames', 'getExtendedStoichiometryMatrix', 'getExtendedVersionInfo',
-                          'getFloatingSpeciesAmountsNamedArray', 'getFloatingSpeciesConcentrationsNamedArray',
-                          'getFloatingSpeciesInitialConcentrationIds', 'getFrequencyResponse', 'getFullEigenValues',
-                          'getFullJacobian', 'getFullStoichiometryMatrix', 'getGlobalParameterByName', 'getIds',
-                          'getIndependentFloatingSpeciesIds', 'getIndependentRatesOfChange',
-                          'getIndependentRatesOfChangeNamedArray', 'getInfo', 'getInstanceCount', 'getInstanceID',
-                          'getIntegrator', 'getIntegratorByName', 'getKMatrix', 'getKineticLaw', 'getL0Matrix',
-                          'getLinkMatrix', 'getModel', 'getNrMatrix', 'getParamPromotedSBML', 'getRatesOfChange',
-                          'getRatesOfChangeNamedArray', 'getReactionRates', 'getReducedEigenValues',
-                          'getReducedJacobian', 'getReducedStoichiometryMatrix', 'getRegisteredIntegratorNames',
-                          'getRegisteredSteadyStateSolverNames', 'getSBML',
-                          'getScaledConcentrationControlCoefficientMatrix', 'getScaledElasticityMatrix',
-                          'getScaledFloatingSpeciesElasticity', 'getScaledFluxControlCoefficientMatrix',
-                          'getSelectedValues', 'getSimulationData', 'getSteadyStateSelectionStrings',
-                          'getSteadyStateSolver', 'getSteadyStateThreshold', 'getSteadyStateValues',
-                          'getSteadyStateValuesNamedArray', 'getSupportedIdTypes',
-                          'getUnscaledConcentrationControlCoefficientMatrix', 'getUnscaledElasticityMatrix',
-                          'getUnscaledFluxControlCoefficientMatrix', 'getUnscaledParameterElasticity',
-                          'getUnscaledSpeciesElasticity', 'getValue', 'getuCC', 'getuEE', 'integrator',
-                          'integratorExists', 'internalOneStep', 'isModelLoaded', 'items', 'iteritems', 'iterkeys',
-                          'itervalues', 'k1', 'k2', 'keys', 'load', 'loadState', 'makeIntegrator', 'mcaSteadyState',
-                          'model', 'oneStep', 'options', 'plot', 'plotLegend', 'regenerate', 'removeCompartment',
-                          'removeEvent', 'removeEventAssignments', 'removeInitialAssignment', 'removeParameter',
-                          'removeReaction', 'removeRules', 'removeSpecies', 'reset', 'resetAll', 'resetParameter',
-                          'resetSelectionLists', 'resetToOrigin', 'saveState', 'selections', 'setBoundary',
-                          'setConstant', 'setDiffStepSize', 'setGlobalParameterByName', 'setHasOnlySubstanceUnits',
-                          'setInitAmount', 'setInitConcentration', 'setIntegrator', 'setIntegratorSetting',
-                          'setKineticLaw', 'setOptions', 'setPersistent', 'setReversible', 'setSteadyStateSolver',
-                          'setSteadyStateThreshold', 'setTriggerInitialValue', 'setValue', 'setValues', 'showPlot',
-                          'simulate', 'steadyState', 'steadyStateNamedArray', 'steadyStateSelections',
-                          'steadyStateSolver', 'steadyStateSolverExists', 'steadyStateThresh',
-                          'timeCourseSelections',
-                          'validateCurrentSBML', 'values']
-        self.assertListEqual(class_contents, dir(self.rr.__class__))
-
     def test_attribute_access_protocols_setattr(self):
         self.rr.__setattr__("cheese", 6)
         self.assertTrue(hasattr(self.rr, "cheese"))
@@ -203,76 +125,6 @@ class RoadRunnerTests(unittest.TestCase):
 
     def test___dict__(self):
         self.assertEqual(["this"], list(self.rr.__dict__.keys()))
-
-    def test___dir__(self):
-        """
-        Warning: brittle test that will break as soon
-        as we update something in roadruner. Useful for
-        updating swig though. If this test has broken,
-        your build, just delete it.
-        """
-        rr_dir = ['S1', 'S1_amt', 'S1_conc', 'S2', 'S2_amt', 'S2_conc', 'S3', 'S3_amt', 'S3_conc', '_J0', '_J1',
-                  '_RoadRunner__simulateOld', '_RoadRunner__simulateOptions', '__class__', '__del__', '__delattr__',
-                  '__dict__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattr__',
-                  '__getattribute__',
-                  '__getitem__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__le__', '__len__',
-                  '__lt__',
-                  '__module__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__',
-                  '__setitem__', '__sizeof__', '__str__', '__subclasshook__', '__swig_destroy__',
-                  '__swig_getmethods__',
-                  '__swig_setmethods__', '__weakref__', '_addCompartment', '_addParameter', '_addReaction',
-                  '_addSpecies', '_diffstep_getter', '_diffstep_stter', '_getConservedMoietyAnalysis',
-                  '_getDependentFloatingSpeciesIds', '_getIndependentFloatingSpeciesIds', '_getModel',
-                  '_getSelections',
-                  '_getSteadyStateSelections', '_getValue', '_load', '_makeProperties', '_new_init', '_properties',
-                  '_setConservedMoietyAnalysis', '_setConservedMoietyAnalysisProxy', '_setSelections',
-                  '_setSteadyStateSelections', '_simulate', '_steadyStateThresh_getter',
-                  '_steadyStateThresh_setter',
-                  '_swig_init', 'addAssignmentRule', 'addCompartment', 'addDelay', 'addEvent', 'addEventAssignment',
-                  'addInitialAssignment', 'addParameter', 'addPriority', 'addRateRule', 'addReaction', 'addSpecies',
-                  'addTrigger', 'clearModel', 'conservedMoietyAnalysis', 'createSelection', 'default_compartment',
-                  'diffstep', 'ensureSolversRegistered', 'getAvailableIntegrators',
-                  'getBoundarySpeciesAmountsNamedArray', 'getBoundarySpeciesConcentrationsNamedArray', 'getCC',
-                  'getCompiler', 'getConservationMatrix', 'getConservedMoietyIds', 'getConservedMoietyValues',
-                  'getCurrentSBML', 'getDependentFloatingSpeciesIds', 'getDependentRatesOfChange',
-                  'getDependentRatesOfChangeNamedArray', 'getDiffStepSize', 'getEE', 'getEigenValueIds',
-                  'getExistingIntegratorNames', 'getExtendedStoichiometryMatrix', 'getExtendedVersionInfo',
-                  'getFloatingSpeciesAmountsNamedArray', 'getFloatingSpeciesConcentrationsNamedArray',
-                  'getFloatingSpeciesInitialConcentrationIds', 'getFrequencyResponse', 'getFullEigenValues',
-                  'getFullJacobian', 'getFullStoichiometryMatrix', 'getGlobalParameterByName', 'getIds',
-                  'getIndependentFloatingSpeciesIds', 'getIndependentRatesOfChange',
-                  'getIndependentRatesOfChangeNamedArray', 'getInfo', 'getInstanceCount', 'getInstanceID',
-                  'getIntegrator', 'getIntegratorByName', 'getKMatrix', 'getKineticLaw', 'getL0Matrix',
-                  'getLinkMatrix',
-                  'getModel', 'getNrMatrix', 'getParamPromotedSBML', 'getRatesOfChange',
-                  'getRatesOfChangeNamedArray',
-                  'getReactionRates', 'getReducedEigenValues', 'getReducedJacobian',
-                  'getReducedStoichiometryMatrix',
-                  'getRegisteredIntegratorNames', 'getRegisteredSteadyStateSolverNames', 'getSBML',
-                  'getScaledConcentrationControlCoefficientMatrix', 'getScaledElasticityMatrix',
-                  'getScaledFloatingSpeciesElasticity', 'getScaledFluxControlCoefficientMatrix',
-                  'getSelectedValues',
-                  'getSimulationData', 'getSteadyStateSelectionStrings', 'getSteadyStateSolver',
-                  'getSteadyStateThreshold', 'getSteadyStateValues', 'getSteadyStateValuesNamedArray',
-                  'getSupportedIdTypes', 'getUnscaledConcentrationControlCoefficientMatrix',
-                  'getUnscaledElasticityMatrix', 'getUnscaledFluxControlCoefficientMatrix',
-                  'getUnscaledParameterElasticity', 'getUnscaledSpeciesElasticity', 'getValue', 'getuCC', 'getuEE',
-                  'integrator', 'integratorExists', 'internalOneStep', 'isModelLoaded', 'items', 'iteritems',
-                  'iterkeys', 'itervalues', 'k1', 'k2', 'keys', 'load', 'loadState', 'makeIntegrator',
-                  'mcaSteadyState',
-                  'model', 'oneStep', 'options', 'plot', 'plotLegend', 'regenerate', 'removeCompartment',
-                  'removeEvent',
-                  'removeEventAssignments', 'removeInitialAssignment', 'removeParameter', 'removeReaction',
-                  'removeRules', 'removeSpecies', 'reset', 'resetAll', 'resetParameter', 'resetSelectionLists',
-                  'resetToOrigin', 'saveState', 'selections', 'setBoundary', 'setConstant', 'setDiffStepSize',
-                  'setGlobalParameterByName', 'setHasOnlySubstanceUnits', 'setInitAmount', 'setInitConcentration',
-                  'setIntegrator', 'setIntegratorSetting', 'setKineticLaw', 'setOptions', 'setPersistent',
-                  'setReversible', 'setSteadyStateSolver', 'setSteadyStateThreshold', 'setTriggerInitialValue',
-                  'setValue', 'setValues', 'showPlot', 'simulate', 'steadyState', 'steadyStateNamedArray',
-                  'steadyStateSelections', 'steadyStateSolver', 'steadyStateSolverExists', 'steadyStateThresh',
-                  'this',
-                  'timeCourseSelections', 'validateCurrentSBML', 'values']
-        self.assertEqual(rr_dir, dir(self.rr))
 
     @unittest.skip("__eq__ may be implemented, may not. If not we should do")
     def test___eq__(self):
@@ -308,16 +160,6 @@ class RoadRunnerTests(unittest.TestCase):
         """This method is missing from the rr api"""
         pass
 
-    def testAddCompartment(self):
-        """The rr._addCompartment() method is called by the
-        rr.addCompartment() method. The difference, is the
-        latter adds the compartment to the __dict__ as an
-        attribute.
-        """
-        self.rr._addCompartment("NewComp", 1, True)
-        with self.assertRaises(AttributeError):
-            self.rr.C1
-
     def test_addCompartment(self):
         """The rr._addCompartment() method is called by the
         rr.addCompartment() method. The difference, is the
@@ -327,28 +169,13 @@ class RoadRunnerTests(unittest.TestCase):
         self.rr.addCompartment("C1", 1, True)
         self.assertEqual(self.rr.C1, 1)
 
-    def test_addParameter(self):
-        self.rr._addParameter("k_new", 25, True)
-        with self.assertRaises(AttributeError):
-            print(self.rr.k_new)
-
     def testAddParameter(self):
         self.rr.addParameter("k_new", 25, True)
         self.assertEqual(25, self.rr.k_new)
 
-    def test_addReaction(self):
-        self.rr._addReaction("NewReaction", ["S1"], ["S2"], "k1*S1", True)
-        with self.assertRaises(AttributeError):
-            print(self.rr.NewReaction)
-
     def testAddReaction(self):
         self.rr.addReaction("NewReaction", ["S1"], ["S2"], "k1*S1", True)
         self.assertEqual(self.rr.NewReaction, 1.0)
-
-    def test_addSpecies(self):
-        self.rr._addSpecies("NewSpecies", "default_compartment", 123.3, False, False, "", True)
-        with self.assertRaises(AttributeError):
-            print(self.rr.NewSpecies)
 
     def testAddSpecies(self):
         self.rr.addSpecies("NewSpecies", "default_compartment", 123.3, False, False, "", True)

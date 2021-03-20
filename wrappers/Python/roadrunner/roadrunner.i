@@ -47,7 +47,7 @@
     #include <rrRoadRunnerOptions.h>
     #include <rrRoadRunner.h>
     #include <SteadyStateSolver.h>
-//    #include <rrLogger.h>
+    #include <rrLogger.h>
     #include <rrConfig.h>
     #include <conservation/ConservationExtension.h>
     #include "conservation/ConservedMoietyConverter.h"
@@ -62,7 +62,7 @@
     #include <math.h>
     #include <cmath>
     #include "PyUtils.h"
-//    #include "PyLoggerStream.h"
+    #include "PyLoggerStream.h"
 
     // make a python obj out of the C++ ExecutableModel, this is used by the PyEventListener
     // class. This function is defined later in this compilation unit.
@@ -105,7 +105,7 @@
         DictionaryHolder() { dict = NULL; }
 
         ~DictionaryHolder() {
-            //rrLog(Logger::LOG_TRACE) << __FUNC__ << ", deleting dictionary " << (void*)dict;
+            rrLog(Logger::LOG_TRACE) << __FUNC__ << ", deleting dictionary " << (void*)dict;
             delete dict;
         }
     };
@@ -357,7 +357,7 @@ rr::pyutil_init(m);
 
     static void rr_sighandler(int sig) {
         std::cout << "handling signal " << sig << std::endl;
-        //rrLog(rr::Logger::LOG_WARNING) << "signal handler : " << sig;
+        rrLog(rr::Logger::LOG_WARNING) << "signal handler : " << sig;
     }
 
     static unsigned long sigtrap() {
@@ -368,7 +368,7 @@ rr::pyutil_init(m);
 #else
 
     static unsigned long sigtrap() {
-        //rrLog(rr::Logger::LOG_WARNING) << "sigtrap not supported on Windows";
+        rrLog(rr::Logger::LOG_WARNING) << "sigtrap not supported on Windows";
         return 0;
     }
 
@@ -843,11 +843,16 @@ namespace std { class ostream{}; }
 
 %include <Dictionary.h>
 %include <rrRoadRunnerOptions.h>
-//%include <rrLogger.h>
 %include <rrCompiler.h>
 %include <rrExecutableModel.h>
 %include <ExecutableModelFactory.h>
 %include <rrVersionInfo.h>
+
+
+// including rrLogger.h causes rr not to compile?
+// haven't worked out why but seems roadrunner python
+// works without it.
+//%include <rrLogger.h>
 
 %thread;
 %include <rrRoadRunner.h>
@@ -1008,7 +1013,7 @@ namespace std { class ostream{}; }
         selections = property(_getSelections, _setSelections)
         timeCourseSelections = property(_getSelections, _setSelections)
         steadyStateSelections = property(_getSteadyStateSelections, _setSteadyStateSelections)
-        conservedMoietyAnalysis = property(_getConservedMoietyAnalysis)
+        conservedMoietyAnalysis = property(_getConservedMoietyAnalysis, _setConservedMoietyAnalysis)
         model = property(_getModel)
         integrator = property(getIntegrator, setIntegrator)
 
@@ -1037,7 +1042,7 @@ namespace std { class ostream{}; }
             def makeProperty(name, sel):
                 prop = property(
                         lambda self: self.getModel().__getitem__(sel),
-                        self.getModel().__setitem__(sel, val)
+                        lambda self, val: self.getModel().__setitem__(sel, val)
                 )
                 setattr(RoadRunner, name, prop)
                 RoadRunner._properties.append(name)
@@ -1705,23 +1710,23 @@ namespace std { class ostream{}; }
 
 %{
     rr::SimulateOptions* rr_RoadRunner___simulateOptions_get(RoadRunner* r) {
-        //rrLog(Logger::LOG_WARNING) << "DO NOT USE simulateOptions, it is DEPRECATED";
+        rrLog(Logger::LOG_WARNING) << "DO NOT USE simulateOptions, it is DEPRECATED";
         return &r->getSimulateOptions();
     }
 
     void rr_RoadRunner___simulateOptions_set(RoadRunner* r, const rr::SimulateOptions* opt) {
-        //rrLog(Logger::LOG_WARNING) << "DO NOT USE simulateOptions, it is DEPRECATED";
+        rrLog(Logger::LOG_WARNING) << "DO NOT USE simulateOptions, it is DEPRECATED";
         r->setSimulateOptions(*opt);
     }
 
 
     rr::RoadRunnerOptions* rr_RoadRunner_options_get(RoadRunner* r) {
-        //rrLog(Logger::LOG_WARNING) << "DO NOT USE options, it is DEPRECATED";
+        rrLog(Logger::LOG_WARNING) << "DO NOT USE options, it is DEPRECATED";
         return &r->getOptions();
     }
 
     void rr_RoadRunner_options_set(RoadRunner* r, const rr::RoadRunnerOptions* opt) {
-        //rrLog(Logger::LOG_WARNING) << "DO NOT USE options, it is DEPRECATED";
+        rrLog(Logger::LOG_WARNING) << "DO NOT USE options, it is DEPRECATED";
         rr::RoadRunnerOptions *rropt = &r->getOptions();
         *rropt = *opt;
     }
@@ -2423,15 +2428,15 @@ namespace std { class ostream{}; }
     %}
 }
 
-//%extend rr::Logger {
-//    static void enablePythonLogging() {
-//        PyLoggerStream::enablePythonLogging();
-//    }
-//
-//    static void disablePythonLogging() {
-//        PyLoggerStream::disablePythonLogging();
-//    }
-//}
+%extend rr::Logger {
+    static void enablePythonLogging() {
+        PyLoggerStream::enablePythonLogging();
+    }
+
+    static void disablePythonLogging() {
+        PyLoggerStream::disablePythonLogging();
+    }
+}
 
 %extend rr::Solver {
     %pythoncode %{
@@ -2468,26 +2473,26 @@ namespace std { class ostream{}; }
 
     void _setListener(const rr::PyIntegratorListenerPtr &listener) {
 
-        //rrLog(rr::Logger::LOG_INFORMATION) << __FUNC__ << ", use count: " << listener.use_count();
+        rrLog(rr::Logger::LOG_INFORMATION) << __FUNC__ << ", use count: " << listener.use_count();
 
         cxx11_ns::shared_ptr<rr::IntegratorListener> i =
             cxx11_ns::dynamic_pointer_cast<rr::IntegratorListener>(listener);
 
-//        rrLog(rr::Logger::LOG_INFORMATION) << __FUNC__ << ", after cast use count: " << listener.use_count();
+        rrLog(rr::Logger::LOG_INFORMATION) << __FUNC__ << ", after cast use count: " << listener.use_count();
 
         ($self)->setListener(i);
     }
 
     rr::PyIntegratorListenerPtr _getListener() {
 
-//        rrLog(rr::Logger::LOG_INFORMATION) << __FUNC__;
+        rrLog(rr::Logger::LOG_INFORMATION) << __FUNC__;
 
         rr::IntegratorListenerPtr l = ($self)->getListener();
 
         rr::PyIntegratorListenerPtr ptr =
             cxx11_ns::dynamic_pointer_cast<rr::PyIntegratorListener>(l);
 
-//        rrLog(rr::Logger::LOG_INFORMATION) << __FUNC__ << ", use count: " << ptr.use_count();
+        rrLog(rr::Logger::LOG_INFORMATION) << __FUNC__ << ", use count: " << ptr.use_count();
 
         return ptr;
     }
@@ -2495,11 +2500,11 @@ namespace std { class ostream{}; }
     void _clearListener() {
         rr::IntegratorListenerPtr current = ($self)->getListener();
 
-//        rrLog(rr::Logger::LOG_INFORMATION) << __FUNC__ << ", current use count before clear: " << current.use_count();
+        rrLog(rr::Logger::LOG_INFORMATION) << __FUNC__ << ", current use count before clear: " << current.use_count();
 
         ($self)->setListener(rr::IntegratorListenerPtr());
 
-//        rrLog(rr::Logger::LOG_INFORMATION) << __FUNC__ << ", current use count after clear: " << current.use_count();
+        rrLog(rr::Logger::LOG_INFORMATION) << __FUNC__ << ", current use count after clear: " << current.use_count();
     }
 
     // we want to get the listener back as a PyIntegratorListener, however
