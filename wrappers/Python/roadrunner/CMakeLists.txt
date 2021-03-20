@@ -109,6 +109,7 @@ install(
         testing/linearPathwayClosed.xml
         testing/linearPathwayOpen.xml
         testing/test_1.xml
+        testing/python_api_tests.py
         DESTINATION ${PYTHON_PACKAGE_INSTALL_PREFIX}/testing
 )
 

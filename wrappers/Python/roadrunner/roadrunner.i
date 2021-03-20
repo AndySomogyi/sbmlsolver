@@ -976,6 +976,12 @@ namespace std { class ostream{}; }
 
 
    %pythoncode %{
+        def __getattr__(self, name):
+            if name in self.keys():
+                return self[name]
+            else:
+                raise AttributeError(name)
+
         def getValue(self, *args):
             import re
             reg = re.compile(r'eigen\s*\(\s*(\w*)\s*\)\s*$')
@@ -1057,8 +1063,10 @@ namespace std { class ostream{}; }
             if self.getModel() is None:
                 return
 
-            def mk_fget(sel): return lambda self: self.getModel().__getitem__(sel)
-            def mk_fset(sel): return lambda self, val: self.getModel().__setitem__(sel, val)
+            def mk_fget(sel):
+                return lambda self: self.getModel().__getitem__(sel)
+            def mk_fset(sel):
+                return lambda self, val: self.getModel().__setitem__(sel, val)
 
 
             def makeProperty(name, sel):
@@ -1068,7 +1076,7 @@ namespace std { class ostream{}; }
                 #RoadRunner.__swig_getmethods__[name] = fget
                 #RoadRunner.__swig_setmethods__[name] = fset
                 setattr(RoadRunner, name, prop)
-                #RoadRunner._properties.append(name) # no need for this, properties are dynamically computed when call to _properties
+                RoadRunner._properties.append(name) # no need for this, properties are dynamically computed when call to _properties
 
             model = self.getModel()
             for s in model.getFloatingSpeciesIds():
