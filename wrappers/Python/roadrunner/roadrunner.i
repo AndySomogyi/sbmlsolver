@@ -64,6 +64,9 @@
     #include "PyUtils.h"
     #include "PyLoggerStream.h"
 
+    #include "KinsolSteadyStateSolver.h"
+    #include "NewtonIteration.h"
+
     // make a python obj out of the C++ ExecutableModel, this is used by the PyEventListener
     // class. This function is defined later in this compilation unit.
     PyObject *ExecutableModel_NewPythonObj(rr::ExecutableModel*);
@@ -89,14 +92,12 @@
     #define isnan std::isnan
 #endif
 
-
     using namespace rr;
 
 #define VERIFY_PYARRAY(p) { \
     assert(p && "PyArray is NULL"); \
     assert((PyArray_NBYTES(p) > 0 ? PyArray_ISCARRAY(p) : true) &&  "PyArray must be C format"); \
 }
-
 
     class DictionaryHolder {
     public:
@@ -112,8 +113,6 @@
 
 
 %}
-
-
 
 
 %naturalvar;
@@ -148,11 +147,13 @@
 
 %shared_ptr(rr::PyIntegratorListener)
 
+%include "rrExporter.h"
 
 
 %template(IntVector) std::vector<int>;
 %template(StringVector) std::vector<std::string>;
 %template(StringList) std::list<std::string>;
+
 
 %apply std::vector<std::string> {std::vector<std::string>, std::vector<std::string>, std::vector<std::string> };
 
@@ -278,9 +279,48 @@
     }
 }
 
+%typemap(out) const rr::Variant& {
+    try {
+        const rr::Variant& temp = *($1);
+        $result = Variant_to_py(temp);
+    } catch (const std::exception& e) {
+        SWIG_exception(SWIG_RuntimeError, e.what());
+    }
+}
 
-%include "rr_variant.i"
 
+%typemap(out) const rr::Variant {
+    try {
+        $result = Variant_to_py($1);
+    } catch (const std::exception& e) {
+        SWIG_exception(SWIG_RuntimeError, e.what());
+    }
+}
+
+%apply const rr::Variant {Variant, rr::Variant, const Variant};
+
+
+%typemap(in) const rr::Variant& (rr::Variant temp) {
+
+    try {
+        temp = Variant_from_py($input);
+        $1 = &temp;
+    } catch (const std::exception& e) {
+        SWIG_exception(SWIG_RuntimeError, e.what());
+    }
+}
+
+%apply const rr::Variant& {rr::Variant&, Variant&, const Variant&};
+
+//%template(StringVariantMap) std::unordered_map<std::string, rr::Variant>;
+
+%typemap(in) std::unordered_map<std::string, rr::Variant> (PyObject* obj){
+  obj = PyDict_New($input);
+  for (const auto &item: $1){
+      PyDict_SetItem(dict, PyUnicode_FromString(item.first), Variant_to_py(item.second));
+  }
+  $result = SWIG_Python_AppendOutput($result, obj);
+}
 
 /**
  * input map, convert an incomming object to a roadrunner Dictionary*
@@ -308,12 +348,7 @@
 }
 
 %typemap(typecheck) const rr::Dictionary* = PyObject*;
-
 %apply const rr::Dictionary* {const Dictionary*, rr::Dictionary*, Dictionary*};
-
-
-
-
 
 
 
@@ -336,11 +371,6 @@
 */
 
 //%apply std::vector<std::string> {std::vector<std::string>, std::vector<std::string>, std::vector<std::string> };
-
-
-
-
-
 
 %include "numpy.i"
 
@@ -374,9 +404,6 @@ rr::pyutil_init(m);
 
 #endif
 %}
-
-
-
 
 
 size_t sigtrap();
@@ -860,6 +887,7 @@ namespace std { class ostream{}; }
 
 %include <rrSelectionRecord.h>
 %include <conservation/ConservedMoietyConverter.h>
+
 %include <Solver.h>
 %include <Integrator.h>
 %include <SteadyStateSolver.h>
@@ -869,7 +897,6 @@ namespace std { class ostream{}; }
 %include <rrConfig.h>
 %include <SBMLValidator.h>
 %include <rrSBMLReader.h>
-
 
 %extend rr::RoadRunner
 {
@@ -2605,3 +2632,25 @@ integrators = list(RoadRunner.getRegisteredIntegratorNames())
 steadyStateSolvers = list(RoadRunner.getRegisteredSteadyStateSolverNames())
 solvers = integrators + steadyStateSolvers
 %}
+
+
+
+// NewtonIteration
+%include "KinsolSteadyStateSolver.h"
+%include "NewtonIteration.h"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
