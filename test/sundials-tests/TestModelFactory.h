@@ -2029,7 +2029,7 @@ namespace privateSwigTests {
         return map;
     }
 
-    rr::Variant *_useVariant() {
+    rr::Variant *_testVariant() {
         rr::Variant *x = new rr::Variant(5.4);
         return x;
     }

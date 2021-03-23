@@ -167,16 +167,6 @@ rr::pyutil_init(m);
 
 
 
-
-//%template(DoublePair) std::pair<double, double>;
-//%template(DoubleDoubleMap) std::unordered_map<double, double>;
-//%template(StringDoubleMap) std::unordered_map<std::string, double >;
-//%template(ResultMap) std::unordered_map<std::string, std::pair<double, double>>;
-
-//%template(StringVariantMap) std::unordered_map<std::string, rr::Variant>;
-
-
-
 // allows polymorphism to work correctly in python
 // (Define before including decls)
 %typemap(out) TestModel *TestModelFactory{
@@ -185,6 +175,23 @@ rr::pyutil_init(m);
         $result = SWIG_NewPointerObj(SWIG_as_voidptr($1), outtype, $owner);
 }
 
+
+/**
+ * Whilst developing the TestModelFactory, a number of functions
+ * were defined for testing swig. Since the swig learning curve
+ * can be quite steep, I've decided to leave this in
+ * as examples to future developers (and future me).
+ * Some of these methods allocate new memory on the heap.
+ * In order to tell swig that these are new pointers (and thus
+ * in need of deleting) we can use the %newobject directive.
+ * See section 14.2 of the swig docs (version 4.0.2)
+ */
+%newobject _testDoublePair;
+%newobject _testDoubleMap;
+%newobject _testVariantMap;
+%newobject _testVariant;
+
+%newobject TestModelFactory;
 
 %include "TestModelFactory.h"
 

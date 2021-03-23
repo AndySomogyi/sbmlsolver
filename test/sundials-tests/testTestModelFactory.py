@@ -33,7 +33,7 @@ class testTestModelFactory(unittest.TestCase):
         self.assertEqual(x[0], 3.4)
 
     def testUseVariant(self):
-        x = tmf._useVariant()
+        x = tmf._testVariant()
         print(x,type(x))
         self.assertIsInstance(x, float)
 
