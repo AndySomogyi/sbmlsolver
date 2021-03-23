@@ -76,6 +76,7 @@ class Dictionary;
  */
 PyObject *Variant_to_py(const Variant& var);
 
+PyObject* Variant_to_py(Variant* var);
 /**
  * @brief Inverse of @ref Variant_from_py
  */

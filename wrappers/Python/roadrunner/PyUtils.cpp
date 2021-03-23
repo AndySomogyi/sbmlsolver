@@ -231,6 +231,10 @@ PyObject* Variant_to_py(const Variant& var)
     throw invalid_argument("could not convert " + var.toString() + "to Python object");
 }
 
+PyObject* Variant_to_py(Variant* var){
+    return Variant_to_py(*var);
+}
+
 Variant Variant_from_py(PyObject* py)
 {
 	Variant var;
