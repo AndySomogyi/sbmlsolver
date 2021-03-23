@@ -14,11 +14,16 @@ using namespace rr;
 class NewtonIterationUnitTests : public ::testing::Test {
 
 public:
-    RoadRunner rr;
-
     SimpleFluxManuallyReduced testModel;
+    RoadRunner* rr;
 
-    NewtonIterationUnitTests() = default;
+    NewtonIterationUnitTests(){
+        rr = new RoadRunner(testModel.str());
+    }
+
+    ~NewtonIterationUnitTests(){
+        delete rr;
+    }
 
     void checkResults(ls::DoubleMatrix result) {
         std::vector<std::string> names = result.getColNames();
@@ -36,13 +41,13 @@ public:
 
 TEST_F(NewtonIterationUnitTests, SolveUsingSolverDirectly) {
     // aka without a RoadRunner instance
-    NewtonIteration solver(rr.getModel());
+    NewtonIteration solver(rr->getModel());
     solver.solve();
-    checkResults(rr.getFloatingSpeciesConcentrationsNamedArray());
+    checkResults(rr->getFloatingSpeciesConcentrationsNamedArray());
 }
 
 TEST_F(NewtonIterationUnitTests, ChangeAndResetSettings) {
-    NewtonIteration solver(rr.getModel());
+    NewtonIteration solver(rr->getModel());
     solver.setValue("strategy", Variant("linesearch"));
     solver.resetSettings();
     ASSERT_STREQ("basic", solver.getValueAsString("strategy").c_str());
@@ -50,20 +55,20 @@ TEST_F(NewtonIterationUnitTests, ChangeAndResetSettings) {
 
 
 TEST_F(NewtonIterationUnitTests, RegenerateTheModelBeforeCreatingSolver) {
-    rr.regenerate();
-    NewtonIteration solver(rr.getModel());
+    rr->regenerate();
+    NewtonIteration solver(rr->getModel());
     solver.solve();
-    checkResults(rr.getFloatingSpeciesConcentrationsNamedArray());
+    checkResults(rr->getFloatingSpeciesConcentrationsNamedArray());
 }
 
 TEST_F(NewtonIterationUnitTests, RegenerateTheModelAfterCreatingSolver) {
-    NewtonIteration solver(rr.getModel());
-    rr.regenerate();
+    NewtonIteration solver(rr->getModel());
+    rr->regenerate();
     // after regeneration, the pointer to the model is different
     // so we must sync with model before solving.
-    solver.syncWithModel(rr.getModel());
+    solver.syncWithModel(rr->getModel());
     solver.solve();
-    checkResults(rr.getFloatingSpeciesConcentrationsNamedArray());
+    checkResults(rr->getFloatingSpeciesConcentrationsNamedArray());
 }
 
 

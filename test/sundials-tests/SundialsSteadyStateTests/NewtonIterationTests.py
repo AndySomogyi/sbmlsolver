@@ -91,6 +91,7 @@ class NewtonIterationIntegrationTests(unittest.TestCase):
         # collect reference results
         expected_results = test_model.steadyState()
 
+        # set starting values
         for species_name, (starting_val, expected_ss_val) in expected_results.items():
             setattr(rr, species_name, starting_val)
 
@@ -120,6 +121,7 @@ class NewtonIterationIntegrationTests(unittest.TestCase):
         actual_results = rr.getFloatingSpeciesConcentrationsNamedArray()
         for species_name, (starting_val, expected_ss_val) in expected_results.items():
             actual = actual_results[species_name][0]
+            print("Comparing reference value : ", expected_ss_val, "with actual value: ", actual)
             self.assertAlmostEqual(expected_ss_val, actual, places=5)
 
 
