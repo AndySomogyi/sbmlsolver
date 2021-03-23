@@ -17,7 +17,7 @@ public:
     void testSteadyState(const std::string &modelName, bool useMoietyConservation = false,
                          const std::string &strategy = "basic") {
         // get the model
-        SBMLTestModel* testModel_ = TestModelFactory(modelName);
+        TestModel* testModel_ = TestModelFactory(modelName);
         TestModelType* testModel = dynamic_cast<TestModelType*>(testModel_);
 
         assert(testModel && "testModel is nullptr");
@@ -48,6 +48,7 @@ public:
         }
 
         // turn on/off conservation analysis
+        // todo - this should be already applied with the above
         rr.setConservedMoietyAnalysis(useMoietyConservation);
 
         std::cout << "rr.getFullStoichiometryMatrix" << std::endl;
