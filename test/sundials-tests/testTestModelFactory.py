@@ -2,14 +2,21 @@
 #
 # The data container classes inside TestModelFactory.h have been
 # exposed to Python using swig (see TestModelFactory.i).
-#
-# This file resides within "<roadrunner_root>/test/sundials-tests" until
-# the project is installed. Only once it is installed along side the TestModelFactory.py
-# and _TestModelFactory.pyd files can this file be executed.
 
+import os
+import sys
 import unittest
 
-import TestModelFactory as tmf
+thisDir = os.path.dirname(os.path.realpath(__file__))
+rr_site_packages = os.path.dirname(os.path.dirname(thisDir))
+print("thisDir", thisDir)
+print("rr_site_packages", rr_site_packages)
+
+sys.path += [
+    rr_site_packages,
+    r"D:\roadrunner\roadrunner\install-msvc2019-rel-swig-4.0.2\site-packages",  # todo delete me
+]
+from roadrunner.testing import TestModelFactory as tmf
 
 
 class testTestModelFactory(unittest.TestCase):
@@ -21,9 +28,26 @@ class testTestModelFactory(unittest.TestCase):
         pass
 
     def testDoublePair(self):
-        dp = tmf.DoublePair(5.4, 4.3)
-        self.assertIsInstance(dp, tmf.DoublePair)
-        self.assertEqual(dp[0], 5.4)
+        x = tmf._testDoublePair(3.4, 5.6)
+        self.assertIsInstance(x, tuple)
+        self.assertEqual(x[0], 3.4)
+
+    def testUseVariant(self):
+        x = tmf._useVariant()
+        print(x,type(x))
+        self.assertIsInstance(x, float)
+
+    def testVariantMap(self):
+        x = tmf._testVariantMap()
+        print(x,type(x))
+        self.assertIsInstance(x, dict)
+        self.assertIsInstance(list(x.keys())[0], str)
+        self.assertIsInstance(list(x.values())[0], int)
+
+    def testGetSettings(self):
+        open_linear_flux = tmf.OpenLinearFlux()
+        expected = {'allow_presimulation': True, 'presimulation_time': 5}
+        self.assertEqual(expected, open_linear_flux.settings())
 
     def testSimpleFluxStr(self):
         sf = tmf.SimpleFlux()
@@ -59,3 +83,7 @@ class testTestModelFactory(unittest.TestCase):
         ]
         for clsName in classNames:
             self.assertIn(clsName, dir(tmf))
+
+    def test_polymorphic_factory(self):
+        testModel = tmf.TestModelFactory("OpenLinearFlux")
+        self.assertIsInstance(testModel, tmf.OpenLinearFlux) # fails if is type TestModel

@@ -28,7 +28,7 @@ typedef std::vector<ResultMap> MultiResultsMap ;
 /**
  * Abstract type to store sbml string
  */
-class SBMLTestModel {
+class TestModel {
 public:
 
     /**
@@ -71,9 +71,7 @@ public:
      * are we testing?). Instead an independent sbml simulator
      * should be used to extract the state vector at t=10.
      *
-     * todo turn t=10 into an argument so that we can test
-     *  any time step.
-     *  ... or better, a full matrix
+     * todo make this return a full matrix
      *
      */
     virtual ResultMap stateVectorAtT10() = 0;
@@ -112,7 +110,7 @@ public:
  * A = 10;
  * B = 1;
  */
-class SimpleFlux : public SBMLTestModel, public TimeSeriesResult, public SteadyStateResult {
+class SimpleFlux : public TestModel, public TimeSeriesResult, public SteadyStateResult {
 public:
 
     std::string str() override {
@@ -268,7 +266,7 @@ public:
  *      ['S20', 'Total', 'kf', 'kb', 'S2']
  *      [1.0e+00 1.1e+01 1.0e-01 1.0e-02 1.0e+01]
  */
-class SimpleFluxManuallyReduced : public SBMLTestModel, public SteadyStateResult {
+class SimpleFluxManuallyReduced : public TestModel, public SteadyStateResult {
 public:
     std::string str() override {
         return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
@@ -384,7 +382,7 @@ public:
     ...:  end
     ...:  """)
  */
-class OpenLinearFlux : public SBMLTestModel, public SteadyStateResult, public TimeSeriesResult {
+class OpenLinearFlux : public TestModel, public SteadyStateResult, public TimeSeriesResult {
 public:
     std::string str() override {
         return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
@@ -480,7 +478,7 @@ public:
 /**
  * model 269 from the sbml test suite
  */
-class Model269 : public SBMLTestModel, public TimeSeriesResult {
+class Model269 : public TestModel, public TimeSeriesResult {
 public:
 
     std::string str() override {
@@ -595,7 +593,7 @@ public:
 /**
  * model 28 from the sbml test suite
  */
-class Model28 : public SBMLTestModel, public TimeSeriesResult {
+class Model28 : public TestModel, public TimeSeriesResult {
 public:
 
     std::string str() override {
@@ -688,7 +686,7 @@ public:
 /**
  * A model that uses "ceil" in the rate law
  */
-class CeilInRateLaw : public SBMLTestModel, public TimeSeriesResult {
+class CeilInRateLaw : public TestModel, public TimeSeriesResult {
 public:
 
     std::string str() override {
@@ -756,7 +754,7 @@ public:
 /**
  * A model that uses "Factorial" in the rate law
  */
-class FactorialInRateLaw : public SBMLTestModel, public TimeSeriesResult {
+class FactorialInRateLaw : public TestModel, public TimeSeriesResult {
 public:
 
     std::string str() override {
@@ -824,7 +822,7 @@ public:
 /**
  * Model from the Venkatraman 2010 paper
  */
-class Venkatraman2010 : public SBMLTestModel, public SteadyStateResult {
+class Venkatraman2010 : public TestModel, public SteadyStateResult {
 public:
 
     std::string str() override {
@@ -1029,7 +1027,7 @@ public:
 
 };
 
-class Brown2004 : public SBMLTestModel, public SteadyStateResult {
+class Brown2004 : public TestModel, public SteadyStateResult {
 
 public:
 
@@ -1981,7 +1979,7 @@ public:
 
 };
 
-SBMLTestModel* TestModelFactory(const std::string &modelName) {
+TestModel* TestModelFactory(const std::string &modelName) {
     if (modelName == "SimpleFlux") {
         return new SimpleFlux();
     } else if (modelName == "Model269") {
@@ -2007,8 +2005,35 @@ SBMLTestModel* TestModelFactory(const std::string &modelName) {
 }
 
 
+namespace privateTests {
+    // this section exists only to test the swig bindings
+    // and make sure the typemaps are doing what they are supposed
+    // to be. Users should completely ignore this
 
+    DoublePair *_testDoublePair(double first, double second) {
+        DoublePair *pair = new DoublePair(first, second);
+        return pair;
+    }
 
+    std::unordered_map<double, double> *_testDoubleMap(double first, double second) {
+        std::unordered_map<double, double> *map = new std::unordered_map<double, double>{
+                {first, second}
+        };
+        return map;
+    }
+
+    std::unordered_map<std::string, rr::Variant> *_testVariantMap() {
+        std::unordered_map<std::string, rr::Variant> *map = new std::unordered_map<std::string, rr::Variant>{
+                {"mapsy", rr::Variant(5)}
+        };
+        return map;
+    }
+
+    rr::Variant *_useVariant() {
+        rr::Variant *x = new rr::Variant(5.4);
+        return x;
+    }
+}
 
 
 

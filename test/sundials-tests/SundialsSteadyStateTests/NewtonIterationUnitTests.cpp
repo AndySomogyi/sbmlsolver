@@ -41,13 +41,6 @@ TEST_F(NewtonIterationUnitTests, SolveUsingSolverDirectly) {
     checkResults(rr.getFloatingSpeciesConcentrationsNamedArray());
 }
 
-TEST_F(NewtonIterationUnitTests, CheckKinsolOptionIsPassedToKinsol) {
-    NewtonIteration solver(rr.getModel());
-    solver.setValue("print_level", 0);
-    solver.solve();
-    checkResults(rr.getFloatingSpeciesConcentrationsNamedArray());
-}
-
 TEST_F(NewtonIterationUnitTests, ChangeAndResetSettings) {
     NewtonIteration solver(rr.getModel());
     solver.setValue("strategy", Variant("linesearch"));
@@ -72,9 +65,6 @@ TEST_F(NewtonIterationUnitTests, RegenerateTheModelAfterCreatingSolver) {
     solver.solve();
     checkResults(rr.getFloatingSpeciesConcentrationsNamedArray());
 }
-
-// check steady state selections works
-
 
 
 /**

@@ -257,6 +257,7 @@ namespace rr
          */
         virtual ExecutableModel *getModel() const;
 
+
     protected:
         typedef std::vector<std::string> SettingsList;
         typedef RR_UNORDERED_MAP <std::string, Variant> SettingsMap;
@@ -276,6 +277,7 @@ namespace rr
         ExecutableModel* mModel = nullptr;
 
         void addSetting(const std::string& name, const Variant& val, std::string display_name, std::string hint, std::string description);
+
     };
 
 }

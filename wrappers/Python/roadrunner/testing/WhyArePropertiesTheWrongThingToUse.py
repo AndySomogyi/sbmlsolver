@@ -1,6 +1,8 @@
-"""Demonstration of why the roadrunner python api property system is broken
+"""Are properties the right Python structure to store things like species or compartment values?
 
-I needed a way to verify my thoughts on this, which this script does.
+Short answer - no.
+
+(remember to remove)
 """
 
 class C:

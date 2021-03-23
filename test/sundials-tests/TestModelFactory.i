@@ -1,21 +1,22 @@
 %module TestModelFactory
 
 %{
-#define SWIG_FILE_WITH_INIT
-#define PY_ARRAY_UNIQUE_SYMBOL RoadRunner_ARRAY_API // for the NamedArrayObject (see roadrunner.i)
+    #define SWIG_FILE_WITH_INIT
+    #define PY_ARRAY_UNIQUE_SYMBOL RoadRunner_ARRAY_API // for the NamedArrayObject (see roadrunner.i)
 
-#include <map>
-#include <unordered_map>
-#include <utility>
-#include <iostream>
+    #include <unordered_map>
+    #include <utility>
+    #include <iostream>
 
-#include "Variant.h" // for storing settings
-#include "PyUtils.h" // for variant_to_py and back.
+    #include "PyUtils.h" // for variant_to_py and back.
 
-#include "TestModelFactory.h"
-typedef std::unordered_map<std::string, std::pair<double, double>> ResultMap;
-using namespace rr;
+    #include "TestModelFactory.h"
+    typedef std::unordered_map<std::string, std::pair<double, double>> ResultMap;
+    using namespace rr;
 %}
+
+#include <iostream>
+#include <unordered_map>
 
 // since we be using the ls::Matrix from a Python
 // we'll be using the same API needed by the main roadrunner bindings
@@ -29,40 +30,130 @@ rr::pyutil_init(m);
 %include "std_vector.i"
 %include "std_pair.i"
 %include "std_unordered_map.i"
-%include "rr_variant.i"
 
-%typedef std::unordered_map<std::string, std::pair<double, double>> ResultMap;
-
-
-%template(DoublePair) std::pair<double, double>;
-%template(DoubleDoubleMap) std::unordered_map<double, double>;
-%template(StringDoubleMap) std::unordered_map<std::string, double >;
-%template(ResultMap) std::unordered_map<std::string, std::pair<double, double>>;
-
-%template(StringVariantMap) std::unordered_map<std::string, rr::Variant>;
+%include "PyUtils.h"
 
 
-%include "TestModelFactory.h"
+// make a Python Tuple from a C++ DoublePair
+%typemap(out) std::pair<double, double>*
+{
+    $result = PyTuple_New((Py_ssize_t)2); // new tuple, 2 elements
+    if (!$result){
+        std::cerr << "Failed to create PyTuple with 2 elements " << std::endl;
+    }
+    int err = PyTuple_SetItem($result, (Py_ssize_t)0, PyFloat_FromDouble((*$1).first));
+    if (err < 0){
+        std::cerr << "Failed to add item to tuple " << std::endl;
+    }
+    err = PyTuple_SetItem($result, (Py_ssize_t)1, PyFloat_FromDouble((*$1).second ));
+    if (err < 0){
+        std::cerr << "Failed to add item to tuple " << std::endl;
+    }
+}
 
-//class SimpleFlux : public SBMLTestModel, public TimeSeriesResult, public SteadyStateResult {
-//public:
-//
-//    std::string str() override;
-//
-//    std::string modelName() override;
-//
-//    ResultMap stateVectorAtT10() override;
-//
-//    ResultMap steadyState() override;
-//
-//    std::unordered_map<std::string, rr::Variant> settings() override;
-//};
+%apply std::pair<double, double>* {
+        std::pair<double, double>,
+        std::pair<double, double>&,
+        const std::pair<double, double>&
+    };
+
+/**
+ * note to future developers: This double map is never actually used.
+ * This was part of my learning swig, since a double: double map
+ * is simpler than a string Variant map (i.e. to convert to Python dict).
+ * Keeping this typemap for future reference (cw)
+ */
+%typemap(out) std::unordered_map<double, double>* {
+    $result = PyDict_New();
+    if (!result){
+        std::cerr << "Could not create Python Dict" << std::endl;
+    }
+    for (const auto& item: *$1){
+        int err = PyDict_SetItem($result, PyFloat_FromDouble(item.first), PyFloat_FromDouble(item.second));
+        if (err < 0){
+            std::cout << "Could not create item in Python Dict" << std::endl;
+        }
+    }
+}
+
+%apply std::unordered_map<double, double> * {
+    std::unordered_map<double, double> ,
+    const std::unordered_map<double, double>&,
+    std::unordered_map<double, double>&
+    };
+
+%typemap(out) rr::Variant {
+    $result = Variant_to_py($1);
+}
+
+%apply rr::Variant {
+    rr::Variant*
+};
 
 
-%typemap(out) SBMLTestModel *TestModelFactory{
+/**
+ * @brief typemap to convert a string : Variant map into a Python dict.
+ * Used in the "settings" map of tmf.
+ */
+%typemap(out) std::unordered_map< std::string,rr::Variant,std::hash< std::string >,std::equal_to< std::string >,std::allocator< std::pair< std::string const,rr::Variant > > >* {
+    $result = PyDict_New();
+    if (!result){
+        std::cerr << "Could not create Python Dict" << std::endl;
+    }
+
+    for (const auto& item: *$1){
+        int err = PyDict_SetItem($result, PyUnicode_FromString(item.first.c_str()), Variant_to_py(item.second));
+        if (err < 0){
+            std::cout << "Could not create item in Python Dict" << std::endl;
+        }
+    }
+}
+
+// non pointer version
+%typemap(out) std::unordered_map< std::string,rr::Variant,std::hash< std::string >,std::equal_to< std::string >,std::allocator< std::pair< std::string const,rr::Variant > > > {
+    $result = PyDict_New();
+    if (!$result){
+        std::cerr << "Could not create Python Dict" << std::endl;
+    }
+
+    // $1 is a SwigValueWrapper. The "&" operator returns the pointer to the underlying wrapped map
+    auto val = &$1;
+
+    // we can now use val as a pointer to our map
+    for (const auto& item: *val){
+        int err = PyDict_SetItem($result, PyUnicode_FromString(item.first.c_str()), Variant_to_py(item.second));
+        if (err < 0){
+            std::cout << "Could not create item in Python Dict" << std::endl;
+        }
+    }
+}
+
+
+
+//%template(DoublePair) std::pair<double, double>;
+//%template(DoubleDoubleMap) std::unordered_map<double, double>;
+//%template(StringDoubleMap) std::unordered_map<std::string, double >;
+//%template(ResultMap) std::unordered_map<std::string, std::pair<double, double>>;
+
+//%template(StringVariantMap) std::unordered_map<std::string, rr::Variant>;
+
+
+
+// allows polymorphism to work correctly in python
+// (Define before including decls)
+%typemap(out) TestModel *TestModelFactory{
         const std::string lookup_typename = *arg1 + " *";
         swig_type_info * const outtype = SWIG_TypeQuery(lookup_typename.c_str());
         $result = SWIG_NewPointerObj(SWIG_as_voidptr($1), outtype, $owner);
 }
+
+
+%include "TestModelFactory.h"
+
+
+
+
+
+
 
 
