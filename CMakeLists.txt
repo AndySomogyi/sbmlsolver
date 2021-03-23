@@ -416,6 +416,9 @@ if (BUILD_TESTS)
     enable_testing()
     include(GoogleTest)
 
+    # defined here, passed on to running the Python tests via CTest
+    set(PYTHON_API_IN_BINARY_TREE "${CMAKE_CURRENT_BINARY_DIR}/wrappers/Python")
+
     add_subdirectory(test)
 
     message(STATUS "building tests")

@@ -25,5 +25,10 @@ if(BUILD_PYTHON)
   add_test(NAME PythonUnitTests
     COMMAND ${PYTHON_EXECUTABLE} run.py
     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/python-unit-tests)
+  message(STATUS "PYTHON_API_IN_BINARY_TREE ${PYTHON_API_IN_BINARY_TREE}")
   set_tests_properties(PythonUnitTests PROPERTIES ENVIRONMENT "PYTHONPATH=${CMAKE_BINARY_DIR}/lib/site-packages:$PYTHONPATH")
 endif()
+
+
+
+

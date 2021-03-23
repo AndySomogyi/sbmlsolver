@@ -38,6 +38,11 @@ set_target_properties(roadrunner_python PROPERTIES
         SWIG_USE_TARGET_INCLUDE_DIRECTORIES TRUE # Needed for target_include_directories to have any effect on swig target
         )
 
+# Move the roadrunner.py produced by swig in the binary tree to the site-pacakges/lib folder with the binaries
+add_custom_command(
+        TARGET roadrunner_python POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_CURRENT_BINARY_DIR}/roadrunner.py" "${CMAKE_BINARY_DIR}/lib/site-packages/roadrunner/roadrunner.py"
+)
 
 target_include_directories(roadrunner_python PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}
