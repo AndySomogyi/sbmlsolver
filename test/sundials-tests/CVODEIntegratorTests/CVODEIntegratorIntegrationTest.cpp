@@ -28,7 +28,7 @@ public:
      */
     template<class ModelType>
     void CheckModelSimulates(const std::string &modelName) {
-        SBMLTestModel* testModelPtr = TestModelFactory(modelName);
+        TestModel* testModelPtr = TestModelFactory(modelName);
         ModelType* testModel = dynamic_cast<ModelType*>(testModelPtr);
 
         // load model
