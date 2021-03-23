@@ -2005,7 +2005,7 @@ TestModel* TestModelFactory(const std::string &modelName) {
 }
 
 
-namespace privateTests {
+namespace privateSwigTests {
     // this section exists only to test the swig bindings
     // and make sure the typemaps are doing what they are supposed
     // to be. Users should completely ignore this
@@ -2032,6 +2032,12 @@ namespace privateTests {
     rr::Variant *_useVariant() {
         rr::Variant *x = new rr::Variant(5.4);
         return x;
+    }
+
+    ResultMap _testResultMap(){
+        return ResultMap {
+                {"First", DoublePair (0.5, 1.6)},
+        };
     }
 }
 

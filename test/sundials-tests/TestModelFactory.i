@@ -130,6 +130,44 @@ rr::pyutil_init(m);
 
 
 
+/**
+ * Converts an unordered_map<string, DoublePair>
+ *
+ */
+%typemap(out) std::unordered_map< std::string,std::pair< double,double >,std::hash< std::string >,std::equal_to< std::string >,std::allocator< std::pair< std::string const,std::pair< double,double > > > >  {
+    $result = PyDict_New();
+    if (!$result){
+        std::cerr << "Could not create Python Dict" << std::endl;
+    }
+    // swig create a SwigValueWrapper here. In order to
+    // iterate over the map, we extract the pointer
+    auto valPtr = &$1;
+
+    for (const auto& item: *valPtr){
+        // make tuple from item.second
+        PyObject* tup = PyTuple_New((Py_ssize_t)2); // new tuple, 2 elements
+        if (!tup){
+            std::cerr << "Failed to create PyTuple with 2 elements " << std::endl;
+        }
+        int err = PyTuple_SetItem(tup, (Py_ssize_t)0, PyFloat_FromDouble(item.second.first));
+        if (err < 0){
+            std::cerr << "Failed to add item to tuple " << std::endl;
+        }
+        err = PyTuple_SetItem(tup, (Py_ssize_t)1, PyFloat_FromDouble(item.second.second ));
+        if (err < 0){
+            std::cerr << "Failed to add item to tuple " << std::endl;
+        }
+        // now create the dictionary
+        err = PyDict_SetItem($result, PyUnicode_FromString(item.first.c_str()), tup);
+        if (err < 0){
+            std::cout << "Could not create item in Python Dict" << std::endl;
+        }
+    }
+}
+
+
+
+
 //%template(DoublePair) std::pair<double, double>;
 //%template(DoubleDoubleMap) std::unordered_map<double, double>;
 //%template(StringDoubleMap) std::unordered_map<std::string, double >;

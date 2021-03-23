@@ -44,6 +44,10 @@ class testTestModelFactory(unittest.TestCase):
         self.assertIsInstance(list(x.keys())[0], str)
         self.assertIsInstance(list(x.values())[0], int)
 
+    def testResultMap(self):
+        x = tmf._testResultMap()
+        self.assertIsInstance(x, dict)
+
     def testGetSettings(self):
         open_linear_flux = tmf.OpenLinearFlux()
         expected = {'allow_presimulation': True, 'presimulation_time': 5}
