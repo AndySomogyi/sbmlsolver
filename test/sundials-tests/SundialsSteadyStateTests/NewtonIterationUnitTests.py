@@ -39,9 +39,6 @@ class NewtonIterationUnitTests(unittest.TestCase):
     def test_settings_map_is_dict(self):
         solver = NewtonIteration(self.rr.getModel())
         settings = solver.getSettingsMap()
-        print(type(settings))
-        print(settings.keys())
-        print(settings["allow_presimulation"])
         self.assertIsInstance(settings, dict)
 
     def test_sovle_using_newton_iteration_directly(self):

@@ -312,15 +312,40 @@
 
 %apply const rr::Variant& {rr::Variant&, Variant&, const Variant&};
 
-//%template(StringVariantMap) std::unordered_map<std::string, rr::Variant>;
 
-%typemap(in) std::unordered_map<std::string, rr::Variant> (PyObject* obj){
-  obj = PyDict_New($input);
-  for (const auto &item: $1){
-      PyDict_SetItem(dict, PyUnicode_FromString(item.first), Variant_to_py(item.second));
-  }
-  $result = SWIG_Python_AppendOutput($result, obj);
+/**
+ * @brief typemap to convert a string : Variant map into a Python dict.
+ * Used in the "settings" map of TestModelFactory (tmf).
+ *
+ * @note std::unordered_map<std::string, rr:Variant> gets expanded by swig to
+ * the full version below. The full version is needed for swig to recognize the type
+ * and use this typemap
+ */
+%typemap(out) std::unordered_map< std::string,rr::Variant,std::hash< std::string >,std::equal_to< std::string >,std::allocator< std::pair< std::string const,rr::Variant > > >* {
+    $result = PyDict_New();
+    if (!result){
+        std::cerr << "Could not create Python Dict" << std::endl;
+    }
+
+    for (const auto& item: *$1){
+        int err = PyDict_SetItem($result, PyUnicode_FromString(item.first.c_str()), Variant_to_py(item.second));
+        if (err < 0){
+            std::cout << "Could not create item in Python Dict" << std::endl;
+        }
+    }
 }
+
+
+
+%apply std::unordered_map< std::string,rr::Variant,std::hash< std::string >,std::equal_to< std::string >,std::allocator< std::pair< std::string const,rr::Variant > > >* {
+    std::unordered_map< std::string,rr::Variant,std::hash< std::string >,std::equal_to< std::string >,std::allocator< std::pair< std::string const,rr::Variant > > >,
+    std::unordered_map< std::string,rr::Variant,std::hash< std::string >,std::equal_to< std::string >,std::allocator< std::pair< std::string const,rr::Variant > > >&,
+    std::unordered_map< std::string,Variant,std::hash< std::string >,std::equal_to< std::string >,std::allocator< std::pair< std::string const,Variant > > >&,
+    const std::unordered_map< std::string,rr::Variant,std::hash< std::string >,std::equal_to< std::string >,std::allocator< std::pair< std::string const,rr::Variant > > >&,
+    const std::unordered_map< std::string,Variant,std::hash< std::string >,std::equal_to< std::string >,std::allocator< std::pair< std::string const,Variant > > >&
+};
+
+
 
 /**
  * input map, convert an incomming object to a roadrunner Dictionary*
