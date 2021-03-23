@@ -241,10 +241,12 @@ TEST_F(BasicNewtonIterationTests, CheckCorrectSteadyStateVenkatraman2010) {
     The answer is probably that there is a bug in roadrunners conservation analysis.
 
     This test is disabled until we get a resolution on this problem
+
+    @note: not disabled - commented out, because gtest on mac seems to consider the disabled test a failure :/
  */
-TEST_F(BasicNewtonIterationTests, DISABLED_CheckCorrectSteadyStateBrown2004) {
-    testSteadyState<Brown2004>("Brown2004", true, strategy);
-}
+//TEST_F(BasicNewtonIterationTests, DISABLED_CheckCorrectSteadyStateBrown2004) {
+//    testSteadyState<Brown2004>("Brown2004", true, strategy);
+//}
 
 
 /**
@@ -280,9 +282,9 @@ TEST_F(LineSearchNewtonIterationTests, CheckCorrectSteadyStateVenkatraman2010) {
 /**
  * See BasicNewtonIterationTests for reason by this is currently disabled.
  */
-TEST_F(LineSearchNewtonIterationTests, DISABLED_CheckCorrectSteadyStateBrown2004) {
-    testSteadyState<Brown2004>("Brown2004", true, strategy);
-}
+//TEST_F(LineSearchNewtonIterationTests, DISABLED_CheckCorrectSteadyStateBrown2004) {
+//    testSteadyState<Brown2004>("Brown2004", true, strategy);
+//}
 
 /**
  * Integration style tests verifying interactions between
