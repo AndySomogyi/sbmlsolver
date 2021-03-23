@@ -16,7 +16,17 @@ roadrunner.sigtrap()
 tester.runTester(test_data_dir)
 
 
-# also run python_api_tests
+# Run any other Python tests
 import unittest
-import python_api_tests
-unittest.main(module="python_api_tests")
+
+other_test_modules = [
+    "python_api_tests",
+    "testTestModelFactory",
+]
+
+for t in other_test_modules:
+    unittest.main(module=t)
+
+
+
+
