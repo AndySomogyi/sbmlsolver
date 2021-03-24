@@ -17,10 +17,9 @@ namespace rr {
 
     public:
 
-        ~FixedPointIteration() override = default;
-
         explicit FixedPointIteration(ExecutableModel* executableModel) ;
 
+        ~FixedPointIteration() override;
         /**
         * 
         * @brief Get the name of this solver

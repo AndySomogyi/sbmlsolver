@@ -21,7 +21,7 @@ namespace rr {
         NewtonIteration::createKinsol();
     }
 
-    NewtonIteration::~NewtonIteration() {
+    NewtonIteration::~NewtonIteration() noexcept {
         NewtonIteration::freeKinsol();
     }
 

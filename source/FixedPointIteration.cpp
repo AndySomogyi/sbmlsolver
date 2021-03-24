@@ -7,12 +7,17 @@
 
 namespace rr {
 
-    FixedPointIteration::FixedPointIteration(ExecutableModel *executableModel) : KinsolSteadyStateSolver(
-            executableModel) {
+    FixedPointIteration::FixedPointIteration(ExecutableModel *executableModel)
+        : KinsolSteadyStateSolver(executableModel) {
         // note: we deliberately use the NewtonIteration namespace here
         // because calling virtual methods from constructors is dangerous.
         // We *must* ensure we call the right version of createKinsol
+        FixedPointIteration::resetSettings();
         FixedPointIteration::createKinsol();
+    }
+
+    FixedPointIteration::~FixedPointIteration() noexcept {
+        FixedPointIteration::freeKinsol();
     }
 
     void FixedPointIteration::createKinsol() {
@@ -23,21 +28,12 @@ namespace rr {
 
         int stateVectorSize = mModel->getStateVector(nullptr);
 
-        /**
-         * What things to implement as options?
-         *  - Function                  default val
-         *  - KINSetPrintLevel          0
-         *  - KINSetNumMaxIters         200
-         */
+        // kinsolDyDtFcn has the signature of "KINSysFn"
+        if ((err = KINInit(mKinsol_Memory, kinsolDyDtFcn < FixedPointIteration > , mStateVector)) != KIN_SUCCESS) {
+            decodeKinsolError(err);
+        }
 
-        // todo don't forget about these.
-        KINSetDampingAA(mKinsol_Memory, 1.0);
 
-        KINSetNoResMon(mKinsol_Memory, false);
-
-        KINSetMAA(mKinsol_Memory, stateVectorSize);
-
-        KINInit(mKinsol_Memory, kinsolDyDtFcn < FixedPointIteration > , mStateVector);
     }
 
     void FixedPointIteration::freeKinsol() {
@@ -45,10 +41,13 @@ namespace rr {
     }
 
     double FixedPointIteration::solve() {
-        KINSol(
+
+        updateKinsol();
+
+        int flag = KINSol(
                 mKinsol_Memory,   // kinsol memory block
                 mStateVector,     // initial guess and solution std::vector
-                KIN_FP,  // global strategy, other options defined in kinsol.h
+                KIN_FP,       // no linear solver, whereas piccard iteration has linear solver
                 uscale,      //scaling std::vector for the variable cc
                 fscale      //scaling std::vector for the variable fval
         );

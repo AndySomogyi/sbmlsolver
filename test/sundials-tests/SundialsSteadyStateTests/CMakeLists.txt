@@ -2,7 +2,7 @@
 
 set(SHARED_TEST_FILES ../TestModelFactory)
 
-add_test_executable(FixedPointIterationTests test_targets FixedPointIterationTests.cpp ${SHARED_TEST_FILES})
+add_test_executable(FixedPointIterationTests test_targets FixedPointIterationUnitTests.cpp ${SHARED_TEST_FILES})
 add_test_executable(NewtonIterationIntegrationTests test_targets NewtonIterationIntegrationTests.cpp  ${SHARED_TEST_FILES})
 add_test_executable(NewtonIterationUnitTests test_targets NewtonIterationUnitTests.cpp SundialsSteadyStateSolverUnitTest ${SHARED_TEST_FILES})
 add_test_executable(SVDTests test_targets SVDTests.cpp ${SHARED_TEST_FILES})
