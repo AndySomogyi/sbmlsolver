@@ -11,6 +11,7 @@
 #include "SteadyStateSolver.h"
 #include "rrExecutableModel.h"
 #include "rrException.h"
+#include "KinsolErrHandler.h"
 
 namespace rr {
     class ExecutableModel;
@@ -138,6 +139,29 @@ namespace rr {
 
             return KIN_SUCCESS;
         };
+
+        /**
+         * @brief Generic solver method. When this method is called
+         * sundials steady state algorithms solver for steady state.
+         * Subclasses use specialized versions of this template
+         * using their desired kinsol strategy.
+         * @details this method cannot be called `solve()` since that
+         * is already taken with different signature requirements.
+         * @param solverInstance pointer (non owning) to instance of subclass of
+         *  KinsolSteadyStateSolver.
+         * @param kinsolStrategy one of:
+         *  - KIN_NONE: basic newton iteration
+         *  - KIN_LINESEARCH: newton iteration with linesearch globalization
+         *  - KIN_FP: Fixed point iteration, with anderson acceleration (no linear solver is used)
+         *  - KIN_PICCARD: Piccad iteration, with anderson aceleration (with linear solver)
+         * These options are macro's defined by sundials. They correspond to :
+         *      KIN_NONE       0
+         *      KIN_LINESEARCH 1
+         *      KIN_PICARD     2
+         *      KIN_FP         3
+         *
+         */
+        double solveForSteadyState(KinsolSteadyStateSolver* solverInstance, int kinsolStrategy);
 
         /**
          * @brief getter for the underlying memory block

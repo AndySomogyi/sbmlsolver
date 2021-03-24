@@ -32,8 +32,6 @@ namespace rr {
         if ((err = KINInit(mKinsol_Memory, kinsolDyDtFcn < FixedPointIteration > , mStateVector)) != KIN_SUCCESS) {
             decodeKinsolError(err);
         }
-
-
     }
 
     void FixedPointIteration::freeKinsol() {
@@ -41,24 +39,15 @@ namespace rr {
     }
 
     double FixedPointIteration::solve() {
-
-        updateKinsol();
-
-        int flag = KINSol(
-                mKinsol_Memory,   // kinsol memory block
-                mStateVector,     // initial guess and solution std::vector
-                KIN_FP,       // no linear solver, whereas piccard iteration has linear solver
-                uscale,      //scaling std::vector for the variable cc
-                fscale      //scaling std::vector for the variable fval
-        );
-
-        getSolverStatsFromKinsol();
-
-        return 0.0;
+        return solveForSteadyState(this, KIN_FP);
     }
 
     void FixedPointIteration::updateKinsol() {
 
+    }
+
+    void FixedPointIteration::resetSettings() {
+        KinsolSteadyStateSolver::resetSettings();
     }
 
     std::string FixedPointIteration::getName() const {

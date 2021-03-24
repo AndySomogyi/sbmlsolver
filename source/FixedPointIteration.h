@@ -55,13 +55,15 @@ namespace rr {
 
         double solve() override;
 
-    private:
+    public:
         
         void createKinsol() override;
 
         void freeKinsol() override;
 
         void updateKinsol() override;
+
+        void resetSettings() override;
 
     };
 

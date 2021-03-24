@@ -13,7 +13,7 @@
 namespace rr {
 
     NewtonIteration::NewtonIteration(ExecutableModel *executableModel)
-    : KinsolSteadyStateSolver(executableModel) {
+    :  KinsolSteadyStateSolver(executableModel) {
         // note: we deliberately use the NewtonIteration namespace here
         // because calling virtual methods from constructors is dangerous.
         // We must ensure we call the right version of createKinsol
@@ -67,59 +67,7 @@ namespace rr {
     }
 
     double NewtonIteration::solve() {
-        assert(mKinsol_Memory && "Kinsol memory block is nullptr");
-        assert(mStateVector && "Solvers state std::vector is nullptr");
-
-        // ensures options have been correctly propagated to kinsol
-        // before solving
-        updateKinsol();
-
-        int flag = KINSol(
-                mKinsol_Memory,   // kinsol memory block
-                mStateVector,     // initial guess and solution std::vector
-                // global strategy, options defined in kinsol.h
-                getValueAsString("strategy") == "basic" ? KIN_NONE : KIN_LINESEARCH,
-                uscale,      //scaling std::vector for the variable cc
-                fscale      //scaling std::vector for the variable fval
-        );
-
-        char *flagName = KINGetReturnFlagName(flag);
-        //std::cout << "KINSol function returned \"" << flagName << "\" flag" << std::endl;
-
-        // errors are handled automatically by the error handler for kinsol.
-        // here we handle warnings and success flags
-        switch (flag) {
-            case KIN_SUCCESS: {
-                rrLog(Logger::LOG_INFORMATION) << "Steady state found";
-                break;
-            }
-            case KIN_INITIAL_GUESS_OK:{
-                rrLog(Logger::LOG_INFORMATION) << "Steady state found. The guess u = u0 satisifed the "
-                                            "system F(u) = 0 within the tolerances specified (the"
-                                            "scaled norm of F(u0) is less than 0.01*fnormtol)." << std::endl;
-                break;
-            }
-            case KIN_STEP_LT_STPTOL:{
-                rrLog(Logger::LOG_WARNING) << "kinsol stopped based on scaled step length. This means that the current iterate may"
-                                            "be an approximate solution of the given nonlinear system, but it is also quite possible"
-                                            "that the algorithm is \"stalled\" (making insufficient progress) near an invalid solution,"
-                                            "or that the scalar scsteptol is too large (see ScaledStepTol to"
-                                            "change ScaledStepTol from its default value)." << std::endl;
-                break;
-            }
-            default: {
-                std::string errMsg = decodeKinsolError(flag);
-                throw std::runtime_error("Kinsol Error: " + errMsg);
-            };
-        }
-        free(flagName);
-
-        getSolverStatsFromKinsol();
-
-        // update the model's state values
-        mModel->setStateVector(mStateVector->ops->nvgetarraypointer(mStateVector));
-
-        return funcNorm;
+        return solveForSteadyState(this, getValueAsString("strategy") == "basic" ? KIN_NONE : KIN_LINESEARCH);
     }
 
     void NewtonIteration::updateKinsol() {
