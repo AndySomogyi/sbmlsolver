@@ -63,7 +63,7 @@ if (BUILD_PYTHON AND BUILD_TESTS)
     swig_add_library(TestModelFactory
             TYPE MODULE
             LANGUAGE python
-            SOURCES TestModelFactory.i TestModelFactory.h
+            SOURCES TestModelFactory.i TestModelFactory
             "../../wrappers/Python/roadrunner/PyUtils"
             )
 

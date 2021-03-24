@@ -63,16 +63,28 @@ namespace rr {
     }
 
     std::string FixedPointIteration::getName() const {
-        return "FixedPointIteration";
+        return getFixedPointIterationName();
     }
 
     std::string FixedPointIteration::getDescription() const {
+        return getFixedPointIterationDescription();
+    }
+
+    std::string FixedPointIteration::getHint() const {
+        return getFixedPointIterationHint();
+    }
+
+    std::string FixedPointIteration::getFixedPointIterationName() {
+        return "FixedPointIteration";
+    }
+
+    std::string FixedPointIteration::getFixedPointIterationDescription() {
         return "Uses the sundials implementation of fixed point "
                "iteration";
     }
 
-    std::string FixedPointIteration::getHint() const {
-        return "Fixed Point Iteration";
+    std::string FixedPointIteration::getFixedPointIterationHint() {
+        return "Fixed point iteration";
     }
 
 

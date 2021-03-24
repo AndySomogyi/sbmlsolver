@@ -2,6 +2,7 @@
 #include <rr-libstruct/lsLibStructural.h>
 #include "gtest/gtest.h"
 
+#include "SundialsSteadyStateSolverUnitTest.h"
 #include "NewtonIteration.h"
 #include "rrRoadRunner.h"
 #include "TestModelFactory.h"
@@ -11,31 +12,12 @@ using namespace rr;
 /**
  * Takes test model name as argument
  */
-class NewtonIterationUnitTests : public ::testing::Test {
-
+class NewtonIterationUnitTests : public SundialsSteadyStateSolverUnitTest {
 public:
-    SimpleFluxManuallyReduced testModel;
-    RoadRunner* rr;
 
-    NewtonIterationUnitTests(){
-        rr = new RoadRunner(testModel.str());
-    }
+    NewtonIterationUnitTests(): SundialsSteadyStateSolverUnitTest() {};
 
-    ~NewtonIterationUnitTests(){
-        delete rr;
-    }
-
-    void checkResults(ls::DoubleMatrix result) {
-        std::vector<std::string> names = result.getColNames();
-        for (int i = 0; i < names.size(); i++) {
-            std::string speciesID = names[i];
-            double actualResult = result[0][i]; // 0th row, ith col of a DoubleMatrix
-            double expected = testModel.steadyState()[speciesID].second; // first is start val, second is speciesID at steady state
-            std::cout << "Comparing \"" << speciesID << "\" expected result: " << expected
-                      << " with actual result " << actualResult << std::endl;
-            EXPECT_NEAR(expected, actualResult, 0.0001);
-        }
-    }
+    ~NewtonIterationUnitTests() override = default;
 };
 
 
