@@ -4,7 +4,7 @@
 #include "gtest/gtest.h"
 #include "SteadyStateSolverDecorator.h"
 #include "ApproxSteadyStateDecorator.h"
-#include "NewtonIteration.h"
+#include "BasicNewtonIteration.h"
 #include "TestModelFactory.h"
 
 using namespace rr;
@@ -33,9 +33,9 @@ TEST_F(ApproxSteadyStateDecoratorTests, CheckModelNotNullptr) {
 
     // create steady state solver
     SteadyStateSolver *solver = nullptr;
-    NewtonIteration newtonIteration(rr.getModel());
-    ASSERT_NE(nullptr, newtonIteration.getModel());
-    solver = &newtonIteration;
+    BasicNewtonIteration basicNewtonIteration(rr.getModel());
+    ASSERT_NE(nullptr, basicNewtonIteration.getModel());
+    solver = &basicNewtonIteration;
     ASSERT_NE(nullptr, solver->getModel());
 
     // wrap solver in decorator
@@ -49,12 +49,12 @@ TEST_F(ApproxSteadyStateDecoratorTests, CheckNameField) {
 
     // create steady state solver
     SteadyStateSolver *solver = nullptr;
-    NewtonIteration newtonIteration(rr.getModel());
-    solver = &newtonIteration;
+    BasicNewtonIteration basicNewtonIteration(rr.getModel());
+    solver = &basicNewtonIteration;
 
     ApproxSteadyStateDecorator decorator(solver);
     solver = &decorator;
-    ASSERT_STREQ("Approximate(NewtonIteration)", solver->getName().c_str());
+    ASSERT_STREQ("Approximate(newton)", solver->getName().c_str());
 }
 
 /**
@@ -68,10 +68,10 @@ TEST_F(ApproxSteadyStateDecoratorTests, CheckModelTimeAfterPresimulation) {
     ASSERT_EQ(0, rr.getModel()->getTime());
 
     SteadyStateSolver *solver;
-    NewtonIteration newtonIteration(rr.getModel());
+    BasicNewtonIteration basicNewtonIteration(rr.getModel());
 
-    newtonIteration.setValue("approx_time", 200);
-    solver = &newtonIteration;
+    basicNewtonIteration.setValue("approx_time", 200);
+    solver = &basicNewtonIteration;
     ApproxSteadyStateDecorator presim(solver);
     solver = &presim;
     solver->solve();
@@ -88,15 +88,15 @@ TEST_F(ApproxSteadyStateDecoratorTests, CheckSteadyStateValuesAfterApproximation
     RoadRunner rr(testModel.str());
 
     SteadyStateSolver *solver;
-    NewtonIteration newtonIteration(rr.getModel());
+    BasicNewtonIteration basicNewtonIteration(rr.getModel());
 
-    newtonIteration.setValue("approx_time", 200);
-    newtonIteration.setValue("approx_tolerance", 1e-6);
+    basicNewtonIteration.setValue("approx_time", 200);
+    basicNewtonIteration.setValue("approx_tolerance", 1e-6);
 
     // note, only 1 step is integrated between interval: ((approx_maximum_steps - stepsize), approx_maximum_steps)
-    newtonIteration.setValue("approx_maximum_steps", 1000);
+    basicNewtonIteration.setValue("approx_maximum_steps", 1000);
 
-    solver = &newtonIteration;
+    solver = &basicNewtonIteration;
     ApproxSteadyStateDecorator presim(solver);
     solver = &presim;
     solver->solve();
@@ -109,17 +109,17 @@ TEST_F(ApproxSteadyStateDecoratorTests, CheckApproxSteadyStateDecoratorHasAccess
 
     RoadRunner rr(testModel.str());
 
-    NewtonIteration *newtonIteration = new NewtonIteration(rr.getModel());
+    BasicNewtonIteration *basicNewtonIteration = new BasicNewtonIteration(rr.getModel());
 
-    newtonIteration->setValue("approx_time", 12.67);
-    ASSERT_EQ(12.67, newtonIteration->getValueAsDouble("approx_time"));
+    basicNewtonIteration->setValue("approx_time", 12.67);
+    ASSERT_EQ(12.67, basicNewtonIteration->getValueAsDouble("approx_time"));
 
-    SteadyStateSolver *solver = newtonIteration;
+    SteadyStateSolver *solver = basicNewtonIteration;
     ApproxSteadyStateDecorator decorator(solver);
     solver = &decorator;
     solver->getValueAsDouble("approx_time");
     ASSERT_EQ(12.67, solver->getValueAsDouble("approx_time"));
-    delete newtonIteration;
+    delete basicNewtonIteration;
 }
 
 TEST_F(ApproxSteadyStateDecoratorTests, CheckSolveTwiceTwoRRInstances) {
@@ -132,14 +132,14 @@ TEST_F(ApproxSteadyStateDecoratorTests, CheckSolveTwiceTwoRRInstances) {
     RoadRunner rr1(sbml1);
     RoadRunner rr2(sbml2);
 
-    NewtonIteration newtonIteration1(rr1.getModel());
-    NewtonIteration newtonIteration2(rr2.getModel());
+    BasicNewtonIteration basicNewtonIteration1(rr1.getModel());
+    BasicNewtonIteration basicNewtonIteration2(rr2.getModel());
 
-    newtonIteration1.setValue("approx_time", 200);
-    newtonIteration2.setValue("approx_time", 250);
+    basicNewtonIteration1.setValue("approx_time", 200);
+    basicNewtonIteration2.setValue("approx_time", 250);
 
-    SteadyStateSolver *solver1 = &newtonIteration1;
-    SteadyStateSolver *solver2 = &newtonIteration2;
+    SteadyStateSolver *solver1 = &basicNewtonIteration1;
+    SteadyStateSolver *solver2 = &basicNewtonIteration2;
     ApproxSteadyStateDecorator decorator1(solver1);
     ApproxSteadyStateDecorator decorator2(solver2);
     solver1 = &decorator1;
@@ -154,10 +154,10 @@ TEST_F(ApproxSteadyStateDecoratorTests, CheckSolveTwiceTwoRRInstances) {
 TEST_F(ApproxSteadyStateDecoratorTests, CheckSolveTwiceBackToBack) {
 
     RoadRunner rr(testModel.str());
-    NewtonIteration *newtonIteration = new NewtonIteration(rr.getModel());
-    newtonIteration->setValue("approx_time", 250);
+    BasicNewtonIteration *basicNewtonIteration = new BasicNewtonIteration(rr.getModel());
+    basicNewtonIteration->setValue("approx_time", 250);
 
-    SteadyStateSolver *solver = newtonIteration;
+    SteadyStateSolver *solver = basicNewtonIteration;
     ApproxSteadyStateDecorator decorator1(solver);
     solver = &decorator1;
     solver->solve();
@@ -169,7 +169,7 @@ TEST_F(ApproxSteadyStateDecoratorTests, CheckSolveTwiceBackToBack) {
     solver->solve();
     checkResults(rr);
 
-    delete newtonIteration;
+    delete basicNewtonIteration;
 
 }
 

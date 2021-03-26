@@ -8,6 +8,7 @@
 #include "gtest/gtest.h"
 #include "TestModelFactory.h"
 #include "rrRoadRunner.h"
+#include "SteadyStateSolver.h"
 
 using namespace rr;
 
@@ -19,8 +20,7 @@ public:
     template<class TestModelType>
     void testSteadyState(
             const std::string &modelName,
-            const std::string& solverName,
-            bool useMoietyConservation = false) {
+            const std::string& solverName) {
         // get the model
         TestModel* testModel_ = TestModelFactory(modelName);
         TestModelType* testModel = dynamic_cast<TestModelType*>(testModel_);
@@ -48,12 +48,18 @@ public:
         steadyStateOptions.setItem("PrintLevel", 0);
 
         for (auto &settingsIterator : testModel->settings()) {
-            steadyStateOptions.setItem(settingsIterator.first, Variant(settingsIterator.second));
+            if (settingsIterator.first == "moiety_conservation"){
+                rr.setConservedMoietyAnalysis(settingsIterator.second);
+            } else {
+                try {
+                    rr.getSteadyStateSolver()->setValue(settingsIterator.first, Variant(settingsIterator.second));
+                } catch (std::exception& err){
+                    // if solver does not have this option, that's okay
+                    continue;
+                }
+            }
         }
 
-        // turn on/off conservation analysis
-        // todo - this should be already applied with the above
-        rr.setConservedMoietyAnalysis(useMoietyConservation);
 
         std::cout << "rr.getFullStoichiometryMatrix" << std::endl;
         std::cout << rr.getFullStoichiometryMatrix().numRows() << "x" <<

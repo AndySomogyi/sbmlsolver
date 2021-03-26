@@ -2,10 +2,10 @@
 
 set(SHARED_TEST_FILES ../TestModelFactory SteadyStateIntegrationTests)
 
-add_test_executable(
-        FixedPointIterationTests test_targets
-        FixedPointIterationUnitTests.cpp SundialsSteadyStateSolverUnitTest ${SHARED_TEST_FILES}
-)
+#add_test_executable(
+#        FixedPointIterationTests test_targets
+#        FixedPointIterationUnitTests.cpp SundialsSteadyStateSolverUnitTest ${SHARED_TEST_FILES}
+#)
 add_test_executable(
         NewtonIterationIntegrationTests test_targets
         NewtonIterationIntegrationTests.cpp ${SHARED_TEST_FILES}

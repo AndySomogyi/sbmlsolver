@@ -78,7 +78,9 @@ ResultMap SimpleFlux::steadyState() {
 }
 
 std::unordered_map<std::string, rr::Variant> SimpleFlux::settings() {
-    return std::unordered_map<std::string, rr::Variant>();
+    return std::unordered_map<std::string, rr::Variant>{
+                        {"moiety_conservation", true}
+    };
 }
 
 std::string SimpleFluxManuallyReduced::str() {
@@ -166,7 +168,9 @@ ResultMap SimpleFluxManuallyReduced::steadyState() {
 }
 
 std::unordered_map<std::string, rr::Variant> SimpleFluxManuallyReduced::settings() {
-    return std::unordered_map<std::string, rr::Variant>();
+    return std::unordered_map<std::string, rr::Variant>{
+            {"moiety_conservation", false}
+    };
 }
 
 std::string OpenLinearFlux::str() {
@@ -772,6 +776,8 @@ std::unordered_map<std::string, rr::Variant> Venkatraman2010::settings() {
             {
                     {"allow_presimulation", true},
                     {"presimulation_time",  100000},
+                                {"moiety_conservation", false},
+
             });
 }
 

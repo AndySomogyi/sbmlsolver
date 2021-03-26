@@ -99,25 +99,22 @@ public:
 TEST_F(BasicNewtonIterationTests, CheckCorrectSteadyStateOpenLinearFlux) {
     testSteadyState<OpenLinearFlux>(
             "OpenLinearFlux",
-            "newton",
-            false
-    );
+            "newton"
+            );
 }
 
 TEST_F(BasicNewtonIterationTests, CheckCorrectSteadyStateSimpleFluxManuallyReduced) {
     testSteadyState<SimpleFluxManuallyReduced>(
             "SimpleFluxManuallyReduced",
-            "newton",
-            false // moiety conservation done manually
-    );
+            "newton");
 }
 
 TEST_F(BasicNewtonIterationTests, CheckCorrectSteadyStateSimpleFlux) {
-    testSteadyState<SimpleFlux>("SimpleFlux","newton", true);
+    testSteadyState<SimpleFlux>("SimpleFlux","newton");
 }
 
 TEST_F(BasicNewtonIterationTests, CheckCorrectSteadyStateVenkatraman2010) {
-    testSteadyState<Venkatraman2010>("Venkatraman2010","newton", false);
+    testSteadyState<Venkatraman2010>("Venkatraman2010","newton");
 }
 
 /**
@@ -167,7 +164,7 @@ TEST_F(BasicNewtonIterationTests, CheckCorrectSteadyStateVenkatraman2010) {
     @note: not disabled - commented out, because gtest on mac seems to consider the disabled test a failure :/
  */
 TEST_F(BasicNewtonIterationTests, CheckCorrectSteadyStateBrown2004) {
-    testSteadyState<Brown2004>("Brown2004", "newton",true);
+    testSteadyState<Brown2004>("Brown2004", "newton");
 }
 
 
@@ -183,29 +180,27 @@ public:
 };
 
 TEST_F(LineSearchNewtonIterationTests, CheckCorrectSteadyStateOpenLinearFlux) {
-    testSteadyState<OpenLinearFlux>("OpenLinearFlux","newton_linesearch", false);
+    testSteadyState<OpenLinearFlux>("OpenLinearFlux","newton_linesearch");
 }
 
 TEST_F(LineSearchNewtonIterationTests, CheckCorrectSteadyStateSimpleFluxManuallyReduced) {
     testSteadyState<SimpleFluxManuallyReduced>("SimpleFluxManuallyReduced",
-                                               "newton_linesearch",
-                                               false// moiety conservation done manually
-                                               );
+                                               "newton_linesearch");
 }
 
 TEST_F(LineSearchNewtonIterationTests, CheckCorrectSteadyStateSimpleFlux) {
-    testSteadyState<SimpleFlux>("SimpleFlux", "newton_linesearch",true);
+    testSteadyState<SimpleFlux>("SimpleFlux", "newton_linesearch");
 }
 
 TEST_F(LineSearchNewtonIterationTests, CheckCorrectSteadyStateVenkatraman2010) {
-    testSteadyState<Venkatraman2010>("Venkatraman2010", "newton_linesearch",false);
+    testSteadyState<Venkatraman2010>("Venkatraman2010", "newton_linesearch");
 }
 
 /**
  * See BasicNewtonIterationTests for reason by this is currently disabled.
  */
 TEST_F(LineSearchNewtonIterationTests, DISABLED_CheckCorrectSteadyStateBrown2004) {
-    testSteadyState<Brown2004>("Brown2004", "newton_linesearch", true);
+    testSteadyState<Brown2004>("Brown2004", "newton_linesearch");
 }
 
 /**
