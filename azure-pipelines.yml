@@ -266,7 +266,7 @@ stages:
               key: "Swig | $(Agent.OS)"
               path: $(SWIG_INSTALL_PREFIX)
               cacheHitVar: SWIG_CACHE
-            displayName: Cache Swig-3.0.0
+            displayName: Cache Swig-4.0.2
           - script: |
               echo "installing pcre"
               sudo apt install -y libpcre3 libpcre3-dev
@@ -275,11 +275,11 @@ stages:
               cd $(SWIG_SOURCE_DIR)
               echo "ls"
               ls -lh
-              wget -q https://sourceforge.net/projects/swig/files/swig/swig-3.0.0/swig-3.0.0.tar.gz $(SWIG_SOURCE_DIR)
-              tar -xf swig-3.0.0.tar.gz
+              wget -q https://sourceforge.net/projects/swig/files/swig/swig-4.0.2/swig-4.0.2.tar.gz $(SWIG_SOURCE_DIR)
+              tar -xf swig-4.0.2.tar.gz
               ls -lh
-              echo "Copying swig content from swig-3.0.0 to SWIG_SOURCE_DIR"
-              mv swig-3.0.0/** $(SWIG_SOURCE_DIR)
+              echo "Copying swig content from swig-4.0.2 to SWIG_SOURCE_DIR"
+              mv swig-4.0.2/** $(SWIG_SOURCE_DIR)
               echo "ls"
               ls -lh
               echo "ls in swig source dir $(SWIG_SOURCE_DIR)"
@@ -582,26 +582,26 @@ stages:
               key: "Swig | $(Agent.OS)"
               path: $(SWIG_INSTALL_PREFIX)
               cacheHitVar: SWIG_CACHE
-            displayName: Cache Swig-3.0.0
+            displayName: Cache Swig-4.0.2
           - powershell: |
               echo "cd to swig source dir: $(SWIG_SOURCE_DIR)"
               cd $(SWIG_SOURCE_DIR)
               echo "ls"
               ls
               echo "Invoke-WebRequest"
-              Invoke-WebRequest "https://versaweb.dl.sourceforge.net/project/swig/swigwin/swigwin-3.0.0/swigwin-3.0.0.zip" -OutFile swigwin-3.0.0.zip
+              Invoke-WebRequest "https://versaweb.dl.sourceforge.net/project/swig/swigwin/swigwin-4.0.2/swigwin-4.0.2.zip" -OutFile swigwin-4.0.2.zip
               echo "Expand-Archive"
-              Expand-Archive swigwin-3.0.0.zip -Destination $(SWIG_INSTALL_PREFIX)
+              Expand-Archive swigwin-4.0.2.zip -Destination $(SWIG_INSTALL_PREFIX)
               echo "CD to swig install prefix $(SWIG_INSTALL_PREFIX)"
               cd $(SWIG_INSTALL_PREFIX)
               echo "ls"
               ls
-              echo "cd swigwwin-3.0.0"
-              cd swigwin-3.0.0
-              echo " moving contents of swigwin-3.0.0 to .."
+              echo "cd swigwwin-4.0.2"
+              cd swigwin-4.0.2
+              echo " moving contents of swigwin-4.0.2 to .."
               mv * ..
               cd ..
-              rm -R swigwin-3.0.0
+              rm -R swigwin-4.0.2
               echo "ls"
               ls
               # Note: swig is already built when we download on windows.
@@ -881,7 +881,7 @@ stages:
               key: "Swig | $(Agent.OS)"
               path: $(SWIG_INSTALL_PREFIX)
               cacheHitVar: SWIG_CACHE
-            displayName: Cache Swig-3.0.0
+            displayName: Cache Swig-4.0.2
           - script: |
               echo "installing pcre"
               sudo apt install -y libpcre3 libpcre3-dev
@@ -890,11 +890,11 @@ stages:
               cd $(SWIG_SOURCE_DIR)
               echo "ls"
               ls -lh
-              wget -q https://sourceforge.net/projects/swig/files/swig/swig-3.0.0/swig-3.0.0.tar.gz $(SWIG_SOURCE_DIR)
-              tar -xf swig-3.0.0.tar.gz
+              wget -q https://sourceforge.net/projects/swig/files/swig/swig-4.0.2/swig-4.0.2.tar.gz $(SWIG_SOURCE_DIR)
+              tar -xf swig-4.0.2.tar.gz
               ls -lh
-              echo "Copying swig content from swig-3.0.0 to SWIG_SOURCE_DIR"
-              mv swig-3.0.0/** $(SWIG_SOURCE_DIR)
+              echo "Copying swig content from swig-4.0.2 to SWIG_SOURCE_DIR"
+              mv swig-4.0.2/** $(SWIG_SOURCE_DIR)
               echo "ls"
               ls -lh
               echo "ls in swig source dir $(SWIG_SOURCE_DIR)"
