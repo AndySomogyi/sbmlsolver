@@ -15,8 +15,13 @@ typedef std::pair<double, double> DoublePair ;
  * std::string: model species name
  * std::pair<double, double>: mapping between starting value and simulation result.
  */
-//using ResultMap = std::unordered_map<std::string, DoublePair>;
-typedef std::unordered_map<std::string, DoublePair> ResultMap ;
+typedef std::unordered_map<std::string, DoublePair> InitialToEndResultMap ;
+
+/**
+ * Stores component name to expected model value mapping
+ */
+typedef std::unordered_map<std::string, double> ResultMap ;
+
 
 /**
  * A collection of ResultMap objects
@@ -74,7 +79,7 @@ public:
      * todo make this return a full matrix
      *
      */
-    virtual ResultMap stateVectorAtT10() = 0;
+    virtual InitialToEndResultMap stateVectorAtT10() = 0;
 };
 
 /**
@@ -117,7 +122,7 @@ public:
 
     std::string modelName() override ;
 
-    ResultMap stateVectorAtT10() override;
+    InitialToEndResultMap stateVectorAtT10() override;
 
     ResultMap steadyState() override;
 
@@ -238,7 +243,7 @@ public:
 
     ResultMap steadyState() override ;
 
-    ResultMap stateVectorAtT10() override ;
+    InitialToEndResultMap stateVectorAtT10() override ;
 
     std::string modelName() override ;
 
@@ -256,7 +261,7 @@ public:
 
     std::string modelName() override ;
 
-    ResultMap stateVectorAtT10() override ;
+    InitialToEndResultMap stateVectorAtT10() override ;
 
     std::unordered_map<std::string, rr::Variant> settings() override;
 
@@ -272,7 +277,7 @@ public:
 
     std::string modelName() override ;
 
-    ResultMap stateVectorAtT10() override;
+    InitialToEndResultMap stateVectorAtT10() override;
 
     std::unordered_map<std::string, rr::Variant> settings() override;
 
@@ -289,7 +294,7 @@ public:
 
     std::string modelName() override ;
 
-    ResultMap stateVectorAtT10() override ;
+    InitialToEndResultMap stateVectorAtT10() override ;
 
     std::unordered_map<std::string, rr::Variant> settings() override ;
 
@@ -305,7 +310,7 @@ public:
 
     std::string modelName() override ;
 
-    ResultMap stateVectorAtT10() override;
+    InitialToEndResultMap stateVectorAtT10() override;
 
     std::unordered_map<std::string, rr::Variant> settings() override ;
 
@@ -332,6 +337,7 @@ class Brown2004 : public TestModel, public SteadyStateResult {
 public:
 
     std::string str() override ;
+
     std::string modelName() override ;
 
     ResultMap steadyState() override ;
@@ -360,7 +366,7 @@ namespace privateSwigTests {
 
     rr::Variant *_testVariant() ;
 
-    ResultMap _testResultMap();
+    InitialToEndResultMap _testResultMap();
 }
 
 

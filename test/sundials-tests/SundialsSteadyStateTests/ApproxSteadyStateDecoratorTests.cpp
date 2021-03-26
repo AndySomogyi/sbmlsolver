@@ -19,7 +19,7 @@ public:
         const auto &expectedResult = testModel.steadyState();
         for (auto &r: expectedResult) {
             const auto &speciesName = r.first;
-            const auto &expectedValue = r.second.second;
+            const auto &expectedValue = r.second;
             const auto &actualValue = rr.getValue(speciesName);
             ASSERT_NEAR(expectedValue, actualValue, 1e-5);
         }

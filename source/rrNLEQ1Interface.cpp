@@ -232,7 +232,7 @@ double NLEQ1Interface::solve()
             rrLog(Logger::LOG_WARNING) << ErrorForStatus(ierr);
         } else {
             std::string err = ErrorForStatus(ierr);
-            rrLog(Logger::LOG_ERROR)<<"Error :"<<err;
+            // we've thrown so no need to also log the error
             throw NLEQException(err);
         }
     }

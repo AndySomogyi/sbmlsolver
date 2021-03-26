@@ -60,9 +60,8 @@ std::string SimpleFlux::modelName() {
     return "SimpleFlux";
 }
 
-ResultMap SimpleFlux::stateVectorAtT10() {
-    return ResultMap
-            {
+InitialToEndResultMap SimpleFlux::stateVectorAtT10() {
+    return InitialToEndResultMap{
                     {"S1", DoublePair(10, 3.99584)},
                     {"S2", DoublePair(1, 7.00416)}
             };
@@ -71,8 +70,8 @@ ResultMap SimpleFlux::stateVectorAtT10() {
 ResultMap SimpleFlux::steadyState() {
     return ResultMap(
             {
-                    {"S1", DoublePair(10, 1.0)},
-                    {"S2", DoublePair(1, 10.0)}
+                    {"S1", 1.0},
+                    {"S2", 10.0}
             }
     );
 }
@@ -163,7 +162,7 @@ std::string SimpleFluxManuallyReduced::modelName() {
 
 ResultMap SimpleFluxManuallyReduced::steadyState() {
     return ResultMap({
-                             {"S1", DoublePair(10, 1.0)}
+                             {"S1", 1.0}
                      });
 }
 
@@ -239,13 +238,13 @@ std::string OpenLinearFlux::str() {
 
 ResultMap OpenLinearFlux::steadyState() {
     return ResultMap({
-                             {"S1", DoublePair(0, 10)},
-                             {"S2", DoublePair(0, 5)},
+                             {"S1", 10},
+                             {"S2", 5},
                      });
 }
 
-ResultMap OpenLinearFlux::stateVectorAtT10() {
-    return ResultMap{
+InitialToEndResultMap OpenLinearFlux::stateVectorAtT10() {
+    return InitialToEndResultMap{
             {"S1", DoublePair(0, 6.32121)},
             {"S2", DoublePair(0, 1.99788)}
     };
@@ -360,8 +359,8 @@ std::string Model269::modelName() {
     return "Model269";
 }
 
-ResultMap Model269::stateVectorAtT10() {
-    return ResultMap{
+InitialToEndResultMap Model269::stateVectorAtT10() {
+    return InitialToEndResultMap{
             {"S1", DoublePair(1, 0.0270834)},
             {"S2", DoublePair(1, 0.972917)}
     };
@@ -445,8 +444,8 @@ std::string Model28::modelName() {
     return "Model28";
 }
 
-ResultMap Model28::stateVectorAtT10() {
-    return ResultMap{
+InitialToEndResultMap Model28::stateVectorAtT10() {
+    return InitialToEndResultMap{
             {"S1", DoublePair(1, 0.0270834)},
             {"S2", DoublePair(1, 0.972917)}
     };
@@ -506,8 +505,8 @@ std::string CeilInRateLaw::modelName() {
     return "CeilInRateLaw";
 }
 
-ResultMap CeilInRateLaw::stateVectorAtT10() {
-    return ResultMap{
+InitialToEndResultMap CeilInRateLaw::stateVectorAtT10() {
+    return InitialToEndResultMap{
             {"S1", DoublePair(10, 9.02844e-13)},
             {"S2", DoublePair(10, 10)}
     };
@@ -567,8 +566,8 @@ std::string FactorialInRateLaw::modelName() {
     return "FactorialInRateLaw";
 }
 
-ResultMap FactorialInRateLaw::stateVectorAtT10() {
-    return ResultMap{
+InitialToEndResultMap FactorialInRateLaw::stateVectorAtT10() {
+    return InitialToEndResultMap{
             {"S1", DoublePair(10, 1.46671e-12)},
             {"S2", DoublePair(10, 10)}
     };
@@ -759,15 +758,10 @@ std::string Venkatraman2010::modelName() {
 
 ResultMap Venkatraman2010::steadyState() {
     return ResultMap{
-//                {"scUPA", DoublePair(10, 0.00010036488071501325)},
-//                {"PLG",   DoublePair(10, 0.03571790894678159)},
-//                {"PLS",   DoublePair(10, 0.9642820910532185)},
-//                {"tcUPA", DoublePair(10, 0.8998996351192852)}
-
-            {"scUPA", DoublePair(2.2e-6, 0.00010036488071501325)},
-            {"PLG",   DoublePair(0.002, 0.03571790894678159)},
-            {"PLS",   DoublePair(3.54, 0.9642820910532185)},
-            {"tcUPA", DoublePair(16.52, 0.8998996351192852)}
+            {"scUPA", 0.00010036488071501325},
+            {"PLG",   0.03571790894678159},
+            {"PLS",   0.9642820910532185},
+            {"tcUPA", 0.8998996351192852}
     };
 }
 
@@ -1687,42 +1681,48 @@ std::string Brown2004::modelName() {
     return "Brown2004";
 }
 
+/**
+ * Copasi output:
+ *
+ *
+ */
 ResultMap Brown2004::steadyState() {
     return ResultMap{
-            {"EGF",              DoublePair(10002000, 9922004.46501588)},
-            {"NGF",              DoublePair(456000, 447048.6328396933)},
-            {"freeEGFReceptor",  DoublePair(80000, 4.465015881563886)},
-            {"boundEGFReceptor", DoublePair(0, 79995.53498411844)},
-            {"freeNGFReceptor",  DoublePair(10000, 1048.632839693278)},
-            {"boundNGFReceptor", DoublePair(0, 8951.367160306723)},
-            {"SosInactive",      DoublePair(120000, 99569.9548813399)},
-            {"SosActive",        DoublePair(0, 20430.0451186601)},
-            {"P90RskInactive",   DoublePair(120000, 0)},
-            {"P90RskActive",     DoublePair(0, 120000)},
-            {"RasInactive",      DoublePair(120000, 115999.51997363668)},
-            {"RasActive",        DoublePair(0, 4000.4800263633224)},
-            {"Raf1Inactive",     DoublePair(0, 119918.26132477315)},
-            {"Raf1Active",       DoublePair(0, 81.73867522685032)},
-            {"BRafInactive",     DoublePair(120000, 119315.8938154474)},
-            {"BRafActive",       DoublePair(0, 684.1061845525983)},
-            {"MekInactive",      DoublePair(60000, 475871.3129791245)},
-            {"MekActive",        DoublePair(0, 124128.68702087551)},
-            {"ErkInactive",      DoublePair(60000, 118834.97021061042)},
-            {"ErkActive",        DoublePair(0, 481165.02978938946)},
-            {"PI3KInactive",     DoublePair(120000, 0)},
-            {"PI3KActive",       DoublePair(0, 119999.99999999997)},
-            {"AktInactive",      DoublePair(0, 0)},
-            {"AktActive",        DoublePair(0, 120000)},
-            {"C3GInactive",      DoublePair(120000, 0)},
-            {"C3GActive",        DoublePair(0, 120000)},
-            {"Rap1Inactive",     DoublePair(120000, 105544.62439152892)},
-            {"Rap1Active",       DoublePair(0, 14455.375608471077)}
+            {"EGF",              9922004.46501588},
+            {"NGF",              447048.6328396933},
+            {"freeEGFReceptor",  4.465015881563886},
+            {"boundEGFReceptor", 79995.53498411844},
+            {"freeNGFReceptor",  1048.632839693278},
+            {"boundNGFReceptor", 8951.367160306723},
+            {"SosInactive",      99569.9548813399},
+            {"SosActive",        20430.0451186601},
+            {"P90RskInactive",   0},
+            {"P90RskActive",     120000},
+            {"RasInactive",      115999.51997363668},
+            {"RasActive",        4000.4800263633224},
+            {"Raf1Inactive",     119918.26132477315},
+            {"Raf1Active",       81.73867522685032},
+            {"BRafInactive",     119315.8938154474},
+            {"BRafActive",       684.1061845525983},
+            {"MekInactive",      475871.3129791245},
+            {"MekActive",        124128.68702087551},
+            {"ErkInactive",      118834.97021061042},
+            {"ErkActive",        481165.02978938946},
+            {"PI3KInactive",     0},
+            {"PI3KActive",       119999.99999999997},
+            {"AktInactive",      0},
+            {"AktActive",        120000},
+            {"C3GInactive",      0},
+            {"C3GActive",        120000},
+            {"Rap1Inactive",     105544.62439152892},
+            {"Rap1Active",       14455.37560847107},
     };
 
 };
 
 std::unordered_map<std::string, rr::Variant> Brown2004::settings() {
     return std::unordered_map<std::string, rr::Variant>{
+            {"moiety_conservation", true},
             {"allow_presimulation", true},
             {"presimulation_time",  10000}
     };
@@ -1784,8 +1784,8 @@ namespace privateSwigTests {
         return x;
     }
 
-    ResultMap _testResultMap() {
-        return ResultMap{
+    InitialToEndResultMap _testResultMap() {
+        return InitialToEndResultMap{
                 {"First", DoublePair(0.5, 1.6)},
         };
     }

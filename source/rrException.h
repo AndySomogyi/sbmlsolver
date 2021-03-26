@@ -41,6 +41,7 @@ class RR_DECLSPEC Exception : public std::exception
         std::string                  getMessage() const;
 };
 
+
 class RR_DECLSPEC CoreException : public Exception
 {
     public:

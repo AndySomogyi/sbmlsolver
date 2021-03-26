@@ -24,9 +24,10 @@ if (BUILD_PYTHON)
 
     add_test(
             NAME PythonUnitTests
-            COMMAND ${PYTHON_EXECUTABLE} run.py
-            WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/python-unit-tests
+            COMMAND Python::Interpreter "${CMAKE_BINARY_DIR}/lib/site-packages/roadrunner/testing"
+            WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/lib/site-packages"
     )
+
     set_tests_properties(PythonUnitTests PROPERTIES ENVIRONMENT "PYTHONPATH=${CMAKE_BINARY_DIR}/lib/site-packages:$PYTHONPATH")
 endif ()
 

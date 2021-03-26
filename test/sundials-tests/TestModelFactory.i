@@ -11,7 +11,6 @@
     #include "PyUtils.h" // for variant_to_py and back.
 
     #include "TestModelFactory.h"
-    typedef std::unordered_map<std::string, std::pair<double, double>> ResultMap;
     using namespace rr;
 %}
 
@@ -159,6 +158,30 @@ rr::pyutil_init(m);
         }
         // now create the dictionary
         err = PyDict_SetItem($result, PyUnicode_FromString(item.first.c_str()), tup);
+        if (err < 0){
+            std::cout << "Could not create item in Python Dict" << std::endl;
+        }
+    }
+}
+
+
+/**
+ * Converts an unordered_map<string, double>
+ * to python dict
+ *
+ */
+%typemap(out) std::unordered_map< std::string,double>  {
+    $result = PyDict_New();
+    if (!$result){
+        std::cerr << "Could not create Python Dict" << std::endl;
+    }
+    // swig create a SwigValueWrapper here. In order to
+    // iterate over the map, we extract the pointer
+    auto valPtr = &$1;
+
+    for (const auto& item: *valPtr){
+        // now create the dictionary
+        int err = PyDict_SetItem($result, PyUnicode_FromString(item.first.c_str()), PyFloat_FromDouble(item.second));
         if (err < 0){
             std::cout << "Could not create item in Python Dict" << std::endl;
         }

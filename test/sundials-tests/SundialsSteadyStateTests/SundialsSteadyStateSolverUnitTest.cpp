@@ -18,7 +18,7 @@ void SundialsSteadyStateSolverUnitTest::checkResults(ls::DoubleMatrix result) {
     for (int i = 0; i < names.size(); i++) {
         std::string speciesID = names[i];
         double actualResult = result[0][i]; // 0th row, ith col of a DoubleMatrix
-        double expected = testModel.steadyState()[speciesID].second; // first is start val, second is speciesID at steady state
+        double expected = testModel.steadyState()[speciesID]; // first is start val, second is speciesID at steady state
         std::cout << "Comparing \"" << speciesID << "\" expected result: " << expected
                   << " with actual result " << actualResult << std::endl;
         EXPECT_NEAR(expected, actualResult, 0.0001);
