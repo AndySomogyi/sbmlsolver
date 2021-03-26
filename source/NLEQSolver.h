@@ -18,7 +18,7 @@ namespace rr {
         /**
         * Creates a new Instance of NLEQ for the given Model
         */
-        explicit NLEQSolver(ExecutableModel *_model);
+        explicit NLEQSolver(ExecutableModel *model);
 
         ~NLEQSolver() override;
 
@@ -44,7 +44,7 @@ namespace rr {
         template<class NLEQSolverType>
         double solveNLEQ() {
 
-            auto nleq = std::unique_ptr<NLEQSolverType>( new NLEQSolverType(model));
+            auto nleq = std::unique_ptr<NLEQSolverType>( new NLEQSolverType(mModel));
             rrLog(Logger::LOG_DEBUG) << "NLEQSolver::solve: " << std::endl;
 
             nleq->allowPreSim = getValue("allow_presimulation");
@@ -64,8 +64,6 @@ namespace rr {
             return result;
         }
 
-    private:
-        ExecutableModel *model = nullptr; // Model generated from the SBML. Static so we can access it from standalone function
     };
 
 }

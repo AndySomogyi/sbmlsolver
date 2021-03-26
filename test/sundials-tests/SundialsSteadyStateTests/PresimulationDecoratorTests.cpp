@@ -4,6 +4,8 @@
 #include "gtest/gtest.h"
 #include "SteadyStateSolverDecorator.h"
 #include "PresimulationDecorator.h"
+#include "NLEQ1Solver.h"
+#include "NLEQ2Solver.h"
 #include "BasicNewtonIteration.h"
 #include "TestModelFactory.h"
 
@@ -26,7 +28,7 @@ public:
     }
 };
 
-TEST_F(PresimulationDecoratorTests, CheckModelNotNullptr) {
+TEST_F(PresimulationDecoratorTests, CheckModelNotNullptrBasicNewton) {
     // setup with rr
     RoadRunner rr(testModel.str());
     ASSERT_NE(nullptr, rr.getModel());
@@ -36,6 +38,23 @@ TEST_F(PresimulationDecoratorTests, CheckModelNotNullptr) {
     BasicNewtonIteration basicNewtonIteration(rr.getModel());
     ASSERT_NE(nullptr, basicNewtonIteration.getModel());
     solver = &basicNewtonIteration;
+    ASSERT_NE(nullptr, solver->getModel());
+
+    // wrap solver in decorator
+    PresimulationDecorator decorator(solver);
+    ASSERT_NE(nullptr, decorator.getModel());
+}
+
+TEST_F(PresimulationDecoratorTests, CheckModelNotNullptrNLEQ1) {
+    // setup with rr
+    RoadRunner rr(testModel.str());
+    ASSERT_NE(nullptr, rr.getModel());
+
+    // create steady state solver
+    SteadyStateSolver *solver = nullptr;
+    NLEQ1Solver nleq1(rr.getModel());
+    ASSERT_NE(nullptr, nleq1.getModel());
+    solver = &nleq1;
     ASSERT_NE(nullptr, solver->getModel());
 
     // wrap solver in decorator

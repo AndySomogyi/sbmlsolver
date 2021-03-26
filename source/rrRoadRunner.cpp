@@ -1333,7 +1333,6 @@ double RoadRunner::steadyState(Dictionary* dict) {
         decorator = nullptr;
     }
 
-
     // put back to original type before return
     // so the next call to steadyState starts
     // without any decorators.

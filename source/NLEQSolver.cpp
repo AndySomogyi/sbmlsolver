@@ -7,15 +7,15 @@
 
 namespace rr {
 
-    NLEQSolver::NLEQSolver(ExecutableModel *_model) :
-            model(_model) {
+    NLEQSolver::NLEQSolver(ExecutableModel *model) :
+            SteadyStateSolver(model) {
         NLEQSolver::resetSettings();
     }
 
     NLEQSolver::~NLEQSolver() = default;
 
     void NLEQSolver::syncWithModel(ExecutableModel *m) {
-        model = m;
+        mModel = m;
     }
 
     void NLEQSolver::loadConfigSettings() {

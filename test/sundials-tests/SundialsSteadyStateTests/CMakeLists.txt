@@ -7,22 +7,22 @@ set(SHARED_TEST_FILES ../TestModelFactory SteadyStateIntegrationTests)
 #        FixedPointIterationUnitTests.cpp SundialsSteadyStateSolverUnitTest ${SHARED_TEST_FILES}
 #)
 add_test_executable(
-        NewtonIterationIntegrationTests test_targets
-        NewtonIterationIntegrationTests.cpp ${SHARED_TEST_FILES}
+        SteadyStateIntegrationTests test_targets
+        SteadyStateIntegrationTests.cpp ${SHARED_TEST_FILES}
 )
 add_test_executable(
-        NewtonIterationUnitTests test_targets
+        BasicNewtonIterationUnitTests test_targets
         BasicNewtonIterationUnitTests.cpp SundialsSteadyStateSolverUnitTest ${SHARED_TEST_FILES}
 )
 add_test_executable(
-        SVDTests test_targets SVDTests.cpp ${SHARED_TEST_FILES}
+        SVDUnitTests test_targets SVDTests.cpp ${SHARED_TEST_FILES}
 )
 add_test_executable(
-        PresimulationDecoratorTests test_targets
+        PresimulationDecoratorUnitTests test_targets
         PresimulationDecoratorTests.cpp ${SHARED_TEST_FILES}
 )
 add_test_executable(
-        ApproxSteadyStateDecoratorTests test_targets
+        ApproxSteadyStateDecoratorUnitTests test_targets
         ApproxSteadyStateDecoratorTests.cpp ${SHARED_TEST_FILES}
 )
 
