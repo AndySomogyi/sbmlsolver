@@ -333,7 +333,7 @@ find_package(PocoNet CONFIG REQUIRED)
 find_package(PocoXML CONFIG REQUIRED)
 find_package(LLVM REQUIRED)
 
-find_package(Sundials CONFIG REQUIRED)
+find_package(SUNDIALS CONFIG REQUIRED)
 
 set(BUILD_SHARED_LIBS OFF)
 set(BUILD_STATIC_LIBS ON)
