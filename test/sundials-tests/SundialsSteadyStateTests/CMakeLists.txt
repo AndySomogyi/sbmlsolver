@@ -12,7 +12,7 @@ add_test_executable(
 )
 add_test_executable(
         NewtonIterationUnitTests test_targets
-        NewtonIterationUnitTests.cpp SundialsSteadyStateSolverUnitTest ${SHARED_TEST_FILES}
+        BasicNewtonIterationUnitTests.cpp SundialsSteadyStateSolverUnitTest ${SHARED_TEST_FILES}
 )
 add_test_executable(
         SVDTests test_targets SVDTests.cpp ${SHARED_TEST_FILES}

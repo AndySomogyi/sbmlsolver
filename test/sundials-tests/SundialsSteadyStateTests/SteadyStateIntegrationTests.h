@@ -20,9 +20,7 @@ public:
     void testSteadyState(
             const std::string &modelName,
             const std::string& solverName,
-            bool useMoietyConservation = false,
-            const std::string &strategy = "basic" /// only used for newton iteration
-                                 ) {
+            bool useMoietyConservation = false) {
         // get the model
         TestModel* testModel_ = TestModelFactory(modelName);
         TestModelType* testModel = dynamic_cast<TestModelType*>(testModel_);
@@ -47,7 +45,6 @@ public:
         rr.setSteadyStateSolver(solverName);
 
         BasicDictionary steadyStateOptions;
-        steadyStateOptions.setItem("strategy", strategy); // injected strategy here
         steadyStateOptions.setItem("PrintLevel", 0);
 
         for (auto &settingsIterator : testModel->settings()) {

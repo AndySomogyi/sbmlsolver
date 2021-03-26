@@ -2,6 +2,8 @@
 #include "gtest/gtest.h"
 
 #include "NewtonIteration.h"
+#include "BasicNewtonIteration.h"
+#include "LinesearchNewtonIteration.h"
 #include "rrRoadRunner.h"
 #include "TestModelFactory.h"
 #include "SteadyStateIntegrationTests.h"
@@ -20,7 +22,7 @@ TEST_F(NewtonIterationIntegrationTests, CheckDecoratorRemovedAfterSolving) {
     OpenLinearFlux testModel;
     RoadRunner rr(testModel.str());
 
-    rr.setSteadyStateSolver("NewtonIteration");
+    rr.setSteadyStateSolver("newton");
     BasicDictionary opt;
 
     // will add PresimulationDecorator inside rr.steadyState()
@@ -28,21 +30,21 @@ TEST_F(NewtonIterationIntegrationTests, CheckDecoratorRemovedAfterSolving) {
 
     rr.steadyState(&opt);
     // this string would be "Presimulation(NewtonIteration)" if decorator was not removed before setadyState returns.
-    ASSERT_STREQ("NewtonIteration", rr.getSteadyStateSolver()->getName().c_str());
+    ASSERT_STREQ("newton", rr.getSteadyStateSolver()->getName().c_str());
 }
 
 TEST_F(NewtonIterationIntegrationTests, CheckDecoratorRemovedAfterFailureToSolve) {
     OpenLinearFlux testModel;
     RoadRunner rr(testModel.str());
 
-    rr.setSteadyStateSolver("NewtonIteration");
+    rr.setSteadyStateSolver("newton");
     rr.getSteadyStateSolver()->setValue("allow_presimulation", false);
     rr.getSteadyStateSolver()->setValue("allow_approx", false);
 
     try {
         rr.steadyState();
     } catch (std::runtime_error &err) {
-        ASSERT_STREQ("NewtonIteration", rr.getSteadyStateSolver()->getName().c_str());
+        ASSERT_STREQ("newton", rr.getSteadyStateSolver()->getName().c_str());
     } catch (std::exception) {
         ASSERT_FALSE("Test Failed"); // should never get here
     }
@@ -58,7 +60,7 @@ TEST_F(NewtonIterationIntegrationTests, CheckRaiseErrorWhenNotConverge) {
     // setup with rr
     OpenLinearFlux testModel;
     RoadRunner rr(testModel.str());
-    rr.setSteadyStateSolver("NewtonIteration");
+    rr.setSteadyStateSolver("newton");
     rr.getSteadyStateSolver()->setValue("allow_presimulation", false);
     rr.getSteadyStateSolver()->setValue("allow_approx", false);
     ASSERT_THROW(rr.steadyState(), std::runtime_error);
@@ -71,7 +73,7 @@ TEST_F(NewtonIterationIntegrationTests, CheckNewtonIterationIsARegisteredSolver)
 
     // name of bool should be expressive; it shows up on gtest failure.
     bool foundNewtonIterationInRegisteredSolverNames = false;
-    if (std::find(solverNames.begin(), solverNames.end(), "NewtonIteration") != solverNames.end()) {
+    if (std::find(solverNames.begin(), solverNames.end(), "newton") != solverNames.end()) {
         foundNewtonIterationInRegisteredSolverNames = true;
     }
     ASSERT_TRUE(foundNewtonIterationInRegisteredSolverNames);
@@ -85,7 +87,6 @@ TEST_F(NewtonIterationIntegrationTests, CheckNewtonIterationIsARegisteredSolver)
  */
 class BasicNewtonIterationTests : public NewtonIterationIntegrationTests {
 public:
-    std::string strategy = "basic";
 
     BasicNewtonIterationTests() : NewtonIterationIntegrationTests() {};
 };
@@ -98,27 +99,25 @@ public:
 TEST_F(BasicNewtonIterationTests, CheckCorrectSteadyStateOpenLinearFlux) {
     testSteadyState<OpenLinearFlux>(
             "OpenLinearFlux",
-            "NewtonIteration",
-            false,
-            strategy
+            "newton",
+            false
     );
 }
 
 TEST_F(BasicNewtonIterationTests, CheckCorrectSteadyStateSimpleFluxManuallyReduced) {
     testSteadyState<SimpleFluxManuallyReduced>(
             "SimpleFluxManuallyReduced",
-            "NewtonIteration",
-            false,  // moiety conservation done manually
-            strategy
+            "newton",
+            false // moiety conservation done manually
     );
 }
 
 TEST_F(BasicNewtonIterationTests, CheckCorrectSteadyStateSimpleFlux) {
-    testSteadyState<SimpleFlux>("SimpleFlux","NewtonIteration", true, strategy);
+    testSteadyState<SimpleFlux>("SimpleFlux","newton", true);
 }
 
 TEST_F(BasicNewtonIterationTests, CheckCorrectSteadyStateVenkatraman2010) {
-    testSteadyState<Venkatraman2010>("Venkatraman2010","NewtonIteration", false, strategy);
+    testSteadyState<Venkatraman2010>("Venkatraman2010","newton", false);
 }
 
 /**
@@ -168,7 +167,7 @@ TEST_F(BasicNewtonIterationTests, CheckCorrectSteadyStateVenkatraman2010) {
     @note: not disabled - commented out, because gtest on mac seems to consider the disabled test a failure :/
  */
 TEST_F(BasicNewtonIterationTests, CheckCorrectSteadyStateBrown2004) {
-    testSteadyState<Brown2004>("Brown2004", "NewtonIteration",true, strategy);
+    testSteadyState<Brown2004>("Brown2004", "newton",true);
 }
 
 
@@ -179,34 +178,34 @@ TEST_F(BasicNewtonIterationTests, CheckCorrectSteadyStateBrown2004) {
  */
 class LineSearchNewtonIterationTests : public NewtonIterationIntegrationTests {
 public:
-    std::string strategy = "linesearch";
 
     LineSearchNewtonIterationTests() : NewtonIterationIntegrationTests() {};
 };
 
 TEST_F(LineSearchNewtonIterationTests, CheckCorrectSteadyStateOpenLinearFlux) {
-    testSteadyState<OpenLinearFlux>("OpenLinearFlux","NewtonIteration", false, strategy);
+    testSteadyState<OpenLinearFlux>("OpenLinearFlux","newton_linesearch", false);
 }
 
 TEST_F(LineSearchNewtonIterationTests, CheckCorrectSteadyStateSimpleFluxManuallyReduced) {
-    testSteadyState<SimpleFluxManuallyReduced>("SimpleFluxManuallyReduced","NewtonIteration",
-                                               false, // moiety conservation done manually
-                                               strategy);
+    testSteadyState<SimpleFluxManuallyReduced>("SimpleFluxManuallyReduced",
+                                               "newton_linesearch",
+                                               false// moiety conservation done manually
+                                               );
 }
 
 TEST_F(LineSearchNewtonIterationTests, CheckCorrectSteadyStateSimpleFlux) {
-    testSteadyState<SimpleFlux>("SimpleFlux", "NewtonIteration",true, strategy);
+    testSteadyState<SimpleFlux>("SimpleFlux", "newton_linesearch",true);
 }
 
 TEST_F(LineSearchNewtonIterationTests, CheckCorrectSteadyStateVenkatraman2010) {
-    testSteadyState<Venkatraman2010>("Venkatraman2010", "NewtonIteration",false, strategy);
+    testSteadyState<Venkatraman2010>("Venkatraman2010", "newton_linesearch",false);
 }
 
 /**
  * See BasicNewtonIterationTests for reason by this is currently disabled.
  */
 TEST_F(LineSearchNewtonIterationTests, DISABLED_CheckCorrectSteadyStateBrown2004) {
-    testSteadyState<Brown2004>("Brown2004", "NewtonIteration", true, strategy);
+    testSteadyState<Brown2004>("Brown2004", "newton_linesearch", true);
 }
 
 /**
@@ -238,7 +237,7 @@ public:
 TEST_F(DecoratorIntegrationTests, NoDecoratorsAdded) {
     OpenLinearFlux testModel;
     RoadRunner rr(testModel.str());
-    rr.setSteadyStateSolver("NewtonIteration");
+    rr.setSteadyStateSolver("newton");
 
     BasicDictionary opt;
     opt.setItem("allow_approx", false);
@@ -250,7 +249,7 @@ TEST_F(DecoratorIntegrationTests, NoDecoratorsAdded) {
 TEST_F(DecoratorIntegrationTests, PresimulationOnly) {
     OpenLinearFlux testModel;
     RoadRunner rr(testModel.str());
-    rr.setSteadyStateSolver("NewtonIteration");
+    rr.setSteadyStateSolver("newton");
 
     BasicDictionary opt;
     opt.setItem("allow_approx", false);
@@ -263,7 +262,7 @@ TEST_F(DecoratorIntegrationTests, PresimulationOnly) {
 TEST_F(DecoratorIntegrationTests, ApproximationOnly) {
     OpenLinearFlux testModel;
     RoadRunner rr(testModel.str());
-    rr.setSteadyStateSolver("NewtonIteration");
+    rr.setSteadyStateSolver("newton");
 
     BasicDictionary opt;
     opt.setItem("allow_approx", true);
@@ -281,7 +280,7 @@ TEST_F(DecoratorIntegrationTests, CombineApproxAndPresimDecorators) {
     // first try presimulation then will try to approximate
     OpenLinearFlux testModel;
     RoadRunner rr(testModel.str());
-    rr.setSteadyStateSolver("NewtonIteration");
+    rr.setSteadyStateSolver("newton");
 
     BasicDictionary opt;
     opt.setItem("allow_approx", true);

@@ -3,48 +3,48 @@
 #include "gtest/gtest.h"
 
 #include "SundialsSteadyStateSolverUnitTest.h"
-#include "NewtonIteration.h"
+#include "BasicNewtonIteration.h"
 #include "rrRoadRunner.h"
 #include "TestModelFactory.h"
 
 using namespace rr;
 
 /**
- * Takes test model name as argument
+ * 
  */
-class NewtonIterationUnitTests : public SundialsSteadyStateSolverUnitTest {
+class BasicNewtonIterationUnitTests : public SundialsSteadyStateSolverUnitTest {
 public:
 
-    NewtonIterationUnitTests(): SundialsSteadyStateSolverUnitTest() {};
+    BasicNewtonIterationUnitTests(): SundialsSteadyStateSolverUnitTest() {};
 
-    ~NewtonIterationUnitTests() override = default;
+    ~BasicNewtonIterationUnitTests() override = default;
 };
 
 
-TEST_F(NewtonIterationUnitTests, SolveUsingSolverDirectly) {
+TEST_F(BasicNewtonIterationUnitTests, SolveUsingSolverDirectly) {
     // aka without a RoadRunner instance
-    NewtonIteration solver(rr->getModel());
+    BasicNewtonIteration solver(rr->getModel());
     solver.solve();
     checkResults(rr->getFloatingSpeciesConcentrationsNamedArray());
 }
 
-TEST_F(NewtonIterationUnitTests, ChangeAndResetSettings) {
-    NewtonIteration solver(rr->getModel());
-    solver.setValue("strategy", Variant("linesearch"));
+TEST_F(BasicNewtonIterationUnitTests, ChangeAndResetSettings) {
+    BasicNewtonIteration solver(rr->getModel());
+    solver.setValue("eta_param_gamma", Variant(0.4356));
     solver.resetSettings();
-    ASSERT_STREQ("basic", solver.getValueAsString("strategy").c_str());
+    ASSERT_EQ(solver.getValueAsDouble("eta_param_gamma"), 0);
 }
 
 
-TEST_F(NewtonIterationUnitTests, RegenerateTheModelBeforeCreatingSolver) {
+TEST_F(BasicNewtonIterationUnitTests, RegenerateTheModelBeforeCreatingSolver) {
     rr->regenerate();
-    NewtonIteration solver(rr->getModel());
+    BasicNewtonIteration solver(rr->getModel());
     solver.solve();
     checkResults(rr->getFloatingSpeciesConcentrationsNamedArray());
 }
 
-TEST_F(NewtonIterationUnitTests, RegenerateTheModelAfterCreatingSolver) {
-    NewtonIteration solver(rr->getModel());
+TEST_F(BasicNewtonIterationUnitTests, RegenerateTheModelAfterCreatingSolver) {
+    BasicNewtonIteration solver(rr->getModel());
     rr->regenerate();
     // after regeneration, the pointer to the model is different
     // so we must sync with model before solving.
@@ -58,7 +58,7 @@ TEST_F(NewtonIterationUnitTests, RegenerateTheModelAfterCreatingSolver) {
  * Tests each of the settings can be changed
  */
 class SettingsTests :
-        public NewtonIterationUnitTests,
+        public BasicNewtonIterationUnitTests,
         public ::testing::WithParamInterface<std::pair<std::string, Variant>> {
 public:
     SettingsTests() = default;
@@ -77,7 +77,7 @@ TEST_P(SettingsTests, TestSettings) {
     OpenLinearFlux testModel;
 
     RoadRunner rr(testModel.str());
-    NewtonIteration solver(rr.getModel());
+    BasicNewtonIteration solver(rr.getModel());
 
     // actually change the setting to our new value
     solver.setValue(settingName, settingValue);
@@ -126,9 +126,9 @@ INSTANTIATE_TEST_SUITE_P(
                 std::pair<std::string, Variant>("max_newton_step", Variant(15)),
                 std::pair<std::string, Variant>("max_beta_fails", Variant(3)),
                 std::pair<std::string, Variant>("func_norm_tol", Variant(0.5)),
-                std::pair<std::string, Variant>("scaled_step_tol", Variant(0.3)),
-                std::pair<std::string, Variant>("maa", Variant(4)),
-                std::pair<std::string, Variant>("damping_aa", Variant(0.35))
+                std::pair<std::string, Variant>("scaled_step_tol", Variant(0.3))
+//                std::pair<std::string, Variant>("maa", Variant(4)),
+//                std::pair<std::string, Variant>("damping_aa", Variant(0.35))
         )
 );
 

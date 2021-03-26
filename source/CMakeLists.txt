@@ -78,6 +78,8 @@ set(
         KinsolSteadyStateSolver.cpp
         FixedPointIteration.cpp
         NewtonIteration.cpp
+        BasicNewtonIteration.cpp
+        LinesearchNewtonIteration.cpp
         KinsolErrHandler.cpp
         SVD.cpp
         SteadyStateSolverDecorator.cpp
@@ -143,6 +145,8 @@ set(
         KinsolSteadyStateSolver.h
         FixedPointIteration.h
         NewtonIteration.h
+        BasicNewtonIteration.h
+        LinesearchNewtonIteration.h
         SVD.h
         SteadyStateSolverDecorator.h
         PresimulationDecorator.h

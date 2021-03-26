@@ -51,18 +51,18 @@ namespace rr {
         static std::string getNewtonIterationHint();
 
         /**
-         * @brief solve the currently defined problem
-         */
-        double solve() override;
-
-        /**
          * @brief reset settings back to default.
          */
         void resetSettings() override;
 
         void getSolverStatsFromKinsol() override;
 
-    private:
+    protected:
+        /**
+         * @brief solve the currently defined problem
+         */
+        double solveNewtonIteration(const std::string& strategy);
+
         void createKinsol() override;
 
         void freeKinsol() override;
@@ -80,37 +80,6 @@ namespace rr {
         SUNLinearSolver linearSolver = nullptr;
     };
 
-
-    class NewtonIterationRegistrar : public SteadyStateSolverRegistrar {
-    public:
-        /**
-        * @brief Gets the name associated with this integrator type
-        */
-        std::string getName() const override {
-            return NewtonIteration::getNewtonIterationName();
-        }
-
-        /**
-        * @brief Gets the description associated with this integrator type
-        */
-        std::string getDescription() const override {
-            return NewtonIteration::getNewtonIterationDescription();
-        }
-
-        /**
-        * @brief Gets the hint associated with this integrator type
-        */
-        std::string getHint() const override {
-            return NewtonIteration::getNewtonIterationHint();
-        }
-
-        /**
-        * @brief Constructs a new integrator of a given type
-        */
-        SteadyStateSolver *construct(ExecutableModel *model) const override {
-            return new NewtonIteration(model);
-        }
-    };
 
 }
 

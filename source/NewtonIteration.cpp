@@ -21,7 +21,7 @@ namespace rr {
         NewtonIteration::createKinsol();
     }
 
-    NewtonIteration::~NewtonIteration() noexcept {
+    NewtonIteration::~NewtonIteration() {
         NewtonIteration::freeKinsol();
     }
 
@@ -66,7 +66,7 @@ namespace rr {
         jac = nullptr;
     }
 
-    double NewtonIteration::solve() {
+    double NewtonIteration::solveNewtonIteration(const std::string &strategy) {
         return solveForSteadyState(this, getValueAsString("strategy") == "basic" ? KIN_NONE : KIN_LINESEARCH);
     }
 
