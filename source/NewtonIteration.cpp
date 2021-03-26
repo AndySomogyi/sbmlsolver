@@ -94,6 +94,17 @@ namespace rr {
         );
     }
 
+    void NewtonIteration::getSolverStatsFromKinsol() {
+        KinsolSteadyStateSolver::getSolverStatsFromKinsol();
+        KINGetNumLinConvFails(mKinsol_Memory, &numLinConvFails);
+        KINGetNumJacEvals(mKinsol_Memory, &numJacEvals);
+        KINGetNumJtimesEvals(mKinsol_Memory, &numJtimesEvals);
+        KINGetNumLinFuncEvals(mKinsol_Memory, &numLinFuncEvals);
+        KINGetNumLinIters(mKinsol_Memory, &numLinIters);
+        KINGetNumPrecEvals(mKinsol_Memory, &numPrecEvals);
+        KINGetNumPrecSolves(mKinsol_Memory, &numPrecSolves);
+    }
+
     std::string NewtonIteration::getName() const {
         return NewtonIteration::getNewtonIterationName();
     }

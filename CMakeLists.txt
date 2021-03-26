@@ -331,6 +331,7 @@ find_package(nleq2 CONFIG REQUIRED)
 find_package(PocoFoundation CONFIG REQUIRED)
 find_package(PocoNet CONFIG REQUIRED)
 find_package(PocoXML CONFIG REQUIRED)
+
 #find_package(Sundials CONFIG REQUIRED)
 find_package(LLVM REQUIRED)
 
@@ -338,9 +339,7 @@ set(BUILD_SHARED_LIBS OFF)
 set(BUILD_STATIC_LIBS ON)
 
 # todo make sure you delete before merge with develop (or it will be here forever)
-# add_subdirectory(sundials)
-
-find_package(SUNDIALS CONFIG REQUIRED)
+add_subdirectory(sundials)
 
 
 # install dependencies so clients can use roadrunner from c++/cmake

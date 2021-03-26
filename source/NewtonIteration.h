@@ -60,7 +60,9 @@ namespace rr {
          */
         void resetSettings() override;
 
-    public:
+        void getSolverStatsFromKinsol() override;
+
+    private:
         void createKinsol() override;
 
         void freeKinsol() override;

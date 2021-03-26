@@ -259,7 +259,7 @@ namespace rr {
          * collects some details such as number of function evals
          *
          */
-        void getSolverStatsFromKinsol();
+        virtual void getSolverStatsFromKinsol();
 
         /**
          * @brief kinsol output variables.

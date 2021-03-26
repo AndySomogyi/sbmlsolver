@@ -4,93 +4,16 @@
 #include "NewtonIteration.h"
 #include "rrRoadRunner.h"
 #include "TestModelFactory.h"
+#include "SteadyStateIntegrationTests.h"
 
 using namespace rr;
 
-class NewtonIterationIntegrationTests : public ::testing::Test {
+class NewtonIterationIntegrationTests : public SteadyStateIntegrationTests {
 
 public:
-    NewtonIterationIntegrationTests() = default;
-
-    // todo pull this into superclass, as other types of solver will also need it.
-    template<class TestModelType>
-    void testSteadyState(const std::string &modelName, bool useMoietyConservation = false,
-                         const std::string &strategy = "basic") {
-        // get the model
-        TestModel* testModel_ = TestModelFactory(modelName);
-        TestModelType* testModel = dynamic_cast<TestModelType*>(testModel_);
-
-        assert(testModel && "testModel is nullptr");
-
-        // load it into rr
-        RoadRunner rr(testModel->str());
-
-        // collect reference results
-        ResultMap expectedResult = testModel->steadyState();
-
-        // insert starting values
-        for (auto &it: expectedResult) {
-            const std::string &speciesName = it.first;
-            const double &startingValue = it.second.first;
-            std::cout << "Setting \"" << speciesName << "\" to " << startingValue << std::endl;
-            rr.setInitConcentration(speciesName, startingValue, false);
-        }
-        rr.regenerate();
-
-        rr.setSteadyStateSolver("NewtonIteration");
-
-        BasicDictionary steadyStateOptions;
-        steadyStateOptions.setItem("strategy", strategy); // injected strategy here
-        steadyStateOptions.setItem("PrintLevel", 0);
-
-        for (auto &settingsIterator : testModel->settings()) {
-            steadyStateOptions.setItem(settingsIterator.first, Variant(settingsIterator.second));
-        }
-
-        // turn on/off conservation analysis
-        // todo - this should be already applied with the above
-        rr.setConservedMoietyAnalysis(useMoietyConservation);
-
-        std::cout << "rr.getFullStoichiometryMatrix" << std::endl;
-        std::cout << rr.getFullStoichiometryMatrix().numRows() << "x" <<
-                  rr.getFullStoichiometryMatrix().numCols() << std::endl;
-
-        std::cout << "rr.getReducedStoichiometryMatrix" << std::endl;
-        std::cout << rr.getReducedStoichiometryMatrix().numRows() << "x" <<
-                  rr.getReducedStoichiometryMatrix().numCols() << std::endl;
-
-        std::cout << "rr.getFullJacobian" << std::endl;
-        std::cout << rr.getFullJacobian() << std::endl;
-
-        std::cout << "rr.getReducedJacobian" << std::endl;
-        std::cout << rr.getReducedJacobian() << std::endl;
-        //openInCopasi(testModel->str());
-
-        rr.steadyState(&steadyStateOptions);
-
-        NewtonIteration *newtonIteration = dynamic_cast<NewtonIteration *>(
-                rr.getSteadyStateSolver()
-        );
-        newtonIteration->printSolverStats();
-
-        // collect actual results from model
-        auto result = rr.getFloatingSpeciesConcentrationsNamedArray();
-        std::vector<std::string> names = result.getColNames();
-
-        // check to see if actual result are near expected.
-        for (int i = 0; i < names.size(); i++) {
-            std::string speciesID = names[i];
-            double actualResult = result[0][i]; // 0th row, ith col of a DoubleMatrix
-            double expected = expectedResult[speciesID].second; // first is start val, second is speciesID at steady state
-
-            std::cout << "Comparing \"" << speciesID << "\" expected result: " << expected
-                      << " with actual result " << actualResult << std::endl;
-            EXPECT_NEAR(expected, actualResult, 0.0001);
-        }
-
-        delete testModel;
-    }
+    NewtonIterationIntegrationTests() : SteadyStateIntegrationTests() {};
 };
+
 
 TEST_F(NewtonIterationIntegrationTests, CheckDecoratorRemovedAfterSolving) {
     // setup with rr
@@ -118,9 +41,9 @@ TEST_F(NewtonIterationIntegrationTests, CheckDecoratorRemovedAfterFailureToSolve
 
     try {
         rr.steadyState();
-    }catch (std::runtime_error& err){
+    } catch (std::runtime_error &err) {
         ASSERT_STREQ("NewtonIteration", rr.getSteadyStateSolver()->getName().c_str());
-    } catch (std::exception){
+    } catch (std::exception) {
         ASSERT_FALSE("Test Failed"); // should never get here
     }
 
@@ -144,18 +67,15 @@ TEST_F(NewtonIterationIntegrationTests, CheckRaiseErrorWhenNotConverge) {
 TEST_F(NewtonIterationIntegrationTests, CheckNewtonIterationIsARegisteredSolver) {
     OpenLinearFlux testModel;
     RoadRunner rr(testModel.str());
-    const auto& solverNames = rr.getRegisteredSteadyStateSolverNames();
+    const auto &solverNames = rr.getRegisteredSteadyStateSolverNames();
 
     // name of bool should be expressive; it shows up on gtest failure.
     bool foundNewtonIterationInRegisteredSolverNames = false;
-    if (std::find(solverNames.begin(), solverNames.end(), "NewtonIteration") != solverNames.end()){
+    if (std::find(solverNames.begin(), solverNames.end(), "NewtonIteration") != solverNames.end()) {
         foundNewtonIterationInRegisteredSolverNames = true;
     }
     ASSERT_TRUE(foundNewtonIterationInRegisteredSolverNames);
 }
-
-
-
 
 
 /**
@@ -167,7 +87,7 @@ class BasicNewtonIterationTests : public NewtonIterationIntegrationTests {
 public:
     std::string strategy = "basic";
 
-    BasicNewtonIterationTests() {};
+    BasicNewtonIterationTests() : NewtonIterationIntegrationTests() {};
 };
 
 /**
@@ -178,24 +98,27 @@ public:
 TEST_F(BasicNewtonIterationTests, CheckCorrectSteadyStateOpenLinearFlux) {
     testSteadyState<OpenLinearFlux>(
             "OpenLinearFlux",
+            "NewtonIteration",
             false,
             strategy
     );
 }
 
 TEST_F(BasicNewtonIterationTests, CheckCorrectSteadyStateSimpleFluxManuallyReduced) {
-    testSteadyState<SimpleFluxManuallyReduced>("SimpleFluxManuallyReduced",
-                                               false,  // moiety conservation done manually
-                                               strategy
+    testSteadyState<SimpleFluxManuallyReduced>(
+            "SimpleFluxManuallyReduced",
+            "NewtonIteration",
+            false,  // moiety conservation done manually
+            strategy
     );
 }
 
 TEST_F(BasicNewtonIterationTests, CheckCorrectSteadyStateSimpleFlux) {
-    testSteadyState<SimpleFlux>("SimpleFlux", true, strategy);
+    testSteadyState<SimpleFlux>("SimpleFlux","NewtonIteration", true, strategy);
 }
 
 TEST_F(BasicNewtonIterationTests, CheckCorrectSteadyStateVenkatraman2010) {
-    testSteadyState<Venkatraman2010>("Venkatraman2010", false, strategy);
+    testSteadyState<Venkatraman2010>("Venkatraman2010","NewtonIteration", false, strategy);
 }
 
 /**
@@ -244,9 +167,9 @@ TEST_F(BasicNewtonIterationTests, CheckCorrectSteadyStateVenkatraman2010) {
 
     @note: not disabled - commented out, because gtest on mac seems to consider the disabled test a failure :/
  */
-//TEST_F(BasicNewtonIterationTests, DISABLED_CheckCorrectSteadyStateBrown2004) {
-//    testSteadyState<Brown2004>("Brown2004", true, strategy);
-//}
+TEST_F(BasicNewtonIterationTests, CheckCorrectSteadyStateBrown2004) {
+    testSteadyState<Brown2004>("Brown2004", "NewtonIteration",true, strategy);
+}
 
 
 /**
@@ -258,33 +181,33 @@ class LineSearchNewtonIterationTests : public NewtonIterationIntegrationTests {
 public:
     std::string strategy = "linesearch";
 
-    LineSearchNewtonIterationTests() = default;
+    LineSearchNewtonIterationTests() : NewtonIterationIntegrationTests() {};
 };
 
 TEST_F(LineSearchNewtonIterationTests, CheckCorrectSteadyStateOpenLinearFlux) {
-    testSteadyState<OpenLinearFlux>("OpenLinearFlux", false, strategy);
+    testSteadyState<OpenLinearFlux>("OpenLinearFlux","NewtonIteration", false, strategy);
 }
 
 TEST_F(LineSearchNewtonIterationTests, CheckCorrectSteadyStateSimpleFluxManuallyReduced) {
-    testSteadyState<SimpleFluxManuallyReduced>("SimpleFluxManuallyReduced",
+    testSteadyState<SimpleFluxManuallyReduced>("SimpleFluxManuallyReduced","NewtonIteration",
                                                false, // moiety conservation done manually
                                                strategy);
 }
 
 TEST_F(LineSearchNewtonIterationTests, CheckCorrectSteadyStateSimpleFlux) {
-    testSteadyState<SimpleFlux>("SimpleFlux", true, strategy);
+    testSteadyState<SimpleFlux>("SimpleFlux", "NewtonIteration",true, strategy);
 }
 
 TEST_F(LineSearchNewtonIterationTests, CheckCorrectSteadyStateVenkatraman2010) {
-    testSteadyState<Venkatraman2010>("Venkatraman2010", false, strategy);
+    testSteadyState<Venkatraman2010>("Venkatraman2010", "NewtonIteration",false, strategy);
 }
 
 /**
  * See BasicNewtonIterationTests for reason by this is currently disabled.
  */
-//TEST_F(LineSearchNewtonIterationTests, DISABLED_CheckCorrectSteadyStateBrown2004) {
-//    testSteadyState<Brown2004>("Brown2004", true, strategy);
-//}
+TEST_F(LineSearchNewtonIterationTests, DISABLED_CheckCorrectSteadyStateBrown2004) {
+    testSteadyState<Brown2004>("Brown2004", "NewtonIteration", true, strategy);
+}
 
 /**
  * Integration style tests verifying interactions between

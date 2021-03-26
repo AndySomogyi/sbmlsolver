@@ -1282,15 +1282,18 @@ double RoadRunner::steadyState(Dictionary* dict) {
 
     if (impl->loadOpt.getConservedMoietyConversion()){
         ls::DoubleMatrix reducedJ = getReducedJacobian();
-        // todo can the reduced jacobian ever be singular?
-        //  if answer is no, there is a bug in conservation analysis
         SVD svdReduced(reducedJ);
         if (svdReduced.isSingular()){
             std::string msg = "The reduced jacobian matrix "
                                 "is singular and therefore steady state cannot "
-                                "be computed";
-            rrLog(Logger::LOG_ERROR) << msg;
-            throw std::runtime_error(msg);
+                                "be computed without presimulation";
+            rrLog(Logger::LOG_WARNING) << msg;
+            // no error. It is perfectly valid for a reduced jacobian
+            // to be singular (i.e. non invertible) at initial conditions.
+            // For instance, check the Brown2004 model from biomodels. At initial
+            // state the model, due to the rate laws, the reduced matrix is non-invertible.
+            // This doesn't necessarily mean the model will not solve for steady state, but that
+            // we need to do a presimulation.
         }
     }
 

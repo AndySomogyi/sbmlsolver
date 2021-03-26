@@ -20,8 +20,12 @@ public:
 
 TEST_F(FixedPointIterationUnitTests, SolveUsingSolverDirectly) {
     // aka without a RoadRunner instance
+    std::cout << "testModel.modelName(): " << testModel.modelName() << std::endl;
     FixedPointIteration solver(rr->getModel());
+//    solver.setValue("maa", 0);
+//    solver.setValue("damping_aa", 0.5);
     solver.solve();
+    std::cout << rr->getFloatingSpeciesConcentrationsNamedArray() << std::endl;
     checkResults(rr->getFloatingSpeciesConcentrationsNamedArray());
 }
 

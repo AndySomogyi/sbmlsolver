@@ -254,7 +254,8 @@ std::string OpenLinearFlux::modelName() {
 std::unordered_map<std::string, rr::Variant> OpenLinearFlux::settings() {
     return std::unordered_map<std::string, rr::Variant>{
             {"allow_presimulation", true},
-            {"presimulation_time",  5}
+            {"presimulation_time",  5},
+            {"moiety_conservation", false},
     };
 }
 

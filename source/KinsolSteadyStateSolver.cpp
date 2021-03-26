@@ -175,12 +175,6 @@ namespace rr {
         desc = "Scaled-step stopping tolerance. If 0 use default of uround^2/3";
         addSetting("scaled_step_tol", 0, "Scaled Step Tol", desc, desc);
 
-        desc = "Anderson Acceleration subspace size. Default is 0.";
-        addSetting("maa", 0, "Anderson Acceleration", desc, desc);
-
-        desc = "Anderson Acceleration damping parameter";
-        addSetting("damping_aa", 1.0, "Anderson Acceleration Damping Parameter", desc, desc);
-
         desc = "The function KINSetRelErrFunc speciffies the relative error in computing F(u), which "
                "is used in the difference quotient approximation to the Jacobian matrix. "
                "Set to 0 for default which equals U = unit roundoff.";
@@ -195,14 +189,7 @@ namespace rr {
         KINGetNumBacktrackOps(mKinsol_Memory, &numBacktrackOps);
         KINGetFuncNorm(mKinsol_Memory, &funcNorm);
         KINGetStepLength(mKinsol_Memory, &stepLength);
-        KINGetNumJacEvals(mKinsol_Memory, &numJacEvals);
-        KINGetNumJtimesEvals(mKinsol_Memory, &numJtimesEvals);
-        KINGetNumLinConvFails(mKinsol_Memory, &numLinConvFails);
-        KINGetNumLinFuncEvals(mKinsol_Memory, &numLinFuncEvals);
-        KINGetNumLinIters(mKinsol_Memory, &numLinIters);
         KINGetNumNonlinSolvIters(mKinsol_Memory, &numNonlinSolvIters);
-        KINGetNumPrecEvals(mKinsol_Memory, &numPrecEvals);
-        KINGetNumPrecSolves(mKinsol_Memory, &numPrecSolves);
     }
 
     void KinsolSteadyStateSolver::setFScale(double value) {
@@ -285,10 +272,8 @@ namespace rr {
         KINSetNoMinEps(mKinsol_Memory, getValueAsBool("no_min_eps"));
         KINSetMaxNewtonStep(mKinsol_Memory, getValueAsInt("max_newton_step"));
         KINSetMaxBetaFails(mKinsol_Memory, getValueAsInt("max_beta_fails"));
-        KINSetDampingAA(mKinsol_Memory, getValueAsDouble("damping_aa"));
         KINSetFuncNormTol(mKinsol_Memory, getValueAsDouble("func_norm_tol"));
         KINSetScaledStepTol(mKinsol_Memory, getValueAsDouble("scaled_step_tol"));
-        KINSetMAA(mKinsol_Memory, getValueAsLong("maa"));
         KINSetRelErrFunc(mKinsol_Memory, getValueAsDouble("rel_err_func"));
     }
 
