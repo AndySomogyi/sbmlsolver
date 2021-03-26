@@ -541,12 +541,11 @@ class RoadRunnerTests(unittest.TestCase):
     def test_getRegisteredSteadyStateSolverNames(self):
         print(self.rr.getRegisteredSteadyStateSolverNames())
         self.assertEqual(
-            ('nleq1', 'nleq2', 'NewtonIteration'),
+            ('nleq1', 'nleq2', 'newton', "newton_linesearch"),
             self.rr.getRegisteredSteadyStateSolverNames(),
         )
 
     def test_getSBML(self):
-        """todo what is the difference between getSBML and getCurrentSBML?"""
         print(self.rr.getSBML())
         self.assertIsInstance(
             self.rr.getSBML(),
@@ -963,10 +962,10 @@ class RoadRunnerTests(unittest.TestCase):
         print(self.rr.setReversible("_J0", True, True))
 
     def test_setSteadyStateSolver(self):
-        print(self.rr.setSteadyStateSolver("NewtonIteration"))
+        print(self.rr.setSteadyStateSolver("newton"))
         self.assertEqual(
             self.rr.getSteadyStateSolver().getName(),
-            "NewtonIteration"
+            "newton"
         )
 
     def test_setSteadyStateThreshold(self):
@@ -1027,7 +1026,7 @@ class RoadRunnerTests(unittest.TestCase):
 
     def test_steadyStateSolverExists(self):
         self.assertTrue(self.rr.steadyStateSolverExists("nleq2"))
-        self.assertFalse(self.rr.steadyStateSolverExists("NewtonIteration"))  # not instantiated yet
+        self.assertFalse(self.rr.steadyStateSolverExists("newton"))  # not instantiated yet
 
     def test_steadyStateThresh(self):
         print(self.rr.steadyStateThresh)

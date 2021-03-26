@@ -56,20 +56,6 @@ namespace rr {
          * @brief solve the currently defined problem
          */
         double solve() override;
-
-        /**
-         * @brief reset settings back to default.
-         */
-//        void resetSettings() override;
-//
-//        void getSolverStatsFromKinsol() override;
-
-//    private:
-//        void createKinsol() override;
-//
-//        void freeKinsol() override;
-//
-//        void updateKinsol() override;
         
     };
     

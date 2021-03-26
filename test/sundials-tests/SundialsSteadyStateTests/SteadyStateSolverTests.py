@@ -10,11 +10,10 @@ sys.path += [
     rr_site_packages,
     r"D:\roadrunner\roadrunner\install-msvc2019-rel-swig-4.0.2\site-packages",
 ]
-from roadrunner.roadrunner import RoadRunner, NewtonIteration
+from roadrunner.roadrunner import RoadRunner, BasicNewtonIteration
 from roadrunner.testing.TestModelFactory import TestModelFactory
 
 import unittest
-
 
 
 class NewtonIterationUnitTests(unittest.TestCase):
@@ -34,21 +33,21 @@ class NewtonIterationUnitTests(unittest.TestCase):
             self.assertAlmostEqual(expected, actualResult)
 
     def test_newton_iteration_registered(self):
-        self.assertIn("NewtonIteration", self.rr.getRegisteredSteadyStateSolverNames())
+        self.assertIn("newton", self.rr.getRegisteredSteadyStateSolverNames())
 
     def test_settings_map_is_dict(self):
-        solver = NewtonIteration(self.rr.getModel())
+        solver = BasicNewtonIteration(self.rr.getModel())
         settings = solver.getSettingsMap()
         self.assertIsInstance(settings, dict)
 
     def test_sovle_using_newton_iteration_directly(self):
-        solver = NewtonIteration(self.rr.getModel())
+        solver = BasicNewtonIteration(self.rr.getModel())
         solver.allow_presimulation = True
         solver.solve()
         self.checkResults(self.rr.getFloatingSpeciesConcentrationsNamedArray())
 
     def test_change_then_reset_settings(self):
-        solver = NewtonIteration(self.rr.getModel())
+        solver = BasicNewtonIteration(self.rr.getModel())
         solver.strategy = "linesearch"  # default is "basic"
         # ensure we've actually changed something
         self.assertEqual("linesearch", solver.strategy)
@@ -57,12 +56,12 @@ class NewtonIterationUnitTests(unittest.TestCase):
 
     def test_regenerate_model_before_creating_solver(self):
         self.rr.regenerate()
-        solver = NewtonIteration(self.rr.getModel())
+        solver = BasicNewtonIteration(self.rr.getModel())
         solver.solve()
         self.checkResults(self.rr.getFloatingSpeciesConcentrationsNamedArray())
 
     def test_regenerate_model_after_creating_solver(self):
-        solver = NewtonIteration(self.rr.getModel())
+        solver = BasicNewtonIteration(self.rr.getModel())
         self.rr.regenerate()
         # after regeneration, the pointer to the model is different so we must sync with model before solving.
         solver.syncWithModel(self.rr.getModel())
@@ -70,8 +69,7 @@ class NewtonIterationUnitTests(unittest.TestCase):
         self.checkResults(self.rr.getFloatingSpeciesConcentrationsNamedArray())
 
 
-class NewtonIterationIntegrationTests(unittest.TestCase):
-
+class SteadyStateSolverIntegrationTests(unittest.TestCase):
     # defined by subclasses
     strategy = None
 
@@ -81,7 +79,7 @@ class NewtonIterationIntegrationTests(unittest.TestCase):
     def tearDown(self) -> None:
         pass
 
-    def checkSteadyState(self, model_name):
+    def checkSteadyState(self, model_name: str, solver_name: str):
         # grab the test model
         test_model = TestModelFactory(model_name)
 
@@ -91,29 +89,22 @@ class NewtonIterationIntegrationTests(unittest.TestCase):
         # collect reference results
         expected_results = test_model.steadyState()
 
-        # set starting values
-        for species_name, (starting_val, expected_ss_val) in expected_results.items():
-            setattr(rr, species_name, starting_val)
-
-        # regenerate (but might not need to?)
-        rr.regenerate()
-
         # set the steady state solver
-        rr.setSteadyStateSolver("NewtonIteration")
+        rr.setSteadyStateSolver(solver_name)
 
-        # get options for model
+        # get settings for this problem
         settings = test_model.settings()
 
         # apply settings
         for setting, value in settings.items():
-            rr.getSteadyStateSolver().setValue(setting, value)
-
-        # apply strategy
-        if not self.strategy:
-            raise NotImplementedError("self.strategy parameter not implemented. "
-                                      "You are probably using the NewtonIterationIntegrationTests base class "
-                                      "instead of a subtype")
-        rr.getSteadyStateSolver().setValue("strategy", self.strategy)
+            if setting == "moiety_conservation":
+                rr.conservedMoietyAnalysis = True
+            else:
+                try:
+                    rr.getSteadyStateSolver().setValue(setting, value)
+                except Exception:
+                    # its okay for a solver to not have a particular options
+                    continue
 
         # do steady state calculation
         rr.steadyState()
@@ -125,43 +116,70 @@ class NewtonIterationIntegrationTests(unittest.TestCase):
             self.assertAlmostEqual(expected_ss_val, actual, places=5)
 
 
+class BasicNewtonIterationTests(SteadyStateSolverIntegrationTests):
 
-class BasicNewtonIterationTests(NewtonIterationIntegrationTests):
-    strategy = "basic"
     def testOpenLinearFlux(self):
-        self.checkSteadyState("OpenLinearFlux")
+        self.checkSteadyState("OpenLinearFlux", "newton")
 
     def testSimpleFluxManuallyReduced(self):
-        self.checkSteadyState("SimpleFluxManuallyReduced")
+        self.checkSteadyState("SimpleFluxManuallyReduced", "newton")
 
     def testSimpleFlux(self):
-        self.checkSteadyState("SimpleFlux")
+        self.checkSteadyState("SimpleFlux", "newton")
 
     def testVenkatraman2010(self):
-        self.checkSteadyState("Venkatraman2010")
+        self.checkSteadyState("Venkatraman2010", "newton")
 
-    @unittest.skip("Steady state for Brown2004 model does not compute because the "
-                   "moiety conservation analysis returns a singular matrix. This is a known "
-                   "issue and will be resolved in time")
     def testBrown2004(self):
-        self.checkSteadyState("Brown2004")
+        self.checkSteadyState("Brown2004", "newton")
 
-class LineSearchNewtonIterationTests(NewtonIterationIntegrationTests):
-    strategy = "linesearch"
+
+class LineSearchNewtonIterationTests(SteadyStateSolverIntegrationTests):
     def testOpenLinearFlux(self):
-        self.checkSteadyState("OpenLinearFlux")
+        self.checkSteadyState("OpenLinearFlux", "newton_linesearch")
 
     def testSimpleFluxManuallyReduced(self):
-        self.checkSteadyState("SimpleFluxManuallyReduced")
+        self.checkSteadyState("SimpleFluxManuallyReduced", "newton_linesearch")
 
     def testSimpleFlux(self):
-        self.checkSteadyState("SimpleFlux")
+        self.checkSteadyState("SimpleFlux", "newton_linesearch")
 
     def testVenkatraman2010(self):
-        self.checkSteadyState("Venkatraman2010")
+        self.checkSteadyState("Venkatraman2010", "newton_linesearch")
 
-    @unittest.skip("Steady state for Brown2004 model does not compute because the "
-                   "moiety conservation analysis returns a singular matrix. This is a known "
-                   "issue and will be resolved in time")
     def testBrown2004(self):
-        self.checkSteadyState("Brown2004")
+        self.checkSteadyState("Brown2004", "newton_linesearch")
+
+
+class NLEQ1IntegrationTests(SteadyStateSolverIntegrationTests):
+    def testOpenLinearFlux(self):
+        self.checkSteadyState("OpenLinearFlux", "nleq1")
+
+    def testSimpleFluxManuallyReduced(self):
+        self.checkSteadyState("SimpleFluxManuallyReduced", "nleq1")
+
+    def testSimpleFlux(self):
+        self.checkSteadyState("SimpleFlux", "nleq1")
+
+    def testVenkatraman2010(self):
+        self.checkSteadyState("Venkatraman2010", "nleq1")
+
+    def testBrown2004(self):
+        self.checkSteadyState("Brown2004", "nleq1")
+
+
+class NLEQ2IntegrationTests(SteadyStateSolverIntegrationTests):
+    def testOpenLinearFlux(self):
+        self.checkSteadyState("OpenLinearFlux", "nleq2")
+
+    def testSimpleFluxManuallyReduced(self):
+        self.checkSteadyState("SimpleFluxManuallyReduced", "nleq2")
+
+    def testSimpleFlux(self):
+        self.checkSteadyState("SimpleFlux", "nleq2")
+
+    def testVenkatraman2010(self):
+        self.checkSteadyState("Venkatraman2010", "nleq2")
+
+    def testBrown2004(self):
+        self.checkSteadyState("Brown2004", "nleq2")

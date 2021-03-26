@@ -66,6 +66,8 @@
 
     #include "KinsolSteadyStateSolver.h"
     #include "NewtonIteration.h"
+    #include "BasicNewtonIteration.h"
+    #include "LinesearchNewtonIteration.h"
 
     // make a python obj out of the C++ ExecutableModel, this is used by the PyEventListener
     // class. This function is defined later in this compilation unit.
@@ -2663,6 +2665,8 @@ solvers = integrators + steadyStateSolvers
 // NewtonIteration
 %include "KinsolSteadyStateSolver.h"
 %include "NewtonIteration.h"
+%include "BasicNewtonIteration.h"
+%include "LinesearchNewtonIteration.h"
 
 
 
