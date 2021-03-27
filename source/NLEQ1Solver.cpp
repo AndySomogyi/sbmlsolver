@@ -42,19 +42,6 @@ double NLEQ1Solver::solve()
     return solveNLEQ<NLEQ1Interface>();
 }
 
-    void NLEQ1Solver::resetSettings() {
-        NLEQSolver::resetSettings();
-    }
-
-    void NLEQ1Solver::loadConfigSettings() {
-        NLEQSolver::loadConfigSettings();
-    }
-
-    void NLEQ1Solver::syncWithModel(ExecutableModel *m) {
-        NLEQSolver::syncWithModel(m);
-    }
-
-
 }    //end of namespace
 
 

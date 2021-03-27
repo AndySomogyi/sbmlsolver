@@ -1723,9 +1723,11 @@ ResultMap Brown2004::steadyState() {
 
 std::unordered_map<std::string, rr::Variant> Brown2004::settings() {
     return std::unordered_map<std::string, rr::Variant>{
-//            {"moiety_conservation", true},
             {"allow_presimulation", true},
-//            {"presimulation_time",  10000}
+            // this model can converge to a set of values different to the reference data,
+            // depending on starting values. For this reason, start the list of presimulation
+            // times at a larger number.
+            {"presimulation_times",  std::vector<double>({10, 100, 1000})}
     };
 }
 

@@ -40,4 +40,3 @@ TEST_F(NLEQ1IntetrationTests, CheckCorrectSteadyStateVenkatraman2010) {
 TEST_F(NLEQ1IntetrationTests, CheckCorrectSteadyStateBrown2004) {
     testSteadyState<Brown2004>("Brown2004", "nleq1");
 }
-

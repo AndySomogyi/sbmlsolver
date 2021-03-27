@@ -24,7 +24,6 @@ namespace rr {
         } catch  (std::exception& e) {
             std::vector<double> times = getValue("presimulation_times").convert<std::vector<double>>();
             for (const auto &timePoint: times) {
-                std::cout << "trying time point:" << timePoint << std::endl;
                 CVODEIntegrator integrator(solver_->getModel());
                 // integrate one interval between 0 and presimulation_time.
                 integrator.integrate(0, timePoint);
@@ -35,7 +34,6 @@ namespace rr {
                 } catch (std::exception &err) {
                     // can't use any err more specific since errors used
                     // inherited from exception
-//                    mModel->reset();
                     continue;
                 }
             }

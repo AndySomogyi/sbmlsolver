@@ -147,7 +147,6 @@ namespace rr {
         SteadyStateSolver::setValue("presimulation_maximum_steps",
                              Config::getInt(Config::STEADYSTATE_PRESIMULATION_MAX_STEPS));
         SteadyStateSolver::setValue("presimulation_time", Config::getDouble(Config::STEADYSTATE_PRESIMULATION_TIME));
-        SteadyStateSolver::setValue("presimulation_times", Config::getDouble(Config::STEADYSTATE_PRESIMULATION_TIME));
         SteadyStateSolver::setValue("allow_approx", Config::getBool(Config::STEADYSTATE_APPROX));
         SteadyStateSolver::setValue("approx_tolerance", Config::getDouble(Config::STEADYSTATE_APPROX_TOL));
         SteadyStateSolver::setValue("approx_maximum_steps", Config::getInt(Config::STEADYSTATE_APPROX_MAX_STEPS));

@@ -36,18 +36,6 @@ namespace rr {
         return solveNLEQ<NLEQ2Interface>();
     }
 
-    void NLEQ2Solver::resetSettings() {
-        NLEQSolver::resetSettings();
-    }
-
-    void NLEQ2Solver::loadConfigSettings() {
-        NLEQSolver::loadConfigSettings();
-    }
-
-    void NLEQ2Solver::syncWithModel(ExecutableModel *m) {
-        NLEQSolver::syncWithModel(m);
-    }
-
 }    //end of namespace
 
 
