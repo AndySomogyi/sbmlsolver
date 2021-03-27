@@ -51,25 +51,7 @@ public:
             }
         }
 
-        std::cout << "rr.getFullStoichiometryMatrix" << std::endl;
-        std::cout << rr.getFullStoichiometryMatrix().numRows() << "x" <<
-                  rr.getFullStoichiometryMatrix().numCols() << std::endl;
-
-        std::cout << "rr.getReducedStoichiometryMatrix" << std::endl;
-        std::cout << rr.getReducedStoichiometryMatrix().numRows() << "x" <<
-                  rr.getReducedStoichiometryMatrix().numCols() << std::endl;
-
-        std::cout << "rr.getFullJacobian" << std::endl;
-        std::cout << rr.getFullJacobian() << std::endl;
-
-        std::cout << "rr.getReducedJacobian" << std::endl;
-        std::cout << rr.getReducedJacobian() << std::endl;
-
         rr.steadyState(&steadyStateOptions);
-
-        //todo support this for all steady state algo
-        // auto solver = rr.getSteadyStateSolver();
-        //solver->printSolverStats();
 
         // collect actual results from model
         auto result = rr.getFloatingSpeciesConcentrationsNamedArray();
