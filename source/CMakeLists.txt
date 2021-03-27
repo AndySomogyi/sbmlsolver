@@ -84,6 +84,7 @@ set(
         SVD.cpp
         SteadyStateSolverDecorator.cpp
         PresimulationDecorator.cpp
+        PresimulationProgramDecorator.cpp
         ApproxSteadyStateDecorator.cpp
 
         conservation/ConservationExtension.cpp
@@ -150,6 +151,7 @@ set(
         SVD.h
         SteadyStateSolverDecorator.h
         PresimulationDecorator.h
+        PresimulationProgramDecorator.h
         ApproxSteadyStateDecorator.h
 )
 install(FILES ${rrCoreHeaders} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/rr)

@@ -18,7 +18,6 @@ function(add_test_executable BINARY OUT_VARIABLE)
 
     target_link_libraries(${BINARY} PUBLIC
             roadrunner-static gtest gtest_main gmock gmock_main
-
             )
 
     add_dependencies(${BINARY} roadrunner-static gtest gtest_main gmock gmock_main)
@@ -26,7 +25,7 @@ function(add_test_executable BINARY OUT_VARIABLE)
 
     # Add to ctest.
     # add_test(NAME ${BINARY} COMMAND "$<TARGET_FILE:${BINARY}>")
-    gtest_discover_tests(${BINARY})
+    gtest_discover_tests(${BINARY} )
 
     set(test_targets "${test_targets}" "${testid}")
     if ("${${OUT_VARIABLE}}" STREQUAL "")
@@ -48,8 +47,6 @@ if (BUILD_PYTHON AND BUILD_TESTS)
             COMPONENTS python
             )
     include(UseSWIG)
-
-    message(STATUS "SWIG_USE_FILE ${SWIG_USE_FILE}")
 
     set_source_files_properties(TestModelFactory.i
             PROPERTIES

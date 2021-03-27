@@ -256,7 +256,8 @@ std::string OpenLinearFlux::modelName() {
 
 std::unordered_map<std::string, rr::Variant> OpenLinearFlux::settings() {
     return std::unordered_map<std::string, rr::Variant>{
-            {"allow_presimulation", true},
+//            {"allow_presimulation", true},
+            {"allow_presimulation", false},
             {"presimulation_time",  5},
             {"moiety_conservation", false},
     };
@@ -1722,7 +1723,7 @@ ResultMap Brown2004::steadyState() {
 
 std::unordered_map<std::string, rr::Variant> Brown2004::settings() {
     return std::unordered_map<std::string, rr::Variant>{
-            {"moiety_conservation", true},
+//            {"moiety_conservation", true},
             {"allow_presimulation", true},
             {"presimulation_time",  10000}
     };

@@ -109,11 +109,15 @@ namespace rr {
         Solver::resetSettings();
         addSetting("allow_presimulation", true, "Allow Presimulation",
                    "Flag for starting steady state analysis with simulation (bool).",
-                   "(bool) This flag does not affect the usage of NLEQ1/2 approximation routine when the default steaty state solver fails");
+                   "(bool) This flag does not affect the usage of NLEQ1/2 approximation routine when the default steady state solver fails");
 
         addSetting("presimulation_time", true, "Presimulation Time",
                    "End time for presimulation steady state analysis (double).",
                    "(double) presimulation_maximum_steps takes priority. Only used when allow_presimulation is True");
+
+        addSetting("presimulation_times", std::vector<double>({0, 0.1, 1, 1e2, 1e3, 1e4}), "Presimulation Times",
+                   "Vector of successive time points to try presimulation prior to solving for steady state (std::vector<double>).",
+                   "(double) Similar to presimulation_time, but tries multiple time points before failing");
 
         addSetting("presimulation_maximum_steps", getValueAsDouble("presimulation_time") * 100,
                    "Presimulation Maximum Steps",

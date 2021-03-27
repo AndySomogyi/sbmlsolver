@@ -45,6 +45,7 @@
 #include "llvm/IR/IRBuilder.h"
 #include "PresimulationDecorator.h"
 #include "ApproxSteadyStateDecorator.h"
+#include "PresimulationProgramDecorator.h"
 
 #ifdef _MSC_VER
 #pragma warning(default: 4146)
@@ -517,6 +518,12 @@ RoadRunner::RoadRunner(unsigned int level, unsigned int version) : impl(new Road
 	// and allow simultion without loading SBML files
 	impl->document = std::unique_ptr<libsbml::SBMLDocument>(new libsbml::SBMLDocument(level, version));
 	impl->document->createModel();
+
+	// automatically set moiety conservation analysis to True if needed
+	if (getModel()->getNumConservedMoieties() > 0){
+	    setConservedMoietyAnalysis(true);
+	}
+
 }
 
 
@@ -542,6 +549,20 @@ RoadRunner::RoadRunner(const std::string& uriOrSBML,
     //Increase instance count..
     mInstanceCount++;
     impl->mInstanceID = mInstanceCount;
+
+//    setConservedMoietyAnalysis(true);
+//    // automatically set moiety conservation analysis to True if needed
+//	int numConservedMoieties = getModel()->getNumConservedMoieties();
+//    if (numConservedMoieties == 0){
+//	    setConservedMoietyAnalysis(false);
+//	}
+
+    auto jac = getFullJacobian();
+    SVD svd(jac);
+    if (svd.isSingular()){
+        setConservedMoietyAnalysis(true);
+    }
+
 }
 
 
@@ -571,6 +592,12 @@ RoadRunner::RoadRunner(const std::string& _compiler, const std::string& _tempDir
     setSteadyStateSolver("nleq2");
 	impl->document = std::unique_ptr<libsbml::SBMLDocument>(new libsbml::SBMLDocument(3, 2));
 	impl->document->createModel();
+
+	// automatically set moiety conservation analysis to True if needed
+	if (getModel()->getNumConservedMoieties() > 0){
+	    setConservedMoietyAnalysis(true);
+	}
+
 
 }
 
@@ -1268,34 +1295,26 @@ double RoadRunner::steadyState(Dictionary* dict) {
     // store the name of the solver for later use.
     const std::string& solverName = impl->steady_state_solver->getName();
 
-    // check for singular jacobian
-    if (!impl->loadOpt.getConservedMoietyConversion()) {
-        ls::DoubleMatrix fullJ = getFullJacobian();
-        SVD svdFull(fullJ);
-        if (svdFull.isSingular()) {
-            rrLog(Logger::LOG_WARNING) << "Full jacobian matrix is singular "
-                                          "and therefore the steady state cannot be computed. "
-                                          "Automatically turning on moiety conservation...";
-            setConservedMoietyAnalysis(true);
-        }
-    }
+    // no need to check for singular full jabocian since the constructor
+    // automatically turns on moiety conservation matrix if num conserved
+    // moieties > 0.
 
-    if (impl->loadOpt.getConservedMoietyConversion()){
-        ls::DoubleMatrix reducedJ = getReducedJacobian();
-        SVD svdReduced(reducedJ);
-        if (svdReduced.isSingular()){
-            std::string msg = "The reduced jacobian matrix "
-                                "is singular and therefore steady state cannot "
-                                "be computed without presimulation";
-            rrLog(Logger::LOG_WARNING) << msg;
-            // no error. It is perfectly valid for a reduced jacobian
-            // to be singular (i.e. non invertible) at initial conditions.
-            // For instance, check the Brown2004 model from biomodels. At initial
-            // state the model, due to the rate laws, the reduced matrix is non-invertible.
-            // This doesn't necessarily mean the model will not solve for steady state, but that
-            // we need to do a presimulation.
-        }
-    }
+//    if (impl->loadOpt.getConservedMoietyConversion()){
+//        ls::DoubleMatrix reducedJ = getReducedJacobian();
+//        SVD svdReduced(reducedJ);
+//        if (svdReduced.isSingular()){
+//            std::string msg = "The reduced jacobian matrix "
+//                                "is singular and therefore steady state cannot "
+//                                "be computed without presimulation";
+//            rrLog(Logger::LOG_WARNING) << msg;
+//            // no error. It is perfectly valid for a reduced jacobian
+//            // to be singular (i.e. non invertible) at initial conditions.
+//            // For instance, check the Brown2004 model from biomodels. At initial
+//            // state the model, due to the rate laws, the reduced matrix is non-invertible.
+//            // This doesn't necessarily mean the model will not solve for steady state, but that
+//            // we need to do a presimulation.
+//        }
+//    }
 
     metabolicControlCheck(impl->model.get());
 
@@ -1314,8 +1333,16 @@ double RoadRunner::steadyState(Dictionary* dict) {
     //  i.e. we try Presimulation then approximation.
     SteadyStateSolverDecorator *decorator = nullptr;
 
+    // only 1 of allow_presimulation or allow_presimulations are allowed to be active
+    // at any 1 time. The allow_presimulations takes precidence
+//    if (impl->steady_state_solver->getValueAsBool("allow_presimulation") &&
+//        impl->steady_state_solver->getValueAsBool("allow_presimulations")){
+//        impl->steady_state_solver->setValue("allow_presimulation", false);
+//    }
+
     // apply presimulation decorator if requested by user
     if (impl->steady_state_solver->getValueAsBool("allow_presimulation")){
+//        decorator = new PresimulationProgramDecorator(impl->steady_state_solver);
         decorator = new PresimulationDecorator(impl->steady_state_solver);
         impl->steady_state_solver = decorator;
     }

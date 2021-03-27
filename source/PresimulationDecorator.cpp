@@ -19,6 +19,7 @@ namespace rr {
             throw NullPointerException("PresimulationDecorator::solve(): mModel instance in solver object is nullptr");
         }
         try {
+            // if we can solve without presimulation, we do so
             return SteadyStateSolverDecorator::solve();
 
           // std::runtime_error does not work here because NLEQ throws std::exception
