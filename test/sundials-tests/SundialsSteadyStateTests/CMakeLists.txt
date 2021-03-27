@@ -8,7 +8,13 @@ set(SHARED_TEST_FILES ../TestModelFactory SteadyStateIntegrationTests)
 #)
 add_test_executable(
         SteadyStateIntegrationTests test_targets
-        SteadyStateIntegrationTests.cpp ${SHARED_TEST_FILES}
+        SteadyStateIntegrationTests.h
+        BasicNewtonIntegrationTests.cpp
+        DecoratorIntegrationTests.cpp
+        LinesearchNewtonIntegrationTests.cpp
+        NLEQ1IntegrationTests.cpp
+        NLEQ2IntegrationTests.cpp
+        ${SHARED_TEST_FILES}
 )
 add_test_executable(
         BasicNewtonIterationUnitTests test_targets
