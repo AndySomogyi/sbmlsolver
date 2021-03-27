@@ -519,11 +519,6 @@ RoadRunner::RoadRunner(unsigned int level, unsigned int version) : impl(new Road
 	impl->document = std::unique_ptr<libsbml::SBMLDocument>(new libsbml::SBMLDocument(level, version));
 	impl->document->createModel();
 
-	// automatically set moiety conservation analysis to True if needed
-	if (getModel()->getNumConservedMoieties() > 0){
-	    setConservedMoietyAnalysis(true);
-	}
-
 }
 
 
@@ -549,19 +544,6 @@ RoadRunner::RoadRunner(const std::string& uriOrSBML,
     //Increase instance count..
     mInstanceCount++;
     impl->mInstanceID = mInstanceCount;
-
-//    setConservedMoietyAnalysis(true);
-//    // automatically set moiety conservation analysis to True if needed
-//	int numConservedMoieties = getModel()->getNumConservedMoieties();
-//    if (numConservedMoieties == 0){
-//	    setConservedMoietyAnalysis(false);
-//	}
-
-    auto jac = getFullJacobian();
-    SVD svd(jac);
-    if (svd.isSingular()){
-        setConservedMoietyAnalysis(true);
-    }
 
 }
 
@@ -592,12 +574,6 @@ RoadRunner::RoadRunner(const std::string& _compiler, const std::string& _tempDir
     setSteadyStateSolver("nleq2");
 	impl->document = std::unique_ptr<libsbml::SBMLDocument>(new libsbml::SBMLDocument(3, 2));
 	impl->document->createModel();
-
-	// automatically set moiety conservation analysis to True if needed
-	if (getModel()->getNumConservedMoieties() > 0){
-	    setConservedMoietyAnalysis(true);
-	}
-
 
 }
 
