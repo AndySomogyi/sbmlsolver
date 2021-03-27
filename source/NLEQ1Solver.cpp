@@ -9,6 +9,7 @@ namespace rr
 NLEQ1Solver::NLEQ1Solver(ExecutableModel *_model) : NLEQSolver(_model)
 {
     NLEQ1Solver::resetSettings();
+
 }
 
 std::string NLEQ1Solver::getName() const {
@@ -41,6 +42,17 @@ double NLEQ1Solver::solve()
     return solveNLEQ<NLEQ1Interface>();
 }
 
+    void NLEQ1Solver::resetSettings() {
+        NLEQSolver::resetSettings();
+    }
+
+    void NLEQ1Solver::loadConfigSettings() {
+        NLEQSolver::loadConfigSettings();
+    }
+
+    void NLEQ1Solver::syncWithModel(ExecutableModel *m) {
+        NLEQSolver::syncWithModel(m);
+    }
 
 
 }    //end of namespace

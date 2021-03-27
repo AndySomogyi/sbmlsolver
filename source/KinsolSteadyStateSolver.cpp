@@ -46,6 +46,17 @@ namespace rr {
         assert(uscale && "Sundials failed to create N_Vector for fscale");
         N_VConst(1, uscale); // no scaling. Implement if wanted.
 
+        // initialise to model values
+        mModel->getStateVector(mStateVector->ops->nvgetarraypointer(mStateVector));
+
+        int err;
+
+        // allocate the main kinsol memory block
+        mKinsol_Memory = KINCreate();
+
+        assert(mKinsol_Memory && "Could not create kinsol memory block, Kinsol failed");
+
+        // make non negative
         constraints = N_VNew_Serial(stateVectorSize);
         assert(constraints && "Sundials failed to create N_Vector for fscale");
         // constraints. If,
@@ -56,20 +67,9 @@ namespace rr {
         // -2  -> <0
         N_VConst(2, constraints);
 
-        if (getValueAsBool("allow_negative")) {
+        if (!getValueAsBool("allow_negative")) {
             KINSetConstraints(mKinsol_Memory, constraints);
         }
-
-
-        // initialise to model values
-        mModel->getStateVector(mStateVector->ops->nvgetarraypointer(mStateVector));
-
-        int err;
-
-        // allocate the main kinsol memory block
-        mKinsol_Memory = KINCreate();
-
-        assert(mKinsol_Memory && "Could not create kinsol memory block, Kinsol failed");
 
         // set our own error handler. This should be the first thing called after creating kinsol memory block
         // This is the only function where we need to collect the error code and decode it, since
@@ -149,7 +149,7 @@ namespace rr {
         addSetting("eta_param_gamma", 0, "ETA Gamma", desc, desc);
 
         desc = "Value of alpha where 1.0 < alpha < 2.0. Use 0 to indicate default value of 2.0. ";
-        addSetting("eta_param_alpha", 0, "ETA lpha", desc, desc);
+        addSetting("eta_param_alpha", 0, "ETA alpha", desc, desc);
 
         desc = "Value of omega_min - lower bound residual monitoring";
         addSetting("res_mon_min", 0.00001, "Residual Monitoring Param Minimum", desc, desc);
@@ -326,7 +326,7 @@ namespace rr {
         );
 
         char *flagName = KINGetReturnFlagName(flag);
-        //std::cout << "KINSol function returned \"" << flagName << "\" flag" << std::endl;
+        std::cout << "KINSol function returned \"" << flagName << "\" flag" << std::endl;
 
         // errors are handled automatically by the error handler for kinsol.
         // here we handle warnings and success flags

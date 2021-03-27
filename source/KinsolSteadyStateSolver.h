@@ -43,6 +43,7 @@ namespace rr {
      */
     class KinsolSteadyStateSolver : public SteadyStateSolver {
     public:
+
         /**
          * @brief constructor for creating KinsolSteadyStateSolver
          * from an executable model only. This constructor
@@ -288,13 +289,6 @@ namespace rr {
          */
         long int nSolverIterations = 0;
 
-        /**
-         * @brief stores the number of function evaluations
-         * executed by the solver.
-         * @details empty until after solve() has been called
-         * This method uses kinsol's KINGetNumFuncEvals function
-         */
-        long int nFuncEvals = 0;
 
     };
 

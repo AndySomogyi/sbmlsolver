@@ -1,6 +1,6 @@
 #include "gtest/gtest.h"
 #include "SteadyStateIntegrationTests.h"
-
+#include "TestModelFactory.h"
 
 /**
  * @brief tests in this fixture all solve for steady state using the

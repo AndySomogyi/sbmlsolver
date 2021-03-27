@@ -62,9 +62,9 @@ std::string SimpleFlux::modelName() {
 
 InitialToEndResultMap SimpleFlux::stateVectorAtT10() {
     return InitialToEndResultMap{
-                    {"S1", DoublePair(10, 3.99584)},
-                    {"S2", DoublePair(1, 7.00416)}
-            };
+            {"S1", DoublePair(10, 3.99584)},
+            {"S2", DoublePair(1, 7.00416)}
+    };
 }
 
 ResultMap SimpleFlux::steadyState() {
@@ -78,7 +78,7 @@ ResultMap SimpleFlux::steadyState() {
 
 std::unordered_map<std::string, rr::Variant> SimpleFlux::settings() {
     return std::unordered_map<std::string, rr::Variant>{
-                        {"moiety_conservation", true}
+            {"moiety_conservation", true}
     };
 }
 
@@ -771,7 +771,7 @@ std::unordered_map<std::string, rr::Variant> Venkatraman2010::settings() {
             {
                     {"allow_presimulation", true},
                     {"presimulation_time",  100000},
-                                {"moiety_conservation", false},
+                    {"moiety_conservation", false},
 
             });
 }
@@ -1725,7 +1725,7 @@ std::unordered_map<std::string, rr::Variant> Brown2004::settings() {
     return std::unordered_map<std::string, rr::Variant>{
 //            {"moiety_conservation", true},
             {"allow_presimulation", true},
-            {"presimulation_time",  10000}
+//            {"presimulation_time",  10000}
     };
 }
 

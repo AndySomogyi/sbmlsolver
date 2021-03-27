@@ -18,16 +18,26 @@ namespace rr {
         if (!solver_->getModel()) {
             throw NullPointerException("PresimulationProgramDecorator::solve(): mModel instance in solver object is nullptr");
         }
-        for (const auto& timePoint: getValueAsDoubleVector("presimulation_times")){
-            CVODEIntegrator integrator(solver_->getModel());
-            // integrate one interval between 0 and presimulation_time.
-            integrator.integrate(0, timePoint);
-            solver_->syncWithModel(solver_->getModel());
+        try {
+            // try no presimulation first
+            return SteadyStateSolverDecorator::solve();
+        } catch  (std::exception& e) {
+            std::vector<double> times = getValue("presimulation_times").convert<std::vector<double>>();
+            for (const auto &timePoint: times) {
+                std::cout << "trying time point:" << timePoint << std::endl;
+                CVODEIntegrator integrator(solver_->getModel());
+                // integrate one interval between 0 and presimulation_time.
+                integrator.integrate(0, timePoint);
+                solver_->syncWithModel(solver_->getModel());
 
-            try {
-                return solver_->solve();
-            } catch (std::exception& err){ // can't use anything more specific since errors used inherited from exception
-                continue;
+                try {
+                    return solver_->solve();
+                } catch (std::exception &err) {
+                    // can't use any err more specific since errors used
+                    // inherited from exception
+//                    mModel->reset();
+                    continue;
+                }
             }
         }
 

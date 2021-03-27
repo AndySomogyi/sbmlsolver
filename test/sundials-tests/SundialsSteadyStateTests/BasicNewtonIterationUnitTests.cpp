@@ -53,10 +53,6 @@ TEST_F(BasicNewtonIterationUnitTests, RegenerateTheModelAfterCreatingSolver) {
     checkResults(rr->getFloatingSpeciesConcentrationsNamedArray());
 }
 
-TEST_F(BasicNewtonIterationUnitTests, x) {
-    auto d = rr->getModel()->getNumConservedMoieties();
-    std::cout << d << std::endl;
-}
 
 
 /**

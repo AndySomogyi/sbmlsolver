@@ -73,6 +73,12 @@ class RR_DECLSPEC NLEQ2Solver : public NLEQSolver
         // ** Solver routines
         double solve() override;
 
+        void resetSettings() override;
+
+        void loadConfigSettings() override;
+
+        void syncWithModel(ExecutableModel *m) override;
+
 };
 
 

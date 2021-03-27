@@ -1309,17 +1309,10 @@ double RoadRunner::steadyState(Dictionary* dict) {
     //  i.e. we try Presimulation then approximation.
     SteadyStateSolverDecorator *decorator = nullptr;
 
-    // only 1 of allow_presimulation or allow_presimulations are allowed to be active
-    // at any 1 time. The allow_presimulations takes precidence
-//    if (impl->steady_state_solver->getValueAsBool("allow_presimulation") &&
-//        impl->steady_state_solver->getValueAsBool("allow_presimulations")){
-//        impl->steady_state_solver->setValue("allow_presimulation", false);
-//    }
-
     // apply presimulation decorator if requested by user
     if (impl->steady_state_solver->getValueAsBool("allow_presimulation")){
-//        decorator = new PresimulationProgramDecorator(impl->steady_state_solver);
-        decorator = new PresimulationDecorator(impl->steady_state_solver);
+        decorator = new PresimulationProgramDecorator(impl->steady_state_solver);
+//        decorator = new PresimulationDecorator(impl->steady_state_solver);
         impl->steady_state_solver = decorator;
     }
 

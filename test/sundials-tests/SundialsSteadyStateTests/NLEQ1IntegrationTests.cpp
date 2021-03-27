@@ -2,6 +2,9 @@
 #include "SteadyStateIntegrationTests.h"
 #include "TestModelFactory.h"
 
+#include "NLEQ1Solver.h"
+#include "BasicNewtonIteration.h"
+
 class NLEQ1IntetrationTests : public SteadyStateIntegrationTests {
 public:
 

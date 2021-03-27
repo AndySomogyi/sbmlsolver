@@ -312,7 +312,7 @@ void Variant::convert_to(const std::type_info& info, void* p) const
         TRY_CONVERT_TO(int32_t);
 
         TRY_CONVERT_TO(uint32_t);
-		
+
 	if (info == typeid(std::vector<double>)) {
 		std::vector<double>* out = static_cast<std::vector<double>*>(p);
 		*out = self->var.extract< std::vector<double> >();

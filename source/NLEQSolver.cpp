@@ -2,6 +2,7 @@
 // Created by Ciaran on 08/03/2021.
 //
 
+#include <iostream>
 #include "NLEQSolver.h"
 #include "rrConfig.h"
 
