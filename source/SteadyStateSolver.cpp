@@ -111,7 +111,7 @@ namespace rr {
                    "Flag for starting steady state analysis with simulation (bool).",
                    "(bool) This flag does not affect the usage of NLEQ1/2 approximation routine when the default steady state solver fails");
 
-        addSetting("presimulation_time", true, "Presimulation Time",
+        addSetting("presimulation_time", 5, "Presimulation Time",
                    "End time for presimulation steady state analysis (double).",
                    "(double) presimulation_maximum_steps takes priority. Only used when allow_presimulation is True");
 
@@ -147,6 +147,7 @@ namespace rr {
         SteadyStateSolver::setValue("presimulation_maximum_steps",
                              Config::getInt(Config::STEADYSTATE_PRESIMULATION_MAX_STEPS));
         SteadyStateSolver::setValue("presimulation_time", Config::getDouble(Config::STEADYSTATE_PRESIMULATION_TIME));
+        SteadyStateSolver::setValue("presimulation_times", Config::getDouble(Config::STEADYSTATE_PRESIMULATION_TIME));
         SteadyStateSolver::setValue("allow_approx", Config::getBool(Config::STEADYSTATE_APPROX));
         SteadyStateSolver::setValue("approx_tolerance", Config::getDouble(Config::STEADYSTATE_APPROX_TOL));
         SteadyStateSolver::setValue("approx_maximum_steps", Config::getInt(Config::STEADYSTATE_APPROX_MAX_STEPS));
