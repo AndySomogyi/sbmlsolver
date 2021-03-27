@@ -202,21 +202,6 @@ TEST_F(BasicNewtonIterationTests, CheckCorrectSteadyStateVenkatraman2010) {
 TEST_F(BasicNewtonIterationTests, CheckCorrectSteadyStateBrown2004) {
     testSteadyState<Brown2004>("Brown2004", "newton");
 }
-TEST_F(BasicNewtonIterationTests, speed) {
-    int N = 100;
-    Brown2004 brown2004;
-
-    auto start = high_resolution_clock::now();
-    for (int i = 0; i < N; i++){
-        RoadRunner rr(brown2004.str());
-    }
-    auto stop = high_resolution_clock::now();
-    std::cout << "Seconds: " << duration_cast<seconds>(stop - start).count() << std::endl;
-    std::cout << "Milliseconds: " << duration_cast<milliseconds>(stop - start).count() << std::endl;
-    std::cout << "Microseconds: " << duration_cast<microseconds>(stop - start).count() << std::endl;
-
-
-}
 
 
 /**

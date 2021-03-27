@@ -1274,23 +1274,23 @@ double RoadRunner::steadyState(Dictionary* dict) {
     // no need to check for singular full jabocian since the constructor
     // automatically turns on moiety conservation matrix if num conserved
     // moieties > 0.
-
-//    if (impl->loadOpt.getConservedMoietyConversion()){
-//        ls::DoubleMatrix reducedJ = getReducedJacobian();
-//        SVD svdReduced(reducedJ);
-//        if (svdReduced.isSingular()){
-//            std::string msg = "The reduced jacobian matrix "
-//                                "is singular and therefore steady state cannot "
-//                                "be computed without presimulation";
-//            rrLog(Logger::LOG_WARNING) << msg;
-//            // no error. It is perfectly valid for a reduced jacobian
-//            // to be singular (i.e. non invertible) at initial conditions.
-//            // For instance, check the Brown2004 model from biomodels. At initial
-//            // state the model, due to the rate laws, the reduced matrix is non-invertible.
-//            // This doesn't necessarily mean the model will not solve for steady state, but that
-//            // we need to do a presimulation.
-//        }
-//    }
+    if (!impl->loadOpt.getConservedMoietyConversion()) {
+        /*
+         * Note this is an expensive operation. The other way
+         * of determining need for moiety conservation is to
+         * compute whether the jacobian matrix is singular
+         * (with SVD::isSingular). This however, is even more
+         * expensive.
+         */
+        setConservedMoietyAnalysis(true);
+        int numConservedMoieties = getModel()->getNumConservedMoieties();
+        if (numConservedMoieties == 0) {
+            setConservedMoietyAnalysis(false);
+        } else {
+            rrLog(Logger::LOG_WARNING) << "Turning on moiety conservation analysis "
+                                          "because this model has " << numConservedMoieties << "conserved moieties";
+        }
+    }
 
     metabolicControlCheck(impl->model.get());
 
