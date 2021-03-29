@@ -28,48 +28,66 @@ public:
      */
     template<class ModelType>
     void CheckModelSimulates(const std::string &modelName) {
-        TestModel* testModelPtr = TestModelFactory(modelName);
-        ModelType* testModel = dynamic_cast<ModelType*>(testModelPtr);
+        TestModel *testModelPtr = TestModelFactory(modelName);
+        auto *testModel = dynamic_cast<ModelType *>(testModelPtr);
+
+        std::cout << testModel->str() << std::endl;
 
         // load model
         RoadRunner r(testModel->str());
         r.getIntegrator()->setValue("stiff", false);
 
         // get handle on the *known true values.
-        auto trueValues = testModel->stateVectorAtT10();
+        auto trueValues = testModel->timeSeriesResult();
 
-        // do a simulation
-        SimulateOptions options;
-        options.start = 0.0;
-        options.steps = 11;
-        options.duration = 10;
+        // grab integrator settings.
+        const auto &settings = testModel->timeSeriesSettings();
 
-        ASSERT_NO_THROW(
-                auto result = r.simulate(&options);
-                std::cout << *result << std::endl;
-        );
+        // apply settings
+        SimulateOptions opt;
+        for (const auto &setting: settings) {
+            // opt.setItem(setting.first, setting.second); Surprisingly this strategy does not work. Suspected bug.
+            // instead we'll have to manually unpack the simulation variables.
+            if (setting.first == "reset_model") {
+                opt.reset_model = setting.second;
+            } else if (setting.first == "structured_result") {
+                opt.structured_result = setting.second;
+            } else if (setting.first == "copy_result") {
+                opt.copy_result = setting.second;
+            } else if (setting.first == "steps") {
+                opt.steps = setting.second;
+            } else if (setting.first == "start") {
+                opt.start = setting.second;
+            } else if (setting.first == "duration") {
+                opt.duration = setting.second;
+            }
 
-        // The model has simulated 10 time points. So we dive into roadrunners
-        // executable model and get the current state vector.
-        int numStateVariables = r.getModel()->getNumFloatingSpecies();
-
-        // allocate
-        auto *state = (double *) malloc(sizeof(double) * numStateVariables);
-
-        // returns number of states copied, which may as well be used to clarify what we think we know
-        int numCopied = r.getModel()->getStateVector(state);
-        ASSERT_EQ(numCopied, numStateVariables);
-
-
-        // we can now iterate over the collected states and compare them to the output of stateVectorAtT10.
-        for (int i = 0; i < numStateVariables; i++) {
-            std::string speciesName = r.getModel()->getStateVectorId(i);
-            ASSERT_NEAR(trueValues[speciesName].second, state[i], 0.0001);
+            // then try applying integration level settings.
+            try {
+                r.getIntegrator()->setValue(setting.first, setting.second);
+            } catch (std::exception &e) {
+                // its okay to have a setting that doesn't belong here
+                continue;
+            }
         }
 
-        free(state);
+        const ls::DoubleMatrix *result = nullptr;
+
+        ASSERT_NO_THROW(
+                result = r.simulate(&opt);
+                std::cout << *result << std::endl;
+        );
+        ASSERT_EQ(trueValues.numRows(), result->numRows());
+        ASSERT_EQ(trueValues.numCols(), result->numCols());
+
+        for (int i = 0; i < result->numRows(); i++) {
+            for (int j = 0; j < result->numCols(); j++) {
+                EXPECT_NEAR(trueValues[i][j], (*result)[i][j], 1e-3);
+            }
+        }
         delete testModel;
     }
+
 };
 
 TEST_F(CVODEIntegratorIntegrationTests, TestSimpleFlux) {
@@ -84,12 +102,16 @@ TEST_F(CVODEIntegratorIntegrationTests, TestModel28) {
     CheckModelSimulates<Model28>("Model28");
 }
 
-TEST_F(CVODEIntegratorIntegrationTests, TestCeilInRateLaw) {
-    CheckModelSimulates<CeilInRateLaw>("CeilInRateLaw");
-}
-
 TEST_F(CVODEIntegratorIntegrationTests, TestFactorialInRateLaw) {
     CheckModelSimulates<FactorialInRateLaw>("FactorialInRateLaw");
+}
+
+TEST_F(CVODEIntegratorIntegrationTests, SimpleFlux){
+    CheckModelSimulates<SimpleFlux>("SimpleFlux");
+}
+
+TEST_F(CVODEIntegratorIntegrationTests, OpenLinearFlux){
+    CheckModelSimulates<OpenLinearFlux>("OpenLinearFlux");
 }
 
 

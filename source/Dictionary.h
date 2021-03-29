@@ -140,7 +140,7 @@ public:                       // *mistakenly* complains in ONE instance.
 class RR_DECLSPEC BasicDictionary : public Dictionary
 {
 public:
-    BasicDictionary() = default;;
+    BasicDictionary() = default;
 
     /**
      * sets an item in the internal unordered std::map.

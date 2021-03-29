@@ -1,5 +1,12 @@
 #include "TestModelFactory.h"
 
+std::unordered_map<std::string, rr::Variant> SteadyStateResult::steadyStateSettings() {
+    return std::unordered_map<std::string, rr::Variant>();
+}
+
+std::unordered_map<std::string, rr::Variant> TimeSeriesResult::timeSeriesSettings() {
+    return std::unordered_map<std::string, rr::Variant>();
+}
 
 std::string SimpleFlux::str() {
     return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
@@ -60,15 +67,33 @@ std::string SimpleFlux::modelName() {
     return "SimpleFlux";
 }
 
-InitialToEndResultMap SimpleFlux::stateVectorAtT10() {
-    return InitialToEndResultMap{
-            {"S1", DoublePair(10, 3.99584)},
-            {"S2", DoublePair(1, 7.00416)}
+ls::DoubleMatrix SimpleFlux::timeSeriesResult() {
+    return ls::DoubleMatrix({
+                                    {0,        10,      1},
+                                    {0.909091, 9.14354, 1.85646},
+                                    {1.81818,  8.36858, 2.63142},
+                                    {2.72727,  7.66736, 3.33264},
+                                    {3.63636,  7.03288, 3.96712},
+                                    {4.54545,  6.45878, 4.54122},
+                                    {5.45455,  5.9393,  5.0607},
+                                    {6.36364,  5.46927, 5.53073},
+                                    {7.27273,  5.04396, 5.95604},
+                                    {8.18182,  4.65913, 6.34087},
+                                    {9.09091,  4.31092, 6.68908},
+                                    {10,       3.99584, 7.00416},
+                            });
+}
+
+std::unordered_map<std::string, rr::Variant> SimpleFlux::timeSeriesSettings() {
+    return std::unordered_map<std::string, rr::Variant>{
+            {"start",    0},
+            {"duration", 10},
+            {"steps",    11}
     };
 }
 
-ResultMap SimpleFlux::steadyState() {
-    return ResultMap(
+StringDoubleMap SimpleFlux::steadyState() {
+    return StringDoubleMap(
             {
                     {"S1", 1.0},
                     {"S2", 10.0}
@@ -76,7 +101,7 @@ ResultMap SimpleFlux::steadyState() {
     );
 }
 
-std::unordered_map<std::string, rr::Variant> SimpleFlux::settings() {
+std::unordered_map<std::string, rr::Variant> SimpleFlux::steadyStateSettings() {
     return std::unordered_map<std::string, rr::Variant>{
             {"moiety_conservation", true}
     };
@@ -160,13 +185,13 @@ std::string SimpleFluxManuallyReduced::modelName() {
     return "SimpleFluxManuallyReduced";
 }
 
-ResultMap SimpleFluxManuallyReduced::steadyState() {
-    return ResultMap({
-                             {"S1", 1.0}
-                     });
+StringDoubleMap SimpleFluxManuallyReduced::steadyState() {
+    return StringDoubleMap({
+                                   {"S1", 1.0}
+                           });
 }
 
-std::unordered_map<std::string, rr::Variant> SimpleFluxManuallyReduced::settings() {
+std::unordered_map<std::string, rr::Variant> SimpleFluxManuallyReduced::steadyStateSettings() {
     return std::unordered_map<std::string, rr::Variant>{
             {"moiety_conservation", false}
     };
@@ -236,17 +261,34 @@ std::string OpenLinearFlux::str() {
            "</sbml>";
 }
 
-ResultMap OpenLinearFlux::steadyState() {
-    return ResultMap({
-                             {"S1", 10},
-                             {"S2", 5},
-                     });
+StringDoubleMap OpenLinearFlux::steadyState() {
+    return StringDoubleMap({
+                                   {"S1", 10},
+                                   {"S2", 5},
+                           });
 }
 
-InitialToEndResultMap OpenLinearFlux::stateVectorAtT10() {
-    return InitialToEndResultMap{
-            {"S1", DoublePair(0, 6.32121)},
-            {"S2", DoublePair(0, 1.99788)}
+ls::DoubleMatrix OpenLinearFlux::timeSeriesResult() {
+    return ls::DoubleMatrix({
+                                    {0,  0,                  0},
+                                    {1,  0.9516258196428962, 0.04527958486459608},
+                                    {2,  1.812692469240729,  0.16429269841019906},
+                                    {3,  2.5918177931655006, 0.33587597514094913},
+                                    {4,  3.296799539619028,  0.5434443622065769},
+                                    {5,  3.9346934028419236, 0.7740906110974121},
+                                    {6,  4.51188363871537,   1.0178547271489167},
+                                    {7,  5.034146961185131,  1.2671318458422862},
+                                    {8,  5.506710357479626,  1.5161930250110387},
+                                    {9,  5.934303400893279,  1.7607979250221717},
+                                    {10, 6.321205586316753,  1.9978820848173928},
+                            });
+}
+
+std::unordered_map<std::string, rr::Variant> OpenLinearFlux::timeSeriesSettings() {
+    return std::unordered_map<std::string, rr::Variant>{
+            {"start",    0},
+            {"duration", 10},
+            {"steps",    10},
     };
 }
 
@@ -254,7 +296,7 @@ std::string OpenLinearFlux::modelName() {
     return "OpenLinearFlux";
 }
 
-std::unordered_map<std::string, rr::Variant> OpenLinearFlux::settings() {
+std::unordered_map<std::string, rr::Variant> OpenLinearFlux::steadyStateSettings() {
     return std::unordered_map<std::string, rr::Variant>{
 //            {"allow_presimulation", true},
             {"allow_presimulation", false},
@@ -360,15 +402,29 @@ std::string Model269::modelName() {
     return "Model269";
 }
 
-InitialToEndResultMap Model269::stateVectorAtT10() {
-    return InitialToEndResultMap{
-            {"S1", DoublePair(1, 0.0270834)},
-            {"S2", DoublePair(1, 0.972917)}
-    };
+ls::DoubleMatrix Model269::timeSeriesResult() {
+    return ls::DoubleMatrix({
+                                    {0,  1,                   0},
+                                    {1,  0.5724999588105951,  0.4275000411894048},
+                                    {2,  0.444166735551334,   0.5558332644486657},
+                                    {3,  0.3641667355513341,  0.6358332644486658},
+                                    {4,  0.2841667355513341,  0.7158332644486659},
+                                    {5,  0.22708341964881273, 0.7729165803511872},
+                                    {6,  0.1870834196488127,  0.8129165803511871},
+                                    {7,  0.1470834196488127,  0.8529165803511871},
+                                    {8,  0.10708341964881266, 0.892916580351187},
+                                    {9,  0.06708341964881266, 0.9329165803511872},
+                                    {10, 0.02708341964881266, 0.9729165803511871},
+                            });
+
 }
 
-std::unordered_map<std::string, rr::Variant> Model269::settings() {
-    return std::unordered_map<std::string, rr::Variant>();
+std::unordered_map<std::string, rr::Variant> Model269::timeSeriesSettings() {
+    return std::unordered_map<std::string, rr::Variant>{
+            {"start",    0},
+            {"duration", 10},
+            {"steps",    10}
+    };
 }
 
 
@@ -445,15 +501,29 @@ std::string Model28::modelName() {
     return "Model28";
 }
 
-InitialToEndResultMap Model28::stateVectorAtT10() {
-    return InitialToEndResultMap{
-            {"S1", DoublePair(1, 0.0270834)},
-            {"S2", DoublePair(1, 0.972917)}
-    };
+ls::DoubleMatrix Model28::timeSeriesResult() {
+    return ls::DoubleMatrix({
+                                    {0,  1,                   0},
+                                    {1,  0.5724999588105951,  0.4275000411894048},
+                                    {2,  0.444166735551334,   0.5558332644486657},
+                                    {3,  0.3641667355513341,  0.6358332644486658},
+                                    {4,  0.2841667355513341,  0.7158332644486659},
+                                    {5,  0.22708341964881273, 0.7729165803511872},
+                                    {6,  0.1870834196488127,  0.8129165803511871},
+                                    {7,  0.1470834196488127,  0.8529165803511871},
+                                    {8,  0.10708341964881266, 0.892916580351187},
+                                    {9,  0.06708341964881266, 0.9329165803511872},
+                                    {10, 0.02708341964881266, 0.9729165803511871},
+                            });
+
 }
 
-std::unordered_map<std::string, rr::Variant> Model28::settings() {
-    return std::unordered_map<std::string, rr::Variant>();
+std::unordered_map<std::string, rr::Variant> Model28::timeSeriesSettings() {
+    return std::unordered_map<std::string, rr::Variant>{
+            {"start",    0},
+            {"duration", 10},
+            {"steps",    10}
+    };
 }
 
 
@@ -506,15 +576,29 @@ std::string CeilInRateLaw::modelName() {
     return "CeilInRateLaw";
 }
 
-InitialToEndResultMap CeilInRateLaw::stateVectorAtT10() {
-    return InitialToEndResultMap{
-            {"S1", DoublePair(10, 9.02844e-13)},
-            {"S2", DoublePair(10, 10)}
-    };
+ls::DoubleMatrix CeilInRateLaw::timeSeriesResult() {
+    return ls::DoubleMatrix({
+                                    {0,   10,                    0},
+                                    {0.4, 3.0119408731651975,    6.9880591268348},
+                                    {0.8, 0.9071782094955865,    9.09282179050441},
+                                    {1.2, 0.2732365534742893,    9.726763446525707},
+                                    {1.6, 0.08229718872631311,   9.917702811273687},
+                                    {2,   0.024787413004265253,  9.975212586995736},
+                                    {2.4, 0.007465818043742018,  9.992534181956255},
+                                    {2.8, 0.002248658948996144,  9.997751341051005},
+                                    {3.2, 0.0006772823748483675, 9.999322717625152},
+                                    {3.6, 0.0002039933214930827, 9.999796006678507},
+                                    {4,   6.144154589603753e-5,  9.999938558454103},
+                            });
+
 }
 
-std::unordered_map<std::string, rr::Variant> CeilInRateLaw::settings() {
-    return std::unordered_map<std::string, rr::Variant>();
+std::unordered_map<std::string, rr::Variant> CeilInRateLaw::timeSeriesSettings() {
+    return std::unordered_map<std::string, rr::Variant>{
+            {"start",    0},
+            {"duration", 4},
+            {"steps",    10}
+    };
 }
 
 
@@ -567,15 +651,29 @@ std::string FactorialInRateLaw::modelName() {
     return "FactorialInRateLaw";
 }
 
-InitialToEndResultMap FactorialInRateLaw::stateVectorAtT10() {
-    return InitialToEndResultMap{
-            {"S1", DoublePair(10, 1.46671e-12)},
-            {"S2", DoublePair(10, 10)}
-    };
+ls::DoubleMatrix FactorialInRateLaw::timeSeriesResult() {
+    return ls::DoubleMatrix({
+                                    {0,   10,        0},
+                                    {0.2, 5.52892,   4.47108},
+                                    {0.4, 3.0569,    6.9431},
+                                    {0.6, 1.69013,   8.30987},
+                                    {0.8, 0.93446,   9.06554},
+                                    {1,   0.516655,  9.48334},
+                                    {1.2, 0.285655,  9.71435},
+                                    {1.4, 0.157936,  9.84206},
+                                    {1.6, 0.0873215, 9.91268},
+                                    {1.8, 0.0482793, 9.95172},
+                                    {2,   0.0266933, 9.97331},
+                            });
+
 }
 
-std::unordered_map<std::string, rr::Variant> FactorialInRateLaw::settings() {
-    return std::unordered_map<std::string, rr::Variant>();
+std::unordered_map<std::string, rr::Variant> FactorialInRateLaw::timeSeriesSettings() {
+    return std::unordered_map<std::string, rr::Variant>{
+            {"start",    0},
+            {"duration", 2},
+            {"steps",    10}
+    };
 }
 
 
@@ -757,8 +855,8 @@ std::string Venkatraman2010::modelName() {
     return "Venkatraman2010";
 }
 
-ResultMap Venkatraman2010::steadyState() {
-    return ResultMap{
+StringDoubleMap Venkatraman2010::steadyState() {
+    return StringDoubleMap{
             {"scUPA", 0.00010036488071501325},
             {"PLG",   0.03571790894678159},
             {"PLS",   0.9642820910532185},
@@ -766,7 +864,7 @@ ResultMap Venkatraman2010::steadyState() {
     };
 }
 
-std::unordered_map<std::string, rr::Variant> Venkatraman2010::settings() {
+std::unordered_map<std::string, rr::Variant> Venkatraman2010::steadyStateSettings() {
     return std::unordered_map<std::string, rr::Variant>(
             {
                     {"allow_presimulation", true},
@@ -1687,8 +1785,8 @@ std::string Brown2004::modelName() {
  *
  *
  */
-ResultMap Brown2004::steadyState() {
-    return ResultMap{
+StringDoubleMap Brown2004::steadyState() {
+    return StringDoubleMap{
             {"EGF",              9922004.46501588},
             {"NGF",              447048.6328396933},
             {"freeEGFReceptor",  4.465015881563886},
@@ -1721,13 +1819,13 @@ ResultMap Brown2004::steadyState() {
 
 };
 
-std::unordered_map<std::string, rr::Variant> Brown2004::settings() {
+std::unordered_map<std::string, rr::Variant> Brown2004::steadyStateSettings() {
     return std::unordered_map<std::string, rr::Variant>{
             {"allow_presimulation", true},
             // this model can converge to a set of values different to the reference data,
             // depending on starting values. For this reason, start the list of presimulation
             // times at a larger number.
-            {"presimulation_times",  std::vector<double>({10, 100, 1000})}
+            {"presimulation_times", std::vector<double>({10, 100, 1000})}
     };
 }
 
@@ -1758,7 +1856,7 @@ TestModel *TestModelFactory(const std::string &modelName) {
 }
 
 
-namespace privateSwigTests {
+namespace privateSwigTests_ {
     // this section exists only to test the swig bindings
     // and make sure the typemaps are doing what they are supposed
     // to be. Users should completely ignore this
@@ -1787,17 +1885,11 @@ namespace privateSwigTests {
         return x;
     }
 
-    InitialToEndResultMap _testResultMap() {
-        return InitialToEndResultMap{
+    StringDoublePairMap _testResultMap() {
+        return StringDoublePairMap{
                 {"First", DoublePair(0.5, 1.6)},
         };
     }
 }
-
-
-
-
-
-
 
 

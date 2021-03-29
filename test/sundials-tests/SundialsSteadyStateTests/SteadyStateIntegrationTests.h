@@ -31,14 +31,14 @@ public:
         RoadRunner rr(testModel->str());
 
         // collect reference results
-        ResultMap expectedResult = testModel->steadyState();
+        StringDoubleMap expectedResult = testModel->steadyState();
 
         rr.setSteadyStateSolver(solverName);
 
         BasicDictionary steadyStateOptions;
         steadyStateOptions.setItem("PrintLevel", 0);
 
-        for (auto &settingsIterator : testModel->settings()) {
+        for (auto &settingsIterator : testModel->steadyStateSettings()) {
             if (settingsIterator.first == "moiety_conservation") {
                 rr.setConservedMoietyAnalysis(settingsIterator.second);
             } else {

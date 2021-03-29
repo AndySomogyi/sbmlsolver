@@ -10,7 +10,7 @@
 #include "rrUtils.h"
 
 
-#include <cvode/cvode.h>                          /* prototypes for CVODE fcts., consts.          */
+#include <cvodes/cvodes.h>                          /* prototypes for CVODE fcts., consts.          */
 #include <nvector/nvector_serial.h>               /* access to serial N_Vector                    */
 #include <sunnonlinsol/sunnonlinsol_fixedpoint.h> /* access to the fixed point SUNNonlinearSolver */
 #include <sunnonlinsol/sunnonlinsol_newton.h> /* access to the fixed point SUNNonlinearSolver */

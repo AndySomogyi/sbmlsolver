@@ -7,20 +7,22 @@
 #include <memory>
 #include "Variant.h"
 
+#include "rr-libstruct/lsMatrix.h"
+
 //using DoublePair = std::pair<double, double>; // old swig no handle using statements
-typedef std::pair<double, double> DoublePair ;
+typedef std::pair<double, double> DoublePair;
 
 /**
  * Data structure for storing reference simulation results.
  * std::string: model species name
  * std::pair<double, double>: mapping between starting value and simulation result.
  */
-typedef std::unordered_map<std::string, DoublePair> InitialToEndResultMap ;
+typedef std::unordered_map<std::string, DoublePair> StringDoublePairMap;
 
 /**
  * Stores component name to expected model value mapping
  */
-typedef std::unordered_map<std::string, double> ResultMap ;
+typedef std::unordered_map<std::string, double> StringDoubleMap;
 
 
 /**
@@ -28,7 +30,7 @@ typedef std::unordered_map<std::string, double> ResultMap ;
  * for testing models from multiple starting states.
  */
 //using MultiResultsMap = std::vector<ResultMap>;
-typedef std::vector<ResultMap> MultiResultsMap ;
+typedef std::vector<StringDoubleMap> VectorStringDoubleMap;
 
 /**
  * Abstract type to store sbml string
@@ -50,15 +52,11 @@ public:
 };
 
 /**
- * @brief base class interface to result types
- * Defines a settings map for models to 
- * to implement the settings required for 
- * solving the task at hand
+ * @brief base class interface to result types.
+ * @details exists only for any polymorphism that may
+ * be implemented in future.
  */
 class Result {
-public:
-    virtual std::unordered_map<std::string, rr::Variant> settings() = 0;
-
 };
 
 /**
@@ -69,17 +67,14 @@ public:
 class TimeSeriesResult : public Result {
 public:
     /**
-     * @brief returns the state of the system at t=10 time units.
-     * This method is used for storing the true values of
-     * the model simulation at time point 10. These values
-     * must not be computed by roadrunner (otherwise what
-     * are we testing?). Instead an independent sbml simulator
-     * should be used to extract the state vector at t=10.
-     *
-     * todo make this return a full matrix
-     *
+     * @brief returns the correct results for a time series simulation.
+     * @details These results are always computed using an independent simulator.
+     * Options provided in the timeSeriesSettings determine time, tol, duration etc.
      */
-    virtual InitialToEndResultMap stateVectorAtT10() = 0;
+    virtual ls::DoubleMatrix timeSeriesResult() = 0;
+
+    virtual std::unordered_map<std::string, rr::Variant> timeSeriesSettings();
+
 };
 
 /**
@@ -89,7 +84,15 @@ public:
 class SteadyStateResult : public Result {
 public:
 
-    virtual ResultMap steadyState() = 0;
+    virtual StringDoubleMap steadyState() = 0;
+
+    /**
+ * @brief Settings map for steady state tasks.
+ * @details classes that implement this interface do not necessarily
+ * need to override this method, since they can use default settings.
+ */
+    virtual std::unordered_map<std::string, rr::Variant> steadyStateSettings();
+
 
 };
 
@@ -103,7 +106,7 @@ public:
 class SteadyStateMultiStart : public Result {
 public:
 
-    virtual MultiResultsMap steadyState() = 0;
+    virtual VectorStringDoubleMap steadyState() = 0;
 };
 
 
@@ -118,15 +121,17 @@ public:
 class SimpleFlux : public TestModel, public TimeSeriesResult, public SteadyStateResult {
 public:
 
-    std::string str() override ;
+    std::string str() override;
 
-    std::string modelName() override ;
+    std::string modelName() override;
 
-    InitialToEndResultMap stateVectorAtT10() override;
+    ls::DoubleMatrix timeSeriesResult() override;
 
-    ResultMap steadyState() override;
+    StringDoubleMap steadyState() override;
 
-    std::unordered_map<std::string, rr::Variant> settings() override;
+    std::unordered_map<std::string, rr::Variant> steadyStateSettings() override;
+
+    std::unordered_map<std::string, rr::Variant> timeSeriesSettings() override;
 };
 
 /**
@@ -205,11 +210,11 @@ class SimpleFluxManuallyReduced : public TestModel, public SteadyStateResult {
 public:
     std::string str() override;
 
-    std::string modelName() override ;
+    std::string modelName() override;
 
-    ResultMap steadyState() override ;
+    StringDoubleMap steadyState() override;
 
-    std::unordered_map<std::string, rr::Variant> settings() override ;
+    std::unordered_map<std::string, rr::Variant> steadyStateSettings() override;
 
 };
 
@@ -239,15 +244,17 @@ public:
  */
 class OpenLinearFlux : public TestModel, public SteadyStateResult, public TimeSeriesResult {
 public:
-    std::string str() override ;
+    std::string str() override;
 
-    ResultMap steadyState() override ;
+    StringDoubleMap steadyState() override;
 
-    InitialToEndResultMap stateVectorAtT10() override ;
+    ls::DoubleMatrix timeSeriesResult() override;
 
-    std::string modelName() override ;
+    std::string modelName() override;
 
-    std::unordered_map<std::string, rr::Variant> settings() override ;
+    std::unordered_map<std::string, rr::Variant> steadyStateSettings() override;
+
+    std::unordered_map<std::string, rr::Variant> timeSeriesSettings() override;
 
 };
 
@@ -257,13 +264,13 @@ public:
 class Model269 : public TestModel, public TimeSeriesResult {
 public:
 
-    std::string str() override ;
+    std::string str() override;
 
-    std::string modelName() override ;
+    std::string modelName() override;
 
-    InitialToEndResultMap stateVectorAtT10() override ;
+    ls::DoubleMatrix timeSeriesResult() override;
 
-    std::unordered_map<std::string, rr::Variant> settings() override;
+    std::unordered_map<std::string, rr::Variant> timeSeriesSettings() override;
 
 };
 
@@ -275,11 +282,11 @@ public:
 
     std::string str() override;
 
-    std::string modelName() override ;
+    std::string modelName() override;
 
-    InitialToEndResultMap stateVectorAtT10() override;
+    ls::DoubleMatrix timeSeriesResult() override;
 
-    std::unordered_map<std::string, rr::Variant> settings() override;
+    std::unordered_map<std::string, rr::Variant> timeSeriesSettings() override;
 
 };
 
@@ -290,13 +297,13 @@ public:
 class CeilInRateLaw : public TestModel, public TimeSeriesResult {
 public:
 
-    std::string str() override ;
+    std::string str() override;
 
-    std::string modelName() override ;
+    std::string modelName() override;
 
-    InitialToEndResultMap stateVectorAtT10() override ;
+    ls::DoubleMatrix timeSeriesResult() override;
 
-    std::unordered_map<std::string, rr::Variant> settings() override ;
+    std::unordered_map<std::string, rr::Variant> timeSeriesSettings() override;
 
 };
 
@@ -306,13 +313,13 @@ public:
 class FactorialInRateLaw : public TestModel, public TimeSeriesResult {
 public:
 
-    std::string str() override ;
+    std::string str() override;
 
-    std::string modelName() override ;
+    std::string modelName() override;
 
-    InitialToEndResultMap stateVectorAtT10() override;
+    ls::DoubleMatrix timeSeriesResult() override;
 
-    std::unordered_map<std::string, rr::Variant> settings() override ;
+    std::unordered_map<std::string, rr::Variant> timeSeriesSettings() override;
 
 };
 
@@ -324,11 +331,11 @@ public:
 
     std::string str() override;
 
-    std::string modelName() override ;
+    std::string modelName() override;
 
-    ResultMap steadyState() override ;
+    StringDoubleMap steadyState() override;
 
-    std::unordered_map<std::string, rr::Variant> settings() override;
+    std::unordered_map<std::string, rr::Variant> steadyStateSettings() override;
 
 };
 
@@ -336,39 +343,40 @@ class Brown2004 : public TestModel, public SteadyStateResult {
 
 public:
 
-    std::string str() override ;
+    std::string str() override;
 
-    std::string modelName() override ;
+    std::string modelName() override;
 
-    ResultMap steadyState() override ;
+    StringDoubleMap steadyState() override;
 
-    std::unordered_map<std::string, rr::Variant> settings() override ;
+    std::unordered_map<std::string, rr::Variant> steadyStateSettings() override;
 
 };
 
-TestModel* TestModelFactory(const std::string &modelName);
+TestModel *TestModelFactory(const std::string &modelName);
 
 
-namespace privateSwigTests {
+namespace privateSwigTests_ {
     // this section exists only to test the swig bindings
     // and make sure the typemaps are doing what they are supposed
     // to be. Users should completely ignore this
     //
-    // These swig tests are left in for future developers (including
-    // my future self) as they will serve as a set of swig examples (CW)
+    // These were originally built as simple examples of how to
+    // use swig. However, given the steep learning curve that is
+    // swig - instead of deleting these they are left as an example
+    // to future developers (including my future self).
     //
 
     DoublePair *_testDoublePair(double first, double second);
 
-    std::unordered_map<double, double> *_testDoubleMap(double first, double second) ;
+    std::unordered_map<double, double> *_testDoubleMap(double first, double second);
 
-    std::unordered_map<std::string, rr::Variant> *_testVariantMap() ;
+    std::unordered_map<std::string, rr::Variant> *_testVariantMap();
 
-    rr::Variant *_testVariant() ;
+    rr::Variant *_testVariant();
 
-    InitialToEndResultMap _testResultMap();
+    StringDoublePairMap _testResultMap();
 }
-
 
 
 #endif // ROADRUNNER_TESTMODELFACTORY
