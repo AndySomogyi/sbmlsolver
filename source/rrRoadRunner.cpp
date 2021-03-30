@@ -1274,7 +1274,6 @@ double RoadRunner::steadyState(Dictionary* dict) {
     // automatic detection of requirement for conserved moiety analysis
     if (getSteadyStateSolver()->getValueAsBool("auto_moiety_analysis")) {
         rrLog(Logger::LOG_DEBUG) << "Checking whether moiety conservation analysis is needed" << std::endl;
-        std::cout << "Checking whether moiety conservation analysis is needed" << std::endl;
         if (!impl->loadOpt.getConservedMoietyConversion()) {
             /*
              * Note this is an expensive operation. The other way

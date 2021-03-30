@@ -203,7 +203,7 @@ open_linear_flux_sbml = """<?xml version="1.0" encoding="UTF-8"?>
 def solve_simple_flux_manually_reduced():
     """Solving this model requires neither approximation nor presimulation"""
     rr = RoadRunner(simple_flux_manually_reduced)
-    rr.setSteadyStateSolver("NewtonIteration")
+    rr.setSteadyStateSolver("newton")
     ss_solver = rr.getSteadyStateSolver()
 
     # The default behaviour of these two options has been turned to True
@@ -233,7 +233,7 @@ def solve_simple_flux_conservation_manual():
     works as expected
     """
     rr = RoadRunner(simple_flux_sbml)
-    rr.setSteadyStateSolver("NewtonIteration")
+    rr.setSteadyStateSolver("newton")
     rr.conservedMoietyAnalysis = True
     ss_solver = rr.getSteadyStateSolver()
 
@@ -254,7 +254,7 @@ def solve_simple_flux_auto_conservation():
 
     """
     rr = RoadRunner(simple_flux_sbml)
-    rr.setSteadyStateSolver("NewtonIteration")
+    rr.setSteadyStateSolver("newton")
     ss_solver = rr.getSteadyStateSolver()
     ss_solver.setValue("allow_presimulation", False)
     ss_solver.setValue("allow_approx", False)
@@ -267,14 +267,14 @@ def solve_open_linear_flux_sbml_error():
     """demonstrate presimulation: failure
 
     This model does not require moiety conservation analysis, but
-    the from the starting conditions (S1=0, S2=0), NewtonIteration
+    the from the starting conditions (S1=0, S2=0), newton
     cannot solve the problem. This function demonstrates what happens
     when this happens. The error messages are propaged directly from
     kinsol
 
     """
     rr = RoadRunner(open_linear_flux_sbml)
-    rr.setSteadyStateSolver("NewtonIteration")
+    rr.setSteadyStateSolver("newton")
     ss_solver = rr.getSteadyStateSolver()
     ss_solver.setValue("allow_presimulation", False)
     ss_solver.setValue("allow_approx", False)
@@ -291,7 +291,7 @@ def solve_open_linear_flux_sbml_use_presimulation():
 
     """
     rr = RoadRunner(open_linear_flux_sbml)
-    rr.setSteadyStateSolver("NewtonIteration")
+    rr.setSteadyStateSolver("newton")
     ss_solver = rr.getSteadyStateSolver()
     ss_solver.setValue("allow_presimulation", True)
     ss_solver.setValue("presimulation_time", 3.5)
@@ -325,7 +325,7 @@ def solve_open_linear_flux_sbml_use_approximation_but_fail():
     is larger than the approx_tolerance.
     """
     rr = RoadRunner(open_linear_flux_sbml)
-    rr.setSteadyStateSolver("NewtonIteration")
+    rr.setSteadyStateSolver("newton")
     ss_solver = rr.getSteadyStateSolver()
     ss_solver.setValue("allow_presimulation", False)
     ss_solver.setValue("allow_approx", True)
@@ -345,7 +345,7 @@ def solve_open_linear_flux_sbml_use_approximation_but_pass():
 
     """
     rr = RoadRunner(open_linear_flux_sbml)
-    rr.setSteadyStateSolver("NewtonIteration")
+    rr.setSteadyStateSolver("newton")
     ss_solver = rr.getSteadyStateSolver()
     ss_solver.setValue("allow_presimulation", False)
     ss_solver.setValue("allow_approx", True)
@@ -365,27 +365,27 @@ def use_linesearch():
     is a variant on newton iteration. It might be worth setting this as default (?).
 
     Currently we have a "strategy" option and the user can pick between "basic" or "linesearch".
-    However, an alternative design would be to have two forms of NewtonIteration solvers. The implementation
+    However, an alternative design would be to have two forms of newton solvers. The implementation
     would be exactly the same, its just how they are presented to the users. Currently we have
 
         rr = RoadRunner(open_linear_flux_sbml)
-        rr.setSteadyStateSolver("NewtonIteration")
+        rr.setSteadyStateSolver("newton")
         ss_solver = rr.getSteadyStateSolver()
         ss_solver.setValue("strategy", "linesearch")
 
     But we could equally have
 
         rr = RoadRunner(open_linear_flux_sbml)
-        rr.setSteadyStateSolver("BasicNewtonIteration")
+        rr.setSteadyStateSolver("Basicnewton")
 
     and
         rr = RoadRunner(open_linear_flux_sbml)
-        rr.setSteadyStateSolver("LinesearchNewtonIteration")
+        rr.setSteadyStateSolver("Linesearchnewton")
 
     I'm leaning towards the latter option. Thoughts?
     """
     rr = RoadRunner(open_linear_flux_sbml)
-    rr.setSteadyStateSolver("NewtonIteration")
+    rr.setSteadyStateSolver("newton")
     ss_solver = rr.getSteadyStateSolver()
     ss_solver.setValue("strategy", "linesearch")
 
