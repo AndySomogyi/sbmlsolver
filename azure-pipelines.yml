@@ -261,12 +261,12 @@ stages:
               rm -r $(DEPS_INSTALL_PREFIX)/install-azure
               ls
             displayName: Move Dependencies
-          - task: Cache@2
-            inputs:
-              key: "Swig | $(Agent.OS)"
-              path: $(SWIG_INSTALL_PREFIX)
-              cacheHitVar: SWIG_CACHE
-            displayName: Cache Swig-4.0.2
+          #- task: Cache@2
+          #  inputs:
+          #    key: "Swig | $(Agent.OS)"
+          #    path: $(SWIG_INSTALL_PREFIX)
+          #    cacheHitVar: SWIG_CACHE
+          #  displayName: Cache Swig-4.0.2
           - script: |
               echo "installing pcre"
               sudo apt install -y libpcre3 libpcre3-dev
@@ -577,19 +577,19 @@ stages:
               rm -r $(DEPS_INSTALL_PREFIX)/install-azure
               ls
             displayName: Move Dependencies
-          - task: Cache@2
-            inputs:
-              key: "Swig | $(Agent.OS)"
-              path: $(SWIG_INSTALL_PREFIX)
-              cacheHitVar: SWIG_CACHE
-            displayName: Cache Swig-4.0.2
+          #- task: Cache@2
+          #  inputs:
+          #    key: "Swig | $(Agent.OS)"
+          #    path: $(SWIG_INSTALL_PREFIX)
+          #    cacheHitVar: SWIG_CACHE
+          #  displayName: Cache Swig-4.0.2
           - powershell: |
               echo "cd to swig source dir: $(SWIG_SOURCE_DIR)"
               cd $(SWIG_SOURCE_DIR)
               echo "ls"
               ls
               echo "Invoke-WebRequest"
-              Invoke-WebRequest "https://versaweb.dl.sourceforge.net/project/swig/swigwin/swigwin-4.0.2/swigwin-4.0.2.zip" -OutFile swigwin-4.0.2.zip
+              Invoke-WebRequest "https://sourceforge.net/projects/swig/files/swigwin/swigwin-4.0.2/swigwin-4.0.2.zip/download?use_mirror=netix" -OutFile swigwin-4.0.2.zip
               echo "Expand-Archive"
               Expand-Archive swigwin-4.0.2.zip -Destination $(SWIG_INSTALL_PREFIX)
               echo "CD to swig install prefix $(SWIG_INSTALL_PREFIX)"
@@ -876,12 +876,12 @@ stages:
               rm -r $(DEPS_INSTALL_PREFIX)/install-azure
               ls
             displayName: Move Dependencies
-          - task: Cache@2
-            inputs:
-              key: "Swig | $(Agent.OS)"
-              path: $(SWIG_INSTALL_PREFIX)
-              cacheHitVar: SWIG_CACHE
-            displayName: Cache Swig-4.0.2
+          #- task: Cache@2
+          #  inputs:
+          #    key: "Swig | $(Agent.OS)"
+          #    path: $(SWIG_INSTALL_PREFIX)
+          #    cacheHitVar: SWIG_CACHE
+          #  displayName: Cache Swig-4.0.2
           - script: |
               echo "installing pcre"
               sudo apt install -y libpcre3 libpcre3-dev
@@ -890,6 +890,7 @@ stages:
               cd $(SWIG_SOURCE_DIR)
               echo "ls"
               ls -lh
+
               wget -q https://sourceforge.net/projects/swig/files/swig/swig-4.0.2/swig-4.0.2.tar.gz $(SWIG_SOURCE_DIR)
               tar -xf swig-4.0.2.tar.gz
               ls -lh
