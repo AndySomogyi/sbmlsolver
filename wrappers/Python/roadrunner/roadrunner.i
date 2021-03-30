@@ -1746,7 +1746,6 @@ namespace std { class ostream{}; }
             return self.getDiffStepSize()
 
         def _diffstep_stter(self, v):
-            print('diffstep.setter')
             self.setDiffStepSize(v)
 
         diffstep = property(_diffstep_getter, _diffstep_stter)

@@ -326,7 +326,6 @@ namespace rr {
         );
 
         char *flagName = KINGetReturnFlagName(flag);
-        std::cout << "KINSol function returned \"" << flagName << "\" flag" << std::endl;
 
         // errors are handled automatically by the error handler for kinsol.
         // here we handle warnings and success flags

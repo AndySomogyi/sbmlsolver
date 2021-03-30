@@ -9,12 +9,9 @@ import unittest
 
 thisDir = os.path.dirname(os.path.realpath(__file__))
 rr_site_packages = os.path.dirname(os.path.dirname(thisDir))
-print("thisDir", thisDir)
-print("rr_site_packages", rr_site_packages)
 
 sys.path += [
     rr_site_packages,
-    r"D:\roadrunner\roadrunner\install-msvc2019-rel-swig-4.0.2\site-packages",  # todo delete me
 ]
 from roadrunner.testing import TestModelFactory as tmf
 
@@ -34,12 +31,10 @@ class testTestModelFactory(unittest.TestCase):
 
     def testUseVariant(self):
         x = tmf._testVariant()
-        print(x,type(x))
         self.assertIsInstance(x, float)
 
     def testVariantMap(self):
         x = tmf._testVariantMap()
-        print(x,type(x))
         self.assertIsInstance(x, dict)
         self.assertIsInstance(list(x.keys())[0], str)
         self.assertIsInstance(list(x.values())[0], int)
@@ -50,8 +45,11 @@ class testTestModelFactory(unittest.TestCase):
 
     def testGetSettings(self):
         open_linear_flux = tmf.OpenLinearFlux()
-        expected = {'allow_presimulation': True, 'presimulation_time': 5}
-        self.assertEqual(expected, open_linear_flux.settings())
+        expected = {'allow_presimulation': False,
+                    'auto_moiety_analysis': False,
+                    'moiety_conservation': False,
+                    'presimulation_time': 5}
+        self.assertEqual(expected, open_linear_flux.steadyStateSettings())
 
     def testSimpleFluxStr(self):
         sf = tmf.SimpleFlux()
@@ -64,10 +62,11 @@ class testTestModelFactory(unittest.TestCase):
         sf = tmf.SimpleFlux()
         methods = [
             "modelName",
-            "stateVectorAtT10",
+            "timeSeriesResult",
             "steadyState",
             "str",
-            "settings",
+            "timeSeriesSettings",
+            "steadyStateSettings",
         ]
         for i in methods:
             m = getattr(sf, i)
@@ -90,4 +89,4 @@ class testTestModelFactory(unittest.TestCase):
 
     def test_polymorphic_factory(self):
         testModel = tmf.TestModelFactory("OpenLinearFlux")
-        self.assertIsInstance(testModel, tmf.OpenLinearFlux) # fails if is type TestModel
+        self.assertIsInstance(testModel, tmf.OpenLinearFlux)  # fails if is type TestModel

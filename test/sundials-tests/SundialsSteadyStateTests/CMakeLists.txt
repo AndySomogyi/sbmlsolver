@@ -37,6 +37,26 @@ add_test_executable(
         ApproxSteadyStateDecoratorTests.cpp ${SHARED_TEST_FILES}
 )
 
+# copy Python tests to binary tree site packages
+configure_file(
+        "${CMAKE_CURRENT_SOURCE_DIR}/SteadyStateSolverTests.py"
+        "${CMAKE_BINARY_DIR}/lib/site-packages/roadrunner/testing/SteadyStateSolverTests.py"
+        COPYONLY
+)
+configure_file(
+        "${CMAKE_CURRENT_SOURCE_DIR}/AutomaticMoietyConservationAnalysisTests.py"
+        "${CMAKE_BINARY_DIR}/lib/site-packages/roadrunner/testing/"
+        COPYONLY
+)
+
+# install python tests to install tree
+install(
+        FILES
+            "${CMAKE_CURRENT_SOURCE_DIR}/SteadyStateSolverTests.py"
+            "${CMAKE_CURRENT_SOURCE_DIR}/AutomaticMoietyConservationAnalysisTests.py"
+        DESTINATION
+            site-packages/roadrunner/testing
+        )
 
 
 

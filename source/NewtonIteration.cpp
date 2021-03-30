@@ -76,22 +76,6 @@ namespace rr {
 
     void NewtonIteration::resetSettings() {
         KinsolSteadyStateSolver::resetSettings();
-
-        // options are: basic or linesearch
-        std::string desc = "Two options, basic or linesearch. When basic, the algorithm follows "
-                           "the Newton iteration algorithm which solves Xn+1 = Xn - J^-1(Xn) * f(Xn). "
-                           "There are two update strategies implemented, the first (basic) and simplest is the "
-                           "standard Newton strategy. The other method (linesearch) is a global strategy, "
-                           "which attempts to use the direction implied by delta_n in the most efficient way for"
-                           " furthering convergence of the nonlinear problem. This"
-                           "technique is implemented in the second strategy, called Linesearch";
-        addSetting(
-                "strategy",
-                "basic",
-                "strategy",
-                R"(Either "basic" or "linesearch". Strategy for underlying algorithm to use)",
-                desc
-        );
     }
 
     void NewtonIteration::getSolverStatsFromKinsol() {

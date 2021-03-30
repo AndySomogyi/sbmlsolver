@@ -13,8 +13,8 @@ import unittest
 
 thisDir = os.path.dirname(os.path.realpath(__file__))
 rr_site_packages = os.path.dirname(os.path.dirname(thisDir))
-print("thisDir", thisDir)
-print("rr_site_packages", rr_site_packages)
+
+
 
 sys.path += [
     rr_site_packages
@@ -111,14 +111,6 @@ class RoadRunnerTests(unittest.TestCase):
             for j in range(len(expected[0])):
                 self.assertAlmostEqual(expected[i][j], actual[i][j])
 
-    def test(self):
-        print(self.rr.S1_amt)
-
-        # print()
-        # for k, v in self.rr.items():
-        #     self.rr.__dict__[k]  = v
-        # print(self.rr.__dict__)
-
     def test_species_attribute(self):
         self.assertEqual(self.rr.S1, 10)
 
@@ -199,38 +191,31 @@ class RoadRunnerTests(unittest.TestCase):
 
     @unittest.skip
     def test_removeInitialAssignment(self):
-        print(self.rr.removeInitialAssignment())
         self.assertEqual(
             self.rr.removeInitialAssignment(),
         )
 
     @unittest.skip
     def test_removeParameter(self):
-        print(self.rr.removeParameter())
         self.assertEqual(
             self.rr.removeParameter(), )
 
     @unittest.skip
     def test_removeReaction(self):
-        print(self.rr.removeReaction())
         self.assertEqual(
             self.rr.removeReaction(),
         )
 
     @unittest.skip
     def test_removeRules(self):
-        print(self.rr.removeRules())
         self.assertEqual(
             self.rr.removeRules(),
 
         )
 
     @unittest.skip
-    def test_removeSpecies(self):
-        print(self.rr.removeSpecies())
-        self.assertEqual(
+    def test_removeSpecies(self):self.assertEqual(
             self.rr.removeSpecies(),
-
         )
 
     def test_diffstep_getter(self):
@@ -411,29 +396,24 @@ class RoadRunnerTests(unittest.TestCase):
     def test_getIndependentRatesOfChange(self):
         self.assertEqual(1, self.rr.getIndependentRatesOfChange())
 
-    def test_getIndependentRatesOfChangeNamedArray(self):
-        print(self.rr.getIndependentRatesOfChangeNamedArray())
-        self.assertEqual(
+    def test_getIndependentRatesOfChangeNamedArray(self):self.assertEqual(
             self.rr.getIndependentRatesOfChangeNamedArray(),
             [[1]]
         )
 
     def test_getInfo(self):
-        print(self.rr.getInfo())
         self.assertIn(
             "jacobianStepSize",
             self.rr.getInfo(),
         )
 
     def test_getIntegrator(self):
-        print(self.rr.getIntegrator())
         self.assertIsInstance(
             self.rr.getIntegrator(),
             Integrator
         )
 
     def test_getIntegratorByName(self):
-        print(self.rr.getIntegratorByName("cvode"))
         self.assertIsInstance(
             self.rr.getIntegratorByName("cvode"),
             Integrator
@@ -441,27 +421,24 @@ class RoadRunnerTests(unittest.TestCase):
 
     def test_getKMatrix(self):
         expected = [[1], [1]]
-        print(self.rr.getKMatrix())
         self.checkMatricesEqual(
             expected,
             self.rr.getKMatrix(),
         )
 
     def test_getKineticLaw(self):
-        print(self.rr.getKineticLaw("_J0"))
         self.assertEqual(
             self.rr.getKineticLaw("_J0"),
             "k1 * S1"
         )
 
     def test_getL0Matrix(self):
-        print(self.rr.getL0Matrix())
         self.assertEqual(
             self.rr.getL0Matrix().size, 0
         )
 
     def test_getLinkMatrix(self):
-        print(self.rr.getLinkMatrix())
+        
         expected = [[1]]
         self.checkMatricesEqual(
             expected,
@@ -469,14 +446,13 @@ class RoadRunnerTests(unittest.TestCase):
         )
 
     def test_getModel(self):
-        print(self.rr.getModel())
         self.assertIsInstance(
             self.rr.getModel(),
             ExecutableModel
         )
 
     def test_getNrMatrix(self):
-        print(self.rr.getNrMatrix())
+        
         expected = [[1, -1]]
         self.checkMatricesEqual(
             expected,
@@ -485,46 +461,40 @@ class RoadRunnerTests(unittest.TestCase):
 
     @unittest.skip("No idea what the argument for this method should be?")
     def test_getParamPromotedSBML(self):
-        print(self.rr.getParamPromotedSBML())
         self.assertEqual(
             self.rr.getParamPromotedSBML(),
         )
 
     def test_getRatesOfChange(self):
-        print(self.rr.getRatesOfChange())
         self.assertEqual(
             self.rr.getRatesOfChange(),
             [1.0]
         )
 
     def test_getRatesOfChangeNamedArray(self):
-        print(self.rr.getRatesOfChangeNamedArray())
         self.assertEqual(
             self.rr.getRatesOfChangeNamedArray(),
             [[1.0]]
         )
 
     def test_getReactionRates(self):
-        print(self.rr.getReactionRates())
         self.assertEqual(1.0, self.rr.getReactionRates()[0])
         self.assertEqual(0.0, self.rr.getReactionRates()[1])
 
     def test_getReducedEigenValues(self):
-        print(self.rr.getReducedEigenValues())
         self.assertAlmostEqual(
             self.rr.getReducedEigenValues()[0],
             -0.2
         )
 
     def test_getReducedJacobian(self):
-        print(self.rr.getReducedJacobian())
         self.assertAlmostEqual(
             -0.2,
             self.rr.getReducedJacobian()["S2"][0],
         )
 
     def test_getReducedStoichiometryMatrix(self):
-        print(self.rr.getReducedStoichiometryMatrix())
+        
         expected = [[1, -1]]
         self.checkMatricesEqual(
             expected,
@@ -532,28 +502,25 @@ class RoadRunnerTests(unittest.TestCase):
         )
 
     def test_getRegisteredIntegratorNames(self):
-        print(self.rr.getRegisteredIntegratorNames())
         self.assertEqual(
             ('cvode', 'gillespie', 'rk4', 'rk45', 'euler'),
             self.rr.getRegisteredIntegratorNames(),
         )
 
     def test_getRegisteredSteadyStateSolverNames(self):
-        print(self.rr.getRegisteredSteadyStateSolverNames())
         self.assertEqual(
             ('nleq1', 'nleq2', 'newton', "newton_linesearch"),
             self.rr.getRegisteredSteadyStateSolverNames(),
         )
 
     def test_getSBML(self):
-        print(self.rr.getSBML())
         self.assertIsInstance(
             self.rr.getSBML(),
             str
         )
 
     def test_getScaledConcentrationControlCoefficientMatrix(self):
-        print(self.rr.getScaledConcentrationControlCoefficientMatrix())
+        
         expected = [[1, -1]]
         self.checkMatricesEqual(
             expected,
@@ -561,21 +528,19 @@ class RoadRunnerTests(unittest.TestCase):
         )
 
     def test_getScaledElasticityMatrix(self):
-        print(self.rr.getScaledElasticityMatrix())
         self.assertEqual(
             0,
             self.rr.getScaledElasticityMatrix()[0],
         )
 
     def test_getScaledFloatingSpeciesElasticity(self):
-        print(self.rr.getScaledFloatingSpeciesElasticity("_J0", "S2"))
         self.assertEqual(
             0.0,
             self.rr.getScaledFloatingSpeciesElasticity("_J0", "S2"),
         )
 
     def test_getScaledFluxControlCoefficientMatrix(self):
-        print(self.rr.getScaledFluxControlCoefficientMatrix())
+        
         expected = [[1, 0],
                     [1, -2.88658e-15]]
         self.checkMatricesEqual(
@@ -584,58 +549,51 @@ class RoadRunnerTests(unittest.TestCase):
         )
 
     def test_getSelectedValues(self):
-        print(self.rr.getSelectedValues())
         self.assertEqual(self.rr.getSelectedValues()[0], 0)
         self.assertEqual(self.rr.getSelectedValues()[1], 0)
 
     def test_getSimulationData(self):
-        print(self.rr.getSimulationData())
         self.assertTrue(
             self.rr.getSimulationData().size == 0
         )
 
     def test_getSteadyStateSelectionStrings(self):
-        print(self.rr.getSteadyStateSelectionStrings())
         self.assertEqual(
             self.rr.getSteadyStateSelectionStrings(),
             ("[S2]",)
         )
 
     def test_getSteadyStateSolver(self):
-        print(self.rr.getSteadyStateSolver())
         self.assertIsInstance(
             self.rr.getSteadyStateSolver(),
             SteadyStateSolver
         )
 
     def test_getSteadyStateThreshold(self):
-        print(self.rr.getSteadyStateThreshold())
         self.assertEqual(
             self.rr.getSteadyStateThreshold(),
             0.01
         )
 
     def test_getSteadyStateValues(self):
-        print(self.rr.getSteadyStateValues())
-        self.assertEqual(
-            self.rr.getSteadyStateValues(),
-            [5.0]
+        self.assertAlmostEqual(
+            self.rr.getSteadyStateValues()[0],
+            5.
         )
 
     def test_getSteadyStateValuesNamedArray(self):
-        print(self.rr.getSteadyStateValuesNamedArray())
-        self.assertEqual(
-            self.rr.getSteadyStateValuesNamedArray()[0],
-            [5.0]
+        self.assertAlmostEqual(
+            self.rr.getSteadyStateValuesNamedArray()[0][0],
+            5.
         )
 
     @unittest.skip("This method should be not be visible in Python")
     def test_getSupportedIdTypes(self):
         """returns a bit field of the ids that this class supports."""
-        print(self.rr.getSupportedIdTypes())
+        
 
     def test_getUnscaledConcentrationControlCoefficientMatrix(self):
-        print(self.rr.getUnscaledConcentrationControlCoefficientMatrix())
+        
         expected = [[5, -5]]
         self.checkMatricesEqual(
             expected,
@@ -643,7 +601,7 @@ class RoadRunnerTests(unittest.TestCase):
         )
 
     def test_getUnscaledElasticityMatrix(self):
-        print(self.rr.getUnscaledElasticityMatrix())
+        
         expected = [[0],
                     [0.2]]
         self.checkMatricesEqual(
@@ -652,7 +610,7 @@ class RoadRunnerTests(unittest.TestCase):
         )
 
     def test_getUnscaledFluxControlCoefficientMatrix(self):
-        print(self.rr.getUnscaledFluxControlCoefficientMatrix())
+        
         expected = [[1, 0],
                     [1, -2.88658e-15]]
         self.checkMatricesEqual(
@@ -661,14 +619,12 @@ class RoadRunnerTests(unittest.TestCase):
         )
 
     def test_getUnscaledParameterElasticity(self):
-        print(self.rr.getUnscaledParameterElasticity("_J0", "k1"))
         self.assertAlmostEqual(
             10,
             self.rr.getUnscaledParameterElasticity("_J0", "k1"),
         )
 
     def test_getUnscaledSpeciesElasticity(self):
-        print(self.rr.getUnscaledSpeciesElasticity(0, 0))
         self.assertEqual(
             0.0,
             self.rr.getUnscaledSpeciesElasticity(0, 0),
@@ -676,28 +632,24 @@ class RoadRunnerTests(unittest.TestCase):
         )
 
     def test_getValue(self):
-        print(self.rr.getValue("k1"))
         self.assertEqual(
             self.rr.getValue("k1"),
             0.1
         )
 
     def test_getuCC(self):
-        print(self.rr.getuCC("_J0", "k1"))
         self.assertAlmostEqual(
             self.rr.getuCC("_J0", "k1"),
             10
         )
 
     def test_getuEE(self):
-        print(self.rr.getuEE("_J0", "k1"))
         self.assertAlmostEqual(
             self.rr.getuEE("_J0", "k1"),
             10
         )
 
     def test_integrator(self):
-        print(self.rr.integrator)
         self.assertIsInstance(
             self.rr.integrator,
             Integrator
@@ -715,13 +667,12 @@ class RoadRunnerTests(unittest.TestCase):
         self.assertNotEqual(before, after)
 
     def test_isModelLoaded(self):
-        print(self.rr.isModelLoaded())
         self.assertTrue(
             self.rr.isModelLoaded(),
         )
 
     def test_items(self):
-        print(self.rr.items())
+        
         expected = [('S2', 0.0), ('S1', 10.0), ('S3', 0.0),
                     ('[S2]', 0.0), ('[S1]', 10.0), ('[S3]', 0.0),
                     ('default_compartment', 1.0), ('k1', 0.1),
@@ -735,21 +686,21 @@ class RoadRunnerTests(unittest.TestCase):
         )
 
     def test_iteritems(self):
-        print(self.rr.iteritems())
+        
         working_iterator = False
         for i in self.rr.iteritems():
             working_iterator = True
         self.assertTrue(working_iterator)
 
     def test_iterkeys(self):
-        print(self.rr.iterkeys())
+        
         working_iterator = False
         for i in self.rr.iterkeys():
             working_iterator = True
         self.assertTrue(working_iterator)
 
     def test_itervalues(self):
-        print(self.rr.itervalues())
+        
         working_iterator = False
         for i in self.rr.itervalues():
             working_iterator = True
@@ -762,7 +713,7 @@ class RoadRunnerTests(unittest.TestCase):
         )
 
     def test_keys(self):
-        print(self.rr.keys())
+        
         expected = ['S2', 'S1', 'S3', '[S2]', '[S1]', '[S3]', 'default_compartment', 'k1', 'k2', '_J0', '_J1',
                     'init([S2])', 'init(S2)', "S2'", 'eigen(S2)', 'eigenReal(S2)', 'eigenImag(S2)']
         self.assertEqual(
@@ -771,7 +722,6 @@ class RoadRunnerTests(unittest.TestCase):
         )
 
     def test_load(self):
-        print(self.rr.load(sbml))
         self.rr.load(sbml),
         self.assertTrue(self.rr.isModelLoaded())
 
@@ -792,14 +742,12 @@ class RoadRunnerTests(unittest.TestCase):
         )
 
     def test_mcaSteadyState(self):
-        print(self.rr.mcaSteadyState())
         self.assertEqual(
             self.rr.mcaSteadyState(),
             0
         )
 
     def test_model(self):
-        print(self.rr.model)
         self.assertIsInstance(
             self.rr.model,
             ExecutableModel
@@ -812,7 +760,6 @@ class RoadRunnerTests(unittest.TestCase):
         self.assertNotEqual(before, after)
 
     def test_options(self):
-        print(self.rr.options)
         self.assertIsInstance(
             self.rr.options,
             RoadRunnerOptions
@@ -824,14 +771,14 @@ class RoadRunnerTests(unittest.TestCase):
 
     @unittest.skip("unclear on how to use this method")
     def test_removeCompartment(self):
-        print(self.rr.keys())
         self.rr.removeCompartment("default_compartment", True)
         with self.assertRaises(AttributeError):
             self.rr.default_compartment
 
     @unittest.skip("no events in model - add one ")
     def test_removeEvent(self):
-        print(self.rr.removeEvent())
+        pass
+        
 
     @unittest.skip("no events in model - add one ")
     def test_removeEventAssignments(self):
@@ -852,14 +799,14 @@ class RoadRunnerTests(unittest.TestCase):
 
     def test_resetParameter(self):
         self.rr.k1 = 15
-        print(self.rr.resetParameter())
+        self.rr.resetParameter()
         self.assertEqual(
             self.rr.k1, 0.1
         )
 
     def test_resetSelectionLists(self):
         self.rr.selections = ["[S2]"]
-        print(self.rr.resetSelectionLists())
+        self.rr.resetSelectionLists()
         self.assertEqual(
             self.rr.selections,
             ['time', '[S2]']
@@ -874,7 +821,6 @@ class RoadRunnerTests(unittest.TestCase):
         )
 
     def test_selections(self):
-        print(self.rr.selections)
         self.assertEqual(
             self.rr.selections,
             ['time', '[S2]']
@@ -929,7 +875,6 @@ class RoadRunnerTests(unittest.TestCase):
         )
 
     def test_setIntegratorSetting(self):
-        print(self.rr.setIntegratorSetting("cvode", "stiff", True))
         self.assertTrue(
             self.rr.integrator.getValue("stiff")
         )
@@ -944,48 +889,41 @@ class RoadRunnerTests(unittest.TestCase):
     @unittest.skip("What should go in RoadRunnerOptions?")
     def test_setOptions(self):
         opt = RoadRunnerOptions()
-        print(self.rr.setOptions())
         self.assertEqual(
             self.rr.setOptions(),
         )
 
     @unittest.skip("how to use?")
     def test_setPersistent(self):
-        print(self.rr.setPersistent())
         self.assertEqual(
             self.rr.setPersistent(),
-
         )
 
     @unittest.skip("How to get the reversible flag back after we've set it?")
     def test_setReversible(self):
-        print(self.rr.setReversible("_J0", True, True))
+        pass
 
     def test_setSteadyStateSolver(self):
-        print(self.rr.setSteadyStateSolver("newton"))
+        self.rr.setSteadyStateSolver("newton")
         self.assertEqual(
             self.rr.getSteadyStateSolver().getName(),
             "newton"
         )
 
     def test_setSteadyStateThreshold(self):
-        print(self.rr.setSteadyStateThreshold(6))
+        self.rr.setSteadyStateThreshold(6)
         self.assertEqual(
-            self.rr.getSteadyStateThreshold(),
-            6
-
+            self.rr.getSteadyStateThreshold(), 6
         )
 
     @unittest.skip("how to use?")
     def test_setTriggerInitialValue(self):
-        print(self.rr.setTriggerInitialValue())
         self.assertEqual(
             self.rr.setTriggerInitialValue(),
         )
 
     @unittest.skip("What values are set on a RoadRunner instance?")
     def test_setValue(self):
-        print(self.rr.setValue())
         self.assertEqual(
             self.rr.setValue(),
         )
@@ -998,19 +936,17 @@ class RoadRunnerTests(unittest.TestCase):
 
     def test_steadyState(self):
         before = self.rr.getFloatingSpeciesAmountsNamedArray()
-        print(self.rr.steadyState())
+        self.rr.steadyState()
         after = self.rr.getFloatingSpeciesAmountsNamedArray()
         self.assertNotEqual(before, after)
 
     def test_steadyStateNamedArray(self):
-        print(self.rr.steadyStateNamedArray())
         self.assertEqual(
             self.rr.steadyStateNamedArray(),
             5
         )
 
     def test_steadyStateSelections(self):
-        print(self.rr.steadyStateSelections)
         self.assertEqual(
             self.rr.steadyStateSelections,
             ["[S2]"]
@@ -1018,7 +954,6 @@ class RoadRunnerTests(unittest.TestCase):
         )
 
     def test_steadyStateSolver(self):
-        print(self.rr.steadyStateSolver)
         self.assertIsInstance(
             self.rr.steadyStateSolver,
             SteadyStateSolver
@@ -1029,14 +964,12 @@ class RoadRunnerTests(unittest.TestCase):
         self.assertFalse(self.rr.steadyStateSolverExists("newton"))  # not instantiated yet
 
     def test_steadyStateThresh(self):
-        print(self.rr.steadyStateThresh)
         self.assertEqual(
             self.rr.steadyStateThresh,
             0.01
         )
 
     def test_timeCourseSelections(self):
-        print(self.rr.timeCourseSelections)
         self.assertEqual(
             self.rr.timeCourseSelections,
             ['time', '[S2]']

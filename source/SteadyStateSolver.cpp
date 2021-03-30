@@ -124,7 +124,7 @@ namespace rr {
                    "End time for presimulation steady state analysis (double).",
                    "(double) presimulation_maximum_steps takes priority. Only used when allow_presimulation is True");
 
-        addSetting("presimulation_times", std::vector<double>({0.1, 1, 1e2, 1e3, 1e4}), "Presimulation Times",
+        addSetting("presimulation_times", std::vector<double>({0.1, 1, 10, 100, 1e3, 1e4}), "Presimulation Times",
                    "Vector of successive time points to try presimulation prior to solving for steady state (std::vector<double>).",
                    "(double) Similar to presimulation_time, but tries multiple time points before failing");
 

@@ -5,81 +5,6 @@ import unittest
 from roadrunner.roadrunner import RoadRunner
 
 # S1 <=> S2
-# Network was reduced manually using conservation laws
-# This model solves out of the box - presimulation not approx is necessary
-simple_flux_manually_reduced = """<?xml version="1.0" encoding="UTF-8"?>
-<sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" version="1">
-  <model metaid="x" id="x">
-    <listOfCompartments>
-      <compartment sboTerm="SBO:0000410" id="default_compartment" spatialDimensions="3" size="1" constant="true"/>
-    </listOfCompartments>
-    <listOfSpecies>
-      <species id="S1" compartment="default_compartment" initialConcentration="10" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
-    </listOfSpecies>
-    <listOfParameters>
-      <parameter id="S20" value="1" constant="true"/>
-      <parameter id="Total" constant="false"/>
-      <parameter id="kf" value="0.1" constant="true"/>
-      <parameter id="kb" value="0.01" constant="true"/>
-      <parameter id="S2" constant="false"/>
-    </listOfParameters>
-    <listOfInitialAssignments>
-      <initialAssignment symbol="Total">
-        <math xmlns="http://www.w3.org/1998/Math/MathML">
-          <apply>
-            <plus/>
-            <ci> S1 </ci>
-            <ci> S20 </ci>
-          </apply>
-        </math>
-      </initialAssignment>
-    </listOfInitialAssignments>
-    <listOfRules>
-      <assignmentRule variable="S2">
-        <math xmlns="http://www.w3.org/1998/Math/MathML">
-          <apply>
-            <minus/>
-            <ci> Total </ci>
-            <ci> S1 </ci>
-          </apply>
-        </math>
-      </assignmentRule>
-    </listOfRules>
-    <listOfReactions>
-      <reaction id="_J0" reversible="false" fast="false">
-        <listOfReactants>
-          <speciesReference species="S1" stoichiometry="1" constant="true"/>
-        </listOfReactants>
-        <kineticLaw>
-          <math xmlns="http://www.w3.org/1998/Math/MathML">
-            <apply>
-              <plus/>
-              <apply>
-                <times/>
-                <apply>
-                  <minus/>
-                  <ci> kf </ci>
-                </apply>
-                <ci> S1 </ci>
-              </apply>
-              <apply>
-                <times/>
-                <ci> kb </ci>
-                <apply>
-                  <minus/>
-                  <ci> Total </ci>
-                  <ci> S1 </ci>
-                </apply>
-              </apply>
-            </apply>
-          </math>
-        </kineticLaw>
-      </reaction>
-    </listOfReactions>
-  </model>
-</sbml>"""
-
-# S1 <=> S2
 # requires moiety conservation analysis before it'll solve
 simple_flux_sbml = """<?xml version="1.0" encoding="UTF-8"?>
 <sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" version="1">
@@ -199,31 +124,6 @@ open_linear_flux_sbml = """<?xml version="1.0" encoding="UTF-8"?>
   </model>
 </sbml>"""
 
-
-def solve_simple_flux_manually_reduced():
-    """Solving this model requires neither approximation nor presimulation"""
-    rr = RoadRunner(simple_flux_manually_reduced)
-    rr.setSteadyStateSolver("newton")
-    ss_solver = rr.getSteadyStateSolver()
-
-    # The default behaviour of these two options has been turned to True
-    # (easily changed back if you want). The behaviour now is this:
-    #   if allow_presimulation is on:
-    #       try first without it and fall back on allow_presimulation if needed.
-    # Similarly for allow_approx.
-    # When both are True (the default), roadrunner tries without any modifiers,
-    # then it tries the presimulation and then it tries to approximate.
-    #
-    # Side note: I'd like to extend the presimulation to a presimulation program
-    # i.e. try 0.1, 1, 10, 100 etc. up to prehaps 1e6.
-    #
-    # Another side note, now presimulation only uses max_steps argument for calculating
-    # stepsize. See PresimulationDecorator and ApproxSteadyStateDecorator classes for details)
-    ss_solver.setValue("allow_presimulation", False)
-    ss_solver.setValue("allow_approx", False)
-
-    rr.steadyState()
-    return rr.getFloatingSpeciesConcentrationsNamedArray()
 
 def solve_simple_flux_conservation_manual():
     """Solve simple flux: use moiety conservation option
@@ -397,8 +297,7 @@ def use_linesearch():
 if __name__ == "__main__":
 
 
-    print(solve_simple_flux_manually_reduced())
-    # print(solve_simple_flux_conservation_manual())
+    print(solve_simple_flux_conservation_manual())
     # print(solve_simple_flux_auto_conservation())
     # print(solve_open_linear_flux_sbml_error()) # will error
     # print(solve_open_linear_flux_sbml_use_presimulation())

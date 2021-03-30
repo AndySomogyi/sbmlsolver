@@ -82,9 +82,28 @@ if (BUILD_PYTHON AND BUILD_TESTS)
             roadrunner-static
             ${Python_LIBRARIES}
             )
+    set(RR_PYTHON_TESTING_DIR "${CMAKE_BINARY_DIR}/lib/site-packages/roadrunner/testing")
+    # copy Python files to build tree post build
+    add_custom_command(
+            TARGET TestModelFactory POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:TestModelFactory> "${RR_PYTHON_TESTING_DIR}"
+    )
+    add_custom_command(
+            TARGET TestModelFactory POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_BINARY_DIR}/TestModelFactory.py" "${RR_PYTHON_TESTING_DIR}"
+    )
 
+    configure_file(testTestModelFactory.py "${RR_PYTHON_TESTING_DIR}" COPYONLY)
+
+    # install python test files to install tree
     install(TARGETS TestModelFactory DESTINATION site-packages/roadrunner/testing)
-    install(FILES "${CMAKE_CURRENT_BINARY_DIR}/TestModelFactory.py" DESTINATION site-packages/roadrunner/testing)
+    install(
+            FILES
+                "${CMAKE_CURRENT_BINARY_DIR}/TestModelFactory.py"
+                "${CMAKE_CURRENT_SOURCE_DIR}/testTestModelFactory.py"
+            DESTINATION
+            site-packages/roadrunner/testing
+    )
 
 endif ()
 

@@ -3,12 +3,9 @@ import sys
 
 thisDir = os.path.dirname(os.path.realpath(__file__))
 rr_site_packages = os.path.dirname(os.path.dirname(thisDir))
-print("thisDir", thisDir)
-print("rr_site_packages", rr_site_packages)
 
 sys.path += [
     rr_site_packages,
-    r"D:\roadrunner\roadrunner\install-msvc2019-rel-swig-4.0.2\site-packages",
 ]
 from roadrunner.roadrunner import RoadRunner, BasicNewtonIteration
 from roadrunner.testing.TestModelFactory import TestModelFactory
@@ -28,19 +25,23 @@ class NewtonIterationUnitTests(unittest.TestCase):
         for i in range(len(results.colnames)):
             speciesId = results.colnames[i]
             actualResult = results[0][i]
-            expected = self.testModel.steadyState()[speciesId][1]
+
+            expected = self.testModel.steadyState()[speciesId]
             print("Comparing ", speciesId, "expected result: ", expected, "actual result: ", actualResult)
             self.assertAlmostEqual(expected, actualResult)
 
     def test_newton_iteration_registered(self):
         self.assertIn("newton", self.rr.getRegisteredSteadyStateSolverNames())
 
+    def test_newton_linesearch_registered(self):
+        self.assertIn("newton_linesearch", self.rr.getRegisteredSteadyStateSolverNames())
+
     def test_settings_map_is_dict(self):
         solver = BasicNewtonIteration(self.rr.getModel())
         settings = solver.getSettingsMap()
         self.assertIsInstance(settings, dict)
 
-    def test_sovle_using_newton_iteration_directly(self):
+    def test_solve_using_newton_iteration_directly(self):
         solver = BasicNewtonIteration(self.rr.getModel())
         solver.allow_presimulation = True
         solver.solve()
@@ -48,11 +49,11 @@ class NewtonIterationUnitTests(unittest.TestCase):
 
     def test_change_then_reset_settings(self):
         solver = BasicNewtonIteration(self.rr.getModel())
-        solver.strategy = "linesearch"  # default is "basic"
+        solver.presimulation_maximum_steps = 400
         # ensure we've actually changed something
-        self.assertEqual("linesearch", solver.strategy)
+        self.assertEqual(400, solver.presimulation_maximum_steps)
         solver.resetSettings()
-        self.assertEqual("basic", solver.strategy)
+        self.assertEqual(500, solver.presimulation_maximum_steps)
 
     def test_regenerate_model_before_creating_solver(self):
         self.rr.regenerate()
@@ -67,6 +68,11 @@ class NewtonIterationUnitTests(unittest.TestCase):
         solver.syncWithModel(self.rr.getModel())
         solver.solve()
         self.checkResults(self.rr.getFloatingSpeciesConcentrationsNamedArray())
+
+    def test_presimulation_times(self):
+        solver = BasicNewtonIteration(self.rr.getModel())
+        self.assertIsInstance(solver.presimulation_times, list)
+        self.assertListEqual([0.1, 1.0, 10.0, 100.0, 1000.0, 10000.0], solver.presimulation_times)
 
 
 class SteadyStateSolverIntegrationTests(unittest.TestCase):
@@ -93,7 +99,7 @@ class SteadyStateSolverIntegrationTests(unittest.TestCase):
         rr.setSteadyStateSolver(solver_name)
 
         # get settings for this problem
-        settings = test_model.settings()
+        settings = test_model.steadyStateSettings()
 
         # apply settings
         for setting, value in settings.items():
@@ -110,7 +116,7 @@ class SteadyStateSolverIntegrationTests(unittest.TestCase):
         rr.steadyState()
 
         actual_results = rr.getFloatingSpeciesConcentrationsNamedArray()
-        for species_name, (starting_val, expected_ss_val) in expected_results.items():
+        for species_name, expected_ss_val in expected_results.items():
             actual = actual_results[species_name][0]
             print("Comparing reference value : ", expected_ss_val, "with actual value: ", actual)
             self.assertAlmostEqual(expected_ss_val, actual, places=5)
