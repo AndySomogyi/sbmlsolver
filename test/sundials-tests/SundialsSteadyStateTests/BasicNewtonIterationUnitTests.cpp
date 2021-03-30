@@ -107,7 +107,6 @@ INSTANTIATE_TEST_SUITE_P(
         SettingsTests,
         SettingsTests,
         ::testing::Values(
-                std::pair<std::string, Variant>("strategy", Variant("linesearch")),
                 std::pair<std::string, Variant>("num_max_iters", Variant(153)),
                 std::pair<std::string, Variant>("print_level", Variant(2)),
                 std::pair<std::string, Variant>("eta_form", Variant("eta_choice2")),
