@@ -21,6 +21,11 @@ add_test_executable(
         BasicNewtonIterationUnitTests.cpp SundialsSteadyStateSolverUnitTest ${SHARED_TEST_FILES}
 )
 add_test_executable(
+        AutomaticMoietyConservationTests test_targets
+        AutomaticMoietyConservationTests.cpp SundialsSteadyStateSolverUnitTest ${SHARED_TEST_FILES}
+)
+
+add_test_executable(
         SVDUnitTests test_targets SVDTests.cpp ${SHARED_TEST_FILES}
 )
 add_test_executable(

@@ -107,6 +107,15 @@ namespace rr {
 
     void SteadyStateSolver::resetSettings() {
         Solver::resetSettings();
+
+        addSetting("auto_moiety_analysis", true, "Automatic Moiety Analysis Computation",
+                   "Toggle automatic inference of the need for moiety conservation analysis",
+                   "(bool) When true, models that require moiety conservation analysis are "
+                   "automatically analysed for conserved moieties before computing steady state. The flip "
+                   "side is that this check will slow computation, which will have a measurable performance impact on "
+                   "tasks that require repeated steady state computation *if* the model does not "
+                   "require require moiety conservation analysis.");
+
         addSetting("allow_presimulation", true, "Allow Presimulation",
                    "Flag for starting steady state analysis with simulation (bool).",
                    "(bool) This flag does not affect the usage of NLEQ1/2 approximation routine when the default steady state solver fails");

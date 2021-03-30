@@ -302,6 +302,7 @@ std::unordered_map<std::string, rr::Variant> OpenLinearFlux::steadyStateSettings
             {"allow_presimulation", false},
             {"presimulation_time",  5},
             {"moiety_conservation", false},
+            {"auto_moiety_analysis", false},
     };
 }
 

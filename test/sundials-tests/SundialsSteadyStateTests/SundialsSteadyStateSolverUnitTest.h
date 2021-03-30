@@ -34,6 +34,10 @@ public:
     virtual ~SundialsSteadyStateSolverUnitTest();
 
     void checkResults(ls::DoubleMatrix actualResult);
+
+    static void checkResults(ls::DoubleMatrix expectedMatrix, ls::DoubleMatrix actualMatrix);
+
+    static void checkResults(StringDoubleMap expectedMap, ls::DoubleMatrix result);
 };
 
 

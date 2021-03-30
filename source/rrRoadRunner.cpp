@@ -1271,24 +1271,26 @@ double RoadRunner::steadyState(Dictionary* dict) {
     // store the name of the solver for later use.
     const std::string& solverName = impl->steady_state_solver->getName();
 
-    // no need to check for singular full jabocian since the constructor
-    // automatically turns on moiety conservation matrix if num conserved
-    // moieties > 0.
-    if (!impl->loadOpt.getConservedMoietyConversion()) {
-        /*
-         * Note this is an expensive operation. The other way
-         * of determining need for moiety conservation is to
-         * compute whether the jacobian matrix is singular
-         * (with SVD::isSingular). This however, is even more
-         * expensive.
-         */
-        setConservedMoietyAnalysis(true);
-        int numConservedMoieties = getModel()->getNumConservedMoieties();
-        if (numConservedMoieties == 0) {
-            setConservedMoietyAnalysis(false);
-        } else {
-            rrLog(Logger::LOG_WARNING) << "Turning on moiety conservation analysis "
-                                          "because this model has " << numConservedMoieties << "conserved moieties";
+    // automatic detection of requirement for conserved moiety analysis
+    if (getSteadyStateSolver()->getValueAsBool("auto_moiety_analysis")) {
+        rrLog(Logger::LOG_DEBUG) << "Checking whether moiety conservation analysis is needed" << std::endl;
+        std::cout << "Checking whether moiety conservation analysis is needed" << std::endl;
+        if (!impl->loadOpt.getConservedMoietyConversion()) {
+            /*
+             * Note this is an expensive operation. The other way
+             * of determining need for moiety conservation is to
+             * compute whether the jacobian matrix is singular
+             * (with SVD::isSingular). This as it turns out, is even more
+             * expensive.
+             */
+            setConservedMoietyAnalysis(true);
+            int numConservedMoieties = getModel()->getNumConservedMoieties();
+            if (numConservedMoieties == 0) {
+                setConservedMoietyAnalysis(false);
+            } else {
+                rrLog(Logger::LOG_WARNING) << "Turning on moiety conservation analysis "
+                                              "because this model has " << numConservedMoieties << "conserved moieties";
+            }
         }
     }
 

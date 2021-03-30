@@ -15,7 +15,7 @@ using namespace rr;
 class BasicNewtonIterationUnitTests : public SundialsSteadyStateSolverUnitTest {
 public:
 
-    BasicNewtonIterationUnitTests(): SundialsSteadyStateSolverUnitTest() {};
+    BasicNewtonIterationUnitTests() : SundialsSteadyStateSolverUnitTest() {};
 
     ~BasicNewtonIterationUnitTests() override = default;
 };
@@ -52,8 +52,6 @@ TEST_F(BasicNewtonIterationUnitTests, RegenerateTheModelAfterCreatingSolver) {
     solver.solve();
     checkResults(rr->getFloatingSpeciesConcentrationsNamedArray());
 }
-
-
 
 /**
  * Tests each of the settings can be changed

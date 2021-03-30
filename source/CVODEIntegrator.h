@@ -245,31 +245,16 @@ namespace rr
 
         /**
          * @brief getter for the internal state std::vector
-         * @author CW
-         * @note This method was created to
-         * enable external access (mostly for tests)
-         * to the Sundials N_Vector object. This method
-         * should not be exposed at the Python level.
          */
         N_Vector getStateVector() const;
 
         /**
          * @brief getter for the internal Sundials linear solver object
-         * @author CW
-         * @note This method was created to
-         * enable external access (mostly for tests)
-         * to the Sundials SUNLinearSolver object. This method
-         * should not be exposed at the Python level.
          */
         SUNNonlinearSolver getSolver() const;
 
         /**
          * @brief getter for the internal CVode memory buffer
-         * @author CW
-         * @note This method was created to
-         * enable external access (mostly for tests)
-         * to the Sundials memory buffer object. This method
-         * should not be exposed at the Python level.
          */
         void *getCvodeMemory() const;
 

@@ -91,7 +91,7 @@ namespace rr {
             typecode_(CVODE_INT_TYPECODE) {
         rrLog(Logger::LOG_INFORMATION) << "creating CVODEIntegrator";
 
-        resetSettings();
+        CVODEIntegrator::resetSettings();
 
         if (aModel) {
             createCVode();
@@ -210,15 +210,6 @@ namespace rr {
         updateCVODE();
     }
 
-// 	void CVODEIntegrator::loadConfigSettings()
-// 	{
-// 		Integrator::loadConfigSettings();
-// 		// Load settings specific to CVODE integrator
-//
-// 		CVODEIntegrator::setValue("absolute_tolerance", Config::getDouble(Config::CVODE_MIN_ABSOLUTE));
-// 		CVODEIntegrator::setValue("relative_tolerance", Config::getDouble(Config::CVODE_MIN_RELATIVE));
-// 	}
-
     void CVODEIntegrator::loadConfigSettings() {
         //  VARIABLE STEP SIZE
         bool bVal = false;
@@ -241,7 +232,7 @@ namespace rr {
     }
 
     void CVODEIntegrator::loadSBMLSettings(std::string const &filename) {
-        if (!filename.size()) {
+        if (filename.empty()) {
             rrLog(Logger::LOG_ERROR) << "Empty file name for settings file";
         } else {
             std::map<std::string, std::string> options;
@@ -279,24 +270,6 @@ namespace rr {
                     CVODEIntegrator::setValue("absolute_tolerance", v);
                 }
             }
-
-            //it = options.find("absolute_concentration");
-            //if (it != options.end())
-            //{
-            //	if ((*it).second[1]!= '[') {
-            // scalar absolute tolerance based on concentration
-            //		CVODEIntegrator::setValue("absolute_concentration_tolerance", std::abs(toDouble((*it).second)));
-
-            //	}
-            //	else {
-            // std::vector absolute tolerance based on concentration
-            //		std::vector<double> v = toDoubleVector((*it).second);
-            // take absolute value of each element
-            //		for (unsigned int i = 0; i < v.size(); i++)
-            //			v[i] = std::abs(v[i]);
-            //		CVODEIntegrator::setValue("absolute_concentration_tolerance", v);
-            //	}
-            //}
 
             it = options.find("relative");
             if (it != options.end()) {
@@ -986,8 +959,6 @@ namespace rr {
             };
 
             // Use a difference quotient Jacobian by not passing Jac to CVodeSetJacFn
-            // the alternative is to fill the jacobian matrix and pass that to CVodeSetJacFn.
-            //  this has not been tried, but certainly worth experimenting with.
             if ((err = CVodeSetJacFn(mCVODE_Memory, nullptr)) != CV_SUCCESS) {
                 handleCVODEError(err);
             }
