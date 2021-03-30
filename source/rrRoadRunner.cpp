@@ -1338,102 +1338,12 @@ double RoadRunner::steadyState(Dictionary* dict) {
     return ss;
 }
 
-double RoadRunner::steadyStateApproximate(const Dictionary* dict)
-{
-    rrLog(Logger::LOG_WARNING) << "RoadRunner::steadStateApproximate. "
-                                  "This method is deprecated in favour of RoadRunner::steadyState(). To run an approximate "
-                                  "steady state, please set the \"allow_approx\" variable of your solver to true. You can then "
-                                  "set the time at which the approximate steady state is calulated using \"approx_time\" "
-                                  "and the granularity with \"approx_maximum_steps\". Note that the \"approx_maximum_steps\" "
-                                  "argument is only used to compute the step size - this number of integration steps will "
-                                  "not actually occur. ";
-
-    get_self();
-    check_model();
-
-    // store current integrator info
-    std::string currint = self.integrator->getName();
-
-    // use cvode
-    setIntegrator("cvode");
-
-    // create selections
-    std::vector<std::string> ss_selections_with_time;
-    std::vector<std::string> ss_selections = getSteadyStateSelectionStrings();
-    size_t num_ss_sel = ss_selections.size();
-
-    ss_selections_with_time.push_back("time");
-    for (int i = 0; i < num_ss_sel; i++)
-    {
-        ss_selections_with_time.push_back(ss_selections[i]);
-    }
-
-    // steady state selection
-    std::vector<rr::SelectionRecord> currsel = self.mSelectionList;
-    setSelections(ss_selections_with_time);
-
-    double start_temp = self.simulateOpt.start;
-    double duration_temp = self.simulateOpt.duration;
-    int steps_temp = self.simulateOpt.steps;
-
-    // initialize
-    double duration = self.steady_state_solver->getValueAsDouble("approx_time");
-    int steps = self.steady_state_solver->getValueAsInt("approx_maximum_steps");
-    self.simulateOpt.start = 0;
-    self.simulateOpt.duration = duration;
-    self.simulateOpt.steps = steps;
-    double tol = 0;
-    size_t l = self.mSelectionList.size();
-    double* vals1 = new double[l];
-    double* vals2 = new double[l];
-
-    rrLog(Logger::LOG_DEBUG) << "tol thres: " << self.steady_state_solver->getValueAsDouble("approx_tolerance");
-    rrLog(Logger::LOG_DEBUG) << "Max steps: " << self.steady_state_solver->getValueAsInt("approx_maximum_steps");
-    rrLog(Logger::LOG_DEBUG) << "Max time: " << self.steady_state_solver->getValueAsDouble("approx_time");
-
-    try
-    {
-        simulate(); // todo no arguments being passed to simulate ? Does this make all of above irrelevant?
-        vals1 = self.simulationResult[steps - 1];
-        vals2 = self.simulationResult[steps - 2];
-
-        // todo why does this start from i=1? Is this a bug? (cw)
-        for (int i = 1; i < l; i++)
-        {
-            tol += sqrt(pow((vals2[i] - vals1[i]) / (duration / steps), 2));
-        }
-    }
-    catch (EventListenerException& e)
-    {
-        rrLog(Logger::LOG_ERROR) << e.what();
-    }
-
-    self.simulateOpt.start = start_temp;
-    self.simulateOpt.duration = duration_temp;
-    self.simulateOpt.steps = steps_temp;
-    setIntegrator(currint);
-    setSelections(currsel);
-
-    rrLog(Logger::LOG_DEBUG) << "Steady state approximation done";
-
-    if (tol > self.steady_state_solver->getValueAsDouble("approx_tolerance"))
-    {
-        throw CoreException("Failed to converge while running approximation routine. Try increasing "
-            "the time or maximum number of iteration via changing the settings under r.steadyStateSolver "
-            "where r is an roadrunner instance. Model might not have a steady state.");
-    }
-
-    return tol;
-}
-
 
 DoubleMatrix RoadRunner::steadyStateNamedArray(const Dictionary* dict)
 {
     steadyState();
     return getSteadyStateValuesNamedArray();
 }
-
-
 
 
 void RoadRunner::setConservedMoietyAnalysis(bool value)
