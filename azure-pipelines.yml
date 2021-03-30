@@ -589,7 +589,7 @@ stages:
               echo "ls"
               ls
               echo "Invoke-WebRequest"
-              Invoke-WebRequest "https://sourceforge.net/projects/swig/files/swigwin/swigwin-4.0.2/swigwin-4.0.2.zip/download?use_mirror=netix" -OutFile swigwin-4.0.2.zip
+              Invoke-WebRequest "https://downloads.sourceforge.net/project/swig/swigwin/swigwin-4.0.2/swigwin-4.0.2.zip?ts=1617139173&r=https%3A%2F%2Fsourceforge.net%2Fprojects%2Fswig%2Ffiles%2Fswigwin%2Fswigwin-4.0.2%2Fswigwin-4.0.2.zip%2Fdownload%3Fuse_mirror%3Ddeac-riga" -OutFile swigwin-4.0.2.zip
               echo "Expand-Archive"
               Expand-Archive swigwin-4.0.2.zip -Destination $(SWIG_INSTALL_PREFIX)
               echo "CD to swig install prefix $(SWIG_INSTALL_PREFIX)"
