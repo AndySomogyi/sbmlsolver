@@ -262,32 +262,20 @@ def use_linesearch():
 
     Kinsol supports "basic newton iteration" which is the currently the default option
     but also has an alternative strategy called `linesearch`. This linesearch algorithm
-    is a variant on newton iteration. It might be worth setting this as default (?).
-
-    Currently we have a "strategy" option and the user can pick between "basic" or "linesearch".
-    However, an alternative design would be to have two forms of newton solvers. The implementation
-    would be exactly the same, its just how they are presented to the users. Currently we have
+    is a variant on newton iteration.
 
         rr = RoadRunner(open_linear_flux_sbml)
         rr.setSteadyStateSolver("newton")
-        ss_solver = rr.getSteadyStateSolver()
-        ss_solver.setValue("strategy", "linesearch")
-
-    But we could equally have
-
-        rr = RoadRunner(open_linear_flux_sbml)
-        rr.setSteadyStateSolver("Basicnewton")
 
     and
         rr = RoadRunner(open_linear_flux_sbml)
-        rr.setSteadyStateSolver("Linesearchnewton")
+        rr.setSteadyStateSolver("newton_linesearch")
 
     I'm leaning towards the latter option. Thoughts?
     """
     rr = RoadRunner(open_linear_flux_sbml)
-    rr.setSteadyStateSolver("newton")
+    rr.setSteadyStateSolver("newton_linesearch")
     ss_solver = rr.getSteadyStateSolver()
-    ss_solver.setValue("strategy", "linesearch")
 
     # remember this mode fails without Presimulation, but Presimulation is hidden from the user in this case
     rr.steadyState()
@@ -295,7 +283,6 @@ def use_linesearch():
 
 
 if __name__ == "__main__":
-
 
     print(solve_simple_flux_conservation_manual())
     # print(solve_simple_flux_auto_conservation())
