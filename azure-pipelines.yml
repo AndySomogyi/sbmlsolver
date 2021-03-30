@@ -261,12 +261,12 @@ stages:
               rm -r $(DEPS_INSTALL_PREFIX)/install-azure
               ls
             displayName: Move Dependencies
-          #- task: Cache@2
-          #  inputs:
-          #    key: "Swig | $(Agent.OS)"
-          #    path: $(SWIG_INSTALL_PREFIX)
-          #    cacheHitVar: SWIG_CACHE
-          #  displayName: Cache Swig-4.0.2
+          - task: Cache@2
+            inputs:
+              key: "Swig | $(Agent.OS)"
+              path: $(SWIG_INSTALL_PREFIX)
+              cacheHitVar: SWIG_CACHE
+            displayName: Cache Swig-4.0.2
           - script: |
               echo "installing pcre"
               sudo apt install -y libpcre3 libpcre3-dev
@@ -577,12 +577,12 @@ stages:
               rm -r $(DEPS_INSTALL_PREFIX)/install-azure
               ls
             displayName: Move Dependencies
-          #- task: Cache@2
-          #  inputs:
-          #    key: "Swig | $(Agent.OS)"
-          #    path: $(SWIG_INSTALL_PREFIX)
-          #    cacheHitVar: SWIG_CACHE
-          #  displayName: Cache Swig-4.0.2
+          - task: Cache@2
+            inputs:
+              key: "Swig | $(Agent.OS)"
+              path: $(SWIG_INSTALL_PREFIX)
+              cacheHitVar: SWIG_CACHE
+            displayName: Cache Swig-4.0.2
           - powershell: |
               echo "cd to swig source dir: $(SWIG_SOURCE_DIR)"
               cd $(SWIG_SOURCE_DIR)
@@ -876,12 +876,12 @@ stages:
               rm -r $(DEPS_INSTALL_PREFIX)/install-azure
               ls
             displayName: Move Dependencies
-          #- task: Cache@2
-          #  inputs:
-          #    key: "Swig | $(Agent.OS)"
-          #    path: $(SWIG_INSTALL_PREFIX)
-          #    cacheHitVar: SWIG_CACHE
-          #  displayName: Cache Swig-4.0.2
+          - task: Cache@2
+            inputs:
+              key: "Swig | $(Agent.OS)"
+              path: $(SWIG_INSTALL_PREFIX)
+              cacheHitVar: SWIG_CACHE
+            displayName: Cache Swig-4.0.2
           - script: |
               echo "installing pcre"
               sudo apt install -y libpcre3 libpcre3-dev
