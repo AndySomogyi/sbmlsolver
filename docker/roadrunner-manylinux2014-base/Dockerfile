@@ -22,15 +22,36 @@ RUN git clone https://github.com/llvm/llvm-project.git
 
 RUN /Miniconda3/bin/conda init && bash ~/.bashrc && . ~/.bashrc
 
-RUN cd llvm-project/llvm \
-    && git checkout d359f2096850c68b708bc25a7baca4282945949f \
-    && mkdir build && cd build \
-    && cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../install-llvm-6.x-rel -DPython3_EXECUTABLE=/Miniconda3/bin/python ..
+#RUN cd llvm-project/llvm \
+#    && git checkout d359f2096850c68b708bc25a7baca4282945949f \
+#    && mkdir build && cd build \
+#    && cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../install-llvm-6.x-rel -DPython3_EXECUTABLE=/Miniconda3/bin/python ..
 
-RUN cd llvm-project/llvm/build \
-    && cmake --build . --target install --config Release -j 12
+#RUN cd llvm-project/llvm/build \
+#    && cmake --build . --target install --config Release -j 12
+
 
 RUN git clone https://github.com/sys-bio/libroadrunner-deps.git --recurse-submodules
 RUN cd libroadrunner-deps && mkdir build && cd build \
     && cmake -DCMAKE_INSTALL_PREFIX=../install-libroadrunner-deps -DCMAKE_BUILD_TYPE=Release .. \
+    && cmake --build . --target install --config Release -j 12
+
+
+RUN yum install -y pcre-devel.x86_64
+
+ENV swig_source_dir /swig-4.0.2
+ENV swig_install_dir /swig-4.0.2/install-swig-4.0.2
+
+RUN  mkdir -p $swig_source_dir && wget -q https://sourceforge.net/projects/swig/files/swig/swig-4.0.2/swig-4.0.2.tar.gz
+RUN  tar -xf swig-4.0.2.tar.gz
+RUN  cd $swig_source_dir && ./configure --prefix=$swig_install_dir
+RUN  cd $swig_source_dir && make -j 12 && make install
+
+RUN pwd
+RUN git clone https://github.com/sys-bio/llvm-6.x.git \
+    && cd llvm-6.x \
+    && git checkout 3c62217a742a56807c8ef693bd2dccbc4a73966c
+RUN cd /llvm-6.x/llvm && mkdir build && cd build \
+    && cmake -DCMAKE_INSTALL_PREFIX=/llvm-6.x/install-llvm-6.x -DCMAKE_BUILD_TYPE=Release ..
+RUN cd /llvm-6.x/llvm/build \
     && cmake --build . --target install --config Release -j 12

@@ -989,6 +989,86 @@ stages:
             displayName: Publish Pip Wheels Artifacts
 
 
+  - stage: ManyLinux
+    displayName: ManyLinux2014
+    dependsOn: []
+    jobs:
+      - job:
+        strategy:
+          matrix:
+            py37:
+              PythonVersion: 3.7
+              PythonName: py37
+            py38:
+              PythonVersion: 3.8
+              PythonName: py38
+            py39:
+              PythonVersion: 3.9
+              PythonName: py39
+        pool:
+          vmImage: 'ubuntu-18.04'
+        container: ciaranwelsh/roadrunner-manylinux2014-base:latest
+        variables:
+          CCACHE_DIR: '$(Pipeline.Workspace)/ccache'
+          BUILD_DIRECTORY: '$(System.DefaultWorkingDirectory)/build'
+          SOURCE_DIRECTORY: '$(System.DefaultWorkingDirectory)'
+          INSTALL_DIRECTORY: '$(System.DefaultWorkingDirectory)/install-azure'
+
+          MinicondaRoot: '/Miniconda3'
+          PythonRoot: '$(MinicondaRoot)/envs/$(PythonName)'
+          CondaExecutable: '$(MinicondaRoot)/bin/conda'
+          PythonExecutable: '$(PythonRoot)/bin/python'
+          IPythonExecutable: '$(PythonRoot)/bin/ipython'
+          PythonLibDir: '$(PythonRoot)/Lib'
+          PythonIncludeDir: '$(PythonRoot)/include'
+          PipExecutable: '$(PythonRoot)/bin/pip'
+
+          SwigExecutable: '/swig-4.0.2/install-swig-4.0.2/bin/swig'
+
+        steps:
+          - checkout: self
+            submodules: recursive
+
+          - script: |
+              eval "$(conda shell.bash hook)"
+              $(CondaExecutable) activate $(PythonName)
+              . ~/.bashrc
+
+              echo "mkdir $(BUILD_DIRECTORY)"
+              mkdir $(BUILD_DIRECTORY)
+
+              echo "cd $(BUILD_DIRECTORY)"
+              cd $(BUILD_DIRECTORY)
+
+              cmake -DLLVM_INSTALL_PREFIX=/llvm-6.x/install-llvm-6.x -DRR_DEPENDENCIES_INSTALL_PREFIX=/libroadrunner-deps/install-libroadrunner-deps -DCMAKE_INSTALL_PREFIX=$(INSTALL_DIRECTORY) -DBUILD_PYTHON=ON -DBUILD_RR_PLUGINS=ON -DBUILD_TESTS=ON -DPython_ROOT_DIR=$(PythonRoot) -DSWIG_EXECUTABLE=$(SwigExecutable) ..
+              cmake --build . --target install --config Release -j 12
+              ctest --verbose --extra-verbose --output-on-failure
+
+            displayName: Build With Python
+
+          - script: |
+              eval "$(conda shell.bash hook)"
+              $(CondaExecutable) activate $(PythonName)
+              cd $(INSTALL_DIRECTORY)
+              $(PythonExecutable) setup.py bdist_wheel
+              cd dist
+              wheel=$(realpath $(ls))
+              echo "wheel is: $wheel"
+              $(PipExecutable) install $wheel
+
+            displayName: Build Pip Wheel
+          - task: CopyFiles@2
+            inputs:
+              sourceFolder: '$(INSTALL_DIRECTORY)'
+              contents: '**'
+              targetFolder: '$(Build.ArtifactStagingDirectory)/roadrunner-manylinux2014-$(PythonName)'
+            displayName: Copy install to artifact staging area
+          - task: PublishBuildArtifacts@1
+            inputs:
+              pathToPublish: '$(Build.ArtifactStagingDirectory)/manylinux2014-$(PythonName)'
+              artifactName: libOmexMeta-ManyLinux2014-$(PythonName)
+              Parallel: true
+              ParallelCount: 8
 
 
 
