@@ -1050,13 +1050,13 @@ stages:
             displayName: Build With Python
 
           - script: |
-              echo "cd to $(INSTALL_DIRECTORY)
+              echo "cd to $(INSTALL_DIRECTORY)"
               cd $(INSTALL_DIRECTORY)
 
               echo "ls"
               ls
 
-              echo $(PythonExecutable) ./setup.py bdist_wheel
+              echo "$(PythonExecutable) ./setup.py bdist_wheel"
               $(PythonExecutable) ./setup.py bdist_wheel
 
               # cd dist

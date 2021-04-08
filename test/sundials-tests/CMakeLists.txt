@@ -8,30 +8,37 @@ set(ThisDirectory ${CMAKE_CURRENT_SOURCE_DIR})
 #   - BINARY: name of the binary
 #   - OUT_VARIABLE: list variable to append BINARY. Creates the list if not exist.
 #   - All further arguments are added to the binary as sources.
-function(add_test_executable BINARY OUT_VARIABLE)
-    add_executable(${BINARY} ${ARGN})
+function(add_test_executable TEST_TARGET OUT_VARIABLE)
+    add_executable(${TEST_TARGET} ${ARGN})
 
     target_include_directories(
-            ${BINARY} PRIVATE
+            ${TEST_TARGET} PRIVATE
             "${ThisDirectory}"
     )
 
-    target_link_libraries(${BINARY} PUBLIC
+    target_link_libraries(${TEST_TARGET} PUBLIC
             roadrunner-static gtest gtest_main gmock gmock_main
             )
 
-    add_dependencies(${BINARY} roadrunner-static gtest gtest_main gmock gmock_main)
-    set_target_properties(${BINARY} PROPERTIES LINKER_LANGUAGE CXX)
+    add_dependencies(${TEST_TARGET} roadrunner-static gtest gtest_main gmock gmock_main)
+    set_target_properties(${TEST_TARGET} PROPERTIES LINKER_LANGUAGE CXX)
 
     # Add to ctest.
     # add_test(NAME ${BINARY} COMMAND "$<TARGET_FILE:${BINARY}>")
-    gtest_discover_tests(${BINARY} )
+    gtest_discover_tests(
+            ${TEST_TARGET}
+            TEST_LIST sundials-tests
+            DISCOVERY_TIMEOUT 500
+            )
+
+    set_tests_properties(${sundials-tests} PROPERTIES TIMEOUT 500)
+
 
     set(test_targets "${test_targets}" "${testid}")
     if ("${${OUT_VARIABLE}}" STREQUAL "")
-        set(${OUT_VARIABLE} "${BINARY}" PARENT_SCOPE)
+        set(${OUT_VARIABLE} "${TEST_LIST}" PARENT_SCOPE)
     else ()
-        set(${OUT_VARIABLE} "${${OUT_VARIABLE}}" "${BINARY}" PARENT_SCOPE)
+        set(${OUT_VARIABLE} "${${OUT_VARIABLE}}" "${TEST_LIST}" PARENT_SCOPE)
     endif ()
 
 endfunction()
