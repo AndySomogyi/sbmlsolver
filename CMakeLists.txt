@@ -174,11 +174,6 @@ set(CXX_STANDARD 14 CACHE STRING "set the cmake standard to use")
 #   Settings
 #
 
-# Would be nice to set these options but I tried it and we cannot without
-# breaking the build (cw)
-#set(CMAKE_CXX_VISIBILITY_PRESET hidden)
-#set(CMAKE_VISIBILITY_INLINES_HIDDEN YES)
-
 #handle rpath
 set(CMAKE_MACOSX_RPATH TRUE)
 set(CMAKE_BUILD_RPATH_USE_ORIGIN TRUE)
@@ -306,7 +301,7 @@ exists and is the full path to the installed dependency tree.")
 endif ()
 
 set(RR_ROOT "${CMAKE_CURRENT_SOURCE_DIR}")
-set(DEPENDENCY_CMAKE_CONFIG_PATHS "${RR_DEPENDENCIES_INSTALL_PREFIX}/lib/cmake")
+set(DEPENDENCY_CMAKE_CONFIG_PATHS "${RR_DEPENDENCIES_INSTALL_PREFIX}/lib/cmake;${RR_DEPENDENCIES_INSTALL_PREFIX}/lib64/cmake")
 set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} "${DEPENDENCY_CMAKE_CONFIG_PATHS}")
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${DEPENDENCY_CMAKE_CONFIG_PATHS}")
 
