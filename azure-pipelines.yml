@@ -1066,7 +1066,7 @@ stages:
           - task: PublishBuildArtifacts@1
             inputs:
               pathToPublish: '$(Build.ArtifactStagingDirectory)/manylinux2014-$(PythonName)'
-              artifactName: libOmexMeta-ManyLinux2014-$(PythonName)
+              artifactName: roadrunner-ManyLinux2014-$(PythonName)
               Parallel: true
               ParallelCount: 8
 
