@@ -513,7 +513,7 @@ stages:
           PipExecutable: '$(PythonScriptsDir)\pip.exe'
 
           # override the variable for swigwin since swig exe is in different place
-          SWIG_EXECUTABLE: '$(SWIG_INSTALL_PREFIX)/swig'
+          SWIG_EXECUTABLE: '$(SWIG_INSTALL_PREFIX)/swig.exe'
           SWIG_CACHE: 'false'
           LLVM_CACHE: 'false'
 
@@ -589,7 +589,7 @@ stages:
               echo "ls"
               ls
               echo "Invoke-WebRequest"
-              Invoke-WebRequest "https://deac-riga.dl.sourceforge.net/project/swig/swigwin/swigwin-4.0.2/swigwin-4.0.2.zip" -OutFile swigwin-4.0.2.zip
+              Invoke-WebRequest "https://downloads.sourceforge.net/project/swig/swigwin/swigwin-4.0.2/swigwin-4.0.2.zip?ts=1617917321&r=https%3A%2F%2Fsourceforge.net%2Fprojects%2Fswig%2Ffiles%2Fswigwin%2Fswigwin-4.0.2%2Fswigwin-4.0.2.zip%2Fdownload%3Fuse_mirror%3Djztkft" -OutFile swigwin-4.0.2.zip
               echo "ls"
               ls
               echo "Expand-Archive"
@@ -988,7 +988,9 @@ stages:
             artifact: PipWheels-$(Agent.OS)-$(PythonName)
             displayName: Publish Pip Wheels Artifacts
 
-
+#########################################################################
+## Many Linux Build
+##
   - stage: ManyLinux
     displayName: ManyLinux2014
     dependsOn: []
@@ -1047,15 +1049,12 @@ stages:
             displayName: Build With Python
 
           - script: |
-              eval "$(conda shell.bash hook)"
-              $(CondaExecutable) activate $(PythonName)
               cd $(INSTALL_DIRECTORY)
               $(PythonExecutable) setup.py bdist_wheel
-              cd dist
-              wheel=$(realpath $(ls))
-              echo "wheel is: $wheel"
-              $(PipExecutable) install $wheel
-
+              # cd dist
+              # wheel=$(realpath $(ls))
+              # echo "wheel is: $wheel"
+              # $(PipExecutable) install $wheel
             displayName: Build Pip Wheel
           - task: CopyFiles@2
             inputs:
