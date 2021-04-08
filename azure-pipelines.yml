@@ -589,7 +589,8 @@ stages:
               echo "ls"
               ls
               echo "Invoke-WebRequest"
-              Invoke-WebRequest "https://downloads.sourceforge.net/project/swig/swigwin/swigwin-4.0.2/swigwin-4.0.2.zip?ts=1617917321&r=https%3A%2F%2Fsourceforge.net%2Fprojects%2Fswig%2Ffiles%2Fswigwin%2Fswigwin-4.0.2%2Fswigwin-4.0.2.zip%2Fdownload%3Fuse_mirror%3Djztkft" -OutFile swigwin-4.0.2.zip
+              # note: default user agent does not follow sourceforge redirect.
+              Invoke-WebRequest -Uri https://downloads.sourceforge.net/project/swig/swigwin/swigwin-4.0.2/swigwin-4.0.2.zip -OutFile swigwin-4.0.2.zip  -UserAgent [Microsoft.PowerShell.Commands.PSUserAgent]::FireFox
               echo "ls"
               ls
               echo "Expand-Archive"
@@ -1049,8 +1050,15 @@ stages:
             displayName: Build With Python
 
           - script: |
+              echo "cd to $(INSTALL_DIRECTORY)
               cd $(INSTALL_DIRECTORY)
-              $(PythonExecutable) setup.py bdist_wheel
+
+              echo "ls"
+              ls
+
+              echo $(PythonExecutable) ./setup.py bdist_wheel
+              $(PythonExecutable) ./setup.py bdist_wheel
+
               # cd dist
               # wheel=$(realpath $(ls))
               # echo "wheel is: $wheel"
