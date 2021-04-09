@@ -55,3 +55,5 @@ RUN cd /llvm-6.x/llvm && mkdir build && cd build \
     && cmake -DCMAKE_INSTALL_PREFIX=/llvm-6.x/install-llvm-6.x -DCMAKE_BUILD_TYPE=Release ..
 RUN cd /llvm-6.x/llvm/build \
     && cmake --build . --target install --config Release -j 12
+
+RUN yum install -y ncurses-devel
