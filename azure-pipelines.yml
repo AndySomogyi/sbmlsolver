@@ -1016,7 +1016,6 @@ stages:
           BUILD_DIRECTORY: '$(System.DefaultWorkingDirectory)/build'
           SOURCE_DIRECTORY: '$(System.DefaultWorkingDirectory)'
           INSTALL_DIRECTORY: '$(System.DefaultWorkingDirectory)/install-azure'
-
           MinicondaRoot: '/Miniconda3'
           PythonRoot: '$(MinicondaRoot)/envs/$(PythonName)'
           CondaExecutable: '$(MinicondaRoot)/bin/conda'
@@ -1025,7 +1024,6 @@ stages:
           PythonLibDir: '$(PythonRoot)/Lib'
           PythonIncludeDir: '$(PythonRoot)/include'
           PipExecutable: '$(PythonRoot)/bin/pip'
-
           SwigExecutable: '/swig-4.0.2/install-swig-4.0.2/bin/swig'
 
         steps:
@@ -1033,8 +1031,69 @@ stages:
             submodules: recursive
 
           - script: |
+
+              echo "SOURCE_DIRECTORY   $(SOURCE_DIRECTORY)"
+              if [ ! -d "$(SOURCE_DIRECTORY)"]; then
+                echo "Can't find SOURCE_DIRECTORY at $(SOURCE_DIRECTORY)"
+                exit(1)
+              fi
+
+              echo "MinicondaRoot      $(MinicondaRoot)"
+              if [ ! -d "$(MinicondaRoot)"]; then
+                echo "Can't find MinicondaRoot at $(MinicondaRoot)"
+                exit(1)
+              fi
+
+              echo "PythonRoot         $(PythonRoot)"
+              if [ ! -d "$(PythonRoot)"]; then
+                echo "Can't find PythonRoot at $(PythonRoot)"
+                exit(1)
+              fi
+
+              echo "CondaExecutable    $(CondaExecutable)"
+              if [ ! -d "$(CondaExecutable)"]; then
+                echo "Can't find CondaExecutable at $(CondaExecutable)"
+                exit(1)
+              fi
+
+              echo "PythonExecutable   $(PythonExecutable)"
+              if [ ! -d "$(PythonExecutable)"]; then
+                echo "Can't find PythonExecutable at $(PythonExecutable)"
+                exit(1)
+              fi
+
+              echo "PythonLibDir       $(PythonLibDir)"
+              if [ ! -d "$(PythonLibDir)"]; then
+                echo "Can't find PythonLibDir at $(PythonLibDir)"
+                exit(1)
+              fi
+
+              echo "PythonIncludeDir   $(PythonIncludeDir)"
+              if [ ! -d "$(PythonIncludeDir)"]; then
+                echo "Can't find PythonIncludeDir at $(PythonIncludeDir)"
+                exit(1)
+              fi
+
+              echo "PipExecutable      $(PipExecutable)"
+              if [ ! -d "$(PipExecutable)"]; then
+                echo "Can't find PipExecutable at $(PipExecutable)"
+                exit(1)
+              fi
+
+              echo "SwigExecutable     $(SwigExecutable)"
+              if [ ! -d "$(SwigExecutable)"]; then
+                echo "Can't find SwigExecutable at $(SwigExecutable)"
+                exit(1)
+              fi
+
+            displayName: Print Azure Variables
+
+          - script: |
               eval "$(conda shell.bash hook)"
+              echo "$(CondaExecutable) activate $(PythonName)"
               $(CondaExecutable) activate $(PythonName)
+
+              echo ". ~/.bashrc"
               . ~/.bashrc
 
               echo "mkdir $(BUILD_DIRECTORY)"
@@ -1043,6 +1102,8 @@ stages:
               echo "cd $(BUILD_DIRECTORY)"
               cd $(BUILD_DIRECTORY)
 
+              # && cmake -DLLVM_INSTALL_PREFIX=/llvm-6.x/install-llvm-6.x -DRR_DEPENDENCIES_INSTALL_PREFIX=/libroadrunner-deps/install-libroadrunner-deps -DCMAKE_INSTALL_PREFIX=$roadrunnerInstall37 -DBUILD_PYTHON=ON -DBUILD_RR_PLUGINS=ON -DBUILD_TESTS=ON -DPython_ROOT_DIR=/Miniconda3/envs/py37 -DSWIG_EXECUTABLE=$swigExec ..
+              echo "cmake command: cmake -DLLVM_INSTALL_PREFIX=/llvm-6.x/install-llvm-6.x -DRR_DEPENDENCIES_INSTALL_PREFIX=/libroadrunner-deps/install-libroadrunner-deps -DCMAKE_INSTALL_PREFIX=$(INSTALL_DIRECTORY) -DBUILD_PYTHON=ON -DBUILD_RR_PLUGINS=ON -DBUILD_TESTS=ON -DPython_ROOT_DIR=$(PythonRoot) -DSWIG_EXECUTABLE=$(SwigExecutable) .."
               cmake -DLLVM_INSTALL_PREFIX=/llvm-6.x/install-llvm-6.x -DRR_DEPENDENCIES_INSTALL_PREFIX=/libroadrunner-deps/install-libroadrunner-deps -DCMAKE_INSTALL_PREFIX=$(INSTALL_DIRECTORY) -DBUILD_PYTHON=ON -DBUILD_RR_PLUGINS=ON -DBUILD_TESTS=ON -DPython_ROOT_DIR=$(PythonRoot) -DSWIG_EXECUTABLE=$(SwigExecutable) ..
               cmake --build . --target install --config Release -j 12
               ctest --verbose --extra-verbose --output-on-failure
@@ -1055,6 +1116,7 @@ stages:
 
               echo "ls"
               ls
+
 
               echo "$(PythonExecutable) ./setup.py bdist_wheel"
               $(PythonExecutable) ./setup.py bdist_wheel
