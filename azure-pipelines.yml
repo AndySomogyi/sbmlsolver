@@ -1051,13 +1051,13 @@ stages:
               fi
 
               echo "CondaExecutable    $(CondaExecutable)"
-              if [ ! -d "$(CondaExecutable)" ]; then
+              if [ ! -f "$(CondaExecutable)" ]; then
                 echo "Can't find CondaExecutable at $(CondaExecutable)"
                 exit 1
               fi
 
               echo "PythonExecutable   $(PythonExecutable)"
-              if [ ! -d "$(PythonExecutable)" ]; then
+              if [ ! -f "$(PythonExecutable)" ]; then
                 echo "Can't find PythonExecutable at $(PythonExecutable)"
                 exit 1
               fi
@@ -1075,13 +1075,13 @@ stages:
               fi
 
               echo "PipExecutable      $(PipExecutable)"
-              if [ ! -d "$(PipExecutable)" ]; then
+              if [ ! -f "$(PipExecutable)" ]; then
                 echo "Can't find PipExecutable at $(PipExecutable)"
                 exit 1
               fi
 
               echo "SwigExecutable     $(SwigExecutable)"
-              if [ ! -d "$(SwigExecutable)" ]; then
+              if [ ! -f "$(SwigExecutable)" ]; then
                 echo "Can't find SwigExecutable at $(SwigExecutable)"
                 exit 1
               fi
