@@ -1088,18 +1088,22 @@ stages:
             displayName: Print Azure Variables
 
           - script: |
-              eval "$(conda shell.bash hook)"
               echo "$(CondaExecutable) activate $(PythonName)"
-              $(CondaExecutable) activate $(PythonName)
+              eval "$($(CondaExecutable) shell.bash hook)"
+              $(CondaExecutable) init
 
               echo ". ~/.bashrc"
               . ~/.bashrc
+              $(CondaExecutable) activate $(PythonName)
 
               echo "mkdir $(BUILD_DIRECTORY)"
               mkdir $(BUILD_DIRECTORY)
 
               echo "cd $(BUILD_DIRECTORY)"
               cd $(BUILD_DIRECTORY)
+
+              echo "$(PipExecutable) install numpy"
+              $(PipExecutable) install numpy
 
               # && cmake -DLLVM_INSTALL_PREFIX=/llvm-6.x/install-llvm-6.x -DRR_DEPENDENCIES_INSTALL_PREFIX=/libroadrunner-deps/install-libroadrunner-deps -DCMAKE_INSTALL_PREFIX=$roadrunnerInstall37 -DBUILD_PYTHON=ON -DBUILD_RR_PLUGINS=ON -DBUILD_TESTS=ON -DPython_ROOT_DIR=/Miniconda3/envs/py37 -DSWIG_EXECUTABLE=$swigExec ..
               echo "cmake command: cmake -DLLVM_INSTALL_PREFIX=/llvm-6.x/install-llvm-6.x -DRR_DEPENDENCIES_INSTALL_PREFIX=/libroadrunner-deps/install-libroadrunner-deps -DCMAKE_INSTALL_PREFIX=$(INSTALL_DIRECTORY) -DBUILD_PYTHON=ON -DBUILD_RR_PLUGINS=ON -DBUILD_TESTS=ON -DPython_ROOT_DIR=$(PythonRoot) -DSWIG_EXECUTABLE=$(SwigExecutable) .."
