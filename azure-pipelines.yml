@@ -1105,8 +1105,8 @@ stages:
               echo "$(PipExecutable) install numpy"
               $(PipExecutable) install numpy
 
-              echo "yum install -y ncurses-devel"
-              yum install -y ncurses-devel
+              echo "sudo yum install -y ncurses-devel"
+              sudo yum install -y ncurses-devel
 
               # && cmake -DLLVM_INSTALL_PREFIX=/llvm-6.x/install-llvm-6.x -DRR_DEPENDENCIES_INSTALL_PREFIX=/libroadrunner-deps/install-libroadrunner-deps -DCMAKE_INSTALL_PREFIX=$roadrunnerInstall37 -DBUILD_PYTHON=ON -DBUILD_RR_PLUGINS=ON -DBUILD_TESTS=ON -DPython_ROOT_DIR=/Miniconda3/envs/py37 -DSWIG_EXECUTABLE=$swigExec ..
               echo "cmake command: cmake -DLLVM_INSTALL_PREFIX=/llvm-6.x/install-llvm-6.x -DRR_DEPENDENCIES_INSTALL_PREFIX=/libroadrunner-deps/install-libroadrunner-deps -DCMAKE_INSTALL_PREFIX=$(INSTALL_DIRECTORY) -DBUILD_PYTHON=ON -DBUILD_RR_PLUGINS=ON -DBUILD_TESTS=ON -DPython_ROOT_DIR=$(PythonRoot) -DSWIG_EXECUTABLE=$(SwigExecutable) .."
