@@ -1116,7 +1116,7 @@ stages:
               echo "ls"
               ls
 
-
+              $(PipExecutable) install numpy
               echo "$(PythonExecutable) ./setup.py bdist_wheel"
               $(PythonExecutable) ./setup.py bdist_wheel
 
