@@ -1,8 +1,5 @@
 var searchData=
 [
-  ['new_2040',['New',['../classrr_1_1IntegratorFactory.html#ab7298b70afb06e1200181cf3981f739c',1,'rr::IntegratorFactory::New()'],['../classrr_1_1SteadyStateSolverFactory.html#a2f6ae03a7d0ac0486bc8618b78cf7834',1,'rr::SteadyStateSolverFactory::New()']]],
-  ['nleq1interface_2041',['NLEQ1Interface',['../classrr_1_1NLEQ1Interface.html#ab674b1a3c8e36b5bb8035d9f88a8d2b5',1,'rr::NLEQ1Interface']]],
-  ['nleq1solver_2042',['NLEQ1Solver',['../classrr_1_1NLEQ1Solver.html#a793640e077ef19ff994c7b1f7cf841f6',1,'rr::NLEQ1Solver']]],
-  ['nleq2interface_2043',['NLEQ2Interface',['../classrr_1_1NLEQ2Interface.html#a8a81435af883b0dfcdc367b02ead6e60',1,'rr::NLEQ2Interface']]],
-  ['nleq2solver_2044',['NLEQ2Solver',['../classrr_1_1NLEQ2Solver.html#ab55885bb773e0645a240e28eba291625',1,'rr::NLEQ2Solver']]]
+  ['onestep_734',['oneStep',['../group__simulation.html#ga8f7109b90040ff57b8366c2f1867f066',1,'rrc_api.h']]],
+  ['operator_20const_20vector_3c_20string_20_3e_20_26_735',['operator const vector&lt; string &gt; &amp;',['../classrrc_1_1_string_list.html#af2a20e2f5b4cad9d01c24f051192bcfd',1,'rrc::StringList']]]
 ];
