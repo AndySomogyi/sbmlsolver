@@ -4,7 +4,7 @@
 
 # [Click here to get Documentation](http://sys-bio.github.io/roadrunner/)
 
-Copyright 2013-2018
+Copyright 2013-2021
 
 E. T. Somogyi <sup>1</sup>, J. K. Medley <sup>3</sup>, M. T. Karlsson <sup>2</sup>, M. Swat <sup>1</sup>, M. Galdzicki <sup>3</sup>, K. Choi <sup>3</sup>, W. Copeland <sup>3</sup> and H. M. Sauro <sup>3</sup>
 
