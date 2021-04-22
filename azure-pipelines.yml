@@ -147,7 +147,7 @@ stages:
               targetFolder: $(Build.ArtifactStagingDirectory)
             displayName: Copy to Staging Area
           - publish: $(Build.ArtifactStagingDirectory)
-            artifact: _roadrunner-$(Agent.OS)-$(BuildType)
+            artifact: roadrunner-$(Agent.OS)-$(BuildType)
             displayName: Publish
 
   - stage: MacBuildRoadrunnerPython
@@ -356,7 +356,7 @@ stages:
               targetFolder: $(Build.ArtifactStagingDirectory)/pip-wheels
             displayName: Copy Pip Wheels to Staging Area
           - publish: $(Build.ArtifactStagingDirectory)
-            artifact: PipWheels-$(Agent.OS)-$(PythonName)
+            artifact: roadrunner-$(Agent.OS)-$(PythonName)
             displayName: Publish Pip Wheels Artifacts
 
 ########################################################################
@@ -478,7 +478,7 @@ stages:
               targetFolder: $(Build.ArtifactStagingDirectory)
             displayName: Copy to Staging Area
           - publish: $(Build.ArtifactStagingDirectory)
-            artifact: _roadrunner-$(Agent.OS)-$(BuildType)
+            artifact: roadrunner-$(Agent.OS)-$(BuildType)
             displayName: Publish
 
   - stage: WindowsBuildRoadrunnerPython
@@ -665,7 +665,7 @@ stages:
               targetFolder: $(Build.ArtifactStagingDirectory)/pip-wheels
             displayName: Copy Pip Wheels to Staging Area
           - publish: $(Build.ArtifactStagingDirectory)
-            artifact: PipWheels-$(Agent.OS)-$(PythonName)
+            artifact: roadrunner-$(Agent.OS)-$(PythonName)
             displayName: Publish Pip Wheels Artifacts
 
 
@@ -795,7 +795,7 @@ stages:
               targetFolder: $(Build.ArtifactStagingDirectory)
             displayName: Copy to Staging Area
           - publish: $(Build.ArtifactStagingDirectory)
-            artifact: _roadrunner-$(Agent.OS)-$(BuildType)
+            artifact: roadrunner-$(Agent.OS)-$(BuildType)
             displayName: Publish
 
   - stage: LinuxBuildRoadrunnerPython
@@ -986,7 +986,7 @@ stages:
               targetFolder: $(Build.ArtifactStagingDirectory)/pip-wheels
             displayName: Copy Pip Wheels to Staging Area
           - publish: $(Build.ArtifactStagingDirectory)
-            artifact: PipWheels-$(Agent.OS)-$(PythonName)
+            artifact: roadrunner-$(Agent.OS)-$(PythonName)
             displayName: Publish Pip Wheels Artifacts
 
 #########################################################################
