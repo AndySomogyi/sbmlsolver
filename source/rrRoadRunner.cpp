@@ -2498,12 +2498,12 @@ DoubleMatrix RoadRunner::getFullJacobian()
     }
     else
     {
-        // There might be no model
-        int n = self.model->getNumRateRules ();
-        if (n == 0) {
+        // There might be no model.
+        int nr = self.model->getNumReactions ();
+        if (nr == 0) {
            DoubleMatrix jac (self.model->getNumRateRules (), self.model->getNumRateRules ());
            return jac;
-         }
+         }    
 
         DoubleMatrix uelast = getUnscaledElasticityMatrix ();
 
@@ -3809,7 +3809,14 @@ double RoadRunner::getUnscaledSpeciesElasticity(int reactionId, int speciesIndex
     // this causes a reset, so need to save the current amounts to set them back
     // as init conditions.
     std::vector<double> conc(self.model->getNumFloatingSpecies());
+
     (self.model.get()->*getValuePtr)(conc.size(), 0, &conc[0]);
+
+    // Dpon't try to compute any elasticiteis if there a numerically suspicious values
+    for (int i = 0; i < conc.size () - 1; i++)
+        if (fabs (conc[i]) > 1E100) {
+            throw std::runtime_error ("Floating species concentations are of the order of 1E100, unable to compute elasticities");
+        }
 
     // save the original init values
     std::vector<double> initConc(self.model->getNumFloatingSpecies());
