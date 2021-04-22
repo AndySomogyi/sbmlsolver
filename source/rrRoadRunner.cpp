@@ -2394,7 +2394,6 @@ DoubleMatrix RoadRunner::getFullJacobian()
         {
             for (int j = 0; j < self.model->getNumRateRules(); j++)
             {
-
                 double value;
                 double originalConc = 0;
                 double result = std::numeric_limits<double>::quiet_NaN();
@@ -2467,24 +2466,20 @@ DoubleMatrix RoadRunner::getFullJacobian()
                 catch (const std::exception&)
                 {
                     // What ever happens, make sure we restore the species level
-                    (self.model.get()->*setInitValuePtr)(
-                        initConc.size(), 0, &initConc[0]);
+                    (self.model.get()->*setInitValuePtr)(initConc.size(), 0, &initConc[0]);
 
                     // only set the indep species, setting dep species is not permitted.
-                    (self.model.get()->*setValuePtr)(
-                        self.model->getNumFloatingSpecies(), 0, &conc[0]);
+                    (self.model.get()->*setValuePtr)(self.model->getNumFloatingSpecies(), 0, &conc[0]);
 
                     // re-throw the exception.
                     throw;
                 }
 
                 // What ever happens, make sure we restore the species level
-                (self.model.get()->*setInitValuePtr)(
-                    initConc.size(), 0, &initConc[0]);
+                (self.model.get()->*setInitValuePtr)(initConc.size(), 0, &initConc[0]);
 
                 // only set the indep species, setting dep species is not permitted.
-                (self.model.get()->*setValuePtr)(
-                    self.model->getNumFloatingSpecies(), 0, &conc[0]);
+                (self.model.get()->*setValuePtr)(self.model->getNumFloatingSpecies(), 0, &conc[0]);
 
                 jac[i][j] = result;
             }
@@ -2503,18 +2498,25 @@ DoubleMatrix RoadRunner::getFullJacobian()
     }
     else
     {
-        DoubleMatrix uelast = getUnscaledElasticityMatrix();
+        // There might be no model
+        int n = self.model->getNumRateRules ();
+        if (n == 0) {
+           DoubleMatrix jac (self.model->getNumRateRules (), self.model->getNumRateRules ());
+           return jac;
+         }
+
+        DoubleMatrix uelast = getUnscaledElasticityMatrix ();
 
         // ptr to libstruct owned obj.
-        DoubleMatrix *rsm;
-        LibStructural *ls = getLibStruct();
-        if (self.loadOpt.getConservedMoietyConversion())
+        DoubleMatrix* rsm;
+        LibStructural* ls = getLibStruct ();
+        if (self.loadOpt.getConservedMoietyConversion ())
         {
-            rsm = ls->getReorderedStoichiometryMatrix();
+            rsm = ls->getReorderedStoichiometryMatrix ();
         }
         else
         {
-            rsm = ls->getStoichiometryMatrix();
+            rsm = ls->getStoichiometryMatrix ();
         }
 
         DoubleMatrix jac = ls::mult(*rsm, uelast);
