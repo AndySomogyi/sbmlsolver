@@ -5574,6 +5574,56 @@ void RoadRunner::loadSelectionVector(std::istream& in, std::vector<SelectionReco
 	}
 }
 
+void RoadRunner::regenerateModel ()
+{
+    regenerate (true);
+}
+
+void RoadRunner::addSpeciesConcentration (const std::string& sid, const std::string& compartment, double initConcentration, bool hasOnlySubstanceUnits, bool boundaryCondition, const std::string& substanceUnits, bool forceRegenerate)
+{
+    checkID ("addSpecies", sid);
+
+    libsbml::Model* model = impl->document->getModel ();
+
+    if (forceRegenerate && model->getCompartment (compartment) == NULL)
+    {
+        throw std::invalid_argument ("Roadrunner::addSpecies failed, no compartment " + compartment + " existed in the model");
+    }
+
+    Log (Logger::LOG_DEBUG) << "Adding species " << sid << " in compartment " << compartment << "..." << endl;
+    libsbml::Species* newSpecies = impl->document->getModel ()->createSpecies ();
+
+    int ret = newSpecies->setId (sid);
+    if (ret != libsbml::LIBSBML_OPERATION_SUCCESS) {
+        newSpecies->removeFromParentAndDelete ();
+        throw std::invalid_argument ("Roadrunner::addSpecies failed: invalid species id '" + sid + "'.");
+    }
+    newSpecies->setCompartment (compartment);
+
+    // if InitialAssignment is set for the species, then initialAmount will be ignored, but set it anyway.
+
+    newSpecies->setInitialConcentration (initConcentration);
+    newSpecies->setHasOnlySubstanceUnits (hasOnlySubstanceUnits);
+    newSpecies->setBoundaryCondition (boundaryCondition);
+
+    bool validUnit = false;
+    if (!substanceUnits.empty ()) {
+        if (model->getUnitDefinition (substanceUnits) != NULL)
+            validUnit = true;
+        else {
+            validUnit = libsbml::UnitKind_forName (substanceUnits.c_str ()) != libsbml::UNIT_KIND_INVALID;
+        }
+    }
+
+    if (validUnit) {
+        newSpecies->setSubstanceUnits (substanceUnits);
+    }
+
+    newSpecies->setConstant (false);
+
+    regenerate (forceRegenerate);
+}
+
 void RoadRunner::addSpecies(const std::string& sid, const std::string& compartment, double initAmount, bool hasOnlySubstanceUnits, bool boundaryCondition, const std::string& substanceUnits, bool forceRegenerate)
 {
     checkID("addSpecies", sid);
