@@ -1685,20 +1685,30 @@ int rrcCallConv getCurrentIntegratorParameterType (RRHandle handle, char *parame
 // Model editing methods
 // -------------------------------------------------------------------------------------
 
-bool rrcCallConv addSpecies(RRHandle handle, const char* sid, const char* compartment, double initialAmount, bool hasOnlySubstanceUnits, bool boundaryCondition)
+bool rrcCallConv addSpeciesConcentration (RRHandle handle, const char* sid, const char* compartment, double initialConcentration, bool hasOnlySubstanceUnits, bool boundaryCondition)
+{
+    start_try
+        RoadRunner* rri = castToRoadRunner (handle);
+        rri->addSpeciesConcentration (sid, compartment, initialConcentration, hasOnlySubstanceUnits, boundaryCondition);
+        return true;
+    catch_bool_macro
+}
+
+
+bool rrcCallConv addSpeciesAmount(RRHandle handle, const char* sid, const char* compartment, double initialAmount, bool hasOnlySubstanceUnits, bool boundaryCondition)
 {
 	start_try
 		RoadRunner* rri = castToRoadRunner(handle);
-		rri->addSpecies(sid, compartment, initialAmount, hasOnlySubstanceUnits, boundaryCondition);
+		rri->addSpeciesAmount(sid, compartment, initialAmount, hasOnlySubstanceUnits, boundaryCondition);
 		return true;
 	catch_bool_macro
 }
 
-bool rrcCallConv addSpeciesNoRegen(RRHandle handle, const char* sid, const char* compartment, double initialAmount, bool hasOnlySubstanceUnits, bool boundaryCondition)
+bool rrcCallConv addSpeciesAmountNoRegen(RRHandle handle, const char* sid, const char* compartment, double initialAmount, bool hasOnlySubstanceUnits, bool boundaryCondition)
 {
 	start_try
 		RoadRunner* rri = castToRoadRunner(handle);
-		rri->addSpecies(sid, compartment, initialAmount, hasOnlySubstanceUnits, boundaryCondition, "", false);
+		rri->addSpeciesAmount(sid, compartment, initialAmount, hasOnlySubstanceUnits, boundaryCondition, "", false);
 		return true;
 	catch_bool_macro
 }

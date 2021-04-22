@@ -5581,13 +5581,13 @@ void RoadRunner::regenerateModel ()
 
 void RoadRunner::addSpeciesConcentration (const std::string& sid, const std::string& compartment, double initConcentration, bool hasOnlySubstanceUnits, bool boundaryCondition, const std::string& substanceUnits, bool forceRegenerate)
 {
-    checkID ("addSpecies", sid);
+    checkID ("addSpeciesConcentration", sid);
 
     libsbml::Model* model = impl->document->getModel ();
 
     if (forceRegenerate && model->getCompartment (compartment) == NULL)
     {
-        throw std::invalid_argument ("Roadrunner::addSpecies failed, no compartment " + compartment + " existed in the model");
+        throw std::invalid_argument ("Roadrunner::addaddSpeciesConcentrationSpecies failed, no compartment " + compartment + " existed in the model");
     }
 
     Log (Logger::LOG_DEBUG) << "Adding species " << sid << " in compartment " << compartment << "..." << endl;
@@ -5596,7 +5596,7 @@ void RoadRunner::addSpeciesConcentration (const std::string& sid, const std::str
     int ret = newSpecies->setId (sid);
     if (ret != libsbml::LIBSBML_OPERATION_SUCCESS) {
         newSpecies->removeFromParentAndDelete ();
-        throw std::invalid_argument ("Roadrunner::addSpecies failed: invalid species id '" + sid + "'.");
+        throw std::invalid_argument ("Roadrunner::addSpeciesConcentration failed: invalid species id '" + sid + "'.");
     }
     newSpecies->setCompartment (compartment);
 
@@ -5624,15 +5624,15 @@ void RoadRunner::addSpeciesConcentration (const std::string& sid, const std::str
     regenerate (forceRegenerate);
 }
 
-void RoadRunner::addSpecies(const std::string& sid, const std::string& compartment, double initAmount, bool hasOnlySubstanceUnits, bool boundaryCondition, const std::string& substanceUnits, bool forceRegenerate)
+void RoadRunner::addSpeciesAmount(const std::string& sid, const std::string& compartment, double initAmount, bool hasOnlySubstanceUnits, bool boundaryCondition, const std::string& substanceUnits, bool forceRegenerate)
 {
-    checkID("addSpecies", sid);
+    checkID("addSpeciesAmount", sid);
 
     libsbml::Model* model = impl->document->getModel();
 
     if (forceRegenerate && model->getCompartment(compartment) == NULL)
     {
-        throw std::invalid_argument("Roadrunner::addSpecies failed, no compartment " + compartment + " existed in the model");
+        throw std::invalid_argument("Roadrunner::addSpaddSpeciesAmountecies failed, no compartment " + compartment + " existed in the model");
     }
 
     Log(Logger::LOG_DEBUG) << "Adding species " << sid << " in compartment " << compartment << "..." << endl;
@@ -5641,7 +5641,7 @@ void RoadRunner::addSpecies(const std::string& sid, const std::string& compartme
     int ret = newSpecies->setId(sid);
     if (ret != libsbml::LIBSBML_OPERATION_SUCCESS) {
         newSpecies->removeFromParentAndDelete();
-        throw std::invalid_argument("Roadrunner::addSpecies failed: invalid species id '" + sid + "'.");
+        throw std::invalid_argument("Roadrunner::addSpeciesAmount failed: invalid species id '" + sid + "'.");
     }
     newSpecies->setCompartment(compartment);
 

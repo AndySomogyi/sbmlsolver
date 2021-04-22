@@ -452,7 +452,20 @@ C_DECL_SPEC char* rrcCallConv getSBML(RRHandle handle);
  \return Returns false if the call fails, otherwise returns a true
  \ingroup edit
 */
-C_DECL_SPEC bool rrcCallConv addSpecies(RRHandle handle, const char* sid, const char* compartment, double initialAmount, bool hasOnlySubstanceUnits, bool boundaryCondition);
+C_DECL_SPEC bool rrcCallConv addSpeciesAmount        (RRHandle handle, const char* sid, const char* compartment, double initialAmount,        bool hasOnlySubstanceUnits, bool boundaryCondition);
+
+/*!
+ \brief Add a species to the current model
+ \param[in] handle Handle to a RoadRunner instance
+ \param[in] sid ID of the species to be added
+ \param[in] compartment Compartment of the species to be added
+ \param[in] initialConcentration Initial concentration of the species to be added
+ \param[in] substanceUnit Substance unit of the species to be added
+ \return Returns false if the call fails, otherwise returns a true
+ \ingroup edit
+*/
+C_DECL_SPEC bool rrcCallConv addSpeciesConcentration (RRHandle handle, const char* sid, const char* compartment, double initialConcentration, bool hasOnlySubstanceUnits, bool boundaryCondition);
+
 
 /*!
  \brief Add a species to the current model, without regenerating it
@@ -465,7 +478,7 @@ C_DECL_SPEC bool rrcCallConv addSpecies(RRHandle handle, const char* sid, const 
  \return Returns false if the call fails, otherwise returns a true
  \ingroup edit
 */
-C_DECL_SPEC bool rrcCallConv addSpeciesNoRegen(RRHandle handle, const char* sid, const char* compartment, double initialAmount, bool hasOnlySubstanceUnits, bool boundaryCondition);
+C_DECL_SPEC bool rrcCallConv addSpeciesAmountNoRegen(RRHandle handle, const char* sid, const char* compartment, double initialAmount, bool hasOnlySubstanceUnits, bool boundaryCondition);
 
 
 /*!

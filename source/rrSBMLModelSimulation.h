@@ -42,8 +42,6 @@ class RR_DECLSPEC SBMLModelSimulation
         bool                    UseEngine(RoadRunner* engine);
 
 
-
-
         bool                    SaveModelAsXML(const string& folder);
 
         //wrappers

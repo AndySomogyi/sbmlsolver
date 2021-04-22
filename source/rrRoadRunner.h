@@ -752,6 +752,21 @@ namespace rr
         void regenerateModel ();
 
         /**
+         * Add a species to the current model and set its concentration.
+         * @param sid: the ID of the species to be added
+         * @param compartment: the compartment of the species to be added
+         * @param initConcentration: the initial concentration of the species to be added
+         * @param substanceUnits: the substance unit of the species to be added
+         * @param forceRegenerate: a boolean value to indicate if the model is regenerated
+         *					       after this function call
+         *						   default value is true to regenerate model after each call
+         *                         of editing function
+         *						   to save time for editing for multiple times, one could
+         *					       set this flag to true only in the last call of editing
+         */
+        void addSpeciesConcentration (const std::string& sid, const std::string& compartment, double initConcentration, bool hasOnlySubstanceUnits=false, bool boundaryCondition=false, const std::string& substanceUnits = "", bool forceRegenerate = true);
+
+        /**
          * Add a species to the current model.
          * @param sid: the ID of the species to be added
          * @param compartment: the compartment of the species to be added
@@ -764,7 +779,7 @@ namespace rr
          *						   to save time for editing for multiple times, one could
          *					       set this flag to true only in the last call of editing
          */
-        void addSpecies(const std::string& sid, const std::string& compartment, double initAmount = 0, bool hasOnlySubstanceUnits=false, bool boundaryCondition=false, const std::string& substanceUnits = "", bool forceRegenerate = true);
+        void addSpeciesAmount (const std::string& sid, const std::string& compartment, double initAmount = 0, bool hasOnlySubstanceUnits=false, bool boundaryCondition=false, const std::string& substanceUnits = "", bool forceRegenerate = true);
 
 
         /*
