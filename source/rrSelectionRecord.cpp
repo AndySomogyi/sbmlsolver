@@ -245,24 +245,24 @@ static bool is_init_conc(const std::string& str, std::string& p1)
 namespace rr
 {
 
-using namespace std;
+
 
 
 
 SelectionRecord::SelectionRecord(const int& _index,
-        const SelectionType _type, const string& _p1,
-        const string& _p2) :
+        const SelectionType _type, const std::string& _p1,
+        const std::string& _p2) :
         index(_index), p1(_p1), p2(_p2), selectionType(_type)
 {
 }
 
-ostream& operator<<(ostream& stream, const SelectionRecord& rec)
+std::ostream& operator<<(std::ostream& stream, const SelectionRecord& rec)
 {
-    stream << "A Selection Record --" << endl;
-    stream << "Index: " << rec.index << endl;
-    stream << "p1: " << rec.p1 << endl;
-    stream << "p2: " << rec.p1 << endl;
-    stream << "SelectionType: " << rec.selectionType << endl;
+    stream << "A Selection Record --" << std::endl;
+    stream << "Index: " << rec.index << std::endl;
+    stream << "p1: " << rec.p1 << std::endl;
+    stream << "p2: " << rec.p1 << std::endl;
+    stream << "SelectionType: " << rec.selectionType << std::endl;
     return stream;
 }
 

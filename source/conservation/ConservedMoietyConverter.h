@@ -196,7 +196,7 @@ public:
     ~PyConservedMoietyConverter();
 
     /**
-     * used in the python wrapper, can set a sbml string or file path.
+     * used in the python wrapper, can set a sbml std::string or file path.
      */
     int setDocument(const std::string& fileOrPath);
 

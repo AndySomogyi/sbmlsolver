@@ -22,47 +22,43 @@
 
 // == CODE ====================================================
 
-using namespace std;
-namespace rr
-{
-	/*------------------------------------------------------------------------------------------
-		SteadyStateSolver
-	  ------------------------------------------------------------------------------------------*/
 
-	void SteadyStateSolver::loadConfigSettings()
-	{
-		// empty
-	}
+namespace rr {
+    /*------------------------------------------------------------------------------------------
+        SteadyStateSolver
+      ------------------------------------------------------------------------------------------*/
 
-	SteadyStateSolverRegistrar::~SteadyStateSolverRegistrar() {}
+    SteadyStateSolverRegistrar::~SteadyStateSolverRegistrar() {}
 
     /********************************************************************************************
     * SteadyStateSolver FACTORY
     ********************************************************************************************/
 
     SteadyStateSolverFactory::~SteadyStateSolverFactory() {
-        for (SteadyStateSolverRegistrars::const_iterator it(mRegisteredSteadyStateSolvers.begin()); it != mRegisteredSteadyStateSolvers.end(); ++it) {
+        for (SteadyStateSolverRegistrars::const_iterator it(mRegisteredSteadyStateSolvers.begin());
+             it != mRegisteredSteadyStateSolvers.end(); ++it) {
             delete *it;
         }
     }
 
-    SteadyStateSolver* SteadyStateSolverFactory::New(std::string name, ExecutableModel* m) const {
-        for (SteadyStateSolverRegistrars::const_iterator it(mRegisteredSteadyStateSolvers.begin()); it != mRegisteredSteadyStateSolvers.end(); ++it) {
+    SteadyStateSolver *SteadyStateSolverFactory::New(const std::string &name, ExecutableModel *m) const {
+        for (SteadyStateSolverRegistrars::const_iterator it(mRegisteredSteadyStateSolvers.begin());
+             it != mRegisteredSteadyStateSolvers.end(); ++it) {
             if ((*it)->getName() == name) {
                 return (*it)->construct(m);
             }
         }
-        Log(Logger::LOG_ERROR) << "No such SteadyStateSolver '" << name << "'";
+        rrLog(Logger::LOG_ERROR) << "No such SteadyStateSolver '" << name << "'";
         throw InvalidKeyException("No such SteadyStateSolver: " + name);
     }
 
-    void SteadyStateSolverFactory::registerSteadyStateSolver(SteadyStateSolverRegistrar* i) {
+    void SteadyStateSolverFactory::registerSteadyStateSolver(SteadyStateSolverRegistrar *i) {
         if (!i)
             throw CoreException("Registrar is null");
         mRegisteredSteadyStateSolvers.push_back(i);
     }
 
-    SteadyStateSolverFactory& SteadyStateSolverFactory::getInstance() {
+    SteadyStateSolverFactory &SteadyStateSolverFactory::getInstance() {
         // FIXME: not thread safe -- JKM, July 24, 2015.
         static SteadyStateSolverFactory factory;
         return factory;
@@ -72,17 +68,15 @@ namespace rr
         return mRegisteredSteadyStateSolvers.size();
     }
 
-	std::vector<std::string> SteadyStateSolverFactory::getListSteadyStateSolverNames()
-	{
-		std::vector<std::string> intgNames;
-		int numIntgs = static_cast<int>(SteadyStateSolverFactory::getInstance().mRegisteredSteadyStateSolvers.size());
-		for (int i = 0; i < numIntgs; ++i)
-		{
-			std::size_t n = static_cast<std::size_t>(i);
-			intgNames.push_back(SteadyStateSolverFactory::getInstance().getSteadyStateSolverName(n));
-		}
-		return intgNames;
-	}
+    std::vector<std::string> SteadyStateSolverFactory::getListSteadyStateSolverNames() {
+        std::vector<std::string> intgNames;
+        int numIntgs = static_cast<int>(SteadyStateSolverFactory::getInstance().mRegisteredSteadyStateSolvers.size());
+        for (int i = 0; i < numIntgs; ++i) {
+            std::size_t n = static_cast<std::size_t>(i);
+            intgNames.push_back(SteadyStateSolverFactory::getInstance().getSteadyStateSolverName(n));
+        }
+        return intgNames;
+    }
 
     std::string SteadyStateSolverFactory::getSteadyStateSolverName(std::size_t n) const {
         return mRegisteredSteadyStateSolvers.at(n)->getName();
@@ -96,36 +90,77 @@ namespace rr
         return mRegisteredSteadyStateSolvers.at(n)->getDescription();
     }
 
-	std::string SteadyStateSolver::getSettingsRepr() const
-	{
-		std::stringstream ss;
-		for (size_t n = 0; n<getNumParams(); ++n)
-			ss << "    " << std::setw(20) << getParamName(n) << ": " << getValue(getParamName(n)).toString() << "\n";
-		return ss.str();
-	}
+    std::string SteadyStateSolver::toString() const {
+        std::stringstream ss;
+        ss << "< roadrunner.SteadyStateSolver() >\n";
+        ss << "  name: " << getName() << "\n";
+        ss << "  settings:\n";
+        ss << getSettingsRepr();
+        return ss.str();
+    }
 
-	std::string SteadyStateSolver::settingsPyDictRepr() const
-	{
-		std::stringstream ss;
-		for (size_t n = 0; n<getNumParams(); ++n)
-			ss << (n ? ", " : "") << "'" << getParamName(n) << "': " << getValue(getParamName(n)).pythonRepr();
-		return ss.str();
-	}
+    std::string SteadyStateSolver::toRepr() const {
+        std::stringstream ss;
+        ss << "< roadrunner.SteadyStateSolver() \"" << getName() << "\" " << settingsPyDictRepr() << " >\n";
+        return ss.str();
+    }
 
-	std::string SteadyStateSolver::toString() const
-	{
-		std::stringstream ss;
-		ss << "< roadrunner.SteadyStateSolver() >\n";
-		ss << "  name: " << getName() << "\n";
-		ss << "  settings:\n";
-		ss << getSettingsRepr();
-		return ss.str();
-	}
+    void SteadyStateSolver::resetSettings() {
+        Solver::resetSettings();
 
-	std::string SteadyStateSolver::toRepr() const
-	{
-		std::stringstream ss;
-		ss << "< roadrunner.SteadyStateSolver() \"" << getName() << "\" " << settingsPyDictRepr() << " >\n";
-		return ss.str();
-	}
+        addSetting("auto_moiety_analysis", true, "Automatic Moiety Analysis Computation",
+                   "Toggle automatic inference of the need for moiety conservation analysis",
+                   "(bool) When true, models that require moiety conservation analysis are "
+                   "automatically analysed for conserved moieties before computing steady state. The flip "
+                   "side is that this check will slow computation, which will have a measurable performance impact on "
+                   "tasks that require repeated steady state computation *if* the model does not "
+                   "require require moiety conservation analysis.");
+
+        addSetting("allow_presimulation", true, "Allow Presimulation",
+                   "Flag for starting steady state analysis with simulation (bool).",
+                   "(bool) This flag does not affect the usage of NLEQ1/2 approximation routine when the default steady state solver fails");
+
+        addSetting("presimulation_time", 5.0, "Presimulation Time",
+                   "End time for presimulation steady state analysis (double).",
+                   "(double) presimulation_maximum_steps takes priority. Only used when allow_presimulation is True");
+
+        addSetting("presimulation_times", std::vector<double>({0.1, 1, 10, 100, 1e3, 1e4}), "Presimulation Times",
+                   "Vector of successive time points to try presimulation prior to solving for steady state (std::vector<double>).",
+                   "(double) Similar to presimulation_time, but tries multiple time points before failing");
+
+        addSetting("presimulation_maximum_steps", getValueAsDouble("presimulation_time") * 100,
+                   "Presimulation Maximum Steps",
+                   "Maximum number of steps that can be taken for presimulation before steady state analysis (int).",
+                   "(int) Takes priority over presimulation_time. Only used when allow_presimulation is True");
+
+        addSetting("allow_approx", true, "Allow Approximiation",
+                   "Flag for using steady state approximation routine when steady state solver fails (bool).",
+                   "(bool) Approximation routine will run only when the default solver fails to fine a solution. This flag does not affect usage of approximation routine for pre-simulation");
+
+        addSetting("approx_tolerance", 1e-6, "Approximation Tolerance",
+                   "Tolerance for steady state approximation routine (double).",
+                   "(double) Absolute tolerance used by steady state approximation routine. Only used when steady state approximation routine is used");
+
+        addSetting("approx_maximum_steps", 10000, "Approximation Maximum Steps",
+                   "Maximum number of steps that can be taken for steady state approximation routine (int).",
+                   "(int) Takes priority over approx_time. Only used when steady state approximation routine is used");
+
+        addSetting("approx_time", 10000, "Approximation Time",
+                   "End time for steady state approximation routine (double).",
+                   "(double) approx_maximum_steps takes priority. Only used when steady state approximation routine is used");
+
+    }
+    void SteadyStateSolver::loadConfigSettings() {
+
+        SteadyStateSolver::setValue("allow_presimulation", Config::getBool(Config::STEADYSTATE_PRESIMULATION));
+        SteadyStateSolver::setValue("presimulation_maximum_steps",
+                             Config::getInt(Config::STEADYSTATE_PRESIMULATION_MAX_STEPS));
+        SteadyStateSolver::setValue("presimulation_time", Config::getDouble(Config::STEADYSTATE_PRESIMULATION_TIME));
+        SteadyStateSolver::setValue("allow_approx", Config::getBool(Config::STEADYSTATE_APPROX));
+        SteadyStateSolver::setValue("approx_tolerance", Config::getDouble(Config::STEADYSTATE_APPROX_TOL));
+        SteadyStateSolver::setValue("approx_maximum_steps", Config::getInt(Config::STEADYSTATE_APPROX_MAX_STEPS));
+        SteadyStateSolver::setValue("approx_time", Config::getDouble(Config::STEADYSTATE_APPROX_TIME));
+    }
+
+
 }

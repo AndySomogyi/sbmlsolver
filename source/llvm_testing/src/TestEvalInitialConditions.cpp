@@ -13,7 +13,7 @@
 namespace rr
 {
 
-using namespace std;
+
 
 TestEvalInitialConditions::TestEvalInitialConditions(const std::string& compiler,
         const std::string& version, int caseNumber)
@@ -27,9 +27,9 @@ TestEvalInitialConditions::~TestEvalInitialConditions()
 
 bool TestEvalInitialConditions::test()
 {
-    Log(Logger::LOG_INFORMATION) << "Evaluating Initial Conditions for " << fileName << endl;
+    rrLog(Logger::LOG_INFORMATION) << "Evaluating Initial Conditions for " << fileName << std::endl;
 
-    Log(Logger::LOG_INFORMATION) << model << endl;
+    rrLog(Logger::LOG_INFORMATION) << model << std::endl;
 
     for (int i = 0; i < model->getNumFloatingSpecies(); i++)
     {
@@ -38,7 +38,7 @@ bool TestEvalInitialConditions::test()
         model->getFloatingSpeciesAmounts(1, &i, &amt);
         model->getFloatingSpeciesConcentrations(1, &i, &conc);
 
-        Log(Logger::LOG_INFORMATION) << "float species: " << i << ", amount: " << amt << ", conc: " << conc << endl;
+        rrLog(Logger::LOG_INFORMATION) << "float species: " << i << ", amount: " << amt << ", conc: " << conc << std::endl;
     }
 
     for (int i = 0; i < model->getNumBoundarySpecies(); i++)
@@ -48,7 +48,7 @@ bool TestEvalInitialConditions::test()
         model->getBoundarySpeciesAmounts(1, &i, &amt);
         model->getBoundarySpeciesConcentrations(1, &i, &conc);
 
-        Log(Logger::LOG_INFORMATION) << "boundary species: " << i << ", amount: " << amt << ", conc: " << conc << endl;
+        rrLog(Logger::LOG_INFORMATION) << "boundary species: " << i << ", amount: " << amt << ", conc: " << conc << std::endl;
     }
 
 

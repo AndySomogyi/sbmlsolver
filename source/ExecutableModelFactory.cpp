@@ -38,12 +38,12 @@
 #include "testing/CXXExecutableModel.h"
 #include "testing/CXXEnzymeExecutableModel.h"
 
-using namespace std;
+
 namespace rr {
 
 /*
-static ModelGenerator* createModelGenerator(const string& compiler, const string& tempFolder,
-            const string& supportCodeFolder);
+static ModelGenerator* createModelGenerator(const std::string& compiler, const std::string& tempFolder,
+            const std::string& supportCodeFolder);
 */
 
 /**
@@ -91,34 +91,34 @@ ExecutableModel* ExecutableModelFactory::regenerateModel(ExecutableModel* oldMod
 }
 
 /*
-ModelGenerator* createModelGenerator(const string& compiler, const string& tempFolder,
-            const string& supportCodeFolder)
+ModelGenerator* createModelGenerator(const std::string& compiler, const std::string& tempFolder,
+            const std::string& supportCodeFolder)
 {
 #if defined(BUILD_LLVM) && !defined(BUILD_LEGACY_C)
 
-    Log(Logger::LOG_INFORMATION) << "Creating LLVM based model generator.";
+    rrLog(Logger::LOG_INFORMATION) << "Creating LLVM based model generator.";
     return new rrllvm::LLVMModelGenerator();
 
 #endif
 
 #if defined(BUILD_LLVM) && defined(BUILD_LEGACY_C)
-    string ucomp = compiler;
+    std::string ucomp = compiler;
     std::transform(ucomp.begin(), ucomp.end(),ucomp.begin(), ::toupper);
 
     if (ucomp == "LLVM")
     {
-        Log(Logger::LOG_INFORMATION) << "Creating LLVM based model generator.";
+        rrLog(Logger::LOG_INFORMATION) << "Creating LLVM based model generator.";
         return new rrllvm::LLVMModelGenerator();
     }
 
-    Log(Logger::LOG_INFORMATION) << "Creating C based model generator using " << compiler << " compiler.";
+    rrLog(Logger::LOG_INFORMATION) << "Creating C based model generator using " << compiler << " compiler.";
 
     return new CModelGenerator(tempFolder, supportCodeFolder, compiler);
 #endif
 
 #if !defined(BUILD_LLVM) && defined(BUILD_LEGACY_C)
 
-    Log(Logger::LOG_INFORMATION) << "Creating C based model generator using " << compiler << " compiler.";
+    rrLog(Logger::LOG_INFORMATION) << "Creating C based model generator using " << compiler << " compiler.";
 
     // default (for now...), the old C code generating model generator.
     return new CModelGenerator(tempFolder, supportCodeFolder, compiler);

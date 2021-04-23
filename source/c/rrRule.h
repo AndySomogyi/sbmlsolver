@@ -9,20 +9,20 @@ namespace rr
 
 enum RuleType {rtAlgebraic = 0, rtAssignment, rtRate, rtUnknown};
 
-RuleType GetRuleTypeFromString(const string& str);
+RuleType GetRuleTypeFromString(const std::string& str);
 
 class RR_DECLSPEC RRRule
 {
     protected:
-        string                 mTheRule;
-        string                 mRuleTypeStr;
+        std::string                 mTheRule;
+        std::string                 mRuleTypeStr;
         RuleType            mRuleType;
         void                AssignType();
 
     public:
-                            RRRule(const string& rule, const string& ruleType);
-        string                GetLHS();
-        string                GetRHS();
+                            RRRule(const std::string& rule, const std::string& ruleType);
+        std::string                GetLHS();
+        std::string                GetRHS();
         RuleType            GetType();
 };
 

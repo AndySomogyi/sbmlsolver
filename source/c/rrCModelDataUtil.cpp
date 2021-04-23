@@ -12,13 +12,13 @@
 #include <cstring>
 
 
-using namespace std;
+
 
 static void dump_array(std::ostream &os, int n, const double *p)
 {
     if (p)
     {
-        os << setiosflags(ios::floatfield) << setprecision(8);
+        os << std::setiosflags(std::ios::floatfield) << std::setprecision(8);
         os << '[';
         for (int i = 0; i < n; ++i)
         {
@@ -28,11 +28,11 @@ static void dump_array(std::ostream &os, int n, const double *p)
                 os << ", ";
             }
         }
-        os << ']' << endl;
+        os << ']' << std::endl;
     }
     else
     {
-        os << "NULL" << endl;
+        os << "NULL" << std::endl;
     }
 }
 
@@ -59,7 +59,7 @@ static void *rrCalloc(size_t nmemb, size_t size)
     return nmemb * size != 0 ? calloc(nmemb, size) : 0;
 }
 
-void allocModelDataBuffers(ModelData &data, const string& modelName)
+void allocModelDataBuffers(ModelData &data, const std::string& modelName)
 {
     data.modelName = strdup(modelName.c_str());
 
@@ -103,22 +103,22 @@ void allocModelDataBuffers(ModelData &data, const string& modelName)
 
 std::ostream& operator <<(std::ostream& os, const ModelData& data)
 {
-    os << "ModelData:"                 << endl;
-    os << "time: "                     << data.time << endl;                             // 2
-    os << "numIndependentSpecies: "    << data.numIndependentSpecies << endl;            // 3
-    os << "numDependentSpecies: "      << data.numDependentSpecies << endl;              // 4
-    os << "dependentSpeciesConservedSums:" << endl;                                      // 5
+    os << "ModelData:"                 << std::endl;
+    os << "time: "                     << data.time << std::endl;                             // 2
+    os << "numIndependentSpecies: "    << data.numIndependentSpecies << std::endl;            // 3
+    os << "numDependentSpecies: "      << data.numDependentSpecies << std::endl;              // 4
+    os << "dependentSpeciesConservedSums:" << std::endl;                                      // 5
     dump_array(os, data.numDependentSpecies, data.dependentSpeciesConservedSums);
-    os << "numGlobalParameters: "      << data.numGlobalParameters << endl;              // 6
-    os << "globalParameters: "         << endl;                                          // 7
+    os << "numGlobalParameters: "      << data.numGlobalParameters << std::endl;              // 6
+    os << "globalParameters: "         << std::endl;                                          // 7
     dump_array(os, data.numGlobalParameters, data.globalParameters);
-    os << "numReactions: "             << data.numReactions << endl;                     // 8
-    os << "reactionRates: "            << endl;                                          // 9
+    os << "numReactions: "             << data.numReactions << std::endl;                     // 8
+    os << "reactionRates: "            << std::endl;                                          // 9
     dump_array(os, data.numReactions, data.reactionRates);
-    os << "numRateRules: "             << data.numRateRules << endl;                     // 10
-    os << "rateRuleValues: "           << endl;                                          // 11
+    os << "numRateRules: "             << data.numRateRules << std::endl;                     // 10
+    os << "rateRuleValues: "           << std::endl;                                          // 11
     dump_array(os, data.numRateRules, data.rateRuleValues);
-    os << "rateRuleRates: "            << endl;                                          // 11
+    os << "rateRuleRates: "            << std::endl;                                          // 11
     dump_array(os, data.numRateRules, data.rateRuleRates);
 
 //    unsigned*                                localParametersOffsets;           // 12
@@ -129,9 +129,9 @@ std::ostream& operator <<(std::ostream& os, const ModelData& data)
 //
 //    double*                             localParameters;                  // 14
 
-    os << "numFloatingSpecies: "       << data.numFloatingSpecies << endl;       // 15
+    os << "numFloatingSpecies: "       << data.numFloatingSpecies << std::endl;       // 15
 
-    os << "floatingSpeciesConcentrations: " << endl;                                     // 16
+    os << "floatingSpeciesConcentrations: " << std::endl;                                     // 16
     dump_array(os, data.numFloatingSpecies, data.floatingSpeciesConcentrations);
 
 
@@ -139,23 +139,23 @@ std::ostream& operator <<(std::ostream& os, const ModelData& data)
     //double* floatingSpeciesInitConcentrations;    // 17
 
 
-    os << "floatingSpeciesAmountRates: " << endl;       // 18
+    os << "floatingSpeciesAmountRates: " << std::endl;       // 18
     dump_array(os, data.numFloatingSpecies, data.floatingSpeciesAmountRates);
 
-    os << "floatingSpeciesAmounts: "    << endl;           // 19
+    os << "floatingSpeciesAmounts: "    << std::endl;           // 19
     dump_array(os, data.numFloatingSpecies, data.floatingSpeciesAmounts);
 
 //    unsigned*                                floatingSpeciesCompartments;      // 20
-    os << "numBoundarySpecies: "       << data.numBoundarySpecies << endl;  // 21
-    os << "boundarySpeciesConcentrations:" << endl;                         // 22
+    os << "numBoundarySpecies: "       << data.numBoundarySpecies << std::endl;  // 21
+    os << "boundarySpeciesConcentrations:" << std::endl;                         // 22
     dump_array(os, data.numBoundarySpecies, data.boundarySpeciesConcentrations);
-    os << "boundarySpeciesAmounts:"    << endl;                             // 23
+    os << "boundarySpeciesAmounts:"    << std::endl;                             // 23
     dump_array(os, data.numBoundarySpecies, data.boundarySpeciesAmounts);
 //    unsigned*                                boundarySpeciesCompartments;      // 24
-    os << "numCompartments: "          << data.numCompartments << endl;     // 25
-    os << "compartmentVolumes:"        << endl;                             // 26
+    os << "numCompartments: "          << data.numCompartments << std::endl;     // 25
+    os << "compartmentVolumes:"        << std::endl;                             // 26
     dump_array(os, data.numCompartments, data.compartmentVolumes);
-    os << "stoichiometry:"             << endl;                             // 27
+    os << "stoichiometry:"             << std::endl;                             // 27
 //    int                                 numEvents;                        // 28
 //    int                                 eventTypeSize;                    // 29
 //    bool*                               eventType;                        // 30

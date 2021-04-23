@@ -16,15 +16,15 @@
 
 // == INCLUDES ================================================
 
-# include "rrLogger.h"
-# include "rrOSSpecifics.h"
-# include "Dictionary.h"
-# include "rrException.h"
-# include "Solver.h"
+#include "rrLogger.h"
+#include "rrOSSpecifics.h"
+#include "Dictionary.h"
+#include "rrException.h"
+#include "Solver.h"
 
-# include "tr1proxy/rr_memory.h"
-# include "tr1proxy/rr_unordered_map.h"
-# include <stdexcept>
+#include "tr1proxy/rr_memory.h"
+#include "tr1proxy/rr_unordered_map.h"
+#include <stdexcept>
 
 // == CODE ====================================================
 
@@ -75,6 +75,8 @@ namespace rr {
             Other
         };
 
+        explicit Integrator(ExecutableModel* model);
+
         virtual ~Integrator() {};
 
         virtual IntegrationMethod getIntegrationMethod() const = 0;
@@ -108,7 +110,7 @@ namespace rr {
         * @author FY
         * @brief Set tolerance for floating species or variables that have a rate rule, will only be used in CVODEIntegrator
         */
-        virtual void setIndividualTolerance(string sid, double value);
+        virtual void setIndividualTolerance(std::string sid, double value);
 
 
         /**
@@ -133,7 +135,7 @@ namespace rr {
 
         /**
         * @author JKM
-        * @brief Return string representation a la Python __repr__ method
+        * @brief Return std::string representation a la Python __repr__ method
         */
         virtual std::string toRepr() const;
         /* !-- END OF CARRYOVER METHODS */
@@ -144,12 +146,12 @@ namespace rr {
     public:
         explicit IntegratorException(const std::string &what) :
                 std::runtime_error(what) {
-            Log(rr::Logger::LOG_ERROR) << __FUNC__ << "what: " << what;
+            rrLog(rr::Logger::LOG_ERROR) << __FUNC__ << "what: " << what;
         }
 
         explicit IntegratorException(const std::string &what, const std::string &where) :
                 std::runtime_error(what + "; In " + where) {
-            Log(rr::Logger::LOG_ERROR) << __FUNC__ << "what: " << what << ", where: " << where;
+            rrLog(rr::Logger::LOG_ERROR) << __FUNC__ << "what: " << what << ", where: " << where;
         }
     };
 

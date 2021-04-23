@@ -30,7 +30,7 @@
 namespace rr
 {
 
-using namespace std;
+
 using Poco::AsyncChannel;
 using Poco::Channel;
 using Poco::AutoPtr;
@@ -311,7 +311,7 @@ void Logger::enableFileLogging(const std::string& fileName, int level)
         if(!fdir.exists())
         {
             realName = joinPath(getTempDir(), "roadrunner.log");
-            Log(Logger::LOG_ERROR) << "The specified log file directory path, "
+            rrLog(Logger::LOG_ERROR) << "The specified log file directory path, "
                     << fdir.path() << " does not exist, using default log file path: "
                     << realName;
         }
@@ -346,7 +346,7 @@ std::string Logger::getFormattingPattern()
     Mutex::ScopedLock lock(loggerMutex);
 
     PatternFormatter *p = getPatternFormatter();
-    return p ? p->getProperty(PatternFormatter::PROP_PATTERN) : string();
+    return p ? p->getProperty(PatternFormatter::PROP_PATTERN) : std::string();
 }
 
 static SplitterChannel* getSplitterChannel()
@@ -503,7 +503,7 @@ std::string Logger::getFileName()
 
 void LoggingBufferCtor()
 {
-    cout << __FUNC__ << endl;
+    std::cout << __FUNC__ << std::endl;
 }
 
 void Logger::log(Level level, const std::string& msg)

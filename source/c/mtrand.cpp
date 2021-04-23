@@ -15,7 +15,7 @@ unsigned long MTRand_int32::state[632] = {0x0UL};
 int MTRand_int32::p = 0;
 bool MTRand_int32::init = false;
 
-void MTRand_int32::gen_state() const { // generate new state vector
+void MTRand_int32::gen_state() const { // generate new state std::vector
   for (int i = 0; i < (n - m); ++i)
     state[i] = state[i + m] ^ twiddle(state[i], state[i + 1]);
   for (int i = n - m; i < (n - 1); ++i)

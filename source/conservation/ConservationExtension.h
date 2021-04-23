@@ -151,13 +151,13 @@ public:
   /**
    * Returns the URI (namespace) of the package corresponding to the combination of
    * the given sbml level, sbml version, and package version.
-   * Empty string will be returned if no corresponding URI exists.
+   * Empty std::string will be returned if no corresponding URI exists.
    *
    * @param sbmlLevel the level of SBML
    * @param sbmlVersion the version of SBML
    * @param pkgVersion the version of package
    *
-   * @return a string of the package URI
+   * @return a std::string of the package URI
    */
   virtual const std::string& getURI(unsigned int sbmlLevel, unsigned int sbmlVersion,
                                     unsigned int pkgVersion) const;
@@ -166,7 +166,7 @@ public:
   /**
    * Returns the SBML level with the given URI of this package.
    *
-   * @param uri the string of URI that represents one of versions of layout package
+   * @param uri the std::string of URI that represents one of versions of layout package
    *
    * @return the SBML level with the given URI of this package. 0 will be returned
    * if the given URI is invalid.
@@ -178,7 +178,7 @@ public:
   /**
    * Returns the SBML version with the given URI of this package.
    *
-   * @param uri the string of URI that represents one of versions of layout package
+   * @param uri the std::string of URI that represents one of versions of layout package
    *
    * @return the SBML version with the given URI of this package. 0 will be returned
    * if the given URI is invalid.
@@ -189,7 +189,7 @@ public:
   /**
    * Returns the package version with the given URI of this package.
    *
-   * @param uri the string of URI that represents one of versions of layout package
+   * @param uri the std::string of URI that represents one of versions of layout package
    *
    * @return the package version with the given URI of this package. 0 will be returned
    * if the given URI is invalid.
@@ -202,7 +202,7 @@ public:
    * LayoutPkgNamespace.
    * Null will be returned if the given uri is not defined in the layout package.
    *
-   * @param uri the string of URI that represents one of versions of layout package
+   * @param uri the std::string of URI that represents one of versions of layout package
    *
    * @return an LayoutPkgNamespace object corresponding to the given uri. NULL will
    * be returned if the given URI is not defined in layout package.
@@ -211,7 +211,7 @@ public:
 
 
   /**
-   * This method takes a type code of groups package and returns a string representing
+   * This method takes a type code of groups package and returns a std::string representing
    * the code.
    */
   virtual const char* getStringFromTypeCode(int typeCode) const;

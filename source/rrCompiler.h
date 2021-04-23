@@ -39,7 +39,7 @@ public:
      * getDefaultTargetTriple() - Return the default target triple the compiler
      * has been configured to produce code for.
      *
-     * The target triple is a string in the format of:
+     * The target triple is a std::string in the format of:
      *   CPU_TYPE-VENDOR-OPERATING_SYSTEM
      * or
      *   CPU_TYPE-VENDOR-KERNEL-OPERATING_SYSTEM

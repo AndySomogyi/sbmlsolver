@@ -147,7 +147,7 @@ stages:
               targetFolder: $(Build.ArtifactStagingDirectory)
             displayName: Copy to Staging Area
           - publish: $(Build.ArtifactStagingDirectory)
-            artifact: _roadrunner-$(Agent.OS)-$(BuildType)
+            artifact: roadrunner-$(Agent.OS)-$(BuildType)
             displayName: Publish
 
   - stage: MacBuildRoadrunnerPython
@@ -170,6 +170,9 @@ stages:
             py38:
               PythonVersion: 3.8
               PythonName: py38
+            py39:
+              PythonVersion: 3.9
+              PythonName: py39
         variables:
           MinicondaRoot : '/usr/local/miniconda'
           PythonRoot: '$(MinicondaRoot)/envs/$(PythonName)'
@@ -258,12 +261,12 @@ stages:
               rm -r $(DEPS_INSTALL_PREFIX)/install-azure
               ls
             displayName: Move Dependencies
-          - task: Cache@2
-            inputs:
-              key: "Swig | $(Agent.OS)"
-              path: $(SWIG_INSTALL_PREFIX)
-              cacheHitVar: SWIG_CACHE
-            displayName: Cache Swig-3.0.0
+          #- task: Cache@2
+          #  inputs:
+          #    key: "Swig | $(Agent.OS)"
+          #    path: $(SWIG_INSTALL_PREFIX)
+          #    cacheHitVar: SWIG_CACHE
+          #  displayName: Cache Swig-4.0.2
           - script: |
               echo "installing pcre"
               sudo apt install -y libpcre3 libpcre3-dev
@@ -272,11 +275,11 @@ stages:
               cd $(SWIG_SOURCE_DIR)
               echo "ls"
               ls -lh
-              wget -q https://sourceforge.net/projects/swig/files/swig/swig-3.0.0/swig-3.0.0.tar.gz $(SWIG_SOURCE_DIR)
-              tar -xf swig-3.0.0.tar.gz
+              wget -q https://sourceforge.net/projects/swig/files/swig/swig-4.0.2/swig-4.0.2.tar.gz $(SWIG_SOURCE_DIR)
+              tar -xf swig-4.0.2.tar.gz
               ls -lh
-              echo "Copying swig content from swig-3.0.0 to SWIG_SOURCE_DIR"
-              mv swig-3.0.0/** $(SWIG_SOURCE_DIR)
+              echo "Copying swig content from swig-4.0.2 to SWIG_SOURCE_DIR"
+              mv swig-4.0.2/** $(SWIG_SOURCE_DIR)
               echo "ls"
               ls -lh
               echo "ls in swig source dir $(SWIG_SOURCE_DIR)"
@@ -353,7 +356,7 @@ stages:
               targetFolder: $(Build.ArtifactStagingDirectory)/pip-wheels
             displayName: Copy Pip Wheels to Staging Area
           - publish: $(Build.ArtifactStagingDirectory)
-            artifact: PipWheels-$(Agent.OS)-$(PythonName)
+            artifact: roadrunner-$(Agent.OS)-$(PythonName)
             displayName: Publish Pip Wheels Artifacts
 
 ########################################################################
@@ -475,7 +478,7 @@ stages:
               targetFolder: $(Build.ArtifactStagingDirectory)
             displayName: Copy to Staging Area
           - publish: $(Build.ArtifactStagingDirectory)
-            artifact: _roadrunner-$(Agent.OS)-$(BuildType)
+            artifact: roadrunner-$(Agent.OS)-$(BuildType)
             displayName: Publish
 
   - stage: WindowsBuildRoadrunnerPython
@@ -498,6 +501,9 @@ stages:
             py38:
               PythonVersion: 3.8
               PythonName: py38
+            py39:
+              PythonVersion: 3.9
+              PythonName: py39
         variables:
           MinicondaRoot : 'C:\Miniconda'
           PythonRoot: '$(MinicondaRoot)\envs\$(PythonName)'
@@ -507,7 +513,7 @@ stages:
           PipExecutable: '$(PythonScriptsDir)\pip.exe'
 
           # override the variable for swigwin since swig exe is in different place
-          SWIG_EXECUTABLE: '$(SWIG_INSTALL_PREFIX)/swig'
+          SWIG_EXECUTABLE: '$(SWIG_INSTALL_PREFIX)/swig.exe'
           SWIG_CACHE: 'false'
           LLVM_CACHE: 'false'
 
@@ -571,31 +577,36 @@ stages:
               rm -r $(DEPS_INSTALL_PREFIX)/install-azure
               ls
             displayName: Move Dependencies
-          - task: Cache@2
-            inputs:
-              key: "Swig | $(Agent.OS)"
-              path: $(SWIG_INSTALL_PREFIX)
-              cacheHitVar: SWIG_CACHE
-            displayName: Cache Swig-3.0.0
+          #- task: Cache@2
+          #  inputs:
+          #    key: "Swig | $(Agent.OS)"
+          #    path: $(SWIG_INSTALL_PREFIX)
+          #    cacheHitVar: SWIG_CACHE
+          #  displayName: Cache Swig-4.0.2
           - powershell: |
               echo "cd to swig source dir: $(SWIG_SOURCE_DIR)"
               cd $(SWIG_SOURCE_DIR)
               echo "ls"
               ls
               echo "Invoke-WebRequest"
-              Invoke-WebRequest "https://versaweb.dl.sourceforge.net/project/swig/swigwin/swigwin-3.0.0/swigwin-3.0.0.zip" -OutFile swigwin-3.0.0.zip
+              # note: default user agent does not follow sourceforge redirect.
+              Invoke-WebRequest -Uri https://downloads.sourceforge.net/project/swig/swigwin/swigwin-4.0.2/swigwin-4.0.2.zip -OutFile swigwin-4.0.2.zip  -UserAgent [Microsoft.PowerShell.Commands.PSUserAgent]::FireFox
+              echo "ls"
+              ls
               echo "Expand-Archive"
-              Expand-Archive swigwin-3.0.0.zip -Destination $(SWIG_INSTALL_PREFIX)
+              Expand-Archive swigwin-4.0.2.zip -Destination $(SWIG_INSTALL_PREFIX)
+              echo "ls"
+              ls
               echo "CD to swig install prefix $(SWIG_INSTALL_PREFIX)"
               cd $(SWIG_INSTALL_PREFIX)
               echo "ls"
               ls
-              echo "cd swigwwin-3.0.0"
-              cd swigwin-3.0.0
-              echo " moving contents of swigwin-3.0.0 to .."
+              echo "cd swigwwin-4.0.2"
+              cd swigwin-4.0.2
+              echo " moving contents of swigwin-4.0.2 to .."
               mv * ..
               cd ..
-              rm -R swigwin-3.0.0
+              rm -R swigwin-4.0.2
               echo "ls"
               ls
               # Note: swig is already built when we download on windows.
@@ -654,7 +665,7 @@ stages:
               targetFolder: $(Build.ArtifactStagingDirectory)/pip-wheels
             displayName: Copy Pip Wheels to Staging Area
           - publish: $(Build.ArtifactStagingDirectory)
-            artifact: PipWheels-$(Agent.OS)-$(PythonName)
+            artifact: roadrunner-$(Agent.OS)-$(PythonName)
             displayName: Publish Pip Wheels Artifacts
 
 
@@ -784,7 +795,7 @@ stages:
               targetFolder: $(Build.ArtifactStagingDirectory)
             displayName: Copy to Staging Area
           - publish: $(Build.ArtifactStagingDirectory)
-            artifact: _roadrunner-$(Agent.OS)-$(BuildType)
+            artifact: roadrunner-$(Agent.OS)-$(BuildType)
             displayName: Publish
 
   - stage: LinuxBuildRoadrunnerPython
@@ -807,6 +818,9 @@ stages:
             py38:
               PythonVersion: 3.8
               PythonName: py38
+            py39:
+              PythonVersion: 3.9
+              PythonName: py39
         variables:
           MinicondaRoot : '/usr/share/miniconda'
           PythonRoot: '$(MinicondaRoot)/envs/$(PythonName)'
@@ -867,12 +881,12 @@ stages:
               rm -r $(DEPS_INSTALL_PREFIX)/install-azure
               ls
             displayName: Move Dependencies
-          - task: Cache@2
-            inputs:
-              key: "Swig | $(Agent.OS)"
-              path: $(SWIG_INSTALL_PREFIX)
-              cacheHitVar: SWIG_CACHE
-            displayName: Cache Swig-3.0.0
+          #- task: Cache@2
+          #  inputs:
+          #    key: "Swig | $(Agent.OS)"
+          #    path: $(SWIG_INSTALL_PREFIX)
+          #    cacheHitVar: SWIG_CACHE
+          #  displayName: Cache Swig-4.0.2
           - script: |
               echo "installing pcre"
               sudo apt install -y libpcre3 libpcre3-dev
@@ -881,11 +895,12 @@ stages:
               cd $(SWIG_SOURCE_DIR)
               echo "ls"
               ls -lh
-              wget -q https://sourceforge.net/projects/swig/files/swig/swig-3.0.0/swig-3.0.0.tar.gz $(SWIG_SOURCE_DIR)
-              tar -xf swig-3.0.0.tar.gz
+
+              wget -q https://sourceforge.net/projects/swig/files/swig/swig-4.0.2/swig-4.0.2.tar.gz $(SWIG_SOURCE_DIR)
+              tar -xf swig-4.0.2.tar.gz
               ls -lh
-              echo "Copying swig content from swig-3.0.0 to SWIG_SOURCE_DIR"
-              mv swig-3.0.0/** $(SWIG_SOURCE_DIR)
+              echo "Copying swig content from swig-4.0.2 to SWIG_SOURCE_DIR"
+              mv swig-4.0.2/** $(SWIG_SOURCE_DIR)
               echo "ls"
               ls -lh
               echo "ls in swig source dir $(SWIG_SOURCE_DIR)"
@@ -971,10 +986,164 @@ stages:
               targetFolder: $(Build.ArtifactStagingDirectory)/pip-wheels
             displayName: Copy Pip Wheels to Staging Area
           - publish: $(Build.ArtifactStagingDirectory)
-            artifact: PipWheels-$(Agent.OS)-$(PythonName)
+            artifact: roadrunner-$(Agent.OS)-$(PythonName)
             displayName: Publish Pip Wheels Artifacts
 
+#########################################################################
+## Many Linux Build
+##
+  - stage: ManyLinux
+    displayName: ManyLinux2014
+    dependsOn: []
+    jobs:
+      - job:
+        strategy:
+          matrix:
+            py37:
+              PythonVersion: 3.7
+              PythonName: py37
+            py38:
+              PythonVersion: 3.8
+              PythonName: py38
+            py39:
+              PythonVersion: 3.9
+              PythonName: py39
+        pool:
+          vmImage: 'ubuntu-18.04'
+        container: ciaranwelsh/roadrunner-manylinux2014-base:latest
+        variables:
+          CCACHE_DIR: '$(Pipeline.Workspace)/ccache'
+          BUILD_DIRECTORY: '$(System.DefaultWorkingDirectory)/build'
+          SOURCE_DIRECTORY: '$(System.DefaultWorkingDirectory)'
+          INSTALL_DIRECTORY: '$(System.DefaultWorkingDirectory)/install-azure'
+          MinicondaRoot: '/Miniconda3'
+          PythonRoot: '$(MinicondaRoot)/envs/$(PythonName)'
+          CondaExecutable: '$(MinicondaRoot)/bin/conda'
+          PythonExecutable: '$(PythonRoot)/bin/python'
+          PythonLibDir: '$(PythonRoot)/lib'
+          PythonIncludeDir: '$(PythonRoot)/include'
+          PipExecutable: '$(PythonRoot)/bin/pip'
+          SwigExecutable: '/swig-4.0.2/install-swig-4.0.2/bin/swig'
 
+        steps:
+          - checkout: self
+            submodules: recursive
+
+          - script: |
+
+              echo "SOURCE_DIRECTORY   $(SOURCE_DIRECTORY)"
+              if [ ! -d "$(SOURCE_DIRECTORY)" ]; then
+                echo "Can't find SOURCE_DIRECTORY at $(SOURCE_DIRECTORY)"
+                exit 1
+              fi
+
+              echo "MinicondaRoot      $(MinicondaRoot)"
+              if [ ! -d "$(MinicondaRoot)" ]; then
+                echo "Can't find MinicondaRoot at $(MinicondaRoot)"
+                exit 1
+              fi
+
+              echo "PythonRoot         $(PythonRoot)"
+              if [ ! -d "$(PythonRoot)" ]; then
+                echo "Can't find PythonRoot at $(PythonRoot)"
+                exit 1
+              fi
+
+              echo "CondaExecutable    $(CondaExecutable)"
+              if [ ! -f "$(CondaExecutable)" ]; then
+                echo "Can't find CondaExecutable at $(CondaExecutable)"
+                exit 1
+              fi
+
+              echo "PythonExecutable   $(PythonExecutable)"
+              if [ ! -f "$(PythonExecutable)" ]; then
+                echo "Can't find PythonExecutable at $(PythonExecutable)"
+                exit 1
+              fi
+
+              echo "PythonLibDir       $(PythonLibDir)"
+              if [ ! -d "$(PythonLibDir)" ]; then
+                echo "Can't find PythonLibDir at $(PythonLibDir)"
+                exit 1
+              fi
+
+              echo "PythonIncludeDir   $(PythonIncludeDir)"
+              if [ ! -d "$(PythonIncludeDir)" ]; then
+                echo "Can't find PythonIncludeDir at $(PythonIncludeDir)"
+                exit 1
+              fi
+
+              echo "PipExecutable      $(PipExecutable)"
+              if [ ! -f "$(PipExecutable)" ]; then
+                echo "Can't find PipExecutable at $(PipExecutable)"
+                exit 1
+              fi
+
+              echo "SwigExecutable     $(SwigExecutable)"
+              if [ ! -f "$(SwigExecutable)" ]; then
+                echo "Can't find SwigExecutable at $(SwigExecutable)"
+                exit 1
+              fi
+
+            displayName: Print Azure Variables
+
+          - script: |
+              echo "$(CondaExecutable) activate $(PythonName)"
+              eval "$($(CondaExecutable) shell.bash hook)"
+              $(CondaExecutable) init
+
+              echo ". ~/.bashrc"
+              . ~/.bashrc
+              $(CondaExecutable) activate $(PythonName)
+
+              echo "mkdir $(BUILD_DIRECTORY)"
+              mkdir $(BUILD_DIRECTORY)
+
+              echo "cd $(BUILD_DIRECTORY)"
+              cd $(BUILD_DIRECTORY)
+
+              echo "$(PipExecutable) install numpy"
+              $(PipExecutable) install numpy
+
+              echo "sudo yum install -y ncurses-devel"
+              sudo yum install -y ncurses-devel
+
+              # && cmake -DLLVM_INSTALL_PREFIX=/llvm-6.x/install-llvm-6.x -DRR_DEPENDENCIES_INSTALL_PREFIX=/libroadrunner-deps/install-libroadrunner-deps -DCMAKE_INSTALL_PREFIX=$roadrunnerInstall37 -DBUILD_PYTHON=ON -DBUILD_RR_PLUGINS=ON -DBUILD_TESTS=ON -DPython_ROOT_DIR=/Miniconda3/envs/py37 -DSWIG_EXECUTABLE=$swigExec ..
+              echo "cmake command: cmake -DLLVM_INSTALL_PREFIX=/llvm-6.x/install-llvm-6.x -DRR_DEPENDENCIES_INSTALL_PREFIX=/libroadrunner-deps/install-libroadrunner-deps -DCMAKE_INSTALL_PREFIX=$(INSTALL_DIRECTORY) -DBUILD_PYTHON=ON -DBUILD_RR_PLUGINS=ON -DBUILD_TESTS=ON -DPython_ROOT_DIR=$(PythonRoot) -DSWIG_EXECUTABLE=$(SwigExecutable) .."
+              cmake -DLLVM_INSTALL_PREFIX=/llvm-6.x/install-llvm-6.x -DRR_DEPENDENCIES_INSTALL_PREFIX=/libroadrunner-deps/install-libroadrunner-deps -DCMAKE_INSTALL_PREFIX=$(INSTALL_DIRECTORY) -DBUILD_PYTHON=ON -DBUILD_RR_PLUGINS=ON -DBUILD_TESTS=ON -DPython_ROOT_DIR=$(PythonRoot) -DSWIG_EXECUTABLE=$(SwigExecutable) ..
+              cmake --build . --target install --config Release -j 12
+              ctest --verbose --extra-verbose --output-on-failure
+
+            displayName: Build With Python
+
+          - script: |
+              echo "cd to $(INSTALL_DIRECTORY)"
+              cd $(INSTALL_DIRECTORY)
+
+              echo "ls"
+              ls
+
+              $(PipExecutable) install numpy
+              echo "$(PythonExecutable) ./setup.py bdist_wheel"
+              $(PythonExecutable) ./setup.py bdist_wheel
+
+              # cd dist
+              # wheel=$(realpath $(ls))
+              # echo "wheel is: $wheel"
+              # $(PipExecutable) install $wheel
+            displayName: Build Pip Wheel
+          - task: CopyFiles@2
+            inputs:
+              sourceFolder: '$(INSTALL_DIRECTORY)'
+              contents: '**'
+              targetFolder: '$(Build.ArtifactStagingDirectory)/roadrunner-manylinux2014-$(PythonName)'
+            displayName: Copy install to artifact staging area
+          - task: PublishBuildArtifacts@1
+            inputs:
+              pathToPublish: '$(Build.ArtifactStagingDirectory)/roadrunner-manylinux2014-$(PythonName)'
+              artifactName: roadrunner-ManyLinux2014-$(PythonName)
+              Parallel: true
+              ParallelCount: 8
 
 
 

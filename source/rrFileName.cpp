@@ -7,7 +7,7 @@ using std::ostream;
 namespace rr
 {
 //---------------------------------------------------------------------------
-FileName::FileName(const string& name, const string& path)
+FileName::FileName(const std::string& name, const std::string& path)
 {
     SetNameAndPath(path, name);
 }
@@ -32,7 +32,7 @@ FileName& FileName::operator=(const FileName& fN)
     return *this;
 }
 
-FileName& FileName::operator=(const string& fN)
+FileName& FileName::operator=(const std::string& fN)
 {
     mPathAndName = fN;
     mPath = getFilePath(fN);
@@ -45,46 +45,46 @@ bool FileName::operator!=(const char* fN)
     return (mName != fN) ? false : true;
 }
 
-string FileName::GetFileName() const {return mName;}
-string FileName::GetPath() const {return mPath;}
-string FileName::GetPathAndFileName() const {return mPathAndName;}
+std::string FileName::GetFileName() const {return mName;}
+std::string FileName::GetPath() const {return mPath;}
+std::string FileName::GetPathAndFileName() const {return mPathAndName;}
 size_t FileName::size(){return mName.size();}
 
-FileName::operator string() {return mPathAndName;}
-string FileName::Get()
+FileName::operator std::string() {return mPathAndName;}
+std::string FileName::Get()
 {
     MakeFileString();
     return mPathAndName;
 }
 
-string FileName::GetFileNameNoExtension()
+std::string FileName::GetFileNameNoExtension()
 {
     //remove extension
-    string fname = getFileNameNoExtension(GetFileName());
+    std::string fname = getFileNameNoExtension(GetFileName());
     return fname;
 }
 
-void FileName::SetFileName(const string& name)
+void FileName::SetFileName(const std::string& name)
 {
     mName = name;
     MakeFileString();
 }
 
-bool FileName::SetPath(const string& path)
+bool FileName::SetPath(const std::string& path)
 {
     mPath = path;
     MakeFileString();
     return true;
 }
 
-void FileName::SetNameAndPath(const string& path, const string& name)
+void FileName::SetNameAndPath(const std::string& path, const std::string& name)
 {
     mPath = path;
     mName = name;
     MakeFileString();
 }
 
-void FileName::SetFileNameAndPath(const string& file)
+void FileName::SetFileNameAndPath(const std::string& file)
 {
     if(!file.size())
     {
@@ -128,7 +128,7 @@ void FileName::MakeFileString()
     }
 }
 
-ostream& operator <<(ostream& os, FileName& obj)
+std::ostream& operator <<(std::ostream& os, FileName& obj)
 {
     os<<obj.Get();
     return os;

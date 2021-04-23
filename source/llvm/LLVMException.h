@@ -31,7 +31,7 @@ public:
 
 #define throw_llvm_exception(what) \
         {  \
-            Log(rr::Logger::LOG_INFORMATION) << "LLVMException, what: " \
+            rrLog(rr::Logger::LOG_INFORMATION) << "LLVMException, what: " \
                 << what << ", where: " << __FUNC__; \
                 throw LLVMException(what, __FUNC__); \
         }

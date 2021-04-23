@@ -20,7 +20,7 @@
 
 using namespace libsbml;
 using namespace llvm;
-using namespace std;
+
 
 using rr::Logger;
 using rr::getLogger;
@@ -51,7 +51,7 @@ LLVMModelSymbols::LLVMModelSymbols(const libsbml::Model *m, LLVMModelDataSymbols
     {
         const Parameter* param = params->get(i);
 
-        Log(Logger::LOG_TRACE) << "global parameter " << param->getId() <<
+        rrLog(Logger::LOG_TRACE) << "global parameter " << param->getId() <<
                 " initial value: " << param->getValue();
 
         ASTNode *value = nodes.create(AST_REAL);
@@ -63,7 +63,7 @@ LLVMModelSymbols::LLVMModelSymbols(const libsbml::Model *m, LLVMModelDataSymbols
         else
         {
             // check if we have an initial assignment for this param.
-            const string& id = param->getId();
+            const std::string& id = param->getId();
             if (model->getInitialAssignment(id) == NULL &&
                     model->getAssignmentRule(id) == NULL)
             {
@@ -73,7 +73,7 @@ LLVMModelSymbols::LLVMModelSymbols(const libsbml::Model *m, LLVMModelDataSymbols
             }
             else
             {
-                Log(Logger::LOG_INFORMATION) << "parameter " << param->getId()
+                rrLog(Logger::LOG_INFORMATION) << "parameter " << param->getId()
                         << " missing value, but has init rule or rule, setting "
                         " value to " << param->getValue();
                 value->setValue(param->getValue());
@@ -104,12 +104,12 @@ bool LLVMModelSymbols::visit(const libsbml::Compartment& x)
         node->setValue(x.getVolume());
     } else
     {
-        string compid = x.getId();
+        std::string compid = x.getId();
         const Model* model = x.getSBMLDocument()->getModel();
         if (model->getInitialAssignment(compid) == NULL &&
             model->getAssignmentRule(compid) == NULL &&
             x.getSpatialDimensions() != 0) {
-            Log(Logger::LOG_WARNING) << "volume not set for compartment '"
+            rrLog(Logger::LOG_WARNING) << "volume not set for compartment '"
               << compid << "'.  Defaulting to 1.0";
         }
         //We still need to set up a fake initial value if we need one, even though it'll be overwritten or is unneeded.
@@ -127,7 +127,7 @@ bool LLVMModelSymbols::visit(const libsbml::Species& x)
 
 bool LLVMModelSymbols::visit(const libsbml::AssignmentRule& x)
 {
-    Log(Logger::LOG_TRACE) << "processing AssignmentRule, id: " << x.getId();
+    rrLog(Logger::LOG_TRACE) << "processing AssignmentRule, id: " << x.getId();
     SBase *element = const_cast<Model*>(model)->getElementBySId(x.getVariable());
 
     if (element)
@@ -136,7 +136,7 @@ bool LLVMModelSymbols::visit(const libsbml::AssignmentRule& x)
     }
     else
     {
-        Log(Logger::LOG_ERROR) << "Could not get elment for assignment rule \""
+        rrLog(Logger::LOG_ERROR) << "Could not get elment for assignment rule \""
                 << const_cast<libsbml::AssignmentRule&>(x).toSBML()
                 << "\", it will be ignored";
     }
@@ -146,7 +146,7 @@ bool LLVMModelSymbols::visit(const libsbml::AssignmentRule& x)
 
 bool LLVMModelSymbols::visit(const libsbml::InitialAssignment& x)
 {
-    Log(Logger::LOG_TRACE) << "processing InitialAssignment, id: " +  x.getId();
+    rrLog(Logger::LOG_TRACE) << "processing InitialAssignment, id: " +  x.getId();
     SBase *element = const_cast<Model*>(model)->getElementBySId(x.getSymbol());
     processElement(initialValues, element, x.getMath());
     processElement(initialAssignmentRules, element, x.getMath());
@@ -155,7 +155,7 @@ bool LLVMModelSymbols::visit(const libsbml::InitialAssignment& x)
 
 bool LLVMModelSymbols::visit(const libsbml::RateRule& rule)
 {
-    Log(Logger::LOG_TRACE) << "processing RateRule, id: " +  rule.getId();
+    rrLog(Logger::LOG_TRACE) << "processing RateRule, id: " +  rule.getId();
     SBase *element = const_cast<Model*>(model)->getElementBySId(rule.getVariable());
     processElement(rateRules, element, rule.getMath());
     return true;
@@ -192,7 +192,7 @@ void LLVMModelSymbols::processElement(SymbolForest& currentSymbols,
     else
     {
         char* sbml = const_cast<SBase*>(element)->toSBML();
-        Log(Logger::LOG_WARNING) << "Unknown element whilst processing symbols: "
+        rrLog(Logger::LOG_WARNING) << "Unknown element whilst processing symbols: "
                 << sbml;
         free(sbml);
     }
@@ -200,7 +200,7 @@ void LLVMModelSymbols::processElement(SymbolForest& currentSymbols,
 
 bool LLVMModelSymbols::visit(const libsbml::Rule& x)
 {
-    Log(Logger::LOG_TRACE) << "Rule, id: " << x.getId();
+    rrLog(Logger::LOG_TRACE) << "Rule, id: " << x.getId();
     return true;
 }
 
@@ -269,14 +269,14 @@ bool LLVMModelSymbols::visit(const libsbml::Reaction& r)
      const ListOf *list = dynamic_cast<const ListOf *>(sr.getParentSBMLObject());
      const Reaction *r = dynamic_cast<const Reaction*>(list->getParentSBMLObject());
 
-     string speciesId = sr.getSpecies();
-     string reactionId = r->getId();
+     std::string speciesId = sr.getSpecies();
+     std::string reactionId = r->getId();
 
-     cout << "species: " << sr.getSpecies() << "\n";
-     cout << "reaction: " << r->getId() << "\n";
-     cout << "sr.isSetStoichiometry(): " << sr.isSetStoichiometry() << "\n";
-     cout << "sr.isSetStoichiometryMath(): " << sr.isSetStoichiometryMath() << "\n";
-     cout << "stoichiometry: " << sr.getStoichiometry() << "\n";
+     std::cout << "species: " << sr.getSpecies() << "\n";
+     std::cout << "reaction: " << r->getId() << "\n";
+     std::cout << "sr.isSetStoichiometry(): " << sr.isSetStoichiometry() << "\n";
+     std::cout << "sr.isSetStoichiometryMath(): " << sr.isSetStoichiometryMath() << "\n";
+     std::cout << "stoichiometry: " << sr.getStoichiometry() << "\n";
      */
 
     return true;
@@ -289,7 +289,7 @@ void LLVMModelSymbols::processSpecies(SymbolForest &currentSymbols,
 {
     // ASTNode takes ownership of children, so only allocate the ones that
     // are NOT given to an ASTNode addChild.
-    Log(Logger::LOG_TRACE) << "processing species " << species->getId() << endl;
+    rrLog(Logger::LOG_TRACE) << "processing species " << species->getId() << std::endl;
 
     if (!math)
     {
@@ -319,12 +319,12 @@ void LLVMModelSymbols::processSpecies(SymbolForest &currentSymbols,
             }
             else
             {
-                string spid = species->getId();
+                std::string spid = species->getId();
                 const Model* model = species->getSBMLDocument()->getModel();
                 if (model->getInitialAssignment(spid) == NULL &&
                         model->getAssignmentRule(spid) == NULL)
                 {
-                    Log(Logger::LOG_WARNING) << "species '" << spid
+                    rrLog(Logger::LOG_WARNING) << "species '" << spid
                             << "' has neither initial amount nor concentration set. "
                             << " Setting initial amount to 0.0";
                 }
@@ -361,12 +361,12 @@ void LLVMModelSymbols::processSpecies(SymbolForest &currentSymbols,
             }
             else
             {
-                string spid = species->getId();
+                std::string spid = species->getId();
                 const Model* model = species->getSBMLDocument()->getModel();
                 if (model->getInitialAssignment(spid) == NULL &&
                         model->getAssignmentRule(spid) == NULL)
                 {
-                    Log(Logger::LOG_WARNING) << "species '" << spid
+                    rrLog(Logger::LOG_WARNING) << "species '" << spid
                             << "' has neither initial amount nor concentration set. "
                             << " Setting initial concentration to 0.0";
                 }
@@ -434,7 +434,7 @@ ASTNode* LLVMModelSymbols::createStoichiometryNode(int row, int col) const
 
     if (productList.size() == 0 && reactantList.size() == 0)
     {
-        string err = "species " + symbols.getFloatingSpeciesIds()[row] +
+        std::string err = "species " + symbols.getFloatingSpeciesIds()[row] +
                 " has neither products nor reactants in reaction " +
                 symbols.getReactionIds()[col];
         throw LLVMException(err, __FUNC__);
@@ -447,7 +447,7 @@ ASTNode* LLVMModelSymbols::createStoichiometryNode(int row, int col) const
     ASTNode *reactants = 0;
     ASTNode *products = 0;
 
-    Log(Logger::LOG_TRACE) << "\t{" + rr::toString((int)row) + ", " + rr::toString((int)col) +
+    rrLog(Logger::LOG_TRACE) << "\t{" + rr::toString((int)row) + ", " + rr::toString((int)col) +
             "}, #reactants: " + rr::toString((int)reactantList.size()) + " #products: " +
             rr::toString((int)productList.size());
 

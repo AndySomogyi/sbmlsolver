@@ -24,7 +24,7 @@
 #endif
 
 using namespace llvm;
-using namespace std;
+
 
 namespace rr
 {
@@ -175,31 +175,31 @@ bool runLLVMCSRMatrixTest(const int m, const int n, const int nnz)
         x[k] = rand() % 10;
     }
 
-    //cout << "A: ";
+    //std::cout << "A: ";
     //for(int i = 0; i < m*n; i++) {
-    //    cout << A[i] << ",";
+    //    std::cout << A[i] << ",";
     //}
-    //cout << "\n";
+    //std::cout << "\n";
 
-    cout << "x: ";
+    std::cout << "x: ";
     for (int i = 0; i < n; i++)
     {
-        cout << x[i] << ",";
+        std::cout << x[i] << ",";
     }
-    cout << "\n";
+    std::cout << "\n";
 
     cpp_dgemv('n', m, n, 1, A, m, x, 1, 0, y, 1);
 
-    cout << "dense y:  ";
+    std::cout << "dense y:  ";
     for (int i = 0; i < m; i++)
     {
-        cout << y[i] << ",";
+        std::cout << y[i] << ",";
     }
-    cout << "\n";
+    std::cout << "\n";
 
-    vector<uint> rowidx;
-    vector<uint> colidx;
-    vector<double> values;
+    std::vector<uint> rowidx;
+    std::vector<uint> colidx;
+    std::vector<double> values;
 
     for (int i = 0; i < m; i++)
     {
@@ -224,12 +224,12 @@ bool runLLVMCSRMatrixTest(const int m, const int n, const int nnz)
 
     csr_matrix_dgemv(1, mat, x, 0, ys);
 
-    cout << "sparse y: ";
+    std::cout << "sparse y: ";
     for (int i = 0; i < m; i++)
     {
-        cout << ys[i] << ",";
+        std::cout << ys[i] << ",";
     }
-    cout << "\n";
+    std::cout << "\n";
 
     // change some values
     for (int k = 0; k < true_nnz; k++)
@@ -249,22 +249,22 @@ bool runLLVMCSRMatrixTest(const int m, const int n, const int nnz)
     memset(y, 0, m * sizeof(double));
     cpp_dgemv('n', m, n, 1, A, m, x, 1, 0, y, 1);
 
-    cout << "dense y:  ";
+    std::cout << "dense y:  ";
     for (int i = 0; i < m; i++)
     {
-        cout << y[i] << ",";
+        std::cout << y[i] << ",";
     }
-    cout << "\n";
+    std::cout << "\n";
 
     memset(ys, 0, m * sizeof(double));
     csr_matrix_dgemv(1, mat, x, 0, ys);
 
-    cout << "sparse y: ";
+    std::cout << "sparse y: ";
     for (int i = 0; i < m; i++)
     {
-        cout << ys[i] << ",";
+        std::cout << ys[i] << ",";
     }
-    cout << "\n";
+    std::cout << "\n";
 
     csr_matrix_delete(mat);
 

@@ -26,7 +26,7 @@ public:
     /**
      * creates a NEW object which must be deleted by the caller.
      *
-     * @param sbml: an sbml string
+     * @param sbml: an sbml std::string
      * @param dict: a dictionary of options, this is typcally a LoadSBMLOptions object,
      * but it may be any dictionary.
      */

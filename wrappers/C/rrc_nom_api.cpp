@@ -28,7 +28,7 @@ int rrcCallConv getNumberOfRules(RRHandle handle)
         RoadRunner* rri = castToRoadRunner(handle);
         if(!rri->getModel())
         {
-            Log(Logger::LOG_WARNING)<<"Model is not allocated.";
+            rrLog(Logger::LOG_WARNING)<<"Model is not allocated.";
             return -1;
         }
         int value = rri->getModel()->getNumRateRules();

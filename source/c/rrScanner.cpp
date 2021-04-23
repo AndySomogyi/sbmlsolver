@@ -35,7 +35,7 @@ currentToken(CodeTypes::tEmptyToken)
     initScanner();
 }
 
-void Scanner::AssignStream(stringstream& str)
+void Scanner::AssignStream(std::stringstream& str)
 {
     pStream = &str;
 }
@@ -361,7 +361,7 @@ bool Scanner::IsDoubleQuote(char ch)
 }
 
 // -------------------------------------------------------------------
-// Scan for a string, eg "abc"
+// Scan for a std::string, eg "abc"
 // -------------------------------------------------------------------
 
 void Scanner::getString()
@@ -392,10 +392,10 @@ void Scanner::getString()
                     tokenString = tokenString + LF;
                     break;
                 case 't':
-                    tokenString = tokenString + string(' ', 6);
+                    tokenString = tokenString + std::string(' ', 6);
                     break;
                 default:
-                    throw new ScannerException("Syntax error: Unrecognised control code in string");
+                    throw new ScannerException("Syntax error: Unrecognised control code in std::string");
             }
             nextChar();
         }
@@ -404,9 +404,9 @@ void Scanner::getString()
             OldIgnoreNewLines = IgnoreNewLines;
             if (IsDoubleQuote(fch))
             {
-                // Just in case the double quote is at the end of a line and another string
+                // Just in case the double quote is at the end of a line and another std::string
                 // start immediately in the next line, if we ignore newlines we'll
-                // pick up a double quote rather than the end of a string
+                // pick up a double quote rather than the end of a std::string
                 IgnoreNewLines = false;
                 nextChar();
                 if (IsDoubleQuote(fch))
@@ -590,7 +590,7 @@ void Scanner::getSpecial()
 
         default:
         {
-            string aToken;
+            std::string aToken;
             aToken.push_back(fch);
             throw ScannerException("Syntax error: Unknown special token [" + aToken  + "]");
         }
@@ -732,9 +732,9 @@ void Scanner::UnGetToken()
 }
 
 // -------------------------------------------------------------------
-// Given a token, this function returns the string eqauivalent
+// Given a token, this function returns the std::string eqauivalent
 // -------------------------------------------------------------------
-string Scanner::tokenToString(const CodeTypes::CodeTypes& code)
+std::string Scanner::tokenToString(const CodeTypes::CodeTypes& code)
 {
     switch (code)
     {

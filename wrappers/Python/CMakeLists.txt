@@ -6,9 +6,9 @@ else (SWIG_FOUND)
     message("could not find SWIG in your system")
 endif (SWIG_FOUND)
 
-if (SWIG_VERSION STRGREATER "4.0")
-    message(SEND_ERROR "SWIG version too high:  unable to use SWIG version 4.0 and higher.")
-endif (SWIG_VERSION STRGREATER "4.0")
+#if (SWIG_VERSION STRGREATER "4.0")
+#    message(SEND_ERROR "SWIG version too high:  unable to use SWIG version 4.0 and higher.")
+#endif (SWIG_VERSION STRGREATER "4.0")
 
 install(FILES
         ${CMAKE_CURRENT_SOURCE_DIR}/INSTALL.txt

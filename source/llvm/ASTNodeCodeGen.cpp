@@ -26,7 +26,7 @@
 
 using namespace libsbml;
 using namespace llvm;
-using namespace std;
+
 using namespace rr;
 
 namespace rrllvm
@@ -41,7 +41,7 @@ static bool isNegative(const libsbml::ASTNode *node);
 std::string to_string(const libsbml::ASTNode *ast)
 {
     char* formula = SBML_formulaToL3String(ast);
-    string str = formula;
+    std::string str = formula;
     free(formula);
     return str;
 }
@@ -255,7 +255,7 @@ llvm::Value* ASTNodeCodeGen::codeGen(const libsbml::ASTNode* ast)
     }
     default:
         {
-            stringstream msg;
+            std::stringstream msg;
             msg << "Unknown ASTNode type of " << ast->getType() << ", from " <<
                     ast->getParentSBMLObject()->toSBML();
             throw_llvm_exception(msg.str());
@@ -269,7 +269,7 @@ llvm::Value* ASTNodeCodeGen::codeGen(const libsbml::ASTNode* ast)
 llvm::Value* ASTNodeCodeGen::notImplemented(const libsbml::ASTNode* ast)
 {
     char* formula = SBML_formulaToL3String(ast);
-    string str = formula;
+    std::string str = formula;
     free(formula);
 
     throw_llvm_exception("AST type not implemented yet: " + str);
@@ -312,7 +312,7 @@ llvm::Value* ASTNodeCodeGen::distribCodeGen(const libsbml::ASTNode *ast)
         }
         else
         {
-            stringstream err;
+            std::stringstream err;
             err << "function call argument count in "
                 << ast->getParentSBMLObject()->toSBML()
                 << " does not match the specfied number of arguments, "
@@ -334,7 +334,7 @@ llvm::Value* ASTNodeCodeGen::distribCodeGen(const libsbml::ASTNode *ast)
         }
         else
         {
-            stringstream err;
+            std::stringstream err;
             err << "function call argument count in "
                 << ast->getParentSBMLObject()->toSBML()
                 << " does not match the specfied number of arguments, "
@@ -352,7 +352,7 @@ llvm::Value* ASTNodeCodeGen::distribCodeGen(const libsbml::ASTNode *ast)
         }
         else
         {
-            stringstream err;
+            std::stringstream err;
             err << "function call argument count in "
                 << ast->getParentSBMLObject()->toSBML()
                 << " does not match the specfied number of arguments, "
@@ -374,7 +374,7 @@ llvm::Value* ASTNodeCodeGen::distribCodeGen(const libsbml::ASTNode *ast)
         }
         else
         {
-            stringstream err;
+            std::stringstream err;
             err << "function call argument count in "
                 << ast->getParentSBMLObject()->toSBML()
                 << " does not match the specfied number of arguments, "
@@ -400,7 +400,7 @@ llvm::Value* ASTNodeCodeGen::distribCodeGen(const libsbml::ASTNode *ast)
         }
         else
         {
-            stringstream err;
+            std::stringstream err;
             err << "function call argument count in "
                 << ast->getParentSBMLObject()->toSBML()
                 << " does not match the specfied number of arguments, "
@@ -422,7 +422,7 @@ llvm::Value* ASTNodeCodeGen::distribCodeGen(const libsbml::ASTNode *ast)
         }
         else
         {
-            stringstream err;
+            std::stringstream err;
             err << "function call argument count in "
                 << ast->getParentSBMLObject()->toSBML()
                 << " does not match the specfied number of arguments, "
@@ -444,7 +444,7 @@ llvm::Value* ASTNodeCodeGen::distribCodeGen(const libsbml::ASTNode *ast)
         }
         else
         {
-            stringstream err;
+            std::stringstream err;
             err << "function call argument count in "
                 << ast->getParentSBMLObject()->toSBML()
                 << " does not match the specfied number of arguments, "
@@ -466,7 +466,7 @@ llvm::Value* ASTNodeCodeGen::distribCodeGen(const libsbml::ASTNode *ast)
         }
         else
         {
-            stringstream err;
+            std::stringstream err;
             err << "function call argument count in "
                 << ast->getParentSBMLObject()->toSBML()
                 << " does not match the specfied number of arguments, "
@@ -492,7 +492,7 @@ llvm::Value* ASTNodeCodeGen::distribCodeGen(const libsbml::ASTNode *ast)
         }
         else
         {
-            stringstream err;
+            std::stringstream err;
             err << "function call argument count in "
                 << ast->getParentSBMLObject()->toSBML()
                 << " does not match the specfied number of arguments, "
@@ -514,7 +514,7 @@ llvm::Value* ASTNodeCodeGen::distribCodeGen(const libsbml::ASTNode *ast)
         }
         else
         {
-            stringstream err;
+            std::stringstream err;
             err << "function call argument count in "
                 << ast->getParentSBMLObject()->toSBML()
                 << " does not match the specfied number of arguments, "
@@ -536,7 +536,7 @@ llvm::Value* ASTNodeCodeGen::distribCodeGen(const libsbml::ASTNode *ast)
         }
         else
         {
-            stringstream err;
+            std::stringstream err;
             err << "function call argument count in "
                 << ast->getParentSBMLObject()->toSBML()
                 << " does not match the specfied number of arguments, "
@@ -558,7 +558,7 @@ llvm::Value* ASTNodeCodeGen::distribCodeGen(const libsbml::ASTNode *ast)
         }
         else
         {
-            stringstream err;
+            std::stringstream err;
             err << "function call argument count in "
                 << ast->getParentSBMLObject()->toSBML()
                 << " does not match the specfied number of arguments, "
@@ -570,7 +570,7 @@ llvm::Value* ASTNodeCodeGen::distribCodeGen(const libsbml::ASTNode *ast)
     }
     default:
     {
-        string msg = "unknown distribution ";
+        std::string msg = "unknown distribution ";
         msg += ast->getName();
         throw_llvm_exception(msg);
     }
@@ -580,8 +580,8 @@ llvm::Value* ASTNodeCodeGen::distribCodeGen(const libsbml::ASTNode *ast)
     // get the function
     if (func == 0)
     {
-        string msg = "could not obtain a function for distrib " +
-            string(ast->getName());
+        std::string msg = "could not obtain a function for distrib " +
+            std::string(ast->getName());
         msg += ", your operating system might not supoort it.";
         throw_llvm_exception(msg);
     }
@@ -589,11 +589,11 @@ llvm::Value* ASTNodeCodeGen::distribCodeGen(const libsbml::ASTNode *ast)
     // check if the arg counts match
     //if (func->arg_size() != ast->getNumChildren())
     //{
-    //    stringstream err;
+    //    std::stringstream err;
     //    err << "function call argument count in "
     //        << ast->getParentSBMLObject()->toSBML()
     //        << " does not match the specfied number of arguments, "
-    //        << (string)func->getName() << " requires " << func->arg_size()
+    //        << (std::string)func->getName() << " requires " << func->arg_size()
     //        << " args, but was given " << ast->getNumChildren();
     //    throw_llvm_exception(err.str());
     //}
@@ -612,10 +612,10 @@ llvm::Value* ASTNodeCodeGen::delayExprCodeGen(const libsbml::ASTNode* ast)
     }
 
     char* formula = SBML_formulaToL3String(ast);
-    string str = formula;
+    std::string str = formula;
     free(formula);
 
-    Log(Logger::LOG_WARNING)
+    rrLog(Logger::LOG_WARNING)
       << "Unable to handle SBML csymbol 'delay'. Delay ignored in expression '"
       << str << "'.";
 
@@ -634,7 +634,7 @@ llvm::Value* ASTNodeCodeGen::nameExprCodeGen(const libsbml::ASTNode* ast)
     case AST_NAME_TIME:
         return resolver.loadSymbolValue(SBML_TIME_SYMBOL);
     default:
-        throw_llvm_exception(string(ast->getName()) +
+        throw_llvm_exception(std::string(ast->getName()) +
                 " is not a valid name name");
         break;
     }
@@ -675,7 +675,7 @@ llvm::Value* ASTNodeCodeGen::applyArithmeticCodeGen(
             return acc;
         }
 
-        stringstream err;
+        std::stringstream err;
 
         libsbml::SBase *parent = ast->getParentSBMLObject();
         char *sbml = parent ? parent->toSBML() : 0;
@@ -809,7 +809,7 @@ llvm::Value* ASTNodeCodeGen::applyScalarRelationalCodeGen(const libsbml::ASTNode
 	}
 
     assert(result);
-	//cout << "Passed assert" << endl;
+	//std::cout << "Passed assert" << std::endl;
 
     return result;
 }
@@ -822,7 +822,7 @@ llvm::Value* ASTNodeCodeGen::applyLogicalCodeGen(const libsbml::ASTNode* ast)
     {
         if (ast->getNumChildren() != 1)
         {
-            string msg = "logic not can only have a single argument, recieved ";
+            std::string msg = "logic not can only have a single argument, recieved ";
             msg += toString(ast->getNumChildren());
             msg += ", MathML node: ";
             msg += to_string(ast);
@@ -838,7 +838,7 @@ llvm::Value* ASTNodeCodeGen::applyLogicalCodeGen(const libsbml::ASTNode* ast)
     {
         if (numChildren != 2)
         {
-            string msg = "logic implication can only have two arguments, recieved ";
+            std::string msg = "logic implication can only have two arguments, recieved ";
             msg += toString(ast->getNumChildren());
             msg += ", MathML node: ";
             msg += to_string(ast);
@@ -909,7 +909,7 @@ llvm::Value* ASTNodeCodeGen::functionCallCodeGen(const libsbml::ASTNode* ast)
         args[i] = toDouble(codeGen(c));
     }
 
-    Log(Logger::LOG_TRACE) << "ASTNodeCodeGen::functionCallCodeGen, name: "
+    rrLog(Logger::LOG_TRACE) << "ASTNodeCodeGen::functionCallCodeGen, name: "
             << ast->getName() << ", numChild: " << nargs;
 
     return resolver.loadSymbolValue(ast->getName(), ArrayRef<Value*>(args, nargs));
@@ -1061,7 +1061,7 @@ llvm::Value* ASTNodeCodeGen::intrinsicCallCodeGen(const libsbml::ASTNode *ast)
         break;
     default:
     {
-        string msg = "unknown intrinsic function ";
+        std::string msg = "unknown intrinsic function ";
         msg += ast->getName();
         throw_llvm_exception(msg);
     }
@@ -1071,8 +1071,8 @@ llvm::Value* ASTNodeCodeGen::intrinsicCallCodeGen(const libsbml::ASTNode *ast)
     // get the function
     if (func == 0)
     {
-        string msg = "could not obtain a function for intrinsic " +
-                string(ast->getName());
+        std::string msg = "could not obtain a function for intrinsic " +
+                std::string(ast->getName());
         msg += ", your operating system might not supoort it.";
         throw_llvm_exception(msg);
     }
@@ -1080,11 +1080,11 @@ llvm::Value* ASTNodeCodeGen::intrinsicCallCodeGen(const libsbml::ASTNode *ast)
     // check if the arg counts match
     if (func->arg_size() != ast->getNumChildren())
     {
-        stringstream err;
+        std::stringstream err;
         err << "function call argument count in "
                 << ast->getParentSBMLObject()->toSBML()
                 << " does not match the specfied number of arguments, "
-                << (string) func->getName() << " requires " << func->arg_size()
+                << (std::string) func->getName() << " requires " << func->arg_size()
                 << " args, but was given " << ast->getNumChildren();
         throw_llvm_exception(err.str());
     }
@@ -1228,8 +1228,8 @@ llvm::Value* ASTNodeCodeGen::piecewiseCodeGen(const libsbml::ASTNode* ast)
 
     BasicBlock *mergeBB = BasicBlock::Create(context, "merge");
 
-    vector<Value*> values;
-    vector<BasicBlock*> blocks;
+    std::vector<Value*> values;
+    std::vector<BasicBlock*> blocks;
 
     const uint nchild = ast->getNumChildren();
     uint i = 0;
@@ -1296,7 +1296,7 @@ llvm::Value* ASTNodeCodeGen::piecewiseCodeGen(const libsbml::ASTNode* ast)
     }
     else
     {
-        Log(Logger::LOG_WARNING) << "No \"otherwise\" element in MathML "
+        rrLog(Logger::LOG_WARNING) << "No \"otherwise\" element in MathML "
                 "piecewise, returning NaN as \"otherwise\" value";
 
         owVal = ConstantFP::get(builder.getContext(),

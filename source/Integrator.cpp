@@ -26,12 +26,14 @@
 
 // == CODE ====================================================
 
-using namespace std;
+
 namespace rr
 {
 	/*------------------------------------------------------------------------------------------
 		INTEGRATOR
 	  ------------------------------------------------------------------------------------------*/
+	Integrator::Integrator(ExecutableModel *model)
+	    : Solver(model){}
 
     void Integrator::syncWithModel(ExecutableModel* m) {}
 
@@ -41,8 +43,6 @@ namespace rr
     {
         // Stub for loading SBML settings (can override in derived classes).
     }
-
-    /* TODO: Create getType() method. */
 
     std::string Integrator::toString() const
     {
@@ -65,14 +65,14 @@ namespace rr
 	
     void Integrator::tweakTolerances() {}
 	
-	// since vector tolerance is only used in CVODEIntegrator
+	// since std::vector tolerance is only used in CVODEIntegrator
 	// the functions below will not be implemented here
-	void Integrator::setIndividualTolerance(string sid, double value) {}
+	void Integrator::setIndividualTolerance(std::string sid, double value) {}
 
 	void Integrator::setConcentrationTolerance(const Variant& value) {}
 
 	std::vector<double> Integrator::getConcentrationTolerance() {
-		vector<double> v;
+		std::vector<double> v;
 		return v;
 	}
 

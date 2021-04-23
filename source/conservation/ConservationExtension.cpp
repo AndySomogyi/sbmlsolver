@@ -171,9 +171,9 @@ ConservationExtension::getName() const
 /*
  * Returns the URI (namespace) of the package corresponding to the combination of the given sbml level,
  * sbml version, and package version.
- * Empty string will be returned if no corresponding URI exists.
+ * Empty std::string will be returned if no corresponding URI exists.
  *
- * @return a string of the package URI
+ * @return a std::string of the package URI
  */
 const std::string&
 ConservationExtension::getURI(unsigned int sbmlLevel, unsigned int sbmlVersion,
@@ -265,7 +265,7 @@ SBMLNamespaces* ConservationExtension::getSBMLExtensionNamespaces(
 }
 
 /*
- * This method takes a type code of groups package and returns a string representing
+ * This method takes a type code of groups package and returns a std::string representing
  * the code.
  */
 const char* ConservationExtension::getStringFromTypeCode(int typeCode) const
@@ -283,9 +283,8 @@ const char* ConservationExtension::getStringFromTypeCode(int typeCode) const
 
 bool ConservationExtension::getConservedMoiety(const libsbml::Species& s)
 {
-    const ConservedMoietyPlugin* plugin =
-            dynamic_cast<const ConservedMoietyPlugin*>(
-                    s.getPlugin("conservation"));
+    const ConservedMoietyPlugin* plugin = dynamic_cast<const ConservedMoietyPlugin*>(
+            s.getPlugin("conservation"));
     return plugin ? plugin->getConservedMoiety() : false;
 }
 
@@ -375,7 +374,7 @@ void ConservationExtension::init()
     //    SBMLDocumentPluginNotRequired class can be used as-is for the plugin.
     //
     //    Since the lists of supported package versions (currently only L3V1-groups-V1 supported )
-    //    are equal in the both plugin objects, the same vector object is given to each
+    //    are equal in the both plugin objects, the same std::vector object is given to each
     //    constructor.
     //
     //---------------------------------------------------------------------------------------

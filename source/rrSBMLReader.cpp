@@ -42,10 +42,10 @@ static Mutex httpFactoryMutex;
 static bool httpFactoryRegistered = false;
 
 /**
- * performs some basic checks to see if the string is an sbml string.
+ * performs some basic checks to see if the std::string is an sbml std::string.
  *
  * This just checks the basic format and checks on characters that are
- * not valid file path characters. So if this string matches this function,
+ * not valid file path characters. So if this std::string matches this function,
  * there should basically be no way that this is a valid path or uri.
  */
 bool SBMLReader::is_sbml(const std::string& str)
@@ -101,7 +101,7 @@ static const Poco::RegularExpression sbml_re("<\\s*sbml\\s*.*?>",
         RegularExpression::RE_UNGREEDY);
 
 /**
- * Check if the given sbml string uses the composite extension.
+ * Check if the given sbml std::string uses the composite extension.
  *
  * We only need to scan inside the <sbml ... > tag, which is
  * as the start of the doc, so this should be a very fast search.
@@ -110,18 +110,18 @@ static const Poco::RegularExpression sbml_re("<\\s*sbml\\s*.*?>",
  *     xmlns:comp="http://www.sbml.org/sbml/level3/version1/comp/version1"
  *     level="3" version="1" comp:required="false">
  */
-static bool has_comp(const string& sbml) {
-    string sbmlss; // sbml substring, avoid looking in entire document.
+static bool has_comp(const std::string& sbml) {
+    std::string sbmlss; // sbml substring, avoid looking in entire document.
     sbml_re.extract(sbml, sbmlss);
-    static const string compns =
+    static const std::string compns =
             "http://www.sbml.org/sbml/level3/version1/comp/version1";
-    return sbmlss.find(compns) != string::npos;
+    return sbmlss.find(compns) != std::string::npos;
 }
 
 /**
  * flatten a comp model.
  */
-static string flatten_comp(const string& sbml, const std::string fname)
+static std::string flatten_comp(const std::string& sbml, const std::string fname)
 {
     SBMLDocument *doc = libsbml::readSBMLFromString(sbml.c_str());
     libsbml::SBMLConverter* converter = NULL;
@@ -159,9 +159,9 @@ static string flatten_comp(const string& sbml, const std::string fname)
         libsbml::SBMLErrorLog* log = doc->getErrorLog();
         if (log->getNumFailsWithSeverity(libsbml::LIBSBML_SEV_ERROR) != 0)
         {
-            stringstream msg;
+            std::stringstream msg;
             msg << "Errors durring model flattening, model *MIGHT* contain errors:"
-                    << endl;
+                    << std::endl;
 
             for (int i = 0; i < log->getNumErrors(); ++i)
             {
@@ -171,7 +171,7 @@ static string flatten_comp(const string& sbml, const std::string fname)
                     msg << "SBMLError(" << i << "): " << error->getMessage();
                 }
             }
-            Log(rr::Logger::LOG_WARNING) << msg.str();
+            rrLog(rr::Logger::LOG_WARNING) << msg.str();
         }
     }
 
@@ -205,7 +205,7 @@ std::string SBMLReader::read(const std::string& str)
         return str;
     }
 
-    // at this point, we have to assume that the string is to be interpreted as a
+    // at this point, we have to assume that the std::string is to be interpreted as a
     // path or uri
 
     // just in case there are multiple threads...
@@ -233,16 +233,16 @@ std::string SBMLReader::read(const std::string& str)
         std::string urischeme = Poco::URI(str).getScheme();
         std::transform(urischeme.begin(), urischeme.end(), urischeme.begin(), mytolower);
         if (urischeme == "https") {
-            Log(Logger::LOG_ERROR) << "HTTPS transport not supported";
+            rrLog(Logger::LOG_ERROR) << "HTTPS transport not supported";
             throw Exception("Could not open stream: HTTPS transport not supported");
         } else {
-            Log(Logger::LOG_ERROR) << "Could not open stream: " << e.what();
+            rrLog(Logger::LOG_ERROR) << "Could not open stream: " << e.what();
         }
         // stream should still be NULL
     }
     if (stream)
     {
-        // read the entire http stream into a string and return it.
+        // read the entire http stream into a std::string and return it.
         std::istreambuf_iterator<char> eos;
         std::string s(std::istreambuf_iterator<char>(*stream), eos);
         delete stream;
@@ -257,7 +257,7 @@ std::string SBMLReader::read(const std::string& str)
     }
     else
     {
-        string msg = string(__FUNC__) +  ", could not open " + str + " as a file or uri";
+        std::string msg = std::string(__FUNC__) +  ", could not open " + str + " as a file or uri";
         throw Exception(msg);
     }
 

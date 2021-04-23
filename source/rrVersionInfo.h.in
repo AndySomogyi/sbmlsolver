@@ -57,17 +57,17 @@ namespace rr {
 #endif // SWIG
 
 /**
- * various options of how the get the version string.
+ * various options of how the get the version std::string.
  */
 enum VersionStrOptions
 {
     /**
-     * the basic version string, i.e. "1.0.0"
+     * the basic version std::string, i.e. "1.0.0"
      */
     VERSIONSTR_BASIC                  = (0x1 << 0),
 
     /**
-     * the compiler string
+     * the compiler std::string
      */
     VERSIONSTR_COMPILER               = (0x1 << 1),
 
@@ -95,11 +95,11 @@ enum VersionStrOptions
 };
 
 /**
- * get the roadrunner version string.
+ * get the roadrunner version std::string.
  *
  * The options can be any set of the values from the VersionStrOptions enum.
  *
- * Each one of these options are concatenated into the output string and there
+ * Each one of these options are concatenated into the output std::string and there
  * are ';' separators between each of them.
  */
 RR_DECLSPEC std::string getVersionStr(unsigned options = VERSIONSTR_BASIC
@@ -107,7 +107,7 @@ RR_DECLSPEC std::string getVersionStr(unsigned options = VERSIONSTR_BASIC
 
 
 /**
- * get the copyright string.
+ * get the copyright std::string.
  */
 RR_DECLSPEC std::string getCopyrightStr();
 

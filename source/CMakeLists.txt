@@ -36,7 +36,6 @@ set(rrHeaders)
 set(
         rrCoreSources
         rrConfig.cpp
-        rrSteadyStateSolver.cpp
         rrConstants.cpp
         rrException.cpp
         rrGetOptions.cpp
@@ -55,6 +54,7 @@ set(
         RK45Integrator.cpp
         NLEQ1Solver.cpp
         NLEQ2Solver.cpp
+        NLEQSolver.cpp
         rrNLEQ1Interface.cpp
         rrNLEQ2Interface.cpp
         rrTestSuiteModelSimulation.cpp
@@ -74,6 +74,19 @@ set(
         Solver.cpp
         SolverRegistration.cpp
         Variant.cpp
+
+        KinsolSteadyStateSolver.cpp
+        FixedPointIteration.cpp
+        NewtonIteration.cpp
+        BasicNewtonIteration.cpp
+        LinesearchNewtonIteration.cpp
+        KinsolErrHandler.cpp
+        SVD.cpp
+        SteadyStateSolverDecorator.cpp
+        PresimulationDecorator.cpp
+        PresimulationProgramDecorator.cpp
+        ApproxSteadyStateDecorator.cpp
+
         conservation/ConservationExtension.cpp
         conservation/ConservationDocumentPlugin.cpp
         conservation/ConservedMoietyPlugin.cpp
@@ -90,7 +103,6 @@ set(
         rrExporter.h
         rrOSSpecifics.h
         rrConfig.h
-        rrSteadyStateSolver.h
         rrConstants.h
         rrException.h
         rrGetOptions.h
@@ -109,6 +121,7 @@ set(
         RK45Integrator.h
         NLEQ1Solver.h
         NLEQ2Solver.h
+        NLEQSolver.h
         rrNLEQ1Interface.h
         rrNLEQ2Interface.h
         rrTestSuiteModelSimulation.h
@@ -128,6 +141,18 @@ set(
         Solver.h
         SolverRegistration.h
         Variant.h
+
+        KinsolErrHandler.h
+        KinsolSteadyStateSolver.h
+        FixedPointIteration.h
+        NewtonIteration.h
+        BasicNewtonIteration.h
+        LinesearchNewtonIteration.h
+        SVD.h
+        SteadyStateSolverDecorator.h
+        PresimulationDecorator.h
+        PresimulationProgramDecorator.h
+        ApproxSteadyStateDecorator.h
 )
 install(FILES ${rrCoreHeaders} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/rr)
 
@@ -378,7 +403,6 @@ target_link_libraries(
         nleq1::nleq1-static
         clapack::lapack clapack::blas clapack::f2c
 
-        #sundials::sundials_cvode_static sundials::sundials_nvecserial_static
         SUNDIALS::generic_static
         SUNDIALS::nvecserial_static
         SUNDIALS::nvecmanyvector_static
@@ -398,10 +422,34 @@ target_link_libraries(
         SUNDIALS::cvodes_static
         SUNDIALS::kinsol_static
 
+        #  todo delete before merge into develop
+        # sundials_generic_static
+        # sundials_nvecserial_static
+        # sundials_nvecmanyvector_static
+        # sundials_sunmatrixband_static
+        # sundials_sunmatrixdense_static
+        # sundials_sunmatrixsparse_static
+        # sundials_sunlinsolband_static
+        # sundials_sunlinsoldense_static
+        # sundials_sunlinsolpcg_static
+        # sundials_sunlinsolspbcgs_static
+        # sundials_sunlinsolspfgmr_static
+        # sundials_sunlinsolspgmr_static
+        # sundials_sunlinsolsptfqmr_static
+        # sundials_sunnonlinsolnewton_static
+        # sundials_sunnonlinsolfixedpoint_static
+        # sundials_arkode_static
+        # sundials_cvode_static
+        # sundials_cvodes_static
+        # sundials_ida_static
+        # sundials_idas_static
+        # sundials_kinsol_static
+
         PocoFoundation::PocoFoundation
         PocoNet::PocoNet
         iconv::libcharset iconv::libiconv-static
         ${PLATFORM_SPECIFIC_LIBS}
+
 )
 
 add_library(${target} SHARED ${rrSources} ${rrHeaders})

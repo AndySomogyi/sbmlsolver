@@ -4,7 +4,7 @@
 namespace rr
 {
 
-Symbol::Symbol(const string& _name, const double& _value)
+Symbol::Symbol(const std::string& _name, const double& _value)
 :
 name(_name),
 value(_value),
@@ -12,7 +12,7 @@ rateRule(false),
 hasOnlySubstance(false)
 {}
 
-Symbol::Symbol(const string& _keyName, const string& _name, const double& _value)
+Symbol::Symbol(const std::string& _keyName, const std::string& _name, const double& _value)
 :
 keyName(_keyName),
 name(_name),
@@ -21,7 +21,7 @@ hasOnlySubstance(false),
 rateRule(false)
 {}
 
-Symbol::Symbol(const string& _name, const double& _value, const string& _compartmentName)
+Symbol::Symbol(const std::string& _name, const double& _value, const std::string& _compartmentName)
 :
 name(_name),
 value(_value),
@@ -30,7 +30,7 @@ hasOnlySubstance(false),
 rateRule(false)
 {}
 
-Symbol::Symbol(const string& _name, const double& _value, const string& _compartmentName, const string& _formula)
+Symbol::Symbol(const std::string& _name, const double& _value, const std::string& _compartmentName, const std::string& _formula)
 :
 name(_name),
 value(_value),
@@ -40,7 +40,7 @@ hasOnlySubstance(false),
 rateRule(false)
 {}
 
-ostream& operator<<(ostream& stream, const Symbol& symbol)
+std::ostream& operator<<(std::ostream& stream, const Symbol& symbol)
 {
     stream<<"Name: "<<symbol.name;
     return stream;

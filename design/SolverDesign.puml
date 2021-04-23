@@ -50,14 +50,46 @@ Integrator *-- IntegratorRegistrar
 
 IntegratorFactory *-- IntegratorRegistrar
 
-class RoadRunner
+class RoadRunner #red-white
 
 RoadRunner *-- IntegratorFactory
 
 
+class SteadyStateSolverRegistrar #aqua-white
+class SteadyStateSolverFactory #aqua-white
+
+SteadyStateSolverFactory *-- SteadyStateSolverRegistrar
+
+RoadRunner *-- SteadyStateSolverFactory
+
+SteadyStateSolver *-- SteadyStateSolverRegistrar
+
+class NLEQ1Registrar #LightGreen-white
+class NLEQ2Registrar #LightGreen-white
+
+SteadyStateSolverRegistrar <|-- NLEQ1Registrar
+SteadyStateSolverRegistrar <|-- NLEQ2Registrar
 
 
 
+class SundialsSteadyStateSolver
+
+SteadyStateSolver <|-- SundialsSteadyStateSolver
+
+class NewtonIteration {
+    inexact: bool
+    modified: bool
+}
+
+class PicardIteration
+
+class FixedPointIteration {
+    withAndersonAcceleration: bool
+}
+
+SundialsSteadyStateSolver <|-- NewtonIteration
+SundialsSteadyStateSolver <|-- PicardIteration
+SundialsSteadyStateSolver <|-- FixedPointIteration
 
 
 

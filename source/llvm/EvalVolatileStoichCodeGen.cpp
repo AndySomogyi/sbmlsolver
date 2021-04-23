@@ -22,7 +22,7 @@ namespace rrllvm {
     using namespace rr;
     using namespace llvm;
     using namespace libsbml;
-    using namespace std;
+
 
     const char *EvalVolatileStoichCodeGen::FunctionName = "evalVolatileStoich";
 
@@ -56,7 +56,7 @@ namespace rrllvm {
 
                 if (p->isSetId() && p->getId().length() > 0 &&
                     !isConstantSpeciesReference(p)) {
-                    Log(Logger::LOG_INFORMATION) <<
+                    rrLog(Logger::LOG_INFORMATION) <<
                                                  "generating update code for non-constant species "
                                                  "reference product " << p->getId();
 
@@ -69,7 +69,7 @@ namespace rrllvm {
                         const StoichiometryMath *sm = p->getStoichiometryMath();
                         value = astCodeGen.codeGen(sm->getMath());
                     } else {
-                        Log(Logger::LOG_WARNING) << "species reference "
+                        rrLog(Logger::LOG_WARNING) << "species reference "
                                                  << p->getId() << " has been determined to be "
                                                                   "non-constant, but it has no rules or MathML, so"
                                                                   " no update code will be generated";
@@ -96,7 +96,7 @@ namespace rrllvm {
 
                 if (r->isSetId() && r->getId().length() > 0
                     && !isConstantSpeciesReference(r)) {
-                    Log(Logger::LOG_INFORMATION) <<
+                    rrLog(Logger::LOG_INFORMATION) <<
                                                  "generating update code for non-constant species "
                                                  "reference reactant " << r->getId();
 

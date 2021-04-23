@@ -13,11 +13,13 @@
 
 // == INCLUDES ================================================
 
-# include "rrConfigure.h"
-# include "SolverRegistration.h"
-# include "Solver.h"
-# include "NLEQ1Solver.h"
-# include "NLEQ2Solver.h"
+#include "rrConfigure.h"
+#include "SolverRegistration.h"
+#include "Solver.h"
+#include "NLEQ1Solver.h"
+#include "NLEQ2Solver.h"
+#include "BasicNewtonIteration.h"
+#include "LinesearchNewtonIteration.h"
 
 # if RR_USE_CXX14
 #   include <mutex>
@@ -30,6 +32,8 @@ namespace rr
     static void register_solvers_at_init() {
         SteadyStateSolverFactory::getInstance().registerSteadyStateSolver(new NLEQ1SolverRegistrar());
         SteadyStateSolverFactory::getInstance().registerSteadyStateSolver(new NLEQ2SolverRegistrar());
+        SteadyStateSolverFactory::getInstance().registerSteadyStateSolver(new BasicNewtonIterationRegistrar());
+        SteadyStateSolverFactory::getInstance().registerSteadyStateSolver(new LinesearchNewtonIterationRegistrar());
     }
 
     void SolverRegistrationMgr::Register() {
