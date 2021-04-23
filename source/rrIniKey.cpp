@@ -1,28 +1,28 @@
 #pragma hdrstop
 #include "rrIniKey.h"
 
-using namespace std;
+
 namespace rr
 {
-IniKey::IniKey(const string& key)
+IniKey::IniKey(const std::string& key)
 {
     SetupKey(key);
 }
 
-void IniKey::ReKey(const string& key)
+void IniKey::ReKey(const std::string& key)
 {
     SetupKey(key);
 }
 
-ostream&  operator<<(ostream& stream, const IniKey& aKey)
+std::ostream&  operator<<(std::ostream& stream, const IniKey& aKey)
 {
     stream<<aKey.AsString();
     return stream;
 }
 
-string IniKey::AsString() const
+std::string IniKey::AsString() const
 {
-    string tmp = mKey;
+    std::string tmp = mKey;
     tmp += " = ";
     tmp += mValue;
     return tmp;
@@ -45,7 +45,7 @@ double IniKey::AsFloat() const
 
 complex<double> IniKey::AsComplex() const
 {
-    vector<string> vals = splitString(mValue,",");
+    std::vector<std::string> vals = splitString(mValue,",");
     if(vals.size() == 2)
     {
         return complex<double>(toDouble(vals[0]), toDouble(vals[1]));
@@ -53,11 +53,11 @@ complex<double> IniKey::AsComplex() const
     return complex<double>(toDouble(mValue), 0 );
 }
 
-void IniKey::SetupKey(const string& key)
+void IniKey::SetupKey(const std::string& key)
 {
     if(key.size())
     {
-        vector<string> recs = splitString(key, "=");
+        std::vector<std::string> recs = splitString(key, "=");
         if(recs.size() > 0)
         {
             mKey = recs[0];

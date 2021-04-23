@@ -33,7 +33,7 @@
 
 using namespace libsbml;
 using namespace llvm;
-using namespace std;
+
 
 using rr::Logger;
 using rr::getLogger;
@@ -164,7 +164,7 @@ llvm::StructType* ModelDataIRBuilder::getCSRSparseStructType(
     {
         LLVMContext &context = module->getContext();
 
-        vector<Type*> elements;
+        std::vector<Type*> elements;
 
         elements.push_back(Type::getInt32Ty(context));                        // int m;
         elements.push_back(Type::getInt32Ty(context));                        // int n;
@@ -190,7 +190,7 @@ llvm::StructType* ModelDataIRBuilder::getCSRSparseStructType(
 
             if (sizeof(csr_matrix) != llvm_size)
             {
-                stringstream err;
+                std::stringstream err;
                 err << "llvm " << csr_matrixName << " size " << llvm_size <<
                         " does NOT match C++ sizeof(dcsr_matrix) " <<
                         sizeof(csr_matrix);
@@ -631,7 +631,7 @@ llvm::StructType *ModelDataIRBuilder::createModelDataStructType(llvm::Module *mo
         // generated llvm code anyway.
         Type *voidPtrType = Type::getInt8PtrTy(context);
 
-        vector<Type*> elements;
+        std::vector<Type*> elements;
 
         elements.push_back(int32Type);        // 0      unsigned                 size;
         elements.push_back(int32Type);        // 1      unsigned                 flags;
@@ -761,13 +761,13 @@ LLVMModelDataIRBuilderTesting::LLVMModelDataIRBuilderTesting(LLVMModelDataSymbol
 
 void LLVMModelDataIRBuilderTesting::createAccessors(Module *module)
 {
-    const string getSizeName = "get_size";
+    const std::string getSizeName = "get_size";
     Function* getSizeFunc = module->getFunction(getSizeName);
     if(!getSizeFunc)
     {
         LLVMContext &context = module->getContext();
         StructType *structType = ModelDataIRBuilder::getStructType(module);
-        vector<Type*> getArgTypes(1, PointerType::get(structType, 0));
+        std::vector<Type*> getArgTypes(1, PointerType::get(structType, 0));
         FunctionType *getFuncType = FunctionType::get(Type::getInt32Ty(context),
                 getArgTypes, false);
         getSizeFunc = Function::Create(getFuncType, Function::ExternalLinkage,
@@ -775,7 +775,7 @@ void LLVMModelDataIRBuilderTesting::createAccessors(Module *module)
 
         BasicBlock *getBlock = BasicBlock::Create(context, "entry", getSizeFunc);
         builder.SetInsertPoint(getBlock);
-        vector<Value*> getArgValues;
+        std::vector<Value*> getArgValues;
         for(Function::arg_iterator i = getSizeFunc->arg_begin();
                 i != getSizeFunc->arg_end(); i++)
         {
@@ -816,20 +816,20 @@ llvm::CallInst* LLVMModelDataIRBuilderTesting::createDispInt(llvm::Value* intVal
 }
 
 
-pair<Function*, Function*> LLVMModelDataIRBuilderTesting::createFloatingSpeciesAccessors(
+std::pair<Function*, Function*> LLVMModelDataIRBuilderTesting::createFloatingSpeciesAccessors(
         llvm::Module* module, const std::string id)
 {
-    const string getName = "get_floatingspecies_conc_" + id;
-    const string setName = "set_floatingspecies_conc_" + id;
+    const std::string getName = "get_floatingspecies_conc_" + id;
+    const std::string setName = "set_floatingspecies_conc_" + id;
 
-    pair<Function*, Function*> result(module->getFunction(getName),
+    std::pair<Function*, Function*> result(module->getFunction(getName),
             module->getFunction(setName));
 
     if (!result.first || !result.second)
     {
         LLVMContext &context = module->getContext();
         StructType *structType = ModelDataIRBuilder::getStructType(module);
-        vector<Type*> getArgTypes(1, PointerType::get(structType, 0));
+        std::vector<Type*> getArgTypes(1, PointerType::get(structType, 0));
         FunctionType *getFuncType = FunctionType::get(
                 Type::getDoubleTy(context), getArgTypes, false);
         result.first = Function::Create(getFuncType, Function::ExternalLinkage,
@@ -838,7 +838,7 @@ pair<Function*, Function*> LLVMModelDataIRBuilderTesting::createFloatingSpeciesA
         BasicBlock *block = BasicBlock::Create(context, "entry",
                 result.first);
         builder.SetInsertPoint(block);
-        vector<Value*> getArgValues;
+        std::vector<Value*> getArgValues;
         for (Function::arg_iterator i = result.first->arg_begin();
                 i != result.first->arg_end(); i++)
         {
@@ -859,7 +859,7 @@ pair<Function*, Function*> LLVMModelDataIRBuilderTesting::createFloatingSpeciesA
 
         //result.first->dump();
 
-        vector<Type*> setArgTypes;
+        std::vector<Type*> setArgTypes;
         setArgTypes.push_back(PointerType::get(structType, 0));
         setArgTypes.push_back(Type::getDoubleTy(context));
         FunctionType *setFuncType = FunctionType::get(Type::getVoidTy(context),
@@ -870,7 +870,7 @@ pair<Function*, Function*> LLVMModelDataIRBuilderTesting::createFloatingSpeciesA
         block = BasicBlock::Create(context, "entry",
                 result.second);
         builder.SetInsertPoint(block);
-        vector<Value*> setArgValues;
+        std::vector<Value*> setArgValues;
         for (Function::arg_iterator i = result.second->arg_begin();
                 i != result.second->arg_end(); i++)
         {
@@ -887,7 +887,7 @@ pair<Function*, Function*> LLVMModelDataIRBuilderTesting::createFloatingSpeciesA
 
         //result.second->dump();
 
-        cout << "pause...\n";
+        std::cout << "pause...\n";
 
     }
 
@@ -1000,7 +1000,7 @@ void LLVMModelDataIRBuilderTesting::test(Module *module, IRBuilder<> *build,
 //
 //StructType* getTestStructType() {
 //    // static StructType *     create (ArrayRef< Type * > Elements, StringRef Name, bool isPacked=false)
-//    vector<Type*> elements;
+//    std::vector<Type*> elements;
 //    elements.push_back(Type::getInt32Ty(getContext()));   // int var0;
 //    elements.push_back(Type::getDoubleTy(getContext()));  // double var1;
 //    elements.push_back(Type::getDoubleTy(getContext()));  // double var2;
@@ -1204,7 +1204,7 @@ void LLVMModelDataIRBuilderTesting::test(Module *module, IRBuilder<> *build,
 //    Function *f = TheModule->getFunction("structSet");
 //
 //    if (f == 0) {
-//        vector<Type*> args;
+//        std::vector<Type*> args;
 //        StructType *structType = getTestStructType();
 //        PointerType *structTypePtr = llvm::PointerType::get(structType, 0);
 //        args.push_back(structTypePtr);

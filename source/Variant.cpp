@@ -19,7 +19,7 @@
 #include <Poco/Dynamic/Var.h>
 #include <stdint.h>
 
-using namespace std;
+
 using Poco::Dynamic::Var;
 
 namespace rr
@@ -105,11 +105,11 @@ void Variant::assign(const std::type_info& info, const void* p)
 
     TRY_ASSIGN(std::vector<double>);
 
-    string msg = "could not assign type ";
+    std::string msg = "could not assign type ";
     msg += info.name();
     msg += " to Variant";
 
-    throw invalid_argument(msg);
+    throw std::invalid_argument(msg);
 }
 
 /**
@@ -139,7 +139,7 @@ static std::string strip(const std::string& in)
 
 Variant Variant::parse(const std::string& s)
 {
-    string str = strip(s);
+    std::string str = strip(s);
 
     const char* input = str.c_str();
     char* end = 0;
@@ -170,12 +170,12 @@ Variant Variant::parse(const std::string& s)
         return Variant(false);
     }
 	
-	//Check if vector of doubles
+	//Check if std::vector of doubles
 	if (str[0] == '[') {
 		return Variant(toDoubleVector(str));
 	}
 
-    // its a string
+    // its a std::string
     Variant result;
     result.self->var = Var::parse(str);
     return result;
@@ -312,7 +312,7 @@ void Variant::convert_to(const std::type_info& info, void* p) const
         TRY_CONVERT_TO(int32_t);
 
         TRY_CONVERT_TO(uint32_t);
-		
+
 	if (info == typeid(std::vector<double>)) {
 		std::vector<double>* out = static_cast<std::vector<double>*>(p);
 		*out = self->var.extract< std::vector<double> >();
@@ -321,24 +321,24 @@ void Variant::convert_to(const std::type_info& info, void* p) const
     }
     catch(Poco::SyntaxException& ex)
     {
-        string msg = "Could not convert variant with typeid ";
+        std::string msg = "Could not convert variant with typeid ";
         msg += self->var.type().name();
         msg += " to type";
         msg += info.name();
         msg += "error: ";
         msg += ex.what();
-        msg += ", string value: " + self->var.toString();
+        msg += ", std::string value: " + self->var.toString();
 
         throw std::logic_error(msg);
     }
 
 
-    string msg = "Could not convert variant with typeid ";
+    std::string msg = "Could not convert variant with typeid ";
     msg += self->var.type().name();
     msg += " to type";
     msg += info.name();
 
-    throw invalid_argument(msg);
+    throw std::invalid_argument(msg);
 }
 
 } /* namespace rr */

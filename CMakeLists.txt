@@ -8,14 +8,14 @@ cmake_minimum_required(VERSION 3.16)
 
 set(ROADRUNNER_VERSION_MAJOR 2)
 set(ROADRUNNER_VERSION_MINOR 0)
-set(ROADRUNNER_VERSION_PATCH 5)
+set(ROADRUNNER_VERSION_PATCH 6)
 
 set(ROADRUNNER_VERSION "${ROADRUNNER_VERSION_MAJOR}.${ROADRUNNER_VERSION_MINOR}.${ROADRUNNER_VERSION_PATCH}")
 project(
         roadrunner
         DESCRIPTION "roadrunner project"
         VERSION ${ROADRUNNER_VERSION}
-        LANGUAGES CXX
+        LANGUAGES CXX C
 )
 
 
@@ -95,7 +95,7 @@ option(BUILD_LEGACY_C "Build the legacy C code generating backend (deprecated)" 
 # should we build the swig python wrapper?
 option(BUILD_PYTHON "Build the SWIG generated python wrapper" OFF)
 if (BUILD_PYTHON)
-    find_package(Python COMPONENTS Interpreter Development NumPy REQUIRED)
+        find_package(Python COMPONENTS Interpreter Development NumPy REQUIRED)
     if (NOT ${Python_FOUND})
         message(FATAL_ERROR "Could not find Python")
     endif ()
@@ -173,11 +173,6 @@ set(CXX_STANDARD 14 CACHE STRING "set the cmake standard to use")
 ##################################################
 #   Settings
 #
-
-# Would be nice to set these options but I tried it and we cannot without
-# breaking the build (cw)
-#set(CMAKE_CXX_VISIBILITY_PRESET hidden)
-#set(CMAKE_VISIBILITY_INLINES_HIDDEN YES)
 
 #handle rpath
 set(CMAKE_MACOSX_RPATH TRUE)
@@ -306,7 +301,7 @@ exists and is the full path to the installed dependency tree.")
 endif ()
 
 set(RR_ROOT "${CMAKE_CURRENT_SOURCE_DIR}")
-set(DEPENDENCY_CMAKE_CONFIG_PATHS "${RR_DEPENDENCIES_INSTALL_PREFIX}/lib/cmake")
+set(DEPENDENCY_CMAKE_CONFIG_PATHS "${RR_DEPENDENCIES_INSTALL_PREFIX}/lib/cmake;${RR_DEPENDENCIES_INSTALL_PREFIX}/lib64/cmake")
 set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} "${DEPENDENCY_CMAKE_CONFIG_PATHS}")
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${DEPENDENCY_CMAKE_CONFIG_PATHS}")
 
@@ -331,11 +326,15 @@ find_package(nleq2 CONFIG REQUIRED)
 find_package(PocoFoundation CONFIG REQUIRED)
 find_package(PocoNet CONFIG REQUIRED)
 find_package(PocoXML CONFIG REQUIRED)
-#find_package(Sundials CONFIG REQUIRED)
 find_package(LLVM REQUIRED)
 
-
 find_package(SUNDIALS CONFIG REQUIRED)
+
+set(BUILD_SHARED_LIBS OFF)
+set(BUILD_STATIC_LIBS ON)
+
+# todo make sure you delete before merge with develop (or it will be here forever)
+#add_subdirectory(sundials) # for testing only
 
 
 # install dependencies so clients can use roadrunner from c++/cmake
@@ -410,6 +409,9 @@ if (BUILD_TESTS)
     # to add_test.
     enable_testing()
     include(GoogleTest)
+
+    # defined here, passed on to running the Python tests via CTest
+    set(PYTHON_API_IN_BINARY_TREE "${CMAKE_CURRENT_BINARY_DIR}/wrappers/Python")
 
     add_subdirectory(test)
 

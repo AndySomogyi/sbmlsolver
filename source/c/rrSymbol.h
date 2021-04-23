@@ -36,7 +36,7 @@ public:
     /**
      * Used when symbol is a species
      */
-    string              compartmentName;
+    std::string              compartmentName;
 
     /**
      * used when symbol is a species
@@ -46,7 +46,7 @@ public:
     /**
      * There are only two places where formula was created, in
      * rrModelSymbols.cpp, readBoundarySpecies and readFloatingSpeciesConcentrationList
-     * In both cases, formula was formated as the exact same C language string of
+     * In both cases, formula was formated as the exact same C language std::string of
      * formula < <toString(dValue, ModelSymbols::mDoubleFormat)<< "/ md->c[" << nCompartmentIndex << "]";,
      *
      * where dValue was always the initialAmmount. So, ammount / volume = concentration.
@@ -60,23 +60,23 @@ public:
      * There is no need to keep the compartment index here, the code generators
      * can just grab it from the compartment list using the compartment name.
      */
-    string              formula;
+    std::string              formula;
 
     /**
      * Used when storing local parameters, keyName is the reaction name
      */
-    string              keyName;
-    string              name;
+    std::string              keyName;
+    std::string              name;
 
     //Constructors
-    Symbol(const string& _name = "", const double& _value = std::numeric_limits<double>::quiet_NaN());
-    Symbol(const string& _keyName, const string& _name, const double& _value= std::numeric_limits<double>::quiet_NaN());
-    Symbol(const string& _name, const double& _value, const string& _compartmentName);
-    Symbol(const string& _name, const double& _value, const string& _compartmentName, const string& _formula);
+    Symbol(const std::string& _name = "", const double& _value = std::numeric_limits<double>::quiet_NaN());
+    Symbol(const std::string& _keyName, const std::string& _name, const double& _value= std::numeric_limits<double>::quiet_NaN());
+    Symbol(const std::string& _name, const double& _value, const std::string& _compartmentName);
+    Symbol(const std::string& _name, const double& _value, const std::string& _compartmentName, const std::string& _formula);
 
 }; //class rr::Symbol
 
-ostream& operator<<(ostream& stream, const Symbol& symbol);
+std::ostream& operator<<(std::ostream& stream, const Symbol& symbol);
 
 }//namespace rr
 #endif

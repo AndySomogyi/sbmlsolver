@@ -18,14 +18,14 @@ mComment("")
 
 }
 
-IniSection::IniSection(const string& nameValueString, const char& sep)
+IniSection::IniSection(const std::string& nameValueString, const char& sep)
 :
 mIsDirty(true),
 mIsUsed(false),
 mName(""),
 mComment("")
 {
-    vector<string> keys = splitString(nameValueString, sep);
+    std::vector<std::string> keys = splitString(nameValueString, sep);
 
     //Insert each key in the section
     for(unsigned int i = 0; i < keys.size(); i++)
@@ -47,7 +47,7 @@ IniSection::~IniSection()
 }
 
 //IniKey function
-IniKey*    IniSection::GetKey(const string& keyName, bool create)
+IniKey*    IniSection::GetKey(const std::string& keyName, bool create)
 {
     //Go trough the key list and return key with key name
        KeyItor k_pos;
@@ -79,9 +79,9 @@ IniKey*    IniSection::GetKey(const int& keyNr)
     return NULL;
 }
 
-string IniSection::GetNonKeysAsString()
+std::string IniSection::GetNonKeysAsString()
 {
-    string tmp = "";
+    std::string tmp = "";
        NonKeyItor listPos;
 
     if(!mNonKeys.size())
@@ -101,9 +101,9 @@ string IniSection::GetNonKeysAsString()
     return tmp;
 }
 
-string IniSection::AsString()
+std::string IniSection::AsString()
 {
-    string tmp = "";
+    std::string tmp = "";
        KeyItor listPos;
     for(listPos = mKeys.begin(); listPos != mKeys.end(); listPos++)
     {
@@ -117,7 +117,7 @@ string IniSection::AsString()
     return tmp;
 }
 
-IniKey* IniSection::CreateKey(const string& mKey, const string& mValue, const string& mComment)
+IniKey* IniSection::CreateKey(const std::string& mKey, const std::string& mValue, const std::string& mComment)
 {
     IniKey*         pKey = GetKey(mKey);
 

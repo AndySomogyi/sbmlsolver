@@ -14,8 +14,9 @@
 #ifndef rrNLEQ2SolverH
 #define rrNLEQ2SolverH
 #include <vector>
-#include "SteadyStateSolver.h"
+#include "NLEQSolver.h"
 #include "rrExecutableModel.h"
+
 using std::vector;
 
 namespace rr
@@ -24,36 +25,18 @@ namespace rr
 /**
  * @internal
  */
-class RR_DECLSPEC NLEQ2Solver : public SteadyStateSolver
+class RR_DECLSPEC NLEQ2Solver : public NLEQSolver
 {
     public:
-        /**
-        * Creates a new Instance of NLEQ for the given Model
-        */
-        NLEQ2Solver(ExecutableModel *_model = NULL);
-        ~NLEQ2Solver();
 
-        /**
-        * @author JKM
-        * @brief Called whenever a new model is loaded to allow integrator
-        * to reset internal state
-        */
-        virtual void syncWithModel(ExecutableModel* m);
-
-        void loadConfigSettings();
-
-        /**
-        * @author JKM
-        * @brief Reset all integrator settings to their respective default values
-        */
-        void resetSettings();
+        using NLEQSolver::NLEQSolver;
 
         /**
         * @author WBC, JKM
         * @brief Get the name for this Solver
         * @note Delegates to @ref getName
         */
-        std::string getName() const;
+        std::string getName() const override;
 
         /**
         * @author JKM
@@ -66,7 +49,7 @@ class RR_DECLSPEC NLEQ2Solver : public SteadyStateSolver
         * @brief Get the description for this Solver
         * @note Delegates to @ref getDescription
         */
-        std::string getDescription() const;
+        std::string getDescription() const override;
 
         /**
         * @author JKM
@@ -79,7 +62,7 @@ class RR_DECLSPEC NLEQ2Solver : public SteadyStateSolver
         * @brief Get the hint for this Solver
         * @note Delegates to @ref getHint
         */
-        std::string getHint() const;
+        std::string getHint() const override;
 
         /**
         * @author JKM
@@ -88,10 +71,8 @@ class RR_DECLSPEC NLEQ2Solver : public SteadyStateSolver
         static std::string getNLEQHint();
 
         // ** Solver routines
-        double solve();
+        double solve() override;
 
-    private:
-        ExecutableModel *model; // Model generated from the SBML. Static so we can access it from standalone function
 };
 
 

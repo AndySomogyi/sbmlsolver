@@ -12,12 +12,12 @@ public:
 
     PyEventListener() : pyOnTrigger(0), pyOnAssignment(0)
     {
-        Log(Logger::LOG_INFORMATION) << __FUNC__;
+        rrLog(Logger::LOG_INFORMATION) << __FUNC__;
     }
 
     virtual ~PyEventListener()
     {
-        Log(Logger::LOG_NOTICE) << __FUNC__;
+        rrLog(Logger::LOG_NOTICE) << __FUNC__;
 
         PyGILState_STATE gstate = PyGILState_Ensure();
 
@@ -82,13 +82,13 @@ public:
 
     void fireOnTrigger(ExecutableModel* model, size_t index, const std::string& eventId)
     {
-        Log(Logger::LOG_INFORMATION) << __FUNC__;
+        rrLog(Logger::LOG_INFORMATION) << __FUNC__;
         onTrigger(model, index, eventId);
     }
 
     void fireOnAssignment(ExecutableModel* model, size_t index, const std::string& eventId)
     {
-        Log(Logger::LOG_INFORMATION) << __FUNC__;
+        rrLog(Logger::LOG_INFORMATION) << __FUNC__;
         onAssignment(model, index, eventId);
     }
 
@@ -102,7 +102,7 @@ private:
         uint result = 0;
         std::string err;
 
-        Log(Logger::LOG_INFORMATION) << __FUNC__ << "model: " << (void*)model << ", event id: " << eventId << ", index: " << index;
+        rrLog(Logger::LOG_INFORMATION) << __FUNC__ << "model: " << (void*)model << ", event id: " << eventId << ", index: " << index;
 
         if (pyOnTrigger) {
 
@@ -125,7 +125,7 @@ private:
                 PyObject* pystr = PyObject_Str(PyErr_Occurred());
                 err = std::string("Error calling Python onTrigger method: ") + PyString_AsString(pystr);
 
-                Log(Logger::LOG_ERROR) << err;
+                rrLog(Logger::LOG_ERROR) << err;
 
                 Py_XDECREF(pystr);
                 PyErr_Clear();
@@ -137,8 +137,8 @@ private:
                 PyObject* pystr = PyObject_Str(pyres);
                 const char* cstr = PyString_AsString(pystr);
 
-                Log(Logger::LOG_WARNING) << "The Python onTrigger handler returned " << cstr;
-                Log(Logger::LOG_WARNING) << "None or an integer are the only valid return values";
+                rrLog(Logger::LOG_WARNING) << "The Python onTrigger handler returned " << cstr;
+                rrLog(Logger::LOG_WARNING) << "None or an integer are the only valid return values";
 
                 Py_XDECREF(pystr);
             }
@@ -163,7 +163,7 @@ private:
         uint result = 0;
         std::string err;
 
-        Log(Logger::LOG_INFORMATION) << __FUNC__ << "model: " << (void*)model << ", event id: " << eventId << ", index: " << index;
+        rrLog(Logger::LOG_INFORMATION) << __FUNC__ << "model: " << (void*)model << ", event id: " << eventId << ", index: " << index;
 
         if (pyOnAssignment) {
             PyGILState_STATE gstate = PyGILState_Ensure();
@@ -177,7 +177,7 @@ private:
                 PyObject* pystr = PyObject_Str(PyErr_Occurred());
                 err = std::string("Error calling Python onAssignment method: ") + PyString_AsString(pystr);
 
-                Log(Logger::LOG_ERROR) << err;
+                rrLog(Logger::LOG_ERROR) << err;
 
                 Py_XDECREF(pystr);
                 PyErr_Clear();
@@ -189,8 +189,8 @@ private:
                 PyObject* pystr = PyObject_Str(pyres);
                 const char* cstr = PyString_AsString(pystr);
 
-                Log(Logger::LOG_WARNING) << "The Python onAssignment handler returned " << cstr;
-                Log(Logger::LOG_WARNING) << "None or an integer are the only valid return values";
+                rrLog(Logger::LOG_WARNING) << "The Python onAssignment handler returned " << cstr;
+                rrLog(Logger::LOG_WARNING) << "None or an integer are the only valid return values";
 
                 Py_XDECREF(pystr);
             }

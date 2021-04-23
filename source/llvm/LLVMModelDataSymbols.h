@@ -425,7 +425,7 @@ private:
     std::vector<uint> conservedMoietyGlobalParameterIndex;
 
     /**
-     * map of floating species ids to conserved moiety ids.
+     * std::map of floating species ids to conserved moiety ids.
      *
      * assume conserved moeity speces are stored in the sbml
      * in the same order as the conserved moieties.
@@ -496,7 +496,7 @@ public:
     bool isIndependentInitCompartment(const std::string& symbol) const;
 
     /**
-     * has this string been found to be an independent init global param--
+     * has this std::string been found to be an independent init global param--
      * is a global param and not having an assignment or init assignment rule.
      */
     bool isIndependentInitGlobalParameter(const std::string& symbol) const;
@@ -554,10 +554,10 @@ private:
     std::set<std::string> initAssignmentRules;
 
     /**
-     * map of floating species init value symbols to thier
+     * std::map of floating species init value symbols to thier
      * index in the array.
      *
-     * All floating species are stored in this map, however
+     * All floating species are stored in this std::map, however
      * they are reordered and only the ones with index <
      * independentInitFloatingSpeciesSize are allocated storage.
      */
@@ -620,7 +620,7 @@ private:
 
 
     /**
-     * map of all identified species reference (species references with ids)
+     * std::map of all identified species reference (species references with ids)
      * to their indices in the stoichiometric matrix.
      */
     typedef std::map<std::string, SpeciesReferenceInfo> StringRefInfoMap;
@@ -681,7 +681,7 @@ private:
     std::vector<unsigned char> eventAttributes;
 
     /**
-     * map of event ids
+     * std::map of event ids
      */
     StringUIntMap eventIds;
 

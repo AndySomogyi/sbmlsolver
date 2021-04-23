@@ -21,7 +21,7 @@ namespace rrtesting
 
 CXXEnzymeExecutableModel::CXXEnzymeExecutableModel(const rr::Dictionary* dict)
 {
-    Log(Logger::LOG_NOTICE) << __FUNC__;
+    rrLog(Logger::LOG_NOTICE) << __FUNC__;
 
     volumes = new double[1];
 
@@ -35,7 +35,7 @@ CXXEnzymeExecutableModel::CXXEnzymeExecutableModel(const rr::Dictionary* dict)
     numReactions = numSource;
     numSpecies = 2*numSource;
 
-    Log(Logger::LOG_NOTICE) << "creating " << numSpecies << " number of species test";
+    rrLog(Logger::LOG_NOTICE) << "creating " << numSpecies << " number of species test";
 
 
     floatingSpeciesAmounts = new double[numSpecies];
@@ -65,7 +65,7 @@ CXXEnzymeExecutableModel::CXXEnzymeExecutableModel(const rr::Dictionary* dict)
 
 CXXEnzymeExecutableModel::~CXXEnzymeExecutableModel()
 {
-    Log(Logger::LOG_NOTICE) << __FUNC__;
+    rrLog(Logger::LOG_NOTICE) << __FUNC__;
 
     delete[] volumes;
     delete[] floatingSpeciesAmounts;
@@ -490,12 +490,12 @@ void CXXEnzymeExecutableModel::getStateVectorRate(double time, const double* y,
 
     if (y && dydt)
     {
-        // save and assign state vector
+        // save and assign state std::vector
         double *savedFloatingSpeciesAmounts = floatingSpeciesAmounts;
         floatingSpeciesAmounts = const_cast<double*>(y);
         floatingSpeciesAmountRates = dydt;
 
-        // not setting state vector, react rates get dirty
+        // not setting state std::vector, react rates get dirty
         double conversionFactor = evalReactionRates();
 
         csr_matrix_dgemv(conversionFactor, stoichiometry, reactionRates, 0.0, floatingSpeciesAmountRates);

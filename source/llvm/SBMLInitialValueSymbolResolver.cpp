@@ -11,7 +11,7 @@
 #include "FunctionResolver.h"
 #include <sbml/Model.h>
 
-using namespace std;
+
 using namespace libsbml;
 using namespace llvm;
 
@@ -88,7 +88,7 @@ llvm::Value* SBMLInitialValueSymbolResolver::loadSymbolValue(
         return loadReactionRate(reaction);
     }
 
-    string msg = "Could not find requested symbol \'";
+    std::string msg = "Could not find requested symbol \'";
     msg += symbol;
     msg += "\' in the model";
     throw_llvm_exception(msg);

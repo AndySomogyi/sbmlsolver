@@ -9,16 +9,16 @@ using std::vector;
 namespace rr
 {
 
-class RR_DECLSPEC SymbolList: public vector<Symbol> //Using vector instead of list since accessing element by []
+class RR_DECLSPEC SymbolList: public std::vector<Symbol> //Using std::vector instead of list since accessing element by []
 {
     public:
         void                     Clear();
         int                      Add(const Symbol& item);
         double                   getValue(const int& index);
-        string                   getName(const int& index);
-        string                   getKeyName(const int& index);
-        bool                     find(const string& name, int& index) const;
-        bool                     find(const string& keyName, const string& name, int& index) const;
+        std::string                   getName(const int& index);
+        std::string                   getKeyName(const int& index);
+        bool                     find(const std::string& name, int& index) const;
+        bool                     find(const std::string& keyName, const std::string& name, int& index) const;
         unsigned int             Count() const {return size();}
 }; //class
 
@@ -85,7 +85,7 @@ class RR_DECLSPEC SymbolList: public vector<Symbol> //Using vector instead of li
 //        /// </summary>
 //        /// <param name="sName">the name of the symbol to return</param>
 //        /// <returns>Returns the Symbol with the given Name or null if not found</returns>
-//        public Symbol this[string sName]
+//        public Symbol this[std::string sName]
 //        {
 //            get
 //            {
@@ -108,12 +108,12 @@ class RR_DECLSPEC SymbolList: public vector<Symbol> //Using vector instead of li
 //            return ((Symbol) base[index]).value;
 //        }
 //
-//        public string getName(int index)
+//        public std::string getName(int index)
 //        {
 //            return ((Symbol) base[index]).name;
 //        }
 //
-//        public string getKeyName(int index)
+//        public std::string getKeyName(int index)
 //        {
 //            return ((Symbol) base[index]).keyName;
 //        }
@@ -123,7 +123,7 @@ class RR_DECLSPEC SymbolList: public vector<Symbol> //Using vector instead of li
 //            Clear();
 //        }
 //
-//        public bool find(string name, out int index)
+//        public bool find(std::string name, out int index)
 //        {
 //            index = -1;
 //            Symbol sym;
@@ -144,7 +144,7 @@ class RR_DECLSPEC SymbolList: public vector<Symbol> //Using vector instead of li
 //            return false;
 //        }
 //
-//        public bool find(string keyName, string name, out int index)
+//        public bool find(std::string keyName, std::string name, out int index)
 //        {
 //            index = -1;
 //            for (int i = 0; i < Count; i++)
@@ -159,7 +159,7 @@ class RR_DECLSPEC SymbolList: public vector<Symbol> //Using vector instead of li
 //            return false;
 //        }
 //
-////        public bool find (string name, out int index) {
+////        public bool find (std::string name, out int index) {
 ////            index = -1;
 ////            TSymbol sym;
 ////            for (int i=0; i<this.Count; i++) {
@@ -176,7 +176,7 @@ class RR_DECLSPEC SymbolList: public vector<Symbol> //Using vector instead of li
 ////            return false;
 ////        }
 ////
-////        public bool find (string keyName, string name, out int index) {
+////        public bool find (std::string keyName, std::string name, out int index) {
 ////            index = -1;
 ////            for (int i=0; i<this.Count; i++) {
 ////                TSymbol sym = (TSymbol) base[i];

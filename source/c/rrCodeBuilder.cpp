@@ -3,11 +3,11 @@
 #include "rrStringUtils.h"
 #include "rrCodeBuilder.h"
 //---------------------------------------------------------------------------
-using namespace std;
+
 namespace rr
 {
 
-CodeBuilder::CodeBuilder(const string& aStr, const string& decl_spec, const string& call_conv)
+CodeBuilder::CodeBuilder(const std::string& aStr, const std::string& decl_spec, const std::string& call_conv)
 :
 mSizeOfVarField1(45),
 mSizeOfVarField2(55),
@@ -18,30 +18,30 @@ mCallingConvention(call_conv)
     mStringing<<aStr;
 }
 
-void CodeBuilder::FormatVariable(const string& type, const string& varName, const string& comment)
+void CodeBuilder::FormatVariable(const std::string& type, const std::string& varName, const std::string& comment)
 {
 
-    mStringing<<left<<setw(mSizeOfVarField1)<<type    <<varName<<     setw(mSizeOfVarField2)<<";";
+    mStringing<<left<<std::setw(mSizeOfVarField1)<<type    <<varName<<     std::setw(mSizeOfVarField2)<<";";
     if(comment.size())
     {
         mStringing<<"//"<<comment;
     }
 
-    mStringing<<endl;
+    mStringing<<std::endl;
 }
 
-void CodeBuilder::AddFunctionExport(const string& retValue, const string& funcProto)
+void CodeBuilder::AddFunctionExport(const std::string& retValue, const std::string& funcProto)
 {
-    //mStringing<<mDeclSpec<<" "<<left<<setw(mSizeOfVarField1)<<retValue<<mCallingConvention<<setw(mSizeOfVarField2)<<funcProto + ";"<<endl;
-    mStringing<<mDeclSpec<<" "<<left<<setw(mSizeOfVarField1)<<retValue<<setw(mSizeOfVarField2)<<funcProto + ";"<<endl;
+    //mStringing<<mDeclSpec<<" "<<left<<std::setw(mSizeOfVarField1)<<retValue<<mCallingConvention<<std::setw(mSizeOfVarField2)<<funcProto + ";"<<std::endl;
+    mStringing<<mDeclSpec<<" "<<left<<std::setw(mSizeOfVarField1)<<retValue<<std::setw(mSizeOfVarField2)<<funcProto + ";"<<std::endl;
 }
 
-void CodeBuilder::AddFunctionProto(const string& retValue, const string& funcProto)
+void CodeBuilder::AddFunctionProto(const std::string& retValue, const std::string& funcProto)
 {
-    mStringing<<"   "<<" "<<left<<setw(mSizeOfVarField1)<<retValue<<setw(mSizeOfVarField2)<<funcProto + ";"<<endl;
+    mStringing<<"   "<<" "<<left<<std::setw(mSizeOfVarField1)<<retValue<<std::setw(mSizeOfVarField2)<<funcProto + ";"<<std::endl;
 }
 
-void CodeBuilder::FormatArray(const string& type, const string& varName, const int& _arraySize, const string& comment)
+void CodeBuilder::FormatArray(const std::string& type, const std::string& varName, const int& _arraySize, const std::string& comment)
 {
     int arraySize = _arraySize;
     if(arraySize == 0)
@@ -51,12 +51,12 @@ void CodeBuilder::FormatArray(const string& type, const string& varName, const i
          arraySize = 1;
     }
 
-    string field2(varName +"["+ rr::toString(arraySize)+"];");
-    mStringing<<left<<setw(mSizeOfVarField1)<<type    << setw(mSizeOfVarField2)<<field2;
+    std::string field2(varName +"["+ rr::toString(arraySize)+"];");
+    mStringing<<left<<std::setw(mSizeOfVarField1)<<type    << std::setw(mSizeOfVarField2)<<field2;
 
     if(comment.size())
     {
-        mStringing<<left<<setw(mSizeOfVarField3)<<"//" + comment;
+        mStringing<<left<<std::setw(mSizeOfVarField3)<<"//" + comment;
     }
     mStringing<<"\n";
 
@@ -66,8 +66,8 @@ void CodeBuilder::FormatArray(const string& type, const string& varName, const i
         arraySize = 0;
     }
 
-    mStringing<<left<<setw(mSizeOfVarField1)<<"D_S const int"    << setw(mSizeOfVarField2)<<varName + "Size=" + rr::toString(arraySize) + ";";
-    mStringing<<endl;
+    mStringing<<left<<std::setw(mSizeOfVarField1)<<"D_S const int"    << std::setw(mSizeOfVarField2)<<varName + "Size=" + rr::toString(arraySize) + ";";
+    mStringing<<std::endl;
 }
 
 }

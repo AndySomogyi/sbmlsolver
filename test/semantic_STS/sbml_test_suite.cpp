@@ -7482,7 +7482,7 @@ bool RunTest(int caseNumber)
             ret = CheckLoad(first, caseNumber);
         }
         else {
-            Log(Logger::LOG_ERROR) << "No models found for test case" << caseNumber << endl;
+            rrLog(Logger::LOG_ERROR) << "No models found for test case" << caseNumber << endl;
             ret = false;
         }
         if (!last.empty()) {
@@ -7495,12 +7495,12 @@ bool RunTest(int caseNumber)
             ret = RunTest(first, caseNumber);
             if (!ret && isSemiStochasticTest(modelFilePath + "/" + descriptionFileName)) {
                 //semistochastic tests fail once in a great while, but very very rarely twice in a row.
-                Log(Logger::LOG_WARNING) << "Test " << caseNumber << " failed, but we expect it to fail every so often.  Trying again...";
+                rrLog(Logger::LOG_WARNING) << "Test " << caseNumber << " failed, but we expect it to fail every so often.  Trying again...";
                 ret = RunTest(first, caseNumber);
             }
         }
         else {
-            Log(Logger::LOG_ERROR) << "No models found for test case" << caseNumber << endl;
+            rrLog(Logger::LOG_ERROR) << "No models found for test case" << caseNumber << endl;
             ret = false;
         }
         if (!last.empty()) {
@@ -7525,13 +7525,13 @@ bool RunTest(const string& version, int caseNumber)
         if(!simulation.SaveResult())
         {
             //Failed to save data
-            Log(Logger::LOG_ERROR)<<"Failed to save result";
+            rrLog(Logger::LOG_ERROR)<<"Failed to save result";
             throw("Failed running simulation: Failed to save result");
         }
 
         if(!simulation.LoadReferenceData())
         {
-            Log(Logger::LOG_ERROR)<<"Failed loading reference data";
+            rrLog(Logger::LOG_ERROR)<<"Failed loading reference data";
             throw("Failed loading reference data");
         }
 
@@ -7612,14 +7612,14 @@ void LoadAndSimulate(const string& version, int caseNumber, RoadRunner& rr, Test
 
     if (!simulation.LoadSBMLFromFile())
     {
-        Log(Logger::LOG_ERROR) << "Failed loading SBML model";
+        rrLog(Logger::LOG_ERROR) << "Failed loading SBML model";
         throw("Failed loading SBML model");
     }
     //Then read settings file if it exists..
     string settingsOveride("");
     if (!simulation.LoadSettings(settingsOveride))
     {
-        Log(Logger::LOG_ERROR) << "Failed loading SBML model settings";
+        rrLog(Logger::LOG_ERROR) << "Failed loading SBML model settings";
         throw("Failed loading SBML model settings");
     }
 
@@ -7628,7 +7628,7 @@ void LoadAndSimulate(const string& version, int caseNumber, RoadRunner& rr, Test
         //Only try simulating non-FBC tests.
         if (!simulation.Simulate())
         {
-            Log(Logger::LOG_ERROR) << "Failed running simulation";
+            rrLog(Logger::LOG_ERROR) << "Failed running simulation";
             throw("Failed running simulation");
         }
     }

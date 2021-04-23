@@ -19,7 +19,7 @@
 
 using namespace libsbml;
 using namespace llvm;
-using namespace std;
+
 
 using rr::Logger;
 using rr::getLogger;
@@ -66,14 +66,14 @@ Value* EvalInitialConditionsCodeGen::codeGen()
 
     if (Logger::LOG_DEBUG <= rr::Logger::getLevel())
     {
-        Log(Logger::LOG_DEBUG) << "boundarySpecies: \n";
+        rrLog(Logger::LOG_DEBUG) << "boundarySpecies: \n";
         const SymbolForest::Map&  initValues = modelSymbols.getInitialValues().boundarySpecies;
 
         for (SymbolForest::Map::const_iterator i = initValues.begin();
                 i != initValues.end(); i++)
         {
             char* formula = SBML_formulaToL3String(i->second);
-            Log(Logger::LOG_DEBUG) << "\t" << i->first << ": " << formula << "\n";
+            rrLog(Logger::LOG_DEBUG) << "\t" << i->first << ": " << formula << "\n";
             free(formula);
         }
     }
@@ -91,7 +91,7 @@ Value* EvalInitialConditionsCodeGen::codeGen()
     // read init values from sbml and store in model data
     codeGenGlobalParameters(modelDataResolver, initialValueResolver);
 
-    // read values from the model data state vector
+    // read values from the model data state std::vector
     ModelDataLoadSymbolResolver modelValueResolver(modelData, this->modelGenContext);
 
 
@@ -135,12 +135,12 @@ void EvalInitialConditionsCodeGen::codeGenSpecies(
         LoadSymbolResolver& initialValueResolver)
 {
     {
-        vector<string> floatingSpecies = dataSymbols.getFloatingSpeciesIds();
+        std::vector<std::string> floatingSpecies = dataSymbols.getFloatingSpeciesIds();
 
-        for (vector<string>::const_iterator i = floatingSpecies.begin();
+        for (std::vector<std::string>::const_iterator i = floatingSpecies.begin();
                 i != floatingSpecies.end(); i++)
         {
-            const string& id = *i;
+            const std::string& id = *i;
 
             if (!dataSymbols.hasAssignmentRule(id))
             {
@@ -152,12 +152,12 @@ void EvalInitialConditionsCodeGen::codeGenSpecies(
 
 
     {
-        vector<string> boundarySpecies = dataSymbols.getBoundarySpeciesIds();
+        std::vector<std::string> boundarySpecies = dataSymbols.getBoundarySpeciesIds();
 
-        for (vector<string>::const_iterator i = boundarySpecies.begin();
+        for (std::vector<std::string>::const_iterator i = boundarySpecies.begin();
                 i != boundarySpecies.end(); i++)
         {
-            const string& id = *i;
+            const std::string& id = *i;
 
             if (!dataSymbols.hasAssignmentRule(id))
             {
@@ -177,27 +177,27 @@ void EvalInitialConditionsCodeGen::codeGenStoichiometry(
                 builder);
     ASTNodeCodeGen astCodeGen(builder, initialValueResolver, modelGenContext, modelData);
 
-    Log(Logger::LOG_DEBUG) << "reactions: ";
-    vector<string> ids = dataSymbols.getReactionIds();
+    rrLog(Logger::LOG_DEBUG) << "reactions: ";
+    std::vector<std::string> ids = dataSymbols.getReactionIds();
     for (int i = 0; i < ids.size(); i++)
     {
-        Log(Logger::LOG_DEBUG) << ids[i] << ", ";
+        rrLog(Logger::LOG_DEBUG) << ids[i] << ", ";
     }
-    Log(Logger::LOG_DEBUG) << "\n";
+    rrLog(Logger::LOG_DEBUG) << "\n";
 
     Value *stoichEP = modelDataBuilder.createGEP(Stoichiometry);
     Value *stoich = builder.CreateLoad(stoichEP, "stoichiometry");
 
-    list<LLVMModelDataSymbols::SpeciesReferenceInfo> stoichEntries =
+    std::list<LLVMModelDataSymbols::SpeciesReferenceInfo> stoichEntries =
             dataSymbols.getStoichiometryIndx();
 
-    for (list<LLVMModelDataSymbols::SpeciesReferenceInfo>::iterator i =
+    for (std::list<LLVMModelDataSymbols::SpeciesReferenceInfo>::iterator i =
             stoichEntries.begin(); i != stoichEntries.end(); i++)
     {
         LLVMModelDataSymbols::SpeciesReferenceInfo nz = *i;
         const ASTNode *node = modelSymbols.createStoichiometryNode(nz.row, nz.column);
         char* formula = SBML_formulaToL3String(node);
-        Log(Logger::LOG_DEBUG) << "\t{" << nz.row << ", " << nz.column << "} : " << formula
+        rrLog(Logger::LOG_DEBUG) << "\t{" << nz.row << ", " << nz.column << "} : " << formula
                 << "\n";
         free(formula);
 
@@ -210,7 +210,7 @@ void EvalInitialConditionsCodeGen::codeGenStoichiometry(
 
         // species references may be defined by rate rules, so set the
         // initial value here. In this case, data is duplicated between the
-        // rate rules vector and the CSR sparse matrix. (only occurs once
+        // rate rules std::vector and the CSR sparse matrix. (only occurs once
         // in 1100 tests)
         if (!nz.id.empty() && dataSymbols.hasRateRule(nz.id))
         {
@@ -228,12 +228,12 @@ void EvalInitialConditionsCodeGen::codeGenCompartments(
         StoreSymbolResolver& modelDataResolver,
         LoadSymbolResolver& initialValueResolver)
 {
-    vector<string> compartments = dataSymbols.getCompartmentIds();
+    std::vector<std::string> compartments = dataSymbols.getCompartmentIds();
 
-    for (vector<string>::const_iterator i = compartments.begin();
+    for (std::vector<std::string>::const_iterator i = compartments.begin();
             i != compartments.end(); i++)
     {
-        const string& id = *i;
+        const std::string& id = *i;
 
         if (!dataSymbols.hasAssignmentRule(id))
         {
@@ -247,12 +247,12 @@ void EvalInitialConditionsCodeGen::codeGenInitCompartments(
         StoreSymbolResolver& modelDataResolver,
         LoadSymbolResolver& initialValueResolver)
 {
-    vector<string> compartments = dataSymbols.getCompartmentIds();
+    std::vector<std::string> compartments = dataSymbols.getCompartmentIds();
 
-    for (vector<string>::const_iterator i = compartments.begin();
+    for (std::vector<std::string>::const_iterator i = compartments.begin();
             i != compartments.end(); i++)
     {
-        const string& id = *i;
+        const std::string& id = *i;
 
         if (!dataSymbols.hasAssignmentRule(id) && !dataSymbols.hasInitialAssignmentRule(id))
         {
@@ -267,12 +267,12 @@ void EvalInitialConditionsCodeGen::codeGenInitSpecies(
         LoadSymbolResolver& initialValueResolver)
 {
     {
-        vector<string> floatingSpecies = dataSymbols.getFloatingSpeciesIds();
+        std::vector<std::string> floatingSpecies = dataSymbols.getFloatingSpeciesIds();
 
-        for (vector<string>::const_iterator i = floatingSpecies.begin();
+        for (std::vector<std::string>::const_iterator i = floatingSpecies.begin();
                 i != floatingSpecies.end(); i++)
         {
-            const string& id = *i;
+            const std::string& id = *i;
 
             if (dataSymbols.isIndependentInitFloatingSpecies(id))
             {
@@ -288,12 +288,12 @@ void EvalInitialConditionsCodeGen::codeGenGlobalParameters(
         StoreSymbolResolver& modelDataResolver,
         LoadSymbolResolver& initialValueResolver)
 {
-    vector<string> globalParameters = dataSymbols.getGlobalParameterIds();
+    std::vector<std::string> globalParameters = dataSymbols.getGlobalParameterIds();
 
-    for (vector<string>::const_iterator i = globalParameters.begin();
+    for (std::vector<std::string>::const_iterator i = globalParameters.begin();
             i != globalParameters.end(); i++)
     {
-        const string& id = *i;
+        const std::string& id = *i;
 
         if (!dataSymbols.hasAssignmentRule(id))
         {
@@ -307,12 +307,12 @@ void EvalInitialConditionsCodeGen::codeGenInitGlobalParameters(
         StoreSymbolResolver& modelDataResolver,
         LoadSymbolResolver& initialValueResolver)
 {
-    vector<string> parameters = dataSymbols.getGlobalParameterIds();
+    std::vector<std::string> parameters = dataSymbols.getGlobalParameterIds();
 
-    for (vector<string>::const_iterator i = parameters.begin();
+    for (std::vector<std::string>::const_iterator i = parameters.begin();
             i != parameters.end(); i++)
     {
-        const string& id = *i;
+        const std::string& id = *i;
 
         if (!dataSymbols.hasAssignmentRule(id) && !dataSymbols.hasInitialAssignmentRule(id))
         {

@@ -12,7 +12,7 @@ namespace rr
  * is also responsible for freeing this block.
  *
  * Therefore, this class can not be copied, the copy constructors are
- * actually a move, so that these can be stored in a vector.
+ * actually a move, so that these can be stored in a std::vector.
  */
 class RR_DECLSPEC PendingAssignment
 {

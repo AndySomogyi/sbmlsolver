@@ -5,7 +5,7 @@
 
 using namespace ls;
 using std::string;
-DoubleMatrix ParseMatrixFromText(const string& textMatrix);
+DoubleMatrix ParseMatrixFromText(const std::string& textMatrix);
 
 
 #endif

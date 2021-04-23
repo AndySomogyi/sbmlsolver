@@ -118,19 +118,19 @@ struct LLVMModelData
     unsigned                            numEvents;                        // 15
 
     /**
-     * number of items in the state vector.
+     * number of items in the state std::vector.
      * should be numIndFloatingSpecies + numRateRules
      */
     unsigned                            stateVectorSize;                  // 16
 
     /**
-     * the state vector, this is usually a pointer to a block of data
+     * the state std::vector, this is usually a pointer to a block of data
      * owned by the integrator.
      */
     double*                             stateVector;                      // 17
 
     /**
-     * the rate of change of the state vector, this is usually a pointer to
+     * the rate of change of the state std::vector, this is usually a pointer to
      * a block of data owned by the integrator.
      */
     double*                             stateVectorRate;                  // 18
@@ -199,9 +199,9 @@ struct LLVMModelData
 	 * floating species block
      *
      * As the integrator runs, this pointer can simply point to an offset
-     * in the integrator's state vector.
+     * in the integrator's state std::vector.
      *
-     * This pointer is part of the state vector. When any function is called by
+     * This pointer is part of the state std::vector. When any function is called by
      * CVODE, this is actually a pointer to a CVODE owned memory block.
      * Otherwise, this points to the alocated rateRuleValues block at the end
      * of this struct.
@@ -215,7 +215,7 @@ struct LLVMModelData
     /**
      * has length numIndFloatingSpecies
      *
-     * This pointer is part of the state vector. When any function is called by
+     * This pointer is part of the state std::vector. When any function is called by
      * CVODE, this is actually a pointer to a CVODE owned memory block.
      */
     double*                             floatingSpeciesAmountsAlias;      // 30

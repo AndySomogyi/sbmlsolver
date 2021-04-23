@@ -7,7 +7,7 @@
 //---------------------------------------------------------------------------
 
 
-using namespace std;
+
 namespace rr
 {
 
@@ -88,23 +88,23 @@ bool SBMLSymbol::HasRule()
 }
 
 
-ostream& operator<<(ostream& stream, const SBMLSymbol& symbol)
+std::ostream& operator<<(std::ostream& stream, const SBMLSymbol& symbol)
 {
     //stream symbol to stream
-    stream<<"ID = "<<            symbol.mId                                <<endl;
-    stream<<"Type = "<<         symbol.mType                            <<endl;
-    stream<<"Value = "<<        symbol.mValue                            <<endl;
-    stream<<"Has Initial Assignment = "<<symbol.HasInitialAssignment()     <<endl;
+    stream<<"ID = "<<            symbol.mId                                <<std::endl;
+    stream<<"Type = "<<         symbol.mType                            <<std::endl;
+    stream<<"Value = "<<        symbol.mValue                            <<std::endl;
+    stream<<"Has Initial Assignment = "<<symbol.HasInitialAssignment()     <<std::endl;
 
     if(symbol.HasInitialAssignment())
     {
-        stream<<"Intial Assignment = "<<symbol.mInitialAssignment            <<endl;
+        stream<<"Intial Assignment = "<<symbol.mInitialAssignment            <<std::endl;
     }
 
-    stream<<"Has Rule = "<<        toString(symbol.mHasRule)                <<endl;
+    stream<<"Has Rule = "<<        toString(symbol.mHasRule)                <<std::endl;
     if(symbol.mHasRule)
     {
-        stream<<"Rule = "<<        symbol.mRule                    <<endl;
+        stream<<"Rule = "<<        symbol.mRule                    <<std::endl;
     }
     return stream;
 }

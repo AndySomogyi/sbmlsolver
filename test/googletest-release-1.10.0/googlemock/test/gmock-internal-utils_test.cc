@@ -401,16 +401,16 @@ TEST_F(LogIsVisibleTest, WorksWhenVerbosityIsWarning) {
 
 #if GTEST_HAS_STREAM_REDIRECTION
 
-// Tests the Log() function.
+// Tests the rrLog() function.
 
-// Verifies that Log() behaves correctly for the given verbosity level
+// Verifies that rrLog() behaves correctly for the given verbosity level
 // and log severity.
 void TestLogWithSeverity(const std::string& verbosity, LogSeverity severity,
                          bool should_print) {
   const std::string old_flag = GMOCK_FLAG(verbose);
   GMOCK_FLAG(verbose) = verbosity;
   CaptureStdout();
-  Log(severity, "Test log.\n", 0);
+  rrLog(severity, "Test log.\n", 0);
   if (should_print) {
     EXPECT_THAT(GetCapturedStdout().c_str(),
                 ContainsRegex(
@@ -424,12 +424,12 @@ void TestLogWithSeverity(const std::string& verbosity, LogSeverity severity,
 }
 
 // Tests that when the stack_frames_to_skip parameter is negative,
-// Log() doesn't include the stack trace in the output.
+// rrLog() doesn't include the stack trace in the output.
 TEST(LogTest, NoStackTraceWhenStackFramesToSkipIsNegative) {
   const std::string saved_flag = GMOCK_FLAG(verbose);
   GMOCK_FLAG(verbose) = kInfoVerbosity;
   CaptureStdout();
-  Log(kInfo, "Test log.\n", -1);
+  rrLog(kInfo, "Test log.\n", -1);
   EXPECT_STREQ("\nTest log.\n", GetCapturedStdout().c_str());
   GMOCK_FLAG(verbose) = saved_flag;
 }
@@ -449,7 +449,7 @@ TEST(LogTest, NoSkippingStackFrameInOptMode) {
   GetUnitTestImpl()->set_os_stack_trace_getter(mock_os_stack_trace_getter);
 
   CaptureStdout();
-  Log(kWarning, "Test log.\n", 100);
+  rrLog(kWarning, "Test log.\n", 100);
   const std::string log = GetCapturedStdout();
 
   std::string expected_trace =
@@ -508,7 +508,7 @@ TEST(LogTest, OnlyWarningsArePrintedWhenVerbosityIsInvalid) {
   TestLogWithSeverity("invalid", kWarning, true);
 }
 
-// Verifies that Log() behaves correctly for the given verbosity level
+// Verifies that rrLog() behaves correctly for the given verbosity level
 // and log severity.
 std::string GrabOutput(void(*logger)(), const char* verbosity) {
   const std::string saved_flag = GMOCK_FLAG(verbose);

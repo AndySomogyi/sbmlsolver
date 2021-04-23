@@ -12,7 +12,7 @@
 #include <sstream>
 
 
-using namespace std;
+
 
 namespace rr
 {

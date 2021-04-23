@@ -21,25 +21,25 @@ using Poco::SharedLibrary;
 class RR_DECLSPEC ModelSharedLibrary
 {
     protected:
-        string                             mLibName;
-        string                            mPathToLib;
+        std::string                             mLibName;
+        std::string                            mPathToLib;
         SharedLibrary                    mTheLib;
 
     public:
-                                        ModelSharedLibrary(const string& pathToLib = "");
+                                        ModelSharedLibrary(const std::string& pathToLib = "");
                                        ~ModelSharedLibrary();
 
-        bool                            setPath(const string& pathTo);
-        string                            createName(const string& name = "");
-        string                            getName();
-        string                            getFullFileName();
+        bool                            setPath(const std::string& pathTo);
+        std::string                            createName(const std::string& name = "");
+        std::string                            getName();
+        std::string                            getFullFileName();
 
         bool                            load();
-        bool                            load(const string& name);
+        bool                            load(const std::string& name);
         bool                            unload();
         bool                            isLoaded();
-        void*                            getSymbol(const string& name);
-        bool                            hasSymbol(const string& name);
+        void*                            getSymbol(const std::string& name);
+        bool                            hasSymbol(const std::string& name);
 
 };
 }

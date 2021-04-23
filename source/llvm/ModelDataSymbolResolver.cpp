@@ -13,7 +13,7 @@
 #include "rrLogger.h"
 #include <sbml/Model.h>
 
-using namespace std;
+
 using namespace libsbml;
 using namespace llvm;
 
@@ -110,7 +110,7 @@ llvm::Value* ModelDataLoadSymbolResolver::loadSymbolValue(
         }
         else
         {
-            string msg = string("the symbol ") + symbol + string(" appeared to "
+            std::string msg = std::string("the symbol ") + symbol + std::string(" appeared to "
                     "be a species, but it could not be found as an independent "
                     "species or rate rule");
             throw_llvm_exception(msg);
@@ -157,7 +157,7 @@ llvm::Value* ModelDataLoadSymbolResolver::loadSymbolValue(
 
         if (info.type == LLVMModelDataSymbols::MultiReactantProduct)
         {
-            string msg = "mutable stochiometry for species which appear "
+            std::string msg = "mutable stochiometry for species which appear "
                     "multiple times in a single reaction is not currently "
                     "supported, species reference id: ";
             msg += symbol;
@@ -186,7 +186,7 @@ llvm::Value* ModelDataLoadSymbolResolver::loadSymbolValue(
     }
 
 
-    string msg = "the symbol \'";
+    std::string msg = "the symbol \'";
     msg += symbol;
     msg += "\' is not physically stored in the ModelData structure, "
             "it either does not exists or is defined by an assigment rule (hence it "
@@ -254,7 +254,7 @@ llvm::Value* ModelDataStoreSymbolResolver::storeSymbolValue(
         }
         else
         {
-            string msg = string("the symbol ") + symbol + string(" appeared to "
+            std::string msg = std::string("the symbol ") + symbol + std::string(" appeared to "
                     "be a species, but it could not be found as an independent "
                     "species or rate rule");
             throw_llvm_exception(msg);
@@ -287,7 +287,7 @@ llvm::Value* ModelDataStoreSymbolResolver::storeSymbolValue(
 
         if (info.type == LLVMModelDataSymbols::MultiReactantProduct)
         {
-            string msg = "mutable stochiometry for species which appear "
+            std::string msg = "mutable stochiometry for species which appear "
                     "multiple times in a single reaction is not currently "
                     "supported, species reference id: ";
             msg += symbol;
@@ -306,7 +306,7 @@ llvm::Value* ModelDataStoreSymbolResolver::storeSymbolValue(
         return mdbuilder.createStoichiometryStore(info.row, info.column, value);
     }
 
-    string msg = "The symbol \'";
+    std::string msg = "The symbol \'";
     msg += symbol;
     msg += "\' is not physically stored in the ModelData structure, "
             "it either does not exists or is defined by an assigment rule (hence it "

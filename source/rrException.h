@@ -30,58 +30,77 @@ namespace rr
 class RR_DECLSPEC Exception : public std::exception
 {
     protected:
-        string mMessage;   //Exception message
+        std::string mMessage;   //Exception message
 
     public:
-        //string& Message;
-                                Exception(const string& desc);
+        //std::string& Message;
+                                Exception(const std::string& desc);
         virtual                ~Exception() throw();
         virtual const char*     what() const throw();
-        string                  Message() const;
-        string                  getMessage() const;
+        std::string                  Message() const;
+        std::string                  getMessage() const;
 };
+
 
 class RR_DECLSPEC CoreException : public Exception
 {
     public:
-        CoreException(const string& msg);
-        CoreException(const string& msg1, const string& msg2);
+        CoreException(const std::string& msg);
+        CoreException(const std::string& msg1, const std::string& msg2);
 };
 
 class RR_DECLSPEC ScannerException : public Exception
 {
     public:
-        ScannerException(const string& msg);
+        ScannerException(const std::string& msg);
 };
 
 class RR_DECLSPEC NLEQException : public Exception
 {
     public:
-        NLEQException(const string& msg);
+        NLEQException(const std::string& msg);
 };
 
 class RR_DECLSPEC NOMException : public Exception
 {
     public:
-        NOMException(const string& msg);
+        NOMException(const std::string& msg);
 };
 
 class RR_DECLSPEC CVODEException : public Exception
 {
     public:
-        CVODEException(const string& msg);
+        CVODEException(const std::string& msg);
+};
+
+class RR_DECLSPEC KinsolException : public Exception
+{
+    public:
+        explicit KinsolException(const std::string& msg);
+};
+
+class RR_DECLSPEC DidNotConvergeException : public Exception
+{
+    public:
+        explicit DidNotConvergeException(const std::string& msg);
+};
+
+class RR_DECLSPEC NullPointerException : public Exception
+{
+    public:
+        explicit NullPointerException(const std::string& msg);
 };
 
 class RR_DECLSPEC NotImplementedException : public Exception
 {
     public:
-        NotImplementedException(const string& msg);
+        NotImplementedException(const std::string& msg);
 };
 
 class RR_DECLSPEC InvalidKeyException : public Exception
 {
     public:
-        InvalidKeyException(const string& msg);
+        explicit InvalidKeyException(const std::string& msg);
 };
 
 /**
@@ -92,7 +111,7 @@ class RR_DECLSPEC InvalidKeyException : public Exception
 class RR_DECLSPEC UninitializedValueException : public Exception
 {
     public:
-        UninitializedValueException(const string& msg);
+        UninitializedValueException(const std::string& msg);
 };
 
 /**
@@ -100,7 +119,7 @@ class RR_DECLSPEC UninitializedValueException : public Exception
  * @brief Called whenever an uninitialized value is encountered,
  * throws @ref UninitializedValueException
  */
-void UninitializedValue(const string& msg);
+void UninitializedValue(const std::string& msg);
 
 }//namepsace rr
 #endif

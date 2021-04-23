@@ -25,7 +25,7 @@ std::string validateSBML(const std::string src, unsigned opt)
     SBMLDocument *doc = NULL;
 
     try {
-        string sbml = SBMLReader::read(src);
+        std::string sbml = SBMLReader::read(src);
         doc =  readSBMLFromString (sbml.c_str());
 
         doc->setConsistencyChecks(LIBSBML_CAT_GENERAL_CONSISTENCY,
@@ -103,7 +103,7 @@ static bool isStoichDefined(const SpeciesReference* s) {
     return (s->isSetStoichiometry() || s->isSetStoichiometryMath());
 }
 
-void setSpeciesRefId(SpeciesReference* sr, const string& idbase) 
+void setSpeciesRefId(SpeciesReference* sr, const std::string& idbase)
 {
     Model* model = const_cast<Model*>(sr->getModel());
     const SBase* sbase = model->getElementBySId(idbase);
@@ -178,7 +178,7 @@ std::string fixMissingStoich(const std::string sbml) {
                         throw std::runtime_error("Unable to set stoichiometry");
                     }
                 if (s->isSetStoichiometryMath()) {
-                    string id = s->getId();
+                    std::string id = s->getId();
                     if (!s->isSetId()) {
                         setSpeciesRefId(s, r->getId() + "_reactant_" + s->getSpecies() + "_stoichiometry");
                     }
@@ -192,7 +192,7 @@ std::string fixMissingStoich(const std::string sbml) {
                         throw std::runtime_error("Unable to set stoichiometry");
                     }
                 if (s->isSetStoichiometryMath()) {
-                    string id = s->getId();
+                    std::string id = s->getId();
                     if (!s->isSetId()) {
                         setSpeciesRefId(s, r->getId() + "_product_" + s->getSpecies() + "_stoichiometry");
                     }
@@ -207,7 +207,7 @@ std::string fixMissingStoich(const std::string sbml) {
         throw;
     }
 
-    string result = writeSBMLToStdString(doc);
+    std::string result = writeSBMLToStdString(doc);
     delete doc;
     return result;
 }

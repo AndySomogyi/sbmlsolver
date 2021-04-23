@@ -307,7 +307,7 @@ void addGlobalMappings(const ModelGeneratorContext& ctx)
 
 double distrib_uniform(Random *random, double _min, double _max)
 {
-    Log(Logger::LOG_DEBUG) << "distrib_uniform("
+    rrLog(Logger::LOG_DEBUG) << "distrib_uniform("
             << static_cast<void*>(random)
             << ", " << _min << ", " << _max << ")";
 
@@ -321,7 +321,7 @@ double distrib_uniform(Random *random, double _min, double _max)
 
 double distrib_normal(Random* random, double mu, double sigma)
 {
-    Log(Logger::LOG_DEBUG) << "distrib_normal("
+    rrLog(Logger::LOG_DEBUG) << "distrib_normal("
             << static_cast<void*>(random)
             << ", " << mu << ", " << sigma << ")";
 
@@ -331,12 +331,12 @@ double distrib_normal(Random* random, double mu, double sigma)
 
 double distrib_normal_four(Random* random, double mu, double sigma, double _min, double _max)
 {
-    Log(Logger::LOG_DEBUG) << "distrib_normal("
+    rrLog(Logger::LOG_DEBUG) << "distrib_normal("
         << static_cast<void*>(random)
         << ", " << mu << ", " << sigma << ", " << _min << ", " << _max << ")";
 
     if (_min > _max) {
-        Log(Logger::LOG_DEBUG) << "Invalid call to function: " << _min << " is greater than " << _max << ".";
+        rrLog(Logger::LOG_DEBUG) << "Invalid call to function: " << _min << " is greater than " << _max << ".";
         return nan("");
     }
     if (_min == _max) {
@@ -351,7 +351,7 @@ double distrib_normal_four(Random* random, double mu, double sigma, double _min,
         count++;
     }
     if (count == random->getMaxTries()) {
-        Log(Logger::LOG_DEBUG) << "Unable to draw from truncated distribution after " << count << " tries.  Using the midpoint between " << _min << " and " << _max << " instead.";
+        rrLog(Logger::LOG_DEBUG) << "Unable to draw from truncated distribution after " << count << " tries.  Using the midpoint between " << _min << " and " << _max << " instead.";
         distval = (_min + _max)/2;
     }
     
@@ -360,7 +360,7 @@ double distrib_normal_four(Random* random, double mu, double sigma, double _min,
 
 double distrib_bernoulli(Random* random, double prob)
 {
-    Log(Logger::LOG_DEBUG) << "distrib_bernoulli("
+    rrLog(Logger::LOG_DEBUG) << "distrib_bernoulli("
         << static_cast<void*>(random)
         << ", " << prob << ")";
 
@@ -370,7 +370,7 @@ double distrib_bernoulli(Random* random, double prob)
 
 double distrib_binomial(Random* random, double nTrials, double probabilityOfSuccess)
 {
-    Log(Logger::LOG_DEBUG) << "distrib_binomial("
+    rrLog(Logger::LOG_DEBUG) << "distrib_binomial("
         << static_cast<void*>(random)
         << ", " << nTrials << ", " << probabilityOfSuccess << ")";
 
@@ -380,12 +380,12 @@ double distrib_binomial(Random* random, double nTrials, double probabilityOfSucc
 
 double distrib_binomial_four(Random* random, double nTrials, double probabilityOfSuccess, double _min, double _max)
 {
-    Log(Logger::LOG_DEBUG) << "distrib_binomial("
+    rrLog(Logger::LOG_DEBUG) << "distrib_binomial("
         << static_cast<void*>(random)
         << ", " << nTrials << ", " << probabilityOfSuccess << ", " << _min << ", " << _max << ")";
 
     if (_min > _max) {
-        Log(Logger::LOG_DEBUG) << "Invalid call to function: " << _min << " is greater than " << _max << ".";
+        rrLog(Logger::LOG_DEBUG) << "Invalid call to function: " << _min << " is greater than " << _max << ".";
         return nan("");
     }
     if (_min == _max) {
@@ -400,7 +400,7 @@ double distrib_binomial_four(Random* random, double nTrials, double probabilityO
         count++;
     }
     if (count == random->getMaxTries()) {
-        Log(Logger::LOG_DEBUG) << "Unable to draw from truncated distribution after " << count << " tries.  Using the midpoint between " << _min << " and " << _max << " instead.";
+        rrLog(Logger::LOG_DEBUG) << "Unable to draw from truncated distribution after " << count << " tries.  Using the midpoint between " << _min << " and " << _max << " instead.";
         distval = (std::max(0.0, _min) + std::min(nTrials, _max))/2;
     }
 
@@ -409,7 +409,7 @@ double distrib_binomial_four(Random* random, double nTrials, double probabilityO
 
 double distrib_cauchy(Random* random, double location, double scale)
 {
-    Log(Logger::LOG_DEBUG) << "distrib_cauchy("
+    rrLog(Logger::LOG_DEBUG) << "distrib_cauchy("
         << static_cast<void*>(random)
         << ", " << location << ", " << scale << ")";
 
@@ -419,7 +419,7 @@ double distrib_cauchy(Random* random, double location, double scale)
 
 double distrib_cauchy_one(Random* random, double scale)
 {
-    Log(Logger::LOG_DEBUG) << "distrib_cauchy("
+    rrLog(Logger::LOG_DEBUG) << "distrib_cauchy("
         << static_cast<void*>(random)
         << ", " << scale << ")";
 
@@ -430,12 +430,12 @@ double distrib_cauchy_one(Random* random, double scale)
 
 double distrib_cauchy_four(Random* random, double location, double scale, double _min, double _max)
 {
-    Log(Logger::LOG_DEBUG) << "distrib_cauchy("
+    rrLog(Logger::LOG_DEBUG) << "distrib_cauchy("
         << static_cast<void*>(random)
         << ", " << location << ", " << scale << ", " << _min << ", " << _max << ")";
 
     if (_min > _max) {
-        Log(Logger::LOG_DEBUG) << "Invalid call to function: " << _min << " is greater than " << _max << ".";
+        rrLog(Logger::LOG_DEBUG) << "Invalid call to function: " << _min << " is greater than " << _max << ".";
         return nan("");
     }
     if (_min == _max) {
@@ -450,7 +450,7 @@ double distrib_cauchy_four(Random* random, double location, double scale, double
         count++;
     }
     if (count == random->getMaxTries()) {
-        Log(Logger::LOG_DEBUG) << "Unable to draw from truncated distribution after " << count << " tries.  Using the midpoint between " << _min << " and " << _max << " instead.";
+        rrLog(Logger::LOG_DEBUG) << "Unable to draw from truncated distribution after " << count << " tries.  Using the midpoint between " << _min << " and " << _max << " instead.";
         distval = (_min + _max)/2;
     }
 
@@ -459,7 +459,7 @@ double distrib_cauchy_four(Random* random, double location, double scale, double
 
 double distrib_chisquare(Random* random, double degreesOfFreedom)
 {
-    Log(Logger::LOG_DEBUG) << "distrib_chisquare("
+    rrLog(Logger::LOG_DEBUG) << "distrib_chisquare("
         << static_cast<void*>(random)
         << ", " << degreesOfFreedom << ")";
 
@@ -469,12 +469,12 @@ double distrib_chisquare(Random* random, double degreesOfFreedom)
 
 double distrib_chisquare_three(Random* random, double degreesOfFreedom, double _min, double _max)
 {
-    Log(Logger::LOG_DEBUG) << "distrib_chisquare("
+    rrLog(Logger::LOG_DEBUG) << "distrib_chisquare("
         << static_cast<void*>(random)
         << ", " << degreesOfFreedom << ", " << _min << ", " << _max << ")";
 
     if (_min > _max) {
-        Log(Logger::LOG_DEBUG) << "Invalid call to function: " << _min << " is greater than " << _max << ".";
+        rrLog(Logger::LOG_DEBUG) << "Invalid call to function: " << _min << " is greater than " << _max << ".";
         return nan("");
     }
     if (_min == _max) {
@@ -489,7 +489,7 @@ double distrib_chisquare_three(Random* random, double degreesOfFreedom, double _
         count++;
     }
     if (count == random->getMaxTries()) {
-        Log(Logger::LOG_DEBUG) << "Unable to draw from truncated distribution after " << count << " tries.  Using the midpoint between " << _min << " and " << _max << " instead.";
+        rrLog(Logger::LOG_DEBUG) << "Unable to draw from truncated distribution after " << count << " tries.  Using the midpoint between " << _min << " and " << _max << " instead.";
         distval = (_min + _max)/2;
     }
 
@@ -498,7 +498,7 @@ double distrib_chisquare_three(Random* random, double degreesOfFreedom, double _
 
 double distrib_exponential(Random* random, double lambda)
 {
-    Log(Logger::LOG_DEBUG) << "distrib_exponential("
+    rrLog(Logger::LOG_DEBUG) << "distrib_exponential("
         << static_cast<void*>(random)
         << ", " << lambda << ")";
 
@@ -508,12 +508,12 @@ double distrib_exponential(Random* random, double lambda)
 
 double distrib_exponential_three(Random* random, double lambda, double _min, double _max)
 {
-    Log(Logger::LOG_DEBUG) << "distrib_exponential("
+    rrLog(Logger::LOG_DEBUG) << "distrib_exponential("
         << static_cast<void*>(random)
         << ", " << lambda << ", " << _min << ", " << _max << ")";
 
     if (_min > _max) {
-        Log(Logger::LOG_DEBUG) << "Invalid call to function: " << _min << " is greater than " << _max << ".";
+        rrLog(Logger::LOG_DEBUG) << "Invalid call to function: " << _min << " is greater than " << _max << ".";
         return nan("");
     }
     if (_min == _max) {
@@ -528,7 +528,7 @@ double distrib_exponential_three(Random* random, double lambda, double _min, dou
         count++;
     }
     if (count == random->getMaxTries()) {
-        Log(Logger::LOG_DEBUG) << "Unable to draw from truncated distribution after " << count << " tries.  Using the midpoint between " << _min << " and " << _max << " instead.";
+        rrLog(Logger::LOG_DEBUG) << "Unable to draw from truncated distribution after " << count << " tries.  Using the midpoint between " << _min << " and " << _max << " instead.";
         distval = (_min + _max)/2;
     }
 
@@ -537,7 +537,7 @@ double distrib_exponential_three(Random* random, double lambda, double _min, dou
 
 double distrib_gamma(Random* random, double shape, double scale)
 {
-    Log(Logger::LOG_DEBUG) << "distrib_gamma("
+    rrLog(Logger::LOG_DEBUG) << "distrib_gamma("
         << static_cast<void*>(random)
         << ", " << shape << ", " << scale << ")";
 
@@ -547,12 +547,12 @@ double distrib_gamma(Random* random, double shape, double scale)
 
 double distrib_gamma_four(Random* random, double shape, double scale, double _min, double _max)
 {
-    Log(Logger::LOG_DEBUG) << "distrib_gamma("
+    rrLog(Logger::LOG_DEBUG) << "distrib_gamma("
         << static_cast<void*>(random)
         << ", " << shape << ", " << scale << ", " << _min << ", " << _max << ")";
 
     if (_min > _max) {
-        Log(Logger::LOG_DEBUG) << "Invalid call to function: " << _min << " is greater than " << _max << ".";
+        rrLog(Logger::LOG_DEBUG) << "Invalid call to function: " << _min << " is greater than " << _max << ".";
         return nan("");
     }
     if (_min == _max) {
@@ -567,7 +567,7 @@ double distrib_gamma_four(Random* random, double shape, double scale, double _mi
         count++;
     }
     if (count == random->getMaxTries()) {
-        Log(Logger::LOG_DEBUG) << "Unable to draw from truncated distribution after " << count << " tries.  Using the midpoint between " << _min << " and " << _max << " instead.";
+        rrLog(Logger::LOG_DEBUG) << "Unable to draw from truncated distribution after " << count << " tries.  Using the midpoint between " << _min << " and " << _max << " instead.";
         distval = (_min + _max)/2;
     }
 
@@ -576,7 +576,7 @@ double distrib_gamma_four(Random* random, double shape, double scale, double _mi
 
 double distrib_laplace(Random* random, double location, double scale)
 {
-    Log(Logger::LOG_DEBUG) << "distrib_laplace("
+    rrLog(Logger::LOG_DEBUG) << "distrib_laplace("
         << static_cast<void*>(random)
         << ", " << location << ", " << scale << ")";
 
@@ -588,7 +588,7 @@ double distrib_laplace(Random* random, double location, double scale)
 
 double distrib_laplace_one(Random* random, double scale)
 {
-    Log(Logger::LOG_DEBUG) << "distrib_laplace("
+    rrLog(Logger::LOG_DEBUG) << "distrib_laplace("
         << static_cast<void*>(random)
         << ", " << scale << ")";
 
@@ -601,12 +601,12 @@ double distrib_laplace_one(Random* random, double scale)
 
 double distrib_laplace_four(Random* random, double location, double scale, double _min, double _max)
 {
-    Log(Logger::LOG_DEBUG) << "distrib_laplace("
+    rrLog(Logger::LOG_DEBUG) << "distrib_laplace("
         << static_cast<void*>(random)
         << ", " << location << ", " << scale << ", " << _min << ", " << _max << ")";
 
     if (_min > _max) {
-        Log(Logger::LOG_DEBUG) << "Invalid call to function: " << _min << " is greater than " << _max << ".";
+        rrLog(Logger::LOG_DEBUG) << "Invalid call to function: " << _min << " is greater than " << _max << ".";
         return nan("");
     }
     if (_min == _max) {
@@ -625,7 +625,7 @@ double distrib_laplace_four(Random* random, double location, double scale, doubl
         count++;
     }
     if (count == random->getMaxTries()) {
-        Log(Logger::LOG_DEBUG) << "Unable to draw from truncated distribution after " << count << " tries.  Using the midpoint between " << _min << " and " << _max << " instead.";
+        rrLog(Logger::LOG_DEBUG) << "Unable to draw from truncated distribution after " << count << " tries.  Using the midpoint between " << _min << " and " << _max << " instead.";
         distval = (_min + _max)/2;
     }
 
@@ -634,7 +634,7 @@ double distrib_laplace_four(Random* random, double location, double scale, doubl
 
 double distrib_lognormal(Random* random, double mu, double sigma)
 {
-    Log(Logger::LOG_DEBUG) << "distrib_lognormal("
+    rrLog(Logger::LOG_DEBUG) << "distrib_lognormal("
         << static_cast<void*>(random)
         << ", " << mu << ", " << sigma << ")";
 
@@ -644,12 +644,12 @@ double distrib_lognormal(Random* random, double mu, double sigma)
 
 double distrib_lognormal_four(Random* random, double mu, double sigma, double _min, double _max)
 {
-    Log(Logger::LOG_DEBUG) << "distrib_lognormal("
+    rrLog(Logger::LOG_DEBUG) << "distrib_lognormal("
         << static_cast<void*>(random)
         << ", " << mu << ", " << sigma << ", " << _min << ", " << _max << ")";
 
     if (_min > _max) {
-        Log(Logger::LOG_DEBUG) << "Invalid call to function: " << _min << " is greater than " << _max << ".";
+        rrLog(Logger::LOG_DEBUG) << "Invalid call to function: " << _min << " is greater than " << _max << ".";
         return nan("");
     }
     if (_min == _max) {
@@ -664,7 +664,7 @@ double distrib_lognormal_four(Random* random, double mu, double sigma, double _m
         count++;
     }
     if (count == random->getMaxTries()) {
-        Log(Logger::LOG_DEBUG) << "Unable to draw from truncated distribution after " << count << " tries.  Using the midpoint between " << _min << " and " << _max << " instead.";
+        rrLog(Logger::LOG_DEBUG) << "Unable to draw from truncated distribution after " << count << " tries.  Using the midpoint between " << _min << " and " << _max << " instead.";
         distval = (_min + _max)/2;
     }
 
@@ -673,7 +673,7 @@ double distrib_lognormal_four(Random* random, double mu, double sigma, double _m
 
 double distrib_poisson(Random* random, double lambda)
 {
-    Log(Logger::LOG_DEBUG) << "distrib_poisson("
+    rrLog(Logger::LOG_DEBUG) << "distrib_poisson("
         << static_cast<void*>(random)
         << ", " << lambda << ")";
 
@@ -683,12 +683,12 @@ double distrib_poisson(Random* random, double lambda)
 
 double distrib_poisson_three(Random* random, double lambda, double _min, double _max)
 {
-    Log(Logger::LOG_DEBUG) << "distrib_poisson("
+    rrLog(Logger::LOG_DEBUG) << "distrib_poisson("
         << static_cast<void*>(random)
         << ", " << lambda << ", " << _min << ", " << _max << ")";
 
     if (_min > _max) {
-        Log(Logger::LOG_DEBUG) << "Invalid call to function: " << _min << " is greater than " << _max << ".";
+        rrLog(Logger::LOG_DEBUG) << "Invalid call to function: " << _min << " is greater than " << _max << ".";
         return nan("");
     }
     if (_min == _max) {
@@ -703,7 +703,7 @@ double distrib_poisson_three(Random* random, double lambda, double _min, double 
         count++;
     }
     if (count == random->getMaxTries()) {
-        Log(Logger::LOG_DEBUG) << "Unable to draw from truncated distribution after " << count << " tries.  Using the midpoint between " << _min << " and " << _max << " instead.";
+        rrLog(Logger::LOG_DEBUG) << "Unable to draw from truncated distribution after " << count << " tries.  Using the midpoint between " << _min << " and " << _max << " instead.";
         distval = (_min + _max)/2;
     }
 
@@ -712,7 +712,7 @@ double distrib_poisson_three(Random* random, double lambda, double _min, double 
 
 double distrib_rayleigh(Random* random, double scale)
 {
-    Log(Logger::LOG_DEBUG) << "distrib_rayleigh("
+    rrLog(Logger::LOG_DEBUG) << "distrib_rayleigh("
         << static_cast<void*>(random)
         << ", " << scale << ")";
 
@@ -727,12 +727,12 @@ double distrib_rayleigh(Random* random, double scale)
 
 double distrib_rayleigh_three(Random* random, double scale, double _min, double _max)
 {
-    Log(Logger::LOG_DEBUG) << "distrib_rayleigh("
+    rrLog(Logger::LOG_DEBUG) << "distrib_rayleigh("
         << static_cast<void*>(random)
         << ", " << scale << ", " << _min << ", " << _max << ")";
 
     if (_min > _max) {
-        Log(Logger::LOG_DEBUG) << "Invalid call to function: " << _min << " is greater than " << _max << ".";
+        rrLog(Logger::LOG_DEBUG) << "Invalid call to function: " << _min << " is greater than " << _max << ".";
         return nan("");
     }
     if (_min == _max) {
@@ -751,7 +751,7 @@ double distrib_rayleigh_three(Random* random, double scale, double _min, double 
         count++;
     }
     if (count == random->getMaxTries()) {
-        Log(Logger::LOG_DEBUG) << "Unable to draw from truncated distribution after " << count << " tries.  Using the midpoint between " << _min << " and " << _max << " instead.";
+        rrLog(Logger::LOG_DEBUG) << "Unable to draw from truncated distribution after " << count << " tries.  Using the midpoint between " << _min << " and " << _max << " instead.";
         distval = (_min + _max)/2;
     }
 
@@ -761,7 +761,7 @@ double distrib_rayleigh_three(Random* random, double scale, double _min, double 
 Random::~Random()
 {
     --randomCount;
-    Log(Logger::LOG_TRACE) << "deleted Random object, count: " << randomCount;
+    rrLog(Logger::LOG_TRACE) << "deleted Random object, count: " << randomCount;
 }
 
 double Random::operator ()()

@@ -16,15 +16,15 @@
 
 // == INCLUDES ================================================
 
-# include "rrLogger.h"
-# include "rrOSSpecifics.h"
-# include "Dictionary.h"
-# include "rrException.h"
-# include "Solver.h"
+#include "rrLogger.h"
+#include "rrOSSpecifics.h"
+#include "Dictionary.h"
+#include "rrException.h"
+#include "Solver.h"
 
-# include "tr1proxy/rr_memory.h"
-# include "tr1proxy/rr_unordered_map.h"
-# include <stdexcept>
+#include "tr1proxy/rr_memory.h"
+#include "tr1proxy/rr_unordered_map.h"
+#include <stdexcept>
 
 // == CODE ====================================================
 
@@ -41,7 +41,9 @@ namespace rr
     {
     public:
 
-        virtual ~SteadyStateSolver() {};
+        using Solver::Solver;
+
+        ~SteadyStateSolver() override = default;
 
         /**
         * @author JKM
@@ -56,27 +58,22 @@ namespace rr
 
 		/**
 		* @author KC
-		* @brief Get the solver settings as a string
+		* @brief Return a std::string representation of the solver
 		*/
-		std::string getSettingsRepr() const;
+		std::string toString() const override;
 
 		/**
 		* @author KC
-		* @brief Python dictionary-style string representation of settings
+		* @brief Return std::string representation a la Python __repr__ method
 		*/
-		std::string settingsPyDictRepr() const;
+		std::string toRepr() const override;
 
 		/**
-		* @author KC
-		* @brief Return a string representation of the solver
-		*/
-		virtual std::string toString() const;
+		 * Implements settings shared by
+		 * all steady state solvers.
+		 */
+		void resetSettings() override;
 
-		/**
-		* @author KC
-		* @brief Return string representation a la Python __repr__ method
-		*/
-		virtual std::string toRepr() const;
     };
 
     /**
@@ -133,7 +130,7 @@ namespace rr
          * @brief Constructs a new solver given the name
          * (e.g. cvode, gillespie)
          */
-        SteadyStateSolver* New(std::string name, ExecutableModel *m) const;
+        SteadyStateSolver* New(const std::string& name, ExecutableModel *m) const;
 
         /**
          * @author JKM, WBC

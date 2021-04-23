@@ -11,7 +11,7 @@ namespace rr
 class IniKey;
 typedef std::vector<IniKey*>             KeyList;
 typedef KeyList::iterator                 KeyItor;
-typedef std::vector<string>             NonKeyList;
+typedef std::vector<std::string>             NonKeyList;
 typedef NonKeyList::iterator             NonKeyItor;
 
 
@@ -27,22 +27,22 @@ class RR_DECLSPEC IniSection
 
     public:
         bool              mIsUsed;
-        string            mName;
-        string            mComment;
-        KeyList           mKeys;            //vector of pointers to keys
-        NonKeyList        mNonKeys;         //vector of pointers to non_keys
+        std::string            mName;
+        std::string            mComment;
+        KeyList           mKeys;            //std::vector of pointers to keys
+        NonKeyList        mNonKeys;         //std::vector of pointers to non_keys
 
                         IniSection();
                         IniSection(const std::string& nameValueString, const char& sep);
                        ~IniSection();
-        IniKey*          CreateKey(const string& _keyName, const string& Value = "", const string& Comment = "");
+        IniKey*          CreateKey(const std::string& _keyName, const std::string& Value = "", const std::string& Comment = "");
         IniKey*            GetKey(const int& i);
-        IniKey*            GetKey(const string& keyName, bool create = false);
+        IniKey*            GetKey(const std::string& keyName, bool create = false);
         size_t             KeyCount(){return mKeys.size();}
         size_t             NonKeyCount(){return mNonKeys.size();}
         void            Clear(){mKeys.clear(); mNonKeys.clear();}
-           string            GetNonKeysAsString();
-        string            AsString();
+           std::string            GetNonKeysAsString();
+        std::string            AsString();
 };
 }
 #endif

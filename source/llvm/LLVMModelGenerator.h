@@ -35,7 +35,7 @@ class RR_DECLSPEC LLVMModelGenerator
 public:
 
 	/**
-	 * Create an executable model from an sbml string
+	 * Create an executable model from an sbml std::string
 	 */
     static rr::ExecutableModel *createModel(const std::string& sbml, uint options);
 

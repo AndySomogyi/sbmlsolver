@@ -70,7 +70,7 @@ bool operator<(const Event &e1, const Event &e2)
 std::ostream& operator<<(std::ostream& stream, const Event& anEvent)
 {
     // something bizarre in gcc was causing this to fail if the event fields are
-    // dumped directly to the ostream. Seems fine if we make a stack based copy
+    // dumped directly to the std::ostream. Seems fine if we make a stack based copy
     // though
 
     stream << "Event ID: ";

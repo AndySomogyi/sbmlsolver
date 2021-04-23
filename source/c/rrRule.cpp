@@ -8,7 +8,7 @@
 namespace rr
 {
 
-RRRule::RRRule(const string& rule, const string& ruleTypeStr)
+RRRule::RRRule(const std::string& rule, const std::string& ruleTypeStr)
 :
 mTheRule(rule),
 mRuleTypeStr(ruleTypeStr),
@@ -17,16 +17,16 @@ mRuleType(rtUnknown)
     AssignType();
 }
 
-string RRRule::GetLHS()
+std::string RRRule::GetLHS()
 {
     //Rules have equal signs, or?
-    string lhs = mTheRule.substr(0, mTheRule.find('='));
+    std::string lhs = mTheRule.substr(0, mTheRule.find('='));
     return lhs;
 }
 
-string RRRule::GetRHS()
+std::string RRRule::GetRHS()
 {
-    string rhs = mTheRule.substr(mTheRule.find('=') + 1);
+    std::string rhs = mTheRule.substr(mTheRule.find('=') + 1);
     return rhs;
 }
 
@@ -40,7 +40,7 @@ void RRRule::AssignType()
     mRuleType = GetRuleTypeFromString(mRuleTypeStr);
 }
 
-RuleType GetRuleTypeFromString(const string& str)
+RuleType GetRuleTypeFromString(const std::string& str)
 {
     if(str == "Algebraic_Rule")
     {

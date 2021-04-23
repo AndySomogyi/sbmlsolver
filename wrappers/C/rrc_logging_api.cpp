@@ -82,11 +82,11 @@ void rrcCallConv logMsg(CLogLevel lvl, const char* msg)
     start_try
         if(msg)
         {
-            Log((LogLevel) lvl)<<msg;
+            rrLog((LogLevel) lvl)<<msg;
         }
         else
         {
-            Log((LogLevel) lvl)<<"You passed a NULL message pointer to logMsg";
+            rrLog((LogLevel) lvl)<<"You passed a NULL message pointer to logMsg";
         }
     catch_void_macro
 }

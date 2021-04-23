@@ -21,7 +21,7 @@ namespace rrllvm
 {
 
 using namespace libsbml;
-using namespace std;
+
 using namespace llvm;
 
 using rr::Logger;
@@ -46,7 +46,7 @@ llvm::Value* FunctionResolver::loadSymbolValue(const std::string& symbol,
     const FunctionDefinition *funcDef = 0;
     if (symbols)
     {
-        map<string,Value*>::const_iterator i = symbols->find(symbol);
+        std::map<std::string,Value*>::const_iterator i = symbols->find(symbol);
         if (i != symbols->end())
         {
             return i->second;
@@ -78,14 +78,14 @@ llvm::Value* FunctionResolver::loadSymbolValue(const std::string& symbol,
 
         if (nchild - 1 != args.size())
         {
-            string expected = rr::toString(nchild - 1);
-            string got = rr::toString((int)args.size());
+            std::string expected = rr::toString(nchild - 1);
+            std::string got = rr::toString((int)args.size());
 
             throw_llvm_exception(symbol + ", argument count does not match, expected " +
                     expected + ", recieved: " + got);
         }
 
-        symbols = new map<string, Value*>();
+        symbols = new std::map<std::string, Value*>();
 
         // first set of child nodes are bvars, these go into new local scope
         for (uint i = 0; i < nchild - 1; ++i)

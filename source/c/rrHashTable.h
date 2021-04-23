@@ -13,18 +13,18 @@ using std::string;
 namespace rr
 {
 
-class RR_DECLSPEC StringSymbolHashTable: public map<string, SBMLSymbol>
+class RR_DECLSPEC StringSymbolHashTable: public std::map<std::string, SBMLSymbol>
 {
     protected:
 
     public:
         StringSymbolHashTable();
-        map<string, SBMLSymbol>::iterator     mIter;
-        bool                                  ContainsKey(const string& aKey);
+        std::map<std::string, SBMLSymbol>::iterator     mIter;
+        bool                                  ContainsKey(const std::string& aKey);
 };
 
-ostream& operator<<(ostream& stream, StringSymbolHashTable& hash);
-class RR_DECLSPEC IntStringHashTable:  public map<int, string>
+std::ostream& operator<<(std::ostream& stream, StringSymbolHashTable& hash);
+class RR_DECLSPEC IntStringHashTable:  public std::map<int, std::string>
 {
     protected:
 

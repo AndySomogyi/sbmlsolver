@@ -269,7 +269,7 @@ void check_LoadData()
     if (!sbmlsec)
     {
         EXPECT_TRUE(false);
-        Log(Logger::LOG_FATAL) << "No 'SBML' section found in " << rrTestFileName;
+        rrLog(Logger::LOG_FATAL) << "No 'SBML' section found in " << rrTestFileName;
         return;
     }
     sbmlsec->mIsUsed = true;
@@ -282,7 +282,7 @@ void check_LoadData()
     if (!loadSBMLEx(gRR, sbml.c_str(), true))
     {
         EXPECT_TRUE(false);
-        Log(Logger::LOG_FATAL) << "Unable to load SBML:" << endl << sbml;
+        rrLog(Logger::LOG_FATAL) << "Unable to load SBML:" << endl << sbml;
     }
 }
 
@@ -1771,18 +1771,23 @@ constexpr unsigned int hashc(const char* s, int off = 0) {
     return !s[off] ? 5381 : (hashc(s, off + 1) * 33) ^ s[off];
 }
 
+/**
+ * @note this test used to be called `TEST(C_API_RRTESTS, RRTESTS)`
+ * It has been refactored to make it easier to figure out which test
+ * has failed.
+ */
+class CApiRRTests : public ::testing::Test {
+public:
+    CApiRRTests() = default;
 
-TEST(C_API_RRTESTS, RRTESTS)
-{
-    disableLoggingToConsole();
-    set<string> files = getTestFiles(joinPath(gRRTestDir, "rrtest_files"));
-    for (set<string>::iterator file = files.begin(); file != files.end(); file++) {
-        rrTestFileName = *file;
+    void checkRRTest(const std::string& fname){
+        std::string rrTestFileDir = joinPath(gRRTestDir, "rrtest_files");
+        rrTestFileName = joinPath(rrTestFileDir, fname + ".rrtest");
         check_LoadData();
         if (check_Unimplemented()) {
             clog << "Skipping file " << rrTestFileName << ": unimplemented tests" << endl;
             check_FREE_RR_INSTANCE();
-            continue;
+            return;
         }
         clog << endl << "Checking file " << rrTestFileName << endl;
         ASSERT_TRUE(gRR != NULL);
@@ -2006,4 +2011,157 @@ TEST(C_API_RRTESTS, RRTESTS)
         check_CHECK_UNUSED_TESTS();
         check_FREE_RR_INSTANCE();
     }
+};
+
+TEST_F(CApiRRTests, TestAbsolute_Tolerance1){
+    checkRRTest("Absolute_Tolerance1");
 }
+
+TEST_F(CApiRRTests, TestAdd_Event_Assignment1){
+    checkRRTest("Add_Event_Assignment1");
+}
+
+TEST_F(CApiRRTests, TestAdd_Reactions1){
+    checkRRTest("Add_Reactions1");
+}
+
+TEST_F(CApiRRTests, TestAdd_Reactions2){
+    checkRRTest("Add_Reactions2");
+}
+
+TEST_F(CApiRRTests, TestAdd_Species1){
+    checkRRTest("Add_Species1");
+}
+
+TEST_F(CApiRRTests, TestBimolecular_end){
+    checkRRTest("Bimolecular_end");
+}
+
+TEST_F(CApiRRTests, TestComp){
+    checkRRTest("Comp");
+}
+
+TEST_F(CApiRRTests, TestConserved_Cycle){
+    checkRRTest("Conserved_Cycle");
+}
+
+TEST_F(CApiRRTests, TestConserved_Cycle_and_Branch){
+    checkRRTest("Conserved_Cycle_and_Branch");
+}
+
+TEST_F(CApiRRTests, TestCycle){
+    checkRRTest("Cycle");
+}
+
+TEST_F(CApiRRTests, TestCycle_across_branches){
+    checkRRTest("Cycle_across_branches");
+}
+
+TEST_F(CApiRRTests, TestCycle_to_Input_and_Branch){
+    checkRRTest("Cycle_to_Input_and_Branch");
+}
+
+TEST_F(CApiRRTests, TestEvent_timings_276){
+    checkRRTest("Event_timings_276");
+}
+
+TEST_F(CApiRRTests, TestFour_Steps){
+    checkRRTest("Four_Steps");
+}
+
+TEST_F(CApiRRTests, TestFutile_Cycle){
+    checkRRTest("Futile_Cycle");
+}
+
+TEST_F(CApiRRTests, TestGillespie){
+    checkRRTest("Gillespie");
+}
+
+TEST_F(CApiRRTests, TestMultiBranch2){
+    checkRRTest("MultiBranch2");
+}
+
+TEST_F(CApiRRTests, TestMultibranch1){
+    checkRRTest("Multibranch1");
+}
+
+TEST_F(CApiRRTests, TestRatesOfChange){
+    checkRRTest("RatesOfChange");
+}
+
+TEST_F(CApiRRTests, TestRemove_Compartment1){
+    checkRRTest("Remove_Compartment1");
+}
+
+TEST_F(CApiRRTests, TestRemove_Parameter1){
+    checkRRTest("Remove_Parameter1");
+}
+
+TEST_F(CApiRRTests, TestRemove_Parameter2){
+    checkRRTest("Remove_Parameter2");
+}
+
+TEST_F(CApiRRTests, TestRemove_Rules1){
+    checkRRTest("Remove_Rules1");
+}
+
+TEST_F(CApiRRTests, TestRemove_Rules2){
+    checkRRTest("Remove_Rules2");
+}
+
+TEST_F(CApiRRTests, TestRemove_Species1){
+    checkRRTest("Remove_Species1");
+}
+
+TEST_F(CApiRRTests, TestSet_Kinetic_Law1){
+    checkRRTest("Set_Kinetic_Law1");
+}
+
+TEST_F(CApiRRTests, TestSimpleUniUni){
+    checkRRTest("SimpleUniUni");
+}
+
+TEST_F(CApiRRTests, TestSimple_Branch){
+    checkRRTest("Simple_Branch");
+}
+
+TEST_F(CApiRRTests, TestTest_1){
+    checkRRTest("Test_1");
+}
+
+TEST_F(CApiRRTests, TestTest_2){
+    checkRRTest("Test_2");
+}
+
+TEST_F(CApiRRTests, TestTest_3){
+    checkRRTest("Test_3");
+}
+
+TEST_F(CApiRRTests, TestThree_Steps){
+    checkRRTest("Three_Steps");
+}
+
+TEST_F(CApiRRTests, TestTwo_Cycles){
+    checkRRTest("Two_Cycles");
+}
+
+TEST_F(CApiRRTests, TestTwo_Steps){
+    checkRRTest("Two_Steps");
+}
+
+TEST_F(CApiRRTests, Testjacobian_1){
+    checkRRTest("jacobian_1");
+}
+
+TEST_F(CApiRRTests, Testoscli){
+    checkRRTest("oscli");
+}
+
+TEST_F(CApiRRTests, Testreversible_Jacobian){
+    checkRRTest("reversible_Jacobian");
+}
+
+TEST_F(CApiRRTests, Testvariable_time_step){
+    checkRRTest("variable_time_step");
+}
+

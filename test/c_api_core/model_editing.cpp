@@ -114,7 +114,7 @@ bool RunTestWithModification(void(*modification)(RRHandle), std::string version 
 		//Check first if file exists first
 		if (!fileExists(fullPath))
 		{
-			Log(Logger::LOG_ERROR) << "sbml file " << fullPath << " not found";
+			rrLog(Logger::LOG_ERROR) << "sbml file " << fullPath << " not found";
 			throw(Exception("No such SBML file: " + fullPath));
 		}
 
@@ -166,7 +166,7 @@ bool RunTestWithModification(void(*modification)(RRHandle), std::string version 
 		//result = simulation.SaveModelAsXML(dataOutputFolder) && result;
 		if (!result)
 		{
-			Log(Logger::LOG_WARNING) << "\t\t =============== Test " << testName << " failed =============\n";
+			rrLog(Logger::LOG_WARNING) << "\t\t =============== Test " << testName << " failed =============\n";
 		}
 	}
 	catch (std::exception& ex)
@@ -195,7 +195,7 @@ bool RunTestModelFromScratch(void(*generate)(RRHandle),std::string version = "l2
 
 	try
 	{
-		//Log(Logger::LOG_NOTICE) << "Running Test: " << testName << endl;
+		//rrLog(Logger::LOG_NOTICE) << "Running Test: " << testName << endl;
 
 		rr.getIntegrator()->setValue("stiff", false);
 
@@ -223,7 +223,7 @@ bool RunTestModelFromScratch(void(*generate)(RRHandle),std::string version = "l2
 		//Check first if file exists first
 		if (!fileExists(fullPath))
 		{
-			Log(Logger::LOG_ERROR) << "sbml file " << fullPath << " not found";
+			rrLog(Logger::LOG_ERROR) << "sbml file " << fullPath << " not found";
 			throw(Exception("No such SBML file: " + fullPath));
 		}
 
@@ -274,7 +274,7 @@ bool RunTestModelFromScratch(void(*generate)(RRHandle),std::string version = "l2
 		result = validateModifiedSBML(rr.getCurrentSBML()) && result;
 		if (!result)
 		{
-			Log(Logger::LOG_WARNING) << "\t\t =============== Test " << testName << " failed =============\n";
+			rrLog(Logger::LOG_WARNING) << "\t\t =============== Test " << testName << " failed =============\n";
 		}
 	}
 	catch (std::exception& ex)

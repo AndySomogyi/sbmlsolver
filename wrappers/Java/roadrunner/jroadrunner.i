@@ -199,7 +199,7 @@
 
     static void rr_sighandler(int sig) {
         std::cout << "handling signal " << sig << std::endl;
-        Log(rr::Logger::LOG_WARNING) << "signal handler : " << sig;
+        rrLog(rr::Logger::LOG_WARNING) << "signal handler : " << sig;
     }
 
     static unsigned long sigtrap() {
@@ -210,7 +210,7 @@
 #else
 
     static unsigned long sigtrap() {
-        Log(rr::Logger::LOG_WARNING) << "sigtrap not supported on Windows";
+        rrLog(rr::Logger::LOG_WARNING) << "sigtrap not supported on Windows";
         return 0;
     }
 

@@ -526,7 +526,7 @@ bool RunStateSavingTest(void(*modification)(RoadRunner*), std::string version)
 		//Check first if file exists first
 		if (!fileExists(fullPath))
 		{
-			Log(Logger::LOG_ERROR) << "sbml file " << fullPath << " not found";
+			rrLog(Logger::LOG_ERROR) << "sbml file " << fullPath << " not found";
 			throw(Exception("No such SBML file: " + fullPath));
 		}
 
@@ -659,7 +659,7 @@ bool RunStateSavingTest(int caseNumber, void(*modification)(RoadRunner*), std::s
 		//Check first if file exists first
 		if (!fileExists(fullPath))
 		{
-			Log(Logger::LOG_ERROR) << "sbml file " << fullPath << " not found";
+			rrLog(Logger::LOG_ERROR) << "sbml file " << fullPath << " not found";
 			throw(Exception("No such SBML file: " + fullPath));
 		}
 
@@ -787,7 +787,7 @@ bool StateRunTestModelFromScratch(void(*generate)(RoadRunner*), std::string vers
 		//Check first if file exists first
 		if (!fileExists(fullPath))
 		{
-			Log(Logger::LOG_ERROR) << "sbml file " << fullPath << " not found";
+			rrLog(Logger::LOG_ERROR) << "sbml file " << fullPath << " not found";
 			throw(Exception("No such SBML file: " + fullPath));
 		}
 

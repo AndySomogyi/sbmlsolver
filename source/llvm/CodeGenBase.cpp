@@ -19,7 +19,7 @@ namespace rrllvm
 {
 using namespace libsbml;
 using namespace llvm;
-using namespace std;
+
 
 
 
@@ -56,7 +56,7 @@ public:
     template <size_t N>
     static void test(const int (&Arr)[N], double out[N])
     {
-        cout << N;
+        std::cout << N;
 
         for (int i = 0; i < N; i++) {
             out[i] = Arr[i];

@@ -11,7 +11,7 @@
 #include "FunctionResolver.h"
 #include <sbml/Model.h>
 
-using namespace std;
+
 using namespace libsbml;
 using namespace llvm;
 
@@ -194,7 +194,7 @@ llvm::Value* ModelInitialValueSymbolResolver::loadSymbolValue(
         return loadReactionRate(reaction);
     }
 
-    string msg = "Could not find requested symbol \'";
+    std::string msg = "Could not find requested symbol \'";
     msg += symbol;
     msg += "\' in the model";
     throw_llvm_exception(msg);
@@ -246,7 +246,7 @@ llvm::Value* ModelInitialValueStoreSymbolResolver::storeSymbolValue(
     }
 
 
-    string msg = "The symbol \'";
+    std::string msg = "The symbol \'";
     msg += symbol;
     msg += "\' is not physically stored in the ModelData structure, "
             "it either does not exists or is defined by an assigment rule (hence it "
