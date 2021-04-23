@@ -39,6 +39,7 @@
  * redistribute any piece of this software without proper attribution;
 */
 
+
 #pragma hdrstop
 #include <string>
 #include <iostream>
@@ -1702,6 +1703,15 @@ bool rrcCallConv addSpeciesAmount(RRHandle handle, const char* sid, const char* 
 		rri->addSpeciesAmount(sid, compartment, initialAmount, hasOnlySubstanceUnits, boundaryCondition);
 		return true;
 	catch_bool_macro
+}
+
+bool rrcCallConv addSpeciesConcentrationNoRegen(RRHandle handle, const char* sid, const char* compartment, double initialConcentration, bool hasOnlySubstanceUnits, bool boundaryCondition)
+{
+    start_try
+        RoadRunner* rri = castToRoadRunner(handle);
+        rri->addSpeciesConcentration(sid, compartment, initialConcentration, hasOnlySubstanceUnits, boundaryCondition, "", false);
+        return true;
+    catch_bool_macro
 }
 
 bool rrcCallConv addSpeciesAmountNoRegen(RRHandle handle, const char* sid, const char* compartment, double initialAmount, bool hasOnlySubstanceUnits, bool boundaryCondition)

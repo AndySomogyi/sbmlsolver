@@ -44,20 +44,39 @@ ensure you are building x64 bit application.
 
     Failure to use the "X64 Native Tools Command Prompt for VS 2019" shell may result in 32-bit binaries.
 
-1) Install LLVM
+1) Where to put Everything
+--------------------------
+
+On Windows at least it is recommended that you place all the files as close to a root on a drive as possible. This is because Windows as a 260 char limit on the length of a path which can be easily exceeded if you have a depth folder structure. One possibility is this. If for example you have a D drive (works equally well with a C drive), create a folder:
+
+.. code-block:: bash
+
+    cd d:\
+    mkdir buildroadrunner  # You can call this what ever you like
+    cd buildroadrunner
+
+Everything we need will go into buildroadrunner.
+
+2) Install LLVM
 ---------------
 
 Install the :ref:`llvm-6.x dependency<LLVM-6.x dependency>`.
 
 .. note::
 
-    For those wanting to build roadrunner in Debug mode, remember that you will need to download or build the llvm
-    debug binaries, not release.
+    For those wanting to build roadrunner in Debug mode, remember that you will need to download or build the llvm debug binaries, not release.
 
-2) Install the Roadrunner Dependency Package
+If you download the precompiled binaries for LLVM you get a top level folder called something
+like llvm-6.x-msvc2019-x64-release or llvm-6.x-msvc2019-x64-debug.
+
+Place this folder (which contains all the LLVM code) into your top level directory we crated in step 1) called buildroadrunner.
+
+3) Install the Roadrunner Dependency Package
 ---------------------------------------------
 
 Install the `roadrunner dependency package <https://github.com/sys-bio/libroadrunner-deps>`_
+
+See below for the script to use.
 
 .. note::
 
@@ -65,10 +84,13 @@ Install the `roadrunner dependency package <https://github.com/sys-bio/libroadru
     (`or another configuration <https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html>`_) to build
     roadrunner in Debug mode.
 
-Execute these commands in a windows/linux/mac shell.
+Execute these commands in a windows/linux/mac shell. Note that the first thing we do is
+cd to the root folder we created in Step 1, namely buildroadrunner. 
+
 
 .. code-block:: bash
 
+    cd d:buildroadrunner
     git clone https://github.com/sys-bio/libroadrunner-deps.git --recurse-submodules 	# get the dependency package using git
     cd libroadrunner-deps
     mkdir build
@@ -82,13 +104,20 @@ Execute these commands in a windows/linux/mac shell.
     Take note of where you put the roadrunner deps install tree (`../install-Release` here). It is required as
     argument to `-DRR_DEPENDENCIES_INSTALL_PREFIX` below.
 
-3) Install Roadrunner
+At this point you will have a folder called buildroadrunner and inside that you'll have
+at least two folders, one for the LLVM binaries (two of these if you downloaded the release and debug versions) and the folder libroadrunner-deps. This is shown below.
+
+buildroadrunner
+| --- llvm-6.x-msvc2019-x64-debug
+| --- llvm-6.x-msvc2019-x64-debug
+| --- libroadrunner-deps
+
+4) Install Roadrunner
 ----------------------
 
 Install roadrunner using the following commands from a windows/linux/mac shell.
 
-If you have not done so already, :ref:`download or build llvm-6.x <LLVM-6.x dependency>`. The folder containing
-llvm's `bin`, `include` and `lib` directories is the argument to `LLVM_INSTALL_PREFIX` below.
+If you have not done so already, :ref:`download or build llvm-6.x <LLVM-6.x dependency>`. The folder containing llvm's `bin`, `include` and `lib` directories is the argument to `LLVM_INSTALL_PREFIX` below.
 
 .. code-block:: bash
 
@@ -100,13 +129,17 @@ llvm's `bin`, `include` and `lib` directories is the argument to `LLVM_INSTALL_P
 
     git clone https://github.com/sys-bio/roadrunner.git # get roadrunner
     cd roadrunner
-    mkdir build
-    cd build
+    mkdir build-release
+    cd build-release
     cmake -DCMAKE_INSTALL_PREFIX="../install-Release" \
         -DLLVM_INSTALL_PREFIX="/full/path/to/where/you/put/llvm-6.x-release" \
         -DRR_DEPENDENCIES_INSTALL_PREFIX="../../libroadrunner-deps/install-Release" \
         -DCMAKE_BUILD_TYPE="Release" ..
     cmake --build . --target install --config Release
+
+The first cmake line above is quite long and you won't be able to copy and paste it directly into the windows terminal. To avoid this, copy the long cmake line in an editor (such as notepad) and make it one line long. Then copy and paste into the Windows terminal.
+
+Note that if you want to create a debug version, just swap instance of the phrase Release (or release) for Debug (or debug).
 
 Roadrunner Optional Features
 =============================
@@ -121,9 +154,7 @@ These are controlled by turning on or off desired options in cmake.
 Build the Python Bindings
 -------------------------
 
-    1) Download `SWIG version 3.0.0 <https://sourceforge.net/projects/swig/files/>`_ for linux,
-    macos or windows. It is just a zip file - decompress it and put it where you want it. SWIG is now installed and
-    the swig executable is under the top level swig directory.
+    1) Download `SWIG version 3.0.0 <https://sourceforge.net/projects/swig/files/>`_ for linux, macos or windows. It is just a zip file - decompress it and put it where you want it. SWIG is now installed and the swig executable is under the top level swig directory.
 
     2) Configure or reconfigure cmake using the `-DBUILD_PYTHON=ON` option. If you installed swig
     globally or add the swig directory to the PATH environment variable, you will *not* need
@@ -175,19 +206,21 @@ while the `RR_PLUGINS_BUILD_STATIC_LIB` option remains OFF.
 Building roadrunner tests
 --------------------------
 
-Use the `-DBUILD_TESTS=ON` option
+I you want the tests compiled you need to add an extra option to the cmake command that was used in step 4. 
+
+Use the `-DBUILD_TESTS=ON` option. Remember that in the following script to change Release to Debug is you are creating the debug version. 
 
 .. code-block:: bash
 
-    $ cmake -DCMAKE_INSTALL_PREFIX="D:\roadrunner\install-msvc2019" \
-        -DLLVM_INSTALL_PREFIX="D:\llvm-6.x\llvm\llvm-6.x-msvc-x64-release" \
-        -DRR_DEPENDENCIES_INSTALL_PREFIX="D:\libroadrunner-deps\libroadrunner-deps-install" \
+    $ cmake -DCMAKE_INSTALL_PREFIX="../install-Release" \
+        -DLLVM_INSTALL_PREFIX="/full/path/to/where/you/put/llvm-6.x-release" \
+        -DRR_DEPENDENCIES_INSTALL_PREFIX="../../libroadrunner-deps/install-Release" \
         -DCMAKE_BUILD_TYPE="Release" \
-        -DBUILD_TESTS=ON
+        -DBUILD_TESTS=ON ..
     $ cmake --build . --target install --config Release
 
 You can run the tests using ctest on the command line, ensuring you are in the top level
-of your build tree (D`:\roadrunner\build` here).
+of your build tree (e.g D`:\\buildroadrunner\\roadrunner\\build-debug` here).
 
 .. code-block:: bash
 
