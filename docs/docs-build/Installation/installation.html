@@ -221,18 +221,17 @@
 <p>If at any point you get stuck or encounter an error please first read the <a class="reference internal" href="troubleshooting_the_build.html#troubleshooting-the-build"><span class="std std-ref">Troubleshooting the build</span></a>
 page and then if the problem is not resolved, submit a github issue and we’ll be more than willing to help.</p>
 </div>
-<p>On windows, you should use the “x64 Native Tools Command Prompt for VS 2019” shell which you can find by
-opening the start menu and begin typing “x64 Native Tools Command Prompt for VS 2019”. This will
-ensure you are building x64 bit application.</p>
+<p>On windows, you should use the “x64 Native Tools Command Prompt for VS 2019” shell which you can find by opening the start menu and begin typing “x64 Native Tools Command Prompt for VS 2019”. This will ensure you are building x64 bit application.</p>
+<p>If you want to use new <a class="reference external" href="https://www.microsoft.com/en-us/p/windows-terminal/9n0dx20hk701?activetab=pivot:overviewtab">Windows Terminal</a> you can set up the same environment by editing the windows terminal settings file, <a class="reference external" href="https://stackoverflow.com/questions/57925428/add-developer-command-prompt-for-visual-studio-to-windows-terminal">see</a></p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>Failure to use the “X64 Native Tools Command Prompt for VS 2019” shell may result in 32-bit binaries.</p>
 </div>
 <div class="section" id="where-to-put-everything">
 <h3>1) Where to put Everything<a class="headerlink" href="#where-to-put-everything" title="Permalink to this headline">¶</a></h3>
-<p>On Windows at least it is recommended that you place all the files as close to a root on a drive as possible. This is because Windows as a 260 char limit on the length of a path which can be easily exceeded if you have a depth folder structure. One possibility is this. If for example you have a D drive (works equally well with a C drive), create a folder:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> d:<span class="se">\</span>
-mkdir buildroadrunner  <span class="c1"># You can call this what ever you like</span>
+<p>On Windows it is recommended that you place all the files as close to a root on a drive as possible. This is because Windows has a 260 char limit on the length of a path which can be easily exceeded if you have a deep folder structure. One possibility is this. If for example you have a D drive (works equally well with the C drive), create a folder:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> d:/
+mkdir buildroadrunner  <span class="c1"># You can call this whatever you like</span>
 <span class="nb">cd</span> buildroadrunner
 </pre></div>
 </div>
@@ -259,9 +258,10 @@ like llvm-6.x-msvc2019-x64-release or llvm-6.x-msvc2019-x64-debug.</p>
 (<a class="reference external" href="https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html">or another configuration</a>) to build
 roadrunner in Debug mode.</p>
 </div>
-<p>Execute these commands in a windows/linux/mac shell. Note that the first thing we do is
+<p>Execute these commands in a windows/linux/mac shell.</p>
+<p>Note that the first thing we do is
 cd to the root folder we created in Step 1, namely buildroadrunner.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> d:buildroadrunner
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> d:/buildroadrunner
 git clone https://github.com/sys-bio/libroadrunner-deps.git --recurse-submodules    <span class="c1"># get the dependency package using git</span>
 <span class="nb">cd</span> libroadrunner-deps
 mkdir build
@@ -278,10 +278,16 @@ argument to <cite>-DRR_DEPENDENCIES_INSTALL_PREFIX</cite> below.</p>
 </div>
 <p>At this point you will have a folder called buildroadrunner and inside that you’ll have
 at least two folders, one for the LLVM binaries (two of these if you downloaded the release and debug versions) and the folder libroadrunner-deps. This is shown below.</p>
-<p>buildroadrunner
-| — llvm-6.x-msvc2019-x64-debug
-| — llvm-6.x-msvc2019-x64-debug
-| — libroadrunner-deps</p>
+<p>buildroadrunner</p>
+<div class="line-block">
+<div class="line">— llvm-6.x-msvc2019-x64-debug</div>
+</div>
+<div class="line-block">
+<div class="line">— llvm-6.x-msvc2019-x64-debug</div>
+</div>
+<div class="line-block">
+<div class="line">— libroadrunner-deps</div>
+</div>
 </div>
 <div class="section" id="install-roadrunner">
 <h3>4) Install Roadrunner<a class="headerlink" href="#install-roadrunner" title="Permalink to this headline">¶</a></h3>

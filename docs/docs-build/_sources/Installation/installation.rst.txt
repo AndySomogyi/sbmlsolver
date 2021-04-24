@@ -36,9 +36,9 @@ If you are new to CMake, we recommend you read the `cmake tutorial <https://cmak
     If at any point you get stuck or encounter an error please first read the :ref:`Troubleshooting the build <Troubleshooting the Build>`
     page and then if the problem is not resolved, submit a github issue and we'll be more than willing to help.
 
-On windows, you should use the "x64 Native Tools Command Prompt for VS 2019" shell which you can find by
-opening the start menu and begin typing "x64 Native Tools Command Prompt for VS 2019". This will
-ensure you are building x64 bit application.
+On windows, you should use the "x64 Native Tools Command Prompt for VS 2019" shell which you can find by opening the start menu and begin typing "x64 Native Tools Command Prompt for VS 2019". This will ensure you are building x64 bit application.
+
+If you want to use new `Windows Terminal <https://www.microsoft.com/en-us/p/windows-terminal/9n0dx20hk701?activetab=pivot:overviewtab>`_ you can set up the same environment by editing the windows terminal settings file, `see <https://stackoverflow.com/questions/57925428/add-developer-command-prompt-for-visual-studio-to-windows-terminal>`_
 
 .. warning::
 
@@ -47,12 +47,12 @@ ensure you are building x64 bit application.
 1) Where to put Everything
 --------------------------
 
-On Windows at least it is recommended that you place all the files as close to a root on a drive as possible. This is because Windows as a 260 char limit on the length of a path which can be easily exceeded if you have a depth folder structure. One possibility is this. If for example you have a D drive (works equally well with a C drive), create a folder:
+On Windows it is recommended that you place all the files as close to a root on a drive as possible. This is because Windows has a 260 char limit on the length of a path which can be easily exceeded if you have a deep folder structure. One possibility is this. If for example you have a D drive (works equally well with the C drive), create a folder:
 
 .. code-block:: bash
 
-    cd d:\
-    mkdir buildroadrunner  # You can call this what ever you like
+    cd d:/
+    mkdir buildroadrunner  # You can call this whatever you like
     cd buildroadrunner
 
 Everything we need will go into buildroadrunner.
@@ -84,13 +84,15 @@ See below for the script to use.
     (`or another configuration <https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html>`_) to build
     roadrunner in Debug mode.
 
-Execute these commands in a windows/linux/mac shell. Note that the first thing we do is
+Execute these commands in a windows/linux/mac shell. 
+
+Note that the first thing we do is
 cd to the root folder we created in Step 1, namely buildroadrunner. 
 
 
 .. code-block:: bash
 
-    cd d:buildroadrunner
+    cd d:/buildroadrunner
     git clone https://github.com/sys-bio/libroadrunner-deps.git --recurse-submodules 	# get the dependency package using git
     cd libroadrunner-deps
     mkdir build
@@ -108,8 +110,11 @@ At this point you will have a folder called buildroadrunner and inside that you'
 at least two folders, one for the LLVM binaries (two of these if you downloaded the release and debug versions) and the folder libroadrunner-deps. This is shown below.
 
 buildroadrunner
+
 | --- llvm-6.x-msvc2019-x64-debug
+
 | --- llvm-6.x-msvc2019-x64-debug
+
 | --- libroadrunner-deps
 
 4) Install Roadrunner
