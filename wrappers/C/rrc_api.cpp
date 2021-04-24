@@ -2013,6 +2013,15 @@ bool rrcCallConv removeCompartmentNoRegen(RRHandle handle, const char* cid)
 	catch_bool_macro
 }
 
+bool rrcCallConv addInitialAssignment (RRHandle handle, char *vid, char *formula, bool forceRegenerate)
+{
+    start_try
+        RoadRunner* rri = castToRoadRunner (handle);
+    rri->addInitialAssignment (vid, formula, forceRegenerate);
+    return true;
+    catch_bool_macro
+}
+
 
 bool rrcCallConv addAssignmentRule(RRHandle handle, const char* vid, const char* formula)
 {
@@ -2232,6 +2241,16 @@ bool rrcCallConv removeEventsNoRegen(RRHandle handle, const char* eid)
 		return true;
 	catch_bool_macro
 }
+
+bool rrcCallConv regenerate (RRHandle handle)
+{
+   start_try
+       RoadRunner* rri = castToRoadRunner (handle);
+       rri->regenerate ();
+      return true;
+  catch_bool_macro
+}
+
 
 bool rrcCallConv validateCurrentSBML(RRHandle handle)
 {

@@ -828,6 +828,16 @@ C_DECL_SPEC bool rrcCallConv removeCompartment(RRHandle handle, const char* cid)
 */
 C_DECL_SPEC bool rrcCallConv removeCompartmentNoRegen(RRHandle handle, const char* cid);
 
+/*!
+\brief Add an initial assignment to an exsiting symbol of the current model
+\param vid : ID of symbol
+\param formula : the math formula of the initial assignment
+\param forceRegenerate : a boolean value to indicate if the model is regenerated
+after this function call default value is true to regenerate model after each call
+of editing function to save time for editing for multiple times, one could
+set this flag to true only in the last call of editing
+*/
+C_DECL_SPEC bool rrcCallConv addInitialAssignment (RRHandle handle, char* vid, char* formula, bool forceRegenerate);
 
 
 /*!
@@ -1090,6 +1100,16 @@ C_DECL_SPEC bool rrcCallConv removeEvent(RRHandle handle, const char* eid);
  \ingroup edit
 */
 C_DECL_SPEC bool rrcCallConv removeEventsNoRegen(RRHandle handle, const char* eid);
+
+
+/*!
+ \brief After a model has been edited, it needs to be compiled. Call regenerate to 
+   recompile a model so that it is ready for use. 
+ \param[in] handle Handle to a RoadRunner instance
+ \return Returns false if the call fails, otherwise returns a true
+ \ingroup edit
+*/
+C_DECL_SPEC bool rrcCallConv regenerate (RRHandle handle);
 
 /*!
  \brief Validate the current SBML file
