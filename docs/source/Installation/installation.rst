@@ -226,6 +226,12 @@ of your build tree (e.g D`:\\buildroadrunner\\roadrunner\\build-debug` here).
 
     $ ctest .
 
+This will give you a short summary of the results of the tests. If you want detailed information you need to enter instead:
+
+.. code-block:: bash
+
+    $ ctest --verbose .
+    
 Alternatively you can build the `ctest-run` target, which is more convenient
 when you want to run the test from within an IDE since you use the mouse to
 build the `ctest-run` target. In the background, this will run the following
