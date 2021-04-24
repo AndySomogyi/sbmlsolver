@@ -26,7 +26,7 @@ RoadRunner supports Runge-Kutta-Fehlberg Method ('rkf45') as well as a stochasti
 Some integrators, such as CVODE, have parameters which can be set by the user.
 To see a list of these settings, use :meth:`~roadrunner.Solver.getSettings()` on an integrator instance:
 
-  >>>  r.getIntegrator().getSettingsMap()
+  >>>  r.getIntegrator().getSettings()
   ('relative_tolerance',
   'absolute_tolerance',
   'stiff',
