@@ -22,20 +22,20 @@ double SymbolList::getValue(const int& index)
     return at(index).value;
 }
 
-string SymbolList::getName(const int& index)
+std::string SymbolList::getName(const int& index)
 {
 //            return ((Symbol) base[index]).name;
     return at(index).name;
 }
 
-string SymbolList::getKeyName(const int& index)
+std::string SymbolList::getKeyName(const int& index)
 {
 //            return ((Symbol) base[index]).keyName;
     return at(index).keyName;
 }
 
 
-bool SymbolList::find(const string& name, int& index) const
+bool SymbolList::find(const std::string& name, int& index) const
 {
     index = -1;
     for (unsigned int i = 0; i < size(); i++)
@@ -50,7 +50,7 @@ bool SymbolList::find(const string& name, int& index) const
     return false;
 }
 
-bool SymbolList::find(const string& keyName, const string& name, int& index) const
+bool SymbolList::find(const std::string& keyName, const std::string& name, int& index) const
 {
     index = -1;
     for(unsigned int i = 0; i < size(); i++)

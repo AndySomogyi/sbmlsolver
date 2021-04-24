@@ -1,7 +1,7 @@
 #include <sstream>
 #include <limits>
 
-using namespace std;
+
 void UnresolvedSTDExternals()
 {
 

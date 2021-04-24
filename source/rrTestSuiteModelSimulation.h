@@ -17,28 +17,28 @@ class RR_DECLSPEC TestSuiteModelSimulation : public SBMLModelSimulation
 {
     protected:
         int                     mCurrentCaseNumber;                     //If simulating test suite cases...
-        string                  mModelSettingsFileName;
+        std::string                  mModelSettingsFileName;
         RoadRunnerData          mResultData;
         RoadRunnerData          mReferenceData;
         RoadRunnerData          mErrorData;
-        string                  GetSettingsFileNameForCase(int sim_case);
-        string                  GetReferenceDataFileNameForCase(int caseNr);
+        std::string                  GetSettingsFileNameForCase(int sim_case);
+        std::string                  GetReferenceDataFileNameForCase(int caseNr);
         int                     mNrOfFailingPoints;
         double                  mLargestError;
 
     public:
-                                TestSuiteModelSimulation(const string& dataOutputFolder = "", const string& modelFilePath = "", const string& modelFileName = "");
+                                TestSuiteModelSimulation(const std::string& dataOutputFolder = "", const std::string& modelFilePath = "", const std::string& modelFileName = "");
                                ~TestSuiteModelSimulation();
         void                    SetCaseNumber(int cNr);
-        bool                    LoadReferenceData(string refDataFileName = "");
+        bool                    LoadReferenceData(std::string refDataFileName = "");
         bool                    CreateErrorData();
         bool                    SaveAllData();
         bool                    CopyFilesToOutputFolder();
         double                  LargestError();
         bool                    Pass();
         int                     NrOfFailingPoints();
-        virtual bool            LoadSettings(const string& fName = "");
-        virtual bool            LoadSettingsEx(const string& settingsFName);
+        virtual bool            LoadSettings(const std::string& fName = "");
+        virtual bool            LoadSettingsEx(const std::string& settingsFName);
 };
 
 }

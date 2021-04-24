@@ -12,7 +12,7 @@
 #include "rrLogger.h"
 #include <sbml/Model.h>
 
-using namespace std;
+
 using namespace libsbml;
 using namespace llvm;
 
@@ -48,7 +48,7 @@ llvm::Value* LoadSymbolResolverBase::loadReactionRate(
     }
     else
     {
-        Log(Logger::LOG_WARNING) << "Reaction " + reaction->getId() + " has no KineticLaw, it will be set to zero";
+        rrLog(Logger::LOG_WARNING) << "Reaction " + reaction->getId() + " has no KineticLaw, it will be set to zero";
         m.setValue(0);
         math = &m;
     }
@@ -70,7 +70,7 @@ void LoadSymbolResolverBase::recursiveSymbolPush(const std::string& symbol)
                 "recursive assignment rule or function detected, the symbol \'";
             msg += symbol;
             msg += "\' is a parent of itself";
-            Log(rr::Logger::LOG_ERROR) << msg;
+            rrLog(rr::Logger::LOG_ERROR) << msg;
             throw LLVMException(msg, __FUNC__);
         }
         symbolStack.push_back(symbol);
@@ -116,7 +116,7 @@ llvm::Value* LoadSymbolResolverBase::cacheValue(const std::string& symbol,
     if(value) {
         ValueMap &values = symbolCache.back();
         values[symbol] = value;
-        Log(Logger::LOG_DEBUG) << "caching value for " << symbol;
+        rrLog(Logger::LOG_DEBUG) << "caching value for " << symbol;
         return value;
     }
 
@@ -127,12 +127,12 @@ llvm::Value* LoadSymbolResolverBase::cacheValue(const std::string& symbol,
         Value* result = j != values.end() ? j->second : NULL;
 
         if(result) {
-            Log(Logger::LOG_DEBUG) <<  "found cached value for " << symbol;
+            rrLog(Logger::LOG_DEBUG) <<  "found cached value for " << symbol;
             return result;
         }
     }
 
-    Log(Logger::LOG_DEBUG) <<  "did not found cached value for " << symbol;
+    rrLog(Logger::LOG_DEBUG) <<  "did not found cached value for " << symbol;
     return NULL;
 }
 

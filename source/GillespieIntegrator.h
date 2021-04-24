@@ -36,7 +36,7 @@ namespace rr
     {
     public:
         GillespieIntegrator(ExecutableModel* model);
-        virtual ~GillespieIntegrator();
+        ~GillespieIntegrator() override;
 
         /**
         * @author JKM
@@ -98,7 +98,7 @@ namespace rr
          * @author WBC, ETS
          * @brief Sets the value of an integrator setting (e.g. absolute_tolerance)
          */
-        void setValue(std::string setting, const Variant& value);
+        void setValue(const std::string& setting, const Variant& value);
 
         /**
         * @author JKM
@@ -135,8 +135,7 @@ namespace rr
         void setListener(IntegratorListenerPtr);
 
     private:
-        ExecutableModel *model;
-        cxx11_ns::mt19937 engine;
+        std::mt19937 engine;
         //unsigned long seed;
         double timeScale;
         double stoichScale;
@@ -156,7 +155,7 @@ namespace rr
         std::vector<unsigned char> previousEventStatus;
 
         void testRootsAtInitialTime();
-        void applyEvents(double timeEnd, std::vector<unsigned char> &previousEventStatus);
+        void applyEvents(double timeEnd, std::vector<unsigned char> &prevEventStatus);
 
         double urand();
         void setEngineSeed(unsigned long seed);

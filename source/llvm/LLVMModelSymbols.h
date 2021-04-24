@@ -32,7 +32,7 @@ public:
     ~LLVMModelSymbols();
 
     /**
-     * create an ASTNode for the species id / reaction id pair.
+     * create an ASTNode for the species id / reaction id std::pair.
      *
      * This assembles the mess of items stored in the reactions array.
      */
@@ -147,7 +147,7 @@ protected:
 
     /**
      * visit the reactions so we can get all the SpeciesReferences and stuff
-     * them in the initialConditions map.
+     * them in the initialConditions std::map.
      */
     virtual bool visit(const libsbml::Reaction  &x);
 
@@ -172,7 +172,7 @@ protected:
      * or assignmentRules maps.
      *
      * This figures out what they refer to, and stuffs the AST in the
-     * appropriate map.
+     * appropriate std::map.
      */
     void processElement(SymbolForest &currentSymbols,
             const libsbml::SBase *element, const libsbml::ASTNode *math);

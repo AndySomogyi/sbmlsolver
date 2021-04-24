@@ -18,7 +18,7 @@
 
 using namespace libsbml;
 using namespace llvm;
-using namespace std;
+
 
 
 namespace rrllvm
@@ -75,7 +75,7 @@ Value* EvalRateRuleRatesCodeGen::codeGen()
                     if (comprule && comprule->getTypeCode() == SBML_RATE_RULE)
                     {
                         const RateRule* compRateRule = static_cast<const RateRule*>(comprule);
-                        Log(Logger::LOG_DEBUG) << "species " << species->getId()
+                        rrLog(Logger::LOG_DEBUG) << "species " << species->getId()
                                 << " is a concentration with time dependent volume, "
                                 "converting conc rate to amt rate using product rule";
                         ASTNode *dcdt = new ASTNode(*rateRule->getMath());
@@ -102,7 +102,7 @@ Value* EvalRateRuleRatesCodeGen::codeGen()
                     }
                     else
                     {
-                        Log(Logger::LOG_DEBUG) << "species " << species->getId()
+                        rrLog(Logger::LOG_DEBUG) << "species " << species->getId()
                                 << " is a concentration with constant volume, "
                                 "converting conc rate to amt rate const vol mul";
 
@@ -119,7 +119,7 @@ Value* EvalRateRuleRatesCodeGen::codeGen()
                 }
                 else
                 {
-                    Log(Logger::LOG_DEBUG) << "species " << species->getId() <<
+                    rrLog(Logger::LOG_DEBUG) << "species " << species->getId() <<
                             " is an amount, creating straight rate rule";
                     math = rateRule->getMath();
                 }

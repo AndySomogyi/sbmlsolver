@@ -8,12 +8,12 @@
 #include "CVODEIntegrator.h"
 //---------------------------------------------------------------------------
 
-using namespace std;
+
 
 namespace rr
 {
 
-SBMLModelSimulation::SBMLModelSimulation(const string& dataOutputFolder, const string& tempDataFilePath)
+SBMLModelSimulation::SBMLModelSimulation(const std::string& dataOutputFolder, const std::string& tempDataFilePath)
 :
 mModelFilePath(""),
 mModelFileName(""),
@@ -29,7 +29,7 @@ mEngine(NULL)
 SBMLModelSimulation::~SBMLModelSimulation()
 {}
 
-string SBMLModelSimulation::GetTempDataFolder()
+std::string SBMLModelSimulation::GetTempDataFolder()
 {
     return mTempDataFolder;
 }
@@ -39,7 +39,7 @@ void SBMLModelSimulation::ReCompileIfDllExists(const bool& doIt)
     mCompileIfDllExists = doIt;
 }
 
-bool SBMLModelSimulation::SetModelFilePath(const string& path)
+bool SBMLModelSimulation::SetModelFilePath(const std::string& path)
 {
     mModelFilePath = path;
     return true;
@@ -57,7 +57,7 @@ RoadRunnerData SBMLModelSimulation::GetResult()
     }
 }
 
-bool SBMLModelSimulation::SetModelFileName(const string& name)
+bool SBMLModelSimulation::SetModelFileName(const std::string& name)
 {
     if(getFilePath(name).size() > 0)
     {
@@ -68,25 +68,25 @@ bool SBMLModelSimulation::SetModelFileName(const string& name)
 
     if(!fileExists(joinPath(mModelFilePath, mModelFileName)))
     {
-        Log(Logger::LOG_ERROR)<<"The file: "<<joinPath(mModelFilePath, mModelFileName)<<" doesn't exist.";
+        rrLog(Logger::LOG_ERROR)<<"The file: "<<joinPath(mModelFilePath, mModelFileName)<<" doesn't exist.";
         return false;
     }
 
     return true;
 }
 
-bool SBMLModelSimulation::SetDataOutputFolder(const string& name)
+bool SBMLModelSimulation::SetDataOutputFolder(const std::string& name)
 {
     mDataOutputFolder = name;
     return true;
 }
 
-string  SBMLModelSimulation::GetModelsFullFilePath()
+std::string  SBMLModelSimulation::GetModelsFullFilePath()
 {
     return joinPath(mModelFilePath, mModelFileName);
 }
 
-string  SBMLModelSimulation::GetDataOutputFolder()
+std::string  SBMLModelSimulation::GetDataOutputFolder()
 {
     return mDataOutputFolder;
 }
@@ -116,33 +116,33 @@ void SBMLModelSimulation::loadSBMLTolerances(std::string const& filename)
 {
     if (!filename.size())
     {
-        Log(Logger::LOG_ERROR) << "Empty file name for settings file";
+        rrLog(Logger::LOG_ERROR) << "Empty file name for settings file";
     }
     else
     {
-        map<string, string> options;
-        map<string, string>::iterator it;
+        std::map<std::string, std::string> options;
+        std::map<std::string, std::string>::iterator it;
         //Read each line in the settings file
-        vector<string> lines = getLinesInFile(filename);
+        std::vector<std::string> lines = getLinesInFile(filename);
         for (int i = 0; i < lines.size(); i++)
         {
-            vector<string> line = splitString(lines[i], ":");
+            std::vector<std::string> line = splitString(lines[i], ":");
             if (line.size() == 2)
             {
-                options.insert(pair<string, string>(line[0], line[1]));
+                options.insert(std::pair<std::string, std::string>(line[0], line[1]));
             }
             else
             {
-                Log(Logger::LOG_DEBUG) << "Empty line in settings file: " << lines[i];
+                rrLog(Logger::LOG_DEBUG) << "Empty line in settings file: " << lines[i];
             }
         }
 
-        Log(Logger::LOG_DEBUG) << "Settings File =============";
+        rrLog(Logger::LOG_DEBUG) << "Settings File =============";
         for (it = options.begin(); it != options.end(); it++)
         {
-            Log(Logger::LOG_DEBUG) << (*it).first << " => " << (*it).second;
+            rrLog(Logger::LOG_DEBUG) << (*it).first << " => " << (*it).second;
         }
-        Log(Logger::LOG_DEBUG) << "===========================";
+        rrLog(Logger::LOG_DEBUG) << "===========================";
 
         //Assign values
         it = options.find("absolute");
@@ -159,13 +159,13 @@ void SBMLModelSimulation::loadSBMLTolerances(std::string const& filename)
     }
 }
 
-bool SBMLModelSimulation::LoadSettings(const string& settingsFName)
+bool SBMLModelSimulation::LoadSettings(const std::string& settingsFName)
 {
-    string fName(settingsFName);
+    std::string fName(settingsFName);
 
     if(!fName.size())
     {
-        Log(Logger::LOG_ERROR)<<"Empty file name for setings file";
+        rrLog(Logger::LOG_ERROR)<<"Empty file name for setings file";
         return false;
     }
 
@@ -192,7 +192,7 @@ bool SBMLModelSimulation::LoadSettings(const string& settingsFName)
 			}
 			else
 			{
-				throw std::runtime_error("Cannot tweak tolerances of integrator because it is not CVODE."); 
+				throw std::runtime_error("Cannot tweak tolerances of integrator because it is not CVODE.");
 			}
 		}
         mEngine->setSimulateOptions(opt);
@@ -219,9 +219,9 @@ bool SBMLModelSimulation::SetNumberOfPoints(const int& steps)
     return true;
 }
 
-bool SBMLModelSimulation::SetSelectionList(const string& selectionList)
+bool SBMLModelSimulation::SetSelectionList(const std::string& selectionList)
 {
-    vector<string> vars = splitString(selectionList, ", ");
+    std::vector<std::string> vars = splitString(selectionList, ", ");
     for(u_int i = 0; i < vars.size(); i++)
     {
         mSettings.variables.push_back(trim(vars[i]));
@@ -249,20 +249,20 @@ bool SBMLModelSimulation::LoadSBMLFromFile()                    //Use current fi
     return true;
 }
 
-bool SBMLModelSimulation::SaveModelAsXML(const string& folder)
+bool SBMLModelSimulation::SaveModelAsXML(const std::string& folder)
 {
     if(!mEngine)
     {
         return false;
     }
-    string fName = joinPath(folder, mModelFileName);
+    std::string fName = joinPath(folder, mModelFileName);
     fName = changeFileExtensionTo(fName, "xml");
 
-    fstream fs(fName.c_str(), fstream::out);
+    std::fstream fs(fName.c_str(), std::fstream::out);
 
     if(!fs)
     {
-        Log(Logger::LOG_ERROR)<<"Failed writing sbml to file "<< fName;
+        rrLog(Logger::LOG_ERROR)<<"Failed writing sbml to file "<< fName;
         return false;
     }
     fs<<mEngine->getSBML();
@@ -298,12 +298,12 @@ bool SBMLModelSimulation::Simulate()
 
 bool SBMLModelSimulation::SaveResult()
 {
-    string resultFileName(joinPath(mDataOutputFolder, "rr_" + mModelFileName));
+    std::string resultFileName(joinPath(mDataOutputFolder, "rr_" + mModelFileName));
     resultFileName = changeFileExtensionTo(resultFileName, ".csv");
-    Log(lInfo)<<"Saving result to file: "<<resultFileName;
+    rrLog(lInfo)<<"Saving result to file: "<<resultFileName;
     RoadRunnerData resultData(mEngine);
 
-    ofstream fs(resultFileName.c_str());
+    std::ofstream fs(resultFileName.c_str());
     fs << resultData;
     fs.close();
     return true;

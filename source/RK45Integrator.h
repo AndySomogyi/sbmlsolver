@@ -58,10 +58,10 @@ namespace rr
         /**
          * @author CC
          * @brief Integrates the model from t to t + h.
-         * @details Attempts to find the state vector at
+         * @details Attempts to find the state std::vector at
          * t + h, and returns time t + h if successful.
          * If the integrator does not find a convergent
-         * solution, the state vector is not updated and 
+         * solution, the state std::vector is not updated and
          * t is returned.
          * Also calculates a new timestep and saves it 
          * to a member variable for future use.
@@ -147,7 +147,6 @@ namespace rr
 
 
     private:
-        ExecutableModel *model;
 
         unsigned stateVectorSize;
 

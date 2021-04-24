@@ -12,7 +12,7 @@ namespace rr
 using Poco::UUID;
 using Poco::UUIDGenerator;
 
-ModelSharedLibrary::ModelSharedLibrary(const string& pathTo)
+ModelSharedLibrary::ModelSharedLibrary(const std::string& pathTo)
 {
 	if(fileExists(pathTo))
     {
@@ -28,16 +28,16 @@ bool ModelSharedLibrary::isLoaded()
 	return mTheLib.isLoaded();
 }
 
-void* ModelSharedLibrary::getSymbol(const string& name)
+void* ModelSharedLibrary::getSymbol(const std::string& name)
 {
 	return mTheLib.getSymbol(name);
 }
-bool  ModelSharedLibrary::hasSymbol(const string& name)
+bool  ModelSharedLibrary::hasSymbol(const std::string& name)
 {
 	return mTheLib.hasSymbol(name);
 }
 
-bool ModelSharedLibrary::setPath(const string& pathTo)
+bool ModelSharedLibrary::setPath(const std::string& pathTo)
 {
 	mPathToLib = pathTo;
     return true;
@@ -48,7 +48,7 @@ bool ModelSharedLibrary::load()
 	return load(getFullFileName());
 }
 
-bool ModelSharedLibrary::load(const string& libName)
+bool ModelSharedLibrary::load(const std::string& libName)
 {
 	mPathToLib = getFilePath(libName);
     mLibName = getFileName(libName);
@@ -70,19 +70,19 @@ bool ModelSharedLibrary::unload()
     return true;
 }
 
-string ModelSharedLibrary::getName()
+std::string ModelSharedLibrary::getName()
 {
 	return mLibName;
 }
 
-string ModelSharedLibrary::getFullFileName()
+std::string ModelSharedLibrary::getFullFileName()
 {
 	return joinPath(mPathToLib, mLibName);
 }
 
-string ModelSharedLibrary::createName(const string& baseName)
+std::string ModelSharedLibrary::createName(const std::string& baseName)
 {
-	string newName;
+	std::string newName;
 	if(!baseName.size())
     {
 		//Create  a new UUID

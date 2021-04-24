@@ -172,7 +172,7 @@ RRHandle rrcCallConv createRRInstanceEx(const char* tempFolder, const char* comp
         {
             stringstream msg;
             msg<<"The temporary folder: "<<tempFolder<<" do not exist";
-            Log(Logger::LOG_ERROR)<<msg.str();
+            rrLog(Logger::LOG_ERROR)<<msg.str();
             throw(Exception(msg.str()));
         }
         else if(tempFolder)
@@ -1279,7 +1279,7 @@ bool rrcCallConv steadyState(RRHandle handle, double* value)
 {
     start_try
         RoadRunner* rri = castToRoadRunner(handle);
-        Log(Logger::LOG_DEBUG) << "rrcCallConv steadyState";
+        rrLog(Logger::LOG_DEBUG) << "rrcCallConv steadyState";
         *value = rri->steadyState();
         return true;
     catch_bool_macro
@@ -1486,7 +1486,7 @@ char* rrcCallConv getRegisteredIntegratorName(int n)
 {
     start_try;
         if (n < 0) {
-            Log(Logger::LOG_WARNING) << "Negative index passed to getRegisteredIntegratorName";
+            rrLog(Logger::LOG_WARNING) << "Negative index passed to getRegisteredIntegratorName";
             n = 0;
         }
         return rr::createText(IntegratorFactory::getInstance().getIntegratorName(n));
@@ -1497,7 +1497,7 @@ char* rrcCallConv getRegisteredIntegratorHint(int n)
 {
     start_try;
         if (n < 0) {
-            Log(Logger::LOG_WARNING) << "Negative index passed to getRegisteredIntegratorName";
+            rrLog(Logger::LOG_WARNING) << "Negative index passed to getRegisteredIntegratorName";
             n = 0;
         }
         return rr::createText(IntegratorFactory::getInstance().getIntegratorHint(n));
@@ -1508,7 +1508,7 @@ char* rrcCallConv getRegisteredIntegratorDescription(int n)
 {
     start_try;
         if (n < 0) {
-            Log(Logger::LOG_WARNING) << "Negative index passed to getRegisteredIntegratorName";
+            rrLog(Logger::LOG_WARNING) << "Negative index passed to getRegisteredIntegratorName";
             n = 0;
         }
         return rr::createText(IntegratorFactory::getInstance().getIntegratorDescription(n));
@@ -1526,7 +1526,7 @@ int rrcCallConv getNumInstantiatedIntegrators(RRHandle handle)
 int rrcCallConv setCurrentIntegrator (RRHandle handle, char *nameOfIntegrator)
 {
 	start_try
-        Log(Logger::LOG_DEBUG) << "setCurrentIntegrator called with " << nameOfIntegrator;
+        rrLog(Logger::LOG_DEBUG) << "setCurrentIntegrator called with " << nameOfIntegrator;
 		RoadRunner* rri = castToRoadRunner(handle);
 		rri->setIntegrator(std::string(nameOfIntegrator));
 		return true;
@@ -2455,7 +2455,7 @@ char* rrcCallConv getRegisteredSteadyStateSolverName(int n)
 {
     start_try;
         if (n < 0) {
-            Log(Logger::LOG_WARNING) << "Negative index passed to getRegisteredSteadyStateSolverName";
+            rrLog(Logger::LOG_WARNING) << "Negative index passed to getRegisteredSteadyStateSolverName";
             n = 0;
         }
         return rr::createText(SteadyStateSolverFactory::getInstance().getSteadyStateSolverName(n));
@@ -2466,7 +2466,7 @@ char* rrcCallConv getRegisteredSteadyStateSolverHint(int n)
 {
     start_try;
         if (n < 0) {
-            Log(Logger::LOG_WARNING) << "Negative index passed to getRegisteredSteadyStateSolverName";
+            rrLog(Logger::LOG_WARNING) << "Negative index passed to getRegisteredSteadyStateSolverName";
             n = 0;
         }
         return rr::createText(SteadyStateSolverFactory::getInstance().getSteadyStateSolverHint(n));
@@ -2477,7 +2477,7 @@ char* rrcCallConv getRegisteredSteadyStateSolverDescription(int n)
 {
     start_try;
         if (n < 0) {
-            Log(Logger::LOG_WARNING) << "Negative index passed to getRegisteredSteadyStateSolverName";
+            rrLog(Logger::LOG_WARNING) << "Negative index passed to getRegisteredSteadyStateSolverName";
             n = 0;
         }
         return rr::createText(SteadyStateSolverFactory::getInstance().getSteadyStateSolverDescription(n));
@@ -2487,7 +2487,7 @@ char* rrcCallConv getRegisteredSteadyStateSolverDescription(int n)
 int rrcCallConv setCurrentSteadyStateSolver (RRHandle handle, char *nameOfSteadyStateSolver)
 {
     start_try
-        Log(Logger::LOG_DEBUG) << "setCurrentSteadyStateSolver called with " << nameOfSteadyStateSolver;
+        rrLog(Logger::LOG_DEBUG) << "setCurrentSteadyStateSolver called with " << nameOfSteadyStateSolver;
         RoadRunner* rri = castToRoadRunner(handle);
         rri->setSteadyStateSolver(std::string(nameOfSteadyStateSolver));
         return true;

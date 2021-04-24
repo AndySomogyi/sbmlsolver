@@ -10,7 +10,7 @@
 #include <iostream>
 
 
-using namespace std;
+
 using namespace libsbml;
 
 namespace rrllvm
@@ -28,7 +28,7 @@ void AssignmentRuleEvaluator::evaluate(const Model& model)
 
 bool AssignmentRuleEvaluator::visit(const AssignmentRule& x)
 {
-    cout << __FUNC__ << ", id: " << x.getId() << "\n";
+    std::cout << __FUNC__ << ", id: " << x.getId() << "\n";
 
 
     return true;

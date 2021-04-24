@@ -1853,7 +1853,7 @@
 <codeline lineno="1398"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="1399"><highlight class="normal"></highlight></codeline>
 <codeline lineno="1400"><highlight class="normal">ASTNodeCodeGenScalarTicket::ASTNodeCodeGenScalarTicket(ASTNodeCodeGen&amp;<sp/>gen,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>val,<sp/>std::string<sp/>n)</highlight></codeline>
-<codeline lineno="1401"><highlight class="normal"><sp/><sp/><sp/><sp/>:<sp/>z_(gen),<sp/>v_(gen.scalar_mode_),<sp/>n_(n)<sp/>{</highlight></codeline>
+<codeline lineno="1401"><highlight class="normal"><sp/><sp/><sp/><sp/>:<sp/>z_(gen),<sp/>v_(gen.scalar_mode_),<sp/>nCols_(n)<sp/>{</highlight></codeline>
 <codeline lineno="1402"><highlight class="normal"><sp/><sp/><sp/><sp/>z_.scalar_mode_<sp/>=<sp/>val;</highlight></codeline>
 <codeline lineno="1403"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="1404"><highlight class="normal"></highlight></codeline>

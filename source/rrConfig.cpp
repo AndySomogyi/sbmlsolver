@@ -16,7 +16,7 @@
 #include <cassert>
 #include <cctype>
 #include <cstdlib>
-#include <fstream> // std::ofstream
+#include <fstream> // ofstream
 #include <stdexcept>
 
 // TODO When we have gcc 4.4 as minimal compiler, drop poco and use C++ standard
@@ -152,14 +152,14 @@ static void readDefaultConfig() {
     assert(rr::Config::CONFIG_END == sizeof(values) / sizeof(Variant) &&
            "values array size different than CONFIG_END");
 
-    string confPath = rr::Config::getConfigFilePath();
+    std::string confPath = rr::Config::getConfigFilePath();
 
     try {
       if (confPath.size() > 0) {
         rr::Config::readConfigFile(confPath);
       }
     } catch (std::exception &e) {
-      Log(rr::Logger::LOG_WARNING)
+      rrLog(rr::Logger::LOG_WARNING)
           << "error reading configuration file: " << confPath << ", "
           << e.what();
     }
@@ -168,7 +168,7 @@ static void readDefaultConfig() {
 }
 
 /**
- * load the names of the keys and values into a map
+ * load the names of the keys and values into a std::map
  */
 static void getKeyNames(StringIntMap &keys) {
   keys["LOADSBMLOPTIONS_CONSERVED_MOIETIES"] =
@@ -257,7 +257,7 @@ static void getKeyNames(StringIntMap &keys) {
   assert(rr::Config::CONFIG_END == sizeof(values) / sizeof(Variant) &&
          "values array size different than CONFIG_END");
   assert(rr::Config::CONFIG_END == keys.size() &&
-         "number of keys in map does not match static values");
+         "number of keys in std::map does not match static values");
 }
 
 static std::string reverseLookup(StringIntMap &keys, Config::Keys k) {
@@ -268,8 +268,8 @@ static std::string reverseLookup(StringIntMap &keys, Config::Keys k) {
   throw std::runtime_error("No such key");
 }
 
-std::vector<string> Config::getKeyList() {
-  std::vector<string> result;
+std::vector<std::string> Config::getKeyList() {
+  std::vector<std::string> result;
   StringIntMap m;
 
   getKeyNames(m);
@@ -309,7 +309,7 @@ std::string Config::getConfigFilePath() {
   std::string path;
   Poco::Path ppath;
 
-  Log(rr::Logger::LOG_DEBUG)
+  rrLog(rr::Logger::LOG_DEBUG)
       << "trying config file from ROADRUNNER_CONFIG " << (env ? env : "NULL");
 
   if (env && rr::fileExists(env, 4)) {
@@ -320,21 +320,21 @@ std::string Config::getConfigFilePath() {
   ppath.assign(Poco::Path::home());
   ppath.setFileName("roadrunner.conf");
   path = ppath.toString();
-  Log(rr::Logger::LOG_DEBUG) << "trying config file " << path;
+  rrLog(rr::Logger::LOG_DEBUG) << "trying config file " << path;
   if (rr::fileExists(path, 4)) {
     return path;
   }
 
   ppath.setFileName(".roadrunner.conf");
   path = ppath.toString();
-  Log(rr::Logger::LOG_DEBUG) << "trying config file " << path;
+  rrLog(rr::Logger::LOG_DEBUG) << "trying config file " << path;
   if (rr::fileExists(path, 4)) {
     return path;
   }
 
-  // this could be an empty string if we are in a statically
+  // this could be an empty std::string if we are in a statically
   // linked executable, if so, Poco::Path will puke if popDir is called
-  string chkDir = rr::getCurrentSharedLibDir();
+  std::string chkDir = rr::getCurrentSharedLibDir();
   if (chkDir.empty()) {
     chkDir = rr::getCurrentExeFolder();
   }
@@ -345,7 +345,7 @@ std::string Config::getConfigFilePath() {
   ppath.assign(chkDir);
   ppath.setFileName("roadrunner.conf");
   path = ppath.toString();
-  Log(rr::Logger::LOG_DEBUG) << "trying config file " << path;
+  rrLog(rr::Logger::LOG_DEBUG) << "trying config file " << path;
   if (rr::fileExists(path, 4)) {
     return path;
   }
@@ -355,12 +355,12 @@ std::string Config::getConfigFilePath() {
   ppath.popDirectory();
   ppath.setFileName("roadrunner.conf");
   path = ppath.toString();
-  Log(rr::Logger::LOG_DEBUG) << "trying config file " << path;
+  rrLog(rr::Logger::LOG_DEBUG) << "trying config file " << path;
   if (rr::fileExists(path, 4)) {
     return path;
   }
 
-  Log(rr::Logger::LOG_DEBUG) << "no config file found; using built-in defaults";
+  rrLog(rr::Logger::LOG_DEBUG) << "no config file found; using built-in defaults";
   return "";
 }
 
@@ -405,11 +405,11 @@ void Config::readConfigFile(const std::string &path) {
       StringIntMap::const_iterator i = keys.find(matches[1]);
       if (i != keys.end()) {
         values[i->second] = Variant::parse((matches[2]));
-        Log(Logger::LOG_INFORMATION)
+        rrLog(Logger::LOG_INFORMATION)
             << "read key " << i->first
             << " with value: " << values[i->second].toString();
       } else {
-        Log(Logger::LOG_WARNING)
+        rrLog(Logger::LOG_WARNING)
             << "invalid key: \"" << matches[1] << "\" in " << path;
       }
     }

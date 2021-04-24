@@ -13,7 +13,7 @@
 #include "rrOSSpecifics.h"
 //---------------------------------------------------------------------------
 
-using namespace std;
+
 using namespace libsbml;
 namespace rr
 {
@@ -22,7 +22,7 @@ namespace rr
  * SBML_formulaToString is used all over the place here,
  * SBML_formulaToString returns a char* that MUST BE FREED!!!
  *
- * This function frees the string and returns a std::string with its contents.
+ * This function frees the std::string and returns a std::string with its contents.
  */
 std::string SBML_formulaToStdString(const ASTNode *tree)
 {
@@ -32,7 +32,7 @@ std::string SBML_formulaToStdString(const ASTNode *tree)
     return result;
 }
 
-const string NOMSupport::STR_DoubleFormat("%.5G");
+const std::string NOMSupport::STR_DoubleFormat("%.5G");
 
 /**
  * some helper functions for changeSymbol.
@@ -41,14 +41,14 @@ const string NOMSupport::STR_DoubleFormat("%.5G");
  *
  * Recursivly go through a ASTNode tree and change the name to time
  */
-static void changeSymbol(ASTNode *node, const string& time, const int& targetType);
+static void changeSymbol(ASTNode *node, const std::string& time, const int& targetType);
 
 /**
  * Many sbml classes have isSetMath, setMath and getMath methods.
  * This template replaces the name of each ASTNode item with sTimeSymbol
  */
 template <class MathT>
-static void changeSymbolT(MathT* thing, const string& sTimeSymbol, const int& targetType);
+static void changeSymbolT(MathT* thing, const std::string& sTimeSymbol, const int& targetType);
 
 NOMSupport::NOMSupport()
 :
@@ -59,13 +59,13 @@ mModel(NULL)
 
 NOMSupport::~NOMSupport()
 {
-    Log(lDebug3) << __FUNC__ << "\n";
+    rrLog(lDebug3) << __FUNC__ << "\n";
     // the mModel is owned by the sbml doc.
     delete mSBMLDoc;
 }
 
 
-string NOMSupport::getlibSBMLVersion()
+std::string NOMSupport::getlibSBMLVersion()
 {
     return getLibSBMLDottedVersion();
 }
@@ -89,7 +89,7 @@ void NOMSupport::reset()
     mSBMLDoc    = NULL;
 }
 
-string NOMSupport::getNthCompartmentId(const int& nIndex)
+std::string NOMSupport::getNthCompartmentId(const int& nIndex)
 {
     if (mModel == NULL)
     {
@@ -105,7 +105,7 @@ string NOMSupport::getNthCompartmentId(const int& nIndex)
     return getId(*oCompartment);
 }
 
-double NOMSupport::getValue(const string& sId)
+double NOMSupport::getValue(const std::string& sId)
 {
     if (mModel == NULL)
     {
@@ -173,7 +173,7 @@ double NOMSupport::getValue(const string& sId)
         }
     }
 
-    throw Exception("Invalid string name. The id '" + sId + "' does not exist in the model");
+    throw Exception("Invalid std::string name. The id '" + sId + "' does not exist in the model");
 }
 
 
@@ -204,7 +204,7 @@ StringListContainer NOMSupport::getListOfBoundarySpecies()
     return boundarySpeciesList;
 }
 
-string NOMSupport::getId(SBase& element)
+std::string NOMSupport::getId(SBase& element)
 {
     if (element.isSetId())
         return element.getId();
@@ -213,11 +213,11 @@ string NOMSupport::getId(SBase& element)
 
 
 
-string NOMSupport::getName(const SBase* element)
+std::string NOMSupport::getName(const SBase* element)
 {
     if(!element)
     {
-        return string("");
+        return std::string("");
     }
 
     if (element->isSetName())
@@ -225,21 +225,21 @@ string NOMSupport::getName(const SBase* element)
     return element->getId();
 }
 
-string NOMSupport::convertMathMLToString(const string& sMathML)
+std::string NOMSupport::convertMathMLToString(const std::string& sMathML)
 {
     ASTNode* node = libsbml::readMathMLFromString(sMathML.c_str());
-    string str = SBML_formulaToStdString(node);
+    std::string str = SBML_formulaToStdString(node);
     delete node;
     return str;
 }
 
-string NOMSupport::convertStringToMathML(const string& var0)
+std::string NOMSupport::convertStringToMathML(const std::string& var0)
 {
     ASTNode *node = SBML_parseFormula(var0.c_str());
     char *cstr = 0;
 
     cstr = writeMathMLToString(node);
-    string result = cstr;
+    std::string result = cstr;
 
     delete node;
     free(cstr);
@@ -247,15 +247,15 @@ string NOMSupport::convertStringToMathML(const string& var0)
     return result;
 }
 
-string NOMSupport::convertTime(const string& sArg, const string& sTimeSymbol)
+std::string NOMSupport::convertTime(const std::string& sArg, const std::string& sTimeSymbol)
 {
     // we own sbml doc, and it creates a cstr, but it owns the model.
     SBMLDocument* oSBMLDoc = 0;
     char *cstr = 0;
     Model* oModel = 0;
-    string sbml;
+    std::string sbml;
 
-    Log(lDebug4)<<"Entering function "<<__FUNC__<<" in file "<<__FILE__;
+    rrLog(lDebug4)<<"Entering function "<<__FUNC__<<" in file "<<__FILE__;
     try
     {
         oSBMLDoc = readSBMLFromString(sArg.c_str());
@@ -290,7 +290,7 @@ string NOMSupport::convertTime(const string& sArg, const string& sTimeSymbol)
 
 
 
-void NOMSupport::changeSymbol(Model& oModel, const string& sTimeSymbol, const int& targetType)
+void NOMSupport::changeSymbol(Model& oModel, const std::string& sTimeSymbol, const int& targetType)
 {
     for (int i = 0; i < oModel.getNumReactions(); i++)
     {
@@ -331,7 +331,7 @@ void NOMSupport::changeSymbol(Model& oModel, const string& sTimeSymbol, const in
     }
 }
 
-static void changeSymbol(ASTNode *node, const string& time, const int& targetType)
+static void changeSymbol(ASTNode *node, const std::string& time, const int& targetType)
 {
     int c;
     if (node->getType() == targetType)
@@ -343,7 +343,7 @@ static void changeSymbol(ASTNode *node, const string& time, const int& targetTyp
 
 
 template <class MathT>
-static void changeSymbolT(MathT* thing, const string& sTimeSymbol, const int& targetType)
+static void changeSymbolT(MathT* thing, const std::string& sTimeSymbol, const int& targetType)
 {
     if (thing && thing->isSetMath())
     {
@@ -355,7 +355,7 @@ static void changeSymbolT(MathT* thing, const string& sTimeSymbol, const int& ta
 }
 
 
-string NOMSupport::getKineticLaw(const int& index)
+std::string NOMSupport::getKineticLaw(const int& index)
 {
     if (mModel == NULL)
     {
@@ -429,7 +429,7 @@ StringListContainer NOMSupport::getListOfParameters()
     {
         libsbml::Parameter *parameter = mModel->getParameter(i);
         double paramValue;
-        string paramStr = parameter->getId();
+        std::string paramStr = parameter->getId();
         StringList tempStrValueList;
         tempStrValueList.add(paramStr);
 
@@ -463,7 +463,7 @@ StringListContainer NOMSupport::getListOfParameters()
             for (int j = 0; j < numOfLocalParameters; j++)
             {
                 libsbml::Parameter *parameter = kl->getParameter(j);
-                string paramStr = parameter->getId();
+                std::string paramStr = parameter->getId();
                 StringList tempStrValueList;
                 double paramValue;
                 tempStrValueList.add(paramStr);
@@ -484,7 +484,7 @@ StringListContainer NOMSupport::getListOfParameters()
 }
 
 
-string NOMSupport::getModelName() const
+std::string NOMSupport::getModelName() const
 {
     if (mModel == NULL)
     {
@@ -494,7 +494,7 @@ string NOMSupport::getModelName() const
 }
 
 
-string NOMSupport::getNthBoundarySpeciesCompartmentName(const int& nIndex)
+std::string NOMSupport::getNthBoundarySpeciesCompartmentName(const int& nIndex)
 {
     if (mModel == NULL)
     {
@@ -585,10 +585,10 @@ StringListContainer NOMSupport::getNthEvent(const int& arg)
         throw Exception("The model does not have a Event corresponding to the index provided");
     }
 
-    string trigger  = SBML_formulaToStdString(oEvent->getTrigger()->getMath());
+    std::string trigger  = SBML_formulaToStdString(oEvent->getTrigger()->getMath());
     triggerAssignmentsList.Add(trigger);
 
-    string delay;
+    std::string delay;
     if (!oEvent->isSetDelay())
     {
         delay = "0";
@@ -614,8 +614,8 @@ StringListContainer NOMSupport::getNthEvent(const int& arg)
         StringList assignmentList;// = new StringListContainer();
 
         EventAssignment *ea = oEvent->getEventAssignment(i);
-        string lValue = ea->getVariable();
-        string rValue = SBML_formulaToStdString(ea->getMath());
+        std::string lValue = ea->getVariable();
+        std::string rValue = SBML_formulaToStdString(ea->getMath());
 
         assignmentList.add(lValue);
         assignmentList.add(rValue);
@@ -625,7 +625,7 @@ StringListContainer NOMSupport::getNthEvent(const int& arg)
 }
 
 
-string NOMSupport::getNthFloatingSpeciesCompartmentName(int nIndex)
+std::string NOMSupport::getNthFloatingSpeciesCompartmentName(int nIndex)
 {
     if (mModel == NULL)
     {
@@ -671,8 +671,8 @@ StringListContainer NOMSupport::getNthFunctionDefinition(const int& arg)
         throw Exception("The model does not have a Function Definition corresponding to the index provided");
     }
 
-    string fnId = fnDefn->getId();
-    string fnMath = SBML_formulaToStdString(fnDefn->getBody());
+    std::string fnId = fnDefn->getId();
+    std::string fnMath = SBML_formulaToStdString(fnDefn->getBody());
 
     StringListContainer fnDefnList;
     fnDefnList.Add(fnId);
@@ -692,7 +692,7 @@ StringListContainer NOMSupport::getNthFunctionDefinition(const int& arg)
 }
 
 
-string NOMSupport::getNthParameterId(const int& nReactionIndex, const int& nParameterIndex)
+std::string NOMSupport::getNthParameterId(const int& nReactionIndex, const int& nParameterIndex)
 {
     if (mModel == NULL)
     {
@@ -741,7 +741,7 @@ double NOMSupport::getNthParameterValue(const int& nReactionIndex, const int& nP
 }
 
 
-string NOMSupport::getNthReactionId(const int& nIndex)
+std::string NOMSupport::getNthReactionId(const int& nIndex)
 {
     if (mModel == NULL)
     {
@@ -757,7 +757,7 @@ string NOMSupport::getNthReactionId(const int& nIndex)
     return getId(r);
 }
 
-string NOMSupport::getNthReactionName(const int& nIndex)
+std::string NOMSupport::getNthReactionName(const int& nIndex)
 {
     if (mModel == NULL)
     {
@@ -773,7 +773,7 @@ string NOMSupport::getNthReactionName(const int& nIndex)
     return getName(r);
 }
 
-pair<string, string> NOMSupport::getNthInitialAssignmentPair(const int& nIndex)
+std::pair<std::string, std::string> NOMSupport::getNthInitialAssignmentPair(const int& nIndex)
 {
     if (mModel == NULL)
     {
@@ -791,11 +791,11 @@ pair<string, string> NOMSupport::getNthInitialAssignmentPair(const int& nIndex)
     {
         throw Exception("The InitialAssignment contains no math.");
     }
-    string second = SBML_formulaToStdString(oAssignment->getMath());
-    return pair<string, string> (oAssignment->getSymbol(), second);
+    std::string second = SBML_formulaToStdString(oAssignment->getMath());
+    return std::pair<std::string, std::string> (oAssignment->getSymbol(), second);
 }
 
-string NOMSupport::getNthInitialAssignment(const int& nIndex)
+std::string NOMSupport::getNthInitialAssignment(const int& nIndex)
 {
     if (mModel == NULL)
     {
@@ -817,7 +817,7 @@ string NOMSupport::getNthInitialAssignment(const int& nIndex)
 
 }
 
-string NOMSupport::getNthConstraint(const int& nIndex, string& sMessage)
+std::string NOMSupport::getNthConstraint(const int& nIndex, std::string& sMessage)
 {
     if (mModel == NULL)
     {
@@ -849,7 +849,7 @@ string NOMSupport::getNthConstraint(const int& nIndex, string& sMessage)
     return SBML_formulaToStdString(oConstraint->getMath());
 }
 
-string NOMSupport::getNthRule(const int& nIndex)
+std::string NOMSupport::getNthRule(const int& nIndex)
 {
     if (mModel == NULL)
     {
@@ -873,14 +873,14 @@ string NOMSupport::getNthRule(const int& nIndex)
         case SBML_ASSIGNMENT_RULE:
         case SBML_RATE_RULE:
             {
-                string lValue = oRule.getVariable();
-                string rValue = oRule.getFormula();
+                std::string lValue = oRule.getVariable();
+                std::string rValue = oRule.getFormula();
 
                 return lValue + " = " + rValue;
             }
         case SBML_ALGEBRAIC_RULE:
             {
-                string rValue = oRule.getFormula();
+                std::string rValue = oRule.getFormula();
                 return rValue + " = 0";
             }
 
@@ -892,9 +892,9 @@ string NOMSupport::getNthRule(const int& nIndex)
     return "";
 }
 
-string NOMSupport::getNthRuleType(const int& arg)
+std::string NOMSupport::getNthRuleType(const int& arg)
 {
-    string result = "";
+    std::string result = "";
 
     if (mModel == NULL)
     {
@@ -1056,7 +1056,7 @@ int NOMSupport::getNumRules()
 }
 
 
-string NOMSupport::getParamPromotedSBML(const string& sArg)
+std::string NOMSupport::getParamPromotedSBML(const std::string& sArg)
 {
     SBMLDocument *oSBMLDoc = NULL;
     Model *oModel = NULL;
@@ -1082,7 +1082,7 @@ string NOMSupport::getParamPromotedSBML(const string& sArg)
     }
 }
 
-void NOMSupport::modifyKineticLawsForLocalParameters(KineticLaw& oLaw, const string& reactionId, Model& oModel)
+void NOMSupport::modifyKineticLawsForLocalParameters(KineticLaw& oLaw, const std::string& reactionId, Model& oModel)
 {
     int numLocalParameters = (int)oLaw.getNumLocalParameters();
     if (numLocalParameters > 0)
@@ -1091,8 +1091,8 @@ void NOMSupport::modifyKineticLawsForLocalParameters(KineticLaw& oLaw, const str
         for (int j = numLocalParameters; j > 0; j--)
         {
             LocalParameter* localParameter = (LocalParameter*)oLaw.getLocalParameter(j - 1)->clone();
-            string parameterId = localParameter->getId();// getId(localParameter);
-            string sPrefix = reactionId + "_";
+            std::string parameterId = localParameter->getId();// getId(localParameter);
+            std::string sPrefix = reactionId + "_";
             if (!oLaw.isSetMath())
             {
                 if (oLaw.isSetFormula())
@@ -1134,7 +1134,7 @@ void NOMSupport::modifyKineticLawsForLocalParameters(KineticLaw& oLaw, const str
 }
 
 
-void NOMSupport::modifyKineticLawsForReaction(KineticLaw& oLaw, const string& reactionId, Model& oModel)
+void NOMSupport::modifyKineticLawsForReaction(KineticLaw& oLaw, const std::string& reactionId, Model& oModel)
 {
     int numLocalParameters = (int)oLaw.getNumParameters();
     if (numLocalParameters > 0)
@@ -1147,8 +1147,8 @@ void NOMSupport::modifyKineticLawsForReaction(KineticLaw& oLaw, const string& re
             {
                 throw(NOMException("Null parameter pointer in modifyKineticLawsForReaction"));
             }
-            string parameterId = getId( *parameter);
-            string sPrefix = reactionId + "_";
+            std::string parameterId = getId( *parameter);
+            std::string sPrefix = reactionId + "_";
             if (!oLaw.isSetMath())
             {
                 if (oLaw.isSetFormula())
@@ -1190,7 +1190,7 @@ void NOMSupport::modifyKineticLaws(SBMLDocument& oSBMLDoc, Model& oModel)
     for (int i = 0; i < numOfReactions; i++)
     {
         Reaction *oReaction = oModel.getReaction(i);
-        string sId = getId(*oReaction);
+        std::string sId = getId(*oReaction);
         KineticLaw *oLaw = oReaction->getKineticLaw();
         if (oLaw == NULL)
         {
@@ -1219,13 +1219,13 @@ void NOMSupport::modifyKineticLaws(SBMLDocument& oSBMLDoc, Model& oModel)
     }
 }
 
-void NOMSupport::changeParameterName(ASTNode& node, const string& sParameterName, const string& sPrefix)
+void NOMSupport::changeParameterName(ASTNode& node, const std::string& sParameterName, const std::string& sPrefix)
 {
     int c;
 
     if (node.isName() && node.getName() == sParameterName)
     {
-        node.setName( string(sPrefix + sParameterName).c_str());
+        node.setName( std::string(sPrefix + sParameterName).c_str());
     }
 
     for (c = 0; c < node.getNumChildren(); c++)
@@ -1234,7 +1234,7 @@ void NOMSupport::changeParameterName(ASTNode& node, const string& sParameterName
     }
 }
 
-string NOMSupport::getSBML()
+std::string NOMSupport::getSBML()
 {
     if (mModel == NULL)
     {
@@ -1262,7 +1262,7 @@ void NOMSupport::getSymbols(const ASTNode* aNode, StringList& list)
 
     if (node.isName())
     {
-        string name = node.getName();
+        std::string name = node.getName();
         if (!list.Contains(name))
         {
             list.add(name);
@@ -1279,7 +1279,7 @@ void NOMSupport::getSymbols(const ASTNode* aNode, StringList& list)
 
 StringList NOMSupport::getSymbols(const ASTNode* math)
 {
-    StringList result; //= new List<string>();
+    StringList result; //= new List<std::string>();
     if (math == NULL)
     {
         return result;
@@ -1301,19 +1301,19 @@ deque<Rule*> NOMSupport::reorderAssignmentRules(deque<Rule*>& assignmentRules)
 ////            var result = new List<Rule>();
     deque<Rule*> result;
 
-//    var allSymbols = new Dictionary<int, List<string>>();
-    map<int, StringList > allSymbols;
+//    var allSymbols = new Dictionary<int, List<std::string>>();
+    std::map<int, StringList > allSymbols;
 
-    //    var map = new Dictionary<string, List<string>>();
-    map<string, StringList > map;
-//    var idList = new List<string>();
+    //    var std::map = new Dictionary<std::string, List<std::string>>();
+    std::map<std::string, StringList > std::map;
+//    var idList = new List<std::string>();
     StringList idList;
 
     // read id list, initialize all symbols
     for (int index = 0; index < assignmentRules.size(); index++)
     {
         AssignmentRule *rule = (AssignmentRule*)assignmentRules[index];
-        string variable = rule->getVariable();
+        std::string variable = rule->getVariable();
         if (!rule->isSetMath())
         {
             allSymbols[index] = StringList();
@@ -1323,11 +1323,11 @@ deque<Rule*> NOMSupport::reorderAssignmentRules(deque<Rule*>& assignmentRules)
             allSymbols[index] = NOMSupport::getSymbols(rule->getMath());
         }
         idList.add(variable);
-        map[variable] = StringList();//new List<string>();
+        std::map[variable] = StringList();//new List<std::string>();
     }
 
     // initialize order array
-    vector<int> order;
+    std::vector<int> order;
     order.resize(assignmentRules.size()); // = new int[assignmentRules.size()];
     for (int i = 0; i < assignmentRules.size(); i++)
     {
@@ -1335,7 +1335,7 @@ deque<Rule*> NOMSupport::reorderAssignmentRules(deque<Rule*>& assignmentRules)
     }
 
     // build dependency graph
-    vector<string>::iterator    id;
+    std::vector<std::string>::iterator    id;
 //    foreach (var id in idList)
     for(id = idList.begin(); id != idList.end(); id++)
     {
@@ -1343,7 +1343,7 @@ deque<Rule*> NOMSupport::reorderAssignmentRules(deque<Rule*>& assignmentRules)
         {
             if (allSymbols[index].Contains( (*id) ))
             {
-                map[(assignmentRules[index])->getVariable()].add( (*id) );
+                std::map[(assignmentRules[index])->getVariable()].add( (*id) );
             }
         }
     }
@@ -1361,10 +1361,10 @@ deque<Rule*> NOMSupport::reorderAssignmentRules(deque<Rule*>& assignmentRules)
             {
                 int second = order[j];
 
-                string secondVar = assignmentRules[second]->getVariable();
-                string firstVar = assignmentRules[first]->getVariable();
+                std::string secondVar = assignmentRules[second]->getVariable();
+                std::string firstVar = assignmentRules[first]->getVariable();
 
-                if (map[firstVar].Contains(secondVar))
+                if (std::map[firstVar].Contains(secondVar))
                 {
                     // found dependency, swap and start over
                     order[i] = second;
@@ -1451,18 +1451,18 @@ void NOMSupport::reorderRules(SBMLDocument& doc, Model& model)
 
     if (numRules != model.getNumRules())
     {
-        string msg = "Fatal error, the mumber of rules in a model was changed by ";
+        std::string msg = "Fatal error, the mumber of rules in a model was changed by ";
         msg = msg + __FUNC__;
         throw Exception(msg);
     }
 }
 
-void NOMSupport::loadSBML(const string& var0, const string& sTimeSymbol)
+void NOMSupport::loadSBML(const std::string& var0, const std::string& sTimeSymbol)
 {
     loadSBML(var0);
     if(!mModel)
     {
-        Log(Logger::LOG_ERROR)<<"No model is allocated in function "<<__FUNC__<<" file "<<__FILE__;
+        rrLog(Logger::LOG_ERROR)<<"No model is allocated in function "<<__FUNC__<<" file "<<__FILE__;
         return;
     }
 
@@ -1474,7 +1474,7 @@ void NOMSupport::loadSBML(const string& var0, const string& sTimeSymbol)
     buildSymbolTable();
 }
 
-void NOMSupport::changeTimeSymbol(Model& model, const string& timeSymbol)
+void NOMSupport::changeTimeSymbol(Model& model, const std::string& timeSymbol)
 {
     changeSymbol(model, timeSymbol, AST_NAME_TIME);
 }
@@ -1483,12 +1483,12 @@ void NOMSupport::changeTimeSymbol(Model& model, const string& timeSymbol)
 void NOMSupport::buildSymbolTable()
 {
     // Read CompartmentSymbols
-    Log(lDebug5)<<"Building Symbol Table";
+    rrLog(lDebug5)<<"Building Symbol Table";
     for (int i = 0; i < mModel->getNumCompartments(); i++)
     {
         Compartment *temp = mModel->getCompartment(i);
 
-        Log(lDebug1)<<"Processing compartment with ID: "<<temp->getId();
+        rrLog(lDebug1)<<"Processing compartment with ID: "<<temp->getId();
         SBMLSymbol symbol;
         symbol.mId = temp->getId();
 
@@ -1508,7 +1508,7 @@ void NOMSupport::buildSymbolTable()
     for (int i = 0; i < mModel->getNumParameters(); i++)
     {
         libsbml::Parameter *temp = mModel->getParameter(i);
-        Log(lDebug1)<<"Processing parameter with ID:"<<temp->getId();
+        rrLog(lDebug1)<<"Processing parameter with ID:"<<temp->getId();
         SBMLSymbol symbol;
         symbol.mId = temp->getId();
         if (temp->isSetValue())
@@ -1526,7 +1526,7 @@ void NOMSupport::buildSymbolTable()
     for (int i = 0; i < mModel->getNumSpecies(); i++)
     {
         Species *temp = mModel->getSpecies(i);
-        Log(lDebug1)<<"Processing species with ID: "<<temp->getId();
+        rrLog(lDebug1)<<"Processing species with ID: "<<temp->getId();
         SBMLSymbol symbol;
         symbol.mId = temp->getId();
         if (temp->isSetInitialConcentration())
@@ -1547,11 +1547,11 @@ void NOMSupport::buildSymbolTable()
     }
 
     StringSymbolHashTable::iterator iter;
-    Log(lDebug4)<<"========== Symbols read into Symbol Table ("<<mSymbolTable.size()<<") ==============";
-    for (iter = mSymbolTable.begin(); iter != mSymbolTable.end(); iter++)//string sbmlId in mSymbolTable.Keys)
+    rrLog(lDebug4)<<"========== Symbols read into Symbol Table ("<<mSymbolTable.size()<<") ==============";
+    for (iter = mSymbolTable.begin(); iter != mSymbolTable.end(); iter++)//std::string sbmlId in mSymbolTable.Keys)
     {
         SBMLSymbol& aSymbol = (iter->second);
-        Log(lDebug3)<<"Key = "<<iter->first<<endl<<aSymbol;
+        rrLog(lDebug3)<<"Key = "<<iter->first<<std::endl<<aSymbol;
     }
 
     lookForDependencies();
@@ -1559,19 +1559,19 @@ void NOMSupport::buildSymbolTable()
 
 void NOMSupport::lookForDependencies()
 {
-    Log(lDebug5)<<"In function "<<__FUNCTION__;
+    rrLog(lDebug5)<<"In function "<<__FUNCTION__;
 
     // Go through each found Id, and test for dependencies
     StringSymbolHashTable::iterator iter;
 
-    for (iter = mSymbolTable.begin(); iter != mSymbolTable.end(); iter++)//string sbmlId in mSymbolTable.Keys)
+    for (iter = mSymbolTable.begin(); iter != mSymbolTable.end(); iter++)//std::string sbmlId in mSymbolTable.Keys)
     {
-        string sbmlId = (*iter).first;
+        std::string sbmlId = (*iter).first;
         updateDependencies(sbmlId);
     }
 }
 
-void NOMSupport::updateDependencies(const string& sbmlId)
+void NOMSupport::updateDependencies(const std::string& sbmlId)
 {
     SBMLSymbol& current = mSymbolTable[sbmlId];
     if (!current.mId.size())
@@ -1584,7 +1584,7 @@ void NOMSupport::updateDependencies(const string& sbmlId)
         StringList dependentSymbols = getSymbols(current.mInitialAssignment);
         for(int i = 0; i < dependentSymbols.Count(); i++)
         {
-            string dependency = dependentSymbols[i];
+            std::string dependency = dependentSymbols[i];
             if(dependency != current.mId)
             {
                 SBMLSymbol *sym = &(mSymbolTable[dependency]);
@@ -1592,7 +1592,7 @@ void NOMSupport::updateDependencies(const string& sbmlId)
             }
         }
 
-//        foreach (string dependency in dependentSymbols)
+//        foreach (std::string dependency in dependentSymbols)
 //            if (dependency != current.Id)
 //                current.Dependencies.add((SBMLSymbol)mSymbolTable[dependency]);
     }
@@ -1602,20 +1602,20 @@ void NOMSupport::updateDependencies(const string& sbmlId)
         StringList dependentSymbols = getSymbols(current.mRule);
         for(int i = 0; i < dependentSymbols.Count(); i++)
         {
-            string dependency = dependentSymbols[i];
+            std::string dependency = dependentSymbols[i];
             if(dependency != current.mId)
             {
                 SBMLSymbol *sym = &(mSymbolTable[dependency]);
                 current.AddDependency(sym);
             }
         }
-//        foreach (string dependency in dependentSymbols)
+//        foreach (std::string dependency in dependentSymbols)
 //            if (dependency != current.Id)
 //                current.Dependencies.add((SBMLSymbol)mSymbolTable[dependency]);
     }
 }
 
-StringList NOMSupport::getSymbols(const string& formula)
+StringList NOMSupport::getSymbols(const std::string& formula)
 {
     StringList sResult;
     if (isNullOrEmpty(formula))
@@ -1645,7 +1645,7 @@ void NOMSupport::addDependenciesToList(const ASTNode *node, StringList& sResult)
     }
 }
 
-string NOMSupport::getRuleFor(const string& sbmlId)
+std::string NOMSupport::getRuleFor(const std::string& sbmlId)
 {
     for (int i = 0; i < mModel->getNumRules(); i++)
     {
@@ -1665,7 +1665,7 @@ string NOMSupport::getRuleFor(const string& sbmlId)
                 } break;
             //case libsbml::SBML_ALGEBRAIC_RULE:
             //    {
-            //        string rValue = oRule->getFormula();
+            //        std::string rValue = oRule->getFormula();
             //        return rValue + " = 0";
             //    }
 
@@ -1674,10 +1674,10 @@ string NOMSupport::getRuleFor(const string& sbmlId)
         }
     }
 
-    return string("");
+    return std::string("");
 }
 
-string NOMSupport::getInitialAssignmentFor(const string& sbmlId)
+std::string NOMSupport::getInitialAssignmentFor(const std::string& sbmlId)
 {
     if(mModel)
     {
@@ -1690,10 +1690,10 @@ string NOMSupport::getInitialAssignmentFor(const string& sbmlId)
             }
         }
     }
-    return string("");
+    return std::string("");
 }
 
-void NOMSupport::loadSBML(const string& sbmlStr)
+void NOMSupport::loadSBML(const std::string& sbmlStr)
 {
     delete mSBMLDoc;
     // model is owned by the sbml doc.
@@ -1709,7 +1709,7 @@ void NOMSupport::loadSBML(const string& sbmlStr)
 }
 
 
-void NOMSupport::setValue(Model* model, const string& id, const double& value, const bool& throwIfNotFound)
+void NOMSupport::setValue(Model* model, const std::string& id, const double& value, const bool& throwIfNotFound)
 {
     if (model == NULL)
     {
@@ -1764,16 +1764,16 @@ void NOMSupport::setValue(Model* model, const string& id, const double& value, c
 
     if (throwIfNotFound)
     {
-        throw Exception(format("Invalid string name. The id '{0}' does not exist in the model", id));
+        throw Exception(format("Invalid std::string name. The id '{0}' does not exist in the model", id));
     }
 }
 
-void NOMSupport::setValue(const string& sId, const double& dValue)
+void NOMSupport::setValue(const std::string& sId, const double& dValue)
 {
     setValue(mModel, sId, dValue, true);
 }
 
-string NOMSupport::validateSBML(const string& sModel)
+std::string NOMSupport::validateSBML(const std::string& sModel)
 {
     SBMLDocument *oDoc = readSBMLFromString(sModel.c_str());
     StringBuilder oBuilder;
@@ -1791,7 +1791,7 @@ string NOMSupport::validateSBML(const string& sModel)
 }
 
 
-bool NOMSupport::isCompartment(const string& sId)
+bool NOMSupport::isCompartment(const std::string& sId)
 {
     if(!mModel)
     {
@@ -1808,7 +1808,7 @@ bool NOMSupport::isCompartment(const string& sId)
 }
 
 
-bool NOMSupport::multiplyCompartment(const string& sbmlId, string& compartmentId)
+bool NOMSupport::multiplyCompartment(const std::string& sbmlId, std::string& compartmentId)
 {
     compartmentId = "";
 
@@ -1838,9 +1838,9 @@ bool NOMSupport::multiplyCompartment(const string& sbmlId, string& compartmentId
 }
 
 
-stack<string> NOMSupport::getMatchForSymbol(const string& sbmlId)
+stack<std::string> NOMSupport::getMatchForSymbol(const std::string& sbmlId)
 {
-    stack<string> result;
+    stack<std::string> result;
 
     //SBMLSymbol *symbol = &(mSymbolTable[sbmlId]);
 
@@ -1848,9 +1848,9 @@ stack<string> NOMSupport::getMatchForSymbol(const string& sbmlId)
     return result;
 }
 
-void NOMSupport::fillStack(stack<string>& stack, SBMLSymbol& symbol)
+void NOMSupport::fillStack(stack<std::string>& stack, SBMLSymbol& symbol)
 {
-    Log(lDebug5)<<"In "<<__FUNCTION__<<" Filling stack with symbol: "<<(symbol);
+    rrLog(lDebug5)<<"In "<<__FUNCTION__<<" Filling stack with symbol: "<<(symbol);
     if (!symbol.mId.size())
     {
         return;
@@ -1887,7 +1887,7 @@ void NOMSupport::fillStack(stack<string>& stack, SBMLSymbol& symbol)
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-//double NOMSupport::getValue(const string& id)
+//double NOMSupport::getValue(const std::string& id)
 //{
 //    double val;
 //    if(::getValue(id.c_str(), &val))
@@ -1899,7 +1899,7 @@ void NOMSupport::fillStack(stack<string>& stack, SBMLSymbol& symbol)
 //}
 
 
-//        string NOMSupport::getMetaId(string sId)
+//        std::string NOMSupport::getMetaId(std::string sId)
 //        {
 //            if (mModel == NULL)
 //            {
@@ -2000,7 +2000,7 @@ void NOMSupport::fillStack(stack<string>& stack, SBMLSymbol& symbol)
 //                // here the fancy function that discoveres themissing names and solves all problems
 //                // magically ...
 //                checkForMissingNames(oRoot, oMissingNames, symbols);
-//                string sMissingName;
+//                std::string sMissingName;
 //                if (oMissingNames.Count > 0)
 //                {
 //                    bReplaced = true;
@@ -2019,11 +2019,11 @@ void NOMSupport::fillStack(stack<string>& stack, SBMLSymbol& symbol)
 //            return bReplaced;
 //        }
 //
-//        string NOMSupport::addMissingModifiers(string sModel)
+//        std::string NOMSupport::addMissingModifiers(std::string sModel)
 //        {
 //
 //            SBMLDocument d = libsbml.readSBMLFromString(sModel);
-//            string sResult = sModel;
+//            std::string sResult = sModel;
 //            try
 //            {
 //                Model oModel = d.getModel();
@@ -2061,7 +2061,7 @@ void NOMSupport::fillStack(stack<string>& stack, SBMLSymbol& symbol)
 //            }
 //            if (node.isName())
 //            {
-//                string sName = node.getName();
+//                std::string sName = node.getName();
 //                if (!symbols.Contains(sName) && !results.Contains(sName))
 //                    results.Add(sName);
 //            }
@@ -2077,11 +2077,11 @@ void NOMSupport::fillStack(stack<string>& stack, SBMLSymbol& symbol)
 //
 //        }
 //
-//        string NOMSupport::convertLevel1ToLevel2Impl(string sSBML)
+//        std::string NOMSupport::convertLevel1ToLevel2Impl(std::string sSBML)
 //        {
 //            SBMLReader oReader = new SBMLReader();
 //            SBMLDocument oDoc = oReader.readSBMLFromString(sSBML);
-//            string sResult = sSBML;
+//            std::string sResult = sSBML;
 //
 //            try
 //            {
@@ -2097,11 +2097,11 @@ void NOMSupport::fillStack(stack<string>& stack, SBMLSymbol& symbol)
 //            return sResult;
 //        }
 //
-//        string NOMSupport::convertLevel2ToLevel1Impl(string sSBML)
+//        std::string NOMSupport::convertLevel2ToLevel1Impl(std::string sSBML)
 //        {
 //            SBMLReader oReader = new SBMLReader();
 //            SBMLDocument oDoc = oReader.readSBMLFromString(sSBML);
-//            string sResult = sSBML;
+//            std::string sResult = sSBML;
 //
 //            try
 //            {
@@ -2120,7 +2120,7 @@ void NOMSupport::fillStack(stack<string>& stack, SBMLSymbol& symbol)
 
 
 //
-//        string NOMSupport::convertPowImpl(string sSBML)
+//        std::string NOMSupport::convertPowImpl(std::string sSBML)
 //        {
 //
 //            SBMLDocument doc = libsbml.readSBMLFromString(sSBML);
@@ -2131,7 +2131,7 @@ void NOMSupport::fillStack(stack<string>& stack, SBMLSymbol& symbol)
 //                {
 //                    throw new Exception("Error in sbml input. ");
 //                }
-//                string strKineticFormula;
+//                std::string strKineticFormula;
 //                for (int i = 0; i < model.getNumReactions(); i++)
 //                {
 //                    libsbmlcs.Reaction r = model.getReaction(i);
@@ -2180,7 +2180,7 @@ void NOMSupport::fillStack(stack<string>& stack, SBMLSymbol& symbol)
 //            }
 //        }
 //
-//        string NOMSupport::convertSBML(string sModel, int nLevel, int nVersion)
+//        std::string NOMSupport::convertSBML(std::string sModel, int nLevel, int nVersion)
 //        {
 //            return convertSBML(sModel, nLevel, nVersion, true);
 //        }
@@ -2232,7 +2232,7 @@ void NOMSupport::fillStack(stack<string>& stack, SBMLSymbol& symbol)
 //            }
 //        }
 //
-//        void NOMSupport::AddMissingParameter(string parameterId, SBMLDocument doc)
+//        void NOMSupport::AddMissingParameter(std::string parameterId, SBMLDocument doc)
 //        {
 //            if (doc == NULL) return;
 //            var model = doc.getModel();
@@ -2326,7 +2326,7 @@ void NOMSupport::fillStack(stack<string>& stack, SBMLSymbol& symbol)
 //            }
 //        }
 //
-//        string NOMSupport::getSBOCapableSBML(string sModel)
+//        std::string NOMSupport::getSBOCapableSBML(std::string sModel)
 //        {
 //            if (sModel == "")
 //            {
@@ -2351,7 +2351,7 @@ void NOMSupport::fillStack(stack<string>& stack, SBMLSymbol& symbol)
 //            }
 //        }
 //
-//        string NOMSupport::convertSBML(string sModel, int nLevel, int nVersion, bool throwError)
+//        std::string NOMSupport::convertSBML(std::string sModel, int nLevel, int nVersion, bool throwError)
 //        {
 //            if (sModel == "")
 //            {
@@ -2409,7 +2409,7 @@ void NOMSupport::fillStack(stack<string>& stack, SBMLSymbol& symbol)
 
 //        void NOMSupport::ChangeConstantForRules(Model model)
 //        {
-//            var ruleTargets = new List<string>();
+//            var ruleTargets = new List<std::string>();
 //            for (int i = 0; i < model.getNumRules(); i++)
 //            {
 //                var rule = model.getRule(i);
@@ -2438,9 +2438,9 @@ void NOMSupport::fillStack(stack<string>& stack, SBMLSymbol& symbol)
 //        ///
 //        /// also parameters with rules will be set to constant
 //        /// </summary>
-//        /// <param name="sbml">the sbml string to fix</param>
+//        /// <param name="sbml">the sbml std::string to fix</param>
 //        /// <returns></returns>
-//        string NOMSupport::FixCommonIssues(string sbml)
+//        std::string NOMSupport::FixCommonIssues(std::string sbml)
 //        {
 //            return FixCommonIssues(sbml, NULL, NULL);
 //        }
@@ -2453,11 +2453,11 @@ void NOMSupport::fillStack(stack<string>& stack, SBMLSymbol& symbol)
 //        ///
 //        /// also parameters with rules will be set to constant
 //        /// </summary>
-//        /// <param name="sbml">the sbml string to fix</param>
+//        /// <param name="sbml">the sbml std::string to fix</param>
 //        /// <param name="programName">program name (or NULL in case of none)</param>
 //        /// <param name="programVersion">program version</param>
 //        /// <returns></returns>
-//        string NOMSupport::FixCommonIssues(string sbml, string programName, string programVersion)
+//        std::string NOMSupport::FixCommonIssues(std::string sbml, std::string programName, std::string programVersion)
 //        {
 //            var doc = libsbml.readSBMLFromString(sbml);
 //            var model = doc.getModel();
@@ -2474,11 +2474,11 @@ void NOMSupport::fillStack(stack<string>& stack, SBMLSymbol& symbol)
 //
 //            using (var writer = new SBMLWriter())
 //            {
-//                if (!string.IsNullOrEmpty(programName))
+//                if (!std::string.IsNullOrEmpty(programName))
 //                {
 //
 //                    writer.setProgramName(programName);
-//                    if (!string.IsNullOrEmpty(programVersion))
+//                    if (!std::string.IsNullOrEmpty(programVersion))
 //                        writer.setProgramVersion(programVersion);
 //                }
 //
@@ -2486,7 +2486,7 @@ void NOMSupport::fillStack(stack<string>& stack, SBMLSymbol& symbol)
 //            }
 //        }
 //
-//        string NOMSupport::convertTimeToCSymbol(string sArg, string sTimeSymbol)
+//        std::string NOMSupport::convertTimeToCSymbol(std::string sArg, std::string sTimeSymbol)
 //        {
 //            SBMLDocument oSBMLDoc = NULL;
 //            Model oModel = NULL;
@@ -2515,7 +2515,7 @@ void NOMSupport::fillStack(stack<string>& stack, SBMLSymbol& symbol)
 //
 
 
-//        void NOMSupport::ChangeNameToCSymbol(Model model, string name, int type)
+//        void NOMSupport::ChangeNameToCSymbol(Model model, std::string name, int type)
 //        {
 //            for (int i = 0; i < model.getNumReactions(); i++)
 //            {
@@ -2542,7 +2542,7 @@ void NOMSupport::fillStack(stack<string>& stack, SBMLSymbol& symbol)
 
 
 
-//        ASTNode NOMSupport::ReplaceSymbol(ASTNode node, string oldId, string newId)
+//        ASTNode NOMSupport::ReplaceSymbol(ASTNode node, std::string oldId, std::string newId)
 //        {
 //            int c;
 //            if (node.getType() == libsbml.AST_NAME && node.getName() == oldId)
@@ -2554,7 +2554,7 @@ void NOMSupport::fillStack(stack<string>& stack, SBMLSymbol& symbol)
 //        }
 //
 //
-//        ASTNode NOMSupport::changeTimeToCSymbol(ASTNode node, string name, int type)
+//        ASTNode NOMSupport::changeTimeToCSymbol(ASTNode node, std::string name, int type)
 //        {
 //            int c;
 //            if (node.getName() == name && node.getType() != type)
@@ -2564,7 +2564,7 @@ void NOMSupport::fillStack(stack<string>& stack, SBMLSymbol& symbol)
 //            return node;
 //        }
 //
-//        bool NOMSupport::exists(string sId)
+//        bool NOMSupport::exists(std::string sId)
 //        {
 //            if (mModel == NULL)
 //            {
@@ -2590,7 +2590,7 @@ void NOMSupport::fillStack(stack<string>& stack, SBMLSymbol& symbol)
 //            return false;
 //        }
 //
-//        string NOMSupport::getAnnotation(string sId)
+//        std::string NOMSupport::getAnnotation(std::string sId)
 //        {
 //            if (mModel == NULL)
 //            {
@@ -2598,7 +2598,7 @@ void NOMSupport::fillStack(stack<string>& stack, SBMLSymbol& symbol)
 //                //throw new Exception("You need to load the model first");
 //            }
 //
-//            string sResult = "";
+//            std::string sResult = "";
 //
 //            if (mModel->getId() == sId || mModel->getName() == sId)
 //            {
@@ -2664,7 +2664,7 @@ void NOMSupport::fillStack(stack<string>& stack, SBMLSymbol& symbol)
 //            //throw new Exception("Invalid id. No element with the given id exists in the model.");
 //        }
 //
-//        string[] NOMSupport::getBuiltinFunctionInfo(string var0)
+//        std::string[] NOMSupport::getBuiltinFunctionInfo(std::string var0)
 //        {
 //            for (int i = 0; i < _oPredefinedFunctions.Length; i++)
 //            {
@@ -2672,12 +2672,12 @@ void NOMSupport::fillStack(stack<string>& stack, SBMLSymbol& symbol)
 //                    return _oPredefinedFunctions[i];
 //            }
 //
-//            throw new Exception("Invalid string name. There is no inbuilt function with that name: " + var0);
+//            throw new Exception("Invalid std::string name. There is no inbuilt function with that name: " + var0);
 //        }
 //
-//        string[] NOMSupport::getBuiltinFunctions()
+//        std::string[] NOMSupport::getBuiltinFunctions()
 //        {
-//            string[] sResult = new string[_oPredefinedFunctions.Length];
+//            std::string[] sResult = new std::string[_oPredefinedFunctions.Length];
 //
 //            int i;
 //
@@ -2690,7 +2690,7 @@ void NOMSupport::fillStack(stack<string>& stack, SBMLSymbol& symbol)
 //
 //        }
 //
-//        string NOMSupport::getCompartmentIdBySpeciesId(string sId)
+//        std::string NOMSupport::getCompartmentIdBySpeciesId(std::string sId)
 //        {
 //            if (mModel == NULL)
 //            {
@@ -2705,7 +2705,7 @@ void NOMSupport::fillStack(stack<string>& stack, SBMLSymbol& symbol)
 //            return oSpecies.getCompartment();
 //        }
 //
-//        ArrayList NOMSupport::getDerivedUnitDefinition(string sId)
+//        ArrayList NOMSupport::getDerivedUnitDefinition(std::string sId)
 //        {
 //            if (mModel == NULL)
 //            {
@@ -2844,7 +2844,7 @@ void NOMSupport::fillStack(stack<string>& stack, SBMLSymbol& symbol)
 //        }
 //
 
-//        string NOMSupport::getModelId()
+//        std::string NOMSupport::getModelId()
 //        {
 //            if (mModel == NULL)
 //            {
@@ -2853,7 +2853,7 @@ void NOMSupport::fillStack(stack<string>& stack, SBMLSymbol& symbol)
 //            return getId(mModel);
 //        }
 //
-//        string NOMSupport::getNotes(string sId)
+//        std::string NOMSupport::getNotes(std::string sId)
 //        {
 //            if (mModel == NULL)
 //            {
@@ -2861,7 +2861,7 @@ void NOMSupport::fillStack(stack<string>& stack, SBMLSymbol& symbol)
 //                return "";
 //            }
 //
-//            string sResult = "";
+//            std::string sResult = "";
 //
 //            if (mModel->getId() == sId || mModel->getName() == sId)
 //            {
@@ -2927,7 +2927,7 @@ void NOMSupport::fillStack(stack<string>& stack, SBMLSymbol& symbol)
 //            //throw new Exception("Invalid id. No element with the given id exists in the model.");
 //        }
 //
-//        string NOMSupport::getNthBoundarySpeciesId(int nIndex)
+//        std::string NOMSupport::getNthBoundarySpeciesId(int nIndex)
 //        {
 //            if (mModel == NULL)
 //            {
@@ -2953,7 +2953,7 @@ void NOMSupport::fillStack(stack<string>& stack, SBMLSymbol& symbol)
 //            throw new Exception("The model does not have a boundary species corresponding to the index provided");
 //        }
 //
-//        string NOMSupport::getNthBoundarySpeciesName(int nIndex)
+//        std::string NOMSupport::getNthBoundarySpeciesName(int nIndex)
 //        {
 //            if (mModel == NULL)
 //            {
@@ -2979,7 +2979,7 @@ void NOMSupport::fillStack(stack<string>& stack, SBMLSymbol& symbol)
 //            throw new Exception("The model does not have a boundary species corresponding to the index provided");
 //        }
 //
-//        string NOMSupport::getNthCompartmentId(int nIndex)
+//        std::string NOMSupport::getNthCompartmentId(int nIndex)
 //        {
 //            if (mModel == NULL)
 //            {
@@ -2995,7 +2995,7 @@ void NOMSupport::fillStack(stack<string>& stack, SBMLSymbol& symbol)
 //            return getId(oCompartment);
 //        }
 //
-//        string NOMSupport::getNthCompartmentName(int nIndex)
+//        std::string NOMSupport::getNthCompartmentName(int nIndex)
 //        {
 //            if (mModel == NULL)
 //            {
@@ -3012,7 +3012,7 @@ void NOMSupport::fillStack(stack<string>& stack, SBMLSymbol& symbol)
 //        }
 //
 
-//        string NOMSupport::getNthFloatingSpeciesId(int nIndex)
+//        std::string NOMSupport::getNthFloatingSpeciesId(int nIndex)
 //        {
 //            if (mModel == NULL)
 //            {
@@ -3038,7 +3038,7 @@ void NOMSupport::fillStack(stack<string>& stack, SBMLSymbol& symbol)
 //            throw Exception("The model does not have a floating species corresponding to the index provided");
 //        }
 //
-//        string NOMSupport::getNthFloatingSpeciesName(int nIndex)
+//        std::string NOMSupport::getNthFloatingSpeciesName(int nIndex)
 //        {
 //            if (mModel == NULL)
 //            {
@@ -3064,7 +3064,7 @@ void NOMSupport::fillStack(stack<string>& stack, SBMLSymbol& symbol)
 //            throw Exception("The model does not have a floating species corresponding to the index provided");
 //        }
 //
-//        string NOMSupport::getNthGlobalParameterId(int nIndex)
+//        std::string NOMSupport::getNthGlobalParameterId(int nIndex)
 //        {
 //            if (mModel == NULL)
 //            {
@@ -3086,7 +3086,7 @@ void NOMSupport::fillStack(stack<string>& stack, SBMLSymbol& symbol)
 //            return getId(oParameter);
 //        }
 //
-//        string NOMSupport::getNthGlobalParameterName(int nIndex)
+//        std::string NOMSupport::getNthGlobalParameterName(int nIndex)
 //        {
 //            if (mModel == NULL)
 //            {
@@ -3150,7 +3150,7 @@ void NOMSupport::fillStack(stack<string>& stack, SBMLSymbol& symbol)
 //            for (int i = 0; i < numProducts; i++)
 //            {
 //                libsbmlcs.SpeciesReference product = r.getProduct(i);
-//                string stoichiometryMath = "";
+//                std::string stoichiometryMath = "";
 //                if (product.isSetStoichiometryMath() && product.getStoichiometryMath().isSetMath())
 //                    stoichiometryMath = libsbml.formulaToString(product.getStoichiometryMath().getMath());
 //                ArrayList oTemp = new ArrayList(); oTemp.add(product.getSpecies()); oTemp.add(product.getStoichiometry());
@@ -3179,7 +3179,7 @@ void NOMSupport::fillStack(stack<string>& stack, SBMLSymbol& symbol)
 //            for (int i = 0; i < numReactants; i++)
 //            {
 //                libsbmlcs.SpeciesReference reactant = r.getReactant(i);
-//                string stoichiometryMath = "";
+//                std::string stoichiometryMath = "";
 //                if (reactant.isSetStoichiometryMath() && reactant.getStoichiometryMath().isSetMath())
 //                    stoichiometryMath = libsbml.formulaToString(reactant.getStoichiometryMath().getMath());
 //                ArrayList oTemp = new ArrayList(); oTemp.add(reactant.getSpecies()); oTemp.add(reactant.getStoichiometry());
@@ -3213,7 +3213,7 @@ void NOMSupport::fillStack(stack<string>& stack, SBMLSymbol& symbol)
 //
 //        }
 //
-//        string NOMSupport::getNthParameterName(int nReactionIndex, int nParameterIndex)
+//        std::string NOMSupport::getNthParameterName(int nReactionIndex, int nParameterIndex)
 //        {
 //            if (mModel == NULL)
 //            {
@@ -3236,7 +3236,7 @@ void NOMSupport::fillStack(stack<string>& stack, SBMLSymbol& symbol)
 //            return kl.getParameter((int)nParameterIndex).getName();
 //        }
 //
-//        string NOMSupport::getNthProductName(int nIndex, int nProduct)
+//        std::string NOMSupport::getNthProductName(int nIndex, int nProduct)
 //        {
 //            if (mModel == NULL)
 //            {
@@ -3294,7 +3294,7 @@ void NOMSupport::fillStack(stack<string>& stack, SBMLSymbol& symbol)
 //            return oRef.getStoichiometry();
 //        }
 //
-//        string NOMSupport::getNthReactantName(int nIndex, int nReactant)
+//        std::string NOMSupport::getNthReactantName(int nIndex, int nReactant)
 //        {
 //            if (mModel == NULL)
 //            {
@@ -3351,7 +3351,7 @@ void NOMSupport::fillStack(stack<string>& stack, SBMLSymbol& symbol)
 //            return oRef.getStoichiometry();
 //        }
 //
-//        void NOMSupport::loadParameterPromotedSBML(string var0, string sTimeSymbol)
+//        void NOMSupport::loadParameterPromotedSBML(std::string var0, std::string sTimeSymbol)
 //        {
 //            loadSBML(var0);
 //            changeTimeSymbol(mModel, sTimeSymbol);
@@ -3362,14 +3362,14 @@ void NOMSupport::fillStack(stack<string>& stack, SBMLSymbol& symbol)
 //
 //        }
 //
-//        void loadFromFile(string fileName)
+//        void loadFromFile(std::string fileName)
 //        {
 //            loadSBML(File.ReadAllText(fileName));
 //        }
 //
 //        static Hashtable _symbolTable = new Hashtable();
 //
-//        int getSBOTerm(string sId)
+//        int getSBOTerm(std::string sId)
 //        {
 //            if (mModel == NULL)
 //            {
@@ -3421,7 +3421,7 @@ void NOMSupport::fillStack(stack<string>& stack, SBMLSymbol& symbol)
 //            var node = libsbml::readMathMLFromString(mathML);
 //
 //            System.Diagnostics.Debug.WriteLine(
-//                string.Format("Node Type: {0}, AST_NAME_TIME: {1}, AST_NAME: {2}, AST_NAME_AVOGADRO: {3}",
+//                std::string.Format("Node Type: {0}, AST_NAME_TIME: {1}, AST_NAME: {2}, AST_NAME_AVOGADRO: {3}",
 //                node.getType(),
 //                libsbml::AST_NAME_TIME,
 //                libsbml::AST_NAME,
@@ -3431,7 +3431,7 @@ void NOMSupport::fillStack(stack<string>& stack, SBMLSymbol& symbol)
 //        }
 //
 //
-//        double NOMSupport::getValue(string sId)
+//        double NOMSupport::getValue(std::string sId)
 //        {
 //            if (mModel == NULL)
 //            {
@@ -3489,10 +3489,10 @@ void NOMSupport::fillStack(stack<string>& stack, SBMLSymbol& symbol)
 //            }
 //
 //
-//            throw Exception("Invalid string name. The id '" + sId + "' does not exist in the model");
+//            throw Exception("Invalid std::string name. The id '" + sId + "' does not exist in the model");
 //        }
 //
-//        bool NOMSupport::hasInitialAmount(string sId)
+//        bool NOMSupport::hasInitialAmount(std::string sId)
 //        {
 //            if (mModel == NULL)
 //            {
@@ -3503,11 +3503,11 @@ void NOMSupport::fillStack(stack<string>& stack, SBMLSymbol& symbol)
 //            if (oSpecies != NULL)
 //                return oSpecies.isSetInitialAmount();
 //
-//            throw Exception("Invalid string name. The name is not a valid id/name of a floating / boundary species.");
+//            throw Exception("Invalid std::string name. The name is not a valid id/name of a floating / boundary species.");
 //
 //        }
 //
-//        bool NOMSupport::hasInitialConcentration(string sId)
+//        bool NOMSupport::hasInitialConcentration(std::string sId)
 //        {
 //            if (mModel == NULL)
 //            {
@@ -3518,10 +3518,10 @@ void NOMSupport::fillStack(stack<string>& stack, SBMLSymbol& symbol)
 //            if (oSpecies != NULL)
 //                return oSpecies.isSetInitialConcentration();
 //
-//            throw Exception("Invalid string name. The name is not a valid id/name of a floating / boundary species.");
+//            throw Exception("Invalid std::string name. The name is not a valid id/name of a floating / boundary species.");
 //        }
 //
-//        bool NOMSupport::hasSBOTerm(string sId)
+//        bool NOMSupport::hasSBOTerm(std::string sId)
 //        {
 //            if (mModel == NULL)
 //            {
@@ -3562,7 +3562,7 @@ void NOMSupport::fillStack(stack<string>& stack, SBMLSymbol& symbol)
 //
 //        }
 //
-//        bool NOMSupport::hasValue(string sId)
+//        bool NOMSupport::hasValue(std::string sId)
 //        {
 //            if (mModel == NULL)
 //            {
@@ -3588,10 +3588,10 @@ void NOMSupport::fillStack(stack<string>& stack, SBMLSymbol& symbol)
 //                return oParameter.isSetValue();
 //            }
 //
-//            throw Exception("Invalid string name. The id '" + sId + "' does not exist in the model");
+//            throw Exception("Invalid std::string name. The id '" + sId + "' does not exist in the model");
 //        }
 //
-//        bool NOMSupport::isConstantImpl(string sId)
+//        bool NOMSupport::isConstantImpl(std::string sId)
 //        {
 //            if (mModel == NULL)
 //            {
@@ -3602,7 +3602,7 @@ void NOMSupport::fillStack(stack<string>& stack, SBMLSymbol& symbol)
 //            if (oSpecies != NULL)
 //                return oSpecies.getConstant();
 //
-//            throw Exception("Invalid string name. The name is not a valid id/name of a floating / boundary species.");
+//            throw Exception("Invalid std::string name. The name is not a valid id/name of a floating / boundary species.");
 //        }
 //
 //        bool NOMSupport::isReactionReversible(int nIndex)
@@ -3623,7 +3623,7 @@ void NOMSupport::fillStack(stack<string>& stack, SBMLSymbol& symbol)
 //            return r.getReversible();
 //        }
 
-//        string NOMSupport::getOutsideCompartment(string var0)
+//        std::string NOMSupport::getOutsideCompartment(std::string var0)
 //        {
 //            if (mModel == NULL)
 //            {
@@ -3641,7 +3641,7 @@ void NOMSupport::fillStack(stack<string>& stack, SBMLSymbol& symbol)
 //        }
 //
 
-//        string NOMSupport::validateWithConsistency(string sModel)
+//        std::string NOMSupport::validateWithConsistency(std::string sModel)
 //        {
 //            SBMLDocument oDoc = libsbml::readSBMLFromString(sModel);
 //            if (oDoc.getNumErrors() + oDoc.checkConsistency() > 0)
@@ -3659,115 +3659,115 @@ void NOMSupport::fillStack(stack<string>& stack, SBMLSymbol& symbol)
 //
 //        #region Pre Defined Functions
 //
-//        static string[][] _oPredefinedFunctions = new string[][]
+//        static std::string[][] _oPredefinedFunctions = new std::string[][]
 //
 //    {
-//        new string[]{ "massi1", "Irreversible Mass Action Kinetics for 1 substrate", "S", "k", "k * S" },
-//        new string[]{ "massi2", "Irreversible Mass Action Kinetics for 2 substrates", "S1", "S2", "k", "k * S1 * S2" },
-//        new string[]{ "massi3", "Irreversible Mass Action Kinetics for 3 substrates", "S1", "S2", "S3", "k", "k * S1 * S2 * S3" },
-//        new string[]{
+//        new std::string[]{ "massi1", "Irreversible Mass Action Kinetics for 1 substrate", "S", "k", "k * S" },
+//        new std::string[]{ "massi2", "Irreversible Mass Action Kinetics for 2 substrates", "S1", "S2", "k", "k * S1 * S2" },
+//        new std::string[]{ "massi3", "Irreversible Mass Action Kinetics for 3 substrates", "S1", "S2", "S3", "k", "k * S1 * S2 * S3" },
+//        new std::string[]{
 //                        "massr11", "Reversible Mass Action Kinetics for 1 substrate and 1 product", "S", "P", "k_1", "k_2",
 //                        "k_1 * S - k_2 * P"},
-//        new string[]{
+//        new std::string[]{
 //                        "massr12", "Reversible Mass Action Kinetics for 1 substrate and 2 products", "S", "P1", "P2", "k_1", "k_2",
 //                        "k_1 * S - k_2 * P1 * P2"},
-//        new string[]{
+//        new std::string[]{
 //                        "massr13", "Reversible Mass Action Kinetics for 1 substrate and 3 products", "S", "P1", "P2", "P3", "k_1", "k_2",
 //                        "k_1 * S - k_2 * P1 * P2 * P3"},
-//        new string[]{
+//        new std::string[]{
 //                        "massr21", "Reversible Mass Action Kinetics for 2 substrates and 1 product", "S1", "S2", "P", "k_1", "k_2",
 //                        "k_1 * S1 * S2 - k_2 * P"},
-//        new string[]{
+//        new std::string[]{
 //                        "massr22", "Reversible Mass Action Kinetics for 2 substrates and 2 products", "S1", "S2", "P1", "P2", "k_1", "k_2",
 //                        "k_1 * S1 * S2 - k_2 * P1 * P2"},
-//        new string[]{
+//        new std::string[]{
 //                        "massr23", "Reversible Mass Action Kinetics for 2 substrates and 3 products", "S1", "S2", "P1", "P2", "P3", "k_1", "k_2",
 //                        "k_1 * S1 * S2 - k_2 * P1 * P2 * P3"},
-//        new string[]{
+//        new std::string[]{
 //                        "massr31", "Reversible Mass Action Kinetics for 3 substrates and 1 product", "S1", "S2", "S3", "P", "k_1", "k_2",
 //                        "k_1 * S1 * S2 * S3 - k_2 * P"},
-//        new string[]{
+//        new std::string[]{
 //                        "massr32", "Reversible Mass Action Kinetics for 3 substrates and 2 products", "S1", "S2", "S3", "P1", "P2", "k_1", "k_2",
 //                        "k_1 * S1 * S2 * S3 - k_2 * P1 * P2"},
-//        new string[]{
+//        new std::string[]{
 //                        "massr33", "Reversible Mass Action Kinetics for 3 substrates and 3 products", "S1", "S2", "S3", "P1", "P2", "P3", "k_1", "k_2",
 //                        "k_1 * S1 * S2 * S3 - k_2 * P1 * P2 * P3"},
-//        new string[]{ "uui", "Irreversible Simple Michaelis-Menten ", "S", "V_m", "K_m", "(V_m * S)/(K_m + S)" },
-//        new string[]{
+//        new std::string[]{ "uui", "Irreversible Simple Michaelis-Menten ", "S", "V_m", "K_m", "(V_m * S)/(K_m + S)" },
+//        new std::string[]{
 //                        "uur", "Uni-Uni Reversible Simple Michaelis-Menten", "S", "P", "V_f", "V_r", "K_ms", "K_mp",
 //                        "(V_f * S / K_ms - V_r * P / K_mp)/(1 + S / K_ms +  P / K_mp)"},
-//        new string[]{
+//        new std::string[]{
 //                        "uuhr", "Uni-Uni Reversible Simple Michaelis-Menten with Haldane adjustment", "S", "P", "V_f", "K_m1", "K_m2", "K_eq",
 //                        "( V_f / K_m1 * (S - P / K_eq ))/(1 + S / K_m1 + P / K_m2)"},
-//        new string[]{
+//        new std::string[]{
 //                        "isouur", "Iso Uni-Uni", "S", "P", "V_f", "K_ms", "K_mp", "K_ii", "K_eq",
 //                        "(V_f * (S - P / K_eq ))/(S * (1 + P / K_ii ) + K_ms * (1 + P / K_mp))"},
-//        new string[]{ "hilli", "Hill Kinetics", "S", "V", "S_0_5", "h", "(V * pow(S,h))/(pow(S_0_5,h) + pow(S,h))"},
-//        new string[]{
+//        new std::string[]{ "hilli", "Hill Kinetics", "S", "V", "S_0_5", "h", "(V * pow(S,h))/(pow(S_0_5,h) + pow(S,h))"},
+//        new std::string[]{
 //                        "hillr", "Reversible Hill Kinetics", "S", "P", "V_f", "S_0_5", "P_0_5", "h", "K_eq",
 //                        "(V_f * (S / S_0_5) * (1 - P / (S * K_eq) ) * pow(S / S_0_5 + P / P_0_5, h-1))/(1 + pow(S / S_0_5 + P / P_0_5, h))"},
-//        new string[]{
+//        new std::string[]{
 //                        "hillmr", "Reversible Hill Kinetics with One Modifier", "S", "M", "P", "V_f", "K_eq", "k", "h", "alpha",
 //                        "(V_f * (S / S_0_5) * (1 - P / (S * K_eq) ) * pow(S / S_0_5 + P / P_0_5, h-1))/( pow(S / S_0_5 + P / P_0_5, h) + (1 + pow(M / M_0_5, h))/(1 + alpha * pow(M/M_0_5,h)))"},
-//        new string[]{
+//        new std::string[]{
 //                        "hillmmr", "Reversible Hill Kinetics with Two Modifiers", "S", "P", "M", "V_f", "K_eq", "k", "h", "a", "b", "alpha_1", "alpha_2", "alpha_12",
 //                        "(V_f * (S / S_0_5) * (1 - P / (S * K_eq) ) * pow(S / S_0_5 + P / P_0_5, h-1)) / (pow(S / S_0_5 + P / P_0_5, h) + ((1 + pow(Ma/Ma_0_5,h) + pow(Mb/Mb_0_5,h))/( 1 + alpha_1 * pow(Ma/Ma_0_5,h) + alpha_2 * pow(Mb/Mb_0_5,h) + alpha_1 * alpha_2 * alpha_12 * pow(Ma/Ma_0_5,h) * pow(Mb/Mb_0_5,h))))"},
-//        new string[]{ "usii", "Substrate Inhibition Kinetics (Irreversible)", "S", "V", "K_m", "K_i", "V*(S/K_m)/(1 + S/K_m + sqr(S)/K_i)"},
-//        new string[]{
+//        new std::string[]{ "usii", "Substrate Inhibition Kinetics (Irreversible)", "S", "V", "K_m", "K_i", "V*(S/K_m)/(1 + S/K_m + sqr(S)/K_i)"},
+//        new std::string[]{
 //                        "usir", "Substrate Inhibition Kinetics (Reversible)", "S", "P", "V_f", "V_r", "K_ms", "K_mp", "K_i",
 //                        "(V_f*S/K_ms + V_r*P/K_mp)/(1 + S/K_ms + P/K_mp + sqr(S)/K_i)"},
-//        new string[]{ "usai", "Substrate Activation", "S", "V", "K_sa", "K_sc", "V * sqr(S/K_sa)/(1 + S/K_sc + sqr(S/K_sa) + S/K_sa)"},
-//        new string[]{ "ucii", "Competitive Inhibition (Irreversible)", "S", "V", "K_m", "K_i", "(V * S/K_m)/(1 + S/K_m + I/K_i)"},
-//        new string[]{
+//        new std::string[]{ "usai", "Substrate Activation", "S", "V", "K_sa", "K_sc", "V * sqr(S/K_sa)/(1 + S/K_sc + sqr(S/K_sa) + S/K_sa)"},
+//        new std::string[]{ "ucii", "Competitive Inhibition (Irreversible)", "S", "V", "K_m", "K_i", "(V * S/K_m)/(1 + S/K_m + I/K_i)"},
+//        new std::string[]{
 //                        "ucir", "Competitive Inhibition (Reversible)", "S", "P", "V_f", "V_r", "K_ms", "K_mp", "K_i",
 //                        "(V_f*S/K_ms - V_r*P/K_mp)/(1 + S/K_ms + P/K_mp + I/K_i)"},
-//        new string[]{ "unii", "Noncompetitive Inhibition (Irreversible)", "S", "I", "V", "K_m", "K_i", "(V*S/K_m)/(1 + I/K_i + (S/K_m)*(1 + I/K_i))"},
-//        new string[]{
+//        new std::string[]{ "unii", "Noncompetitive Inhibition (Irreversible)", "S", "I", "V", "K_m", "K_i", "(V*S/K_m)/(1 + I/K_i + (S/K_m)*(1 + I/K_i))"},
+//        new std::string[]{
 //                        "unir", "Noncompetitive Inhibition (Reversible)", "S", "P", "I", "V_f", "K_ms", "K_mp", "K_i",
 //                        "(V_f*S/K_ms - V_r*P/K_mp)/(1 + I/K_i + (S/K_ms + P/K_mp )*(1 + I/K_i))"},
-//        new string[]{ "uuci", "Uncompetitive Inhibition (Irreversible)", "S", "I", "V", "K_m", "K_i", "(V*S/K_m)/(1 + (S/K_m)*(1 + I/K_i))"},
-//        new string[]{
+//        new std::string[]{ "uuci", "Uncompetitive Inhibition (Irreversible)", "S", "I", "V", "K_m", "K_i", "(V*S/K_m)/(1 + (S/K_m)*(1 + I/K_i))"},
+//        new std::string[]{
 //                        "uucr", "Uncompetitive Inhibition (Reversible)", "S", "P", "I", "V_f", "V_r", "K_ms", "K_mp", "K_i",
 //                        "(V_f*S/K_ms - V_r*P/K_mp)/(1 + ( S/K_ms + P/K_mp )*( 1 + I/K_i))"},
-//        new string[]{
+//        new std::string[]{
 //                        "umi", "Mixed Inhibition Kinetics (Irreversible)", "S", "I", "V", "K_m", "K_is", "K_ic",
 //                        "(V*S/K_m)/(1 + I/K_is + (S/K_m)*(1 + I/K_ic))"},
-//        new string[]{
+//        new std::string[]{
 //                        "umr", "Mixed Inhibition Kinetics (Reversible)", "S", "P", "I", "V_f", "V_r", "K_ms", "K_mp", "K_is", "K_ic",
 //                        "(V_f*S/K_ms - V_r*P/K_mp)/(1 + I/K_is + ( S/K_ms + P/K_mp )*( 1 + I/K_ic ))"},
-//        new string[]{ "uai", "Specific Activation Kinetics - irreversible", "S", "A_c", "V", "K_m", "K_a", "(V*S/K_m)/(1 + S/K_m + K_a/A_c)"},
-//        new string[]{
+//        new std::string[]{ "uai", "Specific Activation Kinetics - irreversible", "S", "A_c", "V", "K_m", "K_a", "(V*S/K_m)/(1 + S/K_m + K_a/A_c)"},
+//        new std::string[]{
 //                        "uar", "Specific Activation Kinetics (Reversible)", "S", "P", "A_c", "V_f", "V_r", "K_ms", "K_mp", "K_a",
 //                        "(V_f*S/K_ms - V_r*P/K_mp)/(1 + S/K_ms + P/K_mp + K_a/A_c)"},
-//        new string[]{ "ucti", "Catalytic Activation (Irreversible)", "S", "A_c", "V", "K_m", "K_a", "(V*S/K_m)/(1 + K_a/A_c + (S/K_m)*(1 + K_a/A_c))"},
-//        new string[]{
+//        new std::string[]{ "ucti", "Catalytic Activation (Irreversible)", "S", "A_c", "V", "K_m", "K_a", "(V*S/K_m)/(1 + K_a/A_c + (S/K_m)*(1 + K_a/A_c))"},
+//        new std::string[]{
 //                        "uctr", "Catalytic Activation (Reversible)", "S", "P", "A_c", "V_f", "V_r", "K_ms", "K_mp", "K_a",
 //                        "(V_f*S/K_ms - V_r*P/K_mp)/(1 + K_a/A_c + (S/K_ms + P/K_mp)*(1 + K_a/A_c))"},
-//        new string[]{
+//        new std::string[]{
 //                        "umai", "Mixed Activation Kinetics (Irreversible)", "S", "A_c", "V", "K_m", "Kas", "Kac",
 //                        "(V*S/K_m)/(1 + Kas/A_c + (S/K_m)*(1 + Kac/A_c))"},
-//        new string[]{
+//        new std::string[]{
 //                        "umar", "Mixed Activation Kinetics (Reversible)", "S", "P", "A_c", "V_f", "V_r", "K_ms", "K_mp", "K_as", "K_ac",
 //                        "(V_f*S/K_ms - V_r*P/K_mp)/(1 + K_as/A_c + (S/K_ms + P/K_mp)*(1 + K_ac/A_c))"},
-//        new string[]{
+//        new std::string[]{
 //                        "uhmi", "General Hyperbolic Modifier Kinetics (Irreversible)", "S", "M", "V", "K_m", "K_d", "a", "b",
 //                        "(V*(S/K_m)*(1 + b * M / (a*K_d)))/(1 + M/K_d + (S/K_m)*(1 + M/(a*K_d)))"},
-//        new string[]{
+//        new std::string[]{
 //                        "uhmr", "General Hyperbolic Modifier Kinetics (Reversible)", "S", "P", "M", "V_f", "V_r", "K_ms", "K_mp", "K_d", "a", "b",
 //                        "((V_f*S/K_ms - V_r*P/K_mp)*(1 + b*M/(a*K_d)))/(1 + M/K_d + (S/K_ms + P/K_mp)*(1 + M/(a*K_d)))"},
-//        new string[]{
+//        new std::string[]{
 //                        "ualii", "Allosteric inhibition (Irreversible)", "S", "I", "V", "K_s", "K_ii", "n", "L",
 //                        "(V*pow(1 + S/K_s, n-1))/(L*pow(1 + I/K_ii,n) + pow(1 + S/K_s,n))"},
-//        new string[]{
+//        new std::string[]{
 //                        "ordubr", "Ordered Uni Bi Kinetics", "A", "P", "Q", "V_f", "V_r", "K_ma", "K_mq", "K_mp", "K_ip", "K_eq",
 //                        "(V_f*( A - P*Q/K_eq))/(K_ma + A*(1 + P/K_ip) + (V_f/(V_r*K_eq))*(K_mq*P + K_mp*Q + P*Q))"},
-//        new string[]{
+//        new std::string[]{
 //                        "ordbur", "Ordered Bi Uni Kinetics", "A", "B", "P", "V_f", "V_r", "K_ma", "Kmb", "K_mp", "K_ia", "K_eq",
 //                        "(V_f*(A*B - P/K_eq))/(A*B + K_ma*B + Kmb*A + (V_f/(V_r*K_eq))*(K_mp + P*(1 + A/K_ia)))"},
-//        new string[]{
+//        new std::string[]{
 //                        "ordbbr", "Ordered Bi Bi Kinetics", "A", "B", "P", "Q", "V_f", "K_ma", "K_mb", "K_mp", "K_ia", "K_ib", "K_ip", "K_eq",
 //                        "(V_f*(A*B - P*Q/K_eq))/(A*B*(1 + P/K_ip) + K_mb*(A + K_ia) + K_ma*B + ((V_f / (V_r*K_eq)) * (K_mq*P*( 1 + A/K_ia) + Q*(K_mp*( 1 + (K_ma*B)/(K_ia*K_mb) + P*(1 + B/K_ib))))))"},
-//        new string[]{
+//        new std::string[]{
 //                        "ppbr", "Ping Pong Bi Bi Kinetics", "A", "B", "P", "Q", "V_f", "V_r", "K_ma", "K_mb", "K_mp", "K_mq", "K_ia", "K_iq", "K_eq",
 //                        "(V_f*(A*B - P*Q/K_eq))/(A*B + K_mb*A + K_ma*B*(1 + Q/K_iq) + ((V_f/(V_r*K_eq))*(K_mq*P*(1 + A/K_ia) + Q*(K_mp + P))))"}};
 //
@@ -3796,7 +3796,7 @@ void NOMSupport::fillStack(stack<string>& stack, SBMLSymbol& symbol)
 //        /// </summary>
 //        /// <param name="sId">the id to check</param>
 //        /// <returns>true if element is a species, false otherwise</returns>
-//        bool NOMSupport::IsSpecies (string sId)
+//        bool NOMSupport::IsSpecies (std::string sId)
 //        {
 //            var temp = mModel->getSpecies(sId);
 //            if (temp != NULL) return true;
@@ -3808,7 +3808,7 @@ void NOMSupport::fillStack(stack<string>& stack, SBMLSymbol& symbol)
 //        /// </summary>
 //        /// <param name="sId">the id to check</param>
 //        /// <returns>true if element is a floating species, false otherwise</returns>
-//        bool NOMSupport::IsFloating(string sId)
+//        bool NOMSupport::IsFloating(std::string sId)
 //        {
 //            var temp = mModel->getSpecies(sId);
 //            if (temp != NULL && temp.getBoundaryCondition() == false) return true;
@@ -3820,7 +3820,7 @@ void NOMSupport::fillStack(stack<string>& stack, SBMLSymbol& symbol)
 //        /// </summary>
 //        /// <param name="sId">the sbml id for the element to find</param>
 //        /// <returns>the element with the given sbml id</returns>
-//        SBase NOMSupport::getElement(string sId)
+//        SBase NOMSupport::getElement(std::string sId)
 //        {
 //            if (mModel == NULL)
 //            {
@@ -3873,11 +3873,11 @@ void NOMSupport::fillStack(stack<string>& stack, SBMLSymbol& symbol)
 //
 //
 //
-//            throw Exception("Invalid string name. The id '" + sId + "' does not exist in the model");
+//            throw Exception("Invalid std::string name. The id '" + sId + "' does not exist in the model");
 //        }
 
 //
-//        string NOMSupport::addSourceSinkNodes(string sbml)
+//        std::string NOMSupport::addSourceSinkNodes(std::string sbml)
 //        {
 //            SBMLDocument doc = libsbml::readSBMLFromString(sbml);
 //
@@ -3974,7 +3974,7 @@ void NOMSupport::fillStack(stack<string>& stack, SBMLSymbol& symbol)
 //            return false;
 //        }
 //
-//        string NOMSupport::addEmptySetNodes(string sbml)
+//        std::string NOMSupport::addEmptySetNodes(std::string sbml)
 //        {
 //            SBMLDocument doc = libsbml::readSBMLFromString(sbml);
 //
@@ -4032,7 +4032,7 @@ void NOMSupport::fillStack(stack<string>& stack, SBMLSymbol& symbol)
 //            return libsbml::writeSBMLToString(doc);
 //        }
 //
-//        string NOMSupport::addEmptySetNode(string sbml)
+//        std::string NOMSupport::addEmptySetNode(std::string sbml)
 //        {
 //            SBMLDocument doc = libsbml::readSBMLFromString(sbml);
 //
@@ -4076,10 +4076,10 @@ void NOMSupport::fillStack(stack<string>& stack, SBMLSymbol& symbol)
 //            return libsbml::writeSBMLToString(doc);
 //        }
 //
-//        string NOMSupport::RemoveJD2Layout(string sSBML)
+//        std::string NOMSupport::RemoveJD2Layout(std::string sSBML)
 //        {
 //            int jdStart = sSBML.IndexOf("<jd2:JDesignerLayout");
-//            string endTag = "</jd2:JDesignerLayout>";
+//            std::string endTag = "</jd2:JDesignerLayout>";
 //            int jdEnd = sSBML.IndexOf(endTag);
 //
 //            if (jdEnd != -1)
@@ -4087,7 +4087,7 @@ void NOMSupport::fillStack(stack<string>& stack, SBMLSymbol& symbol)
 //            return sSBML;
 //        }
 //
-//        string NOMSupport::RemoveJD1Layout(string sSBML)
+//        std::string NOMSupport::RemoveJD1Layout(std::string sSBML)
 //        {
 //            XmlDocument doc = new XmlDocument();
 //            doc.LoadXml(sSBML);
@@ -4104,7 +4104,7 @@ void NOMSupport::fillStack(stack<string>& stack, SBMLSymbol& symbol)
 //            }
 //
 //
-//            string result;
+//            std::string result;
 //            using (MemoryStream stream = new MemoryStream())
 //            {
 //                XmlWriterSettings settingsVariable = new XmlWriterSettings();
@@ -4123,7 +4123,7 @@ void NOMSupport::fillStack(stack<string>& stack, SBMLSymbol& symbol)
 //            return result.Replace("UTF-16", "utf-8");
 //        }
 //
-//        string NOMSupport::RemoveLayoutInformation(string sSBML)
+//        std::string NOMSupport::RemoveLayoutInformation(std::string sSBML)
 //        {
 //            sSBML = RemoveJD2Layout(sSBML);
 //            sSBML = RemoveJD1Layout(sSBML);

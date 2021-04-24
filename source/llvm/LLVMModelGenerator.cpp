@@ -228,8 +228,8 @@ ExecutableModel* LLVMModelGenerator::regenerateModel(ExecutableModel* oldModel, 
 	if (!objectFileExpected) {
 		//LS DEBUG:  find a way to get the text out of the error.
 		auto err = objectFileExpected.takeError();
-		string s = "LLVM object supposed to be file, but is not.";
-		Log(Logger::LOG_FATAL) << s;
+		std::string s = "LLVM object supposed to be file, but is not.";
+		rrLog(Logger::LOG_FATAL) << s;
 		throw_llvm_exception(s);
 	}
 
@@ -378,7 +378,7 @@ context.getExecutionEngine().getFunctionAddress("setGlobalParameter");
 
 		LLVMModelData_free(modelData);
 
-		Log(Logger::LOG_FATAL) << s.str();
+		rrLog(Logger::LOG_FATAL) << s.str();
 
 		throw_llvm_exception(s.str());
 	}
@@ -399,7 +399,7 @@ context.getExecutionEngine().getFunctionAddress("setGlobalParameter");
 
 		for (int i = 0; i < oldModel->getNumFloatingSpecies(); i++)
 		{
-			string id = oldModel->getFloatingSpeciesId(i);
+			std::string id = oldModel->getFloatingSpeciesId(i);
 			int index = newModel->getFloatingSpeciesIndex(id);
 
 			if (index >= 0 && index < newModel->modelData->numInitFloatingSpecies)
@@ -422,7 +422,7 @@ context.getExecutionEngine().getFunctionAddress("setGlobalParameter");
 
 		for (int i = 0; i < oldModel->getNumFloatingSpecies(); i++)
 		{
-			string id = oldModel->getFloatingSpeciesId(i);
+			std::string id = oldModel->getFloatingSpeciesId(i);
 			int index = newModel->getFloatingSpeciesIndex(id);
 
 			if (index >= 0 && index < newModel->modelData->numIndFloatingSpecies)
@@ -441,7 +441,7 @@ context.getExecutionEngine().getFunctionAddress("setGlobalParameter");
 				else if (newModel->symbols->hasRateRule(id))
 				{
 					// copy to rate rule value data block
-					std::vector<string>::iterator it = std::find(newSymbols.begin(), newSymbols.end(), id);
+					std::vector<std::string>::iterator it = std::find(newSymbols.begin(), newSymbols.end(), id);
 					if (it != newSymbols.end())
 					{
 						// found it
@@ -458,7 +458,7 @@ context.getExecutionEngine().getFunctionAddress("setGlobalParameter");
 
 		for (int i = 0; i < oldModel->getNumBoundarySpecies(); i++)
 		{
-			string id = oldModel->getBoundarySpeciesId(i);
+			std::string id = oldModel->getBoundarySpeciesId(i);
 			int index = newModel->getBoundarySpeciesIndex(id);
 
 			// TODO: set concentration or amount?
@@ -478,7 +478,7 @@ context.getExecutionEngine().getFunctionAddress("setGlobalParameter");
 				else if (newModel->symbols->hasRateRule(id))
 				{
 					// copy to rate rule value data block
-					std::vector<string>::iterator it = std::find(newSymbols.begin(), newSymbols.end(), id);
+					std::vector<std::string>::iterator it = std::find(newSymbols.begin(), newSymbols.end(), id);
 					if (it != newSymbols.end())
 					{
 						// found it
@@ -493,7 +493,7 @@ context.getExecutionEngine().getFunctionAddress("setGlobalParameter");
 
 		for (int i = 0; i < oldModel->getNumCompartments(); i++)
 		{
-			string id = oldModel->getCompartmentId(i);
+			std::string id = oldModel->getCompartmentId(i);
 			int index = newModel->getCompartmentIndex(id);
 
 			if (index >= 0 && index < newModel->modelData->numInitCompartments)
@@ -520,7 +520,7 @@ context.getExecutionEngine().getFunctionAddress("setGlobalParameter");
 
 		for (int i = 0; i < oldModel->getNumCompartments(); i++)
 		{
-			string id = oldModel->getCompartmentId(i);
+			std::string id = oldModel->getCompartmentId(i);
 			int index = newModel->getCompartmentIndex(id);
 
 			if (index >= 0 && index < newModel->modelData->numIndCompartments)
@@ -537,7 +537,7 @@ context.getExecutionEngine().getFunctionAddress("setGlobalParameter");
 				else if (newModel->symbols->hasRateRule(id))
 				{
 					// copy to rate rule value data block
-					std::vector<string>::iterator it = std::find(newSymbols.begin(), newSymbols.end(), id);
+					std::vector<std::string>::iterator it = std::find(newSymbols.begin(), newSymbols.end(), id);
 					if (it != newSymbols.end())
 					{
 						// found it
@@ -553,7 +553,7 @@ context.getExecutionEngine().getFunctionAddress("setGlobalParameter");
 
 		for (int i = 0; i < oldModel->getNumGlobalParameters(); i++)
 		{
-			string id = oldModel->getGlobalParameterId(i);
+			std::string id = oldModel->getGlobalParameterId(i);
 			int index = newModel->getGlobalParameterIndex(id);
 
 			if (index >= 0 && index < newModel->modelData->numInitGlobalParameters)
@@ -580,7 +580,7 @@ context.getExecutionEngine().getFunctionAddress("setGlobalParameter");
 
 		for (int i = 0; i < oldModel->getNumGlobalParameters(); i++)
 		{
-			string id = oldModel->getGlobalParameterId(i);
+			std::string id = oldModel->getGlobalParameterId(i);
 			int index = newModel->getGlobalParameterIndex(id);
 
 			if (index >= 0 && index < newModel->modelData->numIndGlobalParameters)
@@ -599,7 +599,7 @@ context.getExecutionEngine().getFunctionAddress("setGlobalParameter");
 				else if (newModel->symbols->hasRateRule(id))
 				{
 					// copy to rate rule value data block
-					std::vector<string>::iterator it = std::find(newSymbols.begin(), newSymbols.end(), id);
+					std::vector<std::string>::iterator it = std::find(newSymbols.begin(), newSymbols.end(), id);
 					if (it != newSymbols.end())
 					{
 						// found it
@@ -626,7 +626,7 @@ ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml,
 {
     bool forceReCompile = options & LoadSBMLOptions::RECOMPILE;
 
-    string md5;
+    std::string md5;
 
     if (!forceReCompile)
     {
@@ -656,12 +656,12 @@ ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml,
 
         if (sp)
         {
-            Log(Logger::LOG_DEBUG) << "found a cached model for " << md5;
+            rrLog(Logger::LOG_DEBUG) << "found a cached model for " << md5;
             return new LLVMExecutableModel(sp, createModelData(*sp->symbols, sp->random));
         }
         else
         {
-            Log(Logger::LOG_TRACE) << "no cached model found for " << md5
+            rrLog(Logger::LOG_TRACE) << "no cached model found for " << md5
                     << ", creating new one";
         }
     }
@@ -800,8 +800,8 @@ ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml,
 	if (!objectFileExpected) {
 		//LS DEBUG:  find a way to get the text out of the error.
 		auto err = objectFileExpected.takeError();
-		string s = "LLVM object supposed to be file, but is not.";
-		Log(Logger::LOG_FATAL) << s;
+		std::string s = "LLVM object supposed to be file, but is not.";
+		rrLog(Logger::LOG_FATAL) << s;
 		throw_llvm_exception(s);
 	}
 
@@ -953,7 +953,7 @@ ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml,
 
         LLVMModelData_free(modelData);
 
-        Log(Logger::LOG_FATAL) << s.str();
+        rrLog(Logger::LOG_FATAL) << s.str();
 
         throw_llvm_exception(s.str());
     }
@@ -981,7 +981,7 @@ ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml,
         {
             if (j->second.expired())
             {
-                Log(Logger::LOG_DEBUG) <<
+                rrLog(Logger::LOG_DEBUG) <<
                         "removing expired model resource for hash " << md5;
 
                 j = cachedModels.erase(j);
@@ -994,7 +994,7 @@ ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml,
 
         if ((i = cachedModels.find(md5)) == cachedModels.end())
         {
-            Log(Logger::LOG_DEBUG) << "could not find existing cached resource "
+            rrLog(Logger::LOG_DEBUG) << "could not find existing cached resource "
                     "resources, for hash " << md5 <<
                     ", inserting new resources into cache";
 

@@ -1,0 +1,85 @@
+,0
+[SBML],37
+[Unscaled Elasticity Matrix],27
+[Full Jacobian],27
+[Steady State Fluxes],27
+[Get Steady State Selection List],27
+[Stoichiometry Matrix],26
+[Eigenvalue Matrix],26
+[Individual Eigenvalues],26
+[Species Concentrations],26
+[Link Matrix],25
+[Scaled Concentration Control Matrix],25
+[Get Reaction Rates],25
+[Set Steady State Selection List],25
+[Scaled Flux Control Matrix],24
+[Scaled Elasticity Matrix],24
+[Unscaled Concentration Control Matrix],23
+[Unscaled Flux Control Matrix],23
+[Reduced Jacobian],15
+[Reduced Eigenvalue Matrix],12
+[Reduced Stoichiometry Matrix],11
+[Get Global Parameter Values],10
+[Get Rates Of Change],10
+[Get Species Initial Concentrations By Index],10
+[Number of Dependent Species],10
+[Floating Species Ids],10
+[Global Parameter Ids],10
+[Compartment Ids],10
+[Reaction Ids],10
+[Number Of Rate Rules],10
+[Number of Independent Species],10
+[Get Control Coefficient],9
+[Get Reaction Rates By Index],9
+[Check RK4 Output],9
+[Check RK45 Output],9
+[Set Species Initial Concentrations],9
+[Get Rates Of Change Ids],9
+[Set Species Initial Concentrations By Index],9
+[Boundary Species Ids],8
+[Species Initial Concentration Ids],8
+[Get Rates of Change Ex],8
+[Get Reaction Rates Ex],8
+[Boundary Species Concentrations],8
+[Test Reset],7
+[Test ResetAll],7
+[Get Rates of Change By Index],7
+[Test ResetToOrigin],7
+[Test SetValues],7
+[Set Time Course Selection List],7
+[Floating Species Concentrations],7
+[Get Time Course Selection List],7
+[Get Steady State Selection List 2],7
+[Set Steady State Selection List 2],7
+[Get Eigenvalue Ids],7
+[Get Initial Floating Species Concs],7
+[Compute Steady State Values],7
+[Set Boundary],2
+[Remove Rule],1
+[Amount/Concentration Jacobians],1
+[Conservation Laws],1
+[Remove Parameter],1
+[Check Monotonic Timepoints],1
+[Check Event Pre and Postfire Timepoints],1
+[Add Reaction],1
+[Eigenvalue Amount Matrix],0
+[Remove Compartment],0
+[Check Simulate Points vs Steps],0
+[Remove Species],0
+[Check Default Time Step],0
+[Set Kinetic Law],0
+[Scaled Elasticity Amount Matrix],0
+[Unscaled Elasticity Amount Matrix],0
+[Gillespie Value],0
+[Individual Amount Eigenvalues],0
+[Amount Jacobian],0
+[Gillespie Fixed Time Interval],0
+[Gillespie Seed],0
+[Set Scalar Concentration Absolute Tolerance],0
+[Test ResetConservedTotal],0
+[Set Vector Concentration Absolute Tolerance],0
+[Add Event Assignment],0
+[Add Species],0
+[Set Reversible],0
+[Set Vector Amount Absolute Tolerance],0
+[Get Variable End Time],0

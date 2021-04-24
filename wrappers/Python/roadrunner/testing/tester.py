@@ -21,7 +21,7 @@ import random
 import string
 import roadrunner
 from roadrunner import Config
-from roadrunner import Logger
+# from roadrunner import Logger
 import re
 import numpy
 from numpy import *
@@ -1651,8 +1651,8 @@ def runTester (testDir=None):
         if testId == '[SBML]':
             sbmlStr, testId = getSBMLStr ()
         else:
-            Logger.log(Logger.LOG_WARNING, "rrtest file, \""
-                       + file + "\" missing SBML section, ignoring test file")
+            # Logger.log(Logger.LOG_WARNING, "rrtest file, \""
+            #            + file + "\" missing SBML section, ignoring test file")
             continue
 
 

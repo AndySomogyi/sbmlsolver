@@ -28,7 +28,7 @@ public:
     GetFloatingSpeciesInitConcentrationCodeGen(const ModelGeneratorContext &mgc);
     ~GetFloatingSpeciesInitConcentrationCodeGen() {};
 
-    std::vector<string> getIds()
+    std::vector<std::string> getIds()
     {
         return dataSymbols.getFloatingSpeciesIds();
     }
@@ -44,7 +44,7 @@ public:
     GetFloatingSpeciesInitAmountCodeGen(const ModelGeneratorContext &mgc);
     ~GetFloatingSpeciesInitAmountCodeGen() {};
 
-    std::vector<string> getIds()
+    std::vector<std::string> getIds()
     {
         return dataSymbols.getFloatingSpeciesIds();
     }
@@ -60,7 +60,7 @@ public:
     GetCompartmentInitVolumeCodeGen(const ModelGeneratorContext &mgc);
     ~GetCompartmentInitVolumeCodeGen() {};
 
-    std::vector<string> getIds()
+    std::vector<std::string> getIds()
     {
         return dataSymbols.getCompartmentIds();
     }
@@ -76,7 +76,7 @@ public:
     GetGlobalParameterInitValueCodeGen(const ModelGeneratorContext &mgc);
     ~GetGlobalParameterInitValueCodeGen() {};
 
-    std::vector<string> getIds()
+    std::vector<std::string> getIds()
     {
         return dataSymbols.getGlobalParameterIds();
     }

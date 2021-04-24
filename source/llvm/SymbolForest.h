@@ -36,11 +36,11 @@ using std::map;
 class SymbolForest
 {
 public:
-    typedef map<string, const libsbml::ASTNode*> Map;
-    typedef map<string, const libsbml::ASTNode*>::const_iterator _const_iterator;
+    typedef std::map<std::string, const libsbml::ASTNode*> Map;
+    typedef std::map<std::string, const libsbml::ASTNode*>::const_iterator _const_iterator;
 
     /**
-     * syntatically the same as a map<string, const libsbml::ASTNode*>::const_iterator
+     * syntatically the same as a std::map<std::string, const libsbml::ASTNode*>::const_iterator
      *
      * Designed so that the SymbolForest can behave like a std::map.
      */
@@ -99,19 +99,19 @@ public:
         bool end;
     };
 
-    map<string, const libsbml::ASTNode*> floatingSpecies;
-    map<string, const libsbml::ASTNode*> boundarySpecies;
-    map<string, const libsbml::ASTNode*> compartments;
-    map<string, const libsbml::ASTNode*> globalParameters;
-    map<string, const libsbml::ASTNode*> speciesReferences;
+    std::map<std::string, const libsbml::ASTNode*> floatingSpecies;
+    std::map<std::string, const libsbml::ASTNode*> boundarySpecies;
+    std::map<std::string, const libsbml::ASTNode*> compartments;
+    std::map<std::string, const libsbml::ASTNode*> globalParameters;
+    std::map<std::string, const libsbml::ASTNode*> speciesReferences;
 
     /**
-     * find and end are designed to work identically to the map::find.
+     * find and end are designed to work identically to the std::map::find.
      *
      * Note that the resulting iterator is not iteratable, it is only suitable for
      * comparing with end() and getting the value out of it.
      */
-    const ConstIterator find(const map<string, const libsbml::ASTNode*>::key_type& x) const
+    const ConstIterator find(const std::map<std::string, const libsbml::ASTNode*>::key_type& x) const
     {
         _const_iterator result;
 

@@ -9,7 +9,7 @@
 #include "LLVMModelData.h"
 
 #include <stdlib.h>
-#include <string.h>
+#include <string>
 #include "rrExecutableModel.h"
 #include "rrSparse.h"
 #include "Random.h"
@@ -17,13 +17,13 @@
 #include <iostream>
 #include "rrStringUtils.h"
 
-using namespace std;
+
 
 static void dump_array(std::ostream &os, int n, const double *p)
 {
     if (p)
     {
-        os << setiosflags(ios::floatfield) << setprecision(8);
+        os << std::setiosflags(std::ios::floatfield) << std::setprecision(8);
         os << '[';
         for (int i = 0; i < n; ++i)
         {
@@ -33,11 +33,11 @@ static void dump_array(std::ostream &os, int n, const double *p)
                 os << ", ";
             }
         }
-        os << ']' << endl;
+        os << ']' << std::endl;
     }
     else
     {
-        os << "NULL" << endl;
+        os << "NULL" << std::endl;
     }
 }
 
@@ -48,57 +48,57 @@ namespace rrllvm
 
 std::ostream& operator <<(std::ostream& os, const LLVMModelData& data)
 {
-    os << "LLVMModelData:"                  << endl;
-    os << "size: "                          << data.size << endl;
-    os << "flags: "                         << data.flags << endl;
-    os << "time: "                          << data.time << endl;
-    os << "numIndFloatingSpecies: "         << data.numIndFloatingSpecies << endl;
+    os << "LLVMModelData:"                  << std::endl;
+    os << "size: "                          << data.size << std::endl;
+    os << "flags: "                         << data.flags << std::endl;
+    os << "time: "                          << data.time << std::endl;
+    os << "numIndFloatingSpecies: "         << data.numIndFloatingSpecies << std::endl;
 
-    os << "numIndGlobalParameters: "        << data.numIndGlobalParameters << endl;
-    os << "globalParameters: "              << endl;
+    os << "numIndGlobalParameters: "        << data.numIndGlobalParameters << std::endl;
+    os << "globalParameters: "              << std::endl;
     dump_array(os, data.numIndGlobalParameters, data.globalParametersAlias);
 
-    os << "numReactions: "                  << data.numReactions << endl;
-    os << "reactionRates: "                 << endl;
+    os << "numReactions: "                  << data.numReactions << std::endl;
+    os << "reactionRates: "                 << std::endl;
     dump_array(os, data.numReactions, data.reactionRatesAlias);
 
-    os << "numRateRules: "                  << data.numRateRules << endl;
-    os << "rateRuleValues: "                << endl;
+    os << "numRateRules: "                  << data.numRateRules << std::endl;
+    os << "rateRuleValues: "                << std::endl;
     dump_array(os, data.numRateRules, data.rateRuleValuesAlias);
 
-    os << "floatingSpeciesAmounts: "        << endl;
+    os << "floatingSpeciesAmounts: "        << std::endl;
     dump_array(os, data.numIndFloatingSpecies, data.floatingSpeciesAmountsAlias);
 
-    os << "numIndBoundarySpecies: "         << data.numIndBoundarySpecies << endl;
+    os << "numIndBoundarySpecies: "         << data.numIndBoundarySpecies << std::endl;
 
-    os << "boundarySpeciesAmounts:"         << endl;
+    os << "boundarySpeciesAmounts:"         << std::endl;
     dump_array(os, data.numIndBoundarySpecies, data.boundarySpeciesAmountsAlias);
 
-    os << "numIndCompartments: "            << data.numIndCompartments << endl;
-    os << "compartmentVolumes:"             << endl;
+    os << "numIndCompartments: "            << data.numIndCompartments << std::endl;
+    os << "compartmentVolumes:"             << std::endl;
     dump_array(os, data.numIndCompartments, data.compartmentVolumesAlias);
 
-    os << "stoichiometry:"                  << endl;
+    os << "stoichiometry:"                  << std::endl;
     os << data.stoichiometry;
 
 
-    os << "numInitFloatingSpecies: "        << data.numInitFloatingSpecies << endl;
-    os << "initFloatingSpeciesAmounts: "    << endl;
+    os << "numInitFloatingSpecies: "        << data.numInitFloatingSpecies << std::endl;
+    os << "initFloatingSpeciesAmounts: "    << std::endl;
     dump_array(os, data.numInitFloatingSpecies, data.initFloatingSpeciesAmountsAlias);
 
-    os << "numInitCompartments: "           << data.numInitCompartments << endl;
-    os << "initCompartmentVolumes:"         << endl;
+    os << "numInitCompartments: "           << data.numInitCompartments << std::endl;
+    os << "initCompartmentVolumes:"         << std::endl;
     dump_array(os, data.numInitCompartments, data.initCompartmentVolumesAlias);
 
-    os << "numInitGlobalParameters: "       << data.numInitGlobalParameters << endl;
-    os << "initGlobalParameters: "          << endl;
+    os << "numInitGlobalParameters: "       << data.numInitGlobalParameters << std::endl;
+    os << "initGlobalParameters: "          << std::endl;
     dump_array(os, data.numInitGlobalParameters, data.initGlobalParametersAlias);
 
 
     return os;
 }
 
-void LLVMModelData_save(LLVMModelData *data, std::ostream& out) 
+void LLVMModelData_save(LLVMModelData *data, std::ostream& out)
 {
 	//Counts and size variables
 	rr::saveBinary(out, data->size);

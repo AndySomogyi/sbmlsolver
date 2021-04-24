@@ -18,11 +18,11 @@
 #include "rrRoadRunner.h"
 //---------------------------------------------------------------------------
 
-using namespace std;
+
 namespace rr
 {
 
-CCompiler::CCompiler(const string& supportCodeFolder, const string& compiler)
+CCompiler::CCompiler(const std::string& supportCodeFolder, const std::string& compiler)
 :
 mSupportCodeFolder(supportCodeFolder),
 mCompilerName(getFileName(compiler)),
@@ -32,56 +32,56 @@ mCompilerLocation(getFilePath(compiler))
     {
         if(!setupCompiler(mSupportCodeFolder))
         {
-            Log(lWarning)<<"Roadrunner internal compiler setup failed. ";
+            rrLog(lWarning)<<"Roadrunner internal compiler setup failed. ";
         }
     }
 }
 
 CCompiler::~CCompiler(){}
 
-bool CCompiler::setupCompiler(const string& supportCodeFolder)
+bool CCompiler::setupCompiler(const std::string& supportCodeFolder)
 {
     mSupportCodeFolder = supportCodeFolder;
 
     if(!folderExists(mSupportCodeFolder))
     {
-        Log(Logger::LOG_ERROR)<<"The roadrunner support code folder : "<<mSupportCodeFolder<<" does not exist.";
+        rrLog(Logger::LOG_ERROR)<<"The roadrunner support code folder : "<<mSupportCodeFolder<<" does not exist.";
         return false;
     }
 
     return true;
 }
 
-bool CCompiler::setOutputPath(const string& path)
+bool CCompiler::setOutputPath(const std::string& path)
 {
     mOutputPath = path;
     return true;
 }
 
-bool CCompiler::compileSource(const string& sourceFileName)
+bool CCompiler::compileSource(const std::string& sourceFileName)
 {
     //Compile the code and load the resulting dll, and call an exported function in it...
 #if defined(_WIN32) || defined(__CODEGEARC__)
-    string dllFName(changeFileExtensionTo(getFileName(sourceFileName), "dll"));
+    std::string dllFName(changeFileExtensionTo(getFileName(sourceFileName), "dll"));
 #elif defined(__unix__)
-    string dllFName(changeFileExtensionTo(getFileName(sourceFileName), "so"));
+    std::string dllFName(changeFileExtensionTo(getFileName(sourceFileName), "so"));
 #elif defined(__APPLE__)
-    string dllFName(changeFileExtensionTo(getFileName(sourceFileName), "dylib"));
+    std::string dllFName(changeFileExtensionTo(getFileName(sourceFileName), "dylib"));
 #endif
     mDLLFileName = joinPath(getFilePath(sourceFileName), dllFName);
 
     //Setup compiler environment
     setupCompilerEnvironment();
 
-    string exeCmd = createCompilerCommand(sourceFileName);
+    std::string exeCmd = createCompilerCommand(sourceFileName);
 
     //exeCmd += " > compileLog.log";
-    Log(lDebug2)<<"Compiling model..";
-    Log(lDebug)<<"\nExecuting compile command: "<<exeCmd;
+    rrLog(lDebug2)<<"Compiling model..";
+    rrLog(lDebug)<<"\nExecuting compile command: "<<exeCmd;
 
     if(!compile(exeCmd))
     {
-        Log(Logger::LOG_ERROR)<<"Creating DLL failed..";
+        rrLog(Logger::LOG_ERROR)<<"Creating DLL failed..";
         throw Exception("Creating Model DLL failed..");
     }
 
@@ -89,46 +89,46 @@ bool CCompiler::compileSource(const string& sourceFileName)
     return fileExists(mDLLFileName);
 }
 
-bool CCompiler::setCompiler(const string& compiler)
+bool CCompiler::setCompiler(const std::string& compiler)
 {
     mCompilerName = getFileName(compiler);
     mCompilerLocation = getFilePath(compiler);
     return true;
 }
 
-string CCompiler::getCompiler() const
+std::string CCompiler::getCompiler() const
 {
     return mCompilerName;
 }
 
-bool CCompiler::setCompilerLocation(const string& path)
+bool CCompiler::setCompilerLocation(const std::string& path)
 {
     if(!folderExists(path))
     {
-        Log(Logger::LOG_ERROR)<<"Tried to set invalid path: "<<path<<" for compiler location";
+        rrLog(Logger::LOG_ERROR)<<"Tried to set invalid path: "<<path<<" for compiler location";
         return false;
     }
     mCompilerLocation = path;
     return true;
 }
 
-string CCompiler::getCompilerLocation() const
+std::string CCompiler::getCompilerLocation() const
 {
     return mCompilerLocation;
 }
 
-bool CCompiler::setSupportCodeFolder(const string& path)
+bool CCompiler::setSupportCodeFolder(const std::string& path)
 {
     if(!folderExists(path))
     {
-        Log(Logger::LOG_ERROR)<<"Tried to set invalid path: "<<path<<" for compiler location";
+        rrLog(Logger::LOG_ERROR)<<"Tried to set invalid path: "<<path<<" for compiler location";
         return false;
     }
     mSupportCodeFolder = path;
     return true;
 }
 
-string CCompiler::getSupportCodeFolder() const
+std::string CCompiler::getSupportCodeFolder() const
 {
     return mSupportCodeFolder;
 }
@@ -195,9 +195,9 @@ bool CCompiler::setupCompilerEnvironment()
     return true;
 }
 
-string CCompiler::createCompilerCommand(const string& sourceFileName)
+std::string CCompiler::createCompilerCommand(const std::string& sourceFileName)
 {
-    stringstream exeCmd;
+    std::stringstream exeCmd;
     if(getFileNameNoExtension(mCompilerName) == "tcc"
        || getFileNameNoExtension(mCompilerName) == "gcc"
        || getFileNameNoExtension(mCompilerName) == "cc")
@@ -233,7 +233,7 @@ string CCompiler::createCompilerCommand(const string& sourceFileName)
 
 #ifdef WIN32
 
-bool CCompiler::compile(const string& cmdLine)
+bool CCompiler::compile(const std::string& cmdLine)
 {
     if( !cmdLine.size() )
     {
@@ -253,7 +253,7 @@ bool CCompiler::compile(const string& cmdLine)
     sao.lpSecurityDescriptor=NULL;
     sao.bInheritHandle=1;
 
-    string compilerTempFile(joinPath(mOutputPath, getFileNameNoExtension(mDLLFileName)));
+    std::string compilerTempFile(joinPath(mOutputPath, getFileNameNoExtension(mDLLFileName)));
     compilerTempFile.append("C.log");
 
     Poco::File aFile(compilerTempFile);
@@ -274,9 +274,9 @@ bool CCompiler::compile(const string& cmdLine)
     {
         // Retrieve the system error message for the last-error code
         DWORD errorCode = GetLastError();
-        string anError = getWINAPIError(errorCode, TEXT("CreateFile"));
-        Log(Logger::LOG_ERROR)<<"WIN wrappers Error (after CreateFile): "<<anError;
-        Log(Logger::LOG_ERROR)<<"Failed creating logFile for compiler output";
+        std::string anError = getWINAPIError(errorCode, TEXT("CreateFile"));
+        rrLog(Logger::LOG_ERROR)<<"WIN wrappers Error (after CreateFile): "<<anError;
+        rrLog(Logger::LOG_ERROR)<<"Failed creating logFile for compiler output";
     }
 
     SetFilePointer(outFile, 0, NULL, FILE_END); //set pointer position to end file
@@ -314,8 +314,8 @@ bool CCompiler::compile(const string& cmdLine)
     {
         DWORD errorCode = GetLastError();
 
-        string anError = getWINAPIError(errorCode, TEXT("CreateProcess"));
-        Log(Logger::LOG_ERROR)<<"WIN wrappers Error: (after CreateProcess) "<<anError;
+        std::string anError = getWINAPIError(errorCode, TEXT("CreateProcess"));
+        rrLog(Logger::LOG_ERROR)<<"WIN wrappers Error: (after CreateProcess) "<<anError;
 
         // Close process and thread handles.
         CloseHandle(pi.hProcess);
@@ -334,23 +334,23 @@ bool CCompiler::compile(const string& cmdLine)
     DWORD errorCode = GetLastError();
     if(errorCode != 0)
     {
-        string anError = getWINAPIError(errorCode, TEXT("CloseHandle"));
-        Log(lDebug)<<"WIN wrappers error: (pi.hProcess)"<<anError;
+        std::string anError = getWINAPIError(errorCode, TEXT("CloseHandle"));
+        rrLog(lDebug)<<"WIN wrappers error: (pi.hProcess)"<<anError;
     }
 
     CloseHandle(pi.hThread);
     errorCode = GetLastError();
     if(errorCode != 0)
     {
-        string anError = getWINAPIError(errorCode, TEXT("CloseHandle"));
-        Log(lDebug)<<"WIN wrappers error: (pi.hThread)"<<anError;
+        std::string anError = getWINAPIError(errorCode, TEXT("CloseHandle"));
+        rrLog(lDebug)<<"WIN wrappers error: (pi.hThread)"<<anError;
     }
 
     //Read the log file and log it
     if(fileExists(compilerTempFile))
     {
-        string log = getFileContent(compilerTempFile.c_str());
-        Log(lDebug)<<"Compiler output: "<<log<<endl;
+        std::string log = getFileContent(compilerTempFile.c_str());
+        rrLog(lDebug)<<"Compiler output: "<<log<<std::endl;
     }
 
     return true;
@@ -358,25 +358,25 @@ bool CCompiler::compile(const string& cmdLine)
 
 #else  //---------------- LINUX, UNIXES
 
-bool CCompiler::compile(const string& cmdLine)
+bool CCompiler::compile(const std::string& cmdLine)
 {
-    string toFile(cmdLine);
+    std::string toFile(cmdLine);
     toFile += " >> ";
     toFile += joinPath(mOutputPath, "compilation.log");
     toFile += " 2>&1";
 
-    Log(lDebug)<<"Compiler command: "<<toFile;
+    rrLog(lDebug)<<"Compiler command: "<<toFile;
 
     //Create the shared library, using system call
     int val = system(toFile.c_str());
     if(val == 0)
     {
-        Log(lDebug)<<"Compile system call was succesful";
+        rrLog(lDebug)<<"Compile system call was succesful";
         return true;
     }
     else
     {
-        Log(Logger::LOG_ERROR)<<"Compile system call returned: "<<val;
+        rrLog(Logger::LOG_ERROR)<<"Compile system call returned: "<<val;
         return false;
     }
 }
@@ -403,7 +403,7 @@ std::string CCompiler::getVersion()
     throw rr::Exception(std::string(__FUNC__) + " not supported with legacy C back end");
 }
 
-string getCompilerMessages()
+std::string getCompilerMessages()
 {
     return "No messages yet";
 }

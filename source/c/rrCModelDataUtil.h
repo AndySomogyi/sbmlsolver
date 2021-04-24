@@ -36,7 +36,7 @@ RR_DECLSPEC void initModelData(ModelData &data);
  * (with the exception of the stoichiometry struct),
  * based on what each buffer size variable indicates, i.e.
  * if data.ySize is 10, data.y will now point to a length 10 double array.
- * The data.modelName field will be a newly allocated null terminated c string.
+ * The data.modelName field will be a newly allocated null terminated c std::string.
  *
  * The ModelData structure buffers should be freed with freeModelDataBuffers.
  *

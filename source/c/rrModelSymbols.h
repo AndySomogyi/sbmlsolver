@@ -44,7 +44,7 @@ public:
     /**
      * name of the model
      */
-    const string mModelName;
+    const std::string mModelName;
 
     const int mNumReactions;
 
@@ -84,8 +84,8 @@ public:
 
     const SymbolList mReactionList;
 
-    const vector<int> mLocalParameterDimensions;
-    const vector<SymbolList> mLocalParameterList;
+    const std::vector<int> mLocalParameterDimensions;
+    const std::vector<SymbolList> mLocalParameterList;
 
     const SymbolList mConservationList;
 
@@ -97,7 +97,7 @@ public:
 
     const IntStringHashTable mRateRules;
 
-    static const string mDoubleFormat;
+    static const std::string mDoubleFormat;
 
     const int mNumRules;
 };

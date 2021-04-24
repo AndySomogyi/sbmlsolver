@@ -57,3 +57,6 @@ install-release
 build-debug
 build-release
 install-debug
+
+# temp.
+sundials

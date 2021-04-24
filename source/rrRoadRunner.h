@@ -67,7 +67,7 @@ namespace rr
         RoadRunner(const std::string& uriOrSBML, const Dictionary* options = 0);
 
         /**
-         * All three of the RoadRunner options default to the empty string, in this
+         * All three of the RoadRunner options default to the empty std::string, in this
          * case, the default values are used.
          *
          * @param compiler: If LLVM build is enabled, the compiler defaults to LLVM.
@@ -120,7 +120,7 @@ namespace rr
          * Set the name of the externa compiler to use. Some ModelGenerators may have no use
          * for this value.
          *
-         * An exception is raised if the string is invalid.
+         * An exception is raised if the std::string is invalid.
          */
         void setCompiler(const std::string& compiler);
 
@@ -149,12 +149,12 @@ namespace rr
         std::vector<std::string> getExistingIntegratorNames();
 
         /**
-         * Return a vector of the names of all registered integrators
+         * Return a std::vector of the names of all registered integrators
          */
         static std::vector<std::string> getRegisteredIntegratorNames();
 
         /**
-         * Return a vector of the names of all registered integrators
+         * Return a std::vector of the names of all registered integrators
          */
         static std::vector<std::string> getRegisteredSteadyStateSolverNames();
 
@@ -177,7 +177,7 @@ namespace rr
         bool isModelLoaded();
 
         /**
-         * returns the model name if a model is loaded, empty string otherwise.
+         * returns the model name if a model is loaded, empty std::string otherwise.
          */
         std::string getModelName();
 
@@ -308,7 +308,7 @@ namespace rr
         void setOptions(const RoadRunnerOptions&);
 
         /**
-         * get the originally loaded sbml document as a string.
+         * get the originally loaded sbml document as a std::string.
          *
          * This may optionally up or downconvert the document to a different version, if
          * the level and version arguments are non-zero.
@@ -343,7 +343,7 @@ namespace rr
          * SelectionRecord::SelectionType values.
          *
          * Note, this would make more sense as an unsigned, however SWIG has issues mapping
-         * an enum to an unsigned, but seems to map enums just fine to an int.
+         * an enum to an unsigned, but seems to std::map enums just fine to an int.
          *
          * For example, to reset the floating species, time and rate rule values:
          * @code
@@ -406,7 +406,7 @@ namespace rr
         std::vector<rr::SelectionRecord>& getSelections();
 
         /**
-         * Creates a new selection based on the selection string,
+         * Creates a new selection based on the selection std::string,
          * and returns the value it queries.
          */
         double getValue(const std::string& sel);
@@ -466,9 +466,9 @@ namespace rr
 
 
         /**
-         * sets the value coresponding to the given selection string
+         * sets the value coresponding to the given selection std::string
          *
-         * raises an exception in the selection string is invalid.
+         * raises an exception in the selection std::string is invalid.
          */
         void setValue(const std::string& id, double value);
 
@@ -614,7 +614,7 @@ namespace rr
 
 
         /**
-         * returns the list of floating species, but with a "eigen(...)" string
+         * returns the list of floating species, but with a "eigen(...)" std::string
          * wrapped around them.
          */
         std::vector<std::string> getEigenValueIds();
@@ -623,8 +623,8 @@ namespace rr
          * Returns the unscaled elasticity for a named reaction with respect to a
          * named parameter
          */
-        double getUnscaledParameterElasticity(const string& reactionName,
-                                              const string& parameterName);
+        double getUnscaledParameterElasticity(const std::string& reactionName,
+                                              const std::string& parameterName);
 
 
         ls::DoubleMatrix getFrequencyResponse(double startFrequency,
@@ -897,7 +897,7 @@ namespace rr
         *						  to save time for editing for multiple times, one could
         *					      set this flag to true only in the last call of editing
         */
-        void addReaction(const std::string& rid, std::vector<string> reactants, std::vector<string> products, const std::string& kineticLaw, bool forceRegenerate = true);
+        void addReaction(const std::string& rid, std::vector<std::string> reactants, std::vector<std::string> products, const std::string& kineticLaw, bool forceRegenerate = true);
 
         /**
          * Remove a reaction from the current model
@@ -1217,18 +1217,8 @@ namespace rr
          * @param dict a pointer to a dictionary which has the steady state options.
          * May be NULL, in this case the existing options are used.
          */
-        double steadyState(const Dictionary* dict = 0);
+        double steadyState(Dictionary* dict = 0);
 
-        /**
-        * Appoximate the steady state of the model by checking the changes in time course
-        * simulation. Returns the sum of squares of the solution
-        *
-        * Appoximation will use CVODE with variable step sizes.
-        *
-        * @param dict a pointer to a dictionary which has the steady state options.
-        * May be NULL, in this case the existing options are used.
-        */
-        double steadyStateApproximate(const Dictionary* dict = 0);
 
         /**
          * Like @ref steadyState but returns a named array of the steady state values
@@ -1262,7 +1252,7 @@ namespace rr
         std::vector<double> getSteadyStateValues();
 
         /**
-         * Returns a vector of the steady state selection strings
+         * Returns a std::vector of the steady state selection strings
          */
         std::vector<std::string> getSteadyStateSelectionStrings() const;
 
@@ -1592,7 +1582,7 @@ namespace rr
                                double currentTime);
 
         /**
-         * copies the current selection values into the given vector.
+         * copies the current selection values into the given std::vector.
          */
         void getSelectedValues(std::vector<double> &results, double currentTime);
 
@@ -1663,25 +1653,25 @@ namespace rr
         void checkID(const std::string& functionName, const std::string& sid);
 
         /*
-        * Parse a string with format stoichiometry + sID and return its stoichiometry value and sID
+        * Parse a std::string with format stoichiometry + sID and return its stoichiometry value and sID
         */
-        void parseSpecies(const string& species, double* stoichiometry, char** sid);
+        void parseSpecies(const std::string& species, double* stoichiometry, char** sid);
 
         /*
         * Remove a variable from the current model.
         */
-        void removeVariable(const string& sid);
+        void removeVariable(const std::string& sid);
 
         /*
         * check recursively if a ASTnode or any of its child has the given variable
         */
-        bool hasVariable(const libsbml::ASTNode* node, const string& sid);
+        bool hasVariable(const libsbml::ASTNode* node, const std::string& sid);
 
         /*
         * Get the names of all the species involved in a given AST
         */
-        void getSpeciesIdsFromAST(const libsbml::ASTNode* node, std::vector<string>& species);
-        void getSpeciesIdsFromAST(const libsbml::ASTNode* node, std::vector<string>& species, std::vector<string>& speciesNames);
+        void getSpeciesIdsFromAST(const libsbml::ASTNode* node, std::vector<std::string>& species);
+        void getSpeciesIdsFromAST(const libsbml::ASTNode* node, std::vector<std::string>& species, std::vector<std::string>& speciesNames);
 
         /*
         * check and remove all parameter without any assignments

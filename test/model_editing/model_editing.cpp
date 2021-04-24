@@ -1247,7 +1247,7 @@ bool RunModelEditingTest(void(*modification)(RoadRunner*), std::string version)
 		//Check first if file exists first
 		if (!fileExists(fullPath))
 		{
-			Log(Logger::LOG_ERROR) << "sbml file " << fullPath << " not found";
+			rrLog(Logger::LOG_ERROR) << "sbml file " << fullPath << " not found";
 			throw(Exception("No such SBML file: " + fullPath));
 		}
 
@@ -1366,7 +1366,7 @@ bool RunTestModelFromScratch(void(*generate)(RoadRunner*), std::string version)
 		//Check first if file exists first
 		if (!fileExists(fullPath))
 		{
-			Log(Logger::LOG_ERROR) << "sbml file " << fullPath << " not found";
+			rrLog(Logger::LOG_ERROR) << "sbml file " << fullPath << " not found";
 			throw(Exception("No such SBML file: " + fullPath));
 		}
 
@@ -1428,7 +1428,7 @@ bool RunTestModelFromScratch(void(*generate)(RoadRunner*), std::string version)
 
 bool RunTestWithEdit(const string& version, int caseNumber, void(*edit)(RoadRunner*, libsbml::SBMLDocument*), std::string editName)
 {
-    //Log(Logger::LOG_NOTICE) << "Running Test: " << editName << ", " << caseNumber << endl;
+    //rrLog(Logger::LOG_NOTICE) << "Running Test: " << editName << ", " << caseNumber << endl;
     bool result(false);
 	RoadRunner rr;
 
@@ -1493,7 +1493,7 @@ bool RunTestWithEdit(const string& version, int caseNumber, void(*edit)(RoadRunn
 		//Check first if file exists first
 		if (!fileExists(fullPath))
 		{
-			Log(Logger::LOG_ERROR) << "sbml file " << fullPath << " not found";
+			rrLog(Logger::LOG_ERROR) << "sbml file " << fullPath << " not found";
 			throw(Exception("No such SBML file: " + fullPath));
 		}
 

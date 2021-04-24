@@ -16,12 +16,12 @@ namespace rrtesting
 
 CXXExecutableModel::CXXExecutableModel(const rr::Dictionary* dict)
 {
-    Log(Logger::LOG_NOTICE) << __FUNC__;
+    rrLog(Logger::LOG_NOTICE) << __FUNC__;
 }
 
 CXXExecutableModel::~CXXExecutableModel()
 {
-    Log(Logger::LOG_NOTICE) << __FUNC__;
+    rrLog(Logger::LOG_NOTICE) << __FUNC__;
 }
 
 std::string CXXExecutableModel::getModelName()

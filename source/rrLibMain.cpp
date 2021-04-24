@@ -11,7 +11,7 @@
 //   EXE's to use the BORLNDMM.DLL as their memory manager.  In these cases,
 //   the file BORLNDMM.DLL should be deployed along with your DLL.
 //
-//   To avoid using BORLNDMM.DLL, pass string information using "char *" or
+//   To avoid using BORLNDMM.DLL, pass std::string information using "char *" or
 //   ShortString parameters.
 //
 //   If your DLL uses the dynamic version of the RTL, you do not need to

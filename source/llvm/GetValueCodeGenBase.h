@@ -68,7 +68,7 @@ llvm::Value* GetValueCodeGenBase<Derived, substanceUnits>::codeGen()
     llvm::BasicBlock *entry = this->codeGenHeader(Derived::FunctionName, llvm::Type::getDoubleTy(this->context),
             argTypes, argNames, args);
 
-    std::vector<string> ids = static_cast<Derived*>(this)->getIds();
+    std::vector<std::string> ids = static_cast<Derived*>(this)->getIds();
 
     ModelDataLoadSymbolResolver resolver(args[0], this->modelGenContext);
     // default, return NaN

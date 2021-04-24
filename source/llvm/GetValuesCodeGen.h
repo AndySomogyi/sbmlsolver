@@ -26,7 +26,7 @@ public:
     GetBoundarySpeciesAmountCodeGen(const ModelGeneratorContext &mgc);
     ~GetBoundarySpeciesAmountCodeGen() {};
 
-    std::vector<string> getIds()
+    std::vector<std::string> getIds()
     {
         return dataSymbols.getBoundarySpeciesIds();
     }
@@ -42,7 +42,7 @@ public:
     GetFloatingSpeciesAmountCodeGen(const ModelGeneratorContext &mgc);
     ~GetFloatingSpeciesAmountCodeGen() {};
 
-    std::vector<string> getIds()
+    std::vector<std::string> getIds()
     {
         return dataSymbols.getFloatingSpeciesIds();
     }
@@ -58,7 +58,7 @@ public:
     GetBoundarySpeciesConcentrationCodeGen(const ModelGeneratorContext &mgc);
     ~GetBoundarySpeciesConcentrationCodeGen() {};
 
-    std::vector<string> getIds()
+    std::vector<std::string> getIds()
     {
         return dataSymbols.getBoundarySpeciesIds();
     }
@@ -74,7 +74,7 @@ public:
     GetFloatingSpeciesConcentrationCodeGen(const ModelGeneratorContext &mgc);
     ~GetFloatingSpeciesConcentrationCodeGen() {};
 
-    std::vector<string> getIds()
+    std::vector<std::string> getIds()
     {
         return dataSymbols.getFloatingSpeciesIds();
     }
@@ -90,7 +90,7 @@ public:
     GetCompartmentVolumeCodeGen(const ModelGeneratorContext &mgc);
     ~GetCompartmentVolumeCodeGen() {};
 
-    std::vector<string> getIds()
+    std::vector<std::string> getIds()
     {
         return dataSymbols.getCompartmentIds();
     }
@@ -106,7 +106,7 @@ public:
     GetGlobalParameterCodeGen(const ModelGeneratorContext &mgc);
     ~GetGlobalParameterCodeGen() {};
 
-    std::vector<string> getIds()
+    std::vector<std::string> getIds()
     {
         return dataSymbols.getGlobalParameterIds();
     }

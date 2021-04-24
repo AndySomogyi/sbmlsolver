@@ -346,12 +346,12 @@ public:
      * For single argument selections, i.e. ee( S1 ), this is the argument, for
      * two arg selections, this is the first arg.
      */
-    string p1;
+    std::string p1;
 
     /**
      * the second argument of two arg selections.
      */
-    string p2;
+    std::string p2;
 
     /**
      * the type of selection.
@@ -366,7 +366,7 @@ public:
      */
     SelectionRecord(const int& index = 0,
             const SelectionType type = UNKNOWN,
-            const string& p1 = "", const string& p2 = "");
+            const std::string& p1 = "", const std::string& p2 = "");
 
     /**
      * creates a empty selection.
@@ -374,7 +374,7 @@ public:
     SelectionRecord(const std::string str);
 
     /**
-     * get a short description of this selection, this returns a string
+     * get a short description of this selection, this returns a std::string
      * compatable with RoadRunner::createSelection.
      */
     std::string to_string() const;
@@ -386,7 +386,7 @@ public:
     std::string to_repr() const;
 };
 
-ostream& operator<< (ostream& stream, const SelectionRecord& rec);
+std::ostream& operator<< (std::ostream& stream, const SelectionRecord& rec);
 }
 
 

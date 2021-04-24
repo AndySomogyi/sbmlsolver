@@ -4,6 +4,7 @@
 add_subdirectory(googletest-release-1.10.0)
 # we be naughty and use include_directories here to include googletest globally
 include_directories(googletest-release-1.10.0/googletest/include)
+
 ########################################################
 #   Tests
 #
@@ -25,7 +26,7 @@ set(TESTDIRS
 
 set(test_targets)
 foreach (dirid IN LISTS TESTDIRS)
-#    message(STATUS "dirid = ${dirid}")
+    #    message(STATUS "dirid = ${dirid}")
     file(GLOB MAIN_FILE ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp)
     file(GLOB UTIL_FILE ${CMAKE_CURRENT_SOURCE_DIR}/test_util.cpp)
     file(GLOB UTIL_HEADER ${CMAKE_CURRENT_SOURCE_DIR}/test_util.h)
@@ -39,9 +40,9 @@ foreach (dirid IN LISTS TESTDIRS)
 
     add_compile_definitions(${testid} PRIVATE STATIC_RR)
 
-    if(WIN32)
+    if (WIN32)
         add_definitions(/bigobj)
-    endif()
+    endif ()
 
     # This order is important:  on linux, including the core library before the C api library
     # causes the resulting program to crash in Poco.
@@ -70,10 +71,10 @@ install(TARGETS ${test_targets})
 
 add_subdirectory(CVODEIntegratorTests)
 # add_subdirectory(herbert)
-
+add_subdirectory(sundials-tests)
 
 add_custom_target(
         run-ctest
-            ctest --progress  --verbose --extra-verbose ${CMAKE_BINARY_DIR}
+        ctest --progress --verbose --extra-verbose ${CMAKE_BINARY_DIR}
 )
 

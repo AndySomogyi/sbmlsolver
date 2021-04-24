@@ -7,7 +7,7 @@
 #pragma hdrstop
 #include "ASTNodeFactory.h"
 
-using namespace std;
+
 using namespace libsbml;
 
 namespace rrllvm
@@ -19,7 +19,7 @@ ASTNodeFactory::ASTNodeFactory()
 
 ASTNodeFactory::~ASTNodeFactory()
 {
-    for (list<ASTNode*>::iterator i = nodes.begin(); i != nodes.end(); i++)
+    for (std::list<ASTNode*>::iterator i = nodes.begin(); i != nodes.end(); i++)
     {
         ASTNode *node = *i;
         delete node;

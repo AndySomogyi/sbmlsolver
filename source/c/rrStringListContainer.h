@@ -17,28 +17,28 @@ namespace rr
 class RR_DECLSPEC StringListContainer
 {
     protected:
-        vector<StringList>              mContainer;
+        std::vector<StringList>              mContainer;
 
     public:
                                         StringListContainer();
-                                        StringListContainer(const string& lbl, const StringListContainer& cp);
+                                        StringListContainer(const std::string& lbl, const StringListContainer& cp);
                                         StringListContainer(const StringListContainer& cp);
                                         StringListContainer(const StringList& cp);
         void                            operator=(const StringListContainer& rhs);
         void                            Add(const StringListContainer& lists);
-        void                            Add(const string& listName, const StringList& coll);
+        void                            Add(const std::string& listName, const StringList& coll);
         void                            Add(const StringList& coll);
-        void                            Add(const string& coll);
+        void                            Add(const std::string& coll);
         void                            Add(const int& coll);
         int                             Count() const;
         int                             ListCount() const;
         int                             TotalCount() const;
         StringList&                     operator[](const int& index);
         const StringList&               operator[](const int& index) const;
-        vector<StringList>::iterator    begin();
-        vector<StringList>::iterator    end();
+        std::vector<StringList>::iterator    begin();
+        std::vector<StringList>::iterator    end();
 };
 
-ostream& operator<<(ostream& stream, const StringListContainer& list);
+std::ostream& operator<<(std::ostream& stream, const StringListContainer& list);
 }
 #endif

@@ -113,7 +113,7 @@ using ::testing::AnyNumber;
 using ::testing::Not;
 ...
   // Ignores any log not done by us.
-  EXPECT_CALL(log, Log(_, Not(EndsWith("/my_file.cc")), _))
+  EXPECT_CALL(log, rrLog(_, Not(EndsWith("/my_file.cc")), _))
       .Times(AnyNumber());
 ```
 

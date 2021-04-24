@@ -236,7 +236,7 @@ opt.setItem("exampleParameter1", 123456);
 opt.setItem("exampleParameter2", "some value");
 r.simulate();
 
-cout << r.getIntegrator()->toString() << endl;
+std::cout << r.getIntegrator()->toString() << std::endl;
 @endcode
 
 The EulerIntegrator.h file serves as a complete example of creating an new integrator. 

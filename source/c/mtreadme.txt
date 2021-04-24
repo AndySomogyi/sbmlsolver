@@ -16,25 +16,25 @@ mttest.out      output of the test program to compare to if modified
 The initialization scheme for the previous versions of MT
 (e.g. 1999/10/28 version or earlier) has a tiny problem, that
 the most significant bits of the seed is not well reflected
-to the state vector of MT.
+to the state std::vector of MT.
 
 This version (2002/1/26) has two initialization schemes:
 seed(s) and seed(array, length).
 
-seed(s) initializes the state vector by using
+seed(s) initializes the state std::vector by using
 one unsigned 32-bit integer 's', which may be zero.
 
-seed(array, length) initializes the state vector 
+seed(array, length) initializes the state std::vector
 by using an array 'array' of unsigned 32-bit integers
 of length 'length'. If 'length' is smaller than 624,
 then each array of 32-bit integers gives a distinct initial
-state vector. This is useful if you want a larger seed space
+state std::vector. This is useful if you want a larger seed space
 than a 32-bit word.
 
 2. Generators
 Below is an overview of the generators (functor classes) available.
 The last four are derived from the first one and all instances of every
-generator use the same static state vector in computer memory, so
+generator use the same static state std::vector in computer memory, so
 initialization must only be done once, when the first generator instance
 is created.
 

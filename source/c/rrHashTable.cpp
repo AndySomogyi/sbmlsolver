@@ -9,7 +9,7 @@ StringSymbolHashTable::StringSymbolHashTable()
 {}
 
 
-bool StringSymbolHashTable::ContainsKey(const string& aKey)
+bool StringSymbolHashTable::ContainsKey(const std::string& aKey)
 {
     return (this->find( aKey ) != this->end()) ? true : false;
 }
@@ -19,9 +19,9 @@ bool StringSymbolHashTable::ContainsKey(const string& aKey)
 IntStringHashTable::IntStringHashTable()
 {}
 
-ostream& operator<<(ostream& stream, StringSymbolHashTable& hash)
+std::ostream& operator<<(std::ostream& stream, StringSymbolHashTable& hash)
 {
-    map<string, SBMLSymbol>::iterator iter;
+    std::map<std::string, SBMLSymbol>::iterator iter;
 
     for(iter = hash.begin(); iter != hash.end(); iter++)
     {

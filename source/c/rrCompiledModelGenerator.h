@@ -34,14 +34,14 @@ protected:
     CompiledModelGenerator();
     virtual    ~CompiledModelGenerator();
 
-    string                              substituteTerms(const string& reactionName, const string& inputEquation, bool bFixAmounts);
-    string                              substituteTerms(const int& numReactions, const string& reactionName, const string& equation);
+    std::string                              substituteTerms(const std::string& reactionName, const std::string& inputEquation, bool bFixAmounts);
+    std::string                              substituteTerms(const int& numReactions, const std::string& reactionName, const std::string& equation);
 
-    virtual string                      convertUserFunctionExpression(const string& equation) = 0;
-    virtual void                        substituteEquation(const string& reactionName, Scanner& s, CodeBuilder& sb) = 0;
-    virtual void                        substituteWords(const string& reactionName, bool bFixAmounts, Scanner& s, CodeBuilder& sb) = 0;
-    virtual void                        substituteToken(const string& reactionName, bool bFixAmounts, Scanner& s, CodeBuilder& sb) = 0;
-    virtual string                      findSymbol(const string& varName) = 0;
+    virtual std::string                      convertUserFunctionExpression(const std::string& equation) = 0;
+    virtual void                        substituteEquation(const std::string& reactionName, Scanner& s, CodeBuilder& sb) = 0;
+    virtual void                        substituteWords(const std::string& reactionName, bool bFixAmounts, Scanner& s, CodeBuilder& sb) = 0;
+    virtual void                        substituteToken(const std::string& reactionName, bool bFixAmounts, Scanner& s, CodeBuilder& sb) = 0;
+    virtual std::string                      findSymbol(const std::string& varName) = 0;
     virtual void                        writeComputeAllRatesOfChange(CodeBuilder& sb, const int& numIndependentSpecies,
                                                                         const int& numDependentSpecies, ls::DoubleMatrix& L0) = 0;
 
@@ -72,11 +72,11 @@ protected:
     virtual void                        writeSetCompartmentVolumes(CodeBuilder& sb) = 0;
     virtual void                        writeSetBoundaryConditions(CodeBuilder& sb) = 0;
     virtual void                        writeSetInitialConditions(CodeBuilder& sb, const int& numFloatingSpecies) = 0;
-    virtual string                      convertCompartmentToC(const string& compartmentName) = 0;
-    virtual string                      convertSpeciesToBc(const string& speciesName) = 0;
-    virtual string                      convertSpeciesToY(const string& speciesName) = 0;
-    virtual string                      convertSymbolToC(const string& compartmentName) = 0;
-    virtual string                      convertSymbolToGP(const string& parameterName) = 0;
+    virtual std::string                      convertCompartmentToC(const std::string& compartmentName) = 0;
+    virtual std::string                      convertSpeciesToBc(const std::string& speciesName) = 0;
+    virtual std::string                      convertSpeciesToY(const std::string& speciesName) = 0;
+    virtual std::string                      convertSymbolToC(const std::string& compartmentName) = 0;
+    virtual std::string                      convertSymbolToGP(const std::string& parameterName) = 0;
 
     void                                reset();
 
@@ -98,30 +98,30 @@ protected:
 
     bool                                mComputeAndAssignConsevationLaws;
 
-    const string                        mFixAmountCompartments;
+    const std::string                        mFixAmountCompartments;
 
     StringList                          mWarnings;
 
     /**
      * get various information about the model in a user displayable format.
      */
-    virtual string                      getInfo();
+    virtual std::string                      getInfo();
 
     /**
      * creates a new AST node
      */
     static ASTNode*                     cleanEquation(ASTNode* ast);
-    static string                       cleanEquation(const string& equation);
+    static std::string                       cleanEquation(const std::string& equation);
 
     ls::DoubleMatrix*                   initializeL0(int& nrRows, int& nrCols);
-    bool                                expressionContainsSymbol(ASTNode* ast, const string& symbol);
-    bool                                expressionContainsSymbol(const string& expression, const string& symbol);
-    const Symbol*                       getSpecies(const string& id);
+    bool                                expressionContainsSymbol(ASTNode* ast, const std::string& symbol);
+    bool                                expressionContainsSymbol(const std::string& expression, const std::string& symbol);
+    const Symbol*                       getSpecies(const std::string& id);
     int                                 readGlobalParameters();
-    void                                readLocalParameters(const int& numReactions,  vector<int>& localParameterDimensions, int& totalLocalParmeters);
+    void                                readLocalParameters(const int& numReactions,  std::vector<int>& localParameterDimensions, int& totalLocalParmeters);
     int                                 readCompartments();
 
-    string                              writeDouble(const double& value, const string& format = "%G");
+    std::string                              writeDouble(const double& value, const std::string& format = "%G");
 
     /**
      * hold all the symbolic (AKA metadata) information in the model

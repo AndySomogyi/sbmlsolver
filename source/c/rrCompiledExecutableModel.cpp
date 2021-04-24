@@ -19,7 +19,7 @@ inline bool checkExact(uint32_t type, uint32_t value) {
     return (value & type) == type;
 }
 
-typedef string (rr::ExecutableModel::*getNamePtr)(int);
+typedef std::string (rr::ExecutableModel::*getNamePtr)(int);
 typedef int (rr::ExecutableModel::*getNumPtr)();
 
 // make this static here, hide our implementation...
@@ -36,7 +36,7 @@ static void addIds(rr::ExecutableModel *model,
     }
 }
 
-using namespace std;
+
 namespace rr
 {
 
@@ -61,13 +61,13 @@ mDLL(dll)
     }
     else
     {
-        Log(Logger::LOG_ERROR)<<"The Model DLL is not loaded in CompiledExecutableModel ctor..";
+        rrLog(Logger::LOG_ERROR)<<"The Model DLL is not loaded in CompiledExecutableModel ctor..";
     }
 }
 
 CompiledExecutableModel::~CompiledExecutableModel()
 {
-    Log(lDebug3) << "in " << __FUNC__ << "\n";
+    rrLog(lDebug3) << "in " << __FUNC__ << "\n";
     // only free buffers, mData is stack allocated.
     freeModelDataBuffers(mData);
     delete [] mDummyDoubleArray;
@@ -85,7 +85,7 @@ CompiledExecutableModel::~CompiledExecutableModel()
     }
 }
 
-string CompiledExecutableModel::getModelName()
+std::string CompiledExecutableModel::getModelName()
 {
     return mData.modelName;
 }
@@ -163,18 +163,18 @@ int CompiledExecutableModel::getGlobalParameterIndex(const std::string& name)
     return ms.mGlobalParameterList.find(name, result) ? result : -1;
 }
 
-string CompiledExecutableModel::getGlobalParameterId(int index)
+std::string CompiledExecutableModel::getGlobalParameterId(int index)
 {
     return ms.mGlobalParameterList[index].name;
 }
 
-int CompiledExecutableModel::getBoundarySpeciesIndex(const string& name)
+int CompiledExecutableModel::getBoundarySpeciesIndex(const std::string& name)
 {
     int result = -1;
     return ms.mBoundarySpeciesList.find(name, result) ? result : -1;
 }
 
-string CompiledExecutableModel::getBoundarySpeciesId(int index)
+std::string CompiledExecutableModel::getBoundarySpeciesId(int index)
 {
     return ms.mBoundarySpeciesList[index].name;
 }
@@ -182,29 +182,29 @@ string CompiledExecutableModel::getBoundarySpeciesId(int index)
 int CompiledExecutableModel::getBoundarySpeciesCompartmentIndex(int index)
 {
     // mModel->getCompartments().find(mModel->getBoundarySpecies()[record.index].compartmentName, nIndex))
-    string compartmentName = ms.mBoundarySpeciesList[index].compartmentName;
+    std::string compartmentName = ms.mBoundarySpeciesList[index].compartmentName;
     int compartmentIndex = -1;
     return ms.mCompartmentList.find(compartmentName, compartmentIndex) ? compartmentIndex : -1;
 }
 
-int CompiledExecutableModel::getCompartmentIndex(const string& name)
+int CompiledExecutableModel::getCompartmentIndex(const std::string& name)
 {
     int result = -1;
     return ms.mCompartmentList.find(name, result) ? result : -1;
 }
 
-string CompiledExecutableModel::getCompartmentId(int index)
+std::string CompiledExecutableModel::getCompartmentId(int index)
 {
     return ms.mCompartmentList[index].name;
 }
 
-int CompiledExecutableModel::getFloatingSpeciesIndex(const string& name)
+int CompiledExecutableModel::getFloatingSpeciesIndex(const std::string& name)
 {
     int result = -1;
     return ms.mFloatingSpeciesConcentrationList.find(name, result) ? result : -1;
 }
 
-string CompiledExecutableModel::getFloatingSpeciesId(int index)
+std::string CompiledExecutableModel::getFloatingSpeciesId(int index)
 {
     return ms.mFloatingSpeciesConcentrationList[index].name;
 }
@@ -268,7 +268,7 @@ int CompiledExecutableModel::getStateVector(double* stateVector)
         return mData.numRateRules + mData.numIndependentSpecies;
     }
 
-    vector<double> dTemp(mData.numRateRules, 0);
+    std::vector<double> dTemp(mData.numRateRules, 0);
     getRateRuleValues(&dTemp[0]);
 
     for (int i = 0; i < mData.numRateRules; i++)
@@ -309,7 +309,7 @@ bool CompiledExecutableModel::setupDLLFunctions()
     //Exported functions in the dll need to be assigned to a function pointer here..
     if(!mDLL->isLoaded())
     {
-        Log(Logger::LOG_ERROR)<<"DLL handle not valid in SetupModel function";
+        rrLog(Logger::LOG_ERROR)<<"DLL handle not valid in SetupModel function";
         return false;
     }
 
@@ -369,7 +369,7 @@ bool CompiledExecutableModel::setupModelData()
     mData.eventTypeSize                 = ms.mNumEvents;
 
     // allocate the data buffers
-    string test = ms.mModelName;
+    std::string test = ms.mModelName;
     allocModelDataBuffers(mData, test);
 
     if(cInitModel)
@@ -383,7 +383,7 @@ void CompiledExecutableModel::setCompartmentVolumes()
 {
     if(!csetCompartmentVolumes)
     {
-        Log(Logger::LOG_ERROR)<<"Tried to call NULL function in "<<__FUNCTION__;
+        rrLog(Logger::LOG_ERROR)<<"Tried to call NULL function in "<<__FUNCTION__;
         return;
     }
 
@@ -394,7 +394,7 @@ void  CompiledExecutableModel::setConcentration(int index, double value)
 {
     if(!csetConcentration)
     {
-        Log(Logger::LOG_ERROR)<<"Tried to call NULL function in "<<__FUNCTION__;
+        rrLog(Logger::LOG_ERROR)<<"Tried to call NULL function in "<<__FUNCTION__;
         return;
     }
 
@@ -405,7 +405,7 @@ void  CompiledExecutableModel::evalReactionRates ()
 {
     if(!cComputeReactionRates)
     {
-        Log(Logger::LOG_ERROR)<<"Tried to call NULL function in "<<__FUNCTION__;
+        rrLog(Logger::LOG_ERROR)<<"Tried to call NULL function in "<<__FUNCTION__;
         return;
     }
 
@@ -414,10 +414,10 @@ void  CompiledExecutableModel::evalReactionRates ()
 
 void CompiledExecutableModel::getRateRuleValues(double *rateRuleValues)
 {
-    vector<double> vals;
+    std::vector<double> vals;
     if(!cGetCurrentValues)
     {
-        Log(Logger::LOG_ERROR)<<"Tried to call NULL function in "<<__FUNCTION__;
+        rrLog(Logger::LOG_ERROR)<<"Tried to call NULL function in "<<__FUNCTION__;
     }
 
     // in CModelGenerator::writeComputeRules, in effect, the following
@@ -446,7 +446,7 @@ double CompiledExecutableModel::getFloatingSpeciesConcentration(int index)
 {
     if(!cgetConcentration)
     {
-        Log(Logger::LOG_ERROR)<<"Tried to call NULL function in "<<__FUNCTION__;
+        rrLog(Logger::LOG_ERROR)<<"Tried to call NULL function in "<<__FUNCTION__;
         return 0;
     }
 
@@ -457,7 +457,7 @@ int CompiledExecutableModel::getNumLocalParameters(int reactionId)
 {
     if(!cgetNumLocalParameters)
     {
-        Log(Logger::LOG_ERROR)<<"Tried to call NULL function in "<<__FUNCTION__;
+        rrLog(Logger::LOG_ERROR)<<"Tried to call NULL function in "<<__FUNCTION__;
         return 0;
     }
 
@@ -468,7 +468,7 @@ void CompiledExecutableModel::initializeInitialConditions()
 {
     if(!cinitializeInitialConditions)
     {
-        Log(Logger::LOG_ERROR)<<"Tried to call NULL function in "<<__FUNCTION__;
+        rrLog(Logger::LOG_ERROR)<<"Tried to call NULL function in "<<__FUNCTION__;
         return;
     }
     cinitializeInitialConditions(&mData);
@@ -479,7 +479,7 @@ void CompiledExecutableModel::setParameterValues()
 {
     if(!csetParameterValues)
     {
-        Log(Logger::LOG_ERROR)<<"Tried to call NULL function in "<<__FUNCTION__;
+        rrLog(Logger::LOG_ERROR)<<"Tried to call NULL function in "<<__FUNCTION__;
         return;
     }
     csetParameterValues(&mData);
@@ -489,7 +489,7 @@ void CompiledExecutableModel::setBoundaryConditions()
 {
     if(!csetBoundaryConditions)
     {
-        Log(Logger::LOG_ERROR)<<"Tried to call NULL function in "<<__FUNCTION__;
+        rrLog(Logger::LOG_ERROR)<<"Tried to call NULL function in "<<__FUNCTION__;
         return;
     }
     csetBoundaryConditions(&mData);
@@ -499,7 +499,7 @@ void CompiledExecutableModel::initializeRates()
 {
     if(!cInitializeRates)
     {
-        Log(Logger::LOG_ERROR)<<"Tried to call NULL function in "<<__FUNCTION__;
+        rrLog(Logger::LOG_ERROR)<<"Tried to call NULL function in "<<__FUNCTION__;
         return;
     }
     cInitializeRates(&mData);
@@ -510,7 +510,7 @@ void CompiledExecutableModel::setRateRuleValues(const double *_rates)
 {
     if(!cAssignRates_b)
     {
-        Log(Logger::LOG_ERROR)<<"Tried to call NULL function in "<<__FUNCTION__;
+        rrLog(Logger::LOG_ERROR)<<"Tried to call NULL function in "<<__FUNCTION__;
         return;
     }
     cAssignRates_b(&mData, _rates);
@@ -520,7 +520,7 @@ void CompiledExecutableModel::computeConservedTotals()
 {
     if(!ccomputeConservedTotals)
     {
-        Log(Logger::LOG_ERROR)<<"Tried to call NULL function in "<<__FUNCTION__;
+        rrLog(Logger::LOG_ERROR)<<"Tried to call NULL function in "<<__FUNCTION__;
         return;
     }
     ccomputeConservedTotals(&mData);
@@ -530,7 +530,7 @@ void CompiledExecutableModel::computeEventPriorites()
 {
     if(!ccomputeEventPriorities)
     {
-        Log(Logger::LOG_ERROR)<<"Tried to call NULL function in "<<__FUNCTION__;
+        rrLog(Logger::LOG_ERROR)<<"Tried to call NULL function in "<<__FUNCTION__;
         return;
     }
     ccomputeEventPriorities(&mData);
@@ -540,7 +540,7 @@ void CompiledExecutableModel::convertToAmounts()
 {
     if(!cconvertToAmounts)
     {
-        Log(Logger::LOG_ERROR)<<"Tried to call NULL function in "<<__FUNCTION__;
+        rrLog(Logger::LOG_ERROR)<<"Tried to call NULL function in "<<__FUNCTION__;
         return;
     }
     cconvertToAmounts(&mData);
@@ -550,7 +550,7 @@ void CompiledExecutableModel::convertToConcentrations()
 {
     if(!cconvertToConcentrations)
     {
-        Log(Logger::LOG_ERROR)<<"Tried to call NULL function in "<<__FUNCTION__;
+        rrLog(Logger::LOG_ERROR)<<"Tried to call NULL function in "<<__FUNCTION__;
         return;
     }
     cconvertToConcentrations(&mData);
@@ -560,7 +560,7 @@ void CompiledExecutableModel::updateDependentSpeciesValues()
 {
     if(!cupdateDependentSpeciesValues)
     {
-        Log(Logger::LOG_ERROR)<<"Tried to call NULL function in "<<__FUNCTION__;
+        rrLog(Logger::LOG_ERROR)<<"Tried to call NULL function in "<<__FUNCTION__;
         return;
     }
 
@@ -572,7 +572,7 @@ void CompiledExecutableModel::computeRules()
 {
     if(!ccomputeRules)
     {
-        Log(Logger::LOG_ERROR)<<"Tried to call NULL function in "<<__FUNCTION__;
+        rrLog(Logger::LOG_ERROR)<<"Tried to call NULL function in "<<__FUNCTION__;
         return;
     }
 
@@ -583,7 +583,7 @@ void CompiledExecutableModel::setInitialConditions()
 {
     if(!csetInitialConditions)
     {
-        Log(Logger::LOG_ERROR)<<"Tried to call NULL function in "<<__FUNCTION__;
+        rrLog(Logger::LOG_ERROR)<<"Tried to call NULL function in "<<__FUNCTION__;
         return;
     }
 
@@ -594,7 +594,7 @@ void CompiledExecutableModel::computeAllRatesOfChange()
 {
     if(!ccomputeAllRatesOfChange)
     {
-        Log(Logger::LOG_ERROR)<<"Tried to call NULL function in "<<__FUNCTION__;
+        rrLog(Logger::LOG_ERROR)<<"Tried to call NULL function in "<<__FUNCTION__;
         return;
     }
     ccomputeAllRatesOfChange(&mData);
@@ -604,14 +604,14 @@ void CompiledExecutableModel::getStateVectorRate(double timein, const double *y,
 {
     if(!cevalModel)
     {
-        Log(Logger::LOG_ERROR)<<"Tried to call NULL function in "<<__FUNCTION__;
+        rrLog(Logger::LOG_ERROR)<<"Tried to call NULL function in "<<__FUNCTION__;
         return;
     }
 
     if (y == 0)
     {
         // use current state
-        vector<double> currentState(getStateVector(0), 0.0);
+        std::vector<double> currentState(getStateVector(0), 0.0);
         getStateVector(&currentState[0]);
         cevalModel(&mData, timein, &currentState[0]);
     }
@@ -634,14 +634,14 @@ void CompiledExecutableModel::evalEvents(const double timeIn, const double*y)
 {
     if(!cevalEvents)
     {
-        Log(Logger::LOG_ERROR)<<"Tried to call NULL function in "<<__FUNCTION__;
+        rrLog(Logger::LOG_ERROR)<<"Tried to call NULL function in "<<__FUNCTION__;
         return;
     }
 
     if (y == 0)
     {
         // use current state
-        vector<double> currentState(getStateVector(0), 0.0);
+        std::vector<double> currentState(getStateVector(0), 0.0);
         getStateVector(&currentState[0]);
         cevalEvents(&mData, timeIn, &currentState[0]);
     }
@@ -655,7 +655,7 @@ void CompiledExecutableModel::resetEvents()
 {
     if(!cresetEvents)
     {
-        Log(Logger::LOG_ERROR)<<"Tried to call NULL function in "<<__FUNCTION__;
+        rrLog(Logger::LOG_ERROR)<<"Tried to call NULL function in "<<__FUNCTION__;
         return;
     }
 
@@ -666,7 +666,7 @@ void CompiledExecutableModel::evalInitialAssignments()
 {
     if(!cevalInitialAssignments)
     {
-        Log(Logger::LOG_ERROR)<<"Tried to call NULL function in "<<__FUNCTION__;
+        rrLog(Logger::LOG_ERROR)<<"Tried to call NULL function in "<<__FUNCTION__;
         return;
     }
 
@@ -677,7 +677,7 @@ void CompiledExecutableModel::testConstraints()
 {
     if(!ctestConstraints)
     {
-        Log(Logger::LOG_ERROR)<<"Tried to call NULL function in "<<__FUNCTION__;
+        rrLog(Logger::LOG_ERROR)<<"Tried to call NULL function in "<<__FUNCTION__;
         throw(Exception("Problem in testConstraints"));
     }
 
@@ -688,20 +688,20 @@ void CompiledExecutableModel::initializeRateRuleSymbols()
 {
     if(!cInitializeRateRuleSymbols)
     {
-        Log(Logger::LOG_ERROR)<<"Tried to call NULL function in "<<__FUNCTION__;
+        rrLog(Logger::LOG_ERROR)<<"Tried to call NULL function in "<<__FUNCTION__;
         return;
     }
 
     cInitializeRateRuleSymbols(&mData);
 }
 
-string CompiledExecutableModel::getInfo()
+std::string CompiledExecutableModel::getInfo()
 {
-    stringstream info;
-    info << "CompiledExecutableModel" << endl;
-    info << "ModelName: "             <<  getModelName()<<endl;
-    info << "Model DLL Loaded: "      << (mDLL->isLoaded() ? "true" : "false")    <<endl;
-    info << "Initialized: "           << (mIsInitialized ? "true" : "false")    <<endl;
+    std::stringstream info;
+    info << "CompiledExecutableModel" << std::endl;
+    info << "ModelName: "             <<  getModelName()<<std::endl;
+    info << "Model DLL Loaded: "      << (mDLL->isLoaded() ? "true" : "false")    <<std::endl;
+    info << "Initialized: "           << (mIsInitialized ? "true" : "false")    <<std::endl;
     return info.str();
 }
 
@@ -744,7 +744,7 @@ void CompiledExecutableModel::reset()
 
 void CompiledExecutableModel::print(std::ostream &stream)
 {
-    stream << "CompiledExecutableModel" << endl;
+    stream << "CompiledExecutableModel" << std::endl;
     stream << mData;
 }
 
@@ -969,22 +969,22 @@ int CompiledExecutableModel::getEventTriggers(int len, const int *indx,
 }
 
 
-vector<int> CompiledExecutableModel::retestEvents(const double& timeEnd, const vector<int>& handledEvents, vector<int>& removeEvents)
+std::vector<int> CompiledExecutableModel::retestEvents(const double& timeEnd, const std::vector<int>& handledEvents, std::vector<int>& removeEvents)
 {
     return retestEvents(timeEnd, handledEvents, false, removeEvents);
 }
 
-vector<int> CompiledExecutableModel::retestEvents(const double& timeEnd, vector<int>& handledEvents, const bool& assignOldState)
+std::vector<int> CompiledExecutableModel::retestEvents(const double& timeEnd, std::vector<int>& handledEvents, const bool& assignOldState)
 {
-    vector<int> removeEvents;
+    std::vector<int> removeEvents;
     return retestEvents(timeEnd, handledEvents, assignOldState, removeEvents);
 }
 
-vector<int> CompiledExecutableModel::retestEvents(const double& timeEnd, const vector<int>& handledEvents,
-        const bool& assignOldState, vector<int>& removeEvents)
+std::vector<int> CompiledExecutableModel::retestEvents(const double& timeEnd, const std::vector<int>& handledEvents,
+        const bool& assignOldState, std::vector<int>& removeEvents)
 {
-    vector<int> result;
-//    vector<int> removeEvents;// = new vector<int>();    //Todo: this code was like this originally.. which removeEvents to use???
+    std::vector<int> result;
+//    std::vector<int> removeEvents;// = new std::vector<int>();    //Todo: this code was like this originally.. which removeEvents to use???
 
     if (this->getConservedSumChanged())
     {
@@ -995,7 +995,7 @@ vector<int> CompiledExecutableModel::retestEvents(const double& timeEnd, const v
     this->getStateVectorRate(timeEnd, 0, 0);
 
     // copy original evenStatusArray
-    vector<bool> eventStatusArray(mData.eventStatusArray,
+    std::vector<bool> eventStatusArray(mData.eventStatusArray,
             mData.eventStatusArray +
             mData.numEvents);
 
@@ -1059,8 +1059,8 @@ int CompiledExecutableModel::applyEvents(double timeEnd,
     this->updateDependentSpeciesValues();
     this->evalEvents(timeEnd, 0);
 
-    vector<int> firedEvents;
-    map<int, double* > preComputedAssignments;
+    std::vector<int> firedEvents;
+    std::map<int, double* > preComputedAssignments;
 
 
     for (int i = 0; i < this->getNumEvents(); i++)
@@ -1088,7 +1088,7 @@ int CompiledExecutableModel::applyEvents(double timeEnd,
 
     int numEvents = firedEvents.size();
 
-    vector<int> handled;
+    std::vector<int> handled;
     while (firedEvents.size() > 0)
     {
         sortEventsByPriority(firedEvents);
@@ -1111,8 +1111,8 @@ int CompiledExecutableModel::applyEvents(double timeEnd,
                 }
 
                 handled.push_back(currentEvent);
-                vector<int> removeEvents;
-                vector<int> additionalEvents = retestEvents(timeEnd, handled, removeEvents);
+                std::vector<int> removeEvents;
+                std::vector<int> additionalEvents = retestEvents(timeEnd, handled, removeEvents);
 
 
                 // buggy MSVC stdlib has issues with copy, so have to insert
@@ -1129,7 +1129,7 @@ int CompiledExecutableModel::applyEvents(double timeEnd,
                 }
 
                 mData.eventStatusArray[currentEvent] = false;
-                Log(lDebug3)<<"Fired Event with ID:"<<currentEvent;
+                rrLog(lDebug3)<<"Fired Event with ID:"<<currentEvent;
                 firedEvents.erase(firedEvents.begin() + i);
 
                 for (int i = 0; i < removeEvents.size(); i++)
@@ -1199,44 +1199,44 @@ void CompiledExecutableModel::removePendingAssignmentForIndex(int eventIndex)
     }
 }
 
-void CompiledExecutableModel::sortEventsByPriority(vector<rr::Event>& firedEvents)
+void CompiledExecutableModel::sortEventsByPriority(std::vector<rr::Event>& firedEvents)
 {
     if ((firedEvents.size() > 1))
     {
-        Log(lDebug3)<<"Sorting event priorities";
+        rrLog(lDebug3)<<"Sorting event priorities";
         for(int i = 0; i < firedEvents.size(); i++)
         {
             firedEvents[i].SetPriority(mData.eventPriorities[firedEvents[i].GetID()]);
-            Log(lDebug3)<<firedEvents[i];
+            rrLog(lDebug3)<<firedEvents[i];
         }
         sort(firedEvents.begin(), firedEvents.end(), SortByPriority());
 
-        Log(lDebug3)<<"After sorting event priorities";
+        rrLog(lDebug3)<<"After sorting event priorities";
         for(int i = 0; i < firedEvents.size(); i++)
         {
-            Log(lDebug3)<<firedEvents[i];
+            rrLog(lDebug3)<<firedEvents[i];
         }
     }
 }
 
-void CompiledExecutableModel::sortEventsByPriority(vector<int>& firedEvents)
+void CompiledExecutableModel::sortEventsByPriority(std::vector<int>& firedEvents)
 {
     if (firedEvents.size() > 1)
     {
         this->computeEventPriorites();
-        vector<rr::Event> dummy;
+        std::vector<rr::Event> dummy;
         for(int i = 0; i < firedEvents.size(); i++)
         {
             Event event(firedEvents[i]);
             dummy.push_back(event);
         }
 
-        Log(lDebug3)<<"Sorting event priorities";
+        rrLog(lDebug3)<<"Sorting event priorities";
         for(int i = 0; i < firedEvents.size(); i++)
         {
             Event &event = dummy[i];
             event.SetPriority(mData.eventPriorities[event.GetID()]);
-            Log(lDebug3) << event;
+            rrLog(lDebug3) << event;
         }
         sort(dummy.begin(), dummy.end(), SortByPriority());
 
@@ -1245,10 +1245,10 @@ void CompiledExecutableModel::sortEventsByPriority(vector<int>& firedEvents)
             firedEvents[i] = dummy[i].GetID();
         }
 
-        Log(lDebug3)<<"After sorting event priorities";
+        rrLog(lDebug3)<<"After sorting event priorities";
         for(int i = 0; i < firedEvents.size(); i++)
         {
-            Log(lDebug3)<<firedEvents[i];
+            rrLog(lDebug3)<<firedEvents[i];
         }
     }
 }
@@ -1310,13 +1310,13 @@ int CompiledExecutableModel::getNumConservedMoieties()
     return ms.mConservationList.size();
 }
 
-int CompiledExecutableModel::getConservedMoietyIndex(const string& name)
+int CompiledExecutableModel::getConservedMoietyIndex(const std::string& name)
 {
     int result = -1;
     return ms.mConservationList.find(name, result) ? result : -1;
 }
 
-string CompiledExecutableModel::getConservedMoietyId(int index)
+std::string CompiledExecutableModel::getConservedMoietyId(int index)
 {
     return ms.mConservationList[index].name;
 }
@@ -1539,7 +1539,7 @@ double CompiledExecutableModel::getValue(const std::string& id)
 
     if (sel.selectionType == SelectionRecord::UNKNOWN)
     {
-        throw Exception("invalid selection string " + id);
+        throw Exception("invalid selection std::string " + id);
     }
 
     // check to see that we have valid selection ids
@@ -1594,8 +1594,8 @@ double CompiledExecutableModel::getValue(const std::string& id)
         }
         else
         {
-            string msg = "No sbml element exists for concentration selection '" + id + "'";
-            Log(Logger::LOG_ERROR) << msg;
+            std::string msg = "No sbml element exists for concentration selection '" + id + "'";
+            rrLog(Logger::LOG_ERROR) << msg;
             throw Exception(msg);
             break;
         }
@@ -1641,7 +1641,7 @@ double CompiledExecutableModel::getValue(const std::string& id)
 
 
     default:
-        Log(Logger::LOG_ERROR) << "A new SelectionRecord should not have this value: "
+        rrLog(Logger::LOG_ERROR) << "A new SelectionRecord should not have this value: "
         << sel.to_repr();
         throw Exception("Invalid selection '" + id + "' for setting value");
         break;
@@ -1660,7 +1660,7 @@ void CompiledExecutableModel::setValue(const std::string& id, double value)
 
     if (sel.selectionType == SelectionRecord::UNKNOWN)
     {
-        throw Exception("invalid selection string " + id);
+        throw Exception("invalid selection std::string " + id);
     }
 
     // check to see that we have valid selection ids
@@ -1705,8 +1705,8 @@ void CompiledExecutableModel::setValue(const std::string& id, double value)
         }
         else
         {
-            string msg = "No sbml element exists for concentration selection '" + id + "'";
-            Log(Logger::LOG_ERROR) << msg;
+            std::string msg = "No sbml element exists for concentration selection '" + id + "'";
+            rrLog(Logger::LOG_ERROR) << msg;
             throw Exception(msg);
             break;
         }
@@ -1742,7 +1742,7 @@ void CompiledExecutableModel::setValue(const std::string& id, double value)
 
 
     default:
-        Log(Logger::LOG_ERROR) << "Invalid selection '" + sel.to_string() + "' for setting value";
+        rrLog(Logger::LOG_ERROR) << "Invalid selection '" + sel.to_string() + "' for setting value";
         throw Exception("Invalid selection '" + sel.to_string() + "' for setting value");
         break;
     }

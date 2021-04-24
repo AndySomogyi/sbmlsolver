@@ -7,7 +7,7 @@
 #include "Args.h"
 #include "rrUtils.h"
 //---------------------------------------------------------------------------
-using namespace std;
+
 Args::Args()
 :
 SBMLModelsFilePath(""),
@@ -19,20 +19,20 @@ TempDataFolder("."),
 EnableLogging(false)
 {}
 
-string Usage(const string& prg)
+std::string Usage(const std::string& prg)
 {
-    stringstream usage;
+    std::stringstream usage;
     usage << "\nUSAGE for "<<prg<<"\n\n";
     usage<<left;
-    usage<<setfill('.');
-    usage<<setw(25)<<"-m<FilePath>"                 <<" Folder where the program will read sbml models. \n";
-	usage<<setw(25)<<"-l<FilePath>"                 <<" Compiler \n";
-	usage<<setw(25)<<"-s<FilePath>"                 <<" Support code folder location\n";
-	usage<<setw(25)<<"-r<FilePath>"                 <<" Results output file, with path.\n";
-    usage<<setw(25)<<"-t<FilePath>"                 <<" Temporary data output folder. If not given, temp files are output to current directory\n";
-    usage<<setw(25)<<"-d<FilePath>"                 <<" Data outputFolder\n";
-    usage<<setw(25)<<"-v"                 			<<" Enable Logging\n";
-    usage<<setw(25)<<"-?"                           <<" Shows the help screen.\n\n";
+    usage<<std::setfill('.');
+    usage<<std::setw(25)<<"-m<FilePath>"                 <<" Folder where the program will read sbml models. \n";
+	usage<<std::setw(25)<<"-l<FilePath>"                 <<" Compiler \n";
+	usage<<std::setw(25)<<"-s<FilePath>"                 <<" Support code folder location\n";
+	usage<<std::setw(25)<<"-r<FilePath>"                 <<" Results output file, with path.\n";
+    usage<<std::setw(25)<<"-t<FilePath>"                 <<" Temporary data output folder. If not given, temp files are output to current directory\n";
+    usage<<std::setw(25)<<"-d<FilePath>"                 <<" Data outputFolder\n";
+    usage<<std::setw(25)<<"-v"                 			<<" Enable Logging\n";
+    usage<<std::setw(25)<<"-?"                           <<" Shows the help screen.\n\n";
 
 	usage<<"\nSystems Biology, UW 2012\n";
 	rr::pause();
