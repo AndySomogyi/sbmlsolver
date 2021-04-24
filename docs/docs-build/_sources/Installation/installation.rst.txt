@@ -38,7 +38,7 @@ If you are new to CMake, we recommend you read the `cmake tutorial <https://cmak
 
 On windows, you should use the "x64 Native Tools Command Prompt for VS 2019" shell which you can find by opening the start menu and begin typing "x64 Native Tools Command Prompt for VS 2019". This will ensure you are building x64 bit application.
 
-If you want to use new `Windows Terminal <https://www.microsoft.com/en-us/p/windows-terminal/9n0dx20hk701?activetab=pivot:overviewtab>`_ you can set up the same environment by editing the windows terminal settings file, `see <https://stackoverflow.com/questions/57925428/add-developer-command-prompt-for-visual-studio-to-windows-terminal>`_
+If you want to use new `Windows Terminal <https://www.microsoft.com/en-us/p/windows-terminal/9n0dx20hk701?activetab=pivot:overviewtab>`_ you can set up the same environment by editing the windows terminal settings file: `Add Developer Command Prompt <https://stackoverflow.com/questions/57925428/add-developer-command-prompt-for-visual-studio-to-windows-terminal>`_
 
 .. warning::
 
@@ -111,11 +111,9 @@ at least two folders, one for the LLVM binaries (two of these if you downloaded 
 
 buildroadrunner
 
-| --- llvm-6.x-msvc2019-x64-debug
-
-| --- llvm-6.x-msvc2019-x64-debug
-
-| --- libroadrunner-deps
+|  --- llvm-6.x-msvc2019-x64-debug
+|  --- llvm-6.x-msvc2019-x64-debug
+|  --- libroadrunner-deps
 
 4) Install Roadrunner
 ----------------------
