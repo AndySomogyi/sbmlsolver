@@ -216,6 +216,7 @@
 <li><p><a class="reference external" href="https://git-scm.com/book/en/v2/Getting-Started-Installing-Git">git</a></p></li>
 </ul>
 <p>If you are new to CMake, we recommend you read the <a class="reference external" href="https://cmake.org/cmake/help/latest/guide/tutorial/index.html">cmake tutorial</a> to get the basics before continuing.</p>
+<p>The following instructions apply to Windwos, Mac OS and Linux. Where they diverge we will provide the specfic platform instruction.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>If at any point you get stuck or encounter an error please first read the <a class="reference internal" href="troubleshooting_the_build.html#troubleshooting-the-build"><span class="std std-ref">Troubleshooting the build</span></a>
@@ -278,12 +279,10 @@ argument to <cite>-DRR_DEPENDENCIES_INSTALL_PREFIX</cite> below.</p>
 </div>
 <p>At this point you will have a folder called buildroadrunner and inside that you’ll have
 at least two folders, one for the LLVM binaries (two of these if you downloaded the release and debug versions) and the folder libroadrunner-deps. This is shown below.</p>
-<p>buildroadrunner</p>
-<div class="line-block">
-<div class="line">— llvm-6.x-msvc2019-x64-debug</div>
-<div class="line">— llvm-6.x-msvc2019-x64-debug</div>
-<div class="line">— libroadrunner-deps</div>
-</div>
+<p>buildroadrunner
+|  — llvm-6.x-msvc2019-x64-debug
+|  — llvm-6.x-msvc2019-x64-debug
+|  — libroadrunner-deps</p>
 </div>
 <div class="section" id="install-roadrunner">
 <h3>4) Install Roadrunner<a class="headerlink" href="#install-roadrunner" title="Permalink to this headline">¶</a></h3>
@@ -306,8 +305,8 @@ cmake -DCMAKE_INSTALL_PREFIX<span class="o">=</span><span class="s2">&quot;../in
 cmake --build . --target install --config Release
 </pre></div>
 </div>
-<p>The first cmake line above is quite long and you won’t be able to copy and paste it directly into the windows terminal. To avoid this, copy the long cmake line in an editor (such as notepad) and make it one line long. Then copy and paste into the Windows terminal.</p>
-<p>Note that if you want to create a debug version, just swap instance of the phrase Release (or release) for Debug (or debug).</p>
+<p>The first cmake line above is quite long and you won’t be able to copy and paste it directly into the windows terminal. To avoid this, copy the long cmake line into an editor (such as notepad) and make it one line long. Then copy and paste into the Windows terminal.</p>
+<p>Note: if you want to create a debug version, just swap instances of the phrase Release (or release) for Debug (or debug).</p>
 </div>
 </div>
 <div class="section" id="roadrunner-optional-features">
@@ -371,7 +370,7 @@ $ cmake --build . --target install --config Release
 </div>
 <div class="section" id="building-roadrunner-tests">
 <h3>Building roadrunner tests<a class="headerlink" href="#building-roadrunner-tests" title="Permalink to this headline">¶</a></h3>
-<p>I you want the tests compiled you need to add an extra option to the cmake command that was used in step 4.</p>
+<p>I you want the tests compiled you need to add an extra option to the cmake command that was used in step 4 but is repeated here for convenience.</p>
 <p>Use the <cite>-DBUILD_TESTS=ON</cite> option. Remember that in the following script to change Release to Debug is you are creating the debug version.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ cmake -DCMAKE_INSTALL_PREFIX<span class="o">=</span><span class="s2">&quot;../install-Release&quot;</span> <span class="se">\</span>
     -DLLVM_INSTALL_PREFIX<span class="o">=</span><span class="s2">&quot;/full/path/to/where/you/put/llvm-6.x-release&quot;</span> <span class="se">\</span>

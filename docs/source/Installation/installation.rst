@@ -31,6 +31,8 @@ You will need:
 
 If you are new to CMake, we recommend you read the `cmake tutorial <https://cmake.org/cmake/help/latest/guide/tutorial/index.html>`_ to get the basics before continuing.
 
+The following instructions apply to Windwos, Mac OS and Linux. Where they diverge we will provide the specfic platform instruction. 
+
 .. note::
 
     If at any point you get stuck or encounter an error please first read the :ref:`Troubleshooting the build <Troubleshooting the Build>`
@@ -110,7 +112,6 @@ At this point you will have a folder called buildroadrunner and inside that you'
 at least two folders, one for the LLVM binaries (two of these if you downloaded the release and debug versions) and the folder libroadrunner-deps. This is shown below.
 
 buildroadrunner
-
 |  --- llvm-6.x-msvc2019-x64-debug
 |  --- llvm-6.x-msvc2019-x64-debug
 |  --- libroadrunner-deps
@@ -140,9 +141,9 @@ If you have not done so already, :ref:`download or build llvm-6.x <LLVM-6.x depe
         -DCMAKE_BUILD_TYPE="Release" ..
     cmake --build . --target install --config Release
 
-The first cmake line above is quite long and you won't be able to copy and paste it directly into the windows terminal. To avoid this, copy the long cmake line in an editor (such as notepad) and make it one line long. Then copy and paste into the Windows terminal.
+The first cmake line above is quite long and you won't be able to copy and paste it directly into the windows terminal. To avoid this, copy the long cmake line into an editor (such as notepad) and make it one line long. Then copy and paste into the Windows terminal.
 
-Note that if you want to create a debug version, just swap instance of the phrase Release (or release) for Debug (or debug).
+Note: if you want to create a debug version, just swap instances of the phrase Release (or release) for Debug (or debug).
 
 Roadrunner Optional Features
 =============================
@@ -209,7 +210,7 @@ while the `RR_PLUGINS_BUILD_STATIC_LIB` option remains OFF.
 Building roadrunner tests
 --------------------------
 
-I you want the tests compiled you need to add an extra option to the cmake command that was used in step 4. 
+I you want the tests compiled you need to add an extra option to the cmake command that was used in step 4 but is repeated here for convenience.  
 
 Use the `-DBUILD_TESTS=ON` option. Remember that in the following script to change Release to Debug is you are creating the debug version. 
 
