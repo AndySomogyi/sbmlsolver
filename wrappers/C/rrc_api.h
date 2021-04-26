@@ -1103,8 +1103,8 @@ C_DECL_SPEC bool rrcCallConv removeEventsNoRegen(RRHandle handle, const char* ei
 
 
 /*!
- \brief After a model has been edited, it needs to be compiled. Call regenerate to
-   recompile a model so that it is ready for use.
+ \brief After a model has been edited, it needs to be compiled. Call regenerate to 
+   recompile a model so that it is ready for use. 
  \param[in] handle Handle to a RoadRunner instance
  \return Returns false if the call fails, otherwise returns a true
  \ingroup edit

@@ -71,7 +71,6 @@ install(TARGETS ${test_targets})
 
 add_subdirectory(sundials-tests)
 
-
 add_custom_target(
         run-ctest
         ctest --progress --verbose --extra-verbose ${CMAKE_BINARY_DIR}
