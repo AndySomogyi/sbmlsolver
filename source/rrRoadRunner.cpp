@@ -5499,7 +5499,7 @@ void RoadRunner::addSpeciesConcentration (const std::string& sid, const std::str
         throw std::invalid_argument ("Roadrunner::addaddSpeciesConcentrationSpecies failed, no compartment " + compartment + " existed in the model");
     }
 
-    rrLog (Logger::LOG_DEBUG) << "Adding species " << sid << " in compartment " << compartment << "..." << endl;
+    rrLog (Logger::LOG_DEBUG) << "Adding species " << sid << " in compartment " << compartment << "..." << std::endl;
     libsbml::Species* newSpecies = impl->document->getModel ()->createSpecies ();
 
     int ret = newSpecies->setId (sid);
