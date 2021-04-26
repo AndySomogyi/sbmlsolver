@@ -356,21 +356,24 @@ add_library(${target}-static STATIC ${rrSources} ${rrHeaders})
 # specify STATIC_RR
 target_compile_definitions(${target}-static PUBLIC STATIC_RR)
 
-target_include_directories(
-        ${target}-static PUBLIC
-        "$<BUILD_INTERFACE:${LLVM_INCLUDE_DIRS}>"
+set(INCLUDE_DIRS "$<BUILD_INTERFACE:${LLVM_INCLUDE_DIRS}>"
         "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>"
         "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/llvm>"
         "$<BUILD_INTERFACE:${LLVM_INCLUDE_DIRS}>"
         "$<BUILD_INTERFACE:${DEPENDENCY_INCLUDE_DIR}>"
-        "$<BUILD_INTERFACE:${CURSES_INCLUDE_DIRS}>"
         # though roadrunner does not link libxml2 directly, it does
         # so in the plugins. This next item enables targets that
         # link to roadrunner-static to use
         # #include "libxml/tree.h", for instance in the plugin code.
         "$<BUILD_INTERFACE:${DEPENDENCY_INCLUDE_DIR}/libxml2>"
         "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>"
-        "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>"
+        "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>")
+if (NOT WIN32)
+    set(INCLUDE_DIRS ${INCLUDE_DIRS} "$<BUILD_INTERFACE:${CURSES_INCLUDE_DIRS}>")
+endif ()
+
+target_include_directories(
+        ${target}-static PUBLIC ${INCLUDE_DIRS}
 )
 
 # Extra platform specific libraries
@@ -379,12 +382,12 @@ target_include_directories(
 set(PLATFORM_SPECIFIC_LIBS)
 if (UNIX)
     #    icui18n icuuc (can be used instead of iconv)
-    set(PLATFORM_SPECIFIC_LIBS ${PLATFORM_SPECIFIC_LIBS} pthread dl m)
+    set(PLATFORM_SPECIFIC_LIBS ${PLATFORM_SPECIFIC_LIBS} pthread dl m ${CURSES_LIBRARIES})
 elseif (WIN32)
-    set(PLATFORM_SPECIFIC_LIBS ${PLATFORM_SPECIFIC_LIBS} Ws2_32)
-elseif (APPLE)
-    message(WARNING "mac specific link libraries should go here, I don't know if they
-will be different from linux Please remove this warning. (Ciaran)")
+    set(PLATFORM_SPECIFIC_LIBS ${PLATFORM_SPECIFIC_LIBS} Ws2_32 )
+elseif (APPLE AND NOT UNIX)
+    set(PLATFORM_SPECIFIC_LIBS ${PLATFORM_SPECIFIC_LIBS} ${CURSES_LIBRARIES})
+
 endif ()
 
 # link the libraries -- remember that order here
@@ -392,7 +395,8 @@ endif ()
 target_link_libraries(
         ${target}-static
         PUBLIC
-        ${CURSES_LIBRARIES}
+        ${PLATFORM_SPECIFIC_LIBS}
+
         ${LLVM_LIBRARIES}
         rr-libstruct::rr-libstruct-static
         ${SBML_TARGET_NAME}
@@ -427,13 +431,12 @@ target_link_libraries(
         PocoFoundation::PocoFoundation
         PocoNet::PocoNet
         iconv::libcharset iconv::libiconv-static
-        ${PLATFORM_SPECIFIC_LIBS}
 
 )
 
 add_library(${target} SHARED ${rrSources} ${rrHeaders})
 target_compile_definitions(${target} PRIVATE EXPORT_RR)
-target_link_libraries(${target} PUBLIC $<TARGET_PROPERTY:${target}-static,LINK_LIBRARIES> )
+target_link_libraries(${target} PUBLIC $<TARGET_PROPERTY:${target}-static,LINK_LIBRARIES>)
 target_include_directories(${target} PUBLIC $<TARGET_PROPERTY:${target}-static,INCLUDE_DIRECTORIES>)
 
 
