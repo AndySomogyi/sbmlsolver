@@ -1272,7 +1272,9 @@ namespace rr
         ls::DoubleMatrix getSteadyStateValuesNamedArray();
 
         /**
-         * Regenerate this RoadRunner instance's ExecutableModel based on the model in its SBMLDocument
+          * @brief regenerate a model, this recompiles the internal runtime model.
+          * @details This would be used after a series of addSpecies, addReaction calls
+          * and the model is then ready to be compiled into executable form.
          */
         void regenerateModel(bool forceRegenerate = true, bool reset = false);
 
