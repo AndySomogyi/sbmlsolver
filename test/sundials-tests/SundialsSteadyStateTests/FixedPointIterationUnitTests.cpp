@@ -38,7 +38,7 @@ TEST_F(FixedPointIterationUnitTests, ChangeAndResetSettings) {
 
 
 TEST_F(FixedPointIterationUnitTests, RegenerateTheModelBeforeCreatingSolver) {
-    rr->regenerate();
+    rr->regenerateModel();
     FixedPointIteration solver(rr->getModel());
     solver.solve();
     checkResults(rr->getFloatingSpeciesConcentrationsNamedArray());
@@ -46,7 +46,7 @@ TEST_F(FixedPointIterationUnitTests, RegenerateTheModelBeforeCreatingSolver) {
 
 TEST_F(FixedPointIterationUnitTests, RegenerateTheModelAfterCreatingSolver) {
     FixedPointIteration solver(rr->getModel());
-    rr->regenerate();
+    rr->regenerateModel();
     // after regeneration, the pointer to the model is different
     // so we must sync with model before solving.
     solver.syncWithModel(rr->getModel());

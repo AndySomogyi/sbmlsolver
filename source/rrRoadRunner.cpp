@@ -1365,7 +1365,7 @@ void RoadRunner::setConservedMoietyAnalysis(bool value)
         self.loadOpt.modelGeneratorOpt |= LoadSBMLOptions::RECOMPILE;
 
 		//load(getSBML());
-		regenerate(true);
+		regenerateModel(true);
 
         // restore original reload value
         self.loadOpt.modelGeneratorOpt = savedOpt;
@@ -5442,12 +5442,6 @@ void RoadRunner::loadSelectionVector(std::istream& in, std::vector<SelectionReco
 	}
 }
 
-void RoadRunner::regenerateModel ()
-{
-    regenerate (true);
-}
-
-
 void RoadRunner::addSpecies(const std::string& sid, const std::string& compartment, double initAmount, bool hasOnlySubstanceUnits, bool boundaryCondition, const std::string& substanceUnits, bool forceRegenerate)
 {
     checkID("addSpecies", sid);
@@ -5490,7 +5484,7 @@ void RoadRunner::addSpecies(const std::string& sid, const std::string& compartme
 
     newSpecies->setConstant(false);
 
-	regenerate(forceRegenerate);
+	regenerateModel(forceRegenerate);
 }
 
 
@@ -5581,7 +5575,7 @@ void RoadRunner::addSpeciesAmount(const std::string& sid, const std::string& com
 
     newSpecies->setConstant(false);
 
-	regenerate(forceRegenerate);
+	regenerateModel(forceRegenerate);
 }
 
 void RoadRunner::removeSpecies(const std::string& sid, bool forceRegenerate)
@@ -5667,7 +5661,7 @@ void RoadRunner::removeSpecies(const std::string& sid, bool forceRegenerate)
 
 	removeVariable(sid);
 	delete s;
-	regenerate(forceRegenerate);
+	regenerateModel(forceRegenerate);
 }
 
 
@@ -5685,7 +5679,7 @@ void RoadRunner::setBoundary(const std::string& sid, bool boundaryCondition, boo
 	rrLog(Logger::LOG_DEBUG) << "Setting boundary condition for species " << sid << "..." << std::endl;
 	species->setBoundaryCondition(boundaryCondition);
 
-	regenerate(forceRegenerate);
+	regenerateModel(forceRegenerate);
 }
 
 void RoadRunner::setHasOnlySubstanceUnits(const std::string& sid, bool hasOnlySubstanceUnits, bool forceRegenerate)
@@ -5702,7 +5696,7 @@ void RoadRunner::setHasOnlySubstanceUnits(const std::string& sid, bool hasOnlySu
 	rrLog(Logger::LOG_DEBUG) << "Setting hasOnlySubstanceUnits attribute for species " << sid << "..." << std::endl;
 	species->setHasOnlySubstanceUnits(hasOnlySubstanceUnits);
 
-	regenerate(forceRegenerate);
+	regenerateModel(forceRegenerate);
 }
 
 void RoadRunner::setInitAmount(const std::string& sid, double initAmount, bool forceRegenerate)
@@ -5724,7 +5718,7 @@ void RoadRunner::setInitAmount(const std::string& sid, double initAmount, bool f
 
 	species->setInitialAmount(initAmount);
 
-	regenerate(forceRegenerate);
+	regenerateModel(forceRegenerate);
 
 	// recover the updated init amount
 	int index = impl->model->getFloatingSpeciesIndex(sid);
@@ -5751,7 +5745,7 @@ void RoadRunner::setInitConcentration(const std::string& sid, double initConcent
 	}
 	species->setInitialConcentration(initConcentration);
 
-	regenerate(forceRegenerate);
+	regenerateModel(forceRegenerate);
 
 	// recover the updated init concentration
 	int index = impl->model->getFloatingSpeciesIndex(sid);
@@ -5795,7 +5789,7 @@ void RoadRunner::setConstant(const std::string& sid, bool constant, bool forceRe
 		throw std::invalid_argument("Roadrunner::setConstant failed, no species/ parameter/ compartment with ID " + sid + " existed in the model");
 	}
 
-	regenerate(forceRegenerate);
+	regenerateModel(forceRegenerate);
 }
 
 
@@ -5808,7 +5802,7 @@ void RoadRunner::addReaction(const std::string& sbmlRep, bool forceRegenerate)
 	newReaction->read(stream);
 	// TODO: ERROR HANDLING
 
-	regenerate(forceRegenerate);
+	regenerateModel(forceRegenerate);
 }
 
 void RoadRunner::addReaction(const std::string& rid, std::vector<std::string> reactants, std::vector<std::string> products, const std::string& kineticLaw, bool forceRegenerate)
@@ -5887,7 +5881,7 @@ void RoadRunner::addReaction(const std::string& rid, std::vector<std::string> re
 	newReaction->setReversible(false);
 	newReaction->setFast(false);
 
-	regenerate(forceRegenerate);
+	regenerateModel(forceRegenerate);
 }
 
 
@@ -5937,7 +5931,7 @@ void RoadRunner::removeReaction(const std::string& rid, bool deleteUnusedParamet
 		}
 	}
 	delete toDelete;
-	regenerate(forceRegenerate);
+	regenerateModel(forceRegenerate);
 }
 
 bool RoadRunner::isParameterUsed(const std::string& sid)
@@ -6025,7 +6019,7 @@ void RoadRunner::setReversible(const std::string& rid,bool reversible, bool forc
 	rrLog(Logger::LOG_DEBUG) << "Setting reversible attribute for reaction " << rid << "..." << std::endl;
 	reaction->setReversible(reversible);
 
-	regenerate(forceRegenerate);
+	regenerateModel(forceRegenerate);
 }
 
 
@@ -6068,7 +6062,7 @@ void RoadRunner::setKineticLaw(const std::string& rid, const std::string& kineti
         reaction->addModifier(sbmlModel->getSpecies(s));
     }
 
-	regenerate(forceRegenerate);
+	regenerateModel(forceRegenerate);
 }
 
 
@@ -6123,7 +6117,7 @@ void RoadRunner::addParameter(const std::string& pid, double value, bool forceRe
 	// set required attributes to default
 	newParameter->setConstant(false);
 
-	regenerate(forceRegenerate);
+	regenerateModel(forceRegenerate);
 }
 
 void RoadRunner::removeParameter(const std::string& pid, bool forceRegenerate)
@@ -6137,7 +6131,7 @@ void RoadRunner::removeParameter(const std::string& pid, bool forceRegenerate)
 	removeVariable(pid);
 	delete toDelete;
 
-	regenerate(forceRegenerate);
+	regenerateModel(forceRegenerate);
 }
 
 
@@ -6156,7 +6150,7 @@ void RoadRunner::addCompartment(const std::string& cid, double initVolume, bool 
 	// set required attributes to default
 	newCompartment->setConstant(false);
 
-	regenerate(forceRegenerate);
+	regenerateModel(forceRegenerate);
 }
 
 
@@ -6190,7 +6184,7 @@ void RoadRunner::removeCompartment(const std::string& cid, bool forceRegenerate)
 
 	removeVariable(cid);
 	delete toDelete;
-	regenerate(forceRegenerate);
+	regenerateModel(forceRegenerate);
 }
 
 void checkAddRule(const std::string& vid, libsbml::Model* sbmlModel)
@@ -6260,7 +6254,7 @@ void RoadRunner::addAssignmentRule(const std::string& vid, const std::string& fo
 	newRule->setMath(mathRoot);
 	delete mathRoot;
 
-	regenerate(forceRegenerate, true);
+	regenerateModel(forceRegenerate, true);
 }
 
 void RoadRunner::addRateRule(const std::string& vid, const std::string& formula, bool forceRegenerate)
@@ -6281,7 +6275,7 @@ void RoadRunner::addRateRule(const std::string& vid, const std::string& formula,
 	newRule->setMath(mathRoot);
 	delete mathRoot;
 
-	regenerate(forceRegenerate);
+	regenerateModel(forceRegenerate);
 }
 
 // TODO: update C wrappers
@@ -6305,7 +6299,7 @@ void RoadRunner::removeRules(const std::string& vid, bool useInitialValueAsCurre
 	delete toDelete;
 	checkGlobalParameters();
 
-	regenerate(forceRegenerate);
+	regenerateModel(forceRegenerate);
 	// grab the initial initial value from sbml model
 	if (assignment)
 	{
@@ -6422,7 +6416,7 @@ void RoadRunner::addInitialAssignment(const std::string& vid, const std::string&
 
 	delete math;
 
-	regenerate(forceRegenerate, true);
+	regenerateModel(forceRegenerate, true);
 }
 
 void RoadRunner::removeInitialAssignment(const std::string& vid, bool forceRegenerate)
@@ -6439,7 +6433,7 @@ void RoadRunner::removeInitialAssignment(const std::string& vid, bool forceRegen
 	delete toDelete;
 	checkGlobalParameters();
 
-	regenerate(forceRegenerate);
+	regenerateModel(forceRegenerate);
 
 	// TODO: read-only mode does not have setters
 	if (!impl->simulatedSinceReset)
@@ -6523,7 +6517,7 @@ void RoadRunner::addEvent(const std::string& eid, bool useValuesFromTriggerTime,
 	}
 
 	// model regeneration will throw RuntimeError if the given formula is not valid
-	regenerate(forceRegenerate);
+	regenerateModel(forceRegenerate);
 }
 
 
@@ -6554,7 +6548,7 @@ void RoadRunner::addTrigger(const std::string& eid, const std::string& trigger, 
 	}
 
 	// model regeneration will throw RuntimeError if the given formula is not valid
-	regenerate(forceRegenerate, true);
+	regenerateModel(forceRegenerate, true);
 }
 
 void RoadRunner::setPersistent(const std::string& eid, bool persistent, bool forceRegenerate) {
@@ -6580,7 +6574,7 @@ void RoadRunner::setPersistent(const std::string& eid, bool persistent, bool for
 	rrLog(Logger::LOG_DEBUG) << "Setting persistent for trigger of " << eid << "..." << std::endl;
 	trigger->setPersistent(persistent);
 
-	regenerate(forceRegenerate, true);
+	regenerateModel(forceRegenerate, true);
 }
 
 void RoadRunner::setTriggerInitialValue(const std::string& eid, bool initValue, bool forceRegenerate) {
@@ -6606,7 +6600,7 @@ void RoadRunner::setTriggerInitialValue(const std::string& eid, bool initValue, 
 	rrLog(Logger::LOG_DEBUG) << "Setting initial value for trigger of " << eid << "..." << std::endl;
 	trigger->setInitialValue(initValue);
 
-	regenerate(forceRegenerate, true);
+	regenerateModel(forceRegenerate, true);
 }
 
 
@@ -6634,7 +6628,7 @@ void RoadRunner::addPriority(const std::string& eid, const std::string& priority
 	delete formula;
 
 	// model regeneration will throw RuntimeError if the given formula is not valid
-	regenerate(forceRegenerate, true);
+	regenerateModel(forceRegenerate, true);
 }
 
 
@@ -6658,7 +6652,7 @@ void RoadRunner::addDelay(const std::string& eid, const std::string& delay, bool
 	delete formula;
 
 	// model regeneration will throw RuntimeError if the given formula is not valid
-	regenerate(forceRegenerate, true);
+	regenerateModel(forceRegenerate, true);
 
 }
 
@@ -6704,7 +6698,7 @@ void RoadRunner::addEventAssignment(const std::string& eid, const std::string& v
 	delete math;
 
 	// model regeneration will throw RuntimeError if the given formula is not valid
-	regenerate(forceRegenerate, true);
+	regenerateModel(forceRegenerate, true);
 }
 
 
@@ -6725,7 +6719,7 @@ void RoadRunner::removeEventAssignments(const std::string & eid, const std::stri
 	rrLog(Logger::LOG_DEBUG) << "Removing event assignment for variable" << vid << " in event " << eid << "..." << std::endl;
 	delete toDelete;
 
-	regenerate(forceRegenerate, true);
+	regenerateModel(forceRegenerate, true);
 
 }
 
@@ -6740,7 +6734,7 @@ void RoadRunner::removeEvent(const std::string & eid, bool forceRegenerate)
 	}
 	rrLog(Logger::LOG_DEBUG) << "Removing event " << eid << "..." << std::endl;
 	delete toDelete;
-	regenerate(forceRegenerate, true);
+	regenerateModel(forceRegenerate, true);
 }
 
 void RoadRunner::validateCurrentSBML()
@@ -6765,7 +6759,7 @@ void RoadRunner::checkID(const std::string& functionName, const std::string & si
 }
 
 
-void RoadRunner::regenerate(bool forceRegenerate, bool reset)
+void RoadRunner::regenerateModel(bool forceRegenerate, bool reset)
 {
 	if (forceRegenerate)
 	{

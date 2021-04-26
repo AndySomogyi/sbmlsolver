@@ -765,8 +765,8 @@ class RoadRunnerTests(unittest.TestCase):
             RoadRunnerOptions
         )
 
-    def test_regenerate(self):
-        self.rr.regenerate()
+    def test_regenerateModel(self):
+        self.rr.regenerateModel()
         self.assertTrue(self.rr.isModelLoaded())
 
     @unittest.skip("unclear on how to use this method")

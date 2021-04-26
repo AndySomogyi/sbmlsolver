@@ -744,12 +744,6 @@ namespace rr
          */
         double getUnscaledSpeciesElasticity(int reactionId, int speciesIndex);
 
-        /**
-          * regenerate a model, this recompiles the internal runtime model.
-          * This would be used after a series of addSpecies, addReaction calls
-          * and the model is then ready to be compiled into executable form.
-         */
-        void regenerateModel ();
 
         /**
          * Add a species to the current model.
@@ -1280,7 +1274,7 @@ namespace rr
         /**
          * Regenerate this RoadRunner instance's ExecutableModel based on the model in its SBMLDocument
          */
-        void regenerate(bool forceRegenerate = true, bool reset = false);
+        void regenerateModel(bool forceRegenerate = true, bool reset = false);
 
         /******************************* End Steady State Section *********************/
 #endif /***********************************************************************/
