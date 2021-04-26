@@ -6817,6 +6817,10 @@ void RoadRunner::regenerateModel(bool forceRegenerate, bool reset)
 
 }
 
+void RoadRunner::regenerate(bool forceRegenerate, bool reset){
+    regenerateModel(forceRegenerate, reset);
+}
+
 void RoadRunner::parseSpecies(const std::string& species, double* stoichiometry, char** sid) {
 	const char* input = species.c_str();
 

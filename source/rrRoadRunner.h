@@ -1278,6 +1278,9 @@ namespace rr
          */
         void regenerateModel(bool forceRegenerate = true, bool reset = false);
 
+        [[deprecated("Use regenerateModel")]]
+        void regenerate(bool forceRegenerate = true, bool reset = false);
+
         /******************************* End Steady State Section *********************/
 #endif /***********************************************************************/
         /******************************************************************************/
