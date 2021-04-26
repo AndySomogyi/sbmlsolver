@@ -1172,7 +1172,7 @@ TEST (MODEL_EDITING_TEST_SUITE, CHECK_REGENERATE)
     rri.addSpeciesConcentration ("S2", "compartment", 1.0, false, false, "", false);
     rri.addParameter ("k1", 1.0, false);
     rri.addReaction ("reaction2", { "S2" }, { "S1" }, "k1*S2", false);
-    rri.regenerate ();
+    rri.regenerateModel ();
     try
     {
         int n = rri.getNumberOfFloatingSpecies ();

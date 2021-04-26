@@ -2246,7 +2246,7 @@ bool rrcCallConv regenerate (RRHandle handle)
 {
    start_try
        RoadRunner* rri = castToRoadRunner (handle);
-       rri->regenerate ();
+       rri->regenerateModel ();
       return true;
   catch_bool_macro
 }

@@ -4,6 +4,12 @@
 # https://aka.ms/yaml
 name: $(Date:yyyyMMdd)$(Rev:.r)
 
+# specific branch build
+trigger:
+  branches:
+    include:
+    - master
+    - develop
 
 variables:
   SOURCE_DIR: '$(System.DefaultWorkingDirectory)' # eg /home/vsts/work/1/s
