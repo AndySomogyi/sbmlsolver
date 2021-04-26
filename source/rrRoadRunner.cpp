@@ -5491,6 +5491,7 @@ void RoadRunner::addSpeciesConcentration (const std::string& sid, const std::str
 void RoadRunner::addSpeciesAmount(const std::string& sid, const std::string& compartment, double initAmount, bool hasOnlySubstanceUnits, bool boundaryCondition, const std::string& substanceUnits, bool forceRegenerate)
 {
     checkID("addSpeciesAmount", sid);
+    checkID("addSpeciesAmount", sid);
 
     libsbml::Model* model = impl->document->getModel();
 

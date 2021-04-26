@@ -185,8 +185,12 @@ class RoadRunnerTests(unittest.TestCase):
         self.rr.addReaction("NewReaction", ["S1"], ["S2"], "k1*S1", True)
         self.assertEqual(self.rr.NewReaction, 1.0)
 
+    def testAddSpeciesConcentrations(self):
+        self.rr.addSpeciesConcentration("NewSpecies", "default_compartment", 123.3, False, False, "", True)
+        self.assertEqual(self.rr.NewSpecies, 123.3)
+
     def testAddSpecies(self):
-        self.rr.addSpecies("NewSpecies", "default_compartment", 123.3, False, False, "", True)
+        self.rr.addSpeciesAmount("NewSpecies", "default_compartment", 123.3, False, False, "", True)
         self.assertEqual(self.rr.NewSpecies, 123.3)
 
     @unittest.skip
