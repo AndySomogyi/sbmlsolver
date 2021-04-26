@@ -95,7 +95,7 @@ option(BUILD_LEGACY_C "Build the legacy C code generating backend (deprecated)" 
 # should we build the swig python wrapper?
 option(BUILD_PYTHON "Build the SWIG generated python wrapper" OFF)
 if (BUILD_PYTHON)
-        find_package(Python COMPONENTS Interpreter Development NumPy REQUIRED)
+    find_package(Python COMPONENTS Interpreter Development NumPy REQUIRED)
     if (NOT ${Python_FOUND})
         message(FATAL_ERROR "Could not find Python")
     endif ()
@@ -328,7 +328,14 @@ find_package(PocoNet CONFIG REQUIRED)
 find_package(PocoXML CONFIG REQUIRED)
 find_package(LLVM REQUIRED)
 find_package(SUNDIALS CONFIG REQUIRED)
-find_package(Curses REQUIRED)
+
+# not for windows. So not required, but we throw error not not win and not found.
+find_package(Curses)
+
+if (NOT WIN32 AND NOT ${CURSES_FOUND})
+    message(FATAL_ERROR "ncurses library not found. Please install it with your native package manager")
+endif ()
+
 
 set(BUILD_SHARED_LIBS OFF)
 set(BUILD_STATIC_LIBS ON)
