@@ -758,8 +758,7 @@ namespace rr
          *						   to save time for editing for multiple times, one could
          *					       set this flag to true only in the last call of editing
          */
-        // note the deprecated attribute is not swigable
-        // [[deprecated("Please use addSpeciesConcentration or addSpeciesAmount")]]
+         [[deprecated("Please use addSpeciesConcentration or addSpeciesAmount")]]
         void addSpecies(const std::string& sid, const std::string& compartment, double initAmount = 0, bool hasOnlySubstanceUnits=false, bool boundaryCondition=false, const std::string& substanceUnits = "", bool forceRegenerate = true);
 
         /**
@@ -1279,7 +1278,7 @@ namespace rr
          */
         void regenerateModel(bool forceRegenerate = true, bool reset = false);
 
-//        [[deprecated("Use regenerateModel")]]
+        [[deprecated("Use regenerateModel")]]
         void regenerate(bool forceRegenerate = true, bool reset = false);
 
         /******************************* End Steady State Section *********************/
