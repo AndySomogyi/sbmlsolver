@@ -5485,7 +5485,7 @@ void RoadRunner::addSpeciesConcentration (const std::string& sid, const std::str
 
     newSpecies->setConstant (false);
 
-    regenerate (forceRegenerate);
+    regenerateModel (forceRegenerate);
 }
 
 void RoadRunner::addSpeciesAmount(const std::string& sid, const std::string& compartment, double initAmount, bool hasOnlySubstanceUnits, bool boundaryCondition, const std::string& substanceUnits, bool forceRegenerate)
