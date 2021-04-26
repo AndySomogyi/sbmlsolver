@@ -237,7 +237,7 @@ class RoadRunnerTests(unittest.TestCase):
         self.assertTrue(self.rr._getConservedMoietyAnalysis())
 
     def test_addAssignmentRule(self):
-        self.rr.addSpecies("SNew", "default_compartment", 2.5, False, True, "", True)
+        self.rr.addSpeciesConcentration("SNew", "default_compartment", 2.5, False, True, "", True)
         self.rr.addAssignmentRule("SNew", "S1+5", True)
         self.assertEqual(self.rr.SNew, 15)
 
@@ -255,7 +255,7 @@ class RoadRunnerTests(unittest.TestCase):
 
     @unittest.skip("Not sure how to test this right now")
     def test_addInitialAssignment(self):
-        self.rr.addSpecies("NewSpec", "default_compartment", 13.3, False, True, "", False)
+        self.rr.addSpeciesConcentration("NewSpec", "default_compartment", 13.3, False, True, "", False)
         self.rr.addInitialAssignment("NewSpec", "S1+S2", True)
 
     @unittest.skip("Not sure how to test this right now")
