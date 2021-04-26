@@ -745,13 +745,6 @@ namespace rr
         double getUnscaledSpeciesElasticity(int reactionId, int speciesIndex);
 
         /**
-          * regenerate a model, this recompiles the internal runtime model.
-          * This would be used after a series of addSpecies, addReaction calls
-          * and the model is then ready to be compiled into executable form.
-         */
-        void regenerateModel ();
-
-        /**
          * Add a species to the current model and set its concentration.
          * @param sid: the ID of the species to be added
          * @param compartment: the compartment of the species to be added
@@ -1262,9 +1255,12 @@ namespace rr
         ls::DoubleMatrix getSteadyStateValuesNamedArray();
 
         /**
-         * Regenerate this RoadRunner instance's ExecutableModel based on the model in its SBMLDocument
+          * @brief regenerate a model, this recompiles the internal runtime model.
+          * @details This would be used after a series of addSpecies, addReaction calls
+          * and the model is then ready to be compiled into executable form.
          */
-        void regenerate(bool forceRegenerate = true, bool reset = false);
+        void regenerateModel(bool forceRegenerate = true, bool reset = false);
+
 
         /******************************* End Steady State Section *********************/
 #endif /***********************************************************************/

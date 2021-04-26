@@ -185,8 +185,12 @@ class RoadRunnerTests(unittest.TestCase):
         self.rr.addReaction("NewReaction", ["S1"], ["S2"], "k1*S1", True)
         self.assertEqual(self.rr.NewReaction, 1.0)
 
+    def testAddSpeciesConcentrations(self):
+        self.rr.addSpeciesConcentration("NewSpecies", "default_compartment", 123.3, False, False, "", True)
+        self.assertEqual(self.rr.NewSpecies, 123.3)
+
     def testAddSpecies(self):
-        self.rr.addSpecies("NewSpecies", "default_compartment", 123.3, False, False, "", True)
+        self.rr.addSpeciesAmount("NewSpecies", "default_compartment", 123.3, False, False, "", True)
         self.assertEqual(self.rr.NewSpecies, 123.3)
 
     @unittest.skip
@@ -233,7 +237,7 @@ class RoadRunnerTests(unittest.TestCase):
         self.assertTrue(self.rr._getConservedMoietyAnalysis())
 
     def test_addAssignmentRule(self):
-        self.rr.addSpecies("SNew", "default_compartment", 2.5, False, True, "", True)
+        self.rr.addSpeciesConcentration("SNew", "default_compartment", 2.5, False, True, "", True)
         self.rr.addAssignmentRule("SNew", "S1+5", True)
         self.assertEqual(self.rr.SNew, 15)
 
@@ -251,7 +255,7 @@ class RoadRunnerTests(unittest.TestCase):
 
     @unittest.skip("Not sure how to test this right now")
     def test_addInitialAssignment(self):
-        self.rr.addSpecies("NewSpec", "default_compartment", 13.3, False, True, "", False)
+        self.rr.addSpeciesConcentration("NewSpec", "default_compartment", 13.3, False, True, "", False)
         self.rr.addInitialAssignment("NewSpec", "S1+S2", True)
 
     @unittest.skip("Not sure how to test this right now")
@@ -765,8 +769,8 @@ class RoadRunnerTests(unittest.TestCase):
             RoadRunnerOptions
         )
 
-    def test_regenerate(self):
-        self.rr.regenerate()
+    def test_regenerateModel(self):
+        self.rr.regenerateModel()
         self.assertTrue(self.rr.isModelLoaded())
 
     @unittest.skip("unclear on how to use this method")

@@ -8,7 +8,7 @@
 # Note: If swig is installed in a non-standard location users can specify the following during execution of the cmake command:
 #   -DSWIG_DIR=/full/path/to/top/level/swig/install/tree -DSWIG_EXECUTABLE=/full/path/to/swig/executable
 if (${BUILD_PYTHON} OR ${BUILD_JAVA})
-    find_package(SWIG 3.0.0 REQUIRED
+    find_package(SWIG 4.0.2 REQUIRED
             COMPONENTS python
             OPTIONAL_COMPONENTS java
             )
@@ -17,7 +17,7 @@ if (${BUILD_PYTHON} OR ${BUILD_JAVA})
         message(FATAL_ERROR "Swig was not found")
     endif ()
 
-    message("SWIG found: ${SWIG_EXECUTABLE}")
+    message(STATUS "SWIG found: ${SWIG_EXECUTABLE}")
     if (NOT SWIG_java_FOUND)
         message(WARNING "SWIG java bindings cannot be generated")
     endif ()

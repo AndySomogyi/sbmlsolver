@@ -56,14 +56,14 @@ class NewtonIterationUnitTests(unittest.TestCase):
         self.assertEqual(500, solver.presimulation_maximum_steps)
 
     def test_regenerate_model_before_creating_solver(self):
-        self.rr.regenerate()
+        self.rr.regenerateModel()
         solver = BasicNewtonIteration(self.rr.getModel())
         solver.solve()
         self.checkResults(self.rr.getFloatingSpeciesConcentrationsNamedArray())
 
     def test_regenerate_model_after_creating_solver(self):
         solver = BasicNewtonIteration(self.rr.getModel())
-        self.rr.regenerate()
+        self.rr.regenerateModel()
         # after regeneration, the pointer to the model is different so we must sync with model before solving.
         solver.syncWithModel(self.rr.getModel())
         solver.solve()

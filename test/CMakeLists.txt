@@ -69,8 +69,6 @@ endforeach ()
 
 install(TARGETS ${test_targets})
 
-add_subdirectory(CVODEIntegratorTests)
-# add_subdirectory(herbert)
 add_subdirectory(sundials-tests)
 
 add_custom_target(

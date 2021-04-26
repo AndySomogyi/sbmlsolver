@@ -37,7 +37,7 @@ TEST_F(BasicNewtonIterationUnitTests, ChangeAndResetSettings) {
 
 
 TEST_F(BasicNewtonIterationUnitTests, RegenerateTheModelBeforeCreatingSolver) {
-    rr->regenerate();
+    rr->regenerateModel();
     BasicNewtonIteration solver(rr->getModel());
     solver.solve();
     checkResults(rr->getFloatingSpeciesConcentrationsNamedArray());
@@ -45,7 +45,7 @@ TEST_F(BasicNewtonIterationUnitTests, RegenerateTheModelBeforeCreatingSolver) {
 
 TEST_F(BasicNewtonIterationUnitTests, RegenerateTheModelAfterCreatingSolver) {
     BasicNewtonIteration solver(rr->getModel());
-    rr->regenerate();
+    rr->regenerateModel();
     // after regeneration, the pointer to the model is different
     // so we must sync with model before solving.
     solver.syncWithModel(rr->getModel());
