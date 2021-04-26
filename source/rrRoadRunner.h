@@ -744,14 +744,6 @@ namespace rr
          */
         double getUnscaledSpeciesElasticity(int reactionId, int speciesIndex);
 
-
-        /**
-          * regenerate a model, this recompiles the internal runtime model.
-          * This would be used after a series of addSpecies, addReaction calls
-          * and the model is then ready to be compiled into executable form.
-         */
-        void regenerateModel ();
-
         /**
          * Add a species to the current model.
          * @param sid: the ID of the species to be added
