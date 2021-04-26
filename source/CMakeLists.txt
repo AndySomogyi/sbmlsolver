@@ -363,6 +363,7 @@ target_include_directories(
         "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/llvm>"
         "$<BUILD_INTERFACE:${LLVM_INCLUDE_DIRS}>"
         "$<BUILD_INTERFACE:${DEPENDENCY_INCLUDE_DIR}>"
+        "$<BUILD_INTERFACE:${CURSES_INCLUDE_DIRS}>"
         # though roadrunner does not link libxml2 directly, it does
         # so in the plugins. This next item enables targets that
         # link to roadrunner-static to use
@@ -391,6 +392,7 @@ endif ()
 target_link_libraries(
         ${target}-static
         PUBLIC
+        ${CURSES_LIBRARIES}
         ${LLVM_LIBRARIES}
         rr-libstruct::rr-libstruct-static
         ${SBML_TARGET_NAME}
@@ -431,7 +433,7 @@ target_link_libraries(
 
 add_library(${target} SHARED ${rrSources} ${rrHeaders})
 target_compile_definitions(${target} PRIVATE EXPORT_RR)
-target_link_libraries(${target} PUBLIC $<TARGET_PROPERTY:${target}-static,LINK_LIBRARIES> ncurses)
+target_link_libraries(${target} PUBLIC $<TARGET_PROPERTY:${target}-static,LINK_LIBRARIES> )
 target_include_directories(${target} PUBLIC $<TARGET_PROPERTY:${target}-static,INCLUDE_DIRECTORIES>)
 
 
