@@ -452,7 +452,33 @@ C_DECL_SPEC char* rrcCallConv getSBML(RRHandle handle);
  \return Returns false if the call fails, otherwise returns a true
  \ingroup edit
 */
-C_DECL_SPEC bool rrcCallConv addSpecies(RRHandle handle, const char* sid, const char* compartment, double initialAmount, bool hasOnlySubstanceUnits, bool boundaryCondition);
+C_DECL_SPEC bool rrcCallConv addSpeciesAmount  (RRHandle handle, const char* sid, const char* compartment, double initialAmount,        bool hasOnlySubstanceUnits, bool boundaryCondition);
+
+/*!
+ \brief Add a species to the current model
+ \param[in] handle Handle to a RoadRunner instance
+ \param[in] sid ID of the species to be added
+ \param[in] compartment Compartment of the species to be added
+ \param[in] initialConcentration Initial concentration of the species to be added
+ \param[in] substanceUnit Substance unit of the species to be added
+ \return Returns false if the call fails, otherwise returns a true
+ \ingroup edit
+*/
+C_DECL_SPEC bool rrcCallConv addSpeciesConcentration (RRHandle handle, const char* sid, const char* compartment, double initialConcentration, bool hasOnlySubstanceUnits, bool boundaryCondition);
+
+/*!
+ \brief Add a species to the current model, without regenerating it
+        The last modification must regenerate for the modifications to take effect
+ \param[in] handle Handle to a RoadRunner instance
+ \param[in] sid ID of the species to be added
+ \param[in] compartment Compartment of the species to be added
+ \param[in] initialConcentration Initial concentration of the species to be added
+ \param[in] substanceUnit Substance unit of the species to be added
+ \return Returns false if the call fails, otherwise returns a true
+ \ingroup edit
+*/
+C_DECL_SPEC bool rrcCallConv addSpeciesConcentrationNoRegen(RRHandle handle, const char* sid, const char* compartment, double initialConcentration, bool hasOnlySubstanceUnits, bool boundaryCondition);
+
 
 /*!
  \brief Add a species to the current model, without regenerating it
@@ -465,7 +491,7 @@ C_DECL_SPEC bool rrcCallConv addSpecies(RRHandle handle, const char* sid, const 
  \return Returns false if the call fails, otherwise returns a true
  \ingroup edit
 */
-C_DECL_SPEC bool rrcCallConv addSpeciesNoRegen(RRHandle handle, const char* sid, const char* compartment, double initialAmount, bool hasOnlySubstanceUnits, bool boundaryCondition);
+C_DECL_SPEC bool rrcCallConv addSpeciesAmountNoRegen(RRHandle handle, const char* sid, const char* compartment, double initialAmount, bool hasOnlySubstanceUnits, bool boundaryCondition);
 
 
 /*!
@@ -802,6 +828,16 @@ C_DECL_SPEC bool rrcCallConv removeCompartment(RRHandle handle, const char* cid)
 */
 C_DECL_SPEC bool rrcCallConv removeCompartmentNoRegen(RRHandle handle, const char* cid);
 
+/*!
+\brief Add an initial assignment to an exsiting symbol of the current model
+\param vid : ID of symbol
+\param formula : the math formula of the initial assignment
+\param forceRegenerate : a boolean value to indicate if the model is regenerated
+after this function call default value is true to regenerate model after each call
+of editing function to save time for editing for multiple times, one could
+set this flag to true only in the last call of editing
+*/
+C_DECL_SPEC bool rrcCallConv addInitialAssignment (RRHandle handle, char* vid, char* formula, bool forceRegenerate);
 
 
 /*!
@@ -1064,6 +1100,16 @@ C_DECL_SPEC bool rrcCallConv removeEvent(RRHandle handle, const char* eid);
  \ingroup edit
 */
 C_DECL_SPEC bool rrcCallConv removeEventsNoRegen(RRHandle handle, const char* eid);
+
+
+/*!
+ \brief After a model has been edited, it needs to be compiled. Call regenerate to
+   recompile a model so that it is ready for use.
+ \param[in] handle Handle to a RoadRunner instance
+ \return Returns false if the call fails, otherwise returns a true
+ \ingroup edit
+*/
+C_DECL_SPEC bool rrcCallConv regenerate (RRHandle handle);
 
 /*!
  \brief Validate the current SBML file

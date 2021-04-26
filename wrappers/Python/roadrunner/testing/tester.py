@@ -1240,24 +1240,24 @@ def unitTestIntegratorSettings(testDir):
 
     print(passMsg (errorFlag))
 
-def addSpecies(rrInstance, testId):
+def addSpeciesConcentration(rrInstance, testId):
     words = []
     words = divide(readLine())
     print("Add species " + words[0])
     if (len(words)==2):
-        rrInstance.addSpecies(words[0], words[1])
+        rrInstance.addSpeciesConcentration(words[0], words[1])
     elif (len(words)==3):
-        rrInstance.addSpecies(words[0], words[1], float(words[2]))
+        rrInstance.addSpeciesConcentration(words[0], words[1], float(words[2]))
     elif (len(words)==4):
-        rrInstance.addSpecies(words[0], words[1], float(words[2]), str2bool(words[3]))
+        rrInstance.addSpeciesConcentration(words[0], words[1], float(words[2]), str2bool(words[3]))
     elif (len(words)==5):
-        rrInstance.addSpecies(words[0], words[1], float(words[2]), str2bool(words[3]), str2bool(words[4]))
+        rrInstance.addSpeciesConcentration(words[0], words[1], float(words[2]), str2bool(words[3]), str2bool(words[4]))
     elif (len(words)==6):
-        rrInstance.addSpecies(words[0], words[1], float(words[2]), str2bool(words[3]), str2bool(words[4]), words[5])
+        rrInstance.addSpeciesConcentration(words[0], words[1], float(words[2]), str2bool(words[3]), str2bool(words[4]), words[5])
     elif (len(words)==7):
-        rrInstance.addSpecies(words[0], words[1], float(words[2]), str2bool(words[3]), str2bool(words[4]), words[5], str2bool(words[6]))
+        rrInstance.addSpeciesConcentration(words[0], words[1], float(words[2]), str2bool(words[3]), str2bool(words[4]), words[5], str2bool(words[6]))
     else:
-        print(passMsg(False, "Incorrect number of arguments given to addSpecies."))
+        print(passMsg(False, "Incorrect number of arguments given to addSpeciesConcentration."))
 
 
 def addReaction(rrInstance, testId):
@@ -1503,7 +1503,7 @@ def scriptTests():
 
 # ------------------------------------------------------------------------
 # List of tests
-functions = {'[Add Species]' : addSpecies,
+functions = {'[Add Species]' : addSpeciesConcentration,
              '[Add Reaction]' : addReaction,
              '[Add Parameter]' : addParameter,
              '[Add Compartment]' : addCompartment,

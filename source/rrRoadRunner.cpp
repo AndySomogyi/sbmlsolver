@@ -2270,7 +2270,6 @@ DoubleMatrix RoadRunner::getFullJacobian()
         {
             for (int j = 0; j < self.model->getNumRateRules(); j++)
             {
-
                 double value;
                 double originalConc = 0;
                 double result = std::numeric_limits<double>::quiet_NaN();
@@ -2343,24 +2342,20 @@ DoubleMatrix RoadRunner::getFullJacobian()
                 catch (const std::exception&)
                 {
                     // What ever happens, make sure we restore the species level
-                    (self.model.get()->*setInitValuePtr)(
-                        initConc.size(), 0, &initConc[0]);
+                    (self.model.get()->*setInitValuePtr)(initConc.size(), 0, &initConc[0]);
 
                     // only set the indep species, setting dep species is not permitted.
-                    (self.model.get()->*setValuePtr)(
-                        self.model->getNumFloatingSpecies(), 0, &conc[0]);
+                    (self.model.get()->*setValuePtr)(self.model->getNumFloatingSpecies(), 0, &conc[0]);
 
                     // re-throw the exception.
                     throw;
                 }
 
                 // What ever happens, make sure we restore the species level
-                (self.model.get()->*setInitValuePtr)(
-                    initConc.size(), 0, &initConc[0]);
+                (self.model.get()->*setInitValuePtr)(initConc.size(), 0, &initConc[0]);
 
                 // only set the indep species, setting dep species is not permitted.
-                (self.model.get()->*setValuePtr)(
-                    self.model->getNumFloatingSpecies(), 0, &conc[0]);
+                (self.model.get()->*setValuePtr)(self.model->getNumFloatingSpecies(), 0, &conc[0]);
 
                 jac[i][j] = result;
             }
@@ -2379,18 +2374,25 @@ DoubleMatrix RoadRunner::getFullJacobian()
     }
     else
     {
-        DoubleMatrix uelast = getUnscaledElasticityMatrix();
+        // There might be no model.
+        int nr = self.model->getNumReactions ();
+        if (nr == 0) {
+           DoubleMatrix jac (self.model->getNumRateRules (), self.model->getNumRateRules ());
+           return jac;
+         }
+
+        DoubleMatrix uelast = getUnscaledElasticityMatrix ();
 
         // ptr to libstruct owned obj.
-        DoubleMatrix *rsm;
-        LibStructural *ls = getLibStruct();
-        if (self.loadOpt.getConservedMoietyConversion())
+        DoubleMatrix* rsm;
+        LibStructural* ls = getLibStruct ();
+        if (self.loadOpt.getConservedMoietyConversion ())
         {
-            rsm = ls->getReorderedStoichiometryMatrix();
+            rsm = ls->getReorderedStoichiometryMatrix ();
         }
         else
         {
-            rsm = ls->getStoichiometryMatrix();
+            rsm = ls->getStoichiometryMatrix ();
         }
 
         DoubleMatrix jac = ls::mult(*rsm, uelast);
@@ -3683,7 +3685,14 @@ double RoadRunner::getUnscaledSpeciesElasticity(int reactionId, int speciesIndex
     // this causes a reset, so need to save the current amounts to set them back
     // as init conditions.
     std::vector<double> conc(self.model->getNumFloatingSpecies());
+
     (self.model.get()->*getValuePtr)(conc.size(), 0, &conc[0]);
+
+    // Dpon't try to compute any elasticiteis if there a numerically suspicious values
+    for (int i = 0; i < conc.size () - 1; i++)
+        if (fabs (conc[i]) > 1E100) {
+            throw std::runtime_error ("Floating species concentations are of the order of 1E100, unable to compute elasticities");
+        }
 
     // save the original init values
     std::vector<double> initConc(self.model->getNumFloatingSpecies());
@@ -5433,6 +5442,12 @@ void RoadRunner::loadSelectionVector(std::istream& in, std::vector<SelectionReco
 	}
 }
 
+void RoadRunner::regenerateModel ()
+{
+    regenerate (true);
+}
+
+
 void RoadRunner::addSpecies(const std::string& sid, const std::string& compartment, double initAmount, bool hasOnlySubstanceUnits, bool boundaryCondition, const std::string& substanceUnits, bool forceRegenerate)
 {
     checkID("addSpecies", sid);
@@ -5451,6 +5466,97 @@ void RoadRunner::addSpecies(const std::string& sid, const std::string& compartme
     if (ret != libsbml::LIBSBML_OPERATION_SUCCESS) {
         newSpecies->removeFromParentAndDelete();
         throw std::invalid_argument("Roadrunner::addSpecies failed: invalid species id '" + sid + "'.");
+    }
+    newSpecies->setCompartment(compartment);
+
+    // if InitialAssignment is set for the species, then initialAmount will be ignored, but set it anyway.
+
+    newSpecies->setInitialAmount(initAmount);
+    newSpecies->setHasOnlySubstanceUnits(hasOnlySubstanceUnits);
+    newSpecies->setBoundaryCondition(boundaryCondition);
+
+    bool validUnit = false;
+    if (!substanceUnits.empty()) {
+        if (model->getUnitDefinition(substanceUnits) != NULL)
+            validUnit = true;
+        else {
+            validUnit = libsbml::UnitKind_forName(substanceUnits.c_str()) != libsbml::UNIT_KIND_INVALID;
+        }
+    }
+
+    if (validUnit) {
+        newSpecies->setSubstanceUnits(substanceUnits);
+    }
+
+    newSpecies->setConstant(false);
+
+	regenerate(forceRegenerate);
+}
+
+
+void RoadRunner::addSpeciesConcentration (const std::string& sid, const std::string& compartment, double initConcentration, bool hasOnlySubstanceUnits, bool boundaryCondition, const std::string& substanceUnits, bool forceRegenerate)
+{
+    checkID ("addSpeciesConcentration", sid);
+
+    libsbml::Model* model = impl->document->getModel ();
+
+    if (forceRegenerate && model->getCompartment (compartment) == NULL)
+    {
+        throw std::invalid_argument ("Roadrunner::addaddSpeciesConcentrationSpecies failed, no compartment " + compartment + " existed in the model");
+    }
+
+    rrLog (Logger::LOG_DEBUG) << "Adding species " << sid << " in compartment " << compartment << "..." << endl;
+    libsbml::Species* newSpecies = impl->document->getModel ()->createSpecies ();
+
+    int ret = newSpecies->setId (sid);
+    if (ret != libsbml::LIBSBML_OPERATION_SUCCESS) {
+        newSpecies->removeFromParentAndDelete ();
+        throw std::invalid_argument ("Roadrunner::addSpeciesConcentration failed: invalid species id '" + sid + "'.");
+    }
+    newSpecies->setCompartment (compartment);
+
+    // if InitialAssignment is set for the species, then initialAmount will be ignored, but set it anyway.
+
+    newSpecies->setInitialConcentration (initConcentration);
+    newSpecies->setHasOnlySubstanceUnits (hasOnlySubstanceUnits);
+    newSpecies->setBoundaryCondition (boundaryCondition);
+
+    bool validUnit = false;
+    if (!substanceUnits.empty ()) {
+        if (model->getUnitDefinition (substanceUnits) != NULL)
+            validUnit = true;
+        else {
+            validUnit = libsbml::UnitKind_forName (substanceUnits.c_str ()) != libsbml::UNIT_KIND_INVALID;
+        }
+    }
+
+    if (validUnit) {
+        newSpecies->setSubstanceUnits (substanceUnits);
+    }
+
+    newSpecies->setConstant (false);
+
+    regenerate (forceRegenerate);
+}
+
+void RoadRunner::addSpeciesAmount(const std::string& sid, const std::string& compartment, double initAmount, bool hasOnlySubstanceUnits, bool boundaryCondition, const std::string& substanceUnits, bool forceRegenerate)
+{
+    checkID("addSpeciesAmount", sid);
+
+    libsbml::Model* model = impl->document->getModel();
+
+    if (forceRegenerate && model->getCompartment(compartment) == NULL)
+    {
+        throw std::invalid_argument("Roadrunner::addSpaddSpeciesAmountecies failed, no compartment " + compartment + " existed in the model");
+    }
+
+    rrLog(Logger::LOG_DEBUG) << "Adding species " << sid << " in compartment " << compartment << "..." << std::endl;
+    libsbml::Species* newSpecies = impl->document->getModel()->createSpecies();
+
+    int ret = newSpecies->setId(sid);
+    if (ret != libsbml::LIBSBML_OPERATION_SUCCESS) {
+        newSpecies->removeFromParentAndDelete();
+        throw std::invalid_argument("Roadrunner::addSpeciesAmount failed: invalid species id '" + sid + "'.");
     }
     newSpecies->setCompartment(compartment);
 

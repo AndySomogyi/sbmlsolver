@@ -39,6 +39,7 @@
  * redistribute any piece of this software without proper attribution;
 */
 
+
 #pragma hdrstop
 #include <string>
 #include <iostream>
@@ -1685,20 +1686,39 @@ int rrcCallConv getCurrentIntegratorParameterType (RRHandle handle, char *parame
 // Model editing methods
 // -------------------------------------------------------------------------------------
 
-bool rrcCallConv addSpecies(RRHandle handle, const char* sid, const char* compartment, double initialAmount, bool hasOnlySubstanceUnits, bool boundaryCondition)
+bool rrcCallConv addSpeciesConcentration (RRHandle handle, const char* sid, const char* compartment, double initialConcentration, bool hasOnlySubstanceUnits, bool boundaryCondition)
+{
+    start_try
+        RoadRunner* rri = castToRoadRunner (handle);
+        rri->addSpeciesConcentration (sid, compartment, initialConcentration, hasOnlySubstanceUnits, boundaryCondition);
+        return true;
+    catch_bool_macro
+}
+
+
+bool rrcCallConv addSpeciesAmount(RRHandle handle, const char* sid, const char* compartment, double initialAmount, bool hasOnlySubstanceUnits, bool boundaryCondition)
 {
 	start_try
 		RoadRunner* rri = castToRoadRunner(handle);
-		rri->addSpecies(sid, compartment, initialAmount, hasOnlySubstanceUnits, boundaryCondition);
+		rri->addSpeciesAmount(sid, compartment, initialAmount, hasOnlySubstanceUnits, boundaryCondition);
 		return true;
 	catch_bool_macro
 }
 
-bool rrcCallConv addSpeciesNoRegen(RRHandle handle, const char* sid, const char* compartment, double initialAmount, bool hasOnlySubstanceUnits, bool boundaryCondition)
+bool rrcCallConv addSpeciesConcentrationNoRegen(RRHandle handle, const char* sid, const char* compartment, double initialConcentration, bool hasOnlySubstanceUnits, bool boundaryCondition)
+{
+    start_try
+        RoadRunner* rri = castToRoadRunner(handle);
+        rri->addSpeciesConcentration(sid, compartment, initialConcentration, hasOnlySubstanceUnits, boundaryCondition, "", false);
+        return true;
+    catch_bool_macro
+}
+
+bool rrcCallConv addSpeciesAmountNoRegen(RRHandle handle, const char* sid, const char* compartment, double initialAmount, bool hasOnlySubstanceUnits, bool boundaryCondition)
 {
 	start_try
 		RoadRunner* rri = castToRoadRunner(handle);
-		rri->addSpecies(sid, compartment, initialAmount, hasOnlySubstanceUnits, boundaryCondition, "", false);
+		rri->addSpeciesAmount(sid, compartment, initialAmount, hasOnlySubstanceUnits, boundaryCondition, "", false);
 		return true;
 	catch_bool_macro
 }
@@ -1993,6 +2013,15 @@ bool rrcCallConv removeCompartmentNoRegen(RRHandle handle, const char* cid)
 	catch_bool_macro
 }
 
+bool rrcCallConv addInitialAssignment (RRHandle handle, char *vid, char *formula, bool forceRegenerate)
+{
+    start_try
+        RoadRunner* rri = castToRoadRunner (handle);
+    rri->addInitialAssignment (vid, formula, forceRegenerate);
+    return true;
+    catch_bool_macro
+}
+
 
 bool rrcCallConv addAssignmentRule(RRHandle handle, const char* vid, const char* formula)
 {
@@ -2212,6 +2241,16 @@ bool rrcCallConv removeEventsNoRegen(RRHandle handle, const char* eid)
 		return true;
 	catch_bool_macro
 }
+
+bool rrcCallConv regenerate (RRHandle handle)
+{
+   start_try
+       RoadRunner* rri = castToRoadRunner (handle);
+       rri->regenerate ();
+      return true;
+  catch_bool_macro
+}
+
 
 bool rrcCallConv validateCurrentSBML(RRHandle handle)
 {
