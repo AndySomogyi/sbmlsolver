@@ -388,7 +388,6 @@ endif ()
 
 # link the libraries -- remember that order here
 #   is important on linux builds so don't change
-
 target_link_libraries(
         ${target}-static
         PUBLIC
@@ -422,28 +421,6 @@ target_link_libraries(
         SUNDIALS::cvodes_static
         SUNDIALS::kinsol_static
 
-        #  todo delete before merge into develop
-        # sundials_generic_static
-        # sundials_nvecserial_static
-        # sundials_nvecmanyvector_static
-        # sundials_sunmatrixband_static
-        # sundials_sunmatrixdense_static
-        # sundials_sunmatrixsparse_static
-        # sundials_sunlinsolband_static
-        # sundials_sunlinsoldense_static
-        # sundials_sunlinsolpcg_static
-        # sundials_sunlinsolspbcgs_static
-        # sundials_sunlinsolspfgmr_static
-        # sundials_sunlinsolspgmr_static
-        # sundials_sunlinsolsptfqmr_static
-        # sundials_sunnonlinsolnewton_static
-        # sundials_sunnonlinsolfixedpoint_static
-        # sundials_arkode_static
-        # sundials_cvode_static
-        # sundials_cvodes_static
-        # sundials_ida_static
-        # sundials_idas_static
-        # sundials_kinsol_static
 
         PocoFoundation::PocoFoundation
         PocoNet::PocoNet
@@ -454,7 +431,7 @@ target_link_libraries(
 
 add_library(${target} SHARED ${rrSources} ${rrHeaders})
 target_compile_definitions(${target} PRIVATE EXPORT_RR)
-target_link_libraries(${target} PUBLIC $<TARGET_PROPERTY:${target}-static,LINK_LIBRARIES>)
+target_link_libraries(${target} PUBLIC $<TARGET_PROPERTY:${target}-static,LINK_LIBRARIES> ncurses)
 target_include_directories(${target} PUBLIC $<TARGET_PROPERTY:${target}-static,INCLUDE_DIRECTORIES>)
 
 
