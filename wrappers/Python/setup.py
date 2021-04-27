@@ -44,6 +44,6 @@ setup(name='libroadrunner',
         'roadrunner' : ['_roadrunner*', '*.so', '*.so.*', '*.dll', '*.txt', '*.dylib', '*.pyd'],
         'roadrunner.testing' : ['*.xml', '*.txt', '*.dat', 'dsmts/*.xml', 'dsmts/*.csv', 'test_data/*']
     },
-    install_requires=['numpy>=1.19.3'],
+    install_requires=['numpy>=1.20.2'],
     distclass=BinaryDistribution,
 )
