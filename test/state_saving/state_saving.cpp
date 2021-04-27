@@ -48,7 +48,7 @@ TEST(STATE_SAVING_TEST_SUITE, LOAD_INVALID_FILE)
 #if (!defined(__APPLE__))
 #  if LLVM_VERSION_PATCH > 1
       RoadRunner rri;
-      EXPECT_THROW(rri.loadState(gRRTestDir + "models/STATE_SAVING_TEST_SUITE/wrong-save-state.rr"), std::exception);
+      EXPECT_THROW(rri.loadState((gRRTestDir /= "models/STATE_SAVING_TEST_SUITE/wrong-save-state.rr").string()), std::exception);
 #  endif
 #endif
 }
@@ -56,7 +56,7 @@ TEST(STATE_SAVING_TEST_SUITE, LOAD_INVALID_FILE)
 TEST(STATE_SAVING_TEST_SUITE, LOAD_NONEXISTENT_FILE)
 {
     RoadRunner rri;
-    EXPECT_THROW(rri.loadState(gRRTestDir + "models/STATE_SAVING_TEST_SUITE/nonexistent-save-state.rr"), std::invalid_argument);
+    EXPECT_THROW(rri.loadState((gRRTestDir /= "models/STATE_SAVING_TEST_SUITE/nonexistent-save-state.rr").string()), std::invalid_argument);
 }
 
 TEST(STATE_SAVING_TEST_SUITE, COPY_RR)
@@ -282,7 +282,7 @@ TEST(STATE_SAVING_TEST_SUITE, SAVE_STATE_21)
 
 TEST(STATE_SAVING_TEST_SUITE, RETAIN_ABSOLUTE_TOLERANCES_1)
 {
-    RoadRunner rri(gRRTestDir + "sbml-test-suite/semantic/00001/00001-sbml-l2v4.xml");
+    RoadRunner rri((gRRTestDir /= "sbml-test-suite/semantic/00001/00001-sbml-l2v4.xml").string());
     rri.getIntegrator()->setIndividualTolerance("S1", 5.0);
     rri.getIntegrator()->setIndividualTolerance("S2", 3.0);
     rri.saveState("save-state-test.rr");
@@ -479,21 +479,21 @@ bool RunStateSavingTest(void(*modification)(RoadRunner*), std::string version)
 
 	try
 	{
-		string dataOutputFolder(joinPath(gRROutputDir, suiteName));
+		path dataOutputFolder(gRROutputDir /= suiteName);
 
 		rr->getIntegrator()->setValue("stiff", false);
 
-		if (!createFolder(dataOutputFolder))
+		if (!createFolder(dataOutputFolder.string()))
 		{
-			string msg("Failed creating output folder for data output: " + dataOutputFolder);
+			string msg("Failed creating output folder for data output: " + dataOutputFolder.string());
 			throw(rr::Exception(msg));
 		}
 		//Create subfolder for data output
-		dataOutputFolder = joinPath(dataOutputFolder, testName);
+		dataOutputFolder = (dataOutputFolder /= testName).string();
 
-		if (!createFolder(dataOutputFolder))
+		if (!createFolder(dataOutputFolder.string()))
 		{
-			string msg("Failed creating output folder for data output: " + dataOutputFolder);
+			string msg("Failed creating output folder for data output: " + dataOutputFolder.string());
 			throw(rr::Exception(msg));
 		}
 
@@ -504,7 +504,7 @@ bool RunStateSavingTest(void(*modification)(RoadRunner*), std::string version)
 		//Read SBML models.....
 		simulation.SetCaseNumber(0);
 
-		string modelFilePath = getModelDir(gRRTestDir, suiteName, testName);
+		path modelFilePath = getModelDir(gRRTestDir.string(), suiteName, testName);
 		string modelFileName = testName + "-sbml-" + version + ".xml";
 		string settingsFileName = testName + "-settings.txt";
 
@@ -516,8 +516,8 @@ bool RunStateSavingTest(void(*modification)(RoadRunner*), std::string version)
 		rr->setConservedMoietyAnalysis(false);
 
 		libsbml::SBMLReader reader;
-		std::string fullPath = modelFilePath + "/" + modelFileName;
-		doc = reader.readSBML(fullPath);
+		path fullPath = modelFilePath /= modelFileName;
+		doc = reader.readSBML(fullPath.string());
 
 		if (!simulation.LoadSBMLFromFile())
 		{
@@ -526,10 +526,10 @@ bool RunStateSavingTest(void(*modification)(RoadRunner*), std::string version)
 
 
 		//Check first if file exists first
-		if (!fileExists(fullPath))
+		if (!std::filesystem::exists(fullPath))
 		{
 			rrLog(Logger::LOG_ERROR) << "sbml file " << fullPath << " not found";
-			throw(Exception("No such SBML file: " + fullPath));
+			throw(Exception("No such SBML file: " + fullPath.string()));
 		}
 
 
@@ -547,10 +547,10 @@ bool RunStateSavingTest(void(*modification)(RoadRunner*), std::string version)
 		opt.modelGeneratorOpt = opt.modelGeneratorOpt | LoadSBMLOptions::OPTIMIZE_GVN;
 
 
-		rr->load(fullPath, &opt);
+		rr->load(fullPath.string(), &opt);
 
 		//Then read settings file if it exists..
-		if (!simulation.LoadSettings(joinPath(modelFilePath, settingsFileName)))
+		if (!simulation.LoadSettings((modelFilePath /= settingsFileName).string()))
 		{
 			throw(Exception("Failed loading simulation settings"));
 		}
@@ -568,7 +568,7 @@ bool RunStateSavingTest(void(*modification)(RoadRunner*), std::string version)
 			throw(Exception("Failed saving result"));
 		}
 
-		if (!simulation.LoadReferenceData(modelFilePath + "/" + testName + "-results.csv"))
+		if (!simulation.LoadReferenceData((modelFilePath /= testName + "-results.csv").string()))
 		{
 			throw(Exception("Failed Loading reference data"));
 		}
@@ -608,7 +608,7 @@ bool RunStateSavingTest(int caseNumber, void(*modification)(RoadRunner*), std::s
 
 	try
 	{
-		string dataOutputFolder(gRROutputDir + "/" + testName);
+		path dataOutputFolder = (gRROutputDir /= testName);
 		string dummy;
 		string logFileName;
 		string settingsFileName;
@@ -617,15 +617,15 @@ bool RunStateSavingTest(int caseNumber, void(*modification)(RoadRunner*), std::s
 
 		//Create a log file name
 		createTestSuiteFileNameParts(caseNumber, ".log", dummy, logFileName, settingsFileName, dummy);
-		if (!createFolder(dataOutputFolder))
+		if (!createFolder(dataOutputFolder.string()))
 		{
-			string msg("Failed creating output folder for data output: " + dataOutputFolder);
+			string msg("Failed creating output folder for data output: " + dataOutputFolder.string());
 			throw(rr::Exception(msg));
 		}
 
-		if (!createFolder(dataOutputFolder))
+		if (!createFolder(dataOutputFolder.string()))
 		{
-			string msg("Failed creating output folder for data output: " + dataOutputFolder);
+			string msg("Failed creating output folder for data output: " + dataOutputFolder.string());
 			throw(rr::Exception(msg));
 		}
 
@@ -634,7 +634,7 @@ bool RunStateSavingTest(int caseNumber, void(*modification)(RoadRunner*), std::s
 		simulation.UseEngine(rr);
 
 		//Read SBML models.....
-		string modelFilePath(gRRTestDir + "sbml-test-suite/semantic/");
+		string modelFilePath( (gRRTestDir /= "sbml-test-suite/semantic/").string());
 		string modelFileName;
 
 		simulation.SetCaseNumber(caseNumber);
@@ -659,7 +659,7 @@ bool RunStateSavingTest(int caseNumber, void(*modification)(RoadRunner*), std::s
 
 
 		//Check first if file exists first
-		if (!fileExists(fullPath))
+		if (!std::filesystem::exists(fullPath))
 		{
 			rrLog(Logger::LOG_ERROR) << "sbml file " << fullPath << " not found";
 			throw(Exception("No such SBML file: " + fullPath));
@@ -747,21 +747,21 @@ bool StateRunTestModelFromScratch(void(*generate)(RoadRunner*), std::string vers
 
 	try
 	{
-		string dataOutputFolder(joinPath(gRROutputDir, suiteName));
+		path dataOutputFolder((gRROutputDir /= suiteName));
 
 		rr.getIntegrator()->setValue("stiff", false);
 
-		if (!createFolder(dataOutputFolder))
+		if (!createFolder(dataOutputFolder.string()))
 		{
-			string msg("Failed creating output folder for data output: " + dataOutputFolder);
+			string msg("Failed creating output folder for data output: " + dataOutputFolder.string());
 			throw(rr::Exception(msg));
 		}
 		//Create subfolder for data output
-		dataOutputFolder = joinPath(dataOutputFolder, testName);
+		dataOutputFolder = (dataOutputFolder /= testName).string();
 
-		if (!createFolder(dataOutputFolder))
+		if (!createFolder(dataOutputFolder.string()))
 		{
-			string msg("Failed creating output folder for data output: " + dataOutputFolder);
+			string msg("Failed creating output folder for data output: " + dataOutputFolder.string());
 			throw(rr::Exception(msg));
 		}
 
@@ -772,7 +772,7 @@ bool StateRunTestModelFromScratch(void(*generate)(RoadRunner*), std::string vers
 		//Read SBML models.....
 		simulation.SetCaseNumber(0);
 
-		string modelFilePath = getModelDir(gRRTestDir, suiteName, testName);
+		path modelFilePath = getModelDir(gRRTestDir.string(), suiteName, testName);
 		string modelFileName = testName + "-sbml-" + version + ".xml";
 		string settingsFileName = testName + "-settings.txt";
 
@@ -784,13 +784,13 @@ bool StateRunTestModelFromScratch(void(*generate)(RoadRunner*), std::string vers
 		rr.setConservedMoietyAnalysis(false);
 
 		libsbml::SBMLReader reader;
-		std::string fullPath = modelFilePath + "/" + modelFileName;
+		path fullPath = modelFilePath /= modelFileName;
 
 		//Check first if file exists first
-		if (!fileExists(fullPath))
+		if (!std::filesystem::exists(fullPath))
 		{
 			rrLog(Logger::LOG_ERROR) << "sbml file " << fullPath << " not found";
-			throw(Exception("No such SBML file: " + fullPath));
+			throw(Exception("No such SBML file: " + fullPath.string()));
 		}
 
 
@@ -810,7 +810,7 @@ bool StateRunTestModelFromScratch(void(*generate)(RoadRunner*), std::string vers
 
 
 		//Then read settings file if it exists..
-		if (!simulation.LoadSettings(joinPath(modelFilePath, settingsFileName)))
+		if (!simulation.LoadSettings((modelFilePath /= settingsFileName).string()))
 		{
 			throw(Exception("Failed loading simulation settings"));
 		}
@@ -828,7 +828,7 @@ bool StateRunTestModelFromScratch(void(*generate)(RoadRunner*), std::string vers
 			throw(Exception("Failed saving result"));
 		}
 
-		if (!simulation.LoadReferenceData(modelFilePath + "/" + testName + "-results.csv"))
+		if (!simulation.LoadReferenceData((modelFilePath /= testName + "-results.csv").string()))
 		{
 			throw(Exception("Failed Loading reference data"));
 		}

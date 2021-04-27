@@ -7461,7 +7461,7 @@ bool RunTest(int caseNumber)
     lvs.push_back("l2v5"); 
     lvs.push_back("l3v1");
     lvs.push_back("l3v2");
-    string testsuitedir = gRRTestDir + "sbml-test-suite/semantic/";
+    string testsuitedir = (gRRTestDir /= path("sbml-test-suite") /= path("semantic")).string();
     string modelFilePath(testsuitedir);
     string first = "";
     string last = "";
@@ -7469,7 +7469,7 @@ bool RunTest(int caseNumber)
         string lv = lvs[n];
         modelFilePath = testsuitedir; //Reset, since the subdir is added.
         createTestSuiteFileNameParts(caseNumber, "-sbml-" + lv + ".xml", modelFilePath, modelFileName, settingsFileName, descriptionFileName);
-        ifstream ftest(modelFilePath + "/" + modelFileName);
+        ifstream ftest((path(modelFilePath) /= path(modelFileName)).string());
         if (ftest.good()) {
             if (first.empty()) {
                 first = lv;
@@ -7496,7 +7496,7 @@ bool RunTest(int caseNumber)
     else {
         if (!first.empty()) {
             ret = RunTest(first, caseNumber);
-            if (!ret && isSemiStochasticTest(modelFilePath + "/" + descriptionFileName)) {
+            if (!ret && isSemiStochasticTest((path(modelFilePath) /= path(descriptionFileName)).string())) {
                 //semistochastic tests fail once in a great while, but very very rarely twice in a row.
                 rrLog(Logger::LOG_WARNING) << "Test " << caseNumber << " failed, but we expect it to fail every so often.  Trying again...";
                 ret = RunTest(first, caseNumber);
@@ -7597,7 +7597,7 @@ void LoadAndSimulate(const string& version, int caseNumber, RoadRunner& rr, Test
     simulation.UseEngine(&rr);
 
     //Setup filenames and paths...
-    string testsuitedir = gRRTestDir + "sbml-test-suite/semantic/";
+    string testsuitedir = (gRRTestDir /= path("sbml-test-suite") /= path("semantic")).string();
     string modelFilePath(testsuitedir);
     string modelFileName;
     string settingsFileName;

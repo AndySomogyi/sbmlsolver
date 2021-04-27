@@ -33,8 +33,8 @@ using std::filesystem::path;
 
 using namespace std;
 
-extern string gRRTestDir;
-extern string gRROutputDir;
+extern path gRRTestDir;
+extern path gRROutputDir;
 extern RRHandle gRR;
 
 string getListOfReactionsText(const string &fName);
@@ -42,8 +42,8 @@ string getListOfReactionsText(const string &fName);
 TEST(OTHER_TESTS, EMPTY_EVENT_ASSIGNMENTS) {
     // Event assignments in L3v2 can be empty
     RRHandle aRR = createRRInstance();
-    string TestModelFileName = joinPath(gRRTestDir, "rrtest_files/eventassignment_nomath.xml");
-    EXPECT_TRUE(fileExists(TestModelFileName));
+    string TestModelFileName = (gRRTestDir /= "rrtest_files/eventassignment_nomath.xml").string();
+    EXPECT_TRUE(std::filesystem::exists(TestModelFileName));
 
     EXPECT_TRUE(loadSBMLFromFileE(aRR, TestModelFileName.c_str(), true));
     EXPECT_TRUE(simulate(aRR));
@@ -52,8 +52,8 @@ TEST(OTHER_TESTS, EMPTY_EVENT_ASSIGNMENTS) {
 }
 
 TEST(OTHER_TESTS, SAVED_SPECIES_AMOUNT) {
-    string TestModelFileName = joinPath(gRRTestDir, "rrtest_files/species_conc.xml");
-    EXPECT_TRUE(fileExists(TestModelFileName));
+    string TestModelFileName = (gRRTestDir /= "rrtest_files/species_conc.xml").string();
+    EXPECT_TRUE(std::filesystem::exists(TestModelFileName));
     RoadRunner rr(TestModelFileName, NULL);
     EXPECT_TRUE(rr.getFloatingSpeciesByIndex(0) == 5.0);
     string sbml = rr.getCurrentSBML();
@@ -65,8 +65,8 @@ TEST(OTHER_TESTS, SAVED_SPECIES_AMOUNT) {
 }
 
 TEST(OTHER_TESTS, SPECIES_UNITS) {
-    string TestModelFileName = joinPath(gRRTestDir, "rrtest_files/species_hosu1.xml");
-    EXPECT_TRUE(fileExists(TestModelFileName));
+    string TestModelFileName = (gRRTestDir /= "rrtest_files/species_hosu1.xml").string();
+    EXPECT_TRUE(std::filesystem::exists(TestModelFileName));
     RoadRunner rr(TestModelFileName, NULL);
     EXPECT_TRUE(rr.getFloatingSpeciesByIndex(0) == 3.0);
     string sbml = rr.getCurrentSBML();
@@ -78,8 +78,8 @@ TEST(OTHER_TESTS, SPECIES_UNITS) {
 }
 
 TEST(OTHER_TESTS, SPECIES_UNITS2) {
-    string TestModelFileName = joinPath(gRRTestDir, "rrtest_files/species_hosu2.xml");
-    EXPECT_TRUE(fileExists(TestModelFileName));
+    string TestModelFileName = (gRRTestDir /= "rrtest_files/species_hosu2.xml").string();
+    EXPECT_TRUE(std::filesystem::exists(TestModelFileName));
     RoadRunner rr(TestModelFileName, NULL);
     EXPECT_TRUE(rr.getFloatingSpeciesByIndex(0) == 3.0);
     string sbml = rr.getCurrentSBML();
@@ -91,10 +91,10 @@ TEST(OTHER_TESTS, SPECIES_UNITS2) {
 }
 
 TEST(OTHER_TESTS, OUTPUT_FILE_VARIABLE_TIMESTEP) {
-    string TestModelFileName = joinPath(gRRTestDir, "rrtest_files/output_testmodel.xml");
-    string outputFileName = joinPath(gRRTestDir, "rrtest_files/output_testmodel_variable.csv");
-    string expectedFileName = joinPath(gRRTestDir, "rrtest_files/expected_testmodel_variable.csv");
-    EXPECT_TRUE(fileExists(TestModelFileName));
+    string TestModelFileName = (gRRTestDir /= "rrtest_files/output_testmodel.xml").string();
+    string outputFileName =    (gRRTestDir /= "rrtest_files/output_testmodel_variable.csv").string();
+    string expectedFileName =  (gRRTestDir /= "rrtest_files/expected_testmodel_variable.csv").string();
+    EXPECT_TRUE(std::filesystem::exists(TestModelFileName));
 
     std::cout << TestModelFileName << std::endl;
     std::cout << outputFileName << std::endl;
@@ -120,18 +120,18 @@ TEST(OTHER_TESTS, OUTPUT_FILE_VARIABLE_TIMESTEP) {
     EXPECT_TRUE(result->size() == 0);
 
     // confirm output files are the same
-    EXPECT_TRUE(fileExists(expectedFileName) && fileExists(outputFileName));
+    EXPECT_TRUE(std::filesystem::exists(expectedFileName) && std::filesystem::exists(outputFileName));
     EXPECT_TRUE(filesAreEqual(outputFileName, expectedFileName));
     remove(outputFileName.c_str()); // clean up
 
 }
 
 TEST(OTHER_TESTS, OUTPUT_FILE_FIXED_TIMESTEP) {
-    string TestModelFileName = joinPath(gRRTestDir, "rrtest_files/output_testmodel.xml");
-    string outputFileName = joinPath(gRRTestDir, "rrtest_files/output_testmodel_fixed.csv");
-    string expectedFileName = joinPath(gRRTestDir, "rrtest_files/expected_testmodel_fixed.csv");
+    string TestModelFileName = (gRRTestDir / "rrtest_files/output_testmodel.xml").string();
+    string outputFileName =    (gRRTestDir / "rrtest_files/output_testmodel_fixed.csv").string();
+    string expectedFileName =  (gRRTestDir / "rrtest_files/expected_testmodel_fixed.csv").string();
 
-    EXPECT_TRUE(fileExists(TestModelFileName));
+    EXPECT_TRUE(std::filesystem::exists(TestModelFileName));
     RoadRunner rr(TestModelFileName, NULL);
     SimulateOptions opt;
     rr.setIntegrator("gillespie");
@@ -155,7 +155,7 @@ TEST(OTHER_TESTS, OUTPUT_FILE_FIXED_TIMESTEP) {
     EXPECT_TRUE(result->size() == 0);
 
     // confirm output files are the same
-    EXPECT_TRUE(fileExists(expectedFileName) && fileExists(outputFileName));
+    EXPECT_TRUE(std::filesystem::exists(expectedFileName) && std::filesystem::exists(outputFileName));
     EXPECT_TRUE(filesAreEqual(expectedFileName, outputFileName));
     remove(outputFileName.c_str()); // clean up
 

@@ -25,8 +25,8 @@ using namespace rrc;
 using namespace rr;
 using std::filesystem::path;
 
-extern string gRRTestDir;
-extern string gRROutputDir;
+extern path gRRTestDir;
+extern path gRROutputDir;
 extern RRHandle gRR;
 extern IniFile iniFile;
 
@@ -264,7 +264,7 @@ void check_LoadData()
     // need to re-assign it, Load does not clear old data.;
     iniFile.Clear();
 
-    EXPECT_TRUE(fileExists(rrTestFileName));
+    EXPECT_TRUE(std::filesystem::exists(rrTestFileName));
     EXPECT_TRUE(iniFile.Load(rrTestFileName));
 
     IniSection* sbmlsec = iniFile.GetSection("SBML");
@@ -278,8 +278,8 @@ void check_LoadData()
     string sbml = sbmlsec->GetNonKeysAsString();
     if (sbml.find('<') == string::npos)
     {
-        sbml = joinPath(gRRTestDir + "rrtest_files/", sbml);
-        EXPECT_TRUE(fileExists(sbml));
+        sbml = (gRRTestDir /= path("rrtest_files") /= sbml).string();
+        EXPECT_TRUE(std::filesystem::exists(sbml));
     }
     if (!loadSBMLEx(gRR, sbml.c_str(), true))
     {
@@ -1783,8 +1783,8 @@ public:
     CApiRRTests() = default;
 
     void checkRRTest(const std::string& fname){
-        std::string rrTestFileDir = joinPath(gRRTestDir, "rrtest_files");
-        rrTestFileName = joinPath(rrTestFileDir, fname + ".rrtest");
+        path rrTestFileDir = gRRTestDir /= "rrtest_files";
+        rrTestFileName = (rrTestFileDir /= fname + ".rrtest").string();
         check_LoadData();
         if (check_Unimplemented()) {
             clog << "Skipping file " << rrTestFileName << ": unimplemented tests" << endl;

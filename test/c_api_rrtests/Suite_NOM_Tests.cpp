@@ -39,7 +39,7 @@ TEST(NOM_TESTS, NOM_TEST_DATA_FILES)
         IniKey* fNameKey = sbml->GetKey(key);
         if (fNameKey)
         {
-            TestModelFileName = gRRTestDir /= "rrtest_files", fNameKey->mValue);
+            TestModelFileName = (gRRTestDir /= path("rrtest_files") /= fNameKey->mValue).string();
             EXPECT_TRUE(std::filesystem::exists(TestModelFileName));
         }
     }
