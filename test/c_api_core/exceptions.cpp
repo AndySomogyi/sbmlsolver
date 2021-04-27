@@ -7,6 +7,7 @@
 
 #include "RoadRunnerTest.h"
 
+
 #include <string>
 #include <filesystem>
 #include <rrRoadRunner.h>
@@ -16,18 +17,12 @@ using namespace rrc;
 using std::filesystem::path;
 
 
-class CAPIExceptions : public RoadRunnerTest {
+#include "CAPICoreTest.h"
+
+class CAPIExceptions : public CAPICoreTest {
 public:
-    rr::IniFile iniFile;
-    fs::path CAPICoreDir;
 
-    RRHandle gRR;
-    rr::RoadRunner r;
-
-    CAPIExceptions() {
-        CAPICoreDir = rrTestModelsDir_ / "CAPICore";
-        gRR = (RRHandle) &r;
-    };
+    CAPIExceptions() = default;
 
 };
 
@@ -44,7 +39,7 @@ TEST_F(CAPIExceptions, DATA_FILES) {
         rr::IniSection *sbml = iniFile.GetSection("SBML_FILE");
         rr::IniKey *fNameKey = sbml->GetKey("sbmlFile");
         if (fNameKey) {
-            testModelFileName = fs::absolute(CAPICoreDir / fNameKey->mValue);
+            testModelFileName = fs::absolute(cAPICoreModelsDir / fNameKey->mValue);
             EXPECT_TRUE(std::filesystem::exists(testModelFileName));
         }
     } else {
@@ -53,13 +48,13 @@ TEST_F(CAPIExceptions, DATA_FILES) {
 }
 
 TEST_F(CAPIExceptions, LOAD_SBML) {
-    path TestModelFileName = CAPICoreDir / "feedback.xml";
+    path TestModelFileName = cAPICoreModelsDir / "feedback.xml";
     ASSERT_TRUE(fs::exists(TestModelFileName));
     EXPECT_TRUE(loadSBMLFromFile(gRR, TestModelFileName.string().c_str()));
 }
 
 TEST_F(CAPIExceptions, SET_COMPUTE_AND_ASSIGN_CONSERVATION_LAWS) {
-    path TestModelFileName = CAPICoreDir / "Test_1.xml";
+    path TestModelFileName = cAPICoreModelsDir / "Test_1.xml";
     loadSBMLFromFile(gRR, TestModelFileName.string().c_str());
     ASSERT_TRUE(gRR != NULL);
     bool res = setComputeAndAssignConservationLaws(gRR, true);

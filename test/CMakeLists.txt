@@ -50,11 +50,11 @@ function(add_test_executable TEST_TARGET OUT_VARIABLE)
     # add_test(NAME ${BINARY} COMMAND "$<TARGET_FILE:${BINARY}>")
     gtest_discover_tests(
             ${TEST_TARGET}
-            TEST_LIST sundials-tests
+            TEST_LIST OUT_VARIABLE
             DISCOVERY_TIMEOUT 500
     )
 
-#    set_tests_properties(${TEST_TARGET} PROPERTIES TIMEOUT 500)
+    #    set_tests_properties(${TEST_TARGET} PROPERTIES TIMEOUT 500)
 
     set_target_properties(${TEST_TARGET} PROPERTIES ENVIRONMENT
             "testdir=${RR_ROOT}/test")
@@ -74,13 +74,15 @@ endfunction()
 
 set(test_targets)
 
-set(SharedTestFiles "${CMAKE_CURRENT_BINARY_DIR}/RoadRunnerTestDirectory"
-        )
+set(
+        SharedTestFiles
+        "${CMAKE_CURRENT_BINARY_DIR}/RoadRunnerTestDirectory"
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_util
+)
 
 add_subdirectory(c_api_core)
 
 
-#
 #########################################################
 ##   Tests
 ##
