@@ -10,6 +10,9 @@
 
 #include <string>
 #include <set>
+#include <filesystem>
+
+using std::filesystem::path;
 
 namespace SuiteTEST_MODEL {
 

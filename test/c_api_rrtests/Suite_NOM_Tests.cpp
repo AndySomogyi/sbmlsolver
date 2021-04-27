@@ -7,13 +7,15 @@
 #include "rrUtils.h"
 #include "rrIniFile.h"
 #include "rrException.h"
+#include <filesystem>
 
 using namespace std;
 using namespace rr;
 using namespace rrc;
+using std::filesystem::path;
 
-extern string gRRTestDir;
-extern string gRROutputDir;
+extern path gRRTestDir;
+extern path gRROutputDir;
 extern RRHandle gRR;
 extern IniFile iniFile;
 
@@ -25,8 +27,8 @@ TEST(NOM_TESTS, NOM_TEST_DATA_FILES)
     string NOMFileName = "NOM_Test.dat";
 
     gRR = createRRInstance();
-    NOMFileName = joinPath(gRRTestDir + "rrtest_files/", NOMFileName);
-    ASSERT_TRUE(fileExists(NOMFileName));
+    NOMFileName = (gRRTestDir /= path("rrtest_files") /= path(NOMFileName)).string();
+    ASSERT_TRUE(std::filesystem::exists(NOMFileName));
     ASSERT_TRUE(iniFile.Load(NOMFileName));
 
     string TestModelFileName;
@@ -37,8 +39,8 @@ TEST(NOM_TESTS, NOM_TEST_DATA_FILES)
         IniKey* fNameKey = sbml->GetKey(key);
         if (fNameKey)
         {
-            TestModelFileName = joinPath(gRRTestDir + "rrtest_files/", fNameKey->mValue);
-            EXPECT_TRUE(fileExists(TestModelFileName));
+            TestModelFileName = gRRTestDir /= "rrtest_files", fNameKey->mValue);
+            EXPECT_TRUE(std::filesystem::exists(TestModelFileName));
         }
     }
     EXPECT_TRUE(loadSBMLFromFileE(gRR, TestModelFileName.c_str(), true));

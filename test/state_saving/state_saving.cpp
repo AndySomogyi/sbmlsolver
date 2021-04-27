@@ -18,14 +18,16 @@
 #include "llvm/Config/llvm-config.h"
 
 #include "../test_util.h"
+#include <filesystem>
 
 using namespace testing;
 using namespace std;
 using namespace ls;
 using namespace rr;
+using std::filesystem::path;
 
-extern string gRRTestDir;
-extern string gRROutputDir;
+extern path gRRTestDir;
+extern path gRROutputDir;
 
 bool RunStateSavingTest(void(*modification)(RoadRunner*), std::string version = "l2v4");
 bool RunStateSavingTest(int caseNumber, void(*modification)(RoadRunner*), std::string version = "l2v4");

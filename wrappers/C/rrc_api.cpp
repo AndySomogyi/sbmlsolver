@@ -155,7 +155,8 @@ RRHandle rrcCallConv createRRInstance()
         char* capiLocation = getRRCAPILocation(); // return type is dynamically allocated.
         string rrInstallFolder(getParentFolder(capiLocation));
         free(capiLocation);
-        return new RoadRunner("", getTempDir(), joinPath(rrInstallFolder, "rr_support"));
+        std::filesystem::path supportCodeDir = std::filesystem::path(rrInstallFolder) /= "rr_support";
+        return new RoadRunner("", getTempDir(), supportCodeDir.string());
     catch_ptr_macro
 }
 
@@ -167,8 +168,9 @@ RRHandle rrcCallConv createRRInstanceEx(const char* tempFolder, const char* comp
         string rrInstallFolder(text2);
         rr::freeText(text1);
         string compiler = compiler_cstr ? compiler_cstr : "";
+        std::filesystem::path supportCodeDir = std::filesystem::path(rrInstallFolder) /= "rr_support";
 
-        if(tempFolder != NULL && !fileExists(tempFolder))
+        if(tempFolder != NULL && !std::filesystem::exists(tempFolder))
         {
             stringstream msg;
             msg<<"The temporary folder: "<<tempFolder<<" do not exist";
@@ -177,11 +179,11 @@ RRHandle rrcCallConv createRRInstanceEx(const char* tempFolder, const char* comp
         }
         else if(tempFolder)
         {
-            return new RoadRunner(compiler, tempFolder, joinPath(rrInstallFolder, "rr_support"));
+            return new RoadRunner(compiler, tempFolder, supportCodeDir.string());
         }
         else
         {
-            return new RoadRunner(compiler, getTempDir(), joinPath(rrInstallFolder, "rr_support"));
+            return new RoadRunner(compiler, getTempDir(), supportCodeDir.string());
         }
     catch_ptr_macro
 }
@@ -242,7 +244,7 @@ char* rrcCallConv getRRCAPILocation()
     char path[MAX_PATH];
     HINSTANCE handle = NULL;
     const char* dllName = "roadrunner_c_api";
-    handle = GetModuleHandle(dllName);
+    handle = GetModuleHandle(reinterpret_cast<LPCWSTR>(dllName));
     int nrChars = GetModuleFileNameA(handle, path, sizeof(path));
     if(nrChars != 0)
     {
@@ -422,7 +424,7 @@ bool rrcCallConv loadSBMLFromFile(RRHandle _handle, const char* fileName)
 {
     start_try
         //Check first if file exists first
-        if(!fileExists(fileName))
+        if(!std::filesystem::exists(fileName))
         {
             stringstream msg;
             msg<<"The file "<<fileName<<" was not found";
@@ -440,7 +442,7 @@ bool rrcCallConv loadSBMLFromFileE(RRHandle _handle, const char* fileName, bool 
 {
     start_try
         //Check first if file exists first
-        if(!fileExists(fileName))
+        if(!std::filesystem::exists(fileName))
         {
             stringstream msg;
             msg<<"The file "<<fileName<<" was not found";
@@ -507,7 +509,7 @@ bool rrcCallConv loadSimulationSettings(RRHandle handle, const char* fileName)
 {
     start_try
         //Check first if file exists first
-        if(!fileExists(fileName))
+        if(!std::filesystem::exists(fileName))
         {
             stringstream msg;
             msg<<"The file "<<fileName<<" was not found";

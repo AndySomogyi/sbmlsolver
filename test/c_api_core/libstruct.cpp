@@ -8,13 +8,15 @@
 #include "rrIniFile.h"
 #include "rrException.h"
 #include "../test_util.h"
+#include <filesystem>
 
 using namespace std;
 using namespace rr;
 using namespace rrc;
+using std::filesystem::path;
 
-extern string gRRTestDir;
-extern string gRROutputDir;
+extern path gRRTestDir;
+extern path gRROutputDir;
 extern RRHandle gRR;
 
 string LS_TestDataFileName = "models/C_API_CORE/LibStructTest.dat";
@@ -26,8 +28,8 @@ TEST(LIBSTRUCT, testLibStructTestsDataFiles)
     string sec("LS_TESTS");
     string key("InputFile");
 
-    string testDataFileName = joinPath(gRRTestDir, LS_TestDataFileName);
-    ASSERT_TRUE(fileExists(testDataFileName));
+    string testDataFileName = (gRRTestDir /= LS_TestDataFileName).string();
+    ASSERT_TRUE(std::filesystem::exists(testDataFileName));
     ASSERT_TRUE(iniFile.Load(testDataFileName));
 
     //clog << "Loaded test data from file: " << testDataFileName;
@@ -37,8 +39,8 @@ TEST(LIBSTRUCT, testLibStructTestsDataFiles)
         IniKey* fNameKey = sbml->GetKey(key);
         if (fNameKey)
         {
-            LS_TestModelFileName = joinPath(gRRTestDir + "models/C_API_CORE/", fNameKey->mValue);
-            EXPECT_TRUE(fileExists(LS_TestModelFileName));
+            LS_TestModelFileName = (gRRTestDir /= "models/C_API_CORE/").string();
+            EXPECT_TRUE(std::filesystem::exists(LS_TestModelFileName));
         }
     }
     EXPECT_TRUE(loadSBMLFromFileE(gRR, LS_TestModelFileName.c_str(), true));

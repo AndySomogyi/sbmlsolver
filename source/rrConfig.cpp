@@ -312,7 +312,7 @@ std::string Config::getConfigFilePath() {
   rrLog(rr::Logger::LOG_DEBUG)
       << "trying config file from ROADRUNNER_CONFIG " << (env ? env : "NULL");
 
-  if (env && rr::fileExists(env, 4)) {
+  if (env && std::filesystem::exists(env)) {
     return env;
   }
 
@@ -321,14 +321,14 @@ std::string Config::getConfigFilePath() {
   ppath.setFileName("roadrunner.conf");
   path = ppath.toString();
   rrLog(rr::Logger::LOG_DEBUG) << "trying config file " << path;
-  if (rr::fileExists(path, 4)) {
+  if (std::filesystem::exists(path)) {
     return path;
   }
 
   ppath.setFileName(".roadrunner.conf");
   path = ppath.toString();
   rrLog(rr::Logger::LOG_DEBUG) << "trying config file " << path;
-  if (rr::fileExists(path, 4)) {
+  if (std::filesystem::exists(path)) {
     return path;
   }
 
@@ -346,7 +346,7 @@ std::string Config::getConfigFilePath() {
   ppath.setFileName("roadrunner.conf");
   path = ppath.toString();
   rrLog(rr::Logger::LOG_DEBUG) << "trying config file " << path;
-  if (rr::fileExists(path, 4)) {
+  if (std::filesystem::exists(path)) {
     return path;
   }
 
@@ -356,7 +356,7 @@ std::string Config::getConfigFilePath() {
   ppath.setFileName("roadrunner.conf");
   path = ppath.toString();
   rrLog(rr::Logger::LOG_DEBUG) << "trying config file " << path;
-  if (rr::fileExists(path, 4)) {
+  if (std::filesystem::exists(path)) {
     return path;
   }
 

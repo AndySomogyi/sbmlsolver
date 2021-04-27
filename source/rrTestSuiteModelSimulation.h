@@ -17,28 +17,28 @@ class RR_DECLSPEC TestSuiteModelSimulation : public SBMLModelSimulation
 {
     protected:
         int                     mCurrentCaseNumber;                     //If simulating test suite cases...
-        std::string                  mModelSettingsFileName;
+        std::filesystem::path   mModelSettingsFileName;
         RoadRunnerData          mResultData;
         RoadRunnerData          mReferenceData;
         RoadRunnerData          mErrorData;
-        std::string                  GetSettingsFileNameForCase(int sim_case);
-        std::string                  GetReferenceDataFileNameForCase(int caseNr);
+        std::filesystem::path   GetSettingsFileNameForCase(int sim_case);
+        std::filesystem::path   GetReferenceDataFileNameForCase(int caseNr);
         int                     mNrOfFailingPoints;
         double                  mLargestError;
 
     public:
-                                TestSuiteModelSimulation(const std::string& dataOutputFolder = "", const std::string& modelFilePath = "", const std::string& modelFileName = "");
+                                TestSuiteModelSimulation(const std::filesystem::path& dataOutputFolder = "", const std::filesystem::path& modelFilePath = "", const std::filesystem::path& modelFileName = "");
                                ~TestSuiteModelSimulation();
         void                    SetCaseNumber(int cNr);
-        bool                    LoadReferenceData(std::string refDataFileName = "");
+        bool                    LoadReferenceData(std::filesystem::path refDataFileName = "");
         bool                    CreateErrorData();
         bool                    SaveAllData();
         bool                    CopyFilesToOutputFolder();
         double                  LargestError();
         bool                    Pass();
         int                     NrOfFailingPoints();
-        virtual bool            LoadSettings(const std::string& fName = "");
-        virtual bool            LoadSettingsEx(const std::string& settingsFName);
+        virtual bool            LoadSettings(const std::filesystem::path& fName = "");
+        virtual bool            LoadSettingsEx(const std::filesystem::path& settingsFName);
 };
 
 }

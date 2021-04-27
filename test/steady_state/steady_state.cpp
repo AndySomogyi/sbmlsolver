@@ -4,34 +4,35 @@
 #include "rrException.h"
 #include "rrStringUtils.h"
 #include "rrIniFile.h"
-//#include "rrTestUtils.h"
 #include "rrUtils.h"
 #include "../test_util.h"
+#include <filesystem>
 
 using namespace rr;
 using namespace std;
 using namespace ls;
+using std::filesystem::path;
 
-extern string gRRTestDir;
-extern string gRROutputDir;
-extern string TestModelFileName;
+extern path gRRTestDir;
+extern path gRROutputDir;
+extern path TestModelFileName;
 extern IniFile iniFile;
 
 //Global to this unit
 RoadRunner *aRR = NULL;
-string TestDataFileName     = "TestModel_1.dat";
-string gTestDataFolder = joinPath(gRRTestDir, "tests");
+path TestDataFileName     = "TestModel_1.dat";
+path gTestDataFolder = gRRTestDir / "tests";
 
 //This test-suite tests various steady state functions, using the model TestModel_1.xml
 
 //Test that model files and reference data for the tests in this suite are present
 TEST(DISABLED_STEADY_STATE, DATA_FILES)
 {
-    gTestDataFolder = joinPath(gRRTestDir, "models/STEADY_STATE/");
-    TestDataFileName = joinPath(gTestDataFolder, TestDataFileName);
+    gTestDataFolder = gRRTestDir /= "models/STEADY_STATE/";
+    TestDataFileName = gTestDataFolder /= TestDataFileName;
 
-    ASSERT_TRUE(fileExists(TestDataFileName));
-    ASSERT_TRUE(iniFile.Load(TestDataFileName));
+    ASSERT_TRUE(std::filesystem::exists(TestDataFileName.string()));
+    ASSERT_TRUE(iniFile.Load(TestDataFileName.string()));
     //clog << "Loaded test data from file: " << TestDataFileName;
     if (iniFile.GetSection("SBML_FILES"))
     {
@@ -39,8 +40,8 @@ TEST(DISABLED_STEADY_STATE, DATA_FILES)
         IniKey* fNameKey = sbml->GetKey("FNAME1");
         if (fNameKey)
         {
-            TestModelFileName = joinPath(gTestDataFolder, fNameKey->mValue);
-            ASSERT_TRUE(fileExists(TestModelFileName));
+            TestModelFileName = gTestDataFolder /= fNameKey->mValue;
+            ASSERT_TRUE(std::filesystem::exists(TestModelFileName));
         }
     }
 }
@@ -52,7 +53,7 @@ TEST(DISABLED_STEADY_STATE, LOAD_MODEL)
 
     //Load the model
     aRR->setConservedMoietyAnalysis(true);
-    aRR->load(TestModelFileName);
+    aRR->load(TestModelFileName.string());
 }
 
 TEST(DISABLED_STEADY_STATE, COMPUTE_STEADY_STATE)

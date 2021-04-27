@@ -168,7 +168,7 @@ mark_as_advanced(RR_PLUGINS_BUILD_LEVENBERG_MARQUARDT_PLUGIN)
 mark_as_advanced(RR_PLUGINS_BUILD_NELDER_MEAD_PLUGIN)
 mark_as_advanced(RR_PLUGINS_BUILD_MONTE_CARLO_PLUGIN)
 
-set(CXX_STANDARD 14 CACHE STRING "set the cmake standard to use")
+set(CXX_STANDARD 17 CACHE STRING "set the cmake standard to use")
 
 ##################################################
 #   Settings
@@ -301,7 +301,8 @@ exists and is the full path to the installed dependency tree.")
 endif ()
 
 set(RR_ROOT "${CMAKE_CURRENT_SOURCE_DIR}")
-set(DEPENDENCY_CMAKE_CONFIG_PATHS "${RR_DEPENDENCIES_INSTALL_PREFIX}/lib/cmake;${RR_DEPENDENCIES_INSTALL_PREFIX}/lib64/cmake")
+set(DEPENDENCY_CMAKE_CONFIG_PATHS
+        "${RR_DEPENDENCIES_INSTALL_PREFIX}/lib/cmake;${RR_DEPENDENCIES_INSTALL_PREFIX}/lib64/cmake;${RR_DEPENDENCIES_INSTALL_PREFIX}/cmake")
 set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} "${DEPENDENCY_CMAKE_CONFIG_PATHS}")
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${DEPENDENCY_CMAKE_CONFIG_PATHS}")
 

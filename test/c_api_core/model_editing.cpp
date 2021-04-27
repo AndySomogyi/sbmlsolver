@@ -10,15 +10,17 @@
 #include "rrExecutableModel.h"
 
 #include "rrSBMLTestSuiteSimulation_CAPI.h"
+#include <filesystem>
 
 using namespace std;
 using namespace ls;
 using namespace rrc;
 using namespace rr;
+using std::filesystem::path;
 using namespace testing;
 
-extern string gRRTestDir;
-extern string gRROutputDir;
+extern path gRRTestDir;
+extern path gRROutputDir;
 extern RRHandle gRR;
 
 bool validateModifiedSBML(std::string sbml)
@@ -89,7 +91,7 @@ bool RunTestWithModification(void(*modification)(RRHandle), std::string version 
 		//Read SBML models.....
 		simulation.SetCaseNumber(0);
 
-		string modelFilePath = gRRTestDir + "models/" + suiteName + "/" + testName + "/";
+		path modelFilePath = gRRTestDir /= path("models") /= path(suiteName) /= path(testName);
 		string modelFileName = testName + "-sbml-" + version + ".xml";
 		string settingsFileName = testName + "-settings.txt";
 
@@ -98,12 +100,12 @@ bool RunTestWithModification(void(*modification)(RRHandle), std::string version 
 		simulation.SetModelFileName(modelFileName);
 		simulation.ReCompileIfDllExists(true);
 		simulation.CopyFilesToOutputFolder();
-		setTempFolder(gRR, simulation.GetDataOutputFolder().c_str());
+		setTempFolder(gRR, simulation.GetDataOutputFolder().string().c_str());
 		setComputeAndAssignConservationLaws(gRR, false);
 
 		libsbml::SBMLReader reader;
-		std::string fullPath = modelFilePath + "/" + modelFileName;
-		doc = *reader.readSBML(fullPath);
+		path fullPath = modelFilePath /= modelFileName;
+		doc = *reader.readSBML(fullPath.string());
 
 		if (!simulation.LoadSBMLFromFile())
 		{
@@ -112,10 +114,10 @@ bool RunTestWithModification(void(*modification)(RRHandle), std::string version 
 
 
 		//Check first if file exists first
-		if (!fileExists(fullPath))
+		if (!std::filesystem::exists(fullPath))
 		{
 			rrLog(Logger::LOG_ERROR) << "sbml file " << fullPath << " not found";
-			throw(Exception("No such SBML file: " + fullPath));
+			throw(Exception("No such SBML file: " + fullPath.string()));
 		}
 
 		RoadRunner* rri = (RoadRunner*)gRR;
@@ -134,10 +136,10 @@ bool RunTestWithModification(void(*modification)(RRHandle), std::string version 
 		opt.modelGeneratorOpt = opt.modelGeneratorOpt | LoadSBMLOptions::OPTIMIZE_GVN;
 
 
-		rri->load(fullPath, &opt);
+		rri->load(fullPath.string(), &opt);
 
 		//Then read settings file if it exists..
-		if (!simulation.LoadSettings(joinPath(modelFilePath, settingsFileName)))
+		if (!simulation.LoadSettings((modelFilePath /= settingsFileName).string()))
 		{
 			throw(Exception("Failed loading simulation settings"));
 		}
@@ -155,7 +157,7 @@ bool RunTestWithModification(void(*modification)(RRHandle), std::string version 
 			throw(Exception("Failed saving result"));
 		}
 
-		if (!simulation.LoadReferenceData(modelFilePath + "/" + testName + "-results.csv"))
+		if (!simulation.LoadReferenceData(modelFilePath /= (testName + "-results.csv")))
 		{
 			throw(Exception("Failed Loading reference data"));
 		}
@@ -206,7 +208,7 @@ bool RunTestModelFromScratch(void(*generate)(RRHandle),std::string version = "l2
 		//Read SBML models.....
 		simulation.SetCaseNumber(0);
 
-		string modelFilePath = gRRTestDir + "models/" + suiteName + "/" + testName + "/";
+		path modelFilePath = gRRTestDir /= path("models") /= path(suiteName) /= path(testName);
 		string modelFileName = testName + "-sbml-" + version + ".xml";
 		string settingsFileName = testName + "-settings.txt";
 
@@ -218,13 +220,13 @@ bool RunTestModelFromScratch(void(*generate)(RRHandle),std::string version = "l2
 		rr.setConservedMoietyAnalysis(false);
 
 		libsbml::SBMLReader reader;
-		std::string fullPath = modelFilePath + "/" + modelFileName;
+		path fullPath = modelFilePath /= modelFileName;
 
 		//Check first if file exists first
-		if (!fileExists(fullPath))
+		if (!std::filesystem::exists(fullPath))
 		{
 			rrLog(Logger::LOG_ERROR) << "sbml file " << fullPath << " not found";
-			throw(Exception("No such SBML file: " + fullPath));
+			throw(Exception("No such SBML file: " + fullPath.string()));
 		}
 
 
@@ -244,7 +246,7 @@ bool RunTestModelFromScratch(void(*generate)(RRHandle),std::string version = "l2
 
 
 		//Then read settings file if it exists..
-		if (!simulation.LoadSettings(joinPath(modelFilePath, settingsFileName)))
+		if (!simulation.LoadSettings((modelFilePath /= settingsFileName).string()))
 		{
 			throw(Exception("Failed loading simulation settings"));
 		}
@@ -262,7 +264,7 @@ bool RunTestModelFromScratch(void(*generate)(RRHandle),std::string version = "l2
 			throw(Exception("Failed saving result"));
 		}
 
-		if (!simulation.LoadReferenceData(modelFilePath + "/" + testName + "-results.csv"))
+		if (!simulation.LoadReferenceData(modelFilePath /= testName + "-results.csv"))
 		{
 			throw(Exception("Failed Loading reference data"));
 		}
@@ -752,9 +754,9 @@ TEST(MODEL_EDITING_TEST_SUITE, FROM_SCRATCH_6)
 
 TEST(MODEL_EDITING_TEST_SUITE, FROM_SCRATCH_7)
 {
-    string modelFilePath(joinPath(gRRTestDir, "models/MODEL_EDITING_TEST_SUITE"));
+    path modelFilePath(gRRTestDir /= "models/MODEL_EDITING_TEST_SUITE");
     RRHandle rr = createRRInstance();
-    loadSBML(rr, (modelFilePath + std::string("/tiny_example_1.xml")).c_str());
+    loadSBML(rr, (modelFilePath /= "/tiny_example_1.xml").string().c_str());
     addCompartmentNoRegen(rr, "c1", 3.0);
     addSpeciesConcentrationNoRegen(rr, "S1", "c1", 0.0005, false, false);
     addSpeciesConcentrationNoRegen(rr, "S2", "c1", 0.3, false, false);

@@ -4,11 +4,14 @@
 #include "rrException.h"
 #include "rrUtils.h"
 #include "rrTestSuiteModelSimulation.h"
+#include <filesystem>
 using namespace testing;
 using namespace rr;
 using namespace std;
+using std::filesystem::path;
 
-extern string gRRTestDir;
+
+extern path gRRTestDir;
 
 bool RunTest(int number); //Runs both the first and the last version of the test.
 bool RunTest(const string& version, int number);

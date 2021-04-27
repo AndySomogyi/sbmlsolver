@@ -49,7 +49,6 @@ foreach (dirid IN LISTS TESTDIRS)
     target_link_libraries(${testid}
             roadrunner_c_api
             roadrunner-static
-            PocoXML::PocoXML
             gtest gtest_main
             )
 

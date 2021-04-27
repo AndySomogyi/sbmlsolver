@@ -15,6 +15,7 @@
 #include "rrConstants.h"
 #include "rrStringUtils.h"
 #include <stdint.h>
+#include <filesystem>
 
 
 namespace rr
@@ -55,9 +56,9 @@ RR_DECLSPEC size_t          populateFileSet(const std::string& modelsFolder, std
  * 04 Read permission
  * 06 Read and write permission
 */
-RR_DECLSPEC bool fileExists(const std::string& fileN, int fileMode=0);
-
-RR_DECLSPEC bool            folderExists(const std::string& folderN);
+//RR_DECLSPEC bool fileExists(const std::string& fileN, int fileMode=0);
+//
+//RR_DECLSPEC bool            folderExists(const std::string& folderN);
 RR_DECLSPEC bool            createFolder(const std::string& path);
 
 RR_DECLSPEC std::string          getParentFolder(const std::string& path);
@@ -78,34 +79,34 @@ RR_DECLSPEC std::string getCurrentSharedLibDir();
  */
 RR_DECLSPEC std::string getTempDir();
 
-/**
- * Join two file paths together.
- */
-RR_DECLSPEC std::string joinPath(const std::string& p1, const std::string& p2,
-        const char pathSeparator = gPathSeparator);
-
-/**
- * join three file paths together.
- */
-RR_DECLSPEC std::string joinPath(const std::string& p1, const std::string& p2,
-        const std::string& p3, const char pathSeparator = gPathSeparator);
-
-RR_DECLSPEC std::string joinPath(const std::string& p1, const std::string& p2,
-        const std::string& p3, const std::string& p4, const char pathSeparator =
-                gPathSeparator);
-
-RR_DECLSPEC std::string joinPath(const std::string& p1, const std::string& p2,
-        const std::string& p3, const std::string& p4, const std::string& p5,
-        const char pathSeparator = gPathSeparator);
+///**
+// * Join two file paths together.
+// */
+//RR_DECLSPEC std::string joinPath(const std::string& p1, const std::string& p2,
+//        const char pathSeparator = gPathSeparator);
+//
+///**
+// * join three file paths together.
+// */
+//RR_DECLSPEC std::string joinPath(const std::string& p1, const std::string& p2,
+//        const std::string& p3, const char pathSeparator = gPathSeparator);
+//
+//RR_DECLSPEC std::string joinPath(const std::string& p1, const std::string& p2,
+//        const std::string& p3, const std::string& p4, const char pathSeparator =
+//                gPathSeparator);
+//
+//RR_DECLSPEC std::string joinPath(const std::string& p1, const std::string& p2,
+//        const std::string& p3, const std::string& p4, const std::string& p5,
+//        const char pathSeparator = gPathSeparator);
 
 
 RR_DECLSPEC std::string          getCWD();
 RR_DECLSPEC const char      getPathSeparator();
 
-RR_DECLSPEC std::vector<std::string>  getLinesInFile(const std::string& fName);
-RR_DECLSPEC std::string          getFileContent(const std::string& fName);
-RR_DECLSPEC void            createTestSuiteFileNameParts(int caseNr, const std::string& postFixPart, std::string& FilePath, std::string& modelFileName, std::string& settingsFileName, std::string& descriptionFileName);
-RR_DECLSPEC std::string          getTestSuiteSubFolderName(int caseNr);
+RR_DECLSPEC std::vector<std::string>    getLinesInFile(const std::filesystem::path& fName);
+RR_DECLSPEC std::string                 getFileContent(const std::filesystem::path& fName);
+RR_DECLSPEC void                        createTestSuiteFileNameParts(int caseNr, const std::string& postFixPart, std::string& FilePath, std::string& modelFileName, std::string& settingsFileName, std::string& descriptionFileName);
+RR_DECLSPEC std::string                 getTestSuiteSubFolderName(int caseNr);
 
 RR_DECLSPEC bool            hasUnimplementedTags(const std::string& descriptionFileName);
 

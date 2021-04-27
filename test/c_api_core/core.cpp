@@ -19,18 +19,21 @@
 #include "rrException.h"
 #include "rrLogger.h"
 #include "rrRoadRunner.h"
+#include <filesystem>
+
 
 using namespace std;
 using namespace rr;
 using namespace rrc;
 using namespace Poco;
 using namespace Poco::XML;
+using std::filesystem::path;
 
 //using namespace Poco::XML::NodeFilter;
 
 
-extern string gRRTestDir;
-extern string gRROutputDir;
+extern path gRRTestDir;
+extern path gRROutputDir;
 
 string getListOfReactionsText(const string& fName);
 
@@ -62,8 +65,8 @@ TEST(C_API_CORE, LOGGING)
 TEST(C_API_CORE, RELOADING_MODEL_MODEL_RECOMPILIATION)
 {
     RRHandle aRR = createRRInstance();
-    string TestModelFileName = joinPath(gRRTestDir, "models/C_API_CORE/Test_1.xml");
-    EXPECT_TRUE(fileExists(TestModelFileName));
+    string TestModelFileName = (gRRTestDir /= "models/C_API_CORE/Test_1.xml").string();
+    EXPECT_TRUE(std::filesystem::exists(TestModelFileName));
 
     EXPECT_TRUE(loadSBMLFromFileE(aRR, TestModelFileName.c_str(), true));
 
@@ -75,8 +78,8 @@ TEST(C_API_CORE, RELOADING_MODEL_MODEL_RECOMPILIATION)
 TEST(C_API_CORE, RELOADING_MODEL_NO_MODEL_RECOMPILIATION)
 {
     RRHandle aRR = createRRInstance();
-    string TestModelFileName = joinPath(gRRTestDir, "models/C_API_CORE/Test_1.xml");
-    EXPECT_TRUE(fileExists(TestModelFileName));
+    string TestModelFileName = (gRRTestDir /= "models/C_API_CORE/Test_1.xml").string();
+    EXPECT_TRUE(std::filesystem::exists(TestModelFileName));
 
     EXPECT_TRUE(loadSBMLFromFileE(aRR, TestModelFileName.c_str(), true));
 
@@ -89,7 +92,7 @@ TEST(C_API_CORE, LOADING_MODEL_MULTIPLE_INSTANCES)
 {
     RRHandle aRR1 = createRRInstance();
     RRHandle aRR2 = createRRInstance();
-    string TestModelFileName = joinPath(gRRTestDir, "models/C_API_CORE/Test_1.xml");
+    string TestModelFileName = (gRRTestDir /= "models/C_API_CORE/Test_1.xml").string();
 
     EXPECT_TRUE(loadSBMLFromFileE(aRR1, TestModelFileName.c_str(), true));
     EXPECT_TRUE(loadSBMLFromFileE(aRR2, TestModelFileName.c_str(), true));
@@ -104,13 +107,13 @@ TEST(C_API_CORE, LOADING_MODEL_MULTIPLE_INSTANCES)
 
 TEST(C_API_CORE, PARSING_MODEL_XML)
 {
-    string modelXML = getListOfReactionsText(joinPath(gRRTestDir, "models/C_API_CORE/Test_1.xml").c_str());
+    string modelXML = getListOfReactionsText((gRRTestDir /= "models/C_API_CORE/Test_1.xml").string().c_str());
     EXPECT_TRUE(modelXML.size() > 0);
 }
 
 TEST(C_API_CORE, GENERATING_MODEL_HASH)
 {
-    string content = getListOfReactionsText(joinPath(gRRTestDir, "models/C_API_CORE/Test_1.xml"));
+    string content = getListOfReactionsText((gRRTestDir /= "models/C_API_CORE/Test_1.xml").string());
     MD5Engine md5;
     md5.update(content);
     string digestString(Poco::DigestEngine::digestToHex(md5.digest()));
@@ -119,7 +122,7 @@ TEST(C_API_CORE, GENERATING_MODEL_HASH)
 
 TEST(C_API_CORE, LOAD_MODEL_FROM_STRING)
 {
-    string xml = getFileContent(joinPath(gRRTestDir, "models/C_API_CORE/Test_1.xml"));
+    string xml = getFileContent((gRRTestDir /= "models/C_API_CORE/Test_1.xml").string());
     RRHandle aRR1 = createRRInstance();
     RRHandle aRR2 = createRRInstance();
     EXPECT_TRUE(loadSBML(aRR1, xml.c_str()));
@@ -173,7 +176,8 @@ TEST(C_API_CORE, GET_MICROSECONDS)
 
 string getListOfReactionsText(const string& fName)
 {
-        ifstream in(joinPath(gRRTestDir, "models/C_API_CORE/Test_1.xml").c_str());
+        path p = gRRTestDir /= "models/C_API_CORE/Test_1.xml";
+        ifstream in(p.string().c_str());
         InputSource src(in);
         DOMParser parser;
         AutoPtr<Document> pDoc = parser.parse(&src);

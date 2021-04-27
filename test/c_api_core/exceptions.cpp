@@ -6,28 +6,27 @@
 #include "rrIniFile.h"
 
 #include <string>
+#include <filesystem>
 
 //Add using clauses..
 using namespace std;
 using namespace rrc;
+using std::filesystem::path;
 
-using rr::joinPath;
-using rr::fileExists;
-
-extern string gRRTestDir;
-extern string gRROutputDir;
+extern path gRRTestDir;
+extern path gRROutputDir;
 extern rr::IniFile iniFile;
 extern RRHandle gRR;
 
 //This tests is mimicking the Python tests
-extern string TestModelFileName;
+extern path TestModelFileName;
 
 TEST(C_API_EXCEPTIONS, DATA_FILES)
 {
-    string testDataFileName = joinPath(gRRTestDir, "models/C_API_CORE/TestModel_1.dat");
+    path testDataFileName = gRRTestDir /= "models/C_API_CORE/TestModel_1.dat";
 
-    ASSERT_TRUE(fileExists(testDataFileName));
-    ASSERT_TRUE(iniFile.Load(testDataFileName));
+    ASSERT_TRUE(std::filesystem::exists(testDataFileName));
+    ASSERT_TRUE(iniFile.Load(testDataFileName.string()));
 
     //clog << "Loaded test data from file: " << testDataFileName;
     if (iniFile.GetSection("SBML_FILE"))
@@ -36,8 +35,8 @@ TEST(C_API_EXCEPTIONS, DATA_FILES)
         rr::IniKey* fNameKey = sbml->GetKey("sbmlFile");
         if (fNameKey)
         {
-            TestModelFileName = joinPath(gRRTestDir + "models/C_API_CORE/", fNameKey->mValue);
-            EXPECT_TRUE(fileExists(TestModelFileName));
+            TestModelFileName = path(gRRTestDir.string() + "models/C_API_CORE/") /= fNameKey->mValue;
+            EXPECT_TRUE(std::filesystem::exists(TestModelFileName));
         }
     }
     else
@@ -48,7 +47,7 @@ TEST(C_API_EXCEPTIONS, DATA_FILES)
 
 TEST(C_API_EXCEPTIONS, LOAD_SBML)
 {
-    EXPECT_TRUE(loadSBMLFromFile(gRR, TestModelFileName.c_str()));
+    EXPECT_TRUE(loadSBMLFromFile(gRR, TestModelFileName.string().c_str()));
 }
 
 TEST(C_API_EXCEPTIONS, SET_COMPUTE_AND_ASSIGN_CONSERVATION_LAWS)

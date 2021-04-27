@@ -10,6 +10,9 @@
 
 #if defined(WIN32)
 #include <Poco/WindowsConsoleChannel.h>
+#include <filesystem>
+
+
 #endif
 #include <Poco/ConsoleChannel.h>
 #include <Poco/SimpleFileChannel.h>
@@ -41,6 +44,7 @@ using Poco::Formatter;
 using Poco::FormattingChannel;
 using Poco::PatternFormatter;
 using Poco::Mutex;
+using std::filesystem::path;
 
 // console channel can't write colored output to win32 console correctly. 
 #if defined(WIN32)
@@ -297,7 +301,7 @@ void Logger::enableFileLogging(const std::string& fileName, int level)
 
         if (realName.length() == 0) {
             // default log name.
-            realName = joinPath(getTempDir(), "roadrunner.log");
+            realName = (path(getTempDir()) /= "roadrunner.log").string();
         } else {
             // expand any env vars and make absolute path.
             realName = Poco::Path::expand(realName);
@@ -310,7 +314,7 @@ void Logger::enableFileLogging(const std::string& fileName, int level)
         Poco::File fdir = p.parent();
         if(!fdir.exists())
         {
-            realName = joinPath(getTempDir(), "roadrunner.log");
+            realName = (path(getTempDir()) /= "roadrunner.log").string();
             rrLog(Logger::LOG_ERROR) << "The specified log file directory path, "
                     << fdir.path() << " does not exist, using default log file path: "
                     << realName;
@@ -352,9 +356,9 @@ std::string Logger::getFormattingPattern()
 static SplitterChannel* getSplitterChannel()
 {
     getLogger();
-    FormattingChannel *fc = dynamic_cast<FormattingChannel*>(pocoLogger->getChannel());
+    FormattingChannel *fc = dynamic_cast<FormattingChannel*>(pocoLogger->getChannel().get());
     assert(fc && "the first channel in the roadrunner logger should be a formatting channel");
-    SplitterChannel *sc = dynamic_cast<SplitterChannel*>(fc->getChannel());
+    SplitterChannel *sc = dynamic_cast<SplitterChannel*>(fc->getChannel().get());
     assert(sc && "could not get SplitterChannel from FormattingChannel");
     return sc;
 }
@@ -362,9 +366,9 @@ static SplitterChannel* getSplitterChannel()
 static PatternFormatter *getPatternFormatter()
 {
     getLogger();
-    FormattingChannel *fc = dynamic_cast<FormattingChannel*>(pocoLogger->getChannel());
+    FormattingChannel *fc = dynamic_cast<FormattingChannel*>(pocoLogger->getChannel().get());
     assert(fc && "the first channel in the roadrunner logger should be a formatting channel");
-    PatternFormatter *pf = dynamic_cast<PatternFormatter*>(fc->getFormatter());
+    PatternFormatter *pf = dynamic_cast<PatternFormatter*>(fc->getFormatter().get());
     assert(pf && "formatter attached to pattern formatter is not a PatternFormatter");
     return pf;
 }

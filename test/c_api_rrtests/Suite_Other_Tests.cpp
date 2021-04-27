@@ -20,12 +20,14 @@
 #include "rrLogger.h"
 #include "rrRoadRunner.h"
 #include "../test_util.h"
+#include <filesystem>
 
 using namespace std;
 using namespace rr;
 using namespace rrc;
 using namespace Poco;
 using namespace Poco::XML;
+using std::filesystem::path;
 
 //using namespace Poco::XML::NodeFilter;
 

@@ -428,8 +428,9 @@ target_link_libraries(
         SUNDIALS::kinsol_static
 
 
-        PocoFoundation::PocoFoundation
-        PocoNet::PocoNet
+        Poco::Foundation
+        Poco::Net
+        Poco::XML
         iconv::libcharset iconv::libiconv-static
 
 )
