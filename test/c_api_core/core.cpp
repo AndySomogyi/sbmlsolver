@@ -18,7 +18,9 @@
 #include "rrUtils.h"
 #include "rrException.h"
 #include "rrLogger.h"
+
 #include "rrRoadRunner.h"
+#include "RoadRunnerTest.h"
 #include <filesystem>
 
 
@@ -31,17 +33,16 @@ using std::filesystem::path;
 
 //using namespace Poco::XML::NodeFilter;
 
-extern path gRRTestDir;
-extern path gRROutputDir;
+//extern path gRRTestDir;
+//extern path gRROutputDir;
 
-class RoadRunnerCAPICoreTests : public ::testing::Test {
+class RoadRunnerCAPICoreTests : public RoadRunnerTest {
 public:
     path *testModelFilePath = nullptr;
 
     RoadRunnerCAPICoreTests() {
         // make a copy each time so the original doesn't get modified inplace
-        path testDirCpy = gRRTestDir;
-        testModelFilePath = new path(testDirCpy /= path("models") /= path("C_API_CORE") /= path("Test_1.xml"));
+        testModelFilePath = new path(rrTestModelsDir_ / path("C_API_CORE") / path("Test_1.xml"));
     };
 
     ~RoadRunnerCAPICoreTests() override {

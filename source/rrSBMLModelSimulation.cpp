@@ -40,9 +40,9 @@ void SBMLModelSimulation::ReCompileIfDllExists(const bool& doIt)
     mCompileIfDllExists = doIt;
 }
 
-bool SBMLModelSimulation::SetModelFilePath(const std::filesystem::path& path)
+bool SBMLModelSimulation::SetModelFilePath(const std::filesystem::path& p)
 {
-    mModelFilePath = path;
+    mModelFilePath = p;
     return true;
 }
 
@@ -60,14 +60,14 @@ RoadRunnerData SBMLModelSimulation::GetResult()
 
 bool SBMLModelSimulation::SetModelFileName(const std::string& name)
 {
-    if(getFilePath(name).size() > 0)
+    if(!getFilePath(name).empty())
     {
         mModelFilePath = getFilePath(name);
     }
 
     mModelFileName = getFileName(name);
 
-    path p = path(mModelFilePath) /= mModelFileName;
+    path p = path(mModelFilePath) / mModelFileName;
 
 
     if(!std::filesystem::exists(p))
@@ -87,7 +87,7 @@ bool SBMLModelSimulation::SetDataOutputFolder(const std::filesystem::path& name)
 
 std::filesystem::path  SBMLModelSimulation::GetModelsFullFilePath()
 {
-    return mModelFilePath /= mModelFileName;
+    return mModelFilePath / mModelFileName;
 }
 
 std::filesystem::path  SBMLModelSimulation::GetDataOutputFolder()
@@ -259,7 +259,7 @@ bool SBMLModelSimulation::SaveModelAsXML(std::filesystem::path& folder)
     {
         return false;
     }
-    std::filesystem::path fName = folder /= mModelFileName;
+    std::filesystem::path fName = folder / mModelFileName;
     fName = changeFileExtensionTo(fName.string(), "xml");
 
     std::fstream fs(fName.c_str(), std::fstream::out);
@@ -302,7 +302,7 @@ bool SBMLModelSimulation::Simulate()
 
 bool SBMLModelSimulation::SaveResult()
 {
-    std::filesystem::path resultFileName(mDataOutputFolder /= "rr_" + mModelFileName);
+    std::filesystem::path resultFileName(mDataOutputFolder / ("rr_" + mModelFileName));
     resultFileName = resultFileName.replace_extension(".csv");
     rrLog(lInfo)<<"Saving result to file: "<<resultFileName;
     RoadRunnerData resultData(mEngine);

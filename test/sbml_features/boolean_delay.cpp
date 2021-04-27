@@ -20,7 +20,7 @@ TEST(SBML_FEATURES, BOOLEAN_DELAY_1)
 {
     try
     {
-        RoadRunner rri((gRRTestDir /= "models/SBML_FEATURES/boolean_trigger.l3v2.xml").string());
+        RoadRunner rri((gRRTestDir / "models/SBML_FEATURES/boolean_trigger.l3v2.xml").string());
         rri.validateCurrentSBML();
         rri.getSimulateOptions().duration = 2;
         rri.simulate();
@@ -39,7 +39,7 @@ TEST(SBML_FEATURES, BOOLEAN_DELAY_2)
 {
     try
     {
-        RoadRunner rri((gRRTestDir /= "models/SBML_FEATURES/boolean_trigger_2.l3v2.xml").string());
+        RoadRunner rri((gRRTestDir / "models/SBML_FEATURES/boolean_trigger_2.l3v2.xml").string());
         rri.validateCurrentSBML();
         rri.getSimulateOptions().duration = 1;
         rri.simulate();

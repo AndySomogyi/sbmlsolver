@@ -14,12 +14,17 @@ using namespace rr;
 using namespace rrc;
 using std::filesystem::path;
 
-extern path gRRTestDir;
+extern path rrTestDir_;
 extern path gRROutputDir;
 extern RRHandle gRR;
 extern IniFile iniFile;
 
-TEST(NOM_TESTS, NOM_TEST_DATA_FILES)
+class NomTests : public ::testing::Test {
+public:
+    NomTests() = default;
+};
+
+TEST_F(NomTests, NOM_TEST_DATA_FILES)
 {
     string sec("NOM_TESTS");
     string key("InputFile");
@@ -27,7 +32,7 @@ TEST(NOM_TESTS, NOM_TEST_DATA_FILES)
     string NOMFileName = "NOM_Test.dat";
 
     gRR = createRRInstance();
-    NOMFileName = (gRRTestDir /= path("rrtest_files") /= path(NOMFileName)).string();
+    NOMFileName = (rrTestDir_ / path("rrtest_files") / path(NOMFileName)).string();
     ASSERT_TRUE(std::filesystem::exists(NOMFileName));
     ASSERT_TRUE(iniFile.Load(NOMFileName));
 
@@ -39,14 +44,14 @@ TEST(NOM_TESTS, NOM_TEST_DATA_FILES)
         IniKey* fNameKey = sbml->GetKey(key);
         if (fNameKey)
         {
-            TestModelFileName = (gRRTestDir /= path("rrtest_files") /= fNameKey->mValue).string();
+            TestModelFileName = (rrTestDir_ / path("rrtest_files") / fNameKey->mValue).string();
             EXPECT_TRUE(std::filesystem::exists(TestModelFileName));
         }
     }
     EXPECT_TRUE(loadSBMLFromFileE(gRR, TestModelFileName.c_str(), true));
 }
 
-TEST(NOM_TESTS, NOM_GET_NAME)
+TEST_F(NomTests, NOM_GET_NAME)
 {
     string section("NOM_TESTS");
     string key("ModelName");
@@ -66,7 +71,7 @@ TEST(NOM_TESTS, NOM_GET_NAME)
     }
 }
 
-TEST(NOM_TESTS, NOM_GET_NUMBER_OF_RULES)
+TEST_F(NomTests, NOM_GET_NUMBER_OF_RULES)
 {
     string section("NOM_TESTS");
     string key("NumberOfRules");
@@ -85,7 +90,7 @@ TEST(NOM_TESTS, NOM_GET_NUMBER_OF_RULES)
     }
 }
 
-TEST(NOM_TESTS, FREE_RR_INSTANCE)
+TEST_F(NomTests, FREE_RR_INSTANCE)
 {
     EXPECT_TRUE(freeRRInstance(gRR));
     gRR = NULL;

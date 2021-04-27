@@ -28,8 +28,8 @@ path gTestDataFolder = gRRTestDir / "tests";
 //Test that model files and reference data for the tests in this suite are present
 TEST(DISABLED_STEADY_STATE, DATA_FILES)
 {
-    gTestDataFolder = gRRTestDir /= "models/STEADY_STATE/";
-    TestDataFileName = gTestDataFolder /= TestDataFileName;
+    gTestDataFolder = gRRTestDir / "models/STEADY_STATE/";
+    TestDataFileName = gTestDataFolder / TestDataFileName;
 
     ASSERT_TRUE(std::filesystem::exists(TestDataFileName.string()));
     ASSERT_TRUE(iniFile.Load(TestDataFileName.string()));
@@ -40,7 +40,7 @@ TEST(DISABLED_STEADY_STATE, DATA_FILES)
         IniKey* fNameKey = sbml->GetKey("FNAME1");
         if (fNameKey)
         {
-            TestModelFileName = gTestDataFolder /= fNameKey->mValue;
+            TestModelFileName = gTestDataFolder / fNameKey->mValue;
             ASSERT_TRUE(std::filesystem::exists(TestModelFileName));
         }
     }

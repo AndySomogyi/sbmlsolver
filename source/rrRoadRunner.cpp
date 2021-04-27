@@ -8,6 +8,7 @@
 #undef RR_DEPRECATED
 #define RR_DEPRECATED(func) func
 
+#include <iostream>
 #include "rrRoadRunner.h"
 #include "rrException.h"
 #include "ExecutableModelFactory.h"
@@ -15,7 +16,6 @@
 #include "rrLogger.h"
 #include "rrUtils.h"
 #include "rrExecutableModel.h"
-#include "rrSBMLModelSimulation.h"
 #include "rr-libstruct/lsLA.h"
 #include "rr-libstruct/lsLibla.h"
 #include "rrConstants.h"
@@ -66,6 +66,7 @@
 #include <Poco/Mutex.h>
 #include <list>
 #include <cstdlib>
+#include <fstream>
 
 
 #ifdef _MSC_VER

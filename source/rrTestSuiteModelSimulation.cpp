@@ -38,11 +38,11 @@ bool TestSuiteModelSimulation::CopyFilesToOutputFolder()
 {
     if(mModelSettingsFileName.empty())
     {
-        mModelSettingsFileName = mModelFilePath /= GetSettingsFileNameForCase(mCurrentCaseNumber);
+        mModelSettingsFileName = mModelFilePath / GetSettingsFileNameForCase(mCurrentCaseNumber);
     }
 
     path fName = getFileName(mModelSettingsFileName.string());
-    fName = mDataOutputFolder /= fName;
+    fName = mDataOutputFolder / fName;
 #if defined(WIN32)
     return CopyFileA(mModelSettingsFileName.string().c_str(), fName.string().c_str(), false) == TRUE ? true : false;
 #else
@@ -56,7 +56,7 @@ bool TestSuiteModelSimulation::LoadSettings(const path& settingsFName)
 
     if(mModelSettingsFileName.empty())
     {
-        mModelSettingsFileName = mModelFilePath /= GetSettingsFileNameForCase(mCurrentCaseNumber);
+        mModelSettingsFileName = mModelFilePath / GetSettingsFileNameForCase(mCurrentCaseNumber);
     }
     return SBMLModelSimulation::LoadSettings(mModelSettingsFileName);
 }
@@ -67,7 +67,7 @@ bool TestSuiteModelSimulation::LoadSettingsEx(const path& settingsFName)
 
     if(mModelSettingsFileName.empty())
     {
-        mModelSettingsFileName = mModelFilePath /= GetSettingsFileNameForCase(mCurrentCaseNumber);
+        mModelSettingsFileName = mModelFilePath / GetSettingsFileNameForCase(mCurrentCaseNumber);
     }
     bool result = SBMLModelSimulation::LoadSettings(mModelSettingsFileName);
 
@@ -86,7 +86,7 @@ bool TestSuiteModelSimulation::LoadReferenceData(path refDataFileName)
     //The reference data is located in the folder where the model is located
     if (refDataFileName.empty())
     {
-    	refDataFileName = mModelFilePath /= GetReferenceDataFileNameForCase(mCurrentCaseNumber);
+    	refDataFileName = mModelFilePath / GetReferenceDataFileNameForCase(mCurrentCaseNumber);
     }
 
     if(!std::filesystem::exists(refDataFileName))
@@ -183,7 +183,7 @@ bool TestSuiteModelSimulation::SaveAllData()
     //Save all data to one file that can be plotted "as one"
 
     //First save the reference data to a file for comparison to result data
-    path refDataFileName = mDataOutputFolder /= GetReferenceDataFileNameForCase(mCurrentCaseNumber);
+    path refDataFileName = mDataOutputFolder / GetReferenceDataFileNameForCase(mCurrentCaseNumber);
     std::ofstream fs(refDataFileName.c_str());
     fs<<mReferenceData;
     fs.close();
@@ -191,7 +191,7 @@ bool TestSuiteModelSimulation::SaveAllData()
     std::string outputAllFileName;
     std::string dummy;
     createTestSuiteFileNameParts(mCurrentCaseNumber, "-result-comparison.csv", dummy, outputAllFileName, dummy, dummy);
-    fs.open(mDataOutputFolder /= outputAllFileName.c_str());
+    fs.open(mDataOutputFolder / outputAllFileName.c_str());
 
     //Check matrices dimension, if they are not equal, bail..?
     if(mResultData.dimension() != mReferenceData.dimension() ||

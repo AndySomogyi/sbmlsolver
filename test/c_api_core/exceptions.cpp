@@ -23,7 +23,7 @@ extern path TestModelFileName;
 
 TEST(C_API_EXCEPTIONS, DATA_FILES)
 {
-    path testDataFileName = gRRTestDir /= "models/C_API_CORE/TestModel_1.dat";
+    path testDataFileName = rrTestDir_ / "models/C_API_CORE/TestModel_1.dat";
 
     ASSERT_TRUE(std::filesystem::exists(testDataFileName));
     ASSERT_TRUE(iniFile.Load(testDataFileName.string()));
@@ -35,7 +35,7 @@ TEST(C_API_EXCEPTIONS, DATA_FILES)
         rr::IniKey* fNameKey = sbml->GetKey("sbmlFile");
         if (fNameKey)
         {
-            TestModelFileName = path(gRRTestDir.string() + "models/C_API_CORE/") /= fNameKey->mValue;
+            TestModelFileName = path(rrTestDir_.string() + "models/C_API_CORE/") / fNameKey->mValue;
             EXPECT_TRUE(std::filesystem::exists(TestModelFileName));
         }
     }

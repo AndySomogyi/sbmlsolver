@@ -25,7 +25,7 @@ using namespace rrc;
 using namespace rr;
 using std::filesystem::path;
 
-extern path gRRTestDir;
+extern path rrTestDir_;
 extern path gRROutputDir;
 extern RRHandle gRR;
 extern IniFile iniFile;
@@ -278,7 +278,7 @@ void check_LoadData()
     string sbml = sbmlsec->GetNonKeysAsString();
     if (sbml.find('<') == string::npos)
     {
-        sbml = (gRRTestDir /= path("rrtest_files") /= sbml).string();
+        sbml = (rrTestDir_ / path("rrtest_files") / sbml).string();
         EXPECT_TRUE(std::filesystem::exists(sbml));
     }
     if (!loadSBMLEx(gRR, sbml.c_str(), true))
@@ -1783,8 +1783,8 @@ public:
     CApiRRTests() = default;
 
     void checkRRTest(const std::string& fname){
-        path rrTestFileDir = gRRTestDir /= "rrtest_files";
-        rrTestFileName = (rrTestFileDir /= fname + ".rrtest").string();
+        path rrTestFileDir = rrTestDir_ / "rrtest_files";
+        rrTestFileName = (rrTestFileDir / fname + ".rrtest").string();
         check_LoadData();
         if (check_Unimplemented()) {
             clog << "Skipping file " << rrTestFileName << ": unimplemented tests" << endl;

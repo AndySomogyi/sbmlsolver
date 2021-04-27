@@ -1,0 +1,19 @@
+//
+// Created by Ciaran on 27/04/2021.
+//
+
+#ifndef ROADRUNNER_ROADRUNNERROOTDIRECTORY_H
+#define ROADRUNNER_ROADRUNNERROOTDIRECTORY_H
+
+
+#include <filesystem>
+
+/**
+ * @brief returns the root of the roadrunner source directory.
+ * @details The output of this function is determined at cmake
+ * configure time.
+ */
+std::filesystem::path getRoadRunnerTestDirectory();
+
+
+#endif //ROADRUNNER_ROADRUNNERROOTDIRECTORY_H

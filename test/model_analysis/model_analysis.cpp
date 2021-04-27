@@ -9,12 +9,12 @@ using std::filesystem::path;
 
 using namespace rr;
 
-extern path gRRTestDir;
+extern path rrTestDir_;
 extern path gRROutputDir;
 
 TEST(MODEL_ANALYSIS, AnalysisFunctionsWithEvent)
 {
-    RoadRunner* rr = new RoadRunner((gRRTestDir /= "/models/MODEL_ANALYSIS/event.xml").string());
+    RoadRunner* rr = new RoadRunner((rrTestDir_ / "/models/MODEL_ANALYSIS/event.xml").string());
     ls::DoubleMatrix jacobian = rr->getFullJacobian();
     EXPECT_EQ(jacobian.CSize(), 2);
 
@@ -33,7 +33,7 @@ TEST(MODEL_ANALYSIS, AnalysisFunctionsWithEvent)
 
 TEST(MODEL_ANALYSIS, GetEventIDs)
 {
-    RoadRunner* rr = new RoadRunner((gRRTestDir /= "/models/MODEL_ANALYSIS/event.xml").string());
+    RoadRunner* rr = new RoadRunner((rrTestDir_ / "/models/MODEL_ANALYSIS/event.xml").string());
     list<string> eventids;
     rrllvm::LLVMExecutableModel* mod = static_cast<rrllvm::LLVMExecutableModel*>(rr->getModel());
     mod->getEventIds(eventids);
@@ -45,7 +45,7 @@ TEST(MODEL_ANALYSIS, GetEventIDs)
 
 TEST(MODEL_ANALYSIS, SimulateGillespieMaxRows)
 {
-    RoadRunner* rr = new RoadRunner((gRRTestDir /= "/models/MODEL_ANALYSIS/BIOMD0000000035_url.xml").string());
+    RoadRunner* rr = new RoadRunner((rrTestDir_ / "/models/MODEL_ANALYSIS/BIOMD0000000035_url.xml").string());
     rr->setIntegrator("gillespie");
     rr->getIntegrator()->setValue("max_output_rows", 100);
     SimulateOptions opts = rr->getSimulateOptions();
@@ -62,7 +62,7 @@ TEST(MODEL_ANALYSIS, SimulateGillespieMaxRows)
 
 TEST(MODEL_ANALYSIS, SimulateGillespieZeroDuration)
 {
-    RoadRunner* rr = new RoadRunner((gRRTestDir /= "/models/MODEL_ANALYSIS/BIOMD0000000035_url.xml").string());
+    RoadRunner* rr = new RoadRunner((rrTestDir_ / "/models/MODEL_ANALYSIS/BIOMD0000000035_url.xml").string());
     rr->setIntegrator("gillespie");
     SimulateOptions opts = rr->getSimulateOptions();
     opts.duration = 0;
@@ -80,7 +80,7 @@ TEST(MODEL_ANALYSIS, SimulateGillespieZeroDuration)
 
 TEST(MODEL_ANALYSIS, SimulateGillespieDuration)
 {
-    RoadRunner* rr = new RoadRunner((gRRTestDir /= "/models/MODEL_ANALYSIS/BIOMD0000000035_url.xml").string());
+    RoadRunner* rr = new RoadRunner((rrTestDir_ / "/models/MODEL_ANALYSIS/BIOMD0000000035_url.xml").string());
     rr->setIntegrator("gillespie");
     SimulateOptions opts = rr->getSimulateOptions();
     opts.duration = 0.5;

@@ -6,13 +6,12 @@
 #include "rrSBMLTestSuiteSimulation_CAPI.h"
 #include "rrRoadRunner.h"
 #include "rrLogger.h"
+#include "RoadRunnerTestDirectory.h"
 
 using namespace rrc;
 using namespace std;
 using std::filesystem::path;
-extern path gRRTestDir;
-extern path gRROutputDir;
-extern RRHandle gRR;
+
 
 using namespace rr;
 
@@ -81,7 +80,7 @@ bool SBMLTestSuiteSimulation_CAPI::LoadSettings(const string &settingsFName) {
     mModelSettingsFileName = (settingsFName);
 
     if (mModelSettingsFileName.empty()) {
-        mModelSettingsFileName = mModelFilePath /= GetSettingsFileNameForCase(mCurrentCaseNumber);
+        mModelSettingsFileName = mModelFilePath / GetSettingsFileNameForCase(mCurrentCaseNumber);
     }
 
     return SBMLModelSimulation::LoadSettings(mModelSettingsFileName);
@@ -110,7 +109,7 @@ RoadRunnerData SBMLTestSuiteSimulation_CAPI::GetResult() {
 }
 
 bool SBMLTestSuiteSimulation_CAPI::SaveResult() {
-    path resultFileName(mDataOutputFolder /= "rrCAPI_" + mModelFileName);
+    path resultFileName(mDataOutputFolder / ("rrCAPI_" + mModelFileName));
     resultFileName = resultFileName.replace_extension(".csv");
 
     ofstream fs(resultFileName.string().c_str());
@@ -190,7 +189,7 @@ bool RunTest(const string &version, int caseNumber) {
         simulation.UseHandle(gRR);
 
         //Read SBML models.....
-        string modelFilePath = (gRRTestDir /= "rrtest_files/").string();
+        string modelFilePath = (getRoadRunnerTestDirectory() / "rrtest_files/").string();
         string modelFileName;
 
         simulation.SetCaseNumber(caseNumber);

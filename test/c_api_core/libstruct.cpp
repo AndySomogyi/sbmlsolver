@@ -13,11 +13,11 @@
 using namespace std;
 using namespace rr;
 using namespace rrc;
-using std::filesystem::path;
-
-extern path gRRTestDir;
-extern path gRROutputDir;
-extern RRHandle gRR;
+//using std::filesystem::path;
+//
+//extern path rrTestDir_;
+//extern path gRROutputDir;
+//extern RRHandle gRR;
 
 string LS_TestDataFileName = "models/C_API_CORE/LibStructTest.dat";
 extern IniFile iniFile;
@@ -28,7 +28,7 @@ TEST(LIBSTRUCT, testLibStructTestsDataFiles)
     string sec("LS_TESTS");
     string key("InputFile");
 
-    string testDataFileName = (gRRTestDir /= LS_TestDataFileName).string();
+    string testDataFileName = (rrTestDir_ / LS_TestDataFileName).string();
     ASSERT_TRUE(std::filesystem::exists(testDataFileName));
     ASSERT_TRUE(iniFile.Load(testDataFileName));
 
@@ -39,7 +39,7 @@ TEST(LIBSTRUCT, testLibStructTestsDataFiles)
         IniKey* fNameKey = sbml->GetKey(key);
         if (fNameKey)
         {
-            LS_TestModelFileName = (gRRTestDir /= "models/C_API_CORE/").string();
+            LS_TestModelFileName = (rrTestDir_ / "models/C_API_CORE/").string();
             EXPECT_TRUE(std::filesystem::exists(LS_TestModelFileName));
         }
     }
