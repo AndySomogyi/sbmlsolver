@@ -36,20 +36,44 @@ extern path gRROutputDir;
 
 class RoadRunnerCAPICoreTests : public ::testing::Test {
 public:
-    path* TestModelFileName;
-    RoadRunnerCAPICoreTests () = default;
+    path *testModelFilePath = nullptr;
 
-    void SetUp() override{
-        TestModelFileName = new path(gRRTestDir /= path("models") /= path("C_API_CORE") /= path("Test_1.xml"));
-        std::cout << TestModelFileName << std::endl;
+    RoadRunnerCAPICoreTests() {
+        // make a copy each time so the original doesn't get modified inplace
+        path testDirCpy = gRRTestDir;
+        testModelFilePath = new path(testDirCpy /= path("models") /= path("C_API_CORE") /= path("Test_1.xml"));
+    };
+
+    ~RoadRunnerCAPICoreTests() override {
+        delete testModelFilePath;
     }
 
-    void TearDown() override{
-        delete TestModelFileName;
+    std::string getListOfReactionsText(const string &fName) {
+        ifstream in(testModelFilePath->string().c_str());
+        InputSource src(in);
+        DOMParser parser;
+        AutoPtr<Document> pDoc = parser.parse(&src);
+        TreeWalker it(pDoc, Poco::XML::NodeFilter::SHOW_ALL);
+
+        Node *pNode = it.nextNode();
+        string result;
+        while (pNode) {
+            clog << pNode->nodeName() << endl;
+            string nodeID = "listOfReactions";
+            if (toUpper(pNode->nodeName()) == toUpper(nodeID)) {
+                DOMWriter aWriter;
+                stringstream xml;
+                aWriter.writeNode(xml, pNode);
+                result = xml.str();
+                break;
+            }
+            pNode = it.nextNode();
+        }
+
+        result.erase(std::remove_if(result.begin(), result.end(), ::isspace), result.end());
+        return result;
     }
 };
-
-string getListOfReactionsText(const string &fName);
 
 TEST_F(RoadRunnerCAPICoreTests, VERSION) {
     RoadRunner aRR;
@@ -74,60 +98,60 @@ TEST_F(RoadRunnerCAPICoreTests, LOGGING) {
 }
 
 
-TEST_F(RoadRunnerCAPICoreTests, RELOADING_MODEL_MODEL_RECOMPILIATION) {
+TEST_F(RoadRunnerCAPICoreTests, ReloadingModelModelRecompilation) {
     RRHandle aRR = createRRInstance();
-    std::cout << *TestModelFileName << std::endl;
-    EXPECT_TRUE(std::filesystem::exists(*TestModelFileName));
+    std::cout << *testModelFilePath << std::endl;
+    EXPECT_TRUE(std::filesystem::exists(*testModelFilePath));
 
-    EXPECT_TRUE(loadSBMLFromFileE(aRR, TestModelFileName->string().c_str(), true));
+    EXPECT_TRUE(loadSBMLFromFileE(aRR, testModelFilePath->string().c_str(), true));
 
     //Load the same model again, but do not recompile the model DLL..
-    EXPECT_TRUE(loadSBMLFromFileE(aRR, TestModelFileName->string().c_str(), true));
+    EXPECT_TRUE(loadSBMLFromFileE(aRR, testModelFilePath->string().c_str(), true));
     freeRRInstance(aRR);
 }
 
-TEST_F(RoadRunnerCAPICoreTests, RELOADING_MODEL_NO_MODEL_RECOMPILIATION) {
+TEST_F(RoadRunnerCAPICoreTests, RoloadingModelNoModelRecompilation) {
     RRHandle aRR = createRRInstance();
-    EXPECT_TRUE(std::filesystem::exists(*TestModelFileName));
+    EXPECT_TRUE(std::filesystem::exists(*testModelFilePath));
 
-    EXPECT_TRUE(loadSBMLFromFileE(aRR, TestModelFileName->string().c_str(), true));
+    EXPECT_TRUE(loadSBMLFromFileE(aRR, testModelFilePath->string().c_str(), true));
 
     //Load the same model again, but do not recompile the model DLL..
-    EXPECT_TRUE(loadSBMLFromFileE(aRR, TestModelFileName->string().c_str(), false));
+    EXPECT_TRUE(loadSBMLFromFileE(aRR, testModelFilePath->string().c_str(), false));
     freeRRInstance(aRR);
 }
 
-TEST_F(RoadRunnerCAPICoreTests, LOADING_MODEL_MULTIPLE_INSTANCES) {
+TEST_F(RoadRunnerCAPICoreTests, LoadingModelMultipleInstances) {
     RRHandle aRR1 = createRRInstance();
     RRHandle aRR2 = createRRInstance();
 
-    EXPECT_TRUE(loadSBMLFromFileE(aRR1, TestModelFileName->string().c_str(), true));
-    EXPECT_TRUE(loadSBMLFromFileE(aRR2, TestModelFileName->string().c_str(), true));
+    EXPECT_TRUE(loadSBMLFromFileE(aRR1, testModelFilePath->string().c_str(), true));
+    EXPECT_TRUE(loadSBMLFromFileE(aRR2, testModelFilePath->string().c_str(), true));
 
     //Load the same model again, but do not recompile the model DLL..
-    EXPECT_TRUE(loadSBMLFromFileE(aRR1, TestModelFileName->string().c_str(), false));
-    EXPECT_TRUE(loadSBMLFromFileE(aRR2, TestModelFileName->string().c_str(), false));
+    EXPECT_TRUE(loadSBMLFromFileE(aRR1, testModelFilePath->string().c_str(), false));
+    EXPECT_TRUE(loadSBMLFromFileE(aRR2, testModelFilePath->string().c_str(), false));
 
     freeRRInstance(aRR1);
     freeRRInstance(aRR2);
 }
 
-TEST_F(RoadRunnerCAPICoreTests, PARSING_MODEL_XML) {
+TEST_F(RoadRunnerCAPICoreTests, ParsingModelXML) {
 
-    string modelXML = getListOfReactionsText(TestModelFileName->string());
+    string modelXML = getListOfReactionsText(testModelFilePath->string());
     EXPECT_TRUE(modelXML.size() > 0);
 }
 
-TEST_F(RoadRunnerCAPICoreTests, GENERATING_MODEL_HASH) {
-    string content = getListOfReactionsText(TestModelFileName->string());
+TEST_F(RoadRunnerCAPICoreTests, GeneratingModelHash) {
+    string content = getListOfReactionsText(testModelFilePath->string());
     MD5Engine md5;
     md5.update(content);
     string digestString(Poco::DigestEngine::digestToHex(md5.digest()));
     EXPECT_EQ("d996bae1bec8f6efb81c4571aa7fc10d", digestString);
 }
 
-TEST_F(RoadRunnerCAPICoreTests, LOAD_MODEL_FROM_STRING) {
-    string xml = getFileContent((TestModelFileName->string()));
+TEST_F(RoadRunnerCAPICoreTests, LoadModelFromString) {
+    string xml = getFileContent((testModelFilePath->string()));
     RRHandle aRR1 = createRRInstance();
     RRHandle aRR2 = createRRInstance();
     EXPECT_TRUE(loadSBML(aRR1, xml.c_str()));
@@ -141,7 +165,7 @@ TEST_F(RoadRunnerCAPICoreTests, LOAD_MODEL_FROM_STRING) {
 }
 
 #if !defined(__APPLE__)
-TEST_F(RoadRunnerCAPICoreTests, GET_MICROSECONDS) {
+TEST_F(RoadRunnerCAPICoreTests, GetMicroSeconds) {
     // make sure that the time is essentially the same as sleep time in
     // milliseconds.
     int64_t millis = 123;
@@ -179,32 +203,6 @@ TEST_F(RoadRunnerCAPICoreTests, GET_MICROSECONDS) {
 
 #endif
 
-string getListOfReactionsText(const string &fName) {
-    path p = gRRTestDir /= "models/C_API_CORE/Test_1.xml";
-    ifstream in(p.string().c_str());
-    InputSource src(in);
-    DOMParser parser;
-    AutoPtr<Document> pDoc = parser.parse(&src);
-    TreeWalker it(pDoc, Poco::XML::NodeFilter::SHOW_ALL);
-
-    Node *pNode = it.nextNode();
-    string result;
-    while (pNode) {
-        clog << pNode->nodeName() << endl;
-        string nodeID = "listOfReactions";
-        if (toUpper(pNode->nodeName()) == toUpper(nodeID)) {
-            DOMWriter aWriter;
-            stringstream xml;
-            aWriter.writeNode(xml, pNode);
-            result = xml.str();
-            break;
-        }
-        pNode = it.nextNode();
-    }
-
-    result.erase(std::remove_if(result.begin(), result.end(), ::isspace), result.end());
-    return result;
-}
 
 
 
