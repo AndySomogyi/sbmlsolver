@@ -78,9 +78,11 @@ set(
         SharedTestFiles
         "${CMAKE_CURRENT_BINARY_DIR}/RoadRunnerTestDirectory"
         ${CMAKE_CURRENT_SOURCE_DIR}/test_util
+        ${CMAKE_CURRENT_SOURCE_DIR}/RoadRunnerTest
 )
 
 add_subdirectory(c_api_core)
+add_subdirectory(c_api_rrtests)
 
 
 #########################################################

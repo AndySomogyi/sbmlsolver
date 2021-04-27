@@ -30,6 +30,6 @@ namespace SuiteTEST_MODEL {
      */
     void setTestFile(const std::string& filePath);
 
-} /* namespace rr */
+}
 
 #endif /* SUITETESTMODEL_H_ */

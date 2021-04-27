@@ -1,12 +1,29 @@
 
-add_test_executable(c_api_core test_targets
+add_test_executable(c_api_core_tests test_targets
         rrSBMLTestSuiteSimulation_CAPI
-        ../RoadRunnerTest
         ${SharedTestFiles}
         CAPICoreTest.cpp
-        model_editing.cpp
+        )
+
+
+add_test_executable(c_api_core_exceptions test_targets
+        rrSBMLTestSuiteSimulation_CAPI
+        ${SharedTestFiles}
         exceptions.cpp
+        )
+
+
+add_test_executable(c_api_core_libstruct test_targets
+        rrSBMLTestSuiteSimulation_CAPI
+        ${SharedTestFiles}
         libstruct.cpp
+        )
+
+
+add_test_executable(c_api_core_model_editing test_targets
+        rrSBMLTestSuiteSimulation_CAPI
+        ${SharedTestFiles}
+        model_editing.cpp
         )
 
 

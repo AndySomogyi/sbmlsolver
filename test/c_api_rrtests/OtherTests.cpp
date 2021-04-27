@@ -22,6 +22,8 @@
 #include "../test_util.h"
 #include <filesystem>
 
+#include "RoadRunnerTest.h"
+
 using namespace std;
 using namespace rr;
 using namespace rrc;
@@ -33,28 +35,34 @@ using std::filesystem::path;
 
 using namespace std;
 
-extern path rrTestDir_;
-extern path gRROutputDir;
-extern RRHandle gRR;
+//extern path rrTestDir_;
+//extern path gRROutputDir;
+//extern RRHandle gRR;
+
+class RRTestFilesOtherTests : public RoadRunnerTest {
+public:
+    path rrTestFilesDir = rrTestDir_ / "rrtest_files";
+    RRTestFilesOtherTests() = default;
+};
 
 string getListOfReactionsText(const string &fName);
 
-TEST(OTHER_TESTS, EMPTY_EVENT_ASSIGNMENTS) {
+TEST_F(RRTestFilesOtherTests, EMPTY_EVENT_ASSIGNMENTS) {
     // Event assignments in L3v2 can be empty
     RRHandle aRR = createRRInstance();
-    string TestModelFileName = (rrTestDir_ / "rrtest_files/eventassignment_nomath.xml").string();
+    path TestModelFileName = rrTestFilesDir / "eventassignment_nomath.xml";
     EXPECT_TRUE(std::filesystem::exists(TestModelFileName));
 
-    EXPECT_TRUE(loadSBMLFromFileE(aRR, TestModelFileName.c_str(), true));
+    EXPECT_TRUE(loadSBMLFromFileE(aRR, TestModelFileName.string().c_str(), true));
     EXPECT_TRUE(simulate(aRR));
 
 
 }
 
-TEST(OTHER_TESTS, SAVED_SPECIES_AMOUNT) {
-    string TestModelFileName = (rrTestDir_ / "rrtest_files/species_conc.xml").string();
+TEST_F(RRTestFilesOtherTests, SAVED_SPECIES_AMOUNT) {
+    path TestModelFileName = rrTestFilesDir / "species_conc.xml";
     EXPECT_TRUE(std::filesystem::exists(TestModelFileName));
-    RoadRunner rr(TestModelFileName, NULL);
+    RoadRunner rr(TestModelFileName.string(), NULL);
     EXPECT_TRUE(rr.getFloatingSpeciesByIndex(0) == 5.0);
     string sbml = rr.getCurrentSBML();
     RoadRunner rr2(sbml, NULL);
@@ -64,10 +72,10 @@ TEST(OTHER_TESTS, SAVED_SPECIES_AMOUNT) {
     EXPECT_TRUE(rr3.getFloatingSpeciesByIndex(0) == 5.0);
 }
 
-TEST(OTHER_TESTS, SPECIES_UNITS) {
-    string TestModelFileName = (rrTestDir_ / "rrtest_files/species_hosu1.xml").string();
+TEST_F(RRTestFilesOtherTests, SPECIES_UNITS) {
+    path TestModelFileName = rrTestFilesDir / "species_hosu1.xml";
     EXPECT_TRUE(std::filesystem::exists(TestModelFileName));
-    RoadRunner rr(TestModelFileName, NULL);
+    RoadRunner rr(TestModelFileName.string(), NULL);
     EXPECT_TRUE(rr.getFloatingSpeciesByIndex(0) == 3.0);
     string sbml = rr.getCurrentSBML();
     RoadRunner rr2(sbml, NULL);
@@ -77,10 +85,10 @@ TEST(OTHER_TESTS, SPECIES_UNITS) {
     EXPECT_TRUE(rr3.getFloatingSpeciesByIndex(0) == 3.0);
 }
 
-TEST(OTHER_TESTS, SPECIES_UNITS2) {
-    string TestModelFileName = (rrTestDir_ / "rrtest_files/species_hosu2.xml").string();
+TEST_F(RRTestFilesOtherTests, SPECIES_UNITS2) {
+    path TestModelFileName = rrTestFilesDir / "species_hosu2.xml";
     EXPECT_TRUE(std::filesystem::exists(TestModelFileName));
-    RoadRunner rr(TestModelFileName, NULL);
+    RoadRunner rr(TestModelFileName.string(), NULL);
     EXPECT_TRUE(rr.getFloatingSpeciesByIndex(0) == 3.0);
     string sbml = rr.getCurrentSBML();
     RoadRunner rr2(sbml, NULL);
@@ -90,16 +98,16 @@ TEST(OTHER_TESTS, SPECIES_UNITS2) {
     EXPECT_TRUE(rr3.getFloatingSpeciesByIndex(0) == 3.0);
 }
 
-TEST(OTHER_TESTS, OUTPUT_FILE_VARIABLE_TIMESTEP) {
-    string TestModelFileName = (rrTestDir_ / "rrtest_files/output_testmodel.xml").string();
-    string outputFileName =    (rrTestDir_ / "rrtest_files/output_testmodel_variable.csv").string();
-    string expectedFileName =  (rrTestDir_ / "rrtest_files/expected_testmodel_variable.csv").string();
+TEST_F(RRTestFilesOtherTests, OUTPUT_FILE_VARIABLE_TIMESTEP) {
+    path TestModelFileName = rrTestFilesDir / "output_testmodel.xml";
+    path outputFileName =    rrTestFilesDir / "output_testmodel_variable.csv";
+    path expectedFileName =  rrTestFilesDir / "expected_testmodel_variable.csv";
     EXPECT_TRUE(std::filesystem::exists(TestModelFileName));
 
     std::cout << TestModelFileName << std::endl;
     std::cout << outputFileName << std::endl;
 
-    RoadRunner rr(TestModelFileName, NULL);
+    RoadRunner rr(TestModelFileName.string(), NULL);
     rr.setIntegrator("gillespie");
     rr.getIntegrator()->setValue("seed", 123);
 
@@ -107,7 +115,7 @@ TEST(OTHER_TESTS, OUTPUT_FILE_VARIABLE_TIMESTEP) {
     opt.start = 0;
     opt.duration = 100;
     opt.steps = 0;
-    opt.output_file = outputFileName;
+    opt.output_file = outputFileName.string();
     rr.setSimulateOptions(opt);
 
     vector<string> selections;
@@ -121,18 +129,18 @@ TEST(OTHER_TESTS, OUTPUT_FILE_VARIABLE_TIMESTEP) {
 
     // confirm output files are the same
     EXPECT_TRUE(std::filesystem::exists(expectedFileName) && std::filesystem::exists(outputFileName));
-    EXPECT_TRUE(filesAreEqual(outputFileName, expectedFileName));
-    remove(outputFileName.c_str()); // clean up
+    EXPECT_TRUE(filesAreEqual(outputFileName.string(), expectedFileName.string()));
+    remove(outputFileName.string().c_str()); // clean up
 
 }
 
-TEST(OTHER_TESTS, OUTPUT_FILE_FIXED_TIMESTEP) {
-    string TestModelFileName = (rrTestDir_ / "rrtest_files/output_testmodel.xml").string();
-    string outputFileName =    (rrTestDir_ / "rrtest_files/output_testmodel_fixed.csv").string();
-    string expectedFileName =  (rrTestDir_ / "rrtest_files/expected_testmodel_fixed.csv").string();
+TEST_F(RRTestFilesOtherTests, OUTPUT_FILE_FIXED_TIMESTEP) {
+    path TestModelFileName = (rrTestFilesDir / "output_testmodel.xml");
+    path outputFileName =    (rrTestFilesDir / "output_testmodel_fixed.csv");
+    path expectedFileName =  (rrTestFilesDir / "expected_testmodel_fixed.csv");
 
     EXPECT_TRUE(std::filesystem::exists(TestModelFileName));
-    RoadRunner rr(TestModelFileName, NULL);
+    RoadRunner rr(TestModelFileName.string(), NULL);
     SimulateOptions opt;
     rr.setIntegrator("gillespie");
     ASSERT_STREQ("gillespie", rr.getIntegrator()->getName().c_str());
@@ -141,12 +149,12 @@ TEST(OTHER_TESTS, OUTPUT_FILE_FIXED_TIMESTEP) {
     opt.start = 0;
     opt.duration = 50;
     opt.steps = 100;
-    opt.output_file = outputFileName;
+    opt.output_file = outputFileName.string();
     rr.setSimulateOptions(opt);
 
     vector<string> selections;
-    selections.push_back("Time");
-    selections.push_back("S1");
+    selections.emplace_back("Time");
+    selections.emplace_back("S1");
     rr.setSelections(selections);
 
     const ls::DoubleMatrix *result = rr.simulate();
@@ -156,7 +164,7 @@ TEST(OTHER_TESTS, OUTPUT_FILE_FIXED_TIMESTEP) {
 
     // confirm output files are the same
     EXPECT_TRUE(std::filesystem::exists(expectedFileName) && std::filesystem::exists(outputFileName));
-    EXPECT_TRUE(filesAreEqual(expectedFileName, outputFileName));
-    remove(outputFileName.c_str()); // clean up
+    EXPECT_TRUE(filesAreEqual(expectedFileName.string(), outputFileName.string()));
+    remove(outputFileName.string().c_str()); // clean up
 
 }

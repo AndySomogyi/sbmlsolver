@@ -9,18 +9,22 @@
 #include "rrException.h"
 #include <filesystem>
 
+#include "RoadRunnerTest.h"
+
 using namespace std;
 using namespace rr;
 using namespace rrc;
 using std::filesystem::path;
 
-extern path rrTestDir_;
-extern path gRROutputDir;
-extern RRHandle gRR;
-extern IniFile iniFile;
+//extern path rrTestDir_;
+//extern path gRROutputDir;
+//extern RRHandle gRR;
+//extern IniFile iniFile;
 
-class NomTests : public ::testing::Test {
+class NomTests : public RoadRunnerTest {
 public:
+    RRHandle gRR = nullptr;
+    rr::IniFile iniFile;
     NomTests() = default;
 };
 
@@ -92,6 +96,7 @@ TEST_F(NomTests, NOM_GET_NUMBER_OF_RULES)
 
 TEST_F(NomTests, FREE_RR_INSTANCE)
 {
-    EXPECT_TRUE(freeRRInstance(gRR));
-    gRR = NULL;
+    RRHandle r = createRRInstance();
+    EXPECT_TRUE(freeRRInstance(r));
+    gRR = nullptr;
 }
