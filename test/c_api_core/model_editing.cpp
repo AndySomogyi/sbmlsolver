@@ -270,10 +270,6 @@ public:
 
 };
 
-//extern path rrTestDir_;
-//extern path gRROutputDir;
-//extern RRHandle gRR;
-
 
 TEST_F(CAPIModelEditingTests, CLEAR_MODEL_1) {
     RoadRunner rri;

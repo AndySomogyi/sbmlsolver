@@ -1,18 +1,20 @@
 #include "gtest/gtest.h"
+
+#include <unordered_map>
 #include "SteadyStateIntegrationTests.h"
 #include "TestModelFactory.h"
+
 
 /**
  * @brief tests in this fixture all solve for steady state using the
  * "basic" strategy. This corresponds to setting the KIN_NONE flag
  * in kinsol.
  */
-class BasicNewtonIterationTests : public SteadyStateIntegrationTests {
+class BasicNewtonIterationTests : public SteadyStateIntegrationTest {
 public:
 
-    BasicNewtonIterationTests() : SteadyStateIntegrationTests() {};
+    BasicNewtonIterationTests() = default;
 };
-
 
 TEST_F(BasicNewtonIterationTests, CheckDecoratorRemovedAfterSolving) {
     // setup with rr

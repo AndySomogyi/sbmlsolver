@@ -1,21 +1,23 @@
+#ifndef ROADRUNNER_STEADYSTATEINTEGRATIONTEST
+#define ROADRUNNER_STEADYSTATEINTEGRATIONTEST
+
 #include <fstream>
 #include "gtest/gtest.h"
 
 #include "NewtonIteration.h"
 #include "BasicNewtonIteration.h"
 #include "LinesearchNewtonIteration.h"
-#include "rrRoadRunner.h"
 #include "TestModelFactory.h"
 #include <chrono>
+#include "rrRoadRunner.h"
+
 using namespace std::chrono;
-using namespace rr;using namespace std::chrono;
+using namespace rr;
 
-
-
-class SteadyStateIntegrationTests : public ::testing::Test {
+class SteadyStateIntegrationTest : public ::testing::Test {
 
 public:
-    SteadyStateIntegrationTests() = default;
+    SteadyStateIntegrationTest() = default;
 
     template<class TestModelType>
     void testSteadyState(
@@ -71,7 +73,7 @@ public:
     }
 };
 
-
+#endif //ROADRUNNER_STEADYSTATEINTEGRATIONTEST
 
 
 

@@ -239,7 +239,7 @@ double NLEQ2Interface::solve()
             rrLog(Logger::LOG_WARNING) << ErrorForStatus(ierr);
         } else {
             std::string err = ErrorForStatus(ierr);
-            rrLog(Logger::LOG_ERROR)<<"Error :"<<err;
+            //rrLog(Logger::LOG_ERROR)<<"Error :"<<err;
             throw NLEQException(err);
         }
     }

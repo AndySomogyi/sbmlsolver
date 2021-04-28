@@ -341,10 +341,6 @@ endif ()
 set(BUILD_SHARED_LIBS OFF)
 set(BUILD_STATIC_LIBS ON)
 
-# todo make sure you delete before merge with develop (or it will be here forever)
-#add_subdirectory(sundials) # for testing only
-
-
 # install dependencies so clients can use roadrunner from c++/cmake
 message(STATUS "CMAKE_INSTALL_LIBDIR ${CMAKE_INSTALL_LIBDIR}")
 install(DIRECTORY ${RR_DEPENDENCIES_INSTALL_PREFIX}/lib DESTINATION ${CMAKE_INSTALL_PREFIX})
@@ -400,7 +396,6 @@ endif ()
 #
 
 if (${BUILD_PACKAGING})
-    #todo raise question of deleting the "installer" folder (cw)
     # it doesn't look that useful and we now have the contents of
     # packaging that will automate production of binary releases.
     add_subdirectory(packaging)

@@ -39,6 +39,7 @@ using Poco::Channel;
 using Poco::AutoPtr;
 using Poco::Message;
 using Poco::SimpleFileChannel;
+using Poco::ConsoleChannel;
 using Poco::SplitterChannel;
 using Poco::Formatter;
 using Poco::FormattingChannel;
@@ -54,7 +55,7 @@ static bool coloredOutput = true;
 #endif
 
 // owned by poco, it takes care of clearing in static dtor.
-static Poco::Logger *pocoLogger = 0;
+static Poco::Logger *pocoLogger = nullptr;
 volatile int logLevel = -1;
 const Logger::Level defaultLogLevel = Logger::LOG_ERROR;
 static std::string logFileName;
@@ -73,22 +74,22 @@ static std::ostream* consoleStream = &std::clog;
 
 // owned by the poco splitter channel which in turn is owned by the
 // poco logger.
-static SimpleFileChannel *simpleFileChannel = 0;
-static Channel *consoleChannel = 0;
+static AutoPtr<SimpleFileChannel> simpleFileChannel = nullptr;
+static AutoPtr<ConsoleChannel> consoleChannel = nullptr;
 
 static Mutex loggerMutex;
 
 /**
  * get the splitter channel that is in our logging chain.
  */
-static SplitterChannel* getSplitterChannel();
+static Poco::AutoPtr<SplitterChannel> getSplitterChannel();
 
 /**
  * get the pattern formatter that is in our logging chain.
  */
-static PatternFormatter *getPatternFormatter();
+static Poco::AutoPtr<PatternFormatter> getPatternFormatter();
 
-static Channel *createConsoleChannel()
+static Channel* createConsoleChannel()
 {
 #if defined(WIN32)
     if (consoleStream == &std::clog || consoleStream == &std::cout
@@ -96,8 +97,7 @@ static Channel *createConsoleChannel()
         // WIN32 system console mode
         if (coloredOutput) {
             // WIN32 color console output
-            Poco::WindowsColorConsoleChannel *c =
-                    new Poco::WindowsColorConsoleChannel();
+            auto c = new Poco::WindowsColorConsoleChannel();
 
             c->setProperty("traceColor", "gray");
             c->setProperty("debugColor", "brown");
@@ -117,8 +117,7 @@ static Channel *createConsoleChannel()
         // WIN32 python (or alternate stream) mode.
         if (coloredOutput) {
             // WIN32 Python color output
-            Poco::ColorConsoleChannel *c =
-                    new Poco::ColorConsoleChannel(*consoleStream);
+            auto *c = new Poco::ColorConsoleChannel(*consoleStream);
 
             c->setProperty("traceColor", "gray");
             c->setProperty("debugColor", "brown");
@@ -161,7 +160,7 @@ static Channel *createConsoleChannel()
 
 Poco::Logger& getLogger()
 {
-    if (pocoLogger == 0)
+    if (pocoLogger == nullptr)
     {
         //Must put the lock here because other functions in this block call 'getLogger' themselves.
         Mutex::ScopedLock lock(loggerMutex);
@@ -169,17 +168,19 @@ Poco::Logger& getLogger()
         pocoLogger = &Poco::Logger::get("RoadRunner");
 
         // first time this is called, channels better be null
-        assert(consoleChannel == 0 && "consoleChannel is not null at init time");
-        assert(simpleFileChannel == 0 && "simpleFileChannel is not null at init time");
+        assert(consoleChannel == nullptr && "consoleChannel is not null at init time");
+        assert(simpleFileChannel == nullptr && "simpleFileChannel is not null at init time");
+
 
         // split the messages into console and file
         AutoPtr<SplitterChannel> splitter(new SplitterChannel());
 
         // default is console channel,
         // one of two possible terminal channels
-        consoleChannel = createConsoleChannel();
+        consoleChannel = Poco::AutoPtr<Poco::ConsoleChannel>(new Poco::ConsoleChannel);
+        pocoLogger->setChannel(consoleChannel);
 
-        // let the logger manage ownership of the channels, we keep then around
+        // let the logger manage ownership of the channels, we keep them around
         // so we can know when to add or remove them.
         splitter->addChannel(consoleChannel);
         consoleChannel->release();
@@ -193,8 +194,8 @@ Poco::Logger& getLogger()
         pocoLogger->setChannel(fc);
 
         // sanity check here, make sure we're set up right
-        getSplitterChannel();
-        getPatternFormatter();
+//        getSplitterChannel();
+//        getPatternFormatter();
 
         pocoLogger->setLevel(defaultLogLevel);
 
@@ -254,7 +255,8 @@ void Logger::enableConsoleLogging(int level)
         SplitterChannel *splitter = getSplitterChannel();
 
         // default is console channel
-        consoleChannel = createConsoleChannel();
+        auto consoleChannelPtr = dynamic_cast<ConsoleChannel*>(createConsoleChannel());
+        consoleChannel = AutoPtr<ConsoleChannel>(consoleChannelPtr);
 
         // let the logger manage ownership of the channels, we keep then around
         // so we can know when to add or remove them.
@@ -353,7 +355,7 @@ std::string Logger::getFormattingPattern()
     return p ? p->getProperty(PatternFormatter::PROP_PATTERN) : std::string();
 }
 
-static SplitterChannel* getSplitterChannel()
+static AutoPtr<SplitterChannel> getSplitterChannel()
 {
     getLogger();
     FormattingChannel *fc = dynamic_cast<FormattingChannel*>(pocoLogger->getChannel().get());
@@ -363,7 +365,7 @@ static SplitterChannel* getSplitterChannel()
     return sc;
 }
 
-static PatternFormatter *getPatternFormatter()
+static AutoPtr<PatternFormatter> getPatternFormatter()
 {
     getLogger();
     FormattingChannel *fc = dynamic_cast<FormattingChannel*>(pocoLogger->getChannel().get());
@@ -455,8 +457,7 @@ void Logger::setProperty(const std::string& name, const std::string& value)
     Mutex::ScopedLock lock(loggerMutex);
 
 #if defined(WIN32)
-    Poco::WindowsColorConsoleChannel *colorChannel =
-            dynamic_cast<Poco::WindowsColorConsoleChannel*>(consoleChannel);
+    auto colorChannel = dynamic_cast<Poco::WindowsColorConsoleChannel*>(consoleChannel.get());
 
     if(colorChannel) {
         colorChannel->setProperty(name, value);

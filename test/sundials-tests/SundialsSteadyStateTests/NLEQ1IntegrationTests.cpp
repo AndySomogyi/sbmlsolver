@@ -5,10 +5,10 @@
 #include "NLEQ1Solver.h"
 #include "BasicNewtonIteration.h"
 
-class NLEQ1IntetrationTests : public SteadyStateIntegrationTests {
+class NLEQ1IntetrationTests : public SteadyStateIntegrationTest {
 public:
 
-    NLEQ1IntetrationTests() : SteadyStateIntegrationTests() {};
+    NLEQ1IntetrationTests() : SteadyStateIntegrationTest() {};
 };
 
 /**

@@ -22,6 +22,7 @@ configure_file(RoadRunnerTestDirectory.cpp.in "${CMAKE_CURRENT_BINARY_DIR}/RoadR
 # add_test_executable gets called. We can use this as a constant
 set(ThisSourceDirectory ${CMAKE_CURRENT_SOURCE_DIR})
 set(ThisBinaryDirectory ${CMAKE_CURRENT_BINARY_DIR})
+set(TestModelFactorySrcDir "${CMAKE_CURRENT_SOURCE_DIR}/sundials-tests")
 
 # Adds a new executable cmake target to cmake.
 # Links roadrunner-static and gtest.
@@ -30,18 +31,23 @@ set(ThisBinaryDirectory ${CMAKE_CURRENT_BINARY_DIR})
 #   - OUT_VARIABLE: list variable to append BINARY. Creates the list if not exist.
 #   - All further arguments are added to the binary as sources.
 function(add_test_executable TEST_TARGET OUT_VARIABLE)
+    #message(STATUS "Adding test ${TEST_TARGET} as part of ${OUT_VARIABLE}. Source Files: ARGN: ${ARGN}" )
     add_executable(${TEST_TARGET} ${ARGN})
 
     target_include_directories(
             ${TEST_TARGET} PRIVATE
             "${ThisSourceDirectory}"
             "${ThisBinaryDirectory}"
+            "${TestModelFactorySrcDir}"
     )
 
-    target_link_libraries(${TEST_TARGET} PUBLIC
+    target_link_libraries(${TEST_TARGET} PRIVATE
             roadrunner_c_api roadrunner-static gtest gtest_main gmock gmock_main
             )
-    add_compile_definitions(${TEST_TARGET} PRIVATE STATIC_RR)
+    # This causes a weird build error whereby it is no longer possible
+    # to name a class the name as the binary filename. However, since w
+    # link to roadrunner-static, the flags needed should be transitive
+    #    add_compile_definitions(${TEST_TARGET} PRIVATE STATIC_RR)
 
     add_dependencies(${TEST_TARGET} roadrunner-static gtest gtest_main gmock gmock_main)
     set_target_properties(${TEST_TARGET} PROPERTIES LINKER_LANGUAGE CXX)
@@ -50,11 +56,9 @@ function(add_test_executable TEST_TARGET OUT_VARIABLE)
     # add_test(NAME ${BINARY} COMMAND "$<TARGET_FILE:${BINARY}>")
     gtest_discover_tests(
             ${TEST_TARGET}
-            TEST_LIST OUT_VARIABLE
             DISCOVERY_TIMEOUT 500
+            PROPERTIES TIMEOUT 500
     )
-
-    #    set_tests_properties(${TEST_TARGET} PROPERTIES TIMEOUT 500)
 
     set_target_properties(${TEST_TARGET} PROPERTIES ENVIRONMENT
             "testdir=${RR_ROOT}/test")
@@ -63,16 +67,20 @@ function(add_test_executable TEST_TARGET OUT_VARIABLE)
         add_definitions(/bigobj)
     endif ()
 
-    set(test_targets "${test_targets}" "${testid}")
+    # helpful for debugging this function
+    # message(STATUS "OUT_VARIABLE; ${${OUT_VARIABLE}} ${OUT_VARIABLE} OUT_VARIABLE"  )
+
     if ("${${OUT_VARIABLE}}" STREQUAL "")
-        set(${OUT_VARIABLE} "${TEST_LIST}" PARENT_SCOPE)
+        set(${OUT_VARIABLE} "${TEST_TARGET}" PARENT_SCOPE)
     else ()
-        set(${OUT_VARIABLE} "${${OUT_VARIABLE}}" "${TEST_LIST}" PARENT_SCOPE)
+        set(${OUT_VARIABLE} "${${OUT_VARIABLE}}" "${TEST_TARGET}" PARENT_SCOPE)
     endif ()
 
 endfunction()
 
-set(test_targets)
+#########################################################
+#   Add Tests
+#
 
 set(
         SharedTestFiles
@@ -86,82 +94,24 @@ add_subdirectory(c_api_rrtests)
 add_subdirectory(model_analysis)
 add_subdirectory(model_editing)
 add_subdirectory(sbml_features)
-add_subdirectory(semantic_STS)
 add_subdirectory(state_saving)
-add_subdirectory(steady_state)
+add_subdirectory(sundials-tests)
+add_subdirectory(python)
+add_subdirectory(cxx_api_tests)
 
+#List the semantic_STS last, since it takes much longer to run than the others.
+add_subdirectory(semantic_STS)
 
 #########################################################
-##   Tests
-##
+#   Install tests and create wrapper for ctest command
 #
-#add_subdirectory(python)
-#add_subdirectory(rrtest_files)
-#
-#set(TESTDIRS
-#        c_api_core
-#        c_api_rrtests
-#        model_analysis
-#        model_editing
-#        sbml_features
-#        state_saving
-#        steady_state
-#        #List the semantic_STS last, since it takes much longer to run than the others.
-#        semantic_STS
-#        )
-#
-#set(test_targets)
-#foreach (dirid IN LISTS TESTDIRS)
-#    #    message(STATUS "dirid = ${dirid}")
-#    file(GLOB MAIN_FILE ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp)
-#    file(GLOB UTIL_FILE ${CMAKE_CURRENT_SOURCE_DIR}/test_util.cpp)
-#    file(GLOB UTIL_HEADER ${CMAKE_CURRENT_SOURCE_DIR}/test_util.h)
-#    file(GLOB CPP_FILES ${CMAKE_CURRENT_SOURCE_DIR}/${dirid}/*.cpp)
-#    file(GLOB H_FILES ${CMAKE_CURRENT_SOURCE_DIR}/${dirid}/*.h)
-#
-#    set(TEST_FILES ${MAIN_FILE} ${UTIL_FILE} ${UTIL_HEADER} ${CPP_FILES} ${H_FILES})
-#
-#    set(testid "test_${dirid}")
-#    add_executable(${testid} ${TEST_FILES} RoadRunnerTest)
-#
-#    add_compile_definitions(${testid} PRIVATE STATIC_RR)
-#
-#    if (WIN32)
-#        add_definitions(/bigobj)
-#    endif ()
-#
-#    # This order is important:  on linux, including the core library before the C api library
-#    # causes the resulting program to crash in Poco.
-#    target_link_libraries(${testid}
-#            roadrunner_c_api
-#            roadrunner-static
-#            gtest gtest_main
-#            gmock gmock_main
-#            )
-#
-#    set_target_properties(${testid} PROPERTIES ENVIRONMENT
-#            "testdir=${RR_ROOT}/test")
-#
-#    target_include_directories(${testid} PRIVATE
-#            "$<TARGET_PROPERTY:roadrunner_c_api,INCLUDE_DIRECTORIES>"
-#            "${CMAKE_CURRENT_BINARY_DIR}"
-#            )
-#    add_test(${testid}_run ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${testid})
-#    # set the testdir variable for when using ctest to run tests
-#
-#    set(TEST_ENV_VARS "testdir=${RR_ROOT}/test" "CTEST_OUTPUT_ON_FAILURE=TRUE")
-#    set_tests_properties(${testid}_run PROPERTIES ENVIRONMENT "${TEST_ENV_VARS}")
-#
-#    set(test_targets "${test_targets}" "${testid}")
-#
-#endforeach ()
-#
-#install(TARGETS ${test_targets})
-#
-#add_subdirectory(sundials-tests)
-#
-#add_custom_target(
-#        run-ctest
-#        ctest --progress --verbose --extra-verbose ${CMAKE_BINARY_DIR}
-#)
+install(TARGETS ${test_targets})
+
+add_custom_target(
+        run-ctest
+        ctest --progress --verbose --extra-verbose ${CMAKE_BINARY_DIR}
+)
+
+
+
 

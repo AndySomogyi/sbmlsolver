@@ -10,25 +10,26 @@
 using namespace rr;
 
 /**
- * 
+ * @brief tests that focus on the "newton" solver from sundials test suite
+ * without linesearch globalisation
  */
-class BasicNewtonIterationUnitTests : public SundialsSteadyStateSolverUnitTest {
+class BasicNewtonIterationUnitTest : public SundialsSteadyStateSolverUnitTest {
 public:
 
-    BasicNewtonIterationUnitTests() : SundialsSteadyStateSolverUnitTest() {};
+    BasicNewtonIterationUnitTest() : SundialsSteadyStateSolverUnitTest() {};
 
-    ~BasicNewtonIterationUnitTests() override = default;
+    ~BasicNewtonIterationUnitTest() override = default;
 };
 
 
-TEST_F(BasicNewtonIterationUnitTests, SolveUsingSolverDirectly) {
+TEST_F(BasicNewtonIterationUnitTest, SolveUsingSolverDirectly) {
     // aka without a RoadRunner instance
     BasicNewtonIteration solver(rr->getModel());
     solver.solve();
     checkResults(rr->getFloatingSpeciesConcentrationsNamedArray());
 }
 
-TEST_F(BasicNewtonIterationUnitTests, ChangeAndResetSettings) {
+TEST_F(BasicNewtonIterationUnitTest, ChangeAndResetSettings) {
     BasicNewtonIteration solver(rr->getModel());
     solver.setValue("eta_param_gamma", Variant(0.4356));
     solver.resetSettings();
@@ -36,14 +37,14 @@ TEST_F(BasicNewtonIterationUnitTests, ChangeAndResetSettings) {
 }
 
 
-TEST_F(BasicNewtonIterationUnitTests, RegenerateTheModelBeforeCreatingSolver) {
+TEST_F(BasicNewtonIterationUnitTest, RegenerateTheModelBeforeCreatingSolver) {
     rr->regenerateModel();
     BasicNewtonIteration solver(rr->getModel());
     solver.solve();
     checkResults(rr->getFloatingSpeciesConcentrationsNamedArray());
 }
 
-TEST_F(BasicNewtonIterationUnitTests, RegenerateTheModelAfterCreatingSolver) {
+TEST_F(BasicNewtonIterationUnitTest, RegenerateTheModelAfterCreatingSolver) {
     BasicNewtonIteration solver(rr->getModel());
     rr->regenerateModel();
     // after regeneration, the pointer to the model is different
@@ -57,7 +58,7 @@ TEST_F(BasicNewtonIterationUnitTests, RegenerateTheModelAfterCreatingSolver) {
  * Tests each of the settings can be changed
  */
 class SettingsTests :
-        public BasicNewtonIterationUnitTests,
+        public BasicNewtonIterationUnitTest,
         public ::testing::WithParamInterface<std::pair<std::string, Variant>> {
 public:
     SettingsTests() = default;

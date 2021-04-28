@@ -9,10 +9,10 @@
  * "linesearch" strategy. This corresponds to setting the KIN_LINESEARCH flag
  * in kinsol.
  */
-class LineSearchNewtonIterationTests : public SteadyStateIntegrationTests {
+class LineSearchNewtonIterationTests : public SteadyStateIntegrationTest {
 public:
 
-    LineSearchNewtonIterationTests() : SteadyStateIntegrationTests() {};
+    LineSearchNewtonIterationTests() : SteadyStateIntegrationTest() {};
 };
 
 TEST_F(LineSearchNewtonIterationTests, CheckCorrectSteadyStateOpenLinearFlux) {

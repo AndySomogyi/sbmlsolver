@@ -311,7 +311,7 @@ RR_DECLSPEC Poco::Logger &getLogger();
 
 #ifndef NO_LOGGER
 #define rrLog(level) \
-    if (level > rr::Logger::getLevel()) { ; } \
+    if ((level) > rr::Logger::getLevel()) { ; } \
     else rr::LoggingBuffer(level, __FILE__, __LINE__).stream()
 #else
 #define rrLog(level) \
