@@ -85,6 +85,7 @@ add_subdirectory(c_api_core)
 add_subdirectory(c_api_rrtests)
 add_subdirectory(model_analysis)
 add_subdirectory(model_editing)
+add_subdirectory(sbml_features)
 
 
 #########################################################
