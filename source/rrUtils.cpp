@@ -505,25 +505,39 @@ bool isFBCTest(const std::string& descriptionFileName)
     return false;
 }
 
+//bool createFolder(const std::string& folder)
+//{
+//    if(std::filesystem::exists(folder))
+//    {
+//        return true;
+//    }
+//
+//#if defined(WIN32)
+//    int res = mkdir(folder.c_str());
+//#else
+//    int temp;
+//#define MY_MASK 0777
+////     printf("Default mask: %o\n", MY_MASK & ~022 & MY_MASK);
+//      temp = umask(0);
+////      printf("Previous umask = %o\n", temp);
+//    int res = mkdir(folder.c_str(), S_IRWXU | S_IRWXG | S_IRWXO);
+//#endif
+//
+//    return (res==0) ? true : false;
+//}
+
 bool createFolder(const std::string& folder)
 {
     if(std::filesystem::exists(folder))
     {
         return true;
     }
-
-#if defined(WIN32)
-    int res = mkdir(folder.c_str());
-#else
-    int temp;
-#define MY_MASK 0777
-//     printf("Default mask: %o\n", MY_MASK & ~022 & MY_MASK);
-      temp = umask(0);
-//      printf("Previous umask = %o\n", temp);
-    int res = mkdir(folder.c_str(), S_IRWXU | S_IRWXG | S_IRWXO);
-#endif
-
-    return (res==0) ? true : false;
+    try {
+        std::filesystem::create_directories(folder);
+        return true;
+    } catch (std::exception &e) {
+        return false;
+    }
 }
 
 bool createFile(const std::string& fName, std::ios_base::openmode mode)

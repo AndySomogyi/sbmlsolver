@@ -21,10 +21,10 @@ using namespace rr;
 using std::filesystem::path;
 using namespace testing;
 
-class ModelEditingTests : public RoadRunnerTest {
+class CAPIModelEditingTests : public RoadRunnerTest {
 public:
 
-    ModelEditingTests() = default;
+    CAPIModelEditingTests() = default;
 
     bool validateModifiedSBML(std::string sbml) {
         libsbml::SBMLDocument *doc = libsbml::readSBMLFromString(sbml.c_str());
@@ -275,7 +275,7 @@ public:
 //extern RRHandle gRR;
 
 
-TEST_F(ModelEditingTests, CLEAR_MODEL_1) {
+TEST_F(CAPIModelEditingTests, CLEAR_MODEL_1) {
     RoadRunner rri;
     rri.addCompartment("compartment", 3.14159);
     rri.addSpeciesConcentration("S1", "compartment", 1.0, false);
@@ -288,7 +288,7 @@ TEST_F(ModelEditingTests, CLEAR_MODEL_1) {
     EXPECT_TRUE(rri.getNumberOfFloatingSpecies() == 1);
 }
 
-TEST_F(ModelEditingTests, ADD_REACTION_1) {
+TEST_F(CAPIModelEditingTests, ADD_REACTION_1) {
     EXPECT_TRUE(RunTestWithModification([](RRHandle rri) {
         const char *reactants[] = {"S2"};
         const char *products[] = {"S1"};
@@ -296,19 +296,19 @@ TEST_F(ModelEditingTests, ADD_REACTION_1) {
     }));
 }
 
-TEST_F(ModelEditingTests, REMOVE_REACTION_1) {
+TEST_F(CAPIModelEditingTests, REMOVE_REACTION_1) {
     EXPECT_TRUE(RunTestWithModification([](RRHandle rri) {
         removeReaction(rri, "reaction2");
     }));
 }
 
-TEST_F(ModelEditingTests, ADD_SPECIES_1) {
+TEST_F(CAPIModelEditingTests, ADD_SPECIES_1) {
     EXPECT_TRUE(RunTestWithModification([](RRHandle rri) {
         addSpeciesConcentration(rri, "S3", "compartment", 0.0015, true, false);
     }));
 }
 
-TEST_F(ModelEditingTests, REMOVE_SPECIES_1) {
+TEST_F(CAPIModelEditingTests, REMOVE_SPECIES_1) {
     EXPECT_TRUE(RunTestWithModification([](RRHandle rri) {
         removeSpeciesNoRegen(rri, "S2");
         addSpeciesConcentrationNoRegen(rri, "S3", "compartment", 0.00030, true, false);
@@ -321,14 +321,14 @@ TEST_F(ModelEditingTests, REMOVE_SPECIES_1) {
     }));
 }
 
-TEST_F(ModelEditingTests, ADD_EVENT_1) {
+TEST_F(CAPIModelEditingTests, ADD_EVENT_1) {
     EXPECT_TRUE(RunTestWithModification([](RRHandle rri) {
         addEventNoRegen(rri, "event1", true, "S1 > 0.00015");
         addEventAssignment(rri, "event1", "S1", "1");
     }));
 }
 
-TEST_F(ModelEditingTests, EVENT_PRIORITY_1) {
+TEST_F(CAPIModelEditingTests, EVENT_PRIORITY_1) {
     EXPECT_TRUE(RunTestWithModification([](RRHandle rri) {
         addEvent(rri, "_E0", true, "time >= 0.99");
         addPriority(rri, "_E0", "1");
@@ -344,19 +344,19 @@ TEST_F(ModelEditingTests, EVENT_PRIORITY_1) {
     }, "l3v1"));
 }
 
-TEST_F(ModelEditingTests, EVENT_DELAY_1) {
+TEST_F(CAPIModelEditingTests, EVENT_DELAY_1) {
     EXPECT_TRUE(RunTestWithModification([](RRHandle rri) {
         addDelay(rri, "event1", "1");
     }));
 }
 
-TEST_F(ModelEditingTests, REMOVE_EVENT_1) {
+TEST_F(CAPIModelEditingTests, REMOVE_EVENT_1) {
     EXPECT_TRUE(RunTestWithModification([](RRHandle rri) {
         removeEvent(rri, "event1");
     }));
 }
 
-TEST_F(ModelEditingTests, ADD_PARAMETER_1) {
+TEST_F(CAPIModelEditingTests, ADD_PARAMETER_1) {
     EXPECT_TRUE(RunTestWithModification([](RRHandle rri) {
         addParameterNoRegen(rri, "k1", 0.75);
         const char *reactants[] = {"S1", "S2"};
@@ -365,7 +365,7 @@ TEST_F(ModelEditingTests, ADD_PARAMETER_1) {
     }));
 }
 
-TEST_F(ModelEditingTests, ADD_COMPARTMENT_1) {
+TEST_F(CAPIModelEditingTests, ADD_COMPARTMENT_1) {
     EXPECT_TRUE(RunTestWithModification([](RRHandle rri) {
         addCompartment(rri, "compartment", 1);
         const char *reactants[] = {"S1", "S2"};
@@ -374,84 +374,84 @@ TEST_F(ModelEditingTests, ADD_COMPARTMENT_1) {
     }));
 }
 
-TEST_F(ModelEditingTests, ADD_ASSIGNMENT_RULE_1) {
+TEST_F(CAPIModelEditingTests, ADD_ASSIGNMENT_RULE_1) {
     EXPECT_TRUE(RunTestWithModification([](RRHandle rri) {
         setBoundary(rri, "S1", true);
         addAssignmentRule(rri, "S1", "7");
     }));
 }
 
-TEST_F(ModelEditingTests, ADD_RATE_RULE_1) {
+TEST_F(CAPIModelEditingTests, ADD_RATE_RULE_1) {
     EXPECT_TRUE(RunTestWithModification([](RRHandle rri) {
         setBoundary(rri, "S1", true);
         addRateRule(rri, "S1", "7");
     }));
 }
 
-TEST_F(ModelEditingTests, SET_KINETIC_LAW_1) {
+TEST_F(CAPIModelEditingTests, SET_KINETIC_LAW_1) {
     EXPECT_TRUE(RunTestWithModification([](RRHandle rri) {
         setKineticLaw(rri, "reaction2", "compartment * k2 * S3");
     }));
 }
 
-TEST_F(ModelEditingTests, ADD_EVENT_ASSIGNMENT_1) {
+TEST_F(CAPIModelEditingTests, ADD_EVENT_ASSIGNMENT_1) {
     EXPECT_TRUE(RunTestWithModification([](RRHandle rri) {
         addEventAssignment(rri, "event2", "S3", "1");
     }));
 }
 
-TEST_F(ModelEditingTests, ADD_TRIGGER_1) {
+TEST_F(CAPIModelEditingTests, ADD_TRIGGER_1) {
     EXPECT_TRUE(RunTestWithModification([](RRHandle rri) {
         addTrigger(rri, "event1", "S1 < 0.75");
     }));
 }
 
-TEST_F(ModelEditingTests, PAUSE_10) {
+TEST_F(CAPIModelEditingTests, PAUSE_10) {
     EXPECT_TRUE(RunTestWithModification([](RRHandle rri) {
         simulate(rri);
         addDelay(rri, "event1", "0.2");
     }));
 }
 
-TEST_F(ModelEditingTests, REMOVE_COMPARTMENT_1) {
+TEST_F(CAPIModelEditingTests, REMOVE_COMPARTMENT_1) {
     EXPECT_TRUE(RunTestWithModification([](RRHandle rri) {
         removeCompartment(rri, "compartment");
     }));
 }
 
-TEST_F(ModelEditingTests, REMOVE_PARAM_RECURSE_1) {
+TEST_F(CAPIModelEditingTests, REMOVE_PARAM_RECURSE_1) {
     EXPECT_TRUE(RunTestWithModification([](RRHandle rri) {
         removeParameter(rri, "k2");
     }));
 }
 
-TEST_F(ModelEditingTests, REMOVE_EVENT_ASSIGNMENT_1) {
+TEST_F(CAPIModelEditingTests, REMOVE_EVENT_ASSIGNMENT_1) {
     EXPECT_TRUE(RunTestWithModification([](RRHandle rri) {
         removeEventAssignments(rri, "event1", "S2");
     }));
 }
 
-TEST_F(ModelEditingTests, SET_PERSISTENT_1) {
+TEST_F(CAPIModelEditingTests, SET_PERSISTENT_1) {
     EXPECT_TRUE(RunTestWithModification([](RRHandle rri) {
         setPersistentNoRegen(rri, "event1", true);
         setPersistent(rri, "event2", true);
     }, "l3v1"));
 }
 
-TEST_F(ModelEditingTests, SET_PERSISTENT_2) {
+TEST_F(CAPIModelEditingTests, SET_PERSISTENT_2) {
     EXPECT_TRUE(RunTestWithModification([](RRHandle rri) {
         setPersistent(rri, "event1", false);
     }, "l3v1"));
 }
 
-TEST_F(ModelEditingTests, SET_CONSTANT_1) {
+TEST_F(CAPIModelEditingTests, SET_CONSTANT_1) {
     EXPECT_TRUE(RunTestWithModification([](RRHandle rri) {
         setConstantNoRegen(rri, "k1", false);
         addRateRule(rri, "k1", "0.5");
     }));
 }
 
-TEST_F(ModelEditingTests, SET_CONSTANT_2) {
+TEST_F(CAPIModelEditingTests, SET_CONSTANT_2) {
     EXPECT_TRUE(RunTestWithModification([](RRHandle rri) {
         setConstantNoRegen(rri, "S1", false);
         setBoundary(rri, "S1", true);
@@ -459,14 +459,14 @@ TEST_F(ModelEditingTests, SET_CONSTANT_2) {
     }));
 }
 
-TEST_F(ModelEditingTests, SET_HAS_ONLY_SUBSTANCE_UNITS_1) {
+TEST_F(CAPIModelEditingTests, SET_HAS_ONLY_SUBSTANCE_UNITS_1) {
     EXPECT_TRUE(RunTestWithModification([](RRHandle rri) {
         setHasOnlySubstanceUnitsNoRegen(rri, "S1", true);
         setHasOnlySubstanceUnits(rri, "S2", true);
     }));
 }
 
-TEST_F(ModelEditingTests, SET_HAS_ONLY_SUBSTANCE_UNITS_2) {
+TEST_F(CAPIModelEditingTests, SET_HAS_ONLY_SUBSTANCE_UNITS_2) {
     EXPECT_TRUE(RunTestWithModification([](RRHandle rri) {
         setHasOnlySubstanceUnitsNoRegen(rri, "S1", true);
         setHasOnlySubstanceUnitsNoRegen(rri, "S2", true);
@@ -475,14 +475,14 @@ TEST_F(ModelEditingTests, SET_HAS_ONLY_SUBSTANCE_UNITS_2) {
     }));
 }
 
-TEST_F(ModelEditingTests, SET_HAS_ONLY_SUBSTANCE_UNITS_3) {
+TEST_F(CAPIModelEditingTests, SET_HAS_ONLY_SUBSTANCE_UNITS_3) {
     EXPECT_TRUE(RunTestWithModification([](RRHandle rri) {
         setHasOnlySubstanceUnitsNoRegen(rri, "S1", false);
         setHasOnlySubstanceUnits(rri, "S2", false);
     }));
 }
 
-TEST_F(ModelEditingTests, SET_INITIAL_CONCENTRATION_1) {
+TEST_F(CAPIModelEditingTests, SET_INITIAL_CONCENTRATION_1) {
     EXPECT_TRUE(RunTestWithModification([](RRHandle rri) {
         addSpeciesConcentrationNoRegen(rri, "S1", "C", 0.0, false, false);
         setInitConcentrationNoRegen(rri, "S1", 0.0004);
@@ -506,7 +506,7 @@ TEST_F(ModelEditingTests, SET_INITIAL_CONCENTRATION_1) {
     }));
 }
 
-TEST_F(ModelEditingTests, SET_INITIAL_CONCENTRATION_2) {
+TEST_F(CAPIModelEditingTests, SET_INITIAL_CONCENTRATION_2) {
     EXPECT_TRUE(RunTestWithModification([](RRHandle rri) {
         setInitConcentrationNoRegen(rri, "S1", 0.0004);
         setInitConcentrationNoRegen(rri, "S2", 0.00048);
@@ -515,14 +515,14 @@ TEST_F(ModelEditingTests, SET_INITIAL_CONCENTRATION_2) {
     }));
 }
 
-TEST_F(ModelEditingTests, SET_INITIAL_AMOUNT_1) {
+TEST_F(CAPIModelEditingTests, SET_INITIAL_AMOUNT_1) {
     EXPECT_TRUE(RunTestWithModification([](RRHandle rri) {
         setInitAmountNoRegen(rri, "S1", 0.00015);
         setInitAmount(rri, "S2", 0);
     }));
 }
 
-TEST_F(ModelEditingTests, SET_INITIAL_AMOUNT_2) {
+TEST_F(CAPIModelEditingTests, SET_INITIAL_AMOUNT_2) {
     EXPECT_TRUE(RunTestWithModification([](RRHandle rri) {
         addSpeciesConcentration(rri, "S1", "compartment", 0.0, false, false);
         setInitAmountNoRegen(rri, "S1", 0.00015);
@@ -536,40 +536,40 @@ TEST_F(ModelEditingTests, SET_INITIAL_AMOUNT_2) {
     }));
 }
 
-TEST_F(ModelEditingTests, SET_REVERSIBLE_1) {
+TEST_F(CAPIModelEditingTests, SET_REVERSIBLE_1) {
     EXPECT_TRUE(RunTestWithModification([](RRHandle rri) {
         setReversible(rri, "reaction2", true);
     }));
 }
 
-TEST_F(ModelEditingTests, SET_REVERSIBLE_2) {
+TEST_F(CAPIModelEditingTests, SET_REVERSIBLE_2) {
     EXPECT_TRUE(RunTestWithModification([](RRHandle rri) {
         setReversible(rri, "reaction1", false);
     }));
 }
 
-TEST_F(ModelEditingTests, SET_TRIGGER_INITIAL_VALUE_1) {
+TEST_F(CAPIModelEditingTests, SET_TRIGGER_INITIAL_VALUE_1) {
     EXPECT_TRUE(RunTestWithModification([](RRHandle rri) {
         setTriggerInitialValue(rri, "event1", false);
         reset(rri);
     }, "l3v1"));
 }
 
-TEST_F(ModelEditingTests, SET_TRIGGER_INITIAL_VALUE_2) {
+TEST_F(CAPIModelEditingTests, SET_TRIGGER_INITIAL_VALUE_2) {
     EXPECT_TRUE(RunTestWithModification([](RRHandle rri) {
         setTriggerInitialValue(rri, "event1", true);
         reset(rri);
     }, "l3v1"));
 }
 
-TEST_F(ModelEditingTests, SET_TRIGGER_INITIAL_VALUE_3) {
+TEST_F(CAPIModelEditingTests, SET_TRIGGER_INITIAL_VALUE_3) {
     EXPECT_TRUE(RunTestWithModification([](RRHandle rri) {
         setTriggerInitialValue(rri, "event1", true);
         reset(rri);
     }, "l3v1"));
 }
 
-TEST_F(ModelEditingTests, FROM_SCRATCH_1) {
+TEST_F(CAPIModelEditingTests, FROM_SCRATCH_1) {
     EXPECT_TRUE(RunTestModelFromScratch([](RRHandle rri) {
         addCompartment(rri, "compartment", 1);
         addSpeciesConcentration(rri, "S1", "compartment", 0.00015, false, false);
@@ -581,7 +581,7 @@ TEST_F(ModelEditingTests, FROM_SCRATCH_1) {
     }));
 }
 
-TEST_F(ModelEditingTests, FROM_SCRATCH_2) {
+TEST_F(CAPIModelEditingTests, FROM_SCRATCH_2) {
     EXPECT_TRUE(RunTestModelFromScratch([](RRHandle rri) {
         addCompartment(rri, "compartment", 1);
         addSpeciesConcentration(rri, "S1", "compartment", 1, false, false);
@@ -596,7 +596,7 @@ TEST_F(ModelEditingTests, FROM_SCRATCH_2) {
     }));
 }
 
-TEST_F(ModelEditingTests, FROM_SCRATCH_3) {
+TEST_F(CAPIModelEditingTests, FROM_SCRATCH_3) {
     EXPECT_TRUE(RunTestModelFromScratch([](RRHandle rri) {
         addCompartment(rri, "compartment", 1);
         addSpeciesConcentration(rri, "S1", "compartment", 0, false, true);
@@ -604,7 +604,7 @@ TEST_F(ModelEditingTests, FROM_SCRATCH_3) {
     }));
 }
 
-TEST_F(ModelEditingTests, FROM_SCRATCH_4) {
+TEST_F(CAPIModelEditingTests, FROM_SCRATCH_4) {
     EXPECT_TRUE(RunTestModelFromScratch([](RRHandle rri) {
         addCompartment(rri, "compartment", 1);
         addSpeciesConcentration(rri, "S1", "compartment", 7, false, false);
@@ -612,7 +612,7 @@ TEST_F(ModelEditingTests, FROM_SCRATCH_4) {
     }));
 }
 
-TEST_F(ModelEditingTests, FROM_SCRATCH_5) {
+TEST_F(CAPIModelEditingTests, FROM_SCRATCH_5) {
     EXPECT_TRUE(RunTestModelFromScratch([](RRHandle rri) {
         addCompartment(rri, "compartment", 1);
         addSpeciesConcentration(rri, "S1", "compartment", 1, false, false);
@@ -627,7 +627,7 @@ TEST_F(ModelEditingTests, FROM_SCRATCH_5) {
     }));
 }
 
-TEST_F(ModelEditingTests, FROM_SCRATCH_6) {
+TEST_F(CAPIModelEditingTests, FROM_SCRATCH_6) {
     EXPECT_TRUE(RunTestModelFromScratch([](RRHandle rri) {
         addParameter(rri, "Q", 0);
         addParameter(rri, "R", 0);
@@ -658,8 +658,8 @@ TEST_F(ModelEditingTests, FROM_SCRATCH_6) {
     }, "l3v1"));
 }
 
-TEST_F(ModelEditingTests, FROM_SCRATCH_7) {
-    path modelFilePath(rrTestModelsDir_ / "ModelEditingTests");
+TEST_F(CAPIModelEditingTests, FROM_SCRATCH_7) {
+    path modelFilePath(rrTestModelsDir_ / "CAPIModelEditingTests");
     RRHandle rr = createRRInstance();
     loadSBML(rr, (modelFilePath / "tiny_example_1.xml").string().c_str());
     addCompartmentNoRegen(rr, "c1", 3.0);
