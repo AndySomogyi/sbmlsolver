@@ -45,9 +45,82 @@ TEST(rrLerTests, s) {
 //    loggingBuffer.stream() << "words" << std::endl;
 }
 
+TEST_F(rrLoggerTests, getSplitterChannel) {
+    Poco::Logger &logger = getLogger();
+    std::cout << typeid(*logger.getChannel().get()).name() << std::endl;
+//    auto & logger = pocoLogger->getChannel();
+}
+
+TEST_F(rrLoggerTests, CheckLoggerConsoleInformation) {
+    Poco::Logger &logger = getLogger();
+    logger.setLevel(Logger::LOG_INFORMATION);
+    logger.information("For your information");
+
+}
 
 
+TEST_F(rrLoggerTests, CheckLoggerConsolCURRENT) {
 
+}
+
+TEST_F(rrLoggerTests, CheckLoggerConsolFATAL) {
+
+}
+
+TEST_F(rrLoggerTests, CheckLoggerConsolCRITICAL) {
+
+}
+
+TEST_F(rrLoggerTests, CheckLoggerConsolERROR) {
+
+}
+
+TEST_F(rrLoggerTests, CheckLoggerConsolWARNING) {
+
+}
+
+TEST_F(rrLoggerTests, CheckLoggerConsolNOTICE) {
+
+}
+
+TEST_F(rrLoggerTests, CheckLoggerConsolINFORMATION) {
+
+}
+
+TEST_F(rrLoggerTests, CheckLoggerConsolDEBUG) {
+
+}
+
+TEST_F(rrLoggerTests, CheckLoggerConsolTRACE) {
+
+}
+
+TEST_F(rrLoggerTests, CheckLoggerFileCURRENT) {
+}
+
+TEST_F(rrLoggerTests, CheckLoggerFileFATAL) {
+}
+
+TEST_F(rrLoggerTests, CheckLoggerFileCRITICAL) {
+}
+
+TEST_F(rrLoggerTests, CheckLoggerFileERROR) {
+}
+
+TEST_F(rrLoggerTests, CheckLoggerFileWARNING) {
+}
+
+TEST_F(rrLoggerTests, CheckLoggerFileNOTICE) {
+}
+
+TEST_F(rrLoggerTests, CheckLoggerFileINFORMATION) {
+}
+
+TEST_F(rrLoggerTests, CheckLoggerFileDEBUG) {
+}
+
+TEST_F(rrLoggerTests, CheckLoggerFileTRACE) {
+}
 
 
 
