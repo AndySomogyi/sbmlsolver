@@ -28,6 +28,8 @@ public:
 
     RoadRunnerTest();
 
+    ~RoadRunnerTest()  override = default;
+
 protected:
     /**
      * @brief check validity of the rrTestDir_ variable

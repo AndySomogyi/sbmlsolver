@@ -87,6 +87,7 @@ add_subdirectory(model_analysis)
 add_subdirectory(model_editing)
 add_subdirectory(sbml_features)
 add_subdirectory(semantic_STS)
+add_subdirectory(state_saving)
 
 
 #########################################################
