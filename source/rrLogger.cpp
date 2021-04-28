@@ -39,7 +39,6 @@ using Poco::Channel;
 using Poco::AutoPtr;
 using Poco::Message;
 using Poco::SimpleFileChannel;
-using Poco::ConsoleChannel;
 using Poco::SplitterChannel;
 using Poco::Formatter;
 using Poco::FormattingChannel;
@@ -55,7 +54,7 @@ static bool coloredOutput = true;
 #endif
 
 // owned by poco, it takes care of clearing in static dtor.
-static Poco::Logger *pocoLogger = nullptr;
+static Poco::Logger *pocoLogger = 0;
 volatile int logLevel = -1;
 const Logger::Level defaultLogLevel = Logger::LOG_ERROR;
 static std::string logFileName;
@@ -74,22 +73,22 @@ static std::ostream* consoleStream = &std::clog;
 
 // owned by the poco splitter channel which in turn is owned by the
 // poco logger.
-static AutoPtr<SimpleFileChannel> simpleFileChannel = nullptr;
-static AutoPtr<ConsoleChannel> consoleChannel = nullptr;
+static SimpleFileChannel *simpleFileChannel = 0;
+static Channel *consoleChannel = 0;
 
 static Mutex loggerMutex;
 
 /**
  * get the splitter channel that is in our logging chain.
  */
-static AutoPtr<SplitterChannel> getSplitterChannel();
+static SplitterChannel* getSplitterChannel();
 
 /**
  * get the pattern formatter that is in our logging chain.
  */
-static AutoPtr<PatternFormatter> getPatternFormatter();
+static PatternFormatter *getPatternFormatter();
 
-static AutoPtr<Channel> createConsoleChannel()
+static Channel *createConsoleChannel()
 {
 #if defined(WIN32)
     if (consoleStream == &std::clog || consoleStream == &std::cout
@@ -97,7 +96,8 @@ static AutoPtr<Channel> createConsoleChannel()
         // WIN32 system console mode
         if (coloredOutput) {
             // WIN32 color console output
-            auto c = new Poco::WindowsColorConsoleChannel();
+            Poco::WindowsColorConsoleChannel *c =
+                    new Poco::WindowsColorConsoleChannel();
 
             c->setProperty("traceColor", "gray");
             c->setProperty("debugColor", "brown");
@@ -111,13 +111,14 @@ static AutoPtr<Channel> createConsoleChannel()
             return c;
         } else {
             // WIN32 non-color console output
-            return AutoPtr<Channel>(new Poco::ConsoleChannel(*consoleStream));
+            return new Poco::ConsoleChannel(*consoleStream);
         }
     } else {
         // WIN32 python (or alternate stream) mode.
         if (coloredOutput) {
             // WIN32 Python color output
-            auto c = AutoPtr<Channel>(new Poco::ColorConsoleChannel(*consoleStream));
+            Poco::ColorConsoleChannel *c =
+                    new Poco::ColorConsoleChannel(*consoleStream);
 
             c->setProperty("traceColor", "gray");
             c->setProperty("debugColor", "brown");
@@ -139,7 +140,7 @@ static AutoPtr<Channel> createConsoleChannel()
 #else
     if (coloredOutput) {
         Poco::ColorConsoleChannel *c =
-                AutoPtr<Channel>(new Poco::ColorConsoleChannel(*consoleStream));
+                new Poco::ColorConsoleChannel(*consoleStream);
 
 
         c->setProperty("traceColor", "gray");
@@ -153,14 +154,14 @@ static AutoPtr<Channel> createConsoleChannel()
 
         return c;
     } else {
-        return AutoPtr<Channel>(new Poco::ConsoleChannel(*consoleStream));
+        return new Poco::ConsoleChannel(*consoleStream);
     }
 #endif
 }
 
 Poco::Logger& getLogger()
 {
-    if (pocoLogger == nullptr)
+    if (pocoLogger == 0)
     {
         //Must put the lock here because other functions in this block call 'getLogger' themselves.
         Mutex::ScopedLock lock(loggerMutex);
@@ -168,18 +169,17 @@ Poco::Logger& getLogger()
         pocoLogger = &Poco::Logger::get("RoadRunner");
 
         // first time this is called, channels better be null
-        assert(consoleChannel == nullptr && "consoleChannel is not null at init time");
-        assert(simpleFileChannel == nullptr && "simpleFileChannel is not null at init time");
-
+        assert(consoleChannel == 0 && "consoleChannel is not null at init time");
+        assert(simpleFileChannel == 0 && "simpleFileChannel is not null at init time");
 
         // split the messages into console and file
         AutoPtr<SplitterChannel> splitter(new SplitterChannel());
 
         // default is console channel,
         // one of two possible terminal channels
-        consoleChannel = AutoPtr<ConsoleChannel>(dynamic_cast<ConsoleChannel*>(createConsoleChannel().get()));
+        consoleChannel = createConsoleChannel();
 
-        // let the logger manage ownership of the channels, we keep them around
+        // let the logger manage ownership of the channels, we keep then around
         // so we can know when to add or remove them.
         splitter->addChannel(consoleChannel);
         consoleChannel->release();
@@ -234,12 +234,12 @@ void Logger::disableLogging()
 
     getLogger();
 
-    AutoPtr<SplitterChannel> splitter = getSplitterChannel();
+    SplitterChannel *splitter = getSplitterChannel();
 
     splitter->close();
 
-    consoleChannel = nullptr;
-    simpleFileChannel = nullptr;
+    consoleChannel = 0;
+    simpleFileChannel = 0;
     logFileName = "";
 }
 
@@ -251,11 +251,10 @@ void Logger::enableConsoleLogging(int level)
 
     if (!consoleChannel)
     {
-        AutoPtr<SplitterChannel> splitter = getSplitterChannel();
+        SplitterChannel *splitter = getSplitterChannel();
 
         // default is console channel
-        AutoPtr<Channel> consoleChannelPtr = createConsoleChannel();
-        consoleChannel = AutoPtr<ConsoleChannel>(dynamic_cast<ConsoleChannel*>(consoleChannelPtr.get()));
+        consoleChannel = createConsoleChannel();
 
         // let the logger manage ownership of the channels, we keep then around
         // so we can know when to add or remove them.
@@ -271,7 +270,7 @@ void Logger::disableFileLogging()
 
     if (simpleFileChannel)
     {
-        AutoPtr<SplitterChannel> splitter = getSplitterChannel();
+        SplitterChannel *splitter = getSplitterChannel();
 
         splitter->removeChannel(simpleFileChannel);
         simpleFileChannel = 0;
@@ -321,9 +320,9 @@ void Logger::enableFileLogging(const std::string& fileName, int level)
                     << realName;
         }
 
-        AutoPtr<SplitterChannel> splitter = getSplitterChannel();
+        SplitterChannel *splitter = getSplitterChannel();
 
-        simpleFileChannel = AutoPtr<SimpleFileChannel>(new SimpleFileChannel());
+        simpleFileChannel = new SimpleFileChannel();
         simpleFileChannel->setProperty("path", realName);
         simpleFileChannel->setProperty("rotation", "never");
 
@@ -339,7 +338,7 @@ void Logger::setFormattingPattern(const std::string &pattern)
 {
     Mutex::ScopedLock lock(loggerMutex);
 
-    AutoPtr<PatternFormatter> p = getPatternFormatter();
+    PatternFormatter *p = getPatternFormatter();
     if (p)
     {
         p->setProperty(PatternFormatter::PROP_PATTERN, pattern);
@@ -350,26 +349,26 @@ std::string Logger::getFormattingPattern()
 {
     Mutex::ScopedLock lock(loggerMutex);
 
-    AutoPtr<PatternFormatter> p = getPatternFormatter();
+    PatternFormatter *p = getPatternFormatter();
     return p ? p->getProperty(PatternFormatter::PROP_PATTERN) : std::string();
 }
 
-static AutoPtr<SplitterChannel> getSplitterChannel()
+static SplitterChannel* getSplitterChannel()
 {
     getLogger();
-    AutoPtr<FormattingChannel> fc = dynamic_cast<FormattingChannel*>(pocoLogger->getChannel().get());
+    FormattingChannel *fc = dynamic_cast<FormattingChannel*>(pocoLogger->getChannel().get());
     assert(fc && "the first channel in the roadrunner logger should be a formatting channel");
-    AutoPtr<SplitterChannel> sc = dynamic_cast<SplitterChannel*>(fc->getChannel().get());
+    SplitterChannel *sc = dynamic_cast<SplitterChannel*>(fc->getChannel().get());
     assert(sc && "could not get SplitterChannel from FormattingChannel");
     return sc;
 }
 
-static AutoPtr<PatternFormatter> getPatternFormatter()
+static PatternFormatter *getPatternFormatter()
 {
     getLogger();
-    AutoPtr<FormattingChannel> fc = dynamic_cast<FormattingChannel*>(pocoLogger->getChannel().get());
+    FormattingChannel *fc = dynamic_cast<FormattingChannel*>(pocoLogger->getChannel().get());
     assert(fc && "the first channel in the roadrunner logger should be a formatting channel");
-    AutoPtr<PatternFormatter> pf = dynamic_cast<PatternFormatter*>(fc->getFormatter().get());
+    PatternFormatter *pf = dynamic_cast<PatternFormatter*>(fc->getFormatter().get());
     assert(pf && "formatter attached to pattern formatter is not a PatternFormatter");
     return pf;
 }
@@ -456,14 +455,15 @@ void Logger::setProperty(const std::string& name, const std::string& value)
     Mutex::ScopedLock lock(loggerMutex);
 
 #if defined(WIN32)
-    auto colorChannel = dynamic_cast<Poco::WindowsColorConsoleChannel*>(consoleChannel.get());
+    Poco::WindowsColorConsoleChannel *colorChannel =
+            dynamic_cast<Poco::WindowsColorConsoleChannel*>(consoleChannel);
 
     if(colorChannel) {
         colorChannel->setProperty(name, value);
     }
 #else
     Poco::ColorConsoleChannel *colorChannel =
-            dynamic_cast<Poco::ColorConsoleChannel*>(consoleChannel.get());
+            dynamic_cast<Poco::ColorConsoleChannel*>(consoleChannel);
 
     if(colorChannel) {
         colorChannel->setProperty(name, value);
@@ -482,11 +482,11 @@ void Logger::disableConsoleLogging()
 
     if (consoleChannel)
     {
-        AutoPtr<SplitterChannel> splitter = getSplitterChannel();
+        SplitterChannel *splitter = getSplitterChannel();
         assert(splitter && "could not get splitter channel from logger");
 
         splitter->removeChannel(consoleChannel);
-        consoleChannel = nullptr;
+        consoleChannel = 0;
     }
 }
 
