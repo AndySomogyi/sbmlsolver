@@ -7,7 +7,7 @@ add_test_executable(c_api_rrtests_test_model test_targets
         )
 
 add_test_executable(c_api_rrtests_other_tests test_targets
-        ${SharedTestFiles} OtherTests.cpp
+        ${SharedTestFiles} OtherRRTestFileTests.cpp
         )
 
 
