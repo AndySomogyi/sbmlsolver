@@ -192,9 +192,7 @@ if (BUILD_TESTS OR BUILD_JAVA)
     enable_testing()
 endif ()
 
-# TODO: add some logic to automatically set based on compiler version
-# todo: turn on C++17 and see if it errors.
-#   - it does. Therefore todo: fix errors with c++17
+
 set(RR_USE_CXX14 TRUE CACHE BOOL "Set to TRUE to enable C++14 features")
 
 # new clang on OSX and msvc use std namespace.
@@ -234,8 +232,6 @@ else ()
 endif (BUILD_LEGACY_C)
 
 
-# Set C++14 flags
-set(CMAKE_CXX_STANDARD ${CXX_STANDARD})
 
 # Enable cmake printing out commands
 set(CMAKE_VERBOSE_MAKEFILE TRUE)
@@ -302,10 +298,14 @@ endif ()
 
 set(RR_ROOT "${CMAKE_CURRENT_SOURCE_DIR}")
 set(DEPENDENCY_CMAKE_CONFIG_PATHS
-        "${RR_DEPENDENCIES_INSTALL_PREFIX}/lib/cmake;${RR_DEPENDENCIES_INSTALL_PREFIX}/lib64/cmake;${RR_DEPENDENCIES_INSTALL_PREFIX}/cmake;${RR_DEPENDENCIES_INSTALL_PREFIX}/cmake/Poco")
+        "${RR_DEPENDENCIES_INSTALL_PREFIX}/lib/cmake"
+        "${RR_DEPENDENCIES_INSTALL_PREFIX}/lib64/cmake"
+        "${RR_DEPENDENCIES_INSTALL_PREFIX}/cmake"
+        "${RR_DEPENDENCIES_INSTALL_PREFIX}/lib/cmake/Poco"
+        )
 set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} "${DEPENDENCY_CMAKE_CONFIG_PATHS}")
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${DEPENDENCY_CMAKE_CONFIG_PATHS}")
-
+message(STATUS "CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH}")
 if (WIN32)
     set(SBML_TARGET_NAME "libsbml-static")
 else ()
@@ -369,6 +369,14 @@ endif ()
 ##########################################################
 # Building
 #
+
+
+# Set standard
+set(CMAKE_CXX_STANDARD ${CXX_STANDARD})
+if (NOT WIN32)
+    # some cmake (or gcc) bug means that we also need to set -std=c++17
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17")
+endif ()
 
 # We always have to build the roadrunner core, everything depends on this
 add_subdirectory(source)

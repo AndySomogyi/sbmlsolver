@@ -298,7 +298,7 @@ const char getPathSeparator()
     return gPathSeparator;
 }
 
-std::string getFileContent(const std::filesystem::path& fName)
+std::string getFileContent(std::filesystem::path fName)
 {
     std::string content;
 
@@ -312,7 +312,7 @@ std::string getFileContent(const std::filesystem::path& fName)
     return content;
 }
 
-std::vector<std::string> getLinesInFile(const std::filesystem::path& fName)
+std::vector<std::string> getLinesInFile(std::filesystem::path fName)
 {
     std::vector<std::string> lines;
 

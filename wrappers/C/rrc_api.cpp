@@ -85,6 +85,9 @@
     #include <limits.h>
     #define RR_MAX_PATH PATH_MAX
 #endif
+
+#include <filesystem>
+namespace fs = std::filesystem;
 //---------------------------------------------------------------------------
 
 namespace rrc
@@ -254,7 +257,7 @@ char* rrcCallConv getRRCAPILocation()
     }
     return NULL;
 #else
-    return rr::createText(joinPath(getInstallFolder(),"/lib"));
+    return rr::createText(fs::absolute(fs::path(getInstallFolder()) / "lib"));
 #endif
 }
 

@@ -24,12 +24,13 @@ namespace rr
 using std::vector;
 using std::string;
 using std::set;
+//namespace fs = std::filesystem ;
 
-RR_DECLSPEC bool            cleanFolder(const std::string& folder, const std::string& baseName,  const std::vector<std::string>& extensions);
+RR_DECLSPEC bool                 cleanFolder(const std::string& folder, const std::string& baseName,  const std::vector<std::string>& extensions);
 RR_DECLSPEC std::string          getTime();
 RR_DECLSPEC std::string          getDateTime();
 RR_DECLSPEC std::string          getMD5(const std::string& text);
-RR_DECLSPEC void            sleep(int ms);
+RR_DECLSPEC void                 sleep(int ms);
 
 //Misc.
 /*!
@@ -103,8 +104,8 @@ RR_DECLSPEC std::string getTempDir();
 RR_DECLSPEC std::string          getCWD();
 RR_DECLSPEC const char      getPathSeparator();
 
-RR_DECLSPEC std::vector<std::string>    getLinesInFile(const std::filesystem::path& fName);
-RR_DECLSPEC std::string                 getFileContent(const std::filesystem::path& fName);
+RR_DECLSPEC std::vector<std::string>    getLinesInFile(std::filesystem::path fName);
+RR_DECLSPEC std::string                 getFileContent(std::filesystem::path fName);
 RR_DECLSPEC void                        createTestSuiteFileNameParts(int caseNr, const std::string& postFixPart, std::string& FilePath, std::string& modelFileName, std::string& settingsFileName, std::string& descriptionFileName);
 RR_DECLSPEC std::string                 getTestSuiteSubFolderName(int caseNr);
 
