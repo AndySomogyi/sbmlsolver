@@ -437,7 +437,6 @@ target_link_libraries(
         iconv::libcharset iconv::libiconv-static
 
 )
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17")
 
 #get_target_property(v ${target}-static LINK_FLAGS)
 #MESSAGE(STATUS "vty ${v}")
