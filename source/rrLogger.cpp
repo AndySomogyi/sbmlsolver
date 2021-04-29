@@ -456,7 +456,7 @@ void Logger::setProperty(const std::string& name, const std::string& value)
 
 #if defined(WIN32)
     Poco::WindowsColorConsoleChannel *colorChannel =
-            dynamic_cast<Poco::WindowsColorConsoleChannel*>(consoleChannel);
+            dynamic_cast<Poco::WindowsColorConsoleChannel*>(consoleChannel.get());
 
     if(colorChannel) {
         colorChannel->setProperty(name, value);
