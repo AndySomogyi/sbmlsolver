@@ -32,7 +32,7 @@ using Poco::PatternFormatter;
 using Poco::Mutex;
 
 // owned by poco, it takes care of clearing in static dtor.
-static Poco::Logger *pocoLogger = 0;
+static Poco::Logger *pocoLogger = nullptr;
 volatile int logLevel = -1;
 const Logger::Level defaultLogLevel = Logger::LOG_ERROR;
 static std::string logFileName;
@@ -48,8 +48,8 @@ static std::string logFileName;
 
 // owned by the poco splitter channel which in turn is owned by the
 // poco logger.
-static SimpleFileChannel *simpleFileChannel = 0;
-static ConsoleChannel *consoleChannel = 0;
+static AutoPtr<SimpleFileChannel> simpleFileChannel = nullptr;
+static AutoPtr<ConsoleChannel> consoleChannel = nullptr;
 
 static Mutex loggerMutex;
 
@@ -67,7 +67,7 @@ Poco::Logger& getLogger()
 {
     Mutex::ScopedLock lock(loggerMutex);
 
-    if (pocoLogger == 0)
+    if (pocoLogger == nullptr)
     {
         pocoLogger = &Poco::Logger::get("Tellurium");
 
@@ -224,9 +224,9 @@ std::string Logger::getFormattingPattern()
 static SplitterChannel* getSplitterChannel()
 {
     getLogger();
-    FormattingChannel *fc = dynamic_cast<FormattingChannel*>(pocoLogger->getChannel());
+    FormattingChannel *fc = dynamic_cast<FormattingChannel*>(pocoLogger->getChannel().get());
     assert(fc && "the first channel in the roadrunner logger should be a formatting channel");
-    SplitterChannel *sc = dynamic_cast<SplitterChannel*>(fc->getChannel());
+    SplitterChannel *sc = dynamic_cast<SplitterChannel*>(fc->getChannel().get());
     assert(sc && "could not get SplitterChannel from FormattingChannel");
     return sc;
 }
@@ -234,9 +234,9 @@ static SplitterChannel* getSplitterChannel()
 static PatternFormatter *getPatternFormatter()
 {
     getLogger();
-    FormattingChannel *fc = dynamic_cast<FormattingChannel*>(pocoLogger->getChannel());
+    FormattingChannel *fc = dynamic_cast<FormattingChannel*>(pocoLogger->getChannel().get());
     assert(fc && "the first channel in the roadrunner logger should be a formatting channel");
-    PatternFormatter *pf = dynamic_cast<PatternFormatter*>(fc->getFormatter());
+    PatternFormatter *pf = dynamic_cast<PatternFormatter*>(fc->getFormatter().get());
     assert(pf && "formatter attached to pattern formatter is not a PatternFormatter");
     return pf;
 }
