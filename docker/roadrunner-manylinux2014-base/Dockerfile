@@ -22,15 +22,6 @@ RUN git clone https://github.com/llvm/llvm-project.git
 
 RUN /Miniconda3/bin/conda init && bash ~/.bashrc && . ~/.bashrc
 
-#RUN cd llvm-project/llvm \
-#    && git checkout d359f2096850c68b708bc25a7baca4282945949f \
-#    && mkdir build && cd build \
-#    && cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../install-llvm-6.x-rel -DPython3_EXECUTABLE=/Miniconda3/bin/python ..
-
-#RUN cd llvm-project/llvm/build \
-#    && cmake --build . --target install --config Release -j 12
-
-
 RUN git clone https://github.com/sys-bio/libroadrunner-deps.git --recurse-submodules
 RUN cd libroadrunner-deps && mkdir build && cd build \
     && cmake -DCMAKE_INSTALL_PREFIX=../install-libroadrunner-deps -DCMAKE_BUILD_TYPE=Release .. \

@@ -46,6 +46,25 @@ Python APIs have comprehensive documentation. On Windows, OS X, and Linux binary
 downloaded from http://sourceforge.net/projects/libroadrunner/files and can be installed 
 ready for use.
 
+## Docker images
+Currently we have a manylinux2014 "base" and "build" docker images. The 
+base provides the environment you need to be able to build roadrunner 
+yourself on manylinux2014 (centos 7). The "build" image, in constrast
+is an image where roadrunner has already been built on top of the "base" 
+image. 
+
+To get the base image: 
+
+  docker pull ciaranwelsh/roadrunner-manylinux2014-base:latest
+
+and the build image:
+
+  docker pull ciaranwelsh/roadrunner-manylinux2014-build:latest
+
+Docker build scripts can be found under the `docker` directory from the roadrunner
+root directory. 
+
+We can also build roadrunner in alternative docker environments (ubuntu etc.) on request. 
 
 ## Acknowledgements
 
