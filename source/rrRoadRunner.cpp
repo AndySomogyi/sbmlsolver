@@ -1309,26 +1309,35 @@ double RoadRunner::steadyState(Dictionary* dict) {
     // The first solve() method attempted is always the undecorated version
     // The first decorator applied is the first attempted to be executed.
     //  i.e. we try Presimulation then approximation.
-    SteadyStateSolverDecorator *decorator = nullptr;
+    PresimulationProgramDecorator *presimDec = nullptr;
+    ApproxSteadyStateDecorator *approxDec = nullptr;
+
+    // copy of steady state solver pointer to put back after
+    // were done with modifications
+//    SteadyStateSolver* copyOfSSSolverPtr;
 
     // apply presimulation decorator if requested by user
     if (impl->steady_state_solver->getValueAsBool("allow_presimulation")){
-        decorator = new PresimulationProgramDecorator(impl->steady_state_solver);
-//        decorator = new PresimulationDecorator(impl->steady_state_solver);
-        impl->steady_state_solver = decorator;
+        presimDec = new PresimulationProgramDecorator(impl->steady_state_solver);
+        impl->steady_state_solver = presimDec;
     }
 
     // apply approximation decorator if requested by user
     if (impl->steady_state_solver->getValueAsBool("allow_approx")){
-        decorator = new ApproxSteadyStateDecorator(impl->steady_state_solver);
-        impl->steady_state_solver = decorator;
+        approxDec = new ApproxSteadyStateDecorator(impl->steady_state_solver);
+        impl->steady_state_solver = approxDec;
     }
 
     double ss = impl->steady_state_solver->solve();
 
-    if (decorator){
-        delete decorator;
-        decorator = nullptr;
+    if (presimDec){
+        delete presimDec;
+        presimDec = nullptr;
+    }
+
+    if (approxDec){
+        delete approxDec;
+        approxDec = nullptr;
     }
 
     // put back to original type before return
