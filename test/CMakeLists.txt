@@ -122,7 +122,7 @@ add_custom_target(
 # Creates a custom target which runs all tests except the sbml test suite
 add_custom_target(
         run-ctest-exclude-sbml-test-suite
-        ctest ${ctest_args} --fixture-exclude-regex SbmlTestSuite*
+        ctest ${ctest_args} --exclude-regex SbmlTestSuite
 )
 # Creates a custom target which runs only the sbml tests suite
 add_custom_target(
