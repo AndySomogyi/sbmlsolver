@@ -3,7 +3,7 @@
 set(SHARED_TEST_FILES ../TestModelFactory )
 
 add_test_executable(
-        CVODEIntegratorIntegrationTest test_targets
+        test_integration_cvode_integrator test_targets
         CVODEIntegratorIntegrationTest.cpp
         ${SHARED_TEST_FILES}
 )

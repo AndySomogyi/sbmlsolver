@@ -1,5 +1,5 @@
 add_test_executable(
-        SBMLTestSuite test_targets
+        test_semantic_STS test_targets
         ${SharedTestFiles}
         sbml_test_suite.cpp
 )

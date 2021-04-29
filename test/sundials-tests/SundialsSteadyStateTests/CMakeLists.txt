@@ -9,12 +9,12 @@ set(SHARED_TEST_FILES ../TestModelFactory SundialsSteadyStateSolverUnitTest)
 #)
 
 add_test_executable(
-        ApproxSteadyStateDecoratorUnitTests test_targets
+        test_steady_state_unit_approx test_targets
         ApproxSteadyStateDecoratorTests.cpp ${SHARED_TEST_FILES}
 )
 
 add_test_executable(
-        AutomaticMoietyConservationTests test_targets
+        test_steady_state_unit_automatic_moiety_conservation test_targets
         AutomaticMoietyConservationTests.cpp
         SundialsSteadyStateSolverUnitTest
         ${SHARED_TEST_FILES}
@@ -22,23 +22,23 @@ add_test_executable(
 
 
 add_test_executable(
-        BasicNewtonIterationUnitTests test_targets
+        test_steady_state_unit_basic_newton test_targets
         BasicNewtonIterationUnitTests.cpp
         SundialsSteadyStateSolverUnitTest
         ${SHARED_TEST_FILES}
 )
 
 add_test_executable(
-        PresimulationDecoratorUnitTests test_targets
+        test_steady_state_unit_presimulation test_targets
         PresimulationDecoratorTests.cpp ${SHARED_TEST_FILES}
 )
 
 add_test_executable(
-        SVDUnitTests test_targets SVDTests.cpp ${SHARED_TEST_FILES}
+        test_unit_svd test_targets SVDTests.cpp ${SHARED_TEST_FILES}
 )
 
 add_test_executable(
-        SteadyStateIntegrationTests test_targets
+        test_steady_state_integration test_targets
         SteadyStateIntegrationTests.h
         BasicNewtonIntegrationTests.cpp
         DecoratorIntegrationTests.cpp
@@ -48,28 +48,28 @@ add_test_executable(
         ${SHARED_TEST_FILES}
 )
 
-#
-## copy Python tests to binary tree site packages
-#configure_file(
-#        "${CMAKE_CURRENT_SOURCE_DIR}/SteadyStateSolverTests.py"
-#        "${CMAKE_BINARY_DIR}/lib/site-packages/roadrunner/testing/SteadyStateSolverTests.py"
-#        COPYONLY
-#)
-#configure_file(
-#        "${CMAKE_CURRENT_SOURCE_DIR}/AutomaticMoietyConservationAnalysisTests.py"
-#        "${CMAKE_BINARY_DIR}/lib/site-packages/roadrunner/testing/"
-#        COPYONLY
-#)
-#
-## install python tests to install tree
-#install(
-#        FILES
-#            "${CMAKE_CURRENT_SOURCE_DIR}/SteadyStateSolverTests.py"
-#            "${CMAKE_CURRENT_SOURCE_DIR}/AutomaticMoietyConservationAnalysisTests.py"
-#        DESTINATION
-#            site-packages/roadrunner/testing
-#        )
-#
+
+# copy Python tests to binary tree site packages
+configure_file(
+        "${CMAKE_CURRENT_SOURCE_DIR}/SteadyStateSolverTests.py"
+        "${CMAKE_BINARY_DIR}/lib/site-packages/roadrunner/testing/SteadyStateSolverTests.py"
+        COPYONLY
+)
+configure_file(
+        "${CMAKE_CURRENT_SOURCE_DIR}/AutomaticMoietyConservationAnalysisTests.py"
+        "${CMAKE_BINARY_DIR}/lib/site-packages/roadrunner/testing/"
+        COPYONLY
+)
+
+# install python tests to install tree
+install(
+        FILES
+            "${CMAKE_CURRENT_SOURCE_DIR}/SteadyStateSolverTests.py"
+            "${CMAKE_CURRENT_SOURCE_DIR}/AutomaticMoietyConservationAnalysisTests.py"
+        DESTINATION
+            site-packages/roadrunner/testing
+        )
+
 
 
 

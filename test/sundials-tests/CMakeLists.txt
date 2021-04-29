@@ -5,7 +5,7 @@ if (BUILD_PYTHON AND BUILD_TESTS)
     message(STATUS "Building TestModelFactory")
     # temporary: See if this works before cleaning it up
     find_package(Python COMPONENTS Interpreter Development NumPy REQUIRED)
-    find_package(SWIG 3.0.0 REQUIRED
+    find_package(SWIG 4.0.2 REQUIRED
             COMPONENTS python
             )
     include(UseSWIG)
