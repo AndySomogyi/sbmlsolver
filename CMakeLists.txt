@@ -372,7 +372,7 @@ endif ()
 
 
 # Set standard
-set(CMAKE_CXX_STANDARD ${CXX_STANDARD})
+set(CMAKE_CXX_STANDARD 17)
 if (NOT WIN32)
     # some cmake (or gcc) bug means that we also need to set -std=c++17
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17")

@@ -53,15 +53,18 @@ function(add_test_executable TEST_TARGET OUT_VARIABLE)
     set_target_properties(${TEST_TARGET} PROPERTIES LINKER_LANGUAGE CXX)
 
     # Add to ctest.
-    # add_test(NAME ${BINARY} COMMAND "$<TARGET_FILE:${BINARY}>")
+    set(TEST_ENV_VARS "testdir=${RR_ROOT}/test" "CTEST_OUTPUT_ON_FAILURE=TRUE")
     gtest_discover_tests(
             ${TEST_TARGET}
             DISCOVERY_TIMEOUT 500
-            PROPERTIES TIMEOUT 500
+            PROPERTIES
+                TIMEOUT 500
+                ENVIRONMENT "${TEST_ENV_VARS}"
     )
 
     set_target_properties(${TEST_TARGET} PROPERTIES ENVIRONMENT
             "testdir=${RR_ROOT}/test")
+
 
     if (WIN32)
         add_definitions(/bigobj)
@@ -107,10 +110,27 @@ add_subdirectory(semantic_STS)
 #
 install(TARGETS ${test_targets})
 
+set(ctest_args "--build-config ${CMAKE_BUILD_TYPE} --output-on-failure --parallel 8 --progress --verbose --extra-verbose ${CMAKE_BINARY_DIR}")
+
+# Creates a custom target which runs all tests
 add_custom_target(
         run-ctest
-        ctest --progress --verbose --extra-verbose ${CMAKE_BINARY_DIR}
+        ctest ${ctest_args}
 )
+
+
+# Creates a custom target which runs all tests except the sbml test suite
+add_custom_target(
+        run-ctest-exclude-sbml-test-suite
+        ctest ${ctest_args} --fixture-exclude-regex SbmlTestSuite*
+)
+# Creates a custom target which runs only the sbml tests suite
+add_custom_target(
+        run-ctest-only-sbml-test-suite
+        ctest ${ctest_args} --tests-regex SbmlTestSuite
+)
+
+
 
 
 

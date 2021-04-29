@@ -215,7 +215,7 @@ public:
 };
 
 
-TEST_F(SbmlTestSuite, DISABLE_test_single)
+TEST_F(SbmlTestSuite, DISABLED_test_single)
 {
     // Use when need to run one test.
     EXPECT_TRUE(RunTest(28));
