@@ -24,6 +24,8 @@ using namespace testing;
 class CAPIModelEditingTests : public RoadRunnerTest {
 public:
 
+    path modelEditingModels = rrTestModelsDir_ / "ModelEditingTests";
+
     CAPIModelEditingTests() = default;
 
     bool validateModifiedSBML(std::string sbml) {
@@ -51,12 +53,12 @@ public:
         return result;
     }
 
-/*
-* Loads <prefix>/source/roadrunner/models/sbml-test-suite/cases/semantic/<suite-name>/<test-name>/<test-name>-sbml-*VERSION*.xml
-* applies modification to the resulting roadrunner instance and compares the result to <test-name>-results.csv in the same folder,
-* The method obtains test-name and suite-name from UnitTest++ so this method must be run within a UnitTest++ test
-* Returns true if the results are close enough, false otherwise
-*/
+    /**
+    * Loads <prefix>/source/roadrunner/models/sbml-test-suite/cases/semantic/<suite-name>/<test-name>/<test-name>-sbml-*VERSION*.xml
+    * applies modification to the resulting roadrunner instance and compares the result to <test-name>-results.csv in the same folder,
+    * The method obtains test-name and suite-name from UnitTest++ so this method must be run within a UnitTest++ test
+    * Returns true if the results are close enough, false otherwise
+    */
     bool RunTestWithModification(void(*modification)(RRHandle), std::string version = "l2v4") {
         bool result(false);
         RRHandle gRR;
@@ -86,7 +88,7 @@ public:
             //Read SBML models.....
             simulation.SetCaseNumber(0);
 
-            path modelFilePath = rrTestModelsDir_ / path(suiteName) / path(testName);
+            path modelFilePath = modelEditingModels / path(testName);
             string modelFileName = testName + "-sbml-" + version + ".xml";
             string settingsFileName = testName + "-settings.txt";
 
@@ -193,7 +195,7 @@ public:
             //Read SBML models.....
             simulation.SetCaseNumber(0);
 
-            path modelFilePath = rrTestDir_ / path("models") / path(suiteName) / path(testName);
+            path modelFilePath = modelEditingModels/ path(testName);
             string modelFileName = testName + "-sbml-" + version + ".xml";
             string settingsFileName = testName + "-settings.txt";
 
