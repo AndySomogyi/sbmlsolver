@@ -2,7 +2,7 @@
 # J Kyle Medley
 # Debashish Roy
 
-cmake_minimum_required(VERSION 3.2)
+cmake_minimum_required(VERSION 3.16)
 project(rrplugins)
 
 set(RR_PLUGINS_ROOT ${CMAKE_CURRENT_SOURCE_DIR})
