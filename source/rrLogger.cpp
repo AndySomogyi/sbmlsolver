@@ -54,7 +54,7 @@ static bool coloredOutput = true;
 #endif
 
 // owned by poco, it takes care of clearing in static dtor.
-static Poco::Logger *pocoLogger = 0;
+static Poco::Logger *pocoLogger = nullptr;
 volatile int logLevel = -1;
 const Logger::Level defaultLogLevel = Logger::LOG_ERROR;
 static std::string logFileName;
@@ -73,8 +73,8 @@ static std::ostream* consoleStream = &std::clog;
 
 // owned by the poco splitter channel which in turn is owned by the
 // poco logger.
-static SimpleFileChannel *simpleFileChannel = 0;
-static Channel *consoleChannel = 0;
+static AutoPtr<SimpleFileChannel> simpleFileChannel = nullptr;
+static AutoPtr<Channel> consoleChannel = nullptr;
 
 static Mutex loggerMutex;
 
@@ -139,8 +139,9 @@ static Channel *createConsoleChannel()
 
 #else
     if (coloredOutput) {
-        Poco::ColorConsoleChannel *c =
-                new Poco::ColorConsoleChannel(*consoleStream);
+        auto *c = new Poco::ColorConsoleChannel(*consoleStream);
+
+        assert(c && "Poco::ColorConsoleChannel c is null");
 
 
         c->setProperty("traceColor", "gray");
@@ -161,7 +162,7 @@ static Channel *createConsoleChannel()
 
 Poco::Logger& getLogger()
 {
-    if (pocoLogger == 0)
+    if (pocoLogger == nullptr)
     {
         //Must put the lock here because other functions in this block call 'getLogger' themselves.
         Mutex::ScopedLock lock(loggerMutex);
@@ -169,8 +170,8 @@ Poco::Logger& getLogger()
         pocoLogger = &Poco::Logger::get("RoadRunner");
 
         // first time this is called, channels better be null
-        assert(consoleChannel == 0 && "consoleChannel is not null at init time");
-        assert(simpleFileChannel == 0 && "simpleFileChannel is not null at init time");
+        assert(consoleChannel == nullptr && "consoleChannel is not null at init time");
+        assert(simpleFileChannel == nullptr && "simpleFileChannel is not null at init time");
 
         // split the messages into console and file
         AutoPtr<SplitterChannel> splitter(new SplitterChannel());
@@ -182,7 +183,6 @@ Poco::Logger& getLogger()
         // let the logger manage ownership of the channels, we keep then around
         // so we can know when to add or remove them.
         splitter->addChannel(consoleChannel);
-        consoleChannel->release();
 
         AutoPtr<PatternFormatter> pf(new PatternFormatter());
         pf->setProperty("pattern", "%p: %t");
@@ -238,8 +238,8 @@ void Logger::disableLogging()
 
     splitter->close();
 
-    consoleChannel = 0;
-    simpleFileChannel = 0;
+    consoleChannel = nullptr;
+    simpleFileChannel = nullptr;
     logFileName = "";
 }
 
@@ -273,7 +273,8 @@ void Logger::disableFileLogging()
         SplitterChannel *splitter = getSplitterChannel();
 
         splitter->removeChannel(simpleFileChannel);
-        simpleFileChannel = 0;
+
+        simpleFileChannel = nullptr;
         logFileName = "";
     }
 }
@@ -292,14 +293,14 @@ void Logger::enableFileLogging(const std::string& fileName, int level)
         std::string realName;
 
         // figure out what file name to use
-        if (fileName.length() == 0) {
+        if (fileName.empty()) {
             // none given, use one from config.
             realName = Config::getString(Config::LOGGER_LOG_FILE_PATH);
         } else {
             realName = fileName;
         }
 
-        if (realName.length() == 0) {
+        if (realName.empty()) {
             // default log name.
             realName = (path(getTempDir()) /= "roadrunner.log").string();
         } else {
@@ -329,7 +330,6 @@ void Logger::enableFileLogging(const std::string& fileName, int level)
         logFileName = simpleFileChannel->getProperty("path");
 
         splitter->addChannel(simpleFileChannel);
-        simpleFileChannel->release();
     }
 }
 
@@ -463,7 +463,7 @@ void Logger::setProperty(const std::string& name, const std::string& value)
     }
 #else
     Poco::ColorConsoleChannel *colorChannel =
-            dynamic_cast<Poco::ColorConsoleChannel*>(consoleChannel);
+            dynamic_cast<Poco::ColorConsoleChannel*>(consoleChannel.get());
 
     if(colorChannel) {
         colorChannel->setProperty(name, value);
@@ -486,7 +486,7 @@ void Logger::disableConsoleLogging()
         assert(splitter && "could not get splitter channel from logger");
 
         splitter->removeChannel(consoleChannel);
-        consoleChannel = 0;
+        consoleChannel = nullptr;
     }
 }
 

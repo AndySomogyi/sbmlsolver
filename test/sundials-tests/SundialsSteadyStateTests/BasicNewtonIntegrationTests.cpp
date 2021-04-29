@@ -44,8 +44,8 @@ TEST_F(BasicNewtonIterationTests, CheckDecoratorRemovedAfterFailureToSolve) {
         rr.steadyState();
     } catch (std::runtime_error &err) {
         ASSERT_STREQ("newton", rr.getSteadyStateSolver()->getName().c_str());
-    } catch (std::exception) {
-        ASSERT_FALSE("Test Failed"); // should never get here
+    } catch (std::exception &e) {
+        ASSERT_FALSE("Test Failed") << e.what(); // should never get here
     }
 
 }
