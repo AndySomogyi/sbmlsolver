@@ -139,6 +139,8 @@ stages:
               cmake -DLLVM_INSTALL_PREFIX=$(LLVM_INSTALL_PREFIX) -DRR_DEPENDENCIES_INSTALL_PREFIX=$(DEPS_INSTALL_PREFIX) -DBUILD_TESTS=ON -DCMAKE_INSTALL_PREFIX=$(INSTALL_DIR) -DBUILD_RR_PLUGINS=ON -DBUILD_RR_CAPI=ON -DCMAKE_BUILD_TYPE=$(BuildType) ..
             displayName: Run CMake Configure Command
           - script: |
+              echo "less $(BUILD_DIR)/source/CMakeFiles/Export/roadrunner.dir/build.cmake"
+              less "$(BUILD_DIR)/source/CMakeFiles/Export/roadrunner.dir/build.cmake"
               echo "Building roadrunner"
               echo "cd to build dir"
               cd $(BUILD_DIR)
