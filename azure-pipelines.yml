@@ -753,7 +753,7 @@ stages:
               sudo add-apt-repository ppa:ubuntu-toolchain-r/test
               sudo apt-get update
               sudo apt-get install -y gcc-10 g++-10
-              update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 1
+              sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 1
             displayName: Install g++10
           - script: |
               # todo put into actual script
@@ -875,7 +875,7 @@ stages:
               sudo add-apt-repository ppa:ubuntu-toolchain-r/test
               sudo apt-get update
               sudo apt-get install -y gcc-10 g++-10
-              update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 1
+              sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 1
             displayName: Install g++10
           - task: Cache@2
             inputs:
