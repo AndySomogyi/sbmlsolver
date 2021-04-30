@@ -297,9 +297,9 @@ namespace rr
 			modelGeneratorOpt |= LoadSBMLOptions::LLVM_SYMBOL_CACHE;
 
 
-		setItem("tempDir", "");
+		setItem("tempDir", std::string());
 		setItem("compiler", "LLVM");
-		setItem("supportCodeDir", "");
+		setItem("supportCodeDir", std::string());
 
 		loadFlags = 0;
 	}
