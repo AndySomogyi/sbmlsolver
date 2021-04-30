@@ -131,10 +131,8 @@ add_custom_target(
         run-ctest-only-sbml-test-suite
         ctest ${ctest_args} --tests-regex SbmlTestSuite
 )
+
 add_dependencies(run-ctest-only-sbml-test-suite ${test_targets})
-
-
-
 
 
 

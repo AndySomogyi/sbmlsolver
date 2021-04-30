@@ -1,12 +1,12 @@
 
-add_test_executable(test_c_api_core test_targets
-        rrSBMLTestSuiteSimulation_CAPI
-        ${SharedTestFiles}
-        exceptions.cpp
-        CAPICoreTest
-        libstruct.cpp
-        model_editing.cpp
-        )
+#add_test_executable(test_c_api_core test_targets
+#        rrSBMLTestSuiteSimulation_CAPI
+#        ${SharedTestFiles}
+#        exceptions.cpp
+#        CAPICoreTest
+#        libstruct.cpp
+#        model_editing.cpp
+#        )
 
 
 

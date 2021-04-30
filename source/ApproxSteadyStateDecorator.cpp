@@ -18,7 +18,7 @@ namespace rr {
                     "ApproxSteadyStateDecorator::solve(): mModel instance in solver object is nullptr");
         }
         try {
-            return SteadyStateSolverDecorator::solve();
+            return solver_->solve();
         } catch (std::runtime_error &e) {
             const double &end = getValueAsDouble("approx_time");
             const int &steps = getValueAsInt("approx_maximum_steps");
