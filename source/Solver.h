@@ -83,7 +83,7 @@ namespace rr
          * to values stored as Variants.
          * @see getSettings
          */
-        std::unordered_map<std::string, Variant>& getSettingsMap();
+        std::unordered_map<std::string, Setting>& getSettingsMap();
 
         /**
         * @author JKM
@@ -97,13 +97,13 @@ namespace rr
         * @note Use one of the type-concrete versions like @ref getValueAsInt
         * to avoid type conversion gotchas
         */
-        virtual Variant getValue(const std::string& key) const;
+        virtual Setting getValue(const std::string& key) const;
 
         /**
         * @author JKM
         * @brief Return true if this setting is supported by the integrator
         */
-        virtual Variant hasValue(const std::string& key) const;
+        virtual Setting hasValue(const std::string& key) const;
 
         /**
         * @author JKM
@@ -202,7 +202,7 @@ namespace rr
         */
         virtual bool getValueAsBool(const std::string& key);
 
-        virtual void setValue(const std::string& key, const Variant& value);
+        virtual void setValue(const std::string& key, const Setting& value);
 
         /**
         * @author JKM
@@ -250,7 +250,7 @@ namespace rr
         * @author WBC
         * @brief Gets the type associated with a given key
         */
-        Variant::TypeId getType(const std::string& key) const;
+        Setting::TypeId getType(const std::string& key) const;
 
         /**
          * @brief returns the pointer to the ExecutableModel
@@ -260,7 +260,7 @@ namespace rr
 
     protected:
         typedef std::vector<std::string> SettingsList;
-        typedef RR_UNORDERED_MAP <std::string, Variant> SettingsMap;
+        typedef RR_UNORDERED_MAP <std::string, Setting> SettingsMap;
         typedef RR_UNORDERED_MAP <std::string, std::string> DisplayNameMap;
         typedef RR_UNORDERED_MAP <std::string, std::string> HintMap;
         typedef RR_UNORDERED_MAP <std::string, std::string> DescriptionMap;
@@ -276,7 +276,7 @@ namespace rr
          */
         ExecutableModel* mModel = nullptr;
 
-        void addSetting(const std::string& name, const Variant& val, std::string display_name, std::string hint, std::string description);
+        void addSetting(const std::string& name, const Setting& val, std::string display_name, std::string hint, std::string description);
 
     };
 

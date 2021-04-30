@@ -116,7 +116,7 @@ namespace rr
 
         // ** Getters / Setters ************************************************
 
-        virtual Variant getValue(std::string key);
+        virtual Setting getValue(std::string key);
 
         /**
          * @author JKM

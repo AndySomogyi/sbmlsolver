@@ -2610,28 +2610,28 @@ int rrcCallConv resetCurrentSteadyStateSolverParameters (RRHandle handle)
 
 const char* rrcCallConv solverTypeToString (int code)
 {
-    switch (Variant::TypeId(code)) {
-        case Variant::STRING:
+    switch (Setting::TypeId(code)) {
+        case Setting::STRING:
             return "string";
-        case Variant::BOOL:
+        case Setting::BOOL:
             return "bool";
-        case Variant::INT32:
+        case Setting::INT32:
             return "int32";
-        case Variant::UINT32:
+        case Setting::UINT32:
             return "uint32";
-        case Variant::INT64:
+        case Setting::INT64:
             return "int64";
-        case Variant::UINT64:
+        case Setting::UINT64:
             return "uint64";
-        case Variant::FLOAT:
+        case Setting::FLOAT:
             return "float";
-        case Variant::DOUBLE:
+        case Setting::DOUBLE:
             return "double";
-        case Variant::CHAR:
+        case Setting::CHAR:
             return "char";
-        case Variant::UCHAR:
+        case Setting::UCHAR:
             return "uchar";
-        case Variant::EMPTY:
+        case Setting::EMPTY:
             return "empty";
         default:
             return "<invalid>";
@@ -3312,8 +3312,8 @@ C_DECL_SPEC bool rrcCallConv getSeed(RRHandle h, long* result) {
     start_try
         RoadRunner *r = (RoadRunner*)h;
         //Integrator *intg = r->getIntegrator(Integrator::GILLESPIE);
-		//*result = intg->getItem("seed").convert<long>();
-		*result = r->getIntegrator()->getValue("seed").convert<long>();
+		//*result = intg->getItem("seed").get<long>();
+		*result = r->getIntegrator()->getValue("seed").get<long>();
         return true;
     catch_bool_macro;
 }

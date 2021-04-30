@@ -1,11 +1,11 @@
 #include "TestModelFactory.h"
 
-std::unordered_map<std::string, rr::Variant> SteadyStateResult::steadyStateSettings() {
-    return std::unordered_map<std::string, rr::Variant>();
+std::unordered_map<std::string, rr::Setting> SteadyStateResult::steadyStateSettings() {
+    return std::unordered_map<std::string, rr::Setting>();
 }
 
-std::unordered_map<std::string, rr::Variant> TimeSeriesResult::timeSeriesSettings() {
-    return std::unordered_map<std::string, rr::Variant>();
+std::unordered_map<std::string, rr::Setting> TimeSeriesResult::timeSeriesSettings() {
+    return std::unordered_map<std::string, rr::Setting>();
 }
 
 std::string SimpleFlux::str() {
@@ -84,8 +84,8 @@ ls::DoubleMatrix SimpleFlux::timeSeriesResult() {
                             });
 }
 
-std::unordered_map<std::string, rr::Variant> SimpleFlux::timeSeriesSettings() {
-    return std::unordered_map<std::string, rr::Variant>{
+std::unordered_map<std::string, rr::Setting> SimpleFlux::timeSeriesSettings() {
+    return std::unordered_map<std::string, rr::Setting>{
             {"start",    0},
             {"duration", 10},
             {"steps",    11}
@@ -101,8 +101,8 @@ StringDoubleMap SimpleFlux::steadyState() {
     );
 }
 
-std::unordered_map<std::string, rr::Variant> SimpleFlux::steadyStateSettings() {
-    return std::unordered_map<std::string, rr::Variant>{
+std::unordered_map<std::string, rr::Setting> SimpleFlux::steadyStateSettings() {
+    return std::unordered_map<std::string, rr::Setting>{
             {"moiety_conservation", true}
     };
 }
@@ -191,8 +191,8 @@ StringDoubleMap SimpleFluxManuallyReduced::steadyState() {
                            });
 }
 
-std::unordered_map<std::string, rr::Variant> SimpleFluxManuallyReduced::steadyStateSettings() {
-    return std::unordered_map<std::string, rr::Variant>{
+std::unordered_map<std::string, rr::Setting> SimpleFluxManuallyReduced::steadyStateSettings() {
+    return std::unordered_map<std::string, rr::Setting>{
             {"moiety_conservation", false}
     };
 }
@@ -284,8 +284,8 @@ ls::DoubleMatrix OpenLinearFlux::timeSeriesResult() {
                             });
 }
 
-std::unordered_map<std::string, rr::Variant> OpenLinearFlux::timeSeriesSettings() {
-    return std::unordered_map<std::string, rr::Variant>{
+std::unordered_map<std::string, rr::Setting> OpenLinearFlux::timeSeriesSettings() {
+    return std::unordered_map<std::string, rr::Setting>{
             {"start",    0},
             {"duration", 10},
             {"steps",    10},
@@ -296,8 +296,8 @@ std::string OpenLinearFlux::modelName() {
     return "OpenLinearFlux";
 }
 
-std::unordered_map<std::string, rr::Variant> OpenLinearFlux::steadyStateSettings() {
-    return std::unordered_map<std::string, rr::Variant>{
+std::unordered_map<std::string, rr::Setting> OpenLinearFlux::steadyStateSettings() {
+    return std::unordered_map<std::string, rr::Setting>{
 //            {"allow_presimulation", true},
             {"allow_presimulation", false},
             {"presimulation_time",  5},
@@ -420,8 +420,8 @@ ls::DoubleMatrix Model269::timeSeriesResult() {
 
 }
 
-std::unordered_map<std::string, rr::Variant> Model269::timeSeriesSettings() {
-    return std::unordered_map<std::string, rr::Variant>{
+std::unordered_map<std::string, rr::Setting> Model269::timeSeriesSettings() {
+    return std::unordered_map<std::string, rr::Setting>{
             {"start",    0},
             {"duration", 10},
             {"steps",    10}
@@ -519,8 +519,8 @@ ls::DoubleMatrix Model28::timeSeriesResult() {
 
 }
 
-std::unordered_map<std::string, rr::Variant> Model28::timeSeriesSettings() {
-    return std::unordered_map<std::string, rr::Variant>{
+std::unordered_map<std::string, rr::Setting> Model28::timeSeriesSettings() {
+    return std::unordered_map<std::string, rr::Setting>{
             {"start",    0},
             {"duration", 10},
             {"steps",    10}
@@ -594,8 +594,8 @@ ls::DoubleMatrix CeilInRateLaw::timeSeriesResult() {
 
 }
 
-std::unordered_map<std::string, rr::Variant> CeilInRateLaw::timeSeriesSettings() {
-    return std::unordered_map<std::string, rr::Variant>{
+std::unordered_map<std::string, rr::Setting> CeilInRateLaw::timeSeriesSettings() {
+    return std::unordered_map<std::string, rr::Setting>{
             {"start",    0},
             {"duration", 4},
             {"steps",    10}
@@ -669,8 +669,8 @@ ls::DoubleMatrix FactorialInRateLaw::timeSeriesResult() {
 
 }
 
-std::unordered_map<std::string, rr::Variant> FactorialInRateLaw::timeSeriesSettings() {
-    return std::unordered_map<std::string, rr::Variant>{
+std::unordered_map<std::string, rr::Setting> FactorialInRateLaw::timeSeriesSettings() {
+    return std::unordered_map<std::string, rr::Setting>{
             {"start",    0},
             {"duration", 2},
             {"steps",    10}
@@ -865,8 +865,8 @@ StringDoubleMap Venkatraman2010::steadyState() {
     };
 }
 
-std::unordered_map<std::string, rr::Variant> Venkatraman2010::steadyStateSettings() {
-    return std::unordered_map<std::string, rr::Variant>(
+std::unordered_map<std::string, rr::Setting> Venkatraman2010::steadyStateSettings() {
+    return std::unordered_map<std::string, rr::Setting>(
             {
                     {"allow_presimulation", true},
                     {"presimulation_time",  100000},
@@ -1820,8 +1820,8 @@ StringDoubleMap Brown2004::steadyState() {
 
 };
 
-std::unordered_map<std::string, rr::Variant> Brown2004::steadyStateSettings() {
-    return std::unordered_map<std::string, rr::Variant>{
+std::unordered_map<std::string, rr::Setting> Brown2004::steadyStateSettings() {
+    return std::unordered_map<std::string, rr::Setting>{
             {"allow_presimulation", true},
             // this model can converge to a set of values different to the reference data,
             // depending on starting values. For this reason, start the list of presimulation
@@ -1874,15 +1874,15 @@ namespace privateSwigTests_ {
         return map;
     }
 
-    std::unordered_map<std::string, rr::Variant> *_testVariantMap() {
-        std::unordered_map<std::string, rr::Variant> *map = new std::unordered_map<std::string, rr::Variant>{
-                {"mapsy", rr::Variant(5)}
+    std::unordered_map<std::string, rr::Setting> *_testVariantMap() {
+        std::unordered_map<std::string, rr::Setting> *map = new std::unordered_map<std::string, rr::Setting>{
+                {"mapsy", rr::Setting(5)}
         };
         return map;
     }
 
-    rr::Variant *_testVariant() {
-        rr::Variant *x = new rr::Variant(5.4);
+    rr::Setting *_testVariant() {
+        rr::Setting *x = new rr::Setting(5.4);
         return x;
     }
 

@@ -22,7 +22,8 @@ namespace rr {
             // try no presimulation first
             return SteadyStateSolverDecorator::solve();
         } catch  (std::exception& e) {
-            std::vector<double> times = getValue("presimulation_times").convert<std::vector<double>>();
+            rr::Setting presimulationTimesVariant = getValue("presimulation_times");
+            std::vector<double> times = presimulationTimesVariant.get<std::vector<double>>();
             for (const auto &timePoint: times) {
                 CVODEIntegrator integrator(solver_->getModel());
                 // integrate one interval between 0 and presimulation_time.

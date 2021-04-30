@@ -340,12 +340,12 @@ namespace rr {
         switch (getType("absolute_tolerance")) {
 
             // all cases below could be convert to a double type
-            case Variant::INT32:
-            case Variant::INT64:
-            case Variant::UINT32:
-            case Variant::UINT64:
-            case Variant::FLOAT:
-            case Variant::DOUBLE: {
+            case Setting::INT32:
+            case Setting::INT64:
+            case Setting::UINT32:
+            case Setting::UINT64:
+            case Setting::FLOAT:
+            case Setting::DOUBLE: {
                 // scalar tolerance
                 // need to be converted to std::vector tolerance since tolerance of individual variables is set
 
@@ -355,7 +355,7 @@ namespace rr {
                 break;
             }
 
-            case Variant::DOUBLEVECTOR: {
+            case Setting::DOUBLEVECTOR: {
                 // std::vector tolerance
                 v = CVODEIntegrator::getValueAsDoubleVector("absolute_tolerance");
                 // only need to update the corresponding index
@@ -374,7 +374,7 @@ namespace rr {
     }
 
 
-    void CVODEIntegrator::setConcentrationTolerance(const Variant &value) {
+    void CVODEIntegrator::setConcentrationTolerance(const Setting &value) {
 
         uint ncomp = mModel->getNumCompartments();
 
@@ -387,15 +387,15 @@ namespace rr {
         switch (value.type()) {
 
             // all cases below could be convert to a double type
-            case Variant::INT32:
-            case Variant::INT64:
-            case Variant::UINT32:
-            case Variant::UINT64:
-            case Variant::FLOAT:
-            case Variant::DOUBLE: {
+            case Setting::INT32:
+            case Setting::INT64:
+            case Setting::UINT32:
+            case Setting::UINT64:
+            case Setting::FLOAT:
+            case Setting::DOUBLE: {
                 // scalar concentration tolerance
                 // need to be converted to std::vector tolerance since speices might have various compartment sizes
-                double abstol = value.convert<double>();
+                double abstol = value.get<double>();
                 int index;
                 for (int i = 0; i < mModel->getNumIndFloatingSpecies(); i++) {
                     // get the compartment volume of each species
@@ -437,13 +437,13 @@ namespace rr {
                 break;
             }
 
-            case Variant::DOUBLEVECTOR: {
+            case Setting::DOUBLEVECTOR: {
                 // std::vector concentration tolerance
 
                 // [0, numIndFloatingSpecies) stores tolerances for independent floating species
                 // [numIndFloatingSpecies, numIndFloatingSpecies+numRateRule) stores tolerances for variables that have rate rule
 
-                v = value.convert<std::vector<double> >();
+                v = value.get<std::vector<double> >();
 
                 checkVectorSize(mModel->getNumIndFloatingSpecies() + mModel->getNumRateRules(), v.size());
 
@@ -501,12 +501,12 @@ namespace rr {
         switch (getType("absolute_tolerance")) {
 
             // all cases below could be convert to a double type
-            case Variant::INT32:
-            case Variant::INT64:
-            case Variant::UINT32:
-            case Variant::UINT64:
-            case Variant::FLOAT:
-            case Variant::DOUBLE: {
+            case Setting::INT32:
+            case Setting::INT64:
+            case Setting::UINT32:
+            case Setting::UINT64:
+            case Setting::FLOAT:
+            case Setting::DOUBLE: {
                 // scalar tolerance
                 double abstol = CVODEIntegrator::getValueAsDouble("absolute_tolerance");
                 int index;
@@ -544,7 +544,7 @@ namespace rr {
             }
 
 
-            case Variant::DOUBLEVECTOR: {
+            case Setting::DOUBLEVECTOR: {
                 // std::vector concentration tolerance
 
                 // [0, numIndFloatingSpecies) stores tolerances for independent floating species
@@ -589,12 +589,12 @@ namespace rr {
         return v;
     }
 
-    void CVODEIntegrator::setValue(const std::string& key, const Variant &val) {
+    void CVODEIntegrator::setValue(const std::string& key, const Setting &val) {
         // if std::vector tolerance is set, the size of std::vector must be equal to
         // the number of floating species
-        if (key == "absolute_tolerance" && val.type() == Variant::DOUBLEVECTOR)
+        if (key == "absolute_tolerance" && val.type() == Setting::DOUBLEVECTOR)
             checkVectorSize(mModel->getNumIndFloatingSpecies() + mModel->getNumRateRules(),
-                            val.convert<std::vector<double> >().size());
+                            val.get<std::vector<double> >().size());
 
         Integrator::setValue(key, val);
 
@@ -812,19 +812,19 @@ namespace rr {
         switch (getType("absolute_tolerance")) {
 
             // all cases below could be convert to a double type
-            case Variant::INT32:
-            case Variant::INT64:
-            case Variant::UINT32:
-            case Variant::UINT64:
-            case Variant::FLOAT:
-            case Variant::DOUBLE:
+            case Setting::INT32:
+            case Setting::INT64:
+            case Setting::UINT32:
+            case Setting::UINT64:
+            case Setting::FLOAT:
+            case Setting::DOUBLE:
                 // scalar tolerance
                 CVODEIntegrator::setValue("absolute_tolerance",
                                           std::min(CVODEIntegrator::getValueAsDouble("absolute_tolerance"), minAbs));
                 break;
 
 
-            case Variant::DOUBLEVECTOR: {
+            case Setting::DOUBLEVECTOR: {
                 // std::vector tolerance
                 std::vector<double> v = CVODEIntegrator::getValueAsDoubleVector("absolute_tolerance");
                 for (int i = 0; i < v.size(); i++)
@@ -1034,19 +1034,19 @@ namespace rr {
         switch (getType("absolute_tolerance")) {
 
             // all cases below could be convert to a double type
-            case Variant::INT32:
-            case Variant::INT64:
-            case Variant::UINT32:
-            case Variant::UINT64:
-            case Variant::FLOAT:
-            case Variant::DOUBLE:
+            case Setting::INT32:
+            case Setting::INT64:
+            case Setting::UINT32:
+            case Setting::UINT64:
+            case Setting::FLOAT:
+            case Setting::DOUBLE:
                 // scalar tolerance
                 err = CVodeSStolerances(mCVODE_Memory, getValueAsDouble("relative_tolerance"),
                                         getValueAsDouble("absolute_tolerance"));
                 break;
 
 
-            case Variant::DOUBLEVECTOR: {
+            case Setting::DOUBLEVECTOR: {
                 // std::vector tolerance
                 // convert a double std::vector to a n_vector?
                 std::vector<double> v = getValueAsDoubleVector("absolute_tolerance");
@@ -1077,19 +1077,19 @@ namespace rr {
         switch (getType("absolute_tolerance")) {
             // scalar tolerance
             // all cases below could be convert to a double type
-            case Variant::INT32:
-            case Variant::INT64:
-            case Variant::UINT32:
-            case Variant::UINT64:
-            case Variant::FLOAT:
-            case Variant::DOUBLE:
+            case Setting::INT32:
+            case Setting::INT64:
+            case Setting::UINT32:
+            case Setting::UINT64:
+            case Setting::FLOAT:
+            case Setting::DOUBLE:
                 rrLog(Logger::LOG_INFORMATION) << "Set tolerance to abs: " << std::setprecision(16)
                                              << getValueAsDouble("absolute_tolerance") << ", rel: "
                                              << getValueAsDouble("relative_tolerance") << std::endl;
                 break;
 
                 // std::vector tolerance
-            case Variant::DOUBLEVECTOR: {
+            case Setting::DOUBLEVECTOR: {
                 rrLog(Logger::LOG_INFORMATION) << "Set tolerance to abs: " << std::setprecision(16) << "[";
                 std::vector<double> v = getValueAsDoubleVector("absolute_tolerance");
                 for (int i = 0; i < v.size(); i++) {

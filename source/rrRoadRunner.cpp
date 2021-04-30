@@ -2247,7 +2247,7 @@ DoubleMatrix RoadRunner::getFullJacobian()
     SetValueFuncPtr setValuePtr = 0;
     SetValueFuncPtrSize setInitValuePtr = 0;
 
-    if (Config::getValue(Config::ROADRUNNER_JACOBIAN_MODE).convert<unsigned>()
+    if (Config::getValue(Config::ROADRUNNER_JACOBIAN_MODE).get<unsigned int>()
         == Config::ROADRUNNER_JACOBIAN_MODE_AMOUNTS)
     {
         getValuePtr = &ExecutableModel::getFloatingSpeciesAmounts;
@@ -2472,7 +2472,7 @@ DoubleMatrix RoadRunner::getReducedJacobian(double h)
     GetValueFuncPtr getRateValuePtr = 0;
     SetValueFuncPtr setValuePtr = 0;
 
-    if (Config::getValue(Config::ROADRUNNER_JACOBIAN_MODE).convert<unsigned>()
+    if (Config::getValue(Config::ROADRUNNER_JACOBIAN_MODE).get<unsigned>()
             == Config::ROADRUNNER_JACOBIAN_MODE_AMOUNTS)
     {
         rrLog(Logger::LOG_DEBUG) << "getReducedJacobian in AMOUNT mode";
@@ -3669,7 +3669,7 @@ double RoadRunner::getUnscaledSpeciesElasticity(int reactionId, int speciesIndex
     SetValueFuncPtr setValuePtr = 0;
     SetValueFuncPtr setInitValuePtr = 0;
 
-    if (Config::getValue(Config::ROADRUNNER_JACOBIAN_MODE).convert<unsigned>()
+    if (Config::getValue(Config::ROADRUNNER_JACOBIAN_MODE).get<unsigned>()
             == Config::ROADRUNNER_JACOBIAN_MODE_AMOUNTS)
     {
         getValuePtr = &ExecutableModel::getFloatingSpeciesAmounts;
@@ -5223,35 +5223,35 @@ void RoadRunner::saveState(std::string filename, char opt)
 
 				switch (impl->loadOpt.getItem(k).type())
 				{
-				case Variant::BOOL:
-					out << impl->loadOpt.getItem(k).convert<bool>();
+				case Setting::BOOL:
+					out << impl->loadOpt.getItem(k).get<bool>();
 					break;
-				case Variant::CHAR:
-					out << impl->loadOpt.getItem(k).convert<char>();
+				case Setting::CHAR:
+					out << impl->loadOpt.getItem(k).get<char>();
 					break;
-				case Variant::DOUBLE:
-					out << impl->loadOpt.getItem(k).convert<double>();
+				case Setting::DOUBLE:
+					out << impl->loadOpt.getItem(k).get<double>();
 					break;
-				case Variant::FLOAT:
-					out << impl->loadOpt.getItem(k).convert<float>();
+				case Setting::FLOAT:
+					out << impl->loadOpt.getItem(k).get<float>();
 					break;
-				case Variant::INT32:
-					out << impl->loadOpt.getItem(k).convert<int32_t>();
+				case Setting::INT32:
+					out << impl->loadOpt.getItem(k).get<int32_t>();
 					break;
-				case Variant::INT64:
-					out << impl->loadOpt.getItem(k).convert<long>();
+				case Setting::INT64:
+					out << impl->loadOpt.getItem(k).get<long>();
 					break;
-				case Variant::STRING:
-					out << impl->loadOpt.getItem(k).convert<std::string>();
+				case Setting::STRING:
+					out << impl->loadOpt.getItem(k).get<std::string>();
 					break;
-				case Variant::UCHAR:
-					out << impl->loadOpt.getItem(k).convert<unsigned char>();
+				case Setting::UCHAR:
+					out << impl->loadOpt.getItem(k).get<unsigned char>();
 					break;
-				case Variant::UINT32:
-					out << impl->loadOpt.getItem(k).convert<unsigned int>();
+				case Setting::UINT32:
+					out << impl->loadOpt.getItem(k).get<unsigned int>();
 					break;
-				case Variant::UINT64:
-					out << impl->loadOpt.getItem(k).convert<unsigned long>();
+				case Setting::UINT64:
+					out << impl->loadOpt.getItem(k).get<unsigned long>();
 					break;
 				default:
 					break;
@@ -5352,7 +5352,7 @@ if (!in.good())
 	{
 		std::string k;
 		rr::loadBinary(in, k);
-		rr::Variant v;
+		rr::Setting v;
 		rr::loadBinary(in, v);
 		impl->loadOpt.setItem(k, v);
 	}
@@ -5379,7 +5379,7 @@ rr::loadBinary(in, simulateOptSize);
 	{
 		std::string k;
 		rr::loadBinary(in, k);
-		rr::Variant v;
+		rr::Setting v;
 		rr::loadBinary(in, v);
 		impl->simulateOpt.setItem(k, v);
 	}
@@ -5403,7 +5403,7 @@ unsigned long integratorNumParams;
 	{
 		std::string k;
 		rr::loadBinary(in, k);
-		rr::Variant v;
+		rr::Setting v;
 		rr::loadBinary(in, v);
 		if(k != "maximum_adams_order")
 		    impl->integrator->setValue(k, v);
@@ -5420,7 +5420,7 @@ unsigned long solverNumParams;
 	{
 		std::string k;
 		rr::loadBinary(in, k);
-		rr::Variant v;
+		rr::Setting v;
 		rr::loadBinary(in, v);
 		impl->steady_state_solver->setValue(k, v);
 	}
@@ -6732,7 +6732,11 @@ void RoadRunner::regenerateModel(bool forceRegenerate, bool reset)
 		rrLog(Logger::LOG_DEBUG) << "Regenerating model..." << std::endl;
 		std::unordered_map<std::string, double> indTolerances;
 
-		bool toleranceVector = impl->integrator->getType("absolute_tolerance") == Variant::DOUBLEVECTOR;
+		Setting::TypeId tolType = impl->integrator->getType("absolute_tolerance");
+//		std::cout << "adsfasdf: " << (int)tolType << std::endl;
+
+//		bool toleranceVector = (impl->integrator->getType("absolute_tolerance") == Setting::DOUBLEVECTOR);
+        bool toleranceVector = tolType == Setting::TypeId::DOUBLEVECTOR;
 
 		if (toleranceVector)
 		{

@@ -431,11 +431,11 @@ static const char* keys[] =
         "linearity.hint"
 };
 
-void NLEQ2Interface::setItem(const std::string& key, const rr::Variant& value)
+void NLEQ2Interface::setItem(const std::string& key, const rr::Setting& value)
 {
 }
 
-Variant NLEQ2Interface::getItem(const std::string& key) const
+Setting NLEQ2Interface::getItem(const std::string& key) const
 {
     return 0;
 }

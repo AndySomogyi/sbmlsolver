@@ -195,7 +195,7 @@ namespace rr
 		for (std::vector<std::string>::iterator i = keys.begin(); i != keys.end(); ++i)
 		{
 			ss << "'" << *i << "' : ";
-			ss << getItem(*i).toString();
+			ss << getItem(*i).get<std::string>();
 
 			if (std::distance(i, keys.end()) > 1) {
 				ss << ", " << std::endl;
@@ -215,7 +215,7 @@ namespace rr
 		return ss.str();
 	}
 
-  void SimulateOptions::setItem(const std::string& key, const rr::Variant& value)
+  void SimulateOptions::setItem(const std::string& key, const rr::Setting& value)
 	{
 		BasicDictionary::setItem(key, value);
         if (key == "reset")
@@ -225,12 +225,12 @@ namespace rr
 	
 
 
-	void LoadSBMLOptions::setItem(const std::string& key, const rr::Variant& value)
+	void LoadSBMLOptions::setItem(const std::string& key, const rr::Setting& value)
 	{
 		BasicDictionary::setItem(key, value);
 	}
 
-	Variant LoadSBMLOptions::getItem(const std::string& key) const
+	Setting LoadSBMLOptions::getItem(const std::string& key) const
 	{
 		return BasicDictionary::getItem(key);
 	}
@@ -275,7 +275,7 @@ namespace rr
 		if (Config::getBool(Config::LOADSBMLOPTIONS_OPTIMIZE_GVN))
 			modelGeneratorOpt |= LoadSBMLOptions::OPTIMIZE_GVN;
 
-		if (Config::getInt(Config::LOADSBMLOPTIONS_OPTIMIZE_CFG_SIMPLIFICATION))
+		if (Config::getBool(Config::LOADSBMLOPTIONS_OPTIMIZE_CFG_SIMPLIFICATION))
 			modelGeneratorOpt |= LoadSBMLOptions::OPTIMIZE_CFG_SIMPLIFICATION;
 
 		if (Config::getBool(Config::LOADSBMLOPTIONS_OPTIMIZE_INSTRUCTION_COMBINING))

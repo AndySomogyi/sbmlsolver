@@ -5,7 +5,7 @@
 #include <unordered_map>
 #include <stdexcept>
 #include <memory>
-#include "Variant.h"
+#include "Setting.h"
 
 #include "rr-libstruct/lsMatrix.h"
 
@@ -73,7 +73,7 @@ public:
      */
     virtual ls::DoubleMatrix timeSeriesResult() = 0;
 
-    virtual std::unordered_map<std::string, rr::Variant> timeSeriesSettings();
+    virtual std::unordered_map<std::string, rr::Setting> timeSeriesSettings();
 
 };
 
@@ -91,7 +91,7 @@ public:
  * @details classes that implement this interface do not necessarily
  * need to override this method, since they can use default settings.
  */
-    virtual std::unordered_map<std::string, rr::Variant> steadyStateSettings();
+    virtual std::unordered_map<std::string, rr::Setting> steadyStateSettings();
 
 
 };
@@ -129,9 +129,9 @@ public:
 
     StringDoubleMap steadyState() override;
 
-    std::unordered_map<std::string, rr::Variant> steadyStateSettings() override;
+    std::unordered_map<std::string, rr::Setting> steadyStateSettings() override;
 
-    std::unordered_map<std::string, rr::Variant> timeSeriesSettings() override;
+    std::unordered_map<std::string, rr::Setting> timeSeriesSettings() override;
 };
 
 /**
@@ -214,7 +214,7 @@ public:
 
     StringDoubleMap steadyState() override;
 
-    std::unordered_map<std::string, rr::Variant> steadyStateSettings() override;
+    std::unordered_map<std::string, rr::Setting> steadyStateSettings() override;
 
 };
 
@@ -252,9 +252,9 @@ public:
 
     std::string modelName() override;
 
-    std::unordered_map<std::string, rr::Variant> steadyStateSettings() override;
+    std::unordered_map<std::string, rr::Setting> steadyStateSettings() override;
 
-    std::unordered_map<std::string, rr::Variant> timeSeriesSettings() override;
+    std::unordered_map<std::string, rr::Setting> timeSeriesSettings() override;
 
 };
 
@@ -270,7 +270,7 @@ public:
 
     ls::DoubleMatrix timeSeriesResult() override;
 
-    std::unordered_map<std::string, rr::Variant> timeSeriesSettings() override;
+    std::unordered_map<std::string, rr::Setting> timeSeriesSettings() override;
 
 };
 
@@ -286,7 +286,7 @@ public:
 
     ls::DoubleMatrix timeSeriesResult() override;
 
-    std::unordered_map<std::string, rr::Variant> timeSeriesSettings() override;
+    std::unordered_map<std::string, rr::Setting> timeSeriesSettings() override;
 
 };
 
@@ -303,7 +303,7 @@ public:
 
     ls::DoubleMatrix timeSeriesResult() override;
 
-    std::unordered_map<std::string, rr::Variant> timeSeriesSettings() override;
+    std::unordered_map<std::string, rr::Setting> timeSeriesSettings() override;
 
 };
 
@@ -319,7 +319,7 @@ public:
 
     ls::DoubleMatrix timeSeriesResult() override;
 
-    std::unordered_map<std::string, rr::Variant> timeSeriesSettings() override;
+    std::unordered_map<std::string, rr::Setting> timeSeriesSettings() override;
 
 };
 
@@ -335,7 +335,7 @@ public:
 
     StringDoubleMap steadyState() override;
 
-    std::unordered_map<std::string, rr::Variant> steadyStateSettings() override;
+    std::unordered_map<std::string, rr::Setting> steadyStateSettings() override;
 
 };
 
@@ -349,7 +349,7 @@ public:
 
     StringDoubleMap steadyState() override;
 
-    std::unordered_map<std::string, rr::Variant> steadyStateSettings() override;
+    std::unordered_map<std::string, rr::Setting> steadyStateSettings() override;
 
 };
 
@@ -371,9 +371,9 @@ namespace privateSwigTests_ {
 
     std::unordered_map<double, double> *_testDoubleMap(double first, double second);
 
-    std::unordered_map<std::string, rr::Variant> *_testVariantMap();
+    std::unordered_map<std::string, rr::Setting> *_testVariantMap();
 
-    rr::Variant *_testVariant();
+    rr::Setting *_testVariant();
 
     StringDoublePairMap _testResultMap();
 }

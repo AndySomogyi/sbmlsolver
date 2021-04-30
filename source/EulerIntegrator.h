@@ -299,15 +299,15 @@ namespace rr
         * This integrator only supports 2 values, so those are the
         * only two valid items to set.
         */
-        virtual void setItem(const std::string& key, const rr::Variant& value) {
+        virtual void setItem(const std::string& key, const rr::Setting& value) {
             if (key == "exampleParameter1") {
-                exampleParameter1 = value;
+                exampleParameter1 = std::get<double>(value);
                 return;
             }
 
             if(key == "exampleParameter2") {
 				// Ahu: Why is this cast here, and is this a static or dynamic cast?
-                exampleParameter2 = (std::string)value;
+                exampleParameter2 = std::get<std::string>(value);
 				return;
             }
 
@@ -321,7 +321,7 @@ namespace rr
         * This integrator only supports two parameters, those are the
         * only valid ones to get.
         */
-        virtual Variant getItem(const std::string& key) const {
+        virtual Setting getItem(const std::string& key) const {
             if (key == "exampleParameter1") {
                 return exampleParameter1;
             }

@@ -9,7 +9,7 @@
 #include <set>
 #include "rrConstants.h"
 #include "rrExporter.h"
-#include "Variant.h"
+#include "Setting.h"
 
 namespace rr
 {
@@ -114,8 +114,8 @@ RR_DECLSPEC std::string              removeNewLines(const std::string& str, cons
 
 /*
 * Saves t in a binary format that can then be reloaded with loadBinary
-* T must be a primitive, POD with no pointers, std::vector, std::string, std::map, std::unordered_map, std::set, rr::Variant
-* or combinations of those, like std::map<rr::Variant, std::vector<std::string> >
+* T must be a primitive, POD with no pointers, std::vector, std::string, std::map, std::unordered_map, std::set, rr::Setting
+* or combinations of those, like std::map<rr::Setting, std::vector<std::string> >
 */
 template <typename T>
 inline void                saveBinary(std::ostream& out, const T& t)
@@ -173,43 +173,43 @@ inline void saveBinary(std::ostream& out, const std::set<T>& s)
 }
 
 template<>
-inline void saveBinary<rr::Variant>(std::ostream& out, const rr::Variant& var)
+inline void saveBinary<rr::Setting>(std::ostream& out, const rr::Setting& var)
 {
 	saveBinary(out, var.type());
 	switch (var.type())
 	{
-	case Variant::BOOL:
-		saveBinary(out, (bool)var);
+	case Setting::BOOL:
+		saveBinary(out, std::get<bool>(var));
 		break;
-	case Variant::CHAR:
-		saveBinary(out, (char)var);
+	case Setting::CHAR:
+		saveBinary(out, std::get<char>(var));
 		break;
-	case Variant::DOUBLE:
-		saveBinary(out, (double)var);
+	case Setting::DOUBLE:
+		saveBinary(out, std::get<double>(var));
 		break;
-	case Variant::FLOAT:
-		saveBinary(out, (float)var);
+	case Setting::FLOAT:
+		saveBinary(out, std::get<float>(var));
 		break;
-	case Variant::INT32:
-		saveBinary(out, (int32_t)var);
+	case Setting::INT32:
+		saveBinary(out, std::get<int32_t>(var));
 		break;
-	case Variant::INT64:
-		saveBinary(out, (long)var);
+	case Setting::INT64:
+		saveBinary(out, std::get<long>(var));
 		break;
-	case Variant::STRING:
-		saveBinary(out, (std::string)var);
+	case Setting::STRING:
+		saveBinary(out, std::get<std::string>(var));
 		break;
-	case Variant::UCHAR:
-		saveBinary(out, (unsigned char)var);
+	case Setting::UCHAR:
+		saveBinary(out, std::get<unsigned char>(var));
 		break;
-	case Variant::UINT32:
-		saveBinary(out, (unsigned int)var);
+	case Setting::UINT32:
+		saveBinary(out, std::get<unsigned int>(var));
 		break;
-	case Variant::UINT64:
-		saveBinary(out, (unsigned long)var);
+	case Setting::UINT64:
+		saveBinary(out, std::get<unsigned long>(var));
 		break;
-	case Variant::DOUBLEVECTOR:
-		saveBinary(out, var.convert<std::vector<double> >());
+	case Setting::DOUBLEVECTOR:
+		saveBinary(out, std::get<std::vector<double>>(var));
 	default:
 		break;
 	}
@@ -298,64 +298,64 @@ inline void                loadBinary(std::istream& in, std::set<T>& s)
 }
 
 template<>
-inline void loadBinary<rr::Variant>(std::istream& in, rr::Variant& var)
+inline void loadBinary<rr::Setting>(std::istream& in, rr::Setting& var)
 {
-	Variant::TypeId type;
+	Setting::TypeId type;
     std::string strVal;
 	std::vector<double> vectorVal;
 	loadBinary(in, type);
 	switch (type)
 	{
-	case Variant::BOOL:
+	case Setting::BOOL:
 		bool boolVal;
 		loadBinary(in, boolVal);
 		var = boolVal;
 		break;
-	case Variant::CHAR:
+	case Setting::CHAR:
         char charVal;
 		loadBinary(in, charVal);
 		var = charVal;
 		break;
-	case Variant::DOUBLE:
+	case Setting::DOUBLE:
         double doubleVal;
 		loadBinary(in, doubleVal);
 		var = doubleVal;
 		break;
-	case Variant::FLOAT:
+	case Setting::FLOAT:
         float floatVal;
 		loadBinary(in, floatVal);
 		var = floatVal;
 		break;
-	case Variant::INT32:
+	case Setting::INT32:
         int int32Val;
 		loadBinary(in, int32Val);
 		var = int32Val;
 		break;
-	case Variant::INT64:
+	case Setting::INT64:
         long int64Val;
 		loadBinary(in, int64Val);
 		var = int64Val;
 		break;
-	case Variant::STRING:
+	case Setting::STRING:
 		loadBinary(in, strVal);
 		var = strVal;
 		break;
-	case Variant::UCHAR:
+	case Setting::UCHAR:
         unsigned char ucharVal;
 		loadBinary(in, ucharVal);
 		var = ucharVal;
 		break;
-	case Variant::UINT32:
+	case Setting::UINT32:
         unsigned int uint32Val;
 		loadBinary(in, uint32Val);
 		var = uint32Val;
 		break;
-	case Variant::UINT64:
+	case Setting::UINT64:
         unsigned long uint64Val;
 		loadBinary(in, uint64Val);
 		var = uint64Val;
 		break;
-	case Variant::DOUBLEVECTOR:
+	case Setting::DOUBLEVECTOR:
 		loadBinary(in, vectorVal);
 		var = vectorVal;
 		break;

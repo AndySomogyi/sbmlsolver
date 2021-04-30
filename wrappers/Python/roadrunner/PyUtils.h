@@ -11,7 +11,7 @@
 #ifndef PYUTILS_H_
 #define PYUTILS_H_
 
-#include "Variant.h"
+#include "Setting.h"
 #include <Python.h>
 #include <rr-libstruct/lsMatrix.h>
 #include <stdint.h>
@@ -74,13 +74,13 @@ class Dictionary;
  * is dependent on the Python version, since
  * some types were removed/altered in Python 2->3
  */
-PyObject *Variant_to_py(const Variant& var);
+PyObject *Variant_to_py(const Setting& var);
 
-PyObject* Variant_to_py(Variant* var);
+PyObject* Variant_to_py(Setting* var);
 /**
  * @brief Inverse of @ref Variant_from_py
  */
-Variant Variant_from_py(PyObject *py);
+Setting Variant_from_py(PyObject *py);
 
 PyObject *dictionary_keys(const Dictionary* dict);
 

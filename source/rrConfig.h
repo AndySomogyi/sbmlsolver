@@ -10,7 +10,7 @@
 
 #include <string>
 #include "rrExporter.h"
-#include "Variant.h"
+#include "Setting.h"
 #include <vector>
 
 namespace rr
@@ -610,11 +610,11 @@ public:
      * note, this value is only used in any new objects created after it has been set.
      */
 
-    static void setValue(Keys, const Variant& value);
+    static void setValue(Keys, const Setting& value);
 
-	//static void setValues(const std::vector<Keys> keys, const std::vector<Variant> values);
+	//static void setValues(const std::vector<Keys> keys, const std::vector<Setting> values);
 
-    static const Variant& getValue(Keys);
+    static const Setting& getValue(Keys);
 
     /**
      * Read all of the values stored in a configuration file and set all the keys

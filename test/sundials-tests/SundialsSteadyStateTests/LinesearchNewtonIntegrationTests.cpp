@@ -2,7 +2,7 @@
 #include "SteadyStateIntegrationTests.h"
 #include "TestModelFactory.h"
 
-#include "Variant.h"
+#include "Setting.h"
 
 /**
  * @brief tests in this fixture all solve for steady state using the

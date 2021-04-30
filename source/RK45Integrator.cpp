@@ -307,7 +307,7 @@ namespace rr
         return "Internal RK45 ODE solver";
     }
 
-    Variant RK45Integrator::getValue(std::string key)
+    Setting RK45Integrator::getValue(std::string key)
     {
         if (key == "variable_step_size")
             return true;

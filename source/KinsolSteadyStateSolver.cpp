@@ -277,29 +277,29 @@ namespace rr {
         KINSetRelErrFunc(mKinsol_Memory, getValueAsDouble("rel_err_func"));
     }
 
-    std::unordered_map<std::string, Variant> KinsolSteadyStateSolver::getSolverStats() {
-        std::unordered_map<std::string, Variant> map;
-        map["numFuncEvals"] = Variant(numFuncEvals);
-        map["numNolinSolvIters"] = Variant(numNolinSolvIters);
-        map["numBetaCondFails"] = Variant(numBetaCondFails);
-        map["numBacktrackOps"] = Variant(numBacktrackOps);
-        map["funcNorm"] = Variant(funcNorm);
-        map["stepLength"] = Variant(stepLength);
-        map["numJacEvals"] = Variant(numJacEvals);
-        map["numJtimesEvals"] = Variant(numJtimesEvals);
-        map["numLinConvFails"] = Variant(numLinConvFails);
-        map["numLinFuncEvals"] = Variant(numLinFuncEvals);
-        map["numLinIters"] = Variant(numLinIters);
-        map["numNonlinSolvIters"] = Variant(numNonlinSolvIters);
-        map["numPrecEvals"] = Variant(numPrecEvals);
-        map["numPrecSolves"] = Variant(numPrecSolves);
+    std::unordered_map<std::string, Setting> KinsolSteadyStateSolver::getSolverStats() {
+        std::unordered_map<std::string, Setting> map;
+        map["numFuncEvals"] = Setting(numFuncEvals);
+        map["numNolinSolvIters"] = Setting(numNolinSolvIters);
+        map["numBetaCondFails"] = Setting(numBetaCondFails);
+        map["numBacktrackOps"] = Setting(numBacktrackOps);
+        map["funcNorm"] = Setting(funcNorm);
+        map["stepLength"] = Setting(stepLength);
+        map["numJacEvals"] = Setting(numJacEvals);
+        map["numJtimesEvals"] = Setting(numJtimesEvals);
+        map["numLinConvFails"] = Setting(numLinConvFails);
+        map["numLinFuncEvals"] = Setting(numLinFuncEvals);
+        map["numLinIters"] = Setting(numLinIters);
+        map["numNonlinSolvIters"] = Setting(numNonlinSolvIters);
+        map["numPrecEvals"] = Setting(numPrecEvals);
+        map["numPrecSolves"] = Setting(numPrecSolves);
         return map;
     }
 
     void KinsolSteadyStateSolver::printSolverStats() {
         std::cout << "Solver Stats: " << std::endl;
         for (auto &it: getSolverStats()) {
-            std::cout << "\t" << it.first << " = " << it.second.toString() << std::endl;
+            std::cout << "\t" << it.first << " = " << it.second.get<std::string>() << std::endl;
         }
     }
 

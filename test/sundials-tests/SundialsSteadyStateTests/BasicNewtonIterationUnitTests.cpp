@@ -31,7 +31,7 @@ TEST_F(BasicNewtonIterationUnitTest, SolveUsingSolverDirectly) {
 
 TEST_F(BasicNewtonIterationUnitTest, ChangeAndResetSettings) {
     BasicNewtonIteration solver(rr->getModel());
-    solver.setValue("eta_param_gamma", Variant(0.4356));
+    solver.setValue("eta_param_gamma", Setting(0.4356));
     solver.resetSettings();
     ASSERT_EQ(solver.getValueAsDouble("eta_param_gamma"), 0);
 }
@@ -59,7 +59,7 @@ TEST_F(BasicNewtonIterationUnitTest, RegenerateTheModelAfterCreatingSolver) {
  */
 class SettingsTests :
         public BasicNewtonIterationUnitTest,
-        public ::testing::WithParamInterface<std::pair<std::string, Variant>> {
+        public ::testing::WithParamInterface<std::pair<std::string, Setting>> {
 public:
     SettingsTests() = default;
 };
@@ -70,7 +70,7 @@ TEST_P(SettingsTests, TestSettings) {
 
     // unpack the test parameters
     std::string settingName = settingUnderTest.first;
-    Variant settingValue = settingUnderTest.second;
+    Setting settingValue = settingUnderTest.second;
     std::cout << "Testing setting \"" << settingName << "\"" << std::endl;
 
     // a bit of a faffy way to downcast
@@ -97,7 +97,7 @@ TEST_P(SettingsTests, TestSettings) {
 /**
  * Run the parameterized test suite "SettingsTests" with these parameter
  * combinations. The first item of the tuple is the parameter name, the
- * second is its value, stored as a rr::Variant. It is sometimes useful
+ * second is its value, stored as a rr::Setting. It is sometimes useful
  * to run these one at a time. To do so, just temporarily comment out
  * the ones you dont want to run.
  *
@@ -108,26 +108,26 @@ INSTANTIATE_TEST_SUITE_P(
         SettingsTests,
         SettingsTests,
         ::testing::Values(
-                std::pair<std::string, Variant>("num_max_iters", Variant(153)),
-                std::pair<std::string, Variant>("print_level", Variant(2)),
-                std::pair<std::string, Variant>("eta_form", Variant("eta_choice2")),
-                std::pair<std::string, Variant>("no_init_setup", Variant(true)),
-                std::pair<std::string, Variant>("no_res_monitoring", Variant(true)),
-                std::pair<std::string, Variant>("max_setup_calls", Variant(974)),
-                std::pair<std::string, Variant>("max_subsetup_calls", Variant(132)),
-                std::pair<std::string, Variant>("eta_constant_value", Variant(6)),
-                std::pair<std::string, Variant>("eta_param_gamma", Variant(0.5234)),
-                std::pair<std::string, Variant>("eta_param_alpha", Variant(0.1234)),
-                std::pair<std::string, Variant>("res_mon_min", Variant(0.01)),
-                std::pair<std::string, Variant>("res_mon_max", Variant(0.9999)),
-                std::pair<std::string, Variant>("res_mon_constant_value", Variant(0.25)),
-                std::pair<std::string, Variant>("no_min_eps", Variant(true)),
-                std::pair<std::string, Variant>("max_newton_step", Variant(15)),
-                std::pair<std::string, Variant>("max_beta_fails", Variant(3)),
-                std::pair<std::string, Variant>("func_norm_tol", Variant(0.5)),
-                std::pair<std::string, Variant>("scaled_step_tol", Variant(0.3))
-//                std::pair<std::string, Variant>("maa", Variant(4)),
-//                std::pair<std::string, Variant>("damping_aa", Variant(0.35))
+                std::pair<std::string, Setting>("num_max_iters", Setting(153)),
+                std::pair<std::string, Setting>("print_level", Setting(2)),
+                std::pair<std::string, Setting>("eta_form", Setting("eta_choice2")),
+                std::pair<std::string, Setting>("no_init_setup", Setting(true)),
+                std::pair<std::string, Setting>("no_res_monitoring", Setting(true)),
+                std::pair<std::string, Setting>("max_setup_calls", Setting(974)),
+                std::pair<std::string, Setting>("max_subsetup_calls", Setting(132)),
+                std::pair<std::string, Setting>("eta_constant_value", Setting(6)),
+                std::pair<std::string, Setting>("eta_param_gamma", Setting(0.5234)),
+                std::pair<std::string, Setting>("eta_param_alpha", Setting(0.1234)),
+                std::pair<std::string, Setting>("res_mon_min", Setting(0.01)),
+                std::pair<std::string, Setting>("res_mon_max", Setting(0.9999)),
+                std::pair<std::string, Setting>("res_mon_constant_value", Setting(0.25)),
+                std::pair<std::string, Setting>("no_min_eps", Setting(true)),
+                std::pair<std::string, Setting>("max_newton_step", Setting(15)),
+                std::pair<std::string, Setting>("max_beta_fails", Setting(3)),
+                std::pair<std::string, Setting>("func_norm_tol", Setting(0.5)),
+                std::pair<std::string, Setting>("scaled_step_tol", Setting(0.3))
+//                std::pair<std::string, Setting>("maa", Setting(4)),
+//                std::pair<std::string, Setting>("damping_aa", Setting(0.35))
         )
 );
 

@@ -134,7 +134,7 @@ namespace rr
          * @author WBC, ETS, MTK
          * @brief Sets the value of an integrator setting (e.g. absolute_tolerance)
          */
-        void setValue(const std::string& setting, const Variant& value) override;
+        void setValue(const std::string& setting, const Setting& value) override;
 
 
 		/**
@@ -150,7 +150,7 @@ namespace rr
 		 * by multiplying the compartment volume of species. Whichever is smaller
 		 * will be stored as absolute_tolerance and used in the integration process.
 		 */
-		void setConcentrationTolerance(const Variant& value) override;
+		void setConcentrationTolerance(const Setting& value) override;
 
 		/**
 		 * @author FY

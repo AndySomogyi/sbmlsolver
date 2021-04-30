@@ -69,7 +69,7 @@ namespace rr
 	// the functions below will not be implemented here
 	void Integrator::setIndividualTolerance(std::string sid, double value) {}
 
-	void Integrator::setConcentrationTolerance(const Variant& value) {}
+	void Integrator::setConcentrationTolerance(const Setting& value) {}
 
 	std::vector<double> Integrator::getConcentrationTolerance() {
 		std::vector<double> v;

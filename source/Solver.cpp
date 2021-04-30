@@ -26,7 +26,7 @@ namespace rr
     Solver::Solver(ExecutableModel* model)
         : mModel(model){}
 
-    void Solver::addSetting(const std::string& name, const Variant& val, std::string display_name, std::string hint, std::string description)
+    void Solver::addSetting(const std::string& name, const Setting& val, std::string display_name, std::string hint, std::string description)
     {
         sorted_settings.push_back(name);
         settings[name] = val;
@@ -47,7 +47,7 @@ namespace rr
         }
     }
 
-    std::unordered_map<std::string, Variant>& Solver::getSettingsMap()
+    std::unordered_map<std::string, Setting>& Solver::getSettingsMap()
     {
         return settings;
     }
@@ -99,7 +99,7 @@ namespace rr
         return getDescription(getParamName(n));
     }
 
-    Variant Solver::getValue(const std::string& key) const
+    Setting Solver::getValue(const std::string& key) const
     {
         auto option = settings.find(key);
         if (option == settings.end())
@@ -109,67 +109,67 @@ namespace rr
         return option->second;
     }
 
-    Variant Solver::hasValue(const std::string& key) const
+    Setting Solver::hasValue(const std::string& key) const
     {
         return settings.find(key) != settings.end();
     }
 
     int Solver::getValueAsInt(const std::string& key)
     {
-        return getValue(key).convert<int>();
+        return getValue(key).get<int>();
     }
 
     unsigned int Solver::getValueAsUInt(const std::string& key)
     {
-        return getValue(key).convert<unsigned int>();
+        return getValue(key).get<unsigned int>();
     }
 
     long Solver::getValueAsLong(const std::string& key)
     {
-        return getValue(key).convert<long>();
+        return getValue(key).get<long>();
     }
 
     unsigned long Solver::getValueAsULong(const std::string& key)
     {
-        return getValue(key).convert<unsigned long>();
+        return getValue(key).get<unsigned long>();
     }
 
     float Solver::getValueAsFloat(const std::string& key)
     {
-        return getValue(key).convert<float>();
+        return getValue(key).get<float>();
     }
 
     double Solver::getValueAsDouble(const std::string& key)
     {
-        return getValue(key).convert<double>();
+        return getValue(key).get<double>();
     }
 
 	std::vector<double> Solver::getValueAsDoubleVector(const std::string& key)
 	{
-		return getValue(key).convert< std::vector<double> >();
+		return getValue(key).get< std::vector<double> >();
 	}
 
     char Solver::getValueAsChar(const std::string& key)
     {
-        return getValue(key).convert<char>();
+        return getValue(key).get<char>();
     }
 
     unsigned char Solver::getValueAsUChar(const std::string& key)
     {
-        return getValue(key).convert<unsigned char>();
+        return getValue(key).get<unsigned char>();
     }
 
     std::string Solver::getValueAsString(const std::string& key)
     {
-        return getValue(key).convert<std::string>();
+        return getValue(key).get<std::string>();
     }
 
     bool Solver::getValueAsBool(const std::string& key)
     {
-        return getValue(key).convert<bool>();
+        return getValue(key).get<bool>();
     }
 
-    void Solver::setValue(const std::string& key, const Variant& value)
+    void Solver::setValue(const std::string& key, const Setting& value)
     {
         if (settings.find(key) ==  settings.end())
             throw std::invalid_argument(getName() + " invalid key: " + key);
@@ -207,7 +207,7 @@ namespace rr
         return option->second;
     }
 
-    Variant::TypeId Solver::getType(const std::string& key) const
+    Setting::TypeId Solver::getType(const std::string& key) const
     {
         return getValue(key).type();
     }
@@ -216,7 +216,7 @@ namespace rr
     {
         std::stringstream ss;
         for(size_t n=0; n<getNumParams(); ++n)
-            ss << "    " << std::setw(20) << getParamName(n) << ": " << getValue(getParamName(n)).toString() << "\n";
+            ss << "    " << std::setw(20) << getParamName(n) << ": " << getValue(getParamName(n)).get<std::string>() << "\n";
         return ss.str();
     }
 

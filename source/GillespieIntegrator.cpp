@@ -26,7 +26,7 @@ namespace rr
 {
 	static unsigned long defaultSeed()
 	{
-		int64_t seed = Config::getValue(Config::RANDOM_SEED).convert<int>();
+		int64_t seed = Config::getValue(Config::RANDOM_SEED).get<int>();
 		if (seed < 0)
 		{
 			seed = std::chrono::high_resolution_clock::now().time_since_epoch().count();
@@ -56,7 +56,7 @@ namespace rr
         // fill stoichData
         mModel->getStoichiometryMatrix(&stoichRows, &stoichCols, &stoichData);
 
-        setEngineSeed(getValue("seed").convert<unsigned long>());
+        setEngineSeed(getValue("seed").get<unsigned long>());
 	}
 
 	GillespieIntegrator::GillespieIntegrator(ExecutableModel* m)
@@ -154,7 +154,7 @@ namespace rr
 		return Integrator::Deterministic;
 	}
 
-	void GillespieIntegrator::setValue(const std::string& key, const Variant& val)
+	void GillespieIntegrator::setValue(const std::string& key, const Setting& val)
 	{
 		Integrator::setValue(key, val);
 
@@ -164,13 +164,13 @@ namespace rr
 		{
 			try
 			{
-				auto seed = val.convert<unsigned long>();
+				auto seed = val.get<unsigned long>();
 				setEngineSeed(seed);
 			}
 			catch (std::exception& e)
 			{
 				std::stringstream ss;
-				ss << "Could not convert the value \"" << val.toString();
+				ss << "Could not convert the value \"" << val.get<std::string>();
 				ss << "\" to an unsigned long integer. " << std::endl;
 				ss << "The seed must be a number between 0 and ";
 				ss << std::numeric_limits<unsigned long>::max();
@@ -198,8 +198,8 @@ namespace rr
 	{
 		double tf;
 		bool singleStep;
-		bool varStep = getValue("variable_step_size").convert<bool>();
-		auto minTimeStep = getValue("minimum_time_step").convert<double>();
+		bool varStep = getValue("variable_step_size").get<bool>();
+		auto minTimeStep = getValue("minimum_time_step").get<double>();
 
 		if (varStep)
 		{

@@ -98,7 +98,7 @@ namespace rr
          * @author WBC, ETS
          * @brief Sets the value of an integrator setting (e.g. absolute_tolerance)
          */
-        void setValue(const std::string& setting, const Variant& value);
+        void setValue(const std::string& setting, const Setting& value);
 
         /**
         * @author JKM

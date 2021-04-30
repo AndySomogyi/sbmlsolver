@@ -45,7 +45,7 @@ public:
                 rr.setConservedMoietyAnalysis(settingsIterator.second);
             } else {
                 try {
-                    rr.getSteadyStateSolver()->setValue(settingsIterator.first, Variant(settingsIterator.second));
+                    rr.getSteadyStateSolver()->setValue(settingsIterator.first, Setting(settingsIterator.second));
                 } catch (std::exception &err) {
                     // if solver does not have this option, that's okay
                     continue;

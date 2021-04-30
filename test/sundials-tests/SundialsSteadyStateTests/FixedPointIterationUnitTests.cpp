@@ -31,7 +31,7 @@ TEST_F(FixedPointIterationUnitTests, SolveUsingSolverDirectly) {
 
 TEST_F(FixedPointIterationUnitTests, ChangeAndResetSettings) {
     FixedPointIteration solver(rr->getModel());
-    solver.setValue("strategy", Variant("linesearch"));
+    solver.setValue("strategy", Setting("linesearch"));
     solver.resetSettings();
     ASSERT_STREQ("basic", solver.getValueAsString("strategy").c_str());
 }
