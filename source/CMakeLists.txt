@@ -73,7 +73,8 @@ set(
         SteadyStateSolver.cpp
         Solver.cpp
         SolverRegistration.cpp
-        Variant.cpp
+#        Variant.cpp
+        Setting.cpp
 
         KinsolSteadyStateSolver.cpp
         FixedPointIteration.cpp
@@ -140,7 +141,8 @@ set(
         SteadyStateSolver.h
         Solver.h
         SolverRegistration.h
-        Variant.h
+#        Variant.h
+        Setting.h
 
         KinsolErrHandler.h
         KinsolSteadyStateSolver.h

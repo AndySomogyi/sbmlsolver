@@ -1,0 +1,2 @@
+#add_test_executable(variant_tests test_targets variant_tests.cpp)
+add_test_executable(SettingTests test_targets SettingTests.cpp)
