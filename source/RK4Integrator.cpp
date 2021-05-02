@@ -223,7 +223,7 @@ namespace rr
     Setting RK4Integrator::getValue(std::string key)
     {
         if (key == "variable_step_size")
-            return false;
+            return Setting(false);
         else
             return Integrator::getValue(key);
     }

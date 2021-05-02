@@ -111,7 +111,7 @@ namespace rr
 
     Setting Solver::hasValue(const std::string& key) const
     {
-        return settings.find(key) != settings.end();
+        return Setting(settings.find(key) != settings.end());
     }
 
     int Solver::getValueAsInt(const std::string& key)
@@ -169,11 +169,11 @@ namespace rr
         return getValue(key).get<bool>();
     }
 
-    void Solver::setValue(const std::string& key, const Setting& value)
+    void Solver::setValue(const std::string& key, Setting value)
     {
         if (settings.find(key) ==  settings.end())
             throw std::invalid_argument(getName() + " invalid key: " + key);
-        settings[key] = value;
+        settings[key] = std::move(value);
     }
 
 

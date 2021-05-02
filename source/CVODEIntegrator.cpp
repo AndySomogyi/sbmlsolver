@@ -153,36 +153,36 @@ namespace rr {
         Solver::resetSettings();
 
         // Set default integrator settings.
-        addSetting("relative_tolerance", Config::getDouble(Config::CVODE_MIN_RELATIVE), "Relative Tolerance",
+        addSetting("relative_tolerance", Setting(Config::getDouble(Config::CVODE_MIN_RELATIVE)), "Relative Tolerance",
                    "Specifies the scalar relative tolerance (double).",
                    "(double) CVODE calculates a std::vector of error weights which is used in all error and convergence tests. The weighted RMS norm for the relative tolerance should not become smaller than this value.");
-        addSetting("absolute_tolerance", Config::getDouble(Config::CVODE_MIN_ABSOLUTE), "Absolute Tolerance",
+        addSetting("absolute_tolerance", Setting(Config::getDouble(Config::CVODE_MIN_ABSOLUTE)), "Absolute Tolerance",
                    "Specifies the scalar or std::vector absolute tolerance based on amounts (double or double std::vector).",
                    "(double or double std::vector) CVODE calculates a std::vector of error weights which is used in all error and convergence tests. The weighted RMS norm for the absolute tolerance should not become smaller than this value.");
-        addSetting("stiff", true, "Stiff", "Specifies whether the integrator attempts to solve stiff equations. (bool)",
+        addSetting("stiff", Setting(true), "Stiff", "Specifies whether the integrator attempts to solve stiff equations. (bool)",
                    "(bool) Specifies whether the integrator attempts to solve stiff equations. Ensure the integrator can solver stiff differential equations by setting this value to true.");
-        addSetting("maximum_bdf_order", mDefaultMaxBDFOrder, "Maximum BDF Order",
+        addSetting("maximum_bdf_order", Setting(mDefaultMaxBDFOrder), "Maximum BDF Order",
                    "Specifies the maximum order for Backward Differentiation Formula integration. (int)",
                    "(int) Specifies the maximum order for Backward Differentiation Formula integration. This integration method is used for stiff problems. Default value is 5.");
-        addSetting("maximum_adams_order", mDefaultMaxAdamsOrder, "Maximum Adams Order",
+        addSetting("maximum_adams_order", Setting(mDefaultMaxAdamsOrder), "Maximum Adams Order",
                    "Specifies the maximum order for Adams-Moulton intergration. (int)",
                    "(int) Specifies the maximum order for Adams-Moulton intergration. This integration method is used for non-stiff problems. Default value is 12.");
-        addSetting("maximum_num_steps", mDefaultMaxNumSteps, "Maximum Number of Steps",
+        addSetting("maximum_num_steps", Setting(mDefaultMaxNumSteps), "Maximum Number of Steps",
                    "Specifies the maximum number of steps to be taken by the CVODE solver in its attempt to reach tout. (int)",
                    "(int) Maximum number of steps to be taken by the CVODE solver in its attempt to reach tout.");
-        addSetting("maximum_time_step", 0.0, "Maximum Time Step",
+        addSetting("maximum_time_step", Setting(0.0), "Maximum Time Step",
                    "Specifies the maximum absolute value of step size allowed. (double)",
                    "(double) The maximum absolute value of step size allowed.");
-        addSetting("minimum_time_step", 0.0, "Minimum Time Step",
+        addSetting("minimum_time_step", Setting(0.0), "Minimum Time Step",
                    "Specifies the minimum absolute value of step size allowed. (double)",
                    "(double) The minimum absolute value of step size allowed.");
-        addSetting("initial_time_step", 0.0, "Initial Time Step", "Specifies the initial time step size. (double)",
+        addSetting("initial_time_step", Setting(0.0), "Initial Time Step", "Specifies the initial time step size. (double)",
                    "(double) Specifies the initial time step size. If inappropriate, CVODE will attempt to estimate a better initial time step.");
-        addSetting("multiple_steps", false, "Multiple Steps", "Perform a multiple time step simulation. (bool)",
+        addSetting("multiple_steps", Setting(false), "Multiple Steps", "Perform a multiple time step simulation. (bool)",
                    "(bool) Perform a multiple time step simulation.");
-        addSetting("variable_step_size", false, "Variable Step Size", "Perform a variable time step simulation. (bool)",
+        addSetting("variable_step_size", Setting(false), "Variable Step Size", "Perform a variable time step simulation. (bool)",
                    "(bool) Enabling this setting will allow the integrator to adapt the size of each time step. This will result in a non-uniform time column.  The number of steps or points will be ignored, and the max number of output rows will be used instead.");
-        addSetting("max_output_rows", Config::getInt(Config::MAX_OUTPUT_ROWS), "Maximum Output Rows",
+        addSetting("max_output_rows", Setting(Config::getInt(Config::MAX_OUTPUT_ROWS)), "Maximum Output Rows",
                    "For variable step size simulations, the maximum number of output rows produced (int).",
                    "(int) This will set the maximum number of output rows for variable step size integration.  This may truncate some simulations that may not reach the desired end time, but prevents infinite or massive output for simulations where the variable step size ends up decreasing too much.");
         CVODEIntegrator::loadConfigSettings();
@@ -215,20 +215,20 @@ namespace rr {
         bool bVal = false;
         if (getIntegrationMethod() == Integrator::Deterministic) {
             bVal = Config::getBool(Config::SIMULATEOPTIONS_DETERMINISTIC_VARIABLE_STEP);
-            Integrator::setValue("variable_step_size", bVal);
+            Integrator::setValue("variable_step_size", Setting(bVal));
         } else if (getIntegrationMethod() == Integrator::Stochastic) {
             bVal = Config::getBool(Config::SIMULATEOPTIONS_STOCHASTIC_VARIABLE_STEP);
-            Integrator::setValue("variable_step_size", bVal);
+            Integrator::setValue("variable_step_size", Setting(bVal));
         }
-        Integrator::setValue("max_output_rows", Config::getInt(Config::MAX_OUTPUT_ROWS));
+        Integrator::setValue("max_output_rows", Setting(Config::getInt(Config::MAX_OUTPUT_ROWS)));
 
         // STIFFNESS
         bVal = Config::getBool(Config::SIMULATEOPTIONS_STIFF);
-        Integrator::setValue("stiff", bVal);
+        Integrator::setValue("stiff", Setting(bVal));
 
         // MULTIPLE STEPS
         bVal = Config::getBool(Config::SIMULATEOPTIONS_MULTI_STEP);
-        Integrator::setValue("multiple_steps", bVal);
+        Integrator::setValue("multiple_steps", Setting(bVal));
     }
 
     void CVODEIntegrator::loadSBMLSettings(std::string const &filename) {
@@ -259,7 +259,7 @@ namespace rr {
             if (it != options.end()) {
                 if ((*it).second.find("[") == std::string::npos) {
                     // scalar absolute tolerance
-                    CVODEIntegrator::setValue("absolute_tolerance", std::abs(toDouble((*it).second)));
+                    CVODEIntegrator::setValue("absolute_tolerance", Setting(std::abs(toDouble((*it).second))));
                 } else {
                     // std::vector absolute tolerance
 
@@ -267,13 +267,13 @@ namespace rr {
                     // take absolute value of each element
                     for (unsigned int i = 0; i < v.size(); i++)
                         v[i] = std::abs(v[i]);
-                    CVODEIntegrator::setValue("absolute_tolerance", v);
+                    CVODEIntegrator::setValue("absolute_tolerance", Setting(v));
                 }
             }
 
             it = options.find("relative");
             if (it != options.end()) {
-                CVODEIntegrator::setValue("relative_tolerance", std::abs(toDouble((*it).second)));
+                CVODEIntegrator::setValue("relative_tolerance", Setting(std::abs(toDouble((*it).second))));
             }
         }
     }
@@ -370,7 +370,7 @@ namespace rr {
         }
 
         // update the tolerance
-        CVODEIntegrator::setValue("absolute_tolerance", v);
+        CVODEIntegrator::setValue("absolute_tolerance", Setting(v));
     }
 
 
@@ -486,7 +486,7 @@ namespace rr {
 
         free(volumes);
         // update the tolerance
-        CVODEIntegrator::setValue("absolute_tolerance", v);
+        CVODEIntegrator::setValue("absolute_tolerance", Setting(v));
     }
 
     std::vector<double> CVODEIntegrator::getConcentrationTolerance() {
@@ -589,7 +589,7 @@ namespace rr {
         return v;
     }
 
-    void CVODEIntegrator::setValue(const std::string& key, const Setting &val) {
+    void CVODEIntegrator::setValue(const std::string& key, Setting val) {
         // if std::vector tolerance is set, the size of std::vector must be equal to
         // the number of floating species
         if (key == "absolute_tolerance" && val.type() == Setting::DOUBLEVECTOR)
@@ -820,7 +820,7 @@ namespace rr {
             case Setting::DOUBLE:
                 // scalar tolerance
                 CVODEIntegrator::setValue("absolute_tolerance",
-                                          std::min(CVODEIntegrator::getValueAsDouble("absolute_tolerance"), minAbs));
+                                          Setting(std::min(CVODEIntegrator::getValueAsDouble("absolute_tolerance"), minAbs)));
                 break;
 
 
@@ -829,7 +829,7 @@ namespace rr {
                 std::vector<double> v = CVODEIntegrator::getValueAsDoubleVector("absolute_tolerance");
                 for (int i = 0; i < v.size(); i++)
                     v[i] = std::min(v[i], minAbs);
-                CVODEIntegrator::setValue("absolute_tolerance", v);
+                CVODEIntegrator::setValue("absolute_tolerance", Setting(v));
 
                 break;
             }
@@ -839,7 +839,7 @@ namespace rr {
         }
 
         CVODEIntegrator::setValue("relative_tolerance",
-                                  std::min(CVODEIntegrator::getValueAsDouble("relative_tolerance"), minRel));
+                                  Setting(std::min(CVODEIntegrator::getValueAsDouble("relative_tolerance"), minRel)));
 
         rrLog(Logger::LOG_INFORMATION) << "tweaking CVODE tolerances to abs="
                                      << CVODEIntegrator::getValueAsDouble("absolute_tolerance") << ", rel="

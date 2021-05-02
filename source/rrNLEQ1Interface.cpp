@@ -430,7 +430,7 @@ void NLEQ1Interface::setItem(const std::string& key, const rr::Setting& value)
 
 Setting NLEQ1Interface::getItem(const std::string& key) const
 {
-    return 0;
+    return Setting(); // Was 0; Not sure why
 }
 
 bool NLEQ1Interface::hasKey(const std::string& key) const
@@ -452,50 +452,50 @@ const Dictionary* NLEQ1Interface::getSteadyStateOptions()
 {
     static BasicDictionary dict;
 
-    dict.setItem("steadyState", "NLEQ1");
-    dict.setItem("steadyState.hint", "NLEQ1 hint");
-    dict.setItem("steadyState.description", "NLEQ1 description");
+    dict.setItem("steadyState", Setting("NLEQ1"));
+    dict.setItem("steadyState.hint", Setting("NLEQ1 hint"));
+    dict.setItem("steadyState.description", Setting("NLEQ1 description"));
 
-    dict.setItem("allowPreSim", Config::getBool(Config::STEADYSTATE_PRESIMULATION));
-    dict.setItem("preSimMaximumSteps", Config::getInt(Config::STEADYSTATE_PRESIMULATION_MAX_STEPS));
-    dict.setItem("preSimTime", Config::getDouble(Config::STEADYSTATE_PRESIMULATION_TIME));
-    dict.setItem("allowApprox", Config::getBool(Config::STEADYSTATE_APPROX));
-    dict.setItem("approxTolerance", Config::getDouble(Config::STEADYSTATE_APPROX_TOL));
-    dict.setItem("approxMaximumSteps", Config::getInt(Config::STEADYSTATE_APPROX_MAX_STEPS));
-    dict.setItem("approxTime", Config::getDouble(Config::STEADYSTATE_APPROX_TIME));
-    dict.setItem("relativeTolerance", Config::getDouble(Config::STEADYSTATE_RELATIVE));
-    dict.setItem("maxIterations", Config::getInt(Config::STEADYSTATE_MAXIMUM_NUM_STEPS));
-    dict.setItem("minDamping", Config::getDouble(Config::STEADYSTATE_MINIMUM_DAMPING));
-    dict.setItem("broyden", Config::getInt(Config::STEADYSTATE_BROYDEN));
-    dict.setItem("linearity", Config::getInt(Config::STEADYSTATE_LINEARITY));
+    dict.setItem("allowPreSim",             Setting(Config::getBool(Config::STEADYSTATE_PRESIMULATION)));
+    dict.setItem("preSimMaximumSteps",      Setting(Config::getInt(Config::STEADYSTATE_PRESIMULATION_MAX_STEPS)));
+    dict.setItem("preSimTime",              Setting(Config::getDouble(Config::STEADYSTATE_PRESIMULATION_TIME)));
+    dict.setItem("allowApprox",             Setting(Config::getBool(Config::STEADYSTATE_APPROX)));
+    dict.setItem("approxTolerance",         Setting(Config::getDouble(Config::STEADYSTATE_APPROX_TOL)));
+    dict.setItem("approxMaximumSteps",      Setting(Config::getInt(Config::STEADYSTATE_APPROX_MAX_STEPS)));
+    dict.setItem("approxTime",              Setting(Config::getDouble(Config::STEADYSTATE_APPROX_TIME)));
+    dict.setItem("relativeTolerance",       Setting(Config::getDouble(Config::STEADYSTATE_RELATIVE)));
+    dict.setItem("maxIterations",           Setting(Config::getInt(Config::STEADYSTATE_MAXIMUM_NUM_STEPS)));
+    dict.setItem("minDamping",              Setting(Config::getDouble(Config::STEADYSTATE_MINIMUM_DAMPING)));
+    dict.setItem("broyden",                 Setting(Config::getInt(Config::STEADYSTATE_BROYDEN)));
+    dict.setItem("linearity",               Setting(Config::getInt(Config::STEADYSTATE_LINEARITY)));
 
-    dict.setItem("allowPreSim.description", "startWithApprox.description");
-    dict.setItem("preSimTolerance.description", "preSimTolerance.description");
-    dict.setItem("preSimMaximumSteps.description", "preSimMaximumSteps.description");
-    dict.setItem("preSimTime.description", "preSimTime.description");
-    dict.setItem("allowApprox.description", "allowApprox.description");
-    dict.setItem("approxTolerance.description", "approxTolerance.description");
-    dict.setItem("approxMaximumSteps.description", "approxMaximumSteps.description");
-    dict.setItem("approxTime.description", "approxTime.description");
-    dict.setItem("relativeTolerance.description", "relativeTolerance.description");
-    dict.setItem("maxIterations.description", "maxIterations.description");
-    dict.setItem("minDamping.description", "minDamping.description");
-    dict.setItem("broyden.description", "broyden.description");
-    dict.setItem("linearity.description", "linearity.description");
+    dict.setItem("allowPreSim.description",         Setting("startWithApprox.description"));
+    dict.setItem("preSimTolerance.description",     Setting("preSimTolerance.description"));
+    dict.setItem("preSimMaximumSteps.description",  Setting("preSimMaximumSteps.description"));
+    dict.setItem("preSimTime.description",          Setting("preSimTime.description"));
+    dict.setItem("allowApprox.description",         Setting("allowApprox.description"));
+    dict.setItem("approxTolerance.description",     Setting("approxTolerance.description"));
+    dict.setItem("approxMaximumSteps.description",  Setting("approxMaximumSteps.description"));
+    dict.setItem("approxTime.description",          Setting("approxTime.description"));
+    dict.setItem("relativeTolerance.description",   Setting("relativeTolerance.description"));
+    dict.setItem("maxIterations.description",       Setting("maxIterations.description"));
+    dict.setItem("minDamping.description",          Setting("minDamping.description"));
+    dict.setItem("broyden.description",             Setting("broyden.description"));
+    dict.setItem("linearity.description",           Setting("linearity.description"));
 
-    dict.setItem("allowPreSim.hint", "startWithApprox.hint");
-    dict.setItem("preSimTolerance.hint", "preSimTolerance.hint");
-    dict.setItem("preSimMaximumSteps.hint", "preSimMaximumSteps.hint");
-    dict.setItem("preSimTime.hint", "preSimTime.hint");
-    dict.setItem("allowApprox.hint", "allowApprox.hint");
-    dict.setItem("approxTolerance.hint", "approxTolerance.hint");
-    dict.setItem("approxMaximumSteps.hint", "approxMaximumSteps.hint");
-    dict.setItem("approxTime.hint", "approxTime.hint");
-    dict.setItem("relativeTolerance.hint", "relativeTolerance.hint");
-    dict.setItem("maxIterations.hint", "maxIterations.hint");
-    dict.setItem("minDamping.hint", "minDamping.hint");
-    dict.setItem("broyden.hint", "broyden.hint");
-    dict.setItem("linearity.hint", "linearity.hint");
+    dict.setItem("allowPreSim.hint",                Setting("startWithApprox.hint"));
+    dict.setItem("preSimTolerance.hint",            Setting("preSimTolerance.hint"));
+    dict.setItem("preSimMaximumSteps.hint",         Setting("preSimMaximumSteps.hint"));
+    dict.setItem("preSimTime.hint",                 Setting("preSimTime.hint"));
+    dict.setItem("allowApprox.hint",                Setting("allowApprox.hint"));
+    dict.setItem("approxTolerance.hint",            Setting("approxTolerance.hint"));
+    dict.setItem("approxMaximumSteps.hint",         Setting("approxMaximumSteps.hint"));
+    dict.setItem("approxTime.hint",                 Setting("approxTime.hint"));
+    dict.setItem("relativeTolerance.hint",          Setting("relativeTolerance.hint"));
+    dict.setItem("maxIterations.hint",              Setting("maxIterations.hint"));
+    dict.setItem("minDamping.hint",                 Setting("minDamping.hint"));
+    dict.setItem("broyden.hint",                    Setting("broyden.hint"));
+    dict.setItem("linearity.hint",                  Setting("linearity.hint"));
 
     return &dict;
 }

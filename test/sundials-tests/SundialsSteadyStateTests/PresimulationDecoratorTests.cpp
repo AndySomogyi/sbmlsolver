@@ -83,7 +83,7 @@ TEST_F(PresimulationDecoratorTests, CheckModelTimeAfterPresimulation) {
     SteadyStateSolver *solver;
     BasicNewtonIteration basicNewtonIteration(rr.getModel());
     // this model sucessfully solves after the 0.1 time steps
-    basicNewtonIteration.setValue("presimulation_time", 0.1);
+    basicNewtonIteration.setValue("presimulation_time", Setting(0.1));
     solver = &basicNewtonIteration;
     PresimulationDecorator presim(solver);
     solver = &presim;
@@ -105,7 +105,7 @@ TEST_F(PresimulationDecoratorTests, CheckSteadyStateValuesAfterPresimulation) {
     SteadyStateSolver *solver;
     BasicNewtonIteration basicNewtonIteration(rr.getModel());
 
-    basicNewtonIteration.setValue("presimulation_time", 10);
+    basicNewtonIteration.setValue("presimulation_time", Setting(10));
     solver = &basicNewtonIteration;
     PresimulationDecorator presim(solver);
     solver = &presim;

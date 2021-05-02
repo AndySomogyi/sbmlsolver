@@ -202,7 +202,7 @@ namespace rr
         */
         virtual bool getValueAsBool(const std::string& key);
 
-        virtual void setValue(const std::string& key, const Setting& value);
+        virtual void setValue(const std::string& key, Setting value);
 
         /**
         * @author JKM
@@ -259,11 +259,11 @@ namespace rr
 
 
     protected:
-        typedef std::vector<std::string> SettingsList;
-        typedef RR_UNORDERED_MAP <std::string, Setting> SettingsMap;
-        typedef RR_UNORDERED_MAP <std::string, std::string> DisplayNameMap;
-        typedef RR_UNORDERED_MAP <std::string, std::string> HintMap;
-        typedef RR_UNORDERED_MAP <std::string, std::string> DescriptionMap;
+        using SettingsList     =  std::vector<std::string> ;
+        using SettingsMap      =  std::unordered_map<std::string, Setting> ;
+        using DisplayNameMap   =  std::unordered_map<std::string, std::string> ;
+        using HintMap          =  std::unordered_map<std::string, std::string> ;
+        using DescriptionMap   =  std::unordered_map<std::string, std::string> ;
 
         SettingsList sorted_settings;
         SettingsMap settings;

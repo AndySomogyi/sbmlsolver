@@ -118,67 +118,67 @@ namespace rr {
         SteadyStateSolver::resetSettings();
 
         std::string desc = "Max. number of iterations the nonlinear solver is allowed to use. ";
-        addSetting("num_max_iters", 200, "Maximum Nonlinear Iterations", desc, desc);
+        addSetting("num_max_iters", Setting(200), "Maximum Nonlinear Iterations", desc, desc);
 
-        addSetting("allow_negative", false, "Allow negative values",
+        addSetting("allow_negative", Setting(false), "Allow negative values",
                    "Ensures non-negative results",
                    "(bool)Constrains the problem such that all values are non-negative at all times");
 
         desc = "Kinsol logger level. Default=0, no additional output. Max=3.";
-        addSetting("print_level", 0, "Kinsol Print Level", desc, desc);
+        addSetting("print_level",Setting( 0), "Kinsol Print Level", desc, desc);
 
         desc = "Form of nu coefficient. One of eta_choice1, eta_choice2 or eta_constant";
-        addSetting("eta_form", "eta_choice1", "ETA Form", desc, desc);
+        addSetting("eta_form", Setting("eta_choice1"), "ETA Form", desc, desc);
 
         desc = "No initial matrix setup";
-        addSetting("no_init_setup", false, "No Init Setup", desc, desc);
+        addSetting("no_init_setup", Setting(false), "No Init Setup", desc, desc);
 
         desc = "No residual monitoring";
-        addSetting("no_res_monitoring", false, "No Residual Monitoring", desc, desc);
+        addSetting("no_res_monitoring", Setting(false), "No Residual Monitoring", desc, desc);
 
         desc = "Max. iterations without matrix setup";
-        addSetting("max_setup_calls", 10, "Max Setup Calls", desc, desc);
+        addSetting("max_setup_calls", Setting(10), "Max Setup Calls", desc, desc);
 
         desc = "Max. iterations without residual check";
-        addSetting("max_subsetup_calls", 5, "Max Sub Setup Calls", desc, desc);
+        addSetting("max_subsetup_calls", Setting(5), "Max Sub Setup Calls", desc, desc);
 
         desc = "Constant value of nu";
-        addSetting("eta_constant_value", 0.1, "ETA Constant Value", desc, desc);
+        addSetting("eta_constant_value", Setting(0.1), "ETA Constant Value", desc, desc);
 
         desc = "Value of gamma where 0 << gamma << 1.0. Use 0 to indidate default value of 0.9.";
-        addSetting("eta_param_gamma", 0, "ETA Gamma", desc, desc);
+        addSetting("eta_param_gamma", Setting(0), "ETA Gamma", desc, desc);
 
         desc = "Value of alpha where 1.0 < alpha < 2.0. Use 0 to indicate default value of 2.0. ";
-        addSetting("eta_param_alpha", 0, "ETA alpha", desc, desc);
+        addSetting("eta_param_alpha", Setting(0), "ETA alpha", desc, desc);
 
         desc = "Value of omega_min - lower bound residual monitoring";
-        addSetting("res_mon_min", 0.00001, "Residual Monitoring Param Minimum", desc, desc);
+        addSetting("res_mon_min", Setting(0.00001), "Residual Monitoring Param Minimum", desc, desc);
 
         desc = "Value of omega_max - upper bound residual monitoring";
-        addSetting("res_mon_max", 0.9, "Residual Monitoring Param Minimum", desc, desc);
+        addSetting("res_mon_max", Setting(0.9), "Residual Monitoring Param Minimum", desc, desc);
 
         desc = "Constant value of omega";
-        addSetting("res_mon_constant_value", 0.9, "Residual Monitoring Constant Value", desc, desc);
+        addSetting("res_mon_constant_value", Setting(0.9), "Residual Monitoring Constant Value", desc, desc);
 
         desc = "Lower bound on epsilon";
-        addSetting("no_min_eps", false, "No Minimum Epsilon", desc, desc);
+        addSetting("no_min_eps", Setting(false), "No Minimum Epsilon", desc, desc);
 
         desc = "Max. scaled length of Newton step. If 0 use default value which is 1000*||D_u*u_0||2.";
-        addSetting("max_newton_step", 0, "Max Newton Step size", desc, desc);
+        addSetting("max_newton_step", Setting(0), "Max Newton Step size", desc, desc);
 
         desc = "Max. number of beta-condition failures";
-        addSetting("max_beta_fails", 10, "Max Beta Fails", desc, desc);
+        addSetting("max_beta_fails", Setting(10), "Max Beta Fails", desc, desc);
 
         desc = "Function-norm stopping tolerance. If 0 use default of uround^1/3.";
-        addSetting("func_norm_tol", 0, "Func Norm Tol", desc, desc);
+        addSetting("func_norm_tol", Setting(0), "Func Norm Tol", desc, desc);
 
         desc = "Scaled-step stopping tolerance. If 0 use default of uround^2/3";
-        addSetting("scaled_step_tol", 0, "Scaled Step Tol", desc, desc);
+        addSetting("scaled_step_tol", Setting(0), "Scaled Step Tol", desc, desc);
 
         desc = "The function KINSetRelErrFunc speciffies the relative error in computing F(u), which "
                "is used in the difference quotient approximation to the Jacobian matrix. "
                "Set to 0 for default which equals U = unit roundoff.";
-        addSetting("rel_err_func", 0, "Relative Error Function", desc, desc);
+        addSetting("rel_err_func", Setting(0), "Relative Error Function", desc, desc);
 
     }
 

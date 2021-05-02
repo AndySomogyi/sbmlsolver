@@ -318,9 +318,9 @@ public:
                 mInstanceID(0),
                 compiler(Compiler::New())
     {
-        loadOpt.setItem("compiler", _compiler);
-        loadOpt.setItem("tempDir", _tempDir);
-        loadOpt.setItem("supportCodeDir", _supportCodeDir);
+        loadOpt.setItem("compiler",         Setting(_compiler));
+        loadOpt.setItem("tempDir",          Setting(_tempDir));
+        loadOpt.setItem("supportCodeDir",   Setting(_supportCodeDir));
 
         // have to init integrators the hard way in c++98
         //memset((void*)integrators, 0, sizeof(integrators)/sizeof(char));
@@ -726,7 +726,7 @@ Compiler* RoadRunner::getCompiler()
 
 void RoadRunner::setCompiler(const std::string& compiler)
 {
-    impl->loadOpt.setItem("compiler", compiler);
+    impl->loadOpt.setItem("compiler", Setting(compiler));
 }
 
 bool RoadRunner::isModelLoaded()
@@ -751,7 +751,7 @@ bool RoadRunner::getConservedMoietyAnalysis()
 
 void RoadRunner::setTempDir(const std::string& folder)
 {
-    impl->loadOpt.setItem("tempDir", folder);
+    impl->loadOpt.setItem("tempDir", Setting(folder));
 }
 
 std::string RoadRunner::getTempDir()
@@ -1962,7 +1962,7 @@ double RoadRunner::internalOneStep(const double currentTime, const double stepSi
     double endTime;
 
     bool temp_var = self.integrator->getValue("variable_step_size");
-    self.integrator->setValue("variable_step_size", true);
+    self.integrator->setValue("variable_step_size", Setting(true));
 
     try
     {
@@ -1971,7 +1971,7 @@ double RoadRunner::internalOneStep(const double currentTime, const double stepSi
             self.integrator->restart(currentTime);
         }
         endTime = self.integrator->integrate(currentTime, stepSize);
-        self.integrator->setValue("variable_step_size", temp_var);
+        self.integrator->setValue("variable_step_size", Setting(temp_var));
         rrLog(Logger::LOG_DEBUG) << "internalOneStep: " << endTime;
         return endTime;
     }
@@ -1979,7 +1979,7 @@ double RoadRunner::internalOneStep(const double currentTime, const double stepSi
     {
         rrLog(Logger::LOG_NOTICE) << e.what();
         endTime = self.model->getTime();
-        self.integrator->setValue("variable_step_size", temp_var);
+        self.integrator->setValue("variable_step_size", Setting(temp_var));
         return endTime;
     }
 }
@@ -6755,7 +6755,7 @@ void RoadRunner::regenerateModel(bool forceRegenerate, bool reset)
 
 		//Force setIndividualTolerance to construct a std::vector of the correct size
 		if(toleranceVector)
-			impl->integrator->setValue("absolute_tolerance", 1.0e-7);
+			impl->integrator->setValue("absolute_tolerance", Setting(1.0e-7));
 
 		impl->syncAllSolversWithModel(impl->model.get());
 

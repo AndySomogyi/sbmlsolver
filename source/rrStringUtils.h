@@ -179,37 +179,37 @@ inline void saveBinary<rr::Setting>(std::ostream& out, const rr::Setting& var)
 	switch (var.type())
 	{
 	case Setting::BOOL:
-		saveBinary(out, std::get<bool>(var));
+		saveBinary(out, var.get<bool>());
 		break;
 	case Setting::CHAR:
-		saveBinary(out, std::get<char>(var));
+		saveBinary(out, var.get<char>());
 		break;
 	case Setting::DOUBLE:
-		saveBinary(out, std::get<double>(var));
+		saveBinary(out, var.get<double>());
 		break;
 	case Setting::FLOAT:
-		saveBinary(out, std::get<float>(var));
+		saveBinary(out, var.get<float>());
 		break;
 	case Setting::INT32:
-		saveBinary(out, std::get<int32_t>(var));
+		saveBinary(out, var.get<int32_t>());
 		break;
 	case Setting::INT64:
-		saveBinary(out, std::get<long>(var));
+		saveBinary(out, var.get<long>());
 		break;
 	case Setting::STRING:
-		saveBinary(out, std::get<std::string>(var));
+		saveBinary(out, var.get<std::string>());
 		break;
 	case Setting::UCHAR:
-		saveBinary(out, std::get<unsigned char>(var));
+		saveBinary(out, var.get<unsigned char>());
 		break;
 	case Setting::UINT32:
-		saveBinary(out, std::get<unsigned int>(var));
+		saveBinary(out, var.get<unsigned int>());
 		break;
 	case Setting::UINT64:
-		saveBinary(out, std::get<unsigned long>(var));
+		saveBinary(out, var.get<unsigned long>());
 		break;
 	case Setting::DOUBLEVECTOR:
-		saveBinary(out, std::get<std::vector<double>>(var));
+		saveBinary(out, var.get<std::vector<double>>());
 	default:
 		break;
 	}
@@ -304,64 +304,70 @@ inline void loadBinary<rr::Setting>(std::istream& in, rr::Setting& var)
     std::string strVal;
 	std::vector<double> vectorVal;
 	loadBinary(in, type);
-	switch (type)
-	{
-	case Setting::BOOL:
-		bool boolVal;
-		loadBinary(in, boolVal);
-		var = boolVal;
-		break;
-	case Setting::CHAR:
-        char charVal;
-		loadBinary(in, charVal);
-		var = charVal;
-		break;
-	case Setting::DOUBLE:
-        double doubleVal;
-		loadBinary(in, doubleVal);
-		var = doubleVal;
-		break;
-	case Setting::FLOAT:
-        float floatVal;
-		loadBinary(in, floatVal);
-		var = floatVal;
-		break;
-	case Setting::INT32:
-        int int32Val;
-		loadBinary(in, int32Val);
-		var = int32Val;
-		break;
-	case Setting::INT64:
-        long int64Val;
-		loadBinary(in, int64Val);
-		var = int64Val;
-		break;
-	case Setting::STRING:
-		loadBinary(in, strVal);
-		var = strVal;
-		break;
-	case Setting::UCHAR:
-        unsigned char ucharVal;
-		loadBinary(in, ucharVal);
-		var = ucharVal;
-		break;
-	case Setting::UINT32:
-        unsigned int uint32Val;
-		loadBinary(in, uint32Val);
-		var = uint32Val;
-		break;
-	case Setting::UINT64:
-        unsigned long uint64Val;
-		loadBinary(in, uint64Val);
-		var = uint64Val;
-		break;
-	case Setting::DOUBLEVECTOR:
-		loadBinary(in, vectorVal);
-		var = vectorVal;
-		break;
-	default:
-		break;
-	}
+
+    loadBinary(in, var);
+
+//	if (auto value = var.get_if<bool>()){
+//
+//	}
+//	switch (type)
+//	{
+//	case Setting::BOOL:
+//		bool boolVal;
+//		loadBinary(in, boolVal);
+//		var = boolVal;
+//		break;
+//	case Setting::CHAR:
+//        char charVal;
+//		loadBinary(in, charVal);
+//		var = charVal;
+//		break;
+//	case Setting::DOUBLE:
+//        double doubleVal;
+//		loadBinary(in, doubleVal);
+//		var = doubleVal;
+//		break;
+//	case Setting::FLOAT:
+//        float floatVal;
+//		loadBinary(in, floatVal);
+//		var = floatVal;
+//		break;
+//	case Setting::INT32:
+//        int int32Val;
+//		loadBinary(in, int32Val);
+//		var = int32Val;
+//		break;
+//	case Setting::INT64:
+//        long int64Val;
+//		loadBinary(in, int64Val);
+//		var = int64Val;
+//		break;
+//	case Setting::STRING:
+//		loadBinary(in, strVal);
+//		var = strVal;
+//		break;
+//	case Setting::UCHAR:
+//        unsigned char ucharVal;
+//		loadBinary(in, ucharVal);
+//		var = ucharVal;
+//		break;
+//	case Setting::UINT32:
+//        unsigned int uint32Val;
+//		loadBinary(in, uint32Val);
+//		var = uint32Val;
+//		break;
+//	case Setting::UINT64:
+//        unsigned long uint64Val;
+//		loadBinary(in, uint64Val);
+//		var = uint64Val;
+//		break;
+//	case Setting::DOUBLEVECTOR:
+//		loadBinary(in, vectorVal);
+//		var = vectorVal;
+//		break;
+//	default:
+//		break;
+//	}
 }
 
 }

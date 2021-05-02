@@ -301,13 +301,13 @@ namespace rr
         */
         virtual void setItem(const std::string& key, const rr::Setting& value) {
             if (key == "exampleParameter1") {
-                exampleParameter1 = std::get<double>(value);
+                exampleParameter1 = value.get<double>();
                 return;
             }
 
             if(key == "exampleParameter2") {
 				// Ahu: Why is this cast here, and is this a static or dynamic cast?
-                exampleParameter2 = std::get<std::string>(value);
+                exampleParameter2 = value.get<std::string>();
 				return;
             }
 
@@ -323,11 +323,11 @@ namespace rr
         */
         virtual Setting getItem(const std::string& key) const {
             if (key == "exampleParameter1") {
-                return exampleParameter1;
+                return Setting(exampleParameter1);
             }
 
             if(key == "exampleParameter2") {
-                return exampleParameter2;
+                return Setting(exampleParameter2);
             }
 
             // they did not give a valid key, so throw an exception.
@@ -368,7 +368,7 @@ namespace rr
 			Solver::resetSettings();
 
 			// Set default integrator settings.
-            addSetting("subdivision_steps", 1,
+            addSetting("subdivision_steps", Setting(1),
                 "Subdivision Steps",
                 "The number of subdivisions of the Euler step size (int).",
                 "(int) For each point, up to this many extra steps will be taken as smaller steps within each step, although their values are not saved");

@@ -52,10 +52,10 @@ namespace rr {
         KinsolSteadyStateSolver::resetSettings();
 
         std::string desc = "Anderson Acceleration subspace size. Default is 0, no acceleration.";
-        addSetting("maa", 0, "Anderson Acceleration", desc, desc);
+        addSetting("maa", Setting(0), "Anderson Acceleration", desc, desc);
 
         desc = "Anderson Acceleration damping parameter";
-        addSetting("damping_aa", 1.0, "Anderson Acceleration Damping Parameter. Default 1=no damping", desc, desc);
+        addSetting("damping_aa", Setting(1.0), "Anderson Acceleration Damping Parameter. Default 1=no damping", desc, desc);
 
     }
 
