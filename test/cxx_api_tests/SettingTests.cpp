@@ -247,19 +247,23 @@ TEST_F(SettingTests, ImplicitCastStringToConstCharStar) {
     ASSERT_EQ(typeid(x), typeid(unsigned long));
 }
 
-TEST_F(SettingTests, GetIfTestWithString){
+/********************************************
+ * Getting values from Setting
+ */
+
+TEST_F(SettingTests, GetIfTestWithString) {
     Setting setting("I'm a string");
     auto string = setting.get_if<std::string>();
     ASSERT_STREQ(string->c_str(), "I'm a string");
 }
 
-TEST_F(SettingTests, GetIfTestWithInt){
+TEST_F(SettingTests, GetIfTestWithInt) {
     Setting setting(1234);
     auto val = setting.get_if<int>();
     ASSERT_EQ(*val, 1234);
 }
 
-TEST_F(SettingTests, GetIfWhenValueNotRightType){
+TEST_F(SettingTests, GetIfWhenValueNotRightType) {
     Setting setting(1234);
     auto val = setting.get_if<long>();
     ASSERT_EQ(val, nullptr);
@@ -269,7 +273,8 @@ TEST_F(SettingTests, PutSettingInAVectorAndEqualityOp) {
     Setting setting("I'm a string");
     std::vector<Setting> v({setting});
     Setting x = v[0];
-    ASSERT_EQ(x, setting);
+    bool truth = x == setting;
+    ASSERT_TRUE(truth);
 }
 
 TEST_F(SettingTests, ImplicitCastFromSettingInAVector) {
@@ -280,66 +285,70 @@ TEST_F(SettingTests, ImplicitCastFromSettingInAVector) {
 }
 
 
-TEST_F(SettingTests, EqualityOperatorWithStrings) {
+TEST_F(SettingTests, EqualityOperatorWithStringsForwards) {
     Setting setting1("I'm a setting");
     Setting setting2("I'm a setting");
-    ASSERT_EQ(setting1, setting2);
+    ASSERT_TRUE(setting1 == setting2);
 }
 
-TEST_F(SettingTests, InEqualityOperatorWithStrings) {
+TEST_F(SettingTests, EqualityOperatorWithStringsBackwards) {
+    Setting setting1("I'm a setting");
+    Setting setting2("I'm a setting");
+    ASSERT_TRUE(setting2 == setting1);
+}
+
+TEST_F(SettingTests, InEqualityOperatorWithStringsForwards) {
     Setting setting1("I'm a setting");
     Setting setting2("I'm another setting");
-    ASSERT_NE(setting1, setting2);
+    ASSERT_TRUE(setting1 != setting2);
 }
 
-/**
- * Couldnt template the equality operators
- * because doing so worked for all necessary types
- * except for the Setting itself, since it is not
- * a type of setting_t
- */
-TEST_F(SettingTests, EqualityOpWithString) {
-    Setting setting("I'm a setting");
-    std::string x = "I'm a setting";
+TEST_F(SettingTests, InEqualityOperatorWithStringsBackwards) {
+    Setting setting1("I'm a setting");
+    Setting setting2("I'm another setting");
+    ASSERT_TRUE(setting2 != setting1);
+}
+
+TEST_F(SettingTests, EqualityWithTemporaryLongFwd) {
+    Setting setting(std::int64_t(12345678912345));
+    ASSERT_TRUE(setting == 12345678912345);
+}
+
+TEST_F(SettingTests, DISABLED_EqualityWithTemporaryLongBkwd) {
+    Setting setting(std::int64_t(12345678912345));
+//    ASSERT_TRUE(12345678912345 == setting); // compile error. Limitation of strategy. Could use https://stackoverflow.com/questions/67374983/how-to-use-overload-operator-in-a-stdvariant-wrapper-class-to-make-compa/67375487#67375487
+}
+
+TEST_F(SettingTests, EqualityOperatorWithIntFwd) {
+    Setting setting(345);
+    int x = 345;
     ASSERT_TRUE(setting == x);
 }
 
-//TEST_F(SettingTests, InEqualityOpWithString) {
-//    Setting setting("I'm a setting");
-//    std::string x = "I'm not a setting";
-//    ASSERT_FALSE(setting == x);
-//}
+TEST_F(SettingTests, DISABLED_EqualityOperatorWithIntBkwd) {
+    Setting setting(345);
+    int x = 345;
+//    ASSERT_TRUE(x == setting ); // fail. Limitation with Stratgy.
+}
 
-//TEST_F(SettingTests, EqualityWithTemporaryLong) {
-//    Setting setting(std::int64_t(12345678912345));
-//    ASSERT_TRUE(setting == 12345678912345 );
-//}
-//
-//
-//TEST_F(SettingTests, EqualityOperatorWithInt) {
-//    Setting setting(345);
-//    int x = 345;
-//    ASSERT_TRUE(setting == x);
-//}
+TEST_F(SettingTests, InEqualityOperatorWithIntFwd) {
+    Setting setting(345);
+    int x = 3456;
+    ASSERT_FALSE(setting == x);
+}
 
-//TEST_F(SettingTests, InEqualityOperatorWithInt) {
-//    Setting setting(345);
-//    int x = 3456;
-//    ASSERT_FALSE(setting == x);
-//}
-
-//TEST_F(SettingTests, AssignmentOperator) {
-//    Setting setting(345);
-//    setting = std::string("string");
-//    std::string expected = "string";
-//    ASSERT_TRUE(setting == expected);
-//}
+TEST_F(SettingTests, DISABLED_InEqualityOperatorWithIntBkwd) {
+    Setting setting(345);
+    int x = 3456;
+//    ASSERT_FALSE(x == setting ); // fails. Limitation of Setting strategy. Could use https://stackoverflow.com/questions/67374983/how-to-use-overload-operator-in-a-stdvariant-wrapper-class-to-make-compa/67375487#67375487
+}
 
 TEST_F(SettingTests, CheckIsTypeWhenTrue) {
     Setting setting(345);
     bool x = setting.isType<int>();
     ASSERT_TRUE(x);
 }
+
 TEST_F(SettingTests, CheckIsTypeWhenFalse) {
     Setting setting(345);
     bool x = setting.isType<std::vector<double>>();
@@ -347,15 +356,21 @@ TEST_F(SettingTests, CheckIsTypeWhenFalse) {
 }
 
 TEST_F(SettingTests, CheckTypeIntIsValid) {
-    bool truth = Setting::isValidType<int >() ;
+    bool truth = Setting::isValidType<int>();
     ASSERT_TRUE(truth);
 }
+
 TEST_F(SettingTests, CheckTypeConstCharStarIsInvalid) {
-    bool truth = Setting::isValidType<const char* >() ;
+    bool truth = Setting::isValidType<const char *>();
     ASSERT_FALSE(truth);
 }
 
-
+TEST_F(SettingTests, AssignmentOperatorIntToString) {
+    Setting setting(345);
+    setting = std::string("string");
+    std::string expected = "string";
+    ASSERT_TRUE(setting == expected);
+}
 
 TEST_F(SettingTests, AssignmentOperatorMonostateToBool) {
     Setting setting;
@@ -363,15 +378,91 @@ TEST_F(SettingTests, AssignmentOperatorMonostateToBool) {
     ASSERT_FALSE(setting);
 }
 
-TEST_F(SettingTests, AssignmentOperatorMonostateToDouble) {
-    Setting setting;
+TEST_F(SettingTests, AssignmentOperatorUIntToDouble) {
+    Setting setting(123456u);
     setting = 0.12345;
     ASSERT_EQ(setting.get<double>(), 0.12345);
 }
-TEST_F(SettingTests, AssignmentOperatorMonoToFalse) {
+
+void functionThatTakesASetting(bool truth, Setting &setting) {
+    setting = truth;
+}
+
+TEST_F(SettingTests, PassingASettingToFunction) {
     Setting setting;
-    setting = false;
-    ASSERT_FALSE(setting);
+    functionThatTakesASetting(true, setting);
+    ASSERT_TRUE(setting == true);
+}
+
+TEST_F(SettingTests, InAMap) {
+    std::unordered_map<std::string, Setting> smap;
+    smap["A String"] = Setting("String");
+    ASSERT_STREQ(smap["A String"].get<std::string>().c_str(), "String");
+}
+
+
+TEST_F(SettingTests, InAMapAssignNewValue) {
+    std::unordered_map<std::string, Setting> smap;
+    smap["A String"] = Setting("String");
+    smap["A String"] = true;
+    if (auto isBool = smap["A String"].get_if<bool>()) { // nullptr if not a bool
+        ASSERT_TRUE(typeid(*isBool) == typeid(bool));
+        return;
+    }
+    ASSERT_TRUE(false);//if we hit here we've failed
+}
+
+TEST_F(SettingTests, InAMapImplicitInstantiation) {
+    std::unordered_map<std::string, Setting> smap;
+    smap["A String"] = std::move(10);
+}
+
+
+struct TypeThatContainsASettingsMap {
+    TypeThatContainsASettingsMap() {
+        settingsMap["string"] = Setting("string");
+        settingsMap["int"] = Setting(1);
+        settingsMap["long"] = Setting(100l);
+    };
+
+    void setValue(const std::string &key, Setting value) {
+        settingsMap[key] = std::move(value);
+    }
+
+    std::unordered_map<std::string, Setting> settingsMap{};
+};
+
+/**
+ * This test helped debug an issue whereby
+ * Setting cannot be implicitly instantiated
+ */
+TEST_F(SettingTests, TypeThatUsesSettingsMapChangeTheInt) {
+    TypeThatContainsASettingsMap t;
+    t.setValue("int", 15);
+    ASSERT_TRUE(t.settingsMap["int"] == 15);
+}
+
+TEST_F(SettingTests, TypeThatUsesSettingsMapChangeTheString) {
+    TypeThatContainsASettingsMap t;
+    t.setValue("string", "ANewString");
+    ASSERT_TRUE(t.settingsMap["string"] == std::string("ANewString"));
+}
+
+TEST_F(SettingTests, TypeThatUsesSettingsMapChangeUsingASetting) {
+    TypeThatContainsASettingsMap t;
+    t.setValue("string", Setting(std::string()));
+    ASSERT_TRUE(t.settingsMap["string"] == std::string());
+}
+
+/**
+ * Keep the test in case we figure out a way to implement this
+ */
+TEST_F(SettingTests, DISABLED_AutomaticTypeDeductionInGet) {
+    Setting setting(1234l);
+    // error this is not supported right now. Probably possible to do
+    // with the likes of decltype(auto) however
+    // long x = setting.get(); // error,
+    // ASSERT(x == 1234l);
 }
 
 

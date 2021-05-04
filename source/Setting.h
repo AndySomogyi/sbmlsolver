@@ -10,9 +10,14 @@
 #include <vector>
 #include <sstream>
 #include <limits>
+#include <type_traits>
 
 namespace rr {
 
+    /**
+     * @brief A setting type, used in the Setting class
+     * to store multiple types.
+     */
     using setting_t = std::variant<
             std::monostate, /*void, see docs for std::variant*/
             std::string, bool, std::int32_t,
@@ -21,6 +26,22 @@ namespace rr {
             char, unsigned char,
             std::vector<double>>;
 
+
+    /**
+     * @brief Generic type checking mechanism
+     * for membership of type T in variant ALL_T.
+     * @code
+     *  isValidVariantType<int, setting_t > truth;
+     *  ASSERT_TRUE(truth); // pass
+     * @endcode
+     */
+    template<typename T, typename ALL_T>
+    struct isValidVariantType;
+
+    template<typename T, typename... ALL_T>
+    struct isValidVariantType<T, std::variant<ALL_T...>>
+            : public std::disjunction<std::is_same<T, ALL_T>...> {
+    };
 
     /**
      * @brief Store a roadrunner option (or setting) as a Variant type.
@@ -88,9 +109,18 @@ namespace rr {
          */
         explicit Setting(setting_t value);
 
-//        template<class T>
-//        explicit Setting(T value)
-//                : value_(setting_t(value)) {};
+        /**
+         * @brief constructor for creating a Setting
+         * from a supperted type T.
+         * @see setting_t for supported types
+         * @details for developers: clang-tidy will want
+         * you to make this constructor explicit. However,
+         * we intentionally keep implicit to allow type casting
+         * from type T to Setting.
+         */
+        template<class T>
+        Setting(T settingValue) :
+            value_ (setting_t(settingValue)){};
 
         /**
          * @brief default constructor. Allows instantiating
@@ -99,7 +129,6 @@ namespace rr {
          * 0 in setting_t
          */
         Setting() = default;
-
 
         /**
          * @brief types that correspond to the index of the
@@ -141,9 +170,13 @@ namespace rr {
             return std::holds_alternative<T>(value_);
         }
 
+        /**
+         * @brief test for membership of type T in
+         * setting_t, aka supported types
+         */
         template<class T>
         static bool isValidType() {
-            return CheckValidVariantType<T, setting_t>();
+            return isValidVariantType<T, setting_t>();
         }
 
         /**
@@ -248,105 +281,73 @@ namespace rr {
         }
 
         /**
-         * @brief equality operatot for the simple case of
-         * comparing this Setting against another Setting
+         * @brief equality operator for comparing object
+         * otherSetting of type T against the Setting
+         * contained within this Setting.value_.
+         * Enables the following types of comparisons
+         * @code
+         *  Setting s1("string");
+         *  std::string s2 = "string";
+         *  s1 == s2; // true
+         *  // or
+         *  Setting s3(1234);
+         *  int s4 = 1234;
+         *  s3 == s4; // true
+         * @details Implemented using SFINAE - substitute failure is not an error.
+         * The seconds template argument is only true when type T is a valid variant
+         * and when this argument evaluates to false, the compiler will not generate
+         * a code for the template types. Thus, this template is only defined for
+         * types that are a part of setting_t.
          */
-        bool operator==(const Setting &rhs) const;
-//        bool operator==(Setting rhs) const;
-
-        /**
-         * @brief inequality operator for the simple case of
-         * comparing this Setting against another Setting
-         */
-        bool operator!=(const Setting &rhs) const;
-//        bool operator!=(Setting rhs) const;
-
-
-         bool operator==(const std::monostate& other){ return equals<std::monostate>(other);};
-         bool operator==(const std::string& other){ return equals<std::string>(other);};
-         bool operator==(const bool& other){ return equals<bool>(other);};
-         bool operator==(const std::int32_t& other){ return equals<std::int32_t>(other);};
-         bool operator==(const std::uint32_t& other){ return equals<std::uint32_t>(other);};
-         bool operator==(const std::int64_t& other){ return equals<std::int64_t>(other);};
-         bool operator==(const std::uint64_t & other){ return equals<std::uint64_t>(other);};
-         bool operator==(const float& other){ return equals<float>(other);};
-         bool operator==(const double& other){ return equals<double>(other);};
-         bool operator==(const char& other){ return equals<char>(other);};
-         bool operator==(const unsigned char& other){ return equals<unsigned char>(other);};
-         bool operator==(const std::vector<double>& other){ return equals<std::vector<double>>(other);};
-
-         bool operator!=(const std::monostate& other){ return not_equals<std::monostate>(other);};
-         bool operator!=(const std::string& other){ return not_equals<std::string>(other);};
-         bool operator!=(const bool& other){ return not_equals<bool>(other);};
-         bool operator!=(const std::int32_t& other){ return not_equals<std::int32_t>(other);};
-         bool operator!=(const std::uint32_t& other){ return not_equals<std::uint32_t>(other);};
-         bool operator!=(const std::int64_t& other){ return not_equals<std::int64_t>(other);};
-         bool operator!=(const std::uint64_t & other){ return not_equals<std::uint64_t>(other);};
-         bool operator!=(const float& other){ return not_equals<float>(other);};
-         bool operator!=(const double& other){ return not_equals<double>(other);};
-         bool operator!=(const char& other){ return not_equals<char>(other);};
-         bool operator!=(const unsigned char& other){ return not_equals<unsigned char>(other);};
-         bool operator!=(const std::vector<double>& other){ return not_equals<std::vector<double>>(other);};
-
-//        template<class T>
-//        bool operator==(const T &rhs) {
-//            if (auto x = get_if<T>()) {
-//                return *x == rhs;
-//            } else {
-//                return false;
-//            }
-//        }
-//
-//        template<class T>
-//        bool operator!=(const T &rhs) {
-//            return !(operator==<T>(rhs));
-//        }
-
-        /**
-         * @brief throws std::invalid_argument if
-         * type T is not supported by Setting.
-         * @see setting_t
-         */
-        template<class T>
-        void checkValidType() {
-            if (!Setting::isValidType<T>()) {
-                std::ostringstream err;
-                err << "Setting does not support ";
-                err << "type \"" << typeid(T).name() << "\"";
-                std::invalid_argument(err.str());
+        template<typename T,
+                class = typename std::enable_if<isValidVariantType<T, setting_t>::value>::type>
+        bool operator==(const T &otherSetting) {
+            if (auto settingValue = get_if<T>()) {
+                return *settingValue == otherSetting;
             }
+            return false;
+        }
+
+        /**
+         * @brief Inequality operator, counter part to equality operator
+         * @see operator==(const T&otherSetting);
+         */
+        template<typename T,
+                class = typename std::enable_if<isValidVariantType<T, setting_t>::value>::type>
+        bool operator!=(const T &setting) {
+            return !(*this == setting);
+        }
+
+        /**
+         * @brief Equality operator, enabling the comparison
+         * of this Setting with the other Setting
+         */
+        bool operator==(const Setting &setting) {
+            return (value_ == setting.value_);
+        }
+
+        /**
+         * @brief Inequality operator, enabling the comparison
+         * of this Setting with the other Setting
+         */
+        bool operator!=(const Setting &setting) {
+            return !(value_ == setting.value_);
         }
 
 
         template<class T>
         Setting &operator=(T &setting) {
             checkValidType<T>();
+            // no need to check self assignment with variant
             value_ = setting_t(setting);
-            // if value contained by Setting is currently a T
-//            if (auto t = get_if<T>()) { //
-//                // then we can do regular self assignment check
-//                if (*this != *t) {
-//                    value_ = setting_t(setting);
-//                }
-//            } else { // otherwise self assignment check isn't needed anyway
-//                value_ = setting_t(setting);
-//            }
             return *this;
         }
 
         template<class T>
         Setting &operator=(T &&setting) noexcept {
             checkValidType<T>();
+            // no need to check self assignment with variant
             value_ = std::move(setting_t(setting));
-            // if value contained by Setting is currently a T
-//            if (auto t = get_if<T>()) { //
-//                // then we can do regular self assignment check
-//                if (*this != *t) {
-//                    value_ = std::move(setting_t(setting));
-//                }
-//            } else { // otherwise self assignment check isn't needed anyway
-//                value_ = std::move(setting_t(setting));
-//            }
             return *this;
         }
 
@@ -354,7 +355,7 @@ namespace rr {
          * @brief Assignment operator for Setting
          * with another Setting
          */
-        Setting &operator=(const Setting &setting);
+        Setting &operator=(Setting &setting);
 
         /**
          * @brief Move assignment operator for Setting
@@ -378,14 +379,13 @@ namespace rr {
          * @brief getter for the std::variant_t underlying this
          * Setting.
          */
-        const setting_t &getValue() const;
+        [[nodiscard]] const setting_t &getValue() const;
 
         /**
          * @author JKM
          * @brief Convert to Python-compatible representation
          */
         [[nodiscard]] std::string pythonRepr() const;
-
 
         /**
          * @brief is this variant a std::string.
@@ -445,37 +445,19 @@ namespace rr {
 
 
         /**
-         * @brief Generic type checking mechanism
-         * for membership of type T in variant ALL_T.
-         * @details not exposed to user since we provide
-         * the isValidType method which uses this under
-         * the hood.
-         * @code
-         *  CheckValidVariantType<int, setting_t > truth;
-         *  ASSERT_TRUE(truth); // pass
-         * @endcode
+         * @brief throws std::invalid_argument if
+         * type T is not supported by Setting.
+         * @see setting_t
          */
-        template<typename T, typename ALL_T>
-        struct CheckValidVariantType;
-
-        template<typename T, typename... ALL_T>
-        struct CheckValidVariantType<T, std::variant<ALL_T...>>
-                : public std::disjunction<std::is_same<T, ALL_T>...> {
-        };
-
-        template <class T>
-        constexpr bool equals(T other){
-            if (auto x = get_if<T>()) {
-                return *x == other;
-            } else {
-                return false;
+        template<class T>
+        void checkValidType() {
+            if (!Setting::isValidType<T>()) {
+                std::ostringstream err;
+                err << "Setting does not support ";
+                err << "type \"" << typeid(T).name() << "\"";
+                throw std::invalid_argument(err.str());
             }
         }
-        template <class T>
-        constexpr bool not_equals(T other){
-            return !(equals<T>(other));
-        }
-
     };
 
 }

@@ -66,15 +66,6 @@ namespace rr {
         return value_;
     }
 
-    bool Setting::operator==(const Setting &rhs) const {
-        return value_ == rhs.value_;
-    }
-
-    bool Setting::operator!=(const Setting &rhs) const {
-        return !( value_ == rhs.value_);
-    }
-
-
     Setting Setting::parse(std::string &s) {
 
         s.erase(s.begin(), std::find_if(s.begin(), s.end(), std::bind1st(std::not_equal_to<char>(), ' ')));
@@ -117,15 +108,15 @@ namespace rr {
         return Setting(s);
     }
 
-    Setting &Setting::operator=(const Setting &setting) {
-        if (*this != setting) {
+    Setting &Setting::operator=(Setting &setting) {
+        if (this != &setting) {
             value_ = setting.getValue();
         };
         return *this;
     }
 
     Setting &Setting::operator=(Setting &&setting) noexcept {
-        if (*this != setting) {
+        if (this != &setting) {
             value_ = setting.getValue();
         };
         return *this;
