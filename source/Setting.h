@@ -261,6 +261,7 @@ namespace rr {
                                 // that of int32 maximum, we have a problem and throw
                                 if (*lValue > std::numeric_limits<int>::max()) {
                                     throw std::bad_variant_access{}; // has annoying private constructor so we can't add arguments
+                                    return T{}; // must be present
                                 }
                             }
                             // if we have a double, with value greater than std::numeric_limits<float>::max
@@ -268,6 +269,7 @@ namespace rr {
                             if (auto lValue = std::get_if<float>(&value_)) {
                                 if (*lValue > std::numeric_limits<float>::max()) {
                                     throw std::bad_variant_access{};
+                                    return T{}; // must be present
                                 }
                             }
                             // if all is good, we construct a object of type T and return it.

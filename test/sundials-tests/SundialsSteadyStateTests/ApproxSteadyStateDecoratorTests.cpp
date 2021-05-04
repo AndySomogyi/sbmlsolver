@@ -117,7 +117,7 @@ TEST_F(ApproxSteadyStateDecoratorTests, CheckApproxSteadyStateDecoratorHasAccess
     SteadyStateSolver *solver = basicNewtonIteration;
     ApproxSteadyStateDecorator decorator(solver);
     solver = &decorator;
-    ASSERT_EQ(12.67, (doube)solver->getValue("approx_time"));
+    ASSERT_EQ(12.67, (double)solver->getValue("approx_time"));
     delete basicNewtonIteration;
 }
 
