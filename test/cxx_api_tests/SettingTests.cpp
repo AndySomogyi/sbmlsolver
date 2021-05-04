@@ -365,6 +365,13 @@ TEST_F(SettingTests, CheckTypeConstCharStarIsInvalid) {
     ASSERT_FALSE(truth);
 }
 
+TEST_F(SettingTests, AssignmentOperatorSettingToSetting) {
+    Setting setting(345);
+    setting = Setting("string");
+    std::string expected = "string";
+    ASSERT_TRUE(setting == expected);
+}
+
 TEST_F(SettingTests, AssignmentOperatorIntToString) {
     Setting setting(345);
     setting = std::string("string");

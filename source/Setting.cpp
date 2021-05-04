@@ -108,7 +108,7 @@ namespace rr {
         return Setting(s);
     }
 
-    Setting &Setting::operator=(Setting &setting) {
+    Setting &Setting::operator=(const Setting &setting) {
         if (this != &setting) {
             value_ = setting.getValue();
         };

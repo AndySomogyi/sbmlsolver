@@ -120,7 +120,7 @@ namespace rr {
          */
         template<class T>
         Setting(T settingValue) :
-            value_ (setting_t(settingValue)){};
+                value_(setting_t(settingValue)) {};
 
         /**
          * @brief default constructor. Allows instantiating
@@ -299,8 +299,7 @@ namespace rr {
          * a code for the template types. Thus, this template is only defined for
          * types that are a part of setting_t.
          */
-        template<typename T,
-                class = typename std::enable_if<isValidVariantType<T, setting_t>::value>::type>
+        template<typename T, class = typename std::enable_if<isValidVariantType<T, setting_t>::value>::type>
         bool operator==(const T &otherSetting) {
             if (auto settingValue = get_if<T>()) {
                 return *settingValue == otherSetting;
@@ -335,15 +334,25 @@ namespace rr {
         }
 
 
-        template<class T>
-        Setting &operator=(T &setting) {
+        /**
+         * @brief assignment operator for objects that are not
+         * a setting. T must be a member of setting_t or this
+         * template will fail without error (SFINAE)
+         */
+        template<typename T, class = typename std::enable_if<isValidVariantType<T, setting_t>::value>::type>
+        Setting &operator=(const T &setting) {
             checkValidType<T>();
             // no need to check self assignment with variant
             value_ = setting_t(setting);
             return *this;
         }
 
-        template<class T>
+        /**
+         * @brief move assignment operator
+         * for types T that are members of setting_t.
+         * @see setting_t
+         */
+        template<typename T, class = typename std::enable_if<isValidVariantType<T, setting_t>::value>::type>
         Setting &operator=(T &&setting) noexcept {
             checkValidType<T>();
             // no need to check self assignment with variant
@@ -352,10 +361,11 @@ namespace rr {
         }
 
         /**
-         * @brief Assignment operator for Setting
-         * with another Setting
+         * @brief move assignment operator for when
+         * rhs is a Setting.
+         * @see operator=(const T&setting);
          */
-        Setting &operator=(Setting &setting);
+        Setting &operator=(const Setting &setting);
 
         /**
          * @brief Move assignment operator for Setting
