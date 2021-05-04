@@ -421,27 +421,27 @@ namespace rr {
 //            // std::monostate is an alias for void in a std::variant (which cannot have void types).
 //            // Therefore we just do nothing if var is a std::monostate
 //        } else if (auto strVal = var.get_if<std::string>()) {
-//            loadBinary(in, strVal);
+//            loadBinary(in, *strVal);
 //        } else if (auto boolVal = var.get_if<bool>()) {
-//            loadBinary(in, boolVal);
+//            loadBinary(in, *boolVal);
 //        } else if (auto int32Val = var.get_if<std::int32_t>()) {
-//            loadBinary(in, int32Val);
+//            loadBinary(in, *int32Val);
 //        } else if (auto uInt32Val = var.get_if<std::uint32_t>()) {
-//            loadBinary(in, uInt32Val);
+//            loadBinary(in, *uInt32Val);
 //        } else if (auto int64Val = var.get_if<std::int64_t>()) {
-//            loadBinary(in, int64Val);
+//            loadBinary(in, *int64Val);
 //        } else if (auto uInt64Val = var.get_if<std::uint64_t>()) {
-//            loadBinary(in, uInt64Val);
+//            loadBinary(in, *uInt64Val);
 //        } else if (auto floatVal = var.get_if<float>()) {
-//            loadBinary(in, floatVal);
+//            loadBinary(in, *floatVal);
 //        } else if (auto doubleVal = var.get_if<double>()) {
-//            loadBinary(in, doubleVal);
+//            loadBinary(in, *doubleVal);
 //        } else if (auto charVal = var.get_if<char>()) {
-//            loadBinary(in, charVal);
+//            loadBinary(in, *charVal);
 //        } else if (auto uChar = var.get_if<unsigned char>()) {
-//            loadBinary(in, uChar);
+//            loadBinary(in, *uChar);
 //        } else if (auto doubleVector = var.get_if<std::vector<double>>()) {
-//            loadBinary(in, doubleVector);
+//            loadBinary(in, *doubleVector);
 //        } else {
 //            throw std::invalid_argument("Setting is not a valid type");
 //        }
