@@ -427,8 +427,8 @@ Easy edit to the model without modifying and reloading sbml files.
    
    For example,
    
-   >>> r.addSpeciesConcentration("s1", "compartment", 0.1, "concentration", False) # it will not regenerate the model, nothing actually happened
-   >>> r.addSpeciesConcentration("s2", "compartment", 0.1, "concentration", True)  # new model is generated and saved
+   >>> r.addSpeciesConcentration("s1", "compartment", 0.1, False) # it will not regenerate the model, nothing actually happened
+   >>> r.addSpeciesConcentration("s2", "compartment", 0.1, True)  # new model is generated and saved
   
    :param str sid: the ID of the species to be added
    :param str compartment: the compartment of the species to be added
