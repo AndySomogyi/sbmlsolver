@@ -5,13 +5,19 @@
 #include "Setting.h"
 #include <algorithm>
 #include <utility>
+#include <functional>
 #include "rrStringUtils.h"
 
 namespace rr {
 
+    Setting::Setting(const char *settingValue)
+        : value_(std::string(settingValue)) {}
+
+    Setting::Setting(long settingValue)
+        : value_((long long)settingValue) {}
+
     Setting::Setting(setting_t value)
             : value_(std::move(setting_t(std::move(value)))) {};
-
 
     Setting::TypeId Setting::type() const {
         return (Setting::TypeId) value_.index();
@@ -68,9 +74,11 @@ namespace rr {
 
     Setting Setting::parse(std::string &s) {
 
-        s.erase(s.begin(), std::find_if(s.begin(), s.end(), std::bind1st(std::not_equal_to<char>(), ' ')));
-        s.erase(std::find_if(s.rbegin(), s.rend(), std::bind1st(std::not_equal_to<char>(), ' ')).base(), s.end());
+        while (!s.empty() && std::isspace(*s.begin()))
+            s.erase(s.begin());
 
+        while (!s.empty() && std::isspace(*s.rbegin()))
+            s.erase(s.length() - 1);
 
         const char *input = s.c_str();
         char *end = nullptr;

@@ -83,7 +83,7 @@ public:
         } else if (settingValue.isBool()) {
             EXPECT_TRUE((bool) settingValue == (bool) solver.getValue(settingName));
         } else if (settingValue.isString()) {
-            EXPECT_STREQ(((std::string) settingValue).c_str(), ((std::string) solver.getValue(settingName)).c_str());
+            EXPECT_STREQ(settingValue.get<std::string>().c_str(),  solver.getValue(settingName).get<std::string>().c_str());
         }
     }
 };

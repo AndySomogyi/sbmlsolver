@@ -68,7 +68,7 @@ namespace rr
         // fill stoichData
         mModel->getStoichiometryMatrix(&stoichRows, &stoichCols, &stoichData);
 
-        setEngineSeed(getValue("seed").get<unsigned long>());
+        setEngineSeed(getValue("seed").get<std::uint64_t>());
 	}
 
 	GillespieIntegrator::GillespieIntegrator(ExecutableModel* m)

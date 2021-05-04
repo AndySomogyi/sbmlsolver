@@ -24,8 +24,8 @@ public:
         modelEditingTestOutputDir = rrTestDir_ / "modelEditingTestOutputDir";
     }
 
-    ~ModelEditingTests() override{
-        if (fs::exists(modelEditingTestOutputDir)){
+    ~ModelEditingTests() override {
+        if (fs::exists(modelEditingTestOutputDir)) {
             fs::remove_all(modelEditingTestOutputDir);
         }
     }
@@ -1374,7 +1374,8 @@ TEST_F(ModelEditingTests, SET_TRIGGER_INITIAL_VALUE_3) {
 }
 
 TEST_F(ModelEditingTests, RETAIN_ABSOLUTE_TOLERANCES_1) {
-    RoadRunner *rri = new RoadRunner((rrTestDir_ / "sbml-test-suite/semantic/00001/00001-sbml-l2v4.xml").string());
+    RoadRunner *rri = new RoadRunner(
+            (rrTestDir_ / path("sbml-test-suite") / path("semantic") / path("00001") / "00001-sbml-l2v4.xml").string());
     rri->getIntegrator()->setIndividualTolerance("S1", 5.0);
     rri->getIntegrator()->setIndividualTolerance("S2", 3.0);
     rri->removeSpecies("S2");

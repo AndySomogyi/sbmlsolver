@@ -243,7 +243,7 @@ namespace rr {
     void KinsolSteadyStateSolver::updateKinsol() {
         // throw if invalid option chosen.
         std::vector<std::string> validEtaForms({"eta_choice1", "eta_choice2", "eta_constant"});
-        const std::string &etaChoice = getValueAsString("eta_form"); //
+        std::string etaChoice = getValue("eta_form").get<std::string>(); //
         if (std::find(validEtaForms.begin(), validEtaForms.end(), etaChoice) == validEtaForms.end()) {
             std::ostringstream err;
             err << "\"" << etaChoice << "\". Valid options are ";

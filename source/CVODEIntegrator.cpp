@@ -357,7 +357,10 @@ namespace rr {
 
             case Setting::DOUBLEVECTOR: {
                 // std::vector tolerance
-                v = (std::vector<double>)CVODEIntegrator::getValue("absolute_tolerance");
+                Setting absTolSetting = CVODEIntegrator::getValue("absolute_tolerance");
+                if (auto vec = absTolSetting.get_if<std::vector<double>>()){
+                    v = *vec;
+                }
                 // only need to update the corresponding index
                 v[index] = value;
                 break;
@@ -550,7 +553,7 @@ namespace rr {
                 // [0, numIndFloatingSpecies) stores tolerances for independent floating species
                 // [numIndFloatingSpecies, numIndFloatingSpecies+numRateRule) stores tolerances for variables that have rate rule
 
-                v = (std::vector<double>)CVODEIntegrator::getValue("absolute_tolerance");
+                v = CVODEIntegrator::getValue("absolute_tolerance").get<std::vector<double>>();
 
                 int index;
                 for (int i = 0; i < mModel->getNumIndFloatingSpecies(); i++) {
@@ -1049,7 +1052,7 @@ namespace rr {
             case Setting::DOUBLEVECTOR: {
                 // std::vector tolerance
                 // convert a double std::vector to a n_vector?
-                std::vector<double> v = (std::vector<double>)getValue("absolute_tolerance");
+                std::vector<double> v = getValue("absolute_tolerance").get<std::vector<double>>();
                 double *arr = new double[v.size()];
                 for (int i = 0; i < v.size(); i++)
                     arr[i] = v[i];
@@ -1091,7 +1094,7 @@ namespace rr {
                 // std::vector tolerance
             case Setting::DOUBLEVECTOR: {
                 rrLog(Logger::LOG_INFORMATION) << "Set tolerance to abs: " << std::setprecision(16) << "[";
-                std::vector<double> v = (std::vector<double>)getValue("absolute_tolerance");
+                std::vector<double> v = getValue("absolute_tolerance").get<std::vector<double>>();
                 for (int i = 0; i < v.size(); i++) {
                     if (i != 0) {
                         rrLog(Logger::LOG_INFORMATION) << ", ";

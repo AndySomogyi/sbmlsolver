@@ -3313,7 +3313,7 @@ C_DECL_SPEC bool rrcCallConv getSeed(RRHandle h, long* result) {
         RoadRunner *r = (RoadRunner*)h;
         //Integrator *intg = r->getIntegrator(Integrator::GILLESPIE);
 		//*result = intg->getItem("seed").get<long>();
-		*result = r->getIntegrator()->getValue("seed").get<long>();
+		*result = r->getIntegrator()->getValue("seed").get<std::int32_t>();
         return true;
     catch_bool_macro;
 }

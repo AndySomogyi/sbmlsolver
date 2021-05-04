@@ -253,10 +253,10 @@ namespace rr {
                 saveBinary(out, var.get<float>());
                 break;
             case Setting::INT32:
-                saveBinary(out, var.get<int32_t>());
+                saveBinary(out, var.get<std::int32_t>());
                 break;
             case Setting::INT64:
-                saveBinary(out, var.get<long>());
+                saveBinary(out, var.get<std::int64_t>());
                 break;
             case Setting::STRING:
                 saveBinary(out, var.get<std::string>());
@@ -265,10 +265,10 @@ namespace rr {
                 saveBinary(out, var.get<unsigned char>());
                 break;
             case Setting::UINT32:
-                saveBinary(out, var.get<unsigned int>());
+                saveBinary(out, var.get<std::uint32_t>());
                 break;
             case Setting::UINT64:
-                saveBinary(out, var.get<unsigned long>());
+                saveBinary(out, var.get<std::uint64_t>());
                 break;
             case Setting::DOUBLEVECTOR:
                 saveBinary(out, var.get<std::vector<double>>());
@@ -403,7 +403,7 @@ namespace rr {
 		var = uint32Val;
 		break;
 	case Setting::UINT64:
-        unsigned long uint64Val;
+        unsigned long long uint64Val;
 		loadBinary(in, uint64Val);
 		var = uint64Val;
 		break;

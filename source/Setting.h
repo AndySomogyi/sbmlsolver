@@ -124,6 +124,23 @@ namespace rr {
                 value_(setting_t(settingValue)) {};
 
         /**
+         * @brief constructor for enabling creation
+         * of a Setting from a string literal
+         * @code
+         * Setting s("a string"); //interpreted as string, not const char*
+         * @endcode
+         */
+        Setting(const char* settingValue);
+
+        /**
+         * @brief construct from a long.
+         * (std::int64_t is a long long, which
+         * matters on windows)
+         */
+        explicit Setting(long settingValue);
+
+
+        /**
          * @brief default constructor. Allows instantiating
          * of an empty setting. The empty setting will
          * have a type of std::monostate, which is index
@@ -192,16 +209,17 @@ namespace rr {
             return std::get_if<T>(&value_);
         }
 
-        /**
-         * @brief get the value of this Setting as type T
-         * if the value in this Setting is of Type T.
-         * The const version of @see T * get_if();
-         */
-        template<class T>
-        T *get_if() const {
-            checkValidType<T>();
-            return std::get_if<T>(&value_);
-        }
+// errors on windows
+//        /**
+//         * @brief get the value of this Setting as type T
+//         * if the value in this Setting is of Type T.
+//         * The const version of @see T * get_if();
+//         */
+//        template<class T>
+//        T *get_if() const {
+//            checkValidType<T>();
+//            return std::get_if<T>(&value_);
+//        }
 
         /**
          * @brief return the value held by this Setting
@@ -261,7 +279,7 @@ namespace rr {
                             }
 
                             // if we have a long,
-                            if (auto lValue = std::get_if<long>(&value_)) {
+                            if (auto lValue = std::get_if<std::int64_t>(&value_)) {
                                 // and its negative, we cannot convert to unsigned int or unsigned long
                                 if (*lValue < 0) {
                                     if (typeid(T) == typeid(unsigned int) || typeid(T) == typeid(unsigned long)) {
@@ -271,7 +289,7 @@ namespace rr {
                                 }
                                 // furthermore, if we have a long which has a value greater than
                                 // that of int32 maximum, we have a problem and throw
-                                if (*lValue > std::numeric_limits<int>::max()) {
+                                if (*lValue > ((std::int64_t)std::numeric_limits<int>::max())) {
                                     throw std::bad_variant_access{}; // has annoying private constructor so we can't add arguments
                                     return T{}; // must be present
                                 }
@@ -279,7 +297,7 @@ namespace rr {
                             // if we have a double, with value greater than std::numeric_limits<float>::max
                             // and we try to convert to float, we have an error
                             if (auto lValue = std::get_if<float>(&value_)) {
-                                if (*lValue > std::numeric_limits<float>::max()) {
+                                if (*lValue > (std::numeric_limits<float>::max())) {
                                     throw std::bad_variant_access{};
                                     return T{}; // must be present
                                 }
@@ -293,6 +311,29 @@ namespace rr {
                         }
                     }, value_);
         }
+
+        /**
+         * @brief implicit cast this Setting to a
+         * std::vector<double>. If this operator is
+         * used and the type contained by this Setting
+         * is not a double vector, an std::invalid_argument
+         * error is thrown.
+         * @details the generic operator T() method does not
+         * cover the case when we have a vector of doubles, so
+         * we must implement this manually. We could write another
+         * template for the more general case, but only support for
+         * std::vector<double> is needed.
+         */
+        operator std::vector<double>() {
+            if (auto vec = get_if<std::vector<double>>()){
+                return *vec;
+            } else {
+                throw std::invalid_argument("Setting::operator std::vector<double>: "
+                                            "could not cast Setting to double vector because the "
+                                            "type contained in this Setting is not a double vector");
+            }
+        }
+
 
         /**
          * @brief equality operator for comparing object
@@ -337,6 +378,28 @@ namespace rr {
          */
         bool operator==(const Setting &setting) {
             return (value_ == setting.value_);
+        }
+
+        /**
+         * @brief Equality operator, enabling the comparison
+         * of this Setting with string literals
+         * @details since our Setting does not store
+         * const char*, the main templated `operated==(const T&)`
+         * is not used. We therefore define this separately
+         */
+        bool operator==(const char* setting) {
+            return (*this == std::string(setting));
+        }
+
+        /**
+         * @brief Equality operator, enabling the comparison
+         * of this Setting with string literals
+         * @details since our Setting does not store
+         * const char*, the main templated `operated==(const T&)`
+         * is not used. We therefore define this separately.
+         */
+        bool operator!=(const char* setting) {
+            return !(*this == setting);
         }
 
         /**

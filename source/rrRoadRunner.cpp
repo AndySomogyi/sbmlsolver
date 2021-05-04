@@ -5236,10 +5236,10 @@ void RoadRunner::saveState(std::string filename, char opt)
 					out << impl->loadOpt.getItem(k).get<float>();
 					break;
 				case Setting::INT32:
-					out << impl->loadOpt.getItem(k).get<int32_t>();
+					out << impl->loadOpt.getItem(k).get<std::int32_t>();
 					break;
 				case Setting::INT64:
-					out << impl->loadOpt.getItem(k).get<long>();
+					out << impl->loadOpt.getItem(k).get<std::int64_t>();
 					break;
 				case Setting::STRING:
 					out << impl->loadOpt.getItem(k).get<std::string>();
@@ -5251,7 +5251,7 @@ void RoadRunner::saveState(std::string filename, char opt)
 					out << impl->loadOpt.getItem(k).get<unsigned int>();
 					break;
 				case Setting::UINT64:
-					out << impl->loadOpt.getItem(k).get<unsigned long>();
+					out << impl->loadOpt.getItem(k).get<std::uint64_t>();
 					break;
 				default:
 					break;
@@ -6732,21 +6732,20 @@ void RoadRunner::regenerateModel(bool forceRegenerate, bool reset)
 		rrLog(Logger::LOG_DEBUG) << "Regenerating model..." << std::endl;
 		std::unordered_map<std::string, double> indTolerances;
 
-		Setting::TypeId tolType = impl->integrator->getType("absolute_tolerance");
-//		std::cout << "adsfasdf: " << (int)tolType << std::endl;
-
 //		bool toleranceVector = (impl->integrator->getType("absolute_tolerance") == Setting::DOUBLEVECTOR);
-        bool toleranceVector = tolType == Setting::TypeId::DOUBLEVECTOR;
+		Setting absTol = impl->integrator->getValue("absolute_tolerance");
+		Setting::TypeId tolType = absTol.type();
 
-		if (toleranceVector)
-		{
-			for (int i = 0; i < getNumberOfFloatingSpecies(); i++)
+		// if absolute_tolerance is a double vector
+		if (auto v1 = absTol.get_if<std::vector<double>>()){
+		    for (int i = 0; i < getNumberOfFloatingSpecies(); i++)
 			{
-				indTolerances.emplace(getFloatingSpeciesIds()[i],
-                                      ((std::vector<double>)impl->integrator->getValue("absolute_tolerance"))[i]);
+				indTolerances.emplace(getFloatingSpeciesIds()[i],(*v1)[i]);
 			}
 		}
 
+
+        // regeneate the model
 		impl->model = std::unique_ptr<ExecutableModel>(
 		        ExecutableModelFactory::regenerateModel(
 		                impl->model.get(),
@@ -6754,14 +6753,14 @@ void RoadRunner::regenerateModel(bool forceRegenerate, bool reset)
 		                impl->loadOpt.modelGeneratorOpt));
 
 		//Force setIndividualTolerance to construct a std::vector of the correct size
-		if(toleranceVector)
+		// todo I don't know whether this is a bug or not. I can't work out why this is here (cw)
+		if (absTol.get_if<std::vector<double>>())
 			impl->integrator->setValue("absolute_tolerance", Setting(1.0e-7));
 
 		impl->syncAllSolversWithModel(impl->model.get());
 
-		if (toleranceVector)
-		{
-			for (auto p : indTolerances)
+		if (auto v1 = absTol.get_if<std::vector<double>>()){
+			for (const auto& p : indTolerances)
 			{
 				auto ids = getFloatingSpeciesIds();
 				if(std::find(ids.begin(), ids.end(), p.first) != ids.end())
@@ -6784,7 +6783,6 @@ void RoadRunner::regenerateModel(bool forceRegenerate, bool reset)
 			}
 		}
 	}
-
 }
 
 

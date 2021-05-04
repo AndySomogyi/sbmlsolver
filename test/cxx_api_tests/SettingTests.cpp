@@ -214,8 +214,8 @@ TEST_F(SettingTests, ImplicitCastNegativeIntToULong) {
 
 TEST_F(SettingTests, ImplicitCastLongToIntOutOfBounds) {
     // should raise error
-    long biggest_int = std::numeric_limits<int>::max();
-    long out_of_range = biggest_int * 10;
+    long long biggest_int = std::numeric_limits<int>::max();
+    long long out_of_range = biggest_int * 10;
     Setting setting(out_of_range);
     ASSERT_THROW(
             int x = setting,
@@ -265,7 +265,7 @@ TEST_F(SettingTests, GetIfTestWithInt) {
 
 TEST_F(SettingTests, GetIfWhenValueNotRightType) {
     Setting setting(1234);
-    auto val = setting.get_if<long>();
+    auto val = setting.get_if<std::int64_t>();
     ASSERT_EQ(val, nullptr);
 }
 
@@ -421,7 +421,7 @@ TEST_F(SettingTests, InAMapAssignNewValue) {
 
 TEST_F(SettingTests, InAMapImplicitInstantiation) {
     std::unordered_map<std::string, Setting> smap;
-    smap["A String"] = std::move(10);
+    smap["A String"] = 10;
 }
 
 
@@ -451,8 +451,29 @@ TEST_F(SettingTests, TypeThatUsesSettingsMapChangeTheInt) {
 
 TEST_F(SettingTests, TypeThatUsesSettingsMapChangeTheString) {
     TypeThatContainsASettingsMap t;
+    t.setValue("string", std::string("ANewString"));
+    ASSERT_TRUE(t.settingsMap["string"] == "ANewString");
+}
+
+TEST_F(SettingTests, TypeThatUsesSettingsMapChangeTheStringFromLiteral) {
+    TypeThatContainsASettingsMap t;
     t.setValue("string", "ANewString");
-    ASSERT_TRUE(t.settingsMap["string"] == std::string("ANewString"));
+    ASSERT_TRUE(t.settingsMap["string"] == "ANewString");
+}
+
+TEST_F(SettingTests, EqualityWithString) {
+    Setting setting("ANewString");
+    ASSERT_TRUE(setting == "ANewString");
+}
+
+TEST_F(SettingTests, CheckThatWhenYouCreateAStringSettingThatItIsAStringNotBool) {
+    Setting setting("ANewString");
+    if(auto strVal = setting.get_if<std::string>()){
+        std::cout << "setting is a string" << std::endl;
+        ASSERT_STREQ((*strVal).c_str(), "ANewString");
+    } else {
+        ASSERT_TRUE(false && "We've failed the test, input string is not a string");
+    }
 }
 
 TEST_F(SettingTests, TypeThatUsesSettingsMapChangeUsingASetting) {
@@ -472,6 +493,10 @@ TEST_F(SettingTests, DISABLED_AutomaticTypeDeductionInGet) {
     // ASSERT(x == 1234l);
 }
 
+TEST_F(SettingTests, CastFromSettingToDoubleVector) {
+    Setting setting(std::vector<double>({0.1, 0.2}));
+
+}
 
 
 
