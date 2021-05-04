@@ -889,6 +889,20 @@ Easy edit to the model without modifying and reloading sbml files.
    :param str eid: the ID of the event to be removed
    :param bool forceRegenerate: indicate whether the new model is regenerated after this function call
  
+ .. method:: RoadrUNNER.regenerateModel ()
+    :module RoadRunner
+
+   Call this method to jit compile any model you've constructed using the modeling editing API. This will make the model ready for simulation.  
+
+   For example:
+
+   >>>> r.addCompartment ('c1', 0.1)
+   >>>> r.addSpeciesConcentration ('s1', 'c1', 1.5, False, False)
+   >>>> r.addSpeciesConcentration ('s2', 'c1', 0.0, False, False)
+   >>>> r.addParameter('k1', 0.2)
+   >>>> r.addReaction ('r1', ['s1'], ['s2'], 's1*k1')
+   >>>> r.regenerateModel()
+   >>>> r.simulate()
 
 Simulation
 ----------
