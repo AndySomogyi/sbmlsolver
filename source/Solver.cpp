@@ -114,59 +114,10 @@ namespace rr
         return Setting(settings.find(key) != settings.end());
     }
 
-    int Solver::getValueAsInt(const std::string& key)
-    {
-        return getValue(key).get<int>();
-    }
-
-    unsigned int Solver::getValueAsUInt(const std::string& key)
-    {
-        return getValue(key).get<unsigned int>();
-    }
-
-    long Solver::getValueAsLong(const std::string& key)
-    {
-        return getValue(key).get<long>();
-    }
-
-    unsigned long Solver::getValueAsULong(const std::string& key)
-    {
-        return getValue(key).get<unsigned long>();
-    }
-
-    float Solver::getValueAsFloat(const std::string& key)
-    {
-        return getValue(key).get<float>();
-    }
-
-    double Solver::getValueAsDouble(const std::string& key)
-    {
-        return getValue(key).get<double>();
-    }
-
-	std::vector<double> Solver::getValueAsDoubleVector(const std::string& key)
-	{
-		return getValue(key).get< std::vector<double> >();
-	}
-
-    char Solver::getValueAsChar(const std::string& key)
-    {
-        return getValue(key).get<char>();
-    }
-
-    unsigned char Solver::getValueAsUChar(const std::string& key)
-    {
-        return getValue(key).get<unsigned char>();
-    }
 
     std::string Solver::getValueAsString(const std::string& key)
     {
         return getValue(key).get<std::string>();
-    }
-
-    bool Solver::getValueAsBool(const std::string& key)
-    {
-        return getValue(key).get<bool>();
     }
 
     void Solver::setValue(const std::string& key, Setting value)

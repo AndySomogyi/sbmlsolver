@@ -304,7 +304,7 @@ namespace rr
 
 			bool skip = false;
 
-			if (getValueAsBool("nonnegative")) {
+			if ((bool)getValue("nonnegative")) {
 				// skip reactions which cause species amts to become negative
 				for (int i = floatingSpeciesStart; i < stateVectorSize; ++i) {
 					if (stateVector[i]

@@ -117,7 +117,7 @@ namespace rr
         * @return the end time.
         */
         virtual double integrate(double t0, double h) {
-			int internal_steps = getValueAsInt("subdivision_steps");
+			int internal_steps = getValue("subdivision_steps");
 			if (mModel == (rr::ExecutableModel*)NULL) return 0;
 
             double finalTimeEnd;

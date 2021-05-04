@@ -139,68 +139,7 @@ namespace rr
         * @author WBC, JKM
         * @brief Wrapper for @ref getValue which converts output to a specific type
         */
-        virtual int getValueAsInt(const std::string& key);
-
-        /**
-        * @author WBC, JKM
-        * @brief Wrapper for @ref getValue which converts output to a specific type
-        */
-        virtual unsigned int getValueAsUInt(const std::string& key);
-
-        /**
-        * @author WBC, JKM
-        * @brief Wrapper for @ref getValue which converts output to a specific type
-        */
-        virtual long getValueAsLong(const std::string& key);
-
-        /**
-        * @author WBC, JKM
-        * @brief Wrapper for @ref getValue which converts output to a specific type
-        */
-        virtual unsigned long getValueAsULong(const std::string& key);
-
-        /**
-        * @author WBC, JKM
-        * @brief Wrapper for @ref getValue which converts output to a specific type
-        */
-        virtual float getValueAsFloat(const std::string& key);
-
-        /**
-        * @author WBC, JKM
-        * @brief Wrapper for @ref getValue which converts output to a specific type
-        */
-        virtual double getValueAsDouble(const std::string& key);
-
-
-		/**
-		* @brief Wrapper for @ref getValue which converts output to a specific type
-		*/
-		virtual std::vector<double> getValueAsDoubleVector(const std::string& key);
-
-
-        /**
-        * @author WBC, JKM
-        * @brief Wrapper for @ref getValue which converts output to a specific type
-        */
-        virtual char getValueAsChar(const std::string& key);
-
-        /**
-        * @author WBC, JKM
-        * @brief Wrapper for @ref getValue which converts output to a specific type
-        */
-        virtual unsigned char getValueAsUChar(const std::string& key);
-
-        /**
-        * @author WBC, JKM
-        * @brief Wrapper for @ref getValue which converts output to a specific type
-        */
         virtual std::string getValueAsString(const std::string& key);
-
-        /**
-        * @author WBC, JKM
-        * @brief Wrapper for @ref getValue which converts output to a specific type
-        */
-        virtual bool getValueAsBool(const std::string& key);
 
         virtual void setValue(const std::string& key, Setting value);
 

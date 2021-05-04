@@ -349,7 +349,7 @@ namespace rr {
                 // scalar tolerance
                 // need to be converted to std::vector tolerance since tolerance of individual variables is set
 
-                double abstol = CVODEIntegrator::getValueAsDouble("absolute_tolerance");
+                double abstol =(double) CVODEIntegrator::getValue("absolute_tolerance");
                 for (int i = 0; i < mModel->getNumFloatingSpecies(); i++)
                     v.push_back(i == index ? value : abstol);
                 break;
@@ -357,7 +357,7 @@ namespace rr {
 
             case Setting::DOUBLEVECTOR: {
                 // std::vector tolerance
-                v = CVODEIntegrator::getValueAsDoubleVector("absolute_tolerance");
+                v = (std::vector<double>)CVODEIntegrator::getValue("absolute_tolerance");
                 // only need to update the corresponding index
                 v[index] = value;
                 break;
@@ -508,7 +508,7 @@ namespace rr {
             case Setting::FLOAT:
             case Setting::DOUBLE: {
                 // scalar tolerance
-                double abstol = CVODEIntegrator::getValueAsDouble("absolute_tolerance");
+                double abstol = CVODEIntegrator::getValue("absolute_tolerance");
                 int index;
                 for (int i = 0; i < mModel->getNumIndFloatingSpecies(); i++) {
                     // get the compartment volume of each species
@@ -550,7 +550,7 @@ namespace rr {
                 // [0, numIndFloatingSpecies) stores tolerances for independent floating species
                 // [numIndFloatingSpecies, numIndFloatingSpecies+numRateRule) stores tolerances for variables that have rate rule
 
-                v = CVODEIntegrator::getValueAsDoubleVector("absolute_tolerance");
+                v = (std::vector<double>)CVODEIntegrator::getValue("absolute_tolerance");
 
                 int index;
                 for (int i = 0; i < mModel->getNumIndFloatingSpecies(); i++) {
@@ -604,20 +604,20 @@ namespace rr {
         /// CVODE's internal memory with the settings std::map.
         if (mCVODE_Memory) {
             if (key == "maximum_bdf_order") {
-                CVodeSetMaxOrd(mCVODE_Memory, getValueAsInt("maximum_bdf_order"));
+                CVodeSetMaxOrd(mCVODE_Memory, (int)getValue("maximum_bdf_order"));
             } else if (key == "maximum_adams_order") {
-                CVodeSetMaxOrd(mCVODE_Memory, getValueAsInt("maximum_adams_order"));
+                CVodeSetMaxOrd(mCVODE_Memory, (int)getValue("maximum_adams_order"));
             } else if (key == "initial_time_step") {
-                CVodeSetInitStep(mCVODE_Memory, getValueAsDouble("initial_time_step"));
+                CVodeSetInitStep(mCVODE_Memory, (double)getValue("initial_time_step"));
             } else if (key == "minimum_time_step") {
-                CVodeSetMinStep(mCVODE_Memory, getValueAsDouble("minimum_time_step"));
+                CVodeSetMinStep(mCVODE_Memory, (double)getValue("minimum_time_step"));
             } else if (key == "maximum_time_step") {
-                CVodeSetMaxStep(mCVODE_Memory, getValueAsDouble("maximum_time_step"));
+                CVodeSetMaxStep(mCVODE_Memory, (double)getValue("maximum_time_step"));
             } else if (key == "maximum_num_steps") {
-                CVodeSetMaxNumSteps(mCVODE_Memory, getValueAsInt("maximum_num_steps"));
+                CVodeSetMaxNumSteps(mCVODE_Memory, (int)getValue("maximum_num_steps"));
             }
             else if (key == "absolute_tolerance" || key == "relative_tolerance") {
-                CVodeSetMaxNumSteps(mCVODE_Memory, getValueAsInt("maximum_num_steps"));
+                CVodeSetMaxNumSteps(mCVODE_Memory, (int)getValue("maximum_num_steps"));
                 setCVODETolerances();
 
             }
@@ -635,15 +635,15 @@ namespace rr {
             return;
         }
 
-        CVodeSetInitStep(mCVODE_Memory, getValueAsDouble("initial_time_step"));
-        CVodeSetMinStep(mCVODE_Memory, getValueAsDouble("minimum_time_step"));
-        CVodeSetMaxStep(mCVODE_Memory, getValueAsDouble("maximum_time_step"));
-        CVodeSetMaxNumSteps(mCVODE_Memory, getValueAsInt("maximum_num_steps") > 0 ? getValueAsInt("maximum_num_steps")
+        CVodeSetInitStep(mCVODE_Memory, (double)getValue("initial_time_step"));
+        CVodeSetMinStep(mCVODE_Memory, (double)getValue("minimum_time_step"));
+        CVodeSetMaxStep(mCVODE_Memory, (double)getValue("maximum_time_step"));
+        CVodeSetMaxNumSteps(mCVODE_Memory, (int)getValue("maximum_num_steps") > 0 ? (int)getValue("maximum_num_steps")
                                                                                   : mDefaultMaxNumSteps);
-        if (getValueAsBool("stiff"))
-            CVodeSetMaxOrd(mCVODE_Memory, getValueAsInt("maximum_bdf_order"));
+        if ((bool)getValue("stiff"))
+            CVodeSetMaxOrd(mCVODE_Memory, (int)getValue("maximum_bdf_order"));
         else
-            CVodeSetMaxOrd(mCVODE_Memory, getValueAsInt("maximum_adams_order"));
+            CVodeSetMaxOrd(mCVODE_Memory, (int)getValue("maximum_adams_order"));
         setCVODETolerances();
     }
 
@@ -681,10 +681,10 @@ namespace rr {
 
         // Set itask based on step size settings.
         int itask = CV_NORMAL;
-        bool varstep = getValueAsBool("variable_step_size");
-        double relTol = getValueAsDouble("relative_tolerance");
+        bool varstep = (bool)getValue("variable_step_size");
+        double relTol = (double)getValue("relative_tolerance");
 
-        if (getValueAsBool("multiple_steps") || getValueAsBool("variable_step_size")) {
+        if ((bool)getValue("multiple_steps") || (bool)getValue("variable_step_size")) {
             itask = CV_ONE_STEP;
         }
 
@@ -820,13 +820,13 @@ namespace rr {
             case Setting::DOUBLE:
                 // scalar tolerance
                 CVODEIntegrator::setValue("absolute_tolerance",
-                                          Setting(std::min(CVODEIntegrator::getValueAsDouble("absolute_tolerance"), minAbs)));
+                                          Setting(std::min((double)CVODEIntegrator::getValue("absolute_tolerance"), minAbs)));
                 break;
 
 
             case Setting::DOUBLEVECTOR: {
                 // std::vector tolerance
-                std::vector<double> v = CVODEIntegrator::getValueAsDoubleVector("absolute_tolerance");
+                std::vector<double> v = CVODEIntegrator::getValue("absolute_tolerance");
                 for (int i = 0; i < v.size(); i++)
                     v[i] = std::min(v[i], minAbs);
                 CVODEIntegrator::setValue("absolute_tolerance", Setting(v));
@@ -839,11 +839,11 @@ namespace rr {
         }
 
         CVODEIntegrator::setValue("relative_tolerance",
-                                  Setting(std::min(CVODEIntegrator::getValueAsDouble("relative_tolerance"), minRel)));
+                                  Setting(std::min((double)CVODEIntegrator::getValue("relative_tolerance"), minRel)));
 
         rrLog(Logger::LOG_INFORMATION) << "tweaking CVODE tolerances to abs="
-                                     << CVODEIntegrator::getValueAsDouble("absolute_tolerance") << ", rel="
-                                     << CVODEIntegrator::getValueAsDouble("relative_tolerance");
+                                     << (double)CVODEIntegrator::getValue("absolute_tolerance") << ", rel="
+                                     << (double)CVODEIntegrator::getValue("relative_tolerance");
     }
 
 
@@ -888,7 +888,7 @@ namespace rr {
             SetVector(mStateVector, i, 0.);
         }
 
-        if (getValueAsBool("stiff")) {
+        if ((bool)getValue("stiff")) {
             rrLog(Logger::LOG_INFORMATION) << "using stiff integrator";
             mCVODE_Memory = (void *) CVodeCreate(CV_BDF);
         } else {
@@ -930,7 +930,7 @@ namespace rr {
          */
 
         /* create fixed point nonlinear solver object */
-        if (getValueAsBool("stiff")) {
+        if ((bool)getValue("stiff")) {
             // as per the cvode docs (look closely at docs for CVodeCreate)
             // we use the default Newton iteration for stiff
 
@@ -1041,22 +1041,22 @@ namespace rr {
             case Setting::FLOAT:
             case Setting::DOUBLE:
                 // scalar tolerance
-                err = CVodeSStolerances(mCVODE_Memory, getValueAsDouble("relative_tolerance"),
-                                        getValueAsDouble("absolute_tolerance"));
+                err = CVodeSStolerances(mCVODE_Memory, (double)getValue("relative_tolerance"),
+                                        (double)getValue("absolute_tolerance"));
                 break;
 
 
             case Setting::DOUBLEVECTOR: {
                 // std::vector tolerance
                 // convert a double std::vector to a n_vector?
-                std::vector<double> v = getValueAsDoubleVector("absolute_tolerance");
+                std::vector<double> v = (std::vector<double>)getValue("absolute_tolerance");
                 double *arr = new double[v.size()];
                 for (int i = 0; i < v.size(); i++)
                     arr[i] = v[i];
                 N_Vector nv = N_VMake_Serial(static_cast<long>(v.size()), arr);
 
 
-                err = CVodeSVtolerances(mCVODE_Memory, getValueAsDouble("relative_tolerance"), nv);
+                err = CVodeSVtolerances(mCVODE_Memory, (double)getValue("relative_tolerance"), nv);
                 // need to destroy
 
                 N_VDestroy_Serial(nv);
@@ -1084,21 +1084,21 @@ namespace rr {
             case Setting::FLOAT:
             case Setting::DOUBLE:
                 rrLog(Logger::LOG_INFORMATION) << "Set tolerance to abs: " << std::setprecision(16)
-                                             << getValueAsDouble("absolute_tolerance") << ", rel: "
-                                             << getValueAsDouble("relative_tolerance") << std::endl;
+                                             << (double)getValue("absolute_tolerance") << ", rel: "
+                                             << (double)getValue("relative_tolerance") << std::endl;
                 break;
 
                 // std::vector tolerance
             case Setting::DOUBLEVECTOR: {
                 rrLog(Logger::LOG_INFORMATION) << "Set tolerance to abs: " << std::setprecision(16) << "[";
-                std::vector<double> v = getValueAsDoubleVector("absolute_tolerance");
+                std::vector<double> v = (std::vector<double>)getValue("absolute_tolerance");
                 for (int i = 0; i < v.size(); i++) {
                     if (i != 0) {
                         rrLog(Logger::LOG_INFORMATION) << ", ";
                     }
                     rrLog(Logger::LOG_INFORMATION) << v[i];
                 }
-                rrLog(Logger::LOG_INFORMATION) << "], rel: " << getValueAsDouble("relative_tolerance") << std::endl;
+                rrLog(Logger::LOG_INFORMATION) << "], rel: " << (double)getValue("relative_tolerance") << std::endl;
 
                 break;
             }
@@ -1240,7 +1240,7 @@ namespace rr {
     std::string CVODEIntegrator::cvodeDecodeError(int cvodeError, bool exInfo) {
         std::string result;
         std::stringstream ss;
-        ss << getValueAsInt("maximum_num_steps");
+        ss << (int)getValue("maximum_num_steps");
         std::string max_steps = ss.str();
 
         switch (cvodeError) {

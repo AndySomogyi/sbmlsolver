@@ -122,13 +122,12 @@ TEST_F(PresimulationDecoratorTests, CheckPresimulationDecoratorHasAccessToSolver
     BasicNewtonIteration *basicNewtonIteration = new BasicNewtonIteration(rr.getModel());
 
     basicNewtonIteration->setValue("presimulation_time", 14.37);
-    ASSERT_EQ(14.37, basicNewtonIteration->getValueAsDouble("presimulation_time"));
+    ASSERT_EQ(14.37, (double)basicNewtonIteration->getValue("presimulation_time"));
 
     SteadyStateSolver *solver = basicNewtonIteration;
     PresimulationDecorator decorator(solver);
     solver = &decorator;
-    solver->getValueAsDouble("presimulation_time");
-    ASSERT_EQ(14.37, solver->getValueAsDouble("presimulation_time"));
+    ASSERT_EQ(14.37, (double)solver->getValue("presimulation_time"));
     delete basicNewtonIteration;
 }
 

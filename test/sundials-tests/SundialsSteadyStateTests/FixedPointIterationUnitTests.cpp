@@ -33,7 +33,7 @@ TEST_F(FixedPointIterationUnitTests, ChangeAndResetSettings) {
     FixedPointIteration solver(rr->getModel());
     solver.setValue("strategy", Setting("linesearch"));
     solver.resetSettings();
-    ASSERT_STREQ("basic", solver.getValueAsString("strategy").c_str());
+    ASSERT_STREQ("basic", (std::string)solver.getValue("strategy").c_str());
 }
 
 

@@ -39,7 +39,7 @@ namespace rr {
                 }
             }
         }
-
+        return 0.0;// control should never reach here
     }
 
     std::string PresimulationProgramDecorator::decoratorName() const {

@@ -84,11 +84,11 @@ TEST_P(SettingsTests, TestSettings) {
 
     // make comparison between setting value and value we get from solver
     if (settingValue.isInteger()) {
-        EXPECT_EQ((int) settingValue, solver.getValueAsInt(settingName));
+        EXPECT_EQ((int) settingValue, solver.getValue(settingName));
     } else if (settingValue.isNumeric()) {
         EXPECT_NEAR((double) settingValue, solver.getValueAsDouble(settingName), 0.001);
     } else if (settingValue.isBool()) {
-        EXPECT_TRUE((bool) settingValue == solver.getValueAsBool(settingName));
+        EXPECT_TRUE((bool) settingValue == solver.(bool)getValue(settingName));
     } else if (settingValue.isString()) {
         EXPECT_STREQ(((std::string) settingValue).c_str(), solver.getValueAsString(settingName).c_str());
     }

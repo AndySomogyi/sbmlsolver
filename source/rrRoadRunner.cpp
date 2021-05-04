@@ -1273,7 +1273,7 @@ double RoadRunner::steadyState(Dictionary* dict) {
     const std::string& solverName = impl->steady_state_solver->getName();
 
     // automatic detection of requirement for conserved moiety analysis
-    if (getSteadyStateSolver()->getValueAsBool("auto_moiety_analysis")) {
+    if (getSteadyStateSolver()->getValue("auto_moiety_analysis")) {
         rrLog(Logger::LOG_DEBUG) << "Checking whether moiety conservation analysis is needed" << std::endl;
         if (!impl->loadOpt.getConservedMoietyConversion()) {
             /*
@@ -1317,13 +1317,13 @@ double RoadRunner::steadyState(Dictionary* dict) {
 //    SteadyStateSolver* copyOfSSSolverPtr;
 
     // apply presimulation decorator if requested by user
-    if (impl->steady_state_solver->getValueAsBool("allow_presimulation")){
+    if (impl->steady_state_solver->getValue("allow_presimulation")){
         presimDec = new PresimulationProgramDecorator(impl->steady_state_solver);
         impl->steady_state_solver = presimDec;
     }
 
     // apply approximation decorator if requested by user
-    if (impl->steady_state_solver->getValueAsBool("allow_approx")){
+    if (impl->steady_state_solver->getValue("allow_approx")){
         approxDec = new ApproxSteadyStateDecorator(impl->steady_state_solver);
         impl->steady_state_solver = approxDec;
     }
@@ -1649,14 +1649,14 @@ const DoubleMatrix* RoadRunner::simulate(const Dictionary* dict)
     // evalute the model with its current state
     self.model->getStateVectorRate(timeStart, 0, 0);
     // Variable Time Step Integration
-    if (self.integrator->hasValue("variable_step_size") && self.integrator->getValueAsBool("variable_step_size"))
+    if (self.integrator->hasValue("variable_step_size") && self.integrator->getValue("variable_step_size"))
     {
         rrLog(Logger::LOG_INFORMATION) << "Performing variable step integration";
 
         int max_output_rows = Config::getInt(Config::MAX_OUTPUT_ROWS);
         if (self.integrator->hasValue("max_output_rows"))
         {
-            max_output_rows = self.integrator->getValueAsInt("max_output_rows");
+            max_output_rows = (int)self.integrator->getValue("max_output_rows");
         }
 
         if (self.simulateOpt.duration <= 0 && self.simulateOpt.steps <= 0)
@@ -6743,7 +6743,7 @@ void RoadRunner::regenerateModel(bool forceRegenerate, bool reset)
 			for (int i = 0; i < getNumberOfFloatingSpecies(); i++)
 			{
 				indTolerances.emplace(getFloatingSpeciesIds()[i],
-					impl->integrator->getValueAsDoubleVector("absolute_tolerance")[i]);
+                                      ((std::vector<double>)impl->integrator->getValue("absolute_tolerance"))[i]);
 			}
 		}
 

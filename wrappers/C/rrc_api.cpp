@@ -2277,7 +2277,7 @@ int rrcCallConv getCurrentIntegratorParameterInt (RRHandle handle, char *paramet
 		RoadRunner* rri = castToRoadRunner(handle);
 		stringstream key;
 		key << parameterName;
-		return rri->getIntegrator()->getValueAsInt(key.str());
+		return (int)rri->getIntegrator()->getValue(key.str());
     catch_int_macro
 }
 
@@ -2298,7 +2298,7 @@ unsigned int rrcCallConv getCurrentIntegratorParameterUInt (RRHandle handle, cha
         RoadRunner* rri = castToRoadRunner(handle);
         stringstream key;
         key << parameterName;
-        return rri->getIntegrator()->getValueAsInt(key.str());
+        return (int)rri->getIntegrator()->getValue(key.str());
     catch_int_macro
 }
 
@@ -2319,7 +2319,7 @@ double rrcCallConv getCurrentIntegratorParameterDouble (RRHandle handle, char *p
 		RoadRunner* rri = castToRoadRunner(handle);
 		stringstream key;
 		key << parameterName;
-		return rri->getIntegrator()->getValueAsDouble(key.str());
+		return (double)rri->getIntegrator()->getValue(key.str());
 	catch_int_macro
 }
 
@@ -2365,7 +2365,7 @@ int rrcCallConv getCurrentIntegratorParameterBoolean (RRHandle handle, char *par
 		RoadRunner* rri = castToRoadRunner(handle);
 		stringstream key;
 		key << parameterName;
-		return rri->getIntegrator()->getValueAsBool(key.str());
+		return (bool)rri->getIntegrator()->getValue(key.str());
 	catch_int_macro
 }
 
@@ -2389,7 +2389,7 @@ int rrcCallConv getCurrentIntegratorParameterDoubleArray(RRHandle handle, char* 
 		RoadRunner* rri = castToRoadRunner(handle);
 		stringstream key;
 		key << parameterName;
-		vector<double> v = rri->getIntegrator()->getValueAsDoubleVector(key.str());
+		vector<double> v = rri->getIntegrator()->getValue(key.str());
 
 		// TODO: potential memory leak?
 		double* ptr = (double*)malloc(v.size() * sizeof(double));
@@ -2689,7 +2689,7 @@ int rrcCallConv getCurrentSteadyStateSolverParameterInt (RRHandle handle, char *
         RoadRunner* rri = castToRoadRunner(handle);
         stringstream key;
         key << parameterName;
-        return rri->getSteadyStateSolver()->getValueAsInt(key.str());
+        return (int)rri->getSteadyStateSolver()->getValue(key.str());
     catch_int_macro
 }
 
@@ -2710,7 +2710,7 @@ unsigned int rrcCallConv getCurrentSteadyStateSolverParameterUInt (RRHandle hand
         RoadRunner* rri = castToRoadRunner(handle);
         stringstream key;
         key << parameterName;
-        return rri->getSteadyStateSolver()->getValueAsInt(key.str());
+        return (int)rri->getSteadyStateSolver()->getValue(key.str());
     catch_int_macro
 }
 
@@ -2731,7 +2731,7 @@ double rrcCallConv getCurrentSteadyStateSolverParameterDouble (RRHandle handle, 
         RoadRunner* rri = castToRoadRunner(handle);
         stringstream key;
         key << parameterName;
-        return rri->getSteadyStateSolver()->getValueAsDouble(key.str());
+        return (double)rri->getSteadyStateSolver()->getValue(key.str());
     catch_int_macro
 }
 
@@ -2777,7 +2777,7 @@ int rrcCallConv getCurrentSteadyStateSolverParameterBoolean (RRHandle handle, ch
         RoadRunner* rri = castToRoadRunner(handle);
         stringstream key;
         key << parameterName;
-        return rri->getSteadyStateSolver()->getValueAsBool(key.str());
+        return (bool)rri->getSteadyStateSolver()->getValue(key.str());
     catch_int_macro
 }
 

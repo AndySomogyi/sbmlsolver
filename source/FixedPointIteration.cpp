@@ -44,8 +44,8 @@ namespace rr {
 
     void FixedPointIteration::updateKinsol() {
         KinsolSteadyStateSolver::updateKinsol();
-        KINSetDampingAA(mKinsol_Memory, getValueAsDouble("damping_aa"));
-        KINSetMAA(mKinsol_Memory, getValueAsLong("maa"));
+        KINSetDampingAA(mKinsol_Memory, (double)getValue("damping_aa"));
+        KINSetMAA(mKinsol_Memory, (long)getValue("maa"));
     }
 
     void FixedPointIteration::resetSettings() {

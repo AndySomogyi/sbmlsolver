@@ -59,8 +59,8 @@ namespace rr
             err = new double[stateVectorSize];
             y = new double[stateVectorSize];
             ytmp = new double[stateVectorSize];
-            hmin = getValueAsDouble("minimum_time_step");
-            hmax = getValueAsDouble("maximum_time_step");
+            hmin = (double)getValue("minimum_time_step");
+            hmax = (double)getValue("maximum_time_step");
         } else {
             stateVectorSize = 0;
             hmin = hmax = 0;
@@ -83,7 +83,7 @@ namespace rr
 
     double RK45Integrator::integrate(double t, double tDiff)
     {
-        double h = getValueAsDouble("maximum_time_step");
+        double h = (double)getValue("maximum_time_step");
 
         if (!mModel) {
             throw std::runtime_error("RK45Integrator::integrate: No model");
@@ -177,10 +177,10 @@ namespace rr
           alpha = 2./55;
           daxpy_(&n, &alpha, k6, &inc, err, &inc);
           error = dnrm2_(&n, err, &inc);
-          q = 0.84*pow(getValueAsDouble("epsilon")/error, 0.25);
+          q = 0.84*pow((double)getValue("epsilon")/error, 0.25);
 
           rrLog(Logger::LOG_DEBUG) <<
-	    "RK45 step: t = " << t << ", error = " << error << ", epsilon = " << getValueAsDouble("epsilon") << ", h = " << h;
+	    "RK45 step: t = " << t << ", error = " << error << ", epsilon = " << (double)getValue("epsilon") << ", h = " << h;
           if (q <= 0.1) {
             h = 0.1*h;
           } else if (q >= 4) {
@@ -203,7 +203,7 @@ namespace rr
               //throw std::runtime_error("RK45Integrator::integrate: Stepsize became smaller than specified minimum.");
           }
 
-        } while ( error > getValueAsDouble("epsilon"));
+        } while ( error > (double)getValue("epsilon"));
 
         rrLog(Logger::LOG_DEBUG) << "RK45: Update state std::vector";
 

@@ -67,7 +67,7 @@ namespace rr {
         // -2  -> <0
         N_VConst(2, constraints);
 
-        if (!getValueAsBool("allow_negative")) {
+        if (!(bool)getValue("allow_negative")) {
             KINSetConstraints(mKinsol_Memory, constraints);
         }
 
@@ -259,22 +259,22 @@ namespace rr {
         } else if (etaChoice == "eta_constant") {
             KINSetEtaForm(mKinsol_Memory, KIN_ETACONSTANT);
         }
-        KINSetNumMaxIters(mKinsol_Memory, getValueAsInt("num_max_iters"));
-        KINSetPrintLevel(mKinsol_Memory, getValueAsInt("print_level"));
-        KINSetNoInitSetup(mKinsol_Memory, getValueAsBool("no_init_setup"));
-        KINSetNoResMon(mKinsol_Memory, getValueAsBool("no_res_monitoring"));
-        KINSetMaxSetupCalls(mKinsol_Memory, getValueAsInt("max_setup_calls"));
-        KINSetMaxSubSetupCalls(mKinsol_Memory, getValueAsInt("max_subsetup_calls"));
-        KINSetEtaConstValue(mKinsol_Memory, getValueAsDouble("eta_constant_value"));
-        KINSetEtaParams(mKinsol_Memory, getValueAsDouble("eta_param_gamma"), getValueAsDouble("eta_param_alpha"));
-        KINSetResMonParams(mKinsol_Memory, getValueAsDouble("res_mon_min"), getValueAsDouble("res_mon_max"));
-        KINSetResMonConstValue(mKinsol_Memory, getValueAsBool("res_mon_constant_value"));
-        KINSetNoMinEps(mKinsol_Memory, getValueAsBool("no_min_eps"));
-        KINSetMaxNewtonStep(mKinsol_Memory, getValueAsInt("max_newton_step"));
-        KINSetMaxBetaFails(mKinsol_Memory, getValueAsInt("max_beta_fails"));
-        KINSetFuncNormTol(mKinsol_Memory, getValueAsDouble("func_norm_tol"));
-        KINSetScaledStepTol(mKinsol_Memory, getValueAsDouble("scaled_step_tol"));
-        KINSetRelErrFunc(mKinsol_Memory, getValueAsDouble("rel_err_func"));
+        KINSetNumMaxIters(mKinsol_Memory, (int)getValue("num_max_iters"));
+        KINSetPrintLevel(mKinsol_Memory, (int)getValue("print_level"));
+        KINSetNoInitSetup(mKinsol_Memory, (bool)getValue("no_init_setup"));
+        KINSetNoResMon(mKinsol_Memory, (bool)getValue("no_res_monitoring"));
+        KINSetMaxSetupCalls(mKinsol_Memory, (int)getValue("max_setup_calls"));
+        KINSetMaxSubSetupCalls(mKinsol_Memory, (int)getValue("max_subsetup_calls"));
+        KINSetEtaConstValue(mKinsol_Memory, (double)getValue("eta_constant_value"));
+        KINSetEtaParams(mKinsol_Memory, (double)getValue("eta_param_gamma"), (double)getValue("eta_param_alpha"));
+        KINSetResMonParams(mKinsol_Memory, (double)getValue("res_mon_min"), (double)getValue("res_mon_max"));
+        KINSetResMonConstValue(mKinsol_Memory, (bool)getValue("res_mon_constant_value"));
+        KINSetNoMinEps(mKinsol_Memory, (bool)getValue("no_min_eps"));
+        KINSetMaxNewtonStep(mKinsol_Memory, (int)getValue("max_newton_step"));
+        KINSetMaxBetaFails(mKinsol_Memory, (int)getValue("max_beta_fails"));
+        KINSetFuncNormTol(mKinsol_Memory, (double)getValue("func_norm_tol"));
+        KINSetScaledStepTol(mKinsol_Memory, (double)getValue("scaled_step_tol"));
+        KINSetRelErrFunc(mKinsol_Memory, (double)getValue("rel_err_func"));
     }
 
     std::unordered_map<std::string, Setting> KinsolSteadyStateSolver::getSolverStats() {

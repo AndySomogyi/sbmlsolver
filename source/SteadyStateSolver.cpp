@@ -128,7 +128,7 @@ namespace rr {
                    "Vector of successive time points to try presimulation prior to solving for steady state (std::vector<double>).",
                    "(double) Similar to presimulation_time, but tries multiple time points before failing");
 
-        addSetting("presimulation_maximum_steps", Setting(getValueAsDouble("presimulation_time") * 100),
+        addSetting("presimulation_maximum_steps", Setting((double)getValue("presimulation_time") * 100),
                    "Presimulation Maximum Steps",
                    "Maximum number of steps that can be taken for presimulation before steady state analysis (int).",
                    "(int) Takes priority over presimulation_time. Only used when allow_presimulation is True");

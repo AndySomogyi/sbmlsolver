@@ -20,9 +20,9 @@ namespace rr {
         try {
             return solver_->solve();
         } catch (std::runtime_error &e) {
-            const double &end = getValueAsDouble("approx_time");
-            const int &steps = getValueAsInt("approx_maximum_steps");
-            const double &thresh = getValueAsDouble("approx_tolerance");
+            const double &end = (double)getValue("approx_time");
+            const int &steps = (int)getValue("approx_maximum_steps");
+            const double &thresh = (double)getValue("approx_tolerance");
 
             //  step_size * num_steps = duration
             const double stepSize = end / steps;
