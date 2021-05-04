@@ -411,7 +411,7 @@ Model Editing
 
 Easy edit to the model without modifying and reloading sbml files.
 
-.. method:: RoadRunner.addSpecies(sid, compartment, initValue, substanceUnits, forceRegenerate)
+.. method:: RoadRunner.addSpeciesConcentration(sid, compartment, initValue, substanceUnits, forceRegenerate)
    :module: RoadRunner
    
    Add a species to the current model. Note that the species to be added must have an ID
@@ -423,13 +423,12 @@ Easy edit to the model without modifying and reloading sbml files.
    forceRegenerate is a boolean value that indicates whether the new model will be regenerated. Its 
    default value is true, which means to regenerate model every time after this function is called. 
    Note that regenerating model is time-consuming. To save time for editing model for multiple times, 
-   one could set this flag to false excepting for the last call, so that Roadrunner will only regenerate 
-   the model once after all editings are completed.
+   one could set this flag to false excepting for the last call, so that Roadrunner will only regenerate the model once after all editings are completed.
    
    For example,
    
-   >>> r.addSpecies("s1", "compartment", 0.1, "concentration", False) # it will not regenerate the model, nothing actually happened
-   >>> r.addSpecies("s2", "compartment", 0.1, "concentration", True)  # new model is generated and saved
+   >>> r.addSpeciesConcentration("s1", "compartment", 0.1, "concentration", False) # it will not regenerate the model, nothing actually happened
+   >>> r.addSpeciesConcentration("s2", "compartment", 0.1, "concentration", True)  # new model is generated and saved
   
    :param str sid: the ID of the species to be added
    :param str compartment: the compartment of the species to be added
