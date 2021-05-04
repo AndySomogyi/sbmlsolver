@@ -467,11 +467,15 @@ TEST_F(SettingTests, TypeThatUsesSettingsMapChangeUsingASetting) {
 TEST_F(SettingTests, DISABLED_AutomaticTypeDeductionInGet) {
     Setting setting(1234l);
     // error this is not supported right now. Probably possible to do
-    // with the likes of decltype(auto) however
+    // with the likes of decltype(auto).
     // long x = setting.get(); // error,
     // ASSERT(x == 1234l);
 }
 
+TEST_F(SettingTests, PutSettingInAPair){
+    std::pair<std::string, Setting> pair("String", Setting("containing a string"));
+
+}
 
 
 
