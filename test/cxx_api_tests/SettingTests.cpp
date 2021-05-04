@@ -472,10 +472,6 @@ TEST_F(SettingTests, DISABLED_AutomaticTypeDeductionInGet) {
     // ASSERT(x == 1234l);
 }
 
-TEST_F(SettingTests, PutSettingInAPair){
-    std::pair<std::string, Setting> pair("String", Setting("containing a string"));
-
-}
 
 
 

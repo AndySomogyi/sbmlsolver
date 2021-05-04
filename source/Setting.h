@@ -43,6 +43,7 @@ namespace rr {
             : public std::disjunction<std::is_same<T, ALL_T>...> {
     };
 
+
     /**
      * @brief Store a roadrunner option (or setting) as a Variant type.
      * @details Uses a std::variant to hold one of the following types
@@ -187,6 +188,17 @@ namespace rr {
          */
         template<class T>
         T *get_if() {
+            checkValidType<T>();
+            return std::get_if<T>(&value_);
+        }
+
+        /**
+         * @brief get the value of this Setting as type T
+         * if the value in this Setting is of Type T.
+         * The const version of @see T * get_if();
+         */
+        template<class T>
+        T *get_if() const {
             checkValidType<T>();
             return std::get_if<T>(&value_);
         }

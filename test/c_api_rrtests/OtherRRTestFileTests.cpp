@@ -87,7 +87,7 @@ TEST_F(RRTestFilesOtherTests, OUTPUT_FILE_VARIABLE_TIMESTEP) {
     std::cout << TestModelFileName << std::endl;
     std::cout << outputFileName << std::endl;
 
-    RoadRunner rr(TestModelFileName.string(), NULL);
+    RoadRunner rr(TestModelFileName.string(), nullptr);
     rr.setIntegrator("gillespie");
     rr.getIntegrator()->setValue("seed", 123);
 

@@ -220,7 +220,7 @@ bool StateSavingTests::RunStateSavingTest(int caseNumber, void(*modification)(Ro
 		simulation.UseEngine(rr);
 
 		//Read SBML models.....
-		string modelFilePath( (rrTestDir_ / "sbml-test-suite/semantic/").string());
+		string modelFilePath( (rrTestDir_ / path("sbml-test-suite") / path("semantic")).string());
 		string modelFileName;
 
 		simulation.SetCaseNumber(caseNumber);

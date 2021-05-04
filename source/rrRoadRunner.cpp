@@ -5315,7 +5315,7 @@ void RoadRunner::saveSelectionVector(std::ostream& out, std::vector<SelectionRec
 void RoadRunner::loadState(std::string filename)
 {
 	std::ifstream in(filename, std::iostream::binary);
-if (!in.good())
+    if (!in.good())
 	{
 		throw std::invalid_argument("Error opening file " + filename + ": " + std::string(strerror(errno)));
 	}
@@ -5356,25 +5356,25 @@ if (!in.good())
 		rr::loadBinary(in, v);
 		impl->loadOpt.setItem(k, v);
 	}
-loadSelectionVector(in, impl->mSteadyStateSelection);
-std::vector<std::string> colNames;
-rr::loadBinary(in, colNames);
-impl->simulationResult.setColNames(colNames.begin(), colNames.end());
-std::vector<std::string> rowNames;
-rr::loadBinary(in, rowNames);
-impl->simulationResult.setRowNames(rowNames.begin(), rowNames.end());
-rr::loadBinary(in, impl->simulateOpt.reset_model);
-rr::loadBinary(in, impl->simulateOpt.structured_result);
-rr::loadBinary(in, impl->simulateOpt.copy_result);
-rr::loadBinary(in, impl->simulateOpt.steps);
-rr::loadBinary(in, impl->simulateOpt.start);
-rr::loadBinary(in, impl->simulateOpt.duration);
-rr::loadBinary(in, impl->simulateOpt.variables);
-rr::loadBinary(in, impl->simulateOpt.amounts);
-rr::loadBinary(in, impl->simulateOpt.concentrations);
+    loadSelectionVector(in, impl->mSteadyStateSelection);
+    std::vector<std::string> colNames;
+    rr::loadBinary(in, colNames);
+    impl->simulationResult.setColNames(colNames.begin(), colNames.end());
+    std::vector<std::string> rowNames;
+    rr::loadBinary(in, rowNames);
+    impl->simulationResult.setRowNames(rowNames.begin(), rowNames.end());
+    rr::loadBinary(in, impl->simulateOpt.reset_model);
+    rr::loadBinary(in, impl->simulateOpt.structured_result);
+    rr::loadBinary(in, impl->simulateOpt.copy_result);
+    rr::loadBinary(in, impl->simulateOpt.steps);
+    rr::loadBinary(in, impl->simulateOpt.start);
+    rr::loadBinary(in, impl->simulateOpt.duration);
+    rr::loadBinary(in, impl->simulateOpt.variables);
+    rr::loadBinary(in, impl->simulateOpt.amounts);
+    rr::loadBinary(in, impl->simulateOpt.concentrations);
 
 	size_t simulateOptSize;
-rr::loadBinary(in, simulateOptSize);
+    rr::loadBinary(in, simulateOptSize);
 	for (int i = 0; i < simulateOptSize; i++)
 	{
 		std::string k;
@@ -5383,20 +5383,20 @@ rr::loadBinary(in, simulateOptSize);
 		rr::loadBinary(in, v);
 		impl->simulateOpt.setItem(k, v);
 	}
-rr::loadBinary(in, impl->roadRunnerOptions.flags);
+    rr::loadBinary(in, impl->roadRunnerOptions.flags);
 	rr::loadBinary(in, impl->roadRunnerOptions.jacobianStepSize);
 
-rr::loadBinary(in, impl->configurationXML);
+    rr::loadBinary(in, impl->configurationXML);
 	//Create a new model from the stream
 	//impl->model = new rrllvm::LLVMExecutableModel(in, impl->loadOpt.modelGeneratorOpt);
 	impl->model = std::unique_ptr<ExecutableModel>(ExecutableModelFactory::createModel(in, impl->loadOpt.modelGeneratorOpt));
 	impl->syncAllSolversWithModel(impl->model.get());
-if (impl->mLS)
+    if (impl->mLS)
 		delete impl->mLS;
 	std::string integratorName;
 	rr::loadBinary(in, integratorName);
 	setIntegrator(integratorName);
-unsigned long integratorNumParams;
+    unsigned long integratorNumParams;
 	rr::loadBinary(in, integratorNumParams);
 
 	for (int i = 0; i < integratorNumParams; i++)
@@ -5413,7 +5413,7 @@ unsigned long integratorNumParams;
 	rr::loadBinary(in, steadyStateSolverName);
 	setSteadyStateSolver(steadyStateSolverName);
 
-unsigned long solverNumParams;
+    unsigned long solverNumParams;
 	rr::loadBinary(in, solverNumParams);
 
 	for (int i = 0; i < solverNumParams; i++)
@@ -5425,15 +5425,15 @@ unsigned long solverNumParams;
 		impl->steady_state_solver->setValue(k, v);
 	}
 
-//Currently the SBML is saved with the binary data, see saveState above
+    //Currently the SBML is saved with the binary data, see saveState above
 	std::string savedSBML;
-rr::loadBinary(in, savedSBML);
+    rr::loadBinary(in, savedSBML);
 	libsbml::SBMLReader reader;
 	impl->document = std::unique_ptr<libsbml::SBMLDocument>(reader.readSBMLFromString(savedSBML));
 
-//Restart the integrator and reset the model time
+    //Restart the integrator and reset the model time
 	impl->integrator->restart(impl->model->getTime());
-reset(SelectionRecord::TIME);
+    reset(SelectionRecord::TIME);
 }
 
 void RoadRunner::loadSelectionVector(std::istream& in, std::vector<SelectionRecord>& v)
