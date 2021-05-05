@@ -151,6 +151,7 @@ class RoadRunnerTests(unittest.TestCase):
 
     def test___str__(self):
         s = str(self.rr)
+        print(s)
         self.assertIn("roadrunner", s)
 
     @unittest.skip("Method not implemented yet (but should be)")

@@ -4,7 +4,11 @@
 add_test_executable(SettingTests test_targets SettingTests.cpp)
 
 if (BUILD_PYTHON)
-    add_swig_executable(SettingTestsSwigAPI SettingTestsSwigAPI.i SettingTestsSwigAPI
+    set(dot_i_files "rr_setting.i" "SettingTestsSwigAPI.i")
+    add_swig_executable(SettingTestsSwigAPI
+            SettingTestsSwigAPI.i
+#            ${dot_i_files}
+            SettingTestsSwigAPI
             "../../wrappers/Python/roadrunner/PyUtils"
             )
 endif ()

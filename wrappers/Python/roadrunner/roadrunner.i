@@ -281,7 +281,7 @@
         $result  = array;
     }
 }
-
+//%include "rr_setting.i"
 %typemap(out) const rr::Setting& {
     try {
         const rr::Setting& temp = *($1);
@@ -300,7 +300,7 @@
     }
 }
 
-%apply const rr::Setting {rr::Setting, rr::Setting, const rr::Setting};
+%apply const rr::Setting {rr::Setting, rr::Setting&, const rr::Setting&};
 
 
 %typemap(in) const rr::Setting& (rr::Setting temp) {

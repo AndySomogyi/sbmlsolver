@@ -519,6 +519,12 @@ namespace rr {
          */
         static Setting parse(std::string &val);
 
+        /**
+         * @brief gets a string representation
+         * of the type stored in this Setting.
+         */
+        std::string toString();
+
     private:
 
         setting_t value_;

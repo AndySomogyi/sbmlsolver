@@ -80,6 +80,8 @@ public:
 
     void setDoubleVectorType(rr::Setting doubleVectorType);
 
+
+
 private:
     rr::Setting stringType = "I'm a string";
     rr::Setting boolType = true;

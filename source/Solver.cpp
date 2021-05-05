@@ -166,8 +166,9 @@ namespace rr
     std::string Solver::getSettingsRepr() const
     {
         std::stringstream ss;
-        for(size_t n=0; n<getNumParams(); ++n)
-            ss << "    " << std::setw(20) << getParamName(n) << ": " << getValue(getParamName(n)).get<std::string>() << "\n";
+        for(size_t n=0; n<getNumParams(); ++n){
+            ss << "    " << std::setw(20) << getParamName(n) << ": " << getValue(getParamName(n)).toString() << "\n";
+            }
         return ss.str();
     }
 

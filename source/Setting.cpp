@@ -158,5 +158,41 @@ namespace rr {
             return !(value_ == setting.value_);
         }
 
+    std::string Setting::toString() {
+        std::ostringstream os;
+        os << std::boolalpha;
+        if (auto v = get_if<std::monostate>()){
+            os << "None";
+        } else if (auto v = get_if<std::vector<double>>()){
+            os << "[";
+            for (int i=0; i<v->size(); i++){
+                if (i == v->size()-1){
+                    os << (*v)[i] << "]";
+                } else {
+                    os << (*v)[i] << ", ";
+                }
+            }
+        } else if (auto v = get_if<std::string>()){
+            os << *v;
+        }else if (auto v = get_if<bool>()){
+            os << *v;
+        }else if (auto v = get_if<std::int32_t>()){
+            os << *v;
+        }else if (auto v = get_if<std::uint32_t>()){
+            os << *v;
+        }else if (auto v = get_if<std::int64_t>()){
+            os << *v;
+        }else if (auto v = get_if<std::int64_t>()){
+            os << *v;
+        }else if (auto v = get_if<float>()){
+            os << *v;
+        }else if (auto v = get_if<bool>()){
+            os << *v;
+        }else if (auto v = get_if<double>()){
+            os << *v;
+        }
+        return os.str();
+    }
+
 
 }
