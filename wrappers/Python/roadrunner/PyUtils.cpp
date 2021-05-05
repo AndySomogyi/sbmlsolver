@@ -163,7 +163,7 @@ PyObject* Variant_to_py(const Setting& var)
 
     const std::type_info &type = var.typeInfo();
 
-    if (var.isEmpty()) {
+    if (type == typeid(std::monostate)) {
         Py_RETURN_NONE;
     }
 
@@ -183,11 +183,11 @@ PyObject* Variant_to_py(const Setting& var)
         return PyLong_FromLong(var.get<std::int64_t>());
     }
 
-    if (type == typeid(int)) {
+    if (type == typeid(std::int32_t)) {
 # if PY_MAJOR_VERSION == 3
-        return PyLong_FromLong(var.get<std::int64_t>());
+        return PyLong_FromLong(var.get<std::int32_t>());
 # else
-        return PyInt_FromLong(var.get<std::int64_t>());
+        return PyInt_FromLong(var.get<std::int32_t>());
 # endif
     }
 
@@ -202,13 +202,17 @@ PyObject* Variant_to_py(const Setting& var)
 
     if (type == typeid(unsigned char)) {
 # if PY_MAJOR_VERSION == 3
-        return PyLong_FromLong(var.get<std::int64_t>()); // is this a bug ?
+        return PyLong_FromLong((long)var.get<std::int64_t>());
 # else
         return PyInt_FromLong(var.get<std::int64_t>());
 # endif
     }
 
-    if (type == typeid(float) || type == typeid(double)) {
+    if (type == typeid(float)){
+        return PyFloat_FromDouble(var.get<float>());
+    }
+
+    if (type == typeid(double)){
         return PyFloat_FromDouble(var.get<double>());
     }
 
@@ -237,6 +241,7 @@ PyObject* Variant_to_py(Setting* var){
 
 Setting Variant_from_py(PyObject* py)
 {
+    std::cout << "Variant_from_py1 being called" << std::endl;
 	Setting var;
 
 	if (py == Py_None)
@@ -290,9 +295,9 @@ Setting Variant_from_py(PyObject* py)
 # endif
 	{
 # if PY_MAJOR_VERSION == 3
-		var = PyLong_AsLong(py);
+		var = std::int64_t(PyLong_AsLong(py));
 # else
-		var = (int)PyInt_AsLong(py);
+		var = (std::int32_t)PyInt_AsLong(py);
 # endif
 		return var;
 	}
@@ -305,7 +310,7 @@ Setting Variant_from_py(PyObject* py)
 
 	else if (PyList_Check(py))
 	{
-		vector<double> data;
+		std::vector<double> data;
 		for (Py_ssize_t i = 0; i < PyList_Size(py); i++) {
 			PyObject* value = PyList_GetItem(py, i);
 			data.push_back(PyFloat_AsDouble(value));
@@ -313,7 +318,9 @@ Setting Variant_from_py(PyObject* py)
 		return data;
 	}
 
-    string msg = "could not convert Python type to built in type";
+
+
+    std::string msg = "could not convert Python type to built in type";
     throw invalid_argument(msg);
 }
 

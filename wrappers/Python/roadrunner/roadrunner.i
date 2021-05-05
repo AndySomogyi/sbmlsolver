@@ -69,6 +69,7 @@
     #include "BasicNewtonIteration.h"
     #include "LinesearchNewtonIteration.h"
 
+
     // make a python obj out of the C++ ExecutableModel, this is used by the PyEventListener
     // class. This function is defined later in this compilation unit.
     PyObject *ExecutableModel_NewPythonObj(rr::ExecutableModel*);
@@ -281,9 +282,9 @@
     }
 }
 
-%typemap(out) const rr::Variant& {
+%typemap(out) const rr::Setting& {
     try {
-        const rr::Variant& temp = *($1);
+        const rr::Setting& temp = *($1);
         $result = Variant_to_py(temp);
     } catch (const std::exception& e) {
         SWIG_exception(SWIG_RuntimeError, e.what());
@@ -291,7 +292,7 @@
 }
 
 
-%typemap(out) const rr::Variant {
+%typemap(out) const rr::Setting {
     try {
         $result = Variant_to_py($1);
     } catch (const std::exception& e) {
@@ -299,20 +300,20 @@
     }
 }
 
-%apply const rr::Variant {Variant, rr::Variant, const Variant};
+%apply const rr::Setting {rr::Setting, rr::Setting, const rr::Setting};
 
 
-%typemap(in) const rr::Variant& (rr::Variant temp) {
+%typemap(in) const rr::Setting& (rr::Setting temp) {
 
     try {
         temp = Variant_from_py($input);
-        $1 = &temp;
+        *$1 = temp;
     } catch (const std::exception& e) {
         SWIG_exception(SWIG_RuntimeError, e.what());
     }
 }
 
-%apply const rr::Variant& {rr::Variant&, Variant&, const Variant&};
+%apply const rr::Setting& {rr::Setting&, rr::Setting&};
 
 
 /**
@@ -323,7 +324,7 @@
  * the full version below. The full version is needed for swig to recognize the type
  * and use this typemap
  */
-%typemap(out) std::unordered_map< std::string,rr::Variant,std::hash< std::string >,std::equal_to< std::string >,std::allocator< std::pair< std::string const,rr::Variant > > >* {
+%typemap(out) std::unordered_map< std::string,rr::Setting,std::hash< std::string >,std::equal_to< std::string >,std::allocator< std::pair< std::string const,rr::Setting > > >* {
     $result = PyDict_New();
     if (!result){
         std::cerr << "Could not create Python Dict" << std::endl;
@@ -339,12 +340,12 @@
 
 
 
-%apply std::unordered_map< std::string,rr::Variant,std::hash< std::string >,std::equal_to< std::string >,std::allocator< std::pair< std::string const,rr::Variant > > >* {
-    std::unordered_map< std::string,rr::Variant,std::hash< std::string >,std::equal_to< std::string >,std::allocator< std::pair< std::string const,rr::Variant > > >,
-    std::unordered_map< std::string,rr::Variant,std::hash< std::string >,std::equal_to< std::string >,std::allocator< std::pair< std::string const,rr::Variant > > >&,
-    std::unordered_map< std::string,Variant,std::hash< std::string >,std::equal_to< std::string >,std::allocator< std::pair< std::string const,Variant > > >&,
-    const std::unordered_map< std::string,rr::Variant,std::hash< std::string >,std::equal_to< std::string >,std::allocator< std::pair< std::string const,rr::Variant > > >&,
-    const std::unordered_map< std::string,Variant,std::hash< std::string >,std::equal_to< std::string >,std::allocator< std::pair< std::string const,Variant > > >&
+%apply std::unordered_map< std::string,rr::Setting,std::hash< std::string >,std::equal_to< std::string >,std::allocator< std::pair< std::string const,rr::Setting > > >* {
+    std::unordered_map< std::string,rr::Setting,std::hash< std::string >,std::equal_to< std::string >,std::allocator< std::pair< std::string const,rr::Setting > > >,
+    std::unordered_map< std::string,rr::Setting,std::hash< std::string >,std::equal_to< std::string >,std::allocator< std::pair< std::string const,rr::Setting > > >&,
+    std::unordered_map< std::string,rr::Setting,std::hash< std::string >,std::equal_to< std::string >,std::allocator< std::pair< std::string const,rr::Setting > > >&,
+    const std::unordered_map< std::string,rr::Setting,std::hash< std::string >,std::equal_to< std::string >,std::allocator< std::pair< std::string const,rr::Setting > > >&,
+    const std::unordered_map< std::string,rr::Setting,std::hash< std::string >,std::equal_to< std::string >,std::allocator< std::pair< std::string const,rr::Setting > > >&
 };
 
 

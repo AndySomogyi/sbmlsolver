@@ -1,27 +1,17 @@
-"""Unit test style tests for roadrunner Python API
-
-The integration tests are adequately handled by tester.py,
-though it's a shame unittest is not used. These tests are
-not about simulation accuracy, but rather checking that each
-little part of the API works in isolation.
-
-"""
+"""Unit test style tests for roadrunner Python API"""
 
 import os
-import sys
 import unittest
+
+import sys
 
 thisDir = os.path.dirname(os.path.realpath(__file__))
 rr_site_packages = os.path.dirname(os.path.dirname(thisDir))
 
-
-
 sys.path += [
-    rr_site_packages
-    # r"D:\roadrunner\roadrunner\install-msvc2019-rel-swig3.0.0\site-packages",
-    # r"D:\roadrunner\roadrunner\install-msvc2019-rel-swig-4.0.2\site-packages",
+    r"D:\roadrunner\roadrunner\cmake-build-release-visual-studio---with-python\lib\site-packages",
+    rr_site_packages,
 ]
-import roadrunner
 
 try:
     from roadrunner.roadrunner import (
@@ -218,7 +208,8 @@ class RoadRunnerTests(unittest.TestCase):
         )
 
     @unittest.skip
-    def test_removeSpecies(self):self.assertEqual(
+    def test_removeSpecies(self):
+        self.assertEqual(
             self.rr.removeSpecies(),
         )
 
@@ -400,7 +391,8 @@ class RoadRunnerTests(unittest.TestCase):
     def test_getIndependentRatesOfChange(self):
         self.assertEqual(1, self.rr.getIndependentRatesOfChange())
 
-    def test_getIndependentRatesOfChangeNamedArray(self):self.assertEqual(
+    def test_getIndependentRatesOfChangeNamedArray(self):
+        self.assertEqual(
             self.rr.getIndependentRatesOfChangeNamedArray(),
             [[1]]
         )
@@ -442,7 +434,7 @@ class RoadRunnerTests(unittest.TestCase):
         )
 
     def test_getLinkMatrix(self):
-        
+
         expected = [[1]]
         self.checkMatricesEqual(
             expected,
@@ -456,7 +448,7 @@ class RoadRunnerTests(unittest.TestCase):
         )
 
     def test_getNrMatrix(self):
-        
+
         expected = [[1, -1]]
         self.checkMatricesEqual(
             expected,
@@ -498,7 +490,7 @@ class RoadRunnerTests(unittest.TestCase):
         )
 
     def test_getReducedStoichiometryMatrix(self):
-        
+
         expected = [[1, -1]]
         self.checkMatricesEqual(
             expected,
@@ -524,7 +516,7 @@ class RoadRunnerTests(unittest.TestCase):
         )
 
     def test_getScaledConcentrationControlCoefficientMatrix(self):
-        
+
         expected = [[1, -1]]
         self.checkMatricesEqual(
             expected,
@@ -544,7 +536,7 @@ class RoadRunnerTests(unittest.TestCase):
         )
 
     def test_getScaledFluxControlCoefficientMatrix(self):
-        
+
         expected = [[1, 0],
                     [1, -2.88658e-15]]
         self.checkMatricesEqual(
@@ -594,10 +586,9 @@ class RoadRunnerTests(unittest.TestCase):
     @unittest.skip("This method should be not be visible in Python")
     def test_getSupportedIdTypes(self):
         """returns a bit field of the ids that this class supports."""
-        
 
     def test_getUnscaledConcentrationControlCoefficientMatrix(self):
-        
+
         expected = [[5, -5]]
         self.checkMatricesEqual(
             expected,
@@ -605,7 +596,7 @@ class RoadRunnerTests(unittest.TestCase):
         )
 
     def test_getUnscaledElasticityMatrix(self):
-        
+
         expected = [[0],
                     [0.2]]
         self.checkMatricesEqual(
@@ -614,7 +605,7 @@ class RoadRunnerTests(unittest.TestCase):
         )
 
     def test_getUnscaledFluxControlCoefficientMatrix(self):
-        
+
         expected = [[1, 0],
                     [1, -2.88658e-15]]
         self.checkMatricesEqual(
@@ -676,7 +667,7 @@ class RoadRunnerTests(unittest.TestCase):
         )
 
     def test_items(self):
-        
+
         expected = [('S2', 0.0), ('S1', 10.0), ('S3', 0.0),
                     ('[S2]', 0.0), ('[S1]', 10.0), ('[S3]', 0.0),
                     ('default_compartment', 1.0), ('k1', 0.1),
@@ -690,21 +681,21 @@ class RoadRunnerTests(unittest.TestCase):
         )
 
     def test_iteritems(self):
-        
+
         working_iterator = False
         for i in self.rr.iteritems():
             working_iterator = True
         self.assertTrue(working_iterator)
 
     def test_iterkeys(self):
-        
+
         working_iterator = False
         for i in self.rr.iterkeys():
             working_iterator = True
         self.assertTrue(working_iterator)
 
     def test_itervalues(self):
-        
+
         working_iterator = False
         for i in self.rr.itervalues():
             working_iterator = True
@@ -717,7 +708,7 @@ class RoadRunnerTests(unittest.TestCase):
         )
 
     def test_keys(self):
-        
+
         expected = ['S2', 'S1', 'S3', '[S2]', '[S1]', '[S3]', 'default_compartment', 'k1', 'k2', '_J0', '_J1',
                     'init([S2])', 'init(S2)', "S2'", 'eigen(S2)', 'eigenReal(S2)', 'eigenImag(S2)']
         self.assertEqual(
@@ -782,7 +773,6 @@ class RoadRunnerTests(unittest.TestCase):
     @unittest.skip("no events in model - add one ")
     def test_removeEvent(self):
         pass
-        
 
     @unittest.skip("no events in model - add one ")
     def test_removeEventAssignments(self):
@@ -982,3 +972,12 @@ class RoadRunnerTests(unittest.TestCase):
     @unittest.skip("unclear how to test. Should this method be private?")
     def test_validateCurrentSBML(self):
         self.assertTrue(self.rr.validateCurrentSBML())
+
+
+class CVODEIntegratorTests(RoadRunnerTests):
+
+    def setUp(self) -> None:
+        self.integrator = self.rr.getIntegrator()
+
+    def test_(self):
+        print(self.integrator)

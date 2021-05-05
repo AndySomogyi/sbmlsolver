@@ -5,18 +5,8 @@ if (BUILD_PYTHON AND BUILD_TESTS)
     message(STATUS "Building TestModelFactory")
     add_swig_executable(TestModelFactory TestModelFactory.i
             TestModelFactory
-            "../../wrappers/Python/roadrunner/PyUtils")
-
-#    set(RR_PYTHON_TESTING_DIR "${CMAKE_BINARY_DIR}/lib/site-packages/roadrunner/testing")
-#    # copy Python files to build tree post build
-#    add_custom_command(
-#            TARGET TestModelFactory POST_BUILD
-#            COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:TestModelFactory> "${RR_PYTHON_TESTING_DIR}"
-#    )
-#    add_custom_command(
-#            TARGET TestModelFactory POST_BUILD
-#            COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_BINARY_DIR}/TestModelFactory.py" "${RR_PYTHON_TESTING_DIR}"
-#    )
+            "../../wrappers/Python/roadrunner/PyUtils"
+            )
 
     configure_file(testTestModelFactory.py "${RR_PYTHON_TESTING_DIR}" COPYONLY)
 

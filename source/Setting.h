@@ -12,37 +12,9 @@
 #include <limits>
 #include <type_traits>
 #include <functional>
+#include "setting_t.h"
 
 namespace rr {
-
-    /**
-     * @brief A setting type, used in the Setting class
-     * to store multiple types.
-     */
-    using setting_t = std::variant<
-            std::monostate, /*void, see docs for std::variant*/
-            std::string, bool, std::int32_t,
-            std::uint32_t, std::int64_t, std::uint64_t,
-            float, double,
-            char, unsigned char,
-            std::vector<double>>;
-
-
-    /**
-     * @brief Generic type checking mechanism
-     * for membership of type T in variant ALL_T.
-     * @code
-     *  isValidVariantType<int, setting_t > truth;
-     *  ASSERT_TRUE(truth); // pass
-     * @endcode
-     */
-    template<typename T, typename ALL_T>
-    struct isValidVariantType;
-
-    template<typename T, typename... ALL_T>
-    struct isValidVariantType<T, std::variant<ALL_T...>>
-            : public std::disjunction<std::is_same<T, ALL_T>...> {
-    };
 
 
     /**
@@ -177,7 +149,7 @@ namespace rr {
          * is resolved by looking at the TypeId enum (or indeed
          * the ordering of the type parameters to setting_t.
          */
-        [[nodiscard]] TypeId type() const;
+        TypeId type() const;
 
         /**
          * @brief determines whether the current value of
