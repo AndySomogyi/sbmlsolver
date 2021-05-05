@@ -11,6 +11,7 @@
 #include <sstream>
 #include <limits>
 #include <type_traits>
+#include <functional>
 
 namespace rr {
 
@@ -130,7 +131,7 @@ namespace rr {
          * Setting s("a string"); //interpreted as string, not const char*
          * @endcode
          */
-        Setting(const char* settingValue);
+        Setting(const char *settingValue);
 
         /**
          * @brief construct from a long.
@@ -289,7 +290,7 @@ namespace rr {
                                 }
                                 // furthermore, if we have a long which has a value greater than
                                 // that of int32 maximum, we have a problem and throw
-                                if (*lValue > ((std::int64_t)std::numeric_limits<int>::max())) {
+                                if (*lValue > ((std::int64_t) std::numeric_limits<int>::max())) {
                                     throw std::bad_variant_access{}; // has annoying private constructor so we can't add arguments
                                     return T{}; // must be present
                                 }
@@ -325,7 +326,7 @@ namespace rr {
          * std::vector<double> is needed.
          */
         operator std::vector<double>() {
-            if (auto vec = get_if<std::vector<double>>()){
+            if (auto vec = get_if<std::vector<double>>()) {
                 return *vec;
             } else {
                 throw std::invalid_argument("Setting::operator std::vector<double>: "
@@ -376,9 +377,7 @@ namespace rr {
          * @brief Equality operator, enabling the comparison
          * of this Setting with the other Setting
          */
-        bool operator==(const Setting &setting) {
-            return (value_ == setting.value_);
-        }
+        bool operator==(const Setting &setting);
 
         /**
          * @brief Equality operator, enabling the comparison
@@ -387,9 +386,7 @@ namespace rr {
          * const char*, the main templated `operated==(const T&)`
          * is not used. We therefore define this separately
          */
-        bool operator==(const char* setting) {
-            return (*this == std::string(setting));
-        }
+        bool operator==(const char *setting);
 
         /**
          * @brief Equality operator, enabling the comparison
@@ -398,17 +395,13 @@ namespace rr {
          * const char*, the main templated `operated==(const T&)`
          * is not used. We therefore define this separately.
          */
-        bool operator!=(const char* setting) {
-            return !(*this == setting);
-        }
+        bool operator!=(const char *setting);
 
         /**
          * @brief Inequality operator, enabling the comparison
          * of this Setting with the other Setting
          */
-        bool operator!=(const Setting &setting) {
-            return !(value_ == setting.value_);
-        }
+        bool operator!=(const Setting &setting);
 
 
         /**
@@ -436,6 +429,34 @@ namespace rr {
             value_ = std::move(setting_t(setting));
             return *this;
         }
+
+        /**
+         * @brief wrapper around std::visitor for
+         * "visiting" each of the possible types in
+         * the setting_t.
+         * @details instead of using an if-else block
+         * you can use a visitor. For instance,
+         * @param function: callable type, such as lambda expression.
+         * @code
+         *     Setting s(1234);
+         *     std::string typeString;
+         *     s.visit([&](auto t) -> decltype(auto){typeString = typeid(t).name();});
+         *     std::cout << typeString << std::endl; // prints out "int" to console
+         * @endcode
+         * @see docs on std::visit
+         */
+        template<class Func>
+        void visit(Func function) const {
+            return std::visit(function, value_);
+        }
+
+        /**
+         * @brief returns the std::type_info for the
+         * object type contained within this Setting.
+         * (aka one of the types within setting_t)
+         */
+        const std::type_info &typeInfo() const;
+
 
         /**
          * @brief move assignment operator for when

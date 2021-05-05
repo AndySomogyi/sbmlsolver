@@ -159,7 +159,7 @@ char* rrGetPyErrMessage() {
 
 PyObject* Variant_to_py(const Setting& var)
 {
-    PyObject *result = 0;
+    PyObject *result = nullptr;
 
     const std::type_info &type = var.typeInfo();
 
@@ -175,24 +175,24 @@ PyObject* Variant_to_py(const Setting& var)
         return PyBool_FromLong(var.get<bool>());
     }
 
-    if (type == typeid(unsigned long)) {
-        return PyLong_FromUnsignedLong(var.get<unsigned long>());
+    if (type == typeid(std::uint64_t)) {
+        return PyLong_FromUnsignedLong(var.get<std::uint64_t>());
     }
 
-    if (type == typeid(long)) {
-        return PyLong_FromLong(var.get<long>());
+    if (type == typeid(std::int64_t)) {
+        return PyLong_FromLong(var.get<std::int64_t>());
     }
 
     if (type == typeid(int)) {
 # if PY_MAJOR_VERSION == 3
-        return PyLong_FromLong(var.get<long>());
+        return PyLong_FromLong(var.get<std::int64_t>());
 # else
-        return PyInt_FromLong(var.get<long>());
+        return PyInt_FromLong(var.get<std::int64_t>());
 # endif
     }
 
-    if (type == typeid(unsigned int)) {
-        return PyLong_FromUnsignedLong(var.get<unsigned long>());
+    if (type == typeid(std::uint32_t)) {
+        return PyLong_FromUnsignedLong(var.get<std::uint32_t>());
     }
 
     if (type == typeid(char)) {
@@ -202,9 +202,9 @@ PyObject* Variant_to_py(const Setting& var)
 
     if (type == typeid(unsigned char)) {
 # if PY_MAJOR_VERSION == 3
-        return PyLong_FromLong(var.get<long>());
+        return PyLong_FromLong(var.get<std::int64_t>()); // is this a bug ?
 # else
-        return PyInt_FromLong(var.get<long>());
+        return PyInt_FromLong(var.get<std::int64_t>());
 # endif
     }
 
@@ -213,7 +213,7 @@ PyObject* Variant_to_py(const Setting& var)
     }
 
 	if (type == typeid(vector<double>)) {
-		PyObject* list = PyList_New(var.get< vector<double> >().size());
+		PyObject* list = PyList_New((std::int64_t )var.get< vector<double> >().size());
 		if (!list) throw logic_error("Unable to allocate memory for Python list");
 		for (unsigned int i = 0; i < var.get< vector<double> >().size(); i++) {
 			PyObject* num = PyFloat_FromDouble((double)var.get< vector<double> >()[i]);
@@ -228,7 +228,7 @@ PyObject* Variant_to_py(const Setting& var)
 	}
 
 
-    throw invalid_argument("could not convert " + var.toString() + "to Python object");
+    throw invalid_argument("could not convert " + var.get<std::string>() + "to Python object");
 }
 
 PyObject* Variant_to_py(Setting* var){
@@ -263,7 +263,7 @@ Setting Variant_from_py(PyObject* py)
 	else if (PyLong_Check(py))
 	{
 		// need to check for overflow.
-		var = (long)PyLong_AsLong(py);
+		var = (long long)PyLong_AsLong(py);
 
 		// Borrowed reference.
 		PyObject* err = PyErr_Occurred();

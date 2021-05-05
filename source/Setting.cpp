@@ -11,10 +11,10 @@
 namespace rr {
 
     Setting::Setting(const char *settingValue)
-        : value_(std::string(settingValue)) {}
+            : value_(std::string(settingValue)) {}
 
     Setting::Setting(long settingValue)
-        : value_((long long)settingValue) {}
+            : value_((long long) settingValue) {}
 
     Setting::Setting(setting_t value)
             : value_(std::move(setting_t(std::move(value)))) {};
@@ -135,6 +135,28 @@ namespace rr {
 
     Setting::Setting(Setting &&setting) noexcept
             : value_(std::move(setting.getValue())) {}
+
+    const std::type_info &Setting::typeInfo() const{
+        return std::visit([](auto &&x) -> decltype(auto) {
+            return std::move(typeid(x));
+        }, value_);
+    }
+
+    bool Setting::operator==(const Setting &setting) {
+        return (value_ == setting.value_);
+    }
+
+    bool Setting::operator==(const char *setting) {
+        return (*this == std::string(setting));
+    }
+
+    bool Setting::operator!=(const char *setting)  {
+            return !(*this == setting);
+        }
+
+    bool Setting::operator!=(const Setting &setting) {
+            return !(value_ == setting.value_);
+        }
 
 
 }

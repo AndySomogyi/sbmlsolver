@@ -499,6 +499,20 @@ TEST_F(SettingTests, CastFromSettingToDoubleVector) {
 }
 
 
+TEST_F(SettingTests, TypeInfoIsAccurateForInt) {
+    Setting s(1234);
+    ASSERT_EQ(s.typeInfo(), typeid(int));
+}
+
+
+TEST_F(SettingTests, UseVisitorWrapper) {
+    Setting s(1234);
+    std::string typeString;
+    s.visit([&](auto t) -> decltype(auto){typeString = typeid(t).name();});
+    ASSERT_STREQ(typeString.c_str(), "int");
+}
+
+
 
 
 

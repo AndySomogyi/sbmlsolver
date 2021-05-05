@@ -356,6 +356,7 @@ namespace rr {
     	std::vector<double> vectorVal;
     	loadBinary(in, type); // what is this for?
 
+    	// todo use visitor here
 	switch (type)
 	{
 	case Setting::BOOL:
