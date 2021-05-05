@@ -468,7 +468,7 @@ TEST_F(SettingTests, EqualityWithString) {
 
 TEST_F(SettingTests, CheckThatWhenYouCreateAStringSettingThatItIsAStringNotBool) {
     Setting setting("ANewString");
-    if(auto strVal = setting.get_if<std::string>()){
+    if (auto strVal = setting.get_if<std::string>()) {
         std::cout << "setting is a string" << std::endl;
         ASSERT_STREQ((*strVal).c_str(), "ANewString");
     } else {
@@ -507,9 +507,7 @@ TEST_F(SettingTests, TypeInfoIsAccurateForInt) {
 
 TEST_F(SettingTests, UseVisitorWrapper) {
     Setting s(1234);
-    std::string typeString;
-    s.visit([&](auto t) -> decltype(auto){typeString = typeid(t).name();});
-    ASSERT_STREQ(typeString.c_str(), "int");
+    ASSERT_EQ(typeid(int), s.visit([&](auto t) -> decltype(auto) { return typeid(t); }));
 }
 
 

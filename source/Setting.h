@@ -446,7 +446,7 @@ namespace rr {
          * @see docs on std::visit
          */
         template<class Func>
-        void visit(Func function) const {
+        decltype(auto) visit(Func function) const {
             return std::visit(function, value_);
         }
 
