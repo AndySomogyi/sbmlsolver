@@ -23,14 +23,22 @@ if (BUILD_PYTHON)
             ${CMAKE_CURRENT_BINARY_DIR}/python-unit-tests/run.py COPYONLY)
 
     add_test(
-            NAME PythonUnitTests
+            NAME PythonTests
             COMMAND Python::Interpreter "${CMAKE_BINARY_DIR}/lib/site-packages/roadrunner/testing"
             WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/lib/site-packages"
     )
 
-    set_tests_properties(PythonUnitTests PROPERTIES ENVIRONMENT "PYTHONPATH=${CMAKE_BINARY_DIR}/lib/site-packages:$PYTHONPATH")
-endif ()
+    set_tests_properties(PythonTests PROPERTIES ENVIRONMENT "PYTHONPATH=${CMAKE_BINARY_DIR}/lib/site-packages:$PYTHONPATH")
 
+    # Creates a custom target which runs only the sbml tests suite
+    add_custom_target(
+            run-python-tests
+            ctest ${ctest_args} --tests-regex PythonTests
+    )
+
+    add_dependencies(run-python-tests ${test_targets})
+
+endif ()
 
 
 # make test_targets list global to all tests

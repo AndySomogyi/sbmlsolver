@@ -18,12 +18,14 @@ configure_file(RoadRunnerTestDirectory.cpp.in "${CMAKE_CURRENT_BINARY_DIR}/RoadR
 ############################################################
 #   Function for creating roadrunner test binaries
 #
+
 # "CMAKE_CURRENT_SOURCE_DIR" changes in the different files were
 # add_test_executable gets called. We can use this as a constant
 set(ThisSourceDirectory ${CMAKE_CURRENT_SOURCE_DIR})
 set(ThisBinaryDirectory ${CMAKE_CURRENT_BINARY_DIR})
 set(TestModelFactorySrcDir "${CMAKE_CURRENT_SOURCE_DIR}/sundials-tests")
 
+#todo move these to the rr_root/cmake folder
 # Adds a new executable cmake target to cmake.
 # Links roadrunner-static and gtest.
 # Parameters:
@@ -58,8 +60,8 @@ function(add_test_executable TEST_TARGET OUT_VARIABLE)
             ${TEST_TARGET}
             DISCOVERY_TIMEOUT 500
             PROPERTIES
-                TIMEOUT 500
-                ENVIRONMENT "${TEST_ENV_VARS}"
+            TIMEOUT 500
+            ENVIRONMENT "${TEST_ENV_VARS}"
     )
 
     set_target_properties(${TEST_TARGET} PROPERTIES ENVIRONMENT
@@ -80,6 +82,70 @@ function(add_test_executable TEST_TARGET OUT_VARIABLE)
     endif ()
 
 endfunction()
+
+
+# Add a swig target to cmake build system
+# Arguments
+# ----------
+#   SWIG_TARGET_NAME: What to call the swig target
+#   SWIG_INTERFACE_FILE one or more swig interface files
+#   Any other argument to this function is assumed to be source files
+#   to be added to the swig target.
+macro(add_swig_executable SWIG_TARGET_NAME SWIG_INTERFACE_FILE)
+    # no harm in finding python here
+    find_package(Python COMPONENTS Interpreter Development NumPy REQUIRED)
+    find_package(SWIG 4.0.2 REQUIRED
+            COMPONENTS python
+            )
+    include(UseSWIG)
+
+    set_source_files_properties(${SWIG_INTERFACE_FILE}
+            PROPERTIES
+            CPLUSPLUS ON
+            SWIG_FLAGS
+            # turns on automatic annotation of python arg and return types
+            # BUT does so in c++ types. Therefore I'm not sure how much value this adds.
+            "-py3"
+            )
+
+    swig_add_library(${SWIG_TARGET_NAME}
+            TYPE MODULE
+            LANGUAGE python
+            SOURCES ${SWIG_INTERFACE_FILE} ${ARGN}
+            )
+
+    #    set(CMAKE_SWIG_FLAGS "-py3 -castmode -keyword")
+    set_target_properties(${SWIG_TARGET_NAME} PROPERTIES
+            SWIG_USE_TARGET_INCLUDE_DIRECTORIES TRUE
+            )
+
+    target_include_directories(${SWIG_TARGET_NAME} PUBLIC
+            ${Python_INCLUDE_DIRS}
+            ${CMAKE_CURRENT_SOURCE_DIR}
+            $<TARGET_PROPERTY:roadrunner-static,INCLUDE_DIRECTORIES>
+            $<TARGET_PROPERTY:roadrunner_python,INCLUDE_DIRECTORIES>
+            )
+    target_link_libraries(${SWIG_TARGET_NAME} PUBLIC
+            roadrunner-static
+            ${Python_LIBRARIES}
+            )
+
+    message(STATUS "SWIG_TARGET_NAME ${SWIG_TARGET_NAME}")
+    message(STATUS "RR_PYTHON_TESTING_BUILD_PREFIX ${RR_PYTHON_TESTING_BUILD_PREFIX}")
+    set(SWIG_GENERATED_PYTHON_FILE "${CMAKE_CURRENT_BINARY_DIR}/${SWIG_TARGET_NAME}.py")
+    message(STATUS "SWIG_GENERATED_PYTHON_FILE ${SWIG_GENERATED_PYTHON_FILE}")
+
+    # copy Python files to build tree post build
+    add_custom_command(
+            TARGET ${SWIG_TARGET_NAME} POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${SWIG_TARGET_NAME}> "${RR_PYTHON_TESTING_BUILD_PREFIX}"
+    )
+    add_custom_command(
+            TARGET ${SWIG_TARGET_NAME} POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_BINARY_DIR}/${SWIG_TARGET_NAME}.py" "${RR_PYTHON_TESTING_BUILD_PREFIX}"
+    )
+
+endmacro()
 
 #########################################################
 #   Add Tests

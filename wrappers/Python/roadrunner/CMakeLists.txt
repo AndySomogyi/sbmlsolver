@@ -1,5 +1,5 @@
 # copy to /lib so we can import roadrunner in the build tree
-configure_file(__init__.py ${CMAKE_BINARY_DIR}/lib/site-packages/roadrunner/__init__.py COPYONLY)
+configure_file(__init__.py.in ${CMAKE_BINARY_DIR}/lib/site-packages/roadrunner/__init__.py COPYONLY)
 
 set_source_files_properties(roadrunner.i PROPERTIES
         CPLUSPLUS ON
