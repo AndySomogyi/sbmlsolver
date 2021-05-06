@@ -131,10 +131,10 @@ macro(add_swig_executable SWIG_TARGET_NAME SWIG_INTERFACE_FILE)
             ${Python_LIBRARIES}
             )
 
-    message(STATUS "SWIG_TARGET_NAME ${SWIG_TARGET_NAME}")
-    message(STATUS "RR_PYTHON_TESTING_BUILD_PREFIX ${RR_PYTHON_TESTING_BUILD_PREFIX}")
+    message(STATUS "Adding swig executable: ${SWIG_TARGET_NAME}")
+    message(STATUS "Swig target \"${SWIG_TARGET_NAME}\" will be copied to \"${RR_PYTHON_TESTING_BUILD_PREFIX}\" in the build tree after the target is built")
     set(SWIG_GENERATED_PYTHON_FILE "${CMAKE_CURRENT_BINARY_DIR}/${SWIG_TARGET_NAME}.py")
-    message(STATUS "SWIG_GENERATED_PYTHON_FILE ${SWIG_GENERATED_PYTHON_FILE}")
+    message(STATUS "Swig generated .py for target \"${SWIG_TARGET_NAME}\" will be copied to \"${RR_PYTHON_TESTING_BUILD_PREFIX}\" in the build tree after the target is built")
 
     # copy Python files to build tree post build
     add_custom_command(
@@ -143,8 +143,10 @@ macro(add_swig_executable SWIG_TARGET_NAME SWIG_INTERFACE_FILE)
     )
     add_custom_command(
             TARGET ${SWIG_TARGET_NAME} POST_BUILD
-            COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_BINARY_DIR}/${SWIG_TARGET_NAME}.py" "${RR_PYTHON_TESTING_BUILD_PREFIX}"
+            COMMAND ${CMAKE_COMMAND} -E copy "${SWIG_GENERATED_PYTHON_FILE}" "${RR_PYTHON_TESTING_BUILD_PREFIX}"
     )
+
+    # todo "install" commands
 
 endmacro()
 

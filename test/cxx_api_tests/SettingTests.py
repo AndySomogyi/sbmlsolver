@@ -123,3 +123,80 @@ class SettingTests(unittest.TestCase):
     def testPyToCxx_doubleVector(self):
         self.s.setDoubleVectorType([0.6, 8.3, 76.2])
         self.assertEqual(self.s.getDoubleVectorTypeAsSetting(), [0.6, 8.3, 76.2])
+
+    def test_get_stringType_from_settings_map(self):
+        self.assertEqual("I'm a string", self.s.getValueFromSettings("stringType"))
+
+    def test_get_boolType_from_settings_map(self):
+        self.assertEqual(True, self.s.getValueFromSettings("boolType"))
+
+    def test_get_int32Type_from_settings_map(self):
+        self.assertEqual(-1, self.s.getValueFromSettings("int32Type"))
+
+    def test_get_uint32Type_from_settings_map(self):
+        self.assertEqual(1, self.s.getValueFromSettings("uint32Type"))
+
+    def test_get_int64Type_from_settings_map(self):
+        self.assertEqual(-2, self.s.getValueFromSettings("int64Type"))
+
+    def test_get_uint64Type_from_settings_map(self):
+        self.assertEqual(2, self.s.getValueFromSettings("uint64Type"))
+
+    def test_get_floatType_from_settings_map(self):
+        self.assertEqual(0.1234, self.s.getValueFromSettings("floatType"))
+
+    def test_get_doubleType_from_settings_map(self):
+        self.assertEqual(0.5678, self.s.getValueFromSettings("doubleType"))
+
+    def test_get_charType_from_settings_map(self):
+        self.assertEqual("c", self.s.getValueFromSettings("charType"))
+
+    def test_get_uCharType_from_settings_map(self):
+        self.assertEqual("d", self.s.getValueFromSettings("uCharType"))
+
+    def test_get_doubleVectorType_from_settings_map(self):
+        self.assertEqual([0.1, 0.2, 0.3], self.s.getValueFromSettings("doubleVectorType"))
+
+    def test_set_stringType_in_settings_map(self):
+        self.s.setValueInSettings("stringType", "A New String")
+        self.assertEqual("A New String", self.s.getValueFromSettings("stringType"))
+
+    def test_set_boolType_in_settings_map(self):
+        self.s.setValueInSettings("boolType", False)
+        self.assertEqual(False, self.s.getValueFromSettings("boolType"))
+
+    def test_set_int32Type_in_settings_map(self):
+        self.s.setValueInSettings("int32Type", 345634)
+        self.assertEqual(345634, self.s.getValueFromSettings("int32Type"))
+
+    def test_set_uint32Type_in_settings_map(self):
+        self.s.setValueInSettings("uint32Type", 887)
+        self.assertEqual(887, self.s.getValueFromSettings("uint32Type"))
+
+    def test_set_int64Type_in_settings_map(self):
+        self.s.setValueInSettings("int64Type", 98735)
+        self.assertEqual(98735, self.s.getValueFromSettings("int64Type"))
+
+    def test_set_uint64Type_in_settings_map(self):
+        self.s.setValueInSettings("uint64Type", 254353)
+        self.assertEqual(254353, self.s.getValueFromSettings("uint64Type"))
+
+    def test_set_floatType_in_settings_map(self):
+        self.s.setValueInSettings("floatType", 9.7643)
+        self.assertEqual(9.7643, self.s.getValueFromSettings("floatType"))
+
+    def test_set_doubleType_in_settings_map(self):
+        self.s.setValueInSettings("doubleType", 8.65432)
+        self.assertEqual(8.65432, self.s.getValueFromSettings("doubleType"))
+
+    def test_set_charType_in_settings_map(self):
+        self.s.setValueInSettings("charType", "h")
+        self.assertEqual("h", self.s.getValueFromSettings("charType"))
+
+    def test_set_uCharType_in_settings_map(self):
+        self.s.setValueInSettings("uCharType", "o")
+        self.assertEqual("o", self.s.getValueFromSettings("uCharType"))
+
+    def test_set_doubleVectorType_in_settings_map(self):
+        self.s.setValueInSettings("doubleVectorType", [9.8, 6.5])
+        self.assertEqual([9.8, 6.5], self.s.getValueFromSettings("doubleVectorType"))

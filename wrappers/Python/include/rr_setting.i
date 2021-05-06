@@ -1,7 +1,6 @@
 #if !defined(RR_SETTINGS_I)
 #define RR_SETTINGS_I
 %{
-#define SWIG_FILE_WITH_INIT
 #include <unordered_map>
 #include "Setting.h"
 #include <variant> // for visit

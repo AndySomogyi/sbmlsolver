@@ -30,7 +30,9 @@
  */
 class SettingTestsSwigAPI {
 public:
-    SettingTestsSwigAPI() = default;
+    SettingTestsSwigAPI() {
+        updateSettingsMap(); // apply initial settings
+    };
 
     rr::Setting getStringTypeAsSetting() const;
 
@@ -80,6 +82,9 @@ public:
 
     void setDoubleVectorType(rr::Setting doubleVectorType);
 
+    rr::Setting getValueFromSettings(const std::string& key);
+
+    void setValueInSettings(const std::string& key, rr::Setting value);
 
 
 private:
@@ -94,6 +99,15 @@ private:
     rr::Setting charType = 'c';
     rr::Setting uCharType = 'd';
     rr::Setting doubleVectorType = std::vector<double>{0.1, 0.2, 0.3};
+
+    std::unordered_map<std::string, rr::Setting> settingsMap{};
+
+    /**
+     * Quite crude implementation for testing.
+     * We call this method every time an
+     * option changes with set* commands.
+     */
+    void updateSettingsMap();
 
 
 };

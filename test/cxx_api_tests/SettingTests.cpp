@@ -247,6 +247,29 @@ TEST_F(SettingTests, ImplicitCastStringToConstCharStar) {
     ASSERT_EQ(typeid(x), typeid(unsigned long));
 }
 
+TEST_F(SettingTests, ImplicitInstantiateFromBool) {
+    Setting setting = true;
+    std::ostringstream ss;
+    ss << std::boolalpha << *setting.get_if<bool>() << std::endl;
+    ASSERT_STREQ(ss.str().c_str(), "true\n");
+}
+
+TEST_F(SettingTests, ImplicitInstantiateFromBoolInAMap) {
+    std::unordered_map<std::string, Setting> m({
+            {"isABool", true}
+    });
+    Setting setting = m["isABool"];
+    ASSERT_TRUE(*setting.get_if<bool>());
+}
+
+TEST_F(SettingTests, ImplicitInstantiateFromStringInAMap) {
+    std::unordered_map<std::string, Setting> m({
+            {"isABool", "AString"}
+    });
+    Setting setting = m["isABool"];
+    ASSERT_STREQ("AString", (*setting.get_if<std::string>()).c_str());
+}
+
 /********************************************
  * Getting values from Setting
  */

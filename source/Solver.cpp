@@ -168,7 +168,7 @@ namespace rr
         std::stringstream ss;
         for(size_t n=0; n<getNumParams(); ++n){
             ss << "    " << std::setw(20) << getParamName(n) << ": " << getValue(getParamName(n)).toString() << "\n";
-            }
+        }
         return ss.str();
     }
 
@@ -176,7 +176,7 @@ namespace rr
     {
         std::stringstream ss;
         for(size_t n=0; n<getNumParams(); ++n)
-            ss << (n ? ", " : "") << "'" << getParamName(n) << "': " << getValue(getParamName(n)).pythonRepr();
+            ss << (n ? ", " : "") << "'" << getParamName(n) << "': " << getValue(getParamName(n)).toString();
         return ss.str();
     }
 

@@ -315,6 +315,15 @@
 
 %apply const rr::Setting& {rr::Setting&, rr::Setting&};
 
+%typemap(in) rr::Setting* (rr::Setting temp) {
+    try {
+        temp = Variant_from_py($input);
+        *$1 = temp;
+    } catch (const std::exception& e) {
+        SWIG_exception(SWIG_RuntimeError, e.what());
+    }
+}
+
 
 /**
  * @brief typemap to convert a string : Variant map into a Python dict.

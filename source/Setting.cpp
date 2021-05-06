@@ -173,7 +173,7 @@ namespace rr {
                 }
             }
         } else if (auto v = get_if<std::string>()){
-            os << *v;
+            os << "'" << *v << "'";
         }else if (auto v = get_if<bool>()){
             os << *v;
         }else if (auto v = get_if<std::int32_t>()){

@@ -10,6 +10,7 @@ rr::Setting SettingTestsSwigAPI::getStringTypeAsSetting() const {
 
 void SettingTestsSwigAPI::setStringType(rr::Setting stringType) {
     SettingTestsSwigAPI::stringType = stringType;
+    updateSettingsMap();
 }
 
 rr::Setting SettingTestsSwigAPI::getBoolTypeAsSetting() const {
@@ -18,6 +19,7 @@ rr::Setting SettingTestsSwigAPI::getBoolTypeAsSetting() const {
 
 void SettingTestsSwigAPI::setBoolType(rr::Setting boolType) {
     SettingTestsSwigAPI::boolType = boolType;
+    updateSettingsMap();
 }
 
 rr::Setting SettingTestsSwigAPI::getInt32TypeAsSetting() const {
@@ -26,6 +28,7 @@ rr::Setting SettingTestsSwigAPI::getInt32TypeAsSetting() const {
 
 void SettingTestsSwigAPI::setInt32Type(rr::Setting int32Type) {
     SettingTestsSwigAPI::int32Type = int32Type;
+    updateSettingsMap();
 }
 
 rr::Setting SettingTestsSwigAPI::getUint32TypeAsSetting() const {
@@ -34,6 +37,7 @@ rr::Setting SettingTestsSwigAPI::getUint32TypeAsSetting() const {
 
 void SettingTestsSwigAPI::setUint32Type(rr::Setting uint32Type) {
     SettingTestsSwigAPI::uint32Type = uint32Type;
+    updateSettingsMap();
 }
 
 rr::Setting SettingTestsSwigAPI::getInt64TypeAsSetting() const {
@@ -42,6 +46,7 @@ rr::Setting SettingTestsSwigAPI::getInt64TypeAsSetting() const {
 
 void SettingTestsSwigAPI::setInt64Type(rr::Setting int64Type) {
     SettingTestsSwigAPI::int64Type = int64Type;
+    updateSettingsMap();
 }
 
 rr::Setting SettingTestsSwigAPI::getUint64TypeAsSetting() const {
@@ -50,6 +55,7 @@ rr::Setting SettingTestsSwigAPI::getUint64TypeAsSetting() const {
 
 void SettingTestsSwigAPI::setUint64Type(rr::Setting uint64Type) {
     SettingTestsSwigAPI::uint64Type = uint64Type;
+    updateSettingsMap();
 }
 
 rr::Setting SettingTestsSwigAPI::getFloatTypeAsSetting() const {
@@ -58,6 +64,7 @@ rr::Setting SettingTestsSwigAPI::getFloatTypeAsSetting() const {
 
 void SettingTestsSwigAPI::setFloatType(rr::Setting floatType) {
     SettingTestsSwigAPI::floatType = floatType;
+    updateSettingsMap();
 }
 
 rr::Setting SettingTestsSwigAPI::getDoubleTypeAsSetting() const {
@@ -66,6 +73,7 @@ rr::Setting SettingTestsSwigAPI::getDoubleTypeAsSetting() const {
 
 void SettingTestsSwigAPI::setDoubleType(rr::Setting doubleType) {
     SettingTestsSwigAPI::doubleType = doubleType;
+    updateSettingsMap();
 }
 
 rr::Setting SettingTestsSwigAPI::getCharTypeAsSetting() const {
@@ -74,6 +82,7 @@ rr::Setting SettingTestsSwigAPI::getCharTypeAsSetting() const {
 
 void SettingTestsSwigAPI::setCharType(rr::Setting charType) {
     SettingTestsSwigAPI::charType = charType;
+    updateSettingsMap();
 }
 
 rr::Setting SettingTestsSwigAPI::getUCharTypeAsSetting() const {
@@ -82,6 +91,7 @@ rr::Setting SettingTestsSwigAPI::getUCharTypeAsSetting() const {
 
 void SettingTestsSwigAPI::setUCharType(rr::Setting uCharType) {
     SettingTestsSwigAPI::uCharType = uCharType;
+    updateSettingsMap();
 }
 
 rr::Setting SettingTestsSwigAPI::getDoubleVectorTypeAsSetting() const {
@@ -90,4 +100,34 @@ rr::Setting SettingTestsSwigAPI::getDoubleVectorTypeAsSetting() const {
 
 void SettingTestsSwigAPI::setDoubleVectorType(rr::Setting doubleVectorType) {
     SettingTestsSwigAPI::doubleVectorType = doubleVectorType;
+    updateSettingsMap();
+}
+
+/**
+ * 1) Python user passes in a Python string, which
+ *    std_string.i automatically converts into std::string.
+ * 2) The std::string is used to collect the value
+ *    from the settings map
+ */
+rr::Setting SettingTestsSwigAPI::getValueFromSettings(const std::string &key) {
+    return settingsMap[key];
+}
+
+void SettingTestsSwigAPI::setValueInSettings(const std::string& key, rr::Setting value) {
+    std::cout <<  "SettingTestsSwigAPI::setValueInSettings: key: " << key << "; settings value: " << value.toString() << std::endl;
+    settingsMap[key] = std::move(value);
+}
+
+void SettingTestsSwigAPI::updateSettingsMap() {
+    settingsMap["stringType"] = stringType;
+    settingsMap["boolType"] = boolType;
+    settingsMap["int32Type"] = int32Type;
+    settingsMap["uint32Type"] = uint32Type;
+    settingsMap["int64Type"] = int64Type;
+    settingsMap["uint64Type"] = uint64Type;
+    settingsMap["floatType"] = floatType;
+    settingsMap["doubleType"] = doubleType;
+    settingsMap["charType"] = charType;
+    settingsMap["uCharType"] = uCharType;
+    settingsMap["doubleVectorType"] = doubleVectorType;
 }

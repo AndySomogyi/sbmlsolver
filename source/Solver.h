@@ -86,7 +86,6 @@ namespace rr
         std::unordered_map<std::string, Setting>& getSettingsMap();
 
         /**
-        * @author JKM
         * @brief Reset all settings to their respective default values
         */
         virtual void resetSettings();
