@@ -114,8 +114,7 @@ rr::Setting SettingTestsSwigAPI::getValueFromSettings(const std::string &key) {
 }
 
 void SettingTestsSwigAPI::setValueInSettings(const std::string& key, rr::Setting value) {
-    std::cout <<  "SettingTestsSwigAPI::setValueInSettings: key: " << key << "; settings value: " << value.toString() << std::endl;
-    settingsMap[key] = std::move(value);
+    settingsMap[key] = value;
 }
 
 void SettingTestsSwigAPI::updateSettingsMap() {

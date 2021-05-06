@@ -281,48 +281,56 @@
         $result  = array;
     }
 }
-//%include "rr_setting.i"
-%typemap(out) const rr::Setting& {
+
+
+
+/**
+ * converts a C++ rr::Setting to a Python variable, depending on its type
+ * The "work" of this typemap is offloaded to the rr::Variant_to_py function.
+ */
+%typemap(out) rr::Setting{
     try {
-        const rr::Setting& temp = *($1);
-        $result = Variant_to_py(temp);
-    } catch (const std::exception& e) {
+        // I'm a marker rr::Setting(out). Look for me in the swig_wrap.cxx file
+        // to verify that this type map is being properly applied
+        $result = rr::Variant_to_py($1);
+    } catch (const std::exception& e){
         SWIG_exception(SWIG_RuntimeError, e.what());
     }
 }
 
+/**
+ * Apply the %typemap(out) rr::Setting to
+ * other Setting types. Note that both
+ * rr:: qualified and unqualified are
+ * necessary!
+ */
+%apply rr::Setting{
+    const rr::Setting&,
+    const Setting&,
+    rr::Setting&,
+    Setting&
+};
 
-%typemap(out) const rr::Setting {
+// converts a Python Variable to a C++ rr::Setting
+%typemap(in) const rr::Setting&(PyObject* settingObjFromPython){
     try {
-        $result = Variant_to_py($1);
-    } catch (const std::exception& e) {
+        // I'm a marker rr::Setting(in). Look for me in the swig_wrap.cxx file
+        // to verify that this type map is being properly applied
+        $1 = rr::Variant_from_py($input);
+
+    } catch (const std::exception& e){
         SWIG_exception(SWIG_RuntimeError, e.what());
     }
 }
+%apply const rr::Setting&{
+    const rr::Setting&,
+    const Setting&,
+    rr::Setting&,
+    Setting&,
+    rr::Setting,
+    Setting
+};
 
-%apply const rr::Setting {rr::Setting, rr::Setting&, const rr::Setting&};
-
-
-%typemap(in) const rr::Setting& (rr::Setting temp) {
-
-    try {
-        temp = Variant_from_py($input);
-        *$1 = temp;
-    } catch (const std::exception& e) {
-        SWIG_exception(SWIG_RuntimeError, e.what());
-    }
-}
-
-%apply const rr::Setting& {rr::Setting&, rr::Setting&};
-
-%typemap(in) rr::Setting* (rr::Setting temp) {
-    try {
-        temp = Variant_from_py($input);
-        *$1 = temp;
-    } catch (const std::exception& e) {
-        SWIG_exception(SWIG_RuntimeError, e.what());
-    }
-}
 
 
 /**

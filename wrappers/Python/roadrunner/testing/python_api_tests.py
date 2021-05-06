@@ -986,9 +986,6 @@ class CVODEIntegratorTests(unittest.TestCase):
     def tearDown(self) -> None:
         pass
 
-    def test(self):
-        print(self.integrator)
-
     def test_relative_tolerance(self):
         self.integrator.setValue("relative_tolerance", 1e-07)
         self.assertEqual(1e-07, self.integrator.getValue("relative_tolerance"))

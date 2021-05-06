@@ -593,6 +593,7 @@ namespace rr {
     }
 
     void CVODEIntegrator::setValue(const std::string& key, Setting val) {
+        std::cout << "CVODEIntegrator::setValue: key: " << key << "; val.toString(): " << val.toString() << std::endl;
         // if std::vector tolerance is set, the size of std::vector must be equal to
         // the number of floating species
         if (key == "absolute_tolerance" && val.type() == Setting::DOUBLEVECTOR)
@@ -620,7 +621,7 @@ namespace rr {
                 CVodeSetMaxNumSteps(mCVODE_Memory, (int)getValue("maximum_num_steps"));
             }
             else if (key == "absolute_tolerance" || key == "relative_tolerance") {
-                CVodeSetMaxNumSteps(mCVODE_Memory, (int)getValue("maximum_num_steps"));
+                CVodeSetMaxNumSteps(mCVODE_Memory, (double)getValue("maximum_num_steps"));
                 setCVODETolerances();
 
             }
