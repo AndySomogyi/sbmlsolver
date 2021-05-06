@@ -117,7 +117,7 @@ namespace rr {
         * @author FY
         * @brief Set tolerance based on concentration of species, will only be used in CVODEIntegrator
         */
-        virtual void setConcentrationTolerance(const Setting &value);
+        virtual void setConcentrationTolerance(Setting value);
 
         /**
         * @author FY

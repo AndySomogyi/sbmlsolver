@@ -305,8 +305,10 @@
  * necessary!
  */
 %apply rr::Setting{
+    // both syntax's of const are needed!
     const rr::Setting&,
-    const Setting&,
+    rr::Setting const &,
+    Setting const &,
     rr::Setting&,
     Setting&
 };
@@ -323,8 +325,11 @@
     }
 }
 %apply const rr::Setting&{
+    // both syntax's of const are needed!
     const rr::Setting&,
+    rr::Setting const &,
     const Setting&,
+    Setting const &,
     rr::Setting&,
     Setting&,
     rr::Setting,

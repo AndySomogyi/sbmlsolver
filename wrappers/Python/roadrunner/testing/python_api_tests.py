@@ -1034,6 +1034,10 @@ class CVODEIntegratorTests(unittest.TestCase):
         self.integrator.setValue("max_output_rows", 50)
         self.assertEqual(50, self.integrator.getValue("max_output_rows"))
 
+    def test_set_concentration_tolerance(self):
+        self.integrator.setConcentrationTolerance(1e-8)
+
+
 
 
 

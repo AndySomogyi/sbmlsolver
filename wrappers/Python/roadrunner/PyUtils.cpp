@@ -241,7 +241,6 @@ PyObject* Variant_to_py(Setting* var){
 
 Setting Variant_from_py(PyObject* py)
 {
-    std::cout << "Variant_from_py1 being called" << std::endl;
 	Setting var;
 
 	if (py == Py_None)
@@ -268,7 +267,7 @@ Setting Variant_from_py(PyObject* py)
 	else if (PyLong_Check(py))
 	{
 		// need to check for overflow.
-		var = (long long)PyLong_AsLong(py);
+		var = std::int64_t (PyLong_AsLong(py));
 
 		// Borrowed reference.
 		PyObject* err = PyErr_Occurred();
@@ -304,7 +303,9 @@ Setting Variant_from_py(PyObject* py)
 
 	else if (PyFloat_Check(py))
 	{
-		var = (double)PyFloat_AsDouble(py);
+	    std::cout << "is a PyFloat" << std::endl;
+		var = PyFloat_AsDouble(py);
+		std::cout << "the string << " << var.toString() << std::endl;
 		return var;
 	}
 

@@ -610,11 +610,11 @@ public:
      * note, this value is only used in any new objects created after it has been set.
      */
 
-    static void setValue(Keys, const Setting& value);
+    static void setValue(Keys, Setting value);
 
 	//static void setValues(const std::vector<Keys> keys, const std::vector<Setting> values);
 
-    static const Setting& getValue(Keys);
+    static Setting getValue(Keys);
 
     /**
      * Read all of the values stored in a configuration file and set all the keys

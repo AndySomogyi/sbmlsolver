@@ -377,8 +377,8 @@ namespace rr {
     }
 
 
-    void CVODEIntegrator::setConcentrationTolerance(const Setting &value) {
-
+    void CVODEIntegrator::setConcentrationTolerance(Setting value) {
+        std::cout << "CVODEIntegrator::setConcentrationTolerance: " << value.toString() << std::endl;
         uint ncomp = mModel->getNumCompartments();
 
         double *volumes = (double *) calloc(ncomp, sizeof(double));

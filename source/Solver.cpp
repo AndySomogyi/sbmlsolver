@@ -26,7 +26,7 @@ namespace rr
     Solver::Solver(ExecutableModel* model)
         : mModel(model){}
 
-    void Solver::addSetting(const std::string& name, const Setting& val, std::string display_name, std::string hint, std::string description)
+    void Solver::addSetting(const std::string& name, Setting val, std::string display_name, std::string hint, std::string description)
     {
         sorted_settings.push_back(name);
         settings[name] = val;

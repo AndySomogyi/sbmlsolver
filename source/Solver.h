@@ -214,7 +214,7 @@ namespace rr
          */
         ExecutableModel* mModel = nullptr;
 
-        void addSetting(const std::string& name, const Setting& val, std::string display_name, std::string hint, std::string description);
+        void addSetting(const std::string& name, Setting val, std::string display_name, std::string hint, std::string description);
 
     };
 

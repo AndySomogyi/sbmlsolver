@@ -364,7 +364,7 @@ std::string Config::getConfigFilePath() {
   return "";
 }
 
-void Config::setValue(Keys key, const Setting &value) {
+void Config::setValue(Keys key, Setting value) {
   readDefaultConfig();
   CHECK_RANGE(key);
   values[key] = value;
@@ -418,7 +418,7 @@ void Config::readConfigFile(const std::string &path) {
   initialized = true;
 }
 
-const Setting &Config::getValue(Keys key) {
+Setting Config::getValue(Keys key) {
   readDefaultConfig();
   CHECK_RANGE(key);
   return values[key];

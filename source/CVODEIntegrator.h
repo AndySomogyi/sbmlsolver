@@ -150,7 +150,7 @@ namespace rr
 		 * by multiplying the compartment volume of species. Whichever is smaller
 		 * will be stored as absolute_tolerance and used in the integration process.
 		 */
-		void setConcentrationTolerance(const Setting& value) override;
+		void setConcentrationTolerance(Setting value) override;
 
 		/**
 		 * @author FY
