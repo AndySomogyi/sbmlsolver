@@ -16,12 +16,12 @@ sys.path += [
 try:
     from roadrunner.roadrunner import (
         RoadRunner, Integrator, SteadyStateSolver,
-        ExecutableModel, RoadRunnerOptions
+        ExecutableModel, RoadRunnerOptions, Config
     )
 except ImportError:
     from roadrunner import (
         RoadRunner, Integrator, SteadyStateSolver,
-        ExecutableModel, RoadRunnerOptions
+        ExecutableModel, RoadRunnerOptions, Config
     )
 
 sbml = """<?xml version="1.0" encoding="UTF-8"?>
@@ -372,6 +372,14 @@ class RoadRunnerTests(unittest.TestCase):
         self.assertEqual([-0.2], self.rr.getFullEigenValues())
 
     def test_getFullJacobian(self):
+        self.assertEqual(-0.2, self.rr.getFullJacobian()["S2"])
+
+    def test_getFullJacobianConc(self):
+        Config.setValue(Config.ROADRUNNER_JACOBIAN_MODE, Config.ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS)
+        self.assertEqual(-0.2, self.rr.getFullJacobian()["S2"])
+
+    def test_getFullJacobianAmt(self):
+        Config.setValue(Config.ROADRUNNER_JACOBIAN_MODE, Config.ROADRUNNER_JACOBIAN_MODE_AMOUNTS)
         self.assertEqual(-0.2, self.rr.getFullJacobian()["S2"])
 
     def test_getFullStoichiometryMatrix(self):
@@ -973,6 +981,9 @@ class RoadRunnerTests(unittest.TestCase):
     @unittest.skip("unclear how to test. Should this method be private?")
     def test_validateCurrentSBML(self):
         self.assertTrue(self.rr.validateCurrentSBML())
+
+
+
 
 
 class CVODEIntegratorTests(unittest.TestCase):

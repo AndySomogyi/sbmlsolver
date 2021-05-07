@@ -107,8 +107,7 @@ static Setting values[] = {
     Setting(false),                // ROADRUNNER_DISABLE_PYTHON_DYNAMIC_PROPERTIES
     Setting(int(AllChecksON &UnitsCheckOFF)), // SBML_APPLICABLEVALIDATORS
     Setting(0.00001),                         // ROADRUNNER_JACOBIAN_STEP_SIZE
-    Setting((int)(SelectionRecord::TIME | SelectionRecord::RATE |
-                  SelectionRecord::FLOATING)), // MODEL_RESET
+    Setting((int)(SelectionRecord::TIME | SelectionRecord::RATE | SelectionRecord::FLOATING)), // MODEL_RESET
     Setting(1.e-12),                           // CVODE_MIN_ABSOLUTE
     Setting(1.e-6),                            // CVODE_MIN_RELATIVE
     Setting(true),                             // SIMULATEOPTIONS_COPY_RESULT
@@ -124,9 +123,7 @@ static Setting values[] = {
     Setting(1e-20), // STEADYSTATE_MINIMUM_DAMPING
     Setting(0),     // STEADYSTATE_BROYDEN
     Setting(3),     // STEADYSTATE_LINEARITY
-    Setting(
-        (unsigned int)Config::
-            ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS), // ROADRUNNER_JACOBIAN_MODE
+    Setting((std::int32_t)Config::ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS), // ROADRUNNER_JACOBIAN_MODE
     Setting(std::string(".")),                        // TEMP_DIR_PATH,
     Setting(std::string("")),                         // LOGGER_LOG_FILE_PATH,
     Setting(-1),                                      // RANDOM_SEED
@@ -138,7 +135,6 @@ static Setting values[] = {
     Setting(false), // ALLOW_EVENTS_IN_STEADY_STATE_CALCULATIONS
     Setting(true),  // VALIDATION_IN_REGENERATION
     Setting(1000),  // K_ROWS_PER_WRITE
-                    // add space after develop keys to clean up merging
 
 };
 
@@ -367,7 +363,7 @@ std::string Config::getConfigFilePath() {
 void Config::setValue(Keys key, Setting value) {
   readDefaultConfig();
   CHECK_RANGE(key);
-  values[key] = value;
+  values[key] = std::move(value);
 }
 
 /*void Config::setValues(const std::vector<Keys> keys, const

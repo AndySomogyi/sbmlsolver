@@ -27,6 +27,16 @@ TEST_F(CVODEIntegratorUnitTests, SetConcentrationToleranceFromScalar) {
     }
 }
 
+TEST_F(CVODEIntegratorUnitTests, SetConcentrationToleranceFromScalarSmallValue) {
+    RoadRunner rr(TestModelFactory("OpenLinearFlux")->str());
+    Integrator *cvodeIntegrator = rr.getIntegrator();
+    cvodeIntegrator->setConcentrationTolerance(1e-15);
+    auto x = cvodeIntegrator->getConcentrationTolerance();
+    for (auto i: x) {
+        ASSERT_NEAR(i, 1e-15, 1e-7);
+    }
+}
+
 TEST_F(CVODEIntegratorUnitTests, SetConcentrationToleranceFromVector) {
     RoadRunner rr(TestModelFactory("OpenLinearFlux")->str());
     Integrator *cvodeIntegrator = rr.getIntegrator();

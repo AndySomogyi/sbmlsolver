@@ -4,6 +4,7 @@
 
 #include "gtest/gtest.h"
 #include "Setting.h"
+#include <exception>
 
 using namespace rr;
 
@@ -256,18 +257,36 @@ TEST_F(SettingTests, ImplicitInstantiateFromBool) {
 
 TEST_F(SettingTests, ImplicitInstantiateFromBoolInAMap) {
     std::unordered_map<std::string, Setting> m({
-            {"isABool", true}
-    });
+                                                       {"isABool", true}
+                                               });
     Setting setting = m["isABool"];
     ASSERT_TRUE(*setting.get_if<bool>());
 }
 
 TEST_F(SettingTests, ImplicitInstantiateFromStringInAMap) {
     std::unordered_map<std::string, Setting> m({
-            {"isABool", "AString"}
-    });
+                                                       {"isABool", "AString"}
+                                               });
     Setting setting = m["isABool"];
     ASSERT_STREQ("AString", (*setting.get_if<std::string>()).c_str());
+}
+
+TEST_F(SettingTests, GetUnsignedIntFromInt) {
+    Setting setting(5);
+    ASSERT_EQ(setting.get<int>(), 5); // fails if setting is not int
+    ASSERT_THROW(setting.get<unsigned int>();, std::bad_variant_access); // bad, setting contains an int
+    ASSERT_EQ(setting.getAs<unsigned int>(), 5); // Okay, we can convert from int to unsigned when int > 0
+}
+
+TEST_F(SettingTests, GetAsBadTypeRequest) {
+    Setting setting(5);
+    // setting contains an int
+    ASSERT_EQ(setting.get<int>(), 5);
+    // but we request conversion from unsigned int
+    ASSERT_THROW(
+    setting.getAs<std::string>();,
+    std::invalid_argument
+    );
 }
 
 /********************************************

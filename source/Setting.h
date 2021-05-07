@@ -12,7 +12,9 @@
 #include <limits>
 #include <type_traits>
 #include <functional>
+#include <typeinfo>
 #include "setting_t.h"
+#include "rrException.h"
 
 namespace rr {
 
@@ -208,6 +210,72 @@ namespace rr {
         }
 
         /**
+         * @brief explicitly convert this Setting to type As.
+         * @details type contained by this Setting must be readily
+         * convertible to type As and throws std::invalid_argument if not.
+         * @code
+         *  Setting setting(5);
+         *  ASSERT_EQ(setting.get<int>(), 5); // fails if setting is not int
+         *  ASSERT_THROW(setting.get<unsigned int>();, std::bad_variant_access); // bad, setting contains an int
+         *  ASSERT_EQ(setting.getAs<unsigned int>(), 5); // Okay, we can convert from int to unsigned (when int > 0)
+         */
+        template<class As>
+        As getAs() const{
+            const std::type_info &inf = typeInfo();
+            return visit([&](auto &&val) {
+                if constexpr (std::is_convertible_v<decltype(val), As>) {
+                    // if we have an int
+                    if (auto intValue = std::get_if<int>(&value_)) {
+                        // and its negative,
+                        if (*intValue < 0) {
+                            // we cannot convert to unsigned int or unsigned long
+                            if (typeid(As) == typeid(unsigned int) || typeid(As) == typeid(unsigned long)) {
+                                throw std::bad_variant_access{};
+                                return As{};
+                            }
+                        }
+                    }
+
+                    // if we have a long,
+                    if (auto lValue = std::get_if<std::int64_t>(&value_)) {
+                        // and its negative, we cannot convert to unsigned int or unsigned long
+                        if (*lValue < 0) {
+                            if (typeid(As) == typeid(unsigned int) || typeid(As) == typeid(unsigned long)) {
+                                throw std::bad_variant_access{};
+                                return As{}; // must be present
+                            }
+                        }
+                        // furthermore, if we have a long which has a value greater than
+                        // that of int32 maximum, we have a problem and throw
+                        if (*lValue > ((std::int64_t) std::numeric_limits<int>::max())) {
+                            throw std::bad_variant_access{}; // has annoying private constructor so we can't add arguments
+                            return As{}; // must be present
+                        }
+                    }
+                    // if we have a double, with value greater than std::numeric_limits<float>::max
+                    // and we try to convert to float, we have an error
+                    if (auto lValue = std::get_if<float>(&value_)) {
+                        if (*lValue > (std::numeric_limits<float>::max())) {
+                            throw std::bad_variant_access{};
+                            return As{}; // must be present
+                        }
+                    }
+                    return As(val);
+                } else {
+                    std::ostringstream os;
+                    os << "Setting::getAs: TypeError. You have requested the conversion "
+                          "of a \"" << typeid(decltype(val)).name() << "\" to a ";
+                    os << "\"" << typeid(As).name() << "\" but this Setting contains ";
+                    os << "a \"" << inf.name() << "\"" << std::endl;
+                    // would prefer to throw std::bad_variant_access, but it seems
+                    // it does not have the appropriate constructor (?)
+                    throw std::invalid_argument(os.str());
+                    return As{}; // oddly enough, this *is* necessary
+                }
+            });
+        }
+
+        /**
          * @brief return the value held by this setting as type SettingType.
          * @details const version of SettingType::get()
          * @see SettingType::get()
@@ -239,44 +307,8 @@ namespace rr {
             return std::visit(
                     [&](auto const &val) {
                         if constexpr (std::is_convertible_v<decltype(val), T>) {
-                            // if we have an int
-                            if (auto intValue = std::get_if<int>(&value_)) {
-                                // and its negative,
-                                if (*intValue < 0) {
-                                    // we cannot convert to unsigned int or unsigned long
-                                    if (typeid(T) == typeid(unsigned int) || typeid(T) == typeid(unsigned long)) {
-                                        throw std::bad_variant_access{};
-                                        return T{};
-                                    }
-                                }
-                            }
-
-                            // if we have a long,
-                            if (auto lValue = std::get_if<std::int64_t>(&value_)) {
-                                // and its negative, we cannot convert to unsigned int or unsigned long
-                                if (*lValue < 0) {
-                                    if (typeid(T) == typeid(unsigned int) || typeid(T) == typeid(unsigned long)) {
-                                        throw std::bad_variant_access{};
-                                        return T{}; // must be present
-                                    }
-                                }
-                                // furthermore, if we have a long which has a value greater than
-                                // that of int32 maximum, we have a problem and throw
-                                if (*lValue > ((std::int64_t) std::numeric_limits<int>::max())) {
-                                    throw std::bad_variant_access{}; // has annoying private constructor so we can't add arguments
-                                    return T{}; // must be present
-                                }
-                            }
-                            // if we have a double, with value greater than std::numeric_limits<float>::max
-                            // and we try to convert to float, we have an error
-                            if (auto lValue = std::get_if<float>(&value_)) {
-                                if (*lValue > (std::numeric_limits<float>::max())) {
-                                    throw std::bad_variant_access{};
-                                    return T{}; // must be present
-                                }
-                            }
                             // if all is good, we construct a object of type T and return it.
-                            return T(val);
+                            return getAs<T>();
                         } else {
                             // T is not supported conversion type from typeid(value_)
                             throw std::bad_variant_access{};

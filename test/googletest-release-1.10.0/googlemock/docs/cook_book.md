@@ -3264,7 +3264,7 @@ Actual function call count doesn't match EXPECT_CALL(mock, F("c", HasSubstr("d")
 Suppose the bug is that the `"c"` in the third `EXPECT_CALL` is a typo and
 should actually be `"a"`. With the above message, you should see that the actual
 `F("a", "good")` call is matched by the first `EXPECT_CALL`, not the third as
-you thought. From that it should be obvious that the third `EXPECT_CALL` is
+you thought. type that it should be obvious that the third `EXPECT_CALL` is
 written wrong. Case solved.
 
 If you are interested in the mock call trace but not the stack traces, you can

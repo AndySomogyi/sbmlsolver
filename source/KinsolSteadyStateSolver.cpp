@@ -277,23 +277,23 @@ namespace rr {
         KINSetRelErrFunc(mKinsol_Memory, (double)getValue("rel_err_func"));
     }
 
-    std::unordered_map<std::string, Setting> KinsolSteadyStateSolver::getSolverStats() {
-        std::unordered_map<std::string, Setting> map;
-        map["numFuncEvals"] = Setting(numFuncEvals);
-        map["numNolinSolvIters"] = Setting(numNolinSolvIters);
-        map["numBetaCondFails"] = Setting(numBetaCondFails);
-        map["numBacktrackOps"] = Setting(numBacktrackOps);
-        map["funcNorm"] = Setting(funcNorm);
-        map["stepLength"] = Setting(stepLength);
-        map["numJacEvals"] = Setting(numJacEvals);
-        map["numJtimesEvals"] = Setting(numJtimesEvals);
-        map["numLinConvFails"] = Setting(numLinConvFails);
-        map["numLinFuncEvals"] = Setting(numLinFuncEvals);
-        map["numLinIters"] = Setting(numLinIters);
-        map["numNonlinSolvIters"] = Setting(numNonlinSolvIters);
-        map["numPrecEvals"] = Setting(numPrecEvals);
-        map["numPrecSolves"] = Setting(numPrecSolves);
-        return map;
+    std::unordered_map<std::string, Setting>& KinsolSteadyStateSolver::getSolverStats() {
+//        std::unordered_map<std::string, Setting> map;
+        solverStats["numFuncEvals"] = Setting(numFuncEvals);
+        solverStats["numNolinSolvIters"] = Setting(numNolinSolvIters);
+        solverStats["numBetaCondFails"] = Setting(numBetaCondFails);
+        solverStats["numBacktrackOps"] = Setting(numBacktrackOps);
+        solverStats["funcNorm"] = Setting(funcNorm);
+        solverStats["stepLength"] = Setting(stepLength);
+        solverStats["numJacEvals"] = Setting(numJacEvals);
+        solverStats["numJtimesEvals"] = Setting(numJtimesEvals);
+        solverStats["numLinConvFails"] = Setting(numLinConvFails);
+        solverStats["numLinFuncEvals"] = Setting(numLinFuncEvals);
+        solverStats["numLinIters"] = Setting(numLinIters);
+        solverStats["numNonlinSolvIters"] = Setting(numNonlinSolvIters);
+        solverStats["numPrecEvals"] = Setting(numPrecEvals);
+        solverStats["numPrecSolves"] = Setting(numPrecSolves);
+        return solverStats;
     }
 
     void KinsolSteadyStateSolver::printSolverStats() {

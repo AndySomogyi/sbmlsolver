@@ -107,6 +107,29 @@ std::unordered_map<std::string, rr::Setting> SimpleFlux::steadyStateSettings() {
     };
 }
 
+ls::DoubleMatrix SimpleFlux::fullJacobianAmt() {
+    return ls::DoubleMatrix({
+                                    {-0.1,        0},
+                                    {0.1, -0.2},
+                            });
+}
+
+ls::DoubleMatrix SimpleFlux::fullJacobianConc() {
+    return ls::DoubleMatrix();
+}
+
+ls::DoubleMatrix SimpleFlux::reducedJacobianAmt() {
+    return ls::DoubleMatrix();
+}
+
+ls::DoubleMatrix SimpleFlux::reducedJacobianConc() {
+    return ls::DoubleMatrix();
+}
+
+std::unordered_map<std::string, rr::Setting> SimpleFlux::settings() {
+    return std::unordered_map<std::string, rr::Setting>();
+}
+
 std::string SimpleFluxManuallyReduced::str() {
     return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
            "<sbml xmlns=\"http://www.sbml.org/sbml/level3/version1/core\" level=\"3\" version=\"1\">\n"
@@ -299,9 +322,9 @@ std::string OpenLinearFlux::modelName() {
 std::unordered_map<std::string, rr::Setting> OpenLinearFlux::steadyStateSettings() {
     return std::unordered_map<std::string, rr::Setting>{
 //            {"allow_presimulation", true},
-            {"allow_presimulation", false},
-            {"presimulation_time",  5},
-            {"moiety_conservation", false},
+            {"allow_presimulation",  false},
+            {"presimulation_time",   5},
+            {"moiety_conservation",  false},
             {"auto_moiety_analysis", false},
     };
 }

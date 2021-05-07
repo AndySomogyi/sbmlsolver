@@ -534,33 +534,6 @@ public:
         */
         K_ROWS_PER_WRITE,
 
-
-        // add lots of space so not to conflict with other branches.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         /**
          * Needs to be the last item in the enum, no mater how many
          * other items are added, this is used internally to create

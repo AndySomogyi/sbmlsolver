@@ -593,7 +593,6 @@ namespace rr {
     }
 
     void CVODEIntegrator::setValue(const std::string& key, Setting val) {
-        std::cout << "CVODEIntegrator::setValue: key: " << key << "; val.toString(): " << val.toString() << std::endl;
         // if std::vector tolerance is set, the size of std::vector must be equal to
         // the number of floating species
         if (key == "absolute_tolerance" && val.type() == Setting::DOUBLEVECTOR)

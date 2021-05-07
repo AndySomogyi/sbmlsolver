@@ -1613,6 +1613,35 @@ def getDefaultTestDir():
     return p.join(d,"test_data")
 
 
+def getRRTestDir(starting_path=None, max_depth=4):
+    """Looks for a directory containing "rrtest" files.
+
+    Starts in :param starting_path: and recursively searches parent
+    directories :param max_depth: times. The first directory found
+    that contains a file with the extension "rrtest" will be returned
+    or an error will be raised otherwise
+
+    :param starting_path: if None, defaults to folder called test_data
+                          in the current directory.
+    :return:
+    """
+    path = os.path.join(os.path.dirname(__file__), "test_data") if starting_path is None else starting_path
+    if not os.path.exists(path):
+        return getRRTestDir(os.path.dirname(path))
+    for root, dirs, files in os.walk(path):
+        rrtest_files = glob.glob(os.path.join(root, "*.rrtest"))
+        if len(rrtest_files) != 0:
+            return root
+        else:
+            for d in dirs:
+                rrtest_files = glob.glob(os.path.join(d, "*.rrtest"))
+                if len(rrtest_files) != 0:
+                    return d
+    # if we get this far, then there are no rrtest files in
+    # this directory, or any directory under it. So we repeat
+    # with parent directory
+    return getRRTestDir(os.path.dirname(path))
+
 def runTester (testDir=None):
     """
     Run a series of tests from a testing dir.

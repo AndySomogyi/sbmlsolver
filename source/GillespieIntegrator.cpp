@@ -176,7 +176,7 @@ namespace rr
 		{
 			try
 			{
-				auto seed = val.get<int>();
+				auto seed = val.getAs<std::uint64_t>();
 				setEngineSeed(seed);
 			}
 			catch (std::exception& e)
@@ -186,7 +186,7 @@ namespace rr
 				ss << "\" to an unsigned long integer. " << std::endl;
 				ss << "The seed must be a number between 0 and ";
 				ss << std::numeric_limits<unsigned long>::max();
-				ss << "; error message: " << e.what() << ".";
+				ss << "; "<<std::endl << "error message: " << e.what() << ".";
 				throw std::invalid_argument(ss.str());
 			}
 		}

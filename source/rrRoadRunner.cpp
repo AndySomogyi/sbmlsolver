@@ -2247,8 +2247,7 @@ DoubleMatrix RoadRunner::getFullJacobian()
     SetValueFuncPtr setValuePtr = 0;
     SetValueFuncPtrSize setInitValuePtr = 0;
 
-    if (Config::getValue(Config::ROADRUNNER_JACOBIAN_MODE).get<unsigned int>()
-        == Config::ROADRUNNER_JACOBIAN_MODE_AMOUNTS)
+    if (Config::getValue(Config::ROADRUNNER_JACOBIAN_MODE).getAs<std::int32_t >() == Config::ROADRUNNER_JACOBIAN_MODE_AMOUNTS)
     {
         getValuePtr = &ExecutableModel::getFloatingSpeciesAmounts;
         getInitValuePtr = &ExecutableModel::getFloatingSpeciesInitAmounts;
@@ -2472,7 +2471,7 @@ DoubleMatrix RoadRunner::getReducedJacobian(double h)
     GetValueFuncPtr getRateValuePtr = 0;
     SetValueFuncPtr setValuePtr = 0;
 
-    if (Config::getValue(Config::ROADRUNNER_JACOBIAN_MODE).get<unsigned>()
+    if (Config::getValue(Config::ROADRUNNER_JACOBIAN_MODE).getAs<std::int32_t>()
             == Config::ROADRUNNER_JACOBIAN_MODE_AMOUNTS)
     {
         rrLog(Logger::LOG_DEBUG) << "getReducedJacobian in AMOUNT mode";
@@ -3669,8 +3668,7 @@ double RoadRunner::getUnscaledSpeciesElasticity(int reactionId, int speciesIndex
     SetValueFuncPtr setValuePtr = 0;
     SetValueFuncPtr setInitValuePtr = 0;
 
-    if (Config::getValue(Config::ROADRUNNER_JACOBIAN_MODE).get<unsigned>()
-            == Config::ROADRUNNER_JACOBIAN_MODE_AMOUNTS)
+    if (Config::getValue(Config::ROADRUNNER_JACOBIAN_MODE).getAs<std::int32_t>()== Config::ROADRUNNER_JACOBIAN_MODE_AMOUNTS)
     {
         getValuePtr = &ExecutableModel::getFloatingSpeciesAmounts;
         getInitValuePtr = &ExecutableModel::getFloatingSpeciesInitAmounts;

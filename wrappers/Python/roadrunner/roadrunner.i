@@ -346,9 +346,12 @@
  * the full version below. The full version is needed for swig to recognize the type
  * and use this typemap
  */
-%typemap(out) std::unordered_map< std::string,rr::Setting,std::hash< std::string >,std::equal_to< std::string >,std::allocator< std::pair< std::string const,rr::Setting > > >* {
+%typemap(out) std::unordered_map< std::string, rr::Setting> {
+    // I'm a marker for %typemap(out) std::unordered_map< std::string, rr::Setting>
+    // Look me up in the swig generated wrapper cxx file to
+    // make sure this typemap is being properly applied
     $result = PyDict_New();
-    if (!result){
+    if (!$result){
         std::cerr << "Could not create Python Dict" << std::endl;
     }
 
@@ -361,13 +364,23 @@
 }
 
 
+/**
+ * @brief Apply the %typemap(out) std::unordered_map< std::string, rr::Setting>
+ * to the following types.
+ * @note swig is sensitive to rr:: qualified and unqualified types, even though they are the same
+ */
+%apply std::unordered_map< std::string, rr::Setting>{
+    std::unordered_map< std::string,rr::Setting,std::hash< std::string >,std::equal_to< std::string >,std::allocator< std::pair< std::string const,rr::Setting > > >,   // with rr::,       no reference
+    std::unordered_map< std::string,Setting,std::hash< std::string >,std::equal_to< std::string >,std::allocator< std::pair< std::string const,Setting > > >,           // no rr::          no reference
+     std::unordered_map< std::string,rr::Setting,std::hash< std::string >,std::equal_to< std::string >,std::allocator< std::pair< std::string const,rr::Setting > > > &, // with rr::        reference
+     std::unordered_map< std::string,Setting,std::hash< std::string >,std::equal_to< std::string >,std::allocator< std::pair< std::string const,Setting > > > &, // without rr::     reference
 
-%apply std::unordered_map< std::string,rr::Setting,std::hash< std::string >,std::equal_to< std::string >,std::allocator< std::pair< std::string const,rr::Setting > > >* {
-    std::unordered_map< std::string,rr::Setting,std::hash< std::string >,std::equal_to< std::string >,std::allocator< std::pair< std::string const,rr::Setting > > >,
-    std::unordered_map< std::string,rr::Setting,std::hash< std::string >,std::equal_to< std::string >,std::allocator< std::pair< std::string const,rr::Setting > > >&,
-    std::unordered_map< std::string,rr::Setting,std::hash< std::string >,std::equal_to< std::string >,std::allocator< std::pair< std::string const,rr::Setting > > >&,
-    const std::unordered_map< std::string,rr::Setting,std::hash< std::string >,std::equal_to< std::string >,std::allocator< std::pair< std::string const,rr::Setting > > >&,
-    const std::unordered_map< std::string,rr::Setting,std::hash< std::string >,std::equal_to< std::string >,std::allocator< std::pair< std::string const,rr::Setting > > >&
+    const std::unordered_map< std::string,rr::Setting,std::hash< std::string >,std::equal_to< std::string >,std::allocator< std::pair< std::string const,rr::Setting > > >,   // with rr::,       no reference
+    const std::unordered_map< std::string,Setting,std::hash< std::string >,std::equal_to< std::string >,std::allocator< std::pair< std::string const,Setting > > >          // no rr::          no reference
+    // note: it seems that this typemap cannot be applied to constant references,
+
+    // const std::unordered_map< std::string,rr::Setting,std::hash< std::string >,std::equal_to< std::string >,std::allocator< std::pair< std::string const,rr::Setting > > > &, // with rr::        reference
+    // const std::unordered_map< std::string,Setting,std::hash< std::string >,std::equal_to< std::string >,std::allocator< std::pair< std::string const,Setting > > > & // without rr::     reference
 };
 
 
@@ -376,6 +389,9 @@
  * input map, convert an incomming object to a roadrunner Dictionary*
  */
 %typemap(in) const rr::Dictionary* (DictionaryHolder holder, void* argp) {
+    // I'm a marker for %typemap(in) const rr::Dictionary* (DictionaryHolder holder, void* argp)
+    // Look me up in the swig generated wrapper cxx file to
+    // make sure this typemap is being properly applied
 
     try {
         // check if null, this is fine,
