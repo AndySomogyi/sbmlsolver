@@ -9,6 +9,7 @@
 #include "rrIniFile.h"
 #include "rrLogger.h"
 #include <filesystem>
+#include <rr-libstruct/lsMatrix.h>
 
 #include "gtest/gtest.h"
 #include "gmock/gmock.h"
@@ -29,6 +30,8 @@ public:
     RoadRunnerTest();
 
     ~RoadRunnerTest()  override = default;
+
+    static void checkMatrixEqual(ls::DoubleMatrix expectedMatrix, ls::DoubleMatrix actualMatrix) ;
 
 protected:
     /**

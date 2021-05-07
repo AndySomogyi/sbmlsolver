@@ -124,7 +124,7 @@ public:
     virtual ls::DoubleMatrix fullJacobianConc() = 0;
     virtual ls::DoubleMatrix reducedJacobianAmt() = 0;
     virtual ls::DoubleMatrix reducedJacobianConc() = 0;
-    virtual std::unordered_map<std::string, rr::Setting> settings() = 0;
+    virtual std::unordered_map<std::string, rr::Setting> jacobianSettings() = 0;
 };
 
 
@@ -139,8 +139,7 @@ public:
 class SimpleFlux :
         public TestModel,
         public TimeSeriesResult,
-        public SteadyStateResult,
-        public JacobianResult {
+        public SteadyStateResult{
 public:
 
     std::string str() override;
@@ -154,12 +153,6 @@ public:
     std::unordered_map<std::string, rr::Setting> steadyStateSettings() override;
 
     std::unordered_map<std::string, rr::Setting> timeSeriesSettings() override;
-
-    ls::DoubleMatrix fullJacobianAmt() override;
-    ls::DoubleMatrix fullJacobianConc() override;
-    ls::DoubleMatrix reducedJacobianAmt() override;
-    ls::DoubleMatrix reducedJacobianConc() override;
-    std::unordered_map<std::string, rr::Setting> settings() override;
 
 };
 
@@ -271,7 +264,11 @@ public:
     ...:  end
     ...:  """)
  */
-class OpenLinearFlux : public TestModel, public SteadyStateResult, public TimeSeriesResult {
+class OpenLinearFlux :
+        public TestModel,
+        public SteadyStateResult,
+        public TimeSeriesResult ,
+        public JacobianResult {
 public:
     std::string str() override;
 
@@ -284,6 +281,12 @@ public:
     std::unordered_map<std::string, rr::Setting> steadyStateSettings() override;
 
     std::unordered_map<std::string, rr::Setting> timeSeriesSettings() override;
+
+    ls::DoubleMatrix fullJacobianAmt() override;
+    ls::DoubleMatrix fullJacobianConc() override;
+    ls::DoubleMatrix reducedJacobianAmt() override;
+    ls::DoubleMatrix reducedJacobianConc() override;
+    std::unordered_map<std::string, rr::Setting> jacobianSettings() override;
 
 };
 

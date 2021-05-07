@@ -6,6 +6,7 @@
 
 // todo move test model factor up one directory
 #include "../sundials-tests/TestModelFactory.h"
+#include "../RoadRunnerTest.h"
 
 #include "rrRoadRunner.h"
 #include "rrConfig.h"
@@ -20,7 +21,7 @@ using namespace rr;
  * that need a new test to fix a bug.
  */
 
-class RoadRunnerAPITests : public ::testing::Test{
+class RoadRunnerAPITests : public RoadRunnerTest {
 
 public:
     OpenLinearFlux openLinearFlux;
@@ -47,28 +48,25 @@ TEST_F(RoadRunnerAPITests, SetJacobianModeToAmt){
     ASSERT_TRUE(x.get<int>() == Config::ROADRUNNER_JACOBIAN_MODE_AMOUNTS);
 }
 
-TEST(not, finished){
-    // complete the jacobian tests
-    ASSERT_FALSE(true);
-}
 
-TEST_F(RoadRunnerAPITests, GetFullJacobian){
+TEST_F(RoadRunnerAPITests, GetFullJacobianDefaultConfigSettings){
     RoadRunner rr(openLinearFlux.str());
     auto matrix = rr.getFullJacobian();
-    std::cout << matrix << std::endl;
+    // no modification of roadrunner Config
+    checkMatrixEqual(matrix, openLinearFlux.fullJacobianConc());
 }
 TEST_F(RoadRunnerAPITests, GetFullJacobianUsingConcMode){
     Config::setValue(Config::ROADRUNNER_JACOBIAN_MODE, Config::ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS);
     RoadRunner rr(openLinearFlux.str());
     auto matrix = rr.getFullJacobian();
-    std::cout << matrix << std::endl;
+    checkMatrixEqual(matrix, openLinearFlux.fullJacobianConc());
 }
 
 TEST_F(RoadRunnerAPITests, GetFullJacobianUsingAmtMode){
     Config::setValue(Config::ROADRUNNER_JACOBIAN_MODE, Config::ROADRUNNER_JACOBIAN_MODE_AMOUNTS);
     RoadRunner rr(openLinearFlux.str());
     auto matrix = rr.getFullJacobian();
-    std::cout << matrix << std::endl;
+    checkMatrixEqual(matrix, openLinearFlux.fullJacobianAmt());
 }
 
 TEST_F(RoadRunnerAPITests, GetFullJacobianUsingAmtModeAsLong){
@@ -88,5 +86,5 @@ TEST_F(RoadRunnerAPITests, GetFullJacobianUsingAmtModeAsLong){
     Config::setValue(Config::ROADRUNNER_JACOBIAN_MODE, std::int64_t(Config::ROADRUNNER_JACOBIAN_MODE_AMOUNTS));
     RoadRunner rr(openLinearFlux.str());
     auto matrix = rr.getFullJacobian();
-    std::cout << matrix << std::endl;
+    checkMatrixEqual(matrix, openLinearFlux.fullJacobianAmt());
 }

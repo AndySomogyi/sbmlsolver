@@ -107,29 +107,6 @@ std::unordered_map<std::string, rr::Setting> SimpleFlux::steadyStateSettings() {
     };
 }
 
-ls::DoubleMatrix SimpleFlux::fullJacobianAmt() {
-    return ls::DoubleMatrix({
-                                    {-0.1,        0},
-                                    {0.1, -0.2},
-                            });
-}
-
-ls::DoubleMatrix SimpleFlux::fullJacobianConc() {
-    return ls::DoubleMatrix();
-}
-
-ls::DoubleMatrix SimpleFlux::reducedJacobianAmt() {
-    return ls::DoubleMatrix();
-}
-
-ls::DoubleMatrix SimpleFlux::reducedJacobianConc() {
-    return ls::DoubleMatrix();
-}
-
-std::unordered_map<std::string, rr::Setting> SimpleFlux::settings() {
-    return std::unordered_map<std::string, rr::Setting>();
-}
-
 std::string SimpleFluxManuallyReduced::str() {
     return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
            "<sbml xmlns=\"http://www.sbml.org/sbml/level3/version1/core\" level=\"3\" version=\"1\">\n"
@@ -327,6 +304,43 @@ std::unordered_map<std::string, rr::Setting> OpenLinearFlux::steadyStateSettings
             {"moiety_conservation",  false},
             {"auto_moiety_analysis", false},
     };
+}
+
+
+ls::DoubleMatrix OpenLinearFlux::fullJacobianAmt() {
+    return ls::DoubleMatrix(
+            {
+                    {-0.1, 0},
+                    {0.1,  -0.2},
+            });
+}
+
+ls::DoubleMatrix OpenLinearFlux::fullJacobianConc() {
+    return ls::DoubleMatrix(
+            {
+                    {-0.1, 0},
+                    {0.1,  -0.2},
+            });
+}
+
+ls::DoubleMatrix OpenLinearFlux::reducedJacobianAmt() {
+    return ls::DoubleMatrix(
+            {
+                    {-0.1, 0},
+                    {0.1,  -0.2},
+            });
+}
+
+ls::DoubleMatrix OpenLinearFlux::reducedJacobianConc() {
+    return ls::DoubleMatrix(
+            {
+                    {-0.1, 0},
+                    {0.1,  -0.2},
+            });
+}
+
+std::unordered_map<std::string, rr::Setting> OpenLinearFlux::jacobianSettings() {
+    return std::unordered_map<std::string, rr::Setting>();
 }
 
 

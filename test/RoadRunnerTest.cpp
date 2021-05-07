@@ -8,14 +8,14 @@ RoadRunnerTest::RoadRunnerTest()
         : rrTestDir_(fs::path(getRoadRunnerTestDirectory())) {
     RoadRunnerTest::validateRoadRunnerTestDir();
     rrTestModelsDir_ = rrTestDir_ / "models";
-    if (! fs::exists(rrTestModelsDir_)){
+    if (!fs::exists(rrTestModelsDir_)) {
         std::cerr << "RoadRunner test models directory does not exist \""
-            << rrTestModelsDir_ << "\"";
+                  << rrTestModelsDir_ << "\"";
     }
     rrTestSbmlTestSuiteDir_ = rrTestDir_ / "sbml-test-suite";
-    if (! fs::exists(rrTestSbmlTestSuiteDir_)){
+    if (!fs::exists(rrTestSbmlTestSuiteDir_)) {
         std::cerr << "RoadRunner sbml test suite directory does not exist \""
-            << rrTestSbmlTestSuiteDir_ << "\"";
+                  << rrTestSbmlTestSuiteDir_ << "\"";
     }
 
 }
@@ -44,12 +44,32 @@ void RoadRunnerTest::validateRoadRunnerTestDir() {
         return;
     }
     rrTestDotH = rrTestDir_ / "RoadRunnerTest.h";
-    if (!fs::exists(rrTestDotH)){
+    if (!fs::exists(rrTestDotH)) {
         std::cerr << "Could not locate a file know to exist in the roadrunner testdir (<roadrunnerRoot>/test). "
                      "Please check the accuracy of the testdir environment variable "
-                     "(testdir = \""<<rrTestDir_ << "\"" << std::endl;
+                     "(testdir = \"" << rrTestDir_ << "\"" << std::endl;
         return;
     }
-
 }
+
+void RoadRunnerTest::checkMatrixEqual(ls::DoubleMatrix expectedMatrix, ls::DoubleMatrix actualMatrix) {
+    if (expectedMatrix.numRows() != actualMatrix.numRows()) {
+        std::cerr << "number of rows in expected Vs actual are not equal" << std::endl;
+        ASSERT_EQ(expectedMatrix.numRows(), actualMatrix.numRows());
+    }
+
+    if (expectedMatrix.numCols() != actualMatrix.numCols()) {
+        std::cerr << "number of cols in expected Vs actual are not equal" << std::endl;
+        ASSERT_EQ(expectedMatrix.numCols(), actualMatrix.numCols());
+    }
+
+    for (int i = 0; i < expectedMatrix.numRows(); i++) {
+        for (int j = 0; j < expectedMatrix.numCols(); j++) {
+            std::cout << "Comparing expected result: " << expectedMatrix[i][j]
+                      << " with actual result: " << actualMatrix[i][j] << std::endl;
+            EXPECT_NEAR(expectedMatrix[i][j], actualMatrix[i][j], 0.001);
+        }
+    }
+}
+
 

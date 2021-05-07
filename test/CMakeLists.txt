@@ -156,9 +156,11 @@ endmacro()
 
 set(
         SharedTestFiles
+        # path *must* be absolute to work in cmake functions/macros
         "${CMAKE_CURRENT_BINARY_DIR}/RoadRunnerTestDirectory"
-        ${CMAKE_CURRENT_SOURCE_DIR}/test_util
-        ${CMAKE_CURRENT_SOURCE_DIR}/RoadRunnerTest
+        "${CMAKE_CURRENT_SOURCE_DIR}/test_util"
+        "${CMAKE_CURRENT_SOURCE_DIR}/RoadRunnerTest"
+        "${CMAKE_CURRENT_SOURCE_DIR}/sundials-tests/TestModelFactory" # todo Note, this needs to be moved up a directory
 )
 
 add_subdirectory(c_api_core)
