@@ -5,6 +5,7 @@
 #include "gtest/gtest.h"
 #include "Setting.h"
 #include <exception>
+#include <unordered_map>
 
 using namespace rr;
 
@@ -461,9 +462,10 @@ TEST_F(SettingTests, InAMapAssignNewValue) {
     ASSERT_TRUE(false);//if we hit here we've failed
 }
 
-TEST_F(SettingTests, InAMapImplicitInstantiation) {
+TEST_F(SettingTests, InAMapImplicitInstantiationOfInt) {
     std::unordered_map<std::string, Setting> smap;
-    smap["A String"] = 10;
+    smap["AnInt"] = 10;
+    ASSERT_EQ(typeid(smap["AnInt"].getAs<int>()), typeid(int));
 }
 
 
