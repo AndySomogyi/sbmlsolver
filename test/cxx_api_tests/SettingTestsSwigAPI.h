@@ -6,7 +6,7 @@
 #define ROADRUNNER_SETTINGTESTSSWIGAPI_H
 
 #include "Setting.h"
-
+#include <unordered_map>
 //using namespace rr; // swig complains about not knowing anything about namespace rr
 
 /**

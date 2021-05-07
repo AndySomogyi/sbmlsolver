@@ -184,18 +184,6 @@ namespace rr {
             return std::get_if<T>(&value_);
         }
 
-// errors on windows
-//        /**
-//         * @brief get the value of this Setting as type T
-//         * if the value in this Setting is of Type T.
-//         * The const version of @see T * get_if();
-//         */
-//        template<class T>
-//        T *get_if() const {
-//            checkValidType<T>();
-//            return std::get_if<T>(&value_);
-//        }
-
         /**
          * @brief return the value held by this Setting
          * as a type SettingType.
