@@ -136,7 +136,7 @@ namespace rr {
     Setting::Setting(Setting &&setting) noexcept
             : value_(std::move(setting.getValue())) {}
 
-    const std::type_info &Setting::typeInfo() const{
+    const std::type_info &Setting::typeInfo() const {
         return std::visit([](auto &&x) -> decltype(auto) {
             return std::move(typeid(x));
         }, value_);
@@ -150,45 +150,45 @@ namespace rr {
         return (*this == std::string(setting));
     }
 
-    bool Setting::operator!=(const char *setting)  {
-            return !(*this == setting);
-        }
+    bool Setting::operator!=(const char *setting) {
+        return !(*this == setting);
+    }
 
     bool Setting::operator!=(const Setting &setting) {
-            return !(value_ == setting.value_);
-        }
+        return !(value_ == setting.value_);
+    }
 
     std::string Setting::toString() {
         std::ostringstream os;
         os << std::boolalpha;
-        if (auto v = get_if<std::monostate>()){
+        if (auto v = get_if<std::monostate>()) {
             os << "None";
-        } else if (auto v = get_if<std::vector<double>>()){
+        } else if (auto v = get_if<std::vector<double>>()) {
             os << "[";
-            for (int i=0; i<v->size(); i++){
-                if (i == v->size()-1){
+            for (int i = 0; i < v->size(); i++) {
+                if (i == v->size() - 1) {
                     os << (*v)[i] << "]";
                 } else {
                     os << (*v)[i] << ", ";
                 }
             }
-        } else if (auto v = get_if<std::string>()){
+        } else if (auto v = get_if<std::string>()) {
             os << "'" << *v << "'";
-        }else if (auto v = get_if<bool>()){
+        } else if (auto v = get_if<bool>()) {
             os << *v;
-        }else if (auto v = get_if<std::int32_t>()){
+        } else if (auto v = get_if<std::int32_t>()) {
             os << *v;
-        }else if (auto v = get_if<std::uint32_t>()){
+        } else if (auto v = get_if<std::uint32_t>()) {
             os << *v;
-        }else if (auto v = get_if<std::int64_t>()){
+        } else if (auto v = get_if<std::int64_t>()) {
             os << *v;
-        }else if (auto v = get_if<std::int64_t>()){
+        } else if (auto v = get_if<std::int64_t>()) {
             os << *v;
-        }else if (auto v = get_if<float>()){
+        } else if (auto v = get_if<float>()) {
             os << *v;
-        }else if (auto v = get_if<bool>()){
+        } else if (auto v = get_if<bool>()) {
             os << *v;
-        }else if (auto v = get_if<double>()){
+        } else if (auto v = get_if<double>()) {
             os << *v;
         }
         return os.str();
