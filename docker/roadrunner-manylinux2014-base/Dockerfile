@@ -48,3 +48,4 @@ RUN cd /llvm-6.x/llvm/build \
     && cmake --build . --target install --config Release -j 12
 
 RUN yum install -y ncurses-devel
+RUN git config --global core.editor nano && git config --global pager.branch false

@@ -33,8 +33,9 @@ RUN yum install -y ncurses-devel
 
 # get roadruner source, checkout kinsol branch which has minor fix for building on centos
 # note, build master or develop once temporary kinsol branch is merged.
-RUN git clone https://github.com/sys-bio/roadrunner.git $roadrunnerSource \
-    && cd $roadrunnerSource && git checkout kinsol
+RUN git clone https://github.com/sys-bio/roadrunner.git $roadrunnerSource
+
+RUN cd $roadrunnerSource && git pull && git checkout set-cxx17-default
 
 # build against python 3.7
 RUN pwd
@@ -42,7 +43,7 @@ RUN $conda init && . $bashrc && conda activate py37 && cd $roadrunnerSource \
     && mkdir -p $roadrunnerBuild37 && cd $roadrunnerBuild37 \
     && cmake -DLLVM_INSTALL_PREFIX=/llvm-6.x/install-llvm-6.x -DRR_DEPENDENCIES_INSTALL_PREFIX=/libroadrunner-deps/install-libroadrunner-deps -DCMAKE_INSTALL_PREFIX=$roadrunnerInstall37 -DBUILD_PYTHON=ON -DBUILD_RR_PLUGINS=ON -DBUILD_TESTS=ON -DPython_ROOT_DIR=/Miniconda3/envs/py37 -DSWIG_EXECUTABLE=$swigExec ..
 RUN cd $roadrunnerBuild37 \
-    && cmake --build . --target install --config Release -j 12
+    && cmake --build . --target install --config Release -j 1
 RUN $conda init && . $bashrc && cd $roadrunnerBuild37 \
     && ctest --verbose --extra-verbose
 

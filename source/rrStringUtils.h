@@ -362,55 +362,55 @@ namespace rr {
 	case Setting::BOOL:
 		bool boolVal;
 		loadBinary(in, boolVal);
-		var = boolVal;
+		var = Setting(boolVal);
 		break;
 	case Setting::CHAR:
         char charVal;
 		loadBinary(in, charVal);
-		var = charVal;
+		var = Setting(charVal);
 		break;
 	case Setting::DOUBLE:
         double doubleVal;
 		loadBinary(in, doubleVal);
-		var = doubleVal;
+		var = Setting(doubleVal);
 		break;
 	case Setting::FLOAT:
         float floatVal;
 		loadBinary(in, floatVal);
-		var = floatVal;
+		var = Setting(floatVal);
 		break;
 	case Setting::INT32:
-        int int32Val;
+        std::int32_t int32Val;
 		loadBinary(in, int32Val);
-		var = int32Val;
+		var = Setting(int32Val);
 		break;
 	case Setting::INT64:
-        long int64Val;
+        std::int64_t int64Val;
 		loadBinary(in, int64Val);
-		var = int64Val;
+		var = Setting(int64Val);
 		break;
 	case Setting::STRING:
 		loadBinary(in, strVal);
-		var = strVal;
+		var = Setting(strVal);
 		break;
 	case Setting::UCHAR:
         unsigned char ucharVal;
 		loadBinary(in, ucharVal);
-		var = ucharVal;
+		var = Setting(ucharVal);
 		break;
 	case Setting::UINT32:
-        unsigned int uint32Val;
+        std::uint32_t uint32Val;
 		loadBinary(in, uint32Val);
-		var = uint32Val;
+		var = Setting(uint32Val);
 		break;
 	case Setting::UINT64:
-        unsigned long long uint64Val;
+        std::uint64_t uint64Val;
 		loadBinary(in, uint64Val);
-		var = uint64Val;
+		var = Setting(uint64Val);
 		break;
 	case Setting::DOUBLEVECTOR:
 		loadBinary(in, vectorVal);
-		var = vectorVal;
+		var = Setting(vectorVal);
 		break;
 	default:
 		break;
