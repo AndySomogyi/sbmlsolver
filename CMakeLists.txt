@@ -18,6 +18,14 @@ project(
         LANGUAGES CXX C
 )
 
+# CMake Policy's
+if (${CMAKE_VERSION} VERSION_GREATER "3.20")
+    # Source file extensions do not need to be explicitly
+    #   specified. New behavior requires all extensions be explicit
+    cmake_policy(SET CMP0115 OLD)
+endif()
+
+
 
 if ("${CMAKE_SIZEOF_VOID_P}" STREQUAL "4")
     message(STATUS "Build on 32-bit platform")
