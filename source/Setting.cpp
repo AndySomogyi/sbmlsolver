@@ -13,8 +13,8 @@ namespace rr {
     Setting::Setting(const char *settingValue)
             : value_(std::string(settingValue)) {}
 
-    Setting::Setting(long settingValue)
-            : value_((long long) settingValue) {}
+    Setting::Setting(std::int64_t settingValue)
+            : value_(std::int64_t (settingValue)) {}
 
     Setting::Setting(setting_t value)
             : value_(std::move(setting_t(std::move(value)))) {};

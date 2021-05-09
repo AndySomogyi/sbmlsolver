@@ -416,7 +416,7 @@ namespace rr {
 		break;
 	}
 
-	// todo replace the above logic with the following.
+	// todo replace the above logic with something like the following.
 	// remember that get_if returns a pointer!!!
 //        if (auto monostateVal = var.get_if<std::monostate>()) {
 //            // std::monostate is an alias for void in a std::variant (which cannot have void types).

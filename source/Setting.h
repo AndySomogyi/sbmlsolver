@@ -100,7 +100,8 @@ namespace rr {
 
         /**
          * @brief constructor for enabling creation
-         * of a Setting from a string literal
+         * of a Setting from a string literal. The literal
+         * gets converted into a std::string
          * @code
          * Setting s("a string"); //interpreted as string, not const char*
          * @endcode
@@ -112,7 +113,7 @@ namespace rr {
          * (std::int64_t is a long long, which
          * matters on windows)
          */
-        explicit Setting(long settingValue);
+        explicit Setting(std::int64_t  settingValue);
 
 
         /**
