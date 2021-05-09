@@ -18,13 +18,12 @@ project(
         LANGUAGES CXX C
 )
 
-# CMake Policy's
 if (${CMAKE_VERSION} VERSION_GREATER_EQUAL "3.20")
     # Source file extensions do not need to be explicitly
-    #   specified. New behavior requires all extensions be explicit
+    #   specified if CMP0115 set to OLD.
+    #   New behavior requires all extensions be explicit
     cmake_policy(SET CMP0115 OLD)
 endif()
-
 
 
 if ("${CMAKE_SIZEOF_VOID_P}" STREQUAL "4")

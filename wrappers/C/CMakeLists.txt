@@ -13,18 +13,8 @@ set(
         rrc_libstruct_api.h
         rrc_utilities.h
         rrc_cpp_support.h
-	rrc_exporter.h
-	rrc_types.h
-#=======
-#set(C_API_INCLUDE_ROOT "${RR_ROOT}/wrappers/C")
-
-
-#include_directories(
-#${RR_GENERATED_HEADER_PATH}     #we have to do this to get the generated header, NEEDED FOR rrVersionInfo.h file
-#${C_API_INCLUDE_ROOT}
-#${RR_ROOT}/source
-#${THIRD_PARTY_INSTALL_FOLDER}/include
-#>>>>>>> 32624909156eb38d84edf40566b07980f7435fca
+		rrc_exporter.h
+		rrc_types.h
 )
 
 set(
@@ -53,7 +43,8 @@ target_include_directories(${target} PUBLIC
 # Note: properties of roadrunner-static are transitive. Link libraries and
 # include_directories for roadrunner-static all come with the
 # roadrunner-static target automatically.
-target_link_libraries(${target} PUBLIC roadrunner-static)
+target_link_libraries(${target} PUBLIC roadrunner-static "$<TARGET_PROPERTY:roadrunner-static,LINK_LIBRARIES>"
+		)
 
 add_dependencies(${target} roadrunner-static)
 
