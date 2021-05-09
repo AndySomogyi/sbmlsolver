@@ -112,13 +112,12 @@ TEST_F(ApproxSteadyStateDecoratorTests, CheckApproxSteadyStateDecoratorHasAccess
     BasicNewtonIteration *basicNewtonIteration = new BasicNewtonIteration(rr.getModel());
 
     basicNewtonIteration->setValue("approx_time", 12.67);
-    ASSERT_EQ(12.67, basicNewtonIteration->getValueAsDouble("approx_time"));
+    ASSERT_EQ(12.67, (double)basicNewtonIteration->getValue("approx_time"));
 
     SteadyStateSolver *solver = basicNewtonIteration;
     ApproxSteadyStateDecorator decorator(solver);
     solver = &decorator;
-    solver->getValueAsDouble("approx_time");
-    ASSERT_EQ(12.67, solver->getValueAsDouble("approx_time"));
+    ASSERT_EQ(12.67, (double)solver->getValue("approx_time"));
     delete basicNewtonIteration;
 }
 

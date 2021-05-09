@@ -9,10 +9,6 @@ using namespace std;
 using namespace rr;
 using namespace ls;
 
-std::string getModelDir(std::string base, std::string suite, std::string name)
-{
-	return base + "models/" + suite + "/" + name + "/";
-}
 
 bool testValidateSBML(std::string sbml)
 {

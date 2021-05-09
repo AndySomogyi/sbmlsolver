@@ -1,21 +1,23 @@
+#ifndef ROADRUNNER_STEADYSTATEINTEGRATIONTEST
+#define ROADRUNNER_STEADYSTATEINTEGRATIONTEST
+
 #include <fstream>
 #include "gtest/gtest.h"
 
 #include "NewtonIteration.h"
 #include "BasicNewtonIteration.h"
 #include "LinesearchNewtonIteration.h"
-#include "rrRoadRunner.h"
 #include "TestModelFactory.h"
 #include <chrono>
+#include "rrRoadRunner.h"
+
 using namespace std::chrono;
-using namespace rr;using namespace std::chrono;
+using namespace rr;
 
-
-
-class SteadyStateIntegrationTests : public ::testing::Test {
+class SteadyStateIntegrationTest : public ::testing::Test {
 
 public:
-    SteadyStateIntegrationTests() = default;
+    SteadyStateIntegrationTest() = default;
 
     template<class TestModelType>
     void testSteadyState(
@@ -43,7 +45,7 @@ public:
                 rr.setConservedMoietyAnalysis(settingsIterator.second);
             } else {
                 try {
-                    rr.getSteadyStateSolver()->setValue(settingsIterator.first, Variant(settingsIterator.second));
+                    rr.getSteadyStateSolver()->setValue(settingsIterator.first, Setting(settingsIterator.second));
                 } catch (std::exception &err) {
                     // if solver does not have this option, that's okay
                     continue;
@@ -71,7 +73,7 @@ public:
     }
 };
 
-
+#endif //ROADRUNNER_STEADYSTATEINTEGRATIONTEST
 
 
 

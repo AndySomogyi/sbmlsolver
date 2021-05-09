@@ -69,6 +69,7 @@
     #include "BasicNewtonIteration.h"
     #include "LinesearchNewtonIteration.h"
 
+
     // make a python obj out of the C++ ExecutableModel, this is used by the PyEventListener
     // class. This function is defined later in this compilation unit.
     PyObject *ExecutableModel_NewPythonObj(rr::ExecutableModel*);
@@ -281,38 +282,60 @@
     }
 }
 
-%typemap(out) const rr::Variant& {
+
+
+/**
+ * converts a C++ rr::Setting to a Python variable, depending on its type
+ * The "work" of this typemap is offloaded to the rr::Variant_to_py function.
+ */
+%typemap(out) rr::Setting{
     try {
-        const rr::Variant& temp = *($1);
-        $result = Variant_to_py(temp);
-    } catch (const std::exception& e) {
+        // I'm a marker rr::Setting(out). Look for me in the swig_wrap.cxx file
+        // to verify that this type map is being properly applied
+        $result = rr::Variant_to_py($1);
+    } catch (const std::exception& e){
         SWIG_exception(SWIG_RuntimeError, e.what());
     }
 }
 
+/**
+ * Apply the %typemap(out) rr::Setting to
+ * other Setting types. Note that both
+ * rr:: qualified and unqualified are
+ * necessary!
+ */
+%apply rr::Setting{
+    // both syntax's of const are needed!
+    const rr::Setting&,
+    rr::Setting const &,
+    Setting const &,
+    rr::Setting&,
+    Setting&
+};
 
-%typemap(out) const rr::Variant {
+// converts a Python Variable to a C++ rr::Setting
+%typemap(in) const rr::Setting&(PyObject* settingObjFromPython){
     try {
-        $result = Variant_to_py($1);
-    } catch (const std::exception& e) {
+        // I'm a marker rr::Setting(in). Look for me in the swig_wrap.cxx file
+        // to verify that this type map is being properly applied
+        $1 = rr::Variant_from_py($input);
+
+    } catch (const std::exception& e){
         SWIG_exception(SWIG_RuntimeError, e.what());
     }
 }
+%apply const rr::Setting&{
+    // both syntax's of const are needed!
+    const rr::Setting&,
+    rr::Setting const &,
+    const Setting&,
+    Setting const &,
+    rr::Setting&,
+    Setting&,
+    rr::Setting,
+    Setting
+};
 
-%apply const rr::Variant {Variant, rr::Variant, const Variant};
-
-
-%typemap(in) const rr::Variant& (rr::Variant temp) {
-
-    try {
-        temp = Variant_from_py($input);
-        $1 = &temp;
-    } catch (const std::exception& e) {
-        SWIG_exception(SWIG_RuntimeError, e.what());
-    }
-}
-
-%apply const rr::Variant& {rr::Variant&, Variant&, const Variant&};
 
 
 /**
@@ -323,9 +346,12 @@
  * the full version below. The full version is needed for swig to recognize the type
  * and use this typemap
  */
-%typemap(out) std::unordered_map< std::string,rr::Variant,std::hash< std::string >,std::equal_to< std::string >,std::allocator< std::pair< std::string const,rr::Variant > > >* {
+%typemap(out) std::unordered_map< std::string, rr::Setting> {
+    // I'm a marker for %typemap(out) std::unordered_map< std::string, rr::Setting>
+    // Look me up in the swig generated wrapper cxx file to
+    // make sure this typemap is being properly applied
     $result = PyDict_New();
-    if (!result){
+    if (!$result){
         std::cerr << "Could not create Python Dict" << std::endl;
     }
 
@@ -338,13 +364,23 @@
 }
 
 
+/**
+ * @brief Apply the %typemap(out) std::unordered_map< std::string, rr::Setting>
+ * to the following types.
+ * @note swig is sensitive to rr:: qualified and unqualified types, even though they are the same
+ */
+%apply std::unordered_map< std::string, rr::Setting>{
+    std::unordered_map< std::string,rr::Setting,std::hash< std::string >,std::equal_to< std::string >,std::allocator< std::pair< std::string const,rr::Setting > > >,   // with rr::,       no reference
+    std::unordered_map< std::string,Setting,std::hash< std::string >,std::equal_to< std::string >,std::allocator< std::pair< std::string const,Setting > > >,           // no rr::          no reference
+     std::unordered_map< std::string,rr::Setting,std::hash< std::string >,std::equal_to< std::string >,std::allocator< std::pair< std::string const,rr::Setting > > > &, // with rr::        reference
+     std::unordered_map< std::string,Setting,std::hash< std::string >,std::equal_to< std::string >,std::allocator< std::pair< std::string const,Setting > > > &, // without rr::     reference
 
-%apply std::unordered_map< std::string,rr::Variant,std::hash< std::string >,std::equal_to< std::string >,std::allocator< std::pair< std::string const,rr::Variant > > >* {
-    std::unordered_map< std::string,rr::Variant,std::hash< std::string >,std::equal_to< std::string >,std::allocator< std::pair< std::string const,rr::Variant > > >,
-    std::unordered_map< std::string,rr::Variant,std::hash< std::string >,std::equal_to< std::string >,std::allocator< std::pair< std::string const,rr::Variant > > >&,
-    std::unordered_map< std::string,Variant,std::hash< std::string >,std::equal_to< std::string >,std::allocator< std::pair< std::string const,Variant > > >&,
-    const std::unordered_map< std::string,rr::Variant,std::hash< std::string >,std::equal_to< std::string >,std::allocator< std::pair< std::string const,rr::Variant > > >&,
-    const std::unordered_map< std::string,Variant,std::hash< std::string >,std::equal_to< std::string >,std::allocator< std::pair< std::string const,Variant > > >&
+    const std::unordered_map< std::string,rr::Setting,std::hash< std::string >,std::equal_to< std::string >,std::allocator< std::pair< std::string const,rr::Setting > > >,   // with rr::,       no reference
+    const std::unordered_map< std::string,Setting,std::hash< std::string >,std::equal_to< std::string >,std::allocator< std::pair< std::string const,Setting > > >          // no rr::          no reference
+    // note: it seems that this typemap cannot be applied to constant references,
+
+    // const std::unordered_map< std::string,rr::Setting,std::hash< std::string >,std::equal_to< std::string >,std::allocator< std::pair< std::string const,rr::Setting > > > &, // with rr::        reference
+    // const std::unordered_map< std::string,Setting,std::hash< std::string >,std::equal_to< std::string >,std::allocator< std::pair< std::string const,Setting > > > & // without rr::     reference
 };
 
 
@@ -353,6 +389,9 @@
  * input map, convert an incomming object to a roadrunner Dictionary*
  */
 %typemap(in) const rr::Dictionary* (DictionaryHolder holder, void* argp) {
+    // I'm a marker for %typemap(in) const rr::Dictionary* (DictionaryHolder holder, void* argp)
+    // Look me up in the swig generated wrapper cxx file to
+    // make sure this typemap is being properly applied
 
     try {
         // check if null, this is fine,

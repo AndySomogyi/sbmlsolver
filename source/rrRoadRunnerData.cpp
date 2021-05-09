@@ -13,6 +13,7 @@
 
 //---------------------------------------------------------------------------
 
+using std::filesystem::path;
 
 namespace rr
 {
@@ -308,7 +309,7 @@ bool RoadRunnerData::check() const
 
 bool RoadRunnerData::loadSimpleFormat(const std::string& fName)
 {
-    if(!fileExists(fName))
+    if(!std::filesystem::exists(fName))
     {
         return false;
     }
@@ -455,7 +456,7 @@ std::istream& operator >> (std::istream& ss, RoadRunnerData& data)
     std::string oneLine((std::istreambuf_iterator<char>(ss)), std::istreambuf_iterator<char>());
 
     //This is pretty inefficient
-    std::string tempFileName = joinPath(getTempDir(), "rrTempFile.dat");
+    std::string tempFileName = (path(getTempDir()) /= "rrTempFile.dat").string();
     std::ofstream tempFile(tempFileName.c_str());
 
     tempFile << oneLine;

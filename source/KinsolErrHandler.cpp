@@ -113,6 +113,7 @@ namespace rr {
 
                 throw std::runtime_error("Unrecognized kinsol errorunhandled exception");
         }
+        free(errorString);
         return errMsg.str();
     }
 

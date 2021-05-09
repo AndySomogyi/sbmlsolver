@@ -113,7 +113,7 @@ using ::testing::AnyNumber;
 using ::testing::Not;
 ...
   // Ignores any log not done by us.
-  EXPECT_CALL(log, rrLog(_, Not(EndsWith("/my_file.cc")), _))
+  EXPECT_CALL(log, Log(_, Not(EndsWith("/my_file.cc")), _))
       .Times(AnyNumber());
 ```
 
@@ -363,7 +363,7 @@ user's fault, gMock tries to be nice and prints you a note.
 So, when you see the message and believe that there shouldn't be any
 uninteresting calls, you should investigate what's going on. To make your life
 easier, gMock dumps the stack trace when an uninteresting call is encountered.
-From that you can figure out which mock function it is, and how it is called.
+type that you can figure out which mock function it is, and how it is called.
 
 ### I want to define a custom action. Should I use Invoke() or implement the ActionInterface interface?
 

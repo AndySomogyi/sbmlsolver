@@ -120,7 +120,7 @@ GTEST_API_ FailureReporterInterface* GetFailureReporter() {
   return failure_reporter;
 }
 
-// Protects global resources (stdout in particular) used by rrLog().
+// Protects global resources (stdout in particular) used by Log().
 static GTEST_DEFINE_STATIC_MUTEX_(g_log_mutex);
 
 // Returns true if and only if a log with the given severity is visible
@@ -146,7 +146,7 @@ GTEST_API_ bool LogIsVisible(LogSeverity severity) {
 // stack_frames_to_skip is treated as 0, since we don't know which
 // function calls will be inlined by the compiler and need to be
 // conservative.
-GTEST_API_ void rrLog(LogSeverity severity, const std::string& message,
+GTEST_API_ void Log(LogSeverity severity, const std::string& message,
                     int stack_frames_to_skip) {
   if (!LogIsVisible(severity))
     return;

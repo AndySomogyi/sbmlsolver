@@ -320,7 +320,7 @@ int ConservedMoietyConverter::setDocument(const libsbml::SBMLDocument* doc)
     if (doc->getLevel() != ConservationExtension::getDefaultLevel()
         || doc->getVersion() != ConservationExtension::getDefaultVersion())
     {
-        if ((rr::Config::getInt(rr::Config::ROADRUNNER_DISABLE_WARNINGS) &
+        if ((rr::Config::getBool(rr::Config::ROADRUNNER_DISABLE_WARNINGS) &
                 rr::Config::ROADRUNNER_DISABLE_WARNINGS_CONSERVED_MOIETY) == 0)
         {
             rrLog(rr::Logger::LOG_NOTICE) << "source document is level " << doc->getLevel()

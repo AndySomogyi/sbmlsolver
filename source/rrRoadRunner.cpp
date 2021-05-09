@@ -8,6 +8,7 @@
 #undef RR_DEPRECATED
 #define RR_DEPRECATED(func) func
 
+#include <iostream>
 #include "rrRoadRunner.h"
 #include "rrException.h"
 #include "ExecutableModelFactory.h"
@@ -15,7 +16,6 @@
 #include "rrLogger.h"
 #include "rrUtils.h"
 #include "rrExecutableModel.h"
-#include "rrSBMLModelSimulation.h"
 #include "rr-libstruct/lsLA.h"
 #include "rr-libstruct/lsLibla.h"
 #include "rrConstants.h"
@@ -66,6 +66,7 @@
 #include <Poco/Mutex.h>
 #include <list>
 #include <cstdlib>
+#include <fstream>
 
 
 #ifdef _MSC_VER
@@ -317,9 +318,9 @@ public:
                 mInstanceID(0),
                 compiler(Compiler::New())
     {
-        loadOpt.setItem("compiler", _compiler);
-        loadOpt.setItem("tempDir", _tempDir);
-        loadOpt.setItem("supportCodeDir", _supportCodeDir);
+        loadOpt.setItem("compiler",         Setting(_compiler));
+        loadOpt.setItem("tempDir",          Setting(_tempDir));
+        loadOpt.setItem("supportCodeDir",   Setting(_supportCodeDir));
 
         // have to init integrators the hard way in c++98
         //memset((void*)integrators, 0, sizeof(integrators)/sizeof(char));
@@ -725,7 +726,7 @@ Compiler* RoadRunner::getCompiler()
 
 void RoadRunner::setCompiler(const std::string& compiler)
 {
-    impl->loadOpt.setItem("compiler", compiler);
+    impl->loadOpt.setItem("compiler", Setting(compiler));
 }
 
 bool RoadRunner::isModelLoaded()
@@ -750,7 +751,7 @@ bool RoadRunner::getConservedMoietyAnalysis()
 
 void RoadRunner::setTempDir(const std::string& folder)
 {
-    impl->loadOpt.setItem("tempDir", folder);
+    impl->loadOpt.setItem("tempDir", Setting(folder));
 }
 
 std::string RoadRunner::getTempDir()
@@ -1272,7 +1273,7 @@ double RoadRunner::steadyState(Dictionary* dict) {
     const std::string& solverName = impl->steady_state_solver->getName();
 
     // automatic detection of requirement for conserved moiety analysis
-    if (getSteadyStateSolver()->getValueAsBool("auto_moiety_analysis")) {
+    if (getSteadyStateSolver()->getValue("auto_moiety_analysis")) {
         rrLog(Logger::LOG_DEBUG) << "Checking whether moiety conservation analysis is needed" << std::endl;
         if (!impl->loadOpt.getConservedMoietyConversion()) {
             /*
@@ -1308,26 +1309,35 @@ double RoadRunner::steadyState(Dictionary* dict) {
     // The first solve() method attempted is always the undecorated version
     // The first decorator applied is the first attempted to be executed.
     //  i.e. we try Presimulation then approximation.
-    SteadyStateSolverDecorator *decorator = nullptr;
+    PresimulationProgramDecorator *presimDec = nullptr;
+    ApproxSteadyStateDecorator *approxDec = nullptr;
+
+    // copy of steady state solver pointer to put back after
+    // were done with modifications
+//    SteadyStateSolver* copyOfSSSolverPtr;
 
     // apply presimulation decorator if requested by user
-    if (impl->steady_state_solver->getValueAsBool("allow_presimulation")){
-        decorator = new PresimulationProgramDecorator(impl->steady_state_solver);
-//        decorator = new PresimulationDecorator(impl->steady_state_solver);
-        impl->steady_state_solver = decorator;
+    if (impl->steady_state_solver->getValue("allow_presimulation")){
+        presimDec = new PresimulationProgramDecorator(impl->steady_state_solver);
+        impl->steady_state_solver = presimDec;
     }
 
     // apply approximation decorator if requested by user
-    if (impl->steady_state_solver->getValueAsBool("allow_approx")){
-        decorator = new ApproxSteadyStateDecorator(impl->steady_state_solver);
-        impl->steady_state_solver = decorator;
+    if (impl->steady_state_solver->getValue("allow_approx")){
+        approxDec = new ApproxSteadyStateDecorator(impl->steady_state_solver);
+        impl->steady_state_solver = approxDec;
     }
 
     double ss = impl->steady_state_solver->solve();
 
-    if (decorator){
-        delete decorator;
-        decorator = nullptr;
+    if (presimDec){
+        delete presimDec;
+        presimDec = nullptr;
+    }
+
+    if (approxDec){
+        delete approxDec;
+        approxDec = nullptr;
     }
 
     // put back to original type before return
@@ -1639,14 +1649,14 @@ const DoubleMatrix* RoadRunner::simulate(const Dictionary* dict)
     // evalute the model with its current state
     self.model->getStateVectorRate(timeStart, 0, 0);
     // Variable Time Step Integration
-    if (self.integrator->hasValue("variable_step_size") && self.integrator->getValueAsBool("variable_step_size"))
+    if (self.integrator->hasValue("variable_step_size") && self.integrator->getValue("variable_step_size"))
     {
         rrLog(Logger::LOG_INFORMATION) << "Performing variable step integration";
 
         int max_output_rows = Config::getInt(Config::MAX_OUTPUT_ROWS);
         if (self.integrator->hasValue("max_output_rows"))
         {
-            max_output_rows = self.integrator->getValueAsInt("max_output_rows");
+            max_output_rows = (int)self.integrator->getValue("max_output_rows");
         }
 
         if (self.simulateOpt.duration <= 0 && self.simulateOpt.steps <= 0)
@@ -1952,7 +1962,7 @@ double RoadRunner::internalOneStep(const double currentTime, const double stepSi
     double endTime;
 
     bool temp_var = self.integrator->getValue("variable_step_size");
-    self.integrator->setValue("variable_step_size", true);
+    self.integrator->setValue("variable_step_size", Setting(true));
 
     try
     {
@@ -1961,7 +1971,7 @@ double RoadRunner::internalOneStep(const double currentTime, const double stepSi
             self.integrator->restart(currentTime);
         }
         endTime = self.integrator->integrate(currentTime, stepSize);
-        self.integrator->setValue("variable_step_size", temp_var);
+        self.integrator->setValue("variable_step_size", Setting(temp_var));
         rrLog(Logger::LOG_DEBUG) << "internalOneStep: " << endTime;
         return endTime;
     }
@@ -1969,7 +1979,7 @@ double RoadRunner::internalOneStep(const double currentTime, const double stepSi
     {
         rrLog(Logger::LOG_NOTICE) << e.what();
         endTime = self.model->getTime();
-        self.integrator->setValue("variable_step_size", temp_var);
+        self.integrator->setValue("variable_step_size", Setting(temp_var));
         return endTime;
     }
 }
@@ -2237,8 +2247,7 @@ DoubleMatrix RoadRunner::getFullJacobian()
     SetValueFuncPtr setValuePtr = 0;
     SetValueFuncPtrSize setInitValuePtr = 0;
 
-    if (Config::getValue(Config::ROADRUNNER_JACOBIAN_MODE).convert<unsigned>()
-        == Config::ROADRUNNER_JACOBIAN_MODE_AMOUNTS)
+    if (Config::getValue(Config::ROADRUNNER_JACOBIAN_MODE).getAs<std::int32_t >() == Config::ROADRUNNER_JACOBIAN_MODE_AMOUNTS)
     {
         getValuePtr = &ExecutableModel::getFloatingSpeciesAmounts;
         getInitValuePtr = &ExecutableModel::getFloatingSpeciesInitAmounts;
@@ -2462,7 +2471,7 @@ DoubleMatrix RoadRunner::getReducedJacobian(double h)
     GetValueFuncPtr getRateValuePtr = 0;
     SetValueFuncPtr setValuePtr = 0;
 
-    if (Config::getValue(Config::ROADRUNNER_JACOBIAN_MODE).convert<unsigned>()
+    if (Config::getValue(Config::ROADRUNNER_JACOBIAN_MODE).getAs<std::int32_t>()
             == Config::ROADRUNNER_JACOBIAN_MODE_AMOUNTS)
     {
         rrLog(Logger::LOG_DEBUG) << "getReducedJacobian in AMOUNT mode";
@@ -3659,8 +3668,7 @@ double RoadRunner::getUnscaledSpeciesElasticity(int reactionId, int speciesIndex
     SetValueFuncPtr setValuePtr = 0;
     SetValueFuncPtr setInitValuePtr = 0;
 
-    if (Config::getValue(Config::ROADRUNNER_JACOBIAN_MODE).convert<unsigned>()
-            == Config::ROADRUNNER_JACOBIAN_MODE_AMOUNTS)
+    if (Config::getValue(Config::ROADRUNNER_JACOBIAN_MODE).getAs<std::int32_t>()== Config::ROADRUNNER_JACOBIAN_MODE_AMOUNTS)
     {
         getValuePtr = &ExecutableModel::getFloatingSpeciesAmounts;
         getInitValuePtr = &ExecutableModel::getFloatingSpeciesInitAmounts;
@@ -5213,35 +5221,35 @@ void RoadRunner::saveState(std::string filename, char opt)
 
 				switch (impl->loadOpt.getItem(k).type())
 				{
-				case Variant::BOOL:
-					out << impl->loadOpt.getItem(k).convert<bool>();
+				case Setting::BOOL:
+					out << impl->loadOpt.getItem(k).get<bool>();
 					break;
-				case Variant::CHAR:
-					out << impl->loadOpt.getItem(k).convert<char>();
+				case Setting::CHAR:
+					out << impl->loadOpt.getItem(k).get<char>();
 					break;
-				case Variant::DOUBLE:
-					out << impl->loadOpt.getItem(k).convert<double>();
+				case Setting::DOUBLE:
+					out << impl->loadOpt.getItem(k).get<double>();
 					break;
-				case Variant::FLOAT:
-					out << impl->loadOpt.getItem(k).convert<float>();
+				case Setting::FLOAT:
+					out << impl->loadOpt.getItem(k).get<float>();
 					break;
-				case Variant::INT32:
-					out << impl->loadOpt.getItem(k).convert<int32_t>();
+				case Setting::INT32:
+					out << impl->loadOpt.getItem(k).get<std::int32_t>();
 					break;
-				case Variant::INT64:
-					out << impl->loadOpt.getItem(k).convert<long>();
+				case Setting::INT64:
+					out << impl->loadOpt.getItem(k).get<std::int64_t>();
 					break;
-				case Variant::STRING:
-					out << impl->loadOpt.getItem(k).convert<std::string>();
+				case Setting::STRING:
+					out << impl->loadOpt.getItem(k).get<std::string>();
 					break;
-				case Variant::UCHAR:
-					out << impl->loadOpt.getItem(k).convert<unsigned char>();
+				case Setting::UCHAR:
+					out << impl->loadOpt.getItem(k).get<unsigned char>();
 					break;
-				case Variant::UINT32:
-					out << impl->loadOpt.getItem(k).convert<unsigned int>();
+				case Setting::UINT32:
+					out << impl->loadOpt.getItem(k).get<unsigned int>();
 					break;
-				case Variant::UINT64:
-					out << impl->loadOpt.getItem(k).convert<unsigned long>();
+				case Setting::UINT64:
+					out << impl->loadOpt.getItem(k).get<std::uint64_t>();
 					break;
 				default:
 					break;
@@ -5305,7 +5313,7 @@ void RoadRunner::saveSelectionVector(std::ostream& out, std::vector<SelectionRec
 void RoadRunner::loadState(std::string filename)
 {
 	std::ifstream in(filename, std::iostream::binary);
-if (!in.good())
+    if (!in.good())
 	{
 		throw std::invalid_argument("Error opening file " + filename + ": " + std::string(strerror(errno)));
 	}
@@ -5342,58 +5350,58 @@ if (!in.good())
 	{
 		std::string k;
 		rr::loadBinary(in, k);
-		rr::Variant v;
+		rr::Setting v;
 		rr::loadBinary(in, v);
 		impl->loadOpt.setItem(k, v);
 	}
-loadSelectionVector(in, impl->mSteadyStateSelection);
-std::vector<std::string> colNames;
-rr::loadBinary(in, colNames);
-impl->simulationResult.setColNames(colNames.begin(), colNames.end());
-std::vector<std::string> rowNames;
-rr::loadBinary(in, rowNames);
-impl->simulationResult.setRowNames(rowNames.begin(), rowNames.end());
-rr::loadBinary(in, impl->simulateOpt.reset_model);
-rr::loadBinary(in, impl->simulateOpt.structured_result);
-rr::loadBinary(in, impl->simulateOpt.copy_result);
-rr::loadBinary(in, impl->simulateOpt.steps);
-rr::loadBinary(in, impl->simulateOpt.start);
-rr::loadBinary(in, impl->simulateOpt.duration);
-rr::loadBinary(in, impl->simulateOpt.variables);
-rr::loadBinary(in, impl->simulateOpt.amounts);
-rr::loadBinary(in, impl->simulateOpt.concentrations);
+    loadSelectionVector(in, impl->mSteadyStateSelection);
+    std::vector<std::string> colNames;
+    rr::loadBinary(in, colNames);
+    impl->simulationResult.setColNames(colNames.begin(), colNames.end());
+    std::vector<std::string> rowNames;
+    rr::loadBinary(in, rowNames);
+    impl->simulationResult.setRowNames(rowNames.begin(), rowNames.end());
+    rr::loadBinary(in, impl->simulateOpt.reset_model);
+    rr::loadBinary(in, impl->simulateOpt.structured_result);
+    rr::loadBinary(in, impl->simulateOpt.copy_result);
+    rr::loadBinary(in, impl->simulateOpt.steps);
+    rr::loadBinary(in, impl->simulateOpt.start);
+    rr::loadBinary(in, impl->simulateOpt.duration);
+    rr::loadBinary(in, impl->simulateOpt.variables);
+    rr::loadBinary(in, impl->simulateOpt.amounts);
+    rr::loadBinary(in, impl->simulateOpt.concentrations);
 
 	size_t simulateOptSize;
-rr::loadBinary(in, simulateOptSize);
+    rr::loadBinary(in, simulateOptSize);
 	for (int i = 0; i < simulateOptSize; i++)
 	{
 		std::string k;
 		rr::loadBinary(in, k);
-		rr::Variant v;
+		rr::Setting v;
 		rr::loadBinary(in, v);
 		impl->simulateOpt.setItem(k, v);
 	}
-rr::loadBinary(in, impl->roadRunnerOptions.flags);
+    rr::loadBinary(in, impl->roadRunnerOptions.flags);
 	rr::loadBinary(in, impl->roadRunnerOptions.jacobianStepSize);
 
-rr::loadBinary(in, impl->configurationXML);
+    rr::loadBinary(in, impl->configurationXML);
 	//Create a new model from the stream
 	//impl->model = new rrllvm::LLVMExecutableModel(in, impl->loadOpt.modelGeneratorOpt);
 	impl->model = std::unique_ptr<ExecutableModel>(ExecutableModelFactory::createModel(in, impl->loadOpt.modelGeneratorOpt));
 	impl->syncAllSolversWithModel(impl->model.get());
-if (impl->mLS)
+    if (impl->mLS)
 		delete impl->mLS;
 	std::string integratorName;
 	rr::loadBinary(in, integratorName);
 	setIntegrator(integratorName);
-unsigned long integratorNumParams;
+    unsigned long integratorNumParams;
 	rr::loadBinary(in, integratorNumParams);
 
 	for (int i = 0; i < integratorNumParams; i++)
 	{
 		std::string k;
 		rr::loadBinary(in, k);
-		rr::Variant v;
+		rr::Setting v;
 		rr::loadBinary(in, v);
 		if(k != "maximum_adams_order")
 		    impl->integrator->setValue(k, v);
@@ -5403,27 +5411,27 @@ unsigned long integratorNumParams;
 	rr::loadBinary(in, steadyStateSolverName);
 	setSteadyStateSolver(steadyStateSolverName);
 
-unsigned long solverNumParams;
+    unsigned long solverNumParams;
 	rr::loadBinary(in, solverNumParams);
 
 	for (int i = 0; i < solverNumParams; i++)
 	{
 		std::string k;
 		rr::loadBinary(in, k);
-		rr::Variant v;
+		rr::Setting v;
 		rr::loadBinary(in, v);
 		impl->steady_state_solver->setValue(k, v);
 	}
 
-//Currently the SBML is saved with the binary data, see saveState above
+    //Currently the SBML is saved with the binary data, see saveState above
 	std::string savedSBML;
-rr::loadBinary(in, savedSBML);
+    rr::loadBinary(in, savedSBML);
 	libsbml::SBMLReader reader;
 	impl->document = std::unique_ptr<libsbml::SBMLDocument>(reader.readSBMLFromString(savedSBML));
 
-//Restart the integrator and reset the model time
+    //Restart the integrator and reset the model time
 	impl->integrator->restart(impl->model->getTime());
-reset(SelectionRecord::TIME);
+    reset(SelectionRecord::TIME);
 }
 
 void RoadRunner::loadSelectionVector(std::istream& in, std::vector<SelectionRecord>& v)
@@ -6722,17 +6730,20 @@ void RoadRunner::regenerateModel(bool forceRegenerate, bool reset)
 		rrLog(Logger::LOG_DEBUG) << "Regenerating model..." << std::endl;
 		std::unordered_map<std::string, double> indTolerances;
 
-		bool toleranceVector = impl->integrator->getType("absolute_tolerance") == Variant::DOUBLEVECTOR;
+//		bool toleranceVector = (impl->integrator->getType("absolute_tolerance") == Setting::DOUBLEVECTOR);
+		Setting absTol = impl->integrator->getValue("absolute_tolerance");
+		Setting::TypeId tolType = absTol.type();
 
-		if (toleranceVector)
-		{
-			for (int i = 0; i < getNumberOfFloatingSpecies(); i++)
+		// if absolute_tolerance is a double vector
+		if (auto v1 = absTol.get_if<std::vector<double>>()){
+		    for (int i = 0; i < getNumberOfFloatingSpecies(); i++)
 			{
-				indTolerances.emplace(getFloatingSpeciesIds()[i],
-					impl->integrator->getValueAsDoubleVector("absolute_tolerance")[i]);
+				indTolerances.emplace(getFloatingSpeciesIds()[i],(*v1)[i]);
 			}
 		}
 
+
+        // regeneate the model
 		impl->model = std::unique_ptr<ExecutableModel>(
 		        ExecutableModelFactory::regenerateModel(
 		                impl->model.get(),
@@ -6740,14 +6751,14 @@ void RoadRunner::regenerateModel(bool forceRegenerate, bool reset)
 		                impl->loadOpt.modelGeneratorOpt));
 
 		//Force setIndividualTolerance to construct a std::vector of the correct size
-		if(toleranceVector)
-			impl->integrator->setValue("absolute_tolerance", 1.0e-7);
+		// todo I don't know whether this is a bug or not. I can't work out why this is here (cw)
+		if (absTol.get_if<std::vector<double>>())
+			impl->integrator->setValue("absolute_tolerance", Setting(1.0e-7));
 
 		impl->syncAllSolversWithModel(impl->model.get());
 
-		if (toleranceVector)
-		{
-			for (auto p : indTolerances)
+		if (auto v1 = absTol.get_if<std::vector<double>>()){
+			for (const auto& p : indTolerances)
 			{
 				auto ids = getFloatingSpeciesIds();
 				if(std::find(ids.begin(), ids.end(), p.first) != ids.end())
@@ -6770,7 +6781,6 @@ void RoadRunner::regenerateModel(bool forceRegenerate, bool reset)
 			}
 		}
 	}
-
 }
 
 

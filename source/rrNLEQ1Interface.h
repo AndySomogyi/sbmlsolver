@@ -41,12 +41,12 @@ public:
     /**
      * set an arbitrary key
      */
-    virtual void setItem(const std::string& key, const rr::Variant& value);
+    virtual void setItem(const std::string& key, const rr::Setting& value);
 
     /**
      * get a value. Variants are POD.
      */
-    virtual Variant getItem(const std::string& key) const;
+    virtual Setting getItem(const std::string& key) const;
 
     /**
      * is there a key matching this name.

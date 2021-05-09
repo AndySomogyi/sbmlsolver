@@ -31,7 +31,7 @@ public:
 
     SundialsSteadyStateSolverUnitTest();
 
-    virtual ~SundialsSteadyStateSolverUnitTest();
+    ~SundialsSteadyStateSolverUnitTest() override;
 
     void checkResults(ls::DoubleMatrix actualResult);
 

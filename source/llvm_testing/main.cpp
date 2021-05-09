@@ -368,18 +368,18 @@ int distrib_test(int argc, char* argv[])
 typedef std::vector<std::string> strvec;
 
 
-std::string variantName(const Variant& var) {
+std::string variantName(const Setting& var) {
     switch(var.type()) {
-    case Variant::STRING: return "std::string";
-    case Variant::INT32: return "int32";
-    case Variant::UINT32: return "uint32";
-    case Variant::INT64: return "int64";
-    case Variant::UINT64: return "uint64";
-    case Variant::FLOAT: return "float";
-    case Variant::DOUBLE: return "double";
-    case Variant::CHAR: return "char";
-    case Variant::UCHAR: return "uchar";
-    case Variant::BOOL: return "bool";
+    case Setting::STRING: return "std::string";
+    case Setting::INT32: return "int32";
+    case Setting::UINT32: return "uint32";
+    case Setting::INT64: return "int64";
+    case Setting::UINT64: return "uint64";
+    case Setting::FLOAT: return "float";
+    case Setting::DOUBLE: return "double";
+    case Setting::CHAR: return "char";
+    case Setting::UCHAR: return "uchar";
+    case Setting::BOOL: return "bool";
     default: return "empty";
     }
 }

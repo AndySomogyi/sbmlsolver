@@ -10,7 +10,7 @@
 
 #include <string>
 #include "rrExporter.h"
-#include "Variant.h"
+#include "Setting.h"
 #include <vector>
 
 namespace rr
@@ -534,33 +534,6 @@ public:
         */
         K_ROWS_PER_WRITE,
 
-
-        // add lots of space so not to conflict with other branches.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         /**
          * Needs to be the last item in the enum, no mater how many
          * other items are added, this is used internally to create
@@ -610,11 +583,11 @@ public:
      * note, this value is only used in any new objects created after it has been set.
      */
 
-    static void setValue(Keys, const Variant& value);
+    static void setValue(Keys, Setting value);
 
-	//static void setValues(const std::vector<Keys> keys, const std::vector<Variant> values);
+	//static void setValues(const std::vector<Keys> keys, const std::vector<Setting> values);
 
-    static const Variant& getValue(Keys);
+    static Setting getValue(Keys);
 
     /**
      * Read all of the values stored in a configuration file and set all the keys

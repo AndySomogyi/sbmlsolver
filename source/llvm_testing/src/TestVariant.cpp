@@ -6,7 +6,7 @@
  */
 
 #include <TestVariant.h>
-#include <Variant.h>
+#include <Setting.h>
 #include <rrConfig.h>
 
 #include "rrLogger.h"
@@ -41,9 +41,9 @@ int testPythonVariant(int argc, char* argv[])
     pName = PyString_FromString("Test String");
     /* Error checking of pName left out */
 
-    Variant v(pName);
+    Setting v(pName);
 
-    PyObject *obj = v.convert<PyObject*>();
+    PyObject *obj = v.get<PyObject*>();
 
     if (PyString_Check(obj)) {
         std::cout << "is std::string" << std::endl;
@@ -58,15 +58,15 @@ int testPythonVariant(int argc, char* argv[])
 
     Foo f;
 
-    Variant v2(f);
+    Setting v2(f);
 
     PyClassObject *cls;
 
-    Variant v3(cls);
+    Setting v3(cls);
 
     PyClassObject c;
 
-    Variant v4(c);
+    Setting v4(c);
 
 
     Py_Finalize();
@@ -84,11 +84,11 @@ int TestVariant::testPythonVariant(int argc, char* argv[])
 }
 
 template <typename T>
-void tryConv(Variant& v, T t) {
+void tryConv(Setting& v, T t) {
     const type_info& info = typeid(T);
 
     try {
-        T res = v.convert<T>();
+        T res = v.get<T>();
         std::cout << "converted " << v.toString() << " to " << info.name() << " OK" << std::endl;
     } catch (std::exception& e) {
         std::cout << "could not convert " << v.toString() << " to " << info.name() << ", what: " << e.what() << std::endl;
@@ -102,7 +102,7 @@ void TestVariant::test(int argc, char* argv[])
         return;
     }
 
-    Variant v = Variant::parse(argv[1]);
+    Setting v = Setting::parse(argv[1]);
 
     std::cout << "converted \'" << argv[1] << "\' to \'" << v.toString() << "\', with type " << v.typeInfo().name() << std::endl;
 

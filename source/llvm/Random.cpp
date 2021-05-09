@@ -110,7 +110,7 @@ static void addGlobalMappings(const ModelGeneratorContext& ctx);
 
 static int64_t defaultSeed()
 {
-    int64_t seed = Config::getValue(Config::RANDOM_SEED).convert<int>();
+    int64_t seed = Config::getValue(Config::RANDOM_SEED).get<int>();
     if (seed < 0)
     {
         // system time in mirsoseconds since 1970

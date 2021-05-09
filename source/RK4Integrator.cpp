@@ -220,10 +220,10 @@ namespace rr
         return "Internal RK4 ODE solver";
     }
 
-    Variant RK4Integrator::getValue(std::string key)
+    Setting RK4Integrator::getValue(std::string key)
     {
         if (key == "variable_step_size")
-            return false;
+            return Setting(false);
         else
             return Integrator::getValue(key);
     }
@@ -239,12 +239,12 @@ namespace rr
     }
 
 //     void RK4Integrator::setItem(const std::string& key,
-//             const rr::Variant& value)
+//             const rr::Setting& value)
 //     {
 //         throw std::invalid_argument("invalid key");
 //     }
 //
-//     Variant RK4Integrator::getItem(const std::string& key) const
+//     Setting RK4Integrator::getItem(const std::string& key) const
 //     {
 //         throw std::invalid_argument("invalid key");
 //     }

@@ -83,10 +83,9 @@ namespace rr
          * to values stored as Variants.
          * @see getSettings
          */
-        std::unordered_map<std::string, Variant>& getSettingsMap();
+        std::unordered_map<std::string, Setting>& getSettingsMap();
 
         /**
-        * @author JKM
         * @brief Reset all settings to their respective default values
         */
         virtual void resetSettings();
@@ -97,13 +96,13 @@ namespace rr
         * @note Use one of the type-concrete versions like @ref getValueAsInt
         * to avoid type conversion gotchas
         */
-        virtual Variant getValue(const std::string& key) const;
+        virtual Setting getValue(const std::string& key) const;
 
         /**
         * @author JKM
         * @brief Return true if this setting is supported by the integrator
         */
-        virtual Variant hasValue(const std::string& key) const;
+        virtual Setting hasValue(const std::string& key) const;
 
         /**
         * @author JKM
@@ -139,70 +138,9 @@ namespace rr
         * @author WBC, JKM
         * @brief Wrapper for @ref getValue which converts output to a specific type
         */
-        virtual int getValueAsInt(const std::string& key);
-
-        /**
-        * @author WBC, JKM
-        * @brief Wrapper for @ref getValue which converts output to a specific type
-        */
-        virtual unsigned int getValueAsUInt(const std::string& key);
-
-        /**
-        * @author WBC, JKM
-        * @brief Wrapper for @ref getValue which converts output to a specific type
-        */
-        virtual long getValueAsLong(const std::string& key);
-
-        /**
-        * @author WBC, JKM
-        * @brief Wrapper for @ref getValue which converts output to a specific type
-        */
-        virtual unsigned long getValueAsULong(const std::string& key);
-
-        /**
-        * @author WBC, JKM
-        * @brief Wrapper for @ref getValue which converts output to a specific type
-        */
-        virtual float getValueAsFloat(const std::string& key);
-
-        /**
-        * @author WBC, JKM
-        * @brief Wrapper for @ref getValue which converts output to a specific type
-        */
-        virtual double getValueAsDouble(const std::string& key);
-
-
-		/**
-		* @brief Wrapper for @ref getValue which converts output to a specific type
-		*/
-		virtual std::vector<double> getValueAsDoubleVector(const std::string& key);
-
-
-        /**
-        * @author WBC, JKM
-        * @brief Wrapper for @ref getValue which converts output to a specific type
-        */
-        virtual char getValueAsChar(const std::string& key);
-
-        /**
-        * @author WBC, JKM
-        * @brief Wrapper for @ref getValue which converts output to a specific type
-        */
-        virtual unsigned char getValueAsUChar(const std::string& key);
-
-        /**
-        * @author WBC, JKM
-        * @brief Wrapper for @ref getValue which converts output to a specific type
-        */
         virtual std::string getValueAsString(const std::string& key);
 
-        /**
-        * @author WBC, JKM
-        * @brief Wrapper for @ref getValue which converts output to a specific type
-        */
-        virtual bool getValueAsBool(const std::string& key);
-
-        virtual void setValue(const std::string& key, const Variant& value);
+        virtual void setValue(const std::string& key, Setting value);
 
         /**
         * @author JKM
@@ -250,7 +188,7 @@ namespace rr
         * @author WBC
         * @brief Gets the type associated with a given key
         */
-        Variant::TypeId getType(const std::string& key) const;
+        Setting::TypeId getType(const std::string& key) const;
 
         /**
          * @brief returns the pointer to the ExecutableModel
@@ -259,11 +197,11 @@ namespace rr
 
 
     protected:
-        typedef std::vector<std::string> SettingsList;
-        typedef RR_UNORDERED_MAP <std::string, Variant> SettingsMap;
-        typedef RR_UNORDERED_MAP <std::string, std::string> DisplayNameMap;
-        typedef RR_UNORDERED_MAP <std::string, std::string> HintMap;
-        typedef RR_UNORDERED_MAP <std::string, std::string> DescriptionMap;
+        using SettingsList     =  std::vector<std::string> ;
+        using SettingsMap      =  std::unordered_map<std::string, Setting> ;
+        using DisplayNameMap   =  std::unordered_map<std::string, std::string> ;
+        using HintMap          =  std::unordered_map<std::string, std::string> ;
+        using DescriptionMap   =  std::unordered_map<std::string, std::string> ;
 
         SettingsList sorted_settings;
         SettingsMap settings;
@@ -276,7 +214,7 @@ namespace rr
          */
         ExecutableModel* mModel = nullptr;
 
-        void addSetting(const std::string& name, const Variant& val, std::string display_name, std::string hint, std::string description);
+        void addSetting(const std::string& name, Setting val, std::string display_name, std::string hint, std::string description);
 
     };
 

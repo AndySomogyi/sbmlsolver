@@ -10,12 +10,12 @@
 namespace rr {
 
 void BasicDictionary::setItem(const std::string& key,
-        const rr::Variant& value)
+        const rr::Setting& value)
 {
     items[key] = value;
 }
 
-Variant BasicDictionary::getItem(const std::string& key) const
+Setting BasicDictionary::getItem(const std::string& key) const
 {
     auto i = items.find(key);
 

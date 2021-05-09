@@ -24,7 +24,7 @@ namespace rr
  * create one here.
  *
  * This is a fairly low performance class and is intended soley for
- * infrequent operations such as setting configuration parameters.
+ * infrequent operations such as Variant configuration parameters.
  *
  * If Python support is enabled, this class can convert to and from a
  * Python object.
@@ -295,7 +295,7 @@ private:
 	* Converts this variant object to the type specified by info and puts
 	* the result at value.
 	*
-	* Pre: the type specified by info is supported by rr::Variant 
+	* Pre: the type specified by info is supported by rr::Variant
 	*
 	* Performs type coercions supported by Poco::Dynamic::Var (https://pocoproject.org/docs/Poco.Dynamic.Var.html)
 	*

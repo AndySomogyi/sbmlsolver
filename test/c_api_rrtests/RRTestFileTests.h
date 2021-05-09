@@ -10,6 +10,9 @@
 
 #include <string>
 #include <set>
+#include <filesystem>
+
+using std::filesystem::path;
 
 namespace SuiteTEST_MODEL {
 
@@ -27,6 +30,6 @@ namespace SuiteTEST_MODEL {
      */
     void setTestFile(const std::string& filePath);
 
-} /* namespace rr */
+}
 
 #endif /* SUITETESTMODEL_H_ */

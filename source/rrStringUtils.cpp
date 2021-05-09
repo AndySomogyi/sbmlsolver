@@ -273,7 +273,7 @@ std::string changeFileExtensionTo(const std::string& _fName, const std::string& 
         fName = fName + "." + newExtension;
     }
 
-    return joinPath(path, fName);
+    return (std::filesystem::path(path) /= fName).string();
 }
 
 bool startsWith(const std::string& src, const std::string& sub)

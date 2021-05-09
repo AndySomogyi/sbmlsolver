@@ -5,7 +5,7 @@
  *      Author: andy
  */
 
-#include "Variant.h"
+#include "VariantType.h"
 #include "rrLogger.h"
 #include "rrStringUtils.h"
 
@@ -230,7 +230,7 @@ bool Variant::isDoubleVector() const {
 #define TRY_CONVERT_TO(type)                       \
         if (info == typeid(type)) {                \
             type* out = static_cast<type*>(p);     \
-            *out = self->var.convert<type>();      \
+            *out = self->var.get<type>();      \
             return;                                \
         }
 

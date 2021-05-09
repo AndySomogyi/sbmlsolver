@@ -1,10 +1,10 @@
 #pragma hdrstop
 
+#include <filesystem>
 #if defined(_WIN32) || defined(__WIN32__)
 #include <windows.h>
 #include <io.h>
 #include <conio.h>
-
 #endif
 
 #if defined(__BORLANDC__)
@@ -59,6 +59,7 @@
 // Poco timestamp
 #include <Poco/Timestamp.h>
 
+using std::filesystem::path;
 namespace rr
 {
 
@@ -67,7 +68,7 @@ bool cleanFolder(const std::string& folder, const std::string& baseName, const s
 {
     for(int i = 0; i < extensions.size(); i++)
        {
-        std::string aFName = joinPath(folder, baseName) + "." + extensions[i];
+        std::string aFName = (path(folder) /= baseName).string() + "." + extensions[i];
         Poco::File aFile(aFName);
         if(aFile.exists())
         {
@@ -297,7 +298,7 @@ const char getPathSeparator()
     return gPathSeparator;
 }
 
-std::string getFileContent(const std::string& fName)
+std::string getFileContent(std::filesystem::path fName)
 {
     std::string content;
 
@@ -311,7 +312,7 @@ std::string getFileContent(const std::string& fName)
     return content;
 }
 
-std::vector<std::string> getLinesInFile(const std::string& fName)
+std::vector<std::string> getLinesInFile(std::filesystem::path fName)
 {
     std::vector<std::string> lines;
 
@@ -401,36 +402,37 @@ void pause(bool doIt, const std::string& msg)
  * 04 Read permission
  * 06 Read and write permission
 */
-bool fileExists(const std::string& fname, int fileMode)
-{
-#if !defined (WIN32)
-    bool res = (access(fname.c_str(), fileMode) == 0);
-#else
-    bool res = (_access(fname.c_str(), fileMode) == 0);
-#endif
+//bool fileExists(const std::string& fname, int fileMode)
+//{
+//#if !defined (WIN32)
+//    bool res = (access(fname.c_str(), fileMode) == 0);
+//#else
+//    bool res = (_access(fname.c_str(), fileMode) == 0);
+//#endif
+//
+//    return res;
+//}
 
-    return res;
-}
+//bool folderExists(const std::string& folderName)
+//{
+//    return std::filesystem::exists(folderName);
+//#if defined(WIN32)
+//    LPCTSTR szPath = folderName.c_str();
+//    DWORD dwAttrib = GetFileAttributes(szPath);
+//    return (dwAttrib != INVALID_FILE_ATTRIBUTES && (dwAttrib & FILE_ATTRIBUTE_DIRECTORY));
+//#else
+//    struct stat status;
+//    return stat(folderName.c_str(), &status) == 0 ? true : false;
+//#endif
+//}
 
-bool folderExists(const std::string& folderName)
-{
-#if defined(WIN32)
-    LPCTSTR szPath = folderName.c_str();
-    DWORD dwAttrib = GetFileAttributes(szPath);
-    return (dwAttrib != INVALID_FILE_ATTRIBUTES && (dwAttrib & FILE_ATTRIBUTE_DIRECTORY));
-#else
-    struct stat status;
-    return stat(folderName.c_str(), &status) == 0 ? true : false;
-#endif
-}
-
-void createTestSuiteFileNameParts(int caseNr, const std::string& postFixPart, std::string& modelFilePath, std::string& modelName, std::string& settingsFName, std::string& descriptionFName)
+void createTestSuiteFileNameParts(int caseNr, const std::string& postFixPart, std::string & modelFilePath, std::string& modelName, std::string& settingsFName, std::string& descriptionFName)
 {
     std::stringstream modelSubPath, modelFileName, settingsFileName, descriptionFileName;
 
     modelSubPath<<std::setfill('0')<<std::setw(5)<<caseNr;        //create the "00023" subfolder format
     modelFileName<<std::setfill('0')<<std::setw(5)<<caseNr<<postFixPart;
-    modelFilePath = joinPath(modelFilePath, modelSubPath.str());
+    modelFilePath = (path(modelFilePath) /= modelSubPath.str()).string();
     modelName =  modelFileName.str();
     settingsFileName << std::setfill('0')<<std::setw(5)<<caseNr<<"-settings.txt";
     settingsFName = settingsFileName.str();
@@ -503,25 +505,39 @@ bool isFBCTest(const std::string& descriptionFileName)
     return false;
 }
 
+//bool createFolder(const std::string& folder)
+//{
+//    if(std::filesystem::exists(folder))
+//    {
+//        return true;
+//    }
+//
+//#if defined(WIN32)
+//    int res = mkdir(folder.c_str());
+//#else
+//    int temp;
+//#define MY_MASK 0777
+////     printf("Default mask: %o\n", MY_MASK & ~022 & MY_MASK);
+//      temp = umask(0);
+////      printf("Previous umask = %o\n", temp);
+//    int res = mkdir(folder.c_str(), S_IRWXU | S_IRWXG | S_IRWXO);
+//#endif
+//
+//    return (res==0) ? true : false;
+//}
+
 bool createFolder(const std::string& folder)
 {
-    if(fileExists(folder))
+    if(std::filesystem::exists(folder))
     {
         return true;
     }
-
-#if defined(WIN32)
-    int res = mkdir(folder.c_str());
-#else
-    int temp;
-#define MY_MASK 0777
-//     printf("Default mask: %o\n", MY_MASK & ~022 & MY_MASK);
-      temp = umask(0);
-//      printf("Previous umask = %o\n", temp);
-    int res = mkdir(folder.c_str(), S_IRWXU | S_IRWXG | S_IRWXO);
-#endif
-
-    return (res==0) ? true : false;
+    try {
+        std::filesystem::create_directories(folder);
+        return true;
+    } catch (std::exception &e) {
+        return false;
+    }
 }
 
 bool createFile(const std::string& fName, std::ios_base::openmode mode)
@@ -529,7 +545,7 @@ bool createFile(const std::string& fName, std::ios_base::openmode mode)
     std::ofstream test;
     test.open(fName.c_str(), mode);
     test.close();
-    return fileExists(fName);
+    return std::filesystem::exists(fName);
 }
 
 bool copyValues(std::vector<double>& dest, double* source, const int& nrVals, const int& startIndex)
@@ -658,39 +674,39 @@ double* createVector(const std::vector<double>& vec)
     }
     return avec;
 }
-
-std::string joinPath(const std::string& base, const std::string& file, const char pathSeparator)
-{
-    if (base.empty()) {
-        return file;
-    }
-
-    if (file.empty()) {
-        return base;
-    }
-
-    Poco::Path basePath(base);
-    basePath.append(Poco::Path(file));
-    return basePath.toString();
-}
-
-std::string joinPath(const std::string& p1, const std::string& p2, const std::string& p3, const char pathSeparator)
-{
-    std::string tmp(joinPath(p1, p2, gPathSeparator));
-    return joinPath(tmp, p3, gPathSeparator);
-}
-
-std::string joinPath(const std::string& p1, const std::string& p2, const std::string& p3, const std::string& p4, const char pathSeparator)
-{
-    std::string tmp(joinPath(p1, p2, p3, gPathSeparator));
-    return joinPath(tmp, p4, gPathSeparator);
-}
-
-std::string joinPath(const std::string& p1, const std::string& p2, const std::string& p3, const std::string& p4, const std::string& p5, const char pathSeparator)
-{
-    std::string tmp(joinPath(p1, p2, p3, p4, gPathSeparator));
-    return joinPath(tmp, p5, gPathSeparator);
-}
+//
+//std::string joinPath(const std::string& base, const std::string& file, const char pathSeparator)
+//{
+//    if (base.empty()) {
+//        return file;
+//    }
+//
+//    if (file.empty()) {
+//        return base;
+//    }
+//
+//    Poco::Path basePath(base);
+//    basePath.append(Poco::Path(file));
+//    return basePath.toString();
+//}
+//
+//std::string joinPath(const std::string& p1, const std::string& p2, const std::string& p3, const char pathSeparator)
+//{
+//    std::string tmp(joinPath(p1, p2, gPathSeparator));
+//    return joinPath(tmp, p3, gPathSeparator);
+//}
+//
+//std::string joinPath(const std::string& p1, const std::string& p2, const std::string& p3, const std::string& p4, const char pathSeparator)
+//{
+//    std::string tmp(joinPath(p1, p2, p3, gPathSeparator));
+//    return joinPath(tmp, p4, gPathSeparator);
+//}
+//
+//std::string joinPath(const std::string& p1, const std::string& p2, const std::string& p3, const std::string& p4, const std::string& p5, const char pathSeparator)
+//{
+//    std::string tmp(joinPath(p1, p2, p3, p4, gPathSeparator));
+//    return joinPath(tmp, p5, gPathSeparator);
+//}
 
 
 #if defined(_WIN32) || defined(__WIN32__)
@@ -708,7 +724,7 @@ std::string getWINAPIError(DWORD errorCode, LPTSTR lpszFunction)
         NULL,
         dw,
         MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-        (LPTSTR) &lpMsgBuf,
+        (LPSTR) &lpMsgBuf,
         0, NULL
     );
 
@@ -732,7 +748,7 @@ std::string getWINAPIError(DWORD errorCode, LPTSTR lpszFunction)
 size_t populateFileSet(const std::string& folder, std::set<std::string>& files)
 {
      //Get models file names in models folder
-    std::string globPath =  rr::joinPath(folder, "*.xml");
+    std::string globPath =  (path(folder) /= "*.xml").string();
     Poco::Glob::glob(globPath, files);
     return files.size();
 }

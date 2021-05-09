@@ -81,12 +81,12 @@ rr::pyutil_init(m);
     std::unordered_map<double, double>&
     };
 
-%typemap(out) rr::Variant {
+%typemap(out) rr::Setting {
     $result = Variant_to_py($1);
 }
 
-%apply rr::Variant {
-    rr::Variant*
+%apply rr::Setting {
+    rr::Setting*
 };
 
 
@@ -94,7 +94,7 @@ rr::pyutil_init(m);
  * @brief typemap to convert a string : Variant map into a Python dict.
  * Used in the "settings" map of tmf.
  */
-%typemap(out) std::unordered_map< std::string,rr::Variant,std::hash< std::string >,std::equal_to< std::string >,std::allocator< std::pair< std::string const,rr::Variant > > >* {
+%typemap(out) std::unordered_map< std::string,rr::Setting,std::hash< std::string >,std::equal_to< std::string >,std::allocator< std::pair< std::string const,rr::Setting > > >* {
     $result = PyDict_New();
     if (!result){
         std::cerr << "Could not create Python Dict" << std::endl;
@@ -109,7 +109,7 @@ rr::pyutil_init(m);
 }
 
 // non pointer version
-%typemap(out) std::unordered_map< std::string,rr::Variant,std::hash< std::string >,std::equal_to< std::string >,std::allocator< std::pair< std::string const,rr::Variant > > > {
+%typemap(out) std::unordered_map< std::string,rr::Setting,std::hash< std::string >,std::equal_to< std::string >,std::allocator< std::pair< std::string const,rr::Setting > > > {
     $result = PyDict_New();
     if (!$result){
         std::cerr << "Could not create Python Dict" << std::endl;

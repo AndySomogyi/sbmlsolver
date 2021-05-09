@@ -2,17 +2,17 @@
 #include "SteadyStateIntegrationTests.h"
 #include "TestModelFactory.h"
 
-#include "Variant.h"
+#include "Setting.h"
 
 /**
  * @brief tests in this fixture all solve for steady state using the
  * "linesearch" strategy. This corresponds to setting the KIN_LINESEARCH flag
  * in kinsol.
  */
-class LineSearchNewtonIterationTests : public SteadyStateIntegrationTests {
+class LineSearchNewtonIterationTests : public SteadyStateIntegrationTest {
 public:
 
-    LineSearchNewtonIterationTests() : SteadyStateIntegrationTests() {};
+    LineSearchNewtonIterationTests() : SteadyStateIntegrationTest() {};
 };
 
 TEST_F(LineSearchNewtonIterationTests, CheckCorrectSteadyStateOpenLinearFlux) {

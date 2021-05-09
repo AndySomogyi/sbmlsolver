@@ -59,8 +59,8 @@ namespace rr
             err = new double[stateVectorSize];
             y = new double[stateVectorSize];
             ytmp = new double[stateVectorSize];
-            hmin = getValueAsDouble("minimum_time_step");
-            hmax = getValueAsDouble("maximum_time_step");
+            hmin = (double)getValue("minimum_time_step");
+            hmax = (double)getValue("maximum_time_step");
         } else {
             stateVectorSize = 0;
             hmin = hmax = 0;
@@ -83,7 +83,7 @@ namespace rr
 
     double RK45Integrator::integrate(double t, double tDiff)
     {
-        double h = getValueAsDouble("maximum_time_step");
+        double h = (double)getValue("maximum_time_step");
 
         if (!mModel) {
             throw std::runtime_error("RK45Integrator::integrate: No model");
@@ -177,10 +177,10 @@ namespace rr
           alpha = 2./55;
           daxpy_(&n, &alpha, k6, &inc, err, &inc);
           error = dnrm2_(&n, err, &inc);
-          q = 0.84*pow(getValueAsDouble("epsilon")/error, 0.25);
+          q = 0.84*pow((double)getValue("epsilon")/error, 0.25);
 
           rrLog(Logger::LOG_DEBUG) <<
-	    "RK45 step: t = " << t << ", error = " << error << ", epsilon = " << getValueAsDouble("epsilon") << ", h = " << h;
+	    "RK45 step: t = " << t << ", error = " << error << ", epsilon = " << (double)getValue("epsilon") << ", h = " << h;
           if (q <= 0.1) {
             h = 0.1*h;
           } else if (q >= 4) {
@@ -203,7 +203,7 @@ namespace rr
               //throw std::runtime_error("RK45Integrator::integrate: Stepsize became smaller than specified minimum.");
           }
 
-        } while ( error > getValueAsDouble("epsilon"));
+        } while ( error > (double)getValue("epsilon"));
 
         rrLog(Logger::LOG_DEBUG) << "RK45: Update state std::vector";
 
@@ -307,10 +307,10 @@ namespace rr
         return "Internal RK45 ODE solver";
     }
 
-    Variant RK45Integrator::getValue(std::string key)
+    Setting RK45Integrator::getValue(std::string key)
     {
         if (key == "variable_step_size")
-            return true;
+            return Setting(true);
         else
             return Integrator::getValue(key);
     }
@@ -324,11 +324,11 @@ namespace rr
     {
         Solver::resetSettings();
 
-        addSetting("variable_step_size", true, "Variable Step Size", "Perform a variable time step simulation. (bool)", "(bool) Enabling this setting will allow the integrator to adapt the size of each time step. This will result in a non-uniform time column.  The number of steps or points will be ignored, and the max number of output rows will be used instead.");
-        addSetting("minimum_time_step",  1e-12, "Minimum Time Step", "Specifies the minimum absolute value of step size allowed. (double)", "(double) The minimum absolute value of step size allowed.");
-        addSetting("maximum_time_step",  1.0, "Maximum Time Step", "Specifies the maximum absolute value of step size allowed. (double)", "(double) The maximum absolute value of step size allowed.");
-        addSetting("epsilon",  1e-12, "Maximum error tolerance", "Specifies the maximum error tolerance allowed. (double)", "(double) The maximum error tolerance allowed.");
-        addSetting("max_output_rows", Config::getInt(Config::MAX_OUTPUT_ROWS), "Maximum Output Rows", "For variable step size simulations, the maximum number of output rows produced (int).", "(int) This will set the maximum number of output rows for variable step size integration.  This may truncate some simulations that may not reach the desired end time, but prevents infinite or massive output for simulations where the variable step size ends up decreasing too much.");
+        addSetting("variable_step_size", Setting(true), "Variable Step Size", "Perform a variable time step simulation. (bool)", "(bool) Enabling this setting will allow the integrator to adapt the size of each time step. This will result in a non-uniform time column.  The number of steps or points will be ignored, and the max number of output rows will be used instead.");
+        addSetting("minimum_time_step",  Setting(1e-12), "Minimum Time Step", "Specifies the minimum absolute value of step size allowed. (double)", "(double) The minimum absolute value of step size allowed.");
+        addSetting("maximum_time_step",  Setting(1.0), "Maximum Time Step", "Specifies the maximum absolute value of step size allowed. (double)", "(double) The maximum absolute value of step size allowed.");
+        addSetting("epsilon",            Setting(1e-12), "Maximum error tolerance", "Specifies the maximum error tolerance allowed. (double)", "(double) The maximum error tolerance allowed.");
+        addSetting("max_output_rows",    Setting(Config::getInt(Config::MAX_OUTPUT_ROWS)), "Maximum Output Rows", "For variable step size simulations, the maximum number of output rows produced (int).", "(int) This will set the maximum number of output rows for variable step size integration.  This may truncate some simulations that may not reach the desired end time, but prevents infinite or massive output for simulations where the variable step size ends up decreasing too much.");
     }
 
 } /* namespace rr */
