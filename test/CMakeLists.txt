@@ -1,9 +1,9 @@
 ########################################################
 #   Add the googletest framework as a subdirectory
 #
-add_subdirectory(googletest-release-1.10.0)
+add_subdirectory(googletest-master)
 # we be naughty and use include_directories here to include googletest globally
-include_directories(googletest-release-1.10.0/googletest/include)
+include_directories(googletest-master/include)
 
 # configure a text file in binary tree containing location of roadrunner root
 # We use this root location to automatically find the testdir location (<rr_root>/test).
