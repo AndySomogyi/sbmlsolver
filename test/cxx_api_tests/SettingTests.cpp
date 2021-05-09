@@ -216,8 +216,8 @@ TEST_F(SettingTests, ImplicitCastNegativeIntToULong) {
 
 TEST_F(SettingTests, ImplicitCastLongToIntOutOfBounds) {
     // should raise error
-    long long biggest_int = std::numeric_limits<int>::max();
-    long long out_of_range = biggest_int * 10;
+    std::int64_t biggest_int = std::numeric_limits<int>::max();
+    std::int64_t out_of_range = biggest_int * 10;
     Setting setting(out_of_range);
     ASSERT_THROW(
             int x = setting,

@@ -59,8 +59,8 @@ RUN cd gcc-11.1.0/build && make -j 12
 RUN cd gcc-11.1.0/build && make install
 
 RUN yum install -y nano
-RUN echo -e "export PATH=\"/usr/local/gcc-11.1.0/bin:$PATH\"" >> ~/.bashrc \
-    && echo -e "export LD_LIBRARY_PATH=\"/usr/local/gcc-11.1.0/lib:$LD_LIBRARY_PATH\"" >> ~/.bashrc
+#RUN echo -e "export PATH=\"/usr/local/gcc-11.1.0/bin:$PATH\"" >> ~/.bashrc \
+#    && echo -e "export LD_LIBRARY_PATH=\"/usr/local/gcc-11.1.0/lib:$LD_LIBRARY_PATH\"" >> ~/.bashrc
 
 # some additional commands to enable docker integration with CLION
 # which is a helpful tool for debugging manylinux builds
@@ -78,7 +78,7 @@ RUN ( \
 
 RUN useradd -m user \
   && yes password | passwd user
-
+RUN yum install -y initscripts
 #CMD ["/usr/sbin/sshd", "-D", "-e", "-f", "/etc/ssh/sshd_config_test_clion"]
 
 
