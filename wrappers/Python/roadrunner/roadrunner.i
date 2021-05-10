@@ -945,7 +945,7 @@ namespace std { class ostream{}; }
 // including rrLogger.h causes rr not to compile?
 // haven't worked out why but seems roadrunner python
 // works without it.
-//%include <rrLogger.h>
+%include <rrLogger.h>
 
 %thread;
 %include <rrRoadRunner.h>
