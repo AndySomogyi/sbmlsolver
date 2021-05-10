@@ -281,6 +281,7 @@ void Logger::disableFileLogging()
 
 void Logger::enableFileLogging(const std::string& fileName, int level)
 {
+
     Mutex::ScopedLock lock(loggerMutex);
 
     Logger::setLevel(level);
@@ -322,6 +323,9 @@ void Logger::enableFileLogging(const std::string& fileName, int level)
         }
 
         SplitterChannel *splitter = getSplitterChannel();
+        if (!splitter) {
+            throw std::logic_error("SplitterChannel is nullptr");
+        }
 
         simpleFileChannel = new SimpleFileChannel();
         simpleFileChannel->setProperty("path", realName);

@@ -3,6 +3,7 @@
 add_test_executable(SettingTests test_targets SettingTests.cpp)
 add_test_executable(RoadRunnerAPITests test_targets RoadRunnerAPITests.cpp ${SharedTestFiles})
 add_test_executable(GillespieTests test_targets GillespieTests.cpp ${SharedTestFiles})
+add_test_executable(LoggerTests test_targets LoggerTests.cpp ${SharedTestFiles})
 
 if (BUILD_PYTHON)
     add_swig_executable(SettingTestsSwigAPI

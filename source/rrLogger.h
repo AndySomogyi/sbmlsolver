@@ -21,6 +21,16 @@ namespace rr
  *
  * This object is returne from the rr::Logger, exposes a std::ostream interface, and
  * and dumps to the log when it goes out of scope.
+ *
+ * Levels are determined by Poco::Message::Priority:
+ *      - Poco::Message::Priority::PRIO_FATAL       = 1
+ *      - Poco::Message::Priority::PRIO_CRITICAL    = 2
+ *      - Poco::Message::Priority::PRIO_ERROR       = 3
+ *      - Poco::Message::Priority::PRIO_WARNING     = 4
+ *      - Poco::Message::Priority::PRIO_NOTICE      = 5
+ *      - Poco::Message::Priority::PRIO_INFORMATION = 6
+ *      - Poco::Message::Priority::PRIO_DEBUG       = 7
+ *      - Poco::Message::Priority::PRIO_TRACE       = 8
  */
 class RR_DECLSPEC LoggingBuffer
 {
@@ -28,7 +38,7 @@ public:
     LoggingBuffer(int level, const char* file, int line);
 
     /**
-     * dump the contents of the std::stringstream to the log.
+     * @brief dump the contents of the std::stringstream to the log.
      */
     ~LoggingBuffer();
 
