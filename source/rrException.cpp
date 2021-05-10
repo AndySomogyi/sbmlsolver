@@ -8,9 +8,9 @@ namespace rr {
 
     Exception::Exception(const std::string &desc) : mMessage(desc) {}
 
-    Exception::~Exception() throw() {}
+    Exception::~Exception() noexcept {}
 
-    const char *Exception::what() const throw() {
+    const char *Exception::what() const noexcept {
         return mMessage.c_str();
     }
 

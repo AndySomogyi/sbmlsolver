@@ -18,11 +18,11 @@ namespace rr {
                     "ApproxSteadyStateDecorator::solve(): mModel instance in solver object is nullptr");
         }
         try {
-            return SteadyStateSolverDecorator::solve();
+            return solver_->solve();
         } catch (std::runtime_error &e) {
-            const double &end = getValueAsDouble("approx_time");
-            const int &steps = getValueAsInt("approx_maximum_steps");
-            const double &thresh = getValueAsDouble("approx_tolerance");
+            const double &end = (double)getValue("approx_time");
+            const int &steps = (int)getValue("approx_maximum_steps");
+            const double &thresh = (double)getValue("approx_tolerance");
 
             //  step_size * num_steps = duration
             const double stepSize = end / steps;
@@ -31,29 +31,22 @@ namespace rr {
             CVODEIntegrator integrator(solver_->getModel());
 
             // integrate and collect the sundials N_Vector
-            //  note that we do not necessarily need to start at 0 (manaully verified, results are accurate).
             integrator.integrate(end - (2*stepSize), stepSize);
             solver_->syncWithModel(solver_->getModel());
             N_Vector stateVectorAtTMinus2 = integrator.getStateVector();
-
-            auto stateVectorAtTMinus2ArrPtr = std::make_unique<double*>(new double[numVariables]) ;
-            for (int i=0; i<numVariables; i++){
-                // make the copy
-                (*stateVectorAtTMinus2ArrPtr)[i] = stateVectorAtTMinus2->ops->nvgetarraypointer(stateVectorAtTMinus2)[i];
-            }
+            double* stateVectorAtTMinus2ArrPtr = stateVectorAtTMinus2->ops->nvgetarraypointer(stateVectorAtTMinus2);
 
             // integrate collect the new sundials N_Vector
             integrator.integrate(end - stepSize, stepSize);
-            N_Vector stateVectorAtT = integrator.getStateVector();
-
-            double *stateVectorAtTArrPtr = stateVectorAtT->ops->nvgetarraypointer(stateVectorAtT);
             solver_->syncWithModel(solver_->getModel());
+            N_Vector stateVectorAtT = integrator.getStateVector();
+            double *stateVectorAtTArrPtr = stateVectorAtT->ops->nvgetarraypointer(stateVectorAtT);
 
             double tol = 0;
             for (int i = 0; i < stateVectorAtT->ops->nvgetlength(stateVectorAtT); i++) {
                 tol += sqrt(
                         pow(
-                                ((*stateVectorAtTMinus2ArrPtr)[i] - stateVectorAtTArrPtr[i]) / stepSize,
+                                (stateVectorAtTMinus2ArrPtr[i] - stateVectorAtTArrPtr[i]) / stepSize,
                                 2)
                 );
             }
@@ -71,6 +64,7 @@ namespace rr {
                        "your model might not have a steady state";
                 throw CoreException(err.str());
             }
+
             return tol;
         }
     }

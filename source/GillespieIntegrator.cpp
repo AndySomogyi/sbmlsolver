@@ -26,7 +26,19 @@ namespace rr
 {
 	static unsigned long defaultSeed()
 	{
-		int64_t seed = Config::getValue(Config::RANDOM_SEED).convert<int>();
+	    Setting seedSetting = Config::getValue(Config::RANDOM_SEED);
+	    std::uint64_t seed;
+	    if (auto int32Val = seedSetting.get_if<std::int32_t>()) {
+	        seed = (std::uint64_t)*int32Val;
+	    } else if (auto uInt32Val= seedSetting.get_if<std::uint32_t>()){
+	        seed = (std::uint64_t)*uInt32Val;
+	    } else if (auto int64Val = seedSetting.get_if<std::int64_t>()){
+	        seed = (std::uint64_t)*int64Val;
+	    } else if (auto uInt64Val= seedSetting.get_if<std::uint64_t>()){
+	        seed = *uInt64Val;
+	    } else {
+	        throw std::invalid_argument("GillespieIntegrator::defaultSeed: Seed is of incorrect type.");
+	    }
 		if (seed < 0)
 		{
 			seed = std::chrono::high_resolution_clock::now().time_since_epoch().count();
@@ -56,7 +68,7 @@ namespace rr
         // fill stoichData
         mModel->getStoichiometryMatrix(&stoichRows, &stoichCols, &stoichData);
 
-        setEngineSeed(getValue("seed").convert<unsigned long>());
+        setEngineSeed(getValue("seed").get<std::uint64_t>());
 	}
 
 	GillespieIntegrator::GillespieIntegrator(ExecutableModel* m)
@@ -154,7 +166,7 @@ namespace rr
 		return Integrator::Deterministic;
 	}
 
-	void GillespieIntegrator::setValue(const std::string& key, const Variant& val)
+	void GillespieIntegrator::setValue(const std::string& key, Setting val)
 	{
 		Integrator::setValue(key, val);
 
@@ -164,17 +176,17 @@ namespace rr
 		{
 			try
 			{
-				auto seed = val.convert<unsigned long>();
+				auto seed = val.getAs<std::uint64_t>();
 				setEngineSeed(seed);
 			}
 			catch (std::exception& e)
 			{
 				std::stringstream ss;
-				ss << "Could not convert the value \"" << val.toString();
+				ss << "Could not convert the value \"" << val.get<std::string>();
 				ss << "\" to an unsigned long integer. " << std::endl;
 				ss << "The seed must be a number between 0 and ";
 				ss << std::numeric_limits<unsigned long>::max();
-				ss << "; error message: " << e.what() << ".";
+				ss << "; "<<std::endl << "error message: " << e.what() << ".";
 				throw std::invalid_argument(ss.str());
 			}
 		}
@@ -185,21 +197,21 @@ namespace rr
         Solver::resetSettings();
 
         // Set default integrator settings.
-        addSetting("seed",              defaultSeed(), "Seed", "Set the seed into the random engine. (ulong)", "(ulong) Set the seed into the random engine.");
-        addSetting("variable_step_size",true, "Variable Step Size", "Perform a variable time step simulation. (bool)", "(bool) Enabling this setting will allow the integrator to adapt the size of each time step. This will result in a non-uniform time column.  The number of steps or points will be ignored, and the max number of output rows will be used instead.");
-        addSetting("initial_time_step", 0.0,   "Initial Time Step", "Specifies the initial time step size. (double)", "(double) Specifies the initial time step size.");
-        addSetting("minimum_time_step", 0.0,   "Minimum Time Step", "Specifies the minimum absolute value of step size allowed. (double)", "(double) The minimum absolute value of step size allowed.");
-        addSetting("maximum_time_step", 0.0,   "Maximum Time Step", "Specifies the maximum absolute value of step size allowed. (double)", "(double) The maximum absolute value of step size allowed.");
-        addSetting("nonnegative",       false, "Non-negative species only", "Prevents species amounts from going negative during a simulation. (bool)", "(bool) Enforce non-negative species constraint.");
-        addSetting("max_output_rows", Config::getInt(Config::MAX_OUTPUT_ROWS), "Maximum Output Rows", "For variable step size simulations, the maximum number of output rows produced (int).", "(int) This will set the maximum number of output rows for variable step size integration.  This may truncate some simulations that may not reach the desired end time, but prevents massive output for simulations where the variable step size ends up decreasing too much.  This setting is ignored when the variable_step_size is false, and is also ignored when the output is being written directly to a file.");
+        addSetting("seed",                  std::uint64_t(defaultSeed()), "Seed", "Set the seed into the random engine. (ulong)", "(ulong) Set the seed into the random engine.");
+        addSetting("variable_step_size",    Setting(true), "Variable Step Size", "Perform a variable time step simulation. (bool)", "(bool) Enabling this setting will allow the integrator to adapt the size of each time step. This will result in a non-uniform time column.  The number of steps or points will be ignored, and the max number of output rows will be used instead.");
+        addSetting("initial_time_step",     Setting(0.0),   "Initial Time Step", "Specifies the initial time step size. (double)", "(double) Specifies the initial time step size.");
+        addSetting("minimum_time_step",     Setting(0.0),   "Minimum Time Step", "Specifies the minimum absolute value of step size allowed. (double)", "(double) The minimum absolute value of step size allowed.");
+        addSetting("maximum_time_step",     Setting(0.0),   "Maximum Time Step", "Specifies the maximum absolute value of step size allowed. (double)", "(double) The maximum absolute value of step size allowed.");
+        addSetting("nonnegative",           Setting(false), "Non-negative species only", "Prevents species amounts from going negative during a simulation. (bool)", "(bool) Enforce non-negative species constraint.");
+        addSetting("max_output_rows",       Setting(Config::getInt(Config::MAX_OUTPUT_ROWS)), "Maximum Output Rows", "For variable step size simulations, the maximum number of output rows produced (int).", "(int) This will set the maximum number of output rows for variable step size integration.  This may truncate some simulations that may not reach the desired end time, but prevents massive output for simulations where the variable step size ends up decreasing too much.  This setting is ignored when the variable_step_size is false, and is also ignored when the output is being written directly to a file.");
     }
 
 	double GillespieIntegrator::integrate(double t, double hstep)
 	{
 		double tf;
 		bool singleStep;
-		bool varStep = getValue("variable_step_size").convert<bool>();
-		auto minTimeStep = getValue("minimum_time_step").convert<double>();
+		bool varStep = getValue("variable_step_size").get<bool>();
+		auto minTimeStep = getValue("minimum_time_step").get<double>();
 
 		if (varStep)
 		{
@@ -304,7 +316,7 @@ namespace rr
 
 			bool skip = false;
 
-			if (getValueAsBool("nonnegative")) {
+			if ((bool)getValue("nonnegative")) {
 				// skip reactions which cause species amts to become negative
 				for (int i = floatingSpeciesStart; i < stateVectorSize; ++i) {
 					if (stateVector[i]

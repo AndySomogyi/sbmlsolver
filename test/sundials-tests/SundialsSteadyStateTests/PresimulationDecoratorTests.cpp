@@ -83,7 +83,7 @@ TEST_F(PresimulationDecoratorTests, CheckModelTimeAfterPresimulation) {
     SteadyStateSolver *solver;
     BasicNewtonIteration basicNewtonIteration(rr.getModel());
     // this model sucessfully solves after the 0.1 time steps
-    basicNewtonIteration.setValue("presimulation_time", 0.1);
+    basicNewtonIteration.setValue("presimulation_time", Setting(0.1));
     solver = &basicNewtonIteration;
     PresimulationDecorator presim(solver);
     solver = &presim;
@@ -105,7 +105,7 @@ TEST_F(PresimulationDecoratorTests, CheckSteadyStateValuesAfterPresimulation) {
     SteadyStateSolver *solver;
     BasicNewtonIteration basicNewtonIteration(rr.getModel());
 
-    basicNewtonIteration.setValue("presimulation_time", 10);
+    basicNewtonIteration.setValue("presimulation_time", Setting(10));
     solver = &basicNewtonIteration;
     PresimulationDecorator presim(solver);
     solver = &presim;
@@ -122,13 +122,12 @@ TEST_F(PresimulationDecoratorTests, CheckPresimulationDecoratorHasAccessToSolver
     BasicNewtonIteration *basicNewtonIteration = new BasicNewtonIteration(rr.getModel());
 
     basicNewtonIteration->setValue("presimulation_time", 14.37);
-    ASSERT_EQ(14.37, basicNewtonIteration->getValueAsDouble("presimulation_time"));
+    ASSERT_EQ(14.37, (double)basicNewtonIteration->getValue("presimulation_time"));
 
     SteadyStateSolver *solver = basicNewtonIteration;
     PresimulationDecorator decorator(solver);
     solver = &decorator;
-    solver->getValueAsDouble("presimulation_time");
-    ASSERT_EQ(14.37, solver->getValueAsDouble("presimulation_time"));
+    ASSERT_EQ(14.37, (double)solver->getValue("presimulation_time"));
     delete basicNewtonIteration;
 }
 

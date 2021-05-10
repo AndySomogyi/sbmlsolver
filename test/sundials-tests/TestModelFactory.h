@@ -5,7 +5,7 @@
 #include <unordered_map>
 #include <stdexcept>
 #include <memory>
-#include "Variant.h"
+#include "Setting.h"
 
 #include "rr-libstruct/lsMatrix.h"
 
@@ -56,8 +56,7 @@ public:
  * @details exists only for any polymorphism that may
  * be implemented in future.
  */
-class Result {
-};
+class Result {};
 
 /**
  * Interface for time series result.
@@ -73,7 +72,7 @@ public:
      */
     virtual ls::DoubleMatrix timeSeriesResult() = 0;
 
-    virtual std::unordered_map<std::string, rr::Variant> timeSeriesSettings();
+    virtual std::unordered_map<std::string, rr::Setting> timeSeriesSettings();
 
 };
 
@@ -87,11 +86,11 @@ public:
     virtual StringDoubleMap steadyState() = 0;
 
     /**
- * @brief Settings map for steady state tasks.
- * @details classes that implement this interface do not necessarily
- * need to override this method, since they can use default settings.
- */
-    virtual std::unordered_map<std::string, rr::Variant> steadyStateSettings();
+     * @brief Settings map for steady state tasks.
+     * @details classes that implement this interface do not necessarily
+     * need to override this method, since they can use default settings.
+     */
+    virtual std::unordered_map<std::string, rr::Setting> steadyStateSettings();
 
 
 };
@@ -109,6 +108,25 @@ public:
     virtual VectorStringDoubleMap steadyState() = 0;
 };
 
+/**
+ * @brief interface for models that test the
+ * jacobian matrix.
+ * @details classes that implement this interface
+ * are expected to hard code the results of the
+ * jacobian matrix, calculated with an independent
+ * tool (or better - analytically ). Both the full
+ * and reduced jacobians should be computed and stored
+ * as both amounts and concentrations
+ */
+class JacobianResult : public Result {
+public:
+    virtual ls::DoubleMatrix fullJacobianAmt() = 0;
+    virtual ls::DoubleMatrix fullJacobianConc() = 0;
+    virtual ls::DoubleMatrix reducedJacobianAmt() = 0;
+    virtual ls::DoubleMatrix reducedJacobianConc() = 0;
+    virtual std::unordered_map<std::string, rr::Setting> jacobianSettings() = 0;
+};
+
 
 /**
  * A -> B; k1
@@ -118,7 +136,10 @@ public:
  * A = 10;
  * B = 1;
  */
-class SimpleFlux : public TestModel, public TimeSeriesResult, public SteadyStateResult {
+class SimpleFlux :
+        public TestModel,
+        public TimeSeriesResult,
+        public SteadyStateResult{
 public:
 
     std::string str() override;
@@ -129,9 +150,10 @@ public:
 
     StringDoubleMap steadyState() override;
 
-    std::unordered_map<std::string, rr::Variant> steadyStateSettings() override;
+    std::unordered_map<std::string, rr::Setting> steadyStateSettings() override;
 
-    std::unordered_map<std::string, rr::Variant> timeSeriesSettings() override;
+    std::unordered_map<std::string, rr::Setting> timeSeriesSettings() override;
+
 };
 
 /**
@@ -214,7 +236,7 @@ public:
 
     StringDoubleMap steadyState() override;
 
-    std::unordered_map<std::string, rr::Variant> steadyStateSettings() override;
+    std::unordered_map<std::string, rr::Setting> steadyStateSettings() override;
 
 };
 
@@ -242,7 +264,11 @@ public:
     ...:  end
     ...:  """)
  */
-class OpenLinearFlux : public TestModel, public SteadyStateResult, public TimeSeriesResult {
+class OpenLinearFlux :
+        public TestModel,
+        public SteadyStateResult,
+        public TimeSeriesResult ,
+        public JacobianResult {
 public:
     std::string str() override;
 
@@ -252,9 +278,15 @@ public:
 
     std::string modelName() override;
 
-    std::unordered_map<std::string, rr::Variant> steadyStateSettings() override;
+    std::unordered_map<std::string, rr::Setting> steadyStateSettings() override;
 
-    std::unordered_map<std::string, rr::Variant> timeSeriesSettings() override;
+    std::unordered_map<std::string, rr::Setting> timeSeriesSettings() override;
+
+    ls::DoubleMatrix fullJacobianAmt() override;
+    ls::DoubleMatrix fullJacobianConc() override;
+    ls::DoubleMatrix reducedJacobianAmt() override;
+    ls::DoubleMatrix reducedJacobianConc() override;
+    std::unordered_map<std::string, rr::Setting> jacobianSettings() override;
 
 };
 
@@ -270,7 +302,7 @@ public:
 
     ls::DoubleMatrix timeSeriesResult() override;
 
-    std::unordered_map<std::string, rr::Variant> timeSeriesSettings() override;
+    std::unordered_map<std::string, rr::Setting> timeSeriesSettings() override;
 
 };
 
@@ -286,7 +318,7 @@ public:
 
     ls::DoubleMatrix timeSeriesResult() override;
 
-    std::unordered_map<std::string, rr::Variant> timeSeriesSettings() override;
+    std::unordered_map<std::string, rr::Setting> timeSeriesSettings() override;
 
 };
 
@@ -303,7 +335,7 @@ public:
 
     ls::DoubleMatrix timeSeriesResult() override;
 
-    std::unordered_map<std::string, rr::Variant> timeSeriesSettings() override;
+    std::unordered_map<std::string, rr::Setting> timeSeriesSettings() override;
 
 };
 
@@ -319,7 +351,7 @@ public:
 
     ls::DoubleMatrix timeSeriesResult() override;
 
-    std::unordered_map<std::string, rr::Variant> timeSeriesSettings() override;
+    std::unordered_map<std::string, rr::Setting> timeSeriesSettings() override;
 
 };
 
@@ -335,7 +367,7 @@ public:
 
     StringDoubleMap steadyState() override;
 
-    std::unordered_map<std::string, rr::Variant> steadyStateSettings() override;
+    std::unordered_map<std::string, rr::Setting> steadyStateSettings() override;
 
 };
 
@@ -349,7 +381,7 @@ public:
 
     StringDoubleMap steadyState() override;
 
-    std::unordered_map<std::string, rr::Variant> steadyStateSettings() override;
+    std::unordered_map<std::string, rr::Setting> steadyStateSettings() override;
 
 };
 
@@ -371,9 +403,9 @@ namespace privateSwigTests_ {
 
     std::unordered_map<double, double> *_testDoubleMap(double first, double second);
 
-    std::unordered_map<std::string, rr::Variant> *_testVariantMap();
+    std::unordered_map<std::string, rr::Setting> *_testVariantMap();
 
-    rr::Variant *_testVariant();
+    rr::Setting *_testVariant();
 
     StringDoublePairMap _testResultMap();
 }

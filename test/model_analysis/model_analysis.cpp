@@ -4,15 +4,25 @@
 #include "rrStringUtils.h"
 #include "gtest/gtest.h"
 #include "LLVMExecutableModel.h"
+#include <filesystem>
+#include "RoadRunnerTest.h"
+
+using std::filesystem::path;
 
 using namespace rr;
 
-extern string gRRTestDir;
-extern string gRROutputDir;
+class ModelAnalysisTests : public RoadRunnerTest {
+public:
+    path modelAnalysisModelsDir ;
 
-TEST(MODEL_ANALYSIS, AnalysisFunctionsWithEvent)
-{
-    RoadRunner* rr = new RoadRunner(gRRTestDir + "/models/MODEL_ANALYSIS/event.xml");
+    ModelAnalysisTests() {
+        modelAnalysisModelsDir =  rrTestModelsDir_ / "ModelAnalysis";
+    }
+};
+
+
+TEST_F(ModelAnalysisTests, AnalysisFunctionsWithEvent) {
+    RoadRunner *rr = new RoadRunner((modelAnalysisModelsDir / "event.xml").string());
     ls::DoubleMatrix jacobian = rr->getFullJacobian();
     EXPECT_EQ(jacobian.CSize(), 2);
 
@@ -29,11 +39,11 @@ TEST(MODEL_ANALYSIS, AnalysisFunctionsWithEvent)
 }
 
 
-TEST(MODEL_ANALYSIS, GetEventIDs)
-{
-    RoadRunner* rr = new RoadRunner(gRRTestDir + "/models/MODEL_ANALYSIS/event.xml");
+TEST_F(ModelAnalysisTests, GetEventIDs) {
+    RoadRunner *rr = new RoadRunner((modelAnalysisModelsDir / "event.xml").string());
+
     list<string> eventids;
-    rrllvm::LLVMExecutableModel* mod = static_cast<rrllvm::LLVMExecutableModel*>(rr->getModel());
+    rrllvm::LLVMExecutableModel *mod = static_cast<rrllvm::LLVMExecutableModel *>(rr->getModel());
     mod->getEventIds(eventids);
     EXPECT_EQ(eventids.size(), 1);
     EXPECT_EQ("_E0", *eventids.begin());
@@ -41,14 +51,13 @@ TEST(MODEL_ANALYSIS, GetEventIDs)
 }
 
 
-TEST(MODEL_ANALYSIS, SimulateGillespieMaxRows)
-{
-    RoadRunner* rr = new RoadRunner(gRRTestDir + "/models/MODEL_ANALYSIS/BIOMD0000000035_url.xml");
+TEST_F(ModelAnalysisTests, SimulateGillespieMaxRows) {
+    RoadRunner *rr = new RoadRunner((modelAnalysisModelsDir / "BIOMD0000000035_url.xml").string());
     rr->setIntegrator("gillespie");
     rr->getIntegrator()->setValue("max_output_rows", 100);
     SimulateOptions opts = rr->getSimulateOptions();
 
-    const ls::DoubleMatrix* results = rr->simulate(&opts);
+    const ls::DoubleMatrix *results = rr->simulate(&opts);
     EXPECT_EQ(results->RSize(), 100);
 
     rr->getIntegrator()->setValue("max_output_rows", 1000);
@@ -58,15 +67,14 @@ TEST(MODEL_ANALYSIS, SimulateGillespieMaxRows)
     delete rr;
 }
 
-TEST(MODEL_ANALYSIS, SimulateGillespieZeroDuration)
-{
-    RoadRunner* rr = new RoadRunner(gRRTestDir + "/models/MODEL_ANALYSIS/BIOMD0000000035_url.xml");
+TEST_F(ModelAnalysisTests, SimulateGillespieZeroDuration) {
+    RoadRunner *rr = new RoadRunner((modelAnalysisModelsDir / "BIOMD0000000035_url.xml").string());
     rr->setIntegrator("gillespie");
     SimulateOptions opts = rr->getSimulateOptions();
     opts.duration = 0;
     opts.steps = 100;
 
-    const ls::DoubleMatrix* results = rr->simulate(&opts);
+    const ls::DoubleMatrix *results = rr->simulate(&opts);
     EXPECT_EQ(results->RSize(), 100);
 
     opts.steps = 1000;
@@ -76,15 +84,14 @@ TEST(MODEL_ANALYSIS, SimulateGillespieZeroDuration)
     delete rr;
 }
 
-TEST(MODEL_ANALYSIS, SimulateGillespieDuration)
-{
-    RoadRunner* rr = new RoadRunner(gRRTestDir + "/models/MODEL_ANALYSIS/BIOMD0000000035_url.xml");
+TEST_F(ModelAnalysisTests, SimulateGillespieDuration) {
+    RoadRunner *rr = new RoadRunner((modelAnalysisModelsDir / "BIOMD0000000035_url.xml").string());
     rr->setIntegrator("gillespie");
     SimulateOptions opts = rr->getSimulateOptions();
     opts.duration = 0.5;
 
-    const ls::DoubleMatrix* results = rr->simulate(&opts);
-    EXPECT_NEAR(results->Element(results->numRows()-1, 0), 0.5, 0.0001);
+    const ls::DoubleMatrix *results = rr->simulate(&opts);
+    EXPECT_NEAR(results->Element(results->numRows() - 1, 0), 0.5, 0.0001);
 
     opts.start = 0;
     opts.duration = 0.7;

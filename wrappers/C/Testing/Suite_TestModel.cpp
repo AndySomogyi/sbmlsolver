@@ -1988,7 +1988,7 @@ SUITE(TEST_MODEL)
         }
         clog<< endl << "==== AMOUNT_CONCENTRATION_JACOBIANS ====" << endl << endl;
         aSection->mIsUsed = true;
-        rr::Variant saved = Config::getValue(Config::ROADRUNNER_JACOBIAN_MODE);
+        rr::Setting saved = Config::getValue(Config::ROADRUNNER_JACOBIAN_MODE);
         Config::setValue(Config::ROADRUNNER_JACOBIAN_MODE, (unsigned)Config::ROADRUNNER_JACOBIAN_MODE_AMOUNTS);
         compareJacobians(gRR);
         Config::setValue(Config::ROADRUNNER_JACOBIAN_MODE, (unsigned)Config::ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS);

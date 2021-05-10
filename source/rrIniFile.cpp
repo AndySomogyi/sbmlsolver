@@ -105,7 +105,7 @@ bool IniFile::Load(const std::string& newfName)
 									rrLog(lDebug3)<<"Loading IniFile: " <<mIniFileName.Get();
 	}
 
-    if(!fileExists(mIniFileName))
+    if(!std::filesystem::exists(mIniFileName.Get()))
     {
 									rrLog(lDebug2)<<"The ini file: \"" <<mIniFileName.Get()<<"\" does not exist. It will be created";
         if(!createFile(mIniFileName))
@@ -245,7 +245,7 @@ IniSection* IniFile::LoadSection(const std::string& theSection)
 	}
 
     std::fstream file;
-    if(!fileExists(mIniFileName))
+    if(!std::filesystem::exists(mIniFileName.Get()))
     {
 									rrLog(lDebug2)<<"The ini file: \"" <<mIniFileName.Get()<<"\" does not exist. It will be created";
 	}

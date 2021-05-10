@@ -2,10 +2,10 @@
 #include "SteadyStateIntegrationTests.h"
 #include "TestModelFactory.h"
 
-class NLEQ2IntetrationTests : public SteadyStateIntegrationTests {
+class NLEQ2IntetrationTests : public SteadyStateIntegrationTest {
 public:
 
-    NLEQ2IntetrationTests() : SteadyStateIntegrationTests() {};
+    NLEQ2IntetrationTests() : SteadyStateIntegrationTest() {};
 };
 
 /**

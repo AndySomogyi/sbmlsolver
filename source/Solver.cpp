@@ -26,7 +26,7 @@ namespace rr
     Solver::Solver(ExecutableModel* model)
         : mModel(model){}
 
-    void Solver::addSetting(const std::string& name, const Variant& val, std::string display_name, std::string hint, std::string description)
+    void Solver::addSetting(const std::string& name, Setting val, std::string display_name, std::string hint, std::string description)
     {
         sorted_settings.push_back(name);
         settings[name] = val;
@@ -47,7 +47,7 @@ namespace rr
         }
     }
 
-    std::unordered_map<std::string, Variant>& Solver::getSettingsMap()
+    std::unordered_map<std::string, Setting>& Solver::getSettingsMap()
     {
         return settings;
     }
@@ -99,7 +99,7 @@ namespace rr
         return getDescription(getParamName(n));
     }
 
-    Variant Solver::getValue(const std::string& key) const
+    Setting Solver::getValue(const std::string& key) const
     {
         auto option = settings.find(key);
         if (option == settings.end())
@@ -109,71 +109,22 @@ namespace rr
         return option->second;
     }
 
-    Variant Solver::hasValue(const std::string& key) const
+    Setting Solver::hasValue(const std::string& key) const
     {
-        return settings.find(key) != settings.end();
+        return Setting(settings.find(key) != settings.end());
     }
 
-    int Solver::getValueAsInt(const std::string& key)
-    {
-        return getValue(key).convert<int>();
-    }
-
-    unsigned int Solver::getValueAsUInt(const std::string& key)
-    {
-        return getValue(key).convert<unsigned int>();
-    }
-
-    long Solver::getValueAsLong(const std::string& key)
-    {
-        return getValue(key).convert<long>();
-    }
-
-    unsigned long Solver::getValueAsULong(const std::string& key)
-    {
-        return getValue(key).convert<unsigned long>();
-    }
-
-    float Solver::getValueAsFloat(const std::string& key)
-    {
-        return getValue(key).convert<float>();
-    }
-
-    double Solver::getValueAsDouble(const std::string& key)
-    {
-        return getValue(key).convert<double>();
-    }
-
-	std::vector<double> Solver::getValueAsDoubleVector(const std::string& key)
-	{
-		return getValue(key).convert< std::vector<double> >();
-	}
-
-    char Solver::getValueAsChar(const std::string& key)
-    {
-        return getValue(key).convert<char>();
-    }
-
-    unsigned char Solver::getValueAsUChar(const std::string& key)
-    {
-        return getValue(key).convert<unsigned char>();
-    }
 
     std::string Solver::getValueAsString(const std::string& key)
     {
-        return getValue(key).convert<std::string>();
+        return getValue(key).get<std::string>();
     }
 
-    bool Solver::getValueAsBool(const std::string& key)
-    {
-        return getValue(key).convert<bool>();
-    }
-
-    void Solver::setValue(const std::string& key, const Variant& value)
+    void Solver::setValue(const std::string& key, Setting value)
     {
         if (settings.find(key) ==  settings.end())
             throw std::invalid_argument(getName() + " invalid key: " + key);
-        settings[key] = value;
+        settings[key] = std::move(value);
     }
 
 
@@ -207,7 +158,7 @@ namespace rr
         return option->second;
     }
 
-    Variant::TypeId Solver::getType(const std::string& key) const
+    Setting::TypeId Solver::getType(const std::string& key) const
     {
         return getValue(key).type();
     }
@@ -215,8 +166,9 @@ namespace rr
     std::string Solver::getSettingsRepr() const
     {
         std::stringstream ss;
-        for(size_t n=0; n<getNumParams(); ++n)
+        for(size_t n=0; n<getNumParams(); ++n){
             ss << "    " << std::setw(20) << getParamName(n) << ": " << getValue(getParamName(n)).toString() << "\n";
+        }
         return ss.str();
     }
 
@@ -224,7 +176,7 @@ namespace rr
     {
         std::stringstream ss;
         for(size_t n=0; n<getNumParams(); ++n)
-            ss << (n ? ", " : "") << "'" << getParamName(n) << "': " << getValue(getParamName(n)).pythonRepr();
+            ss << (n ? ", " : "") << "'" << getParamName(n) << "': " << getValue(getParamName(n)).toString();
         return ss.str();
     }
 

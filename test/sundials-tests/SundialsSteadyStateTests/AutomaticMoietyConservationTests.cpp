@@ -35,7 +35,7 @@ public:
         auto solver = rr.getSteadyStateSolver();
         solver->setValue("auto_moiety_analysis", autoMoietyOption);
 
-        // if moieties are needed, and both autoMoiety and moiety options are false
+        // if moieties are needed (as they are in SimpleFlux), and both autoMoiety and moiety options are false
         // then we expect an error
         if (model.modelName() == "SimpleFlux" &&  !autoMoietyOption && !moietyOption){
             // (can't go more specific error since errors are inherited directly from exception)
@@ -82,7 +82,7 @@ TEST_F(AutomaticMoietyAnalysisTests, NeededOffOn) {
  */
 TEST_F(AutomaticMoietyAnalysisTests, NeededOffOff) {
     // this situation causes error, but we catch it.
-    check<SimpleFlux>(false, false);
+        check<SimpleFlux>(false, false);
 
 }
 /*

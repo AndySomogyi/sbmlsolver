@@ -1,6 +1,7 @@
 #pragma hdrstop
 #include <iomanip>
 #include <map>
+#include <utility>
 #include "rrLogger.h"
 #include "rrSBMLModelSimulation.h"
 #include "rrUtils.h"
@@ -8,18 +9,18 @@
 #include "CVODEIntegrator.h"
 //---------------------------------------------------------------------------
 
-
+using std::filesystem::path;
 
 namespace rr
 {
 
-SBMLModelSimulation::SBMLModelSimulation(const std::string& dataOutputFolder, const std::string& tempDataFilePath)
+SBMLModelSimulation::SBMLModelSimulation(std::filesystem::path  dataOutputFolder, std::filesystem::path  tempDataFilePath)
 :
 mModelFilePath(""),
 mModelFileName(""),
-mDataOutputFolder(dataOutputFolder),
+mDataOutputFolder(std::move(dataOutputFolder)),
 mCompileIfDllExists(true),
-mTempDataFolder(tempDataFilePath),
+mTempDataFolder(std::move(tempDataFilePath)),
 mEngine(NULL)
 {
     // TODO mSettings.absolute    = 1.e-7;
@@ -29,7 +30,7 @@ mEngine(NULL)
 SBMLModelSimulation::~SBMLModelSimulation()
 {}
 
-std::string SBMLModelSimulation::GetTempDataFolder()
+std::filesystem::path SBMLModelSimulation::GetTempDataFolder()
 {
     return mTempDataFolder;
 }
@@ -39,9 +40,9 @@ void SBMLModelSimulation::ReCompileIfDllExists(const bool& doIt)
     mCompileIfDllExists = doIt;
 }
 
-bool SBMLModelSimulation::SetModelFilePath(const std::string& path)
+bool SBMLModelSimulation::SetModelFilePath(const std::filesystem::path& p)
 {
-    mModelFilePath = path;
+    mModelFilePath = p;
     return true;
 }
 
@@ -59,34 +60,37 @@ RoadRunnerData SBMLModelSimulation::GetResult()
 
 bool SBMLModelSimulation::SetModelFileName(const std::string& name)
 {
-    if(getFilePath(name).size() > 0)
+    if(!getFilePath(name).empty())
     {
         mModelFilePath = getFilePath(name);
     }
 
     mModelFileName = getFileName(name);
 
-    if(!fileExists(joinPath(mModelFilePath, mModelFileName)))
+    path p = path(mModelFilePath) / mModelFileName;
+
+
+    if(!std::filesystem::exists(p))
     {
-        rrLog(Logger::LOG_ERROR)<<"The file: "<<joinPath(mModelFilePath, mModelFileName)<<" doesn't exist.";
+        rrLog(Logger::LOG_ERROR)<<"The file: "<<p<<" doesn't exist.";
         return false;
     }
 
     return true;
 }
 
-bool SBMLModelSimulation::SetDataOutputFolder(const std::string& name)
+bool SBMLModelSimulation::SetDataOutputFolder(const std::filesystem::path& name)
 {
     mDataOutputFolder = name;
     return true;
 }
 
-std::string  SBMLModelSimulation::GetModelsFullFilePath()
+std::filesystem::path  SBMLModelSimulation::GetModelsFullFilePath()
 {
-    return joinPath(mModelFilePath, mModelFileName);
+    return mModelFilePath / mModelFileName;
 }
 
-std::string  SBMLModelSimulation::GetDataOutputFolder()
+std::filesystem::path  SBMLModelSimulation::GetDataOutputFolder()
 {
     return mDataOutputFolder;
 }
@@ -112,9 +116,9 @@ bool SBMLModelSimulation::CompileModel()
     return true;
 }
 
-void SBMLModelSimulation::loadSBMLTolerances(std::string const& filename)
+void SBMLModelSimulation::loadSBMLTolerances(std::filesystem::path const& filename)
 {
-    if (!filename.size())
+    if (filename.string().empty())
     {
         rrLog(Logger::LOG_ERROR) << "Empty file name for settings file";
     }
@@ -159,11 +163,11 @@ void SBMLModelSimulation::loadSBMLTolerances(std::string const& filename)
     }
 }
 
-bool SBMLModelSimulation::LoadSettings(const std::string& settingsFName)
+bool SBMLModelSimulation::LoadSettings(const std::filesystem::path& settingsFName)
 {
-    std::string fName(settingsFName);
+    std::filesystem::path fName(settingsFName);
 
-    if(!fName.size())
+    if(fName.string().empty())
     {
         rrLog(Logger::LOG_ERROR)<<"Empty file name for setings file";
         return false;
@@ -174,11 +178,11 @@ bool SBMLModelSimulation::LoadSettings(const std::string& settingsFName)
     loadSBMLTolerances(fName);
 
     mSettings = SimulateOptions();
-	mSettings.loadSBMLSettings(fName);
+	mSettings.loadSBMLSettings(fName.string());
 
     if(mEngine)
     {
-		mEngine->getIntegrator()->loadSBMLSettings(fName);
+		mEngine->getIntegrator()->loadSBMLSettings(fName.string());
         // make a copy and tweak tolerances for integrator
         SimulateOptions opt = mSettings;
 		if (mEngine->getIntegrator()->getName() == "cvode")
@@ -245,18 +249,18 @@ bool SBMLModelSimulation::LoadSBMLFromFile()                    //Use current fi
             opt.modelGeneratorOpt | LoadSBMLOptions::RECOMPILE :
             opt.modelGeneratorOpt & ~LoadSBMLOptions::RECOMPILE;
 
-    mEngine->load(GetModelsFullFilePath(), &opt);
+    mEngine->load(GetModelsFullFilePath().string(), &opt);
     return true;
 }
 
-bool SBMLModelSimulation::SaveModelAsXML(const std::string& folder)
+bool SBMLModelSimulation::SaveModelAsXML(std::filesystem::path& folder)
 {
     if(!mEngine)
     {
         return false;
     }
-    std::string fName = joinPath(folder, mModelFileName);
-    fName = changeFileExtensionTo(fName, "xml");
+    std::filesystem::path fName = folder / mModelFileName;
+    fName = changeFileExtensionTo(fName.string(), "xml");
 
     std::fstream fs(fName.c_str(), std::fstream::out);
 
@@ -298,8 +302,8 @@ bool SBMLModelSimulation::Simulate()
 
 bool SBMLModelSimulation::SaveResult()
 {
-    std::string resultFileName(joinPath(mDataOutputFolder, "rr_" + mModelFileName));
-    resultFileName = changeFileExtensionTo(resultFileName, ".csv");
+    std::filesystem::path resultFileName(mDataOutputFolder / ("rr_" + mModelFileName));
+    resultFileName = resultFileName.replace_extension(".csv");
     rrLog(lInfo)<<"Saving result to file: "<<resultFileName;
     RoadRunnerData resultData(mEngine);
 

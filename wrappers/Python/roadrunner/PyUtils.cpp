@@ -157,66 +157,70 @@ char* rrGetPyErrMessage() {
     return pStrErrorMessage;
 }
 
-PyObject* Variant_to_py(const Variant& var)
+PyObject* Variant_to_py(const Setting& var)
 {
-    PyObject *result = 0;
+    PyObject *result = nullptr;
 
     const std::type_info &type = var.typeInfo();
 
-    if (var.isEmpty()) {
+    if (type == typeid(std::monostate)) {
         Py_RETURN_NONE;
     }
 
     if (type == typeid(std::string)) {
-        return rrPyString_FromString(var.convert<string>().c_str());
+        return rrPyString_FromString(var.get<string>().c_str());
     }
 
     if (type == typeid(bool)) {
-        return PyBool_FromLong(var.convert<bool>());
+        return PyBool_FromLong(var.get<bool>());
     }
 
-    if (type == typeid(unsigned long)) {
-        return PyLong_FromUnsignedLong(var.convert<unsigned long>());
+    if (type == typeid(std::uint64_t)) {
+        return PyLong_FromUnsignedLong(var.get<std::uint64_t>());
     }
 
-    if (type == typeid(long)) {
-        return PyLong_FromLong(var.convert<long>());
+    if (type == typeid(std::int64_t)) {
+        return PyLong_FromLong(var.get<std::int64_t>());
     }
 
-    if (type == typeid(int)) {
+    if (type == typeid(std::int32_t)) {
 # if PY_MAJOR_VERSION == 3
-        return PyLong_FromLong(var.convert<long>());
+        return PyLong_FromLong(var.get<std::int32_t>());
 # else
-        return PyInt_FromLong(var.convert<long>());
+        return PyInt_FromLong(var.get<std::int32_t>());
 # endif
     }
 
-    if (type == typeid(unsigned int)) {
-        return PyLong_FromUnsignedLong(var.convert<unsigned long>());
+    if (type == typeid(std::uint32_t)) {
+        return PyLong_FromUnsignedLong(var.get<std::uint32_t>());
     }
 
     if (type == typeid(char)) {
-        char c = var.convert<char>();
+        char c = var.get<char>();
         return rrPyString_FromStringAndSize(&c, 1);
     }
 
     if (type == typeid(unsigned char)) {
 # if PY_MAJOR_VERSION == 3
-        return PyLong_FromLong(var.convert<long>());
+        return PyLong_FromLong((long)var.get<std::int64_t>());
 # else
-        return PyInt_FromLong(var.convert<long>());
+        return PyInt_FromLong(var.get<std::int64_t>());
 # endif
     }
 
-    if (type == typeid(float) || type == typeid(double)) {
-        return PyFloat_FromDouble(var.convert<double>());
+    if (type == typeid(float)){
+        return PyFloat_FromDouble(var.get<float>());
+    }
+
+    if (type == typeid(double)){
+        return PyFloat_FromDouble(var.get<double>());
     }
 
 	if (type == typeid(vector<double>)) {
-		PyObject* list = PyList_New(var.convert< vector<double> >().size());
+		PyObject* list = PyList_New((std::int64_t )var.get< vector<double> >().size());
 		if (!list) throw logic_error("Unable to allocate memory for Python list");
-		for (unsigned int i = 0; i < var.convert< vector<double> >().size(); i++) {
-			PyObject* num = PyFloat_FromDouble((double)var.convert< vector<double> >()[i]);
+		for (unsigned int i = 0; i < var.get< vector<double> >().size(); i++) {
+			PyObject* num = PyFloat_FromDouble((double)var.get< vector<double> >()[i]);
 			if (!num) {
 				Py_DECREF(list);
 				throw logic_error("Unable to allocate memory for Python list");
@@ -228,16 +232,16 @@ PyObject* Variant_to_py(const Variant& var)
 	}
 
 
-    throw invalid_argument("could not convert " + var.toString() + "to Python object");
+    throw invalid_argument("could not convert " + var.get<std::string>() + "to Python object");
 }
 
-PyObject* Variant_to_py(Variant* var){
+PyObject* Variant_to_py(Setting* var){
     return Variant_to_py(*var);
 }
 
-Variant Variant_from_py(PyObject* py)
+Setting Variant_from_py(PyObject* py)
 {
-	Variant var;
+	Setting var;
 
 	if (py == Py_None)
 	{
@@ -263,7 +267,7 @@ Variant Variant_from_py(PyObject* py)
 	else if (PyLong_Check(py))
 	{
 		// need to check for overflow.
-		var = (long)PyLong_AsLong(py);
+		var = std::int64_t (PyLong_AsLong(py));
 
 		// Borrowed reference.
 		PyObject* err = PyErr_Occurred();
@@ -290,22 +294,24 @@ Variant Variant_from_py(PyObject* py)
 # endif
 	{
 # if PY_MAJOR_VERSION == 3
-		var = PyLong_AsLong(py);
+		var = std::int64_t(PyLong_AsLong(py));
 # else
-		var = (int)PyInt_AsLong(py);
+		var = (std::int32_t)PyInt_AsLong(py);
 # endif
 		return var;
 	}
 
 	else if (PyFloat_Check(py))
 	{
-		var = (double)PyFloat_AsDouble(py);
+	    std::cout << "is a PyFloat" << std::endl;
+		var = PyFloat_AsDouble(py);
+		std::cout << "the string << " << var.toString() << std::endl;
 		return var;
 	}
 
 	else if (PyList_Check(py))
 	{
-		vector<double> data;
+		std::vector<double> data;
 		for (Py_ssize_t i = 0; i < PyList_Size(py); i++) {
 			PyObject* value = PyList_GetItem(py, i);
 			data.push_back(PyFloat_AsDouble(value));
@@ -313,7 +319,9 @@ Variant Variant_from_py(PyObject* py)
 		return data;
 	}
 
-    string msg = "could not convert Python type to built in type";
+
+
+    std::string msg = "could not convert Python type to built in type";
     throw invalid_argument(msg);
 }
 
@@ -1018,7 +1026,7 @@ Dictionary *Dictionary_from_py(PyObject *py)
         if (PyString_Check(pkey)) {
 # endif
             std::string key(rrPyString_AsString(pkey));
-            Variant value = Variant_from_py(pvalue);
+            Setting value = Variant_from_py(pvalue);
 
             dict->setItem(key, value);
 

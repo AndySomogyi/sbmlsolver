@@ -73,7 +73,8 @@ set(
         SteadyStateSolver.cpp
         Solver.cpp
         SolverRegistration.cpp
-        Variant.cpp
+#        Variant.cpp
+        Setting.cpp
 
         KinsolSteadyStateSolver.cpp
         FixedPointIteration.cpp
@@ -140,7 +141,8 @@ set(
         SteadyStateSolver.h
         Solver.h
         SolverRegistration.h
-        Variant.h
+#        Variant.h
+        Setting.h
 
         KinsolErrHandler.h
         KinsolSteadyStateSolver.h
@@ -262,6 +264,8 @@ if (BUILD_LLVM)
     set(rrSources ${rrSources} ${rrLLVMSources})
     set(rrHeaders ${rrHeaders} ${rrLLVMHeaders})
 
+    message(STATUS "LLVM_FLAGS ${LLVM_FLAGS}")
+
     if (NOT LLVM_FLAGS)
         message(FATAL_ERROR "No LLVM_FLAGS variable found")
     endif ()
@@ -270,10 +274,11 @@ if (BUILD_LLVM)
     #     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${LLVM_FLAGS}") # Set per-source
     # set up appropriate flags for using LLVM
     # TODO remove the code below and check for errors. Are these actually needed?
-    set_source_files_properties(${rrLLVMSources} PROPERTIES COMPILE_FLAGS ${LLVM_FLAGS})
+    # Done: on g++, commenting this line out does not break the build. In fact, it fixes
+    #   this build since llvm adds extra flags which override roadrunner flags (-std=c++ for example)
+    #    set_source_files_properties(${rrLLVMSources} PROPERTIES COMPILE_FLAGS ${LLVM_FLAGS})
     # add LLVM-based model sources to list
     set(rrSources ${rrSources} ${rrLLVMSources} ${rrLLVMHeaders})
-    #cl   /TP -DBUILD_LLVM -DCRT_NONSTDC_NO_DEPRECATE -DLIBLAX_STATIC -DLIBSBML_STATIC -DLIBSBML_USE_CPP_NAMESPACE -DPOCO_NO_AUTOMATIC_LIBS -DPOCO_STATIC -DSTATIC_LIBSTRUCT -DSTATIC_NLEQ1 -DSTATIC_NLEQ2 -DSTATIC_PUGI -DSTATIC_RR -D_CRT_SECURE_NO_WARNINGS -ID:\rrbuild\roadrunner\source -ID:\rrbuild\roadrunner\third_party\nleq1\include -ID:\rrbuild\roadrunner\third_party\nleq2\include -ID:\rrbuild\roadrunner\third_party\clapack3.2.1\include -ID:\rrbuild\roadrunner\third_party\libsbml\include -ID:\rrbuild\roadrunner\third_party\rr-libstruct\include -ID:\rrbuild\roadrunner\third_party\poco_1.5.3\include -ID:\rrbuild\roadrunner\third_party\sundials\include -ID:\rrbuild\roadrunner\third_party\unit_test -ID:\LLVM6.0.1\install-msvc-with-extra-flags\include /DWIN32 /D_WINDOWS /GR /EHsc /O2 /Ob2 /DNDEBUG -MT   /wd4251 /wd4018 /wd4996 /EHsc -DSTATIC_RR -ID:\LLVM6.0.1\install-msvc-with-extra-flags\include /DWIN32 /D_WINDOWS   /Zc:inline /Zc:strictStrings /Oi /Zc:rvalueCast /W4 -wd4141 -wd4146 -wd4180 -wd4244 -wd4258 -wd4267 -wd4291 -wd4345 -wd4351 -wd4355 -wd4456 -wd4457 -wd4458 -wd4459 -wd4503 -wd4624 -wd4722 -wd4800 -wd4100 -wd4127 -wd4512 -wd4505 -wd4610 -wd4510 -wd4702 -wd4245 -wd4706 -wd4310 -wd4701 -wd4703 -wd4389 -wd4611 -wd4805 -wd4204 -wd4577 -wd4091 -wd4592 -wd4319 -wd4324 -w14062 -we4238 /MD /O2 /Ob2 /DNDEBUG  /EHsc /GR -D_CRT_SECURE_NO_DEPRECATE -D_CRT_SECURE_NO_WARNINGS -D_CRT_NONSTDC_NO_DEPRECATE -D_CRT_NONSTDC_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE -D_SCL_SECURE_NO_WARNINGS -DUNICODE -D_UNICODE -D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS -D__STDC_LIMIT_MACROS /FoCMakeFiles\roadrunner-static.dir\llvm\Random.cpp.obj /FdCMakeFiles\roadrunner-static.dir\roadrunner-static.pdb /FS -c D:\rrbuild\roadrunner\source\llvm\Random.cpp
 endif (BUILD_LLVM)
 
 # Add C legacy code to sources if needed
@@ -384,7 +389,7 @@ if (UNIX)
     #    icui18n icuuc (can be used instead of iconv)
     set(PLATFORM_SPECIFIC_LIBS ${PLATFORM_SPECIFIC_LIBS} pthread dl m ${CURSES_LIBRARIES})
 elseif (WIN32)
-    set(PLATFORM_SPECIFIC_LIBS ${PLATFORM_SPECIFIC_LIBS} Ws2_32 )
+    set(PLATFORM_SPECIFIC_LIBS ${PLATFORM_SPECIFIC_LIBS} Ws2_32)
 elseif (APPLE AND NOT UNIX)
     set(PLATFORM_SPECIFIC_LIBS ${PLATFORM_SPECIFIC_LIBS} ${CURSES_LIBRARIES})
 
@@ -428,11 +433,15 @@ target_link_libraries(
         SUNDIALS::kinsol_static
 
 
-        PocoFoundation::PocoFoundation
-        PocoNet::PocoNet
+        Poco::Foundation
+        Poco::Net
+        Poco::XML
         iconv::libcharset iconv::libiconv-static
 
 )
+
+#get_target_property(v ${target}-static LINK_FLAGS)
+#MESSAGE(STATUS "vty ${v}")
 
 add_library(${target} SHARED ${rrSources} ${rrHeaders})
 target_compile_definitions(${target} PRIVATE EXPORT_RR)
@@ -494,3 +503,4 @@ if (BUILD_TEST_TOOLS)
         add_subdirectory(llvm_testing)
     endif (BUILD_LLVM)
 endif ()
+

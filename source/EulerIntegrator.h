@@ -117,7 +117,7 @@ namespace rr
         * @return the end time.
         */
         virtual double integrate(double t0, double h) {
-			int internal_steps = getValueAsInt("subdivision_steps");
+			int internal_steps = getValue("subdivision_steps");
 			if (mModel == (rr::ExecutableModel*)NULL) return 0;
 
             double finalTimeEnd;
@@ -299,15 +299,15 @@ namespace rr
         * This integrator only supports 2 values, so those are the
         * only two valid items to set.
         */
-        virtual void setItem(const std::string& key, const rr::Variant& value) {
+        virtual void setItem(const std::string& key, const rr::Setting& value) {
             if (key == "exampleParameter1") {
-                exampleParameter1 = value;
+                exampleParameter1 = value.get<double>();
                 return;
             }
 
             if(key == "exampleParameter2") {
 				// Ahu: Why is this cast here, and is this a static or dynamic cast?
-                exampleParameter2 = (std::string)value;
+                exampleParameter2 = value.get<std::string>();
 				return;
             }
 
@@ -321,13 +321,13 @@ namespace rr
         * This integrator only supports two parameters, those are the
         * only valid ones to get.
         */
-        virtual Variant getItem(const std::string& key) const {
+        virtual Setting getItem(const std::string& key) const {
             if (key == "exampleParameter1") {
-                return exampleParameter1;
+                return Setting(exampleParameter1);
             }
 
             if(key == "exampleParameter2") {
-                return exampleParameter2;
+                return Setting(exampleParameter2);
             }
 
             // they did not give a valid key, so throw an exception.
@@ -368,7 +368,7 @@ namespace rr
 			Solver::resetSettings();
 
 			// Set default integrator settings.
-            addSetting("subdivision_steps", 1,
+            addSetting("subdivision_steps", Setting(1),
                 "Subdivision Steps",
                 "The number of subdivisions of the Euler step size (int).",
                 "(int) For each point, up to this many extra steps will be taken as smaller steps within each step, although their values are not saved");

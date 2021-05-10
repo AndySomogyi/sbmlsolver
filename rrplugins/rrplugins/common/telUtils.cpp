@@ -17,6 +17,9 @@
 #include <limits.h>  //PATH_MAX
 #endif
 
+#include <filesystem>
+namespace fs = std::filesystem;
+
 #define _USE_MATH_DEFINES
 
 #include <algorithm>
@@ -139,24 +142,25 @@ string getDateTime()
 
 string getUsersTempDataFolder()
 {
+    return fs::temp_directory_path().string();
     //Default for temporary data output is the users AppData/Local/Temp Folder
     //  Gets the temp path env string (no guarantee it's a valid path).
-#if defined(WIN32)
-    TCHAR lpTempPathBuffer[MAX_PATH];
-    DWORD dwRetVal = GetTempPathA(MAX_PATH, lpTempPathBuffer); // buffer for path
-    if (dwRetVal > MAX_PATH || (dwRetVal == 0))
-    {
-        RRPLOG(lError)<<"GetTempPath failed";
-    }
-    else
-    {
-        RRPLOG(lDebug3)<<"Users temporary files folder is: "<<string(lpTempPathBuffer);
-    }
-
-    return string(lpTempPathBuffer);
-#else
-return ".";
-#endif
+//#if defined(WIN32)
+//    LPSTR lpTempPathBuffer[MAX_PATH];
+//    DWORD dwRetVal = GetTempPathA((DWORD)MAX_PATH, lpTempPathBuffer); // buffer for path
+//    if (dwRetVal > MAX_PATH || (dwRetVal == 0))
+//    {
+//        RRPLOG(lError)<<"GetTempPath failed";
+//    }
+//    else
+//    {
+//        RRPLOG(lDebug3)<<"Users temporary files folder is: "<<std::string(lpTempPathBuffer);
+//    }
+//
+//    return string(lpTempPathBuffer);
+//#else
+//return ".";
+//#endif
 }
 
 
@@ -376,14 +380,15 @@ bool fileExists(const string& fName)
 
 bool folderExists(const string& folderName)
 {
-#if defined(WIN32)
-    LPCTSTR szPath = folderName.c_str();
-    DWORD dwAttrib = GetFileAttributes(szPath);
-    return (dwAttrib != INVALID_FILE_ATTRIBUTES && (dwAttrib & FILE_ATTRIBUTE_DIRECTORY));
-#else
-    struct stat status;
-    return stat(folderName.c_str(), &status) == 0 ? true : false;
-#endif
+    return fs::exists(folderName);
+//#if defined(WIN32)
+//    LPCTSTR szPath = folderName.c_str();
+//    DWORD dwAttrib = GetFileAttributes(szPath);
+//    return (dwAttrib != INVALID_FILE_ATTRIBUTES && (dwAttrib & FILE_ATTRIBUTE_DIRECTORY));
+//#else
+//    struct stat status;
+//    return stat(folderName.c_str(), &status) == 0 ? true : false;
+//#endif
 }
 
 void createTestSuiteFileNameParts(int caseNr, const string& postFixPart, string& modelFilePath, string& modelName, string& settingsFName)
@@ -579,7 +584,7 @@ string getWINAPIError(DWORD errorCode, LPTSTR lpszFunction)
         NULL,
         dw,
         MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-        (LPTSTR) &lpMsgBuf,
+        (LPSTR) &lpMsgBuf,
         0, NULL
     );
 
@@ -593,7 +598,7 @@ string getWINAPIError(DWORD errorCode, LPTSTR lpszFunction)
                         dw,
                         lpMsgBuf);
 
-    string errorMsg = string((LPCTSTR)lpDisplayBuf);
+    string errorMsg = string((LPSTR)lpDisplayBuf);
     LocalFree(lpMsgBuf);
     LocalFree(lpDisplayBuf);
     return errorMsg;

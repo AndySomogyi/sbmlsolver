@@ -8,6 +8,7 @@
  *     andy V1 somogyi V2 gmail V3 com
  */
 #pragma hdrstop
+#include <filesystem>
 #include "LLVMCompiler.h"
 #include "rrUtils.h"
 #include "LLVMIncludes.h"

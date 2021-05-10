@@ -67,7 +67,7 @@ namespace rr {
     }
 
     double NewtonIteration::solveNewtonIteration(const std::string &strategy) {
-        return solveForSteadyState(this, getValueAsString("strategy") == "basic" ? KIN_NONE : KIN_LINESEARCH);
+        return solveForSteadyState(this, getValue("strategy").get<std::string>() == "basic" ? KIN_NONE : KIN_LINESEARCH);
     }
 
     void NewtonIteration::updateKinsol() {

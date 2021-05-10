@@ -18,6 +18,13 @@ project(
         LANGUAGES CXX C
 )
 
+if (${CMAKE_VERSION} VERSION_GREATER_EQUAL "3.20")
+    # Source file extensions do not need to be explicitly
+    #   specified if CMP0115 set to OLD.
+    #   New behavior requires all extensions be explicit
+    cmake_policy(SET CMP0115 OLD)
+endif()
+
 
 if ("${CMAKE_SIZEOF_VOID_P}" STREQUAL "4")
     message(STATUS "Build on 32-bit platform")
@@ -111,11 +118,24 @@ if (BUILD_PYTHON)
     #set_property(CACHE Python_LIBRARY)
     #set_property(CACHE Python_INCLUDE_DIR)
 
-    set(PYTHON_PACKAGE_SITE_DIR ${CMAKE_INSTALL_PREFIX}/site-packages CACHE PATH "Path to Python site packages directory")
-    set(PYTHON_PACKAGE_INSTALL_PREFIX ${PYTHON_PACKAGE_SITE_DIR}/roadrunner)#CACHE PATH "Destination for roadrunner python bindings.")
-    set(RR_PLUGINS_PYTHON_INSTALL_PREFIX ${PYTHON_PACKAGE_SITE_DIR}/rrplugins)#CACHE PATH "Destination for rrplugins python bindings.")
-    set(RR_PLUGINS_PYLIB_INSTALL_PREFIX ${PYTHON_PACKAGE_SITE_DIR}/rrplugins/libs)#CACHE PATH "Destination for rrplugins python binding libraries.")
+
+    # build directories
+    set(PYTHON_PACKAGE_SITE_DIR_BUILD_TREE "${CMAKE_BINARY_DIR}/lib/site-packages" CACHE PATH "Path to Python site packages directory in the build tree")
+    set(PYTHON_PACKAGE_BUILD_PREFIX "${PYTHON_PACKAGE_SITE_DIR_BUILD_TREE}/roadrunner")
+    set(RR_PYTHON_TESTING_BUILD_PREFIX "${PYTHON_PACKAGE_BUILD_PREFIX}/testing")
+
+    # install directories
+    set(PYTHON_PACKAGE_SITE_DIR "${CMAKE_INSTALL_PREFIX}/site-packages" CACHE PATH "Path to Python site packages directory in the install tree")
+    set(PYTHON_PACKAGE_INSTALL_PREFIX "${PYTHON_PACKAGE_SITE_DIR}/roadrunner")#CACHE PATH "Destination for roadrunner python bindings.")
+    set(RR_PYTHON_TESTING_INSTALL_PREFIX "${PYTHON_PACKAGE_INSTALL_PREFIX}/testing")
+
+
+    # plugin directories
+    set(RR_PLUGINS_PYTHON_INSTALL_PREFIX "${PYTHON_PACKAGE_SITE_DIR}/rrplugins")#CACHE PATH "Destination for rrplugins python bindings.")
+    set(RR_PLUGINS_PYLIB_INSTALL_PREFIX "${PYTHON_PACKAGE_SITE_DIR}/rrplugins/libs")#CACHE PATH "Destination for rrplugins python binding libraries.")
+
     cmake_dependent_option(RR_PLUGINS_BUILD_PYTHON_API "Build the RR plugin PYTHON API" ON "BUILD_RR_PLUGINS" OFF)
+
     #	cmake_dependent_option(BUILD_PYTHON_CTYPES_API "Build the ctypes python API for roadrunner" ON
     #	        "BUILD_PYTHON" OFF)
     #	cmake_dependent_option(WITH_CONDA_BUILDER "Include files required to build the conda package" OFF
@@ -168,7 +188,7 @@ mark_as_advanced(RR_PLUGINS_BUILD_LEVENBERG_MARQUARDT_PLUGIN)
 mark_as_advanced(RR_PLUGINS_BUILD_NELDER_MEAD_PLUGIN)
 mark_as_advanced(RR_PLUGINS_BUILD_MONTE_CARLO_PLUGIN)
 
-set(CXX_STANDARD 14 CACHE STRING "set the cmake standard to use")
+set(CXX_STANDARD 17 CACHE STRING "set the cmake standard to use")
 
 ##################################################
 #   Settings
@@ -192,9 +212,7 @@ if (BUILD_TESTS OR BUILD_JAVA)
     enable_testing()
 endif ()
 
-# TODO: add some logic to automatically set based on compiler version
-# todo: turn on C++17 and see if it errors.
-#   - it does. Therefore todo: fix errors with c++17
+
 set(RR_USE_CXX14 TRUE CACHE BOOL "Set to TRUE to enable C++14 features")
 
 # new clang on OSX and msvc use std namespace.
@@ -233,9 +251,6 @@ else ()
     message(STATUS "not building legacy C backend")
 endif (BUILD_LEGACY_C)
 
-
-# Set C++14 flags
-set(CMAKE_CXX_STANDARD ${CXX_STANDARD})
 
 # Enable cmake printing out commands
 set(CMAKE_VERBOSE_MAKEFILE TRUE)
@@ -301,10 +316,15 @@ exists and is the full path to the installed dependency tree.")
 endif ()
 
 set(RR_ROOT "${CMAKE_CURRENT_SOURCE_DIR}")
-set(DEPENDENCY_CMAKE_CONFIG_PATHS "${RR_DEPENDENCIES_INSTALL_PREFIX}/lib/cmake;${RR_DEPENDENCIES_INSTALL_PREFIX}/lib64/cmake")
+set(DEPENDENCY_CMAKE_CONFIG_PATHS
+        "${RR_DEPENDENCIES_INSTALL_PREFIX}/lib/cmake"
+        "${RR_DEPENDENCIES_INSTALL_PREFIX}/lib64/cmake"
+        "${RR_DEPENDENCIES_INSTALL_PREFIX}/cmake"
+        "${RR_DEPENDENCIES_INSTALL_PREFIX}/lib/cmake/Poco"
+        )
 set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} "${DEPENDENCY_CMAKE_CONFIG_PATHS}")
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${DEPENDENCY_CMAKE_CONFIG_PATHS}")
-
+message(STATUS "CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH}")
 if (WIN32)
     set(SBML_TARGET_NAME "libsbml-static")
 else ()
@@ -340,10 +360,6 @@ endif ()
 set(BUILD_SHARED_LIBS OFF)
 set(BUILD_STATIC_LIBS ON)
 
-# todo make sure you delete before merge with develop (or it will be here forever)
-#add_subdirectory(sundials) # for testing only
-
-
 # install dependencies so clients can use roadrunner from c++/cmake
 message(STATUS "CMAKE_INSTALL_LIBDIR ${CMAKE_INSTALL_LIBDIR}")
 install(DIRECTORY ${RR_DEPENDENCIES_INSTALL_PREFIX}/lib DESTINATION ${CMAKE_INSTALL_PREFIX})
@@ -373,6 +389,14 @@ endif ()
 # Building
 #
 
+
+# Set standard
+set(CMAKE_CXX_STANDARD 17)
+if (NOT WIN32)
+    # some cmake (or gcc) bug means that we also need to set -std=c++17
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17")
+endif ()
+
 # We always have to build the roadrunner core, everything depends on this
 add_subdirectory(source)
 
@@ -399,7 +423,6 @@ endif ()
 #
 
 if (${BUILD_PACKAGING})
-    #todo raise question of deleting the "installer" folder (cw)
     # it doesn't look that useful and we now have the contents of
     # packaging that will automate production of binary releases.
     add_subdirectory(packaging)

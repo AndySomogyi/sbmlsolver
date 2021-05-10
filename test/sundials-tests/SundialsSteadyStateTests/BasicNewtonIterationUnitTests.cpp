@@ -10,40 +10,41 @@
 using namespace rr;
 
 /**
- * 
+ * @brief tests that focus on the "newton" solver from sundials test suite
+ * without linesearch globalisation
  */
-class BasicNewtonIterationUnitTests : public SundialsSteadyStateSolverUnitTest {
+class BasicNewtonIterationUnitTest : public SundialsSteadyStateSolverUnitTest {
 public:
 
-    BasicNewtonIterationUnitTests() : SundialsSteadyStateSolverUnitTest() {};
+    BasicNewtonIterationUnitTest() : SundialsSteadyStateSolverUnitTest() {};
 
-    ~BasicNewtonIterationUnitTests() override = default;
+    ~BasicNewtonIterationUnitTest() override = default;
 };
 
 
-TEST_F(BasicNewtonIterationUnitTests, SolveUsingSolverDirectly) {
+TEST_F(BasicNewtonIterationUnitTest, SolveUsingSolverDirectly) {
     // aka without a RoadRunner instance
     BasicNewtonIteration solver(rr->getModel());
     solver.solve();
     checkResults(rr->getFloatingSpeciesConcentrationsNamedArray());
 }
 
-TEST_F(BasicNewtonIterationUnitTests, ChangeAndResetSettings) {
+TEST_F(BasicNewtonIterationUnitTest, ChangeAndResetSettings) {
     BasicNewtonIteration solver(rr->getModel());
-    solver.setValue("eta_param_gamma", Variant(0.4356));
+    solver.setValue("eta_param_gamma", Setting(0.4356));
     solver.resetSettings();
-    ASSERT_EQ(solver.getValueAsDouble("eta_param_gamma"), 0);
+    ASSERT_EQ((int) solver.getValue("eta_param_gamma"), 0);
 }
 
 
-TEST_F(BasicNewtonIterationUnitTests, RegenerateTheModelBeforeCreatingSolver) {
+TEST_F(BasicNewtonIterationUnitTest, RegenerateTheModelBeforeCreatingSolver) {
     rr->regenerateModel();
     BasicNewtonIteration solver(rr->getModel());
     solver.solve();
     checkResults(rr->getFloatingSpeciesConcentrationsNamedArray());
 }
 
-TEST_F(BasicNewtonIterationUnitTests, RegenerateTheModelAfterCreatingSolver) {
+TEST_F(BasicNewtonIterationUnitTest, RegenerateTheModelAfterCreatingSolver) {
     BasicNewtonIteration solver(rr->getModel());
     rr->regenerateModel();
     // after regeneration, the pointer to the model is different
@@ -56,79 +57,109 @@ TEST_F(BasicNewtonIterationUnitTests, RegenerateTheModelAfterCreatingSolver) {
 /**
  * Tests each of the settings can be changed
  */
-class SettingsTests :
-        public BasicNewtonIterationUnitTests,
-        public ::testing::WithParamInterface<std::pair<std::string, Variant>> {
+class BasicNewtonSettingsTests :
+        public BasicNewtonIterationUnitTest,
+        public ::testing::WithParamInterface<std::pair<std::string, Setting>> {
 public:
-    SettingsTests() = default;
+    BasicNewtonSettingsTests() = default;
+
+
+    void doSettingsTest(const std::string &settingName, Setting settingValue) {
+        std::cout << "Testing setting \"" << settingName << "\"" << std::endl;
+
+        OpenLinearFlux testModel;
+
+        RoadRunner rr(testModel.str());
+        BasicNewtonIteration solver(rr.getModel());
+
+        // actually change the setting to our new value
+        solver.setValue(settingName, settingValue);
+
+        // make comparison between setting value and value we get from solver
+        if (settingValue.isInteger()) {
+            EXPECT_EQ((int) settingValue, (int) solver.getValue(settingName));
+        } else if (settingValue.isNumeric()) {
+            EXPECT_NEAR((double) settingValue, solver.getValue(settingName), 0.001);
+        } else if (settingValue.isBool()) {
+            EXPECT_TRUE((bool) settingValue == (bool) solver.getValue(settingName));
+        } else if (settingValue.isString()) {
+            EXPECT_STREQ(settingValue.get<std::string>().c_str(),  solver.getValue(settingName).get<std::string>().c_str());
+        }
+    }
 };
 
-TEST_P(SettingsTests, TestSettings) {
-    // pair of string: variant
-    auto settingUnderTest = GetParam();
 
-    // unpack the test parameters
-    std::string settingName = settingUnderTest.first;
-    Variant settingValue = settingUnderTest.second;
-    std::cout << "Testing setting \"" << settingName << "\"" << std::endl;
-
-    // a bit of a faffy way to downcast
-    OpenLinearFlux testModel;
-
-    RoadRunner rr(testModel.str());
-    BasicNewtonIteration solver(rr.getModel());
-
-    // actually change the setting to our new value
-    solver.setValue(settingName, settingValue);
-
-    // make comparison between setting value and value we get from solver
-    if (settingValue.isInteger()) {
-        EXPECT_EQ((int) settingValue, solver.getValueAsInt(settingName));
-    } else if (settingValue.isNumeric()) {
-        EXPECT_NEAR((double) settingValue, solver.getValueAsDouble(settingName), 0.001);
-    } else if (settingValue.isBool()) {
-        EXPECT_TRUE((bool) settingValue == solver.getValueAsBool(settingName));
-    } else if (settingValue.isString()) {
-        EXPECT_STREQ(((std::string) settingValue).c_str(), solver.getValueAsString(settingName).c_str());
-    }
+TEST_F(BasicNewtonSettingsTests, NumMaxIters) {
+    doSettingsTest("num_max_iters", 153);
 }
 
-/**
- * Run the parameterized test suite "SettingsTests" with these parameter
- * combinations. The first item of the tuple is the parameter name, the
- * second is its value, stored as a rr::Variant. It is sometimes useful
- * to run these one at a time. To do so, just temporarily comment out
- * the ones you dont want to run.
- *
- * Note this does not test the interface between roadrunner and kinsol,
- * only the users ability to change a parameter in roadrunner.
- */
-INSTANTIATE_TEST_SUITE_P(
-        SettingsTests,
-        SettingsTests,
-        ::testing::Values(
-                std::pair<std::string, Variant>("num_max_iters", Variant(153)),
-                std::pair<std::string, Variant>("print_level", Variant(2)),
-                std::pair<std::string, Variant>("eta_form", Variant("eta_choice2")),
-                std::pair<std::string, Variant>("no_init_setup", Variant(true)),
-                std::pair<std::string, Variant>("no_res_monitoring", Variant(true)),
-                std::pair<std::string, Variant>("max_setup_calls", Variant(974)),
-                std::pair<std::string, Variant>("max_subsetup_calls", Variant(132)),
-                std::pair<std::string, Variant>("eta_constant_value", Variant(6)),
-                std::pair<std::string, Variant>("eta_param_gamma", Variant(0.5234)),
-                std::pair<std::string, Variant>("eta_param_alpha", Variant(0.1234)),
-                std::pair<std::string, Variant>("res_mon_min", Variant(0.01)),
-                std::pair<std::string, Variant>("res_mon_max", Variant(0.9999)),
-                std::pair<std::string, Variant>("res_mon_constant_value", Variant(0.25)),
-                std::pair<std::string, Variant>("no_min_eps", Variant(true)),
-                std::pair<std::string, Variant>("max_newton_step", Variant(15)),
-                std::pair<std::string, Variant>("max_beta_fails", Variant(3)),
-                std::pair<std::string, Variant>("func_norm_tol", Variant(0.5)),
-                std::pair<std::string, Variant>("scaled_step_tol", Variant(0.3))
-//                std::pair<std::string, Variant>("maa", Variant(4)),
-//                std::pair<std::string, Variant>("damping_aa", Variant(0.35))
-        )
-);
+TEST_F(BasicNewtonSettingsTests, PrintLevel) {
+    doSettingsTest("print_level", 2);
+}
+
+TEST_F(BasicNewtonSettingsTests, NoInitSetup) {
+    doSettingsTest("no_init_setup", true);
+}
+
+TEST_F(BasicNewtonSettingsTests, EtaForm) {
+    doSettingsTest("eta_form", "eta_choice2");
+}
+
+TEST_F(BasicNewtonSettingsTests, NoResMonitoring) {
+    doSettingsTest("no_res_monitoring", true);
+}
+
+TEST_F(BasicNewtonSettingsTests, MaxSetupCalls) {
+    doSettingsTest("max_setup_calls", 974);
+}
+
+TEST_F(BasicNewtonSettingsTests, MaxSubsetupCalls) {
+    doSettingsTest("max_subsetup_calls", 132);
+}
+
+TEST_F(BasicNewtonSettingsTests, EtaConstantValue) {
+    doSettingsTest("eta_constant_value", 6);
+}
+
+TEST_F(BasicNewtonSettingsTests, EtaParamGamma) {
+    doSettingsTest("eta_param_gamma", 0.5234);
+}
+
+TEST_F(BasicNewtonSettingsTests, EtaParamAlpha) {
+    doSettingsTest("eta_param_alpha", 0.1234);
+}
+
+TEST_F(BasicNewtonSettingsTests, ResMonMin) {
+    doSettingsTest("res_mon_min", 0.01);
+}
+
+TEST_F(BasicNewtonSettingsTests, ResMonMax) {
+    doSettingsTest("res_mon_max", 0.9999);
+}
+
+TEST_F(BasicNewtonSettingsTests, ResMonConstantValue) {
+    doSettingsTest("res_mon_constant_value", 0.25);
+}
+
+TEST_F(BasicNewtonSettingsTests, NoMinEps) {
+    doSettingsTest("no_min_eps", true);
+}
+
+TEST_F(BasicNewtonSettingsTests, MaxNewtonStep) {
+    doSettingsTest("max_newton_step", 15);
+}
+
+TEST_F(BasicNewtonSettingsTests, MaxBetaFails) {
+    doSettingsTest("max_beta_fails", 3);
+}
+
+TEST_F(BasicNewtonSettingsTests, FuncNormTol) {
+    doSettingsTest("func_norm_tol", 0.5);
+}
+
+TEST_F(BasicNewtonSettingsTests, ScaledStepTol) {
+    doSettingsTest("scaled_step_tol", 0.3);
+}
 
 
 

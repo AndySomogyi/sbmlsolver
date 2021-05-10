@@ -1,13 +1,44 @@
 
 
-set(SHARED_TEST_FILES ../TestModelFactory SteadyStateIntegrationTests)
+set(SHARED_TEST_FILES ../TestModelFactory SundialsSteadyStateSolverUnitTest)
 
+## FixedPointIteration not finished due to difficulties getting it to work.
 #add_test_executable(
 #        FixedPointIterationTests test_targets
 #        FixedPointIterationUnitTests.cpp SundialsSteadyStateSolverUnitTest ${SHARED_TEST_FILES}
 #)
+
 add_test_executable(
-        SteadyStateIntegrationTests test_targets
+        test_steady_state_unit_approx test_targets
+        ApproxSteadyStateDecoratorTests.cpp ${SHARED_TEST_FILES}
+)
+
+add_test_executable(
+        test_steady_state_unit_automatic_moiety_conservation test_targets
+        AutomaticMoietyConservationTests.cpp
+        SundialsSteadyStateSolverUnitTest
+        ${SHARED_TEST_FILES}
+)
+
+
+add_test_executable(
+        test_steady_state_unit_basic_newton test_targets
+        BasicNewtonIterationUnitTests.cpp
+        SundialsSteadyStateSolverUnitTest
+        ${SHARED_TEST_FILES}
+)
+
+add_test_executable(
+        test_steady_state_unit_presimulation test_targets
+        PresimulationDecoratorTests.cpp ${SHARED_TEST_FILES}
+)
+
+add_test_executable(
+        test_unit_svd test_targets SVDTests.cpp ${SHARED_TEST_FILES}
+)
+
+add_test_executable(
+        test_steady_state_integration test_targets
         SteadyStateIntegrationTests.h
         BasicNewtonIntegrationTests.cpp
         DecoratorIntegrationTests.cpp
@@ -16,26 +47,7 @@ add_test_executable(
         NLEQ2IntegrationTests.cpp
         ${SHARED_TEST_FILES}
 )
-add_test_executable(
-        BasicNewtonIterationUnitTests test_targets
-        BasicNewtonIterationUnitTests.cpp SundialsSteadyStateSolverUnitTest ${SHARED_TEST_FILES}
-)
-add_test_executable(
-        AutomaticMoietyConservationTests test_targets
-        AutomaticMoietyConservationTests.cpp SundialsSteadyStateSolverUnitTest ${SHARED_TEST_FILES}
-)
 
-add_test_executable(
-        SVDUnitTests test_targets SVDTests.cpp ${SHARED_TEST_FILES}
-)
-add_test_executable(
-        PresimulationDecoratorUnitTests test_targets
-        PresimulationDecoratorTests.cpp ${SHARED_TEST_FILES}
-)
-add_test_executable(
-        ApproxSteadyStateDecoratorUnitTests test_targets
-        ApproxSteadyStateDecoratorTests.cpp ${SHARED_TEST_FILES}
-)
 
 # copy Python tests to binary tree site packages
 configure_file(
@@ -63,10 +75,22 @@ install(
 
 
 
+#add_test_executable(
+#        SteadyStateIntegrationTests test_targets
+#        SteadyStateIntegrationTests.h
+##        BasicNewtonIntegrationTests.cpp
+##        DecoratorIntegrationTests.cpp
+##        LinesearchNewtonIntegrationTests.cpp
+##        NLEQ1IntegrationTests.cpp
+##        NLEQ2IntegrationTests.cpp
+#        ${SHARED_TEST_FILES}
+#)
 
 
 
 
+# make test_targets list global to all tests
+set(test_targets ${test_targets} PARENT_SCOPE)
 
 
 

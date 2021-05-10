@@ -177,7 +177,7 @@ namespace rr {
          * @see getSolverStatsFromKinsol which actually collects the data
          * from kinsol. Whereas this method returns the data in a unordered_map
          */
-         std::unordered_map<std::string, Variant> getSolverStats();
+         std::unordered_map<std::string, Setting>& getSolverStats();
 
          /**
           * @brief display solver stats to console
@@ -288,6 +288,8 @@ namespace rr {
          * This method uses kinsol's KINGetNumNonlinSolvIters function
          */
         long int nSolverIterations = 0;
+
+        std::unordered_map<std::string, Setting> solverStats;
 
 
     };

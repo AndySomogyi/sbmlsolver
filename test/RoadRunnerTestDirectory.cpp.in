@@ -1,0 +1,9 @@
+#include "RoadRunnerTest.h"
+
+#include <filesystem>
+
+
+std::filesystem::path getRoadRunnerTestDirectory(){
+    auto rrTestDir = "@RR_TEST_DIR@";
+    return std::filesystem::absolute(rrTestDir);
+}

@@ -15,6 +15,7 @@
 #define rrExceptionH
 #include <exception>
 #include <string>
+#include <variant>
 #include "rrExporter.h"
 
 using std::string;

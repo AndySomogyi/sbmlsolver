@@ -178,12 +178,12 @@ namespace rr
 		/**
 		* sets an item in the internal unordered std::map.
 		*/
-		virtual void setItem(const std::string& key, const rr::Variant& value);
+		virtual void setItem(const std::string& key, const rr::Setting& value);
 
 		/**
 		* gets an item from the internal unordered std::map.
 		*/
-		virtual Variant getItem(const std::string& key) const;
+		virtual Setting getItem(const std::string& key) const;
 
 		/**
 		* is there a key matching this name.
@@ -338,7 +338,7 @@ namespace rr
 		 */
 		void loadSBMLSettings(const std::string& filename);
 
-        virtual void setItem(const std::string& key, const rr::Variant& value);
+        virtual void setItem(const std::string& key, const rr::Setting& value);
 
 	};
 

@@ -139,6 +139,8 @@ stages:
               cmake -DLLVM_INSTALL_PREFIX=$(LLVM_INSTALL_PREFIX) -DRR_DEPENDENCIES_INSTALL_PREFIX=$(DEPS_INSTALL_PREFIX) -DBUILD_TESTS=ON -DCMAKE_INSTALL_PREFIX=$(INSTALL_DIR) -DBUILD_RR_PLUGINS=ON -DBUILD_RR_CAPI=ON -DCMAKE_BUILD_TYPE=$(BuildType) ..
             displayName: Run CMake Configure Command
           - script: |
+              echo "less -N $(BUILD_DIR)/source/CMakeFiles/roadrunner.dir/build.make"
+              less -N "$(BUILD_DIR)/source/CMakeFiles/roadrunner.dir/build.make"
               echo "Building roadrunner"
               echo "cd to build dir"
               cd $(BUILD_DIR)
@@ -748,6 +750,14 @@ stages:
               cacheHitVar: LLVM_CACHE
             displayName: Cache llvm
           - script: |
+              echo "gcc $(gcc --version)"
+              echo "g++ $(g++ --version)"
+              sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+              sudo apt-get update
+              sudo apt-get install -y gcc-10 g++-10
+              sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 1
+            displayName: Install g++10
+          - script: |
               # todo put into actual script
               echo "current driectory is: $(pwd)"
               echo "ls $(ls)"
@@ -781,6 +791,9 @@ stages:
               ls
             displayName: Move Dependencies
           - script: |
+              export CC=/usr/bin/gcc-10
+              export CXX=/usr/bin/g++-10
+              export C=/usr/bin/gcc-10
               echo "Configuring roadrunner"
               echo "mkdir build directory: $(BUILD_DIR)"
               mkdir $(BUILD_DIR)
@@ -789,12 +802,18 @@ stages:
               cmake -DLLVM_INSTALL_PREFIX=$(LLVM_INSTALL_PREFIX) -DRR_DEPENDENCIES_INSTALL_PREFIX=$(DEPS_INSTALL_PREFIX) -DBUILD_TESTS=ON -DCMAKE_INSTALL_PREFIX=$(INSTALL_DIR) -DBUILD_RR_PLUGINS=ON -DBUILD_RR_CAPI=ON -DCMAKE_BUILD_TYPE=$(BuildType) ..
             displayName: Run CMake Configure Command
           - script: |
+              export CC=/usr/bin/gcc-10
+              export CXX=/usr/bin/g++-10
+              export C=/usr/bin/gcc-10
               echo "Building roadrunner"
               echo "cd to build dir"
               cd $(BUILD_DIR)
               cmake --build . --target install --config $(BuildType) -j 12
             displayName: Run CMake Build Command
           - script: |
+              export CC=/usr/bin/gcc-10
+              export CXX=/usr/bin/g++-10
+              export C=/usr/bin/gcc-10
               echo "cd to build dir $(BUILD_DIR)"
               cd $(BUILD_DIR)
               ctest --verbose --extra-verbose --progress
@@ -852,6 +871,14 @@ stages:
               mkdir $(LLVM_INSTALL_PREFIX)
               mkdir $(DEPS_INSTALL_PREFIX)
             displayName: Make Directories
+          - script: |
+              echo "gcc $(gcc --version)"
+              echo "g++ $(g++ --version)"
+              sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+              sudo apt-get update
+              sudo apt-get install -y gcc-10 g++-10
+              sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 1
+            displayName: Install g++10
           - task: Cache@2
             inputs:
               key: "llvm | $(Agent.OS)"
@@ -951,6 +978,9 @@ stages:
               echo "python_dir == $python_dir"
               echo "Variable PythonRoot set to $(PythonRoot)"
               echo "cd to build dir $(BUILD_DIR)"
+              export CC=/usr/bin/gcc-10
+              export CXX=/usr/bin/g++-10
+              export C=/usr/bin/gcc-10
               cd $(BUILD_DIR)
               ls
               export LD_LIBRARY_PATH=$(PythonLibDir)
@@ -958,6 +988,9 @@ stages:
               cmake --build . --target install --config Release -j 12
             displayName: BuildRoadrunnerWithPython
           - script: |
+              export CC=/usr/bin/gcc-10
+              export CXX=/usr/bin/g++-10
+              export C=/usr/bin/gcc-10
               eval "$(conda shell.bash hook)"
               conda activate $(PythonName)
               echo "LD_LIBRARY_PATH $LD_LIBRARY_PATH"

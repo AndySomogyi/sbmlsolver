@@ -1,37 +1,27 @@
-"""Unit test style tests for roadrunner Python API
-
-The integration tests are adequately handled by tester.py,
-though it's a shame unittest is not used. These tests are
-not about simulation accuracy, but rather checking that each
-little part of the API works in isolation.
-
-"""
+"""Unit test style tests for roadrunner Python API"""
 
 import os
-import sys
 import unittest
+
+import sys
 
 thisDir = os.path.dirname(os.path.realpath(__file__))
 rr_site_packages = os.path.dirname(os.path.dirname(thisDir))
 
-
-
 sys.path += [
-    rr_site_packages
-    # r"D:\roadrunner\roadrunner\install-msvc2019-rel-swig3.0.0\site-packages",
-    # r"D:\roadrunner\roadrunner\install-msvc2019-rel-swig-4.0.2\site-packages",
+    r"D:\roadrunner\roadrunner\cmake-build-release-visual-studio---with-python\lib\site-packages",
+    rr_site_packages,
 ]
-import roadrunner
 
 try:
     from roadrunner.roadrunner import (
         RoadRunner, Integrator, SteadyStateSolver,
-        ExecutableModel, RoadRunnerOptions
+        ExecutableModel, RoadRunnerOptions, Config
     )
 except ImportError:
     from roadrunner import (
         RoadRunner, Integrator, SteadyStateSolver,
-        ExecutableModel, RoadRunnerOptions
+        ExecutableModel, RoadRunnerOptions, Config
     )
 
 sbml = """<?xml version="1.0" encoding="UTF-8"?>
@@ -161,6 +151,7 @@ class RoadRunnerTests(unittest.TestCase):
 
     def test___str__(self):
         s = str(self.rr)
+        print(s)
         self.assertIn("roadrunner", s)
 
     @unittest.skip("Method not implemented yet (but should be)")
@@ -218,7 +209,8 @@ class RoadRunnerTests(unittest.TestCase):
         )
 
     @unittest.skip
-    def test_removeSpecies(self):self.assertEqual(
+    def test_removeSpecies(self):
+        self.assertEqual(
             self.rr.removeSpecies(),
         )
 
@@ -382,6 +374,14 @@ class RoadRunnerTests(unittest.TestCase):
     def test_getFullJacobian(self):
         self.assertEqual(-0.2, self.rr.getFullJacobian()["S2"])
 
+    def test_getFullJacobianConc(self):
+        Config.setValue(Config.ROADRUNNER_JACOBIAN_MODE, Config.ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS)
+        self.assertEqual(-0.2, self.rr.getFullJacobian()["S2"])
+
+    def test_getFullJacobianAmt(self):
+        Config.setValue(Config.ROADRUNNER_JACOBIAN_MODE, Config.ROADRUNNER_JACOBIAN_MODE_AMOUNTS)
+        self.assertEqual(-0.2, self.rr.getFullJacobian()["S2"])
+
     def test_getFullStoichiometryMatrix(self):
         expected = [[1, -1]]
         self.checkMatricesEqual(expected, self.rr.getFullStoichiometryMatrix())
@@ -400,7 +400,8 @@ class RoadRunnerTests(unittest.TestCase):
     def test_getIndependentRatesOfChange(self):
         self.assertEqual(1, self.rr.getIndependentRatesOfChange())
 
-    def test_getIndependentRatesOfChangeNamedArray(self):self.assertEqual(
+    def test_getIndependentRatesOfChangeNamedArray(self):
+        self.assertEqual(
             self.rr.getIndependentRatesOfChangeNamedArray(),
             [[1]]
         )
@@ -442,7 +443,7 @@ class RoadRunnerTests(unittest.TestCase):
         )
 
     def test_getLinkMatrix(self):
-        
+
         expected = [[1]]
         self.checkMatricesEqual(
             expected,
@@ -456,7 +457,7 @@ class RoadRunnerTests(unittest.TestCase):
         )
 
     def test_getNrMatrix(self):
-        
+
         expected = [[1, -1]]
         self.checkMatricesEqual(
             expected,
@@ -498,7 +499,7 @@ class RoadRunnerTests(unittest.TestCase):
         )
 
     def test_getReducedStoichiometryMatrix(self):
-        
+
         expected = [[1, -1]]
         self.checkMatricesEqual(
             expected,
@@ -524,7 +525,7 @@ class RoadRunnerTests(unittest.TestCase):
         )
 
     def test_getScaledConcentrationControlCoefficientMatrix(self):
-        
+
         expected = [[1, -1]]
         self.checkMatricesEqual(
             expected,
@@ -544,7 +545,7 @@ class RoadRunnerTests(unittest.TestCase):
         )
 
     def test_getScaledFluxControlCoefficientMatrix(self):
-        
+
         expected = [[1, 0],
                     [1, -2.88658e-15]]
         self.checkMatricesEqual(
@@ -594,10 +595,9 @@ class RoadRunnerTests(unittest.TestCase):
     @unittest.skip("This method should be not be visible in Python")
     def test_getSupportedIdTypes(self):
         """returns a bit field of the ids that this class supports."""
-        
 
     def test_getUnscaledConcentrationControlCoefficientMatrix(self):
-        
+
         expected = [[5, -5]]
         self.checkMatricesEqual(
             expected,
@@ -605,7 +605,7 @@ class RoadRunnerTests(unittest.TestCase):
         )
 
     def test_getUnscaledElasticityMatrix(self):
-        
+
         expected = [[0],
                     [0.2]]
         self.checkMatricesEqual(
@@ -614,7 +614,7 @@ class RoadRunnerTests(unittest.TestCase):
         )
 
     def test_getUnscaledFluxControlCoefficientMatrix(self):
-        
+
         expected = [[1, 0],
                     [1, -2.88658e-15]]
         self.checkMatricesEqual(
@@ -676,7 +676,7 @@ class RoadRunnerTests(unittest.TestCase):
         )
 
     def test_items(self):
-        
+
         expected = [('S2', 0.0), ('S1', 10.0), ('S3', 0.0),
                     ('[S2]', 0.0), ('[S1]', 10.0), ('[S3]', 0.0),
                     ('default_compartment', 1.0), ('k1', 0.1),
@@ -690,21 +690,21 @@ class RoadRunnerTests(unittest.TestCase):
         )
 
     def test_iteritems(self):
-        
+
         working_iterator = False
         for i in self.rr.iteritems():
             working_iterator = True
         self.assertTrue(working_iterator)
 
     def test_iterkeys(self):
-        
+
         working_iterator = False
         for i in self.rr.iterkeys():
             working_iterator = True
         self.assertTrue(working_iterator)
 
     def test_itervalues(self):
-        
+
         working_iterator = False
         for i in self.rr.itervalues():
             working_iterator = True
@@ -717,7 +717,7 @@ class RoadRunnerTests(unittest.TestCase):
         )
 
     def test_keys(self):
-        
+
         expected = ['S2', 'S1', 'S3', '[S2]', '[S1]', '[S3]', 'default_compartment', 'k1', 'k2', '_J0', '_J1',
                     'init([S2])', 'init(S2)', "S2'", 'eigen(S2)', 'eigenReal(S2)', 'eigenImag(S2)']
         self.assertEqual(
@@ -782,7 +782,6 @@ class RoadRunnerTests(unittest.TestCase):
     @unittest.skip("no events in model - add one ")
     def test_removeEvent(self):
         pass
-        
 
     @unittest.skip("no events in model - add one ")
     def test_removeEventAssignments(self):
@@ -982,3 +981,82 @@ class RoadRunnerTests(unittest.TestCase):
     @unittest.skip("unclear how to test. Should this method be private?")
     def test_validateCurrentSBML(self):
         self.assertTrue(self.rr.validateCurrentSBML())
+
+
+
+
+
+class CVODEIntegratorTests(unittest.TestCase):
+
+    maxDiff = None
+
+    def setUp(self) -> None:
+        self.rr = RoadRunner(sbml)
+        self.integrator = self.rr.getIntegrator()
+
+    def tearDown(self) -> None:
+        pass
+
+    def test_relative_tolerance(self):
+        self.integrator.setValue("relative_tolerance", 1e-07)
+        self.assertEqual(1e-07, self.integrator.getValue("relative_tolerance"))
+
+    def test_absolute_tolerance(self):
+        self.integrator.setValue("absolute_tolerance", 1e-13)
+        self.assertEqual(1e-13, self.integrator.getValue("absolute_tolerance"))
+
+    def test_stiff(self):
+        self.integrator.setValue("stiff", False)
+        self.assertFalse(self.integrator.getValue("stiff"))
+
+    def test_set_maximum_bdf_order(self):
+        self.integrator.setValue("maximum_bdf_order", 3)
+        self.assertEqual(3, self.integrator.getValue("maximum_bdf_order"))
+
+    def test_set_maximum_adams_order(self):
+        self.integrator.setValue("maximum_adams_order", 2)
+        self.assertEqual(2, self.integrator.getValue("maximum_adams_order"))
+
+    def test_set_maximum_num_steps(self):
+        self.integrator.setValue("maximum_num_steps", 500)
+        self.assertEqual(500, self.integrator.getValue("maximum_num_steps"))
+
+    def test_set_maximum_time_step(self):
+        self.integrator.setValue("maximum_time_step", 5)
+        self.assertEqual(5, self.integrator.getValue("maximum_time_step"))
+
+    def test_set_minimum_time_step(self):
+        self.integrator.setValue("minimum_time_step", 0.1)
+        self.assertEqual(0.1, self.integrator.getValue("minimum_time_step"))
+
+    def test_set_initial_time_step(self):
+        self.integrator.setValue("initial_time_step", 3.56)
+        self.assertEqual(3.56, self.integrator.getValue("initial_time_step"))
+
+    def test_set_multiple_steps(self):
+        self.integrator.setValue("multiple_steps", True)
+        self.assertTrue(self.integrator.getValue("multiple_steps"))
+
+    def test_set_variable_step_size(self):
+        self.integrator.setValue("variable_step_size", True)
+        self.assertTrue( self.integrator.getValue("variable_step_size"))
+
+    def test_set_max_output_rows(self):
+        self.integrator.setValue("max_output_rows", 50)
+        self.assertEqual(50, self.integrator.getValue("max_output_rows"))
+
+    def test_set_concentration_tolerance(self):
+        self.integrator.setConcentrationTolerance(1e-8)
+
+
+
+
+
+
+
+
+
+
+
+
+

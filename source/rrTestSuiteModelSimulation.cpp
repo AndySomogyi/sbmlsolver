@@ -8,11 +8,12 @@
 #include "rrUtils.h"
 #include "rrRoadRunner.h"
 
+using std::filesystem::path;
 
 namespace rr
 {
 
-TestSuiteModelSimulation::TestSuiteModelSimulation(const std::string& dataOutputFolder, const std::string& modelFilePath, const std::string& modelFileName)
+TestSuiteModelSimulation::TestSuiteModelSimulation(const path& dataOutputFolder, const path& modelFilePath, const path& modelFileName)
 :
 SBMLModelSimulation(dataOutputFolder, dataOutputFolder),
 mCurrentCaseNumber(-1),
@@ -35,67 +36,67 @@ void TestSuiteModelSimulation::SetCaseNumber(int cNr)
 
 bool TestSuiteModelSimulation::CopyFilesToOutputFolder()
 {
-    if(!mModelSettingsFileName.size())
+    if(mModelSettingsFileName.empty())
     {
-        mModelSettingsFileName = joinPath(mModelFilePath, GetSettingsFileNameForCase(mCurrentCaseNumber));
+        mModelSettingsFileName = mModelFilePath / GetSettingsFileNameForCase(mCurrentCaseNumber);
     }
 
-    std::string fName = getFileName(mModelSettingsFileName);
-    fName = joinPath(mDataOutputFolder, fName);
+    path fName = getFileName(mModelSettingsFileName.string());
+    fName = mDataOutputFolder / fName;
 #if defined(WIN32)
-    return CopyFileA(mModelSettingsFileName.c_str(), fName.c_str(), false) == TRUE ? true : false;
+    return CopyFileA(mModelSettingsFileName.string().c_str(), fName.string().c_str(), false) == TRUE ? true : false;
 #else
     return false;
 #endif
 }
 
-bool TestSuiteModelSimulation::LoadSettings(const std::string& settingsFName)
+bool TestSuiteModelSimulation::LoadSettings(const path& settingsFName)
 {
     mModelSettingsFileName = (settingsFName);
 
-    if(!mModelSettingsFileName.size())
+    if(mModelSettingsFileName.empty())
     {
-        mModelSettingsFileName = joinPath(mModelFilePath, GetSettingsFileNameForCase(mCurrentCaseNumber));
+        mModelSettingsFileName = mModelFilePath / GetSettingsFileNameForCase(mCurrentCaseNumber);
     }
     return SBMLModelSimulation::LoadSettings(mModelSettingsFileName);
 }
 
-bool TestSuiteModelSimulation::LoadSettingsEx(const std::string& settingsFName)
+bool TestSuiteModelSimulation::LoadSettingsEx(const path& settingsFName)
 {
     mModelSettingsFileName = (settingsFName);
 
-    if(!mModelSettingsFileName.size())
+    if(mModelSettingsFileName.empty())
     {
-        mModelSettingsFileName = joinPath(mModelFilePath, GetSettingsFileNameForCase(mCurrentCaseNumber));
+        mModelSettingsFileName = mModelFilePath / GetSettingsFileNameForCase(mCurrentCaseNumber);
     }
     bool result = SBMLModelSimulation::LoadSettings(mModelSettingsFileName);
 
     if (mEngine)
     {
 		SimulateOptions opt = SimulateOptions();
-		opt.loadSBMLSettings(mModelSettingsFileName);
+		opt.loadSBMLSettings(mModelSettingsFileName.string());
 		mEngine->setSimulateOptions(opt);
 		result = true;
     }
     return result;
 }
 
-bool TestSuiteModelSimulation::LoadReferenceData(std::string refDataFileName)
+bool TestSuiteModelSimulation::LoadReferenceData(path refDataFileName)
 {
     //The reference data is located in the folder where the model is located
-    if (refDataFileName.size() == 0)
+    if (refDataFileName.empty())
     {
-    	refDataFileName = joinPath(mModelFilePath, GetReferenceDataFileNameForCase(mCurrentCaseNumber));
+    	refDataFileName = mModelFilePath / GetReferenceDataFileNameForCase(mCurrentCaseNumber);
     }
 
-    if(!fileExists(refDataFileName))
+    if(!std::filesystem::exists(refDataFileName))
     {
         rrLog(lWarning)<<"Could not open reference data file: "<<refDataFileName;
         return false;
     }
 
     std::vector<std::string> lines = getLinesInFile(refDataFileName);
-    if(!lines.size())
+    if(lines.empty())
     {
         rrLog(lWarning)<<"This file is empty..";
         return false;
@@ -182,7 +183,7 @@ bool TestSuiteModelSimulation::SaveAllData()
     //Save all data to one file that can be plotted "as one"
 
     //First save the reference data to a file for comparison to result data
-    std::string refDataFileName = joinPath(mDataOutputFolder, GetReferenceDataFileNameForCase(mCurrentCaseNumber));
+    path refDataFileName = mDataOutputFolder / GetReferenceDataFileNameForCase(mCurrentCaseNumber);
     std::ofstream fs(refDataFileName.c_str());
     fs<<mReferenceData;
     fs.close();
@@ -190,7 +191,7 @@ bool TestSuiteModelSimulation::SaveAllData()
     std::string outputAllFileName;
     std::string dummy;
     createTestSuiteFileNameParts(mCurrentCaseNumber, "-result-comparison.csv", dummy, outputAllFileName, dummy, dummy);
-    fs.open(joinPath(mDataOutputFolder, outputAllFileName).c_str());
+    fs.open(mDataOutputFolder / outputAllFileName.c_str());
 
     //Check matrices dimension, if they are not equal, bail..?
     if(mResultData.dimension() != mReferenceData.dimension() ||
@@ -280,7 +281,7 @@ bool TestSuiteModelSimulation::SaveAllData()
     return true;
 }
 
-std::string TestSuiteModelSimulation::GetSettingsFileNameForCase(int caseNr)
+path TestSuiteModelSimulation::GetSettingsFileNameForCase(int caseNr)
 {
     std::stringstream name;
     name<<std::setfill('0')<<std::setw(5)<<caseNr;
@@ -289,7 +290,7 @@ std::string TestSuiteModelSimulation::GetSettingsFileNameForCase(int caseNr)
     return theName;
 }
 
-std::string TestSuiteModelSimulation::GetReferenceDataFileNameForCase(int caseNr)
+path TestSuiteModelSimulation::GetReferenceDataFileNameForCase(int caseNr)
 {
     std::stringstream name;
     name<<std::setfill('0')<<std::setw(5)<<caseNr<<"-results.csv";
