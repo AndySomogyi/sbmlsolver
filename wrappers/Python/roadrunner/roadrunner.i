@@ -1075,7 +1075,7 @@ namespace std { class ostream{}; }
 
    %pythoncode %{
         def __getattr__(self, name):
-            if name in self.keys():
+            if name in self.getIds(_roadrunner.SelectionRecord_ALL):
                 return self[name]
             else:
                 raise AttributeError(name)
@@ -1114,6 +1114,9 @@ namespace std { class ostream{}; }
         _properties = []
 
         def _makeProperties(self):
+            """creates dynamic properties for model components, like floating species
+            concentrations or amounts etc.
+            """
             #global _properties
 
             # always clear the old properties

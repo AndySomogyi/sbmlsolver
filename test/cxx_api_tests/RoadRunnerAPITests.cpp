@@ -88,3 +88,13 @@ TEST_F(RoadRunnerAPITests, GetFullJacobianUsingAmtModeAsLong){
     auto matrix = rr.getFullJacobian();
     checkMatrixEqual(matrix, openLinearFlux.fullJacobianAmt());
 }
+
+
+TEST_F(RoadRunnerAPITests, getIds){
+    RoadRunner rr(openLinearFlux.str());
+    std::list<std::string> l;
+    rr.getIds(SelectionRecord::ALL, l);
+    for (auto it=l.begin(); it!=l.end(); it++){
+        std::cout << *it<< std::endl;
+    }
+}

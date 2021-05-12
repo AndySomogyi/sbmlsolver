@@ -1048,7 +1048,18 @@ class CVODEIntegratorTests(unittest.TestCase):
     def test_set_concentration_tolerance(self):
         self.integrator.setConcentrationTolerance(1e-8)
 
-
+    def test_load_model_with_large_recursion_limit(self):
+        """
+        This was a fun one. Tellurium crashed with version roadrunner 2.0.6
+        because it imports plotly. Plotly imports Ipython.display, which
+        imports jedi which changes the recursion depth with sys.setrecursionlimit.
+        This caused roadrunner to crash. Here we write a test to resolve this problem.
+        :return:
+        """
+        import sys
+        sys.setrecursionlimit(3000)
+        m = RoadRunner(sbml)
+        self.assertIsInstance(m, RoadRunner)
 
 
 
