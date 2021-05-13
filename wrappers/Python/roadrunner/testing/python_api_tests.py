@@ -5,6 +5,8 @@ import unittest
 
 import sys
 
+import roadrunner
+
 thisDir = os.path.dirname(os.path.realpath(__file__))
 rr_site_packages = os.path.dirname(os.path.dirname(thisDir))
 
@@ -1056,15 +1058,80 @@ class CVODEIntegratorTests(unittest.TestCase):
         This caused roadrunner to crash. Here we write a test to resolve this problem.
         :return:
         """
+
+        """
+        Okay, so we can't call getIds() inside __getattr__. Why not? 
+        No, actually - we can't call *anything. infinite recursion
+        """
         import sys
         sys.setrecursionlimit(3000)
         m = RoadRunner(sbml)
         self.assertIsInstance(m, RoadRunner)
 
+    def test_getitem_when_exists(self):
+        import sys
+        sys.setrecursionlimit(3000)
+        m = RoadRunner(sbml)
+        self.assertEqual(10.0, m["S1"])
+
+    def test_getitem_when_not_exists(self):
+        import sys
+        sys.setrecursionlimit(3000)
+        m = RoadRunner(sbml)
+        with self.assertRaises(AttributeError):
+            s = m["S100"]
+
+    def test_getitem_when_created_after_instantiation(self):
+        import sys
+        sys.setrecursionlimit(3000)
+        m = RoadRunner(sbml)
+        m.addSpeciesConcentration("S100", "default_compartment", 123.3, False, False, "", True)
+        val = m["S100"]
+        self.assertAlmostEqual(val, 123.3)
+
+    def test_getitem_when_created_after_instantiation_dot_notation(self):
+        import sys
+        sys.setrecursionlimit(3000)
+        m = RoadRunner(sbml)
+        m.addSpeciesConcentration("S100", "default_compartment", 123.3, False, False, "", True)
+        self.assertAlmostEqual(m.S100, 123.3)
 
 
 
 
+
+class X:
+
+    def __init__(self):
+        pass
+
+    def aMap(self):
+        """
+        represents the hidden attributes that exist in
+        c++
+        :return:
+        """
+        return {"A": 1, "B": 2}
+
+    def __getattr__(self, item):
+        print("calling __getattr__")
+        if item in self.aMap():
+            print("found in __getattr__")
+            return self.aMap()[item]
+        else:
+            print("Not found in get__Atr")
+            raise AttributeError(item)
+
+    # def __getattribute__(self, item):
+    #     print("calling __getattribute__")
+    #     return super().__getattribute__(item)
+
+
+
+def test():
+    x = X()
+    print(getattr(x, "A"))
+    # print(x["A"])
 
 
 

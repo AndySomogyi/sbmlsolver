@@ -992,22 +992,11 @@ namespace std { class ostream{}; }
         return doublematrix_to_py(result, opt->structured_result, opt->copy_result);
     }
 
-    double getValue(const rr::SelectionRecord* pRecord) {
-        return $self->getValue(*pRecord);
-    }
-
-    double __getitem__(const std::string& id) {
-        return ($self)->getValue(id);
-    }
-
-    void __setitem__(const std::string& id, double value) {
-        ($self)->setValue(id, value);
-    }
-
     PyObject *getIds(int types) {
+        // rr::RoadRunner::getIds
         std::list<std::string> ids;
 
-        ($self)->getIds(types, ids);
+        $self->getIds(types, ids);
 
         size_t size = ids.size();
 
@@ -1074,7 +1063,13 @@ namespace std { class ostream{}; }
 
 
    %pythoncode %{
+        def __len__(self):
+            return len(self.keys())
+
         def __getattr__(self, name):
+            all_record_ids = self.getIds(_roadrunner.SelectionRecord_ALL)
+            if not all_record_ids:
+                raise AttributeError(name)
             if name in self.getIds(_roadrunner.SelectionRecord_ALL):
                 return self[name]
             else:
@@ -1203,9 +1198,6 @@ namespace std { class ostream{}; }
 
         def items(self, types=_roadrunner.SelectionRecord_ALL):
             return [(k, self.getValue(k)) for k in self.keys(types)]
-
-        def __len__(self):
-            return len(self.keys())
 
         def iteritems(self, types=_roadrunner.SelectionRecord_ALL):
             """
@@ -2021,7 +2013,7 @@ namespace std { class ostream{}; }
     PyObject *getIds(int types) {
         std::list<std::string> ids;
 
-        ($self)->getIds(types, ids);
+        self->getIds(types, ids);
 
         size_t size = ids.size();
 

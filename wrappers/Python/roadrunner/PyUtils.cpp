@@ -303,9 +303,7 @@ Setting Variant_from_py(PyObject* py)
 
 	else if (PyFloat_Check(py))
 	{
-	    std::cout << "is a PyFloat" << std::endl;
 		var = PyFloat_AsDouble(py);
-		std::cout << "the string << " << var.toString() << std::endl;
 		return var;
 	}
 
