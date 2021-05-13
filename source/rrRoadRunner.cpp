@@ -1191,7 +1191,7 @@ void RoadRunner::reset()
 
     //reset(opt1);
     uint opt2 = rr::SelectionRecord::DEPENDENT_INITIAL_GLOBAL_PARAMETER;
-    reset(opt2 | opt1);
+    reset((int)opt2 | opt1);
 }
 
 void RoadRunner::reset(int options)
@@ -4883,7 +4883,7 @@ double getAdjustment(Complex& z)
 
 
 /************************ Selection Ids Species Section ***********************/
-#if (1) /**********************************************************************/
+/******************************************************************************/
 /******************************************************************************/
 
 void RoadRunner::getIds(int types, std::list<std::string>& ids)
@@ -4892,6 +4892,9 @@ void RoadRunner::getIds(int types, std::list<std::string>& ids)
     {
         impl->model->getIds(types, ids);
 
+        /**
+         * types is -1 when SelectionRecord is set to ALL.
+         */
         if (types & SelectionRecord::EIGENVALUE_REAL)
         {
             std::list<std::string> eigen;
@@ -5056,7 +5059,7 @@ std::vector<std::string> RoadRunner::getEigenValueIds()
 
 
 /************************ End Selection Ids Species Section *******************/
-#endif /***********************************************************************/
+/******************************************************************************/
 /******************************************************************************/
 
 RoadRunnerOptions& RoadRunner::getOptions()

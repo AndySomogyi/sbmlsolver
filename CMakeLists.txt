@@ -23,7 +23,7 @@ if (${CMAKE_VERSION} VERSION_GREATER_EQUAL "3.20")
     #   specified if CMP0115 set to OLD.
     #   New behavior requires all extensions be explicit
     cmake_policy(SET CMP0115 OLD)
-endif()
+endif ()
 
 
 if ("${CMAKE_SIZEOF_VOID_P}" STREQUAL "4")
@@ -507,8 +507,17 @@ if (${BORLAND})
 endif ()
 
 configure_file(
-        ${CMAKE_CURRENT_SOURCE_DIR}/VERSION.txt.in
-        ${CMAKE_CURRENT_BINARY_DIR}/VERSION.txt @ONLY
+        "${CMAKE_CURRENT_SOURCE_DIR}/VERSION.txt.in"
+        "${CMAKE_CURRENT_BINARY_DIR}/VERSION.txt" @ONLY
+)
+
+configure_file(
+        "${CMAKE_CURRENT_SOURCE_DIR}/requirements.txt"
+        "${CMAKE_BINARY_DIR}/requirements.txt" @ONLY
+)
+install(
+        FILES "${CMAKE_CURRENT_SOURCE_DIR}/requirements.txt"
+        DESTINATION .
 )
 
 install(
