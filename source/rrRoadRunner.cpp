@@ -1191,7 +1191,7 @@ void RoadRunner::reset()
 
     //reset(opt1);
     uint opt2 = rr::SelectionRecord::DEPENDENT_INITIAL_GLOBAL_PARAMETER;
-    reset(opt2 | opt1);
+    reset((int)opt2 | opt1);
 }
 
 void RoadRunner::reset(int options)
