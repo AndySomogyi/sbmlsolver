@@ -202,7 +202,7 @@ rr::pyutil_init(m);
 /**
  * Whilst developing the TestModelFactory, a number of functions
  * were defined for testing swig. Since the swig learning curve
- * can be quite steep, I've decided to leave this in
+ * can be quite steep, these have been left in
  * as examples to future developers (and future me).
  * Some of these methods allocate new memory on the heap.
  * In order to tell swig that these are new pointers (and thus
@@ -216,6 +216,7 @@ rr::pyutil_init(m);
 
 %newobject TestModelFactory;
 
+#include "TestModelFactory.h"
 %include "TestModelFactory.h"
 
 

@@ -56,7 +56,8 @@ public:
  * @details exists only for any polymorphism that may
  * be implemented in future.
  */
-class Result {};
+class Result {
+};
 
 /**
  * Interface for time series result.
@@ -121,9 +122,13 @@ public:
 class JacobianResult : public Result {
 public:
     virtual ls::DoubleMatrix fullJacobianAmt() = 0;
+
     virtual ls::DoubleMatrix fullJacobianConc() = 0;
+
     virtual ls::DoubleMatrix reducedJacobianAmt() = 0;
+
     virtual ls::DoubleMatrix reducedJacobianConc() = 0;
+
     virtual std::unordered_map<std::string, rr::Setting> jacobianSettings() = 0;
 };
 
@@ -139,7 +144,7 @@ public:
 class SimpleFlux :
         public TestModel,
         public TimeSeriesResult,
-        public SteadyStateResult{
+        public SteadyStateResult {
 public:
 
     std::string str() override;
@@ -267,7 +272,7 @@ public:
 class OpenLinearFlux :
         public TestModel,
         public SteadyStateResult,
-        public TimeSeriesResult ,
+        public TimeSeriesResult,
         public JacobianResult {
 public:
     std::string str() override;
@@ -283,9 +288,13 @@ public:
     std::unordered_map<std::string, rr::Setting> timeSeriesSettings() override;
 
     ls::DoubleMatrix fullJacobianAmt() override;
+
     ls::DoubleMatrix fullJacobianConc() override;
+
     ls::DoubleMatrix reducedJacobianAmt() override;
+
     ls::DoubleMatrix reducedJacobianConc() override;
+
     std::unordered_map<std::string, rr::Setting> jacobianSettings() override;
 
 };
@@ -384,6 +393,12 @@ public:
     std::unordered_map<std::string, rr::Setting> steadyStateSettings() override;
 
 };
+
+/**
+ * @brief returns a vector of strings that are the
+ * names of the classes that inherit from TestModel.
+ */
+std::vector<std::string> getAvailableTestModel();
 
 TestModel *TestModelFactory(const std::string &modelName);
 

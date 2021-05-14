@@ -122,7 +122,10 @@ class RoadRunnerTests(unittest.TestCase):
         self.assertEqual(self.rr.__getattr__("S1"), 10)
 
     def test___dict__(self):
-        self.assertEqual(["this"], list(self.rr.__dict__.keys()))
+        self.assertEqual(
+            ["this"],
+            list(self.rr.__dict__.keys())
+        )
 
     @unittest.skip("__eq__ may be implemented, may not. If not we should do")
     def test___eq__(self):
@@ -138,11 +141,11 @@ class RoadRunnerTests(unittest.TestCase):
         l = repr([self.rr])
         self.assertIn("roadrunner.RoadRunner()", l)
 
-    def test___setitem__failes_when_key_not_exist(self):
+    def test___setitem__fails_when_key_not_exist(self):
         with self.assertRaises(RuntimeError):
             self.rr.__setitem__("five", 5)
 
-    def test___setitem__failes_when_key_exists(self):
+    def test___setitem__when_key_exists(self):
         self.rr.__setitem__("S1", 12)
         self.assertEqual(self.rr.__getitem__("S1"), 12)
 
@@ -801,11 +804,11 @@ class RoadRunnerTests(unittest.TestCase):
         )
 
     def test_resetParameter(self):
-        self.rr.k1 = 15
+        self.assertEqual(self.rr.k1, 0.1) # starting value
+        self.rr.k1 = 15 # uses setattr
+        self.assertEqual(self.rr.k1, 15) # starting value
         self.rr.resetParameter()
-        self.assertEqual(
-            self.rr.k1, 0.1
-        )
+        self.assertEqual(self.rr.k1, 0.1)
 
     def test_resetSelectionLists(self):
         self.rr.selections = ["[S2]"]
@@ -820,7 +823,6 @@ class RoadRunnerTests(unittest.TestCase):
         self.rr.resetToOrigin()
         self.assertEqual(
             self.rr.k1, 0.1
-
         )
 
     def test_selections(self):
@@ -983,11 +985,55 @@ class RoadRunnerTests(unittest.TestCase):
         self.assertTrue(self.rr.validateCurrentSBML())
 
 
+    def test_load_model_with_large_recursion_limit(self):
+        """
+        This was a fun one. Tellurium crashed with version roadrunner 2.0.6
+        because it imports plotly. Plotly imports Ipython.display, which
+        imports jedi which changes the recursion depth with sys.setrecursionlimit.
+        This caused roadrunner to crash. Here we write a test to resolve this problem.
+        :return:
+        """
 
+        """
+        Okay, so we can't call getIds() inside __getattr__. Why not? 
+        No, actually - we can't call *anything. infinite recursion
+        """
+        import sys
+        sys.setrecursionlimit(3000)
+        m = RoadRunner(sbml)
+        self.assertIsInstance(m, RoadRunner)
+
+    def test_getitem_when_exists(self):
+        import sys
+        sys.setrecursionlimit(3000)
+        m = RoadRunner(sbml)
+        self.assertEqual(10.0, m["S1"])
+
+    def test_getitem_when_not_exists(self):
+        import sys
+        sys.setrecursionlimit(3000)
+        m = RoadRunner(sbml)
+        with self.assertRaises(RuntimeError):
+            s = m["S100"]
+
+    def test_getitem_when_created_after_instantiation(self):
+        import sys
+        sys.setrecursionlimit(3000)
+        m = RoadRunner(sbml)
+        m.addSpeciesConcentration("S100", "default_compartment", 123.3, False, False, "", True)
+        val = m["S100"]
+        self.assertAlmostEqual(val, 123.3)
+
+    def test_getitem_when_created_after_instantiation_dot_notation(self):
+        import sys
+        sys.setrecursionlimit(3000)
+        m = RoadRunner(sbml)
+        m.addSpeciesConcentration("S100", "default_compartment", 123.3, False, False, "", True)
+        m._makeProperties()
+        self.assertAlmostEqual(m.S100, 123.3)
 
 
 class CVODEIntegratorTests(unittest.TestCase):
-
     maxDiff = None
 
     def setUp(self) -> None:
@@ -1039,7 +1085,7 @@ class CVODEIntegratorTests(unittest.TestCase):
 
     def test_set_variable_step_size(self):
         self.integrator.setValue("variable_step_size", True)
-        self.assertTrue( self.integrator.getValue("variable_step_size"))
+        self.assertTrue(self.integrator.getValue("variable_step_size"))
 
     def test_set_max_output_rows(self):
         self.integrator.setValue("max_output_rows", 50)
@@ -1047,292 +1093,3 @@ class CVODEIntegratorTests(unittest.TestCase):
 
     def test_set_concentration_tolerance(self):
         self.integrator.setConcentrationTolerance(1e-8)
-
-#     def test(self):
-#         sbml = """<?xml version="1.0" encoding="UTF-8"?>
-# <sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" version="1">
-#   <model metaid="__main" id="__main">
-#     <listOfCompartments>
-#       <compartment id="c1" spatialDimensions="3" size="1" constant="true"/>
-#     </listOfCompartments>
-#     <listOfSpecies>
-#       <species id="S0" compartment="c1" initialConcentration="1" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
-#       <species id="S1" compartment="c1" initialConcentration="5" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
-#       <species id="S2" compartment="c1" initialConcentration="9" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
-#       <species id="S3" compartment="c1" initialConcentration="3" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
-#       <species id="S4" compartment="c1" initialConcentration="10" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
-#       <species id="S5" compartment="c1" initialConcentration="3" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
-#       <species id="S6" compartment="c1" initialConcentration="7" hasOnlySubstanceUnits="false" boundaryCondition="true" constant="false"/>
-#       <species id="S7" compartment="c1" initialConcentration="1" hasOnlySubstanceUnits="false" boundaryCondition="true" constant="false"/>
-#       <species id="S8" compartment="c1" initialConcentration="6" hasOnlySubstanceUnits="false" boundaryCondition="true" constant="false"/>
-#       <species id="S9" compartment="c1" initialConcentration="3" hasOnlySubstanceUnits="false" boundaryCondition="true" constant="false"/>
-#     </listOfSpecies>
-#     <listOfParameters>
-#       <parameter id="k0" value="2.60142584927558" constant="true"/>
-#       <parameter id="k1" value="25.3866965166561" constant="true"/>
-#       <parameter id="k2" value="25.9671539901853" constant="true"/>
-#       <parameter id="k3" value="3.34302175839196" constant="true"/>
-#       <parameter id="k4" value="42.1099522080306" constant="true"/>
-#       <parameter id="k5" value="2.19863788015643" constant="true"/>
-#       <parameter id="k6" value="12.2019138115565" constant="true"/>
-#       <parameter id="k7" value="17.3490404499765" constant="true"/>
-#       <parameter id="k8" value="45.2057617455586" constant="true"/>
-#       <parameter id="k9" value="38.7920704394073" constant="true"/>
-#       <parameter id="k10" value="43.5202554107622" constant="true"/>
-#       <parameter id="k11" value="10.7813407470585" constant="true"/>
-#     </listOfParameters>
-#     <listOfReactions>
-#       <reaction id="r0" reversible="false" fast="false">
-#         <listOfReactants>
-#           <speciesReference species="S8" stoichiometry="1" constant="true"/>
-#         </listOfReactants>
-#         <listOfProducts>
-#           <speciesReference species="S3" stoichiometry="1" constant="true"/>
-#         </listOfProducts>
-#         <kineticLaw>
-#           <math xmlns="http://www.w3.org/1998/Math/MathML">
-#             <apply>
-#               <times/>
-#               <ci> k0 </ci>
-#               <ci> S8 </ci>
-#             </apply>
-#           </math>
-#         </kineticLaw>
-#       </reaction>
-#       <reaction id="r1" reversible="false" fast="false">
-#         <listOfReactants>
-#           <speciesReference species="S2" stoichiometry="1" constant="true"/>
-#         </listOfReactants>
-#         <listOfProducts>
-#           <speciesReference species="S1" stoichiometry="1" constant="true"/>
-#           <speciesReference species="S2" stoichiometry="1" constant="true"/>
-#         </listOfProducts>
-#         <kineticLaw>
-#           <math xmlns="http://www.w3.org/1998/Math/MathML">
-#             <apply>
-#               <times/>
-#               <ci> k1 </ci>
-#               <ci> S2 </ci>
-#             </apply>
-#           </math>
-#         </kineticLaw>
-#       </reaction>
-#       <reaction id="r2" reversible="false" fast="false">
-#         <listOfReactants>
-#           <speciesReference species="S4" stoichiometry="1" constant="true"/>
-#         </listOfReactants>
-#         <listOfProducts>
-#           <speciesReference species="S9" stoichiometry="1" constant="true"/>
-#           <speciesReference species="S9" stoichiometry="1" constant="true"/>
-#         </listOfProducts>
-#         <kineticLaw>
-#           <math xmlns="http://www.w3.org/1998/Math/MathML">
-#             <apply>
-#               <times/>
-#               <ci> k2 </ci>
-#               <ci> S4 </ci>
-#             </apply>
-#           </math>
-#         </kineticLaw>
-#       </reaction>
-#       <reaction id="r3" reversible="false" fast="false">
-#         <listOfReactants>
-#           <speciesReference species="S8" stoichiometry="1" constant="true"/>
-#           <speciesReference species="S8" stoichiometry="1" constant="true"/>
-#         </listOfReactants>
-#         <listOfProducts>
-#           <speciesReference species="S5" stoichiometry="1" constant="true"/>
-#         </listOfProducts>
-#         <listOfModifiers>
-#           <modifierSpeciesReference species="S2"/>
-#         </listOfModifiers>
-#         <kineticLaw>
-#           <math xmlns="http://www.w3.org/1998/Math/MathML">
-#             <apply>
-#               <times/>
-#               <ci> k3 </ci>
-#               <ci> S8 </ci>
-#               <ci> S2 </ci>
-#             </apply>
-#           </math>
-#         </kineticLaw>
-#       </reaction>
-#       <reaction id="r4" reversible="false" fast="false">
-#         <listOfReactants>
-#           <speciesReference species="S7" stoichiometry="1" constant="true"/>
-#           <speciesReference species="S7" stoichiometry="1" constant="true"/>
-#         </listOfReactants>
-#         <listOfProducts>
-#           <speciesReference species="S2" stoichiometry="1" constant="true"/>
-#         </listOfProducts>
-#         <listOfModifiers>
-#           <modifierSpeciesReference species="S1"/>
-#         </listOfModifiers>
-#         <kineticLaw>
-#           <math xmlns="http://www.w3.org/1998/Math/MathML">
-#             <apply>
-#               <times/>
-#               <ci> k4 </ci>
-#               <ci> S7 </ci>
-#               <ci> S1 </ci>
-#             </apply>
-#           </math>
-#         </kineticLaw>
-#       </reaction>
-#       <reaction id="r5" reversible="false" fast="false">
-#         <listOfReactants>
-#           <speciesReference species="S7" stoichiometry="1" constant="true"/>
-#           <speciesReference species="S7" stoichiometry="1" constant="true"/>
-#         </listOfReactants>
-#         <listOfProducts>
-#           <speciesReference species="S4" stoichiometry="1" constant="true"/>
-#         </listOfProducts>
-#         <kineticLaw>
-#           <math xmlns="http://www.w3.org/1998/Math/MathML">
-#             <apply>
-#               <times/>
-#               <ci> k5 </ci>
-#               <ci> S7 </ci>
-#               <ci> S7 </ci>
-#             </apply>
-#           </math>
-#         </kineticLaw>
-#       </reaction>
-#       <reaction id="r6" reversible="false" fast="false">
-#         <listOfReactants>
-#           <speciesReference species="S0" stoichiometry="1" constant="true"/>
-#         </listOfReactants>
-#         <listOfProducts>
-#           <speciesReference species="S9" stoichiometry="1" constant="true"/>
-#         </listOfProducts>
-#         <kineticLaw>
-#           <math xmlns="http://www.w3.org/1998/Math/MathML">
-#             <apply>
-#               <times/>
-#               <ci> k6 </ci>
-#               <ci> S0 </ci>
-#             </apply>
-#           </math>
-#         </kineticLaw>
-#       </reaction>
-#       <reaction id="r7" reversible="false" fast="false">
-#         <listOfReactants>
-#           <speciesReference species="S5" stoichiometry="1" constant="true"/>
-#           <speciesReference species="S5" stoichiometry="1" constant="true"/>
-#         </listOfReactants>
-#         <listOfProducts>
-#           <speciesReference species="S3" stoichiometry="1" constant="true"/>
-#         </listOfProducts>
-#         <kineticLaw>
-#           <math xmlns="http://www.w3.org/1998/Math/MathML">
-#             <apply>
-#               <times/>
-#               <ci> k7 </ci>
-#               <ci> S5 </ci>
-#               <ci> S5 </ci>
-#             </apply>
-#           </math>
-#         </kineticLaw>
-#       </reaction>
-#       <reaction id="r8" reversible="false" fast="false">
-#         <listOfReactants>
-#           <speciesReference species="S3" stoichiometry="1" constant="true"/>
-#           <speciesReference species="S3" stoichiometry="1" constant="true"/>
-#         </listOfReactants>
-#         <listOfProducts>
-#           <speciesReference species="S1" stoichiometry="1" constant="true"/>
-#         </listOfProducts>
-#         <kineticLaw>
-#           <math xmlns="http://www.w3.org/1998/Math/MathML">
-#             <apply>
-#               <times/>
-#               <ci> k8 </ci>
-#               <ci> S3 </ci>
-#               <ci> S1 </ci>
-#             </apply>
-#           </math>
-#         </kineticLaw>
-#       </reaction>
-#       <reaction id="r9" reversible="false" fast="false">
-#         <listOfReactants>
-#           <speciesReference species="S2" stoichiometry="1" constant="true"/>
-#         </listOfReactants>
-#         <listOfProducts>
-#           <speciesReference species="S5" stoichiometry="1" constant="true"/>
-#           <speciesReference species="S9" stoichiometry="1" constant="true"/>
-#         </listOfProducts>
-#         <kineticLaw>
-#           <math xmlns="http://www.w3.org/1998/Math/MathML">
-#             <apply>
-#               <times/>
-#               <ci> k9 </ci>
-#               <ci> S2 </ci>
-#             </apply>
-#           </math>
-#         </kineticLaw>
-#       </reaction>
-#       <reaction id="r10" reversible="false" fast="false">
-#         <listOfReactants>
-#           <speciesReference species="S4" stoichiometry="1" constant="true"/>
-#           <speciesReference species="S4" stoichiometry="1" constant="true"/>
-#         </listOfReactants>
-#         <listOfProducts>
-#           <speciesReference species="S9" stoichiometry="1" constant="true"/>
-#         </listOfProducts>
-#         <kineticLaw>
-#           <math xmlns="http://www.w3.org/1998/Math/MathML">
-#             <apply>
-#               <times/>
-#               <ci> k10 </ci>
-#               <ci> S4 </ci>
-#               <ci> S9 </ci>
-#             </apply>
-#           </math>
-#         </kineticLaw>
-#       </reaction>
-#       <reaction id="r11" reversible="false" fast="false">
-#         <listOfReactants>
-#           <speciesReference species="S6" stoichiometry="1" constant="true"/>
-#           <speciesReference species="S6" stoichiometry="1" constant="true"/>
-#         </listOfReactants>
-#         <listOfProducts>
-#           <speciesReference species="S0" stoichiometry="1" constant="true"/>
-#         </listOfProducts>
-#         <listOfModifiers>
-#           <modifierSpeciesReference species="S4"/>
-#         </listOfModifiers>
-#         <kineticLaw>
-#           <math xmlns="http://www.w3.org/1998/Math/MathML">
-#             <apply>
-#               <times/>
-#               <ci> k11 </ci>
-#               <ci> S6 </ci>
-#               <ci> S4 </ci>
-#             </apply>
-#           </math>
-#         </kineticLaw>
-#       </reaction>
-#     </listOfReactions>
-#   </model>
-# </sbml>"""
-#         r = RoadRunner(sbml)
-#         print(r)
-#
-#         print(r.simulate(0, 100, 101))
-#
-#         # try:
-#         #     m = r.simulate(0, 5, 100)
-#         # except:
-#         #     print("Error in simulate")
-#
-
-
-
-
-
-
-
-
-
-
-

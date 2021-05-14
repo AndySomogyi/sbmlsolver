@@ -1867,6 +1867,21 @@ std::unordered_map<std::string, rr::Setting> Brown2004::steadyStateSettings() {
     };
 }
 
+std::vector<std::string> getAvailableTestModel() {
+    return std::vector<std::string>(
+            {
+                    "SimpleFlux",
+                    "SimpleFluxManuallyReduced",
+                    "OpenLinearFlux",
+                    "Model269",
+                    "Model28",
+                    "CeilInRateLaw",
+                    "FactorialInRateLaw",
+                    "Venkatraman2010",
+                    "Brown2004",
+            });
+}
+
 
 TestModel *TestModelFactory(const std::string &modelName) {
     if (modelName == "SimpleFlux") {
