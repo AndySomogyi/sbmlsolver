@@ -108,3 +108,37 @@ TEST_F(RoadRunnerAPITests, getIds) {
     ASSERT_EQ(expected, l);
 
 }
+
+
+TEST_F(RoadRunnerAPITests, loadSBMLWithLeadingNewlineCharacter) {
+    std::string sbml = OpenLinearFlux().str();
+    sbml = "\n" + sbml;
+    RoadRunner rr(sbml);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

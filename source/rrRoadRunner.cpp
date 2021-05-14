@@ -1082,10 +1082,14 @@ void RoadRunner::load(const std::string& uriOrSbml, const Dictionary *dict)
 {
     Mutex::ScopedLock lock(roadRunnerMutex);
 
-    //get_self();
-
-    //self.mCurrentSBML = SBMLReader::read(uriOrSbml);
 	std::string mCurrentSBML = SBMLReader::read(uriOrSbml);
+
+	// chomp any leading or trailing whitespace
+	mCurrentSBML = trim(mCurrentSBML);
+
+    std::cout << "mCurrentSBML " << mCurrentSBML << std::endl;
+
+
     impl->model = nullptr;
 
     delete impl->mLS;
