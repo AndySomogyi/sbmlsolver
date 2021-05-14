@@ -394,6 +394,23 @@ public:
 
 };
 
+
+/**
+ * This SBML model does not have any rate laws not parameters.
+ * It contains layout information only, which is valid sbml.
+ * This model comes from issue-756
+ *  https://github.com/sys-bio/roadrunner/issues/756
+ */
+class LayoutOnly : public TestModel {
+public:
+
+    std::string str() override;
+
+    std::string modelName() override;
+};
+
+
+
 /**
  * @brief returns a vector of strings that are the
  * names of the classes that inherit from TestModel.
