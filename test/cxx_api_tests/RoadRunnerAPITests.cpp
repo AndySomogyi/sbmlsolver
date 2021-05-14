@@ -106,5 +106,29 @@ TEST_F(RoadRunnerAPITests, getIds) {
     std::list<std::string> l;
     rr.getIds(SelectionRecord::ALL, l);
     ASSERT_EQ(expected, l);
+}
+
+TEST_F(RoadRunnerAPITests, LoadModelWithOnlyLayoutInformation) {
+    LayoutOnly layoutOnly;
+    RoadRunner rr(layoutOnly.str());
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
