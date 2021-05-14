@@ -415,19 +415,24 @@ public:
  * @brief returns a vector of strings that are the
  * names of the classes that inherit from TestModel.
  */
-std::vector<std::string> getAvailableTestModel();
+std::vector<std::string> getAvailableTestModels();
 
+/**
+ * @brief Create instances of TestModel
+ * @param modelName the name of the model to create as a string
+ * @see getAvailableTestModels for list of available models.
+ */
 TestModel *TestModelFactory(const std::string &modelName);
 
 
 namespace privateSwigTests_ {
     // this section exists only to test the swig bindings
     // and make sure the typemaps are doing what they are supposed
-    // to be. Users should completely ignore this
+    // to. Users should never see this
     //
     // These were originally built as simple examples of how to
     // use swig. However, given the steep learning curve that is
-    // swig - instead of deleting these they are left as an example
+    // swig, instead of deleting they are left as an example
     // to future developers (including my future self).
     //
 

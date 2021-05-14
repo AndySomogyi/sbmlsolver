@@ -1867,7 +1867,7 @@ std::unordered_map<std::string, rr::Setting> Brown2004::steadyStateSettings() {
     };
 }
 
-std::vector<std::string> getAvailableTestModel() {
+std::vector<std::string> getAvailableTestModels() {
     return std::vector<std::string>(
             {
                     "SimpleFlux",
@@ -1904,8 +1904,13 @@ TestModel *TestModelFactory(const std::string &modelName) {
     } else if (modelName == "Brown2004") {
         return new Brown2004();
     } else {
-        throw std::runtime_error(
-                "TestModelFactory::TestModelFactory(): no model called \"" + modelName + "\" found\n");
+        std::ostringstream err;
+        err << "TestModelFactory::TestModelFactory(): no model called \"" << modelName << "\" found. ";
+        err << "Available test models include: ";
+        for (auto name: getAvailableTestModels()){
+            err << "\""<< name << "\", ";
+        }
+        throw std::runtime_error(err.str());
     }
 }
 
