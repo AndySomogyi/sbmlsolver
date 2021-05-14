@@ -443,6 +443,13 @@ if (BUILD_TESTS)
     # defined here, passed on to running the Python tests via CTest
     set(PYTHON_API_IN_BINARY_TREE "${CMAKE_CURRENT_BINARY_DIR}/wrappers/Python")
 
+    # these sources are needed in some tests
+    set(
+            RR_PYTHON_PYUTILS_SRC
+            "${CMAKE_CURRENT_SOURCE_DIR}/wrappers/Python/roadrunner/PyUtils.cpp"
+            "${CMAKE_CURRENT_SOURCE_DIR}/wrappers/Python/roadrunner/PyUtils.h"
+    )
+
     add_subdirectory(test)
 
     message(STATUS "building tests")
