@@ -21,7 +21,7 @@
 // localefwd.h error: too many arguments provided to function-like macro invocation
 #include <sstream>
 #include <vector>
-#include <PyUtils.h>
+#include "PyUtils.h"
 #include <rrLogger.h>
 #include <Dictionary.h>
 #include "rrConfig.h"

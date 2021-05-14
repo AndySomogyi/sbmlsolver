@@ -5,8 +5,8 @@
 #include "gtest/gtest.h"
 
 // todo move test model factor up one directory
-#include "../sundials-tests/TestModelFactory.h"
-#include "../RoadRunnerTest.h"
+#include "RoadRunnerTest.h"
+#include "TestModelFactory.h"
 
 #include "rrRoadRunner.h"
 #include "rrConfig.h"
@@ -106,8 +106,35 @@ TEST_F(RoadRunnerAPITests, getIds) {
     std::list<std::string> l;
     rr.getIds(SelectionRecord::ALL, l);
     ASSERT_EQ(expected, l);
-
 }
+
+TEST_F(RoadRunnerAPITests, LoadModelWithOnlyLayoutInformation) {
+    LayoutOnly layoutOnly;
+    ASSERT_NO_THROW(RoadRunner rr(layoutOnly.str()););
+}
+
+TEST_F(RoadRunnerAPITests, loadSBMLWithLeadingNewlineCharacter) {
+    std::string sbml = OpenLinearFlux().str();
+    sbml = "\n" + sbml;
+    RoadRunner rr(sbml);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 TEST_F(RoadRunnerAPITests, loadSBMLWithLeadingNewlineCharacter) {

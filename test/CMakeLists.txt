@@ -23,7 +23,6 @@ configure_file(RoadRunnerTestDirectory.cpp.in "${CMAKE_CURRENT_BINARY_DIR}/RoadR
 # add_test_executable gets called. We can use this as a constant
 set(ThisSourceDirectory ${CMAKE_CURRENT_SOURCE_DIR})
 set(ThisBinaryDirectory ${CMAKE_CURRENT_BINARY_DIR})
-set(TestModelFactorySrcDir "${CMAKE_CURRENT_SOURCE_DIR}/sundials-tests")
 
 #todo move these to the rr_root/cmake folder
 # Adds a new executable cmake target to cmake.
@@ -40,7 +39,6 @@ function(add_test_executable TEST_TARGET OUT_VARIABLE)
             ${TEST_TARGET} PRIVATE
             "${ThisSourceDirectory}"
             "${ThisBinaryDirectory}"
-            "${TestModelFactorySrcDir}"
     )
 
     target_link_libraries(${TEST_TARGET} PRIVATE
@@ -151,16 +149,49 @@ macro(add_swig_executable SWIG_TARGET_NAME SWIG_INTERFACE_FILE)
 endmacro()
 
 #########################################################
+#   Build the TestModelFactory
+#
+
+if (BUILD_PYTHON AND BUILD_TESTS)
+    message(STATUS "Building TestModelFactory")
+    add_swig_executable(TestModelFactory
+            "${CMAKE_CURRENT_SOURCE_DIR}/TestModelFactory.i"
+            "${CMAKE_CURRENT_SOURCE_DIR}/TestModelFactory.h"
+            "${CMAKE_CURRENT_SOURCE_DIR}/TestModelFactory.cpp"
+            "../wrappers/Python/roadrunner/PyUtils"
+            )
+
+    configure_file(testTestModelFactory.py "${RR_PYTHON_TESTING_DIR}" COPYONLY)
+
+    # install python test files to install tree
+    install(TARGETS TestModelFactory DESTINATION site-packages/roadrunner/testing)
+    install(
+            FILES
+                "${CMAKE_CURRENT_BINARY_DIR}/TestModelFactory.py"
+                "${CMAKE_CURRENT_SOURCE_DIR}/testTestModelFactory.py"
+            DESTINATION
+            site-packages/roadrunner/testing
+    )
+
+endif ()
+
+
+#########################################################
 #   Add Tests
 #
 
+# Provide these sources to every test executable
 set(
         SharedTestFiles
         # path *must* be absolute to work in cmake functions/macros
-        "${CMAKE_CURRENT_BINARY_DIR}/RoadRunnerTestDirectory"
-        "${CMAKE_CURRENT_SOURCE_DIR}/test_util"
-        "${CMAKE_CURRENT_SOURCE_DIR}/RoadRunnerTest"
-        "${CMAKE_CURRENT_SOURCE_DIR}/sundials-tests/TestModelFactory" # todo Note, this needs to be moved up a directory
+        "${CMAKE_CURRENT_BINARY_DIR}/RoadRunnerTestDirectory.h"
+        "${CMAKE_CURRENT_BINARY_DIR}/RoadRunnerTestDirectory.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/test_util.h"
+        "${CMAKE_CURRENT_SOURCE_DIR}/test_util.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/RoadRunnerTest.h"
+        "${CMAKE_CURRENT_SOURCE_DIR}/RoadRunnerTest.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/TestModelFactory.h"
+        "${CMAKE_CURRENT_SOURCE_DIR}/TestModelFactory.cpp" # need explicit extensions here (for some reason)
 )
 
 add_subdirectory(c_api_core)
@@ -174,6 +205,7 @@ add_subdirectory(python)
 add_subdirectory(cxx_api_tests)
 
 #List the semantic_STS last, since it takes much longer to run than the others.
+# (fyi, build the run-ctest-exclude-sbml-test-suite target - see below)
 add_subdirectory(semantic_STS)
 
 #########################################################
