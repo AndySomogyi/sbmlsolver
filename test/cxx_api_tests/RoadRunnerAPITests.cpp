@@ -113,20 +113,11 @@ TEST_F(RoadRunnerAPITests, LoadModelWithOnlyLayoutInformation) {
     ASSERT_NO_THROW(RoadRunner rr(layoutOnly.str()););
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+TEST_F(RoadRunnerAPITests, loadSBMLWithLeadingNewlineCharacter) {
+    std::string sbml = OpenLinearFlux().str();
+    sbml = "\n" + sbml;
+    RoadRunner rr(sbml);
+}
 
 
 
