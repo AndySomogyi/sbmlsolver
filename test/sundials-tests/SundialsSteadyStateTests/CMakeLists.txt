@@ -24,8 +24,6 @@ add_test_executable(
         test_steady_state_unit_basic_newton test_targets
         BasicNewtonIterationUnitTests.cpp
         SundialsSteadyStateSolverUnitTest
-        D:/roadrunner/roadrunner/test/TestModelFactory.h
-        D:/roadrunner/roadrunner/test/TestModelFactory.cpp
         ${SharedTestFiles}
 )
 

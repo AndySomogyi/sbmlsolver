@@ -110,8 +110,7 @@ TEST_F(RoadRunnerAPITests, getIds) {
 
 TEST_F(RoadRunnerAPITests, LoadModelWithOnlyLayoutInformation) {
     LayoutOnly layoutOnly;
-    RoadRunner rr(layoutOnly.str());
-
+    ASSERT_NO_THROW(RoadRunner rr(layoutOnly.str()););
 }
 
 
