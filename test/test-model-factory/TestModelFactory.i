@@ -10,6 +10,7 @@
 
     #include "PyUtils.h" // for variant_to_py and back.
 
+    #include "TestModelInterface.h"
     #include "TestModelFactory.h"
     using namespace rr;
 %}
@@ -193,8 +194,11 @@ rr::pyutil_init(m);
 // allows polymorphism to work correctly in python
 // (Define before including decls)
 %typemap(out) TestModel *TestModelFactory{
+        // Marker for TestModelFactory
         const std::string lookup_typename = *arg1 + " *";
         swig_type_info * const outtype = SWIG_TypeQuery(lookup_typename.c_str());
+        std::cout << "outtype->str: " << outtype->str << std::endl;
+        std::cout << "outtype->name: " << outtype->name << std::endl;
         $result = SWIG_NewPointerObj(SWIG_as_voidptr($1), outtype, $owner);
 }
 
@@ -215,10 +219,21 @@ rr::pyutil_init(m);
 %newobject _testVariant;
 
 %newobject TestModelFactory;
-
 #include "TestModelFactory.h"
-%include "TestModelFactory.h"
 
+%include "Brown2004.h"
+%include "CeilInRateLaw.h"
+%include "FactorialInRateLaw.h"
+%include "Model28.h"
+%include "Model269.h"
+%include "OpenLinearFlux.h"
+%include "SimpleFlux.h"
+%include "SimpleFluxManuallyReduced.h"
+%include "Venkatraman2010.h"
+%include "LayoutOnly.h"
+
+%include "TestModelInterface.h"
+%include "TestModelFactory.h"
 
 
 

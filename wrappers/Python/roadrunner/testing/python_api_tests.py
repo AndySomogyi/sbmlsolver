@@ -24,6 +24,9 @@ except ImportError:
         ExecutableModel, RoadRunnerOptions, Config
     )
 
+from roadrunner.testing import pyTestModelFactory as tmf
+
+
 sbml = """<?xml version="1.0" encoding="UTF-8"?>
 <!-- Created by libAntimony version v2.5 on 2014-08-04 19:56 with libSBML version 5.9.1. -->
 <sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" version="1">
@@ -85,7 +88,8 @@ class RoadRunnerTests(unittest.TestCase):
     maxDiff = None
 
     def setUp(self) -> None:
-        self.rr = RoadRunner(sbml)
+        testModel = tmf.TestModelFactory("OpenLinearFlux")
+        self.rr = RoadRunner(testModel.str())
 
     def tearDown(self) -> None:
         pass

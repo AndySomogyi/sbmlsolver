@@ -45,6 +45,25 @@ TEST_F(CVODEIntegratorUnitTests, SetConcentrationToleranceFromVector) {
     ASSERT_EQ(d, cvodeIntegrator->getConcentrationTolerance());
 }
 
+TEST_F(CVODEIntegratorUnitTests, SetAmountToleranceFromScalar) {
+    RoadRunner rr(TestModelFactory("OpenLinearFlux")->str());
+    Integrator *cvodeIntegrator = rr.getIntegrator();
+    cvodeIntegrator->setValue("absolute_tolerance", 1e-15);
+    std::vector<double> absTolVector = cvodeIntegrator->getConcentrationTolerance();
+    for (auto it : absTolVector ) {
+        ASSERT_NEAR(it, 1e-15, 1e-10);
+    }
+}
+
+TEST_F(CVODEIntegratorUnitTests, SetAmountToleranceFromVector) {
+    RoadRunner rr(TestModelFactory("OpenLinearFlux")->str());
+    Integrator *cvodeIntegrator = rr.getIntegrator();
+    std::vector<double> input({1e-14, 1e-16});
+    cvodeIntegrator->setValue("absolute_tolerance", input);
+    std::vector<double> absTolVector = cvodeIntegrator->getValue("absolute_tolerance");
+    ASSERT_EQ(input, absTolVector);
+}
+
 
 
 

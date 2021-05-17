@@ -11,9 +11,12 @@ thisDir = os.path.dirname(os.path.realpath(__file__))
 rr_site_packages = os.path.dirname(os.path.dirname(thisDir))
 
 sys.path += [
-    rr_site_packages,
+    r"D:\roadrunner\roadrunner\cmake-build-release-visual-studio---with-python\lib\site-packages"
+    # rr_site_packages,
 ]
-from roadrunner.testing import TestModelFactory as tmf
+from roadrunner.testing import pyTestModelFactory as tmf
+
+print(dir(tmf))
 
 
 class testTestModelFactory(unittest.TestCase):
