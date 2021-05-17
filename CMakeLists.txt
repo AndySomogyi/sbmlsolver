@@ -8,7 +8,7 @@ cmake_minimum_required(VERSION 3.16)
 
 set(ROADRUNNER_VERSION_MAJOR 2)
 set(ROADRUNNER_VERSION_MINOR 0)
-set(ROADRUNNER_VERSION_PATCH 6)
+set(ROADRUNNER_VERSION_PATCH 7)
 
 set(ROADRUNNER_VERSION "${ROADRUNNER_VERSION_MAJOR}.${ROADRUNNER_VERSION_MINOR}.${ROADRUNNER_VERSION_PATCH}")
 project(
@@ -19,7 +19,7 @@ project(
 )
 
 if (${CMAKE_VERSION} VERSION_GREATER_EQUAL "3.20")
-    # Source file extensions do not need to be explicitly
+    # Source file extensions (.h/.cpp) do not need to be explicitly
     #   specified if CMP0115 set to OLD.
     #   New behavior requires all extensions be explicit
     cmake_policy(SET CMP0115 OLD)
