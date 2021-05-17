@@ -16,6 +16,7 @@
 #include "SimpleFluxManuallyReduced.h"
 #include "Venkatraman2010.h"
 #include "LayoutOnly.h"
+#include "PythonAPITestsModel.h"
 
 /**
  * @brief returns a vector of strings that are the

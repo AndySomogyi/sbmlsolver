@@ -1,0 +1,66 @@
+//
+// Created by Ciaran on 17/05/2021.
+//
+
+#include "PythonAPITestsModel.h"
+
+std::string PythonAPITestsModel::str() {
+    return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+           "<!-- Created by libAntimony version v2.5 on 2014-08-04 19:56 with libSBML version 5.9.1. -->\n"
+           "<sbml xmlns=\"http://www.sbml.org/sbml/level3/version1/core\" level=\"3\" version=\"1\">\n"
+           "<model id=\"__main\" name=\"__main\">\n"
+           "<listOfCompartments>\n"
+           "  <compartment sboTerm=\"SBO:0000410\" id=\"default_compartment\" spatialDimensions=\"3\" size=\"1\" constant=\"true\"/>\n"
+           "</listOfCompartments>\n"
+           "<listOfSpecies>\n"
+           "  <species id=\"S1\" compartment=\"default_compartment\" initialConcentration=\"10\" hasOnlySubstanceUnits=\"false\" boundaryCondition=\"true\" constant=\"false\"/>\n"
+           "  <species id=\"S2\" compartment=\"default_compartment\" initialConcentration=\"0\" hasOnlySubstanceUnits=\"false\" boundaryCondition=\"false\" constant=\"false\"/>\n"
+           "  <species id=\"S3\" compartment=\"default_compartment\" initialConcentration=\"0\" hasOnlySubstanceUnits=\"false\" boundaryCondition=\"true\" constant=\"false\"/>\n"
+           "</listOfSpecies>\n"
+           "<listOfParameters>\n"
+           "  <parameter id=\"k1\" value=\"0.1\" constant=\"true\"/>\n"
+           "  <parameter id=\"k2\" value=\"0.2\" constant=\"true\"/>\n"
+           "</listOfParameters>\n"
+           "<listOfReactions>\n"
+           "  <reaction id=\"_J0\" reversible=\"true\" fast=\"false\">\n"
+           "    <listOfReactants>\n"
+           "      <speciesReference species=\"S1\" stoichiometry=\"1\" constant=\"true\"/>\n"
+           "    </listOfReactants>\n"
+           "    <listOfProducts>\n"
+           "      <speciesReference species=\"S2\" stoichiometry=\"1\" constant=\"true\"/>\n"
+           "    </listOfProducts>\n"
+           "    <kineticLaw>\n"
+           "      <math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n"
+           "        <apply>\n"
+           "          <times/>\n"
+           "          <ci> k1 </ci>\n"
+           "          <ci> S1 </ci>\n"
+           "        </apply>\n"
+           "      </math>\n"
+           "    </kineticLaw>\n"
+           "  </reaction>\n"
+           "  <reaction id=\"_J1\" reversible=\"true\" fast=\"false\">\n"
+           "    <listOfReactants>\n"
+           "      <speciesReference species=\"S2\" stoichiometry=\"1\" constant=\"true\"/>\n"
+           "    </listOfReactants>\n"
+           "    <listOfProducts>\n"
+           "      <speciesReference species=\"S3\" stoichiometry=\"1\" constant=\"true\"/>\n"
+           "    </listOfProducts>\n"
+           "    <kineticLaw>\n"
+           "      <math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n"
+           "        <apply>\n"
+           "          <times/>\n"
+           "          <ci> k2 </ci>\n"
+           "          <ci> S2 </ci>\n"
+           "        </apply>\n"
+           "      </math>\n"
+           "    </kineticLaw>\n"
+           "  </reaction>\n"
+           "</listOfReactions>\n"
+           "</model>\n"
+           "</sbml>";
+}
+
+std::string PythonAPITestsModel::modelName() {
+    return "PythonAPITestsModel";
+}

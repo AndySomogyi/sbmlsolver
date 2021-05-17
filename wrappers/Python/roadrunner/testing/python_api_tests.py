@@ -27,69 +27,13 @@ except ImportError:
 from roadrunner.testing import pyTestModelFactory as tmf
 
 
-sbml = """<?xml version="1.0" encoding="UTF-8"?>
-<!-- Created by libAntimony version v2.5 on 2014-08-04 19:56 with libSBML version 5.9.1. -->
-<sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" version="1">
-<model id="__main" name="__main">
-<listOfCompartments>
-  <compartment sboTerm="SBO:0000410" id="default_compartment" spatialDimensions="3" size="1" constant="true"/>
-</listOfCompartments>
-<listOfSpecies>
-  <species id="S1" compartment="default_compartment" initialConcentration="10" hasOnlySubstanceUnits="false" boundaryCondition="true" constant="false"/>
-  <species id="S2" compartment="default_compartment" initialConcentration="0" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
-  <species id="S3" compartment="default_compartment" initialConcentration="0" hasOnlySubstanceUnits="false" boundaryCondition="true" constant="false"/>
-</listOfSpecies>
-<listOfParameters>
-  <parameter id="k1" value="0.1" constant="true"/>
-  <parameter id="k2" value="0.2" constant="true"/>
-</listOfParameters>
-<listOfReactions>
-  <reaction id="_J0" reversible="true" fast="false">
-    <listOfReactants>
-      <speciesReference species="S1" stoichiometry="1" constant="true"/>
-    </listOfReactants>
-    <listOfProducts>
-      <speciesReference species="S2" stoichiometry="1" constant="true"/>
-    </listOfProducts>
-    <kineticLaw>
-      <math xmlns="http://www.w3.org/1998/Math/MathML">
-        <apply>
-          <times/>
-          <ci> k1 </ci>
-          <ci> S1 </ci>
-        </apply>
-      </math>
-    </kineticLaw>
-  </reaction>
-  <reaction id="_J1" reversible="true" fast="false">
-    <listOfReactants>
-      <speciesReference species="S2" stoichiometry="1" constant="true"/>
-    </listOfReactants>
-    <listOfProducts>
-      <speciesReference species="S3" stoichiometry="1" constant="true"/>
-    </listOfProducts>
-    <kineticLaw>
-      <math xmlns="http://www.w3.org/1998/Math/MathML">
-        <apply>
-          <times/>
-          <ci> k2 </ci>
-          <ci> S2 </ci>
-        </apply>
-      </math>
-    </kineticLaw>
-  </reaction>
-</listOfReactions>
-</model>
-</sbml>
-"""
-
-
 class RoadRunnerTests(unittest.TestCase):
     maxDiff = None
 
     def setUp(self) -> None:
-        testModel = tmf.TestModelFactory("OpenLinearFlux")
-        self.rr = RoadRunner(testModel.str())
+        testModel = tmf.TestModelFactory("PythonAPITestsModel")
+        self.sbml = testModel.str()
+        self.rr = RoadRunner(self.sbml)
 
     def tearDown(self) -> None:
         pass
@@ -733,7 +677,7 @@ class RoadRunnerTests(unittest.TestCase):
         )
 
     def test_load(self):
-        self.rr.load(sbml),
+        self.rr.load(self.sbml),
         self.assertTrue(self.rr.isModelLoaded())
 
     def test_loadState(self):
@@ -1004,26 +948,26 @@ class RoadRunnerTests(unittest.TestCase):
         """
         import sys
         sys.setrecursionlimit(3000)
-        m = RoadRunner(sbml)
+        m = RoadRunner(self.sbml)
         self.assertIsInstance(m, RoadRunner)
 
     def test_getitem_when_exists(self):
         import sys
         sys.setrecursionlimit(3000)
-        m = RoadRunner(sbml)
+        m = RoadRunner(self.sbml)
         self.assertEqual(10.0, m["S1"])
 
     def test_getitem_when_not_exists(self):
         import sys
         sys.setrecursionlimit(3000)
-        m = RoadRunner(sbml)
+        m = RoadRunner(self.sbml)
         with self.assertRaises(RuntimeError):
             s = m["S100"]
 
     def test_getitem_when_created_after_instantiation(self):
         import sys
         sys.setrecursionlimit(3000)
-        m = RoadRunner(sbml)
+        m = RoadRunner(self.sbml)
         m.addSpeciesConcentration("S100", "default_compartment", 123.3, False, False, "", True)
         val = m["S100"]
         self.assertAlmostEqual(val, 123.3)
@@ -1031,7 +975,7 @@ class RoadRunnerTests(unittest.TestCase):
     def test_getitem_when_created_after_instantiation_dot_notation(self):
         import sys
         sys.setrecursionlimit(3000)
-        m = RoadRunner(sbml)
+        m = RoadRunner(self.sbml)
         m.addSpeciesConcentration("S100", "default_compartment", 123.3, False, False, "", True)
         m._makeProperties()
         self.assertAlmostEqual(m.S100, 123.3)
@@ -1041,7 +985,7 @@ class CVODEIntegratorTests(unittest.TestCase):
     maxDiff = None
 
     def setUp(self) -> None:
-        self.rr = RoadRunner(sbml)
+        self.rr = RoadRunner(tmf.TestModelFactory("PythonAPITestsModel").str())
         self.integrator = self.rr.getIntegrator()
 
     def tearDown(self) -> None:
@@ -1095,5 +1039,12 @@ class CVODEIntegratorTests(unittest.TestCase):
         self.integrator.setValue("max_output_rows", 50)
         self.assertEqual(50, self.integrator.getValue("max_output_rows"))
 
-    def test_set_concentration_tolerance(self):
+    def test_set_concentration_tolerance_scalar(self):
         self.integrator.setConcentrationTolerance(1e-8)
+        tolVector = self.integrator.getConcentrationTolerance()
+        [self.assertAlmostEqual(i, 1e-8) for i in tolVector]
+
+    def test_set_concentration_tolerance_vec(self):
+        self.integrator.setConcentrationTolerance([1e-5])
+        tolVector = self.integrator.getConcentrationTolerance()
+        self.assertEqual([1e-5], tolVector)

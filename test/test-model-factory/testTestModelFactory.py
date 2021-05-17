@@ -93,3 +93,9 @@ class testTestModelFactory(unittest.TestCase):
     def test_polymorphic_factory(self):
         testModel = tmf.TestModelFactory("OpenLinearFlux")
         self.assertIsInstance(testModel, tmf.OpenLinearFlux)  # fails if is type TestModel
+
+    def test_python_api_test_model_from_factory(self):
+        testModel = tmf.TestModelFactory("PythonAPITestsModel")
+        expected_methods = ["str", "modelName"]
+        for method in expected_methods:
+            self.assertIn(method, dir(testModel))

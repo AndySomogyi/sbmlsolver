@@ -3,7 +3,7 @@
 //
 
 #include "TestModelFactory.h"
-
+#include "rrLogger.h"
 
 std::vector<std::string> getAvailableTestModels() {
     return std::vector<std::string>(
@@ -17,7 +17,8 @@ std::vector<std::string> getAvailableTestModels() {
                     "FactorialInRateLaw",
                     "Venkatraman2010",
                     "Brown2004",
-                    "LayoutOnly"
+                    "LayoutOnly",
+                    "PythonAPITestsModel"
             });
 }
 
@@ -41,6 +42,8 @@ TestModel *TestModelFactory(const std::string &modelName) {
         return new SimpleFluxManuallyReduced();
     } else if (modelName == "Brown2004") {
         return new Brown2004();
+    } else if (modelName == "PythonAPITestsModel") {
+        return new PythonAPITestsModel();
     } else {
         std::ostringstream err;
         err << "TestModelFactory::TestModelFactory(): no model called \"" << modelName << "\" found. ";
@@ -48,6 +51,9 @@ TestModel *TestModelFactory(const std::string &modelName) {
         for (auto name: getAvailableTestModels()){
             err << "\""<< name << "\", ";
         }
+        // When windows throws error through Python, we do not get an error message
+        // so we need to log it as well.
+        rrLog(rr::Logger::LOG_ERROR) << err.str().c_str() << std::endl;
         throw std::runtime_error(err.str());
     }
 }

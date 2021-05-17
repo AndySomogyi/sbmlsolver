@@ -1087,9 +1087,6 @@ void RoadRunner::load(const std::string& uriOrSbml, const Dictionary *dict)
 	// chomp any leading or trailing whitespace
 	mCurrentSBML = trim(mCurrentSBML);
 
-    std::cout << "mCurrentSBML " << mCurrentSBML << std::endl;
-
-
     impl->model = nullptr;
 
     delete impl->mLS;

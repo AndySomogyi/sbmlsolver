@@ -4,6 +4,18 @@
 # Targets:
 #   - TestModelFactoryCXX: static library, linked by C++ tests.
 #   - TestModelFactory: Python bindings to the TestModelFactory, used in Python tests
+#
+# Instructions for adding a new test model
+#   1) write your test model
+#        - it should inherit from at least the TestModel class defined in TestModelInterface.h
+#        - It should also inherit from any of the other interfaces that the model is designed to test for. For instance, some models are geared towards testing steady state output and only inherit from SteadyStateResult, whilst others might also inherit from TimeSeriesResult.
+#        - Make sure all inherited classes and methods are public
+#   2) Include the name of the new test model in TestModelFactory.h
+#   3) Add name of new test model to getAvailableTestModels()
+#   4) Add an if else to TestModelFactory();
+#   4) Include the new test model in CMake target cxxTestModelFactory <rr_root>/test/test-model-factory/CMakeLists.txt
+#   5) Add an %include "nameOfTestModel.h" in TestModelFactory.i next to all the others
+
 set(target cxxTestModelFactory)
 add_library(${target} STATIC
         TestModelFactory.h
@@ -20,6 +32,7 @@ add_library(${target} STATIC
         SimpleFluxManuallyReduced
         Venkatraman2010
         LayoutOnly
+        PythonAPITestsModel
         )
 
 target_include_directories(${target} PUBLIC $<TARGET_PROPERTY:roadrunner-static,INCLUDE_DIRECTORIES>)

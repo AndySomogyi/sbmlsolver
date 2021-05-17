@@ -197,8 +197,6 @@ rr::pyutil_init(m);
         // Marker for TestModelFactory
         const std::string lookup_typename = *arg1 + " *";
         swig_type_info * const outtype = SWIG_TypeQuery(lookup_typename.c_str());
-        std::cout << "outtype->str: " << outtype->str << std::endl;
-        std::cout << "outtype->name: " << outtype->name << std::endl;
         $result = SWIG_NewPointerObj(SWIG_as_voidptr($1), outtype, $owner);
 }
 
@@ -220,7 +218,10 @@ rr::pyutil_init(m);
 
 %newobject TestModelFactory;
 #include "TestModelFactory.h"
+//#include "TestModelInterface.h" // we do not want to expose to Python
+#include "PythonAPITestsModel.h"
 
+%include "TestModelInterface.h"
 %include "Brown2004.h"
 %include "CeilInRateLaw.h"
 %include "FactorialInRateLaw.h"
@@ -231,8 +232,8 @@ rr::pyutil_init(m);
 %include "SimpleFluxManuallyReduced.h"
 %include "Venkatraman2010.h"
 %include "LayoutOnly.h"
+%include "PythonAPITestsModel.h"
 
-%include "TestModelInterface.h"
 %include "TestModelFactory.h"
 
 
