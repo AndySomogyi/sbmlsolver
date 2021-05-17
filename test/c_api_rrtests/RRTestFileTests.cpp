@@ -1769,11 +1769,6 @@ public:
 
 };
 
-
-TEST_F(CApiRRTests, TestAbsolute_Tolerance1) {
-    checkRRTest("Absolute_Tolerance1");
-}
-
 TEST_F(CApiRRTests, TestAdd_Event_Assignment1) {
     checkRRTest("Add_Event_Assignment1");
 }
