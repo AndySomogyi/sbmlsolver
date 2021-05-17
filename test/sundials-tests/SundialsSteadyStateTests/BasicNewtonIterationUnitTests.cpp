@@ -5,7 +5,7 @@
 #include "SundialsSteadyStateSolverUnitTest.h"
 #include "BasicNewtonIteration.h"
 #include "rrRoadRunner.h"
-#include "TestModelFactory.h"
+#include "TestModelInterface.h"
 
 using namespace rr;
 

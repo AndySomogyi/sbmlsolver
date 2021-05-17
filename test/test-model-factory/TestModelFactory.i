@@ -1,4 +1,4 @@
-%module TestModelFactory
+%module pyTestModelFactory
 
 %{
     #define SWIG_FILE_WITH_INIT

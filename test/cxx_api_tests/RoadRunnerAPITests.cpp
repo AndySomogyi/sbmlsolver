@@ -3,8 +3,6 @@
 //
 
 #include "gtest/gtest.h"
-
-// todo move test model factor up one directory
 #include "RoadRunnerTest.h"
 #include "TestModelFactory.h"
 

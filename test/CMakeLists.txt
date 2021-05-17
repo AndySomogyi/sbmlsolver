@@ -23,6 +23,7 @@ configure_file(RoadRunnerTestDirectory.cpp.in "${CMAKE_CURRENT_BINARY_DIR}/RoadR
 # add_test_executable gets called. We can use this as a constant
 set(ThisSourceDirectory ${CMAKE_CURRENT_SOURCE_DIR})
 set(ThisBinaryDirectory ${CMAKE_CURRENT_BINARY_DIR})
+set(TestModelFactoryIncludeDirectory "${CMAKE_CURRENT_SOURCE_DIR}/test-model-factory")
 
 #todo move these to the rr_root/cmake folder
 # Adds a new executable cmake target to cmake.
@@ -39,10 +40,11 @@ function(add_test_executable TEST_TARGET OUT_VARIABLE)
             ${TEST_TARGET} PRIVATE
             "${ThisSourceDirectory}"
             "${ThisBinaryDirectory}"
+            "${TestModelFactoryIncludeDirectory}"
     )
 
     target_link_libraries(${TEST_TARGET} PRIVATE
-            roadrunner_c_api roadrunner-static gtest gtest_main gmock gmock_main
+            roadrunner_c_api roadrunner-static cxxTestModelFactory gtest gtest_main gmock gmock_main
             )
     # This causes a weird build error whereby it is no longer possible
     # to name a class the name as the binary filename. However, since w
@@ -151,29 +153,29 @@ endmacro()
 #########################################################
 #   Build the TestModelFactory
 #
-
-if (BUILD_PYTHON AND BUILD_TESTS)
-    message(STATUS "Building TestModelFactory")
-    add_swig_executable(TestModelFactory
-            "${CMAKE_CURRENT_SOURCE_DIR}/TestModelFactory.i"
-            "${CMAKE_CURRENT_SOURCE_DIR}/TestModelFactory.h"
-            "${CMAKE_CURRENT_SOURCE_DIR}/TestModelFactory.cpp"
-            "../wrappers/Python/roadrunner/PyUtils"
-            )
-
-    configure_file(testTestModelFactory.py "${RR_PYTHON_TESTING_DIR}" COPYONLY)
-
-    # install python test files to install tree
-    install(TARGETS TestModelFactory DESTINATION site-packages/roadrunner/testing)
-    install(
-            FILES
-                "${CMAKE_CURRENT_BINARY_DIR}/TestModelFactory.py"
-                "${CMAKE_CURRENT_SOURCE_DIR}/testTestModelFactory.py"
-            DESTINATION
-            site-packages/roadrunner/testing
-    )
-
-endif ()
+#
+#if (BUILD_PYTHON AND BUILD_TESTS)
+#    message(STATUS "Building TestModelFactory")
+#    add_swig_executable(TestModelFactory
+#            "${CMAKE_CURRENT_SOURCE_DIR}/TestModelFactory.i"
+#            "${CMAKE_CURRENT_SOURCE_DIR}/TestModelFactory.h"
+#            "${CMAKE_CURRENT_SOURCE_DIR}/TestModelFactory.cpp"
+#            "../wrappers/Python/roadrunner/PyUtils"
+#            )
+#
+#    configure_file(testTestModelFactory.py "${RR_PYTHON_TESTING_DIR}" COPYONLY)
+#
+#    # install python test files to install tree
+#    install(TARGETS TestModelFactory DESTINATION site-packages/roadrunner/testing)
+#    install(
+#            FILES
+#                "${CMAKE_CURRENT_BINARY_DIR}/TestModelFactory.py"
+#                "${CMAKE_CURRENT_SOURCE_DIR}/testTestModelFactory.py"
+#            DESTINATION
+#            site-packages/roadrunner/testing
+#    )
+#
+#endif ()
 
 
 #########################################################
@@ -190,10 +192,10 @@ set(
         "${CMAKE_CURRENT_SOURCE_DIR}/test_util.cpp"
         "${CMAKE_CURRENT_SOURCE_DIR}/RoadRunnerTest.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/RoadRunnerTest.cpp"
-        "${CMAKE_CURRENT_SOURCE_DIR}/TestModelFactory.h"
-        "${CMAKE_CURRENT_SOURCE_DIR}/TestModelFactory.cpp" # need explicit extensions here (for some reason)
+#        "${CMAKE_CURRENT_SOURCE_DIR}/TestModelFactory.h"
+#        "${CMAKE_CURRENT_SOURCE_DIR}/TestModelFactory.cpp" # need explicit extensions here (for some reason)
 )
-
+add_subdirectory(test-model-factory)
 add_subdirectory(c_api_core)
 add_subdirectory(c_api_rrtests)
 add_subdirectory(model_analysis)

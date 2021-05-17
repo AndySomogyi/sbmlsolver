@@ -13,7 +13,7 @@ class ApproxSteadyStateDecoratorTests : public ::testing::Test {
 public:
     OpenLinearFlux testModel = OpenLinearFlux();
 
-    ApproxSteadyStateDecoratorTests() {}
+    ApproxSteadyStateDecoratorTests() = default;
 
     void checkResults(RoadRunner& rr) {
         const auto &expectedResult = testModel.steadyState();

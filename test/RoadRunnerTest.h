@@ -37,11 +37,13 @@ protected:
     /**
      * @brief check validity of the rrTestDir_ variable
      * @details A CMake configure_file operation is conducted on
-     * RoadRunnerTestDirectory.h.in which puts it in the binary tree.
+     * RoadRunnerTestDirectory.h.in which puts a file called
+     * RoadRunnerTestDirectory.h in the binary tree.
      * RoadRunnerTest reads this file and extracts the testdir variable
-     * from it. If this method finds a known file under the testdir
-     * folder, then the rrTestDir_ variable is validated. If this
-     * test fails, it'll try to locate the same directory via the
+     * from it. If this RoadRunnerTest::validateRoadRunnerTestDir finds
+     * a known file under the testdir folder, then the rrTestDir_
+     * variable is validated. If this
+     * test fails, the method will try to locate the same directory via the
      * testdir environment variable
      */
     void validateRoadRunnerTestDir();
