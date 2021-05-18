@@ -24,7 +24,7 @@ class BinaryDistribution(Distribution):
 EXPERIMENTAL = True
 
 setup(
-    name='libroadrunner[experimental]' if EXPERIMENTAL else "libroadrunner",
+    name='libroadrunner-experimental' if EXPERIMENTAL else "libroadrunner",
     author='J Kyle Medley, Andy Somogyi, Herbert Sauro',
     author_email='tellurium-discuss@u.washington.edu',
     classifiers=[
