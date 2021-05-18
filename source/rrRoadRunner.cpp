@@ -590,7 +590,8 @@ RoadRunner::RoadRunner(const RoadRunner& rr)
         setIntegrator(rr.impl->integrators[in]->getName());
         for (std::string k : rr.impl->integrators[in]->getSettings())
         {
-            impl->integrator->setValue(k, rr.impl->integrators[in]->getValue(k));
+            auto x = rr.impl->integrators[in]->getValue(k);
+            impl->integrator->setValue(k, x);
         }
     }
     //Set the current integrator to the correct one.
@@ -1086,9 +1087,6 @@ void RoadRunner::load(const std::string& uriOrSbml, const Dictionary *dict)
 
 	// chomp any leading or trailing whitespace
 	mCurrentSBML = trim(mCurrentSBML);
-
-    std::cout << "mCurrentSBML " << mCurrentSBML << std::endl;
-
 
     impl->model = nullptr;
 

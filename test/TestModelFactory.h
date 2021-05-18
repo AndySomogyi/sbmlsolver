@@ -410,6 +410,13 @@ public:
 };
 
 
+class ModelWithLocalParameters: public TestModel {
+public:
+    std::string str() override;
+
+    std::string modelName() override;
+};
+
 
 /**
  * @brief returns a vector of strings that are the

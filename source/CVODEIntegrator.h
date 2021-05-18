@@ -259,6 +259,7 @@ namespace rr
         void *getCvodeMemory() const;
 
     private:
+        // defaults directly from CVODE docs
         static const int mDefaultMaxNumSteps;
         static const int mDefaultMaxAdamsOrder;
         static const int mDefaultMaxBDFOrder;

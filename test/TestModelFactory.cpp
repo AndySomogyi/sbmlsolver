@@ -1879,7 +1879,8 @@ std::vector<std::string> getAvailableTestModels() {
                     "FactorialInRateLaw",
                     "Venkatraman2010",
                     "Brown2004",
-                    "LayoutOnly"
+                    "LayoutOnly",
+                    "ModelWithLocalParameters"
             });
 }
 
@@ -1903,11 +1904,15 @@ TestModel *TestModelFactory(const std::string &modelName) {
         return new SimpleFluxManuallyReduced();
     } else if (modelName == "Brown2004") {
         return new Brown2004();
+    } else if (modelName == "LayoutOnly") {
+        return new LayoutOnly();
+    } else if (modelName == "ModelWithLocalParameters") {
+        return new ModelWithLocalParameters();
     } else {
         std::ostringstream err;
         err << "TestModelFactory::TestModelFactory(): no model called \"" << modelName << "\" found. ";
         err << "Available test models include: ";
-        for (auto name: getAvailableTestModels()){
+        for (const auto& name: getAvailableTestModels()){
             err << "\""<< name << "\", ";
         }
         throw std::runtime_error(err.str());
@@ -2102,4 +2107,72 @@ std::string LayoutOnly::str() {
 
 std::string LayoutOnly::modelName() {
     return "LayoutOnly";
+}
+
+std::string ModelWithLocalParameters::str() {
+    return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+           "<sbml xmlns=\"http://www.sbml.org/sbml/level3/version1/core\" xmlns:layout=\"http://www.sbml.org/sbml/level3/version1/layout/version1\" xmlns:render=\"http://www.sbml.org/sbml/level3/version1/render/version1\" level=\"3\" version=\"1\" layout:required=\"false\" render:required=\"false\">\n"
+           "  <model id=\"ModelWithLocalParameters\" name=\"ModelWithLocalParameters\" substanceUnits=\"substance\" timeUnits=\"time\" volumeUnits=\"volume\" areaUnits=\"area\" lengthUnits=\"length\" extentUnits=\"substance\">\n"
+           "    <listOfCompartments>\n"
+           "      <compartment id=\"compartment\" name=\"compartment\" spatialDimensions=\"3\" size=\"1\" units=\"volume\" constant=\"true\">\n"
+           "      </compartment>\n"
+           "    </listOfCompartments>\n"
+           "    <listOfSpecies>\n"
+           "      <species id=\"S1\" name=\"S1\" compartment=\"compartment\" initialConcentration=\"1\" substanceUnits=\"substance\" hasOnlySubstanceUnits=\"false\" boundaryCondition=\"false\" constant=\"false\">\n"
+           "      </species>\n"
+           "      <species id=\"S2\" name=\"S2\" compartment=\"compartment\" initialConcentration=\"1\" substanceUnits=\"substance\" hasOnlySubstanceUnits=\"false\" boundaryCondition=\"false\" constant=\"false\">\n"
+           "      </species>\n"
+           "      <species id=\"S3\" name=\"S3\" compartment=\"compartment\" initialConcentration=\"1\" substanceUnits=\"substance\" hasOnlySubstanceUnits=\"false\" boundaryCondition=\"false\" constant=\"false\">\n"
+           "      </species>\n"
+           "    </listOfSpecies>\n"
+           "    <listOfReactions>\n"
+           "      <reaction id=\"R1\" name=\"R1\" reversible=\"false\" fast=\"false\">\n"
+           "        <listOfReactants>\n"
+           "          <speciesReference species=\"S1\" stoichiometry=\"1\" constant=\"true\"/>\n"
+           "        </listOfReactants>\n"
+           "        <listOfProducts>\n"
+           "          <speciesReference species=\"S2\" stoichiometry=\"1\" constant=\"true\"/>\n"
+           "        </listOfProducts>\n"
+           "        <kineticLaw>\n"
+           "          <math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n"
+           "            <apply>\n"
+           "              <times/>\n"
+           "              <ci> compartment </ci>\n"
+           "              <ci> k1 </ci>\n"
+           "              <ci> S1 </ci>\n"
+           "            </apply>\n"
+           "          </math>\n"
+           "          <listOfLocalParameters>\n"
+           "            <localParameter id=\"k1\" name=\"k1\" value=\"0.1\"/>\n"
+           "          </listOfLocalParameters>\n"
+           "        </kineticLaw>\n"
+           "      </reaction>\n"
+           "      <reaction  id=\"R2\" name=\"R2\" reversible=\"false\" fast=\"false\">\n"
+           "        <listOfReactants>\n"
+           "          <speciesReference species=\"S2\" stoichiometry=\"1\" constant=\"true\"/>\n"
+           "        </listOfReactants>\n"
+           "        <listOfProducts>\n"
+           "          <speciesReference species=\"S3\" stoichiometry=\"1\" constant=\"true\"/>\n"
+           "        </listOfProducts>\n"
+           "        <kineticLaw>\n"
+           "          <math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n"
+           "            <apply>\n"
+           "              <times/>\n"
+           "              <ci> compartment </ci>\n"
+           "              <ci> k1 </ci>\n"
+           "              <ci> S2 </ci>\n"
+           "            </apply>\n"
+           "          </math>\n"
+           "          <listOfLocalParameters>\n"
+           "            <localParameter id=\"k1\" name=\"k1\" value=\"0.1\"/>\n"
+           "          </listOfLocalParameters>\n"
+           "        </kineticLaw>\n"
+           "      </reaction>\n"
+           "    </listOfReactions>\n"
+           "  </model>\n"
+           "</sbml>";
+}
+
+std::string ModelWithLocalParameters::modelName() {
+    return "ModelWithLocalParameters";
 }
