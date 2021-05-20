@@ -72,6 +72,10 @@ namespace rr
 
         // ** Loading Settings *************************************************
 
+        /**
+         * It looks like this method only get used
+         * inside resetSettings.
+         */
         void loadConfigSettings() override;
 
         /**

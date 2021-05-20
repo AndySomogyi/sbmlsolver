@@ -21,8 +21,9 @@ configure_file(RoadRunnerTestDirectory.cpp.in "${CMAKE_CURRENT_BINARY_DIR}/RoadR
 
 # "CMAKE_CURRENT_SOURCE_DIR" changes in the different files were
 # add_test_executable gets called. We can use this as a constant
-set(ThisSourceDirectory ${CMAKE_CURRENT_SOURCE_DIR})
-set(ThisBinaryDirectory ${CMAKE_CURRENT_BINARY_DIR})
+set(ThisSourceDirectory "${CMAKE_CURRENT_SOURCE_DIR}")
+set(ThisBinaryDirectory "${CMAKE_CURRENT_BINARY_DIR}")
+set(MOCKUPS_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/mockups")
 
 #todo move these to the rr_root/cmake folder
 # Adds a new executable cmake target to cmake.
@@ -33,23 +34,24 @@ set(ThisBinaryDirectory ${CMAKE_CURRENT_BINARY_DIR})
 #   - All further arguments are added to the binary as sources.
 function(add_test_executable TEST_TARGET OUT_VARIABLE)
     #message(STATUS "Adding test ${TEST_TARGET} as part of ${OUT_VARIABLE}. Source Files: ARGN: ${ARGN}" )
-    add_executable(${TEST_TARGET} ${ARGN})
+    add_executable(${TEST_TARGET} ${ARGN} $<TARGET_OBJECTS:rr-mockups>)
 
     target_include_directories(
             ${TEST_TARGET} PRIVATE
             "${ThisSourceDirectory}"
             "${ThisBinaryDirectory}"
+            "${MOCKUPS_DIRECTORY}"
     )
 
     target_link_libraries(${TEST_TARGET} PRIVATE
-            roadrunner_c_api roadrunner-static gtest gtest_main gmock gmock_main
+            roadrunner_c_api roadrunner-static rr-mockups gtest gtest_main gmock gmock_main
             )
     # This causes a weird build error whereby it is no longer possible
     # to name a class the name as the binary filename. However, since w
     # link to roadrunner-static, the flags needed should be transitive
     #    add_compile_definitions(${TEST_TARGET} PRIVATE STATIC_RR)
 
-    add_dependencies(${TEST_TARGET} roadrunner-static gtest gtest_main gmock gmock_main)
+    add_dependencies(${TEST_TARGET} roadrunner-static gtest gtest_main gmock gmock_main rr-mockups)
     set_target_properties(${TEST_TARGET} PROPERTIES LINKER_LANGUAGE CXX)
 
     # Add to ctest.
@@ -125,6 +127,7 @@ macro(add_swig_executable SWIG_TARGET_NAME SWIG_INTERFACE_FILE)
             $<TARGET_PROPERTY:roadrunner_python,INCLUDE_DIRECTORIES>
             )
     target_link_libraries(${SWIG_TARGET_NAME} PUBLIC
+            rr-mockups
             roadrunner-static
             ${Python_LIBRARIES}
             )
@@ -194,6 +197,7 @@ set(
         "${CMAKE_CURRENT_SOURCE_DIR}/TestModelFactory.cpp" # need explicit extensions here (for some reason)
 )
 
+add_subdirectory(mockups)
 add_subdirectory(c_api_core)
 add_subdirectory(c_api_rrtests)
 add_subdirectory(model_analysis)

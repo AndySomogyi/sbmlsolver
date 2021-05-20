@@ -12,9 +12,6 @@
 #include <string>
 #include <vector>
 
-#include "tr1proxy/rr_memory.h"
-#include "tr1proxy/rr_unordered_map.h"
-
 #include "rrExporter.h"
 
 #if defined(SWIG) || defined(SWIGPYTHON)
@@ -178,7 +175,7 @@ public:
     ~BasicDictionary() override = default;
 
 protected:
-    typedef cxx11_ns::unordered_map<std::string, Setting> VariantMap;
+    typedef std::unordered_map<std::string, Setting> VariantMap;
     VariantMap items;
 };
 
