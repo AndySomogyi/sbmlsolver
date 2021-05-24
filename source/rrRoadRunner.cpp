@@ -1933,6 +1933,15 @@ const DoubleMatrix* RoadRunner::simulate(const Dictionary* dict)
     return &self.simulationResult;
 }
 
+const DoubleMatrix* RoadRunner::simulate(double start, double stop, int num){
+    SimulateOptions opt;
+    opt.start = start;
+    opt.duration = stop;
+    // substract 1 so that start, stop, num has the same meaning as it does in numpy functions
+    // i.e. see https://numpy.org/doc/stable/reference/generated/numpy.linspace.html
+    opt.steps = num - 1;
+    return simulate(&opt);
+}
 
 double RoadRunner::oneStep(const double currentTime, const double stepSize, const bool reset)
 {

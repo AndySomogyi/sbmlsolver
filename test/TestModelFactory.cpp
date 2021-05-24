@@ -1,7 +1,45 @@
+#include "gtest/gtest.h"
 #include "TestModelFactory.h"
+#include "SteadyStateSolver.h"
 
 std::unordered_map<std::string, rr::Setting> SteadyStateResult::steadyStateSettings() {
     return std::unordered_map<std::string, rr::Setting>();
+}
+
+void SteadyStateResult::applySteadyStateSettings(rr::RoadRunner *rr) {
+    for (auto &settingsIterator : steadyStateSettings()) {
+        if (settingsIterator.first == "moiety_conservation") {
+            rr->setConservedMoietyAnalysis(settingsIterator.second);
+        } else {
+            try {
+                rr->getSteadyStateSolver()->setValue(settingsIterator.first, settingsIterator.second);
+            } catch (std::exception &err) {
+                // if solver does not have this option, that's okay (since we deal with nleq and sundials together
+                continue;
+            }
+        }
+    }
+}
+
+void SteadyStateResult::checkSteadyState(rr::RoadRunner *rr) {
+    applySteadyStateSettings(rr);
+    rr->steadyState();
+    // collect actual results from model
+    auto result = rr->getFloatingSpeciesConcentrationsNamedArray();
+    std::vector<std::string> names = result.getColNames();
+
+    auto expectedResult = steadyState();
+
+    // check to see if actual result are near expected.
+    for (int i = 0; i < names.size(); i++) {
+        std::string speciesID = names[i];
+        double actualResult = result[0][i]; // 0th row, ith col of a DoubleMatrix
+        double expected = expectedResult[speciesID]; // first is start val, second is speciesID at steady state
+
+        std::cout << "Comparing \"" << speciesID << "\" expected result: " << expected
+                  << " with actual result " << actualResult << std::endl;
+        EXPECT_NEAR(expected, actualResult, 0.0001);
+    }
 }
 
 std::unordered_map<std::string, rr::Setting> TimeSeriesResult::timeSeriesSettings() {
@@ -105,6 +143,151 @@ std::unordered_map<std::string, rr::Setting> SimpleFlux::steadyStateSettings() {
     return std::unordered_map<std::string, rr::Setting>{
             {"moiety_conservation", true}
     };
+}
+
+ls::DoubleMatrix SimpleFlux::fullJacobianAmt() {
+    return fullJacobianConc(); // should this be the same?
+}
+
+ls::DoubleMatrix SimpleFlux::fullJacobianConc() {
+    return ls::DoubleMatrix(
+            {
+                    {-0.1, 0.01},
+                    {0.1,  -0.01},
+            }
+    );
+}
+
+ls::DoubleMatrix SimpleFlux::reducedJacobianAmt() {
+    return reducedJacobianConc();
+}
+
+ls::DoubleMatrix SimpleFlux::reducedJacobianConc() {
+    return ls::DoubleMatrix({{-0.11}});
+}
+
+std::unordered_map<std::string, rr::Setting> SimpleFlux::jacobianSettings() {
+    return std::unordered_map<std::string, rr::Setting>{{"time", 0.0}};
+}
+
+std::vector<std::complex<double>> SimpleFlux::reducedEigenValues() {
+    return std::vector<std::complex<double>>(
+            {
+                    std::complex<double>(-0.11, 0),
+            });
+}
+
+std::unordered_map<std::string, rr::Setting> SimpleFlux::eigenSettings() {
+    return std::unordered_map<std::string, rr::Setting>{{"time", 0}};
+}
+
+std::vector<std::complex<double>> SimpleFlux::fullEigenValues() {
+    return std::vector<std::complex<double>>(
+            {
+                    std::complex<double>(-0.11, 0),
+                    std::complex<double>(0, 0)
+            });
+}
+
+ls::DoubleMatrix SimpleFlux::linkMatrix() {
+    return ls::DoubleMatrix(
+            {
+                    {1},
+                    {-1}
+            });
+}
+
+ls::DoubleMatrix SimpleFlux::NrMatrix() {
+    return ls::DoubleMatrix({{-1, 1}});
+}
+
+ls::DoubleMatrix SimpleFlux::KMatrix() {
+    return ls::DoubleMatrix(
+            {
+                    {1},
+                    {1}
+            });
+}
+
+ls::DoubleMatrix SimpleFlux::reducedStoicMatrix() {
+    return ls::DoubleMatrix({{-1, 1}});
+}
+
+ls::DoubleMatrix SimpleFlux::fullStoicMatrix() {
+    return ls::DoubleMatrix(
+            {
+                    {-1, 1},
+                    {1,  -1},
+            });
+}
+
+ls::DoubleMatrix SimpleFlux::extendedStoicMatrix() {
+    return fullStoicMatrix(); // not sure when extended should be used
+}
+
+ls::DoubleMatrix SimpleFlux::L0Matrix() {
+    return ls::DoubleMatrix({{-1}});
+}
+
+ls::DoubleMatrix SimpleFlux::conservationMatrix() {
+    return ls::DoubleMatrix({{1, 1}});
+}
+
+ls::DoubleMatrix SimpleFlux::unscaledConcentrationControlCoefficientMatrix() {
+    return ls::DoubleMatrix(
+            {
+                    {-9.09091, 9.09091},
+                    {9.09091,  -9.09091}
+            });
+}
+
+ls::DoubleMatrix SimpleFlux::scaledConcentrationControlCoefficientMatrix() {
+    return ls::DoubleMatrix(
+            {
+                    {-0.909091, 0.909091},
+                    {0.0909091, -0.0909091}
+            });
+}
+
+ls::DoubleMatrix SimpleFlux::unscaledFluxControlCoefficientMatrix() {
+    return ls::DoubleMatrix(
+            {
+                    {0.0909091, 0.909091},
+                    {0.0909091, 0.909091}
+            });
+}
+
+ls::DoubleMatrix SimpleFlux::scaledFluxControlCoefficientMatrix() {
+    return ls::DoubleMatrix(
+            {
+                    {0.0909091, 0.909091},
+                    {0.0909091, 0.909091},
+            });
+}
+
+//ls::DoubleMatrix SimpleFlux::unscaledParameterElasticity() {
+//    return ls::DoubleMatrix();
+//}
+
+ls::DoubleMatrix SimpleFlux::unscaledElasticityMatrix() {
+    return ls::DoubleMatrix(
+            {
+                    {0.1, 0},
+                    {0,   0.01},
+            });
+}
+
+ls::DoubleMatrix SimpleFlux::scaledElasticityMatrix() {
+    return ls::DoubleMatrix(
+            {
+                    {1, 0},
+                    {0, 1},
+            }
+    );
+}
+
+std::unordered_map<std::string, rr::Setting> SimpleFlux::mcaSettings() {
+    return std::unordered_map<std::string, rr::Setting>{{"time", 0}};
 }
 
 std::string SimpleFluxManuallyReduced::str() {
@@ -910,6 +1093,31 @@ std::unordered_map<std::string, rr::Setting> Venkatraman2010::steadyStateSetting
                     {"moiety_conservation", false},
 
             });
+}
+
+ls::DoubleMatrix Venkatraman2010::fullJacobianAmt() {
+    return fullJacobianConc();
+}
+
+ls::DoubleMatrix Venkatraman2010::fullJacobianConc() {
+    return ls::DoubleMatrix({
+                                    {-7744.4113653644172, 0,         -1.36469e-05, 0},
+                                    {-4.46746e-05,        -0.600427, 0,            -0.000788376},
+                                    {4.46746e-05,         0.599427,  -0.001,       0.000788376},
+                                    {7744.4113653644172,  0,         1.36469e-05,  -0.0001}
+                            });
+}
+
+std::unordered_map<std::string, rr::Setting> Venkatraman2010::jacobianSettings() {
+    return std::unordered_map<std::string, rr::Setting>{{"time", 0.0}};
+}
+
+ls::DoubleMatrix Venkatraman2010::reducedJacobianAmt() {
+    return ls::DoubleMatrix();
+}
+
+ls::DoubleMatrix Venkatraman2010::reducedJacobianConc() {
+    return ls::DoubleMatrix();
 }
 
 
@@ -1912,8 +2120,8 @@ TestModel *TestModelFactory(const std::string &modelName) {
         std::ostringstream err;
         err << "TestModelFactory::TestModelFactory(): no model called \"" << modelName << "\" found. ";
         err << "Available test models include: ";
-        for (const auto& name: getAvailableTestModels()){
-            err << "\""<< name << "\", ";
+        for (const auto &name: getAvailableTestModels()) {
+            err << "\"" << name << "\", ";
         }
         throw std::runtime_error(err.str());
     }
