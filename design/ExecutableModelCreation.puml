@@ -1,0 +1,52 @@
+@startuml
+
+
+abstract class ExecutableModel
+class LLVMExecutableModel
+
+ExecutableModel <|-- LLVMExecutableModel
+
+note right of LLVMModelGenerator {
+    friend to LLVMExecutableModel
+    has two massive functions,
+    both static. Are these methods
+    better placed in
+    LLVMExecutableModel itself?
+    Similarly, createModelData
+    might be better inside
+    LLVMExecutableModel itself.
+}
+
+class LLVMModelGenerator {
+    static regenerateModel()
+    static create Model()
+}
+
+LLVMExecutableModel <-- LLVMModelGenerator : creates
+
+class ExecutableModelFactory {}
+
+LLVMModelGenerator <-- ExecutableModelFactory : uses \n(unnecessarily?)
+
+note left of ExecutableModelFactory{
+    no real logic here
+    only forwarding
+    on parameters to
+    LLVMModelGenerator
+}
+
+class RoadRunner
+
+ExecutableModelFactory <-- RoadRunner : uses
+
+
+
+
+
+
+
+
+
+
+
+@enduml

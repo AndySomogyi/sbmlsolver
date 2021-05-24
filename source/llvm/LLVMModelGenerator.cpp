@@ -621,8 +621,7 @@ context.getExecutionEngine().getFunctionAddress("setGlobalParameter");
 }
 
 
-ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml,
-        uint options)
+ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml, uint options)
 {
     bool forceReCompile = options & LoadSBMLOptions::RECOMPILE;
 

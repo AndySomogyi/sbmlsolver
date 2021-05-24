@@ -16,6 +16,9 @@ if (BUILD_PYTHON)
 endif ()
 
 
+add_subdirectory(llvm6_tests)
+
+
 
 
 
