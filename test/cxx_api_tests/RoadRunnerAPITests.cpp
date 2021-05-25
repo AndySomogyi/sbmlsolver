@@ -253,7 +253,7 @@ TEST_F(RoadRunnerAPITests, getParamPromotedSBML) {
                            "      </reaction>\n"
                            "    </listOfReactions>\n"
                            "  </model>\n"
-                           "</sbml>";
+                           "</sbml>\n";
     ASSERT_STREQ(expected.c_str(), s.c_str());
 }
 
@@ -916,7 +916,7 @@ TEST_F(RoadRunnerAPITests, getUnscaledSpeciesElasticity) {
     RoadRunner rr(simpleFlux.str());
     // why is args int in this case and all similar methods a string
     double actual = rr.getUnscaledSpeciesElasticity(0, 0);
-    double expected = 0.0999;
+    double expected = 0.09999999;
     ASSERT_NEAR(expected, actual, 1e-7);
 }
 
@@ -1059,7 +1059,7 @@ TEST_F(RoadRunnerAPITests, setKineticLaw){
     RoadRunner rr(SimpleFlux().str());
     rr.setKineticLaw("_J1", "(kf/(kb+1))*S1", true);
     std::string k = rr.getKineticLaw("_J1");
-    ASSERT_STREQ(k.c_str(), "(kf/(kb+1))*S1");
+    ASSERT_STREQ(k.c_str(), "(kf / (kb + 1)) * S1");
 }
 
 TEST_F(RoadRunnerAPITests, addParameter){
@@ -1263,7 +1263,7 @@ TEST_F(RoadRunnerAPITests, getSteadyStateSelections){
     SimpleFlux simpleFlux;
     RoadRunner rr(simpleFlux.str());
     auto selections = rr.getSteadyStateSelections();
-    ASSERT_EQ(3, selections.size());
+    ASSERT_EQ(2, selections.size()); // S1 and S2
 }
 
 TEST_F(RoadRunnerAPITests, setSteadyStateSelections){
