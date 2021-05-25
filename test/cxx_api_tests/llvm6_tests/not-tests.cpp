@@ -39,6 +39,14 @@ TEST_F(NotTests, t){
 
 }
 
+TEST_F(NotTests, lg){
+    bool truth = false;
+    std::cout << truth << std::endl;
+    truth |= true;
+    std::cout << truth << std::endl;
+}
+
+
 
 
 

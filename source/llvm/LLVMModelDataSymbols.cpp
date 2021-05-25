@@ -119,16 +119,15 @@ LLVMModelDataSymbols::LLVMModelDataSymbols() :
             && "wrong number of items in modelDataFieldsNames");
 }
 
-LLVMModelDataSymbols::LLVMModelDataSymbols(const libsbml::Model *model,
-        unsigned options) :
-    independentFloatingSpeciesSize(0),
-    independentBoundarySpeciesSize(0),
-    independentGlobalParameterSize(0),
-    independentCompartmentSize(0),
-    independentInitFloatingSpeciesSize(0),
-    independentInitBoundarySpeciesSize(0),
-    independentInitGlobalParameterSize(0),
-    independentInitCompartmentSize(0)
+LLVMModelDataSymbols::LLVMModelDataSymbols(const libsbml::Model *model, unsigned options)
+    :   independentFloatingSpeciesSize(0),
+        independentBoundarySpeciesSize(0),
+        independentGlobalParameterSize(0),
+        independentCompartmentSize(0),
+        independentInitFloatingSpeciesSize(0),
+        independentInitBoundarySpeciesSize(0),
+        independentInitGlobalParameterSize(0),
+        independentInitCompartmentSize(0)
 {
     assert(sizeof(modelDataFieldsNames) / sizeof(const char*)
             == NotSafe_FloatingSpeciesAmounts + 1
@@ -790,8 +789,7 @@ void LLVMModelDataSymbols::initBoundarySpecies(const libsbml::Model* model)
     }
 }
 
-void LLVMModelDataSymbols::initFloatingSpecies(const libsbml::Model* model,
-        bool computeAndAssignConsevationLaws)
+void LLVMModelDataSymbols::initFloatingSpecies(const libsbml::Model* model, bool computeAndAssignConsevationLaws)
 {
     const ListOfSpecies *species = model->getListOfSpecies();
 
@@ -878,8 +876,7 @@ void LLVMModelDataSymbols::initFloatingSpecies(const libsbml::Model* model,
         if (computeAndAssignConsevationLaws)
         {
             // look in the set we just made
-            if (conservedMoietySpeciesSet.find(*i) !=
-                    conservedMoietySpeciesSet.end())
+            if (conservedMoietySpeciesSet.find(*i) != conservedMoietySpeciesSet.end())
             {
                 // keep incrementing the size each time we add one.
                 size_t cmIndex = floatingSpeciesToConservedMoietyIdMap.size();
@@ -915,8 +912,7 @@ void LLVMModelDataSymbols::initFloatingSpecies(const libsbml::Model* model,
     {
         const Species* s = model->getSpecies(i->first);
         assert(s && "known species is NULL");
-        StringUIntMap::const_iterator j =
-                compartmentsMap.find(s->getCompartment());
+        StringUIntMap::const_iterator j = compartmentsMap.find(s->getCompartment());
         if (j == compartmentsMap.end())
         {
             throw_llvm_exception("species " + s->getId() +

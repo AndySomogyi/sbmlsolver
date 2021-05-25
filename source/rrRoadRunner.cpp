@@ -527,8 +527,24 @@ RoadRunner::RoadRunner(const std::string& uriOrSBML,
         const Dictionary* options) :
             impl(new RoadRunnerImpl(uriOrSBML, options))
 {
-	llvm::InitializeNativeTarget();
+    /**
+     * The main program should call this function to
+     * initialize the native target corresponding to the host.  This is useful
+     * for JIT applications to ensure that the target gets linked in correctly.
+     * It is legal for a client to make multiple calls to this function.
+     */
+	llvm::InitializeNativeTarget(); // looks like this has been renamed to LLVMInitializeNativeTarget: https://stackoverflow.com/a/21149010/3059024
+
+	/**
+	 * The main program should call
+     * this function to initialize the native target asm printer.
+	 */
 	llvm::InitializeNativeTargetAsmPrinter();
+
+	/**
+	 * The main program should call
+     *  this function to initialize the native target asm parser.
+	 */
 	llvm::InitializeNativeTargetAsmParser();
     // must be run to register integrators at startup
     IntegratorRegistrationMgr::Register();

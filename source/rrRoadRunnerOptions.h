@@ -17,8 +17,6 @@
 #include "tr1proxy/rr_memory.h"
 #include "tr1proxy/rr_unordered_map.h"
 
-#include <stdint.h>
-
 namespace rr
 {
 
@@ -162,17 +160,17 @@ namespace rr
 		/**
 		* the version this struct
 		*/
-		uint16_t version;
+		std::uint16_t version;
 
 		/**
 		* sizeof this struct
 		*/
-		uint16_t size;
+		std::uint16_t size;
 
 
-		uint32_t modelGeneratorOpt;
+		std::uint32_t modelGeneratorOpt;
 
-		uint32_t loadFlags;
+		std::uint32_t loadFlags;
 
 
 		/**
@@ -365,7 +363,7 @@ namespace rr
 		/**
 		* a bitmask of the options specified in the Options enumeration.
 		*/
-		uint32_t flags;
+		std::uint32_t flags;
 
 		/**
 		* step size used for numeric Jacobian calculations.

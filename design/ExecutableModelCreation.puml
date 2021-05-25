@@ -39,8 +39,11 @@ class RoadRunner
 
 ExecutableModelFactory <-- RoadRunner : uses
 
-
-
+class createModel
+note left of createModel {
+    A static method. I think this does
+    far too much in one method.
+}
 
 
 

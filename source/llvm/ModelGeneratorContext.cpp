@@ -95,8 +95,8 @@ double atanh(double value)
 
 #endif
 
-ModelGeneratorContext::ModelGeneratorContext(std::string const &sbml,
-    unsigned options) :
+ModelGeneratorContext::ModelGeneratorContext(std::string const &sbml, unsigned options)
+    :
         ownedDoc(0),
         doc(0),
         symbols(0),
