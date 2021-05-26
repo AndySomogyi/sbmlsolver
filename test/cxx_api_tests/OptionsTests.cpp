@@ -9,21 +9,23 @@
 
 using namespace rr;
 
-class LoadSBMLOptionsTests : public ::testing::Test {
+class OptionsTests : public ::testing::Test {
 public :
 
-    LoadSBMLOptionsTests() = default;
+    OptionsTests() = default;
 };
+/**
+ * Okay, so new plan. First fully test rrConfig. Then come back and test here.
+ */
 
-
-TEST_F(LoadSBMLOptionsTests, d){
+TEST_F(OptionsTests, d){
     Config::setValue(Config::LOADSBMLOPTIONS_CONSERVED_MOIETIES, false);
     LoadSBMLOptions options;
     std::cout << options.modelGeneratorOpt << std::endl;
 
-    RoadRunner rr(SimpleFlux().str());
-
-    std::cout << rr.getConservedMoietyAnalysis() << std::endl;
+//    RoadRunner rr(SimpleFlux().str());
+//
+//    std::cout << rr.getConservedMoietyAnalysis() << std::endl;
 
 }
 

@@ -180,6 +180,11 @@ LLVMModelDataSymbols::LLVMModelDataSymbols(const libsbml::Model *model, unsigned
 
 
     // process the floating species
+    // Note to self (ciaran). This function call is not clear to me
+    //      initFloatingSpecies(model, options & rr::LoadSBMLOptions::CONSERVED_MOIETIES);
+    // I'm yet to work out the value of "options &" part of this. What is it, error checking? Implicit validation that options
+    // has been defined and then consequently that we have a model? What ever it is, it is not clear to me. In what situation
+    // should options be 0 vs non 0? We should have a test each for these situations.
     initFloatingSpecies(model, options & rr::LoadSBMLOptions::CONSERVED_MOIETIES);
 
     // display compartment info. We need to get the compartments before the

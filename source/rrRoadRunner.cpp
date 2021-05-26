@@ -265,8 +265,7 @@ public:
 
 	std::unique_ptr<libsbml::SBMLDocument> document;
 
-    RoadRunnerImpl(const std::string& uriOrSBML,
-            const Dictionary* dict) :
+    RoadRunnerImpl(const std::string& uriOrSBML, const Dictionary* dict) :
                 mDiffStepSize(0.05),
                 mSteadyStateThreshold(1.E-2),
                 simulationResult(),

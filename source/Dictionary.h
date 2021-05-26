@@ -11,7 +11,7 @@
 #include "Setting.h"
 #include <string>
 #include <vector>
-
+#include <unordered_map>
 #include "rrExporter.h"
 
 #if defined(SWIG) || defined(SWIGPYTHON)

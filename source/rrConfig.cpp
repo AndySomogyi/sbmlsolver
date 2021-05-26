@@ -78,63 +78,63 @@ static std::string strip(const std::string &in) {
 }
 
 static Setting values[] = {
-    Setting(false),  // LOADSBMLOPTIONS_CONSERVED_MOIETIES
-    Setting(false),  // LOADSBMLOPTIONS_RECOMPILE
-    Setting(false),  // LOADSBMLOPTIONS_READ_ONLY
-    Setting(true),   // LOADSBMLOPTIONS_MUTABLE_INITIAL_CONDITIONS
-    Setting(false),  // LOADSBMLOPTIONS_OPTIMIZE_GVN
-    Setting(false),  // LOADSBMLOPTIONS_OPTIMIZE_CFG_SIMPLIFICATION
-    Setting(false),  // LOADSBMLOPTIONS_OPTIMIZE_INSTRUCTION_COMBINING
-    Setting(false),  // LOADSBMLOPTIONS_OPTIMIZE_DEAD_INST_ELIMINATION
-    Setting(false),  // LOADSBMLOPTIONS_OPTIMIZE_DEAD_CODE_ELIMINATION
-    Setting(false),  // LOADSBMLOPTIONS_OPTIMIZE_INSTRUCTION_SIMPLIFIER
-    Setting(false),  // LOADSBMLOPTIONS_USE_MCJIT
-    Setting(50),     // SIMULATEOPTIONS_STEPS,
-    Setting(5.0),      // SIMULATEOPTIONS_DURATION,
-    Setting(1.e-10), // SIMULATEOPTIONS_ABSOLUTE,
-    Setting(1.e-5),  // SIMULATEOPTIONS_RELATIVE,
-    Setting(false),  // SIMULATEOPTIONS_STRUCTURED_RESULT,
-    Setting(true),   // SIMULATEOPTIONS_STIFF,
-    Setting(false),  // SIMULATEOPTIONS_MULTI_STEP,
-    Setting(false),  // SIMULATEOPTIONS_DETERMINISTIC_VARIABLE_STEP,
-    Setting(true),   // SIMULATEOPTIONS_STOCHASTIC_VARIABLE_STEP,
-    Setting(std::string("CVODE")), // SIMULATEOPTIONS_INTEGRATOR
-    Setting(-1),                   // SIMULATEOPTIONS_INITIAL_TIMESTEP,
-    Setting(-1),                   // SIMULATEOPTIONS_MINIMUM_TIMESTEP,
-    Setting(-1),                   // SIMULATEOPTIONS_MAXIMUM_TIMESTEP,
-    Setting(-1),                   // SIMULATEOPTIONS_MAXIMUM_NUM_STEPS
-    Setting(false),                // ROADRUNNER_DISABLE_WARNINGS
-    Setting(false),                // ROADRUNNER_DISABLE_PYTHON_DYNAMIC_PROPERTIES
-    Setting(int(AllChecksON &UnitsCheckOFF)), // SBML_APPLICABLEVALIDATORS
-    Setting(0.00001),                         // ROADRUNNER_JACOBIAN_STEP_SIZE
+    Setting(false),                             // LOADSBMLOPTIONS_CONSERVED_MOIETIES
+    Setting(false),                             // LOADSBMLOPTIONS_RECOMPILE
+    Setting(false),                             // LOADSBMLOPTIONS_READ_ONLY
+    Setting(true),                              // LOADSBMLOPTIONS_MUTABLE_INITIAL_CONDITIONS
+    Setting(false),                             // LOADSBMLOPTIONS_OPTIMIZE_GVN
+    Setting(false),                             // LOADSBMLOPTIONS_OPTIMIZE_CFG_SIMPLIFICATION
+    Setting(false),                             // LOADSBMLOPTIONS_OPTIMIZE_INSTRUCTION_COMBINING
+    Setting(false),                             // LOADSBMLOPTIONS_OPTIMIZE_DEAD_INST_ELIMINATION
+    Setting(false),                             // LOADSBMLOPTIONS_OPTIMIZE_DEAD_CODE_ELIMINATION
+    Setting(false),                             // LOADSBMLOPTIONS_OPTIMIZE_INSTRUCTION_SIMPLIFIER
+    Setting(false),                             // LOADSBMLOPTIONS_USE_MCJIT
+    Setting(50),                                // SIMULATEOPTIONS_STEPS,
+    Setting(5.0),                               // SIMULATEOPTIONS_DURATION,
+    Setting(1.e-10),                            // SIMULATEOPTIONS_ABSOLUTE,
+    Setting(1.e-5),                             // SIMULATEOPTIONS_RELATIVE,
+    Setting(false),                             // SIMULATEOPTIONS_STRUCTURED_RESULT,
+    Setting(true),                              // SIMULATEOPTIONS_STIFF,
+    Setting(false),                             // SIMULATEOPTIONS_MULTI_STEP,
+    Setting(false),                             // SIMULATEOPTIONS_DETERMINISTIC_VARIABLE_STEP,
+    Setting(true),                              // SIMULATEOPTIONS_STOCHASTIC_VARIABLE_STEP,
+    Setting(std::string("CVODE")),  // S        IMULATEOPTIONS_INTEGRATOR
+    Setting(-1),                                // SIMULATEOPTIONS_INITIAL_TIMESTEP,
+    Setting(-1),                                // SIMULATEOPTIONS_MINIMUM_TIMESTEP,
+    Setting(-1),                                // SIMULATEOPTIONS_MAXIMUM_TIMESTEP,
+    Setting(-1),                                // SIMULATEOPTIONS_MAXIMUM_NUM_STEPS
+    Setting(false),                             // ROADRUNNER_DISABLE_WARNINGS
+    Setting(false),                             // ROADRUNNER_DISABLE_PYTHON_DYNAMIC_PROPERTIES
+    Setting(int(AllChecksON &UnitsCheckOFF)),   // SBML_APPLICABLEVALIDATORS
+    Setting(0.00001),                           // ROADRUNNER_JACOBIAN_STEP_SIZE
     Setting((int)(SelectionRecord::TIME | SelectionRecord::RATE | SelectionRecord::FLOATING)), // MODEL_RESET
-    Setting(1.e-12),                           // CVODE_MIN_ABSOLUTE
-    Setting(1.e-6),                            // CVODE_MIN_RELATIVE
-    Setting(true),                             // SIMULATEOPTIONS_COPY_RESULT
-    Setting(false),                            // STEADYSTATE_PRESIMULATION
-    Setting(100),   // STEADYSTATE_PRESIMULATION_MAX_STEPS
-    Setting(100.0), // STEADYSTATE_PRESIMULATION_TIME
-    Setting(false), // STEADYSTATE_APPROX
-    Setting(1.e-6), // STEADYSTATE_APPROX_TOL
-    Setting(10000), // STEADYSTATE_APPROX_MAX_STEPS
-    Setting(10000.0), // STEADYSTATE_APPROX_TIME
-    Setting(1e-12), // STEADYSTATE_RELATIVE
-    Setting(100),   // STEADYSTATE_MAXIMUM_NUM_STEPS
-    Setting(1e-20), // STEADYSTATE_MINIMUM_DAMPING
-    Setting(0),     // STEADYSTATE_BROYDEN
-    Setting(3),     // STEADYSTATE_LINEARITY
+    Setting(1.e-12),                            // CVODE_MIN_ABSOLUTE
+    Setting(1.e-6),                             // CVODE_MIN_RELATIVE
+    Setting(true),                              // SIMULATEOPTIONS_COPY_RESULT
+    Setting(false),                             // STEADYSTATE_PRESIMULATION
+    Setting(100),                               // STEADYSTATE_PRESIMULATION_MAX_STEPS
+    Setting(100.0),                             // STEADYSTATE_PRESIMULATION_TIME
+    Setting(false),                             // STEADYSTATE_APPROX
+    Setting(1.e-6),                             // STEADYSTATE_APPROX_TOL
+    Setting(10000),                             // STEADYSTATE_APPROX_MAX_STEPS
+    Setting(10000.0),                           // STEADYSTATE_APPROX_TIME
+    Setting(1e-12),                             // STEADYSTATE_RELATIVE
+    Setting(100),                               // STEADYSTATE_MAXIMUM_NUM_STEPS
+    Setting(1e-20),                             // STEADYSTATE_MINIMUM_DAMPING
+    Setting(0),                                 // STEADYSTATE_BROYDEN
+    Setting(3),                                 // STEADYSTATE_LINEARITY
     Setting((std::int32_t)Config::ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS), // ROADRUNNER_JACOBIAN_MODE
-    Setting(std::string(".")),                        // TEMP_DIR_PATH,
-    Setting(std::string("")),                         // LOGGER_LOG_FILE_PATH,
-    Setting(-1),                                      // RANDOM_SEED
-    Setting(true),  // PYTHON_ENABLE_NAMED_MATRIX
-    Setting(true),  // LLVM_SYMBOL_CACHE
-    Setting(true),  // OPTIMIZE_REACTION_RATE_SELECTION
-    Setting(true),  // LOADSBMLOPTIONS_PERMISSIVE
-    Setting(100000), // MAX_OUTPUT_ROWS
-    Setting(false), // ALLOW_EVENTS_IN_STEADY_STATE_CALCULATIONS
-    Setting(true),  // VALIDATION_IN_REGENERATION
-    Setting(1000),  // K_ROWS_PER_WRITE
+    Setting(std::string(".")),              // TEMP_DIR_PATH,
+    Setting(std::string("")),               // LOGGER_LOG_FILE_PATH,
+    Setting(-1),                                // RANDOM_SEED
+    Setting(true),                              // PYTHON_ENABLE_NAMED_MATRIX
+    Setting(true),                              // LLVM_SYMBOL_CACHE
+    Setting(true),                              // OPTIMIZE_REACTION_RATE_SELECTION
+    Setting(true),                              // LOADSBMLOPTIONS_PERMISSIVE
+    Setting(100000),                            // MAX_OUTPUT_ROWS
+    Setting(false),                             // ALLOW_EVENTS_IN_STEADY_STATE_CALCULATIONS
+    Setting(true),                              // VALIDATION_IN_REGENERATION
+    Setting(1000),                              // K_ROWS_PER_WRITE
 
 };
 
@@ -379,7 +379,7 @@ std::vector<Setting> values)
 void Config::readConfigFile(const std::string &path) {
   Mutex::ScopedLock lock(configMutex);
 
-  const Poco::RegularExpression re("^\\s*(\\w*)\\s*:\\s*(.*)\\s*$",
+  const Poco::RegularExpression re(R"(^\s*(\w*)\s*:\s*(.*)\s*$)",
                                    RegularExpression::RE_CASELESS);
   StringIntMap keys;
   std::ifstream in(path.c_str());
@@ -440,8 +440,8 @@ void Config::writeConfigFile(const std::string &path) {
 
   getKeyNames(keys);
 
-  for (StringIntMap::const_iterator i = keys.begin(); i != keys.end(); ++i) {
-    out << i->first << ": " << values[i->second].get<std::string>() << std::endl;
+  for (auto [keyName, keyEnumeration] : keys){
+    out << keyName << ": " << values[keyEnumeration].toString() << std::endl;
   }
 }
 

@@ -194,7 +194,7 @@ ExecutableModel* LLVMModelGenerator::regenerateModel(ExecutableModel* oldModel, 
 		setGlobalParameterInitValueIR = 0;
 	}
 
-	//Currently we save jitted functions in object file format 
+	//Currently we save jitted functions in object file format
 	//in save state. Compiling the functions into this format in the first place
 	//makes saveState significantly faster than creating the object file when it is called
 	//We then load the object file into the jit engine to avoid compiling the functions twice
@@ -216,7 +216,7 @@ ExecutableModel* LLVMModelGenerator::regenerateModel(ExecutableModel* oldModel, 
 	}
 
 	pass.run(*context.getModule());
-	
+
 	//Read from modBuffer into our execution engine
 	std::string moduleStr(modBuffer.begin(), modBuffer.end());
 
@@ -224,7 +224,7 @@ ExecutableModel* LLVMModelGenerator::regenerateModel(ExecutableModel* oldModel, 
 
 	llvm::Expected<std::unique_ptr<llvm::object::ObjectFile> > objectFileExpected =
 		llvm::object::ObjectFile::createObjectFile(llvm::MemoryBufferRef(moduleStr, "id"));
-    
+
 	if (!objectFileExpected) {
 		//LS DEBUG:  find a way to get the text out of the error.
 		auto err = objectFileExpected.takeError();
@@ -234,7 +234,7 @@ ExecutableModel* LLVMModelGenerator::regenerateModel(ExecutableModel* oldModel, 
 	}
 
 	std::unique_ptr<llvm::object::ObjectFile> objectFile(std::move(objectFileExpected.get()));
-	
+
 	llvm::object::OwningBinary<llvm::object::ObjectFile> owningObject(std::move(objectFile), std::move(memBuffer));
 
 	context.getExecutionEngine().addObjectFile(std::move(owningObject));
@@ -357,10 +357,10 @@ context.getExecutionEngine().getFunctionAddress("setGlobalParameter");
 
 
 
-	// if anything up to this point throws an exception, thats OK, because	
-	// we have not allocated any memory yet that is not taken care of by	
-	// something else.	
-	// Now that everything that could have thrown would have thrown, we	
+	// if anything up to this point throws an exception, thats OK, because
+	// we have not allocated any memory yet that is not taken care of by
+	// something else.
+	// Now that everything that could have thrown would have thrown, we
 	// can now create the model and set its fields.
 
 	LLVMModelData* modelData = createModelData(context.getModelDataSymbols(),
@@ -487,7 +487,7 @@ context.getExecutionEngine().getFunctionAddress("setGlobalParameter");
 					}
 				}
 			}
-			
+
 		}
 
 
@@ -513,7 +513,7 @@ context.getExecutionEngine().getFunctionAddress("setGlobalParameter");
 				}
 
 			}
-			
+
 		}
 
 
@@ -595,7 +595,7 @@ context.getExecutionEngine().getFunctionAddress("setGlobalParameter");
 					newModel->modelData->globalParametersAlias[index] = value;
 					//newModel->setGlobalParameterValues(1, &index, &value);
 				}
-		
+
 				else if (newModel->symbols->hasRateRule(id))
 				{
 					// copy to rate rule value data block
@@ -614,7 +614,7 @@ context.getExecutionEngine().getFunctionAddress("setGlobalParameter");
 		}
 
 		newModel->setTime(oldModel->getTime());
-	
+
 	}
 
 	return newModel;
@@ -623,6 +623,20 @@ context.getExecutionEngine().getFunctionAddress("setGlobalParameter");
 
 ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml, std::uint32_t options)
 {
+    std::cout << "options: " << options << std::endl; // 2056
+    std::cout << "LoadSBMLOptions::RECOMPILE: " << LoadSBMLOptions::RECOMPILE << std::endl; // 0x2 == 2
+    std::cout << "options & LoadSBMLOptions::RECOMPILE: " << (options &   LoadSBMLOptions::RECOMPILE) << std::endl;
+
+    std::cout << "16 bit: options: " << std::bitset<16>(options) << std::endl; // 2056
+    std::cout << "16 bit: LoadSBMLOptions::RECOMPILE: " << std::bitset<16>(LoadSBMLOptions::RECOMPILE) << std::endl; // 0x2 == 2
+    std::cout << "16 bit: options & LoadSBMLOptions::RECOMPILE: " << std::bitset<16>(options &   LoadSBMLOptions::RECOMPILE) << std::endl;
+
+    std::cout << std::hex;
+
+    std::cout << "hex: options: " << options << std::endl; // 2056
+    std::cout << "hex: LoadSBMLOptions::RECOMPILE: " << LoadSBMLOptions::RECOMPILE << std::endl; // 0x2 == 2
+    std::cout << "hex: options & LoadSBMLOptions::RECOMPILE: " << (options &   LoadSBMLOptions::RECOMPILE) << std::endl;
+
     bool forceReCompile = options & LoadSBMLOptions::RECOMPILE;
 
     std::string md5;
@@ -711,7 +725,7 @@ ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml, std::u
 	}
 	else
 	{
-		setBoundarySpeciesAmountIR = 
+		setBoundarySpeciesAmountIR =
 			SetBoundarySpeciesAmountCodeGen(context).createFunction();
 
 		setBoundarySpeciesConcentrationIR =
@@ -723,7 +737,7 @@ ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml, std::u
 		setCompartmentVolumeIR =
 			SetCompartmentVolumeCodeGen(context).createFunction();
 
-		setFloatingSpeciesAmountIR = 
+		setFloatingSpeciesAmountIR =
 			SetFloatingSpeciesAmountCodeGen(context).createFunction();
 
 		setGlobalParameterIR =
@@ -764,7 +778,7 @@ ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml, std::u
 		setGlobalParameterInitValueIR			= 0;
 	}
 
-	//Currently we save jitted functions in object file format 
+	//Currently we save jitted functions in object file format
 	//in save state. Compiling the functions into this format in the first place
 	//makes saveState significantly faster than creating the object file when it is called
 	//We then load the object file into the jit engine to avoid compiling the functions twice
@@ -786,7 +800,7 @@ ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml, std::u
 	}
 
 	pass.run(*context.getModule());
-	
+
 	//Read from modBuffer into our execution engine
 	std::string moduleStr(modBuffer.begin(), modBuffer.end());
 
@@ -794,7 +808,7 @@ ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml, std::u
 
 	llvm::Expected<std::unique_ptr<llvm::object::ObjectFile> > objectFileExpected =
 		llvm::object::ObjectFile::createObjectFile(llvm::MemoryBufferRef(moduleStr, "id"));
-    
+
 	if (!objectFileExpected) {
 		//LS DEBUG:  find a way to get the text out of the error.
 		auto err = objectFileExpected.takeError();
@@ -926,19 +940,15 @@ ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml, std::u
 	}
 
 
-
-
-
-
-	// if anything up to this point throws an exception, thats OK, because	
-	// we have not allocated any memory yet that is not taken care of by	
-	// something else.	
-	// Now that everything that could have thrown would have thrown, we	
+	// if anything up to this point throws an exception, thats OK, because
+	// we have not allocated any memory yet that is not taken care of by
+	// something else.
+	// Now that everything that could have thrown would have thrown, we
 	// can now create the model and set its fields.
 
     LLVMModelData *modelData = createModelData(context.getModelDataSymbols(),
             context.getRandom());
-   
+
     uint llvmsize = ModelDataIRBuilder::getModelDataSize(context.getModule(),
             &context.getExecutionEngine());
 
