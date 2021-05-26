@@ -111,11 +111,10 @@ TEST_F(ConfigTests, writeConfigFile) {
     }
 }
 
-//TEST_F(ConfigTests, stringToKey){
-//    Config::stringToKey();
-//
-//}
-//TEST_F(ConfigTests, getKeyList){
-//    Config::getKeyList();
-//
-//}
+TEST_F(ConfigTests, stringToKey){
+    ASSERT_EQ(0, Config::stringToKey("LOADSBMLOPTIONS_CONSERVED_MOIETIES"));
+
+}
+TEST_F(ConfigTests, getKeyList){
+    ASSERT_EQ(40, Config::getKeyList().size());
+}

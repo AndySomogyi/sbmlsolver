@@ -275,6 +275,7 @@ std::vector<std::string> Config::getKeyList() {
       std::string key_str = reverseLookup(m, (Config::Keys)n);
       result.push_back(key_str);
     } catch (std::runtime_error) {
+        continue;
     }
   }
 
