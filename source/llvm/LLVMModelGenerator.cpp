@@ -623,24 +623,12 @@ context.getExecutionEngine().getFunctionAddress("setGlobalParameter");
 
 ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml, std::uint32_t options)
 {
-    std::cout << "options: " << options << std::endl; // 2056
-    std::cout << "LoadSBMLOptions::RECOMPILE: " << LoadSBMLOptions::RECOMPILE << std::endl; // 0x2 == 2
-    std::cout << "options & LoadSBMLOptions::RECOMPILE: " << (options &   LoadSBMLOptions::RECOMPILE) << std::endl;
-
-    std::cout << "16 bit: options: " << std::bitset<16>(options) << std::endl; // 2056
-    std::cout << "16 bit: LoadSBMLOptions::RECOMPILE: " << std::bitset<16>(LoadSBMLOptions::RECOMPILE) << std::endl; // 0x2 == 2
-    std::cout << "16 bit: options & LoadSBMLOptions::RECOMPILE: " << std::bitset<16>(options &   LoadSBMLOptions::RECOMPILE) << std::endl;
-
-    std::cout << std::hex;
-
-    std::cout << "hex: options: " << options << std::endl; // 2056
-    std::cout << "hex: LoadSBMLOptions::RECOMPILE: " << LoadSBMLOptions::RECOMPILE << std::endl; // 0x2 == 2
-    std::cout << "hex: options & LoadSBMLOptions::RECOMPILE: " << (options &   LoadSBMLOptions::RECOMPILE) << std::endl;
-
     bool forceReCompile = options & LoadSBMLOptions::RECOMPILE;
 
     std::string md5;
 
+    // if we force recompile, then we don't need to think
+    // about locating a previously compiled model
     if (!forceReCompile)
     {
         // check for a cached copy

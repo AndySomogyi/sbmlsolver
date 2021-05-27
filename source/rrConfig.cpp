@@ -41,7 +41,7 @@ using std::string;
 
 namespace rr {
 
-typedef cxx11_ns::unordered_map<std::string, int> StringIntMap;
+typedef std::unordered_map<std::string, int> StringIntMap;
 
 /**
  * check range of key
@@ -98,7 +98,7 @@ static Setting values[] = {
     Setting(false),                             // SIMULATEOPTIONS_MULTI_STEP,
     Setting(false),                             // SIMULATEOPTIONS_DETERMINISTIC_VARIABLE_STEP,
     Setting(true),                              // SIMULATEOPTIONS_STOCHASTIC_VARIABLE_STEP,
-    Setting(std::string("CVODE")),  // S        IMULATEOPTIONS_INTEGRATOR
+    Setting(std::string("CVODE")),          // SIMULATEOPTIONS_INTEGRATOR
     Setting(-1),                                // SIMULATEOPTIONS_INITIAL_TIMESTEP,
     Setting(-1),                                // SIMULATEOPTIONS_MINIMUM_TIMESTEP,
     Setting(-1),                                // SIMULATEOPTIONS_MAXIMUM_TIMESTEP,
@@ -285,7 +285,7 @@ std::vector<std::string> Config::getKeyList() {
 std::string Config::getString(Keys key) {
   readDefaultConfig();
   CHECK_RANGE(key);
-  return values[key].get<std::string>();
+  return values[key].toString();
 }
 
 int Config::getInt(Keys key) {

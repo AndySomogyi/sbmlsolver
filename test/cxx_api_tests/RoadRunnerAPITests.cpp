@@ -50,18 +50,7 @@ TEST_F(RoadRunnerAPITests, SetJacobianModeToAmt) {
     ASSERT_TRUE(x.get<int>() == Config::ROADRUNNER_JACOBIAN_MODE_AMOUNTS);
 }
 
-#include <bitset>
-
 TEST_F(RoadRunnerAPITests, GetFullJacobianDefaultConfigSettings) {
-//    unsigned int first =  0b0000100000001000;
-//    unsigned int second = 0b0000000000000000;
-//    unsigned int recompileFlag = 0x1 << 1;
-//    std::cout << "first: " << std::bitset<16>(first) << std::endl;
-//    std::cout << "second: " << std::bitset<16>(second) << std::endl;
-//    std::cout << "Bitwise AND: " << std::bitset<16>(first & second) << std::endl;
-//    bool x = (first & second);
-//    std::cout << "bool: " << x << "; " << std::bitset<16>(x) << std::endl;
-//    std::cout << "recompileFlag: " << recompileFlag << "; " << std::bitset<16>(recompileFlag) << std::endl;
     RoadRunner rr(openLinearFlux.str());
     auto matrix = rr.getFullJacobian();
     // no modification of roadrunner Config

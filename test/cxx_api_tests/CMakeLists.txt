@@ -6,7 +6,7 @@ add_test_executable(GillespieTests test_targets GillespieTests.cpp ${SharedTestF
 add_test_executable(LoggerTests test_targets LoggerTests.cpp ${SharedTestFiles})
 add_test_executable(BasicDictionaryTests test_targets BasicDictionaryTests.cpp ${SharedTestFiles})
 add_test_executable(SelectionRecordTests test_targets SelectionRecordTests.cpp ${SharedTestFiles})
-add_test_executable(LoadSBMLOptionsTests test_targets OptionsTests.cpp ${SharedTestFiles})
+add_test_executable(LoadSBMLOptionsTests test_targets LoadSBMLOptionsTests.cpp ${SharedTestFiles})
 add_test_executable(ConfigTests test_targets ConfigTests.cpp ${SharedTestFiles})
 
 if (BUILD_PYTHON)

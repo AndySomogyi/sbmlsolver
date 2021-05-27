@@ -14,8 +14,6 @@
 
 #include <string>
 #include <vector>
-#include "tr1proxy/rr_memory.h"
-#include "tr1proxy/rr_unordered_map.h"
 
 namespace rr
 {
@@ -167,7 +165,6 @@ namespace rr
 		*/
 		std::uint16_t size;
 
-
 		std::uint32_t modelGeneratorOpt;
 
 		std::uint32_t loadFlags;
@@ -176,30 +173,29 @@ namespace rr
 		/**
 		* sets an item in the internal unordered std::map.
 		*/
-		virtual void setItem(const std::string& key, const rr::Setting& value);
+		void setItem(const std::string& key, const rr::Setting& value) override;
 
 		/**
 		* gets an item from the internal unordered std::map.
 		*/
-		virtual Setting getItem(const std::string& key) const;
+		Setting getItem(const std::string& key) const override;
 
 		/**
 		* is there a key matching this name.
 		*
 		* @retruns true if this key exists, false otherwise.
 		*/
-		virtual bool hasKey(const std::string& key) const;
+		bool hasKey(const std::string& key) const override;
 
 		/**
 		* remove a value
 		*/
-		virtual size_t deleteItem(const std::string& key);
+		size_t deleteItem(const std::string& key) override;
 
 		/**
 		* list of keys in this object.
 		*/
-		virtual std::vector<std::string> getKeys() const;
-
+		std::vector<std::string> getKeys() const override;
 
 		inline bool getConservedMoietyConversion() const {
 			return modelGeneratorOpt & CONSERVED_MOIETIES;
