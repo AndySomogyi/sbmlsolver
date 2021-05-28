@@ -1997,6 +1997,16 @@ std::vector<ls::Complex> RoadRunner::getReducedEigenValues()
     return getEigenValues(JACOBIAN_REDUCED);
 }
 
+DoubleMatrix RoadRunner::getFullEigenValuesNamedArray()
+{
+    return getEigenValuesNamedArray(JACOBIAN_FULL);
+}
+
+DoubleMatrix RoadRunner::getReducedEigenValuesNamedArray()
+{
+    return getEigenValuesNamedArray(JACOBIAN_REDUCED);
+}
+
 std::vector< std::complex<double> > RoadRunner::getEigenValues(RoadRunner::JacobianMode mode)
 {
     check_model();
@@ -2011,6 +2021,35 @@ std::vector< std::complex<double> > RoadRunner::getEigenValues(RoadRunner::Jacob
         mat = getReducedJacobian();
     }
     return ls::getEigenValues(mat);
+}
+
+DoubleMatrix RoadRunner::getEigenValuesNamedArray(RoadRunner::JacobianMode mode)
+{
+    check_model();
+    DoubleMatrix mat;
+
+    if (mode == JACOBIAN_FULL)
+    {
+        mat = getFullJacobian();
+    }
+    else
+    {
+        mat = getReducedJacobian();
+    }
+    std::vector< std::complex<double> > eigens = ls::getEigenValues(mat);
+    //std::vector< std::complex<double> > eigens = getEigenValues(mode);
+    DoubleMatrix v(eigens.size(), 2);
+    for (unsigned int i = 0; i < eigens.size(); i++)
+    {
+        v(i, 0) = std::real(eigens[i]);
+        v(i, 1) = std::imag(eigens[i]);
+    }
+    v.setRowNames(mat.getRowNames());
+    std::vector<std::string> colnames;
+    colnames.push_back("real");
+    colnames.push_back("imaginary");
+    v.setColNames(colnames);
+    return v;
 }
 
 DoubleMatrix RoadRunner::getFloatingSpeciesAmountsNamedArray()
@@ -5665,6 +5704,20 @@ void RoadRunner::setHasOnlySubstanceUnits(const std::string& sid, bool hasOnlySu
 	species->setHasOnlySubstanceUnits(hasOnlySubstanceUnits);
 
 	regenerateModel(forceRegenerate);
+}
+
+bool RoadRunner::getHasOnlySubstanceUnits(const std::string& sid)
+{
+    using namespace libsbml;
+    Model* sbmlModel = impl->document->getModel();
+    Species* species = sbmlModel->getSpecies(sid);
+
+    if (species == NULL)
+    {
+        throw std::invalid_argument("Roadrunner::getHasOnlySubstanceUnits failed, no species with ID " + sid + " existed in the model");
+    }
+
+    return species->getHasOnlySubstanceUnits();
 }
 
 void RoadRunner::setInitAmount(const std::string& sid, double initAmount, bool forceRegenerate)
