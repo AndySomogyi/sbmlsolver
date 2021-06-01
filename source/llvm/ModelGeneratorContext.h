@@ -254,8 +254,7 @@ private:
 };
 
 
-LLVMModelData *createModelData(const rrllvm::LLVMModelDataSymbols &symbols,
-        const Random* random);
+LLVMModelData *createModelData(const rrllvm::LLVMModelDataSymbols &symbols, const Random* random);
 
 
 } /* namespace rr */

@@ -88,7 +88,7 @@ void copyCachedModel(a_type* src, b_type* dst)
 
 ExecutableModel* LLVMModelGenerator::regenerateModel(ExecutableModel* oldModel, libsbml::SBMLDocument* doc, uint options)
 {
-	SharedModelResourcesPtr rc(new ModelResources());
+	SharedModelResourcesPtr rc = std::make_shared<ModelResources>();
 
 	char* docSBML = doc->toSBML();
 
