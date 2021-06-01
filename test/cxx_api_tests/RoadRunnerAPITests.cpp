@@ -13,14 +13,6 @@
 
 using namespace rr;
 
-/**
- * This is a more of a stub test suite
- * than a full test suite at the moment.
- * It will eventually fully test every
- * aspect of the rr::RoadRunner API
- * For now, it only tests the things
- * that need a new test to fix a bug.
- */
 
 class RoadRunnerAPITests : public RoadRunnerTest {
 

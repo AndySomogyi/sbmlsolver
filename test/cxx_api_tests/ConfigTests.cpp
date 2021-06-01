@@ -28,14 +28,13 @@ public:
             std::filesystem::remove(fname);
         }
     }
-
 };
 
 TEST_F(ConfigTests, getString) {
     std::filesystem::path fname = std::filesystem::current_path() / "here.log";
     Config::setValue(Config::LOGGER_LOG_FILE_PATH, fname.string());
     std::string stringRep = Config::getString(Config::LOGGER_LOG_FILE_PATH);
-    ASSERT_STREQ(stringRep.c_str(), fname.string().c_str());
+    ASSERT_STREQ(("'" + fname.string() + "'").c_str(), stringRep.c_str());
 }
 
 TEST_F(ConfigTests, getInt) {
@@ -115,7 +114,4 @@ TEST_F(ConfigTests, writeConfigFile) {
 TEST_F(ConfigTests, stringToKey){
     ASSERT_EQ(0, Config::stringToKey("LOADSBMLOPTIONS_CONSERVED_MOIETIES"));
 
-}
-TEST_F(ConfigTests, getKeyList){
-    ASSERT_EQ(40, Config::getKeyList().size());
 }

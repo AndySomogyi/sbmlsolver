@@ -103,13 +103,6 @@ TEST_F(LoadSBMLOptionsTests, ConservedMoietyConversionGetterAndSetter){
     ASSERT_TRUE(options.getConservedMoietyConversion());
 }
 
-TEST_F(LoadSBMLOptionsTests, ValidationGetterAndSetter){
-    LoadSBMLOptions options;
-    options.setValidation(true);
-    ASSERT_TRUE(options.getConservedMoietyConversion());
-}
-
-
 
 
 
