@@ -17,7 +17,7 @@ using namespace rr;
 class RoadRunnerAPITests : public RoadRunnerTest {
 
 public:
-    OpenLinearFlux openLinearFlux;
+    std::string sbml = SimpleFlux().str();
 
     RoadRunnerAPITests() = default;
 };
@@ -43,24 +43,24 @@ TEST_F(RoadRunnerAPITests, SetJacobianModeToAmt) {
 }
 
 TEST_F(RoadRunnerAPITests, GetFullJacobianDefaultConfigSettings) {
-    RoadRunner rr(openLinearFlux.str());
+    RoadRunner rr(sbml);
     auto matrix = rr.getFullJacobian();
     // no modification of roadrunner Config
-    checkMatrixEqual(matrix, openLinearFlux.fullJacobianConc());
+    checkMatrixEqual(matrix, SimpleFlux().fullJacobianConc());
 }
 
 TEST_F(RoadRunnerAPITests, GetFullJacobianUsingConcMode) {
     Config::setValue(Config::ROADRUNNER_JACOBIAN_MODE, Config::ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS);
-    RoadRunner rr(openLinearFlux.str());
+    RoadRunner rr(sbml);
     auto matrix = rr.getFullJacobian();
-    checkMatrixEqual(matrix, openLinearFlux.fullJacobianConc());
+    checkMatrixEqual(matrix, SimpleFlux().fullJacobianConc());
 }
 
 TEST_F(RoadRunnerAPITests, GetFullJacobianUsingAmtMode) {
     Config::setValue(Config::ROADRUNNER_JACOBIAN_MODE, Config::ROADRUNNER_JACOBIAN_MODE_AMOUNTS);
-    RoadRunner rr(openLinearFlux.str());
+    RoadRunner rr(sbml);
     auto matrix = rr.getFullJacobian();
-    checkMatrixEqual(matrix, openLinearFlux.fullJacobianAmt());
+    checkMatrixEqual(matrix, SimpleFlux().fullJacobianAmt());
 }
 
 TEST_F(RoadRunnerAPITests, GetFullJacobianUsingAmtModeAsLong) {
@@ -78,22 +78,22 @@ TEST_F(RoadRunnerAPITests, GetFullJacobianUsingAmtModeAsLong) {
      * conversion, if one is needed.
      */
     Config::setValue(Config::ROADRUNNER_JACOBIAN_MODE, std::int64_t(Config::ROADRUNNER_JACOBIAN_MODE_AMOUNTS));
-    RoadRunner rr(openLinearFlux.str());
+    RoadRunner rr(sbml);
     auto matrix = rr.getFullJacobian();
-    checkMatrixEqual(matrix, openLinearFlux.fullJacobianAmt());
+    checkMatrixEqual(matrix, SimpleFlux().fullJacobianAmt());
 }
 
 
 TEST_F(RoadRunnerAPITests, getIds) {
     std::list<std::string> expected(
-            {
-                    "S1", "S2", "[S1]", "[S2]", "default_compartment",
-                    "kin", "kf", "kout", "kb", "_J0", "_J1", "_J2",
-                    "init([S1])", "init([S2])", "init(S1)", "init(S2)",
-                    "S1'", "S2'", "eigen(S1)", "eigenReal(S1)",
-                    "eigenImag(S1)", "eigen(S2)", "eigenReal(S2)", "eigenImag(S2)",
-            });
-    RoadRunner rr(openLinearFlux.str());
+            { "S1", "S2", "[S1]", "[S2]",
+              "default_compartment", "kf", "kb", "_J0",
+              "_J1", "init([S1])", "init([S2])", "init(S1)",
+              "init(S2)", "S1'", "S2'", "eigen(S1)", "eigenReal(S1)",
+              "eigenImag(S1)", "eigen(S2)", "eigenReal(S2)",
+              "eigenImag(S2)" }
+            );
+    RoadRunner rr(sbml);
     std::list<std::string> l;
     rr.getIds(SelectionRecord::ALL, l);
     ASSERT_EQ(expected, l);
@@ -105,7 +105,6 @@ TEST_F(RoadRunnerAPITests, LoadModelWithOnlyLayoutInformation) {
 }
 
 TEST_F(RoadRunnerAPITests, loadSBMLWithLeadingNewlineCharacter) {
-    std::string sbml = OpenLinearFlux().str();
     sbml = "\n" + sbml;
     ASSERT_NO_THROW(RoadRunner rr(sbml););
 }
@@ -116,7 +115,7 @@ TEST_F(RoadRunnerAPITests, loadSBMLWithLeadingNewlineCharacter) {
  */
 TEST_F(RoadRunnerAPITests, DISABLED_RoadRunnerConstructorVersion) {
     RoadRunner rr(3, 2);
-    rr.load(TestModelFactory("OpenLinearFlux")->str());
+    rr.load(sbml);
     std::cout << rr.getSBML(3, 2) << std::endl;
 }
 
@@ -247,35 +246,6 @@ TEST_F(RoadRunnerAPITests, getParamPromotedSBML) {
                            "</sbml>\n";
     ASSERT_STREQ(expected.c_str(), s.c_str());
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /**
  * getCompiler is only used in the C backend, which I'm
@@ -482,22 +452,6 @@ TEST_F(RoadRunnerAPITests, reset) {
     ASSERT_EQ(rr.getModel()->getTime(), 0);
 }
 
-
-//TEST_F(RoadRunnerAPITests, changeInitialConditions){
-//
-//}
-
-//TEST_F(RoadRunnerAPITests, getModel){
-//
-//}
-
-//TEST_F(RoadRunnerAPITests, load){
-//
-//}
-
-//TEST_F(RoadRunnerAPITests, createSelection){
-//
-//}
 TEST_F(RoadRunnerAPITests, resetSelectionLists) {
     RoadRunner rr(TestModelFactory("SimpleFlux")->str());
     SelectionRecord record = rr.createSelection("S1");

@@ -23,9 +23,9 @@ public:
      * deprecated. Use SteadyStateResult::checkSteadyState instead
      */
     template<class TestModelType>
-    RR_DEPRECATED(void testSteadyState(
+    void testSteadyState(
             const std::string &modelName,
-            const std::string &solverName)) {
+            const std::string &solverName) {
         // todo much of this method has been abstracted further. See "SteadyStateResult::checkSteadyState".
         //  Do refactoring to use the new interface.
         // get the model
