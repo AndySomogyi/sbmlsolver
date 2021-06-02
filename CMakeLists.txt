@@ -349,7 +349,7 @@ find_package(PocoXML CONFIG REQUIRED)
 find_package(LLVM REQUIRED)
 find_package(SUNDIALS CONFIG REQUIRED)
 
-# not for windows. So not required, but we throw error not not win and not found.
+# not for windows. So not required, but we throw error if not win and not found.
 find_package(Curses)
 
 if (NOT WIN32 AND NOT ${CURSES_FOUND})

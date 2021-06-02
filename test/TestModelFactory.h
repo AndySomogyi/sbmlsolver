@@ -6,8 +6,10 @@
 #include <stdexcept>
 #include <memory>
 #include "Setting.h"
+#include "rrRoadRunner.h"
 
 #include "rr-libstruct/lsMatrix.h"
+#include <complex>
 
 //using DoublePair = std::pair<double, double>; // old swig no handle using statements
 typedef std::pair<double, double> DoublePair;
@@ -93,6 +95,23 @@ public:
      */
     virtual std::unordered_map<std::string, rr::Setting> steadyStateSettings();
 
+    /**
+     * @brief Apply whatever settings from steadyStateSettings to the model
+     * pointed to by @param *rr
+     */
+    void applySteadyStateSettings(rr::RoadRunner* rr);
+
+    /**
+     * @brief Compare steady state of roadrunner model
+     * pointed to by @param rr with those in
+     * SteadyStateResult::steadyState
+     * @details settings are first applied from
+     * steadyStateSettings using applySteadyStateSettings. Then a
+     * call to RoadRunner::steadyState computes the steady state
+     * and makes the comparison between expected values and actual
+     * computed values.
+     */
+    void checkSteadyState(rr::RoadRunner* rr);
 
 };
 
@@ -102,6 +121,7 @@ public:
  * @details SteadyStateResult was a bit limiting in that we can
  * only encode a single steady state test result from a single
  * parameter set. This interface addresses this problem.
+ * @note this has not been used
  */
 class SteadyStateMultiStart : public Result {
 public:
@@ -118,6 +138,7 @@ public:
  * tool (or better - analytically ). Both the full
  * and reduced jacobians should be computed and stored
  * as both amounts and concentrations
+ * @note question for developers: do we need both Amt and Conc here?
  */
 class JacobianResult : public Result {
 public:
@@ -132,6 +153,67 @@ public:
     virtual std::unordered_map<std::string, rr::Setting> jacobianSettings() = 0;
 };
 
+/**
+ * @brief interface for testing the eigenvalues of a model
+ */
+class EigenResult : public Result {
+public:
+
+    virtual std::vector<std::complex<double>> fullEigenValues() = 0;
+
+    virtual std::vector<std::complex<double>> reducedEigenValues() = 0;
+
+    virtual std::unordered_map<std::string, rr::Setting> eigenSettings() = 0;
+
+};
+
+/**
+ * @brief TestModels that implement this interface
+ * can test structural properties of a model
+ */
+class StructuralProperties : public Result {
+public:
+
+    virtual ls::DoubleMatrix linkMatrix() = 0;
+
+    virtual ls::DoubleMatrix NrMatrix() = 0;
+
+    virtual ls::DoubleMatrix KMatrix() = 0;
+
+    virtual ls::DoubleMatrix reducedStoicMatrix() = 0;
+
+    virtual ls::DoubleMatrix fullStoicMatrix() = 0;
+
+    virtual ls::DoubleMatrix extendedStoicMatrix() = 0;
+
+    virtual ls::DoubleMatrix L0Matrix() = 0;
+
+    virtual ls::DoubleMatrix conservationMatrix() = 0;
+};
+
+/**
+ * @brief TestModel class that implement this interface
+ * can test metabolic control analysis
+ */
+class MCAResult : public Result {
+public:
+    virtual ls::DoubleMatrix unscaledConcentrationControlCoefficientMatrix() = 0;
+
+    virtual ls::DoubleMatrix scaledConcentrationControlCoefficientMatrix() = 0;
+
+    virtual ls::DoubleMatrix unscaledFluxControlCoefficientMatrix() = 0;
+
+    virtual ls::DoubleMatrix scaledFluxControlCoefficientMatrix() = 0;
+
+//    virtual ls::DoubleMatrix unscaledParameterElasticity() = 0;
+
+    virtual ls::DoubleMatrix unscaledElasticityMatrix() = 0;
+
+    virtual ls::DoubleMatrix scaledElasticityMatrix() = 0;
+
+    virtual std::unordered_map<std::string, rr::Setting> mcaSettings() = 0;
+};
+
 
 /**
  * A -> B; k1
@@ -144,7 +226,11 @@ public:
 class SimpleFlux :
         public TestModel,
         public TimeSeriesResult,
-        public SteadyStateResult {
+        public SteadyStateResult,
+        public JacobianResult,
+        public EigenResult,
+        public StructuralProperties,
+        public MCAResult {
 public:
 
     std::string str() override;
@@ -155,10 +241,57 @@ public:
 
     StringDoubleMap steadyState() override;
 
+    ls::DoubleMatrix fullJacobianAmt() override;
+
+    ls::DoubleMatrix fullJacobianConc() override;
+
+    ls::DoubleMatrix reducedJacobianAmt() override;
+
+    ls::DoubleMatrix reducedJacobianConc() override;
+
+    std::vector<std::complex<double>> fullEigenValues() override;
+
+    std::vector<std::complex<double>> reducedEigenValues() override;
+
+    std::unordered_map<std::string, rr::Setting> eigenSettings() override;
+
+    std::unordered_map<std::string, rr::Setting> jacobianSettings() override;
+
     std::unordered_map<std::string, rr::Setting> steadyStateSettings() override;
 
     std::unordered_map<std::string, rr::Setting> timeSeriesSettings() override;
 
+    ls::DoubleMatrix linkMatrix() override;
+
+    ls::DoubleMatrix NrMatrix() override;
+
+    ls::DoubleMatrix KMatrix() override;
+
+    ls::DoubleMatrix reducedStoicMatrix() override;
+
+    ls::DoubleMatrix fullStoicMatrix() override;
+
+    ls::DoubleMatrix extendedStoicMatrix() override;
+
+    ls::DoubleMatrix L0Matrix() override;
+
+    ls::DoubleMatrix conservationMatrix() override;
+
+    ls::DoubleMatrix unscaledConcentrationControlCoefficientMatrix() override;
+
+    ls::DoubleMatrix scaledConcentrationControlCoefficientMatrix() override;
+
+    ls::DoubleMatrix unscaledFluxControlCoefficientMatrix() override;
+
+    ls::DoubleMatrix scaledFluxControlCoefficientMatrix() override;
+
+//    ls::DoubleMatrix unscaledParameterElasticity() override;
+
+    ls::DoubleMatrix unscaledElasticityMatrix() override;
+
+    ls::DoubleMatrix scaledElasticityMatrix() override;
+
+    std::unordered_map<std::string, rr::Setting> mcaSettings() override;
 };
 
 /**
@@ -367,7 +500,7 @@ public:
 /**
  * Model from the Venkatraman 2010 paper
  */
-class Venkatraman2010 : public TestModel, public SteadyStateResult {
+class Venkatraman2010 : public TestModel, public SteadyStateResult, public JacobianResult {
 public:
 
     std::string str() override;
@@ -377,6 +510,16 @@ public:
     StringDoubleMap steadyState() override;
 
     std::unordered_map<std::string, rr::Setting> steadyStateSettings() override;
+
+    ls::DoubleMatrix fullJacobianAmt() override;
+
+    ls::DoubleMatrix fullJacobianConc() override;
+
+    ls::DoubleMatrix reducedJacobianAmt() override;
+
+    ls::DoubleMatrix reducedJacobianConc() override;
+
+    std::unordered_map<std::string, rr::Setting> jacobianSettings() override;
 
 };
 
@@ -409,6 +552,13 @@ public:
     std::string modelName() override;
 };
 
+
+class ModelWithLocalParameters : public TestModel {
+public:
+    std::string str() override;
+
+    std::string modelName() override;
+};
 
 
 /**
