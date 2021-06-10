@@ -34,7 +34,8 @@ set(MOCKUPS_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/mockups")
 #   - All further arguments are added to the binary as sources.
 function(add_test_executable TEST_TARGET OUT_VARIABLE)
     #message(STATUS "Adding test ${TEST_TARGET} as part of ${OUT_VARIABLE}. Source Files: ARGN: ${ARGN}" )
-    add_executable(${TEST_TARGET} ${ARGN} $<TARGET_OBJECTS:rr-mockups>)
+    add_executable(${TEST_TARGET} ${ARGN} $<TARGET_OBJECTS:rr-mockups>
+            ${ThisSourceDirectory}/TestModelFactory)
 
     target_include_directories(
             ${TEST_TARGET} PRIVATE

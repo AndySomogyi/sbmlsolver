@@ -2,14 +2,14 @@
 // Created by Ciaran Welsh on 09/06/2021.
 //
 
-#ifndef ROADRUNNER_FORWARDSENSITIVITIES_H
-#define ROADRUNNER_FORWARDSENSITIVITIES_H
+#ifndef ROADRUNNER_FORWARDSENSITIVITYSOLVER_H
+#define ROADRUNNER_FORWARDSENSITIVITYSOLVER_H
 
 #include "SensitivitySolver.h"
 
 namespace rr {
 
-    class ForwardSensitivities : public SensitivitySolver {
+    class ForwardSensitivitySolver : public SensitivitySolver {
     public:
         using SensitivitySolver::SensitivitySolver;
 
@@ -37,4 +37,4 @@ namespace rr {
 }
 
 
-#endif //ROADRUNNER_FORWARDSENSITIVITIES_H
+#endif //ROADRUNNER_FORWARDSENSITIVITYSOLVER_H

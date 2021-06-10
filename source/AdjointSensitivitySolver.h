@@ -2,8 +2,8 @@
 // Created by Ciaran Welsh on 09/06/2021.
 //
 
-#ifndef ROADRUNNER_ADJOINTSENSITIVITIES_H
-#define ROADRUNNER_ADJOINTSENSITIVITIES_H
+#ifndef ROADRUNNER_ADJOINTSENSITIVITYSOLVER_H
+#define ROADRUNNER_ADJOINTSENSITIVITYSOLVER_H
 
 #include "SensitivitySolver.h"
 
@@ -11,7 +11,7 @@ namespace rr {
 
     class SensitivitySolver;
 
-    class AdjointSensitivities : public SensitivitySolver {
+    class AdjointSensitivitySolver : public SensitivitySolver {
     public:
         using SensitivitySolver::SensitivitySolver;
 
@@ -38,4 +38,4 @@ namespace rr {
 }
 
 
-#endif //ROADRUNNER_ADJOINTSENSITIVITIES_H
+#endif //ROADRUNNER_ADJOINTSENSITIVITYSOLVER_H

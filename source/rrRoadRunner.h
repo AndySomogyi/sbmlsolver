@@ -10,7 +10,9 @@
 #pragma warning(disable: 26812)
 #pragma warning(disable: 26451)
 #endif
+
 #include "rr-libstruct/lsMatrix.h"
+
 #ifdef _MSC_VER
 #pragma warning(disable: 26812)
 #pragma warning(disable: 26451)
@@ -21,19 +23,19 @@
 #include <list>
 #include <set>
 
-namespace ls
-{
+namespace ls {
     class LibStructural;
 }
 
-namespace rr
-{
+namespace rr {
 
     class ModelGenerator;
     class SBMLModelSimulation;
     class ExecutableModel;
     class Integrator;
     class SteadyStateSolver;
+    class SensitivityResult;
+    class SensitivitySolver;
 
 /**
  * The main RoadRunner class.
@@ -43,8 +45,7 @@ namespace rr
  * MemoryManagment: Any pointer returned by a get... method is owned by the
  * RoadRunner object and does NOT have to be deleted.
  */
-    class RR_DECLSPEC RoadRunner
-    {
+    class RR_DECLSPEC RoadRunner {
 
     public:
 
@@ -64,7 +65,7 @@ namespace rr
          * @param uriOrSBML: a URI, local path or sbml document contents.
          * @param options: an options struct, if null, default values are used.
          */
-        RoadRunner(const std::string& uriOrSBML, const Dictionary* options = 0);
+        RoadRunner(const std::string &uriOrSBML, const Dictionary *options = 0);
 
         /**
          * All three of the RoadRunner options default to the empty std::string, in this
@@ -76,14 +77,14 @@ namespace rr
          * @param supportCodeDir: If the old external C compiler is used, this is
          *      the location where roadrunner C include files are.
          */
-        RoadRunner(const std::string& compiler, const std::string& tempDir,
-                   const std::string& supportCodeDir);
+        RoadRunner(const std::string &compiler, const std::string &tempDir,
+                   const std::string &supportCodeDir);
 
         /**
         * RoadRunner copy constructor
         * Explicitly defined because of Python.
         */
-        RoadRunner(const RoadRunner& rr);
+        RoadRunner(const RoadRunner &rr);
 
         /**
          * free any memory this class allocated
@@ -104,7 +105,7 @@ namespace rr
          * Given an sbml document or path to an sbml document, this method moves all the local parameters
          * to global parameters.
          */
-        static std::string getParamPromotedSBML(const std::string& sArg);
+        static std::string getParamPromotedSBML(const std::string &sArg);
 
         /**
          * information about the current state of this object.
@@ -114,7 +115,7 @@ namespace rr
         /**
          * The Compiler that the ModelGenerator is using to compile / interpret sbml code.
          */
-        class Compiler* getCompiler();
+        class Compiler *getCompiler();
 
         /**
          * Set the name of the externa compiler to use. Some ModelGenerators may have no use
@@ -122,28 +123,45 @@ namespace rr
          *
          * An exception is raised if the std::string is invalid.
          */
-        void setCompiler(const std::string& compiler);
+        void setCompiler(const std::string &compiler);
+
+        /**
+         * @brief get a pointer to the current sensitivities solver
+         */
+        SensitivitySolver *getSensitivities();
+
+        /**
+         * @brief set the current sensitivities solver by name;
+         */
+        void setSensitivities(const std::string &name);
+
+        /**
+         * @brief compute time based sensitivities for this model
+         * @details this integrates the model between @param start and
+         * @param stop using @param num steps.
+         */
+        SensitivityResult sensitivities(double start, double stop, double num);
 
         /**
          * get a pointer to the integrator which is currently being used to
          * time evolve the system.
          */
-        Integrator* getIntegrator();
+        Integrator *getIntegrator();
 
         /**
          * Get an integrator by name without switching the current integrator
          */
-        Integrator* getIntegratorByName(const std::string& name);
+        Integrator *getIntegratorByName(const std::string &name);
 
         /**
          * Make an integrator for the given name
          */
-        Integrator* makeIntegrator(std::string name);
+        Integrator *makeIntegrator(std::string name);
 
         /**
          * get a pointer to the current steady state solver
          */
-        SteadyStateSolver* getSteadyStateSolver();
+        SteadyStateSolver *getSteadyStateSolver();
 
         /* Return a list of the names of all existing integrators. */
         std::vector<std::string> getExistingIntegratorNames();
@@ -166,7 +184,7 @@ namespace rr
         // DEPRECATED
         //Integrator* getIntegrator(std::string name);
 
-        void setIntegrator(std::string name);
+        void setIntegrator(const std::string& name);
 
         bool integratorExists(std::string name);
 
@@ -263,7 +281,7 @@ namespace rr
          * @returns a borrowed reference to a DoubleMatrix object if successful. The matrix
          * will be empty if output_file is specified and nonempty.
          */
-        const ls::DoubleMatrix *simulate(const Dictionary* options = 0);
+        const ls::DoubleMatrix *simulate(const Dictionary *options = 0);
 
         /**
          * @brief simulate the model using currently set integrator
@@ -271,7 +289,7 @@ namespace rr
          * @param stop what time point does the simulation end?
          * @param num how many steps to simulate
          */
-        const ls::DoubleMatrix* simulate(double start, double stop, int num);
+        const ls::DoubleMatrix *simulate(double start, double stop, int num);
 
         /*
         *  Saves this roadrunner instance to a file so it can be reloaded later
@@ -290,15 +308,15 @@ namespace rr
          * RoadRunner keeps a copy of the simulation data around until the
          * next call to simulate. This matrix can be obtained here.
          */
-        const ls::DoubleMatrix* getSimulationData() const;
+        const ls::DoubleMatrix *getSimulationData() const;
 
-        void setSimulateOptions(const SimulateOptions& settings);
+        void setSimulateOptions(const SimulateOptions &settings);
 
         /**
          * get a reference to the SimulateOptions that were set either
          * by setSimulateOptions or simulate.
          */
-        SimulateOptions& getSimulateOptions();
+        SimulateOptions &getSimulateOptions();
 
         /**
          * Get a reference to the options that determine how this class should behave.
@@ -306,10 +324,10 @@ namespace rr
          * These are general options. For options specific for loading or simulationg,
          * @see getSimulateOptions.
          */
-        RoadRunnerOptions& getOptions();
+        RoadRunnerOptions &getOptions();
 
 
-        void setOptions(const RoadRunnerOptions&);
+        void setOptions(const RoadRunnerOptions &);
 
         /**
          * get the originally loaded sbml document as a std::string.
@@ -370,13 +388,13 @@ namespace rr
          *
          * @deprecated
          */
-        void changeInitialConditions(const std::vector<double>& ic);
+        void changeInitialConditions(const std::vector<double> &ic);
 
 
         /**
          * get a pointer to the ExecutableModel owned by the RoadRunner object.
          */
-        ExecutableModel* getModel();
+        ExecutableModel *getModel();
 
         /**
          * load an sbml document from anywhere.
@@ -389,8 +407,8 @@ namespace rr
          * @param uriOrSBML: a URI, local path or sbml document contents.
          * @param options: an options struct, if null, default values are used.
          */
-        void load(const std::string& uriOrSBML,
-                  const Dictionary* options = 0);
+        void load(const std::string &uriOrSBML,
+                  const Dictionary *options = 0);
 
 
         /************************ Selection Ids Species Section ***********************/
@@ -398,26 +416,26 @@ namespace rr
         /**
          * create a selection record. This record can be used to select values.
          */
-        rr::SelectionRecord createSelection(const std::string& str);
+        rr::SelectionRecord createSelection(const std::string &str);
 
         /**
          * Returns the currently selected columns that will be returned by
          * calls to simulate() or simulateEx(,,).
          */
-        std::vector<rr::SelectionRecord>& getSelections();
+        std::vector<rr::SelectionRecord> &getSelections();
 
         /**
          * Creates a new selection based on the selection std::string,
          * and returns the value it queries.
          */
-        double getValue(const std::string& sel);
+        double getValue(const std::string &sel);
 
-        double getValue(const SelectionRecord& record);
+        double getValue(const SelectionRecord &record);
 
 
-        void setSelections(const std::vector<std::string>& selections);
+        void setSelections(const std::vector<std::string> &selections);
 
-        void setSelections(const std::vector<rr::SelectionRecord>& selections);
+        void setSelections(const std::vector<rr::SelectionRecord> &selections);
 
         /**
          * returns the values selected with SimulateOptions for the current model time / timestep")
@@ -471,7 +489,7 @@ namespace rr
          *
          * raises an exception in the selection std::string is invalid.
          */
-        void setValue(const std::string& id, double value);
+        void setValue(const std::string &id, double value);
 
 /************************ End Selection Ids Species Section *******************/
 
@@ -606,9 +624,13 @@ namespace rr
 
 
         ls::DoubleMatrix getConservationMatrix();
+
         ls::DoubleMatrix getUnscaledConcentrationControlCoefficientMatrix();
+
         ls::DoubleMatrix getScaledConcentrationControlCoefficientMatrix();
+
         ls::DoubleMatrix getUnscaledFluxControlCoefficientMatrix();
+
         ls::DoubleMatrix getScaledFluxControlCoefficientMatrix();
 
 
@@ -622,13 +644,13 @@ namespace rr
          * Returns the unscaled elasticity for a named reaction with respect to a
          * named parameter
          */
-        double getUnscaledParameterElasticity(const std::string& reactionName,
-                                              const std::string& parameterName);
+        double getUnscaledParameterElasticity(const std::string &reactionName,
+                                              const std::string &parameterName);
 
 
         ls::DoubleMatrix getFrequencyResponse(double startFrequency,
                                               int numberOfDecades, int numberOfPoints,
-                                              const std::string& parameterName, const std::string& variableName,
+                                              const std::string &parameterName, const std::string &variableName,
                                               bool useDB, bool useHz);
 
         /**
@@ -684,7 +706,7 @@ namespace rr
          * parameterName must be eithe a global parameter, boundary species, or
          * conserved sum.
          */
-        double getuCC(const std::string& variableName, const std::string& parameterName);
+        double getuCC(const std::string &variableName, const std::string &parameterName);
 
         /**
          * Get scaled control coefficient with respect to a global parameter
@@ -694,30 +716,30 @@ namespace rr
          * The parameterName must be either a global parameter, boundary species,
          * or conserved sum.
          */
-        double getCC(const std::string& variableName, const std::string& parameterName);
+        double getCC(const std::string &variableName, const std::string &parameterName);
 
         /**
          * Get unscaled elasticity coefficient with respect to a global parameter or species
          */
-        double getuEE(const std::string& reactionName, const std::string& parameterName);
+        double getuEE(const std::string &reactionName, const std::string &parameterName);
 
         /**
          * Get unscaled elasticity coefficient with respect to a global parameter or species.
          * Optionally the model is brought to steady state after the computation.
          */
-        double getuEE(const std::string& reactionName, const std::string& parameterName,
+        double getuEE(const std::string &reactionName, const std::string &parameterName,
                       bool computeSteadystate);
 
         /**
          * Get scaled elasticity coefficient with respect to a global parameter or species
          */
-        double getEE(const std::string& reactionName, const std::string& parameterName);
+        double getEE(const std::string &reactionName, const std::string &parameterName);
 
         /**
          * Get scaled elasticity coefficient with respect to a global parameter or species.
          * Optionally the model is brought to steady state after the computation.
          */
-        double getEE(const std::string& reactionName, const std::string& parameterName,
+        double getEE(const std::string &reactionName, const std::string &parameterName,
                      bool computeSteadyState);
 
         /**
@@ -733,8 +755,8 @@ namespace rr
         /**
          * Compute the scaled elasticity for a given reaction and given species
          */
-        double getScaledFloatingSpeciesElasticity(const std::string& reactionName,
-                                                  const std::string& speciesName);
+        double getScaledFloatingSpeciesElasticity(const std::string &reactionName,
+                                                  const std::string &speciesName);
 
         /**
          * Get a single species elasticity value
@@ -756,7 +778,9 @@ namespace rr
          *						   to save time for editing for multiple times, one could
          *					       set this flag to true only in the last call of editing
          */
-        void addSpeciesConcentration (const std::string& sid, const std::string& compartment, double initConcentration, bool hasOnlySubstanceUnits=false, bool boundaryCondition=false, const std::string& substanceUnits = "", bool forceRegenerate = true);
+        void addSpeciesConcentration(const std::string &sid, const std::string &compartment, double initConcentration,
+                                     bool hasOnlySubstanceUnits = false, bool boundaryCondition = false,
+                                     const std::string &substanceUnits = "", bool forceRegenerate = true);
 
         /**
          * Add a species to the current model.
@@ -771,7 +795,9 @@ namespace rr
          *						   to save time for editing for multiple times, one could
          *					       set this flag to true only in the last call of editing
          */
-        void addSpeciesAmount (const std::string& sid, const std::string& compartment, double initAmount = 0, bool hasOnlySubstanceUnits=false, bool boundaryCondition=false, const std::string& substanceUnits = "", bool forceRegenerate = true);
+        void addSpeciesAmount(const std::string &sid, const std::string &compartment, double initAmount = 0,
+                              bool hasOnlySubstanceUnits = false, bool boundaryCondition = false,
+                              const std::string &substanceUnits = "", bool forceRegenerate = true);
 
 
         /*
@@ -785,7 +811,7 @@ namespace rr
         *						  to save time for editing for multiple times, one could
         *					      set this flag to true only in the last call of editing
         */
-        void removeSpecies(const std::string& sid, bool forceRegenerate = true);
+        void removeSpecies(const std::string &sid, bool forceRegenerate = true);
 
         /**
          * Set the boundary condition of an existing species.
@@ -799,7 +825,7 @@ namespace rr
          *						   to save time for editing for multiple times, one could
          *					       set this flag to true only in the last call of editing
          */
-        void setBoundary(const std::string& sid, bool boundaryCondition, bool forceRegenerate = true);
+        void setBoundary(const std::string &sid, bool boundaryCondition, bool forceRegenerate = true);
 
         /**
          * Set the hasOnlySubstanceUnits attribute for an existing species.
@@ -812,7 +838,7 @@ namespace rr
          *						   to save time for editing for multiple times, one could
          *					       set this flag to true only in the last call of editing
          */
-        void setHasOnlySubstanceUnits(const std::string& sid, bool hasOnlySubstanceUnits, bool forceRegenerate = true);
+        void setHasOnlySubstanceUnits(const std::string &sid, bool hasOnlySubstanceUnits, bool forceRegenerate = true);
 
 
         /**
@@ -826,7 +852,7 @@ namespace rr
          *						   to save time for editing for multiple times, one could
          *					       set this flag to true only in the last call of editing
          */
-        void setInitAmount(const std::string& sid, double initAmount, bool forceRegenerate = true);
+        void setInitAmount(const std::string &sid, double initAmount, bool forceRegenerate = true);
 
 
         /**
@@ -840,7 +866,7 @@ namespace rr
          *						   to save time for editing for multiple times, one could
          *					       set this flag to true only in the last call of editing
          */
-        void setInitConcentration(const std::string& sid, double initConcentration, bool forceRegenerate = true);
+        void setInitConcentration(const std::string &sid, double initConcentration, bool forceRegenerate = true);
 
 
         /**
@@ -855,8 +881,7 @@ namespace rr
          *						   to save time for editing for multiple times, one could
          *					       set this flag to true only in the last call of editing
          */
-        void setConstant(const std::string& sid, bool constant, bool forceRegenerate = true);
-
+        void setConstant(const std::string &sid, bool constant, bool forceRegenerate = true);
 
 
         /*
@@ -869,8 +894,7 @@ namespace rr
         *						  to save time for editing for multiple times, one could
         *					      set this flag to true only in the last call of editing
         */
-        void addReaction(const std::string& sbmlRep, bool forceRegenerate = true);
-
+        void addReaction(const std::string &sbmlRep, bool forceRegenerate = true);
 
 
         /*
@@ -889,7 +913,8 @@ namespace rr
         *						  to save time for editing for multiple times, one could
         *					      set this flag to true only in the last call of editing
         */
-        void addReaction(const std::string& rid, std::vector<std::string> reactants, std::vector<std::string> products, const std::string& kineticLaw, bool forceRegenerate = true);
+        void addReaction(const std::string &rid, std::vector<std::string> reactants, std::vector<std::string> products,
+                         const std::string &kineticLaw, bool forceRegenerate = true);
 
         /**
          * Remove a reaction from the current model
@@ -901,7 +926,7 @@ namespace rr
          *						   to save time for editing for multiple times, one could
          *					       set this flag to true only in the last call of editing
          */
-        void removeReaction(const std::string& rid, bool deleteUnusedParameters = false, bool forceRegenerate = true);
+        void removeReaction(const std::string &rid, bool deleteUnusedParameters = false, bool forceRegenerate = true);
 
         /*
         * Set the reversible attribut for an existing reaction in the current model
@@ -914,7 +939,7 @@ namespace rr
         *						  to save time for editing for multiple times, one could
         *					      set this flag to true only in the last call of editing
         */
-        void setReversible(const std::string& rid, bool reversible, bool forceRegenerate = true);
+        void setReversible(const std::string &rid, bool reversible, bool forceRegenerate = true);
 
 
         /*
@@ -928,13 +953,13 @@ namespace rr
         *						  to save time for editing for multiple times, one could
         *					      set this flag to true only in the last call of editing
         */
-        void setKineticLaw(const std::string& rid, const std::string& kineticLaw, bool forceRegenerate = true);
+        void setKineticLaw(const std::string &rid, const std::string &kineticLaw, bool forceRegenerate = true);
 
         /**
         * Get the kinetic law of an existing reaction in the current model.
         * @param rid: the ID of reaction to be modified
         */
-        std::string getKineticLaw(const std::string& rid);
+        std::string getKineticLaw(const std::string &rid);
 
 
         /**
@@ -948,7 +973,7 @@ namespace rr
          *						   to save time for editing for multiple times, one could
          *					       set this flag to true only in the last call of editing
          */
-        void addParameter(const std::string& pid, double value, bool forceRegenerate = true);
+        void addParameter(const std::string &pid, double value, bool forceRegenerate = true);
 
         /**
          * Remove a parameter from the current model
@@ -960,8 +985,7 @@ namespace rr
          *						   to save time for editing for multiple times, one could
          *					       set this flag to true only in the last call of editing
          */
-        void removeParameter(const std::string& pid, bool forceRegenerate = true);
-
+        void removeParameter(const std::string &pid, bool forceRegenerate = true);
 
 
         /**
@@ -975,7 +999,7 @@ namespace rr
          *						   to save time for editing for multiple times, one could
          *					       set this flag to true only in the last call of editing
          */
-        void addCompartment(const std::string& cid, double initVolume, bool forceRegenerate = true);
+        void addCompartment(const std::string &cid, double initVolume, bool forceRegenerate = true);
 
         /**
          * Remove a compartment from the current model
@@ -987,7 +1011,7 @@ namespace rr
          *						   to save time for editing for multiple times, one could
          *					       set this flag to true only in the last call of editing
          */
-        void removeCompartment(const std::string& cid, bool forceRegenerate = true);
+        void removeCompartment(const std::string &cid, bool forceRegenerate = true);
 
 
         /*
@@ -1001,7 +1025,7 @@ namespace rr
         *						  to save time for editing for multiple times, one could
         *					      set this flag to true only in the last call of editing
         */
-        void addAssignmentRule(const std::string& vid, const std::string& formula, bool forceRegenerate = true);
+        void addAssignmentRule(const std::string &vid, const std::string &formula, bool forceRegenerate = true);
 
 
         /*
@@ -1015,7 +1039,7 @@ namespace rr
         *						  to save time for editing for multiple times, one could
         *					      set this flag to true only in the last call of editing
         */
-        void addRateRule(const std::string& vid, const std::string& formula, bool forceRegenerate = true);
+        void addRateRule(const std::string &vid, const std::string &formula, bool forceRegenerate = true);
 
 
         /**
@@ -1031,7 +1055,7 @@ namespace rr
          *						   to save time for editing for multiple times, one could
          *					       set this flag to true only in the last call of editing
          */
-        void removeRules(const std::string& vid, bool useInitialValue = false, bool forceRegenerate = true);
+        void removeRules(const std::string &vid, bool useInitialValue = false, bool forceRegenerate = true);
 
 
         /*
@@ -1045,7 +1069,7 @@ namespace rr
         *						  to save time for editing for multiple times, one could
         *					      set this flag to true only in the last call of editing
         */
-        void addInitialAssignment(const std::string& vid, const std::string& formula, bool forceRegenerate = true);
+        void addInitialAssignment(const std::string &vid, const std::string &formula, bool forceRegenerate = true);
 
 
         /**
@@ -1058,7 +1082,7 @@ namespace rr
          *						   to save time for editing for multiple times, one could
          *					       set this flag to true only in the last call of editing
          */
-        void removeInitialAssignment(const std::string& vid, bool forceRegenerate = true);
+        void removeInitialAssignment(const std::string &vid, bool forceRegenerate = true);
 
 
         /*
@@ -1073,7 +1097,8 @@ namespace rr
         *						  to save time for editing for multiple times, one could
         *					      set this flag to true only in the last call of editing
         */
-        void addEvent(const std::string& eid, bool useValuesFromTriggerTime, const std::string& trigger, bool forceRegenerate = true);
+        void addEvent(const std::string &eid, bool useValuesFromTriggerTime, const std::string &trigger,
+                      bool forceRegenerate = true);
 
         /*
         * Add trigger to an existing event in the model
@@ -1088,7 +1113,7 @@ namespace rr
         *						  to save time for editing for multiple times, one could
         *					      set this flag to true only in the last call of editing
         */
-        void addTrigger(const std::string& eid, const std::string& trigger, bool forceRegenerate = true);
+        void addTrigger(const std::string &eid, const std::string &trigger, bool forceRegenerate = true);
 
         /*
         * Set the persistent attribute of the trigger of given event
@@ -1101,7 +1126,7 @@ namespace rr
         *						  to save time for editing for multiple times, one could
         *					      set this flag to true only in the last call of editing
         */
-        void setPersistent(const std::string& eid, bool persistent, bool forceRegenerate = true);
+        void setPersistent(const std::string &eid, bool persistent, bool forceRegenerate = true);
 
         /*
         * Set the initial value attribute of the trigger of given event
@@ -1114,7 +1139,7 @@ namespace rr
         *						  to save time for editing for multiple times, one could
         *					      set this flag to true only in the last call of editing
         */
-        void setTriggerInitialValue(const std::string& eid, bool initValue, bool forceRegenerate = true);
+        void setTriggerInitialValue(const std::string &eid, bool initValue, bool forceRegenerate = true);
 
         /*
         * Add priority to an existing event in the model
@@ -1128,7 +1153,7 @@ namespace rr
         *						  to save time for editing for multiple times, one could
         *					      set this flag to true only in the last call of editing
         */
-        void addPriority(const std::string& eid, const std::string& priority, bool forceRegenerate = true);
+        void addPriority(const std::string &eid, const std::string &priority, bool forceRegenerate = true);
 
         /*
         * Add delay to an existing event in the model
@@ -1142,8 +1167,7 @@ namespace rr
         *						  to save time for editing for multiple times, one could
         *					      set this flag to true only in the last call of editing
         */
-        void addDelay(const std::string& eid, const std::string& delay, bool forceRegenerate = true);
-
+        void addDelay(const std::string &eid, const std::string &delay, bool forceRegenerate = true);
 
 
         /*
@@ -1158,7 +1182,8 @@ namespace rr
         *						  to save time for editing for multiple times, one could
         *					      set this flag to true only in the last call of editing
         */
-        void addEventAssignment(const std::string& eid, const std::string& vid, const std::string& formula, bool forceRegenerate = true);
+        void addEventAssignment(const std::string &eid, const std::string &vid, const std::string &formula,
+                                bool forceRegenerate = true);
 
 
         /**
@@ -1172,7 +1197,7 @@ namespace rr
          *						   to save time for editing for multiple times, one could
          *					       set this flag to true only in the last call of editing
          */
-        void removeEventAssignments(const std::string& eid, const std::string& vid, bool forceRegenerate = true);
+        void removeEventAssignments(const std::string &eid, const std::string &vid, bool forceRegenerate = true);
 
         /**
          * Remove an event from the current model
@@ -1184,7 +1209,7 @@ namespace rr
          *						   to save time for editing for multiple times, one could
          *					       set this flag to true only in the last call of editing
          */
-        void removeEvent(const std::string& eid, bool forceRegenerate = true);
+        void removeEvent(const std::string &eid, bool forceRegenerate = true);
 
         /**
          * Validate the current SBML
@@ -1207,31 +1232,31 @@ namespace rr
          * @param dict a pointer to a dictionary which has the steady state options.
          * May be NULL, in this case the existing options are used.
          */
-        double steadyState(Dictionary* dict = 0);
+        double steadyState(Dictionary *dict = 0);
 
 
         /**
          * Like @ref steadyState but returns a named array of the steady state values
          */
-        ls::DoubleMatrix steadyStateNamedArray(const Dictionary* dict = 0);
+        ls::DoubleMatrix steadyStateNamedArray(const Dictionary *dict = 0);
 
         /**
          * returns the current set of steady state selections.
          */
-        std::vector<rr::SelectionRecord>& getSteadyStateSelections();
+        std::vector<rr::SelectionRecord> &getSteadyStateSelections();
 
         /**
          * parses the given list of strings and generates selections records
          * which will be used for the steady state selections.
          */
-        void setSteadyStateSelections(const std::vector<std::string>&
+        void setSteadyStateSelections(const std::vector<std::string> &
         steadyStateSelections);
 
         /**
          * makes a copy of an existing list of selection records. These will be
          * saved and used for selection values in getSteadyStateValues().
          */
-        void setSteadyStateSelections(const std::vector<rr::SelectionRecord>&
+        void setSteadyStateSelections(const std::vector<rr::SelectionRecord> &
         steadyStateSelections);
 
         /**
@@ -1267,7 +1292,7 @@ namespace rr
          * @internal
          * @deprecated
          */
-        void setBoundarySpeciesByIndex(const int& index, const double& value);
+        void setBoundarySpeciesByIndex(const int &index, const double &value);
 
         /**
          * @internal
@@ -1298,26 +1323,26 @@ namespace rr
          * @internal
          * @deprecated
          */
-        double getBoundarySpeciesByIndex(const int& index);
+        double getBoundarySpeciesByIndex(const int &index);
 
         /**
          * @internal
          * @deprecated use ExecutableModel::getGlobalParameterValues
          */
-        double getGlobalParameterByIndex(const int& index);
+        double getGlobalParameterByIndex(const int &index);
 
         /**
          * @author ciaran welsh
          * @brief set the parameter with id @param param to @param value
          */
-        void setGlobalParameterByName(const std::string& param, double value);
+        void setGlobalParameterByName(const std::string &param, double value);
 
         /**
          * @author ciaran welsh
          * @brief get the @param value of global parameter with id @param param
          *
          */
-        double getGlobalParameterByName(const std::string& param);
+        double getGlobalParameterByName(const std::string &param);
 
 
 
@@ -1343,13 +1368,13 @@ namespace rr
          * @internal
          * @deprecated
          */
-        RR_DEPRECATED(double getReactionRate(const int& index));
+        RR_DEPRECATED(double getReactionRate(const int &index));
 
         /**
          * @internal
          * @deprecated
          */
-        RR_DEPRECATED(double getRateOfChange(const int& index));
+        RR_DEPRECATED(double getRateOfChange(const int &index));
 
         /**
          * @internal
@@ -1372,13 +1397,13 @@ namespace rr
          * @internal
          * @deprecated
          */
-        RR_DEPRECATED(void setCompartmentByIndex(const int& index, const double& value));
+        RR_DEPRECATED(void setCompartmentByIndex(const int &index, const double &value));
 
         /**
          * @internal
          * @deprecated
          */
-        RR_DEPRECATED(double getCompartmentByIndex(const int& index));
+        RR_DEPRECATED(double getCompartmentByIndex(const int &index));
 
         /**
          * @internal
@@ -1402,7 +1427,7 @@ namespace rr
          * @internal
          * @deprecated
          */
-        RR_DEPRECATED(void setBoundarySpeciesConcentrations(const std::vector<double>& values));
+        RR_DEPRECATED(void setBoundarySpeciesConcentrations(const std::vector<double> &values));
 
         /**
          * @internal
@@ -1456,20 +1481,20 @@ namespace rr
          * @internal
          * @deprecated
          */
-        RR_DEPRECATED(void setFloatingSpeciesConcentrations(const std::vector<double>& values));
+        RR_DEPRECATED(void setFloatingSpeciesConcentrations(const std::vector<double> &values));
 
         /**
          * @internal
          * @deprecated
          */
-        RR_DEPRECATED(void setFloatingSpeciesInitialConcentrationByIndex(const int& index,
-                              const double& value));
+        RR_DEPRECATED(void setFloatingSpeciesInitialConcentrationByIndex(const int &index,
+                              const double &value));
 
         /**
          * @internal
          * @deprecated
          */
-        RR_DEPRECATED(void setFloatingSpeciesInitialConcentrations(const std::vector<double>& values));
+        RR_DEPRECATED(void setFloatingSpeciesInitialConcentrations(const std::vector<double> &values));
 
         /**
          * @internal
@@ -1537,7 +1562,7 @@ namespace rr
          * set the location where the ModelGenerator creates temporary files, such
          * as shared libraries.
          */
-        void setTempDir(const std::string& folder);
+        void setTempDir(const std::string &folder);
 
         /**
          * @internal
@@ -1552,17 +1577,18 @@ namespace rr
 
     private:
 
-        void fixDependentSpeciesValues(int except, double* ref);
+        void fixDependentSpeciesValues(int except, double *ref);
 
 
         size_t createDefaultSteadyStateSelectionList();
+
         size_t createDefaultTimeCourseSelectionList();
 
         /**
          * copies the current selection values into the n'th row of the
          * given matrix
          */
-        void getSelectedValues(ls::DoubleMatrix& results, int nRow,
+        void getSelectedValues(ls::DoubleMatrix &results, int nRow,
                                double currentTime);
 
         /**
@@ -1575,15 +1601,14 @@ namespace rr
 
         double getNthSelectedOutput(size_t index, double currentTime);
 
-        bool isParameterUsed(const std::string& sid);
+        bool isParameterUsed(const std::string &sid);
 
-        void getAllVariables(const libsbml::ASTNode* node, std::set<std::string>& ids);
+        void getAllVariables(const libsbml::ASTNode *node, std::set<std::string> &ids);
 
         /// Get the row index of the time variable in the output array (returns -1 if time is not selected)
         int getTimeRowIndex();
 
-        enum VariableType
-        {
+        enum VariableType {
             vtSpecies = 0, vtFlux
         };
 
@@ -1593,7 +1618,7 @@ namespace rr
         /**
          * the LibStruct is normally null, only created on demand here.
          */
-        ls::LibStructural* getLibStruct();
+        ls::LibStructural *getLibStruct();
 
         /**
          * If the specified integrator does not exist, create it, and point the
@@ -1623,46 +1648,51 @@ namespace rr
             JACOBIAN_FULL, JACOBIAN_REDUCED
         };
 
-        std::vector< std::complex<double> > getEigenValues(JacobianMode mode);
+        std::vector<std::complex<double> > getEigenValues(JacobianMode mode);
 
         /**
          * private implementation class, can only access if inside
          * the implementation file.
          */
-        class RoadRunnerImpl* impl;
+        class RoadRunnerImpl *impl;
 
         /*
         * Check if the id already existed in the model
         */
-        void checkID(const std::string& functionName, const std::string& sid);
+        void checkID(const std::string &functionName, const std::string &sid);
 
         /*
         * Parse a std::string with format stoichiometry + sID and return its stoichiometry value and sID
         */
-        void parseSpecies(const std::string& species, double* stoichiometry, char** sid);
+        void parseSpecies(const std::string &species, double *stoichiometry, char **sid);
 
         /*
         * Remove a variable from the current model.
         */
-        void removeVariable(const std::string& sid);
+        void removeVariable(const std::string &sid);
 
         /*
         * check recursively if a ASTnode or any of its child has the given variable
         */
-        bool hasVariable(const libsbml::ASTNode* node, const std::string& sid);
+        bool hasVariable(const libsbml::ASTNode *node, const std::string &sid);
 
         /*
         * Get the names of all the species involved in a given AST
         */
-        void getSpeciesIdsFromAST(const libsbml::ASTNode* node, std::vector<std::string>& species);
-        void getSpeciesIdsFromAST(const libsbml::ASTNode* node, std::vector<std::string>& species, std::vector<std::string>& speciesNames);
+        void getSpeciesIdsFromAST(const libsbml::ASTNode *node, std::vector<std::string> &species);
+
+        void getSpeciesIdsFromAST(const libsbml::ASTNode *node, std::vector<std::string> &species,
+                                  std::vector<std::string> &speciesNames);
 
         /*
         * check and remove all parameter without any assignments
         */
         void checkGlobalParameters();
-        void saveSelectionVector(std::ostream&, std::vector<SelectionRecord>&);
-        void loadSelectionVector(std::istream&, std::vector<SelectionRecord>&);
+
+        void saveSelectionVector(std::ostream &, std::vector<SelectionRecord> &);
+
+        void loadSelectionVector(std::istream &, std::vector<SelectionRecord> &);
+
         const int fileMagicNumber = 0xAD6F52;
         const int dataVersionNumber = 1;
     };

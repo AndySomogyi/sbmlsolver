@@ -75,6 +75,10 @@ set(
         SolverRegistration.cpp
 #        Variant.cpp
         Setting.cpp
+        SensitivityResult.cpp
+        SensitivitySolver.cpp
+        ForwardSensitivitySolver.cpp
+        AdjointSensitivitySolver.cpp
 
         KinsolSteadyStateSolver.cpp
         FixedPointIteration.cpp
@@ -143,6 +147,10 @@ set(
         SolverRegistration.h
 #        Variant.h
         Setting.h
+        SensitivityResult.h
+        SensitivitySolver.h
+        ForwardSensitivitySolver.h
+        AdjointSensitivitySolver.h
 
         KinsolErrHandler.h
         KinsolSteadyStateSolver.h
@@ -430,7 +438,9 @@ target_link_libraries(
         SUNDIALS::sunlinsolsptfqmr_static
         SUNDIALS::sunnonlinsolnewton_static
         SUNDIALS::sunnonlinsolfixedpoint_static
-        SUNDIALS::cvode_static
+        # cvodes is a superset of cvode.
+        # linking the both can cause a duplicate symbol problem
+        # SUNDIALS::cvode_static
         SUNDIALS::cvodes_static
         SUNDIALS::kinsol_static
 
