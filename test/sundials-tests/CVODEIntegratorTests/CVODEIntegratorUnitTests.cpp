@@ -231,13 +231,6 @@ TEST_F(CVODEIntegratorUnitTests, DISABLED_tweakTolerancess) {
 
 }
 
-TEST_F(CVODEIntegratorUnitTests, integrate) {
-    // setStateVector will be called once with a const double* as argument (i.e. the state vector)
-    EXPECT_CALL(mockExecutableModel,setStateVector(A<const double*>()))
-        .Times(1);
-    CVODEIntegrator cvodeIntegrator(&mockExecutableModel);
-    cvodeIntegrator.integrate(0, 10);
-}
 
 TEST_F(CVODEIntegratorUnitTests, restart) {
     // when we reset, setTime will be called with 0 as argument
