@@ -4,12 +4,15 @@
 
 # Installation
 Python front end (stable):
+
 `pip install libroadrunner`
 
 Binaries:
+
 Head over to the [Releases](https://github.com/sys-bio/roadrunner/releases) page to download binaries. 
 
 Experimental front end: 
+
 `pip install libroadrunner-experimental`
 
 # [Click here to get Documentation](http://sys-bio.github.io/roadrunner/)
