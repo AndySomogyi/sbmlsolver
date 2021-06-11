@@ -268,12 +268,9 @@
 <p>The logic behind splitting up <a class="reference internal" href="#classrrllvm_1_1LLVMModelDataSymbols"><span class="std std-ref">LLVMModelDataSymbols</span></a> and <a class="reference internal" href="LLVMModelSymbols.html#classrrllvm_1_1LLVMModelSymbols"><span class="std std-ref">LLVMModelSymbols</span></a> is that <a class="reference internal" href="LLVMModelSymbols.html#classrrllvm_1_1LLVMModelSymbols"><span class="std std-ref">LLVMModelSymbols</span></a> contains all the ASTs from the model, and this contains only ModelData indices  once the all the model functions are generated, there is no need to keep AST information around, but we still need to know what symbol is at what index for the various Model accessor functions.</p>
 <p><ul class="simple">
 <li><p>data storage: There can exist rules (assigment, rate, and eventually algebraic) rules that determine the value of a symbol.</p></li>
-</ul>
-</p>
-<p>All items for which a rate rule exists are stored in the modelData::rateRules array.</p>
-<p>No space is allocated for items determined by rate rules.</p>
-<p><ul class="simple">
-<li><p>All elements get an index value, even the dependent ones, this allows us uniquely indentify them in the generated accessor functions.</p></li>
+<li><p>All items for which a rate rule exists are stored in the modelData::rateRules array.</p></li>
+<li><p>No space is allocated for items determined by rate rules.</p></li>
+<li><p>All elements get an index value, even the dependent ones, this allows us uniquely identify them in the generated accessor functions.</p></li>
 <li><p>Most of the indexes used in this class are indexes into ModelData arrays, therefore we use unsigned integers  these are less error prone and its easier to check if they are valid i.e. only check that they are less than the the array size and we do not have to check that it is positive.</p></li>
 <li><p>All symbols from the sbml are reordered such that the independent ones are first, followed by the dependent values. </p></li>
 </ul>
@@ -366,7 +363,7 @@
 
 <dl class="cpp type">
 <dt class="sig sig-object cpp" id="_CPPv4N6rrllvm20LLVMModelDataSymbols11UIntUIntMapE">
-<span id="_CPPv3N6rrllvm20LLVMModelDataSymbols11UIntUIntMapE"></span><span id="_CPPv2N6rrllvm20LLVMModelDataSymbols11UIntUIntMapE"></span><span id="rrllvm::LLVMModelDataSymbols::UIntUIntMap"></span><span class="target" id="classrrllvm_1_1LLVMModelDataSymbols_1abffc137dab59dc26f324c12537ea207c"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="n"><span class="pre">cxx11_ns</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">unordered_map</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">uint</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">uint</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">UIntUIntMap</span></span></span><a class="headerlink" href="#_CPPv4N6rrllvm20LLVMModelDataSymbols11UIntUIntMapE" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3N6rrllvm20LLVMModelDataSymbols11UIntUIntMapE"></span><span id="_CPPv2N6rrllvm20LLVMModelDataSymbols11UIntUIntMapE"></span><span id="rrllvm::LLVMModelDataSymbols::UIntUIntMap"></span><span class="target" id="classrrllvm_1_1LLVMModelDataSymbols_1a85c8a143119e26f1536a0c20d2925822"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">unordered_map</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">uint</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">uint</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">UIntUIntMap</span></span></span><a class="headerlink" href="#_CPPv4N6rrllvm20LLVMModelDataSymbols11UIntUIntMapE" title="Permalink to this definition">¶</a><br /></dt>
 <dd></dd></dl>
 
 </div>
@@ -637,7 +634,8 @@
 <dt class="sig sig-object cpp" id="_CPPv4NK6rrllvm20LLVMModelDataSymbols24isConservedMoietySpeciesERKNSt6stringE">
 <span id="_CPPv3NK6rrllvm20LLVMModelDataSymbols24isConservedMoietySpeciesERKNSt6stringE"></span><span id="_CPPv2NK6rrllvm20LLVMModelDataSymbols24isConservedMoietySpeciesERKNSt6stringE"></span><span id="rrllvm::LLVMModelDataSymbols::isConservedMoietySpecies__ssCRC"></span><span class="target" id="classrrllvm_1_1LLVMModelDataSymbols_1a55a42e526c9ae39fe0a7a3c4befe7630"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">isConservedMoietySpecies</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">symbol</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6rrllvm20LLVMModelDataSymbols24isConservedMoietySpeciesERKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>checks if the given symbol is a init value for a conserved species. </p>
-<p>Global parameters or floating species can be conservied moieties, a global parameter is a CM if it is defined by a inital assignment rules as a linear of one CM species and a set of indepdent floating species.</p>
+<p>Global parameters or floating species can be conservied moieties,</p>
+<p>a global parameter is a CM if it is defined by a inital assignment rules as a linear of one CM species and a set of indepdent floating species.</p>
 <p>A floating species may be a CM if it is defined by a rule as a linear combination of independent species.</p>
 <p>If a floating species is a CM, then it must by definition be a dependent floating species.</p>
 <p>It can however have independent initial conditions defined either by intial values or initial assignment rules. </p>
@@ -748,7 +746,7 @@
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK6rrllvm20LLVMModelDataSymbols32isIndependentInitGlobalParameterERKNSt6stringE">
 <span id="_CPPv3NK6rrllvm20LLVMModelDataSymbols32isIndependentInitGlobalParameterERKNSt6stringE"></span><span id="_CPPv2NK6rrllvm20LLVMModelDataSymbols32isIndependentInitGlobalParameterERKNSt6stringE"></span><span id="rrllvm::LLVMModelDataSymbols::isIndependentInitGlobalParameter__ssCRC"></span><span class="target" id="classrrllvm_1_1LLVMModelDataSymbols_1a9e69809c00382d494280b0124bae2e57"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">isIndependentInitGlobalParameter</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">symbol</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6rrllvm20LLVMModelDataSymbols32isIndependentInitGlobalParameterERKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>has this string been found to be an independent init global param is a global param and not having an assignment or init assignment rule. </p>
+<dd><p>has this std::string been found to be an independent init global param is a global param and not having an assignment or init assignment rule. </p>
 </dd></dl>
 
 <dl class="cpp function">
@@ -844,7 +842,7 @@
 <dl class="cpp type">
 <dt class="sig sig-object cpp" id="_CPPv4N6rrllvm20LLVMModelDataSymbols16StringRefInfoMapE">
 <span id="_CPPv3N6rrllvm20LLVMModelDataSymbols16StringRefInfoMapE"></span><span id="_CPPv2N6rrllvm20LLVMModelDataSymbols16StringRefInfoMapE"></span><span id="rrllvm::LLVMModelDataSymbols::StringRefInfoMap"></span><span class="target" id="classrrllvm_1_1LLVMModelDataSymbols_1a3163b3fe2cad57085c7776df4872e31c"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">map</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N6rrllvm20LLVMModelDataSymbols20SpeciesReferenceInfoE" title="rrllvm::LLVMModelDataSymbols::SpeciesReferenceInfo"><span class="n"><span class="pre">SpeciesReferenceInfo</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">StringRefInfoMap</span></span></span><a class="headerlink" href="#_CPPv4N6rrllvm20LLVMModelDataSymbols16StringRefInfoMapE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>map of all identified species reference (species references with ids) to their indices in the stoichiometric matrix. </p>
+<dd><p>std::map of all identified species reference (species references with ids) to their indices in the stoichiometric matrix. </p>
 </dd></dl>
 
 </div>
@@ -956,7 +954,7 @@
 <dl class="cpp var">
 <dt class="sig sig-object cpp" id="_CPPv4N6rrllvm20LLVMModelDataSymbols37floatingSpeciesToConservedMoietyIdMapE">
 <span id="_CPPv3N6rrllvm20LLVMModelDataSymbols37floatingSpeciesToConservedMoietyIdMapE"></span><span id="_CPPv2N6rrllvm20LLVMModelDataSymbols37floatingSpeciesToConservedMoietyIdMapE"></span><span id="rrllvm::LLVMModelDataSymbols::floatingSpeciesToConservedMoietyIdMap__UIntUIntMap"></span><span class="target" id="classrrllvm_1_1LLVMModelDataSymbols_1ad97816e45bb3f490904ee731829067a2"></span><a class="reference internal" href="#_CPPv4N6rrllvm20LLVMModelDataSymbols11UIntUIntMapE" title="rrllvm::LLVMModelDataSymbols::UIntUIntMap"><span class="n"><span class="pre">UIntUIntMap</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">floatingSpeciesToConservedMoietyIdMap</span></span></span><a class="headerlink" href="#_CPPv4N6rrllvm20LLVMModelDataSymbols37floatingSpeciesToConservedMoietyIdMapE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>map of floating species ids to conserved moiety ids. </p>
+<dd><p>std::map of floating species ids to conserved moiety ids. </p>
 <p>assume conserved moeity speces are stored in the sbml in the same order as the conserved moieties. </p>
 </dd></dl>
 
@@ -978,8 +976,8 @@
 <dl class="cpp var">
 <dt class="sig sig-object cpp" id="_CPPv4N6rrllvm20LLVMModelDataSymbols22initFloatingSpeciesMapE">
 <span id="_CPPv3N6rrllvm20LLVMModelDataSymbols22initFloatingSpeciesMapE"></span><span id="_CPPv2N6rrllvm20LLVMModelDataSymbols22initFloatingSpeciesMapE"></span><span id="rrllvm::LLVMModelDataSymbols::initFloatingSpeciesMap__StringUIntMap"></span><span class="target" id="classrrllvm_1_1LLVMModelDataSymbols_1aa61568481d95d1b470a92021329b50b7"></span><a class="reference internal" href="#_CPPv4N6rrllvm20LLVMModelDataSymbols13StringUIntMapE" title="rrllvm::LLVMModelDataSymbols::StringUIntMap"><span class="n"><span class="pre">StringUIntMap</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">initFloatingSpeciesMap</span></span></span><a class="headerlink" href="#_CPPv4N6rrllvm20LLVMModelDataSymbols22initFloatingSpeciesMapE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>map of floating species init value symbols to thier index in the array. </p>
-<p>All floating species are stored in this map, however they are reordered and only the ones with index &lt; independentInitFloatingSpeciesSize are allocated storage. </p>
+<dd><p>std::map of floating species init value symbols to thier index in the array. </p>
+<p>All floating species are stored in this std::map, however they are reordered and only the ones with index &lt; independentInitFloatingSpeciesSize are allocated storage. </p>
 </dd></dl>
 
 <dl class="cpp var">
@@ -1141,7 +1139,7 @@
 <dl class="cpp var">
 <dt class="sig sig-object cpp" id="_CPPv4N6rrllvm20LLVMModelDataSymbols8eventIdsE">
 <span id="_CPPv3N6rrllvm20LLVMModelDataSymbols8eventIdsE"></span><span id="_CPPv2N6rrllvm20LLVMModelDataSymbols8eventIdsE"></span><span id="rrllvm::LLVMModelDataSymbols::eventIds__StringUIntMap"></span><span class="target" id="classrrllvm_1_1LLVMModelDataSymbols_1a78411f48e153eeaa2a068f062f510ce6"></span><a class="reference internal" href="#_CPPv4N6rrllvm20LLVMModelDataSymbols13StringUIntMapE" title="rrllvm::LLVMModelDataSymbols::StringUIntMap"><span class="n"><span class="pre">StringUIntMap</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">eventIds</span></span></span><a class="headerlink" href="#_CPPv4N6rrllvm20LLVMModelDataSymbols8eventIdsE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>map of event ids </p>
+<dd><p>std::map of event ids </p>
 </dd></dl>
 
 </div>

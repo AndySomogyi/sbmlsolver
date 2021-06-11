@@ -272,7 +272,7 @@
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N2rr13RK4Integrator7restartEd">
 <span id="_CPPv3N2rr13RK4Integrator7restartEd"></span><span id="_CPPv2N2rr13RK4Integrator7restartEd"></span><span id="rr::RK4Integrator::restart__double"></span><span class="target" id="classrr_1_1RK4Integrator_1a75ca0574917ed21f598fb93b1837cec3"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">restart</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">t0</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr13RK4Integrator7restartEd" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>copies the state vector out of the model and into cvode vector, re-initializes cvode. </p>
+<dd><p>copies the state std::vector out of the model and into cvode std::vector, re-initializes cvode. </p>
 </dd></dl>
 
 <dl class="cpp function">
@@ -324,7 +324,7 @@
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N2rr13RK4Integrator8getValueENSt6stringE">
-<span id="_CPPv3N2rr13RK4Integrator8getValueENSt6stringE"></span><span id="_CPPv2N2rr13RK4Integrator8getValueENSt6stringE"></span><span id="rr::RK4Integrator::getValue__ss"></span><span class="target" id="classrr_1_1RK4Integrator_1ae621b95ad0336b25765f808154cb4e2f"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><a class="reference internal" href="Variant.html#_CPPv4N2rr7VariantE" title="rr::Variant"><span class="n"><span class="pre">Variant</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getValue</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">key</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr13RK4Integrator8getValueENSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3N2rr13RK4Integrator8getValueENSt6stringE"></span><span id="_CPPv2N2rr13RK4Integrator8getValueENSt6stringE"></span><span id="rr::RK4Integrator::getValue__ss"></span><span class="target" id="classrr_1_1RK4Integrator_1ae40e2ed0e1368c2e2df203ce29eddb0c"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">Setting</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getValue</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">key</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr13RK4Integrator8getValueENSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
 <dd></dd></dl>
 
 <dl class="cpp function">
@@ -415,16 +415,11 @@
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-private-members">Private Members</p>
 <dl class="cpp var">
-<dt class="sig sig-object cpp" id="_CPPv4N2rr13RK4Integrator5modelE">
-<span id="_CPPv3N2rr13RK4Integrator5modelE"></span><span id="_CPPv2N2rr13RK4Integrator5modelE"></span><span id="rr::RK4Integrator::model__ExecutableModelP"></span><span class="target" id="classrr_1_1RK4Integrator_1a4821a5f2687a483f7452a0c846ca5f87"></span><a class="reference internal" href="rrExecutableModel.html#_CPPv4N2rr15ExecutableModelE" title="rr::ExecutableModel"><span class="n"><span class="pre">ExecutableModel</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">model</span></span></span><a class="headerlink" href="#_CPPv4N2rr13RK4Integrator5modelE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N2rr13RK4Integrator15stateVectorSizeE">
+<span id="_CPPv3N2rr13RK4Integrator15stateVectorSizeE"></span><span id="_CPPv2N2rr13RK4Integrator15stateVectorSizeE"></span><span id="rr::RK4Integrator::stateVectorSize__unsigned"></span><span class="target" id="classrr_1_1RK4Integrator_1a6bd835e997f20d4ba1d5b12abaaff7ec"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">stateVectorSize</span></span></span><a class="headerlink" href="#_CPPv4N2rr13RK4Integrator15stateVectorSizeE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>set an arbitrary key </p>
 <p>get a value. Variants are POD. is there a key matching this name. remove a value list of keys in this object. </p>
 </dd></dl>
-
-<dl class="cpp var">
-<dt class="sig sig-object cpp" id="_CPPv4N2rr13RK4Integrator15stateVectorSizeE">
-<span id="_CPPv3N2rr13RK4Integrator15stateVectorSizeE"></span><span id="_CPPv2N2rr13RK4Integrator15stateVectorSizeE"></span><span id="rr::RK4Integrator::stateVectorSize__unsigned"></span><span class="target" id="classrr_1_1RK4Integrator_1a6bd835e997f20d4ba1d5b12abaaff7ec"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">stateVectorSize</span></span></span><a class="headerlink" href="#_CPPv4N2rr13RK4Integrator15stateVectorSizeE" title="Permalink to this definition">¶</a><br /></dt>
-<dd></dd></dl>
 
 <dl class="cpp var">
 <dt class="sig sig-object cpp" id="_CPPv4N2rr13RK4Integrator2k1E">

@@ -226,7 +226,7 @@
 <dd><p>Base class for all code generation systems; allows compiling and evaluating the model. </p>
 <p>The <a class="reference internal" href="#classrr_1_1ExecutableModel"><span class="std std-ref">ExecutableModel</span></a> interface provides a way to access an sbml model that was compiled, JIT’d or interpreted as executable (runnable) module.</p>
 <p>An <a class="reference internal" href="#classrr_1_1ExecutableModel"><span class="std std-ref">ExecutableModel</span></a> holds a ModelData structure, all the simulation values are stored in the ModelData struct, i.e. the dynamic state of the model is fully contained in the ModelData structure.</p>
-<p>An <a class="reference internal" href="#classrr_1_1ExecutableModel"><span class="std std-ref">ExecutableModel</span></a> shoud also contain all of the initial condisions, rules, functions and whatever other semantic information that was specified in the sbml model. </p>
+<p>An <a class="reference internal" href="#classrr_1_1ExecutableModel"><span class="std std-ref">ExecutableModel</span></a> should also contain all of the initial conditions, rules, functions and whatever other semantic information that was specified in the sbml model. </p>
 <p>Subclassed by rr::CompiledExecutableModel, <a class="reference internal" href="llvm/LLVMExecutableModel.html#classrrllvm_1_1LLVMExecutableModel"><span class="std std-ref">rrllvm::LLVMExecutableModel</span></a></p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-types">Public Types</p>
@@ -238,7 +238,7 @@
 <dt class="sig sig-object cpp" id="_CPPv4N2rr15ExecutableModel20ExecutableModelFlags11INTEGRATIONE">
 <span id="_CPPv3N2rr15ExecutableModel20ExecutableModelFlags11INTEGRATIONE"></span><span id="_CPPv2N2rr15ExecutableModel20ExecutableModelFlags11INTEGRATIONE"></span><span class="target" id="classrr_1_1ExecutableModel_1a0503ffbf5c6c971cf545d7570ec0404ca389fbe7a44e9cb64d2e16415cd08554f"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">INTEGRATION</span></span></span><a class="headerlink" href="#_CPPv4N2rr15ExecutableModel20ExecutableModelFlags11INTEGRATIONE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>A simulation is currently running. </p>
-<p>This means that the model should not have to re-calculate the reaction rate vector as it was calculated in the previous integration step. </p>
+<p>This means that the model should not have to re-calculate the reaction rate std::vector as it was calculated in the previous integration step. </p>
 </dd></dl>
 
 <dl class="cpp enumerator">
@@ -369,7 +369,7 @@
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>len</strong> – <strong>[in]</strong> the length of the indx and values arrays. </p></li>
-<li><p><strong>indx</strong> – <strong>[in]</strong> an array of length len of boundary species to return. </p></li>
+<li><p><strong>indx</strong> – <strong>[in]</strong> an array of length len of floating species to return. </p></li>
 <li><p><strong>values</strong> – <strong>[in]</strong> an array of at least length len which will store the returned boundary species amounts. </p></li>
 </ul>
 </dd>
@@ -593,8 +593,8 @@
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N2rr15ExecutableModel8getValueERKNSt6stringE">
 <span id="_CPPv3N2rr15ExecutableModel8getValueERKNSt6stringE"></span><span id="_CPPv2N2rr15ExecutableModel8getValueERKNSt6stringE"></span><span id="rr::ExecutableModel::getValue__ssCR"></span><span class="target" id="classrr_1_1ExecutableModel_1aebaced13ef2afd070d7a1c35eec8d9f2"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getValue</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">id</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N2rr15ExecutableModel8getValueERKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>gets the value for the given id string. </p>
-<p>The string must be a <a class="reference internal" href="rrSelectionRecord.html#classrr_1_1SelectionRecord"><span class="std std-ref">SelectionRecord</span></a> string that is accepted by this class. </p>
+<dd><p>gets the value for the given id std::string. </p>
+<p>The std::string must be a <a class="reference internal" href="rrSelectionRecord.html#classrr_1_1SelectionRecord"><span class="std std-ref">SelectionRecord</span></a> std::string that is accepted by this class. </p>
 </dd></dl>
 
 <dl class="cpp function">
@@ -658,7 +658,7 @@
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK2rr15ExecutableModel18getRateRuleSymbolsEv">
-<span id="_CPPv3NK2rr15ExecutableModel18getRateRuleSymbolsEv"></span><span id="_CPPv2NK2rr15ExecutableModel18getRateRuleSymbolsEv"></span><span id="rr::ExecutableModel::getRateRuleSymbolsC"></span><span class="target" id="classrr_1_1ExecutableModel_1ab045cbd84ce98fb9dff8ff250fdb131c"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getRateRuleSymbols</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK2rr15ExecutableModel18getRateRuleSymbolsEv" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3NK2rr15ExecutableModel18getRateRuleSymbolsEv"></span><span id="_CPPv2NK2rr15ExecutableModel18getRateRuleSymbolsEv"></span><span id="rr::ExecutableModel::getRateRuleSymbolsC"></span><span class="target" id="classrr_1_1ExecutableModel_1aa1d89fd7d5690de7add613f5ce75b631"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getRateRuleSymbols</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4NK2rr15ExecutableModel18getRateRuleSymbolsEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Gets the symbols defined by rate rules, i.e. returns all x such that x’ = f(x) is a rule which defines parameter x. </p>
 <p><dl class="simple">
 <dt><strong>Author</strong></dt><dd><p>JKM </p>
@@ -695,7 +695,7 @@
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N2rr15ExecutableModel16getReactionRatesE6size_tPKiPd">
 <span id="_CPPv3N2rr15ExecutableModel16getReactionRatesE6size_tPKiPd"></span><span id="_CPPv2N2rr15ExecutableModel16getReactionRatesE6size_tPKiPd"></span><span id="rr::ExecutableModel::getReactionRates__s.iCP.doubleP"></span><span class="target" id="classrr_1_1ExecutableModel_1a37c53cc370ff236657272f5596fd27ff"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getReactionRates</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">len</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">indx</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">values</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N2rr15ExecutableModel16getReactionRatesE6size_tPKiPd" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>get the vector of reaction rates. </p>
+<dd><p>get the std::vector of reaction rates. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -718,21 +718,21 @@
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N2rr15ExecutableModel16getStateVectorIdE6size_t">
 <span id="_CPPv3N2rr15ExecutableModel16getStateVectorIdE6size_t"></span><span id="_CPPv2N2rr15ExecutableModel16getStateVectorIdE6size_t"></span><span id="rr::ExecutableModel::getStateVectorId__s"></span><span class="target" id="classrr_1_1ExecutableModel_1ac6c245edd9ecea5feea84cff15db7b26"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getStateVectorId</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N2rr15ExecutableModel16getStateVectorIdE6size_t" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>get the id of an element of the state vector. </p>
+<dd><p>get the id of an element of the state std::vector. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N2rr15ExecutableModel14getStateVectorEPd">
 <span id="_CPPv3N2rr15ExecutableModel14getStateVectorEPd"></span><span id="_CPPv2N2rr15ExecutableModel14getStateVectorEPd"></span><span id="rr::ExecutableModel::getStateVector__doubleP"></span><span class="target" id="classrr_1_1ExecutableModel_1a75b6f37ac538d2d2a0709fe4080b0570"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getStateVector</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">stateVector</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N2rr15ExecutableModel14getStateVectorEPd" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>The state vector is a vector of elements that are defined by differential equations (rate rules) or independent floating species are defined by reactions. </p>
-<p>To get the ids of the state vector elements, use getStateVectorId.</p>
-<p>copies the internal model state vector into the provided buffer.</p>
+<dd><p>The state std::vector is a std::vector of elements that are defined by differential equations (rate rules) or independent floating species are defined by reactions. </p>
+<p>To get the ids of the state std::vector elements, use getStateVectorId.</p>
+<p>copies the internal model state std::vector into the provided buffer.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>stateVector</strong> – <strong>[out]</strong> a buffer to copy the state vector into, if NULL, return the size required.</p>
+<dd class="field-odd"><p><strong>stateVector</strong> – <strong>[out]</strong> a buffer to copy the state std::vector into, if NULL, return the size required.</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>the number of items coppied into the provided buffer, if stateVector is NULL, returns the length of the state vector. </p>
+<dd class="field-even"><p>the number of items coppied into the provided buffer, if stateVector is NULL, returns the length of the state std::vector. </p>
 </dd>
 </dl>
 </dd></dl>
@@ -740,13 +740,13 @@
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N2rr15ExecutableModel14setStateVectorEPKd">
 <span id="_CPPv3N2rr15ExecutableModel14setStateVectorEPKd"></span><span id="_CPPv2N2rr15ExecutableModel14setStateVectorEPKd"></span><span id="rr::ExecutableModel::setStateVector__doubleCP"></span><span class="target" id="classrr_1_1ExecutableModel_1a57a67063c957714b916d4a3d4277c3b9"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setStateVector</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">stateVector</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N2rr15ExecutableModel14setStateVectorEPKd" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>sets the internal model state to the provided packed state vector. </p>
+<dd><p>sets the internal model state to the provided packed state std::vector. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>an</strong> – <strong>[in]</strong> array which holds the packed state vector, must be at least the size returned by getStateVector.</p>
+<dd class="field-odd"><p><strong>an</strong> – <strong>[in]</strong> array which holds the packed state std::vector, must be at least the size returned by getStateVector.</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>the number of items copied from the state vector, negative on failure. </p>
+<dd class="field-even"><p>the number of items copied from the state std::vector, negative on failure. </p>
 </dd>
 </dl>
 </dd></dl>
@@ -754,15 +754,15 @@
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N2rr15ExecutableModel18getStateVectorRateEdPKdPd">
 <span id="_CPPv3N2rr15ExecutableModel18getStateVectorRateEdPKdPd"></span><span id="_CPPv2N2rr15ExecutableModel18getStateVectorRateEdPKdPd"></span><span id="rr::ExecutableModel::getStateVectorRate__double.doubleCP.doubleP"></span><span class="target" id="classrr_1_1ExecutableModel_1a0495c2ece9edad29d61849b2443d4274"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getStateVectorRate</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">time</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">y</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">dydt</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N2rr15ExecutableModel18getStateVectorRateEdPKdPd" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>the state vector y is the rate rule values and floating species concentrations concatenated. </p>
+<dd><p>the state std::vector y is the rate rule values and floating species concentrations concatenated. </p>
 <p>y is of length numFloatingSpecies + numRateRules.</p>
-<p>The state vector is packed such that the first n raterule elements are the values of the rate rules, and the last n floatingspecies are the floating species values.</p>
+<p>The state std::vector is packed such that the first n raterule elements are the values of the rate rules, and the last n floatingspecies are the floating species values.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>time</strong> – <strong>[in]</strong> current simulator time </p></li>
-<li><p><strong>y</strong> – <strong>[in]</strong> state vector, must be either null, or have a size of that speciefied by getStateVector. If y is null, then the model is evaluated using its current state. If y is not null, then the y is considered the state vector. </p></li>
-<li><p><strong>dydt</strong> – <strong>[out]</strong> calculated rate of change of the state vector, if null, it is ignored. </p></li>
+<li><p><strong>y</strong> – <strong>[in]</strong> state std::vector, must be either null, or have a size of that speciefied by getStateVector. If y is null, then the model is evaluated using its current state. If y is not null, then the y is considered the state std::vector. </p></li>
+<li><p><strong>dydt</strong> – <strong>[out]</strong> calculated rate of change of the state std::vector, if null, it is ignored. </p></li>
 </ul>
 </dd>
 </dl>
@@ -806,8 +806,8 @@
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>timeEnd</strong> – model time when the event occured. </p></li>
 <li><p><strong>previousEventStatus</strong> – array of previous event triggered states. </p></li>
-<li><p><strong>initialState</strong> – (optional): initial state vector, may be NULL, in which the current state is used. </p></li>
-<li><p><strong>finalState</strong> – (optional): final state vector, where the final state is coppied to. May be NULL, in which case, ignored. </p></li>
+<li><p><strong>initialState</strong> – (optional): initial state std::vector, may be NULL, in which the current state is used. </p></li>
+<li><p><strong>finalState</strong> – (optional): final state std::vector, where the final state is coppied to. May be NULL, in which case, ignored. </p></li>
 </ul>
 </dd>
 </dl>
@@ -822,7 +822,7 @@
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>time[in]</strong> – current time </p></li>
-<li><p><strong>y[in]</strong> – the state vector </p></li>
+<li><p><strong>y[in]</strong> – the state std::vector </p></li>
 <li><p><strong>gdot[out]</strong> – result event roots, this is of length numEvents. </p></li>
 </ul>
 </dd>
@@ -881,9 +881,9 @@
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N2rr15ExecutableModel28getFloatingSpeciesAmountRateE6size_tPKd">
 <span id="_CPPv3N2rr15ExecutableModel28getFloatingSpeciesAmountRateE6size_tPKd"></span><span id="_CPPv2N2rr15ExecutableModel28getFloatingSpeciesAmountRateE6size_tPKd"></span><span id="rr::ExecutableModel::getFloatingSpeciesAmountRate__s.doubleCP"></span><span class="target" id="classrr_1_1ExecutableModel_1a460387891972dfb029d5fdd6134c10eb"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getFloatingSpeciesAmountRate</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">reactionRates</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N2rr15ExecutableModel28getFloatingSpeciesAmountRateE6size_tPKd" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Get the amount rate of change for the i’th floating species given a reaction rates vector. </p>
+<dd><p>Get the amount rate of change for the i’th floating species given a reaction rates std::vector. </p>
 <p>TODO: This should be merged with getFloatingSpeciesAmountRates, but that will break inteface, will do in next point release.</p>
-<p>TODO: If the conversion factor changes in between getting the reaction rates vector via getReactionRates</p>
+<p>TODO: If the conversion factor changes in between getting the reaction rates std::vector via getReactionRates</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">

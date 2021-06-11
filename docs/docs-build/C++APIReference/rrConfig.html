@@ -224,7 +224,7 @@
 <dt class="sig sig-object cpp" id="_CPPv4N2rr6ConfigE">
 <span id="_CPPv3N2rr6ConfigE"></span><span id="_CPPv2N2rr6ConfigE"></span><span id="rr::Config"></span><span class="target" id="classrr_1_1Config"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">rr</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">Config</span></span></span><a class="headerlink" href="#_CPPv4N2rr6ConfigE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>read or store default values. </p>
-<p>Many of <a class="reference internal" href="rrRoadRunner.html#classrr_1_1RoadRunner"><span class="std std-ref">RoadRunner</span></a> classes use a number of configration parameters. Most of these can be set using the <a class="reference internal" href="#classrr_1_1Config"><span class="std std-ref">Config</span></a> class. The values stored in the <a class="reference internal" href="#classrr_1_1Config"><span class="std std-ref">Config</span></a> class only determine the defaut values of parameters.</p>
+<p>Many of <a class="reference internal" href="rrRoadRunner.html#classrr_1_1RoadRunner"><span class="std std-ref">RoadRunner</span></a> classes use a number of configuration parameters. Most of these can be set using the <a class="reference internal" href="#classrr_1_1Config"><span class="std std-ref">Config</span></a> class. The values stored in the <a class="reference internal" href="#classrr_1_1Config"><span class="std std-ref">Config</span></a> class only determine the default values of parameters.</p>
 <p>The <a class="reference internal" href="#classrr_1_1Config"><span class="std std-ref">Config</span></a> class will look in the following locations for the config file, and will load the values from the first config file it finds. If it does not find a config file in one of the following locations, a default set of configuration parameters are used. The search locations of the config file are:</p>
 <p>#1: the ROADRUNNER_CONFIG environment variable</p>
 <p>#2: try the user’s home directory for roadrunner.conf, i.e.:</p>
@@ -235,7 +235,7 @@
 <p>/Users/andy/local/lib/roadrunner.conf</p>
 <p>#5: try one directory up from the where the shared library or program is at, i.e.:</p>
 <p>/Users/andy/local/roadrunner.conf</p>
-<p>The conf file is just a plain text file of where each line may be key / value pair separated by a :”, i.e.</p>
+<p>The conf file is just a plain text file of where each line may be key / value std::pair separated by a :”, i.e.</p>
 <p>KEY_NAME : Value Any line that does not match this format is ignored, and keys that are not found are also ignored. Therefore, any line that does not start w* ith a word character is considered a comment.</p>
 <p>All of the configuration managment functions are static method of the <a class="reference internal" href="#classrr_1_1Config"><span class="std std-ref">Config</span></a> class, and all of the configuration keys are static attributes * of the <a class="reference internal" href="#classrr_1_1Config"><span class="std std-ref">Config</span></a> class, these are documented in the Configuration Functions section.</p>
 <p>As all of the <a class="reference internal" href="#classrr_1_1Config"><span class="std std-ref">Config</span></a> class methods are static, one never instantiates the <a class="reference internal" href="#classrr_1_1Config"><span class="std std-ref">Config</span></a> class. </p>
@@ -382,7 +382,7 @@
 <dl class="cpp enumerator">
 <dt class="sig sig-object cpp" id="_CPPv4N2rr6Config4Keys26SIMULATEOPTIONS_INTEGRATORE">
 <span id="_CPPv3N2rr6Config4Keys26SIMULATEOPTIONS_INTEGRATORE"></span><span id="_CPPv2N2rr6Config4Keys26SIMULATEOPTIONS_INTEGRATORE"></span><span class="target" id="classrr_1_1Config_1aed7c550b9e34222675cd152c9154d053af04f063962a4036311b2e11f07519c7c"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SIMULATEOPTIONS_INTEGRATOR</span></span></span><a class="headerlink" href="#_CPPv4N2rr6Config4Keys26SIMULATEOPTIONS_INTEGRATORE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Default integrator to use, currently supports a string of “CVODE” or “Gillespie”, default is “CVODE”. </p>
+<dd><p>Default integrator to use, currently supports a std::string of “CVODE” or “Gillespie”, default is “CVODE”. </p>
 </dd></dl>
 
 <dl class="cpp enumerator">
@@ -419,7 +419,7 @@
 <span id="_CPPv3N2rr6Config4Keys27ROADRUNNER_DISABLE_WARNINGSE"></span><span id="_CPPv2N2rr6Config4Keys27ROADRUNNER_DISABLE_WARNINGSE"></span><span class="target" id="classrr_1_1Config_1aed7c550b9e34222675cd152c9154d053a2ac32a86236319b70d5078dddd44f23b"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ROADRUNNER_DISABLE_WARNINGS</span></span></span><a class="headerlink" href="#_CPPv4N2rr6Config4Keys27ROADRUNNER_DISABLE_WARNINGSE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Disable SBML conserved moiety warnings. </p>
 <p>this disables warnings based on the following bitfields:</p>
-<p>ROADRUNNER_DISABLE_WARNINGS_STEADYSTATE: disable the warning in <a class="reference internal" href="rrRoadRunner.html#classrr_1_1RoadRunner_1a6dca346fbb6e59eb73b0a16212df8165"><span class="std std-ref">RoadRunner::steadyState</span></a> about possible singular jacobian.</p>
+<p>ROADRUNNER_DISABLE_WARNINGS_STEADYSTATE: disable the warning in <a class="reference internal" href="rrRoadRunner.html#classrr_1_1RoadRunner_1af310e01ec241bc2b19a46629087024d0"><span class="std std-ref">RoadRunner::steadyState</span></a> about possible singular jacobian.</p>
 <p>ROADRUNNER_DISABLE_WARNINGS_CONSERVED_MOIETY: disable the conserved moieties warning if enabled when loading a sbml document. </p>
 </dd></dl>
 
@@ -675,7 +675,7 @@
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N2rr6Config9getStringE4Keys">
 <span id="_CPPv3N2rr6Config9getStringE4Keys"></span><span id="_CPPv2N2rr6Config9getStringE4Keys"></span><span id="rr::Config::getString__Keys"></span><span class="target" id="classrr_1_1Config_1a0370467d1593491eac5e443ce0c03224"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getString</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4N2rr6Config4KeysE" title="rr::Config::Keys"><span class="n"><span class="pre">Keys</span></span></a><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr6Config9getStringE4Keys" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>read the config value as a string. </p>
+<dd><p>read the config value as a std::string. </p>
 </dd></dl>
 
 <dl class="cpp function">
@@ -699,19 +699,19 @@
 <dt class="sig sig-object cpp" id="_CPPv4N2rr6Config17getConfigFilePathEv">
 <span id="_CPPv3N2rr6Config17getConfigFilePathEv"></span><span id="_CPPv2N2rr6Config17getConfigFilePathEv"></span><span id="rr::Config::getConfigFilePath"></span><span class="target" id="classrr_1_1Config_1a4ee7359b58047946520f3f3a9c6de04c"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getConfigFilePath</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr6Config17getConfigFilePathEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>If a config file was found in one of the above locations, its full path is returned here. </p>
-<p>Otherwise, if no file was found, an empty string is returned. </p>
+<p>Otherwise, if no file was found, an empty std::string is returned. </p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N2rr6Config8setValueE4KeysRK7Variant">
-<span id="_CPPv3N2rr6Config8setValueE4KeysRK7Variant"></span><span id="_CPPv2N2rr6Config8setValueE4KeysRK7Variant"></span><span id="rr::Config::setValue__Keys.VariantCR"></span><span class="target" id="classrr_1_1Config_1a3d5bdb8ee4fad8a88bac365328f510fc"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setValue</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4N2rr6Config4KeysE" title="rr::Config::Keys"><span class="n"><span class="pre">Keys</span></span></a>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="Variant.html#_CPPv4N2rr7VariantE" title="rr::Variant"><span class="n"><span class="pre">Variant</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr6Config8setValueE4KeysRK7Variant" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N2rr6Config8setValueE4Keys7Setting">
+<span id="_CPPv3N2rr6Config8setValueE4Keys7Setting"></span><span id="_CPPv2N2rr6Config8setValueE4Keys7Setting"></span><span id="rr::Config::setValue__Keys.Setting"></span><span class="target" id="classrr_1_1Config_1af31cc9c1ef79cd00c6099930bd2aae9c"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setValue</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4N2rr6Config4KeysE" title="rr::Config::Keys"><span class="n"><span class="pre">Keys</span></span></a>, <span class="n"><span class="pre">Setting</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr6Config8setValueE4Keys7Setting" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>set the value of a config key. </p>
 <p>note, this value is only used in any new objects created after it has been set. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N2rr6Config8getValueE4Keys">
-<span id="_CPPv3N2rr6Config8getValueE4Keys"></span><span id="_CPPv2N2rr6Config8getValueE4Keys"></span><span id="rr::Config::getValue__Keys"></span><span class="target" id="classrr_1_1Config_1aa31df27110cab08f134c8e7570d90746"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="Variant.html#_CPPv4N2rr7VariantE" title="rr::Variant"><span class="n"><span class="pre">Variant</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">getValue</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4N2rr6Config4KeysE" title="rr::Config::Keys"><span class="n"><span class="pre">Keys</span></span></a><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr6Config8getValueE4Keys" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3N2rr6Config8getValueE4Keys"></span><span id="_CPPv2N2rr6Config8getValueE4Keys"></span><span id="rr::Config::getValue__Keys"></span><span class="target" id="classrr_1_1Config_1a1acfbc8a6af061e54e4c6b2890ce4a88"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">Setting</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getValue</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4N2rr6Config4KeysE" title="rr::Config::Keys"><span class="n"><span class="pre">Keys</span></span></a><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr6Config8getValueE4Keys" title="Permalink to this definition">¶</a><br /></dt>
 <dd></dd></dl>
 
 <dl class="cpp function">
@@ -734,7 +734,7 @@
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N2rr6Config10getKeyListEv">
-<span id="_CPPv3N2rr6Config10getKeyListEv"></span><span id="_CPPv2N2rr6Config10getKeyListEv"></span><span id="rr::Config::getKeyList"></span><span class="target" id="classrr_1_1Config_1abc159273f423c010242f1cf07f588f78"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getKeyList</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr6Config10getKeyListEv" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3N2rr6Config10getKeyListEv"></span><span id="_CPPv2N2rr6Config10getKeyListEv"></span><span id="rr::Config::getKeyList"></span><span class="target" id="classrr_1_1Config_1a20e11f7bdb81efbd1e84011801b4a526"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getKeyList</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr6Config10getKeyListEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd></dd></dl>
 
 </div>
