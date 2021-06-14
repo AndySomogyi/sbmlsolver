@@ -222,7 +222,7 @@ namespace rr {
         /**
          * Points to the current sensitivities solver
          */
-        SensitivitySolver *sensitivities_solver;
+        SensitivitySolver *sensitivities_solver = nullptr;
         std::vector<SensitivitySolver *> sensitivity_solvers;
 
 
@@ -376,18 +376,21 @@ namespace rr {
         }
 
         void deleteAllSolvers() {
+            // remove integrators
             for (auto & integrator : integrators) {
                 delete integrator;
                 integrator = nullptr;
             }
             integrators.clear();
 
+            // remove steady state solvers
             for (auto & steady_state_solver : steady_state_solvers) {
                 delete steady_state_solver;
                 steady_state_solver = nullptr;
             }
             steady_state_solvers.clear();
 
+            // remove sensitivity solvers
             for (auto & sensitivity_solver : sensitivity_solvers) {
                 delete sensitivity_solver;
                 sensitivity_solver = nullptr;
@@ -3842,6 +3845,8 @@ namespace rr {
         IntegratorRegistrationMgr::Register();
         // must be run to register solvers at startup
         SolverRegistrationMgr::Register();
+        // must be run to register sensitivity solvers at startup
+        SensitivityRegistrationMgr::Register();
     }
 
     std::vector<std::string> RoadRunner::getRegisteredSteadyStateSolverNames() {
