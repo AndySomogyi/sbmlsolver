@@ -21,9 +21,7 @@
 #include "rrConstants.h"
 #include "rrVersionInfo.h"
 #include "Integrator.h"
-#include "IntegratorRegistration.h"
 #include "SteadyStateSolver.h"
-#include "SolverRegistration.h"
 #include "rrSBMLReader.h"
 #include "rrConfig.h"
 #include "SBMLValidator.h"
@@ -499,9 +497,9 @@ namespace rr {
         llvm::InitializeNativeTargetAsmPrinter();
         llvm::InitializeNativeTargetAsmParser();
         // must be run to register integrators at startup
-        IntegratorRegistrationMgr::Register();
+        IntegratorFactory::Register();
         // must be run to register solvers at startup
-        SolverRegistrationMgr::Register();
+        SteadyStateSolverFactory::Register();
 
         //Increase instance count..
         mInstanceCount++;
@@ -538,14 +536,14 @@ namespace rr {
         llvm::InitializeNativeTargetAsmPrinter();
 
         /**
-	 * The main program should call
-     *  this function to initialize the native target asm parser.
-	 */
+         * The main program should call
+         *  this function to initialize the native target asm parser.
+         */
         llvm::InitializeNativeTargetAsmParser();
         // must be run to register integrators at startup
-        IntegratorRegistrationMgr::Register();
+        IntegratorFactory::Register();
         // must be run to register solvers at startup
-        SolverRegistrationMgr::Register();
+        SteadyStateSolverFactory::Register();
 
         // make CVODE the default integrator
         setIntegrator("cvode");
@@ -568,9 +566,9 @@ namespace rr {
         llvm::InitializeNativeTargetAsmPrinter();
         llvm::InitializeNativeTargetAsmParser();
         // must be run to register integrators at startup
-        IntegratorRegistrationMgr::Register();
+        IntegratorFactory::Register();
         // must be run to register solvers at startup
-        SolverRegistrationMgr::Register();
+        SteadyStateSolverFactory::Register();
 
         std::string tempDir = _tempDir.empty() ? getTempDir() : _tempDir;
 
@@ -3842,9 +3840,9 @@ namespace rr {
 
     void RoadRunner::ensureSolversRegistered() {
         // must be run to register integrators at startup
-        IntegratorRegistrationMgr::Register();
+        IntegratorFactory::Register();
         // must be run to register solvers at startup
-        SolverRegistrationMgr::Register();
+        SteadyStateSolverFactory::Register();
         // must be run to register sensitivity solvers at startup
 //        SensitivityRegistrationMgr::Register();
     }

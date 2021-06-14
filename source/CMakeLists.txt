@@ -46,7 +46,6 @@ set(
         rrStringUtils.cpp
         rrUtils.cpp
         Integrator.cpp
-        IntegratorRegistration.cpp
         CVODEIntegrator.cpp
         Dictionary.cpp
         GillespieIntegrator.cpp
@@ -72,8 +71,7 @@ set(
         SBMLValidator.cpp
         SteadyStateSolver.cpp
         Solver.cpp
-        SolverRegistration.cpp
-#        Variant.cpp
+        #        Variant.cpp
         Setting.cpp
         SensitivityResult.cpp
         SensitivitySolver.cpp
@@ -119,7 +117,6 @@ set(
         rrStringUtils.h
         rrUtils.h
         Integrator.h
-        IntegratorRegistration.h
         CVODEIntegrator.h
         Dictionary.h
         GillespieIntegrator.h
@@ -145,8 +142,7 @@ set(
         SBMLValidator.h
         SteadyStateSolver.h
         Solver.h
-        SolverRegistration.h
-#        Variant.h
+        #        Variant.h
         Setting.h
         SensitivityResult.h
         SensitivitySolver.h

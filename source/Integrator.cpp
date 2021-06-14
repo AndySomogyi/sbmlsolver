@@ -14,15 +14,14 @@
 // == INCLUDES ================================================
 
 #include "Integrator.h"
-// #include "CVODEIntegrator.h"
-// #include "GillespieIntegrator.h"
-// #include "RK4Integrator.h"
-// #include "EulerIntegrator.h"
+#include "CVODEIntegrator.h"
+#include "GillespieIntegrator.h"
+#include "RK4Integrator.h"
+#include "EulerIntegrator.h"
+#include "RK45Integrator.h"
+
 #include "rrExecutableModel.h"
-#include "rrStringUtils.h"
 #include "rrConfig.h"
-#include "rrUtils.h"
-#include <typeinfo>
 
 // == CODE ====================================================
 
@@ -82,6 +81,19 @@ namespace rr
 
     IntegratorFactory &IntegratorFactory::getInstance() {
         return FactoryWithRegistration::getInstance<IntegratorFactory>(integratorFactoryMutex);
+    }
+
+    void IntegratorFactory::Register() {
+        static bool flag = false;
+        if (!flag) {
+            std::lock_guard<std::mutex> lockGuard(integratorRegistrationMutex);
+            flag = true;
+            IntegratorFactory::getInstance().registerSolver(new CVODEIntegratorRegistrar());
+            IntegratorFactory::getInstance().registerSolver(new GillespieIntegratorRegistrar());
+            IntegratorFactory::getInstance().registerSolver(new RK4IntegratorRegistrar());
+            IntegratorFactory::getInstance().registerSolver(new RK45IntegratorRegistrar());
+            IntegratorFactory::getInstance().registerSolver(new EulerIntegratorRegistrar());
+        }
     }
 
 }

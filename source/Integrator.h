@@ -156,6 +156,7 @@ namespace rr {
     };
 
     static std::mutex integratorFactoryMutex;
+    static std::mutex integratorRegistrationMutex;
 
     /**
      * @author JKM, WBC
@@ -172,6 +173,14 @@ namespace rr {
          * sigleton pattern and is thread safe due to use of std::mutex.
          */
         static IntegratorFactory &getInstance();
+
+        /**
+         * @author JKM
+         * @brief Registers all integrators at startup
+         * @details Is run at first instantiation of @ref RoadRunner.
+         * Subsequent calls have no effect.
+         */
+        static void Register();
 
     };
 

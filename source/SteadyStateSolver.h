@@ -74,6 +74,7 @@ namespace rr
     };
 
     static std::mutex steadyStateSolverFactoryMutex;
+    static std::mutex steadyStateSolverRegistrationMutex;
 
     /**
      * @author JKM, WBC
@@ -94,6 +95,8 @@ namespace rr
          * and is thread safe due to use of std::mutex.
          */
         static SteadyStateSolverFactory& getInstance();
+
+        static void Register();
     };
 
 }

@@ -11,23 +11,17 @@
 * @brief Contains the base class for RoadRunner SteadyStateSolvers
 **/
 
-// == INCLUDES ================================================
-
 #include "SteadyStateSolver.h"
-#include "rrStringUtils.h"
 #include "rrConfig.h"
-#include "rrUtils.h"
-#include "Registrar.h"
-#include <typeinfo>
 #include <iomanip>
-
-// == CODE ====================================================
+#include "Solver.h"
+#include "NLEQ1Solver.h"
+#include "NLEQ2Solver.h"
+#include "BasicNewtonIteration.h"
+#include "LinesearchNewtonIteration.h"
 
 
 namespace rr {
-    /********************************************************************************************
-    * SteadyStateSolver FACTORY
-    ********************************************************************************************/
 
     std::string SteadyStateSolver::toString() const {
         std::stringstream ss;
@@ -107,5 +101,17 @@ namespace rr {
 
     SteadyStateSolverFactory &SteadyStateSolverFactory::getInstance() {
         return FactoryWithRegistration::getInstance<SteadyStateSolverFactory>(steadyStateSolverFactoryMutex);
+    }
+
+    void SteadyStateSolverFactory::Register() {
+        static bool flag = false;
+        if (!flag) {
+            std::lock_guard<std::mutex> mtx(steadyStateSolverRegistrationMutex);
+            flag = true;
+            SteadyStateSolverFactory::getInstance().registerSolver(new NLEQ1SolverRegistrar());
+            SteadyStateSolverFactory::getInstance().registerSolver(new NLEQ2SolverRegistrar());
+            SteadyStateSolverFactory::getInstance().registerSolver(new BasicNewtonIterationRegistrar());
+            SteadyStateSolverFactory::getInstance().registerSolver(new LinesearchNewtonIterationRegistrar());
+        }
     }
 }
