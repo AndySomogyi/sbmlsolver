@@ -375,21 +375,21 @@ namespace rr {
 
         void deleteAllSolvers() {
             // remove integrators
-            for (auto & integrator : integrators) {
+            for (auto &integrator : integrators) {
                 delete integrator;
                 integrator = nullptr;
             }
             integrators.clear();
 
             // remove steady state solvers
-            for (auto & steady_state_solver : steady_state_solvers) {
+            for (auto &steady_state_solver : steady_state_solvers) {
                 delete steady_state_solver;
                 steady_state_solver = nullptr;
             }
             steady_state_solvers.clear();
 
             // remove sensitivity solvers
-            for (auto & sensitivity_solver : sensitivity_solvers) {
+            for (auto &sensitivity_solver : sensitivity_solvers) {
                 delete sensitivity_solver;
                 sensitivity_solver = nullptr;
             }
@@ -397,13 +397,13 @@ namespace rr {
         }
 
         void syncAllSolversWithModel(ExecutableModel *m) {
-            for (auto & integrator : integrators) {
+            for (auto &integrator : integrators) {
                 integrator->syncWithModel(m);
             }
-            for (auto & steady_state_solver : steady_state_solvers) {
+            for (auto &steady_state_solver : steady_state_solvers) {
                 steady_state_solver->syncWithModel(m);
             }
-            for (auto & sensitivity_solver : sensitivity_solvers) {
+            for (auto &sensitivity_solver : sensitivity_solvers) {
                 sensitivity_solver->syncWithModel(m);
             }
         }
@@ -496,10 +496,11 @@ namespace rr {
         llvm::InitializeNativeTarget();
         llvm::InitializeNativeTargetAsmPrinter();
         llvm::InitializeNativeTargetAsmParser();
-        // must be run to register integrators at startup
+
+        // Register integrators, steady state and sensitivity solvers on instantiation
         IntegratorFactory::Register();
-        // must be run to register solvers at startup
         SteadyStateSolverFactory::Register();
+        SensitivitySolverFactory::Register();
 
         //Increase instance count..
         mInstanceCount++;
@@ -509,6 +510,8 @@ namespace rr {
         setIntegrator("cvode");
         // make NLEQ2 the default steady state solver
         setSteadyStateSolver("nleq2");
+        // make forward the default sensitivity state solver
+        setSensitivitySolver("forward");
 
         // enable building the model using editing methods
         // and allow simultion without loading SBML files
@@ -540,15 +543,20 @@ namespace rr {
          *  this function to initialize the native target asm parser.
          */
         llvm::InitializeNativeTargetAsmParser();
-        // must be run to register integrators at startup
+
+        /**
+         * Register solvers
+         */
         IntegratorFactory::Register();
-        // must be run to register solvers at startup
         SteadyStateSolverFactory::Register();
+        SensitivitySolverFactory::Register();
 
         // make CVODE the default integrator
         setIntegrator("cvode");
         // make NLEQ2 the default steady state solver
         setSteadyStateSolver("nleq2");
+        // make forward the default steady state solver
+        setSensitivitySolver("forward");
 
         load(uriOrSBML, options);
 
@@ -565,10 +573,10 @@ namespace rr {
         llvm::InitializeNativeTarget();
         llvm::InitializeNativeTargetAsmPrinter();
         llvm::InitializeNativeTargetAsmParser();
-        // must be run to register integrators at startup
+        // must be run to register solvers
         IntegratorFactory::Register();
-        // must be run to register solvers at startup
         SteadyStateSolverFactory::Register();
+        SensitivitySolverFactory::Register();
 
         std::string tempDir = _tempDir.empty() ? getTempDir() : _tempDir;
 
@@ -582,6 +590,8 @@ namespace rr {
         setIntegrator("cvode");
         // make NLEQ2 the default steady state solver
         setSteadyStateSolver("nleq2");
+        // make forward the default steady state solver
+        setSensitivitySolver("forward");
         impl->document = std::unique_ptr<libsbml::SBMLDocument>(new libsbml::SBMLDocument(3, 2));
         impl->document->createModel();
 
@@ -609,7 +619,6 @@ namespace rr {
             }
         }
 
-
         //Set up the steady state solvers, the same as the integrators.
         for (size_t ss = 0; ss < rr.impl->integrators.size(); ss++) {
             setSteadyStateSolver(rr.impl->steady_state_solvers[ss]->getName());
@@ -617,8 +626,21 @@ namespace rr {
                 impl->steady_state_solver->setValue(k, rr.impl->steady_state_solvers[ss]->getValue(k));
             }
         }
+
         if (rr.impl->steady_state_solver) {
             setSteadyStateSolver(rr.impl->steady_state_solver->getName());
+        }
+
+        //Set up the sensitivity state solvers, the same as the integrators and steady state
+        for (size_t ss = 0; ss < rr.impl->sensitivity_solvers.size(); ss++) {
+            setSensitivitySolver(rr.impl->sensitivity_solvers[ss]->getName());
+            for (std::string k : rr.impl->sensitivity_solvers[ss]->getSettings()) {
+                impl->steady_state_solver->setValue(k, rr.impl->sensitivity_solvers[ss]->getValue(k));
+            }
+        }
+
+        if (rr.impl->sensitivities_solver) {
+            setSensitivitySolver(rr.impl->sensitivities_solver->getName());
         }
 
         reset(SelectionRecord::TIME);
@@ -3779,25 +3801,28 @@ namespace rr {
         return impl->integrator;
     }
 
-    SensitivitySolver *RoadRunner::getSensitivities() {
+    SensitivitySolver *RoadRunner::getSensitivitySolver() {
         //applySimulateOptions();
         return impl->sensitivities_solver;
     }
 
-    void RoadRunner::setSensitivities(const std::string &name) {
-        // if the current sensitivity solver is @param name return
-        // since we do not need to do anything.
-        if (impl->sensitivities_solver->getName() == name) {
-            return;
+    void RoadRunner::setSensitivitySolver(const std::string &name) {
+        // if the current sensitivity solver is not nullptr and @param name
+        // we just return since we do not need to do anything.
+        if (impl->sensitivities_solver) {
+            if (impl->sensitivities_solver->getName() == name) {
+                return;
+            }
+            // if this is not the case, we need to delete the existing sensitivities solver
+            // and make a new one
+            delete impl->sensitivities_solver;
         }
-        // if this is not the case, we need to delete the existing sensitivities solver
-        // and make a new one
-        delete impl->sensitivities_solver;
 
         // factory static method for creating SensitivitySolvers.
         // memory is owned by RoadRunner instance, like the other solvers.
-        impl->sensitivities_solver = SensitivitySolver::makeSensitivitySolver(name, getModel());
-
+        impl->sensitivities_solver = dynamic_cast<SensitivitySolver *>(
+                SensitivitySolverFactory::getInstance().New(name, getModel())
+        );
     };
 
     SensitivityResult RoadRunner::sensitivities(double start, double stop, double num) {
@@ -3839,12 +3864,10 @@ namespace rr {
     }
 
     void RoadRunner::ensureSolversRegistered() {
-        // must be run to register integrators at startup
-        IntegratorFactory::Register();
         // must be run to register solvers at startup
+        IntegratorFactory::Register();
         SteadyStateSolverFactory::Register();
-        // must be run to register sensitivity solvers at startup
-//        SensitivityRegistrationMgr::Register();
+        SensitivitySolverFactory::Register();
     }
 
     std::vector<std::string> RoadRunner::getRegisteredSteadyStateSolverNames() {
@@ -3879,7 +3902,7 @@ namespace rr {
             return NULL;
         }
         rrLog(Logger::LOG_DEBUG) << "Creating new integrator for " << name;
-        Integrator *result = dynamic_cast<Integrator*>(
+        Integrator *result = dynamic_cast<Integrator *>(
                 IntegratorFactory::getInstance().New(name, impl->model.get())
         );
         impl->integrators.push_back(result);
@@ -3889,7 +3912,7 @@ namespace rr {
 
     bool RoadRunner::integratorExists(std::string name) {
         int i = 0;
-        for (auto it : impl->integrators){
+        for (auto it : impl->integrators) {
             if (impl->integrators.at(i)->getName() == name) {
                 return true;
             }
@@ -3902,7 +3925,7 @@ namespace rr {
         // Try to set steady_state_solver from an existing reference.
         if (steadyStateSolverExists(name)) {
             int i = 0;
-            for (auto it: impl->steady_state_solvers){
+            for (auto it: impl->steady_state_solvers) {
                 if (impl->steady_state_solvers.at(i)->getName() == name) {
                     rrLog(Logger::LOG_DEBUG) << "Using pre-existing steady state solver for " << name;
                     impl->steady_state_solver = impl->steady_state_solvers.at(i);
@@ -3912,7 +3935,7 @@ namespace rr {
             // Otherwise, create a new steady state solver.
         else {
             rrLog(Logger::LOG_DEBUG) << "Creating new steady state solver for " << name;
-            impl->steady_state_solver = dynamic_cast<SteadyStateSolver*>(
+            impl->steady_state_solver = dynamic_cast<SteadyStateSolver *>(
                     SteadyStateSolverFactory::getInstance().New(name, impl->model.get())
             );
             impl->steady_state_solvers.push_back(impl->steady_state_solver);
@@ -3920,9 +3943,9 @@ namespace rr {
     }
 
 
-    bool RoadRunner::steadyStateSolverExists(const std::string& name) {
+    bool RoadRunner::steadyStateSolverExists(const std::string &name) {
         int i = 0;
-        for (auto it : impl->steady_state_solvers){
+        for (auto it : impl->steady_state_solvers) {
             if (impl->steady_state_solvers.at(i)->getName() == name) {
                 return true;
             }

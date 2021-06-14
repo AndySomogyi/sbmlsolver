@@ -2732,8 +2732,8 @@
     <member refid="classrr_1_1RoadRunner_1a3280d3b45ff394b0f507fb0a5983d582" kind="function"><name>getInfo</name></member>
     <member refid="classrr_1_1RoadRunner_1a329f2009c2688bbedc906c21c4b8b3ef" kind="function"><name>getCompiler</name></member>
     <member refid="classrr_1_1RoadRunner_1a8372249ea83ce40f91b935b09791a920" kind="function"><name>setCompiler</name></member>
-    <member refid="classrr_1_1RoadRunner_1a119e77c9145176c5a0f69490ebcb8d48" kind="function"><name>getSensitivities</name></member>
-    <member refid="classrr_1_1RoadRunner_1a5f1bb1899a8d66c11e7d3d85d259093f" kind="function"><name>setSensitivities</name></member>
+    <member refid="classrr_1_1RoadRunner_1a119e77c9145176c5a0f69490ebcb8d48" kind="function"><name>getSensitivitySolver</name></member>
+    <member refid="classrr_1_1RoadRunner_1a5f1bb1899a8d66c11e7d3d85d259093f" kind="function"><name>setSensitivitySolver</name></member>
     <member refid="classrr_1_1RoadRunner_1a118882d4b688b0c42bbe0aafaf0c792a" kind="function"><name>sensitivities</name></member>
     <member refid="classrr_1_1RoadRunner_1ac7ed0222daee67405616805b1bd02125" kind="function"><name>getIntegrator</name></member>
     <member refid="classrr_1_1RoadRunner_1a8acc349df7a67c32d696bb56952a069e" kind="function"><name>getIntegratorByName</name></member>

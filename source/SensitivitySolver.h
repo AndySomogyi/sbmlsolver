@@ -25,7 +25,7 @@ namespace rr {
         /**
          * @brief factory method for creating a SensitivitySolver
          */
-        static SensitivitySolver *makeSensitivitySolver(const std::string &name, ExecutableModel *executableModel);
+//        static SensitivitySolver *makeSensitivitySolver(const std::string &name, ExecutableModel *executableModel);
 
         /**
         * @brief Get the name of this solver
@@ -61,6 +61,7 @@ namespace rr {
      * To make the singleton SensitivitySolverFactory thread safe
      */
     static std::mutex sensitivitySolverMutex;
+    static std::mutex sensitivityRegistrationMutex;
 
 
     /**
@@ -70,9 +71,11 @@ namespace rr {
      * Constructs a new integrator given the name (e.g. cvode, gillespie)
      * and returns a base pointer to @ref rr::SensitivitySolver.
      */
-    class RR_DECLSPEC SensitivitySolverFactory {
+    class RR_DECLSPEC SensitivitySolverFactory: public FactoryWithRegistration {
     public:
         static SensitivitySolverFactory& getInstance();
+
+        static void Register();
     };
 
 

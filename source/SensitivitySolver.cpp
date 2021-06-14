@@ -31,12 +31,22 @@ namespace rr {
 
     void SensitivitySolver::loadConfigSettings() {}
 
-    SensitivitySolver *SensitivitySolver::makeSensitivitySolver(const string &name, ExecutableModel *executableModel) {
-        return nullptr;
-    }
+//    SensitivitySolver *SensitivitySolver::makeSensitivitySolver(const string &name, ExecutableModel *executableModel) {
+//        return nullptr;
+//    }
 
     SensitivitySolverFactory &SensitivitySolverFactory::getInstance() {
         return FactoryWithRegistration::getInstance<SensitivitySolverFactory>(sensitivitySolverMutex);
+    }
+
+    void SensitivitySolverFactory::Register() {
+        static bool flag = false;
+        if (!flag) {
+            std::lock_guard<std::mutex> mtx(sensitivityRegistrationMutex);
+            SensitivitySolverFactory::getInstance().registerSolver(new ForwardSensitivityRegistrar());
+            SensitivitySolverFactory::getInstance().registerSolver(new AdjointSensitivityRegistrar());
+            flag = true;
+        }
     }
 
 

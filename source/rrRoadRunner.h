@@ -128,12 +128,12 @@ namespace rr {
         /**
          * @brief get a pointer to the current sensitivities solver
          */
-        SensitivitySolver *getSensitivities();
+        SensitivitySolver *getSensitivitySolver();
 
         /**
          * @brief set the current sensitivities solver by name;
          */
-        void setSensitivities(const std::string &name);
+        void setSensitivitySolver(const std::string &name);
 
         /**
          * @brief compute time based sensitivities for this model
