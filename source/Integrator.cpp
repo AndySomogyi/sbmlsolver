@@ -80,47 +80,10 @@ namespace rr
     * INTEGRATOR FACTORY
     ********************************************************************************************/
 
-    IntegratorFactory::~IntegratorFactory() {
-        for (auto it: mRegisteredIntegrators){
-            delete it;
+    IntegratorFactory &IntegratorFactory::getInstance() {
+            std::lock_guard<std::mutex> lockGuard(integratorFactoryMutex);
+            static IntegratorFactory factory;
+            return factory;
         }
-    }
-
-    Integrator* IntegratorFactory::New(const std::string& name, ExecutableModel* m) const {
-        for (auto it: mRegisteredIntegrators){
-            if (it->getName() == name) {
-                return dynamic_cast<Integrator *>(it->construct(m));
-            }
-        }
-        throw InvalidKeyException("No such integrator: " + name);
-    }
-
-    void IntegratorFactory::registerIntegrator(Registrar* i) {
-        if (!i)
-            throw CoreException("Registrar is null");
-        mRegisteredIntegrators.push_back(i);
-    }
-
-    IntegratorFactory& IntegratorFactory::getInstance() {
-        // FIXME: not thread safe -- JKM, July 24, 2015.
-        static IntegratorFactory factory;
-        return factory;
-    }
-
-    std::size_t IntegratorFactory::getNumIntegrators() const {
-        return mRegisteredIntegrators.size();
-    }
-
-    std::string IntegratorFactory::getIntegratorName(std::size_t n) const {
-        return mRegisteredIntegrators.at(n)->getName();
-    }
-
-    std::string IntegratorFactory::getIntegratorHint(std::size_t n) const {
-        return mRegisteredIntegrators.at(n)->getHint();
-    }
-
-    std::string IntegratorFactory::getIntegratorDescription(std::size_t n) const {
-        return mRegisteredIntegrators.at(n)->getDescription();
-    }
 
 }

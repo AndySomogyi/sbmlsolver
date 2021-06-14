@@ -30,10 +30,10 @@ namespace rr
 {
     // call exactly once
     static void register_solvers_at_init() {
-        SteadyStateSolverFactory::getInstance().registerSteadyStateSolver(new NLEQ1SolverRegistrar());
-        SteadyStateSolverFactory::getInstance().registerSteadyStateSolver(new NLEQ2SolverRegistrar());
-        SteadyStateSolverFactory::getInstance().registerSteadyStateSolver(new BasicNewtonIterationRegistrar());
-        SteadyStateSolverFactory::getInstance().registerSteadyStateSolver(new LinesearchNewtonIterationRegistrar());
+        SteadyStateSolverFactory::getInstance().registerSolver(new NLEQ1SolverRegistrar());
+        SteadyStateSolverFactory::getInstance().registerSolver(new NLEQ2SolverRegistrar());
+        SteadyStateSolverFactory::getInstance().registerSolver(new BasicNewtonIterationRegistrar());
+        SteadyStateSolverFactory::getInstance().registerSolver(new LinesearchNewtonIterationRegistrar());
     }
 
     void SolverRegistrationMgr::Register() {

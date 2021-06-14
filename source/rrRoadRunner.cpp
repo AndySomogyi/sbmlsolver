@@ -3834,8 +3834,8 @@ namespace rr {
 
     std::vector<std::string> RoadRunner::getRegisteredIntegratorNames() {
         std::vector<std::string> result;
-        for (int n = 0; n < IntegratorFactory::getInstance().getNumIntegrators(); ++n) {
-            result.push_back(IntegratorFactory::getInstance().getIntegratorName(n));
+        for (int n = 0; n < IntegratorFactory::getInstance().size(); ++n) {
+            result.push_back(IntegratorFactory::getInstance().name(n));
         }
         return result;
     }
@@ -3851,8 +3851,8 @@ namespace rr {
 
     std::vector<std::string> RoadRunner::getRegisteredSteadyStateSolverNames() {
         std::vector<std::string> result;
-        for (int n = 0; n < SteadyStateSolverFactory::getInstance().getNumSteadyStateSolvers(); ++n) {
-            result.push_back(SteadyStateSolverFactory::getInstance().getSteadyStateSolverName(n));
+        for (int n = 0; n < SteadyStateSolverFactory::getInstance().size(); ++n) {
+            result.push_back(SteadyStateSolverFactory::getInstance().name(n));
         }
         return result;
     }
@@ -3881,7 +3881,9 @@ namespace rr {
             return NULL;
         }
         rrLog(Logger::LOG_DEBUG) << "Creating new integrator for " << name;
-        Integrator *result = IntegratorFactory::getInstance().New(name, impl->model.get());
+        Integrator *result = dynamic_cast<Integrator*>(
+                IntegratorFactory::getInstance().New(name, impl->model.get())
+        );
         impl->integrators.push_back(result);
         return result;
     }
@@ -3889,8 +3891,7 @@ namespace rr {
 
     bool RoadRunner::integratorExists(std::string name) {
         int i = 0;
-        for (std::vector<Integrator *>::iterator it = impl->integrators.begin();
-             it != impl->integrators.end(); ++it, ++i) {
+        for (auto it : impl->integrators){
             if (impl->integrators.at(i)->getName() == name) {
                 return true;
             }
@@ -3903,8 +3904,7 @@ namespace rr {
         // Try to set steady_state_solver from an existing reference.
         if (steadyStateSolverExists(name)) {
             int i = 0;
-            for (std::vector<SteadyStateSolver *>::iterator it = impl->steady_state_solvers.begin();
-                 it != impl->steady_state_solvers.end(); ++it, ++i) {
+            for (auto it: impl->steady_state_solvers){
                 if (impl->steady_state_solvers.at(i)->getName() == name) {
                     rrLog(Logger::LOG_DEBUG) << "Using pre-existing steady state solver for " << name;
                     impl->steady_state_solver = impl->steady_state_solvers.at(i);
@@ -3914,16 +3914,17 @@ namespace rr {
             // Otherwise, create a new steady state solver.
         else {
             rrLog(Logger::LOG_DEBUG) << "Creating new steady state solver for " << name;
-            impl->steady_state_solver = SteadyStateSolverFactory::getInstance().New(name, impl->model.get());
+            impl->steady_state_solver = dynamic_cast<SteadyStateSolver*>(
+                    SteadyStateSolverFactory::getInstance().New(name, impl->model.get())
+            );
             impl->steady_state_solvers.push_back(impl->steady_state_solver);
         }
     }
 
 
-    bool RoadRunner::steadyStateSolverExists(std::string name) {
+    bool RoadRunner::steadyStateSolverExists(const std::string& name) {
         int i = 0;
-        for (std::vector<SteadyStateSolver *>::iterator it = impl->steady_state_solvers.begin();
-             it != impl->steady_state_solvers.end(); ++it, ++i) {
+        for (auto it : impl->steady_state_solvers){
             if (impl->steady_state_solvers.at(i)->getName() == name) {
                 return true;
             }
@@ -3971,11 +3972,10 @@ namespace rr {
         std::vector<std::string> result;
 
         // have an implied time
-        result.push_back("time");
+        result.emplace_back("time");
 
         // need to add them in order
-        for (std::vector<std::string>::const_iterator var = o.variables.begin();
-             var != o.variables.end(); ++var) {
+        for (std::vector<std::string>::const_iterator var = o.variables.begin(); var != o.variables.end(); ++var) {
             if (find(o.concentrations.begin(), o.concentrations.end(), *var)
                 != o.concentrations.end()) {
                 result.push_back("[" + *var + "]");

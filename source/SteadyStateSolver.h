@@ -20,6 +20,7 @@
 #include "rrException.h"
 #include "Solver.h"
 #include "Registrar.h"
+#include "FactoryWithRegistration.h"
 
 #include <memory>
 #include <unordered_map>
@@ -72,6 +73,8 @@ namespace rr
 
     };
 
+    static std::mutex steadyStateSolverFactoryMutex;
+
     /**
      * @author JKM, WBC
      * @brief Constructs new integrators
@@ -79,51 +82,18 @@ namespace rr
      * Constructs a new integrator given the name (e.g. cvode, gillespie)
      * and returns a base pointer to @ref rr::SteadyStateSolver.
      */
-    class RR_DECLSPEC SteadyStateSolverFactory
+    class RR_DECLSPEC SteadyStateSolverFactory : public FactoryWithRegistration
     {
     public:
-        virtual ~SteadyStateSolverFactory();
-
-        /**
-         * @author JKM, WBC
-         * @brief Constructs a new solver given the name
-         * (e.g. cvode, gillespie)
-         */
-        SteadyStateSolver* New(const std::string& name, ExecutableModel *m) const;
-
-        /**
-         * @author JKM, WBC
-         * @brief Registers a new solver with the factory
-         * so that it can be constructed
-         * @details Should be called at startup for new solvers.
-         */
-        void registerSteadyStateSolver(Registrar* i);
 
         /**
          * @author JKM, WBC
          * @brief Returns the singleton instance of the solver factory
+         * @details If one exists return is otherwise create
+         * one. This method implements the sigleton pattern
+         * and is thread safe due to use of std::mutex.
          */
         static SteadyStateSolverFactory& getInstance();
-
-        // ** Indexing *********************************************************
-
-        std::size_t getNumSteadyStateSolvers() const;
-
-		std::vector<std::string> getListSteadyStateSolverNames();
-
-        std::string getSteadyStateSolverName(std::size_t n) const;
-
-        std::string getSteadyStateSolverHint(std::size_t n) const;
-
-        std::string getSteadyStateSolverDescription(std::size_t n) const;
-
-    private:
-        /**
-         * @author JKM, WBC
-         * @brief Prevents external instantiation
-         */
-        SteadyStateSolverFactory() {}
-        RegistrarVector mRegisteredSteadyStateSolvers;
     };
 
 }

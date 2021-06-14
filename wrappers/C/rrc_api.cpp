@@ -1483,7 +1483,7 @@ RRListPtr rrcCallConv getElasticityCoefficientIds(RRHandle handle)
 int rrcCallConv getNumRegisteredIntegrators()
 {
 	start_try;
-		return static_cast<int>(IntegratorFactory::getInstance().getNumIntegrators());
+		return static_cast<int>(IntegratorFactory::getInstance().size());
     catch_int_macro
 }
 
@@ -1494,7 +1494,7 @@ char* rrcCallConv getRegisteredIntegratorName(int n)
             rrLog(Logger::LOG_WARNING) << "Negative index passed to getRegisteredIntegratorName";
             n = 0;
         }
-        return rr::createText(IntegratorFactory::getInstance().getIntegratorName(n));
+        return rr::createText(IntegratorFactory::getInstance().name(n));
     catch_ptr_macro
 }
 
@@ -1505,7 +1505,7 @@ char* rrcCallConv getRegisteredIntegratorHint(int n)
             rrLog(Logger::LOG_WARNING) << "Negative index passed to getRegisteredIntegratorName";
             n = 0;
         }
-        return rr::createText(IntegratorFactory::getInstance().getIntegratorHint(n));
+        return rr::createText(IntegratorFactory::getInstance().hint(n));
     catch_ptr_macro
 }
 
@@ -1516,7 +1516,7 @@ char* rrcCallConv getRegisteredIntegratorDescription(int n)
             rrLog(Logger::LOG_WARNING) << "Negative index passed to getRegisteredIntegratorName";
             n = 0;
         }
-        return rr::createText(IntegratorFactory::getInstance().getIntegratorDescription(n));
+        return rr::createText(IntegratorFactory::getInstance().description(n));
     catch_ptr_macro
 }
 
@@ -2452,7 +2452,7 @@ int rrcCallConv setCurrentIntegratorIndividualTolerance(RRHandle handle, char* s
 int rrcCallConv getNumRegisteredSteadyStateSolvers()
 {
     start_try;
-        return static_cast<int>(SteadyStateSolverFactory::getInstance().getNumSteadyStateSolvers());
+        return static_cast<int>(SteadyStateSolverFactory::getInstance().size());
     catch_int_macro
 }
 
@@ -2463,7 +2463,7 @@ char* rrcCallConv getRegisteredSteadyStateSolverName(int n)
             rrLog(Logger::LOG_WARNING) << "Negative index passed to getRegisteredSteadyStateSolverName";
             n = 0;
         }
-        return rr::createText(SteadyStateSolverFactory::getInstance().getSteadyStateSolverName(n));
+        return rr::createText(SteadyStateSolverFactory::getInstance().name(n));
     catch_ptr_macro
 }
 
@@ -2474,7 +2474,7 @@ char* rrcCallConv getRegisteredSteadyStateSolverHint(int n)
             rrLog(Logger::LOG_WARNING) << "Negative index passed to getRegisteredSteadyStateSolverName";
             n = 0;
         }
-        return rr::createText(SteadyStateSolverFactory::getInstance().getSteadyStateSolverHint(n));
+        return rr::createText(SteadyStateSolverFactory::getInstance().hint(n));
     catch_ptr_macro
 }
 
@@ -2485,7 +2485,7 @@ char* rrcCallConv getRegisteredSteadyStateSolverDescription(int n)
             rrLog(Logger::LOG_WARNING) << "Negative index passed to getRegisteredSteadyStateSolverName";
             n = 0;
         }
-        return rr::createText(SteadyStateSolverFactory::getInstance().getSteadyStateSolverDescription(n));
+        return rr::createText(SteadyStateSolverFactory::getInstance().description(n));
     catch_ptr_macro
 }
 
@@ -3330,7 +3330,9 @@ C_DECL_SPEC bool rrcCallConv setSeed(RRHandle h, long result) {
 		}
 		else
 		{
-			Integrator *intg = IntegratorFactory::getInstance().New("gillespie", r->getModel());
+			Integrator *intg = dynamic_cast<Integrator*>(
+			        IntegratorFactory::getInstance().New("gillespie", r->getModel())
+            );
 			intg->setValue("seed", Setting(result));
 		}
         return true;

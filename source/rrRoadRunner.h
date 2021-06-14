@@ -190,7 +190,7 @@ namespace rr {
 
         void setSteadyStateSolver(std::string name);
 
-        bool steadyStateSolverExists(std::string name);
+        bool steadyStateSolverExists(const std::string& name);
 
         bool isModelLoaded();
 

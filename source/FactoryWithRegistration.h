@@ -8,16 +8,15 @@
 #include "rrExporter.h"
 #include <iostream>
 #include "Registrar.h"
+#include "Solver.h"
 
 namespace rr {
 
     // fwd
     class ExecutableModel;
     class Solver;
-    class Registrar;
 
     typedef std::vector<Registrar *> RegistrarVector;
-
 
     /**
      * @author JKM, WBC
@@ -30,26 +29,26 @@ namespace rr {
     public:
         virtual ~FactoryWithRegistration();
 
-        virtual /**
+        /**
          * @author JKM, WBC
          * @brief Constructs a new integrator given the name
          * (e.g. cvode, gillespie)
          */
-        Solver *New(std::string name, ExecutableModel *m) const;
+        Solver *New(const std::string& name, ExecutableModel *m) const;
 
-        virtual /**
+        /**
          * @author JKM, WBC
          * @brief Registers a new integrator with the factory
          * so that it can be constructed
          * @details Should be called at startup for new integrators.
          */
-        void registerIntegrator(Registrar *i);
+        virtual void registerSolver(Registrar *i);
 
         /**
          * @author JKM, WBC
          * @brief Returns the singleton instance of the integrator factory
          */
-        static FactoryWithRegistration &getInstance();
+//        static FactoryWithRegistration &getInstance();
 
         virtual std::size_t size() const;
 
@@ -67,6 +66,7 @@ namespace rr {
         FactoryWithRegistration() = default;
 
         RegistrarVector registrars;
+
     };
 
 

@@ -6,35 +6,37 @@
 #include "rrException.h"
 #include "Solver.h"
 
-namespace rr {
+#include <mutex>
 
+namespace rr {
+    static std::mutex mutex;
 
     FactoryWithRegistration::~FactoryWithRegistration() {
         for (auto it : registrars){
-            delete *it;
+            delete it;
         }
     }
 
-    Solver* FactoryWithRegistration::New(std::string name, ExecutableModel* m) const {
+    Solver* FactoryWithRegistration::New(const std::string& name, ExecutableModel* m) const {
         for (auto it : registrars){
-            if ((*it)->getName() == name) {
-                return (*it)->construct(m);
+            if (it->getName() == name) {
+                return it->construct(m);
             }
         }
         throw InvalidKeyException("No such integrator: " + name);
     }
 
-    void FactoryWithRegistration::registerIntegrator(Registrar* i) {
+    void FactoryWithRegistration::registerSolver(Registrar* i) {
         if (!i)
             throw CoreException("Registrar is null");
         registrars.push_back(i);
     }
 
-    FactoryWithRegistration& FactoryWithRegistration::getInstance() {
-        // FIXME: not thread safe -- JKM, July 24, 2015.
-        static FactoryWithRegistration factory;
-        return factory;
-    }
+//    FactoryWithRegistration& FactoryWithRegistration::getInstance() {
+//        std::lock_guard<std::mutex> lockGuard(mutex);
+//        static FactoryWithRegistration factory;
+//        return factory;
+//    }
 
     std::size_t FactoryWithRegistration::size() const {
         return registrars.size();

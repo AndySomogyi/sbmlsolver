@@ -31,11 +31,11 @@ namespace rr
 {
     // call exactly once
     static void register_integrators_at_init() {
-        IntegratorFactory::getInstance().registerIntegrator(new CVODEIntegratorRegistrar());
-        IntegratorFactory::getInstance().registerIntegrator(new GillespieIntegratorRegistrar());
-        IntegratorFactory::getInstance().registerIntegrator(new RK4IntegratorRegistrar());
-        IntegratorFactory::getInstance().registerIntegrator(new RK45IntegratorRegistrar());
-        IntegratorFactory::getInstance().registerIntegrator(new EulerIntegratorRegistrar());
+        IntegratorFactory::getInstance().registerSolver(new CVODEIntegratorRegistrar());
+        IntegratorFactory::getInstance().registerSolver(new GillespieIntegratorRegistrar());
+        IntegratorFactory::getInstance().registerSolver(new RK4IntegratorRegistrar());
+        IntegratorFactory::getInstance().registerSolver(new RK45IntegratorRegistrar());
+        IntegratorFactory::getInstance().registerSolver(new EulerIntegratorRegistrar());
     }
 
     void IntegratorRegistrationMgr::Register() {

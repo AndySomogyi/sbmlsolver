@@ -25,6 +25,7 @@
 #include "tr1proxy/rr_memory.h"
 #include "tr1proxy/rr_unordered_map.h"
 #include "Registrar.h"
+#include "FactoryWithRegistration.h"
 #include <stdexcept>
 
 // == CODE ====================================================
@@ -154,67 +155,24 @@ namespace rr {
         }
     };
 
-//    /**
-//     * @author JKM, WBC
-//     * @brief Handles constructing an integrator and contains meta
-//     * information about it
-//     */
-//    class RR_DECLSPEC IntegratorRegistrar : public Registrar {
-//    public:
-//        virtual ~IntegratorRegistrar() = default;
-//
-//    };
+    static std::mutex integratorFactoryMutex;
 
     /**
      * @author JKM, WBC
      * @brief Constructs new integrators
-     * @details Implements the factory and singleton patterns.
-     * Constructs a new integrator given the name (e.g. cvode, gillespie)
-     * and returns a base pointer to @ref rr::Integrator.
+     * @details This is a singleton class. All methods except for
+     * getInstance are fully determined by superclass FactoryWithRegistration.
      */
-    class RR_DECLSPEC IntegratorFactory {
+    class RR_DECLSPEC IntegratorFactory : public FactoryWithRegistration {
     public:
-        virtual ~IntegratorFactory();
-
         /**
-         * @author JKM, WBC
-         * @brief Constructs a new integrator given the name
-         * (e.g. cvode, gillespie)
-         */
-        Integrator *New(const std::string& name, ExecutableModel *m) const;
-
-        /**
-         * @author JKM, WBC
-         * @brief Registers a new integrator with the factory
-         * so that it can be constructed
-         * @details Should be called at startup for new integrators.
-         */
-        void registerIntegrator(Registrar *i);
-
-        /**
-         * @author JKM, WBC
-         * @brief Returns the singleton instance of the integrator factory
+         * @brief get an instance of this IntegratorFactory.
+         * @details If one exists
+         * return is otherwise create one. This method implements the
+         * sigleton pattern and is thread safe due to use of std::mutex.
          */
         static IntegratorFactory &getInstance();
 
-        // ** Indexing *********************************************************
-
-        std::size_t getNumIntegrators() const;
-
-        std::string getIntegratorName(std::size_t n) const;
-
-        std::string getIntegratorHint(std::size_t n) const;
-
-        std::string getIntegratorDescription(std::size_t n) const;
-
-    private:
-        /**
-         * @author JKM, WBC
-         * @brief Prevents external instantiation
-         */
-        IntegratorFactory() {}
-
-        RegistrarVector mRegisteredIntegrators;
     };
 
 }

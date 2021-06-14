@@ -228,15 +228,6 @@ TEST_F(CVODEIntegratorUnitTests, DISABLED_tweakTolerancess) {
     cvodeIntegrator.tweakTolerances();
     std::cout << cvodeIntegrator.getValue("absolute_tolerance").toString() << std::endl;
     std::cout << cvodeIntegrator.getValue("relative_tolerance").toString() << std::endl;
-
-}
-
-TEST_F(CVODEIntegratorUnitTests, integrate) {
-    // setStateVector will be called once with a const double* as argument (i.e. the state vector)
-    EXPECT_CALL(mockExecutableModel,setStateVector(A<const double*>()))
-        .Times(1);
-    CVODEIntegrator cvodeIntegrator(&mockExecutableModel);
-    cvodeIntegrator.integrate(0, 10);
 }
 
 TEST_F(CVODEIntegratorUnitTests, restart) {
