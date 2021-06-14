@@ -24,6 +24,7 @@
 
 #include "tr1proxy/rr_memory.h"
 #include "tr1proxy/rr_unordered_map.h"
+#include "Registrar.h"
 #include <stdexcept>
 
 // == CODE ====================================================
@@ -153,42 +154,16 @@ namespace rr {
         }
     };
 
-    /**
-     * @author JKM, WBC
-     * @brief Handles constructing an integrator and contains meta
-     * information about it
-     */
-    class RR_DECLSPEC IntegratorRegistrar {
-    protected:
-        typedef Integrator *(*IntegratorCtor)(ExecutableModel *model);
-
-    public:
-        virtual ~IntegratorRegistrar();
-
-        /**
-         * @author JKM, WBC
-         * @brief Gets the name associated with this integrator type
-         */
-        virtual std::string getName() const = 0;
-
-        /**
-         * @author JKM, WBC
-         * @brief Gets the description associated with this integrator type
-         */
-        virtual std::string getDescription() const = 0;
-
-        /**
-         * @author JKM, WBC
-         * @brief Gets the hint associated with this integrator type
-         */
-        virtual std::string getHint() const = 0;
-
-        /**
-         * @author JKM, WBC
-         * @brief Constructs a new integrator of a given type
-         */
-        virtual Integrator *construct(ExecutableModel *model) const = 0;
-    };
+//    /**
+//     * @author JKM, WBC
+//     * @brief Handles constructing an integrator and contains meta
+//     * information about it
+//     */
+//    class RR_DECLSPEC IntegratorRegistrar : public Registrar {
+//    public:
+//        virtual ~IntegratorRegistrar() = default;
+//
+//    };
 
     /**
      * @author JKM, WBC
@@ -206,7 +181,7 @@ namespace rr {
          * @brief Constructs a new integrator given the name
          * (e.g. cvode, gillespie)
          */
-        Integrator *New(std::string name, ExecutableModel *m) const;
+        Integrator *New(const std::string& name, ExecutableModel *m) const;
 
         /**
          * @author JKM, WBC
@@ -214,7 +189,7 @@ namespace rr {
          * so that it can be constructed
          * @details Should be called at startup for new integrators.
          */
-        void registerIntegrator(IntegratorRegistrar *i);
+        void registerIntegrator(Registrar *i);
 
         /**
          * @author JKM, WBC
@@ -239,8 +214,7 @@ namespace rr {
          */
         IntegratorFactory() {}
 
-        typedef std::vector<IntegratorRegistrar *> IntegratorRegistrars;
-        IntegratorRegistrars mRegisteredIntegrators;
+        RegistrarVector mRegisteredIntegrators;
     };
 
 }

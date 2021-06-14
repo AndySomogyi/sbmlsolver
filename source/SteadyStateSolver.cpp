@@ -17,6 +17,7 @@
 #include "rrStringUtils.h"
 #include "rrConfig.h"
 #include "rrUtils.h"
+#include "Registrar.h"
 #include <typeinfo>
 #include <iomanip>
 
@@ -24,35 +25,27 @@
 
 
 namespace rr {
-    /*------------------------------------------------------------------------------------------
-        SteadyStateSolver
-      ------------------------------------------------------------------------------------------*/
-
-    SteadyStateSolverRegistrar::~SteadyStateSolverRegistrar() {}
-
     /********************************************************************************************
     * SteadyStateSolver FACTORY
     ********************************************************************************************/
 
     SteadyStateSolverFactory::~SteadyStateSolverFactory() {
-        for (SteadyStateSolverRegistrars::const_iterator it(mRegisteredSteadyStateSolvers.begin());
-             it != mRegisteredSteadyStateSolvers.end(); ++it) {
-            delete *it;
+        for (auto it : mRegisteredSteadyStateSolvers) {
+            delete it;
         }
     }
 
     SteadyStateSolver *SteadyStateSolverFactory::New(const std::string &name, ExecutableModel *m) const {
-        for (SteadyStateSolverRegistrars::const_iterator it(mRegisteredSteadyStateSolvers.begin());
-             it != mRegisteredSteadyStateSolvers.end(); ++it) {
-            if ((*it)->getName() == name) {
-                return (*it)->construct(m);
+        for (auto it: mRegisteredSteadyStateSolvers){
+            if (it->getName() == name) {
+                return dynamic_cast<SteadyStateSolver *>(it->construct(m));
             }
         }
         rrLog(Logger::LOG_ERROR) << "No such SteadyStateSolver '" << name << "'";
         throw InvalidKeyException("No such SteadyStateSolver: " + name);
     }
 
-    void SteadyStateSolverFactory::registerSteadyStateSolver(SteadyStateSolverRegistrar *i) {
+    void SteadyStateSolverFactory::registerSteadyStateSolver(Registrar *i) {
         if (!i)
             throw CoreException("Registrar is null");
         mRegisteredSteadyStateSolvers.push_back(i);

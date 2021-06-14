@@ -16,6 +16,7 @@
 
 #include <Integrator.h>
 #include <rrRoadRunnerOptions.h>
+#include "Registrar.h"
 
 namespace rr
 {
@@ -169,13 +170,13 @@ namespace rr
     // ** Registration *********************************************************
 
 
-    class RK45IntegratorRegistrar : public IntegratorRegistrar {
+    class RK45IntegratorRegistrar : public Registrar {
         public:
             /**
             * @author JKM
             * @brief Gets the name associated with this integrator type
             */
-            virtual std::string getName() const {
+            std::string getName() const override{
                 return RK45Integrator::getRK45Name();
             }
 
@@ -183,7 +184,7 @@ namespace rr
             * @author JKM
             * @brief Gets the description associated with this integrator type
             */
-            virtual std::string getDescription() const {
+            std::string getDescription() const override{
                 return RK45Integrator::getRK45Description();
             }
 
@@ -191,7 +192,7 @@ namespace rr
             * @author JKM
             * @brief Gets the hint associated with this integrator type
             */
-            virtual std::string getHint() const {
+            std::string getHint() const override{
                 return RK45Integrator::getRK45Hint();
             }
 
@@ -199,7 +200,7 @@ namespace rr
             * @author JKM
             * @brief Constructs a new integrator of a given type
             */
-            virtual Integrator* construct(ExecutableModel *model) const {
+            Solver* construct(ExecutableModel *model) const override {
                 return new RK45Integrator(model);
             }
     };

@@ -202,7 +202,7 @@ namespace rr
     // ** Registration *********************************************************
 
 
-    class RK4IntegratorRegistrar : public IntegratorRegistrar {
+    class RK4IntegratorRegistrar : public Registrar {
         public:
             /**
             * @author JKM

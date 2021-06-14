@@ -76,28 +76,26 @@ namespace rr
 		return v;
 	}
 
-    IntegratorRegistrar::~IntegratorRegistrar() {}
-
     /********************************************************************************************
     * INTEGRATOR FACTORY
     ********************************************************************************************/
 
     IntegratorFactory::~IntegratorFactory() {
-        for (IntegratorRegistrars::const_iterator it(mRegisteredIntegrators.begin()); it != mRegisteredIntegrators.end(); ++it) {
-            delete *it;
+        for (auto it: mRegisteredIntegrators){
+            delete it;
         }
     }
 
-    Integrator* IntegratorFactory::New(std::string name, ExecutableModel* m) const {
-        for (IntegratorRegistrars::const_iterator it(mRegisteredIntegrators.begin()); it != mRegisteredIntegrators.end(); ++it) {
-            if ((*it)->getName() == name) {
-                return (*it)->construct(m);
+    Integrator* IntegratorFactory::New(const std::string& name, ExecutableModel* m) const {
+        for (auto it: mRegisteredIntegrators){
+            if (it->getName() == name) {
+                return dynamic_cast<Integrator *>(it->construct(m));
             }
         }
         throw InvalidKeyException("No such integrator: " + name);
     }
 
-    void IntegratorFactory::registerIntegrator(IntegratorRegistrar* i) {
+    void IntegratorFactory::registerIntegrator(Registrar* i) {
         if (!i)
             throw CoreException("Registrar is null");
         mRegisteredIntegrators.push_back(i);

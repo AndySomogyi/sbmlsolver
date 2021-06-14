@@ -335,7 +335,7 @@ namespace rr
     // ** Registration *********************************************************
 
 
-    class CVODEIntegratorRegistrar : public IntegratorRegistrar {
+    class CVODEIntegratorRegistrar : public Registrar {
         public:
             /**
             * @author JKM

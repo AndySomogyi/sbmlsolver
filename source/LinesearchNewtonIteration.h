@@ -65,7 +65,7 @@ namespace rr {
     };
     
     
-    class LinesearchNewtonIterationRegistrar : public SteadyStateSolverRegistrar {
+    class LinesearchNewtonIterationRegistrar : public Registrar {
     public:
         /**
         * @brief Gets the name associated with this integrator type

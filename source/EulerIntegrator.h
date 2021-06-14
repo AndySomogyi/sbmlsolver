@@ -415,7 +415,7 @@ namespace rr
     // ** Registration *********************************************************
 
 
-    class EulerIntegratorRegistrar : public IntegratorRegistrar {
+    class EulerIntegratorRegistrar : public Registrar {
         public:
             /**
             * @author JKM

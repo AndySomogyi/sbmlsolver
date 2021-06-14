@@ -3846,7 +3846,7 @@ namespace rr {
         // must be run to register solvers at startup
         SolverRegistrationMgr::Register();
         // must be run to register sensitivity solvers at startup
-        SensitivityRegistrationMgr::Register();
+//        SensitivityRegistrationMgr::Register();
     }
 
     std::vector<std::string> RoadRunner::getRegisteredSteadyStateSolverNames() {

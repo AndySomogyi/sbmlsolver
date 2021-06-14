@@ -179,7 +179,7 @@ namespace rr
     // ** Registration *********************************************************
 
 
-    class GillespieIntegratorRegistrar : public IntegratorRegistrar {
+    class GillespieIntegratorRegistrar : public Registrar {
         public:
             /**
             * @author JKM

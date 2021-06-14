@@ -78,7 +78,7 @@ class RR_DECLSPEC NLEQ1Solver : public NLEQSolver
     // ** Registration *********************************************************
 
 
-    class NLEQ1SolverRegistrar : public SteadyStateSolverRegistrar {
+    class NLEQ1SolverRegistrar : public Registrar {
         public:
             /**
             * @author JKM

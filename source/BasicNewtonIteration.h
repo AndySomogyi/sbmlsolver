@@ -63,7 +63,7 @@ namespace rr {
     };
     
     
-    class BasicNewtonIterationRegistrar : public SteadyStateSolverRegistrar {
+    class BasicNewtonIterationRegistrar : public Registrar {
     public:
         /**
         * @brief Gets the name associated with this integrator type

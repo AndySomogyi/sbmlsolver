@@ -14,24 +14,20 @@
 # ifndef RR_STEADY_STATE_SOLVER_H_
 # define RR_STEADY_STATE_SOLVER_H_
 
-// == INCLUDES ================================================
-
 #include "rrLogger.h"
 #include "rrOSSpecifics.h"
 #include "Dictionary.h"
 #include "rrException.h"
 #include "Solver.h"
+#include "Registrar.h"
 
-#include "tr1proxy/rr_memory.h"
-#include "tr1proxy/rr_unordered_map.h"
+#include <memory>
+#include <unordered_map>
 #include <stdexcept>
-
-// == CODE ====================================================
 
 namespace rr
 {
     class ExecutableModel;
-
 
     /*-------------------------------------------------------------------------------------------
         SteadyStateSolver is an abstract base class that provides an interface to specific steady-state solver
@@ -78,43 +74,6 @@ namespace rr
 
     /**
      * @author JKM, WBC
-     * @brief Handles constructing a solver and contains meta
-     * information about it
-     */
-    class RR_DECLSPEC SteadyStateSolverRegistrar
-    {
-    protected:
-        typedef SteadyStateSolver* (*SteadyStateSolverCtor)(ExecutableModel *model);
-    public:
-        virtual ~SteadyStateSolverRegistrar();
-
-        /**
-         * @author JKM, WBC
-         * @brief Gets the name associated with this integrator type
-         */
-        virtual std::string getName() const = 0;
-
-        /**
-         * @author JKM, WBC
-         * @brief Gets the description associated with this integrator type
-         */
-        virtual std::string getDescription() const = 0;
-
-        /**
-         * @author JKM, WBC
-         * @brief Gets the hint associated with this integrator type
-         */
-        virtual std::string getHint() const = 0;
-
-        /**
-         * @author JKM, WBC
-         * @brief Constructs a new integrator of a given type
-         */
-        virtual SteadyStateSolver* construct(ExecutableModel *model) const = 0;
-    };
-
-    /**
-     * @author JKM, WBC
      * @brief Constructs new integrators
      * @details Implements the factory and singleton patterns.
      * Constructs a new integrator given the name (e.g. cvode, gillespie)
@@ -138,7 +97,7 @@ namespace rr
          * so that it can be constructed
          * @details Should be called at startup for new solvers.
          */
-        void registerSteadyStateSolver(SteadyStateSolverRegistrar* i);
+        void registerSteadyStateSolver(Registrar* i);
 
         /**
          * @author JKM, WBC
@@ -164,8 +123,7 @@ namespace rr
          * @brief Prevents external instantiation
          */
         SteadyStateSolverFactory() {}
-        typedef std::vector<SteadyStateSolverRegistrar*> SteadyStateSolverRegistrars;
-        SteadyStateSolverRegistrars mRegisteredSteadyStateSolvers;
+        RegistrarVector mRegisteredSteadyStateSolvers;
     };
 
 }

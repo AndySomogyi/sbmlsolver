@@ -93,7 +93,9 @@ namespace rr {
 
     void SensitivitySolver::loadConfigSettings() {}
 
-
+    SensitivitySolver *SensitivitySolver::makeSensitivitySolver(const string &name, ExecutableModel *executableModel) {
+        return nullptr;
+    }
 
 
 }
