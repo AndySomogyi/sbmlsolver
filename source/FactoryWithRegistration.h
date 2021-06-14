@@ -48,7 +48,12 @@ namespace rr {
          * @author JKM, WBC
          * @brief Returns the singleton instance of the integrator factory
          */
-//        static FactoryWithRegistration &getInstance();
+        template<class FactoryType>
+        static FactoryType &getInstance(std::mutex& mutex){
+            std::lock_guard<std::mutex> lockGuard(mutex);
+            static FactoryType factory;
+            return factory;
+        }
 
         virtual std::size_t size() const;
 

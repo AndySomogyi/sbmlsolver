@@ -106,8 +106,6 @@ namespace rr {
     }
 
     SteadyStateSolverFactory &SteadyStateSolverFactory::getInstance() {
-        std::lock_guard<std::mutex> lockGuard(steadyStateSolverFactoryMutex);
-        static SteadyStateSolverFactory factory;
-        return factory;
+        return FactoryWithRegistration::getInstance<SteadyStateSolverFactory>(steadyStateSolverFactoryMutex);
     }
 }

@@ -32,12 +32,6 @@ namespace rr {
         registrars.push_back(i);
     }
 
-//    FactoryWithRegistration& FactoryWithRegistration::getInstance() {
-//        std::lock_guard<std::mutex> lockGuard(mutex);
-//        static FactoryWithRegistration factory;
-//        return factory;
-//    }
-
     std::size_t FactoryWithRegistration::size() const {
         return registrars.size();
     }

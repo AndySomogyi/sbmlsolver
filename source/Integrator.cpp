@@ -81,9 +81,7 @@ namespace rr
     ********************************************************************************************/
 
     IntegratorFactory &IntegratorFactory::getInstance() {
-            std::lock_guard<std::mutex> lockGuard(integratorFactoryMutex);
-            static IntegratorFactory factory;
-            return factory;
-        }
+        return FactoryWithRegistration::getInstance<IntegratorFactory>(integratorFactoryMutex);
+    }
 
 }

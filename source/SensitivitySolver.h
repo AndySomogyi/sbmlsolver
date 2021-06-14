@@ -57,43 +57,11 @@ namespace rr {
 
     };
 
-
     /**
-     * @author JKM, WBC
-     * @brief Handles constructing a solver and contains meta
-     * information about it
+     * To make the singleton SensitivitySolverFactory thread safe
      */
-    class RR_DECLSPEC SensitivitySolverRegistrar {
-    protected:
-        typedef SensitivitySolver *(*SensitivitySolverCtor)(ExecutableModel *model);
+    static std::mutex sensitivitySolverMutex;
 
-    public:
-        virtual ~SensitivitySolverRegistrar();
-
-        /**
-         * @author JKM, WBC
-         * @brief Gets the name associated with this integrator type
-         */
-        virtual std::string getName() const = 0;
-
-        /**
-         * @author JKM, WBC
-         * @brief Gets the description associated with this integrator type
-         */
-        virtual std::string getDescription() const = 0;
-
-        /**
-         * @author JKM, WBC
-         * @brief Gets the hint associated with this integrator type
-         */
-        virtual std::string getHint() const = 0;
-
-        /**
-         * @author JKM, WBC
-         * @brief Constructs a new integrator of a given type
-         */
-        virtual SensitivitySolver *construct(ExecutableModel *model) const = 0;
-    };
 
     /**
      * @author JKM, WBC
@@ -104,50 +72,7 @@ namespace rr {
      */
     class RR_DECLSPEC SensitivitySolverFactory {
     public:
-        virtual ~SensitivitySolverFactory();
-
-        /**
-         * @author JKM, WBC
-         * @brief Constructs a new solver given the name
-         * (e.g. cvode, gillespie)
-         */
-        SensitivitySolver *New(const std::string &name, ExecutableModel *m) const;
-
-        /**
-         * @author JKM, WBC
-         * @brief Registers a new solver with the factory
-         * so that it can be constructed
-         * @details Should be called at startup for new solvers.
-         */
-        void registerSensitivitySolver(SensitivitySolverRegistrar *i);
-
-        /**
-         * @author JKM, WBC
-         * @brief Returns the singleton instance of the solver factory
-         */
-        static SensitivitySolverFactory &getInstance();
-
-        // ** Indexing *********************************************************
-
-        std::size_t getNumSensitivitySolvers() const;
-
-        std::vector<std::string> getListSensitivitySolverNames();
-
-        std::string getSensitivitySolverName(std::size_t n) const;
-
-        std::string getSensitivitySolverHint(std::size_t n) const;
-
-        std::string getSensitivitySolverDescription(std::size_t n) const;
-
-    private:
-        /**
-         * @author JKM, WBC
-         * @brief Prevents external instantiation
-         */
-        SensitivitySolverFactory() {}
-
-        typedef std::vector<SensitivitySolverRegistrar *> SensitivitySolverRegistrars;
-        SensitivitySolverRegistrars mRegisteredSensitivitySolvers;
+        static SensitivitySolverFactory& getInstance();
     };
 
 
