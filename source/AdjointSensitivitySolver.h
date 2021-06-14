@@ -82,8 +82,8 @@ namespace rr {
         * @author JKM
         * @brief Constructs a new integrator of a given type
         */
-        Integrator *construct(ExecutableModel *model) const override {
-            return new CVODEIntegrator(model);
+        SensitivitySolver *construct(ExecutableModel *model) const override {
+            return new AdjointSensitivitySolver(model);
         }
     };
 }

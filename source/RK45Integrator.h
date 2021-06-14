@@ -200,7 +200,7 @@ namespace rr
             * @author JKM
             * @brief Constructs a new integrator of a given type
             */
-            Solver* construct(ExecutableModel *model) const override {
+            Integrator* construct(ExecutableModel *model) const override {
                 return new RK45Integrator(model);
             }
     };
