@@ -300,7 +300,7 @@
         </childnode>
       </node>
       <node id="73">
-        <label>FactoryWithRegistration.h</label>
+        <label>RegistrationFactory.h</label>
         <link refid="FactoryWithRegistration_8h_source"/>
         <childnode refid="19" relation="include">
         </childnode>

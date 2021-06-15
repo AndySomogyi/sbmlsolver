@@ -2,8 +2,8 @@
 // Created by Ciaran Welsh on 14/06/2021.
 //
 
-#ifndef ROADRUNNER_FACTORYWITHREGISTRATION_H
-#define ROADRUNNER_FACTORYWITHREGISTRATION_H
+#ifndef ROADRUNNER_REGISTRATIONFACTORY_H
+#define ROADRUNNER_REGISTRATIONFACTORY_H
 
 #include "rrExporter.h"
 #include <iostream>
@@ -25,9 +25,9 @@ namespace rr {
      * Constructs a new integrator given the name (e.g. cvode, gillespie)
      * and returns a base pointer to @ref rr::Integrator.
      */
-    class RR_DECLSPEC FactoryWithRegistration {
+    class RR_DECLSPEC RegistrationFactory {
     public:
-        virtual ~FactoryWithRegistration();
+        virtual ~RegistrationFactory();
 
         /**
          * @author JKM, WBC
@@ -68,7 +68,7 @@ namespace rr {
          * @author JKM, WBC
          * @brief Prevents external instantiation
          */
-        FactoryWithRegistration() = default;
+        RegistrationFactory() = default;
 
         RegistrarVector registrars;
 
@@ -77,4 +77,4 @@ namespace rr {
 
 }
 
-#endif //ROADRUNNER_FACTORYWITHREGISTRATION_H
+#endif //ROADRUNNER_REGISTRATIONFACTORY_H

@@ -8,7 +8,7 @@
     <includes refid="rrException_8h" local="yes">rrException.h</includes>
     <includes refid="Solver_8h" local="yes">Solver.h</includes>
     <includes refid="Registrar_8h" local="yes">Registrar.h</includes>
-    <includes refid="FactoryWithRegistration_8h" local="yes">FactoryWithRegistration.h</includes>
+    <includes refid="FactoryWithRegistration_8h" local="yes">RegistrationFactory.h</includes>
     <includes local="no">memory</includes>
     <includes local="no">unordered_map</includes>
     <includes local="no">stdexcept</includes>
@@ -85,7 +85,7 @@
         <label>exception</label>
       </node>
       <node id="25">
-        <label>FactoryWithRegistration.h</label>
+        <label>RegistrationFactory.h</label>
         <link refid="FactoryWithRegistration_8h_source"/>
         <childnode refid="4" relation="include">
         </childnode>
@@ -332,7 +332,7 @@
 <codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;rrException.h&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="Solver_8h" kindref="compound">Solver.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;Registrar.h&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;FactoryWithRegistration.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;RegistrationFactory.h&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="24"><highlight class="normal"></highlight></codeline>
 <codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
@@ -370,7 +370,7 @@
 <codeline lineno="75"><highlight class="normal"></highlight></codeline>
 <codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::mutex<sp/>steadyStateSolverFactoryMutex;</highlight></codeline>
 <codeline lineno="77"><highlight class="normal"></highlight></codeline>
-<codeline lineno="85" refid="classrr_1_1SteadyStateSolverFactory" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">RR_DECLSPEC<sp/><ref refid="classrr_1_1SteadyStateSolverFactory" kindref="compound">SteadyStateSolverFactory</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classrr_1_1FactoryWithRegistration" kindref="compound">FactoryWithRegistration</ref></highlight></codeline>
+<codeline lineno="85" refid="classrr_1_1SteadyStateSolverFactory" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">RR_DECLSPEC<sp/><ref refid="classrr_1_1SteadyStateSolverFactory" kindref="compound">SteadyStateSolverFactory</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classrr_1_1FactoryWithRegistration" kindref="compound">RegistrationFactory</ref></highlight></codeline>
 <codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
 <codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
 <codeline lineno="88"><highlight class="normal"></highlight></codeline>

@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
   <compounddef id="FactoryWithRegistration_8h" kind="file" language="C++">
-    <compoundname>FactoryWithRegistration.h</compoundname>
+    <compoundname>RegistrationFactory.h</compoundname>
     <includes refid="rrExporter_8h" local="yes">rrExporter.h</includes>
     <includes local="no">iostream</includes>
     <includes refid="Registrar_8h" local="yes">Registrar.h</includes>
     <includes refid="Solver_8h" local="yes">Solver.h</includes>
-    <includedby refid="FactoryWithRegistration_8cpp" local="yes">FactoryWithRegistration.cpp</includedby>
+    <includedby refid="FactoryWithRegistration_8cpp" local="yes">RegistrationFactory.cpp</includedby>
     <includedby refid="Integrator_8h" local="yes">Integrator.h</includedby>
     <includedby refid="SteadyStateSolver_8h" local="yes">SteadyStateSolver.h</includedby>
     <incdepgraph>
@@ -76,7 +76,7 @@
         <label>exception</label>
       </node>
       <node id="1">
-        <label>FactoryWithRegistration.h</label>
+        <label>RegistrationFactory.h</label>
         <link refid="FactoryWithRegistration_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
@@ -243,7 +243,7 @@
         <link refid="ForwardSensitivitySolver_8h_source"/>
       </node>
       <node id="1">
-        <label>FactoryWithRegistration.h</label>
+        <label>RegistrationFactory.h</label>
         <link refid="FactoryWithRegistration_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
@@ -395,7 +395,7 @@
         </childnode>
       </node>
     </invincdepgraph>
-    <innerclass refid="classrr_1_1FactoryWithRegistration" prot="public">rr::FactoryWithRegistration</innerclass>
+    <innerclass refid="classrr_1_1FactoryWithRegistration" prot="public">rr::RegistrationFactory</innerclass>
     <innernamespace refid="namespacerr">rr</innernamespace>
     <briefdescription>
     </briefdescription>
@@ -406,8 +406,8 @@
 <codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Created<sp/>by<sp/>Ciaran<sp/>Welsh<sp/>on<sp/>14/06/2021.</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="4"><highlight class="normal"></highlight></codeline>
-<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>ROADRUNNER_FACTORYWITHREGISTRATION_H</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>ROADRUNNER_FACTORYWITHREGISTRATION_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>ROADRUNNER_REGISTRATIONFACTORY_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>ROADRUNNER_REGISTRATIONFACTORY_H</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="7"><highlight class="normal"></highlight></codeline>
 <codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;rrExporter.h&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;iostream&gt;</highlight><highlight class="normal"></highlight></codeline>
@@ -422,15 +422,15 @@
 <codeline lineno="18"><highlight class="normal"></highlight></codeline>
 <codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>std::vector&lt;Registrar<sp/>*&gt;<sp/>RegistrarVector;</highlight></codeline>
 <codeline lineno="20"><highlight class="normal"></highlight></codeline>
-<codeline lineno="28" refid="classrr_1_1FactoryWithRegistration" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">RR_DECLSPEC<sp/><ref refid="classrr_1_1FactoryWithRegistration" kindref="compound">FactoryWithRegistration</ref><sp/>{</highlight></codeline>
+<codeline lineno="28" refid="classrr_1_1FactoryWithRegistration" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">RR_DECLSPEC<sp/><ref refid="classrr_1_1FactoryWithRegistration" kindref="compound">RegistrationFactory</ref><sp/>{</highlight></codeline>
 <codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>~<ref refid="classrr_1_1FactoryWithRegistration" kindref="compound">FactoryWithRegistration</ref>();</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>~<ref refid="classrr_1_1FactoryWithRegistration" kindref="compound">RegistrationFactory</ref>();</highlight></codeline>
 <codeline lineno="31"><highlight class="normal"></highlight></codeline>
 <codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classrr_1_1Solver" kindref="compound">Solver</ref><sp/>*New(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name,<sp/><ref refid="classrr_1_1ExecutableModel" kindref="compound">ExecutableModel</ref><sp/>*m)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="38"><highlight class="normal"></highlight></codeline>
 <codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>registerSolver(<ref refid="classrr_1_1Registrar" kindref="compound">Registrar</ref><sp/>*i);</highlight></codeline>
 <codeline lineno="46"><highlight class="normal"></highlight></codeline>
-<codeline lineno="51"><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>static<sp/>FactoryWithRegistration<sp/>&amp;getInstance();</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>static<sp/>RegistrationFactory<sp/>&amp;getInstance();</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="52"><highlight class="normal"></highlight></codeline>
 <codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::size_t<sp/>size()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="54"><highlight class="normal"></highlight></codeline>
@@ -441,7 +441,7 @@
 <codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/>description(std::size_t<sp/>n)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="60"><highlight class="normal"></highlight></codeline>
 <codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="66" refid="classrr_1_1FactoryWithRegistration_1a5bf68f07f71d724839bc759a1791efa2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classrr_1_1FactoryWithRegistration_1a5bf68f07f71d724839bc759a1791efa2" kindref="member">FactoryWithRegistration</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="66" refid="classrr_1_1FactoryWithRegistration_1a5bf68f07f71d724839bc759a1791efa2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classrr_1_1FactoryWithRegistration_1a5bf68f07f71d724839bc759a1791efa2" kindref="member">RegistrationFactory</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="67"><highlight class="normal"></highlight></codeline>
 <codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>RegistrarVector<sp/>registrars;</highlight></codeline>
 <codeline lineno="69"><highlight class="normal"></highlight></codeline>
@@ -450,8 +450,8 @@
 <codeline lineno="72"><highlight class="normal"></highlight></codeline>
 <codeline lineno="73"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="74"><highlight class="normal"></highlight></codeline>
-<codeline lineno="75"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/>//ROADRUNNER_FACTORYWITHREGISTRATION_H</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/>//ROADRUNNER_REGISTRATIONFACTORY_H</highlight></codeline>
     </programlisting>
-    <location file="FactoryWithRegistration.h"/>
+    <location file="RegistrationFactory.h"/>
   </compounddef>
 </doxygen>

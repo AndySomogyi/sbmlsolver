@@ -87,7 +87,7 @@ $(function() {
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#include &quot;tr1proxy/rr_memory.h&quot;</span></div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &quot;tr1proxy/rr_unordered_map.h&quot;</span></div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &quot;Registrar.h&quot;</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &quot;FactoryWithRegistration.h&quot;</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &quot;RegistrationFactory.h&quot;</span></div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#include &lt;stdexcept&gt;</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="comment">// == CODE ====================================================</span></div>
@@ -179,7 +179,7 @@ $(function() {
 <div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160; </div>
 <div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;    <span class="keyword">static</span> std::mutex integratorFactoryMutex;</div>
 <div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160; </div>
-<div class="line"><a name="l00166"></a><span class="lineno"><a class="line" href="classrr_1_1IntegratorFactory.html">  166</a></span>&#160;    <span class="keyword">class </span>RR_DECLSPEC <a class="code" href="classrr_1_1IntegratorFactory.html">IntegratorFactory</a> : <span class="keyword">public</span> <a class="code" href="classrr_1_1FactoryWithRegistration.html">FactoryWithRegistration</a> {</div>
+<div class="line"><a name="l00166"></a><span class="lineno"><a class="line" href="classrr_1_1IntegratorFactory.html">  166</a></span>&#160;    <span class="keyword">class </span>RR_DECLSPEC <a class="code" href="classrr_1_1IntegratorFactory.html">IntegratorFactory</a> : <span class="keyword">public</span> <a class="code" href="classrr_1_1FactoryWithRegistration.html">RegistrationFactory</a> {</div>
 <div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;    <span class="keyword">public</span>:</div>
 <div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;        <span class="keyword">static</span> <a class="code" href="classrr_1_1IntegratorFactory.html">IntegratorFactory</a> &amp;getInstance();</div>
 <div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160; </div>
@@ -196,7 +196,7 @@ $(function() {
 <div class="ttc" id="aSolver_8h_html"><div class="ttname"><a href="Solver_8h.html">Solver.h</a></div><div class="ttdoc">Contains the base class for RoadRunner solvers.</div></div>
 <div class="ttc" id="aclassrr_1_1IntegratorListener_html_a4ff64f8bf4a208d25b37b7e99560d82e"><div class="ttname"><a href="classrr_1_1IntegratorListener.html#a4ff64f8bf4a208d25b37b7e99560d82e">rr::IntegratorListener::onEvent</a></div><div class="ttdeci">virtual uint onEvent(Integrator *integrator, ExecutableModel *model, double time)=0</div><div class="ttdoc">whenever model event occurs and after it is procesed.</div></div>
 <div class="ttc" id="aclassrr_1_1IntegratorException_html"><div class="ttname"><a href="classrr_1_1IntegratorException.html">rr::IntegratorException</a></div><div class="ttdef"><b>Definition:</b> Integrator.h:147</div></div>
-<div class="ttc" id="aclassrr_1_1FactoryWithRegistration_html"><div class="ttname"><a href="classrr_1_1FactoryWithRegistration.html">rr::FactoryWithRegistration</a></div><div class="ttdoc">Constructs new integrators.</div><div class="ttdef"><b>Definition:</b> FactoryWithRegistration.h:28</div></div>
+<div class="ttc" id="aclassrr_1_1FactoryWithRegistration_html"><div class="ttname"><a href="classrr_1_1FactoryWithRegistration.html">rr::RegistrationFactory</a></div><div class="ttdoc">Constructs new integrators.</div><div class="ttdef"><b>Definition:</b> RegistrationFactory.h:28</div></div>
 <div class="ttc" id="aclassrr_1_1Solver_html"><div class="ttname"><a href="classrr_1_1Solver.html">rr::Solver</a></div><div class="ttdoc">Base class for all integrators and steady state solvers.</div><div class="ttdef"><b>Definition:</b> Solver.h:40</div></div>
 <div class="ttc" id="aclassrr_1_1IntegratorFactory_html"><div class="ttname"><a href="classrr_1_1IntegratorFactory.html">rr::IntegratorFactory</a></div><div class="ttdoc">Constructs new integrators.</div><div class="ttdef"><b>Definition:</b> Integrator.h:166</div></div>
 <div class="ttc" id="aclassrr_1_1Setting_html"><div class="ttname"><a href="classrr_1_1Setting.html">rr::Setting</a></div><div class="ttdoc">Store a roadrunner option (or setting) as a Variant type.</div><div class="ttdef"><b>Definition:</b> Setting.h:78</div></div>

@@ -148,7 +148,7 @@
         <label>ostream</label>
       </node>
       <node id="39">
-        <label>FactoryWithRegistration.h</label>
+        <label>RegistrationFactory.h</label>
         <link refid="FactoryWithRegistration_8h_source"/>
         <childnode refid="7" relation="include">
         </childnode>

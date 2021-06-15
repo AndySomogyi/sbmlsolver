@@ -34,7 +34,7 @@ namespace rr {
 
 
     SensitivitySolverFactory &SensitivitySolverFactory::getInstance() {
-        return FactoryWithRegistration::getInstance<SensitivitySolverFactory>(sensitivitySolverMutex);
+        return RegistrationFactory::getInstance<SensitivitySolverFactory>(sensitivitySolverMutex);
     }
 
     void SensitivitySolverFactory::Register() {

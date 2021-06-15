@@ -111,7 +111,7 @@
         <label>fstream</label>
       </node>
       <node id="36">
-        <label>FactoryWithRegistration.h</label>
+        <label>RegistrationFactory.h</label>
         <link refid="FactoryWithRegistration_8h_source"/>
         <childnode refid="5" relation="include">
         </childnode>

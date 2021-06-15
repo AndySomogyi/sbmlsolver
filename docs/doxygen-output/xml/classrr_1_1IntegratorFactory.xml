@@ -2,7 +2,7 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
   <compounddef id="classrr_1_1IntegratorFactory" kind="class" language="C++" prot="public">
     <compoundname>rr::IntegratorFactory</compoundname>
-    <basecompoundref refid="classrr_1_1FactoryWithRegistration" prot="public" virt="non-virtual">rr::FactoryWithRegistration</basecompoundref>
+    <basecompoundref refid="classrr_1_1FactoryWithRegistration" prot="public" virt="non-virtual">rr::RegistrationFactory</basecompoundref>
     <includes refid="Integrator_8h" local="no">Integrator.h</includes>
       <sectiondef kind="public-static-func">
       <memberdef kind="function" id="classrr_1_1IntegratorFactory_1a3bd934950b0c1523d8c1b482bb85ab15" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
@@ -26,7 +26,7 @@
 <para>Constructs new integrators. </para>
     </briefdescription>
     <detaileddescription>
-<para><simplesect kind="author"><para>JKM, WBC  This is a singleton class. All methods except for getInstance are fully determined by superclass <ref refid="classrr_1_1FactoryWithRegistration" kindref="compound">FactoryWithRegistration</ref>. </para>
+<para><simplesect kind="author"><para>JKM, WBC  This is a singleton class. All methods except for getInstance are fully determined by superclass <ref refid="classrr_1_1FactoryWithRegistration" kindref="compound">RegistrationFactory</ref>. </para>
 </simplesect>
 </para>
     </detaileddescription>
@@ -38,7 +38,7 @@
         </childnode>
       </node>
       <node id="2">
-        <label>rr::FactoryWithRegistration</label>
+        <label>rr::RegistrationFactory</label>
         <link refid="classrr_1_1FactoryWithRegistration"/>
       </node>
     </inheritancegraph>
@@ -50,14 +50,14 @@
         </childnode>
       </node>
       <node id="2">
-        <label>rr::FactoryWithRegistration</label>
+        <label>rr::RegistrationFactory</label>
         <link refid="classrr_1_1FactoryWithRegistration"/>
       </node>
     </collaborationgraph>
     <location file="Integrator.h" line="166" column="5" bodyfile="Integrator.h" bodystart="166" bodyend="176"/>
     <listofallmembers>
       <member refid="classrr_1_1FactoryWithRegistration_1a87bfaaa30d0574a096f1a2c0e98d13dc" prot="public" virt="virtual"><scope>rr::IntegratorFactory</scope><name>description</name></member>
-      <member refid="classrr_1_1FactoryWithRegistration_1a5bf68f07f71d724839bc759a1791efa2" prot="protected" virt="non-virtual"><scope>rr::IntegratorFactory</scope><name>FactoryWithRegistration</name></member>
+      <member refid="classrr_1_1FactoryWithRegistration_1a5bf68f07f71d724839bc759a1791efa2" prot="protected" virt="non-virtual"><scope>rr::IntegratorFactory</scope><name>RegistrationFactory</name></member>
       <member refid="classrr_1_1IntegratorFactory_1a3bd934950b0c1523d8c1b482bb85ab15" prot="public" virt="non-virtual"><scope>rr::IntegratorFactory</scope><name>getInstance</name></member>
       <member refid="classrr_1_1FactoryWithRegistration_1adfdf0ab1c4e8e61c20c3af4809baadc0" prot="public" virt="virtual"><scope>rr::IntegratorFactory</scope><name>hint</name></member>
       <member refid="classrr_1_1FactoryWithRegistration_1a8ac0326917df8a3aa25ed9bba5cb066d" prot="public" virt="virtual"><scope>rr::IntegratorFactory</scope><name>name</name></member>
@@ -65,7 +65,7 @@
       <member refid="classrr_1_1FactoryWithRegistration_1a8d75bd9ffec1eef7241f173a64ef5674" prot="public" virt="virtual"><scope>rr::IntegratorFactory</scope><name>registerSolver</name></member>
       <member refid="classrr_1_1FactoryWithRegistration_1af22bbf5b406cd4c0b1e104d1ea62530b" prot="protected" virt="non-virtual"><scope>rr::IntegratorFactory</scope><name>registrars</name></member>
       <member refid="classrr_1_1FactoryWithRegistration_1a2235f601129fa81c0d32b6e778940c72" prot="public" virt="virtual"><scope>rr::IntegratorFactory</scope><name>size</name></member>
-      <member refid="classrr_1_1FactoryWithRegistration_1a1b4253d8373e8d31919de20e63d834c0" prot="public" virt="virtual"><scope>rr::IntegratorFactory</scope><name>~FactoryWithRegistration</name></member>
+      <member refid="classrr_1_1FactoryWithRegistration_1a1b4253d8373e8d31919de20e63d834c0" prot="public" virt="virtual"><scope>rr::IntegratorFactory</scope><name>RegistrationFactoryme></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

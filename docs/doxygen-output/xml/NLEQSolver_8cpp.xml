@@ -72,7 +72,7 @@
         <label>exception</label>
       </node>
       <node id="27">
-        <label>FactoryWithRegistration.h</label>
+        <label>RegistrationFactory.h</label>
         <link refid="FactoryWithRegistration_8h_source"/>
         <childnode refid="4" relation="include">
         </childnode>

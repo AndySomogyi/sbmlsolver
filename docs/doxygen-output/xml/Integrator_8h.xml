@@ -10,7 +10,7 @@
     <includes local="yes">tr1proxy/rr_memory.h</includes>
     <includes local="yes">tr1proxy/rr_unordered_map.h</includes>
     <includes refid="Registrar_8h" local="yes">Registrar.h</includes>
-    <includes refid="FactoryWithRegistration_8h" local="yes">FactoryWithRegistration.h</includes>
+    <includes refid="FactoryWithRegistration_8h" local="yes">RegistrationFactory.h</includes>
     <includes local="no">stdexcept</includes>
     <includedby refid="CVODEIntegrator_8h" local="yes">CVODEIntegrator.h</includedby>
     <includedby refid="EulerIntegrator_8h" local="yes">EulerIntegrator.h</includedby>
@@ -113,7 +113,7 @@
         <label>exception</label>
       </node>
       <node id="25">
-        <label>FactoryWithRegistration.h</label>
+        <label>RegistrationFactory.h</label>
         <link refid="FactoryWithRegistration_8h_source"/>
         <childnode refid="4" relation="include">
         </childnode>
@@ -380,7 +380,7 @@
 <codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;tr1proxy/rr_memory.h&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;tr1proxy/rr_unordered_map.h&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;Registrar.h&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;FactoryWithRegistration.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;RegistrationFactory.h&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdexcept&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="30"><highlight class="normal"></highlight></codeline>
 <codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>==<sp/>CODE<sp/>====================================================</highlight><highlight class="normal"></highlight></codeline>
@@ -472,7 +472,7 @@
 <codeline lineno="157"><highlight class="normal"></highlight></codeline>
 <codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::mutex<sp/>integratorFactoryMutex;</highlight></codeline>
 <codeline lineno="159"><highlight class="normal"></highlight></codeline>
-<codeline lineno="166" refid="classrr_1_1IntegratorFactory" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">RR_DECLSPEC<sp/><ref refid="classrr_1_1IntegratorFactory" kindref="compound">IntegratorFactory</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classrr_1_1FactoryWithRegistration" kindref="compound">FactoryWithRegistration</ref><sp/>{</highlight></codeline>
+<codeline lineno="166" refid="classrr_1_1IntegratorFactory" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">RR_DECLSPEC<sp/><ref refid="classrr_1_1IntegratorFactory" kindref="compound">IntegratorFactory</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classrr_1_1FactoryWithRegistration" kindref="compound">RegistrationFactory</ref><sp/>{</highlight></codeline>
 <codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
 <codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classrr_1_1IntegratorFactory" kindref="compound">IntegratorFactory</ref><sp/>&amp;getInstance();</highlight></codeline>
 <codeline lineno="175"><highlight class="normal"></highlight></codeline>

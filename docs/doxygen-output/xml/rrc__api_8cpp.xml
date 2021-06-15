@@ -213,7 +213,7 @@
         <label>limits.h</label>
       </node>
       <node id="31">
-        <label>FactoryWithRegistration.h</label>
+        <label>RegistrationFactory.h</label>
         <link refid="FactoryWithRegistration_8h_source"/>
         <childnode refid="8" relation="include">
         </childnode>

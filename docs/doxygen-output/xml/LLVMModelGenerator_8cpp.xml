@@ -425,7 +425,7 @@
         </childnode>
       </node>
       <node id="28">
-        <label>FactoryWithRegistration.h</label>
+        <label>RegistrationFactory.h</label>
         <link refid="FactoryWithRegistration_8h_source"/>
         <childnode refid="4" relation="include">
         </childnode>

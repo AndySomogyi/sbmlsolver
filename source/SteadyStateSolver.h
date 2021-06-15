@@ -20,7 +20,7 @@
 #include "rrException.h"
 #include "Solver.h"
 #include "Registrar.h"
-#include "FactoryWithRegistration.h"
+#include "RegistrationFactory.h"
 
 #include <memory>
 #include <unordered_map>
@@ -83,7 +83,7 @@ namespace rr
      * Constructs a new integrator given the name (e.g. cvode, gillespie)
      * and returns a base pointer to @ref rr::SteadyStateSolver.
      */
-    class RR_DECLSPEC SteadyStateSolverFactory : public FactoryWithRegistration
+    class RR_DECLSPEC SteadyStateSolverFactory : public RegistrationFactory
     {
     public:
 

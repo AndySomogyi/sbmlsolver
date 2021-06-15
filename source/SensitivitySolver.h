@@ -71,7 +71,7 @@ namespace rr {
      * Constructs a new integrator given the name (e.g. cvode, gillespie)
      * and returns a base pointer to @ref rr::SensitivitySolver.
      */
-    class RR_DECLSPEC SensitivitySolverFactory: public FactoryWithRegistration {
+    class RR_DECLSPEC SensitivitySolverFactory: public RegistrationFactory {
     public:
         static SensitivitySolverFactory& getInstance();
 

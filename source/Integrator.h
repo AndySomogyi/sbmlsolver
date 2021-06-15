@@ -25,7 +25,7 @@
 #include "tr1proxy/rr_memory.h"
 #include "tr1proxy/rr_unordered_map.h"
 #include "Registrar.h"
-#include "FactoryWithRegistration.h"
+#include "RegistrationFactory.h"
 #include <stdexcept>
 
 // == CODE ====================================================
@@ -204,7 +204,7 @@ namespace rr {
      * @details This is a singleton class. All methods except for
      * getInstance are fully determined by superclass FactoryWithRegistration.
      */
-    class RR_DECLSPEC IntegratorFactory : public FactoryWithRegistration {
+    class RR_DECLSPEC IntegratorFactory : public RegistrationFactory {
     public:
         /**
          * @brief get an instance of this IntegratorFactory.

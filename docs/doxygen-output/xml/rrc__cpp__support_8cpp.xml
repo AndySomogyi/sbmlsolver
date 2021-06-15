@@ -159,7 +159,7 @@
         <link refid="rrc__types_8h"/>
       </node>
       <node id="50">
-        <label>FactoryWithRegistration.h</label>
+        <label>RegistrationFactory.h</label>
         <link refid="FactoryWithRegistration_8h_source"/>
         <childnode refid="9" relation="include">
         </childnode>

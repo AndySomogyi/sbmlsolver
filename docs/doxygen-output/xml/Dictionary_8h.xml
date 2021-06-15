@@ -209,7 +209,7 @@
         <link refid="ForwardSensitivitySolver_8h_source"/>
       </node>
       <node id="23">
-        <label>FactoryWithRegistration.h</label>
+        <label>RegistrationFactory.h</label>
         <link refid="FactoryWithRegistration_8h_source"/>
         <childnode refid="3" relation="include">
         </childnode>

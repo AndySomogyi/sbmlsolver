@@ -57,12 +57,14 @@ namespace rr
 
     RK4Integrator::~RK4Integrator()
     {
-        delete []k1;
-        delete []k2;
-        delete []k3;
-        delete []k4;
-        delete []y;
-        delete []ytmp;
+        if (mModel) {
+            delete[]k1;
+            delete[]k2;
+            delete[]k3;
+            delete[]k4;
+            delete[]y;
+            delete[]ytmp;
+        }
     }
 
     double RK4Integrator::integrate(double t, double h)

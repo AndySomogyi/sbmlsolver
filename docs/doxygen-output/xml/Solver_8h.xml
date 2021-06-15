@@ -9,8 +9,8 @@
     <includes local="yes">tr1proxy/rr_memory.h</includes>
     <includes local="yes">tr1proxy/rr_unordered_map.h</includes>
     <includes local="no">stdexcept</includes>
-    <includedby refid="FactoryWithRegistration_8cpp" local="yes">FactoryWithRegistration.cpp</includedby>
-    <includedby refid="FactoryWithRegistration_8h" local="yes">FactoryWithRegistration.h</includedby>
+    <includedby refid="FactoryWithRegistration_8cpp" local="yes">RegistrationFactory.cpp</includedby>
+    <includedby refid="FactoryWithRegistration_8h" local="yes">RegistrationFactory.h</includedby>
     <includedby refid="Integrator_8h" local="yes">Integrator.h</includedby>
     <includedby refid="Solver_8cpp" local="yes">Solver.cpp</includedby>
     <includedby refid="SolverRegistration_8cpp" local="yes">SolverRegistration.cpp</includedby>
@@ -229,7 +229,7 @@
         <link refid="ForwardSensitivitySolver_8h_source"/>
       </node>
       <node id="2">
-        <label>FactoryWithRegistration.h</label>
+        <label>RegistrationFactory.h</label>
         <link refid="FactoryWithRegistration_8h_source"/>
         <childnode refid="3" relation="include">
         </childnode>

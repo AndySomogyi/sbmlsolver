@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>roadrunner: rr::FactoryWithRegistration Class Reference</title>
+<title>roadrunner: rr::RegistrationFactory Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -63,7 +63,7 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><b>rr</b></li><li class="navelem"><a class="el" href="classrr_1_1FactoryWithRegistration.html">FactoryWithRegistration</a></li>  </ul>
+<li class="navelem"><b>rr</b></li><li class="navelem"><a class="el" href="classrr_1_1FactoryWithRegistration.html">RegistrationFactory</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -73,16 +73,16 @@ $(function() {
 <a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="classrr_1_1FactoryWithRegistration-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">rr::FactoryWithRegistration Class Reference</div>  </div>
+<div class="title">rr::RegistrationFactory Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
 <p>Constructs new integrators.  
  <a href="classrr_1_1FactoryWithRegistration.html#details">More...</a></p>
 
-<p><code>#include &lt;<a class="el" href="FactoryWithRegistration_8h_source.html">FactoryWithRegistration.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="FactoryWithRegistration_8h_source.html">RegistrationFactory.h</a>&gt;</code></p>
 <div class="dynheader">
-Inheritance diagram for rr::FactoryWithRegistration:</div>
+Inheritance diagram for rr::RegistrationFactory:</div>
 <div class="dyncontent">
  <div class="center">
   <img src="classrr_1_1FactoryWithRegistration.png" usemap="#rr::FactoryWithRegistration_map" alt=""/>
@@ -115,7 +115,7 @@ virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><b>descri
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr class="memitem:a5bf68f07f71d724839bc759a1791efa2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1FactoryWithRegistration.html#a5bf68f07f71d724839bc759a1791efa2">FactoryWithRegistration</a> ()=default</td></tr>
+<tr class="memitem:a5bf68f07f71d724839bc759a1791efa2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1FactoryWithRegistration.html#a5bf68f07f71d724839bc759a1791efa2">RegistrationFactory</a> ()=default</td></tr>
 <tr class="memdesc:a5bf68f07f71d724839bc759a1791efa2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prevents external instantiation.  <a href="classrr_1_1FactoryWithRegistration.html#a5bf68f07f71d724839bc759a1791efa2">More...</a><br /></td></tr>
 <tr class="separator:a5bf68f07f71d724839bc759a1791efa2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -130,7 +130,7 @@ RegistrarVector&#160;</td><td class="memItemRight" valign="bottom"><b>registrars
 <dl class="section author"><dt>Author</dt><dd>JKM, WBC  Implements the factory and singleton patterns. Constructs a new integrator given the name (e.g. cvode, gillespie) and returns a base pointer to <a class="el" href="classrr_1_1Integrator.html">rr::Integrator</a>. </dd></dl>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a5bf68f07f71d724839bc759a1791efa2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5bf68f07f71d724839bc759a1791efa2">&#9670;&nbsp;</a></span>FactoryWithRegistration()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a5bf68f07f71d724839bc759a1791efa2">&#9670;&nbsp;</a></span>RegistrationFactory()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -139,7 +139,7 @@ RegistrarVector&#160;</td><td class="memItemRight" valign="bottom"><b>registrars
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">rr::FactoryWithRegistration::FactoryWithRegistration </td>
+          <td class="memname">rr::RegistrationFactory::RegistrationFactory </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -165,7 +165,7 @@ RegistrarVector&#160;</td><td class="memItemRight" valign="bottom"><b>registrars
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classrr_1_1Solver.html">Solver</a> * rr::FactoryWithRegistration::New </td>
+          <td class="memname"><a class="el" href="classrr_1_1Solver.html">Solver</a> * rr::RegistrationFactory::New </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;&#160;</td>
           <td class="paramname"><em>name</em>, </td>
@@ -199,7 +199,7 @@ RegistrarVector&#160;</td><td class="memItemRight" valign="bottom"><b>registrars
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void rr::FactoryWithRegistration::registerSolver </td>
+          <td class="memname">void rr::RegistrationFactory::registerSolver </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classrr_1_1Registrar.html">Registrar</a> *&#160;</td>
           <td class="paramname"><em>i</em></td><td>)</td>
@@ -228,7 +228,7 @@ RegistrarVector&#160;</td><td class="memItemRight" valign="bottom"><b>registrars
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::size_t rr::FactoryWithRegistration::size </td>
+          <td class="memname">std::size_t rr::RegistrationFactory::size </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -247,8 +247,8 @@ RegistrarVector&#160;</td><td class="memItemRight" valign="bottom"><b>registrars
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li><a class="el" href="FactoryWithRegistration_8h_source.html">FactoryWithRegistration.h</a></li>
-<li>FactoryWithRegistration.cpp</li>
+<li><a class="el" href="FactoryWithRegistration_8h_source.html">RegistrationFactory.h</a></li>
+<li>RegistrationFactory.cpp</li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

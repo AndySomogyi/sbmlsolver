@@ -7,7 +7,7 @@
     <includes local="no">variant</includes>
     <includes refid="rrExporter_8h" local="yes">rrExporter.h</includes>
     <includedby refid="CVODEIntegrator_8cpp" local="yes">CVODEIntegrator.cpp</includedby>
-    <includedby refid="FactoryWithRegistration_8cpp" local="yes">FactoryWithRegistration.cpp</includedby>
+    <includedby refid="FactoryWithRegistration_8cpp" local="yes">RegistrationFactory.cpp</includedby>
     <includedby refid="Integrator_8h" local="yes">Integrator.h</includedby>
     <includedby refid="KinsolSteadyStateSolver_8h" local="yes">KinsolSteadyStateSolver.h</includedby>
     <includedby refid="PresimulationDecorator_8cpp" local="yes">PresimulationDecorator.cpp</includedby>
@@ -289,7 +289,7 @@
         </childnode>
       </node>
       <node id="65">
-        <label>FactoryWithRegistration.h</label>
+        <label>RegistrationFactory.h</label>
         <link refid="FactoryWithRegistration_8h_source"/>
         <childnode refid="2" relation="include">
         </childnode>

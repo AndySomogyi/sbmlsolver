@@ -100,7 +100,7 @@ namespace rr {
     }
 
     SteadyStateSolverFactory &SteadyStateSolverFactory::getInstance() {
-        return FactoryWithRegistration::getInstance<SteadyStateSolverFactory>(steadyStateSolverFactoryMutex);
+        return RegistrationFactory::getInstance<SteadyStateSolverFactory>(steadyStateSolverFactoryMutex);
     }
 
     void SteadyStateSolverFactory::Register() {

@@ -120,7 +120,7 @@
         <link refid="SensitivityResult_8h_source"/>
       </node>
       <node id="29">
-        <label>FactoryWithRegistration.h</label>
+        <label>RegistrationFactory.h</label>
         <link refid="FactoryWithRegistration_8h_source"/>
         <childnode refid="9" relation="include">
         </childnode>

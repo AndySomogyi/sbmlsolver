@@ -91,16 +91,20 @@ namespace rr
 
 	GillespieIntegrator::~GillespieIntegrator()
 	{
-		delete[] reactionRates;
-		delete[] reactionRatesBuffer;
-		delete[] stateVector;
-		delete[] stateVectorRate;
-		delete[] stoichData;
-        reactionRates = nullptr;
-        reactionRatesBuffer = nullptr;
-        stateVector = nullptr;
-        stateVectorRate = nullptr;
-        stoichData = nullptr;
+	    if (mModel) {
+	        // like in the constructor, we only delete these components
+	        // if the model was present on construction.
+            delete[] reactionRates;
+            delete[] reactionRatesBuffer;
+            delete[] stateVector;
+            delete[] stateVectorRate;
+            delete[] stoichData;
+            reactionRates = nullptr;
+            reactionRatesBuffer = nullptr;
+            stateVector = nullptr;
+            stateVectorRate = nullptr;
+            stoichData = nullptr;
+        }
 	}
 
     void GillespieIntegrator::syncWithModel(ExecutableModel* m)

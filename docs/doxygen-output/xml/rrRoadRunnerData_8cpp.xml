@@ -169,7 +169,7 @@
         </childnode>
       </node>
       <node id="50">
-        <label>FactoryWithRegistration.h</label>
+        <label>RegistrationFactory.h</label>
         <link refid="FactoryWithRegistration_8h_source"/>
         <childnode refid="7" relation="include">
         </childnode>

@@ -30,7 +30,7 @@
     <innerclass refid="classrr_1_1Exception" prot="public">rr::Exception</innerclass>
     <innerclass refid="classrr_1_1ExecutableModel" prot="public">rr::ExecutableModel</innerclass>
     <innerclass refid="classrr_1_1ExecutableModelFactory" prot="public">rr::ExecutableModelFactory</innerclass>
-    <innerclass refid="classrr_1_1FactoryWithRegistration" prot="public">rr::FactoryWithRegistration</innerclass>
+    <innerclass refid="classrr_1_1FactoryWithRegistration" prot="public">rr::RegistrationFactory</innerclass>
     <innerclass refid="classrr_1_1FileName" prot="public">rr::FileName</innerclass>
     <innerclass refid="classrr_1_1FixedPointIteration" prot="public">rr::FixedPointIteration</innerclass>
     <innerclass refid="classrr_1_1ForwardSensitivitySolver" prot="public">rr::ForwardSensitivitySolver</innerclass>
@@ -430,7 +430,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="FactoryWithRegistration.h" line="19" column="25" bodyfile="FactoryWithRegistration.h" bodystart="17" bodyend="-1"/>
+        <location file="RegistrationFactory.h" line="19" column="25" bodyfile="RegistrationFactory.h" bodystart="17" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="Integrator_8h_1af88f77fb0c8c61ee1848be4c0894ac02" prot="public" static="no">
         <type>cxx11_ns::shared_ptr&lt; <ref refid="classrr_1_1IntegratorListener" kindref="compound">IntegratorListener</ref> &gt;</type>
@@ -774,7 +774,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="FactoryWithRegistration.cpp" line="12" column="23" bodyfile="FactoryWithRegistration.cpp" bodystart="12" bodyend="-1"/>
+        <location file="RegistrationFactory.cpp" line="12" column="23" bodyfile="RegistrationFactory.cpp" bodystart="12" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="Integrator_8h_1a17f62e52a958b2ad9bc87a8539527b91" prot="public" static="yes" mutable="no">
         <type>std::mutex</type>

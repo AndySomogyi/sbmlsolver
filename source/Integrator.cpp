@@ -80,7 +80,7 @@ namespace rr
     ********************************************************************************************/
 
     IntegratorFactory &IntegratorFactory::getInstance() {
-        return FactoryWithRegistration::getInstance<IntegratorFactory>(integratorFactoryMutex);
+        return RegistrationFactory::getInstance<IntegratorFactory>(integratorFactoryMutex);
     }
 
     void IntegratorFactory::Register() {

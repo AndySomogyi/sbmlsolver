@@ -4,7 +4,7 @@
     <compoundname>rrExporter.h</compoundname>
     <includedby refid="__Variant_8h" local="yes">_Variant.h</includedby>
     <includedby refid="Dictionary_8h" local="yes">Dictionary.h</includedby>
-    <includedby refid="FactoryWithRegistration_8h" local="yes">FactoryWithRegistration.h</includedby>
+    <includedby refid="FactoryWithRegistration_8h" local="yes">RegistrationFactory.h</includedby>
     <includedby refid="NLEQSolver_8h" local="yes">NLEQSolver.h</includedby>
     <includedby refid="Registrar_8h" local="yes">Registrar.h</includedby>
     <includedby refid="rrConfig_8h" local="yes">rrConfig.h</includedby>
@@ -482,7 +482,7 @@
         </childnode>
       </node>
       <node id="25">
-        <label>FactoryWithRegistration.h</label>
+        <label>RegistrationFactory.h</label>
         <link refid="FactoryWithRegistration_8h_source"/>
         <childnode refid="5" relation="include">
         </childnode>

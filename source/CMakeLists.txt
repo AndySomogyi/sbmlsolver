@@ -77,7 +77,7 @@ set(
         SensitivitySolver.cpp
         ForwardSensitivitySolver.cpp
         AdjointSensitivitySolver.cpp
-        FactoryWithRegistration.cpp
+        RegistrationFactory.cpp
 
         KinsolSteadyStateSolver.cpp
         FixedPointIteration.cpp
@@ -148,7 +148,7 @@ set(
         SensitivitySolver.h
         ForwardSensitivitySolver.h
         AdjointSensitivitySolver.h
-        FactoryWithRegistration.cpp
+        RegistrationFactory.cpp
         Registrar.h
 
         KinsolErrHandler.h

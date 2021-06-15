@@ -4,7 +4,7 @@
     <compoundname>Registrar.h</compoundname>
     <includes refid="rrExporter_8h" local="yes">rrExporter.h</includes>
     <includes local="no">iostream</includes>
-    <includedby refid="FactoryWithRegistration_8h" local="yes">FactoryWithRegistration.h</includedby>
+    <includedby refid="FactoryWithRegistration_8h" local="yes">RegistrationFactory.h</includedby>
     <includedby refid="Integrator_8h" local="yes">Integrator.h</includedby>
     <includedby refid="RK45Integrator_8h" local="yes">RK45Integrator.h</includedby>
     <includedby refid="SteadyStateSolver_8cpp" local="yes">SteadyStateSolver.cpp</includedby>
@@ -120,7 +120,7 @@
         <link refid="ForwardSensitivitySolver_8h_source"/>
       </node>
       <node id="2">
-        <label>FactoryWithRegistration.h</label>
+        <label>RegistrationFactory.h</label>
         <link refid="FactoryWithRegistration_8h_source"/>
         <childnode refid="3" relation="include">
         </childnode>
