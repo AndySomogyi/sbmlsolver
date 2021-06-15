@@ -44,6 +44,11 @@ namespace rr {
         static std::string getForwardSensitivitySolverHint();
 
         /**
+         * @brief resets all settings back to default values
+         */
+         void resetSettings() override;
+
+        /**
          * @brief solve sensitivities for this model
          */
         SensitivityResult solve() override;

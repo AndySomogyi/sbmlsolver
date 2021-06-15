@@ -18,10 +18,6 @@ namespace rr{
         return ForwardSensitivitySolver::getForwardSensitivitySolverHint();
     }
 
-    SensitivityResult ForwardSensitivitySolver::solve() {
-        return SensitivityResult();
-    }
-
     std::string ForwardSensitivitySolver::getForwardSensitivitySolverName() {
         return "forward";
     }
@@ -33,5 +29,15 @@ namespace rr{
     std::string ForwardSensitivitySolver::getForwardSensitivitySolverHint() {
         return "forward sensitivities solver";
     }
+
+    SensitivityResult ForwardSensitivitySolver::solve() {
+        return SensitivityResult();
+    }
+
+    void ForwardSensitivitySolver::resetSettings() {
+        SensitivitySolver::resetSettings();
+    }
+
+
 
 }

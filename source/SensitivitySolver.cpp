@@ -26,14 +26,12 @@ namespace rr {
 
     void SensitivitySolver::resetSettings() {
         CVODEIntegrator::resetSettings(); // integrator settings affect sensitivity
-
     }
 
-    void SensitivitySolver::loadConfigSettings() {}
+    void SensitivitySolver::loadConfigSettings() {
+        CVODEIntegrator::loadConfigSettings();
+    }
 
-//    SensitivitySolver *SensitivitySolver::makeSensitivitySolver(const string &name, ExecutableModel *executableModel) {
-//        return nullptr;
-//    }
 
     SensitivitySolverFactory &SensitivitySolverFactory::getInstance() {
         return FactoryWithRegistration::getInstance<SensitivitySolverFactory>(sensitivitySolverMutex);
