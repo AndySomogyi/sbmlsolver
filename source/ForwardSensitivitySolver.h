@@ -29,21 +29,6 @@ namespace rr {
         std::string getHint() const override;
 
         /**
-        * @brief Get the name of this solver
-        */
-        static std::string getForwardSensitivitySolverName();
-
-        /**
-        * @brief Get the description of this solver
-        */
-        static std::string getForwardSensitivitySolverDescription();
-
-        /**
-        * @brief Get a (user-readable) hint for this solver
-        */
-        static std::string getForwardSensitivitySolverHint();
-
-        /**
          * @brief resets all settings back to default values
          */
          void resetSettings() override;
@@ -54,40 +39,6 @@ namespace rr {
         SensitivityResult solve() override;
     };
 
-    class ForwardSensitivityRegistrar : public Registrar {
-    public:
-        /**
-        * @author JKM
-        * @brief Gets the name associated with this integrator type
-        */
-        std::string getName() const override {
-            return ForwardSensitivitySolver::getForwardSensitivitySolverName();
-        }
-
-        /**
-        * @author JKM
-        * @brief Gets the description associated with this integrator type
-        */
-        std::string getDescription() const override {
-            return ForwardSensitivitySolver::getForwardSensitivitySolverDescription();
-        }
-
-        /**
-        * @author JKM
-        * @brief Gets the hint associated with this integrator type
-        */
-        std::string getHint() const override {
-            return ForwardSensitivitySolver::getForwardSensitivitySolverHint();
-        }
-
-        /**
-        * @author JKM
-        * @brief Constructs a new sensitivity solver of a given type
-        */
-        SensitivitySolver *construct(ExecutableModel *model) const override {
-            return new ForwardSensitivitySolver(model);
-        }
-    };
 }
 
 

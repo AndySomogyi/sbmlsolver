@@ -7,31 +7,19 @@
 namespace rr {
 
     std::string AdjointSensitivitySolver::getName() const {
-        return getAdjointSensitivitySolverName();
+        return "adjoint";
     }
 
     std::string AdjointSensitivitySolver::getDescription() const {
-        return getAdjointSensitivitySolverDescription();
+        return "Interface to the sundials cvodes adjoint sensitivities solver";
     }
 
     std::string AdjointSensitivitySolver::getHint() const {
-        return getAdjointSensitivitySolverHint();
+        return "adjoint sensitivities solver";
     }
 
     SensitivityResult AdjointSensitivitySolver::solve() {
         return SensitivityResult();
-    }
-
-    std::string AdjointSensitivitySolver::getAdjointSensitivitySolverName() {
-        return "adjoint";
-    }
-
-    std::string AdjointSensitivitySolver::getAdjointSensitivitySolverDescription() {
-        return "Interface to the sundials cvodes adjoint sensitivities solver";
-    }
-
-    std::string AdjointSensitivitySolver::getAdjointSensitivitySolverHint() {
-        return "adjoint sensitivities solver";
     }
 
 

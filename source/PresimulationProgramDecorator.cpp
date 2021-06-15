@@ -45,4 +45,8 @@ namespace rr {
     std::string PresimulationProgramDecorator::decoratorName() const {
         return "PresimulationProgram";
     }
+
+    Solver *PresimulationProgramDecorator::construct(ExecutableModel *executableModel) const {
+        return new PresimulationProgramDecorator(executableModel);
+    }
 }

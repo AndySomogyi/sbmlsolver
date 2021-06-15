@@ -31,6 +31,9 @@ namespace rr
     class RK45Integrator: public Integrator
     {
     public:
+
+        using Integrator::Integrator;
+
         /**
          * @author KC
          * @brief Constructor: takes an executable model, does not own the pointer
@@ -115,6 +118,8 @@ namespace rr
          */
         static std::string getRK45Hint();
 
+        Solver* construct(ExecutableModel* executableModel) const;
+
         // ** Getters / Setters ************************************************
 
         virtual Setting getValue(std::string key);
@@ -144,8 +149,6 @@ namespace rr
         */
         virtual IntegratorListenerPtr getListener();
 
-    public:
-
 
     private:
 
@@ -164,45 +167,6 @@ namespace rr
         void testRootsAtInitialTime();
         void applyEvents(double timeEnd, std::vector<unsigned char> &previousEventStatus);
 
-    };
-
-
-    // ** Registration *********************************************************
-
-
-    class RK45IntegratorRegistrar : public Registrar {
-        public:
-            /**
-            * @author JKM
-            * @brief Gets the name associated with this integrator type
-            */
-            std::string getName() const override{
-                return RK45Integrator::getRK45Name();
-            }
-
-            /**
-            * @author JKM
-            * @brief Gets the description associated with this integrator type
-            */
-            std::string getDescription() const override{
-                return RK45Integrator::getRK45Description();
-            }
-
-            /**
-            * @author JKM
-            * @brief Gets the hint associated with this integrator type
-            */
-            std::string getHint() const override{
-                return RK45Integrator::getRK45Hint();
-            }
-
-            /**
-            * @author JKM
-            * @brief Constructs a new integrator of a given type
-            */
-            Integrator* construct(ExecutableModel *model) const override {
-                return new RK45Integrator(model);
-            }
     };
 
 } /* namespace rr */

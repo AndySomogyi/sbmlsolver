@@ -57,6 +57,8 @@ namespace rr
     {
     public:
 
+        using Integrator::Integrator;
+
         /**
         * Creates a new EulerIntegrator.
         *
@@ -234,15 +236,7 @@ namespace rr
         /**
         * get the name of this integrator
         */
-        virtual std::string getName() const {
-            return getEulerName();
-        }
-
-        /**
-         * @author JKM
-         * @brief Get the name for this integrator
-         */
-        static std::string getEulerName() {
+        std::string getName() const override{
             return "euler";
         }
 
@@ -251,15 +245,7 @@ namespace rr
          * @brief Get the description for this integrator
          * @note Delegates to @ref getDescription
          */
-        std::string getDescription() const {
-            return getEulerDescription();
-        }
-
-        /**
-         * @author JKM
-         * @brief Get the description for this integrator
-         */
-        static std::string getEulerDescription() {
+        std::string getDescription() const override{
             return "The Euler method is one of the simplest approaches to "
                 "solving a first order ODE. Given the rate of change of "
                 "function f at time t, it computes the new value of f as "
@@ -273,16 +259,12 @@ namespace rr
          * @brief Get the hint for this integrator
          * @note Delegates to @ref getHint
          */
-        std::string getHint() const {
-            return getEulerHint();
+        std::string getHint() const override {
+            return "A simple Euler integrator";
         }
 
-        /**
-         * @author JKM
-         * @brief Get the hint for this integrator
-         */
-        static std::string getEulerHint() {
-            return "A simple Euler integrator";
+        Solver* construct(ExecutableModel* executableModel) const {
+            return new EulerIntegrator(executableModel);
         }
 
         /**
@@ -414,41 +396,6 @@ namespace rr
 
     // ** Registration *********************************************************
 
-
-    class EulerIntegratorRegistrar : public Registrar {
-        public:
-            /**
-            * @author JKM
-            * @brief Gets the name associated with this integrator type
-            */
-            virtual std::string getName() const {
-                return EulerIntegrator::getEulerName();
-            }
-
-            /**
-            * @author JKM
-            * @brief Gets the description associated with this integrator type
-            */
-            virtual std::string getDescription() const {
-                return EulerIntegrator::getEulerDescription();
-            }
-
-            /**
-            * @author JKM
-            * @brief Gets the hint associated with this integrator type
-            */
-            virtual std::string getHint() const {
-                return EulerIntegrator::getEulerHint();
-            }
-
-            /**
-            * @author JKM
-            * @brief Constructs a new integrator of a given type
-            */
-            virtual Integrator* construct(ExecutableModel *model) const {
-                return new EulerIntegrator(model);
-            }
-    };
 
 } /* namespace rr */
 

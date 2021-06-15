@@ -7,26 +7,14 @@
 namespace rr{
 
     std::string ForwardSensitivitySolver::getName() const {
-        return ForwardSensitivitySolver::getForwardSensitivitySolverName();
-    }
-
-    std::string ForwardSensitivitySolver::getDescription() const {
-        return ForwardSensitivitySolver::getForwardSensitivitySolverDescription();
-    }
-
-    std::string ForwardSensitivitySolver::getHint() const {
-        return ForwardSensitivitySolver::getForwardSensitivitySolverHint();
-    }
-
-    std::string ForwardSensitivitySolver::getForwardSensitivitySolverName() {
         return "forward";
     }
 
-    std::string ForwardSensitivitySolver::getForwardSensitivitySolverDescription() {
+    std::string ForwardSensitivitySolver::getDescription() const {
         return "Interface to the sundials cvodes forward sensitivities solver";
     }
 
-    std::string ForwardSensitivitySolver::getForwardSensitivitySolverHint() {
+    std::string ForwardSensitivitySolver::getHint() const {
         return "forward sensitivities solver";
     }
 

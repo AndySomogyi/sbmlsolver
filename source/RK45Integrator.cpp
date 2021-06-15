@@ -331,4 +331,8 @@ namespace rr
         addSetting("max_output_rows",    Setting(Config::getInt(Config::MAX_OUTPUT_ROWS)), "Maximum Output Rows", "For variable step size simulations, the maximum number of output rows produced (int).", "(int) This will set the maximum number of output rows for variable step size integration.  This may truncate some simulations that may not reach the desired end time, but prevents infinite or massive output for simulations where the variable step size ends up decreasing too much.");
     }
 
+    Solver *RK45Integrator::construct(ExecutableModel *executableModel) const {
+        return new RK45Integrator(executableModel);
+    }
+
 } /* namespace rr */

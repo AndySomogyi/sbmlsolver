@@ -180,32 +180,11 @@ namespace rr
         return IntegratorListenerPtr();
     }
 
-    //std::string RK4Integrator::toString() const
-    //{
-    //    return toRepr();
-    //}
-
-    //std::string RK4Integrator::toRepr() const
-    //{
-    //    std::stringstream ss;
-    //    ss << "< roadrunner.RK4Integrator() { 'this' : "
-    //            << (void*)this << " }>";
-    //    return ss.str();
-    //}
-
     std::string RK4Integrator::getName() const {
-        return RK4Integrator::getRK4Name();
-    }
-
-    std::string RK4Integrator::getRK4Name() {
         return "rk4";
     }
 
     std::string RK4Integrator::getDescription() const {
-        return RK4Integrator::getRK4Description();
-    }
-
-    std::string RK4Integrator::getRK4Description() {
         return "Runge-Kutta methods are a family of algorithms for solving "
             "ODEs. They have considerably better accuracy than the Euler "
             "method. This integrator is a standard 4th order Runge-Kutta "
@@ -213,11 +192,11 @@ namespace rr
     }
 
     std::string RK4Integrator::getHint() const {
-        return RK4Integrator::getRK4Hint();
+        return "Internal RK4 ODE solver";
     }
 
-    std::string RK4Integrator::getRK4Hint() {
-        return "Internal RK4 ODE solver";
+    Solver * RK4Integrator::construct(ExecutableModel *model) const {
+        return new RK4Integrator(model);
     }
 
     Setting RK4Integrator::getValue(std::string key)

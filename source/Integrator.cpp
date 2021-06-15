@@ -88,11 +88,11 @@ namespace rr
         if (!flag) {
             std::lock_guard<std::mutex> lockGuard(integratorRegistrationMutex);
             flag = true;
-            IntegratorFactory::getInstance().registerSolver(new CVODEIntegratorRegistrar());
-            IntegratorFactory::getInstance().registerSolver(new GillespieIntegratorRegistrar());
-            IntegratorFactory::getInstance().registerSolver(new RK4IntegratorRegistrar());
-            IntegratorFactory::getInstance().registerSolver(new RK45IntegratorRegistrar());
-            IntegratorFactory::getInstance().registerSolver(new EulerIntegratorRegistrar());
+            IntegratorFactory::getInstance().registerSolver(new CVODEIntegrator);
+            IntegratorFactory::getInstance().registerSolver(new GillespieIntegrator);
+            IntegratorFactory::getInstance().registerSolver(new RK4Integrator);
+            IntegratorFactory::getInstance().registerSolver(new RK45Integrator);
+            IntegratorFactory::getInstance().registerSolver(new EulerIntegrator);
         }
     }
 

@@ -45,12 +45,13 @@ namespace rr {
         /**
          * @author JKM, WBC
          * @brief Constructs a new Solver of a given type
+         * @details the caller is responsible for deleting
+         * memory associated with the returned Solver*.
          */
         virtual Solver *construct(ExecutableModel *model) const = 0;
     };
 
     typedef std::vector<Registrar *> RegistrarVector;
-
 
 }
 

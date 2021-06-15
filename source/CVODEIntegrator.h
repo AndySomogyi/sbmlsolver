@@ -50,6 +50,9 @@ namespace rr
     {
 
     public:
+
+        using Integrator::Integrator;
+
         /**
          * @author WBC, ETS, MTK
          * @brief Constructor: takes an executable model, does not own the pointer
@@ -61,7 +64,6 @@ namespace rr
          * @brief Destructor
          */
         ~CVODEIntegrator() override;
-
 
         /**
         * @author JKM
@@ -95,23 +97,11 @@ namespace rr
         std::string getName() const override;
 
         /**
-         * @author JKM
-         * @brief Get the name for this integrator
-         */
-        static std::string getCVODEIntegratorName();
-
-        /**
          * @author WBC
          * @brief Get the description for this integrator
          * @note Delegates to @ref getDescription
          */
         std::string getDescription() const override;
-
-        /**
-         * @author JKM
-         * @brief Get the description for this integrator
-         */
-        static std::string getCVODEIntegratorDescription();
 
         /**
          * @author WBC
@@ -121,10 +111,11 @@ namespace rr
         std::string getHint() const override;
 
         /**
-         * @author JKM
-         * @brief Get the hint for this integrator
+         * @brief construct an instance of type CVODEIntegrator.
+         * @details implements the Registrar interface. Used in
+         * factory creation of Integrators.
          */
-        static std::string getCVODEIntegratorHint();
+        Solver* construct(ExecutableModel* executableModel) const override;
 
         // ** Getters / Setters ************************************************
 
@@ -327,48 +318,9 @@ namespace rr
 
         friend int cvodeRootFcn(double t, N_Vector y, double *gout, void *g_data);
 
-
-
     };
 
 
-    // ** Registration *********************************************************
-
-
-    class CVODEIntegratorRegistrar : public Registrar {
-        public:
-            /**
-            * @author JKM
-            * @brief Gets the name associated with this integrator type
-            */
-            std::string getName() const override {
-                return CVODEIntegrator::getCVODEIntegratorName();
-            }
-
-            /**
-            * @author JKM
-            * @brief Gets the description associated with this integrator type
-            */
-            std::string getDescription() const override {
-                return CVODEIntegrator::getCVODEIntegratorDescription();
-            }
-
-            /**
-            * @author JKM
-            * @brief Gets the hint associated with this integrator type
-            */
-            std::string getHint() const override {
-                return CVODEIntegrator::getCVODEIntegratorHint();
-            }
-
-            /**
-            * @author JKM
-            * @brief Constructs a new integrator of a given type
-            */
-            Integrator* construct(ExecutableModel *model) const override {
-                return new CVODEIntegrator(model);
-            }
-    };
 }
 
 #endif

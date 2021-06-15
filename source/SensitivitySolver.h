@@ -30,17 +30,17 @@ namespace rr {
         /**
         * @brief Get the name of this solver
         */
-        virtual std::string getName() const = 0;
+        virtual std::string getName() const override = 0;
 
         /**
         * @brief Get the description of this solver
         */
-        virtual std::string getDescription() const = 0;
+        virtual std::string getDescription() const override = 0;
 
         /**
         * @brief Get a (user-readable) hint for this solver
         */
-        virtual std::string getHint() const = 0;
+        virtual std::string getHint() const override = 0;
 
         /**
          * @brief solve sensitivities for this model

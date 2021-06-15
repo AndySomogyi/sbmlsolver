@@ -15,6 +15,8 @@ namespace rr {
      */
     class RR_DECLSPEC NLEQSolver : public SteadyStateSolver {
     public:
+        using SteadyStateSolver::SteadyStateSolver;
+
         /**
         * Creates a new Instance of NLEQ for the given Model
         */

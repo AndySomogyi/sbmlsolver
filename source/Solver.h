@@ -14,18 +14,17 @@
 # ifndef RR_SOLVER_H_
 # define RR_SOLVER_H_
 
-// == INCLUDES ================================================
 
 #include "rrLogger.h"
 #include "rrOSSpecifics.h"
 #include "Dictionary.h"
 #include "rrException.h"
+#include "Registrar.h"
 
 #include "tr1proxy/rr_memory.h"
 #include "tr1proxy/rr_unordered_map.h"
 #include <stdexcept>
 
-// == CODE ====================================================
 
 namespace rr
 {
@@ -36,33 +35,19 @@ namespace rr
      * @author JKM
      * @brief Base class for all integrators and steady state solvers
      */
-    class RR_DECLSPEC Solver
+    class RR_DECLSPEC Solver : public Registrar
     {
     public:
+
+        using Registrar::getName;
+        using Registrar::getHint;
+        using Registrar::getDescription;
 
         Solver() = default;
 
         explicit Solver(ExecutableModel* model);
 
-        virtual ~Solver() = default;
-
-        /**
-        * @author JKM
-        * @brief Get the name of this solver
-        */
-        virtual std::string getName() const = 0;
-
-        /**
-        * @author JKM
-        * @brief Get the description of this solver
-        */
-        virtual std::string getDescription() const = 0;
-
-        /**
-        * @author JKM
-        * @brief Get a (user-readable) hint for this solver
-        */
-        virtual std::string getHint() const = 0;
+        ~Solver() override = default;
 
         /**
          * @brief Update settings values

@@ -108,10 +108,12 @@ namespace rr {
         if (!flag) {
             std::lock_guard<std::mutex> mtx(steadyStateSolverRegistrationMutex);
             flag = true;
-            SteadyStateSolverFactory::getInstance().registerSolver(new NLEQ1SolverRegistrar());
-            SteadyStateSolverFactory::getInstance().registerSolver(new NLEQ2SolverRegistrar());
-            SteadyStateSolverFactory::getInstance().registerSolver(new BasicNewtonIterationRegistrar());
-            SteadyStateSolverFactory::getInstance().registerSolver(new LinesearchNewtonIterationRegistrar());
+            // instantiate instance of Solver* without a model instance and it has access
+            // to Registrar* methods.
+            SteadyStateSolverFactory::getInstance().registerSolver(new NLEQ1Solver);
+            SteadyStateSolverFactory::getInstance().registerSolver(new NLEQ2Solver);
+            SteadyStateSolverFactory::getInstance().registerSolver(new BasicNewtonIteration);
+            SteadyStateSolverFactory::getInstance().registerSolver(new LinesearchNewtonIteration);
         }
     }
 }

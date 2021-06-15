@@ -238,6 +238,12 @@ TEST_F(CVODEIntegratorUnitTests, restart) {
 }
 
 
+TEST_F(CVODEIntegratorUnitTests, NoModel) {
+    // when we reset, setTime will be called with 0 as argument
+    CVODEIntegrator cvodeIntegrator;
+}
+
+
 
 
 
