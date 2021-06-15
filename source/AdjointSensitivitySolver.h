@@ -30,6 +30,8 @@ namespace rr {
         */
         std::string getHint() const override;
 
+        Solver* construct(ExecutableModel* executableModel) const override;
+
         /**
          * @brief solve sensitivities for this model
          */

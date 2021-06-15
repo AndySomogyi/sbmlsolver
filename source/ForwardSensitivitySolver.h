@@ -28,6 +28,8 @@ namespace rr {
         */
         std::string getHint() const override;
 
+        Solver* construct(ExecutableModel* executableModel) const override;
+
         /**
          * @brief resets all settings back to default values
          */

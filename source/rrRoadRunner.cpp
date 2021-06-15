@@ -3814,7 +3814,7 @@ namespace rr {
                 return;
             }
             // if this is not the case, we need to delete the existing sensitivities solver
-            // and make a new one
+            // and before making a new one
             delete impl->sensitivities_solver;
         }
 

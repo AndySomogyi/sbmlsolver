@@ -26,6 +26,9 @@ namespace rr{
         SensitivitySolver::resetSettings();
     }
 
+    Solver *ForwardSensitivitySolver::construct(ExecutableModel *executableModel) const {
+        return new ForwardSensitivitySolver(executableModel);
+    }
 
 
 }

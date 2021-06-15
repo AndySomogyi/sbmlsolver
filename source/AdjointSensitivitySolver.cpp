@@ -22,6 +22,10 @@ namespace rr {
         return SensitivityResult();
     }
 
+    Solver *AdjointSensitivitySolver::construct(ExecutableModel *executableModel) const {
+        return new AdjointSensitivitySolver(executableModel);
+    }
+
 
 }
 
