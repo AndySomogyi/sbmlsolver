@@ -189,8 +189,12 @@
 <h1>Building the Documentation<a class="headerlink" href="#building-the-documentation" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="quick-instructions">
 <h2>Quick instructions<a class="headerlink" href="#quick-instructions" title="Permalink to this headline">¶</a></h2>
-<p>Configure the roadrunner cmake system using the <code class="docutils literal notranslate"><span class="pre">-DBUILD_DOCS=ON</span></code> flag and build the <code class="docutils literal notranslate"><span class="pre">roadrunner-docs-sphinx</span></code> target.
-This basically will run the commands for running doxygen and sphinx.</p>
+<ol class="arabic simple">
+<li><p>Make sure you are on the <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code> branch.</p></li>
+<li><p>Configure the roadrunner cmake system using the <code class="docutils literal notranslate"><span class="pre">-DBUILD_DOCS=ON</span></code> flag</p></li>
+<li><p>Build the <code class="docutils literal notranslate"><span class="pre">roadrunner-docs-sphinx</span></code> target.</p></li>
+</ol>
+<p>This basically will run the commands needed for running doxygen and sphinx.</p>
 <p>For example:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cmake -DCMAKE_INSTALL_PREFIX<span class="o">=</span>../install-mac-rel <span class="se">\</span>
     -DRR_DEPENDENCIES_INSTALL_PREFIX<span class="o">=</span>/Users/ciaranwelsh/Documents/libroadrunner-deps/install-clang13-rel <span class="se">\</span>
@@ -208,12 +212,12 @@ cmake --build . --target roadrunner-docs-sphinx --config Release
 <div class="section" id="details">
 <h2>Details<a class="headerlink" href="#details" title="Permalink to this headline">¶</a></h2>
 <p>Roadrunner is a C++ library with a C and Python front end. The C and C++ code is documented using the standard
-<code class="docutils literal notranslate"><span class="pre">doxygen</span></code> tool, whilst the Python front end is documented using Sphinx. Furthermore, we make use of a
+<code class="docutils literal notranslate"><span class="pre">doxygen</span></code> tool, whilst the Python front end is documented using <code class="docutils literal notranslate"><span class="pre">Sphinx</span></code>. Furthermore, we make use of a
 Python package called <a class="reference external" href="https://breathe.readthedocs.io/en/latest/">Breathe</a> for bridging the gap between
 <code class="docutils literal notranslate"><span class="pre">Doxygen</span></code> and <code class="docutils literal notranslate"><span class="pre">Sphinx</span></code> which are the two standard documentation systems for C/C++ and Python respectively.</p>
 <p>In short, <code class="docutils literal notranslate"><span class="pre">doxygen</span></code> reads the docstrings from C/C++ code and saves them to XML which is pulled into documentation
 that can be rendered by <code class="docutils literal notranslate"><span class="pre">Sphinx</span></code> using directives from <code class="docutils literal notranslate"><span class="pre">Breathe</span></code>. Whilst rendering the documentation
-into html is handled by sphinx, we still maintain and provide access to the doxygen generated documentation.</p>
+into html is handled by sphinx, we still maintain and provide access to the <a class="reference external" href="http://sys-bio.github.io/roadrunner/OriginalDoxygenStyleDocs/html/index.html">doxygen generated documentation</a>.</p>
 <dl class="simple">
 <dt>When roadrunner is built with the <code class="docutils literal notranslate"><span class="pre">-DBUILD_DOCS=ON</span></code> flag, two new cmake targets are presented to the developer:</dt><dd><ul class="simple">
 <li><p>roadrunner-docs-doxygen</p></li>

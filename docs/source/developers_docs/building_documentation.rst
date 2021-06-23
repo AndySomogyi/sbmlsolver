@@ -4,8 +4,11 @@ Building the Documentation
 Quick instructions
 -------------------
 
-Configure the roadrunner cmake system using the ``-DBUILD_DOCS=ON`` flag and build the ``roadrunner-docs-sphinx`` target.
-This basically will run the commands for running doxygen and sphinx.
+1. Make sure you are on the ``gh-pages`` branch.
+2. Configure the roadrunner cmake system using the ``-DBUILD_DOCS=ON`` flag
+3. Build the ``roadrunner-docs-sphinx`` target.
+
+This basically will run the commands needed for running doxygen and sphinx.
 
 For example:
 
@@ -26,13 +29,13 @@ Details
 ----------
 
 Roadrunner is a C++ library with a C and Python front end. The C and C++ code is documented using the standard
-``doxygen`` tool, whilst the Python front end is documented using Sphinx. Furthermore, we make use of a
+``doxygen`` tool, whilst the Python front end is documented using ``Sphinx``. Furthermore, we make use of a
 Python package called `Breathe <https://breathe.readthedocs.io/en/latest/>`_ for bridging the gap between
 ``Doxygen`` and ``Sphinx`` which are the two standard documentation systems for C/C++ and Python respectively.
 
 In short, ``doxygen`` reads the docstrings from C/C++ code and saves them to XML which is pulled into documentation
 that can be rendered by ``Sphinx`` using directives from ``Breathe``. Whilst rendering the documentation
-into html is handled by sphinx, we still maintain and provide access to the doxygen generated documentation.
+into html is handled by sphinx, we still maintain and provide access to the `doxygen generated documentation <http://sys-bio.github.io/roadrunner/OriginalDoxygenStyleDocs/html/index.html>`_.
 
 When roadrunner is built with the ``-DBUILD_DOCS=ON`` flag, two new cmake targets are presented to the developer:
     * roadrunner-docs-doxygen
