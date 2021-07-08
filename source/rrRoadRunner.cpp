@@ -30,8 +30,9 @@
 #include "sbml/math/FormulaParser.h"
 #include "sbml/common/operationReturnValues.h"
 #include "SVD.h"
-#include "SensitivityResult.h"
 #include "SensitivitySolver.h"
+#include "CvodesIntegrator.h"
+
 
 
 #ifdef _MSC_VER
@@ -1687,6 +1688,7 @@ namespace rr {
             }
 
             const double hstep = (timeEnd - timeStart) / (numPoints - 1);
+            std::cout << "hstep: " << hstep << std::endl;
             unsigned int nrCols = static_cast<unsigned int>(self.mSelectionList.size());
 
             rrLog(Logger::LOG_DEBUG) << "starting simulation with " << nrCols << " selected columns";
@@ -1749,7 +1751,7 @@ namespace rr {
             rrLog(Logger::LOG_INFORMATION)
                 << "Perfroming deterministic fixed step integration for  "
                 << self.simulateOpt.steps + 1 << " steps";
-
+            // always have 1 more number of time points than we do steps (or intervals)
             int numPoints = self.simulateOpt.steps + 1;
 
             if (numPoints <= 1) {
@@ -1778,6 +1780,7 @@ namespace rr {
                 // for write to file
                 int bufIndex = 1;
 
+                // integrate
                 for (int i = 1; i < self.simulateOpt.steps + 1; i++, bufIndex++) {
                     if (writeToFile && bufIndex == kRowsPerWrite) {
                         writeDoubleMatrixToStream(outfile, self.simulationResult, bufIndex);
@@ -3824,10 +3827,6 @@ namespace rr {
                 SensitivitySolverFactory::getInstance().New(name, getModel())
         );
     };
-
-    SensitivityResult RoadRunner::sensitivities(double start, double stop, double num) {
-        return SensitivityResult();
-    }
 
     Integrator *RoadRunner::getIntegratorByName(const std::string &name) {
         // ensure it exists

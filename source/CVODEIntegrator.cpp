@@ -94,7 +94,7 @@ namespace rr {
         CVODEIntegrator::resetSettings();
 
         if (aModel) {
-            createCVode();
+            create();
 
             // allocate space for the event status array
             eventStatus = std::vector<unsigned char>(mModel->getEventTriggers(0, nullptr, nullptr), false);
@@ -204,7 +204,7 @@ namespace rr {
         variableStepTimeEndEvent = false;
 
         if (m) {
-            createCVode();
+            create();
 
             // allocate space for the event status array
             eventStatus = std::vector<unsigned char>(mModel->getEventTriggers(0, 0, 0), false);
@@ -623,7 +623,7 @@ namespace rr {
             // If the integrator is changed from stiff to standard, we must re-create CVode.
             rrLog(Logger::LOG_INFORMATION) << "Integrator stiffness has been changed. Re-creating CVode.";
             freeCVode();
-            createCVode();
+            create();
         }
     }
 
@@ -848,7 +848,7 @@ namespace rr {
         return stateVectorVariables;
     }
 
-    void CVODEIntegrator::createCVode() {
+    void CVODEIntegrator::create() {
         if (!mModel) {
             return;
         }
@@ -881,8 +881,12 @@ namespace rr {
         mStateVector = N_VNew_Serial(allocStateVectorSize);
         variableStepPostEventState.resize(allocStateVectorSize);
 
+        // set mStateVector to the values that are currently in the model
+        auto states = new double[allocStateVectorSize];
+        mModel->getStateVector(states);
+
         for (int i = 0; i < allocStateVectorSize; i++) {
-            SetVector(mStateVector, i, 0.);
+            mStateVector->ops->nvgetarraypointer(mStateVector)[i] = states[i];
         }
 
         if ((bool)getValue("stiff")) {

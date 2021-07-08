@@ -5,10 +5,9 @@
 #include "gtest/gtest.h"
 #include "rrRoadRunner.h"
 #include "TestModelFactory.h"
-#include "SensitivityResult.h"
-#include "SensitivitySolver.h"
+#include "CvodesIntegrator.h"
 #include "ForwardSensitivitySolver.h"
-#include "AdjointSensitivitySolver.h"
+#include "CvodeIntegrationTest.h"
 
 using namespace rr;
 
@@ -32,23 +31,13 @@ public:
 TEST_F(CVODESIntegrationTests, DefaultSensivitySolver){
     // this is how we want users to interact with roadrunner sensitivities:
     RoadRunner rr(OpenLinearFlux().str());
-    SensitivitySolver* sensitivities = rr.getSensitivitySolver();
+    CvodesIntegrator* sensitivities = rr.getSensitivitySolver();
     if (!sensitivities){
         std::cout << "SENSITIVITIES IS NULLPTR" << std::endl;
     }
-    ASSERT_STREQ(sensitivities->getName().c_str(), "forward");
+    ASSERT_STREQ(sensitivitiestivities->getName().c_str(), "forward");
 }
 
-TEST_F(CVODESIntegrationTests, SetSensSolverToAdjoint){
-    // this is how we want users to interact with roadrunner sensitivities:
-    RoadRunner rr(OpenLinearFlux().str());
-    rr.setSensitivitySolver("adjoint");
-    SensitivitySolver* sensitivities = rr.getSensitivitySolver();
-    if (!sensitivities){
-        std::cout << "SENSITIVITIES IS NULLPTR" << std::endl;
-    }
-    ASSERT_STREQ(sensitivities->getName().c_str(), "adjoint");
-}
 
 
 

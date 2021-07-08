@@ -7,6 +7,7 @@
 
 #include "rrExporter.h"
 #include <iostream>
+#include <vector>
 
 namespace rr {
 

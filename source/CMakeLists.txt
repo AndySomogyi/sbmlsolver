@@ -73,10 +73,9 @@ set(
         Solver.cpp
         #        Variant.cpp
         Setting.cpp
-        SensitivityResult.cpp
-        SensitivitySolver.cpp
+        CvodesIntegrator.cpp
+
         ForwardSensitivitySolver.cpp
-        AdjointSensitivitySolver.cpp
         RegistrationFactory.cpp
 
         KinsolSteadyStateSolver.cpp
@@ -144,12 +143,14 @@ set(
         Solver.h
         #        Variant.h
         Setting.h
-        SensitivityResult.h
-        SensitivitySolver.h
+        CvodesIntegrator.h
         ForwardSensitivitySolver.h
-        AdjointSensitivitySolver.h
+        SensitivitySolver.h
         RegistrationFactory.cpp
         Registrar.h
+
+        Matrix.h
+        Matrix3D.h
 
         KinsolErrHandler.h
         KinsolSteadyStateSolver.h

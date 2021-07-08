@@ -306,7 +306,7 @@ namespace rr
 
         double applyVariableStepPendingEvents();
 
-        void createCVode();
+        void create();
 
         void freeCVode();
 

@@ -18,12 +18,12 @@ namespace rr{
         return "forward sensitivities solver";
     }
 
-    SensitivityResult ForwardSensitivitySolver::solve() {
-        return SensitivityResult();
-    }
+//    SensitivityResult ForwardSensitivitySolver::solve() {
+//        return SensitivityResult();
+//    }
 
     void ForwardSensitivitySolver::resetSettings() {
-        SensitivitySolver::resetSettings();
+        CvodesIntegrator::resetSettings();
     }
 
     Solver *ForwardSensitivitySolver::construct(ExecutableModel *executableModel) const {

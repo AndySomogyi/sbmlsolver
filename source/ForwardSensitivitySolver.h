@@ -5,13 +5,14 @@
 #ifndef ROADRUNNER_FORWARDSENSITIVITYSOLVER_H
 #define ROADRUNNER_FORWARDSENSITIVITYSOLVER_H
 
-#include "SensitivitySolver.h"
+#include "CvodesIntegrator.h"
+#include "Matrix3D.h"
 
 namespace rr {
 
-    class ForwardSensitivitySolver : public SensitivitySolver {
+    class ForwardSensitivitySolver : public CvodesIntegrator {
     public:
-        using SensitivitySolver::SensitivitySolver;
+        using CvodesIntegrator::CvodesIntegrator;
 
         /**
         * @brief Get the name of this solver
@@ -38,7 +39,7 @@ namespace rr {
         /**
          * @brief solve sensitivities for this model
          */
-        SensitivityResult solve() override;
+//        Matrix3D<double, double> solve();
     };
 
 }

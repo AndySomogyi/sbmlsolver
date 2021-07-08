@@ -8,6 +8,8 @@ add_test_executable(BasicDictionaryTests test_targets BasicDictionaryTests.cpp $
 add_test_executable(SelectionRecordTests test_targets SelectionRecordTests.cpp ${SharedTestFiles})
 add_test_executable(LoadSBMLOptionsTests test_targets LoadSBMLOptionsTests.cpp ${SharedTestFiles})
 add_test_executable(ConfigTests test_targets ConfigTests.cpp ${SharedTestFiles})
+add_test_executable(MatrixTests test_targets MatrixTests.cpp ${SharedTestFiles})
+add_test_executable(Matrix3DTests test_targets Matrix3DTests.cpp ${SharedTestFiles})
 
 if (BUILD_PYTHON)
     add_swig_executable(SettingTestsSwigAPI

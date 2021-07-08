@@ -7,6 +7,7 @@
 
 #include "rrExporter.h"
 #include <iostream>
+#include <mutex>
 #include "Registrar.h"
 #include "Solver.h"
 
