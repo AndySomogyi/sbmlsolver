@@ -176,6 +176,14 @@ namespace rr
         Setting::TypeId getType(const std::string& key) const;
 
         /**
+        * @author JKM
+        * @brief Called whenever a new model is loaded to allow integrator
+        * to reset internal state
+        */
+        virtual void syncWithModel(ExecutableModel* m) = 0;
+
+
+        /**
          * @brief returns the pointer to the ExecutableModel
          */
         virtual ExecutableModel *getModel() const;
