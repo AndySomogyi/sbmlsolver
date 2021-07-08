@@ -1,6 +1,13 @@
+#include <fstream>
 #include "gtest/gtest.h"
 #include "TestModelFactory.h"
 #include "SteadyStateSolver.h"
+
+void TestModel::toFile(const string &fname) {
+    std::ofstream of(fname);
+    of << str();
+    of.close();
+}
 
 std::unordered_map<std::string, rr::Setting> SteadyStateResult::steadyStateSettings() {
     return std::unordered_map<std::string, rr::Setting>();
@@ -105,8 +112,8 @@ std::string SimpleFlux::modelName() {
     return "SimpleFlux";
 }
 
-ls::DoubleMatrix SimpleFlux::timeSeriesResult() {
-    return ls::DoubleMatrix({
+rr::Matrix<double> SimpleFlux::timeSeriesResult() {
+    return rr::Matrix<double>({
                                     {0,        10,      1},
                                     {0.909091, 9.14354, 1.85646},
                                     {1.81818,  8.36858, 2.63142},
@@ -145,12 +152,12 @@ std::unordered_map<std::string, rr::Setting> SimpleFlux::steadyStateSettings() {
     };
 }
 
-ls::DoubleMatrix SimpleFlux::fullJacobianAmt() {
+rr::Matrix<double> SimpleFlux::fullJacobianAmt() {
     return fullJacobianConc(); // should this be the same?
 }
 
-ls::DoubleMatrix SimpleFlux::fullJacobianConc() {
-    return ls::DoubleMatrix(
+rr::Matrix<double> SimpleFlux::fullJacobianConc() {
+    return rr::Matrix<double>(
             {
                     {-0.1, 0.01},
                     {0.1,  -0.01},
@@ -158,12 +165,12 @@ ls::DoubleMatrix SimpleFlux::fullJacobianConc() {
     );
 }
 
-ls::DoubleMatrix SimpleFlux::reducedJacobianAmt() {
+rr::Matrix<double> SimpleFlux::reducedJacobianAmt() {
     return reducedJacobianConc();
 }
 
-ls::DoubleMatrix SimpleFlux::reducedJacobianConc() {
-    return ls::DoubleMatrix({{-0.11}});
+rr::Matrix<double> SimpleFlux::reducedJacobianConc() {
+    return rr::Matrix<double>({{-0.11}});
 }
 
 std::unordered_map<std::string, rr::Setting> SimpleFlux::jacobianSettings() {
@@ -189,96 +196,96 @@ std::vector<std::complex<double>> SimpleFlux::fullEigenValues() {
             });
 }
 
-ls::DoubleMatrix SimpleFlux::linkMatrix() {
-    return ls::DoubleMatrix(
+rr::Matrix<double> SimpleFlux::linkMatrix() {
+    return rr::Matrix<double>(
             {
                     {1},
                     {-1}
             });
 }
 
-ls::DoubleMatrix SimpleFlux::NrMatrix() {
-    return ls::DoubleMatrix({{-1, 1}});
+rr::Matrix<double> SimpleFlux::NrMatrix() {
+    return rr::Matrix<double>({{-1, 1}});
 }
 
-ls::DoubleMatrix SimpleFlux::KMatrix() {
-    return ls::DoubleMatrix(
+rr::Matrix<double> SimpleFlux::KMatrix() {
+    return rr::Matrix<double>(
             {
                     {1},
                     {1}
             });
 }
 
-ls::DoubleMatrix SimpleFlux::reducedStoicMatrix() {
-    return ls::DoubleMatrix({{-1, 1}});
+rr::Matrix<double> SimpleFlux::reducedStoicMatrix() {
+    return rr::Matrix<double>({{-1, 1}});
 }
 
-ls::DoubleMatrix SimpleFlux::fullStoicMatrix() {
-    return ls::DoubleMatrix(
+rr::Matrix<double> SimpleFlux::fullStoicMatrix() {
+    return rr::Matrix<double>(
             {
                     {-1, 1},
                     {1,  -1},
             });
 }
 
-ls::DoubleMatrix SimpleFlux::extendedStoicMatrix() {
+rr::Matrix<double> SimpleFlux::extendedStoicMatrix() {
     return fullStoicMatrix(); // not sure when extended should be used
 }
 
-ls::DoubleMatrix SimpleFlux::L0Matrix() {
-    return ls::DoubleMatrix({{-1}});
+rr::Matrix<double> SimpleFlux::L0Matrix() {
+    return rr::Matrix<double>({{-1}});
 }
 
-ls::DoubleMatrix SimpleFlux::conservationMatrix() {
-    return ls::DoubleMatrix({{1, 1}});
+rr::Matrix<double> SimpleFlux::conservationMatrix() {
+    return rr::Matrix<double>({{1, 1}});
 }
 
-ls::DoubleMatrix SimpleFlux::unscaledConcentrationControlCoefficientMatrix() {
-    return ls::DoubleMatrix(
+rr::Matrix<double> SimpleFlux::unscaledConcentrationControlCoefficientMatrix() {
+    return rr::Matrix<double>(
             {
                     {-9.09091, 9.09091},
                     {9.09091,  -9.09091}
             });
 }
 
-ls::DoubleMatrix SimpleFlux::scaledConcentrationControlCoefficientMatrix() {
-    return ls::DoubleMatrix(
+rr::Matrix<double> SimpleFlux::scaledConcentrationControlCoefficientMatrix() {
+    return rr::Matrix<double>(
             {
                     {-0.909091, 0.909091},
                     {0.0909091, -0.0909091}
             });
 }
 
-ls::DoubleMatrix SimpleFlux::unscaledFluxControlCoefficientMatrix() {
-    return ls::DoubleMatrix(
+rr::Matrix<double> SimpleFlux::unscaledFluxControlCoefficientMatrix() {
+    return rr::Matrix<double>(
             {
                     {0.0909091, 0.909091},
                     {0.0909091, 0.909091}
             });
 }
 
-ls::DoubleMatrix SimpleFlux::scaledFluxControlCoefficientMatrix() {
-    return ls::DoubleMatrix(
+rr::Matrix<double> SimpleFlux::scaledFluxControlCoefficientMatrix() {
+    return rr::Matrix<double>(
             {
                     {0.0909091, 0.909091},
                     {0.0909091, 0.909091},
             });
 }
 
-//ls::DoubleMatrix SimpleFlux::unscaledParameterElasticity() {
-//    return ls::DoubleMatrix();
+//rr::Matrix<double> SimpleFlux::unscaledParameterElasticity() {
+//    return rr::Matrix<double>();
 //}
 
-ls::DoubleMatrix SimpleFlux::unscaledElasticityMatrix() {
-    return ls::DoubleMatrix(
+rr::Matrix<double> SimpleFlux::unscaledElasticityMatrix() {
+    return rr::Matrix<double>(
             {
                     {0.1, 0},
                     {0,   0.01},
             });
 }
 
-ls::DoubleMatrix SimpleFlux::scaledElasticityMatrix() {
-    return ls::DoubleMatrix(
+rr::Matrix<double> SimpleFlux::scaledElasticityMatrix() {
+    return rr::Matrix<double>(
             {
                     {1, 0},
                     {0, 1},
@@ -451,8 +458,8 @@ StringDoubleMap OpenLinearFlux::steadyState() {
                            });
 }
 
-ls::DoubleMatrix OpenLinearFlux::timeSeriesResult() {
-    return ls::DoubleMatrix({
+rr::Matrix<double> OpenLinearFlux::timeSeriesResult() {
+    return rr::Matrix<double>({
                                     {0,  0,                  0},
                                     {1,  0.9516258196428962, 0.04527958486459608},
                                     {2,  1.812692469240729,  0.16429269841019906},
@@ -490,32 +497,32 @@ std::unordered_map<std::string, rr::Setting> OpenLinearFlux::steadyStateSettings
 }
 
 
-ls::DoubleMatrix OpenLinearFlux::fullJacobianAmt() {
-    return ls::DoubleMatrix(
+rr::Matrix<double> OpenLinearFlux::fullJacobianAmt() {
+    return rr::Matrix<double>(
             {
                     {-0.1, 0},
                     {0.1,  -0.2},
             });
 }
 
-ls::DoubleMatrix OpenLinearFlux::fullJacobianConc() {
-    return ls::DoubleMatrix(
+rr::Matrix<double> OpenLinearFlux::fullJacobianConc() {
+    return rr::Matrix<double>(
             {
                     {-0.1, 0},
                     {0.1,  -0.2},
             });
 }
 
-ls::DoubleMatrix OpenLinearFlux::reducedJacobianAmt() {
-    return ls::DoubleMatrix(
+rr::Matrix<double> OpenLinearFlux::reducedJacobianAmt() {
+    return rr::Matrix<double>(
             {
                     {-0.1, 0},
                     {0.1,  -0.2},
             });
 }
 
-ls::DoubleMatrix OpenLinearFlux::reducedJacobianConc() {
-    return ls::DoubleMatrix(
+rr::Matrix<double> OpenLinearFlux::reducedJacobianConc() {
+    return rr::Matrix<double>(
             {
                     {-0.1, 0},
                     {0.1,  -0.2},
@@ -623,8 +630,8 @@ std::string Model269::modelName() {
     return "Model269";
 }
 
-ls::DoubleMatrix Model269::timeSeriesResult() {
-    return ls::DoubleMatrix({
+rr::Matrix<double> Model269::timeSeriesResult() {
+    return rr::Matrix<double>({
                                     {0,  1,                   0},
                                     {1,  0.5724999588105951,  0.4275000411894048},
                                     {2,  0.444166735551334,   0.5558332644486657},
@@ -722,8 +729,8 @@ std::string Model28::modelName() {
     return "Model28";
 }
 
-ls::DoubleMatrix Model28::timeSeriesResult() {
-    return ls::DoubleMatrix({
+rr::Matrix<double> Model28::timeSeriesResult() {
+    return rr::Matrix<double>({
                                     {0,  1,                   0},
                                     {1,  0.5724999588105951,  0.4275000411894048},
                                     {2,  0.444166735551334,   0.5558332644486657},
@@ -797,8 +804,8 @@ std::string CeilInRateLaw::modelName() {
     return "CeilInRateLaw";
 }
 
-ls::DoubleMatrix CeilInRateLaw::timeSeriesResult() {
-    return ls::DoubleMatrix({
+rr::Matrix<double> CeilInRateLaw::timeSeriesResult() {
+    return rr::Matrix<double>({
                                     {0,   10,                    0},
                                     {0.4, 3.0119408731651975,    6.9880591268348},
                                     {0.8, 0.9071782094955865,    9.09282179050441},
@@ -872,8 +879,8 @@ std::string FactorialInRateLaw::modelName() {
     return "FactorialInRateLaw";
 }
 
-ls::DoubleMatrix FactorialInRateLaw::timeSeriesResult() {
-    return ls::DoubleMatrix({
+rr::Matrix<double> FactorialInRateLaw::timeSeriesResult() {
+    return rr::Matrix<double>({
                                     {0,   10,        0},
                                     {0.2, 5.52892,   4.47108},
                                     {0.4, 3.0569,    6.9431},
@@ -1095,12 +1102,12 @@ std::unordered_map<std::string, rr::Setting> Venkatraman2010::steadyStateSetting
             });
 }
 
-ls::DoubleMatrix Venkatraman2010::fullJacobianAmt() {
+rr::Matrix<double> Venkatraman2010::fullJacobianAmt() {
     return fullJacobianConc();
 }
 
-ls::DoubleMatrix Venkatraman2010::fullJacobianConc() {
-    return ls::DoubleMatrix({
+rr::Matrix<double> Venkatraman2010::fullJacobianConc() {
+    return rr::Matrix<double>({
                                     {-7744.4113653644172, 0,         -1.36469e-05, 0},
                                     {-4.46746e-05,        -0.600427, 0,            -0.000788376},
                                     {4.46746e-05,         0.599427,  -0.001,       0.000788376},
@@ -1112,12 +1119,12 @@ std::unordered_map<std::string, rr::Setting> Venkatraman2010::jacobianSettings()
     return std::unordered_map<std::string, rr::Setting>{{"time", 0.0}};
 }
 
-ls::DoubleMatrix Venkatraman2010::reducedJacobianAmt() {
-    return ls::DoubleMatrix();
+rr::Matrix<double> Venkatraman2010::reducedJacobianAmt() {
+    return rr::Matrix<double>();
 }
 
-ls::DoubleMatrix Venkatraman2010::reducedJacobianConc() {
-    return ls::DoubleMatrix();
+rr::Matrix<double> Venkatraman2010::reducedJacobianConc() {
+    return rr::Matrix<double>();
 }
 
 
@@ -2384,3 +2391,5 @@ std::string ModelWithLocalParameters::str() {
 std::string ModelWithLocalParameters::modelName() {
     return "ModelWithLocalParameters";
 }
+
+

@@ -7,8 +7,7 @@
 #include <memory>
 #include "Setting.h"
 #include "rrRoadRunner.h"
-
-#include "rr-libstruct/lsMatrix.h"
+#include "Matrix.h"
 #include <complex>
 
 //using DoublePair = std::pair<double, double>; // old swig no handle using statements
@@ -51,6 +50,11 @@ public:
      */
     virtual std::string modelName() = 0;
 
+    /**
+     * @brief write sbml to file
+     */
+     void toFile(const std::string& fname);
+
 };
 
 /**
@@ -73,7 +77,7 @@ public:
      * @details These results are always computed using an independent simulator.
      * Options provided in the timeSeriesSettings determine time, tol, duration etc.
      */
-    virtual ls::DoubleMatrix timeSeriesResult() = 0;
+    virtual rr::Matrix<double> timeSeriesResult() = 0;
 
     virtual std::unordered_map<std::string, rr::Setting> timeSeriesSettings();
 
@@ -142,13 +146,13 @@ public:
  */
 class JacobianResult : public Result {
 public:
-    virtual ls::DoubleMatrix fullJacobianAmt() = 0;
+    virtual rr::Matrix<double> fullJacobianAmt() = 0;
 
-    virtual ls::DoubleMatrix fullJacobianConc() = 0;
+    virtual rr::Matrix<double> fullJacobianConc() = 0;
 
-    virtual ls::DoubleMatrix reducedJacobianAmt() = 0;
+    virtual rr::Matrix<double> reducedJacobianAmt() = 0;
 
-    virtual ls::DoubleMatrix reducedJacobianConc() = 0;
+    virtual rr::Matrix<double> reducedJacobianConc() = 0;
 
     virtual std::unordered_map<std::string, rr::Setting> jacobianSettings() = 0;
 };
@@ -174,21 +178,21 @@ public:
 class StructuralProperties : public Result {
 public:
 
-    virtual ls::DoubleMatrix linkMatrix() = 0;
+    virtual rr::Matrix<double> linkMatrix() = 0;
 
-    virtual ls::DoubleMatrix NrMatrix() = 0;
+    virtual rr::Matrix<double> NrMatrix() = 0;
 
-    virtual ls::DoubleMatrix KMatrix() = 0;
+    virtual rr::Matrix<double> KMatrix() = 0;
 
-    virtual ls::DoubleMatrix reducedStoicMatrix() = 0;
+    virtual rr::Matrix<double> reducedStoicMatrix() = 0;
 
-    virtual ls::DoubleMatrix fullStoicMatrix() = 0;
+    virtual rr::Matrix<double> fullStoicMatrix() = 0;
 
-    virtual ls::DoubleMatrix extendedStoicMatrix() = 0;
+    virtual rr::Matrix<double> extendedStoicMatrix() = 0;
 
-    virtual ls::DoubleMatrix L0Matrix() = 0;
+    virtual rr::Matrix<double> L0Matrix() = 0;
 
-    virtual ls::DoubleMatrix conservationMatrix() = 0;
+    virtual rr::Matrix<double> conservationMatrix() = 0;
 };
 
 /**
@@ -197,19 +201,19 @@ public:
  */
 class MCAResult : public Result {
 public:
-    virtual ls::DoubleMatrix unscaledConcentrationControlCoefficientMatrix() = 0;
+    virtual rr::Matrix<double> unscaledConcentrationControlCoefficientMatrix() = 0;
 
-    virtual ls::DoubleMatrix scaledConcentrationControlCoefficientMatrix() = 0;
+    virtual rr::Matrix<double> scaledConcentrationControlCoefficientMatrix() = 0;
 
-    virtual ls::DoubleMatrix unscaledFluxControlCoefficientMatrix() = 0;
+    virtual rr::Matrix<double> unscaledFluxControlCoefficientMatrix() = 0;
 
-    virtual ls::DoubleMatrix scaledFluxControlCoefficientMatrix() = 0;
+    virtual rr::Matrix<double> scaledFluxControlCoefficientMatrix() = 0;
 
-//    virtual ls::DoubleMatrix unscaledParameterElasticity() = 0;
+//    virtual rr::Matrix<double> unscaledParameterElasticity() = 0;
 
-    virtual ls::DoubleMatrix unscaledElasticityMatrix() = 0;
+    virtual rr::Matrix<double> unscaledElasticityMatrix() = 0;
 
-    virtual ls::DoubleMatrix scaledElasticityMatrix() = 0;
+    virtual rr::Matrix<double> scaledElasticityMatrix() = 0;
 
     virtual std::unordered_map<std::string, rr::Setting> mcaSettings() = 0;
 };
@@ -237,17 +241,17 @@ public:
 
     std::string modelName() override;
 
-    ls::DoubleMatrix timeSeriesResult() override;
+    rr::Matrix<double> timeSeriesResult() override;
 
     StringDoubleMap steadyState() override;
 
-    ls::DoubleMatrix fullJacobianAmt() override;
+    rr::Matrix<double> fullJacobianAmt() override;
 
-    ls::DoubleMatrix fullJacobianConc() override;
+    rr::Matrix<double> fullJacobianConc() override;
 
-    ls::DoubleMatrix reducedJacobianAmt() override;
+    rr::Matrix<double> reducedJacobianAmt() override;
 
-    ls::DoubleMatrix reducedJacobianConc() override;
+    rr::Matrix<double> reducedJacobianConc() override;
 
     std::vector<std::complex<double>> fullEigenValues() override;
 
@@ -261,35 +265,35 @@ public:
 
     std::unordered_map<std::string, rr::Setting> timeSeriesSettings() override;
 
-    ls::DoubleMatrix linkMatrix() override;
+    rr::Matrix<double> linkMatrix() override;
 
-    ls::DoubleMatrix NrMatrix() override;
+    rr::Matrix<double> NrMatrix() override;
 
-    ls::DoubleMatrix KMatrix() override;
+    rr::Matrix<double> KMatrix() override;
 
-    ls::DoubleMatrix reducedStoicMatrix() override;
+    rr::Matrix<double> reducedStoicMatrix() override;
 
-    ls::DoubleMatrix fullStoicMatrix() override;
+    rr::Matrix<double> fullStoicMatrix() override;
 
-    ls::DoubleMatrix extendedStoicMatrix() override;
+    rr::Matrix<double> extendedStoicMatrix() override;
 
-    ls::DoubleMatrix L0Matrix() override;
+    rr::Matrix<double> L0Matrix() override;
 
-    ls::DoubleMatrix conservationMatrix() override;
+    rr::Matrix<double> conservationMatrix() override;
 
-    ls::DoubleMatrix unscaledConcentrationControlCoefficientMatrix() override;
+    rr::Matrix<double> unscaledConcentrationControlCoefficientMatrix() override;
 
-    ls::DoubleMatrix scaledConcentrationControlCoefficientMatrix() override;
+    rr::Matrix<double> scaledConcentrationControlCoefficientMatrix() override;
 
-    ls::DoubleMatrix unscaledFluxControlCoefficientMatrix() override;
+    rr::Matrix<double> unscaledFluxControlCoefficientMatrix() override;
 
-    ls::DoubleMatrix scaledFluxControlCoefficientMatrix() override;
+    rr::Matrix<double> scaledFluxControlCoefficientMatrix() override;
 
-//    ls::DoubleMatrix unscaledParameterElasticity() override;
+//    rr::Matrix<double> unscaledParameterElasticity() override;
 
-    ls::DoubleMatrix unscaledElasticityMatrix() override;
+    rr::Matrix<double> unscaledElasticityMatrix() override;
 
-    ls::DoubleMatrix scaledElasticityMatrix() override;
+    rr::Matrix<double> scaledElasticityMatrix() override;
 
     std::unordered_map<std::string, rr::Setting> mcaSettings() override;
 };
@@ -412,7 +416,7 @@ public:
 
     StringDoubleMap steadyState() override;
 
-    ls::DoubleMatrix timeSeriesResult() override;
+    rr::Matrix<double> timeSeriesResult() override;
 
     std::string modelName() override;
 
@@ -420,13 +424,13 @@ public:
 
     std::unordered_map<std::string, rr::Setting> timeSeriesSettings() override;
 
-    ls::DoubleMatrix fullJacobianAmt() override;
+    rr::Matrix<double> fullJacobianAmt() override;
 
-    ls::DoubleMatrix fullJacobianConc() override;
+    rr::Matrix<double> fullJacobianConc() override;
 
-    ls::DoubleMatrix reducedJacobianAmt() override;
+    rr::Matrix<double> reducedJacobianAmt() override;
 
-    ls::DoubleMatrix reducedJacobianConc() override;
+    rr::Matrix<double> reducedJacobianConc() override;
 
     std::unordered_map<std::string, rr::Setting> jacobianSettings() override;
 
@@ -442,7 +446,7 @@ public:
 
     std::string modelName() override;
 
-    ls::DoubleMatrix timeSeriesResult() override;
+    rr::Matrix<double> timeSeriesResult() override;
 
     std::unordered_map<std::string, rr::Setting> timeSeriesSettings() override;
 
@@ -458,7 +462,7 @@ public:
 
     std::string modelName() override;
 
-    ls::DoubleMatrix timeSeriesResult() override;
+    rr::Matrix<double> timeSeriesResult() override;
 
     std::unordered_map<std::string, rr::Setting> timeSeriesSettings() override;
 
@@ -475,7 +479,7 @@ public:
 
     std::string modelName() override;
 
-    ls::DoubleMatrix timeSeriesResult() override;
+    rr::Matrix<double> timeSeriesResult() override;
 
     std::unordered_map<std::string, rr::Setting> timeSeriesSettings() override;
 
@@ -491,7 +495,7 @@ public:
 
     std::string modelName() override;
 
-    ls::DoubleMatrix timeSeriesResult() override;
+    rr::Matrix<double> timeSeriesResult() override;
 
     std::unordered_map<std::string, rr::Setting> timeSeriesSettings() override;
 
@@ -511,13 +515,13 @@ public:
 
     std::unordered_map<std::string, rr::Setting> steadyStateSettings() override;
 
-    ls::DoubleMatrix fullJacobianAmt() override;
+    rr::Matrix<double> fullJacobianAmt() override;
 
-    ls::DoubleMatrix fullJacobianConc() override;
+    rr::Matrix<double> fullJacobianConc() override;
 
-    ls::DoubleMatrix reducedJacobianAmt() override;
+    rr::Matrix<double> reducedJacobianAmt() override;
 
-    ls::DoubleMatrix reducedJacobianConc() override;
+    rr::Matrix<double> reducedJacobianConc() override;
 
     std::unordered_map<std::string, rr::Setting> jacobianSettings() override;
 
