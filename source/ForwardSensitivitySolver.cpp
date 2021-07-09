@@ -8,8 +8,18 @@
 
 namespace rr {
 
+
     void ForwardSensitivitySolver::constructorOperations() {
+
         if (mModel) {
+            cvodeIntegrator = std::make_unique<CVODEIntegrator>(mModel);
+
+            /**
+             * Use the memory and state vector from cvode
+             */
+//            mCVODE_Memory = cvodeIntegrator.getCvodeMemory();
+//            mStateVector = cvodeIntegrator.getStateVector();
+
             Np = mModel->getNumGlobalParameters();
 
             // when no argument to whichParameter specified, so we assume all parameters
@@ -30,16 +40,16 @@ namespace rr {
 
     ForwardSensitivitySolver::ForwardSensitivitySolver(ExecutableModel *executableModel)
             : SensitivitySolver(executableModel) {
-        cvodeIntegrator.setModel(executableModel);
         constructorOperations();
     }
 
     ForwardSensitivitySolver::ForwardSensitivitySolver(ExecutableModel *executableModel,
                                                        const std::vector<std::string> &whichParameters)
             : SensitivitySolver(executableModel), whichParameters(whichParameters) {
-        cvodeIntegrator.setModel(executableModel);
         constructorOperations();
     }
+
+    ForwardSensitivitySolver::~ForwardSensitivitySolver() {}
 
     std::string ForwardSensitivitySolver::getName() const {
         return "forward";
@@ -74,11 +84,12 @@ namespace rr {
 
     void ForwardSensitivitySolver::resetSettings() {
         // reuse settings from cvodeIntegrator
-        settings = cvodeIntegrator.getSettingsMap();
+        settings = cvodeIntegrator->getSettingsMap();
     }
 
     void ForwardSensitivitySolver::setModel(ExecutableModel *executableModel) {
-        cvodeIntegrator.setModel(executableModel);
+        cvodeIntegrator->setModel(executableModel);
+        mModel = executableModel;
     }
 
     void ForwardSensitivitySolver::loadConfigSettings() {
@@ -97,6 +108,7 @@ namespace rr {
     ParameterMap ForwardSensitivitySolver::getModelParametersAsMap() {
         ParameterMap m;
         int *idx = new int[Np];
+        for (int i=0; i<Np; i++) idx[i] = i;
         double *vals = new double[Np];
         mModel->getGlobalParameterValues(Np, idx, vals);
         // first get the parameter ids
@@ -113,6 +125,9 @@ namespace rr {
         std::vector<double> vec(Np);
         auto *idx = new int[Np];
         auto *vals = new double[Np];
+        for (int i = 0; i < Np; i++) {
+            idx[i] = i;
+        }
         mModel->getGlobalParameterValues(Np, idx, vals);
         for (int i = 0; i < Np; i++) {
             vec[i] = vals[i];
@@ -123,12 +138,17 @@ namespace rr {
     }
 
     void ForwardSensitivitySolver::deducePlist() {
-        for (const auto &paramName: whichParameters) {
+        plist.clear();
+        plist.resize(whichParameters.size());
+        for (int i=0; i< whichParameters.size(); i++){
+            const std::string& paramName = whichParameters.at(i);
             int idx = mModel->getGlobalParameterIndex(paramName);
-            plist.push_back(idx);
+            plist[i] = idx;
         }
     }
 
+    void ForwardSensitivitySolver::create() {
+    }
 
     SensitivitySolverFactory &SensitivitySolverFactory::getInstance() {
         return RegistrationFactory::getInstance<SensitivitySolverFactory>(sensitivitySolverMutex);

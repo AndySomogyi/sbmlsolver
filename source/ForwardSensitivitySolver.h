@@ -23,9 +23,16 @@ namespace rr {
 
         ForwardSensitivitySolver() = default;
 
+        ~ForwardSensitivitySolver() override;
+
         ForwardSensitivitySolver(ExecutableModel *executableModel);
 
         ForwardSensitivitySolver(ExecutableModel *executableModel, const std::vector<std::string> &whichParameters);
+
+        /**
+         * @brief instantiate the code necessary to use cvodes
+         */
+        void create();
 
         /**
         * @brief Get the name of this solver
@@ -135,9 +142,27 @@ namespace rr {
          * would arise from inheriting from both and the consequent need to use
          * virtual inheritance, which may come with hidden problems;
          */
-        CVODEIntegrator cvodeIntegrator;
+        std::unique_ptr<CVODEIntegrator> cvodeIntegrator = nullptr;
 
         void constructorOperations();
+
+        /**
+         * @brief memory associate with cvodes. Should mirror
+         * the CVODEIntegrator::mCVODE_Memory ptr
+         */
+        void* mCVODE_Memory;
+
+        /**
+         * @brief State vector. Should mirror
+         * the CVODEIntegrator::mStateVector ptr
+         */
+        N_Vector mStateVector;
+
+        /**
+         * @brief place to store the sensitivities
+         */
+        N_Vector* mSensitivityVector;
+
     };
 
     /**

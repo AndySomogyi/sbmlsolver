@@ -11,21 +11,22 @@ using namespace rr;
 class CVODESUnitTests : public ::testing::Test {
 public:
     RoadRunner rr;
-    ExecutableModel* model;
+    ExecutableModel *model;
+
     CVODESUnitTests() {
         rr.load(SimpleFlux().str());
         model = rr.getModel();
     }
 };
 
-TEST_F(CVODESUnitTests, getGlobalParameterNames){
+TEST_F(CVODESUnitTests, getGlobalParameterNames) {
     ForwardSensitivitySolver forwardSensitivitySolver(model);
     auto names = forwardSensitivitySolver.getGlobalParameterNames();
     std::vector<std::string> expected({"kf", "kb"});
     ASSERT_EQ(expected, names);
 }
 
-TEST_F(CVODESUnitTests, getModelParametersAsMap){
+TEST_F(CVODESUnitTests, getModelParametersAsMap) {
     ForwardSensitivitySolver forwardSensitivitySolver(model);
     auto m = forwardSensitivitySolver.getModelParametersAsMap();
     std::unordered_map<std::string, double> expected{
@@ -35,32 +36,31 @@ TEST_F(CVODESUnitTests, getModelParametersAsMap){
     ASSERT_EQ(expected, m);
 }
 
+TEST_F(CVODESUnitTests, getModelParametersAsVector) {
 
-TEST_F(CVODESUnitTests, getModelParametersAsVector){
     ForwardSensitivitySolver forwardSensitivitySolver(model);
     auto v = forwardSensitivitySolver.getModelParametersAsVector();
     std::vector<double> expected({0.1, 0.01});
     ASSERT_EQ(expected, v);
 }
 
-
-TEST_F(CVODESUnitTests, deducePlistDefaultToAllParameters){
+TEST_F(CVODESUnitTests, deducePlistDefaultToAllParameters) {
     ForwardSensitivitySolver forwardSensitivitySolver(model);
     forwardSensitivitySolver.deducePlist();
     std::vector<int> expected({0, 1});
     ASSERT_EQ(expected, forwardSensitivitySolver.plist);
 }
 
-TEST_F(CVODESUnitTests, deducePlistFirstParameter){
+TEST_F(CVODESUnitTests, deducePlistFirstParameter) {
     ForwardSensitivitySolver forwardSensitivitySolver(model, {"kf"});
     forwardSensitivitySolver.deducePlist();
     std::vector<int> expected({0});
     ASSERT_EQ(expected, forwardSensitivitySolver.plist);
 }
 
-TEST(CVODES, deducePlistSecondParameter){
+TEST_F(CVODESUnitTests, deducePlistSecondParameter) {
     RoadRunner r(SimpleFlux().str());
-    ExecutableModel* model = r.getModel();
+    ExecutableModel *model = r.getModel();
     ForwardSensitivitySolver forwardSensitivitySolver(model, {"kb"});
     forwardSensitivitySolver.deducePlist();
     std::vector<int> expected({1});

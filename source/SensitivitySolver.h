@@ -12,6 +12,8 @@ namespace rr {
     class SensitivitySolver : public Solver {
     public:
         using Solver::Solver;
+
+        virtual ~SensitivitySolver() = default;
     };
 }
 
