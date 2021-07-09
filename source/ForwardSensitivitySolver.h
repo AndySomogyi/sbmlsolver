@@ -110,6 +110,8 @@ namespace rr {
          */
         N_Vector* getSensitivityVector();
 
+        void setValue(const std::string& key, Setting val);
+
         /**
          * @brief parameters in the model as a member variable
          * which enables passing the underlying data pointer to
@@ -172,13 +174,13 @@ namespace rr {
          * @brief memory associate with cvodes. Should mirror
          * the CVODEIntegrator::mCVODE_Memory ptr
          */
-        void *mCVODE_Memory;
+//        void *mCVODE_Memory;
 
         /**
          * @brief State vector. Should mirror
          * the CVODEIntegrator::mStateVector ptr
          */
-        N_Vector mStateVector;
+//        N_Vector mStateVector;
 
         /**
          * @brief Non-linear solver for sensitivity analysis

@@ -24,22 +24,6 @@ namespace rr {
     throw std::logic_error(_os.str());                                \
     }
 
-    void ffsErrHandler(int error_code, const char *module, const char *function,
-                       char *msg, void *eh_data) {
-        ForwardSensitivitySolver *i = (ForwardSensitivitySolver *) eh_data;
-
-        if (error_code < 0) {
-            rrLog(Logger::LOG_ERROR) << "ForwardSensitivitySolver Error: " << decodeSundialsError(i, error_code, false)
-                                     << ", Module: " << module << ", Function: " << function
-                                     << ", Message: " << msg;
-
-        } else if (error_code == CV_WARNING) {
-            rrLog(Logger::LOG_WARNING) << "CVODE Warning: "
-                                       << ", Module: " << module << ", Function: " << function
-                                       << ", Message: " << msg;
-        }
-    }
-
     int FFSDyDtFcn(realtype time, N_Vector cv_y, N_Vector cv_ydot, void *userData) {
         double *y = NV_DATA_S(cv_y);
         double *ydot = NV_DATA_S(cv_ydot);
@@ -76,14 +60,26 @@ namespace rr {
         return CV_SUCCESS;
     }
 
+    void ffsErrHandler(int error_code, const char *module, const char *function,
+                       char *msg, void *eh_data) {
+        ForwardSensitivitySolver *i = (ForwardSensitivitySolver *) eh_data;
+
+        if (error_code < 0) {
+            rrLog(Logger::LOG_ERROR) << "ForwardSensitivitySolver Error: " << decodeSundialsError(i, error_code, false)
+                                     << ", Module: " << module << ", Function: " << function
+                                     << ", Message: " << msg;
+
+        } else if (error_code == CV_WARNING) {
+            rrLog(Logger::LOG_WARNING) << "CVODE Warning: "
+                                       << ", Module: " << module << ", Function: " << function
+                                       << ", Message: " << msg;
+        }
+    }
+
     void ForwardSensitivitySolver::constructorOperations() {
 
         if (mModel) {
             cvodeIntegrator = std::make_unique<CVODEIntegrator>(mModel);
-
-            /**
-             * Use the memory and state vector from cvode
-             */
 
             Np = mModel->getNumGlobalParameters();
 
@@ -103,6 +99,12 @@ namespace rr {
 
             if (settings.empty()) {
                 resetSettings();
+            }
+
+            // free old cvode memory in favor of new
+            if (cvodeIntegrator->mCVODE_Memory) {
+                cvodeIntegrator->freeCVode();
+                cvodeIntegrator->create();
             }
         }
     }
@@ -133,7 +135,7 @@ namespace rr {
             return;
         }
 
-        assert(mStateVector == nullptr && mCVODE_Memory == nullptr &&
+        assert(cvodeIntegrator->mStateVector == nullptr && cvodeIntegrator->mCVODE_Memory == nullptr &&
                "calling create, but cvode objects already exist");
 
         // still need cvode state std::vector size if we have no vars, but have
@@ -157,49 +159,51 @@ namespace rr {
         }
 
         // allocate and init the cvode arrays
-        mStateVector = N_VNew_Serial(allocStateVectorSize);
+        cvodeIntegrator->mStateVector = N_VNew_Serial(allocStateVectorSize);
         cvodeIntegrator->variableStepPostEventState.resize(allocStateVectorSize);
 
         // set mStateVector to the values that are currently in the model
-        auto states = new double[allocStateVectorSize];
-        mModel->getStateVector(states);
+        std::vector<double> states(allocStateVectorSize);
+        mModel->getStateVector(states.data());
 
+
+        auto getArrayPtr = cvodeIntegrator->mStateVector->ops->nvgetarraypointer;
         for (int i = 0; i < allocStateVectorSize; i++) {
-            mStateVector->ops->nvgetarraypointer(mStateVector)[i] = states[i];
+            getArrayPtr(cvodeIntegrator->mStateVector)[i] = states[i];
         }
-        delete[] states;
 
         if ((bool) getValue("stiff")) {
             rrLog(Logger::LOG_INFORMATION) << "using stiff integrator";
-            mCVODE_Memory = (void *) CVodeCreate(CV_BDF);
+            cvodeIntegrator->mCVODE_Memory = (void *) CVodeCreate(CV_BDF);
         } else {
             rrLog(Logger::LOG_INFORMATION) << "using non-stiff integrator";
-            mCVODE_Memory = (void *) CVodeCreate(CV_ADAMS);
+            cvodeIntegrator->mCVODE_Memory = (void *) CVodeCreate(CV_ADAMS);
         }
 
-        assert(mCVODE_Memory && "could not create Cvode, CVodeCreate failed");
+        assert(cvodeIntegrator->mCVODE_Memory && "could not create Cvode, CVodeCreate failed");
 
-        if ((err = CVodeSetErrHandlerFn(mCVODE_Memory, ffsErrHandler, this)) !=
+        if ((err = CVodeSetErrHandlerFn(cvodeIntegrator->mCVODE_Memory, ffsErrHandler, this)) !=
             CV_SUCCESS) {
             FFSHandleError(err);
         }
 
         // use non default CVODE value here, default is too short
         // for some sbml tests.
-        CVodeSetMaxNumSteps(mCVODE_Memory, cvodeIntegrator->mDefaultMaxNumSteps);
+        CVodeSetMaxNumSteps(cvodeIntegrator->mCVODE_Memory, cvodeIntegrator->mDefaultMaxNumSteps);
 
         double t0 = 0.0;
 
-        if ((err = CVodeSetUserData(mCVODE_Memory, (void *) this)) != CV_SUCCESS) {
+        if ((err = CVodeSetUserData(cvodeIntegrator->mCVODE_Memory, (void *) this)) != CV_SUCCESS) {
             FFSHandleError(err);
         }
 
-        if ((err = CVodeInit(mCVODE_Memory, FFSDyDtFcn, t0, mStateVector)) != CV_SUCCESS) {
+        if ((err = CVodeInit(cvodeIntegrator->mCVODE_Memory, FFSDyDtFcn, t0, cvodeIntegrator->mStateVector)) != CV_SUCCESS) {
             FFSHandleError(err);
         }
 
         if (mModel->getNumEvents() > 0) {
-            if ((err = CVodeRootInit(mCVODE_Memory, mModel->getNumEvents(), FFSRootFcn)) != CV_SUCCESS) {
+            if ((err = CVodeRootInit(cvodeIntegrator->mCVODE_Memory, mModel->getNumEvents(), FFSRootFcn)) !=
+                CV_SUCCESS) {
                 FFSHandleError(err);
             }
             rrLog(Logger::LOG_TRACE) << "CVRootInit executed.....";
@@ -215,19 +219,20 @@ namespace rr {
             // as per the cvode docs (look closely at docs for CVodeCreate)
             // we use the default Newton iteration for stiff
 
-            cvodeIntegrator->nonLinSolver = SUNNonlinSol_Newton(mStateVector);
+            cvodeIntegrator->nonLinSolver = SUNNonlinSol_Newton(cvodeIntegrator->mStateVector);
 
             if (cvodeIntegrator->nonLinSolver == nullptr) {
                 throw std::runtime_error("CVODEIntegrator::createCVODE: nonLinearSolver_ is nullptr\n");
             }
 
-            if ((err = CVodeSetNonlinearSolver(mCVODE_Memory, cvodeIntegrator->nonLinSolver)) != CV_SUCCESS) {
+            if ((err = CVodeSetNonlinearSolver(cvodeIntegrator->mCVODE_Memory, cvodeIntegrator->nonLinSolver)) !=
+                CV_SUCCESS) {
                 FFSHandleError(err);
             }
 
             // the newton method requires use of a linear solver, which we set up here.
             cvodeIntegrator->jac = SUNDenseMatrix(allocStateVectorSize, allocStateVectorSize);
-            cvodeIntegrator->linSolver = SUNLinSol_Dense(mStateVector, cvodeIntegrator->jac);
+            cvodeIntegrator->linSolver = SUNLinSol_Dense(cvodeIntegrator->mStateVector, cvodeIntegrator->jac);
             if (cvodeIntegrator->linSolver == nullptr) {
                 throw std::runtime_error("CVODEIntegrator::createCVODE: call to SunLinSol_Dense returned nullptr. "
                                          "The size of the sundials matrix (created with SUNDenseMatrix) used for the jacobian "
@@ -235,24 +240,25 @@ namespace rr {
                                          std::to_string(allocStateVectorSize)
                                          + ") is inappropriate for this model\n");
             }
-            if ((err = CVodeSetLinearSolver(mCVODE_Memory, cvodeIntegrator->linSolver, cvodeIntegrator->jac)) !=
+            if ((err = CVodeSetLinearSolver(cvodeIntegrator->mCVODE_Memory, cvodeIntegrator->linSolver,
+                                            cvodeIntegrator->jac)) !=
                 CV_SUCCESS) {
                 FFSHandleError(err);
             };
 
             // Use a difference quotient Jacobian by not passing Jac to CVodeSetJacFn
-            if ((err = CVodeSetJacFn(mCVODE_Memory, nullptr)) != CV_SUCCESS) {
+            if ((err = CVodeSetJacFn(cvodeIntegrator->mCVODE_Memory, nullptr)) != CV_SUCCESS) {
                 FFSHandleError(err);
             }
         } else {
             // and fixed point solver (which used to be called functional iteration)
             // for nonstiff problems
-            cvodeIntegrator->nonLinSolver = SUNNonlinSol_FixedPoint(mStateVector, 0);
-            if ((err = CVodeSetNonlinearSolver(mCVODE_Memory, cvodeIntegrator->nonLinSolver)) != CV_SUCCESS) {
+            cvodeIntegrator->nonLinSolver = SUNNonlinSol_FixedPoint(cvodeIntegrator->mStateVector, 0);
+            if ((err = CVodeSetNonlinearSolver(cvodeIntegrator->mCVODE_Memory, cvodeIntegrator->nonLinSolver)) !=
+                CV_SUCCESS) {
                 FFSHandleError(err);
             }
         }
-
         cvodeIntegrator->setCVODETolerances();
         mModel->resetEvents();
     }
@@ -354,11 +360,15 @@ namespace rr {
     }
 
     N_Vector ForwardSensitivitySolver::getStateVector() {
-        return mStateVector;
+        return cvodeIntegrator->mStateVector;
     }
 
     N_Vector *ForwardSensitivitySolver::getSensitivityVector() {
         return mSensitivityVector;
+    }
+
+    void ForwardSensitivitySolver::setValue(const std::string& key, Setting val) {
+        cvodeIntegrator->setValue(key, val);
     }
 
 

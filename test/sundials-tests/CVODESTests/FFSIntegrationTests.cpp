@@ -11,35 +11,35 @@
 
 using namespace rr;
 
-class CVODESIntegrationTests : public CVODEIntegratorTests {
+class FFSIntegrationTests : public CVODEIntegratorTests {
 public:
-    CVODESIntegrationTests() = default;
+    FFSIntegrationTests() = default;
 };
 
 
-TEST_F(CVODESIntegrationTests, TestSimpleFlux) {
+TEST_F(FFSIntegrationTests, TestSimpleFlux) {
     SimpleFlux testModel;
     checkModelIntegrates<ForwardSensitivitySolver>(&testModel);
 }
 
-TEST_F(CVODESIntegrationTests, OpenLinearFlux) {
+TEST_F(FFSIntegrationTests, OpenLinearFlux) {
     OpenLinearFlux testModel;
     checkModelIntegrates<ForwardSensitivitySolver>(&testModel);
 }
 
-TEST_F(CVODESIntegrationTests, TestModel269) {
+TEST_F(FFSIntegrationTests, TestModel269) {
     Model269 testModel;
     checkModelIntegrates<ForwardSensitivitySolver>(&testModel);
 }
 
-TEST_F(CVODESIntegrationTests, TestModel28) {
+TEST_F(FFSIntegrationTests, TestModel28) {
     Model28 testModel;
     checkModelIntegrates<ForwardSensitivitySolver>(&testModel);
 }
 
 
 //
-//TEST_F(CVODESIntegrationTests, UserInterface){
+//TEST_F(FFSIntegrationTests, UserInterface){
 //    // this is how we want users to interact with roadrunner sensitivities:
 //    RoadRunner rr(OpenLinearFlux().str());
 //    /**
@@ -50,7 +50,7 @@ TEST_F(CVODESIntegrationTests, TestModel28) {
 //}
 
 //
-//TEST_F(CVODESIntegrationTests, DefaultSensivitySolver){
+//TEST_F(FFSIntegrationTests, DefaultSensivitySolver){
 //    // this is how we want users to interact with roadrunner sensitivities:
 //    RoadRunner rr(OpenLinearFlux().str());
 //    CVODESIntegrator* sensitivities = rr.getSensitivitySolver();

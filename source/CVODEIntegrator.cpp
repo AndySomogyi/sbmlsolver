@@ -111,7 +111,6 @@ namespace rr {
         }
     }
 
-
     void CVODEIntegrator::setListener(IntegratorListenerPtr p) {
         listener = p;
     }
