@@ -17,22 +17,22 @@ public:
 };
 
 
-TEST_F(CVODESIntegrationTests, TestSimpleFluxWithModel) {
+TEST_F(CVODESIntegrationTests, TestSimpleFlux) {
     SimpleFlux testModel;
     checkModelIntegrates<ForwardSensitivitySolver>(&testModel);
 }
 
-TEST_F(CVODESIntegrationTests, OpenLinearFluxWithModel) {
+TEST_F(CVODESIntegrationTests, OpenLinearFlux) {
     OpenLinearFlux testModel;
     checkModelIntegrates<ForwardSensitivitySolver>(&testModel);
 }
 
-TEST_F(CVODESIntegrationTests, TestModel269WithModel) {
+TEST_F(CVODESIntegrationTests, TestModel269) {
     Model269 testModel;
     checkModelIntegrates<ForwardSensitivitySolver>(&testModel);
 }
 
-TEST_F(CVODESIntegrationTests, TestModel28WithModel) {
+TEST_F(CVODESIntegrationTests, TestModel28) {
     Model28 testModel;
     checkModelIntegrates<ForwardSensitivitySolver>(&testModel);
 }
