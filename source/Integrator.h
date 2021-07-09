@@ -24,7 +24,7 @@
 
 #include "tr1proxy/rr_memory.h"
 #include "tr1proxy/rr_unordered_map.h"
-#include "Registrar.h"
+#include "Registrable.h"
 #include "RegistrationFactory.h"
 #include <stdexcept>
 
@@ -128,7 +128,7 @@ namespace rr {
         * @brief Called whenever a new model is loaded to allow integrator
         * to reset internal state
         */
-        virtual void syncWithModel(ExecutableModel *m);
+        virtual void setModel(ExecutableModel *m);
 
         virtual void loadConfigSettings();
 

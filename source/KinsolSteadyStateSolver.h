@@ -64,12 +64,12 @@ namespace rr {
         ~KinsolSteadyStateSolver() override = default;
 
         /**
-         * @brief implementation of Solver::syncWithModel.
+         * @brief implementation of Solver::setModel.
          * @details called by the main RoadRunner class to
          * syncronize the model with its solvers (to be sure
          * were not simulating an out of date model).
          */
-        void syncWithModel(ExecutableModel *m) override;
+        void setModel(ExecutableModel *m) override;
 
         /**
          * @brief set all elements of the fscale variable to @param value.

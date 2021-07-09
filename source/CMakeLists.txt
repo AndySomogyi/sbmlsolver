@@ -73,7 +73,7 @@ set(
         Solver.cpp
         #        Variant.cpp
         Setting.cpp
-        CvodesIntegrator.cpp
+        ForwardSensitivitySolver.cpp
 
         ForwardSensitivitySolver.cpp
         RegistrationFactory.cpp
@@ -143,11 +143,11 @@ set(
         Solver.h
         #        Variant.h
         Setting.h
-        CvodesIntegrator.h
+        ForwardSensitivitySolver.h
         ForwardSensitivitySolver.h
         SensitivitySolver.h
         RegistrationFactory.cpp
-        Registrar.h
+        Registrable.h
 
         Matrix.h
         Matrix3D.h

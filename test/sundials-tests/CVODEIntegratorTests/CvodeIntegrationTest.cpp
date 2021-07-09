@@ -38,12 +38,12 @@ TEST_F(CVODEIntegratorTests, OpenLinearFluxWithRoadRunner) {
     checkModelSimulatesWithRoadRunner<OpenLinearFlux>("OpenLinearFlux");
 }
 
-
-
+/**
+ * These tests use the model instead of the RoadRunner interface.
+ */
 
 TEST_F(CVODEIntegratorTests, TestSimpleFluxWithModel) {
     SimpleFlux testModel;
-    testModel.toFile(R"(D:\roadrunner\roadrunner\test\sundials-tests\CVODEIntegratorTests\SimpleFlux.sbml)");
     checkModelIntegrates<CVODEIntegrator>(&testModel);
 }
 

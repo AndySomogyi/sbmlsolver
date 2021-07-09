@@ -32,7 +32,7 @@ namespace rr {
          * Subclass decorators may modify any or all of these operations.
          */
 
-        void syncWithModel(ExecutableModel *m) override;
+        void setModel(ExecutableModel *m) override;
 
         double solve() override;
 

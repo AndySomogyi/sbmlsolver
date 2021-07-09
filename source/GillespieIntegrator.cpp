@@ -107,7 +107,7 @@ namespace rr
         }
 	}
 
-    void GillespieIntegrator::syncWithModel(ExecutableModel* m)
+    void GillespieIntegrator::setModel(ExecutableModel* m)
     {
         resetSettings();
         delete[] reactionRates;

@@ -34,7 +34,7 @@ namespace rr
 	Integrator::Integrator(ExecutableModel *model)
 	    : Solver(model){}
 
-    void Integrator::syncWithModel(ExecutableModel* m) {}
+    void Integrator::setModel(ExecutableModel* m) {}
 
     void Integrator::loadConfigSettings() {}
 

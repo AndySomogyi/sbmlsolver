@@ -15,7 +15,7 @@ namespace rr {
 
     NLEQSolver::~NLEQSolver() = default;
 
-    void NLEQSolver::syncWithModel(ExecutableModel *m) {
+    void NLEQSolver::setModel(ExecutableModel *m) {
         mModel = m;
     }
 

@@ -19,7 +19,7 @@
 #include "Dictionary.h"
 #include "rrException.h"
 #include "Solver.h"
-#include "Registrar.h"
+#include "Registrable.h"
 #include "RegistrationFactory.h"
 
 #include <memory>
@@ -47,7 +47,7 @@ namespace rr
         * @brief Called whenever a new model is loaded to allow integrator
         * to reset internal state
         */
-        virtual void syncWithModel(ExecutableModel* m) = 0;
+        virtual void setModel(ExecutableModel* m) = 0;
 
         virtual double solve() = 0;
 

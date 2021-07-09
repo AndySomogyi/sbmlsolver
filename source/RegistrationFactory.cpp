@@ -26,7 +26,7 @@ namespace rr {
         throw InvalidKeyException("No such integrator: " + name);
     }
 
-    void RegistrationFactory::registerSolver(Registrar* i) {
+    void RegistrationFactory::registerSolver(Registrable* i) {
         if (!i)
             throw CoreException("Registrar is null");
         registrars.push_back(i);

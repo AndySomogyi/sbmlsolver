@@ -2,8 +2,8 @@
 // Created by Ciaran Welsh on 14/06/2021.
 //
 
-#ifndef ROADRUNNER_REGISTRAR_H
-#define ROADRUNNER_REGISTRAR_H
+#ifndef ROADRUNNER_REGISTRABLE_H
+#define ROADRUNNER_REGISTRABLE_H
 
 #include "rrExporter.h"
 #include <iostream>
@@ -20,10 +20,10 @@ namespace rr {
      * @brief Handles constructing a solver and contains meta
      * information about it
      */
-    class RR_DECLSPEC Registrar {
+    class RR_DECLSPEC Registrable {
 
     public:
-        virtual ~Registrar() = default;
+        virtual ~Registrable() = default;
 
         /**
          * @author JKM, WBC
@@ -52,9 +52,9 @@ namespace rr {
         virtual Solver *construct(ExecutableModel *model) const = 0;
     };
 
-    typedef std::vector<Registrar *> RegistrarVector;
+    typedef std::vector<Registrable *> RegistrarVector;
 
 }
 
 
-#endif //ROADRUNNER_REGISTRAR_H
+#endif //ROADRUNNER_REGISTRABLE_H

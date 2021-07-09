@@ -8,7 +8,7 @@
 #include "rrExporter.h"
 #include <iostream>
 #include <mutex>
-#include "Registrar.h"
+#include "Registrable.h"
 #include "Solver.h"
 
 namespace rr {
@@ -17,7 +17,7 @@ namespace rr {
     class ExecutableModel;
     class Solver;
 
-    typedef std::vector<Registrar *> RegistrarVector;
+    typedef std::vector<Registrable *> RegistrarVector;
 
     /**
      * @author JKM, WBC
@@ -43,7 +43,7 @@ namespace rr {
          * so that it can be constructed
          * @details Should be called at startup for new integrators.
          */
-        virtual void registerSolver(Registrar *i);
+        virtual void registerSolver(Registrable *i);
 
         /**
          * @author JKM, WBC

@@ -193,7 +193,7 @@ namespace rr {
     }
 
 
-    void CVODEIntegrator::syncWithModel(ExecutableModel *m) {
+    void CVODEIntegrator::setModel(ExecutableModel *m) {
         freeCVode();
 
         mModel = m;

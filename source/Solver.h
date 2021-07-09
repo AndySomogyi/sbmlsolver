@@ -19,7 +19,7 @@
 #include "rrOSSpecifics.h"
 #include "Dictionary.h"
 #include "rrException.h"
-#include "Registrar.h"
+#include "Registrable.h"
 
 #include "tr1proxy/rr_memory.h"
 #include "tr1proxy/rr_unordered_map.h"
@@ -35,13 +35,13 @@ namespace rr
      * @author JKM
      * @brief Base class for all integrators and steady state solvers
      */
-    class RR_DECLSPEC Solver : public Registrar
+    class RR_DECLSPEC Solver : public Registrable
     {
     public:
 
-        using Registrar::getName;
-        using Registrar::getHint;
-        using Registrar::getDescription;
+        using Registrable::getName;
+        using Registrable::getHint;
+        using Registrable::getDescription;
 
         Solver() = default;
 
@@ -180,7 +180,7 @@ namespace rr
         * @brief Called whenever a new model is loaded to allow integrator
         * to reset internal state
         */
-        virtual void syncWithModel(ExecutableModel* m) = 0;
+        virtual void setModel(ExecutableModel* m) = 0;
 
 
         /**

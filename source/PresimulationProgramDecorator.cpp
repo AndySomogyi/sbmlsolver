@@ -28,7 +28,7 @@ namespace rr {
                 CVODEIntegrator integrator(solver_->getModel());
                 // integrate one interval between 0 and presimulation_time.
                 integrator.integrate(0, timePoint);
-                solver_->syncWithModel(solver_->getModel());
+                solver_->setModel(solver_->getModel());
 
                 try {
                     return solver_->solve();

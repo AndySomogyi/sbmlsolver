@@ -7,6 +7,7 @@
 
 #include "Matrix.h"
 #include "rrRoadRunner.h"
+#include "LLVMExecutableModel.h"
 
 using namespace rr;
 

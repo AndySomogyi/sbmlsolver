@@ -31,7 +31,7 @@
 #include "sbml/common/operationReturnValues.h"
 #include "SVD.h"
 #include "SensitivitySolver.h"
-#include "CvodesIntegrator.h"
+#include "ForwardSensitivitySolver.h"
 
 
 
@@ -399,13 +399,13 @@ namespace rr {
 
         void syncAllSolversWithModel(ExecutableModel *m) {
             for (auto &integrator : integrators) {
-                integrator->syncWithModel(m);
+                integrator->setModel(m);
             }
             for (auto &steady_state_solver : steady_state_solvers) {
-                steady_state_solver->syncWithModel(m);
+                steady_state_solver->setModel(m);
             }
             for (auto &sensitivity_solver : sensitivity_solvers) {
-                sensitivity_solver->syncWithModel(m);
+                sensitivity_solver->setModel(m);
             }
         }
 

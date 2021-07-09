@@ -5,16 +5,45 @@
 #include "gtest/gtest.h"
 #include "rrRoadRunner.h"
 #include "TestModelFactory.h"
-#include "CvodesIntegrator.h"
 #include "ForwardSensitivitySolver.h"
-#include "CvodeIntegrationTest.h"
+#include "ForwardSensitivitySolver.h"
+#include "../CVODEIntegratorTests/CvodeIntegrationTest.h"
 
 using namespace rr;
 
-class CVODESIntegrationTests : public ::testing::Test {
+class CVODESIntegrationTests : public CVODEIntegratorTests {
 public:
     CVODESIntegrationTests() = default;
 };
+
+
+
+TEST_F(CVODESIntegrationTests, TestSimpleFluxWithModel) {
+    SimpleFlux testModel;
+    testModel.toFile(R"(D:\roadrunner\roadrunner\test\sundials-tests\CVODEIntegratorTests\SimpleFlux.sbml)");
+    checkModelIntegrates<ForwardSensitivitySolver>(&testModel);
+}
+
+TEST_F(CVODESIntegrationTests, TestModel269WithModel) {
+    Model269 testModel;
+    checkModelIntegrates<ForwardSensitivitySolver>(&testModel);
+}
+
+TEST_F(CVODESIntegrationTests, TestModel28WithModel) {
+    Model28 testModel;
+    checkModelIntegrates<ForwardSensitivitySolver>(&testModel);
+}
+
+TEST_F(CVODESIntegrationTests, SimpleFluxWithModel) {
+    SimpleFlux testModel;
+    checkModelIntegrates<ForwardSensitivitySolver>(&testModel);
+}
+
+TEST_F(CVODESIntegrationTests, OpenLinearFluxWithModel) {
+    OpenLinearFlux testModel;
+    checkModelIntegrates<ForwardSensitivitySolver>(&testModel);
+}
+
 
 //
 //TEST_F(CVODESIntegrationTests, UserInterface){
@@ -27,17 +56,17 @@ public:
 //    SensitivityResult res = rr.sensitivities(0, 10, 11); // with options
 //}
 
-
-TEST_F(CVODESIntegrationTests, DefaultSensivitySolver){
-    // this is how we want users to interact with roadrunner sensitivities:
-    RoadRunner rr(OpenLinearFlux().str());
-    CvodesIntegrator* sensitivities = rr.getSensitivitySolver();
-    if (!sensitivities){
-        std::cout << "SENSITIVITIES IS NULLPTR" << std::endl;
-    }
-    ASSERT_STREQ(sensitivitiestivities->getName().c_str(), "forward");
-}
-
+//
+//TEST_F(CVODESIntegrationTests, DefaultSensivitySolver){
+//    // this is how we want users to interact with roadrunner sensitivities:
+//    RoadRunner rr(OpenLinearFlux().str());
+//    CVODESIntegrator* sensitivities = rr.getSensitivitySolver();
+//    if (!sensitivities){
+//        std::cout << "SENSITIVITIES IS NULLPTR" << std::endl;
+//    }
+//    ASSERT_STREQ(sensitivitiestivities->getName().c_str(), "forward");
+//}
+//
 
 
 

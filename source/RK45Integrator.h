@@ -16,7 +16,7 @@
 
 #include <Integrator.h>
 #include <rrRoadRunnerOptions.h>
-#include "Registrar.h"
+#include "Registrable.h"
 
 namespace rr
 {
@@ -51,7 +51,7 @@ namespace rr
         * @brief Called whenever a new model is loaded to allow integrator
         * to reset internal state
         */
-        virtual void syncWithModel(ExecutableModel* m);
+        virtual void setModel(ExecutableModel* m);
 
 
         /**

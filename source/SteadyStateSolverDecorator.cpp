@@ -6,8 +6,8 @@
 
 namespace rr {
 
-    void SteadyStateSolverDecorator::syncWithModel(ExecutableModel *m) {
-        return solver_->syncWithModel(m);
+    void SteadyStateSolverDecorator::setModel(ExecutableModel *m) {
+        return solver_->setModel(m);
     }
 
     double SteadyStateSolverDecorator::solve() {

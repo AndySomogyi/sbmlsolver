@@ -9,7 +9,10 @@
 
 namespace rr {
     
-    class SensitivitySolver : public Solver {};
+    class SensitivitySolver : public Solver {
+    public:
+        using Solver::Solver;
+    };
 }
 
 #endif //ROADRUNNER_SENSITIVITYSOLVER_H

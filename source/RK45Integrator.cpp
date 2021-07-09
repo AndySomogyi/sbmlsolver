@@ -26,10 +26,10 @@ namespace rr {
         stateVectorSize = 0;
         hmin = hmax = 0;
         k1 = k2 = k3 = k4 = k5 = k6 = err = y = ytmp = NULL;
-        syncWithModel(m);
+        setModel(m);
     }
 
-    void RK45Integrator::syncWithModel(ExecutableModel *m) {
+    void RK45Integrator::setModel(ExecutableModel *m) {
         // free existing memory
         delete[]k1;
         delete[]k2;
