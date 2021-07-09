@@ -18,7 +18,13 @@ namespace rr {
 
     class CVODEIntegrator;
 
-    class ForwardSensitivitySolver : public SensitivitySolver {
+    /**
+     * @brief Time based sensivitity solver.
+     * @details Uses CVODEIntegrator to integrate the ExecutableModel
+     * and cvodes to compute sensitivity information at each time point.
+     * Implements the TimeSeriesSensitivitySolver interface
+     */
+    class ForwardSensitivitySolver : public TimeSeriesSensitivitySolver {
     public:
 
         ForwardSensitivitySolver() = default;
@@ -28,6 +34,10 @@ namespace rr {
         ForwardSensitivitySolver(ExecutableModel *executableModel);
 
         ForwardSensitivitySolver(ExecutableModel *executableModel, const std::vector<std::string> &whichParameters);
+
+        double integrate(double tStart, double hstep) override;
+
+        Matrix<double> getSensitivities() override;
 
         /**
          * @brief instantiate the code necessary to use cvodes
@@ -74,19 +84,31 @@ namespace rr {
          * @brief get global parameters as an unordered map, strings as
          * keys and parameter values as values
          */
-        ParameterMap getModelParametersAsMap() ;
+        ParameterMap getModelParametersAsMap();
 
         /**
          * @brief return a std::vector<double> of model parameters
          * in the order they appear in the model.
          */
-        std::vector<double> getModelParametersAsVector() ;
+        std::vector<double> getModelParametersAsVector();
 
         /**
          * @brief returns the indexes of parameters that user wants
          * sensitivities for, based off of whichParameters.
          */
         void deducePlist();
+
+        /**
+         * @brief retuns pointer to the state vector
+         * used by sundials for solving ODE.
+         */
+        N_Vector getStateVector();
+
+        /**
+         * @brief retuns pointer to the state vector
+         * used by sundials for storing sensitivity matrix.
+         */
+        N_Vector* getSensitivityVector();
 
         /**
          * @brief parameters in the model as a member variable
@@ -119,7 +141,7 @@ namespace rr {
         /**
          * @brief a map containing model parameter names to values
          */
-         ParameterMap globalParameterMap;
+        ParameterMap globalParameterMap;
 
 
         /**
@@ -150,7 +172,7 @@ namespace rr {
          * @brief memory associate with cvodes. Should mirror
          * the CVODEIntegrator::mCVODE_Memory ptr
          */
-        void* mCVODE_Memory;
+        void *mCVODE_Memory;
 
         /**
          * @brief State vector. Should mirror
@@ -159,9 +181,24 @@ namespace rr {
         N_Vector mStateVector;
 
         /**
+         * @brief Non-linear solver for sensitivity analysis
+         */
+        SUNNonlinearSolver NLSsens;
+
+        /**
          * @brief place to store the sensitivities
          */
-        N_Vector* mSensitivityVector;
+        N_Vector *mSensitivityVector;
+
+        /**
+         * @brief indicator for whether model has state vector variables or not
+         * @details mirrors CVODEIntegrator
+         */
+        bool stateVectorVariables;
+
+        friend int FFSDyDtFcn(realtype time, N_Vector cv_y, N_Vector cv_ydot, void *userData);
+
+        friend int FFSRootFcn(realtype time, N_Vector y_vector, realtype *gout, void *user_data);
 
     };
 

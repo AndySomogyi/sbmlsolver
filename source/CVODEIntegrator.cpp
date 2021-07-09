@@ -38,6 +38,7 @@ namespace rr {
 
     int cvodeRootFcn(realtype t, N_Vector y, realtype *gout, void *userData);
 
+
     // Sets the value of an element in a N_Vector object
     inline void SetVector(N_Vector v, int Index, double Value) {
         double *data = NV_DATA_S(v);
@@ -75,7 +76,7 @@ namespace rr {
     */
 #define handleCVODEError(errCode) \
     { std::string _err_what = std::string("CVODE Error: ") + \
-    cvodeDecodeError(errCode); \
+    decodeSundialsError(this, errCode, true); \
     throw IntegratorException(_err_what, std::string(__FUNC__)); }
 
 
@@ -1243,153 +1244,6 @@ namespace rr {
         return CV_SUCCESS;
     }
 
-    std::string CVODEIntegrator::cvodeDecodeError(int cvodeError, bool exInfo) {
-        std::string result;
-        std::stringstream ss;
-        ss << (int) getValue("maximum_num_steps");
-        std::string max_steps = ss.str();
-
-        switch (cvodeError) {
-            case CV_TOO_MUCH_WORK:
-                result = "CV_TOO_MUCH_WORK";
-                if (exInfo) {
-                    result += ": The solver took mxstep (" + max_steps + ") internal steps but " +
-                              "could not reach tout.";
-                }
-                break;
-            case CV_TOO_MUCH_ACC:
-                result = "CV_TOO_MUCH_ACC";
-                if (exInfo) {
-                    result += ": The solver could not satisfy the accuracy "
-                              "demanded by the user for some internal step.";
-                }
-                break;
-            case CV_ERR_FAILURE:
-                result = "CV_ERR_FAILURE";
-                if (exInfo) {
-                    result += ": Error test failures occurred too many times "
-                              "(= MXNEF = 7) during one internal time step or"
-                              "occurred with |h| = hmin.";
-                }
-                break;
-            case CV_CONV_FAILURE:
-                result = "CV_CONV_FAILURE";
-                if (exInfo) {
-                    result += ": Convergence test failures occurred too many "
-                              "times (= MXNCF = 10) during one internal time"
-                              "step or occurred with |h| = hmin.";
-                }
-                break;
-            case CV_LINIT_FAIL:
-                result = "CV_LINIT_FAIL";
-                if (exInfo) {
-                    result += ": The linear solver's initialization function "
-                              "failed.";
-                }
-                break;
-            case CV_LSETUP_FAIL:
-                result = "CV_LSETUP_FAIL";
-                if (exInfo) {
-                    result += ": The linear solver's setup routine failed in an "
-                              "unrecoverable manner.";
-                }
-                break;
-            case CV_LSOLVE_FAIL:
-                result = "CV_LSOLVE_FAIL";
-                if (exInfo) {
-                    result += ": The linear solver's solve routine failed in an "
-                              "unrecoverable manner.";
-                }
-                break;
-            case CV_RHSFUNC_FAIL:
-                result = "CV_RHSFUNC_FAIL";
-                break;
-            case CV_FIRST_RHSFUNC_ERR:
-                result = "CV_FIRST_RHSFUNC_ERR";
-                break;
-            case CV_REPTD_RHSFUNC_ERR:
-                result = "CV_REPTD_RHSFUNC_ERR";
-                break;
-            case CV_UNREC_RHSFUNC_ERR:
-                result = "CV_UNREC_RHSFUNC_ERR";
-                break;
-            case CV_RTFUNC_FAIL:
-                result = "CV_RTFUNC_FAIL";
-                break;
-            case CV_MEM_FAIL:
-                result = "CV_MEM_FAIL";
-                break;
-            case CV_MEM_NULL:
-                result = "CV_MEM_NULL";
-                if (exInfo) {
-                    result += ": The cvode_mem argument was NULL.";
-                }
-                break;
-            case CV_ILL_INPUT:
-                result = "CV_ILL_INPUT";
-                if (exInfo) {
-                    result += ": One of the inputs to CVode is illegal. This "
-                              "includes the situation when a component of the "
-                              "error weight vectors becomes < 0 during "
-                              "internal time-stepping.  It also includes the "
-                              "situation where a root of one of the root "
-                              "functions was found both at t0 and very near t0. "
-                              "The ILL_INPUT flag will also be returned if the "
-                              "linear solver routine CV--- (called by the user "
-                              "after calling CVodeCreate) failed to set one of "
-                              "the linear solver-related fields in cvode_mem or "
-                              "if the linear solver's init routine failed. In "
-                              "any case, the user should see the printed "
-                              "error message for more details.";
-                }
-                break;
-            case CV_NO_MALLOC:
-                result = "CV_NO_MALLOC";
-                if (exInfo) {
-                    result += ": indicating that cvode_mem has not been "
-                              "allocated (i.e., CVodeInit has not been "
-                              "called).";
-                }
-                break;
-            case CV_BAD_K:
-                result = "CV_BAD_K";
-                if (exInfo) {
-                    result += ": k is not in the range 0, 1, ..., qu.";
-                }
-                break;
-            case CV_BAD_T:
-                result = "CV_BAD_T";
-                if (exInfo) {
-                    result += ": t is not in the interval [tn-hu,tn].";
-                }
-                break;
-            case CV_BAD_DKY:
-                result = "CV_BAD_DKY";
-                if (exInfo) {
-                    result += ": The dky argument was NULL.";
-                }
-                break;
-            case CV_TOO_CLOSE:
-                result = "CV_TOO_CLOSE:";
-                break;
-            default:
-                result = "UNKNOWN_CODE";
-                break;
-        }
-        return result;
-    }
-
-    void *CVODEIntegrator::getCvodeMemory() const {
-        return mCVODE_Memory;
-    }
-
-    N_Vector CVODEIntegrator::getStateVector() const {
-        return mStateVector;
-    }
-
-    SUNNonlinearSolver CVODEIntegrator::getSolver() const {
-        return nonLinSolver;
-    }
 
     /**
     * Purpose
@@ -1416,7 +1270,7 @@ namespace rr {
         i->checkType();
 
         if (error_code < 0) {
-            rrLog(Logger::LOG_ERROR) << "CVODE Error: " << i->cvodeDecodeError(error_code, false)
+            rrLog(Logger::LOG_ERROR) << "CVODE Error: " << decodeSundialsError(i, error_code, false)
                                      << ", Module: " << module << ", Function: " << function
                                      << ", Message: " << msg;
 
@@ -1426,6 +1280,19 @@ namespace rr {
                                        << ", Message: " << msg;
         }
     }
+
+    void *CVODEIntegrator::getCvodeMemory() const {
+        return mCVODE_Memory;
+    }
+
+    N_Vector CVODEIntegrator::getStateVector() const {
+        return mStateVector;
+    }
+
+    SUNNonlinearSolver CVODEIntegrator::getSolver() const {
+        return nonLinSolver;
+    }
+
 
 }
 
