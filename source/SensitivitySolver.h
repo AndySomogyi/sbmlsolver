@@ -6,7 +6,7 @@
 #define ROADRUNNER_SENSITIVITYSOLVER_H
 
 #include "Solver.h"
-#include "Matrix.h"
+//#include "Matrix.h"
 
 namespace rr {
 
@@ -22,7 +22,7 @@ namespace rr {
         /**
          * @brief Get the current values of sensitivities
          */
-        virtual Matrix<double> getSensitivities() = 0;
+//        virtual Matrix<double> getSensitivities() = 0;
 
     };
 

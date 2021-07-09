@@ -100,6 +100,10 @@ namespace rr {
             // populate p and pbar
             p = getModelParametersAsVector();
             pbar = getModelParametersAsVector(); // scaling factors, use value scaling. See sundials docs.
+
+            if (settings.empty()) {
+                resetSettings();
+            }
         }
     }
 
@@ -115,12 +119,12 @@ namespace rr {
     }
 
     double ForwardSensitivitySolver::integrate(double tStart, double hstep) {
-
+        return cvodeIntegrator->integrate(tStart, hstep);
     }
 
-    Matrix<double> ForwardSensitivitySolver::getSensitivities(){
-
-    };
+//    Matrix<double> ForwardSensitivitySolver::getSensitivities(){
+//
+//    };
 
     ForwardSensitivitySolver::~ForwardSensitivitySolver() {}
 

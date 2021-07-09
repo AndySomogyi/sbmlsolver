@@ -37,7 +37,7 @@ namespace rr {
 
         double integrate(double tStart, double hstep) override;
 
-        Matrix<double> getSensitivities() override;
+//        Matrix<double> getSensitivities() override;
 
         /**
          * @brief instantiate the code necessary to use cvodes

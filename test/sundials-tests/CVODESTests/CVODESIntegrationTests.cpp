@@ -17,10 +17,13 @@ public:
 };
 
 
-
 TEST_F(CVODESIntegrationTests, TestSimpleFluxWithModel) {
     SimpleFlux testModel;
-    testModel.toFile(R"(D:\roadrunner\roadrunner\test\sundials-tests\CVODEIntegratorTests\SimpleFlux.sbml)");
+    checkModelIntegrates<ForwardSensitivitySolver>(&testModel);
+}
+
+TEST_F(CVODESIntegrationTests, OpenLinearFluxWithModel) {
+    OpenLinearFlux testModel;
     checkModelIntegrates<ForwardSensitivitySolver>(&testModel);
 }
 
@@ -31,16 +34,6 @@ TEST_F(CVODESIntegrationTests, TestModel269WithModel) {
 
 TEST_F(CVODESIntegrationTests, TestModel28WithModel) {
     Model28 testModel;
-    checkModelIntegrates<ForwardSensitivitySolver>(&testModel);
-}
-
-TEST_F(CVODESIntegrationTests, SimpleFluxWithModel) {
-    SimpleFlux testModel;
-    checkModelIntegrates<ForwardSensitivitySolver>(&testModel);
-}
-
-TEST_F(CVODESIntegrationTests, OpenLinearFluxWithModel) {
-    OpenLinearFlux testModel;
     checkModelIntegrates<ForwardSensitivitySolver>(&testModel);
 }
 
