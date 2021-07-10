@@ -255,8 +255,8 @@ class SimpleFlux :
         public JacobianResult,
         public EigenResult,
         public StructuralProperties,
-        public MCAResult
-//        public TimeSeriesSensitivityResult
+        public MCAResult,
+        public TimeSeriesSensitivityResult
         {
 public:
 
@@ -320,9 +320,9 @@ public:
 
     std::unordered_map<std::string, rr::Setting> mcaSettings() override;
 
-//    std::unordered_map<std::string, rr::Setting> timeSeriesSensitivityResultSettings() override;
+    std::unordered_map<std::string, rr::Setting> timeSeriesSensitivityResultSettings() override;
 
-//    rr::Matrix3D<double, double> timeSeriesSensitivityResult() override;
+    rr::Matrix3D<double, double> timeSeriesSensitivityResult() override;
 };
 
 /**

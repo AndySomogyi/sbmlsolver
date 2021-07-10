@@ -34,7 +34,7 @@ public:
         solver.setValue("stiff", false);
 
         // get handle on the *known true values.
-        auto trueValues = timeSeriesSensResult->timeSeriesSensitivityResult();
+        auto expectedResults = timeSeriesSensResult->timeSeriesSensitivityResult();
 
         // grab integrator settings.
         auto settings = timeSeriesSensResult->timeSeriesSensitivityResultSettings();
@@ -44,7 +44,7 @@ public:
         double steps = settings["steps"];
         double stepSize = (duration - start) / (steps);
 
-        Matrix3D<double> sensResults(trueValues.numRows(), trueValues.numCols());
+        Matrix3D<double, double> sensResults(expectedResults.numRows(), trueValues.numCols());
         int numStates = model->getStateVector(nullptr);
         double *stateVector = new double[numStates];
 

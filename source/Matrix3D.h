@@ -28,9 +28,7 @@ namespace rr {
             for (int i = 0; i < numZ; i++) {
                 data_[i].resize(numRows, numCols);
             }
-
         }
-
 
         Matrix3D(std::initializer_list<IndexType> idx, Matrix3DInitializer data)
                 : index_(idx.begin(), idx.end()), data_(data.begin(), data.end()) {
@@ -47,16 +45,25 @@ namespace rr {
                 err << "\" into Matrix3D but an element with this index already exists." << std::endl;
                 throw std::invalid_argument(err.str());
             }
+            if (!index_.empty()) {
+                // All sizes are compared to index 0, so when initializing
+                // from empty, we do not check integrity of user input
+                // need to check that all Z have dimensions x and y
+                if (mat.numRows() != numRows()) {
+                    std::ostringstream err;
+                    err << "Cannot insert a matrix with " << mat.numRows();
+                    err << " rows into a Matrix3D that has " << numRows() << "rows";
+                    throw std::invalid_argument(err.str());
+                }
+                if (mat.numCols() != numCols()) {
+                    std::ostringstream err;
+                    err << "Cannot insert a matrix with " << mat.numCols();
+                    err << " rows into a Matrix3D that has " << numCols() << "rows";
+                    throw std::invalid_argument(err.str());
+                }
+            }
             index_.push_back(idx);
             data_.push_back(mat);
-        }
-
-        /**
-         * @brief get number of matrices in this 3D matrix
-         * @details if x is rows, y is columns, z is depth.
-         */
-        int numZ() {
-            return index_.size();
         }
 
         /**
@@ -74,8 +81,32 @@ namespace rr {
             return data_[pos];
         }
 
+        /**
+         * @brief get number of rows in this 3D matrix
+         * @details x is rows, y is columns, z is depth.
+         */
+        int numRows() {
+            return data_[0].numRows();
+        }
 
-    public:
+        /**
+         * @brief get number of columns in this 3D matrix
+         * @details if x is rows, y is columns, z is depth.
+         */
+        int numCols() {
+            return data_[0].numCols();
+        }
+
+        /**
+         * @brief get number of matrices in this 3D matrix
+         * @details if x is rows, y is columns, z is depth.
+         */
+        int numZ() {
+            return index_.size();
+        }
+
+
+    private:
         std::vector<IndexType> index_;
         std::vector<Matrix<DataType>> data_;
     };
