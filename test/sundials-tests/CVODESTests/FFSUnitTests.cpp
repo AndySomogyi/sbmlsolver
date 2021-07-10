@@ -26,6 +26,26 @@ TEST_F(FFSUnitTests, getGlobalParameterNames) {
     ASSERT_EQ(expected, names);
 }
 
+TEST_F(FFSUnitTests, CheckValueOfNp) {
+    ForwardSensitivitySolver forwardSensitivitySolver(model);
+    ASSERT_EQ(2, forwardSensitivitySolver.Np);
+}
+
+TEST_F(FFSUnitTests, CheckValueOfNsWhenDefaultToAllParameters) {
+    ForwardSensitivitySolver forwardSensitivitySolver(model);
+    ASSERT_EQ(2, forwardSensitivitySolver.Ns);
+}
+
+TEST_F(FFSUnitTests, CheckValueOfNsWhenSelectingParameters) {
+    ForwardSensitivitySolver forwardSensitivitySolver(model, {"kf"});
+    ASSERT_EQ(1, forwardSensitivitySolver.Ns);
+}
+
+TEST_F(FFSUnitTests, CheckValueOfNumModelVariables) {
+    ForwardSensitivitySolver forwardSensitivitySolver(model);
+    ASSERT_EQ(2, forwardSensitivitySolver.numModelVariables);
+}
+
 TEST_F(FFSUnitTests, getModelParametersAsMap) {
     ForwardSensitivitySolver forwardSensitivitySolver(model);
     auto m = forwardSensitivitySolver.getModelParametersAsMap();
@@ -65,6 +85,26 @@ TEST_F(FFSUnitTests, deducePlistSecondParameter) {
     forwardSensitivitySolver.deducePlist();
     std::vector<int> expected({1});
     ASSERT_EQ(expected, forwardSensitivitySolver.plist);
+}
+
+TEST_F(FFSUnitTests, getSensitivityMatrixWithFakeData) {
+    RoadRunner r(OpenLinearFlux().str());
+    ExecutableModel *model = r.getModel();
+    ForwardSensitivitySolver forwardSensitivitySolver(model);
+    forwardSensitivitySolver.integrate(0, 1);
+
+    N_Vector *sensitivityMatrix = forwardSensitivitySolver.getSensitivityNVectorPtr();
+    // add some data into the sensitivityMatrix
+//    for (int i = 0; i < forwardSensitivitySolver.Ns; i++) {
+//        auto sensVec = sensitivityMatrix[i];
+//        for (int j = 0; j < forwardSensitivitySolver.numModelVariables; j++) {
+//            auto arr = sensVec->ops->nvgetarraypointer(sensVec);
+//            arr[j] = forwardSensitivitySolver.numModelVariables * i + j;
+//        }
+//    }
+
+    Matrix<double> results = forwardSensitivitySolver.getSensitivityMatrix();
+    std::cout << results << std::endl;
 }
 
 

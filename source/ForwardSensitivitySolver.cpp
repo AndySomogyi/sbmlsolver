@@ -16,6 +16,7 @@
 #include "sunmatrix/sunmatrix_dense.h"
 #include "sunlinsol/sunlinsol_dense.h"
 #include <sundials/sundials_types.h>
+#include "Matrix.h"
 
 namespace rr {
 
@@ -34,6 +35,7 @@ namespace rr {
         assert(inst && "userData pointer is NULL in cvode dydt callback");
 
         ExecutableModel *model = inst->getModel();
+        model->setGlobalParameterValues(inst->Np, inst->plist.data(), inst->p.data());
 
         model->getStateVectorRate(time, y, ydot);
 
@@ -83,6 +85,7 @@ namespace rr {
         if (mModel) {
             cvodeIntegrator = std::make_unique<CVODEIntegrator>(mModel);
 
+            numModelVariables = mModel->getStateVector(nullptr); // returns num when arg is null
             Np = mModel->getNumGlobalParameters();
 
             // when no argument to whichParameter specified, so we assume all parameters
@@ -106,7 +109,7 @@ namespace rr {
             // free old cvode memory in favor of new
             if (cvodeIntegrator->mCVODE_Memory) {
                 cvodeIntegrator->freeCVode();
-                cvodeIntegrator->create();
+                ForwardSensitivitySolver::create();
             }
         }
     }
@@ -266,15 +269,15 @@ namespace rr {
         mModel->resetEvents();
 
         /**
-         * Sensitivity code
+         * Sensitivity setup
          */
         // pointer to N_Vector - i.e. a matrix
-        mSensitivityVector = N_VCloneVectorArray_Serial(Ns, cvodeIntegrator->mStateVector);
-        assert(mSensitivityVector && "Sensitivity vector is nullptr");
+        mSensitivityMatrix = N_VCloneVectorArray_Serial(Ns, cvodeIntegrator->mStateVector);
+        assert(mSensitivityMatrix && "Sensitivity vector is nullptr");
 
         auto len = cvodeIntegrator->mStateVector->ops->nvgetlength;
         for (int i = 0; i < Ns; i++) {
-            N_VConst(0, mSensitivityVector[i]);
+            N_VConst(0, mSensitivityMatrix[i]);
         }
 
         int sensi_meth;
@@ -284,15 +287,13 @@ namespace rr {
             sensi_meth = CV_STAGGERED;
         }
 
-        if ((err = CVodeSensInit1(cvodeIntegrator->mCVODE_Memory, Ns, sensi_meth, NULL, mSensitivityVector))) {
+        if ((err = CVodeSensInit1(cvodeIntegrator->mCVODE_Memory, Ns, sensi_meth, NULL, mSensitivityMatrix))) {
             FFSHandleError(err);
         }
 
-        double abstol = getValue("absolute_tolerance");
-        if ((err = CVodeSensSStolerances(cvodeIntegrator->mCVODE_Memory, getValue("relative_tolerance"), &abstol))) {
+        if ((err = CVodeSensEEtolerances(cvodeIntegrator->mCVODE_Memory))) {
             FFSHandleError(err);
         }
-
 
         if ((err = CVodeSetSensErrCon(cvodeIntegrator->mCVODE_Memory, true))) {
             FFSHandleError(err);
@@ -327,7 +328,7 @@ namespace rr {
                 NLSsens = SUNNonlinSol_FixedPointSens(Ns, cvodeIntegrator->mStateVector, 0);
             }
         } else {
-            if (getValue("nonlinear_solver") == "newton"){
+            if (getValue("nonlinear_solver") == "newton") {
                 NLSsens = SUNNonlinSol_Newton(cvodeIntegrator->mStateVector);
             } else {
                 NLSsens = SUNNonlinSol_FixedPoint(cvodeIntegrator->mStateVector, 0);
@@ -340,12 +341,15 @@ namespace rr {
             if ((err = CVodeSetNonlinearSolverSensSim(cvodeIntegrator->mCVODE_Memory, NLSsens))) {
                 FFSHandleError(err);
             }
-        } else if (sensi_meth == CV_STAGGERED)
+        } else if (sensi_meth == CV_STAGGERED) {
             if ((err = CVodeSetNonlinearSolverSensStg(cvodeIntegrator->mCVODE_Memory, NLSsens))) {
                 FFSHandleError(err);
-            } else if ((err = CVodeSetNonlinearSolverSensStg1(cvodeIntegrator->mCVODE_Memory, NLSsens))) {
+            }
+        } else {
+            if ((err = CVodeSetNonlinearSolverSensStg1(cvodeIntegrator->mCVODE_Memory, NLSsens))) {
                 FFSHandleError(err);
             }
+        }
     }
 
 
@@ -383,7 +387,14 @@ namespace rr {
     void ForwardSensitivitySolver::resetSettings() {
         // reuse settings from cvodeIntegrator
         settings = cvodeIntegrator->getSettingsMap();
-//        addSetting("nonlinear_solver")
+        addSetting("nonlinear_solver", Setting("newton"), "Non-Linear Sovler", "newton or fixed_point",
+                   "which non-linear solver to use for sensitivities");
+        addSetting("sensitivity_method", Setting("simultaneous"), "Sensitivity Method", "simultaneous or staggered",
+                   "Solve the sensitivity equations simultaneously with state variable equations "
+                   "or stagger them");
+        addSetting("DQ_method", Setting("centered"), "DQ method", "centered or forward",
+                   "Use the centered or forward difference quotient approximation of the sensitivities rhs");
+
     }
 
     void ForwardSensitivitySolver::setModel(ExecutableModel *executableModel) {
@@ -450,9 +461,29 @@ namespace rr {
         return cvodeIntegrator->mStateVector;
     }
 
-    N_Vector *ForwardSensitivitySolver::getSensitivityVector() {
-        return mSensitivityVector;
+    N_Vector *ForwardSensitivitySolver::getSensitivityNVectorPtr() {
+        return mSensitivityMatrix;
     }
+
+    Matrix<double> ForwardSensitivitySolver::getSensitivityMatrix(int k) {
+        auto stateVector = cvodeIntegrator->mStateVector;
+        auto print = stateVector->ops->nvprint;
+        auto getArrayPtr = stateVector->ops->nvgetarraypointer;
+        auto len = stateVector->ops->nvgetlength;
+        double t = mModel->getTime();
+        CVodeGetSensDky(cvodeIntegrator->mCVODE_Memory, t, k, mSensitivityMatrix);
+
+        Matrix<double> sensResults(Ns, numModelVariables);
+
+        for (int i = 0; i < Ns; i++) {
+            N_Vector arrayVector = mSensitivityMatrix[i];
+            for (int j = 0; j < numModelVariables; j++) {
+                sensResults(i, j) = getArrayPtr(arrayVector)[j];
+            }
+        }
+        return sensResults;
+    }
+
 
     void ForwardSensitivitySolver::setValue(const std::string &key, Setting val) {
         cvodeIntegrator->setValue(key, val);

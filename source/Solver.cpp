@@ -29,7 +29,7 @@ namespace rr
     void Solver::addSetting(const std::string& name, Setting val, std::string display_name, std::string hint, std::string description)
     {
         sorted_settings.push_back(name);
-        settings[name] = val;
+        settings[name] = std::move(val);
         display_names_[name] = std::move(display_name);
         hints[name] = std::move(hint);
         descriptions[name] = std::move(description);

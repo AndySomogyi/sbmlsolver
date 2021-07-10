@@ -78,8 +78,10 @@
 
 namespace rr {
 
-    using namespace ls;
     using Poco::Mutex;
+    using ls::Complex;
+    using ls::ComplexMatrix;
+    using ls::LibStructural;
 
     static Mutex roadRunnerMutex;
 
@@ -245,7 +247,7 @@ namespace rr {
         /**
          * structural analysis library.
          */
-        LibStructural *mLS;
+        ls::LibStructural *mLS;
 
         /**
          * options that are specific to the simulation
@@ -1021,7 +1023,7 @@ namespace rr {
         return -1;
     }
 
-    void RoadRunner::getSelectedValues(DoubleMatrix &results, int nRow, double currentTime) {
+    void RoadRunner::getSelectedValues(ls::DoubleMatrix &results, int nRow, double currentTime) {
         for (u_int j = 0; j < impl->mSelectionList.size(); j++) {
             double out = getNthSelectedOutput(j, currentTime);
             results(nRow, j) = out;
@@ -1295,7 +1297,7 @@ namespace rr {
     }
 
 
-    DoubleMatrix RoadRunner::steadyStateNamedArray(const Dictionary *dict) {
+    ls::DoubleMatrix RoadRunner::steadyStateNamedArray(const Dictionary *dict) {
         steadyState();
         return getSteadyStateValuesNamedArray();
     }
@@ -1502,7 +1504,7 @@ namespace rr {
     }
 
 
-    const DoubleMatrix *RoadRunner::simulate(const Dictionary *dict) {
+    const ls::DoubleMatrix *RoadRunner::simulate(const Dictionary *dict) {
         get_self();
         check_model();
 
@@ -1820,7 +1822,7 @@ namespace rr {
         return &self.simulationResult;
     }
 
-    const DoubleMatrix *RoadRunner::simulate(double start, double stop, int num) {
+    const ls::DoubleMatrix *RoadRunner::simulate(double start, double stop, int num) {
         SimulateOptions opt;
         opt.start = start;
         opt.duration = stop;
@@ -1886,7 +1888,7 @@ namespace rr {
 
     std::vector<std::complex<double> > RoadRunner::getEigenValues(RoadRunner::JacobianMode mode) {
         check_model();
-        DoubleMatrix mat;
+        ls::DoubleMatrix mat;
 
         if (mode == JACOBIAN_FULL) {
             mat = getFullJacobian();
@@ -1896,7 +1898,7 @@ namespace rr {
         return ls::getEigenValues(mat);
     }
 
-    DoubleMatrix RoadRunner::getFloatingSpeciesAmountsNamedArray() {
+    ls::DoubleMatrix RoadRunner::getFloatingSpeciesAmountsNamedArray() {
         check_model();
 
         int l = impl->model->getNumFloatingSpecies();
@@ -1905,7 +1907,7 @@ namespace rr {
         impl->model->getFloatingSpeciesAmounts(l, NULL, vals);
 
         LibStructural *ls = getLibStruct();
-        DoubleMatrix v(1, l);
+        ls::DoubleMatrix v(1, l);
 
         for (int i = 0; i < l; ++i)
             v(0, i) = vals[i];
@@ -1917,7 +1919,7 @@ namespace rr {
         return v;
     }
 
-    DoubleMatrix RoadRunner::getFloatingSpeciesConcentrationsNamedArray() {
+    ls::DoubleMatrix RoadRunner::getFloatingSpeciesConcentrationsNamedArray() {
         check_model();
 
         int l = impl->model->getNumFloatingSpecies();
@@ -1926,7 +1928,7 @@ namespace rr {
         impl->model->getFloatingSpeciesConcentrations(l, NULL, vals);
 
         LibStructural *ls = getLibStruct();
-        DoubleMatrix v(1, l);
+        ls::DoubleMatrix v(1, l);
 
         for (int i = 0; i < l; ++i)
             v(0, i) = vals[i];
@@ -1951,7 +1953,7 @@ namespace rr {
 
         if (getConservedMoietyAnalysis()) {
             LibStructural *ls = getLibStruct();
-            DoubleMatrix lm = *ls->getLinkMatrix();
+            ls::DoubleMatrix lm = *ls->getLinkMatrix();
 
             for (int i = 0; i < ssvl; ++i) {
                 double sum = 0;
@@ -1971,19 +1973,19 @@ namespace rr {
         return v;
     }
 
-    DoubleMatrix RoadRunner::getRatesOfChangeNamedArray() {
+    ls::DoubleMatrix RoadRunner::getRatesOfChangeNamedArray() {
         check_model();
 
         int ssvl = impl->model->getStateVector(NULL);
         double *vals = new double[ssvl];
         double *ssv = new double[ssvl];
-        DoubleMatrix v(1, ssvl);
+        ls::DoubleMatrix v(1, ssvl);
 
         impl->model->getStateVector(ssv);
         impl->model->getStateVectorRate(impl->model->getTime(), ssv, vals);
         if (getConservedMoietyAnalysis()) {
             LibStructural *ls = getLibStruct();
-            DoubleMatrix lm = *ls->getLinkMatrix();
+            ls::DoubleMatrix lm = *ls->getLinkMatrix();
 
             for (int i = 0; i < ssvl; ++i) {
                 double sum = 0;
@@ -2025,15 +2027,15 @@ namespace rr {
         return v;
     }
 
-    DoubleMatrix RoadRunner::getIndependentRatesOfChangeNamedArray() {
+    ls::DoubleMatrix RoadRunner::getIndependentRatesOfChangeNamedArray() {
         check_model();
 
         std::vector<std::string> idfsId = getIndependentFloatingSpeciesIds();
         std::vector<std::string> fsId = getFloatingSpeciesIds();
         unsigned int nindep = static_cast<unsigned int>(idfsId.size());
-        DoubleMatrix v(1, nindep);
+        ls::DoubleMatrix v(1, nindep);
 
-        DoubleMatrix rate = getRatesOfChangeNamedArray();
+        ls::DoubleMatrix rate = getRatesOfChangeNamedArray();
 
         for (int i = 0; i < nindep; ++i) {
             std::vector<std::string>::iterator it = find(fsId.begin(), fsId.end(), idfsId[i]);
@@ -2067,15 +2069,15 @@ namespace rr {
         return v;
     }
 
-    DoubleMatrix RoadRunner::getDependentRatesOfChangeNamedArray() {
+    ls::DoubleMatrix RoadRunner::getDependentRatesOfChangeNamedArray() {
         check_model();
 
         std::vector<std::string> dfsId = getDependentFloatingSpeciesIds();
         std::vector<std::string> fsId = getFloatingSpeciesIds();
         unsigned int ndep = static_cast<unsigned int>(dfsId.size());
-        DoubleMatrix v(1, ndep);
+        ls::DoubleMatrix v(1, ndep);
 
-        DoubleMatrix rate = getRatesOfChangeNamedArray();
+        ls::DoubleMatrix rate = getRatesOfChangeNamedArray();
 
         for (int i = 0; i < ndep; ++i) {
             std::vector<std::string>::iterator it = find(fsId.begin(), fsId.end(), dfsId[i]);
@@ -2089,7 +2091,7 @@ namespace rr {
         return v;
     }
 
-    DoubleMatrix RoadRunner::getFullJacobian() {
+    ls::DoubleMatrix RoadRunner::getFullJacobian() {
         check_model();
 
         get_self();
@@ -2132,7 +2134,7 @@ namespace rr {
                       "https://tellurium.readthedocs.io/en/latest/antimony.html#rate-rules if you are using Antimony.";
                 throw std::out_of_range(errSS.str());
             }
-            DoubleMatrix jac(self.model->getNumRateRules(), self.model->getNumRateRules());
+            ls::DoubleMatrix jac(self.model->getNumRateRules(), self.model->getNumRateRules());
 
             for (int i = 0; i < self.model->getNumRateRules(); i++) {
                 for (int j = 0; j < self.model->getNumRateRules(); j++) {
@@ -2238,14 +2240,14 @@ namespace rr {
             // There might be no model.
             int nr = self.model->getNumReactions();
             if (nr == 0) {
-                DoubleMatrix jac(self.model->getNumRateRules(), self.model->getNumRateRules());
+                ls::DoubleMatrix jac(self.model->getNumRateRules(), self.model->getNumRateRules());
                 return jac;
             }
 
-            DoubleMatrix uelast = getUnscaledElasticityMatrix();
+            ls::DoubleMatrix uelast = getUnscaledElasticityMatrix();
 
             // ptr to libstruct owned obj.
-            DoubleMatrix *rsm;
+            ls::DoubleMatrix *rsm;
             LibStructural *ls = getLibStruct();
             if (self.loadOpt.getConservedMoietyConversion()) {
                 rsm = ls->getReorderedStoichiometryMatrix();
@@ -2253,7 +2255,7 @@ namespace rr {
                 rsm = ls->getStoichiometryMatrix();
             }
 
-            DoubleMatrix jac = ls::mult(*rsm, uelast);
+            ls::DoubleMatrix jac = ls::mult(*rsm, uelast);
 
             // get the row/column ids, independent floating species
             std::list<std::string> list;
@@ -2268,16 +2270,16 @@ namespace rr {
         }
     }
 
-    DoubleMatrix RoadRunner::getFullReorderedJacobian() {
+    ls::DoubleMatrix RoadRunner::getFullReorderedJacobian() {
         check_model();
 
         LibStructural *ls = getLibStruct();
-        DoubleMatrix uelast = getUnscaledElasticityMatrix();
-        DoubleMatrix *rsm = ls->getStoichiometryMatrix();
+        ls::DoubleMatrix uelast = getUnscaledElasticityMatrix();
+        ls::DoubleMatrix *rsm = ls->getStoichiometryMatrix();
         return mult(*rsm, uelast);
     }
 
-    DoubleMatrix RoadRunner::getReducedJacobian(double h) {
+    ls::DoubleMatrix RoadRunner::getReducedJacobian(double h) {
         get_self();
 
         check_model();
@@ -2289,7 +2291,7 @@ namespace rr {
         int nIndSpecies = self.model->getNumIndFloatingSpecies();
 
         // result matrix
-        DoubleMatrix jac(nIndSpecies, nIndSpecies);
+        ls::DoubleMatrix jac(nIndSpecies, nIndSpecies);
 
         // get the row/column ids, independent floating species
         std::list<std::string> list;
@@ -2361,43 +2363,43 @@ namespace rr {
         return jac;
     }
 
-    DoubleMatrix RoadRunner::getLinkMatrix() {
+    ls::DoubleMatrix RoadRunner::getLinkMatrix() {
         check_model();
 
         ls::LibStructural *ls = getLibStruct();
 
         // pointer to owned matrix
-        DoubleMatrix res = *ls->getLinkMatrix();
+        ls::DoubleMatrix res = *ls->getLinkMatrix();
 
         ls->getLinkMatrixLabels(res.getRowNames(), res.getColNames());
 
         return res;
     }
 
-    DoubleMatrix RoadRunner::getReducedStoichiometryMatrix() {
+    ls::DoubleMatrix RoadRunner::getReducedStoichiometryMatrix() {
         return getNrMatrix();
     }
 
-    DoubleMatrix RoadRunner::getNrMatrix() {
+    ls::DoubleMatrix RoadRunner::getNrMatrix() {
         check_model();
 
         ls::LibStructural *ls = getLibStruct();
 
         // pointer to owned matrix
-        DoubleMatrix res = *ls->getNrMatrix();
+        ls::DoubleMatrix res = *ls->getNrMatrix();
 
         ls->getNrMatrixLabels(res.getRowNames(), res.getColNames());
 
         return res;
     }
 
-    DoubleMatrix RoadRunner::getKMatrix() {
+    ls::DoubleMatrix RoadRunner::getKMatrix() {
         check_model();
 
         ls::LibStructural *ls = getLibStruct();
 
         // pointer to owned matrix
-        DoubleMatrix res = *ls->getKMatrix();
+        ls::DoubleMatrix res = *ls->getKMatrix();
 
         ls->getKMatrixLabels(res.getRowNames(), res.getColNames());
 
@@ -2405,49 +2407,49 @@ namespace rr {
     }
 
 
-    DoubleMatrix RoadRunner::getFullStoichiometryMatrix() {
+    ls::DoubleMatrix RoadRunner::getFullStoichiometryMatrix() {
         check_model();
         get_self();
         ls::LibStructural *ls = getLibStruct();
 
         if (self.loadOpt.getConservedMoietyConversion()) {
             // pointer to mat owned by ls
-            DoubleMatrix m = *ls->getReorderedStoichiometryMatrix();
+            ls::DoubleMatrix m = *ls->getReorderedStoichiometryMatrix();
             ls->getReorderedStoichiometryMatrixLabels(
                     m.getRowNames(), m.getColNames());
             return m;
         }
 
         // pointer to owned matrix
-        DoubleMatrix *mptr = ls->getStoichiometryMatrix();
+        ls::DoubleMatrix *mptr = ls->getStoichiometryMatrix();
         if (!mptr) {
             throw CoreException("Error: Stoichiometry matrix does not exist for this model");
         }
-        DoubleMatrix m = *mptr;
+        ls::DoubleMatrix m = *mptr;
         ls->getStoichiometryMatrixLabels(m.getRowNames(), m.getColNames());
         return m;
     }
 
 
-    DoubleMatrix RoadRunner::getExtendedStoichiometryMatrix() {
+    ls::DoubleMatrix RoadRunner::getExtendedStoichiometryMatrix() {
         check_model();
         get_self();
         ls::LibStructural *ls = getLibStruct();
 
         if (self.loadOpt.getConservedMoietyConversion()) {
             // pointer to mat owned by ls
-            DoubleMatrix m = *ls->getReorderedStoichiometryMatrix();
+            ls::DoubleMatrix m = *ls->getReorderedStoichiometryMatrix();
             ls->getReorderedStoichiometryMatrixLabels(
                     m.getRowNames(), m.getColNames());
             return m;
         }
 
         // pointer to owned matrix
-        DoubleMatrix *mptr = ls->getStoichiometryMatrix();
+        ls::DoubleMatrix *mptr = ls->getStoichiometryMatrix();
         if (!mptr) {
             throw CoreException("Error: Stoichiometry matrix does not exist for this model");
         }
-        DoubleMatrix m = *mptr;
+        ls::DoubleMatrix m = *mptr;
         ls->getStoichiometryMatrixLabels(m.getRowNames(), m.getColNames());
 
         libsbml::SBMLReader reader;
@@ -2493,7 +2495,7 @@ namespace rr {
             }
         }
 
-        DoubleMatrix extended_matrix(n_rows, m.numCols());
+        ls::DoubleMatrix extended_matrix(n_rows, m.numCols());
         extended_matrix.setRowNames(m.getRowNames());
         extended_matrix.setColNames(m.getColNames());
         extended_matrix.getRowNames().resize(n_rows);
@@ -2550,14 +2552,14 @@ namespace rr {
     }
 
 
-    DoubleMatrix RoadRunner::getL0Matrix() {
+    ls::DoubleMatrix RoadRunner::getL0Matrix() {
         check_model();
         ls::LibStructural *ls = getLibStruct();
 
         // the libstruct getL0Matrix returns a NEW matrix,
         // nice consistent wrappers yes?!?!?
-        DoubleMatrix *tmp = ls->getL0Matrix();
-        DoubleMatrix m = *tmp;
+        ls::DoubleMatrix *tmp = ls->getL0Matrix();
+        ls::DoubleMatrix m = *tmp;
         delete tmp;
 
         ls->getL0MatrixLabels(m.getRowNames(), m.getColNames());
@@ -2565,15 +2567,15 @@ namespace rr {
     }
 
 
-    DoubleMatrix RoadRunner::getConservationMatrix() {
+    ls::DoubleMatrix RoadRunner::getConservationMatrix() {
         if (!getConservedMoietyAnalysis())
             throw CoreException("Cannot compute conservation matrix because conserved moieties are not enabled");
 
-        DoubleMatrix mat;
+        ls::DoubleMatrix mat;
 
         try {
             if (impl->model) {
-                DoubleMatrix *aMat = getLibStruct()->getGammaMatrix();
+                ls::DoubleMatrix *aMat = getLibStruct()->getGammaMatrix();
                 if (aMat) {
                     mat.resize(aMat->numRows(), aMat->numCols());
                     for (int row = 0; row < mat.RSize(); row++) {
@@ -2701,7 +2703,7 @@ namespace rr {
         return r;
     }
 
-    DoubleMatrix RoadRunner::getSteadyStateValuesNamedArray() {
+    ls::DoubleMatrix RoadRunner::getSteadyStateValuesNamedArray() {
         if (!impl->model) {
             throw CoreException(gEmptyModelMessage);
         }
@@ -2711,7 +2713,7 @@ namespace rr {
 
         steadyState();
 
-        DoubleMatrix v(1, static_cast<unsigned int>(impl->mSteadyStateSelection.size()));
+        ls::DoubleMatrix v(1, static_cast<unsigned int>(impl->mSteadyStateSelection.size()));
         for (int i = 0; i < impl->mSteadyStateSelection.size(); i++) {
             v(0, i) = getValue(impl->mSteadyStateSelection[i]);
         }
@@ -2895,7 +2897,7 @@ namespace rr {
     }
 
 
-    DoubleMatrix RoadRunner::getBoundarySpeciesConcentrationsNamedArray() {
+    ls::DoubleMatrix RoadRunner::getBoundarySpeciesConcentrationsNamedArray() {
         check_model();
 
         int l = impl->model->getNumBoundarySpecies();
@@ -2904,7 +2906,7 @@ namespace rr {
         impl->model->getBoundarySpeciesConcentrations(l, NULL, vals);
 
         LibStructural *ls = getLibStruct();
-        DoubleMatrix v(1, l);
+        ls::DoubleMatrix v(1, l);
 
         for (int i = 0; i < l; ++i)
             v(0, i) = vals[i];
@@ -2917,7 +2919,7 @@ namespace rr {
     }
 
 
-    DoubleMatrix RoadRunner::getBoundarySpeciesAmountsNamedArray() {
+    ls::DoubleMatrix RoadRunner::getBoundarySpeciesAmountsNamedArray() {
         check_model();
 
         int l = impl->model->getNumBoundarySpecies();
@@ -2926,7 +2928,7 @@ namespace rr {
         impl->model->getBoundarySpeciesAmounts(l, NULL, vals);
 
         LibStructural *ls = getLibStruct();
-        DoubleMatrix v(1, l);
+        ls::DoubleMatrix v(1, l);
 
         for (int i = 0; i < l; ++i)
             v(0, i) = vals[i];
@@ -3458,12 +3460,12 @@ namespace rr {
     }
 
 
-    DoubleMatrix RoadRunner::getUnscaledElasticityMatrix() {
+    ls::DoubleMatrix RoadRunner::getUnscaledElasticityMatrix() {
         get_self();
 
         check_model();
 
-        DoubleMatrix uElastMatrix(self.model->getNumReactions(), self.model->getNumFloatingSpecies());
+        ls::DoubleMatrix uElastMatrix(self.model->getNumReactions(), self.model->getNumFloatingSpecies());
 
         uElastMatrix.setRowNames(getReactionIds());
         uElastMatrix.setColNames(getFloatingSpeciesIds());
@@ -3477,13 +3479,13 @@ namespace rr {
         return uElastMatrix;
     }
 
-    DoubleMatrix RoadRunner::getScaledElasticityMatrix() {
+    ls::DoubleMatrix RoadRunner::getScaledElasticityMatrix() {
         get_self();
 
         check_model();
 
-        DoubleMatrix uelast = getUnscaledElasticityMatrix();
-        DoubleMatrix result(uelast.RSize(), uelast.CSize());
+        ls::DoubleMatrix uelast = getUnscaledElasticityMatrix();
+        ls::DoubleMatrix result(uelast.RSize(), uelast.CSize());
 
         result.setColNames(uelast.getColNames());
         result.setRowNames(uelast.getRowNames());
@@ -3539,7 +3541,7 @@ namespace rr {
 
 // Use the formula: ucc = -L Jac^-1 Nr
 // [Help("Compute the matrix of unscaled concentration control coefficients")]
-    DoubleMatrix RoadRunner::getUnscaledConcentrationControlCoefficientMatrix() {
+    ls::DoubleMatrix RoadRunner::getUnscaledConcentrationControlCoefficientMatrix() {
         get_self();
 
         check_model();
@@ -3552,24 +3554,24 @@ namespace rr {
         }
 
         // Compute the Jacobian first
-        DoubleMatrix uelast = getUnscaledElasticityMatrix();
-        DoubleMatrix Nr = getNrMatrix();
-        DoubleMatrix T1 = mult(Nr, uelast);
-        DoubleMatrix LinkMatrix = getLinkMatrix();
-        DoubleMatrix Jac = mult(T1, LinkMatrix);
+        ls::DoubleMatrix uelast = getUnscaledElasticityMatrix();
+        ls::DoubleMatrix Nr = getNrMatrix();
+        ls::DoubleMatrix T1 = mult(Nr, uelast);
+        ls::DoubleMatrix LinkMatrix = getLinkMatrix();
+        ls::DoubleMatrix Jac = mult(T1, LinkMatrix);
 
         // Compute -Jac
-        DoubleMatrix T2 = Jac * (-1.0);
+        ls::DoubleMatrix T2 = Jac * (-1.0);
 
         ComplexMatrix temp(T2); //Get a complex matrix from a double one. Imag part is zero
         ComplexMatrix Inv = GetInverse(temp);
 
         // &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
         // Sauro: mult which takes complex matrix need to be implemented
-        DoubleMatrix T3 = mult(Inv, Nr); // Compute ( - Jac)^-1 . Nr
+        ls::DoubleMatrix T3 = mult(Inv, Nr); // Compute ( - Jac)^-1 . Nr
 
         // Finally include the dependent set as well.
-        DoubleMatrix T4 = mult(LinkMatrix, T3); // Compute L (iwI - Jac)^-1 . Nr
+        ls::DoubleMatrix T4 = mult(LinkMatrix, T3); // Compute L (iwI - Jac)^-1 . Nr
 
         T4.setRowNames(getFloatingSpeciesIds());
         T4.setColNames(getReactionIds());
@@ -3580,12 +3582,12 @@ namespace rr {
     }
 
 
-    DoubleMatrix RoadRunner::getScaledConcentrationControlCoefficientMatrix() {
+    ls::DoubleMatrix RoadRunner::getScaledConcentrationControlCoefficientMatrix() {
         get_self();
 
         check_model();
 
-        DoubleMatrix ucc = getUnscaledConcentrationControlCoefficientMatrix();
+        ls::DoubleMatrix ucc = getUnscaledConcentrationControlCoefficientMatrix();
 
         if (ucc.size() > 0) {
             for (int i = 0; i < ucc.RSize(); i++) {
@@ -3604,15 +3606,15 @@ namespace rr {
 
 // Use the formula: ucc = elast CS + I
 // [Help("Compute the matrix of unscaled flux control coefficients")]
-    DoubleMatrix RoadRunner::getUnscaledFluxControlCoefficientMatrix() {
+    ls::DoubleMatrix RoadRunner::getUnscaledFluxControlCoefficientMatrix() {
         get_self();
 
         check_model();
 
-        DoubleMatrix ucc = getUnscaledConcentrationControlCoefficientMatrix();
-        DoubleMatrix uee = getUnscaledElasticityMatrix();
+        ls::DoubleMatrix ucc = getUnscaledConcentrationControlCoefficientMatrix();
+        ls::DoubleMatrix uee = getUnscaledElasticityMatrix();
 
-        DoubleMatrix T1 = mult(uee, ucc);
+        ls::DoubleMatrix T1 = mult(uee, ucc);
 
         // Add an identity matrix I to T1, that is add a 1 to every diagonal of T1
         for (int i = 0; i < T1.RSize(); i++) {
@@ -3626,13 +3628,13 @@ namespace rr {
     }
 
 // [Help("Compute the matrix of scaled flux control coefficients")]
-    DoubleMatrix RoadRunner::getScaledFluxControlCoefficientMatrix() {
+    ls::DoubleMatrix RoadRunner::getScaledFluxControlCoefficientMatrix() {
         try {
             if (!impl->model) {
                 throw CoreException(gEmptyModelMessage);
             }
 
-            DoubleMatrix ufcc = getUnscaledFluxControlCoefficientMatrix();
+            ls::DoubleMatrix ufcc = getUnscaledFluxControlCoefficientMatrix();
 
             if (ufcc.RSize() > 0) {
                 for (int i = 0; i < ufcc.RSize(); i++) {
@@ -4170,7 +4172,7 @@ namespace rr {
     }
 
 //Compute the frequency response, startW, Number Of Decades, Number of Points, parameterName, variableName
-    Matrix<double> RoadRunner::getFrequencyResponse(double startFrequency,
+    ls::Matrix<double> RoadRunner::getFrequencyResponse(double startFrequency,
                                                     int numberOfDecades, int numberOfPoints,
                                                     const std::string &parameterName, const std::string &variableName,
                                                     bool useDB, bool useHz) {
@@ -4228,7 +4230,7 @@ namespace rr {
             ComplexMatrix Inv(Nr.RSize(), LinkMatrix.CSize());
 
             // resultArray stores frequency, gain and phase
-            Matrix<double> resultArray(numberOfPoints, 3);
+            ls::Matrix<double> resultArray(numberOfPoints, 3);
 
             // Main loop, generate log spaced frequency numbers and compute the gain and phase at each frequency
             std::vector<double> w(logspace(startFrequency, numberOfDecades, numberOfPoints));
@@ -4565,7 +4567,7 @@ namespace rr {
         return impl->roadRunnerOptions;
     }
 
-    const DoubleMatrix *RoadRunner::getSimulationData() const {
+    const ls::DoubleMatrix *RoadRunner::getSimulationData() const {
         return &impl->simulationResult;
     }
 

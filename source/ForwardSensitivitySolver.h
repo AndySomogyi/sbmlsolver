@@ -11,6 +11,7 @@
 #include <unordered_map>
 #include <vector>
 #include "LLVMExecutableModel.h"
+#include "Matrix.h"
 
 namespace rr {
 
@@ -108,7 +109,16 @@ namespace rr {
          * @brief retuns pointer to the state vector
          * used by sundials for storing sensitivity matrix.
          */
-        N_Vector* getSensitivityVector();
+        N_Vector* getSensitivityNVectorPtr();
+
+        /**
+         * @brief get current values of sensitivities of model variables
+         * to parameters.
+         * @param kth derivative of the sensitivities.
+         */
+        Matrix<double> getSensitivityMatrix(int k = 0);
+
+
 
         void setValue(const std::string& key, Setting val);
 
@@ -156,6 +166,12 @@ namespace rr {
          */
         int Ns = 0;
 
+        /**
+         * @brief the number of state variables in the model
+         * @details aka the size of the mStateVector
+         */
+         int numModelVariables = 0;
+
     private:
 
         /**
@@ -190,7 +206,7 @@ namespace rr {
         /**
          * @brief place to store the sensitivities
          */
-        N_Vector *mSensitivityVector;
+        N_Vector *mSensitivityMatrix;
 
         /**
          * @brief indicator for whether model has state vector variables or not
