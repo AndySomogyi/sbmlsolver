@@ -67,6 +67,11 @@ TEST_F(CVODEIntegratorTests, OpenLinearFluxWithModel) {
     checkModelIntegrates<CVODEIntegrator>(&testModel);
 }
 
+TEST_F(CVODEIntegratorTests, FactorialInRateLawWithModel) {
+    FactorialInRateLaw testModel;
+    checkModelIntegrates<CVODEIntegrator>(&testModel);
+}
+
 
 
 

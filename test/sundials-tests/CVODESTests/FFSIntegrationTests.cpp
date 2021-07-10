@@ -37,6 +37,12 @@ TEST_F(FFSIntegrationTests, TestModel28) {
     checkModelIntegrates<ForwardSensitivitySolver>(&testModel);
 }
 
+TEST_F(FFSIntegrationTests, FactorialInRateLaw) {
+    FactorialInRateLaw testModel;
+    std::cout << testModel.str() << std::endl;
+    checkModelIntegrates<ForwardSensitivitySolver>(&testModel);
+}
+
 
 //
 //TEST_F(FFSIntegrationTests, UserInterface){

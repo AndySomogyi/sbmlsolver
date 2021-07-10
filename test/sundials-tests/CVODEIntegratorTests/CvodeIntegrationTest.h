@@ -126,7 +126,7 @@ public:
         }
 
         double t = 0.0;
-        for (int i = 1; i < duration + 1; i++) {
+        for (int i = 1; i < steps + 1; i++) {
             t = solver.integrate(t, stepSize);
             model->getStateVector(stateVector);
             simulationResults(i, 0) = model->getTime();
