@@ -68,7 +68,7 @@ namespace rr {
         * @brief Called whenever a new model is loaded to allow integrator
         * to reset internal state
         */
-        void setModel(ExecutableModel *m) override;
+        void syncWithModel(ExecutableModel *m) override;
 
         // ** Loading Settings *************************************************
 
@@ -252,8 +252,8 @@ namespace rr {
         static const int mDefaultMaxBDFOrder;
 
         // cvode components
-        void *mCVODE_Memory;
-        N_Vector mStateVector;
+        void *mCVODE_Memory = nullptr;
+        N_Vector mStateVector = nullptr;
         SUNMatrix jac = nullptr;
         SUNNonlinearSolver nonLinSolver = nullptr;
         SUNLinearSolver linSolver = nullptr;
@@ -303,7 +303,7 @@ namespace rr {
 
         void create();
 
-        void freeCVode();
+        void freeSundialsMemory();
 
         bool stateVectorVariables;
 

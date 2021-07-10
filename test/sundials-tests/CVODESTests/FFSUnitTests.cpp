@@ -87,28 +87,6 @@ TEST_F(FFSUnitTests, deducePlistSecondParameter) {
     ASSERT_EQ(expected, forwardSensitivitySolver.plist);
 }
 
-TEST_F(FFSUnitTests, getSensitivityMatrixWithFakeData) {
-    RoadRunner r(OpenLinearFlux().str());
-    ExecutableModel *model = r.getModel();
-    ForwardSensitivitySolver forwardSensitivitySolver(model);
-    forwardSensitivitySolver.integrate(0, 1);
-
-    N_Vector *sensitivityMatrix = forwardSensitivitySolver.getSensitivityNVectorPtr();
-    // add some data into the sensitivityMatrix
-//    for (int i = 0; i < forwardSensitivitySolver.Ns; i++) {
-//        auto sensVec = sensitivityMatrix[i];
-//        for (int j = 0; j < forwardSensitivitySolver.numModelVariables; j++) {
-//            auto arr = sensVec->ops->nvgetarraypointer(sensVec);
-//            arr[j] = forwardSensitivitySolver.numModelVariables * i + j;
-//        }
-//    }
-
-    Matrix<double> results = forwardSensitivitySolver.getSensitivityMatrix();
-    std::cout << results << std::endl;
-}
-
-
-
 
 
 

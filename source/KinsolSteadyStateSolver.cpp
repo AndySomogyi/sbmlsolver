@@ -15,7 +15,7 @@ namespace rr {
         KinsolSteadyStateSolver::resetSettings();
     }
 
-    void KinsolSteadyStateSolver::setModel(ExecutableModel *m) {
+    void KinsolSteadyStateSolver::syncWithModel(ExecutableModel *m) {
         freeKinsol();
         mModel = m;
         if (m) {

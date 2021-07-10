@@ -297,6 +297,40 @@ std::unordered_map<std::string, rr::Setting> SimpleFlux::mcaSettings() {
     return std::unordered_map<std::string, rr::Setting>{{"time", 0}};
 }
 
+//std::unordered_map<std::string, rr::Setting> SimpleFlux::timeSeriesSensitivityResultSettings() {
+//    return std::unordered_map<std::string, rr::Setting>{
+//            {"start",    0},
+//            {"duration", 10},
+//            {"steps",    11},
+//    };
+//}
+
+//rr::Matrix3D<double, double> SimpleFlux::timeSeriesSensitivityResult() {
+//    return rr::Matrix3D<double, double>(
+//            {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10},
+//            {
+//            // 0
+//                    {
+//                            {0, 0},
+//                            {0, 0},
+//                    },
+//                    // 1
+////                    {
+////                            {}
+////                    }
+//                    // 2
+//                    // 3
+//                    // 4
+//                    // 5
+//                    // 6
+//                    // 7
+//                    // 8
+//                    // 9
+//                    // 10
+//            }
+//    );
+//}
+
 std::string SimpleFluxManuallyReduced::str() {
     return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
            "<sbml xmlns=\"http://www.sbml.org/sbml/level3/version1/core\" level=\"3\" version=\"1\">\n"

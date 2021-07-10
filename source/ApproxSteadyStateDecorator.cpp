@@ -32,13 +32,13 @@ namespace rr {
 
             // integrate and collect the sundials N_Vector
             integrator.integrate(end - (2*stepSize), stepSize);
-            solver_->setModel(solver_->getModel());
+            solver_->syncWithModel(solver_->getModel());
             N_Vector stateVectorAtTMinus2 = integrator.getStateVector();
             double* stateVectorAtTMinus2ArrPtr = stateVectorAtTMinus2->ops->nvgetarraypointer(stateVectorAtTMinus2);
 
             // integrate collect the new sundials N_Vector
             integrator.integrate(end - stepSize, stepSize);
-            solver_->setModel(solver_->getModel());
+            solver_->syncWithModel(solver_->getModel());
             N_Vector stateVectorAtT = integrator.getStateVector();
             double *stateVectorAtTArrPtr = stateVectorAtT->ops->nvgetarraypointer(stateVectorAtT);
 

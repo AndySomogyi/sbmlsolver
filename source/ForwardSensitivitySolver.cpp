@@ -39,6 +39,10 @@ namespace rr {
 
         model->getStateVectorRate(time, y, ydot);
 
+        !inst->stateVectorVariables;
+        inst->getStateVector();
+
+
         if (!inst->stateVectorVariables &&
             inst->getStateVector() &&
             NV_LENGTH_S(inst->getStateVector()) == 1) {
@@ -108,7 +112,7 @@ namespace rr {
 
             // free old cvode memory in favor of new
             if (cvodeIntegrator->mCVODE_Memory) {
-                cvodeIntegrator->freeCVode();
+                freeSundialsMemory(); // calls cvodeIntegrator
                 ForwardSensitivitySolver::create();
             }
         }
@@ -129,11 +133,27 @@ namespace rr {
         return cvodeIntegrator->integrate(tStart, hstep);
     }
 
-//    Matrix<double> ForwardSensitivitySolver::getSensitivities(){
-//
-//    };
 
-    ForwardSensitivitySolver::~ForwardSensitivitySolver() {}
+    ForwardSensitivitySolver::~ForwardSensitivitySolver() {
+        freeSundialsMemory();
+    }
+
+    void ForwardSensitivitySolver::freeSundialsMemory() {
+        if (!mModel)
+            return;
+        if (NLSsens) {
+            SUNNonlinSolFree(NLSsens);
+            NLSsens = nullptr;
+        }
+
+        if (mSensitivityMatrix) {
+            N_VDestroyVectorArray_Serial(mSensitivityMatrix, Ns);
+            mSensitivityMatrix = nullptr;
+        }
+
+        // free last, since it calls CVodeFree
+        cvodeIntegrator->freeSundialsMemory();
+    }
 
     void ForwardSensitivitySolver::create() {
         if (!mModel) {
@@ -170,7 +190,6 @@ namespace rr {
         // set mStateVector to the values that are currently in the model
         std::vector<double> states(allocStateVectorSize);
         mModel->getStateVector(states.data());
-
 
         auto getArrayPtr = cvodeIntegrator->mStateVector->ops->nvgetarraypointer;
         for (int i = 0; i < allocStateVectorSize; i++) {
@@ -275,7 +294,6 @@ namespace rr {
         mSensitivityMatrix = N_VCloneVectorArray_Serial(Ns, cvodeIntegrator->mStateVector);
         assert(mSensitivityMatrix && "Sensitivity vector is nullptr");
 
-        auto len = cvodeIntegrator->mStateVector->ops->nvgetlength;
         for (int i = 0; i < Ns; i++) {
             N_VConst(0, mSensitivityMatrix[i]);
         }
@@ -352,6 +370,18 @@ namespace rr {
         }
     }
 
+    void ForwardSensitivitySolver::syncWithModel(ExecutableModel *executableModel) {
+        if (executableModel) {
+            mModel = executableModel;
+
+            if (!cvodeIntegrator) {
+                constructorOperations();
+            }
+            if (cvodeIntegrator) {
+                cvodeIntegrator->syncWithModel(executableModel);
+            }
+        }
+    }
 
     std::string ForwardSensitivitySolver::getName() const {
         return "forward";
@@ -397,13 +427,9 @@ namespace rr {
 
     }
 
-    void ForwardSensitivitySolver::setModel(ExecutableModel *executableModel) {
-        cvodeIntegrator->setModel(executableModel);
-        mModel = executableModel;
-    }
 
     void ForwardSensitivitySolver::loadConfigSettings() {
-
+        cvodeIntegrator->loadConfigSettings();
     }
 
     std::vector<std::string> ForwardSensitivitySolver::getGlobalParameterNames() {

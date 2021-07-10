@@ -46,6 +46,11 @@ namespace rr {
         void create();
 
         /**
+         * @brief free sundials memory associated with sensitivities
+         */
+         void freeSundialsMemory();
+
+        /**
         * @brief Get the name of this solver
         */
         std::string getName() const override;
@@ -67,7 +72,7 @@ namespace rr {
          */
         void resetSettings() override;
 
-        void setModel(ExecutableModel *executableModel) override;
+        void syncWithModel(ExecutableModel *executableModel) override;
 
         std::string toRepr() const override;
 
@@ -187,32 +192,20 @@ namespace rr {
         void constructorOperations();
 
         /**
-         * @brief memory associate with cvodes. Should mirror
-         * the CVODEIntegrator::mCVODE_Memory ptr
-         */
-//        void *mCVODE_Memory;
-
-        /**
-         * @brief State vector. Should mirror
-         * the CVODEIntegrator::mStateVector ptr
-         */
-//        N_Vector mStateVector;
-
-        /**
          * @brief Non-linear solver for sensitivity analysis
          */
-        SUNNonlinearSolver NLSsens;
+        SUNNonlinearSolver NLSsens = nullptr;
 
         /**
          * @brief place to store the sensitivities
          */
-        N_Vector *mSensitivityMatrix;
+        N_Vector *mSensitivityMatrix = nullptr;
 
         /**
          * @brief indicator for whether model has state vector variables or not
          * @details mirrors CVODEIntegrator
          */
-        bool stateVectorVariables;
+        bool stateVectorVariables = false;
 
         friend int FFSDyDtFcn(realtype time, N_Vector cv_y, N_Vector cv_ydot, void *userData);
 

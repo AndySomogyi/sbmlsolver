@@ -8,6 +8,7 @@
 #include "Setting.h"
 #include "rrRoadRunner.h"
 #include "Matrix.h"
+#include "Matrix3D.h"
 #include <complex>
 
 //using DoublePair = std::pair<double, double>; // old swig no handle using statements
@@ -53,7 +54,7 @@ public:
     /**
      * @brief write sbml to file
      */
-     void toFile(const std::string& fname);
+    void toFile(const std::string &fname);
 
 };
 
@@ -103,7 +104,7 @@ public:
      * @brief Apply whatever settings from steadyStateSettings to the model
      * pointed to by @param *rr
      */
-    void applySteadyStateSettings(rr::RoadRunner* rr);
+    void applySteadyStateSettings(rr::RoadRunner *rr);
 
     /**
      * @brief Compare steady state of roadrunner model
@@ -115,7 +116,7 @@ public:
      * and makes the comparison between expected values and actual
      * computed values.
      */
-    void checkSteadyState(rr::RoadRunner* rr);
+    void checkSteadyState(rr::RoadRunner *rr);
 
 };
 
@@ -219,6 +220,26 @@ public:
 };
 
 
+class SensitivityResult : public Result {
+};
+
+class TimeSeriesSensitivityResult : public SensitivityResult {
+public:
+    virtual std::unordered_map<std::string, rr::Setting> timeSeriesSensitivityResultSettings() = 0;
+
+    virtual rr::Matrix3D<double, double> timeSeriesSensitivityResult() = 0;
+
+};
+
+class SteadyStateSensitivityResult : public SensitivityResult {
+public:
+    virtual std::unordered_map<std::string, rr::Setting> steadyStateSensitivityResultSettings() = 0;
+
+    virtual rr::Matrix<double> steadyStateSensitivityResult() = 0;
+
+};
+
+
 /**
  * A -> B; k1
  * B -> A; k2
@@ -234,7 +255,9 @@ class SimpleFlux :
         public JacobianResult,
         public EigenResult,
         public StructuralProperties,
-        public MCAResult {
+        public MCAResult
+//        public TimeSeriesSensitivityResult
+        {
 public:
 
     std::string str() override;
@@ -296,6 +319,10 @@ public:
     rr::Matrix<double> scaledElasticityMatrix() override;
 
     std::unordered_map<std::string, rr::Setting> mcaSettings() override;
+
+//    std::unordered_map<std::string, rr::Setting> timeSeriesSensitivityResultSettings() override;
+
+//    rr::Matrix3D<double, double> timeSeriesSensitivityResult() override;
 };
 
 /**

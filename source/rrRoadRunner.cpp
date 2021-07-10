@@ -34,7 +34,6 @@
 #include "ForwardSensitivitySolver.h"
 
 
-
 #ifdef _MSC_VER
                                                                                                                         #pragma warning(disable: 4146)
 #pragma warning(disable: 4141)
@@ -69,6 +68,7 @@
 #include <list>
 #include <cstdlib>
 #include <fstream>
+#include <memory>
 
 
 #ifdef _MSC_VER
@@ -401,13 +401,13 @@ namespace rr {
 
         void syncAllSolversWithModel(ExecutableModel *m) {
             for (auto &integrator : integrators) {
-                integrator->setModel(m);
+                integrator->syncWithModel(m);
             }
             for (auto &steady_state_solver : steady_state_solvers) {
-                steady_state_solver->setModel(m);
+                steady_state_solver->syncWithModel(m);
             }
             for (auto &sensitivity_solver : sensitivity_solvers) {
-                sensitivity_solver->setModel(m);
+                sensitivity_solver->syncWithModel(m);
             }
         }
 
@@ -518,7 +518,7 @@ namespace rr {
 
         // enable building the model using editing methods
         // and allow simultion without loading SBML files
-        impl->document = std::unique_ptr<libsbml::SBMLDocument>(new libsbml::SBMLDocument(level, version));
+        impl->document = std::make_unique<libsbml::SBMLDocument>(level, version);
         impl->document->createModel();
 
     }
@@ -638,7 +638,7 @@ namespace rr {
         for (size_t ss = 0; ss < rr.impl->sensitivity_solvers.size(); ss++) {
             setSensitivitySolver(rr.impl->sensitivity_solvers[ss]->getName());
             for (std::string k : rr.impl->sensitivity_solvers[ss]->getSettings()) {
-                impl->steady_state_solver->setValue(k, rr.impl->sensitivity_solvers[ss]->getValue(k));
+                impl->sensitivities_solver->setValue(k, rr.impl->sensitivity_solvers[ss]->getValue(k));
             }
         }
 
@@ -1224,12 +1224,12 @@ namespace rr {
             rrLog(Logger::LOG_DEBUG) << "Checking whether moiety conservation analysis is needed" << std::endl;
             if (!impl->loadOpt.getConservedMoietyConversion()) {
                 /*
-             * Note this is an expensive operation. The other way
-             * of determining need for moiety conservation is to
-             * compute whether the jacobian matrix is singular
-             * (with SVD::isSingular). This as it turns out, is even more
-             * expensive.
-             */
+                 * Note this is an expensive operation. The other way
+                 * of determining need for moiety conservation is to
+                 * compute whether the jacobian matrix is singular
+                 * (with SVD::isSingular). This as it turns out, is even more
+                 * expensive.
+                 */
                 setConservedMoietyAnalysis(true);
                 int numConservedMoieties = getModel()->getNumConservedMoieties();
                 if (numConservedMoieties == 0) {
@@ -3828,6 +3828,8 @@ namespace rr {
         impl->sensitivities_solver = dynamic_cast<SensitivitySolver *>(
                 SensitivitySolverFactory::getInstance().New(name, getModel())
         );
+        // add to the list of existing sensitivity solvers
+        impl->sensitivity_solvers.push_back(impl->sensitivities_solver);
     };
 
     Integrator *RoadRunner::getIntegratorByName(const std::string &name) {
@@ -4173,9 +4175,10 @@ namespace rr {
 
 //Compute the frequency response, startW, Number Of Decades, Number of Points, parameterName, variableName
     ls::Matrix<double> RoadRunner::getFrequencyResponse(double startFrequency,
-                                                    int numberOfDecades, int numberOfPoints,
-                                                    const std::string &parameterName, const std::string &variableName,
-                                                    bool useDB, bool useHz) {
+                                                        int numberOfDecades, int numberOfPoints,
+                                                        const std::string &parameterName,
+                                                        const std::string &variableName,
+                                                        bool useDB, bool useHz) {
         if (!impl->model) {
             throw CoreException(gEmptyModelMessage);
         }

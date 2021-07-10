@@ -14,65 +14,111 @@ using namespace rr;
 class FFSIntegrationTests : public CVODEIntegratorTests {
 public:
     FFSIntegrationTests() = default;
+
+    /**
+     * @brief Integrate the model and compute sensitivities. Compare
+     * results against expected values
+     */
+    template<class SolverType = ForwardSensitivitySolver>
+    void checkTimeSeriesSensitivities(TestModel *testModel) {
+
+        // load model
+        RoadRunner r(testModel->str());
+
+        auto *timeSeriesSensResult = dynamic_cast<TimeSeriesSensitivityResult *>(testModel);
+
+        ExecutableModel *model = r.getModel();
+
+        SolverType solver(model);
+
+        solver.setValue("stiff", false);
+
+        // get handle on the *known true values.
+        auto trueValues = timeSeriesSensResult->timeSeriesSensitivityResult();
+
+        // grab integrator settings.
+        auto settings = timeSeriesSensResult->timeSeriesSensitivityResultSettings();
+
+        double start = settings["start"];
+        double duration = settings["duration"];
+        double steps = settings["steps"];
+        double stepSize = (duration - start) / (steps);
+
+        Matrix3D<double> sensResults(trueValues.numRows(), trueValues.numCols());
+        int numStates = model->getStateVector(nullptr);
+        double *stateVector = new double[numStates];
+
+        // collect initial state
+        simulationResults(0, 0) = model->getTime();
+        model->getStateVector(stateVector);
+        for (int j = 1; j < numStates + 1; j++) {
+            simulationResults(0, j) = stateVector[j - 1];
+        }
+
+        double t = 0.0;
+        for (int i = 1; i < steps + 1; i++) {
+            t = solver.integrate(t, stepSize);
+            model->getStateVector(stateVector);
+            simulationResults(i, 0) = model->getTime();
+            for (int j = 1; j < numStates + 1; j++) {
+                simulationResults(i, j) = stateVector[j - 1];
+            }
+        }
+
+        bool passed = trueValues.almostEquals(simulationResults, 1e-4);
+
+        if (!passed) {
+            std::cout << "Expected result: " << std::endl;
+            std::cout << trueValues << std::endl;
+            std::cout << "Actual result: " << std::endl;
+            std::cout << simulationResults << std::endl;
+        }
+
+        ASSERT_TRUE(passed);
+
+        delete[] stateVector;
+    }
 };
 
 
-TEST_F(FFSIntegrationTests, TestSimpleFlux) {
+TEST_F(FFSIntegrationTests, CheckTimeSeriesAccurateTestSimpleFlux) {
     SimpleFlux testModel;
     checkModelIntegrates<ForwardSensitivitySolver>(&testModel);
 }
 
-TEST_F(FFSIntegrationTests, OpenLinearFlux) {
+TEST_F(FFSIntegrationTests, CheckTimeSeriesAccurateOpenLinearFlux) {
     OpenLinearFlux testModel;
     checkModelIntegrates<ForwardSensitivitySolver>(&testModel);
 }
 
-TEST_F(FFSIntegrationTests, TestModel269) {
+TEST_F(FFSIntegrationTests, CheckTimeSeriesAccurateTestModel269) {
     Model269 testModel;
     checkModelIntegrates<ForwardSensitivitySolver>(&testModel);
 }
 
-TEST_F(FFSIntegrationTests, TestModel28) {
+TEST_F(FFSIntegrationTests, CheckTimeSeriesAccurateTestModel28) {
     Model28 testModel;
     checkModelIntegrates<ForwardSensitivitySolver>(&testModel);
 }
 
-TEST_F(FFSIntegrationTests, FactorialInRateLaw) {
+TEST_F(FFSIntegrationTests, CheckTimeSeriesAccurateFactorialInRateLaw) {
     FactorialInRateLaw testModel;
     std::cout << testModel.str() << std::endl;
     checkModelIntegrates<ForwardSensitivitySolver>(&testModel);
 }
 
+TEST_F(FFSIntegrationTests, getSensitivityMatrixWithFakeData) {
+    RoadRunner r(OpenLinearFlux().str());
+    ExecutableModel *model = r.getModel();
+    ForwardSensitivitySolver forwardSensitivitySolver(model);
+    forwardSensitivitySolver.integrate(0, 1);
 
-//
-//TEST_F(FFSIntegrationTests, UserInterface){
-//    // this is how we want users to interact with roadrunner sensitivities:
-//    RoadRunner rr(OpenLinearFlux().str());
-//    /**
-//     * SensivityResult is a container of ls::DoubleMatrix objects,
-//     * indexed by time.
-//     */
-//    SensitivityResult res = rr.sensitivities(0, 10, 11); // with options
-//}
-
-//
-//TEST_F(FFSIntegrationTests, DefaultSensivitySolver){
-//    // this is how we want users to interact with roadrunner sensitivities:
-//    RoadRunner rr(OpenLinearFlux().str());
-//    CVODESIntegrator* sensitivities = rr.getSensitivitySolver();
-//    if (!sensitivities){
-//        std::cout << "SENSITIVITIES IS NULLPTR" << std::endl;
-//    }
-//    ASSERT_STREQ(sensitivitiestivities->getName().c_str(), "forward");
-//}
-//
-
-
-
-
-
-
-
+    Matrix<double> results = forwardSensitivitySolver.getSensitivityMatrix();
+    // this test doesn't care about accurate results since it only tests our
+    // ability to retrieve sensitivity data. For accurate results testing
+    // see the integrations tests.
+    std::cout << results << std::endl;
+}
 
 
 

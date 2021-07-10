@@ -24,10 +24,10 @@ namespace rr
         RK4Integrator::resetSettings();
         stateVectorSize = 0;
         k1 = k2 = k3 = k4 = y = ytmp = NULL;
-        RK4Integrator::setModel(m);
+        RK4Integrator::syncWithModel(m);
     }
 
-    void RK4Integrator::setModel(ExecutableModel* m)
+    void RK4Integrator::syncWithModel(ExecutableModel* m)
     {
         // free existing memory
         delete []k1;

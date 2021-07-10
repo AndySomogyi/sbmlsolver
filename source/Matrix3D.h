@@ -11,25 +11,73 @@ namespace rr {
 
     template<typename IndexType, typename DataType>
     class Matrix3D {
+        using Matrix3DInitializer = std::initializer_list<std::initializer_list<std::initializer_list<DataType>>>;
     public:
 
+        /**
+         * @brief default construct a 3D matrix
+         */
         Matrix3D() = default;
 
-        Matrix3D(std::initializer_list <IndexType> idx, std::initializer_list <std::initializer_list<DataType>> data)
-                :
-                index_(idx.begin(), idx.end()),
-                data_(data.begin(), data.end()) {}
+        /**
+         * @brief construct an empty 3D matrix with numRows x numCols x numZ dimensions.
+         */
+        Matrix3D(int numRows, int numCols, int numZ)
+                : index_(std::vector<IndexType>(numZ)),
+                  data_(std::vector<Matrix<DataType>>(numZ)) {
+            for (int i = 0; i < numZ; i++) {
+                data_[i].resize(numRows, numCols);
+            }
 
-        void insert(IndexType idx, Matrix<DataType> mat ){
+        }
+
+
+        Matrix3D(std::initializer_list<IndexType> idx, Matrix3DInitializer data)
+                : index_(idx.begin(), idx.end()), data_(data.begin(), data.end()) {
+            if (index_.size() != data.size()) {
+                throw std::logic_error("The size of index != size of 3D data in Matrix3D initializer list. ");
+            }
+        }
+
+        void insert(IndexType idx, Matrix<DataType> mat) {
+            // enforce unique indexes
+            if (std::find(index_.begin(), index_.end(), idx) != index_.end()) {
+                std::ostringstream err;
+                err << "requested insertion of element with index \"" << idx;
+                err << "\" into Matrix3D but an element with this index already exists." << std::endl;
+                throw std::invalid_argument(err.str());
+            }
             index_.push_back(idx);
             data_.push_back(mat);
         }
 
+        /**
+         * @brief get number of matrices in this 3D matrix
+         * @details if x is rows, y is columns, z is depth.
+         */
+        int numZ() {
+            return index_.size();
+        }
+
+        /**
+         * @brief Indexer to slice a Matrix3D and return a 2D matrix of type Matrix<DataType>.
+         */
+        Matrix<DataType> &operator[](IndexType idx) {
+            // first check if idx in index
+            if (std::find(index_.begin(), index_.end(), idx) == index_.end()) {
+                std::ostringstream err;
+                err << "Index \"" << idx << "\" has been requested but is not present in this Matrix3D.";
+                throw std::invalid_argument(err.str());
+            }
+            // get index of idx
+            int pos = std::distance(index_.begin(), std::find(index_.begin(), index_.end(), idx));
+            return data_[pos];
+        }
 
 
     public:
-        std::vector <IndexType> index_;
-        std::vector <DataType> data_;
+        std::vector<IndexType> index_;
+        std::vector<Matrix<DataType>> data_;
     };
 }
 

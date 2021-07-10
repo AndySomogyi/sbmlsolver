@@ -49,7 +49,7 @@ TEST_F(BasicNewtonIterationUnitTest, RegenerateTheModelAfterCreatingSolver) {
     rr->regenerateModel();
     // after regeneration, the pointer to the model is different
     // so we must sync with model before solving.
-    solver.setModel(rr->getModel());
+    solver.syncWithModel(rr->getModel());
     solver.solve();
     checkResults(rr->getFloatingSpeciesConcentrationsNamedArray());
 }

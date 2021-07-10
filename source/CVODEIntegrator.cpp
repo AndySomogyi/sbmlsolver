@@ -107,7 +107,7 @@ namespace rr {
 
     CVODEIntegrator::~CVODEIntegrator() {
         if (mCVODE_Memory && mModel) {
-            freeCVode();
+            freeSundialsMemory();
         }
     }
 
@@ -195,9 +195,9 @@ namespace rr {
     }
 
 
-    void CVODEIntegrator::setModel(ExecutableModel *m) {
+    void CVODEIntegrator::syncWithModel(ExecutableModel *m) {
         if (mCVODE_Memory) {
-            freeCVode();
+            freeSundialsMemory();
         }
 
         mModel = m;
@@ -625,7 +625,7 @@ namespace rr {
         if (key == "stiff") {
             // If the integrator is changed from stiff to standard, we must re-create CVode.
             rrLog(Logger::LOG_INFORMATION) << "Integrator stiffness has been changed. Re-creating CVode.";
-            freeCVode();
+            freeSundialsMemory();
             create();
         }
     }
@@ -1174,7 +1174,7 @@ namespace rr {
         return CV_SUCCESS;
     }
 
-    void CVODEIntegrator::freeCVode() {
+    void CVODEIntegrator::freeSundialsMemory() {
         // cvode does not check for null values.
         if (mStateVector) {
             N_VDestroy_Serial(mStateVector);

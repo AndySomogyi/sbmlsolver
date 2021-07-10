@@ -46,7 +46,7 @@ namespace rr
         * @brief Called whenever a new model is loaded to allow integrator
         * to reset internal state
         */
-        void setModel(ExecutableModel* m) override;
+        void syncWithModel(ExecutableModel* m) override;
 
         // ** Meta Info ********************************************************
 
