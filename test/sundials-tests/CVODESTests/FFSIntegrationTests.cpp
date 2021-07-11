@@ -30,7 +30,6 @@ public:
         ExecutableModel *model = r.getModel();
 
         SolverType solver(model);
-
         solver.setValue("stiff", false);
 
         // get handle on the *known true values.
@@ -40,43 +39,23 @@ public:
         auto settings = timeSeriesSensResult->timeSeriesSensitivityResultSettings();
 
         double start = settings["start"];
-        double duration = settings["duration"];
-        double steps = settings["steps"];
-        double stepSize = (duration - start) / (steps);
+        double stop = settings["duration"];
+        int    steps = settings["steps"];
 
-        Matrix3D<double, double> sensResults(expectedResults.numRows(), trueValues.numCols());
-        int numStates = model->getStateVector(nullptr);
-        double *stateVector = new double[numStates];
+        std::cout << "start: " << start << ": stop: " << stop << "; steps: "<< steps << std::endl;
 
-        // collect initial state
-        simulationResults(0, 0) = model->getTime();
-        model->getStateVector(stateVector);
-        for (int j = 1; j < numStates + 1; j++) {
-            simulationResults(0, j) = stateVector[j - 1];
-        }
+        Matrix3D<double, double> actualResults = solver.simulate(start, stop, steps);
 
-        double t = 0.0;
-        for (int i = 1; i < steps + 1; i++) {
-            t = solver.integrate(t, stepSize);
-            model->getStateVector(stateVector);
-            simulationResults(i, 0) = model->getTime();
-            for (int j = 1; j < numStates + 1; j++) {
-                simulationResults(i, j) = stateVector[j - 1];
-            }
-        }
-
-        bool passed = trueValues.almostEquals(simulationResults, 1e-4);
+        bool passed = expectedResults.almostEquals(actualResults, 1e-4);
 
         if (!passed) {
             std::cout << "Expected result: " << std::endl;
-            std::cout << trueValues << std::endl;
+            std::cout << expectedResults << std::endl;
             std::cout << "Actual result: " << std::endl;
-            std::cout << simulationResults << std::endl;
+            std::cout << actualResults << std::endl;
         }
 
         ASSERT_TRUE(passed);
-
-        delete[] stateVector;
     }
 };
 
@@ -103,21 +82,59 @@ TEST_F(FFSIntegrationTests, CheckTimeSeriesAccurateTestModel28) {
 
 TEST_F(FFSIntegrationTests, CheckTimeSeriesAccurateFactorialInRateLaw) {
     FactorialInRateLaw testModel;
-    std::cout << testModel.str() << std::endl;
     checkModelIntegrates<ForwardSensitivitySolver>(&testModel);
 }
+
+
+
+
+TEST_F(FFSIntegrationTests, CheckTimeSeriesSensAccurateTestSimpleFlux) {
+    SimpleFlux testModel;
+    checkTimeSeriesSensitivities<ForwardSensitivitySolver>(&testModel);
+}
+
+
+TEST_F(FFSIntegrationTests, CheckTimeSeriesSensAccurateTestModel269) {
+    Model269 testModel;
+    checkTimeSeriesSensitivities<ForwardSensitivitySolver>(&testModel);
+}
+
+TEST_F(FFSIntegrationTests, CheckTimeSeriesSensAccurateTestModel28) {
+    Model28 testModel;
+    checkTimeSeriesSensitivities<ForwardSensitivitySolver>(&testModel);
+}
+
+TEST_F(FFSIntegrationTests, CheckTimeSeriesSensAccurateFactorialInRateLaw) {
+    FactorialInRateLaw testModel;
+    checkTimeSeriesSensitivities<ForwardSensitivitySolver>(&testModel);
+}
+
+TEST_F(FFSIntegrationTests, CheckTimeSeriesSensAccurateOpenLinearFlux) {
+    OpenLinearFlux testModel;
+    checkTimeSeriesSensitivities<ForwardSensitivitySolver>(&testModel);
+}
+
 
 TEST_F(FFSIntegrationTests, getSensitivityMatrixWithFakeData) {
     RoadRunner r(OpenLinearFlux().str());
     ExecutableModel *model = r.getModel();
     ForwardSensitivitySolver forwardSensitivitySolver(model);
-    forwardSensitivitySolver.integrate(0, 1);
+//    forwardSensitivitySolver.integrate(0, 1);
+//
+//    Matrix<double> results = forwardSensitivitySolver.getSensitivityMatrix();
+//    // this test doesn't care about accurate results since it only tests our
+//    // ability to retrieve sensitivity data. For accurate results testing
+//    // see the integrations tests.
+//    std::cout << results << std::endl;
 
-    Matrix<double> results = forwardSensitivitySolver.getSensitivityMatrix();
-    // this test doesn't care about accurate results since it only tests our
-    // ability to retrieve sensitivity data. For accurate results testing
-    // see the integrations tests.
-    std::cout << results << std::endl;
+    double t = 0;
+    for (int i = 0; i < 10; i++) {
+        std::cout << "i: " << "t: " << t << std::endl;
+        t = forwardSensitivitySolver.integrate(t, 1);
+        auto mati = forwardSensitivitySolver.getSensitivityMatrix(0);
+//            results.insert(t,mati);
+        std::cout << mati << std::endl;
+    }
 }
 
 

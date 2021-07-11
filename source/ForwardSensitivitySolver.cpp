@@ -17,6 +17,7 @@
 #include "sunlinsol/sunlinsol_dense.h"
 #include <sundials/sundials_types.h>
 #include "Matrix.h"
+#include "Matrix3D.h"
 
 namespace rr {
 
@@ -513,8 +514,40 @@ namespace rr {
 
     void ForwardSensitivitySolver::setValue(const std::string &key, Setting val) {
         cvodeIntegrator->setValue(key, val);
+        if (key == "stiff" && (getValue("stiff") != val)) {
+            // If the integrator is changed from stiff to standard, we must re-create CVode.
+            rrLog(Logger::LOG_INFORMATION) << "Integrator stiffness has been changed. Re-creating CVode.";
+            freeSundialsMemory();
+            create();
+        }
     }
 
+    Matrix3D<double, double> ForwardSensitivitySolver::simulate(
+            double start, double stop, int num,
+            const std::vector<std::string> &params, int k) {
+        if (!params.empty()) {
+            whichParameters = params;
+            deducePlist();
+        }
+
+        int intervals = num - 1;
+        double stepSize = (stop - start) / intervals;
+
+        Matrix3D<double, double> results(Ns, numModelVariables, num);
+        std::cout << results.numRows() << "; " << results.numCols() << "; " << results.numZ() << std::endl;
+
+        // collect initial data
+        double t = start;
+        results.setKthMatrix(0, t, getSensitivityMatrix(k));
+
+        int numberOfPoints = 1;
+        while (numberOfPoints < num){
+            t = integrate(t, stepSize);
+            results.setKthMatrix(numberOfPoints, t, getSensitivityMatrix(k));
+            numberOfPoints++;
+        }
+        return results;
+    }
 
     SensitivitySolverFactory &SensitivitySolverFactory::getInstance() {
         return RegistrationFactory::getInstance<SensitivitySolverFactory>(sensitivitySolverMutex);

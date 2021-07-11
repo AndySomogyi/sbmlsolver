@@ -108,11 +108,10 @@ public:
 
         // grab integrator settings.
         auto settings = timeseriesTestModel->timeSeriesSettings();
-
         double start = settings["start"];
         double duration = settings["duration"];
         double steps = settings["steps"];
-        double stepSize = (duration - start) / (steps );
+        double stepSize = (duration - start) / steps ;
 
         Matrix<double> simulationResults(trueValues.numRows(), trueValues.numCols());
         int numStates = model->getStateVector(nullptr);

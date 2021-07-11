@@ -306,29 +306,7 @@ std::unordered_map<std::string, rr::Setting> SimpleFlux::timeSeriesSensitivityRe
 }
 
 rr::Matrix3D<double, double> SimpleFlux::timeSeriesSensitivityResult() {
-    return rr::Matrix3D<double, double>(
-            {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10},
-            {
-            // 0
-                    {
-                            {0, 0},
-                            {0, 0},
-                    },
-                    // 1
-//                    {
-//                            {}
-//                    }
-                    // 2
-                    // 3
-                    // 4
-                    // 5
-                    // 6
-                    // 7
-                    // 8
-                    // 9
-                    // 10
-            }
-    );
+    return rr::Matrix3D<double, double>();
 }
 
 std::string SimpleFluxManuallyReduced::str() {
@@ -516,6 +494,18 @@ std::unordered_map<std::string, rr::Setting> OpenLinearFlux::timeSeriesSettings(
     };
 }
 
+std::unordered_map<std::string, rr::Setting> OpenLinearFlux::timeSeriesSensitivityResultSettings() {
+    return std::unordered_map<std::string, rr::Setting>{
+            {"start",    0},
+            {"duration", 10},
+            {"steps",    10},
+    };
+}
+
+rr::Matrix3D<double, double> OpenLinearFlux::timeSeriesSensitivityResult() {
+    return rr::Matrix3D<double, double>();
+}
+
 std::string OpenLinearFlux::modelName() {
     return "OpenLinearFlux";
 }
@@ -689,6 +679,18 @@ std::unordered_map<std::string, rr::Setting> Model269::timeSeriesSettings() {
     };
 }
 
+std::unordered_map<std::string, rr::Setting> Model269::timeSeriesSensitivityResultSettings() {
+    return std::unordered_map<std::string, rr::Setting>{
+            {"start",    0},
+            {"duration", 10},
+            {"steps",    10},
+    };
+}
+
+rr::Matrix3D<double, double> Model269::timeSeriesSensitivityResult() {
+    return rr::Matrix3D<double, double>();
+}
+
 
 std::string Model28::str() {
     return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
@@ -786,6 +788,18 @@ std::unordered_map<std::string, rr::Setting> Model28::timeSeriesSettings() {
             {"duration", 10},
             {"steps",    10}
     };
+}
+
+std::unordered_map<std::string, rr::Setting> Model28::timeSeriesSensitivityResultSettings() {
+    return std::unordered_map<std::string, rr::Setting>{
+            {"start",    0},
+            {"duration", 10},
+            {"steps",    10},
+    };
+}
+
+rr::Matrix3D<double, double> Model28::timeSeriesSensitivityResult() {
+    return rr::Matrix3D<double, double>();
 }
 
 
@@ -937,6 +951,18 @@ std::unordered_map<std::string, rr::Setting> FactorialInRateLaw::timeSeriesSetti
             {"steps",    10}
     };
 }
+std::unordered_map<std::string, rr::Setting> FactorialInRateLaw::timeSeriesSensitivityResultSettings() {
+    return std::unordered_map<std::string, rr::Setting>{
+            {"start",    0},
+            {"duration", 2},
+            {"steps",    10},
+    };
+}
+
+rr::Matrix3D<double, double> FactorialInRateLaw::timeSeriesSensitivityResult() {
+    return rr::Matrix3D<double, double>();
+}
+
 
 
 std::string Venkatraman2010::str() {

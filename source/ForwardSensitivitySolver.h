@@ -12,6 +12,7 @@
 #include <vector>
 #include "LLVMExecutableModel.h"
 #include "Matrix.h"
+#include "Matrix3D.h"
 
 namespace rr {
 
@@ -48,7 +49,7 @@ namespace rr {
         /**
          * @brief free sundials memory associated with sensitivities
          */
-         void freeSundialsMemory();
+        void freeSundialsMemory();
 
         /**
         * @brief Get the name of this solver
@@ -114,7 +115,7 @@ namespace rr {
          * @brief retuns pointer to the state vector
          * used by sundials for storing sensitivity matrix.
          */
-        N_Vector* getSensitivityNVectorPtr();
+        N_Vector *getSensitivityNVectorPtr();
 
         /**
          * @brief get current values of sensitivities of model variables
@@ -123,9 +124,25 @@ namespace rr {
          */
         Matrix<double> getSensitivityMatrix(int k = 0);
 
+        /**
+         * @brief simulate a timeseries with sensitivities from start to step with num
+         * data points.
+         * @details Matrix3D indexed by time. Each element of the 3D matrix is a
+         * Matrix<double> with rows and columns parameters and model variables respectively.
+         * The parameter k determines the kth order derivative of the sensitivity information
+         * that will be returned
+         * @param start starting time for time series simulation
+         * @param stop last time point for time series simulation
+         * @param num number of data points to simulate. Determines Z of Matrix3D.
+         * @param params vector of parameters that you want sensitivity for. When empty (default), compute
+         * sensitivities for all parameters vs all variables.
+         * @param k (default 0) return the kth other derivative of the sensitivity data.
+         */
+        Matrix3D<double, double> simulate(double start, double stop, int num,
+                const std::vector<std::string>& params = std::vector<std::string>(),
+                int k = 0);
 
-
-        void setValue(const std::string& key, Setting val);
+        void setValue(const std::string &key, Setting val);
 
         /**
          * @brief parameters in the model as a member variable
@@ -175,7 +192,7 @@ namespace rr {
          * @brief the number of state variables in the model
          * @details aka the size of the mStateVector
          */
-         int numModelVariables = 0;
+        int numModelVariables = 0;
 
     private:
 

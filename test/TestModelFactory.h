@@ -437,7 +437,8 @@ class OpenLinearFlux :
         public TestModel,
         public SteadyStateResult,
         public TimeSeriesResult,
-        public JacobianResult {
+        public JacobianResult,
+        public TimeSeriesSensitivityResult{
 public:
     std::string str() override;
 
@@ -461,12 +462,16 @@ public:
 
     std::unordered_map<std::string, rr::Setting> jacobianSettings() override;
 
+    std::unordered_map<std::string, rr::Setting> timeSeriesSensitivityResultSettings() override;
+
+    rr::Matrix3D<double, double> timeSeriesSensitivityResult() override;
+
 };
 
 /**
  * model 269 from the sbml test suite
  */
-class Model269 : public TestModel, public TimeSeriesResult {
+class Model269 : public TestModel, public TimeSeriesResult , public TimeSeriesSensitivityResult{
 public:
 
     std::string str() override;
@@ -477,12 +482,15 @@ public:
 
     std::unordered_map<std::string, rr::Setting> timeSeriesSettings() override;
 
+    std::unordered_map<std::string, rr::Setting> timeSeriesSensitivityResultSettings() override;
+
+    rr::Matrix3D<double, double> timeSeriesSensitivityResult() override;
 };
 
 /**
  * model 28 from the sbml test suite
  */
-class Model28 : public TestModel, public TimeSeriesResult {
+class Model28 : public TestModel, public TimeSeriesResult, public TimeSeriesSensitivityResult {
 public:
 
     std::string str() override;
@@ -493,6 +501,9 @@ public:
 
     std::unordered_map<std::string, rr::Setting> timeSeriesSettings() override;
 
+    rr::Matrix3D<double, double> timeSeriesSensitivityResult() override;
+
+    std::unordered_map<std::string, rr::Setting> timeSeriesSensitivityResultSettings() override;
 };
 
 
@@ -515,7 +526,7 @@ public:
 /**
  * A model that uses "Factorial" in the rate law
  */
-class FactorialInRateLaw : public TestModel, public TimeSeriesResult {
+class FactorialInRateLaw : public TestModel, public TimeSeriesResult, public TimeSeriesSensitivityResult {
 public:
 
     std::string str() override;
@@ -525,6 +536,10 @@ public:
     rr::Matrix<double> timeSeriesResult() override;
 
     std::unordered_map<std::string, rr::Setting> timeSeriesSettings() override;
+
+    rr::Matrix3D<double, double> timeSeriesSensitivityResult() override;
+
+    std::unordered_map<std::string, rr::Setting> timeSeriesSensitivityResultSettings() override;
 
 };
 

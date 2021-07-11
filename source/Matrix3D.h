@@ -38,12 +38,12 @@ namespace rr {
         }
 
         void insert(IndexType idx, Matrix<DataType> mat) {
-            // enforce unique indexes
-            if (std::find(index_.begin(), index_.end(), idx) != index_.end()) {
-                std::ostringstream err;
-                err << "requested insertion of element with index \"" << idx;
-                err << "\" into Matrix3D but an element with this index already exists." << std::endl;
-                throw std::invalid_argument(err.str());
+            // enforce unique indexes by override existing idx
+            auto it = std::find(index_.begin(), index_.end(), idx);
+            if (it != index_.end()) {
+                auto pos = std::distance(index_.begin(), it);
+                data_[pos] = mat;
+                return;
             }
             if (!index_.empty()) {
                 // All sizes are compared to index 0, so when initializing
@@ -66,10 +66,35 @@ namespace rr {
             data_.push_back(mat);
         }
 
+        void pushBack(IndexType idx, Matrix<DataType> mat) {
+            if (numRows() != mat.numRows() || numCols() != mat.numCols()) {
+                std::ostringstream err;
+                err << "Number of rows and columns in mat are invalid for this Matrix3D (";
+                err << numRows() << ", " << numCols() << ")" << std::endl;
+                throw std::invalid_argument(err.str());
+            }
+            index_.push_back(idx);
+            data_.push_back(mat);
+
+        }
+
         /**
-         * @brief Indexer to slice a Matrix3D and return a 2D matrix of type Matrix<DataType>.
+         * @brief Indexer to slice a Matrix3D and index value and data at idx
          */
-        Matrix<DataType> &operator[](IndexType idx) {
+        Matrix<DataType>& operator[](int idx) {
+            if (idx > numZ()) {
+                std::ostringstream err;
+                err << "requested idx " << idx << " from a Matrix3D with " << numZ() << " elements";
+                throw std::invalid_argument(err.str());
+            }
+            return data_[idx];
+        }
+
+        /**
+         * @brief slicing operator, given the value of idx
+         * return the corresponding Matrix<DataType>
+         */
+        Matrix<DataType> &getItem(IndexType idx) {
             // first check if idx in index
             if (std::find(index_.begin(), index_.end(), idx) == index_.end()) {
                 std::ostringstream err;
@@ -81,11 +106,25 @@ namespace rr {
             return data_[pos];
         }
 
+        void setKthMatrix(int k, IndexType idx, Matrix<DataType> data){
+            if (k > numZ()){
+                throw std::invalid_argument("k is too big");
+            }
+            if (numRows() != data.numRows() || numCols() != data.numCols()){
+                throw std::invalid_argument("wrong dimensions");
+            }
+            index_[k] = idx;
+            data_[k] = data;
+
+        }
+
         /**
          * @brief get number of rows in this 3D matrix
          * @details x is rows, y is columns, z is depth.
          */
         int numRows() {
+            if (data_.empty())
+                return 0;
             return data_[0].numRows();
         }
 
@@ -94,6 +133,8 @@ namespace rr {
          * @details if x is rows, y is columns, z is depth.
          */
         int numCols() {
+            if (data_.empty())
+                return 0;
             return data_[0].numCols();
         }
 
@@ -102,14 +143,78 @@ namespace rr {
          * @details if x is rows, y is columns, z is depth.
          */
         int numZ() {
+            if (index_.empty())
+                return 0;
+            assert(index_.size() == data_.size() && "index and data sizes are different");
             return index_.size();
         }
 
+        /**
+         * @brief equality operator
+         */
+        bool operator==(Matrix3D<IndexType, DataType> &other) {
+            if (numRows() != other.numRows() || numCols() != other.numCols() || numZ() != other.numZ()) {
+                return false;
+            }
+            bool equal = true;
+            for (int i = 0; i < numZ(); i++) {
+                if (index_[i] != other.index_[i]) {
+                    equal = false;
+                    break;
+                }
+                if (data_[i] != other.data_[i]) {
+                    equal = false;
+                    break;
+                }
+            }
+            return equal;
+        }
+
+        /**
+         * @brief inequality operator
+         */
+        bool operator!=(Matrix3D<IndexType, DataType> &other) {
+            return !(*this == other);
+        }
+
+        /**
+         * @brief equality operator for double IndexType and DataType types only
+         */
+        bool almostEquals(Matrix3D<double, double> &other, double tol) {
+            if (numRows() != other.numRows() || numCols() != other.numCols() || numZ() != other.numZ()) {
+                return false;
+            }
+            bool equal = true;
+            for (int i = 0; i < numZ(); i++) {
+                if ((index_[i] - other.index_[i]) > tol) {
+                    equal = false;
+                    break;
+                }
+                if (!data_[i].almostEquals(other.data_[i], tol)) {
+                    equal = false;
+                    break;
+                }
+            }
+            return equal;
+        }
+
+        template<typename IndexType_, typename DataType_>
+        friend std::ostream &operator<<(std::ostream &os, Matrix3D<IndexType_, DataType_> &matrix3D);
 
     private:
         std::vector<IndexType> index_;
         std::vector<Matrix<DataType>> data_;
     };
+
+    template<typename IndexType_, typename DataType_>
+    std::ostream &operator<<(std::ostream &os, Matrix3D<IndexType_, DataType_> &matrix3D) {
+        for (int i = 0; i < matrix3D.numZ() ; i++) {
+            os << matrix3D.index_[i] << std::endl;
+            os << matrix3D[i] << std::endl;
+        }
+        return os;
+    }
+
 }
 
 #endif //ROADRUNNER_MATRIX3D_H

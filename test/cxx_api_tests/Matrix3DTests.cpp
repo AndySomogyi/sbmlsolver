@@ -29,7 +29,7 @@ TEST_F(Matrix3DTests, CheckSlice) {
                     }
             }
     );
-    Matrix<double> actual =  matrix3D[0.0];
+    Matrix<double> actual =  matrix3D.getItem(0.0);
     Matrix<double> expected({
                                     {0.0, 1.0},
                                     {0.0, 1.0}
@@ -131,6 +131,195 @@ TEST_F(Matrix3DTests, InsertEmptyCheckNumZ) {
     ASSERT_EQ(1, m.numZ());
 }
 
+TEST_F(Matrix3DTests, EqualsWhenTrue) {
+    Matrix3D<int, int> first(
+            {0, 1},
+            {
+                    // 0
+                    {
+                            {0, 1},
+                            {0, 1},
+                            {0, 1}
+                    },
+                    // 1
+                    {
+                            {0, 2},
+                            {0, 2},
+                            {0, 2}
+                    }
+            }
+    );
+    Matrix3D<int, int> second(
+            {0, 1},
+            {
+                    // 0
+                    {
+                            {0, 1},
+                            {0, 1},
+                            {0, 1}
+                    },
+                    // 1
+                    {
+                            {0, 2},
+                            {0, 2},
+                            {0, 2}
+                    }
+            }
+    );
+    ASSERT_TRUE(first == second);
+}
+
+TEST_F(Matrix3DTests, EqualsWhenFalseBecauseOfDifferentIdx) {
+    Matrix3D<int, int> first(
+            {0, 3},
+            {
+                    // 0
+                    {
+                            {0, 1},
+                            {0, 1},
+                            {0, 1}
+                    },
+                    // 1
+                    {
+                            {0, 2},
+                            {0, 2},
+                            {0, 2}
+                    }
+            }
+    );
+    Matrix3D<int, int> second(
+            {0, 1},
+            {
+                    // 0
+                    {
+                            {0, 1},
+                            {0, 1},
+                            {0, 1}
+                    },
+                    // 1
+                    {
+                            {0, 2},
+                            {0, 2},
+                            {0, 2}
+                    }
+            }
+    );
+    ASSERT_FALSE(first == second);
+}
+
+TEST_F(Matrix3DTests, EqualsWhenFalseBecauseOfDifferentData) {
+    Matrix3D<int, int> first(
+            {0, 3},
+            {
+                    // 0
+                    {
+                            {0, 4},
+                            {0, 1},
+                            {0, 1}
+                    },
+                    // 1
+                    {
+                            {0, 2},
+                            {0, 2},
+                            {0, 2}
+                    }
+            }
+    );
+    Matrix3D<int, int> second(
+            {0, 1},
+            {
+                    // 0
+                    {
+                            {0, 1},
+                            {0, 1},
+                            {0, 1}
+                    },
+                    // 1
+                    {
+                            {0, 2},
+                            {0, 2},
+                            {0, 2}
+                    }
+            }
+    );
+    ASSERT_FALSE(first == second);
+}
+
+TEST_F(Matrix3DTests, AlmostEqualsWhenTrue) {
+    Matrix3D<double, double> first(
+            {0, 1},
+            {
+                    // 0
+                    {
+                            {0.2, 4.2},
+                            {0.2, 1.2},
+                            {0.2, 1.2}
+                    },
+                    // 1
+                    {
+                            {0.2, 2.2},
+                            {0.2, 2.2},
+                            {0.2, 2.2}
+                    }
+            }
+    );
+    Matrix3D<double, double> second(
+            {0, 1},
+            {
+                    // 0
+                    {
+                            {0.2, 4.2},
+                            {0.2, 1.2},
+                            {0.2, 1.2}
+                    },
+                    // 1
+                    {
+                            {0.2, 2.2},
+                            {0.2, 2.2},
+                            {0.2, 2.2}
+                    }
+            }
+    );
+    ASSERT_TRUE(first.almostEquals( second, 1e-4));
+}
+
+TEST_F(Matrix3DTests, AlmostEqualsWhenFalse) {
+    Matrix3D<double, double> first(
+            {0.2, 3.6},
+            {
+                    // 0
+                    {
+                            {0.2, 4.2},
+                            {0.2, 1.2},
+                            {0.2, 1.2}
+                    },
+                    // 1
+                    {
+                            {0.2, 2.2},
+                            {0.2, 2.2},
+                            {0.2, 2.2}
+                    }
+            }
+    );
+    Matrix3D<double, double> second(
+            {0.2, 1.2},
+            {
+                    // 0
+                    {
+                            {0.2, 1.2},
+                            {0.2, 1.2},
+                            {0.2, 1.2}
+                    },
+                    // 1
+                    {
+                            {0.2, 2.2},
+                            {0.2, 2.2},
+                            {0.2, 2.2}
+                    }
+            }
+    );
+    ASSERT_FALSE(first.almostEquals( second, 1e-4));
+}
 
 
 
