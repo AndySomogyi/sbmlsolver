@@ -24,10 +24,11 @@
 #include <limits>
 #include <cassert>
 #include <Poco/Logger.h>
-
 #include <iostream>
 
 #define CVODE_INT_TYPECODE 0x7799ff00
+
+//
 
 namespace rr {
     const int CVODEIntegrator::mDefaultMaxNumSteps = 20000;
@@ -409,7 +410,7 @@ namespace rr {
                     } else {
                         // compare the concentration tolerance with the adjusted amount tolerace
                         // store whichever is smaller
-                        v.push_back(std::min(abstol, abstol * volumes[index]));
+                        v.push_back((std::min)(abstol, abstol * volumes[index]));
                     }
                 }
 
@@ -426,7 +427,7 @@ namespace rr {
                         } else {
                             // compare the concentration tolerance with the adjusted amount tolerace
                             // store whichever is smaller
-                            v.push_back(std::min(abstol, abstol * volumes[index]));
+                            v.push_back((std::min)(abstol, abstol * volumes[index]));
                         }
                     } else {
                         // not a species, no need to multiply compartment volume
@@ -455,10 +456,9 @@ namespace rr {
                     if (volumes[index] > 0) {
                         // compare the concentration tolerance with the adjusted amount tolerace
                         // store whichever is smaller
-                        v[i] = std::min(v[i], v[i] * volumes[index]);
+                        v[i] = (std::min)(v[i], v[i] * volumes[index]);
                     }
                 }
-
 
                 std::vector<std::string> symbols = mModel->getRateRuleSymbols();
                 for (int i = mModel->getNumIndFloatingSpecies();
@@ -471,7 +471,7 @@ namespace rr {
                         if (volumes[index] > 0) {
                             // compare the concentration tolerance with the adjusted amount tolerace
                             // store whichever is smaller
-                            v[i] = std::min(v[i], v[i] * volumes[index]);
+                            v[i] = (std::min)(v[i], v[i] * volumes[index]);
                         }
                     }
                 }
@@ -820,7 +820,7 @@ namespace rr {
             case Setting::DOUBLE:
                 // scalar tolerance
                 CVODEIntegrator::setValue("absolute_tolerance",
-                                          Setting(std::min((double) CVODEIntegrator::getValue("absolute_tolerance"),
+                                          Setting((std::min)((double) CVODEIntegrator::getValue("absolute_tolerance"),
                                                            minAbs)));
                 break;
 
@@ -829,7 +829,7 @@ namespace rr {
                 // std::vector tolerance
                 std::vector<double> v = CVODEIntegrator::getValue("absolute_tolerance");
                 for (int i = 0; i < v.size(); i++)
-                    v[i] = std::min(v[i], minAbs);
+                    v[i] = (std::min)(v[i], minAbs);
                 CVODEIntegrator::setValue("absolute_tolerance", Setting(v));
 
                 break;
@@ -840,7 +840,7 @@ namespace rr {
         }
 
         CVODEIntegrator::setValue("relative_tolerance",
-                                  Setting(std::min((double) CVODEIntegrator::getValue("relative_tolerance"), minRel)));
+                                  Setting((std::min)((double) CVODEIntegrator::getValue("relative_tolerance"), minRel)));
 
         rrLog(Logger::LOG_INFORMATION) << "tweaking CVODE tolerances to abs="
                                        << (double) CVODEIntegrator::getValue("absolute_tolerance") << ", rel="

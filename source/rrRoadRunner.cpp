@@ -35,7 +35,7 @@
 
 
 #ifdef _MSC_VER
-                                                                                                                        #pragma warning(disable: 4146)
+#pragma warning(disable: 4146)
 #pragma warning(disable: 4141)
 #pragma warning(disable: 4267)
 #pragma warning(disable: 4624)
@@ -49,7 +49,7 @@
 #include "PresimulationProgramDecorator.h"
 
 #ifdef _MSC_VER
-                                                                                                                        #pragma warning(default: 4146)
+#pragma warning(default: 4146)
 #pragma warning(default: 4141)
 #pragma warning(default: 4267)
 #pragma warning(default: 4624)
@@ -1830,6 +1830,14 @@ namespace rr {
         // i.e. see https://numpy.org/doc/stable/reference/generated/numpy.linspace.html
         opt.steps = num - 1;
         return simulate(&opt);
+    }
+
+    Matrix3D<double, double> RoadRunner::timeSeriesSensitivities(
+            double start, double stop, int num,
+            const std::vector<std::string> &params,
+            int k) {
+        auto tsSensSolver = dynamic_cast<TimeSeriesSensitivitySolver *>(getSensitivitySolver());
+        return tsSensSolver->simulate(start, stop, num, params, k);
     }
 
     double RoadRunner::oneStep(const double currentTime, const double stepSize, const bool reset) {

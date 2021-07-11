@@ -37,6 +37,8 @@ namespace rr {
     class SteadyStateSolver;
     class SensitivityResult;
     class SensitivitySolver;
+    template <class IndexType, class DataType>
+    class Matrix3D;
 
 /**
  * The main RoadRunner class.
@@ -292,6 +294,23 @@ namespace rr {
          */
         const ls::DoubleMatrix *simulate(double start, double stop, int num);
 
+        /**
+         * @brief simulate a timeseries with sensitivities from start to step with num
+         * data points.
+         * @details Matrix3D indexed by time. Each element of the 3D matrix is a
+         * Matrix<double> with rows and columns parameters and model variables respectively.
+         * The parameter k determines the kth order derivative of the sensitivity information
+         * that will be returned
+         * @param start starting time for time series simulation
+         * @param stop last time point for time series simulation
+         * @param num number of data points to simulate. Determines Z of Matrix3D.
+         * @param params vector of parameters that you want sensitivity for. When empty (default), compute
+         * sensitivities for all parameters vs all variables.
+         * @param k (default 0) return the kth other derivative of the sensitivity data.
+         */
+        Matrix3D<double, double> timeSeriesSensitivities(double start, double stop, int num,
+                const std::vector<std::string>& params = std::vector<std::string>(),
+                int k = 0);
         /*
         *  Saves this roadrunner instance to a file so it can be reloaded later
         * If opt == 'b' (the default value), this function will output a platform-specific

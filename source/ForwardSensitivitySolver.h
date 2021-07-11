@@ -35,11 +35,10 @@ namespace rr {
 
         ForwardSensitivitySolver(ExecutableModel *executableModel);
 
-        ForwardSensitivitySolver(ExecutableModel *executableModel, const std::vector<std::string> &whichParameters);
+        ForwardSensitivitySolver(ExecutableModel *executableModel, std::vector<std::string> whichParameters);
 
         double integrate(double tStart, double hstep) override;
 
-//        Matrix<double> getSensitivities() override;
 
         /**
          * @brief instantiate the code necessary to use cvodes
@@ -86,6 +85,14 @@ namespace rr {
          * extracted from the model
          */
         std::vector<std::string> getGlobalParameterNames();
+
+        /**
+         * @brief get a vector of variable names in the order that
+         * they appear in the model.
+         * @details variables refers to each equation in the model
+         * and are obtained with ExecutableModel::getStateVectorId.
+         */
+        std::vector<std::string> getVariableNames();
 
         /**
          * @brief get global parameters as an unordered map, strings as

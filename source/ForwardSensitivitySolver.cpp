@@ -16,6 +16,8 @@
 #include "sunmatrix/sunmatrix_dense.h"
 #include "sunlinsol/sunlinsol_dense.h"
 #include <sundials/sundials_types.h>
+
+#include <utility>
 #include "Matrix.h"
 #include "Matrix3D.h"
 
@@ -39,10 +41,6 @@ namespace rr {
         model->setGlobalParameterValues(inst->Np, inst->plist.data(), inst->p.data());
 
         model->getStateVectorRate(time, y, ydot);
-
-        !inst->stateVectorVariables;
-        inst->getStateVector();
-
 
         if (!inst->stateVectorVariables &&
             inst->getStateVector() &&
@@ -125,8 +123,8 @@ namespace rr {
     }
 
     ForwardSensitivitySolver::ForwardSensitivitySolver(ExecutableModel *executableModel,
-                                                       const std::vector<std::string> &whichParameters)
-            : TimeSeriesSensitivitySolver(executableModel), whichParameters(whichParameters) {
+                                                       std::vector<std::string> whichParameters)
+            : TimeSeriesSensitivitySolver(executableModel), whichParameters(std::move(whichParameters)) {
         constructorOperations();
     }
 
@@ -318,7 +316,7 @@ namespace rr {
             FFSHandleError(err);
         }
 
-        bool dq_method;
+        int dq_method;
         if (getValue("DQ_method") == "forward") {
             dq_method = CV_FORWARD;
         } else if (getValue("DQ_method") == "centered") {
@@ -375,12 +373,21 @@ namespace rr {
         if (executableModel) {
             mModel = executableModel;
 
+            // if we have no cvodeIntegrate, we call constructorOperations to
+            // create one/
             if (!cvodeIntegrator) {
                 constructorOperations();
             }
-            if (cvodeIntegrator) {
-                cvodeIntegrator->syncWithModel(executableModel);
-            }
+
+            cvodeIntegrator->syncWithModel(executableModel);
+
+            // requirement for calling this again is a code smell.
+            // The issue is that we need FFS to work both when using
+            // the constructor and when you have no model followed
+            // by a call to syncWithModel.
+            // This added complexity is a little akward but we get around
+            // the issue by calling constructorOperations again here.
+            constructorOperations();
         }
     }
 
@@ -437,6 +444,15 @@ namespace rr {
         std::vector<std::string> out;
         for (int i = 0; i < Np; i++) {
             std::string name = mModel->getGlobalParameterId(i);
+            out.push_back(name);
+        }
+        return out;
+    }
+
+    std::vector<std::string> ForwardSensitivitySolver::getVariableNames() {
+        std::vector<std::string> out;
+        for (int i = 0; i < numModelVariables; i++) {
+            std::string name = mModel->getStateVectorId(i);
             out.push_back(name);
         }
         return out;
@@ -541,11 +557,15 @@ namespace rr {
         results.setKthMatrix(0, t, getSensitivityMatrix(k));
 
         int numberOfPoints = 1;
-        while (numberOfPoints < num){
+        for (int i=1; i<num; i++) {
             t = integrate(t, stepSize);
             results.setKthMatrix(numberOfPoints, t, getSensitivityMatrix(k));
             numberOfPoints++;
         }
+
+        results.setRowNames(getGlobalParameterNames());
+        results.setColNames(getVariableNames());
+
         return results;
     }
 

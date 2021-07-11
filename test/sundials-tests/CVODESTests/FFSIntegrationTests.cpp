@@ -114,27 +114,9 @@ TEST_F(FFSIntegrationTests, CheckTimeSeriesSensAccurateOpenLinearFlux) {
     checkTimeSeriesSensitivities<ForwardSensitivitySolver>(&testModel);
 }
 
-
-TEST_F(FFSIntegrationTests, getSensitivityMatrixWithFakeData) {
-    RoadRunner r(OpenLinearFlux().str());
-    ExecutableModel *model = r.getModel();
-    ForwardSensitivitySolver forwardSensitivitySolver(model);
-//    forwardSensitivitySolver.integrate(0, 1);
-//
-//    Matrix<double> results = forwardSensitivitySolver.getSensitivityMatrix();
-//    // this test doesn't care about accurate results since it only tests our
-//    // ability to retrieve sensitivity data. For accurate results testing
-//    // see the integrations tests.
-//    std::cout << results << std::endl;
-
-    double t = 0;
-    for (int i = 0; i < 10; i++) {
-        std::cout << "i: " << "t: " << t << std::endl;
-        t = forwardSensitivitySolver.integrate(t, 1);
-        auto mati = forwardSensitivitySolver.getSensitivityMatrix(0);
-//            results.insert(t,mati);
-        std::cout << mati << std::endl;
-    }
+TEST_F(FFSIntegrationTests, CheckRoadRunnerInterfaceWorks) {
+    RoadRunner rr(SimpleFlux().str());
+    std::cout << rr.timeSeriesSensitivities(0, 10, 11) << std::endl;
 }
 
 

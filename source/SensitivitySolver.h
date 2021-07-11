@@ -6,7 +6,8 @@
 #define ROADRUNNER_SENSITIVITYSOLVER_H
 
 #include "Solver.h"
-//#include "Matrix.h"
+#include "Matrix.h"
+#include "Matrix3D.h"
 
 namespace rr {
 
@@ -20,9 +21,11 @@ namespace rr {
         virtual ~SensitivitySolver() = default;
 
         /**
-         * @brief Get the current values of sensitivities
+         * @brief get current values of sensitivities of model variables
+         * to parameters.
+         * @param kth derivative of the sensitivities.
          */
-//        virtual Matrix<double> getSensitivities() = 0;
+        virtual Matrix<double> getSensitivityMatrix(int k = 0) = 0;
 
     };
 
@@ -34,6 +37,7 @@ namespace rr {
     class TimeSeriesSensitivitySolver : public SensitivitySolver {
     public:
         using SensitivitySolver::SensitivitySolver;
+
         virtual ~TimeSeriesSensitivitySolver() = default;
 
         /**
@@ -45,6 +49,25 @@ namespace rr {
          */
         virtual double integrate(double t0, double hstep) = 0;
 
+        /**
+         * @brief simulate a timeseries with sensitivities from start to step with num
+         * data points.
+         * @details Matrix3D indexed by time. Each element of the 3D matrix is a
+         * Matrix<double> with rows and columns parameters and model variables respectively.
+         * The parameter k determines the kth order derivative of the sensitivity information
+         * that will be returned
+         * @param start starting time for time series simulation
+         * @param stop last time point for time series simulation
+         * @param num number of data points to simulate. Determines Z of Matrix3D.
+         * @param params vector of parameters that you want sensitivity for. When empty (default), compute
+         * sensitivities for all parameters vs all variables.
+         * @param k (default 0) return the kth other derivative of the sensitivity data.
+         */
+         virtual Matrix3D<double, double> simulate(
+                double start, double stop, int num,
+                const std::vector<std::string> &params = std::vector<std::string>(),
+                int k = 0) = 0;
+
     };
 
     /**
@@ -54,6 +77,7 @@ namespace rr {
     class SteadyStateSensitivitySolver : public SensitivitySolver {
     public:
         using SensitivitySolver::SensitivitySolver;
+
         virtual ~SteadyStateSensitivitySolver() = default;
 
         /**

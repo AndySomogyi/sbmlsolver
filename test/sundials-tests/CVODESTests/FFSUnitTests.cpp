@@ -26,6 +26,13 @@ TEST_F(FFSUnitTests, getGlobalParameterNames) {
     ASSERT_EQ(expected, names);
 }
 
+TEST_F(FFSUnitTests, getVariableNames) {
+    ForwardSensitivitySolver forwardSensitivitySolver(model);
+    auto names = forwardSensitivitySolver.getVariableNames();
+    std::vector<std::string> expected({"S1", "S2"});
+    ASSERT_EQ(expected, names);
+}
+
 TEST_F(FFSUnitTests, CheckValueOfNp) {
     ForwardSensitivitySolver forwardSensitivitySolver(model);
     ASSERT_EQ(2, forwardSensitivitySolver.Np);

@@ -24,7 +24,9 @@ namespace rr {
          */
         Matrix3D(int numRows, int numCols, int numZ)
                 : index_(std::vector<IndexType>(numZ)),
-                  data_(std::vector<Matrix<DataType>>(numZ)) {
+                  data_(std::vector<Matrix < DataType>>
+
+        (numZ)) {
             for (int i = 0; i < numZ; i++) {
                 data_[i].resize(numRows, numCols);
             }
@@ -37,7 +39,7 @@ namespace rr {
             }
         }
 
-        void insert(IndexType idx, Matrix<DataType> mat) {
+        void insert(IndexType idx, Matrix <DataType> mat) {
             // enforce unique indexes by override existing idx
             auto it = std::find(index_.begin(), index_.end(), idx);
             if (it != index_.end()) {
@@ -66,7 +68,7 @@ namespace rr {
             data_.push_back(mat);
         }
 
-        void pushBack(IndexType idx, Matrix<DataType> mat) {
+        void pushBack(IndexType idx, Matrix <DataType> mat) {
             if (numRows() != mat.numRows() || numCols() != mat.numCols()) {
                 std::ostringstream err;
                 err << "Number of rows and columns in mat are invalid for this Matrix3D (";
@@ -81,7 +83,7 @@ namespace rr {
         /**
          * @brief Indexer to slice a Matrix3D and index value and data at idx
          */
-        Matrix<DataType>& operator[](int idx) {
+        Matrix <DataType> &operator[](int idx) {
             if (idx > numZ()) {
                 std::ostringstream err;
                 err << "requested idx " << idx << " from a Matrix3D with " << numZ() << " elements";
@@ -94,7 +96,7 @@ namespace rr {
          * @brief slicing operator, given the value of idx
          * return the corresponding Matrix<DataType>
          */
-        Matrix<DataType> &getItem(IndexType idx) {
+        Matrix <DataType> &getItem(IndexType idx) {
             // first check if idx in index
             if (std::find(index_.begin(), index_.end(), idx) == index_.end()) {
                 std::ostringstream err;
@@ -106,11 +108,11 @@ namespace rr {
             return data_[pos];
         }
 
-        void setKthMatrix(int k, IndexType idx, Matrix<DataType> data){
-            if (k > numZ()){
+        void setKthMatrix(int k, IndexType idx, Matrix <DataType> data) {
+            if (k > numZ()) {
                 throw std::invalid_argument("k is too big");
             }
-            if (numRows() != data.numRows() || numCols() != data.numCols()){
+            if (numRows() != data.numRows() || numCols() != data.numCols()) {
                 throw std::invalid_argument("wrong dimensions");
             }
             index_[k] = idx;
@@ -145,8 +147,26 @@ namespace rr {
         int numZ() {
             if (index_.empty())
                 return 0;
-            assert(index_.size() == data_.size() && "index and data sizes are different");
             return index_.size();
+        }
+
+        /**
+         * @brief set row names for each of the z matrices
+         */
+        void setRowNames(const std::vector<std::string> &rowNames) {
+            for (int i = 0; i < numZ(); i++) {
+                data_[i].setRowNames(rowNames);
+            }
+        }
+
+        /**
+         * @brief set col names for each of the z matrices
+         */
+        void setColNames(const std::vector<std::string> &colNames) {
+            for (int i = 0; i < numZ(); i++) {
+                data_[i].setColNames(colNames);
+            }
+
         }
 
         /**
@@ -203,13 +223,13 @@ namespace rr {
 
     private:
         std::vector<IndexType> index_;
-        std::vector<Matrix<DataType>> data_;
+        std::vector<Matrix < DataType>> data_;
     };
 
     template<typename IndexType_, typename DataType_>
     std::ostream &operator<<(std::ostream &os, Matrix3D<IndexType_, DataType_> &matrix3D) {
-        for (int i = 0; i < matrix3D.numZ() ; i++) {
-            os << matrix3D.index_[i] << std::endl;
+        for (int i = 0; i < matrix3D.numZ(); i++) {
+            os << "\t\t" << matrix3D.index_[i] << std::endl;
             os << matrix3D[i] << std::endl;
         }
         return os;
