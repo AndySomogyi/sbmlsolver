@@ -84,29 +84,29 @@ TEST_F(BasicNewtonIterationTests, CheckNewtonIterationIsARegisteredSolver) {
  * values are S1=0, S2=0. To solve this problem we use presimulation.
  */
 TEST_F(BasicNewtonIterationTests, CheckCorrectSteadyStateOpenLinearFlux) {
-    testSteadyState<OpenLinearFlux>(
+    testSteadyState(
             "OpenLinearFlux",
             "newton"
     );
 }
 
 TEST_F(BasicNewtonIterationTests, CheckCorrectSteadyStateSimpleFluxManuallyReduced) {
-    testSteadyState<SimpleFluxManuallyReduced>(
+    testSteadyState(
             "SimpleFluxManuallyReduced",
             "newton");
 }
 
 TEST_F(BasicNewtonIterationTests, CheckCorrectSteadyStateSimpleFlux) {
-    testSteadyState<SimpleFlux>("SimpleFlux", "newton");
+    testSteadyState("SimpleFlux", "newton");
 }
 
 TEST_F(BasicNewtonIterationTests, CheckCorrectSteadyStateVenkatraman2010) {
-    testSteadyState<Venkatraman2010>("Venkatraman2010", "newton");
+    testSteadyState("Venkatraman2010", "newton");
 }
 
 /**
  *
  */
 TEST_F(BasicNewtonIterationTests, CheckCorrectSteadyStateBrown2004) {
-    testSteadyState<Brown2004>("Brown2004", "newton");
+    testSteadyState("Brown2004", "newton");
 }

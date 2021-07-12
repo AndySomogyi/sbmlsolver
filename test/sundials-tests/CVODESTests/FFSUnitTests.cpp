@@ -116,6 +116,14 @@ TEST_F(FFSUnitTests, SettingsNonLinearSolver) {
     ASSERT_STREQ(s.getAs<std::string>().c_str(), "fixed_point");
 }
 
+TEST_F(FFSUnitTests, ChangeSolverSettingAndRegenerateModel) {
+    RoadRunner r(SimpleFlux().str());
+    r.getSensitivitySolver()->setValue("nonlinear_solver", "fixed_point");
+    r.regenerateModel();
+    auto s = r.getSensitivitySolver()->getValue("nonlinear_solver");
+    ASSERT_STREQ(s.getAs<std::string>().c_str(), "fixed_point");
+}
+
 
 
 

@@ -28,7 +28,7 @@ void SteadyStateResult::applySteadyStateSettings(rr::RoadRunner *rr) {
     }
 }
 
-void SteadyStateResult::checkSteadyState(rr::RoadRunner *rr) {
+void SteadyStateResult::checkSteadyState(rr::RoadRunner *rr, double tol) {
     applySteadyStateSettings(rr);
     rr->steadyState();
     // collect actual results from model
@@ -45,7 +45,7 @@ void SteadyStateResult::checkSteadyState(rr::RoadRunner *rr) {
 
         std::cout << "Comparing \"" << speciesID << "\" expected result: " << expected
                   << " with actual result " << actualResult << std::endl;
-        EXPECT_NEAR(expected, actualResult, 0.0001);
+        EXPECT_NEAR(expected, actualResult, tol);
     }
 }
 
@@ -2138,7 +2138,7 @@ std::unordered_map<std::string, rr::Setting> Brown2004::steadyStateSettings() {
             // this model can converge to a set of values different to the reference data,
             // depending on starting values. For this reason, start the list of presimulation
             // times at a larger number.
-            {"presimulation_times", std::vector<double>({10, 100, 1000})}
+            {"presimulation_times", std::vector<double>({10, 100, 1000, 1e4})}
     };
 }
 

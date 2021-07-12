@@ -22,15 +22,13 @@ public:
     /**
      * deprecated. Use SteadyStateResult::checkSteadyState instead
      */
-    template<class TestModelType>
     void testSteadyState(
             const std::string &modelName,
-            const std::string &solverName) {
-        // todo much of this method has been abstracted further. See "SteadyStateResult::checkSteadyState".
-        //  Do refactoring to use the new interface.
+            const std::string &solverName,
+            double tol = 1e-4) {
         // get the model
-        TestModel *testModel_ = TestModelFactory(modelName);
-        TestModelType *testModel = dynamic_cast<TestModelType *>(testModel_);
+        TestModel *testModel = TestModelFactory(modelName);
+        auto* steadyStateTestModel = dynamic_cast<SteadyStateResult *>(testModel);
 
         assert(testModel && "testModel is nullptr");
 
@@ -38,14 +36,14 @@ public:
         RoadRunner rr(testModel->str());
 
         // collect reference results
-        StringDoubleMap expectedResult = testModel->steadyState();
+        StringDoubleMap expectedResult = steadyStateTestModel->steadyState();
 
         rr.setSteadyStateSolver(solverName);
 
         BasicDictionary steadyStateOptions;
         steadyStateOptions.setItem("PrintLevel", 0);
 
-        for (auto &settingsIterator : testModel->steadyStateSettings()) {
+        for (auto &settingsIterator : steadyStateTestModel->steadyStateSettings()) {
             if (settingsIterator.first == "moiety_conservation") {
                 rr.setConservedMoietyAnalysis(settingsIterator.second);
             } else {
@@ -72,7 +70,7 @@ public:
 
             std::cout << "Comparing \"" << speciesID << "\" expected result: " << expected
                       << " with actual result " << actualResult << std::endl;
-            EXPECT_NEAR(expected, actualResult, 0.0001);
+            EXPECT_NEAR(expected, actualResult, tol);
         }
         delete testModel;
     }

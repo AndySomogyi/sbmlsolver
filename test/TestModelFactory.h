@@ -56,6 +56,8 @@ public:
      */
     void toFile(const std::string &fname);
 
+    virtual ~TestModel() = default;
+
 };
 
 /**
@@ -116,7 +118,7 @@ public:
      * and makes the comparison between expected values and actual
      * computed values.
      */
-    void checkSteadyState(rr::RoadRunner *rr);
+    void checkSteadyState(rr::RoadRunner *rr, double tol = 1e-4);
 
 };
 
