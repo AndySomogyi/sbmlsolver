@@ -146,8 +146,8 @@ namespace rr {
          * @param k (default 0) return the kth other derivative of the sensitivity data.
          */
         Matrix3D<double, double> simulate(double start, double stop, int num,
-                const std::vector<std::string>& params = std::vector<std::string>(),
-                int k = 0);
+                                          const std::vector<std::string> &params = std::vector<std::string>(),
+                                          int k = 0);
 
         void setValue(const std::string &key, Setting val);
 
@@ -215,6 +215,30 @@ namespace rr {
         void constructorOperations();
 
         /**
+         * @brief set whichParameters to all model parameters in the order
+         * they appear in the model.
+         * @details whichParameters is a string vector that determines which
+         * parameters we compute sensitivities for. When user does not provide
+         * explicit parameters for sensitivities, all are used.
+         * @details for developers. The whichParameters variable needs
+         * updating when a parameter is added or removed via RoadRunner::addParameter or
+         * RoadRunner::RemoveParameter.
+         */
+        void setDefaultWhichParameters();
+
+        /**
+         * @brief indicator variable that specifies whether a user has manually
+         * chosen which parameters to compute sensitivities for.
+         * @details when true, the ForwardSensitivitySolver needs to
+         * update the default list of parameters to compute sensitivities for
+         * because its possible the user may modify the model between instantiation
+         * of the RoadRunner instance and solving for sensitivities.
+         * @details this indicator is needed, since the test for empty
+         * whichParameter variable only works on instantiation of the FFS class
+         */
+        bool usingDefaultWhichParameters = true;
+
+        /**
          * @brief Non-linear solver for sensitivity analysis
          */
         SUNNonlinearSolver NLSsens = nullptr;
@@ -223,6 +247,7 @@ namespace rr {
          * @brief place to store the sensitivities
          */
         N_Vector *mSensitivityMatrix = nullptr;
+
 
         /**
          * @brief indicator for whether model has state vector variables or not

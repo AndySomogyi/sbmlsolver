@@ -83,6 +83,12 @@ namespace rr {
         }
     }
 
+    void ForwardSensitivitySolver::setDefaultWhichParameters() {
+        Ns = Np;
+        whichParameters = getGlobalParameterNames();
+    }
+
+
     void ForwardSensitivitySolver::constructorOperations() {
 
         if (mModel) {
@@ -92,9 +98,8 @@ namespace rr {
             Np = mModel->getNumGlobalParameters();
 
             // when no argument to whichParameter specified, so we assume all parameters
-            if (whichParameters.empty()) {
-                Ns = Np;
-                whichParameters = getGlobalParameterNames();
+            if (usingDefaultWhichParameters) {
+                setDefaultWhichParameters();
             } else {
                 Ns = (int) whichParameters.size();
             }
@@ -108,8 +113,8 @@ namespace rr {
             // pbar are scaling factors and therefore cannot be 0. However,
             // we still need the flexibility to be able to turn model
             // parameters to 0.
-            for (int i=0; i<pbar.size(); i++){
-                if (pbar[i] == 0){
+            for (int i = 0; i < pbar.size(); i++) {
+                if (pbar[i] == 0) {
                     pbar[i] = 1e-30; // arbitrarily small. Doesn't matter since 0/x=0
                 }
             }
@@ -128,12 +133,14 @@ namespace rr {
 
     ForwardSensitivitySolver::ForwardSensitivitySolver(ExecutableModel *executableModel)
             : TimeSeriesSensitivitySolver(executableModel) {
+        usingDefaultWhichParameters = true;
         constructorOperations();
     }
 
     ForwardSensitivitySolver::ForwardSensitivitySolver(ExecutableModel *executableModel,
                                                        std::vector<std::string> whichParameters)
             : TimeSeriesSensitivitySolver(executableModel), whichParameters(std::move(whichParameters)) {
+        usingDefaultWhichParameters = false;
         constructorOperations();
     }
 
@@ -340,6 +347,25 @@ namespace rr {
                 FFSHandleError(err);
             }
 
+//            std::cout << "Ns: " << Ns << "; Np: " << Np << "; numVAr: " << numModelVariables << std::endl;
+//            std::cout << "pbar" << std::endl;
+//            for (int i = 0; i < pbar.size(); i++) {
+//                std::cout << pbar[i] << "; ";
+//            }
+//            std::cout << std::endl;
+//
+//            std::cout << "plist" << std::endl;
+//            for (int i = 0; i < pbar.size(); i++) {
+//                std::cout << plist[i] << "; ";
+//            }
+//            std::cout << std::endl;
+//
+//            std::cout << "whichParameters" << std::endl;
+//            for (int i = 0; i < whichParameters.size(); i++) {
+//                std::cout << whichParameters[i] << "; ";
+//            }
+//            std::cout << std::endl;
+
             if ((err = CVodeSetSensParams(cvodeIntegrator->mCVODE_Memory, p.data(), pbar.data(), plist.data()))) {
                 FFSHandleError(err);
             }
@@ -364,7 +390,6 @@ namespace rr {
                     NLSsens = SUNNonlinSol_FixedPoint(cvodeIntegrator->mStateVector, 0);
                 }
             }
-
 
             /* attach nonlinear solver object to CVode */
             if (sensi_meth == CV_SIMULTANEOUS) {
