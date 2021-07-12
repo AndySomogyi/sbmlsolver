@@ -189,7 +189,6 @@ namespace rr
         virtual ExecutableModel *getModel() const;
 
 
-    protected:
         using SettingsList     =  std::vector<std::string> ;
         using SettingsMap      =  std::unordered_map<std::string, Setting> ;
         using DisplayNameMap   =  std::unordered_map<std::string, std::string> ;
@@ -202,6 +201,7 @@ namespace rr
         HintMap hints;
         DescriptionMap descriptions;
 
+    protected:
         /**
          * non-owning pointer to model
          */

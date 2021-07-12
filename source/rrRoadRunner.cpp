@@ -608,7 +608,7 @@ namespace rr {
         //  the std::vector of the original rr.
         for (size_t in = 0; in < rr.impl->integrators.size(); in++) {
             setIntegrator(rr.impl->integrators[in]->getName());
-            for (std::string k : rr.impl->integrators[in]->getSettings()) {
+            for (const std::string& k : rr.impl->integrators[in]->getSettings()) {
                 auto x = rr.impl->integrators[in]->getValue(k);
                 impl->integrator->setValue(k, x);
             }
@@ -623,7 +623,7 @@ namespace rr {
         }
 
         //Set up the steady state solvers, the same as the integrators.
-        for (size_t ss = 0; ss < rr.impl->integrators.size(); ss++) {
+        for (size_t ss = 0; ss < rr.impl->steady_state_solvers.size(); ss++) {
             setSteadyStateSolver(rr.impl->steady_state_solvers[ss]->getName());
             for (std::string k : rr.impl->steady_state_solvers[ss]->getSettings()) {
                 impl->steady_state_solver->setValue(k, rr.impl->steady_state_solvers[ss]->getValue(k));
@@ -636,9 +636,11 @@ namespace rr {
 
         //Set up the sensitivity state solvers, the same as the integrators and steady state
         for (size_t ss = 0; ss < rr.impl->sensitivity_solvers.size(); ss++) {
-            setSensitivitySolver(rr.impl->sensitivity_solvers[ss]->getName());
+            std::string name = rr.impl->sensitivity_solvers[ss]->getName();
+            setSensitivitySolver(name);
             for (std::string k : rr.impl->sensitivity_solvers[ss]->getSettings()) {
-                impl->sensitivities_solver->setValue(k, rr.impl->sensitivity_solvers[ss]->getValue(k));
+                auto val = rr.impl->sensitivity_solvers[ss]->getValue(k);
+                impl->sensitivities_solver->setValue(k, val);
             }
         }
 
@@ -4671,7 +4673,6 @@ namespace rr {
 
                 rr::saveBinary(out, impl->integrator->getName());
                 rr::saveBinary(out, static_cast<unsigned long>(impl->integrator->getNumParams()));
-
                 for (std::string k : impl->integrator->getSettings()) {
                     rr::saveBinary(out, k);
                     rr::saveBinary(out, impl->integrator->getValue(k));
@@ -4679,11 +4680,20 @@ namespace rr {
 
                 rr::saveBinary(out, impl->steady_state_solver->getName());
                 rr::saveBinary(out, static_cast<unsigned long>(impl->steady_state_solver->getNumParams()));
-
                 for (std::string k : impl->steady_state_solver->getSettings()) {
                     rr::saveBinary(out, k);
                     rr::saveBinary(out, impl->steady_state_solver->getValue(k));
                 }
+
+
+                rr::saveBinary(out, impl->sensitivities_solver->getName());
+                rr::saveBinary(out, static_cast<unsigned long>(impl->sensitivities_solver->getNumParams()));
+                for (std::string k : impl->sensitivities_solver->getSettings()) {
+                    rr::saveBinary(out, k);
+                    rr::saveBinary(out, impl->sensitivities_solver->getValue(k));
+                }
+
+
                 //Currently I save and reload the SBML that was used to create the model
                 //It is not parsed however, unless a instance of LibStructural needs to be
                 //created
@@ -4882,12 +4892,12 @@ namespace rr {
         impl->syncAllSolversWithModel(impl->model.get());
         if (impl->mLS)
             delete impl->mLS;
+
         std::string integratorName;
         rr::loadBinary(in, integratorName);
         setIntegrator(integratorName);
         unsigned long integratorNumParams;
         rr::loadBinary(in, integratorNumParams);
-
         for (int i = 0; i < integratorNumParams; i++) {
             std::string k;
             rr::loadBinary(in, k);
@@ -4900,16 +4910,28 @@ namespace rr {
         std::string steadyStateSolverName;
         rr::loadBinary(in, steadyStateSolverName);
         setSteadyStateSolver(steadyStateSolverName);
-
         unsigned long solverNumParams;
         rr::loadBinary(in, solverNumParams);
-
         for (int i = 0; i < solverNumParams; i++) {
             std::string k;
             rr::loadBinary(in, k);
             rr::Setting v;
             rr::loadBinary(in, v);
             impl->steady_state_solver->setValue(k, v);
+        }
+
+
+        std::string sensitivitySolverName;
+        rr::loadBinary(in, sensitivitySolverName);
+        setSensitivitySolver(sensitivitySolverName);
+        unsigned long sensSolverNumParams;
+        rr::loadBinary(in, sensSolverNumParams);
+        for (int i = 0; i < sensSolverNumParams; i++) {
+            std::string k;
+            rr::loadBinary(in, k);
+            rr::Setting v;
+            rr::loadBinary(in, v);
+            impl->sensitivities_solver->setValue(k, v);
         }
 
         //Currently the SBML is saved with the binary data, see saveState above

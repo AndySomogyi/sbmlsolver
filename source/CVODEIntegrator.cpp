@@ -590,6 +590,16 @@ namespace rr {
         return v;
     }
 
+    void CVODEIntegrator::setMaxOrder(int newValue) {
+        auto oldOrderValue = getValue("maximum_adams_order");
+        if (getValue("stiff").getAs<bool>()) {
+            auto oldOrderValue = getValue("maximum_bdf_order");
+        }
+        if (newValue < oldOrderValue.getAs<int>()) {
+            CVodeSetMaxOrd(mCVODE_Memory, newValue);
+        }
+    }
+
     void CVODEIntegrator::setValue(const std::string &key, Setting val) {
         // if std::vector tolerance is set, the size of std::vector must be equal to
         // the number of floating species
@@ -604,10 +614,16 @@ namespace rr {
         /// parameters requires a call into the CVODE library to synchronize
         /// CVODE's internal memory with the settings std::map.
         if (mCVODE_Memory) {
+
+            /**
+            * The default value is ADAMS Q MAX = 12 for the Adams-Moulton method and BDF Q MAX
+            * = 5 for the BDF method. Since maxord affects the memory requirements for the internal
+            * cvodes memory block, its value cannot be increased past its previous value.
+            */
             if (key == "maximum_bdf_order") {
-                CVodeSetMaxOrd(mCVODE_Memory, (int) getValue("maximum_bdf_order"));
+                setMaxOrder(getValue("maximum_bdf_order").getAs<int>());
             } else if (key == "maximum_adams_order") {
-                CVodeSetMaxOrd(mCVODE_Memory, (int) getValue("maximum_adams_order"));
+                setMaxOrder(getValue("maximum_adams_order").getAs<int>());
             } else if (key == "initial_time_step") {
                 CVodeSetInitStep(mCVODE_Memory, (double) getValue("initial_time_step"));
             } else if (key == "minimum_time_step") {
@@ -821,7 +837,7 @@ namespace rr {
                 // scalar tolerance
                 CVODEIntegrator::setValue("absolute_tolerance",
                                           Setting((std::min)((double) CVODEIntegrator::getValue("absolute_tolerance"),
-                                                           minAbs)));
+                                                             minAbs)));
                 break;
 
 
@@ -840,7 +856,8 @@ namespace rr {
         }
 
         CVODEIntegrator::setValue("relative_tolerance",
-                                  Setting((std::min)((double) CVODEIntegrator::getValue("relative_tolerance"), minRel)));
+                                  Setting((std::min)((double) CVODEIntegrator::getValue("relative_tolerance"),
+                                                     minRel)));
 
         rrLog(Logger::LOG_INFORMATION) << "tweaking CVODE tolerances to abs="
                                        << (double) CVODEIntegrator::getValue("absolute_tolerance") << ", rel="

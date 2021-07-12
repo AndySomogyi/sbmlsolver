@@ -129,6 +129,14 @@ namespace rr {
          */
         void setValue(const std::string &setting, Setting value) override;
 
+        /**
+         * @brief sets the value of maximum order, which defaults to 12 for Adams (non-stiff)
+         * and 5 for BDF (Stiff).
+         * @details Once a CVODEIntegrator has been created, increasing the
+         * order value beyond the original value is not possible (because the underlying
+         * sundials objects require more memory). Attempts to do so will simply be ignored.
+         */
+        void setMaxOrder(int newValue);
 
         /**
          * @author FY

@@ -174,7 +174,6 @@ namespace rr {
             N_VDestroyVectorArray_Serial(mSensitivityMatrix, Ns);
             mSensitivityMatrix = nullptr;
         }
-
     }
 
     void ForwardSensitivitySolver::create() {
@@ -472,8 +471,12 @@ namespace rr {
     }
 
     void ForwardSensitivitySolver::resetSettings() {
-        // reuse settings from cvodeIntegrator
-        settings = cvodeIntegrator->getSettingsMap();
+        // reuse settings from cvodeIntegrator since cvodes is a superset of cvode
+        settings.insert(cvodeIntegrator->getSettingsMap().begin(), cvodeIntegrator->getSettingsMap().end());
+        sorted_settings = cvodeIntegrator->sorted_settings;
+        hints.insert(cvodeIntegrator->hints.begin(), cvodeIntegrator->hints.end());
+        descriptions.insert(cvodeIntegrator->descriptions.begin(), cvodeIntegrator->descriptions.end());
+
         addSetting("nonlinear_solver", Setting("newton"), "Non-Linear Sovler", "newton or fixed_point",
                    "which non-linear solver to use for sensitivities");
         addSetting("sensitivity_method", Setting("simultaneous"), "Sensitivity Method", "simultaneous or staggered",
@@ -578,7 +581,13 @@ namespace rr {
 
 
     void ForwardSensitivitySolver::setValue(const std::string &key, Setting val) {
-        cvodeIntegrator->setValue(key, val);
+        if (cvodeIntegrator->getSettingsMap().find(key) != cvodeIntegrator->getSettingsMap().end()){
+            cvodeIntegrator->setValue(key, val);
+        } else {
+            Solver::setValue(key, val);
+        }
+
+        // todo remove this and see if the call to cvodeIntegrator->setValue is sufficient.
         if (key == "stiff" && (getValue("stiff") != val)) {
             // If the integrator is changed from stiff to standard, we must re-create CVode.
             rrLog(Logger::LOG_INFORMATION) << "Integrator stiffness has been changed. Re-creating CVode.";
