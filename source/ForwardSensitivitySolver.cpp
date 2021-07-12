@@ -92,7 +92,20 @@ namespace rr {
     void ForwardSensitivitySolver::constructorOperations() {
 
         if (mModel) {
-            cvodeIntegrator = std::make_unique<CVODEIntegrator>(mModel);
+
+            if (!cvodeIntegrator){
+                cvodeIntegrator = std::make_unique<CVODEIntegrator>(mModel);
+            }
+
+            // free old cvode memory in favor of new
+            // we ensure we free sundials objects before
+            // modifying values of Np and Ns.
+            if (cvodeIntegrator->mCVODE_Memory) {
+                cvodeIntegrator->freeSundialsMemory();
+            }
+            if (mSensitivityMatrix) {
+                freeSundialsMemory();
+            }
 
             numModelVariables = mModel->getStateVector(nullptr); // returns num when arg is null
             Np = mModel->getNumGlobalParameters();
@@ -123,11 +136,7 @@ namespace rr {
                 resetSettings();
             }
 
-            // free old cvode memory in favor of new
-            if (cvodeIntegrator->mCVODE_Memory) {
-                freeSundialsMemory(); // calls cvodeIntegrator
-                ForwardSensitivitySolver::create();
-            }
+            ForwardSensitivitySolver::create();
         }
     }
 
@@ -166,8 +175,6 @@ namespace rr {
             mSensitivityMatrix = nullptr;
         }
 
-        // free last, since it calls CVodeFree
-        cvodeIntegrator->freeSundialsMemory();
     }
 
     void ForwardSensitivitySolver::create() {
@@ -311,6 +318,9 @@ namespace rr {
         if (numModelVariables > 0 && Np > 0) {
             // pointer to N_Vector - i.e. a matrix
             mSensitivityMatrix = N_VCloneVectorArray_Serial(Ns, cvodeIntegrator->mStateVector);
+//            mSensitivityMatrixUnique = NVectorArrayPtr(N_VCloneVectorArray_Serial, [](N_Vector* nvec, int num){
+//                N_VDestroyVectorArray_Serial(nvec, num);
+//            });
             assert(mSensitivityMatrix && "Sensitivity vector is nullptr");
 
             for (int i = 0; i < Ns; i++) {

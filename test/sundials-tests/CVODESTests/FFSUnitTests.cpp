@@ -94,6 +94,19 @@ TEST_F(FFSUnitTests, deducePlistSecondParameter) {
     ASSERT_EQ(expected, forwardSensitivitySolver.plist);
 }
 
+TEST(FSUnitTest, AddParameterCheckNp) {
+    RoadRunner r(SimpleFlux().str());
+    r.addParameter("newP", 5, true);
+    auto s = dynamic_cast<ForwardSensitivitySolver*>(r.getSensitivitySolver());
+    ASSERT_EQ(3, s->Np);
+}
+
+TEST(FSUnitTest, AddParameterCheckNs) {
+    RoadRunner r(SimpleFlux().str());
+    r.addParameter("newP", 5, true);
+    auto s = dynamic_cast<ForwardSensitivitySolver*>(r.getSensitivitySolver());
+    ASSERT_EQ(3, s->Ns);
+}
 
 
 

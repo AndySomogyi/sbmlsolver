@@ -116,7 +116,7 @@ TEST_F(FFSIntegrationTests, CheckTimeSeriesSensAccurateOpenLinearFlux) {
 
 TEST_F(FFSIntegrationTests, CheckRoadRunnerInterfaceWorks) {
     RoadRunner rr(SimpleFlux().str());
-    std::cout << rr.timeSeriesSensitivities(0, 10, 11) << std::endl;
+//    std::cout << rr.timeSeriesSensitivities(0, 10, 11) << std::endl;
 }
 
 

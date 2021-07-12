@@ -102,7 +102,7 @@ public:
 
             libsbml::SBMLReader reader;
             path fullPath = modelFilePath / modelFileName;
-            doc = *reader.readSBML(fullPath.string());
+//            doc = *reader.readSBML(fullPath.string());
 
             if (!simulation.LoadSBMLFromFile()) {
                 throw (Exception("Failed loading sbml from file"));

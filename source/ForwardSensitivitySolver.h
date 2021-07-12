@@ -13,6 +13,7 @@
 #include "LLVMExecutableModel.h"
 #include "Matrix.h"
 #include "Matrix3D.h"
+#include "nvector/nvector_serial.h"
 
 namespace rr {
 
@@ -247,7 +248,9 @@ namespace rr {
          * @brief place to store the sensitivities
          */
         N_Vector *mSensitivityMatrix = nullptr;
-
+//        using NVectorArrayPtr = std::unique_ptr<N_Vector*, std::function<void( N_Vector*, int)>>;
+//        using NVectorArrayPtr = std::unique_ptr<N_Vector*, decltype(&N_VDestroyVectorArray_Serial)>;
+//        NVectorArrayPtr mSensitivityMatrixUnique = std::make_unique<N_Vector*, decltype(&N_VDestroyVectorArray_Serial)>(nullptr);
 
         /**
          * @brief indicator for whether model has state vector variables or not
