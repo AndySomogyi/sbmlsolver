@@ -184,7 +184,6 @@ namespace rr {
          */
         ParameterMap globalParameterMap;
 
-
         /**
          * @brief number of global parameters in the model
          */

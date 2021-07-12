@@ -35,7 +35,6 @@ namespace rr {
     class ExecutableModel;
     class Integrator;
     class SteadyStateSolver;
-    class SensitivityResult;
     class SensitivitySolver;
     template <class IndexType, class DataType>
     class Matrix3D;
@@ -137,13 +136,6 @@ namespace rr {
          * @brief set the current sensitivities solver by name;
          */
         void setSensitivitySolver(const std::string &name);
-
-        /**
-         * @brief compute time based sensitivities for this model
-         * @details this integrates the model between @param start and
-         * @param stop using @param num steps.
-         */
-        SensitivityResult sensitivities(double start, double stop, double num);
 
         /**
          * get a pointer to the integrator which is currently being used to

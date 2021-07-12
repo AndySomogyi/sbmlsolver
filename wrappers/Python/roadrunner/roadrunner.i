@@ -69,6 +69,10 @@
     #include "BasicNewtonIteration.h"
     #include "LinesearchNewtonIteration.h"
 
+    #include "SensitivitySolver.h"
+    #include "Matrix.h"
+    #include "Matrix3D.h"
+
 
     // make a python obj out of the C++ ExecutableModel, this is used by the PyEventListener
     // class. This function is defined later in this compilation unit.
@@ -742,6 +746,11 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 %ignore rr::Integrator::setSimulateOptions;
 %rename (__str__) rr::Integrator::toString;
 //%rename (__repr__) rr::Integrator::toRepr;
+
+%ignore rr::integratorFactoryMutex;
+%ignore rr::integratorRegistrationMutex;
+%ignore rr::steadyStateSolverFactoryMutex;
+%ignore rr::steadyStateSolverRegistrationMutex;
 
 
 %rename (__str__) rr::SteadyStateSolver::toString;

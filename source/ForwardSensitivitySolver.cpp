@@ -105,6 +105,15 @@ namespace rr {
             p = getModelParametersAsVector();
             pbar = getModelParametersAsVector(); // scaling factors, use value scaling. See sundials docs.
 
+            // pbar are scaling factors and therefore cannot be 0. However,
+            // we still need the flexibility to be able to turn model
+            // parameters to 0.
+            for (int i=0; i<pbar.size(); i++){
+                if (pbar[i] == 0){
+                    pbar[i] = 1e-30; // arbitrarily small. Doesn't matter since 0/x=0
+                }
+            }
+
             if (settings.empty()) {
                 resetSettings();
             }
@@ -288,83 +297,88 @@ namespace rr {
 
         /**
          * Sensitivity setup
+         * Only do this if there are model variables and parameters
+         * since its possible to have an empty RoadRunner object
+         * from which we create a model using the direct interface.
          */
-        // pointer to N_Vector - i.e. a matrix
-        mSensitivityMatrix = N_VCloneVectorArray_Serial(Ns, cvodeIntegrator->mStateVector);
-        assert(mSensitivityMatrix && "Sensitivity vector is nullptr");
+        if (numModelVariables > 0 && Np > 0) {
+            // pointer to N_Vector - i.e. a matrix
+            mSensitivityMatrix = N_VCloneVectorArray_Serial(Ns, cvodeIntegrator->mStateVector);
+            assert(mSensitivityMatrix && "Sensitivity vector is nullptr");
 
-        for (int i = 0; i < Ns; i++) {
-            N_VConst(0, mSensitivityMatrix[i]);
-        }
-
-        int sensi_meth;
-        if (getValue("sensitivity_method") == "simultaneous") {
-            sensi_meth = CV_SIMULTANEOUS;
-        } else if (getValue("sensitivity_method") == "staggered") {
-            sensi_meth = CV_STAGGERED;
-        }
-
-        if ((err = CVodeSensInit1(cvodeIntegrator->mCVODE_Memory, Ns, sensi_meth, NULL, mSensitivityMatrix))) {
-            FFSHandleError(err);
-        }
-
-        if ((err = CVodeSensEEtolerances(cvodeIntegrator->mCVODE_Memory))) {
-            FFSHandleError(err);
-        }
-
-        if ((err = CVodeSetSensErrCon(cvodeIntegrator->mCVODE_Memory, true))) {
-            FFSHandleError(err);
-        }
-
-        int dq_method;
-        if (getValue("DQ_method") == "forward") {
-            dq_method = CV_FORWARD;
-        } else if (getValue("DQ_method") == "centered") {
-            dq_method = CV_CENTERED;
-        }
-
-        if ((err = CVodeSetSensDQMethod(cvodeIntegrator->mCVODE_Memory, dq_method, 1))) {
-            FFSHandleError(err);
-        }
-
-        if ((err = CVodeSetSensParams(cvodeIntegrator->mCVODE_Memory, p.data(), pbar.data(), plist.data()))) {
-            FFSHandleError(err);
-        }
-
-        if (sensi_meth == CV_SIMULTANEOUS) {
-            if (getValue("nonlinear_solver") == "newton") {
-                NLSsens = SUNNonlinSol_NewtonSens(Ns + 1, cvodeIntegrator->mStateVector);
+            for (int i = 0; i < Ns; i++) {
+                N_VConst(0, mSensitivityMatrix[i]);
             }
-            if (getValue("nonlinear_solver") == "fixed_point") {
-                NLSsens = SUNNonlinSol_FixedPointSens(Ns + 1, cvodeIntegrator->mStateVector, 1);
+
+            int sensi_meth;
+            if (getValue("sensitivity_method") == "simultaneous") {
+                sensi_meth = CV_SIMULTANEOUS;
+            } else if (getValue("sensitivity_method") == "staggered") {
+                sensi_meth = CV_STAGGERED;
             }
-        } else if (sensi_meth == CV_STAGGERED) {
-            if (getValue("nonlinear_solver") == "newton") {
-                NLSsens = SUNNonlinSol_NewtonSens(Ns, cvodeIntegrator->mStateVector);
+
+            if ((err = CVodeSensInit1(cvodeIntegrator->mCVODE_Memory, Ns, sensi_meth, NULL, mSensitivityMatrix))) {
+                FFSHandleError(err);
+            }
+
+            if ((err = CVodeSensEEtolerances(cvodeIntegrator->mCVODE_Memory))) {
+                FFSHandleError(err);
+            }
+
+            if ((err = CVodeSetSensErrCon(cvodeIntegrator->mCVODE_Memory, true))) {
+                FFSHandleError(err);
+            }
+
+            int dq_method;
+            if (getValue("DQ_method") == "forward") {
+                dq_method = CV_FORWARD;
+            } else if (getValue("DQ_method") == "centered") {
+                dq_method = CV_CENTERED;
+            }
+
+            if ((err = CVodeSetSensDQMethod(cvodeIntegrator->mCVODE_Memory, dq_method, 1))) {
+                FFSHandleError(err);
+            }
+
+            if ((err = CVodeSetSensParams(cvodeIntegrator->mCVODE_Memory, p.data(), pbar.data(), plist.data()))) {
+                FFSHandleError(err);
+            }
+
+            if (sensi_meth == CV_SIMULTANEOUS) {
+                if (getValue("nonlinear_solver") == "newton") {
+                    NLSsens = SUNNonlinSol_NewtonSens(Ns + 1, cvodeIntegrator->mStateVector);
+                }
+                if (getValue("nonlinear_solver") == "fixed_point") {
+                    NLSsens = SUNNonlinSol_FixedPointSens(Ns + 1, cvodeIntegrator->mStateVector, 1);
+                }
+            } else if (sensi_meth == CV_STAGGERED) {
+                if (getValue("nonlinear_solver") == "newton") {
+                    NLSsens = SUNNonlinSol_NewtonSens(Ns, cvodeIntegrator->mStateVector);
+                } else {
+                    NLSsens = SUNNonlinSol_FixedPointSens(Ns, cvodeIntegrator->mStateVector, 0);
+                }
             } else {
-                NLSsens = SUNNonlinSol_FixedPointSens(Ns, cvodeIntegrator->mStateVector, 0);
+                if (getValue("nonlinear_solver") == "newton") {
+                    NLSsens = SUNNonlinSol_Newton(cvodeIntegrator->mStateVector);
+                } else {
+                    NLSsens = SUNNonlinSol_FixedPoint(cvodeIntegrator->mStateVector, 0);
+                }
             }
-        } else {
-            if (getValue("nonlinear_solver") == "newton") {
-                NLSsens = SUNNonlinSol_Newton(cvodeIntegrator->mStateVector);
+
+
+            /* attach nonlinear solver object to CVode */
+            if (sensi_meth == CV_SIMULTANEOUS) {
+                if ((err = CVodeSetNonlinearSolverSensSim(cvodeIntegrator->mCVODE_Memory, NLSsens))) {
+                    FFSHandleError(err);
+                }
+            } else if (sensi_meth == CV_STAGGERED) {
+                if ((err = CVodeSetNonlinearSolverSensStg(cvodeIntegrator->mCVODE_Memory, NLSsens))) {
+                    FFSHandleError(err);
+                }
             } else {
-                NLSsens = SUNNonlinSol_FixedPoint(cvodeIntegrator->mStateVector, 0);
-            }
-        }
-
-
-        /* attach nonlinear solver object to CVode */
-        if (sensi_meth == CV_SIMULTANEOUS) {
-            if ((err = CVodeSetNonlinearSolverSensSim(cvodeIntegrator->mCVODE_Memory, NLSsens))) {
-                FFSHandleError(err);
-            }
-        } else if (sensi_meth == CV_STAGGERED) {
-            if ((err = CVodeSetNonlinearSolverSensStg(cvodeIntegrator->mCVODE_Memory, NLSsens))) {
-                FFSHandleError(err);
-            }
-        } else {
-            if ((err = CVodeSetNonlinearSolverSensStg1(cvodeIntegrator->mCVODE_Memory, NLSsens))) {
-                FFSHandleError(err);
+                if ((err = CVodeSetNonlinearSolverSensStg1(cvodeIntegrator->mCVODE_Memory, NLSsens))) {
+                    FFSHandleError(err);
+                }
             }
         }
     }
@@ -557,7 +571,7 @@ namespace rr {
         results.setKthMatrix(0, t, getSensitivityMatrix(k));
 
         int numberOfPoints = 1;
-        for (int i=1; i<num; i++) {
+        for (int i = 1; i < num; i++) {
             t = integrate(t, stepSize);
             results.setKthMatrix(numberOfPoints, t, getSensitivityMatrix(k));
             numberOfPoints++;
