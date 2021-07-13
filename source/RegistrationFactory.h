@@ -17,7 +17,7 @@ namespace rr {
     class ExecutableModel;
     class Solver;
 
-    typedef std::vector<Registrable *> RegistrarVector;
+    typedef std::vector<Registrable *> RegistrableVector;
 
     /**
      * @author JKM, WBC
@@ -71,7 +71,7 @@ namespace rr {
          */
         RegistrationFactory() = default;
 
-        RegistrarVector registrars;
+        RegistrableVector registrars;
 
     };
 

@@ -15,27 +15,27 @@ using namespace testing;
 
 
 TEST_F(CVODEIntegratorTests, TestSimpleFluxWithRoadRunner) {
-    checkModelSimulatesWithRoadRunner<SimpleFlux>("SimpleFlux");
+    checkModelSimulatesWithRoadRunner("SimpleFlux");
 }
 
 TEST_F(CVODEIntegratorTests, TestModel269WithRoadRunner) {
-    checkModelSimulatesWithRoadRunner<Model269>("Model269");
+    checkModelSimulatesWithRoadRunner("Model269");
 }
 
 TEST_F(CVODEIntegratorTests, TestModel28WithRoadRunner) {
-    checkModelSimulatesWithRoadRunner<Model28>("Model28");
+    checkModelSimulatesWithRoadRunner("Model28");
 }
 
 TEST_F(CVODEIntegratorTests, TestFactorialInRateLawWithRoadRunner) {
-    checkModelSimulatesWithRoadRunner<FactorialInRateLaw>("FactorialInRateLaw");
+    checkModelSimulatesWithRoadRunner("FactorialInRateLaw");
 }
 
 TEST_F(CVODEIntegratorTests, SimpleFluxWithRoadRunner) {
-    checkModelSimulatesWithRoadRunner<SimpleFlux>("SimpleFlux");
+    checkModelSimulatesWithRoadRunner("SimpleFlux");
 }
 
 TEST_F(CVODEIntegratorTests, OpenLinearFluxWithRoadRunner) {
-    checkModelSimulatesWithRoadRunner<OpenLinearFlux>("OpenLinearFlux");
+    checkModelSimulatesWithRoadRunner("OpenLinearFlux");
 }
 
 /**

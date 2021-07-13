@@ -3,19 +3,35 @@
 
 class Solver #aqua-white
 
-class Integrator #aqua-white
 
-Solver <|-- Integrator
+abstract class Registerable
+Registerable <|-- Solver
+
+class RegistrationFactory
+class SensitivitySolverFactory
+RegistrationFactory <|-- IntegratorFactory
+RegistrationFactory <|-- SteadyStateSolverFactory
+RegistrationFactory <|-- SensitivitySolverFactory
 
 class SteadyStateSolver #aqua-white
+class Integrator #aqua-white
+class SensitivitySolver #aqua-white
+class TimeSeriesSensitivitySolver #aqua-white
+class SteadyStateSensitivitySolver #aqua-white
 
 Solver <|-- SteadyStateSolver
+Solver <|-- SensitivitySolver
+Solver <|-- Integrator
+SensitivitySolver <|-- TimeSeriesSensitivitySolver
+SensitivitySolver <|-- SteadyStateSensitivitySolver
 
+class NLEQ
 class NLEQ1 #LightGreen-white
 class NLEQ2 #LightGreen-white
 
-SteadyStateSolver <|-- NLEQ1
-SteadyStateSolver <|-- NLEQ2
+SteadyStateSolver <|-- NLEQ
+NLEQ <|-- NLEQ1
+NLEQ <|-- NLEQ2
 
 class CVODEIntegrator #LightGreen-white
 class GillespieIntegrator #LightGreen-white
@@ -29,47 +45,23 @@ Integrator <|-- EulerIntegrator
 Integrator <|-- RK5Integrator
 Integrator <|-- RK45Integrator
 
+class ForwardSensitivitySolver
+
+TimeSeriesSensitivitySolver <|-- ForwardSensitivitySolver
+
+ForwardSensitivitySolver *-- CVODEIntegrator : (used by)
+
 class IntegratorFactory #aqua-white
-
-
-class IntegratorRegistrar #aqua-white
-class CVODEIntegratorRegistrar #LightGreen-white
-class GillespieIntegratorRegistrar #LightGreen-white
-class EulerIntegratorRegistrar #LightGreen-white
-class RK5IntegratorRegistrar #LightGreen-white
-class RK45IntegratorRegistrar #LightGreen-white
-
-IntegratorRegistrar <|-- CVODEIntegratorRegistrar
-IntegratorRegistrar <|-- GillespieIntegratorRegistrar
-IntegratorRegistrar <|-- EulerIntegratorRegistrar
-IntegratorRegistrar <|-- RK5IntegratorRegistrar
-IntegratorRegistrar <|-- RK45IntegratorRegistrar
-
-
-Integrator *-- IntegratorRegistrar
-
-IntegratorFactory *-- IntegratorRegistrar
 
 class RoadRunner #red-white
 
 RoadRunner *-- IntegratorFactory
 
 
-class SteadyStateSolverRegistrar #aqua-white
 class SteadyStateSolverFactory #aqua-white
 
-SteadyStateSolverFactory *-- SteadyStateSolverRegistrar
 
 RoadRunner *-- SteadyStateSolverFactory
-
-SteadyStateSolver *-- SteadyStateSolverRegistrar
-
-class NLEQ1Registrar #LightGreen-white
-class NLEQ2Registrar #LightGreen-white
-
-SteadyStateSolverRegistrar <|-- NLEQ1Registrar
-SteadyStateSolverRegistrar <|-- NLEQ2Registrar
-
 
 
 class SundialsSteadyStateSolver
@@ -82,7 +74,7 @@ class LineSearchNewtonIteration
 
 
 class FixedPointIteration
-note top of FixedPointIteration {
+note bottom of FixedPointIteration {
     Still needs work
 }
 

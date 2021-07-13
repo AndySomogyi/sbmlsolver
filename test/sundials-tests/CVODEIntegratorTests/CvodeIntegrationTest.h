@@ -25,20 +25,19 @@ public:
      * and not throw an error.
      *
      */
-    template<class ModelType>
     void checkModelSimulatesWithRoadRunner(const std::string &modelName) {
         TestModel *testModelPtr = TestModelFactory(modelName);
-        auto *testModel = dynamic_cast<ModelType *>(testModelPtr);
+        auto *tsTestModel = dynamic_cast<TimeSeriesResult *>(testModelPtr);
 
         // load model
-        RoadRunner r(testModel->str());
+        RoadRunner r(testModelPtr->str());
         r.getIntegrator()->setValue("stiff", false);
 
         // get handle on the *known true values.
-        auto trueValues = testModel->timeSeriesResult();
+        auto trueValues = tsTestModel->timeSeriesResult();
 
         // grab integrator settings.
-        const auto &settings = testModel->timeSeriesSettings();
+        const auto &settings = tsTestModel->timeSeriesSettings();
 
         // apply settings
         SimulateOptions opt;
@@ -79,7 +78,8 @@ public:
         }
 
         ASSERT_TRUE(passed);
-        delete testModel;
+        delete testModelPtr;
+//        got weird problem here try valgrind
     }
 
     /**

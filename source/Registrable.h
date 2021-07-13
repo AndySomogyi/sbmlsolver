@@ -52,7 +52,7 @@ namespace rr {
         virtual Solver *construct(ExecutableModel *model) const = 0;
     };
 
-    typedef std::vector<Registrable *> RegistrarVector;
+    typedef std::vector<Registrable *> RegistrableVector;
 
 }
 

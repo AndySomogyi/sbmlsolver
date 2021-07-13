@@ -226,7 +226,6 @@ namespace rr {
             bVal = Config::getBool(Config::SIMULATEOPTIONS_DETERMINISTIC_VARIABLE_STEP);
             Integrator::setValue("variable_step_size", Setting(bVal));
         }
-            // Why is this here? This is CVODE, a *deterministic* integrator.
         else if (getIntegrationMethod() == Integrator::Stochastic) {
             bVal = Config::getBool(Config::SIMULATEOPTIONS_STOCHASTIC_VARIABLE_STEP);
             Integrator::setValue("variable_step_size", Setting(bVal));
@@ -593,9 +592,9 @@ namespace rr {
     void CVODEIntegrator::setMaxOrder(int newValue) {
         auto oldOrderValue = getValue("maximum_adams_order");
         if (getValue("stiff").getAs<bool>()) {
-            auto oldOrderValue = getValue("maximum_bdf_order");
+            oldOrderValue = getValue("maximum_bdf_order");
         }
-        if (newValue < oldOrderValue.getAs<int>()) {
+        if (newValue <= oldOrderValue.getAs<int>()) {
             CVodeSetMaxOrd(mCVODE_Memory, newValue);
         }
     }
@@ -621,8 +620,10 @@ namespace rr {
             * cvodes memory block, its value cannot be increased past its previous value.
             */
             if (key == "maximum_bdf_order") {
+//                CVodeSetMaxOrd(mCVODE_Memory, getValue("maximum_bdf_order"));
                 setMaxOrder(getValue("maximum_bdf_order").getAs<int>());
             } else if (key == "maximum_adams_order") {
+//                CVodeSetMaxOrd(mCVODE_Memory, getValue("maximum_adams_order"));
                 setMaxOrder(getValue("maximum_adams_order").getAs<int>());
             } else if (key == "initial_time_step") {
                 CVodeSetInitStep(mCVODE_Memory, (double) getValue("initial_time_step"));
