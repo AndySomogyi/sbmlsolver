@@ -4,13 +4,7 @@
 #include "CVODEIntegrator.h"
 #include "MockExecutableModel.h"
 #include "rrConfig.h"
-
-/**
- * In general it has been hard to retroactively
- * write unit tests for CVODEIntegrator. I've done what I can
- * but in all probability it would be better to rewrite with
- * a testing centric focus
- */
+#include "TestModelFactory.h"
 
 using namespace rr;
 using namespace testing;
@@ -238,9 +232,14 @@ TEST_F(CVODEIntegratorUnitTests, restart) {
 }
 
 
-TEST_F(CVODEIntegratorUnitTests, NoModel) {
-    // when we reset, setTime will be called with 0 as argument
-    CVODEIntegrator cvodeIntegrator;
+TEST_F(CVODEIntegratorUnitTests, CheckStiffnessCanBeChangd) {
+//    RoadRunner rr(SimpleFlux().str());
+    CVODEIntegrator cvodeIntegrator(&mockExecutableModel);
+    bool stiffValueBeforeChanges = cvodeIntegrator.getValue("stiff").getAs<bool>();
+    ASSERT_EQ(stiffValueBeforeChanges, true); // default
+    cvodeIntegrator.setValue("stiff" , false);
+    bool stiffValueAfterChanges = cvodeIntegrator.getValue("stiff").getAs<bool>();
+    ASSERT_EQ(stiffValueAfterChanges, false);
 }
 
 

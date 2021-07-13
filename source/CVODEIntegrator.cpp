@@ -639,7 +639,7 @@ namespace rr {
 
             }
         }
-        if (key == "stiff" && (getValue("stiff") != val)) {
+        if (key == "stiff") {
             // If the integrator is changed from stiff to standard, we must re-create CVode.
             rrLog(Logger::LOG_INFORMATION) << "Integrator stiffness has been changed. Re-creating CVode.";
             freeSundialsMemory();
