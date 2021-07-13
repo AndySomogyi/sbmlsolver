@@ -2235,10 +2235,10 @@ std::unordered_map<std::string, rr::Setting> Brown2004::steadyStateSettings() {
             // this model can converge to a set of values different to the reference data,
             // depending on starting values. For this reason, start the list of presimulation
             // times at a larger number.
-            {"presimulation_times", std::vector<double>({10, 100, 1000, 1e4})},
-            // for the older nleq steady state solvers, presimulation_times (note the plural) is not
-            // supported.
-//            {"presimulation_time", 1e5}
+            // Note: the reference data is from copasi, which presimulates to 1000.
+            // We can actually get a steady state from an earlier presimulation point,
+            // but since the reference data is from copasi, we stick to using 1000.
+            {"presimulation_times", std::vector<double>({1000, 1e4})},
     };
 }
 
