@@ -38,6 +38,10 @@ TEST_F(CVODEIntegratorTests, OpenLinearFluxWithRoadRunner) {
     checkModelSimulatesWithRoadRunner("OpenLinearFlux");
 }
 
+TEST_F(CVODEIntegratorTests, Brown2004WithRoadRunner) {
+    checkModelSimulatesWithRoadRunner("Brown2004");
+}
+
 /**
  * These tests use the model instead of the RoadRunner interface.
  */
@@ -69,6 +73,11 @@ TEST_F(CVODEIntegratorTests, OpenLinearFluxWithModel) {
 
 TEST_F(CVODEIntegratorTests, FactorialInRateLawWithModel) {
     FactorialInRateLaw testModel;
+    checkModelIntegrates<CVODEIntegrator>(&testModel);
+}
+
+TEST_F(CVODEIntegratorTests, Brown2004WithModel) {
+    Brown2004 testModel;
     checkModelIntegrates<CVODEIntegrator>(&testModel);
 }
 

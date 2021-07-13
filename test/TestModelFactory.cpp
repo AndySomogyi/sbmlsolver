@@ -301,12 +301,36 @@ std::unordered_map<std::string, rr::Setting> SimpleFlux::timeSeriesSensitivityRe
     return std::unordered_map<std::string, rr::Setting>{
             {"start",    0},
             {"duration", 10},
-            {"steps",    11},
+            {"steps",    3},
     };
 }
 
 rr::Matrix3D<double, double> SimpleFlux::timeSeriesSensitivityResult() {
-    return rr::Matrix3D<double, double>();
+    // copasi generated
+    rr::Matrix3D<double, double> mat(
+            {0.0, 5.0, 10},
+            {
+                    // 0.0
+                    {
+                            {0.0,                 0.0},
+                            {0.0,                0.0}
+                    },
+                    // 5.0
+                    {
+                            {-29.89114280149252,  29.891142801528048},
+                            {12.677378468328724, -12.67737846850636},
+                    },
+                    // 10.0
+                    {
+                            {-36.004745327429255, 36.00474532744258 },
+                            { 30.698815036078738, -30.69881503598992 }
+
+                    }
+            }
+    );
+    mat.setRowNames({"S1", "S2"});
+    mat.setColNames({"kf", "kb"});
+    return mat;
 }
 
 std::string SimpleFluxManuallyReduced::str() {
@@ -498,12 +522,46 @@ std::unordered_map<std::string, rr::Setting> OpenLinearFlux::timeSeriesSensitivi
     return std::unordered_map<std::string, rr::Setting>{
             {"start",    0},
             {"duration", 10},
-            {"steps",    10},
+            {"steps",    3},
     };
 }
 
+
 rr::Matrix3D<double, double> OpenLinearFlux::timeSeriesSensitivityResult() {
-    return rr::Matrix3D<double, double>();
+    // copasi generated
+    rr::Matrix3D<double, double> mat(
+            {0.0, 5.0, 10},
+            {
+                    // 0.0
+                    {
+                                // S1               S2
+                            {0, 0},
+                            {0, 0},
+                            {0, 0},
+                            {0, 0},
+                    },
+                    // 5.0
+                    {
+                                // S1               S2
+                            {3.934693402848577,	0.7740906159678929}, // kin
+                            {-9.018962447266965, 6.460291117027506}, // kf
+                            {-1.554312234475219e-11, -1.134615918164661}, // kout
+                            {0, 0} // kb (not used)
+                    },
+                    // 10.0
+                    {
+                                // S1               S2
+                            {6.32120558682292,	1.9978820443633527}, // kin
+                            {-26.416083570177662, 13.528667619562285}, // kf
+                            {6.843858812999315e-8, -5.126794156565806}, // kout
+                            {0, 0} // kb (not used)
+
+                    }
+            }
+    );
+    mat.setRowNames({"kf", "kb"});
+    mat.setColNames({"S1", "S2"});
+    return mat;
 }
 
 std::string OpenLinearFlux::modelName() {
@@ -683,12 +741,37 @@ std::unordered_map<std::string, rr::Setting> Model269::timeSeriesSensitivityResu
     return std::unordered_map<std::string, rr::Setting>{
             {"start",    0},
             {"duration", 10},
-            {"steps",    10},
+            {"steps",    3},
     };
 }
 
+
 rr::Matrix3D<double, double> Model269::timeSeriesSensitivityResult() {
-    return rr::Matrix3D<double, double>();
+    // copasi generated
+    rr::Matrix3D<double, double> mat(
+            {0.0, 5.0, 10},
+            {
+                    // 0.0
+                    {
+                            {0.0,                 0.0},
+                            {0.0,                0.0}
+                    },
+                    // 5.0
+                    {
+                            {-0.10465397234947493, 0.10465397234940554	},
+                            {0.007987725795975953,	-0.007987725795968181},
+
+                    },
+                    // 10.0
+                    {
+                            {-0.10465397234946018,	0.1046539723494333},
+                            {0.015979733787983702,	-0.015979733787974126},
+                    }
+            }
+    );
+    mat.setRowNames({"p1", "p2"});
+    mat.setColNames({"S1", "S2"});
+    return mat;
 }
 
 
@@ -794,12 +877,37 @@ std::unordered_map<std::string, rr::Setting> Model28::timeSeriesSensitivityResul
     return std::unordered_map<std::string, rr::Setting>{
             {"start",    0},
             {"duration", 10},
-            {"steps",    10},
+            {"steps",    3},
     };
 }
 
+
 rr::Matrix3D<double, double> Model28::timeSeriesSensitivityResult() {
-    return rr::Matrix3D<double, double>();
+    // copasi generated
+    rr::Matrix3D<double, double> mat(
+            {0.0, 5.0, 10},
+            {
+                    // 0.0
+                    {
+                            {0.0,                 0.0},
+                            {0.0,                0.0}
+                    },
+                    // 5.0
+                    {
+                            {-0.10465397234947493,	0.10465397234940554 },
+                            {	0.007987725795975953, -0.007987725795968181}
+
+                    },
+                    // 10.0
+                    {
+                            {-0.10465397234946018,	0.1046539723494333},
+                            {0.015979733787983702,	-0.015979733787974126},
+                    }
+            }
+    );
+    mat.setRowNames({"p1", "p2"});
+    mat.setColNames({"S1", "S2"});
+    return mat;
 }
 
 
@@ -951,18 +1059,6 @@ std::unordered_map<std::string, rr::Setting> FactorialInRateLaw::timeSeriesSetti
             {"steps",    10}
     };
 }
-std::unordered_map<std::string, rr::Setting> FactorialInRateLaw::timeSeriesSensitivityResultSettings() {
-    return std::unordered_map<std::string, rr::Setting>{
-            {"start",    0},
-            {"duration", 2},
-            {"steps",    10},
-    };
-}
-
-rr::Matrix3D<double, double> FactorialInRateLaw::timeSeriesSensitivityResult() {
-    return rr::Matrix3D<double, double>();
-}
-
 
 
 std::string Venkatraman2010::str() {
@@ -2132,15 +2228,36 @@ StringDoubleMap Brown2004::steadyState() {
 
 };
 
+
 std::unordered_map<std::string, rr::Setting> Brown2004::steadyStateSettings() {
     return std::unordered_map<std::string, rr::Setting>{
             {"allow_presimulation", true},
             // this model can converge to a set of values different to the reference data,
             // depending on starting values. For this reason, start the list of presimulation
             // times at a larger number.
-            {"presimulation_times", std::vector<double>({10, 100, 1000, 1e4})}
+            {"presimulation_times", std::vector<double>({10, 100, 1000, 1e4})},
+            // for the older nleq steady state solvers, presimulation_times (note the plural) is not
+            // supported.
+//            {"presimulation_time", 1e5}
     };
 }
+
+//rr::Matrix<double> Brown2004::timeSeriesResult() {
+//    return rr::Matrix<double>({
+//                                    // EGF      	NGF     	freeEGFReceptor 	boundEGFReceptor	freeNGFReceptor	boundNGFReceptor	SosInactive	SosActive	P90RskInactive	P90RskActive	RasInactive	RasActive	Raf1Inactive	Raf1Active	BRafInactive	BRafActive	MekInactive	MekActive	ErkInactive	ErkActive	PI3KInactive	PI3KActive	AktInactive	AktActive	C3GInactive	C3GActive	Rap1Inactive	Rap1Active
+//                                      {10002000,	456000,	80000,	0,	10000,	0,	120000,	0,	120000,	0,	120000,	0,	120000,	0,	120000,	0,	600000,	0,	600000,	0,	120000,	0,	120000,	0,	120000,	0,	120000,	0},
+//                                      {9922004.465, 453349.8606, 4.465015882, 79995.53498, 7349.860605, 2650.139395, 4259.574671, 115740.4253, 116032.427,  3967.573017, 98004.70168, 21995.29832, 116937.5552, 3062.444807, 119315.8939, 684.1061226, 395680.9755, 204319.0245, 81268.04632, 518731.9537, 2.14E-05, 120000, 115124.6722, 4875.327838, 9.89E-21, 120000, 105544.6244, 14455.37561},
+//                                      {9922004.465, 451491.1631, 4.465015882, 79995.53498, 5491.163092, 4508.836908, 20935.13104, 99064.86896, 108842.6175, 11157.38249, 101057.3069, 18942.69307, 118385.5037, 1614.496273, 119315.8938, 684.1061846, 408801.6501, 191198.3499, 78498.1564,  521501.8436, 7.10E-14, 120000, 110133.3699, 9866.630116, 1.92E-27, 120000, 105544.6244, 14455.37561}
+//                              });
+//}
+//
+//std::unordered_map<std::string, rr::Setting> Brown2004::timeSeriesSettings() {
+//    return std::unordered_map<std::string, rr::Setting>({
+//                                                                {"start",    0},
+//                                                                {"duration", 10},
+//                                                                {"steps",    2}
+//                                                        });
+//}
 
 std::vector<std::string> getAvailableTestModels() {
     return std::vector<std::string>(

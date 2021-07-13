@@ -126,9 +126,9 @@ namespace rr {
             // pbar are scaling factors and therefore cannot be 0. However,
             // we still need the flexibility to be able to turn model
             // parameters to 0.
-            for (int i = 0; i < pbar.size(); i++) {
-                if (pbar[i] == 0) {
-                    pbar[i] = 1e-30; // arbitrarily small. Doesn't matter since 0/x=0
+            for (double & i : pbar) {
+                if (i == 0) {
+                    i = 1e-30; // arbitrarily small. Doesn't matter since 0/x=0
                 }
             }
 
@@ -323,7 +323,10 @@ namespace rr {
             assert(mSensitivityMatrix && "Sensitivity vector is nullptr");
 
             for (int i = 0; i < Ns; i++) {
-                N_VConst(0, mSensitivityMatrix[i]);
+                auto data = mSensitivityMatrix[i]->ops->nvgetarraypointer(mSensitivityMatrix[i]);
+                for (int j=0; j<numModelVariables; j++){
+                    data[j] = 0;
+                }
             }
 
             int sensi_meth;
@@ -355,25 +358,6 @@ namespace rr {
             if ((err = CVodeSetSensDQMethod(cvodeIntegrator->mCVODE_Memory, dq_method, 1))) {
                 FFSHandleError(err);
             }
-
-//            std::cout << "Ns: " << Ns << "; Np: " << Np << "; numVAr: " << numModelVariables << std::endl;
-//            std::cout << "pbar" << std::endl;
-//            for (int i = 0; i < pbar.size(); i++) {
-//                std::cout << pbar[i] << "; ";
-//            }
-//            std::cout << std::endl;
-//
-//            std::cout << "plist" << std::endl;
-//            for (int i = 0; i < pbar.size(); i++) {
-//                std::cout << plist[i] << "; ";
-//            }
-//            std::cout << std::endl;
-//
-//            std::cout << "whichParameters" << std::endl;
-//            for (int i = 0; i < whichParameters.size(); i++) {
-//                std::cout << whichParameters[i] << "; ";
-//            }
-//            std::cout << std::endl;
 
             if ((err = CVodeSetSensParams(cvodeIntegrator->mCVODE_Memory, p.data(), pbar.data(), plist.data()))) {
                 FFSHandleError(err);
@@ -484,9 +468,7 @@ namespace rr {
                    "or stagger them");
         addSetting("DQ_method", Setting("centered"), "DQ method", "centered or forward",
                    "Use the centered or forward difference quotient approximation of the sensitivities rhs");
-
     }
-
 
     void ForwardSensitivitySolver::loadConfigSettings() {
         cvodeIntegrator->loadConfigSettings();
@@ -573,7 +555,14 @@ namespace rr {
         for (int i = 0; i < Ns; i++) {
             N_Vector arrayVector = mSensitivityMatrix[i];
             for (int j = 0; j < numModelVariables; j++) {
-                sensResults(i, j) = getArrayPtr(arrayVector)[j];
+                if (t == 0){
+                    // sensitivities at t=0 are always 0
+                    // but they appear as nan instead. Its more
+                    // convenient to show 0
+                    sensResults(i, j) = 0;
+                } else {
+                    sensResults(i, j) = getArrayPtr(arrayVector)[j];
+                }
             }
         }
         return sensResults;
@@ -587,11 +576,15 @@ namespace rr {
             Solver::setValue(key, val);
         }
 
-        // todo remove this and see if the call to cvodeIntegrator->setValue is sufficient.
-        if (key == "stiff" && (getValue("stiff") != val)) {
+        if (key == "stiff") {
             // If the integrator is changed from stiff to standard, we must re-create CVode.
             rrLog(Logger::LOG_INFORMATION) << "Integrator stiffness has been changed. Re-creating CVode.";
+            /**
+             *
+             */
             freeSundialsMemory();
+            cvodeIntegrator->freeSundialsMemory();
+//            cvodeIntegrator->create();
             create();
         }
     }

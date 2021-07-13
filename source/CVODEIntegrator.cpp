@@ -903,7 +903,11 @@ namespace rr {
         mStateVector = N_VNew_Serial(allocStateVectorSize);
         variableStepPostEventState.resize(allocStateVectorSize);
 
-        // set mStateVector to the values that are currently in the model
+
+//        for (int i = 0; i < allocStateVectorSize; i++) {
+//            SetVector(mStateVector, i, 0.);
+//        }
+//         set mStateVector to the values that are currently in the model
         auto states = new double[allocStateVectorSize];
         mModel->getStateVector(states);
 

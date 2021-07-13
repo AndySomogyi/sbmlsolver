@@ -528,7 +528,7 @@ public:
 /**
  * A model that uses "Factorial" in the rate law
  */
-class FactorialInRateLaw : public TestModel, public TimeSeriesResult, public TimeSeriesSensitivityResult {
+class FactorialInRateLaw : public TestModel, public TimeSeriesResult {
 public:
 
     std::string str() override;
@@ -538,10 +538,6 @@ public:
     rr::Matrix<double> timeSeriesResult() override;
 
     std::unordered_map<std::string, rr::Setting> timeSeriesSettings() override;
-
-    rr::Matrix3D<double, double> timeSeriesSensitivityResult() override;
-
-    std::unordered_map<std::string, rr::Setting> timeSeriesSensitivityResultSettings() override;
 
 };
 
@@ -571,7 +567,11 @@ public:
 
 };
 
-class Brown2004 : public TestModel, public SteadyStateResult {
+class Brown2004 :
+        public TestModel,
+        public SteadyStateResult
+//        public TimeSeriesResult
+        {
 
 public:
 
@@ -582,6 +582,10 @@ public:
     StringDoubleMap steadyState() override;
 
     std::unordered_map<std::string, rr::Setting> steadyStateSettings() override;
+
+//    rr::Matrix<double> timeSeriesResult() override;
+//
+//    std::unordered_map<std::string, rr::Setting> timeSeriesSettings() override;
 
 };
 
