@@ -79,16 +79,14 @@
     PyObject *ExecutableModel_NewPythonObj(rr::ExecutableModel*);
     PyObject *Integrator_NewPythonObj(rr::Integrator*);
 
-
     #include "PyEventListener.h"
     #include "PyIntegratorListener.h"
-
     #include "tr1proxy/cxx11_ns.h"
 
-    using ls::Matrix;
-    using ls::DoubleMatrix;
-    using ls::Complex;
-    using ls::ComplexMatrix;
+    /**
+     * Note, avoid "using" declarations, which can confuse
+     * swig. Best to just be explicit about namespaces.
+     */
 
 
 // Windows is just so special...
@@ -117,8 +115,6 @@
             delete dict;
         }
     };
-
-
 %}
 
 
@@ -966,6 +962,7 @@ namespace std { class ostream{}; }
 %include <Solver.h>
 %include <Integrator.h>
 %include <SteadyStateSolver.h>
+%include <SensitivitySolver.h>
 
 %include "PyEventListener.h"
 %include "PyIntegratorListener.h"
@@ -2704,7 +2701,7 @@ namespace std { class ostream{}; }
 
 // Copy this code ad verbatim to the Python module
 %pythoncode %{
-RoadRunner.ensureSolversRegistered()
+RoadRunner.registerSolvers()
 integrators = list(RoadRunner.getRegisteredIntegratorNames())
 steadyStateSolvers = list(RoadRunner.getRegisteredSteadyStateSolverNames())
 solvers = integrators + steadyStateSolvers

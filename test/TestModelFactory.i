@@ -10,8 +10,16 @@
 
     #include "PyUtils.h" // for variant_to_py and back.
 
+    #include "Matrix.h"
+    #include "Matrix3D.h"
     #include "TestModelFactory.h"
     using namespace rr;
+
+    // a copy of the macro in roadrunner.i
+    #define tmfVERIFY_PYARRAY(p) { \
+    assert(p && "PyArray is NULL"); \
+    assert((PyArray_NBYTES(p) > 0 ? PyArray_ISCARRAY(p) : true) &&  "PyArray must be C format"); \
+}
 %}
 
 #include <iostream>
@@ -31,7 +39,8 @@ rr::pyutil_init(m);
 %include "std_unordered_map.i"
 
 %include "PyUtils.h"
-
+%include "Matrix.h"
+%include "Matrix3D.h"
 
 // make a Python Tuple from a C++ DoublePair
 %typemap(out) std::pair<double, double>*
@@ -89,12 +98,28 @@ rr::pyutil_init(m);
     rr::Setting*
 };
 
+// explicit instantiation of rr::Matrix<double>
+//%template (rrDoubleMatrix) rr::Matrix<double>;
+
+%typemap(out) rr::Matrix<double> {
+    // marker for rrDoubleMatrix typemap. Look for me in TestModelFactoryPYTHON_wrap.cxx
+    const rr::Matrix<double>* mat = &($1);
+    $result = rrDoubleMatrix_to_py(mat, false, true);
+}
+
+%apply rr::Matrix<double> {
+    const rr::Matrix<double>,
+    const rr::Matrix<double>&,
+    rr::Matrix<double>&
+};
+
 
 /**
  * @brief typemap to convert a string : Variant map into a Python dict.
  * Used in the "settings" map of tmf.
  */
 %typemap(out) std::unordered_map< std::string,rr::Setting,std::hash< std::string >,std::equal_to< std::string >,std::allocator< std::pair< std::string const,rr::Setting > > >* {
+    // Marker for Setting typemap
     $result = PyDict_New();
     if (!result){
         std::cerr << "Could not create Python Dict" << std::endl;
@@ -127,7 +152,12 @@ rr::pyutil_init(m);
     }
 }
 
-
+/**
+ * Converts a C++ vector of strings to a Python list of strings
+ */
+%template(StringVector) std::vector<std::string>;
+%template(DoubleVector) std::vector<double>;
+%template(IntVector) std::vector<int>;
 
 /**
  * Converts an unordered_map<string, DoublePair>
@@ -188,6 +218,71 @@ rr::pyutil_init(m);
     }
 }
 
+
+/**
+ * Convert ls::Complex from C --> Python
+ * Copy of the one in roadrunner.i
+ */
+%typemap(out) std::vector<ls::Complex> {
+    typedef std::complex<double> cpx;
+
+    std::vector<cpx>& vec = $1;
+
+    bool iscpx = false;
+
+    // small number
+    double epsilon = 2 * std::numeric_limits<double>::epsilon();
+
+    // check to see whether we have any imaginary parts greater than small number epsilon
+    for (std::vector<cpx>::const_iterator i = vec.begin(); i != vec.end(); ++i)
+    {
+        iscpx = iscpx || (std::imag(*i) >= epsilon);
+        if (iscpx) break;
+    }
+
+    if (iscpx) {
+        // if needed, we use complex
+        size_t len = $1.size();
+        npy_intp dims[1] = {static_cast<npy_intp>(len)};
+
+        PyObject *array = PyArray_SimpleNew(1, dims, NPY_COMPLEX128);
+        tmfVERIFY_PYARRAY(array);
+
+        if (!array) {
+            // TODO error handling.
+            return 0;
+        }
+
+        cpx *data = (cpx*)PyArray_DATA((PyArrayObject*)array);
+
+        memcpy(data, &vec[0], sizeof(std::complex<double>)*len);
+
+        $result  = array;
+    } else {
+        // otherwise we just use double
+        size_t len = $1.size();
+        npy_intp dims[1] = {static_cast<npy_intp>(len)};
+
+        PyObject *array = PyArray_SimpleNew(1, dims, NPY_DOUBLE);
+        tmfVERIFY_PYARRAY(array);
+
+        if (!array) {
+            // TODO error handling.
+            return 0;
+        }
+
+        double *data = (double*)PyArray_DATA((PyArrayObject*)array);
+        for (int i = 0; i < vec.size(); ++i) {
+            data[i] = std::real(vec[i]);
+        }
+
+        $result  = array;
+    }
+}
+
+%apply std::vector<ls::Complex> {
+    std::vector<std::complex<double>>
+};
 
 
 // allows polymorphism to work correctly in python

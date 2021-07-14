@@ -166,9 +166,9 @@ public:
 class EigenResult : public Result {
 public:
 
-    virtual std::vector<std::complex<double>> fullEigenValues() = 0;
+    virtual std::vector<ls::Complex> fullEigenValues() = 0;
 
-    virtual std::vector<std::complex<double>> reducedEigenValues() = 0;
+    virtual std::vector<ls::Complex> reducedEigenValues() = 0;
 
     virtual std::unordered_map<std::string, rr::Setting> eigenSettings() = 0;
 
@@ -258,8 +258,7 @@ class SimpleFlux :
         public EigenResult,
         public StructuralProperties,
         public MCAResult,
-        public TimeSeriesSensitivityResult
-        {
+        public TimeSeriesSensitivityResult {
 public:
 
     std::string str() override;
@@ -278,9 +277,9 @@ public:
 
     rr::Matrix<double> reducedJacobianConc() override;
 
-    std::vector<std::complex<double>> fullEigenValues() override;
+    std::vector<ls::Complex> fullEigenValues() override;
 
-    std::vector<std::complex<double>> reducedEigenValues() override;
+    std::vector<ls::Complex> reducedEigenValues() override;
 
     std::unordered_map<std::string, rr::Setting> eigenSettings() override;
 
@@ -440,7 +439,7 @@ class OpenLinearFlux :
         public SteadyStateResult,
         public TimeSeriesResult,
         public JacobianResult,
-        public TimeSeriesSensitivityResult{
+        public TimeSeriesSensitivityResult {
 public:
     std::string str() override;
 
@@ -473,7 +472,7 @@ public:
 /**
  * model 269 from the sbml test suite
  */
-class Model269 : public TestModel, public TimeSeriesResult , public TimeSeriesSensitivityResult{
+class Model269 : public TestModel, public TimeSeriesResult, public TimeSeriesSensitivityResult {
 public:
 
     std::string str() override;
@@ -571,7 +570,7 @@ class Brown2004 :
         public TestModel,
         public SteadyStateResult
 //        public TimeSeriesResult
-        {
+{
 
 public:
 
@@ -647,6 +646,11 @@ namespace privateSwigTests_ {
     rr::Setting *_testVariant();
 
     StringDoublePairMap _testResultMap();
+
+    std::vector<std::complex<double>> _testStdComplexZeroImagPart();
+
+    std::vector<std::complex<double>> _testStdComplexNonZeroImagPart();
+
 }
 
 

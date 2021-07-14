@@ -6,6 +6,7 @@
 import os
 import sys
 import unittest
+import numpy as np
 
 thisDir = os.path.dirname(os.path.realpath(__file__))
 rr_site_packages = os.path.dirname(os.path.dirname(thisDir))
@@ -90,3 +91,39 @@ class testTestModelFactory(unittest.TestCase):
     def test_polymorphic_factory(self):
         testModel = tmf.TestModelFactory("OpenLinearFlux")
         self.assertIsInstance(testModel, tmf.OpenLinearFlux)  # fails if is type TestModel
+
+    def test_string_vector_converts(self):
+        expected = ('SimpleFlux', 'SimpleFluxManuallyReduced', 'OpenLinearFlux', 'Model269', 'Model28', 'CeilInRateLaw',
+                    'FactorialInRateLaw', 'Venkatraman2010', 'Brown2004', 'LayoutOnly', 'ModelWithLocalParameters')
+
+        actual = tmf.getAvailableTestModels()
+        self.assertSequenceEqual(expected, actual)
+
+    def test_rrDoubleMatrixIsANumpyArray(self):
+        """check that the rr::DoubleMatrix is correctly converted into numpy array, much like ls::DoubleMatrix"""
+        testModel = tmf.TestModelFactory("SimpleFlux")
+        rrDoubleMatrix = testModel.timeSeriesResult()
+        self.assertIsInstance(rrDoubleMatrix, np.ndarray)
+
+    def test_rrDoubleMatrixShape(self):
+        """check that the rr::DoubleMatrix is correctly converted into numpy array, much like ls::DoubleMatrix"""
+        testModel = tmf.TestModelFactory("SimpleFlux")
+        rrDoubleMatrix = testModel.timeSeriesResult()
+        self.assertEqual((11, 3), rrDoubleMatrix.shape)
+
+    def test_stdComplexZeroImagPart(self):
+        """Check swig conversion of ls::Complex that has 0 imag part"""
+        cpx = tmf._testStdComplexZeroImagPart()
+        self.assertIsInstance(cpx[0], float)
+        self.assertAlmostEqual(2, cpx)
+
+    def test_stdComplexNonZeroImagPart(self):
+        """Check swig conversion of ls::Complex that has 0 imag part"""
+        cpx = tmf._testStdComplexNonZeroImagPart()
+        self.assertIsInstance(cpx[0], complex)
+        self.assertAlmostEqual(3, cpx.real)
+        self.assertAlmostEqual(4, cpx.imag)
+
+
+
+

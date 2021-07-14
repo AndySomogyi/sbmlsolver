@@ -14,7 +14,8 @@
 #include "Setting.h"
 #include <Python.h>
 #include <rr-libstruct/lsMatrix.h>
-#include <stdint.h>
+#include <cstdint>
+#include "Matrix.h"
 
 namespace rr
 {
@@ -97,6 +98,12 @@ void dictionary_delitem(Dictionary* dict, const char* key);
 PyObject *dictionary_contains(const Dictionary* dict, const char* key);
 
 PyObject *doublematrix_to_py(const ls::DoubleMatrix* mat, bool structured_result, bool copy_result);
+
+/**
+ * Casts a rr::Matrix<double> to its superclass ls::DoubleMatrix
+ * and reuses doublematrix_to_py
+ */
+PyObject* rrDoubleMatrix_to_py(const rr::Matrix<double>* m, bool structured_result, bool copy_result);
 
 PyObject *stringvector_to_py(const std::vector<std::string>& vec);
 

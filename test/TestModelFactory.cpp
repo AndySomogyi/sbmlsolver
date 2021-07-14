@@ -170,7 +170,10 @@ rr::Matrix<double> SimpleFlux::reducedJacobianAmt() {
 }
 
 rr::Matrix<double> SimpleFlux::reducedJacobianConc() {
-    return rr::Matrix<double>({{-0.11}});
+    auto mat = rr::Matrix<double>({{-0.11}});
+    mat.setRowNames({"S1"});
+    mat.setColNames({"S1"});
+    return mat;
 }
 
 std::unordered_map<std::string, rr::Setting> SimpleFlux::jacobianSettings() {
@@ -180,7 +183,7 @@ std::unordered_map<std::string, rr::Setting> SimpleFlux::jacobianSettings() {
 std::vector<std::complex<double>> SimpleFlux::reducedEigenValues() {
     return std::vector<std::complex<double>>(
             {
-                    std::complex<double>(-0.11, 0),
+                    std::complex<double> (-0.11, 0),
             });
 }
 
@@ -2346,6 +2349,15 @@ namespace privateSwigTests_ {
                 {"First", DoublePair(0.5, 1.6)},
         };
     }
+
+    std::vector<std::complex<double>> _testStdComplexZeroImagPart(){
+        return std::vector<std::complex<double>>({{2, 0}});
+    }
+
+    std::vector<std::complex<double>> _testStdComplexNonZeroImagPart(){
+        return std::vector<std::complex<double>>({{3, 4}});
+    }
+
 }
 
 

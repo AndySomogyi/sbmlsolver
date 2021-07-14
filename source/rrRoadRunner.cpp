@@ -1892,7 +1892,7 @@ namespace rr {
     }
 
 
-    std::vector<ls::Complex> RoadRunner::getReducedEigenValues() {
+    std::vector<std::complex<double>> RoadRunner::getReducedEigenValues() {
         return getEigenValues(JACOBIAN_REDUCED);
     }
 
@@ -3876,7 +3876,15 @@ namespace rr {
         return result;
     }
 
-    void RoadRunner::ensureSolversRegistered() {
+    std::vector<std::string> RoadRunner::getRegisteredSensitivitySolverNames() {
+        std::vector<std::string> result;
+        for (int n = 0; n < SensitivitySolverFactory::getInstance().size(); ++n) {
+            result.push_back(SensitivitySolverFactory::getInstance().name(n));
+        }
+        return result;
+    }
+
+    void RoadRunner::registerSolvers() {
         // must be run to register solvers at startup
         IntegratorFactory::Register();
         SteadyStateSolverFactory::Register();

@@ -317,6 +317,12 @@ TEST_F(RoadRunnerAPITests, getRegisteredSteadyStateSolverNames) {
     ASSERT_EQ(expected, rr.getRegisteredSteadyStateSolverNames());
 }
 
+TEST_F(RoadRunnerAPITests, getRegisteredSensitivitySolverNames) {
+    RoadRunner rr(TestModelFactory("SimpleFlux")->str());
+    std::vector<std::string> expected = std::vector<std::string>({"forward"});
+    ASSERT_EQ(expected, rr.getRegisteredSensitivitySolverNames());
+}
+
 TEST_F(RoadRunnerAPITests, setIntegrator) {
     RoadRunner rr(TestModelFactory("SimpleFlux")->str());
     rr.setIntegrator("gillespie");
@@ -651,6 +657,7 @@ TEST_F(RoadRunnerAPITests, getReducedEigenValues) {
     rr.setConservedMoietyAnalysis(true);
     std::vector<std::complex<double>> expected = rr.getReducedEigenValues();
     auto eig = rr.getReducedEigenValues();
+    std::cout << "eig: " << eig.size() << std::endl;
     for (int i = 0; i < expected.size(); i++) {
         ASSERT_EQ(expected[i], eig[i]);
     }

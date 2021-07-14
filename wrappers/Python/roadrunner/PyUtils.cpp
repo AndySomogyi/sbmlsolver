@@ -34,6 +34,7 @@
 
 #include <iostream>
 #include <iomanip>
+#include <Matrix.h>
 
 using namespace std;
 
@@ -478,7 +479,6 @@ PyObject* doublematrix_to_py(const ls::DoubleMatrix* m, bool structured_result, 
 {
     ls::DoubleMatrix *mat = const_cast<ls::DoubleMatrix*>(m);
 
-
     // a valid array descriptor:
     // In [87]: b = array(array([0,1,2,3]),
     //      dtype=[('r', 'f8'), ('g', 'f8'), ('b', 'f8'), ('a', 'f8')])
@@ -609,6 +609,15 @@ PyObject* doublematrix_to_py(const ls::DoubleMatrix* m, bool structured_result, 
     }
 }
 
+/**
+ * Casts a rr::Matrix<double> to its superclass ls::DoubleMatrix
+ * and reuses doublematrix_to_py
+ */
+PyObject* rrDoubleMatrix_to_py(const rr::Matrix<double>* m, bool structured_result, bool copy_result){
+    rr::Matrix<double> *mat = const_cast<rr::Matrix<double>*>(m);
+    auto superMat = ls::DoubleMatrix( mat->getValues());
+    return doublematrix_to_py(&superMat, structured_result, copy_result);
+}
 
 struct NamedArrayObject {
     PyArrayObject array;

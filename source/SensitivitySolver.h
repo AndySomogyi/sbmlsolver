@@ -25,7 +25,7 @@ namespace rr {
          * to parameters.
          * @param kth derivative of the sensitivities.
          */
-        virtual Matrix<double> getSensitivityMatrix(int k = 0) = 0;
+        virtual rr::Matrix<double> getSensitivityMatrix(int k = 0) = 0;
 
     };
 
@@ -38,7 +38,7 @@ namespace rr {
     public:
         using SensitivitySolver::SensitivitySolver;
 
-        virtual ~TimeSeriesSensitivitySolver() = default;
+        ~TimeSeriesSensitivitySolver() override = default;
 
         /**
          * @brief integrate the model from t0 to t0 + hstep.
@@ -78,7 +78,7 @@ namespace rr {
     public:
         using SensitivitySolver::SensitivitySolver;
 
-        virtual ~SteadyStateSensitivitySolver() = default;
+        ~SteadyStateSensitivitySolver() override = default;
 
         /**
          * @brief solves the model for steady state.

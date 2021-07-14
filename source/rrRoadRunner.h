@@ -167,6 +167,11 @@ namespace rr {
         static std::vector<std::string> getRegisteredIntegratorNames();
 
         /**
+         * Return a std::vector of the names of all registered sensitivity solvers
+         */
+        std::vector<std::string> getRegisteredSensitivitySolverNames();
+
+        /**
          * Return a std::vector of the names of all registered integrators
          */
         static std::vector<std::string> getRegisteredSteadyStateSolverNames();
@@ -174,7 +179,7 @@ namespace rr {
         /**
          * Ensures all integrators and steady state solvers are registered
          */
-        static void ensureSolversRegistered();
+        static void registerSolvers();
 
         // DEPRECATED
         //Integrator* getIntegrator(std::string name);
@@ -595,7 +600,7 @@ namespace rr {
          * if complex, returns an N x 2 matrix where the first column is the
          * real values and the second is the imaginary part.
          */
-        std::vector<ls::Complex> getReducedEigenValues();
+        std::vector<std::complex<double>> getReducedEigenValues();
 
 
         ls::DoubleMatrix getLinkMatrix();
