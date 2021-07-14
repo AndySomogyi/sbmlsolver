@@ -1,30 +1,30 @@
 #include "gtest/gtest.h"
-#include "../test_util.h"
+#include <filesystem>
+#include "RoadRunnerTest.h"
 #include "telPluginManager.h"
 #include "telPlugin.h"
 #include "telProperties.h"
 #include "telTelluriumData.h"
 #include "telProperty.h"
-//#include "tel"
+#include "../../wrappers/C/telplugins_properties_api.h"
 
+using std::filesystem::path;
 
-using namespace testing;
-using namespace std;
 using namespace tlp;
 
-extern string gRRTestDir;
-extern string gRROutputDir;
-extern string gRRPluginDir;
-//extern APIHandleManager gHM;
+class PluginLevenbergMarquardtTests : public RoadRunnerTest {
+public:
+    path pluginsModelsDir;
 
-
-TEST(RRPLUGIN_TEST_MODEL, OPTIMIZE_TEST_MODEL)
-{
-    if (gRRPluginDir.empty()) {
-        std::cerr << "Please set the 'plugindir' environment variable before running the plugin tests.  This should be the directory where the plugin dlls are created." << std::endl;
-        EXPECT_TRUE(false);
+    PluginLevenbergMarquardtTests() {
+        pluginsModelsDir = rrTestModelsDir_ / "PLUGINS";
     }
-    PluginManager* PM = new PluginManager(gRRPluginDir);
+};
+
+
+TEST_F(PluginLevenbergMarquardtTests, OPTIMIZE_TEST_MODEL)
+{
+    PluginManager* PM = new PluginManager(rrPluginsBuildDir_.string());
     //tpCreatePluginManager();
     //gHM.registerHandle(PM, typeid(PM).name());
 
@@ -134,16 +134,13 @@ TEST(RRPLUGIN_TEST_MODEL, OPTIMIZE_TEST_MODEL)
 
 }
 
-TEST(RRPLUGIN_TEST_MODEL, OPTIMIZE_HENRICH_WILBERT)
+TEST_F(PluginLevenbergMarquardtTests, OPTIMIZE_HENRICH_WILBERT)
 {
     //We set the initial value of p6 to 35.11, which is *way* off, to test the edges of the optimizer.
     // Some of the runs actually fail under this scenario.
     // In Python, the confidence limits are normal, but here in C, for some reason some are nan.
-    if (gRRPluginDir.empty()) {
-        std::cerr << "Please set the 'plugindir' environment variable before running the plugin tests.  This should be the directory where the plugin dlls are created." << std::endl;
-        EXPECT_TRUE(false);
-    }
-    PluginManager* PM = new PluginManager(gRRPluginDir);
+
+    PluginManager* PM = new PluginManager(rrPluginsBuildDir_.string());
     //tpCreatePluginManager();
     //gHM.registerHandle(PM, typeid(PM).name());
 
@@ -153,10 +150,10 @@ TEST(RRPLUGIN_TEST_MODEL, OPTIMIZE_HENRICH_WILBERT)
     Plugin* chiplugin = PM->getPlugin("tel_chisquare");
     ASSERT_TRUE(chiplugin != NULL);
 
-    lmplugin->setPropertyByString("SBML", (gRRTestDir + "/models/PLUGINS/HenrichWilbertFit.xml").c_str());
+    lmplugin->setPropertyByString("SBML", (pluginsModelsDir / "HenrichWilbertFit.xml").string().c_str());
 
     TelluriumData exdata;
-    exdata.read(gRRTestDir + "/models/PLUGINS/wilbertData.dat");
+    exdata.read((pluginsModelsDir / "wilbertData.dat").string());
     lmplugin->setPropertyValue("ExperimentalData", &exdata);
 
     Property<double> p0val(6.77, "p0", "", "", "", true);

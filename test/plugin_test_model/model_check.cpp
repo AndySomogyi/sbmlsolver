@@ -1,30 +1,30 @@
 #include "gtest/gtest.h"
-#include "../test_util.h"
+#include <filesystem>
+#include "RoadRunnerTest.h"
 #include "telPluginManager.h"
 #include "telPlugin.h"
 #include "telProperties.h"
 #include "telTelluriumData.h"
 #include "telProperty.h"
-//#include "tel"
+#include "../../wrappers/C/telplugins_properties_api.h"
 
+using std::filesystem::path;
 
-using namespace testing;
-using namespace std;
 using namespace tlp;
 
-extern string gRRTestDir;
-extern string gRROutputDir;
-extern string gRRPluginDir;
-//extern APIHandleManager gHM;
+class PluginTestModelTests : public RoadRunnerTest {
+public:
+    path pluginsModelsDir;
 
-
-TEST(RRPLUGIN_TEST_MODEL, STANDARD_RUN)
-{
-    if (gRRPluginDir.empty()) {
-        std::cerr << "Please set the 'plugindir' environment variable before running the plugin tests.  This should be the directory where the plugin dlls are created." << std::endl;
-        EXPECT_TRUE(false);
+    PluginTestModelTests() {
+        pluginsModelsDir = rrTestModelsDir_ / "PLUGINS";
     }
-    PluginManager* PM = new PluginManager(gRRPluginDir);
+};
+
+
+TEST_F(PluginTestModelTests, STANDARD_RUN)
+{
+    PluginManager* PM = new PluginManager(rrPluginsBuildDir_.string());
 
     Plugin* tmplugin = PM->getPlugin("tel_test_model");
     ASSERT_TRUE(tmplugin != NULL);
@@ -68,13 +68,9 @@ TEST(RRPLUGIN_TEST_MODEL, STANDARD_RUN)
 
 }
 
-TEST(RRPLUGIN_TEST_MODEL, CHECK_SEED)
+TEST_F(PluginTestModelTests, CHECK_SEED)
 {
-    if (gRRPluginDir.empty()) {
-        std::cerr << "Please set the 'plugindir' environment variable before running the plugin tests.  This should be the directory where the plugin dlls are created." << std::endl;
-        EXPECT_TRUE(false);
-    }
-    PluginManager* PM = new PluginManager(gRRPluginDir);
+    PluginManager* PM = new PluginManager(rrPluginsBuildDir_.string());
 
     Plugin* tmplugin = PM->getPlugin("tel_test_model");
     ASSERT_TRUE(tmplugin != NULL);
@@ -120,13 +116,9 @@ TEST(RRPLUGIN_TEST_MODEL, CHECK_SEED)
 
 }
 
-TEST(RRPLUGIN_TEST_MODEL, CHECK_SIGMA)
+TEST_F(PluginTestModelTests, CHECK_SIGMA)
 {
-    if (gRRPluginDir.empty()) {
-        std::cerr << "Please set the 'plugindir' environment variable before running the plugin tests.  This should be the directory where the plugin dlls are created." << std::endl;
-        EXPECT_TRUE(false);
-    }
-    PluginManager* PM = new PluginManager(gRRPluginDir);
+    PluginManager* PM = new PluginManager(rrPluginsBuildDir_.string());
 
     Plugin* tmplugin = PM->getPlugin("tel_test_model");
     ASSERT_TRUE(tmplugin != NULL);
@@ -165,13 +157,9 @@ TEST(RRPLUGIN_TEST_MODEL, CHECK_SIGMA)
     EXPECT_EQ(*sigma, 10);
 }
 
-TEST(RRPLUGIN_TEST_MODEL, NEW_MODEL)
+TEST_F(PluginTestModelTests, NEW_MODEL)
 {
-    if (gRRPluginDir.empty()) {
-        std::cerr << "Please set the 'plugindir' environment variable before running the plugin tests.  This should be the directory where the plugin dlls are created." << std::endl;
-        EXPECT_TRUE(false);
-    }
-    PluginManager* PM = new PluginManager(gRRPluginDir);
+    PluginManager* PM = new PluginManager(rrPluginsBuildDir_.string());
 
     Plugin* tmplugin = PM->getPlugin("tel_test_model");
     ASSERT_TRUE(tmplugin != NULL);

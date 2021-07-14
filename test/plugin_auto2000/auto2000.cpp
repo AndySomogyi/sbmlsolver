@@ -1,35 +1,38 @@
 #include "gtest/gtest.h"
-#include "rrRoadRunner.h"
-#include "rrException.h"
-#include "rrUtils.h"
-#include "gtest/gtest.h"
-#include "../test_util.h"
+#include <filesystem>
+#include "RoadRunnerTest.h"
 #include "telPluginManager.h"
 #include "telPlugin.h"
 #include "telProperties.h"
 #include "telTelluriumData.h"
 #include "telProperty.h"
+#include "../../wrappers/C/telplugins_properties_api.h"
+
+using std::filesystem::path;
 
 using namespace testing;
 using namespace std;
 using namespace tlp;
 
-extern string gRRTestDir;
-extern string gRROutputDir;
-extern string gRRPluginDir;
 
-TEST(RRPLUGIN_TEST_MODEL, RUN_BIOMOD_203)
-{
-    if (gRRPluginDir.empty()) {
-        std::cerr << "Please set the 'plugindir' environment variable before running the plugin tests.  This should be the directory where the plugin dlls are created." << std::endl;
-        EXPECT_TRUE(false);
+class PluginAuto2000Tests : public RoadRunnerTest {
+public:
+    path pluginsModelsDir;
+
+    PluginAuto2000Tests() {
+        pluginsModelsDir = rrTestModelsDir_ / "PLUGINS";
     }
-    PluginManager* PM = new PluginManager(gRRPluginDir);
+};
+
+
+TEST_F(PluginAuto2000Tests, RUN_BIOMOD_203)
+{
+    PluginManager* PM = new PluginManager(rrPluginsBuildDir_.string());
 
     Plugin* a2kplugin = PM->getPlugin("tel_auto2000");
     ASSERT_TRUE(a2kplugin != NULL);
 
-    a2kplugin->setPropertyByString("SBML", (gRRTestDir + "/models/PLUGINS/BIOMD0000000203.xml").c_str());
+    a2kplugin->setPropertyByString("SBML", (pluginsModelsDir / "BIOMD0000000203.xml").string().c_str());
     a2kplugin->setPropertyByString("ScanDirection", "Positive");
     a2kplugin->setPropertyByString("PrincipalContinuationParameter", "A");
     a2kplugin->setPropertyByString("PCPLowerBound", "10");
@@ -70,14 +73,14 @@ TEST(RRPLUGIN_TEST_MODEL, RUN_BIOMOD_203)
     EXPECT_NEAR(data->getDataElement(3535, 6), 183.378, 0.001);
 }
 
-TEST(RRPLUGIN_TEST_MODEL, RUN_BISTABLE)
+TEST_F(PluginAuto2000Tests, RUN_BISTABLE)
 {
-    PluginManager* PM = new PluginManager(gRRPluginDir);
+    PluginManager* PM = new PluginManager(rrPluginsBuildDir_.string());
 
     Plugin* a2kplugin = PM->getPlugin("tel_auto2000");
     ASSERT_TRUE(a2kplugin != NULL);
 
-    a2kplugin->setPropertyByString("SBML", (gRRTestDir + "/models/PLUGINS/bistable.xml").c_str());
+    a2kplugin->setPropertyByString("SBML", (pluginsModelsDir / "bistable.xml").string().c_str());
     a2kplugin->setPropertyByString("ScanDirection", "Negative");
     a2kplugin->setPropertyByString("PrincipalContinuationParameter", "k3");
     a2kplugin->setPropertyByString("PCPLowerBound", "0.35");
@@ -113,14 +116,14 @@ TEST(RRPLUGIN_TEST_MODEL, RUN_BISTABLE)
     EXPECT_NEAR(data->getDataElement(93, 1), 2.63297, 0.0001);
 }
 
-TEST(RRPLUGIN_TEST_MODEL, RUN_BISTABLE_IRREVERSIBLE)
+TEST_F(PluginAuto2000Tests, RUN_BISTABLE_IRREVERSIBLE)
 {
-    PluginManager* PM = new PluginManager(gRRPluginDir);
+    PluginManager* PM = new PluginManager(rrPluginsBuildDir_.string());
 
     Plugin* a2kplugin = PM->getPlugin("tel_auto2000");
     ASSERT_TRUE(a2kplugin != NULL);
 
-    a2kplugin->setPropertyByString("SBML", (gRRTestDir + "/models/PLUGINS/irreversible_bistability.xml").c_str());
+    a2kplugin->setPropertyByString("SBML", (pluginsModelsDir / "irreversible_bistability.xml").string().c_str());
     a2kplugin->setPropertyByString("ScanDirection", "Positive");
     a2kplugin->setPropertyByString("PrincipalContinuationParameter", "Signal");
     a2kplugin->setPropertyByString("PCPLowerBound", "-3");

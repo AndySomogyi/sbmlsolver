@@ -1,30 +1,30 @@
 #include "gtest/gtest.h"
-#include "../test_util.h"
+#include <filesystem>
+#include "RoadRunnerTest.h"
 #include "telPluginManager.h"
 #include "telPlugin.h"
 #include "telProperties.h"
 #include "telTelluriumData.h"
 #include "telProperty.h"
-//#include "tel"
+#include "../../wrappers/C/telplugins_properties_api.h"
 
+using std::filesystem::path;
 
-using namespace testing;
-using namespace std;
 using namespace tlp;
 
-extern string gRRTestDir;
-extern string gRROutputDir;
-extern string gRRPluginDir;
-//extern APIHandleManager gHM;
+class PluginMonteCarloTests : public RoadRunnerTest {
+public:
+    path pluginsModelsDir;
 
-
-TEST(RRPLUGIN_TEST_MODEL, OPTIMIZE_TEST_MODEL)
-{
-    if (gRRPluginDir.empty()) {
-        std::cerr << "Please set the 'plugindir' environment variable before running the plugin tests.  This should be the directory where the plugin dlls are created." << std::endl;
-        EXPECT_TRUE(false);
+    PluginMonteCarloTests() {
+        pluginsModelsDir = rrTestModelsDir_ / "PLUGINS";
     }
-    PluginManager* PM = new PluginManager(gRRPluginDir);
+};
+
+
+TEST_F(PluginMonteCarloTests, OPTIMIZE_TEST_MODEL)
+{
+    PluginManager* PM = new PluginManager(rrPluginsBuildDir_.string());
 
     Plugin* tmplugin = PM->getPlugin("tel_test_model");
     ASSERT_TRUE(tmplugin != NULL);
@@ -110,13 +110,9 @@ TEST(RRPLUGIN_TEST_MODEL, OPTIMIZE_TEST_MODEL)
 
 }
 
-TEST(RRPLUGIN_TEST_MODEL, OPTIMIZE_NELDER_MEAD)
+TEST_F(PluginMonteCarloTests, OPTIMIZE_NELDER_MEAD)
 {
-    if (gRRPluginDir.empty()) {
-        std::cerr << "Please set the 'plugindir' environment variable before running the plugin tests.  This should be the directory where the plugin dlls are created." << std::endl;
-        EXPECT_TRUE(false);
-    }
-    PluginManager* PM = new PluginManager(gRRPluginDir);
+    PluginManager* PM = new PluginManager(rrPluginsBuildDir_.string());
 
     Plugin* tmplugin = PM->getPlugin("tel_test_model");
     ASSERT_TRUE(tmplugin != NULL);
@@ -202,13 +198,9 @@ TEST(RRPLUGIN_TEST_MODEL, OPTIMIZE_NELDER_MEAD)
     EXPECT_TRUE(percentiles->getNext() == NULL);
 }
 
-TEST(RRPLUGIN_TEST_MODEL, CHECK_SEED)
+TEST_F(PluginMonteCarloTests, CHECK_SEED)
 {
-    if (gRRPluginDir.empty()) {
-        std::cerr << "Please set the 'plugindir' environment variable before running the plugin tests.  This should be the directory where the plugin dlls are created." << std::endl;
-        EXPECT_TRUE(false);
-    }
-    PluginManager* PM = new PluginManager(gRRPluginDir);
+    PluginManager* PM = new PluginManager(rrPluginsBuildDir_.string());
 
     Plugin* tmplugin = PM->getPlugin("tel_test_model");
     ASSERT_TRUE(tmplugin != NULL);

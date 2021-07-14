@@ -1,5 +1,6 @@
 #include "gtest/gtest.h"
-#include "../test_util.h"
+#include <filesystem>
+#include "RoadRunnerTest.h"
 #include "telPluginManager.h"
 #include "telPlugin.h"
 #include "telProperties.h"
@@ -7,18 +8,24 @@
 #include "telProperty.h"
 #include "../../wrappers/C/telplugins_properties_api.h"
 
+using std::filesystem::path;
 
 using namespace testing;
 using namespace std;
 using namespace tlp;
 
-extern string gRRTestDir;
-extern string gRROutputDir;
-extern string gRRPluginDir;
-//extern APIHandleManager gHM;
+
+class PluginAPITests : public RoadRunnerTest {
+public:
+    path modelAnalysisModelsDir;
+
+    PluginAPITests() {
+        modelAnalysisModelsDir = rrTestModelsDir_ / "ModelAnalysis";
+    }
+};
 
 
-TEST(RRPLUGIN_API_TEST, PROPERTY_LIST)
+TEST_F(PluginAPITests, PropertyList)
 {
     string val = "val1";
     TELHandle para = tpCreateProperty("stringProp", "std::string", "", &val);
@@ -28,6 +35,5 @@ TEST(RRPLUGIN_API_TEST, PROPERTY_LIST)
     string list = tpGetPropertyValueAsString(test);
     EXPECT_STREQ(list.c_str(), "[stringProp, val1]");
     TELHandle props = tpGetPropertyValueHandle(test);
-
 }
 
