@@ -99,7 +99,7 @@ TEST_F(PluginNelderMeadTests, OPTIMIZE_TEST_MODEL)
         {
             double fitval = fit->getDataElement(r, c);
             double origval = exdata->getDataElement(r, c);
-            double tol = max(abs(origval / 10), 0.0001);
+            double tol = fmax(abs(origval / 10), 0.0001);
             EXPECT_NEAR(fitval, origval, tol);
 
             if (c > 0) {
@@ -266,7 +266,7 @@ TEST_F(PluginNelderMeadTests, OPTIMIZE_NEW_MODEL)
         {
             double fitval = fit->getDataElement(r, c);
             double origval = exdata->getDataElement(r, c);
-            double tol = max(abs(origval / 10), 0.0001);
+            double tol = fmax(abs(origval / 10), 0.0001);
             EXPECT_NEAR(fitval, origval, tol);
 
             if (c > 0) {
