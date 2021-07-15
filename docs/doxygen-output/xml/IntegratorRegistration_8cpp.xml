@@ -11,39 +11,39 @@
     <includes refid="EulerIntegrator_8h" local="yes">EulerIntegrator.h</includes>
     <includes refid="RK45Integrator_8h" local="yes">RK45Integrator.h</includes>
     <incdepgraph>
-      <node id="37">
+      <node id="35">
         <label>list</label>
       </node>
-      <node id="33">
+      <node id="31">
         <label>GillespieIntegrator.h</label>
         <link refid="GillespieIntegrator_8h_source"/>
         <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="30" relation="include">
+        <childnode refid="28" relation="include">
         </childnode>
-        <childnode refid="34" relation="include">
+        <childnode refid="32" relation="include">
         </childnode>
-        <childnode refid="39" relation="include">
+        <childnode refid="37" relation="include">
         </childnode>
       </node>
-      <node id="34">
+      <node id="32">
         <label>rrExecutableModel.h</label>
         <link refid="rrExecutableModel_8h"/>
         <childnode refid="8" relation="include">
         </childnode>
         <childnode refid="19" relation="include">
         </childnode>
-        <childnode refid="35" relation="include">
+        <childnode refid="33" relation="include">
         </childnode>
-        <childnode refid="36" relation="include">
+        <childnode refid="34" relation="include">
         </childnode>
         <childnode refid="21" relation="include">
         </childnode>
         <childnode refid="13" relation="include">
         </childnode>
-        <childnode refid="37" relation="include">
+        <childnode refid="35" relation="include">
         </childnode>
-        <childnode refid="38" relation="include">
+        <childnode refid="36" relation="include">
         </childnode>
         <childnode refid="24" relation="include">
         </childnode>
@@ -54,19 +54,11 @@
       <node id="14">
         <label>limits</label>
       </node>
-      <node id="35">
+      <node id="33">
         <label>sbml/SBMLDocument.h</label>
       </node>
-      <node id="39">
+      <node id="37">
         <label>tr1proxy/rr_random.h</label>
-      </node>
-      <node id="27">
-        <label>Registrar.h</label>
-        <link refid="Registrar_8h_source"/>
-        <childnode refid="7" relation="include">
-        </childnode>
-        <childnode refid="12" relation="include">
-        </childnode>
       </node>
       <node id="4">
         <label>Integrator.h</label>
@@ -85,14 +77,10 @@
         </childnode>
         <childnode refid="25" relation="include">
         </childnode>
-        <childnode refid="27" relation="include">
-        </childnode>
-        <childnode refid="28" relation="include">
-        </childnode>
         <childnode refid="26" relation="include">
         </childnode>
       </node>
-      <node id="36">
+      <node id="34">
         <label>stdint.h</label>
       </node>
       <node id="11">
@@ -146,26 +134,14 @@
       <node id="20">
         <label>exception</label>
       </node>
-      <node id="38">
+      <node id="36">
         <label>ostream</label>
-      </node>
-      <node id="28">
-        <label>RegistrationFactory.h</label>
-        <link refid="FactoryWithRegistration_8h_source"/>
-        <childnode refid="7" relation="include">
-        </childnode>
-        <childnode refid="12" relation="include">
-        </childnode>
-        <childnode refid="27" relation="include">
-        </childnode>
-        <childnode refid="23" relation="include">
-        </childnode>
       </node>
       <node id="3">
         <label>IntegratorRegistration.h</label>
         <link refid="IntegratorRegistration_8h"/>
       </node>
-      <node id="32">
+      <node id="30">
         <label>sundials/sundials_nonlinearsolver.h</label>
       </node>
       <node id="23">
@@ -204,37 +180,37 @@
         <childnode refid="7" relation="include">
         </childnode>
       </node>
-      <node id="40">
+      <node id="38">
         <label>RK4Integrator.h</label>
         <link refid="RK4Integrator_8h_source"/>
         <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="30" relation="include">
+        <childnode refid="28" relation="include">
         </childnode>
       </node>
-      <node id="31">
+      <node id="29">
         <label>sundials/sundials_linearsolver.h</label>
       </node>
       <node id="6">
         <label>sstream</label>
       </node>
-      <node id="29">
+      <node id="27">
         <label>CVODEIntegrator.h</label>
         <link refid="CVODEIntegrator_8h"/>
         <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="30" relation="include">
+        <childnode refid="28" relation="include">
         </childnode>
         <childnode refid="21" relation="include">
         </childnode>
         <childnode refid="13" relation="include">
         </childnode>
-        <childnode refid="31" relation="include">
+        <childnode refid="29" relation="include">
         </childnode>
-        <childnode refid="32" relation="include">
+        <childnode refid="30" relation="include">
         </childnode>
       </node>
-      <node id="30">
+      <node id="28">
         <label>rrRoadRunnerOptions.h</label>
         <link refid="rrRoadRunnerOptions_8h_source"/>
         <childnode refid="7" relation="include">
@@ -257,15 +233,15 @@
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="29" relation="include">
+        <childnode refid="27" relation="include">
         </childnode>
-        <childnode refid="33" relation="include">
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
         </childnode>
         <childnode refid="40" relation="include">
-        </childnode>
-        <childnode refid="41" relation="include">
-        </childnode>
-        <childnode refid="42" relation="include">
         </childnode>
       </node>
       <node id="12">
@@ -305,27 +281,25 @@
       <node id="24">
         <label>tr1proxy/rr_memory.h</label>
       </node>
-      <node id="42">
+      <node id="40">
         <label>RK45Integrator.h</label>
         <link refid="RK45Integrator_8h"/>
         <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="30" relation="include">
-        </childnode>
-        <childnode refid="27" relation="include">
+        <childnode refid="28" relation="include">
         </childnode>
       </node>
       <node id="15">
         <label>type_traits</label>
       </node>
-      <node id="41">
+      <node id="39">
         <label>EulerIntegrator.h</label>
         <link refid="EulerIntegrator_8h_source"/>
         <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="34" relation="include">
+        <childnode refid="32" relation="include">
         </childnode>
-        <childnode refid="30" relation="include">
+        <childnode refid="28" relation="include">
         </childnode>
         <childnode refid="21" relation="include">
         </childnode>
@@ -377,11 +351,11 @@
 <codeline lineno="31"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>call<sp/>exactly<sp/>once</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>register_integrators_at_init()<sp/>{</highlight></codeline>
-<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classrr_1_1IntegratorFactory_1a3bd934950b0c1523d8c1b482bb85ab15" kindref="member">IntegratorFactory::getInstance</ref>().<ref refid="classrr_1_1FactoryWithRegistration_1a8d75bd9ffec1eef7241f173a64ef5674" kindref="member">registerSolver</ref>(</highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/>CVODEIntegratorRegistrar());</highlight></codeline>
-<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classrr_1_1IntegratorFactory_1a3bd934950b0c1523d8c1b482bb85ab15" kindref="member">IntegratorFactory::getInstance</ref>().<ref refid="classrr_1_1FactoryWithRegistration_1a8d75bd9ffec1eef7241f173a64ef5674" kindref="member">registerSolver</ref>(</highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/>GillespieIntegratorRegistrar());</highlight></codeline>
-<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classrr_1_1IntegratorFactory_1a3bd934950b0c1523d8c1b482bb85ab15" kindref="member">IntegratorFactory::getInstance</ref>().<ref refid="classrr_1_1FactoryWithRegistration_1a8d75bd9ffec1eef7241f173a64ef5674" kindref="member">registerSolver</ref>(</highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/>RK4IntegratorRegistrar());</highlight></codeline>
-<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classrr_1_1IntegratorFactory_1a3bd934950b0c1523d8c1b482bb85ab15" kindref="member">IntegratorFactory::getInstance</ref>().<ref refid="classrr_1_1FactoryWithRegistration_1a8d75bd9ffec1eef7241f173a64ef5674" kindref="member">registerSolver</ref>(</highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/>RK45IntegratorRegistrar());</highlight></codeline>
-<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classrr_1_1IntegratorFactory_1a3bd934950b0c1523d8c1b482bb85ab15" kindref="member">IntegratorFactory::getInstance</ref>().<ref refid="classrr_1_1FactoryWithRegistration_1a8d75bd9ffec1eef7241f173a64ef5674" kindref="member">registerSolver</ref>(</highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/>EulerIntegratorRegistrar());</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classrr_1_1IntegratorFactory_1a3bd934950b0c1523d8c1b482bb85ab15" kindref="member">IntegratorFactory::getInstance</ref>().<ref refid="classrr_1_1IntegratorFactory_1ac519fc98f09e635cd209d96283a3c57e" kindref="member">registerIntegrator</ref>(</highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/>CVODEIntegratorRegistrar());</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classrr_1_1IntegratorFactory_1a3bd934950b0c1523d8c1b482bb85ab15" kindref="member">IntegratorFactory::getInstance</ref>().<ref refid="classrr_1_1IntegratorFactory_1ac519fc98f09e635cd209d96283a3c57e" kindref="member">registerIntegrator</ref>(</highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/>GillespieIntegratorRegistrar());</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classrr_1_1IntegratorFactory_1a3bd934950b0c1523d8c1b482bb85ab15" kindref="member">IntegratorFactory::getInstance</ref>().<ref refid="classrr_1_1IntegratorFactory_1ac519fc98f09e635cd209d96283a3c57e" kindref="member">registerIntegrator</ref>(</highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/>RK4IntegratorRegistrar());</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classrr_1_1IntegratorFactory_1a3bd934950b0c1523d8c1b482bb85ab15" kindref="member">IntegratorFactory::getInstance</ref>().<ref refid="classrr_1_1IntegratorFactory_1ac519fc98f09e635cd209d96283a3c57e" kindref="member">registerIntegrator</ref>(</highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/>RK45IntegratorRegistrar());</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classrr_1_1IntegratorFactory_1a3bd934950b0c1523d8c1b482bb85ab15" kindref="member">IntegratorFactory::getInstance</ref>().<ref refid="classrr_1_1IntegratorFactory_1ac519fc98f09e635cd209d96283a3c57e" kindref="member">registerIntegrator</ref>(</highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/>EulerIntegratorRegistrar());</highlight></codeline>
 <codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="40"><highlight class="normal"></highlight></codeline>
 <codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classrr_1_1IntegratorRegistrationMgr_1ac32acef6425954a61f242ed99199cdf3" kindref="member">IntegratorRegistrationMgr::Register</ref>()<sp/>{</highlight></codeline>

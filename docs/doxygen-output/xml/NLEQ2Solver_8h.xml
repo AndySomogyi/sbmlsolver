@@ -8,27 +8,27 @@
     <includedby refid="NLEQ2Solver_8cpp" local="yes">NLEQ2Solver.cpp</includedby>
     <includedby refid="SolverRegistration_8cpp" local="yes">SolverRegistration.cpp</includedby>
     <incdepgraph>
-      <node id="32">
+      <node id="29">
         <label>list</label>
       </node>
-      <node id="29">
+      <node id="26">
         <label>rrExecutableModel.h</label>
         <link refid="rrExecutableModel_8h"/>
         <childnode refid="8" relation="include">
         </childnode>
         <childnode refid="18" relation="include">
         </childnode>
-        <childnode refid="30" relation="include">
+        <childnode refid="27" relation="include">
         </childnode>
-        <childnode refid="31" relation="include">
+        <childnode refid="28" relation="include">
         </childnode>
         <childnode refid="20" relation="include">
         </childnode>
         <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="32" relation="include">
+        <childnode refid="29" relation="include">
         </childnode>
-        <childnode refid="33" relation="include">
+        <childnode refid="30" relation="include">
         </childnode>
         <childnode refid="23" relation="include">
         </childnode>
@@ -39,18 +39,10 @@
       <node id="13">
         <label>limits</label>
       </node>
-      <node id="30">
+      <node id="27">
         <label>sbml/SBMLDocument.h</label>
       </node>
-      <node id="26">
-        <label>Registrar.h</label>
-        <link refid="Registrar_8h_source"/>
-        <childnode refid="4" relation="include">
-        </childnode>
-        <childnode refid="12" relation="include">
-        </childnode>
-      </node>
-      <node id="31">
+      <node id="28">
         <label>stdint.h</label>
       </node>
       <node id="11">
@@ -108,26 +100,14 @@
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="29" relation="include">
+        <childnode refid="26" relation="include">
         </childnode>
       </node>
       <node id="19">
         <label>exception</label>
       </node>
-      <node id="33">
+      <node id="30">
         <label>ostream</label>
-      </node>
-      <node id="27">
-        <label>RegistrationFactory.h</label>
-        <link refid="FactoryWithRegistration_8h_source"/>
-        <childnode refid="4" relation="include">
-        </childnode>
-        <childnode refid="12" relation="include">
-        </childnode>
-        <childnode refid="26" relation="include">
-        </childnode>
-        <childnode refid="22" relation="include">
-        </childnode>
       </node>
       <node id="5">
         <label>SteadyStateSolver.h</label>
@@ -142,13 +122,9 @@
         </childnode>
         <childnode refid="22" relation="include">
         </childnode>
-        <childnode refid="26" relation="include">
+        <childnode refid="23" relation="include">
         </childnode>
-        <childnode refid="27" relation="include">
-        </childnode>
-        <childnode refid="28" relation="include">
-        </childnode>
-        <childnode refid="21" relation="include">
+        <childnode refid="24" relation="include">
         </childnode>
         <childnode refid="25" relation="include">
         </childnode>
@@ -236,9 +212,6 @@
       <node id="14">
         <label>type_traits</label>
       </node>
-      <node id="28">
-        <label>memory</label>
-      </node>
     </incdepgraph>
     <invincdepgraph>
       <node id="2">
@@ -312,7 +285,7 @@
 <codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>**<sp/>Registration<sp/>*********************************************************</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="80"><highlight class="normal"></highlight></codeline>
 <codeline lineno="81"><highlight class="normal"></highlight></codeline>
-<codeline lineno="82" refid="classrr_1_1NLEQ2SolverRegistrar" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classrr_1_1NLEQ2SolverRegistrar" kindref="compound">NLEQ2SolverRegistrar</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classrr_1_1Registrar" kindref="compound">Registrar</ref><sp/>{</highlight></codeline>
+<codeline lineno="82" refid="classrr_1_1NLEQ2SolverRegistrar" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classrr_1_1NLEQ2SolverRegistrar" kindref="compound">NLEQ2SolverRegistrar</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classrr_1_1SteadyStateSolverRegistrar" kindref="compound">SteadyStateSolverRegistrar</ref><sp/>{</highlight></codeline>
 <codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
 <codeline lineno="88" refid="classrr_1_1NLEQ2SolverRegistrar_1a6d9c3dc02579c94f76900fffe550ff3b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classrr_1_1NLEQ2SolverRegistrar_1a6d9c3dc02579c94f76900fffe550ff3b" kindref="member">getName</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
 <codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classrr_1_1NLEQ2Solver_1a80e735300edec38f57f1ff8a0d989237" kindref="member">NLEQ2Solver::getNLEQName</ref>();</highlight></codeline>

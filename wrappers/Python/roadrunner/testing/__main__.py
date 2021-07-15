@@ -28,9 +28,12 @@ other_test_modules = [
     "testTestModelFactory",
     "AutomaticMoietyConservationAnalysisTests",
     "SteadyStateSolverTests",
+    "IntegratorTests",
+    "SettingTestsSwigAPI"
 ]
 
 for t in other_test_modules:
+    print(f"Running test module \"{t}\"")
     unittest.main(module=t)
 
 

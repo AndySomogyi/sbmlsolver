@@ -15,21 +15,12 @@
     <includedby refid="PresimulationDecorator_8cpp" local="yes">PresimulationDecorator.cpp</includedby>
     <includedby refid="PresimulationProgramDecorator_8cpp" local="yes">PresimulationProgramDecorator.cpp</includedby>
     <includedby refid="rrSBMLModelSimulation_8cpp" local="yes">rrSBMLModelSimulation.cpp</includedby>
-    <includedby refid="SensitivitySolver_8h" local="yes">SensitivitySolver.h</includedby>
     <incdepgraph>
       <node id="14">
         <label>functional</label>
       </node>
       <node id="12">
         <label>limits</label>
-      </node>
-      <node id="25">
-        <label>Registrar.h</label>
-        <link refid="Registrar_8h_source"/>
-        <childnode refid="5" relation="include">
-        </childnode>
-        <childnode refid="10" relation="include">
-        </childnode>
       </node>
       <node id="2">
         <label>Integrator.h</label>
@@ -47,10 +38,6 @@
         <childnode refid="22" relation="include">
         </childnode>
         <childnode refid="23" relation="include">
-        </childnode>
-        <childnode refid="25" relation="include">
-        </childnode>
-        <childnode refid="26" relation="include">
         </childnode>
         <childnode refid="24" relation="include">
         </childnode>
@@ -106,19 +93,7 @@
       <node id="18">
         <label>exception</label>
       </node>
-      <node id="26">
-        <label>RegistrationFactory.h</label>
-        <link refid="FactoryWithRegistration_8h_source"/>
-        <childnode refid="5" relation="include">
-        </childnode>
-        <childnode refid="10" relation="include">
-        </childnode>
-        <childnode refid="25" relation="include">
-        </childnode>
-        <childnode refid="21" relation="include">
-        </childnode>
-      </node>
-      <node id="29">
+      <node id="27">
         <label>sundials/sundials_nonlinearsolver.h</label>
       </node>
       <node id="21">
@@ -157,7 +132,7 @@
         <childnode refid="5" relation="include">
         </childnode>
       </node>
-      <node id="28">
+      <node id="26">
         <label>sundials/sundials_linearsolver.h</label>
       </node>
       <node id="4">
@@ -168,18 +143,18 @@
         <link refid="CVODEIntegrator_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="27" relation="include">
+        <childnode refid="25" relation="include">
         </childnode>
         <childnode refid="19" relation="include">
         </childnode>
         <childnode refid="11" relation="include">
         </childnode>
-        <childnode refid="28" relation="include">
+        <childnode refid="26" relation="include">
         </childnode>
-        <childnode refid="29" relation="include">
+        <childnode refid="27" relation="include">
         </childnode>
       </node>
-      <node id="27">
+      <node id="25">
         <label>rrRoadRunnerOptions.h</label>
         <link refid="rrRoadRunnerOptions_8h_source"/>
         <childnode refid="5" relation="include">
@@ -231,28 +206,10 @@
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="3">
-        <label>SensitivitySolver.h</label>
-        <link refid="SensitivitySolver_8h_source"/>
-        <childnode refid="4" relation="include">
-        </childnode>
-        <childnode refid="5" relation="include">
-        </childnode>
-      </node>
-      <node id="4">
-        <label>AdjointSensitivitySolver.h</label>
-        <link refid="AdjointSensitivitySolver_8h_source"/>
-      </node>
-      <node id="5">
-        <label>ForwardSensitivitySolver.h</label>
-        <link refid="ForwardSensitivitySolver_8h_source"/>
-      </node>
       <node id="1">
         <label>CVODEIntegrator.h</label>
         <link refid="CVODEIntegrator_8h"/>
         <childnode refid="2" relation="include">
-        </childnode>
-        <childnode refid="3" relation="include">
         </childnode>
       </node>
       <node id="2">
@@ -458,7 +415,7 @@
 <codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>**<sp/>Registration<sp/>*********************************************************</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="336"><highlight class="normal"></highlight></codeline>
 <codeline lineno="337"><highlight class="normal"></highlight></codeline>
-<codeline lineno="338" refid="classrr_1_1CVODEIntegratorRegistrar" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classrr_1_1CVODEIntegratorRegistrar" kindref="compound">CVODEIntegratorRegistrar</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classrr_1_1Registrar" kindref="compound">Registrar</ref><sp/>{</highlight></codeline>
+<codeline lineno="338" refid="classrr_1_1CVODEIntegratorRegistrar" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classrr_1_1CVODEIntegratorRegistrar" kindref="compound">CVODEIntegratorRegistrar</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classrr_1_1IntegratorRegistrar" kindref="compound">IntegratorRegistrar</ref><sp/>{</highlight></codeline>
 <codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
 <codeline lineno="344" refid="classrr_1_1CVODEIntegratorRegistrar_1a1d546eb66882fb25d9a4e103f88f86f6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classrr_1_1CVODEIntegratorRegistrar_1a1d546eb66882fb25d9a4e103f88f86f6" kindref="member">getName</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
 <codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classrr_1_1CVODEIntegrator_1a7cc34d2b66fa0e8dbf84ee04083884ee" kindref="member">CVODEIntegrator::getCVODEIntegratorName</ref>();</highlight></codeline>

@@ -23,14 +23,6 @@
       <node id="3">
         <label>filesystem</label>
       </node>
-      <node id="34">
-        <label>Registrar.h</label>
-        <link refid="Registrar_8h_source"/>
-        <childnode refid="4" relation="include">
-        </childnode>
-        <childnode refid="17" relation="include">
-        </childnode>
-      </node>
       <node id="27">
         <label>Integrator.h</label>
         <link refid="Integrator_8h"/>
@@ -47,10 +39,6 @@
         <childnode refid="31" relation="include">
         </childnode>
         <childnode refid="32" relation="include">
-        </childnode>
-        <childnode refid="34" relation="include">
-        </childnode>
-        <childnode refid="35" relation="include">
         </childnode>
         <childnode refid="33" relation="include">
         </childnode>
@@ -109,20 +97,8 @@
       <node id="24">
         <label>exception</label>
       </node>
-      <node id="38">
+      <node id="36">
         <label>fstream</label>
-      </node>
-      <node id="35">
-        <label>RegistrationFactory.h</label>
-        <link refid="FactoryWithRegistration_8h_source"/>
-        <childnode refid="4" relation="include">
-        </childnode>
-        <childnode refid="17" relation="include">
-        </childnode>
-        <childnode refid="34" relation="include">
-        </childnode>
-        <childnode refid="30" relation="include">
-        </childnode>
       </node>
       <node id="30">
         <label>Solver.h</label>
@@ -169,7 +145,7 @@
       <node id="21">
         <label>typeinfo</label>
       </node>
-      <node id="37">
+      <node id="35">
         <label>rr-libstruct/lsMatrix.h</label>
       </node>
       <node id="7">
@@ -274,13 +250,13 @@
         </childnode>
         <childnode refid="25" relation="include">
         </childnode>
-        <childnode refid="36" relation="include">
+        <childnode refid="34" relation="include">
         </childnode>
       </node>
-      <node id="36">
+      <node id="34">
         <label>rrRoadRunnerData.h</label>
         <link refid="rrRoadRunnerData_8h_source"/>
-        <childnode refid="37" relation="include">
+        <childnode refid="35" relation="include">
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
@@ -288,7 +264,7 @@
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
-        <childnode refid="38" relation="include">
+        <childnode refid="36" relation="include">
         </childnode>
         <childnode refid="18" relation="include">
         </childnode>

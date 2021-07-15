@@ -46,7 +46,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="Integrator.h" line="73" column="9" bodyfile="Integrator.h" bodystart="73" bodyend="78"/>
+        <location file="Integrator.h" line="71" column="9" bodyfile="Integrator.h" bodystart="71" bodyend="76"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -65,7 +65,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="Integrator.h" line="80" column="18" bodyfile="Integrator.cpp" bodystart="35" bodyend="36"/>
+        <location file="Integrator.h" line="78" column="18" bodyfile="Integrator.cpp" bodystart="35" bodyend="36"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1Integrator_1a35f0f55f14d225c1da02300f3f1c37b5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
         <type></type>
@@ -78,7 +78,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="Integrator.h" line="82" column="17" bodyfile="Integrator.h" bodystart="82" bodyend="82"/>
+        <location file="Integrator.h" line="80" column="17" bodyfile="Integrator.h" bodystart="80" bodyend="80"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1Integrator_1a6166cbf32c54a1d95a8a830b8db1424c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>IntegrationMethod</type>
@@ -96,7 +96,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="Integrator.h" line="84" column="35"/>
+        <location file="Integrator.h" line="82" column="35"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1Integrator_1a6b12118cd1b0f047f5a64cfb0546b565" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -121,7 +121,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="Integrator.h" line="91" column="22" bodyfile="Integrator.cpp" bodystart="38" bodyend="38"/>
+        <location file="Integrator.h" line="89" column="22" bodyfile="Integrator.cpp" bodystart="38" bodyend="38"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1Integrator_1a3753687554e7e6bcf0c14c174deb2b0f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -129,14 +129,13 @@
         <argsstring>()</argsstring>
         <name>loadConfigSettings</name>
         <reimplementedby refid="classrr_1_1CVODEIntegrator_1ac43da51656919e15d30f450e81b3887b">loadConfigSettings</reimplementedby>
-        <reimplementedby refid="classrr_1_1SensitivitySolver_1a9ca80168204d1feda251b9d9c6878e75">loadConfigSettings</reimplementedby>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="Integrator.h" line="93" column="22" bodyfile="Integrator.cpp" bodystart="40" bodyend="40"/>
+        <location file="Integrator.h" line="91" column="22" bodyfile="Integrator.cpp" bodystart="40" bodyend="40"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1Integrator_1abd2e6c3616d1831c028f1061d927fbcd" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -154,7 +153,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="Integrator.h" line="95" column="22" bodyfile="Integrator.cpp" bodystart="42" bodyend="45"/>
+        <location file="Integrator.h" line="93" column="22" bodyfile="Integrator.cpp" bodystart="42" bodyend="45"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1Integrator_1aa29aac9228f7834cfb92d04f823e5ddf" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>double</type>
@@ -180,7 +179,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="Integrator.h" line="97" column="24"/>
+        <location file="Integrator.h" line="95" column="24"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1Integrator_1a5469efaa4c234b7e59d82d98930fa5b9" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>void</type>
@@ -202,7 +201,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="Integrator.h" line="99" column="22"/>
+        <location file="Integrator.h" line="97" column="22"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1Integrator_1a51c07785d8af1eb648878347529b2eb4" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -220,7 +219,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="Integrator.h" line="109" column="22" bodyfile="Integrator.cpp" bodystart="66" bodyend="66"/>
+        <location file="Integrator.h" line="107" column="22" bodyfile="Integrator.cpp" bodystart="66" bodyend="66"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1Integrator_1a53099879e74aa5bea1139453db9b5732" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -246,7 +245,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="Integrator.h" line="115" column="22" bodyfile="Integrator.cpp" bodystart="70" bodyend="70"/>
+        <location file="Integrator.h" line="113" column="22" bodyfile="Integrator.cpp" bodystart="70" bodyend="70"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1Integrator_1a21645210737f35264504c3125c4679fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -268,7 +267,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="Integrator.h" line="122" column="22" bodyfile="Integrator.cpp" bodystart="72" bodyend="72"/>
+        <location file="Integrator.h" line="120" column="22" bodyfile="Integrator.cpp" bodystart="72" bodyend="72"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1Integrator_1a9bb4546b27c3b0b4552ebc1b36148629" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>std::vector&lt; double &gt;</type>
@@ -286,7 +285,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="Integrator.h" line="128" column="29" bodyfile="Integrator.cpp" bodystart="74" bodyend="77"/>
+        <location file="Integrator.h" line="126" column="29" bodyfile="Integrator.cpp" bodystart="74" bodyend="77"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1Integrator_1ad4ebded6e6b2d28755a649f402962ba7" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>void</type>
@@ -307,7 +306,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="Integrator.h" line="132" column="22"/>
+        <location file="Integrator.h" line="130" column="22"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1Integrator_1ae4105739ea0544fe66db1482e0aeae9d" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>IntegratorListenerPtr</type>
@@ -325,7 +324,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="Integrator.h" line="134" column="39"/>
+        <location file="Integrator.h" line="132" column="39"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1Integrator_1adde5221e0d61f9f5398d69020e1a5a86" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>std::string</type>
@@ -333,7 +332,6 @@
         <argsstring>() const</argsstring>
         <name>toString</name>
         <reimplements refid="classrr_1_1Solver_1af08f448f7eea26415a47caaae161de02">toString</reimplements>
-        <reimplementedby refid="classrr_1_1SensitivitySolver_1ab48e540f8b1ccc44da011f0de0714582">toString</reimplementedby>
         <briefdescription>
 <para>Return a std::string representation of the solver. </para>
         </briefdescription>
@@ -344,7 +342,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="Integrator.h" line="136" column="21" bodyfile="Integrator.cpp" bodystart="47" bodyend="56"/>
+        <location file="Integrator.h" line="134" column="21" bodyfile="Integrator.cpp" bodystart="47" bodyend="56"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1Integrator_1abb3c4ae3020a5df7abe40639037615cb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>std::string</type>
@@ -353,7 +351,6 @@
         <name>toRepr</name>
         <reimplements refid="classrr_1_1Solver_1a2f2b574b220becfebd1be2d8cc34d550">toRepr</reimplements>
         <reimplementedby refid="classrr_1_1EulerIntegrator_1a4f484ed1c727f3f45f90586de64e329f">toRepr</reimplementedby>
-        <reimplementedby refid="classrr_1_1SensitivitySolver_1a1acd022a24aeff09f46f6ef7e5960e65">toRepr</reimplementedby>
         <briefdescription>
 <para>Return std::string representation a la Python <bold>repr</bold> method. </para>
         </briefdescription>
@@ -364,7 +361,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="Integrator.h" line="142" column="29" bodyfile="Integrator.cpp" bodystart="58" bodyend="63"/>
+        <location file="Integrator.h" line="140" column="29" bodyfile="Integrator.cpp" bodystart="58" bodyend="63"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1Integrator_1a18fa004a818506c15d47fa28015039c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -387,7 +384,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="Integrator.h" line="71" column="9" bodyfile="Solver.cpp" bodystart="123" bodyend="128"/>
+        <location file="Integrator.h" line="69" column="9" bodyfile="Solver.cpp" bodystart="123" bodyend="128"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -395,13 +392,13 @@
     <detaileddescription>
     </detaileddescription>
     <inheritancegraph>
-      <node id="9">
+      <node id="6">
         <label>rr::RK45Integrator</label>
         <link refid="classrr_1_1RK45Integrator"/>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="7">
+      <node id="4">
         <label>rr::EulerIntegrator</label>
         <link refid="classrr_1_1EulerIntegrator"/>
         <childnode refid="1" relation="public-inheritance">
@@ -413,7 +410,7 @@
         <childnode refid="2" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="8">
+      <node id="5">
         <label>rr::GillespieIntegrator</label>
         <link refid="classrr_1_1GillespieIntegrator"/>
         <childnode refid="1" relation="public-inheritance">
@@ -425,7 +422,7 @@
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="10">
+      <node id="7">
         <label>rr::RK4Integrator</label>
         <link refid="classrr_1_1RK4Integrator"/>
         <childnode refid="1" relation="public-inheritance">
@@ -434,24 +431,6 @@
       <node id="2">
         <label>rr::Solver</label>
         <link refid="classrr_1_1Solver"/>
-      </node>
-      <node id="5">
-        <label>rr::AdjointSensitivitySolver</label>
-        <link refid="classrr_1_1AdjointSensitivitySolver"/>
-        <childnode refid="4" relation="public-inheritance">
-        </childnode>
-      </node>
-      <node id="4">
-        <label>rr::SensitivitySolver</label>
-        <link refid="classrr_1_1SensitivitySolver"/>
-        <childnode refid="3" relation="public-inheritance">
-        </childnode>
-      </node>
-      <node id="6">
-        <label>rr::ForwardSensitivitySolver</label>
-        <link refid="classrr_1_1ForwardSensitivitySolver"/>
-        <childnode refid="4" relation="public-inheritance">
-        </childnode>
       </node>
     </inheritancegraph>
     <collaborationgraph>
@@ -473,7 +452,7 @@
         <link refid="classrr_1_1ExecutableModel"/>
       </node>
     </collaborationgraph>
-    <location file="Integrator.h" line="64" column="5" bodyfile="Integrator.h" bodystart="64" bodyend="144"/>
+    <location file="Integrator.h" line="62" column="5" bodyfile="Integrator.h" bodystart="62" bodyend="142"/>
     <listofallmembers>
       <member refid="classrr_1_1Solver_1ad5b8ac1ef687d1a3c9f1f305cb73804d" prot="protected" virt="non-virtual"><scope>rr::Integrator</scope><name>addSetting</name></member>
       <member refid="classrr_1_1Solver_1a7d58e224664ab44e56f90802d9601f01" prot="protected" virt="non-virtual"><scope>rr::Integrator</scope><name>DescriptionMap</name></member>

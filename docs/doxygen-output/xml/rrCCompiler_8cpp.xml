@@ -29,14 +29,6 @@
       <node id="15">
         <label>../wrappers/C/rrc_types.h</label>
       </node>
-      <node id="45">
-        <label>Registrar.h</label>
-        <link refid="Registrar_8h_source"/>
-        <childnode refid="5" relation="include">
-        </childnode>
-        <childnode refid="26" relation="include">
-        </childnode>
-      </node>
       <node id="40">
         <label>Integrator.h</label>
         <link refid="Integrator_8h"/>
@@ -53,10 +45,6 @@
         <childnode refid="42" relation="include">
         </childnode>
         <childnode refid="43" relation="include">
-        </childnode>
-        <childnode refid="45" relation="include">
-        </childnode>
-        <childnode refid="46" relation="include">
         </childnode>
         <childnode refid="44" relation="include">
         </childnode>
@@ -111,7 +99,7 @@
       <node id="22">
         <label>map</label>
       </node>
-      <node id="47">
+      <node id="45">
         <label>sbml/Species.h</label>
       </node>
       <node id="30">
@@ -126,18 +114,6 @@
       </node>
       <node id="37">
         <label>ostream</label>
-      </node>
-      <node id="46">
-        <label>RegistrationFactory.h</label>
-        <link refid="FactoryWithRegistration_8h_source"/>
-        <childnode refid="5" relation="include">
-        </childnode>
-        <childnode refid="26" relation="include">
-        </childnode>
-        <childnode refid="45" relation="include">
-        </childnode>
-        <childnode refid="41" relation="include">
-        </childnode>
       </node>
       <node id="9">
         <label>rrCompiler.h</label>
@@ -186,9 +162,9 @@
         </childnode>
         <childnode refid="38" relation="include">
         </childnode>
-        <childnode refid="47" relation="include">
+        <childnode refid="45" relation="include">
         </childnode>
-        <childnode refid="48" relation="include">
+        <childnode refid="46" relation="include">
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
@@ -246,7 +222,7 @@
       <node id="29">
         <label>typeinfo</label>
       </node>
-      <node id="48">
+      <node id="46">
         <label>rr-libstruct/lsMatrix.h</label>
       </node>
       <node id="7">

@@ -5907,7 +5907,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" line="3321" column="30" bodyfile="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" bodystart="3321" bodyend="3340"/>
+        <location file="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" line="3321" column="30" bodyfile="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" bodystart="3321" bodyend="3338"/>
       </memberdef>
       <memberdef kind="function" id="rrc__api_8cpp_1a75f2a837c098f0c113182d676f9f4a94" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>C_DECL_SPEC <ref refid="rrc__types_8h_1a9da8b124eb9c3c0045f8926c6a420b4a" kindref="member">RRCDataPtr</ref> rrcCallConv</type>
@@ -5924,7 +5924,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" line="3342" column="36" bodyfile="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" bodystart="3342" bodyend="3353"/>
+        <location file="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" line="3340" column="36" bodyfile="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" bodystart="3340" bodyend="3351"/>
       </memberdef>
       <memberdef kind="function" id="rrc__api_8cpp_1afd0e7ff5616a1a18c8b526dd3f1dd9a5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>C_DECL_SPEC <ref refid="rrc__types_8h_1a9da8b124eb9c3c0045f8926c6a420b4a" kindref="member">RRCDataPtr</ref> rrcCallConv</type>
@@ -5949,7 +5949,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" line="3355" column="36" bodyfile="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" bodystart="3355" bodyend="3361"/>
+        <location file="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" line="3353" column="36" bodyfile="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" bodystart="3353" bodyend="3359"/>
       </memberdef>
       <memberdef kind="function" id="rrc__api_8cpp_1afc29158d93f00f546544065516617e1d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>C_DECL_SPEC <ref refid="rrc__types_8h_1a9da8b124eb9c3c0045f8926c6a420b4a" kindref="member">RRCDataPtr</ref> rrcCallConv</type>
@@ -5966,7 +5966,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" line="3363" column="36" bodyfile="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" bodystart="3363" bodyend="3374"/>
+        <location file="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" line="3361" column="36" bodyfile="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" bodystart="3361" bodyend="3372"/>
       </memberdef>
       <memberdef kind="function" id="rrc__api_8cpp_1a16237ddb8ce649b5653170d093f56698" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>C_DECL_SPEC <ref refid="rrc__types_8h_1a9da8b124eb9c3c0045f8926c6a420b4a" kindref="member">RRCDataPtr</ref> rrcCallConv</type>
@@ -5995,7 +5995,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" line="3376" column="36" bodyfile="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" bodystart="3376" bodyend="3383"/>
+        <location file="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" line="3374" column="36" bodyfile="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" bodystart="3374" bodyend="3381"/>
       </memberdef>
       <memberdef kind="function" id="rrc__api_8cpp_1a2e1c95016fc17dcee2a6fbf0db5d4039" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>C_DECL_SPEC <ref refid="rrc__types_8h_1a9da8b124eb9c3c0045f8926c6a420b4a" kindref="member">RRCDataPtr</ref> rrcCallConv</type>
@@ -6016,7 +6016,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" line="3385" column="36" bodyfile="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" bodystart="3385" bodyend="3442"/>
+        <location file="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" line="3383" column="36" bodyfile="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" bodystart="3383" bodyend="3440"/>
       </memberdef>
       <memberdef kind="function" id="rrc__api_8cpp_1ad5d77268d2a75bcf1498a8a4ec145b34" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>C_DECL_SPEC <ref refid="rrc__types_8h_1a9da8b124eb9c3c0045f8926c6a420b4a" kindref="member">RRCDataPtr</ref> rrcCallConv</type>
@@ -6049,7 +6049,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" line="3444" column="36" bodyfile="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" bodystart="3444" bodyend="3451"/>
+        <location file="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" line="3442" column="36" bodyfile="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" bodystart="3442" bodyend="3449"/>
       </memberdef>
       <memberdef kind="function" id="rrc__api_8cpp_1a705727cde1cd394f793fa0c53d0070b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>C_DECL_SPEC <ref refid="rrc__types_8h_1a9da8b124eb9c3c0045f8926c6a420b4a" kindref="member">RRCDataPtr</ref> rrcCallConv</type>
@@ -6070,7 +6070,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" line="3453" column="36" bodyfile="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" bodystart="3453" bodyend="3516"/>
+        <location file="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" line="3451" column="36" bodyfile="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" bodystart="3451" bodyend="3514"/>
       </memberdef>
       <memberdef kind="function" id="rrc__api_8cpp_1a649a0a4b4ebe71f3da70135e52c55a0e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>C_DECL_SPEC <ref refid="rrc__types_8h_1a9da8b124eb9c3c0045f8926c6a420b4a" kindref="member">RRCDataPtr</ref> rrcCallConv</type>
@@ -6103,7 +6103,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" line="3518" column="36" bodyfile="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" bodystart="3518" bodyend="3525"/>
+        <location file="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" line="3516" column="36" bodyfile="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" bodystart="3516" bodyend="3523"/>
       </memberdef>
       <memberdef kind="function" id="rrc__api_8cpp_1af76893e3ac297cef97213a32c6f7f586" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool rrcCallConv</type>
@@ -6120,7 +6120,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" line="3527" column="18" bodyfile="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" bodystart="3527" bodyend="3534"/>
+        <location file="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" line="3525" column="18" bodyfile="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" bodystart="3525" bodyend="3532"/>
       </memberdef>
       <memberdef kind="function" id="rrc__api_8cpp_1ae8f7fb07bfab266608a59fe23a720509" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool rrcCallConv</type>
@@ -6137,7 +6137,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" line="3536" column="18" bodyfile="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" bodystart="3536" bodyend="3543"/>
+        <location file="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" line="3534" column="18" bodyfile="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" bodystart="3534" bodyend="3541"/>
       </memberdef>
       <memberdef kind="function" id="rrc__api_8cpp_1aa046e6ded36780b0b3d0c11868c5ba17" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool rrcCallConv</type>
@@ -6154,7 +6154,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" line="3545" column="18" bodyfile="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" bodystart="3545" bodyend="3552"/>
+        <location file="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" line="3543" column="18" bodyfile="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" bodystart="3543" bodyend="3550"/>
       </memberdef>
       <memberdef kind="function" id="rrc__api_8cpp_1ab2823e411b77e1334fda592d04de6da6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool rrcCallConv</type>
@@ -6171,7 +6171,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" line="3554" column="18" bodyfile="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" bodystart="3554" bodyend="3561"/>
+        <location file="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" line="3552" column="18" bodyfile="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" bodystart="3552" bodyend="3559"/>
       </memberdef>
       <memberdef kind="function" id="rrc__api_8cpp_1aad04cdddd1b26a32e3bf1dad53a0dd34" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int rrcCallConv</type>
@@ -6192,7 +6192,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" line="3563" column="17" bodyfile="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" bodystart="3563" bodyend="3568"/>
+        <location file="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" line="3561" column="17" bodyfile="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" bodystart="3561" bodyend="3566"/>
       </memberdef>
       <memberdef kind="function" id="rrc__api_8cpp_1aafd8d7c9d2440da5e62b8b5705d2f223" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int rrcCallConv</type>
@@ -6209,7 +6209,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" line="3570" column="17" bodyfile="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" bodystart="3570" bodyend="3574"/>
+        <location file="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" line="3568" column="17" bodyfile="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" bodystart="3568" bodyend="3572"/>
       </memberdef>
       <memberdef kind="function" id="rrc__api_8cpp_1ae084f440dc73adb5db08398d14a2b2b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int rrcCallConv</type>
@@ -6230,7 +6230,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" line="3576" column="17" bodyfile="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" bodystart="3576" bodyend="3581"/>
+        <location file="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" line="3574" column="17" bodyfile="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" bodystart="3574" bodyend="3579"/>
       </memberdef>
       <memberdef kind="function" id="rrc__api_8cpp_1a4044925edf85475a036d513ab8d437af" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int rrcCallConv</type>
@@ -6247,7 +6247,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" line="3583" column="17" bodyfile="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" bodystart="3583" bodyend="3587"/>
+        <location file="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" line="3581" column="17" bodyfile="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" bodystart="3581" bodyend="3585"/>
       </memberdef>
       <memberdef kind="function" id="rrc__api_8cpp_1ac73879575b0a5ddd16cacce523dc8d03" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int rrcCallConv</type>
@@ -6268,7 +6268,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" line="3589" column="17" bodyfile="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" bodystart="3589" bodyend="3594"/>
+        <location file="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" line="3587" column="17" bodyfile="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" bodystart="3587" bodyend="3592"/>
       </memberdef>
       <memberdef kind="function" id="rrc__api_8cpp_1a02c91f4391a8a64c7a528316ba663852" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double rrcCallConv</type>
@@ -6285,7 +6285,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" line="3596" column="20" bodyfile="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" bodystart="3596" bodyend="3600"/>
+        <location file="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" line="3594" column="20" bodyfile="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" bodystart="3594" bodyend="3598"/>
       </memberdef>
       <memberdef kind="function" id="rrc__api_8cpp_1a5ffcdadc0799db716f01734cbe6f2569" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="rrc__types_8h_1a7c9475df6c7337d99482b13a365e7596" kindref="member">RRStringArrayPtr</ref> rrcCallConv</type>
@@ -6298,7 +6298,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" line="3602" column="30" bodyfile="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" bodystart="3602" bodyend="3616"/>
+        <location file="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" line="3600" column="30" bodyfile="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp" bodystart="3600" bodyend="3614"/>
       </memberdef>
       <memberdef kind="function" id="rrc__cpp__support_8cpp_1aa5105bf392f572cf29ecc41f15e7ae0e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>

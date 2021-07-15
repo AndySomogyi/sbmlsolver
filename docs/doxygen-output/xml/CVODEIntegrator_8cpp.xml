@@ -24,68 +24,60 @@
     <includes local="no">Poco/Logger.h</includes>
     <includes local="no">iostream</includes>
     <incdepgraph>
-      <node id="34">
+      <node id="32">
         <label>list</label>
       </node>
-      <node id="48">
+      <node id="46">
         <label>sunnonlinsol/sunnonlinsol_fixedpoint.h</label>
       </node>
-      <node id="49">
+      <node id="47">
         <label>sunnonlinsol/sunnonlinsol_newton.h</label>
       </node>
-      <node id="31">
+      <node id="29">
         <label>rrExecutableModel.h</label>
         <link refid="rrExecutableModel_8h"/>
         <childnode refid="7" relation="include">
         </childnode>
         <childnode refid="18" relation="include">
         </childnode>
-        <childnode refid="32" relation="include">
+        <childnode refid="30" relation="include">
         </childnode>
-        <childnode refid="33" relation="include">
+        <childnode refid="31" relation="include">
         </childnode>
         <childnode refid="20" relation="include">
         </childnode>
         <childnode refid="12" relation="include">
         </childnode>
-        <childnode refid="34" relation="include">
+        <childnode refid="32" relation="include">
         </childnode>
-        <childnode refid="35" relation="include">
+        <childnode refid="33" relation="include">
         </childnode>
         <childnode refid="23" relation="include">
         </childnode>
       </node>
-      <node id="52">
+      <node id="50">
         <label>iomanip</label>
       </node>
       <node id="15">
         <label>functional</label>
       </node>
-      <node id="46">
+      <node id="44">
         <label>cvodes/cvodes.h</label>
       </node>
       <node id="13">
         <label>limits</label>
       </node>
-      <node id="32">
+      <node id="30">
         <label>sbml/SBMLDocument.h</label>
       </node>
-      <node id="45">
+      <node id="43">
         <label>filesystem</label>
       </node>
-      <node id="44">
+      <node id="42">
         <label>float.h</label>
       </node>
-      <node id="50">
+      <node id="48">
         <label>sunlinsol/sunlinsol_dense.h</label>
-      </node>
-      <node id="26">
-        <label>Registrar.h</label>
-        <link refid="Registrar_8h_source"/>
-        <childnode refid="6" relation="include">
-        </childnode>
-        <childnode refid="11" relation="include">
-        </childnode>
       </node>
       <node id="3">
         <label>Integrator.h</label>
@@ -104,14 +96,10 @@
         </childnode>
         <childnode refid="24" relation="include">
         </childnode>
-        <childnode refid="26" relation="include">
-        </childnode>
-        <childnode refid="27" relation="include">
-        </childnode>
         <childnode refid="25" relation="include">
         </childnode>
       </node>
-      <node id="33">
+      <node id="31">
         <label>stdint.h</label>
       </node>
       <node id="10">
@@ -131,10 +119,10 @@
         <childnode refid="6" relation="include">
         </childnode>
       </node>
-      <node id="53">
+      <node id="51">
         <label>cmath</label>
       </node>
-      <node id="55">
+      <node id="53">
         <label>cassert</label>
       </node>
       <node id="7">
@@ -164,7 +152,7 @@
         <childnode refid="6" relation="include">
         </childnode>
       </node>
-      <node id="38">
+      <node id="36">
         <label>map</label>
       </node>
       <node id="17">
@@ -174,37 +162,29 @@
       <node id="19">
         <label>exception</label>
       </node>
-      <node id="35">
+      <node id="33">
         <label>ostream</label>
-      </node>
-      <node id="27">
-        <label>RegistrationFactory.h</label>
-        <link refid="FactoryWithRegistration_8h_source"/>
-        <childnode refid="6" relation="include">
-        </childnode>
-        <childnode refid="11" relation="include">
-        </childnode>
-        <childnode refid="26" relation="include">
-        </childnode>
-        <childnode refid="22" relation="include">
-        </childnode>
       </node>
       <node id="1">
         <label>CVODEIntegrator.cpp</label>
         <link refid="CVODEIntegrator_8cpp"/>
         <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="31" relation="include">
+        <childnode refid="29" relation="include">
         </childnode>
         <childnode refid="18" relation="include">
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="36" relation="include">
+        <childnode refid="34" relation="include">
         </childnode>
-        <childnode refid="42" relation="include">
+        <childnode refid="40" relation="include">
         </childnode>
-        <childnode refid="43" relation="include">
+        <childnode refid="41" relation="include">
+        </childnode>
+        <childnode refid="44" relation="include">
+        </childnode>
+        <childnode refid="45" relation="include">
         </childnode>
         <childnode refid="46" relation="include">
         </childnode>
@@ -218,24 +198,20 @@
         </childnode>
         <childnode refid="51" relation="include">
         </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
         <childnode refid="52" relation="include">
-        </childnode>
-        <childnode refid="53" relation="include">
-        </childnode>
-        <childnode refid="38" relation="include">
-        </childnode>
-        <childnode refid="54" relation="include">
         </childnode>
         <childnode refid="13" relation="include">
         </childnode>
-        <childnode refid="55" relation="include">
+        <childnode refid="53" relation="include">
         </childnode>
-        <childnode refid="56" relation="include">
+        <childnode refid="54" relation="include">
         </childnode>
         <childnode refid="11" relation="include">
         </childnode>
       </node>
-      <node id="30">
+      <node id="28">
         <label>sundials/sundials_nonlinearsolver.h</label>
       </node>
       <node id="22">
@@ -256,24 +232,24 @@
         <childnode refid="25" relation="include">
         </childnode>
       </node>
-      <node id="36">
+      <node id="34">
         <label>rrStringUtils.h</label>
         <link refid="rrStringUtils_8h_source"/>
         <childnode refid="20" relation="include">
         </childnode>
-        <childnode refid="34" relation="include">
+        <childnode refid="32" relation="include">
         </childnode>
         <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
         </childnode>
         <childnode refid="37" relation="include">
         </childnode>
         <childnode refid="38" relation="include">
-        </childnode>
-        <childnode refid="21" relation="include">
-        </childnode>
-        <childnode refid="39" relation="include">
-        </childnode>
-        <childnode refid="40" relation="include">
         </childnode>
         <childnode refid="6" relation="include">
         </childnode>
@@ -298,7 +274,7 @@
         <childnode refid="6" relation="include">
         </childnode>
       </node>
-      <node id="29">
+      <node id="27">
         <label>sundials/sundials_linearsolver.h</label>
       </node>
       <node id="5">
@@ -309,18 +285,18 @@
         <link refid="CVODEIntegrator_8h"/>
         <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="28" relation="include">
+        <childnode refid="26" relation="include">
         </childnode>
         <childnode refid="20" relation="include">
         </childnode>
         <childnode refid="12" relation="include">
         </childnode>
-        <childnode refid="29" relation="include">
+        <childnode refid="27" relation="include">
         </childnode>
-        <childnode refid="30" relation="include">
+        <childnode refid="28" relation="include">
         </childnode>
       </node>
-      <node id="42">
+      <node id="40">
         <label>rrConfig.h</label>
         <link refid="rrConfig_8h_source"/>
         <childnode refid="20" relation="include">
@@ -332,7 +308,7 @@
         <childnode refid="12" relation="include">
         </childnode>
       </node>
-      <node id="28">
+      <node id="26">
         <label>rrRoadRunnerOptions.h</label>
         <link refid="rrRoadRunnerOptions_8h_source"/>
         <childnode refid="6" relation="include">
@@ -346,7 +322,7 @@
         <childnode refid="12" relation="include">
         </childnode>
       </node>
-      <node id="41">
+      <node id="39">
         <label>cstdlib</label>
       </node>
       <node id="11">
@@ -382,10 +358,10 @@
       <node id="23">
         <label>tr1proxy/rr_memory.h</label>
       </node>
-      <node id="43">
+      <node id="41">
         <label>rrUtils.h</label>
         <link refid="rrUtils_8h_source"/>
-        <childnode refid="44" relation="include">
+        <childnode refid="42" relation="include">
         </childnode>
         <childnode refid="12" relation="include">
         </childnode>
@@ -393,50 +369,50 @@
         </childnode>
         <childnode refid="11" relation="include">
         </childnode>
-        <childnode refid="39" relation="include">
+        <childnode refid="37" relation="include">
         </childnode>
         <childnode refid="6" relation="include">
         </childnode>
-        <childnode refid="40" relation="include">
+        <childnode refid="38" relation="include">
         </childnode>
-        <childnode refid="36" relation="include">
+        <childnode refid="34" relation="include">
         </childnode>
-        <childnode refid="33" relation="include">
+        <childnode refid="31" relation="include">
         </childnode>
-        <childnode refid="45" relation="include">
+        <childnode refid="43" relation="include">
         </childnode>
       </node>
-      <node id="40">
+      <node id="38">
         <label>rrConstants.h</label>
         <link refid="rrConstants_8h_source"/>
         <childnode refid="13" relation="include">
         </childnode>
         <childnode refid="20" relation="include">
         </childnode>
-        <childnode refid="41" relation="include">
+        <childnode refid="39" relation="include">
         </childnode>
         <childnode refid="6" relation="include">
         </childnode>
       </node>
-      <node id="47">
+      <node id="45">
         <label>nvector/nvector_serial.h</label>
       </node>
-      <node id="56">
+      <node id="54">
         <label>Poco/Logger.h</label>
       </node>
       <node id="14">
         <label>type_traits</label>
       </node>
-      <node id="39">
+      <node id="37">
         <label>set</label>
       </node>
-      <node id="37">
+      <node id="35">
         <label>complex</label>
       </node>
-      <node id="54">
+      <node id="52">
         <label>algorithm</label>
       </node>
-      <node id="51">
+      <node id="49">
         <label>cstring</label>
       </node>
     </incdepgraph>

@@ -18,7 +18,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SteadyStateSolver.h" line="43" column="9"/>
+        <location file="SteadyStateSolver.h" line="46" column="9"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1SteadyStateSolver_1ac69478bcf73ab02178b001250293c4c9" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>void</type>
@@ -42,7 +42,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SteadyStateSolver.h" line="50" column="22"/>
+        <location file="SteadyStateSolver.h" line="53" column="22"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1SteadyStateSolver_1ae7ef6c028ac70664cb37c2cb69e546a2" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>double</type>
@@ -64,7 +64,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SteadyStateSolver.h" line="52" column="24"/>
+        <location file="SteadyStateSolver.h" line="55" column="24"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1SteadyStateSolver_1a613605d22b7da35a526473d107ca65bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -78,7 +78,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SteadyStateSolver.h" line="54" column="22" bodyfile="SteadyStateSolver.cpp" bodystart="94" bodyend="106"/>
+        <location file="SteadyStateSolver.h" line="57" column="22" bodyfile="SteadyStateSolver.cpp" bodystart="153" bodyend="163"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1SteadyStateSolver_1aaf40e2ae58d2f4fef80a00f5bb7fd413" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>std::string</type>
@@ -90,14 +90,13 @@
 <para>Return a std::string representation of the solver. </para>
         </briefdescription>
         <detaileddescription>
-<para><ref refid="classrr_1_1SteadyStateSolver" kindref="compound">SteadyStateSolver</ref> FACTORY.</para>
 <para><simplesect kind="author"><para>KC </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SteadyStateSolver.h" line="60" column="13" bodyfile="SteadyStateSolver.cpp" bodystart="32" bodyend="39"/>
+        <location file="SteadyStateSolver.h" line="63" column="13" bodyfile="SteadyStateSolver.cpp" bodystart="93" bodyend="100"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1SteadyStateSolver_1a4307ed20fd04adf61cc8b4ef9a88f747" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>std::string</type>
@@ -115,7 +114,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SteadyStateSolver.h" line="66" column="13" bodyfile="SteadyStateSolver.cpp" bodystart="41" bodyend="45"/>
+        <location file="SteadyStateSolver.h" line="69" column="13" bodyfile="SteadyStateSolver.cpp" bodystart="102" bodyend="106"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1SteadyStateSolver_1ac9652965eb0defa7c12af91110dd68fc" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -131,7 +130,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SteadyStateSolver.h" line="72" column="6" bodyfile="SteadyStateSolver.cpp" bodystart="47" bodyend="92"/>
+        <location file="SteadyStateSolver.h" line="75" column="6" bodyfile="SteadyStateSolver.cpp" bodystart="108" bodyend="152"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1SteadyStateSolver_1a04bba4a342cc7197750f080d41d439e5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -144,7 +143,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SteadyStateSolver.h" line="41" column="9"/>
+        <location file="SteadyStateSolver.h" line="44" column="9"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1SteadyStateSolver_1aa0a07553e368f0be33b9bfc429782a97" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
         <type></type>
@@ -161,7 +160,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SteadyStateSolver.h" line="41" column="9" bodyfile="Solver.cpp" bodystart="26" bodyend="27"/>
+        <location file="SteadyStateSolver.h" line="44" column="9" bodyfile="Solver.cpp" bodystart="26" bodyend="27"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -271,7 +270,7 @@
         <link refid="classrr_1_1ExecutableModel"/>
       </node>
     </collaborationgraph>
-    <location file="SteadyStateSolver.h" line="37" column="5" bodyfile="SteadyStateSolver.h" bodystart="38" bodyend="74"/>
+    <location file="SteadyStateSolver.h" line="40" column="5" bodyfile="SteadyStateSolver.h" bodystart="41" bodyend="77"/>
     <listofallmembers>
       <member refid="classrr_1_1Solver_1ad5b8ac1ef687d1a3c9f1f305cb73804d" prot="protected" virt="non-virtual"><scope>rr::SteadyStateSolver</scope><name>addSetting</name></member>
       <member refid="classrr_1_1Solver_1a7d58e224664ab44e56f90802d9601f01" prot="protected" virt="non-virtual"><scope>rr::SteadyStateSolver</scope><name>DescriptionMap</name></member>

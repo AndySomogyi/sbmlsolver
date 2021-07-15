@@ -4,7 +4,13 @@
 #include "CVODEIntegrator.h"
 #include "MockExecutableModel.h"
 #include "rrConfig.h"
-#include "TestModelFactory.h"
+
+/**
+ * In general it has been hard to retroactively
+ * write unit tests for CVODEIntegrator. I've done what I can
+ * but in all probability it would be better to rewrite with
+ * a testing centric focus
+ */
 
 using namespace rr;
 using namespace testing;
@@ -222,24 +228,15 @@ TEST_F(CVODEIntegratorUnitTests, DISABLED_tweakTolerancess) {
     cvodeIntegrator.tweakTolerances();
     std::cout << cvodeIntegrator.getValue("absolute_tolerance").toString() << std::endl;
     std::cout << cvodeIntegrator.getValue("relative_tolerance").toString() << std::endl;
+
 }
+
 
 TEST_F(CVODEIntegratorUnitTests, restart) {
     // when we reset, setTime will be called with 0 as argument
     EXPECT_CALL(mockExecutableModel, setTime(0));
     CVODEIntegrator cvodeIntegrator(&mockExecutableModel);
     cvodeIntegrator.restart(0);
-}
-
-
-TEST_F(CVODEIntegratorUnitTests, CheckStiffnessCanBeChangd) {
-//    RoadRunner rr(SimpleFlux().str());
-    CVODEIntegrator cvodeIntegrator(&mockExecutableModel);
-    bool stiffValueBeforeChanges = cvodeIntegrator.getValue("stiff").getAs<bool>();
-    ASSERT_EQ(stiffValueBeforeChanges, true); // default
-    cvodeIntegrator.setValue("stiff" , false);
-    bool stiffValueAfterChanges = cvodeIntegrator.getValue("stiff").getAs<bool>();
-    ASSERT_EQ(stiffValueAfterChanges, false);
 }
 
 

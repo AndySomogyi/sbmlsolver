@@ -20,7 +20,7 @@
       <node id="14">
         <label>list</label>
       </node>
-      <node id="104">
+      <node id="102">
         <label>llvm/Support/Error.h</label>
       </node>
       <node id="18">
@@ -67,7 +67,7 @@
       <node id="11">
         <label>sbml/SBMLDocument.h</label>
       </node>
-      <node id="103">
+      <node id="101">
         <label>llvm/Bitcode/BitcodeReader.h</label>
       </node>
       <node id="57">
@@ -92,14 +92,6 @@
       <node id="31">
         <label>llvm/Support/raw_ostream.h</label>
       </node>
-      <node id="100">
-        <label>Registrar.h</label>
-        <link refid="Registrar_8h_source"/>
-        <childnode refid="6" relation="include">
-        </childnode>
-        <childnode refid="90" relation="include">
-        </childnode>
-      </node>
       <node id="98">
         <label>Integrator.h</label>
         <link refid="Integrator_8h"/>
@@ -116,10 +108,6 @@
         <childnode refid="16" relation="include">
         </childnode>
         <childnode refid="20" relation="include">
-        </childnode>
-        <childnode refid="100" relation="include">
-        </childnode>
-        <childnode refid="101" relation="include">
         </childnode>
         <childnode refid="52" relation="include">
         </childnode>
@@ -363,7 +351,7 @@
         <childnode refid="12" relation="include">
         </childnode>
       </node>
-      <node id="106">
+      <node id="104">
         <label>llvm/ExecutionEngine/SectionMemoryManager.h</label>
       </node>
       <node id="42">
@@ -405,18 +393,6 @@
         <childnode refid="50" relation="include">
         </childnode>
         <childnode refid="9" relation="include">
-        </childnode>
-      </node>
-      <node id="101">
-        <label>RegistrationFactory.h</label>
-        <link refid="FactoryWithRegistration_8h_source"/>
-        <childnode refid="6" relation="include">
-        </childnode>
-        <childnode refid="90" relation="include">
-        </childnode>
-        <childnode refid="100" relation="include">
-        </childnode>
-        <childnode refid="99" relation="include">
         </childnode>
       </node>
       <node id="32">
@@ -537,7 +513,7 @@
       <node id="58">
         <label>rr_unordered_map</label>
       </node>
-      <node id="105">
+      <node id="103">
         <label>llvm/Support/MemoryBuffer.h</label>
       </node>
       <node id="50">
@@ -675,7 +651,7 @@
       <node id="90">
         <label>iostream</label>
       </node>
-      <node id="109">
+      <node id="107">
         <label>llvm/Target/TargetMachine.h</label>
       </node>
       <node id="25">
@@ -799,6 +775,10 @@
         </childnode>
         <childnode refid="96" relation="include">
         </childnode>
+        <childnode refid="100" relation="include">
+        </childnode>
+        <childnode refid="101" relation="include">
+        </childnode>
         <childnode refid="102" relation="include">
         </childnode>
         <childnode refid="103" relation="include">
@@ -810,10 +790,6 @@
         <childnode refid="106" relation="include">
         </childnode>
         <childnode refid="107" relation="include">
-        </childnode>
-        <childnode refid="108" relation="include">
-        </childnode>
-        <childnode refid="109" relation="include">
         </childnode>
       </node>
       <node id="76">
@@ -919,7 +895,7 @@
       <node id="55">
         <label>Poco/Logger.h</label>
       </node>
-      <node id="107">
+      <node id="105">
         <label>llvm/Support/DynamicLibrary.h</label>
       </node>
       <node id="37">
@@ -932,7 +908,7 @@
         <childnode refid="39" relation="include">
         </childnode>
       </node>
-      <node id="102">
+      <node id="100">
         <label>llvm/Bitcode/BitcodeWriter.h</label>
       </node>
       <node id="91">
@@ -1001,7 +977,7 @@
         <childnode refid="42" relation="include">
         </childnode>
       </node>
-      <node id="108">
+      <node id="106">
         <label>llvm/Support/TargetRegistry.h</label>
       </node>
       <node id="67">

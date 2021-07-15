@@ -11,27 +11,27 @@
     <includes local="no">iostream</includes>
     <includedby refid="IntegratorRegistration_8cpp" local="yes">IntegratorRegistration.cpp</includedby>
     <incdepgraph>
-      <node id="30">
+      <node id="28">
         <label>list</label>
       </node>
-      <node id="27">
+      <node id="25">
         <label>rrExecutableModel.h</label>
         <link refid="rrExecutableModel_8h"/>
         <childnode refid="6" relation="include">
         </childnode>
         <childnode refid="17" relation="include">
         </childnode>
-        <childnode refid="28" relation="include">
+        <childnode refid="26" relation="include">
         </childnode>
-        <childnode refid="29" relation="include">
+        <childnode refid="27" relation="include">
         </childnode>
         <childnode refid="19" relation="include">
         </childnode>
         <childnode refid="11" relation="include">
         </childnode>
-        <childnode refid="30" relation="include">
+        <childnode refid="28" relation="include">
         </childnode>
-        <childnode refid="31" relation="include">
+        <childnode refid="29" relation="include">
         </childnode>
         <childnode refid="22" relation="include">
         </childnode>
@@ -42,16 +42,8 @@
       <node id="12">
         <label>limits</label>
       </node>
-      <node id="28">
+      <node id="26">
         <label>sbml/SBMLDocument.h</label>
-      </node>
-      <node id="25">
-        <label>Registrar.h</label>
-        <link refid="Registrar_8h_source"/>
-        <childnode refid="5" relation="include">
-        </childnode>
-        <childnode refid="10" relation="include">
-        </childnode>
       </node>
       <node id="2">
         <label>Integrator.h</label>
@@ -70,14 +62,10 @@
         </childnode>
         <childnode refid="23" relation="include">
         </childnode>
-        <childnode refid="25" relation="include">
-        </childnode>
-        <childnode refid="26" relation="include">
-        </childnode>
         <childnode refid="24" relation="include">
         </childnode>
       </node>
-      <node id="29">
+      <node id="27">
         <label>stdint.h</label>
       </node>
       <node id="9">
@@ -131,20 +119,8 @@
       <node id="18">
         <label>exception</label>
       </node>
-      <node id="31">
+      <node id="29">
         <label>ostream</label>
-      </node>
-      <node id="26">
-        <label>RegistrationFactory.h</label>
-        <link refid="FactoryWithRegistration_8h_source"/>
-        <childnode refid="5" relation="include">
-        </childnode>
-        <childnode refid="10" relation="include">
-        </childnode>
-        <childnode refid="25" relation="include">
-        </childnode>
-        <childnode refid="21" relation="include">
-        </childnode>
       </node>
       <node id="21">
         <label>Solver.h</label>
@@ -185,7 +161,7 @@
       <node id="4">
         <label>sstream</label>
       </node>
-      <node id="32">
+      <node id="30">
         <label>rrRoadRunnerOptions.h</label>
         <link refid="rrRoadRunnerOptions_8h_source"/>
         <childnode refid="5" relation="include">
@@ -240,9 +216,9 @@
         <link refid="EulerIntegrator_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="27" relation="include">
+        <childnode refid="25" relation="include">
         </childnode>
-        <childnode refid="32" relation="include">
+        <childnode refid="30" relation="include">
         </childnode>
         <childnode refid="19" relation="include">
         </childnode>
@@ -545,7 +521,7 @@
 <codeline lineno="415"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>**<sp/>Registration<sp/>*********************************************************</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="416"><highlight class="normal"></highlight></codeline>
 <codeline lineno="417"><highlight class="normal"></highlight></codeline>
-<codeline lineno="418" refid="classrr_1_1EulerIntegratorRegistrar" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classrr_1_1EulerIntegratorRegistrar" kindref="compound">EulerIntegratorRegistrar</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classrr_1_1Registrar" kindref="compound">Registrar</ref><sp/>{</highlight></codeline>
+<codeline lineno="418" refid="classrr_1_1EulerIntegratorRegistrar" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classrr_1_1EulerIntegratorRegistrar" kindref="compound">EulerIntegratorRegistrar</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classrr_1_1IntegratorRegistrar" kindref="compound">IntegratorRegistrar</ref><sp/>{</highlight></codeline>
 <codeline lineno="419"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
 <codeline lineno="424" refid="classrr_1_1EulerIntegratorRegistrar_1a42f3b3ae652633c64de6c28034b14f05" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classrr_1_1EulerIntegratorRegistrar_1a42f3b3ae652633c64de6c28034b14f05" kindref="member">getName</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
 <codeline lineno="425"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classrr_1_1EulerIntegrator_1a61e5f7ed9ff9833c39df310797dd8bb5" kindref="member">EulerIntegrator::getEulerName</ref>();</highlight></codeline>

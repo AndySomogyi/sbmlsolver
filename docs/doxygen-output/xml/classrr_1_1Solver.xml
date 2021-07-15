@@ -207,12 +207,9 @@
         <reimplementedby refid="classrr_1_1GillespieIntegrator_1a290f7167ef2a6da01ff1543c496e1215">getName</reimplementedby>
         <reimplementedby refid="classrr_1_1RK45Integrator_1aebee4c612006c929ba1d194b4258fa55">getName</reimplementedby>
         <reimplementedby refid="classrr_1_1RK4Integrator_1ae65f8c20d95f0bc6018992d3803c3287">getName</reimplementedby>
-        <reimplementedby refid="classrr_1_1SensitivitySolver_1a6425f57bb72bb883a05ded13555714d5">getName</reimplementedby>
-        <reimplementedby refid="classrr_1_1AdjointSensitivitySolver_1ae087384b93e1ecfdc01e419fc2f9c0c9">getName</reimplementedby>
         <reimplementedby refid="classrr_1_1BasicNewtonIteration_1abba6c099dc88a3b80d3a2d65c9c43e03">getName</reimplementedby>
         <reimplementedby refid="classrr_1_1CVODEIntegrator_1aa889b08549036792918c41e88e2097f4">getName</reimplementedby>
         <reimplementedby refid="classrr_1_1FixedPointIteration_1a9e1334eebd535c642abb8593d4e46824">getName</reimplementedby>
-        <reimplementedby refid="classrr_1_1ForwardSensitivitySolver_1a38a772f5306181ab61940bd453059ce4">getName</reimplementedby>
         <reimplementedby refid="classrr_1_1LinesearchNewtonIteration_1a62113dcfc8a9d93fd419f025bc202563">getName</reimplementedby>
         <reimplementedby refid="classrr_1_1NewtonIteration_1a5a77fd21be6a9af126872232998bfeb2">getName</reimplementedby>
         <reimplementedby refid="classrr_1_1NLEQ1Solver_1aa0a09770b4595f7cc7b698055d2c4d1a">getName</reimplementedby>
@@ -239,12 +236,9 @@
         <reimplementedby refid="classrr_1_1GillespieIntegrator_1adc46266d77d8c9d54bca86ca3d402f8f">getDescription</reimplementedby>
         <reimplementedby refid="classrr_1_1RK45Integrator_1a45d69589da662628a6f0f66c200614e3">getDescription</reimplementedby>
         <reimplementedby refid="classrr_1_1RK4Integrator_1ad4638630bbbfc3bc62adfdfdebc9bde9">getDescription</reimplementedby>
-        <reimplementedby refid="classrr_1_1SensitivitySolver_1a41ff63b9c439924d5aa1e9c9315bda1c">getDescription</reimplementedby>
-        <reimplementedby refid="classrr_1_1AdjointSensitivitySolver_1a782fdefcceb9ab7983568dd8968bbf3e">getDescription</reimplementedby>
         <reimplementedby refid="classrr_1_1BasicNewtonIteration_1a52d645f2934c5230411d7ddfbe56bc78">getDescription</reimplementedby>
         <reimplementedby refid="classrr_1_1CVODEIntegrator_1a1c6a393504cc85f2dc236abd0cb5577a">getDescription</reimplementedby>
         <reimplementedby refid="classrr_1_1FixedPointIteration_1a4f8a179c87378739262b858a4e279642">getDescription</reimplementedby>
-        <reimplementedby refid="classrr_1_1ForwardSensitivitySolver_1ad1f87f41aa3d2798b5b129f1ca773a08">getDescription</reimplementedby>
         <reimplementedby refid="classrr_1_1LinesearchNewtonIteration_1a31c7aeb461a19411e3b48336d16401f6">getDescription</reimplementedby>
         <reimplementedby refid="classrr_1_1NewtonIteration_1ae1119d11821a6b1fb52fc84186d91b1e">getDescription</reimplementedby>
         <reimplementedby refid="classrr_1_1NLEQ1Solver_1a3305ca56332184b9747f95a86c46c6ca">getDescription</reimplementedby>
@@ -271,12 +265,9 @@
         <reimplementedby refid="classrr_1_1GillespieIntegrator_1a9903b945ac591f39cb3e93167fe45514">getHint</reimplementedby>
         <reimplementedby refid="classrr_1_1RK45Integrator_1ae5526461902e834afff94a18f679dbe3">getHint</reimplementedby>
         <reimplementedby refid="classrr_1_1RK4Integrator_1a2f98503350687e02bea28077f3538b07">getHint</reimplementedby>
-        <reimplementedby refid="classrr_1_1SensitivitySolver_1ad2d350b1f013ba1fecdb40e7ff04f32d">getHint</reimplementedby>
-        <reimplementedby refid="classrr_1_1AdjointSensitivitySolver_1a7b2b06f0e6b9d416c53e1c388b81597a">getHint</reimplementedby>
         <reimplementedby refid="classrr_1_1BasicNewtonIteration_1a4ed6c97258f57dfe0f4653284f6bb9ac">getHint</reimplementedby>
         <reimplementedby refid="classrr_1_1CVODEIntegrator_1addde67b3639fe1347efc2a37bbfdd60e">getHint</reimplementedby>
         <reimplementedby refid="classrr_1_1FixedPointIteration_1a694db68c3021fcbceec701335dffd2ee">getHint</reimplementedby>
-        <reimplementedby refid="classrr_1_1ForwardSensitivitySolver_1a7ebffaf9c2b7d876ba0a845e869b0558">getHint</reimplementedby>
         <reimplementedby refid="classrr_1_1LinesearchNewtonIteration_1a39c0f6a3a82a515f4d71fdfdb4b25fc3">getHint</reimplementedby>
         <reimplementedby refid="classrr_1_1NewtonIteration_1ac346fbad167b7d4f1bcadb6ad9049ac2">getHint</reimplementedby>
         <reimplementedby refid="classrr_1_1NLEQ1Solver_1ad0b6aa0960821af4c9b4fcf6d2268790">getHint</reimplementedby>
@@ -372,7 +363,6 @@
         <reimplementedby refid="classrr_1_1KinsolSteadyStateSolver_1ad6bb33d80ec7660150167cac4aefa2ae">resetSettings</reimplementedby>
         <reimplementedby refid="classrr_1_1NewtonIteration_1aef52744c9ff9f21ad69a49b1fe8ef9c4">resetSettings</reimplementedby>
         <reimplementedby refid="classrr_1_1NLEQSolver_1a73142505757b0b6363da15e2b937dd78">resetSettings</reimplementedby>
-        <reimplementedby refid="classrr_1_1SensitivitySolver_1a9ef849e2342e6c7437259d41cce5ed05">resetSettings</reimplementedby>
         <reimplementedby refid="classrr_1_1SteadyStateSolver_1ac9652965eb0defa7c12af91110dd68fc">resetSettings</reimplementedby>
         <reimplementedby refid="classrr_1_1SteadyStateSolverDecorator_1a6978cebc1cf1ac984be2051491170443">resetSettings</reimplementedby>
         <briefdescription>
@@ -614,7 +604,6 @@
         <name>toString</name>
         <reimplementedby refid="classrr_1_1EulerIntegrator_1aeafbbe730c71a4627fb79f21e0d839ad">toString</reimplementedby>
         <reimplementedby refid="classrr_1_1Integrator_1adde5221e0d61f9f5398d69020e1a5a86">toString</reimplementedby>
-        <reimplementedby refid="classrr_1_1SensitivitySolver_1ab48e540f8b1ccc44da011f0de0714582">toString</reimplementedby>
         <reimplementedby refid="classrr_1_1SteadyStateSolver_1aaf40e2ae58d2f4fef80a00f5bb7fd413">toString</reimplementedby>
         <briefdescription>
 <para>Return a std::string representation of the solver. </para>
@@ -635,7 +624,6 @@
         <name>toRepr</name>
         <reimplementedby refid="classrr_1_1EulerIntegrator_1a4f484ed1c727f3f45f90586de64e329f">toRepr</reimplementedby>
         <reimplementedby refid="classrr_1_1Integrator_1abb3c4ae3020a5df7abe40639037615cb">toRepr</reimplementedby>
-        <reimplementedby refid="classrr_1_1SensitivitySolver_1a1acd022a24aeff09f46f6ef7e5960e65">toRepr</reimplementedby>
         <reimplementedby refid="classrr_1_1SteadyStateSolver_1a4307ed20fd04adf61cc8b4ef9a88f747">toRepr</reimplementedby>
         <briefdescription>
 <para>Return std::string representation a la Python <bold>repr</bold> method. </para>
@@ -792,34 +780,34 @@
 </para>
     </detaileddescription>
     <inheritancegraph>
-      <node id="9">
+      <node id="6">
         <label>rr::RK45Integrator</label>
         <link refid="classrr_1_1RK45Integrator"/>
         <childnode refid="2" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="16">
+      <node id="13">
         <label>rr::LinesearchNewtonIteration</label>
         <link refid="classrr_1_1LinesearchNewtonIteration"/>
-        <childnode refid="14" relation="public-inheritance">
+        <childnode refid="11" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="7">
+      <node id="4">
         <label>rr::EulerIntegrator</label>
         <link refid="classrr_1_1EulerIntegrator"/>
         <childnode refid="2" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="12">
+      <node id="9">
         <label>rr::KinsolSteadyStateSolver</label>
         <link refid="classrr_1_1KinsolSteadyStateSolver"/>
-        <childnode refid="11" relation="public-inheritance">
+        <childnode refid="8" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="22">
+      <node id="19">
         <label>rr::PresimulationDecorator</label>
         <link refid="classrr_1_1PresimulationDecorator"/>
-        <childnode refid="20" relation="public-inheritance">
+        <childnode refid="17" relation="public-inheritance">
         </childnode>
       </node>
       <node id="2">
@@ -828,28 +816,28 @@
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="8">
+      <node id="5">
         <label>rr::GillespieIntegrator</label>
         <link refid="classrr_1_1GillespieIntegrator"/>
         <childnode refid="2" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="19">
+      <node id="16">
         <label>rr::NLEQ2Solver</label>
         <link refid="classrr_1_1NLEQ2Solver"/>
-        <childnode refid="17" relation="public-inheritance">
+        <childnode refid="14" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="20">
+      <node id="17">
         <label>rr::SteadyStateSolverDecorator</label>
         <link refid="classrr_1_1SteadyStateSolverDecorator"/>
-        <childnode refid="11" relation="public-inheritance">
+        <childnode refid="8" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="21">
+      <node id="18">
         <label>rr::ApproxSteadyStateDecorator</label>
         <link refid="classrr_1_1ApproxSteadyStateDecorator"/>
-        <childnode refid="20" relation="public-inheritance">
+        <childnode refid="17" relation="public-inheritance">
         </childnode>
       </node>
       <node id="3">
@@ -858,25 +846,25 @@
         <childnode refid="2" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="17">
+      <node id="14">
         <label>rr::NLEQSolver</label>
         <link refid="classrr_1_1NLEQSolver"/>
-        <childnode refid="11" relation="public-inheritance">
+        <childnode refid="8" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="11">
+      <node id="8">
         <label>rr::SteadyStateSolver</label>
         <link refid="classrr_1_1SteadyStateSolver"/>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="14">
+      <node id="11">
         <label>rr::NewtonIteration</label>
         <link refid="classrr_1_1NewtonIteration"/>
-        <childnode refid="12" relation="public-inheritance">
+        <childnode refid="9" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="10">
+      <node id="7">
         <label>rr::RK4Integrator</label>
         <link refid="classrr_1_1RK4Integrator"/>
         <childnode refid="2" relation="public-inheritance">
@@ -886,46 +874,28 @@
         <label>rr::Solver</label>
         <link refid="classrr_1_1Solver"/>
       </node>
-      <node id="23">
+      <node id="20">
         <label>rr::PresimulationProgramDecorator</label>
         <link refid="classrr_1_1PresimulationProgramDecorator"/>
-        <childnode refid="20" relation="public-inheritance">
-        </childnode>
-      </node>
-      <node id="15">
-        <label>rr::BasicNewtonIteration</label>
-        <link refid="classrr_1_1BasicNewtonIteration"/>
-        <childnode refid="14" relation="public-inheritance">
-        </childnode>
-      </node>
-      <node id="18">
-        <label>rr::NLEQ1Solver</label>
-        <link refid="classrr_1_1NLEQ1Solver"/>
         <childnode refid="17" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="5">
-        <label>rr::AdjointSensitivitySolver</label>
-        <link refid="classrr_1_1AdjointSensitivitySolver"/>
-        <childnode refid="4" relation="public-inheritance">
+      <node id="12">
+        <label>rr::BasicNewtonIteration</label>
+        <link refid="classrr_1_1BasicNewtonIteration"/>
+        <childnode refid="11" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="4">
-        <label>rr::SensitivitySolver</label>
-        <link refid="classrr_1_1SensitivitySolver"/>
-        <childnode refid="3" relation="public-inheritance">
+      <node id="15">
+        <label>rr::NLEQ1Solver</label>
+        <link refid="classrr_1_1NLEQ1Solver"/>
+        <childnode refid="14" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="13">
+      <node id="10">
         <label>rr::FixedPointIteration</label>
         <link refid="classrr_1_1FixedPointIteration"/>
-        <childnode refid="12" relation="public-inheritance">
-        </childnode>
-      </node>
-      <node id="6">
-        <label>rr::ForwardSensitivitySolver</label>
-        <link refid="classrr_1_1ForwardSensitivitySolver"/>
-        <childnode refid="4" relation="public-inheritance">
+        <childnode refid="9" relation="public-inheritance">
         </childnode>
       </node>
     </inheritancegraph>

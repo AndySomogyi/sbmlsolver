@@ -2,14 +2,14 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
   <compounddef id="classrr_1_1RK45IntegratorRegistrar" kind="class" language="C++" prot="public">
     <compoundname>rr::RK45IntegratorRegistrar</compoundname>
-    <basecompoundref refid="classrr_1_1Registrar" prot="public" virt="non-virtual">rr::Registrar</basecompoundref>
+    <basecompoundref refid="classrr_1_1IntegratorRegistrar" prot="public" virt="non-virtual">rr::IntegratorRegistrar</basecompoundref>
       <sectiondef kind="public-func">
-      <memberdef kind="function" id="classrr_1_1RK45IntegratorRegistrar_1a1b99f3d5032a02e575ede02f0a4e6191" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+      <memberdef kind="function" id="classrr_1_1RK45IntegratorRegistrar_1a524d2aa391799c1df6620b1cbb8c70c2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
         <type>std::string</type>
-        <definition>std::string rr::RK45IntegratorRegistrar::getName</definition>
-        <argsstring>() const override</argsstring>
+        <definition>virtual std::string rr::RK45IntegratorRegistrar::getName</definition>
+        <argsstring>() const</argsstring>
         <name>getName</name>
-        <reimplements refid="classrr_1_1Registrar_1a5129b53ee0e0c3ceeff3803b9afb753a">getName</reimplements>
+        <reimplements refid="classrr_1_1IntegratorRegistrar_1a5d265f5314ede9037c5c6ca2131455af">getName</reimplements>
         <briefdescription>
 <para>Gets the name associated with this integrator type. </para>
         </briefdescription>
@@ -20,14 +20,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="RK45Integrator.h" line="179" column="25" bodyfile="RK45Integrator.h" bodystart="179" bodyend="181"/>
+        <location file="RK45Integrator.h" line="178" column="33" bodyfile="RK45Integrator.h" bodystart="178" bodyend="180"/>
       </memberdef>
-      <memberdef kind="function" id="classrr_1_1RK45IntegratorRegistrar_1adb885c18a7bac82e550ad3f4df2cdeab" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+      <memberdef kind="function" id="classrr_1_1RK45IntegratorRegistrar_1a3cbc5e6b569b141bc36646ff5ab9dc10" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
         <type>std::string</type>
-        <definition>std::string rr::RK45IntegratorRegistrar::getDescription</definition>
-        <argsstring>() const override</argsstring>
+        <definition>virtual std::string rr::RK45IntegratorRegistrar::getDescription</definition>
+        <argsstring>() const</argsstring>
         <name>getDescription</name>
-        <reimplements refid="classrr_1_1Registrar_1a9b09fdb0bf81a0c37f3e79c38e35bcec">getDescription</reimplements>
+        <reimplements refid="classrr_1_1IntegratorRegistrar_1a968cb1248f56b35e0a038f7b2aca140d">getDescription</reimplements>
         <briefdescription>
 <para>Gets the description associated with this integrator type. </para>
         </briefdescription>
@@ -38,14 +38,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="RK45Integrator.h" line="187" column="25" bodyfile="RK45Integrator.h" bodystart="187" bodyend="189"/>
+        <location file="RK45Integrator.h" line="186" column="33" bodyfile="RK45Integrator.h" bodystart="186" bodyend="188"/>
       </memberdef>
-      <memberdef kind="function" id="classrr_1_1RK45IntegratorRegistrar_1aa48a02f2622c87cd3b8a9ae1e184c6c8" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+      <memberdef kind="function" id="classrr_1_1RK45IntegratorRegistrar_1aae13ea771e8fbcd349e9e4f8592baff4" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
         <type>std::string</type>
-        <definition>std::string rr::RK45IntegratorRegistrar::getHint</definition>
-        <argsstring>() const override</argsstring>
+        <definition>virtual std::string rr::RK45IntegratorRegistrar::getHint</definition>
+        <argsstring>() const</argsstring>
         <name>getHint</name>
-        <reimplements refid="classrr_1_1Registrar_1ae54f4f3884dbb38a7193937b870e64ce">getHint</reimplements>
+        <reimplements refid="classrr_1_1IntegratorRegistrar_1a5ac1fb7c359fe983c3ba162c8b67682e">getHint</reimplements>
         <briefdescription>
 <para>Gets the hint associated with this integrator type. </para>
         </briefdescription>
@@ -56,14 +56,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="RK45Integrator.h" line="195" column="25" bodyfile="RK45Integrator.h" bodystart="195" bodyend="197"/>
+        <location file="RK45Integrator.h" line="194" column="33" bodyfile="RK45Integrator.h" bodystart="194" bodyend="196"/>
       </memberdef>
-      <memberdef kind="function" id="classrr_1_1RK45IntegratorRegistrar_1aa7abdc593852141bdb9506fc62133255" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
-        <type><ref refid="classrr_1_1Solver" kindref="compound">Solver</ref> *</type>
-        <definition>Solver* rr::RK45IntegratorRegistrar::construct</definition>
-        <argsstring>(ExecutableModel *model) const override</argsstring>
+      <memberdef kind="function" id="classrr_1_1RK45IntegratorRegistrar_1ad04c588b2ec72568ab93e0b7b19d9794" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="classrr_1_1Integrator" kindref="compound">Integrator</ref> *</type>
+        <definition>virtual Integrator* rr::RK45IntegratorRegistrar::construct</definition>
+        <argsstring>(ExecutableModel *model) const</argsstring>
         <name>construct</name>
-        <reimplements refid="classrr_1_1Registrar_1a0f038d0389cc64c26cc96db24221e39b">construct</reimplements>
+        <reimplements refid="classrr_1_1IntegratorRegistrar_1a8d99dab8d5a8f52808176f7f7ea8ebf5">construct</reimplements>
         <param>
           <type><ref refid="classrr_1_1ExecutableModel" kindref="compound">ExecutableModel</ref> *</type>
           <declname>model</declname>
@@ -78,7 +78,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="RK45Integrator.h" line="203" column="20" bodyfile="RK45Integrator.h" bodystart="203" bodyend="205"/>
+        <location file="RK45Integrator.h" line="202" column="32" bodyfile="RK45Integrator.h" bodystart="202" bodyend="204"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -93,8 +93,8 @@
         </childnode>
       </node>
       <node id="2">
-        <label>rr::Registrar</label>
-        <link refid="classrr_1_1Registrar"/>
+        <label>rr::IntegratorRegistrar</label>
+        <link refid="classrr_1_1IntegratorRegistrar"/>
       </node>
     </inheritancegraph>
     <collaborationgraph>
@@ -105,17 +105,18 @@
         </childnode>
       </node>
       <node id="2">
-        <label>rr::Registrar</label>
-        <link refid="classrr_1_1Registrar"/>
+        <label>rr::IntegratorRegistrar</label>
+        <link refid="classrr_1_1IntegratorRegistrar"/>
       </node>
     </collaborationgraph>
-    <location file="RK45Integrator.h" line="173" column="5" bodyfile="RK45Integrator.h" bodystart="173" bodyend="206"/>
+    <location file="RK45Integrator.h" line="172" column="5" bodyfile="RK45Integrator.h" bodystart="172" bodyend="205"/>
     <listofallmembers>
-      <member refid="classrr_1_1RK45IntegratorRegistrar_1aa7abdc593852141bdb9506fc62133255" prot="public" virt="virtual"><scope>rr::RK45IntegratorRegistrar</scope><name>construct</name></member>
-      <member refid="classrr_1_1RK45IntegratorRegistrar_1adb885c18a7bac82e550ad3f4df2cdeab" prot="public" virt="virtual"><scope>rr::RK45IntegratorRegistrar</scope><name>getDescription</name></member>
-      <member refid="classrr_1_1RK45IntegratorRegistrar_1aa48a02f2622c87cd3b8a9ae1e184c6c8" prot="public" virt="virtual"><scope>rr::RK45IntegratorRegistrar</scope><name>getHint</name></member>
-      <member refid="classrr_1_1RK45IntegratorRegistrar_1a1b99f3d5032a02e575ede02f0a4e6191" prot="public" virt="virtual"><scope>rr::RK45IntegratorRegistrar</scope><name>getName</name></member>
-      <member refid="classrr_1_1Registrar_1a9651217e48ece65ef3f42ad10ca72b04" prot="public" virt="virtual"><scope>rr::RK45IntegratorRegistrar</scope><name>~Registrar</name></member>
+      <member refid="classrr_1_1RK45IntegratorRegistrar_1ad04c588b2ec72568ab93e0b7b19d9794" prot="public" virt="virtual"><scope>rr::RK45IntegratorRegistrar</scope><name>construct</name></member>
+      <member refid="classrr_1_1RK45IntegratorRegistrar_1a3cbc5e6b569b141bc36646ff5ab9dc10" prot="public" virt="virtual"><scope>rr::RK45IntegratorRegistrar</scope><name>getDescription</name></member>
+      <member refid="classrr_1_1RK45IntegratorRegistrar_1aae13ea771e8fbcd349e9e4f8592baff4" prot="public" virt="virtual"><scope>rr::RK45IntegratorRegistrar</scope><name>getHint</name></member>
+      <member refid="classrr_1_1RK45IntegratorRegistrar_1a524d2aa391799c1df6620b1cbb8c70c2" prot="public" virt="virtual"><scope>rr::RK45IntegratorRegistrar</scope><name>getName</name></member>
+      <member refid="classrr_1_1IntegratorRegistrar_1aabe5860832ac01e436c8b9100a31e911" prot="protected" virt="non-virtual"><scope>rr::RK45IntegratorRegistrar</scope><name>IntegratorCtor</name></member>
+      <member refid="classrr_1_1IntegratorRegistrar_1a63ab295f875600321345408e1819d03d" prot="public" virt="virtual"><scope>rr::RK45IntegratorRegistrar</scope><name>~IntegratorRegistrar</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

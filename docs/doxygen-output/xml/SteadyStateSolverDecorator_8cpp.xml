@@ -16,14 +16,6 @@
         <childnode refid="2" relation="include">
         </childnode>
       </node>
-      <node id="26">
-        <label>Registrar.h</label>
-        <link refid="Registrar_8h_source"/>
-        <childnode refid="6" relation="include">
-        </childnode>
-        <childnode refid="11" relation="include">
-        </childnode>
-      </node>
       <node id="10">
         <label>variant</label>
       </node>
@@ -75,18 +67,6 @@
       <node id="19">
         <label>exception</label>
       </node>
-      <node id="27">
-        <label>RegistrationFactory.h</label>
-        <link refid="FactoryWithRegistration_8h_source"/>
-        <childnode refid="6" relation="include">
-        </childnode>
-        <childnode refid="11" relation="include">
-        </childnode>
-        <childnode refid="26" relation="include">
-        </childnode>
-        <childnode refid="22" relation="include">
-        </childnode>
-      </node>
       <node id="3">
         <label>SteadyStateSolver.h</label>
         <link refid="SteadyStateSolver_8h"/>
@@ -100,13 +80,9 @@
         </childnode>
         <childnode refid="22" relation="include">
         </childnode>
-        <childnode refid="26" relation="include">
+        <childnode refid="23" relation="include">
         </childnode>
-        <childnode refid="27" relation="include">
-        </childnode>
-        <childnode refid="28" relation="include">
-        </childnode>
-        <childnode refid="21" relation="include">
+        <childnode refid="24" relation="include">
         </childnode>
         <childnode refid="25" relation="include">
         </childnode>
@@ -193,9 +169,6 @@
       </node>
       <node id="14">
         <label>type_traits</label>
-      </node>
-      <node id="28">
-        <label>memory</label>
       </node>
     </incdepgraph>
     <innernamespace refid="namespacerr">rr</innernamespace>

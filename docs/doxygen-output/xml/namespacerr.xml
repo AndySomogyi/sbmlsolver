@@ -2,7 +2,6 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
   <compounddef id="namespacerr" kind="namespace" language="C++">
     <compoundname>rr</compoundname>
-    <innerclass refid="classrr_1_1AdjointSensitivitySolver" prot="public">rr::AdjointSensitivitySolver</innerclass>
     <innerclass refid="classrr_1_1ApproxSteadyStateDecorator" prot="public">rr::ApproxSteadyStateDecorator</innerclass>
     <innerclass refid="classrr_1_1BasicDictionary" prot="public">rr::BasicDictionary</innerclass>
     <innerclass refid="classrr_1_1BasicNewtonIteration" prot="public">rr::BasicNewtonIteration</innerclass>
@@ -30,10 +29,8 @@
     <innerclass refid="classrr_1_1Exception" prot="public">rr::Exception</innerclass>
     <innerclass refid="classrr_1_1ExecutableModel" prot="public">rr::ExecutableModel</innerclass>
     <innerclass refid="classrr_1_1ExecutableModelFactory" prot="public">rr::ExecutableModelFactory</innerclass>
-    <innerclass refid="classrr_1_1FactoryWithRegistration" prot="public">rr::RegistrationFactory</innerclass>
     <innerclass refid="classrr_1_1FileName" prot="public">rr::FileName</innerclass>
     <innerclass refid="classrr_1_1FixedPointIteration" prot="public">rr::FixedPointIteration</innerclass>
-    <innerclass refid="classrr_1_1ForwardSensitivitySolver" prot="public">rr::ForwardSensitivitySolver</innerclass>
     <innerclass refid="classrr_1_1GillespieIntegrator" prot="public">rr::GillespieIntegrator</innerclass>
     <innerclass refid="classrr_1_1GillespieIntegratorRegistrar" prot="public">rr::GillespieIntegratorRegistrar</innerclass>
     <innerclass refid="classrr_1_1IniFile" prot="public">rr::IniFile</innerclass>
@@ -43,6 +40,7 @@
     <innerclass refid="classrr_1_1IntegratorException" prot="public">rr::IntegratorException</innerclass>
     <innerclass refid="classrr_1_1IntegratorFactory" prot="public">rr::IntegratorFactory</innerclass>
     <innerclass refid="classrr_1_1IntegratorListener" prot="public">rr::IntegratorListener</innerclass>
+    <innerclass refid="classrr_1_1IntegratorRegistrar" prot="public">rr::IntegratorRegistrar</innerclass>
     <innerclass refid="classrr_1_1IntegratorRegistrationMgr" prot="public">rr::IntegratorRegistrationMgr</innerclass>
     <innerclass refid="classrr_1_1IntStringHashTable" prot="public">rr::IntStringHashTable</innerclass>
     <innerclass refid="classrr_1_1InvalidKeyException" prot="public">rr::InvalidKeyException</innerclass>
@@ -74,7 +72,6 @@
     <innerclass refid="classrr_1_1PresimulationDecorator" prot="public">rr::PresimulationDecorator</innerclass>
     <innerclass refid="classrr_1_1PresimulationProgramDecorator" prot="public">rr::PresimulationProgramDecorator</innerclass>
     <innerclass refid="classrr_1_1Random" prot="public">rr::Random</innerclass>
-    <innerclass refid="classrr_1_1Registrar" prot="public">rr::Registrar</innerclass>
     <innerclass refid="classrr_1_1RK45Integrator" prot="public">rr::RK45Integrator</innerclass>
     <innerclass refid="classrr_1_1RK45IntegratorRegistrar" prot="public">rr::RK45IntegratorRegistrar</innerclass>
     <innerclass refid="classrr_1_1RK4Integrator" prot="public">rr::RK4Integrator</innerclass>
@@ -91,10 +88,6 @@
     <innerclass refid="classrr_1_1Scanner" prot="public">rr::Scanner</innerclass>
     <innerclass refid="classrr_1_1ScannerException" prot="public">rr::ScannerException</innerclass>
     <innerclass refid="classrr_1_1SelectionRecord" prot="public">rr::SelectionRecord</innerclass>
-    <innerclass refid="classrr_1_1SensitivityResult" prot="public">rr::SensitivityResult</innerclass>
-    <innerclass refid="classrr_1_1SensitivitySolver" prot="public">rr::SensitivitySolver</innerclass>
-    <innerclass refid="classrr_1_1SensitivitySolverFactory" prot="public">rr::SensitivitySolverFactory</innerclass>
-    <innerclass refid="classrr_1_1SensitivitySolverRegistrar" prot="public">rr::SensitivitySolverRegistrar</innerclass>
     <innerclass refid="classrr_1_1Setting" prot="public">rr::Setting</innerclass>
     <innerclass refid="classrr_1_1SimulateOptions" prot="public">rr::SimulateOptions</innerclass>
     <innerclass refid="classrr_1_1Solver" prot="public">rr::Solver</innerclass>
@@ -104,6 +97,7 @@
     <innerclass refid="classrr_1_1SteadyStateSolver" prot="public">rr::SteadyStateSolver</innerclass>
     <innerclass refid="classrr_1_1SteadyStateSolverDecorator" prot="public">rr::SteadyStateSolverDecorator</innerclass>
     <innerclass refid="classrr_1_1SteadyStateSolverFactory" prot="public">rr::SteadyStateSolverFactory</innerclass>
+    <innerclass refid="classrr_1_1SteadyStateSolverRegistrar" prot="public">rr::SteadyStateSolverRegistrar</innerclass>
     <innerclass refid="classrr_1_1StringBuilder" prot="public">rr::StringBuilder</innerclass>
     <innerclass refid="classrr_1_1StringList" prot="public">rr::StringList</innerclass>
     <innerclass refid="classrr_1_1StringListContainer" prot="public">rr::StringListContainer</innerclass>
@@ -301,7 +295,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="169" column="5" bodyfile="rrRoadRunner.cpp" bodystart="169" bodyend="175"/>
+        <location file="rrRoadRunner.cpp" line="167" column="1" bodyfile="rrRoadRunner.cpp" bodystart="168" bodyend="174"/>
       </memberdef>
       <memberdef kind="enum" id="SBMLValidator_8h_1ae9b68e1552acb4d494177d09c229a409" prot="public" static="no" strong="no">
         <type></type>
@@ -419,19 +413,6 @@
       </memberdef>
       </sectiondef>
       <sectiondef kind="typedef">
-      <memberdef kind="typedef" id="FactoryWithRegistration_8h_1a69fe788f2fc6b10d756e2c1b38ff55dc" prot="public" static="no">
-        <type>std::vector&lt; <ref refid="classrr_1_1Registrar" kindref="compound">Registrar</ref> * &gt;</type>
-        <definition>typedef std::vector&lt; Registrar * &gt; rr::RegistrarVector</definition>
-        <argsstring></argsstring>
-        <name>RegistrarVector</name>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="RegistrationFactory.h" line="19" column="25" bodyfile="RegistrationFactory.h" bodystart="17" bodyend="-1"/>
-      </memberdef>
       <memberdef kind="typedef" id="Integrator_8h_1af88f77fb0c8c61ee1848be4c0894ac02" prot="public" static="no">
         <type>cxx11_ns::shared_ptr&lt; <ref refid="classrr_1_1IntegratorListener" kindref="compound">IntegratorListener</ref> &gt;</type>
         <definition>typedef cxx11_ns::shared_ptr&lt;IntegratorListener&gt; rr::IntegratorListenerPtr</definition>
@@ -443,7 +424,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="Integrator.h" line="58" column="34" bodyfile="Integrator.h" bodystart="58" bodyend="-1"/>
+        <location file="Integrator.h" line="56" column="34" bodyfile="Integrator.h" bodystart="56" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="rrConfig_8cpp_1a721f3bd2aae5c004a00fbd333dc0b1d6" prot="public" static="no">
         <type>std::unordered_map&lt; std::string, int &gt;</type>
@@ -561,7 +542,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="87" column="25" bodyfile="rrRoadRunner.cpp" bodystart="87" bodyend="-1"/>
+        <location file="rrRoadRunner.cpp" line="85" column="21" bodyfile="rrRoadRunner.cpp" bodystart="85" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="rrRoadRunner_8cpp_1aa19d858a33d0a65ddd6461024968ce4d" prot="public" static="no">
         <type>std::string(ExecutableModel::*</type>
@@ -574,7 +555,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="93" column="13" bodyfile="rrRoadRunner.cpp" bodystart="93" bodyend="-1"/>
+        <location file="rrRoadRunner.cpp" line="91" column="9" bodyfile="rrRoadRunner.cpp" bodystart="91" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="rrRoadRunner_8cpp_1af48f09ff45a9173cae0c3617ac84ea11" prot="public" static="no">
         <type>int(ExecutableModel::*</type>
@@ -587,7 +568,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="95" column="13" bodyfile="rrRoadRunner.cpp" bodystart="95" bodyend="-1"/>
+        <location file="rrRoadRunner.cpp" line="92" column="9" bodyfile="rrRoadRunner.cpp" bodystart="92" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="rrRoadRunner_8cpp_1a67c05b3923fa2ea722f9eb140e00957b" prot="public" static="no">
         <type>std::list&lt; std::vector&lt; double &gt; &gt;</type>
@@ -601,7 +582,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="139" column="23" bodyfile="rrRoadRunner.cpp" bodystart="139" bodyend="-1"/>
+        <location file="rrRoadRunner.cpp" line="137" column="19" bodyfile="rrRoadRunner.cpp" bodystart="137" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="rrSparse_8h_1aa8a36b3ce021dddb42f59ad71b3346d8" prot="public" static="no">
         <type>struct <ref refid="structrr_1_1csr__matrix__t" kindref="compound">rr::csr_matrix_t</ref></type>
@@ -763,32 +744,6 @@
       </memberdef>
       </sectiondef>
       <sectiondef kind="var">
-      <memberdef kind="variable" id="FactoryWithRegistration_8cpp_1a0260af15b7185cbcbdf500e18fc965a2" prot="public" static="yes" mutable="no">
-        <type>std::mutex</type>
-        <definition>std::mutex rr::mutex</definition>
-        <argsstring></argsstring>
-        <name>mutex</name>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="RegistrationFactory.cpp" line="12" column="23" bodyfile="RegistrationFactory.cpp" bodystart="12" bodyend="-1"/>
-      </memberdef>
-      <memberdef kind="variable" id="Integrator_8h_1a17f62e52a958b2ad9bc87a8539527b91" prot="public" static="yes" mutable="no">
-        <type>std::mutex</type>
-        <definition>std::mutex rr::integratorFactoryMutex</definition>
-        <argsstring></argsstring>
-        <name>integratorFactoryMutex</name>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="Integrator.h" line="158" column="23" bodyfile="Integrator.h" bodystart="158" bodyend="-1"/>
-      </memberdef>
       <memberdef kind="variable" id="rrConfig_8cpp_1a5e5c48d45041f33642d6ce2082cb6a1b" prot="public" static="yes" mutable="no">
         <type><ref refid="classrr_1_1Setting" kindref="compound">Setting</ref></type>
         <definition>Setting rr::values[]</definition>
@@ -1267,7 +1222,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="85" column="18" bodyfile="rrRoadRunner.cpp" bodystart="85" bodyend="-1"/>
+        <location file="rrRoadRunner.cpp" line="83" column="14" bodyfile="rrRoadRunner.cpp" bodystart="83" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="rrRoadRunner_8cpp_1a7c3eab0b2c50956fefffc2708511c999" prot="public" static="yes" mutable="no">
         <type>int</type>
@@ -1281,7 +1236,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="161" column="16" bodyfile="rrRoadRunner.cpp" bodystart="161" bodyend="-1"/>
+        <location file="rrRoadRunner.cpp" line="159" column="12" bodyfile="rrRoadRunner.cpp" bodystart="159" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="rrSBMLReader_8cpp_1a888d8a9ffcc502f666e2216b17ae8c66" prot="public" static="yes" mutable="no">
         <type>Mutex</type>
@@ -1309,19 +1264,6 @@
         <inbodydescription>
         </inbodydescription>
         <location file="rrSBMLReader.cpp" line="42" column="13" bodyfile="rrSBMLReader.cpp" bodystart="42" bodyend="-1"/>
-      </memberdef>
-      <memberdef kind="variable" id="SteadyStateSolver_8h_1af4a2729de8279b4c5154155687b15fef" prot="public" static="yes" mutable="no">
-        <type>std::mutex</type>
-        <definition>std::mutex rr::steadyStateSolverFactoryMutex</definition>
-        <argsstring></argsstring>
-        <name>steadyStateSolverFactoryMutex</name>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="SteadyStateSolver.h" line="76" column="23" bodyfile="SteadyStateSolver.h" bodystart="76" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="func">
@@ -2055,7 +1997,7 @@ Notes: error_code is negative for errors and positive (KIN_WARNING) for warnings
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="98" column="24" bodyfile="rrRoadRunner.cpp" bodystart="98" bodyend="112"/>
+        <location file="rrRoadRunner.cpp" line="95" column="20" bodyfile="rrRoadRunner.cpp" bodystart="95" bodyend="112"/>
       </memberdef>
       <memberdef kind="function" id="rrRoadRunner_8cpp_1aed3558708e5fa7c09e2b78d62ad5bbc3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::string &gt;</type>
@@ -2073,7 +2015,7 @@ Notes: error_code is negative for errors and positive (KIN_WARNING) for warnings
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="3970" column="24" bodyfile="rrRoadRunner.cpp" bodystart="3970" bodyend="3989" declfile="rrRoadRunner.cpp" declline="118" declcolumn="24"/>
+        <location file="rrRoadRunner.cpp" line="4392" column="20" bodyfile="rrRoadRunner.cpp" bodystart="4392" bodyend="4418" declfile="rrRoadRunner.cpp" declline="118" declcolumn="20"/>
       </memberdef>
       <memberdef kind="function" id="rrRoadRunner_8cpp_1a917d75bd4f447fd8ce903024a4b54b16" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; double &gt;</type>
@@ -2101,7 +2043,7 @@ Notes: error_code is negative for errors and positive (KIN_WARNING) for warnings
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="4346" column="17" bodyfile="rrRoadRunner.cpp" bodystart="4346" bodyend="4357" declfile="rrRoadRunner.cpp" declline="130" declcolumn="24"/>
+        <location file="rrRoadRunner.cpp" line="4860" column="13" bodyfile="rrRoadRunner.cpp" bodystart="4860" bodyend="4873" declfile="rrRoadRunner.cpp" declline="130" declcolumn="21"/>
       </memberdef>
       <memberdef kind="function" id="rrRoadRunner_8cpp_1a99a59182a1c1049b7ec6d6758d59b858" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
@@ -2118,7 +2060,7 @@ Notes: error_code is negative for errors and positive (KIN_WARNING) for warnings
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="4359" column="12" bodyfile="rrRoadRunner.cpp" bodystart="4359" bodyend="4365" declfile="rrRoadRunner.cpp" declline="132" declcolumn="19"/>
+        <location file="rrRoadRunner.cpp" line="4875" column="8" bodyfile="rrRoadRunner.cpp" bodystart="4875" bodyend="4885" declfile="rrRoadRunner.cpp" declline="131" declcolumn="24"/>
       </memberdef>
       <memberdef kind="function" id="rrRoadRunner_8cpp_1ab28f88ea2697b14c6e150126038170a0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
@@ -2135,7 +2077,7 @@ Notes: error_code is negative for errors and positive (KIN_WARNING) for warnings
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="4368" column="12" bodyfile="rrRoadRunner.cpp" bodystart="4368" bodyend="4380" declfile="rrRoadRunner.cpp" declline="134" declcolumn="19"/>
+        <location file="rrRoadRunner.cpp" line="4888" column="8" bodyfile="rrRoadRunner.cpp" bodystart="4888" bodyend="4908" declfile="rrRoadRunner.cpp" declline="132" declcolumn="24"/>
       </memberdef>
       <memberdef kind="function" id="rrRoadRunner_8cpp_1acf824e8a1d12cf613cbff9f108fb55e5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -2155,7 +2097,7 @@ Notes: error_code is negative for errors and positive (KIN_WARNING) for warnings
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="4571" column="17" bodyfile="rrRoadRunner.cpp" bodystart="4571" bodyend="4577" declfile="rrRoadRunner.cpp" declline="150" declcolumn="17"/>
+        <location file="rrRoadRunner.cpp" line="5123" column="13" bodyfile="rrRoadRunner.cpp" bodystart="5123" bodyend="5130" declfile="rrRoadRunner.cpp" declline="148" declcolumn="13"/>
       </memberdef>
       <memberdef kind="function" id="rrRoadRunner_8cpp_1a0600f1d6e25aacf7e78a999c5f09ea47" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -2176,7 +2118,7 @@ Notes: error_code is negative for errors and positive (KIN_WARNING) for warnings
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="6419" column="10" bodyfile="rrRoadRunner.cpp" bodystart="6419" bodyend="6429" declfile="rrRoadRunner.cpp" declline="156" declcolumn="17"/>
+        <location file="rrRoadRunner.cpp" line="7140" column="6" bodyfile="rrRoadRunner.cpp" bodystart="7140" bodyend="7150" declfile="rrRoadRunner.cpp" declline="154" declcolumn="13"/>
       </memberdef>
       <memberdef kind="function" id="rrRoadRunner_8cpp_1ad900af7633d26b2608f329edb942501a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -2201,7 +2143,7 @@ Notes: error_code is negative for errors and positive (KIN_WARNING) for warnings
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="6431" column="10" bodyfile="rrRoadRunner.cpp" bodystart="6431" bodyend="6442" declfile="rrRoadRunner.cpp" declline="158" declcolumn="17"/>
+        <location file="rrRoadRunner.cpp" line="7152" column="6" bodyfile="rrRoadRunner.cpp" bodystart="7152" bodyend="7164" declfile="rrRoadRunner.cpp" declline="156" declcolumn="13"/>
       </memberdef>
       <memberdef kind="function" id="rrRoadRunner_8cpp_1a569819a5525e04339f43eb978f1a190e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -2227,7 +2169,7 @@ Notes: error_code is negative for errors and positive (KIN_WARNING) for warnings
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="2708" column="17" bodyfile="rrRoadRunner.cpp" bodystart="2708" bodyend="2747"/>
+        <location file="rrRoadRunner.cpp" line="2958" column="13" bodyfile="rrRoadRunner.cpp" bodystart="2958" bodyend="3005"/>
       </memberdef>
       <memberdef kind="function" id="rrRoadRunner_8cpp_1a630339ba3a50c08fb38901e1decaf7b2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -2252,7 +2194,7 @@ Notes: error_code is negative for errors and positive (KIN_WARNING) for warnings
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="2750" column="17" bodyfile="rrRoadRunner.cpp" bodystart="2750" bodyend="2764"/>
+        <location file="rrRoadRunner.cpp" line="3008" column="13" bodyfile="rrRoadRunner.cpp" bodystart="3008" bodyend="3025"/>
       </memberdef>
       <memberdef kind="function" id="rrRoadRunner_8cpp_1a7c7c65070a14127d9d684112801d4360" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -2277,7 +2219,7 @@ Notes: error_code is negative for errors and positive (KIN_WARNING) for warnings
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="3636" column="24" bodyfile="rrRoadRunner.cpp" bodystart="3636" bodyend="3685"/>
+        <location file="rrRoadRunner.cpp" line="4042" column="20" bodyfile="rrRoadRunner.cpp" bodystart="4042" bodyend="4092"/>
       </memberdef>
       <memberdef kind="function" id="rrRoadRunner_8cpp_1a410ba7a28b6d72c94782c0b8d6a02902" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -2298,7 +2240,7 @@ Notes: error_code is negative for errors and positive (KIN_WARNING) for warnings
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="5557" column="10" bodyfile="rrRoadRunner.cpp" bodystart="5557" bodyend="5600"/>
+        <location file="rrRoadRunner.cpp" line="6183" column="6" bodyfile="rrRoadRunner.cpp" bodystart="6183" bodyend="6229"/>
       </memberdef>
       <memberdef kind="function" id="rrRoadRunnerData_8cpp_1a97fd3264b599691879100dd2bc4139dd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::ostream &amp;</type>

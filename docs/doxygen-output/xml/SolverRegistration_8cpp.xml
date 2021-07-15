@@ -10,27 +10,27 @@
     <includes refid="BasicNewtonIteration_8h" local="yes">BasicNewtonIteration.h</includes>
     <includes refid="LinesearchNewtonIteration_8h" local="yes">LinesearchNewtonIteration.h</includes>
     <incdepgraph>
-      <node id="35">
+      <node id="32">
         <label>list</label>
       </node>
-      <node id="32">
+      <node id="29">
         <label>rrExecutableModel.h</label>
         <link refid="rrExecutableModel_8h"/>
         <childnode refid="8" relation="include">
         </childnode>
         <childnode refid="19" relation="include">
         </childnode>
-        <childnode refid="33" relation="include">
+        <childnode refid="30" relation="include">
         </childnode>
-        <childnode refid="34" relation="include">
+        <childnode refid="31" relation="include">
         </childnode>
         <childnode refid="21" relation="include">
         </childnode>
         <childnode refid="13" relation="include">
         </childnode>
-        <childnode refid="35" relation="include">
+        <childnode refid="32" relation="include">
         </childnode>
-        <childnode refid="36" relation="include">
+        <childnode refid="33" relation="include">
         </childnode>
         <childnode refid="23" relation="include">
         </childnode>
@@ -41,7 +41,7 @@
       <node id="14">
         <label>limits</label>
       </node>
-      <node id="33">
+      <node id="30">
         <label>sbml/SBMLDocument.h</label>
       </node>
       <node id="26">
@@ -51,24 +51,16 @@
         </childnode>
         <childnode refid="27" relation="include">
         </childnode>
-        <childnode refid="32" relation="include">
+        <childnode refid="29" relation="include">
         </childnode>
       </node>
-      <node id="29">
-        <label>Registrar.h</label>
-        <link refid="Registrar_8h_source"/>
-        <childnode refid="7" relation="include">
-        </childnode>
-        <childnode refid="12" relation="include">
-        </childnode>
-      </node>
-      <node id="45">
+      <node id="42">
         <label>LinesearchNewtonIteration.h</label>
         <link refid="LinesearchNewtonIteration_8h_source"/>
-        <childnode refid="39" relation="include">
+        <childnode refid="36" relation="include">
         </childnode>
       </node>
-      <node id="34">
+      <node id="31">
         <label>stdint.h</label>
       </node>
       <node id="11">
@@ -100,7 +92,7 @@
       <node id="21">
         <label>string</label>
       </node>
-      <node id="42">
+      <node id="39">
         <label>sundials/sundials_types.h</label>
       </node>
       <node id="7">
@@ -122,32 +114,32 @@
         <label>setting_t.h</label>
         <link refid="setting__t_8h_source"/>
       </node>
-      <node id="44">
+      <node id="41">
         <label>KinsolErrHandler.h</label>
         <link refid="KinsolErrHandler_8h_source"/>
-        <childnode refid="43" relation="include">
+        <childnode refid="40" relation="include">
         </childnode>
         <childnode refid="12" relation="include">
         </childnode>
         <childnode refid="6" relation="include">
         </childnode>
       </node>
-      <node id="40">
+      <node id="37">
         <label>KinsolSteadyStateSolver.h</label>
         <link refid="KinsolSteadyStateSolver_8h_source"/>
-        <childnode refid="41" relation="include">
+        <childnode refid="38" relation="include">
         </childnode>
-        <childnode refid="42" relation="include">
+        <childnode refid="39" relation="include">
         </childnode>
-        <childnode refid="43" relation="include">
+        <childnode refid="40" relation="include">
         </childnode>
         <childnode refid="28" relation="include">
         </childnode>
-        <childnode refid="32" relation="include">
+        <childnode refid="29" relation="include">
         </childnode>
         <childnode refid="19" relation="include">
         </childnode>
-        <childnode refid="44" relation="include">
+        <childnode refid="41" relation="include">
         </childnode>
       </node>
       <node id="1">
@@ -161,40 +153,28 @@
         </childnode>
         <childnode refid="26" relation="include">
         </childnode>
-        <childnode refid="37" relation="include">
+        <childnode refid="34" relation="include">
         </childnode>
-        <childnode refid="38" relation="include">
+        <childnode refid="35" relation="include">
         </childnode>
-        <childnode refid="45" relation="include">
+        <childnode refid="42" relation="include">
         </childnode>
       </node>
-      <node id="37">
+      <node id="34">
         <label>NLEQ2Solver.h</label>
         <link refid="NLEQ2Solver_8h"/>
         <childnode refid="13" relation="include">
         </childnode>
         <childnode refid="27" relation="include">
         </childnode>
-        <childnode refid="32" relation="include">
+        <childnode refid="29" relation="include">
         </childnode>
       </node>
       <node id="20">
         <label>exception</label>
       </node>
-      <node id="36">
+      <node id="33">
         <label>ostream</label>
-      </node>
-      <node id="30">
-        <label>RegistrationFactory.h</label>
-        <link refid="FactoryWithRegistration_8h_source"/>
-        <childnode refid="7" relation="include">
-        </childnode>
-        <childnode refid="12" relation="include">
-        </childnode>
-        <childnode refid="29" relation="include">
-        </childnode>
-        <childnode refid="4" relation="include">
-        </childnode>
       </node>
       <node id="28">
         <label>SteadyStateSolver.h</label>
@@ -209,13 +189,9 @@
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="29" relation="include">
+        <childnode refid="23" relation="include">
         </childnode>
-        <childnode refid="30" relation="include">
-        </childnode>
-        <childnode refid="31" relation="include">
-        </childnode>
-        <childnode refid="22" relation="include">
+        <childnode refid="24" relation="include">
         </childnode>
         <childnode refid="25" relation="include">
         </childnode>
@@ -245,10 +221,10 @@
       <node id="17">
         <label>typeinfo</label>
       </node>
-      <node id="38">
+      <node id="35">
         <label>BasicNewtonIteration.h</label>
         <link refid="BasicNewtonIteration_8h_source"/>
-        <childnode refid="39" relation="include">
+        <childnode refid="36" relation="include">
         </childnode>
       </node>
       <node id="27">
@@ -277,7 +253,7 @@
       <node id="6">
         <label>sstream</label>
       </node>
-      <node id="43">
+      <node id="40">
         <label>kinsol/kinsol.h</label>
       </node>
       <node id="12">
@@ -317,26 +293,23 @@
       <node id="23">
         <label>tr1proxy/rr_memory.h</label>
       </node>
-      <node id="39">
+      <node id="36">
         <label>NewtonIteration.h</label>
         <link refid="NewtonIteration_8h_source"/>
+        <childnode refid="37" relation="include">
+        </childnode>
         <childnode refid="40" relation="include">
         </childnode>
-        <childnode refid="43" relation="include">
+        <childnode refid="38" relation="include">
         </childnode>
-        <childnode refid="41" relation="include">
-        </childnode>
-        <childnode refid="42" relation="include">
+        <childnode refid="39" relation="include">
         </childnode>
       </node>
-      <node id="41">
+      <node id="38">
         <label>nvector/nvector_serial.h</label>
       </node>
       <node id="15">
         <label>type_traits</label>
-      </node>
-      <node id="31">
-        <label>memory</label>
       </node>
     </incdepgraph>
     <innernamespace refid="namespacerr">rr</innernamespace>
@@ -378,10 +351,10 @@
 <codeline lineno="30"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>call<sp/>exactly<sp/>once</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>register_solvers_at_init()<sp/>{</highlight></codeline>
-<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classrr_1_1SteadyStateSolverFactory_1aa3b79f8ddd6f63bc2aad49234a662108" kindref="member">SteadyStateSolverFactory::getInstance</ref>().<ref refid="classrr_1_1FactoryWithRegistration_1a8d75bd9ffec1eef7241f173a64ef5674" kindref="member">registerSolver</ref>(</highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/>NLEQ1SolverRegistrar());</highlight></codeline>
-<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classrr_1_1SteadyStateSolverFactory_1aa3b79f8ddd6f63bc2aad49234a662108" kindref="member">SteadyStateSolverFactory::getInstance</ref>().<ref refid="classrr_1_1FactoryWithRegistration_1a8d75bd9ffec1eef7241f173a64ef5674" kindref="member">registerSolver</ref>(</highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/>NLEQ2SolverRegistrar());</highlight></codeline>
-<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classrr_1_1SteadyStateSolverFactory_1aa3b79f8ddd6f63bc2aad49234a662108" kindref="member">SteadyStateSolverFactory::getInstance</ref>().<ref refid="classrr_1_1FactoryWithRegistration_1a8d75bd9ffec1eef7241f173a64ef5674" kindref="member">registerSolver</ref>(</highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/>BasicNewtonIterationRegistrar());</highlight></codeline>
-<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classrr_1_1SteadyStateSolverFactory_1aa3b79f8ddd6f63bc2aad49234a662108" kindref="member">SteadyStateSolverFactory::getInstance</ref>().<ref refid="classrr_1_1FactoryWithRegistration_1a8d75bd9ffec1eef7241f173a64ef5674" kindref="member">registerSolver</ref>(</highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/>LinesearchNewtonIterationRegistrar());</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classrr_1_1SteadyStateSolverFactory_1aa3b79f8ddd6f63bc2aad49234a662108" kindref="member">SteadyStateSolverFactory::getInstance</ref>().<ref refid="classrr_1_1SteadyStateSolverFactory_1a72ca5c71f45c89304c40c5f880c84547" kindref="member">registerSteadyStateSolver</ref>(</highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/>NLEQ1SolverRegistrar());</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classrr_1_1SteadyStateSolverFactory_1aa3b79f8ddd6f63bc2aad49234a662108" kindref="member">SteadyStateSolverFactory::getInstance</ref>().<ref refid="classrr_1_1SteadyStateSolverFactory_1a72ca5c71f45c89304c40c5f880c84547" kindref="member">registerSteadyStateSolver</ref>(</highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/>NLEQ2SolverRegistrar());</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classrr_1_1SteadyStateSolverFactory_1aa3b79f8ddd6f63bc2aad49234a662108" kindref="member">SteadyStateSolverFactory::getInstance</ref>().<ref refid="classrr_1_1SteadyStateSolverFactory_1a72ca5c71f45c89304c40c5f880c84547" kindref="member">registerSteadyStateSolver</ref>(</highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/>BasicNewtonIterationRegistrar());</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classrr_1_1SteadyStateSolverFactory_1aa3b79f8ddd6f63bc2aad49234a662108" kindref="member">SteadyStateSolverFactory::getInstance</ref>().<ref refid="classrr_1_1SteadyStateSolverFactory_1a72ca5c71f45c89304c40c5f880c84547" kindref="member">registerSteadyStateSolver</ref>(</highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/>LinesearchNewtonIterationRegistrar());</highlight></codeline>
 <codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="38"><highlight class="normal"></highlight></codeline>
 <codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classrr_1_1SolverRegistrationMgr_1a88573528562b944a40a134b91f490419" kindref="member">SolverRegistrationMgr::Register</ref>()<sp/>{</highlight></codeline>
