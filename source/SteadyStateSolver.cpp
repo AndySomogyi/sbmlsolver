@@ -99,21 +99,4 @@ namespace rr {
         SteadyStateSolver::setValue("approx_time", Setting(Config::getDouble(Config::STEADYSTATE_APPROX_TIME)));
     }
 
-    SteadyStateSolverFactory &SteadyStateSolverFactory::getInstance() {
-        return RegistrationFactory::getInstance<SteadyStateSolverFactory>(steadyStateSolverFactoryMutex);
-    }
-
-    void SteadyStateSolverFactory::Register() {
-        static bool flag = false;
-        if (!flag) {
-            std::lock_guard<std::mutex> mtx(steadyStateSolverRegistrationMutex);
-            flag = true;
-            // instantiate instance of Solver* without a model instance and it has access
-            // to Registrar* methods.
-            SteadyStateSolverFactory::getInstance().registerSolver(new NLEQ1Solver);
-            SteadyStateSolverFactory::getInstance().registerSolver(new NLEQ2Solver);
-            SteadyStateSolverFactory::getInstance().registerSolver(new BasicNewtonIteration);
-            SteadyStateSolverFactory::getInstance().registerSolver(new LinesearchNewtonIteration);
-        }
-    }
 }

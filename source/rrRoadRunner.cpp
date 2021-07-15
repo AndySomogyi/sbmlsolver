@@ -32,6 +32,9 @@
 #include "SVD.h"
 #include "SensitivitySolver.h"
 #include "ForwardSensitivitySolver.h"
+#include "SensitivitySolverFactory.h"
+#include "SteadyStateSolverFactory.h"
+#include "IntegratorFactory.h"
 
 
 #ifdef _MSC_VER

@@ -64,10 +64,18 @@
     #include "PyUtils.h"
     #include "PyLoggerStream.h"
 
+    #include "Registrable.h"
+    #include "RegistrationFactory.h"
     #include "KinsolSteadyStateSolver.h"
     #include "NewtonIteration.h"
     #include "BasicNewtonIteration.h"
     #include "LinesearchNewtonIteration.h"
+    #include "NLEQ1Solver.h"
+    #include "NLEQ2Solver.h"
+
+
+    // sundials Sensitivity solvers
+    #include "ForwardSensitivitySolver.h"
 
     #include "SensitivitySolver.h"
     #include "Matrix.h"
@@ -2702,17 +2710,40 @@ namespace std { class ostream{}; }
 RoadRunner.registerSolvers()
 integrators = list(RoadRunner.getRegisteredIntegratorNames())
 steadyStateSolvers = list(RoadRunner.getRegisteredSteadyStateSolverNames())
-solvers = integrators + steadyStateSolvers
+sensitivitySolvers = list(RoadRunner.getRegisteredSensitivitySolverNames())
+solvers = integrators + steadyStateSolvers + sensitivitySolvers
 %}
 
+// allows polymorphism to work correctly in python
+// (Define before including decls)
+// Casts SteadyStateSolver* to correct solver specialization
+%typemap(out) SteadyStateSolver * RoadRunner::getSteadyStateSolver{
+        const std::string lookup_typename = *arg1 + " *";
+        swig_type_info * const outtype = SWIG_TypeQuery(lookup_typename.c_str());
+        $result = SWIG_NewPointerObj(SWIG_as_voidptr($1), outtype, $owner);
+}
 
+// no need to port the mutexes
+%ignore rr::sensitivitySolverMutex;
+%ignore rr::sensitivityRegistrationMutex;
+%ignore rr::steadyStateSolverFactoryMutex;
+%ignore rr::steadyStateSolverRegistrationMutex;
+%ignore rr::integratorFactoryMutex;
+%ignore rr::integratorRegistrationMutex;
 
-// NewtonIteration
+%include "Registrable.h"
+%include "RegistrationFactory.h"
+
+// sundials steady state solvers
 %include "KinsolSteadyStateSolver.h"
 %include "NewtonIteration.h"
 %include "BasicNewtonIteration.h"
 %include "LinesearchNewtonIteration.h"
+%include "NLEQ1Solver.h"
+%include "NLEQ2Solver.h"
 
+// sundials Sensitivity solvers
+%include "ForwardSensitivitySolver.h"
 
 
 

@@ -15,7 +15,12 @@ sys.path += [
 try:
     from roadrunner.roadrunner import (
         RoadRunner, Integrator, SteadyStateSolver,
-        ExecutableModel, RoadRunnerOptions, Config
+        ExecutableModel, RoadRunnerOptions, Config,
+        SensitivitySolver,
+        BasicNewtonIteration,
+        LinesearchNewtonIteration,
+        NLEQ1,
+        NLEQ2,
     )
     # note, we can also just import test models directly
     #   aka import OpenLinearFlux
@@ -26,8 +31,15 @@ try:
 except ImportError:
     from roadrunner import (
         RoadRunner, Integrator, SteadyStateSolver,
-        SensitivitySolver, ExecutableModel,
-        RoadRunnerOptions, Config
+        ExecutableModel,
+        RoadRunnerOptions,
+        Config,
+        SensitivitySolver,
+        BasicNewtonIteration,
+        LinesearchNewtonIteration,
+        NLEQ1,
+        NLEQ2,
+
     )
 
 
@@ -586,7 +598,7 @@ class RoadRunnerTests(unittest.TestCase):
     def test_getSteadyStateSolver(self):
         self.assertIsInstance(
             self.rr.getSteadyStateSolver(),
-            SteadyStateSolver
+            NLEQ2
         )
 
     def test_getSteadyStateThreshold(self):
@@ -958,9 +970,10 @@ class RoadRunnerTests(unittest.TestCase):
 
     def test_setSteadyStateSolver(self):
         self.rr.setSteadyStateSolver("newton")
-        print(type(self.rr.getSteadyStateSolver().getName()))
+        solver = self.rr.getSteadyStateSolver()
+        print(solver, type(solver))
         self.assertEqual(
-            self.rr.getSteadyStateSolver().getName(),
+            solver.getName(),
             "newton"
         )
 
@@ -1016,7 +1029,7 @@ class RoadRunnerTests(unittest.TestCase):
     def test_steadyStateSelections(self):
         self.assertEqual(
             self.rr.steadyStateSelections,
-            ["[S1]","[S2]"]
+            ["[S1]", "[S2]"]
         )
 
     def test_steadyStateSolver(self):
@@ -1038,7 +1051,7 @@ class RoadRunnerTests(unittest.TestCase):
     def test_timeCourseSelections(self):
         self.assertEqual(
             self.rr.timeCourseSelections,
-            ['time', "[S1]",'[S2]']
+            ['time', "[S1]", '[S2]']
         )
 
     @unittest.skip("unclear how to test. Should this method be private?")

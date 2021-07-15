@@ -73,32 +73,6 @@ namespace rr
 
     };
 
-    static std::mutex steadyStateSolverFactoryMutex;
-    static std::mutex steadyStateSolverRegistrationMutex;
-
-    /**
-     * @author JKM, WBC
-     * @brief Constructs new integrators
-     * @details Implements the factory and singleton patterns.
-     * Constructs a new integrator given the name (e.g. cvode, gillespie)
-     * and returns a base pointer to @ref rr::SteadyStateSolver.
-     */
-    class RR_DECLSPEC SteadyStateSolverFactory : public RegistrationFactory
-    {
-    public:
-
-        /**
-         * @author JKM, WBC
-         * @brief Returns the singleton instance of the solver factory
-         * @details If one exists return is otherwise create
-         * one. This method implements the sigleton pattern
-         * and is thread safe due to use of std::mutex.
-         */
-        static SteadyStateSolverFactory& getInstance();
-
-        static void Register();
-    };
-
 }
 
 # endif /* RR_STEADY_STATE_SOLVER_H_ */

@@ -9,7 +9,10 @@
 #include "Matrix.h"
 #include "Matrix3D.h"
 
+
 namespace rr {
+
+    class ForwardSensitivitySolver;
 
     /**
      * @brief generic interface for all SensitivitySolvers
@@ -63,7 +66,7 @@ namespace rr {
          * sensitivities for all parameters vs all variables.
          * @param k (default 0) return the kth other derivative of the sensitivity data.
          */
-         virtual Matrix3D<double, double> simulate(
+        virtual Matrix3D<double, double> simulate(
                 double start, double stop, int num,
                 const std::vector<std::string> &params = std::vector<std::string>(),
                 int k = 0) = 0;
@@ -88,6 +91,7 @@ namespace rr {
         virtual double solveSteadyState() = 0;
 
     };
+
 }
 
 #endif //ROADRUNNER_SENSITIVITYSOLVER_H

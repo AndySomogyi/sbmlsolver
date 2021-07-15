@@ -21,6 +21,7 @@ namespace rr {
 
     class CVODEIntegrator;
 
+
     /**
      * @brief Time based sensivitity solver.
      * @details Uses CVODEIntegrator to integrate the ExecutableModel
@@ -34,7 +35,7 @@ namespace rr {
 
         ~ForwardSensitivitySolver() override;
 
-        ForwardSensitivitySolver(ExecutableModel *executableModel);
+        explicit ForwardSensitivitySolver(ExecutableModel *executableModel);
 
         ForwardSensitivitySolver(ExecutableModel *executableModel, std::vector<std::string> whichParameters);
 
@@ -264,26 +265,6 @@ namespace rr {
 
     };
 
-    /**
-     * To make the singleton SensitivitySolverFactory thread safe
-     */
-    static std::mutex sensitivitySolverMutex;
-    static std::mutex sensitivityRegistrationMutex;
-
-
-    /**
-     * @author JKM, WBC
-     * @brief Constructs new integrators
-     * @details Implements the factory and singleton patterns.
-     * Constructs a new integrator given the name (e.g. cvode, gillespie)
-     * and returns a base pointer to @ref rr::SensitivitySolver.
-     */
-    class RR_DECLSPEC SensitivitySolverFactory : public RegistrationFactory {
-    public:
-        static SensitivitySolverFactory &getInstance();
-
-        static void Register();
-    };
 
 
 }

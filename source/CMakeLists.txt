@@ -76,7 +76,11 @@ set(
         ForwardSensitivitySolver.cpp
 
         ForwardSensitivitySolver.cpp
+
         RegistrationFactory.cpp
+        SensitivitySolverFactory.cpp
+        SteadyStateSolverFactory.cpp
+        IntegratorFactory.cpp
 
         KinsolSteadyStateSolver.cpp
         FixedPointIteration.cpp
@@ -148,6 +152,9 @@ set(
         SensitivitySolver.h
         RegistrationFactory.cpp
         Registrable.h
+        SensitivitySolverFactory.h
+        SteadyStateSolverFactory.h
+        IntegratorFactory.h
 
         Matrix.h
         Matrix3D.h

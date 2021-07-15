@@ -62,6 +62,9 @@
 #include "Dictionary.h"
 #include "rrConfig.h"
 #include <ctime>
+#include "IntegratorFactory.h"
+#include "SensitivitySolverFactory.h"
+#include "SteadyStateSolverFactory.h"
 
 
 #if defined(_MSC_VER)
