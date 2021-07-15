@@ -288,9 +288,10 @@ rr::pyutil_init(m);
 // allows polymorphism to work correctly in python
 // (Define before including decls)
 %typemap(out) TestModel *TestModelFactory{
-        const std::string lookup_typename = *arg1 + " *";
-        swig_type_info * const outtype = SWIG_TypeQuery(lookup_typename.c_str());
-        $result = SWIG_NewPointerObj(SWIG_as_voidptr($1), outtype, $owner);
+    // TestModelFactory downcast marker
+    const std::string lookup_typename = *arg1 + " *";
+    swig_type_info * const outtype = SWIG_TypeQuery(lookup_typename.c_str());
+    $result = SWIG_NewPointerObj(SWIG_as_voidptr($1), outtype, $owner);
 }
 
 

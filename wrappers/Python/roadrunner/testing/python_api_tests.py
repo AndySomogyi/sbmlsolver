@@ -19,14 +19,10 @@ try:
         SensitivitySolver,
         BasicNewtonIteration,
         LinesearchNewtonIteration,
-        NLEQ1,
-        NLEQ2,
+        NLEQ1Solver,
+        NLEQ2Solver,
     )
-    # note, we can also just import test models directly
-    #   aka import OpenLinearFlux
-    from roadrunner.testing.TestModelFactory import (
-        TestModelFactory, getAvailableTestModels
-    )
+
 
 except ImportError:
     from roadrunner import (
@@ -37,10 +33,17 @@ except ImportError:
         SensitivitySolver,
         BasicNewtonIteration,
         LinesearchNewtonIteration,
-        NLEQ1,
-        NLEQ2,
-
+        NLEQ1Solver,
+        NLEQ2Solver,
     )
+
+# note, we can also just import test models directly
+#   aka import OpenLinearFlux
+# Note: Importing "TestModelFactory" into global namespaces
+#  tricks some Python unit testing frameworks (such as nose)
+#  into thinking the function TestModelFactory is a test, which will fail.
+#  So we import TestModelFactory as an alias.
+import roadrunner.testing.TestModelFactory as tmf
 
 
 class RoadRunnerTests(unittest.TestCase):
@@ -48,7 +51,7 @@ class RoadRunnerTests(unittest.TestCase):
 
     def setUp(self) -> None:
         # print(getAvailableTestModels())
-        self.testModel = TestModelFactory("SimpleFlux")
+        self.testModel = tmf.TestModelFactory("SimpleFlux")
         self.rr = RoadRunner(self.testModel.str())
 
     def tearDown(self) -> None:
@@ -269,21 +272,21 @@ class RoadRunnerTests(unittest.TestCase):
         self.assertIn("Compiler", compiler_string)
 
     def test_getConservationMatrix(self):
-        rr2 = RoadRunner(TestModelFactory("Brown2004").str())
+        rr2 = RoadRunner(tmf.TestModelFactory("Brown2004").str())
         rr2.conservedMoietyAnalysis = True
         print(rr2.getConservationMatrix().shape)
         self.assertEqual(rr2.getConservationMatrix().shape, (15, 28))
 
     def test_getConservedMoietyIds(self):
         """This mode has no conserved moieties so poor model for testing this feature"""
-        rr2 = RoadRunner(TestModelFactory("Brown2004").str())
+        rr2 = RoadRunner(tmf.TestModelFactory("Brown2004").str())
         rr2.conservedMoietyAnalysis = True
         expected = tuple([f"_CSUM{i}" for i in range(15)])
         self.assertEqual(rr2.getConservedMoietyIds(), expected)
 
     def test_getConservedMoietyValues(self):
         """This mode has no conserved moieties so poor model for testing this feature"""
-        rr2 = RoadRunner(TestModelFactory("Brown2004").str())
+        rr2 = RoadRunner(tmf.TestModelFactory("Brown2004").str())
         rr2.conservedMoietyAnalysis = True
         print(rr2.getConservedMoietyValues())
         expected = [1.2000e+05, 6.0000e+05, 1.2000e+05, 1.2000e+05, 6.0000e+05, 1.2000e+05, 1.0000e+04, 1.2000e+05,
@@ -322,7 +325,7 @@ class RoadRunnerTests(unittest.TestCase):
         self.assertEqual(expected, self.rr.getExistingIntegratorNames())
 
     def test_getExtendedStoichiometryMatrix(self):
-        rr2 = RoadRunner(TestModelFactory("OpenLinearFlux").str())
+        rr2 = RoadRunner(tmf.TestModelFactory("OpenLinearFlux").str())
         mat = rr2.getExtendedStoichiometryMatrix()
         print(mat)
         expected = [
@@ -418,9 +421,9 @@ class RoadRunnerTests(unittest.TestCase):
         )
 
     def test_getIntegrator(self):
-        self.assertIsInstance(
-            self.rr.getIntegrator(),
-            Integrator
+        self.assertEqual(
+            self.rr.getIntegrator().getName(),
+            "cvode"
         )
 
     def test_getIntegratorByName(self):
@@ -596,10 +599,8 @@ class RoadRunnerTests(unittest.TestCase):
         )
 
     def test_getSteadyStateSolver(self):
-        self.assertIsInstance(
-            self.rr.getSteadyStateSolver(),
-            NLEQ2
-        )
+        solver = self.rr.getSteadyStateSolver()
+        self.assertEqual("nleq2", solver.getName())
 
     def test_getSteadyStateThreshold(self):
         self.assertEqual(
@@ -623,9 +624,9 @@ class RoadRunnerTests(unittest.TestCase):
         self.assertAlmostEqual(expected["S2"], actual[0, 1])
 
     def test_getSensitivitySolver(self):
-        self.assertIsInstance(
-            self.rr.getSensitivitySolver(),
-            SensitivitySolver
+        self.assertEqual(
+            "forward",
+            self.rr.getSensitivitySolver().getName()
         )
 
     @unittest.skip("This method should be not be visible in Python")
@@ -934,9 +935,9 @@ class RoadRunnerTests(unittest.TestCase):
 
     def test_setIntegrator(self):
         self.rr.setIntegrator("gillespie")
-        self.assertIsInstance(
-            self.rr.integrator,
-            Integrator
+        self.assertEqual(
+            "gillespie",
+            self.rr.integrator.getName()
         )
 
     def test_setIntegratorSetting(self):

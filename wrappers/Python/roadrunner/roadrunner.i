@@ -1,7 +1,7 @@
 
 // Module Name
-%module(docstring="The RoadRunner SBML Simulation Engine, (c) 2009-2014 Andy Somogyi and Herbert Sauro",
-        "threads"=1 /*, directors="1"*/) roadrunner
+%module(directors="1", docstring="The RoadRunner SBML Simulation Engine, (c) 2009-2014 Andy Somogyi and Herbert Sauro",
+        "threads"=1) roadrunner
 
 // most methods should leave the GIL locked, no point to extra overhead
 // for fast methods. Only Roadrunner with long methods like simulate
@@ -424,28 +424,6 @@
 
 %typemap(typecheck) const rr::Dictionary* = PyObject*;
 %apply const rr::Dictionary* {const Dictionary*, rr::Dictionary*, Dictionary*};
-
-
-
-/*
-%typemap(out) std::vector<std::string> {
-
-    size_t len = $1.size();
-
-    PyObject* pyList = PyList_New(len);
-
-    for(int i = 0; i < len; i++)
-    {
-        const std::string& str  = $1.at(i);
-        PyObject* pyStr = PyString_FromString(str.c_str());
-        PyList_SET_ITEM(pyList, i, pyStr);
-    }
-
-    $result = pyList;
-}
-*/
-
-//%apply std::vector<std::string> {std::vector<std::string>, std::vector<std::string>, std::vector<std::string> };
 
 %include "numpy.i"
 
@@ -968,6 +946,13 @@ namespace std { class ostream{}; }
 %include <rrSelectionRecord.h>
 %include <conservation/ConservedMoietyConverter.h>
 
+/**
+ * Adding director="1" to the %module directive on line 1
+ * and adding this %feature("director") directive to
+ * Solve base class tells swig to properly handle
+ * cross language polymorphism. Works like a charm.
+ */
+%feature("director") Solver;
 %include <Solver.h>
 %include <Integrator.h>
 %include <SteadyStateSolver.h>
@@ -2710,18 +2695,9 @@ namespace std { class ostream{}; }
 RoadRunner.registerSolvers()
 integrators = list(RoadRunner.getRegisteredIntegratorNames())
 steadyStateSolvers = list(RoadRunner.getRegisteredSteadyStateSolverNames())
-sensitivitySolvers = list(RoadRunner.getRegisteredSensitivitySolverNames())
-solvers = integrators + steadyStateSolvers + sensitivitySolvers
+solvers = integrators + steadyStateSolvers
 %}
 
-// allows polymorphism to work correctly in python
-// (Define before including decls)
-// Casts SteadyStateSolver* to correct solver specialization
-%typemap(out) SteadyStateSolver * RoadRunner::getSteadyStateSolver{
-        const std::string lookup_typename = *arg1 + " *";
-        swig_type_info * const outtype = SWIG_TypeQuery(lookup_typename.c_str());
-        $result = SWIG_NewPointerObj(SWIG_as_voidptr($1), outtype, $owner);
-}
 
 // no need to port the mutexes
 %ignore rr::sensitivitySolverMutex;

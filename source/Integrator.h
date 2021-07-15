@@ -82,43 +82,6 @@ namespace rr {
 
         virtual IntegrationMethod getIntegrationMethod() const = 0;
 
-
-//        /**
-//         * @brief Gets the name associated with this Solver type
-//         * @details For developers. This method is a part of the
-//         * Registrar interface, repeated here to make polymorphism
-//         * on Solver types more natural. i.e.
-//         * @code
-//         *  solver->getName() // this, rather than
-//         *  solver->Registrar::getName() // ugly.
-//         * @endcode
-//         */
-//        virtual std::string getName() const = 0;
-//
-//        /**
-//         * @brief Gets the description with this Solver type
-//         * @details For developers. This method is a part of the
-//         * Registrar interface, repeated here to make polymorphism
-//         * on Solver types more natural. i.e.
-//         * @code
-//         *  solver->getDescription() // we want this, rather than
-//         *  solver->Registrar::getDescription() // this, which is ugly.
-//         * @endcode
-//         */
-//        virtual std::string getDescription() const = 0;
-//
-//        /**
-//         * @brief Gets the hint with this Solver type
-//         * @details For developers. This method is a part of the
-//         * Registrar interface, repeated here to make polymorphism
-//         * on Solver types more natural. i.e.
-//         * @code
-//         *  solver->getHint() // this, rather than
-//         *  solver->Registrar::getHint() // ugly.
-//         * @endcode
-//         */
-//        virtual std::string getHint() const = 0;
-
         /**
         * @author JKM
         * @brief Called whenever a new model is loaded to allow integrator
