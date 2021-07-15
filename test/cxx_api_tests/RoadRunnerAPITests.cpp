@@ -458,6 +458,13 @@ TEST_F(RoadRunnerAPITests, reset) {
     ASSERT_EQ(rr.getModel()->getTime(), 0);
 }
 
+TEST_F(RoadRunnerAPITests, getCurrentTime) {
+    RoadRunner rr(TestModelFactory("SimpleFlux")->str());
+    ASSERT_EQ(rr.getCurrentTime(), 0);
+    rr.simulate(0, 100, 101);
+    ASSERT_EQ(rr.getCurrentTime(), 100);
+}
+
 TEST_F(RoadRunnerAPITests, resetSelectionLists) {
     RoadRunner rr(TestModelFactory("SimpleFlux")->str());
     SelectionRecord record = rr.createSelection("S1");

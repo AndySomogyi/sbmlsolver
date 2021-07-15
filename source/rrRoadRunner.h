@@ -115,6 +115,11 @@ namespace rr {
         std::string getInfo();
 
         /**
+         * @brief return the current time as a double
+         */
+        double getCurrentTime();
+
+        /**
          * The Compiler that the ModelGenerator is using to compile / interpret sbml code.
          */
         class Compiler *getCompiler();

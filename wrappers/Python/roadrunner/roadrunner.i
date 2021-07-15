@@ -66,6 +66,8 @@
 
     #include "Registrable.h"
     #include "RegistrationFactory.h"
+
+    // Steady State Solvers
     #include "KinsolSteadyStateSolver.h"
     #include "NewtonIteration.h"
     #include "BasicNewtonIteration.h"
@@ -73,13 +75,18 @@
     #include "NLEQ1Solver.h"
     #include "NLEQ2Solver.h"
 
-
     // sundials Sensitivity solvers
-    #include "ForwardSensitivitySolver.h"
-
     #include "SensitivitySolver.h"
+    #include "ForwardSensitivitySolver.h"
     #include "Matrix.h"
     #include "Matrix3D.h"
+
+    // Integrators
+    #include "CVODEIntegrator.h"
+    #include "GillespieIntegrator.h"
+    #include "RK4Integrator.h"
+    #include "RK45Integrator.h"
+    #include "EulerIntegrator.h"
 
 
     // make a python obj out of the C++ ExecutableModel, this is used by the PyEventListener
@@ -2720,6 +2727,14 @@ solvers = integrators + steadyStateSolvers
 
 // sundials Sensitivity solvers
 %include "ForwardSensitivitySolver.h"
+
+
+// Integrators
+%include "CVODEIntegrator.h"
+%include "GillespieIntegrator.h"
+%include "RK4Integrator.h"
+%include "RK45Integrator.h"
+%include "EulerIntegrator.h"
 
 
 

@@ -714,6 +714,10 @@ namespace rr {
         return ss.str();
     }
 
+    double RoadRunner::getCurrentTime(){
+        return getModel()->getTime();
+    }
+
     std::string RoadRunner::getExtendedVersionInfo() {
         std::stringstream info;
         info << getVersionStr(VERSIONSTR_BASIC | VERSIONSTR_COMPILER | VERSIONSTR_DATE | VERSIONSTR_LIBSBML)

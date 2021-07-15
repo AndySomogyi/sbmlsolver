@@ -886,6 +886,11 @@ class RoadRunnerTests(unittest.TestCase):
             self.rr.kf, 0.1
         )
 
+    def test_getCurrentTime(self):
+        self.assertEqual(0, self.rr.getCurrentTime())
+        self.rr.simulate(0, 100, 101)
+        self.assertEqual(100, self.rr.getCurrentTime())
+
     def test_selections(self):
         self.assertEqual(
             self.rr.selections,
