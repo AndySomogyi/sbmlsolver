@@ -52,11 +52,6 @@ namespace rr {
                 states[i] = i;
             mModel->getStateVector(states);
 
-            std::cout << "Nleq solve: states: ";
-            for (int i=0; i<size; i++)
-                std::cout << states[i] << "; ";
-
-            std::cout << std::endl;
             delete[] states;
 
             auto nleq = std::unique_ptr<NLEQSolverType>( new NLEQSolverType(mModel));

@@ -225,9 +225,10 @@
     $result  = array;
 }
 
+%typedef ls::Complex std::complex<double>;
 
 /* Convert from C --> Python */
-%typemap(out) std::vector<ls::Complex> {
+%typemap(out) std::vector<std::complex<double>> {
 
     typedef std::complex<double> cpx;
 
@@ -1622,9 +1623,6 @@ namespace std { class ostream{}; }
 
             return result
 
-        # ---------------------------------------------------------------------
-        # Reset Methods
-        # ---------------------------------------------------------------------
         def resetToOrigin(self):
             """ Reset model to state when first loaded.
 

@@ -591,7 +591,7 @@ namespace rr {
          * if complex, returns an N x 2 matrix where the first column is the
          * real values and the second is the imaginary part.
          */
-        std::vector<ls::Complex> getFullEigenValues();
+        std::vector<std::complex<double>> getFullEigenValues();
 
         /**
          * Returns the eigenvalues of the reduced jacobian.

@@ -79,7 +79,6 @@
 namespace rr {
 
     using Poco::Mutex;
-    using ls::Complex;
     using ls::ComplexMatrix;
     using ls::LibStructural;
 
@@ -130,9 +129,9 @@ namespace rr {
  */
     static std::vector<double> logspace(const double &startW, const double &d2, const int &n);
 
-    static double phase(Complex &val);
+    static double phase(std::complex<double> &val);
 
-    static double getAdjustment(Complex &z);
+    static double getAdjustment(std::complex<double> &z);
 
 /**
  * variable time step integration data struct
@@ -946,7 +945,7 @@ namespace rr {
                     throw std::logic_error("Invalid species id" + record.p1 + " for eigenvalue");
                 }
 
-                std::vector<Complex> eig = getEigenValues(JACOBIAN_FULL);
+                std::vector<std::complex<double>> eig = getEigenValues(JACOBIAN_FULL);
 
                 if (eig.size() <= index) {
                     // this should NEVER happen
@@ -964,7 +963,7 @@ namespace rr {
                     throw std::logic_error("Invalid species id" + record.p1 + " for eigenvalue");
                 }
 
-                std::vector<Complex> eig = getEigenValues(JACOBIAN_FULL);
+                std::vector<std::complex<double>> eig = getEigenValues(JACOBIAN_FULL);
 
                 if (eig.size() <= index) {
                     // this should NEVER happen
@@ -1887,7 +1886,7 @@ namespace rr {
     }
 
 
-    std::vector<ls::Complex> RoadRunner::getFullEigenValues() {
+    std::vector<std::complex<double>> RoadRunner::getFullEigenValues() {
         return getEigenValues(JACOBIAN_FULL);
     }
 
@@ -4206,7 +4205,7 @@ namespace rr {
             std::vector<std::string> speciesNames = getFloatingSpeciesIds();
 
             // Prepare the dv/dp array
-            Matrix<Complex> dvdp(static_cast<unsigned int>(reactionNames.size()), 1);
+            Matrix<std::complex<double>> dvdp(static_cast<unsigned int>(reactionNames.size()), 1);
 
             //Guess we don't need to simulate here?? (TK)
             //        SimulateOptions opt;
@@ -4225,7 +4224,7 @@ namespace rr {
             // Compute dv/dp
             for (int j = 0; j < reactionNames.size(); j++) {
                 double val = getUnscaledParameterElasticity(reactionNames[j], parameterName);
-                dvdp(j, 0) = Complex(val, 0.0);
+                dvdp(j, 0) = std::complex<double>(val, 0.0);
                 rrLog(lDebug) << "dv/dp: " << dvdp(j, 0);
             }
 
@@ -4241,7 +4240,7 @@ namespace rr {
 
             //Create Identity matrix
             for (int i = 0; i < Id.RSize(); i++) {
-                Id(i, i) = Complex(1, 0);
+                Id(i, i) = std::complex<double>(1, 0);
             }
 
             ComplexMatrix T2(Nr.RSize(), LinkMatrix.CSize());   // Stores iwI - Jac  and (iwI - Jac)^-1
@@ -4257,7 +4256,7 @@ namespace rr {
             std::vector<double> w(logspace(startFrequency, numberOfDecades, numberOfPoints));
 
             for (int i = 0; i < numberOfPoints; i++) {
-                Complex diagVal(0.0, w[i]);
+                std::complex<double> diagVal(0.0, w[i]);
 
                 T1 = multDiag(Id, diagVal); // Compute iwI
                 T2 = subtract(T1, Jac);     // Compute iwI - Jac //// Compute (iwI - Jac)^-1
@@ -4266,7 +4265,7 @@ namespace rr {
 
                 for (int j = 0; j < reactionNames.size(); j++) {
                     double realPart = getUnscaledParameterElasticity(reactionNames[j], parameterName);
-                    dvdp(j, 0) = ls::Complex(realPart, 0.0);
+                    dvdp(j, 0) = std::complex<double>(realPart, 0.0);
                 }
 
                 T4 = mult(T3, dvdp);    // Compute(iwI - Jac)^-1 . Nr . dvdp
@@ -4281,7 +4280,7 @@ namespace rr {
                             dw = 20.0 * log10(dw);
                         }
                         resultArray(i, 1) = dw;
-                        Complex val(T5(j, 0));
+                        std::complex<double> val(T5(j, 0));
 
                         double phase = (180.0 / M_PI) * rr::phase(val) + getAdjustment(val);
                         resultArray(i, 2) = phase;
@@ -4399,7 +4398,7 @@ namespace rr {
         return y;
     }
 
-    double phase(Complex &val) {
+    double phase(std::complex<double> &val) {
         if ((std::real(val) == 0.0) && (imag(val) == 0.0)) {
             return 0.0;
         } else {
@@ -4408,7 +4407,7 @@ namespace rr {
     }
 
 //This function is used in roadrunners freq analysis code...
-    double getAdjustment(Complex &z) {
+    double getAdjustment(std::complex<double> &z) {
         double adjustment;
         if (std::real(z) >= 0 && imag(z) >= 0) {
             adjustment = 0;
