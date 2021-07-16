@@ -171,9 +171,9 @@
 %template(IntVector) std::vector<int>;
 %template(StringVector) std::vector<std::string>;
 %template(StringList) std::list<std::string>;
+//%template(DoubleMap) std::unordered_map< std::string,double,std::hash< std::string >,std::equal_to< std::string >,std::allocator< std::pair< std::string const,double > > > >;
 
 
-%apply std::vector<std::string> {std::vector<std::string>, std::vector<std::string>, std::vector<std::string> };
 
 //%template(SelectionRecordVector) std::vector<rr::SelectionRecord>;
 //%apply std::vector<rr::SelectionRecord> {std::vector<SelectionRecord>, std::vector<rr::SelectionRecord>, std::vector<SelectionRecord>};
@@ -215,6 +215,7 @@
 
 %apply const ls::DoubleMatrix* {ls::DoubleMatrix*, DoubleMatrix*, const DoubleMatrix* };
 
+%typedef  DoubleMatrix3D rr::Matrix3D<double,double> ;
 
 
 /* Convert from C --> Python */
@@ -353,7 +354,6 @@
 };
 
 
-
 /**
  * @brief typemap to convert a string : Variant map into a Python dict.
  * Used in the "settings" map of TestModelFactory (tmf).
@@ -399,6 +399,23 @@
     // const std::unordered_map< std::string,Setting,std::hash< std::string >,std::equal_to< std::string >,std::allocator< std::pair< std::string const,Setting > > > & // without rr::     reference
 };
 
+// C++ std::unordered_map<std::string, double> to Python Dictionary
+//%template(StringDoubleMap) std::unordered_map<std::string, double>;
+
+%typemap(out) std::unordered_map<std::string, double> {
+    // Marker for StringDoubleMap
+    $result = PyDict_New();
+    if (!$result){
+        std::cerr << "Could not create Python Dict" << std::endl;
+    }
+
+    for (const auto& item: *(&$1)){
+        int err = PyDict_SetItem($result, PyUnicode_FromString(item.first.c_str()), PyFloat_FromDouble(item.second));
+        if (err < 0){
+            std::cout << "Could not create item in Python Dict" << std::endl;
+        }
+    }
+}
 
 
 /**
@@ -2737,7 +2754,7 @@ solvers = integrators + steadyStateSolvers
 %include "EulerIntegrator.h"
 
 
-
+%include "Matrix3D.h"
 
 
 

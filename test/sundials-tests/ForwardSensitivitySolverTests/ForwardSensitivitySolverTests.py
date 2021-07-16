@@ -23,6 +23,7 @@ class FFSTests(unittest.TestCase):
         self.testModel = tmf.TestModelFactory("OpenLinearFlux")
         self.rr = RoadRunner(self.testModel.str())
         self.model = self.rr.getModel()
+        print(self.model)
         self.sens = ForwardSensitivitySolver(self.model)
 
     def checkMatricesEqual(self, expected, actual, places=7):
@@ -94,141 +95,69 @@ class FFSTests(unittest.TestCase):
     def testOpenLinearFluxWithoutRoadRunnerInstance(self):
         self.checkSensWithModel("OpenLinearFlux", 5)
 
-    # def checkRoadRunnerSimulates(self, modelName: str, places: int = 5):
-    #     """Check that the RoadRunner.simulate produces correct output"""
-    #
-    #     if modelName not in tmf.getAvailableTestModels():
-    #         raise ValueError(f"Model name \"{modelName}\ not available. Here are a list of "
-    #                          f"available model names: {tmf.getAvailableTestModels()}")
-    #     testModel = tmf.TestModelFactory(modelName)
-    #
-    #     if tmf.TimeSeriesResult not in testModel.__class__.mro():
-    #         raise ValueError("This TestModel does not implement the TimeSeriesResult interface. ")
-    #
-    #     # we need a RoadRunner object to create a model for us
-    #     rr = RoadRunner(testModel.str())
-    #
-    #     # all tests are done with stiff set to False
-    #     # this is probably a weakness
-    #     rr.getIntegrator().setValue("stiff", False)
-    #
-    #     settingsMap = testModel.timeSeriesSettings()
-    #     start = settingsMap["start"]
-    #     duration = settingsMap["duration"]
-    #     steps = settingsMap["steps"]
-    #
-    #     # always have one more number of data points (in the row direction) than there are number of steps / intervals
-    #     num = steps + 1
-    #     stepSize = (duration - start) / steps
-    #
-    #     # collect true values from the TestModel type
-    #     expectedResults = testModel.timeSeriesResult()
-    #
-    #     results = rr.simulate(start, duration, num)
-    #     self.checkMatricesEqual(expectedResults, results, places=places)
-    #
-    # # Integration tests
-    #
-    # # With CVODEIntegrator only
-    #
-    # def testOpenLinearFluxWithoutRoadRunnerInstance(self):
-    #     self.checkModelIntegrates("OpenLinearFlux", CVODEIntegrator, 5)
-    #
-    # def testSimpleFluxWithoutRoadRunnerInstance(self):
-    #     self.checkModelIntegrates("SimpleFlux", CVODEIntegrator, 5)
-    #
-    # def testModel269WithoutRoadRunnerInstance(self):
-    #     self.checkModelIntegrates("Model269", CVODEIntegrator, 5)
-    #
-    # def testModel28WithoutRoadRunnerInstance(self):
-    #     self.checkModelIntegrates("Model28", CVODEIntegrator, 5)
-    #
-    # def testFactorialInRateLawWithoutRoadRunnerInstance(self):
-    #     self.checkModelIntegrates("FactorialInRateLaw", CVODEIntegrator, 4)
-    #
-    # # with ForwardSensitivitySolver only
-    # #    Note: This is slight abuse of classification, but the test method
-    # #    doubles nicely for the FFS
-    #
-    # def testOpenLinearFluxWithoutRoadRunnerInstanceFFS(self):
-    #     self.checkModelIntegrates("OpenLinearFlux", ForwardSensitivitySolver, 5)
-    #
-    # def testSimpleFluxWithoutRoadRunnerInstanceFFS(self):
-    #     self.checkModelIntegrates("SimpleFlux", ForwardSensitivitySolver, 5)
-    #
-    # def testModel269WithoutRoadRunnerInstanceFFS(self):
-    #     self.checkModelIntegrates("Model269", ForwardSensitivitySolver, 5)
-    #
-    # def testModel28WithoutRoadRunnerInstanceFFS(self):
-    #     self.checkModelIntegrates("Model28", ForwardSensitivitySolver, 5)
-    #
-    # def testFactorialInRateLawWithoutRoadRunnerInstanceFFS(self):
-    #     self.checkModelIntegrates("FactorialInRateLaw", ForwardSensitivitySolver, 4)
-    #
-    # def testOpenLinearFluxWithRoadRunnerInstance(self):
-    #     self.checkRoadRunnerSimulates("OpenLinearFlux", 5)
-    #
-    # def testSimpleFluxWithRoadRunnerInstance(self):
-    #     self.checkRoadRunnerSimulates("SimpleFlux", 5)
-    #
-    # def testModel269WithRoadRunnerInstance(self):
-    #     self.checkRoadRunnerSimulates("Model269", 5)
-    #
-    # def testModel28WithRoadRunnerInstance(self):
-    #     self.checkRoadRunnerSimulates("Model28", 5)
-    #
-    # def testFactorialInRateLawWithRoadRunnerInstance(self):
-    #     self.checkRoadRunnerSimulates("FactorialInRateLaw", 4)
-    #
-    # # Unit tests
-    #
-    # def test_relative_tolerance(self):
-    #     self.integrator.setValue("relative_tolerance", 1e-07)
-    #     self.assertEqual(1e-07, self.integrator.getValue("relative_tolerance"))
-    #
-    # def test_absolute_tolerance(self):
-    #     self.integrator.setValue("absolute_tolerance", 1e-13)
-    #     self.assertEqual(1e-13, self.integrator.getValue("absolute_tolerance"))
-    #
-    # def test_stiff(self):
-    #     self.integrator.setValue("stiff", False)
-    #     self.assertFalse(self.integrator.getValue("stiff"))
-    #
-    # def test_set_maximum_bdf_order(self):
-    #     self.integrator.setValue("maximum_bdf_order", 3)
-    #     self.assertEqual(3, self.integrator.getValue("maximum_bdf_order"))
-    #
-    # def test_set_maximum_adams_order(self):
-    #     self.integrator.setValue("maximum_adams_order", 2)
-    #     self.assertEqual(2, self.integrator.getValue("maximum_adams_order"))
-    #
-    # def test_set_maximum_num_steps(self):
-    #     self.integrator.setValue("maximum_num_steps", 500)
-    #     self.assertEqual(500, self.integrator.getValue("maximum_num_steps"))
-    #
-    # def test_set_maximum_time_step(self):
-    #     self.integrator.setValue("maximum_time_step", 5)
-    #     self.assertEqual(5, self.integrator.getValue("maximum_time_step"))
-    #
-    # def test_set_minimum_time_step(self):
-    #     self.integrator.setValue("minimum_time_step", 0.1)
-    #     self.assertEqual(0.1, self.integrator.getValue("minimum_time_step"))
-    #
-    # def test_set_initial_time_step(self):
-    #     self.integrator.setValue("initial_time_step", 3.56)
-    #     self.assertEqual(3.56, self.integrator.getValue("initial_time_step"))
-    #
-    # def test_set_multiple_steps(self):
-    #     self.integrator.setValue("multiple_steps", True)
-    #     self.assertTrue(self.integrator.getValue("multiple_steps"))
-    #
-    # def test_set_variable_step_size(self):
-    #     self.integrator.setValue("variable_step_size", True)
-    #     self.assertTrue(self.integrator.getValue("variable_step_size"))
-    #
-    # def test_set_max_output_rows(self):
-    #     self.integrator.setValue("max_output_rows", 50)
-    #     self.assertEqual(50, self.integrator.getValue("max_output_rows"))
-    #
-    # def test_set_concentration_tolerance(self):
-    #     self.integrator.setConcentrationTolerance(1e-8)
+    def test_getGlobalParameterNames(self):
+        actual = self.sens.getGlobalParameterNames()
+        expected = ('kin', 'kf', 'kout', 'kb')
+        self.assertEqual(expected, actual)
+
+    def test_getVariableNames(self):
+        actual = self.sens.getVariableNames()
+        expected = ('S1', 'S2')
+        self.assertEqual(expected, actual)
+
+    def test_CheckValueOfNp(self):
+        actual = self.sens.Np
+        expected = 4
+        self.assertEqual(expected, actual)
+
+    def test_CheckValueOfNsWhenDefaultToAllParameters(self):
+        actual = self.sens.Ns
+        expected = 4
+        self.assertEqual(expected, actual)
+
+    def test_CheckValueOfNsWhenSelectingParameters(self):
+        sens2 = ForwardSensitivitySolver(self.model, ["kf"])
+        actual = sens2.Ns
+        expected = 1
+        self.assertEqual(expected, actual)
+
+    def test_CheckValueOfNumModelVariables(self):
+        actual = self.sens.numModelVariables
+        expected = 2
+        self.assertEqual(expected, actual)
+
+    def test_getModelParametersAsMap(self):
+        actual = self.sens.getModelParametersAsMap()
+        expected = {'kb': 0.01, 'kf': 0.1, 'kin': 1.0, 'kout': 0.2}
+        self.assertEqual(expected, actual)
+
+    def test_getModelParametersAsVector(self):
+        actual = self.sens.getModelParametersAsVector()
+        expected = np.array([1., 0.1, 0.2, 0.01])
+        self.assertTrue((expected == actual).all())
+
+    def test_deducePlistDefaultToAllParameters(self):
+        self.sens.deducePlist()
+        actual = self.sens.plist
+        expected = (0, 1, 2, 3)
+        self.assertEqual(expected, actual)
+
+    def test_deducePlistFirstParameter(self):
+        sens2 = ForwardSensitivitySolver(self.model, ["kin"])
+        sens2.deducePlist()
+        actual = sens2.plist
+        expected = (0,)
+        self.assertEqual(expected, actual)
+
+    def test_deducePlistSecondParameter(self):
+        sens2 = ForwardSensitivitySolver(self.model, ["kf"])
+        sens2.deducePlist()
+        actual = sens2.plist
+        expected = (1,)
+        self.assertEqual(expected, actual)
+
+    def test_SettingsNonLinearSolver(self):
+        self.sens.setValue("nonlinear_solver", "fixed_point")
+        actual = self.sens.getValue("nonlinear_solver")
+        expected = "fixed_point"
+        self.assertEqual(expected, actual)
