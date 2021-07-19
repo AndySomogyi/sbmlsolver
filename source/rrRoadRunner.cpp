@@ -83,6 +83,7 @@ namespace rr {
 
     using Poco::Mutex;
     using ls::ComplexMatrix;
+    using ls::DoubleMatrix;
     using ls::LibStructural;
 
     static Mutex roadRunnerMutex;
@@ -1913,6 +1914,47 @@ namespace rr {
         }
         return ls::getEigenValues(mat);
     }
+
+
+    DoubleMatrix RoadRunner::getFullEigenValuesNamedArray()
+    {
+        return getEigenValuesNamedArray(JACOBIAN_FULL);
+    }
+
+    DoubleMatrix RoadRunner::getReducedEigenValuesNamedArray()
+    {
+        return getEigenValuesNamedArray(JACOBIAN_REDUCED);
+    }
+
+
+    DoubleMatrix RoadRunner::getEigenValuesNamedArray(RoadRunner::JacobianMode mode){
+        check_model();
+        DoubleMatrix mat;
+
+        if (mode == JACOBIAN_FULL)
+        {
+            mat = getFullJacobian();
+        }
+        else
+        {
+            mat = getReducedJacobian();
+        }
+        std::vector< std::complex<double> > eigens = ls::getEigenValues(mat);
+        //std::vector< std::complex<double> > eigens = getEigenValues(mode);
+        DoubleMatrix v(eigens.size(), 2);
+        for (unsigned int i = 0; i < eigens.size(); i++)
+        {
+            v(i, 0) = std::real(eigens[i]);
+            v(i, 1) = std::imag(eigens[i]);
+        }
+        v.setRowNames(mat.getRowNames());
+        std::vector<std::string> colnames;
+        colnames.push_back("real");
+        colnames.push_back("imaginary");
+        v.setColNames(colnames);
+        return v;
+    }
+
 
     ls::DoubleMatrix RoadRunner::getFloatingSpeciesAmountsNamedArray() {
         check_model();
@@ -5180,10 +5222,26 @@ namespace rr {
         regenerateModel(forceRegenerate);
     }
 
-    void RoadRunner::setInitAmount(const std::string &sid, double initAmount, bool forceRegenerate) {
-        using namespace libsbml;
-        Model *sbmlModel = impl->document->getModel();
-        Species *species = sbmlModel->getSpecies(sid);
+    bool RoadRunner::getHasOnlySubstanceUnits(const std::string& sid)
+{
+    using namespace libsbml;
+    Model* sbmlModel = impl->document->getModel();
+    Species* species = sbmlModel->getSpecies(sid);
+
+    if (species == NULL)
+    {
+        throw std::invalid_argument("Roadrunner::getHasOnlySubstanceUnits failed, no species with ID " + sid + " existed in the model");
+    }
+
+    return species->getHasOnlySubstanceUnits();
+}
+
+
+void RoadRunner::setInitAmount(const std::string& sid, double initAmount, bool forceRegenerate)
+{
+	using namespace libsbml;
+	Model* sbmlModel = impl->document->getModel();
+	Species* species = sbmlModel->getSpecies(sid);
 
         if (species == NULL) {
             throw std::invalid_argument(

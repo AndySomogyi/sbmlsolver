@@ -39,6 +39,22 @@ TEST_F(ModelAnalysisTests, AnalysisFunctionsWithEvent) {
 }
 
 
+TEST_F(ModelAnalysisTests, EigenvalueNamedArrays) {
+    RoadRunner* rr = new RoadRunner((modelAnalysisModelsDir / "BIOMD0000000035_url.xml").string());
+
+    ls::DoubleMatrix eigens = rr->getFullEigenValuesNamedArray();
+    EXPECT_EQ(eigens.size(), 18);
+    EXPECT_EQ(eigens.RSize(), 9);
+    EXPECT_EQ(eigens.CSize(), 2);
+    for (unsigned int r = 0; r < 9; r++) {
+        EXPECT_GT(eigens(r, 0), -105);
+        EXPECT_GT(eigens(r, 1), -15);
+    }
+
+    delete rr;
+}
+
+
 TEST_F(ModelAnalysisTests, GetEventIDs) {
     RoadRunner *rr = new RoadRunner((modelAnalysisModelsDir / "event.xml").string());
 

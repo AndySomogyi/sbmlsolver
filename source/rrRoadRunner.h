@@ -592,20 +592,41 @@ namespace rr {
         /**
          * Returns the eigenvalues of the full jacobian.
          *
-         * If the eigenvalues are all real, this returns a N x 1 matrix,
-         * if complex, returns an N x 2 matrix where the first column is the
-         * real values and the second is the imaginary part.
+         * This returns a vector of Complex numbers.  In the python bindings,
+         * the values are complex only if there are non-zero imaginary
+         * parts of the values.
          */
         std::vector<std::complex<double>> getFullEigenValues();
 
         /**
          * Returns the eigenvalues of the reduced jacobian.
          *
-         * If the eigenvalues are all real, this returns a N x 1 matrix,
-         * if complex, returns an N x 2 matrix where the first column is the
-         * real values and the second is the imaginary part.
+         * This returns a vector of Complex numbers.  In the python bindings,
+         * the values are complex only if there are non-zero imaginary
+         * parts of the values.
          */
         std::vector<std::complex<double>> getReducedEigenValues();
+
+
+        /**
+         * Returns the eigenvalues of the full jacobian as a named array.
+         *
+         * This returns an N x 2 matrix where the first column is the
+         * real values and the second is the imaginary part.  The rows
+         * are labeled with the corresponding species ids, and the columns
+         * are labeled 'real' and 'imaginary'.
+         */
+        ls::DoubleMatrix getFullEigenValuesNamedArray();
+
+        /**
+         * Returns the eigenvalues of the reduced jacobian as a named array.
+         *
+         * This returns an N x 2 matrix where the first column is the
+         * real values and the second is the imaginary part.  The rows
+         * are labeled with the corresponding species ids, and the columns
+         * are labeled 'real' and 'imaginary'.
+         */
+        ls::DoubleMatrix getReducedEigenValuesNamedArray();
 
 
         ls::DoubleMatrix getLinkMatrix();
@@ -861,6 +882,12 @@ namespace rr {
          *					       set this flag to true only in the last call of editing
          */
         void setHasOnlySubstanceUnits(const std::string &sid, bool hasOnlySubstanceUnits, bool forceRegenerate = true);
+
+        /**
+         * Get the hasOnlySubstanceUnits attribute for an existing species.
+         * @param sid: the ID of a species
+         */
+        bool getHasOnlySubstanceUnits(const std::string& sid);
 
 
         /**
@@ -1671,6 +1698,8 @@ namespace rr {
         };
 
         std::vector<std::complex<double> > getEigenValues(JacobianMode mode);
+
+        ls::DoubleMatrix getEigenValuesNamedArray(JacobianMode mode);
 
         /**
          * private implementation class, can only access if inside
