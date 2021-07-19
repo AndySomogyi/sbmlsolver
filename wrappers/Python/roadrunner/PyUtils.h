@@ -16,6 +16,7 @@
 #include <rr-libstruct/lsMatrix.h>
 #include <cstdint>
 #include "Matrix.h"
+#include "Matrix3D.h"
 
 namespace rr
 {
@@ -114,6 +115,32 @@ Dictionary *Dictionary_from_py(PyObject *py);
 void pyutil_init(PyObject *module);
 
 
+/**
+ * @brief convert a rr::Matrix3D<double, double>
+ */
+class Matrix3DToNumpy{
+public:
+    using DoubleMatrix3D = rr::Matrix3D<double, double>;
+    explicit Matrix3DToNumpy(DoubleMatrix3D& matrix);
+
+    /**
+     * @brief converts the index data field of the Double3DMatrix
+     * to a 1D numpy array
+     */
+    PyObject * convertIndex();
+
+    /**
+     * @brief converts the data from the Double3DMatrix
+     * to a 3D numpy array with the same dimensions.
+     */
+    PyObject * convertData();
+
+private:
+    /**
+     * @brief the Matrix3D<double, double> to convert
+     */
+     DoubleMatrix3D& matrix_;
+};
 
 } /* namespace rr */
 

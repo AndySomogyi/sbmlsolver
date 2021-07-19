@@ -24,7 +24,9 @@ namespace rr {
          */
         Matrix3D(int numRows, int numCols, int numZ)
                 : index_(std::vector<IndexType>(numZ)),
-                  data_(std::vector<Matrix < DataType>>(numZ)) {
+                  data_(std::vector<Matrix < DataType>>
+
+        (numZ)) {
             for (int i = 0; i < numZ; i++) {
                 data_[i].resize(numRows, numCols);
             }
@@ -101,7 +103,8 @@ namespace rr {
         rr::Matrix<DataType> &slice(int k) {
             if (k > numZ()) {
                 std::ostringstream err;
-                err << "requested kth index " << k << " from a Matrix3D with " << numZ() << " elements in the depth direction";
+                err << "requested kth index " << k << " from a Matrix3D with " << numZ()
+                    << " elements in the depth direction";
                 throw std::invalid_argument(err.str());
             }
             return data_[k];
@@ -119,12 +122,14 @@ namespace rr {
         std::vector<DataType> slice(int k, int j) {
             if (k > numZ()) {
                 std::ostringstream err;
-                err << "requested kth index " << k << " from a Matrix3D with " << numZ() << " elements in the depth direction";
+                err << "requested kth index " << k << " from a Matrix3D with " << numZ()
+                    << " elements in the depth direction";
                 throw std::invalid_argument(err.str());
             }
             if (j > numCols()) {
                 std::ostringstream err;
-                err << "requested jth index " << j << " from a Matrix3D with " << numCols() << " elements in the height (y) direction";
+                err << "requested jth index " << j << " from a Matrix3D with " << numCols()
+                    << " elements in the height (y) direction";
                 throw std::invalid_argument(err.str());
             }
             auto submatrix = data_[k].getValues();
@@ -143,17 +148,20 @@ namespace rr {
         DataType slice(int k, int j, int i) {
             if (k > numZ()) {
                 std::ostringstream err;
-                err << "requested kth index " << k << " from a Matrix3D with " << numZ() << " elements in the depth direction";
+                err << "requested kth index " << k << " from a Matrix3D with " << numZ()
+                    << " elements in the depth direction";
                 throw std::invalid_argument(err.str());
             }
             if (j > numCols()) {
                 std::ostringstream err;
-                err << "requested jth index " << j << " from a Matrix3D with " << numCols() << " elements in the height (y) direction";
+                err << "requested jth index " << j << " from a Matrix3D with " << numCols()
+                    << " elements in the height (y) direction";
                 throw std::invalid_argument(err.str());
             }
             if (i > numRows()) {
                 std::ostringstream err;
-                err << "requested ith index " << i << " from a Matrix3D with " << numRows() << " elements in the width (x) direction";
+                err << "requested ith index " << i << " from a Matrix3D with " << numRows()
+                    << " elements in the width (x) direction";
                 throw std::invalid_argument(err.str());
             }
             auto submatrix = data_[k].getValues();
@@ -175,6 +183,14 @@ namespace rr {
             // get index of idx
             int pos = std::distance(index_.begin(), std::find(index_.begin(), index_.end(), idx));
             return data_[pos];
+        }
+
+        /**
+         * @brief getter for the index data field of the Matrix3D.
+         * @returns a std::vector<IndexType>
+         */
+        const std::vector<IndexType> &getIndex() const {
+            return index_;
         }
 
         void setKthMatrix(int k, IndexType idx, Matrix <DataType> data) {
@@ -303,6 +319,7 @@ namespace rr {
         }
         return os;
     }
+
 
 }
 

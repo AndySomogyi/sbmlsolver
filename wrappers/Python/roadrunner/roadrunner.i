@@ -140,9 +140,7 @@
 
 // C++ std::map handling
 %include "std_unordered_map.i"
-//%include "std_map.i"
 
-// C++ std::map handling
 %include "std_vector.i"
 
 %include "std_list.i"
@@ -215,7 +213,21 @@
 
 %apply const ls::DoubleMatrix* {ls::DoubleMatrix*, DoubleMatrix*, const DoubleMatrix* };
 
-%typedef  DoubleMatrix3D rr::Matrix3D<double,double> ;
+
+
+%typemap(out) rr::Matrix3D<double,double> {
+    // marker for rr::Matrix3D<double,double> typemap
+    // 2 element tuple.
+    // data will be a 3D numpy array
+    // index will be a 1D numpy array accessible from a method or attr
+    //  from the 3D array.
+
+}
+//%typemap(out) rr::Matrix3D<double, double> {
+//
+//}
+
+%include "Matrix3D.h"
 
 
 /* Convert from C --> Python */
@@ -2754,7 +2766,7 @@ solvers = integrators + steadyStateSolvers
 %include "EulerIntegrator.h"
 
 
-%include "Matrix3D.h"
+
 
 
 

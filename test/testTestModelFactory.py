@@ -6,6 +6,7 @@
 import os
 import sys
 import unittest
+
 import numpy as np
 
 thisDir = os.path.dirname(os.path.realpath(__file__))
@@ -124,6 +125,32 @@ class testTestModelFactory(unittest.TestCase):
         self.assertAlmostEqual(3, cpx.real)
         self.assertAlmostEqual(4, cpx.imag)
 
+    def test_doubleVectorToNumpyArray_CorrectType(self):
+        arr = tmf._testDoubleVectorTo1DNumpyArray()
+        self.assertIsInstance(arr, np.ndarray)
 
+    def test_doubleVectorToNumpyArray_CorrectValues(self):
+        actual = tmf._testDoubleVectorTo1DNumpyArray()
+        expected = np.array([0.1, 0.2, 0.3])
+        print(expected)
+        print(actual)
+        self.assertTrue((expected == actual).all())
 
+    def test_testMatrix3D_index(self):
+        (idx, mat) = tmf._testMatrix3DDoubleDouble()
+        expected = np.array([0, 3.5, 7.9])
+        self.assertTrue((idx == expected).all())
 
+    def test_testMatrix3D_data(self):
+        (idx, mat) = tmf._testMatrix3DDoubleDouble()
+        expected = np.array(
+            [[[0.1, 0.2, 0.3],
+              [0.4, 0.5, 0.6]],
+
+             [[0.7, 0.8, 0.9],
+              [1., 1.1, 1.2]],
+
+             [[1.3, 1.4, 1.5],
+              [1.6, 1.7, 1.8]]]
+        )
+        self.assertTrue((expected == mat).all())

@@ -651,7 +651,12 @@ namespace privateSwigTests_ {
 
     std::vector<std::complex<double>> _testStdComplexNonZeroImagPart();
 
+    std::vector<double> _testDoubleVectorTo1DNumpyArray();
+
+    rr::Matrix3D<double, double> _testMatrix3DDoubleDouble();
+
 }
+
 
 
 #endif // ROADRUNNER_TESTMODELFACTORY

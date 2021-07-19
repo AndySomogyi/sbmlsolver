@@ -10,6 +10,7 @@
 
     #include "PyUtils.h" // for variant_to_py and back.
 
+
     #include "Matrix.h"
     #include "Matrix3D.h"
     #include "TestModelFactory.h"
@@ -98,9 +99,12 @@ rr::pyutil_init(m);
     rr::Setting*
 };
 
-// explicit instantiation of rr::Matrix<double>
-//%template (rrDoubleMatrix) rr::Matrix<double>;
 
+/**
+ * Converts a rr::Matrix<double> to a numpy array,
+ * using the same functions/methods as for ls::Matrix<double>
+ * (proxy via rrDoubleMatrix_to_py)
+ */
 %typemap(out) rr::Matrix<double> {
     // marker for rrDoubleMatrix typemap. Look for me in TestModelFactoryPYTHON_wrap.cxx
     const rr::Matrix<double>* mat = &($1);
@@ -115,7 +119,7 @@ rr::pyutil_init(m);
 
 
 /**
- * @brief typemap to convert a string : Variant map into a Python dict.
+ * @brief typemap to convert a string : Setting map into a Python dict.
  * Used in the "settings" map of tmf.
  */
 %typemap(out) std::unordered_map< std::string,rr::Setting,std::hash< std::string >,std::equal_to< std::string >,std::allocator< std::pair< std::string const,rr::Setting > > >* {
@@ -158,6 +162,49 @@ rr::pyutil_init(m);
 %template(StringVector) std::vector<std::string>;
 %template(DoubleVector) std::vector<double>;
 %template(IntVector) std::vector<int>;
+
+
+
+/**************************************************
+ * How to create a numpy array from a std::vector<double>?
+ */
+
+/**
+ * Convert a vector of doubles to a 1D numpy array
+ */
+%typemap(out) std::vector<double> {
+    // marker for a std::vector<double> typemap
+    const npy_intp length = $1.size();
+
+    // create a numpy type
+    PyArray_Descr *desc = PyArray_DescrFromType(NPY_DOUBLE);
+
+    // copy the data from the std::vector<double> so that we can give the
+    // ptr to the numpy array
+    // hopefully this will be cleaned up by numpy...
+    double* data = new double[length];
+    std::copy($1.begin(), $1.end(), data);
+    $result = PyArray_SimpleNewFromData(1, &length, NPY_DOUBLE, (void*)data);
+
+    PyArrayObject * arr = reinterpret_cast<PyArrayObject*>($result);
+
+    PyArray_ENABLEFLAGS(arr, NPY_ARRAY_OWNDATA);
+    int owned = PyArray_CHKFLAGS(arr, NPY_ARRAY_OWNDATA);
+    if (!owned){
+        std::cerr << "PyArrayObject does not own its memory" << std::endl;
+    }
+}
+
+
+%typemap(out) rr::Matrix3D<double, double> {
+    // marker for a rr::Matrix3D<double, double> typemap
+    Matrix3DToNumpy matrix3DtoNumpy($1);
+    PyObject* npArray3D = matrix3DtoNumpy.convertData();
+    PyObject* idx = matrix3DtoNumpy.convertIndex();
+
+    $result = PyTuple_Pack(2, idx, npArray3D);
+}
+
 
 /**
  * Converts an unordered_map<string, DoublePair>
@@ -309,6 +356,7 @@ rr::pyutil_init(m);
 %newobject _testDoubleMap;
 %newobject _testVariantMap;
 %newobject _testVariant;
+%newobject test_doubleArrayToNumpyArray;
 
 %newobject TestModelFactory;
 
