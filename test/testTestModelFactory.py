@@ -136,13 +136,15 @@ class testTestModelFactory(unittest.TestCase):
         print(actual)
         self.assertTrue((expected == actual).all())
 
-    def test_testMatrix3D_index(self):
-        (idx, mat) = tmf._testMatrix3DDoubleDouble()
+
+
+    def test_testMatrix3D_index3x2x3(self):
+        (idx, mat) = tmf._testMatrix3D_3x2x3()
         expected = np.array([0, 3.5, 7.9])
         self.assertTrue((idx == expected).all())
 
-    def test_testMatrix3D_data(self):
-        (idx, mat) = tmf._testMatrix3DDoubleDouble()
+    def test_testMatrix3D_data3x2x3(self):
+        (idx, mat) = tmf._testMatrix3D_3x2x3()
         expected = np.array(
             [[[0.1, 0.2, 0.3],
               [0.4, 0.5, 0.6]],
@@ -154,3 +156,117 @@ class testTestModelFactory(unittest.TestCase):
               [1.6, 1.7, 1.8]]]
         )
         self.assertTrue((expected == mat).all())
+
+    def test_testMatrix3D_index2x3x4(self):
+        (idx, mat) = tmf._testMatrix3D_2x3x4()
+        expected = np.array([0, 4.23])
+        self.assertTrue((idx == expected).all())
+
+    def test_testMatrix3D_data2x3x4(self):
+        (idx, mat) = tmf._testMatrix3D_2x3x4()
+        expected = np.array(
+            [
+                [
+                    [0, 1, 2, 3],
+                    [4, 5, 6, 7],
+                    [8, 9, 10, 11]
+                ],
+                [
+                    [12, 13, 14, 15],
+                    [16, 17, 18, 19],
+                    [20, 21, 22, 23],
+                ]
+            ]
+        )
+        self.assertTrue((expected == mat).all())
+
+    def test_testMatrix3D_index4x3x2(self):
+        (idx, mat) = tmf._testMatrix3D_4x3x2()
+        expected = np.array([0, 6, 12, 18])
+        self.assertTrue((idx == expected).all())
+
+    def test_testMatrix3D_data4x3x2(self):
+        (idx, mat) = tmf._testMatrix3D_4x3x2()
+        expected = np.array(
+            [
+                [
+                    [0, 1],
+                    [2, 3],
+                    [4, 5]
+                ],
+                [
+                    [6, 7],
+                    [8, 9],
+                    [10, 11],
+                ],
+                [
+                    [12, 13],
+                    [14, 15],
+                    [16, 17],
+                ],
+                [
+                    [18, 19],
+                    [20, 21],
+                    [22, 23],
+                ]
+            ]
+        )
+        self.assertTrue((expected == mat).all())
+
+    def test_testMatrix3D_index3x4x2(self):
+        (idx, mat) = tmf._testMatrix3D_3x4x2()
+        expected = np.array([0, 6, 12])
+        self.assertTrue((idx == expected).all())
+
+    def test_testMatrix3D_data3x4x2(self):
+        (idx, mat) = tmf._testMatrix3D_3x4x2()
+        expected = np.array(
+            [
+                [
+                    [0, 1],
+                    [2, 3],
+                    [4, 5],
+                    [6, 7]
+                ],
+                [
+                    [8, 9],
+                    [10, 11],
+                    [12, 13],
+                    [14, 15],
+                ],
+                [
+                    [16, 17],
+                    [18, 19],
+                    [20, 21],
+                    [22, 23],
+                ]
+            ]
+        )
+        self.assertTrue((expected == mat).all())
+
+    def test_Matrix3D_OpenLinearFlux(self):
+        print(tmf.OpenLinearFlux().timeSeriesSensitivityResult())
+        # (idx, mat) = tmf.OpenLinearFlux().timeSeriesSensitivityResult()
+        # print(idx)
+        # print(mat)
+
+    def test_index_calculation(self):
+        """Figure our linear index of a 3D matrix.
+
+        f(x, y, z) = a linear function from 0, 1, ..., x*y*z
+
+        Technically not a test, but this calculation is quite painful
+        to workout so it is left as a reminder
+        :return:
+        """
+        xMax = 5
+        yMax = 4
+        zMax = 2
+
+        ans = []
+        for z in range(zMax):
+            for y in range(yMax):
+                for x in range(xMax):
+                    ans.append(x + y * xMax + z * xMax * yMax)
+        self.assertEqual([i for i in range(xMax*yMax*zMax)], ans)
+

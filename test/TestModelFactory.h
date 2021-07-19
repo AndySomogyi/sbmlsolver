@@ -653,7 +653,13 @@ namespace privateSwigTests_ {
 
     std::vector<double> _testDoubleVectorTo1DNumpyArray();
 
-    rr::Matrix3D<double, double> _testMatrix3DDoubleDouble();
+    rr::Matrix3D<double, double> _testMatrix3D_3x2x3();
+
+    rr::Matrix3D<double, double> _testMatrix3D_2x3x4();
+
+    rr::Matrix3D<double, double> _testMatrix3D_4x3x2();
+
+    rr::Matrix3D<double, double> _testMatrix3D_3x4x2();
 
 }
 

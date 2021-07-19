@@ -24,14 +24,10 @@ if (BUILD_PYTHON AND BUILD_TESTS)
             "${CMAKE_BINARY_DIR}/lib/site-packages/roadrunner/testing/SettingTests.py"
             COPYONLY
     )
-    configure_file(
-            "${CMAKE_CURRENT_SOURCE_DIR}/Matrix3DTests.py"
-            "${CMAKE_BINARY_DIR}/lib/site-packages/roadrunner/testing/Matrix3DTests.py"
-            COPYONLY
-    )
 
     install(FILES
             "${CMAKE_CURRENT_BINARY_DIR}/Matrix3DTests.py"
+            "${CMAKE_CURRENT_BINARY_DIR}/SettingTests.py"
             DESTINATION
             site-packages/roadrunner/testing
             )

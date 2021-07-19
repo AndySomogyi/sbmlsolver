@@ -104,6 +104,36 @@ TEST_F(Matrix3DTests, CheckSlice1D) {
     ASSERT_TRUE(expected.almostEquals(expected, 1e-7));
 }
 
+TEST_F(Matrix3DTests, CheckSlice3D3x4x2) {
+    Matrix3D<double, double> matrix3D(
+            {0, 6, 12},
+            {
+                    {
+                            {0,  1},
+                            {2,  3},
+                            {4,  5},
+                            {6,  7},
+                    },
+                    {
+                            {8,  9},
+                            {10, 11},
+                            {12, 13},
+                            {14, 15},
+                    },
+                    {
+                            {16, 17},
+                            {18, 19},
+                            {20, 21},
+                            {22, 23},
+                    },
+            }
+    );
+    ASSERT_NEAR(0.0, matrix3D.slice(0, 0, 0), 1e-7);
+    ASSERT_NEAR(1.0, matrix3D.slice(0, 0, 1), 1e-7);
+    ASSERT_NEAR(22.0, matrix3D.slice(2, 3, 0), 1e-7);
+    ASSERT_NEAR(23.0, matrix3D.slice(2, 3, 1), 1e-7);
+}
+
 
 TEST_F(Matrix3DTests, NumRows) {
     Matrix3D<double, double> matrix3D(

@@ -183,7 +183,7 @@ std::unordered_map<std::string, rr::Setting> SimpleFlux::jacobianSettings() {
 std::vector<std::complex<double>> SimpleFlux::reducedEigenValues() {
     return std::vector<std::complex<double>>(
             {
-                    std::complex<double> (-0.11, 0),
+                    std::complex<double>(-0.11, 0),
             });
 }
 
@@ -325,8 +325,8 @@ rr::Matrix3D<double, double> SimpleFlux::timeSeriesSensitivityResult() {
                     },
                     // 10.0
                     {
-                            {-36.004745327429255, 36.00474532744258 },
-                            { 30.698815036078738, -30.69881503598992 }
+                            {-36.004745327429255, 36.00474532744258},
+                            {30.698815036078738, -30.69881503598992}
 
                     }
             }
@@ -537,32 +537,32 @@ rr::Matrix3D<double, double> OpenLinearFlux::timeSeriesSensitivityResult() {
             {
                     // 0.0
                     {
-                                // S1               S2
-                            {0, 0},
-                            {0, 0},
-                            {0, 0},
+                            // S1               S2
+                            {0,                 0},
+                            {0,                   0},
+                            {0,                      0},
                             {0, 0},
                     },
                     // 5.0
                     {
-                                // S1               S2
-                            {3.934693402848577,	0.7740906159678929}, // kin
-                            {-9.018962447266965, 6.460291117027506}, // kf
+                            // S1               S2
+                            {3.934693402848577, 0.7740906159678929}, // kin
+                            {-9.018962447266965,  6.460291117027506}, // kf
                             {-1.554312234475219e-11, -1.134615918164661}, // kout
                             {0, 0} // kb (not used)
                     },
                     // 10.0
                     {
-                                // S1               S2
-                            {6.32120558682292,	1.9978820443633527}, // kin
+                            // S1               S2
+                            {6.32120558682292,  1.9978820443633527}, // kin
                             {-26.416083570177662, 13.528667619562285}, // kf
-                            {6.843858812999315e-8, -5.126794156565806}, // kout
+                            {6.843858812999315e-8,   -5.126794156565806}, // kout
                             {0, 0} // kb (not used)
 
                     }
             }
     );
-    mat.setRowNames({"kf", "kb"});
+    mat.setRowNames({"kin", "kf", "kout", "kb"});
     mat.setColNames({"S1", "S2"});
     return mat;
 }
@@ -756,19 +756,19 @@ rr::Matrix3D<double, double> Model269::timeSeriesSensitivityResult() {
             {
                     // 0.0
                     {
-                            {0.0,                 0.0},
-                            {0.0,                0.0}
+                            {0.0,                  0.0},
+                            {0.0,                  0.0}
                     },
                     // 5.0
                     {
-                            {-0.10465397234947493, 0.10465397234940554	},
-                            {0.007987725795975953,	-0.007987725795968181},
+                            {-0.10465397234947493, 0.10465397234940554},
+                            {0.007987725795975953, -0.007987725795968181},
 
                     },
                     // 10.0
                     {
-                            {-0.10465397234946018,	0.1046539723494333},
-                            {0.015979733787983702,	-0.015979733787974126},
+                            {-0.10465397234946018, 0.1046539723494333},
+                            {0.015979733787983702, -0.015979733787974126},
                     }
             }
     );
@@ -892,19 +892,19 @@ rr::Matrix3D<double, double> Model28::timeSeriesSensitivityResult() {
             {
                     // 0.0
                     {
-                            {0.0,                 0.0},
-                            {0.0,                0.0}
+                            {0.0,                  0.0},
+                            {0.0,                  0.0}
                     },
                     // 5.0
                     {
-                            {-0.10465397234947493,	0.10465397234940554 },
-                            {	0.007987725795975953, -0.007987725795968181}
+                            {-0.10465397234947493, 0.10465397234940554},
+                            {0.007987725795975953, -0.007987725795968181}
 
                     },
                     // 10.0
                     {
-                            {-0.10465397234946018,	0.1046539723494333},
-                            {0.015979733787983702,	-0.015979733787974126},
+                            {-0.10465397234946018, 0.1046539723494333},
+                            {0.015979733787983702, -0.015979733787974126},
                     }
             }
     );
@@ -2350,19 +2350,19 @@ namespace privateSwigTests_ {
         };
     }
 
-    std::vector<std::complex<double>> _testStdComplexZeroImagPart(){
+    std::vector<std::complex<double>> _testStdComplexZeroImagPart() {
         return std::vector<std::complex<double>>({{2, 0}});
     }
 
-    std::vector<std::complex<double>> _testStdComplexNonZeroImagPart(){
+    std::vector<std::complex<double>> _testStdComplexNonZeroImagPart() {
         return std::vector<std::complex<double>>({{3, 4}});
     }
 
-    std::vector<double> _testDoubleVectorTo1DNumpyArray(){
+    std::vector<double> _testDoubleVectorTo1DNumpyArray() {
         return std::vector<double>({0.1, 0.2, 0.3});
     }
 
-    rr::Matrix3D<double, double> _testMatrix3DDoubleDouble(){
+    rr::Matrix3D<double, double> _testMatrix3D_3x2x3() {
         return rr::Matrix3D<double, double>(
                 {0, 3.5, 7.9},
                 {
@@ -2379,7 +2379,79 @@ namespace privateSwigTests_ {
                                 {1.6, 1.7, 1.8},
                         },
                 }
-                );
+        );
+    }
+
+    rr::Matrix3D<double, double> _testMatrix3D_2x3x4() {
+        return rr::Matrix3D<double, double>(
+                {0, 4.23},
+                {
+                        {
+                                {0,  1,  2,  3},
+                                {4,  5,  6,  7},
+                                {8,  9,  10, 11},
+                        },
+                        {
+                                {12, 13, 14, 15},
+                                {16, 17, 18, 19},
+                                {20, 21, 22, 23},
+                        },
+                }
+        );
+    }
+
+    rr::Matrix3D<double, double> _testMatrix3D_4x3x2() {
+        return rr::Matrix3D<double, double>(
+                {0, 6, 12, 18},
+                {
+                        {
+                                {0,  1},
+                                {2,  3},
+                                {4,  5},
+                        },
+                        {
+                                {6,  7},
+                                {8,  9},
+                                {10, 11},
+                        },
+                        {
+                                {12, 13},
+                                {14, 15},
+                                {16, 17},
+                        },
+                        {
+                                {18, 19},
+                                {20, 21},
+                                {22, 23},
+                        }
+                }
+        );
+    }
+
+    rr::Matrix3D<double, double> _testMatrix3D_3x4x2() {
+        return rr::Matrix3D<double, double>(
+                {0, 6, 12},
+                {
+                        {
+                                {0,  1},
+                                {2,  3},
+                                {4,  5},
+                                {6,  7},
+                        },
+                        {
+                                {8,  9},
+                                {10, 11},
+                                {12, 13},
+                                {14, 15},
+                        },
+                        {
+                                {16, 17},
+                                {18, 19},
+                                {20, 21},
+                                {22, 23},
+                        },
+                }
+        );
     }
 
 }

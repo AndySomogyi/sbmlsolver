@@ -214,20 +214,21 @@
 %apply const ls::DoubleMatrix* {ls::DoubleMatrix*, DoubleMatrix*, const DoubleMatrix* };
 
 
+/**
+ * Note - you do not need to %include "Matrix3D.h"
+ * since we convert it to a Tuple[np.ndarray, np.ndarray]
+ */
+//%include "Matrix3D.h"
+%typemap(out) rr::Matrix3D<double, double> {
+    // marker for a rr::Matrix3D<double, double> typemap
+    Matrix3DToNumpy matrix3DtoNumpy($1);
+    PyObject* npArray3D = matrix3DtoNumpy.convertData();
+    PyObject* idx = matrix3DtoNumpy.convertIndex();
 
-%typemap(out) rr::Matrix3D<double,double> {
-    // marker for rr::Matrix3D<double,double> typemap
-    // 2 element tuple.
-    // data will be a 3D numpy array
-    // index will be a 1D numpy array accessible from a method or attr
-    //  from the 3D array.
-
+    $result = PyTuple_Pack(2, idx, npArray3D);
 }
-//%typemap(out) rr::Matrix3D<double, double> {
-//
-//}
 
-%include "Matrix3D.h"
+
 
 
 /* Convert from C --> Python */

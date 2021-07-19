@@ -126,9 +126,9 @@ namespace rr {
                     << " elements in the depth direction";
                 throw std::invalid_argument(err.str());
             }
-            if (j > numCols()) {
+            if (j > numRows()) {
                 std::ostringstream err;
-                err << "requested jth index " << j << " from a Matrix3D with " << numCols()
+                err << "requested jth index " << j << " from a Matrix3D with " << numRows()
                     << " elements in the height (y) direction";
                 throw std::invalid_argument(err.str());
             }
@@ -152,19 +152,20 @@ namespace rr {
                     << " elements in the depth direction";
                 throw std::invalid_argument(err.str());
             }
-            if (j > numCols()) {
+            if (j > numRows()) {
                 std::ostringstream err;
-                err << "requested jth index " << j << " from a Matrix3D with " << numCols()
-                    << " elements in the height (y) direction";
-                throw std::invalid_argument(err.str());
-            }
-            if (i > numRows()) {
-                std::ostringstream err;
-                err << "requested ith index " << i << " from a Matrix3D with " << numRows()
+                err << "requested jth index " << j << " from a Matrix3D with " << numRows()
                     << " elements in the width (x) direction";
                 throw std::invalid_argument(err.str());
             }
-            auto submatrix = data_[k].getValues();
+            if (i > numCols()) {
+                std::ostringstream err;
+                err << "requested ith index " << i << " from a Matrix3D with " << numCols()
+                    << " elements in the hight (y) direction";
+                throw std::invalid_argument(err.str());
+            }
+            std::vector<std::vector<DataType>> submatrix = data_[k].getValues();
+            // j indicates which row, i indicates which column
             return submatrix[j][i];
         }
 

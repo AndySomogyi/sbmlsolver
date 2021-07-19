@@ -1136,14 +1136,10 @@ PyArray_New(PyTypeObject *subtype, int nd, npy_intp *dims, int type_num,
             : matrix_(matrix) {}
 
     PyObject *Matrix3DToNumpy::convertData() {
-
         // collect dimensions. x = width, y=height, z = depth.
         const npy_intp xMax = matrix_.numCols();
         const npy_intp yMax = matrix_.numRows();
         const npy_intp zMax = matrix_.numZ();
-
-        // create a numpy type
-        PyArray_Descr *desc = PyArray_DescrFromType(NPY_DOUBLE);
 
         // allocate 1D array with enough space to store linearized 3D matrix
         double *data = new double[yMax * xMax * zMax];
@@ -1153,22 +1149,21 @@ PyArray_New(PyTypeObject *subtype, int nd, npy_intp *dims, int type_num,
             for (int y = 0; y < yMax; y++) {
                 for (int x = 0; x < xMax; x++) {
                     // compute the linear index (so loop does idx \in 1, 2, ..., yMax*xMax*zMax)
-                    // Help with the algorithm: https://stackoverflow.com/a/34363187/3059024
-                    unsigned int linearIdx = (z * xMax * yMax) + (y * xMax) + x;
+                    unsigned int linearIdx = x + y*xMax + z*xMax*yMax;
                     data[linearIdx] = matrix_.slice(z, y, x);
                 }
             }
         }
         // dimensions for resulting np array
-        npy_intp dims[3] = {xMax, yMax, zMax};
+        npy_intp dims[3] = {zMax, yMax, xMax};
         // create the numpy array
         PyObject *result = PyArray_SimpleNewFromData(3, dims, NPY_DOUBLE, (void *) data);
 
         // we need to cast to a PyArrayObject so that we can enable the NPY_ARRAY_OWNDATA flag
         //  which gives responsibility for handling the memory of `data` to numpy.
         PyArrayObject *arr = reinterpret_cast<PyArrayObject *>(result);
-        PyArray_ENABLEFLAGS(reinterpret_cast< PyArrayObject *>(result), NPY_ARRAY_OWNDATA);
-        int owned = PyArray_CHKFLAGS(reinterpret_cast< PyArrayObject *>(result), NPY_ARRAY_OWNDATA);
+        PyArray_ENABLEFLAGS(arr, NPY_ARRAY_OWNDATA);
+        int owned = PyArray_CHKFLAGS(arr, NPY_ARRAY_OWNDATA);
         if (!owned) {
             std::cerr << "PyArrayObject does not own its memory" << std::endl;
         }
@@ -1179,9 +1174,6 @@ PyArray_New(PyTypeObject *subtype, int nd, npy_intp *dims, int type_num,
 
         // matrix_.index dimensions == depth of Matrix3D
         const npy_intp zMax = matrix_.numZ();
-
-        // create a numpy type
-        PyArray_Descr *desc = PyArray_DescrFromType(NPY_DOUBLE);
 
         // allocate 1D array with enough space to store linearized 3D matrix
         double *data = new double[zMax];
