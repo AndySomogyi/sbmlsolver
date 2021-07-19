@@ -131,7 +131,7 @@ namespace rr {
          * to parameters.
          * @param kth derivative of the sensitivities.
          */
-        Matrix<double> getSensitivityMatrix(int k = 0);
+        rr::Matrix<double> getSensitivityMatrix(int k = 0);
 
         /**
          * @brief simulate a timeseries with sensitivities from start to step with num

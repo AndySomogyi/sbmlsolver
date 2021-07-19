@@ -213,6 +213,23 @@
 
 %apply const ls::DoubleMatrix* {ls::DoubleMatrix*, DoubleMatrix*, const DoubleMatrix* };
 
+/**
+ * Converts a rr::Matrix<double> to a numpy array,
+ * using the same functions/methods as for ls::Matrix<double> (its superclass)
+ * (proxy via rrDoubleMatrix_to_py)
+ */
+%typemap(out) rr::Matrix<double> {
+    // marker for rrDoubleMatrix typemap. Look for me in TestModelFactoryPYTHON_wrap.cxx
+    const rr::Matrix<double>* mat = &($1);
+    $result = rrDoubleMatrix_to_py(mat, false, true);
+}
+
+%apply rr::Matrix<double> {
+    const rr::Matrix<double>,
+    const rr::Matrix<double>&,
+    rr::Matrix<double>&
+};
+
 
 /**
  * Note - you do not need to %include "Matrix3D.h"

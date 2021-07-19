@@ -393,56 +393,6 @@ namespace rr {
     assert((PyArray_NBYTES(p) > 0 ? PyArray_ISCARRAY(p) : true) &&  "PyArray must be C format"); \
 }
 
-/*  original %typemap(out) ls::DoubleMatrix {
- *
-    PyObject *pArray = NULL;
-    int rows = ($1).numRows();
-    int cols = ($1).numCols();
-    double *data = (double*)malloc(sizeof(double)*rows*cols);
-    memcpy(data, ($1).getArray(), sizeof(double)*rows*cols);
-
-    if(cols == 1) {
-        int nd = 1;
-        npy_intp dims[1] = {rows};
-        pArray = PyArray_New(&PyArray_Type, nd, dims, NPY_DOUBLE, NULL, data, 0,
-                             NPY_CARRAY | NPY_OWNDATA, NULL);
-
-    }
-    else {
-        int nd = 2;
-        npy_intp dims[2] = {rows, cols};
-        pArray = PyArray_New(&PyArray_Type, nd, dims, NPY_DOUBLE, NULL, data, 0,
-                             NPY_CARRAY | NPY_OWNDATA, NULL);
-    }
-
-    VERIFY_PYARRAY(pArray);
-    $result  = pArray;
- */
-
-/*  original %typemap(out) const ls::DoubleMatrix* {
- *
-    PyObject *pArray = NULL;
-    int rows = ($1)->numRows();
-    int cols = ($1)->numCols();
-    double *data = ($1)->getArray();
-
-    if(cols == 1) {
-        int nd = 1;
-        npy_intp dims[1] = {rows};
-        pArray = PyArray_New(&PyArray_Type, nd, dims, NPY_DOUBLE, NULL, data, 0,
-                             NPY_CARRAY, NULL);
-    }
-    else {
-        int nd = 2;
-        npy_intp dims[2] = {rows, cols};
-        pArray = PyArray_New(&PyArray_Type, nd, dims, NPY_DOUBLE, NULL, data, 0,
-                             NPY_CARRAY, NULL);
-    }
-
-    VERIFY_PYARRAY(pArray);
-    $result  = pArray;
- */
-
 
     static PyObject *NamedArray_New(int nd, npy_intp *dims, double *data, int pyFlags,
                                     const ls::DoubleMatrix *mat);

@@ -542,7 +542,7 @@ namespace rr {
         return mSensitivityMatrix;
     }
 
-    Matrix<double> ForwardSensitivitySolver::getSensitivityMatrix(int k) {
+    rr::Matrix<double> ForwardSensitivitySolver::getSensitivityMatrix(int k) {
         auto stateVector = cvodeIntegrator->mStateVector;
         auto print = stateVector->ops->nvprint;
         auto getArrayPtr = stateVector->ops->nvgetarraypointer;

@@ -244,12 +244,6 @@ class testTestModelFactory(unittest.TestCase):
         )
         self.assertTrue((expected == mat).all())
 
-    def test_Matrix3D_OpenLinearFlux(self):
-        print(tmf.OpenLinearFlux().timeSeriesSensitivityResult())
-        # (idx, mat) = tmf.OpenLinearFlux().timeSeriesSensitivityResult()
-        # print(idx)
-        # print(mat)
-
     def test_index_calculation(self):
         """Figure our linear index of a 3D matrix.
 
