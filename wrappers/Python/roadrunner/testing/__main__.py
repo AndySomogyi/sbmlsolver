@@ -29,7 +29,9 @@ other_test_modules = [
     "AutomaticMoietyConservationAnalysisTests",
     "SteadyStateSolverTests",
     "IntegratorTests",
-    "SettingTestsSwigAPI"
+    "SettingTests",
+    'ForwardSensitivitySolverTests',
+    "Matrix3DTests"
 ]
 
 for t in other_test_modules:
