@@ -24,9 +24,7 @@ namespace rr {
          */
         Matrix3D(int numRows, int numCols, int numZ)
                 : index_(std::vector<IndexType>(numZ)),
-                  data_(std::vector<Matrix < DataType>>
-
-        (numZ)) {
+                  data_(std::vector<Matrix < DataType>>(numZ)) {
             for (int i = 0; i < numZ; i++) {
                 data_[i].resize(numRows, numCols);
             }
@@ -77,11 +75,11 @@ namespace rr {
             }
             index_.push_back(idx);
             data_.push_back(mat);
-
         }
 
         /**
          * @brief Indexer to slice a Matrix3D and index value and data at idx
+         * @returns the k'th 2D matrix, indexed by Z dimension
          */
         Matrix <DataType> &operator[](int idx) {
             if (idx > numZ()) {
@@ -93,8 +91,79 @@ namespace rr {
         }
 
         /**
-         * @brief slicing operator, given the value of idx
-         * return the corresponding Matrix<DataType>
+         * @brief 1D Matrix slicer.
+         * @details Convert a 3D matrix to a 2D rr::Matrix<DataType> by slicing the Z direction using numerical indices.
+         *  Equivalent to Matrix3D<DataType>::operator[]
+         * @param k corresponds to the number of sub matrices, indexed by k in the set 0, 1, ..., zMax.
+         * @return A single 2D rr::Matrix<DataType> object at index k of this Matrix3D<DataType>
+         *  with dimensions (xMax, yMax) (width by height)
+         */
+        rr::Matrix<DataType> &slice(int k) {
+            if (k > numZ()) {
+                std::ostringstream err;
+                err << "requested kth index " << k << " from a Matrix3D with " << numZ() << " elements in the depth direction";
+                throw std::invalid_argument(err.str());
+            }
+            return data_[k];
+        }
+
+        /**
+         * @brief 2D Matrix slicer.
+         * @details Convert a 3D matrix to a 1D std::vector<DataType> by slicing the Z (depth)
+         *  and then the y (height) direction using numerical indices.
+         * @param k indexes the number of sub matrices, k \in 0, 1, ..., zMax.
+         * @param j indexes the number of row vectors in submatrix k for j \in 0, 1, ..., yMax
+         * @return A single 1D std::vector<DataType> object at index k, j of this Matrix3D<DataType>
+         *  with dimensions (xMax) (width). This is a row vector at submatrix k, row j of this rr::Matrix3D<DataType>
+         */
+        std::vector<DataType> slice(int k, int j) {
+            if (k > numZ()) {
+                std::ostringstream err;
+                err << "requested kth index " << k << " from a Matrix3D with " << numZ() << " elements in the depth direction";
+                throw std::invalid_argument(err.str());
+            }
+            if (j > numCols()) {
+                std::ostringstream err;
+                err << "requested jth index " << j << " from a Matrix3D with " << numCols() << " elements in the height (y) direction";
+                throw std::invalid_argument(err.str());
+            }
+            auto submatrix = data_[k].getValues();
+            return submatrix[j];
+        }
+
+        /**
+         * @brief 3D Matrix slicer.
+         * @details Convert a 3D matrix to a scalar DataType by slicing the (k, j, i) (depth, height, width)
+         *  direction using numerical indices.
+         * @param k corresponds to the number of sub matrices, indexed by k in the set 0, 1, ..., zMax.
+         * @param j indexes the number of row vectors in submatrix k for j \in 0, 1, ..., yMax
+         * @param i indexes the number of elements in each row vector j; i \in 0, 1, ..., xMax
+         * @return A scalar DataType object at index k, j, i of this Matrix3D<DataType>.
+         */
+        DataType slice(int k, int j, int i) {
+            if (k > numZ()) {
+                std::ostringstream err;
+                err << "requested kth index " << k << " from a Matrix3D with " << numZ() << " elements in the depth direction";
+                throw std::invalid_argument(err.str());
+            }
+            if (j > numCols()) {
+                std::ostringstream err;
+                err << "requested jth index " << j << " from a Matrix3D with " << numCols() << " elements in the height (y) direction";
+                throw std::invalid_argument(err.str());
+            }
+            if (i > numRows()) {
+                std::ostringstream err;
+                err << "requested ith index " << i << " from a Matrix3D with " << numRows() << " elements in the width (x) direction";
+                throw std::invalid_argument(err.str());
+            }
+            auto submatrix = data_[k].getValues();
+            return submatrix[j][i];
+        }
+
+        /**
+         * @brief slicing operator that uses the user provided index.
+         * @param idx the value of the element in this Matrix3D that has the unique index idx.
+         * @return the Matrix<DataType> indexed by the IndexType idx.
          */
         Matrix <DataType> &getItem(IndexType idx) {
             // first check if idx in index

@@ -29,7 +29,7 @@ TEST_F(Matrix3DTests, CheckSlice) {
                     }
             }
     );
-    Matrix<double> actual =  matrix3D.getItem(0.0);
+    Matrix<double> actual = matrix3D.getItem(0.0);
     Matrix<double> expected({
                                     {0.0, 1.0},
                                     {0.0, 1.0}
@@ -37,6 +37,73 @@ TEST_F(Matrix3DTests, CheckSlice) {
     bool passed = expected.almostEquals(actual, 1e-4);
     ASSERT_TRUE(passed);
 }
+
+TEST_F(Matrix3DTests, CheckSlice3D) {
+    Matrix3D<double, double> matrix3D(
+            {0.0, 1.0},
+            {
+                    // 0.0
+                    {
+                            {0.0, 1.0},
+                            {2.0, 3.0}
+                    },
+                    // 1.0
+                    {
+                            {4.0, 5.0},
+                            {6.0, 7.0}
+                    }
+            }
+    );
+    double actual = matrix3D.slice(0, 1, 1);
+    ASSERT_NEAR(3.0, actual, 1e-7);
+}
+
+TEST_F(Matrix3DTests, CheckSlice2D) {
+    Matrix3D<double, double> matrix3D(
+            {0.0, 1.0},
+            {
+                    // 0.0
+                    {
+                            {0.0, 1.0},
+                            {2.0, 3.0}
+                    },
+                    // 1.0
+                    {
+                            {4.0, 5.0},
+                            {6.0, 7.0}
+                    }
+            }
+    );
+    std::vector<double> actual = matrix3D.slice(0, 1);
+    ASSERT_NEAR(2.0, actual[0], 1e-7);
+    ASSERT_NEAR(3.0, actual[1], 1e-7);
+}
+
+TEST_F(Matrix3DTests, CheckSlice1D) {
+    Matrix3D<double, double> matrix3D(
+            {0.0, 1.0},
+            {
+                    // 0.0
+                    {
+                            {0.0, 1.0},
+                            {2.0, 3.0}
+                    },
+                    // 1.0
+                    {
+                            {4.0, 5.0},
+                            {6.0, 7.0}
+                    }
+            }
+    );
+    rr::Matrix<double> actual = matrix3D.slice(0);
+    rr::Matrix<double> expected(
+            {
+                    {0.0, 1.0},
+                    {2.0, 3.0},
+            });
+    ASSERT_TRUE(expected.almostEquals(expected, 1e-7));
+}
+
 
 TEST_F(Matrix3DTests, NumRows) {
     Matrix3D<double, double> matrix3D(
@@ -280,7 +347,7 @@ TEST_F(Matrix3DTests, AlmostEqualsWhenTrue) {
                     }
             }
     );
-    ASSERT_TRUE(first.almostEquals( second, 1e-4));
+    ASSERT_TRUE(first.almostEquals(second, 1e-4));
 }
 
 TEST_F(Matrix3DTests, AlmostEqualsWhenFalse) {
@@ -318,7 +385,7 @@ TEST_F(Matrix3DTests, AlmostEqualsWhenFalse) {
                     }
             }
     );
-    ASSERT_FALSE(first.almostEquals( second, 1e-4));
+    ASSERT_FALSE(first.almostEquals(second, 1e-4));
 }
 
 
