@@ -11,12 +11,31 @@ add_test_executable(ConfigTests test_targets ConfigTests.cpp ${SharedTestFiles})
 add_test_executable(MatrixTests test_targets MatrixTests.cpp ${SharedTestFiles})
 add_test_executable(Matrix3DTests test_targets Matrix3DTests.cpp ${SharedTestFiles})
 
-if (BUILD_PYTHON)
+if (BUILD_PYTHON AND BUILD_TESTS)
     add_swig_executable(SettingTestsSwigAPI
             SettingTestsSwigAPI.i
             SettingTestsSwigAPI
             "../../wrappers/Python/roadrunner/PyUtils"
             )
+
+    # copy IntegratorTests into the Build tree
+    configure_file(
+            "${CMAKE_CURRENT_SOURCE_DIR}/SettingTests.py"
+            "${CMAKE_BINARY_DIR}/lib/site-packages/roadrunner/testing/SettingTests.py"
+            COPYONLY
+    )
+    configure_file(
+            "${CMAKE_CURRENT_SOURCE_DIR}/Matrix3DTests.py"
+            "${CMAKE_BINARY_DIR}/lib/site-packages/roadrunner/testing/Matrix3DTests.py"
+            COPYONLY
+    )
+
+    install(FILES
+            "${CMAKE_CURRENT_BINARY_DIR}/Matrix3DTests.py"
+            DESTINATION
+            site-packages/roadrunner/testing
+            )
+
 endif ()
 
 

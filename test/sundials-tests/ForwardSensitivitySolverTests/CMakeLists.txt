@@ -5,6 +5,20 @@ add_test_executable(CVODESIntegrationTests test_targets FFSIntegrationTests.cpp 
 
 
 
+if (BUILD_PYTHON AND BUILD_TESTS)
+    configure_file(
+            "${CMAKE_CURRENT_SOURCE_DIR}/ForwardSensitivitySolverTests.py"
+            "${CMAKE_BINARY_DIR}/lib/site-packages/roadrunner/testing/ForwardSensitivitySolverTests.py"
+            COPYONLY
+    )
+
+    install(FILES
+            "${CMAKE_CURRENT_BINARY_DIR}/ForwardSensitivitySolverTests.py"
+            DESTINATION
+            site-packages/roadrunner/testing
+            )
+
+endif ()
 
 
 
