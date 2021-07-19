@@ -7,6 +7,7 @@
 
 #include "rrExporter.h"
 #include "SteadyStateSolver.h"
+#include "LLVMExecutableModel.h"
 
 namespace rr {
 
