@@ -164,6 +164,8 @@ option(BUILD_RR_PLUGINS "Build the telplugins package" OFF)
 #####################################################
 # Configure Asan build
 # https://stackoverflow.com/a/64294837/3059024
+#   and
+# Professional CMake: A Practical Guide.
 # Usage:
 #   -DCMAKE_BUILD_TYPE=Asan ...
 #
@@ -189,6 +191,8 @@ if (${CMAKE_BUILD_TYPE} STREQUAL "Asan")
     # executable.
     #
     # The Asan build is based on the Debug build, but with a few extra flags
+    #
+
     set(CMAKE_C_FLAGS_ASAN
             "${CMAKE_C_FLAGS_DEBUG} -fsanitize=address -fno-omit-frame-pointer" CACHE STRING
             "Flags used by the C compiler for Asan build type or configuration." FORCE)

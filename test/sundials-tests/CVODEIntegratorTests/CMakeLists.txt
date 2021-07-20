@@ -25,7 +25,7 @@ if (BUILD_PYTHON AND BUILD_TESTS)
     )
 
     install(FILES
-            "${CMAKE_CURRENT_BINARY_DIR}/IntegratorTests.py"
+            "${CMAKE_BINARY_DIR}/lib/site-packages/roadrunner/testing/IntegratorTests.py"
             DESTINATION
             site-packages/roadrunner/testing
             )
