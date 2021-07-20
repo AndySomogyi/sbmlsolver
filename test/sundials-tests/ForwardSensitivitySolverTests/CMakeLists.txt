@@ -13,7 +13,7 @@ if (BUILD_PYTHON AND BUILD_TESTS)
     )
 
     install(FILES
-            "${CMAKE_CURRENT_BINARY_DIR}/ForwardSensitivitySolverTests.py"
+            "${CMAKE_BINARY_DIR}/lib/site-packages/roadrunner/testing/ForwardSensitivitySolverTests.py"
             DESTINATION
             site-packages/roadrunner/testing
             )
