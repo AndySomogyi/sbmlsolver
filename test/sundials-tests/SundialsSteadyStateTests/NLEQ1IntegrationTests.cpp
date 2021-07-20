@@ -49,6 +49,14 @@ TEST_F(NLEQ1IntetrationTests, CheckCorrectSteadyStateFluxBiomolecularEnd) {
     testSteadyStateFluxes("BiomolecularEnd", "nleq1");
 }
 
+TEST_F(NLEQ1IntetrationTests, CheckJacobian) {
+//    testSteadyStateFluxes("BiomolecularEnd", "nleq1");
+    RoadRunner rr(BiomolecularEnd().str());
+    rr.reset();
+    std::cout << rr.getFullJacobian()<<std::endl;
+
+}
+
 
 
 
