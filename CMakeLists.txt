@@ -170,7 +170,14 @@ option(BUILD_RR_PLUGINS "Build the telplugins package" OFF)
 #   -DCMAKE_BUILD_TYPE=Asan ...
 #
 
-get_property(isMultiConfig GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
+if (${CMAKE_BUILD_TYPE} STREQUAL "Asan")
+    # these variables only get used in Asan builds
+    # and they will only work if CMake can find address sanitizer
+    # executable.
+    #
+    # The Asan build is based on the Debug build, but with a few extra flags
+    #
+    get_property(isMultiConfig GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
 
 if (isMultiConfig)
     if (NOT "Asan" IN_LIST CMAKE_CONFIGURATION_TYPES)
@@ -185,13 +192,6 @@ else ()
     endif ()
 endif ()
 
-if (${CMAKE_BUILD_TYPE} STREQUAL "Asan")
-    # these variables only get used in Asan builds
-    # and they will only work if CMake can find address sanitizer
-    # executable.
-    #
-    # The Asan build is based on the Debug build, but with a few extra flags
-    #
 
     set(CMAKE_C_FLAGS_ASAN
             "${CMAKE_C_FLAGS_DEBUG} -fsanitize=address -fno-omit-frame-pointer" CACHE STRING
