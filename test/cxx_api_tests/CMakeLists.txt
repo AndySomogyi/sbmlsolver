@@ -26,8 +26,7 @@ if (BUILD_PYTHON AND BUILD_TESTS)
     )
 
     install(FILES
-            "${CMAKE_CURRENT_BINARY_DIR}/Matrix3DTests.py"
-            "${CMAKE_CURRENT_BINARY_DIR}/SettingTests.py"
+            "${CMAKE_BINARY_DIR}/lib/site-packages/roadrunner/testing/SettingTests.py"
             DESTINATION
             site-packages/roadrunner/testing
             )
