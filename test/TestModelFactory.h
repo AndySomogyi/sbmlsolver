@@ -123,6 +123,18 @@ public:
 };
 
 /**
+ * @brief TestModel classes that implement this interface
+ * test steady state fluxes.
+ * @details Uses steadyStateSettings defined in SteadyStateResult
+ */
+class SteadyStateFluxes : public SteadyStateResult {
+public:
+
+    virtual std::unordered_map<std::string, double> steadyStateFluxes() = 0;
+
+};
+
+/**
  * @brief Interface for classes that compute the steady state
  * from multiple parameter sets.
  * @details SteadyStateResult was a bit limiting in that we can
@@ -611,6 +623,37 @@ public:
     std::string modelName() override;
 };
 
+/**
+ * @brief
+ * @details This test model was originally defined inside Biomolecular_end.rrtest
+ *  (reimplemented here for debugging a problem that is hard to debug with original test)
+ */
+class BiomolecularEnd :
+        public TestModel,
+        public SteadyStateFluxes,
+        public JacobianResult {
+public:
+    std::string modelName() override;
+
+    std::string str() override;
+
+    std::unordered_map<std::string, double> steadyState() override;
+
+    std::unordered_map<std::string, rr::Setting> steadyStateSettings() override;
+
+    std::unordered_map<std::string, double> steadyStateFluxes() override;
+
+    std::unordered_map<std::string, rr::Setting> jacobianSettings() override;
+
+    rr::Matrix<double> fullJacobianConc() override;
+
+    rr::Matrix<double> fullJacobianAmt() override;
+
+    rr::Matrix<double> reducedJacobianAmt() override;
+
+    rr::Matrix<double> reducedJacobianConc() override;
+};
+
 
 /**
  * @brief returns a vector of strings that are the
@@ -662,7 +705,6 @@ namespace privateSwigTests_ {
     rr::Matrix3D<double, double> _testMatrix3D_3x4x2();
 
 }
-
 
 
 #endif // ROADRUNNER_TESTMODELFACTORY

@@ -147,9 +147,9 @@ namespace rr {
          * sensitivities for all parameters vs all variables.
          * @param k (default 0) return the kth other derivative of the sensitivity data.
          */
-        Matrix3D<double, double> simulate(double start, double stop, int num,
-                                          const std::vector<std::string> &params = std::vector<std::string>(),
-                                          int k = 0);
+        Matrix3D<double, double> solveSensitivities(double start, double stop, int num,
+                                                    const std::vector<std::string> &params = std::vector<std::string>(),
+                                                    int k = 0);
 
         void setValue(const std::string &key, Setting val);
 

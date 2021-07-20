@@ -2262,200 +2262,6 @@ std::unordered_map<std::string, rr::Setting> Brown2004::steadyStateSettings() {
 //                                                        });
 //}
 
-std::vector<std::string> getAvailableTestModels() {
-    return std::vector<std::string>(
-            {
-                    "SimpleFlux",
-                    "SimpleFluxManuallyReduced",
-                    "OpenLinearFlux",
-                    "Model269",
-                    "Model28",
-                    "CeilInRateLaw",
-                    "FactorialInRateLaw",
-                    "Venkatraman2010",
-                    "Brown2004",
-                    "LayoutOnly",
-                    "ModelWithLocalParameters"
-            });
-}
-
-
-TestModel *TestModelFactory(const std::string &modelName) {
-    if (modelName == "SimpleFlux") {
-        return new SimpleFlux();
-    } else if (modelName == "Model269") {
-        return new Model269();
-    } else if (modelName == "Model28") {
-        return new Model28();
-    } else if (modelName == "CeilInRateLaw") {
-        return new CeilInRateLaw();
-    } else if (modelName == "FactorialInRateLaw") {
-        return new FactorialInRateLaw();
-    } else if (modelName == "Venkatraman2010") {
-        return new Venkatraman2010();
-    } else if (modelName == "OpenLinearFlux") {
-        return new OpenLinearFlux();
-    } else if (modelName == "SimpleFluxManuallyReduced") {
-        return new SimpleFluxManuallyReduced();
-    } else if (modelName == "Brown2004") {
-        return new Brown2004();
-    } else if (modelName == "LayoutOnly") {
-        return new LayoutOnly();
-    } else if (modelName == "ModelWithLocalParameters") {
-        return new ModelWithLocalParameters();
-    } else {
-        std::ostringstream err;
-        err << "TestModelFactory::TestModelFactory(): no model called \"" << modelName << "\" found. ";
-        err << "Available test models include: ";
-        for (const auto &name: getAvailableTestModels()) {
-            err << "\"" << name << "\", ";
-        }
-        throw std::runtime_error(err.str());
-    }
-}
-
-
-namespace privateSwigTests_ {
-    // this section exists only to test the swig bindings
-    // and make sure the typemaps are doing what they are supposed
-    // to be. Users should completely ignore this
-
-    DoublePair *_testDoublePair(double first, double second) {
-        DoublePair *pair = new DoublePair(first, second);
-        return pair;
-    }
-
-    std::unordered_map<double, double> *_testDoubleMap(double first, double second) {
-        std::unordered_map<double, double> *map = new std::unordered_map<double, double>{
-                {first, second}
-        };
-        return map;
-    }
-
-    std::unordered_map<std::string, rr::Setting> *_testVariantMap() {
-        std::unordered_map<std::string, rr::Setting> *map = new std::unordered_map<std::string, rr::Setting>{
-                {"mapsy", rr::Setting(5)}
-        };
-        return map;
-    }
-
-    rr::Setting *_testVariant() {
-        rr::Setting *x = new rr::Setting(5.4);
-        return x;
-    }
-
-    StringDoublePairMap _testResultMap() {
-        return StringDoublePairMap{
-                {"First", DoublePair(0.5, 1.6)},
-        };
-    }
-
-    std::vector<std::complex<double>> _testStdComplexZeroImagPart() {
-        return std::vector<std::complex<double>>({{2, 0}});
-    }
-
-    std::vector<std::complex<double>> _testStdComplexNonZeroImagPart() {
-        return std::vector<std::complex<double>>({{3, 4}});
-    }
-
-    std::vector<double> _testDoubleVectorTo1DNumpyArray() {
-        return std::vector<double>({0.1, 0.2, 0.3});
-    }
-
-    rr::Matrix3D<double, double> _testMatrix3D_3x2x3() {
-        return rr::Matrix3D<double, double>(
-                {0, 3.5, 7.9},
-                {
-                        {
-                                {0.1, 0.2, 0.3},
-                                {0.4, 0.5, 0.6},
-                        },
-                        {
-                                {0.7, 0.8, 0.9},
-                                {1.0, 1.1, 1.2},
-                        },
-                        {
-                                {1.3, 1.4, 1.5},
-                                {1.6, 1.7, 1.8},
-                        },
-                }
-        );
-    }
-
-    rr::Matrix3D<double, double> _testMatrix3D_2x3x4() {
-        return rr::Matrix3D<double, double>(
-                {0, 4.23},
-                {
-                        {
-                                {0,  1,  2,  3},
-                                {4,  5,  6,  7},
-                                {8,  9,  10, 11},
-                        },
-                        {
-                                {12, 13, 14, 15},
-                                {16, 17, 18, 19},
-                                {20, 21, 22, 23},
-                        },
-                }
-        );
-    }
-
-    rr::Matrix3D<double, double> _testMatrix3D_4x3x2() {
-        return rr::Matrix3D<double, double>(
-                {0, 6, 12, 18},
-                {
-                        {
-                                {0,  1},
-                                {2,  3},
-                                {4,  5},
-                        },
-                        {
-                                {6,  7},
-                                {8,  9},
-                                {10, 11},
-                        },
-                        {
-                                {12, 13},
-                                {14, 15},
-                                {16, 17},
-                        },
-                        {
-                                {18, 19},
-                                {20, 21},
-                                {22, 23},
-                        }
-                }
-        );
-    }
-
-    rr::Matrix3D<double, double> _testMatrix3D_3x4x2() {
-        return rr::Matrix3D<double, double>(
-                {0, 6, 12},
-                {
-                        {
-                                {0,  1},
-                                {2,  3},
-                                {4,  5},
-                                {6,  7},
-                        },
-                        {
-                                {8,  9},
-                                {10, 11},
-                                {12, 13},
-                                {14, 15},
-                        },
-                        {
-                                {16, 17},
-                                {18, 19},
-                                {20, 21},
-                                {22, 23},
-                        },
-                }
-        );
-    }
-
-}
-
 
 std::string LayoutOnly::str() {
     return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
@@ -2677,4 +2483,448 @@ std::string ModelWithLocalParameters::modelName() {
     return "ModelWithLocalParameters";
 }
 
+
+std::string BiomolecularEnd::str() {
+    return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+           "<!-- Created by libAntimony version v2.5.2 on 2014-09-22 11:05 with libSBML version 5.10.2. -->\n"
+           "<sbml xmlns=\"http://www.sbml.org/sbml/level3/version1/core\" level=\"3\" version=\"1\">\n"
+           "  <model id=\"Bimolecular_end\" name=\"Bimolecular_end\">\n"
+           "    <listOfFunctionDefinitions>\n"
+           "      <functionDefinition id=\"MM\">\n"
+           "        <math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n"
+           "          <lambda>\n"
+           "            <bvar>\n"
+           "              <ci> S1 </ci>\n"
+           "            </bvar>\n"
+           "            <bvar>\n"
+           "              <ci> S2 </ci>\n"
+           "            </bvar>\n"
+           "            <bvar>\n"
+           "              <ci> Vm </ci>\n"
+           "            </bvar>\n"
+           "            <bvar>\n"
+           "              <ci> Km1 </ci>\n"
+           "            </bvar>\n"
+           "            <bvar>\n"
+           "              <ci> Km2 </ci>\n"
+           "            </bvar>\n"
+           "            <bvar>\n"
+           "              <ci> Keq </ci>\n"
+           "            </bvar>\n"
+           "            <apply>\n"
+           "              <divide/>\n"
+           "              <apply>\n"
+           "                <times/>\n"
+           "                <apply>\n"
+           "                  <divide/>\n"
+           "                  <ci> Vm </ci>\n"
+           "                  <ci> Km1 </ci>\n"
+           "                </apply>\n"
+           "                <apply>\n"
+           "                  <minus/>\n"
+           "                  <ci> S1 </ci>\n"
+           "                  <apply>\n"
+           "                    <divide/>\n"
+           "                    <ci> S2 </ci>\n"
+           "                    <ci> Keq </ci>\n"
+           "                  </apply>\n"
+           "                </apply>\n"
+           "              </apply>\n"
+           "              <apply>\n"
+           "                <plus/>\n"
+           "                <cn type=\"integer\"> 1 </cn>\n"
+           "                <apply>\n"
+           "                  <divide/>\n"
+           "                  <ci> S1 </ci>\n"
+           "                  <ci> Km1 </ci>\n"
+           "                </apply>\n"
+           "                <apply>\n"
+           "                  <divide/>\n"
+           "                  <ci> S2 </ci>\n"
+           "                  <ci> Km2 </ci>\n"
+           "                </apply>\n"
+           "              </apply>\n"
+           "            </apply>\n"
+           "          </lambda>\n"
+           "        </math>\n"
+           "      </functionDefinition>\n"
+           "    </listOfFunctionDefinitions>\n"
+           "    <listOfCompartments>\n"
+           "      <compartment sboTerm=\"SBO:0000410\" id=\"default_compartment\" spatialDimensions=\"3\" size=\"1\" constant=\"true\"/>\n"
+           "    </listOfCompartments>\n"
+           "    <listOfSpecies>\n"
+           "      <species id=\"X0\" compartment=\"default_compartment\" initialConcentration=\"8.03\" hasOnlySubstanceUnits=\"false\" boundaryCondition=\"true\" constant=\"false\"/>\n"
+           "      <species id=\"S1\" compartment=\"default_compartment\" initialConcentration=\"7.12\" hasOnlySubstanceUnits=\"false\" boundaryCondition=\"false\" constant=\"false\"/>\n"
+           "      <species id=\"S2\" compartment=\"default_compartment\" initialConcentration=\"3.97\" hasOnlySubstanceUnits=\"false\" boundaryCondition=\"false\" constant=\"false\"/>\n"
+           "      <species id=\"S3\" compartment=\"default_compartment\" initialConcentration=\"0.96\" hasOnlySubstanceUnits=\"false\" boundaryCondition=\"false\" constant=\"false\"/>\n"
+           "      <species id=\"X1\" compartment=\"default_compartment\" initialConcentration=\"0.54\" hasOnlySubstanceUnits=\"false\" boundaryCondition=\"true\" constant=\"false\"/>\n"
+           "    </listOfSpecies>\n"
+           "    <listOfReactions>\n"
+           "      <reaction id=\"J0\" reversible=\"true\" fast=\"false\">\n"
+           "        <listOfReactants>\n"
+           "          <speciesReference species=\"X0\" stoichiometry=\"1\" constant=\"true\"/>\n"
+           "        </listOfReactants>\n"
+           "        <listOfProducts>\n"
+           "          <speciesReference species=\"S1\" stoichiometry=\"1\" constant=\"true\"/>\n"
+           "        </listOfProducts>\n"
+           "        <kineticLaw>\n"
+           "          <math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n"
+           "            <apply>\n"
+           "              <ci> MM </ci>\n"
+           "              <ci> X0 </ci>\n"
+           "              <ci> S1 </ci>\n"
+           "              <cn> 4.39 </cn>\n"
+           "              <cn> 9.85 </cn>\n"
+           "              <cn> 7.38 </cn>\n"
+           "              <cn> 6.12 </cn>\n"
+           "            </apply>\n"
+           "          </math>\n"
+           "        </kineticLaw>\n"
+           "      </reaction>\n"
+           "      <reaction id=\"J1\" reversible=\"true\" fast=\"false\">\n"
+           "        <listOfReactants>\n"
+           "          <speciesReference species=\"S1\" stoichiometry=\"1\" constant=\"true\"/>\n"
+           "        </listOfReactants>\n"
+           "        <listOfProducts>\n"
+           "          <speciesReference species=\"S2\" stoichiometry=\"1\" constant=\"true\"/>\n"
+           "        </listOfProducts>\n"
+           "        <kineticLaw>\n"
+           "          <math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n"
+           "            <apply>\n"
+           "              <ci> MM </ci>\n"
+           "              <ci> S1 </ci>\n"
+           "              <ci> S2 </ci>\n"
+           "              <cn> 6.12 </cn>\n"
+           "              <cn> 9.15 </cn>\n"
+           "              <cn> 1.59 </cn>\n"
+           "              <cn> 4.68 </cn>\n"
+           "            </apply>\n"
+           "          </math>\n"
+           "        </kineticLaw>\n"
+           "      </reaction>\n"
+           "      <reaction id=\"J2\" reversible=\"true\" fast=\"false\">\n"
+           "        <listOfReactants>\n"
+           "          <speciesReference species=\"S2\" stoichiometry=\"1\" constant=\"true\"/>\n"
+           "        </listOfReactants>\n"
+           "        <listOfProducts>\n"
+           "          <speciesReference species=\"S3\" stoichiometry=\"1\" constant=\"true\"/>\n"
+           "        </listOfProducts>\n"
+           "        <kineticLaw>\n"
+           "          <math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n"
+           "            <apply>\n"
+           "              <ci> MM </ci>\n"
+           "              <ci> S2 </ci>\n"
+           "              <ci> S3 </ci>\n"
+           "              <cn> 4.68 </cn>\n"
+           "              <cn> 8.22 </cn>\n"
+           "              <cn> 4.29 </cn>\n"
+           "              <cn> 0.57 </cn>\n"
+           "            </apply>\n"
+           "          </math>\n"
+           "        </kineticLaw>\n"
+           "      </reaction>\n"
+           "      <reaction id=\"J3\" reversible=\"true\" fast=\"false\">\n"
+           "        <listOfReactants>\n"
+           "          <speciesReference species=\"S3\" stoichiometry=\"1\" constant=\"true\"/>\n"
+           "        </listOfReactants>\n"
+           "        <listOfProducts>\n"
+           "          <speciesReference species=\"X1\" stoichiometry=\"1\" constant=\"true\"/>\n"
+           "        </listOfProducts>\n"
+           "        <kineticLaw>\n"
+           "          <math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n"
+           "            <apply>\n"
+           "              <ci> MM </ci>\n"
+           "              <ci> S3 </ci>\n"
+           "              <ci> X1 </ci>\n"
+           "              <cn> 0.57 </cn>\n"
+           "              <cn> 0.8 </cn>\n"
+           "              <cn> 2.2 </cn>\n"
+           "              <cn> 4.65 </cn>\n"
+           "            </apply>\n"
+           "          </math>\n"
+           "        </kineticLaw>\n"
+           "      </reaction>\n"
+           "      <reaction id=\"J4\" reversible=\"true\" fast=\"false\">\n"
+           "        <listOfReactants>\n"
+           "          <speciesReference species=\"S2\" stoichiometry=\"1\" constant=\"true\"/>\n"
+           "          <speciesReference species=\"S3\" stoichiometry=\"1\" constant=\"true\"/>\n"
+           "        </listOfReactants>\n"
+           "        <listOfProducts>\n"
+           "          <speciesReference species=\"S1\" stoichiometry=\"1\" constant=\"true\"/>\n"
+           "        </listOfProducts>\n"
+           "        <kineticLaw>\n"
+           "          <math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n"
+           "            <apply>\n"
+           "              <minus/>\n"
+           "              <apply>\n"
+           "                <times/>\n"
+           "                <cn> 4.65 </cn>\n"
+           "                <ci> S2 </ci>\n"
+           "                <ci> S3 </ci>\n"
+           "              </apply>\n"
+           "              <apply>\n"
+           "                <times/>\n"
+           "                <cn> 7.61 </cn>\n"
+           "                <ci> S1 </ci>\n"
+           "              </apply>\n"
+           "            </apply>\n"
+           "          </math>\n"
+           "        </kineticLaw>\n"
+           "      </reaction>\n"
+           "    </listOfReactions>\n"
+           "  </model>\n"
+           "</sbml>";
+}
+
+std::unordered_map<std::string, double> BiomolecularEnd::steadyState() {
+    return std::unordered_map<std::string, double>{
+            {"S1", 13.3940},
+            {"S2", 8.07426},
+            {"S3", 2.72327}
+    };
+}
+
+std::unordered_map<std::string, rr::Setting> BiomolecularEnd::steadyStateSettings() {
+    return std::unordered_map<std::string, rr::Setting>{};
+}
+
+std::unordered_map<std::string, double> BiomolecularEnd::steadyStateFluxes() {
+    return std::unordered_map<std::string, double>{
+            {"J0", 0.717175},
+            {"J1", 1.03483},
+            {"J2", 0.717175},
+            {"J3", 0.399521},
+            {"J4", 0.317655}
+    };
+}
+
+std::unordered_map<std::string, rr::Setting> BiomolecularEnd::jacobianSettings() {
+    return std::unordered_map<std::string, rr::Setting>{};
+}
+
+rr::Matrix<double> BiomolecularEnd::fullJacobianConc() {
+    return rr::Matrix<double>({
+                                      {-7.73052, 37.54530, 12.7685},
+                                      {7.61,     -38.0367, -12.479},
+                                      {7.68369,  -37.0998, -12.9527},
+                              });
+}
+
+/**
+ * Amt is same as conc because volume of single compartment == 1
+ */
+rr::Matrix<double> BiomolecularEnd::fullJacobianAmt() {
+    return fullJacobianConc();
+}
+
+rr::Matrix<double> BiomolecularEnd::reducedJacobianAmt() {
+    return rr::Matrix<double>();
+}
+
+rr::Matrix<double> BiomolecularEnd::reducedJacobianConc() {
+    return rr::Matrix<double>();
+}
+
+std::string BiomolecularEnd::modelName() {
+    return "BiomolecularEnd";
+}
+
+
+std::vector<std::string> getAvailableTestModels() {
+    return std::vector<std::string>(
+            {
+                    "SimpleFlux",
+                    "SimpleFluxManuallyReduced",
+                    "OpenLinearFlux",
+                    "Model269",
+                    "Model28",
+                    "CeilInRateLaw",
+                    "FactorialInRateLaw",
+                    "Venkatraman2010",
+                    "Brown2004",
+                    "LayoutOnly",
+                    "ModelWithLocalParameters",
+                    "BiomolecularEnd"
+
+            });
+}
+
+
+TestModel *TestModelFactory(const std::string &modelName) {
+    if (modelName == "SimpleFlux") {
+        return new SimpleFlux();
+    } else if (modelName == "Model269") {
+        return new Model269();
+    } else if (modelName == "Model28") {
+        return new Model28();
+    } else if (modelName == "CeilInRateLaw") {
+        return new CeilInRateLaw();
+    } else if (modelName == "FactorialInRateLaw") {
+        return new FactorialInRateLaw();
+    } else if (modelName == "Venkatraman2010") {
+        return new Venkatraman2010();
+    } else if (modelName == "OpenLinearFlux") {
+        return new OpenLinearFlux();
+    } else if (modelName == "SimpleFluxManuallyReduced") {
+        return new SimpleFluxManuallyReduced();
+    } else if (modelName == "Brown2004") {
+        return new Brown2004();
+    } else if (modelName == "LayoutOnly") {
+        return new LayoutOnly();
+    } else if (modelName == "ModelWithLocalParameters") {
+        return new ModelWithLocalParameters();
+    } else if (modelName == "BiomolecularEnd") {
+        return new BiomolecularEnd();
+    } else {
+        std::ostringstream err;
+        err << "TestModelFactory::TestModelFactory(): no model called \"" << modelName << "\" found. ";
+        err << "Available test models include: ";
+        for (const auto &name: getAvailableTestModels()) {
+            err << "\"" << name << "\", ";
+        }
+        throw std::runtime_error(err.str());
+    }
+}
+
+
+namespace privateSwigTests_ {
+    // this section exists only to test the swig bindings
+    // and make sure the typemaps are doing what they are supposed
+    // to be. Users should completely ignore this
+
+    DoublePair *_testDoublePair(double first, double second) {
+        DoublePair *pair = new DoublePair(first, second);
+        return pair;
+    }
+
+    std::unordered_map<double, double> *_testDoubleMap(double first, double second) {
+        std::unordered_map<double, double> *map = new std::unordered_map<double, double>{
+                {first, second}
+        };
+        return map;
+    }
+
+    std::unordered_map<std::string, rr::Setting> *_testVariantMap() {
+        std::unordered_map<std::string, rr::Setting> *map = new std::unordered_map<std::string, rr::Setting>{
+                {"mapsy", rr::Setting(5)}
+        };
+        return map;
+    }
+
+    rr::Setting *_testVariant() {
+        rr::Setting *x = new rr::Setting(5.4);
+        return x;
+    }
+
+    StringDoublePairMap _testResultMap() {
+        return StringDoublePairMap{
+                {"First", DoublePair(0.5, 1.6)},
+        };
+    }
+
+    std::vector<std::complex<double>> _testStdComplexZeroImagPart() {
+        return std::vector<std::complex<double>>({{2, 0}});
+    }
+
+    std::vector<std::complex<double>> _testStdComplexNonZeroImagPart() {
+        return std::vector<std::complex<double>>({{3, 4}});
+    }
+
+    std::vector<double> _testDoubleVectorTo1DNumpyArray() {
+        return std::vector<double>({0.1, 0.2, 0.3});
+    }
+
+    rr::Matrix3D<double, double> _testMatrix3D_3x2x3() {
+        return rr::Matrix3D<double, double>(
+                {0, 3.5, 7.9},
+                {
+                        {
+                                {0.1, 0.2, 0.3},
+                                {0.4, 0.5, 0.6},
+                        },
+                        {
+                                {0.7, 0.8, 0.9},
+                                {1.0, 1.1, 1.2},
+                        },
+                        {
+                                {1.3, 1.4, 1.5},
+                                {1.6, 1.7, 1.8},
+                        },
+                }
+        );
+    }
+
+    rr::Matrix3D<double, double> _testMatrix3D_2x3x4() {
+        return rr::Matrix3D<double, double>(
+                {0, 4.23},
+                {
+                        {
+                                {0,  1,  2,  3},
+                                {4,  5,  6,  7},
+                                {8,  9,  10, 11},
+                        },
+                        {
+                                {12, 13, 14, 15},
+                                {16, 17, 18, 19},
+                                {20, 21, 22, 23},
+                        },
+                }
+        );
+    }
+
+    rr::Matrix3D<double, double> _testMatrix3D_4x3x2() {
+        return rr::Matrix3D<double, double>(
+                {0, 6, 12, 18},
+                {
+                        {
+                                {0,  1},
+                                {2,  3},
+                                {4,  5},
+                        },
+                        {
+                                {6,  7},
+                                {8,  9},
+                                {10, 11},
+                        },
+                        {
+                                {12, 13},
+                                {14, 15},
+                                {16, 17},
+                        },
+                        {
+                                {18, 19},
+                                {20, 21},
+                                {22, 23},
+                        }
+                }
+        );
+    }
+
+    rr::Matrix3D<double, double> _testMatrix3D_3x4x2() {
+        return rr::Matrix3D<double, double>(
+                {0, 6, 12},
+                {
+                        {
+                                {0,  1},
+                                {2,  3},
+                                {4,  5},
+                                {6,  7},
+                        },
+                        {
+                                {8,  9},
+                                {10, 11},
+                                {12, 13},
+                                {14, 15},
+                        },
+                        {
+                                {16, 17},
+                                {18, 19},
+                                {20, 21},
+                                {22, 23},
+                        },
+                }
+        );
+    }
+
+}
 

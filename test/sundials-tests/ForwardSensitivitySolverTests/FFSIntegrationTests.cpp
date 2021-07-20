@@ -44,7 +44,7 @@ public:
 
         std::cout << "start: " << start << ": stop: " << stop << "; steps: "<< steps << std::endl;
 
-        Matrix3D<double, double> actualResults = solver.simulate(start, stop, steps);
+        Matrix3D<double, double> actualResults = solver.solveSensitivities(start, stop, steps);
 
         bool passed = expectedResults.almostEquals(actualResults, tol);
 

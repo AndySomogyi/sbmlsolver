@@ -22,7 +22,7 @@ add_test_executable(
 
 add_test_executable(
         test_steady_state_unit_basic_newton test_targets
-        BasicNewtonIterationUnitTests.cpp
+        SundialsNewtonIterationUnitTests.cpp
         SundialsSteadyStateSolverUnitTest
         ${SharedTestFiles}
 )
@@ -39,9 +39,9 @@ add_test_executable(
 add_test_executable(
         test_steady_state_integration test_targets
         SteadyStateIntegrationTests.h
-        BasicNewtonIntegrationTests.cpp
+        SundialsNewtonIntegrationTests.cpp
         DecoratorIntegrationTests.cpp
-        LinesearchNewtonIntegrationTests.cpp
+        SundialsLinesearchIntegrationTests.cpp
         NLEQ1IntegrationTests.cpp
         NLEQ2IntegrationTests.cpp
         ${SharedTestFiles}

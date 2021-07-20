@@ -37,3 +37,11 @@ TEST_F(LineSearchNewtonIterationTests, CheckCorrectSteadyStateVenkatraman2010) {
 TEST_F(LineSearchNewtonIterationTests, CheckCorrectSteadyStateBrown2004) {
     testSteadyState("Brown2004", "newton_linesearch");
 }
+
+TEST_F(LineSearchNewtonIterationTests, CheckCorrectSteadyStateBiomolecularEnd) {
+    testSteadyState("BiomolecularEnd", "newton_linesearch");
+}
+
+TEST_F(LineSearchNewtonIterationTests, CheckCorrectSteadyStateFluxBiomolecularEnd) {
+    testSteadyStateFluxes("BiomolecularEnd", "newton_linesearch");
+}

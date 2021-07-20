@@ -66,7 +66,7 @@ namespace rr {
          * sensitivities for all parameters vs all variables.
          * @param k (default 0) return the kth other derivative of the sensitivity data.
          */
-        virtual Matrix3D<double, double> simulate(
+        virtual Matrix3D<double, double> solveSensitivities(
                 double start, double stop, int num,
                 const std::vector<std::string> &params = std::vector<std::string>(),
                 int k = 0) = 0;
@@ -89,6 +89,21 @@ namespace rr {
          * to get sensitivities at steady state.
          */
         virtual double solveSteadyState() = 0;
+
+        /**
+         * @brief compute sensitivities at steady state
+         * @param params which parameters do you want sensitivities for? Each
+         * string must be a valid model parameter. If left empty (default)
+         * then all model parameters are selected.
+         * @param k returned double matrix will contain the kth order derivative
+         * of the sensitivities, where 0 (default) is just the sensitivity values
+         * @return the k'th order derivitive of the Sensitivities for this model
+         * at steady state. Rows (number of model variables), columns (Np, number
+         * of parameters user has requested sensitivites for).
+         */
+        virtual rr::Matrix<double> solveSensitivities(
+                const std::vector<std::string> &params = std::vector<std::string>(),
+                        int k = 0) = 0;
 
     };
 

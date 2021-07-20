@@ -10,13 +10,13 @@
  * "basic" strategy. This corresponds to setting the KIN_NONE flag
  * in kinsol.
  */
-class BasicNewtonIterationTests : public SteadyStateIntegrationTest {
+class SundialsNewtonIterationTests : public SteadyStateIntegrationTest {
 public:
 
-    BasicNewtonIterationTests() = default;
+    SundialsNewtonIterationTests() = default;
 };
 
-TEST_F(BasicNewtonIterationTests, CheckDecoratorRemovedAfterSolving) {
+TEST_F(SundialsNewtonIterationTests, CheckDecoratorRemovedAfterSolving) {
     // setup with rr
     OpenLinearFlux testModel;
     RoadRunner rr(testModel.str());
@@ -32,7 +32,7 @@ TEST_F(BasicNewtonIterationTests, CheckDecoratorRemovedAfterSolving) {
     ASSERT_STREQ("newton", rr.getSteadyStateSolver()->getName().c_str());
 }
 
-TEST_F(BasicNewtonIterationTests, CheckDecoratorRemovedAfterFailureToSolve) {
+TEST_F(SundialsNewtonIterationTests, CheckDecoratorRemovedAfterFailureToSolve) {
     OpenLinearFlux testModel;
     RoadRunner rr(testModel.str());
 
@@ -55,7 +55,7 @@ TEST_F(BasicNewtonIterationTests, CheckDecoratorRemovedAfterFailureToSolve) {
  * The OpenLinearFlux does not converge from the initial starting position (0, 0).
  * In this situation we raise an error. Here we test that it does
  */
-TEST_F(BasicNewtonIterationTests, CheckRaiseErrorWhenNotConverge) {
+TEST_F(SundialsNewtonIterationTests, CheckRaiseErrorWhenNotConverge) {
     // setup with rr
     OpenLinearFlux testModel;
     RoadRunner rr(testModel.str());
@@ -65,7 +65,7 @@ TEST_F(BasicNewtonIterationTests, CheckRaiseErrorWhenNotConverge) {
     ASSERT_THROW(rr.steadyState(), std::runtime_error);
 }
 
-TEST_F(BasicNewtonIterationTests, CheckNewtonIterationIsARegisteredSolver) {
+TEST_F(SundialsNewtonIterationTests, CheckNewtonIterationIsARegisteredSolver) {
     OpenLinearFlux testModel;
     RoadRunner rr(testModel.str());
     const auto &solverNames = rr.getRegisteredSteadyStateSolverNames();
@@ -83,30 +83,38 @@ TEST_F(BasicNewtonIterationTests, CheckNewtonIterationIsARegisteredSolver) {
  * but the NewtonIteration algorithm does not converge when starting
  * values are S1=0, S2=0. To solve this problem we use presimulation.
  */
-TEST_F(BasicNewtonIterationTests, CheckCorrectSteadyStateOpenLinearFlux) {
+TEST_F(SundialsNewtonIterationTests, CheckCorrectSteadyStateOpenLinearFlux) {
     testSteadyState(
             "OpenLinearFlux",
             "newton"
     );
 }
 
-TEST_F(BasicNewtonIterationTests, CheckCorrectSteadyStateSimpleFluxManuallyReduced) {
+TEST_F(SundialsNewtonIterationTests, CheckCorrectSteadyStateSimpleFluxManuallyReduced) {
     testSteadyState(
             "SimpleFluxManuallyReduced",
             "newton");
 }
 
-TEST_F(BasicNewtonIterationTests, CheckCorrectSteadyStateSimpleFlux) {
+TEST_F(SundialsNewtonIterationTests, CheckCorrectSteadyStateSimpleFlux) {
     testSteadyState("SimpleFlux", "newton");
 }
 
-TEST_F(BasicNewtonIterationTests, CheckCorrectSteadyStateVenkatraman2010) {
+TEST_F(SundialsNewtonIterationTests, CheckCorrectSteadyStateVenkatraman2010) {
     testSteadyState("Venkatraman2010", "newton");
 }
 
 /**
  *
  */
-TEST_F(BasicNewtonIterationTests, CheckCorrectSteadyStateBrown2004) {
+TEST_F(SundialsNewtonIterationTests, CheckCorrectSteadyStateBrown2004) {
     testSteadyState("Brown2004", "newton");
+}
+
+TEST_F(SundialsNewtonIterationTests, CheckCorrectSteadyStateBiomolecularEnd) {
+    testSteadyState("BiomolecularEnd", "newton");
+}
+
+TEST_F(SundialsNewtonIterationTests, CheckCorrectSteadyStateFluxesBiomolecularEnd) {
+    testSteadyStateFluxes("BiomolecularEnd", "newton");
 }

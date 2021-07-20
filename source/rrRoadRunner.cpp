@@ -1846,7 +1846,7 @@ namespace rr {
             const std::vector<std::string> &params,
             int k) {
         auto tsSensSolver = dynamic_cast<TimeSeriesSensitivitySolver *>(getSensitivitySolver());
-        return tsSensSolver->simulate(start, stop, num, params, k);
+        return tsSensSolver->solveSensitivities(start, stop, num, params, k);
     }
 
     double RoadRunner::oneStep(const double currentTime, const double stepSize, const bool reset) {
@@ -5223,18 +5223,18 @@ namespace rr {
     }
 
     bool RoadRunner::getHasOnlySubstanceUnits(const std::string& sid)
-{
-    using namespace libsbml;
-    Model* sbmlModel = impl->document->getModel();
-    Species* species = sbmlModel->getSpecies(sid);
-
-    if (species == NULL)
     {
-        throw std::invalid_argument("Roadrunner::getHasOnlySubstanceUnits failed, no species with ID " + sid + " existed in the model");
-    }
+        using namespace libsbml;
+        Model* sbmlModel = impl->document->getModel();
+        Species* species = sbmlModel->getSpecies(sid);
 
-    return species->getHasOnlySubstanceUnits();
-}
+        if (species == NULL)
+        {
+            throw std::invalid_argument("Roadrunner::getHasOnlySubstanceUnits failed, no species with ID " + sid + " existed in the model");
+        }
+
+        return species->getHasOnlySubstanceUnits();
+    }
 
 
 void RoadRunner::setInitAmount(const std::string& sid, double initAmount, bool forceRegenerate)

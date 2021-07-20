@@ -215,15 +215,14 @@ def checkSteadyStateFluxes(rrInstance, testId):
     fluxes = []
     # Steady State Fluxes
     rrInstance.reset()
-    print("Computing Steady State.  Distance to SteadyState:", rrInstance.steadyState())
-    print(("Check " + testId).ljust( rpadding), end="")
     errorFlag = False
-    n = rrInstance.model.getNumReactions();
+    n = rrInstance.model.getNumReactions()
     for i in range (0,n):
         line = readLine ()
         words = line.split("=")
         words.append (rrInstance.model[words[0]])
         fluxes.append (words)
+        print("fluxes: ", fluxes)
 
     for i in range (0,n):
         expectedValue = float (fluxes[i][1])

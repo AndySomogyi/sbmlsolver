@@ -589,7 +589,7 @@ namespace rr {
         }
     }
 
-    Matrix3D<double, double> ForwardSensitivitySolver::simulate(
+    Matrix3D<double, double> ForwardSensitivitySolver::solveSensitivities(
             double start, double stop, int num,
             const std::vector<std::string> &params, int k) {
         if (!params.empty()) {

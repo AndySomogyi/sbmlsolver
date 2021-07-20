@@ -38,3 +38,11 @@ TEST_F(NLEQ2IntetrationTests, CheckCorrectSteadyStateVenkatraman2010) {
 TEST_F(NLEQ2IntetrationTests, CheckCorrectSteadyStateBrown2004) {
     testSteadyState("Brown2004", "nleq2");
 }
+
+TEST_F(NLEQ2IntetrationTests, CheckCorrectSteadyStateBiomolecularEnd) {
+    testSteadyState("BiomolecularEnd", "nleq2");
+}
+
+TEST_F(NLEQ2IntetrationTests, CheckCorrectSteadyStateFluxBiomolecularEnd) {
+    testSteadyStateFluxes("BiomolecularEnd", "nleq2");
+}
