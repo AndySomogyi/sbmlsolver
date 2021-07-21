@@ -2485,7 +2485,7 @@ std::string ModelWithLocalParameters::modelName() {
 }
 
 
-std::string BiomolecularEnd::str() {
+std::string BimolecularEnd::str() {
     return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
            "<!-- Created by libAntimony version v2.5.2 on 2014-09-22 11:05 with libSBML version 5.10.2. -->\n"
            "<sbml xmlns=\"http://www.sbml.org/sbml/level3/version1/core\" level=\"3\" version=\"1\">\n"
@@ -2677,7 +2677,7 @@ std::string BiomolecularEnd::str() {
            "</sbml>";
 }
 
-std::unordered_map<std::string, double> BiomolecularEnd::steadyState() {
+std::unordered_map<std::string, double> BimolecularEnd::steadyState() {
     return std::unordered_map<std::string, double>{
             {"S1", 13.3940},
             {"S2", 8.07426},
@@ -2685,11 +2685,11 @@ std::unordered_map<std::string, double> BiomolecularEnd::steadyState() {
     };
 }
 
-std::unordered_map<std::string, rr::Setting> BiomolecularEnd::steadyStateSettings() {
+std::unordered_map<std::string, rr::Setting> BimolecularEnd::steadyStateSettings() {
     return std::unordered_map<std::string, rr::Setting>{};
 }
 
-std::unordered_map<std::string, double> BiomolecularEnd::steadyStateFluxes() {
+std::unordered_map<std::string, double> BimolecularEnd::steadyStateFluxes() {
     return std::unordered_map<std::string, double>{
             {"J0", 0.717175},
             {"J1", 1.03483},
@@ -2699,11 +2699,11 @@ std::unordered_map<std::string, double> BiomolecularEnd::steadyStateFluxes() {
     };
 }
 
-std::unordered_map<std::string, rr::Setting> BiomolecularEnd::jacobianSettings() {
+std::unordered_map<std::string, rr::Setting> BimolecularEnd::jacobianSettings() {
     return std::unordered_map<std::string, rr::Setting>{};
 }
 
-rr::Matrix<double> BiomolecularEnd::fullJacobianConc() {
+rr::Matrix<double> BimolecularEnd::fullJacobianConc() {
     rr::Matrix<double> mat({
                                    {-7.82122, 4.64179,  18.4605},
                                    {7.74137,  -4.92102, -17.7711},
@@ -2717,11 +2717,11 @@ rr::Matrix<double> BiomolecularEnd::fullJacobianConc() {
 /**
  * Amt is same as conc because volume of single compartment == 1
  */
-rr::Matrix<double> BiomolecularEnd::fullJacobianAmt() {
+rr::Matrix<double> BimolecularEnd::fullJacobianAmt() {
     return fullJacobianConc();
 }
 
-rr::Matrix<double> BiomolecularEnd::reducedJacobianAmt() {
+rr::Matrix<double> BimolecularEnd::reducedJacobianAmt() {
     return rr::Matrix<double>({
                                       {-7.82122, 4.64179,  18.4605},
                                       {7.74137,  -4.92102, -17.7711},
@@ -2729,15 +2729,15 @@ rr::Matrix<double> BiomolecularEnd::reducedJacobianAmt() {
                               });
 }
 
-rr::Matrix<double> BiomolecularEnd::reducedJacobianConc() {
+rr::Matrix<double> BimolecularEnd::reducedJacobianConc() {
     return reducedJacobianAmt();
 }
 
-std::string BiomolecularEnd::modelName() {
-    return "BiomolecularEnd";
+std::string BimolecularEnd::modelName() {
+    return "BimolecularEnd";
 }
 
-rr::Matrix<double> BiomolecularEnd::linkMatrix() {
+rr::Matrix<double> BimolecularEnd::linkMatrix() {
     rr::Matrix<double> mat({
                                    {1, 0, 0},
                                    {0, 1, 0},
@@ -2747,7 +2747,7 @@ rr::Matrix<double> BiomolecularEnd::linkMatrix() {
     return mat;
 }
 
-rr::Matrix<double> BiomolecularEnd::NrMatrix() {
+rr::Matrix<double> BimolecularEnd::NrMatrix() {
     return rr::Matrix<double>({
                                       {1, -1, 0,  0,  1},
                                       {0, 0,  1,  -1, -1},
@@ -2755,7 +2755,7 @@ rr::Matrix<double> BiomolecularEnd::NrMatrix() {
                               });
 }
 
-rr::Matrix<double> BiomolecularEnd::KMatrix() {
+rr::Matrix<double> BimolecularEnd::KMatrix() {
     return rr::Matrix<double>({
                                       {1,    0},
                                       {0,    1},
@@ -2765,7 +2765,7 @@ rr::Matrix<double> BiomolecularEnd::KMatrix() {
                               });
 }
 
-rr::Matrix<double> BiomolecularEnd::reducedStoicMatrix() {
+rr::Matrix<double> BimolecularEnd::reducedStoicMatrix() {
     return rr::Matrix<double>({
                                       {1, -1, 0,  0,  1},
                                       {0, 0,  1,  -1, -1},
@@ -2773,7 +2773,7 @@ rr::Matrix<double> BiomolecularEnd::reducedStoicMatrix() {
                               });
 }
 
-rr::Matrix<double> BiomolecularEnd::fullStoicMatrix() {
+rr::Matrix<double> BimolecularEnd::fullStoicMatrix() {
     return rr::Matrix<double>({
                                       {1, -1, 0,  0,  1},
                                       {0, 0,  1,  -1, -1},
@@ -2781,7 +2781,7 @@ rr::Matrix<double> BiomolecularEnd::fullStoicMatrix() {
                               });
 }
 
-rr::Matrix<double> BiomolecularEnd::extendedStoicMatrix() {
+rr::Matrix<double> BimolecularEnd::extendedStoicMatrix() {
     return rr::Matrix<double>({
                                       {1,  -1, 0,  0,  1},
                                       {0,  1,  -1, 0,  -1},
@@ -2791,15 +2791,15 @@ rr::Matrix<double> BiomolecularEnd::extendedStoicMatrix() {
                               });
 }
 
-rr::Matrix<double> BiomolecularEnd::L0Matrix() {
+rr::Matrix<double> BimolecularEnd::L0Matrix() {
     return rr::Matrix<double>();
 }
 
-rr::Matrix<double> BiomolecularEnd::conservationMatrix() {
+rr::Matrix<double> BimolecularEnd::conservationMatrix() {
     return rr::Matrix<double>();
 }
 
-rr::Matrix<double> BiomolecularEnd::unscaledConcentrationControlCoefficientMatrix() {
+rr::Matrix<double> BimolecularEnd::unscaledConcentrationControlCoefficientMatrix() {
     return rr::Matrix<double>({
                                       {14.673,  -6.20668,  -2.24064, -6.22567,  -0.0189895},
                                       {4.90579, -0.794829, -3.27825, -0.832715, -0.037886},
@@ -2807,7 +2807,7 @@ rr::Matrix<double> BiomolecularEnd::unscaledConcentrationControlCoefficientMatri
                               });
 }
 
-rr::Matrix<double> BiomolecularEnd::scaledConcentrationControlCoefficientMatrix() {
+rr::Matrix<double> BimolecularEnd::scaledConcentrationControlCoefficientMatrix() {
     return rr::Matrix<double>({
                                       {0.785658, -0.479532, -0.119974, -0.185701,  -0.000450359},
                                       {0.435744, -0.101869, -0.291182, -0.0412034, -0.0014905},
@@ -2815,7 +2815,7 @@ rr::Matrix<double> BiomolecularEnd::scaledConcentrationControlCoefficientMatrix(
                               });
 }
 
-rr::Matrix<double> BiomolecularEnd::unscaledFluxControlCoefficientMatrix() {
+rr::Matrix<double> BimolecularEnd::unscaledFluxControlCoefficientMatrix() {
     return rr::Matrix<double>({
                                       {0.31285,   0.290665,   0.104931,  0.291554,  0.000889297},
                                       {0.56492,   0.626291,   0.179909,  -0.371121, 0.002588},
@@ -2826,7 +2826,7 @@ rr::Matrix<double> BiomolecularEnd::unscaledFluxControlCoefficientMatrix() {
                               });
 }
 
-rr::Matrix<double> BiomolecularEnd::scaledFluxControlCoefficientMatrix() {
+rr::Matrix<double> BimolecularEnd::scaledFluxControlCoefficientMatrix() {
     return rr::Matrix<double>({
                                       {0.31285,  0.419407,  0.104931,  0.162418, 0.000393892},
                                       {0.391511, 0.626291,  0.124684,  -0.14328, 0.000794419},
@@ -2836,7 +2836,7 @@ rr::Matrix<double> BiomolecularEnd::scaledFluxControlCoefficientMatrix() {
                               });
 }
 
-rr::Matrix<double> BiomolecularEnd::unscaledElasticityMatrix() {
+rr::Matrix<double> BimolecularEnd::unscaledElasticityMatrix() {
     return rr::Matrix<double>({
                                       {-0.0468309, 0,         0},
                                       {0.0736884,  0,         -0.105245},
@@ -2846,7 +2846,7 @@ rr::Matrix<double> BiomolecularEnd::unscaledElasticityMatrix() {
                               });
 }
 
-rr::Matrix<double> BiomolecularEnd::scaledElasticityMatrix() {
+rr::Matrix<double> BimolecularEnd::scaledElasticityMatrix() {
     return rr::Matrix<double>({
                                       {-0.874617, 0,        0},
                                       {0.953764,  0,        -0.821173},
@@ -2856,7 +2856,7 @@ rr::Matrix<double> BiomolecularEnd::scaledElasticityMatrix() {
                               });
 }
 
-std::unordered_map<std::string, rr::Setting> BiomolecularEnd::mcaSettings() {
+std::unordered_map<std::string, rr::Setting> BimolecularEnd::mcaSettings() {
     return std::unordered_map<std::string, rr::Setting>();
 }
 
@@ -2875,7 +2875,7 @@ std::vector<std::string> getAvailableTestModels() {
                     "Brown2004",
                     "LayoutOnly",
                     "ModelWithLocalParameters",
-                    "BiomolecularEnd"
+                    "BimolecularEnd"
 
             });
 }
@@ -2904,8 +2904,8 @@ TestModel *TestModelFactory(const std::string &modelName) {
         return new LayoutOnly();
     } else if (modelName == "ModelWithLocalParameters") {
         return new ModelWithLocalParameters();
-    } else if (modelName == "BiomolecularEnd") {
-        return new BiomolecularEnd();
+    } else if (modelName == "BimolecularEnd") {
+        return new BimolecularEnd();
     } else {
         std::ostringstream err;
         err << "TestModelFactory::TestModelFactory(): no model called \"" << modelName << "\" found. ";

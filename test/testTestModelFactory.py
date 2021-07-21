@@ -94,7 +94,7 @@ class testTestModelFactory(unittest.TestCase):
         self.assertIsInstance(testModel, tmf.OpenLinearFlux)  # fails if is type TestModel
 
     def test_string_vector_converts(self):
-        expected = ('SimpleFlux', 'SimpleFluxManuallyReduced', 'OpenLinearFlux', 'Model269', 'Model28', 'CeilInRateLaw', 'FactorialInRateLaw', 'Venkatraman2010', 'Brown2004', 'LayoutOnly', 'ModelWithLocalParameters', 'BiomolecularEnd')
+        expected = ('SimpleFlux', 'SimpleFluxManuallyReduced', 'OpenLinearFlux', 'Model269', 'Model28', 'CeilInRateLaw', 'FactorialInRateLaw', 'Venkatraman2010', 'Brown2004', 'LayoutOnly', 'ModelWithLocalParameters', 'BimolecularEnd')
         actual = tmf.getAvailableTestModels()
         print(actual)
         self.assertSequenceEqual(expected, actual)
@@ -112,7 +112,7 @@ class testTestModelFactory(unittest.TestCase):
         self.assertEqual((11, 3), rrDoubleMatrix.shape)
 
     def test_rrDoubleMatrixToNamedArray(self):
-        testModel = tmf.TestModelFactory("BiomolecularEnd")
+        testModel = tmf.TestModelFactory("BimolecularEnd")
         # print(testModel.fullJacobianConc())
 
     def test_stdComplexZeroImagPart(self):

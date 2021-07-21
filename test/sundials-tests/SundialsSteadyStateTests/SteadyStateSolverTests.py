@@ -192,11 +192,11 @@ class SundialsNewtonIterationTests(SteadyStateSolverIntegrationTests):
     def testBrown2004(self):
         self.checkSteadyState("Brown2004", "newton")
 
-    def testBiomolecularEnd(self):
-        self.checkSteadyState("BiomolecularEnd", "newton", 4)
+    def testBimolecularEnd(self):
+        self.checkSteadyState("BimolecularEnd", "newton", 4)
 
-    def testBiomolecularEndSteadyStateFluxes(self):
-        self.checkSteadyStateFluxes("BiomolecularEnd", "newton")
+    def testBimolecularEndSteadyStateFluxes(self):
+        self.checkSteadyStateFluxes("BimolecularEnd", "newton")
 
 
 class LineSearchNewtonIterationTests(SteadyStateSolverIntegrationTests):
@@ -215,11 +215,11 @@ class LineSearchNewtonIterationTests(SteadyStateSolverIntegrationTests):
     def testBrown2004(self):
         self.checkSteadyState("Brown2004", "newton_linesearch")
 
-    def testBiomolecularEnd(self):
-        self.checkSteadyState("BiomolecularEnd", "newton_linesearch", 4)
+    def testBimolecularEnd(self):
+        self.checkSteadyState("BimolecularEnd", "newton_linesearch", 4)
 
-    def testBiomolecularEndSteadyStateFluxes(self):
-        self.checkSteadyStateFluxes("BiomolecularEnd", "newton_linesearch", 5)
+    def testBimolecularEndSteadyStateFluxes(self):
+        self.checkSteadyStateFluxes("BimolecularEnd", "newton_linesearch", 5)
 
 
 class NLEQ1IntegrationTests(SteadyStateSolverIntegrationTests):
@@ -238,11 +238,11 @@ class NLEQ1IntegrationTests(SteadyStateSolverIntegrationTests):
     def testBrown2004(self):
         self.checkSteadyState("Brown2004", "nleq1")
 
-    def testBiomolecularEnd(self):
-        self.checkSteadyState("BiomolecularEnd", "nleq1", 4)
+    def testBimolecularEnd(self):
+        self.checkSteadyState("BimolecularEnd", "nleq1", 4)
 
-    def testBiomolecularEndSteadyStateFluxes(self):
-        self.checkSteadyStateFluxes("BiomolecularEnd", "nleq1", 5)
+    def testBimolecularEndSteadyStateFluxes(self):
+        self.checkSteadyStateFluxes("BimolecularEnd", "nleq1", 5)
 
 
 class NLEQ2IntegrationTests(SteadyStateSolverIntegrationTests):
@@ -261,10 +261,10 @@ class NLEQ2IntegrationTests(SteadyStateSolverIntegrationTests):
     def testBrown2004(self):
         self.checkSteadyState("Brown2004", "nleq2")
 
-    def testBiomolecularEnd(self):
-        self.checkSteadyState("BiomolecularEnd", "nleq2", 4)
+    def testBimolecularEnd(self):
+        self.checkSteadyState("BimolecularEnd", "nleq2", 4)
 
-    def testBiomolecularEndSteadyStateFluxes(self):
-        self.checkSteadyStateFluxes("BiomolecularEnd", "nleq2", 5)
+    def testBimolecularEndSteadyStateFluxes(self):
+        self.checkSteadyStateFluxes("BimolecularEnd", "nleq2", 5)
 
 

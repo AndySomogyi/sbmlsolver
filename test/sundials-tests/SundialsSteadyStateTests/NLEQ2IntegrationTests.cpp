@@ -39,10 +39,10 @@ TEST_F(NLEQ2IntetrationTests, CheckCorrectSteadyStateBrown2004) {
     testSteadyState("Brown2004", "nleq2");
 }
 
-TEST_F(NLEQ2IntetrationTests, CheckCorrectSteadyStateBiomolecularEnd) {
-    testSteadyState("BiomolecularEnd", "nleq2");
+TEST_F(NLEQ2IntetrationTests, CheckCorrectSteadyStateBimolecularEnd) {
+    testSteadyState("BimolecularEnd", "nleq2");
 }
 
-TEST_F(NLEQ2IntetrationTests, CheckCorrectSteadyStateFluxBiomolecularEnd) {
-    testSteadyStateFluxes("BiomolecularEnd", "nleq2");
+TEST_F(NLEQ2IntetrationTests, CheckCorrectSteadyStateFluxBimolecularEnd) {
+    testSteadyStateFluxes("BimolecularEnd", "nleq2");
 }

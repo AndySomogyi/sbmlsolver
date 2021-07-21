@@ -111,10 +111,10 @@ TEST_F(SundialsNewtonIterationTests, CheckCorrectSteadyStateBrown2004) {
     testSteadyState("Brown2004", "newton");
 }
 
-TEST_F(SundialsNewtonIterationTests, CheckCorrectSteadyStateBiomolecularEnd) {
-    testSteadyState("BiomolecularEnd", "newton");
+TEST_F(SundialsNewtonIterationTests, CheckCorrectSteadyStateBimolecularEnd) {
+    testSteadyState("BimolecularEnd", "newton");
 }
 
-TEST_F(SundialsNewtonIterationTests, CheckCorrectSteadyStateFluxesBiomolecularEnd) {
-    testSteadyStateFluxes("BiomolecularEnd", "newton");
+TEST_F(SundialsNewtonIterationTests, CheckCorrectSteadyStateFluxesBimolecularEnd) {
+    testSteadyStateFluxes("BimolecularEnd", "newton");
 }

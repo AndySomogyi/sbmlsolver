@@ -79,14 +79,14 @@ class JacobianTests(RoadRunnerTest):
 
         self.checkMatricesEqual(expectedJac, actualJac)
 
-    def test_BiomolecularEnd_FullAmt(self):
-        self._checkJac("BiomolecularEnd", 4, Config.ROADRUNNER_JACOBIAN_MODE_AMOUNTS, True)
+    def test_BimolecularEnd_FullAmt(self):
+        self._checkJac("BimolecularEnd", 4, Config.ROADRUNNER_JACOBIAN_MODE_AMOUNTS, True)
 
-    def test_BiomolecularEnd_FullConc(self):
-        self._checkJac("BiomolecularEnd", 4, Config.ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS, True)
+    def test_BimolecularEnd_FullConc(self):
+        self._checkJac("BimolecularEnd", 4, Config.ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS, True)
 
-    def test_BiomolecularEnd_ReducedAmt(self):
-        self._checkJac("BiomolecularEnd", 4, Config.ROADRUNNER_JACOBIAN_MODE_AMOUNTS, False)
+    def test_BimolecularEnd_ReducedAmt(self):
+        self._checkJac("BimolecularEnd", 4, Config.ROADRUNNER_JACOBIAN_MODE_AMOUNTS, False)
 
-    def test_BiomolecularEnd_ReducedConc(self):
-        self._checkJac("BiomolecularEnd", 4, Config.ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS, False)
+    def test_BimolecularEnd_ReducedConc(self):
+        self._checkJac("BimolecularEnd", 4, Config.ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS, False)

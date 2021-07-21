@@ -109,32 +109,32 @@ class StructuralAnalysisTests(RoadRunnerTest):
         actual = rr.getConservationMatrix()
         self.checkMatricesEqual(expected, actual)
 
-    def test_BiomolecularEnd_LinkMatrix(self):
-        self.checkLinkMatrix("BiomolecularEnd")
+    def test_BimolecularEnd_LinkMatrix(self):
+        self.checkLinkMatrix("BimolecularEnd")
 
-    def test_BiomolecularEnd_NrMatrix(self):
-        self.checkNrMatrix("BiomolecularEnd")
+    def test_BimolecularEnd_NrMatrix(self):
+        self.checkNrMatrix("BimolecularEnd")
 
-    def test_BiomolecularEnd_KMatrix(self):
-        self.checkKMatrix("BiomolecularEnd")
+    def test_BimolecularEnd_KMatrix(self):
+        self.checkKMatrix("BimolecularEnd")
 
-    def test_BiomolecularEnd_ReducedStoicMatrix(self):
-        self.checkReducedStoicMatrix("BiomolecularEnd")
+    def test_BimolecularEnd_ReducedStoicMatrix(self):
+        self.checkReducedStoicMatrix("BimolecularEnd")
 
-    def test_BiomolecularEnd_FullStoicMatrix(self):
-        self.checkFullStoicMatrix("BiomolecularEnd")
+    def test_BimolecularEnd_FullStoicMatrix(self):
+        self.checkFullStoicMatrix("BimolecularEnd")
 
-    def test_BiomolecularEnd_ExtendedStoicMatrix(self):
-        self.checkExtendedStoicMatrix("BiomolecularEnd")
+    def test_BimolecularEnd_ExtendedStoicMatrix(self):
+        self.checkExtendedStoicMatrix("BimolecularEnd")
 
     @unittest.skip("L0 matrix is empty for this model. Currently there is a "
                    "bug in RoadRunner's swig interface when porting an "
                    "empty Matrix to empty Python np array")
-    def test_BiomolecularEnd_L0Matrix(self):
-        self.checkL0Matrix("BiomolecularEnd")
+    def test_BimolecularEnd_L0Matrix(self):
+        self.checkL0Matrix("BimolecularEnd")
 
     @unittest.skip("Conservation matrix is empty for this model. Currently there is a "
                    "bug in RoadRunner's swig interface when porting an "
                    "empty Matrix to empty Python np array")
-    def test_BiomolecularEnd_ConservationMatrix(self):
-        self.checkConservationMatrix("BiomolecularEnd")
+    def test_BimolecularEnd_ConservationMatrix(self):
+        self.checkConservationMatrix("BimolecularEnd")

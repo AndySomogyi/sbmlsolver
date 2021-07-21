@@ -76,23 +76,23 @@ public:
     }
 };
 // unscaled conc
-TEST_F(MCATests, BiomolecularEndUnscaledConcControlMatrix){
-    checkUnscaledConcControlMatrix("BiomolecularEnd", 1e-3);
+TEST_F(MCATests, BimolecularEndUnscaledConcControlMatrix){
+    checkUnscaledConcControlMatrix("BimolecularEnd", 1e-3);
 }
 
 // scaled conc
-TEST_F(MCATests, BiomolecularEndScaledConcControlMatrix){
-    checkScaledConcControlMatrix("BiomolecularEnd", 1e-3);
+TEST_F(MCATests, BimolecularEndScaledConcControlMatrix){
+    checkScaledConcControlMatrix("BimolecularEnd", 1e-3);
 }
 
 // unscaled flux
-TEST_F(MCATests, BiomolecularEndUnscaledFluxControlMatrix){
-    checkUnscaledFluxControlMatrix("BiomolecularEnd",  1e-3);
+TEST_F(MCATests, BimolecularEndUnscaledFluxControlMatrix){
+    checkUnscaledFluxControlMatrix("BimolecularEnd",  1e-3);
 }
 
 // scaled flux
-TEST_F(MCATests, BiomolecularEndScaledFluxControlMatrix){
-    checkScaledFluxControlMatrix("BiomolecularEnd",  1e-3);
+TEST_F(MCATests, BimolecularEndScaledFluxControlMatrix){
+    checkScaledFluxControlMatrix("BimolecularEnd",  1e-3);
 }
 
 

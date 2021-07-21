@@ -628,7 +628,7 @@ public:
  * @details This test model was originally defined inside Biomolecular_end.rrtest
  *  (reimplemented here for debugging a problem that is hard to debug with original test)
  */
-class BiomolecularEnd :
+class BimolecularEnd :
         public TestModel,
         public SteadyStateFluxes,
         public JacobianResult,

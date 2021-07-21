@@ -137,38 +137,38 @@ public:
 };
 
 /************************************************************
- * Check structural properties in the BiomolecularEnd TestModel
+ * Check structural properties in the BimolecularEnd TestModel
  */
-TEST_F(StructuralAnalysisTests, BiomolecularEndlinkMatrix) {
-    checkLinkMatrix("BiomolecularEnd");
+TEST_F(StructuralAnalysisTests, BimolecularEndlinkMatrix) {
+    checkLinkMatrix("BimolecularEnd");
 }
 
-TEST_F(StructuralAnalysisTests, BiomolecularEndNrMatrix) {
-    checkNrMatrix("BiomolecularEnd");
+TEST_F(StructuralAnalysisTests, BimolecularEndNrMatrix) {
+    checkNrMatrix("BimolecularEnd");
 }
 
-TEST_F(StructuralAnalysisTests, BiomolecularEndKMatrix) {
-    checkKMatrix("BiomolecularEnd", 1e-7);
+TEST_F(StructuralAnalysisTests, BimolecularEndKMatrix) {
+    checkKMatrix("BimolecularEnd", 1e-7);
 }
 
-TEST_F(StructuralAnalysisTests, BiomolecularEndreducedStoicMatrix) {
-    checkReducedStoicMatrix("BiomolecularEnd");
+TEST_F(StructuralAnalysisTests, BimolecularEndreducedStoicMatrix) {
+    checkReducedStoicMatrix("BimolecularEnd");
 }
 
-TEST_F(StructuralAnalysisTests, BiomolecularEndfullStoicMatrix) {
-    checkFullStoicMatrix("BiomolecularEnd");
+TEST_F(StructuralAnalysisTests, BimolecularEndfullStoicMatrix) {
+    checkFullStoicMatrix("BimolecularEnd");
 }
 
-TEST_F(StructuralAnalysisTests, BiomolecularEndextendedStoicMatrix) {
-    checkExtendedStoicMatrix("BiomolecularEnd");
+TEST_F(StructuralAnalysisTests, BimolecularEndextendedStoicMatrix) {
+    checkExtendedStoicMatrix("BimolecularEnd");
 }
 
-TEST_F(StructuralAnalysisTests, BiomolecularEndL0Matrix) {
-    checkL0Matrix("BiomolecularEnd");
+TEST_F(StructuralAnalysisTests, BimolecularEndL0Matrix) {
+    checkL0Matrix("BimolecularEnd");
 }
 
-TEST_F(StructuralAnalysisTests, BiomolecularEndconservationMatrix) {
-    checkConservationMatrix("BiomolecularEnd");
+TEST_F(StructuralAnalysisTests, BimolecularEndconservationMatrix) {
+    checkConservationMatrix("BimolecularEnd");
 }
 
 
