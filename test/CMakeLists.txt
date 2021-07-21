@@ -173,8 +173,12 @@ if (BUILD_PYTHON AND BUILD_TESTS)
             )
 
     # configure Python files to binary tree
-    configure_file(testTestModelFactory.py "${RR_PYTHON_TESTING_BUILD_PREFIX}" COPYONLY)
-    configure_file(RoadRunnerTest.py "${RR_PYTHON_TESTING_BUILD_PREFIX}" COPYONLY)
+    configure_file(
+            "${CMAKE_CURRENT_SOURCE_DIR}/testTestModelFactory.py"
+            "${RR_PYTHON_TESTING_BUILD_PREFIX}/testTestModelFactory.py" COPYONLY)
+    configure_file(
+            "${CMAKE_CURRENT_SOURCE_DIR}/RoadRunnerTest.py"
+            "${RR_PYTHON_TESTING_BUILD_PREFIX}/RoadRunnerTest.py" COPYONLY)
 
     # install python test files to install tree
     install(TARGETS TestModelFactory DESTINATION site-packages/roadrunner/testing)
