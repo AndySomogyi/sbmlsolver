@@ -54,212 +54,212 @@ public:
             std::cout << "running section name : " << sectionName << std::endl;
 
             if (sectionName == "sbml") {
-                break; //Already managed this section in DATA_FILES
+                //break; //Already managed this section in DATA_FILES
             } else if (sectionName == "conservation laws") {
                 check_SET_COMPUTE_AND_ASSIGN_CONSERVATION_LAWS(aSection);
-                break;
+                //break;
             } else if (sectionName == "set steady state selection list") {
                 check_SET_STEADY_STATE_SELECTION_LIST(aSection);
-                break;
+                //break;
             } else if (sectionName == "get steady state selection list") {
                 check_GET_STEADY_STATE_SELECTION_LIST(aSection);
-                break;
+                //break;
             } else if (sectionName == "species concentrations") {
                 check_SPECIES_CONCENTRATIONS(aSection);
-                break;
+                //break;
             } else if (sectionName == "get species initial concentrations") {
                 check_GET_SPECIES_INITIAL_CONCENTRATIONS(aSection);
-                break;
+                //break;
             } else if (sectionName == "get species initial concentrations by index") {
                 check_GET_SPECIES_INITIAL_CONCENTRATION_BY_INDEX(aSection);
-                break;
+                //break;
             } else if (sectionName == "get initial floating species concs") {
                 check_GET_INITIAL_FLOATING_SPECIES_CONCENTRATIONS(aSection);
-                break;
+                //break;
             } else if (sectionName == "set species initial concentrations by index") {
                 check_SET_SPECIES_INITIAL_CONCENTRATION_BY_INDEX(aSection);
-                break;
+                //break;
             } else if (sectionName == "set species initial concentrations") {
                 check_SET_SPECIES_INITIAL_CONCENTRATIONS(aSection);
-                break;
+                //break;
             } else if (sectionName == "steady state fluxes") {
                 check_STEADY_STATE_FLUXES(aSection);
-                break;
+                //break;
             } else if (sectionName == "full jacobian") {
                 check_FULL_JACOBIAN(aSection);
-                break;
+                //break;
             } else if (sectionName == "reduced jacobian") {
                 check_REDUCED_JACOBIAN(aSection);
-                break;
+                //break;
             } else if (sectionName == "amount jacobian") {
                 check_AMOUNT_JACOBIAN(aSection);
-                break;
+                //break;
             } else if (sectionName == "individual eigenvalues") {
                 check_INDIVIDUAL_EIGENVALUES(aSection);
-                break;
+                //break;
             } else if (sectionName == "individual amount eigenvalues") {
                 check_INDIVIDUAL_AMOUNT_EIGENVALUES(aSection);
-                break;
+                //break;
             } else if (sectionName == "eigenvalue matrix") {
                 check_GET_EIGENVALUE_MATRIX(aSection);
-                break;
+                //break;
             } else if (sectionName == "eigenvalue amount matrix") {
                 check_GET_EIGENVALUE_AMOUNT_MATRIX(aSection);
-                break;
+                //break;
             } else if (sectionName == "reduced eigenvalue matrix") {
                 check_GET_REDUCED_EIGENVALUE_MATRIX(aSection);
-                break;
+                //break;
             } else if (sectionName == "stoichiometry matrix") {
                 check_STOICHIOMETRY_MATRIX(aSection);
-                break;
+                //break;
             } else if (sectionName == "reduced stoichiometry matrix") {
                 check_REDUCED_STOICHIOMETRY_MATRIX(aSection);
-                break;
+                //break;
             } else if (sectionName == "link matrix") {
                 check_LINK_MATRIX(aSection);
-                break;
+                //break;
             } else if (sectionName == "unscaled elasticity matrix") {
                 check_UNSCALED_ELASTICITY_MATRIX(aSection);
-                break;
+                //break;
             } else if (sectionName == "unscaled elasticity amount matrix") {
                 check_UNSCALED_ELASTICITY_AMOUNT_MATRIX(aSection);
-                break;
+                //break;
             } else if (sectionName == "scaled elasticity matrix") {
                 check_SCALED_ELASTICITY_MATRIX(aSection);
-                break;
+                //break;
             } else if (sectionName == "scaled elasticity amount matrix") {
                 check_SCALED_ELASTICITY_AMOUNT_MATRIX(aSection);
-                break;
+                //break;
             } else if (sectionName == "unscaled concentration control matrix") {
                 check_UNSCALED_CONCENTRATION_CONTROL_MATRIX(aSection);
-                break;
+                //break;
             } else if (sectionName == "scaled concentration control matrix") {
                 check_SCALED_CONCENTRATION_CONTROL_MATRIX(aSection);
-                break;
+                //break;
             } else if (sectionName == "unscaled flux control matrix") {
                 check_UNSCALED_FLUX_CONTROL_MATRIX(aSection);
-                break;
+                //break;
             } else if (sectionName == "scaled flux control matrix") {
                 check_SCALED_FLUX_CONTROL_MATRIX(aSection);
-                break;
+                //break;
             } else if (sectionName == "get control coefficient") {
                 check_GET_CONTROL_COEFFICIENT(aSection);
-                break;
+                //break;
             } else if (sectionName == "test reset") {
                 check_CHECK_RESET(aSection);
-                break;
+                //break;
             } else if (sectionName == "test resetall") {
                 check_CHECK_RESETALL(aSection);
-                break;
+                //break;
             } else if (sectionName == "test resettoorigin") {
                 check_CHECK_RESETTOORIGIN(aSection);
-                break;
+                //break;
             } else if (sectionName == "check rk4 output") {
                 check_CHECK_RK4_OUTPUT(aSection);
-                break;
+                //break;
             } else if (sectionName == "check rk45 output") {
                 check_CHECK_RK45_OUTPUT(aSection);
-                break;
+                //break;
             } else if (sectionName == "test setvalues") {
                 check_CHECK_SETVALUES(aSection);
-                break;
+                //break;
             } else if (sectionName == "floating species ids") {
                 check_FLOATING_SPECIES_IDS(aSection);
-                break;
+                //break;
             } else if (sectionName == "boundary species ids") {
                 check_BOUNDARY_SPECIES_IDS(aSection);
-                break;
+                //break;
             } else if (sectionName == "global parameter ids") {
                 check_GLOBAL_PARAMETER_IDS(aSection);
-                break;
+                //break;
             } else if (sectionName == "compartment ids") {
                 check_COMPARTMENT_IDS(aSection);
-                break;
+                //break;
             } else if (sectionName == "reaction ids") {
                 check_REACTION_IDS(aSection);
-                break;
+                //break;
             } else if (sectionName == "species initial concentration ids") {
                 check_SPECIES_INITIAL_CONDITION_IDS(aSection);
-                break;
+                //break;
             } else if (sectionName == "get eigenvalue ids") {
                 check_GET_EIGENVALUE_IDS(aSection);
-                break;
+                //break;
             } else if (sectionName == "get rates of change ids") {
                 check_GET_RATES_OF_CHANGE_IDS(aSection);
-                break;
+                //break;
             } else if (sectionName == "set steady state selection list 2") {
                 check_SET_STEADY_STATE_SELECTION_LIST_2(aSection);
-                break;
+                //break;
             } else if (sectionName == "get steady state selection list 2") {
                 check_GET_STEADY_STATE_SELECTION_LIST_2(aSection);
-                break;
+                //break;
             } else if (sectionName == "set time course selection list") {
                 check_SET_TIME_COURSE_SELECTION_LIST(aSection);
-                break;
+                //break;
             } else if (sectionName == "get time course selection list") {
                 check_GET_TIME_COURSE_SELECTION_LIST(aSection);
-                break;
+                //break;
             } else if (sectionName == "compute steady state values") {
                 check_COMPUTE_STEADY_STATE_VALUES(aSection);
-                break;
+                //break;
             } else if (sectionName == "floating species concentrations") {
                 check_FLOATING_SPECIES_CONCENTRATIONS(aSection);
-                break;
+                //break;
             } else if (sectionName == "boundary species concentrations") {
                 check_BOUNDARY_SPECIES_CONCENTRATIONS(aSection);
-                break;
+                //break;
             } else if (sectionName == "get global parameter values") {
                 check_GET_GLOBAL_PARAMETER_VALUES(aSection);
-                break;
+                //break;
             } else if (sectionName == "get reaction rates") {
                 check_GET_REACTION_RATES(aSection);
-                break;
+                //break;
             } else if (sectionName == "get reaction rates by index") {
                 check_GET_REACTION_RATE_BY_INDEX(aSection);
-                break;
+                //break;
             } else if (sectionName == "number of dependent species") {
                 check_NUMBER_OF_DEPENDENT_SPECIES(aSection);
-                break;
+                //break;
             } else if (sectionName == "number of independent species") {
                 check_NUMBER_OF_INDEPENDENT_SPECIES(aSection);
-                break;
+                //break;
             } else if (sectionName == "number of rate rules") {
                 check_NUMBER_OF_RATE_RULES(aSection);
-                break;
+                //break;
             } else if (sectionName == "get rates of change") {
                 check_GET_RATES_OF_CHANGE(aSection);
-                break;
+                //break;
             } else if (sectionName == "get reaction rates ex") {
                 check_GET_REACTION_RATES_EX(aSection);
-                break;
+                //break;
             } else if (sectionName == "get rates of change ex") {
                 check_GET_RATES_OF_CHANGE_EX(aSection);
-                break;
+                //break;
             } else if (sectionName == "get rates of change by index") {
                 check_GET_RATES_OF_CHANGE_BY_INDEX(aSection);
-                break;
+                //break;
             } else if (sectionName == "amount/concentration jacobians") {
                 check_AMOUNT_CONCENTRATION_JACOBIANS(aSection);
-                break;
+                //break;
             } else if (sectionName == "check default time step") {
                 check_CHECK_DEFAULT_TIME_STEP(aSection);
-                break;
+                //break;
             } else if (sectionName == "check simulate points vs steps") {
                 check_CHECK_SIMULATE_POINTS_VS_STEPS(aSection);
-                break;
+                //break;
             } else if (sectionName == "check monotonic timepoints") {
                 check_CHECK_MONOTONIC_TIMEPOINTS(aSection);
-                break;
+                //break;
             } else if (sectionName == "check event pre and postfire timepoints") {
                 check_CHECK_EVENT_PRE_AND_POSTFIRE_TIMEPOINTS(aSection);
-                break;
+                //break;
             } else if (sectionName == "test resetconservedtotal") {
                 check_CHECK_RESETCONSERVEDTOTAL(aSection);
-                break;
+                //break;
             } else {
                 clog << "Unused section:\t" << aSection->mName << endl;
                 EXPECT_TRUE(false);
-                break;
+                //break;
             }
         }
     }
