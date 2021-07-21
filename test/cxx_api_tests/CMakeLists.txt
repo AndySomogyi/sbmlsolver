@@ -29,7 +29,8 @@ if (BUILD_PYTHON AND BUILD_TESTS)
     add_swig_executable(SettingTestsSwigAPI
             SettingTestsSwigAPI.i
             SettingTestsSwigAPI
-            "../../wrappers/Python/roadrunner/PyUtils"
+            "../../wrappers/Python/roadrunner/PyUtils.cpp"
+            "../../wrappers/Python/roadrunner/PyUtils.h"
             )
 
     configure_file(

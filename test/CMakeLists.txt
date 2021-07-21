@@ -126,9 +126,11 @@ macro(add_swig_executable SWIG_TARGET_NAME SWIG_INTERFACE_FILE)
             SWIG_USE_TARGET_INCLUDE_DIRECTORIES TRUE
             )
 
+    set(thisDir ${CMAKE_CURRENT_SOURCE_DIR})
     target_include_directories(${SWIG_TARGET_NAME} PUBLIC
-            ${CMAKE_CURRENT_SOURCE_DIR}
-            "${RR_ROOT}/wrappers/Python/include" # for additional includes(.i) in tests
+            ${thisDir}
+            "${RR_ROOT}/wrappers/Python/include"
+            "${RR_ROOT}/wrappers/Python/roadrunner"
             $<TARGET_PROPERTY:roadrunner-static,INCLUDE_DIRECTORIES>
             $<TARGET_PROPERTY:roadrunner_python,INCLUDE_DIRECTORIES>
             )
