@@ -20,15 +20,21 @@ if (BUILD_PYTHON AND BUILD_TESTS)
             "../../wrappers/Python/roadrunner/PyUtils"
             )
 
-    # copy IntegratorTests into the Build tree
     configure_file(
             "${CMAKE_CURRENT_SOURCE_DIR}/SettingTests.py"
             "${CMAKE_BINARY_DIR}/lib/site-packages/roadrunner/testing/SettingTests.py"
             COPYONLY
     )
 
+    configure_file(
+            "${CMAKE_CURRENT_SOURCE_DIR}/StructuralAnalysisTests.py"
+            "${CMAKE_BINARY_DIR}/lib/site-packages/roadrunner/testing/StructuralAnalysisTests.py"
+            COPYONLY
+    )
+
     install(FILES
             "${CMAKE_BINARY_DIR}/lib/site-packages/roadrunner/testing/SettingTests.py"
+            "${CMAKE_BINARY_DIR}/lib/site-packages/roadrunner/testing/StructuralAnalysisTests.py"
             DESTINATION
             site-packages/roadrunner/testing
             )
