@@ -399,9 +399,9 @@ namespace rr {
 
 
     PyObject *doublematrix_to_py(const ls::DoubleMatrix *m, bool structured_result, bool copy_result) {
-        ls::DoubleMatrix *mat = const_cast<ls::DoubleMatrix *>(m);
+                ls::DoubleMatrix *mat = const_cast<ls::DoubleMatrix *>(m);
 
-        // a valid array descriptor:
+                // a valid array descriptor:
         // In [87]: b = array(array([0,1,2,3]),
         //      dtype=[('r', 'f8'), ('g', 'f8'), ('b', 'f8'), ('a', 'f8')])
 
@@ -471,58 +471,57 @@ namespace rr {
             // standard array result.
             // this version just wraps the roadrunner owned data.
         else {
-
-            int rows = mat->numRows();
+                        int rows = mat->numRows();
             int cols = mat->numCols();
             PyObject *pArray = NULL;
-
+            
             if (copy_result) {
 
                 rrLog(rr::Logger::LOG_DEBUG) << "copying result data";
 
                 // passing a NULL for data tells numpy to allocate its own data
 
-                // make a 1D array in this case
+                                // make a 1D array in this case
                 if (cols == 1 && mat->getColNames().size() == 0) {
-                    int nd = 1;
+                                        int nd = 1;
                     npy_intp dims[1] = {rows};
                     pArray = PyArray_New(&PyArray_Type, nd, dims, NPY_DOUBLE,
                                          NULL, NULL, 0, 0, NULL);
                 } else {
-                    int nd = 2;
-                    npy_intp dims[2] = {rows, cols};
-                    pArray = NamedArray_New(nd, dims, NULL,
+                                        int nd = 2;
+                                        npy_intp dims[2] = {rows, cols};
+                                        pArray = NamedArray_New(nd, dims, NULL,
                                             0, mat);
-                }
-
+                                    }
+                
                 VERIFY_PYARRAY(pArray);
-
+                
                 // copy our data into the numpy array
                 double *data = static_cast<double *>(PyArray_DATA(pArray));
-                memcpy(data, mat->getArray(), sizeof(double) * rows * cols);
-
+                                memcpy(data, mat->getArray(), sizeof(double) * rows * cols);
+                
             } else {
-
+                
                 rrLog(rr::Logger::LOG_DEBUG) << "wraping existing data";
-
+                
                 double *data = mat->getArray();
-
+                
                 if (cols == 1 && mat->getColNames().size() == 0) {
-                    int nd = 1;
-                    npy_intp dims[1] = {rows};
-                    pArray = PyArray_New(&PyArray_Type, nd, dims, NPY_DOUBLE,
+                                        int nd = 1;
+                                        npy_intp dims[1] = {rows};
+                                        pArray = PyArray_New(&PyArray_Type, nd, dims, NPY_DOUBLE,
                                          NULL, data, 0, NPY_ARRAY_CARRAY, NULL);
-                } else {
+                                    } else {
                     int nd = 2;
-                    npy_intp dims[2] = {rows, cols};
-                    pArray = NamedArray_New(nd, dims, data,
+                                        npy_intp dims[2] = {rows, cols};
+                                        pArray = NamedArray_New(nd, dims, data,
                                             NPY_ARRAY_CARRAY, mat);
-                }
+                                    }
 
-                VERIFY_PYARRAY(pArray);
-
+                                VERIFY_PYARRAY(pArray);
+                
             }
-            return pArray;
+                        return pArray;
         }
     }
 
@@ -530,8 +529,13 @@ namespace rr {
  * Casts a rr::Matrix<double> to its superclass ls::DoubleMatrix
  * and reuses doublematrix_to_py
  */
-    PyObject *rrDoubleMatrix_to_py(const rr::Matrix<double> *m, bool structured_result, bool copy_result) {
-        rr::Matrix<double> *mat = const_cast<rr::Matrix<double> *>(m);
+    PyObject *rrDoubleMatrix_to_py(const rr::Matrix<double> *m, bool copy_result) {
+                rr::Matrix<double> *mat = const_cast<rr::Matrix<double> *>(m);
+        bool structured_result = true;
+        if (mat->rowNames.empty() && mat->colNames.empty()) {
+            structured_result = false;
+        }
+        std::cout << __FILE__ << ":" << __LINE__ << "is structured? :" << structured_result << std::endl;
         auto superMat = ls::DoubleMatrix(mat->getValues());
         return doublematrix_to_py(&superMat, structured_result, copy_result);
     }
@@ -847,30 +851,31 @@ PyArray_New(PyTypeObject *subtype, int nd, npy_intp *dims, int type_num,
                              const ls::DoubleMatrix *mat) {
         bool named = Config::getValue(Config::PYTHON_ENABLE_NAMED_MATRIX);
 
-        if (named) {
-            rrLog(Logger::LOG_INFORMATION) << "creating NEW style array";
+                if (named) {
+                        rrLog(Logger::LOG_INFORMATION) << "creating NEW style array";
 
-            NamedArrayObject *array = (NamedArrayObject * )PyArray_New(
+                        //         (*(PyObject * (*)(PyTypeObject *, int, npy_intp const *, int, npy_intp const *, void *, int, int, PyObject *)) 
+            NamedArrayObject *array = (NamedArrayObject *) PyArray_New(
                     &NamedArray_Type, nd, dims, NPY_DOUBLE, NULL, data, 0,
                     pyFlags, NULL);
-
+            
             if (array == NULL) {
-                const char *error = rrGetPyErrMessage();
-                rrLog(Logger::LOG_CRITICAL) << error;
-                rr_strfree(error);
-                return NULL;
+                                const char *error = rrGetPyErrMessage();
+                                rrLog(Logger::LOG_CRITICAL) << error;
+                                rr_strfree(error);
+                                return NULL;
             }
 
-            array->rowNames = stringvector_to_py(mat->getRowNames());
-            array->colNames = stringvector_to_py(mat->getColNames());
-            array->test1 = 1;
-            array->test2 = 2;
-            array->test3 = 3;
-            return (PyObject *) array;
+                        array->rowNames = stringvector_to_py(mat->getRowNames());
+                        array->colNames = stringvector_to_py(mat->getColNames());
+                        array->test1 = 1;
+                        array->test2 = 2;
+                        array->test3 = 3;
+                        return (PyObject *) array;
 
         } else {
-            rrLog(Logger::LOG_INFORMATION) << "creating old style array";
-            return PyArray_New(&PyArray_Type, nd, dims, NPY_DOUBLE, NULL, data, 0,
+                        rrLog(Logger::LOG_INFORMATION) << "creating old style array";
+                        return PyArray_New(&PyArray_Type, nd, dims, NPY_DOUBLE, NULL, data, 0,
                                pyFlags, NULL);
         }
     }
@@ -1099,7 +1104,7 @@ PyArray_New(PyTypeObject *subtype, int nd, npy_intp *dims, int type_num,
             for (int y = 0; y < yMax; y++) {
                 for (int x = 0; x < xMax; x++) {
                     // compute the linear index (so loop does idx \in 1, 2, ..., yMax*xMax*zMax)
-                    unsigned int linearIdx = x + y*xMax + z*xMax*yMax;
+                    unsigned int linearIdx = x + y * xMax + z * xMax * yMax;
                     data[linearIdx] = matrix_.slice(z, y, x);
                 }
             }
@@ -1129,7 +1134,7 @@ PyArray_New(PyTypeObject *subtype, int nd, npy_intp *dims, int type_num,
         double *data = new double[zMax];
 
         // populate the 1D array with values from the Matrix3D<double, double> data values
-        auto& index = matrix_.getIndex();
+        auto &index = matrix_.getIndex();
         for (int z = 0; z < zMax; z++) {
             data[z] = index[z];
         }

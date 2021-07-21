@@ -100,6 +100,34 @@ TEST_F(MatrixTests, CheckEqualityOfEmptyMatrices){
     ASSERT_TRUE(equal);
 }
 
+TEST_F(MatrixTests, ConstructorForLsMatrix){
+    ls::Matrix<int> lsMatrix({
+                                        {1, 2}
+    });
+    rr::Matrix<int> rrMatrix(lsMatrix);
+    rr::Matrix<int> expected({{1, 2}});
+    ASSERT_TRUE(expected == rrMatrix);
+}
+
+TEST_F(MatrixTests, ConstructorForLsMatrixWithRowNames){
+    ls::Matrix<int> lsMatrix({
+                                        {1, 2}
+    });
+    lsMatrix.setRowNames({"R0","R1" });
+    rr::Matrix<int> rrMatrix(lsMatrix);
+    std::vector<std::string> expectedColNames({"R0", "R1"});
+    ASSERT_TRUE(expectedColNames == rrMatrix.getRowNames());
+}
+
+TEST_F(MatrixTests, ConstructorForLsMatrixWithColNames){
+    ls::Matrix<int> lsMatrix({{1, 2}});
+    lsMatrix.setRowNames({"R0","R1" });
+    lsMatrix.setColNames({"C0","C1" });
+    rr::Matrix<int> rrMatrix(lsMatrix);
+    std::vector<std::string> expectedColNames({"C0", "C1"});
+    ASSERT_TRUE(expectedColNames == rrMatrix.getColNames());
+}
+
 
 
 

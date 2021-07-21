@@ -104,7 +104,7 @@ PyObject *doublematrix_to_py(const ls::DoubleMatrix* mat, bool structured_result
  * Casts a rr::Matrix<double> to its superclass ls::DoubleMatrix
  * and reuses doublematrix_to_py
  */
-PyObject* rrDoubleMatrix_to_py(const rr::Matrix<double>* m, bool structured_result, bool copy_result);
+PyObject* rrDoubleMatrix_to_py(const rr::Matrix<double>* m, bool copy_result);
 
 PyObject *stringvector_to_py(const std::vector<std::string>& vec);
 

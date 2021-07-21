@@ -108,7 +108,7 @@ rr::pyutil_init(m);
 %typemap(out) rr::Matrix<double> {
     // marker for rrDoubleMatrix typemap. Look for me in TestModelFactoryPYTHON_wrap.cxx
     const rr::Matrix<double>* mat = &($1);
-    $result = rrDoubleMatrix_to_py(mat, false, true);
+    $result = rrDoubleMatrix_to_py(mat, true);
 }
 
 %apply rr::Matrix<double> {

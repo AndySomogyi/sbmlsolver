@@ -729,6 +729,10 @@ namespace privateSwigTests_ {
 
     rr::Matrix3D<double, double> _testMatrix3D_3x4x2();
 
+    ls::Matrix<double> _testLsMatrixWithLabels();
+
+    rr::Matrix<double> _testRRMatrixWithLabels();
+
 }
 
 

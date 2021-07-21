@@ -20,6 +20,10 @@ namespace rr {
         using ls::Matrix<T>::resize;
         using ls::Matrix<T>::getArray;
         using ls::Matrix<T>::getValues;
+        using ls::Matrix<T>::setColNames;
+        using ls::Matrix<T>::setRowNames;
+        using ls::Matrix<T>::rowNames;
+        using ls::Matrix<T>::colNames;
 
         /**
          * @brief Constructor for creating a Matrix<T> from a
@@ -32,7 +36,11 @@ namespace rr {
                      operator()(i, j) = matrix(i, j);
                  }
              }
+             // row and col names are references, so we make a copy
+             colNames = std::vector<std::string>(matrix.getColNames().begin(), matrix.getColNames().end());
+             rowNames = std::vector<std::string>(matrix.getRowNames().begin(), matrix.getRowNames().end());
          }
+
          explicit Matrix<T>( ls::Matrix<T>* matrix)
                  : Matrix<T>(*matrix){}
 

@@ -24,6 +24,7 @@ configure_file(RoadRunnerTestDirectory.cpp.in "${CMAKE_CURRENT_BINARY_DIR}/RoadR
 set(ThisSourceDirectory "${CMAKE_CURRENT_SOURCE_DIR}")
 set(ThisBinaryDirectory "${CMAKE_CURRENT_BINARY_DIR}")
 set(MOCKUPS_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/mockups")
+set(RR_Python_wrapper_dir "${CMAKE_CURRENT_SOURCE_DIR}/../wrappers/Python/roadrunner")
 
 #todo move these to the rr_root/cmake folder
 # Adds a new executable cmake target to cmake.
@@ -42,11 +43,16 @@ function(add_test_executable TEST_TARGET OUT_VARIABLE)
             "${ThisSourceDirectory}"
             "${ThisBinaryDirectory}"
             "${MOCKUPS_DIRECTORY}"
+            "${RR_Python_wrapper_dir}" # for PyUtils in tests that need it
     )
 
     target_link_libraries(${TEST_TARGET} PRIVATE
-            roadrunner_c_api roadrunner-static rr-mockups gtest gtest_main gmock gmock_main
+            roadrunner_c_api
+            roadrunner-static
+            rr-mockups
+            gtest gtest_main gmock gmock_main
             )
+
     # This causes a weird build error whereby it is no longer possible
     # to name a class the name as the binary filename. However, since w
     # link to roadrunner-static, the flags needed should be transitive
@@ -121,7 +127,6 @@ macro(add_swig_executable SWIG_TARGET_NAME SWIG_INTERFACE_FILE)
             )
 
     target_include_directories(${SWIG_TARGET_NAME} PUBLIC
-            ${Python_INCLUDE_DIRS}
             ${CMAKE_CURRENT_SOURCE_DIR}
             "${RR_ROOT}/wrappers/Python/include" # for additional includes(.i) in tests
             $<TARGET_PROPERTY:roadrunner-static,INCLUDE_DIRECTORIES>
@@ -130,7 +135,8 @@ macro(add_swig_executable SWIG_TARGET_NAME SWIG_INTERFACE_FILE)
     target_link_libraries(${SWIG_TARGET_NAME} PUBLIC
             rr-mockups
             roadrunner-static
-            ${Python_LIBRARIES}
+            Python::Python # remember, includes will just come with linking Python::Python
+            Python::NumPy  # remember, includes will just come with linking Python::NumPy
             )
 
     message(STATUS "Adding swig executable: ${SWIG_TARGET_NAME}")
@@ -155,6 +161,7 @@ endmacro()
 #########################################################
 #   Build the TestModelFactory
 #
+message(STATUS "RR_PYTHON_TESTING_BUILD_PREFIX: ${RR_PYTHON_TESTING_BUILD_PREFIX}")
 
 if (BUILD_PYTHON AND BUILD_TESTS)
     message(STATUS "Building TestModelFactory")
@@ -165,18 +172,19 @@ if (BUILD_PYTHON AND BUILD_TESTS)
             "../wrappers/Python/roadrunner/PyUtils"
             )
 
-    configure_file(testTestModelFactory.py "${RR_PYTHON_TESTING_DIR}" COPYONLY)
+    # configure Python files to binary tree
+    configure_file(testTestModelFactory.py "${RR_PYTHON_TESTING_BUILD_PREFIX}" COPYONLY)
+    configure_file(RoadRunnerTest.py "${RR_PYTHON_TESTING_BUILD_PREFIX}" COPYONLY)
 
     # install python test files to install tree
     install(TARGETS TestModelFactory DESTINATION site-packages/roadrunner/testing)
     install(
             FILES
-                "${CMAKE_CURRENT_BINARY_DIR}/TestModelFactory.py"
-                "${CMAKE_CURRENT_SOURCE_DIR}/testTestModelFactory.py"
+            "${RR_PYTHON_TESTING_BUILD_PREFIX}/TestModelFactory.py"
+            "${RR_PYTHON_TESTING_BUILD_PREFIX}/testTestModelFactory.py"
             DESTINATION
             site-packages/roadrunner/testing
     )
-
 endif ()
 
 

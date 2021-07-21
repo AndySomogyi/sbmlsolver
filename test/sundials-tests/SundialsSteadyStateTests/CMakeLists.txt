@@ -51,20 +51,20 @@ add_test_executable(
 # copy Python tests to binary tree site packages
 configure_file(
         "${CMAKE_CURRENT_SOURCE_DIR}/SteadyStateSolverTests.py"
-        "${CMAKE_BINARY_DIR}/lib/site-packages/roadrunner/testing/SteadyStateSolverTests.py"
+        "${RR_PYTHON_TESTING_BUILD_PREFIX}/SteadyStateSolverTests.py"
         COPYONLY
 )
 configure_file(
         "${CMAKE_CURRENT_SOURCE_DIR}/AutomaticMoietyConservationAnalysisTests.py"
-        "${CMAKE_BINARY_DIR}/lib/site-packages/roadrunner/testing/"
+        "${RR_PYTHON_TESTING_BUILD_PREFIX}/AutomaticMoietyConservationAnalysisTests.py"
         COPYONLY
 )
 
 # install python tests to install tree
 install(
         FILES
-            "${CMAKE_CURRENT_SOURCE_DIR}/SteadyStateSolverTests.py"
-            "${CMAKE_CURRENT_SOURCE_DIR}/AutomaticMoietyConservationAnalysisTests.py"
+            "${RR_PYTHON_TESTING_BUILD_PREFIX}/SteadyStateSolverTests.py"
+            "${RR_PYTHON_TESTING_BUILD_PREFIX}/AutomaticMoietyConservationAnalysisTests.py"
         DESTINATION
             site-packages/roadrunner/testing
         )

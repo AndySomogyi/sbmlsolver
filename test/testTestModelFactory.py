@@ -94,10 +94,9 @@ class testTestModelFactory(unittest.TestCase):
         self.assertIsInstance(testModel, tmf.OpenLinearFlux)  # fails if is type TestModel
 
     def test_string_vector_converts(self):
-        expected = ('SimpleFlux', 'SimpleFluxManuallyReduced', 'OpenLinearFlux', 'Model269', 'Model28', 'CeilInRateLaw',
-                    'FactorialInRateLaw', 'Venkatraman2010', 'Brown2004', 'LayoutOnly', 'ModelWithLocalParameters')
-
+        expected = ('SimpleFlux', 'SimpleFluxManuallyReduced', 'OpenLinearFlux', 'Model269', 'Model28', 'CeilInRateLaw', 'FactorialInRateLaw', 'Venkatraman2010', 'Brown2004', 'LayoutOnly', 'ModelWithLocalParameters', 'BiomolecularEnd')
         actual = tmf.getAvailableTestModels()
+        print(actual)
         self.assertSequenceEqual(expected, actual)
 
     def test_rrDoubleMatrixIsANumpyArray(self):
@@ -111,6 +110,10 @@ class testTestModelFactory(unittest.TestCase):
         testModel = tmf.TestModelFactory("SimpleFlux")
         rrDoubleMatrix = testModel.timeSeriesResult()
         self.assertEqual((11, 3), rrDoubleMatrix.shape)
+
+    def test_rrDoubleMatrixToNamedArray(self):
+        testModel = tmf.TestModelFactory("BiomolecularEnd")
+        # print(testModel.fullJacobianConc())
 
     def test_stdComplexZeroImagPart(self):
         """Check swig conversion of ls::Complex that has 0 imag part"""

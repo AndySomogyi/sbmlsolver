@@ -20,12 +20,12 @@ if (BUILD_PYTHON AND BUILD_TESTS)
     # copy IntegratorTests into the Build tree
     configure_file(
             "${CMAKE_CURRENT_SOURCE_DIR}/IntegratorTests.py"
-            "${CMAKE_BINARY_DIR}/lib/site-packages/roadrunner/testing/IntegratorTests.py"
+            "${RR_PYTHON_TESTING_BUILD_PREFIX}/IntegratorTests.py"
             COPYONLY
     )
 
     install(FILES
-            "${CMAKE_BINARY_DIR}/lib/site-packages/roadrunner/testing/IntegratorTests.py"
+            "${RR_PYTHON_TESTING_BUILD_PREFIX}/IntegratorTests.py"
             DESTINATION
             site-packages/roadrunner/testing
             )

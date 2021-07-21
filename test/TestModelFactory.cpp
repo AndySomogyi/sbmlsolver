@@ -2,6 +2,7 @@
 #include "gtest/gtest.h"
 #include "TestModelFactory.h"
 #include "SteadyStateSolver.h"
+#include "Matrix.h"
 
 void TestModel::toFile(const string &fname) {
     std::ofstream of(fname);
@@ -2703,11 +2704,14 @@ std::unordered_map<std::string, rr::Setting> BiomolecularEnd::jacobianSettings()
 }
 
 rr::Matrix<double> BiomolecularEnd::fullJacobianConc() {
-    return rr::Matrix<double>({
+    rr::Matrix<double> mat({
                                       {-7.82122, 4.64179,  18.4605},
                                       {7.74137,  -4.92102, -17.7711},
                                       {7.61,     -4.18477, -19.3156},
                               });
+//    mat.setRowNames({"S1", "S2", "S3"});
+//    mat.setColNames({"S1", "S2", "S3"});
+    return mat;
 }
 
 /**
@@ -2991,6 +2995,24 @@ namespace privateSwigTests_ {
                 }
         );
     }
+
+    ls::Matrix<double> _testLsMatrixWithLabels(){
+        ls::Matrix<double> lsMatrix({
+                                            {1.1, 2.2}
+        });
+        lsMatrix.setColNames({"C0"});
+        lsMatrix.setRowNames({"R0", "R1"});
+        return lsMatrix;
+    };
+
+    rr::Matrix<double> _testRRMatrixWithLabels(){
+        rr::Matrix<double> rrMatrix({
+                                            {1.1, 2.2}
+        });
+        rrMatrix.setColNames({"C0"});
+        rrMatrix.setRowNames({"R0", "R1"});
+        return rrMatrix;
+    };
 
 }
 
