@@ -9,9 +9,10 @@
 #include "TestModelFactory.h"
 #include "Matrix.h"
 #include "CvodeIntegrationTest.h"
+
+
 using namespace rr;
 using namespace testing;
-
 
 
 TEST_F(CVODEIntegratorTests, TestSimpleFluxWithRoadRunner) {

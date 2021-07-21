@@ -5,7 +5,6 @@
 #include <rrRoadRunner.h>
 #include "gtest/gtest.h"
 
-// todo move test model factor up one directory
 #include "TestModelFactory.h"
 
 #include "GillespieIntegrator.h"

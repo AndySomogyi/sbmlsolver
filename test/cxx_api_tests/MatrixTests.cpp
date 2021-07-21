@@ -75,6 +75,32 @@ TEST_F(MatrixTests, TestAlmostEqualsWhenFalseButAcceptableTolerance){
 }
 
 
+TEST_F(MatrixTests, CheckEmptyWhenTrue){
+    Matrix<double> emptyMatrix;
+    ASSERT_TRUE(emptyMatrix.empty());
+}
+
+TEST_F(MatrixTests, CheckEmptyWhenTrueWithColnames){
+    Matrix<double> emptyMatrix;
+    emptyMatrix.setColNames({"S1", "S2"});
+    ASSERT_TRUE(emptyMatrix.empty());
+}
+
+TEST_F(MatrixTests, CheckEmptyWhenFalse){
+    Matrix<double> notEmptyMatrix({
+                                       {0, 1, 2}
+    });
+    ASSERT_FALSE(notEmptyMatrix.empty());
+}
+
+TEST_F(MatrixTests, CheckEqualityOfEmptyMatrices){
+    Matrix<double> first;
+    Matrix<double> second;
+    bool equal = first == second;
+    ASSERT_TRUE(equal);
+}
+
+
 
 
 

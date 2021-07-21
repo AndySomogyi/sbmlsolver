@@ -1,13 +1,13 @@
 
 
 add_test_executable(
-        test_cvode_integration test_targets
+        test_sundials_cvode_integration test_targets
         CvodeIntegrationTest.cpp
         ${SharedTestFiles}
 )
 
 add_test_executable(
-        test_cvode_unit test_targets
+        test_sundials_cvode_unit test_targets
         CvodeUnitTest.cpp
         ${SharedTestFiles}
 )

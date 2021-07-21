@@ -21,14 +21,14 @@ add_test_executable(
 
 
 add_test_executable(
-        test_steady_state_unit_basic_newton test_targets
+        test_sundials_steady_state_unit_basic_newton test_targets
         SundialsNewtonIterationUnitTests.cpp
         SundialsSteadyStateSolverUnitTest
         ${SharedTestFiles}
 )
 
 add_test_executable(
-        test_steady_state_unit_presimulation test_targets
+        test_sundials_steady_state_unit_presimulation test_targets
         PresimulationDecoratorTests.cpp ${SharedTestFiles}
 )
 
@@ -37,7 +37,7 @@ add_test_executable(
 )
 
 add_test_executable(
-        test_steady_state_integration test_targets
+        test_sundials_steady_state_integration test_targets
         SteadyStateIntegrationTests.h
         SundialsNewtonIntegrationTests.cpp
         DecoratorIntegrationTests.cpp

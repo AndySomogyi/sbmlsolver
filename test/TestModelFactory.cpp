@@ -2704,9 +2704,9 @@ std::unordered_map<std::string, rr::Setting> BiomolecularEnd::jacobianSettings()
 
 rr::Matrix<double> BiomolecularEnd::fullJacobianConc() {
     return rr::Matrix<double>({
-                                      {-7.73052, 37.54530, 12.7685},
-                                      {7.61,     -38.0367, -12.479},
-                                      {7.68369,  -37.0998, -12.9527},
+                                      {-7.82122, 4.64179,  18.4605},
+                                      {7.74137,  -4.92102, -17.7711},
+                                      {7.61,     -4.18477, -19.3156},
                               });
 }
 
@@ -2718,15 +2718,81 @@ rr::Matrix<double> BiomolecularEnd::fullJacobianAmt() {
 }
 
 rr::Matrix<double> BiomolecularEnd::reducedJacobianAmt() {
-    return rr::Matrix<double>();
+    return rr::Matrix<double>({
+                                      {-7.82122, 4.64179,  18.4605},
+                                      {7.74137,  -4.92102, -17.7711},
+                                      {7.61,     -4.18477, -19.3156},
+                              });
 }
 
 rr::Matrix<double> BiomolecularEnd::reducedJacobianConc() {
-    return rr::Matrix<double>();
+    return reducedJacobianAmt();
 }
 
 std::string BiomolecularEnd::modelName() {
     return "BiomolecularEnd";
+}
+
+rr::Matrix<double> BiomolecularEnd::linkMatrix() {
+    rr::Matrix<double> mat({
+                                      {1,0,0},
+                                      {0,1,0},
+                                      {0,0,1},
+    });
+    mat.setColNames({"S1", "S3", "S2"});
+    return mat;
+}
+
+rr::Matrix<double> BiomolecularEnd::NrMatrix() {
+    return rr::Matrix<double>({
+                                      {1,-1,0,0,1},
+                                      {0,0,1,-1,-1},
+                                      {0,1,-1,0,-1},
+    });
+}
+
+rr::Matrix<double> BiomolecularEnd::KMatrix() {
+    return rr::Matrix<double>({
+                                      {1,0},
+                                      {0,1},
+                                      {-0.5,0.5},
+                                      {0.5,0.5},
+                                      {0.5,0.5},
+    });
+}
+
+rr::Matrix<double> BiomolecularEnd::reducedStoicMatrix() {
+    return rr::Matrix<double>({
+                                      {1,-1,0,0,1},
+                                      {0,0,1,-1,-1},
+                                      {0,1,-1,0,-1},
+    });
+}
+
+rr::Matrix<double> BiomolecularEnd::fullStoicMatrix() {
+    return rr::Matrix<double>({
+                                      {1,-1,0,0,1},
+                                      {0,0,1,-1,-1},
+                                      {0,1,-1,0,-1},
+    });
+}
+
+rr::Matrix<double> BiomolecularEnd::extendedStoicMatrix() {
+    return rr::Matrix<double>({
+                                      {1,-1,0,0,1},
+                                      {0,1,-1,0,-1},
+                                      {0,0,1,-1,-1},
+                                      {-1,0,0,0,0},
+                                      {0,0,0,1,0},
+    });
+}
+
+rr::Matrix<double> BiomolecularEnd::L0Matrix() {
+    return rr::Matrix<double>();
+}
+
+rr::Matrix<double> BiomolecularEnd::conservationMatrix() {
+    return rr::Matrix<double>();
 }
 
 

@@ -18,6 +18,8 @@ namespace rr {
         using ls::Matrix<T>::operator();
         using ls::Matrix<T>::operator[];
         using ls::Matrix<T>::resize;
+        using ls::Matrix<T>::getArray;
+        using ls::Matrix<T>::getValues;
 
         /**
          * @brief Constructor for creating a Matrix<T> from a
@@ -39,13 +41,18 @@ namespace rr {
          * another Matrix<T>
          * @note to compare Matrix<double> use Matrix<double>::almostEqual
          */
-        bool operator==(const Matrix<T> &other) {
+        bool operator==(Matrix<T> &other) {
+            // if both are empty, result is true
+            if (empty() && other.empty()){
+                return true;
+            }
             if (numRows() != other.numRows()) {
                 return false;
             }
             if (numCols() != other.numCols()) {
                 return false;
             }
+
             bool equals = true;
             for (int i = 0; i < numRows(); i++) {
                 for (int j = 0; j < numCols(); j++) {
@@ -61,7 +68,7 @@ namespace rr {
         /**
          * @brief inequality operators
          */
-        bool operator!=(const Matrix<T> &other) {
+        bool operator!=( Matrix<T> &other) {
             return !(*this == other);
         }
 
@@ -69,7 +76,11 @@ namespace rr {
          * @brief Element-wise compareison between this Matrix<double> with another @param other
          * Matrix<double>
          */
-        bool almostEquals(const Matrix<double> &other, const double &tolerance) {
+        bool almostEquals( Matrix<double> &other, const double &tolerance) {
+            // when both matrices are empty, they are equal
+            if (empty() && other.empty()){
+                return true;
+            }
             if (numRows() != other.numRows()) {
                 return false;
             }
@@ -91,6 +102,16 @@ namespace rr {
         Matrix<T> mult(Matrix<T> matrix){
             ls::Matrix<T> mat = ls::mult(*this, matrix);
             return Matrix<T>(mat);
+        }
+
+        /**
+         * @brief indicator method for empty Matrix.
+         * @return true if matrix is empty, false otherwise
+         */
+        bool empty() {
+            if (getArray() == nullptr)
+                return true;
+            return false;
         }
     };
 

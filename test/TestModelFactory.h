@@ -631,7 +631,8 @@ public:
 class BiomolecularEnd :
         public TestModel,
         public SteadyStateFluxes,
-        public JacobianResult {
+        public JacobianResult,
+        public StructuralProperties {
 public:
     std::string modelName() override;
 
@@ -647,11 +648,35 @@ public:
 
     rr::Matrix<double> fullJacobianConc() override;
 
+    /**
+     * Amt is same as conc because volume of single compartment == 1
+     */
     rr::Matrix<double> fullJacobianAmt() override;
 
+    rr::Matrix<double> reducedJacobianConc() override;
+
+    /**
+     * Amt is same as conc because volume of single compartment == 1
+     */
     rr::Matrix<double> reducedJacobianAmt() override;
 
-    rr::Matrix<double> reducedJacobianConc() override;
+
+    rr::Matrix<double> linkMatrix();
+
+    rr::Matrix<double> NrMatrix();
+
+    rr::Matrix<double> KMatrix();
+
+    rr::Matrix<double> reducedStoicMatrix();
+
+    rr::Matrix<double> fullStoicMatrix();
+
+    rr::Matrix<double> extendedStoicMatrix();
+
+    rr::Matrix<double> L0Matrix();
+
+    rr::Matrix<double> conservationMatrix();
+
 };
 
 
