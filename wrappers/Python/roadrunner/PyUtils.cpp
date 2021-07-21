@@ -531,13 +531,14 @@ namespace rr {
  */
     PyObject *rrDoubleMatrix_to_py(const rr::Matrix<double> *m, bool copy_result) {
                 rr::Matrix<double> *mat = const_cast<rr::Matrix<double> *>(m);
-        bool structured_result = true;
-        if (mat->rowNames.empty() && mat->colNames.empty()) {
-            structured_result = false;
-        }
-        std::cout << __FILE__ << ":" << __LINE__ << "is structured? :" << structured_result << std::endl;
+        // this code doesn't work due to some bug in NamedArray stuff. No time to figure this out now
+//        bool structured_result = true;
+//        if (mat->rowNames.empty() && mat->colNames.empty()) {
+//            structured_result = false;
+//        }
+//        std::cout << __FILE__ << ":" << __LINE__ << "is structured? :" << structured_result << std::endl;
         auto superMat = ls::DoubleMatrix(mat->getValues());
-        return doublematrix_to_py(&superMat, structured_result, copy_result);
+        return doublematrix_to_py(&superMat, false, copy_result);
     }
 
 

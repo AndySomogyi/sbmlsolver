@@ -222,7 +222,6 @@ def checkSteadyStateFluxes(rrInstance, testId):
         words = line.split("=")
         words.append (rrInstance.model[words[0]])
         fluxes.append (words)
-        print("fluxes: ", fluxes)
 
     for i in range (0,n):
         expectedValue = float (fluxes[i][1])

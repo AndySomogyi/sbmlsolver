@@ -29,11 +29,10 @@ class RoadRunnerTest(unittest.TestCase):
             raise ValueError("This test model does not implement the "
                              "SteadyStateResult interface")
 
-    def checkMatricesEqual(self, expected: np.ndarray, actual: np.ndarray):
-        passed = (expected == actual).all()
-        if not passed:
-            print("actual")
-            print(actual)
-            print("expected")
-            print(expected)
-        self.assertTrue(passed)
+    def checkMatricesEqual(self, expected: np.ndarray, actual: np.ndarray, places=4):
+        if expected.shape != actual.shape:
+            raise ValueError("expected and actual are different sizes")
+        for i in range(expected.shape[0]):
+            for j in range(expected.shape[1]):
+                print(f"Checking expected value {expected[i][j]} against actual {actual[i][j]}")
+                self.assertAlmostEqual(expected[i][j], actual[i][j], places=places)

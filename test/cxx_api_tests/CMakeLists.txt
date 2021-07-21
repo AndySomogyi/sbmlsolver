@@ -12,6 +12,7 @@ add_test_executable(test_cxx_api_MatrixTests test_targets MatrixTests.cpp ${Shar
 add_test_executable(test_cxx_api_Matrix3DTests test_targets Matrix3DTests.cpp ${SharedTestFiles})
 add_test_executable(test_cxx_api_JabobianTests test_targets JabobianTests.cpp ${SharedTestFiles})
 add_test_executable(test_cxx_api_StructuralAnalysisTests test_targets StructuralAnalysisTests.cpp ${SharedTestFiles})
+add_test_executable(test_cxx_api_MCATests test_targets MCATests.cpp ${SharedTestFiles})
 
 if (BUILD_PYTHON AND BUILD_TESTS)
     # Test the PyUtils api from C++, enabling us use of the debugger etc.

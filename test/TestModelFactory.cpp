@@ -2705,10 +2705,10 @@ std::unordered_map<std::string, rr::Setting> BiomolecularEnd::jacobianSettings()
 
 rr::Matrix<double> BiomolecularEnd::fullJacobianConc() {
     rr::Matrix<double> mat({
-                                      {-7.82122, 4.64179,  18.4605},
-                                      {7.74137,  -4.92102, -17.7711},
-                                      {7.61,     -4.18477, -19.3156},
-                              });
+                                   {-7.82122, 4.64179,  18.4605},
+                                   {7.74137,  -4.92102, -17.7711},
+                                   {7.61,     -4.18477, -19.3156},
+                           });
 //    mat.setRowNames({"S1", "S2", "S3"});
 //    mat.setColNames({"S1", "S2", "S3"});
     return mat;
@@ -2739,56 +2739,56 @@ std::string BiomolecularEnd::modelName() {
 
 rr::Matrix<double> BiomolecularEnd::linkMatrix() {
     rr::Matrix<double> mat({
-                                      {1,0,0},
-                                      {0,1,0},
-                                      {0,0,1},
-    });
+                                   {1, 0, 0},
+                                   {0, 1, 0},
+                                   {0, 0, 1},
+                           });
     mat.setColNames({"S1", "S3", "S2"});
     return mat;
 }
 
 rr::Matrix<double> BiomolecularEnd::NrMatrix() {
     return rr::Matrix<double>({
-                                      {1,-1,0,0,1},
-                                      {0,0,1,-1,-1},
-                                      {0,1,-1,0,-1},
-    });
+                                      {1, -1, 0,  0,  1},
+                                      {0, 0,  1,  -1, -1},
+                                      {0, 1,  -1, 0,  -1},
+                              });
 }
 
 rr::Matrix<double> BiomolecularEnd::KMatrix() {
     return rr::Matrix<double>({
-                                      {1,0},
-                                      {0,1},
-                                      {-0.5,0.5},
-                                      {0.5,0.5},
-                                      {0.5,0.5},
-    });
+                                      {1,    0},
+                                      {0,    1},
+                                      {-0.5, 0.5},
+                                      {0.5,  0.5},
+                                      {0.5,  0.5},
+                              });
 }
 
 rr::Matrix<double> BiomolecularEnd::reducedStoicMatrix() {
     return rr::Matrix<double>({
-                                      {1,-1,0,0,1},
-                                      {0,0,1,-1,-1},
-                                      {0,1,-1,0,-1},
-    });
+                                      {1, -1, 0,  0,  1},
+                                      {0, 0,  1,  -1, -1},
+                                      {0, 1,  -1, 0,  -1},
+                              });
 }
 
 rr::Matrix<double> BiomolecularEnd::fullStoicMatrix() {
     return rr::Matrix<double>({
-                                      {1,-1,0,0,1},
-                                      {0,0,1,-1,-1},
-                                      {0,1,-1,0,-1},
-    });
+                                      {1, -1, 0,  0,  1},
+                                      {0, 0,  1,  -1, -1},
+                                      {0, 1,  -1, 0,  -1},
+                              });
 }
 
 rr::Matrix<double> BiomolecularEnd::extendedStoicMatrix() {
     return rr::Matrix<double>({
-                                      {1,-1,0,0,1},
-                                      {0,1,-1,0,-1},
-                                      {0,0,1,-1,-1},
-                                      {-1,0,0,0,0},
-                                      {0,0,0,1,0},
-    });
+                                      {1,  -1, 0,  0,  1},
+                                      {0,  1,  -1, 0,  -1},
+                                      {0,  0,  1,  -1, -1},
+                                      {-1, 0,  0,  0,  0},
+                                      {0,  0,  0,  1,  0},
+                              });
 }
 
 rr::Matrix<double> BiomolecularEnd::L0Matrix() {
@@ -2797,6 +2797,67 @@ rr::Matrix<double> BiomolecularEnd::L0Matrix() {
 
 rr::Matrix<double> BiomolecularEnd::conservationMatrix() {
     return rr::Matrix<double>();
+}
+
+rr::Matrix<double> BiomolecularEnd::unscaledConcentrationControlCoefficientMatrix() {
+    return rr::Matrix<double>({
+                                      {14.673,  -6.20668,  -2.24064, -6.22567,  -0.0189895},
+                                      {4.90579, -0.794829, -3.27825, -0.832715, -0.037886},
+                                      {1.32614, -0.981005, 0.653527, -0.998665, -0.0176601},
+                              });
+}
+
+rr::Matrix<double> BiomolecularEnd::scaledConcentrationControlCoefficientMatrix() {
+    return rr::Matrix<double>({
+                                      {0.785658, -0.479532, -0.119974, -0.185701,  -0.000450359},
+                                      {0.435744, -0.101869, -0.291182, -0.0412034, -0.0014905},
+                                      {0.349241, -0.372777, 0.172107,  -0.14651,   -0.00205995},
+                              });
+}
+
+rr::Matrix<double> BiomolecularEnd::unscaledFluxControlCoefficientMatrix() {
+    return rr::Matrix<double>({
+                                      {0.31285,   0.290665,   0.104931,  0.291554,  0.000889297},
+                                      {0.56492,   0.626291,   0.179909,  -0.371121, 0.002588},
+                                      {0.31285,   0.290665,   0.104931,  0.291554,  0.000889297},
+                                      {0.0607802, -0.0449617, 0.0299526, 0.954229,  -0.000809402},
+                                      {0.25207,   0.335626,   0.0749784, -0.662675, 0.0016987},
+
+                              });
+}
+
+rr::Matrix<double> BiomolecularEnd::scaledFluxControlCoefficientMatrix() {
+    return rr::Matrix<double>({
+                                      {0.31285,  0.419407,  0.104931,  0.162418, 0.000393892},
+                                      {0.391511, 0.626291,  0.124684,  -0.14328, 0.000794419},
+                                      {0.31285,  0.419407,  0.104931,  0.162418, 0.000393892},
+                                      {0.109106, -0.116459, 0.0537676, 0.954229, -0.000643546},
+                                      {0.569104, 1.09338,   0.16928,   -0.83346, 0.0016987},
+                              });
+}
+
+rr::Matrix<double> BiomolecularEnd::unscaledElasticityMatrix() {
+    return rr::Matrix<double>({
+                                      {-0.0468309, 0,         0},
+                                      {0.0736884,  0,         -0.105245},
+                                      {0,          -0.445545, 0.184212},
+                                      {0,          0.045832,  0},
+                                      {-7.61,      37.5453,   12.6632},
+                              });
+}
+
+rr::Matrix<double> BiomolecularEnd::scaledElasticityMatrix() {
+    return rr::Matrix<double>({
+                                      {-0.874617, 0,        0},
+                                      {0.953764,  0,        -0.821173},
+                                      {0,         -1.69183, 2.07394},
+                                      {0,         0.312409, 0},
+                                      {-320.878,  321.878,  321.878},
+                              });
+}
+
+std::unordered_map<std::string, rr::Setting> BiomolecularEnd::mcaSettings() {
+    return std::unordered_map<std::string, rr::Setting>();
 }
 
 
@@ -2996,19 +3057,19 @@ namespace privateSwigTests_ {
         );
     }
 
-    ls::Matrix<double> _testLsMatrixWithLabels(){
+    ls::Matrix<double> _testLsMatrixWithLabels() {
         ls::Matrix<double> lsMatrix({
                                             {1.1, 2.2}
-        });
+                                    });
         lsMatrix.setColNames({"C0"});
         lsMatrix.setRowNames({"R0", "R1"});
         return lsMatrix;
     };
 
-    rr::Matrix<double> _testRRMatrixWithLabels(){
+    rr::Matrix<double> _testRRMatrixWithLabels() {
         rr::Matrix<double> rrMatrix({
                                             {1.1, 2.2}
-        });
+                                    });
         rrMatrix.setColNames({"C0"});
         rrMatrix.setRowNames({"R0", "R1"});
         return rrMatrix;

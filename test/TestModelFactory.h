@@ -632,7 +632,8 @@ class BiomolecularEnd :
         public TestModel,
         public SteadyStateFluxes,
         public JacobianResult,
-        public StructuralProperties {
+        public StructuralProperties,
+        public MCAResult {
 public:
     std::string modelName() override;
 
@@ -660,23 +661,35 @@ public:
      */
     rr::Matrix<double> reducedJacobianAmt() override;
 
+    rr::Matrix<double> linkMatrix() override;
 
-    rr::Matrix<double> linkMatrix();
+    rr::Matrix<double> NrMatrix() override;
 
-    rr::Matrix<double> NrMatrix();
+    rr::Matrix<double> KMatrix() override;
 
-    rr::Matrix<double> KMatrix();
+    rr::Matrix<double> reducedStoicMatrix() override;
 
-    rr::Matrix<double> reducedStoicMatrix();
+    rr::Matrix<double> fullStoicMatrix() override;
 
-    rr::Matrix<double> fullStoicMatrix();
+    rr::Matrix<double> extendedStoicMatrix() override;
 
-    rr::Matrix<double> extendedStoicMatrix();
+    rr::Matrix<double> L0Matrix() override;
 
-    rr::Matrix<double> L0Matrix();
+    rr::Matrix<double> conservationMatrix() override;
 
-    rr::Matrix<double> conservationMatrix();
+    rr::Matrix<double> unscaledConcentrationControlCoefficientMatrix() override;
 
+    rr::Matrix<double> scaledConcentrationControlCoefficientMatrix() override;
+
+    rr::Matrix<double> unscaledFluxControlCoefficientMatrix() override;
+
+    rr::Matrix<double> scaledFluxControlCoefficientMatrix() override;
+
+    rr::Matrix<double> unscaledElasticityMatrix() override;
+
+    rr::Matrix<double> scaledElasticityMatrix() override;
+
+    std::unordered_map<std::string, rr::Setting> mcaSettings() override;
 };
 
 
