@@ -382,24 +382,18 @@ def checkUnscaledElasticityMatrix(rrInstance, testId):
     print(("Check " + testId).ljust( rpadding), end="")
     roadrunner.Config.setValue(Config.ROADRUNNER_JACOBIAN_MODE, Config.ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS)
     uee = rrInstance.getUnscaledElasticityMatrix()
-    print("unscalled ee matrix: ")
-    print(uee)
     checkMatrixVsUpcomingText(uee)
 
 def checkUnscaledElasticityAmountMatrix(rrInstance, testId):
     print(("Check " + testId).ljust( rpadding), end="")
     roadrunner.Config.setValue(Config.ROADRUNNER_JACOBIAN_MODE, Config.ROADRUNNER_JACOBIAN_MODE_AMOUNTS)
     uee = rrInstance.getUnscaledElasticityMatrix()
-    print("unscalled ee matrix: ")
-    print(uee)
     checkMatrixVsUpcomingText(uee)
 
 def checkScaledElasticityMatrix(rrInstance, testId):
     print(("Check " + testId).ljust( rpadding), end="")
     roadrunner.Config.setValue(Config.ROADRUNNER_JACOBIAN_MODE, Config.ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS)
     ee = rrInstance.getScaledElasticityMatrix()
-    print("scaled ee matrix: ")
-    print(ee)
     checkMatrixVsUpcomingText(ee)
 
 
@@ -407,8 +401,6 @@ def checkScaledElasticityAmountMatrix(rrInstance, testId):
     print(("Check " + testId).ljust( rpadding), end="")
     roadrunner.Config.setValue(Config.ROADRUNNER_JACOBIAN_MODE, Config.ROADRUNNER_JACOBIAN_MODE_AMOUNTS)
     ee = rrInstance.getScaledElasticityMatrix()
-    print("scaled ee matrix: ")
-    print(ee)
     checkMatrixVsUpcomingText(ee)
 
 

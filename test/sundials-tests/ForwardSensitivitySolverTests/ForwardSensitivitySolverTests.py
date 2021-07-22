@@ -118,7 +118,7 @@ class FFSIntegrationTests(unittest.TestCase):
             places: number of decimal places to use for floating point comparisons
         """
         if modelName not in tmf.getAvailableTestModels():
-            raise ValueError(f"Model name \"{modelName}\ not available. Here are a list of "
+            raise ValueError(f"Model name \"{modelName}\" not available. Here are a list of "
                              f"available model names: {tmf.getAvailableTestModels()}")
         testModel = tmf.TestModelFactory(modelName)
         if tmf.TimeSeriesSensitivityResult not in testModel.__class__.mro():
@@ -185,7 +185,7 @@ class FFSIntegrationTests(unittest.TestCase):
             places: number of decimal places to use for floating point comparisons
         """
         if modelName not in tmf.getAvailableTestModels():
-            raise ValueError(f"Model name \"{modelName}\ not available. Here are a list of "
+            raise ValueError(f"Model name \"{modelName}\" not available. Here are a list of "
                              f"available model names: {tmf.getAvailableTestModels()}")
         testModel = tmf.TestModelFactory(modelName)
         if tmf.TimeSeriesSensitivityResult not in testModel.__class__.mro():

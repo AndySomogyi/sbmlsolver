@@ -174,10 +174,11 @@ if (BUILD_PYTHON AND BUILD_TESTS)
             "../wrappers/Python/roadrunner/PyUtils"
             )
 
+
     # configure Python files to binary tree
     configure_file(
-            "${CMAKE_CURRENT_SOURCE_DIR}/testTestModelFactory.py"
-            "${RR_PYTHON_TESTING_BUILD_PREFIX}/testTestModelFactory.py" COPYONLY)
+            "${CMAKE_CURRENT_SOURCE_DIR}/TestModelFactoryTests.py"
+            "${RR_PYTHON_TESTING_BUILD_PREFIX}/TestModelFactoryTests.py" COPYONLY)
     configure_file(
             "${CMAKE_CURRENT_SOURCE_DIR}/RoadRunnerTest.py"
             "${RR_PYTHON_TESTING_BUILD_PREFIX}/RoadRunnerTest.py" COPYONLY)
@@ -187,7 +188,7 @@ if (BUILD_PYTHON AND BUILD_TESTS)
     install(
             FILES
             "${RR_PYTHON_TESTING_BUILD_PREFIX}/TestModelFactory.py"
-            "${RR_PYTHON_TESTING_BUILD_PREFIX}/testTestModelFactory.py"
+            "${RR_PYTHON_TESTING_BUILD_PREFIX}/TestModelFactoryTests.py"
             DESTINATION
             "${RR_PYTHON_TESTING_INSTALL_PREFIX}"
     )

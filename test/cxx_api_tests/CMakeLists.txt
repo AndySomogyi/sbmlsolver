@@ -10,7 +10,7 @@ add_test_executable(test_cxx_api_LoadSBMLOptionsTests test_targets LoadSBMLOptio
 add_test_executable(test_cxx_api_ConfigTests test_targets ConfigTests.cpp ${SharedTestFiles})
 add_test_executable(test_cxx_api_MatrixTests test_targets MatrixTests.cpp ${SharedTestFiles})
 add_test_executable(test_cxx_api_Matrix3DTests test_targets Matrix3DTests.cpp ${SharedTestFiles})
-add_test_executable(test_cxx_api_JabobianTests test_targets JabobianTests.cpp ${SharedTestFiles})
+add_test_executable(test_cxx_api_JacobianTests test_targets JacobianTests.cpp ${SharedTestFiles})
 add_test_executable(test_cxx_api_StructuralAnalysisTests test_targets StructuralAnalysisTests.cpp ${SharedTestFiles})
 add_test_executable(test_cxx_api_MCATests test_targets MCATests.cpp ${SharedTestFiles})
 
@@ -45,8 +45,15 @@ if (BUILD_PYTHON AND BUILD_TESTS)
             COPYONLY
     )
 
+    configure_file(
+            "${CMAKE_CURRENT_SOURCE_DIR}/JacobianTests.py"
+            "${RR_PYTHON_TESTING_BUILD_PREFIX}/JacobianTests.py"
+            COPYONLY
+    )
+
     install(FILES
             "${RR_PYTHON_TESTING_BUILD_PREFIX}/SettingTests.py"
+            "${RR_PYTHON_TESTING_BUILD_PREFIX}/JacobianTests.py"
             "${RR_PYTHON_TESTING_BUILD_PREFIX}/StructuralAnalysisTests.py"
             DESTINATION
             "${RR_PYTHON_TESTING_INSTALL_PREFIX}"

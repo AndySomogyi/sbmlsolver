@@ -12,13 +12,15 @@ import numpy as np
 thisDir = os.path.dirname(os.path.realpath(__file__))
 rr_site_packages = os.path.dirname(os.path.dirname(thisDir))
 
+print(f"Running  {__file__}")
+
 sys.path += [
     rr_site_packages,
 ]
 from roadrunner.testing import TestModelFactory as tmf
 
 
-class testTestModelFactory(unittest.TestCase):
+class TestModelFactoryTests(unittest.TestCase):
 
     def setUp(self) -> None:
         pass
@@ -91,6 +93,7 @@ class testTestModelFactory(unittest.TestCase):
 
     def test_polymorphic_factory(self):
         testModel = tmf.TestModelFactory("OpenLinearFlux")
+        print("Inside testply", testModel, type(testModel))
         self.assertIsInstance(testModel, tmf.OpenLinearFlux)  # fails if is type TestModel
 
     def test_string_vector_converts(self):

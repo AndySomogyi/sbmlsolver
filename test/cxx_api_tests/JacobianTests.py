@@ -1,3 +1,4 @@
+import unittest
 import os
 import sys
 
@@ -5,7 +6,6 @@ thisDir = os.path.dirname(os.path.realpath(__file__))
 rr_site_packages = os.path.dirname(os.path.dirname(thisDir))
 
 sys.path += [
-    r"D:\roadrunner\roadrunner\cmake-build-release-visual-studio---with-python\lib\site-packages",
     rr_site_packages,
 ]
 
@@ -90,3 +90,7 @@ class JacobianTests(RoadRunnerTest):
 
     def test_BimolecularEnd_ReducedConc(self):
         self._checkJac("BimolecularEnd", 4, Config.ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS, False)
+
+
+if __name__ == "__main__":
+    unittest.main()

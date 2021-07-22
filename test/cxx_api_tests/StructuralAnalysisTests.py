@@ -8,7 +8,6 @@ thisDir = os.path.dirname(os.path.realpath(__file__))
 rr_site_packages = os.path.dirname(os.path.dirname(thisDir))
 
 sys.path += [
-    r"D:\roadrunner\roadrunner\cmake-build-release-visual-studio---with-python\lib\site-packages",
     rr_site_packages,
 ]
 
@@ -80,7 +79,9 @@ class StructuralAnalysisTests(RoadRunnerTest):
         testModel = self.loadTestModel(modelName)
         expected = testModel.fullStoicMatrix()
         rr = RoadRunner(testModel.str())
-        rr.setConservedMoietyAnalysis = True
+        # note turn this to False and the test fails.
+        # is this right?
+        rr.conservedMoietyAnalysis = True
         actual = rr.getFullStoichiometryMatrix()
         self.checkMatricesEqual(expected, actual)
 

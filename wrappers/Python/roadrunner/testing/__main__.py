@@ -24,25 +24,6 @@ roadrunner.sigtrap()
 tester.runTester(test_data_dir)
 
 
-# list of test modules to run
-other_test_modules = [
-    "python_api_tests",
-    "testTestModelFactory",
-    "AutomaticMoietyConservationAnalysisTests",
-    "SteadyStateSolverTests",
-    "IntegratorTests",
-    "SettingTests",
-    'ForwardSensitivitySolverTests',
-]
-
-import unittest
-loader = unittest.TestLoader()
-start_dir = os.path.dirname(__file__)
-suite = loader.discover(start_dir, "*[tT]est*")
-print(f"Found {suite.countTestCases()} tests in {start_dir} to be run with unittest")
-runner = unittest.TextTestRunner()
-runner.run(suite)
-
 
 
 

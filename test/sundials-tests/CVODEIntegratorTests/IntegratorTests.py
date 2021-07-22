@@ -40,7 +40,7 @@ class CVODEIntegratorTests(unittest.TestCase):
             places: number of decimal places to use for floating point comparisons
         """
         if modelName not in tmf.getAvailableTestModels():
-            raise ValueError(f"Model name \"{modelName}\ not available. Here are a list of "
+            raise ValueError(f"Model name \"{modelName}\" not available. Here are a list of "
                              f"available model names: {tmf.getAvailableTestModels()}")
         testModel = tmf.TestModelFactory(modelName)
         if tmf.TimeSeriesResult not in testModel.__class__.mro():
@@ -92,7 +92,7 @@ class CVODEIntegratorTests(unittest.TestCase):
         """Check that the RoadRunner.simulate produces correct output"""
 
         if modelName not in tmf.getAvailableTestModels():
-            raise ValueError(f"Model name \"{modelName}\ not available. Here are a list of "
+            raise ValueError(f"Model name \"{modelName}\" not available. Here are a list of "
                              f"available model names: {tmf.getAvailableTestModels()}")
         testModel = tmf.TestModelFactory(modelName)
 
