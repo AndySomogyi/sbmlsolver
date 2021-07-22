@@ -133,20 +133,20 @@ namespace rr {
         void setCompiler(const std::string &compiler);
 
         /**
-         * @brief get a pointer to the current sensitivities solver
-         */
-        SensitivitySolver *getSensitivitySolver();
-
-        /**
-         * @brief set the current sensitivities solver by name;
-         */
-        void setSensitivitySolver(const std::string &name);
-
-        /**
          * get a pointer to the integrator which is currently being used to
          * time evolve the system.
          */
         Integrator *getIntegrator();
+
+        /**
+         * get a pointer to the current steady state solver
+         */
+        SteadyStateSolver *getSteadyStateSolver();
+
+        /**
+         * @brief get a pointer to the current sensitivities solver
+         */
+        SensitivitySolver *getSensitivitySolver();
 
         /**
          * Get an integrator by name without switching the current integrator
@@ -154,17 +154,41 @@ namespace rr {
         Integrator *getIntegratorByName(const std::string &name);
 
         /**
-         * Make an integrator for the given name
+         * Get an SteadyStateSolver by name without switching the current solver
          */
-        Integrator *makeIntegrator(std::string name);
+        SteadyStateSolver *getSteadyStateSolverByName(const std::string &name);
 
         /**
-         * get a pointer to the current steady state solver
+         * Get an SensitivitySolver by name without switching the current solver
          */
-        SteadyStateSolver *getSteadyStateSolver();
+        SensitivitySolver *getSensitivitySolverByName(const std::string &name);
+
+        /**
+         * Make an integrator for the given name
+         */
+        Integrator *makeIntegrator(const std::string& name);
+
+        /**
+         * Make an SteadyStateSolver* for the given name
+         */
+        SteadyStateSolver *makeSteadyStateSolver(const std::string& name);
+
+        /**
+         * @brief Make SensitivitySolver for the given name
+         */
+        SensitivitySolver* makeSensitivitySolver(const std::string& name);
+
 
         /* Return a list of the names of all existing integrators. */
         std::vector<std::string> getExistingIntegratorNames();
+
+        /* Return a list of the names of all existing integrators. */
+        std::vector<std::string> getExistingSteadyStateSolverNames();
+
+        /**
+         * Return a list of the names of all existing sensitivity solvers
+         */
+        std::vector<std::string> getExistingSensitivitySolverNames();
 
         /**
          * Return a std::vector of the names of all registered integrators
@@ -172,30 +196,50 @@ namespace rr {
         static std::vector<std::string> getRegisteredIntegratorNames();
 
         /**
-         * Return a std::vector of the names of all registered sensitivity solvers
-         */
-        std::vector<std::string> getRegisteredSensitivitySolverNames();
-
-        /**
-         * Return a std::vector of the names of all registered integrators
+         * Return a std::vector of the names of all registered SteadyStateSolver names
          */
         static std::vector<std::string> getRegisteredSteadyStateSolverNames();
+
+        /**
+         * Return a std::vector of the names of all registered sensitivity solvers
+         */
+        static std::vector<std::string> getRegisteredSensitivitySolverNames();
+
+
+        /**
+         * @brief set the current Integrator to @param name;
+         */
+        void setIntegrator(const std::string& name);
+
+        /**
+         * @brief set the current SteadyStateSolver to @param name;
+         */
+        void setSteadyStateSolver(const std::string& name);
+
+        /**
+         * @brief set the current SensitivitySolver to @param name;
+         */
+        void setSensitivitySolver(const std::string &name);
+
+        /**
+         * @brief returns true if integrator @param name exists.
+         */
+        bool integratorExists(const std::string& name);
+
+        /**
+         * @brief returns true if SteadyStateSolver @param name exists.
+         */
+        bool steadyStateSolverExists(const std::string& name);
+
+        /**
+         * @brief returns true if SensitivitySolver @param name exists.
+         */
+        bool sensitivitySolverExists(const std::string& name);
 
         /**
          * Ensures all integrators and steady state solvers are registered
          */
         static void registerSolvers();
-
-        // DEPRECATED
-        //Integrator* getIntegrator(std::string name);
-
-        void setIntegrator(const std::string& name);
-
-        bool integratorExists(std::string name);
-
-        void setSteadyStateSolver(std::string name);
-
-        bool steadyStateSolverExists(const std::string& name);
 
         bool isModelLoaded();
 

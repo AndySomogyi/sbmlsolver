@@ -598,7 +598,7 @@ namespace rr {
         setSteadyStateSolver("nleq2");
         // make forward the default steady state solver
         setSensitivitySolver("forward");
-        impl->document = std::unique_ptr<libsbml::SBMLDocument>(new libsbml::SBMLDocument(3, 2));
+        impl->document = std::make_unique<libsbml::SBMLDocument>(3, 2);
         impl->document->createModel();
 
     }
@@ -611,7 +611,7 @@ namespace rr {
         //  the std::vector of the original rr.
         for (size_t in = 0; in < rr.impl->integrators.size(); in++) {
             setIntegrator(rr.impl->integrators[in]->getName());
-            for (const std::string& k : rr.impl->integrators[in]->getSettings()) {
+            for (const std::string &k : rr.impl->integrators[in]->getSettings()) {
                 auto x = rr.impl->integrators[in]->getValue(k);
                 impl->integrator->setValue(k, x);
             }
@@ -715,7 +715,7 @@ namespace rr {
         return ss.str();
     }
 
-    double RoadRunner::getCurrentTime(){
+    double RoadRunner::getCurrentTime() {
         return getModel()->getTime();
     }
 
@@ -750,6 +750,241 @@ namespace rr {
 
     void RoadRunner::setCompiler(const std::string &compiler) {
         impl->loadOpt.setItem("compiler", Setting(compiler));
+    }
+
+    Integrator *RoadRunner::getIntegrator() {
+        //applySimulateOptions();
+        return impl->integrator;
+    }
+
+    SteadyStateSolver *RoadRunner::getSteadyStateSolver() {
+        return impl->steady_state_solver;
+    }
+
+    SensitivitySolver *RoadRunner::getSensitivitySolver() {
+        //applySimulateOptions();
+        return impl->sensitivities_solver;
+    }
+
+
+    Integrator *RoadRunner::getIntegratorByName(const std::string &name) {
+        // ensure it exists
+        makeIntegrator(name);
+        // find it and return
+        for (auto integrator : impl->integrators){
+            if (integrator->getName() == name) {
+                return integrator;
+            }
+        }
+        throw std::runtime_error("No integrator implemented for \"" + name + "\"");
+    }
+
+    SteadyStateSolver *RoadRunner::getSteadyStateSolverByName(const std::string &name) {
+        // ensure it exists
+        makeSteadyStateSolver(name);
+        // find it and return
+        for (auto ssSolver : impl->steady_state_solvers){
+            if (ssSolver->getName() == name) {
+                return ssSolver;
+            }
+        }
+        throw std::runtime_error("No integrator implemented for \"" + name + "\"");
+    }
+
+    SensitivitySolver *RoadRunner::getSensitivitySolverByName(const std::string &name) {
+        // ensure it exists
+        makeSensitivitySolver(name);
+        // find it and return
+        for (auto sensitivitySolver: impl->sensitivity_solvers){
+            if (sensitivitySolver->getName() == name) {
+                return sensitivitySolver;
+            }
+        }
+        throw std::runtime_error("No integrator implemented for \"" + name + "\"");
+    }
+
+
+
+    Integrator *RoadRunner::makeIntegrator(const std::string& name) {
+        if (integratorExists(name)) {
+            rrLog(Logger::LOG_DEBUG) << "Integrator \"" << name << "\" already exists";
+            return NULL;
+        }
+        rrLog(Logger::LOG_DEBUG) << "Creating new integrator for " << name;
+        Integrator *result = dynamic_cast<Integrator *>(
+                IntegratorFactory::getInstance().New(name, impl->model.get())
+        );
+        impl->integrators.push_back(result);
+        return result;
+    }
+
+
+    SteadyStateSolver *RoadRunner::makeSteadyStateSolver(const std::string& name) {
+        if (steadyStateSolverExists(name)) {
+            rrLog(Logger::LOG_DEBUG) << "SteadyStateSolver \"" << name << "\" already exists";
+            return NULL;
+        }
+        rrLog(Logger::LOG_DEBUG) << "Creating new SteadyStateSolver for " << name;
+        SteadyStateSolver *result = dynamic_cast<SteadyStateSolver *>(
+                SteadyStateSolverFactory::getInstance().New(name, impl->model.get())
+        );
+        impl->steady_state_solvers.push_back(result);
+        return result;
+    }
+
+    SensitivitySolver* RoadRunner::makeSensitivitySolver(const std::string& name){
+        if (sensitivitySolverExists(name)) {
+            rrLog(Logger::LOG_DEBUG) << "SensitivitySolver \"" << name << "\" already exists";
+            return NULL;
+        }
+        rrLog(Logger::LOG_DEBUG) << "Creating new SensitivitySolver for " << name;
+        SensitivitySolver *result = dynamic_cast<SensitivitySolver *>(
+                SensitivitySolverFactory::getInstance().New(name, impl->model.get())
+        );
+        impl->sensitivity_solvers.push_back(result);
+        return result;
+    }
+
+    std::vector<std::string> RoadRunner::getExistingIntegratorNames() {
+        std::vector<std::string> result;
+        for (auto integrator : impl->integrators) {
+            result.push_back(integrator->getName());
+        }
+        return result;
+    }
+
+    std::vector<std::string> RoadRunner::getExistingSteadyStateSolverNames() {
+        std::vector<std::string> result;
+        for (auto solver : impl->steady_state_solvers) {
+            result.push_back(solver->getName());
+        }
+        return result;
+    }
+
+    std::vector<std::string> RoadRunner::getExistingSensitivitySolverNames() {
+        std::vector<std::string> result;
+        for (auto sensSolver : impl->sensitivity_solvers) {
+            result.push_back(sensSolver->getName());
+        }
+        return result;
+    }
+
+    std::vector<std::string> RoadRunner::getRegisteredIntegratorNames() {
+        std::vector<std::string> result;
+        for (int n = 0; n < IntegratorFactory::getInstance().size(); ++n) {
+            result.push_back(IntegratorFactory::getInstance().name(n));
+        }
+        return result;
+    }
+
+    std::vector<std::string> RoadRunner::getRegisteredSteadyStateSolverNames() {
+        std::vector<std::string> result;
+        for (int n = 0; n < SteadyStateSolverFactory::getInstance().size(); ++n) {
+            result.push_back(SteadyStateSolverFactory::getInstance().name(n));
+        }
+        return result;
+    }
+
+    std::vector<std::string> RoadRunner::getRegisteredSensitivitySolverNames() {
+        std::vector<std::string> result;
+        for (int n = 0; n < SensitivitySolverFactory::getInstance().size(); ++n) {
+            result.push_back(SensitivitySolverFactory::getInstance().name(n));
+        }
+        return result;
+    }
+
+
+    void RoadRunner::setIntegrator(const std::string &name) {
+        rrLog(Logger::LOG_DEBUG) << "Setting integrator to " << name;
+        // Try to set integrator from an existing reference.
+        if (integratorExists(name)) {
+            for (auto integrator : impl->integrators) {
+                if (integrator->getName() == name) {
+                    rrLog(Logger::LOG_DEBUG) << "Using pre-existing integrator for " << name;
+                    impl->integrator = integrator;
+                }
+            }
+        }
+            // Otherwise, create a new integrator.
+        else {
+            impl->integrator = makeIntegrator(name);
+        }
+    }
+
+    void RoadRunner::setSteadyStateSolver(const std::string& name) {
+        rrLog(Logger::LOG_DEBUG) << "Setting steady state solver to " << name;
+        // Try to set steady_state_solver from an existing reference.
+        if (steadyStateSolverExists(name)) {
+            for (auto solver: impl->steady_state_solvers) {
+                if (solver->getName() == name) {
+                    rrLog(Logger::LOG_DEBUG) << "Using pre-existing steady state solver for " << name;
+                    impl->steady_state_solver = solver;
+                }
+            }
+        }
+            // Otherwise, create a new steady state solver.
+        else {
+            rrLog(Logger::LOG_DEBUG) << "Creating new steady state solver for " << name;
+            impl->steady_state_solver = dynamic_cast<SteadyStateSolver *>(
+                    SteadyStateSolverFactory::getInstance().New(name, impl->model.get())
+            );
+            impl->steady_state_solvers.push_back(impl->steady_state_solver);
+        }
+    }
+
+    void RoadRunner::setSensitivitySolver(const std::string &name) {
+        // if the current sensitivity solver is not nullptr and @param name
+        // we just return since we do not need to do anything.
+        if (impl->sensitivities_solver) {
+            if (impl->sensitivities_solver->getName() == name) {
+                return;
+            }
+            // if this is not the case, we need to delete the existing sensitivities solver
+            // and before making a new one
+            delete impl->sensitivities_solver;
+        }
+
+        // factory static method for creating SensitivitySolvers.
+        // memory is owned by RoadRunner instance, like the other solvers.
+        impl->sensitivities_solver = dynamic_cast<SensitivitySolver *>(
+                SensitivitySolverFactory::getInstance().New(name, getModel())
+        );
+        // add to the list of existing sensitivity solvers
+        impl->sensitivity_solvers.push_back(impl->sensitivities_solver);
+    };
+
+    bool RoadRunner::integratorExists(const std::string& name) {
+        for (auto it : impl->integrators) {
+            if (it->getName() == name) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    bool RoadRunner::steadyStateSolverExists(const std::string &name) {
+        for (auto it : impl->steady_state_solvers) {
+            if (it->getName() == name) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    bool RoadRunner::sensitivitySolverExists(const std::string& name) {
+        for (auto it : impl->sensitivity_solvers) {
+            if (it->getName() == name) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    void RoadRunner::registerSolvers() {
+        // must be run to register solvers at startup
+        IntegratorFactory::Register();
+        SteadyStateSolverFactory::Register();
+        SensitivitySolverFactory::Register();
     }
 
     bool RoadRunner::isModelLoaded() {
@@ -1916,34 +2151,28 @@ namespace rr {
     }
 
 
-    DoubleMatrix RoadRunner::getFullEigenValuesNamedArray()
-    {
+    DoubleMatrix RoadRunner::getFullEigenValuesNamedArray() {
         return getEigenValuesNamedArray(JACOBIAN_FULL);
     }
 
-    DoubleMatrix RoadRunner::getReducedEigenValuesNamedArray()
-    {
+    DoubleMatrix RoadRunner::getReducedEigenValuesNamedArray() {
         return getEigenValuesNamedArray(JACOBIAN_REDUCED);
     }
 
 
-    DoubleMatrix RoadRunner::getEigenValuesNamedArray(RoadRunner::JacobianMode mode){
+    DoubleMatrix RoadRunner::getEigenValuesNamedArray(RoadRunner::JacobianMode mode) {
         check_model();
         DoubleMatrix mat;
 
-        if (mode == JACOBIAN_FULL)
-        {
+        if (mode == JACOBIAN_FULL) {
             mat = getFullJacobian();
-        }
-        else
-        {
+        } else {
             mat = getReducedJacobian();
         }
-        std::vector< std::complex<double> > eigens = ls::getEigenValues(mat);
+        std::vector<std::complex<double> > eigens = ls::getEigenValues(mat);
         //std::vector< std::complex<double> > eigens = getEigenValues(mode);
         DoubleMatrix v(eigens.size(), 2);
-        for (unsigned int i = 0; i < eigens.size(); i++)
-        {
+        for (unsigned int i = 0; i < eigens.size(); i++) {
             v(i, 0) = std::real(eigens[i]);
             v(i, 1) = std::imag(eigens[i]);
         }
@@ -3859,169 +4088,6 @@ namespace rr {
         return rates;
     }
 
-    Integrator *RoadRunner::getIntegrator() {
-        //applySimulateOptions();
-        return impl->integrator;
-    }
-
-    SensitivitySolver *RoadRunner::getSensitivitySolver() {
-        //applySimulateOptions();
-        return impl->sensitivities_solver;
-    }
-
-    void RoadRunner::setSensitivitySolver(const std::string &name) {
-        // if the current sensitivity solver is not nullptr and @param name
-        // we just return since we do not need to do anything.
-        if (impl->sensitivities_solver) {
-            if (impl->sensitivities_solver->getName() == name) {
-                return;
-            }
-            // if this is not the case, we need to delete the existing sensitivities solver
-            // and before making a new one
-            delete impl->sensitivities_solver;
-        }
-
-        // factory static method for creating SensitivitySolvers.
-        // memory is owned by RoadRunner instance, like the other solvers.
-        impl->sensitivities_solver = dynamic_cast<SensitivitySolver *>(
-                SensitivitySolverFactory::getInstance().New(name, getModel())
-        );
-        // add to the list of existing sensitivity solvers
-        impl->sensitivity_solvers.push_back(impl->sensitivities_solver);
-    };
-
-    Integrator *RoadRunner::getIntegratorByName(const std::string &name) {
-        // ensure it exists
-        makeIntegrator(name);
-        // find it and return
-        for (std::vector<Integrator *>::iterator it = impl->integrators.begin(); it != impl->integrators.end(); ++it) {
-            if ((*it)->getName() == name) {
-                return *it;
-            }
-        }
-        throw std::runtime_error("No integrator implemented for \"" + name + "\"");
-    }
-
-    SteadyStateSolver *RoadRunner::getSteadyStateSolver() {
-        return impl->steady_state_solver;
-    }
-
-    std::vector<std::string> RoadRunner::getExistingIntegratorNames() {
-        std::vector<std::string> result;
-        int i = 0;
-        for (std::vector<Integrator *>::iterator it = impl->integrators.begin();
-             it != impl->integrators.end(); ++it, ++i) {
-            result.push_back(impl->integrators.at(i)->getName());
-        }
-        return result;
-    }
-
-    std::vector<std::string> RoadRunner::getRegisteredIntegratorNames() {
-        std::vector<std::string> result;
-        for (int n = 0; n < IntegratorFactory::getInstance().size(); ++n) {
-            result.push_back(IntegratorFactory::getInstance().name(n));
-        }
-        return result;
-    }
-
-    std::vector<std::string> RoadRunner::getRegisteredSensitivitySolverNames() {
-        std::vector<std::string> result;
-        for (int n = 0; n < SensitivitySolverFactory::getInstance().size(); ++n) {
-            result.push_back(SensitivitySolverFactory::getInstance().name(n));
-        }
-        return result;
-    }
-
-    void RoadRunner::registerSolvers() {
-        // must be run to register solvers at startup
-        IntegratorFactory::Register();
-        SteadyStateSolverFactory::Register();
-        SensitivitySolverFactory::Register();
-    }
-
-    std::vector<std::string> RoadRunner::getRegisteredSteadyStateSolverNames() {
-        std::vector<std::string> result;
-        for (int n = 0; n < SteadyStateSolverFactory::getInstance().size(); ++n) {
-            result.push_back(SteadyStateSolverFactory::getInstance().name(n));
-        }
-        return result;
-    }
-
-    void RoadRunner::setIntegrator(const std::string &name) {
-        rrLog(Logger::LOG_DEBUG) << "Setting integrator to " << name;
-        // Try to set integrator from an existing reference.
-        if (integratorExists(name)) {
-            int i = 0;
-            for (auto it = impl->integrators.begin(); it != impl->integrators.end(); ++it, ++i) {
-                if (impl->integrators.at(i)->getName() == name) {
-                    rrLog(Logger::LOG_DEBUG) << "Using pre-existing integrator for " << name;
-                    impl->integrator = impl->integrators.at(i);
-                }
-            }
-        }
-            // Otherwise, create a new integrator.
-        else {
-            impl->integrator = makeIntegrator(name);
-        }
-    }
-
-    Integrator *RoadRunner::makeIntegrator(std::string name) {
-        if (integratorExists(name)) {
-            rrLog(Logger::LOG_DEBUG) << "Integrator \"" << name << "\" already exists";
-            return NULL;
-        }
-        rrLog(Logger::LOG_DEBUG) << "Creating new integrator for " << name;
-        Integrator *result = dynamic_cast<Integrator *>(
-                IntegratorFactory::getInstance().New(name, impl->model.get())
-        );
-        impl->integrators.push_back(result);
-        return result;
-    }
-
-
-    bool RoadRunner::integratorExists(std::string name) {
-        int i = 0;
-        for (auto it : impl->integrators) {
-            if (impl->integrators.at(i)->getName() == name) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    void RoadRunner::setSteadyStateSolver(std::string name) {
-        rrLog(Logger::LOG_DEBUG) << "Setting steady state solver to " << name;
-        // Try to set steady_state_solver from an existing reference.
-        if (steadyStateSolverExists(name)) {
-            int i = 0;
-            for (auto it: impl->steady_state_solvers) {
-                if (impl->steady_state_solvers.at(i)->getName() == name) {
-                    rrLog(Logger::LOG_DEBUG) << "Using pre-existing steady state solver for " << name;
-                    impl->steady_state_solver = impl->steady_state_solvers.at(i);
-                }
-            }
-        }
-            // Otherwise, create a new steady state solver.
-        else {
-            rrLog(Logger::LOG_DEBUG) << "Creating new steady state solver for " << name;
-            impl->steady_state_solver = dynamic_cast<SteadyStateSolver *>(
-                    SteadyStateSolverFactory::getInstance().New(name, impl->model.get())
-            );
-            impl->steady_state_solvers.push_back(impl->steady_state_solver);
-        }
-    }
-
-
-    bool RoadRunner::steadyStateSolverExists(const std::string &name) {
-        int i = 0;
-        for (auto it : impl->steady_state_solvers) {
-            if (impl->steady_state_solvers.at(i)->getName() == name) {
-                return true;
-            }
-        }
-        return false;
-    }
-
 
     void RoadRunner::setValue(const std::string &sId, double dValue) {
         check_model();
@@ -5222,26 +5288,24 @@ namespace rr {
         regenerateModel(forceRegenerate);
     }
 
-    bool RoadRunner::getHasOnlySubstanceUnits(const std::string& sid)
-    {
+    bool RoadRunner::getHasOnlySubstanceUnits(const std::string &sid) {
         using namespace libsbml;
-        Model* sbmlModel = impl->document->getModel();
-        Species* species = sbmlModel->getSpecies(sid);
+        Model *sbmlModel = impl->document->getModel();
+        Species *species = sbmlModel->getSpecies(sid);
 
-        if (species == NULL)
-        {
-            throw std::invalid_argument("Roadrunner::getHasOnlySubstanceUnits failed, no species with ID " + sid + " existed in the model");
+        if (species == NULL) {
+            throw std::invalid_argument(
+                    "Roadrunner::getHasOnlySubstanceUnits failed, no species with ID " + sid + " existed in the model");
         }
 
         return species->getHasOnlySubstanceUnits();
     }
 
 
-void RoadRunner::setInitAmount(const std::string& sid, double initAmount, bool forceRegenerate)
-{
-	using namespace libsbml;
-	Model* sbmlModel = impl->document->getModel();
-	Species* species = sbmlModel->getSpecies(sid);
+    void RoadRunner::setInitAmount(const std::string &sid, double initAmount, bool forceRegenerate) {
+        using namespace libsbml;
+        Model *sbmlModel = impl->document->getModel();
+        Species *species = sbmlModel->getSpecies(sid);
 
         if (species == NULL) {
             throw std::invalid_argument(
