@@ -49,7 +49,7 @@ if (BUILD_PYTHON AND BUILD_TESTS)
             "${RR_PYTHON_TESTING_BUILD_PREFIX}/SettingTests.py"
             "${RR_PYTHON_TESTING_BUILD_PREFIX}/StructuralAnalysisTests.py"
             DESTINATION
-            site-packages/roadrunner/testing
+            "${RR_PYTHON_TESTING_INSTALL_PREFIX}"
             )
 
 endif ()

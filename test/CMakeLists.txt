@@ -183,13 +183,13 @@ if (BUILD_PYTHON AND BUILD_TESTS)
             "${RR_PYTHON_TESTING_BUILD_PREFIX}/RoadRunnerTest.py" COPYONLY)
 
     # install python test files to install tree
-    install(TARGETS TestModelFactory DESTINATION site-packages/roadrunner/testing)
+    install(TARGETS TestModelFactory DESTINATION "${RR_PYTHON_TESTING_INSTALL_PREFIX}")
     install(
             FILES
             "${RR_PYTHON_TESTING_BUILD_PREFIX}/TestModelFactory.py"
             "${RR_PYTHON_TESTING_BUILD_PREFIX}/testTestModelFactory.py"
             DESTINATION
-            site-packages/roadrunner/testing
+            "${RR_PYTHON_TESTING_INSTALL_PREFIX}"
     )
 endif ()
 

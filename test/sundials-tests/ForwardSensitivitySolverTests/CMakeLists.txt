@@ -15,7 +15,7 @@ if (BUILD_PYTHON AND BUILD_TESTS)
     install(FILES
             "${RR_PYTHON_TESTING_BUILD_PREFIX}/ForwardSensitivitySolverTests.py"
             DESTINATION
-            site-packages/roadrunner/testing
+            "${RR_PYTHON_TESTING_INSTALL_PREFIX}"
             )
 
 endif ()

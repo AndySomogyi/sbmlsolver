@@ -65,7 +65,7 @@ if (BUILD_PYTHON)
             "${RR_PYTHON_TESTING_BUILD_PREFIX}/SteadyStateSolverTests.py"
             "${RR_PYTHON_TESTING_BUILD_PREFIX}/AutomaticMoietyConservationAnalysisTests.py"
             DESTINATION
-            site-packages/roadrunner/testing
+            "${RR_PYTHON_TESTING_INSTALL_PREFIX}"
     )
 endif ()
 
