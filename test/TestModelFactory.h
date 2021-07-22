@@ -149,27 +149,50 @@ public:
 };
 
 /**
- * @brief interface for models that test the
- * jacobian matrix.
+ * @brief interface for models that test the full jacobian matrix.
  * @details classes that implement this interface
  * are expected to hard code the results of the
  * jacobian matrix, calculated with an independent
- * tool (or better - analytically ). Both the full
- * and reduced jacobians should be computed and stored
- * as both amounts and concentrations
- * @note question for developers: do we need both Amt and Conc here?
+ * tool (or better - analytically ) at the settings defined by
+ * jacobianSettings. Models that implement this interface
+ * only test the full jacobian. If a model has conserved
+ * cycles it should instead implement the JacobianResultReduced
+ * interface which have been split (according to the interface
+ * segregation principle).
  */
-class JacobianResult : public Result {
+class JacobianResultFull : public Result {
 public:
     virtual rr::Matrix<double> fullJacobianAmt() = 0;
 
     virtual rr::Matrix<double> fullJacobianConc() = 0;
 
+    virtual std::unordered_map<std::string, rr::Setting> jacobianSettings() = 0;
+};
+
+/**
+ * @brief Test the reduced jacobian.
+ * @details TestModel types that implement the JacobianResultReduced
+ * interface have declared that they not only test the jacobian matrix,
+ * but that the model has conserved cycles and therefore the
+ * full and reduced jacobians are different. Since this
+ * interface inherits from JacobianResultFull, TestModel types
+ * that implement this interface must also implement the
+ * JacoianResultFull interface.
+ * Since we are testing the reduced jacobian, it is implied
+ * that moiety conservation option in RoadRunner is
+ * to be turned on.
+ * The jacobianSettings from JacobianResultFull is reused
+ * and should indicate the conditions where the TestModel jacobian
+ * reference data and computed jacobian should match. For instance,
+ * set "steady_state" to true or time to an appropriate time point.
+ */
+class JacobianResultReduced : public JacobianResultFull {
+public:
+
     virtual rr::Matrix<double> reducedJacobianAmt() = 0;
 
     virtual rr::Matrix<double> reducedJacobianConc() = 0;
 
-    virtual std::unordered_map<std::string, rr::Setting> jacobianSettings() = 0;
 };
 
 /**
@@ -266,7 +289,7 @@ class SimpleFlux :
         public TestModel,
         public TimeSeriesResult,
         public SteadyStateResult,
-        public JacobianResult,
+        public JacobianResultReduced,
         public EigenResult,
         public StructuralProperties,
         public MCAResult,
@@ -450,7 +473,7 @@ class OpenLinearFlux :
         public TestModel,
         public SteadyStateResult,
         public TimeSeriesResult,
-        public JacobianResult,
+        public JacobianResultFull,
         public TimeSeriesSensitivityResult {
 public:
     std::string str() override;
@@ -468,10 +491,6 @@ public:
     rr::Matrix<double> fullJacobianAmt() override;
 
     rr::Matrix<double> fullJacobianConc() override;
-
-    rr::Matrix<double> reducedJacobianAmt() override;
-
-    rr::Matrix<double> reducedJacobianConc() override;
 
     std::unordered_map<std::string, rr::Setting> jacobianSettings() override;
 
@@ -555,7 +574,7 @@ public:
 /**
  * Model from the Venkatraman 2010 paper
  */
-class Venkatraman2010 : public TestModel, public SteadyStateResult, public JacobianResult {
+class Venkatraman2010 : public TestModel, public SteadyStateResult, public JacobianResultFull {
 public:
 
     std::string str() override;
@@ -569,10 +588,6 @@ public:
     rr::Matrix<double> fullJacobianAmt() override;
 
     rr::Matrix<double> fullJacobianConc() override;
-
-    rr::Matrix<double> reducedJacobianAmt() override;
-
-    rr::Matrix<double> reducedJacobianConc() override;
 
     std::unordered_map<std::string, rr::Setting> jacobianSettings() override;
 
@@ -631,7 +646,7 @@ public:
 class BimolecularEnd :
         public TestModel,
         public SteadyStateFluxes,
-        public JacobianResult,
+        public JacobianResultFull,
         public StructuralProperties,
         public MCAResult {
 public:
@@ -653,13 +668,6 @@ public:
      * Amt is same as conc because volume of single compartment == 1
      */
     rr::Matrix<double> fullJacobianAmt() override;
-
-    rr::Matrix<double> reducedJacobianConc() override;
-
-    /**
-     * Amt is same as conc because volume of single compartment == 1
-     */
-    rr::Matrix<double> reducedJacobianAmt() override;
 
     rr::Matrix<double> linkMatrix() override;
 

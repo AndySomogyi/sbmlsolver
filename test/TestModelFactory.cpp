@@ -599,22 +599,6 @@ rr::Matrix<double> OpenLinearFlux::fullJacobianConc() {
             });
 }
 
-rr::Matrix<double> OpenLinearFlux::reducedJacobianAmt() {
-    return rr::Matrix<double>(
-            {
-                    {-0.1, 0},
-                    {0.1,  -0.2},
-            });
-}
-
-rr::Matrix<double> OpenLinearFlux::reducedJacobianConc() {
-    return rr::Matrix<double>(
-            {
-                    {-0.1, 0},
-                    {0.1,  -0.2},
-            });
-}
-
 std::unordered_map<std::string, rr::Setting> OpenLinearFlux::jacobianSettings() {
     return std::unordered_map<std::string, rr::Setting>();
 }
@@ -1277,14 +1261,6 @@ rr::Matrix<double> Venkatraman2010::fullJacobianConc() {
 
 std::unordered_map<std::string, rr::Setting> Venkatraman2010::jacobianSettings() {
     return std::unordered_map<std::string, rr::Setting>{{"time", 0.0}};
-}
-
-rr::Matrix<double> Venkatraman2010::reducedJacobianAmt() {
-    return rr::Matrix<double>();
-}
-
-rr::Matrix<double> Venkatraman2010::reducedJacobianConc() {
-    return rr::Matrix<double>();
 }
 
 
@@ -2700,17 +2676,21 @@ std::unordered_map<std::string, double> BimolecularEnd::steadyStateFluxes() {
 }
 
 std::unordered_map<std::string, rr::Setting> BimolecularEnd::jacobianSettings() {
-    return std::unordered_map<std::string, rr::Setting>{};
+    return std::unordered_map<std::string, rr::Setting>{
+            {"steady_state", true},
+            {"selections", rr::Setting(std::vector<std::string>({"S1", "S3", "S2"}))},
+    };
 }
 
 rr::Matrix<double> BimolecularEnd::fullJacobianConc() {
+    // copasi generated steady state full jacobian
     rr::Matrix<double> mat({
-                                   {-7.82122, 4.64179,  18.4605},
-                                   {7.74137,  -4.92102, -17.7711},
-                                   {7.61,     -4.18477, -19.3156},
+                                   {-7.730519332005849, 37.545322537461026, 12.768450085549887},
+                                   {7.609999999602059,  -38.03670015738035, -12.478993111182907},
+                                   {7.683688395905918,  -37.099777221335,   -12.952662332648718},
                            });
-//    mat.setRowNames({"S1", "S2", "S3"});
-//    mat.setColNames({"S1", "S2", "S3"});
+    mat.setRowNames({"S1", "S3", "S2"});
+    mat.setColNames({"S1", "S3", "S2"});
     return mat;
 }
 
@@ -2719,18 +2699,6 @@ rr::Matrix<double> BimolecularEnd::fullJacobianConc() {
  */
 rr::Matrix<double> BimolecularEnd::fullJacobianAmt() {
     return fullJacobianConc();
-}
-
-rr::Matrix<double> BimolecularEnd::reducedJacobianAmt() {
-    return rr::Matrix<double>({
-                                      {-7.82122, 4.64179,  18.4605},
-                                      {7.74137,  -4.92102, -17.7711},
-                                      {7.61,     -4.18477, -19.3156},
-                              });
-}
-
-rr::Matrix<double> BimolecularEnd::reducedJacobianConc() {
-    return reducedJacobianAmt();
 }
 
 std::string BimolecularEnd::modelName() {
