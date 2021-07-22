@@ -24,7 +24,7 @@
 
 namespace rr
 {
-	static unsigned long defaultSeed()
+	static std::uint64_t defaultSeed()
 	{
 	    Setting seedSetting = Config::getValue(Config::RANDOM_SEED);
 	    std::uint64_t seed;
@@ -417,12 +417,12 @@ namespace rr
 		return (double)engine() / (double)std::mt19937::max();
 	}
 
-	void GillespieIntegrator::setEngineSeed(unsigned long seed)
+	void GillespieIntegrator::setEngineSeed(std::uint64_t seed)
 	{
 		rrLog(Logger::LOG_INFORMATION) << "Using user specified seed value: " << seed;
 
 		// MSVC needs an explicit cast, fail to compile otherwise.
-		engine.seed((unsigned long)seed);
+		engine.seed((std::int64_t)seed);
 	}
 
     Solver *GillespieIntegrator::construct(ExecutableModel *executableModel) const {

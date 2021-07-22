@@ -32,3 +32,12 @@ TEST_F(GillespieTests, Seed){
     ASSERT_TRUE(rr.getIntegrator()->getValue("seed") == 1234);
 }
 
+TEST_F(GillespieTests, SetSeedUsingInactiveIntegrator){
+    RoadRunner rr(openLinearFlux.str());
+    Integrator* integrator = rr.getIntegratorByName("gillespie");
+    integrator->setValue("seed", 4);
+    rr.setIntegrator("gillespie");
+    std::int64_t seed = rr.getIntegrator()->getValue("seed");
+    ASSERT_EQ(4, seed);
+}
+
