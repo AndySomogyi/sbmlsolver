@@ -53,6 +53,10 @@ def passMsg (errorFlag, msg = ""):
     if not errorFlag:
         gPassedTests = gPassedTests+1
         return "PASS"
+    print("Traceback from failed test: ")
+    import traceback
+    for line in traceback.format_stack():
+        print(line.strip())
     gFailedTests = gFailedTests+1
     return "*****FAIL*****" + msg
 
@@ -215,8 +219,10 @@ def checkSteadyStateFluxes(rrInstance, testId):
     fluxes = []
     # Steady State Fluxes
     rrInstance.reset()
+    print("Computing Steady State.  Distance to SteadyState:", rrInstance.steadyState())
+    print(("Check " + testId).ljust( rpadding), end="")
     errorFlag = False
-    n = rrInstance.model.getNumReactions()
+    n = rrInstance.model.getNumReactions();
     for i in range (0,n):
         line = readLine ()
         words = line.split("=")

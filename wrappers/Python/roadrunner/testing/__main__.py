@@ -24,10 +24,7 @@ roadrunner.sigtrap()
 tester.runTester(test_data_dir)
 
 
-
-# Run any other Python tests
-import unittest
-
+# list of test modules to run
 other_test_modules = [
     "python_api_tests",
     "testTestModelFactory",
@@ -38,9 +35,15 @@ other_test_modules = [
     'ForwardSensitivitySolverTests',
 ]
 
-for t in other_test_modules:
-    print(f"Running test module \"{t}\"")
-    unittest.main(module=t)
+import unittest
+loader = unittest.TestLoader()
+start_dir = os.path.dirname(__file__)
+suite = loader.discover(start_dir, "*[tT]est*")
+print(f"Found {suite.countTestCases()} tests in {start_dir} to be run with unittest")
+runner = unittest.TextTestRunner()
+runner.run(suite)
+
+
 
 
 
