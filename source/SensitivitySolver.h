@@ -6,11 +6,13 @@
 #define ROADRUNNER_SENSITIVITYSOLVER_H
 
 #include "Solver.h"
-#include "Matrix.h"
 #include "Matrix3D.h"
 
 
 namespace rr {
+
+    template <typename T>
+    class Matrix;
 
     class ForwardSensitivitySolver;
 
