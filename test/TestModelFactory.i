@@ -16,10 +16,6 @@
     #include "TestModelFactory.h"
     using namespace rr;
 
-    // a copy of the macro in roadrunner.i
-    #define tmfVERIFY_PYARRAY(p) { \
-    assert(p && "PyArray is NULL"); \
-    assert((PyArray_NBYTES(p) > 0 ? PyArray_ISCARRAY(p) : true) &&  "PyArray must be C format"); \
 }
 %}
 
@@ -295,7 +291,6 @@ rr::pyutil_init(m);
         npy_intp dims[1] = {static_cast<npy_intp>(len)};
 
         PyObject *array = PyArray_SimpleNew(1, dims, NPY_COMPLEX128);
-        tmfVERIFY_PYARRAY(array);
 
         if (!array) {
             // TODO error handling.
@@ -313,7 +308,6 @@ rr::pyutil_init(m);
         npy_intp dims[1] = {static_cast<npy_intp>(len)};
 
         PyObject *array = PyArray_SimpleNew(1, dims, NPY_DOUBLE);
-        tmfVERIFY_PYARRAY(array);
 
         if (!array) {
             // TODO error handling.

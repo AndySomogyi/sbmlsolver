@@ -69,7 +69,7 @@ RUN $conda init && . $bashrc \
 RUN yum install -y ncurses-devel openssh-server
 
 RUN git clone https://github.com/sys-bio/roadrunner.git $roadrunnerSource
-RUN pwd
+
 RUN cd $roadrunnerSource && git pull && git checkout cvodes-2
 
 ## build against python 3.7
@@ -118,19 +118,19 @@ RUN cd $roadrunnerSource && git pull && git checkout cvodes-2
 # -DPython_ROOT_DIR=/Miniconda3/envs/py39
 # -DBUILD_RR_PLUGINS=ON
 
-#RUN ssh-keygen -A
-#RUN ( \
-#    echo 'LogLevel DEBUG2'; \
-#    echo 'PermitRootLogin yes'; \
-#    echo 'PasswordAuthentication yes'; \
-#    echo 'Subsystem sftp /usr/libexec/openssh/sftp-server'; \
-#  ) > /etc/ssh/sshd_config_test_clion
-#
-#RUN useradd -m user \
-#  && yes password | passwd user
-#RUN pwd
-#
-#CMD ["/usr/sbin/sshd", "-D", "-e", "-f", "/etc/ssh/sshd_config_test_clion"]
+RUN ssh-keygen -A
+RUN ( \
+    echo 'LogLevel DEBUG2'; \
+    echo 'PermitRootLogin yes'; \
+    echo 'PasswordAuthentication yes'; \
+    echo 'Subsystem sftp /usr/libexec/openssh/sftp-server'; \
+  ) > /etc/ssh/sshd_config_test_clion
+
+RUN useradd -m user \
+  && yes password | passwd user
+RUN pwd
+
+CMD ["/usr/sbin/sshd", "-D", "-e", "-f", "/etc/ssh/sshd_config_test_clion"]
 
 
 
