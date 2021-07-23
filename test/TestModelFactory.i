@@ -16,7 +16,7 @@
     #include "TestModelFactory.h"
     using namespace rr;
 
-}
+
 %}
 
 #include <iostream>
