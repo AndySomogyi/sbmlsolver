@@ -2678,7 +2678,6 @@ std::unordered_map<std::string, double> BimolecularEnd::steadyStateFluxes() {
 std::unordered_map<std::string, rr::Setting> BimolecularEnd::jacobianSettings() {
     return std::unordered_map<std::string, rr::Setting>{
             {"steady_state", true},
-            {"selections", rr::Setting(std::vector<std::string>({"S1", "S3", "S2"}))},
     };
 }
 

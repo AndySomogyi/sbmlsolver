@@ -30,13 +30,7 @@ if (BUILD_PYTHON)
 
     set_tests_properties(PythonTests PROPERTIES ENVIRONMENT "PYTHONPATH=${PYTHON_PACKAGE_SITE_DIR_BUILD_TREE}:$PYTHONPATH")
 
-    # Creates a custom target which runs only the sbml tests suite
-    add_custom_target(
-            run-python-tests
-            ctest ${ctest_args} --tests-regex PythonTests
-    )
 
-    add_dependencies(run-python-tests ${test_targets})
 
 endif ()
 
