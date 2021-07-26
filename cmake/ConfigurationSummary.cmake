@@ -42,6 +42,7 @@ Options
 
     Host OS                             ${CMAKE_SYSTEM_NAME}
     Host architecture                   ${CMAKE_SYSTEM_PROCESSOR}
+    CMake Generator                     ${CMAKE_GENERATOR}
     With LLVM?                          ${BUILD_LLVM}
     With legacy C? (DEP)                ${BUILD_LEGACY_C}
     llvm-6.x install prefix             ${LLVM_INSTALL_PREFIX}
