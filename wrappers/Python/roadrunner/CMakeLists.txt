@@ -9,7 +9,7 @@ set_source_files_properties(roadrunner.i PROPERTIES
 set_property(SOURCE roadrunner.i PROPERTY
         SWIG_FLAGS
         # Enable threading
-        "-threads"
+#        "-threads"
         "-doxygen" # converts doxygen to pydoc
         #            "-debug-symtabs"
         #            "-debug-csymbols"

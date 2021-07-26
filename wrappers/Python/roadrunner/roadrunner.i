@@ -1,8 +1,20 @@
 
 // Module Name
-//%module(directors="1", docstring="The RoadRunner SBML Simulation Engine, (c) 2009-2014 Andy Somogyi and Herbert Sauro","threads"=1) roadrunner
-//%module( docstring="The RoadRunner SBML Simulation Engine, (c) 2009-2014 Andy Somogyi and Herbert Sauro","threads"=1, "directors"=1) roadrunner
-%module( docstring="The RoadRunner SBML Simulation Engine, (c) 2009-2014 Andy Somogyi and Herbert Sauro","threads"=1, "directors"=1) roadrunner
+%module( docstring="The RoadRunner SBML Simulation Engine, (c) 2009-2014 Andy Somogyi and Herbert Sauro"/*,"threads"=1*/ ,"directors"=1) roadrunner
+
+// A note to developers
+// --------------------
+// I have come across some strange behaviour with swig 4.0.3,
+// visual studio compilers 2019 and the Visual Studio 2016 cmake generator.
+//
+// Using the directors="1" in the %module directive and the `%feature (director) Solver` below,
+// WITH multiline block comments enclosed in `/* */` -- like so:
+//     /**
+//      * Adding director for solver for cross language polymorphism.
+//      */
+//      %feature(director) Solver
+// causes some of the these block comments to appear in visual studio configuration paths. This
+// is very weird but avoidable by simply using // instead of /**/ style comments
 
 // most methods should leave the GIL locked, no point to extra overhead
 // for fast methods. Only Roadrunner with long methods like simulate
@@ -191,10 +203,10 @@
 }
 
 
-/**
- *  Convert from C --> Python
- *  copy data
- */
+//
+// Convert from C --> Python
+// copy data
+//
 %typemap(out) ls::DoubleMatrix {
     // %typemap(out) ls::DoubleMatrix
     const ls::DoubleMatrix* mat = &($1);
@@ -202,10 +214,10 @@
 }
 
 
-/**
- * Convert from C --> Python
- * reference roadrunner owned data.
- */
+//
+// Convert from C --> Python
+// reference roadrunner owned data.
+//
 %typemap(out) const ls::DoubleMatrix* {
     // %typemap(out) const ls::DoubleMatrix*
     const ls::DoubleMatrix* mat = ($1);
@@ -214,11 +226,11 @@
 
 %apply const ls::DoubleMatrix* {ls::DoubleMatrix*, DoubleMatrix*, const DoubleMatrix* };
 
-/**
- * Converts a rr::Matrix<double> to a numpy array,
- * using the same functions/methods as for ls::Matrix<double> (its superclass)
- * (proxy via rrDoubleMatrix_to_py)
- */
+//
+// Converts a rr::Matrix<double> to a numpy array,
+// using the same functions/methods as for ls::Matrix<double> (its superclass)
+// (proxy via rrDoubleMatrix_to_py)
+//
 %typemap(out) rr::Matrix<double> {
     // marker for rrDoubleMatrix typemap. Look for me in TestModelFactoryPYTHON_wrap.cxx
     const rr::Matrix<double>* mat = &($1);
@@ -232,10 +244,10 @@
 };
 
 
-/**
- * Note - you do not need to %include "Matrix3D.h"
- * since we convert it to a Tuple[np.ndarray, np.ndarray]
- */
+/*
+/* Note - you do not need to %include "Matrix3D.h"
+/* since we convert it to a Tuple[np.ndarray, np.ndarray]
+/*
 //%include "Matrix3D.h"
 %typemap(out) rr::Matrix3D<double, double> {
     // marker for a rr::Matrix3D<double, double> typemap
@@ -303,10 +315,10 @@
 
 
 
-/**
- * converts a C++ rr::Setting to a Python variable, depending on its type
- * The "work" of this typemap is offloaded to the rr::Variant_to_py function.
- */
+//
+// converts a C++ rr::Setting to a Python variable, depending on its type
+// The "work" of this typemap is offloaded to the rr::Variant_to_py function.
+//
 %typemap(out) rr::Setting{
     try {
         // I'm a marker rr::Setting(out). Look for me in the swig_wrap.cxx file
@@ -317,12 +329,12 @@
     }
 }
 
-/**
- * Apply the %typemap(out) rr::Setting to
- * other Setting types. Note that both
- * rr:: qualified and unqualified are
- * necessary!
- */
+//
+// Apply the %typemap(out) rr::Setting to
+// other Setting types. Note that both
+// rr:: qualified and unqualified are
+// necessary!
+//
 %apply rr::Setting{
     // both syntax's of const are needed!
     const rr::Setting&,
@@ -356,14 +368,14 @@
 };
 
 
-/**
- * @brief typemap to convert a string : Variant map into a Python dict.
- * Used in the "settings" map of TestModelFactory (tmf).
- *
- * @note std::unordered_map<std::string, rr:Variant> gets expanded by swig to
- * the full version below. The full version is needed for swig to recognize the type
- * and use this typemap
- */
+//
+// @brief typemap to convert a string : Variant map into a Python dict.
+// Used in the "settings" map of TestModelFactory (tmf).
+//
+// @note std::unordered_map<std::string, rr:Variant> gets expanded by swig to
+// the full version below. The full version is needed for swig to recognize the type
+// and use this typemap
+//
 %typemap(out) std::unordered_map< std::string, rr::Setting> {
     // I'm a marker for %typemap(out) std::unordered_map< std::string, rr::Setting>
     // Look me up in the swig generated wrapper cxx file to
@@ -382,11 +394,11 @@
 }
 
 
-/**
- * @brief Apply the %typemap(out) std::unordered_map< std::string, rr::Setting>
- * to the following types.
- * @note swig is sensitive to rr:: qualified and unqualified types, even though they are the same
- */
+//
+// @brief Apply the %typemap(out) std::unordered_map< std::string, rr::Setting>
+// to the following types.
+// @note swig is sensitive to rr:: qualified and unqualified types, even though they are the same
+//
 %apply std::unordered_map< std::string, rr::Setting>{
     std::unordered_map< std::string,rr::Setting,std::hash< std::string >,std::equal_to< std::string >,std::allocator< std::pair< std::string const,rr::Setting > > >,   // with rr::,       no reference
     std::unordered_map< std::string,Setting,std::hash< std::string >,std::equal_to< std::string >,std::allocator< std::pair< std::string const,Setting > > >,           // no rr::          no reference
@@ -420,9 +432,9 @@
 }
 
 
-/**
- * input map, convert an incomming object to a roadrunner Dictionary*
- */
+//
+// input map, convert an incomming object to a roadrunner Dictionary*
+//
 %typemap(in) const rr::Dictionary* (DictionaryHolder holder, void* argp) {
     // I'm a marker for %typemap(in) const rr::Dictionary* (DictionaryHolder holder, void* argp)
     // Look me up in the swig generated wrapper cxx file to
@@ -940,14 +952,14 @@ namespace std { class ostream{}; }
 // Warning 401: Nothing known about base class 'Configurable'. Ignored.
 
 
-/**
- * include the roadrunner files here, this is where the wrappers are generated.
- */
+//
+// include the roadrunner files here, this is where the wrappers are generated.
+//
+
 
 //
-/**
- * this returns a new object
- */
+// this returns a new object
+//
 %newobject rr::ExecutableModelFactory::createModel;
 
 
@@ -972,13 +984,11 @@ namespace std { class ostream{}; }
 %include <rrSelectionRecord.h>
 %include <conservation/ConservedMoietyConverter.h>
 
-/**
- * Adding director="1" to the %module directive on line 1
- * and adding this %feature("director") directive to
- * Solve base class tells swig to properly handle
- * cross language polymorphism. Works like a charm.
- */
+
+//
+// Adding director="1" to the %module directive on line 1 and adding this %feature("director") directive to Solve base class tells swig to properly handle cross language polymorphism. Works like a charm.//
 %feature("director") Solver;
+%include "Registrable.h"
 %include <Solver.h>
 %include <Integrator.h>
 %include <SteadyStateSolver.h>
