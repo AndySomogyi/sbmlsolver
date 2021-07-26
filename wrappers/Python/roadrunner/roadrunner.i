@@ -972,7 +972,7 @@ namespace std { class ostream{}; }
 
 /**
  * Solve base class tells swig to properly handle
- * cross language polymorphism. 
+ * cross language polymorphism.
  */
 %feature("director") Solver;
 %include <Solver.h>
