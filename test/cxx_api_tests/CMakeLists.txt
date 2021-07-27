@@ -15,16 +15,21 @@ add_test_executable(test_cxx_api_StructuralAnalysisTests test_targets Structural
 add_test_executable(test_cxx_api_MCATests test_targets MCATests.cpp ${SharedTestFiles})
 
 if (BUILD_PYTHON AND BUILD_TESTS)
+
+    ###################################################################################
+    # When (and if) we want tests for the PyUtils source file, we can use the following commented out code.
+    #
+
     # Test the PyUtils api from C++, enabling us use of the debugger etc.
-    add_test_executable(test_cxx_api_PyUtilsTests test_targets PyUtilsTests.cpp ${SharedTestFiles}
-            ../../wrappers/Python/roadrunner/PyUtils.h
-            ../../wrappers/Python/roadrunner/PyUtils.cpp
-            )
-    target_link_libraries(test_cxx_api_PyUtilsTests PRIVATE
-            Python::NumPy Python::Python)
-    target_include_directories(test_cxx_api_PyUtilsTests PRIVATE
-            ../../wrappers/Python/include
-            )
+    # add_test_executable(test_cxx_api_PyUtilsTests test_targets PyUtilsTests.cpp ${SharedTestFiles}
+    #         ../../wrappers/Python/roadrunner/PyUtils.h
+    #         ../../wrappers/Python/roadrunner/PyUtils.cpp
+    #         )
+    # target_link_libraries(test_cxx_api_PyUtilsTests PRIVATE
+    #         Python::NumPy Python::Python)
+    # target_include_directories(test_cxx_api_PyUtilsTests PRIVATE
+    #         ../../wrappers/Python/include
+    #         )
 
     add_swig_executable(SettingTestsSwigAPI
             SettingTestsSwigAPI.i

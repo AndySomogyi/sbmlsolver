@@ -280,7 +280,7 @@ if (WITH_ADDRESS_SANITIZER)
 endif ()
 
 # on windows we need to activate "micro processor compilation" for
-# parallel builds. We can do this with the /Mp
+# parallel builds. We can do this with the /MP flag
 add_compile_options($<$<CXX_COMPILER_ID:MSVC>:/MP>) # if cxx compiler is is MSVC use the /MP flag, or this gen exp evaluates to nothing
 
 

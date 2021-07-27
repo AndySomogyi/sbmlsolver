@@ -273,12 +273,12 @@ stages:
               rm -r $(DEPS_INSTALL_PREFIX)/install-azure
               ls
             displayName: Move Dependencies
-          #- task: Cache@2
-          #  inputs:
-          #    key: "Swig | $(Agent.OS)"
-          #    path: $(SWIG_INSTALL_PREFIX)
-          #    cacheHitVar: SWIG_CACHE
-          #  displayName: Cache Swig-4.0.2
+          - task: Cache@2
+            inputs:
+              key: "Swig | $(Agent.OS)"
+              path: $(SWIG_INSTALL_PREFIX)
+              cacheHitVar: SWIG_CACHE
+            displayName: Cache Swig-4.0.2
           - script: |
               echo "installing pcre"
               sudo apt install -y libpcre3 libpcre3-dev
@@ -339,6 +339,7 @@ stages:
               echo "ls in install dir"
               ls
               $(PythonExecutable) site-packages/roadrunner/testing/__main__.py
+              echo "ctest --output-on-failure --verbose --extra-verbose --tests-regex python_tests*"
               ctest --output-on-failure --verbose --extra-verbose --tests-regex python_tests*
             displayName: RunPythonTests
           - script: |
@@ -526,6 +527,7 @@ stages:
           PipExecutable: '$(PythonScriptsDir)\pip.exe'
 
           # override the variable for swigwin since swig exe is in different place
+          # on windows build compared to mac and linux
           SWIG_EXECUTABLE: '$(SWIG_INSTALL_PREFIX)/swig.exe'
           SWIG_CACHE: 'false'
           LLVM_CACHE: 'false'
@@ -590,12 +592,12 @@ stages:
               rm -r $(DEPS_INSTALL_PREFIX)/install-azure
               ls
             displayName: Move Dependencies
-          #- task: Cache@2
-          #  inputs:
-          #    key: "Swig | $(Agent.OS)"
-          #    path: $(SWIG_INSTALL_PREFIX)
-          #    cacheHitVar: SWIG_CACHE
-          #  displayName: Cache Swig-4.0.2
+          - task: Cache@2
+            inputs:
+              key: "Swig | $(Agent.OS)"
+              path: $(SWIG_INSTALL_PREFIX)
+              cacheHitVar: SWIG_CACHE
+            displayName: Cache Swig-4.0.2
           - powershell: |
               echo "cd to swig source dir: $(SWIG_SOURCE_DIR)"
               cd $(SWIG_SOURCE_DIR)
@@ -657,6 +659,7 @@ stages:
               echo "ls in install dir"
               ls
               $(PythonExecutable) site-packages/roadrunner/testing/__main__.py
+              echo "ctest --output-on-failure --verbose --extra-verbose --tests-regex python_tests*"
               ctest --output-on-failure --verbose --extra-verbose --tests-regex python_tests*
             displayName: RunPythonTests
           - powershell: |
@@ -920,12 +923,12 @@ stages:
               rm -r $(DEPS_INSTALL_PREFIX)/install-azure
               ls
             displayName: Move Dependencies
-          #- task: Cache@2
-          #  inputs:
-          #    key: "Swig | $(Agent.OS)"
-          #    path: $(SWIG_INSTALL_PREFIX)
-          #    cacheHitVar: SWIG_CACHE
-          #  displayName: Cache Swig-4.0.2
+          - task: Cache@2
+            inputs:
+              key: "Swig | $(Agent.OS)"
+              path: $(SWIG_INSTALL_PREFIX)
+              cacheHitVar: SWIG_CACHE
+            displayName: Cache Swig-4.0.2
           - script: |
               echo "installing pcre"
               sudo apt install -y libpcre3 libpcre3-dev
@@ -1004,6 +1007,7 @@ stages:
               echo "ls in install dir"
               ls
               $(PythonExecutable) site-packages/roadrunner/testing/__main__.py
+              echo "ctest --output-on-failure --verbose --extra-verbose --tests-regex python_tests*"
               ctest --output-on-failure --verbose --extra-verbose --tests-regex python_tests*
             displayName: RunPythonTests
           - script: |
