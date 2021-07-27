@@ -214,8 +214,8 @@ stages:
               echo "ls"
               ls
               $(CondaExecutable) create --quiet --yes --name $(PythonName) python=$(PythonVersion)
-              echo "running: $(PipExecutable) install numpy"
-              $(PipExecutable) install numpy
+              echo "running: $(PipExecutable) install numpy pytest"
+              $(PipExecutable) install numpy pytest
             displayName: InstallCondaEnv
           - script: |
               which conda
@@ -645,8 +645,8 @@ stages:
               conda create --quiet --yes --name $(PythonName) python=$(PythonVersion)
               echo "pip help:"
               $(PipExecutable) install --help
-              echo "Installing nose and numpy: $(PipExecutable) install --yes nose numpy"
-              $(PipExecutable) install -q nose numpy
+              echo "Installing nose and numpy: $(PipExecutable) install --yes nose numpy pytest"
+              $(PipExecutable) install -q nose numpy pytest
               $ENV:PATH="$ENV:PATH;$(PythonScriptsDir)"
               echo "cd to build dir $(BUILD_DIR)"
               cd $(BUILD_DIR)
@@ -980,7 +980,7 @@ stages:
               eval "$(conda shell.bash hook)"
               conda create -y --name $(PythonName) python=$(PythonVersion)
               conda activate $(PythonName)
-              conda install --yes --quiet nose numpy
+              conda install --yes --quiet nose numpy pytest
               echo "which python: $(which python)"
               echo "which conda: $(which conda)"
               python_exe="$(which python)"
@@ -1159,8 +1159,8 @@ stages:
               echo "cd $(BUILD_DIRECTORY)"
               cd $(BUILD_DIRECTORY)
 
-              echo "$(PipExecutable) install numpy"
-              $(PipExecutable) install numpy
+              echo "$(PipExecutable) install numpy pytest"
+              $(PipExecutable) install numpy pytest
 
               echo "sudo yum install -y ncurses-devel"
               sudo yum install -y ncurses-devel
@@ -1190,7 +1190,7 @@ stages:
               echo "ls"
               ls
 
-              $(PipExecutable) install numpy
+              $(PipExecutable) install numpy pytest
               echo "$(PythonExecutable) ./setup.py bdist_wheel"
               $(PythonExecutable) ./setup.py bdist_wheel
 
