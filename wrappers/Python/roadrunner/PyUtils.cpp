@@ -387,7 +387,9 @@ namespace rr {
         bool contains = dict->hasKey(key);
         return PyBool_FromLong(contains);
     }
-
+/*
+ *
+ */
 //#define VERIFY_PYARRAY(p) { \
 //    assert(p && "PyArray is NULL"); \
 //    assert((PyArray_NBYTES(p) > 0 ? PyArray_ISCARRAY(p) : true) &&  "PyArray must be C format"); \
