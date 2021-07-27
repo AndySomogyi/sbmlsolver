@@ -270,6 +270,7 @@ endif ()
 #
 install(TARGETS ${test_targets})
 
+MESSAGE(STATUS "CMAKE_BINARY_DIR ${CMAKE_BINARY_DIR}")
 set(ctest_args "--build-config ${CMAKE_BUILD_TYPE} --output-on-failure --parallel 8 --progress --verbose --extra-verbose ${CMAKE_BINARY_DIR}")
 
 # Creates a custom target which runs all tests

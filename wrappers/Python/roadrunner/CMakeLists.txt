@@ -58,10 +58,24 @@ swig_add_library(roadrunner_python
 
 message("PYTHON_PACKAGE_BUILD_PREFIX ${PYTHON_PACKAGE_BUILD_PREFIX}")
 set_target_properties(roadrunner_python PROPERTIES
-#        RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib/python/roadrunner" # Does this path exist?
-        RUNTIME_OUTPUT_DIRECTORY "${PYTHON_PACKAGE_BUILD_PREFIX}"
-        LIBRARY_OUTPUT_DIRECTORY "${PYTHON_PACKAGE_BUILD_PREFIX}"
-        ARCHIVE_OUTPUT_DIRECTORY "${PYTHON_PACKAGE_BUILD_PREFIX}"
+        # On windows with the Visual Studio CMake generators, the pyd file
+        # is put into a configuration directory (release / debug etc.)
+        # however we use the makefile way of doing things and put them in to
+        # one directory on all systems.
+        #
+
+        RUNTIME_OUTPUT_DIRECTORY                "${PYTHON_PACKAGE_BUILD_PREFIX}"
+        RUNTIME_OUTPUT_DIRECTORY_RELEASE        "${PYTHON_PACKAGE_BUILD_PREFIX}"
+        RUNTIME_OUTPUT_DIRECTORY_DEBUG          "${PYTHON_PACKAGE_BUILD_PREFIX}"
+        RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO "${PYTHON_PACKAGE_BUILD_PREFIX}"
+        LIBRARY_OUTPUT_DIRECTORY                "${PYTHON_PACKAGE_BUILD_PREFIX}"
+        LIBRARY_OUTPUT_DIRECTORY_DEBUG          "${PYTHON_PACKAGE_BUILD_PREFIX}"
+        LIBRARY_OUTPUT_DIRECTORY_RELEASE        "${PYTHON_PACKAGE_BUILD_PREFIX}"
+        LIBRARY_OUTPUT_DIRECTORY_RELWITHDEBINFO "${PYTHON_PACKAGE_BUILD_PREFIX}"
+        ARCHIVE_OUTPUT_DIRECTORY                "${PYTHON_PACKAGE_BUILD_PREFIX}"
+        ARCHIVE_OUTPUT_DIRECTORY_RELEASE        "${PYTHON_PACKAGE_BUILD_PREFIX}"
+        ARCHIVE_OUTPUT_DIRECTORY_DEBUG          "${PYTHON_PACKAGE_BUILD_PREFIX}"
+        ARCHIVE_OUTPUT_DIRECTORY_RELWITHDEBINFO "${PYTHON_PACKAGE_BUILD_PREFIX}"
         OUTPUT_NAME roadrunner
         SWIG_USE_TARGET_INCLUDE_DIRECTORIES TRUE # Needed for target_include_directories to have any effect on swig target
         )
