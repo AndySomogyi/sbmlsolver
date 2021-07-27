@@ -388,10 +388,10 @@ namespace rr {
         return PyBool_FromLong(contains);
     }
 
-#define VERIFY_PYARRAY(p) { \
-    assert(p && "PyArray is NULL"); \
-    assert((PyArray_NBYTES(p) > 0 ? PyArray_ISCARRAY(p) : true) &&  "PyArray must be C format"); \
-}
+//#define VERIFY_PYARRAY(p) { \
+//    assert(p && "PyArray is NULL"); \
+//    assert((PyArray_NBYTES(p) > 0 ? PyArray_ISCARRAY(p) : true) &&  "PyArray must be C format"); \
+//}
 
 
     static PyObject *NamedArray_New(int nd, npy_intp *dims, double *data, int pyFlags,
@@ -455,7 +455,7 @@ namespace rr {
 
             // steals a reference to descr
             PyObject *pyres = PyArray_SimpleNewFromDescr(1, dims, descr);
-            VERIFY_PYARRAY(pyres);
+//            VERIFY_PYARRAY(pyres);
 
             if (pyres) {
 
@@ -494,7 +494,7 @@ namespace rr {
                                             0, mat);
                                     }
                 
-                VERIFY_PYARRAY(pArray);
+//                VERIFY_PYARRAY(pArray);
                 
                 // copy our data into the numpy array
                 double *data = static_cast<double *>(PyArray_DATA(pArray));
@@ -518,7 +518,7 @@ namespace rr {
                                             NPY_ARRAY_CARRAY, mat);
                                     }
 
-                                VERIFY_PYARRAY(pArray);
+//                                VERIFY_PYARRAY(pArray);
                 
             }
                         return pArray;

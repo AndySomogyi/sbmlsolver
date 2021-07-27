@@ -503,7 +503,7 @@ static PyObject* _ExecutableModel_getValues(rr::ExecutableModel *self, getValues
 
     npy_intp dims[1] = {static_cast<npy_intp>(len)};
     PyObject *array = PyArray_SimpleNew(1, dims, NPY_DOUBLE);
-    VERIFY_PYARRAY(array);
+//    VERIFY_PYARRAY(array);
 
     if (!array) {
         // TODO error handling.
@@ -2442,7 +2442,7 @@ namespace std { class ostream{}; }
         PyObject *pArray = PyArray_New(&PyArray_Type, nd, dims, NPY_DOUBLE, NULL, data, 0,
                 NPY_ARRAY_CARRAY | NPY_ARRAY_OWNDATA, NULL);
 
-        VERIFY_PYARRAY(pArray);
+//        VERIFY_PYARRAY(pArray);
 
         return pArray;
     }
