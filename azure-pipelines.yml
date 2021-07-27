@@ -339,6 +339,7 @@ stages:
               echo "ls in install dir"
               ls
               $(PythonExecutable) site-packages/roadrunner/testing/__main__.py
+              ctest --output-on-failure --verbose --extra-verbose --tests-regex python_tests*
             displayName: RunPythonTests
           - script: |
               # todo workout whether the top few lines are needed now I'm using $(PythonExecutable)
@@ -656,6 +657,7 @@ stages:
               echo "ls in install dir"
               ls
               $(PythonExecutable) site-packages/roadrunner/testing/__main__.py
+              ctest --output-on-failure --verbose --extra-verbose --tests-regex python_tests*
             displayName: RunPythonTests
           - powershell: |
               echo "cd to isntall dir: $(INSTALL_DIR)"
@@ -1002,6 +1004,7 @@ stages:
               echo "ls in install dir"
               ls
               $(PythonExecutable) site-packages/roadrunner/testing/__main__.py
+              ctest --output-on-failure --verbose --extra-verbose --tests-regex python_tests*
             displayName: RunPythonTests
           - script: |
               # todo workout whether the top few lines are needed now I'm using $(PythonExecutable)

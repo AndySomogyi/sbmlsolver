@@ -233,24 +233,35 @@ add_subdirectory(semantic_STS)
 #   Add Python unit tests to ctest. Assumes availability of pytest (pip install pytest)
 #
 if (BUILD_PYTHON AND BUILD_TESTS)
-    function(add_pytest_to_ctest TestName TestSourceFile)
+
+    set(PyTestTests)
+    macro(add_pytest_to_ctest TestName TestSourceFile)
         add_test(
                 NAME ${TestName}
                 COMMAND Python::Interpreter -m pytest ${TestSourceFile}
                 WORKING_DIRECTORY "${RR_PYTHON_TESTING_BUILD_PREFIX}"
         )
         set_tests_properties(${TestName} PROPERTIES ENVIRONMENT "PYTHONPATH=${PYTHON_PACKAGE_SITE_DIR_BUILD_TREE}:$PYTHONPATH")
-    endfunction()
+        set(PyTestTests ${PyTestTests} ${TestName})
+    endmacro()
 
 
-    add_pytest_to_ctest(PyAutomaticMoietyConservationAnalysisTests AutomaticMoietyConservationAnalysisTests.py)
-    add_pytest_to_ctest(PyForwardSensitivitySolverTests ForwardSensitivitySolverTests.py)
-    add_pytest_to_ctest(PyIntegratorTests IntegratorTests.py)
-    add_pytest_to_ctest(Pypython_api_tests python_api_tests.py)
-    add_pytest_to_ctest(PySettingTests SettingTests.py)
-    add_pytest_to_ctest(PySteadyStateSolverTests SteadyStateSolverTests.py)
-    add_pytest_to_ctest(PyStructuralAnalysisTests StructuralAnalysisTests.py)
-    add_pytest_to_ctest(PyTestModelFactoryTests TestModelFactoryTests.py)
+    add_pytest_to_ctest(python_tests_AutomaticMoietyConservationAnalysisTests "${RR_PYTHON_TESTING_BUILD_PREFIX}/AutomaticMoietyConservationAnalysisTests.py")
+    add_pytest_to_ctest(python_tests_ForwardSensitivitySolverTests "${RR_PYTHON_TESTING_BUILD_PREFIX}/ForwardSensitivitySolverTests.py")
+    add_pytest_to_ctest(python_tests_IntegratorTests "${RR_PYTHON_TESTING_BUILD_PREFIX}/IntegratorTests.py")
+    add_pytest_to_ctest(python_tests_python_api_tests "${RR_PYTHON_TESTING_BUILD_PREFIX}/python_api_tests.py")
+    add_pytest_to_ctest(python_tests_SettingTests "${RR_PYTHON_TESTING_BUILD_PREFIX}/SettingTests.py")
+    add_pytest_to_ctest(python_tests_SteadyStateSolverTests "${RR_PYTHON_TESTING_BUILD_PREFIX}/SteadyStateSolverTests.py")
+    add_pytest_to_ctest(python_tests_StructuralAnalysisTests "${RR_PYTHON_TESTING_BUILD_PREFIX}/StructuralAnalysisTests.py")
+    add_pytest_to_ctest(python_tests_TestModelFactoryTests "${RR_PYTHON_TESTING_BUILD_PREFIX}/TestModelFactoryTests.py")
+
+    message(STATUS "PyTestTests ${PyTestTests}")
+
+    add_custom_target(
+        run-pytest-tests
+        ctest --output-on-failure --verbose --extra-verbose --tests-regex python_tests_*
+    )
+    add_dependencies(run-pytest-tests roadrunner_python TestModelFactory SettingTestsSwigAPI ${PyTestTests})
 
 endif ()
 
