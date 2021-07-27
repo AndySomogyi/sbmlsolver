@@ -1172,6 +1172,16 @@ stages:
               ctest --verbose --extra-verbose --output-on-failure
 
             displayName: Build With Python
+          - script: |
+              echo ". ~/.bashrc"
+              . ~/.bashrc
+              $(CondaExecutable) activate $(PythonName)
+
+              echo "cd'ing to build dir $(BUILD_DIR)"
+              cd $(BUILD_DIR)
+              cmake --build . --target run-pytest-tests -j4
+
+            displayName: Run Tests
 
           - script: |
               echo "cd to $(INSTALL_DIRECTORY)"
