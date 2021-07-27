@@ -259,9 +259,9 @@ if (BUILD_PYTHON AND BUILD_TESTS)
 
     add_custom_target(
         run-pytest-tests
-        ctest --output-on-failure --verbose --extra-verbose --tests-regex python_tests_*
+        ctest --output-on-failure --verbose --extra-verbose --tests-regex python_tests*
     )
-    add_dependencies(run-pytest-tests roadrunner_python TestModelFactory SettingTestsSwigAPI ${PyTestTests})
+    add_dependencies(run-pytest-tests roadrunner_python TestModelFactory SettingTestsSwigAPI)
 
 endif ()
 
