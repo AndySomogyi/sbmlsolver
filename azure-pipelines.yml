@@ -665,7 +665,7 @@ stages:
               echo "Switching to build dir: $(BUILD_DIR)"
               cd $(BUILD_DIR)
               echo "ctest --output-on-failure --verbose --extra-verbose --tests-regex python_tests*"
-              cmake --build . --target run-pytest-tests --config Release
+              ctest -C Release --output-on-failure --verbose --extra-verbose --tests-regex python_tests*
             displayName: RunPythonTests
           - powershell: |
               echo "cd to isntall dir: $(INSTALL_DIR)"
