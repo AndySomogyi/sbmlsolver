@@ -93,7 +93,7 @@ namespace rr {
 
         if (mModel) {
 
-            if (!cvodeIntegrator){
+            if (!cvodeIntegrator) {
                 cvodeIntegrator = std::make_unique<CVODEIntegrator>(mModel);
             }
 
@@ -126,7 +126,7 @@ namespace rr {
             // pbar are scaling factors and therefore cannot be 0. However,
             // we still need the flexibility to be able to turn model
             // parameters to 0.
-            for (double & i : pbar) {
+            for (double &i : pbar) {
                 if (i == 0) {
                     i = 1e-30; // arbitrarily small. Doesn't matter since 0/x=0
                 }
@@ -324,7 +324,7 @@ namespace rr {
 
             for (int i = 0; i < Ns; i++) {
                 auto data = mSensitivityMatrix[i]->ops->nvgetarraypointer(mSensitivityMatrix[i]);
-                for (int j=0; j<numModelVariables; j++){
+                for (int j = 0; j < numModelVariables; j++) {
                     data[j] = 0;
                 }
             }
@@ -555,7 +555,7 @@ namespace rr {
         for (int i = 0; i < Ns; i++) {
             N_Vector arrayVector = mSensitivityMatrix[i];
             for (int j = 0; j < numModelVariables; j++) {
-                if (t == 0){
+                if (t == 0) {
                     // sensitivities at t=0 are always 0
                     // but they appear as nan instead. Its more
                     // convenient to show 0
@@ -570,7 +570,7 @@ namespace rr {
 
 
     void ForwardSensitivitySolver::setValue(const std::string &key, Setting val) {
-        if (cvodeIntegrator->getSettingsMap().find(key) != cvodeIntegrator->getSettingsMap().end()){
+        if (cvodeIntegrator->getSettingsMap().find(key) != cvodeIntegrator->getSettingsMap().end()) {
             cvodeIntegrator->setValue(key, val);
         } else {
             Solver::setValue(key, val);
@@ -596,6 +596,11 @@ namespace rr {
             whichParameters = params;
             deducePlist();
         }
+        std::cout << "ts whichParameters: ";
+        for (int i = 0; i < whichParameters.size(); i++) {
+            std::cout << whichParameters[i] << ", ";
+        }
+        std::cout << std::endl;
 
         int intervals = num - 1;
         double stepSize = (stop - start) / intervals;
@@ -619,9 +624,6 @@ namespace rr {
 
         return results;
     }
-
-
-
 
 
 }
