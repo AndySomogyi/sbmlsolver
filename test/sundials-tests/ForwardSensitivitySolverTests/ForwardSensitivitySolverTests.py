@@ -143,7 +143,7 @@ class FFSIntegrationTests(unittest.TestCase):
         stepSize = (duration - start) / numIntervals
 
         # collect true values from the TestModel type
-        expectedTime, expectedResults = testModel.timeSeriesSensitivityResult()
+        expectedTime, expectedResults, expectedRowNames, expectedColNames = testModel.timeSeriesSensitivityResult()
 
         # a place to store actual test result data
         results = np.zeros(expectedResults.shape)
@@ -206,10 +206,10 @@ class FFSIntegrationTests(unittest.TestCase):
         stepSize = (duration - start) / numIntervals
 
         stop = duration # slightly clearer
-        idx, results = rr.timeSeriesSensitivities(start, stop, numSteps)
+        idx, results, actualRowNames, actualColNames = rr.timeSeriesSensitivities(start, stop, numSteps)
 
         # collect true values from the TestModel type
-        expectedTime, expectedResults = testModel.timeSeriesSensitivityResult()
+        expectedTime, expectedResults, expectedRowNames, expectedColNames = testModel.timeSeriesSensitivityResult()
 
         print("Expected Results")
         print(expectedResults)
@@ -220,6 +220,8 @@ class FFSIntegrationTests(unittest.TestCase):
 
         # check index the same
         self.assertTrue((expectedTime == idx).all())
+        self.assertEqual(expectedRowNames, actualRowNames)
+        self.assertEqual(expectedColNames, actualColNames)
 
     def testOpenLinearFluxWithoutRoadRunnerInstance(self):
         self.checkSensWithModel("OpenLinearFlux", 1)
