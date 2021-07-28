@@ -22,11 +22,10 @@ namespace rr {
         /**
          * @brief construct an empty 3D matrix with numRows x numCols x numZ dimensions.
          */
-        Matrix3D(int numRows, int numCols, int numZ)
-                : index_(std::vector<IndexType>(numZ)),
-                  data_(std::vector<Matrix < DataType>>
+        Matrix3D(int numRows, int numCols, int numZ) :
+                index_(std::vector<IndexType>(numZ)),
+                data_(std::vector<Matrix < DataType>>(numZ)) {
 
-        (numZ)) {
             for (int i = 0; i < numZ; i++) {
                 data_[i].resize(numRows, numCols);
             }
@@ -252,7 +251,20 @@ namespace rr {
             for (int i = 0; i < numZ(); i++) {
                 data_[i].setColNames(colNames);
             }
+        }
 
+        /**
+         * @brief return the row names for this Matrix3D
+         */
+        std::vector<std::string> getRowNames(){
+            return slice(0).rowNames;
+        }
+
+        /**
+         * @brief return the column names for this Matrix3D
+         */
+        std::vector<std::string> getColNames(){
+            return slice(0).colNames;
         }
 
         /**
@@ -320,7 +332,6 @@ namespace rr {
         }
         return os;
     }
-
 
 }
 

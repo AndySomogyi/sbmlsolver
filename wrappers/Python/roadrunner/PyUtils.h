@@ -135,6 +135,18 @@ public:
      */
     PyObject * convertData();
 
+    /**
+     * @brief converts the rownames for the Matrix3D into a Python
+     * list of strings.
+     */
+    PyObject* convertRowNames();
+
+    /**
+     * @brief converts the rownames for the Matrix3D into a Python
+     * list of strings.
+     */
+     PyObject* convertColNames();
+
 private:
     /**
      * @brief the Matrix3D<double, double> to convert

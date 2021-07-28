@@ -559,6 +559,14 @@ namespace rr {
 
     static PyObject *NamedArray_str(NamedArrayObject *self);
 
+
+    /**
+     * @brief Use the Python C API to convert a string vector to a Python list of
+     * strings.
+     */
+    PyObject *convertStringVectorToPython(const std::vector<std::string>& vec);
+
+
     static void NamedArrayObject_dealloc(NamedArrayObject *self) {
         rrLog(Logger::LOG_INFORMATION) << __FUNC__;
         Py_XDECREF(self->rowNames);
@@ -1090,6 +1098,23 @@ PyArray_New(PyTypeObject *subtype, int nd, npy_intp *dims, int type_num,
     }
 
 
+    PyObject *convertStringVectorToPython(const std::vector<std::string>& vec) {
+        long long size = (long long)vec.size();
+
+        PyObject *pyList = PyList_New(size);
+
+        unsigned j = 0;
+
+        for (const auto& item : vec){
+            PyObject *pyStr = rrPyString_FromString(item.c_str());
+            PyList_SET_ITEM(pyList, j, pyStr);
+            j++;
+        }
+
+        return pyList;
+    }
+
+
     Matrix3DToNumpy::Matrix3DToNumpy(Matrix3DToNumpy::DoubleMatrix3D &matrix)
             : matrix_(matrix) {}
 
@@ -1156,6 +1181,14 @@ PyArray_New(PyTypeObject *subtype, int nd, npy_intp *dims, int type_num,
             std::cerr << "PyArrayObject does not own its memory" << std::endl;
         }
         return result;
+    }
+
+    PyObject* Matrix3DToNumpy::convertRowNames(){
+        return convertStringVectorToPython(matrix_.getRowNames());
+    }
+
+    PyObject* Matrix3DToNumpy::convertColNames(){
+        return convertStringVectorToPython(matrix_.getColNames());
     }
 
 

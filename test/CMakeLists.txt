@@ -122,9 +122,30 @@ macro(add_swig_executable SWIG_TARGET_NAME SWIG_INTERFACE_FILE)
             )
 
     #    set(CMAKE_SWIG_FLAGS "-py3 -castmode -keyword")
-    set_target_properties(${SWIG_TARGET_NAME} PROPERTIES
+    set_target_properties(
+            ${SWIG_TARGET_NAME} PROPERTIES
+            # make the command "target_include_directories" work with swig targets
             SWIG_USE_TARGET_INCLUDE_DIRECTORIES TRUE
-            )
+
+            # On windows with the Visual Studio CMake generators, the pyd file
+            # is put into a configuration directory (release / debug etc.)
+            # however we use the makefile way of doing things and put them in to
+            # one directory on all systems.
+            RUNTIME_OUTPUT_DIRECTORY "${PYTHON_PACKAGE_BUILD_PREFIX}"
+            RUNTIME_OUTPUT_DIRECTORY_RELEASE "${PYTHON_PACKAGE_BUILD_PREFIX}"
+            RUNTIME_OUTPUT_DIRECTORY_DEBUG "${PYTHON_PACKAGE_BUILD_PREFIX}"
+            RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO "${PYTHON_PACKAGE_BUILD_PREFIX}"
+
+            LIBRARY_OUTPUT_DIRECTORY "${PYTHON_PACKAGE_BUILD_PREFIX}"
+            LIBRARY_OUTPUT_DIRECTORY_DEBUG "${PYTHON_PACKAGE_BUILD_PREFIX}"
+            LIBRARY_OUTPUT_DIRECTORY_RELEASE "${PYTHON_PACKAGE_BUILD_PREFIX}"
+            LIBRARY_OUTPUT_DIRECTORY_RELWITHDEBINFO "${PYTHON_PACKAGE_BUILD_PREFIX}"
+
+            ARCHIVE_OUTPUT_DIRECTORY "${PYTHON_PACKAGE_BUILD_PREFIX}"
+            ARCHIVE_OUTPUT_DIRECTORY_RELEASE "${PYTHON_PACKAGE_BUILD_PREFIX}"
+            ARCHIVE_OUTPUT_DIRECTORY_DEBUG "${PYTHON_PACKAGE_BUILD_PREFIX}"
+            ARCHIVE_OUTPUT_DIRECTORY_RELWITHDEBINFO "${PYTHON_PACKAGE_BUILD_PREFIX}"
+    )
 
     set(thisDir ${CMAKE_CURRENT_SOURCE_DIR})
     target_include_directories(${SWIG_TARGET_NAME} PUBLIC
@@ -258,8 +279,8 @@ if (BUILD_PYTHON AND BUILD_TESTS)
     message(STATUS "PyTestTests ${PyTestTests}")
 
     add_custom_target(
-        run-pytest-tests
-        ctest --output-on-failure --verbose --extra-verbose --tests-regex python_tests*
+            run-pytest-tests
+            ctest --output-on-failure --verbose --extra-verbose --tests-regex python_tests*
     )
     add_dependencies(run-pytest-tests roadrunner_python TestModelFactory SettingTestsSwigAPI)
 

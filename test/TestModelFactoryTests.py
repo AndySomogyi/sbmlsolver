@@ -145,12 +145,12 @@ class TestModelFactoryTests(unittest.TestCase):
 
 
     def test_testMatrix3D_index3x2x3(self):
-        (idx, mat) = tmf._testMatrix3D_3x2x3()
+        (idx, mat, rownames, colnames) = tmf._testMatrix3D_3x2x3()
         expected = np.array([0, 3.5, 7.9])
         self.assertTrue((idx == expected).all())
 
     def test_testMatrix3D_data3x2x3(self):
-        (idx, mat) = tmf._testMatrix3D_3x2x3()
+        (idx, mat, rownames, colnames) = tmf._testMatrix3D_3x2x3()
         expected = np.array(
             [[[0.1, 0.2, 0.3],
               [0.4, 0.5, 0.6]],
@@ -164,12 +164,12 @@ class TestModelFactoryTests(unittest.TestCase):
         self.assertTrue((expected == mat).all())
 
     def test_testMatrix3D_index2x3x4(self):
-        (idx, mat) = tmf._testMatrix3D_2x3x4()
+        (idx, mat, rownames, colnames) = tmf._testMatrix3D_2x3x4()
         expected = np.array([0, 4.23])
         self.assertTrue((idx == expected).all())
 
     def test_testMatrix3D_data2x3x4(self):
-        (idx, mat) = tmf._testMatrix3D_2x3x4()
+        (idx, mat, rownames, colnames) = tmf._testMatrix3D_2x3x4()
         expected = np.array(
             [
                 [
@@ -187,12 +187,12 @@ class TestModelFactoryTests(unittest.TestCase):
         self.assertTrue((expected == mat).all())
 
     def test_testMatrix3D_index4x3x2(self):
-        (idx, mat) = tmf._testMatrix3D_4x3x2()
+        (idx, mat, rownames, colnames) = tmf._testMatrix3D_4x3x2()
         expected = np.array([0, 6, 12, 18])
         self.assertTrue((idx == expected).all())
 
     def test_testMatrix3D_data4x3x2(self):
-        (idx, mat) = tmf._testMatrix3D_4x3x2()
+        (idx, mat, rownames, colnames) = tmf._testMatrix3D_4x3x2()
         expected = np.array(
             [
                 [
@@ -220,12 +220,12 @@ class TestModelFactoryTests(unittest.TestCase):
         self.assertTrue((expected == mat).all())
 
     def test_testMatrix3D_index3x4x2(self):
-        (idx, mat) = tmf._testMatrix3D_3x4x2()
+        (idx, mat, rownames, colnames) = tmf._testMatrix3D_3x4x2()
         expected = np.array([0, 6, 12])
         self.assertTrue((idx == expected).all())
 
     def test_testMatrix3D_data3x4x2(self):
-        (idx, mat) = tmf._testMatrix3D_3x4x2()
+        (idx, mat, rownames, colnames) = tmf._testMatrix3D_3x4x2()
         expected = np.array(
             [
                 [

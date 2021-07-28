@@ -240,8 +240,10 @@
     Matrix3DToNumpy matrix3DtoNumpy($1);
     PyObject* npArray3D = matrix3DtoNumpy.convertData();
     PyObject* idx = matrix3DtoNumpy.convertIndex();
+    PyObject* colnames = matrix3DtoNumpy.convertColNames();
+    PyObject* rownames = matrix3DtoNumpy.convertRowNames();
 
-    $result = PyTuple_Pack(2, idx, npArray3D);
+    $result = PyTuple_Pack(4, idx, npArray3D, rownames, colnames);
 }
 
 

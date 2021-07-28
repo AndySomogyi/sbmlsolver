@@ -420,6 +420,46 @@ TEST_F(Matrix3DTests, AlmostEqualsWhenFalse) {
 
 
 
+TEST_F(Matrix3DTests, CheckRowNames) {
+    Matrix3D<double, double> matrix3D(
+            {0.0, 1.0},
+            {
+                    // 0.0
+                    {
+                            {0.0, 1.0},
+                            {2.0, 3.0}
+                    },
+                    // 1.0
+                    {
+                            {4.0, 5.0},
+                            {6.0, 7.0}
+                    }
+            }
+    );
+    matrix3D.setRowNames({"First", "Second"});
+    ASSERT_EQ(matrix3D.getRowNames(), std::vector<std::string>({"First", "Second"}));
+}
+
+TEST_F(Matrix3DTests, CheckColNames) {
+    Matrix3D<double, double> matrix3D(
+            {0.0, 1.0},
+            {
+                    // 0.0
+                    {
+                            {0.0, 1.0},
+                            {2.0, 3.0}
+                    },
+                    // 1.0
+                    {
+                            {4.0, 5.0},
+                            {6.0, 7.0}
+                    }
+            }
+    );
+    matrix3D.setColNames({"First", "Second"});
+    ASSERT_EQ(matrix3D.getColNames(), std::vector<std::string>({"First", "Second"}));
+}
+
 
 
 

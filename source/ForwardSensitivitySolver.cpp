@@ -601,7 +601,7 @@ namespace rr {
         double stepSize = (stop - start) / intervals;
 
         Matrix3D<double, double> results(Ns, numModelVariables, num);
-        std::cout << results.numRows() << "; " << results.numCols() << "; " << results.numZ() << std::endl;
+//        std::cout << results.numRows() << "; " << results.numCols() << "; " << results.numZ() << std::endl;
 
         // collect initial data
         double t = start;
@@ -619,6 +619,7 @@ namespace rr {
 
         return results;
     }
+
 
 
 

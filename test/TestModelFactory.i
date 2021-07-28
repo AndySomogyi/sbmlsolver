@@ -198,10 +198,14 @@ rr::pyutil_init(m);
 %typemap(out) rr::Matrix3D<double, double> {
     // marker for a rr::Matrix3D<double, double> typemap
     Matrix3DToNumpy matrix3DtoNumpy($1);
-    PyObject* idx = matrix3DtoNumpy.convertIndex();
     PyObject* npArray3D = matrix3DtoNumpy.convertData();
-    $result = PyTuple_Pack(2, idx, npArray3D);
+    PyObject* idx = matrix3DtoNumpy.convertIndex();
+    PyObject* colnames = matrix3DtoNumpy.convertColNames();
+    PyObject* rownames = matrix3DtoNumpy.convertRowNames();
+
+    $result = PyTuple_Pack(4, idx, npArray3D, rownames, colnames);
 }
+
 
 
 /**
