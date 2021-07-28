@@ -31,7 +31,7 @@ if (BUILD_PYTHON AND BUILD_TESTS)
     #         ../../wrappers/Python/include
     #         )
 
-    add_swig_executable(SettingTestsSwigAPI
+    add_rr_test_swig_library(SettingTestsSwigAPI
             SettingTestsSwigAPI.i
             SettingTestsSwigAPI
             "../../wrappers/Python/roadrunner/PyUtils.cpp"

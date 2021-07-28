@@ -98,7 +98,7 @@ endfunction()
 #   SWIG_INTERFACE_FILE one or more swig interface files
 #   Any other argument to this function is assumed to be source files
 #   to be added to the swig target.
-macro(add_swig_executable SWIG_TARGET_NAME SWIG_INTERFACE_FILE)
+macro(add_rr_test_swig_library SWIG_TARGET_NAME SWIG_INTERFACE_FILE)
     # no harm in finding python here
     find_package(Python COMPONENTS Interpreter Development NumPy REQUIRED)
     find_package(SWIG 4.0.2 REQUIRED
@@ -131,20 +131,20 @@ macro(add_swig_executable SWIG_TARGET_NAME SWIG_INTERFACE_FILE)
             # is put into a configuration directory (release / debug etc.)
             # however we use the makefile way of doing things and put them in to
             # one directory on all systems.
-            RUNTIME_OUTPUT_DIRECTORY "${PYTHON_PACKAGE_BUILD_PREFIX}"
-            RUNTIME_OUTPUT_DIRECTORY_RELEASE "${PYTHON_PACKAGE_BUILD_PREFIX}"
-            RUNTIME_OUTPUT_DIRECTORY_DEBUG "${PYTHON_PACKAGE_BUILD_PREFIX}"
-            RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO "${PYTHON_PACKAGE_BUILD_PREFIX}"
+            RUNTIME_OUTPUT_DIRECTORY "${PYTHON_PACKAGE_BUILD_PREFIX}/testing"
+            RUNTIME_OUTPUT_DIRECTORY_RELEASE "${PYTHON_PACKAGE_BUILD_PREFIX}/testing"
+            RUNTIME_OUTPUT_DIRECTORY_DEBUG "${PYTHON_PACKAGE_BUILD_PREFIX}/testing"
+            RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO "${PYTHON_PACKAGE_BUILD_PREFIX}/testing"
 
-            LIBRARY_OUTPUT_DIRECTORY "${PYTHON_PACKAGE_BUILD_PREFIX}"
-            LIBRARY_OUTPUT_DIRECTORY_DEBUG "${PYTHON_PACKAGE_BUILD_PREFIX}"
-            LIBRARY_OUTPUT_DIRECTORY_RELEASE "${PYTHON_PACKAGE_BUILD_PREFIX}"
-            LIBRARY_OUTPUT_DIRECTORY_RELWITHDEBINFO "${PYTHON_PACKAGE_BUILD_PREFIX}"
+            LIBRARY_OUTPUT_DIRECTORY "${PYTHON_PACKAGE_BUILD_PREFIX}/testing"
+            LIBRARY_OUTPUT_DIRECTORY_DEBUG "${PYTHON_PACKAGE_BUILD_PREFIX}/testing"
+            LIBRARY_OUTPUT_DIRECTORY_RELEASE "${PYTHON_PACKAGE_BUILD_PREFIX}/testing"
+            LIBRARY_OUTPUT_DIRECTORY_RELWITHDEBINFO "${PYTHON_PACKAGE_BUILD_PREFIX}/testing"
 
-            ARCHIVE_OUTPUT_DIRECTORY "${PYTHON_PACKAGE_BUILD_PREFIX}"
-            ARCHIVE_OUTPUT_DIRECTORY_RELEASE "${PYTHON_PACKAGE_BUILD_PREFIX}"
-            ARCHIVE_OUTPUT_DIRECTORY_DEBUG "${PYTHON_PACKAGE_BUILD_PREFIX}"
-            ARCHIVE_OUTPUT_DIRECTORY_RELWITHDEBINFO "${PYTHON_PACKAGE_BUILD_PREFIX}"
+            ARCHIVE_OUTPUT_DIRECTORY "${PYTHON_PACKAGE_BUILD_PREFIX}/testing"
+            ARCHIVE_OUTPUT_DIRECTORY_RELEASE "${PYTHON_PACKAGE_BUILD_PREFIX}/testing"
+            ARCHIVE_OUTPUT_DIRECTORY_DEBUG "${PYTHON_PACKAGE_BUILD_PREFIX}/testing"
+            ARCHIVE_OUTPUT_DIRECTORY_RELWITHDEBINFO "${PYTHON_PACKAGE_BUILD_PREFIX}/testing"
     )
 
     set(thisDir ${CMAKE_CURRENT_SOURCE_DIR})
@@ -188,7 +188,7 @@ message(STATUS "RR_PYTHON_TESTING_BUILD_PREFIX: ${RR_PYTHON_TESTING_BUILD_PREFIX
 
 if (BUILD_PYTHON AND BUILD_TESTS)
     message(STATUS "Building TestModelFactory")
-    add_swig_executable(TestModelFactory
+    add_rr_test_swig_library(TestModelFactory
             "${CMAKE_CURRENT_SOURCE_DIR}/TestModelFactory.i"
             "${CMAKE_CURRENT_SOURCE_DIR}/TestModelFactory.h"
             "${CMAKE_CURRENT_SOURCE_DIR}/TestModelFactory.cpp"
