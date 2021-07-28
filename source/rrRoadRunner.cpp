@@ -2081,6 +2081,7 @@ namespace rr {
             const std::vector<std::string> &params,
             int k) {
         auto tsSensSolver = dynamic_cast<TimeSeriesSensitivitySolver *>(getSensitivitySolver());
+
         return tsSensSolver->solveSensitivities(start, stop, num, params, k);
     }
 

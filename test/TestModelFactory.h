@@ -754,6 +754,10 @@ namespace privateSwigTests_ {
 
     rr::Matrix<double> _testRRMatrixWithLabels();
 
+    std::string _testPythonStringToCxxRoundTrip(std::string s);
+
+    std::vector<std::string> _testAddElementToStringVec(std::vector<std::string> stringVec, std::string newElement);
+
 }
 
 

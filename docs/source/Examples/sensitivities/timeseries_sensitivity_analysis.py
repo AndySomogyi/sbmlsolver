@@ -12,7 +12,6 @@ numpy.ndarray containing the sensitivities matrix at each time point.
 
 """
 
-import roadrunner
 from roadrunner import RoadRunner
 from roadrunner.testing.TestModelFactory import TestModelFactory, getAvailableTestModels
 
@@ -27,19 +26,20 @@ sbml = TestModelFactory("OpenLinearFlux").str() # get the test model's sbml stri
 model = RoadRunner(sbml)
 
 # start integration with sensitivities at 0, end at 10 and collect 11 data points
-# The return type is a 2-Tuple, a time vector and a 3D sensitivity matrix (time x variables x parameters)
-time, sens = model.timeSeriesSensitivities(0, 10, 11)
+# The return type is a 4-Tuple,
+# a time vector, a 3D sensitivity matrix (time x parameters x variables )
+# rownames and column names
+time, sens, rownames, colnames = model.timeSeriesSensitivities(0, 10, 11)
 
+print(time)
+print(rownames)
+print(colnames)
 print(sens)
 
+# We can also be selective about which parameter to compute sensitivity for
+# time, sens, rownames, colnames = model.timeSeriesSensitivities(0, 10, 11, ["kin", "kf"])
+solver = model.getSensitivitySolver()
+print(type(solver))
 
-
-# sensSolver = model.getSensitivitySolver()
-# print(sensSolver)
-# print(sensSolver.getGlobalParameterNames())
-# print(sensSolver.getVariableNames())
-#
-# print(sens)
-
-
+print(type(model.getIntegrator()))
 
