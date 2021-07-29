@@ -98,7 +98,7 @@ endfunction()
 #   SWIG_INTERFACE_FILE one or more swig interface files
 #   Any other argument to this function is assumed to be source files
 #   to be added to the swig target.
-macro(add_swig_executable SWIG_TARGET_NAME SWIG_INTERFACE_FILE)
+macro(add_rr_test_swig_library SWIG_TARGET_NAME SWIG_INTERFACE_FILE)
     # no harm in finding python here
     find_package(Python COMPONENTS Interpreter Development NumPy REQUIRED)
     find_package(SWIG 4.0.2 REQUIRED
@@ -112,7 +112,9 @@ macro(add_swig_executable SWIG_TARGET_NAME SWIG_INTERFACE_FILE)
             SWIG_FLAGS
             # turns on automatic annotation of python arg and return types
             # BUT does so in c++ types. Therefore I'm not sure how much value this adds.
-            "-py3"
+            -py3
+            -threads
+            -doxygen
             )
 
     swig_add_library(${SWIG_TARGET_NAME}
@@ -124,43 +126,67 @@ macro(add_swig_executable SWIG_TARGET_NAME SWIG_INTERFACE_FILE)
     #    set(CMAKE_SWIG_FLAGS "-py3 -castmode -keyword")
     set_target_properties(
             ${SWIG_TARGET_NAME} PROPERTIES
-            # make the command "target_include_directories" work with swig targets
-            SWIG_USE_TARGET_INCLUDE_DIRECTORIES TRUE
 
             # On windows with the Visual Studio CMake generators, the pyd file
             # is put into a configuration directory (release / debug etc.)
             # however we use the makefile way of doing things and put them in to
             # one directory on all systems.
-            RUNTIME_OUTPUT_DIRECTORY "${PYTHON_PACKAGE_BUILD_PREFIX}"
-            RUNTIME_OUTPUT_DIRECTORY_RELEASE "${PYTHON_PACKAGE_BUILD_PREFIX}"
-            RUNTIME_OUTPUT_DIRECTORY_DEBUG "${PYTHON_PACKAGE_BUILD_PREFIX}"
-            RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO "${PYTHON_PACKAGE_BUILD_PREFIX}"
+            RUNTIME_OUTPUT_DIRECTORY "${RR_PYTHON_TESTING_BUILD_PREFIX}"
+            RUNTIME_OUTPUT_DIRECTORY_RELEASE "${RR_PYTHON_TESTING_BUILD_PREFIX}"
+            RUNTIME_OUTPUT_DIRECTORY_DEBUG "${RR_PYTHON_TESTING_BUILD_PREFIX}"
+            RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO "${RR_PYTHON_TESTING_BUILD_PREFIX}"
 
-            LIBRARY_OUTPUT_DIRECTORY "${PYTHON_PACKAGE_BUILD_PREFIX}"
-            LIBRARY_OUTPUT_DIRECTORY_DEBUG "${PYTHON_PACKAGE_BUILD_PREFIX}"
-            LIBRARY_OUTPUT_DIRECTORY_RELEASE "${PYTHON_PACKAGE_BUILD_PREFIX}"
-            LIBRARY_OUTPUT_DIRECTORY_RELWITHDEBINFO "${PYTHON_PACKAGE_BUILD_PREFIX}"
+            LIBRARY_OUTPUT_DIRECTORY "${RR_PYTHON_TESTING_BUILD_PREFIX}"
+            LIBRARY_OUTPUT_DIRECTORY_DEBUG "${RR_PYTHON_TESTING_BUILD_PREFIX}"
+            LIBRARY_OUTPUT_DIRECTORY_RELEASE "${RR_PYTHON_TESTING_BUILD_PREFIX}"
+            LIBRARY_OUTPUT_DIRECTORY_RELWITHDEBINFO "${RR_PYTHON_TESTING_BUILD_PREFIX}"
 
-            ARCHIVE_OUTPUT_DIRECTORY "${PYTHON_PACKAGE_BUILD_PREFIX}"
-            ARCHIVE_OUTPUT_DIRECTORY_RELEASE "${PYTHON_PACKAGE_BUILD_PREFIX}"
-            ARCHIVE_OUTPUT_DIRECTORY_DEBUG "${PYTHON_PACKAGE_BUILD_PREFIX}"
-            ARCHIVE_OUTPUT_DIRECTORY_RELWITHDEBINFO "${PYTHON_PACKAGE_BUILD_PREFIX}"
+            ARCHIVE_OUTPUT_DIRECTORY "${RR_PYTHON_TESTING_BUILD_PREFIX}"
+            ARCHIVE_OUTPUT_DIRECTORY_RELEASE "${RR_PYTHON_TESTING_BUILD_PREFIX}"
+            ARCHIVE_OUTPUT_DIRECTORY_DEBUG "${RR_PYTHON_TESTING_BUILD_PREFIX}"
+            ARCHIVE_OUTPUT_DIRECTORY_RELWITHDEBINFO "${RR_PYTHON_TESTING_BUILD_PREFIX}"
+
+            # make the command "target_include_directories" work with swig targets
+            SWIG_USE_TARGET_INCLUDE_DIRECTORIES TRUE
+            OUTPUT_NAME ${SWIG_TARGET_NAME}
     )
 
-    set(thisDir ${CMAKE_CURRENT_SOURCE_DIR})
     target_include_directories(${SWIG_TARGET_NAME} PUBLIC
-            ${thisDir}
+            "${ThisSourceDirectory}" # test root
+            "${CMAKE_CURRENT_SOURCE_DIR}"
             "${RR_ROOT}/wrappers/Python/include"
             "${RR_ROOT}/wrappers/Python/roadrunner"
             $<TARGET_PROPERTY:roadrunner-static,INCLUDE_DIRECTORIES>
-            $<TARGET_PROPERTY:roadrunner_python,INCLUDE_DIRECTORIES>
+            "${RR_DEPENDENCIES_INSTALL_PREFIX}/include/rr-libstruct"
+            "${Python_INCLUDE_DIRS}"
+            "${Python_NumPy_INCLUDE_DIRS}"
+            #            $<TARGET_PROPERTY:roadrunner_python,INCLUDE_DIRECTORIES>
             )
-    target_link_libraries(${SWIG_TARGET_NAME} PUBLIC
-            rr-mockups
-            roadrunner-static
-            Python::Python # remember, includes will just come with linking Python::Python
-            Python::NumPy  # remember, includes will just come with linking Python::NumPy
-            )
+    if (NOT APPLE)
+        target_link_libraries(${SWIG_TARGET_NAME} PUBLIC
+                rr-mockups
+                roadrunner-static
+                Python::Python # remember, includes will just come with linking Python::Python
+                Python::NumPy  # remember, includes will just come with linking Python::NumPy
+                )
+    else ()
+
+        set_target_properties(${SWIG_TARGET_NAME}
+                PROPERTIES
+                LINK_FLAGS "-undefined dynamic_lookup"
+                INSTALL_RPATH "@loader_path/../../lib;@loader_path/"
+                INSTALL_NAME_DIR "@rpath"
+                )
+        swig_link_libraries(${SWIG_TARGET_NAME} PUBLIC
+                rr-mockups
+                roadrunner-static
+                # Since we are using "-undefined dynamic_lookup"
+                # we do not need to link to Python here - they will
+                # be found at runtime.
+                #Python::Python
+                #Python::NumPy
+                )
+    endif ()
 
     message(STATUS "Adding swig executable: ${SWIG_TARGET_NAME}")
     message(STATUS "Swig target \"${SWIG_TARGET_NAME}\" will be copied to \"${RR_PYTHON_TESTING_BUILD_PREFIX}\" in the build tree after the target is built")
@@ -177,8 +203,14 @@ macro(add_swig_executable SWIG_TARGET_NAME SWIG_INTERFACE_FILE)
             COMMAND ${CMAKE_COMMAND} -E copy "${SWIG_GENERATED_PYTHON_FILE}" "${RR_PYTHON_TESTING_BUILD_PREFIX}"
     )
 
-    # todo "install" commands
-
+    # install python test files to install tree
+    install(TARGETS ${SWIG_TARGET_NAME} DESTINATION "${RR_PYTHON_TESTING_INSTALL_PREFIX}")
+    install(
+            FILES
+            "${RR_PYTHON_TESTING_BUILD_PREFIX}/${SWIG_TARGET_NAME}.py"
+            DESTINATION
+            "${RR_PYTHON_TESTING_INSTALL_PREFIX}/"
+    )
 endmacro()
 
 #########################################################
@@ -188,15 +220,14 @@ message(STATUS "RR_PYTHON_TESTING_BUILD_PREFIX: ${RR_PYTHON_TESTING_BUILD_PREFIX
 
 if (BUILD_PYTHON AND BUILD_TESTS)
     message(STATUS "Building TestModelFactory")
-    add_swig_executable(TestModelFactory
+    add_rr_test_swig_library(TestModelFactory
             "${CMAKE_CURRENT_SOURCE_DIR}/TestModelFactory.i"
             "${CMAKE_CURRENT_SOURCE_DIR}/TestModelFactory.h"
             "${CMAKE_CURRENT_SOURCE_DIR}/TestModelFactory.cpp"
-            "../wrappers/Python/roadrunner/PyUtils"
+            "../wrappers/Python/roadrunner/PyUtils.h"
+            "../wrappers/Python/roadrunner/PyUtils.cpp"
             )
 
-
-    # configure Python files to binary tree
     configure_file(
             "${CMAKE_CURRENT_SOURCE_DIR}/TestModelFactoryTests.py"
             "${RR_PYTHON_TESTING_BUILD_PREFIX}/TestModelFactoryTests.py" COPYONLY)
@@ -204,11 +235,8 @@ if (BUILD_PYTHON AND BUILD_TESTS)
             "${CMAKE_CURRENT_SOURCE_DIR}/RoadRunnerTest.py"
             "${RR_PYTHON_TESTING_BUILD_PREFIX}/RoadRunnerTest.py" COPYONLY)
 
-    # install python test files to install tree
-    install(TARGETS TestModelFactory DESTINATION "${RR_PYTHON_TESTING_INSTALL_PREFIX}")
     install(
             FILES
-            "${RR_PYTHON_TESTING_BUILD_PREFIX}/TestModelFactory.py"
             "${RR_PYTHON_TESTING_BUILD_PREFIX}/TestModelFactoryTests.py"
             DESTINATION
             "${RR_PYTHON_TESTING_INSTALL_PREFIX}"
@@ -282,7 +310,7 @@ if (BUILD_PYTHON AND BUILD_TESTS)
             run-pytest-tests
             ctest --output-on-failure --verbose --extra-verbose --tests-regex python_tests*
     )
-    add_dependencies(run-pytest-tests roadrunner_python TestModelFactory SettingTestsSwigAPI)
+    #    add_dependencies(run-pytest-tests roadrunner_python TestModelFactory SettingTestsSwigAPI)
 
 endif ()
 
@@ -315,6 +343,8 @@ add_custom_target(
 )
 
 add_dependencies(run-ctest-only-sbml-test-suite ${test_targets})
+
+
 
 
 

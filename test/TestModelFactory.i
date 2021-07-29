@@ -4,40 +4,33 @@
     #define SWIG_FILE_WITH_INIT
     #define PY_ARRAY_UNIQUE_SYMBOL RoadRunner_ARRAY_API // for the NamedArrayObject (see roadrunner.i)
 
-    #include <unordered_map>
-    #include <utility>
-    #include <iostream>
-
     #include "PyUtils.h" // for variant_to_py and back.
-
-
     #include "Matrix.h"
     #include "Matrix3D.h"
+    #include <vector>
     #include "TestModelFactory.h"
     using namespace rr;
 
-
 %}
 
-#include <iostream>
-#include <unordered_map>
-
-// since we be using the ls::Matrix from a Python
-// we'll be using the same API needed by the main roadrunner bindings
+//// since we be using the ls::Matrix from a Python
+//// we'll be using the same API needed by the main roadrunner bindings
 %include "numpy.i"
 %init %{
 import_array();
 rr::pyutil_init(m);
 %}
-
-%include "std_string.i"
+//
+#include <vector>
 %include "std_vector.i"
+%include "std_string.i"
+%template(IntVector) std::vector<int>;
 %include "std_pair.i"
 %include "std_unordered_map.i"
 
 %include "PyUtils.h"
-%include "Matrix.h"
-%include "Matrix3D.h"
+//%include "Matrix.h"
+//%include "Matrix3D.h"
 
 // make a Python Tuple from a C++ DoublePair
 %typemap(out) std::pair<double, double>*
@@ -369,7 +362,7 @@ rr::pyutil_init(m);
 
 %newobject TestModelFactory;
 
-#include "TestModelFactory.h"
+//#include "TestModelFactory.h"
 %include "TestModelFactory.h"
 
 
