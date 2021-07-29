@@ -146,9 +146,10 @@ namespace rr {
          * @param params vector of parameters that you want sensitivity for. When empty (default), compute
          * sensitivities for all parameters vs all variables.
          * @param k (default 0) return the kth other derivative of the sensitivity data.
+         * @note for developers. Pass by value for the params is easier to wrap with swig.
          */
         Matrix3D<double, double> solveSensitivities(double start, double stop, int num,
-                                                    const std::vector<std::string> &params = std::vector<std::string>(),
+                                                    std::vector<std::string> params = std::vector<std::string>(),
                                                     int k = 0);
 
         void setValue(const std::string &key, Setting val);
@@ -258,6 +259,17 @@ namespace rr {
          * @details mirrors CVODEIntegrator
          */
         bool stateVectorVariables = false;
+
+        /**
+         * @brief get the parameter names that correspond to the current values of plist
+         */
+        std::vector<std::string> getParameterNamesFromPlist();
+
+        /**
+         * @brief get the parameter values that correspond to the current values of plist
+         */
+        std::vector<double> getParameterValuesFromPlist();
+
 
         friend int FFSDyDtFcn(realtype time, N_Vector cv_y, N_Vector cv_ydot, void *userData);
 

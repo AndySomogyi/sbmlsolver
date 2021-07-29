@@ -760,6 +760,8 @@ namespace privateSwigTests_ {
 
     std::vector<std::string> _testAddElementToStringVec(std::vector<std::string> stringVec, std::string newElement);
 
+    std::vector<std::string>& _testAddElementToStringVecAsReference( std::vector< std::string>& stringVec, std::string newElement);
+
 }
 
 

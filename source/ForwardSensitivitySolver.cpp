@@ -38,7 +38,11 @@ namespace rr {
         assert(inst && "userData pointer is NULL in cvode dydt callback");
 
         ExecutableModel *model = inst->getModel();
-        model->setGlobalParameterValues(inst->Np, inst->plist.data(), inst->p.data());
+
+        // for cases when Ns < Np we should ensure p maps to the indexes in plist
+        // just in case cvodes only reads the first Ns values (aka uses positional index)
+        std::vector<double> pVector = inst->getParameterValuesFromPlist();
+        model->setGlobalParameterValues(inst->Ns, inst->plist.data(), pVector.data());
 
         model->getStateVectorRate(time, y, ydot);
 
@@ -177,7 +181,7 @@ namespace rr {
     }
 
     void ForwardSensitivitySolver::create() {
-        if (!mModel) {
+                if (!mModel) {
             return;
         }
 
@@ -525,10 +529,26 @@ namespace rr {
     }
 
     void ForwardSensitivitySolver::deducePlist() {
+        // collect valid strings for validating user input
+        std::vector<std::string> validParameterStrings(Np);
+        for (int i=0; i< Np; i++){
+            validParameterStrings[i] = mModel->getGlobalParameterId(i);
+        }
+        // make sure we resize both Ns, and plist
+        Ns = (int)whichParameters.size();
         plist.clear();
         plist.resize(whichParameters.size());
         for (int i = 0; i < whichParameters.size(); i++) {
             const std::string &paramName = whichParameters.at(i);
+            if (std::find(validParameterStrings.begin(), validParameterStrings.end(), paramName) == validParameterStrings.end()){
+                std::ostringstream err;
+                err << "Parameter \"" << paramName << "\" is not a valid parameter. ";
+                err << "These are valid parameters: ";
+                for (auto para: validParameterStrings){
+                    err << para << ", ";
+                }
+                throw std::invalid_argument(err.str());
+            }
             int idx = mModel->getGlobalParameterIndex(paramName);
             plist[i] = idx;
         }
@@ -589,39 +609,58 @@ namespace rr {
         }
     }
 
+    std::vector<std::string> ForwardSensitivitySolver::getParameterNamesFromPlist(){
+        std::vector<std::string> pVector(Ns);
+        const auto& allParamNames = getGlobalParameterNames();
+        for (int i=0; i<Ns; i++){
+            auto plist_idx = plist[i];
+            pVector[i] = allParamNames[plist_idx];
+        }
+        return pVector;
+    }
+
+    std::vector<double> ForwardSensitivitySolver::getParameterValuesFromPlist(){
+        std::vector<double> pVector(Ns);
+        for (int i=0; i<Ns; i++){
+            auto plist_idx = plist[i];
+            pVector[i] = p[plist_idx];
+        }
+        return pVector;
+    }
+
     Matrix3D<double, double> ForwardSensitivitySolver::solveSensitivities(
             double start, double stop, int num,
-            const std::vector<std::string> &params, int k) {
+            std::vector<std::string> params, int k) {
         if (!params.empty()) {
             whichParameters = params;
-            deducePlist();
+        } else {
+            // in cases where ForwardSensitivitySolver has already
+            // been used with an non empty params argument
+            // we need to reset the parameters to default
+            whichParameters = getGlobalParameterNames();
         }
-        std::cout << "ts whichParameters: ";
-        for (int i = 0; i < whichParameters.size(); i++) {
-            std::cout << whichParameters[i] << ", ";
-        }
-        std::cout << std::endl;
-
+        deducePlist();
+        cvodeIntegrator->restart(start);
         int intervals = num - 1;
-        double stepSize = (stop - start) / intervals;
-
+                double stepSize = (stop - start) / intervals;
+        
         Matrix3D<double, double> results(Ns, numModelVariables, num);
-//        std::cout << results.numRows() << "; " << results.numCols() << "; " << results.numZ() << std::endl;
+        //        std::cout << results.numRows() << "; " << results.numCols() << "; " << results.numZ() << std::endl;
 
         // collect initial data
         double t = start;
-        results.setKthMatrix(0, t, getSensitivityMatrix(k));
-
+                results.setKthMatrix(0, t, getSensitivityMatrix(k));
+        
         int numberOfPoints = 1;
-        for (int i = 1; i < num; i++) {
-            t = integrate(t, stepSize);
-            results.setKthMatrix(numberOfPoints, t, getSensitivityMatrix(k));
-            numberOfPoints++;
-        }
-
+                for (int i = 1; i < num; i++) {
+                        t = integrate(t, stepSize);
+                        results.setKthMatrix(numberOfPoints, t, getSensitivityMatrix(k));
+                        numberOfPoints++;
+                    }
+        
         results.setRowNames(getGlobalParameterNames());
-        results.setColNames(getVariableNames());
-
+                results.setColNames(getVariableNames());
+        
         return results;
     }
 

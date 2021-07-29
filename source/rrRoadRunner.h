@@ -31,12 +31,18 @@ namespace ls {
 namespace rr {
 
     class ModelGenerator;
+
     class SBMLModelSimulation;
+
     class ExecutableModel;
+
     class Integrator;
+
     class SteadyStateSolver;
+
     class SensitivitySolver;
-    template <class IndexType, class DataType>
+
+    template<class IndexType, class DataType>
     class Matrix3D;
 
 /**
@@ -166,17 +172,17 @@ namespace rr {
         /**
          * Make an integrator for the given name
          */
-        Integrator *makeIntegrator(const std::string& name);
+        Integrator *makeIntegrator(const std::string &name);
 
         /**
          * Make an SteadyStateSolver* for the given name
          */
-        SteadyStateSolver *makeSteadyStateSolver(const std::string& name);
+        SteadyStateSolver *makeSteadyStateSolver(const std::string &name);
 
         /**
          * @brief Make SensitivitySolver for the given name
          */
-        SensitivitySolver* makeSensitivitySolver(const std::string& name);
+        SensitivitySolver *makeSensitivitySolver(const std::string &name);
 
 
         /* Return a list of the names of all existing integrators. */
@@ -209,12 +215,12 @@ namespace rr {
         /**
          * @brief set the current Integrator to @param name;
          */
-        void setIntegrator(const std::string& name);
+        void setIntegrator(const std::string &name);
 
         /**
          * @brief set the current SteadyStateSolver to @param name;
          */
-        void setSteadyStateSolver(const std::string& name);
+        void setSteadyStateSolver(const std::string &name);
 
         /**
          * @brief set the current SensitivitySolver to @param name;
@@ -224,17 +230,17 @@ namespace rr {
         /**
          * @brief returns true if integrator @param name exists.
          */
-        bool integratorExists(const std::string& name);
+        bool integratorExists(const std::string &name);
 
         /**
          * @brief returns true if SteadyStateSolver @param name exists.
          */
-        bool steadyStateSolverExists(const std::string& name);
+        bool steadyStateSolverExists(const std::string &name);
 
         /**
          * @brief returns true if SensitivitySolver @param name exists.
          */
-        bool sensitivitySolverExists(const std::string& name);
+        bool sensitivitySolverExists(const std::string &name);
 
         /**
          * Ensures all integrators and steady state solvers are registered
@@ -355,8 +361,9 @@ namespace rr {
          * @param k (default 0) return the kth other derivative of the sensitivity data.
          */
         Matrix3D<double, double> timeSeriesSensitivities(double start, double stop, int num,
-                const std::vector<std::string>& params = std::vector<std::string>(),
+                std::vector<std::string> params = std::vector<std::string>(),
                 int k = 0);
+
         /*
         *  Saves this roadrunner instance to a file so it can be reloaded later
         * If opt == 'b' (the default value), this function will output a platform-specific
@@ -931,7 +938,7 @@ namespace rr {
          * Get the hasOnlySubstanceUnits attribute for an existing species.
          * @param sid: the ID of a species
          */
-        bool getHasOnlySubstanceUnits(const std::string& sid);
+        bool getHasOnlySubstanceUnits(const std::string &sid);
 
 
         /**

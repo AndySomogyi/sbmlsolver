@@ -3056,6 +3056,11 @@ namespace privateSwigTests_ {
         return stringVec;
     }
 
+     std::vector<std::string>& _testAddElementToStringVecAsReference( std::vector< std::string>& stringVec, std::string newElement){
+        stringVec.push_back(newElement);
+        return stringVec;
+    }
+
 
 }
 

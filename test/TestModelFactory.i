@@ -22,15 +22,25 @@ rr::pyutil_init(m);
 %}
 //
 #include <vector>
+%include <typemaps.i>
 %include "std_vector.i"
 %include "std_string.i"
-%template(IntVector) std::vector<int>;
 %include "std_pair.i"
 %include "std_unordered_map.i"
-
 %include "PyUtils.h"
 //%include "Matrix.h"
 //%include "Matrix3D.h"
+
+/**
+ * Converts a C++ vector of strings to a Python list of strings
+ */
+%template() std::vector<int>;
+%template() std::vector<std::string>;
+
+%apply std::vector<std::string> INOUT { // note the INOUT which is important for pass by reference
+    std::vector<std::string>&,
+    const std::vector<std::string>&
+}
 
 // make a Python Tuple from a C++ DoublePair
 %typemap(out) std::pair<double, double>*
@@ -144,12 +154,6 @@ rr::pyutil_init(m);
         }
     }
 }
-
-/**
- * Converts a C++ vector of strings to a Python list of strings
- */
-%template() std::vector<int>;
-%template() std::vector<std::string>;
 
 
 /**************************************************

@@ -3,13 +3,11 @@
 #
 
 """
-
 In this example we show you how to use roadrunners time series sensitivities
 feature. Roadrunner will integrate the model and compute sensitivities at
-each time step. The return type is a 2-tuple where the first element is a
-1D numpy.ndarray of the integration time points and the second elment is a 3D
-numpy.ndarray containing the sensitivities matrix at each time point.
-
+each time step. You can select which parameters you want sensitivities for
+and you can have the return matrix (a 3D numpy.ndarray) as the kth order
+derivative of the sensitivity matrix.
 """
 
 import roadrunner
@@ -31,13 +29,34 @@ model = RoadRunner(sbml)
 # dimensions time x parameters x variables - that is, an array of matrices corresponding
 # to the time points in the time vector with parameters down the rows and model variables (species)
 # accross the columns. The third and forth elements are row and column names respectively.
-#
 time, sens, rownames, colnames = model.timeSeriesSensitivities(0, 10, 11)
+
+print("time: ", time)
+print("rownames: ", rownames)
+print("colnames: ", colnames)
+
+# Note that in this model, the parameter kb is not used in any
+# rate law and therefore the sensitivities of model variables
+# to kb is always 0
+print(sens)
+
+# By default, all model parameters are automatically selected.
+# You can be more selective about which parameters to compute sensitivities for.
+# This will have a performance advantage, because sensitivities are only computed
+# for the parameters specified here.
+time, sens, rownames, colnames = model.timeSeriesSensitivities(0, 10, 11, params=["kin"])
 
 print("time: ", time)
 print("rownames: ", rownames)
 print("colnames: ", colnames)
 print(sens)
 
+# The return type, by default, returns the k=0th derivative of the
+# sensitivity matrix at each time point. The kth order derivative
+# be obtained instead by using the k parameter
+time, sens, rownames, colnames = model.timeSeriesSensitivities(0, 10, 11, k=1)
 
-time, sens, rownames, colnames = model.timeSeriesSensitivities(0, 10, 11, ["kin"])
+print("time: ", time)
+print("rownames: ", rownames)
+print("colnames: ", colnames)
+print(sens)

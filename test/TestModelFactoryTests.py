@@ -276,8 +276,19 @@ class TestModelFactoryTests(unittest.TestCase):
         self.assertIsInstance(roundTrip, str)
         self.assertEqual("Python String", roundTrip)
 
-
-    def test_list_of_strings_input_typemap(self):
+    def test_list_of_strings_by_value(self):
         l = ["first", "second", "third"]
         l = tmf._testAddElementToStringVec(l, "fourth")
         self.assertEqual(l, ("first", "second", "third", "fourth"))
+
+
+
+
+
+
+
+
+
+
+
+

@@ -73,14 +73,12 @@ TEST_F(FFSUnitTests, getModelParametersAsVector) {
 
 TEST_F(FFSUnitTests, deducePlistDefaultToAllParameters) {
     ForwardSensitivitySolver forwardSensitivitySolver(model);
-    forwardSensitivitySolver.deducePlist();
     std::vector<int> expected({0, 1});
     ASSERT_EQ(expected, forwardSensitivitySolver.plist);
 }
 
 TEST_F(FFSUnitTests, deducePlistFirstParameter) {
     ForwardSensitivitySolver forwardSensitivitySolver(model, {"kf"});
-    forwardSensitivitySolver.deducePlist();
     std::vector<int> expected({0});
     ASSERT_EQ(expected, forwardSensitivitySolver.plist);
 }
@@ -89,7 +87,6 @@ TEST_F(FFSUnitTests, deducePlistSecondParameter) {
     RoadRunner r(SimpleFlux().str());
     ExecutableModel *model = r.getModel();
     ForwardSensitivitySolver forwardSensitivitySolver(model, {"kb"});
-    forwardSensitivitySolver.deducePlist();
     std::vector<int> expected({1});
     ASSERT_EQ(expected, forwardSensitivitySolver.plist);
 }
@@ -102,7 +99,6 @@ TEST_F(FFSUnitTests, RunTwoSensitivityAnalysesBackToBack) {
     forwardSensitivitySolver.solveSensitivities(0, 10, 11);
     // if the second call to getSensitivityMatrix() doesn't throw then we've passed
     ASSERT_NO_THROW(forwardSensitivitySolver.getSensitivityMatrix());
-
 }
 
 TEST_F(FFSUnitTests, AddParameterCheckNp) {
@@ -135,6 +131,41 @@ TEST_F(FFSUnitTests, ChangeSolverSettingAndRegenerateModel) {
     ASSERT_STREQ(s.getAs<std::string>().c_str(), "fixed_point");
 }
 
+TEST_F(FFSUnitTests, SolveSensitivitiesForSelectiveParameters1) {
+    RoadRunner r(SimpleFlux().str());
+    ExecutableModel *model = r.getModel();
+    ForwardSensitivitySolver forwardSensitivitySolver(model, {"kf"});
+    ASSERT_NO_THROW(forwardSensitivitySolver.solveSensitivities(0, 10, 11));
+}
+
+
+TEST_F(FFSUnitTests, SolveSensitivitiesForSelectiveParameters2) {
+    RoadRunner r(SimpleFlux().str());
+    ExecutableModel *model = r.getModel();
+    ForwardSensitivitySolver forwardSensitivitySolver(model);
+    forwardSensitivitySolver.solveSensitivities(0, 10, 11, {"kf"});
+}
+
+TEST_F(FFSUnitTests, SolveTwiceWithDifferentParametersBothTimes) {
+    RoadRunner r(OpenLinearFlux().str());
+    ExecutableModel *model = r.getModel();
+    ForwardSensitivitySolver forwardSensitivitySolver(model);
+    auto first = forwardSensitivitySolver.solveSensitivities(0, 10, 11, {"kf", "kout"});
+    auto second = forwardSensitivitySolver.solveSensitivities(0, 10, 11, {"kin"});
+    ASSERT_EQ(2, first.numRows());
+    ASSERT_EQ(1, second.numRows());
+}
+
+TEST_F(FFSUnitTests, SolveTwiceWithDifferentParametersBothTimesEmptySecond) {
+    RoadRunner r(OpenLinearFlux().str());
+    ExecutableModel *model = r.getModel();
+    ForwardSensitivitySolver forwardSensitivitySolver(model);
+    auto first = forwardSensitivitySolver.solveSensitivities(0, 10, 11, {"kf", "kout"});
+    // empty params should reset back to 4
+    auto second = forwardSensitivitySolver.solveSensitivities(0, 10, 11);
+    ASSERT_EQ(2, first.numRows());
+    ASSERT_EQ(4, second.numRows());
+}
 
 
 
