@@ -227,6 +227,14 @@ if (BUILD_PYTHON AND BUILD_TESTS)
             "../wrappers/Python/roadrunner/PyUtils.h"
             "../wrappers/Python/roadrunner/PyUtils.cpp"
             )
+
+    configure_file(
+            "${CMAKE_CURRENT_SOURCE_DIR}/TestModelFactoryTests.py"
+            "${RR_PYTHON_TESTING_BUILD_PREFIX}/TestModelFactoryTests.py" COPYONLY)
+    configure_file(
+            "${CMAKE_CURRENT_SOURCE_DIR}/RoadRunnerTest.py"
+            "${RR_PYTHON_TESTING_BUILD_PREFIX}/RoadRunnerTest.py" COPYONLY)
+
     install(
             FILES
             "${RR_PYTHON_TESTING_BUILD_PREFIX}/TestModelFactoryTests.py"
