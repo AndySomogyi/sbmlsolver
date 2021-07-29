@@ -209,7 +209,7 @@ macro(add_rr_test_swig_library SWIG_TARGET_NAME SWIG_INTERFACE_FILE)
             FILES
             "${RR_PYTHON_TESTING_BUILD_PREFIX}/${SWIG_TARGET_NAME}.py"
             DESTINATION
-            "${RR_PYTHON_TESTING_INSTALL_PREFIX}/${SWIG_TARGET_NAME}.py"
+            "${RR_PYTHON_TESTING_INSTALL_PREFIX}/"
     )
 endmacro()
 
