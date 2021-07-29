@@ -94,6 +94,17 @@ TEST_F(FFSUnitTests, deducePlistSecondParameter) {
     ASSERT_EQ(expected, forwardSensitivitySolver.plist);
 }
 
+TEST_F(FFSUnitTests, RunTwoSensitivityAnalysesBackToBack) {
+    RoadRunner r(SimpleFlux().str());
+    ExecutableModel *model = r.getModel();
+    ForwardSensitivitySolver forwardSensitivitySolver(model);
+    forwardSensitivitySolver.solveSensitivities(0, 10, 11);
+    forwardSensitivitySolver.solveSensitivities(0, 10, 11);
+    // if the second call to getSensitivityMatrix() doesn't throw then we've passed
+    ASSERT_NO_THROW(forwardSensitivitySolver.getSensitivityMatrix());
+
+}
+
 TEST_F(FFSUnitTests, AddParameterCheckNp) {
     RoadRunner r(SimpleFlux().str());
     r.addParameter("newP", 5, true);
@@ -123,6 +134,7 @@ TEST_F(FFSUnitTests, ChangeSolverSettingAndRegenerateModel) {
     auto s = r.getSensitivitySolver()->getValue("nonlinear_solver");
     ASSERT_STREQ(s.getAs<std::string>().c_str(), "fixed_point");
 }
+
 
 
 
