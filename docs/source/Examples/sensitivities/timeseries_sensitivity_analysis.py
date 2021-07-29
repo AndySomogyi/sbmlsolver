@@ -60,3 +60,13 @@ print("time: ", time)
 print("rownames: ", rownames)
 print("colnames: ", colnames)
 print(sens)
+
+
+# sensSolver = model.getSensitivitySolver()
+# sensSolver.setValue("sensitivity_method", "staggered")
+# time, sens, rownames, colnames = model.timeSeriesSensitivities(0, 10, 11, k=1)
+#
+# print("time: ", time)
+# print("rownames: ", rownames)
+# print("colnames: ", colnames)
+# print(sens)

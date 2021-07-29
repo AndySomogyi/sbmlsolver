@@ -1,5 +1,5 @@
-Sensitivities
-==============
+Time Series Sensitivities
+=========================
 
 
 simple sensitivities. Explain the return type

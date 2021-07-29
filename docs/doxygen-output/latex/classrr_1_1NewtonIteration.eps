@@ -5,7 +5,7 @@
 %%For: 
 %Magnification: 1.00
 %%Orientation: Portrait
-%%BoundingBox: 0 0 500 268.817200
+%%BoundingBox: 0 0 500 322.580658
 %%Pages: 0
 %%BeginSetup
 %%EndSetup
@@ -19,12 +19,12 @@
 /marginwidth 10 def
 /distx 20 def
 /disty 40 def
-/boundaspect 1.860000 def  % aspect ratio of the BoundingBox (width/height)
+/boundaspect 1.550000 def  % aspect ratio of the BoundingBox (width/height)
 /boundx 500 def
 /boundy boundx boundaspect div def
 /xspacing 0 def
 /yspacing 0 def
-/rows 5 def
+/rows 6 def
 /cols 2 def
 /scalefactor 0 def
 /boxfont /Times-Roman findfont fontheight scalefont def
@@ -177,6 +177,7 @@ boxfont setfont
 (rr::KinsolSteadyStateSolver) cw
 (rr::SteadyStateSolver) cw
 (rr::Solver) cw
+(rr::Registrable) cw
 (rr::BasicNewtonIteration) cw
 (rr::LinesearchNewtonIteration) cw
 /boxwidth boxwidth marginwidth 2 mul add def
@@ -194,6 +195,7 @@ boundx scalefactor div boundy scalefactor div scale
  (rr::KinsolSteadyStateSolver) 0.500000 2.000000 box
  (rr::SteadyStateSolver) 0.500000 3.000000 box
  (rr::Solver) 0.500000 4.000000 box
+ (rr::Registrable) 0.500000 5.000000 box
  (rr::BasicNewtonIteration) 0.000000 0.000000 box
  (rr::LinesearchNewtonIteration) 1.000000 0.000000 box
 
@@ -211,6 +213,10 @@ solid
 0 0.500000 3.000000 out
 solid
 1 0.500000 4.000000 in
+solid
+0 0.500000 4.000000 out
+solid
+1 0.500000 5.000000 in
 solid
 1 0.500000 0.250000 out
 solid

@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
   <compounddef id="classrrllvm_1_1Event" kind="class" language="C++" prot="public">
     <compoundname>rrllvm::Event</compoundname>
       <sectiondef kind="public-attrib">
@@ -261,7 +261,7 @@
       </sectiondef>
       <sectiondef kind="friend">
       <memberdef kind="friend" id="classrrllvm_1_1Event_1a7e9a71edff5dada6a376bd88a8eb087b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>friend bool</type>
+        <type>bool</type>
         <definition>bool operator&lt;</definition>
         <argsstring>(const Event &amp;a, const Event &amp;b)</argsstring>
         <name>operator&lt;</name>

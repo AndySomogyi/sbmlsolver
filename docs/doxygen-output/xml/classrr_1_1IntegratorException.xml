@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
   <compounddef id="classrr_1_1IntegratorException" kind="class" language="C++" prot="public">
     <compoundname>rr::IntegratorException</compoundname>
-    <basecompoundref prot="public" virt="non-virtual">runtime_error</basecompoundref>
+    <basecompoundref prot="public" virt="non-virtual">std::runtime_error</basecompoundref>
       <sectiondef kind="public-func">
       <memberdef kind="function" id="classrr_1_1IntegratorException_1a83243902f1d8acb89187af0ee5e46842" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
         <type></type>
@@ -19,7 +19,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="Integrator.h" line="147" column="18" bodyfile="Integrator.h" bodystart="147" bodyend="149"/>
+        <location file="Integrator.h" line="148" column="18" bodyfile="Integrator.h" bodystart="148" bodyend="150"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1IntegratorException_1a5a5731b87a85e2e2ede1a864efeedec7" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
         <type></type>
@@ -40,7 +40,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="Integrator.h" line="151" column="18" bodyfile="Integrator.h" bodystart="151" bodyend="153"/>
+        <location file="Integrator.h" line="152" column="18" bodyfile="Integrator.h" bodystart="152" bodyend="154"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -55,7 +55,7 @@
         </childnode>
       </node>
       <node id="2">
-        <label>runtime_error</label>
+        <label>std::runtime_error</label>
       </node>
     </inheritancegraph>
     <collaborationgraph>
@@ -66,10 +66,10 @@
         </childnode>
       </node>
       <node id="2">
-        <label>runtime_error</label>
+        <label>std::runtime_error</label>
       </node>
     </collaborationgraph>
-    <location file="Integrator.h" line="145" column="5" bodyfile="Integrator.h" bodystart="145" bodyend="154"/>
+    <location file="Integrator.h" line="146" column="5" bodyfile="Integrator.h" bodystart="146" bodyend="155"/>
     <listofallmembers>
       <member refid="classrr_1_1IntegratorException_1a83243902f1d8acb89187af0ee5e46842" prot="public" virt="non-virtual"><scope>rr::IntegratorException</scope><name>IntegratorException</name></member>
       <member refid="classrr_1_1IntegratorException_1a5a5731b87a85e2e2ede1a864efeedec7" prot="public" virt="non-virtual"><scope>rr::IntegratorException</scope><name>IntegratorException</name></member>

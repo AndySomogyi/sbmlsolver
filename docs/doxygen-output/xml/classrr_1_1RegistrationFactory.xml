@@ -1,0 +1,242 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="classrr_1_1RegistrationFactory" kind="class" language="C++" prot="public">
+    <compoundname>rr::RegistrationFactory</compoundname>
+    <derivedcompoundref refid="classrr_1_1IntegratorFactory" prot="public" virt="non-virtual">rr::IntegratorFactory</derivedcompoundref>
+    <derivedcompoundref refid="classrr_1_1SensitivitySolverFactory" prot="public" virt="non-virtual">rr::SensitivitySolverFactory</derivedcompoundref>
+    <derivedcompoundref refid="classrr_1_1SteadyStateSolverFactory" prot="public" virt="non-virtual">rr::SteadyStateSolverFactory</derivedcompoundref>
+    <includes refid="RegistrationFactory_8h" local="no">RegistrationFactory.h</includes>
+      <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classrr_1_1RegistrationFactory_1ab1f8e12285e842396a4d292cd0a96502" prot="protected" static="no" mutable="no">
+        <type>RegistrableVector</type>
+        <definition>RegistrableVector rr::RegistrationFactory::registrars</definition>
+        <argsstring></argsstring>
+        <name>registrars</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="RegistrationFactory.h" line="74" column="27" bodyfile="RegistrationFactory.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classrr_1_1RegistrationFactory_1a1bf700b4a149b2ace54e205bdf8e32de" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>rr::RegistrationFactory::~RegistrationFactory</definition>
+        <argsstring>()</argsstring>
+        <name>~RegistrationFactory</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="RegistrationFactory.h" line="31" column="17" bodyfile="RegistrationFactory.cpp" bodystart="14" bodyend="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1RegistrationFactory_1af6a9a68a5895f4da2bf3f57872b09bd4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classrr_1_1Solver" kindref="compound">Solver</ref> *</type>
+        <definition>Solver * rr::RegistrationFactory::New</definition>
+        <argsstring>(const std::string &amp;name, ExecutableModel *m) const</argsstring>
+        <name>New</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type><ref refid="classrr_1_1ExecutableModel" kindref="compound">ExecutableModel</ref> *</type>
+          <declname>m</declname>
+        </param>
+        <briefdescription>
+<para>Constructs a new integrator given the name (e.g. cvode, gillespie) </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="author"><para>JKM, WBC </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="RegistrationFactory.h" line="38" column="16" bodyfile="RegistrationFactory.cpp" bodystart="20" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1RegistrationFactory_1a54c731eac3f3b37041d17412e855191a" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void rr::RegistrationFactory::registerSolver</definition>
+        <argsstring>(Registrable *i)</argsstring>
+        <name>registerSolver</name>
+        <param>
+          <type><ref refid="classrr_1_1Registrable" kindref="compound">Registrable</ref> *</type>
+          <declname>i</declname>
+        </param>
+        <briefdescription>
+<para>Registers a new integrator with the factory so that it can be constructed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="author"><para>JKM, WBC</para>
+</simplesect>
+Should be called at startup for new integrators. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="RegistrationFactory.h" line="46" column="22" bodyfile="RegistrationFactory.cpp" bodystart="29" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1RegistrationFactory_1a47099ccc11d2e15fafb6f0b30a3c47bd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t rr::RegistrationFactory::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="RegistrationFactory.h" line="59" column="29" bodyfile="RegistrationFactory.cpp" bodystart="35" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1RegistrationFactory_1ab5399075e167b9af65a5cf0f52106594" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string rr::RegistrationFactory::name</definition>
+        <argsstring>(std::size_t n) const</argsstring>
+        <name>name</name>
+        <param>
+          <type>std::size_t</type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="RegistrationFactory.h" line="61" column="29" bodyfile="RegistrationFactory.cpp" bodystart="39" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1RegistrationFactory_1ac5a37f51c2af354b527ac1a3e4d36554" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string rr::RegistrationFactory::hint</definition>
+        <argsstring>(std::size_t n) const</argsstring>
+        <name>hint</name>
+        <param>
+          <type>std::size_t</type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="RegistrationFactory.h" line="63" column="29" bodyfile="RegistrationFactory.cpp" bodystart="43" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1RegistrationFactory_1aab8247a922fa2b4d8d2293b129fa5582" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string rr::RegistrationFactory::description</definition>
+        <argsstring>(std::size_t n) const</argsstring>
+        <name>description</name>
+        <param>
+          <type>std::size_t</type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="RegistrationFactory.h" line="65" column="29" bodyfile="RegistrationFactory.cpp" bodystart="47" bodyend="49"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classrr_1_1RegistrationFactory_1ae45f4f0ee24b8eed1481ff11cac5822c" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>class FactoryType</type>
+          </param>
+        </templateparamlist>
+        <type>FactoryType &amp;</type>
+        <definition>static FactoryType&amp; rr::RegistrationFactory::getInstance</definition>
+        <argsstring>(std::mutex &amp;mutex)</argsstring>
+        <name>getInstance</name>
+        <param>
+          <type>std::mutex &amp;</type>
+          <declname>mutex</declname>
+        </param>
+        <briefdescription>
+<para>Returns the singleton instance of the integrator factory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="author"><para>JKM, WBC </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="RegistrationFactory.h" line="53" column="28" bodyfile="RegistrationFactory.h" bodystart="53" bodyend="57"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classrr_1_1RegistrationFactory_1a937d80a2cd2ace8570a571ab32c53f72" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>rr::RegistrationFactory::RegistrationFactory</definition>
+        <argsstring>()=default</argsstring>
+        <name>RegistrationFactory</name>
+        <briefdescription>
+<para>Prevents external instantiation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="author"><para>JKM, WBC </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="RegistrationFactory.h" line="72" column="9"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Constructs new integrators. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="author"><para>JKM, WBC</para>
+</simplesect>
+Implements the factory and singleton patterns. Constructs a new integrator given the name (e.g. cvode, gillespie) and returns a base pointer to <ref refid="classrr_1_1Integrator" kindref="compound">rr::Integrator</ref>. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>rr::SensitivitySolverFactory</label>
+        <link refid="classrr_1_1SensitivitySolverFactory"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>rr::IntegratorFactory</label>
+        <link refid="classrr_1_1IntegratorFactory"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>rr::SteadyStateSolverFactory</label>
+        <link refid="classrr_1_1SteadyStateSolverFactory"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>rr::RegistrationFactory</label>
+        <link refid="classrr_1_1RegistrationFactory"/>
+      </node>
+    </inheritancegraph>
+    <location file="RegistrationFactory.h" line="29" column="5" bodyfile="RegistrationFactory.h" bodystart="29" bodyend="76"/>
+    <listofallmembers>
+      <member refid="classrr_1_1RegistrationFactory_1aab8247a922fa2b4d8d2293b129fa5582" prot="public" virt="virtual"><scope>rr::RegistrationFactory</scope><name>description</name></member>
+      <member refid="classrr_1_1RegistrationFactory_1ae45f4f0ee24b8eed1481ff11cac5822c" prot="public" virt="non-virtual"><scope>rr::RegistrationFactory</scope><name>getInstance</name></member>
+      <member refid="classrr_1_1RegistrationFactory_1ac5a37f51c2af354b527ac1a3e4d36554" prot="public" virt="virtual"><scope>rr::RegistrationFactory</scope><name>hint</name></member>
+      <member refid="classrr_1_1RegistrationFactory_1ab5399075e167b9af65a5cf0f52106594" prot="public" virt="virtual"><scope>rr::RegistrationFactory</scope><name>name</name></member>
+      <member refid="classrr_1_1RegistrationFactory_1af6a9a68a5895f4da2bf3f57872b09bd4" prot="public" virt="non-virtual"><scope>rr::RegistrationFactory</scope><name>New</name></member>
+      <member refid="classrr_1_1RegistrationFactory_1a54c731eac3f3b37041d17412e855191a" prot="public" virt="virtual"><scope>rr::RegistrationFactory</scope><name>registerSolver</name></member>
+      <member refid="classrr_1_1RegistrationFactory_1ab1f8e12285e842396a4d292cd0a96502" prot="protected" virt="non-virtual"><scope>rr::RegistrationFactory</scope><name>registrars</name></member>
+      <member refid="classrr_1_1RegistrationFactory_1a937d80a2cd2ace8570a571ab32c53f72" prot="protected" virt="non-virtual"><scope>rr::RegistrationFactory</scope><name>RegistrationFactory</name></member>
+      <member refid="classrr_1_1RegistrationFactory_1a47099ccc11d2e15fafb6f0b30a3c47bd" prot="public" virt="virtual"><scope>rr::RegistrationFactory</scope><name>size</name></member>
+      <member refid="classrr_1_1RegistrationFactory_1a1bf700b4a149b2ace54e205bdf8e32de" prot="public" virt="virtual"><scope>rr::RegistrationFactory</scope><name>~RegistrationFactory</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

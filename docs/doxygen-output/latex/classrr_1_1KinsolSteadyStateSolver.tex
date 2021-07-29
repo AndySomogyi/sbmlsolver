@@ -12,7 +12,7 @@ base class to steady state solvers from the Sundials package.
 Inheritance diagram for rr\+::Kinsol\+Steady\+State\+Solver\+:\begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[height=5.000000cm]{classrr_1_1KinsolSteadyStateSolver}
+\includegraphics[height=6.000000cm]{classrr_1_1KinsolSteadyStateSolver}
 \end{center}
 \end{figure}
 \doxysubsection*{Public Member Functions}
@@ -26,14 +26,14 @@ Inheritance diagram for rr\+::Kinsol\+Steady\+State\+Solver\+:\begin{figure}[H]
 \mbox{\hyperlink{classrr_1_1KinsolSteadyStateSolver_ab8569c93c7aa13a0656919d692bc08fe}{$\sim$\+Kinsol\+Steady\+State\+Solver}} () override=default
 \begin{DoxyCompactList}\small\item\em virtual destructor \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classrr_1_1KinsolSteadyStateSolver_a49ceabb3db818eabcf56d77d28d60d6d}{sync\+With\+Model}} (\mbox{\hyperlink{classrr_1_1ExecutableModel}{Executable\+Model}} $\ast$m) override
-\begin{DoxyCompactList}\small\item\em implementation of Solver\+::sync\+With\+Model. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{classrr_1_1KinsolSteadyStateSolver_af702594542f53277aa41afcea984e287}{set\+F\+Scale}} (double value)
+\begin{DoxyCompactList}\small\item\em implementation of \mbox{\hyperlink{classrr_1_1Solver_aecb0e7c619e544aeabc6db9903165158}{Solver\+::sync\+With\+Model}}. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classrr_1_1KinsolSteadyStateSolver_af702594542f53277aa41afcea984e287}{set\+FScale}} (double value)
 \begin{DoxyCompactList}\small\item\em set all elements of the fscale variable to \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{classrr_1_1KinsolSteadyStateSolver_a42a0f373ffcc60e88cd56f023aa0b481}{set\+F\+Scale}} (const std\+::vector$<$ double $>$ \&value)
+void \mbox{\hyperlink{classrr_1_1KinsolSteadyStateSolver_a42a0f373ffcc60e88cd56f023aa0b481}{set\+FScale}} (const std\+::vector$<$ double $>$ \&value)
 \begin{DoxyCompactList}\small\item\em set elements of the fscale variable to \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{classrr_1_1KinsolSteadyStateSolver_a6b80db848ae533f85d9696ac82c0f07d}{set\+U\+Scale}} (double value)
+void \mbox{\hyperlink{classrr_1_1KinsolSteadyStateSolver_a6b80db848ae533f85d9696ac82c0f07d}{set\+UScale}} (double value)
 \begin{DoxyCompactList}\small\item\em set all elements of the uscale variable to \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{classrr_1_1KinsolSteadyStateSolver_af82dcd66c4a8143f8bcc2ff765d74e07}{set\+U\+Scale}} (std\+::vector$<$ double $>$ value)
+void \mbox{\hyperlink{classrr_1_1KinsolSteadyStateSolver_af82dcd66c4a8143f8bcc2ff765d74e07}{set\+UScale}} (std\+::vector$<$ double $>$ value)
 \begin{DoxyCompactList}\small\item\em set elements of the uscale variable to \end{DoxyCompactList}\item 
 double \mbox{\hyperlink{classrr_1_1KinsolSteadyStateSolver_a7523fec309a03e68bd30d2cf604510f3}{solve\+For\+Steady\+State}} (\mbox{\hyperlink{classrr_1_1KinsolSteadyStateSolver}{Kinsol\+Steady\+State\+Solver}} $\ast$solver\+Instance, int kinsol\+Strategy)
 \begin{DoxyCompactList}\small\item\em Generic solver method. \end{DoxyCompactList}\item 
@@ -47,7 +47,7 @@ void \mbox{\hyperlink{classrr_1_1KinsolSteadyStateSolver_a4588d8d7266adc7df1f7ed
 \doxysubsection*{Static Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-{\footnotesize template$<$class Kinsol\+Steady\+State\+Solver\+Type $>$ }\\static int \mbox{\hyperlink{classrr_1_1KinsolSteadyStateSolver_aa9d3cb9634ec030d4755c863145a6e5e}{kinsol\+Dy\+Dt\+Fcn}} (\mbox{\hyperlink{CVODEIntegrator_8h_a8a91260811ab3718acff6bc5bd55d374}{N\+\_\+\+Vector}} state\+Vec\+In, \mbox{\hyperlink{CVODEIntegrator_8h_a8a91260811ab3718acff6bc5bd55d374}{N\+\_\+\+Vector}} state\+Vec\+Out, void $\ast$user\+Data)
+{\footnotesize template$<$class Kinsol\+Steady\+State\+Solver\+Type $>$ }\\static int \mbox{\hyperlink{classrr_1_1KinsolSteadyStateSolver_aa9d3cb9634ec030d4755c863145a6e5e}{kinsol\+Dy\+Dt\+Fcn}} (N\+\_\+\+Vector state\+Vec\+In, N\+\_\+\+Vector state\+Vec\+Out, void $\ast$user\+Data)
 \begin{DoxyCompactList}\small\item\em kinsol callback function that implements system equations \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Protected Member Functions}
 \begin{DoxyCompactItemize}
@@ -71,13 +71,13 @@ virtual void \mbox{\hyperlink{classrr_1_1KinsolSteadyStateSolver_a6e2deeb6268b4d
 void $\ast$ \mbox{\hyperlink{classrr_1_1KinsolSteadyStateSolver_a64033039dc53f114855985463ad108f6}{m\+Kinsol\+\_\+\+Memory}} = nullptr
 \begin{DoxyCompactList}\small\item\em Pointer to the kinsol memory block. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classrr_1_1KinsolSteadyStateSolver_a5f5802fe0c668fe5569bfb163748a621}\label{classrr_1_1KinsolSteadyStateSolver_a5f5802fe0c668fe5569bfb163748a621}} 
-\mbox{\hyperlink{CVODEIntegrator_8h_a8a91260811ab3718acff6bc5bd55d374}{N\+\_\+\+Vector}} \mbox{\hyperlink{classrr_1_1KinsolSteadyStateSolver_a5f5802fe0c668fe5569bfb163748a621}{m\+State\+Vector}} = nullptr
+N\+\_\+\+Vector \mbox{\hyperlink{classrr_1_1KinsolSteadyStateSolver_a5f5802fe0c668fe5569bfb163748a621}{m\+State\+Vector}} = nullptr
 \begin{DoxyCompactList}\small\item\em a sundials N\+\_\+\+Vector for storing system state variables \end{DoxyCompactList}\item 
-\mbox{\hyperlink{CVODEIntegrator_8h_a8a91260811ab3718acff6bc5bd55d374}{N\+\_\+\+Vector}} \mbox{\hyperlink{classrr_1_1KinsolSteadyStateSolver_ad3bc465ff768913724631e8d4daf62c1}{fscale}} = nullptr
+N\+\_\+\+Vector \mbox{\hyperlink{classrr_1_1KinsolSteadyStateSolver_ad3bc465ff768913724631e8d4daf62c1}{fscale}} = nullptr
 \begin{DoxyCompactList}\small\item\em std\+::vector containing diagonal elements of scaling matrix DF for F(u) chosen so that the components of D\+\_\+\+F$\ast$F(u) (as a matrix multiplication) all have roughly the same magnitude when u is not too near a root of F(u). \end{DoxyCompactList}\item 
-\mbox{\hyperlink{CVODEIntegrator_8h_a8a91260811ab3718acff6bc5bd55d374}{N\+\_\+\+Vector}} \mbox{\hyperlink{classrr_1_1KinsolSteadyStateSolver_ab0bf299b6530378feb374d92a58a959e}{uscale}} = nullptr
+N\+\_\+\+Vector \mbox{\hyperlink{classrr_1_1KinsolSteadyStateSolver_ab0bf299b6530378feb374d92a58a959e}{uscale}} = nullptr
 \begin{DoxyCompactList}\small\item\em std\+::vector containing diagonal elements of scaling matrix Du for std\+::vector u chosen so that the components of D\+\_\+u$\ast$u (as a matrix multiplication) all have roughly the same magnitude when u is close to a root of F(u). \end{DoxyCompactList}\item 
-\mbox{\hyperlink{CVODEIntegrator_8h_a8a91260811ab3718acff6bc5bd55d374}{N\+\_\+\+Vector}} \mbox{\hyperlink{classrr_1_1KinsolSteadyStateSolver_a80807be1f440f524769e55568a3abcf2}{constraints}} = nullptr
+N\+\_\+\+Vector \mbox{\hyperlink{classrr_1_1KinsolSteadyStateSolver_a80807be1f440f524769e55568a3abcf2}{constraints}} = nullptr
 \begin{DoxyCompactList}\small\item\em vector of constraints used to ensure positive solution. \end{DoxyCompactList}\item 
 long int \mbox{\hyperlink{classrr_1_1KinsolSteadyStateSolver_a94eae6c3534054b7fff476be111133ca}{num\+Func\+Evals}}
 \begin{DoxyCompactList}\small\item\em kinsol output variables. \end{DoxyCompactList}\item 
@@ -167,7 +167,7 @@ useful only for testing.
 
 Initialize kinsol objects. 
 
-All subclasses require some of the same initial calls (such as N\+\_\+\+V\+New\+\_\+\+Serial and K\+I\+N\+Create). 
+All subclasses require some of the same initial calls (such as N\+\_\+\+VNew\+\_\+\+Serial and KINCreate). 
 
 Reimplemented in \mbox{\hyperlink{classrr_1_1NewtonIteration_a17436ae1ae76642be8f525addd8e2834}{rr\+::\+Newton\+Iteration}}, and \mbox{\hyperlink{classrr_1_1FixedPointIteration_a9228e46a342accb7defbccd76e674b9d}{rr\+::\+Fixed\+Point\+Iteration}}.
 
@@ -213,20 +213,20 @@ only filled once solve has been called. \begin{DoxySeeAlso}{See also}
 \index{kinsolDyDtFcn@{kinsolDyDtFcn}!rr::KinsolSteadyStateSolver@{rr::KinsolSteadyStateSolver}}
 \doxysubsubsection{\texorpdfstring{kinsolDyDtFcn()}{kinsolDyDtFcn()}}
 {\footnotesize\ttfamily template$<$class Kinsol\+Steady\+State\+Solver\+Type $>$ \\
-static int rr\+::\+Kinsol\+Steady\+State\+Solver\+::kinsol\+Dy\+Dt\+Fcn (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{CVODEIntegrator_8h_a8a91260811ab3718acff6bc5bd55d374}{N\+\_\+\+Vector}}}]{state\+Vec\+In,  }\item[{\mbox{\hyperlink{CVODEIntegrator_8h_a8a91260811ab3718acff6bc5bd55d374}{N\+\_\+\+Vector}}}]{state\+Vec\+Out,  }\item[{void $\ast$}]{user\+Data }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+static int rr\+::\+Kinsol\+Steady\+State\+Solver\+::kinsol\+Dy\+Dt\+Fcn (\begin{DoxyParamCaption}\item[{N\+\_\+\+Vector}]{state\+Vec\+In,  }\item[{N\+\_\+\+Vector}]{state\+Vec\+Out,  }\item[{void $\ast$}]{user\+Data }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
 
 
 
 kinsol callback function that implements system equations 
 
-This is the function that gets called by the kinsol {\ttfamily K\+I\+N\+Sol} command for solving the system. \begin{DoxyNote}{Note}
-this member must be static in order to be used as a function pointer by K\+I\+N\+Init. 
+This is the function that gets called by the kinsol {\ttfamily KINSol} command for solving the system. \begin{DoxyNote}{Note}
+this member must be static in order to be used as a function pointer by KINInit. 
 \end{DoxyNote}
 \mbox{\Hypertarget{classrr_1_1KinsolSteadyStateSolver_a42a0f373ffcc60e88cd56f023aa0b481}\label{classrr_1_1KinsolSteadyStateSolver_a42a0f373ffcc60e88cd56f023aa0b481}} 
 \index{rr::KinsolSteadyStateSolver@{rr::KinsolSteadyStateSolver}!setFScale@{setFScale}}
 \index{setFScale@{setFScale}!rr::KinsolSteadyStateSolver@{rr::KinsolSteadyStateSolver}}
 \doxysubsubsection{\texorpdfstring{setFScale()}{setFScale()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
-{\footnotesize\ttfamily void rr\+::\+Kinsol\+Steady\+State\+Solver\+::set\+F\+Scale (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ double $>$ \&}]{value }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily void rr\+::\+Kinsol\+Steady\+State\+Solver\+::set\+FScale (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ double $>$ \&}]{value }\end{DoxyParamCaption})}
 
 
 
@@ -243,7 +243,7 @@ set elements of the fscale variable to
 \index{rr::KinsolSteadyStateSolver@{rr::KinsolSteadyStateSolver}!setFScale@{setFScale}}
 \index{setFScale@{setFScale}!rr::KinsolSteadyStateSolver@{rr::KinsolSteadyStateSolver}}
 \doxysubsubsection{\texorpdfstring{setFScale()}{setFScale()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
-{\footnotesize\ttfamily void rr\+::\+Kinsol\+Steady\+State\+Solver\+::set\+F\+Scale (\begin{DoxyParamCaption}\item[{double}]{value }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily void rr\+::\+Kinsol\+Steady\+State\+Solver\+::set\+FScale (\begin{DoxyParamCaption}\item[{double}]{value }\end{DoxyParamCaption})}
 
 
 
@@ -258,7 +258,7 @@ set all elements of the fscale variable to
 \index{rr::KinsolSteadyStateSolver@{rr::KinsolSteadyStateSolver}!setUScale@{setUScale}}
 \index{setUScale@{setUScale}!rr::KinsolSteadyStateSolver@{rr::KinsolSteadyStateSolver}}
 \doxysubsubsection{\texorpdfstring{setUScale()}{setUScale()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
-{\footnotesize\ttfamily void rr\+::\+Kinsol\+Steady\+State\+Solver\+::set\+U\+Scale (\begin{DoxyParamCaption}\item[{double}]{value }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily void rr\+::\+Kinsol\+Steady\+State\+Solver\+::set\+UScale (\begin{DoxyParamCaption}\item[{double}]{value }\end{DoxyParamCaption})}
 
 
 
@@ -273,7 +273,7 @@ set all elements of the uscale variable to
 \index{rr::KinsolSteadyStateSolver@{rr::KinsolSteadyStateSolver}!setUScale@{setUScale}}
 \index{setUScale@{setUScale}!rr::KinsolSteadyStateSolver@{rr::KinsolSteadyStateSolver}}
 \doxysubsubsection{\texorpdfstring{setUScale()}{setUScale()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
-{\footnotesize\ttfamily void rr\+::\+Kinsol\+Steady\+State\+Solver\+::set\+U\+Scale (\begin{DoxyParamCaption}\item[{std\+::vector$<$ double $>$}]{value }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily void rr\+::\+Kinsol\+Steady\+State\+Solver\+::set\+UScale (\begin{DoxyParamCaption}\item[{std\+::vector$<$ double $>$}]{value }\end{DoxyParamCaption})}
 
 
 
@@ -296,16 +296,18 @@ set elements of the uscale variable to
 
 Generic solver method. 
 
-When this method is called sundials steady state algorithms solver for steady state. Subclasses use specialized versions of this template using their desired kinsol strategy.  this method cannot be called {\ttfamily solve()} since that is already taken with different signature requirements. 
+When this method is called sundials steady state algorithms solver for steady state. Subclasses use specialized versions of this template using their desired kinsol strategy.
+
+this method cannot be called {\ttfamily solve()} since that is already taken with different signature requirements. 
 \begin{DoxyParams}{Parameters}
 {\em solver\+Instance} & pointer (non owning) to instance of subclass of \mbox{\hyperlink{classrr_1_1KinsolSteadyStateSolver}{Kinsol\+Steady\+State\+Solver}}. \\
 \hline
 {\em kinsol\+Strategy} & one of\+:
 \begin{DoxyItemize}
-\item K\+I\+N\+\_\+\+N\+O\+NE\+: basic newton iteration
-\item K\+I\+N\+\_\+\+L\+I\+N\+E\+S\+E\+A\+R\+CH\+: newton iteration with linesearch globalization
-\item K\+I\+N\+\_\+\+FP\+: Fixed point iteration, with anderson acceleration (no linear solver is used)
-\item K\+I\+N\+\_\+\+P\+I\+C\+C\+A\+RD\+: Piccad iteration, with anderson aceleration (with linear solver) These options are macro\textquotesingle{}s defined by sundials. They correspond to \+: K\+I\+N\+\_\+\+N\+O\+NE 0 K\+I\+N\+\_\+\+L\+I\+N\+E\+S\+E\+A\+R\+CH 1 K\+I\+N\+\_\+\+P\+I\+C\+A\+RD 2 K\+I\+N\+\_\+\+FP 3 
+\item KIN\+\_\+\+NONE\+: basic newton iteration
+\item KIN\+\_\+\+LINESEARCH\+: newton iteration with linesearch globalization
+\item KIN\+\_\+\+FP\+: Fixed point iteration, with anderson acceleration (no linear solver is used)
+\item KIN\+\_\+\+PICCARD\+: Piccad iteration, with anderson aceleration (with linear solver) These options are macro\textquotesingle{}s defined by sundials. They correspond to \+: KIN\+\_\+\+NONE 0 KIN\+\_\+\+LINESEARCH 1 KIN\+\_\+\+PICARD 2 KIN\+\_\+\+FP 3 
 \end{DoxyItemize}\\
 \hline
 \end{DoxyParams}
@@ -317,7 +319,7 @@ When this method is called sundials steady state algorithms solver for steady st
 
 
 
-implementation of Solver\+::sync\+With\+Model. 
+implementation of \mbox{\hyperlink{classrr_1_1Solver_aecb0e7c619e544aeabc6db9903165158}{Solver\+::sync\+With\+Model}}. 
 
 called by the main \mbox{\hyperlink{classrr_1_1RoadRunner}{Road\+Runner}} class to syncronize the model with its solvers (to be sure were not simulating an out of date model). 
 
@@ -337,7 +339,7 @@ The settings configuration system in roadrunner make this particular aspect of i
 
 User passes in arguments like u\+Scale and they are stored at the class level. This method passed them on to kinsol.
 
-When a user updates a setting with set\+Value, they are only updating the value in roadrunner. The change doesn\textquotesingle{}t occur in sundials until we call the corresponding sundials function with the new value. We cannot use regular \char`\"{}setters\char`\"{} because they won\textquotesingle{}t get called when a user changes a value. Instead, here we update all kinsol options at once, and this method is called before we call K\+I\+N\+\_\+\+Solve. 
+When a user updates a setting with set\+Value, they are only updating the value in roadrunner. The change doesn\textquotesingle{}t occur in sundials until we call the corresponding sundials function with the new value. We cannot use regular \char`\"{}setters\char`\"{} because they won\textquotesingle{}t get called when a user changes a value. Instead, here we update all kinsol options at once, and this method is called before we call KIN\+\_\+\+Solve. 
 
 Reimplemented in \mbox{\hyperlink{classrr_1_1NewtonIteration_a6d10c08312d90016647826dd1c824ad2}{rr\+::\+Newton\+Iteration}}, and \mbox{\hyperlink{classrr_1_1FixedPointIteration_abc9ebf35d6ea07b7a6d8a8798eb3d68d}{rr\+::\+Fixed\+Point\+Iteration}}.
 
@@ -348,7 +350,7 @@ Reimplemented in \mbox{\hyperlink{classrr_1_1NewtonIteration_a6d10c08312d9001664
 \index{rr::KinsolSteadyStateSolver@{rr::KinsolSteadyStateSolver}!constraints@{constraints}}
 \index{constraints@{constraints}!rr::KinsolSteadyStateSolver@{rr::KinsolSteadyStateSolver}}
 \doxysubsubsection{\texorpdfstring{constraints}{constraints}}
-{\footnotesize\ttfamily \mbox{\hyperlink{CVODEIntegrator_8h_a8a91260811ab3718acff6bc5bd55d374}{N\+\_\+\+Vector}} rr\+::\+Kinsol\+Steady\+State\+Solver\+::constraints = nullptr\hspace{0.3cm}{\ttfamily [protected]}}
+{\footnotesize\ttfamily N\+\_\+\+Vector rr\+::\+Kinsol\+Steady\+State\+Solver\+::constraints = nullptr\hspace{0.3cm}{\ttfamily [protected]}}
 
 
 
@@ -358,7 +360,7 @@ only in effect when allow\+\_\+negative option set to false \mbox{\Hypertarget{c
 \index{rr::KinsolSteadyStateSolver@{rr::KinsolSteadyStateSolver}!fscale@{fscale}}
 \index{fscale@{fscale}!rr::KinsolSteadyStateSolver@{rr::KinsolSteadyStateSolver}}
 \doxysubsubsection{\texorpdfstring{fscale}{fscale}}
-{\footnotesize\ttfamily \mbox{\hyperlink{CVODEIntegrator_8h_a8a91260811ab3718acff6bc5bd55d374}{N\+\_\+\+Vector}} rr\+::\+Kinsol\+Steady\+State\+Solver\+::fscale = nullptr\hspace{0.3cm}{\ttfamily [protected]}}
+{\footnotesize\ttfamily N\+\_\+\+Vector rr\+::\+Kinsol\+Steady\+State\+Solver\+::fscale = nullptr\hspace{0.3cm}{\ttfamily [protected]}}
 
 
 
@@ -377,7 +379,7 @@ here u is m\+State\+Vector, F is the std\+::vector of rate functions and D\+\_\+
 
 stores the number of iterations required by the solver to converge. 
 
-empty until after solve() has been called. This method uses kinsol\textquotesingle{}s K\+I\+N\+Get\+Num\+Nonlin\+Solv\+Iters function \mbox{\Hypertarget{classrr_1_1KinsolSteadyStateSolver_a94eae6c3534054b7fff476be111133ca}\label{classrr_1_1KinsolSteadyStateSolver_a94eae6c3534054b7fff476be111133ca}} 
+empty until after solve() has been called. This method uses kinsol\textquotesingle{}s KINGet\+Num\+Nonlin\+Solv\+Iters function \mbox{\Hypertarget{classrr_1_1KinsolSteadyStateSolver_a94eae6c3534054b7fff476be111133ca}\label{classrr_1_1KinsolSteadyStateSolver_a94eae6c3534054b7fff476be111133ca}} 
 \index{rr::KinsolSteadyStateSolver@{rr::KinsolSteadyStateSolver}!numFuncEvals@{numFuncEvals}}
 \index{numFuncEvals@{numFuncEvals}!rr::KinsolSteadyStateSolver@{rr::KinsolSteadyStateSolver}}
 \doxysubsubsection{\texorpdfstring{numFuncEvals}{numFuncEvals}}
@@ -391,7 +393,7 @@ fileld when \mbox{\Hypertarget{classrr_1_1KinsolSteadyStateSolver_ab0bf299b65303
 \index{rr::KinsolSteadyStateSolver@{rr::KinsolSteadyStateSolver}!uscale@{uscale}}
 \index{uscale@{uscale}!rr::KinsolSteadyStateSolver@{rr::KinsolSteadyStateSolver}}
 \doxysubsubsection{\texorpdfstring{uscale}{uscale}}
-{\footnotesize\ttfamily \mbox{\hyperlink{CVODEIntegrator_8h_a8a91260811ab3718acff6bc5bd55d374}{N\+\_\+\+Vector}} rr\+::\+Kinsol\+Steady\+State\+Solver\+::uscale = nullptr\hspace{0.3cm}{\ttfamily [protected]}}
+{\footnotesize\ttfamily N\+\_\+\+Vector rr\+::\+Kinsol\+Steady\+State\+Solver\+::uscale = nullptr\hspace{0.3cm}{\ttfamily [protected]}}
 
 
 

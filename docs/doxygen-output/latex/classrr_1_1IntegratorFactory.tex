@@ -7,7 +7,7 @@ Constructs new integrators.
 
 
 
-{\ttfamily \#include $<$Integrator.\+h$>$}
+{\ttfamily \#include $<$Integrator\+Factory.\+h$>$}
 
 Inheritance diagram for rr\+::Integrator\+Factory\+:\begin{figure}[H]
 \begin{center}
@@ -19,7 +19,9 @@ Inheritance diagram for rr\+::Integrator\+Factory\+:\begin{figure}[H]
 \begin{DoxyCompactItemize}
 \item 
 static \mbox{\hyperlink{classrr_1_1IntegratorFactory}{Integrator\+Factory}} \& \mbox{\hyperlink{classrr_1_1IntegratorFactory_a3bd934950b0c1523d8c1b482bb85ab15}{get\+Instance}} ()
-\begin{DoxyCompactList}\small\item\em get an instance of this \mbox{\hyperlink{classrr_1_1IntegratorFactory}{Integrator\+Factory}}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em get an instance of this \mbox{\hyperlink{classrr_1_1IntegratorFactory}{Integrator\+Factory}}. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{classrr_1_1IntegratorFactory_ade27f66b0a9d272240ce829274415f3f}{Register}} ()
+\begin{DoxyCompactList}\small\item\em Registers all integrators at startup. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Additional Inherited Members}
 
 
@@ -27,9 +29,9 @@ static \mbox{\hyperlink{classrr_1_1IntegratorFactory}{Integrator\+Factory}} \& \
 Constructs new integrators. 
 
 \begin{DoxyAuthor}{Author}
-J\+KM, W\+BC  This is a singleton class. All methods except for get\+Instance are fully determined by superclass \mbox{\hyperlink{classrr_1_1FactoryWithRegistration}{Factory\+With\+Registration}}. 
+JKM, WBC
 \end{DoxyAuthor}
-
+This is a singleton class. All methods except for get\+Instance are fully determined by superclass Factory\+With\+Registration. 
 
 \doxysubsection{Member Function Documentation}
 \mbox{\Hypertarget{classrr_1_1IntegratorFactory_a3bd934950b0c1523d8c1b482bb85ab15}\label{classrr_1_1IntegratorFactory_a3bd934950b0c1523d8c1b482bb85ab15}} 
@@ -42,11 +44,22 @@ J\+KM, W\+BC  This is a singleton class. All methods except for get\+Instance ar
 
 get an instance of this \mbox{\hyperlink{classrr_1_1IntegratorFactory}{Integrator\+Factory}}. 
 
-I\+N\+T\+E\+G\+R\+A\+T\+OR F\+A\+C\+T\+O\+RY.
+If one exists return is otherwise create one. This method implements the sigleton pattern and is thread safe due to use of std\+::mutex. \mbox{\Hypertarget{classrr_1_1IntegratorFactory_ade27f66b0a9d272240ce829274415f3f}\label{classrr_1_1IntegratorFactory_ade27f66b0a9d272240ce829274415f3f}} 
+\index{rr::IntegratorFactory@{rr::IntegratorFactory}!Register@{Register}}
+\index{Register@{Register}!rr::IntegratorFactory@{rr::IntegratorFactory}}
+\doxysubsubsection{\texorpdfstring{Register()}{Register()}}
+{\footnotesize\ttfamily void rr\+::\+Integrator\+Factory\+::\+Register (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
 
-If one exists return is otherwise create one. This method implements the sigleton pattern and is thread safe due to use of std\+::mutex. 
+
+
+Registers all integrators at startup. 
+
+\begin{DoxyAuthor}{Author}
+JKM
+\end{DoxyAuthor}
+Is run at first instantiation of \mbox{\hyperlink{classrr_1_1RoadRunner}{Road\+Runner}}. Subsequent calls have no effect. 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{Integrator_8h}{Integrator.\+h}}\item 
-\mbox{\hyperlink{Integrator_8cpp}{Integrator.\+cpp}}\end{DoxyCompactItemize}
+Integrator\+Factory.\+h\item 
+Integrator\+Factory.\+cpp\end{DoxyCompactItemize}

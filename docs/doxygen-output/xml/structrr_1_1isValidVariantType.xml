@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
   <compounddef id="structrr_1_1isValidVariantType" kind="struct" language="C++" prot="public">
     <compoundname>rr::isValidVariantType</compoundname>
     <templateparamlist>
@@ -18,7 +18,7 @@
 <codeline><highlight class="normal">ASSERT_TRUE(truth);<sp/>//<sp/>pass</highlight></codeline>
 </programlisting> </para>
     </detaileddescription>
-    <location file="setting_t.h" line="36" column="5" bodyfile="setting_t.h" bodystart="36" bodyend="-1"/>
+    <location file="setting_t.h" line="38" column="5" bodyfile="setting_t.h" bodystart="38" bodyend="-1"/>
     <listofallmembers>
     </listofallmembers>
   </compounddef>
