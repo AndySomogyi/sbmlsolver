@@ -112,8 +112,12 @@ macro(add_rr_test_swig_library SWIG_TARGET_NAME SWIG_INTERFACE_FILE)
             SWIG_FLAGS
             # turns on automatic annotation of python arg and return types
             # BUT does so in c++ types. Therefore I'm not sure how much value this adds.
-            "-py3"
+            -py3
+            -threads
+            -doxygen
             )
+
+    #    set_property(SOURCE TestModelFactory.i )
 
     swig_add_library(${SWIG_TARGET_NAME}
             TYPE MODULE
@@ -124,43 +128,66 @@ macro(add_rr_test_swig_library SWIG_TARGET_NAME SWIG_INTERFACE_FILE)
     #    set(CMAKE_SWIG_FLAGS "-py3 -castmode -keyword")
     set_target_properties(
             ${SWIG_TARGET_NAME} PROPERTIES
-            # make the command "target_include_directories" work with swig targets
-            SWIG_USE_TARGET_INCLUDE_DIRECTORIES TRUE
 
             # On windows with the Visual Studio CMake generators, the pyd file
             # is put into a configuration directory (release / debug etc.)
             # however we use the makefile way of doing things and put them in to
             # one directory on all systems.
-            RUNTIME_OUTPUT_DIRECTORY "${PYTHON_PACKAGE_BUILD_PREFIX}/testing"
-            RUNTIME_OUTPUT_DIRECTORY_RELEASE "${PYTHON_PACKAGE_BUILD_PREFIX}/testing"
-            RUNTIME_OUTPUT_DIRECTORY_DEBUG "${PYTHON_PACKAGE_BUILD_PREFIX}/testing"
-            RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO "${PYTHON_PACKAGE_BUILD_PREFIX}/testing"
+            RUNTIME_OUTPUT_DIRECTORY "${RR_PYTHON_TESTING_BUILD_PREFIX}"
+            RUNTIME_OUTPUT_DIRECTORY_RELEASE "${RR_PYTHON_TESTING_BUILD_PREFIX}"
+            RUNTIME_OUTPUT_DIRECTORY_DEBUG "${RR_PYTHON_TESTING_BUILD_PREFIX}"
+            RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO "${RR_PYTHON_TESTING_BUILD_PREFIX}"
 
-            LIBRARY_OUTPUT_DIRECTORY "${PYTHON_PACKAGE_BUILD_PREFIX}/testing"
-            LIBRARY_OUTPUT_DIRECTORY_DEBUG "${PYTHON_PACKAGE_BUILD_PREFIX}/testing"
-            LIBRARY_OUTPUT_DIRECTORY_RELEASE "${PYTHON_PACKAGE_BUILD_PREFIX}/testing"
-            LIBRARY_OUTPUT_DIRECTORY_RELWITHDEBINFO "${PYTHON_PACKAGE_BUILD_PREFIX}/testing"
+            LIBRARY_OUTPUT_DIRECTORY "${RR_PYTHON_TESTING_BUILD_PREFIX}"
+            LIBRARY_OUTPUT_DIRECTORY_DEBUG "${RR_PYTHON_TESTING_BUILD_PREFIX}"
+            LIBRARY_OUTPUT_DIRECTORY_RELEASE "${RR_PYTHON_TESTING_BUILD_PREFIX}"
+            LIBRARY_OUTPUT_DIRECTORY_RELWITHDEBINFO "${RR_PYTHON_TESTING_BUILD_PREFIX}"
 
-            ARCHIVE_OUTPUT_DIRECTORY "${PYTHON_PACKAGE_BUILD_PREFIX}/testing"
-            ARCHIVE_OUTPUT_DIRECTORY_RELEASE "${PYTHON_PACKAGE_BUILD_PREFIX}/testing"
-            ARCHIVE_OUTPUT_DIRECTORY_DEBUG "${PYTHON_PACKAGE_BUILD_PREFIX}/testing"
-            ARCHIVE_OUTPUT_DIRECTORY_RELWITHDEBINFO "${PYTHON_PACKAGE_BUILD_PREFIX}/testing"
+            ARCHIVE_OUTPUT_DIRECTORY "${RR_PYTHON_TESTING_BUILD_PREFIX}"
+            ARCHIVE_OUTPUT_DIRECTORY_RELEASE "${RR_PYTHON_TESTING_BUILD_PREFIX}"
+            ARCHIVE_OUTPUT_DIRECTORY_DEBUG "${RR_PYTHON_TESTING_BUILD_PREFIX}"
+            ARCHIVE_OUTPUT_DIRECTORY_RELWITHDEBINFO "${RR_PYTHON_TESTING_BUILD_PREFIX}"
+
+            # make the command "target_include_directories" work with swig targets
+            SWIG_USE_TARGET_INCLUDE_DIRECTORIES TRUE
+            OUTPUT_NAME ${SWIG_TARGET_NAME}
     )
 
-    set(thisDir ${CMAKE_CURRENT_SOURCE_DIR})
     target_include_directories(${SWIG_TARGET_NAME} PUBLIC
-            ${thisDir}
+            ${ThisSourceDirectory}
             "${RR_ROOT}/wrappers/Python/include"
             "${RR_ROOT}/wrappers/Python/roadrunner"
             $<TARGET_PROPERTY:roadrunner-static,INCLUDE_DIRECTORIES>
-            $<TARGET_PROPERTY:roadrunner_python,INCLUDE_DIRECTORIES>
+            "${RR_DEPENDENCIES_INSTALL_PREFIX}/include/rr-libstruct"
+            "${Python_INCLUDE_DIRS}"
+            "${Python_NumPy_INCLUDE_DIRS}"
+            #            $<TARGET_PROPERTY:roadrunner_python,INCLUDE_DIRECTORIES>
             )
-    target_link_libraries(${SWIG_TARGET_NAME} PUBLIC
-            rr-mockups
-            roadrunner-static
-            Python::Python # remember, includes will just come with linking Python::Python
-            Python::NumPy  # remember, includes will just come with linking Python::NumPy
-            )
+    if (NOT APPLE)
+        target_link_libraries(${SWIG_TARGET_NAME} PUBLIC
+                rr-mockups
+                roadrunner-static
+                Python::Python # remember, includes will just come with linking Python::Python
+                Python::NumPy  # remember, includes will just come with linking Python::NumPy
+                )
+    else ()
+
+        set_target_properties(${SWIG_TARGET_NAME}
+                PROPERTIES
+                LINK_FLAGS "-undefined dynamic_lookup"
+                INSTALL_RPATH "@loader_path/../../lib;@loader_path/"
+                INSTALL_NAME_DIR "@rpath"
+                )
+        swig_link_libraries(${SWIG_TARGET_NAME} PUBLIC
+                rr-mockups
+                roadrunner-static
+                # Since we are using "-undefined dynamic_lookup"
+                # we do not need to link to Python here - they will
+                # be found at runtime.
+                #Python::Python
+                #Python::NumPy
+                )
+    endif ()
 
     message(STATUS "Adding swig executable: ${SWIG_TARGET_NAME}")
     message(STATUS "Swig target \"${SWIG_TARGET_NAME}\" will be copied to \"${RR_PYTHON_TESTING_BUILD_PREFIX}\" in the build tree after the target is built")
@@ -192,7 +219,92 @@ if (BUILD_PYTHON AND BUILD_TESTS)
             "${CMAKE_CURRENT_SOURCE_DIR}/TestModelFactory.i"
             "${CMAKE_CURRENT_SOURCE_DIR}/TestModelFactory.h"
             "${CMAKE_CURRENT_SOURCE_DIR}/TestModelFactory.cpp"
-            "../wrappers/Python/roadrunner/PyUtils"
+            "../wrappers/Python/roadrunner/PyUtils.h"
+            "../wrappers/Python/roadrunner/PyUtils.cpp"
+            )
+
+    include(UseSWIG)
+    find_package(Python COMPONENTS Interpreter Development NumPy REQUIRED)
+    find_package(SWIG 4.0.2 REQUIRED
+            COMPONENTS python
+            )
+    set_source_files_properties(TestModelFactory.i PROPERTIES
+            CPLUSPLUS ON
+            SWIG_FLAGS
+            # Enable threading
+            -threads
+            -doxygen # converts doxygen to pydoc
+            -py3
+            )
+
+    # we make this target a module library (dll only on windows, so extension on mac and linux).
+    swig_add_library(TestModelFactory2
+            TYPE MODULE LANGUAGE python
+            SOURCES
+            TestModelFactory.i
+            TestModelFactory.cpp
+            TestModelFactory.h
+            ../wrappers/Python/roadrunner/PyUtils.h
+            ../wrappers/Python/roadrunner/PyUtils.cpp
+            #            ../source/Matrix.h
+            #            ../source/Matrix3D.h
+            )
+
+    set_target_properties(TestModelFactory2 PROPERTIES
+            # On windows with the Visual Studio CMake generators, the pyd file
+            # is put into a configuration directory (release / debug etc.)
+            # however we use the makefile way of doing things and put them in to
+            # one directory on all systems.
+            #
+            RUNTIME_OUTPUT_DIRECTORY "${RR_PYTHON_TESTING_BUILD_PREFIX}"
+            RUNTIME_OUTPUT_DIRECTORY_RELEASE "${RR_PYTHON_TESTING_BUILD_PREFIX}"
+            RUNTIME_OUTPUT_DIRECTORY_DEBUG "${RR_PYTHON_TESTING_BUILD_PREFIX}"
+            RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO "${RR_PYTHON_TESTING_BUILD_PREFIX}"
+            LIBRARY_OUTPUT_DIRECTORY "${RR_PYTHON_TESTING_BUILD_PREFIX}"
+            LIBRARY_OUTPUT_DIRECTORY_DEBUG "${RR_PYTHON_TESTING_BUILD_PREFIX}"
+            LIBRARY_OUTPUT_DIRECTORY_RELEASE "${RR_PYTHON_TESTING_BUILD_PREFIX}"
+            LIBRARY_OUTPUT_DIRECTORY_RELWITHDEBINFO "${RR_PYTHON_TESTING_BUILD_PREFIX}"
+            ARCHIVE_OUTPUT_DIRECTORY "${RR_PYTHON_TESTING_BUILD_PREFIX}"
+            ARCHIVE_OUTPUT_DIRECTORY_RELEASE "${RR_PYTHON_TESTING_BUILD_PREFIX}"
+            ARCHIVE_OUTPUT_DIRECTORY_DEBUG "${RR_PYTHON_TESTING_BUILD_PREFIX}"
+            ARCHIVE_OUTPUT_DIRECTORY_RELWITHDEBINFO "${RR_PYTHON_TESTING_BUILD_PREFIX}"
+            OUTPUT_NAME TestModelFactory2
+            SWIG_USE_TARGET_INCLUDE_DIRECTORIES TRUE # Needed for target_include_directories to have any effect on swig target
+            )
+    # Move the roadrunner.py produced by swig in the binary tree to the site-pacakges/lib folder with the binaries
+    add_custom_command(
+            TARGET TestModelFactory2 POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_CURRENT_BINARY_DIR}/TestModelFactory.py" "${RR_PYTHON_TESTING_BUILD_PREFIX}/TestModelFactory2.py"
+    )
+    get_filename_component(OneUp ${CMAKE_CURRENT_SOURCE_DIR} DIRECTORY)
+
+    message(STATUS "RR_ROOT ${RR_ROOT}")
+    target_include_directories(TestModelFactory2 PUBLIC
+            "${CMAKE_CURRENT_SOURCE_DIR}"
+            "${RR_ROOT}"
+            "${RR_ROOT}/wrappers/Python/include"
+            "${RR_ROOT}/wrappers/Python/roadrunner"
+            "$<TARGET_PROPERTY:roadrunner-static,INCLUDE_DIRECTORIES>"
+            "${RR_DEPENDENCIES_INSTALL_PREFIX}/include/rr-libstruct"
+            "${Python_INCLUDE_DIRS}"
+            "${Python_NumPy_INCLUDE_DIRS}"
+            )
+
+    # OSX section.
+    # we do not link directly with python at at link time, so that at run time,
+    # the hosting python would provide all the symbols, we only
+    # link with the external libs that we use. This behaviour is enbaled by the -undefined dynamic_lookup flag
+    set_target_properties(TestModelFactory2
+            PROPERTIES
+            LINK_FLAGS "-undefined dynamic_lookup"
+            INSTALL_RPATH "@loader_path/../../lib;@loader_path/"
+            INSTALL_NAME_DIR "@rpath")
+    # we use roadrunner not roadrunner-static so we can use shared libraries at runtime
+    swig_link_libraries(TestModelFactory2
+            rr-mockups
+            roadrunner-static
+            #            Python::Python # remember, includes will just come with linking Python::Python
+            #            Python::NumPy  # remember, includes will just come with linking Python::NumPy
             )
 
 
@@ -205,14 +317,14 @@ if (BUILD_PYTHON AND BUILD_TESTS)
             "${RR_PYTHON_TESTING_BUILD_PREFIX}/RoadRunnerTest.py" COPYONLY)
 
     # install python test files to install tree
-    install(TARGETS TestModelFactory DESTINATION "${RR_PYTHON_TESTING_INSTALL_PREFIX}")
-    install(
-            FILES
-            "${RR_PYTHON_TESTING_BUILD_PREFIX}/TestModelFactory.py"
-            "${RR_PYTHON_TESTING_BUILD_PREFIX}/TestModelFactoryTests.py"
-            DESTINATION
-            "${RR_PYTHON_TESTING_INSTALL_PREFIX}"
-    )
+    #    install(TARGETS TestModelFactory DESTINATION "${RR_PYTHON_TESTING_INSTALL_PREFIX}")
+    #    install(
+    #            FILES
+    #            "${RR_PYTHON_TESTING_BUILD_PREFIX}/TestModelFactory.py"
+    #            "${RR_PYTHON_TESTING_BUILD_PREFIX}/TestModelFactoryTests.py"
+    #            DESTINATION
+    #            "${RR_PYTHON_TESTING_INSTALL_PREFIX}"
+    #    )
 endif ()
 
 
@@ -282,7 +394,7 @@ if (BUILD_PYTHON AND BUILD_TESTS)
             run-pytest-tests
             ctest --output-on-failure --verbose --extra-verbose --tests-regex python_tests*
     )
-    add_dependencies(run-pytest-tests roadrunner_python TestModelFactory SettingTestsSwigAPI)
+    #    add_dependencies(run-pytest-tests roadrunner_python TestModelFactory SettingTestsSwigAPI)
 
 endif ()
 
@@ -315,6 +427,35 @@ add_custom_target(
 )
 
 add_dependencies(run-ctest-only-sbml-test-suite ${test_targets})
+
+
+#########################
+# Example
+
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+set_source_files_properties(Example.i PROPERTIES
+        CPLUSPLUS ON
+        )
+
+set_property(SOURCE Example.i PROPERTY
+        SWIG_FLAGS
+        # Enable threading
+        -threads
+        -doxygen # converts doxygen to pydoc
+        -py3
+        )
+
+swig_add_library(Example TYPE MODULE LANGUAGE python SOURCES Example.i Example.h Example.cpp)
+
+target_include_directories(Example PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}
+        ${Python_INCLUDE_DIRS}
+        )
+target_link_libraries(Example PUBLIC Python::Python)
+
+
+
+
 
 
 

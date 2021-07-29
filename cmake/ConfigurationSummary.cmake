@@ -95,13 +95,15 @@ Python Variables
 -------------------------------------------------------------------------------
 Note: you can change these by setting the Python_ROOT_DIR variable
 
-BUILD_PYTHON                               ${BUILD_PYTHON}
-Python_ROOT_DIR                            ${Python_ROOT_DIR}
-Python_VERSION                             ${Python_VERSION}
-Python_EXECUTABLE                          ${Python_EXECUTABLE}
-Python_LIBRARIES                           ${Python_LIBRARIES}
-Python_INCLUDE_DIRS                        ${Python_INCLUDE_DIRS}
-
+    BUILD_PYTHON                               ${BUILD_PYTHON}
+    Python_ROOT_DIR                            ${Python_ROOT_DIR}
+    Python_VERSION                             ${Python_VERSION}
+    Python_EXECUTABLE                          ${Python_EXECUTABLE}
+    Python_LIBRARIES                           ${Python_LIBRARIES}
+    Python_INCLUDE_DIRS                        ${Python_INCLUDE_DIRS}
+    Python_NumPy_FOUND                         ${Python_NumPy_FOUND}
+    Python_NumPy_INCLUDE_DIRS                  ${Python_NumPy_INCLUDE_DIRS}
+    Python_NumPy_VERSION                       ${Python_NumPy_VERSION}
 End Summary
 ################################################################################
 ")

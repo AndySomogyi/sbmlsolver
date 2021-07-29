@@ -1,10 +1,15 @@
-#include <fstream>
 #include "gtest/gtest.h"
+#include <fstream>
 #include "TestModelFactory.h"
+
+std::vector<int> getVofI(){
+    return std::vector<int>({1, 2, 3});
+}
+
 #include "SteadyStateSolver.h"
 #include "Matrix.h"
 
-void TestModel::toFile(const string &fname) {
+void TestModel::toFile(const std::string &fname) {
     std::ofstream of(fname);
     of << str();
     of.close();

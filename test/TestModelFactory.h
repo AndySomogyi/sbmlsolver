@@ -2,16 +2,18 @@
 #define ROADRUNNER_TESTMODELFACTORY
 
 #include <vector>
+
+std::vector<int> getVofI();
+
 #include <unordered_map>
-#include <stdexcept>
-#include <memory>
+//#include <stdexcept>
+//#include <memory>
 #include "Setting.h"
 #include "rrRoadRunner.h"
 #include "Matrix.h"
 #include "Matrix3D.h"
-#include <complex>
-
-//using DoublePair = std::pair<double, double>; // old swig no handle using statements
+//#include <complex>
+//
 typedef std::pair<double, double> DoublePair;
 
 /**
