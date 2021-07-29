@@ -92,6 +92,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../index.html">RoadRunner Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Installation/installation.html">Installing RoadRunner</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Examples/examples_index.html">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../read_write_functions.html">SBML Read/Write Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../selecting_values.html">Selecting Values</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../steady_state.html">Steady State Analysis</a></li>
@@ -225,8 +226,9 @@
 <dt class="sig sig-object cpp" id="_CPPv4N2rr14RK45IntegratorE">
 <span id="_CPPv3N2rr14RK45IntegratorE"></span><span id="_CPPv2N2rr14RK45IntegratorE"></span><span id="rr::RK45Integrator"></span><span class="target" id="classrr_1_1RK45Integrator"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">rr</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">RK45Integrator</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">rr</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="Integrator.html#_CPPv4N2rr10IntegratorE" title="rr::Integrator"><span class="n"><span class="pre">Integrator</span></span></a><a class="headerlink" href="#_CPPv4N2rr14RK45IntegratorE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>A Runge-Kutta Fehlberg method for roadrunner. </p>
-<p><dl class="simple">
-<dt><strong>Author</strong></dt><dd><p>KC  Uses the Fehlberg method, an adaptive step method, to integrate models. </p>
+<p>
+Uses the Fehlberg method, an adaptive step method, to integrate models. <dl class="simple">
+<dt><strong>Author</strong></dt><dd><p>KC</p>
 </dd>
 </dl>
 </p>
@@ -270,11 +272,12 @@
 <span id="_CPPv3N2rr14RK45Integrator9integrateEdd"></span><span id="_CPPv2N2rr14RK45Integrator9integrateEdd"></span><span id="rr::RK45Integrator::integrate__double.double"></span><span class="target" id="classrr_1_1RK45Integrator_1ab181e94750addee7066f7b35cce2fb4d"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">integrate</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">t</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">h</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr14RK45Integrator9integrateEdd" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>implement <a class="reference internal" href="Integrator.html#classrr_1_1Integrator"><span class="std std-ref">Integrator</span></a> interface </p>
 <p>
-Integrates the model from t to t + h.  Attempts to find the state std::vector at t + h, and returns time t + h if successful. If the integrator does not find a convergent solution, the state std::vector is not updated and t is returned. Also calculates a new timestep and saves it to a member variable for future use. <dl class="simple">
+Integrates the model from t to t + h.<dl class="simple">
 <dt><strong>Author</strong></dt><dd><p>CC</p>
 </dd>
 </dl>
 </p>
+<p>Attempts to find the state std::vector at t + h, and returns time t + h if successful. If the integrator does not find a convergent solution, the state std::vector is not updated and t is returned. Also calculates a new timestep and saves it to a member variable for future use. </p>
 </dd></dl>
 
 <dl class="cpp function">
@@ -329,6 +332,18 @@ Integrates the model from t to t + h.  Attempts to find the state std::vector at
 </dd></dl>
 
 <dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK2rr14RK45Integrator9constructEP15ExecutableModel">
+<span id="_CPPv3NK2rr14RK45Integrator9constructEP15ExecutableModel"></span><span id="_CPPv2NK2rr14RK45Integrator9constructEP15ExecutableModel"></span><span id="rr::RK45Integrator::construct__ExecutableModelPC"></span><span class="target" id="classrr_1_1RK45Integrator_1afe2267491be1f0a96429d9f11d8c06c4"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><a class="reference internal" href="Solver.html#_CPPv4N2rr6SolverE" title="rr::Solver"><span class="n"><span class="pre">Solver</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">construct</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="rrExecutableModel.html#_CPPv4N2rr15ExecutableModelE" title="rr::ExecutableModel"><span class="n"><span class="pre">ExecutableModel</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">executableModel</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK2rr14RK45Integrator9constructEP15ExecutableModel" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Constructs a new <a class="reference internal" href="Solver.html#classrr_1_1Solver"><span class="std std-ref">Solver</span></a> of a given type. </p>
+<p>
+the caller is responsible for deleting memory associated with the returned Solver*. <dl class="simple">
+<dt><strong>Author</strong></dt><dd><p>JKM, WBC</p>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N2rr14RK45Integrator8getValueENSt6stringE">
 <span id="_CPPv3N2rr14RK45Integrator8getValueENSt6stringE"></span><span id="_CPPv2N2rr14RK45Integrator8getValueENSt6stringE"></span><span id="rr::RK45Integrator::getValue__ss"></span><span class="target" id="classrr_1_1RK45Integrator_1a207a72af6c04b4e86d6f792ea25abddc"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">Setting</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getValue</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">key</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr14RK45Integrator8getValueENSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
 <dd></dd></dl>
@@ -367,6 +382,11 @@ Integrates the model from t to t + h.  Attempts to find the state std::vector at
 <span id="_CPPv3N2rr14RK45Integrator11getListenerEv"></span><span id="_CPPv2N2rr14RK45Integrator11getListenerEv"></span><span id="rr::RK45Integrator::getListener"></span><span class="target" id="classrr_1_1RK45Integrator_1af31a4d9eaff51261d8589f6020f2d612"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">IntegratorListenerPtr</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getListener</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr14RK45Integrator11getListenerEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>get the integrator listener </p>
 </dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr14RK45Integrator10IntegratorEP15ExecutableModel">
+<span id="_CPPv3N2rr14RK45Integrator10IntegratorEP15ExecutableModel"></span><span id="_CPPv2N2rr14RK45Integrator10IntegratorEP15ExecutableModel"></span><span id="rr::RK45Integrator::Integrator__ExecutableModelP"></span><span class="target" id="classrr_1_1RK45Integrator_1a8a79e9633a25767a1683a0334fd1d917"></span><span class="k"><span class="pre">explicit</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Integrator</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="rrExecutableModel.html#_CPPv4N2rr15ExecutableModelE" title="rr::ExecutableModel"><span class="n"><span class="pre">ExecutableModel</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">model</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr14RK45Integrator10IntegratorEP15ExecutableModel" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
 
 </div>
 <div class="breathe-sectiondef docutils container">

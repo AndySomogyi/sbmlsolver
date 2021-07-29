@@ -1,0 +1,332 @@
+\hypertarget{classrr_1_1ForwardSensitivitySolver}{}\doxysection{rr\+::Forward\+Sensitivity\+Solver Class Reference}
+\label{classrr_1_1ForwardSensitivitySolver}\index{rr::ForwardSensitivitySolver@{rr::ForwardSensitivitySolver}}
+
+
+Time based sensivitity solver.  
+
+
+
+
+{\ttfamily \#include $<$Forward\+Sensitivity\+Solver.\+h$>$}
+
+Inheritance diagram for rr\+::Forward\+Sensitivity\+Solver\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=5.000000cm]{classrr_1_1ForwardSensitivitySolver}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classrr_1_1ForwardSensitivitySolver_a82957fbf97d040947dd00090674d9877}\label{classrr_1_1ForwardSensitivitySolver_a82957fbf97d040947dd00090674d9877}} 
+{\bfseries Forward\+Sensitivity\+Solver} (\mbox{\hyperlink{classrr_1_1ExecutableModel}{Executable\+Model}} $\ast$executable\+Model)
+\item 
+\mbox{\Hypertarget{classrr_1_1ForwardSensitivitySolver_a9b46ed04c6a1592e58895c8a593cac3b}\label{classrr_1_1ForwardSensitivitySolver_a9b46ed04c6a1592e58895c8a593cac3b}} 
+{\bfseries Forward\+Sensitivity\+Solver} (\mbox{\hyperlink{classrr_1_1ExecutableModel}{Executable\+Model}} $\ast$executable\+Model, std\+::vector$<$ std\+::string $>$ \mbox{\hyperlink{classrr_1_1ForwardSensitivitySolver_a5ccab42d7414fe3bf6407805d8472eb8}{which\+Parameters}})
+\item 
+double \mbox{\hyperlink{classrr_1_1ForwardSensitivitySolver_a5617f1a29c1b3394a5bbf1bef36a3ab3}{integrate}} (double t\+Start, double hstep) override
+\begin{DoxyCompactList}\small\item\em integrate the model from t0 to t0 + hstep. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classrr_1_1ForwardSensitivitySolver_a7649a64267a6bad7d691a95252941b17}{create}} ()
+\begin{DoxyCompactList}\small\item\em instantiate the code necessary to use cvodes \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classrr_1_1ForwardSensitivitySolver_a9f78958e67898b39a0f70ff4207583a1}\label{classrr_1_1ForwardSensitivitySolver_a9f78958e67898b39a0f70ff4207583a1}} 
+void \mbox{\hyperlink{classrr_1_1ForwardSensitivitySolver_a9f78958e67898b39a0f70ff4207583a1}{free\+Sundials\+Memory}} ()
+\begin{DoxyCompactList}\small\item\em free sundials memory associated with sensitivities \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classrr_1_1ForwardSensitivitySolver_a38a772f5306181ab61940bd453059ce4}\label{classrr_1_1ForwardSensitivitySolver_a38a772f5306181ab61940bd453059ce4}} 
+std\+::string \mbox{\hyperlink{classrr_1_1ForwardSensitivitySolver_a38a772f5306181ab61940bd453059ce4}{get\+Name}} () const override
+\begin{DoxyCompactList}\small\item\em Get the name of this solver. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classrr_1_1ForwardSensitivitySolver_ad1f87f41aa3d2798b5b129f1ca773a08}\label{classrr_1_1ForwardSensitivitySolver_ad1f87f41aa3d2798b5b129f1ca773a08}} 
+std\+::string \mbox{\hyperlink{classrr_1_1ForwardSensitivitySolver_ad1f87f41aa3d2798b5b129f1ca773a08}{get\+Description}} () const override
+\begin{DoxyCompactList}\small\item\em Get the description of this solver. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classrr_1_1ForwardSensitivitySolver_a7ebffaf9c2b7d876ba0a845e869b0558}\label{classrr_1_1ForwardSensitivitySolver_a7ebffaf9c2b7d876ba0a845e869b0558}} 
+std\+::string \mbox{\hyperlink{classrr_1_1ForwardSensitivitySolver_a7ebffaf9c2b7d876ba0a845e869b0558}{get\+Hint}} () const override
+\begin{DoxyCompactList}\small\item\em Get a (user-\/readable) hint for this solver. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classrr_1_1Solver}{Solver}} $\ast$ \mbox{\hyperlink{classrr_1_1ForwardSensitivitySolver_ae938e625ed4e8d3536b6b3fb9371a08d}{construct}} (\mbox{\hyperlink{classrr_1_1ExecutableModel}{Executable\+Model}} $\ast$executable\+Model) const override
+\begin{DoxyCompactList}\small\item\em Constructs a new \mbox{\hyperlink{classrr_1_1Solver}{Solver}} of a given type. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classrr_1_1ForwardSensitivitySolver_a66033d9628dea4a1e2ffc2158087a2e1}\label{classrr_1_1ForwardSensitivitySolver_a66033d9628dea4a1e2ffc2158087a2e1}} 
+void \mbox{\hyperlink{classrr_1_1ForwardSensitivitySolver_a66033d9628dea4a1e2ffc2158087a2e1}{reset\+Settings}} () override
+\begin{DoxyCompactList}\small\item\em resets all settings back to default values \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classrr_1_1ForwardSensitivitySolver_aa0560086789464708c95896272e1b5ce}{sync\+With\+Model}} (\mbox{\hyperlink{classrr_1_1ExecutableModel}{Executable\+Model}} $\ast$executable\+Model) override
+\begin{DoxyCompactList}\small\item\em Called whenever a new model is loaded to allow integrator to reset internal state. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{classrr_1_1ForwardSensitivitySolver_acd883d6f972f3735251d363a69ae9da1}{to\+Repr}} () const override
+\begin{DoxyCompactList}\small\item\em Return std\+::string representation a la Python {\bfseries{repr}} method. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classrr_1_1ForwardSensitivitySolver_a34664475ff5fb64c70f81486c49938d2}\label{classrr_1_1ForwardSensitivitySolver_a34664475ff5fb64c70f81486c49938d2}} 
+void {\bfseries load\+Config\+Settings} ()
+\item 
+std\+::string \mbox{\hyperlink{classrr_1_1ForwardSensitivitySolver_a3d626fc6eb7f2698840a4d2a94da5720}{to\+String}} () const override
+\begin{DoxyCompactList}\small\item\em Return a std\+::string representation of the solver. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classrr_1_1ForwardSensitivitySolver_ad71e98f12d325629eb22b6473ec48cb4}\label{classrr_1_1ForwardSensitivitySolver_ad71e98f12d325629eb22b6473ec48cb4}} 
+std\+::vector$<$ std\+::string $>$ \mbox{\hyperlink{classrr_1_1ForwardSensitivitySolver_ad71e98f12d325629eb22b6473ec48cb4}{get\+Global\+Parameter\+Names}} ()
+\begin{DoxyCompactList}\small\item\em returns a vector of global parameter names extracted from the model \end{DoxyCompactList}\item 
+std\+::vector$<$ std\+::string $>$ \mbox{\hyperlink{classrr_1_1ForwardSensitivitySolver_ae1bc2fdffabdd3c03b1fb992b94d3efe}{get\+Variable\+Names}} ()
+\begin{DoxyCompactList}\small\item\em get a vector of variable names in the order that they appear in the model. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classrr_1_1ForwardSensitivitySolver_af5953818d5d18ee9537733e4553525cf}\label{classrr_1_1ForwardSensitivitySolver_af5953818d5d18ee9537733e4553525cf}} 
+Parameter\+Map \mbox{\hyperlink{classrr_1_1ForwardSensitivitySolver_af5953818d5d18ee9537733e4553525cf}{get\+Model\+Parameters\+As\+Map}} ()
+\begin{DoxyCompactList}\small\item\em get global parameters as an unordered map, strings as keys and parameter values as values \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classrr_1_1ForwardSensitivitySolver_a7d4821b296ddd8878ce8d490598bf0d2}\label{classrr_1_1ForwardSensitivitySolver_a7d4821b296ddd8878ce8d490598bf0d2}} 
+std\+::vector$<$ double $>$ \mbox{\hyperlink{classrr_1_1ForwardSensitivitySolver_a7d4821b296ddd8878ce8d490598bf0d2}{get\+Model\+Parameters\+As\+Vector}} ()
+\begin{DoxyCompactList}\small\item\em return a std\+::vector$<$double$>$ of model parameters in the order they appear in the model. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classrr_1_1ForwardSensitivitySolver_aed656c6267d711b2e2d45574a42695a8}\label{classrr_1_1ForwardSensitivitySolver_aed656c6267d711b2e2d45574a42695a8}} 
+void \mbox{\hyperlink{classrr_1_1ForwardSensitivitySolver_aed656c6267d711b2e2d45574a42695a8}{deduce\+Plist}} ()
+\begin{DoxyCompactList}\small\item\em returns the indexes of parameters that user wants sensitivities for, based off of which\+Parameters. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classrr_1_1ForwardSensitivitySolver_ae2da77e914bbff9a93ef44c2c3546a3b}\label{classrr_1_1ForwardSensitivitySolver_ae2da77e914bbff9a93ef44c2c3546a3b}} 
+N\+\_\+\+Vector \mbox{\hyperlink{classrr_1_1ForwardSensitivitySolver_ae2da77e914bbff9a93ef44c2c3546a3b}{get\+State\+Vector}} ()
+\begin{DoxyCompactList}\small\item\em retuns pointer to the state vector used by sundials for solving ODE. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classrr_1_1ForwardSensitivitySolver_a7aa4a017b53b2e2ae10d09c1f1747efd}\label{classrr_1_1ForwardSensitivitySolver_a7aa4a017b53b2e2ae10d09c1f1747efd}} 
+N\+\_\+\+Vector $\ast$ \mbox{\hyperlink{classrr_1_1ForwardSensitivitySolver_a7aa4a017b53b2e2ae10d09c1f1747efd}{get\+Sensitivity\+NVector\+Ptr}} ()
+\begin{DoxyCompactList}\small\item\em retuns pointer to the state vector used by sundials for storing sensitivity matrix. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classrr_1_1Matrix}{rr\+::\+Matrix}}$<$ double $>$ \mbox{\hyperlink{classrr_1_1ForwardSensitivitySolver_ac92ead0cef81dc069acb9c045bf02657}{get\+Sensitivity\+Matrix}} (int k=0)
+\begin{DoxyCompactList}\small\item\em get current values of sensitivities of model variables to parameters. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classrr_1_1Matrix3D}{Matrix3D}}$<$ double, double $>$ \mbox{\hyperlink{classrr_1_1ForwardSensitivitySolver_a70ad538b6dd6a87f785975874cbcc1c2}{solve\+Sensitivities}} (double start, double stop, int num, std\+::vector$<$ std\+::string $>$ params=std\+::vector$<$ std\+::string $>$(), int k=0)
+\begin{DoxyCompactList}\small\item\em simulate a timeseries with sensitivities from start to step with num data points. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classrr_1_1ForwardSensitivitySolver_ac041b6c31b3f47bb9bbf6d17bf80751a}\label{classrr_1_1ForwardSensitivitySolver_ac041b6c31b3f47bb9bbf6d17bf80751a}} 
+void {\bfseries set\+Value} (const std\+::string \&key, \mbox{\hyperlink{classrr_1_1Setting}{Setting}} val)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::vector$<$ double $>$ \mbox{\hyperlink{classrr_1_1ForwardSensitivitySolver_ad8e9532fb451fb07102d541c0c99431d}{p}}
+\begin{DoxyCompactList}\small\item\em parameters in the model as a member variable which enables passing the underlying data pointer to sundials for finite difference approx \end{DoxyCompactList}\item 
+std\+::vector$<$ double $>$ \mbox{\hyperlink{classrr_1_1ForwardSensitivitySolver_af70b5c29f06f44ff929f716e685db223}{pbar}}
+\begin{DoxyCompactList}\small\item\em scaling factors. \end{DoxyCompactList}\item 
+std\+::vector$<$ int $>$ \mbox{\hyperlink{classrr_1_1ForwardSensitivitySolver_aab51eee428bdc2a931fdef6034c43115}{plist}}
+\begin{DoxyCompactList}\small\item\em which parameters to get sensitivity for as int? \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classrr_1_1ForwardSensitivitySolver_a5ccab42d7414fe3bf6407805d8472eb8}\label{classrr_1_1ForwardSensitivitySolver_a5ccab42d7414fe3bf6407805d8472eb8}} 
+std\+::vector$<$ std\+::string $>$ \mbox{\hyperlink{classrr_1_1ForwardSensitivitySolver_a5ccab42d7414fe3bf6407805d8472eb8}{which\+Parameters}}
+\begin{DoxyCompactList}\small\item\em which parameters to get sensitivities for, as strings \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classrr_1_1ForwardSensitivitySolver_a051a2fd4e4a5a644b5f4b32f425e3552}\label{classrr_1_1ForwardSensitivitySolver_a051a2fd4e4a5a644b5f4b32f425e3552}} 
+Parameter\+Map \mbox{\hyperlink{classrr_1_1ForwardSensitivitySolver_a051a2fd4e4a5a644b5f4b32f425e3552}{global\+Parameter\+Map}}
+\begin{DoxyCompactList}\small\item\em a map containing model parameter names to values \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classrr_1_1ForwardSensitivitySolver_a9cf514ad265733e39fa93296e27726d2}\label{classrr_1_1ForwardSensitivitySolver_a9cf514ad265733e39fa93296e27726d2}} 
+int \mbox{\hyperlink{classrr_1_1ForwardSensitivitySolver_a9cf514ad265733e39fa93296e27726d2}{Np}} = 0
+\begin{DoxyCompactList}\small\item\em number of global parameters in the model \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classrr_1_1ForwardSensitivitySolver_ace176b4a2248e742351ddd30d4d900ba}\label{classrr_1_1ForwardSensitivitySolver_ace176b4a2248e742351ddd30d4d900ba}} 
+int \mbox{\hyperlink{classrr_1_1ForwardSensitivitySolver_ace176b4a2248e742351ddd30d4d900ba}{Ns}} = 0
+\begin{DoxyCompactList}\small\item\em number of parameters we want to find sensitivities for \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{classrr_1_1ForwardSensitivitySolver_aa84e84aba27a1fd6826cd7581b228d39}{num\+Model\+Variables}} = 0
+\begin{DoxyCompactList}\small\item\em the number of state variables in the model \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classrr_1_1ForwardSensitivitySolver_a94a18c4a7ce92d176eecc5da3e4a64e8}\label{classrr_1_1ForwardSensitivitySolver_a94a18c4a7ce92d176eecc5da3e4a64e8}} 
+int {\bfseries FFSDy\+Dt\+Fcn} (realtype time, N\+\_\+\+Vector cv\+\_\+y, N\+\_\+\+Vector cv\+\_\+ydot, void $\ast$user\+Data)
+\item 
+\mbox{\Hypertarget{classrr_1_1ForwardSensitivitySolver_ab0f65e181178179b40d9f4b5c68f69d5}\label{classrr_1_1ForwardSensitivitySolver_ab0f65e181178179b40d9f4b5c68f69d5}} 
+int {\bfseries FFSRoot\+Fcn} (realtype time, N\+\_\+\+Vector y\+\_\+vector, realtype $\ast$gout, void $\ast$user\+\_\+data)
+\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Detailed Description}
+Time based sensivitity solver. 
+
+Uses \mbox{\hyperlink{classrr_1_1CVODEIntegrator}{CVODEIntegrator}} to integrate the \mbox{\hyperlink{classrr_1_1ExecutableModel}{Executable\+Model}} and cvodes to compute sensitivity information at each time point. Implements the \mbox{\hyperlink{classrr_1_1TimeSeriesSensitivitySolver}{Time\+Series\+Sensitivity\+Solver}} interface 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classrr_1_1ForwardSensitivitySolver_ae938e625ed4e8d3536b6b3fb9371a08d}\label{classrr_1_1ForwardSensitivitySolver_ae938e625ed4e8d3536b6b3fb9371a08d}} 
+\index{rr::ForwardSensitivitySolver@{rr::ForwardSensitivitySolver}!construct@{construct}}
+\index{construct@{construct}!rr::ForwardSensitivitySolver@{rr::ForwardSensitivitySolver}}
+\doxysubsubsection{\texorpdfstring{construct()}{construct()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classrr_1_1Solver}{Solver}} $\ast$ rr\+::\+Forward\+Sensitivity\+Solver\+::construct (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classrr_1_1ExecutableModel}{Executable\+Model}} $\ast$}]{model }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Constructs a new \mbox{\hyperlink{classrr_1_1Solver}{Solver}} of a given type. 
+
+\begin{DoxyAuthor}{Author}
+JKM, WBC
+\end{DoxyAuthor}
+the caller is responsible for deleting memory associated with the returned Solver$\ast$. 
+
+Implements \mbox{\hyperlink{classrr_1_1Registrable_a3f529e138fa0288622525bc13cd73c5f}{rr\+::\+Registrable}}.
+
+\mbox{\Hypertarget{classrr_1_1ForwardSensitivitySolver_a7649a64267a6bad7d691a95252941b17}\label{classrr_1_1ForwardSensitivitySolver_a7649a64267a6bad7d691a95252941b17}} 
+\index{rr::ForwardSensitivitySolver@{rr::ForwardSensitivitySolver}!create@{create}}
+\index{create@{create}!rr::ForwardSensitivitySolver@{rr::ForwardSensitivitySolver}}
+\doxysubsubsection{\texorpdfstring{create()}{create()}}
+{\footnotesize\ttfamily void rr\+::\+Forward\+Sensitivity\+Solver\+::create (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+instantiate the code necessary to use cvodes 
+
+note the cv\+Direct\+Demo.\+c example from sundials is useful to see the different cvode options in action
+
+Sensitivity setup Only do this if there are model variables and parameters since its possible to have an empty \mbox{\hyperlink{classrr_1_1RoadRunner}{Road\+Runner}} object from which we create a model using the direct interface.\mbox{\Hypertarget{classrr_1_1ForwardSensitivitySolver_ac92ead0cef81dc069acb9c045bf02657}\label{classrr_1_1ForwardSensitivitySolver_ac92ead0cef81dc069acb9c045bf02657}} 
+\index{rr::ForwardSensitivitySolver@{rr::ForwardSensitivitySolver}!getSensitivityMatrix@{getSensitivityMatrix}}
+\index{getSensitivityMatrix@{getSensitivityMatrix}!rr::ForwardSensitivitySolver@{rr::ForwardSensitivitySolver}}
+\doxysubsubsection{\texorpdfstring{getSensitivityMatrix()}{getSensitivityMatrix()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classrr_1_1Matrix}{rr\+::\+Matrix}}$<$ double $>$ rr\+::\+Forward\+Sensitivity\+Solver\+::get\+Sensitivity\+Matrix (\begin{DoxyParamCaption}\item[{int}]{k = {\ttfamily 0} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+get current values of sensitivities of model variables to parameters. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em kth} & derivative of the sensitivities. \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{classrr_1_1SensitivitySolver_ab6bc2c2f138c4983a244d36108f8af5e}{rr\+::\+Sensitivity\+Solver}}.
+
+\mbox{\Hypertarget{classrr_1_1ForwardSensitivitySolver_ae1bc2fdffabdd3c03b1fb992b94d3efe}\label{classrr_1_1ForwardSensitivitySolver_ae1bc2fdffabdd3c03b1fb992b94d3efe}} 
+\index{rr::ForwardSensitivitySolver@{rr::ForwardSensitivitySolver}!getVariableNames@{getVariableNames}}
+\index{getVariableNames@{getVariableNames}!rr::ForwardSensitivitySolver@{rr::ForwardSensitivitySolver}}
+\doxysubsubsection{\texorpdfstring{getVariableNames()}{getVariableNames()}}
+{\footnotesize\ttfamily std\+::vector$<$ std\+::string $>$ rr\+::\+Forward\+Sensitivity\+Solver\+::get\+Variable\+Names (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+get a vector of variable names in the order that they appear in the model. 
+
+variables refers to each equation in the model and are obtained with \mbox{\hyperlink{classrr_1_1ExecutableModel_ac6c245edd9ecea5feea84cff15db7b26}{Executable\+Model\+::get\+State\+Vector\+Id}}. \mbox{\Hypertarget{classrr_1_1ForwardSensitivitySolver_a5617f1a29c1b3394a5bbf1bef36a3ab3}\label{classrr_1_1ForwardSensitivitySolver_a5617f1a29c1b3394a5bbf1bef36a3ab3}} 
+\index{rr::ForwardSensitivitySolver@{rr::ForwardSensitivitySolver}!integrate@{integrate}}
+\index{integrate@{integrate}!rr::ForwardSensitivitySolver@{rr::ForwardSensitivitySolver}}
+\doxysubsubsection{\texorpdfstring{integrate()}{integrate()}}
+{\footnotesize\ttfamily double rr\+::\+Forward\+Sensitivity\+Solver\+::integrate (\begin{DoxyParamCaption}\item[{double}]{t0,  }\item[{double}]{hstep }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+integrate the model from t0 to t0 + hstep. 
+
+\begin{DoxyNote}{Note}
+this signature is the same as that found in Integrator().
+\end{DoxyNote}
+integrating the model should update the sensitivities, which are available from get\+Sensitivities() 
+
+Implements \mbox{\hyperlink{classrr_1_1TimeSeriesSensitivitySolver_a9f070078f416a3cfb2c6fbb397b238c6}{rr\+::\+Time\+Series\+Sensitivity\+Solver}}.
+
+\mbox{\Hypertarget{classrr_1_1ForwardSensitivitySolver_a70ad538b6dd6a87f785975874cbcc1c2}\label{classrr_1_1ForwardSensitivitySolver_a70ad538b6dd6a87f785975874cbcc1c2}} 
+\index{rr::ForwardSensitivitySolver@{rr::ForwardSensitivitySolver}!solveSensitivities@{solveSensitivities}}
+\index{solveSensitivities@{solveSensitivities}!rr::ForwardSensitivitySolver@{rr::ForwardSensitivitySolver}}
+\doxysubsubsection{\texorpdfstring{solveSensitivities()}{solveSensitivities()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classrr_1_1Matrix3D}{Matrix3D}}$<$ double, double $>$ rr\+::\+Forward\+Sensitivity\+Solver\+::solve\+Sensitivities (\begin{DoxyParamCaption}\item[{double}]{start,  }\item[{double}]{stop,  }\item[{int}]{num,  }\item[{std\+::vector$<$ std\+::string $>$}]{params = {\ttfamily std\+:\+:vector$<$std\+:\+:string$>$()},  }\item[{int}]{k = {\ttfamily 0} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+simulate a timeseries with sensitivities from start to step with num data points. 
+
+\mbox{\hyperlink{classrr_1_1Matrix3D}{Matrix3D}} indexed by time. Each element of the 3D matrix is a Matrix$<$double$>$ with rows and columns parameters and model variables respectively. The parameter k determines the kth order derivative of the sensitivity information that will be returned 
+\begin{DoxyParams}{Parameters}
+{\em start} & starting time for time series simulation \\
+\hline
+{\em stop} & last time point for time series simulation \\
+\hline
+{\em num} & number of data points to simulate. Determines Z of \mbox{\hyperlink{classrr_1_1Matrix3D}{Matrix3D}}. \\
+\hline
+{\em params} & vector of parameters that you want sensitivity for. When empty (default), compute sensitivities for all parameters vs all variables. \\
+\hline
+{\em k} & (default 0) return the kth other derivative of the sensitivity data. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+for developers. Pass by value for the params is easier to wrap with swig. 
+\end{DoxyNote}
+Note this is slightly contrived logic that is necessary for enabling users to supply which\+Parameters in the constructor and here via the params argument. This was an \char`\"{}accident of design\char`\"{} and it would be better to just have the which\+Parameters variable set in this method only.
+
+Implements \mbox{\hyperlink{classrr_1_1TimeSeriesSensitivitySolver_ab460ead5a873a10145c645c2e0d2a32f}{rr\+::\+Time\+Series\+Sensitivity\+Solver}}.
+
+\mbox{\Hypertarget{classrr_1_1ForwardSensitivitySolver_aa0560086789464708c95896272e1b5ce}\label{classrr_1_1ForwardSensitivitySolver_aa0560086789464708c95896272e1b5ce}} 
+\index{rr::ForwardSensitivitySolver@{rr::ForwardSensitivitySolver}!syncWithModel@{syncWithModel}}
+\index{syncWithModel@{syncWithModel}!rr::ForwardSensitivitySolver@{rr::ForwardSensitivitySolver}}
+\doxysubsubsection{\texorpdfstring{syncWithModel()}{syncWithModel()}}
+{\footnotesize\ttfamily void rr\+::\+Forward\+Sensitivity\+Solver\+::sync\+With\+Model (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classrr_1_1ExecutableModel}{Executable\+Model}} $\ast$}]{m }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Called whenever a new model is loaded to allow integrator to reset internal state. 
+
+\begin{DoxyAuthor}{Author}
+JKM 
+\end{DoxyAuthor}
+
+
+Implements \mbox{\hyperlink{classrr_1_1Solver_aecb0e7c619e544aeabc6db9903165158}{rr\+::\+Solver}}.
+
+\mbox{\Hypertarget{classrr_1_1ForwardSensitivitySolver_acd883d6f972f3735251d363a69ae9da1}\label{classrr_1_1ForwardSensitivitySolver_acd883d6f972f3735251d363a69ae9da1}} 
+\index{rr::ForwardSensitivitySolver@{rr::ForwardSensitivitySolver}!toRepr@{toRepr}}
+\index{toRepr@{toRepr}!rr::ForwardSensitivitySolver@{rr::ForwardSensitivitySolver}}
+\doxysubsubsection{\texorpdfstring{toRepr()}{toRepr()}}
+{\footnotesize\ttfamily std\+::string rr\+::\+Forward\+Sensitivity\+Solver\+::to\+Repr (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Return std\+::string representation a la Python {\bfseries{repr}} method. 
+
+\begin{DoxyAuthor}{Author}
+JKM 
+\end{DoxyAuthor}
+
+
+Reimplemented from \mbox{\hyperlink{classrr_1_1Solver_a2f2b574b220becfebd1be2d8cc34d550}{rr\+::\+Solver}}.
+
+\mbox{\Hypertarget{classrr_1_1ForwardSensitivitySolver_a3d626fc6eb7f2698840a4d2a94da5720}\label{classrr_1_1ForwardSensitivitySolver_a3d626fc6eb7f2698840a4d2a94da5720}} 
+\index{rr::ForwardSensitivitySolver@{rr::ForwardSensitivitySolver}!toString@{toString}}
+\index{toString@{toString}!rr::ForwardSensitivitySolver@{rr::ForwardSensitivitySolver}}
+\doxysubsubsection{\texorpdfstring{toString()}{toString()}}
+{\footnotesize\ttfamily std\+::string rr\+::\+Forward\+Sensitivity\+Solver\+::to\+String (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Return a std\+::string representation of the solver. 
+
+\begin{DoxyAuthor}{Author}
+JKM 
+\end{DoxyAuthor}
+
+
+Reimplemented from \mbox{\hyperlink{classrr_1_1Solver_af08f448f7eea26415a47caaae161de02}{rr\+::\+Solver}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classrr_1_1ForwardSensitivitySolver_aa84e84aba27a1fd6826cd7581b228d39}\label{classrr_1_1ForwardSensitivitySolver_aa84e84aba27a1fd6826cd7581b228d39}} 
+\index{rr::ForwardSensitivitySolver@{rr::ForwardSensitivitySolver}!numModelVariables@{numModelVariables}}
+\index{numModelVariables@{numModelVariables}!rr::ForwardSensitivitySolver@{rr::ForwardSensitivitySolver}}
+\doxysubsubsection{\texorpdfstring{numModelVariables}{numModelVariables}}
+{\footnotesize\ttfamily int rr\+::\+Forward\+Sensitivity\+Solver\+::num\+Model\+Variables = 0}
+
+
+
+the number of state variables in the model 
+
+aka the size of the m\+State\+Vector \mbox{\Hypertarget{classrr_1_1ForwardSensitivitySolver_ad8e9532fb451fb07102d541c0c99431d}\label{classrr_1_1ForwardSensitivitySolver_ad8e9532fb451fb07102d541c0c99431d}} 
+\index{rr::ForwardSensitivitySolver@{rr::ForwardSensitivitySolver}!p@{p}}
+\index{p@{p}!rr::ForwardSensitivitySolver@{rr::ForwardSensitivitySolver}}
+\doxysubsubsection{\texorpdfstring{p}{p}}
+{\footnotesize\ttfamily std\+::vector$<$double$>$ rr\+::\+Forward\+Sensitivity\+Solver\+::p}
+
+
+
+parameters in the model as a member variable which enables passing the underlying data pointer to sundials for finite difference approx 
+
+This is the full vector of model global parameters in the order indexed in the model. \begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{classrr_1_1ForwardSensitivitySolver_aab51eee428bdc2a931fdef6034c43115}{plist}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{classrr_1_1ForwardSensitivitySolver_af70b5c29f06f44ff929f716e685db223}\label{classrr_1_1ForwardSensitivitySolver_af70b5c29f06f44ff929f716e685db223}} 
+\index{rr::ForwardSensitivitySolver@{rr::ForwardSensitivitySolver}!pbar@{pbar}}
+\index{pbar@{pbar}!rr::ForwardSensitivitySolver@{rr::ForwardSensitivitySolver}}
+\doxysubsubsection{\texorpdfstring{pbar}{pbar}}
+{\footnotesize\ttfamily std\+::vector$<$double$>$ rr\+::\+Forward\+Sensitivity\+Solver\+::pbar}
+
+
+
+scaling factors. 
+
+Set to the values of the parameters for sensitivity. This should be identical to p as acceptible default. \mbox{\Hypertarget{classrr_1_1ForwardSensitivitySolver_aab51eee428bdc2a931fdef6034c43115}\label{classrr_1_1ForwardSensitivitySolver_aab51eee428bdc2a931fdef6034c43115}} 
+\index{rr::ForwardSensitivitySolver@{rr::ForwardSensitivitySolver}!plist@{plist}}
+\index{plist@{plist}!rr::ForwardSensitivitySolver@{rr::ForwardSensitivitySolver}}
+\doxysubsubsection{\texorpdfstring{plist}{plist}}
+{\footnotesize\ttfamily std\+::vector$<$int$>$ rr\+::\+Forward\+Sensitivity\+Solver\+::plist}
+
+
+
+which parameters to get sensitivity for as int? 
+
+indexes parameters in p and pbar. 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Forward\+Sensitivity\+Solver.\+h\item 
+Forward\+Sensitivity\+Solver.\+cpp\end{DoxyCompactItemize}

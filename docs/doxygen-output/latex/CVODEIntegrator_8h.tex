@@ -1,8 +1,8 @@
-\hypertarget{CVODEIntegrator_8h}{}\doxysection{C\+V\+O\+D\+E\+Integrator.\+h File Reference}
+\hypertarget{CVODEIntegrator_8h}{}\doxysection{CVODEIntegrator.\+h File Reference}
 \label{CVODEIntegrator_8h}\index{CVODEIntegrator.h@{CVODEIntegrator.h}}
 
 
-Contains the Road\+Runner C\+V\+O\+DE integrator interface.  
+Contains the Road\+Runner CVODE integrator interface.  
 
 
 {\ttfamily \#include \char`\"{}Integrator.\+h\char`\"{}}\newline
@@ -11,26 +11,27 @@ Contains the Road\+Runner C\+V\+O\+DE integrator interface.
 {\ttfamily \#include $<$vector$>$}\newline
 {\ttfamily \#include $<$sundials/sundials\+\_\+linearsolver.\+h$>$}\newline
 {\ttfamily \#include $<$sundials/sundials\+\_\+nonlinearsolver.\+h$>$}\newline
+{\ttfamily \#include $<$cvodes/cvodes.\+h$>$}\newline
+{\ttfamily \#include $<$sundials/sundials\+\_\+nvector.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}Forward\+Sensitivity\+Solver.\+h\char`\"{}}\newline
 \doxysubsection*{Classes}
 \begin{DoxyCompactItemize}
 \item 
-class \mbox{\hyperlink{classrr_1_1CVODEIntegrator}{rr\+::\+C\+V\+O\+D\+E\+Integrator}}
-\begin{DoxyCompactList}\small\item\em A \mbox{\hyperlink{classrr_1_1RoadRunner}{Road\+Runner}} integrator based on C\+V\+O\+DE; serves as \mbox{\hyperlink{classrr_1_1RoadRunner}{Road\+Runner}}\textquotesingle{}s main integrator for O\+D\+Es. \end{DoxyCompactList}\item 
-class \mbox{\hyperlink{classrr_1_1CVODEIntegratorRegistrar}{rr\+::\+C\+V\+O\+D\+E\+Integrator\+Registrar}}
-\end{DoxyCompactItemize}
-\doxysubsection*{Typedefs}
+class \mbox{\hyperlink{classrr_1_1CVODEIntegrator}{rr\+::\+CVODEIntegrator}}
+\begin{DoxyCompactList}\small\item\em A \mbox{\hyperlink{classrr_1_1RoadRunner}{Road\+Runner}} integrator based on CVODE; serves as \mbox{\hyperlink{classrr_1_1RoadRunner}{Road\+Runner}}\textquotesingle{}s main integrator for ODEs. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\Hypertarget{CVODEIntegrator_8h_a8a91260811ab3718acff6bc5bd55d374}\label{CVODEIntegrator_8h_a8a91260811ab3718acff6bc5bd55d374}} 
-typedef struct \+\_\+generic\+\_\+\+N\+\_\+\+Vector $\ast$ \mbox{\hyperlink{CVODEIntegrator_8h_a8a91260811ab3718acff6bc5bd55d374}{N\+\_\+\+Vector}}
-\begin{DoxyCompactList}\small\item\em C\+Vode std\+::vector struct. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\mbox{\Hypertarget{CVODEIntegrator_8h_ab548fd7f7fca7e5c037680f49a491aa2}\label{CVODEIntegrator_8h_ab548fd7f7fca7e5c037680f49a491aa2}} 
+{\footnotesize template$<$class Sundials\+Type  = CVODEIntegrator$>$ }\\std\+::string {\bfseries rr\+::decode\+Sundials\+Error} (Sundials\+Type $\ast$solver, int cvode\+Error, bool ex\+Info)
+\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
-Contains the Road\+Runner C\+V\+O\+DE integrator interface. 
+Contains the Road\+Runner CVODE integrator interface. 
 
 \begin{DoxyAuthor}{Author}
-W\+BC, E\+TS, M\+TK, J\+KM 
+WBC, ETS, MTK, JKM 
 \end{DoxyAuthor}
 \begin{DoxyCopyright}{Copyright}
 Apache License, Version 2.\+0 

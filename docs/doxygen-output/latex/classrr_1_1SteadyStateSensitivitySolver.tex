@@ -1,0 +1,66 @@
+\hypertarget{classrr_1_1SteadyStateSensitivitySolver}{}\doxysection{rr\+::Steady\+State\+Sensitivity\+Solver Class Reference}
+\label{classrr_1_1SteadyStateSensitivitySolver}\index{rr::SteadyStateSensitivitySolver@{rr::SteadyStateSensitivitySolver}}
+
+
+genetic interface for sensitivity solvers that solve for steady state before computing model sensitivities  
+
+
+
+
+{\ttfamily \#include $<$Sensitivity\+Solver.\+h$>$}
+
+Inheritance diagram for rr\+::Steady\+State\+Sensitivity\+Solver\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=4.000000cm]{classrr_1_1SteadyStateSensitivitySolver}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual double \mbox{\hyperlink{classrr_1_1SteadyStateSensitivitySolver_a07e7a0c87c30a99fd58dd53c1ed63475}{solve\+Steady\+State}} ()=0
+\begin{DoxyCompactList}\small\item\em solves the model for steady state. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{classrr_1_1Matrix}{rr\+::\+Matrix}}$<$ double $>$ \mbox{\hyperlink{classrr_1_1SteadyStateSensitivitySolver_a9bc29aa9469aa0a64beed8c9eeac55d8}{solve\+Sensitivities}} (std\+::vector$<$ std\+::string $>$ params=std\+::vector$<$ std\+::string $>$(), int k=0)=0
+\begin{DoxyCompactList}\small\item\em compute sensitivities at steady state \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Detailed Description}
+genetic interface for sensitivity solvers that solve for steady state before computing model sensitivities 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classrr_1_1SteadyStateSensitivitySolver_a9bc29aa9469aa0a64beed8c9eeac55d8}\label{classrr_1_1SteadyStateSensitivitySolver_a9bc29aa9469aa0a64beed8c9eeac55d8}} 
+\index{rr::SteadyStateSensitivitySolver@{rr::SteadyStateSensitivitySolver}!solveSensitivities@{solveSensitivities}}
+\index{solveSensitivities@{solveSensitivities}!rr::SteadyStateSensitivitySolver@{rr::SteadyStateSensitivitySolver}}
+\doxysubsubsection{\texorpdfstring{solveSensitivities()}{solveSensitivities()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{classrr_1_1Matrix}{rr\+::\+Matrix}}$<$double$>$ rr\+::\+Steady\+State\+Sensitivity\+Solver\+::solve\+Sensitivities (\begin{DoxyParamCaption}\item[{std\+::vector$<$ std\+::string $>$}]{params = {\ttfamily std\+:\+:vector$<$~std\+:\+:string~$>$()},  }\item[{int}]{k = {\ttfamily 0} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+compute sensitivities at steady state 
+
+
+\begin{DoxyParams}{Parameters}
+{\em params} & which parameters do you want sensitivities for? Each string must be a valid model parameter. If left empty (default) then all model parameters are selected. \\
+\hline
+{\em k} & returned double matrix will contain the kth order derivative of the sensitivities, where 0 (default) is just the sensitivity values \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the k\textquotesingle{}th order derivitive of the Sensitivities for this model at steady state. Rows (number of model variables), columns (Np, number of parameters user has requested sensitivites for). 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classrr_1_1SteadyStateSensitivitySolver_a07e7a0c87c30a99fd58dd53c1ed63475}\label{classrr_1_1SteadyStateSensitivitySolver_a07e7a0c87c30a99fd58dd53c1ed63475}} 
+\index{rr::SteadyStateSensitivitySolver@{rr::SteadyStateSensitivitySolver}!solveSteadyState@{solveSteadyState}}
+\index{solveSteadyState@{solveSteadyState}!rr::SteadyStateSensitivitySolver@{rr::SteadyStateSensitivitySolver}}
+\doxysubsubsection{\texorpdfstring{solveSteadyState()}{solveSteadyState()}}
+{\footnotesize\ttfamily virtual double rr\+::\+Steady\+State\+Sensitivity\+Solver\+::solve\+Steady\+State (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+solves the model for steady state. 
+
+this method is called prior to computing sensitivities to get sensitivities at steady state. 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Sensitivity\+Solver.\+h\end{DoxyCompactItemize}

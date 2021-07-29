@@ -12,7 +12,7 @@ Solve for steady state using Kinsol\textquotesingle{}s implementation of Newton 
 Inheritance diagram for rr\+::Basic\+Newton\+Iteration\+:\begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[height=5.000000cm]{classrr_1_1BasicNewtonIteration}
+\includegraphics[height=6.000000cm]{classrr_1_1BasicNewtonIteration}
 \end{center}
 \end{figure}
 \doxysubsection*{Public Member Functions}
@@ -30,21 +30,14 @@ std\+::string \mbox{\hyperlink{classrr_1_1BasicNewtonIteration_a52d645f2934c5230
 \mbox{\Hypertarget{classrr_1_1BasicNewtonIteration_a4ed6c97258f57dfe0f4653284f6bb9ac}\label{classrr_1_1BasicNewtonIteration_a4ed6c97258f57dfe0f4653284f6bb9ac}} 
 std\+::string \mbox{\hyperlink{classrr_1_1BasicNewtonIteration_a4ed6c97258f57dfe0f4653284f6bb9ac}{get\+Hint}} () const override
 \begin{DoxyCompactList}\small\item\em Get a (user-\/readable) hint for this solver. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classrr_1_1Solver}{Solver}} $\ast$ \mbox{\hyperlink{classrr_1_1BasicNewtonIteration_a9900814f49410af9534862070de4c9e5}{construct}} (\mbox{\hyperlink{classrr_1_1ExecutableModel}{Executable\+Model}} $\ast$model) const override
+\begin{DoxyCompactList}\small\item\em construct a new Basic\+Newton\+Iterator \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classrr_1_1BasicNewtonIteration_a4e322271d2eac9740271623abdcb4051}\label{classrr_1_1BasicNewtonIteration_a4e322271d2eac9740271623abdcb4051}} 
 double \mbox{\hyperlink{classrr_1_1BasicNewtonIteration_a4e322271d2eac9740271623abdcb4051}{solve}} () override
-\begin{DoxyCompactList}\small\item\em solve the currently defined problem \end{DoxyCompactList}\end{DoxyCompactItemize}
-\doxysubsection*{Static Public Member Functions}
-\begin{DoxyCompactItemize}
-\item 
-\mbox{\Hypertarget{classrr_1_1BasicNewtonIteration_a6fc85594b4d3a828b998f8fccbed0892}\label{classrr_1_1BasicNewtonIteration_a6fc85594b4d3a828b998f8fccbed0892}} 
-static std\+::string \mbox{\hyperlink{classrr_1_1BasicNewtonIteration_a6fc85594b4d3a828b998f8fccbed0892}{get\+Basic\+Newton\+Iteration\+Name}} ()
-\begin{DoxyCompactList}\small\item\em static version of get\+Name \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{classrr_1_1BasicNewtonIteration_ab87d7b8d293d5fc4590e8393b96e0a7d}\label{classrr_1_1BasicNewtonIteration_ab87d7b8d293d5fc4590e8393b96e0a7d}} 
-static std\+::string \mbox{\hyperlink{classrr_1_1BasicNewtonIteration_ab87d7b8d293d5fc4590e8393b96e0a7d}{get\+Basic\+Newton\+Iteration\+Description}} ()
-\begin{DoxyCompactList}\small\item\em static version of get\+Description \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{classrr_1_1BasicNewtonIteration_aef5933dd094734718adbb65ccc0bfac3}\label{classrr_1_1BasicNewtonIteration_aef5933dd094734718adbb65ccc0bfac3}} 
-static std\+::string \mbox{\hyperlink{classrr_1_1BasicNewtonIteration_aef5933dd094734718adbb65ccc0bfac3}{get\+Basic\+Newton\+Iteration\+Hint}} ()
-\begin{DoxyCompactList}\small\item\em static version of get\+Hint \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em solve the currently defined problem \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classrr_1_1BasicNewtonIteration_aa25a2b5395b7b5e174d9d08092c1ecdd}\label{classrr_1_1BasicNewtonIteration_aa25a2b5395b7b5e174d9d08092c1ecdd}} 
+{\bfseries Newton\+Iteration} (\mbox{\hyperlink{classrr_1_1ExecutableModel}{Executable\+Model}} $\ast$executable\+Model)
+\end{DoxyCompactItemize}
 \doxysubsection*{Additional Inherited Members}
 
 
@@ -54,6 +47,23 @@ Solve for steady state using Kinsol\textquotesingle{}s implementation of Newton 
 The kinsol docs refer to this algorithm as the \char`\"{}basic\char`\"{} newton iteration to differentiate it from the \char`\"{}linesearch\char`\"{} strategy which is a variant of the \char`\"{}basic\char`\"{} newton iteration. \begin{DoxySeeAlso}{See also}
 \mbox{\hyperlink{classrr_1_1LinesearchNewtonIteration}{Linesearch\+Newton\+Iteration}} 
 \end{DoxySeeAlso}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classrr_1_1BasicNewtonIteration_a9900814f49410af9534862070de4c9e5}\label{classrr_1_1BasicNewtonIteration_a9900814f49410af9534862070de4c9e5}} 
+\index{rr::BasicNewtonIteration@{rr::BasicNewtonIteration}!construct@{construct}}
+\index{construct@{construct}!rr::BasicNewtonIteration@{rr::BasicNewtonIteration}}
+\doxysubsubsection{\texorpdfstring{construct()}{construct()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classrr_1_1Solver}{Solver}} $\ast$ rr\+::\+Basic\+Newton\+Iteration\+::construct (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classrr_1_1ExecutableModel}{Executable\+Model}} $\ast$}]{model }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+construct a new Basic\+Newton\+Iterator 
+
+caller is responsible for deleting memory returned. 
+
+Implements \mbox{\hyperlink{classrr_1_1Registrable_a3f529e138fa0288622525bc13cd73c5f}{rr\+::\+Registrable}}.
+
 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}

@@ -92,6 +92,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../index.html">RoadRunner Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../Installation/installation.html">Installing RoadRunner</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorial/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Examples/examples_index.html">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../read_write_functions.html">SBML Read/Write Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../selecting_values.html">Selecting Values</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../steady_state.html">Steady State Analysis</a></li>
@@ -265,8 +266,9 @@
 <dt class="sig sig-object cpp" id="_CPPv4N6rrllvm19LLVMExecutableModelE">
 <span id="_CPPv3N6rrllvm19LLVMExecutableModelE"></span><span id="_CPPv2N6rrllvm19LLVMExecutableModelE"></span><span id="rrllvm::LLVMExecutableModel"></span><span class="target" id="classrrllvm_1_1LLVMExecutableModel"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">rrllvm</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">LLVMExecutableModel</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">rr</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../rrExecutableModel.html#_CPPv4N2rr15ExecutableModelE" title="rr::ExecutableModel"><span class="n"><span class="pre">ExecutableModel</span></span></a><a class="headerlink" href="#_CPPv4N6rrllvm19LLVMExecutableModelE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>LLVM executable model. </p>
-<p><dl class="simple">
-<dt><strong>Author</strong></dt><dd><p>ETS  Interface to LLVM executable model. </p>
+<p>
+Interface to LLVM executable model. <dl class="simple">
+<dt><strong>Author</strong></dt><dd><p>ETS</p>
 </dd>
 </dl>
 </p>
@@ -869,8 +871,9 @@
 <dt class="sig sig-object cpp" id="_CPPv4N6rrllvm19LLVMExecutableModel16getEventTriggersE6size_tPKiPh">
 <span id="_CPPv3N6rrllvm19LLVMExecutableModel16getEventTriggersE6size_tPKiPh"></span><span id="_CPPv2N6rrllvm19LLVMExecutableModel16getEventTriggersE6size_tPKiPh"></span><span id="rrllvm::LLVMExecutableModel::getEventTriggers__s.iCP.unsigned-cP"></span><span class="target" id="classrrllvm_1_1LLVMExecutableModel_1a6720985571bb7836a43f054dc8b60a60"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getEventTriggers</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">len</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">indx</span></span>, <span class="kt"><span class="pre">unsigned</span> <span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">eventState</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6rrllvm19LLVMExecutableModel16getEventTriggersE6size_tPKiPh" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Get status of event triggers. </p>
-<p><dl class="simple">
-<dt><strong>Author</strong></dt><dd><p>ETS  When len &lt;= 0, returns number of events. Otherwise, sets bits in eventState to the corresponding trigger. </p>
+<p>
+When len &lt;= 0, returns number of events. Otherwise, sets bits in eventState to the corresponding trigger. <dl class="simple">
+<dt><strong>Author</strong></dt><dd><p>ETS</p>
 </dd>
 </dl>
 </p>
@@ -1346,8 +1349,8 @@
 </dl>
 
 <dl class="cpp function">
-<dt class="sig sig-object cpp">
-<span class="target" id="classrrllvm_1_1LLVMExecutableModel_1a5d1a347ddea18fbc9b91a647273bd9e3"></span><span class="sig-name descname"><span class="pre">template&lt;typename</span> <span class="pre">a_type,</span> <span class="pre">typename</span> <span class="pre">b_type&gt;</span> <span class="pre">friend</span> <span class="pre">friend</span> <span class="pre">void</span> <span class="pre">copyCachedModel</span> <span class="pre">(a_type</span> <span class="pre">*src,</span> <span class="pre">b_type</span> <span class="pre">*dst)</span></span></dt>
+<dt class="sig sig-object cpp" id="_CPPv4I00EN6rrllvm19LLVMExecutableModel15copyCachedModelEvP6a_typeP6b_type">
+<span id="_CPPv3I00EN6rrllvm19LLVMExecutableModel15copyCachedModelEP6a_typeP6b_type"></span><span id="_CPPv2I00EN6rrllvm19LLVMExecutableModel15copyCachedModelEP6a_typeP6b_type"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">a_type</span></span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">b_type</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="classrrllvm_1_1LLVMExecutableModel_1a5d1a347ddea18fbc9b91a647273bd9e3"></span><span class="k"><span class="pre">friend</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">copyCachedModel</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4I00EN6rrllvm19LLVMExecutableModel15copyCachedModelEvP6a_typeP6b_type" title="rrllvm::LLVMExecutableModel::copyCachedModel::a_type"><span class="n"><span class="pre">a_type</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">src</span></span>, <a class="reference internal" href="#_CPPv4I00EN6rrllvm19LLVMExecutableModel15copyCachedModelEvP6a_typeP6b_type" title="rrllvm::LLVMExecutableModel::copyCachedModel::b_type"><span class="n"><span class="pre">b_type</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">dst</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I00EN6rrllvm19LLVMExecutableModel15copyCachedModelEvP6a_typeP6b_type" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>copy the cached model fields between a cached model, and a executable model. </p>
 <p>We don’t want to have ExecutableModel inherit from CahcedModel because they do compleltly different things, and have completly differnt deletion semantics </p>
 </dd></dl>

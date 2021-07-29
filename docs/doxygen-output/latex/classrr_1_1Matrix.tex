@@ -1,0 +1,87 @@
+\hypertarget{classrr_1_1Matrix}{}\doxysection{rr\+::Matrix$<$ T $>$ Class Template Reference}
+\label{classrr_1_1Matrix}\index{rr::Matrix$<$ T $>$@{rr::Matrix$<$ T $>$}}
+Inheritance diagram for rr\+::Matrix$<$ T $>$\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classrr_1_1Matrix}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classrr_1_1Matrix_ab29900c20cb7cd0627f1dd01d0b767e4}\label{classrr_1_1Matrix_ab29900c20cb7cd0627f1dd01d0b767e4}} 
+\mbox{\hyperlink{classrr_1_1Matrix_ab29900c20cb7cd0627f1dd01d0b767e4}{Matrix}} (ls\+::\+Matrix$<$ T $>$ \&matrix)
+\begin{DoxyCompactList}\small\item\em Constructor for creating a Matrix$<$\+T$>$ from a ls\+::\+Matrix$<$\+T$>$ \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classrr_1_1Matrix_acc820653bbfb9578443b2ea8ebdaac4e}\label{classrr_1_1Matrix_acc820653bbfb9578443b2ea8ebdaac4e}} 
+{\bfseries Matrix} (ls\+::\+Matrix$<$ T $>$ $\ast$matrix)
+\item 
+bool \mbox{\hyperlink{classrr_1_1Matrix_a15848a37cb50e749fb8f7f00ae0a6b22}{operator==}} (\mbox{\hyperlink{classrr_1_1Matrix}{Matrix}}$<$ T $>$ \&other)
+\begin{DoxyCompactList}\small\item\em Element-\/wise equality operator to compare a Matrix$<$\+T$>$ with another Matrix$<$\+T$>$ \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classrr_1_1Matrix_a4a1a8c0eada3c2c680cb5383fbd8e0e5}\label{classrr_1_1Matrix_a4a1a8c0eada3c2c680cb5383fbd8e0e5}} 
+bool \mbox{\hyperlink{classrr_1_1Matrix_a4a1a8c0eada3c2c680cb5383fbd8e0e5}{operator!=}} (\mbox{\hyperlink{classrr_1_1Matrix}{Matrix}}$<$ T $>$ \&other)
+\begin{DoxyCompactList}\small\item\em inequality operators \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classrr_1_1Matrix_ad2be619ba028bf0f0b5c229c13f64063}{almost\+Equals}} (\mbox{\hyperlink{classrr_1_1Matrix}{Matrix}}$<$ double $>$ \&other, const double \&tolerance)
+\begin{DoxyCompactList}\small\item\em Element-\/wise compareison between this Matrix$<$double$>$ with another. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classrr_1_1Matrix_a9cc83eb19abb5da6d8a7bea7bc89dc1b}\label{classrr_1_1Matrix_a9cc83eb19abb5da6d8a7bea7bc89dc1b}} 
+\mbox{\hyperlink{classrr_1_1Matrix}{Matrix}}$<$ T $>$ {\bfseries mult} (\mbox{\hyperlink{classrr_1_1Matrix}{Matrix}}$<$ T $>$ matrix)
+\item 
+bool \mbox{\hyperlink{classrr_1_1Matrix_a481abe78869b481e1b825734bb8a51a2}{empty}} ()
+\begin{DoxyCompactList}\small\item\em indicator method for empty \mbox{\hyperlink{classrr_1_1Matrix}{Matrix}}. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classrr_1_1Matrix_adaa546e9e056dbe943d43418653a123f}\label{classrr_1_1Matrix_adaa546e9e056dbe943d43418653a123f}} 
+void \mbox{\hyperlink{classrr_1_1Matrix_adaa546e9e056dbe943d43418653a123f}{sort\+Rows\+By\+Labels}} ()
+\begin{DoxyCompactList}\small\item\em Reorder \mbox{\hyperlink{classrr_1_1Matrix}{Matrix}} rows such that row names are in alphabetical order. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classrr_1_1Matrix_af564bfd45b879ba4244021846cd1f4f4}\label{classrr_1_1Matrix_af564bfd45b879ba4244021846cd1f4f4}} 
+void \mbox{\hyperlink{classrr_1_1Matrix_af564bfd45b879ba4244021846cd1f4f4}{sort\+Cols\+By\+Labels}} ()
+\begin{DoxyCompactList}\small\item\em Reorder \mbox{\hyperlink{classrr_1_1Matrix}{Matrix}} cols such that col names are in alphabetical order. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classrr_1_1Matrix_ad2be619ba028bf0f0b5c229c13f64063}\label{classrr_1_1Matrix_ad2be619ba028bf0f0b5c229c13f64063}} 
+\index{rr::Matrix$<$ T $>$@{rr::Matrix$<$ T $>$}!almostEquals@{almostEquals}}
+\index{almostEquals@{almostEquals}!rr::Matrix$<$ T $>$@{rr::Matrix$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{almostEquals()}{almostEquals()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+bool \mbox{\hyperlink{classrr_1_1Matrix}{rr\+::\+Matrix}}$<$ T $>$\+::almost\+Equals (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classrr_1_1Matrix}{Matrix}}$<$ double $>$ \&}]{other,  }\item[{const double \&}]{tolerance }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Element-\/wise compareison between this Matrix$<$double$>$ with another. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em other} & Matrix$<$double$>$ \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classrr_1_1Matrix_a481abe78869b481e1b825734bb8a51a2}\label{classrr_1_1Matrix_a481abe78869b481e1b825734bb8a51a2}} 
+\index{rr::Matrix$<$ T $>$@{rr::Matrix$<$ T $>$}!empty@{empty}}
+\index{empty@{empty}!rr::Matrix$<$ T $>$@{rr::Matrix$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{empty()}{empty()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+bool \mbox{\hyperlink{classrr_1_1Matrix}{rr\+::\+Matrix}}$<$ T $>$\+::empty (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+indicator method for empty \mbox{\hyperlink{classrr_1_1Matrix}{Matrix}}. 
+
+\begin{DoxyReturn}{Returns}
+true if matrix is empty, false otherwise 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classrr_1_1Matrix_a15848a37cb50e749fb8f7f00ae0a6b22}\label{classrr_1_1Matrix_a15848a37cb50e749fb8f7f00ae0a6b22}} 
+\index{rr::Matrix$<$ T $>$@{rr::Matrix$<$ T $>$}!operator==@{operator==}}
+\index{operator==@{operator==}!rr::Matrix$<$ T $>$@{rr::Matrix$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{operator==()}{operator==()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+bool \mbox{\hyperlink{classrr_1_1Matrix}{rr\+::\+Matrix}}$<$ T $>$\+::operator== (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classrr_1_1Matrix}{Matrix}}$<$ T $>$ \&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Element-\/wise equality operator to compare a Matrix$<$\+T$>$ with another Matrix$<$\+T$>$ 
+
+\begin{DoxyNote}{Note}
+to compare Matrix$<$double$>$ use Matrix$<$double$>$\+::almost\+Equal 
+\end{DoxyNote}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Matrix.\+h\end{DoxyCompactItemize}

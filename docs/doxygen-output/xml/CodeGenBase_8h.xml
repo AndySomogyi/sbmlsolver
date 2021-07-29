@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
   <compounddef id="CodeGenBase_8h" kind="file" language="C++">
     <compoundname>CodeGenBase.h</compoundname>
     <includes refid="ModelGeneratorContext_8h" local="yes">ModelGeneratorContext.h</includes>
@@ -27,6 +27,154 @@
       <node id="28">
         <label>list</label>
       </node>
+      <node id="26">
+        <label>sbml/SBMLDocument.h</label>
+      </node>
+      <node id="42">
+        <label>tr1proxy/rr_random.h</label>
+      </node>
+      <node id="11">
+        <label>llvm/Support/raw_ostream.h</label>
+      </node>
+      <node id="33">
+        <label>LLVMModelSymbols.h</label>
+        <link refid="LLVMModelSymbols_8h_source"/>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>rrExporter.h</label>
+        <link refid="rrExporter_8h_source"/>
+      </node>
+      <node id="41">
+        <label>Random.h</label>
+        <link refid="Random_8h_source"/>
+        <childnode refid="42" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+      </node>
+      <node id="27">
+        <label>stdint.h</label>
+      </node>
+      <node id="25">
+        <label>variant</label>
+      </node>
+      <node id="6">
+        <label>llvm/ExecutionEngine/ExecutionEngine.h</label>
+      </node>
+      <node id="7">
+        <label>llvm/ExecutionEngine/MCJIT.h</label>
+      </node>
+      <node id="9">
+        <label>llvm/Support/TargetSelect.h</label>
+      </node>
+      <node id="36">
+        <label>cassert</label>
+      </node>
+      <node id="48">
+        <label>stdexcept</label>
+      </node>
+      <node id="35">
+        <label>sbml/math/ASTNode.h</label>
+      </node>
+      <node id="49">
+        <label>rrLogger.h</label>
+        <link refid="rrLogger_8h_source"/>
+        <childnode refid="50" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>string</label>
+      </node>
+      <node id="30">
+        <label>tr1proxy/rr_unordered_map.h</label>
+      </node>
+      <node id="31">
+        <label>map</label>
+      </node>
+      <node id="14">
+        <label>LLVMModelDataSymbols.h</label>
+        <link refid="LLVMModelDataSymbols_8h_source"/>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+      </node>
+      <node id="39">
+        <label>sbml/Model.h</label>
+      </node>
+      <node id="24">
+        <label>exception</label>
+      </node>
+      <node id="1">
+        <label>llvm/CodeGenBase.h</label>
+        <link refid="CodeGenBase_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="45" relation="include">
+        </childnode>
+        <childnode refid="47" relation="include">
+        </childnode>
+        <childnode refid="49" relation="include">
+        </childnode>
+        <childnode refid="51" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>ostream</label>
+      </node>
+      <node id="10">
+        <label>llvm/Transforms/Scalar.h</label>
+      </node>
+      <node id="40">
+        <label>sbml/SBMLVisitor.h</label>
+      </node>
+      <node id="12">
+        <label>llvm/Analysis/TargetLibraryInfo.h</label>
+      </node>
+      <node id="23">
+        <label>rrException.h</label>
+        <link refid="rrException_8h_source"/>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="34">
+        <label>SymbolForest.h</label>
+        <link refid="SymbolForest_8h_source"/>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+      </node>
       <node id="15">
         <label>LLVMModelData.h</label>
         <link refid="LLVMModelData_8h_source"/>
@@ -36,6 +184,34 @@
         </childnode>
         <childnode refid="20" relation="include">
         </childnode>
+      </node>
+      <node id="46">
+        <label>stack</label>
+      </node>
+      <node id="19">
+        <label>vector</label>
+      </node>
+      <node id="50">
+        <label>sstream</label>
+      </node>
+      <node id="38">
+        <label>ModelDataIRBuilder.h</label>
+        <link refid="ModelDataIRBuilder_8h_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>llvm/Support/Host.h</label>
+      </node>
+      <node id="4">
+        <label>llvm/Config/llvm-config.h</label>
+      </node>
+      <node id="5">
+        <label>llvm/Analysis/Passes.h</label>
       </node>
       <node id="22">
         <label>rrExecutableModel.h</label>
@@ -59,43 +235,49 @@
         <childnode refid="29" relation="include">
         </childnode>
       </node>
-      <node id="26">
-        <label>sbml/SBMLDocument.h</label>
+      <node id="29">
+        <label>tr1proxy/rr_memory.h</label>
       </node>
-      <node id="42">
-        <label>tr1proxy/rr_random.h</label>
+      <node id="51">
+        <label>Poco/Logger.h</label>
       </node>
-      <node id="11">
-        <label>llvm/Support/raw_ostream.h</label>
-      </node>
-      <node id="27">
-        <label>stdint.h</label>
-      </node>
-      <node id="25">
-        <label>variant</label>
-      </node>
-      <node id="6">
-        <label>llvm/ExecutionEngine/ExecutionEngine.h</label>
-      </node>
-      <node id="7">
-        <label>llvm/ExecutionEngine/MCJIT.h</label>
-      </node>
-      <node id="9">
-        <label>llvm/Support/TargetSelect.h</label>
-      </node>
-      <node id="33">
-        <label>LLVMModelSymbols.h</label>
-        <link refid="LLVMModelSymbols_8h_source"/>
-        <childnode refid="34" relation="include">
+      <node id="47">
+        <label>LLVMException.h</label>
+        <link refid="LLVMException_8h_source"/>
+        <childnode refid="48" relation="include">
         </childnode>
-        <childnode refid="37" relation="include">
+        <childnode refid="49" relation="include">
         </childnode>
-        <childnode refid="38" relation="include">
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="32">
+        <label>set</label>
+      </node>
+      <node id="2">
+        <label>ModelGeneratorContext.h</label>
+        <link refid="ModelGeneratorContext_8h_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="41" relation="include">
         </childnode>
         <childnode refid="39" relation="include">
         </childnode>
-        <childnode refid="40" relation="include">
+        <childnode refid="26" relation="include">
         </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="43" relation="include">
+        </childnode>
+        <childnode refid="44" relation="include">
+        </childnode>
+      </node>
+      <node id="44">
+        <label>llvm/IR/LegacyPassManager.h</label>
       </node>
       <node id="37">
         <label>ASTNodeFactory.h</label>
@@ -105,29 +287,14 @@
         <childnode refid="28" relation="include">
         </childnode>
       </node>
-      <node id="36">
-        <label>cassert</label>
-      </node>
-      <node id="17">
-        <label>rrOSSpecifics.h</label>
-        <link refid="rrOSSpecifics_8h_source"/>
-        <childnode refid="18" relation="include">
+      <node id="45">
+        <label>CodeGen.h</label>
+        <link refid="CodeGen_8h_source"/>
+        <childnode refid="3" relation="include">
         </childnode>
-      </node>
-      <node id="48">
-        <label>stdexcept</label>
-      </node>
-      <node id="35">
-        <label>sbml/math/ASTNode.h</label>
-      </node>
-      <node id="16">
-        <label>rrSparse.h</label>
-        <link refid="rrSparse_8h_source"/>
-        <childnode refid="17" relation="include">
+        <childnode refid="46" relation="include">
         </childnode>
-        <childnode refid="19" relation="include">
-        </childnode>
-        <childnode refid="20" relation="include">
+        <childnode refid="21" relation="include">
         </childnode>
       </node>
       <node id="3">
@@ -154,244 +321,43 @@
         <childnode refid="13" relation="include">
         </childnode>
       </node>
-      <node id="21">
-        <label>string</label>
-      </node>
-      <node id="18">
-        <label>rrExporter.h</label>
-        <link refid="rrExporter_8h_source"/>
-      </node>
-      <node id="30">
-        <label>tr1proxy/rr_unordered_map.h</label>
-      </node>
-      <node id="14">
-        <label>LLVMModelDataSymbols.h</label>
-        <link refid="LLVMModelDataSymbols_8h_source"/>
-        <childnode refid="15" relation="include">
-        </childnode>
-        <childnode refid="22" relation="include">
-        </childnode>
-        <childnode refid="29" relation="include">
-        </childnode>
-        <childnode refid="30" relation="include">
-        </childnode>
-        <childnode refid="31" relation="include">
-        </childnode>
-        <childnode refid="32" relation="include">
-        </childnode>
-        <childnode refid="28" relation="include">
-        </childnode>
-      </node>
-      <node id="49">
-        <label>rrLogger.h</label>
-        <link refid="rrLogger_8h_source"/>
-        <childnode refid="50" relation="include">
-        </childnode>
-        <childnode refid="18" relation="include">
-        </childnode>
-      </node>
-      <node id="31">
-        <label>map</label>
-      </node>
-      <node id="41">
-        <label>Random.h</label>
-        <link refid="Random_8h_source"/>
-        <childnode refid="42" relation="include">
-        </childnode>
-        <childnode refid="27" relation="include">
-        </childnode>
-      </node>
-      <node id="39">
-        <label>sbml/Model.h</label>
-      </node>
-      <node id="24">
-        <label>exception</label>
-      </node>
-      <node id="20">
-        <label>ostream</label>
-      </node>
-      <node id="10">
-        <label>llvm/Transforms/Scalar.h</label>
-      </node>
-      <node id="40">
-        <label>sbml/SBMLVisitor.h</label>
-      </node>
-      <node id="45">
-        <label>CodeGen.h</label>
-        <link refid="CodeGen_8h_source"/>
-        <childnode refid="3" relation="include">
-        </childnode>
-        <childnode refid="46" relation="include">
-        </childnode>
-        <childnode refid="21" relation="include">
-        </childnode>
-      </node>
-      <node id="12">
-        <label>llvm/Analysis/TargetLibraryInfo.h</label>
-      </node>
-      <node id="38">
-        <label>ModelDataIRBuilder.h</label>
-        <link refid="ModelDataIRBuilder_8h_source"/>
-        <childnode refid="3" relation="include">
-        </childnode>
-        <childnode refid="14" relation="include">
-        </childnode>
-        <childnode refid="31" relation="include">
-        </childnode>
-      </node>
-      <node id="46">
-        <label>stack</label>
-      </node>
-      <node id="19">
-        <label>vector</label>
-      </node>
-      <node id="23">
-        <label>rrException.h</label>
-        <link refid="rrException_8h_source"/>
-        <childnode refid="24" relation="include">
-        </childnode>
-        <childnode refid="21" relation="include">
-        </childnode>
-        <childnode refid="25" relation="include">
-        </childnode>
-        <childnode refid="18" relation="include">
-        </childnode>
-      </node>
-      <node id="50">
-        <label>sstream</label>
-      </node>
-      <node id="13">
-        <label>llvm/Support/Host.h</label>
-      </node>
-      <node id="4">
-        <label>llvm/Config/llvm-config.h</label>
-      </node>
-      <node id="5">
-        <label>llvm/Analysis/Passes.h</label>
-      </node>
-      <node id="29">
-        <label>tr1proxy/rr_memory.h</label>
-      </node>
-      <node id="47">
-        <label>LLVMException.h</label>
-        <link refid="LLVMException_8h_source"/>
-        <childnode refid="48" relation="include">
-        </childnode>
-        <childnode refid="49" relation="include">
-        </childnode>
-        <childnode refid="17" relation="include">
-        </childnode>
-      </node>
-      <node id="2">
-        <label>ModelGeneratorContext.h</label>
-        <link refid="ModelGeneratorContext_8h_source"/>
-        <childnode refid="3" relation="include">
-        </childnode>
-        <childnode refid="14" relation="include">
-        </childnode>
-        <childnode refid="33" relation="include">
-        </childnode>
-        <childnode refid="41" relation="include">
-        </childnode>
-        <childnode refid="39" relation="include">
-        </childnode>
-        <childnode refid="26" relation="include">
-        </childnode>
-        <childnode refid="21" relation="include">
-        </childnode>
-        <childnode refid="43" relation="include">
-        </childnode>
-        <childnode refid="44" relation="include">
-        </childnode>
-      </node>
-      <node id="1">
-        <label>llvm/CodeGenBase.h</label>
-        <link refid="CodeGenBase_8h"/>
-        <childnode refid="2" relation="include">
-        </childnode>
-        <childnode refid="45" relation="include">
-        </childnode>
-        <childnode refid="47" relation="include">
-        </childnode>
-        <childnode refid="49" relation="include">
-        </childnode>
-        <childnode refid="51" relation="include">
-        </childnode>
-      </node>
-      <node id="51">
-        <label>Poco/Logger.h</label>
-      </node>
-      <node id="34">
-        <label>SymbolForest.h</label>
-        <link refid="SymbolForest_8h_source"/>
-        <childnode refid="35" relation="include">
-        </childnode>
-        <childnode refid="31" relation="include">
-        </childnode>
-        <childnode refid="36" relation="include">
-        </childnode>
-      </node>
-      <node id="32">
-        <label>set</label>
-      </node>
-      <node id="44">
-        <label>llvm/IR/LegacyPassManager.h</label>
-      </node>
       <node id="43">
         <label>memory</label>
+      </node>
+      <node id="16">
+        <label>rrSparse.h</label>
+        <link refid="rrSparse_8h_source"/>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>rrOSSpecifics.h</label>
+        <link refid="rrOSSpecifics_8h_source"/>
+        <childnode refid="18" relation="include">
+        </childnode>
       </node>
       <node id="8">
         <label>llvm/IR/PassManager.h</label>
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="15">
-        <label>llvm/GetInitialValuesCodeGen.h</label>
-        <link refid="GetInitialValuesCodeGen_8h_source"/>
-        <childnode refid="3" relation="include">
+      <node id="10">
+        <label>NLEQ1Solver.h</label>
+        <link refid="NLEQ1Solver_8h"/>
+        <childnode refid="11" relation="include">
         </childnode>
       </node>
-      <node id="3">
-        <label>llvm/LLVMExecutableModel.h</label>
-        <link refid="LLVMExecutableModel_8h"/>
-        <childnode refid="4" relation="include">
-        </childnode>
-        <childnode refid="5" relation="include">
-        </childnode>
+      <node id="14">
+        <label>llvm/ModelResources.h</label>
+        <link refid="ModelResources_8h_source"/>
       </node>
       <node id="8">
-        <label>llvm/EvalReactionRatesCodeGen.h</label>
-        <link refid="EvalReactionRatesCodeGen_8h_source"/>
-        <childnode refid="3" relation="include">
-        </childnode>
-      </node>
-      <node id="9">
-        <label>llvm/EvalVolatileStoichCodeGen.h</label>
-        <link refid="EvalVolatileStoichCodeGen_8h_source"/>
-        <childnode refid="3" relation="include">
-        </childnode>
-      </node>
-      <node id="6">
-        <label>llvm/EvalInitialConditionsCodeGen.h</label>
-        <link refid="EvalInitialConditionsCodeGen_8h_source"/>
-        <childnode refid="3" relation="include">
-        </childnode>
-      </node>
-      <node id="12">
-        <label>llvm/EventTriggerCodeGen.h</label>
-        <link refid="EventTriggerCodeGen_8h_source"/>
-        <childnode refid="3" relation="include">
-        </childnode>
-      </node>
-      <node id="11">
-        <label>llvm/EventAssignCodeGen.h</label>
-        <link refid="EventAssignCodeGen_8h_source"/>
-        <childnode refid="3" relation="include">
-        </childnode>
-      </node>
-      <node id="4">
-        <label>llvm/LLVMModelGenerator.h</label>
-        <link refid="LLVMModelGenerator_8h_source"/>
+        <label>D:/roadrunner/roadrunner/wrappers/C/rrc_api.cpp</label>
+        <link refid="rrc__api_8cpp"/>
       </node>
       <node id="2">
         <label>llvm/EvalConversionFactorCodeGen.h</label>
@@ -399,68 +365,68 @@
         <childnode refid="3" relation="include">
         </childnode>
       </node>
-      <node id="16">
-        <label>llvm/GetValueCodeGenBase.h</label>
-        <link refid="GetValueCodeGenBase_8h_source"/>
-        <childnode refid="17" relation="include">
+      <node id="17">
+        <label>llvm/EvalReactionRatesCodeGen.h</label>
+        <link refid="EvalReactionRatesCodeGen_8h_source"/>
+        <childnode refid="3" relation="include">
         </childnode>
       </node>
-      <node id="7">
+      <node id="16">
         <label>llvm/EvalRateRuleRatesCodeGen.h</label>
         <link refid="EvalRateRuleRatesCodeGen_8h_source"/>
         <childnode refid="3" relation="include">
         </childnode>
       </node>
-      <node id="17">
+      <node id="12">
+        <label>NLEQ2Solver.h</label>
+        <link refid="NLEQ2Solver_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="28">
+        <label>llvm/SetInitialValuesCodeGen.h</label>
+        <link refid="SetInitialValuesCodeGen_8h_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="26">
         <label>llvm/GetValuesCodeGen.h</label>
         <link refid="GetValuesCodeGen_8h_source"/>
         <childnode refid="3" relation="include">
         </childnode>
       </node>
-      <node id="10">
-        <label>llvm/EventCodeGenBase.h</label>
-        <link refid="EventCodeGenBase_8h_source"/>
-        <childnode refid="11" relation="include">
-        </childnode>
-        <childnode refid="12" relation="include">
-        </childnode>
-      </node>
-      <node id="21">
-        <label>llvm/SetValuesCodeGen.h</label>
-        <link refid="SetValuesCodeGen_8h_source"/>
+      <node id="22">
+        <label>llvm/GetEventValuesCodeGen.h</label>
+        <link refid="GetEventValuesCodeGen_8h_source"/>
         <childnode refid="3" relation="include">
         </childnode>
       </node>
-      <node id="20">
-        <label>llvm/SetValueCodeGenBase.h</label>
-        <link refid="SetValueCodeGenBase_8h_source"/>
-        <childnode refid="21" relation="include">
+      <node id="21">
+        <label>llvm/EventTriggerCodeGen.h</label>
+        <link refid="EventTriggerCodeGen_8h_source"/>
+        <childnode refid="3" relation="include">
         </childnode>
       </node>
-      <node id="14">
-        <label>llvm/GetInitialValueCodeGenBase.h</label>
-        <link refid="GetInitialValueCodeGenBase_8h_source"/>
-        <childnode refid="15" relation="include">
+      <node id="11">
+        <label>SteadyStateSolver.cpp</label>
+        <link refid="SteadyStateSolver_8cpp"/>
+      </node>
+      <node id="15">
+        <label>llvm/EvalInitialConditionsCodeGen.h</label>
+        <link refid="EvalInitialConditionsCodeGen_8h_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="30">
+        <label>llvm/SetValuesCodeGen.h</label>
+        <link refid="SetValuesCodeGen_8h_source"/>
+        <childnode refid="3" relation="include">
         </childnode>
       </node>
       <node id="1">
         <label>llvm/CodeGenBase.h</label>
         <link refid="CodeGenBase_8h"/>
         <childnode refid="2" relation="include">
-        </childnode>
-        <childnode refid="6" relation="include">
-        </childnode>
-        <childnode refid="7" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
-        <childnode refid="9" relation="include">
-        </childnode>
-        <childnode refid="10" relation="include">
-        </childnode>
-        <childnode refid="13" relation="include">
-        </childnode>
-        <childnode refid="14" relation="include">
         </childnode>
         <childnode refid="15" relation="include">
         </childnode>
@@ -472,32 +438,124 @@
         </childnode>
         <childnode refid="19" relation="include">
         </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>llvm/EvalVolatileStoichCodeGen.h</label>
+        <link refid="EvalVolatileStoichCodeGen_8h_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>SensitivitySolverFactory.h</label>
+        <link refid="SensitivitySolverFactory_8h_source"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>llvm/GetValueCodeGenBase.h</label>
+        <link refid="GetValueCodeGenBase_8h_source"/>
+        <childnode refid="26" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>llvm/LLVMExecutableModel.h</label>
+        <link refid="LLVMExecutableModel_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>llvm/EventCodeGenBase.h</label>
+        <link refid="EventCodeGenBase_8h_source"/>
         <childnode refid="20" relation="include">
         </childnode>
         <childnode refid="21" relation="include">
         </childnode>
       </node>
-      <node id="18">
-        <label>llvm/SetInitialValueCodeGenBase.h</label>
-        <link refid="SetInitialValueCodeGenBase_8h_source"/>
-        <childnode refid="19" relation="include">
-        </childnode>
-      </node>
-      <node id="19">
-        <label>llvm/SetInitialValuesCodeGen.h</label>
-        <link refid="SetInitialValuesCodeGen_8h_source"/>
+      <node id="24">
+        <label>llvm/GetInitialValuesCodeGen.h</label>
+        <link refid="GetInitialValuesCodeGen_8h_source"/>
         <childnode refid="3" relation="include">
         </childnode>
       </node>
+      <node id="29">
+        <label>llvm/SetValueCodeGenBase.h</label>
+        <link refid="SetValueCodeGenBase_8h_source"/>
+        <childnode refid="30" relation="include">
+        </childnode>
+      </node>
       <node id="13">
-        <label>llvm/GetEventValuesCodeGen.h</label>
-        <link refid="GetEventValuesCodeGen_8h_source"/>
+        <label>llvm/LLVMModelGenerator.h</label>
+        <link refid="LLVMModelGenerator_8h_source"/>
+      </node>
+      <node id="4">
+        <label>ForwardSensitivitySolver.h</label>
+        <link refid="ForwardSensitivitySolver_8h_source"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>llvm/GetInitialValueCodeGenBase.h</label>
+        <link refid="GetInitialValueCodeGenBase_8h_source"/>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="27">
+        <label>llvm/SetInitialValueCodeGenBase.h</label>
+        <link refid="SetInitialValueCodeGenBase_8h_source"/>
+        <childnode refid="28" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>NLEQSolver.h</label>
+        <link refid="NLEQSolver_8h_source"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>Integrator.cpp</label>
+        <link refid="Integrator_8cpp"/>
+      </node>
+      <node id="20">
+        <label>llvm/EventAssignCodeGen.h</label>
+        <link refid="EventAssignCodeGen_8h_source"/>
         <childnode refid="3" relation="include">
         </childnode>
       </node>
       <node id="5">
-        <label>llvm/ModelResources.h</label>
-        <link refid="ModelResources_8h_source"/>
+        <label>CVODEIntegrator.h</label>
+        <link refid="CVODEIntegrator_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
       </node>
     </invincdepgraph>
     <innerclass refid="classrrllvm_1_1CodeGenBase" prot="public">rrllvm::CodeGenBase</innerclass>
@@ -533,7 +591,7 @@
 <codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>std::pair&lt;std::string,<sp/>int&gt;<sp/>StringIntPair;</highlight></codeline>
 <codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>std::vector&lt;StringIntPair&gt;<sp/>StringIntVector;</highlight></codeline>
 <codeline lineno="26"><highlight class="normal"></highlight></codeline>
-<codeline lineno="33"><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>FunctionPtrType&gt;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>FunctionPtrType&gt;</highlight></codeline>
 <codeline lineno="34" refid="classrrllvm_1_1CodeGenBase" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classrrllvm_1_1CodeGenBase" kindref="compound">CodeGenBase</ref></highlight></codeline>
 <codeline lineno="35"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="36"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>

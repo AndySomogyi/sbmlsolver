@@ -91,6 +91,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../index.html">RoadRunner Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Installation/installation.html">Installing RoadRunner</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Examples/examples_index.html">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../read_write_functions.html">SBML Read/Write Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../selecting_values.html">Selecting Values</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../steady_state.html">Steady State Analysis</a></li>
@@ -247,18 +248,21 @@ doxygen executable to the PATH environment variable so cmake can find it.</p>
 <p>Sometimes cmake finds a different version of Python installed on your system
 compared to what you were expecting. Therefore, if cmake complains that it cannot
 locate “sphinx-build” you can provide this manually with:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="n">DSPHINX_EXECUTABLE</span><span class="o">=/</span><span class="n">full</span><span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">sphinx</span><span class="o">/</span><span class="n">build</span>
+</pre></div>
+</div>
 <p>Make sure that this <cite>sphinx-build</cite> is from the same python version you are using to build roadrunner.
 This is particularly important when building with conda. You can control which version
 of Python is found by using <code class="docutils literal notranslate"><span class="pre">-DPython_ROOT_DIR=/full/path/to/python/root</span></code>. For example, if you want
 to use the python inside the conda environment here at <code class="docutils literal notranslate"><span class="pre">/Users/ciaranwelsh/miniconda/envs/py38/bin/python</span></code>
-then the Python executable is located at</p>
-<blockquote>
-<div><p><code class="docutils literal notranslate"><span class="pre">/Users/ciaranwelsh/miniconda/envs/py38/bin/python</span></code></p>
-</div></blockquote>
-<dl class="simple">
-<dt>and its root is</dt><dd><p><code class="docutils literal notranslate"><span class="pre">/Users/ciaranwelsh/miniconda/envs/py38</span></code></p>
-</dd>
-</dl>
+then the Python executable is located at:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>``/Users/ciaranwelsh/miniconda/envs/py38/bin/python``
+</pre></div>
+</div>
+<p>and its root is</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>``/Users/ciaranwelsh/miniconda/envs/py38``
+</pre></div>
+</div>
 </div>
 </div>
 

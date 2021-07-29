@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
   <compounddef id="classrrllvm_1_1ASTNodeCodeGen" kind="class" language="C++" prot="public">
     <compoundname>rrllvm::ASTNodeCodeGen</compoundname>
     <includes refid="ASTNodeCodeGen_8h" local="no">ASTNodeCodeGen.h</includes>
@@ -72,10 +72,13 @@
       </sectiondef>
       <sectiondef kind="friend">
       <memberdef kind="friend" id="classrrllvm_1_1ASTNodeCodeGen_1a69559ab4b8ff63c2ff123cc8f3f5593b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>friend class</type>
+        <type>class</type>
         <definition>friend class ASTNodeCodeGenScalarTicket</definition>
         <argsstring></argsstring>
         <name>ASTNodeCodeGenScalarTicket</name>
+        <param>
+          <type><ref refid="classrrllvm_1_1ASTNodeCodeGenScalarTicket" kindref="compound">ASTNodeCodeGenScalarTicket</ref></type>
+        </param>
         <briefdescription>
         </briefdescription>
         <detaileddescription>

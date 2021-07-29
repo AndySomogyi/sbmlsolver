@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
   <compounddef id="classrr_1_1CompiledExecutableModel" kind="class" language="C++" prot="public">
     <compoundname>rr::CompiledExecutableModel</compoundname>
     <basecompoundref refid="classrr_1_1ExecutableModel" prot="public" virt="non-virtual">rr::ExecutableModel</basecompoundref>
@@ -565,10 +565,13 @@
       </sectiondef>
       <sectiondef kind="friend">
       <memberdef kind="friend" id="classrr_1_1CompiledExecutableModel_1af5eaffccb3276d5df2c3648acad060fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>friend class</type>
+        <type>class</type>
         <definition>friend class CompiledModelState</definition>
         <argsstring></argsstring>
         <name>CompiledModelState</name>
+        <param>
+          <type><ref refid="classrr_1_1CompiledModelState" kindref="compound">CompiledModelState</ref></type>
+        </param>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -3311,10 +3314,10 @@
       </node>
     </inheritancegraph>
     <collaborationgraph>
-      <node id="10">
+      <node id="11">
         <label>rr::SymbolList</label>
         <link refid="classrr_1_1SymbolList"/>
-        <childnode refid="11" relation="public-inheritance">
+        <childnode refid="12" relation="public-inheritance">
         </childnode>
       </node>
       <node id="1">
@@ -3323,12 +3326,15 @@
         <childnode refid="2" relation="public-inheritance">
         </childnode>
         <childnode refid="3" relation="usage">
+          <edgelabel>stoichiometryMatrix</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
           <edgelabel>mDLL</edgelabel>
         </childnode>
-        <childnode refid="6" relation="usage">
+        <childnode refid="7" relation="usage">
           <edgelabel>ms</edgelabel>
         </childnode>
-        <childnode refid="12" relation="usage">
+        <childnode refid="13" relation="usage">
           <edgelabel>cAssignRates_b</edgelabel>
           <edgelabel>cGetCurrentValues</edgelabel>
           <edgelabel>cInitModel</edgelabel>
@@ -3342,19 +3348,19 @@
           <edgelabel>...</edgelabel>
         </childnode>
       </node>
-      <node id="6">
+      <node id="7">
         <label>rr::ModelSymbols</label>
         <link refid="classrr_1_1ModelSymbols"/>
-        <childnode refid="7" relation="usage">
+        <childnode refid="8" relation="usage">
           <edgelabel>mDependentSpeciesList</edgelabel>
           <edgelabel>mFunctionNames</edgelabel>
           <edgelabel>mFunctionParameters</edgelabel>
           <edgelabel>mIndependentSpeciesList</edgelabel>
         </childnode>
-        <childnode refid="8" relation="usage">
+        <childnode refid="9" relation="usage">
           <edgelabel>mRateRules</edgelabel>
         </childnode>
-        <childnode refid="10" relation="usage">
+        <childnode refid="11" relation="usage">
           <edgelabel>mBoundarySpeciesList</edgelabel>
           <edgelabel>mCompartmentList</edgelabel>
           <edgelabel>mConservationList</edgelabel>
@@ -3364,40 +3370,43 @@
           <edgelabel>mReactionList</edgelabel>
         </childnode>
       </node>
-      <node id="4">
+      <node id="5">
         <label>string</label>
       </node>
-      <node id="9">
+      <node id="10">
         <label>std::map&lt; int, std::string &gt;</label>
       </node>
-      <node id="5">
+      <node id="6">
         <label>SharedLibrary</label>
       </node>
-      <node id="8">
+      <node id="9">
         <label>rr::IntStringHashTable</label>
         <link refid="classrr_1_1IntStringHashTable"/>
-        <childnode refid="9" relation="public-inheritance">
+        <childnode refid="10" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="12">
+      <node id="13">
         <label>SModelData</label>
         <link refid="structSModelData"/>
       </node>
-      <node id="11">
+      <node id="3">
+        <label>DoubleMatrix</label>
+      </node>
+      <node id="12">
         <label>std::vector&lt; Symbol &gt;</label>
       </node>
-      <node id="3">
+      <node id="4">
         <label>rr::ModelSharedLibrary</label>
         <link refid="classrr_1_1ModelSharedLibrary"/>
-        <childnode refid="4" relation="usage">
+        <childnode refid="5" relation="usage">
           <edgelabel>mLibName</edgelabel>
           <edgelabel>mPathToLib</edgelabel>
         </childnode>
-        <childnode refid="5" relation="usage">
+        <childnode refid="6" relation="usage">
           <edgelabel>mTheLib</edgelabel>
         </childnode>
       </node>
-      <node id="7">
+      <node id="8">
         <label>rr::StringList</label>
         <link refid="classrr_1_1StringList"/>
       </node>

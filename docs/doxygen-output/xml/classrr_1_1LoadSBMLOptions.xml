@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
   <compounddef id="classrr_1_1LoadSBMLOptions" kind="class" language="C++" prot="public">
     <compoundname>rr::LoadSBMLOptions</compoundname>
     <basecompoundref refid="classrr_1_1BasicDictionary" prot="public" virt="non-virtual">rr::BasicDictionary</basecompoundref>
@@ -494,8 +494,8 @@
       <member refid="classrr_1_1LoadSBMLOptions_1a686f9d0515d333b1551f5afd2db39e2a" prot="public" virt="non-virtual"><scope>rr::LoadSBMLOptions</scope><name>LoadOpt</name></member>
       <member refid="classrr_1_1LoadSBMLOptions_1aa95998812baf41557f365fa6a6118db3" prot="public" virt="non-virtual"><scope>rr::LoadSBMLOptions</scope><name>LoadSBMLOptions</name></member>
       <member refid="classrr_1_1LoadSBMLOptions_1a16a0bc21e030a836579b2c1b9231b29a" prot="public" virt="non-virtual"><scope>rr::LoadSBMLOptions</scope><name>LoadSBMLOptions</name></member>
-      <member refid="classrr_1_1LoadSBMLOptions_1a7b6ca6fc32892dbe782f3eb718762ad6" prot="public" virt="non-virtual"><scope>rr::LoadSBMLOptions</scope><name>ModelGeneratorOpt</name></member>
       <member refid="classrr_1_1LoadSBMLOptions_1a49f8effe2589231e5a4eca1df70852f7" prot="public" virt="non-virtual"><scope>rr::LoadSBMLOptions</scope><name>modelGeneratorOpt</name></member>
+      <member refid="classrr_1_1LoadSBMLOptions_1a7b6ca6fc32892dbe782f3eb718762ad6" prot="public" virt="non-virtual"><scope>rr::LoadSBMLOptions</scope><name>ModelGeneratorOpt</name></member>
       <member refid="classrr_1_1LoadSBMLOptions_1a7b6ca6fc32892dbe782f3eb718762ad6aac3f87fdc0fe128777ff39245e179386" prot="public" virt="non-virtual"><scope>rr::LoadSBMLOptions</scope><name>MUTABLE_INITIAL_CONDITIONS</name></member>
       <member refid="classrr_1_1LoadSBMLOptions_1a686f9d0515d333b1551f5afd2db39e2aa8b896a0fb0b7b957c11d4624e96c728b" prot="public" virt="non-virtual"><scope>rr::LoadSBMLOptions</scope><name>NO_DEFAULT_SELECTIONS</name></member>
       <member refid="classrr_1_1LoadSBMLOptions_1a7b6ca6fc32892dbe782f3eb718762ad6ad53a6cbbe3215d196e9727e153535ef7" prot="public" virt="non-virtual"><scope>rr::LoadSBMLOptions</scope><name>OPTIMIZE</name></member>

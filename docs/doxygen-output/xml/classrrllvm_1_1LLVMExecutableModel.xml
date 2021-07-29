@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
   <compounddef id="classrrllvm_1_1LLVMExecutableModel" kind="class" language="C++" prot="public">
     <compoundname>rrllvm::LLVMExecutableModel</compoundname>
     <basecompoundref refid="classrr_1_1ExecutableModel" prot="public" virt="non-virtual">rr::ExecutableModel</basecompoundref>
@@ -638,10 +638,13 @@
       </sectiondef>
       <sectiondef kind="friend">
       <memberdef kind="friend" id="classrrllvm_1_1LLVMExecutableModel_1a91399f39aa048e8c3aa1ced8feead859" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>friend class</type>
+        <type>class</type>
         <definition>friend class LLVMModelGenerator</definition>
         <argsstring></argsstring>
         <name>LLVMModelGenerator</name>
+        <param>
+          <type><ref refid="classrrllvm_1_1LLVMModelGenerator" kindref="compound">LLVMModelGenerator</ref></type>
+        </param>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -659,7 +662,7 @@
             <type>typename b_type</type>
           </param>
         </templateparamlist>
-        <type>friend void</type>
+        <type>void</type>
         <definition>void copyCachedModel</definition>
         <argsstring>(a_type *src, b_type *dst)</argsstring>
         <name>copyCachedModel</name>
@@ -2649,9 +2652,9 @@
 <para>Get status of event triggers. </para>
         </briefdescription>
         <detaileddescription>
-<para><simplesect kind="author"><para>ETS  When len &lt;= 0, returns number of events. Otherwise, sets bits in eventState to the corresponding trigger. </para>
+<para><simplesect kind="author"><para>ETS</para>
 </simplesect>
-<parameterlist kind="param"><parameteritem>
+When len &lt;= 0, returns number of events. Otherwise, sets bits in eventState to the corresponding trigger. <parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername direction="in">len</parametername>
 </parameternamelist>
@@ -3342,9 +3345,9 @@
 <para>LLVM executable model. </para>
     </briefdescription>
     <detaileddescription>
-<para><simplesect kind="author"><para>ETS  Interface to LLVM executable model. </para>
+<para><simplesect kind="author"><para>ETS</para>
 </simplesect>
-</para>
+Interface to LLVM executable model. </para>
     </detaileddescription>
     <inheritancegraph>
       <node id="1">

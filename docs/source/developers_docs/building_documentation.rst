@@ -64,7 +64,7 @@ Sometimes cmake finds a different version of Python installed on your system
 compared to what you were expecting. Therefore, if cmake complains that it cannot
 locate "sphinx-build" you can provide this manually with:
 
-.. code:block::
+.. code-block::
 
     -DSPHINX_EXECUTABLE=/full/path/to/sphinx/build
 
@@ -72,9 +72,16 @@ Make sure that this `sphinx-build` is from the same python version you are using
 This is particularly important when building with conda. You can control which version
 of Python is found by using ``-DPython_ROOT_DIR=/full/path/to/python/root``. For example, if you want
 to use the python inside the conda environment here at ``/Users/ciaranwelsh/miniconda/envs/py38/bin/python``
-then the Python executable is located at
+then the Python executable is located at:
+
+.. code-block::
+
       ``/Users/ciaranwelsh/miniconda/envs/py38/bin/python``
+
 and its root is
+
+.. code-block::
+
       ``/Users/ciaranwelsh/miniconda/envs/py38``
 
 

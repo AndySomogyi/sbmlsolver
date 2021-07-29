@@ -1,7 +1,8 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
   <compounddef id="classrrllvm_1_1CodeGenBase" kind="class" language="C++" prot="public" abstract="yes">
     <compoundname>rrllvm::CodeGenBase</compoundname>
+    <derivedcompoundref refid="classrrllvm_1_1GetEventValueCodeGenBase" prot="public" virt="non-virtual">rrllvm::GetEventValueCodeGenBase&lt; GetEventTriggerCodeGen, GetEventTriggerCodeGen_FunctionPtr &gt;</derivedcompoundref>
     <includes refid="CodeGenBase_8h" local="no">CodeGenBase.h</includes>
     <templateparamlist>
       <param>
@@ -353,6 +354,24 @@
     <detaileddescription>
 <para>It can get tedious alwasy typing mgc.getThis and mgc.getThat. Furthermore, its faster to access them as ivars as it does not incur a func call each time. </para>
     </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>rrllvm::GetEventValueCodeGenBase&lt; GetEventTriggerCodeGen, GetEventTriggerCodeGen_FunctionPtr &gt;</label>
+        <link refid="classrrllvm_1_1GetEventValueCodeGenBase"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>rrllvm::CodeGenBase&lt; FunctionPtrType &gt;</label>
+        <link refid="classrrllvm_1_1CodeGenBase"/>
+      </node>
+      <node id="3">
+        <label>rrllvm::GetEventTriggerCodeGen</label>
+        <link refid="classrrllvm_1_1GetEventTriggerCodeGen"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
     <collaborationgraph>
       <node id="4">
         <label>rrllvm::ASTNodeFactory</label>
