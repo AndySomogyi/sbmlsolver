@@ -558,6 +558,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>addSetting</b> (const
   </dd>
 </dl>
 <dl class="section note"><dt>Note</dt><dd>for developers. Pass by value for the params is easier to wrap with swig. </dd></dl>
+<p>Note this is slightly contrived logic that is necessary for enabling users to supply whichParameters in the constructor and here via the params argument. This was an "accident of design" and it would be better to just have the whichParameters variable set in this method only.</p>
 
 <p>Implements <a class="el" href="classrr_1_1TimeSeriesSensitivitySolver.html#ab460ead5a873a10145c645c2e0d2a32f">rr::TimeSeriesSensitivitySolver</a>.</p>
 

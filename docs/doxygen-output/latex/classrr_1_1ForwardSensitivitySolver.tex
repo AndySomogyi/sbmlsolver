@@ -223,7 +223,7 @@ simulate a timeseries with sensitivities from start to step with num data points
 \begin{DoxyNote}{Note}
 for developers. Pass by value for the params is easier to wrap with swig. 
 \end{DoxyNote}
-
+Note this is slightly contrived logic that is necessary for enabling users to supply which\+Parameters in the constructor and here via the params argument. This was an \char`\"{}accident of design\char`\"{} and it would be better to just have the which\+Parameters variable set in this method only.
 
 Implements \mbox{\hyperlink{classrr_1_1TimeSeriesSensitivitySolver_ab460ead5a873a10145c645c2e0d2a32f}{rr\+::\+Time\+Series\+Sensitivity\+Solver}}.
 

@@ -1021,6 +1021,7 @@
     <member refid="classrr_1_1ForwardSensitivitySolver_1aa84e84aba27a1fd6826cd7581b228d39" kind="variable"><name>numModelVariables</name></member>
     <member refid="classrr_1_1ForwardSensitivitySolver_1ad287542aa7620680574d6dbe3b843ffb" kind="variable"><name>cvodeIntegrator</name></member>
     <member refid="classrr_1_1ForwardSensitivitySolver_1a55828e745fee3bd396ffdba4d4dcf98b" kind="variable"><name>usingDefaultWhichParameters</name></member>
+    <member refid="classrr_1_1ForwardSensitivitySolver_1ae013837b736cecfa1628da4f7f2095b8" kind="variable"><name>usingUseWhichParametersFromConstructor</name></member>
     <member refid="classrr_1_1ForwardSensitivitySolver_1a0ee9a6d000e960e7cd30abed3dacb8d1" kind="variable"><name>NLSsens</name></member>
     <member refid="classrr_1_1ForwardSensitivitySolver_1a6b7bf0b852c4e007745cf7b3f4ffb59d" kind="variable"><name>mSensitivityMatrix</name></member>
     <member refid="classrr_1_1ForwardSensitivitySolver_1af80e459aeaa62284d78f61b5c74a330e" kind="variable"><name>stateVectorVariables</name></member>

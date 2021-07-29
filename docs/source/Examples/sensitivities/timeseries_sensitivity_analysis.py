@@ -23,6 +23,7 @@ sbml = TestModelFactory("OpenLinearFlux").str() # get the test model's sbml stri
 
 # Create a RoadRunner instance
 model = RoadRunner(sbml)
+sensSolver = model.getSensitivitySolver()
 
 # start integration with sensitivities at 0, end at 10 and collect 11 data points
 # The return type is a 4-Tuple, a time vector and a 3D sensitivity matrix with
@@ -61,12 +62,45 @@ print("rownames: ", rownames)
 print("colnames: ", colnames)
 print(sens)
 
+# RoadRunner time series sensitivities uses cvodes under the hood. By default,
+# we use the "simultaneous" method, whereby sensitivity equations are solved at the same
+# time as the variables in the ODE's. This can be changed so that the variables
+# are solved first followed by the sensitivity equations; aka in a staggered approach.
+sensSolver.setValue("sensitivity_method", "staggered")
+time, sens, rownames, colnames = model.timeSeriesSensitivities(0, 10, 11, k=0)
 
-# sensSolver = model.getSensitivitySolver()
-# sensSolver.setValue("sensitivity_method", "staggered")
-# time, sens, rownames, colnames = model.timeSeriesSensitivities(0, 10, 11, k=1)
-#
-# print("time: ", time)
-# print("rownames: ", rownames)
-# print("colnames: ", colnames)
-# print(sens)
+print("using a staggered approach")
+print("time: ", time)
+print("rownames: ", rownames)
+print("colnames: ", colnames)
+print(sens)
+sensSolver.setValue("sensitivity_method", "simultaneous") # return to simultaneous mode
+
+
+# RoadRunner via cvodes uses finite differences for approximating gradients.
+# By default we use the "centered" method, while the alternative is the "forward" method
+# Both methods are implemented in cvodes and automatically figure out the best value of delta
+# (perturbation amount) to use. Moreover, there is an adaptive switching mechanism in use
+# that makes it very unlikely that users should need to modify this setting.
+sensSolver.setValue("DQ_method", "forward")
+time, sens, rownames, colnames = model.timeSeriesSensitivities(0, 10, 11, k=0)
+
+
+print("using forward method of finite different approximation")
+print("time: ", time)
+print("rownames: ", rownames)
+print("colnames: ", colnames)
+print(sens)
+sensSolver.setValue("DQ_method", "centered") # put back the default value
+
+# By default, RoadRunner uses the sundials "newton" nonlinear solver.
+# This can be changed to the fixed_point nonlinear solver
+sensSolver.setValue("nonlinear_solver", "fixed_point")
+time, sens, rownames, colnames = model.timeSeriesSensitivities(0, 10, 11, k=0)
+
+print("using the fixed point nonlinear solver")
+print("time: ", time)
+print("rownames: ", rownames)
+print("colnames: ", colnames)
+print(sens)
+
