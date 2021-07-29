@@ -92,6 +92,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../index.html">RoadRunner Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Installation/installation.html">Installing RoadRunner</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Examples/examples_index.html">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../read_write_functions.html">SBML Read/Write Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../selecting_values.html">Selecting Values</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../steady_state.html">Steady State Analysis</a></li>
@@ -223,14 +224,42 @@
 <h1>Solver<a class="headerlink" href="#solver" title="Permalink to this headline">¶</a></h1>
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4N2rr6SolverE">
-<span id="_CPPv3N2rr6SolverE"></span><span id="_CPPv2N2rr6SolverE"></span><span id="rr::Solver"></span><span class="target" id="classrr_1_1Solver"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">rr</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">Solver</span></span></span><a class="headerlink" href="#_CPPv4N2rr6SolverE" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3N2rr6SolverE"></span><span id="_CPPv2N2rr6SolverE"></span><span id="rr::Solver"></span><span class="target" id="classrr_1_1Solver"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">rr</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">Solver</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">rr</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">Registrable</span></span><a class="headerlink" href="#_CPPv4N2rr6SolverE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Base class for all integrators and steady state solvers. </p>
 <p><dl class="simple">
 <dt><strong>Author</strong></dt><dd><p>JKM </p>
 </dd>
 </dl>
 </p>
-<p>Subclassed by <a class="reference internal" href="Integrator.html#classrr_1_1Integrator"><span class="std std-ref">rr::Integrator</span></a>, <a class="reference internal" href="SteadyStateSolver.html#classrr_1_1SteadyStateSolver"><span class="std std-ref">rr::SteadyStateSolver</span></a></p>
+<p>Subclassed by <a class="reference internal" href="Integrator.html#classrr_1_1Integrator"><span class="std std-ref">rr::Integrator</span></a>, rr::SensitivitySolver, <a class="reference internal" href="SteadyStateSolver.html#classrr_1_1SteadyStateSolver"><span class="std std-ref">rr::SteadyStateSolver</span></a></p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-types">Public Types</p>
+<dl class="cpp type">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr6Solver12SettingsListE">
+<span id="_CPPv3N2rr6Solver12SettingsListE"></span><span id="_CPPv2N2rr6Solver12SettingsListE"></span><span class="target" id="classrr_1_1Solver_1adcbacd57e2871a83bb9c4d7a4038a069"></span><span class="k"><span class="pre">using</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SettingsList</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">&gt;</span></span><a class="headerlink" href="#_CPPv4N2rr6Solver12SettingsListE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp type">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr6Solver11SettingsMapE">
+<span id="_CPPv3N2rr6Solver11SettingsMapE"></span><span id="_CPPv2N2rr6Solver11SettingsMapE"></span><span class="target" id="classrr_1_1Solver_1a61c0fd04ad69fc173c51dac3bdde2431"></span><span class="k"><span class="pre">using</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SettingsMap</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">unordered_map</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">Setting</span></span><span class="p"><span class="pre">&gt;</span></span><a class="headerlink" href="#_CPPv4N2rr6Solver11SettingsMapE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp type">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr6Solver14DisplayNameMapE">
+<span id="_CPPv3N2rr6Solver14DisplayNameMapE"></span><span id="_CPPv2N2rr6Solver14DisplayNameMapE"></span><span class="target" id="classrr_1_1Solver_1a76b76c8ba3a31a2c6a600322c90a0452"></span><span class="k"><span class="pre">using</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">DisplayNameMap</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">unordered_map</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">&gt;</span></span><a class="headerlink" href="#_CPPv4N2rr6Solver14DisplayNameMapE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp type">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr6Solver7HintMapE">
+<span id="_CPPv3N2rr6Solver7HintMapE"></span><span id="_CPPv2N2rr6Solver7HintMapE"></span><span class="target" id="classrr_1_1Solver_1ac39f2073d482cdf591d93415557c6751"></span><span class="k"><span class="pre">using</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">HintMap</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">unordered_map</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">&gt;</span></span><a class="headerlink" href="#_CPPv4N2rr6Solver7HintMapE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp type">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr6Solver14DescriptionMapE">
+<span id="_CPPv3N2rr6Solver14DescriptionMapE"></span><span id="_CPPv2N2rr6Solver14DescriptionMapE"></span><span class="target" id="classrr_1_1Solver_1a7d58e224664ab44e56f90802d9601f01"></span><span class="k"><span class="pre">using</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">DescriptionMap</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">unordered_map</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">&gt;</span></span><a class="headerlink" href="#_CPPv4N2rr6Solver14DescriptionMapE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</div>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
@@ -245,41 +274,8 @@
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N2rr6SolverD0Ev">
-<span id="_CPPv3N2rr6SolverD0Ev"></span><span id="_CPPv2N2rr6SolverD0Ev"></span><span id="rr::Solver::~Solver"></span><span class="target" id="classrr_1_1Solver_1a0e6558e376aee7e4d3a9b69b8c3ae08b"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">~Solver</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">default</span></span><a class="headerlink" href="#_CPPv4N2rr6SolverD0Ev" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3N2rr6SolverD0Ev"></span><span id="_CPPv2N2rr6SolverD0Ev"></span><span id="rr::Solver::~Solver"></span><span class="target" id="classrr_1_1Solver_1a3a6586c87e2218dd22f1461f50d5c0dd"></span><span class="sig-name descname"><span class="n"><span class="pre">~Solver</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">default</span></span><a class="headerlink" href="#_CPPv4N2rr6SolverD0Ev" title="Permalink to this definition">¶</a><br /></dt>
 <dd></dd></dl>
-
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4NK2rr6Solver7getNameEv">
-<span id="_CPPv3NK2rr6Solver7getNameEv"></span><span id="_CPPv2NK2rr6Solver7getNameEv"></span><span id="rr::Solver::getNameC"></span><span class="target" id="classrr_1_1Solver_1a417cca64a18c63535f2091584f8fed91"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getName</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4NK2rr6Solver7getNameEv" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Get the name of this solver. </p>
-<p><dl class="simple">
-<dt><strong>Author</strong></dt><dd><p>JKM </p>
-</dd>
-</dl>
-</p>
-</dd></dl>
-
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4NK2rr6Solver14getDescriptionEv">
-<span id="_CPPv3NK2rr6Solver14getDescriptionEv"></span><span id="_CPPv2NK2rr6Solver14getDescriptionEv"></span><span id="rr::Solver::getDescriptionC"></span><span class="target" id="classrr_1_1Solver_1a86067147c7631ca80d51667322f1a8f5"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getDescription</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4NK2rr6Solver14getDescriptionEv" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Get the description of this solver. </p>
-<p><dl class="simple">
-<dt><strong>Author</strong></dt><dd><p>JKM </p>
-</dd>
-</dl>
-</p>
-</dd></dl>
-
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4NK2rr6Solver7getHintEv">
-<span id="_CPPv3NK2rr6Solver7getHintEv"></span><span id="_CPPv2NK2rr6Solver7getHintEv"></span><span id="rr::Solver::getHintC"></span><span class="target" id="classrr_1_1Solver_1aff005f7e71bc73123ecbd511a77f71b6"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getHint</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4NK2rr6Solver7getHintEv" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Get a (user-readable) hint for this solver. </p>
-<p><dl class="simple">
-<dt><strong>Author</strong></dt><dd><p>JKM </p>
-</dd>
-</dl>
-</p>
-</dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N2rr6Solver14updateSettingsEP10Dictionary">
@@ -512,50 +508,58 @@
 </dd></dl>
 
 <dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr6Solver13syncWithModelEP15ExecutableModel">
+<span id="_CPPv3N2rr6Solver13syncWithModelEP15ExecutableModel"></span><span id="_CPPv2N2rr6Solver13syncWithModelEP15ExecutableModel"></span><span id="rr::Solver::syncWithModel__ExecutableModelP"></span><span class="target" id="classrr_1_1Solver_1aecb0e7c619e544aeabc6db9903165158"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">syncWithModel</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="rrExecutableModel.html#_CPPv4N2rr15ExecutableModelE" title="rr::ExecutableModel"><span class="n"><span class="pre">ExecutableModel</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">m</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N2rr6Solver13syncWithModelEP15ExecutableModel" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Called whenever a new model is loaded to allow integrator to reset internal state. </p>
+<p><dl class="simple">
+<dt><strong>Author</strong></dt><dd><p>JKM </p>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK2rr6Solver8getModelEv">
 <span id="_CPPv3NK2rr6Solver8getModelEv"></span><span id="_CPPv2NK2rr6Solver8getModelEv"></span><span id="rr::Solver::getModelC"></span><span class="target" id="classrr_1_1Solver_1ac89194d54aaad3ecc71e1cfbbef83d15"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><a class="reference internal" href="rrExecutableModel.html#_CPPv4N2rr15ExecutableModelE" title="rr::ExecutableModel"><span class="n"><span class="pre">ExecutableModel</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">getModel</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK2rr6Solver8getModelEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>returns the pointer to the <a class="reference internal" href="rrExecutableModel.html#classrr_1_1ExecutableModel"><span class="std std-ref">ExecutableModel</span></a> </p>
 </dd></dl>
 
-</div>
-<div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric" id="breathe-section-title-protected-types">Protected Types</p>
-<dl class="cpp type">
-<dt class="sig sig-object cpp" id="_CPPv4N2rr6Solver12SettingsListE">
-<span id="_CPPv3N2rr6Solver12SettingsListE"></span><span id="_CPPv2N2rr6Solver12SettingsListE"></span><span class="target" id="classrr_1_1Solver_1adcbacd57e2871a83bb9c4d7a4038a069"></span><span class="k"><span class="pre">using</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SettingsList</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">&gt;</span></span><a class="headerlink" href="#_CPPv4N2rr6Solver12SettingsListE" title="Permalink to this definition">¶</a><br /></dt>
-<dd></dd></dl>
-
-<dl class="cpp type">
-<dt class="sig sig-object cpp" id="_CPPv4N2rr6Solver11SettingsMapE">
-<span id="_CPPv3N2rr6Solver11SettingsMapE"></span><span id="_CPPv2N2rr6Solver11SettingsMapE"></span><span class="target" id="classrr_1_1Solver_1a61c0fd04ad69fc173c51dac3bdde2431"></span><span class="k"><span class="pre">using</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SettingsMap</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">unordered_map</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">Setting</span></span><span class="p"><span class="pre">&gt;</span></span><a class="headerlink" href="#_CPPv4N2rr6Solver11SettingsMapE" title="Permalink to this definition">¶</a><br /></dt>
-<dd></dd></dl>
-
-<dl class="cpp type">
-<dt class="sig sig-object cpp" id="_CPPv4N2rr6Solver14DisplayNameMapE">
-<span id="_CPPv3N2rr6Solver14DisplayNameMapE"></span><span id="_CPPv2N2rr6Solver14DisplayNameMapE"></span><span class="target" id="classrr_1_1Solver_1a76b76c8ba3a31a2c6a600322c90a0452"></span><span class="k"><span class="pre">using</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">DisplayNameMap</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">unordered_map</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">&gt;</span></span><a class="headerlink" href="#_CPPv4N2rr6Solver14DisplayNameMapE" title="Permalink to this definition">¶</a><br /></dt>
-<dd></dd></dl>
-
-<dl class="cpp type">
-<dt class="sig sig-object cpp" id="_CPPv4N2rr6Solver7HintMapE">
-<span id="_CPPv3N2rr6Solver7HintMapE"></span><span id="_CPPv2N2rr6Solver7HintMapE"></span><span class="target" id="classrr_1_1Solver_1ac39f2073d482cdf591d93415557c6751"></span><span class="k"><span class="pre">using</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">HintMap</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">unordered_map</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">&gt;</span></span><a class="headerlink" href="#_CPPv4N2rr6Solver7HintMapE" title="Permalink to this definition">¶</a><br /></dt>
-<dd></dd></dl>
-
-<dl class="cpp type">
-<dt class="sig sig-object cpp" id="_CPPv4N2rr6Solver14DescriptionMapE">
-<span id="_CPPv3N2rr6Solver14DescriptionMapE"></span><span id="_CPPv2N2rr6Solver14DescriptionMapE"></span><span class="target" id="classrr_1_1Solver_1a7d58e224664ab44e56f90802d9601f01"></span><span class="k"><span class="pre">using</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">DescriptionMap</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">unordered_map</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">&gt;</span></span><a class="headerlink" href="#_CPPv4N2rr6Solver14DescriptionMapE" title="Permalink to this definition">¶</a><br /></dt>
-<dd></dd></dl>
-
-</div>
-<div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric" id="breathe-section-title-protected-functions">Protected Functions</p>
 <dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N2rr6Solver10addSettingERKNSt6stringE7SettingNSt6stringENSt6stringENSt6stringE">
-<span id="_CPPv3N2rr6Solver10addSettingERKNSt6stringE7SettingNSt6stringENSt6stringENSt6stringE"></span><span id="_CPPv2N2rr6Solver10addSettingERKNSt6stringE7SettingNSt6stringENSt6stringENSt6stringE"></span><span id="rr::Solver::addSetting__ssCR.Setting.ss.ss.ss"></span><span class="target" id="classrr_1_1Solver_1ad5b8ac1ef687d1a3c9f1f305cb73804d"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">addSetting</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">name</span></span>, <span class="n"><span class="pre">Setting</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">val</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">display_name</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">hint</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">description</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr6Solver10addSettingERKNSt6stringE7SettingNSt6stringENSt6stringENSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
-<dd></dd></dl>
+<dt class="sig sig-object cpp" id="_CPPv4NK2rr6Solver7getNameEv">
+<span id="_CPPv3NK2rr6Solver7getNameEv"></span><span id="_CPPv2NK2rr6Solver7getNameEv"></span><span id="rr::Solver::getNameC"></span><span class="target" id="classrr_1_1Solver_1ae4ae3d123747f44ba18cb94a37cdcc6d"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getName</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4NK2rr6Solver7getNameEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Gets the name associated with this <a class="reference internal" href="#classrr_1_1Solver"><span class="std std-ref">Solver</span></a> type. </p>
+<p><dl class="simple">
+<dt><strong>Author</strong></dt><dd><p>JKM, WBC </p>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK2rr6Solver7getHintEv">
+<span id="_CPPv3NK2rr6Solver7getHintEv"></span><span id="_CPPv2NK2rr6Solver7getHintEv"></span><span id="rr::Solver::getHintC"></span><span class="target" id="classrr_1_1Solver_1a30605288d92db09d42a886c132e5429f"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getHint</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4NK2rr6Solver7getHintEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Gets the hint associated with this <a class="reference internal" href="#classrr_1_1Solver"><span class="std std-ref">Solver</span></a> type. </p>
+<p><dl class="simple">
+<dt><strong>Author</strong></dt><dd><p>JKM, WBC </p>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK2rr6Solver14getDescriptionEv">
+<span id="_CPPv3NK2rr6Solver14getDescriptionEv"></span><span id="_CPPv2NK2rr6Solver14getDescriptionEv"></span><span id="rr::Solver::getDescriptionC"></span><span class="target" id="classrr_1_1Solver_1a1062b181455da6310d5678a4c978d072"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getDescription</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4NK2rr6Solver14getDescriptionEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Gets the description associated with this <a class="reference internal" href="#classrr_1_1Solver"><span class="std std-ref">Solver</span></a> type. </p>
+<p><dl class="simple">
+<dt><strong>Author</strong></dt><dd><p>JKM, WBC </p>
+</dd>
+</dl>
+</p>
+</dd></dl>
 
 </div>
 <div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric" id="breathe-section-title-protected-attributes">Protected Attributes</p>
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
 <dl class="cpp var">
 <dt class="sig sig-object cpp" id="_CPPv4N2rr6Solver15sorted_settingsE">
 <span id="_CPPv3N2rr6Solver15sorted_settingsE"></span><span id="_CPPv2N2rr6Solver15sorted_settingsE"></span><span id="rr::Solver::sorted_settings__SettingsList"></span><span class="target" id="classrr_1_1Solver_1a99f48947491d7cd36c68cebba53915fe"></span><a class="reference internal" href="#_CPPv4N2rr6Solver12SettingsListE" title="rr::Solver::SettingsList"><span class="n"><span class="pre">SettingsList</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">sorted_settings</span></span></span><a class="headerlink" href="#_CPPv4N2rr6Solver15sorted_settingsE" title="Permalink to this definition">¶</a><br /></dt>
@@ -581,6 +585,17 @@
 <span id="_CPPv3N2rr6Solver12descriptionsE"></span><span id="_CPPv2N2rr6Solver12descriptionsE"></span><span id="rr::Solver::descriptions__DescriptionMap"></span><span class="target" id="classrr_1_1Solver_1a7e07121f652db358045d6f7b95889ea3"></span><a class="reference internal" href="#_CPPv4N2rr6Solver14DescriptionMapE" title="rr::Solver::DescriptionMap"><span class="n"><span class="pre">DescriptionMap</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">descriptions</span></span></span><a class="headerlink" href="#_CPPv4N2rr6Solver12descriptionsE" title="Permalink to this definition">¶</a><br /></dt>
 <dd></dd></dl>
 
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-protected-functions">Protected Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr6Solver10addSettingERKNSt6stringE7SettingNSt6stringENSt6stringENSt6stringE">
+<span id="_CPPv3N2rr6Solver10addSettingERKNSt6stringE7SettingNSt6stringENSt6stringENSt6stringE"></span><span id="_CPPv2N2rr6Solver10addSettingERKNSt6stringE7SettingNSt6stringENSt6stringENSt6stringE"></span><span id="rr::Solver::addSetting__ssCR.Setting.ss.ss.ss"></span><span class="target" id="classrr_1_1Solver_1ad5b8ac1ef687d1a3c9f1f305cb73804d"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">addSetting</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">name</span></span>, <span class="n"><span class="pre">Setting</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">val</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">display_name</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">hint</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">description</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr6Solver10addSettingERKNSt6stringE7SettingNSt6stringENSt6stringENSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-protected-attributes">Protected Attributes</p>
 <dl class="cpp var">
 <dt class="sig sig-object cpp" id="_CPPv4N2rr6Solver6mModelE">
 <span id="_CPPv3N2rr6Solver6mModelE"></span><span id="_CPPv2N2rr6Solver6mModelE"></span><span id="rr::Solver::mModel__ExecutableModelP"></span><span class="target" id="classrr_1_1Solver_1ab60e7640a8c959558a144d9d7ee45515"></span><a class="reference internal" href="rrExecutableModel.html#_CPPv4N2rr15ExecutableModelE" title="rr::ExecutableModel"><span class="n"><span class="pre">ExecutableModel</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">mModel</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">nullptr</span></span><a class="headerlink" href="#_CPPv4N2rr6Solver6mModelE" title="Permalink to this definition">¶</a><br /></dt>

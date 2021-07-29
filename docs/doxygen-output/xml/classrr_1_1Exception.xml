@@ -1,10 +1,10 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
   <compounddef id="classrr_1_1Exception" kind="class" language="C++" prot="public">
     <compoundname>rr::Exception</compoundname>
-    <basecompoundref prot="public" virt="non-virtual">exception</basecompoundref>
-    <derivedcompoundref refid="classrr_1_1CoreException" prot="public" virt="non-virtual">rr::CoreException</derivedcompoundref>
+    <basecompoundref prot="public" virt="non-virtual">std::exception</basecompoundref>
     <derivedcompoundref refid="classrr_1_1CVODEException" prot="public" virt="non-virtual">rr::CVODEException</derivedcompoundref>
+    <derivedcompoundref refid="classrr_1_1CoreException" prot="public" virt="non-virtual">rr::CoreException</derivedcompoundref>
     <derivedcompoundref refid="classrr_1_1DidNotConvergeException" prot="public" virt="non-virtual">rr::DidNotConvergeException</derivedcompoundref>
     <derivedcompoundref refid="classrr_1_1InvalidKeyException" prot="public" virt="non-virtual">rr::InvalidKeyException</derivedcompoundref>
     <derivedcompoundref refid="classrr_1_1KinsolException" prot="public" virt="non-virtual">rr::KinsolException</derivedcompoundref>
@@ -125,14 +125,11 @@
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="4">
+      <node id="3">
         <label>rr::CVODEException</label>
         <link refid="classrr_1_1CVODEException"/>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
-      </node>
-      <node id="2">
-        <label>exception</label>
       </node>
       <node id="6">
         <label>rr::InvalidKeyException</label>
@@ -152,11 +149,14 @@
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="3">
+      <node id="4">
         <label>rr::CoreException</label>
         <link refid="classrr_1_1CoreException"/>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
+      </node>
+      <node id="2">
+        <label>std::exception</label>
       </node>
       <node id="11">
         <label>rr::NullPointerException</label>
@@ -188,7 +188,7 @@
         <label>string</label>
       </node>
       <node id="2">
-        <label>exception</label>
+        <label>std::exception</label>
       </node>
       <node id="1">
         <label>rr::Exception</label>

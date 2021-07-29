@@ -12,7 +12,7 @@ wrapper class to change the solve() method of \mbox{\hyperlink{classrr_1_1Steady
 Inheritance diagram for rr\+::Presimulation\+Decorator\+:\begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[height=4.000000cm]{classrr_1_1PresimulationDecorator}
+\includegraphics[height=5.000000cm]{classrr_1_1PresimulationDecorator}
 \end{center}
 \end{figure}
 \doxysubsection*{Public Member Functions}
@@ -22,6 +22,14 @@ Inheritance diagram for rr\+::Presimulation\+Decorator\+:\begin{figure}[H]
 \begin{DoxyCompactList}\small\item\em construct a \mbox{\hyperlink{classrr_1_1PresimulationDecorator}{Presimulation\+Decorator}} from a solver. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classrr_1_1PresimulationDecorator_a9ff127bab409a5b3285b1995a77ec44d}\label{classrr_1_1PresimulationDecorator_a9ff127bab409a5b3285b1995a77ec44d}} 
 double {\bfseries solve} () override
+\item 
+\mbox{\hyperlink{classrr_1_1Solver}{Solver}} $\ast$ \mbox{\hyperlink{classrr_1_1PresimulationDecorator_adc6965e565f36397206b93b7f85cb2e8}{construct}} (\mbox{\hyperlink{classrr_1_1ExecutableModel}{Executable\+Model}} $\ast$executable\+Model) const override
+\begin{DoxyCompactList}\small\item\em Constructs a new \mbox{\hyperlink{classrr_1_1Solver}{Solver}} of a given type. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classrr_1_1PresimulationDecorator_a3458067f3ee8c6d02989298d63e1d4b0}\label{classrr_1_1PresimulationDecorator_a3458067f3ee8c6d02989298d63e1d4b0}} 
+{\bfseries Steady\+State\+Solver\+Decorator} ()=default
+\item 
+\mbox{\Hypertarget{classrr_1_1PresimulationDecorator_ae9a490c475a289808fe2caebea3fe55e}\label{classrr_1_1PresimulationDecorator_ae9a490c475a289808fe2caebea3fe55e}} 
+{\bfseries Steady\+State\+Solver\+Decorator} (\mbox{\hyperlink{classrr_1_1SteadyStateSolver}{Steady\+State\+Solver}} $\ast$solver)
 \end{DoxyCompactItemize}
 \doxysubsection*{Additional Inherited Members}
 
@@ -44,9 +52,29 @@ construct a \mbox{\hyperlink{classrr_1_1PresimulationDecorator}{Presimulation\+D
 
 Use the presimulation\+\_\+time solver option to set the time point to integrate to before computing steady state. 
 \begin{DoxyParams}{Parameters}
-{\em solver} & pointer to instantiated \mbox{\hyperlink{classrr_1_1SteadyStateSolver}{Steady\+State\+Solver}} type.  options already present in the solver or the model associated with the solver are respected. \\
+{\em solver} & pointer to instantiated \mbox{\hyperlink{classrr_1_1SteadyStateSolver}{Steady\+State\+Solver}} type.\\
 \hline
 \end{DoxyParams}
+options already present in the solver or the model associated with the solver are respected. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classrr_1_1PresimulationDecorator_adc6965e565f36397206b93b7f85cb2e8}\label{classrr_1_1PresimulationDecorator_adc6965e565f36397206b93b7f85cb2e8}} 
+\index{rr::PresimulationDecorator@{rr::PresimulationDecorator}!construct@{construct}}
+\index{construct@{construct}!rr::PresimulationDecorator@{rr::PresimulationDecorator}}
+\doxysubsubsection{\texorpdfstring{construct()}{construct()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classrr_1_1Solver}{Solver}} $\ast$ rr\+::\+Presimulation\+Decorator\+::construct (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classrr_1_1ExecutableModel}{Executable\+Model}} $\ast$}]{model }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Constructs a new \mbox{\hyperlink{classrr_1_1Solver}{Solver}} of a given type. 
+
+\begin{DoxyAuthor}{Author}
+JKM, WBC
+\end{DoxyAuthor}
+the caller is responsible for deleting memory associated with the returned Solver$\ast$. 
+
+Implements \mbox{\hyperlink{classrr_1_1Registrable_a3f529e138fa0288622525bc13cd73c5f}{rr\+::\+Registrable}}.
+
 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}

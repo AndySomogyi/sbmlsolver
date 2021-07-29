@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
   <compounddef id="rrConfig_8cpp" kind="file" language="C++">
     <compoundname>rrConfig.cpp</compoundname>
     <includes refid="rrConfig_8h" local="yes">rrConfig.h</includes>
@@ -26,6 +26,42 @@
       <node id="12">
         <label>functional</label>
       </node>
+      <node id="21">
+        <label>rrConstants.h</label>
+        <link refid="rrConstants_8h_source"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>Setting.h</label>
+        <link refid="Setting_8h_source"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
       <node id="10">
         <label>limits</label>
       </node>
@@ -37,6 +73,125 @@
       </node>
       <node id="19">
         <label>float.h</label>
+      </node>
+      <node id="4">
+        <label>rrExporter.h</label>
+        <link refid="rrExporter_8h_source"/>
+      </node>
+      <node id="28">
+        <label>stdint.h</label>
+      </node>
+      <node id="6">
+        <label>variant</label>
+      </node>
+      <node id="33">
+        <label>cassert</label>
+      </node>
+      <node id="36">
+        <label>stdexcept</label>
+      </node>
+      <node id="17">
+        <label>rrLogger.h</label>
+        <link refid="rrLogger_8h_source"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="2">
+        <label>rrConfig.h</label>
+        <link refid="rrConfig_8h_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="31">
+        <label>tr1proxy/rr_unordered_map.h</label>
+      </node>
+      <node id="26">
+        <label>map</label>
+      </node>
+      <node id="16">
+        <label>exception</label>
+      </node>
+      <node id="35">
+        <label>fstream</label>
+      </node>
+      <node id="42">
+        <label>ostream</label>
+      </node>
+      <node id="38">
+        <label>Poco/RegularExpression.h</label>
+      </node>
+      <node id="37">
+        <label>Poco/Path.h</label>
+      </node>
+      <node id="15">
+        <label>rrException.h</label>
+        <link refid="rrException_8h_source"/>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="41">
+        <label>rrSelectionRecord.h</label>
+        <link refid="rrSelectionRecord_8h_source"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="42" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>typeinfo</label>
+      </node>
+      <node id="18">
+        <label>rrUtils.h</label>
+        <link refid="rrUtils_8h_source"/>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>setting_t.h</label>
+        <link refid="setting__t_8h_source"/>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+      <node id="9">
+        <label>sstream</label>
       </node>
       <node id="1">
         <label>rrConfig.cpp</label>
@@ -76,57 +231,14 @@
         <childnode refid="3" relation="include">
         </childnode>
       </node>
-      <node id="28">
-        <label>stdint.h</label>
+      <node id="22">
+        <label>cstdlib</label>
       </node>
-      <node id="6">
-        <label>variant</label>
+      <node id="34">
+        <label>cctype</label>
       </node>
-      <node id="33">
-        <label>cassert</label>
-      </node>
-      <node id="36">
-        <label>stdexcept</label>
-      </node>
-      <node id="3">
-        <label>string</label>
-      </node>
-      <node id="4">
-        <label>rrExporter.h</label>
-        <link refid="rrExporter_8h_source"/>
-      </node>
-      <node id="31">
-        <label>tr1proxy/rr_unordered_map.h</label>
-      </node>
-      <node id="17">
-        <label>rrLogger.h</label>
-        <link refid="rrLogger_8h_source"/>
-        <childnode refid="9" relation="include">
-        </childnode>
-        <childnode refid="4" relation="include">
-        </childnode>
-      </node>
-      <node id="26">
-        <label>map</label>
-      </node>
-      <node id="14">
-        <label>setting_t.h</label>
-        <link refid="setting__t_8h_source"/>
-      </node>
-      <node id="16">
-        <label>exception</label>
-      </node>
-      <node id="35">
-        <label>fstream</label>
-      </node>
-      <node id="42">
-        <label>ostream</label>
-      </node>
-      <node id="38">
-        <label>Poco/RegularExpression.h</label>
-      </node>
-      <node id="37">
-        <label>Poco/Path.h</label>
+      <node id="7">
+        <label>iostream</label>
       </node>
       <node id="23">
         <label>rrStringUtils.h</label>
@@ -152,113 +264,11 @@
         <childnode refid="5" relation="include">
         </childnode>
       </node>
-      <node id="13">
-        <label>typeinfo</label>
-      </node>
-      <node id="8">
-        <label>vector</label>
-      </node>
-      <node id="15">
-        <label>rrException.h</label>
-        <link refid="rrException_8h_source"/>
-        <childnode refid="16" relation="include">
-        </childnode>
-        <childnode refid="3" relation="include">
-        </childnode>
-        <childnode refid="6" relation="include">
-        </childnode>
-        <childnode refid="4" relation="include">
-        </childnode>
-      </node>
-      <node id="9">
-        <label>sstream</label>
-      </node>
-      <node id="2">
-        <label>rrConfig.h</label>
-        <link refid="rrConfig_8h_source"/>
-        <childnode refid="3" relation="include">
-        </childnode>
-        <childnode refid="4" relation="include">
-        </childnode>
-        <childnode refid="5" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
-      </node>
-      <node id="22">
-        <label>cstdlib</label>
-      </node>
-      <node id="34">
-        <label>cctype</label>
-      </node>
-      <node id="7">
-        <label>iostream</label>
-      </node>
       <node id="27">
         <label>unordered_map</label>
       </node>
-      <node id="5">
-        <label>Setting.h</label>
-        <link refid="Setting_8h_source"/>
-        <childnode refid="6" relation="include">
-        </childnode>
-        <childnode refid="7" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
-        <childnode refid="9" relation="include">
-        </childnode>
-        <childnode refid="10" relation="include">
-        </childnode>
-        <childnode refid="11" relation="include">
-        </childnode>
-        <childnode refid="12" relation="include">
-        </childnode>
-        <childnode refid="13" relation="include">
-        </childnode>
-        <childnode refid="14" relation="include">
-        </childnode>
-        <childnode refid="15" relation="include">
-        </childnode>
-      </node>
       <node id="30">
         <label>tr1proxy/rr_memory.h</label>
-      </node>
-      <node id="18">
-        <label>rrUtils.h</label>
-        <link refid="rrUtils_8h_source"/>
-        <childnode refid="19" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
-        <childnode refid="3" relation="include">
-        </childnode>
-        <childnode refid="7" relation="include">
-        </childnode>
-        <childnode refid="20" relation="include">
-        </childnode>
-        <childnode refid="4" relation="include">
-        </childnode>
-        <childnode refid="21" relation="include">
-        </childnode>
-        <childnode refid="23" relation="include">
-        </childnode>
-        <childnode refid="28" relation="include">
-        </childnode>
-        <childnode refid="29" relation="include">
-        </childnode>
-      </node>
-      <node id="21">
-        <label>rrConstants.h</label>
-        <link refid="rrConstants_8h_source"/>
-        <childnode refid="10" relation="include">
-        </childnode>
-        <childnode refid="3" relation="include">
-        </childnode>
-        <childnode refid="22" relation="include">
-        </childnode>
-        <childnode refid="4" relation="include">
-        </childnode>
       </node>
       <node id="11">
         <label>type_traits</label>
@@ -274,16 +284,6 @@
       </node>
       <node id="39">
         <label>Poco/Mutex.h</label>
-      </node>
-      <node id="41">
-        <label>rrSelectionRecord.h</label>
-        <link refid="rrSelectionRecord_8h_source"/>
-        <childnode refid="4" relation="include">
-        </childnode>
-        <childnode refid="42" relation="include">
-        </childnode>
-        <childnode refid="3" relation="include">
-        </childnode>
       </node>
     </incdepgraph>
     <innernamespace refid="namespacerr">rr</innernamespace>
@@ -356,14 +356,14 @@
 <codeline lineno="43"><highlight class="normal"></highlight></codeline>
 <codeline lineno="44"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>std::unordered_map&lt;std::string,<sp/>int&gt;<sp/>StringIntMap;</highlight></codeline>
 <codeline lineno="45"><highlight class="normal"></highlight></codeline>
-<codeline lineno="49"><highlight class="preprocessor">#define<sp/>CHECK_RANGE(key)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>CHECK_RANGE(key)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
 <codeline lineno="50"><highlight class="preprocessor"><sp/><sp/>{<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
 <codeline lineno="51"><highlight class="preprocessor"><sp/><sp/><sp/><sp/>if<sp/>(key<sp/>&lt;<sp/>0<sp/>||<sp/>key<sp/>&gt;=<sp/>rr::Config::CONFIG_END)<sp/>{<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
-<codeline lineno="52"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/>throw<sp/>std::out_of_range(&quot;invalid<sp/>Config<sp/>key&quot;);<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
-<codeline lineno="53"><highlight class="preprocessor"><sp/><sp/><sp/><sp/>}<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
-<codeline lineno="54"><highlight class="preprocessor"><sp/><sp/>}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/>throw<sp/>std::out_of_range(&quot;invalid<sp/>Config<sp/>key&quot;</highlight><highlight class="normal">);<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
 <codeline lineno="55"><highlight class="normal"></highlight></codeline>
-<codeline lineno="59"><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>strip(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;in)<sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>strip(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;in)<sp/>{</highlight></codeline>
 <codeline lineno="60"><highlight class="normal"><sp/><sp/>std::string<sp/>out;</highlight></codeline>
 <codeline lineno="61"><highlight class="normal"><sp/><sp/>std::string::const_iterator<sp/>b<sp/>=<sp/>in.begin(),<sp/>e<sp/>=<sp/>in.end();</highlight></codeline>
 <codeline lineno="62"><highlight class="normal"></highlight></codeline>
@@ -433,7 +433,7 @@
 <codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>Setting((std::int32_t)Config::ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS),<sp/></highlight><highlight class="comment">//<sp/>ROADRUNNER_JACOBIAN_MODE</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>Setting(std::string(</highlight><highlight class="stringliteral">&quot;.&quot;</highlight><highlight class="normal">)),<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>TEMP_DIR_PATH,</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>Setting(std::string(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">)),<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>LOGGER_LOG_FILE_PATH,</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>Setting(-1),<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>RANDOM_SEED</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>Setting(-1),<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>RANDOM_SEED</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>Setting(</highlight><highlight class="keyword">true</highlight><highlight class="normal">),<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>PYTHON_ENABLE_NAMED_MATRIX</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>Setting(</highlight><highlight class="keyword">true</highlight><highlight class="normal">),<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>LLVM_SYMBOL_CACHE</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>Setting(</highlight><highlight class="keyword">true</highlight><highlight class="normal">),<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>OPTIMIZE_REACTION_RATE_SELECTION</highlight><highlight class="normal"></highlight></codeline>
@@ -470,7 +470,7 @@
 <codeline lineno="163"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
 <codeline lineno="164"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="165"><highlight class="normal"></highlight></codeline>
-<codeline lineno="169"><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>getKeyNames(StringIntMap<sp/>&amp;keys)<sp/>{</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>getKeyNames(StringIntMap<sp/>&amp;keys)<sp/>{</highlight></codeline>
 <codeline lineno="170"><highlight class="normal"><sp/><sp/>keys[</highlight><highlight class="stringliteral">&quot;LOADSBMLOPTIONS_CONSERVED_MOIETIES&quot;</highlight><highlight class="normal">]<sp/>=</highlight></codeline>
 <codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classrr_1_1Config_1aed7c550b9e34222675cd152c9154d053a008f3c1e8cf4803a4e028a109c5baa62" kindref="member">rr::Config::LOADSBMLOPTIONS_CONSERVED_MOIETIES</ref>;</highlight></codeline>
 <codeline lineno="172"><highlight class="normal"><sp/><sp/>keys[</highlight><highlight class="stringliteral">&quot;LOADSBMLOPTIONS_RECOMPILE&quot;</highlight><highlight class="normal">]<sp/>=<sp/><ref refid="classrr_1_1Config_1aed7c550b9e34222675cd152c9154d053aff2d0d4e16f9d40d8998a2387d45964a" kindref="member">rr::Config::LOADSBMLOPTIONS_RECOMPILE</ref>;</highlight></codeline>

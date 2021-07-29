@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
   <compounddef id="rrSymbolList_8h" kind="file" language="C++">
     <compoundname>rrSymbolList.h</compoundname>
     <includes local="no">vector</includes>
@@ -11,12 +11,12 @@
       <node id="7">
         <label>limits</label>
       </node>
-      <node id="5">
-        <label>string</label>
-      </node>
       <node id="3">
         <label>rrExporter.h</label>
         <link refid="rrExporter_8h_source"/>
+      </node>
+      <node id="5">
+        <label>string</label>
       </node>
       <node id="6">
         <label>ostream</label>
@@ -31,6 +31,9 @@
         <childnode refid="4" relation="include">
         </childnode>
       </node>
+      <node id="2">
+        <label>vector</label>
+      </node>
       <node id="4">
         <label>rrSymbol.h</label>
         <link refid="rrSymbol_8h_source"/>
@@ -43,15 +46,12 @@
         <childnode refid="3" relation="include">
         </childnode>
       </node>
-      <node id="2">
-        <label>vector</label>
-      </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="2">
-        <label>c/rrModelSymbols.h</label>
-        <link refid="rrModelSymbols_8h_source"/>
-        <childnode refid="3" relation="include">
+      <node id="1">
+        <label>c/rrSymbolList.h</label>
+        <link refid="rrSymbolList_8h"/>
+        <childnode refid="2" relation="include">
         </childnode>
       </node>
       <node id="3">
@@ -60,10 +60,14 @@
         <childnode refid="4" relation="include">
         </childnode>
       </node>
-      <node id="1">
-        <label>c/rrSymbolList.h</label>
-        <link refid="rrSymbolList_8h"/>
-        <childnode refid="2" relation="include">
+      <node id="5">
+        <label>c/rrCompiledExecutableModel.h</label>
+        <link refid="rrCompiledExecutableModel_8h_source"/>
+      </node>
+      <node id="2">
+        <label>c/rrModelSymbols.h</label>
+        <link refid="rrModelSymbols_8h_source"/>
+        <childnode refid="3" relation="include">
         </childnode>
       </node>
       <node id="4">
@@ -71,10 +75,6 @@
         <link refid="rrCModelGenerator_8h_source"/>
         <childnode refid="5" relation="include">
         </childnode>
-      </node>
-      <node id="5">
-        <label>c/rrCompiledExecutableModel.h</label>
-        <link refid="rrCompiledExecutableModel_8h_source"/>
       </node>
     </invincdepgraph>
     <innerclass refid="classrr_1_1SymbolList" prot="public">rr::SymbolList</innerclass>

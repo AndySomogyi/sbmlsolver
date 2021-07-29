@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
   <compounddef id="classrrllvm_1_1AssignmentRuleEvaluator" kind="class" language="C++" prot="public">
     <compoundname>rrllvm::AssignmentRuleEvaluator</compoundname>
-    <basecompoundref prot="public" virt="non-virtual">SBMLVisitor</basecompoundref>
+    <basecompoundref prot="public" virt="non-virtual">libsbml::SBMLVisitor</basecompoundref>
     <includes refid="AssignmentRuleEvaluator_8h" local="no">AssignmentRuleEvaluator.h</includes>
       <sectiondef kind="protected-attrib">
       <memberdef kind="variable" id="classrrllvm_1_1AssignmentRuleEvaluator_1a941c2d2ad09d092387c20e90403ea41a" prot="protected" static="no" mutable="no">
@@ -85,7 +85,7 @@
         </childnode>
       </node>
       <node id="2">
-        <label>SBMLVisitor</label>
+        <label>libsbml::SBMLVisitor</label>
       </node>
     </inheritancegraph>
     <collaborationgraph>
@@ -98,12 +98,12 @@
           <edgelabel>symbols</edgelabel>
         </childnode>
       </node>
-      <node id="2">
-        <label>SBMLVisitor</label>
-      </node>
       <node id="3">
         <label>rrllvm::SymbolForest</label>
         <link refid="classrrllvm_1_1SymbolForest"/>
+      </node>
+      <node id="2">
+        <label>libsbml::SBMLVisitor</label>
       </node>
     </collaborationgraph>
     <location file="llvm/AssignmentRuleEvaluator.h" line="25" column="1" bodyfile="llvm/AssignmentRuleEvaluator.h" bodystart="26" bodyend="38"/>

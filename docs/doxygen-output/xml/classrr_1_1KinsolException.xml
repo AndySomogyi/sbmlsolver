@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
   <compounddef id="classrr_1_1KinsolException" kind="class" language="C++" prot="public">
     <compoundname>rr::KinsolException</compoundname>
     <basecompoundref refid="classrr_1_1Exception" prot="public" virt="non-virtual">rr::Exception</basecompoundref>
@@ -27,14 +27,14 @@
     <detaileddescription>
     </detaileddescription>
     <inheritancegraph>
-      <node id="3">
-        <label>exception</label>
-      </node>
       <node id="1">
         <label>rr::KinsolException</label>
         <link refid="classrr_1_1KinsolException"/>
         <childnode refid="2" relation="public-inheritance">
         </childnode>
+      </node>
+      <node id="3">
+        <label>std::exception</label>
       </node>
       <node id="2">
         <label>rr::Exception</label>
@@ -47,14 +47,14 @@
       <node id="4">
         <label>string</label>
       </node>
-      <node id="3">
-        <label>exception</label>
-      </node>
       <node id="1">
         <label>rr::KinsolException</label>
         <link refid="classrr_1_1KinsolException"/>
         <childnode refid="2" relation="public-inheritance">
         </childnode>
+      </node>
+      <node id="3">
+        <label>std::exception</label>
       </node>
       <node id="2">
         <label>rr::Exception</label>

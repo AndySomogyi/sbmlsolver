@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
   <compounddef id="rrc__logging__api_8h" kind="file" language="C++">
     <compoundname>rrc_logging_api.h</compoundname>
     <includes refid="rrc__exporter_8h" local="yes">rrc_exporter.h</includes>
     <includes refid="rrc__types_8h" local="yes">rrc_types.h</includes>
-    <includedby refid="rrc__api_8h" local="yes">/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.h</includedby>
-    <includedby refid="rrc__logging__api_8cpp" local="yes">/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_logging_api.cpp</includedby>
+    <includedby refid="rrc__api_8h" local="yes">D:/roadrunner/roadrunner/wrappers/C/rrc_api.h</includedby>
+    <includedby refid="rrc__logging__api_8cpp" local="yes">D:/roadrunner/roadrunner/wrappers/C/rrc_logging_api.cpp</includedby>
     <incdepgraph>
       <node id="3">
         <label>stdbool.h</label>
@@ -15,7 +15,7 @@
         <link refid="rrc__types_8h"/>
       </node>
       <node id="1">
-        <label>/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_logging_api.h</label>
+        <label>D:/roadrunner/roadrunner/wrappers/C/rrc_logging_api.h</label>
         <link refid="rrc__logging__api_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
@@ -30,21 +30,21 @@
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="2">
-        <label>/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.h</label>
-        <link refid="rrc__api_8h"/>
-        <childnode refid="3" relation="include">
-        </childnode>
+      <node id="3">
+        <label>D:/roadrunner/roadrunner/wrappers/C/rrc_api.cpp</label>
+        <link refid="rrc__api_8cpp"/>
       </node>
       <node id="1">
-        <label>/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_logging_api.h</label>
+        <label>D:/roadrunner/roadrunner/wrappers/C/rrc_logging_api.h</label>
         <link refid="rrc__logging__api_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
       </node>
-      <node id="3">
-        <label>/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_api.cpp</label>
-        <link refid="rrc__api_8cpp"/>
+      <node id="2">
+        <label>D:/roadrunner/roadrunner/wrappers/C/rrc_api.h</label>
+        <link refid="rrc__api_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
       </node>
     </invincdepgraph>
       <sectiondef kind="enum">
@@ -132,12 +132,12 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_logging_api.h" line="58" column="1" bodyfile="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_logging_api.h" bodystart="59" bodyend="69"/>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_logging_api.h" line="58" column="1" bodyfile="D:/roadrunner/roadrunner/wrappers/C/rrc_logging_api.h" bodystart="59" bodyend="69"/>
       </memberdef>
-      <memberdef kind="enum" id="rrc__logging__api_8h_1a06fc87d81c62e9abb8790b6e5713c55b" prot="public" static="no" strong="no">
+      <memberdef kind="enum" id="rrc__logging__api_8h_1adf764cbdea00d65edcd07bb9953ad2b7" prot="public" static="no" strong="no">
         <type></type>
-        <name>@0</name>
-        <enumvalue id="rrc__logging__api_8h_1a06fc87d81c62e9abb8790b6e5713c55baa6eb0c7467fd39caf4dbb9417ac7f09d" prot="public">
+        <name>@1</name>
+        <enumvalue id="rrc__logging__api_8h_1adf764cbdea00d65edcd07bb9953ad2b7aa6eb0c7467fd39caf4dbb9417ac7f09d" prot="public">
           <name>clError</name>
           <initializer>= CL_PRIO_ERROR</initializer>
           <briefdescription>
@@ -145,7 +145,7 @@
           <detaileddescription>
           </detaileddescription>
         </enumvalue>
-        <enumvalue id="rrc__logging__api_8h_1a06fc87d81c62e9abb8790b6e5713c55bac74db9ab5150d2ed035aa93972003037" prot="public">
+        <enumvalue id="rrc__logging__api_8h_1adf764cbdea00d65edcd07bb9953ad2b7ac74db9ab5150d2ed035aa93972003037" prot="public">
           <name>clInfo</name>
           <initializer>= CL_PRIO_INFORMATION</initializer>
           <briefdescription>
@@ -153,7 +153,7 @@
           <detaileddescription>
           </detaileddescription>
         </enumvalue>
-        <enumvalue id="rrc__logging__api_8h_1a06fc87d81c62e9abb8790b6e5713c55ba9c46253a407ae594de755e0ddf0f4a5d" prot="public">
+        <enumvalue id="rrc__logging__api_8h_1adf764cbdea00d65edcd07bb9953ad2b7a9c46253a407ae594de755e0ddf0f4a5d" prot="public">
           <name>clDebug</name>
           <initializer>= CL_PRIO_DEBUG</initializer>
           <briefdescription>
@@ -161,7 +161,7 @@
           <detaileddescription>
           </detaileddescription>
         </enumvalue>
-        <enumvalue id="rrc__logging__api_8h_1a06fc87d81c62e9abb8790b6e5713c55ba5a220ab2d09c75b79455db3cddbe54cb" prot="public">
+        <enumvalue id="rrc__logging__api_8h_1adf764cbdea00d65edcd07bb9953ad2b7a5a220ab2d09c75b79455db3cddbe54cb" prot="public">
           <name>clWarning</name>
           <initializer>= CL_PRIO_WARNING</initializer>
           <briefdescription>
@@ -175,7 +175,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_logging_api.h" line="71" column="1" bodyfile="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_logging_api.h" bodystart="72" bodyend="77"/>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_logging_api.h" line="71" column="1" bodyfile="D:/roadrunner/roadrunner/wrappers/C/rrc_logging_api.h" bodystart="72" bodyend="77"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="func">
@@ -197,7 +197,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_logging_api.h" line="83" column="30" declfile="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_logging_api.h" declline="83" declcolumn="30"/>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_logging_api.h" line="83" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_logging_api.h" declline="83" declcolumn="30"/>
       </memberdef>
       <memberdef kind="function" id="group__logging_1gaa5be6edee1af88ca1f87bf17568ea1cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>C_DECL_SPEC bool rrcCallConv</type>
@@ -217,7 +217,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_logging_api.h" line="90" column="30" declfile="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_logging_api.h" declline="90" declcolumn="30"/>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_logging_api.h" line="90" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_logging_api.h" declline="90" declcolumn="30"/>
       </memberdef>
       <memberdef kind="function" id="group__logging_1ga94829307689bb7f93c59d3098b83a9f7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>C_DECL_SPEC bool rrcCallConv</type>
@@ -234,7 +234,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_logging_api.h" line="97" column="30" declfile="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_logging_api.h" declline="97" declcolumn="30"/>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_logging_api.h" line="97" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_logging_api.h" declline="97" declcolumn="30"/>
       </memberdef>
       <memberdef kind="function" id="group__logging_1ga9ccf608e3864a75bdca868af6b511b17" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>C_DECL_SPEC bool rrcCallConv</type>
@@ -255,7 +255,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_logging_api.h" line="104" column="30" declfile="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_logging_api.h" declline="104" declcolumn="30"/>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_logging_api.h" line="104" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_logging_api.h" declline="104" declcolumn="30"/>
       </memberdef>
       <memberdef kind="function" id="group__logging_1gaed2bf69408c13ca8e3d65149261e6689" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>C_DECL_SPEC bool rrcCallConv</type>
@@ -272,7 +272,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_logging_api.h" line="111" column="30" declfile="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_logging_api.h" declline="111" declcolumn="30"/>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_logging_api.h" line="111" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_logging_api.h" declline="111" declcolumn="30"/>
       </memberdef>
       <memberdef kind="function" id="group__logging_1ga6e6cb15a163ea13e5ef9f0ebfded2c78" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>C_DECL_SPEC bool rrcCallConv</type>
@@ -306,7 +306,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_logging_api.h" line="128" column="30" declfile="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_logging_api.h" declline="128" declcolumn="30"/>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_logging_api.h" line="128" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_logging_api.h" declline="128" declcolumn="30"/>
       </memberdef>
       <memberdef kind="function" id="group__logging_1ga0d9810fbff78ccdf4912d5789d55f49e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>C_DECL_SPEC char *rrcCallConv</type>
@@ -330,7 +330,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_logging_api.h" line="143" column="30" declfile="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_logging_api.h" declline="143" declcolumn="30"/>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_logging_api.h" line="143" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_logging_api.h" declline="143" declcolumn="30"/>
       </memberdef>
       <memberdef kind="function" id="group__logging_1ga05133e19d88371f05908ba5f87ca57ad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>C_DECL_SPEC char *rrcCallConv</type>
@@ -351,7 +351,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_logging_api.h" line="153" column="30" declfile="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_logging_api.h" declline="153" declcolumn="30"/>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_logging_api.h" line="153" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_logging_api.h" declline="153" declcolumn="30"/>
       </memberdef>
       <memberdef kind="function" id="group__logging_1gaa6fb15f5bbab056c9351695bcb0775a6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>C_DECL_SPEC void rrcCallConv</type>
@@ -391,7 +391,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_logging_api.h" line="161" column="30" declfile="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_logging_api.h" declline="161" declcolumn="30"/>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_logging_api.h" line="161" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_logging_api.h" declline="161" declcolumn="30"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -403,8 +403,7 @@
 &lt;-----------------------------------------------------------<mdash/> This file is part of cRoadRunner. See <ulink url="http://code.google.com/p/roadrunnerlib">http://code.google.com/p/roadrunnerlib</ulink> for more details.</para>
 <para>Copyright (C) 2012-2013 University of Washington, Seattle, WA, USA</para>
 <para>Licensed under the Apache License, Version 2.0 (the &quot;License&quot;); you may not use this file except in compliance with the License. You may obtain a copy of the License at <verbatim>http://www.apache.org/licenses/LICENSE-2.0
-</verbatim></para>
-<para>Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.</para>
+</verbatim> Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.</para>
 <para>In plain english this means:</para>
 <para>You CAN freely download and use this software, in whole or in part, for personal, company internal, or commercial purposes;</para>
 <para>You CAN use the software in packages or distributions that you create.</para>
@@ -414,8 +413,8 @@
 <para>redistribute any piece of this software without proper attribution; </para>
     </detaileddescription>
     <programlisting>
-<codeline lineno="1"></codeline>
-<codeline lineno="42"><highlight class="preprocessor">#ifndef<sp/>rrc_logging_apiH</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>rrc_logging_apiH</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="43"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>rrc_logging_apiH</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="rrc__exporter_8h" kindref="compound">rrc_exporter.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="45"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="rrc__types_8h" kindref="compound">rrc_types.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
@@ -428,7 +427,7 @@
 <codeline lineno="52"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="53"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="54"><highlight class="normal"></highlight></codeline>
-<codeline lineno="58" refid="rrc__logging__api_8h_1a588bd44cc2c96622ce20b8aba702686a" refkind="member"><highlight class="keyword">enum</highlight><highlight class="normal"><sp/><sp/><ref refid="rrc__logging__api_8h_1a588bd44cc2c96622ce20b8aba702686a" kindref="member">CLogLevel</ref></highlight></codeline>
+<codeline lineno="58" refid="rrc__logging__api_8h_1a588bd44cc2c96622ce20b8aba702686a" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/><sp/><ref refid="rrc__logging__api_8h_1a588bd44cc2c96622ce20b8aba702686a" kindref="member">CLogLevel</ref></highlight></codeline>
 <codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
 <codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>CL_PRIO_CURRENT<sp/>=<sp/>0,<sp/></highlight></codeline>
 <codeline lineno="61" refid="rrc__logging__api_8h_1a588bd44cc2c96622ce20b8aba702686aa525ac69677867e7394315ab9e0ca0730" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="rrc__logging__api_8h_1a588bd44cc2c96622ce20b8aba702686aa525ac69677867e7394315ab9e0ca0730" kindref="member">CL_PRIO_FATAL</ref><sp/>=<sp/>1,<sp/><sp/><sp/></highlight></codeline>
@@ -476,6 +475,6 @@
 <codeline lineno="170"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="171"><highlight class="normal"></highlight></codeline>
     </programlisting>
-    <location file="/Users/ciaranwelsh/Documents/roadrunner/wrappers/C/rrc_logging_api.h"/>
+    <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_logging_api.h"/>
   </compounddef>
 </doxygen>

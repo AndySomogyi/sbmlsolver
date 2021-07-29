@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
   <compounddef id="classrr_1_1TestSuiteModelSimulation" kind="class" language="C++" prot="public">
     <compoundname>rr::TestSuiteModelSimulation</compoundname>
     <basecompoundref refid="classrr_1_1SBMLModelSimulation" prot="public" virt="non-virtual">rr::SBMLModelSimulation</basecompoundref>
@@ -399,9 +399,16 @@
       <node id="9">
         <label>rr::RoadRunnerData</label>
         <link refid="classrr_1_1RoadRunnerData"/>
+        <childnode refid="10" relation="usage">
+          <edgelabel>mTheData</edgelabel>
+          <edgelabel>mWeights</edgelabel>
+        </childnode>
         <childnode refid="6" relation="usage">
           <edgelabel>mName</edgelabel>
         </childnode>
+      </node>
+      <node id="10">
+        <label>DoubleMatrix</label>
       </node>
       <node id="5">
         <label>rr::Dictionary</label>

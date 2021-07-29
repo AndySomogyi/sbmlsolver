@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
   <compounddef id="namespacerrllvm" kind="namespace" language="C++">
     <compoundname>rrllvm</compoundname>
     <innerclass refid="classrrllvm_1_1AssignmentRuleEvaluator" prot="public">rrllvm::AssignmentRuleEvaluator</innerclass>
@@ -7,69 +7,69 @@
     <innerclass refid="classrrllvm_1_1ASTNodeCodeGenScalarTicket" prot="public">rrllvm::ASTNodeCodeGenScalarTicket</innerclass>
     <innerclass refid="classrrllvm_1_1ASTNodeFactory" prot="public">rrllvm::ASTNodeFactory</innerclass>
     <innerclass refid="classrrllvm_1_1CodeGen" prot="public">rrllvm::CodeGen</innerclass>
+    <innerclass refid="classrrllvm_1_1LoadSymbolResolver" prot="public">rrllvm::LoadSymbolResolver</innerclass>
+    <innerclass refid="classrrllvm_1_1StoreSymbolResolver" prot="public">rrllvm::StoreSymbolResolver</innerclass>
+    <innerclass refid="classrrllvm_1_1LLVMCodeGenTest" prot="public">rrllvm::LLVMCodeGenTest</innerclass>
     <innerclass refid="classrrllvm_1_1CodeGenBase" prot="public">rrllvm::CodeGenBase</innerclass>
     <innerclass refid="classrrllvm_1_1EvalConversionFactorCodeGen" prot="public">rrllvm::EvalConversionFactorCodeGen</innerclass>
     <innerclass refid="classrrllvm_1_1EvalInitialConditionsCodeGen" prot="public">rrllvm::EvalInitialConditionsCodeGen</innerclass>
     <innerclass refid="classrrllvm_1_1EvalRateRuleRatesCodeGen" prot="public">rrllvm::EvalRateRuleRatesCodeGen</innerclass>
     <innerclass refid="classrrllvm_1_1EvalReactionRatesCodeGen" prot="public">rrllvm::EvalReactionRatesCodeGen</innerclass>
     <innerclass refid="classrrllvm_1_1EvalVolatileStoichCodeGen" prot="public">rrllvm::EvalVolatileStoichCodeGen</innerclass>
-    <innerclass refid="classrrllvm_1_1Event" prot="public">rrllvm::Event</innerclass>
     <innerclass refid="classrrllvm_1_1EventAssignCodeGen" prot="public">rrllvm::EventAssignCodeGen</innerclass>
     <innerclass refid="classrrllvm_1_1EventCodeGenBase" prot="public">rrllvm::EventCodeGenBase</innerclass>
     <innerclass refid="structrrllvm_1_1EventPredicate" prot="public">rrllvm::EventPredicate</innerclass>
+    <innerclass refid="classrrllvm_1_1Event" prot="public">rrllvm::Event</innerclass>
     <innerclass refid="classrrllvm_1_1EventQueue" prot="public">rrllvm::EventQueue</innerclass>
     <innerclass refid="classrrllvm_1_1EventTriggerCodeGen" prot="public">rrllvm::EventTriggerCodeGen</innerclass>
     <innerclass refid="classrrllvm_1_1FunctionResolver" prot="public">rrllvm::FunctionResolver</innerclass>
-    <innerclass refid="classrrllvm_1_1GetBoundarySpeciesAmountCodeGen" prot="public">rrllvm::GetBoundarySpeciesAmountCodeGen</innerclass>
-    <innerclass refid="classrrllvm_1_1GetBoundarySpeciesConcentrationCodeGen" prot="public">rrllvm::GetBoundarySpeciesConcentrationCodeGen</innerclass>
-    <innerclass refid="classrrllvm_1_1GetCompartmentInitVolumeCodeGen" prot="public">rrllvm::GetCompartmentInitVolumeCodeGen</innerclass>
-    <innerclass refid="classrrllvm_1_1GetCompartmentVolumeCodeGen" prot="public">rrllvm::GetCompartmentVolumeCodeGen</innerclass>
-    <innerclass refid="classrrllvm_1_1GetEventDelayCodeGen" prot="public">rrllvm::GetEventDelayCodeGen</innerclass>
-    <innerclass refid="classrrllvm_1_1GetEventPriorityCodeGen" prot="public">rrllvm::GetEventPriorityCodeGen</innerclass>
-    <innerclass refid="classrrllvm_1_1GetEventTriggerCodeGen" prot="public">rrllvm::GetEventTriggerCodeGen</innerclass>
     <innerclass refid="classrrllvm_1_1GetEventValueCodeGenBase" prot="public">rrllvm::GetEventValueCodeGenBase</innerclass>
-    <innerclass refid="classrrllvm_1_1GetFloatingSpeciesAmountCodeGen" prot="public">rrllvm::GetFloatingSpeciesAmountCodeGen</innerclass>
-    <innerclass refid="classrrllvm_1_1GetFloatingSpeciesConcentrationCodeGen" prot="public">rrllvm::GetFloatingSpeciesConcentrationCodeGen</innerclass>
-    <innerclass refid="classrrllvm_1_1GetFloatingSpeciesInitAmountCodeGen" prot="public">rrllvm::GetFloatingSpeciesInitAmountCodeGen</innerclass>
-    <innerclass refid="classrrllvm_1_1GetFloatingSpeciesInitConcentrationCodeGen" prot="public">rrllvm::GetFloatingSpeciesInitConcentrationCodeGen</innerclass>
-    <innerclass refid="classrrllvm_1_1GetGlobalParameterCodeGen" prot="public">rrllvm::GetGlobalParameterCodeGen</innerclass>
-    <innerclass refid="classrrllvm_1_1GetGlobalParameterInitValueCodeGen" prot="public">rrllvm::GetGlobalParameterInitValueCodeGen</innerclass>
+    <innerclass refid="classrrllvm_1_1GetEventTriggerCodeGen" prot="public">rrllvm::GetEventTriggerCodeGen</innerclass>
+    <innerclass refid="classrrllvm_1_1GetEventPriorityCodeGen" prot="public">rrllvm::GetEventPriorityCodeGen</innerclass>
+    <innerclass refid="classrrllvm_1_1GetEventDelayCodeGen" prot="public">rrllvm::GetEventDelayCodeGen</innerclass>
     <innerclass refid="classrrllvm_1_1GetInitialValueCodeGenBase" prot="public">rrllvm::GetInitialValueCodeGenBase</innerclass>
+    <innerclass refid="classrrllvm_1_1GetFloatingSpeciesInitConcentrationCodeGen" prot="public">rrllvm::GetFloatingSpeciesInitConcentrationCodeGen</innerclass>
+    <innerclass refid="classrrllvm_1_1GetFloatingSpeciesInitAmountCodeGen" prot="public">rrllvm::GetFloatingSpeciesInitAmountCodeGen</innerclass>
+    <innerclass refid="classrrllvm_1_1GetCompartmentInitVolumeCodeGen" prot="public">rrllvm::GetCompartmentInitVolumeCodeGen</innerclass>
+    <innerclass refid="classrrllvm_1_1GetGlobalParameterInitValueCodeGen" prot="public">rrllvm::GetGlobalParameterInitValueCodeGen</innerclass>
     <innerclass refid="classrrllvm_1_1GetValueCodeGenBase" prot="public">rrllvm::GetValueCodeGenBase</innerclass>
+    <innerclass refid="classrrllvm_1_1GetBoundarySpeciesAmountCodeGen" prot="public">rrllvm::GetBoundarySpeciesAmountCodeGen</innerclass>
+    <innerclass refid="classrrllvm_1_1GetFloatingSpeciesAmountCodeGen" prot="public">rrllvm::GetFloatingSpeciesAmountCodeGen</innerclass>
+    <innerclass refid="classrrllvm_1_1GetBoundarySpeciesConcentrationCodeGen" prot="public">rrllvm::GetBoundarySpeciesConcentrationCodeGen</innerclass>
+    <innerclass refid="classrrllvm_1_1GetFloatingSpeciesConcentrationCodeGen" prot="public">rrllvm::GetFloatingSpeciesConcentrationCodeGen</innerclass>
+    <innerclass refid="classrrllvm_1_1GetCompartmentVolumeCodeGen" prot="public">rrllvm::GetCompartmentVolumeCodeGen</innerclass>
+    <innerclass refid="classrrllvm_1_1GetGlobalParameterCodeGen" prot="public">rrllvm::GetGlobalParameterCodeGen</innerclass>
     <innerclass refid="classrrllvm_1_1KineticLawParameterResolver" prot="public">rrllvm::KineticLawParameterResolver</innerclass>
-    <innerclass refid="classrrllvm_1_1LLVMCodeGenTest" prot="public">rrllvm::LLVMCodeGenTest</innerclass>
     <innerclass refid="classrrllvm_1_1LLVMCompiler" prot="public">rrllvm::LLVMCompiler</innerclass>
     <innerclass refid="classrrllvm_1_1LLVMException" prot="public">rrllvm::LLVMException</innerclass>
     <innerclass refid="classrrllvm_1_1LLVMExecutableModel" prot="public">rrllvm::LLVMExecutableModel</innerclass>
     <innerclass refid="structrrllvm_1_1LLVMModelData" prot="public">rrllvm::LLVMModelData</innerclass>
-    <innerclass refid="classrrllvm_1_1LLVMModelDataIRBuilderTesting" prot="public">rrllvm::LLVMModelDataIRBuilderTesting</innerclass>
     <innerclass refid="classrrllvm_1_1LLVMModelDataSymbols" prot="public">rrllvm::LLVMModelDataSymbols</innerclass>
     <innerclass refid="classrrllvm_1_1LLVMModelGenerator" prot="public">rrllvm::LLVMModelGenerator</innerclass>
     <innerclass refid="classrrllvm_1_1LLVMModelSymbols" prot="public">rrllvm::LLVMModelSymbols</innerclass>
-    <innerclass refid="classrrllvm_1_1LoadSymbolResolver" prot="public">rrllvm::LoadSymbolResolver</innerclass>
     <innerclass refid="classrrllvm_1_1LoadSymbolResolverBase" prot="public">rrllvm::LoadSymbolResolverBase</innerclass>
     <innerclass refid="classrrllvm_1_1ModelDataIRBuilder" prot="public">rrllvm::ModelDataIRBuilder</innerclass>
+    <innerclass refid="classrrllvm_1_1LLVMModelDataIRBuilderTesting" prot="public">rrllvm::LLVMModelDataIRBuilderTesting</innerclass>
     <innerclass refid="classrrllvm_1_1ModelDataLoadSymbolResolver" prot="public">rrllvm::ModelDataLoadSymbolResolver</innerclass>
     <innerclass refid="classrrllvm_1_1ModelDataStoreSymbolResolver" prot="public">rrllvm::ModelDataStoreSymbolResolver</innerclass>
     <innerclass refid="classrrllvm_1_1ModelGeneratorContext" prot="public">rrllvm::ModelGeneratorContext</innerclass>
-    <innerclass refid="classrrllvm_1_1ModelInitialValueStoreSymbolResolver" prot="public">rrllvm::ModelInitialValueStoreSymbolResolver</innerclass>
     <innerclass refid="classrrllvm_1_1ModelInitialValueSymbolResolver" prot="public">rrllvm::ModelInitialValueSymbolResolver</innerclass>
+    <innerclass refid="classrrllvm_1_1ModelInitialValueStoreSymbolResolver" prot="public">rrllvm::ModelInitialValueStoreSymbolResolver</innerclass>
     <innerclass refid="classrrllvm_1_1ModelResources" prot="public">rrllvm::ModelResources</innerclass>
     <innerclass refid="classrrllvm_1_1Random" prot="public">rrllvm::Random</innerclass>
     <innerclass refid="classrrllvm_1_1SBMLInitialValueSymbolResolver" prot="public">rrllvm::SBMLInitialValueSymbolResolver</innerclass>
-    <innerclass refid="classrrllvm_1_1SetBoundarySpeciesAmountCodeGen" prot="public">rrllvm::SetBoundarySpeciesAmountCodeGen</innerclass>
-    <innerclass refid="classrrllvm_1_1SetBoundarySpeciesConcentrationCodeGen" prot="public">rrllvm::SetBoundarySpeciesConcentrationCodeGen</innerclass>
-    <innerclass refid="classrrllvm_1_1SetCompartmentInitVolumeCodeGen" prot="public">rrllvm::SetCompartmentInitVolumeCodeGen</innerclass>
-    <innerclass refid="classrrllvm_1_1SetCompartmentVolumeCodeGen" prot="public">rrllvm::SetCompartmentVolumeCodeGen</innerclass>
-    <innerclass refid="classrrllvm_1_1SetFloatingSpeciesAmountCodeGen" prot="public">rrllvm::SetFloatingSpeciesAmountCodeGen</innerclass>
-    <innerclass refid="classrrllvm_1_1SetFloatingSpeciesConcentrationCodeGen" prot="public">rrllvm::SetFloatingSpeciesConcentrationCodeGen</innerclass>
-    <innerclass refid="classrrllvm_1_1SetFloatingSpeciesInitAmountCodeGen" prot="public">rrllvm::SetFloatingSpeciesInitAmountCodeGen</innerclass>
-    <innerclass refid="classrrllvm_1_1SetFloatingSpeciesInitConcentrationCodeGen" prot="public">rrllvm::SetFloatingSpeciesInitConcentrationCodeGen</innerclass>
-    <innerclass refid="classrrllvm_1_1SetGlobalParameterCodeGen" prot="public">rrllvm::SetGlobalParameterCodeGen</innerclass>
-    <innerclass refid="classrrllvm_1_1SetGlobalParameterInitValueCodeGen" prot="public">rrllvm::SetGlobalParameterInitValueCodeGen</innerclass>
     <innerclass refid="classrrllvm_1_1SetInitialValueCodeGenBase" prot="public">rrllvm::SetInitialValueCodeGenBase</innerclass>
+    <innerclass refid="classrrllvm_1_1SetFloatingSpeciesInitConcentrationCodeGen" prot="public">rrllvm::SetFloatingSpeciesInitConcentrationCodeGen</innerclass>
+    <innerclass refid="classrrllvm_1_1SetFloatingSpeciesInitAmountCodeGen" prot="public">rrllvm::SetFloatingSpeciesInitAmountCodeGen</innerclass>
+    <innerclass refid="classrrllvm_1_1SetCompartmentInitVolumeCodeGen" prot="public">rrllvm::SetCompartmentInitVolumeCodeGen</innerclass>
+    <innerclass refid="classrrllvm_1_1SetGlobalParameterInitValueCodeGen" prot="public">rrllvm::SetGlobalParameterInitValueCodeGen</innerclass>
     <innerclass refid="classrrllvm_1_1SetValueCodeGenBase" prot="public">rrllvm::SetValueCodeGenBase</innerclass>
-    <innerclass refid="classrrllvm_1_1StoreSymbolResolver" prot="public">rrllvm::StoreSymbolResolver</innerclass>
+    <innerclass refid="classrrllvm_1_1SetBoundarySpeciesAmountCodeGen" prot="public">rrllvm::SetBoundarySpeciesAmountCodeGen</innerclass>
+    <innerclass refid="classrrllvm_1_1SetFloatingSpeciesAmountCodeGen" prot="public">rrllvm::SetFloatingSpeciesAmountCodeGen</innerclass>
+    <innerclass refid="classrrllvm_1_1SetBoundarySpeciesConcentrationCodeGen" prot="public">rrllvm::SetBoundarySpeciesConcentrationCodeGen</innerclass>
+    <innerclass refid="classrrllvm_1_1SetFloatingSpeciesConcentrationCodeGen" prot="public">rrllvm::SetFloatingSpeciesConcentrationCodeGen</innerclass>
+    <innerclass refid="classrrllvm_1_1SetCompartmentVolumeCodeGen" prot="public">rrllvm::SetCompartmentVolumeCodeGen</innerclass>
+    <innerclass refid="classrrllvm_1_1SetGlobalParameterCodeGen" prot="public">rrllvm::SetGlobalParameterCodeGen</innerclass>
     <innerclass refid="classrrllvm_1_1SymbolForest" prot="public">rrllvm::SymbolForest</innerclass>
       <sectiondef kind="enum">
       <memberdef kind="enum" id="LLVMModelDataSymbols_8h_1a318154bee3361ded939b3fcf368adab8" prot="public" static="no" strong="no">

@@ -1,27 +1,7 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
   <compounddef id="rrConfigure_8h" kind="file" language="C++">
     <compoundname>rrConfigure.h</compoundname>
-    <includedby refid="IntegratorRegistration_8cpp" local="yes">IntegratorRegistration.cpp</includedby>
-    <includedby refid="SolverRegistration_8cpp" local="yes">SolverRegistration.cpp</includedby>
-    <invincdepgraph>
-      <node id="3">
-        <label>SolverRegistration.cpp</label>
-        <link refid="SolverRegistration_8cpp"/>
-      </node>
-      <node id="2">
-        <label>IntegratorRegistration.cpp</label>
-        <link refid="IntegratorRegistration_8cpp"/>
-      </node>
-      <node id="1">
-        <label>rrConfigure.h</label>
-        <link refid="rrConfigure_8h"/>
-        <childnode refid="2" relation="include">
-        </childnode>
-        <childnode refid="3" relation="include">
-        </childnode>
-      </node>
-    </invincdepgraph>
       <sectiondef kind="define">
       <memberdef kind="define" id="rrConfigure_8h_1ab04eaa50dd96293f7a61ac6cac1f1ab2" prot="public" static="no">
         <name>RR_STRING_QUOTE</name>
@@ -96,7 +76,7 @@
 <codeline lineno="11"><highlight class="normal"></highlight></codeline>
 <codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>RR_USE_CXX11<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="13"><highlight class="normal"></highlight></codeline>
-<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/>//#ifndef<sp/>__RR_ROADRUNNER_CONFIGURE_HEADER__</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">//#ifndef<sp/>__RR_ROADRUNNER_CONFIGURE_HEADER__</highlight><highlight class="normal"></highlight></codeline>
     </programlisting>
     <location file="rrConfigure.h"/>
   </compounddef>

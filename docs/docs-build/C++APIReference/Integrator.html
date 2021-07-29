@@ -92,6 +92,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../index.html">RoadRunner Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Installation/installation.html">Installing RoadRunner</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Examples/examples_index.html">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../read_write_functions.html">SBML Read/Write Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../selecting_values.html">Selecting Values</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../steady_state.html">Steady State Analysis</a></li>
@@ -306,8 +307,9 @@
 <dt class="sig sig-object cpp" id="_CPPv4N2rr10Integrator15tweakTolerancesEv">
 <span id="_CPPv3N2rr10Integrator15tweakTolerancesEv"></span><span id="_CPPv2N2rr10Integrator15tweakTolerancesEv"></span><span id="rr::Integrator::tweakTolerances"></span><span class="target" id="classrr_1_1Integrator_1a51c07785d8af1eb648878347529b2eb4"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">tweakTolerances</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr10Integrator15tweakTolerancesEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Fix tolerances for SBML tests. </p>
-<p><dl class="simple">
-<dt><strong>Author</strong></dt><dd><p>JKM, WBC, ETS, MTK  In order to ensure that the results of the SBML test suite remain valid, this method enforces a lower bound on tolerance values. Sets minimum absolute and relative tolerances to <a class="reference internal" href="rrConfig.html#classrr_1_1Config_1aed7c550b9e34222675cd152c9154d053a0c3075c04786354a026c56410edb47be"><span class="std std-ref">Config::CVODE_MIN_ABSOLUTE</span></a> and <a class="reference internal" href="rrConfig.html#classrr_1_1Config_1aed7c550b9e34222675cd152c9154d053a4fba6c43b4d137bab9f42ee9c4cb1e6b"><span class="std std-ref">Config::CVODE_MIN_RELATIVE</span></a> resp. </p>
+<p>
+In order to ensure that the results of the SBML test suite remain valid, this method enforces a lower bound on tolerance values. Sets minimum absolute and relative tolerances to <a class="reference internal" href="rrConfig.html#classrr_1_1Config_1aed7c550b9e34222675cd152c9154d053a0c3075c04786354a026c56410edb47be"><span class="std std-ref">Config::CVODE_MIN_ABSOLUTE</span></a> and <a class="reference internal" href="rrConfig.html#classrr_1_1Config_1aed7c550b9e34222675cd152c9154d053a4fba6c43b4d137bab9f42ee9c4cb1e6b"><span class="std std-ref">Config::CVODE_MIN_RELATIVE</span></a> resp. <dl class="simple">
+<dt><strong>Author</strong></dt><dd><p>JKM, WBC, ETS, MTK</p>
 </dd>
 </dl>
 </p>
@@ -377,6 +379,16 @@
 </dl>
 </p>
 </dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr10Integrator6SolverEv">
+<span id="_CPPv3N2rr10Integrator6SolverEv"></span><span id="_CPPv2N2rr10Integrator6SolverEv"></span><span id="rr::Integrator::Solver"></span><span class="target" id="classrr_1_1Integrator_1a04bba4a342cc7197750f080d41d439e5"></span><span class="sig-name descname"><span class="n"><span class="pre">Solver</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">default</span></span><a class="headerlink" href="#_CPPv4N2rr10Integrator6SolverEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2rr10Integrator6SolverEP15ExecutableModel">
+<span id="_CPPv3N2rr10Integrator6SolverEP15ExecutableModel"></span><span id="_CPPv2N2rr10Integrator6SolverEP15ExecutableModel"></span><span id="rr::Integrator::Solver__ExecutableModelP"></span><span class="target" id="classrr_1_1Integrator_1aa0a07553e368f0be33b9bfc429782a97"></span><span class="k"><span class="pre">explicit</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Solver</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="rrExecutableModel.html#_CPPv4N2rr15ExecutableModelE" title="rr::ExecutableModel"><span class="n"><span class="pre">ExecutableModel</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">model</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr10Integrator6SolverEP15ExecutableModel" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N2rr10Integrator8setValueERKNSt6stringE7Setting">

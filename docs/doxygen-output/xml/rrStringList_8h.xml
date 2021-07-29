@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
   <compounddef id="rrStringList_8h" kind="file" language="C++">
     <compoundname>rrStringList.h</compoundname>
     <includes local="no">vector</includes>
@@ -10,21 +10,23 @@
     <includedby refid="rrStringList_8cpp" local="yes">c/rrStringList.cpp</includedby>
     <includedby refid="rrStringListContainer_8h" local="yes">c/rrStringListContainer.h</includedby>
     <incdepgraph>
+      <node id="4">
+        <label>rrConstants.h</label>
+        <link refid="rrConstants_8h_source"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
       <node id="5">
         <label>limits</label>
       </node>
       <node id="8">
         <label>../wrappers/C/rrc_types.h</label>
-      </node>
-      <node id="3">
-        <label>string</label>
-      </node>
-      <node id="7">
-        <label>rrExporter.h</label>
-        <link refid="rrExporter_8h_source"/>
-      </node>
-      <node id="2">
-        <label>vector</label>
       </node>
       <node id="1">
         <label>c/rrStringList.h</label>
@@ -38,27 +40,27 @@
         <childnode refid="8" relation="include">
         </childnode>
       </node>
+      <node id="7">
+        <label>rrExporter.h</label>
+        <link refid="rrExporter_8h_source"/>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="2">
+        <label>vector</label>
+      </node>
       <node id="6">
         <label>cstdlib</label>
       </node>
-      <node id="4">
-        <label>rrConstants.h</label>
-        <link refid="rrConstants_8h_source"/>
-        <childnode refid="5" relation="include">
-        </childnode>
-        <childnode refid="3" relation="include">
-        </childnode>
-        <childnode refid="6" relation="include">
-        </childnode>
-        <childnode refid="7" relation="include">
-        </childnode>
-      </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="8">
-        <label>c/rrModelSymbols.h</label>
-        <link refid="rrModelSymbols_8h_source"/>
-        <childnode refid="7" relation="include">
+      <node id="1">
+        <label>c/rrStringList.h</label>
+        <link refid="rrStringList_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
         </childnode>
       </node>
       <node id="7">
@@ -73,28 +75,20 @@
         <childnode refid="3" relation="include">
         </childnode>
       </node>
-      <node id="3">
-        <label>c/rrCModelGenerator.h</label>
-        <link refid="rrCModelGenerator_8h_source"/>
-        <childnode refid="4" relation="include">
-        </childnode>
-      </node>
-      <node id="1">
-        <label>c/rrStringList.h</label>
-        <link refid="rrStringList_8h"/>
-        <childnode refid="2" relation="include">
-        </childnode>
-        <childnode refid="5" relation="include">
+      <node id="5">
+        <label>c/rrStringListContainer.h</label>
+        <link refid="rrStringListContainer_8h_source"/>
+        <childnode refid="6" relation="include">
         </childnode>
       </node>
       <node id="4">
         <label>c/rrCompiledExecutableModel.h</label>
         <link refid="rrCompiledExecutableModel_8h_source"/>
       </node>
-      <node id="5">
-        <label>c/rrStringListContainer.h</label>
-        <link refid="rrStringListContainer_8h_source"/>
-        <childnode refid="6" relation="include">
+      <node id="8">
+        <label>c/rrModelSymbols.h</label>
+        <link refid="rrModelSymbols_8h_source"/>
+        <childnode refid="7" relation="include">
         </childnode>
       </node>
       <node id="6">
@@ -105,6 +99,12 @@
         <childnode refid="7" relation="include">
         </childnode>
         <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>c/rrCModelGenerator.h</label>
+        <link refid="rrCModelGenerator_8h_source"/>
+        <childnode refid="4" relation="include">
         </childnode>
       </node>
     </invincdepgraph>
@@ -128,7 +128,7 @@
 <codeline lineno="11"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>std::string;</highlight></codeline>
 <codeline lineno="12"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>std::ostream;</highlight></codeline>
 <codeline lineno="13"><highlight class="normal"></highlight></codeline>
-<codeline lineno="18" refid="classrr_1_1StringList" refkind="compound"><highlight class="keyword">class<sp/></highlight><highlight class="normal">RR_DECLSPEC<sp/><ref refid="classrr_1_1StringList" kindref="compound">StringList</ref></highlight></codeline>
+<codeline lineno="18" refid="classrr_1_1StringList" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">RR_DECLSPEC<sp/><ref refid="classrr_1_1StringList" kindref="compound">StringList</ref></highlight></codeline>
 <codeline lineno="19"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
 <codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mStrings;</highlight></codeline>

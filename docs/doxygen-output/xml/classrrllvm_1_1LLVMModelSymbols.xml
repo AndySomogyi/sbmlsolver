@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
   <compounddef id="classrrllvm_1_1LLVMModelSymbols" kind="class" language="C++" prot="public">
     <compoundname>rrllvm::LLVMModelSymbols</compoundname>
-    <basecompoundref prot="private" virt="non-virtual">SBMLVisitor</basecompoundref>
+    <basecompoundref prot="private" virt="non-virtual">libsbml::SBMLVisitor</basecompoundref>
     <includes refid="LLVMModelSymbols_8h" local="no">LLVMModelSymbols.h</includes>
     <innerclass refid="structrrllvm_1_1LLVMModelSymbols_1_1ReactionSymbols" prot="protected">rrllvm::LLVMModelSymbols::ReactionSymbols</innerclass>
       <sectiondef kind="protected-type">

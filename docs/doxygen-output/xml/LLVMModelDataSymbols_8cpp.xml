@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
   <compounddef id="LLVMModelDataSymbols_8cpp" kind="file" language="C++">
     <compoundname>LLVMModelDataSymbols.cpp</compoundname>
     <includes refid="LLVMModelDataSymbols_8h" local="yes">LLVMModelDataSymbols.h</includes>
@@ -22,252 +22,20 @@
       <node id="16">
         <label>list</label>
       </node>
-      <node id="3">
-        <label>LLVMModelData.h</label>
-        <link refid="LLVMModelData_8h_source"/>
-        <childnode refid="4" relation="include">
-        </childnode>
-        <childnode refid="9" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
-      </node>
-      <node id="10">
-        <label>rrExecutableModel.h</label>
-        <link refid="rrExecutableModel_8h"/>
-        <childnode refid="5" relation="include">
-        </childnode>
-        <childnode refid="11" relation="include">
-        </childnode>
-        <childnode refid="14" relation="include">
-        </childnode>
-        <childnode refid="15" relation="include">
-        </childnode>
-        <childnode refid="9" relation="include">
-        </childnode>
-        <childnode refid="7" relation="include">
-        </childnode>
-        <childnode refid="16" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
-        <childnode refid="17" relation="include">
-        </childnode>
-      </node>
       <node id="35">
         <label>functional</label>
       </node>
-      <node id="30">
-        <label>limits</label>
-      </node>
-      <node id="14">
-        <label>sbml/SBMLDocument.h</label>
-      </node>
-      <node id="38">
-        <label>conservation/ConservationExtension.h</label>
-      </node>
-      <node id="41">
-        <label>Integrator.h</label>
-        <link refid="Integrator_8h"/>
-        <childnode refid="24" relation="include">
-        </childnode>
-        <childnode refid="5" relation="include">
-        </childnode>
-        <childnode refid="40" relation="include">
-        </childnode>
-        <childnode refid="11" relation="include">
-        </childnode>
-        <childnode refid="42" relation="include">
-        </childnode>
-        <childnode refid="17" relation="include">
-        </childnode>
-        <childnode refid="18" relation="include">
-        </childnode>
-        <childnode refid="23" relation="include">
-        </childnode>
-      </node>
-      <node id="15">
-        <label>stdint.h</label>
-      </node>
-      <node id="13">
-        <label>variant</label>
-      </node>
-      <node id="40">
-        <label>Dictionary.h</label>
-        <link refid="Dictionary_8h_source"/>
-        <childnode refid="32" relation="include">
+      <node id="29">
+        <label>rrConstants.h</label>
+        <link refid="rrConstants_8h_source"/>
+        <childnode refid="30" relation="include">
         </childnode>
         <childnode refid="9" relation="include">
         </childnode>
-        <childnode refid="7" relation="include">
-        </childnode>
-        <childnode refid="28" relation="include">
+        <childnode refid="31" relation="include">
         </childnode>
         <childnode refid="6" relation="include">
         </childnode>
-      </node>
-      <node id="5">
-        <label>rrOSSpecifics.h</label>
-        <link refid="rrOSSpecifics_8h_source"/>
-        <childnode refid="6" relation="include">
-        </childnode>
-      </node>
-      <node id="23">
-        <label>stdexcept</label>
-      </node>
-      <node id="4">
-        <label>rrSparse.h</label>
-        <link refid="rrSparse_8h_source"/>
-        <childnode refid="5" relation="include">
-        </childnode>
-        <childnode refid="7" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
-      </node>
-      <node id="9">
-        <label>string</label>
-      </node>
-      <node id="6">
-        <label>rrExporter.h</label>
-        <link refid="rrExporter_8h_source"/>
-      </node>
-      <node id="18">
-        <label>tr1proxy/rr_unordered_map.h</label>
-      </node>
-      <node id="2">
-        <label>LLVMModelDataSymbols.h</label>
-        <link refid="LLVMModelDataSymbols_8h_source"/>
-        <childnode refid="3" relation="include">
-        </childnode>
-        <childnode refid="10" relation="include">
-        </childnode>
-        <childnode refid="17" relation="include">
-        </childnode>
-        <childnode refid="18" relation="include">
-        </childnode>
-        <childnode refid="19" relation="include">
-        </childnode>
-        <childnode refid="20" relation="include">
-        </childnode>
-        <childnode refid="16" relation="include">
-        </childnode>
-      </node>
-      <node id="24">
-        <label>rrLogger.h</label>
-        <link refid="rrLogger_8h_source"/>
-        <childnode refid="25" relation="include">
-        </childnode>
-        <childnode refid="6" relation="include">
-        </childnode>
-      </node>
-      <node id="19">
-        <label>map</label>
-      </node>
-      <node id="37">
-        <label>setting_t.h</label>
-        <link refid="setting__t_8h_source"/>
-      </node>
-      <node id="44">
-        <label>sbml/Model.h</label>
-      </node>
-      <node id="12">
-        <label>exception</label>
-      </node>
-      <node id="8">
-        <label>ostream</label>
-      </node>
-      <node id="42">
-        <label>Solver.h</label>
-        <link refid="Solver_8h"/>
-        <childnode refid="24" relation="include">
-        </childnode>
-        <childnode refid="5" relation="include">
-        </childnode>
-        <childnode refid="40" relation="include">
-        </childnode>
-        <childnode refid="11" relation="include">
-        </childnode>
-        <childnode refid="17" relation="include">
-        </childnode>
-        <childnode refid="18" relation="include">
-        </childnode>
-        <childnode refid="23" relation="include">
-        </childnode>
-      </node>
-      <node id="26">
-        <label>rrStringUtils.h</label>
-        <link refid="rrStringUtils_8h_source"/>
-        <childnode refid="9" relation="include">
-        </childnode>
-        <childnode refid="16" relation="include">
-        </childnode>
-        <childnode refid="7" relation="include">
-        </childnode>
-        <childnode refid="27" relation="include">
-        </childnode>
-        <childnode refid="19" relation="include">
-        </childnode>
-        <childnode refid="28" relation="include">
-        </childnode>
-        <childnode refid="20" relation="include">
-        </childnode>
-        <childnode refid="29" relation="include">
-        </childnode>
-        <childnode refid="6" relation="include">
-        </childnode>
-        <childnode refid="32" relation="include">
-        </childnode>
-      </node>
-      <node id="36">
-        <label>typeinfo</label>
-      </node>
-      <node id="21">
-        <label>rr-libstruct/lsLibStructural.h</label>
-      </node>
-      <node id="7">
-        <label>vector</label>
-      </node>
-      <node id="11">
-        <label>rrException.h</label>
-        <link refid="rrException_8h_source"/>
-        <childnode refid="12" relation="include">
-        </childnode>
-        <childnode refid="9" relation="include">
-        </childnode>
-        <childnode refid="13" relation="include">
-        </childnode>
-        <childnode refid="6" relation="include">
-        </childnode>
-      </node>
-      <node id="25">
-        <label>sstream</label>
-      </node>
-      <node id="39">
-        <label>rrRoadRunnerOptions.h</label>
-        <link refid="rrRoadRunnerOptions_8h_source"/>
-        <childnode refid="6" relation="include">
-        </childnode>
-        <childnode refid="40" relation="include">
-        </childnode>
-        <childnode refid="41" relation="include">
-        </childnode>
-        <childnode refid="9" relation="include">
-        </childnode>
-        <childnode refid="7" relation="include">
-        </childnode>
-      </node>
-      <node id="31">
-        <label>cstdlib</label>
-      </node>
-      <node id="33">
-        <label>iostream</label>
-      </node>
-      <node id="28">
-        <label>unordered_map</label>
-      </node>
-      <node id="43">
-        <label>Poco/LogStream.h</label>
       </node>
       <node id="32">
         <label>Setting.h</label>
@@ -293,39 +61,127 @@
         <childnode refid="11" relation="include">
         </childnode>
       </node>
-      <node id="17">
-        <label>tr1proxy/rr_memory.h</label>
+      <node id="30">
+        <label>limits</label>
       </node>
-      <node id="22">
-        <label>LLVMException.h</label>
-        <link refid="LLVMException_8h_source"/>
-        <childnode refid="23" relation="include">
-        </childnode>
+      <node id="14">
+        <label>sbml/SBMLDocument.h</label>
+      </node>
+      <node id="38">
+        <label>conservation/ConservationExtension.h</label>
+      </node>
+      <node id="6">
+        <label>rrExporter.h</label>
+        <link refid="rrExporter_8h_source"/>
+      </node>
+      <node id="15">
+        <label>stdint.h</label>
+      </node>
+      <node id="13">
+        <label>variant</label>
+      </node>
+      <node id="41">
+        <label>Integrator.h</label>
+        <link refid="Integrator_8h"/>
         <childnode refid="24" relation="include">
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="42" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="43" relation="include">
+        </childnode>
+        <childnode refid="44" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
       </node>
-      <node id="29">
-        <label>rrConstants.h</label>
-        <link refid="rrConstants_8h_source"/>
-        <childnode refid="30" relation="include">
+      <node id="42">
+        <label>Solver.h</label>
+        <link refid="Solver_8h"/>
+        <childnode refid="24" relation="include">
         </childnode>
-        <childnode refid="9" relation="include">
+        <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="31" relation="include">
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="43" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>stdexcept</label>
+      </node>
+      <node id="24">
+        <label>rrLogger.h</label>
+        <link refid="rrLogger_8h_source"/>
+        <childnode refid="25" relation="include">
         </childnode>
         <childnode refid="6" relation="include">
         </childnode>
       </node>
-      <node id="34">
-        <label>type_traits</label>
+      <node id="9">
+        <label>string</label>
       </node>
-      <node id="20">
-        <label>set</label>
+      <node id="18">
+        <label>tr1proxy/rr_unordered_map.h</label>
       </node>
-      <node id="27">
-        <label>complex</label>
+      <node id="19">
+        <label>map</label>
+      </node>
+      <node id="2">
+        <label>LLVMModelDataSymbols.h</label>
+        <link refid="LLVMModelDataSymbols_8h_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="47">
+        <label>sbml/Model.h</label>
+      </node>
+      <node id="12">
+        <label>exception</label>
+      </node>
+      <node id="8">
+        <label>ostream</label>
+      </node>
+      <node id="11">
+        <label>rrException.h</label>
+        <link refid="rrException_8h_source"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
       </node>
       <node id="1">
         <label>llvm/LLVMModelDataSymbols.cpp</label>
@@ -346,9 +202,9 @@
         </childnode>
         <childnode refid="39" relation="include">
         </childnode>
-        <childnode refid="43" relation="include">
+        <childnode refid="46" relation="include">
         </childnode>
-        <childnode refid="44" relation="include">
+        <childnode refid="47" relation="include">
         </childnode>
         <childnode refid="14" relation="include">
         </childnode>
@@ -361,6 +217,183 @@
         <childnode refid="17" relation="include">
         </childnode>
         <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="36">
+        <label>typeinfo</label>
+      </node>
+      <node id="3">
+        <label>LLVMModelData.h</label>
+        <link refid="LLVMModelData_8h_source"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="39">
+        <label>rrRoadRunnerOptions.h</label>
+        <link refid="rrRoadRunnerOptions_8h_source"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="41" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>rr-libstruct/lsLibStructural.h</label>
+      </node>
+      <node id="37">
+        <label>setting_t.h</label>
+        <link refid="setting__t_8h_source"/>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+      <node id="25">
+        <label>sstream</label>
+      </node>
+      <node id="43">
+        <label>Registrable.h</label>
+        <link refid="Registrable_8h_source"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="31">
+        <label>cstdlib</label>
+      </node>
+      <node id="33">
+        <label>iostream</label>
+      </node>
+      <node id="26">
+        <label>rrStringUtils.h</label>
+        <link refid="rrStringUtils_8h_source"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+      </node>
+      <node id="28">
+        <label>unordered_map</label>
+      </node>
+      <node id="46">
+        <label>Poco/LogStream.h</label>
+      </node>
+      <node id="10">
+        <label>rrExecutableModel.h</label>
+        <link refid="rrExecutableModel_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>tr1proxy/rr_memory.h</label>
+      </node>
+      <node id="45">
+        <label>mutex</label>
+      </node>
+      <node id="44">
+        <label>RegistrationFactory.h</label>
+        <link refid="RegistrationFactory_8h_source"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="45" relation="include">
+        </childnode>
+        <childnode refid="43" relation="include">
+        </childnode>
+        <childnode refid="42" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>LLVMException.h</label>
+        <link refid="LLVMException_8h_source"/>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="34">
+        <label>type_traits</label>
+      </node>
+      <node id="20">
+        <label>set</label>
+      </node>
+      <node id="27">
+        <label>complex</label>
+      </node>
+      <node id="40">
+        <label>Dictionary.h</label>
+        <link refid="Dictionary_8h_source"/>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>rrSparse.h</label>
+        <link refid="rrSparse_8h_source"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>rrOSSpecifics.h</label>
+        <link refid="rrOSSpecifics_8h_source"/>
+        <childnode refid="6" relation="include">
         </childnode>
       </node>
     </incdepgraph>
@@ -610,7 +643,7 @@
 <codeline lineno="204"><highlight class="normal"></highlight></codeline>
 <codeline lineno="205"><highlight class="normal">LLVMModelDataSymbols::LLVMModelDataSymbols(std::istream&amp;<sp/>in)</highlight></codeline>
 <codeline lineno="206"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>this-&gt;loadState(in);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>this-&gt;<ref refid="group__loadsave_1ga7617e5077d82655849795bb019d7ff46" kindref="member">loadState</ref>(in);</highlight></codeline>
 <codeline lineno="208"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="209"><highlight class="normal"></highlight></codeline>
 <codeline lineno="210"><highlight class="normal"></highlight></codeline>
@@ -619,12 +652,12 @@
 <codeline lineno="213"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="214"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="215"><highlight class="normal"></highlight></codeline>
-<codeline lineno="216"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>LLVMModelDataSymbols::getModelName()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="group__NOM_1gadd064802065aece47c2e966f9fff5958" kindref="member">LLVMModelDataSymbols::getModelName</ref>()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
 <codeline lineno="217"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
 <codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>modelName;</highlight></codeline>
 <codeline lineno="219"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="220"><highlight class="normal"></highlight></codeline>
-<codeline lineno="221"><highlight class="normal"><ref refid="classrrllvm_1_1LLVMModelDataSymbols_1a9f08fb79670d8c19151880a628a63ced" kindref="member">LLVMModelDataSymbols::SymbolIndexType</ref><sp/><ref refid="classrrllvm_1_1LLVMModelDataSymbols_1a2e17c59cadacce94bb68f93bcb7431bb" kindref="member">LLVMModelDataSymbols::getSymbolIndex</ref>(</highlight></codeline>
+<codeline lineno="221"><highlight class="normal">LLVMModelDataSymbols::SymbolIndexType<sp/>LLVMModelDataSymbols::getSymbolIndex(</highlight></codeline>
 <codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">&amp;<sp/>result)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
 <codeline lineno="223"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
 <codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>StringUIntMap::const_iterator<sp/>i;</highlight></codeline>
@@ -675,7 +708,7 @@
 <codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>-1;</highlight></codeline>
 <codeline lineno="270"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="271"><highlight class="normal"></highlight></codeline>
-<codeline lineno="272"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classrrllvm_1_1LLVMModelDataSymbols_1a4686047d567ae2d05491afc81514c4e1" kindref="member">LLVMModelDataSymbols::getFloatingSpeciesIndex</ref>(</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>LLVMModelDataSymbols::getFloatingSpeciesIndex(</highlight></codeline>
 <codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>requireIndependent)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
 <codeline lineno="274"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
 <codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>StringUIntMap::const_iterator<sp/>i<sp/>=<sp/>floatingSpeciesMap.find(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
@@ -706,7 +739,7 @@
 <codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>boundarySpeciesMap.size();</highlight></codeline>
 <codeline lineno="301"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="302"><highlight class="normal"></highlight></codeline>
-<codeline lineno="303"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classrrllvm_1_1LLVMModelDataSymbols_1a76465828770aec3ce22b2de0e7e569f2" kindref="member">LLVMModelDataSymbols::getGlobalParameterIndex</ref>(</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>LLVMModelDataSymbols::getGlobalParameterIndex(</highlight></codeline>
 <codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
 <codeline lineno="305"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
 <codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/>StringUIntMap::const_iterator<sp/>i<sp/>=<sp/>globalParametersMap.find(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
@@ -758,22 +791,22 @@
 <codeline lineno="352"><highlight class="comment">*/</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="353"><highlight class="normal"></highlight></codeline>
 <codeline lineno="354"><highlight class="normal"></highlight></codeline>
-<codeline lineno="355"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint&gt;&amp;<sp/><ref refid="classrrllvm_1_1LLVMModelDataSymbols_1a32e0b4d1aa32145bc261775d323e67b0" kindref="member">LLVMModelDataSymbols::getStoichRowIndx</ref>()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint&gt;&amp;<sp/>LLVMModelDataSymbols::getStoichRowIndx()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
 <codeline lineno="356"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
 <codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>stoichRowIndx;</highlight></codeline>
 <codeline lineno="358"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="359"><highlight class="normal"></highlight></codeline>
-<codeline lineno="360"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint&gt;&amp;<sp/><ref refid="classrrllvm_1_1LLVMModelDataSymbols_1a2c749029ee8a4a5f3dcfa3e49ee54824" kindref="member">LLVMModelDataSymbols::getStoichColIndx</ref>()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint&gt;&amp;<sp/>LLVMModelDataSymbols::getStoichColIndx()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
 <codeline lineno="361"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
 <codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>stoichColIndx;</highlight></codeline>
 <codeline lineno="363"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="364"><highlight class="normal"></highlight></codeline>
-<codeline lineno="365"><highlight class="normal">std::vector&lt;std::string&gt;<sp/>LLVMModelDataSymbols::getCompartmentIds()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="365"><highlight class="normal">std::vector&lt;std::string&gt;<sp/><ref refid="group__compartment_1ga319aa6ee06a7150d35c87f8ed2c9ab8a" kindref="member">LLVMModelDataSymbols::getCompartmentIds</ref>()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
 <codeline lineno="366"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
 <codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>getIds(compartmentsMap);</highlight></codeline>
 <codeline lineno="368"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="369"><highlight class="normal"></highlight></codeline>
-<codeline lineno="370"><highlight class="normal">std::vector&lt;std::string&gt;<sp/>LLVMModelDataSymbols::getBoundarySpeciesIds()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="370"><highlight class="normal">std::vector&lt;std::string&gt;<sp/><ref refid="group__boundary_1ga31cfec3f7179f15a44eead1d45564a7c" kindref="member">LLVMModelDataSymbols::getBoundarySpeciesIds</ref>()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
 <codeline lineno="371"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
 <codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>getIds(boundarySpeciesMap);</highlight></codeline>
 <codeline lineno="373"><highlight class="normal">}</highlight></codeline>
@@ -788,7 +821,7 @@
 <codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>-1;</highlight></codeline>
 <codeline lineno="383"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="384"><highlight class="normal"></highlight></codeline>
-<codeline lineno="385"><highlight class="normal">std::vector&lt;std::string&gt;<sp/>LLVMModelDataSymbols::getReactionIds()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="385"><highlight class="normal">std::vector&lt;std::string&gt;<sp/><ref refid="group__reaction_1ga893427e9bcf19edb7742fd7a40bde89e" kindref="member">LLVMModelDataSymbols::getReactionIds</ref>()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
 <codeline lineno="386"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
 <codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>getIds(reactionsMap);</highlight></codeline>
 <codeline lineno="388"><highlight class="normal">}</highlight></codeline>
@@ -798,13 +831,13 @@
 <codeline lineno="392"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>reactionsMap.size();</highlight></codeline>
 <codeline lineno="393"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="394"><highlight class="normal"></highlight></codeline>
-<codeline lineno="395"><highlight class="normal"></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><ref refid="classrrllvm_1_1LLVMModelDataSymbols_1af008f3b08eec501c2a338403cd33ef07" kindref="member">LLVMModelDataSymbols::getFloatingSpeciesSize</ref>()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="395"><highlight class="normal"></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/>LLVMModelDataSymbols::getFloatingSpeciesSize()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
 <codeline lineno="396"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
 <codeline lineno="397"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>floatingSpeciesMap.size();</highlight></codeline>
 <codeline lineno="398"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="399"><highlight class="normal"></highlight></codeline>
 <codeline lineno="400"><highlight class="normal">std::list&lt;LLVMModelDataSymbols::SpeciesReferenceInfo&gt;</highlight></codeline>
-<codeline lineno="401"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classrrllvm_1_1LLVMModelDataSymbols_1ace13c6c788427ff65704820837096248" kindref="member">LLVMModelDataSymbols::getStoichiometryIndx</ref>()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="401"><highlight class="normal"><sp/><sp/><sp/><sp/>LLVMModelDataSymbols::getStoichiometryIndx()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
 <codeline lineno="402"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
 <codeline lineno="403"><highlight class="normal"><sp/><sp/><sp/><sp/>std::list&lt;SpeciesReferenceInfo&gt;<sp/>result;</highlight></codeline>
 <codeline lineno="404"><highlight class="normal"></highlight></codeline>
@@ -818,7 +851,7 @@
 <codeline lineno="412"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
 <codeline lineno="413"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="414"><highlight class="normal"></highlight></codeline>
-<codeline lineno="415"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classrrllvm_1_1LLVMModelDataSymbols_1a10947a4f97f82f04320462c1508fdbb1" kindref="member">LLVMModelDataSymbols::print</ref>()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="415"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>LLVMModelDataSymbols::print()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
 <codeline lineno="416"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
 <codeline lineno="417"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(StringUIntMap::const_iterator<sp/>i<sp/>=<sp/>floatingSpeciesMap.begin();</highlight></codeline>
 <codeline lineno="418"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>i<sp/>!=<sp/>floatingSpeciesMap.end();<sp/>i++)</highlight></codeline>
@@ -856,17 +889,17 @@
 <codeline lineno="450"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="451"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="452"><highlight class="normal"></highlight></codeline>
-<codeline lineno="453"><highlight class="normal">std::vector&lt;std::string&gt;<sp/>LLVMModelDataSymbols::getGlobalParameterIds()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="453"><highlight class="normal">std::vector&lt;std::string&gt;<sp/><ref refid="group__parameters_1ga0ad560fd0b56ac0c36eff2db996b40cb" kindref="member">LLVMModelDataSymbols::getGlobalParameterIds</ref>()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
 <codeline lineno="454"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
 <codeline lineno="455"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>getIds(globalParametersMap);</highlight></codeline>
 <codeline lineno="456"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="457"><highlight class="normal"></highlight></codeline>
-<codeline lineno="458"><highlight class="normal">std::vector&lt;std::string&gt;<sp/><ref refid="classrrllvm_1_1LLVMModelDataSymbols_1a330dc333f5b9116091f8f79c10f4db46" kindref="member">LLVMModelDataSymbols::getFloatingSpeciesIds</ref>()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="458"><highlight class="normal">std::vector&lt;std::string&gt;<sp/><ref refid="group__floating_1gadfa89aaae617d977977469f3c8e0efae" kindref="member">LLVMModelDataSymbols::getFloatingSpeciesIds</ref>()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
 <codeline lineno="459"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
 <codeline lineno="460"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>getIds(floatingSpeciesMap);</highlight></codeline>
 <codeline lineno="461"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="462"><highlight class="normal"></highlight></codeline>
-<codeline lineno="463"><highlight class="normal">std::string<sp/><ref refid="classrrllvm_1_1LLVMModelDataSymbols_1a87b3733f8993e9654c1385256a370685" kindref="member">LLVMModelDataSymbols::getFloatingSpeciesId</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>indx)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="463"><highlight class="normal">std::string<sp/>LLVMModelDataSymbols::getFloatingSpeciesId(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>indx)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
 <codeline lineno="464"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
 <codeline lineno="465"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(StringUIntMap::const_iterator<sp/>i<sp/>=<sp/>floatingSpeciesMap.begin();</highlight></codeline>
 <codeline lineno="466"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>i<sp/>!=<sp/>floatingSpeciesMap.end();<sp/>++i)</highlight></codeline>
@@ -893,7 +926,7 @@
 <codeline lineno="487"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="488"><highlight class="normal"></highlight></codeline>
 <codeline lineno="489"><highlight class="normal"></highlight></codeline>
-<codeline lineno="490"><highlight class="normal"></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classrrllvm_1_1LLVMModelDataSymbols_1a262c5cc26d6bd5fc7c3b4efdf49a76b9" kindref="member">LLVMModelDataSymbols::getIndependentFloatingSpeciesSize</ref>()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="490"><highlight class="normal"></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>LLVMModelDataSymbols::getIndependentFloatingSpeciesSize()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
 <codeline lineno="491"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
 <codeline lineno="492"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>independentFloatingSpeciesSize;</highlight></codeline>
 <codeline lineno="493"><highlight class="normal">}</highlight></codeline>
@@ -936,7 +969,7 @@
 <codeline lineno="530"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>i-&gt;second<sp/>&lt;<sp/>independentCompartmentSize;</highlight></codeline>
 <codeline lineno="531"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="532"><highlight class="normal"></highlight></codeline>
-<codeline lineno="533"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="classrrllvm_1_1LLVMModelDataSymbols_1a32e6b447a358eb4a0aa22723cc7ea2e6" kindref="member">LLVMModelDataSymbols::getFieldName</ref>(ModelDataFields<sp/>field)</highlight></codeline>
+<codeline lineno="533"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>LLVMModelDataSymbols::getFieldName(ModelDataFields<sp/>field)</highlight></codeline>
 <codeline lineno="534"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="535"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(field<sp/>&gt;=<sp/>Size<sp/>&amp;&amp;<sp/>field<sp/>&lt;=<sp/>ReactionRates)</highlight></codeline>
 <codeline lineno="536"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
@@ -948,17 +981,17 @@
 <codeline lineno="542"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="543"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="544"><highlight class="normal"></highlight></codeline>
-<codeline lineno="545"><highlight class="normal"></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classrrllvm_1_1LLVMModelDataSymbols_1aeace8ad2fe12479179b7b882270e92f5" kindref="member">LLVMModelDataSymbols::getIndependentGlobalParameterSize</ref>()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="545"><highlight class="normal"></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>LLVMModelDataSymbols::getIndependentGlobalParameterSize()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
 <codeline lineno="546"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
 <codeline lineno="547"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>independentGlobalParameterSize;</highlight></codeline>
 <codeline lineno="548"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="549"><highlight class="normal"></highlight></codeline>
-<codeline lineno="550"><highlight class="normal"></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classrrllvm_1_1LLVMModelDataSymbols_1af15296d2d5be06122ee753e6d13f61e1" kindref="member">LLVMModelDataSymbols::getIndependentCompartmentSize</ref>()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="550"><highlight class="normal"></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>LLVMModelDataSymbols::getIndependentCompartmentSize()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
 <codeline lineno="551"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
 <codeline lineno="552"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>independentCompartmentSize;</highlight></codeline>
 <codeline lineno="553"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="554"><highlight class="normal"></highlight></codeline>
-<codeline lineno="555"><highlight class="normal"></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classrrllvm_1_1LLVMModelDataSymbols_1abb28706ff4c68035973b79779cd932c2" kindref="member">LLVMModelDataSymbols::getIndependentBoundarySpeciesSize</ref>()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="555"><highlight class="normal"></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>LLVMModelDataSymbols::getIndependentBoundarySpeciesSize()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
 <codeline lineno="556"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
 <codeline lineno="557"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>independentBoundarySpeciesSize;</highlight></codeline>
 <codeline lineno="558"><highlight class="normal">}</highlight></codeline>
@@ -1483,7 +1516,7 @@
 <codeline lineno="1077"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="1078"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="1079"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1083"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><sp/>LLVMModelDataSymbols::setNamedSpeciesReferenceInfo(uint<sp/>row,<sp/>uint<sp/>column,</highlight></codeline>
+<codeline lineno="1083"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><sp/>LLVMModelDataSymbols::setNamedSpeciesReferenceInfo(uint<sp/>row,<sp/>uint<sp/>column,</highlight></codeline>
 <codeline lineno="1084"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>SpeciesReferenceType<sp/>type)</highlight></codeline>
 <codeline lineno="1085"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="1086"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(StringRefInfoMap::iterator<sp/>i<sp/>=<sp/>namedSpeciesReferenceInfo.begin();</highlight></codeline>
