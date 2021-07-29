@@ -146,7 +146,11 @@ namespace rr {
 
     ForwardSensitivitySolver::ForwardSensitivitySolver(ExecutableModel *executableModel)
             : TimeSeriesSensitivitySolver(executableModel) {
+        // improves readibility in some places
+        // to have two flags here, even though
+        // they are always inverses
         usingDefaultWhichParameters = true;
+        usingUseWhichParametersFromConstructor = false;
         constructorOperations();
     }
 
@@ -154,6 +158,7 @@ namespace rr {
                                                        std::vector<std::string> whichParameters)
             : TimeSeriesSensitivitySolver(executableModel), whichParameters(std::move(whichParameters)) {
         usingDefaultWhichParameters = false;
+        usingUseWhichParametersFromConstructor = true;
         constructorOperations();
     }
 
@@ -181,7 +186,7 @@ namespace rr {
     }
 
     void ForwardSensitivitySolver::create() {
-                if (!mModel) {
+        if (!mModel) {
             return;
         }
 
@@ -531,20 +536,21 @@ namespace rr {
     void ForwardSensitivitySolver::deducePlist() {
         // collect valid strings for validating user input
         std::vector<std::string> validParameterStrings(Np);
-        for (int i=0; i< Np; i++){
+        for (int i = 0; i < Np; i++) {
             validParameterStrings[i] = mModel->getGlobalParameterId(i);
         }
         // make sure we resize both Ns, and plist
-        Ns = (int)whichParameters.size();
+        Ns = (int) whichParameters.size();
         plist.clear();
         plist.resize(whichParameters.size());
         for (int i = 0; i < whichParameters.size(); i++) {
             const std::string &paramName = whichParameters.at(i);
-            if (std::find(validParameterStrings.begin(), validParameterStrings.end(), paramName) == validParameterStrings.end()){
+            if (std::find(validParameterStrings.begin(), validParameterStrings.end(), paramName) ==
+                validParameterStrings.end()) {
                 std::ostringstream err;
                 err << "Parameter \"" << paramName << "\" is not a valid parameter. ";
                 err << "These are valid parameters: ";
-                for (auto para: validParameterStrings){
+                for (auto para: validParameterStrings) {
                     err << para << ", ";
                 }
                 throw std::invalid_argument(err.str());
@@ -609,19 +615,19 @@ namespace rr {
         }
     }
 
-    std::vector<std::string> ForwardSensitivitySolver::getParameterNamesFromPlist(){
+    std::vector<std::string> ForwardSensitivitySolver::getParameterNamesFromPlist() {
         std::vector<std::string> pVector(Ns);
-        const auto& allParamNames = getGlobalParameterNames();
-        for (int i=0; i<Ns; i++){
+        const auto &allParamNames = getGlobalParameterNames();
+        for (int i = 0; i < Ns; i++) {
             auto plist_idx = plist[i];
             pVector[i] = allParamNames[plist_idx];
         }
         return pVector;
     }
 
-    std::vector<double> ForwardSensitivitySolver::getParameterValuesFromPlist(){
+    std::vector<double> ForwardSensitivitySolver::getParameterValuesFromPlist() {
         std::vector<double> pVector(Ns);
-        for (int i=0; i<Ns; i++){
+        for (int i = 0; i < Ns; i++) {
             auto plist_idx = plist[i];
             pVector[i] = p[plist_idx];
         }
@@ -632,35 +638,52 @@ namespace rr {
             double start, double stop, int num,
             std::vector<std::string> params, int k) {
         if (!params.empty()) {
+            // turn off the indicator flag so that
+            // subsequent calls to solveSensitivities
+            // accurately deduce plist parameters from params
+            usingDefaultWhichParameters = false;
             whichParameters = params;
         } else {
             // in cases where ForwardSensitivitySolver has already
             // been used with an non empty params argument
             // we need to reset the parameters to default
-            whichParameters = getGlobalParameterNames();
+            //
+            // this doesn't apply when the user provided the whichParameters argument to
+            // the constructor. In this case the usingUseWhichParametersFromConstructor
+            // will be true (and the usingDefaultWhichParameters will be false).
+            if (!usingUseWhichParametersFromConstructor) {
+                whichParameters = getGlobalParameterNames();
+            }
+            /**
+             * Note this is slightly contrived logic that is necessary
+             * for enabling users to supply whichParameters in the constructor
+             * and here via the params argument. This was an "accident of design"
+             * and it would be better to just have the whichParameters variable
+             * set in this method only.
+             */
         }
         deducePlist();
         cvodeIntegrator->restart(start);
         int intervals = num - 1;
-                double stepSize = (stop - start) / intervals;
-        
+        double stepSize = (stop - start) / intervals;
+
         Matrix3D<double, double> results(Ns, numModelVariables, num);
         //        std::cout << results.numRows() << "; " << results.numCols() << "; " << results.numZ() << std::endl;
 
         // collect initial data
         double t = start;
-                results.setKthMatrix(0, t, getSensitivityMatrix(k));
-        
+        results.setKthMatrix(0, t, getSensitivityMatrix(k));
+
         int numberOfPoints = 1;
-                for (int i = 1; i < num; i++) {
-                        t = integrate(t, stepSize);
-                        results.setKthMatrix(numberOfPoints, t, getSensitivityMatrix(k));
-                        numberOfPoints++;
-                    }
-        
+        for (int i = 1; i < num; i++) {
+            t = integrate(t, stepSize);
+            results.setKthMatrix(numberOfPoints, t, getSensitivityMatrix(k));
+            numberOfPoints++;
+        }
+
         results.setRowNames(getGlobalParameterNames());
-                results.setColNames(getVariableNames());
-        
+        results.setColNames(getVariableNames());
+
         return results;
     }
 
