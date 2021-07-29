@@ -27,19 +27,17 @@ sbml = TestModelFactory("OpenLinearFlux").str() # get the test model's sbml stri
 model = RoadRunner(sbml)
 
 # start integration with sensitivities at 0, end at 10 and collect 11 data points
-# The return type is a 2-Tuple, a time vector and a 3D sensitivity matrix (time x variables x parameters)
-time, sens = model.timeSeriesSensitivities(0, 10, 11)
+# The return type is a 4-Tuple, a time vector and a 3D sensitivity matrix with
+# dimensions time x parameters x variables - that is, an array of matrices corresponding
+# to the time points in the time vector with parameters down the rows and model variables (species)
+# accross the columns. The third and forth elements are row and column names respectively.
+#
+time, sens, rownames, colnames = model.timeSeriesSensitivities(0, 10, 11)
 
+print("time: ", time)
+print("rownames: ", rownames)
+print("colnames: ", colnames)
 print(sens)
 
 
-
-# sensSolver = model.getSensitivitySolver()
-# print(sensSolver)
-# print(sensSolver.getGlobalParameterNames())
-# print(sensSolver.getVariableNames())
-#
-# print(sens)
-
-
-
+time, sens, rownames, colnames = model.timeSeriesSensitivities(0, 10, 11, ["kin"])
