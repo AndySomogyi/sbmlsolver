@@ -148,10 +148,8 @@ rr::pyutil_init(m);
 /**
  * Converts a C++ vector of strings to a Python list of strings
  */
-%template(StringVector) std::vector<std::string>;
-%template(DoubleVector) std::vector<double>;
-%template(IntVector) std::vector<int>;
-
+%template() std::vector<int>;
+%template() std::vector<std::string>;
 
 
 /**************************************************
@@ -199,6 +197,17 @@ rr::pyutil_init(m);
     $result = PyTuple_Pack(4, idx, npArray3D, rownames, colnames);
 }
 
+// Typemap for a C++ string
+%typemap(in) str {
+    // typemap for Python -> C string
+  if (PyString_Check($input)) {
+    $1 = std::string(PyString_AsString($input));
+  } else {
+    SWIG_exception(SWIG_TypeError, "string expected");
+  }
+}
+// Copy the typecheck code for "char *".
+%typemap(typecheck) std::string = char *;
 
 
 /**

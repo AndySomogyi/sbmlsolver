@@ -270,3 +270,14 @@ class TestModelFactoryTests(unittest.TestCase):
                     ans.append(x + y * xMax + z * xMax * yMax)
         self.assertEqual([i for i in range(xMax*yMax*zMax)], ans)
 
+    def test_python_str_to_cxx_str(self):
+        # the input argument does a round trip from python to C and back
+        roundTrip = tmf._testPythonStringToCxxRoundTrip("Python String")
+        self.assertIsInstance(roundTrip, str)
+        self.assertEqual("Python String", roundTrip)
+
+
+    def test_list_of_strings_input_typemap(self):
+        l = ["first", "second", "third"]
+        l = tmf._testAddElementToStringVec(l, "fourth")
+        self.assertEqual(l, ("first", "second", "third", "fourth"))

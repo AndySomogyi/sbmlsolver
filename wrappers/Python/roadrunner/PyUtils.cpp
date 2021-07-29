@@ -1114,6 +1114,18 @@ PyArray_New(PyTypeObject *subtype, int nd, npy_intp *dims, int type_num,
         return pyList;
     }
 
+    std::vector<std::string> convertPythonListToStringVector(PyObject* pyList) {
+        int size = (int)PyList_Size(pyList);
+        std::vector<std::string> vec(size);
+        for (Py_ssize_t i=0; i<size; i++){
+            PyObject* item =  PyList_GetItem(pyList, i);
+            const char* s = PyUnicode_AsUTF8(item);
+            vec[(int)i] = std::string(s);
+        }
+
+        return vec;
+    }
+
 
     Matrix3DToNumpy::Matrix3DToNumpy(Matrix3DToNumpy::DoubleMatrix3D &matrix)
             : matrix_(matrix) {}

@@ -1,6 +1,6 @@
 
 // Module Name
-%module( docstring="The RoadRunner SBML Simulation Engine, (c) 2009-2014 Andy Somogyi and Herbert Sauro","threads"=1, "directors"=1) roadrunner
+%module(directors="1", docstring="The RoadRunner SBML Simulation Engine, (c) 2009-2014 Andy Somogyi and Herbert Sauro","threads"=1) roadrunner
 
 // most methods should leave the GIL locked, no point to extra overhead
 // for fast methods. Only Roadrunner with long methods like simulate
@@ -166,8 +166,8 @@
 
 
 %template(IntVector) std::vector<int>;
-%template(StringVector) std::vector<std::string>;
-%template(StringList) std::list<std::string>;
+%template() std::vector<std::string>;
+%template() std::list<std::string>;
 //%template(DoubleMap) std::unordered_map< std::string,double,std::hash< std::string >,std::equal_to< std::string >,std::allocator< std::pair< std::string const,double > > > >;
 
 
@@ -972,12 +972,14 @@ namespace std { class ostream{}; }
 %include <rrSelectionRecord.h>
 %include <conservation/ConservedMoietyConverter.h>
 
+%include "RegistrationFactory.h"
+%include "Registrable.h"
 /**
  * Solve base class tells swig to properly handle
  * cross language polymorphism.
  */
-%feature("director") Solver;
 %include <Solver.h>
+%feature("director") Solver;
 %include <Integrator.h>
 %include <SteadyStateSolver.h>
 %include <SensitivitySolver.h>
@@ -1190,7 +1192,7 @@ namespace std { class ostream{}; }
         _swig_init = __init__
 
         def _new_init(self, *args):
-            # if called with https, use Python for transport
+            # /if called with https, use Python for transport
             if len(args) >= 1:
                 p = args[0]
                 if hasattr(p,'startswith') and p.startswith('https://'):
@@ -2731,14 +2733,13 @@ solvers = integrators + steadyStateSolvers
 %ignore rr::integratorFactoryMutex;
 %ignore rr::integratorRegistrationMutex;
 
-%include "Registrable.h"
-%include "RegistrationFactory.h"
 
 // sundials steady state solvers
 %include "KinsolSteadyStateSolver.h"
 %include "NewtonIteration.h"
 %include "BasicNewtonIteration.h"
 %include "LinesearchNewtonIteration.h"
+%include "NLEQSolver.h"
 %include "NLEQ1Solver.h"
 %include "NLEQ2Solver.h"
 
