@@ -113,13 +113,6 @@ if (BUILD_PYTHON)
         set(Python_ROOT_DIR "${PRD}" CACHE PATH "Path to python executable and libraries (optional).")
     endif ()
 
-
-    #set_property(CACHE ADVANCED VARIABLE Python_EXECUTABLE)
-    #mark_as_advanced(Python_EXECUTABLE)
-    #set_property(CACHE Python_LIBRARY)
-    #set_property(CACHE Python_INCLUDE_DIR)
-
-
     # build directories
     set(PYTHON_PACKAGE_SITE_DIR_BUILD_TREE "${CMAKE_BINARY_DIR}/lib/site-packages" CACHE PATH "Path to Python site packages directory in the build tree")
     set(PYTHON_PACKAGE_BUILD_PREFIX "${PYTHON_PACKAGE_SITE_DIR_BUILD_TREE}/roadrunner")
