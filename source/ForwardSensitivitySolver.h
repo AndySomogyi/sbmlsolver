@@ -238,8 +238,23 @@ namespace rr {
          * of the RoadRunner instance and solving for sensitivities.
          * @details this indicator is needed, since the test for empty
          * whichParameter variable only works on instantiation of the FFS class
+         * @details inverse of usingUseWhichParametersFromConstructor.
+         * Used for readibility in some places - helps prevent need
+         * to do mental aerobics with booleans
          */
         bool usingDefaultWhichParameters = true;
+
+        /**
+         * @brief indicator variable which is true when
+         * the constructor that has "whichParameters" argument
+         * is used. This is needed for the dual control over which
+         * parameters to solve sensitivities for - construtor and
+         * main solveSensitivities method.
+         * @details inverse of usingDefaultWhichParameters.
+         * Used for readibility in some places - helps prevent need
+         * to do mental aerobics with booleans
+         */
+        bool usingUseWhichParametersFromConstructor = false;
 
         /**
          * @brief Non-linear solver for sensitivity analysis
@@ -269,7 +284,6 @@ namespace rr {
          * @brief get the parameter values that correspond to the current values of plist
          */
         std::vector<double> getParameterValuesFromPlist();
-
 
         friend int FFSDyDtFcn(realtype time, N_Vector cv_y, N_Vector cv_ydot, void *userData);
 

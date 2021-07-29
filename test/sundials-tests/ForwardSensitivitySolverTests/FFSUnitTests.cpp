@@ -136,6 +136,7 @@ TEST_F(FFSUnitTests, SolveSensitivitiesForSelectiveParameters1) {
     ExecutableModel *model = r.getModel();
     ForwardSensitivitySolver forwardSensitivitySolver(model, {"kf"});
     ASSERT_NO_THROW(forwardSensitivitySolver.solveSensitivities(0, 10, 11));
+//    forwardSensitivitySolver.solveSensitivities(0, 10, 11);
 }
 
 
