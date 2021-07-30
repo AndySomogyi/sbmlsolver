@@ -157,7 +157,7 @@ stages:
               targetFolder: $(Build.ArtifactStagingDirectory)
             displayName: Copy to Staging Area
           - publish: $(Build.ArtifactStagingDirectory)
-            artifact: roadrunner-$(Agent.OS)-$(BuildType)
+            artifact: roadrunner-MacOS10.15-$(BuildType)
             displayName: Publish
 
   - stage: MacBuildRoadrunnerPython
@@ -364,7 +364,7 @@ stages:
           - task: CopyFiles@2
             inputs:
               contents: '$(INSTALL_DIR)/**'
-              targetFolder: $(Build.ArtifactStagingDirectory)/Install-$(PythonName)
+              targetFolder: $(Build.ArtifactStagingDirectory)/roadrunner-MacOS10.15-$(PythonName)
             displayName: Copy Install Tree to Staging Area
           - task: CopyFiles@2
             inputs:
@@ -372,7 +372,7 @@ stages:
               targetFolder: $(Build.ArtifactStagingDirectory)/pip-wheels
             displayName: Copy Pip Wheels to Staging Area
           - publish: $(Build.ArtifactStagingDirectory)
-            artifact: roadrunner-$(Agent.OS)-$(PythonName)
+            artifact: roadrunner-MacOS10.15-$(PythonName)
             displayName: Publish Pip Wheels Artifacts
 
 ########################################################################
@@ -679,7 +679,7 @@ stages:
           - task: CopyFiles@2
             inputs:
               contents: '$(INSTALL_DIR)/**'
-              targetFolder: $(Build.ArtifactStagingDirectory)/Install-$(PythonName)
+              targetFolder: $(Build.ArtifactStagingDirectory)/roadrunner-Windows2019-$(PythonName)
             displayName: Copy Install Tree to Staging Area
           - task: CopyFiles@2
             inputs:
@@ -687,7 +687,7 @@ stages:
               targetFolder: $(Build.ArtifactStagingDirectory)/pip-wheels
             displayName: Copy Pip Wheels to Staging Area
           - publish: $(Build.ArtifactStagingDirectory)
-            artifact: roadrunner-$(Agent.OS)-$(PythonName)
+            artifact: roadrunner-Windows2019-$(PythonName)
             displayName: Publish Pip Wheels Artifacts
 
 
@@ -1035,7 +1035,7 @@ stages:
           - task: CopyFiles@2
             inputs:
               contents: '$(INSTALL_DIR)/**'
-              targetFolder: $(Build.ArtifactStagingDirectory)/Install-$(PythonName)
+              targetFolder: $(Build.ArtifactStagingDirectory)/roadrunner-Ubuntu18.04-$(PythonName)
             displayName: Copy Install Tree to Staging Area
           - task: CopyFiles@2
             inputs:
@@ -1043,7 +1043,7 @@ stages:
               targetFolder: $(Build.ArtifactStagingDirectory)/pip-wheels
             displayName: Copy Pip Wheels to Staging Area
           - publish: $(Build.ArtifactStagingDirectory)
-            artifact: roadrunner-$(Agent.OS)-$(PythonName)
+            artifact: roadrunner-Ubunti18.04-$(PythonName)
             displayName: Publish Pip Wheels Artifacts
 
 #########################################################################
@@ -1193,6 +1193,8 @@ stages:
               $(PipExecutable) install numpy pytest
               echo "$(PythonExecutable) ./setup.py bdist_wheel"
               $(PythonExecutable) ./setup.py bdist_wheel
+              $(PythonExecutable) ./setup_rrplugins.py bdist_wheel
+
 
               # cd dist
               # wheel=$(realpath $(ls))
