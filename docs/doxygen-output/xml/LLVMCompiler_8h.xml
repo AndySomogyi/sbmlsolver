@@ -1,23 +1,23 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
   <compounddef id="LLVMCompiler_8h" kind="file" language="C++">
     <compoundname>LLVMCompiler.h</compoundname>
     <includes refid="rrCompiler_8h" local="yes">rrCompiler.h</includes>
     <includedby refid="LLVMCompiler_8cpp" local="yes">llvm/LLVMCompiler.cpp</includedby>
     <includedby refid="LLVMModelGenerator_8h" local="yes">llvm/LLVMModelGenerator.h</includedby>
     <incdepgraph>
-      <node id="3">
-        <label>rrOSSpecifics.h</label>
-        <link refid="rrOSSpecifics_8h_source"/>
-        <childnode refid="4" relation="include">
+      <node id="1">
+        <label>llvm/LLVMCompiler.h</label>
+        <link refid="LLVMCompiler_8h"/>
+        <childnode refid="2" relation="include">
         </childnode>
-      </node>
-      <node id="5">
-        <label>string</label>
       </node>
       <node id="4">
         <label>rrExporter.h</label>
         <link refid="rrExporter_8h_source"/>
+      </node>
+      <node id="5">
+        <label>string</label>
       </node>
       <node id="2">
         <label>rrCompiler.h</label>
@@ -27,23 +27,23 @@
         <childnode refid="5" relation="include">
         </childnode>
       </node>
-      <node id="1">
-        <label>llvm/LLVMCompiler.h</label>
-        <link refid="LLVMCompiler_8h"/>
-        <childnode refid="2" relation="include">
+      <node id="3">
+        <label>rrOSSpecifics.h</label>
+        <link refid="rrOSSpecifics_8h_source"/>
+        <childnode refid="4" relation="include">
         </childnode>
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="2">
-        <label>llvm/LLVMModelGenerator.h</label>
-        <link refid="LLVMModelGenerator_8h_source"/>
-      </node>
       <node id="1">
         <label>llvm/LLVMCompiler.h</label>
         <link refid="LLVMCompiler_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
+      </node>
+      <node id="2">
+        <label>llvm/LLVMModelGenerator.h</label>
+        <link refid="LLVMModelGenerator_8h_source"/>
       </node>
     </invincdepgraph>
     <innerclass refid="classrrllvm_1_1LLVMCompiler" prot="public">rrllvm::LLVMCompiler</innerclass>

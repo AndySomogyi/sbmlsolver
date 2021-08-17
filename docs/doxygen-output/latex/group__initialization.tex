@@ -8,19 +8,19 @@ Initialize library and terminate library instance.
 \doxysubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC \mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} rrc\+Call\+Conv \mbox{\hyperlink{group__initialization_ga3285113641ecf1dc35c39fceb39b60fc}{create\+R\+R\+Instance}} (void)
+C\+\_\+\+DECL\+\_\+\+SPEC \mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{RRHandle}} rrc\+Call\+Conv \mbox{\hyperlink{group__initialization_ga3285113641ecf1dc35c39fceb39b60fc}{create\+RRInstance}} (void)
 \begin{DoxyCompactList}\small\item\em Initialize a new road\+Runner instance and return a handle to it. \end{DoxyCompactList}\item 
-C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC \mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} rrc\+Call\+Conv \mbox{\hyperlink{group__initialization_ga0bd8e459a637346cdf196f91148015ec}{create\+R\+R\+Instance\+Ex}} (const char $\ast$temp\+Folder, const char $\ast$compiler)
+C\+\_\+\+DECL\+\_\+\+SPEC \mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{RRHandle}} rrc\+Call\+Conv \mbox{\hyperlink{group__initialization_ga0bd8e459a637346cdf196f91148015ec}{create\+RRInstance\+Ex}} (const char $\ast$temp\+Folder, const char $\ast$compiler)
 \begin{DoxyCompactList}\small\item\em Initialize a new road\+Runner instance and return a handle to it. \end{DoxyCompactList}\item 
-C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC bool rrc\+Call\+Conv \mbox{\hyperlink{group__initialization_gae0b2f65464742bba3beb0ad38dcdd863}{free\+R\+R\+Instance}} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle)
+C\+\_\+\+DECL\+\_\+\+SPEC bool rrc\+Call\+Conv \mbox{\hyperlink{group__initialization_gae0b2f65464742bba3beb0ad38dcdd863}{free\+RRInstance}} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{RRHandle}} handle)
 \begin{DoxyCompactList}\small\item\em Free the road\+Runner instance. \end{DoxyCompactList}\item 
 char $\ast$ \mbox{\hyperlink{group__initialization_gad1a68a41c939d388df3d8cf1f14023a5}{get\+Install\+Folder}} (void)
 \begin{DoxyCompactList}\small\item\em Returns the folder in which the Road\+Runner wrappers is installed. \end{DoxyCompactList}\item 
-C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC bool rrc\+Call\+Conv \mbox{\hyperlink{group__initialization_gabe314ab514c04cd902c078b864f22a64}{set\+Install\+Folder}} (const char $\ast$folder)
+C\+\_\+\+DECL\+\_\+\+SPEC bool rrc\+Call\+Conv \mbox{\hyperlink{group__initialization_gabe314ab514c04cd902c078b864f22a64}{set\+Install\+Folder}} (const char $\ast$folder)
 \begin{DoxyCompactList}\small\item\em Set the internal string containing the folder in where the Road\+Runner C wrappers is installed. \end{DoxyCompactList}\item 
-C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC bool rrc\+Call\+Conv \mbox{\hyperlink{group__initialization_gacb21c6ed7c891635f41cfd43e99cda2f}{set\+Compute\+And\+Assign\+Conservation\+Laws}} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, const bool On\+\_\+\+Or\+\_\+\+Off)
+C\+\_\+\+DECL\+\_\+\+SPEC bool rrc\+Call\+Conv \mbox{\hyperlink{group__initialization_gacb21c6ed7c891635f41cfd43e99cda2f}{set\+Compute\+And\+Assign\+Conservation\+Laws}} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{RRHandle}} handle, const bool On\+\_\+\+Or\+\_\+\+Off)
 \begin{DoxyCompactList}\small\item\em Enable or disable conservation analysis. \end{DoxyCompactList}\item 
-C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC int rrc\+Call\+Conv \mbox{\hyperlink{group__initialization_ga3e9ca24ab5e08fa5a5c70aad4d9d255c}{get\+Compute\+And\+Assign\+Conservation\+Laws}} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} handle, int $\ast$value)
+C\+\_\+\+DECL\+\_\+\+SPEC int rrc\+Call\+Conv \mbox{\hyperlink{group__initialization_ga3e9ca24ab5e08fa5a5c70aad4d9d255c}{get\+Compute\+And\+Assign\+Conservation\+Laws}} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{RRHandle}} handle, int $\ast$value)
 \begin{DoxyCompactList}\small\item\em Get the value of the moiety conservation setting. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
@@ -34,7 +34,7 @@ Initialize library and terminate library instance.
 \index{Library initialization and termination methods@{Library initialization and termination methods}!createRRInstance@{createRRInstance}}
 \index{createRRInstance@{createRRInstance}!Library initialization and termination methods@{Library initialization and termination methods}}
 \doxysubsubsection{\texorpdfstring{createRRInstance()}{createRRInstance()}}
-{\footnotesize\ttfamily C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC \mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} rrc\+Call\+Conv create\+R\+R\+Instance (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily C\+\_\+\+DECL\+\_\+\+SPEC \mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{RRHandle}} rrc\+Call\+Conv create\+RRInstance (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
 
 
 
@@ -47,7 +47,7 @@ Returns a Road\+Runner instance, returns null if it fails
 \index{Library initialization and termination methods@{Library initialization and termination methods}!createRRInstanceEx@{createRRInstanceEx}}
 \index{createRRInstanceEx@{createRRInstanceEx}!Library initialization and termination methods@{Library initialization and termination methods}}
 \doxysubsubsection{\texorpdfstring{createRRInstanceEx()}{createRRInstanceEx()}}
-{\footnotesize\ttfamily C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC \mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}} rrc\+Call\+Conv create\+R\+R\+Instance\+Ex (\begin{DoxyParamCaption}\item[{const char $\ast$}]{temp\+Folder,  }\item[{const char $\ast$}]{compiler }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily C\+\_\+\+DECL\+\_\+\+SPEC \mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{RRHandle}} rrc\+Call\+Conv create\+RRInstance\+Ex (\begin{DoxyParamCaption}\item[{const char $\ast$}]{temp\+Folder,  }\item[{const char $\ast$}]{compiler }\end{DoxyParamCaption})}
 
 
 
@@ -57,7 +57,7 @@ Initialize a new road\+Runner instance and return a handle to it.
 \begin{DoxyParams}[1]{Parameters}
 \mbox{\texttt{ in}}  & {\em temp\+Folder} & set roadrunners temporary folder \\
 \hline
-\mbox{\texttt{ in}}  & {\em compiler} & may be N\+U\+LL, if N\+U\+LL, uses default compiler. If L\+L\+VM build is enabled, setting compiler to \char`\"{}llvm\char`\"{} enables llvm based model generation. \\
+\mbox{\texttt{ in}}  & {\em compiler} & may be NULL, if NULL, uses default compiler. If LLVM build is enabled, setting compiler to \char`\"{}llvm\char`\"{} enables llvm based model generation. \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -67,7 +67,7 @@ Returns a Road\+Runner instance, returns null if it fails
 \index{Library initialization and termination methods@{Library initialization and termination methods}!freeRRInstance@{freeRRInstance}}
 \index{freeRRInstance@{freeRRInstance}!Library initialization and termination methods@{Library initialization and termination methods}}
 \doxysubsubsection{\texorpdfstring{freeRRInstance()}{freeRRInstance()}}
-{\footnotesize\ttfamily C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC bool rrc\+Call\+Conv free\+R\+R\+Instance (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}}}]{handle }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily C\+\_\+\+DECL\+\_\+\+SPEC bool rrc\+Call\+Conv free\+RRInstance (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{RRHandle}}}]{handle }\end{DoxyParamCaption})}
 
 
 
@@ -82,7 +82,7 @@ Free the road\+Runner instance.
 \index{Library initialization and termination methods@{Library initialization and termination methods}!getComputeAndAssignConservationLaws@{getComputeAndAssignConservationLaws}}
 \index{getComputeAndAssignConservationLaws@{getComputeAndAssignConservationLaws}!Library initialization and termination methods@{Library initialization and termination methods}}
 \doxysubsubsection{\texorpdfstring{getComputeAndAssignConservationLaws()}{getComputeAndAssignConservationLaws()}}
-{\footnotesize\ttfamily C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC int rrc\+Call\+Conv get\+Compute\+And\+Assign\+Conservation\+Laws (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}}}]{handle,  }\item[{int $\ast$}]{value }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily C\+\_\+\+DECL\+\_\+\+SPEC int rrc\+Call\+Conv get\+Compute\+And\+Assign\+Conservation\+Laws (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{RRHandle}}}]{handle,  }\item[{int $\ast$}]{value }\end{DoxyParamCaption})}
 
 
 
@@ -115,7 +115,7 @@ Pointer to string holding the install folder
 \index{Library initialization and termination methods@{Library initialization and termination methods}!setComputeAndAssignConservationLaws@{setComputeAndAssignConservationLaws}}
 \index{setComputeAndAssignConservationLaws@{setComputeAndAssignConservationLaws}!Library initialization and termination methods@{Library initialization and termination methods}}
 \doxysubsubsection{\texorpdfstring{setComputeAndAssignConservationLaws()}{setComputeAndAssignConservationLaws()}}
-{\footnotesize\ttfamily C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC bool rrc\+Call\+Conv set\+Compute\+And\+Assign\+Conservation\+Laws (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{R\+R\+Handle}}}]{handle,  }\item[{const bool}]{On\+\_\+\+Or\+\_\+\+Off }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily C\+\_\+\+DECL\+\_\+\+SPEC bool rrc\+Call\+Conv set\+Compute\+And\+Assign\+Conservation\+Laws (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{RRHandle}}}]{handle,  }\item[{const bool}]{On\+\_\+\+Or\+\_\+\+Off }\end{DoxyParamCaption})}
 
 
 
@@ -135,7 +135,7 @@ Returns true if successful
 \index{Library initialization and termination methods@{Library initialization and termination methods}!setInstallFolder@{setInstallFolder}}
 \index{setInstallFolder@{setInstallFolder}!Library initialization and termination methods@{Library initialization and termination methods}}
 \doxysubsubsection{\texorpdfstring{setInstallFolder()}{setInstallFolder()}}
-{\footnotesize\ttfamily C\+\_\+\+D\+E\+C\+L\+\_\+\+S\+P\+EC bool rrc\+Call\+Conv set\+Install\+Folder (\begin{DoxyParamCaption}\item[{const char $\ast$}]{folder }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily C\+\_\+\+DECL\+\_\+\+SPEC bool rrc\+Call\+Conv set\+Install\+Folder (\begin{DoxyParamCaption}\item[{const char $\ast$}]{folder }\end{DoxyParamCaption})}
 
 
 

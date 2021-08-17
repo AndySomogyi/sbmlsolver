@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
   <compounddef id="rrIniFile_8h" kind="file" language="C++">
     <compoundname>rrIniFile.h</compoundname>
     <includes local="no">vector</includes>
@@ -19,118 +19,17 @@
       <node id="20">
         <label>functional</label>
       </node>
-      <node id="13">
-        <label>limits</label>
-      </node>
-      <node id="16">
-        <label>variant</label>
-      </node>
-      <node id="4">
-        <label>string</label>
-      </node>
-      <node id="5">
-        <label>rrExporter.h</label>
-        <link refid="rrExporter_8h_source"/>
-      </node>
-      <node id="9">
-        <label>map</label>
-      </node>
-      <node id="22">
-        <label>setting_t.h</label>
-        <link refid="setting__t_8h_source"/>
-      </node>
-      <node id="24">
-        <label>exception</label>
-      </node>
-      <node id="3">
-        <label>fstream</label>
-      </node>
-      <node id="28">
-        <label>ostream</label>
-      </node>
-      <node id="26">
-        <label>rrIniKey.h</label>
-        <link refid="rrIniKey_8h_source"/>
-        <childnode refid="2" relation="include">
-        </childnode>
-        <childnode refid="3" relation="include">
+      <node id="12">
+        <label>rrConstants.h</label>
+        <link refid="rrConstants_8h_source"/>
+        <childnode refid="13" relation="include">
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="8" relation="include">
+        <childnode refid="14" relation="include">
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="6" relation="include">
-        </childnode>
-        <childnode refid="25" relation="include">
-        </childnode>
-      </node>
-      <node id="25">
-        <label>rrIniSection.h</label>
-        <link refid="rrIniSection_8h_source"/>
-        <childnode refid="2" relation="include">
-        </childnode>
-        <childnode refid="4" relation="include">
-        </childnode>
-        <childnode refid="5" relation="include">
-        </childnode>
-        <childnode refid="26" relation="include">
-        </childnode>
-      </node>
-      <node id="6">
-        <label>rrStringUtils.h</label>
-        <link refid="rrStringUtils_8h_source"/>
-        <childnode refid="4" relation="include">
-        </childnode>
-        <childnode refid="7" relation="include">
-        </childnode>
-        <childnode refid="2" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
-        <childnode refid="9" relation="include">
-        </childnode>
-        <childnode refid="10" relation="include">
-        </childnode>
-        <childnode refid="11" relation="include">
-        </childnode>
-        <childnode refid="12" relation="include">
-        </childnode>
-        <childnode refid="5" relation="include">
-        </childnode>
-        <childnode refid="15" relation="include">
-        </childnode>
-      </node>
-      <node id="21">
-        <label>typeinfo</label>
-      </node>
-      <node id="2">
-        <label>vector</label>
-      </node>
-      <node id="23">
-        <label>rrException.h</label>
-        <link refid="rrException_8h_source"/>
-        <childnode refid="24" relation="include">
-        </childnode>
-        <childnode refid="4" relation="include">
-        </childnode>
-        <childnode refid="16" relation="include">
-        </childnode>
-        <childnode refid="5" relation="include">
-        </childnode>
-      </node>
-      <node id="18">
-        <label>sstream</label>
-      </node>
-      <node id="14">
-        <label>cstdlib</label>
-      </node>
-      <node id="17">
-        <label>iostream</label>
-      </node>
-      <node id="10">
-        <label>unordered_map</label>
       </node>
       <node id="15">
         <label>Setting.h</label>
@@ -156,23 +55,30 @@
         <childnode refid="23" relation="include">
         </childnode>
       </node>
-      <node id="12">
-        <label>rrConstants.h</label>
-        <link refid="rrConstants_8h_source"/>
-        <childnode refid="13" relation="include">
-        </childnode>
-        <childnode refid="4" relation="include">
-        </childnode>
-        <childnode refid="14" relation="include">
-        </childnode>
-        <childnode refid="5" relation="include">
-        </childnode>
+      <node id="13">
+        <label>limits</label>
       </node>
-      <node id="19">
-        <label>type_traits</label>
+      <node id="5">
+        <label>rrExporter.h</label>
+        <link refid="rrExporter_8h_source"/>
       </node>
-      <node id="11">
-        <label>set</label>
+      <node id="16">
+        <label>variant</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="9">
+        <label>map</label>
+      </node>
+      <node id="24">
+        <label>exception</label>
+      </node>
+      <node id="3">
+        <label>fstream</label>
+      </node>
+      <node id="28">
+        <label>ostream</label>
       </node>
       <node id="1">
         <label>rrIniFile.h</label>
@@ -194,6 +100,88 @@
         <childnode refid="27" relation="include">
         </childnode>
       </node>
+      <node id="23">
+        <label>rrException.h</label>
+        <link refid="rrException_8h_source"/>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>typeinfo</label>
+      </node>
+      <node id="22">
+        <label>setting_t.h</label>
+        <link refid="setting__t_8h_source"/>
+      </node>
+      <node id="2">
+        <label>vector</label>
+      </node>
+      <node id="26">
+        <label>rrIniKey.h</label>
+        <link refid="rrIniKey_8h_source"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>sstream</label>
+      </node>
+      <node id="14">
+        <label>cstdlib</label>
+      </node>
+      <node id="17">
+        <label>iostream</label>
+      </node>
+      <node id="6">
+        <label>rrStringUtils.h</label>
+        <link refid="rrStringUtils_8h_source"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>unordered_map</label>
+      </node>
+      <node id="19">
+        <label>type_traits</label>
+      </node>
+      <node id="11">
+        <label>set</label>
+      </node>
       <node id="8">
         <label>complex</label>
       </node>
@@ -205,6 +193,18 @@
         <childnode refid="28" relation="include">
         </childnode>
         <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>rrIniSection.h</label>
+        <link refid="rrIniSection_8h_source"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
         </childnode>
       </node>
     </incdepgraph>
@@ -244,7 +244,7 @@
 <codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>std::vector&lt;IniSection*&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>SectionList;</highlight></codeline>
 <codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>SectionList::iterator<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>SectionItor;</highlight></codeline>
 <codeline lineno="29"><highlight class="normal"></highlight></codeline>
-<codeline lineno="33" refid="classrr_1_1IniFile" refkind="compound"><highlight class="keyword">class<sp/></highlight><highlight class="normal">RR_DECLSPEC<sp/><ref refid="classrr_1_1IniFile" kindref="compound">IniFile</ref></highlight></codeline>
+<codeline lineno="33" refid="classrr_1_1IniFile" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">RR_DECLSPEC<sp/><ref refid="classrr_1_1IniFile" kindref="compound">IniFile</ref></highlight></codeline>
 <codeline lineno="34"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
 <codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>When<sp/>set,<sp/>this<sp/>define<sp/>will<sp/>cause<sp/>SetValue()<sp/>to<sp/>create<sp/>a<sp/>new<sp/>section,<sp/>if</highlight><highlight class="normal"></highlight></codeline>

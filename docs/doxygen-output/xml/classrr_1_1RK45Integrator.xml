@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
   <compounddef id="classrr_1_1RK45Integrator" kind="class" language="C++" prot="public">
     <compoundname>rr::RK45Integrator</compoundname>
     <basecompoundref refid="classrr_1_1Integrator" prot="public" virt="non-virtual">rr::Integrator</basecompoundref>
@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="RK45Integrator.h" line="151" column="18" bodyfile="RK45Integrator.h" bodystart="151" bodyend="-1"/>
+        <location file="RK45Integrator.h" line="155" column="18" bodyfile="RK45Integrator.h" bodystart="155" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classrr_1_1RK45Integrator_1a921c542303cecb0902fcd7d5ff9b6230" prot="private" static="no" mutable="no">
         <type>double *</type>
@@ -30,7 +30,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="RK45Integrator.h" line="156" column="16" bodyfile="RK45Integrator.h" bodystart="156" bodyend="-1"/>
+        <location file="RK45Integrator.h" line="160" column="16" bodyfile="RK45Integrator.h" bodystart="160" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classrr_1_1RK45Integrator_1abb0e377bf361bc799aca504e4b400441" prot="private" static="no" mutable="no">
         <type>double *</type>
@@ -43,7 +43,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="RK45Integrator.h" line="156" column="19" bodyfile="RK45Integrator.h" bodystart="156" bodyend="-1"/>
+        <location file="RK45Integrator.h" line="160" column="19" bodyfile="RK45Integrator.h" bodystart="160" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classrr_1_1RK45Integrator_1a3589cee200feb06ce130be0ac5e836fb" prot="private" static="no" mutable="no">
         <type>double *</type>
@@ -56,7 +56,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="RK45Integrator.h" line="156" column="22" bodyfile="RK45Integrator.h" bodystart="156" bodyend="-1"/>
+        <location file="RK45Integrator.h" line="160" column="22" bodyfile="RK45Integrator.h" bodystart="160" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classrr_1_1RK45Integrator_1a5fb81e568e1319acfc7cc76e7ed788d1" prot="private" static="no" mutable="no">
         <type>double *</type>
@@ -69,7 +69,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="RK45Integrator.h" line="156" column="25" bodyfile="RK45Integrator.h" bodystart="156" bodyend="-1"/>
+        <location file="RK45Integrator.h" line="160" column="25" bodyfile="RK45Integrator.h" bodystart="160" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classrr_1_1RK45Integrator_1a65054a224615e881698899970ba33548" prot="private" static="no" mutable="no">
         <type>double *</type>
@@ -82,7 +82,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="RK45Integrator.h" line="156" column="28" bodyfile="RK45Integrator.h" bodystart="156" bodyend="-1"/>
+        <location file="RK45Integrator.h" line="160" column="28" bodyfile="RK45Integrator.h" bodystart="160" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classrr_1_1RK45Integrator_1ada6b5ff0d7f0fab5e39bf910e647852a" prot="private" static="no" mutable="no">
         <type>double *</type>
@@ -95,7 +95,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="RK45Integrator.h" line="156" column="30" bodyfile="RK45Integrator.h" bodystart="156" bodyend="-1"/>
+        <location file="RK45Integrator.h" line="160" column="30" bodyfile="RK45Integrator.h" bodystart="160" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classrr_1_1RK45Integrator_1a40ab3c23e70d852372149fc680a282d0" prot="private" static="no" mutable="no">
         <type>double</type>
@@ -108,7 +108,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="RK45Integrator.h" line="159" column="16" bodyfile="RK45Integrator.h" bodystart="159" bodyend="-1"/>
+        <location file="RK45Integrator.h" line="163" column="16" bodyfile="RK45Integrator.h" bodystart="163" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classrr_1_1RK45Integrator_1afa4405dc3568849177b2ed7d8262c6c3" prot="private" static="no" mutable="no">
         <type>double</type>
@@ -121,7 +121,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="RK45Integrator.h" line="159" column="25" bodyfile="RK45Integrator.h" bodystart="159" bodyend="-1"/>
+        <location file="RK45Integrator.h" line="163" column="25" bodyfile="RK45Integrator.h" bodystart="163" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classrr_1_1RK45Integrator_1a5d9adff45ee37256b2537b4bf726d41f" prot="private" static="no" mutable="no">
         <type>double</type>
@@ -134,7 +134,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="RK45Integrator.h" line="159" column="30" bodyfile="RK45Integrator.h" bodystart="159" bodyend="-1"/>
+        <location file="RK45Integrator.h" line="163" column="30" bodyfile="RK45Integrator.h" bodystart="163" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classrr_1_1RK45Integrator_1a6642fd4bb1b6bcf5887d6c46d1a639b4" prot="private" static="no" mutable="no">
         <type>double *</type>
@@ -147,7 +147,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="RK45Integrator.h" line="161" column="16" bodyfile="RK45Integrator.h" bodystart="161" bodyend="-1"/>
+        <location file="RK45Integrator.h" line="165" column="16" bodyfile="RK45Integrator.h" bodystart="165" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classrr_1_1RK45Integrator_1a4de25f3613f944e2406c01030a309b38" prot="private" static="no" mutable="no">
         <type>double *</type>
@@ -160,7 +160,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="RK45Integrator.h" line="161" column="19" bodyfile="RK45Integrator.h" bodystart="161" bodyend="-1"/>
+        <location file="RK45Integrator.h" line="165" column="19" bodyfile="RK45Integrator.h" bodystart="165" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classrr_1_1RK45Integrator_1ad3dc87c75cf610b8143b09c741ad60f2" prot="private" static="no" mutable="no">
         <type>double *</type>
@@ -173,7 +173,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="RK45Integrator.h" line="161" column="22" bodyfile="RK45Integrator.h" bodystart="161" bodyend="-1"/>
+        <location file="RK45Integrator.h" line="165" column="22" bodyfile="RK45Integrator.h" bodystart="165" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -196,7 +196,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="RK45Integrator.h" line="37" column="9" bodyfile="RK45Integrator.cpp" bodystart="23" bodyend="32"/>
+        <location file="RK45Integrator.h" line="41" column="9" bodyfile="RK45Integrator.cpp" bodystart="22" bodyend="30"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RK45Integrator_1a8f080676c2c77fb14fc1f45b5705ebb4" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type></type>
@@ -213,7 +213,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="RK45Integrator.h" line="43" column="17" bodyfile="RK45Integrator.cpp" bodystart="71" bodyend="82"/>
+        <location file="RK45Integrator.h" line="47" column="17" bodyfile="RK45Integrator.cpp" bodystart="68" bodyend="81"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RK45Integrator_1ac72e73c1d53f4884d9976cacee27f738" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -235,7 +235,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="RK45Integrator.h" line="50" column="22" bodyfile="RK45Integrator.cpp" bodystart="34" bodyend="69"/>
+        <location file="RK45Integrator.h" line="54" column="22" bodyfile="RK45Integrator.cpp" bodystart="32" bodyend="66"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RK45Integrator_1ab181e94750addee7066f7b35cce2fb4d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>double</type>
@@ -257,11 +257,12 @@
         <detaileddescription>
 <para><simplesect kind="author"><para>CC</para>
 </simplesect>
-Integrates the model from t to t + h.  Attempts to find the state std::vector at t + h, and returns time t + h if successful. If the integrator does not find a convergent solution, the state std::vector is not updated and t is returned. Also calculates a new timestep and saves it to a member variable for future use. </para>
+Integrates the model from t to t + h.</para>
+<para>Attempts to find the state std::vector at t + h, and returns time t + h if successful. If the integrator does not find a convergent solution, the state std::vector is not updated and t is returned. Also calculates a new timestep and saves it to a member variable for future use. </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="RK45Integrator.h" line="69" column="24" bodyfile="RK45Integrator.cpp" bodystart="84" bodyend="237"/>
+        <location file="RK45Integrator.h" line="73" column="24" bodyfile="RK45Integrator.cpp" bodystart="83" bodyend="235"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RK45Integrator_1abde959ca72506e25e6c1187a4fa15b2b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -280,14 +281,14 @@ Integrates the model from t to t + h.  Attempts to find the state std::vector at
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="RK45Integrator.h" line="74" column="22" bodyfile="RK45Integrator.cpp" bodystart="251" bodyend="273"/>
+        <location file="RK45Integrator.h" line="78" column="22" bodyfile="RK45Integrator.cpp" bodystart="248" bodyend="267"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RK45Integrator_1aebee4c612006c929ba1d194b4258fa55" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>std::string</type>
         <definition>std::string rr::RK45Integrator::getName</definition>
         <argsstring>() const</argsstring>
         <name>getName</name>
-        <reimplements refid="classrr_1_1Solver_1a417cca64a18c63535f2091584f8fed91">getName</reimplements>
+        <reimplements refid="classrr_1_1Registrable_1a7d66e096a8c5cfd5e3fdb6cf5aa339d6">getName</reimplements>
         <briefdescription>
 <para>Get the name for this integrator. </para>
         </briefdescription>
@@ -300,14 +301,14 @@ Integrates the model from t to t + h.  Attempts to find the state std::vector at
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="RK45Integrator.h" line="83" column="21" bodyfile="RK45Integrator.cpp" bodystart="284" bodyend="286"/>
+        <location file="RK45Integrator.h" line="87" column="21" bodyfile="RK45Integrator.cpp" bodystart="276" bodyend="278"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RK45Integrator_1a45d69589da662628a6f0f66c200614e3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>std::string</type>
         <definition>std::string rr::RK45Integrator::getDescription</definition>
         <argsstring>() const</argsstring>
         <name>getDescription</name>
-        <reimplements refid="classrr_1_1Solver_1a86067147c7631ca80d51667322f1a8f5">getDescription</reimplements>
+        <reimplements refid="classrr_1_1Registrable_1af8b4a2f0dc7cc99fa22c1056f917e5d4">getDescription</reimplements>
         <briefdescription>
 <para>Get the description for this integrator. </para>
         </briefdescription>
@@ -320,14 +321,14 @@ Integrates the model from t to t + h.  Attempts to find the state std::vector at
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="RK45Integrator.h" line="96" column="21" bodyfile="RK45Integrator.cpp" bodystart="292" bodyend="294"/>
+        <location file="RK45Integrator.h" line="100" column="21" bodyfile="RK45Integrator.cpp" bodystart="284" bodyend="286"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RK45Integrator_1ae5526461902e834afff94a18f679dbe3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>std::string</type>
         <definition>std::string rr::RK45Integrator::getHint</definition>
         <argsstring>() const</argsstring>
         <name>getHint</name>
-        <reimplements refid="classrr_1_1Solver_1aff005f7e71bc73123ecbd511a77f71b6">getHint</reimplements>
+        <reimplements refid="classrr_1_1Registrable_1a1a6c686212133cda58ab44b310f401d9">getHint</reimplements>
         <briefdescription>
 <para>Get the hint for this integrator. </para>
         </briefdescription>
@@ -340,7 +341,29 @@ Integrates the model from t to t + h.  Attempts to find the state std::vector at
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="RK45Integrator.h" line="109" column="21" bodyfile="RK45Integrator.cpp" bodystart="302" bodyend="304"/>
+        <location file="RK45Integrator.h" line="113" column="21" bodyfile="RK45Integrator.cpp" bodystart="294" bodyend="296"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1RK45Integrator_1afe2267491be1f0a96429d9f11d8c06c4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="classrr_1_1Solver" kindref="compound">Solver</ref> *</type>
+        <definition>Solver * rr::RK45Integrator::construct</definition>
+        <argsstring>(ExecutableModel *executableModel) const</argsstring>
+        <name>construct</name>
+        <reimplements refid="classrr_1_1Registrable_1a3f529e138fa0288622525bc13cd73c5f">construct</reimplements>
+        <param>
+          <type><ref refid="classrr_1_1ExecutableModel" kindref="compound">ExecutableModel</ref> *</type>
+          <declname>model</declname>
+        </param>
+        <briefdescription>
+<para>Constructs a new <ref refid="classrr_1_1Solver" kindref="compound">Solver</ref> of a given type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="author"><para>JKM, WBC</para>
+</simplesect>
+the caller is responsible for deleting memory associated with the returned Solver*. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="RK45Integrator.h" line="121" column="16" bodyfile="RK45Integrator.cpp" bodystart="333" bodyend="335"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RK45Integrator_1a207a72af6c04b4e86d6f792ea25abddc" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classrr_1_1Setting" kindref="compound">Setting</ref></type>
@@ -357,7 +380,7 @@ Integrates the model from t to t + h.  Attempts to find the state std::vector at
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="RK45Integrator.h" line="119" column="25" bodyfile="RK45Integrator.cpp" bodystart="310" bodyend="316"/>
+        <location file="RK45Integrator.h" line="125" column="25" bodyfile="RK45Integrator.cpp" bodystart="302" bodyend="307"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RK45Integrator_1ade69fdfc91f614a6f20bc8027d5e2f0a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>IntegrationMethod</type>
@@ -375,7 +398,7 @@ Integrates the model from t to t + h.  Attempts to find the state std::vector at
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="RK45Integrator.h" line="125" column="27" bodyfile="RK45Integrator.cpp" bodystart="318" bodyend="321"/>
+        <location file="RK45Integrator.h" line="131" column="27" bodyfile="RK45Integrator.cpp" bodystart="309" bodyend="311"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RK45Integrator_1a68cd9b39288762b25f1410aa743f703c" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -393,7 +416,7 @@ Integrates the model from t to t + h.  Attempts to find the state std::vector at
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="RK45Integrator.h" line="131" column="14" bodyfile="RK45Integrator.cpp" bodystart="323" bodyend="332"/>
+        <location file="RK45Integrator.h" line="137" column="14" bodyfile="RK45Integrator.cpp" bodystart="313" bodyend="331"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RK45Integrator_1a7fdc3829b5635e1b0cd18cced396261d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -412,7 +435,7 @@ Integrates the model from t to t + h.  Attempts to find the state std::vector at
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="RK45Integrator.h" line="139" column="22" bodyfile="RK45Integrator.cpp" bodystart="275" bodyend="277"/>
+        <location file="RK45Integrator.h" line="145" column="22" bodyfile="RK45Integrator.cpp" bodystart="269" bodyend="270"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RK45Integrator_1af31a4d9eaff51261d8589f6020f2d612" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>IntegratorListenerPtr</type>
@@ -427,7 +450,24 @@ Integrates the model from t to t + h.  Attempts to find the state std::vector at
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="RK45Integrator.h" line="144" column="39" bodyfile="RK45Integrator.cpp" bodystart="279" bodyend="282"/>
+        <location file="RK45Integrator.h" line="150" column="39" bodyfile="RK45Integrator.cpp" bodystart="272" bodyend="274"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1RK45Integrator_1a8a79e9633a25767a1683a0334fd1d917" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>rr::Integrator::Integrator</definition>
+        <argsstring>(ExecutableModel *model)</argsstring>
+        <name>Integrator</name>
+        <param>
+          <type><ref refid="classrr_1_1ExecutableModel" kindref="compound">ExecutableModel</ref> *</type>
+          <declname>model</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="RK45Integrator.h" line="35" column="9" bodyfile="Integrator.cpp" bodystart="34" bodyend="35"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-static-func">
@@ -446,7 +486,7 @@ Integrates the model from t to t + h.  Attempts to find the state std::vector at
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="RK45Integrator.h" line="89" column="28" bodyfile="RK45Integrator.cpp" bodystart="288" bodyend="290"/>
+        <location file="RK45Integrator.h" line="93" column="28" bodyfile="RK45Integrator.cpp" bodystart="280" bodyend="282"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RK45Integrator_1a4540762ed7dca923baa3849f25c4a88f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -463,7 +503,7 @@ Integrates the model from t to t + h.  Attempts to find the state std::vector at
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="RK45Integrator.h" line="102" column="28" bodyfile="RK45Integrator.cpp" bodystart="296" bodyend="300"/>
+        <location file="RK45Integrator.h" line="106" column="28" bodyfile="RK45Integrator.cpp" bodystart="288" bodyend="292"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RK45Integrator_1a0adfabeb7354eb4b364106b30d7b91e1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -480,7 +520,7 @@ Integrates the model from t to t + h.  Attempts to find the state std::vector at
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="RK45Integrator.h" line="115" column="28" bodyfile="RK45Integrator.cpp" bodystart="306" bodyend="308"/>
+        <location file="RK45Integrator.h" line="119" column="28" bodyfile="RK45Integrator.cpp" bodystart="298" bodyend="300"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-func">
@@ -495,7 +535,7 @@ Integrates the model from t to t + h.  Attempts to find the state std::vector at
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="RK45Integrator.h" line="163" column="14" bodyfile="RK45Integrator.cpp" bodystart="239" bodyend="244"/>
+        <location file="RK45Integrator.h" line="167" column="14" bodyfile="RK45Integrator.cpp" bodystart="237" bodyend="242"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RK45Integrator_1a006b9768c5f6b12a97909d82e2984105" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -516,16 +556,16 @@ Integrates the model from t to t + h.  Attempts to find the state std::vector at
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="RK45Integrator.h" line="164" column="14" bodyfile="RK45Integrator.cpp" bodystart="246" bodyend="249"/>
+        <location file="RK45Integrator.h" line="168" column="14" bodyfile="RK45Integrator.cpp" bodystart="244" bodyend="246"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
 <para>A Runge-Kutta Fehlberg method for roadrunner. </para>
     </briefdescription>
     <detaileddescription>
-<para><simplesect kind="author"><para>KC  Uses the Fehlberg method, an adaptive step method, to integrate models. </para>
+<para><simplesect kind="author"><para>KC</para>
 </simplesect>
-</para>
+Uses the Fehlberg method, an adaptive step method, to integrate models. </para>
     </detaileddescription>
     <inheritancegraph>
       <node id="1">
@@ -540,9 +580,15 @@ Integrates the model from t to t + h.  Attempts to find the state std::vector at
         <childnode refid="3" relation="public-inheritance">
         </childnode>
       </node>
+      <node id="4">
+        <label>rr::Registrable</label>
+        <link refid="classrr_1_1Registrable"/>
+      </node>
       <node id="3">
         <label>rr::Solver</label>
         <link refid="classrr_1_1Solver"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
       </node>
     </inheritancegraph>
     <collaborationgraph>
@@ -558,38 +604,48 @@ Integrates the model from t to t + h.  Attempts to find the state std::vector at
         <childnode refid="3" relation="public-inheritance">
         </childnode>
       </node>
+      <node id="4">
+        <label>rr::Registrable</label>
+        <link refid="classrr_1_1Registrable"/>
+      </node>
       <node id="3">
         <label>rr::Solver</label>
         <link refid="classrr_1_1Solver"/>
-        <childnode refid="4" relation="usage">
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="usage">
           <edgelabel>mModel</edgelabel>
         </childnode>
       </node>
-      <node id="4">
+      <node id="5">
         <label>rr::ExecutableModel</label>
         <link refid="classrr_1_1ExecutableModel"/>
       </node>
     </collaborationgraph>
-    <location file="RK45Integrator.h" line="30" column="5" bodyfile="RK45Integrator.h" bodystart="31" bodyend="166"/>
+    <location file="RK45Integrator.h" line="31" column="5" bodyfile="RK45Integrator.h" bodystart="32" bodyend="170"/>
     <listofallmembers>
       <member refid="classrr_1_1Solver_1ad5b8ac1ef687d1a3c9f1f305cb73804d" prot="protected" virt="non-virtual"><scope>rr::RK45Integrator</scope><name>addSetting</name></member>
       <member refid="classrr_1_1RK45Integrator_1a006b9768c5f6b12a97909d82e2984105" prot="private" virt="non-virtual"><scope>rr::RK45Integrator</scope><name>applyEvents</name></member>
-      <member refid="classrr_1_1Solver_1a7d58e224664ab44e56f90802d9601f01" prot="protected" virt="non-virtual"><scope>rr::RK45Integrator</scope><name>DescriptionMap</name></member>
-      <member refid="classrr_1_1Solver_1a7e07121f652db358045d6f7b95889ea3" prot="protected" virt="non-virtual"><scope>rr::RK45Integrator</scope><name>descriptions</name></member>
+      <member refid="classrr_1_1RK45Integrator_1afe2267491be1f0a96429d9f11d8c06c4" prot="public" virt="virtual"><scope>rr::RK45Integrator</scope><name>construct</name></member>
+      <member refid="classrr_1_1Solver_1a7d58e224664ab44e56f90802d9601f01" prot="public" virt="non-virtual"><scope>rr::RK45Integrator</scope><name>DescriptionMap</name></member>
+      <member refid="classrr_1_1Solver_1a7e07121f652db358045d6f7b95889ea3" prot="public" virt="non-virtual"><scope>rr::RK45Integrator</scope><name>descriptions</name></member>
       <member refid="classrr_1_1Integrator_1a0912499450e66cb4301263362d64a0d0af737370ac52f7db68da0965ff5667255" prot="public" virt="non-virtual"><scope>rr::RK45Integrator</scope><name>Deterministic</name></member>
-      <member refid="classrr_1_1Solver_1a199de66231b25fef30d8ef2bdff80db7" prot="protected" virt="non-virtual"><scope>rr::RK45Integrator</scope><name>display_names_</name></member>
-      <member refid="classrr_1_1Solver_1a76b76c8ba3a31a2c6a600322c90a0452" prot="protected" virt="non-virtual"><scope>rr::RK45Integrator</scope><name>DisplayNameMap</name></member>
+      <member refid="classrr_1_1Solver_1a199de66231b25fef30d8ef2bdff80db7" prot="public" virt="non-virtual"><scope>rr::RK45Integrator</scope><name>display_names_</name></member>
+      <member refid="classrr_1_1Solver_1a76b76c8ba3a31a2c6a600322c90a0452" prot="public" virt="non-virtual"><scope>rr::RK45Integrator</scope><name>DisplayNameMap</name></member>
       <member refid="classrr_1_1RK45Integrator_1ad3dc87c75cf610b8143b09c741ad60f2" prot="private" virt="non-virtual"><scope>rr::RK45Integrator</scope><name>err</name></member>
       <member refid="classrr_1_1Integrator_1a9bb4546b27c3b0b4552ebc1b36148629" prot="public" virt="virtual"><scope>rr::RK45Integrator</scope><name>getConcentrationTolerance</name></member>
       <member refid="classrr_1_1RK45Integrator_1a45d69589da662628a6f0f66c200614e3" prot="public" virt="virtual"><scope>rr::RK45Integrator</scope><name>getDescription</name></member>
       <member refid="classrr_1_1Solver_1a522a881e88165986944db55a8f2da845" prot="public" virt="non-virtual" ambiguityscope="rr::Integrator::"><scope>rr::RK45Integrator</scope><name>getDescription</name></member>
+      <member refid="classrr_1_1Solver_1a1062b181455da6310d5678a4c978d072" prot="public" virt="non-virtual" ambiguityscope="rr::Integrator::"><scope>rr::RK45Integrator</scope><name>getDescription</name></member>
       <member refid="classrr_1_1Solver_1a1fce02df70c95855d9d3cd7e3d352c08" prot="public" virt="non-virtual"><scope>rr::RK45Integrator</scope><name>getDisplayName</name></member>
       <member refid="classrr_1_1RK45Integrator_1ae5526461902e834afff94a18f679dbe3" prot="public" virt="virtual"><scope>rr::RK45Integrator</scope><name>getHint</name></member>
       <member refid="classrr_1_1Solver_1a4915611d49d03f0fe499bed99a05aae1" prot="public" virt="non-virtual" ambiguityscope="rr::Integrator::"><scope>rr::RK45Integrator</scope><name>getHint</name></member>
+      <member refid="classrr_1_1Solver_1a30605288d92db09d42a886c132e5429f" prot="public" virt="non-virtual" ambiguityscope="rr::Integrator::"><scope>rr::RK45Integrator</scope><name>getHint</name></member>
       <member refid="classrr_1_1RK45Integrator_1ade69fdfc91f614a6f20bc8027d5e2f0a" prot="public" virt="virtual"><scope>rr::RK45Integrator</scope><name>getIntegrationMethod</name></member>
       <member refid="classrr_1_1RK45Integrator_1af31a4d9eaff51261d8589f6020f2d612" prot="public" virt="virtual"><scope>rr::RK45Integrator</scope><name>getListener</name></member>
       <member refid="classrr_1_1Solver_1ac89194d54aaad3ecc71e1cfbbef83d15" prot="public" virt="virtual"><scope>rr::RK45Integrator</scope><name>getModel</name></member>
       <member refid="classrr_1_1RK45Integrator_1aebee4c612006c929ba1d194b4258fa55" prot="public" virt="virtual"><scope>rr::RK45Integrator</scope><name>getName</name></member>
+      <member refid="classrr_1_1Solver_1ae4ae3d123747f44ba18cb94a37cdcc6d" prot="public" virt="non-virtual" ambiguityscope="rr::Integrator::"><scope>rr::RK45Integrator</scope><name>getName</name></member>
       <member refid="classrr_1_1Solver_1abbefd0f38dfa2651c74f8abbd6d7b143" prot="public" virt="virtual"><scope>rr::RK45Integrator</scope><name>getNumParams</name></member>
       <member refid="classrr_1_1Solver_1aa13e13a92531fde27fe5711790eee0f7" prot="public" virt="virtual"><scope>rr::RK45Integrator</scope><name>getParamDesc</name></member>
       <member refid="classrr_1_1Solver_1afc0a667f204105aa133376144ce14c75" prot="public" virt="virtual"><scope>rr::RK45Integrator</scope><name>getParamDisplayName</name></member>
@@ -607,14 +663,15 @@ Integrates the model from t to t + h.  Attempts to find the state std::vector at
       <member refid="classrr_1_1Solver_1a83b99af970b895d62998bf90ec619168" prot="public" virt="virtual"><scope>rr::RK45Integrator</scope><name>getValueAsString</name></member>
       <member refid="classrr_1_1Solver_1afc1e25855220cbe469433c70f8c44ea5" prot="public" virt="virtual"><scope>rr::RK45Integrator</scope><name>hasValue</name></member>
       <member refid="classrr_1_1RK45Integrator_1a40ab3c23e70d852372149fc680a282d0" prot="private" virt="non-virtual"><scope>rr::RK45Integrator</scope><name>hCurrent</name></member>
-      <member refid="classrr_1_1Solver_1ac39f2073d482cdf591d93415557c6751" prot="protected" virt="non-virtual"><scope>rr::RK45Integrator</scope><name>HintMap</name></member>
-      <member refid="classrr_1_1Solver_1a39049af7a03fd00b1021c1ce9a9691fc" prot="protected" virt="non-virtual"><scope>rr::RK45Integrator</scope><name>hints</name></member>
+      <member refid="classrr_1_1Solver_1ac39f2073d482cdf591d93415557c6751" prot="public" virt="non-virtual"><scope>rr::RK45Integrator</scope><name>HintMap</name></member>
+      <member refid="classrr_1_1Solver_1a39049af7a03fd00b1021c1ce9a9691fc" prot="public" virt="non-virtual"><scope>rr::RK45Integrator</scope><name>hints</name></member>
       <member refid="classrr_1_1RK45Integrator_1a5d9adff45ee37256b2537b4bf726d41f" prot="private" virt="non-virtual"><scope>rr::RK45Integrator</scope><name>hmax</name></member>
       <member refid="classrr_1_1RK45Integrator_1afa4405dc3568849177b2ed7d8262c6c3" prot="private" virt="non-virtual"><scope>rr::RK45Integrator</scope><name>hmin</name></member>
       <member refid="classrr_1_1Integrator_1a0912499450e66cb4301263362d64a0d0aca69e7d9e0e8eb017d2351c375453822" prot="public" virt="non-virtual"><scope>rr::RK45Integrator</scope><name>Hybrid</name></member>
       <member refid="classrr_1_1RK45Integrator_1ab181e94750addee7066f7b35cce2fb4d" prot="public" virt="virtual"><scope>rr::RK45Integrator</scope><name>integrate</name></member>
       <member refid="classrr_1_1Integrator_1a0912499450e66cb4301263362d64a0d0" prot="public" virt="non-virtual"><scope>rr::RK45Integrator</scope><name>IntegrationMethod</name></member>
-      <member refid="classrr_1_1Integrator_1a8a79e9633a25767a1683a0334fd1d917" prot="public" virt="non-virtual"><scope>rr::RK45Integrator</scope><name>Integrator</name></member>
+      <member refid="classrr_1_1RK45Integrator_1a8a79e9633a25767a1683a0334fd1d917" prot="public" virt="non-virtual"><scope>rr::RK45Integrator</scope><name>Integrator</name></member>
+      <member refid="classrr_1_1Integrator_1a8a79e9633a25767a1683a0334fd1d917" prot="public" virt="non-virtual" ambiguityscope="rr::Integrator::"><scope>rr::RK45Integrator</scope><name>Integrator</name></member>
       <member refid="classrr_1_1RK45Integrator_1a921c542303cecb0902fcd7d5ff9b6230" prot="private" virt="non-virtual"><scope>rr::RK45Integrator</scope><name>k1</name></member>
       <member refid="classrr_1_1RK45Integrator_1abb0e377bf361bc799aca504e4b400441" prot="private" virt="non-virtual"><scope>rr::RK45Integrator</scope><name>k2</name></member>
       <member refid="classrr_1_1RK45Integrator_1a3589cee200feb06ce130be0ac5e836fb" prot="private" virt="non-virtual"><scope>rr::RK45Integrator</scope><name>k3</name></member>
@@ -631,15 +688,16 @@ Integrates the model from t to t + h.  Attempts to find the state std::vector at
       <member refid="classrr_1_1Integrator_1a21645210737f35264504c3125c4679fe" prot="public" virt="virtual"><scope>rr::RK45Integrator</scope><name>setConcentrationTolerance</name></member>
       <member refid="classrr_1_1Integrator_1a53099879e74aa5bea1139453db9b5732" prot="public" virt="virtual"><scope>rr::RK45Integrator</scope><name>setIndividualTolerance</name></member>
       <member refid="classrr_1_1RK45Integrator_1a7fdc3829b5635e1b0cd18cced396261d" prot="public" virt="virtual"><scope>rr::RK45Integrator</scope><name>setListener</name></member>
-      <member refid="classrr_1_1Solver_1a44a22cf0edead17a9cc923d87dcc063e" prot="protected" virt="non-virtual"><scope>rr::RK45Integrator</scope><name>settings</name></member>
-      <member refid="classrr_1_1Solver_1adcbacd57e2871a83bb9c4d7a4038a069" prot="protected" virt="non-virtual"><scope>rr::RK45Integrator</scope><name>SettingsList</name></member>
-      <member refid="classrr_1_1Solver_1a61c0fd04ad69fc173c51dac3bdde2431" prot="protected" virt="non-virtual"><scope>rr::RK45Integrator</scope><name>SettingsMap</name></member>
+      <member refid="classrr_1_1Solver_1a44a22cf0edead17a9cc923d87dcc063e" prot="public" virt="non-virtual"><scope>rr::RK45Integrator</scope><name>settings</name></member>
+      <member refid="classrr_1_1Solver_1adcbacd57e2871a83bb9c4d7a4038a069" prot="public" virt="non-virtual"><scope>rr::RK45Integrator</scope><name>SettingsList</name></member>
+      <member refid="classrr_1_1Solver_1a61c0fd04ad69fc173c51dac3bdde2431" prot="public" virt="non-virtual"><scope>rr::RK45Integrator</scope><name>SettingsMap</name></member>
       <member refid="classrr_1_1Solver_1a37b032d8755eaccd3480531bdc2a4596" prot="public" virt="virtual"><scope>rr::RK45Integrator</scope><name>settingsPyDictRepr</name></member>
       <member refid="classrr_1_1Integrator_1a18fa004a818506c15d47fa28015039c6" prot="public" virt="non-virtual"><scope>rr::RK45Integrator</scope><name>setValue</name></member>
       <member refid="classrr_1_1Solver_1a18fa004a818506c15d47fa28015039c6" prot="public" virt="virtual" ambiguityscope="rr::Solver::"><scope>rr::RK45Integrator</scope><name>setValue</name></member>
-      <member refid="classrr_1_1Solver_1a04bba4a342cc7197750f080d41d439e5" prot="public" virt="non-virtual"><scope>rr::RK45Integrator</scope><name>Solver</name></member>
-      <member refid="classrr_1_1Solver_1aa0a07553e368f0be33b9bfc429782a97" prot="public" virt="non-virtual"><scope>rr::RK45Integrator</scope><name>Solver</name></member>
-      <member refid="classrr_1_1Solver_1a99f48947491d7cd36c68cebba53915fe" prot="protected" virt="non-virtual"><scope>rr::RK45Integrator</scope><name>sorted_settings</name></member>
+      <member refid="classrr_1_1Integrator_1a04bba4a342cc7197750f080d41d439e5" prot="public" virt="non-virtual"><scope>rr::RK45Integrator</scope><name>Solver</name></member>
+      <member refid="classrr_1_1Integrator_1aa0a07553e368f0be33b9bfc429782a97" prot="public" virt="non-virtual"><scope>rr::RK45Integrator</scope><name>Solver</name></member>
+      <member refid="classrr_1_1Solver_1aa0a07553e368f0be33b9bfc429782a97" prot="public" virt="non-virtual" ambiguityscope="rr::Solver::"><scope>rr::RK45Integrator</scope><name>Solver</name></member>
+      <member refid="classrr_1_1Solver_1a99f48947491d7cd36c68cebba53915fe" prot="public" virt="non-virtual"><scope>rr::RK45Integrator</scope><name>sorted_settings</name></member>
       <member refid="classrr_1_1RK45Integrator_1a0e28dcef72ecb5248ad0905cb3c6ac5a" prot="private" virt="non-virtual"><scope>rr::RK45Integrator</scope><name>stateVectorSize</name></member>
       <member refid="classrr_1_1Integrator_1a0912499450e66cb4301263362d64a0d0a35eaf1b6ad6c75eb82506ef35dd47c27" prot="public" virt="non-virtual"><scope>rr::RK45Integrator</scope><name>Stochastic</name></member>
       <member refid="classrr_1_1RK45Integrator_1ac72e73c1d53f4884d9976cacee27f738" prot="public" virt="virtual"><scope>rr::RK45Integrator</scope><name>syncWithModel</name></member>
@@ -651,8 +709,9 @@ Integrates the model from t to t + h.  Attempts to find the state std::vector at
       <member refid="classrr_1_1RK45Integrator_1a65054a224615e881698899970ba33548" prot="private" virt="non-virtual"><scope>rr::RK45Integrator</scope><name>y</name></member>
       <member refid="classrr_1_1RK45Integrator_1ada6b5ff0d7f0fab5e39bf910e647852a" prot="private" virt="non-virtual"><scope>rr::RK45Integrator</scope><name>ytmp</name></member>
       <member refid="classrr_1_1Integrator_1a35f0f55f14d225c1da02300f3f1c37b5" prot="public" virt="virtual"><scope>rr::RK45Integrator</scope><name>~Integrator</name></member>
+      <member refid="classrr_1_1Registrable_1aca014aaba0d4aaa80f89c4451bce5b4c" prot="public" virt="virtual"><scope>rr::RK45Integrator</scope><name>~Registrable</name></member>
       <member refid="classrr_1_1RK45Integrator_1a8f080676c2c77fb14fc1f45b5705ebb4" prot="public" virt="virtual"><scope>rr::RK45Integrator</scope><name>~RK45Integrator</name></member>
-      <member refid="classrr_1_1Solver_1a0e6558e376aee7e4d3a9b69b8c3ae08b" prot="public" virt="virtual"><scope>rr::RK45Integrator</scope><name>~Solver</name></member>
+      <member refid="classrr_1_1Solver_1a3a6586c87e2218dd22f1461f50d5c0dd" prot="public" virt="non-virtual"><scope>rr::RK45Integrator</scope><name>~Solver</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

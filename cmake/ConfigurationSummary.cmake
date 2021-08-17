@@ -42,6 +42,7 @@ Options
 
     Host OS                             ${CMAKE_SYSTEM_NAME}
     Host architecture                   ${CMAKE_SYSTEM_PROCESSOR}
+    CMake Generator                     ${CMAKE_GENERATOR}
     With LLVM?                          ${BUILD_LLVM}
     With legacy C? (DEP)                ${BUILD_LEGACY_C}
     llvm-6.x install prefix             ${LLVM_INSTALL_PREFIX}
@@ -59,6 +60,12 @@ Options
     Build Java bindings?                ${BUILD_JAVA}
     Package roadrunner?                 ${BUILD_PACKAGING}
     Build with address sanitizer?       ${WITH_ADDRESS_SANITIZER}
+    PYTHON_PACKAGE_SITE_DIR_BUILD_TREE  ${PYTHON_PACKAGE_SITE_DIR_BUILD_TREE}
+    PYTHON_PACKAGE_BUILD_PREFIX         ${PYTHON_PACKAGE_BUILD_PREFIX}
+    RR_PYTHON_TESTING_BUILD_PREFIX      ${RR_PYTHON_TESTING_BUILD_PREFIX}
+    PYTHON_PACKAGE_SITE_DIR             ${PYTHON_PACKAGE_SITE_DIR}
+    PYTHON_PACKAGE_INSTALL_PREFIX       ${PYTHON_PACKAGE_INSTALL_PREFIX}
+    RR_PYTHON_TESTING_INSTALL_PREFIX    ${RR_PYTHON_TESTING_INSTALL_PREFIX}
 
 -------------------------------------------------------------------------------
 rrplugins
@@ -88,13 +95,15 @@ Python Variables
 -------------------------------------------------------------------------------
 Note: you can change these by setting the Python_ROOT_DIR variable
 
-BUILD_PYTHON                               ${BUILD_PYTHON}
-Python_ROOT_DIR                            ${Python_ROOT_DIR}
-Python_VERSION                             ${Python_VERSION}
-Python_EXECUTABLE                          ${Python_EXECUTABLE}
-Python_LIBRARIES                           ${Python_LIBRARIES}
-Python_INCLUDE_DIRS                        ${Python_INCLUDE_DIRS}
-
+    BUILD_PYTHON                               ${BUILD_PYTHON}
+    Python_ROOT_DIR                            ${Python_ROOT_DIR}
+    Python_VERSION                             ${Python_VERSION}
+    Python_EXECUTABLE                          ${Python_EXECUTABLE}
+    Python_LIBRARIES                           ${Python_LIBRARIES}
+    Python_INCLUDE_DIRS                        ${Python_INCLUDE_DIRS}
+    Python_NumPy_FOUND                         ${Python_NumPy_FOUND}
+    Python_NumPy_INCLUDE_DIRS                  ${Python_NumPy_INCLUDE_DIRS}
+    Python_NumPy_VERSION                       ${Python_NumPy_VERSION}
 End Summary
 ################################################################################
 ")

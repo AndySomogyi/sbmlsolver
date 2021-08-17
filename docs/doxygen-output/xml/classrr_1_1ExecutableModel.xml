@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
   <compounddef id="classrr_1_1ExecutableModel" kind="class" language="C++" prot="public" abstract="yes">
     <compoundname>rr::ExecutableModel</compoundname>
     <derivedcompoundref refid="classrr_1_1CompiledExecutableModel" prot="public" virt="non-virtual">rr::CompiledExecutableModel</derivedcompoundref>
@@ -39,10 +39,13 @@
       </sectiondef>
       <sectiondef kind="friend">
       <memberdef kind="friend" id="classrr_1_1ExecutableModel_1a4ee035f139a2124731903f5911c22690" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>friend class</type>
+        <type>class</type>
         <definition>friend class RoadRunner</definition>
         <argsstring></argsstring>
         <name>RoadRunner</name>
+        <param>
+          <type><ref refid="classrr_1_1RoadRunner" kindref="compound">RoadRunner</ref></type>
+        </param>
         <briefdescription>
         </briefdescription>
         <detaileddescription>

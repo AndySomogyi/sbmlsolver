@@ -92,6 +92,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../index.html">RoadRunner Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Installation/installation.html">Installing RoadRunner</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Examples/examples_index.html">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../read_write_functions.html">SBML Read/Write Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../selecting_values.html">Selecting Values</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../steady_state.html">Steady State Analysis</a></li>
@@ -244,7 +245,7 @@
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N2rr19GillespieIntegrator13syncWithModelEP15ExecutableModel">
-<span id="_CPPv3N2rr19GillespieIntegrator13syncWithModelEP15ExecutableModel"></span><span id="_CPPv2N2rr19GillespieIntegrator13syncWithModelEP15ExecutableModel"></span><span id="rr::GillespieIntegrator::syncWithModel__ExecutableModelP"></span><span class="target" id="classrr_1_1GillespieIntegrator_1ab9964aeac6eb46f5f44b16c48924f699"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">syncWithModel</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="rrExecutableModel.html#_CPPv4N2rr15ExecutableModelE" title="rr::ExecutableModel"><span class="n"><span class="pre">ExecutableModel</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">m</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr19GillespieIntegrator13syncWithModelEP15ExecutableModel" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3N2rr19GillespieIntegrator13syncWithModelEP15ExecutableModel"></span><span id="_CPPv2N2rr19GillespieIntegrator13syncWithModelEP15ExecutableModel"></span><span id="rr::GillespieIntegrator::syncWithModel__ExecutableModelP"></span><span class="target" id="classrr_1_1GillespieIntegrator_1ad928d3d4e5efbe04dcc2ab503119c745"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">syncWithModel</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="rrExecutableModel.html#_CPPv4N2rr15ExecutableModelE" title="rr::ExecutableModel"><span class="n"><span class="pre">ExecutableModel</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">m</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N2rr19GillespieIntegrator13syncWithModelEP15ExecutableModel" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Called whenever a new model is loaded to allow integrator to reset internal state. </p>
 <p><dl class="simple">
 <dt><strong>Author</strong></dt><dd><p>JKM </p>
@@ -255,7 +256,7 @@
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK2rr19GillespieIntegrator7getNameEv">
-<span id="_CPPv3NK2rr19GillespieIntegrator7getNameEv"></span><span id="_CPPv2NK2rr19GillespieIntegrator7getNameEv"></span><span id="rr::GillespieIntegrator::getNameC"></span><span class="target" id="classrr_1_1GillespieIntegrator_1a290f7167ef2a6da01ff1543c496e1215"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getName</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK2rr19GillespieIntegrator7getNameEv" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3NK2rr19GillespieIntegrator7getNameEv"></span><span id="_CPPv2NK2rr19GillespieIntegrator7getNameEv"></span><span id="rr::GillespieIntegrator::getNameC"></span><span class="target" id="classrr_1_1GillespieIntegrator_1a53116ebe5ea51e363d1588a9db6cb876"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getName</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4NK2rr19GillespieIntegrator7getNameEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Get the name for this integrator. </p>
 <p><dl class="simple">
 <dt><strong>Author</strong></dt><dd><p>WBC </p>
@@ -264,13 +265,13 @@
 </p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Delegates to <a class="reference internal" href="#classrr_1_1GillespieIntegrator_1a290f7167ef2a6da01ff1543c496e1215"><span class="std std-ref">getName</span></a> </p>
+<p>Delegates to <a class="reference internal" href="#classrr_1_1GillespieIntegrator_1a53116ebe5ea51e363d1588a9db6cb876"><span class="std std-ref">getName</span></a> </p>
 </div>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK2rr19GillespieIntegrator14getDescriptionEv">
-<span id="_CPPv3NK2rr19GillespieIntegrator14getDescriptionEv"></span><span id="_CPPv2NK2rr19GillespieIntegrator14getDescriptionEv"></span><span id="rr::GillespieIntegrator::getDescriptionC"></span><span class="target" id="classrr_1_1GillespieIntegrator_1adc46266d77d8c9d54bca86ca3d402f8f"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getDescription</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK2rr19GillespieIntegrator14getDescriptionEv" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3NK2rr19GillespieIntegrator14getDescriptionEv"></span><span id="_CPPv2NK2rr19GillespieIntegrator14getDescriptionEv"></span><span id="rr::GillespieIntegrator::getDescriptionC"></span><span class="target" id="classrr_1_1GillespieIntegrator_1a7579da7a2ae861f8e9548a6ab6826595"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getDescription</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4NK2rr19GillespieIntegrator14getDescriptionEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Get the description for this integrator. </p>
 <p><dl class="simple">
 <dt><strong>Author</strong></dt><dd><p>WBC </p>
@@ -279,13 +280,13 @@
 </p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Delegates to <a class="reference internal" href="#classrr_1_1GillespieIntegrator_1adc46266d77d8c9d54bca86ca3d402f8f"><span class="std std-ref">getDescription</span></a> </p>
+<p>Delegates to <a class="reference internal" href="#classrr_1_1GillespieIntegrator_1a7579da7a2ae861f8e9548a6ab6826595"><span class="std std-ref">getDescription</span></a> </p>
 </div>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK2rr19GillespieIntegrator7getHintEv">
-<span id="_CPPv3NK2rr19GillespieIntegrator7getHintEv"></span><span id="_CPPv2NK2rr19GillespieIntegrator7getHintEv"></span><span id="rr::GillespieIntegrator::getHintC"></span><span class="target" id="classrr_1_1GillespieIntegrator_1a9903b945ac591f39cb3e93167fe45514"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getHint</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK2rr19GillespieIntegrator7getHintEv" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3NK2rr19GillespieIntegrator7getHintEv"></span><span id="_CPPv2NK2rr19GillespieIntegrator7getHintEv"></span><span id="rr::GillespieIntegrator::getHintC"></span><span class="target" id="classrr_1_1GillespieIntegrator_1a19d0e00231f3f59c1291090558695cee"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getHint</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4NK2rr19GillespieIntegrator7getHintEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Get the hint for this integrator. </p>
 <p><dl class="simple">
 <dt><strong>Author</strong></dt><dd><p>WBC </p>
@@ -294,13 +295,25 @@
 </p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Delegates to <a class="reference internal" href="#classrr_1_1GillespieIntegrator_1a9903b945ac591f39cb3e93167fe45514"><span class="std std-ref">getHint</span></a> </p>
+<p>Delegates to <a class="reference internal" href="#classrr_1_1GillespieIntegrator_1a19d0e00231f3f59c1291090558695cee"><span class="std std-ref">getHint</span></a> </p>
 </div>
 </dd></dl>
 
 <dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK2rr19GillespieIntegrator9constructEP15ExecutableModel">
+<span id="_CPPv3NK2rr19GillespieIntegrator9constructEP15ExecutableModel"></span><span id="_CPPv2NK2rr19GillespieIntegrator9constructEP15ExecutableModel"></span><span id="rr::GillespieIntegrator::construct__ExecutableModelPC"></span><span class="target" id="classrr_1_1GillespieIntegrator_1a3ba0c5feae9d3e0f6cc24a671183e430"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><a class="reference internal" href="Solver.html#_CPPv4N2rr6SolverE" title="rr::Solver"><span class="n"><span class="pre">Solver</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">construct</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="rrExecutableModel.html#_CPPv4N2rr15ExecutableModelE" title="rr::ExecutableModel"><span class="n"><span class="pre">ExecutableModel</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">executableModel</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4NK2rr19GillespieIntegrator9constructEP15ExecutableModel" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Constructs a new <a class="reference internal" href="Solver.html#classrr_1_1Solver"><span class="std std-ref">Solver</span></a> of a given type. </p>
+<p>
+the caller is responsible for deleting memory associated with the returned Solver*. <dl class="simple">
+<dt><strong>Author</strong></dt><dd><p>JKM, WBC</p>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK2rr19GillespieIntegrator20getIntegrationMethodEv">
-<span id="_CPPv3NK2rr19GillespieIntegrator20getIntegrationMethodEv"></span><span id="_CPPv2NK2rr19GillespieIntegrator20getIntegrationMethodEv"></span><span id="rr::GillespieIntegrator::getIntegrationMethodC"></span><span class="target" id="classrr_1_1GillespieIntegrator_1a01237f3e6d841e05479dcd914d9f11dc"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">IntegrationMethod</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getIntegrationMethod</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK2rr19GillespieIntegrator20getIntegrationMethodEv" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3NK2rr19GillespieIntegrator20getIntegrationMethodEv"></span><span id="_CPPv2NK2rr19GillespieIntegrator20getIntegrationMethodEv"></span><span id="rr::GillespieIntegrator::getIntegrationMethodC"></span><span class="target" id="classrr_1_1GillespieIntegrator_1a9fe029c162b37172c49f2175c69eb8fc"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">IntegrationMethod</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getIntegrationMethod</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4NK2rr19GillespieIntegrator20getIntegrationMethodEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Always stochastic for Gillespie. </p>
 <p><dl class="simple">
 <dt><strong>Author</strong></dt><dd><p>WBC, ETS </p>
@@ -311,7 +324,7 @@
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N2rr19GillespieIntegrator8setValueERKNSt6stringE7Setting">
-<span id="_CPPv3N2rr19GillespieIntegrator8setValueERKNSt6stringE7Setting"></span><span id="_CPPv2N2rr19GillespieIntegrator8setValueERKNSt6stringE7Setting"></span><span id="rr::GillespieIntegrator::setValue__ssCR.Setting"></span><span class="target" id="classrr_1_1GillespieIntegrator_1af80e362ba349ce060c926c8d840835df"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setValue</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">setting</span></span>, <span class="n"><span class="pre">Setting</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr19GillespieIntegrator8setValueERKNSt6stringE7Setting" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3N2rr19GillespieIntegrator8setValueERKNSt6stringE7Setting"></span><span id="_CPPv2N2rr19GillespieIntegrator8setValueERKNSt6stringE7Setting"></span><span id="rr::GillespieIntegrator::setValue__ssCR.Setting"></span><span class="target" id="classrr_1_1GillespieIntegrator_1aa21499e410b057552054665291618348"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setValue</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">setting</span></span>, <span class="n"><span class="pre">Setting</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N2rr19GillespieIntegrator8setValueERKNSt6stringE7Setting" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Sets the value of an integrator setting (e.g. absolute_tolerance) </p>
 <p><dl class="simple">
 <dt><strong>Author</strong></dt><dd><p>WBC, ETS </p>
@@ -322,7 +335,7 @@
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N2rr19GillespieIntegrator13resetSettingsEv">
-<span id="_CPPv3N2rr19GillespieIntegrator13resetSettingsEv"></span><span id="_CPPv2N2rr19GillespieIntegrator13resetSettingsEv"></span><span id="rr::GillespieIntegrator::resetSettings"></span><span class="target" id="classrr_1_1GillespieIntegrator_1a2dcbd5a36b094a9b14d1e8e423204c7b"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">resetSettings</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr19GillespieIntegrator13resetSettingsEv" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3N2rr19GillespieIntegrator13resetSettingsEv"></span><span id="_CPPv2N2rr19GillespieIntegrator13resetSettingsEv"></span><span id="rr::GillespieIntegrator::resetSettings"></span><span class="target" id="classrr_1_1GillespieIntegrator_1ac72e6b148def07a53c79e83441b380cd"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">resetSettings</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N2rr19GillespieIntegrator13resetSettingsEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Reset all integrator settings to their respective default values. </p>
 <p><dl class="simple">
 <dt><strong>Author</strong></dt><dd><p>JKM </p>
@@ -333,7 +346,7 @@
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N2rr19GillespieIntegrator9integrateEdd">
-<span id="_CPPv3N2rr19GillespieIntegrator9integrateEdd"></span><span id="_CPPv2N2rr19GillespieIntegrator9integrateEdd"></span><span id="rr::GillespieIntegrator::integrate__double.double"></span><span class="target" id="classrr_1_1GillespieIntegrator_1a73574edf62f01ef8b2eeadf6c70e802f"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">integrate</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">t0</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">tf</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr19GillespieIntegrator9integrateEdd" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3N2rr19GillespieIntegrator9integrateEdd"></span><span id="_CPPv2N2rr19GillespieIntegrator9integrateEdd"></span><span id="rr::GillespieIntegrator::integrate__double.double"></span><span class="target" id="classrr_1_1GillespieIntegrator_1a37f3be6adad08270982ba790c721aa64"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">integrate</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">t0</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">tf</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N2rr19GillespieIntegrator9integrateEdd" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Main integration routine. </p>
 <p><dl class="simple">
 <dt><strong>Author</strong></dt><dd><p>WBC, ETS </p>
@@ -344,7 +357,7 @@
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N2rr19GillespieIntegrator7restartEd">
-<span id="_CPPv3N2rr19GillespieIntegrator7restartEd"></span><span id="_CPPv2N2rr19GillespieIntegrator7restartEd"></span><span id="rr::GillespieIntegrator::restart__double"></span><span class="target" id="classrr_1_1GillespieIntegrator_1a85af2d5361d972ddb222f53ca2675f8d"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">restart</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">timeStart</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr19GillespieIntegrator7restartEd" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3N2rr19GillespieIntegrator7restartEd"></span><span id="_CPPv2N2rr19GillespieIntegrator7restartEd"></span><span id="rr::GillespieIntegrator::restart__double"></span><span class="target" id="classrr_1_1GillespieIntegrator_1a262d1d16bd30c35269cd3daabfd1b574"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">restart</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">timeStart</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N2rr19GillespieIntegrator7restartEd" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Reset time to zero and reinitialize model. </p>
 <p><dl class="simple">
 <dt><strong>Author</strong></dt><dd><p>WBC, ETS </p>
@@ -355,7 +368,7 @@
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N2rr19GillespieIntegrator11getListenerEv">
-<span id="_CPPv3N2rr19GillespieIntegrator11getListenerEv"></span><span id="_CPPv2N2rr19GillespieIntegrator11getListenerEv"></span><span id="rr::GillespieIntegrator::getListener"></span><span class="target" id="classrr_1_1GillespieIntegrator_1a722d13b4535fbdbee5e5f2845503cbba"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">IntegratorListenerPtr</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getListener</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr19GillespieIntegrator11getListenerEv" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3N2rr19GillespieIntegrator11getListenerEv"></span><span id="_CPPv2N2rr19GillespieIntegrator11getListenerEv"></span><span id="rr::GillespieIntegrator::getListener"></span><span class="target" id="classrr_1_1GillespieIntegrator_1aa412e44a4edb787ea54c397de0a94429"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">IntegratorListenerPtr</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getListener</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N2rr19GillespieIntegrator11getListenerEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Gets the integrator listener. </p>
 <p><dl class="simple">
 <dt><strong>Author</strong></dt><dd><p>WBC, ETS </p>
@@ -366,7 +379,7 @@
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N2rr19GillespieIntegrator11setListenerE21IntegratorListenerPtr">
-<span id="_CPPv3N2rr19GillespieIntegrator11setListenerE21IntegratorListenerPtr"></span><span id="_CPPv2N2rr19GillespieIntegrator11setListenerE21IntegratorListenerPtr"></span><span id="rr::GillespieIntegrator::setListener__IntegratorListenerPtr"></span><span class="target" id="classrr_1_1GillespieIntegrator_1adb13139574014bfffe50b127e0e5dfe0"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setListener</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">IntegratorListenerPtr</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr19GillespieIntegrator11setListenerE21IntegratorListenerPtr" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3N2rr19GillespieIntegrator11setListenerE21IntegratorListenerPtr"></span><span id="_CPPv2N2rr19GillespieIntegrator11setListenerE21IntegratorListenerPtr"></span><span id="rr::GillespieIntegrator::setListener__IntegratorListenerPtr"></span><span class="target" id="classrr_1_1GillespieIntegrator_1ad90d4e1cc786cb9e9231cdcfc42a01ed"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setListener</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">IntegratorListenerPtr</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N2rr19GillespieIntegrator11setListenerE21IntegratorListenerPtr" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Sets the integrator listener. </p>
 <p><dl class="simple">
 <dt><strong>Author</strong></dt><dd><p>WBC, ETS </p>
@@ -375,41 +388,10 @@
 </p>
 </dd></dl>
 
-</div>
-<div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-static-functions">Public Static Functions</p>
 <dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N2rr19GillespieIntegrator16getGillespieNameEv">
-<span id="_CPPv3N2rr19GillespieIntegrator16getGillespieNameEv"></span><span id="_CPPv2N2rr19GillespieIntegrator16getGillespieNameEv"></span><span id="rr::GillespieIntegrator::getGillespieName"></span><span class="target" id="classrr_1_1GillespieIntegrator_1a829f4d120d6d1f4dd6fb33a9e4adad82"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getGillespieName</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr19GillespieIntegrator16getGillespieNameEv" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Get the name for this integrator. </p>
-<p><dl class="simple">
-<dt><strong>Author</strong></dt><dd><p>JKM </p>
-</dd>
-</dl>
-</p>
-</dd></dl>
-
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N2rr19GillespieIntegrator23getGillespieDescriptionEv">
-<span id="_CPPv3N2rr19GillespieIntegrator23getGillespieDescriptionEv"></span><span id="_CPPv2N2rr19GillespieIntegrator23getGillespieDescriptionEv"></span><span id="rr::GillespieIntegrator::getGillespieDescription"></span><span class="target" id="classrr_1_1GillespieIntegrator_1a9a4886181bbcb6f7e74e84180047efce"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getGillespieDescription</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr19GillespieIntegrator23getGillespieDescriptionEv" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Get the description for this integrator. </p>
-<p><dl class="simple">
-<dt><strong>Author</strong></dt><dd><p>JKM </p>
-</dd>
-</dl>
-</p>
-</dd></dl>
-
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N2rr19GillespieIntegrator16getGillespieHintEv">
-<span id="_CPPv3N2rr19GillespieIntegrator16getGillespieHintEv"></span><span id="_CPPv2N2rr19GillespieIntegrator16getGillespieHintEv"></span><span id="rr::GillespieIntegrator::getGillespieHint"></span><span class="target" id="classrr_1_1GillespieIntegrator_1a334bc34d669e35289e71cf99c72c239f"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getGillespieHint</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr19GillespieIntegrator16getGillespieHintEv" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Get the hint for this integrator. </p>
-<p><dl class="simple">
-<dt><strong>Author</strong></dt><dd><p>JKM </p>
-</dd>
-</dl>
-</p>
-</dd></dl>
+<dt class="sig sig-object cpp" id="_CPPv4N2rr19GillespieIntegrator10IntegratorEP15ExecutableModel">
+<span id="_CPPv3N2rr19GillespieIntegrator10IntegratorEP15ExecutableModel"></span><span id="_CPPv2N2rr19GillespieIntegrator10IntegratorEP15ExecutableModel"></span><span id="rr::GillespieIntegrator::Integrator__ExecutableModelP"></span><span class="target" id="classrr_1_1GillespieIntegrator_1a8a79e9633a25767a1683a0334fd1d917"></span><span class="k"><span class="pre">explicit</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Integrator</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="rrExecutableModel.html#_CPPv4N2rr15ExecutableModelE" title="rr::ExecutableModel"><span class="n"><span class="pre">ExecutableModel</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">model</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr19GillespieIntegrator10IntegratorEP15ExecutableModel" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
 
 </div>
 <div class="breathe-sectiondef docutils container">
@@ -430,13 +412,13 @@
 <dd></dd></dl>
 
 <dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N2rr19GillespieIntegrator13setEngineSeedEm">
-<span id="_CPPv3N2rr19GillespieIntegrator13setEngineSeedEm"></span><span id="_CPPv2N2rr19GillespieIntegrator13setEngineSeedEm"></span><span id="rr::GillespieIntegrator::setEngineSeed__unsigned-l"></span><span class="target" id="classrr_1_1GillespieIntegrator_1ac82c25cff4d5e9865efd3c479eb1eab5"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setEngineSeed</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">unsigned</span> <span class="pre">long</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">seed</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr19GillespieIntegrator13setEngineSeedEm" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N2rr19GillespieIntegrator13setEngineSeedENSt8uint64_tE">
+<span id="_CPPv3N2rr19GillespieIntegrator13setEngineSeedENSt8uint64_tE"></span><span id="_CPPv2N2rr19GillespieIntegrator13setEngineSeedENSt8uint64_tE"></span><span id="rr::GillespieIntegrator::setEngineSeed__std::uint64_t"></span><span class="target" id="classrr_1_1GillespieIntegrator_1aefe7409a15c083899ff595498f0b17cd"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setEngineSeed</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">seed</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr19GillespieIntegrator13setEngineSeedENSt8uint64_tE" title="Permalink to this definition">¶</a><br /></dt>
 <dd></dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK2rr19GillespieIntegrator7getSeedEv">
-<span id="_CPPv3NK2rr19GillespieIntegrator7getSeedEv"></span><span id="_CPPv2NK2rr19GillespieIntegrator7getSeedEv"></span><span id="rr::GillespieIntegrator::getSeedC"></span><span class="target" id="classrr_1_1GillespieIntegrator_1a7242c0277ca2e69ccdcb620b7707d716"></span><span class="kt"><span class="pre">unsigned</span> <span class="pre">long</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getSeed</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK2rr19GillespieIntegrator7getSeedEv" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3NK2rr19GillespieIntegrator7getSeedEv"></span><span id="_CPPv2NK2rr19GillespieIntegrator7getSeedEv"></span><span id="rr::GillespieIntegrator::getSeedC"></span><span class="target" id="classrr_1_1GillespieIntegrator_1a708d408bfc8c93d3db30e245d15d8303"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getSeed</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK2rr19GillespieIntegrator7getSeedEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd></dd></dl>
 
 <dl class="cpp function">
@@ -448,8 +430,9 @@
 <dt class="sig sig-object cpp" id="_CPPv4N2rr19GillespieIntegrator19initializeFromModelEv">
 <span id="_CPPv3N2rr19GillespieIntegrator19initializeFromModelEv"></span><span id="_CPPv2N2rr19GillespieIntegrator19initializeFromModelEv"></span><span id="rr::GillespieIntegrator::initializeFromModel"></span><span class="target" id="classrr_1_1GillespieIntegrator_1a01af81042738555b6346a26c83eb28ab"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">initializeFromModel</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr19GillespieIntegrator19initializeFromModelEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Initialize model-specific variables. </p>
-<p><dl class="simple">
-<dt><strong>Author</strong></dt><dd><p>JKM  Called whenever a model is loaded or a Gillespie integrator is constructed </p>
+<p>
+Called whenever a model is loaded or a Gillespie integrator is constructed <dl class="simple">
+<dt><strong>Author</strong></dt><dd><p>JKM</p>
 </dd>
 </dl>
 </p>

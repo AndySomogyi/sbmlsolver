@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
   <compounddef id="classrrllvm_1_1ModelDataIRBuilder" kind="class" language="C++" prot="public">
     <compoundname>rrllvm::ModelDataIRBuilder</compoundname>
       <sectiondef kind="public-static-attrib">
@@ -104,10 +104,13 @@
       </sectiondef>
       <sectiondef kind="friend">
       <memberdef kind="friend" id="classrrllvm_1_1ModelDataIRBuilder_1ae8d3686601dff2b1db2a9b162f3e7eb5" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>friend class</type>
+        <type>class</type>
         <definition>friend class LLVMModelDataIRBuilderTesting</definition>
         <argsstring></argsstring>
         <name>LLVMModelDataIRBuilderTesting</name>
+        <param>
+          <type><ref refid="classrrllvm_1_1LLVMModelDataIRBuilderTesting" kindref="compound">LLVMModelDataIRBuilderTesting</ref></type>
+        </param>
         <briefdescription>
         </briefdescription>
         <detaileddescription>

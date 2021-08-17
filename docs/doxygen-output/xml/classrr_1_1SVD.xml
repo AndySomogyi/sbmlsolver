@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
   <compounddef id="classrr_1_1SVD" kind="class" language="C++" prot="public">
     <compoundname>rr::SVD</compoundname>
     <includes refid="SVD_8h" local="no">SVD.h</includes>
@@ -155,11 +155,11 @@
 <parametername>matrix</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>a ls::Matrix&lt;double&gt;  SVG is conducted on instantiation </para>
+<para>a ls::Matrix&lt;double&gt;</para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="see"><para><ref refid="classrr_1_1SVD_1a0b4a95bc088a26d8b39270c2bb78ecff" kindref="member">SVD::getSingularValues</ref> </para>
+SVG is conducted on instantiation <simplesect kind="see"><para><ref refid="classrr_1_1SVD_1a0b4a95bc088a26d8b39270c2bb78ecff" kindref="member">SVD::getSingularValues</ref> </para>
 </simplesect>
 <simplesect kind="see"><para><ref refid="classrr_1_1SVD_1aaa62288e25ab68c503461e69d321e317" kindref="member">SVD::getLeftSingularVectors</ref> </para>
 </simplesect>

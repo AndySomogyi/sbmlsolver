@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
   <compounddef id="classrr_1_1Setting" kind="class" language="C++" prot="public">
     <compoundname>rr::Setting</compoundname>
     <includes refid="Setting_8h" local="no">Setting.h</includes>
@@ -166,9 +166,9 @@
 <para>constructor for creating a <ref refid="classrr_1_1Setting" kindref="compound">Setting</ref> from a supperted type T. </para>
         </briefdescription>
         <detaileddescription>
-<para><simplesect kind="see"><para>setting_t for supported types  for developers: clang-tidy will want you to make this constructor explicit. However, we intentionally keep implicit to allow <ref refid="classrr_1_1Setting_1a479708abc63de00aca3d56b7e28bee04" kindref="member">type</ref> casting from <ref refid="classrr_1_1Setting_1a479708abc63de00aca3d56b7e28bee04" kindref="member">type</ref> T to <ref refid="classrr_1_1Setting" kindref="compound">Setting</ref>. </para>
+<para><simplesect kind="see"><para>setting_t for supported types</para>
 </simplesect>
-</para>
+for developers: clang-tidy will want you to make this constructor explicit. However, we intentionally keep implicit to allow type casting from type T to <ref refid="classrr_1_1Setting" kindref="compound">Setting</ref>. </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
@@ -392,7 +392,8 @@
 <para>implicit cast this <ref refid="classrr_1_1Setting" kindref="compound">Setting</ref> to a std::vector&lt;double&gt;. </para>
         </briefdescription>
         <detaileddescription>
-<para>If this operator is used and the type contained by this <ref refid="classrr_1_1Setting" kindref="compound">Setting</ref> is not a double vector, an std::invalid_argument error is thrown.  the generic operator T() method does not cover the case when we have a vector of doubles, so we must implement this manually. We could write another template for the more general case, but only support for std::vector&lt;double&gt; is needed. </para>
+<para>If this operator is used and the type contained by this <ref refid="classrr_1_1Setting" kindref="compound">Setting</ref> is not a double vector, an std::invalid_argument error is thrown.</para>
+<para>the generic operator T() method does not cover the case when we have a vector of doubles, so we must implement this manually. We could write another template for the more general case, but only support for std::vector&lt;double&gt; is needed. </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
