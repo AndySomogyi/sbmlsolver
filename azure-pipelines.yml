@@ -1043,7 +1043,7 @@ stages:
               targetFolder: $(Build.ArtifactStagingDirectory)/pip-wheels
             displayName: Copy Pip Wheels to Staging Area
           - publish: $(Build.ArtifactStagingDirectory)
-            artifact: roadrunner-Ubunti18.04-$(PythonName)
+            artifact: roadrunner-Ubuntu18.04-$(PythonName)
             displayName: Publish Pip Wheels Artifacts
 
 #########################################################################
