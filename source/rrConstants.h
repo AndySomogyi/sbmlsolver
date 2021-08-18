@@ -21,7 +21,7 @@ RR_DECLSPEC extern const std::string     gNoneString;
 RR_DECLSPEC extern const std::string    gEmptyString;
 
 //Messages
-RR_DECLSPEC extern const std::string gEmptyModelMessage;
+RR_DECLSPEC extern const char* gEmptyModelMessage;
 
 
 // Constants

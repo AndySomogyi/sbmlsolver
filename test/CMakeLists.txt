@@ -108,7 +108,7 @@ endfunction()
 macro(add_rr_test_swig_library SWIG_TARGET_NAME SWIG_INTERFACE_FILE)
     # no harm in finding python here
     find_package(Python COMPONENTS Interpreter Development NumPy REQUIRED)
-    find_package(SWIG 4.0.2 REQUIRED
+    find_package(SWIG 4.0.1 REQUIRED
             COMPONENTS python
             )
     include(UseSWIG)

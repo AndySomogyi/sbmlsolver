@@ -21,7 +21,7 @@ const double        gDoubleNaN                   = std::numeric_limits<double>::
 const float         gFloatNaN                    = std::numeric_limits<float>::quiet_NaN() ;
 
 //Messages
-const std::string        gEmptyModelMessage             = "A model needs to be loaded before one can use this method";
+const char*        gEmptyModelMessage             = "A model needs to be loaded before one can use this method";
 
 
 #if defined(_WIN32) || defined(__CODEGEARC__)
