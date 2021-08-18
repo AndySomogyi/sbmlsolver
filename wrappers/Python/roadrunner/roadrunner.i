@@ -113,10 +113,10 @@
 
     using namespace rr;
 
-//#define VERIFY_PYARRAY(p) { \
-//    assert(p && "PyArray is NULL"); \
-//    assert((PyArray_NBYTES(p) > 0 ? PyArray_ISCARRAY(p) : true) &&  "PyArray must be C format"); \
-//}
+#define VERIFY_PYARRAY(p) { \
+    assert(p && "PyArray is NULL"); \
+    assert((PyArray_NBYTES(p) > 0 ? PyArray_ISCARRAY(p) : true) &&  "PyArray must be C format"); \
+}
 
     class DictionaryHolder {
     public:
