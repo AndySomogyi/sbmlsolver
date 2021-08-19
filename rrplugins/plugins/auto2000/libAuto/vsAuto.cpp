@@ -340,12 +340,12 @@ void autoCallConv CallAuto(const string& tempFolder)
     }
     catch(exception& e)
     {
-        RRPLOG(lError) <<"Exception in LibAuto: "<<e.what();
+        RRPLOG(tlp::lError) <<"Exception in LibAuto: "<<e.what();
 
     }
     catch (const char* e)
     {
-        RRPLOG(lError) << "Exception in LibAuto: " << e;
+        RRPLOG(tlp::lError) << "Exception in LibAuto: " << e;
 
     }
     autolib::CloseAllFiles();
