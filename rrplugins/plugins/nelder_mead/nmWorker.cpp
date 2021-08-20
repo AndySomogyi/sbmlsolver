@@ -407,10 +407,10 @@ namespace nmfit
             gHostInterface->setValue(mTheHost.rrHandle, para->getName().c_str(), para->getValue());
         }
 
-        rr::SimulateOptions options;
-        options.start = expData->getTimeStart();
-        options.duration = expData->getTimeEnd() - expData->getTimeStart();
-        options.steps = expData->rSize() - 1;
+        //rr::SimulateOptions options;
+        //options.start = expData->getTimeStart();
+        //options.duration = expData->getTimeEnd() - expData->getTimeStart();
+        //options.steps = expData->rSize() - 1;
 
         gHostInterface->reset(mTheHost.rrHandle);
 

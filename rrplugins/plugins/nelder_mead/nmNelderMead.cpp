@@ -219,12 +219,12 @@ The Plugin has a number of parameters for fine tuning the algorithm. See the emb
             msg << "There was a problem in the execute of the Nelder-Mead plugin: " << ex.getMessage();
             throw(Exception(msg.str()));
         }
-        catch (rr::Exception& ex)
-        {
-            gHostInterface->setLogLevel(origloglevel);
-            msg << "There was a roadrunner problem in the execute of the Nelder-Mead plugin: " << ex.getMessage();
-            throw(Exception(msg.str()));
-        }
+        //catch (rr::Exception& ex)
+        //{
+        //    gHostInterface->setLogLevel(origloglevel);
+        //    msg << "There was a roadrunner problem in the execute of the Nelder-Mead plugin: " << ex.getMessage();
+        //    throw(Exception(msg.str()));
+        //}
         catch (...)
         {
             gHostInterface->setLogLevel(origloglevel);
