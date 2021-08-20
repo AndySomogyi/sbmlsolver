@@ -41,11 +41,13 @@ Experimental front end:
 
 Copyright 2013-2021
 
-E. T. Somogyi <sup>1</sup>, J. K. Medley <sup>3</sup>, M. T. Karlsson <sup>2</sup>, M. Swat <sup>1</sup>, M. Galdzicki <sup>3</sup>, K. Choi <sup>3</sup>, W. Copeland <sup>3</sup> and H. M. Sauro <sup>3</sup>
+E. T. Somogyi <sup>1</sup>, J. K. Medley <sup>3</sup>, M. T. Karlsson <sup>2</sup>, M. Swat <sup>1</sup>, M. Galdzicki <sup>3</sup>, K. Choi <sup>3</sup>, W. Copeland <sup>3</sup>, L. Smith <sup>3</sup>, C. Welsh <sup>3</sup> and H. M. Sauro <sup>3</sup>
 
 1. Biocomplexity Institute, Indiana University, Simon Hall MSB1, Bloomington, IN 47405
 2. Dune Scientific, 10522 Lake City Way NE, #302 Seattle WA
 3. Department of Bioengineering, University of Washington, Seattle, WA, 98195
+
+The current (2021) developers are Lucian Smith and Ciaran Welsh.
 
 ## Introduction
 
