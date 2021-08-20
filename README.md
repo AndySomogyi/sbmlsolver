@@ -4,7 +4,6 @@
 
 <table style="width:100%">
   <tr>
-    <td><img alt="Github version", src="https://travis-ci.com/sys-bio/roadrunner.svg?branch=master"></td>
     <td><img alt="Read the Docs" src="https://img.shields.io/readthedocs/roadrunner"></td>
     <td><a href="https://badge.fury.io/gh/sys-bio%2Froadrunner"><img src="https://badge.fury.io/gh/sys-bio%2Froadrunner.svg" alt="GitHub version" height="18"></a></td>
   </tr>
