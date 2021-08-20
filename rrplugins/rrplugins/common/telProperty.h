@@ -50,7 +50,6 @@
 #include "telProperties.h"
 #include "telUtils.h"
 #include "telStringList.h"
-#include "telConstants.h"
 
 //---------------------------------------------------------------------------
 namespace tlp

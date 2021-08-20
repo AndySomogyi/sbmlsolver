@@ -43,9 +43,9 @@ namespace cs_ChiSquare {
     #ifdef EXPORT_CHI_SQUARE
     extern "C"
     {
-        TLP_DS ChiSquare* plugins_cc        createPlugin();
-        TLP_DS const char* plugins_cc       getImplementationLanguage();
-        TLP_DS void plugins_cc setHostInterface(rrc::THostInterface* _hostInterface);
+        ChiSquare* plugins_cc        createPlugin();
+        const char* plugins_cc       getImplementationLanguage();
+        void plugins_cc setHostInterface(rrc::THostInterface* _hostInterface);
     }
     #endif
 }

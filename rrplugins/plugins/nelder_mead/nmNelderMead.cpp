@@ -245,7 +245,8 @@ The Plugin has a number of parameters for fine tuning the algorithm. See the emb
         return "CPP";
     }
 
-    void plugins_cc setHostInterface(rrc::THostInterface* _hostInterface) {
+    void plugins_cc setHostInterface(rrc::THostInterface* _hostInterface)
+    {
         gHostInterface = _hostInterface;
     }
 

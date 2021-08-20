@@ -58,10 +58,10 @@ namespace bsmc
 
     extern "C"
     {
-        TLP_DS MonteCarlo* plugins_cc    createPlugin();
-        TLP_DS const char* plugins_cc    getImplementationLanguage();
-        TLP_DS void plugins_cc setHostInterface(rrc::THostInterface* _hostInterface);
-        TLP_DS void plugins_cc setPluginManager(TELHandle manager);
+        MonteCarlo* plugins_cc    createPlugin();
+        const char* plugins_cc    getImplementationLanguage();
+        void plugins_cc setHostInterface(rrc::THostInterface* _hostInterface);
+        void plugins_cc setPluginManager(TELHandle manager);
     }
 
 }
