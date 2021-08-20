@@ -2,7 +2,28 @@
 [![GitHub version](https://badge.fury.io/gh/sys-bio%2Froadrunner.svg)](http://badge.fury.io/gh/sys-bio%2Froadrunner)
 [![Build Status](https://dev.azure.com/TheRoadrunnerProject/roadrunner/_apis/build/status/sys-bio.roadrunner?branchName=develop)](https://dev.azure.com/TheRoadrunnerProject/roadrunner/_build/latest?definitionId=8&branchName=develop)
 
-xxx
+<table style="width:100%">
+  <tr>
+    <td><img alt="Github version", src="https://travis-ci.com/sys-bio/tellurium.svg?branch=master"></td>
+    <td><img alt="Read the Docs" src="https://img.shields.io/readthedocs/tellurium"></td>
+    <td><a href="https://badge.fury.io/gh/sys-bio%2Ftellurium"><img src="https://badge.fury.io/gh/sys-bio%2Ftellurium.svg" alt="GitHub version" height="18"></a></td>
+  </tr>
+</table> 
+
+ <table style="width:100%">
+  <tr>
+    <td><img alt="Licence", src="https://img.shields.io/hexpm/l/roadrunner"</td>
+    <td><img alt="PyPI - Downloads", src="https://img.shields.io/pypi/dm/tellurium"></td>
+    <td><img alt="Funding", src="https://img.shields.io/badge/Funding-NIH%20(GM123032)-blue"></td>
+    <td><a href="https://badge.fury.io/py/tellurium"><img src="https://badge.fury.io/py/tellurium.svg" alt="PyPI version" height="18"></a> </td>
+   </tr>
+</table> 
+
+ <table style="width:100%">
+  <tr>
+    <td><a href="https://doi.org/10.5281/zenodo.2548944"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.2548944.svg" alt="DOI"></a></td>
+  </tr>
+</table>
 
 # Installation
 Python front end (stable):
