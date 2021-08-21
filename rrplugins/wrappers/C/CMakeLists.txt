@@ -25,10 +25,10 @@ add_library(${target} SHARED
         )
 
 target_link_libraries(${target} PUBLIC
-        telplugins_common-static
+        #telplugins_common-static
         telplugins_core-static
         telplugins_math-static
-        telpluginsBaseClass-static
+        #telpluginsBaseClass-static
         ${RRPLUGINS_COMMON_SHARED_LIBS}
         )
 

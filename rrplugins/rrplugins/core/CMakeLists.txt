@@ -22,7 +22,7 @@ if (RR_PLUGINS_BUILD_SHARED_LIB)
     target_compile_definitions(${target} PUBLIC SHARED_PLUGIN_API)
 
     target_link_libraries(${target} PUBLIC
-            telplugins_common-static
+            #telplugins_common-static
             telpluginsBaseClass-static
             telplugins_c_api
             )
@@ -46,7 +46,7 @@ if (RR_PLUGINS_BUILD_STATIC_LIB)
     target_compile_definitions(${target}-static PUBLIC STATIC_PLUGIN_API)
 
     target_link_libraries(${target}-static PUBLIC
-            telplugins_common-static
+            #telplugins_common-static
             telpluginsBaseClass-static
             roadrunner_c_api
             )
