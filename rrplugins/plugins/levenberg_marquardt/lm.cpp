@@ -233,25 +233,27 @@ The Plugin has numerous parameters for fine tuning the algorithm. See the embedd
         gHostInterface->setLogLevel(origloglevel);
     }
 
+#ifdef EXPORT_LEVENBERG_MARQUARDT
     // Plugin factory function
-    LM* plugins_cc createPlugin()
+    TLP_DS LM* plugins_cc createPlugin()
     {
         //allocate a new object and return it
         return new LM();
     }
 
-    const char* plugins_cc getImplementationLanguage()
+    TLP_DS const char* plugins_cc getImplementationLanguage()
     {
         return "CPP";
     }
 
-    void plugins_cc setHostInterface(rrc::THostInterface* _hostInterface) {
+    TLP_DS void plugins_cc setHostInterface(rrc::THostInterface* _hostInterface) {
         gHostInterface = _hostInterface;
     }
 
-    void plugins_cc setPluginManager(TELHandle manager) {
+    TLP_DS void plugins_cc setPluginManager(TELHandle manager) {
         gPluginManager = manager;
     }
+#endif
 
     void LM::assignPropertyDescriptions()
     {

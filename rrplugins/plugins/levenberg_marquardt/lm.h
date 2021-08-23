@@ -80,13 +80,15 @@ namespace lmfit
         void                                    assignPropertyDescriptions();
     };
 
+#ifdef EXPORT_LEVENBERG_MARQUARDT
     extern "C"
     {
-        LM* plugins_cc createPlugin();
-        const char* plugins_cc getImplementationLanguage();
-        void plugins_cc setHostInterface(rrc::THostInterface* _hostInterface);
-        void plugins_cc setPluginManager(TELHandle manager);
+        TLP_DS LM* plugins_cc createPlugin();
+        TLP_DS const char* plugins_cc getImplementationLanguage();
+        TLP_DS void plugins_cc setHostInterface(rrc::THostInterface* _hostInterface);
+        TLP_DS void plugins_cc setPluginManager(TELHandle manager);
     }
+#endif
 
 }
 

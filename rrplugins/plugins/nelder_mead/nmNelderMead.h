@@ -83,13 +83,15 @@ namespace nmfit
         Plugin* getChiSquarePlugin();
     };
 
+#ifdef EXPORT_NELDER_MEAD
     extern "C"
     {
-        NelderMead* plugins_cc  createPlugin();
-        const char* plugins_cc  getImplementationLanguage();
-        void        plugins_cc  setHostInterface(rrc::THostInterface* _hostInterface);
-        void        plugins_cc  setPluginManager(tlpc::TELHandle manager);
+        TLP_DS NelderMead* plugins_cc  createPlugin();
+        TLP_DS const char* plugins_cc  getImplementationLanguage();
+        TLP_DS void        plugins_cc  setHostInterface(rrc::THostInterface* _hostInterface);
+        TLP_DS void        plugins_cc  setPluginManager(tlpc::TELHandle manager);
     }
+#endif
 
 }
 #endif

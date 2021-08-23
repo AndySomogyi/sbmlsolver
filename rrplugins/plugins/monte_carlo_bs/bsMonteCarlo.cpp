@@ -157,25 +157,27 @@ namespace bsmc
         }
     }
 
+#ifdef EXPORT_MONTE_CARLO_BS
     // Plugin factory function
-    MonteCarlo* plugins_cc createPlugin()
+    TLP_DS MonteCarlo* plugins_cc createPlugin()
     {
         //allocate a new object and return it
         return new MonteCarlo();
     }
 
-    const char* plugins_cc getImplementationLanguage()
+    TLP_DS const char* plugins_cc getImplementationLanguage()
     {
         return "CPP";
     }
 
-    void plugins_cc setHostInterface(rrc::THostInterface* _hostInterface) {
+    TLP_DS void plugins_cc setHostInterface(rrc::THostInterface* _hostInterface) {
         gHostInterface = _hostInterface;
     }
 
-    void plugins_cc setPluginManager(TELHandle manager) {
+    TLP_DS void plugins_cc setPluginManager(TELHandle manager) {
         gPluginManager = manager;
     }
+#endif
 
     void MonteCarlo::assignPropertyDescriptions()
     {

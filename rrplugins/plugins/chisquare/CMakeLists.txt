@@ -20,6 +20,11 @@ target_link_libraries (${target} PRIVATE
   #telplugins_common
 )
 
+target_compile_definitions(${target} PRIVATE
+        -DEXPORT_TEL_PLUGIN
+        -DEXPORT_CHI_SQUARE
+        )
+
 if(UNIX)
   if(APPLE)
     set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,-no_implicit_dylibs -undefined error")

@@ -233,26 +233,28 @@ The Plugin has a number of parameters for fine tuning the algorithm. See the emb
         gHostInterface->setLogLevel(origloglevel);
     }
 
+#ifdef EXPORT_NELDER_MEAD
     // Plugin factory function
-    NelderMead* plugins_cc createPlugin()
+    TLP_DS NelderMead* plugins_cc createPlugin()
     {
         //allocate a new object and return it
         return new NelderMead();
     }
 
-    const char* plugins_cc getImplementationLanguage()
+    TLP_DS const char* plugins_cc getImplementationLanguage()
     {
         return "CPP";
     }
 
-    void plugins_cc setHostInterface(rrc::THostInterface* _hostInterface)
+    TLP_DS void plugins_cc setHostInterface(rrc::THostInterface* _hostInterface)
     {
         gHostInterface = _hostInterface;
     }
 
-    void plugins_cc setPluginManager(tlpc::TELHandle manager) {
+    TLP_DS void plugins_cc setPluginManager(tlpc::TELHandle manager) {
         gPluginManager = manager;
     }
+#endif
 
     void NelderMead::assignPropertyDescriptions()
     {

@@ -275,18 +275,18 @@ size_t AutoPlugin::getPDFManualByteSize()
 
 #ifdef EXPORT_AUTO2000
 //Functions allowing the plugin to be loaded by plugin manager
-AutoPlugin* createPlugin()
+TLP_DS AutoPlugin* createPlugin()
 {
     //allocate a new object and return it
     return new AutoPlugin;
 }
 
-const char* getImplementationLanguage()
+TLP_DS const char* getImplementationLanguage()
 {
     return "CPP";
 }
 
-void plugins_cc setHostInterface(rrc::THostInterface* _hostInterface) {
+TLP_DS void plugins_cc setHostInterface(rrc::THostInterface* _hostInterface) {
     gHostInterface = _hostInterface;
 }
 

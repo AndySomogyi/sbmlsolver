@@ -163,22 +163,22 @@ The TestModel plugin was developed at the University of Washington by Totte Karl
 
     #ifdef EXPORT_TEST_MODEL
     // Plugin factory function
-    TestModel* plugins_cc createPlugin()
+    TLP_DS TestModel* plugins_cc createPlugin()
     {
         //allocate a new object and return it
         return new TestModel;
     }
 
-    const char* plugins_cc getImplementationLanguage()
+    TLP_DS const char* plugins_cc getImplementationLanguage()
     {
         return "CPP";
     }
 
-    void plugins_cc setHostInterface(rrc::THostInterface* _hostInterface) {
+    TLP_DS void plugins_cc setHostInterface(rrc::THostInterface* _hostInterface) {
         gHostInterface = _hostInterface;
     }
 
-    void plugins_cc setPluginManager(tlpc::TELHandle manager) {
+    TLP_DS void plugins_cc setPluginManager(tlpc::TELHandle manager) {
         gPluginManager = manager;
     }
     #endif 

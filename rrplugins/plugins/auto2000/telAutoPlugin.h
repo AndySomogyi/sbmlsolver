@@ -205,9 +205,9 @@ class AutoPlugin : public tlp::CPPPlugin
 #ifdef EXPORT_AUTO2000
 extern "C"
 {
-    AutoPlugin* createPlugin();
-    const char* getImplementationLanguage();
-    void plugins_cc setHostInterface(rrc::THostInterface* _hostInterface);
+    TLP_DS AutoPlugin* createPlugin();
+    TLP_DS const char* getImplementationLanguage();
+    TLP_DS void plugins_cc setHostInterface(rrc::THostInterface* _hostInterface);
 }
 #endif
 
