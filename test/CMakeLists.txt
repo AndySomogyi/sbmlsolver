@@ -280,7 +280,7 @@ add_subdirectory(sundials-tests)
 add_subdirectory(python)
 add_subdirectory(cxx_api_tests)
 
-if (BUILD_RR_PLUGINS)
+if (WIN32 AND BUILD_RR_PLUGINS)
    set(
         SharedPluginTestFiles
         # path *must* be absolute to work in cmake functions/macros
