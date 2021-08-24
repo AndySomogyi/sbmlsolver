@@ -6268,8 +6268,8 @@ namespace rr {
         // TODO: passing options as parameters
         char *documentSBML = impl->document->toSBML();
         std::string errors = validateSBML(std::string(documentSBML),
-                                          VALIDATE_GENERAL | VALIDATE_IDENTIFIER | VALIDATE_MATHML |
-                                          VALIDATE_OVERDETERMINED);
+            VALIDATE_GENERAL | VALIDATE_IDENTIFIER | VALIDATE_MATHML |
+            VALIDATE_OVERDETERMINED);
         free(documentSBML);
         if (!errors.empty()) {
             throw std::runtime_error(errors.c_str());

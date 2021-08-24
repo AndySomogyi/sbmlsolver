@@ -38,20 +38,27 @@ function(add_test_executable TEST_TARGET OUT_VARIABLE)
     add_executable(${TEST_TARGET} ${ARGN} $<TARGET_OBJECTS:rr-mockups>
             ${ThisSourceDirectory}/TestModelFactory)
 
+    if (TEST_TARGET MATCHES ".*plugin.*")
+       set(TEST_PLUGIN_INCLUDE "$<TARGET_PROPERTY:telplugins_c_api,INCLUDE_DIRECTORIES>")
+       set(TEST_PLUGIN_LIB "telplugins_c_api")
+    else()
+       set(TEST_PLUGIN_LIB "roadrunner_c_api")
+    endif()
+
     target_include_directories(
             ${TEST_TARGET} PRIVATE
             "${ThisSourceDirectory}"
             "${ThisBinaryDirectory}"
             "${MOCKUPS_DIRECTORY}"
+            "${TEST_PLUGIN_INCLUDE}"
             "${RR_Python_wrapper_dir}" # for PyUtils in tests that need it
     )
 
     target_link_libraries(${TEST_TARGET} PRIVATE
-            roadrunner_c_api
-            roadrunner-static
-            rr-mockups
+#            rr-mockups
+            ${TEST_PLUGIN_LIB}
             gtest gtest_main gmock gmock_main
-            )
+    )
 
     # This causes a weird build error whereby it is no longer possible
     # to name a class the name as the binary filename. However, since w
@@ -101,7 +108,7 @@ endfunction()
 macro(add_rr_test_swig_library SWIG_TARGET_NAME SWIG_INTERFACE_FILE)
     # no harm in finding python here
     find_package(Python COMPONENTS Interpreter Development NumPy REQUIRED)
-    find_package(SWIG 4.0.2 REQUIRED
+    find_package(SWIG 4.0.1 REQUIRED
             COMPONENTS python
             )
     include(UseSWIG)
@@ -272,6 +279,22 @@ add_subdirectory(state_saving)
 add_subdirectory(sundials-tests)
 add_subdirectory(python)
 add_subdirectory(cxx_api_tests)
+
+if (WIN32 AND BUILD_RR_PLUGINS)
+   set(
+        SharedPluginTestFiles
+        # path *must* be absolute to work in cmake functions/macros
+        "${CMAKE_CURRENT_BINARY_DIR}/RoadRunnerPluginDirectory.h"
+        "${CMAKE_CURRENT_BINARY_DIR}/RoadRunnerPluginDirectory.cpp"
+   )
+
+   add_subdirectory(plugin_api)
+   add_subdirectory(plugin_auto2000)
+   add_subdirectory(plugin_levenberg_marquardt)
+   add_subdirectory(plugin_monte_carlo_bs)
+   add_subdirectory(plugin_nelder_mead)
+   add_subdirectory(plugin_test_model)
+endif() #BUILD_RR_PLUGINS
 
 #List the semantic_STS last, since it takes much longer to run than the others.
 # (fyi, build the run-ctest-exclude-sbml-test-suite target - see below)

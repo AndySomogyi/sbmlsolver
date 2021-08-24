@@ -940,7 +940,6 @@ namespace rr {
          */
         bool getHasOnlySubstanceUnits(const std::string &sid);
 
-
         /**
          * Set initial amount for an existing species. Initial amount/concentration set before will be unset.
          * @param sid: the ID of a species

@@ -113,10 +113,10 @@
 
     using namespace rr;
 
-//#define VERIFY_PYARRAY(p) { \
-//    assert(p && "PyArray is NULL"); \
-//    assert((PyArray_NBYTES(p) > 0 ? PyArray_ISCARRAY(p) : true) &&  "PyArray must be C format"); \
-//}
+#define VERIFY_PYARRAY(p) { \
+    assert(p && "PyArray is NULL"); \
+    assert((PyArray_NBYTES(p) > 0 ? PyArray_ISCARRAY(p) : true) &&  "PyArray must be C format"); \
+}
 
     class DictionaryHolder {
     public:
@@ -287,7 +287,7 @@
     npy_intp dims[1] = {static_cast<npy_intp>(len)};
 
     PyObject *array = PyArray_SimpleNew(1, dims, NPY_COMPLEX128);
-//    VERIFY_PYARRAY(array);
+    VERIFY_PYARRAY(array);
 
     if (!array) {
         // TODO error handling.
