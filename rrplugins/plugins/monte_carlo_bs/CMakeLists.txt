@@ -16,11 +16,17 @@ set(RRP_MONTE_CARLO_BS_SOURCES
 add_library(${target} MODULE ${RRP_MONTE_CARLO_BS_SOURCES})
 
 target_link_libraries (${target} PRIVATE
-  telpluginsBaseClass-static
-  telplugins_math-static
-  #telplugins_common
-  ${RRPLUGINS_COMMON_SHARED_LIBS}
+        telpluginsBaseClass-static
+        telplugins_math-static
+        telplugins_common-static
+        telplugins_c_api
 )
+
+
+target_compile_definitions(${target} PRIVATE
+        -DEXPORT_TEL_PLUGIN
+        -DEXPORT_MONTE_CARLO_BS
+        )
 
 if(UNIX)
   if(APPLE)

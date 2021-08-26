@@ -11,10 +11,9 @@ set(RRP_HELLO_SOURCES
 add_library(${target} MODULE ${RRP_HELLO_SOURCES})
 
 target_link_libraries ( ${target} PUBLIC
-  telpluginsBaseClass-static
-  telplugins_math-static
-  telplugins_common-static
-  ${RRPLUGINS_COMMON_SHARED_LIBS}
+        telpluginsBaseClass-static
+#        telplugins_math-static
+#        telplugins_common-static
 )
 
 target_compile_definitions(${target} PRIVATE

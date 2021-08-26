@@ -109,7 +109,7 @@ namespace rr {
             double *y = NV_DATA_S(stateVecIn);
 
             // initialize the out NVector with numerical limits for double
-            N_VConst(std::numeric_limits<double>::max(), stateVecOut);
+            N_VConst((std::numeric_limits<double>::max)(), stateVecOut);
             double *dydt = NV_DATA_S(stateVecOut);
 
             // cast user data back into our solver type
@@ -127,7 +127,7 @@ namespace rr {
             model->getStateVectorRate(model->getTime(), y, dydt);
 
             for (int i = 0; i < numStates; i++) {
-                if (dydt[i] == std::numeric_limits<double>::max()) {
+                if (dydt[i] == (std::numeric_limits<double>::max)()) {
                     std::ostringstream err;
                     err << __FILE__":" << __LINE__ << ":" << "kinsolDyDtFcn";
                     err << ": steady state solver \"" << solver->getName()

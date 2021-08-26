@@ -18,8 +18,12 @@ target_link_libraries (${target} PRIVATE
   telpluginsBaseClass-static
   telplugins_math-static
   #telplugins_common
-  ${RRPLUGINS_COMMON_SHARED_LIBS}
 )
+
+target_compile_definitions(${target} PRIVATE
+        -DEXPORT_TEL_PLUGIN
+        -DEXPORT_CHI_SQUARE
+        )
 
 if(UNIX)
   if(APPLE)
