@@ -105,6 +105,26 @@ namespace rrtesting {
         return 0;
     }
 
+    int CXXBrusselatorExecutableModel::setBoundarySpeciesInitConcentrations(size_t len,
+        const int* indx, const double* values) {
+        return 0;
+    }
+
+    int CXXBrusselatorExecutableModel::getBoundarySpeciesInitConcentrations(size_t len,
+        const int* indx, double* values) {
+        return 0;
+    }
+
+    int CXXBrusselatorExecutableModel::setBoundarySpeciesInitAmounts(size_t len, const int* indx,
+        const double* values) {
+        return 0;
+    }
+
+    int CXXBrusselatorExecutableModel::getBoundarySpeciesInitAmounts(size_t len, const int* indx,
+        double* values) {
+        return 0;
+    }
+
     int CXXBrusselatorExecutableModel::getNumBoundarySpecies() {
         return 0;
     }
@@ -129,6 +149,11 @@ namespace rrtesting {
 
     int CXXBrusselatorExecutableModel::setBoundarySpeciesConcentrations(size_t len,
                                                                         const int *indx, const double *values) {
+        return 0;
+    }
+
+    int CXXBrusselatorExecutableModel::setBoundarySpeciesAmounts(size_t len,
+        const int* indx, const double* values) {
         return 0;
     }
 
@@ -159,6 +184,14 @@ namespace rrtesting {
     }
 
     int CXXBrusselatorExecutableModel::getCompartmentIndex(const std::string &eid) {
+        return 0;
+    }
+
+    int CXXBrusselatorExecutableModel::getCompartmentIndexForFloatingSpecies(size_t index) {
+        return 0;
+    }
+
+    int CXXBrusselatorExecutableModel::getCompartmentIndexForBoundarySpecies(size_t index) {
         return 0;
     }
 

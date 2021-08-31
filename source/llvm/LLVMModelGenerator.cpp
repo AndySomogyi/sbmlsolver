@@ -126,6 +126,10 @@ ExecutableModel* LLVMModelGenerator::regenerateModel(ExecutableModel* oldModel, 
 	Function* setFloatingSpeciesInitConcentrationsIR = 0;
 	Function* getFloatingSpeciesInitAmountsIR = 0;
 	Function* setFloatingSpeciesInitAmountsIR = 0;
+	Function* getBoundarySpeciesInitConcentrationsIR = 0;
+	Function* setBoundarySpeciesInitConcentrationsIR = 0;
+	Function* getBoundarySpeciesInitAmountsIR = 0;
+	Function* setBoundarySpeciesInitAmountsIR = 0;
 	Function* getCompartmentInitVolumesIR = 0;
 	Function* setCompartmentInitVolumesIR = 0;
 	Function* getGlobalParameterInitValueIR = 0;
@@ -172,6 +176,16 @@ ExecutableModel* LLVMModelGenerator::regenerateModel(ExecutableModel* oldModel, 
 		setFloatingSpeciesInitAmountsIR =
 			SetFloatingSpeciesInitAmountCodeGen(context).createFunction();
 
+		getBoundarySpeciesInitConcentrationsIR =
+			GetBoundarySpeciesInitConcentrationCodeGen(context).createFunction();
+		setBoundarySpeciesInitConcentrationsIR =
+			SetBoundarySpeciesInitConcentrationCodeGen(context).createFunction();
+
+		getBoundarySpeciesInitAmountsIR =
+			GetBoundarySpeciesInitAmountCodeGen(context).createFunction();
+		setBoundarySpeciesInitAmountsIR =
+			SetBoundarySpeciesInitAmountCodeGen(context).createFunction();
+
 		getCompartmentInitVolumesIR =
 			GetCompartmentInitVolumeCodeGen(context).createFunction();
 		setCompartmentInitVolumesIR =
@@ -188,6 +202,10 @@ ExecutableModel* LLVMModelGenerator::regenerateModel(ExecutableModel* oldModel, 
 		setFloatingSpeciesInitConcentrationsIR = 0;
 		getFloatingSpeciesInitAmountsIR = 0;
 		setFloatingSpeciesInitAmountsIR = 0;
+		getBoundarySpeciesInitConcentrationsIR = 0;
+		setBoundarySpeciesInitConcentrationsIR = 0;
+		getBoundarySpeciesInitAmountsIR = 0;
+		setBoundarySpeciesInitAmountsIR = 0;
 		setCompartmentInitVolumesIR = 0;
 		getCompartmentInitVolumesIR = 0;
 		getGlobalParameterInitValueIR = 0;
@@ -300,22 +318,25 @@ ExecutableModel* LLVMModelGenerator::regenerateModel(ExecutableModel* oldModel, 
 	else
 	{
 		rc->setBoundarySpeciesAmountPtr = (SetBoundarySpeciesAmountCodeGen::FunctionPtr)
-context.getExecutionEngine().getFunctionAddress("setBoundarySpeciesAmount");
+			context.getExecutionEngine().getFunctionAddress("setBoundarySpeciesAmount");
 
-rc->setBoundarySpeciesConcentrationPtr = (SetBoundarySpeciesAmountCodeGen::FunctionPtr)
-context.getExecutionEngine().getFunctionAddress("setBoundarySpeciesConcentration");
+		rc->setBoundarySpeciesConcentrationPtr = (SetBoundarySpeciesAmountCodeGen::FunctionPtr)
+			context.getExecutionEngine().getFunctionAddress("setBoundarySpeciesConcentration");
 
-rc->setFloatingSpeciesConcentrationPtr = (SetBoundarySpeciesAmountCodeGen::FunctionPtr)
-context.getExecutionEngine().getFunctionAddress("setFloatingSpeciesConcentration");
+		rc->setFloatingSpeciesConcentrationPtr = (SetBoundarySpeciesAmountCodeGen::FunctionPtr)
+			context.getExecutionEngine().getFunctionAddress("setFloatingSpeciesConcentration");
 
-rc->setCompartmentVolumePtr = (SetBoundarySpeciesAmountCodeGen::FunctionPtr)
-context.getExecutionEngine().getFunctionAddress("setCompartmentVolume");
+		rc->setCompartmentVolumePtr = (SetBoundarySpeciesAmountCodeGen::FunctionPtr)
+			context.getExecutionEngine().getFunctionAddress("setCompartmentVolume");
 
-rc->setFloatingSpeciesAmountPtr = (SetBoundarySpeciesAmountCodeGen::FunctionPtr)
-context.getExecutionEngine().getFunctionAddress("setFloatingSpeciesAmount");
+		rc->setBoundarySpeciesAmountPtr = (SetBoundarySpeciesAmountCodeGen::FunctionPtr)
+			context.getExecutionEngine().getFunctionAddress("setBoundarySpeciesAmount");
 
-rc->setGlobalParameterPtr = (SetGlobalParameterCodeGen::FunctionPtr)
-context.getExecutionEngine().getFunctionAddress("setGlobalParameter");
+		rc->setFloatingSpeciesAmountPtr = (SetBoundarySpeciesAmountCodeGen::FunctionPtr)
+			context.getExecutionEngine().getFunctionAddress("setFloatingSpeciesAmount");
+
+		rc->setGlobalParameterPtr = (SetGlobalParameterCodeGen::FunctionPtr)
+			context.getExecutionEngine().getFunctionAddress("setGlobalParameter");
 	}
 
 	if (options & LoadSBMLOptions::MUTABLE_INITIAL_CONDITIONS)
@@ -329,6 +350,16 @@ context.getExecutionEngine().getFunctionAddress("setGlobalParameter");
 			context.getExecutionEngine().getFunctionAddress("getFloatingSpeciesInitAmounts");
 		rc->setFloatingSpeciesInitAmountsPtr = (SetBoundarySpeciesAmountCodeGen::FunctionPtr)
 			context.getExecutionEngine().getFunctionAddress("setFloatingSpeciesInitAmounts");
+
+		rc->getBoundarySpeciesInitConcentrationsPtr = (GetBoundarySpeciesAmountCodeGen::FunctionPtr)
+			context.getExecutionEngine().getFunctionAddress("getBoundarySpeciesInitConcentrations");
+		rc->setBoundarySpeciesInitConcentrationsPtr = (SetBoundarySpeciesAmountCodeGen::FunctionPtr)
+			context.getExecutionEngine().getFunctionAddress("setBoundarySpeciesInitConcentrations");
+
+		rc->getBoundarySpeciesInitAmountsPtr = (GetBoundarySpeciesAmountCodeGen::FunctionPtr)
+			context.getExecutionEngine().getFunctionAddress("getBoundarySpeciesInitAmounts");
+		rc->setBoundarySpeciesInitAmountsPtr = (SetBoundarySpeciesAmountCodeGen::FunctionPtr)
+			context.getExecutionEngine().getFunctionAddress("setBoundarySpeciesInitAmounts");
 
 		rc->getCompartmentInitVolumesPtr = (GetBoundarySpeciesAmountCodeGen::FunctionPtr)
 			context.getExecutionEngine().getFunctionAddress("getCompartmentInitVolumes");
@@ -347,6 +378,12 @@ context.getExecutionEngine().getFunctionAddress("setGlobalParameter");
 
 		rc->getFloatingSpeciesInitAmountsPtr = 0;
 		rc->setFloatingSpeciesInitAmountsPtr = 0;
+
+		rc->getBoundarySpeciesInitConcentrationsPtr = 0;
+		rc->setBoundarySpeciesInitConcentrationsPtr = 0;
+
+		rc->getBoundarySpeciesInitAmountsPtr = 0;
+		rc->setBoundarySpeciesInitAmountsPtr = 0;
 
 		rc->getCompartmentInitVolumesPtr = 0;
 		rc->setCompartmentInitVolumesPtr = 0;
@@ -484,6 +521,15 @@ context.getExecutionEngine().getFunctionAddress("setGlobalParameter");
 						// found it
 						index = std::distance(newSymbols.begin(), it);
 						newModel->modelData->rateRuleValuesAlias[index] = value;
+					}
+				}
+				else
+				{
+					if (!newModel->symbols->hasInitialAssignmentRule(id))
+					{
+						double initValue = 0;
+						oldModel->getBoundarySpeciesInitAmounts(1, &i, &initValue);
+						newModel->modelData->initBoundarySpeciesAmountsAlias[index] = initValue;
 					}
 				}
 			}
@@ -698,6 +744,10 @@ ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml, std::u
 	Function* setFloatingSpeciesInitConcentrationsIR = 0;
 	Function* getFloatingSpeciesInitAmountsIR = 0;
 	Function* setFloatingSpeciesInitAmountsIR = 0;
+	Function* getBoundarySpeciesInitConcentrationsIR = 0;
+	Function* setBoundarySpeciesInitConcentrationsIR = 0;
+	Function* getBoundarySpeciesInitAmountsIR = 0;
+	Function* setBoundarySpeciesInitAmountsIR = 0;
 	Function* getCompartmentInitVolumesIR = 0;
 	Function* setCompartmentInitVolumesIR = 0;
 	Function* getGlobalParameterInitValueIR = 0;
@@ -744,6 +794,16 @@ ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml, std::u
 		setFloatingSpeciesInitAmountsIR =
 			SetFloatingSpeciesInitAmountCodeGen(context).createFunction();
 
+		getBoundarySpeciesInitConcentrationsIR =
+			GetBoundarySpeciesInitConcentrationCodeGen(context).createFunction();
+		setBoundarySpeciesInitConcentrationsIR =
+			SetBoundarySpeciesInitConcentrationCodeGen(context).createFunction();
+
+		getBoundarySpeciesInitAmountsIR =
+			GetBoundarySpeciesInitAmountCodeGen(context).createFunction();
+		setBoundarySpeciesInitAmountsIR =
+			SetBoundarySpeciesInitAmountCodeGen(context).createFunction();
+
 		getCompartmentInitVolumesIR =
 			GetCompartmentInitVolumeCodeGen(context).createFunction();
 		setCompartmentInitVolumesIR =
@@ -760,6 +820,10 @@ ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml, std::u
 		setFloatingSpeciesInitConcentrationsIR = 0;
 		getFloatingSpeciesInitAmountsIR		= 0;
 		setFloatingSpeciesInitAmountsIR		= 0;
+		getBoundarySpeciesInitConcentrationsIR = 0;
+		setBoundarySpeciesInitConcentrationsIR = 0;
+		getBoundarySpeciesInitAmountsIR = 0;
+		setBoundarySpeciesInitAmountsIR = 0;
 		setCompartmentInitVolumesIR			= 0;
 		getCompartmentInitVolumesIR			= 0;
 		getGlobalParameterInitValueIR			= 0;
@@ -902,6 +966,16 @@ ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml, std::u
 		rc->setFloatingSpeciesInitAmountsPtr = (SetBoundarySpeciesAmountCodeGen::FunctionPtr)
             context.getExecutionEngine().getFunctionAddress("setFloatingSpeciesInitAmounts");
 
+		rc->getBoundarySpeciesInitConcentrationsPtr = (GetBoundarySpeciesAmountCodeGen::FunctionPtr)
+			context.getExecutionEngine().getFunctionAddress("getBoundarySpeciesInitConcentrations");
+		rc->setBoundarySpeciesInitConcentrationsPtr = (SetBoundarySpeciesAmountCodeGen::FunctionPtr)
+			context.getExecutionEngine().getFunctionAddress("setBoundarySpeciesInitConcentrations");
+
+		rc->getBoundarySpeciesInitAmountsPtr = (GetBoundarySpeciesAmountCodeGen::FunctionPtr)
+			context.getExecutionEngine().getFunctionAddress("getBoundarySpeciesInitAmounts");
+		rc->setBoundarySpeciesInitAmountsPtr = (SetBoundarySpeciesAmountCodeGen::FunctionPtr)
+			context.getExecutionEngine().getFunctionAddress("setBoundarySpeciesInitAmounts");
+
 		rc->getCompartmentInitVolumesPtr = (GetBoundarySpeciesAmountCodeGen::FunctionPtr)
             context.getExecutionEngine().getFunctionAddress("getCompartmentInitVolumes");
 		rc->setCompartmentInitVolumesPtr = (SetBoundarySpeciesAmountCodeGen::FunctionPtr)
@@ -919,6 +993,12 @@ ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml, std::u
 
 		rc->getFloatingSpeciesInitAmountsPtr = 0;
 		rc->setFloatingSpeciesInitAmountsPtr = 0;
+
+		rc->getBoundarySpeciesInitConcentrationsPtr = 0;
+		rc->setBoundarySpeciesInitConcentrationsPtr = 0;
+
+		rc->getBoundarySpeciesInitAmountsPtr = 0;
+		rc->setBoundarySpeciesInitAmountsPtr = 0;
 
 		rc->getCompartmentInitVolumesPtr = 0;
 		rc->setCompartmentInitVolumesPtr = 0;
@@ -1063,7 +1143,7 @@ LLVMModelData *createModelData(const rrllvm::LLVMModelDataSymbols &symbols,
     modelData->numInitCompartments = numInitCompartments;
     modelData->numInitFloatingSpecies = numInitFloatingSpecies;
     modelData->numInitBoundarySpecies = numInitBoundarySpecies;
-    modelData->numInitBoundarySpecies = numInitGlobalParameters;
+    modelData->numInitGlobalParameters = numInitGlobalParameters;
 
     modelData->numRateRules = numRateRules;
     modelData->numReactions = numReactions;

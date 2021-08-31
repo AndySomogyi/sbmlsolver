@@ -481,6 +481,16 @@ public:
     bool isIndependentInitFloatingSpecies(const std::string& symbol) const;
 
     /**
+     * checks if the given symbol is an init value for an independent
+     * boundary species.
+     *
+     * Conserved Moiety species are considered to have independent
+     * initial condtions as in this case, the assignment rule only applies
+     * at time t > 0.
+     */
+    bool isIndependentInitBoundarySpecies(const std::string& symbol) const;
+
+    /**
      * Is this sbml element an independent initial value.
      *
      * True if this value does NOT have an assignment or initial
@@ -514,6 +524,13 @@ public:
     int getFloatingSpeciesInitIndex(const std::string& symbol) const;
 
     /**
+     * get the index of a boundary species initial value.
+     *
+     * has the same index as the run time boundary species.
+     */
+    int getBoundarySpeciesInitIndex(const std::string& symbol) const;
+
+    /**
      * get the index of a compartment initial value
      *
      * has the same index as the run time compartment.
@@ -524,6 +541,11 @@ public:
      * get the index of a compartment for a float species.
      */
     int getCompartmentIndexForFloatingSpecies(size_t floatIndex) const;
+
+    /**
+     * get the index of a compartment for a boundary species.
+     */
+    int getCompartmentIndexForBoundarySpecies(size_t floatIndex) const;
 
     /**
      * get the index of a global parameter initial value
@@ -603,7 +625,12 @@ private:
      */
     std::vector<uint> floatingSpeciesCompartmentIndices;
 
-/************************ End Initial Conditions Section *********************/
+    /**
+     * index of compartments for each boundary species.
+     */
+    std::vector<uint> boundarySpeciesCompartmentIndices;
+
+    /************************ End Initial Conditions Section *********************/
 
 
 private:

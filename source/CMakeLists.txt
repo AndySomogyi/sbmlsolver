@@ -170,6 +170,16 @@ set(
         PresimulationDecorator.h
         PresimulationProgramDecorator.h
         ApproxSteadyStateDecorator.h
+
+        conservation/ConservationExtension.h
+        conservation/ConservationDocumentPlugin.h
+        conservation/ConservedMoietyPlugin.h
+        conservation/ConservedMoietyConverter.h
+        #todo pull test files out of main library sources.
+        testing/CXXExecutableModel.h
+        testing/CXXEnzymeExecutableModel.h
+        testing/CXXBrusselatorExecutableModel.h
+        testing/CXXPiecewiseExecutableModel.h
 )
 install(FILES ${rrCoreHeaders} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/rr)
 

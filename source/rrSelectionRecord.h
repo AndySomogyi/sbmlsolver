@@ -193,16 +193,6 @@ public:
         DEPENDENT_FLOATING_AMOUNT =         FLOATING | AMOUNT | DEPENDENT   | CURRENT,
 
         /**
-         * SelectionType for boundary species amounts.
-         */
-        BOUNDARY_AMOUNT =                   BOUNDARY | AMOUNT | INDEPENDENT | DEPENDENT | CURRENT,
-
-        /**
-         * SelectionType for current boundary species concentrations.
-         */
-        BOUNDARY_CONCENTRATION =            BOUNDARY | CONCENTRATION | INDEPENDENT | DEPENDENT | CURRENT,
-
-        /**
          * SelectionType for current floating species concentrations.
          */
         FLOATING_CONCENTRATION =            FLOATING | CONCENTRATION | INDEPENDENT | DEPENDENT | CURRENT,
@@ -218,6 +208,39 @@ public:
          * these are always current. (Unused)
          */
         FLOATING_CONCENTRATION_RATE =       FLOATING | CONCENTRATION | RATE | DEPENDENT,
+
+
+        /**
+         * SelectionType for boundary species amounts.
+         */
+        BOUNDARY_AMOUNT =                   BOUNDARY | AMOUNT | INDEPENDENT | DEPENDENT | CURRENT,
+
+        /**
+         * SelectionType for independent boundary species amounts.
+         */
+        INDEPENDENT_BOUNDARY_AMOUNT =       BOUNDARY | AMOUNT | INDEPENDENT | CURRENT,
+
+        /**
+         * SelectionType for dependent boundary species amounts. (Unused)
+         */
+        DEPENDENT_BOUNDARY_AMOUNT =         BOUNDARY | AMOUNT | DEPENDENT   | CURRENT,
+
+        /**
+         * SelectionType for current boundary species concentrations.
+         */
+        BOUNDARY_CONCENTRATION =            BOUNDARY | CONCENTRATION | INDEPENDENT | DEPENDENT | CURRENT,
+
+        /**
+         * SelectionType for boundary species amount rates (value, not reaction rates),
+         * these are always current.
+         */
+        BOUNDARY_AMOUNT_RATE =              BOUNDARY | RATE | DEPENDENT,
+
+        /**
+         * SelectionType for boundary species concentration rates (value, not reaction rates),
+         * these are always current. (Unused)
+         */
+        BOUNDARY_CONCENTRATION_RATE =       BOUNDARY | CONCENTRATION | RATE | DEPENDENT,
 
 
         /**
@@ -241,6 +264,11 @@ public:
         INITIAL_FLOATING_AMOUNT =           INITIAL | FLOATING | AMOUNT | INDEPENDENT | DEPENDENT,
 
         /**
+         * SelectionType for initial boundary species amounts.
+         */
+        INITIAL_BOUNDARY_AMOUNT =           INITIAL | BOUNDARY | AMOUNT | INDEPENDENT | DEPENDENT,
+
+        /**
          * SelectionType for initial species concentrations.
          */
         INITIAL_CONCENTRATION =             INITIAL | CONCENTRATION | INDEPENDENT | DEPENDENT,
@@ -251,6 +279,11 @@ public:
         INITIAL_FLOATING_CONCENTRATION =    INITIAL | FLOATING | CONCENTRATION | INDEPENDENT | DEPENDENT,
 
         /**
+         * SelectionType for initial floating species concentrations.
+         */
+        INITIAL_BOUNDARY_CONCENTRATION =    INITIAL | BOUNDARY | CONCENTRATION | INDEPENDENT | DEPENDENT,
+
+        /**
          * SelectionType for initial compartment values.
          */
         INITIAL_COMPARTMENT =               INITIAL | _COMPARTMENT | INDEPENDENT | DEPENDENT,
@@ -259,7 +292,6 @@ public:
          * SelectionType for initial global parameter values.
          */
         INITIAL_GLOBAL_PARAMETER =          INITIAL | _GLOBAL_PARAMETER | INDEPENDENT | DEPENDENT,
-
 
         /**
          * SelectionType for global parameters that have initial assignment rules.

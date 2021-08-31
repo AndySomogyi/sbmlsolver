@@ -1216,15 +1216,28 @@ namespace rr {
                 return std::imag(eig[index]);
             }
                 break;
-            case SelectionRecord::INITIAL_CONCENTRATION: {
+            case SelectionRecord::INITIAL_FLOATING_CONCENTRATION:
+            {
                 impl->model->getFloatingSpeciesInitConcentrations(1, &record.index, &dResult);
             }
                 break;
-            case SelectionRecord::INITIAL_AMOUNT: {
+            case SelectionRecord::INITIAL_FLOATING_AMOUNT: 
+            {
                 impl->model->getFloatingSpeciesInitAmounts(1, &record.index, &dResult);
             }
                 break;
-            case SelectionRecord::INITIAL_GLOBAL_PARAMETER: {
+            case SelectionRecord::INITIAL_BOUNDARY_CONCENTRATION: 
+            {
+                impl->model->getBoundarySpeciesInitConcentrations(1, &record.index, &dResult);
+            }
+                break;
+            case SelectionRecord::INITIAL_BOUNDARY_AMOUNT: 
+            {
+                impl->model->getBoundarySpeciesInitAmounts(1, &record.index, &dResult);
+            }
+                break;
+            case SelectionRecord::INITIAL_GLOBAL_PARAMETER: 
+            {
                 impl->model->getGlobalParameterInitValues(1, &record.index, &dResult);
             }
                 break;
@@ -3359,13 +3372,23 @@ namespace rr {
     }
 
 
-// Help("Set the concentrations for all floating species in the model")
+// Help("Set the concentrations for all boundary species in the model")
     void RoadRunner::setBoundarySpeciesConcentrations(const std::vector<double> &values) {
         if (!impl->model) {
             throw CoreException(gEmptyModelMessage);
         }
 
         impl->model->setBoundarySpeciesConcentrations(values.size(), 0, &values[0]);
+    }
+
+
+// Help("Set the amounts for all boundary species in the model")
+    void RoadRunner::setBoundarySpeciesAmounts(const std::vector<double> &values) {
+        if (!impl->model) {
+            throw CoreException(gEmptyModelMessage);
+        }
+
+        impl->model->setBoundarySpeciesAmounts(values.size(), 0, &values[0]);
     }
 
 
@@ -4097,8 +4120,8 @@ namespace rr {
 
         SelectionRecord sel(sId);
 
-        if (sel.selectionType == SelectionRecord::INITIAL_FLOATING_AMOUNT ||
-            sel.selectionType == SelectionRecord::INITIAL_FLOATING_CONCENTRATION) {
+        if (sel.selectionType == SelectionRecord::INITIAL_AMOUNT ||
+            sel.selectionType == SelectionRecord::INITIAL_CONCENTRATION) {
             reset();
         }
     }
@@ -4240,30 +4263,46 @@ namespace rr {
                 if (impl->model->getFloatingSpeciesIndex(sel.p1) >= 0) {
                     if (impl->model->getReactionIndex(sel.p2) >= 0) {
                         break;
-                    } else {
+                    } 
+                    else {
                         throw Exception("second argument to stoich '" + sel.p2 + "' is not a reaction id.");
                     }
-                } else {
+                } 
+                else {
                     throw Exception("first argument to stoich '" + sel.p1 + "' is not a floating species id.");
                 }
                 break;
             case SelectionRecord::INITIAL_CONCENTRATION:
                 if ((sel.index = impl->model->getFloatingSpeciesIndex(sel.p1)) >= 0) {
+                    sel.selectionType = SelectionRecord::INITIAL_FLOATING_CONCENTRATION;
                     break;
-                } else {
+                } 
+                else if ((sel.index = impl->model->getBoundarySpeciesIndex(sel.p1)) >= 0) {
+                    sel.selectionType = SelectionRecord::INITIAL_BOUNDARY_CONCENTRATION;
+                    break;
+                }
+                else {
                     throw Exception("Invalid id '" + sel.p1 + "' for floating initial concentration");
                     break;
                 }
             case SelectionRecord::INITIAL_AMOUNT:
                 if ((sel.index = impl->model->getFloatingSpeciesIndex(sel.p1)) >= 0) {
+                    sel.selectionType = SelectionRecord::INITIAL_FLOATING_AMOUNT;
                     break;
-                } else if ((sel.index = impl->model->getGlobalParameterIndex(sel.p1)) >= 0) {
+                } 
+                else if ((sel.index = impl->model->getBoundarySpeciesIndex(sel.p1)) >= 0) {
+                    sel.selectionType = SelectionRecord::INITIAL_BOUNDARY_AMOUNT;
+                    break;
+                }
+                else if ((sel.index = impl->model->getGlobalParameterIndex(sel.p1)) >= 0) {
                     sel.selectionType = SelectionRecord::INITIAL_GLOBAL_PARAMETER;
                     break;
-                } else if ((sel.index = impl->model->getCompartmentIndex(sel.p1)) >= 0) {
+                } 
+                else if ((sel.index = impl->model->getCompartmentIndex(sel.p1)) >= 0) {
                     sel.selectionType = SelectionRecord::INITIAL_COMPARTMENT;
                     break;
-                } else {
+                } 
+                else {
                     throw Exception("Invalid id '" + sel.p1 + "' for floating initial amount");
                     break;
                 }
@@ -4951,9 +4990,13 @@ namespace rr {
 
         int inVersionNumber;
         rr::loadBinary(in, inVersionNumber);
-        if (inVersionNumber != dataVersionNumber) {
+        if (inVersionNumber < dataVersionNumber) {
             throw std::invalid_argument(
-                    "The file " + filename + " was saved with an unrecognized version of roadrunner");
+                    "The file " + filename + " was saved with a previous version of roadrunner");
+        }
+        if (inVersionNumber > dataVersionNumber) {
+            throw std::invalid_argument(
+                "The file " + filename + " was saved with a version of roadrunner more recent than this executable.");
         }
         //load roadrunner's data in the same order saveState saves it in
         int oldInstanceID;
@@ -5875,6 +5918,28 @@ namespace rr {
                 }
             }
 
+            index = impl->model->getBoundarySpeciesIndex(vid);
+            if (index >= 0 && index < impl->model->getNumBoundarySpecies()) {
+
+                double initValue = 0;
+                if (sbmlModel->getSpecies(vid)->isSetInitialAmount()) {
+                    initValue = sbmlModel->getSpecies(vid)->getInitialAmount();
+                }
+                else if (sbmlModel->getSpecies(vid)->isSetInitialConcentration()) {
+                    double initConcentration = sbmlModel->getSpecies(vid)->getInitialConcentration();
+                    int compartment = impl->model->getCompartmentIndex(sbmlModel->getSpecies(vid)->getCompartment());
+                    double compartmentSize = 1;
+                    impl->model->getCompartmentVolumes(1, &compartment, &compartmentSize);
+
+                    initValue = initConcentration * compartmentSize;
+                }
+
+                impl->model->setBoundarySpeciesInitAmounts(1, &index, &initValue);
+                if (useInitialValueAsCurrent) {
+                    impl->model->setBoundarySpeciesAmounts(1, &index, &initValue);
+                }
+            }
+
             index = impl->model->getCompartmentIndex(vid);
             if (index >= 0 && index < impl->model->getNumCompartments()) {
                 double initValue = 0;
@@ -5905,6 +5970,13 @@ namespace rr {
                 double initValue = 0;
                 impl->model->getFloatingSpeciesInitAmounts(1, &index, &initValue);
                 impl->model->setFloatingSpeciesAmounts(1, &index, &initValue);
+
+            }
+
+            if (index >= 0 && index < impl->model->getNumBoundarySpecies()) {
+                double initValue = 0;
+                impl->model->getBoundarySpeciesInitAmounts(1, &index, &initValue);
+                impl->model->setBoundarySpeciesAmounts(1, &index, &initValue);
 
             }
 

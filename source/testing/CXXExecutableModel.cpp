@@ -127,6 +127,12 @@ int CXXExecutableModel::getFloatingSpeciesInitAmounts(size_t len, const int* ind
     return 0;
 }
 
+int CXXExecutableModel::getBoundarySpeciesInitAmounts(size_t len, const int* indx,
+    double* values)
+{
+    return 0;
+}
+
 int CXXExecutableModel::getNumBoundarySpecies()
 {
     return 0;
@@ -156,6 +162,30 @@ int CXXExecutableModel::getBoundarySpeciesConcentrations(size_t len,
 
 int CXXExecutableModel::setBoundarySpeciesConcentrations(size_t len,
         const int* indx, const double* values)
+{
+    return 0;
+}
+
+int CXXExecutableModel::setBoundarySpeciesAmounts(size_t len,
+    const int* indx, const double* values)
+{
+    return 0;
+}
+
+int CXXExecutableModel::setBoundarySpeciesInitConcentrations(size_t len,
+    const int* indx, const double* values)
+{
+    return 0;
+}
+
+int CXXExecutableModel::getBoundarySpeciesInitConcentrations(size_t len,
+    const int* indx, double* values)
+{
+    return 0;
+}
+
+int CXXExecutableModel::setBoundarySpeciesInitAmounts(size_t len, const int* indx,
+    const double* values)
 {
     return 0;
 }
@@ -193,6 +223,16 @@ int CXXExecutableModel::getNumCompartments()
 }
 
 int CXXExecutableModel::getCompartmentIndex(const std::string& eid)
+{
+    return 0;
+}
+
+int CXXExecutableModel::getCompartmentIndexForFloatingSpecies(size_t index)
+{
+    return 0;
+}
+
+int CXXExecutableModel::getCompartmentIndexForBoundarySpecies(size_t index)
 {
     return 0;
 }

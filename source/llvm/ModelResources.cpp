@@ -342,6 +342,16 @@ void ModelResources::loadState(std::istream& in, uint modelGeneratorOpt)
 		setFloatingSpeciesInitAmountsPtr = (SetBoundarySpeciesAmountCodeGen::FunctionPtr)
 			executionEngine->getFunctionAddress("setFloatingSpeciesInitAmounts");
 
+		getBoundarySpeciesInitConcentrationsPtr = (GetBoundarySpeciesAmountCodeGen::FunctionPtr)
+			executionEngine->getFunctionAddress("getBoundarySpeciesInitConcentrations");
+		setBoundarySpeciesInitConcentrationsPtr = (SetBoundarySpeciesAmountCodeGen::FunctionPtr)
+			executionEngine->getFunctionAddress("setBoundarySpeciesInitConcentrations");
+
+		getBoundarySpeciesInitAmountsPtr = (GetBoundarySpeciesAmountCodeGen::FunctionPtr)
+			executionEngine->getFunctionAddress("getBoundarySpeciesInitAmounts");
+		setBoundarySpeciesInitAmountsPtr = (SetBoundarySpeciesAmountCodeGen::FunctionPtr)
+			executionEngine->getFunctionAddress("setBoundarySpeciesInitAmounts");
+
 		getCompartmentInitVolumesPtr = (GetBoundarySpeciesAmountCodeGen::FunctionPtr)
 			executionEngine->getFunctionAddress("getCompartmentInitVolumes");
 		setCompartmentInitVolumesPtr = (SetBoundarySpeciesAmountCodeGen::FunctionPtr)
@@ -358,6 +368,10 @@ void ModelResources::loadState(std::istream& in, uint modelGeneratorOpt)
 		setFloatingSpeciesInitConcentrationsPtr = 0;
 		getFloatingSpeciesInitAmountsPtr = 0;
 		setFloatingSpeciesInitAmountsPtr = 0;
+		getBoundarySpeciesInitConcentrationsPtr = 0;
+		setBoundarySpeciesInitConcentrationsPtr = 0;
+		getBoundarySpeciesInitAmountsPtr = 0;
+		setBoundarySpeciesInitAmountsPtr = 0;
 		getCompartmentInitVolumesPtr = 0;
 		setCompartmentInitVolumesPtr = 0;
 		getGlobalParameterInitValuePtr = 0;

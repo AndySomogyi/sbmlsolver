@@ -219,6 +219,36 @@ int CXXEnzymeExecutableModel::setBoundarySpeciesConcentrations(size_t len,
     return 0;
 }
 
+int CXXEnzymeExecutableModel::setBoundarySpeciesAmounts(size_t len,
+    const int* indx, const double* values)
+{
+    return 0;
+}
+
+int CXXEnzymeExecutableModel::setBoundarySpeciesInitConcentrations(size_t len,
+    const int* indx, const double* values)
+{
+    return 0;
+}
+
+int CXXEnzymeExecutableModel::getBoundarySpeciesInitConcentrations(size_t len,
+    const int* indx, double* values)
+{
+    return 0;
+}
+
+int CXXEnzymeExecutableModel::setBoundarySpeciesInitAmounts(size_t len, const int* indx,
+    const double* values)
+{
+    return 0;
+}
+
+int CXXEnzymeExecutableModel::getBoundarySpeciesInitAmounts(size_t len, const int* indx,
+    double* values)
+{
+    return 0;
+}
+
 int CXXEnzymeExecutableModel::getNumGlobalParameters()
 {
     return 0;
@@ -266,6 +296,11 @@ int CXXEnzymeExecutableModel::getNumCompartments()
 int CXXEnzymeExecutableModel::getCompartmentIndexForFloatingSpecies(size_t index)
 {
 	return 0;
+}
+
+int CXXEnzymeExecutableModel::getCompartmentIndexForBoundarySpecies(size_t index)
+{
+    return 0;
 }
 
 int CXXEnzymeExecutableModel::getCompartmentIndex(const std::string& eid)

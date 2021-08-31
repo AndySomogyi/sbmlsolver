@@ -536,8 +536,21 @@ namespace rr {
                             v.push_back(abstol / volumes[index]);
                         }
                     } else {
-                        // not a species, no need to divide by compartment volume
-                        v.push_back(abstol);
+                        speciesIndex = mModel->getBoundarySpeciesIndex(symbols[i]);
+                        if (speciesIndex > -1) {
+                            // the symbol defined by the rate rule is a species
+                            index = mModel->getCompartmentIndexForBoundarySpecies(i);
+                            if (volumes[index] == 0) {
+                                v.push_back(abstol);
+                            }
+                            else {
+                                v.push_back(abstol / volumes[index]);
+                            }
+                        }
+                        else {
+                            // not a species, no need to divide by compartment volume
+                            v.push_back(abstol);
+                        }
                     }
                 }
                 break;
