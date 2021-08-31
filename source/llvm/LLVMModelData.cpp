@@ -27,7 +27,7 @@ static void dump_array(std::ostream &os, int n, const double *p)
         os << '[';
         for (int i = 0; i < n; ++i)
         {
-            os << p[i];
+            os << std::fixed << p[i];
             if (i < n - 1)
             {
                 os << ", ";
@@ -51,7 +51,7 @@ std::ostream& operator <<(std::ostream& os, const LLVMModelData& data)
     os << "LLVMModelData:"                  << std::endl;
     os << "size: "                          << data.size << std::endl;
     os << "flags: "                         << data.flags << std::endl;
-    os << "time: "                          << data.time << std::endl;
+    os << "time: "                          << std::fixed << data.time << std::endl;
     os << "numIndFloatingSpecies: "         << data.numIndFloatingSpecies << std::endl;
 
     os << "numIndGlobalParameters: "        << data.numIndGlobalParameters << std::endl;
@@ -98,6 +98,7 @@ std::ostream& operator <<(std::ostream& os, const LLVMModelData& data)
     os << "initGlobalParameters: "          << std::endl;
     dump_array(os, data.numInitGlobalParameters, data.initGlobalParametersAlias);
 
+	os << std::endl;
 
     return os;
 }

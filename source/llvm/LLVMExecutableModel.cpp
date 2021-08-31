@@ -55,7 +55,7 @@ static void dump_array(std::ostream &os, int n, const numeric_type *p)
         os << '[';
         for (int i = 0; i < n; ++i)
         {
-            os << p[i];
+            os << std::fixed << p[i];
             if (i < n - 1)
             {
                 os << ", ";
@@ -535,6 +535,10 @@ std::string LLVMExecutableModel::getInfo()
     this->getFloatingSpeciesInitConcentrations(nFloat, 0, tmp);
     stream << "FloatingSpeciesInitConcentrations:" << std::endl;
     dump_array(stream, nFloat, tmp);
+
+    this->getFloatingSpeciesInitAmounts(nFloat, 0, tmp);
+    stream << "FloatingSpeciesInitAmounts:" << std::endl;
+    dump_array(stream, nFloat, tmp);
     delete[] tmp;
 
     tmp = new double[nReactions];
@@ -550,6 +554,14 @@ std::string LLVMExecutableModel::getInfo()
 
     getBoundarySpeciesConcentrations(nBound, 0, tmp);
     stream << "BoundarySpeciesConcentrations:" << std::endl;
+    dump_array(stream, nBound, tmp);
+
+    this->getBoundarySpeciesInitAmounts(nBound, 0, tmp);
+    stream << "BoundarySpeciesInitAmounts:" << std::endl;
+    dump_array(stream, nBound, tmp);
+
+    this->getBoundarySpeciesInitConcentrations(nBound, 0, tmp);
+    stream << "BoundarySpeciesInitConcentrations:" << std::endl;
     dump_array(stream, nBound, tmp);
     delete[] tmp;
 
@@ -570,8 +582,8 @@ std::string LLVMExecutableModel::getInfo()
     delete[] tmp;
 
     tmp = new double[nGlobalParam];
-    getGlobalParameterValues(nGlobalParam, 0, tmp);
-    stream << "GlobalParameters:" << std::endl;
+    getGlobalParameterInitValues(nGlobalParam, 0, tmp);
+    stream << "Init GlobalParameters:" << std::endl;
     dump_array(stream, nGlobalParam, tmp);
     delete[] tmp;
 
@@ -581,6 +593,7 @@ std::string LLVMExecutableModel::getInfo()
     dump_array(stream, nEvents, (bool*)tmpEvents);
     delete[] tmpEvents;
 
+    stream << std::endl;
     stream << *modelData;
 
     return stream.str();

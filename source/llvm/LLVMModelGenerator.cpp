@@ -1143,7 +1143,7 @@ LLVMModelData *createModelData(const rrllvm::LLVMModelDataSymbols &symbols,
     modelData->numInitCompartments = numInitCompartments;
     modelData->numInitFloatingSpecies = numInitFloatingSpecies;
     modelData->numInitBoundarySpecies = numInitBoundarySpecies;
-    modelData->numInitBoundarySpecies = numInitGlobalParameters;
+    modelData->numInitGlobalParameters = numInitGlobalParameters;
 
     modelData->numRateRules = numRateRules;
     modelData->numReactions = numReactions;
