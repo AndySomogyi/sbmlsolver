@@ -21,6 +21,8 @@
 #include <cstdlib>
 #include <iostream>
 #include <algorithm>
+#include <map>
+#include "sbml/SBMLTypeCodes.h"
 
 
 using rr::Logger;
@@ -710,55 +712,115 @@ void LLVMExecutableModel::reset(int opt)
 
     if (getCompartmentInitVolumesPtr && getGlobalParameterInitValuePtr
         && getFloatingSpeciesInitAmountsPtr && getBoundarySpeciesInitAmountsPtr
-        && getFloatingSpeciesInitConcentrationsPtr&& getBoundarySpeciesInitConcentrationsPtr)
+        && getFloatingSpeciesInitConcentrationsPtr && getBoundarySpeciesInitConcentrationsPtr)
     {
-        // have to set compartments first, these are used to
-        // convert between concentrations and amounts.
+        //Save a list of all values that have initial assignments, since we may need to re-do them.
+        std::map<std::string, libsbml::SBMLTypeCode_t> inits;
+        std::map<std::string, double> initvals;
         // need at least 1 for global params
         unsigned size = max(1u, modelData->numIndCompartments);
         size = max(size, modelData->numIndFloatingSpecies);
         size = max(size, modelData->numIndBoundarySpecies);
         size = max(size, modelData->numIndGlobalParameters);
 
-        double *buffer = new double[size];
+        double* buffer = new double[size];
 
-        if (checkExact(SelectionRecord::COMPARTMENT, opt))
+        // have to set compartments first, these are used to
+        // convert between concentrations and amounts.
+        if (opt & SelectionRecord::_COMPARTMENT)
         {
             rrLog(Logger::LOG_INFORMATION) << "resetting compartment volumes";
             getCompartmentInitVolumes(modelData->numIndCompartments, 0, buffer);
             setCompartmentVolumes(modelData->numIndCompartments, 0, buffer);
         }
 
-        if(opt & SelectionRecord::FLOATING)
+        if (opt & SelectionRecord::_COMPARTMENT || opt & SelectionRecord::RATE)
         {
-            if(opt & SelectionRecord::CONCENTRATION) {
-                rrLog(Logger::LOG_INFORMATION) << "resetting floating species concentrations";
-                getFloatingSpeciesInitConcentrations(modelData->numIndFloatingSpecies, 0, buffer);
-                setFloatingSpeciesConcentrations(modelData->numIndFloatingSpecies, 0, buffer);
-            } else {
-                rrLog(Logger::LOG_INFORMATION) << "resetting floating species amounts";
-                getFloatingSpeciesInitAmounts(modelData->numIndFloatingSpecies, 0, buffer);
-                setFloatingSpeciesAmounts(modelData->numIndFloatingSpecies, 0, buffer);
+            int c = modelData->numIndCompartments;
+            if (opt & SelectionRecord::_COMPARTMENT)
+            {
+                //Need to save any values we just changed in initial assignment list.
+                c = 0;
+            }
+            for (; c < getNumCompartments(); c++)
+            {
+                string cid = symbols->getCompartmentId(c);
+                if (c < modelData->numIndCompartments)
+                {
+                    if (symbols->hasInitialAssignmentRule(cid))
+                    {
+                        inits[cid] = libsbml::SBML_COMPARTMENT;
+                        initvals[cid] = buffer[c];
+                    }
+                }
+                else
+                {
+                    if (!symbols->hasAssignmentRule(cid))
+                    {
+                        if (!(opt & SelectionRecord::_COMPARTMENT) || symbols->hasRateRule(cid))
+                        {
+                            getCompartmentInitVolumes(1, &c, buffer);
+                            setCompartmentVolumes(1, &c, buffer);
+                            if (symbols->hasInitialAssignmentRule(cid))
+                            {
+                                inits[cid] = libsbml::SBML_COMPARTMENT;
+                                initvals[cid] = buffer[0];
+                            }
+                        }
+                    }
+                }
             }
         }
 
+
+        //Floating species next.  Always reset amounts, not concentrations; the latter are derived.
+        if (opt & SelectionRecord::FLOATING)
+        {
+            rrLog(Logger::LOG_INFORMATION) << "resetting floating species amounts";
+            getFloatingSpeciesInitAmounts(modelData->numInitFloatingSpecies, 0, buffer);
+            setFloatingSpeciesAmounts(modelData->numInitFloatingSpecies, 0, buffer);
+        }
+        if (opt & SelectionRecord::FLOATING || opt & SelectionRecord::RATE)
+        {
+            for (int bn = 0; bn < getNumFloatingSpecies(); bn++)
+            {
+                string bid = symbols->getFloatingSpeciesId(bn);
+                if (symbols->getRateRuleIndex(bid) != -1)
+                {
+                    getFloatingSpeciesInitAmounts(1, &bn, buffer);
+                    setFloatingSpeciesAmounts(1, &bn, buffer);
+                }
+            }
+        }
+
+        //Boundary species next.  Amounts, not concentrations, again.
         if (opt & SelectionRecord::BOUNDARY)
         {
-            if (opt & SelectionRecord::CONCENTRATION) {
-                rrLog(Logger::LOG_INFORMATION) << "resetting boundary species concentrations";
-                getBoundarySpeciesInitConcentrations(modelData->numIndBoundarySpecies, 0, buffer);
-                setBoundarySpeciesConcentrations(modelData->numIndBoundarySpecies, 0, buffer);
-            }
-            else {
-                rrLog(Logger::LOG_INFORMATION) << "resetting boundary species amounts";
-                getBoundarySpeciesInitAmounts(modelData->numIndBoundarySpecies, 0, buffer);
-                setBoundarySpeciesAmounts(modelData->numIndBoundarySpecies, 0, buffer);
+            rrLog(Logger::LOG_INFORMATION) << "resetting boundary species amounts";
+            getBoundarySpeciesInitAmounts(modelData->numInitBoundarySpecies, 0, buffer);
+            setBoundarySpeciesAmounts(modelData->numInitBoundarySpecies, 0, buffer);
+        }
+        if (opt & SelectionRecord::BOUNDARY || opt & SelectionRecord::RATE)
+        {
+            for (int bn = 0; bn < getNumBoundarySpecies(); bn++)
+            {
+                string bid = symbols->getBoundarySpeciesId(bn);
+                if (symbols->getRateRuleIndex(bid) != -1)
+                {
+                    getBoundarySpeciesInitAmounts(1, &bn, buffer);
+                    setBoundarySpeciesAmounts(1, &bn, buffer);
+                }
             }
         }
 
+        if (opt & SelectionRecord::GLOBAL_PARAMETER)
+        {
+            rrLog(Logger::LOG_INFORMATION) << "resetting boundary species amounts";
+            getGlobalParameterInitValues(modelData->numInitGlobalParameters, 0, buffer);
+            setGlobalParameterValues(modelData->numInitGlobalParameters, 0, buffer);
+        }
 
-
-        // were we forced to reset cms.
+        // Whether were we forced to reset cms:
         bool reset_cm = false;
 
         // did someone change a cm, note: setGlobalParameterValues sets this bit,
@@ -773,27 +835,25 @@ void LLVMExecutableModel::reset(int opt)
             bool cm = symbols->isConservedMoietyParameter(gid);
             bool depInit = !symbols->isIndependentInitGlobalParameter(gid);
 
-            // reset gp if options say so
-            if (checkExact(SelectionRecord::GLOBAL_PARAMETER, opt)
-                    // or if opt say to reset cms and its a cm
-                    || ((opt & SelectionRecord::CONSERVED_MOIETY) && cm)
-                    // or if init conds have changes and its a cm (cm depends on init cond)
-                    || (dirty_init && cm)
-                    // or reseting global params which have init assignment rules
-                    || (checkExact(SelectionRecord::DEPENDENT_INITIAL_GLOBAL_PARAMETER, opt) && depInit))
+            // reset gp if opt say to reset cms and its a cm
+            if (((opt & SelectionRecord::CONSERVED_MOIETY) && cm)
+                // or if init conds have changes and its a cm (cm depends on init cond)
+                || (dirty_init && cm)
+                // or reseting global params which have init assignment rules
+                || (checkExact(SelectionRecord::DEPENDENT_INITIAL_GLOBAL_PARAMETER, opt) && depInit))
             {
                 rrLog(Logger::LOG_DEBUG) << "!resetting global parameter, "
-                        << gid << ", GLOBAL_PARAMETER: "
-                        << checkExact(opt, SelectionRecord::GLOBAL_PARAMETER)
-                        << ", CONSERVED_MOIETY: "
-                        << ((opt & SelectionRecord::CONSERVED_MOIETY) && cm)
-                        << "DEPENDENT_INITIAL_GLOBAL_PARAMETER: " <<
-                            (checkExact(SelectionRecord::DEPENDENT_INITIAL_GLOBAL_PARAMETER, opt) && depInit);
+                    << gid << ", GLOBAL_PARAMETER: "
+                    << checkExact(opt, SelectionRecord::GLOBAL_PARAMETER)
+                    << ", CONSERVED_MOIETY: "
+                    << ((opt & SelectionRecord::CONSERVED_MOIETY) && cm)
+                    << "DEPENDENT_INITIAL_GLOBAL_PARAMETER: " <<
+                    (checkExact(SelectionRecord::DEPENDENT_INITIAL_GLOBAL_PARAMETER, opt) && depInit);
                 reset_cm |= cm;
                 getGlobalParameterInitValues(1, &gid, buffer);
-		rrLog(Logger::LOG_DEBUG) << "read global param init values";
+                rrLog(Logger::LOG_DEBUG) << "read global param init values";
                 setGlobalParameterValues(1, &gid, buffer);
-		rrLog(Logger::LOG_DEBUG) << "set global param current values";
+                rrLog(Logger::LOG_DEBUG) << "set global param current values";
             }
         }
 
@@ -803,10 +863,10 @@ void LLVMExecutableModel::reset(int opt)
             if (dirty_cm)
             {
                 rrLog(Logger::LOG_ERROR) << "Both initial conditions and "
-                        "conserved moieties were user modified. As conserved moieties "
-                        "are defined in terms of initial conditions, the conserved "
-                        "moiety values were forcibly reset in terms of the species "
-                        "initial conditions.";
+                    "conserved moieties were user modified. As conserved moieties "
+                    "are defined in terms of initial conditions, the conserved "
+                    "moiety values were forcibly reset in terms of the species "
+                    "initial conditions.";
             }
 
             // we've reset CMs. clear the dirty bit.
@@ -816,20 +876,50 @@ void LLVMExecutableModel::reset(int opt)
             // end of this func.
         }
 
-        if(opt & SelectionRecord::RATE)
+        if (opt & SelectionRecord::RATE)
         {
-            rrLog(Logger::LOG_INFORMATION) << "resetting rate rule values";
+            rrLog(Logger::LOG_INFORMATION) << "resetting values changed by rate rules";
 
             for (int gid = modelData->numIndGlobalParameters;
-                    gid < symbols->getGlobalParametersSize(); ++gid)
+                gid < symbols->getGlobalParametersSize(); ++gid)
             {
-                if(symbols->isRateRuleGlobalParameter(gid))
+                if (symbols->isRateRuleGlobalParameter(gid))
                 {
                     getGlobalParameterInitValues(1, &gid, buffer);
                     setGlobalParameterValues(1, &gid, buffer);
                 }
             }
         }
+
+        bool changed = false;
+        int loops = 0;
+        do
+        {
+            loops++;
+            changed = false;
+            for (std::map<std::string, libsbml::SBMLTypeCode_t>::iterator init = inits.begin(); init != inits.end(); init++)
+            {
+                string id = init->first;
+                double val = initvals[id];
+                int index = 0;
+                switch (init->second)
+                {
+                case libsbml::SBML_COMPARTMENT:
+                    index = symbols->getCompartmentIndex(id);
+                    getCompartmentInitVolumes(1, &index, buffer);
+                    if (buffer[0] != val) {
+                        changed = true;
+                        setCompartmentVolumes(1, &index, buffer);
+                        initvals[id] = buffer[0];
+                    }
+                    break;
+                default:
+                    assert(false);
+                    break;
+                }
+            }
+        } while (changed == true && loops<15);
+
 
         delete[] buffer;
     }
@@ -1482,11 +1572,31 @@ int LLVMExecutableModel::getFloatingSpeciesConcentrationRates(size_t len,
 int LLVMExecutableModel::setBoundarySpeciesAmounts(size_t len, const int* indx,
         const double* values)
 {
-    int result = -1;
+    bool result = false;
     if (setBoundarySpeciesAmountPtr)
     {
-        result = setValues(setBoundarySpeciesAmountPtr,
-                &LLVMExecutableModel::getBoundarySpeciesId, len, indx, values);
+        for (int i = 0; i < len; ++i)
+        {
+            int j = indx ? indx[i] : i;
+            result = setBoundarySpeciesAmountPtr(modelData, j, values[i]);
+            if (!result)
+            {
+                std::stringstream s;
+                std::string id = symbols->getBoundarySpeciesId(j);
+                s << "Could not set value for NON conserved moiety floating species " << id;
+
+                if (symbols->hasAssignmentRule(id))
+                {
+                    s << ", it is defined by an assignment rule, can not be set independently.";
+                }
+                else if (symbols->hasRateRule(id))
+                {
+                    s << ", it is defined by a rate rule and can not be set independently.";
+                }
+
+                throw_llvm_exception(s.str());
+            }
+        }
     }
     return result;
 }
@@ -2263,7 +2373,7 @@ int LLVMExecutableModel::setBoundarySpeciesInitAmounts(size_t len, int const* in
 
     // as a convienice to users, this resets the amounts and whatever depends
     // on them.
-    reset(SelectionRecord::TIME | SelectionRecord::FLOATING);
+    reset(SelectionRecord::TIME | SelectionRecord::BOUNDARY);
     return result;
 }
 

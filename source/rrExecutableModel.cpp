@@ -97,6 +97,12 @@ std::ostream& operator <<(std::ostream &stream, ExecutableModel* model)
     dump_array(stream, nComp, tmp);
     delete [] tmp;
 
+    tmp = new double[nComp];
+    model->getCompartmentInitVolumes(nComp, 0, tmp);
+    stream << "InitCompartmentVolumes:" << std::endl;
+    dump_array(stream, nComp, tmp);
+    delete[] tmp;
+
     tmp = new double[nGlobalParam];
     model->getGlobalParameterValues(nGlobalParam, 0, tmp);
     stream << "GlobalParameters:" << std::endl;

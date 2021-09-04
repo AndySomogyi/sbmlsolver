@@ -472,7 +472,7 @@ std::string LLVMModelDataSymbols::getFloatingSpeciesId(size_t indx) const
     }
 
     std::stringstream errSS;
-    errSS << "attempted to access floating species id at index " << indx << ", but ";
+    errSS << "Attempted to access floating species id at index " << indx << ", but ";
     auto size = floatingSpeciesMap.size();
     if (size == 0) {
         errSS << "there are no floating species in the model.";
@@ -482,6 +482,60 @@ std::string LLVMModelDataSymbols::getFloatingSpeciesId(size_t indx) const
     }
     else {
         errSS << "there are only " << size << "floating species in the model with indexes '0'-'" << (size - 1) << "'.";
+    }
+    throw std::out_of_range(errSS.str());
+}
+
+
+std::string LLVMModelDataSymbols::getBoundarySpeciesId(size_t indx) const
+{
+    for (StringUIntMap::const_iterator i = boundarySpeciesMap.begin();
+        i != boundarySpeciesMap.end(); ++i)
+    {
+        if (i->second == indx)
+        {
+            return i->first;
+        }
+    }
+
+    std::stringstream errSS;
+    errSS << "Attempted to access boundary species id at index " << indx << ", but ";
+    auto size = boundarySpeciesMap.size();
+    if (size == 0) {
+        errSS << "there are no boundary species in the model.";
+    }
+    else if (size == 1) {
+        errSS << "there is only a single boundary species in the model with index '0'.";
+    }
+    else {
+        errSS << "there are only " << size << "boundary species in the model with indexes '0'-'" << (size - 1) << "'.";
+    }
+    throw std::out_of_range(errSS.str());
+}
+
+
+std::string LLVMModelDataSymbols::getCompartmentId(size_t indx) const
+{
+    for (StringUIntMap::const_iterator i = compartmentsMap.begin();
+        i != compartmentsMap.end(); ++i)
+    {
+        if (i->second == indx)
+        {
+            return i->first;
+        }
+    }
+
+    std::stringstream errSS;
+    errSS << "Attempted to access compartment id at index " << indx << ", but ";
+    auto size = boundarySpeciesMap.size();
+    if (size == 0) {
+        errSS << "there are no compartments in the model.";
+    }
+    else if (size == 1) {
+        errSS << "there is only a single compartment in the model with index '0'.";
+    }
+    else {
+        errSS << "there are only " << size << "compartment in the model with indexes '0'-'" << (size - 1) << "'.";
     }
     throw std::out_of_range(errSS.str());
 }

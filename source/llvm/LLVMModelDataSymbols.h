@@ -260,6 +260,18 @@ public:
 
 
     /**
+     * get the symbolic id of the i'th boundary species.
+     */
+    std::string getBoundarySpeciesId(size_t indx) const;
+
+
+    /**
+     * get the symbolic id of the i'th compartment.
+     */
+    std::string getCompartmentId(size_t indx) const;
+
+
+    /**
      * find the id of the given global parameter index.
      */
     std::string getGlobalParameterId(size_t indx) const;

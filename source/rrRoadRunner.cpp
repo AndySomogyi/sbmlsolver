@@ -1401,12 +1401,12 @@ namespace rr {
     }
 
     void RoadRunner::reset() {
-        // TODO: double check that combining two opts will have correct behavior
         uint opt1 = rr::Config::getInt(rr::Config::MODEL_RESET);
 
-        //reset(opt1);
-        uint opt2 = rr::SelectionRecord::DEPENDENT_INITIAL_GLOBAL_PARAMETER;
-        reset((int) opt2 | opt1);
+        reset(opt1);
+        //With other fixes, this doesn't work:  it resets all global parameters when it shouldn't.
+        //uint opt2 = rr::SelectionRecord::DEPENDENT_INITIAL_GLOBAL_PARAMETER;
+        //reset((int) opt2 | opt1);
     }
 
     void RoadRunner::reset(int options) {
@@ -4282,7 +4282,7 @@ namespace rr {
                     break;
                 }
                 else {
-                    throw Exception("Invalid id '" + sel.p1 + "' for floating initial concentration");
+                    throw Exception("Invalid id '" + sel.p1 + "' for initial concentration");
                     break;
                 }
             case SelectionRecord::INITIAL_AMOUNT:
@@ -4303,7 +4303,7 @@ namespace rr {
                     break;
                 } 
                 else {
-                    throw Exception("Invalid id '" + sel.p1 + "' for floating initial amount");
+                    throw Exception("Invalid id '" + sel.p1 + "' for initial amount");
                     break;
                 }
             default:
