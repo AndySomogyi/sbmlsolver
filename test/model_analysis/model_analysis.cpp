@@ -440,24 +440,6 @@ TEST_F(ModelAnalysisTests, ResetManyFloatingSpecies) {
     EXPECT_EQ(C5, 19);
     C6 = rr.getValue("C6");
     EXPECT_EQ(C6, 6);
-
-    //And now check with just the rates:
-    rr.reset(SelectionRecord::ALL);
-    rr.simulate();
-    rr.reset(SelectionRecord::RATE);
-    C1 = rr.getValue("C1");
-    EXPECT_EQ(C1, 10);
-    C2 = rr.getValue("C2");
-    EXPECT_EQ(C2, 2);
-    C3 = rr.getValue("C3");
-    EXPECT_EQ(C3, 3);
-    C4 = rr.getValue("C4");
-    EXPECT_EQ(C4, 4);
-    C5 = rr.getValue("C5");
-    EXPECT_EQ(C5, 14);
-    C6 = rr.getValue("C6");
-    EXPECT_EQ(C6, 60);
-
 }
 
 
