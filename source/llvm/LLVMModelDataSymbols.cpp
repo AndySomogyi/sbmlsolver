@@ -481,7 +481,7 @@ std::string LLVMModelDataSymbols::getFloatingSpeciesId(size_t indx) const
         errSS << "there is only a single floating species in the model with index '0'.";
     }
     else {
-        errSS << "there are only " << size << "floating species in the model with indexes '0'-'" << (size - 1) << "'.";
+        errSS << "there are only " << size << " floating species in the model with indexes '0'-'" << (size - 1) << "'.";
     }
     throw std::out_of_range(errSS.str());
 }
@@ -508,7 +508,7 @@ std::string LLVMModelDataSymbols::getBoundarySpeciesId(size_t indx) const
         errSS << "there is only a single boundary species in the model with index '0'.";
     }
     else {
-        errSS << "there are only " << size << "boundary species in the model with indexes '0'-'" << (size - 1) << "'.";
+        errSS << "there are only " << size << " boundary species in the model with indexes '0'-'" << (size - 1) << "'.";
     }
     throw std::out_of_range(errSS.str());
 }
@@ -535,7 +535,7 @@ std::string LLVMModelDataSymbols::getCompartmentId(size_t indx) const
         errSS << "there is only a single compartment in the model with index '0'.";
     }
     else {
-        errSS << "there are only " << size << "compartment in the model with indexes '0'-'" << (size - 1) << "'.";
+        errSS << "there are only " << size << " compartments in the model with indexes '0'-'" << (size - 1) << "'.";
     }
     throw std::out_of_range(errSS.str());
 }
