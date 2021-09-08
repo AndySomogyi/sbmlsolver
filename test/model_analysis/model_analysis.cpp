@@ -420,6 +420,7 @@ TEST_F(ModelAnalysisTests, ResetManyFloatingSpecies) {
     C4 = rr.getValue("C4");
     EXPECT_EQ(C4, 4);
     C5 = rr.getValue("C5");
+    //Bug:  see https://github.com/sys-bio/roadrunner/issues/819
     //EXPECT_EQ(C5, 14);
     C6 = rr.getValue("C6");
     EXPECT_EQ(C6, 60);
@@ -485,6 +486,7 @@ TEST_F(ModelAnalysisTests, ResetManyBoundarySpecies) {
     EXPECT_EQ(C3, 3);
     C4 = rr.getValue("C4");
     EXPECT_EQ(C4, 4);
+    //Bug:  see https://github.com/sys-bio/roadrunner/issues/819
     C5 = rr.getValue("C5");
     //EXPECT_EQ(C5, 14);
     C6 = rr.getValue("C6");
