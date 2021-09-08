@@ -697,29 +697,32 @@ void LLVMExecutableModel::resetOneType(int& opt, int thistype, int independents,
         //Need to save any values we just changed in initial assignment list.
         s = 0;
     }
-    for (; s < total; s++)
+    if (opt & thistype || opt & SelectionRecord::RATE)
     {
-        string sid = (symbols->*getTypeId)(s);
-        if (s < independents)
+        for (; s < total; s++)
         {
-            if (symbols->hasInitialAssignmentRule(sid))
+            string sid = (symbols->*getTypeId)(s);
+            if (s < independents)
             {
-                inits[sid] = thistype;
-                initvals[sid] = buffer[s];
-            }
-        }
-        else
-        {
-            if (!symbols->hasAssignmentRule(sid))
-            {
-                if (!(opt & thistype) || symbols->hasRateRule(sid))
+                if (symbols->hasInitialAssignmentRule(sid))
                 {
-                    (this->*getInit)(1, &s, buffer);
-                    (this->*setCurrent)(1, &s, buffer);
-                    if (symbols->hasInitialAssignmentRule(sid))
+                    inits[sid] = thistype;
+                    initvals[sid] = buffer[s];
+                }
+            }
+            else
+            {
+                if (!symbols->hasAssignmentRule(sid))
+                {
+                    if (!(opt & thistype) || symbols->hasRateRule(sid))
                     {
-                        inits[sid] = thistype;
-                        initvals[sid] = buffer[0];
+                        (this->*getInit)(1, &s, buffer);
+                        (this->*setCurrent)(1, &s, buffer);
+                        if (symbols->hasInitialAssignmentRule(sid))
+                        {
+                            inits[sid] = thistype;
+                            initvals[sid] = buffer[0];
+                        }
                     }
                 }
             }
@@ -787,62 +790,6 @@ void LLVMExecutableModel::reset(int opt)
         resetOneType(opt, SelectionRecord::GLOBAL_PARAMETER, modelData->numIndGlobalParameters, getNumGlobalParameters(), &LLVMExecutableModel::getGlobalParameterInitValues, &LLVMExecutableModel::setGlobalParameterValues, &LLVMModelDataSymbols::getGlobalParameterId, buffer, inits, initvals);
         //std::cout << this;
 
-        // Whether were we forced to reset cms:
-        bool reset_cm = false;
-
-        // did someone change a cm, note: setGlobalParameterValues sets this bit,
-        // so we have to save it before changing any GPs in reset.
-        const bool dirty_cm = dirty & DIRTY_CONSERVED_MOIETIES;
-        const bool dirty_init = dirty & DIRTY_INIT_SPECIES;
-
-        // needed because conserved moiety global parameters depend on
-        // float species init conditions.
-        for (int gid = 0; gid < modelData->numIndGlobalParameters; ++gid)
-        {
-            bool cm = symbols->isConservedMoietyParameter(gid);
-            bool depInit = !symbols->isIndependentInitGlobalParameter(gid);
-
-            // reset gp if opt say to reset cms and its a cm
-            if (((opt & SelectionRecord::CONSERVED_MOIETY) && cm)
-                // or if init conds have changes and its a cm (cm depends on init cond)
-                || (dirty_init && cm)
-                // or reseting global params which have init assignment rules
-                || (checkExact(SelectionRecord::DEPENDENT_INITIAL_GLOBAL_PARAMETER, opt) && depInit))
-            {
-                rrLog(Logger::LOG_DEBUG) << "!resetting global parameter, "
-                    << gid << ", GLOBAL_PARAMETER: "
-                    << checkExact(opt, SelectionRecord::GLOBAL_PARAMETER)
-                    << ", CONSERVED_MOIETY: "
-                    << ((opt & SelectionRecord::CONSERVED_MOIETY) && cm)
-                    << "DEPENDENT_INITIAL_GLOBAL_PARAMETER: " <<
-                    (checkExact(SelectionRecord::DEPENDENT_INITIAL_GLOBAL_PARAMETER, opt) && depInit);
-                reset_cm |= cm;
-                getGlobalParameterInitValues(1, &gid, buffer);
-                rrLog(Logger::LOG_DEBUG) << "read global param init values";
-                setGlobalParameterValues(1, &gid, buffer);
-                rrLog(Logger::LOG_DEBUG) << "set global param current values";
-            }
-        }
-
-        if (reset_cm)
-        {
-            // warn if we were forced to reset CMs
-            if (dirty_cm)
-            {
-                rrLog(Logger::LOG_ERROR) << "Both initial conditions and "
-                    "conserved moieties were user modified. As conserved moieties "
-                    "are defined in terms of initial conditions, the conserved "
-                    "moiety values were forcibly reset in terms of the species "
-                    "initial conditions.";
-            }
-
-            // we've reset CMs. clear the dirty bit.
-            dirty &= ~DIRTY_CONSERVED_MOIETIES;
-
-            // the DIRTY_INIT_SPECIES bit is alwasy cleared at the
-            // end of this func.
-        }
-
         //We now need to loop through and reset initial values if they were set by initial assignments, since we might not have reset the values those assignments depend on in time.
         bool changed = false;
         int loops = 0; //So we don't loop indefinitely.
@@ -899,8 +846,65 @@ void LLVMExecutableModel::reset(int opt)
                     break;
                 }
             }
-        } while (changed == true && loops<15);
+        } while (changed == true && loops < 15);
         //std::cout << this;
+
+
+        // Whether were we forced to reset cms:
+        bool reset_cm = false;
+
+        // did someone change a cm, note: setGlobalParameterValues sets this bit,
+        // so we have to save it before changing any GPs in reset.
+        const bool dirty_cm = dirty & DIRTY_CONSERVED_MOIETIES;
+        const bool dirty_init = dirty & DIRTY_INIT_SPECIES;
+
+        // needed because conserved moiety global parameters depend on
+        // float species init conditions.
+        for (int gid = 0; gid < modelData->numIndGlobalParameters; ++gid)
+        {
+            bool cm = symbols->isConservedMoietyParameter(gid);
+            bool depInit = !symbols->isIndependentInitGlobalParameter(gid);
+
+            // reset gp if opt say to reset cms and its a cm
+            if (((opt & SelectionRecord::CONSERVED_MOIETY) && cm)
+                // or if init conds have changes and its a cm (cm depends on init cond)
+                || (dirty_init && cm)
+                // or reseting global params which have init assignment rules
+                || (checkExact(SelectionRecord::DEPENDENT_INITIAL_GLOBAL_PARAMETER, opt) && depInit))
+            {
+                rrLog(Logger::LOG_DEBUG) << "!resetting global parameter, "
+                    << gid << ", GLOBAL_PARAMETER: "
+                    << checkExact(opt, SelectionRecord::GLOBAL_PARAMETER)
+                    << ", CONSERVED_MOIETY: "
+                    << ((opt & SelectionRecord::CONSERVED_MOIETY) && cm)
+                    << "DEPENDENT_INITIAL_GLOBAL_PARAMETER: " <<
+                    (checkExact(SelectionRecord::DEPENDENT_INITIAL_GLOBAL_PARAMETER, opt) && depInit);
+                reset_cm |= cm;
+                getGlobalParameterInitValues(1, &gid, buffer);
+                rrLog(Logger::LOG_DEBUG) << "read global param init values";
+                setGlobalParameterValues(1, &gid, buffer);
+                rrLog(Logger::LOG_DEBUG) << "set global param current values";
+            }
+        }
+
+        if (reset_cm)
+        {
+            // warn if we were forced to reset CMs
+            if (dirty_cm)
+            {
+                rrLog(Logger::LOG_ERROR) << "Both initial conditions and "
+                    "conserved moieties were user modified. As conserved moieties "
+                    "are defined in terms of initial conditions, the conserved "
+                    "moiety values were forcibly reset in terms of the species "
+                    "initial conditions.";
+            }
+
+            // we've reset CMs. clear the dirty bit.
+            dirty &= ~DIRTY_CONSERVED_MOIETIES;
+
+            // the DIRTY_INIT_SPECIES bit is alwasy cleared at the
+            // end of this func.
+        }
 
 
         delete[] buffer;
