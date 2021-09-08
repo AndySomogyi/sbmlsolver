@@ -42,6 +42,12 @@ TEST_F(ModelAnalysisTests, ResetBoundarySpeciesRate) {
     S1 = rr.getValue("S1");
     EXPECT_EQ(S1, 3);
 
+    //Now check to ensure we don't reset this when we reset something else instead:
+    rr.simulate();
+    rr.reset(SelectionRecord::TIME);
+    S1 = rr.getValue("S1");
+    EXPECT_EQ(S1, 23);
+
     //Now check what happens when we change the initial value:
     rr.setValue("init(S1)", 10);
     rr.simulate();
@@ -69,6 +75,13 @@ TEST_F(ModelAnalysisTests, ResetBoundarySpeciesEvent) {
     //Since it's being changed by an event, it should not be reset by default:
     rr.simulate();
     rr.reset();
+    S1 = rr.getValue("S1");
+    EXPECT_EQ(S1, 4);
+
+    //Now check to ensure we don't reset this when we reset something else instead:
+    rr.reset(SelectionRecord::ALL);
+    rr.simulate();
+    rr.reset(SelectionRecord::TIME);
     S1 = rr.getValue("S1");
     EXPECT_EQ(S1, 4);
 
@@ -102,6 +115,12 @@ TEST_F(ModelAnalysisTests, ResetFloatingSpeciesRate) {
     S1 = rr.getValue("S1");
     EXPECT_EQ(S1, 3);
 
+    //Now check to ensure we don't reset this when we reset something else instead:
+    rr.simulate();
+    rr.reset(SelectionRecord::TIME);
+    S1 = rr.getValue("S1");
+    EXPECT_EQ(S1, 23);
+
     //Now check what happens when we change the initial value:
     rr.setValue("init(S1)", 10);
     rr.simulate();
@@ -131,6 +150,12 @@ TEST_F(ModelAnalysisTests, ResetFloatingSpeciesEvent) {
     rr.reset();
     S1 = rr.getValue("S1");
     EXPECT_EQ(S1, 3);
+
+    //Now check to ensure we don't reset this when we reset something else instead:
+    rr.simulate();
+    rr.reset(SelectionRecord::TIME);
+    S1 = rr.getValue("S1");
+    EXPECT_EQ(S1, 4);
 
     //Now check what happens when we change the initial value:
     rr.setValue("init(S1)", 10);
@@ -162,6 +187,12 @@ TEST_F(ModelAnalysisTests, ResetCompartmentFromRate) {
     comp = rr.getValue("C1");
     EXPECT_EQ(comp, 5);
 
+    //Now check to ensure we don't reset this when we reset something else instead:
+    rr.simulate();
+    rr.reset(SelectionRecord::TIME);
+    comp = rr.getValue("C1");
+    EXPECT_EQ(comp, 15);
+
     //Now check what happens when we change the initial value:
     rr.setValue("init(C1)", 10);
     rr.simulate();
@@ -190,6 +221,13 @@ TEST_F(ModelAnalysisTests, ResetCompartmentFromEvent) {
     //Since it's being changed by an event, it should not be reset by default:
     rr.simulate();
     rr.reset();
+    comp = rr.getValue("C1");
+    EXPECT_EQ(comp, 2);
+
+    //Now check to ensure we don't reset this when we reset something else instead:
+    rr.reset(SelectionRecord::ALL);
+    rr.simulate();
+    rr.reset(SelectionRecord::TIME);
     comp = rr.getValue("C1");
     EXPECT_EQ(comp, 2);
 
@@ -224,6 +262,12 @@ TEST_F(ModelAnalysisTests, ResetParamFromRate) {
     P1 = rr.getValue("P1");
     EXPECT_EQ(P1, 3);
 
+    //Now check to ensure we don't reset this when we reset something else instead:
+    rr.simulate();
+    rr.reset(SelectionRecord::TIME);
+    P1 = rr.getValue("P1");
+    EXPECT_EQ(P1, 23);
+
     //Now check what happens when we change the initial value:
     rr.setValue("init(P1)", 10);
     rr.simulate();
@@ -252,6 +296,13 @@ TEST_F(ModelAnalysisTests, ResetParamFromEvent) {
     //Since it's being changed by an event, it should not be reset by default:
     rr.simulate();
     rr.reset();
+    P1 = rr.getValue("P1");
+    EXPECT_EQ(P1, 4);
+
+    //Now check to ensure we don't reset this when we reset something else instead:
+    rr.reset(SelectionRecord::ALL);
+    rr.simulate();
+    rr.reset(SelectionRecord::TIME);
     P1 = rr.getValue("P1");
     EXPECT_EQ(P1, 4);
 
