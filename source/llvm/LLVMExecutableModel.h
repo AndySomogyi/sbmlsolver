@@ -623,6 +623,10 @@ private:
     typedef std::map<TieBreakKey, bool> TieBreakMap;
     TieBreakMap tieBreakMap;
 
+    //Used by 'reset' to reset one type of element, while keeping track of which versions were reset that have initial assignments.
+    void resetOneType(int& opt, int thistype, int independents, int total, int(LLVMExecutableModel::*getInit)(size_t, const int*, double*), int(LLVMExecutableModel::*setCurrent)(size_t, const int*, const double*), string(LLVMModelDataSymbols::* getTypeId)(size_t) const, double* buffer, std::map<std::string, int>& inits, std::map<std::string, double>& initvals);
+
+
     /******************************* Events Section *******************************/
     #endif /***********************************************************************/
     /******************************************************************************/
