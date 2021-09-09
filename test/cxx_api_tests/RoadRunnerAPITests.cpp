@@ -311,8 +311,8 @@ TEST_F(RoadRunnerAPITests, oneStep) {
  */
 TEST_F(RoadRunnerAPITests, internalOneStep) {
     RoadRunner rr(TestModelFactory("SimpleFlux")->str());
-    rr.oneStep(0, 10, true);
-    ASSERT_EQ(rr.getModel()->getTime(), 10);
+    rr.internalOneStep(0, 10, true);
+    ASSERT_LT(rr.getModel()->getTime(), 0.003);
 }
 
 /**
