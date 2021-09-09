@@ -787,7 +787,7 @@ void LLVMExecutableModel::reset(int opt)
         //std::cout << this;
 
         // Reset parameters
-        resetOneType(opt, SelectionRecord::GLOBAL_PARAMETER, modelData->numIndGlobalParameters, getNumGlobalParameters(), &LLVMExecutableModel::getGlobalParameterInitValues, &LLVMExecutableModel::setGlobalParameterValues, &LLVMModelDataSymbols::getGlobalParameterId, buffer, inits, initvals);
+        resetOneType(opt, SelectionRecord::_GLOBAL_PARAMETER, modelData->numIndGlobalParameters, getNumGlobalParameters(), &LLVMExecutableModel::getGlobalParameterInitValues, &LLVMExecutableModel::setGlobalParameterValues, &LLVMModelDataSymbols::getGlobalParameterId, buffer, inits, initvals);
         //std::cout << this;
 
         //We now need to loop through and reset initial values if they were set by initial assignments, since we might not have reset the values those assignments depend on in time.
@@ -832,7 +832,7 @@ void LLVMExecutableModel::reset(int opt)
                         initvals[id] = buffer[0];
                     }
                     break;
-                case SelectionRecord::GLOBAL_PARAMETER:
+                case SelectionRecord::_GLOBAL_PARAMETER:
                     index = symbols->getGlobalParameterIndex(id);
                     getGlobalParameterInitValues(1, &index, buffer);
                     if (buffer[0] != val) {
