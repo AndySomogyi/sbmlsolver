@@ -151,7 +151,7 @@
 %include "rr_stdint.i"
 
 // all the documentation goes here.
-%include "rr_docstrings.i"
+%include "rr_docstrings.txt"
 
 
 // the cmake _CMakeLists.txt file in this directory sets the value of the
@@ -786,7 +786,8 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 
 //Model editing proxies so that we can regenerate properties each time we regenerate the model
 %rename (_addParameter) rr::RoadRunner::addParameter(const std::string&, double, bool);
-%rename (_addSpecies) rr::RoadRunner::addSpecies(const std::string&, const std::string&, double, bool, bool, const std::string&, bool);
+%rename (_addSpeciesConcentration) rr::RoadRunner::addSpeciesConcentration(const std::string&, const std::string&, double, bool, bool, const std::string&, bool);
+%rename (_addSpeciesAmount) rr::RoadRunner::addSpeciesAmount(const std::string&, const std::string&, double, bool, bool, const std::string&, bool);
 %rename (_addCompartment) rr::RoadRunner::addCompartment(const std::string&, double, bool);
 %rename (_addReaction) rr::RoadRunner::addReaction(const std::string&, std::vector<std::string>, std::vector<std::string>, const std::string&, bool);
 
@@ -1656,12 +1657,13 @@ namespace std { class ostream{}; }
         def resetAll(self):
             """ Reset all model variables to CURRENT init(X) values.
 
-            This resets all variables, S1, S2 etc to the CURRENT init(X) values. It also resets all
-            parameters back to the values they had when the model was first loaded.
+            This resets all variables and parameters in the model (S1, S2, k1, etc.) to the CURRENT init(X) values.
             """
             self.reset(SelectionRecord.TIME |
                        SelectionRecord.RATE |
                        SelectionRecord.FLOATING |
+                       SelectionRecord.BOUNDARY |
+                       SelectionRecord.COMPARTMENT |
                        SelectionRecord.GLOBAL_PARAMETER)
 
         def resetParameter(self):
@@ -1798,8 +1800,22 @@ namespace std { class ostream{}; }
             self._addReaction(*args)
             self._makeProperties()
 
-        def addSpecies(self, sid, compartment, initAmount = 0.0, hasOnlySubstanceUnits=False, boundaryCondition=False, substanceUnits = "", forceRegenerate = True):
-            self._addSpecies(sid, compartment, initAmount, hasOnlySubstanceUnits, boundaryCondition, substanceUnits, forceRegenerate)
+        def addSpecies(self, sid, compartment, initAmount = 0.0, initConcentration = 0.0, hasOnlySubstanceUnits=False, boundaryCondition=False, substanceUnits = "", forceRegenerate = True):
+            if initConcentration==0.0:
+                self._addSpeciesAmount(sid, compartment, initAmount, hasOnlySubstanceUnits, boundaryCondition, substanceUnits, forceRegenerate)
+            elif initAmount==0.0:
+                self._addSpeciesConcentration(sid, compartment, initConcentration, hasOnlySubstanceUnits, boundaryCondition, substanceUnits, forceRegenerate)
+            else:
+                raise AttributeError("When calling 'addSpecies' you may only define initAmount or initConcentration, not both.")
+                
+            self._makeProperties()
+
+        def addSpeciesAmount(self, sid, compartment, initAmount = 0.0, hasOnlySubstanceUnits=False, boundaryCondition=False, substanceUnits = "", forceRegenerate = True):
+            self._addSpeciesAmount(sid, compartment, initAmount, hasOnlySubstanceUnits, boundaryCondition, substanceUnits, forceRegenerate)
+            self._makeProperties()
+
+        def addSpeciesConcentration(self, sid, compartment, initConcentration = 0.0, hasOnlySubstanceUnits=False, boundaryCondition=False, substanceUnits = "", forceRegenerate = True):
+            self._addSpeciesConcentration(sid, compartment, initConcentration, hasOnlySubstanceUnits, boundaryCondition, substanceUnits, forceRegenerate)
             self._makeProperties()
 
         def addCompartment(self, *args):
