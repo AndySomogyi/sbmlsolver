@@ -149,10 +149,11 @@ bool AutoTellurimInterface::setupUsingCurrentModel()
 	mModelParameters = list1;
 
 	lists= gHostInterface->getBoundarySpeciesIds(mRR);
-	StringList list2(lists->String, lists->Count);
-    //Boundary species can be used as PCP as well
-    mModelBoundarySpecies   = list2;
-
+	if (lists) {
+		StringList list2(lists->String, lists->Count);
+		//Boundary species can be used as PCP as well
+		mModelBoundarySpecies = list2;
+	}
     //Set initial value of Primary continuation parameter
     setInitialPCPValue();
     setCallbackStpnt(ModelInitializationCallback);	
