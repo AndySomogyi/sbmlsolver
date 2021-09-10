@@ -6,10 +6,16 @@ set(target telplugins_math)
 
 # question: telMatrix is commented out. Does that mean these source files should be deleted?
 set(RRPLUGINS_MATH_SOURCES
-        telRandom
+        telRandom.cpp
         #telMatrix
-        telMathUtils
-        third_party/mtrand
+        telMathUtils.cpp
+        third_party/mtrand.cpp
+
+        telRandom.h
+        #telMatrix
+        telMathUtils.h
+        third_party/mtrand.h
+        telMathExporter.h
         )
 
 # ** Shared lib ******
