@@ -212,6 +212,19 @@ namespace rr {
             hstep = duration / steps;
         }
         else {
+            if (steps != times.size() - 1)
+            {
+                if (steps == Config::getInt(Config::SIMULATEOPTIONS_STEPS))
+                {
+                    steps = times.size() - 1;
+                }
+                else 
+                {
+                    std::stringstream err;
+                    err << "If the 'times' and the 'steps' settings are both used, the number of steps must equal the length of the 'times' vector, minus one.  The length of the 'times' vector is " << times.size() << ", and the 'steps' setting is " << steps << ".";
+                    throw std::invalid_argument(err.str());
+                }
+            }
             if (times.size() <= 1) {
                 throw std::invalid_argument("The 'times' setting must be a vector of at least two values.");
             }
