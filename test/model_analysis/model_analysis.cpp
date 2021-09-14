@@ -757,3 +757,13 @@ TEST_F(ModelAnalysisTests, SimulateGillespieDuration) {
 
     delete rr;
 }
+
+TEST_F(ModelAnalysisTests, SimulateAccordingToDocs) {
+    RoadRunner rr((modelAnalysisModelsDir / "BIOMD0000000035_url.xml").string());
+    SimulateOptions opt;
+    opt.start = 0;
+    opt.duration = 10;
+    opt.steps = 1000;
+    const ls::DoubleMatrix* result = rr.simulate(&opt);
+
+}

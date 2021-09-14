@@ -993,7 +993,7 @@ public:
         const DoubleMatrix *cvode = rri->simulate(&opt);
 
         // rk4
-        opt.setItem("integrator", "rk4");
+        rri->setIntegrator("rk4");
         //clog <<endl << "  simulate with " << opt.start << ", " << opt.duration << ", " << opt.steps << "\n";
         const DoubleMatrix *rk4 = rri->simulate(&opt);
 
@@ -1016,7 +1016,7 @@ public:
         const DoubleMatrix *cvode = rri->simulate(&opt);
 
         // rk4
-        opt.setItem("integrator", "rk45");
+        rri->setIntegrator("rk45");
         //clog <<endl << "  simulate with " << opt.start << ", " << opt.duration << ", " << opt.steps << "\n";
         const DoubleMatrix *rk45 = rri->simulate(&opt);
 

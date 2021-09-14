@@ -19,6 +19,7 @@
 #include <algorithm>
 #include <assert.h>
 #include <bitset>
+#include <sstream>
 
 namespace rr {
 
@@ -48,10 +49,15 @@ namespace rr {
 
 
     SimulateOptions::SimulateOptions()
-            : reset_model(false), structured_result(Config::getBool(Config::SIMULATEOPTIONS_STRUCTURED_RESULT)),
-              copy_result(Config::getBool(Config::SIMULATEOPTIONS_COPY_RESULT)),
-              steps(Config::getInt(Config::SIMULATEOPTIONS_STEPS)), start(0),
-              duration(Config::getDouble(Config::SIMULATEOPTIONS_DURATION)) {
+        : reset_model(false)
+        , structured_result(Config::getBool(Config::SIMULATEOPTIONS_STRUCTURED_RESULT))
+        , copy_result(Config::getBool(Config::SIMULATEOPTIONS_COPY_RESULT))
+        , steps(Config::getInt(Config::SIMULATEOPTIONS_STEPS))
+        , start(0)
+        , duration(Config::getDouble(Config::SIMULATEOPTIONS_DURATION))
+        , times()
+        , hstep(0)
+    {
     }
 
     void SimulateOptions::loadSBMLSettings(const std::string &fname) {
@@ -95,6 +101,9 @@ namespace rr {
                 }
             }
 
+            //NOTE:  The 'amount' setting is never used anywhere: if a species appears
+            // in the 'concentration' list, its ID is changed to "[ID]", and it's assumed
+            // that if it does not, it should remain "ID".
             it = settings.find("amount");
             if (it != settings.end()) {
                 std::vector<std::string> vars = splitString((*it).second, ",");
@@ -152,20 +161,20 @@ namespace rr {
 
         ss << "'output_file' : " << output_file;
 
-        std::vector<std::string> keys = getKeys();
+        //std::vector<std::string> keys = getKeys();
 
-        if (keys.size() > 0) {
-            ss << "," << std::endl;
-        }
+        //if (keys.size() > 0) {
+        //    ss << "," << std::endl;
+        //}
 
-        for (std::vector<std::string>::iterator i = keys.begin(); i != keys.end(); ++i) {
-            ss << "'" << *i << "' : ";
-            ss << getItem(*i).get<std::string>();
+        //for (std::vector<std::string>::iterator i = keys.begin(); i != keys.end(); ++i) {
+        //    ss << "'" << *i << "' : ";
+        //    ss << getItem(*i).get<std::string>();
 
-            if (std::distance(i, keys.end()) > 1) {
-                ss << ", " << std::endl;
-            }
-        }
+        //    if (std::distance(i, keys.end()) > 1) {
+        //        ss << ", " << std::endl;
+        //    }
+        //}
 
         ss << std::endl << "}>";
 
@@ -179,11 +188,80 @@ namespace rr {
         return ss.str();
     }
 
-    void SimulateOptions::setItem(const std::string &key, const rr::Setting &value) {
-        BasicDictionary::setItem(key, value);
-        if (key == "reset")
-            reset_model = true;
+    //void SimulateOptions::setItem(const std::string &key, const rr::Setting &value) {
+    //    //BasicDictionary::setItem(key, value);
+    //    if ((key == "reset" || key=="reset_model") && value.isBool() && value.getAs<bool>())
+    //    {
+    //        reset_model = true;
+    //    }
+    //    else if (key == "reset_model"
+    //        || key == "structured_result"
+    //        || key == "copy_result"
+    //        || key == "steps"
+    //        || key == "start"
+    //        || key == "duration")
+    //    {
+    //        throw std::invalid_argument("The option '" + key + "' cannot be set by using 'setItem'.  Intead, set the member variable directly (i.e. 'opt." + key + " = <value>.");
+    //    }
+    //}
+
+    void SimulateOptions::initialize()
+    {
+        if (times.empty())//!hasKey("times"))
+        {
+            hstep = duration / steps;
+        }
+        else {
+            if (times.size() <= 1) {
+                throw std::invalid_argument("The 'times' setting must be a vector of at least two values.");
+            }
+            if (times[0] != start)
+            {
+                if (start == 0) //The default.
+                {
+                    start = times[0];
+                }
+                else
+                {
+                    std::stringstream err;
+                    err << "If the 'times' and the 'start' settings are both used, the first value of 'times' must equal the value of 'start'.  Instead, 'start' is " << start << ", and the first value of 'times' is " << times[0] << ".";
+                    throw std::invalid_argument(err.str());
+                }
+            }
+            if (start < 0) {
+                std::stringstream err;
+                err << "The first entry in the 'times' vector must be zero or greater.  The current value is " << start << ".";
+                throw std::invalid_argument(err.str());
+
+            }
+            double prev = start;
+            for (size_t tv = 1; tv < times.size(); tv++) {
+                double hstep = times[tv] - prev;
+                if (hstep <= 0) {
+                    std::stringstream err;
+                    err << "The 'times' setting must be a vector of time values that start at zero or more and increase along the vector.  The value " << times[tv] << " is less than or equal to the previous value of " << prev << ".";
+                    throw std::invalid_argument(err.str());
+                }
+                prev = times[tv];
+            }
+        }
     }
+
+    double SimulateOptions::getNext(size_t step)
+    {
+        if (hstep)
+        {
+            return start + step * hstep;
+        }
+        if (step > times.size()) {
+            std::stringstream err;
+            err << "Cannot get the time step " << step << " because there are only " << times.size() << " set for the output.";
+            throw std::invalid_argument(err.str());
+        }
+        return times[step];
+    }
+
+
 
     void LoadSBMLOptions::setItem(const std::string &key, const rr::Setting &value) {
         BasicDictionary::setItem(key, value);

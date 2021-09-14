@@ -232,7 +232,7 @@ namespace rr
 	* documentation of the fields which correspond to an sbml test suite settings was
 	* taken from http://sbml.org
 	*/
-	class RR_DECLSPEC SimulateOptions : public BasicDictionary
+	class RR_DECLSPEC SimulateOptions //: public BasicDictionary
 	{
 	public:
 
@@ -276,7 +276,7 @@ namespace rr
 		double duration;
 
 
-        /**
+		/**
         * The ouptut file for simulation results. If non-empty, then the
         * simulation results are batch-written to output_file every 
         * Config::K_ROWS_PER_WRITE rows, and an empty
@@ -314,6 +314,12 @@ namespace rr
 		*/
 		std::vector<std::string> concentrations;
 
+		/*
+		* A list of the requested output times.  If set, the simulator will only
+		* report simulation output at the requested values.
+		*/
+		std::vector<double> times;
+
 		/**
 		* get a description of this object, compatable with python __str__
 		*/
@@ -332,7 +338,16 @@ namespace rr
 		 */
 		void loadSBMLSettings(const std::string& filename);
 
-        virtual void setItem(const std::string& key, const rr::Setting& value);
+        //virtual void setItem(const std::string& key, const rr::Setting& value);
+
+		virtual void initialize();
+
+		virtual double getNext(size_t step);
+
+    private:
+
+		double hstep; //Used if we have a duration and number of steps, but not 'times'.
+
 
 	};
 

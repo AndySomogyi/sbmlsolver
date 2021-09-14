@@ -1937,11 +1937,11 @@ namespace std { class ostream{}; }
     }
 
     bool rr_SimulateOptions_copyResult_get(SimulateOptions* opt) {
-        return opt->getItem("copyResult");
+        return opt->copy_result;
     }
 
     void rr_SimulateOptions_copyResult_set(SimulateOptions* opt, bool value) {
-        opt->setItem("copyResult", value);
+        opt->copy_result = value;
     }
 %}
 
