@@ -662,6 +662,16 @@ TEST_F(ModelAnalysisTests, ResetManyParameters) {
 }
 
 
+TEST_F(ModelAnalysisTests, ResetConservedCycles) {
+    RoadRunner rr((modelAnalysisModelsDir / "conserved_cycle.xml").string());
+    rr.steadyState();
+    rr.setValue("_CSUM0", 1000);
+    rr.reset();
+    double val = rr.getValue("_CSUM0");
+    EXPECT_NEAR(val, 8.09, 0.0001);
+}
+
+
 TEST_F(ModelAnalysisTests, AnalysisFunctionsWithEvent) {
     RoadRunner *rr = new RoadRunner((modelAnalysisModelsDir / "event.xml").string());
     ls::DoubleMatrix jacobian = rr->getFullJacobian();

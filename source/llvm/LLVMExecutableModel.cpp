@@ -786,9 +786,61 @@ void LLVMExecutableModel::reset(int opt)
         resetOneType(opt, SelectionRecord::BOUNDARY, modelData->numIndBoundarySpecies, getNumBoundarySpecies(), &LLVMExecutableModel::getBoundarySpeciesInitAmounts, &LLVMExecutableModel::setBoundarySpeciesAmounts, &LLVMModelDataSymbols::getBoundarySpeciesId, buffer, inits, initvals);
         //std::cout << this;
 
+        // Save whether someone changed a cm.  Note: setGlobalParameterValues sets this bit,
+        // so we have to save it before changing any GPs in reset.
+        const bool dirty_cm = dirty & DIRTY_CONSERVED_MOIETIES;
+        const bool dirty_init = dirty & DIRTY_INIT_SPECIES;
+
         // Reset parameters
         resetOneType(opt, SelectionRecord::_GLOBAL_PARAMETER, modelData->numIndGlobalParameters, getNumGlobalParameters(), &LLVMExecutableModel::getGlobalParameterInitValues, &LLVMExecutableModel::setGlobalParameterValues, &LLVMModelDataSymbols::getGlobalParameterId, buffer, inits, initvals);
         //std::cout << this;
+
+        // Whether were we forced to reset cms:
+        bool reset_cm = false;
+
+        if (!(opt & SelectionRecord::_GLOBAL_PARAMETER))
+        {
+            //We didn't reset the global parameters in general, but we
+            // might need to reset the conserved moieties, which depend
+            // on the floating species initial values.
+
+            for (int gid = 0; gid < modelData->numIndGlobalParameters; ++gid)
+            {
+                if (symbols->isConservedMoietyParameter(gid))
+                {
+                    // reset if asked to reset conserved moieties specifically, or if asked to reset floating species, or if floating species initial values were set, even if not reset explicitly.  (The last is because conserved moieties depend on the initial species values.)
+                    if (opt & SelectionRecord::CONSERVED_MOIETY || 
+                        opt & SelectionRecord::FLOATING  ||
+                        dirty_init)
+                    {
+                        rrLog(Logger::LOG_DEBUG) << "Resetting conserved moiety "
+                            << gid << ".";
+                        reset_cm = true;
+                        getGlobalParameterInitValues(1, &gid, buffer);
+                        setGlobalParameterValues(1, &gid, buffer);
+                    }
+                }
+            }
+
+            if (reset_cm)
+            {
+                // warn if we were forced to reset CMs
+                if (dirty_cm && dirty_init)
+                {
+                    rrLog(Logger::LOG_WARNING) << "Both initial conditions and "
+                        "conserved moieties were user modified. As conserved moieties "
+                        "are defined in terms of initial conditions, the conserved "
+                        "moiety values were forcibly reset in terms of the species "
+                        "initial conditions.";
+                }
+
+                // we've reset CMs, so clear the dirty bit.
+                dirty &= ~DIRTY_CONSERVED_MOIETIES;
+
+                // the DIRTY_INIT_SPECIES bit is always cleared at the
+                // end of this func.
+            }
+        }
 
         //We now need to loop through and reset initial values if they were set by initial assignments, since we might not have reset the values those assignments depend on in time.
         bool changed = false;
@@ -848,64 +900,6 @@ void LLVMExecutableModel::reset(int opt)
             }
         } while (changed == true && loops < 15);
         //std::cout << this;
-
-
-        // Whether were we forced to reset cms:
-        bool reset_cm = false;
-
-        // did someone change a cm, note: setGlobalParameterValues sets this bit,
-        // so we have to save it before changing any GPs in reset.
-        const bool dirty_cm = dirty & DIRTY_CONSERVED_MOIETIES;
-        const bool dirty_init = dirty & DIRTY_INIT_SPECIES;
-
-        // needed because conserved moiety global parameters depend on
-        // float species init conditions.
-        for (int gid = 0; gid < modelData->numIndGlobalParameters; ++gid)
-        {
-            bool cm = symbols->isConservedMoietyParameter(gid);
-            bool depInit = !symbols->isIndependentInitGlobalParameter(gid);
-
-            // reset gp if opt say to reset cms and its a cm
-            if (((opt & SelectionRecord::CONSERVED_MOIETY) && cm)
-                // or if init conds have changes and its a cm (cm depends on init cond)
-                || (dirty_init && cm)
-                // or reseting global params which have init assignment rules
-                || (checkExact(SelectionRecord::DEPENDENT_INITIAL_GLOBAL_PARAMETER, opt) && depInit))
-            {
-                rrLog(Logger::LOG_DEBUG) << "!resetting global parameter, "
-                    << gid << ", GLOBAL_PARAMETER: "
-                    << checkExact(opt, SelectionRecord::GLOBAL_PARAMETER)
-                    << ", CONSERVED_MOIETY: "
-                    << ((opt & SelectionRecord::CONSERVED_MOIETY) && cm)
-                    << "DEPENDENT_INITIAL_GLOBAL_PARAMETER: " <<
-                    (checkExact(SelectionRecord::DEPENDENT_INITIAL_GLOBAL_PARAMETER, opt) && depInit);
-                reset_cm |= cm;
-                getGlobalParameterInitValues(1, &gid, buffer);
-                rrLog(Logger::LOG_DEBUG) << "read global param init values";
-                setGlobalParameterValues(1, &gid, buffer);
-                rrLog(Logger::LOG_DEBUG) << "set global param current values";
-            }
-        }
-
-        if (reset_cm)
-        {
-            // warn if we were forced to reset CMs
-            if (dirty_cm)
-            {
-                rrLog(Logger::LOG_ERROR) << "Both initial conditions and "
-                    "conserved moieties were user modified. As conserved moieties "
-                    "are defined in terms of initial conditions, the conserved "
-                    "moiety values were forcibly reset in terms of the species "
-                    "initial conditions.";
-            }
-
-            // we've reset CMs. clear the dirty bit.
-            dirty &= ~DIRTY_CONSERVED_MOIETIES;
-
-            // the DIRTY_INIT_SPECIES bit is alwasy cleared at the
-            // end of this func.
-        }
-
 
         delete[] buffer;
     }
