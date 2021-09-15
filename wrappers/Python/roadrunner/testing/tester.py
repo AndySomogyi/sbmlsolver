@@ -1737,4 +1737,7 @@ def runTester (testDir=None):
     "\nTotal unknown tests:\t", unknownTests, \
     "\nTotal passed tests:\t", gPassedTests)
 
+    if gFailedTests > 0:
+        exit(1)
+
     return gFailedTests
