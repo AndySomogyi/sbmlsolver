@@ -122,7 +122,8 @@ public:
     virtual int getNumGlobalParameters();
 
     virtual int getNumCompartments();
-	virtual int getCompartmentIndexForFloatingSpecies(size_t index);
+    virtual int getCompartmentIndexForFloatingSpecies(size_t index);
+    virtual int getCompartmentIndexForBoundarySpecies(size_t index);
 
     /**
      * get the global parameter values
@@ -355,14 +356,26 @@ public:
     virtual int setFloatingSpeciesInitConcentrations(size_t len, const int *indx,
             double const *values);
 
+    virtual int setBoundarySpeciesInitConcentrations(size_t len, const int* indx,
+        double const* values);
+
     virtual int getFloatingSpeciesInitConcentrations(size_t len, const int *indx,
             double *values);
+
+    virtual int getBoundarySpeciesInitConcentrations(size_t len, const int* indx,
+        double* values);
 
     virtual int setFloatingSpeciesInitAmounts(size_t len, const int *indx,
                 double const *values);
 
+    virtual int setBoundarySpeciesInitAmounts(size_t len, const int* indx,
+        double const* values);
+
     virtual int getFloatingSpeciesInitAmounts(size_t size_t, const int *indx,
                     double *values);
+
+    virtual int getBoundarySpeciesInitAmounts(size_t size_t, const int* indx,
+        double* values);
 
     virtual int setCompartmentInitVolumes(size_t len, const int *indx,
                 double const *values);
@@ -610,6 +623,10 @@ private:
     typedef std::map<TieBreakKey, bool> TieBreakMap;
     TieBreakMap tieBreakMap;
 
+    //Used by 'reset' to reset one type of element, while keeping track of which versions were reset that have initial assignments.
+    void resetOneType(int& opt, int thistype, int independents, int total, int(LLVMExecutableModel::*getInit)(size_t, const int*, double*), int(LLVMExecutableModel::*setCurrent)(size_t, const int*, const double*), string(LLVMModelDataSymbols::* getTypeId)(size_t) const, double* buffer, std::map<std::string, int>& inits, std::map<std::string, double>& initvals);
+
+
     /******************************* Events Section *******************************/
     #endif /***********************************************************************/
     /******************************************************************************/
@@ -651,9 +668,13 @@ private:
 
     // init value accessors
     SetFloatingSpeciesInitConcentrationCodeGen::FunctionPtr setFloatingSpeciesInitConcentrationsPtr;
+    SetBoundarySpeciesInitConcentrationCodeGen::FunctionPtr setBoundarySpeciesInitConcentrationsPtr;
     GetFloatingSpeciesInitConcentrationCodeGen::FunctionPtr getFloatingSpeciesInitConcentrationsPtr;
+    GetBoundarySpeciesInitConcentrationCodeGen::FunctionPtr getBoundarySpeciesInitConcentrationsPtr;
     SetFloatingSpeciesInitAmountCodeGen::FunctionPtr setFloatingSpeciesInitAmountsPtr;
     GetFloatingSpeciesInitAmountCodeGen::FunctionPtr getFloatingSpeciesInitAmountsPtr;
+    SetBoundarySpeciesInitAmountCodeGen::FunctionPtr setBoundarySpeciesInitAmountsPtr;
+    GetBoundarySpeciesInitAmountCodeGen::FunctionPtr getBoundarySpeciesInitAmountsPtr;
     SetCompartmentInitVolumeCodeGen::FunctionPtr setCompartmentInitVolumesPtr;
     GetCompartmentInitVolumeCodeGen::FunctionPtr getCompartmentInitVolumesPtr;
     GetGlobalParameterInitValueCodeGen::FunctionPtr getGlobalParameterInitValuePtr;

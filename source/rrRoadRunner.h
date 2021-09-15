@@ -1532,6 +1532,12 @@ namespace rr {
          * @internal
          * @deprecated
          */
+        RR_DEPRECATED(void setBoundarySpeciesAmounts(const std::vector<double>& values));
+
+        /**
+         * @internal
+         * @deprecated
+         */
         RR_DEPRECATED(int getNumberOfFloatingSpecies());
 
         /**

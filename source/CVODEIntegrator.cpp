@@ -536,8 +536,21 @@ namespace rr {
                             v.push_back(abstol / volumes[index]);
                         }
                     } else {
-                        // not a species, no need to divide by compartment volume
-                        v.push_back(abstol);
+                        speciesIndex = mModel->getBoundarySpeciesIndex(symbols[i]);
+                        if (speciesIndex > -1) {
+                            // the symbol defined by the rate rule is a species
+                            index = mModel->getCompartmentIndexForBoundarySpecies(i);
+                            if (volumes[index] == 0) {
+                                v.push_back(abstol);
+                            }
+                            else {
+                                v.push_back(abstol / volumes[index]);
+                            }
+                        }
+                        else {
+                            // not a species, no need to divide by compartment volume
+                            v.push_back(abstol);
+                        }
                     }
                 }
                 break;
@@ -770,11 +783,11 @@ namespace rr {
                 if (varstep
                     && (timeEnd - timeStart > 2. * epsilon)) {
                     // event status before time step
-                    mModel->getEventTriggers(eventStatus.size(), 0, &eventStatus[0]);
+
+                    mModel->getEventTriggers(eventStatus.size(), 0, eventStatus.empty() ? nullptr : &eventStatus[0]);
                     // apply events and write state to variableStepPostEventState
                     // model state is updated by events.
-                    int handled = mModel->applyEvents(timeEnd, &eventStatus[0],
-                                                      NULL, &variableStepPostEventState[0]);
+                    int handled = mModel->applyEvents(timeEnd, eventStatus.empty() ? nullptr : &eventStatus[0], NULL, variableStepPostEventState.empty() ? nullptr : &variableStepPostEventState[0]);
                     if (handled > 0) {
                         // write original state back to model
                         mModel->setTime(timeEnd - epsilon);
@@ -1228,7 +1241,7 @@ namespace rr {
     double CVODEIntegrator::applyVariableStepPendingEvents() {
         if (variableStepTimeEndEvent) {
             // post event state allready calcuated.
-            mModel->setStateVector(&variableStepPostEventState[0]);
+            mModel->setStateVector(variableStepPostEventState.size() == 0 ? NULL : &variableStepPostEventState[0]);
             // copy state std::vector into cvode memory
             if (mStateVector) {
                 mModel->getStateVector(NV_DATA_S(mStateVector));

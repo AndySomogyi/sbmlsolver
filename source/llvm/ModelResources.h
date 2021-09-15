@@ -55,6 +55,12 @@ public:
     SetFloatingSpeciesInitAmountCodeGen::FunctionPtr setFloatingSpeciesInitAmountsPtr;
     GetFloatingSpeciesInitAmountCodeGen::FunctionPtr getFloatingSpeciesInitAmountsPtr;
 
+    SetBoundarySpeciesInitConcentrationCodeGen::FunctionPtr setBoundarySpeciesInitConcentrationsPtr;
+    GetBoundarySpeciesInitConcentrationCodeGen::FunctionPtr getBoundarySpeciesInitConcentrationsPtr;
+
+    SetBoundarySpeciesInitAmountCodeGen::FunctionPtr setBoundarySpeciesInitAmountsPtr;
+    GetBoundarySpeciesInitAmountCodeGen::FunctionPtr getBoundarySpeciesInitAmountsPtr;
+
     GetCompartmentInitVolumeCodeGen::FunctionPtr getCompartmentInitVolumesPtr;
     SetCompartmentInitVolumeCodeGen::FunctionPtr setCompartmentInitVolumesPtr;
 

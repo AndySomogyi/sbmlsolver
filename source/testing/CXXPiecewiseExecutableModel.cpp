@@ -160,6 +160,36 @@ int CXXPiecewiseExecutableModel::setBoundarySpeciesConcentrations(size_t len,
     return 0;
 }
 
+int CXXPiecewiseExecutableModel::setBoundarySpeciesAmounts(size_t len,
+    const int* indx, const double* values)
+{
+    return 0;
+}
+
+int CXXPiecewiseExecutableModel::setBoundarySpeciesInitConcentrations(size_t len,
+    const int* indx, const double* values)
+{
+    return 0;
+}
+
+int CXXPiecewiseExecutableModel::getBoundarySpeciesInitConcentrations(size_t len,
+    const int* indx, double* values)
+{
+    return 0;
+}
+
+int CXXPiecewiseExecutableModel::setBoundarySpeciesInitAmounts(size_t len, const int* indx,
+    const double* values)
+{
+    return 0;
+}
+
+int CXXPiecewiseExecutableModel::getBoundarySpeciesInitAmounts(size_t len, const int* indx,
+    double* values)
+{
+    return 0;
+}
+
 int CXXPiecewiseExecutableModel::getNumGlobalParameters()
 {
     return 0;
@@ -193,6 +223,16 @@ int CXXPiecewiseExecutableModel::getNumCompartments()
 }
 
 int CXXPiecewiseExecutableModel::getCompartmentIndex(const std::string& eid)
+{
+    return 0;
+}
+
+int CXXPiecewiseExecutableModel::getCompartmentIndexForFloatingSpecies(size_t index)
+{
+    return 0;
+}
+
+int CXXPiecewiseExecutableModel::getCompartmentIndexForBoundarySpecies(size_t index)
 {
     return 0;
 }

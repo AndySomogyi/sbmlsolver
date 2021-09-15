@@ -266,19 +266,30 @@ void EvalInitialConditionsCodeGen::codeGenInitSpecies(
         StoreSymbolResolver& modelDataResolver,
         LoadSymbolResolver& initialValueResolver)
 {
+    std::vector<std::string> floatingSpecies = dataSymbols.getFloatingSpeciesIds();
+
+    for (std::vector<std::string>::const_iterator i = floatingSpecies.begin();
+        i != floatingSpecies.end(); i++)
     {
-        std::vector<std::string> floatingSpecies = dataSymbols.getFloatingSpeciesIds();
+        const std::string& id = *i;
 
-        for (std::vector<std::string>::const_iterator i = floatingSpecies.begin();
-                i != floatingSpecies.end(); i++)
+        if (dataSymbols.isIndependentInitFloatingSpecies(id))
         {
-            const std::string& id = *i;
+            modelDataResolver.storeSymbolValue(id,
+                initialValueResolver.loadSymbolValue(id));
+        }
+    }
+    std::vector<std::string> boundarySpecies = dataSymbols.getBoundarySpeciesIds();
 
-            if (dataSymbols.isIndependentInitFloatingSpecies(id))
-            {
-                modelDataResolver.storeSymbolValue(id,
-                        initialValueResolver.loadSymbolValue(id));
-            }
+    for (std::vector<std::string>::const_iterator i = boundarySpecies.begin();
+        i != boundarySpecies.end(); i++)
+    {
+        const std::string& id = *i;
+
+        if (dataSymbols.isIndependentInitBoundarySpecies(id))
+        {
+            modelDataResolver.storeSymbolValue(id,
+                initialValueResolver.loadSymbolValue(id));
         }
     }
 }

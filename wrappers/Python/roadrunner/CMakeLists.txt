@@ -5,7 +5,6 @@ set_source_files_properties(roadrunner.i PROPERTIES
         CPLUSPLUS ON
         )
 
-
 set_property(SOURCE roadrunner.i PROPERTY
         SWIG_FLAGS
         # Enable threading
@@ -54,7 +53,11 @@ endif ()
 # we make this target a module library (dll only on windows, so extension on mac and linux).
 swig_add_library(roadrunner_python
         TYPE MODULE LANGUAGE python
-        SOURCES roadrunner.i PyUtils PyLoggerStream)
+        SOURCES roadrunner.i rr_docstrings.txt PyUtils.h PyUtils.cpp PyLoggerStream.h PyLoggerStream.cpp PyEventListener.h PyIntegratorListener.h)
+
+# None of these worked, so I renamed rr_docstrings.i to rr_docstrings.txt, to prevent it from being compiled on its own:
+#set_source_files_properties(rr_docstrings.i PROPERTIES HEADER_FILE_ONLY TRUE)
+#set_source_files_properties(rr_docstrings.i PROPERTIES SKIP_PRECOMPILE_HEADERS TRUE)
 
 message("PYTHON_PACKAGE_BUILD_PREFIX ${PYTHON_PACKAGE_BUILD_PREFIX}")
 set_target_properties(roadrunner_python PROPERTIES

@@ -6,13 +6,21 @@ set(target telplugins_core)
 
 set(
         sources
-        ${RR_PLUGINS_ROOT}/rrplugins/pluginBaseClass/telCPlugin
-        ${RR_PLUGINS_ROOT}/rrplugins/pluginBaseClass/telCPPPlugin
-        ${RR_PLUGINS_ROOT}/rrplugins/pluginBaseClass/telPlugin
-        ${RR_PLUGINS_ROOT}/rrplugins/common/telException
-        tel_api   #struct of roadrunner function pointer
-        telPluginManager
-        telVersionInfo
+        ${RR_PLUGINS_ROOT}/rrplugins/pluginBaseClass/telCPlugin.cpp
+        ${RR_PLUGINS_ROOT}/rrplugins/pluginBaseClass/telCPPPlugin.cpp
+        ${RR_PLUGINS_ROOT}/rrplugins/pluginBaseClass/telPlugin.cpp
+        ${RR_PLUGINS_ROOT}/rrplugins/common/telException.cpp
+#        tel_api   #struct of roadrunner function pointer
+        telPluginManager.cpp
+        telVersionInfo.cpp
+
+        ${RR_PLUGINS_ROOT}/rrplugins/pluginBaseClass/telCPlugin.h
+        ${RR_PLUGINS_ROOT}/rrplugins/pluginBaseClass/telCPPPlugin.h
+        ${RR_PLUGINS_ROOT}/rrplugins/pluginBaseClass/telPlugin.h
+        ${RR_PLUGINS_ROOT}/rrplugins/common/telException.h
+        tel_api.h   #struct of roadrunner function pointer
+        telPluginManager.h
+        telVersionInfo.h
 )
 
 # ** Shared lib ******

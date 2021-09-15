@@ -5,10 +5,15 @@
 set(target telpluginsBaseClass)
 
 set(sources
-        telCPlugin
-        telCPPPlugin
-        telPlugin
-        telVersionInfo
+        telCPlugin.cpp
+        telCPPPlugin.cpp
+        telPlugin.cpp
+        telVersionInfo.cpp
+
+        telCPlugin.h
+        telCPPPlugin.h
+        telPlugin.h
+        telVersionInfo.h
         )
 
 # ** Shared lib ******

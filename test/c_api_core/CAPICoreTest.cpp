@@ -105,7 +105,7 @@ TEST_F(CAPICoreTest, ReloadingModelModelRecompilation) {
     freeRRInstance(aRR);
 }
 
-TEST_F(CAPICoreTest, RoloadingModelNoModelRecompilation) {
+TEST_F(CAPICoreTest, ReloadingModelNoModelRecompilation) {
     RRHandle aRR = createRRInstance();
     EXPECT_TRUE(std::filesystem::exists(testModelFilePath));
 

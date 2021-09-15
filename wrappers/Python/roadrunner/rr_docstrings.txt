@@ -593,7 +593,27 @@ time = 10.
 %feature("docstring") rr::ExecutableModel::reset "
 ExecutableModel.reset()
 
-Reset the floating species concentration to their initial conditions.
+By default, reset all floating species concentrations and all variables changed by rate rules to their CURRENT init(X) values.
+
+It is possible to change the behavior of this function by providing a list of \"or'ed\" SelectionRecords.  For example, to reset only time and floating species, use:
+
+reset(SelectionRecord.TIME | SelectionRecord.FLOATING)
+
+The full list of recognized selection records are as follows.  These selection records are used by default:
+
+SelectionRecord.TIME:  Resets the time to zero.
+SelectionRecord.FLOATING:  Resets all floating species.
+SelectionRecord.RATE: Resets any variable or parameter that is changed by a rate rule (whether species, compartment, or parameter)
+
+The following selection records are added to the above when calling 'resetAll', and may be used separately or in concert with the above:
+
+SelectionRecord.BOUNDARY:  Resets the boundary species.
+SelectionRecord.COMPARTMENT:  Resets the compartments.
+SelectionRecord.GLOBAL_PARAMETER:  Resets the parameter objects.
+
+All of the above will use the current 'init(x)' values, and will re-calculate any initial assignments in the model based on the reset (or not reset) values they reference.  If one wishes to reset the model to its original state as defined in the SBML (resetting the 'init(x)' values as well), use:
+
+SelectionRecord.ALL:  Resets everything to as it was in the current SBML model.
 ";
 
 
@@ -875,7 +895,27 @@ the new time which will be currentTime + StepSize::
 %feature("docstring") rr::RoadRunner::reset "
 RoadRunner.reset()
 
-This method resets all the floating species concentrations to their initial values.
+By default, reset all floating species concentrations and all variables changed by rate rules to their CURRENT init(X) values.
+
+It is possible to change the behavior of this function by providing a list of \"or'ed\" SelectionRecords.  For example, to reset only time and floating species, use:
+
+reset(SelectionRecord.TIME | SelectionRecord.FLOATING)
+
+The full list of recognized selection records are as follows.  These selection records are used by default:
+
+SelectionRecord.TIME:  Resets the time to zero.
+SelectionRecord.FLOATING:  Resets all floating species.
+SelectionRecord.RATE: Resets any variable or parameter that is changed by a rate rule (whether species, compartment, or parameter)
+
+The following selection records are added to the above when calling 'resetAll', and may be used separately or in concert with the above:
+
+SelectionRecord.BOUNDARY:  Resets the boundary species.
+SelectionRecord.COMPARTMENT:  Resets the compartments.
+SelectionRecord.GLOBAL_PARAMETER:  Resets the parameter objects.
+
+All of the above will use the current 'init(x)' values, and will re-calculate any initial assignments in the model based on the reset (or not reset) values they reference.  If one wishes to reset the model to its original state as defined in the SBML (resetting the 'init(x)' values as well), use:
+
+SelectionRecord.ALL:  Resets everything to as it was in the current SBML model.
 ";
 
 
