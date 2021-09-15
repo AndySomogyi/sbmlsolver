@@ -741,7 +741,7 @@ def setGetValues(rrInstance, IdList, testId):
     errorFlag = False
     for i in range (len(IdList)):
         value = random.random()*10
-        rrInstance.model[dList[i]] = value
+        rrInstance.model[IdList[i]] = value
         if expectApproximately (rrInstance.model[IdList[i]], value, 1E-6) == False:
             errorFlag = True
             break
@@ -1733,8 +1733,16 @@ def runTester (testDir=None):
     for testFunc in [unitTestIntegratorSettings]:
       testFunc(testDir)
 
-    print("\n\nTotal failed tests:\t", gFailedTests, \
-    "\nTotal unknown tests:\t", unknownTests, \
-    "\nTotal passed tests:\t", gPassedTests)
+    summary = f"Total failed tests:\t {gFailedTests}\n" \
+              f"Total unknown tests:\t {unknownTests}\n" \
+              f"Total passed tests:\t {gPassedTests}"
+
+    print(summary)
+
+    class FailedTestsError(Exception):
+        pass
+
+    if gFailedTests > 0:
+        raise FailedTestsError(summary)
 
     return gFailedTests
