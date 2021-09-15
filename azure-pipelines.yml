@@ -338,7 +338,7 @@ stages:
               cd $(INSTALL_DIR)
               echo "ls in install dir"
               ls
-              $(PythonExecutable) site-packages/roadrunner/testing/__main__.py
+              #$(PythonExecutable) site-packages/roadrunner/testing/__main__.py
               echo "Switching to build dir: $(BUILD_DIR)"
               cd $(BUILD_DIR)
               echo "ctest --output-on-failure --verbose --extra-verbose --tests-regex python_tests*"
@@ -660,7 +660,7 @@ stages:
               echo "python exe $(PythonExecutable)"
               echo "ls in install dir"
               ls
-              $(PythonExecutable) site-packages/roadrunner/testing/__main__.py
+              #$(PythonExecutable) site-packages/roadrunner/testing/__main__.py
 
               echo "Switching to build dir: $(BUILD_DIR)"
               cd $(BUILD_DIR)
@@ -1011,7 +1011,7 @@ stages:
               cd $(INSTALL_DIR)
               echo "ls in install dir"
               ls
-              $(PythonExecutable) site-packages/roadrunner/testing/__main__.py
+              #$(PythonExecutable) site-packages/roadrunner/testing/__main__.py
               echo "Switching to build dir: $(BUILD_DIR)"
               cd $(BUILD_DIR)
               echo "ctest --output-on-failure --verbose --extra-verbose --tests-regex python_tests*"

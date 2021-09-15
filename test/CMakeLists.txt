@@ -326,6 +326,7 @@ if (BUILD_PYTHON AND BUILD_TESTS)
     add_pytest_to_ctest(python_tests_SteadyStateSolverTests "${RR_PYTHON_TESTING_BUILD_PREFIX}/SteadyStateSolverTests.py")
     add_pytest_to_ctest(python_tests_StructuralAnalysisTests "${RR_PYTHON_TESTING_BUILD_PREFIX}/StructuralAnalysisTests.py")
     add_pytest_to_ctest(python_tests_TestModelFactoryTests "${RR_PYTHON_TESTING_BUILD_PREFIX}/TestModelFactoryTests.py")
+    add_pytest_to_ctest(python_tests_RunRRTestsFromPython "${RR_PYTHON_TESTING_BUILD_PREFIX}/RunTesterWithUnitTest.py")
 
     message(STATUS "PyTestTests ${PyTestTests}")
 

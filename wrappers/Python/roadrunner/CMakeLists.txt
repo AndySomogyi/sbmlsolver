@@ -150,6 +150,7 @@ install(
         FILES
         testing/__init__.py
         testing/__main__.py
+        testing/RunTesterWithUnitTest.py
         testing/README.txt
         testing/tester.py
         testing/testfiles.py
