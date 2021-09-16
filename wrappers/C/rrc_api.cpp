@@ -1358,6 +1358,7 @@ bool rrcCallConv setSteadyStateSelectionList(RRHandle handle, const char* list)
         RoadRunner* rri = castToRoadRunner(handle);
         StringList aList(list, " ,");
         rri->setSteadyStateSelections(aList);
+        rri->steadyState();
         return true;
     catch_bool_macro
 }
@@ -3570,7 +3571,13 @@ bool rrcCallConv resetAll(RRHandle handle)
 {
     start_try
         RoadRunner* rri = castToRoadRunner(handle);
-        rri->reset(SelectionRecord::TIME | SelectionRecord::RATE | SelectionRecord::FLOATING | SelectionRecord::GLOBAL_PARAMETER);
+        rri->reset(
+            SelectionRecord::TIME |
+            SelectionRecord::RATE | 
+            SelectionRecord::FLOATING |
+            SelectionRecord::BOUNDARY |
+            SelectionRecord::COMPARTMENT |
+            SelectionRecord::GLOBAL_PARAMETER);
         return true;
     catch_bool_macro
 }

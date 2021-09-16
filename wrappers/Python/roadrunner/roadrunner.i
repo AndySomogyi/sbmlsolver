@@ -1391,6 +1391,8 @@ namespace std { class ostream{}; }
                 self.timeCourseSelections = selections
 
             if times is not None:
+                if start is not None or end is not None or points is not None or steps is not None:
+                    raise ValueError("Cannot call 'simulate' with the 'times' argument plus any of 'start', 'end', 'points' or 'steps' defined.")
                 self._setSimulateOptionsTimes(o, list(times))
 
             if has_output_file:
