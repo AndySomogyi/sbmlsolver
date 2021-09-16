@@ -147,6 +147,14 @@ TEST_F(FFSUnitTests, SolveSensitivitiesForSelectiveParameters2) {
     forwardSensitivitySolver.solveSensitivities(0, 10, 11, {"kf"});
 }
 
+TEST_F(FFSUnitTests, SolveSensitivitiesForSelectiveParameters3) {
+    RoadRunner r(SimpleFlux().str());
+    ExecutableModel *model = r.getModel();
+    ForwardSensitivitySolver forwardSensitivitySolver(model);
+    auto res = forwardSensitivitySolver.solveSensitivities(0, 10, 11, {"kf"}, );
+    std::cout << res << std::endl;
+}
+
 TEST_F(FFSUnitTests, SolveTwiceWithDifferentParametersBothTimes) {
     RoadRunner r(OpenLinearFlux().str());
     ExecutableModel *model = r.getModel();

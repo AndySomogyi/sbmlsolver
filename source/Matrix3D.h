@@ -25,7 +25,6 @@ namespace rr {
         Matrix3D(int numRows, int numCols, int numZ) :
                 index_(std::vector<IndexType>(numZ)),
                 data_(std::vector<Matrix < DataType>>(numZ)) {
-
             for (int i = 0; i < numZ; i++) {
                 data_[i].resize(numRows, numCols);
             }
@@ -107,6 +106,46 @@ namespace rr {
                 throw std::invalid_argument(err.str());
             }
             return data_[k];
+        }
+
+        /**
+         * @brief slice a Matrix3D by rownames.
+         * @param rowNames the names of the columns to keep, the remaining rows
+         * are removed in the returned Matrix3D.
+         */
+        rr::Matrix3D<DataType, IndexType> &rowSliceByName(const std::vector<std::string> &rowNames) {
+            // use a hashmap of name to index or an array index to name
+            if (rowNames_.empty()){
+                throw std::invalid_argument("requested slicing Matrix3D by rownames "
+                                            "but rowNames is empty.");
+            }
+            if (rowNames.size() > rowNames_.size()){
+                throw std::invalid_argument("Input vector is too big");
+            }
+
+            // todo check input vector for duplicates
+
+            // figure out which row index corresponds to each of the row names
+            std::vector<int> rowIdx;
+            for (int i=0; i<rowNames.size(); i++){
+                auto s = rowNames[i];
+                for (int j=0; j<rowNames_.size(); j++){
+                    auto s2 = rowNames_[i];
+                    if (s == s2){
+                        rowIdx.push_back(j);
+                    }
+                }
+            }
+
+        }
+
+        /**
+         * @brief slice a Matrix3D by colnames.
+         * @param rowNames the names of the columns to keep, the remaining rows
+         * are removed in the returned Matrix3D.
+         */
+        rr::Matrix3D<DataType, IndexType> &colSliceByName(const std::vector<std::string> &rowNames) {
+
         }
 
         /**
@@ -239,6 +278,7 @@ namespace rr {
          * @brief set row names for each of the z matrices
          */
         void setRowNames(const std::vector<std::string> &rowNames) {
+            rowNames_ = rowNames;
             for (int i = 0; i < numZ(); i++) {
                 data_[i].setRowNames(rowNames);
             }
@@ -248,6 +288,7 @@ namespace rr {
          * @brief set col names for each of the z matrices
          */
         void setColNames(const std::vector<std::string> &colNames) {
+            colNames_ = colNames;
             for (int i = 0; i < numZ(); i++) {
                 data_[i].setColNames(colNames);
             }
@@ -256,14 +297,14 @@ namespace rr {
         /**
          * @brief return the row names for this Matrix3D
          */
-        std::vector<std::string> getRowNames(){
+        std::vector<std::string> getRowNames() {
             return slice(0).rowNames;
         }
 
         /**
          * @brief return the column names for this Matrix3D
          */
-        std::vector<std::string> getColNames(){
+        std::vector<std::string> getColNames() {
             return slice(0).colNames;
         }
 
@@ -322,6 +363,8 @@ namespace rr {
     private:
         std::vector<IndexType> index_;
         std::vector<Matrix < DataType>> data_;
+        std::vector<std::string> rowNames_{};
+        std::vector<std::string> colNames_{};
     };
 
     template<typename IndexType_, typename DataType_>

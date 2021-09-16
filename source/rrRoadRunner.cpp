@@ -2092,10 +2092,11 @@ namespace rr {
     Matrix3D<double, double> RoadRunner::timeSeriesSensitivities(
             double start, double stop, int num,
             std::vector<std::string> params,
+            std::vector<std::string> species,
             int k) {
         auto tsSensSolver = dynamic_cast<TimeSeriesSensitivitySolver *>(getSensitivitySolver());
 
-        return tsSensSolver->solveSensitivities(start, stop, num, params, k);
+        return tsSensSolver->solveSensitivities(start, stop, num, params, species, k);
     }
 
     double RoadRunner::oneStep(const double currentTime, const double stepSize, const bool reset) {

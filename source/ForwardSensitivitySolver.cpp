@@ -636,7 +636,9 @@ namespace rr {
 
     Matrix3D<double, double> ForwardSensitivitySolver::solveSensitivities(
             double start, double stop, int num,
-            std::vector<std::string> params, int k) {
+            std::vector<std::string> params,
+            std::vector<std::string> species,
+            int k) {
         if (!params.empty()) {
             // turn off the indicator flag so that
             // subsequent calls to solveSensitivities
@@ -662,6 +664,10 @@ namespace rr {
              * set in this method only.
              */
         }
+        if (species.empty()){
+            // use all species
+            species.emplace_back("all");
+        }
         deducePlist();
         cvodeIntegrator->restart(start);
         int intervals = num - 1;
@@ -683,6 +689,10 @@ namespace rr {
 
         results.setRowNames(getGlobalParameterNames());
         results.setColNames(getVariableNames());
+
+        if (species[0] != "all"){
+//            results.slice()
+        }
 
         return results;
     }

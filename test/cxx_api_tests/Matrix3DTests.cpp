@@ -134,6 +134,45 @@ TEST_F(Matrix3DTests, CheckSlice3D3x4x2) {
     ASSERT_NEAR(23.0, matrix3D.slice(2, 3, 1), 1e-7);
 }
 
+TEST_F(Matrix3DTests, CheckRowSliceByName) {
+    Matrix3D<double, double> matrix3D(
+            {0.0, 1.0},
+            {
+                    // 0.0
+                    {
+                            {0.0, 1.0},
+                            {2.0, 3.0},
+                            {4.0, 5.0}
+                    },
+                    // 1.0
+                    {
+                            {6.0, 7.0},
+                            {8.0, 9.0},
+                            {10.0, 11.0}
+                    }
+            }
+    );
+    matrix3D.setRowNames({"firstRow", "secondRow", "thirdRow"});
+    matrix3D.setColNames({"firstCol", "secondCol", "thirdCol"});
+    auto actual = matrix3D.rowSliceByName({"firstRow", "secondRow2"});
+    Matrix3D<double, double> expected(
+            {0.0, 1.0},
+            {
+                    // 0.0
+                    {
+                            {0.0, 1.0},
+                            {2.0, 3.0},
+                    },
+                    // 1.0
+                    {
+                            {6.0, 7.0},
+                            {8.0, 9.0},
+                    }
+            }
+    );
+    ASSERT_TRUE(expected.almostEquals(expected, 1e-7));
+}
+
 
 TEST_F(Matrix3DTests, NumRows) {
     Matrix3D<double, double> matrix3D(
