@@ -1145,7 +1145,7 @@ namespace rr {
                 }
                 catch (std::out_of_range) {
                     std::stringstream err;
-                    err << "No rate available for floating speces " << record.p1 << ": if conserved moieties are enabled, this species may be defined by an implied assignment rule instead, and its rate cannot be determined.";
+                    err << "No rate available for floating species " << record.p1 << ": if conserved moieties are enabled, this species may be defined by an implied assignment rule instead, and its rate cannot be determined.";
                     throw std::invalid_argument(err.str());
                 }
 
