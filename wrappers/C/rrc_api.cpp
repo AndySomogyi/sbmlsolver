@@ -1358,7 +1358,6 @@ bool rrcCallConv setSteadyStateSelectionList(RRHandle handle, const char* list)
         RoadRunner* rri = castToRoadRunner(handle);
         StringList aList(list, " ,");
         rri->setSteadyStateSelections(aList);
-        rri->steadyState();
         return true;
     catch_bool_macro
 }

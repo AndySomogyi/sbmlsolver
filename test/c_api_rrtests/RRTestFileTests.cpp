@@ -1218,6 +1218,9 @@ public:
 
         bool res = setSteadyStateSelectionList(gRR, keys.c_str());
         EXPECT_TRUE(res);
+
+        //Actually calculate the steady state:
+        trySteadyState(gRR);
     }
 
     void check_GET_STEADY_STATE_SELECTION_LIST_2(IniSection *aSection) {
