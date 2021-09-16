@@ -72,6 +72,7 @@
 #include <cstdlib>
 #include <fstream>
 #include <memory>
+#include <utility>
 
 
 #ifdef _MSC_VER
@@ -2096,7 +2097,8 @@ namespace rr {
             int k) {
         auto tsSensSolver = dynamic_cast<TimeSeriesSensitivitySolver *>(getSensitivitySolver());
 
-        return tsSensSolver->solveSensitivities(start, stop, num, params, species, k);
+        return tsSensSolver->solveSensitivities(
+                start, stop, num, std::move(params), std::move(species), k);
     }
 
     double RoadRunner::oneStep(const double currentTime, const double stepSize, const bool reset) {
