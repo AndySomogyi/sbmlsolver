@@ -109,37 +109,6 @@ namespace rr {
         }
 
         /**
-         * @brief slice a Matrix3D by rownames.
-         * @param rowNames the names of the columns to keep, the remaining rows
-         * are removed in the returned Matrix3D.
-         */
-        rr::Matrix3D<DataType, IndexType> &rowSliceByName(const std::vector<std::string> &rowNames) {
-            // use a hashmap of name to index or an array index to name
-            if (rowNames_.empty()){
-                throw std::invalid_argument("requested slicing Matrix3D by rownames "
-                                            "but rowNames is empty.");
-            }
-            if (rowNames.size() > rowNames_.size()){
-                throw std::invalid_argument("Input vector is too big");
-            }
-
-            // todo check input vector for duplicates
-
-            // figure out which row index corresponds to each of the row names
-            std::vector<int> rowIdx;
-            for (int i=0; i<rowNames.size(); i++){
-                auto s = rowNames[i];
-                for (int j=0; j<rowNames_.size(); j++){
-                    auto s2 = rowNames_[i];
-                    if (s == s2){
-                        rowIdx.push_back(j);
-                    }
-                }
-            }
-
-        }
-
-        /**
          * @brief slice a Matrix3D by colnames.
          * @param rowNames the names of the columns to keep, the remaining rows
          * are removed in the returned Matrix3D.
@@ -359,6 +328,58 @@ namespace rr {
 
         template<typename IndexType_, typename DataType_>
         friend std::ostream &operator<<(std::ostream &os, Matrix3D<IndexType_, DataType_> &matrix3D);
+
+        /**
+         * @brief delete the row indexed by @param which
+         * in each of the k submatrices in this Matrix3D.
+         * @see rr::Matrix::deleteRow.
+         */
+        void deleteRow(const int& which){
+            // iterate over each submatrix
+            for (int k=0; k<numZ(); k++){
+                Matrix<DataType>& submatrix = data_[k];
+                submatrix.deleteRow(which);
+            }
+        }
+
+        /**
+         * @brief delete the row indexed by @param which
+         * in each of the k submatrices in this Matrix3D.
+         * @see rr::Matrix::deleteRow.
+         */
+        void deleteRow(const std::string& which){
+            // iterate over each submatrix
+            for (int k=0; k<numZ(); k++){
+                const Matrix<DataType>& submatrix = data_[k];
+                submatrix.deleteRow(which);
+            }
+        }
+
+        /**
+         * @brief delete the col indexed by @param which
+         * in each of the k submatrices in this Matrix3D.
+         * @see rr::Matrix::deleteCol.
+         */
+        void deleteCol(const int& which){
+            // iterate over each submatrix
+            for (int k=0; k<numZ(); k++){
+                Matrix<DataType>& submatrix = data_[k];
+                submatrix.deleteCol(which);
+            }
+        }
+
+        /**
+         * @brief delete the col indexed by @param which
+         * in each of the k submatrices in this Matrix3D.
+         * @see rr::Matrix::deleteCol.
+         */
+        void deleteCol(const std::string& which){
+            // iterate over each submatrix
+            for (int k=0; k<numZ(); k++){
+                const Matrix<DataType>& submatrix = data_[k];
+                submatrix.deleteCol(which);
+            }
+        }
 
     private:
         std::vector<IndexType> index_;
