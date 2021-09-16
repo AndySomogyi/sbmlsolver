@@ -66,7 +66,7 @@ RoadRunner via cvodes uses finite differences for approximating gradients.
 By default we use the "centered" method, while the alternative is the "forward" method
 Both methods are implemented in cvodes and automatically figure out the best value of delta
 (perturbation amount) to use. Moreover, there is an adaptive switching mechanism in use
-that makes it very unlikely that users should need to modify this setting.
+that makes it unlikely that users should need to modify this setting.
 
 
 .. literalinclude:: sensitivities_dq_method.py

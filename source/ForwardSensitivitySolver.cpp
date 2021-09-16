@@ -684,7 +684,7 @@ namespace rr {
             numberOfPoints++;
         }
 
-        results.setRowNames(getGlobalParameterNames());
+        results.setRowNames(whichParameters);
         results.setColNames(getVariableNames());
 
         // in the situation where user would like to
