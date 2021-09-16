@@ -77,9 +77,49 @@ namespace rr {
          */
         void sortColsByLabels();
 
+        /**
+        * @brief delete row @param which from the matrix.
+        * @details memory isn't actually reclaimed nor the
+        * array resized. Instead the elements of the array
+        * to be removed are shifted one by one to the far right
+        * of the array that underlies the matrix. The _Row
+        * member variable is decremented so the additional
+        * elements are hidden from user.
+        */
         void deleteRow(int which);
 
+        /**
+         * @brief delete a row with the label @param which.
+         * @details interally uses deleteRow(int) overload
+         * after locating the index of the correct row to
+         * remove.
+         * @note This method assumes that row names are unique.
+         * If they are not unique then only the first
+         * found row labelled @param which will be removed.
+         */
+        void deleteRow(const std::string& which);
+
+        /**
+         * @brief delete col @param which from the matrix.
+         * @details memory isn't actually reclaimed nor the
+         * array resized. Instead the elements of the array
+         * to be removed are shifted one by one to the far right
+         * of the array that underlies the matrix. The _Col
+         * member variable is decremented so the additional
+         * elements are hidden from user.
+         */
         void deleteCol(int which);
+
+        /**
+         * @brief delete a col with the label @param which.
+         * @details interally uses deleteCol(int) overload
+         * after locating the index of the correct col to
+         * remove.
+         * @note This method assumes that col names are unique.
+         * If they are not unique then only the first
+         * found col labelled @param which will be removed.
+         */
+        void deleteCol(const std::string& which);
     };
 
     /**
@@ -101,7 +141,7 @@ namespace rr {
 
     template<typename T>
     Matrix<T>::Matrix(ls::Matrix<T> *matrix)
-    : Matrix<T>(*matrix) {}
+            : Matrix<T>(*matrix) {}
 
     /**
      * @brief Element-wise equality operator to compare a Matrix<T> with
@@ -260,6 +300,7 @@ namespace rr {
         setColNames(colLabels);
     }
 
+
     template<typename T>
     void Matrix<T>::deleteRow(int which) {
         if (which > numRows() - 1) {
@@ -301,6 +342,16 @@ namespace rr {
     }
 
     template<typename T>
+    void Matrix<T>::deleteRow(const std::string& which){
+        auto it = std::find(rowNames.begin(), rowNames.end(), which);
+        if (it != rowNames.end()){
+            // item has been found. Find its index
+            int idx = std::distance(rowNames.begin(), it);
+            deleteRow(idx);
+        }
+    }
+
+    template<typename T>
     void Matrix<T>::deleteCol(int which) {
         if (which > numCols() - 1) {
             throw std::invalid_argument("Cannot delete col " + std::to_string(which));
@@ -314,20 +365,20 @@ namespace rr {
         // logic of this computation:
         //  start on the last row at "(numRows - 1) * numCols"
         //  then add the idx of column we want (which).
-        int idx = which + (  ( this->_Rows-1) * this->_Cols  );
+        int idx = which + ((this->_Rows - 1) * this->_Cols);
 
-        while (idx >= which){
+        while (idx >= which) {
             // if we are deleting the last column, then the item at
             // the last index (Row*Col) should not be swapped.
             // In this case, we just leave the item inplace. Reducing
             // number of columns hides the extra data from the user.
-            if (idx == originalSize-1){
+            if (idx == originalSize - 1) {
                 idx -= this->_Rows;
                 continue;
             }
 
-            for (int i=idx; i < originalSize-1; i++){
-                std::swap(arr[i], arr[i+1]);
+            for (int i = idx; i < originalSize - 1; i++) {
+                std::swap(arr[i], arr[i + 1]);
             }
             idx -= this->_Rows;
         }
@@ -335,9 +386,18 @@ namespace rr {
         // reduce the number of columns
         this->_Cols--;
         colNames.erase(colNames.begin() + which);
-
     }
 
+
+    template<typename T>
+    void Matrix<T>::deleteCol(const std::string& which){
+        auto it = std::find(colNames.begin(), colNames.end(), which);
+        if (it != colNames.end()){
+            // item has been found. Find its index
+            int idx = std::distance(colNames.begin(), it);
+            deleteCol(idx);
+        }
+    }
 
 } // namespace rr
 

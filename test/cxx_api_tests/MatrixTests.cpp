@@ -230,6 +230,44 @@ TEST_F(MatrixTests, SortColsByNames6) {
 }
 
 
+TEST_F(MatrixTests, DeleteRow2UsingIndex) {
+    rr::Matrix<int> mat({
+                                { 1, 2, 3},
+                                { 4, 5, 6},
+                                { 7, 8, 9},
+                        });
+    mat.setColNames({"C1", "C2", "C3"});
+    mat.setRowNames({"R1", "R2", "R3"});
+    mat.deleteRow(2);
+    rr::Matrix<int> expected({
+                                { 1, 2, 3},
+                                { 4, 5, 6},
+                        });
+    expected.setColNames({"C1", "C2", "C3"});
+    expected.setRowNames({"R1", "R2"});
+    ASSERT_TRUE(expected == mat);
+    ASSERT_EQ(mat.colNames, std::vector<std::string>({"C1", "C2", "C3"}));
+    ASSERT_EQ(mat.rowNames, std::vector<std::string>({"R1", "R2"}));
+}
+TEST_F(MatrixTests, DeleteRow1UsingIndex) {
+    rr::Matrix<int> mat({
+                                { 1, 2, 3},
+                                { 4, 5, 6},
+                                { 7, 8, 9},
+                        });
+    mat.setColNames({"C1", "C2", "C3"});
+    mat.setRowNames({"R1", "R2", "R3"});
+    mat.deleteRow(1);
+    rr::Matrix<int> expected({
+                                { 1, 2, 3},
+                                { 7, 8, 9},
+                        });
+    expected.setColNames({"C1", "C2", "C3"});
+    expected.setRowNames({"R1", "R3"});
+    ASSERT_TRUE(expected == mat);
+    ASSERT_EQ(mat.colNames, std::vector<std::string>({"C1", "C2", "C3"}));
+    ASSERT_EQ(mat.rowNames, std::vector<std::string>({"R1", "R3"}));
+}
 TEST_F(MatrixTests, DeleteRow0UsingIndex) {
     rr::Matrix<int> mat({
                                 { 1, 2, 3},
@@ -244,31 +282,11 @@ TEST_F(MatrixTests, DeleteRow0UsingIndex) {
                                 { 7, 8, 9},
                         });
     expected.setColNames({"C1", "C2", "C3"});
-    expected.setRowNames({ "R2", "R3"});
+    expected.setRowNames({"R2", "R3"});
     ASSERT_TRUE(expected == mat);
     ASSERT_EQ(mat.colNames, std::vector<std::string>({"C1", "C2", "C3"}));
     ASSERT_EQ(mat.rowNames, std::vector<std::string>({"R2", "R3"}));
 }
-
-TEST_F(MatrixTests, DeleteRow1UsingIndex) {
-    rr::Matrix<int> mat({
-                                { 1, 2, 3},
-                                { 4, 5, 6},
-                        });
-    mat.setColNames({"C1", "C2", "C3"});
-    mat.setRowNames({"R1", "R2"});
-    mat.deleteRow(1);
-    rr::Matrix<int> expected({
-                                { 1, 2, 3},
-                        });
-    expected.setColNames({"C1", "C2", "C3"});
-    expected.setRowNames({"R1"});
-    ASSERT_TRUE(expected == mat);
-    ASSERT_EQ(mat.colNames, std::vector<std::string>({"C1", "C2", "C3"}));
-    ASSERT_EQ(mat.rowNames, std::vector<std::string>({"R1"}));
-}
-
-
 TEST_F(MatrixTests, DeleteColumn2UsingIndex) {
     rr::Matrix<int> mat({
                                 { 1, 2, 3},
@@ -289,7 +307,6 @@ TEST_F(MatrixTests, DeleteColumn2UsingIndex) {
     ASSERT_EQ(mat.colNames, std::vector<std::string>({"C1", "C2"}));
     ASSERT_EQ(mat.rowNames, std::vector<std::string>({"R1", "R2", "R3"}));
 }
-
 TEST_F(MatrixTests, DeleteColumn1UsingIndex) {
     rr::Matrix<int> mat({
                                 { 1, 2, 3},
@@ -312,7 +329,6 @@ TEST_F(MatrixTests, DeleteColumn1UsingIndex) {
     ASSERT_EQ(mat.colNames, std::vector<std::string>({"C1", "C3"}));
     ASSERT_EQ(mat.rowNames, std::vector<std::string>({"R1", "R2", "R3"}));
 }
-
 TEST_F(MatrixTests, DeleteColumn0UsingIndex) {
     rr::Matrix<int> mat({
                                 { 1, 2, 3},
@@ -334,6 +350,132 @@ TEST_F(MatrixTests, DeleteColumn0UsingIndex) {
     ASSERT_EQ(mat.rowNames, std::vector<std::string>({"R1", "R2", "R3"}));
 }
 
+
+
+TEST_F(MatrixTests, DeleteRow2UsingString) {
+    rr::Matrix<int> mat({
+                                { 1, 2, 3},
+                                { 4, 5, 6},
+                                { 7, 8, 9},
+                        });
+    mat.setColNames({"C1", "C2", "C3"});
+    mat.setRowNames({"R1", "R2", "R3"});
+    mat.deleteRow("R3");
+    rr::Matrix<int> expected({
+                                { 1, 2, 3},
+                                { 4, 5, 6},
+                        });
+    expected.setColNames({"C1", "C2", "C3"});
+    expected.setRowNames({"R1", "R2"});
+    ASSERT_TRUE(expected == mat);
+    ASSERT_EQ(mat.colNames, std::vector<std::string>({"C1", "C2", "C3"}));
+    ASSERT_EQ(mat.rowNames, std::vector<std::string>({"R1", "R2"}));
+}
+
+TEST_F(MatrixTests, DeleteRow1UsingString) {
+    rr::Matrix<int> mat({
+                                { 1, 2, 3},
+                                { 4, 5, 6},
+                                { 7, 8, 9},
+                        });
+    mat.setColNames({"C1", "C2", "C3"});
+    mat.setRowNames({"R1", "R2", "R3"});
+    mat.deleteRow("R2");
+    rr::Matrix<int> expected({
+                                { 1, 2, 3},
+                                { 7, 8, 9},
+                        });
+    expected.setColNames({"C1", "C2", "C3"});
+    expected.setRowNames({"R1", "R3"});
+    ASSERT_TRUE(expected == mat);
+    ASSERT_EQ(mat.colNames, std::vector<std::string>({"C1", "C2", "C3"}));
+    ASSERT_EQ(mat.rowNames, std::vector<std::string>({"R1", "R3"}));
+}
+
+TEST_F(MatrixTests, DeleteRow0UsingString) {
+    rr::Matrix<int> mat({
+                                { 1, 2, 3},
+                                { 4, 5, 6},
+                                { 7, 8, 9},
+                        });
+    mat.setColNames({"C1", "C2", "C3"});
+    mat.setRowNames({"R1", "R2", "R3"});
+    mat.deleteRow("R1");
+    rr::Matrix<int> expected({
+                                { 4, 5, 6},
+                                { 7, 8, 9},
+                        });
+    expected.setColNames({"C1", "C2", "C3"});
+    expected.setRowNames({"R2", "R3"});
+    ASSERT_TRUE(expected == mat);
+    ASSERT_EQ(mat.colNames, std::vector<std::string>({"C1", "C2", "C3"}));
+    ASSERT_EQ(mat.rowNames, std::vector<std::string>({"R2", "R3"}));
+}
+
+TEST_F(MatrixTests, DeleteColumn2UsingString) {
+    rr::Matrix<int> mat({
+                                { 1, 2, 3},
+                                { 4, 5, 6},
+                                { 7, 8, 9},
+                        });
+    mat.setColNames({"C1", "C2", "C3"});
+    mat.setRowNames({"R1", "R2", "R3"});
+    mat.deleteCol("C3");
+    rr::Matrix<int> expected({
+                                { 1, 2},
+                                { 4, 5},
+                                { 7, 8},
+                        });
+    expected.setColNames({"C1", "C2"});
+    expected.setRowNames({ "R1", "R2", "R3"});
+    ASSERT_TRUE(expected == mat);
+    ASSERT_EQ(mat.colNames, std::vector<std::string>({"C1", "C2"}));
+    ASSERT_EQ(mat.rowNames, std::vector<std::string>({"R1", "R2", "R3"}));
+}
+
+TEST_F(MatrixTests, DeleteColumn1UsingString) {
+    rr::Matrix<int> mat({
+                                { 1, 2, 3},
+                                { 4, 5, 6},
+                                { 7, 8, 9},
+                        });
+    mat.setColNames({"C1", "C2", "C3"});
+    mat.setRowNames({"R1", "R2", "R3"});
+    mat.deleteCol("C2");
+    rr::Matrix<int> expected({
+                                { 1, 3},
+                                { 4, 6},
+                                { 7, 9},
+                        });
+    expected.setColNames({"C1", "C3"});
+    expected.setRowNames({ "R1", "R2", "R3"});
+    std::cout << expected << std::endl;
+    std::cout << mat << std::endl;
+    ASSERT_TRUE(expected == mat);
+    ASSERT_EQ(mat.colNames, std::vector<std::string>({"C1", "C3"}));
+    ASSERT_EQ(mat.rowNames, std::vector<std::string>({"R1", "R2", "R3"}));
+}
+
+TEST_F(MatrixTests, DeleteColumn0UsingString) {
+    rr::Matrix<int> mat({
+                                { 1, 2, 3},
+                                { 4, 5, 6},
+                                { 7, 8, 9},
+                        });
+    mat.setColNames({"C1", "C2", "C3"});
+    mat.setRowNames({"R1", "R2", "R3"});
+    mat.deleteCol("C1");
+    rr::Matrix<int> expected({
+                                { 2, 3},
+                                { 5, 6},
+                                { 8, 9},
+                        });
+    expected.setColNames({"C2", "C3"});
+    expected.setRowNames({ "R1", "R2", "R3"});
+    ASSERT_TRUE(expected == mat);
+    ASSERT_EQ(mat.colNames, std::vector<std::string>({"C2", "C3"}));
+    ASSERT_EQ(mat.rowNames, std::vector<std::string>({"R1", "R2", "R3"}));
+}
 
 
 
