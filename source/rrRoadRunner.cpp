@@ -1762,11 +1762,9 @@ namespace rr {
     }
 
 
-    const ls::DoubleMatrix *RoadRunner::simulate(const Dictionary *dict) {
+    const ls::DoubleMatrix *RoadRunner::simulate(const SimulateOptions *opt) {
         get_self();
         check_model();
-
-        const SimulateOptions *opt = dynamic_cast<const SimulateOptions *>(dict);
 
         if (opt) {
             self.simulateOpt = *opt;
@@ -1933,9 +1931,9 @@ namespace rr {
             }
         }
 
-            // Stochastic Fixed Step Integration
-            // do fixed time step simulation, these are different for deterministic
-            // and stochastic.
+        // Stochastic Fixed Step Integration
+        // do fixed time step simulation, these are different for deterministic
+        // and stochastic.
         else if (self.integrator->getIntegrationMethod() == Integrator::Stochastic) {
             rrLog(Logger::LOG_INFORMATION)
                 << "Performing stochastic fixed step integration for "
@@ -1947,8 +1945,6 @@ namespace rr {
                 numPoints = 2;
             }
 
-            const double hstep = (timeEnd - timeStart) / (numPoints - 1);
-            std::cout << "hstep: " << hstep << std::endl;
             unsigned int nrCols = static_cast<unsigned int>(self.mSelectionList.size());
 
             rrLog(Logger::LOG_DEBUG) << "starting simulation with " << nrCols << " selected columns";
@@ -1963,14 +1959,13 @@ namespace rr {
                 self.integrator->restart(timeStart);
 
                 double tout = timeStart;           // the exact times the integrator returns
-                double next = timeStart + hstep;   // because of fixed steps, the times when the
-                // value is recorded.
 
                 // for writing to file; only used if output_file is specified
                 // this gets reset to 0 when the buffer matrix is written to output and cleared
                 int bufIndex = 1;
                 // index gets bumped in do-while loop.
                 for (int i = 1; i < self.simulateOpt.steps + 1;) {
+                    double next = self.simulateOpt.getNext(i); 
                     rrLog(Logger::LOG_DEBUG) << "step: " << i << "t0: " << tout << "hstep: " << next - tout;
 
                     // stochastic frequently overshoots time end
@@ -1990,7 +1985,7 @@ namespace rr {
                         getSelectedValues(self.simulationResult, i, next);
                         i++;
                         bufIndex++;
-                        next = timeStart + i * hstep;
+                        next = self.simulateOpt.getNext(i);
                     } while ((i < self.simulateOpt.steps + 1) && tout > next);
                 }
                 // write leftover stuff
@@ -2006,10 +2001,10 @@ namespace rr {
             }
         }
 
-            // Deterministic Fixed Step Integration
+        // Deterministic Fixed Step Integration
         else {
             rrLog(Logger::LOG_INFORMATION)
-                << "Perfroming deterministic fixed step integration for  "
+                << "Performing deterministic fixed step integration for  "
                 << self.simulateOpt.steps + 1 << " steps";
             // always have 1 more number of time points than we do steps (or intervals)
             int numPoints = self.simulateOpt.steps + 1;
@@ -2018,7 +2013,6 @@ namespace rr {
                 numPoints = 2;
             }
 
-            double hstep = (timeEnd - timeStart) / (numPoints - 1);
             unsigned int nrCols = static_cast<unsigned int>(self.mSelectionList.size());
 
             rrLog(Logger::LOG_DEBUG) << "starting simulation with " << nrCols << " selected columns";
@@ -2049,13 +2043,14 @@ namespace rr {
                         bufIndex = 0;
                     }
                     rrLog(Logger::LOG_DEBUG) << "Step " << i;
-                    double itime = self.integrator->integrate(tout, hstep);
+                    double next = self.simulateOpt.getNext(i);
+                    double itime = self.integrator->integrate(tout, next - tout);
 
                     // the test suite is extremly sensetive to time differences,
                     // so need to use the *exact* time here. occasionally the integrator
                     // will return a value just slightly off from the exact time
                     // value.
-                    tout = timeStart + i * hstep;
+                    tout = next;
                     getSelectedValues(self.simulationResult, bufIndex, tout);
                 }
                 // write leftover stuff
@@ -2075,7 +2070,7 @@ namespace rr {
 
         self.model->setIntegration(false);
 
-        rrLog(Logger::LOG_DEBUG) << "Simulation done..";
+        rrLog(Logger::LOG_DEBUG) << "Simulation done.";
 
         return &self.simulationResult;
     }
@@ -4760,6 +4755,7 @@ namespace rr {
         // This one creates the list of what we will look at in the result
         // uses values (potentially) from simulate options.
         createTimeCourseSelectionList();
+        self.simulateOpt.initialize();
 
         if (self.simulateOpt.reset_model) {
             reset(); // reset back to initial conditions
@@ -4821,13 +4817,14 @@ namespace rr {
                 rr::saveBinary(out, impl->simulateOpt.variables);
                 rr::saveBinary(out, impl->simulateOpt.amounts);
                 rr::saveBinary(out, impl->simulateOpt.concentrations);
+                rr::saveBinary(out, impl->simulateOpt.times);
 
-                rr::saveBinary(out, impl->simulateOpt.getKeys().size());
+                //rr::saveBinary(out, impl->simulateOpt.getKeys().size());
 
-                for (std::string k : impl->simulateOpt.getKeys()) {
-                    rr::saveBinary(out, k);
-                    rr::saveBinary(out, impl->simulateOpt.getItem(k));
-                }
+                //for (std::string k : impl->simulateOpt.getKeys()) {
+                //    rr::saveBinary(out, k);
+                //    rr::saveBinary(out, impl->simulateOpt.getItem(k));
+                //}
 
                 rr::saveBinary(out, impl->roadRunnerOptions.flags);
                 rr::saveBinary(out, impl->roadRunnerOptions.jacobianStepSize);
@@ -5040,16 +5037,17 @@ namespace rr {
         rr::loadBinary(in, impl->simulateOpt.variables);
         rr::loadBinary(in, impl->simulateOpt.amounts);
         rr::loadBinary(in, impl->simulateOpt.concentrations);
+        rr::loadBinary(in, impl->simulateOpt.times);
 
-        size_t simulateOptSize;
-        rr::loadBinary(in, simulateOptSize);
-        for (int i = 0; i < simulateOptSize; i++) {
-            std::string k;
-            rr::loadBinary(in, k);
-            rr::Setting v;
-            rr::loadBinary(in, v);
-            impl->simulateOpt.setItem(k, v);
-        }
+        //size_t simulateOptSize;
+        //rr::loadBinary(in, simulateOptSize);
+        //for (int i = 0; i < simulateOptSize; i++) {
+        //    std::string k;
+        //    rr::loadBinary(in, k);
+        //    rr::Setting v;
+        //    rr::loadBinary(in, v);
+        //    impl->simulateOpt.setItem(k, v);
+        //}
         rr::loadBinary(in, impl->roadRunnerOptions.flags);
         rr::loadBinary(in, impl->roadRunnerOptions.jacobianStepSize);
 

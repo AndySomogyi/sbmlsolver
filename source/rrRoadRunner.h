@@ -297,23 +297,23 @@ namespace rr {
          * stiff integtator, you would:
          * @code
          * RoadRunner r = RoadRunner("someFile.xml");
-         * BasicDictionary opt;
-         * opt.setItem("start", 0);
-         * opt.setItem("duration", 10);
-         * opt.setItem("steps", 1000);
-         * opt.setItem("stiff", true);
+         * SimulateOptions opt = r.getSimulateOptions();
+         * opt.start = 0;
+         * opt.duration = 10;
+         * opt.steps = 1000;
          * const DoubleMatrix *result = r.simulate(&opt);
          * @endcode
          *
-         * Similarly, if one wants to use a stochastic integrator, such as the Gillespie
-         * integrator, this is set via the "integrator" key, i.e.
+         * Similarly, options specific to a particular integrator, such as the 'seed' option
+         * with the Gillespie
+         * integrator, this is set via the 'setIntegrator' "integrator" key, i.e.
          * @code
          * RoadRunner r = RoadRunner("someFile.xml");
-         * BasicDictionary opt;
-         * opt.setItem("integrator", "gillespie");
-         * opt.setItem("start", 0);
-         * opt.setItem("duration", 10);
-         * opt.setItem("steps", 1000);
+         * r.setIntegrator("gillespie");
+         * SimulateOptions opt;
+         * opt.start = 0;
+         * opt.duration = 10;
+         * opt.steps = 1000;
          * opt.setItem("stiff", true);
          * opt.setItem("seed", 12345);
          * const DoubleMatrix *result = r.simulate(&opt);
@@ -321,7 +321,8 @@ namespace rr {
          * Here, the "integrator" specifies the integrator to use. The "stiff" key
          * is only used by the deterministic solvers, and it is safely ignored by the
          * stochastic solvers. Also, the "seed" sets the random seed that the integrator
-         * uses. For more information about all of the avaialble options for each integrator,
+         * uses. For more information about all of the available options for each integrator,
+         * @see IntegratorFactory::getIntegratorOptions".
          *
          * If one wants to not store the result matrix in memory and instead write it
          * to a file during simulation, one can set the output_file option. When
@@ -330,13 +331,11 @@ namespace rr {
          * empty result matrix is returned, and the last simulation results are not
          * stored.
          *
-         * @see IntegratorFactory::getIntegratorOptions".
-         *
          * @throws an std::exception if any options are invalid.
          * @returns a borrowed reference to a DoubleMatrix object if successful. The matrix
          * will be empty if output_file is specified and nonempty.
          */
-        const ls::DoubleMatrix *simulate(const Dictionary *options = 0);
+        const ls::DoubleMatrix *simulate(const SimulateOptions *options = 0);
 
         /**
          * @brief simulate the model using currently set integrator

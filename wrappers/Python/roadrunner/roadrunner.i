@@ -1052,6 +1052,31 @@ namespace std { class ostream{}; }
         return pyList;
     }
 
+    void _setSimulateOptionsTimes(rr::SimulateOptions* opt, PyObject* list) {
+        // Verify that input is a list
+        if (!PyList_Check(list)) {
+            PyErr_Format(PyExc_TypeError, "The argument must be of list or subtype of list.");
+            return;
+        }
+        opt->times.clear();
+        for (unsigned int j = 0; j < PyList_Size(list); ++j) {
+            PyObject* pval = PyList_GetItem(list, j);
+            double val;
+            // Verify that pval is a number
+            if (PyFloat_Check(pval)) {
+                val = PyFloat_AsDouble(pval);
+            }
+            else if (PyInt_Check(pval)) {
+                val = PyInt_AsLong(pval);
+            }
+            else {
+                PyErr_Format(PyExc_TypeError, "The entries in the list must be numbers.");
+                return;
+            }
+            opt->times.push_back(val);
+        }
+     }
+
     /**
      * returns the SelectionRecord vector python list of strings.
      */
@@ -1252,7 +1277,7 @@ namespace std { class ostream{}; }
             """
             return self.values(types).__iter__()
 
-        def simulate(self, start=None, end=None, points=None, selections=None, output_file=None, steps=None):
+        def simulate(self, start=None, end=None, points=None, selections=None, output_file=None, steps=None, times=None):
             '''
             Simulate and optionally plot current SBML model. This is the one stop shopping method
             for simulation and plotting.
@@ -1288,9 +1313,11 @@ namespace std { class ostream{}; }
 
             2: With up to five positions arguments, described above.
 
-            Finally, you can pass steps keyword argument instead of points.
+            Finally, you can pass keyword arguments.  The above options can all be set by keyword (start, end, points, selections, and output_file), or as an alternative you can use 'steps' instead of 'points', or 'times' instead of start/end/points:
 
             steps (Optional) Number of steps at which the output is sampled where the samples are evenly spaced. Steps = points-1. Steps and points may not both be specified.
+
+            times (Optional): Explicit time output vector.  A list of time points at which to produce output.  For example, passing in [0, 1, 5, 10] will produce output at those time points specifically, which would not be possible with evenly-spaced timepoints using start/end/points.  Will override the start/end/points values if used.
 
             '''
 
@@ -1362,6 +1389,11 @@ namespace std { class ostream{}; }
 
             if selections is not None:
                 self.timeCourseSelections = selections
+
+            if times is not None:
+                if start is not None or end is not None or points is not None or steps is not None:
+                    raise ValueError("Cannot call 'simulate' with the 'times' argument plus any of 'start', 'end', 'points' or 'steps' defined.")
+                self._setSimulateOptionsTimes(o, list(times))
 
             if has_output_file:
                 o.output_file = output_file
@@ -1937,11 +1969,11 @@ namespace std { class ostream{}; }
     }
 
     bool rr_SimulateOptions_copyResult_get(SimulateOptions* opt) {
-        return opt->getItem("copyResult");
+        return opt->copy_result;
     }
 
     void rr_SimulateOptions_copyResult_set(SimulateOptions* opt, bool value) {
-        opt->setItem("copyResult", value);
+        opt->copy_result = value;
     }
 %}
 

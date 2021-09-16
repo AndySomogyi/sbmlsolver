@@ -3570,7 +3570,13 @@ bool rrcCallConv resetAll(RRHandle handle)
 {
     start_try
         RoadRunner* rri = castToRoadRunner(handle);
-        rri->reset(SelectionRecord::TIME | SelectionRecord::RATE | SelectionRecord::FLOATING | SelectionRecord::GLOBAL_PARAMETER);
+        rri->reset(
+            SelectionRecord::TIME |
+            SelectionRecord::RATE | 
+            SelectionRecord::FLOATING |
+            SelectionRecord::BOUNDARY |
+            SelectionRecord::COMPARTMENT |
+            SelectionRecord::GLOBAL_PARAMETER);
         return true;
     catch_bool_macro
 }

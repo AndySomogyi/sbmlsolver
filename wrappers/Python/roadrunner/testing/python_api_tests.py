@@ -1109,3 +1109,11 @@ class RoadRunnerTests(unittest.TestCase):
         m.addSpeciesConcentration("S100", "default_compartment", 123.3, False, False, "", True)
         m._makeProperties()
         self.assertAlmostEqual(m.S100, 123.3)
+
+    def test_simulateWithTimes(self):
+        self.rr.resetToOrigin()
+        self.rr.simulate(times = [0, 1, 5, 10])
+        result = self.rr.getSimulationData()
+        self.assertEqual(list(result[:,0]), [0, 1, 5, 10])
+
+

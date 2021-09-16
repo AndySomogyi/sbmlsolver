@@ -937,7 +937,14 @@ def testResetAll(rrInstance, testId):
     rrInstance.resetAll()
     k = rrInstance.getValue(words[0])
     d = rrInstance.getValue(words[2])
-    if (k == float(words[1])) or (d != float(words[3])):
+    if (k == float(words[1])) or (d == float(words[3])):
+        errorFlag = True
+    rrInstance.setValue("init(" + words[0] + ")", float(words[1]))
+    rrInstance.setValue("init(" + words[2] + ")", float(words[3]))
+    rrInstance.resetAll()
+    k = rrInstance.getValue(words[0])
+    d = rrInstance.getValue(words[2])
+    if (k != float(words[1])) or (d != float(words[3])):
         errorFlag = True
     print(passMsg (errorFlag))
     
@@ -946,6 +953,7 @@ def testResetToOrigin(rrInstance, testId):
     errorFlag = False
     words = divide(readLine())
     rrInstance.setValue(words[0], float(words[1]))
+    rrInstance.setValue("init(" + words[0] + ")", float(words[1]))
     rrInstance.resetToOrigin()
     d = rrInstance.getValue(words[0])
     rrInstance.reset()
