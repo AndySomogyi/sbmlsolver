@@ -664,10 +664,7 @@ namespace rr {
              * set in this method only.
              */
         }
-        if (species.empty()){
-            // use all species
-            species.emplace_back("all");
-        }
+
         deducePlist();
         cvodeIntegrator->restart(start);
         int intervals = num - 1;
@@ -690,8 +687,24 @@ namespace rr {
         results.setRowNames(getGlobalParameterNames());
         results.setColNames(getVariableNames());
 
-        if (species[0] != "all"){
-//            results.slice()
+        // in the situation where user would like to
+        // only return result for selected species
+        // we now delete unselected species.
+        if (!species.empty()){
+            // species contains items we want to keep.
+            // so we iterate over column names.
+
+            std::vector<std::string> itemsToRemove;
+            for (auto& s: results.getColNames()){
+                // if an item from column names
+                // is not in users chosen species, delete
+                // that column
+                if (std::find(species.begin(), species.end(), s) == species.end()){
+                    // add it to itemsToRemove
+                    results.deleteCol(s);
+                }
+            }
+
         }
 
         return results;

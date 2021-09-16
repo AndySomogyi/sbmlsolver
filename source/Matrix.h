@@ -373,14 +373,17 @@ namespace rr {
             // In this case, we just leave the item inplace. Reducing
             // number of columns hides the extra data from the user.
             if (idx == originalSize - 1) {
-                idx -= this->_Rows;
+                // aaand remember to increment the idx
+                idx -= this->_Rows + (this->_Cols - this->_Rows);
                 continue;
             }
 
             for (int i = idx; i < originalSize - 1; i++) {
                 std::swap(arr[i], arr[i + 1]);
             }
-            idx -= this->_Rows;
+
+            // when num cols > num rows
+            idx -= this->_Rows + (this->_Cols - this->_Rows);
         }
 
         // reduce the number of columns

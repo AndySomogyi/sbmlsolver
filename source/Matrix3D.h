@@ -350,7 +350,7 @@ namespace rr {
         void deleteRow(const std::string& which){
             // iterate over each submatrix
             for (int k=0; k<numZ(); k++){
-                const Matrix<DataType>& submatrix = data_[k];
+                Matrix<DataType>& submatrix = data_[k];
                 submatrix.deleteRow(which);
             }
         }
@@ -376,7 +376,7 @@ namespace rr {
         void deleteCol(const std::string& which){
             // iterate over each submatrix
             for (int k=0; k<numZ(); k++){
-                const Matrix<DataType>& submatrix = data_[k];
+                Matrix<DataType>& submatrix = data_[k];
                 submatrix.deleteCol(which);
             }
         }
