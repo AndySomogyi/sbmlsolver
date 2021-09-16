@@ -2074,13 +2074,20 @@ namespace rr {
         return &self.simulationResult;
     }
 
-    const ls::DoubleMatrix *RoadRunner::simulate(double start, double stop, int num) {
+    const ls::DoubleMatrix *RoadRunner::simulate(double start, double stop, int points) {
         SimulateOptions opt;
         opt.start = start;
         opt.duration = stop;
         // substract 1 so that start, stop, num has the same meaning as it does in numpy functions
         // i.e. see https://numpy.org/doc/stable/reference/generated/numpy.linspace.html
-        opt.steps = num - 1;
+        opt.steps = points - 1;
+        return simulate(&opt);
+    }
+
+    const ls::DoubleMatrix* RoadRunner::simulate(const std::vector<double>& times)
+    {
+        SimulateOptions opt;
+        opt.times = times;
         return simulate(&opt);
     }
 

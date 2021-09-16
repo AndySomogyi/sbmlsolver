@@ -585,6 +585,20 @@ bool rrcCallConv setNumPoints(RRHandle handle, const int nrPoints)
     catch_bool_macro
 }
 
+bool rrcCallConv setTimes(RRHandle handle, const double* times, int size)
+{
+    start_try
+        RoadRunner* rri = castToRoadRunner(handle);
+        SimulateOptions& opt = rri->getSimulateOptions();
+        opt.times.clear();
+        for (int t = 0; t < size; t++)
+        {
+            opt.times.push_back(times[t]);
+        }
+        return true;
+    catch_bool_macro
+}
+
 bool rrcCallConv getTimeStart(RRHandle handle, double* timeStart)
 {
     start_try
@@ -685,6 +699,14 @@ bool rrcCallConv simulateExNoReturn(RRHandle handle, const double timeStart, con
         setNumPoints(handle, numberOfPoints);
         return simulateNoReturn(handle);
     catch_bool_macro
+}
+
+RRCDataPtr rrcCallConv simulateTimes(RRHandle handle, const double* times, int size)
+{
+    start_try
+        setTimes(handle, times, size);
+        return simulate(handle);
+    catch_ptr_macro
 }
 
 RRCDataPtr rrcCallConv getSimulationResult(RRHandle handle)

@@ -341,9 +341,15 @@ namespace rr {
          * @brief simulate the model using currently set integrator
          * @param start starting time to simulate
          * @param stop what time point does the simulation end?
-         * @param num how many steps to simulate
+         * @param points how many points to output (one greater than the number of steps to take).
          */
-        const ls::DoubleMatrix *simulate(double start, double stop, int num);
+        const ls::DoubleMatrix *simulate(double start, double stop, int points);
+
+        /**
+         * @brief simulate the model using currently set integrator
+         * @param times a vector of all the time outputs desired.
+         */
+        const ls::DoubleMatrix* simulate(const std::vector<double>& times);
 
         /**
          * @brief simulate a timeseries with sensitivities from start to step with num
