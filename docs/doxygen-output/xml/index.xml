@@ -3039,7 +3039,7 @@
     <member refid="classrr_1_1RoadRunnerImpl_1a41643078758b40614e337844218b308c" kind="variable"><name>integrators</name></member>
     <member refid="classrr_1_1RoadRunnerImpl_1a63ac6d4a8a7ff2a6ccd257f524a90207" kind="variable"><name>steady_state_solver</name></member>
     <member refid="classrr_1_1RoadRunnerImpl_1a03fad4a942e0f6fb6ee250391eebe275" kind="variable"><name>steady_state_solvers</name></member>
-    <member refid="classrr_1_1RoadRunnerImpl_1a719e0e905cf6fbbf49d24be99db2c7c4" kind="variable"><name>sensitivities_solver</name></member>
+    <member refid="classrr_1_1RoadRunnerImpl_1a719e0e905cf6fbbf49d24be99db2c7c4" kind="variable"><name>sensitivity_solver</name></member>
     <member refid="classrr_1_1RoadRunnerImpl_1a0a9a2af5451afaacca8030fedfef77d6" kind="variable"><name>sensitivity_solvers</name></member>
     <member refid="classrr_1_1RoadRunnerImpl_1aab066aadcb16f00cbffb56a14ab95721" kind="variable"><name>mSelectionList</name></member>
     <member refid="classrr_1_1RoadRunnerImpl_1a332b1440ab1affec5ffec18a290fca9d" kind="variable"><name>loadOpt</name></member>

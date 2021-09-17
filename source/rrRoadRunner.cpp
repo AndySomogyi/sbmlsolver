@@ -227,7 +227,7 @@ namespace rr {
         /**
          * Points to the current sensitivities solver
          */
-        SensitivitySolver *sensitivities_solver = nullptr;
+        SensitivitySolver *sensitivity_solver = nullptr;
         std::vector<SensitivitySolver *> sensitivity_solvers;
 
 
@@ -644,12 +644,12 @@ namespace rr {
             setSensitivitySolver(name);
             for (std::string k : rr.impl->sensitivity_solvers[ss]->getSettings()) {
                 auto val = rr.impl->sensitivity_solvers[ss]->getValue(k);
-                impl->sensitivities_solver->setValue(k, val);
+                impl->sensitivity_solver->setValue(k, val);
             }
         }
 
-        if (rr.impl->sensitivities_solver) {
-            setSensitivitySolver(rr.impl->sensitivities_solver->getName());
+        if (rr.impl->sensitivity_solver) {
+            setSensitivitySolver(rr.impl->sensitivity_solver->getName());
         }
 
         reset(SelectionRecord::TIME);
@@ -764,7 +764,7 @@ namespace rr {
 
     SensitivitySolver *RoadRunner::getSensitivitySolver() {
         //applySimulateOptions();
-        return impl->sensitivities_solver;
+        return impl->sensitivity_solver;
     }
 
 
@@ -772,7 +772,7 @@ namespace rr {
         // ensure it exists
         makeIntegrator(name);
         // find it and return
-        for (auto integrator : impl->integrators){
+        for (auto integrator : impl->integrators) {
             if (integrator->getName() == name) {
                 return integrator;
             }
@@ -784,7 +784,7 @@ namespace rr {
         // ensure it exists
         makeSteadyStateSolver(name);
         // find it and return
-        for (auto ssSolver : impl->steady_state_solvers){
+        for (auto ssSolver : impl->steady_state_solvers) {
             if (ssSolver->getName() == name) {
                 return ssSolver;
             }
@@ -796,7 +796,7 @@ namespace rr {
         // ensure it exists
         makeSensitivitySolver(name);
         // find it and return
-        for (auto sensitivitySolver: impl->sensitivity_solvers){
+        for (auto sensitivitySolver: impl->sensitivity_solvers) {
             if (sensitivitySolver->getName() == name) {
                 return sensitivitySolver;
             }
@@ -805,8 +805,7 @@ namespace rr {
     }
 
 
-
-    Integrator *RoadRunner::makeIntegrator(const std::string& name) {
+    Integrator *RoadRunner::makeIntegrator(const std::string &name) {
         if (integratorExists(name)) {
             rrLog(Logger::LOG_DEBUG) << "Integrator \"" << name << "\" already exists";
             return NULL;
@@ -820,7 +819,7 @@ namespace rr {
     }
 
 
-    SteadyStateSolver *RoadRunner::makeSteadyStateSolver(const std::string& name) {
+    SteadyStateSolver *RoadRunner::makeSteadyStateSolver(const std::string &name) {
         if (steadyStateSolverExists(name)) {
             rrLog(Logger::LOG_DEBUG) << "SteadyStateSolver \"" << name << "\" already exists";
             return NULL;
@@ -833,7 +832,7 @@ namespace rr {
         return result;
     }
 
-    SensitivitySolver* RoadRunner::makeSensitivitySolver(const std::string& name){
+    SensitivitySolver *RoadRunner::makeSensitivitySolver(const std::string &name) {
         if (sensitivitySolverExists(name)) {
             rrLog(Logger::LOG_DEBUG) << "SensitivitySolver \"" << name << "\" already exists";
             return NULL;
@@ -912,7 +911,7 @@ namespace rr {
         }
     }
 
-    void RoadRunner::setSteadyStateSolver(const std::string& name) {
+    void RoadRunner::setSteadyStateSolver(const std::string &name) {
         rrLog(Logger::LOG_DEBUG) << "Setting steady state solver to " << name;
         // Try to set steady_state_solver from an existing reference.
         if (steadyStateSolverExists(name)) {
@@ -934,27 +933,27 @@ namespace rr {
     }
 
     void RoadRunner::setSensitivitySolver(const std::string &name) {
-        // if the current sensitivity solver is not nullptr and @param name
-        // we just return since we do not need to do anything.
-        if (impl->sensitivities_solver) {
-            if (impl->sensitivities_solver->getName() == name) {
-                return;
+        rrLog(Logger::LOG_DEBUG) << "Setting Sensitivity solver to " << name;
+        // Try to set steady_state_solver from an existing reference.
+        if (sensitivitySolverExists(name)) {
+            for (auto solver: impl->sensitivity_solvers) {
+                if (solver->getName() == name) {
+                    rrLog(Logger::LOG_DEBUG) << "Using pre-existing sensitivity solver for " << name;
+                    impl->sensitivity_solver = solver;
+                }
             }
-            // if this is not the case, we need to delete the existing sensitivities solver
-            // and before making a new one
-            delete impl->sensitivities_solver;
         }
-
-        // factory static method for creating SensitivitySolvers.
-        // memory is owned by RoadRunner instance, like the other solvers.
-        impl->sensitivities_solver = dynamic_cast<SensitivitySolver *>(
-                SensitivitySolverFactory::getInstance().New(name, getModel())
-        );
-        // add to the list of existing sensitivity solvers
-        impl->sensitivity_solvers.push_back(impl->sensitivities_solver);
+            // Otherwise, create a new sensitivity solver.
+        else {
+            rrLog(Logger::LOG_DEBUG) << "Creating new sensitivity solver for " << name;
+            impl->sensitivity_solver = dynamic_cast<SensitivitySolver *>(
+                    SensitivitySolverFactory::getInstance().New(name, impl->model.get())
+            );
+            impl->sensitivity_solvers.push_back(impl->sensitivity_solver);
+        }
     };
 
-    bool RoadRunner::integratorExists(const std::string& name) {
+    bool RoadRunner::integratorExists(const std::string &name) {
         for (auto it : impl->integrators) {
             if (it->getName() == name) {
                 return true;
@@ -972,7 +971,7 @@ namespace rr {
         return false;
     }
 
-    bool RoadRunner::sensitivitySolverExists(const std::string& name) {
+    bool RoadRunner::sensitivitySolverExists(const std::string &name) {
         for (auto it : impl->sensitivity_solvers) {
             if (it->getName() == name) {
                 return true;
@@ -1146,7 +1145,8 @@ namespace rr {
                 }
                 catch (std::out_of_range) {
                     std::stringstream err;
-                    err << "No rate available for floating species " << record.p1 << ": if conserved moieties are enabled, this species may be defined by an implied assignment rule instead, and its rate cannot be determined.";
+                    err << "No rate available for floating species " << record.p1
+                        << ": if conserved moieties are enabled, this species may be defined by an implied assignment rule instead, and its rate cannot be determined.";
                     throw std::invalid_argument(err.str());
                 }
 
@@ -1225,28 +1225,23 @@ namespace rr {
                 return std::imag(eig[index]);
             }
                 break;
-            case SelectionRecord::INITIAL_FLOATING_CONCENTRATION:
-            {
+            case SelectionRecord::INITIAL_FLOATING_CONCENTRATION: {
                 impl->model->getFloatingSpeciesInitConcentrations(1, &record.index, &dResult);
             }
                 break;
-            case SelectionRecord::INITIAL_FLOATING_AMOUNT: 
-            {
+            case SelectionRecord::INITIAL_FLOATING_AMOUNT: {
                 impl->model->getFloatingSpeciesInitAmounts(1, &record.index, &dResult);
             }
                 break;
-            case SelectionRecord::INITIAL_BOUNDARY_CONCENTRATION: 
-            {
+            case SelectionRecord::INITIAL_BOUNDARY_CONCENTRATION: {
                 impl->model->getBoundarySpeciesInitConcentrations(1, &record.index, &dResult);
             }
                 break;
-            case SelectionRecord::INITIAL_BOUNDARY_AMOUNT: 
-            {
+            case SelectionRecord::INITIAL_BOUNDARY_AMOUNT: {
                 impl->model->getBoundarySpeciesInitAmounts(1, &record.index, &dResult);
             }
                 break;
-            case SelectionRecord::INITIAL_GLOBAL_PARAMETER: 
-            {
+            case SelectionRecord::INITIAL_GLOBAL_PARAMETER: {
                 impl->model->getGlobalParameterInitValues(1, &record.index, &dResult);
             }
                 break;
@@ -1939,9 +1934,9 @@ namespace rr {
             }
         }
 
-        // Stochastic Fixed Step Integration
-        // do fixed time step simulation, these are different for deterministic
-        // and stochastic.
+            // Stochastic Fixed Step Integration
+            // do fixed time step simulation, these are different for deterministic
+            // and stochastic.
         else if (self.integrator->getIntegrationMethod() == Integrator::Stochastic) {
             rrLog(Logger::LOG_INFORMATION)
                 << "Performing stochastic fixed step integration for "
@@ -1973,7 +1968,7 @@ namespace rr {
                 int bufIndex = 1;
                 // index gets bumped in do-while loop.
                 for (int i = 1; i < self.simulateOpt.steps + 1;) {
-                    double next = self.simulateOpt.getNext(i); 
+                    double next = self.simulateOpt.getNext(i);
                     rrLog(Logger::LOG_DEBUG) << "step: " << i << "t0: " << tout << "hstep: " << next - tout;
 
                     // stochastic frequently overshoots time end
@@ -2009,7 +2004,7 @@ namespace rr {
             }
         }
 
-        // Deterministic Fixed Step Integration
+            // Deterministic Fixed Step Integration
         else {
             rrLog(Logger::LOG_INFORMATION)
                 << "Performing deterministic fixed step integration for  "
@@ -2093,8 +2088,7 @@ namespace rr {
         return simulate(&opt);
     }
 
-    const ls::DoubleMatrix* RoadRunner::simulate(const std::vector<double>& times)
-    {
+    const ls::DoubleMatrix *RoadRunner::simulate(const std::vector<double> &times) {
         SimulateOptions opt;
         opt.times = times;
         return simulate(&opt);
@@ -4276,12 +4270,10 @@ namespace rr {
                 if (impl->model->getFloatingSpeciesIndex(sel.p1) >= 0) {
                     if (impl->model->getReactionIndex(sel.p2) >= 0) {
                         break;
-                    } 
-                    else {
+                    } else {
                         throw Exception("second argument to stoich '" + sel.p2 + "' is not a reaction id.");
                     }
-                } 
-                else {
+                } else {
                     throw Exception("first argument to stoich '" + sel.p1 + "' is not a floating species id.");
                 }
                 break;
@@ -4289,12 +4281,10 @@ namespace rr {
                 if ((sel.index = impl->model->getFloatingSpeciesIndex(sel.p1)) >= 0) {
                     sel.selectionType = SelectionRecord::INITIAL_FLOATING_CONCENTRATION;
                     break;
-                } 
-                else if ((sel.index = impl->model->getBoundarySpeciesIndex(sel.p1)) >= 0) {
+                } else if ((sel.index = impl->model->getBoundarySpeciesIndex(sel.p1)) >= 0) {
                     sel.selectionType = SelectionRecord::INITIAL_BOUNDARY_CONCENTRATION;
                     break;
-                }
-                else {
+                } else {
                     throw Exception("Invalid id '" + sel.p1 + "' for initial concentration");
                     break;
                 }
@@ -4302,20 +4292,16 @@ namespace rr {
                 if ((sel.index = impl->model->getFloatingSpeciesIndex(sel.p1)) >= 0) {
                     sel.selectionType = SelectionRecord::INITIAL_FLOATING_AMOUNT;
                     break;
-                } 
-                else if ((sel.index = impl->model->getBoundarySpeciesIndex(sel.p1)) >= 0) {
+                } else if ((sel.index = impl->model->getBoundarySpeciesIndex(sel.p1)) >= 0) {
                     sel.selectionType = SelectionRecord::INITIAL_BOUNDARY_AMOUNT;
                     break;
-                }
-                else if ((sel.index = impl->model->getGlobalParameterIndex(sel.p1)) >= 0) {
+                } else if ((sel.index = impl->model->getGlobalParameterIndex(sel.p1)) >= 0) {
                     sel.selectionType = SelectionRecord::INITIAL_GLOBAL_PARAMETER;
                     break;
-                } 
-                else if ((sel.index = impl->model->getCompartmentIndex(sel.p1)) >= 0) {
+                } else if ((sel.index = impl->model->getCompartmentIndex(sel.p1)) >= 0) {
                     sel.selectionType = SelectionRecord::INITIAL_COMPARTMENT;
                     break;
-                } 
-                else {
+                } else {
                     throw Exception("Invalid id '" + sel.p1 + "' for initial amount");
                     break;
                 }
@@ -4863,11 +4849,11 @@ namespace rr {
                 }
 
 
-                rr::saveBinary(out, impl->sensitivities_solver->getName());
-                rr::saveBinary(out, static_cast<unsigned long>(impl->sensitivities_solver->getNumParams()));
-                for (std::string k : impl->sensitivities_solver->getSettings()) {
+                rr::saveBinary(out, impl->sensitivity_solver->getName());
+                rr::saveBinary(out, static_cast<unsigned long>(impl->sensitivity_solver->getNumParams()));
+                for (std::string k : impl->sensitivity_solver->getSettings()) {
                     rr::saveBinary(out, k);
-                    rr::saveBinary(out, impl->sensitivities_solver->getValue(k));
+                    rr::saveBinary(out, impl->sensitivity_solver->getValue(k));
                 }
 
 
@@ -5011,7 +4997,8 @@ namespace rr {
         }
         if (inVersionNumber > dataVersionNumber) {
             throw std::invalid_argument(
-                "The file " + filename + " was saved with a version of roadrunner more recent than this executable.");
+                    "The file " + filename +
+                    " was saved with a version of roadrunner more recent than this executable.");
         }
         //load roadrunner's data in the same order saveState saves it in
         int oldInstanceID;
@@ -5113,7 +5100,7 @@ namespace rr {
             rr::loadBinary(in, k);
             rr::Setting v;
             rr::loadBinary(in, v);
-            impl->sensitivities_solver->setValue(k, v);
+            impl->sensitivity_solver->setValue(k, v);
         }
 
         //Currently the SBML is saved with the binary data, see saveState above
@@ -5940,8 +5927,7 @@ namespace rr {
                 double initValue = 0;
                 if (sbmlModel->getSpecies(vid)->isSetInitialAmount()) {
                     initValue = sbmlModel->getSpecies(vid)->getInitialAmount();
-                }
-                else if (sbmlModel->getSpecies(vid)->isSetInitialConcentration()) {
+                } else if (sbmlModel->getSpecies(vid)->isSetInitialConcentration()) {
                     double initConcentration = sbmlModel->getSpecies(vid)->getInitialConcentration();
                     int compartment = impl->model->getCompartmentIndex(sbmlModel->getSpecies(vid)->getCompartment());
                     double compartmentSize = 1;
@@ -6356,8 +6342,8 @@ namespace rr {
         // TODO: passing options as parameters
         char *documentSBML = impl->document->toSBML();
         std::string errors = validateSBML(std::string(documentSBML),
-            VALIDATE_GENERAL | VALIDATE_IDENTIFIER | VALIDATE_MATHML |
-            VALIDATE_OVERDETERMINED);
+                                          VALIDATE_GENERAL | VALIDATE_IDENTIFIER | VALIDATE_MATHML |
+                                          VALIDATE_OVERDETERMINED);
         free(documentSBML);
         if (!errors.empty()) {
             throw std::runtime_error(errors.c_str());

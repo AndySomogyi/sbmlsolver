@@ -23,7 +23,17 @@ namespace rr {
                 return it->construct(m);
             }
         }
-        throw InvalidKeyException("No such integrator: " + name);
+        std::ostringstream os;
+        os << "No such solver called \""<< name << "\". ";
+        os << "Available options are ";
+        for (auto& it : registrars){
+            os << "\"" << it->getName() << "\", ";
+        }
+        std::string errMsg = os.str();
+        // remove the extra space and ","
+        errMsg.erase(errMsg.end()-1);
+        errMsg.erase(errMsg.end()-1);
+        throw InvalidKeyException(errMsg);
     }
 
     void RegistrationFactory::registerSolver(Registrable* i) {

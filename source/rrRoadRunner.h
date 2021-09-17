@@ -222,16 +222,22 @@ namespace rr {
 
         /**
          * @brief set the current SteadyStateSolver to @param name;
+         * @details use getRegisteredSteadyStateSolverNames to
+         * get a list of available names
          */
         void setSteadyStateSolver(const std::string &name);
 
         /**
          * @brief set the current SensitivitySolver to @param name;
+         * @details use getRegisteredSensitivitySolverNames to
+         * get a list of available sensitivity solver names
          */
         void setSensitivitySolver(const std::string &name);
 
         /**
          * @brief returns true if integrator @param name exists.
+         * @details Use getRegisteredIntegratorNames to get a list of
+         * available integrator solver names.
          */
         bool integratorExists(const std::string &name);
 
