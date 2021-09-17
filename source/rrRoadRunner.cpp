@@ -1349,7 +1349,12 @@ namespace rr {
             // catch specifically for UninitializedValueException, otherwise for some
             // reason the message is erased, and an 'unknown error' is displayed to the user.
             throw e;
-        } catch (const std::exception &e) {
+        } catch (const rrllvm::LLVMException& e) {
+            // catch specifically for LLVMException, otherwise the exception type is removed, 
+            // and an 'unknown error' is displayed to the user.
+            throw e;
+        }
+        catch (const std::exception &e) {
             std::string errors = validateSBML(mCurrentSBML);
 
             if (!errors.empty()) {

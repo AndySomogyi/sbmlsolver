@@ -611,14 +611,16 @@ llvm::Value* ASTNodeCodeGen::delayExprCodeGen(const libsbml::ASTNode* ast)
     }
 
     char* formula = SBML_formulaToL3String(ast);
-    std::string str = formula;
+    std::stringstream err;
+    err << "Unable to support delay differential equations.  The function '" << formula << "' is not supported.";
     free(formula);
+    throw_llvm_exception(err.str())
 
-    rrLog(Logger::LOG_WARNING)
-      << "Unable to handle SBML csymbol 'delay'. Delay ignored in expression '"
-      << str << "'.";
+    //rrLog(Logger::LOG_WARNING)
+    //  << "Unable to handle SBML csymbol 'delay'. Delay ignored in expression '"
+    //  << str << "'.";
 
-    return codeGen(ast->getChild(0));
+    //return codeGen(ast->getChild(0));
 }
 
 llvm::Value* ASTNodeCodeGen::nameExprCodeGen(const libsbml::ASTNode* ast)

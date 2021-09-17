@@ -4,6 +4,7 @@
 #include "rrException.h"
 #include "rrUtils.h"
 #include "rrTestSuiteModelSimulation.h"
+#include "llvm/LLVMException.h"
 #include <filesystem>
 #include "RoadRunnerTest.h"
 
@@ -144,6 +145,11 @@ public:
 
             //If we've gotten this far, rejoice!  roadrunner didn't crash, which is good enough.
             //cerr << "\tPASS" << endl;
+            return true;
+        }
+        catch (rrllvm::LLVMException& ex)
+        {
+            //Sometimes, rr itself knows when it can't load a model.  This is also fine.
             return true;
         }
         catch (Exception& ex)
