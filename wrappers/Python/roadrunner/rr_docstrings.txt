@@ -795,16 +795,6 @@ Selections
 
 
 
-%feature("docstring") rr::RoadRunner::getIds "
-RoadRunner.getIds()
-
-Return a list of selection ids that this object can select on.
-
-:rtype: list
-";
-
-
-
 %feature("docstring") rr::RoadRunner::getValue "
 RoadRunner.getValue(sel)
 

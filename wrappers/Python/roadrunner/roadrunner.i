@@ -1031,7 +1031,7 @@ namespace std { class ostream{}; }
         ($self)->setValue(id, value);
     }
 
-    PyObject *getIds(int types) {
+    PyObject *_getIds(int types) {
         std::list<std::string> ids;
 
         ($self)->getIds(types, ids);
@@ -1127,7 +1127,7 @@ namespace std { class ostream{}; }
 
    %pythoncode %{
         def __getattr__(self, name):
-            if name != "this" and name in self.getIds(_roadrunner.SelectionRecord_ALL):
+            if name != "this" and name in self._getIds(_roadrunner.SelectionRecord_ALL):
                 return self[name]
             else:
                 raise AttributeError(name)
@@ -1249,6 +1249,18 @@ namespace std { class ostream{}; }
 
         def keys(self, types=_roadrunner.SelectionRecord_ALL):
             return self.getIds(types)
+
+        def getIds(self, types=_roadrunner.SelectionRecord_ALL):
+            """
+            Return a list of selection ids that this object can select on.
+
+            The optional argument 'types' may be a selection record which by default
+            is roadrunner.SelectionRecord.ALL
+    
+            :rtype: list
+            """
+
+            return self._getIds(types)
 
         def values(self, types=_roadrunner.SelectionRecord_ALL):
             return [self.getValue(k) for k in self.keys(types)]
