@@ -2294,7 +2294,7 @@ Currently disabled.
 
 Use the LLVM MCJIT JIT engine.
 
-Defaults to false.
+Defaults to False.
 
 The MCJIT is the new LLVM JIT engine, it is not as well tested as the
 original JIT engine. Does NOT work on LLVM 3.1
