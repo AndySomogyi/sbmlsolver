@@ -163,7 +163,7 @@ TEST_F(CAPICoreTest, SimulateTimes) {
     string xml = getFileContent((testModelFilePath.string()));
     RRHandle aRR1 = createRRInstance();
     EXPECT_TRUE(loadSBML(aRR1, xml.c_str()));
-    double times[4] = { 0, 1, 5, 10 };
+    double times[4] = {0, 1, 5, 10};
     RRCDataPtr results = simulateTimes(aRR1, times, 4);
     EXPECT_EQ(results->RSize, 4);
     int csize = results->CSize;
@@ -214,6 +214,61 @@ TEST_F(CAPICoreTest, GetMicroSeconds) {
 
 #endif
 
+
+TEST_F(CAPICoreTest, CheckRegisteredIntegrators) {
+    auto *rr = (RoadRunner *) createRRInstance();
+    auto integratorNames = rr->getRegisteredIntegratorNames();
+    ASSERT_EQ(integratorNames, std::vector<std::string>({"cvode", "gillespie", "rk4", "rk45", "euler"}));
+}
+
+TEST_F(CAPICoreTest, CheckRK4WorksFromC) {
+    // This code is the contents of createRRInstance in the C api
+    char *capiLocation = getRRCAPILocation(); // return type is dynamically allocated.
+    string rrInstallFolder(getParentFolder(capiLocation));
+    free(capiLocation);
+    std::filesystem::path supportCodeDir = std::filesystem::path(rrInstallFolder) /= "rr_support";
+    auto *rr = new RoadRunner("", getTempDir(), supportCodeDir.string());
+    // end
+
+    // This code is from the top of checkRRTest
+    path rrTestFileDir = rrTestDir_ / "rrtest_files";
+    path rrTestFileName = rrTestFileDir / "Test_1.rrtest";
+
+    // This code from check_LoadData
+    // need to re-assign it, Load does not clear old data.;
+
+    IniFile iniFile;
+    iniFile.Clear();
+
+    EXPECT_TRUE(std::filesystem::exists(rrTestFileName));
+    EXPECT_TRUE(iniFile.Load(rrTestFileName.string()));
+
+    IniSection *sbmlsec = iniFile.GetSection("SBML");
+    if (!sbmlsec) {
+        EXPECT_TRUE(false);
+        return;
+    }
+    sbmlsec->mIsUsed = true;
+    string sbml = sbmlsec->GetNonKeysAsString();
+    if (sbml.find('<') == string::npos) {
+        sbml = (rrTestDir_ / path("rrtest_files") / sbml).string();
+        EXPECT_TRUE(std::filesystem::exists(sbml));
+    }
+    if (!loadSBMLEx(rr, sbml.c_str(), true)) {
+        EXPECT_TRUE(false);
+    }
+
+    SimulateOptions opt;
+    opt.start = 0;
+    opt.duration = 10;
+    auto *cvode = rr->simulate(&opt);
+
+    rr->setIntegrator("rk4");
+    auto *rk4 = rr->simulate(&opt);
+    for (int k = 0; k < cvode->CSize(); k++) {
+        EXPECT_NEAR((*cvode)(cvode->RSize() - 1, k), (*rk4)(rk4->RSize() - 1, k), 1e-6);
+    }
+}
 
 
 

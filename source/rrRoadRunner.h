@@ -184,11 +184,14 @@ namespace rr {
          */
         SensitivitySolver *makeSensitivitySolver(const std::string &name);
 
-
-        /* Return a list of the names of all existing integrators. */
+        /**
+         * Return a list of the names of all existing integrators.
+         */
         std::vector<std::string> getExistingIntegratorNames();
 
-        /* Return a list of the names of all existing integrators. */
+        /**
+         * Return a list of the names of all existing integrators.
+         */
         std::vector<std::string> getExistingSteadyStateSolverNames();
 
         /**
@@ -219,16 +222,22 @@ namespace rr {
 
         /**
          * @brief set the current SteadyStateSolver to @param name;
+         * @details use getRegisteredSteadyStateSolverNames to
+         * get a list of available names
          */
         void setSteadyStateSolver(const std::string &name);
 
         /**
          * @brief set the current SensitivitySolver to @param name;
+         * @details use getRegisteredSensitivitySolverNames to
+         * get a list of available sensitivity solver names
          */
         void setSensitivitySolver(const std::string &name);
 
         /**
          * @brief returns true if integrator @param name exists.
+         * @details Use getRegisteredIntegratorNames to get a list of
+         * available integrator solver names.
          */
         bool integratorExists(const std::string &name);
 
@@ -349,7 +358,7 @@ namespace rr {
          * @brief simulate the model using currently set integrator
          * @param times a vector of all the time outputs desired.
          */
-        const ls::DoubleMatrix* simulate(const std::vector<double>& times);
+        const ls::DoubleMatrix *simulate(const std::vector<double> &times);
 
         /**
          * @brief simulate a timeseries with sensitivities from start to step with num
@@ -369,17 +378,18 @@ namespace rr {
          * at the end.
          * @param k (default 0) return the kth other derivative of the sensitivity data.
          */
-        Matrix3D<double, double> timeSeriesSensitivities(double start, double stop, int num,
+        Matrix3D<double, double> timeSeriesSensitivities(
+                double start, double stop, int num,
                 std::vector<std::string> params = std::vector<std::string>(),
                 std::vector<std::string> species = std::vector<std::string>(),
                 int k = 0);
 
         /*
-        *  Saves this roadrunner instance to a file so it can be reloaded later
-        * If opt == 'b' (the default value), this function will output a platform-specific
-        * binary file which can be reloaded later
-        * If opt == 'r', this function will output a human readable file which cannot be reloaded later
-        */
+         *  Saves this roadrunner instance to a file so it can be reloaded later
+         * If opt == 'b' (the default value), this function will output a platform-specific
+         * binary file which can be reloaded later
+         * If opt == 'r', this function will output a human readable file which cannot be reloaded later
+         */
         void saveState(std::string filename, char opt = 'b');
 
         /*
@@ -472,7 +482,6 @@ namespace rr {
          * @deprecated
          */
         void changeInitialConditions(const std::vector<double> &ic);
-
 
         /**
          * get a pointer to the ExecutableModel owned by the RoadRunner object.
@@ -1542,7 +1551,7 @@ namespace rr {
          * @internal
          * @deprecated
          */
-        RR_DEPRECATED(void setBoundarySpeciesAmounts(const std::vector<double>& values));
+        RR_DEPRECATED(void setBoundarySpeciesAmounts(const std::vector<double> &values));
 
         /**
          * @internal

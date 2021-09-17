@@ -1336,6 +1336,60 @@ TEST_F(RoadRunnerAPITests, setIntegrator){
     ASSERT_STREQ("gillespie", rr.getIntegrator()->getName().c_str());
 }
 
+TEST_F(RoadRunnerAPITests, setIntegratorToRk4){
+    RoadRunner rr(SimpleFlux().str());
+    rr.setIntegrator("rk4");
+    ASSERT_STREQ("rk4", rr.getIntegrator()->getName().c_str());
+}
+
+TEST_F(RoadRunnerAPITests, setIntegratorToRk45){
+    RoadRunner rr(SimpleFlux().str());
+    rr.setIntegrator("rk45");
+    ASSERT_STREQ("rk45", rr.getIntegrator()->getName().c_str());
+}
+
+TEST_F(RoadRunnerAPITests, setIntegratorErrorMessage){
+    RoadRunner rr(SimpleFlux().str());
+    std::string expectedErrMsg = R"(No such solver called "WrongIntegrator". Available options are "cvode", "gillespie", "rk4", "rk45", "euler")";
+    try {
+        // we always end up in the catch block
+        rr.setIntegrator("WrongIntegrator");
+        // if we get this far, the test has failed.
+        ASSERT_TRUE(false);
+    } catch (InvalidKeyException& e){
+        const std::string& what = e.what();
+        ASSERT_STREQ(expectedErrMsg.c_str(), what.c_str());
+    }
+}
+
+TEST_F(RoadRunnerAPITests, setSteadyStateSolverErrorMessage){
+    RoadRunner rr(SimpleFlux().str());
+    std::string expectedErrMsg = R"(No such solver called "WrongSolver". Available options are "nleq1", "nleq2", "newton", "newton_linesearch")";
+    try {
+        // we always end up in the catch block
+        rr.setSteadyStateSolver("WrongSolver");
+        // if we get this far, the test has failed.
+        ASSERT_TRUE(false);
+    } catch (InvalidKeyException& e){
+        const std::string& what = e.what();
+        ASSERT_STREQ(expectedErrMsg.c_str(), what.c_str());
+    }
+}
+
+TEST_F(RoadRunnerAPITests, setSensitivitySolverErrorMessage){
+    RoadRunner rr(SimpleFlux().str());
+    std::string expectedErrMsg = R"(No such solver called "WrongSolver". Available options are "forward")";
+    try {
+        // we always end up in the catch block
+        rr.setSensitivitySolver("WrongSolver");
+        // if we get this far, the test has failed.
+        ASSERT_TRUE(false);
+    } catch (InvalidKeyException& e){
+        const std::string& what = e.what();
+        ASSERT_STREQ(expectedErrMsg.c_str(), what.c_str());
+    }
+}
+
 TEST_F(RoadRunnerAPITests, setSteadyStateSolver){
     RoadRunner rr(SimpleFlux().str());
     rr.setSteadyStateSolver("nleq1");
