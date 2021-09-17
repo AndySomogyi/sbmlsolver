@@ -1796,6 +1796,17 @@ C_DECL_SPEC bool rrcCallConv setNumPoints(RRHandle handle, int numberOfPoints);
 
 
 /*!
+ \brief Set the times vector to output in a time course simulation
+ \param[in] handle Handle to a RoadRunner instance
+ \param[in] times vector of doubles to use as time output points.
+ \param[in] size length of the times vector.
+ \return Returns true if successful
+ \ingroup simulation
+*/
+C_DECL_SPEC bool rrcCallConv setTimes(RRHandle handle, double* times, int size);
+
+
+/*!
  \brief Set the selection list for output from simulate(void) or simulateEx(void)
 
  Use getAvailableTimeCourseSymbols(void) to retrieve the list of all possible symbols.
@@ -1919,6 +1930,29 @@ C_DECL_SPEC RRCDataPtr rrcCallConv simulateEx(RRHandle handle, const double time
  \ingroup simulation
 */
 C_DECL_SPEC bool rrcCallConv simulateExNoReturn(RRHandle handle, const double timeStart, const double timeEnd, const int numberOfPoints);
+
+/*!
+ \brief Carry out a time-course simulation based on the given arguments, time start,
+ time end and number of points.
+
+ Example:
+ \code
+    RRCDataPtr m;
+
+    double[4] times = {0, 1, 5, 10};
+
+    m = simulateTimes (rrHandle, times, 4);
+    \endcode
+
+ \param[in] handle Handle to a RoadRunner instance
+ \param[in] times array of time points
+ \param[in] size size of time point array
+ \return Returns an array (RRCDataPtr) of columns containing the results of the
+ simulation including string labels for the individual columns. The client is
+ responsible for freeing the resulting RRCDataPtr structure.
+ \ingroup simulation
+*/
+C_DECL_SPEC RRCDataPtr rrcCallConv simulateTimes(RRHandle handle, const double* times, int size);
 
 /*!
  \brief Carry out a one step integration of the model

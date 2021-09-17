@@ -793,6 +793,20 @@ TEST_F(ModelAnalysisTests, SimulateWithTimes) {
     EXPECT_EQ(result->Element(1, 0), 1);
     EXPECT_EQ(result->Element(2, 0), 5);
     EXPECT_EQ(result->Element(3, 0), 10);
+}
 
+TEST_F(ModelAnalysisTests, SimulateWithTimesFunction) {
+    RoadRunner rr((modelAnalysisModelsDir / "BIOMD0000000035_url.xml").string());
+    std::vector<double> times;
+    times.push_back(0);
+    times.push_back(1);
+    times.push_back(5);
+    times.push_back(10);
+    const ls::DoubleMatrix* result = rr.simulate(times);
+    EXPECT_EQ(result->numRows(), 4);
+    EXPECT_EQ(result->Element(0, 0), 0);
+    EXPECT_EQ(result->Element(1, 0), 1);
+    EXPECT_EQ(result->Element(2, 0), 5);
+    EXPECT_EQ(result->Element(3, 0), 10);
 }
 

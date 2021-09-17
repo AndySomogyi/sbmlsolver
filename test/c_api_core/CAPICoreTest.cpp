@@ -159,6 +159,22 @@ TEST_F(CAPICoreTest, LoadModelFromString) {
     freeRRInstance(aRR2);
 }
 
+TEST_F(CAPICoreTest, SimulateTimes) {
+    string xml = getFileContent((testModelFilePath.string()));
+    RRHandle aRR1 = createRRInstance();
+    EXPECT_TRUE(loadSBML(aRR1, xml.c_str()));
+    double times[4] = { 0, 1, 5, 10 };
+    RRCDataPtr results = simulateTimes(aRR1, times, 4);
+    EXPECT_EQ(results->RSize, 4);
+    int csize = results->CSize;
+    EXPECT_EQ(results->Data[0 * csize], 0);
+    EXPECT_EQ(results->Data[1 * csize], 1);
+    EXPECT_EQ(results->Data[2 * csize], 5);
+    EXPECT_EQ(results->Data[3 * csize], 10);
+    freeRRInstance(aRR1);
+    freeRRCData(results);
+}
+
 #if !defined(__APPLE__)
 TEST_F(CAPICoreTest, GetMicroSeconds) {
     // make sure that the time is essentially the same as sleep time in
