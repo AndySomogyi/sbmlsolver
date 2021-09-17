@@ -1336,6 +1336,18 @@ TEST_F(RoadRunnerAPITests, setIntegrator){
     ASSERT_STREQ("gillespie", rr.getIntegrator()->getName().c_str());
 }
 
+TEST_F(RoadRunnerAPITests, setIntegratorToRk4){
+    RoadRunner rr(SimpleFlux().str());
+    rr.setIntegrator("rk4");
+    ASSERT_STREQ("rk4", rr.getIntegrator()->getName().c_str());
+}
+
+TEST_F(RoadRunnerAPITests, setIntegratorToRk45){
+    RoadRunner rr(SimpleFlux().str());
+    rr.setIntegrator("rk45");
+    ASSERT_STREQ("rk45", rr.getIntegrator()->getName().c_str());
+}
+
 TEST_F(RoadRunnerAPITests, setSteadyStateSolver){
     RoadRunner rr(SimpleFlux().str());
     rr.setSteadyStateSolver("nleq1");
