@@ -21,6 +21,44 @@ public:
 };
 
 
+TEST_F(ModelAnalysisTests, GetRateOfConservedSpecies) {
+    RoadRunner rr((modelAnalysisModelsDir / "conserved_cycle.xml").string());
+    rr.setConservedMoietyAnalysis(true);
+
+    EXPECT_THROW(
+        {
+            try
+            {
+                rr.getValue("S2'");
+            }
+            catch (const std::invalid_argument& e)
+            {
+                // Test that it has the correct message.
+                EXPECT_STREQ(e.what(), "No rate available for floating species S2: if conserved moieties are enabled, this species may be defined by an implied assignment rule instead, and its rate cannot be determined.");
+                throw e;
+            }
+        }, std::invalid_argument);
+
+    std::vector<std::string> selections;
+    selections.push_back("time");
+    selections.push_back("S2'");
+    rr.setSelections(selections);
+    EXPECT_THROW(
+        {
+            try
+            {
+                rr.simulate();
+            }
+            catch (const std::invalid_argument& e)
+            {
+                // Test that it has the correct message.
+                EXPECT_STREQ(e.what(), "No rate available for floating species S2: if conserved moieties are enabled, this species may be defined by an implied assignment rule instead, and its rate cannot be determined.");
+                throw e;
+            }
+        }, std::invalid_argument);
+}
+
+
 TEST_F(ModelAnalysisTests, ResetBoundarySpeciesRate) {
     RoadRunner rr((modelAnalysisModelsDir / "boundary_change_rate.xml").string());
     double S1 = rr.getValue("init(S1)");

@@ -1140,7 +1140,15 @@ namespace rr {
 
             case SelectionRecord::FLOATING_AMOUNT_RATE:
                 dResult = 0;
-                impl->model->getFloatingSpeciesAmountRates(1, &record.index, &dResult);
+                try {
+                    impl->model->getFloatingSpeciesAmountRates(1, &record.index, &dResult);
+                }
+                catch (std::out_of_range) {
+                    std::stringstream err;
+                    err << "No rate available for floating species " << record.p1 << ": if conserved moieties are enabled, this species may be defined by an implied assignment rule instead, and its rate cannot be determined.";
+                    throw std::invalid_argument(err.str());
+                }
+
                 break;
 
             case SelectionRecord::COMPARTMENT:
