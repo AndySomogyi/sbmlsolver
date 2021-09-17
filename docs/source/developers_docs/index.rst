@@ -6,6 +6,7 @@ Developers Documentation
 
     git_workflow.rst
     building_documentation.rst
+    making_releases.rst
 
 
 
