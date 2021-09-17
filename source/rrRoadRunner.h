@@ -363,10 +363,15 @@ namespace rr {
          * @param num number of data points to simulate. Determines Z of Matrix3D.
          * @param params vector of parameters that you want sensitivity for. When empty (default), compute
          * sensitivities for all parameters vs all variables.
+         * @param species vector of species to include in the results
+         * Default is empty, in which case all species will be included.
+         * All species are selected during solving and slicing only occurs
+         * at the end.
          * @param k (default 0) return the kth other derivative of the sensitivity data.
          */
         Matrix3D<double, double> timeSeriesSensitivities(double start, double stop, int num,
                 std::vector<std::string> params = std::vector<std::string>(),
+                std::vector<std::string> species = std::vector<std::string>(),
                 int k = 0);
 
         /*

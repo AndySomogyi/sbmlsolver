@@ -2763,6 +2763,75 @@ namespace std { class ostream{}; }
      %}
 }
 
+%pythoncode {
+
+from typing import List, Optional
+import numpy as np
+def plotTimeSeriesSens(time:np.array, sens:np.array,
+                       rownames:List[str], colnames:List[str],
+                       ncol:int=3, fname:Optional[str]=None):
+    """Plot time series sensitivities
+
+    The time, sens, rownames and colnames arguments are generated
+    with a call to roadrunner.timeSeriesSensitivities.
+
+    :param time (np.array): The time points at which the time series sensitivity analysis was conducted.
+    :param sens (3D np.array): The sensitivity matrix.
+    :param rownames (List[str]): Names of parameters
+    :param colnames (List[str]: Names of species
+    :param ncol (int): Number of columns to plot. The number of rows is computed based on this number (default=3)
+    :param fname (str): Default=None, if specified, full path to where to save the output figure.
+
+    Example
+    ---------
+    import roadrunner as rr
+    from roadrunner.testing.TestModelFactory import TestModelFactory, getAvailableTestModels
+    sbml = TestModelFactory("Venkatraman2010").str()  # get the test model's sbml string
+    time, sens, rownames, colnames = model.timeSeriesSensitivities(
+        0, 10, 101, params=["keff1", "keff2", "keff3"], species=["tcUPA", "scUPA"])
+    plotTimeSeriesSens(time, sens, rownames, colnames)
+    """
+    import matplotlib.pyplot as plt
+    import pandas as pd
+    import seaborn as sns
+
+    sns.set_style("white")
+    sns.set_context("paper")
+
+    total = len(rownames) * len(colnames)
+    if ncol > total:
+        ncol = total
+    nrow = int(total / ncol if total % ncol == 0 else np.ceil(total / ncol))
+    df_dct = {}
+    for t, mat in zip(time, sens):
+        df_dct[t] = pd.DataFrame(mat, columns=colnames, index=rownames)
+
+    df = pd.concat(df_dct)
+    df.index.names = ["time", "param"]
+    df.columns.names = ["species"]
+    df = df.unstack()
+    print(df)
+    fig, ax = plt.subplots(nrows=nrow, ncols=ncol)
+
+    for j, species in enumerate(colnames):
+        for i, param in enumerate(rownames):
+            ax[i, j].plot(time, df[(species, param)].to_numpy(), label=f"{species}:{param}")
+            sns.despine(ax=ax[i, j], top=True, right=True)
+            ax[i, j].set_title(f"{species}:{param}")
+
+            if j == 0:
+                ax[i, j].set_ylabel(f"Sensitivities")
+
+            if i == nrow-1:
+                ax[i, j].set_xlabel(f"Time")
+
+    fig.tight_layout()
+    if fname is None:
+        plt.show()
+    else:
+        fig.savefig(fname, dpi=300, bbox_inches='tight')
+}
+
 
 // Copy this code ad verbatim to the Python module
 %pythoncode %{

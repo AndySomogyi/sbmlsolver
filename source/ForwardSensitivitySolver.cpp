@@ -636,7 +636,9 @@ namespace rr {
 
     Matrix3D<double, double> ForwardSensitivitySolver::solveSensitivities(
             double start, double stop, int num,
-            std::vector<std::string> params, int k) {
+            std::vector<std::string> params,
+            std::vector<std::string> species,
+            int k) {
         if (!params.empty()) {
             // turn off the indicator flag so that
             // subsequent calls to solveSensitivities
@@ -662,6 +664,7 @@ namespace rr {
              * set in this method only.
              */
         }
+
         deducePlist();
         cvodeIntegrator->restart(start);
         int intervals = num - 1;
@@ -681,8 +684,28 @@ namespace rr {
             numberOfPoints++;
         }
 
-        results.setRowNames(getGlobalParameterNames());
+        results.setRowNames(whichParameters);
         results.setColNames(getVariableNames());
+
+        // in the situation where user would like to
+        // only return result for selected species
+        // we now delete unselected species.
+        if (!species.empty()){
+            // species contains items we want to keep.
+            // so we iterate over column names.
+
+            std::vector<std::string> itemsToRemove;
+            for (auto& s: results.getColNames()){
+                // if an item from column names
+                // is not in users chosen species, delete
+                // that column
+                if (std::find(species.begin(), species.end(), s) == species.end()){
+                    // add it to itemsToRemove
+                    results.deleteCol(s);
+                }
+            }
+
+        }
 
         return results;
     }
