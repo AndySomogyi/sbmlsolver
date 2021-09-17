@@ -6,7 +6,7 @@
       <compartment sboTerm="SBO:0000410" id="default_compartment" spatialDimensions="3" size="1" constant="true"/>
     </listOfCompartments>
     <listOfSpecies>
-      <species id="C1" compartment="default_compartment" initialConcentration="1" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="C1" compartment="default_compartment" initialConcentration="1" hasOnlySubstanceUnits="true" boundaryCondition="false" constant="false"/>
       <species id="C2" compartment="default_compartment" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
       <species id="C4" compartment="default_compartment" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
       <species id="C3" compartment="default_compartment" initialConcentration="3" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>

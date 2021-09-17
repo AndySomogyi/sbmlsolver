@@ -744,6 +744,22 @@ TEST_F(ModelAnalysisTests, EigenvalueNamedArrays) {
 }
 
 
+TEST_F(ModelAnalysisTests, ReducedEigenvalueNamedArrays) {
+    RoadRunner rr((modelAnalysisModelsDir / "conserved_cycle.xml").string());
+
+    rr.setConservedMoietyAnalysis(true);
+    ls::DoubleMatrix eigens = rr.getReducedEigenValuesNamedArray();
+    EXPECT_EQ(eigens.size(), 2);
+    ASSERT_EQ(eigens.RSize(), 1);
+    ASSERT_EQ(eigens.CSize(), 2);
+    vector<string> colnames = eigens.getColNames();
+    EXPECT_STREQ(colnames[0].c_str(), "real");
+    EXPECT_STREQ(colnames[1].c_str(), "imaginary");
+    vector<string> rownames = eigens.getRowNames();
+    EXPECT_STREQ(rownames[0].c_str(), "S1");
+}
+
+
 TEST_F(ModelAnalysisTests, GetEventIDs) {
     RoadRunner *rr = new RoadRunner((modelAnalysisModelsDir / "event.xml").string());
 
@@ -753,6 +769,17 @@ TEST_F(ModelAnalysisTests, GetEventIDs) {
     EXPECT_EQ(eventids.size(), 1);
     EXPECT_EQ("_E0", *eventids.begin());
     delete rr;
+}
+
+
+TEST_F(ModelAnalysisTests, SetGetHasOnlySubstanceUnits) {
+    RoadRunner rr((modelAnalysisModelsDir / "many_floating_species.xml").string());
+    EXPECT_TRUE(rr.getHasOnlySubstanceUnits("C1"));
+    EXPECT_FALSE(rr.getHasOnlySubstanceUnits("C2"));
+    rr.setHasOnlySubstanceUnits("C1", false);
+    rr.setHasOnlySubstanceUnits("C2", true);
+    EXPECT_FALSE(rr.getHasOnlySubstanceUnits("C1"));
+    EXPECT_TRUE(rr.getHasOnlySubstanceUnits("C2"));
 }
 
 
