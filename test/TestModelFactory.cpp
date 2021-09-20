@@ -62,7 +62,7 @@ std::unordered_map<std::string, rr::Setting> TimeSeriesResult::timeSeriesSetting
 std::string SimpleFlux::str() {
     return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
            "<sbml xmlns=\"http://www.sbml.org/sbml/level3/version1/core\" level=\"3\" version=\"1\">\n"
-           "  <model metaid=\"x\" id=\"x\">\n"
+           "  <model metaid=\"x\" id=\"x\" name=\"SimpleFlux\" >\n"
            "    <listOfCompartments>\n"
            "      <compartment sboTerm=\"SBO:0000410\" id=\"default_compartment\" spatialDimensions=\"3\" size=\"1\" constant=\"true\"/>\n"
            "    </listOfCompartments>\n"

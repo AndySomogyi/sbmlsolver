@@ -336,7 +336,7 @@ if (BUILD_PYTHON AND BUILD_TESTS)
             ctest --output-on-failure --verbose --extra-verbose --tests-regex python_tests*
     )
     #    add_dependencies(run-pytest-tests roadrunner_python TestModelFactory SettingTestsSwigAPI)
-
+    add_subdirectory(pickle)
 endif ()
 
 #########################################################

@@ -1211,14 +1211,24 @@ namespace std { class ostream{}; }
             for s in model.getGlobalParameterIds() + model.getCompartmentIds() + model.getReactionIds() + model.getConservedMoietyIds():
                 makeProperty(s, s)
 
+        def __getstate__(self):
+            from os.path import join, dirname, abspath
+            fname = join(abspath(dirname(__file__)), f"{self.getModel().getModelName()}.pickle")
+            self.saveState(fname)
+            return fname
 
+        def __setstate__(self, state):
+            rr = RoadRunner()
+            rr.loadState(state)
+            self.__dict__ = rr.__dict__
 
         # Set up the python dyanic properties for model access,
         # save the original init method
         _swig_init = __init__
 
         def _new_init(self, *args):
-            # /if called with https, use Python for transport
+
+            # if called with https, use Python for transport
             if len(args) >= 1:
                 p = args[0]
                 if hasattr(p,'startswith') and p.startswith('https://'):
@@ -1236,6 +1246,7 @@ namespace std { class ostream{}; }
                     RoadRunner._swig_init(self, sbml)
                     RoadRunner._makeProperties(self)
                     return
+
             # Otherwise, use regular init
             RoadRunner._swig_init(self, *args)
             RoadRunner._makeProperties(self)
