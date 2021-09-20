@@ -1022,9 +1022,9 @@ TEST_F(RoadRunnerAPITests, removeInitialAssignment){
     rr.addInitialAssignment("S1", "0.5*S2", true);
     vector<string> ruleids = rr.getInitialAssignmentIds();
     ASSERT_TRUE(ruleids.size() == 1);
-    EXPECT_STREQ(ruleids[0].c_str(), "S2");
+    EXPECT_STREQ(ruleids[0].c_str(), "S1");
 
-    rr.removeInitialAssignment("S2", true);
+    rr.removeInitialAssignment("S1", true);
     ruleids = rr.getInitialAssignmentIds();
     ASSERT_TRUE(ruleids.size() == 0);
 }
