@@ -478,8 +478,6 @@ namespace rr {
          * set the floating species initial concentrations.
          *
          * equivalent to ExecutableModel::reset, then ExecutableModel::setFloatingSpeciesConcentrations
-         *
-         * @deprecated
          */
         void changeInitialConditions(const std::vector<double> &ic);
 
@@ -1407,45 +1405,40 @@ namespace rr {
         /*********              Used by rrplugins             *************************/
 
         /**
-         * @internal
-         * @deprecated
+         * Alias for this function on the child model object.
          */
         void setBoundarySpeciesByIndex(const int &index, const double &value);
 
         /**
-         * @internal
-         * @deprecated
+         * Alias for this function on the child model object.
          */
         int getNumberOfIndependentSpecies();
 
         /**
-         * @internal
-         * @deprecated use ExecutableModel::getGlobalParameterIds
+         * Alias for this function on the child model object.
+         * use ExecutableModel::getGlobalParameterIds
          */
         std::vector<std::string> getGlobalParameterIds();
 
         /**
-         * @internal
-         * @deprecated
+         * Alias for this function on the child model object.
          */
         std::vector<std::string> getBoundarySpeciesIds();
 
 
         /**
-        * @author KC
         * @brief Gets the ids for all boundary species concentrations
         */
         std::vector<std::string> getBoundarySpeciesConcentrationIds();
 
         /**
-         * @internal
-         * @deprecated
+         * Alias for this function on the child model object.
          */
         double getBoundarySpeciesByIndex(const int &index);
 
         /**
-         * @internal
-         * @deprecated use ExecutableModel::getGlobalParameterValues
+         * Alias for this function on the child model object.
+         * use ExecutableModel::getGlobalParameterValues
          */
         double getGlobalParameterByIndex(const int &index);
 
@@ -1477,206 +1470,166 @@ namespace rr {
 #ifndef SWIG // deprecated methods not SWIG'ed
 
         /**
-         * @internal
-         * @deprecated
+         * Alias for this function on the child model object.
          */
-        RR_DEPRECATED(int getNumberOfReactions());
+        int getNumberOfReactions();
 
         /**
-         * @internal
-         * @deprecated
+         * Alias for this function on the child model object.
          */
-        RR_DEPRECATED(double getReactionRate(const int &index));
+        double getReactionRate(const int &index);
 
         /**
-         * @internal
-         * @deprecated
+         * Alias for this function on the child model object.
          */
-        RR_DEPRECATED(double getRateOfChange(const int &index));
+        double getRateOfChange(const int &index);
 
         /**
-         * @internal
-         * @deprecated
+         * Alias for this function on the child model object.
          */
-        RR_DEPRECATED(std::vector<std::string> getRateOfChangeIds());
+        std::vector<std::string> getRateOfChangeIds();
 
         /**
-         * @internal
-         * @deprecated
+         * Alias for this function on the child model object.
          */
+        int getNumberOfCompartments();
 
         /**
-         * @internal
-         * @deprecated
+         * Alias for this function on the child model object.
          */
-        RR_DEPRECATED(int getNumberOfCompartments());
+        void setCompartmentByIndex(const int &index, const double &value);
 
         /**
-         * @internal
-         * @deprecated
+         * Alias for this function on the child model object.
          */
-        RR_DEPRECATED(void setCompartmentByIndex(const int &index, const double &value));
+        double getCompartmentByIndex(const int &index);
 
         /**
-         * @internal
-         * @deprecated
+         * Alias for this function on the child model object.
          */
-        RR_DEPRECATED(double getCompartmentByIndex(const int &index));
+        std::vector<std::string> getCompartmentIds();
 
         /**
-         * @internal
-         * @deprecated
+         * Alias for this function on the child model object.
          */
-        RR_DEPRECATED(std::vector<std::string> getCompartmentIds());
+        int getNumberOfBoundarySpecies();
 
         /**
-         * @internal
-         * @deprecated
+         * Alias for this function on the child model object.
          */
-        RR_DEPRECATED(int getNumberOfBoundarySpecies());
+        void setBoundarySpeciesConcentrations(const std::vector<double> &values);
 
         /**
-         * @internal
-         * @deprecated
+         * Alias for this function on the child model object.
          */
-        RR_DEPRECATED(std::vector<double> getBoundarySpeciesConcentrations());
+        void setBoundarySpeciesAmounts(const std::vector<double> &values);
 
         /**
-         * @internal
-         * @deprecated
+         * Alias for this function on the child model object.
          */
-        RR_DEPRECATED(void setBoundarySpeciesConcentrations(const std::vector<double> &values));
+        int getNumberOfFloatingSpecies();
 
         /**
-         * @internal
-         * @deprecated
+         * Alias for this function on the child model object.
          */
-        RR_DEPRECATED(void setBoundarySpeciesAmounts(const std::vector<double> &values));
+        double getFloatingSpeciesByIndex(int index);
 
         /**
-         * @internal
-         * @deprecated
+         * Alias for this function on the child model object.
          */
-        RR_DEPRECATED(int getNumberOfFloatingSpecies());
+        void setFloatingSpeciesByIndex(int index, double value);
 
         /**
-         * @internal
-         * @deprecated
+         * Alias for this function on the child model object.
          */
-        RR_DEPRECATED(double getFloatingSpeciesByIndex(int index));
+        std::vector<double> getFloatingSpeciesConcentrationsV();
 
         /**
-         * @internal
-         * @deprecated
-         */
-        RR_DEPRECATED(void setFloatingSpeciesByIndex(int index, double value));
-
-        /**
-         * @internal
-         * @deprecated
-         */
-        RR_DEPRECATED(std::vector<double> getFloatingSpeciesConcentrationsV());
-
-        /**
-        * @internal
-        * @deprecated
+        * Alias for this function on the child model object.
         */
-        RR_DEPRECATED(std::vector<double> getFloatingSpeciesAmountsV());
+        std::vector<double> getFloatingSpeciesAmountsV();
 
         /**
-        * @internal
-        * @deprecated
+        * Alias for this function on the child model object.
         */
-        RR_DEPRECATED(std::vector<double> getBoundarySpeciesConcentrationsV());
+        std::vector<double> getBoundarySpeciesConcentrationsV();
 
         /**
-        * @internal
-        * @deprecated
+        * Alias for this function on the child model object.
         */
-        RR_DEPRECATED(std::vector<double> getBoundarySpeciesAmountsV());
+        std::vector<double> getBoundarySpeciesAmountsV();
 
         /**
-         * @internal
-         * @deprecated
+         * Alias for this function on the child model object.
          */
-        RR_DEPRECATED(std::vector<double> getFloatingSpeciesInitialConcentrations());
+        std::vector<double> getFloatingSpeciesInitialConcentrations();
 
         /**
-         * @internal
-         * @deprecated
+         * Alias for this function on the child model object.
          */
-        RR_DEPRECATED(void setFloatingSpeciesConcentrations(const std::vector<double> &values));
+        void setFloatingSpeciesConcentrations(const std::vector<double> &values);
 
         /**
-         * @internal
-         * @deprecated
+         * Alias for this function on the child model object.
          */
-        RR_DEPRECATED(void setFloatingSpeciesInitialConcentrationByIndex(const int &index,
-                              const double &value));
+        void setFloatingSpeciesInitialConcentrationByIndex(const int &index,
+                              const double &value);
 
         /**
-         * @internal
-         * @deprecated
+         * Alias for this function on the child model object.
          */
-        RR_DEPRECATED(void setFloatingSpeciesInitialConcentrations(const std::vector<double> &values));
+        void setFloatingSpeciesInitialConcentrations(const std::vector<double> &values);
 
         /**
-         * @internal
-         * @deprecated
+         * Alias for this function on the child model object.
          */
-        RR_DEPRECATED(std::vector<std::string> getFloatingSpeciesIds());
+        std::vector<std::string> getFloatingSpeciesIds();
 
         /**
-         * @internal
-         * @deprecated
+         * Alias for this function on the child model object.
          */
-        RR_DEPRECATED(std::vector<std::string> getFloatingSpeciesInitialConditionIds());
+        std::vector<std::string> getFloatingSpeciesInitialConditionIds();
 
         /**
-         * @internal
-         * @deprecated use ExecutableModel::getNumGlobalParameters
+         * Alias for this function on the child model object.
          */
-        RR_DEPRECATED(size_t getNumberOfGlobalParameters());
+        size_t getNumberOfGlobalParameters();
 
         /**
-         * @internal
-         * @deprecated use ExecutableModel::setGlobalParameterValues
+         * Alias for this function on the child model object.
          */
-        RR_DEPRECATED(void setGlobalParameterByIndex(const int index, const double value));
+        void setGlobalParameterByIndex(const int index, const double value);
 
 
         /**
-         * @internal
-         * @deprecated use ExecutableModel::getGlobalParameterValues
+         * Alias for this function on the child model object.
+         * use ExecutableModel::getGlobalParameterValues
          */
-        RR_DEPRECATED(std::vector<double> getGlobalParameterValues());
+        std::vector<double> getGlobalParameterValues();
 
         /**
          * @internal
-         * @deprecated
          */
         void evalModel();
 
         /**
-         * @internal
-         * @deprecated
+         * Alias for this function on the child model object.
          */
-        RR_DEPRECATED(int getNumberOfDependentSpecies());
+        int getNumberOfDependentSpecies();
 
 
         /**
-         * @internal
-         * @deprecated, use ExecutableModel::getReactionRates
+         * Alias for this function on the child model object.
+         * use ExecutableModel::getReactionRates
          */
-        RR_DEPRECATED(std::vector<double> getReactionRates());
+        std::vector<double> getReactionRates();
 
         /**
-         * @internal
-         * @deprecated
+         * Alias for this function on the child model object.
          * returns a list of reaction ids obtained from
          * ExecutableModel::getReactionId
          */
-        RR_DEPRECATED(std::vector<std::string> getReactionIds());
+        std::vector<std::string> getReactionIds();
 
         /**
          * @internal

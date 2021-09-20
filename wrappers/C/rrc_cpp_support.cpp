@@ -9,6 +9,7 @@
 #include "rrc_utilities.h"
 #include "rrStringUtils.h"
 #include "rrRoadRunner.h"
+#include "rrRoadRunnerData.h"
 
 namespace rrc
 {
