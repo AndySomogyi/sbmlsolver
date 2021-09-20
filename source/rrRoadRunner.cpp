@@ -4658,6 +4658,36 @@ namespace rr {
         return std::vector<std::string>(list.begin(), list.end());
     }
 
+    std::vector<std::string> RoadRunner::getAssignmentRuleIds()
+    {
+        std::list<std::string> list;
+        if (impl->model) {
+            impl->model->getAssignmentRuleIds(list);
+        }
+
+        return std::vector<std::string>(list.begin(), list.end());
+    }
+
+    std::vector<std::string> RoadRunner::getRateRuleIds()
+    {
+        std::list<std::string> list;
+        if (impl->model) {
+            impl->model->getRateRuleIds(list);
+        }
+
+        return std::vector<std::string>(list.begin(), list.end());
+    }
+
+    std::vector<std::string> RoadRunner::getInitialAssignmentIds()
+    {
+        std::list<std::string> list;
+        if (impl->model) {
+            impl->model->getInitialAssignmentIds(list);
+        }
+
+        return std::vector<std::string>(list.begin(), list.end());
+    }
+
     std::vector<std::string> RoadRunner::getBoundarySpeciesConcentrationIds() {
         std::list<std::string> list;
 

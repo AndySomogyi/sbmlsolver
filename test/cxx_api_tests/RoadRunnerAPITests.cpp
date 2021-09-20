@@ -978,51 +978,55 @@ TEST_F(RoadRunnerAPITests, removeCompartment){
 
 }
 
-/**
- * How can we verify that we have a new assignment rule?
- */
-TEST_F(RoadRunnerAPITests, DISABLED_addAssignmentRule){
+TEST_F(RoadRunnerAPITests, addAssignmentRule){
     RoadRunner rr(SimpleFlux().str());
+    rr.addParameter("STotal", 0);
     rr.addAssignmentRule("STotal", "S1+S2", true);
+    vector<string> ruleids = rr.getAssignmentRuleIds();
+    ASSERT_TRUE(ruleids.size() == 1);
+    EXPECT_STREQ(ruleids[0].c_str(), "STotal");
 }
 
-/**
- * Works, but how to verify that we have a new rate rule?
- */
-TEST_F(RoadRunnerAPITests, DISABLED_addRateRule){
+TEST_F(RoadRunnerAPITests, addRateRule){
     RoadRunner rr(SimpleFlux().str());
     rr.setBoundary("S2", true);
     rr.addRateRule("S2", "(kf/kb)*S1", true);
-    std::cout << rr.getSBML() << std::endl;
-    std::cout << *rr.simulate(0, 100, 101) << std::endl;
-
+    vector<string> ruleids = rr.getRateRuleIds();
+    ASSERT_TRUE(ruleids.size() == 1);
+    EXPECT_STREQ(ruleids[0].c_str(), "S2");
 }
 
-/**
- * How to test?
- */
-TEST_F(RoadRunnerAPITests, DISABLED_removeRules){
+TEST_F(RoadRunnerAPITests, removeRules){
     RoadRunner rr(SimpleFlux().str());
     rr.setBoundary("S2", true);
     rr.addRateRule("S2", "(kf/kb)*S1", true);
+    vector<string> ruleids = rr.getRateRuleIds();
+    ASSERT_TRUE(ruleids.size() == 1);
+    EXPECT_STREQ(ruleids[0].c_str(), "S2");
+
     rr.removeRules("S2", false, true);
+    ruleids = rr.getRateRuleIds();
+    ASSERT_TRUE(ruleids.size() == 0);
 }
 
-/**
- * Works but cannot currently getInitialAssignments with
- * current API, so can't test.
- */
 TEST_F(RoadRunnerAPITests, addInitialAssignment){
     RoadRunner rr(SimpleFlux().str());
     rr.addInitialAssignment("S1", "0.5*S2", true);
+    vector<string> ruleids = rr.getInitialAssignmentIds();
+    ASSERT_TRUE(ruleids.size() == 1);
+    EXPECT_STREQ(ruleids[0].c_str(), "S1");
 }
 
-/**
- * Again, how to test?
- */
-TEST_F(RoadRunnerAPITests, DISABLED_removeInitialAssignment){
+TEST_F(RoadRunnerAPITests, removeInitialAssignment){
     RoadRunner rr(SimpleFlux().str());
     rr.addInitialAssignment("S1", "0.5*S2", true);
+    vector<string> ruleids = rr.getInitialAssignmentIds();
+    ASSERT_TRUE(ruleids.size() == 1);
+    EXPECT_STREQ(ruleids[0].c_str(), "S2");
+
+    rr.removeInitialAssignment("S2", true);
+    ruleids = rr.getInitialAssignmentIds();
+    ASSERT_TRUE(ruleids.size() == 0);
 }
 
 /**

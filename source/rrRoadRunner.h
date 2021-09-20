@@ -1425,6 +1425,20 @@ namespace rr {
          */
         std::vector<std::string> getBoundarySpeciesIds();
 
+        /**
+         * Get the Ids of the elements assigned by assignment rules.
+         */
+        std::vector<std::string> getAssignmentRuleIds();
+
+        /**
+         * Get the Ids of the elements assigned by rate rules.
+         */
+        std::vector<std::string> getRateRuleIds();
+
+        /**
+         * Get the Ids of the elements with an initial assignment.
+         */
+        std::vector<std::string> getInitialAssignmentIds();
 
         /**
         * @brief Gets the ids for all boundary species concentrations

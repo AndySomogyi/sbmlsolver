@@ -1063,7 +1063,7 @@ void LLVMExecutableModel::getIds(int types, std::list<std::string> &ids)
                 &rr::ExecutableModel::getGlobalParameterId, ids);
     }
 
-    // only get init values indepndent values, dep, with assignment rules
+    // only get init values independent values, dep, with assignment rules
     // always have the same value.
     //if (checkExact(SelectionRecord::_GLOBAL_PARAMETER | SelectionRecord::INITIAL, types)
     //        && (SelectionRecord::INDEPENDENT & types)) {
@@ -1616,6 +1616,24 @@ void LLVMExecutableModel::getEventIds(std::list<std::string>& out)
 {
     std::vector<std::string> eventIds = symbols->getEventIds();
     std::copy(eventIds.begin(), eventIds.end(), std::back_inserter(out));
+}
+
+void LLVMExecutableModel::getAssignmentRuleIds(std::list<std::string>& out)
+{
+    std::vector<std::string> arIds = symbols->getAssignmentRuleIds();
+    std::copy(arIds.begin(), arIds.end(), std::back_inserter(out));
+}
+
+void LLVMExecutableModel::getRateRuleIds(std::list<std::string>& out)
+{
+    std::vector<std::string> rrIds = symbols->getRateRuleIds();
+    std::copy(rrIds.begin(), rrIds.end(), std::back_inserter(out));
+}
+
+void LLVMExecutableModel::getInitialAssignmentIds(std::list<std::string>& out)
+{
+    std::vector<std::string> rrIds = symbols->getInitialAssignmentIds();
+    std::copy(rrIds.begin(), rrIds.end(), std::back_inserter(out));
 }
 
 void LLVMExecutableModel::setEventListener(size_t index,

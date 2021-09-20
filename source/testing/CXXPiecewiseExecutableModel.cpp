@@ -440,6 +440,18 @@ std::string CXXPiecewiseExecutableModel::getEventId(int index)
 void CXXPiecewiseExecutableModel::getEventIds(std::list<std::string>&) {
 }
 
+void CXXPiecewiseExecutableModel::getAssignmentRuleIds(std::list<std::string>& out)
+{
+}
+
+void CXXPiecewiseExecutableModel::getRateRuleIds(std::list<std::string>& out)
+{
+}
+
+void CXXPiecewiseExecutableModel::getInitialAssignmentIds(std::list<std::string>& out)
+{
+}
+
 void CXXPiecewiseExecutableModel::setEventListener(int index,
         rr::EventListenerPtr eventHandler)
 {
