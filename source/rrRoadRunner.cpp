@@ -4,10 +4,6 @@
 
 #include "rrOSSpecifics.h"
 
-// TODO will clean these up in the future
-#undef RR_DEPRECATED
-#define RR_DEPRECATED(func) func
-
 #include <iostream>
 #include "rrRoadRunner.h"
 #include "rrException.h"
@@ -168,8 +164,6 @@ namespace rr {
 /**
  * The type of sbml element that the RoadRunner::setParameterValue
  * and RoadRunner::getParameterValue method operate on.
- *
- * @deprecated use the ExecutableModel methods directly.
  */
     enum ParameterType {
         ptGlobalParameter = 0,
