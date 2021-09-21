@@ -440,6 +440,18 @@ std::string CXXExecutableModel::getEventId(int index)
 void CXXExecutableModel::getEventIds(std::list<std::string>&) {
 }
 
+void CXXExecutableModel::getAssignmentRuleIds(std::list<std::string>& out)
+{
+}
+
+void CXXExecutableModel::getRateRuleIds(std::list<std::string>& out)
+{
+}
+
+void CXXExecutableModel::getInitialAssignmentIds(std::list<std::string>& out)
+{
+}
+
 void CXXExecutableModel::setEventListener(int index,
         rr::EventListenerPtr eventHandler)
 {

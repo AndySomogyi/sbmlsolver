@@ -360,6 +360,18 @@ namespace rrtesting {
     {
     }
 
+    void CXXBrusselatorExecutableModel::getAssignmentRuleIds(std::list<std::string>& out)
+    {
+    }
+
+    void CXXBrusselatorExecutableModel::getRateRuleIds(std::list<std::string>& out)
+    {
+    }
+
+    void CXXBrusselatorExecutableModel::getInitialAssignmentIds(std::list<std::string>& out)
+    {
+    }
+
     void CXXBrusselatorExecutableModel::setEventListener(size_t index,
                                                          rr::EventListenerPtr eventHandler) {
     }

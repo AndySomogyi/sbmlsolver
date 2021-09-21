@@ -628,6 +628,18 @@ void CXXEnzymeExecutableModel::getEventIds(std::list<std::string>&)
 {
 }
 
+void CXXEnzymeExecutableModel::getAssignmentRuleIds(std::list<std::string>& out)
+{
+}
+
+void CXXEnzymeExecutableModel::getRateRuleIds(std::list<std::string>& out)
+{
+}
+
+void CXXEnzymeExecutableModel::getInitialAssignmentIds(std::list<std::string>& out)
+{
+}
+
 void CXXEnzymeExecutableModel::setEventListener(size_t index,
         rr::EventListenerPtr eventHandler)
 {
