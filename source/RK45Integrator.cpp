@@ -322,7 +322,7 @@ namespace rr {
         addSetting("maximum_time_step", Setting(1.0), "Maximum Time Step",
                    "Specifies the maximum absolute value of step size allowed. (double)",
                    "(double) The maximum absolute value of step size allowed.");
-        addSetting("epsilon", Setting(1e-10), "Maximum error tolerance",
+        addSetting("epsilon", Setting(1e-12), "Maximum error tolerance",
                    "Specifies the maximum error tolerance allowed. (double)",
                    "(double) The maximum error tolerance allowed.");
         addSetting("max_output_rows", Setting(Config::getInt(Config::MAX_OUTPUT_ROWS)), "Maximum Output Rows",
