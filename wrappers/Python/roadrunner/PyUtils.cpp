@@ -396,9 +396,6 @@ namespace rr {
 }
 
 
-    static PyObject *NamedArray_New(int nd, npy_intp *dims, double *data, int pyFlags,
-                                    const ls::DoubleMatrix *mat);
-
 
     PyObject *doublematrix_to_py(const ls::DoubleMatrix *m, bool structured_result, bool copy_result) {
                 ls::DoubleMatrix *mat = const_cast<ls::DoubleMatrix *>(m);
@@ -543,6 +540,9 @@ namespace rr {
         return doublematrix_to_py(&superMat, false, copy_result);
     }
 
+
+    static PyObject *NamedArray_New(int nd, npy_intp *dims, double *data, int pyFlags,
+                                    const ls::DoubleMatrix *mat);
 
     struct NamedArrayObject {
         PyArrayObject array;
