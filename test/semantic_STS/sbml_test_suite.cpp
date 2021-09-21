@@ -224,6 +224,12 @@ public:
             throw("Failed loading SBML model settings");
         }
 
+        //Have to set this after loading, because loading resets the options.
+        // (NOTE:  loading doesn't reset the options for cvode, only rk45.  It's weird.)
+        if (integrator->getName() == "rk45")
+        {
+            integrator->setValue("variable_step_size", false);
+        }
 
         if (!isFBCTest(modelFilePath + "/" + descriptionFileName)) {
             //Only try simulating non-FBC tests.
