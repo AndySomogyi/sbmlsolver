@@ -94,29 +94,44 @@ public:
         //cerr << "Running Test:\t" << caseNumber << "\t" << version;
 
         RoadRunner rr;
-        TestSuiteModelSimulation simulation;
         try
         {
-            LoadAndSimulate(version, caseNumber, rr, simulation);
-
-            //Write result
-            if(!simulation.SaveResult())
+            vector<string> integrators;
+            integrators.push_back("cvode");
+            //integrators.push_back("rk4");
+            //integrators.push_back("rk45");
+            bool result = true;
+            for (size_t i = 0; i < integrators.size(); i++)
             {
-                //Failed to save data
-                rrLog(Logger::LOG_ERROR)<<"Failed to save result";
-                throw("Failed running simulation: Failed to save result");
+                TestSuiteModelSimulation simulation;
+                simulation.SetIntegrator(integrators[i]);
+                rr.setIntegrator(integrators[i]);
+                rr.getIntegrator()->tweakTolerances();
+                LoadAndSimulate(version, caseNumber, rr, simulation);
+
+                //Write result
+                if (!simulation.SaveResult())
+                {
+                    //Failed to save data
+                    rrLog(Logger::LOG_ERROR) << "Failed to save result";
+                    throw("Failed running simulation: Failed to save result");
+                }
+
+                if (!simulation.LoadReferenceData())
+                {
+                    rrLog(Logger::LOG_ERROR) << "Failed loading reference data";
+                    throw("Failed loading reference data");
+                }
+
+                simulation.CreateErrorData();
+                bool thisresult = simulation.Pass();
+                if (!thisresult)
+                {
+                    rrLog(Logger::LOG_ERROR) << "SBML Test Suite test " << caseNumber << ", " << version << " failed with integrator " << integrators[i];
+                }
+                result = result && thisresult;
+                simulation.SaveAllData();
             }
-
-            if(!simulation.LoadReferenceData())
-            {
-                rrLog(Logger::LOG_ERROR)<<"Failed loading reference data";
-                throw("Failed loading reference data");
-            }
-
-            simulation.CreateErrorData();
-            bool result = simulation.Pass();
-            simulation.SaveAllData();
-
             //simulation.SaveModelAsXML(dataOutputFolder);
 
             //cerr<<"\t"<< (result == true ? "PASS" : "FAIL")<<endl;
@@ -168,7 +183,12 @@ public:
         string dummy;
         string logFileName;
 
-        rr.getIntegrator()->setValue("stiff", false);
+        Integrator* integrator = rr.getIntegrator();
+        if (integrator->getName() == "cvode")
+        {
+            integrator->setValue("stiff", false);
+            rr.setConservedMoietyAnalysis(false);
+        }
 
         //Create log file name, e.g. 00001.log
         createTestSuiteFileNameParts(caseNumber, "_" + version + ".log", dummy, logFileName, dummy, dummy);
@@ -190,8 +210,6 @@ public:
         simulation.SetModelFileName(modelFileName);
         simulation.ReCompileIfDllExists(true);
         simulation.CopyFilesToOutputFolder();
-
-        rr.setConservedMoietyAnalysis(false);
 
         if (!simulation.LoadSBMLFromFile())
         {
