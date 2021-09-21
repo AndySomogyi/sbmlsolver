@@ -313,7 +313,7 @@ namespace rr {
     void RK45Integrator::resetSettings() {
         Solver::resetSettings();
 
-        addSetting("variable_step_size", Setting(false), "Variable Step Size",
+        addSetting("variable_step_size", Setting(true), "Variable Step Size",
                    "Perform a variable time step simulation. (bool)",
                    "(bool) Enabling this setting will allow the integrator to adapt the size of each time step. This will result in a non-uniform time column.  The number of steps or points will be ignored, and the max number of output rows will be used instead.");
         addSetting("minimum_time_step", Setting(1e-12), "Minimum Time Step",
