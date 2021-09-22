@@ -453,7 +453,12 @@
 
 %include "numpy.i"
 
-
+/**
+ * C extension modules must import_array before
+ * the numpy C api can be used.
+ *
+ * https://numpy.org/doc/stable/user/c-info.how-to-extend.html
+ */
 %init %{
 // see https://docs.scipy.org/doc/numpy-1.10.1/reference/c-api.array.html#importing-the-api
 import_array();

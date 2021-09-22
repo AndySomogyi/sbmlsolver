@@ -112,6 +112,14 @@ std::vector<std::string> py_to_stringvector(PyObject *obj);
 
 Dictionary *Dictionary_from_py(PyObject *py);
 
+/**
+ * @brief Initialize the pyutil module inside swig
+ * @details This method is called once at inside
+ * roadrunerPYTHON_wrap.cxx. The command controlling
+ * this action is inside roadrunners swig interface file
+ * under the `%init` directive.
+ */
+void pyutil_init(PyObject *module);
 
 /**
  * @brief convert a rr::Matrix3D<double, double>
@@ -151,6 +159,14 @@ private:
      */
      DoubleMatrix3D& matrix_;
 };
+
+
+//PyMODINIT_FUNC
+//initcheese(void)
+//{
+//   (void)Py_InitModule("cheese", mymethods);
+//   import_array();
+//}
 
 } /* namespace rr */
 
