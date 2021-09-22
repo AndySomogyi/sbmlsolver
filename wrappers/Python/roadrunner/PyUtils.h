@@ -113,7 +113,6 @@ std::vector<std::string> py_to_stringvector(PyObject *obj);
 Dictionary *Dictionary_from_py(PyObject *py);
 
 
-
 /**
  * @brief convert a rr::Matrix3D<double, double>
  */
