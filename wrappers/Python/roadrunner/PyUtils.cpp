@@ -547,9 +547,6 @@ namespace rr {
         PyArrayObject array;
         PyObject *rowNames;
         PyObject *colNames;
-        int test1;
-        int test2;
-        int test3;
     };
 
     static PyObject *NamedArrayObject_Finalize(NamedArrayObject *self, PyObject *parent);
@@ -557,6 +554,15 @@ namespace rr {
     static PyObject *NamedArray_repr(NamedArrayObject *self);
 
     static PyObject *NamedArray_str(NamedArrayObject *self);
+
+    /**
+     * @brief Initialize the pyutil module inside swig
+     * @details This method is called once at inside
+     * roadrunerPYTHON_wrap.cxx. The command controlling
+     * this action is inside roadrunners swig interface file
+     * under the `%init` directive.
+     */
+    void pyutil_init(PyObject *module);
 
 
     /**
@@ -590,9 +596,6 @@ namespace rr {
         PyObject_Init(obj, type);
         ((NamedArrayObject *) obj)->rowNames = NULL;
         ((NamedArrayObject *) obj)->colNames = NULL;
-        ((NamedArrayObject *) obj)->test1 = 10;
-        ((NamedArrayObject *) obj)->test2 = 11;
-        ((NamedArrayObject *) obj)->test3 = 12;
 
         rrLog(Logger::LOG_INFORMATION) << "created obj: " << obj;
         return obj;
@@ -601,52 +604,51 @@ namespace rr {
 #define CSTR(str) const_cast<char*>(str)
 
 
+    /**
+     * @brief Define the data members of the NamedArray type.
+     * @details Each entry of this array is a PyMemberDef
+     * with the following signature:
+     *    typedef struct PyMemberDef {
+     *         const char *name;
+     *         int         type;
+     *         int         offset;
+     *         int         flags;
+     *         const char *doc;
+     *     } PyMemberDef;
+     * Each entry of the NamedArray_members array links an attribute of the Python side NamedArray
+     * to the NamedArray C struct.
+     *
+     * The `(Py_ssize_t )offsetof(NamedArrayObject, x)` part returns the starting byte of data member x
+     *
+     * @see https://docs.python.org/3/extending/newtypes.html#generic-attribute-management
+     * @see https://en.cppreference.com/w/cpp/types/offsetof
+     * @see Python/include/structmember.h
+     */
     static PyMemberDef NamedArray_members[] = {
-            {CSTR("rownames"), T_OBJECT_EX, offsetof(NamedArrayObject, rowNames), 0, CSTR("row names")},
-            {CSTR("colnames"), T_OBJECT_EX, offsetof(NamedArrayObject, colNames), 0, CSTR("column names")},
-            {CSTR("test1"),    T_INT,       offsetof(NamedArrayObject, test1),    0, CSTR("test1 number")},
-            {CSTR("test2"),    T_INT,       offsetof(NamedArrayObject, test2),    0, CSTR("test2 number")},
-            {CSTR("test3"),    T_INT,       offsetof(NamedArrayObject, test3),    0, CSTR("test3 number")},
+            {CSTR("rownames"), T_OBJECT_EX, (Py_ssize_t) offsetof(NamedArrayObject, rowNames), 0, CSTR("row names")},
+            {CSTR("colnames"), T_OBJECT_EX, (Py_ssize_t) offsetof(NamedArrayObject, colNames), 0, CSTR("column names")},
             {NULL}  /* Sentinel */
     };
 
+    /**
+     * @brief Define methods of the NamedArray object.
+     * @details The struct PyMethodDef* tp_methods field
+     * in the PyTypeObject points to this array of PyMethodDef
+     * objects. Each entry in this array is an instance of PyMethodDef.
+     * and has the following type:
+     * typedef struct PyMethodDef {
+     *    const char  *ml_name;        method name
+     *    PyCFunction  ml_meth;        implementation function
+     *    int          ml_flags;       flags
+     *    const char  *ml_doc;         docstring
+     * } PyMethodDef;
+     * Note the deliberate sentinal entry at the end of the array.
+     * @see https://docs.python.org/3/extending/newtypes.html#generic-attribute-management
+     */
     static PyMethodDef NamedArray_methods[] = {
             {CSTR("__array_finalize__"), (PyCFunction) NamedArrayObject_Finalize, METH_VARARGS, CSTR("")},
-            {0}
+            {nullptr}
     };
-
-/*
-static PyMethodDef DatetimeArray_methods[] = {
-    { "__array_finalize__", (PyCFunction)DatetimeArray_finalize, METH_VARARGS,
-      ""},
-//    {"__getitem__", (PyCFunction)DatetimeArray_getitem, METH_VARARGS, ""},
-    {"has_dups", (PyCFunction)DatetimeArray_has_dups, METH_VARARGS, ""},
-    {"has_missing", (PyCFunction)DatetimeArray_has_missing, METH_VARARGS, ""},
-    {"is_chrono", (PyCFunction)DatetimeArray_is_chrono, METH_VARARGS, ""},
-    {"is_full", (PyCFunction)DatetimeArray_is_full, METH_VARARGS, ""},
-    {"is_valid", (PyCFunction)DatetimeArray_is_valid, METH_VARARGS, ""},
-    {"date_to_index", (PyCFunction)DatetimeArray_date_to_index, METH_VARARGS, ""},
-    {"tovalues", (PyCFunction)DatetimeArray_tovalues, METH_VARARGS, ""},
-    {"toordinals", (PyCFunction)DatetimeArray_toordinals, METH_VARARGS, ""},
-    {"tolist", (PyCFunction)DatetimeArray_tolist, METH_VARARGS, ""},
-    {"fill_missing_dates", (PyCFunction)DatetimeArray_fill_missing_dates, METH_KEYWORDS, ""},
-    {"get_missing_dates_mask", (PyCFunction)DatetimeArray_get_missing_dates_mask, METH_VARARGS, ""},
-    {"convert", (PyCFunction)DatetimeArray_convert, METH_KEYWORDS, ""},
-    {0}
-};
-*/
-
-
-
-//static PyMappingMethods NamedArray_MappingMethods = {
-//#if PY_VERSION_HEX >= 0x02050000
-//    (lenfunc)array_length,              /*mp_length*/
-//#else
-//    (inquiry)array_length,              /*mp_length*/
-//#endif
-//    (binaryfunc)array_subscript_nice,       /*mp_subscript*/
-//    (objobjargproc)array_ass_sub,       /*mp_ass_subscript*/
-//};
 
 
 /**
@@ -762,7 +764,7 @@ static PyMethodDef DatetimeArray_methods[] = {
             PyObject_HEAD_INIT(NULL)
             0,                                        /* ob_size */
 #endif
-            "NamedArray",                             /* tp_name */
+            "roadrunner.NamedArray",                             /* tp_name */
             sizeof(NamedArrayObject),                 /* tp_basicsize */
             0,                                        /* tp_itemsize */
             (destructor) NamedArrayObject_dealloc,     /* tp_dealloc */
@@ -816,14 +818,37 @@ static PyMethodDef DatetimeArray_methods[] = {
                 Py_INCREF(p->colNames);
                 self->colNames = p->colNames;
             }
-
-            self->test1 = p->test1;
-            self->test2 = p->test2;
-            self->test3 = p->test3;
         }
         Py_RETURN_NONE;
     }
 
+
+    void pyutil_init(PyObject *module) {
+        // set up the base class to be the numpy ndarray PyArray_Type
+        NamedArray_Type.tp_base = &PyArray_Type;
+
+
+        // set up the pointers of the NamedArray_MappingMethods to point
+        // to the numpy ones
+        PyMappingMethods *numpyMappMethods = PyArray_Type.tp_as_mapping;
+
+        assert(numpyMappMethods && "Numpy PyMappingMethods is NULL");
+
+        NamedArray_MappingMethods = *numpyMappMethods;
+
+        // set our getitem pointer
+        NamedArray_MappingMethods.mp_subscript = (binaryfunc) NammedArray_subscript;
+
+        int result;
+
+        if ((result = PyType_Ready(&NamedArray_Type)) < 0) {
+            std::cout << "PyType_Ready(&NamedArray_Type)) Failed, error: " << result;
+            return;
+        }
+
+        Py_INCREF(&NamedArray_Type);
+        result = PyModule_AddObject(module, "NamedArray", (PyObject *) (&NamedArray_Type));
+    }
 
 /*
 NPY_NO_EXPORT PyObject *
@@ -857,8 +882,10 @@ PyArray_New(PyTypeObject *subtype, int nd, npy_intp *dims, int type_num,
 /* PyArray_New(&PyArray_Type, nd, dims, NPY_DOUBLE, NULL, data, 0,
                                      NPY_CARRAY | NPY_OWNDATA, NULL);
  */
-    PyObject *NamedArray_New(int nd, npy_intp *dims, double *data, int pyFlags,
-                             const ls::DoubleMatrix *mat) {
+    PyObject *NamedArray_New(
+            int nd, npy_intp *dims,
+            double *data, int pyFlags,
+            const ls::DoubleMatrix *mat) {
         bool named = Config::getValue(Config::PYTHON_ENABLE_NAMED_MATRIX);
 
         if (named) {
@@ -878,9 +905,6 @@ PyArray_New(PyTypeObject *subtype, int nd, npy_intp *dims, int type_num,
 
             array->rowNames = stringvector_to_py(mat->getRowNames());
             array->colNames = stringvector_to_py(mat->getColNames());
-            array->test1 = 1;
-            array->test2 = 2;
-            array->test3 = 3;
             return (PyObject *) array;
 
         } else {
