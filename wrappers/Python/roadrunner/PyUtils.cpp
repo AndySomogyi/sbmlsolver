@@ -394,6 +394,8 @@ namespace rr {
     assert(p && "PyArray is NULL"); \
     assert((PyArray_NBYTES(p) > 0 ? PyArray_ISCARRAY(p) : true) &&  "PyArray must be C format"); \
 }
+    static PyObject *NamedArray_New(int nd, npy_intp *dims, double *data, int pyFlags,
+                                    const ls::DoubleMatrix *mat);
 
 
 
@@ -541,8 +543,6 @@ namespace rr {
     }
 
 
-    static PyObject *NamedArray_New(int nd, npy_intp *dims, double *data, int pyFlags,
-                                    const ls::DoubleMatrix *mat);
 
     struct NamedArrayObject {
         PyArrayObject array;
@@ -965,34 +965,6 @@ PyArray_New(PyTypeObject *subtype, int nd, npy_intp *dims, int type_num,
 
         return dict;
     }
-
-
-    void pyutil_init(PyObject *module) {
-        // set up the base class to be the numpy ndarray PyArray_Type
-        NamedArray_Type.tp_base = &PyArray_Type;
-        
-
-        // set up the pointers of the NamedArray_MappingMethods to point
-        // to the numpy ones
-        PyMappingMethods *numpyMappMethods = PyArray_Type.tp_as_mapping;
-        
-        assert(numpyMappMethods && "Numpy PyMappingMethods is NULL");
-
-                NamedArray_MappingMethods = *numpyMappMethods;
-        
-        // set our getitem pointer
-        NamedArray_MappingMethods.mp_subscript = (binaryfunc) NammedArray_subscript;
-        
-        int result;
-        
-        if ((result = PyType_Ready(&NamedArray_Type)) < 0) {
-                        std::cout << "PyType_Ready(&NamedArray_Type)) Failed, error: " << result;
-                        return;
-        }
-        
-        Py_INCREF(&NamedArray_Type);
-                result = PyModule_AddObject(module, "NamedArray", (PyObject *) (&NamedArray_Type));
-            }
 
 
 /*****************************************************************************************
