@@ -7,6 +7,41 @@
 
 // see discission on import array,
 // http://docs.scipy.org/doc/numpy/reference/c-api.array.html#miscellaneous
+
+/**
+ * @brief define some macro's to allow numpy api to be used
+ * in multiple compilation units.
+ *
+ * @details We need this because the swig generated roadrunnerPYTOHN_wrap.cxx
+ * and PyUtils.cpp both use the numpy C API.
+ *
+ * By default the numpy C API is stored as an
+ * array of pointers (void **) called PyArray_API. This
+ * is initialized when import_array() is called. What we'll get is
+ *
+ *  static void** PyArray_API;
+ *
+ * There could be problems with having a static PyArray_API when multiple
+ * compilations units are in effect. The PY_ARRAY_UNIQUE_SYMBOL macro
+ * is defined to deal with this problem. This renames the PyArray_API
+ * to whatever PY_ARRAY_UNIQUE_SYMBOL is defined to be, in our case
+ * RoadRunner_ARRAY_API (see numpy's __multiarray_api.h for
+ * macro definitions). PY_ARRAY_UNIQUE_SYMBOL also makes the
+ * declaration of the numpy api non-static.
+ *
+ * When combined with NO_IMPORT_ARRAY (or equally, NO_IMPORT) the declaration
+ * becomes
+ *  `extern void** RoadRunner_ARRAY_API;`
+ * making the API a global variable. Therefore we have access to the RoadRunner_ARRAY_API
+ * from other compilation units. The second consequence of NO_IMPORT_ARRAY
+ * is that it removes the definition of import_array, so that it cannot be called
+ * from within this compilation unit.
+ *
+ * So, since import_array() is called from the swig
+ * %init we define NO_IMPORT_ARRAY and PY_ARRAY_UNIQUE_SYMBOL
+ * to no reimport array and get a handle on the name of the api.
+ *
+ */
 #define NO_IMPORT_ARRAY
 #define PY_ARRAY_UNIQUE_SYMBOL RoadRunner_ARRAY_API
 //Still using some of deprecated wrappers
