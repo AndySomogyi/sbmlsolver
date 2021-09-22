@@ -55,88 +55,89 @@ public:
             }
         }
         bool ret = true;
-        if (hasUnimplementedTags(modelFilePath + "/" + descriptionFileName)) {
-            if (!first.empty()) {
-                ret = CheckLoad(first, caseNumber);
-            }
-            else {
-                rrLog(Logger::LOG_ERROR) << "No models found for test case" << caseNumber << endl;
-                ret = false;
-            }
-            if (!last.empty()) {
-                ret = CheckLoad(last, caseNumber) && ret;
-            }
-        }
-
-        else {
-            if (!first.empty()) {
-                ret = RunTest(first, caseNumber);
-                if (!ret && isSemiStochasticTest((path(modelFilePath) / path(descriptionFileName)).string())) {
-                    //semistochastic tests fail once in a great while, but very very rarely twice in a row.
-                    rrLog(Logger::LOG_WARNING) << "Test " << caseNumber << " failed, but we expect it to fail every so often.  Trying again...";
-                    ret = RunTest(first, caseNumber);
+        vector<string> integrators;
+        integrators.push_back("cvode");
+        //integrators.push_back("rk4"); //Only 46 failed tests, which, hey.
+        //integrators.push_back("rk45");
+        for (size_t i = 0; i < integrators.size(); i++)
+        {
+            string integrator = integrators[i];
+            if (hasUnimplementedTags(modelFilePath + "/" + descriptionFileName, integrator)) {
+                if (!first.empty()) {
+                    ret = ret && CheckLoad(first, caseNumber, integrator);
+                }
+                else {
+                    rrLog(Logger::LOG_ERROR) << "No models found for test case" << caseNumber << endl;
+                    ret = false;
+                }
+                if (!last.empty()) {
+                    ret = ret && CheckLoad(last, caseNumber, integrator) && ret;
                 }
             }
+
             else {
-                rrLog(Logger::LOG_ERROR) << "No models found for test case" << caseNumber << endl;
-                ret = false;
-            }
-            if (!last.empty()) {
-                ret = RunTest(last, caseNumber) && ret;
+                if (!first.empty()) {
+                    ret = ret && RunTest(first, caseNumber, integrator);
+                    if (!ret && isSemiStochasticTest((path(modelFilePath) / path(descriptionFileName)).string())) {
+                        //semistochastic tests fail once in a great while, but very very rarely twice in a row.
+                        rrLog(Logger::LOG_WARNING) << "Test " << caseNumber << " failed, but we expect it to fail every so often.  Trying again...";
+                        ret = ret && RunTest(first, caseNumber, integrator);
+                    }
+                }
+                else {
+                    rrLog(Logger::LOG_ERROR) << "No models found for test case" << caseNumber << endl;
+                    ret = false;
+                }
+                if (!last.empty()) {
+                    ret = ret && RunTest(last, caseNumber, integrator) && ret;
+                }
             }
         }
         return ret;
     }
 
 
-    bool RunTest(const string& version, int caseNumber)
+    bool RunTest(const string& version, int caseNumber, const string& integrator)
     {
         //cerr << "Running Test:\t" << caseNumber << "\t" << version;
 
         RoadRunner rr;
         try
         {
-            vector<string> integrators;
-            integrators.push_back("cvode");
-            //integrators.push_back("rk4");
-            //integrators.push_back("rk45");
             bool result = true;
-            for (size_t i = 0; i < integrators.size(); i++)
+            TestSuiteModelSimulation simulation;
+            simulation.SetIntegrator(integrator);
+            rr.setIntegrator(integrator);
+            rr.getIntegrator()->tweakTolerances();
+            LoadAndSimulate(version, caseNumber, rr, simulation);
+
+            //Write result
+            if (!simulation.SaveResult())
             {
-                TestSuiteModelSimulation simulation;
-                simulation.SetIntegrator(integrators[i]);
-                rr.setIntegrator(integrators[i]);
-                rr.getIntegrator()->tweakTolerances();
-                LoadAndSimulate(version, caseNumber, rr, simulation);
-
-                //Write result
-                if (!simulation.SaveResult())
-                {
-                    //Failed to save data
-                    rrLog(Logger::LOG_ERROR) << "Failed to save result";
-                    throw("Failed running simulation: Failed to save result");
-                }
-
-                if (!simulation.LoadReferenceData())
-                {
-                    rrLog(Logger::LOG_ERROR) << "Failed loading reference data";
-                    throw("Failed loading reference data");
-                }
-
-                simulation.CreateErrorData();
-                bool thisresult = simulation.Pass();
-                if (!thisresult)
-                {
-                    rrLog(Logger::LOG_ERROR) << "SBML Test Suite test " << caseNumber << ", " << version << " failed with integrator " << integrators[i];
-                }
-                result = result && thisresult;
-                simulation.SaveAllData();
+                //Failed to save data
+                rrLog(Logger::LOG_ERROR) << "Failed to save result";
+                throw("Failed running simulation: Failed to save result");
             }
+
+            if (!simulation.LoadReferenceData())
+            {
+                rrLog(Logger::LOG_ERROR) << "Failed loading reference data";
+                throw("Failed loading reference data");
+            }
+
+            simulation.CreateErrorData();
+            bool thisresult = simulation.Pass();
+            if (!thisresult)
+            {
+                rrLog(Logger::LOG_ERROR) << "SBML Test Suite test " << caseNumber << ", " << version << " failed with integrator " << integrator;
+            }
+            result = result && thisresult;
+            simulation.SaveAllData();
             //simulation.SaveModelAsXML(dataOutputFolder);
 
             //cerr<<"\t"<< (result == true ? "PASS" : "FAIL")<<endl;
             return result;
-         }
+        }
         catch(Exception& ex)
         {
             string error = ex.what();
@@ -147,11 +148,12 @@ public:
 
     }
 
-    bool CheckLoad(const string& version, int caseNumber)
+    bool CheckLoad(const string& version, int caseNumber, const string& integrator)
     {
         //cerr << "Checking Test Loading:\t" << caseNumber << "\t" << version;
 
         RoadRunner rr;
+        rr.setIntegrator(integrator);
         TestSuiteModelSimulation simulation;
 
         try
@@ -245,10 +247,10 @@ public:
 };
 
 
-TEST_F(SbmlTestSuite, DISABLED_test_single)
+TEST_F(SbmlTestSuite, test_single)
 {
     // Use when need to run one test.
-    EXPECT_TRUE(RunTest(28));
+    EXPECT_TRUE(RunTest(26));
 }
 TEST_F(SbmlTestSuite, t1)
 {
