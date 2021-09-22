@@ -55,73 +55,89 @@ public:
             }
         }
         bool ret = true;
-        if (hasUnimplementedTags(modelFilePath + "/" + descriptionFileName)) {
-            if (!first.empty()) {
-                ret = CheckLoad(first, caseNumber);
-            }
-            else {
-                rrLog(Logger::LOG_ERROR) << "No models found for test case" << caseNumber << endl;
-                ret = false;
-            }
-            if (!last.empty()) {
-                ret = CheckLoad(last, caseNumber) && ret;
-            }
-        }
-
-        else {
-            if (!first.empty()) {
-                ret = RunTest(first, caseNumber);
-                if (!ret && isSemiStochasticTest((path(modelFilePath) / path(descriptionFileName)).string())) {
-                    //semistochastic tests fail once in a great while, but very very rarely twice in a row.
-                    rrLog(Logger::LOG_WARNING) << "Test " << caseNumber << " failed, but we expect it to fail every so often.  Trying again...";
-                    ret = RunTest(first, caseNumber);
+        vector<string> integrators;
+        integrators.push_back("cvode");
+        //integrators.push_back("rk4"); //Only 46 failed tests, which, hey.
+        //integrators.push_back("rk45");
+        for (size_t i = 0; i < integrators.size(); i++)
+        {
+            string integrator = integrators[i];
+            if (hasUnimplementedTags(modelFilePath + "/" + descriptionFileName, integrator)) {
+                if (!first.empty()) {
+                    ret = ret && CheckLoad(first, caseNumber, integrator);
+                }
+                else {
+                    rrLog(Logger::LOG_ERROR) << "No models found for test case" << caseNumber << endl;
+                    ret = false;
+                }
+                if (!last.empty()) {
+                    ret = ret && CheckLoad(last, caseNumber, integrator) && ret;
                 }
             }
+
             else {
-                rrLog(Logger::LOG_ERROR) << "No models found for test case" << caseNumber << endl;
-                ret = false;
-            }
-            if (!last.empty()) {
-                ret = RunTest(last, caseNumber) && ret;
+                if (!first.empty()) {
+                    ret = ret && RunTest(first, caseNumber, integrator);
+                    if (!ret && isSemiStochasticTest((path(modelFilePath) / path(descriptionFileName)).string())) {
+                        //semistochastic tests fail once in a great while, but very very rarely twice in a row.
+                        rrLog(Logger::LOG_WARNING) << "Test " << caseNumber << " failed, but we expect it to fail every so often.  Trying again...";
+                        ret = ret && RunTest(first, caseNumber, integrator);
+                    }
+                }
+                else {
+                    rrLog(Logger::LOG_ERROR) << "No models found for test case" << caseNumber << endl;
+                    ret = false;
+                }
+                if (!last.empty()) {
+                    ret = ret && RunTest(last, caseNumber, integrator) && ret;
+                }
             }
         }
         return ret;
     }
 
 
-    bool RunTest(const string& version, int caseNumber)
+    bool RunTest(const string& version, int caseNumber, const string& integrator)
     {
         //cerr << "Running Test:\t" << caseNumber << "\t" << version;
 
         RoadRunner rr;
-        TestSuiteModelSimulation simulation;
         try
         {
+            bool result = true;
+            TestSuiteModelSimulation simulation;
+            simulation.SetIntegrator(integrator);
+            rr.setIntegrator(integrator);
+            rr.getIntegrator()->tweakTolerances();
             LoadAndSimulate(version, caseNumber, rr, simulation);
 
             //Write result
-            if(!simulation.SaveResult())
+            if (!simulation.SaveResult())
             {
                 //Failed to save data
-                rrLog(Logger::LOG_ERROR)<<"Failed to save result";
+                rrLog(Logger::LOG_ERROR) << "Failed to save result";
                 throw("Failed running simulation: Failed to save result");
             }
 
-            if(!simulation.LoadReferenceData())
+            if (!simulation.LoadReferenceData())
             {
-                rrLog(Logger::LOG_ERROR)<<"Failed loading reference data";
+                rrLog(Logger::LOG_ERROR) << "Failed loading reference data";
                 throw("Failed loading reference data");
             }
 
             simulation.CreateErrorData();
-            bool result = simulation.Pass();
+            bool thisresult = simulation.Pass();
+            if (!thisresult)
+            {
+                rrLog(Logger::LOG_ERROR) << "SBML Test Suite test " << caseNumber << ", " << version << " failed with integrator " << integrator;
+            }
+            result = result && thisresult;
             simulation.SaveAllData();
-
             //simulation.SaveModelAsXML(dataOutputFolder);
 
             //cerr<<"\t"<< (result == true ? "PASS" : "FAIL")<<endl;
             return result;
-         }
+        }
         catch(Exception& ex)
         {
             string error = ex.what();
@@ -132,11 +148,12 @@ public:
 
     }
 
-    bool CheckLoad(const string& version, int caseNumber)
+    bool CheckLoad(const string& version, int caseNumber, const string& integrator)
     {
         //cerr << "Checking Test Loading:\t" << caseNumber << "\t" << version;
 
         RoadRunner rr;
+        rr.setIntegrator(integrator);
         TestSuiteModelSimulation simulation;
 
         try
@@ -168,7 +185,12 @@ public:
         string dummy;
         string logFileName;
 
-        rr.getIntegrator()->setValue("stiff", false);
+        Integrator* integrator = rr.getIntegrator();
+        if (integrator->getName() == "cvode")
+        {
+            integrator->setValue("stiff", false);
+            rr.setConservedMoietyAnalysis(false);
+        }
 
         //Create log file name, e.g. 00001.log
         createTestSuiteFileNameParts(caseNumber, "_" + version + ".log", dummy, logFileName, dummy, dummy);
@@ -191,8 +213,6 @@ public:
         simulation.ReCompileIfDllExists(true);
         simulation.CopyFilesToOutputFolder();
 
-        rr.setConservedMoietyAnalysis(false);
-
         if (!simulation.LoadSBMLFromFile())
         {
             rrLog(Logger::LOG_ERROR) << "Failed loading SBML model";
@@ -206,6 +226,12 @@ public:
             throw("Failed loading SBML model settings");
         }
 
+        //Have to set this after loading, because loading resets the options.
+        // (NOTE:  loading doesn't reset the options for cvode, only rk45.  It's weird.)
+        if (integrator->getName() == "rk45")
+        {
+            integrator->setValue("variable_step_size", false);
+        }
 
         if (!isFBCTest(modelFilePath + "/" + descriptionFileName)) {
             //Only try simulating non-FBC tests.
@@ -221,10 +247,10 @@ public:
 };
 
 
-TEST_F(SbmlTestSuite, DISABLED_test_single)
+TEST_F(SbmlTestSuite, test_single)
 {
     // Use when need to run one test.
-    EXPECT_TRUE(RunTest(28));
+    EXPECT_TRUE(RunTest(26));
 }
 TEST_F(SbmlTestSuite, t1)
 {
