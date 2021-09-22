@@ -705,7 +705,7 @@ namespace rr {
             return applyVariableStepPendingEvents() + roottol;
         }
 
-        double timeEnd = 0.0;
+        double timeEnd = timeStart-1; //Just to set it at a minimum; anything lower than timeStart should work.
         double tout = timeStart + hstep;
         int strikes = 3;
 
@@ -1017,8 +1017,8 @@ namespace rr {
     }
 
     void CVODEIntegrator::testRootsAtInitialTime() {
-        std::vector<unsigned char> initialEventStatus(mModel->getEventTriggers(0, 0, 0), false);
-        mModel->getEventTriggers(initialEventStatus.size(), 0,
+        std::vector<unsigned char> initialEventStatus(mModel->getEventTriggers(0, nullptr, nullptr), false);
+        mModel->getEventTriggers(initialEventStatus.size(), nullptr,
                                  initialEventStatus.empty() ? nullptr : &initialEventStatus[0]);
         applyEvents(0, initialEventStatus);
     }
@@ -1156,22 +1156,20 @@ namespace rr {
             return;
         }
 
-        lastEventTime = 0.0;
+        lastEventTime = time;
 
         // apply any events that trigger before or at time 0.
         // important NOT to set model time before we check get
         // the initial event state, initially time is < 0.
-        if (time <= 0.0) {
 
-            // copy state std::vector into cvode memory, need to do this before evaluating
-            // roots because the applyEvents method copies the cvode state std::vector
-            // into the model
-            if (mStateVector) {
-                mModel->getStateVector(NV_DATA_S(mStateVector));
-            }
-
-            testRootsAtInitialTime();
+        // copy state std::vector into cvode memory, need to do this before evaluating
+        // roots because the applyEvents method copies the cvode state std::vector
+        // into the model
+        if (mStateVector) {
+            mModel->getStateVector(NV_DATA_S(mStateVector));
         }
+
+        testRootsAtInitialTime();
 
         mModel->setTime(time);
 
