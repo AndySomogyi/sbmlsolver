@@ -15,9 +15,9 @@ namespace rrtesting
 {
 
 CXXPiecewiseExecutableModel::CXXPiecewiseExecutableModel(const rr::Dictionary* dict)
+       : ExecutableModel()
 {
     rrLog(Logger::LOG_NOTICE) << __FUNC__;
-    mIntegrationStartTime = 0.0;
 }
 
 CXXPiecewiseExecutableModel::~CXXPiecewiseExecutableModel()

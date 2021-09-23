@@ -172,6 +172,7 @@ int LLVMExecutableModel::setValues(bool (*funcPtr)(LLVMModelData*, int, double),
 }
 
 LLVMExecutableModel::LLVMExecutableModel() :
+    ExecutableModel(),
     symbols(0),
     modelData(0),
     conversionFactor(1.0),
@@ -213,11 +214,11 @@ LLVMExecutableModel::LLVMExecutableModel() :
     flags(defaultFlags())
 {
     std::srand((unsigned)std::time(0));
-    mIntegrationStartTime = 0.0;
 }
 
 LLVMExecutableModel::LLVMExecutableModel(
     const std::shared_ptr<ModelResources>& rc, LLVMModelData* modelData) :
+    ExecutableModel(),
     resources(rc),
     symbols(rc->symbols),
     modelData(modelData),
@@ -261,8 +262,9 @@ LLVMExecutableModel::LLVMExecutableModel(
     flags(defaultFlags())
 {
 
-    modelData->time = -std::numeric_limits<double>::infinity();; // time is initially before simulation starts
-    mIntegrationStartTime = 0.0;
+    //The key here is that 'time' has to be less than 'mIntegrationStartTime' for events to work.  Not sure whether it actually has to be -inf, but it can't hurt?  See T0EventFiring tests, particularly 1120 in the SBML test suite (test_semantic_STS).  The actual integration start time is set in 'simulate'. --LS
+    modelData->time = -std::numeric_limits<double>::infinity(); // time is initially before simulation starts
+    // mIntegrationStartTime defaults to zero in constructor;
 
     std::srand((unsigned)std::time(0));
 
@@ -272,6 +274,7 @@ LLVMExecutableModel::LLVMExecutableModel(
 }
 
 LLVMExecutableModel::LLVMExecutableModel(std::istream& in, uint modelGeneratorOpt) :
+    ExecutableModel(),
 	resources(new ModelResources()),
 	dirty(0),
 	conversionFactor(1.0),
@@ -322,6 +325,7 @@ LLVMExecutableModel::LLVMExecutableModel(std::istream& in, uint modelGeneratorOp
     pendingEvents.loadState(in, *this);
     rr::loadBinary(in, eventAssignTimes);
     rr::loadBinary(in, tieBreakMap);
+    rr::loadBinary(in, mIntegrationStartTime);
 }
 
 LLVMExecutableModel::~LLVMExecutableModel()
@@ -2527,6 +2531,7 @@ void LLVMExecutableModel::saveState(std::ostream& out)
 	pendingEvents.saveState(out);
 	rr::saveBinary(out, eventAssignTimes);
 	rr::saveBinary(out, tieBreakMap);
+    rr::saveBinary(out, mIntegrationStartTime);
 }
 
 

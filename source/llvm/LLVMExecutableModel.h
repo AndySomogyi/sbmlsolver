@@ -622,7 +622,7 @@ private:
     /******************************************************************************/
 private:
     /**
-     * the model generator maintians a cached of generated models.
+     * the model generator maintians a cache of generated models.
      */
 
     LLVMModelData *modelData;

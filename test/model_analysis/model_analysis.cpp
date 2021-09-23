@@ -21,9 +21,30 @@ public:
 };
 
 
-TEST_F(ModelAnalysisTests, SimulateFromNegativeStart) {
+TEST_F(ModelAnalysisTests, SimulateCVODEFromNegativeStart) {
     //rr::Logger::setLevel(rr::Logger::LOG_DEBUG);
     RoadRunner rr((modelAnalysisModelsDir / "negstart_event.xml").string());
+    SimulateOptions opt;
+    opt.start = -2;
+    opt.duration = 10;
+    opt.steps = 120;
+    const ls::DoubleMatrix* result = rr.simulate(&opt);
+    ASSERT_EQ(result->CSize(), 2);
+    ASSERT_EQ(result->RSize(), 121);
+    //Spot checks for when the events fire.
+    EXPECT_NEAR(result->Element(2, 1), 3.083, 0.01);
+    EXPECT_NEAR(result->Element(23, 1), 3.008, 0.01);
+    EXPECT_NEAR(result->Element(44, 1), 4.933, 0.01);
+    EXPECT_NEAR(result->Element(45, 1), 3.025, 0.01);
+    EXPECT_NEAR(result->Element(61, 1), 0.092, 0.01);
+    EXPECT_NEAR(result->Element(115, 1), 3.042, 0.01);
+
+}
+
+TEST_F(ModelAnalysisTests, SimulateGillespieFromNegativeStart) {
+    //rr::Logger::setLevel(rr::Logger::LOG_DEBUG);
+    RoadRunner rr((modelAnalysisModelsDir / "negstart_event.xml").string());
+    rr.setIntegrator("gillespie");
     SimulateOptions opt;
     opt.start = -2;
     opt.duration = 10;

@@ -20,8 +20,8 @@ namespace rrtesting
 
 
 CXXEnzymeExecutableModel::CXXEnzymeExecutableModel(const rr::Dictionary* dict)
+       : ExecutableModel()
 {
-    mIntegrationStartTime = 0.0;
     rrLog(Logger::LOG_NOTICE) << __FUNC__;
 
     volumes = new double[1];

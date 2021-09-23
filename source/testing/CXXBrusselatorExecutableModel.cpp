@@ -13,9 +13,10 @@ using rr::Logger;
 
 namespace rrtesting {
 
-    CXXBrusselatorExecutableModel::CXXBrusselatorExecutableModel(const rr::Dictionary *dict) {
+    CXXBrusselatorExecutableModel::CXXBrusselatorExecutableModel(const rr::Dictionary *dict)
+       : ExecutableModel()
+    {
         rrLog(Logger::LOG_NOTICE) << __FUNC__;
-        mIntegrationStartTime = 0.0;
     }
 
     CXXBrusselatorExecutableModel::~CXXBrusselatorExecutableModel() {
