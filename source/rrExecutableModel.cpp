@@ -128,4 +128,9 @@ std::ostream& operator <<(std::ostream &stream, ExecutableModel* model)
 
 
 
+void ExecutableModel::setIntegrationStartTime(double time)
+{
+    mIntegrationStartTime = time;
+}
+
 } // namespace rr

@@ -140,6 +140,12 @@ namespace rr {
         */
         virtual std::string toRepr() const;
         /* !-- END OF CARRYOVER METHODS */
+
+        void setIntegrationStartTime(double time);
+
+    protected:
+        double mIntegrationStartTime;
+
     };
 
 

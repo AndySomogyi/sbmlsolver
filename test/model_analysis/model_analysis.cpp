@@ -21,6 +21,18 @@ public:
 };
 
 
+TEST_F(ModelAnalysisTests, SimulateFromNegativeStart) {
+    //rr::Logger::setLevel(rr::Logger::LOG_DEBUG);
+    RoadRunner rr((modelAnalysisModelsDir / "negstart_event.xml").string());
+    SimulateOptions opt;
+    opt.start = -2;
+    opt.duration = 10;
+    opt.steps = 120;
+    const ls::DoubleMatrix* result = rr.simulate(&opt);
+    //std::cout << *result;
+
+}
+
 TEST_F(ModelAnalysisTests, GetRateOfConservedSpecies) {
     RoadRunner rr((modelAnalysisModelsDir / "conserved_cycle.xml").string());
     rr.setConservedMoietyAnalysis(true);

@@ -811,9 +811,13 @@ namespace rr {
             out << "Saving state not implemented for this model type";
         }
 
+        void setIntegrationStartTime(double time);
+
         friend class RoadRunner;
 
     protected:
+
+        double mIntegrationStartTime;
 
         /**
          * is integration is currently proceeding.

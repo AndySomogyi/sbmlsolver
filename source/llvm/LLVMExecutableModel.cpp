@@ -213,6 +213,7 @@ LLVMExecutableModel::LLVMExecutableModel() :
     flags(defaultFlags())
 {
     std::srand((unsigned)std::time(0));
+    mIntegrationStartTime = 0.0;
 }
 
 LLVMExecutableModel::LLVMExecutableModel(
@@ -260,7 +261,8 @@ LLVMExecutableModel::LLVMExecutableModel(
     flags(defaultFlags())
 {
 
-    modelData->time = -1.0; // time is initially before simulation starts
+    modelData->time = -std::numeric_limits<double>::infinity();; // time is initially before simulation starts
+    mIntegrationStartTime = 0.0;
 
     std::srand((unsigned)std::time(0));
 
@@ -907,7 +909,7 @@ void LLVMExecutableModel::reset(int opt)
 
     // this sets up the event system to pull the initial value
     // before the simulation starts.
-    setTime(-1.0);
+    setTime(-std::numeric_limits<double>::infinity());
 
     // we've reset the species to their init values.
     dirty &= ~DIRTY_INIT_SPECIES;
@@ -2201,6 +2203,23 @@ int LLVMExecutableModel::getPendingEventSize()
 
 void LLVMExecutableModel::resetEvents()
 {
+}
+
+bool LLVMExecutableModel::getEventTrigger(size_t event)
+{
+    {
+        assert(event < symbols->getEventAttributes().size()
+            && "event out of bounds");
+        if (modelData->time >= mIntegrationStartTime)
+        {
+            return getEventTriggerPtr(modelData, event);
+        }
+        else
+        {
+            return symbols->getEventAttributes()[event] & EventInitialValue
+                ? true : false;
+        }
+    }
 }
 
 bool LLVMExecutableModel::applyEvents(unsigned char* prevEventState,

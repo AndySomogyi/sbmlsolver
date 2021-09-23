@@ -15,6 +15,7 @@ namespace rrtesting {
 
     CXXBrusselatorExecutableModel::CXXBrusselatorExecutableModel(const rr::Dictionary *dict) {
         rrLog(Logger::LOG_NOTICE) << __FUNC__;
+        mIntegrationStartTime = 0.0;
     }
 
     CXXBrusselatorExecutableModel::~CXXBrusselatorExecutableModel() {

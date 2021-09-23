@@ -493,20 +493,7 @@ public:
         return getEventPriorityPtr(modelData, event);
     }
 
-    inline bool getEventTrigger(size_t event)
-    {
-        assert(event < symbols->getEventAttributes().size()
-                        && "event out of bounds");
-        if (modelData->time >= 0.0)
-        {
-            return getEventTriggerPtr(modelData, event);
-        }
-        else
-        {
-            return symbols->getEventAttributes()[event] & EventInitialValue
-                    ? true : false;
-        }
-    }
+    bool getEventTrigger(size_t event);
 
     inline bool getEventUseValuesFromTriggerTime(size_t event)
     {

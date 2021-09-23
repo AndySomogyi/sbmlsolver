@@ -1776,6 +1776,8 @@ namespace rr {
 
         const double timeEnd = self.simulateOpt.duration + self.simulateOpt.start;
         const double timeStart = self.simulateOpt.start;
+        self.integrator->setIntegrationStartTime(self.simulateOpt.start);
+        self.model->setIntegrationStartTime(self.simulateOpt.start);
 
         impl->simulatedSinceReset = true;
 
@@ -4777,9 +4779,8 @@ namespace rr {
     void RoadRunner::applySimulateOptions() {
         get_self();
 
-        if (self.simulateOpt.duration < 0 || self.simulateOpt.start < 0
-            || self.simulateOpt.steps < 0) {
-            throw std::invalid_argument("duration, startTime and steps must be non-negative");
+        if (self.simulateOpt.duration < 0 || self.simulateOpt.steps < 0) {
+            throw std::invalid_argument("duration and steps must be non-negative");
         }
 
         // This one creates the list of what we will look at in the result

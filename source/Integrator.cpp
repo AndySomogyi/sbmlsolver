@@ -32,7 +32,10 @@ namespace rr
 		INTEGRATOR
 	  ------------------------------------------------------------------------------------------*/
 	Integrator::Integrator(ExecutableModel *model)
-	    : Solver(model){}
+        : Solver(model)
+        , mIntegrationStartTime(0.0)
+    {
+    }
 
     void Integrator::syncWithModel(ExecutableModel* m) {}
 
@@ -74,5 +77,11 @@ namespace rr
 		std::vector<double> v;
 		return v;
 	}
+
+    void Integrator::setIntegrationStartTime(double time)
+    {
+        mIntegrationStartTime = time;
+    }
+
 
 }
