@@ -462,6 +462,8 @@
 %init %{
 // see https://docs.scipy.org/doc/numpy-1.10.1/reference/c-api.array.html#importing-the-api
 import_array();
+
+/*@param m is defined by a call to PyModuleInit from swig*/
 rr::pyutil_init(m);
 %}
 
