@@ -234,8 +234,140 @@ TEST_F(ModelAnalysisTests, SimulateGillespieFromNegativeStart_Combo) {
 }
 
 
+TEST_F(ModelAnalysisTests, NonZeroStarts_CVODE) {
+    //Event:  at S1 > 500, t0=false: S1 = 300;
+    RoadRunner rr((modelAnalysisModelsDir / "BIOMD0000000035_url.xml").string());
+    rr.setIntegrator("cvode");
+    //rr.getIntegrator()->setValue("variable_step_size", false);
+    SimulateOptions opt;
+    opt.start = 0;
+    opt.duration = 10;
+    opt.steps = 50;
+    ls::DoubleMatrix s0result(*(rr.simulate(&opt)));
+    rr.reset(SelectionRecord::SelectionType::ALL);
+    opt.start = -2;
+    ls::DoubleMatrix sneg2result(*(rr.simulate(&opt)));
+    rr.reset(SelectionRecord::SelectionType::ALL);
+    opt.start = 2;
+    ls::DoubleMatrix s2result(*(rr.simulate(&opt)));
+
+
+    for (int i = 0; i <= opt.steps; i++)
+    {
+        EXPECT_NEAR(s0result.Element(i, 0), sneg2result.Element(i, 0) + 2, 0.01);
+        EXPECT_NEAR(s0result.Element(i, 0), s2result.Element(i, 0) - 2, 0.01);
+
+        for (int j = 1; j < s0result.CSize(); j++)
+        {
+            EXPECT_NEAR(s0result.Element(i, j), sneg2result.Element(i, j), 0.01);
+            EXPECT_NEAR(s0result.Element(i, j), s2result.Element(i, j), 0.01);
+        }
+    }
+}
+
+
+
+TEST_F(ModelAnalysisTests, NonZeroStarts_RK4) {
+    //Event:  at S1 > 500, t0=false: S1 = 300;
+    RoadRunner rr((modelAnalysisModelsDir / "threestep.xml").string());
+    rr.setIntegrator("rk4");
+    //rr.getIntegrator()->setValue("variable_step_size", false);
+    SimulateOptions opt;
+    opt.start = 0;
+    opt.duration = 10;
+    opt.steps = 50;
+    ls::DoubleMatrix s0result(*(rr.simulate(&opt)));
+    rr.reset(SelectionRecord::SelectionType::ALL);
+    opt.start = -2;
+    ls::DoubleMatrix sneg2result(*(rr.simulate(&opt)));
+    rr.reset(SelectionRecord::SelectionType::ALL);
+    opt.start = 2;
+    ls::DoubleMatrix s2result(*(rr.simulate(&opt)));
+
+
+    for (int i = 0; i <= opt.steps; i++)
+    {
+        EXPECT_NEAR(s0result.Element(i, 0), sneg2result.Element(i, 0) + 2, 0.01);
+        EXPECT_NEAR(s0result.Element(i, 0), s2result.Element(i, 0) - 2, 0.01);
+
+        for (int j = 1; j < s0result.CSize(); j++)
+        {
+            EXPECT_NEAR(s0result.Element(i, j), sneg2result.Element(i, j), 0.01);
+            EXPECT_NEAR(s0result.Element(i, j), s2result.Element(i, j), 0.01);
+        }
+    }
+}
+
+
+
+TEST_F(ModelAnalysisTests, NonZeroStarts_RK45) {
+    //Event:  at S1 > 500, t0=false: S1 = 300;
+    RoadRunner rr((modelAnalysisModelsDir / "threestep.xml").string());
+    rr.setIntegrator("rk45");
+    rr.getIntegrator()->setValue("variable_step_size", false);
+    SimulateOptions opt;
+    opt.start = 0;
+    opt.duration = 10;
+    opt.steps = 50;
+    ls::DoubleMatrix s0result(*(rr.simulate(&opt)));
+    rr.reset(SelectionRecord::SelectionType::ALL);
+    opt.start = -2;
+    ls::DoubleMatrix sneg2result(*(rr.simulate(&opt)));
+    rr.reset(SelectionRecord::SelectionType::ALL);
+    opt.start = 2;
+    ls::DoubleMatrix s2result(*(rr.simulate(&opt)));
+
+
+    for (int i = 0; i <= opt.steps; i++)
+    {
+        EXPECT_NEAR(s0result.Element(i, 0), sneg2result.Element(i, 0) + 2, 0.01);
+        EXPECT_NEAR(s0result.Element(i, 0), s2result.Element(i, 0) - 2, 0.01);
+
+        for (int j = 1; j < s0result.CSize(); j++)
+        {
+            EXPECT_NEAR(s0result.Element(i, j), sneg2result.Element(i, j), 0.01);
+            EXPECT_NEAR(s0result.Element(i, j), s2result.Element(i, j), 0.01);
+        }
+    }
+}
+
+
+//I don't think setting the seed is working for this one.
+TEST_F(ModelAnalysisTests, DISABLED_NonZeroStarts_Gillespie) {
+    RoadRunner rr((modelAnalysisModelsDir / "threestep.xml").string());
+    rr.setIntegrator("gillespie");
+    rr.getIntegrator()->setValue("variable_step_size", false);
+    rr.getIntegrator()->setValue("seed", 1001);
+    SimulateOptions opt;
+    opt.start = 0;
+    opt.duration = 10;
+    opt.steps = 50;
+    ls::DoubleMatrix s0result(*(rr.simulate(&opt)));
+    rr.reset(SelectionRecord::SelectionType::ALL);
+    opt.start = -2;
+    ls::DoubleMatrix sneg2result(*(rr.simulate(&opt)));
+    rr.reset(SelectionRecord::SelectionType::ALL);
+    opt.start = 2;
+    ls::DoubleMatrix s2result(*(rr.simulate(&opt)));
+
+
+    for (int i = 0; i <= opt.steps; i++)
+    {
+        EXPECT_NEAR(s0result.Element(i, 0), sneg2result.Element(i, 0) + 2, 0.01);
+        EXPECT_NEAR(s0result.Element(i, 0), s2result.Element(i, 0) - 2, 0.01);
+
+        for (int j = 1; j < s0result.CSize(); j++)
+        {
+            EXPECT_NEAR(s0result.Element(i, j), sneg2result.Element(i, j), 0.01);
+            EXPECT_NEAR(s0result.Element(i, j), s2result.Element(i, j), 0.01);
+        }
+    }
+}
+
+
+
 TEST_F(ModelAnalysisTests, GetRateOfConservedSpecies) {
-    RoadRunner rr((modelAnalysisModelsDir / "conserved_cycle.xml").string());
+        RoadRunner rr((modelAnalysisModelsDir / "conserved_cycle.xml").string());
     rr.setConservedMoietyAnalysis(true);
 
     EXPECT_THROW(
