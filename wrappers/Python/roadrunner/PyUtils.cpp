@@ -666,6 +666,7 @@ namespace rr {
     static PyMethodDef NamedArray_methods[] = {
             {CSTR("__array_finalize__"), (PyCFunction) NamedArrayObject_Finalize, METH_VARARGS, CSTR("")},
             {CSTR("__reduce__"),         (PyCFunction) NamedArray___reduce__,     METH_NOARGS,  CSTR("")},
+            {CSTR("__getstate__"),       (PyCFunction) NamedArray___getstate__,   METH_NOARGS,  CSTR("")},
             {CSTR("__setstate__"),       (PyCFunction) NamedArray___setstate__,   METH_O,       CSTR("")},
             {NULL}/* Sentinel */
     };
@@ -776,49 +777,6 @@ namespace rr {
             (binaryfunc) 0,          /*mp_subscript*/
             (objobjargproc) 0,       /*mp_ass_subscript*/
     };
-#define rrPyArray_FromAny \
-        (*(PyObject * (*)(PyObject *, PyArray_Descr *, int, int, int, PyObject *)) \
-         PyArray_API[69])
-
-    int makeNamedArray(PyObject *self, PyObject *args, PyObject *kwargs) {
-//        so you need to figure out how to allow rownames and colnames
-//        as keyword arguments.
-
-//        Then you can use the __init__ fcn in the call to reduce.
-
-        std::cout << "makeNamedArray" << std::endl;
-        PyObject *inputArr;
-        PyObject *rownames = nullptr;
-        PyObject *colnames = nullptr;
-
-        static char *keywords[] = {"inputArr", "rownames", "colnames", NULL};
-
-        if (!PyArg_ParseTupleAndKeywords(args, kwargs, "O|OO", keywords,
-                                         &inputArr, &rownames, &colnames)) {
-            PyErr_SetString(PyExc_ValueError, "Could not parse args "
-                                              "for NamedArray");
-            return -1;
-        }
-
-        std::cout << inputArr->ob_type->tp_name << std::endl;
-        std::cout << inputArr->ob_type->ob_base.ob_base.ob_type->tp_name << std::endl;
-        std::cout << PyList_Size(inputArr) << std::endl;
-
-
-        if (PyArray_Type.tp_init((PyObject*)self, args, kwargs ) < 0){
-            PyErr_SetString(PyExc_ValueError, "Could not init NamedArray: call to ndarray.__init__ failed.");
-            return -1;
-        };
-//        PyArray_Descr *descr = PyArray_DescrFromType(NPY_DOUBLE);
-//        PyObject * arr = rrPyArray_FromAny(inputArr, descr, 1, 3, 0, nullptr);
-//        std::cout << rownames << std::endl;
-//        std::cout << colnames << std::endl;
-//        std::cout << arr->ob_type->tp_name << std::endl;
-//        std::cout << rownames->ob_type->tp_name << std::endl;
-//        std::cout << colnames->ob_type->tp_name << std::endl;
-
-        return 0;
-    }
 
     static PyTypeObject NamedArray_Type = {
             PyVarObject_HEAD_INIT(NULL, 0)
@@ -882,7 +840,6 @@ namespace rr {
             PyErr_SetString(PyExc_ValueError, "Could not convert array to bytes");
             return nullptr;
         }
-
         // number of dimensions
         int nDims = PyArray_NDIM(self);
         std::int64_t dim1 = 0;
@@ -907,6 +864,7 @@ namespace rr {
                                       "rownames", self->rowNames,
                                       "colnames", self->colNames,
                                       PICKLE_VERSION_KEY, PICKLE_VERSION);
+
         if (!ret) {
             PyErr_SetString(PyExc_ValueError, "Could not create dict using Py_BuildValue "
                                               "in NamedArray.__getstate__");
@@ -916,51 +874,83 @@ namespace rr {
     }
 
     static PyObject *
-    NamedArray___reduce__(NamedArrayObject *self, PyObject *Py_UNUSED(ignored)) {
+    NamedArray___reduce__(NamedArrayObject *self) {
         std::cout << "using NamedArray___reduce__" << std::endl;
-        // see https://numpy.org/doc/stable/reference/c-api/array.html#c.PyArray_Dumps
-        PyObject *arrayBytes = self->arrayToBytes();
-        if (!arrayBytes) {
-            PyErr_SetString(PyExc_ValueError, "Could not convert array to bytes");
-            return nullptr;
-        }
-
-        // number of dimensions
-        int nDims = PyArray_NDIM(self);
-        std::int64_t dim1 = 0;
-        std::int64_t dim2 = 0;
-
-        npy_intp *shape = PyArray_SHAPE((PyArrayObject *) self);
-        if (!shape) {
-            PyErr_SetString(PyExc_ValueError, "Could not extract shape from array");
-            return nullptr;
-        }
-        if (nDims > 0)
-            dim1 = shape[0];
-        if (nDims > 1)
-            dim2 = shape[1];
-
-        // string, bytes, string, object, string object string int
-        PyObject *state = Py_BuildValue("{sSsOsOsi}",
-                                        "array", arrayBytes,
-//                                      "nDims", nDims,
-//                                      "dim1", dim1,
-//                                      "dim2", dim2,
-                                        "rownames", self->rowNames,
-                                        "colnames", self->colNames,
-                                        PICKLE_VERSION_KEY, PICKLE_VERSION);
-
+        PyObject *state = NamedArray___getstate__(self, nullptr);
         if (!state) {
-            PyErr_SetString(PyExc_ValueError, "Could not create a state from NamedArray");
+            // do not set an error here as it will override the
+            // useful error from NamedArray___getstate__
             return nullptr;
         }
+
+        // verify we have a dict
+        PyDict_CheckExact(state);
+
+        // borrowed reference
+        PyObject *nDimsObj = PyDict_GetItemString(state, "nDims");
+        if (!nDimsObj) {
+            PyErr_SetString(PyExc_ValueError, "Could not extract nDims "
+                                              "from state dict");
+        }
+        auto nDims = PyLong_AsLong(nDimsObj);
+        PyObject *callableArgs = nullptr;
+        if (nDims == 2) {
+            callableArgs = PyTuple_Pack(
+                    2,
+                    PyDict_GetItemString(state, "dim1"),
+                    PyDict_GetItemString(state, "dim2"));
+        } else if (nDims == 1) {
+            callableArgs = PyTuple_Pack(1, PyDict_GetItemString(state, "dim1"));
+        } else {
+            PyErr_Format(PyExc_ValueError, "Unexpected number of dimensions %i", nDims);
+        }
+
+        // import _roadrunner and grab the NamedArray object
+        // from the Python end
+        PyObject *roadrunner = PyImport_ImportModule("roadrunner._roadrunner");
+        if (!roadrunner) {
+            PyErr_SetString(PyExc_ImportError, "Could not import roadrunner._roadrunner");
+            return nullptr;
+        }
+        PyObject *namedArrayObj = PyObject_GetAttrString(roadrunner, "NamedArray");
+        if (!namedArrayObj) {
+            PyErr_SetString(PyExc_AttributeError, "Could not find NamedArray in the roadrunner._roadrunner module");
+            return nullptr;
+        }
+
         PyObject *tup = nullptr;
-        // string, bytes, string, object, string object string int
         tup = Py_BuildValue(
-                "(OO)",
-                makeNamedArray, /* A python callable for constructing NamedArrayObject*/
+                "(OOO)",
+                /**
+                 * A callable object that will be called to
+                 * create the initial version of the object.
+                 * Aka
+                 */
+                namedArrayObj,
+
+                /**
+                 * A tuple of arguments for the callable object.
+                 * An empty tuple must be given if the callable
+                 * does not accept any argument.
+                 *
+                 * Our __setstate__ method takes a
+                 * NamedArrayObject* and a dict containing state
+                 */
+                callableArgs,
+
+                /**
+                 * Optionally, the object’s state, which will be passed to
+                 * the object’s __setstate__() method as previously
+                 * described. If the object has no such method then,
+                 * the value must be a dictionary and it will be added
+                 * to the object’s __dict__ attribute.
+                 */
                 state
         );
+
+        Py_DecRef(roadrunner);
+        Py_DecRef(namedArrayObj);
+
         return tup;
     }
 
@@ -970,24 +960,6 @@ namespace rr {
         std::cout << "using NamedArray___setstate__" << std::endl;
         std::cout << state->ob_type->tp_name << std::endl;
         std::cout << PyTuple_Size(state) << std::endl;
-        PyObject *f1 = PyTuple_GetItem(state, 0);
-        PyObject *f2 = PyTuple_GetItem(state, 0);
-        PyObject *f3 = PyTuple_GetItem(state, 0);
-        PyObject *f4 = PyTuple_GetItem(state, 0);
-        PyObject *f5 = PyTuple_GetItem(state, 0);
-        std::cout << f1->ob_type->tp_name << std::endl;
-        std::cout << f2->ob_type->tp_name << std::endl;
-        std::cout << f3->ob_type->tp_name << std::endl;
-        std::cout << f4->ob_type->tp_name << std::endl;
-        std::cout << f5->ob_type->tp_name << std::endl;
-
-        std::cout << PyLong_AsLong(f1) << std::endl;
-        std::cout << PyLong_AsLong(f2) << std::endl;
-        std::cout << PyLong_AsLong(f3) << std::endl;
-        std::cout << PyLong_AsLong(f4) << std::endl;
-        std::cout << PyLong_AsLong(f5) << std::endl;
-
-
 
         // ensure we have a dict object, ruling out dict subclasses
         if (!PyDict_CheckExact(state)) {
@@ -1010,51 +982,16 @@ namespace rr {
                     pklVersion, PICKLE_VERSION);
             return nullptr;
         }
-//
-//        /* Borrowed reference but no need to incref as we create a C long from it. */
-//        PyObject *nDimsPyObj = PyDict_GetItemString(state, "nDims");
-//        if (nDimsPyObj == NULL) {
-//            /* PyDict_GetItemString does not set any error state so we have to. */
-//            PyErr_SetString(PyExc_KeyError, "No \"nDims\" in pickled dict.");
-//            return NULL;
-//        }
-//        int nDims = (int) PyLong_AsLong(nDimsPyObj);
-//
-//        /* Borrowed reference but no need to incref as we create a C long from it. */
-//        PyObject *dim1PyObj = PyDict_GetItemString(state, "dim1");
-//        if (dim1PyObj == NULL) {
-//            /* PyDict_GetItemString does not set any error state so we have to. */
-//            PyErr_SetString(PyExc_KeyError, "No \"dim1PyObj\" in pickled dict.");
-//            return NULL;
-//        }
-//        std::int64_t dim1 = (int) PyLong_AsLong(dim1PyObj);
-//
-//        /* Borrowed reference but no need to incref as we create a C long from it. */
-//        PyObject *dim2PyObj = PyDict_GetItemString(state, "dim2");
-//        if (dim2PyObj == NULL) {
-//            /* PyDict_GetItemString does not set any error state so we have to. */
-//            PyErr_SetString(PyExc_KeyError, "No \"dim2\" in pickled dict.");
-//            return NULL;
-//        }
-//        std::int64_t dim2 = (int) PyLong_AsLong(dim2PyObj);
-//
-//        std::cout << "nDims : " << nDims << " " << dim1 << " " << dim2 << std::endl;
 
-        /**
-         * NamedArrayObject_New would have already been called on self.
-         * To prevent memory leak, we need to remove the existing
-         * fields before replacing them.
-         */
-//        NamedArrayObject_dealloc(self);
+        // decrement the existing before assigning the new
         Py_DECREF(&self->array);
 
-//        // assign the array
+        // Grab the bytes object.
         PyObject *bytesObj = PyDict_GetItemString(state, "array"); // borrowed reference
         if (!bytesObj) {
             PyErr_SetString(PyExc_KeyError, "No 'array' key in pickled dict");
             return nullptr;
         }
-        std::cout << bytesObj->ob_type->tp_name << std::endl;
 
         /**
          * We can load our bytes object back into a numpy array
@@ -1065,28 +1002,71 @@ namespace rr {
         PyArray_Descr *descr = PyArray_DescrFromType(NPY_DOUBLE);
         PyObject *arr = PyArray_FromBuffer(bytesObj, descr, -1, 0);
 
-        // and change its type back to NamedArray_Type
-        arr->ob_type = &NamedArray_Type;
+        // but we need to reshape the result which is 1D
+        auto nDims = PyLong_AsLong(PyDict_GetItemString(state, "nDims"));
+
+        PyObject *shape = nullptr;
+        if (nDims == 1) {
+            shape = Py_BuildValue(
+                    "i",
+                    PyLong_AsLong(PyDict_GetItemString(state, "dim1"))
+            );
+        } else if (nDims == 2) {
+            shape = Py_BuildValue(
+                    "ii",
+                    PyLong_AsLong(PyDict_GetItemString(state, "dim1")),
+                    PyLong_AsLong(PyDict_GetItemString(state, "dim2"))
+            );
+        }
+
+        PyObject* np = PyImport_ImportModule("numpy");
+        if (!np){
+            PyErr_SetString(PyExc_ImportError, "Cannot import numpy");
+            return nullptr;
+        }
+        PyObject* resize = PyObject_GetAttrString(np,"resize");
+        if (!resize){
+            PyErr_SetString(PyExc_ImportError, "Cannot get resize method from numpy module");
+            return nullptr;
+        }
+        // call resize.
+        PyObject * newArr = PyObject_CallFunctionObjArgs(resize,arr, shape,NULL);
+        if (!newArr){
+            PyErr_SetString(PyExc_ValueError, "Failed to reshape NamedArray");
+        }
+        // newArr is a new reference so we decrement the old
+        Py_DecRef(arr);
+        Py_DecRef(np);
+        Py_DecRef(resize);
+
+        // We've been using a PyArrayObject until here.
+        // assign its type back to NamedArray
+        newArr->ob_type = &NamedArray_Type;
+
+        // and finally we can assign the array
+        self->array = *(PyArrayObject *) newArr;
 
         // increment the ref count of array for our instance
         Py_INCREF(&self->array);
 
-//        // now for rownames, who was deallocated in call to NamedArrayObject_dealloc
-//        self->rowNames = PyDict_GetItemString(state, "rownames");
-//        if (!self->rowNames) {
-//            PyErr_SetString(PyExc_KeyError, "No key 'rownames' in state dict");
-//        }
-//        Py_INCREF(self->rowNames);
+        Py_DecRef(shape);
 
-//        // now for colnames, who was deallocated in call to NamedArrayObject_dealloc
-//        self->colNames = PyDict_GetItemString(state, "colnames");
-//        if (!self->colNames) {
-//            PyErr_SetString(PyExc_KeyError, "No key 'colnames' in state dict");
-//        }
-//        Py_INCREF(self->colNames);
+        // now for rownames,
+        self->rowNames = PyDict_GetItemString(state, "rownames");
+        if (!self->rowNames) {
+            PyErr_SetString(PyExc_KeyError, "No key 'rownames' in state dict");
+        }
+        Py_INCREF(self->rowNames);
+
+        // now for colnames,
+        self->colNames = PyDict_GetItemString(state, "colnames");
+        if (!self->colNames) {
+            PyErr_SetString(PyExc_KeyError, "No key 'colnames' in state dict");
+        }
+        Py_INCREF(self->colNames);
+
         return Py_None;
     }
-
 
     PyObject *NamedArrayObject_Finalize(NamedArrayObject *self, PyObject *parent) {
         rrLog(Logger::LOG_INFORMATION) << __FUNC__;
@@ -1149,42 +1129,11 @@ namespace rr {
 
         if (PyModule_AddObject(module, "NamedArray", (PyObject *) (&NamedArray_Type)) < 0) {
 
-            PyErr_SetString(PyExc_ValueError, "Could not add NamedArray object to roadrunner module");
+            PyErr_SetString(PyExc_ValueError, "Could not add NamedArray object to _roadrunner module");
         };
-//        if (PyModule_AddObject(module, "makeNamedArray", (PyObject *) (&makeNamedArray)) < 0) {
-//            PyErr_SetString(PyExc_ValueError, "Could not add NamedArray object to roadrunner module");
-//        };
     }
 
 /*
-NPY_NO_EXPORT PyObject *
-PyArray_New(PyTypeObject *subtype, int nd, npy_intp *dims, int type_num,
-            npy_intp *strides, void *data, int itemsize, int flags,
-            PyObject *obj)
-{
-    PyArray_Descr *descr;
-    PyObject *new;
-
-    descr = PyArray_DescrFromType(type_num);
-    if (descr == NULL) {
-        return NULL;
-    }
-    if (descr->elsize == 0) {
-        if (itemsize < 1) {
-            PyErr_SetString(PyExc_ValueError,
-                            "data type must provide an itemsize");
-            Py_DECREF(descr);
-            return NULL;
-        }
-        PyArray_DESCR_REPLACE(descr);
-        descr->elsize = itemsize;
-    }
-    new = PyArray_NewFromDescr(subtype, descr, nd, dims, strides,
-                               data, flags, obj);
-    return new;
-}
- */
-
 /* PyArray_New(&PyArray_Type, nd, dims, NPY_DOUBLE, NULL, data, 0,
                                      NPY_CARRAY | NPY_OWNDATA, NULL);
  */
@@ -1198,7 +1147,7 @@ PyArray_New(PyTypeObject *subtype, int nd, npy_intp *dims, int type_num,
             rrLog(Logger::LOG_INFORMATION) << "creating NEW style array";
 
             //         (*(PyObject * (*)(PyTypeObject *, int, npy_intp const *, int, npy_intp const *, void *, int, int, PyObject *))
-            NamedArrayObject *array = (NamedArrayObject * )PyArray_New(
+            NamedArrayObject *array = (NamedArrayObject *) PyArray_New(
                     &NamedArray_Type, nd, dims, NPY_DOUBLE, NULL, data, 0,
                     pyFlags, NULL);
 

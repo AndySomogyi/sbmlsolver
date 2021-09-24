@@ -12,6 +12,7 @@ from os.path import dirname, exists, join
 
 import roadrunner
 from roadrunner import *
+import copy
 
 sys.path += [
     # r"D:\roadrunner\roadrunner\install-msvc2019-rel\site-packages",
@@ -25,13 +26,16 @@ from roadrunner.roadrunner import RoadRunner
 def simulate_return_None(r):
     print(r.simulate(0, 10, 11))
 
+
 def simulate_return_dataframe(r):
     data = r.simulate(0, 10, 11)
     df = pd.DataFrame(data, columns=data.colnames)
     return df
 
+
 def simulate_return_NamedArray(r):
     return r.simulate(0, 10, 11)
+
 
 class RoadRunnerPickleTests(unittest.TestCase):
 
@@ -93,126 +97,108 @@ class RoadRunnerPickleTests(unittest.TestCase):
         p.close()
         print(dfs)
 
-# class NamedArrayPickleTests(unittest.TestCase):
-#
-#     rr = RoadRunner(tmf.SimpleFlux().str())
-#
-#     def setUp(self) -> None:
-#         self.data = self.rr.simulate(0, 10, 11)
-#         # set some rownames for the sake of testing
-#         self.data.rownames = [i for i in range(11)]
-#
-#     def tearDown(self) -> None:
-#         pass
-#
-#     def test_getstate_isdict(self):
-#         self.assertIsInstance(self.data.__getstate__(), dict)
-#
-#     def test_getstate_rownames(self):
-#         state = self.data.__getstate__()
-#         self.assertEqual(state['rownames'], [i for i in range(11)])
-#
-#     def test_getstate_colnames(self):
-#         state = self.data.__getstate__()
-#         print(state['colnames'])
-#         self.assertEqual(state['colnames'],  ['time', '[S1]', '[S2]'])
-#
-#     def test_getstate_array(self):
-#         state = self.data.__getstate__()
-#         self.assertIsInstance(state['array'], bytes)
-#
-#     def test_setstate(self):
-#         import copy
-#         state = self.data.__getstate__()
-#         original = copy.copy(self.data)
-#         self.data.__setstate__(state)
-#         print(self.data)
-#         self.assertTrue(np.all(original == self.data))
-#         self.assertNotEqual(
-#             hex(id(original)), hex(id(self.data))
-#         )
-#
-#     def test_module_name(self):
-#         # this test belongs somewhere else but since
-#         # testing isn't setup for NamedArray right now I'll
-#         # slip it in here
-#         k = [1, 2, 3, 5]
-#         n = NamedArray(k)
-#         print(n, type(n))
-#         n.rownames = 'r'
-#         n.colnames = ['c', 'e']
-#         # NamedArray.__module__ = "_roadrunner"
-#         print(NamedArray.__module__)
-#         print(NamedArray.__name__)
-#         # print(NamedArray([0]).cheese)
-#
-#
-#     """
-#
-#     A problem I have is that Python is looking in the
-#     builtins module for the NamedArray object and can't
-#     find it because swig puts it in roadrunner._roadrunner.
-#
-#     So why is python.pickle looking for NamedArray in builtins?
-#
-#     Well, because its an extension module. The Python source code
-#     that deals with this stuff is here:
-#         https://github.com/python/cpython/blob/9ad8f109ac037ac088e09dcd2da523322c5caf34/Modules/_pickle.c#L3578
-#
-#     This problem can be resolved by adding the NamedArray to the
-#     builtins module instead of the _roadrunner module like we
-#     have it now.
-#
-#
-#     :return:
-#     """
-#     def test_to_pkl(self):
-#         fname = os.path.join(os.path.dirname(__file__), "data.pickle")
-#         # print(self.data.__getstate__)
-#         # print(self.data.__setstate__)
-#         # from roadrunner import NamedArray
-#         # k = [1, 2, 3, 5]
-#         # n = NamedArray(k)
-#         # n.rownames = 'r'
-#         # n.colnames = ['c', 'e']
-#         # print(NamedArray.__module__)
-#         # print(NamedArray.__name__)
-#
-#         with open(fname, 'wb') as f:
-#             pickle.dump(self.data, f)
-#         # with open(fname, 'rb') as f:
-#         #     data2 = pickle.load(f)
-#         #
-#         # print(data2)
-#
-#         #
-#         # print(n)
-#         #     # k, rownames=['R1'], colnames=[f'C{i}' for i in k]
-#         # # ))
-#         # import builtins
-#         # # for i in dir(builtins):
-#         # #     print(i)
-#         # # for i in dir(roadrunner._roadrunner):
-#         # #     print(i)
-#         # # print(dir(builtins))
-#         # # if os.path.isfile(fname):
-#         # #     os.remove(fname)
-#         # #
-#         # with open(fname, 'wb') as f:
-#         #     pickle.dump(self.data, f)
-#         #
-#         # # with open(fname, 'wb') as f:
-#         # #     data2 = pickle.load(f)
-#         # #
-#         # # print(data2)
-#         #
-#
-#     def test_named_array(self):
-#         k = [1, 2, 3, 5, 12]
-#         n = NamedArray(k)
-#         print(n, type(n))
-#         # n.rownames = 'r'
-#         # n.colnames = ['c', 'e']
-#         # print(NamedArray.__module__)
 
+class NamedArrayPickleTests(unittest.TestCase):
+    rr = RoadRunner(tmf.SimpleFlux().str())
 
+    def setUp(self) -> None:
+        self.data = self.rr.simulate(0, 10, 11)
+        # set some rownames for the sake of testing
+        self.data.rownames = [i for i in range(11)]
+
+    def tearDown(self) -> None:
+        pass
+
+    def test_getstate_isdict(self):
+        self.assertIsInstance(self.data.__getstate__(), dict)
+
+    def test_getstate_rownames(self):
+        state = self.data.__getstate__()
+        self.assertEqual(state['rownames'], [i for i in range(11)])
+
+    def test_getstate_colnames(self):
+        state = self.data.__getstate__()
+        print(state['colnames'])
+        self.assertEqual(state['colnames'], ['time', '[S1]', '[S2]'])
+
+    def test_getstate_array(self):
+        state = self.data.__getstate__()
+        self.assertIsInstance(state['array'], bytes)
+
+    def test_reduce_callable(self):
+        c, args, state = self.data.__reduce__()
+        self.assertTrue(callable(c))
+
+    def test_reduce_args(self):
+        c, args, state = self.data.__reduce__()
+        self.assertEqual(args, (11, 3))
+
+    def test_reduce_state(self):
+        c, args, state = self.data.__reduce__()
+        self.assertEqual(
+            list(state.keys()),
+            ['array', 'nDims', 'dim1',
+             'dim2', 'rownames', 'colnames',
+             '_pickle_version'])
+
+    def test_reduce_args_work_with_callable(self):
+        c, args, state = self.data.__reduce__()
+        initialized = c(args)
+        self.assertIsInstance(initialized, NamedArray)
+        self.assertEqual(initialized.shape, (11, 3))
+
+    def test_reduce_and_setstate(self):
+        c, args, state = self.data.__reduce__()
+        newArray = c(args)
+        newArray.__setstate__(state)
+        # make sure we still have a NamedArray after setstate
+        self.assertIsInstance(newArray, NamedArray)
+        self.assertEqual(newArray.shape, (11, 3))
+        self.assertTrue((self.data == newArray).all())
+
+    def test_getstate_and_setstate(self):
+        pickled = NamedArray(self.data.shape)
+        self.assertNotEqual(id(self.data), id(pickled))
+        state = self.data.__getstate__()
+        self.assertIsInstance(state, dict)
+        pickled.__setstate__(state)
+        self.assertAlmostEqual(self.data['[S1]'][1], 9.062504129616269)
+
+    def testx(self):
+        state = self.data.__getstate__()
+        arr = state['array']
+        print(arr)
+
+        # n = NamedArray()
+
+    def test_to_pickle_dump(self):
+        fname = os.path.join(os.path.dirname(__file__), "data.pickle")
+
+        with open(fname, 'wb') as f:
+            pickle.dump(self.data, f)
+        # with open(fname, 'rb') as f:
+        #     data2 = pickle.load(f)
+        #
+        # print(data2)
+
+        #
+        # print(n)
+        #     # k, rownames=['R1'], colnames=[f'C{i}' for i in k]
+        # # ))
+        # import builtins
+        # # for i in dir(builtins):
+        # #     print(i)
+        # # for i in dir(roadrunner._roadrunner):
+        # #     print(i)
+        # # print(dir(builtins))
+        # # if os.path.isfile(fname):
+        # #     os.remove(fname)
+        # #
+        # with open(fname, 'wb') as f:
+        #     pickle.dump(self.data, f)
+        #
+        # # with open(fname, 'wb') as f:
+        # #     data2 = pickle.load(f)
+        # #
+        # # print(data2)
+        #

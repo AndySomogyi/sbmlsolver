@@ -129,17 +129,8 @@ namespace rr {
          * See PyArrayObject_fields in numpy ndarraytypes.h
          */
         PyArrayObject array;
-        PyObject *rowNames;
-        PyObject *colNames;
-
-        explicit NamedArrayObject(PyArrayObject array_, PyObject *rowNames_ = nullptr, PyObject *colNames_ = nullptr)
-                : array(array_), rowNames(rowNames_), colNames(colNames_) {}
-
-        static NamedArrayObject *
-        makeNamedArray(PyArrayObject array_, PyObject *rowNames_ = nullptr, PyObject *colNames_ = nullptr) {
-            return new NamedArrayObject(array_, rowNames_, colNames_);
-
-        }
+        PyObject *rowNames = nullptr;
+        PyObject *colNames = nullptr;
 
         /**
          * @brief create a binary string from the array field of NamedArrayObject.
@@ -177,8 +168,21 @@ namespace rr {
     static PyObject *
     NamedArray___getstate__(NamedArrayObject *self, PyObject *Py_UNUSED(ignored));
 
+    /**
+     * @brief implementation of __reduce__ method
+     * for NamedArray
+     * @return tuple[callable, tuple, dict]
+     * @details builds the tuple expected from the
+     * __reduce__ method. This is a callable
+     * which takes a tuple as argument and a
+     * dictionary state to be passed onto __setstate__.
+     * We use the NamedArray constructor as the callable,
+     * with its dimensions for its arguments and
+     * the return value of NamedArray___getstate__
+     * for the state.
+     */
     static PyObject *
-    NamedArray___reduce__(NamedArrayObject *self, PyObject *Py_UNUSED(ignored));
+    NamedArray___reduce__(NamedArrayObject *self);
 
     static PyObject *
     NamedArray___setstate__(NamedArrayObject *self, PyObject *state);
@@ -187,6 +191,7 @@ namespace rr {
                                     const ls::DoubleMatrix *mat);
 
     static void NamedArrayObject_dealloc(NamedArrayObject *self);
+
 /**
  * @brief Initialize the pyutil module inside swig
  * @details This method is called once at inside
