@@ -1774,10 +1774,11 @@ namespace rr {
 
         applySimulateOptions();
 
-        const double timeEnd = self.simulateOpt.duration + self.simulateOpt.start;
         const double timeStart = self.simulateOpt.start;
         self.integrator->setIntegrationStartTime(self.simulateOpt.start);
         self.model->setIntegrationStartTime(self.simulateOpt.start);
+
+        const double timeEnd = self.simulateOpt.duration + self.simulateOpt.start;
 
         impl->simulatedSinceReset = true;
 

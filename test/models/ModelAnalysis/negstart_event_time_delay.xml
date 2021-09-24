@@ -21,20 +21,25 @@
       </reaction>
     </listOfReactions>
     <listOfEvents>
-      <event id="E2" useValuesFromTriggerTime="true">
+      <event id="E0" useValuesFromTriggerTime="true">
         <trigger initialValue="true" persistent="true">
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
               <gt/>
-              <ci> S1 </ci>
-              <cn type="integer"> 500 </cn>
+              <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/time"> time </csymbol>
+              <cn> -1.1 </cn>
             </apply>
           </math>
         </trigger>
+        <delay>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <cn> 0.5 </cn>
+          </math>
+        </delay>
         <listOfEventAssignments>
           <eventAssignment variable="S1">
             <math xmlns="http://www.w3.org/1998/Math/MathML">
-              <cn type="integer"> 300 </cn>
+              <cn type="integer"> 0 </cn>
             </math>
           </eventAssignment>
         </listOfEventAssignments>

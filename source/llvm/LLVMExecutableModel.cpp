@@ -264,7 +264,7 @@ LLVMExecutableModel::LLVMExecutableModel(
 
     //The key here is that 'time' has to be less than 'mIntegrationStartTime' for events to work.  Not sure whether it actually has to be -inf, but it can't hurt?  See T0EventFiring tests, particularly 1120 in the SBML test suite (test_semantic_STS).  The actual integration start time is set in 'simulate'. --LS
     modelData->time = -std::numeric_limits<double>::infinity(); // time is initially before simulation starts
-    // mIntegrationStartTime defaults to zero in constructor;
+    // mIntegrationStartTime defaults to zero in constructor.
 
     std::srand((unsigned)std::time(0));
 
