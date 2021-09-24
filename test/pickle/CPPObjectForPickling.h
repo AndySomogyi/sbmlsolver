@@ -5,6 +5,12 @@
 #ifndef ROADRUNNER_CPPOBJECTFORPICKLING_H
 #define ROADRUNNER_CPPOBJECTFORPICKLING_H
 
+
+/**
+ * Note: This source file is not used in roadrunner testing
+ * but its an example of how to support pickled swig objects.
+ */
+
 #include <iostream>
 
 class CPPObjectForPickling{

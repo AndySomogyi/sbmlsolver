@@ -23,6 +23,8 @@ if (BUILD_PYTHON AND BUILD_TESTS)
             CPPObjectForPickling.h
     )
 
+    add_pytest_to_ctest(pickle_tests pickle_tests.py)
+
 endif ()
 
 
