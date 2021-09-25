@@ -37,6 +37,12 @@ namespace rr
     {
     }
 
+    Integrator::Integrator()
+        : Solver()
+        , mIntegrationStartTime(0.0)
+    {
+    }
+
     void Integrator::syncWithModel(ExecutableModel* m) {}
 
     void Integrator::loadConfigSettings() {}
