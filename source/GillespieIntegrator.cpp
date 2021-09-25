@@ -371,7 +371,7 @@ namespace rr
     {
         std::vector<unsigned char> initialEventStatus(mModel->getEventTriggers(0, nullptr, nullptr), false);
         mModel->getEventTriggers(initialEventStatus.size(), nullptr, initialEventStatus.empty() ? nullptr : &initialEventStatus[0]);
-        applyEvents(0, initialEventStatus);
+        applyEvents(mIntegrationStartTime, initialEventStatus);
     }
 
     void GillespieIntegrator::applyEvents(double timeEnd, std::vector<unsigned char> &prevEventStatus)
@@ -385,14 +385,12 @@ namespace rr
             return;
         }
 
-        if (t0 <= 0.0) {
-            if (stateVector)
-            {
-                mModel->getStateVector(stateVector);
-            }
-
-            testRootsAtInitialTime();
+        if (stateVector)
+        {
+            mModel->getStateVector(stateVector);
         }
+
+        testRootsAtInitialTime();
 
         mModel->setTime(t0);
 

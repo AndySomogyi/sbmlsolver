@@ -123,6 +123,8 @@ namespace rr {
          * @brief Returns a human-readable description of the code generation backend,
          * e.g. LLVM, legacy C, etc.
          */
+        ExecutableModel();
+
         virtual std::string getExecutableModelDesc() const = 0;
 
         /**
@@ -811,9 +813,13 @@ namespace rr {
             out << "Saving state not implemented for this model type";
         }
 
+        virtual void setIntegrationStartTime(double time);
+
         friend class RoadRunner;
 
     protected:
+
+        double mIntegrationStartTime;
 
         /**
          * is integration is currently proceeding.

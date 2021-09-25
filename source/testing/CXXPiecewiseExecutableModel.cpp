@@ -15,6 +15,7 @@ namespace rrtesting
 {
 
 CXXPiecewiseExecutableModel::CXXPiecewiseExecutableModel(const rr::Dictionary* dict)
+       : ExecutableModel()
 {
     rrLog(Logger::LOG_NOTICE) << __FUNC__;
 }

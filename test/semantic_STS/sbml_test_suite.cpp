@@ -247,10 +247,10 @@ public:
 };
 
 
-TEST_F(SbmlTestSuite, test_single)
+TEST_F(SbmlTestSuite, DISABLED_test_single)
 {
     // Use when need to run one test.
-    EXPECT_TRUE(RunTest(26));
+    EXPECT_TRUE(RunTest(1120));
 }
 TEST_F(SbmlTestSuite, t1)
 {
