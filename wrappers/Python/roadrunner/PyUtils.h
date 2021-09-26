@@ -168,6 +168,8 @@ namespace rr {
     static PyObject *
     NamedArray___getstate__(NamedArrayObject *self, PyObject *Py_UNUSED(ignored));
 
+    PyMODINIT_FUNC PyInit_named_array(void);
+
     /**
      * @brief implementation of __reduce__ method
      * for NamedArray

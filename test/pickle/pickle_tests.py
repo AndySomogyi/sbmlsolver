@@ -165,11 +165,34 @@ class NamedArrayPickleTests(unittest.TestCase):
         self.assertAlmostEqual(self.data['[S1]'][1], 9.062504129616269)
 
     def testx(self):
-        state = self.data.__getstate__()
-        arr = state['array']
-        print(arr)
+        # So this is wierd. The methods
+        # added by swig in the wrap
+        # are added to the roadrunner.roadrunner
+        # whilst NamedArray is in __module__
+        from roadrunner._roadrunner import NamedArray
+        print(NamedArray.__module__)
+        print(RoadRunner.__module__)
+        print(dir(roadrunner._roadrunner))
+        print(roadrunner._roadrunner.NamedArray.__module__)
+        print(roadrunner._roadrunner.DictionaryVector___nonzero__.__module__)
+        print(roadrunner._roadrunner.SWIG_PyInstanceMethod_New.__module__)
+
+        # Maybe we can hook the NamedArray into
+        # swig by adding to swig_module_info?
 
         # n = NamedArray()
+
+    def testy(self):
+        import roadrunner
+        from roadrunner._roadrunner import NamedArray
+        # from roadrunner._roadrunner import named_array
+
+        # for i in dir(roadrunner._roadrunner):
+        #     print(i)
+
+        # print(NamedArray.__module__)
+        # import named_array
+
 
     def test_to_pickle_dump(self):
         fname = os.path.join(os.path.dirname(__file__), "data.pickle")
