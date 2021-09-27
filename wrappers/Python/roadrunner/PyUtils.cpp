@@ -1116,11 +1116,6 @@ namespace rr {
     static PyObject *
     NamedArray___setstate__(NamedArrayObject *self, PyObject *state) {
         std::cout << "using NamedArray___setstate__" << std::endl;
-        std::cout << state->ob_type->tp_name << std::endl;
-        std::cout << "dict size: " << PyDict_Size(state) << std::endl;
-        std::cout << self->colNames << std::endl;
-        std::cout << PyObject_Print(state, stdout, 0)<<std::endl;
-
 
         // ensure we have a dict object, ruling out dict subclasses
         if (!PyDict_CheckExact(state)) {
@@ -1130,101 +1125,128 @@ namespace rr {
         verifyPickleVersion(state);
 
         // decrement the existing before assigning the new
-        Py_DECREF(&self->array);
+//        Py_DECREF(&self->array);
+        std::cout << PyArray_REFCOUNT((PyObject*)&self->array) << std::endl;
 
-        // Grab the bytes object.
-        PyObject *bytesObj = PyDict_GetItemString(state, "array"); // borrowed reference
-        if (!bytesObj) {
-            PyErr_SetString(PyExc_KeyError, "No 'array' key in pickled dict");
-            return nullptr;
-        }
-        PyObject_Print(bytesObj, stdout, 1);
+//        PyObject_Print((PyObject*)&self->array, stdout, 0);
+//        PyObject_Print(self->rowNames, stdout, 0);
+//        PyObject_Print(self->rowNames, stdout, 0);
 
-        /**
-         * We can load our bytes object back into a numpy array
-         * with:
-         *      PyObject *PyArray_FromBuffer(PyObject *buf, PyArray_Descr *dtype, npy_intp count, npy_intp offset)
-         *
-         */
-        PyArray_Descr *descr = PyArray_DescrFromType(NPY_DOUBLE);
-        if (!descr){
-            PyErr_SetString(PyExc_ValueError , "Could not create PyArray_Descr in NamedArray.__setstate__");
-            return nullptr;
-        }
-
-        PyObject *arr = PyArray_FromBuffer(bytesObj, descr, -1, 0);
-        if (!arr){
-            PyErr_SetString(PyExc_ValueError , "Could not create a PyArrayObject from a bytes buffer using PyArray_FromBuffer");
-            return nullptr;
-        }
-        // but we need to reshape the result which is 1D (nrow x ncols)
-        int nDims = PyLong_AsLong(PyDict_GetItemString(state, "nDims"));
-        std::cout << "nDims : " << nDims << std::endl;
-
-        PyObject *shape = nullptr;
-        if (nDims == 1) {
-            shape = Py_BuildValue(
-                    "i",
-                    PyLong_AsLong(PyDict_GetItemString(state, "dim1"))
-            );
-        } else if (nDims == 2) {
-            shape = Py_BuildValue(
-                    "ii",
-                    PyLong_AsLong(PyDict_GetItemString(state, "dim1")),
-                    PyLong_AsLong(PyDict_GetItemString(state, "dim2"))
-            );
-        }
-
-        PyObject *np = PyImport_ImportModule("numpy");
-        if (!np) {
-            PyErr_SetString(PyExc_ImportError, "Cannot import numpy");
-            return nullptr;
-        }
-        PyObject *resize = PyObject_GetAttrString(np, "resize");
-        if (!resize) {
-            PyErr_SetString(PyExc_ImportError, "Cannot get resize method from numpy module");
-            return nullptr;
-        }
-        // call resize.
-        PyObject *newArr = PyObject_CallFunctionObjArgs(resize, arr, shape, NULL);
-        if (!newArr) {
-            PyErr_SetString(PyExc_ValueError, "Failed to reshape NamedArray");
-        }
-        // newArr is a new reference so we decrement the old
-        Py_DecRef(arr);
-
-        // and we're done with the np.resize
-        Py_DecRef(np);
-        Py_DecRef(resize);
-
-        // ..and shape
-        Py_DecRef(shape);
-
-        // We've been using a PyArrayObject until here.
-        // assign its type back to NamedArray
-        newArr->ob_type = &NamedArray_Type;
-
-        // and finally we can assign the array
-        self->array = *(PyArrayObject *) newArr;
-
-        // increment the ref count of array for our instance
-        Py_INCREF(&self->array);
-
-//        PyObject* rownames = PyDict_GetItemString(state, "rownames");
+//        // Grab the bytes object.
+//        PyObject *bytesObj = PyDict_GetItemString(state, "array"); // borrowed reference
+//        if (!bytesObj) {
+//            PyErr_SetString(PyExc_KeyError, "No 'array' key in pickled dict");
+//            return nullptr;
+//        }
+//
+//        /**
+//         * We can load our bytes object back into a numpy array
+//         * with:
+//         *      PyObject *PyArray_FromBuffer(PyObject *buf, PyArray_Descr *dtype, npy_intp count, npy_intp offset)
+//         *
+//         */
+//        PyArray_Descr *descr = PyArray_DescrFromType(NPY_DOUBLE);
+//        if (!descr) {
+//            PyErr_SetString(PyExc_ValueError, "Could not create PyArray_Descr in NamedArray.__setstate__");
+//            return nullptr;
+//        }
+//
+//        PyObject *arr = PyArray_FromBuffer(bytesObj, descr, -1, 0);
+//        if (!arr) {
+//            PyErr_SetString(PyExc_ValueError,
+//                            "Could not create a PyArrayObject from a bytes buffer using PyArray_FromBuffer");
+//            return nullptr;
+//        }
+//        // but we need to reshape the result which is 1D (nrow x ncols)
+//        int nDims = PyLong_AsLong(PyDict_GetItemString(state, "nDims"));
+//
+//        PyObject *shape = nullptr;
+//        if (nDims == 1) {
+//            shape = Py_BuildValue(
+//                    "i",
+//                    PyLong_AsLong(PyDict_GetItemString(state, "dim1"))
+//            );
+//        } else if (nDims == 2) {
+//            shape = Py_BuildValue(
+//                    "ii",
+//                    PyLong_AsLong(PyDict_GetItemString(state, "dim1")),
+//                    PyLong_AsLong(PyDict_GetItemString(state, "dim2"))
+//            );
+//        }
+//
+//        PyObject *np = PyImport_ImportModule("numpy");
+//        if (!np) {
+//            PyErr_SetString(PyExc_ImportError, "Cannot import numpy");
+//            return nullptr;
+//        }
+//        PyObject *resize = PyObject_GetAttrString(np, "resize");
+//        if (!resize) {
+//            PyErr_SetString(PyExc_ImportError, "Cannot get resize method from numpy module");
+//            return nullptr;
+//        }
+//        // call resize.
+//        PyObject *newArr = PyObject_CallFunctionObjArgs(resize, arr, shape, NULL);
+//        if (!newArr) {
+//            PyErr_SetString(PyExc_ValueError, "Failed to reshape NamedArray");
+//        }
+//        // newArr is a new reference so we decrement the old
+//        Py_DecRef(arr);
+//
+//        // and we're done with the np.resize
+//        Py_DecRef(np);
+//        Py_DecRef(resize);
+//
+//        // ..and shape
+//        Py_DecRef(shape);
+//
+//        // We've been using a PyArrayObject until here.
+//        // assign its type back to NamedArray
+//        newArr->ob_type = &NamedArray_Type;
+//
+//        // and finally we can assign the array
+//        self->array = *(PyArrayObject *) newArr;
+//
+//        // increment the ref count of array for our instance
+////        Py_INCREF(&self->array);
+//        std::cout << "arr ref count " << PyArray_REFCOUNT(&self->array) << std::endl;
+//
+//        PyObject *rownames = PyDict_GetItemString(state, "rownames");
 //        if (!rownames) {
 //            PyErr_SetString(PyExc_KeyError, "No key 'rownames' in state dict");
 //        }
+//
+//        std::cout << "self->array.ob_base.ob_type: "
+//                  << self->array.ob_base.ob_type->tp_name << std::endl;
+//        std::cout << "self->rowNames: " << self->rowNames << std::endl;
+////        PyObject_Print(rownames, stdout, 1);
+//        PyObject *l = Py_BuildValue(
+//                "[sssssssssss]",
+//                PyUnicode_FromString("C1"),
+//                PyUnicode_FromString("C2"),
+//                PyUnicode_FromString("C3"),
+//                PyUnicode_FromString("C4"),
+//                PyUnicode_FromString("C5"),
+//                PyUnicode_FromString("C6"),
+//                PyUnicode_FromString("C7"),
+//                PyUnicode_FromString("C8"),
+//                PyUnicode_FromString("C9"),
+//                PyUnicode_FromString("C10"),
+//                PyUnicode_FromString("C11")
+//        );
+//        std::cout << "l->ob_type->tp_name: "
+//            << l->ob_type->tp_name << std::endl;
+//        PyObject_Print(self->rowNames, stdout, 1);
 //        PyObject_Print(rownames, stdout, 1);
 
-        // now for rownames,
-//        self->rowNames = rownames;
+//        self->rowNames = l;
 //        Py_INCREF(self->rowNames);
 
 //        // now for colnames,
-//        self->colNames = PyDict_GetItemString(state, "colnames");
-//        if (!self->colNames) {
+//        PyObject *colnames = PyDict_GetItemString(state, "colnames");
+//        if (!colnames) {
 //            PyErr_SetString(PyExc_KeyError, "No key 'colnames' in state dict");
 //        }
+//        self->colNames = colnames;
 //        Py_INCREF(self->colNames);
 
         return Py_None;

@@ -126,15 +126,15 @@ class NamedArrayPickleTests(unittest.TestCase):
         self.assertIsInstance(state['array'], bytes)
 
     def test_reduce_callable(self):
-        c, args, state = self.data.__reduce__()
+        c, args, state, _, _ = self.data.__reduce_ex__(5)
         self.assertTrue(callable(c))
 
     def test_reduce_args(self):
-        c, args, state = self.data.__reduce__()
-        self.assertEqual(args, (11, 3))
+        c, args, state, _, _ = self.data.__reduce_ex__(5)
+        self.assertEqual(args, ((11, 3),))
 
     def test_reduce_state(self):
-        c, args, state = self.data.__reduce__()
+        c, args, state, _, _ = self.data.__reduce_ex__(5)
         self.assertEqual(
             list(state.keys()),
             ['array', 'nDims', 'dim1',
@@ -142,14 +142,14 @@ class NamedArrayPickleTests(unittest.TestCase):
              '_pickle_version'])
 
     def test_reduce_args_work_with_callable(self):
-        c, args, state = self.data.__reduce__()
-        initialized = c(args)
+        c, args, state, _, _ = self.data.__reduce_ex__(5)
+        initialized = c(*args)
         self.assertIsInstance(initialized, NamedArray)
         self.assertEqual(initialized.shape, (11, 3))
 
     def test_reduce_and_setstate(self):
-        c, args, state = self.data.__reduce__()
-        newArray = c(args)
+        c, args, state, _, _ = self.data.__reduce_ex__(5)
+        newArray = c(*args)
         newArray.__setstate__(state)
         # make sure we still have a NamedArray after setstate
         self.assertIsInstance(newArray, NamedArray)
@@ -164,23 +164,27 @@ class NamedArrayPickleTests(unittest.TestCase):
         pickled.__setstate__(state)
         self.assertAlmostEqual(self.data['[S1]'][1], 9.062504129616269)
 
-    def testx(self):
-        # So this is wierd. The methods
-        # added by swig in the wrap
-        # are added to the roadrunner.roadrunner
-        # whilst NamedArray is in __module__
+    def test_NamedArray_is_part_of__roadrunner_module(self):
+        """
+        the tp_name field of NamedArray_Type needed to be
+        changed to roadrunner._roadrunner.NamedArray rather
+        than NamedArray so that the __module__attribute
+        pointed to the correct location and pickle.dumps
+        looks in the right place for NamedArray
+        :return:
+        """
         from roadrunner._roadrunner import NamedArray
-        print(NamedArray.__module__)
-        print(RoadRunner.__module__)
-        print(dir(roadrunner._roadrunner))
-        print(roadrunner._roadrunner.NamedArray.__module__)
-        print(roadrunner._roadrunner.DictionaryVector___nonzero__.__module__)
-        print(roadrunner._roadrunner.SWIG_PyInstanceMethod_New.__module__)
+        self.assertTrue(NamedArray.__module__, "roadrunner._roadrunner")
 
-        # Maybe we can hook the NamedArray into
-        # swig by adding to swig_module_info?
+    def test_dumps(self):
+        binary = pickle.dumps(self.data)
+        self.assertIsInstance(binary, bytes)
 
-        # n = NamedArray()
+    def test_loads(self):
+        binary = pickle.dumps(self.data)
+        pickle.loads(binary)
+
+
 
     def testy(self):
         import roadrunner
@@ -202,16 +206,17 @@ class NamedArrayPickleTests(unittest.TestCase):
         # lred = l.__reduce_ex__(5)
         # fname = os.path.join(os.path.dirname(__file__), "data.pickle")
         # print (pickletools.dis(pickle.dumps(lred, protocol=5)))
-
+        from roadrunner._roadrunner import NamedArray
+        n = NamedArray()
         print(self.data.__reduce_ex__(5))
-        binary = pickle.dumps(self.data)
+        # binary = pickle.dumps(self.data)
 
-        print (pickletools.dis(pickle.dumps(binary, protocol=5)))
-        print(pickle.loads(binary))
+        print(pickletools.dis(pickle.dumps(binary, protocol=5)))
+        n.__reduce_ex__(binary)
+        # print(pickle.loads(binary))
         # data2 = pickle.loads(binary)
         # print(type(data2))
         # print(data2)
-
 
         # with open(fname, 'wb') as f:
         #     pickle.dump(self.data, f)
