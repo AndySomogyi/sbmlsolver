@@ -30,6 +30,7 @@ for example:
 
     .\python.bat .\PC\layout\ -d -s . -b .\PCbuild\amd64\ -vv --copy install-cpython/x64/dbg --preset-default
 
+Now build roadrunner like normal but passing ``-DPython_ROOT_DIR=D:\cpython\install-cpython\x64\dbg``
 
 
 

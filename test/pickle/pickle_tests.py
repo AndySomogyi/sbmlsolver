@@ -4,7 +4,7 @@ from multiprocessing.pool import ThreadPool
 import numpy as np
 import unittest
 import pandas as pd
-
+import pickletools
 import sys
 import pickle
 import os
@@ -193,15 +193,31 @@ class NamedArrayPickleTests(unittest.TestCase):
         # print(NamedArray.__module__)
         # import named_array
 
+    def test_d(self):
+        l = 1
+        print(l.__reduce_ex__(5))
 
     def test_to_pickle_dump(self):
-        fname = os.path.join(os.path.dirname(__file__), "data.pickle")
+        # l = (11, 3)
+        # lred = l.__reduce_ex__(5)
+        # fname = os.path.join(os.path.dirname(__file__), "data.pickle")
+        # print (pickletools.dis(pickle.dumps(lred, protocol=5)))
 
-        with open(fname, 'wb') as f:
-            pickle.dump(self.data, f)
+        print(self.data.__reduce_ex__(5))
+        binary = pickle.dumps(self.data)
+
+        print (pickletools.dis(pickle.dumps(binary, protocol=5)))
+        print(pickle.loads(binary))
+        # data2 = pickle.loads(binary)
+        # print(type(data2))
+        # print(data2)
+
+
+        # with open(fname, 'wb') as f:
+        #     pickle.dump(self.data, f)
         # with open(fname, 'rb') as f:
         #     data2 = pickle.load(f)
-        #
+
         # print(data2)
 
         #
