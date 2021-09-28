@@ -1747,7 +1747,7 @@ namespace rr {
             double f1 = fd2 + 8 * fi;
             double f2 = -(8 * fd + fi2);
 
-            delete ref;
+            free(ref);
 
             return 1 / (12 * hstep) * (f1 + f2);
         }
