@@ -10,14 +10,19 @@ import pickle
 import os
 from os.path import dirname, exists, join
 
+
+print(f"Python interpreter at: {sys.executable}")
+
+sys.path += [
+    r'/mnt/d/roadrunner/roadrunner/cmake-build-release-wsl/lib/site-packages'
+    # r"D:\roadrunner\roadrunner\install-msvc2019-rel\site-packages",
+    # r"D:\roadrunner\roadrunner\cmake-build-release-visual-studio\lib\site-packages"
+
+]
 import roadrunner
 from roadrunner import *
 import copy
 
-sys.path += [
-    # r"D:\roadrunner\roadrunner\install-msvc2019-rel\site-packages",
-    r"D:\roadrunner\roadrunner\cmake-build-release-visual-studio\lib\site-packages"
-]
 
 import roadrunner.testing.TestModelFactory as tmf
 from roadrunner.roadrunner import RoadRunner
@@ -177,6 +182,9 @@ class NamedArrayPickleTests(unittest.TestCase):
         self.assertTrue(NamedArray.__module__, "roadrunner._roadrunner")
 
     def test_dumps(self):
+        print(f"Python interpreter at: {sys.executable}")
+        print(f'roadrunner at: {roadrunner.__file__}')
+
         binary = pickle.dumps(self.data)
         self.assertIsInstance(binary, bytes)
 
