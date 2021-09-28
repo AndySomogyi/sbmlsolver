@@ -36,7 +36,7 @@ TEST_F(RRTestFilesOtherTests, EMPTY_EVENT_ASSIGNMENTS) {
     EXPECT_TRUE(loadSBMLFromFileE(aRR, TestModelFileName.string().c_str(), true));
     EXPECT_TRUE(simulate(aRR));
 
-
+    freeRRInstance(aRR);
 }
 
 TEST_F(RRTestFilesOtherTests, SAVED_SPECIES_AMOUNT) {
