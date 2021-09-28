@@ -8,7 +8,6 @@ package.
 """
 
 from .roadrunner import *
-from ._roadrunner import NamedArray
 
 __version__ = roadrunner.getVersionStr(VERSIONSTR_BASIC)
 
