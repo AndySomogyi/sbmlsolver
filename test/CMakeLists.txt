@@ -308,6 +308,8 @@ if (BUILD_PYTHON AND BUILD_TESTS)
 
     set(PyTestTests)
     macro(add_pytest_to_ctest TestName TestSourceFile)
+        # make sure file is up to date
+        file(COPY "${TestSourceFile}" DESTINATION "${RR_PYTHON_TESTING_BUILD_PREFIX}")
         # run pytest with -rP to always capture stdout regardless of pass/fail
         add_test(
                 NAME ${TestName}
@@ -316,6 +318,7 @@ if (BUILD_PYTHON AND BUILD_TESTS)
         )
         set_tests_properties(${TestName} PROPERTIES ENVIRONMENT "PYTHONPATH=${PYTHON_PACKAGE_SITE_DIR_BUILD_TREE}:$PYTHONPATH")
         set(PyTestTests ${PyTestTests} ${TestName})
+        install(FILES "${TestSourceFile}" DESTINATION "${RR_PYTHON_TESTING_BUILD_PREFIX}")
     endmacro()
 
 
