@@ -219,6 +219,7 @@ TEST_F(CAPICoreTest, CheckRegisteredIntegrators) {
     auto *rr = (RoadRunner *) createRRInstance();
     auto integratorNames = rr->getRegisteredIntegratorNames();
     ASSERT_EQ(integratorNames, std::vector<std::string>({"cvode", "gillespie", "rk4", "rk45", "euler"}));
+    delete rr;
 }
 
 TEST_F(CAPICoreTest, CheckRK4WorksFromC) {
