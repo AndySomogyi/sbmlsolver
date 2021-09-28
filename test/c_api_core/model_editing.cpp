@@ -266,7 +266,7 @@ public:
             return false;
         }
 
-        delete rrh;
+        freeRRInstance(rrh);
         return result;
     }
 
@@ -409,7 +409,8 @@ TEST_F(CAPIModelEditingTests, ADD_TRIGGER_1) {
 
 TEST_F(CAPIModelEditingTests, PAUSE_10) {
     EXPECT_TRUE(RunTestWithModification([](RRHandle rri) {
-        simulate(rri);
+        RRCDataPtr results = simulate(rri);
+        freeRRCData(results);
         addDelay(rri, "event1", "0.2");
     }));
 }

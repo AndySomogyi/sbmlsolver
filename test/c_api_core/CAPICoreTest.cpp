@@ -188,7 +188,7 @@ TEST_F(CAPICoreTest, GetMicroSeconds) {
 
     cout << "microseconds, start: " << start << ", end: " << end << ", diff: " << diff
          << ", expected sleep mu s: " << 1000 * millis
-         << ", diff between expeted and actual mu s: " << diff - (1000 * millis) << endl;
+         << ", diff between expected and actual mu s: " << diff - (1000 * millis) << endl;
 
     // timer varies from system to system, but should be semi-close, like say 20%
     // tolerance changed to 50% because
