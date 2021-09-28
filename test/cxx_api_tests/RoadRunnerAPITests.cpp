@@ -652,6 +652,7 @@ TEST_F(RoadRunnerAPITests, getFullJacobian) {
     auto x = rr.getFullJacobian();
     std::cout << x << std::endl;
     checkMatrixEqual(venk->fullJacobianConc(), x, 1e-3);
+    delete venk;
 }
 
 TEST_F(RoadRunnerAPITests, getReducedJacobian) {
