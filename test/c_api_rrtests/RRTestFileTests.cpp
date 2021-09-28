@@ -39,7 +39,7 @@ public:
 
     CApiRRTests() = default;
     ~CApiRRTests() {
-        delete gRR;
+        freeRRInstance(gRR);
     }
 
     void checkRRTest(const std::string &fname) {
