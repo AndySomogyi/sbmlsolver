@@ -492,7 +492,8 @@ namespace rr {
         return impl->mInstanceID;
     }
 
-    RoadRunner::RoadRunner(unsigned int level, unsigned int version) : impl(new RoadRunnerImpl("", NULL)) {
+    RoadRunner::RoadRunner(unsigned int level, unsigned int version) 
+        : impl(new RoadRunnerImpl("", NULL)) {
 
         llvm::InitializeNativeTarget();
         llvm::InitializeNativeTargetAsmPrinter();
