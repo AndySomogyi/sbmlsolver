@@ -2859,6 +2859,8 @@ namespace rr {
             }
         }
 
+        delete doc;
+
         return extended_matrix;
     }
 
