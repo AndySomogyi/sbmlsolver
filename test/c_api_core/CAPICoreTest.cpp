@@ -227,7 +227,7 @@ TEST_F(CAPICoreTest, CheckRK4WorksFromC) {
     string rrInstallFolder(getParentFolder(capiLocation));
     free(capiLocation);
     std::filesystem::path supportCodeDir = std::filesystem::path(rrInstallFolder) /= "rr_support";
-    auto *rr = new RoadRunner("", getTempDir(), supportCodeDir.string());
+    RoadRunner rr("", getTempDir(), supportCodeDir.string());
     // end
 
     // This code is from the top of checkRRTest
@@ -254,17 +254,17 @@ TEST_F(CAPICoreTest, CheckRK4WorksFromC) {
         sbml = (rrTestDir_ / path("rrtest_files") / sbml).string();
         EXPECT_TRUE(std::filesystem::exists(sbml));
     }
-    if (!loadSBMLEx(rr, sbml.c_str(), true)) {
+    if (!loadSBMLEx(&rr, sbml.c_str(), true)) {
         EXPECT_TRUE(false);
     }
 
     SimulateOptions opt;
     opt.start = 0;
     opt.duration = 10;
-    auto *cvode = rr->simulate(&opt);
+    auto *cvode = rr.simulate(&opt);
 
-    rr->setIntegrator("rk4");
-    auto *rk4 = rr->simulate(&opt);
+    rr.setIntegrator("rk4");
+    auto *rk4 = rr.simulate(&opt);
     for (int k = 0; k < cvode->CSize(); k++) {
         EXPECT_NEAR((*cvode)(cvode->RSize() - 1, k), (*rk4)(rk4->RSize() - 1, k), 1e-6);
     }

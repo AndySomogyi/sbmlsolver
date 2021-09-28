@@ -266,6 +266,7 @@ public:
             return false;
         }
 
+        delete rrh;
         return result;
     }
 
@@ -668,5 +669,8 @@ TEST_F(CAPIModelEditingTests, FROM_SCRATCH_7) {
     const char *reactants[] = {"S1"};
     const char *products[] = {"S1"};
     addReaction(rr, "reaction1", reactants, 1, products, 1, "c1 * S1 * S2");
-    validateModifiedSBML(std::string(getSBML(rr)));
+    char* model = getSBML(rr);
+    validateModifiedSBML(std::string(model));
+    rr::freeText(model);
+    delete rr;
 }

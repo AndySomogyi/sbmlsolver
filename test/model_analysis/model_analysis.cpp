@@ -367,7 +367,7 @@ TEST_F(ModelAnalysisTests, DISABLED_NonZeroStarts_Gillespie) {
 
 
 TEST_F(ModelAnalysisTests, GetRateOfConservedSpecies) {
-        RoadRunner rr((modelAnalysisModelsDir / "conserved_cycle.xml").string());
+    RoadRunner rr((modelAnalysisModelsDir / "conserved_cycle.xml").string());
     rr.setConservedMoietyAnalysis(true);
 
     EXPECT_THROW(
