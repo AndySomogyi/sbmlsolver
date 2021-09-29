@@ -50,6 +50,7 @@
 #include <stdexcept>
 #include <string>
 #include <algorithm>
+#include "rrLogger.h"
 
 // wierdness on OSX clang, this needs to be included before python.h,
 // otherwise compile pukes with:
@@ -556,10 +557,10 @@ namespace rr {
         }
     }
 
-/**
- * Casts a rr::Matrix<double> to its superclass ls::DoubleMatrix
- * and reuses doublematrix_to_py
- */
+    /**
+     * Casts a rr::Matrix<double> to its superclass ls::DoubleMatrix
+     * and reuses doublematrix_to_py
+     */
     PyObject *rrDoubleMatrix_to_py(const rr::Matrix<double> *m, bool copy_result) {
         rr::Matrix<double> *mat = const_cast<rr::Matrix<double> *>(m);
         // this code doesn't work due to some bug in NamedArray stuff. No time to figure this out now
@@ -567,7 +568,6 @@ namespace rr {
 //        if (mat->rowNames.empty() && mat->colNames.empty()) {
 //            structured_result = false;
 //        }
-//        std::cout << __FILE__ << ":" << __LINE__ << "is structured? :" << structured_result << std::endl;
         auto superMat = ls::DoubleMatrix(mat->getValues());
         return doublematrix_to_py(&superMat, false, copy_result);
     }
@@ -578,69 +578,6 @@ namespace rr {
      * strings.
      */
     PyObject *convertStringVectorToPython(const std::vector<std::string> &vec);
-
-    PyObject *NamedArrayObject_Finalize(NamedArrayObject *self, PyObject *parent /* should be called args???*/) {
-        //todo test the three cases outlined here:
-        // https://numpy.org/devdocs/user/basics.subclassing.html
-        rrLog(Logger::LOG_INFORMATION) << __FUNC__;
-        std::cout << "NamedArrayObject_Finalize: " << std::endl;
-        std::cout << "parent->ob_type->tp_name: " << parent->ob_type->tp_name << std::endl;
-        std::cout << "parent tuple size: " << PyTuple_Size(parent) << std::endl;
-        PyObject* item;
-        if (PyArg_ParseTuple(parent, "O", &item) < 0){
-            PyErr_SetString(PyExc_ValueError, "Could not get item from tuple");
-            return nullptr;
-        }
-        std::cout << item->ob_type->tp_name<<std::endl;
-
-        if (parent != NULL && parent->ob_type == &PyArray_Type) {
-            std::cout << "parent != NULL && parent->ob_type == &PyArray_Type " << std::endl;
-            NamedArrayObject *p = (NamedArrayObject *) parent;
-            if (p->rowNames != NULL) {
-                std::cout << "p->rowNames != NULL " << std::endl;
-                Py_INCREF(p->rowNames);
-                self->rowNames = p->rowNames;
-            }
-
-            if (p->colNames != NULL) {
-                Py_INCREF(p->colNames);
-                self->colNames = p->colNames;
-            }
-        }
-        Py_RETURN_NONE;
-    }
-
-    static void NamedArrayObject_dealloc(NamedArrayObject *self) {
-        rrLog(Logger::LOG_INFORMATION) << __FUNC__;
-        Py_XDECREF(self->rowNames);
-        Py_XDECREF(self->colNames);
-
-        PyObject *pself = (PyObject *) self;
-
-        assert(pself->ob_type->tp_base == &PyArray_Type);
-//        std::cout << "pself->ob_type->tp_name: " << pself->ob_type->tp_name << std::endl;
-//        std::cout << "pself->ob_refcnt: " << pself->ob_refcnt << std::endl;
-//        std::cout << pself-> << std::endl;
-        PyArray_Type.tp_dealloc(pself);
-
-        rrLog(Logger::LOG_INFORMATION) << __FUNC__ << ", Done";
-    }
-
-
-    static PyObject *NamedArrayObject_alloc(PyTypeObject *type, Py_ssize_t nitems) {
-        rrLog(Logger::LOG_INFORMATION) << __FUNC__;
-        PyObject *obj;
-
-        assert(type->tp_basicsize == sizeof(NamedArrayObject));
-
-        obj = (PyObject *) PyArray_malloc(type->tp_basicsize);
-        PyObject_Init(obj, type);
-        ((NamedArrayObject *) obj)->rowNames = NULL;
-        ((NamedArrayObject *) obj)->colNames = NULL;
-
-        rrLog(Logger::LOG_INFORMATION) << "created obj: " << obj;
-        return obj;
-    }
 
 
 #define rrPyNullCheck(object, errMsg)  if (object == nullptr){ \
@@ -864,7 +801,7 @@ namespace rr {
     /* Pickle the object */
     static PyObject *
     NamedArray___getstate__(NamedArrayObject *self, PyObject *Py_UNUSED(ignored)) {
-        std::cout << "using NamedArray___getstate__" << std::endl;
+        rrLogInfo << __FUNC__;
         // see https://numpy.org/doc/stable/reference/c-api/array.html#c.PyArray_Dumps
         PyObject *arrayBytes = self->arrayToBytes();
         if (!arrayBytes) {
@@ -892,8 +829,8 @@ namespace rr {
                                       "nDims", nDims,
                                       "dim1", dim1,
                                       "dim2", dim2,
-                                      "rownames", self->rowNames,
-                                      "colnames", self->colNames,
+                                      "rownames", self->rowNames == nullptr ? Py_None : self->rowNames,
+                                      "colnames", self->colNames == nullptr ? Py_None : self->colNames,
                                       PICKLE_VERSION_KEY, PICKLE_VERSION);
 
         if (!ret) {
@@ -906,7 +843,7 @@ namespace rr {
 
     static PyObject *
     NamedArray___reduce_ex__old(NamedArrayObject *self) {
-        std::cout << "using NamedArray___reduce_ex__" << std::endl;
+        rrLogInfo << __FUNC__;
         PyObject *state = NamedArray___getstate__(self, nullptr);
         if (!state) {
             // do not set an error here as it will override the
@@ -990,7 +927,7 @@ namespace rr {
     static PyObject *
     NamedArray___reduce_ex__(NamedArrayObject *self, PyObject *args) {
 
-        std::cout << "using NamedArray___reduce_ex__" << std::endl;
+        rrLogInfo << __FUNC__;
         PyObject *state = NamedArray___getstate__(self, nullptr);
         if (!state) {
             // do not set an error here as it will override the
@@ -1101,7 +1038,7 @@ namespace rr {
 
     static PyObject *
     NamedArray___setstate__(NamedArrayObject *self, PyObject *state) {
-        std::cout << "using NamedArray___setstate__" << std::endl;
+        rrLogInfo << __FUNC__;
 
         // ensure we have a dict object, ruling out dict subclasses
         if (!PyDict_CheckExact(state)) {
@@ -1112,9 +1049,9 @@ namespace rr {
 
         // decrement the existing before assigning the new
         Py_DECREF(&self->array);
-        std::cout << PyArray_REFCOUNT((PyObject*)&self->array) << std::endl;
+        rrLogInfo << PyArray_REFCOUNT((PyObject *) &self->array) << std::endl;
 
-        PyObject_Print((PyObject*)&self->array, stdout, 0);
+        PyObject_Print((PyObject *) &self->array, stdout, 0);
         PyObject_Print(self->rowNames, stdout, 0);
         PyObject_Print(self->rowNames, stdout, 0);
 
@@ -1195,16 +1132,14 @@ namespace rr {
         // increment the ref count of array for our instance
 //        Py_INCREF(&self->array);
         std::cout << "arr ref count " << PyArray_REFCOUNT(&self->array) << std::endl;
-
+        rrLogInfo << PyArray_REFCOUNT((PyObject *) &self->array);
         PyObject *rownames = PyDict_GetItemString(state, "rownames");
         if (!rownames) {
             PyErr_SetString(PyExc_KeyError, "No key 'rownames' in state dict");
         }
-
-        std::cout << "self->array.ob_base.ob_type: "
+        rrLogInfo << "self->array.ob_base.ob_type: "
                   << self->array.ob_base.ob_type->tp_name << std::endl;
-        std::cout << "self->rowNames: " << self->rowNames << std::endl;
-//        PyObject_Print(rownames, stdout, 1);
+        rrLogInfo << "self->rowNames: " << self->rowNames << std::endl;
         PyObject *l = Py_BuildValue(
                 "[sssssssssss]",
                 PyUnicode_FromString("C1"),
@@ -1219,8 +1154,8 @@ namespace rr {
                 PyUnicode_FromString("C10"),
                 PyUnicode_FromString("C11")
         );
-        std::cout << "l->ob_type->tp_name: "
-            << l->ob_type->tp_name << std::endl;
+        rrLogInfo << "l->ob_type->tp_name: "
+                  << l->ob_type->tp_name << std::endl;
         PyObject_Print(self->rowNames, stdout, 1);
         PyObject_Print(rownames, stdout, 1);
 
@@ -1239,9 +1174,11 @@ namespace rr {
     }
 
 
-
     void pyutil_init(PyObject *module) {
-        std::cout << "Inside pyutil_init" << std::endl;
+        rrLogInfo << __FUNC__;
+        // note to developers: turn this to LOG_INFORMATION for details
+        // when running the tests
+        Logger::setLevel(Logger::LOG_INFORMATION);
         // set up the base class to be the numpy ndarray PyArray_Type
         NamedArray_Type.tp_base = &PyArray_Type;
 
@@ -1272,12 +1209,11 @@ namespace rr {
             double *data, int pyFlags,
             const ls::DoubleMatrix *mat) {
         bool named = Config::getValue(Config::PYTHON_ENABLE_NAMED_MATRIX);
-        std::cout << "NamedArray_new called " << std::endl;
-        std::cout << "is array named? " << named << std::endl;
+        rrLogInfo << __FUNC__;
 
         if (named) {
 
-            rrLog(Logger::LOG_INFORMATION) << "creating NEW style array";
+            rrLogInfo << "creating NEW style array";
 
             //         (*(PyObject * (*)(PyTypeObject *, int, npy_intp const *, int, npy_intp const *, void *, int, int, PyObject *))
             NamedArrayObject *array = (NamedArrayObject *) PyArray_New(
@@ -1296,7 +1232,7 @@ namespace rr {
             return (PyObject *) array;
 
         } else {
-            rrLog(Logger::LOG_INFORMATION) << "creating old style array";
+            rrLogInfo << "creating old style array";
             return PyArray_New(&PyArray_Type, nd, dims, NPY_DOUBLE, NULL, data, 0,
                                pyFlags, NULL);
         }
@@ -1304,6 +1240,7 @@ namespace rr {
 
 
     PyObject *stringvector_to_py(const std::vector<std::string> &vec) {
+        rrLogInfo << __FUNC__;
         size_t size = vec.size();
 
         PyObject *pyList = PyList_New(size);
@@ -1319,6 +1256,7 @@ namespace rr {
     }
 
     PyObject *PyList_toPickle(PyObject *list) {
+        rrLogInfo << __FUNC__;
         static PyObject *module = NULL;
         PyObject *pickle;
 
@@ -1337,6 +1275,7 @@ namespace rr {
     }
 
     std::vector<std::string> py_to_stringvector(PyObject *obj) {
+        rrLogInfo << __FUNC__;
         str_vector result;
         if (obj) {
             PyObject *seq = PySequence_Fast(obj, "expected a sequence");
@@ -1362,11 +1301,13 @@ namespace rr {
             }
         }
 
+        rrLogInfo << "done" << std::endl;
         return result;
     }
 
 
     Dictionary *Dictionary_from_py(PyObject *py) {
+        rrLogInfo << __FUNC__;
         if (PyDict_Check(py) == 0) {
             throw invalid_argument("object is not a dictionary");
         }
@@ -1391,10 +1332,229 @@ namespace rr {
                 throw invalid_argument("keys must be strings");
             }
         }
-
+        rrLogInfo << "done" << std::endl;
         return dict;
     }
 
+
+    static PyObject *NamedArrayObject_alloc(PyTypeObject *type, Py_ssize_t nitems) {
+        rrLogInfo << __FUNC__;
+        assert(type->tp_basicsize == sizeof(NamedArrayObject));
+//        NamedArray_Type obj;
+        NamedArrayObject *namedArrayObject = PyObject_New(NamedArrayObject, type);
+        if (!namedArrayObject) {
+            PyErr_SetString(PyExc_MemoryError, "Could allocate object of type 'NamedArray'");
+            return nullptr;
+        }
+        namedArrayObject->rowNames = nullptr;
+        namedArrayObject->colNames = nullptr;
+        rrLogInfo << "namedArrayObject: " << namedArrayObject << ":  sizeof: " << sizeof(&namedArrayObject);
+        rrLogInfo << "nitems: " << nitems;
+        rrLogInfo << "&namedArrayObject->array: " << &namedArrayObject->array;
+        rrLogInfo << "namedArrayObject->rowNames: " << namedArrayObject->rowNames;
+        rrLogInfo << "namedArrayObject->colNames: " << namedArrayObject->colNames;
+
+        PyObject *obj = PyObject_Init((PyObject *) namedArrayObject, type);
+        if (!obj) {
+            PyErr_SetString(PyExc_MemoryError, "Could not initialize object of type 'NamedArray'");
+            return nullptr;
+        }
+
+        rrLogInfo << "namedArrayObject ref count " << obj->ob_refcnt;
+//
+        rrLogInfo << "created obj: " << obj << " of size: " << sizeof(obj);
+        rrLogInfo << "done" << std::endl;
+        return obj;
+    }
+
+
+    PyObject *NamedArrayObject_Finalize(NamedArrayObject *self, PyObject *args /* should be called args???*/) {
+        // https://numpy.org/devdocs/user/basics.subclassing.html
+        rrLogInfo << __FUNC__;
+        rrLogInfo << "args->ob_type->tp_name: " << args->ob_type->tp_name
+                  << "tuple size: " << PyTuple_Size(args)
+                  << " ref count : " << args->ob_refcnt;
+        rrLogInfo << "self " << self << " args " << args;
+
+        PyObject *rhs;
+        if (PyArg_ParseTuple(args, "O", &rhs) < 0) {
+            PyErr_SetString(PyExc_ValueError, "Could not get rhs from tuple");
+            return nullptr;
+        }
+        rrLogInfo << "argument type is: " << rhs->ob_type->tp_name
+                  << (rhs->ob_type == &PyArray_Type) << " " << (rhs->ob_type == &NamedArray_Type);
+
+        // when NamedArray instantiated with constructor
+        //   >>> n = NamedArray((3, 4)) # 1
+        // or from view of np.array:
+        //   >>> n = np.ndarray((3, 4)).view(NamedArray) #2
+        // we are guarenteed to not have row or colnames because
+        //  #1 syntax is not supported at this time and
+        //  #2 np.ndarray does not have row/colnames
+        if (rhs == Py_None || rhs->ob_type == &PyArray_Type) {
+            rrLogInfo << "'None' path taken";
+            // todo consider whether we should give the NamedArray
+            // empty row/colnames fields
+            PyObject *rows = PyList_New(0);
+            if (!rows) {
+                PyErr_SetString(PyExc_MemoryError, "Could not allocate a new list for rownames");
+                Py_RETURN_NONE;
+            }
+            PyObject *cols = PyList_New(0);
+            if (!cols) {
+                PyErr_SetString(PyExc_MemoryError, "Could not allocate a new list for colnames");
+                Py_RETURN_NONE;
+            }
+            // Note it seems that we do not need to increment the ref count
+            // for these new lists.
+
+            // and assign
+            self->rowNames = rows;
+            self->colNames = cols;
+            Py_RETURN_NONE;
+        }
+
+        if (rhs->ob_type == &NamedArray_Type) {
+            /**
+             * In this case rhs contains the oiriginal state of the array
+             * before any slicing or other modifications that
+             * count as "templating"
+             * @see https://numpy.org/devdocs/user/basics.subclassing.html
+             *
+             * The array inside "self" contains a copy of the state
+             * of the array after being manipulated by numpy.
+             * For instance
+             *  >>> n = NamedArray((3, 4))
+             *  >>> v = n[1:, :]
+             * invokes NamedArray_Finalize where
+             *  - `n` maps to `rhs` aka the first rhs of the 1-tuple input args.
+             *     Its state is the original
+             *  - `v` maps to the `self` arugment. Its a copy of the np array with
+             *  any changes implemented
+             *
+             * Its all very reminiscent of a copy constructor in c++
+             */
+            rrLogInfo << "Taking the NamedArray_Type path";
+            auto *arraydims = PyArray_SHAPE(&self->array);
+            rrLogInfo << "arraydims[0] :  " << arraydims[0] << " " << " arraydims[1]: " << arraydims[1];
+            NamedArrayObject *rhsAsNamedArrayObj = (NamedArrayObject *) rhs;
+            if (!rhsAsNamedArrayObj) {
+                PyErr_SetString(PyExc_MemoryError,
+                                "Could not cast argument to NamedArray_Finalize to a NamedArrayObject*");
+                Py_RETURN_NONE;
+            }
+            if (rhsAsNamedArrayObj->rowNames != NULL) {
+                rrLogInfo << "Moving rowNames reference from rhs to this array" ;
+
+                Py_ssize_t sizeOfRownames = PyList_Size(rhsAsNamedArrayObj->rowNames);
+
+                if (sizeOfRownames != arraydims[0]) {
+                    // then we need to slice the rownames list
+                    // self->rowNames is a new reference (Ref count = 1)
+                    self->rowNames = PyList_GetSlice(rhsAsNamedArrayObj->rowNames, 0, arraydims[0]);
+                    // we therefore need to decrement the ref count of the original copy
+                    Py_DecRef(rhsAsNamedArrayObj->rowNames);
+                    if (!self->rowNames) {
+                        PyErr_SetString(PyExc_IndexError, "Could not slice NamedArray rownames");
+                        Py_RETURN_NONE;
+                    }
+                } else {
+                    // in this case the same object is passed from rhs to rownames
+                    // so the reference count stays the same.
+                    self->rowNames = rhsAsNamedArrayObj->rowNames;
+                }
+
+                rrLogInfo << "self->rowNames ref count: " << self->rowNames->ob_refcnt ;
+                rrLogInfo << "rhsAsNamedArrayObjec ref ocunt " << rhs->ob_refcnt;
+                // we steal the reference
+                rhsAsNamedArrayObj->rowNames = nullptr;
+            }
+    have you copied thetests?
+
+
+            if (rhsAsNamedArrayObj->colNames != NULL) {
+                rrLogInfo << "Moving colNames reference from rhs to this array" ;
+
+                Py_ssize_t sizeOfcolnames = PyList_Size(rhsAsNamedArrayObj->colNames);
+
+                if (sizeOfcolnames != arraydims[1]) {
+                    // then we need to slice the colnames list
+                    // self->colNames is a new reference (Ref count = 1)
+                    self->colNames = PyList_GetSlice(rhsAsNamedArrayObj->colNames, 0, arraydims[1]);
+                    // we therefore need to decrement the ref count of the original copy
+                    Py_DecRef(rhsAsNamedArrayObj->colNames);
+                    if (!self->colNames) {
+                        PyErr_SetString(PyExc_IndexError, "Could not slice NamedArray colnames");
+                        Py_RETURN_NONE;
+                    }
+                } else {
+                    // in this case the same object is passed from rhs to colnames
+                    // so the reference count stays the same.
+                    self->colNames = rhsAsNamedArrayObj->colNames;
+                }
+
+                rrLogInfo << "self->colNames ref count: " << self->colNames->ob_refcnt ;
+                // we steal the reference
+                rhsAsNamedArrayObj->colNames = nullptr;
+            }
+        }
+        rrLogInfo << "done" << std::endl;
+        Py_RETURN_NONE;
+    }
+
+
+
+//    PyObject *NamedArrayObject_Finalize(NamedArrayObject *self, PyObject *args /* should be called args???*/) {
+//        //todo test the three cases outlined here:
+//        // https://numpy.org/devdocs/user/basics.subclassing.html
+//        rrLogInfo << __FUNC__;
+//        rrLogInfo << "args->ob_type->tp_name: " << args->ob_type->tp_name
+//            << "tuple size: " << PyTuple_Size(args)
+//            << " ref count : " << args->ob_refcnt;
+//        rrLogInfo << "self "  << self << " args " << args;
+//        PyObject *item;
+//        if (PyArg_ParseTuple(args, "O", &item) < 0) {
+//            PyErr_SetString(PyExc_ValueError, "Could not get item from tuple");
+//            return nullptr;
+//        }
+//        rrLogInfo << "argument type is: " << item->ob_type->tp_name;
+//
+//        if (args != NULL && args->ob_type == &PyArray_Type) {
+//            rrLogInfo << "args != NULL && args->ob_type == &PyArray_Type " << std::endl;
+//            NamedArrayObject *p = (NamedArrayObject *) args;
+//            if (p->rowNames != NULL) {
+//                rrLogInfo << "p->rowNames != NULL " << std::endl;
+//                Py_INCREF(p->rowNames);
+//                self->rowNames = p->rowNames;
+//            }
+//
+//            if (p->colNames != NULL) {
+//                Py_INCREF(p->colNames);
+//                self->colNames = p->colNames;
+//            }
+//        }
+//        rrLogInfo << "done" <<std::endl;
+//        Py_RETURN_NONE;
+//    }
+
+    static void NamedArrayObject_dealloc(NamedArrayObject *self) {
+        rrLogInfo << __FUNC__;
+        rrLogInfo << "self address: " << self;
+        rrLogInfo << "self->rownames " << self->rowNames;
+        rrLogInfo << "self->colNames " << self->colNames;
+
+        // decrement the rownames, allowing for possibility of being null
+        Py_XDECREF(self->rowNames);
+        Py_XDECREF(self->colNames);
+
+        PyObject *pself = (PyObject *) self;
+        rrLogInfo << pself->ob_type->tp_name << " ref count: " << pself->ob_refcnt;
+
+        assert(pself->ob_type->tp_base == &PyArray_Type);
+        PyArray_Type.tp_dealloc(pself);
+
+        rrLogInfo << "done" << std::endl;
+    }
 
 /*****************************************************************************************
  * Array Printing Stuff
@@ -1477,6 +1637,7 @@ namespace rr {
     }
 
     PyObject *NamedArray_repr(NamedArrayObject *self) {
+        rrLogInfo << __FUNC__;
         PyArrayObject *array = (PyArrayObject *) self;
         str_vector rowNames = py_to_stringvector(self->rowNames);
         str_vector colNames = py_to_stringvector(self->colNames);
@@ -1491,15 +1652,18 @@ namespace rr {
 
         string str = array_format(array, rowNames, colNames);
 
+        rrLogInfo << "done" << std::endl;
         return rrPyString_FromString(str.c_str());
     }
 
     PyObject *NamedArray_str(NamedArrayObject *self) {
+        rrLogInfo << __FUNC__;
         return NamedArray_repr(self);
     }
 
 
     PyObject *convertStringVectorToPython(const std::vector<std::string> &vec) {
+        rrLogInfo << __FUNC__;
         long long size = (long long) vec.size();
 
         PyObject *pyList = PyList_New(size);
@@ -1512,10 +1676,12 @@ namespace rr {
             j++;
         }
 
+        rrLogInfo << "done" << std::endl;
         return pyList;
     }
 
     std::vector<std::string> convertPythonListToStringVector(PyObject *pyList) {
+        rrLogInfo << __FUNC__;
         int size = (int) PyList_Size(pyList);
         std::vector<std::string> vec(size);
         for (Py_ssize_t i = 0; i < size; i++) {
@@ -1524,6 +1690,7 @@ namespace rr {
             vec[(int) i] = std::string(s);
         }
 
+        rrLogInfo << "done" << std::endl;
         return vec;
     }
 

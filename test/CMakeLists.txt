@@ -317,7 +317,6 @@ if (BUILD_PYTHON AND BUILD_TESTS)
         )
         set_tests_properties(${TestName} PROPERTIES ENVIRONMENT "PYTHONPATH=${PYTHON_PACKAGE_SITE_DIR_BUILD_TREE}:$PYTHONPATH")
         set(PyTestTests ${PyTestTests} ${TestName})
-        install(FILES "${TestSourceFile}" DESTINATION "${RR_PYTHON_TESTING_BUILD_PREFIX}")
     endmacro()
 
 
@@ -330,6 +329,7 @@ if (BUILD_PYTHON AND BUILD_TESTS)
     add_pytest_to_ctest(python_tests_StructuralAnalysisTests "${RR_PYTHON_TESTING_BUILD_PREFIX}/StructuralAnalysisTests.py")
     add_pytest_to_ctest(python_tests_TestModelFactoryTests "${RR_PYTHON_TESTING_BUILD_PREFIX}/TestModelFactoryTests.py")
     add_pytest_to_ctest(python_tests_RunRRTestsFromPython "${RR_PYTHON_TESTING_BUILD_PREFIX}/RunTesterWithUnitTest.py")
+    add_pytest_to_ctest(python_tests_NamedArrayTests "${RR_PYTHON_TESTING_BUILD_PREFIX}/NamedArrayTests.py")
 
     message(STATUS "PyTestTests ${PyTestTests}")
 

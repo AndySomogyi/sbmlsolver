@@ -1,8 +1,9 @@
 
+
 import sys
 sys.path += [
-    r'/mnt/d/roadrunner/roadrunner/cmake-build-debug-wsl/lib/site-packages',
-    r'D:\roadrunner\roadrunner\cmake-build-release\lib\site-packages'
+    r'/home/ciaran/roadrunner/roadrunner/cmake-build-debug-wsl/lib/site-packages',
+    # r'D:\roadrunner\roadrunner\cmake-build-release\lib\site-packages'
     # r"D:\roadrunner\roadrunner\install-msvc2019-rel\site-packages",
     # r"D:\roadrunner\roadrunner\cmake-build-release-visual-studio\lib\site-packages"
 ]
@@ -13,11 +14,12 @@ import roadrunner
 from roadrunner._roadrunner import NamedArray
 from roadrunner import Logger
 print(roadrunner.__file__)
-
-
-n = NamedArray((3, 4))
-# print(n.__array_finalize__())
-n.colnames = [f'c{i}' for i in range(4)]
+#
+#
+# n = NamedArray((3, 4))
+# print(n)
+# # print(n.__array_finalize__())
+# n.colnames = [f'c{i}' for i in range(4)]
 # n.rownames = [f'r{i}' for i in range(3)]
 # print(n)
 
@@ -93,9 +95,8 @@ n.colnames = [f'c{i}' for i in range(4)]
 # </sbml>"""
 
 
+n = NamedArray((2, 3))
 
-
-
-
+print(sys.getrefcount(n))
 
 

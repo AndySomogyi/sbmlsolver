@@ -21,6 +21,7 @@
 
 namespace rr {
 
+
 /**
  * @brief Convert a Python string object to a @a std::string
  * @details Python 2/3 wrappers independent.
@@ -122,7 +123,7 @@ namespace rr {
 
     Dictionary *Dictionary_from_py(PyObject *py);
 
-
+    // docs: https://numpy.org/devdocs/user/c-info.beyond-basics.html#subtyping-the-ndarray-in-c
     struct NamedArrayObject {
         /**
          * Note, access to the PyArrayObject is deprecated as of numpy v1.7
@@ -159,7 +160,35 @@ namespace rr {
         }
     };
 
-    static PyObject *NamedArrayObject_Finalize(NamedArrayObject *self, PyObject *parent);
+
+    /**
+     * @brief allocates a NamedArrayObject, the underlying struct for
+     * the Python NamedArray object.
+     * @details A NamedArrayObject is allocated using PyObject_New
+     * and then initialized with PyObject_Init.
+     * @return new reference. PyObject* with a ref count of 1.
+     */
+    static PyObject *NamedArrayObject_alloc(PyTypeObject *type, Py_ssize_t nitems);
+
+    /**
+     *@brief Finalize the instantiation of a NamedArray
+     *
+     * @details numpy types call __array_finalize_ex__ after
+     * allocating and initializing. There are three ways in which
+     * a numpy array can be created
+     *  1) Using the constructor, like normal python objects
+     *  2) Using a "view" of a supertype as a subtype (i.e. np.ndarray as NamedArray)
+     *  3) Using a "template" of a type, which is where the user slices an array and
+     *  get a copy returned.
+     *
+     * In 1, the argument to __finalize_ex__ is None, and the function does nothing.
+     * In 2, the argument the argument is of type np.ndarray and the
+     *  return type is a NamedArray
+     * In 3, both the input and output to __finalize_ex__ is a NamedArray
+     *
+     * @see https://numpy.org/devdocs/user/basics.subclassing.html
+     */
+    static PyObject *NamedArrayObject_Finalize(NamedArrayObject *self, PyObject *args);
 
     static PyObject *NamedArray_repr(NamedArrayObject *self);
 

@@ -332,7 +332,7 @@ RR_DECLSPEC Poco::Logger &getLogger();
 
 #ifndef NO_LOGGER
 #define rrLog(level) \
-    if (level > rr::Logger::getLevel()) { ; } \
+    if ((level) > rr::Logger::getLevel()) { ; } \
     else rr::LoggingBuffer(level, __FILE__, __LINE__).stream()
 #else
 #define rrLog(level) \
@@ -340,6 +340,13 @@ RR_DECLSPEC Poco::Logger &getLogger();
     else \
     LoggingBuffer(level, __FILE__, __LINE__)
 #endif
+
+#define rrLogFatal rrLog(Logger::LOG_FATAL)
+#define rrLogCritical rrLog(Logger::LOG_CRITICAL)
+#define rrLogErr rrLog(Logger::LOG_ERROR)
+#define rrLogWarn rrLog(Logger::LOG_WARNING)
+#define rrLogNotice rrLog(Logger::LOG_NOTICE)
+#define rrLogInfo rrLog(Logger::LOG_INFORMATION)
 
 
 } /* namespace rr */
