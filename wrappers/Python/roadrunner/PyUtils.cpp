@@ -579,6 +579,36 @@ namespace rr {
      */
     PyObject *convertStringVectorToPython(const std::vector<std::string> &vec);
 
+    PyObject *NamedArrayObject_Finalize(NamedArrayObject *self, PyObject *parent /* should be called args???*/) {
+        //todo test the three cases outlined here:
+        // https://numpy.org/devdocs/user/basics.subclassing.html
+        rrLog(Logger::LOG_INFORMATION) << __FUNC__;
+        std::cout << "NamedArrayObject_Finalize: " << std::endl;
+        std::cout << "parent->ob_type->tp_name: " << parent->ob_type->tp_name << std::endl;
+        std::cout << "parent tuple size: " << PyTuple_Size(parent) << std::endl;
+        PyObject* item;
+        if (PyArg_ParseTuple(parent, "O", &item) < 0){
+            PyErr_SetString(PyExc_ValueError, "Could not get item from tuple");
+            return nullptr;
+        }
+        std::cout << item->ob_type->tp_name<<std::endl;
+
+        if (parent != NULL && parent->ob_type == &PyArray_Type) {
+            std::cout << "parent != NULL && parent->ob_type == &PyArray_Type " << std::endl;
+            NamedArrayObject *p = (NamedArrayObject *) parent;
+            if (p->rowNames != NULL) {
+                std::cout << "p->rowNames != NULL " << std::endl;
+                Py_INCREF(p->rowNames);
+                self->rowNames = p->rowNames;
+            }
+
+            if (p->colNames != NULL) {
+                Py_INCREF(p->colNames);
+                self->colNames = p->colNames;
+            }
+        }
+        Py_RETURN_NONE;
+    }
 
     static void NamedArrayObject_dealloc(NamedArrayObject *self) {
         rrLog(Logger::LOG_INFORMATION) << __FUNC__;
@@ -1208,23 +1238,6 @@ namespace rr {
         return Py_None;
     }
 
-    PyObject *NamedArrayObject_Finalize(NamedArrayObject *self, PyObject *parent) {
-        rrLog(Logger::LOG_INFORMATION) << __FUNC__;
-
-        if (parent != NULL && parent->ob_type == &NamedArray_Type) {
-            NamedArrayObject *p = (NamedArrayObject *) parent;
-            if (p->rowNames != NULL) {
-                Py_INCREF(p->rowNames);
-                self->rowNames = p->rowNames;
-            }
-
-            if (p->colNames != NULL) {
-                Py_INCREF(p->colNames);
-                self->colNames = p->colNames;
-            }
-        }
-        Py_RETURN_NONE;
-    }
 
 
     void pyutil_init(PyObject *module) {
@@ -1248,36 +1261,6 @@ namespace rr {
             PyErr_SetString(PyExc_ValueError, "Could not add NamedArray_Type to module roadrunner._roadrunner");
             return;
         }
-
-//        int result;
-//
-//        if ((result = PyType_Ready(&NamedArray_Type)) < 0) {
-//            PyObject *moduleName = PyModule_GetNameObject(module);
-//            if (moduleName == nullptr) {
-//                std::cerr << "Could not get ModuleName object" << std::endl;
-//                return;
-//            }
-//            Py_ssize_t size;
-//            const char *moduleNameCStr = PyUnicode_AsUTF8(moduleName);
-//            if (!moduleNameCStr) {
-//                std::cerr << "Could not convert PyUnicode to const char*" << std::endl;
-//                return;
-//            }
-//            std::cerr << "PyType_Ready(&NamedArray_Type)) Error. Failed to import module: " << moduleNameCStr << result;
-//            return;
-//        }
-//
-//        Py_INCREF(&NamedArray_Type);
-//
-//        std::cout << "moduel name: " << PyModule_GetName(module)<<std::endl;
-//
-//        if (PyModule_AddObject(module, "NamedArray", (PyObject *) (&NamedArray_Type)) < 0) {
-//            // from docs:
-//            //  Unlike other functions that steal references, PyModule_AddObject() only
-//            //  decrements the reference count of value on success.
-//            Py_DECREF(module);
-//            PyErr_SetString(PyExc_ValueError, "Could not add NamedArray object to _roadrunner module");
-//        };
     }
 
 /*
@@ -1289,8 +1272,11 @@ namespace rr {
             double *data, int pyFlags,
             const ls::DoubleMatrix *mat) {
         bool named = Config::getValue(Config::PYTHON_ENABLE_NAMED_MATRIX);
+        std::cout << "NamedArray_new called " << std::endl;
+        std::cout << "is array named? " << named << std::endl;
 
         if (named) {
+
             rrLog(Logger::LOG_INFORMATION) << "creating NEW style array";
 
             //         (*(PyObject * (*)(PyTypeObject *, int, npy_intp const *, int, npy_intp const *, void *, int, int, PyObject *))
