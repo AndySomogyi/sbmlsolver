@@ -1864,9 +1864,11 @@ namespace rr {
                                              << ", end: " << timeEnd;
                     tout = self.integrator->integrate(tout, timeEnd - tout);
 
-
+                    //If tout is larger than timeEnd but not infinite, this is actually OK, because
+                    // it means that we're just taking a certain number of steps and don't care
+                    // about the time.
                     if (!isfinite(tout) || (tout == timeEnd)) {
-                        // time step is at infinity or zero so bail, but get the last value
+                        // time step is at infinity or maximum so bail, but get the last value
                         getSelectedValues(row, timeEnd);
                         results.push_back(row);
                         break;
