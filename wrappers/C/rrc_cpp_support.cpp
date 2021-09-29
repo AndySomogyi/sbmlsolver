@@ -20,7 +20,7 @@ void setError(const string& err)
 {
     if(gLastError)
     {
-        delete [] gLastError;
+        rr::freeText(gLastError);
     }
 
     gLastError = rr::createText(err);
