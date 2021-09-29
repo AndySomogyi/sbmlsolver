@@ -90,14 +90,6 @@ class NamedArrayTests(unittest.TestCase):
         self.assertEqual((1, 3), v.shape)
         self.assertEqual(['R1'], v.rownames)
 
-    def test_init_from_template_with_colnames(self):
-        n = NamedArray((2, 3))
-        n.rownames = ['C1', 'C2', 'C3']
-        self.assertEqual(1, sys.getrefcount(n) - 1)  # -1 for the reference used by getrefcount
-        v = n[:, 1:]
-        self.assertEqual((2, 2), v.shape)
-        self.assertEqual(['C1', 'C2'], v.colnames)
-
     def test_init_from_template_with_colnames_ref_count(self):
         n = NamedArray((2, 3))
         n.colnames = ['C1', 'C2', 'C3']
@@ -234,9 +226,8 @@ class NamedArrayTests(unittest.TestCase):
         # acquired a bytes object
         self.assertIsInstance(b, bytes)
 
-
-    # def test_pickle_loads(self):
-    #     n = np.zeros((2, 3)).view(NamedArray)
-    #     b = pickle.dumps(n)
-    #     l = pickle.loads(b)
-    #     # print(l)
+    def test_pickle_loads(self):
+        n = np.zeros((2, 3)).view(NamedArray)
+        b = pickle.dumps(n)
+        l = pickle.loads(b)
+        print(l)
