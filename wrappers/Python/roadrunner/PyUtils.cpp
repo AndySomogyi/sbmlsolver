@@ -822,6 +822,11 @@ namespace rr {
             dim1 = shape[0];
         if (nDims > 1)
             dim2 = shape[1];
+        rrLogInfo << "nDims : " << nDims;
+        rrLogInfo << "dim1 : " << dim1;
+        rrLogInfo << "dim2 : " << dim2;
+        rrLogInfo << "self->rowNames: " << self->rowNames << " " << (self->rowNames == Py_None);
+        rrLogInfo << "self->colNames: " << self->colNames << " " << (self->colNames == Py_None);
 
         // string, bytes, string, object, string object string int
         PyObject *ret = Py_BuildValue("{sSsisLsLsOsOsi}",
@@ -1051,9 +1056,6 @@ namespace rr {
         Py_DECREF(&self->array);
         rrLogInfo << PyArray_REFCOUNT((PyObject *) &self->array) << std::endl;
 
-        PyObject_Print((PyObject *) &self->array, stdout, 0);
-        PyObject_Print(self->rowNames, stdout, 0);
-        PyObject_Print(self->rowNames, stdout, 0);
 
         // Grab the bytes object.
         PyObject *bytesObj = PyDict_GetItemString(state, "array"); // borrowed reference
@@ -1130,36 +1132,15 @@ namespace rr {
         self->array = *(PyArrayObject *) newArr;
 
         // increment the ref count of array for our instance
-//        Py_INCREF(&self->array);
+        Py_INCREF(&self->array);
         rrLogInfo << "arr ref count " << PyArray_REFCOUNT(&self->array);
         rrLogInfo << PyArray_REFCOUNT((PyObject *) &self->array);
         PyObject *rownames = PyDict_GetItemString(state, "rownames");
         if (!rownames) {
             PyErr_SetString(PyExc_KeyError, "No key 'rownames' in state dict");
         }
-        rrLogInfo << "self->array.ob_base.ob_type: "
-                  << self->array.ob_base.ob_type->tp_name << std::endl;
-        rrLogInfo << "self->rowNames: " << self->rowNames << std::endl;
-        PyObject *l = Py_BuildValue(
-                "[sssssssssss]",
-                PyUnicode_FromString("C1"),
-                PyUnicode_FromString("C2"),
-                PyUnicode_FromString("C3"),
-                PyUnicode_FromString("C4"),
-                PyUnicode_FromString("C5"),
-                PyUnicode_FromString("C6"),
-                PyUnicode_FromString("C7"),
-                PyUnicode_FromString("C8"),
-                PyUnicode_FromString("C9"),
-                PyUnicode_FromString("C10"),
-                PyUnicode_FromString("C11")
-        );
-        rrLogInfo << "l->ob_type->tp_name: "
-                  << l->ob_type->tp_name << std::endl;
-        PyObject_Print(self->rowNames, stdout, 1);
-        PyObject_Print(rownames, stdout, 1);
 
-        self->rowNames = l;
+        self->rowNames = rownames;
         Py_INCREF(self->rowNames);
 
         // now for colnames,
@@ -1170,6 +1151,8 @@ namespace rr {
         self->colNames = colnames;
         Py_INCREF(self->colNames);
 
+
+        rrLogInfo << "Done" << std::endl;
         return Py_None;
     }
 
@@ -1393,24 +1376,29 @@ namespace rr {
         //  #2 np.ndarray does not have row/colnames
         if (rhs == Py_None || rhs->ob_type == &PyArray_Type) {
             rrLogInfo << "'None' path taken";
-            // todo consider whether we should give the NamedArray
-            // empty row/colnames fields
-            PyObject *rows = PyList_New(0);
-            if (!rows) {
-                PyErr_SetString(PyExc_MemoryError, "Could not allocate a new list for rownames");
-                Py_RETURN_NONE;
+            if (!self->rowNames) {
+                rrLogInfo << "self->rownames is nullptr: assigning to empty list" ;
+                PyObject *rows = PyList_New(0);
+                if (!rows) {
+                    PyErr_SetString(PyExc_MemoryError, "Could not allocate a new list for rownames");
+                    Py_RETURN_NONE;
+                }
+                self->rowNames = rows;
             }
-            PyObject *cols = PyList_New(0);
-            if (!cols) {
-                PyErr_SetString(PyExc_MemoryError, "Could not allocate a new list for colnames");
-                Py_RETURN_NONE;
+            if (!self->colNames) {
+                rrLogInfo << "self->colnames is nullptr: assigning to empty list" ;
+                PyObject *cols = PyList_New(0);
+                if (!cols) {
+                    PyErr_SetString(PyExc_MemoryError, "Could not allocate a new list for colnames");
+                    Py_RETURN_NONE;
+                }
+                self->colNames = cols;
             }
             // Note it seems that we do not need to increment the ref count
             // for these new lists.
 
             // and assign
-            self->rowNames = rows;
-            self->colNames = cols;
+            rrLogInfo << "done" << std::endl;
             Py_RETURN_NONE;
         }
 
@@ -1444,7 +1432,7 @@ namespace rr {
                 Py_RETURN_NONE;
             }
             if (rhsAsNamedArrayObj->rowNames != NULL) {
-                rrLogInfo << "Moving rowNames reference from rhs to this array" ;
+                rrLogInfo << "Moving rowNames reference from rhs to this array";
 
                 Py_ssize_t sizeOfRownames = PyList_Size(rhsAsNamedArrayObj->rowNames);
 
@@ -1464,7 +1452,7 @@ namespace rr {
                     self->rowNames = rhsAsNamedArrayObj->rowNames;
                 }
 
-                rrLogInfo << "self->rowNames ref count: " << self->rowNames->ob_refcnt ;
+                rrLogInfo << "self->rowNames ref count: " << self->rowNames->ob_refcnt;
                 rrLogInfo << "rhsAsNamedArrayObjec ref ocunt " << rhs->ob_refcnt;
                 // we steal the reference
                 rhsAsNamedArrayObj->rowNames = nullptr;
@@ -1472,7 +1460,7 @@ namespace rr {
 
 
             if (rhsAsNamedArrayObj->colNames != NULL) {
-                rrLogInfo << "Moving colNames reference from rhs to this array" ;
+                rrLogInfo << "Moving colNames reference from rhs to this array";
 
                 Py_ssize_t sizeOfcolnames = PyList_Size(rhsAsNamedArrayObj->colNames);
 
@@ -1492,7 +1480,7 @@ namespace rr {
                     self->colNames = rhsAsNamedArrayObj->colNames;
                 }
 
-                rrLogInfo << "self->colNames ref count: " << self->colNames->ob_refcnt ;
+                rrLogInfo << "self->colNames ref count: " << self->colNames->ob_refcnt;
                 // we steal the reference
                 rhsAsNamedArrayObj->colNames = nullptr;
             }

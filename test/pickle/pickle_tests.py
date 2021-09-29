@@ -114,72 +114,7 @@ class NamedArrayPickleTests(unittest.TestCase):
     def tearDown(self) -> None:
         pass
 
-    def test_getstate_isdict(self):
-        self.assertIsInstance(self.data.__getstate__(), dict)
 
-    def test_getstate_rownames(self):
-        state = self.data.__getstate__()
-        self.assertEqual(state['rownames'], [i for i in range(11)])
-
-    def test_getstate_colnames(self):
-        state = self.data.__getstate__()
-        print(state['colnames'])
-        self.assertEqual(state['colnames'], ['time', '[S1]', '[S2]'])
-
-    def test_getstate_array(self):
-        state = self.data.__getstate__()
-        self.assertIsInstance(state['array'], bytes)
-
-    def test_reduce_callable(self):
-        c, args, state, _, _ = self.data.__reduce_ex__(5)
-        self.assertTrue(callable(c))
-
-    def test_reduce_args(self):
-        c, args, state, _, _ = self.data.__reduce_ex__(5)
-        self.assertEqual(args, ((11, 3),))
-
-    def test_reduce_state(self):
-        c, args, state, _, _ = self.data.__reduce_ex__(5)
-        self.assertEqual(
-            list(state.keys()),
-            ['array', 'nDims', 'dim1',
-             'dim2', 'rownames', 'colnames',
-             '_pickle_version'])
-
-    def test_reduce_args_work_with_callable(self):
-        c, args, state, _, _ = self.data.__reduce_ex__(5)
-        initialized = c(*args)
-        self.assertIsInstance(initialized, NamedArray)
-        self.assertEqual(initialized.shape, (11, 3))
-
-    def test_reduce_and_setstate(self):
-        c, args, state, _, _ = self.data.__reduce_ex__(5)
-        newArray = c(*args)
-        newArray.__setstate__(state)
-        # make sure we still have a NamedArray after setstate
-        self.assertIsInstance(newArray, NamedArray)
-        self.assertEqual(newArray.shape, (11, 3))
-        self.assertTrue((self.data == newArray).all())
-
-    def test_getstate_and_setstate(self):
-        pickled = NamedArray(self.data.shape)
-        self.assertNotEqual(id(self.data), id(pickled))
-        state = self.data.__getstate__()
-        self.assertIsInstance(state, dict)
-        pickled.__setstate__(state)
-        self.assertAlmostEqual(self.data['[S1]'][1], 9.062504129616269)
-
-    def test_NamedArray_is_part_of__roadrunner_module(self):
-        """
-        the tp_name field of NamedArray_Type needed to be
-        changed to roadrunner._roadrunner.NamedArray rather
-        than NamedArray so that the __module__attribute
-        pointed to the correct location and pickle.dumps
-        looks in the right place for NamedArray
-        :return:
-        """
-        from roadrunner._roadrunner import NamedArray
-        self.assertTrue(NamedArray.__module__, "roadrunner._roadrunner")
 
     def test_dumps(self):
         print(f"Python interpreter at: {sys.executable}")
