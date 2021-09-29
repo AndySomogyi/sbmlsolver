@@ -662,16 +662,15 @@ TEST_F(CAPIModelEditingTests, FROM_SCRATCH_6) {
 
 TEST_F(CAPIModelEditingTests, FROM_SCRATCH_7) {
     path modelFilePath(rrTestModelsDir_ / "CAPIModelEditingTests");
-    RRHandle rr = createRRInstance();
-    loadSBML(rr, (modelFilePath / "tiny_example_1.xml").string().c_str());
-    addCompartmentNoRegen(rr, "c1", 3.0);
-    addSpeciesConcentrationNoRegen(rr, "S1", "c1", 0.0005, false, false);
-    addSpeciesConcentrationNoRegen(rr, "S2", "c1", 0.3, false, false);
+    RoadRunner rr(3, 1);
+    loadSBML(&rr, (modelFilePath / "tiny_example_1.xml").string().c_str());
+    addCompartmentNoRegen(&rr, "c1", 3.0);
+    addSpeciesConcentrationNoRegen(&rr, "S1", "c1", 0.0005, false, false);
+    addSpeciesConcentrationNoRegen(&rr, "S2", "c1", 0.3, false, false);
     const char *reactants[] = {"S1"};
     const char *products[] = {"S1"};
-    addReaction(rr, "reaction1", reactants, 1, products, 1, "c1 * S1 * S2");
-    char* model = getSBML(rr);
+    addReaction(&rr, "reaction1", reactants, 1, products, 1, "c1 * S1 * S2");
+    char* model = getSBML(&rr);
     validateModifiedSBML(std::string(model));
     rr::freeText(model);
-    delete rr;
 }

@@ -234,8 +234,6 @@ namespace rr {
 
         std::vector<SelectionRecord> mSteadyStateSelection;
 
-        std::unique_ptr<ExecutableModel> model;
-
         /**
          * here for compatiblity, will go.
          */
@@ -268,8 +266,6 @@ namespace rr {
         * Has this roadrunner instance been simulated since the last time reset was called?
         */
         bool simulatedSinceReset = false;
-
-        std::unique_ptr<libsbml::SBMLDocument> document;
 
         RoadRunnerImpl(const std::string &uriOrSBML, const Dictionary *dict) :
                 mDiffStepSize(0.05),
@@ -479,6 +475,12 @@ namespace rr {
                              double originalValue, double increment) {
             setParameterValue(parameterType, parameterIndex, originalValue + increment);
         }
+
+        friend RoadRunner;
+
+        protected:
+            std::unique_ptr<ExecutableModel> model;
+            std::unique_ptr<libsbml::SBMLDocument> document;
 
     };
 
