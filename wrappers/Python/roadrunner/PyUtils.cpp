@@ -1131,7 +1131,7 @@ namespace rr {
 
         // increment the ref count of array for our instance
 //        Py_INCREF(&self->array);
-        std::cout << "arr ref count " << PyArray_REFCOUNT(&self->array) << std::endl;
+        rrLogInfo << "arr ref count " << PyArray_REFCOUNT(&self->array);
         rrLogInfo << PyArray_REFCOUNT((PyObject *) &self->array);
         PyObject *rownames = PyDict_GetItemString(state, "rownames");
         if (!rownames) {
@@ -1469,7 +1469,6 @@ namespace rr {
                 // we steal the reference
                 rhsAsNamedArrayObj->rowNames = nullptr;
             }
-    have you copied thetests?
 
 
             if (rhsAsNamedArrayObj->colNames != NULL) {
@@ -1502,40 +1501,6 @@ namespace rr {
         Py_RETURN_NONE;
     }
 
-
-
-//    PyObject *NamedArrayObject_Finalize(NamedArrayObject *self, PyObject *args /* should be called args???*/) {
-//        //todo test the three cases outlined here:
-//        // https://numpy.org/devdocs/user/basics.subclassing.html
-//        rrLogInfo << __FUNC__;
-//        rrLogInfo << "args->ob_type->tp_name: " << args->ob_type->tp_name
-//            << "tuple size: " << PyTuple_Size(args)
-//            << " ref count : " << args->ob_refcnt;
-//        rrLogInfo << "self "  << self << " args " << args;
-//        PyObject *item;
-//        if (PyArg_ParseTuple(args, "O", &item) < 0) {
-//            PyErr_SetString(PyExc_ValueError, "Could not get item from tuple");
-//            return nullptr;
-//        }
-//        rrLogInfo << "argument type is: " << item->ob_type->tp_name;
-//
-//        if (args != NULL && args->ob_type == &PyArray_Type) {
-//            rrLogInfo << "args != NULL && args->ob_type == &PyArray_Type " << std::endl;
-//            NamedArrayObject *p = (NamedArrayObject *) args;
-//            if (p->rowNames != NULL) {
-//                rrLogInfo << "p->rowNames != NULL " << std::endl;
-//                Py_INCREF(p->rowNames);
-//                self->rowNames = p->rowNames;
-//            }
-//
-//            if (p->colNames != NULL) {
-//                Py_INCREF(p->colNames);
-//                self->colNames = p->colNames;
-//            }
-//        }
-//        rrLogInfo << "done" <<std::endl;
-//        Py_RETURN_NONE;
-//    }
 
     static void NamedArrayObject_dealloc(NamedArrayObject *self) {
         rrLogInfo << __FUNC__;

@@ -87,7 +87,7 @@ class NamedArrayTests(unittest.TestCase):
         print(v)
         self.assertEqual(1, sys.getrefcount(v.colnames) - 1) # -1 for the reference used by getrefcount
         self.assertEqual((2, 2), v.shape)
-        self.assertEqual(['C2', 'C3'], v.colnames)
+        self.assertEqual(['C1', 'C2'], v.colnames)
 
     def test_rownames_when_empty(self):
         n = NamedArray((2, 3))
@@ -139,8 +139,7 @@ class NamedArrayTests(unittest.TestCase):
         # acquired a bytes object
         self.assertIsInstance(b, bytes)
 
-
-    def test_pickle_dumps_no_rows(self):
+    def test_pickle_dumps_cols(self):
         n = np.zeros((2, 3)).view(NamedArray)
         n.colnames = ['C1', 'C2', 'C3']
         self.assertIsInstance(n, NamedArray)
@@ -149,8 +148,7 @@ class NamedArrayTests(unittest.TestCase):
         # acquired a bytes object
         self.assertIsInstance(b, bytes)
 
-
-    def test_pickle_dumps_no_cols(self):
+    def test_pickle_dumps_rows(self):
         n = np.zeros((2, 3)).view(NamedArray)
         n.rownames = ['R1', 'R2']
         self.assertIsInstance(n, NamedArray)
@@ -158,6 +156,13 @@ class NamedArrayTests(unittest.TestCase):
         # can't check content here, only that we have successfully
         # acquired a bytes object
         self.assertIsInstance(b, bytes)
+
+
+    def test_pickle_loads(self):
+        n = np.zeros((2, 3)).view(NamedArray)
+        b = pickle.dumps(n)
+        l = pickle.loads(b)
+        # print(l)
 
 
 
