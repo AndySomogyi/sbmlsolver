@@ -1746,6 +1746,31 @@ std::vector<std::string> LLVMModelDataSymbols::getEventIds() const
     return getIds(eventIds);
 }
 
+std::vector<std::string> LLVMModelDataSymbols::getAssignmentRuleIds() const
+{
+    std::vector<string> ret;
+    for (std::set<string>::iterator ar = assignmentRules.begin(); ar != assignmentRules.end(); ar++)
+    {
+        ret.push_back(*ar);
+    }
+    return ret;
+}
+
+std::vector<std::string> LLVMModelDataSymbols::getRateRuleIds() const
+{
+    return getIds(rateRules);
+}
+
+std::vector<std::string> LLVMModelDataSymbols::getInitialAssignmentIds() const
+{
+    std::vector<string> ret;
+    for (std::set<string>::iterator ia = initAssignmentRules.begin(); ia != initAssignmentRules.end(); ia++)
+    {
+        ret.push_back(*ia);
+    }
+    return ret;
+}
+
 std::string LLVMModelDataSymbols::getEventId(size_t indx) const
 {
     for (StringUIntMap::const_iterator i = eventIds.begin();

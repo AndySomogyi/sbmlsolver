@@ -447,7 +447,7 @@ std::string getTestSuiteSubFolderName(int caseNr)
     return modelSubPath.str();
 }
 
-bool hasUnimplementedTags(const std::string& descriptionFileName)
+bool hasUnimplementedTags(const std::string& descriptionFileName, const string& integrator)
 {
     std::vector<std::string> badtags;
     badtags.push_back("AlgebraicRule");
@@ -455,6 +455,11 @@ bool hasUnimplementedTags(const std::string& descriptionFileName)
     badtags.push_back("fbc");
     badtags.push_back("BoolNumericSwap");
     badtags.push_back("FastReaction");
+    if (integrator == "rk4" || integrator == "rk45")
+    {
+        badtags.push_back("EventWithDelay");
+        badtags.push_back("EventNoDelay");
+    }
     std::ifstream descfile(descriptionFileName);
     if (descfile.good()) {
         std::string line;

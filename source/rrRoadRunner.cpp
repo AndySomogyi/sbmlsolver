@@ -4,10 +4,6 @@
 
 #include "rrOSSpecifics.h"
 
-// TODO will clean these up in the future
-#undef RR_DEPRECATED
-#define RR_DEPRECATED(func) func
-
 #include <iostream>
 #include "rrRoadRunner.h"
 #include "rrException.h"
@@ -168,8 +164,6 @@ namespace rr {
 /**
  * The type of sbml element that the RoadRunner::setParameterValue
  * and RoadRunner::getParameterValue method operate on.
- *
- * @deprecated use the ExecutableModel methods directly.
  */
     enum ParameterType {
         ptGlobalParameter = 0,
@@ -240,8 +234,6 @@ namespace rr {
 
         std::vector<SelectionRecord> mSteadyStateSelection;
 
-        std::unique_ptr<ExecutableModel> model;
-
         /**
          * here for compatiblity, will go.
          */
@@ -274,8 +266,6 @@ namespace rr {
         * Has this roadrunner instance been simulated since the last time reset was called?
         */
         bool simulatedSinceReset = false;
-
-        std::unique_ptr<libsbml::SBMLDocument> document;
 
         RoadRunnerImpl(const std::string &uriOrSBML, const Dictionary *dict) :
                 mDiffStepSize(0.05),
@@ -363,8 +353,7 @@ namespace rr {
 
                 std::istringstream istr(ss.str());
 
-                model = std::unique_ptr<ExecutableModel>(
-                        ExecutableModelFactory::createModel(istr, loadOpt.modelGeneratorOpt));
+                model.reset(ExecutableModelFactory::createModel(istr, loadOpt.modelGeneratorOpt));
                 syncAllSolversWithModel(model.get());
             }
         }
@@ -487,6 +476,12 @@ namespace rr {
             setParameterValue(parameterType, parameterIndex, originalValue + increment);
         }
 
+        friend RoadRunner;
+
+        protected:
+            std::unique_ptr<ExecutableModel> model;
+            std::unique_ptr<libsbml::SBMLDocument> document;
+
     };
 
 
@@ -498,7 +493,8 @@ namespace rr {
         return impl->mInstanceID;
     }
 
-    RoadRunner::RoadRunner(unsigned int level, unsigned int version) : impl(new RoadRunnerImpl("", NULL)) {
+    RoadRunner::RoadRunner(unsigned int level, unsigned int version) 
+        : impl(new RoadRunnerImpl("", NULL)) {
 
         llvm::InitializeNativeTarget();
         llvm::InitializeNativeTargetAsmPrinter();
@@ -1315,7 +1311,7 @@ namespace rr {
         // chomp any leading or trailing whitespace
         mCurrentSBML = trim(mCurrentSBML);
 
-        impl->model = nullptr;
+        impl->model.reset(nullptr);
 
         delete impl->mLS;
         impl->mLS = NULL;
@@ -1342,9 +1338,8 @@ namespace rr {
             // we validate the model to provide explicit details about where it
             // failed. Its *VERY* expensive to pre-validate the model.
             libsbml::SBMLReader reader;
-            impl->document = std::unique_ptr<libsbml::SBMLDocument>(reader.readSBMLFromString(mCurrentSBML));
-            impl->model = std::unique_ptr<ExecutableModel>(
-                    ExecutableModelFactory::createModel(mCurrentSBML, &impl->loadOpt));
+            impl->document.reset(reader.readSBMLFromString(mCurrentSBML));
+            impl->model.reset(ExecutableModelFactory::createModel(mCurrentSBML, &impl->loadOpt));
         } catch (const rr::UninitializedValueException &e) {
             // catch specifically for UninitializedValueException, otherwise for some
             // reason the message is erased, and an 'unknown error' is displayed to the user.
@@ -1397,7 +1392,7 @@ namespace rr {
     bool RoadRunner::clearModel() {
         // The model owns the shared library (if it exists), when the model is deleted,
         // its dtor unloads the shared lib.
-        impl->document = std::unique_ptr<libsbml::SBMLDocument>(new libsbml::SBMLDocument());
+        impl->document.reset(new libsbml::SBMLDocument());
         impl->document->createModel();
         if (impl->model) {
             impl->model = nullptr;
@@ -1752,7 +1747,7 @@ namespace rr {
             double f1 = fd2 + 8 * fi;
             double f2 = -(8 * fd + fi2);
 
-            delete ref;
+            delete [] ref;
 
             return 1 / (12 * hstep) * (f1 + f2);
         }
@@ -1780,8 +1775,11 @@ namespace rr {
 
         applySimulateOptions();
 
-        const double timeEnd = self.simulateOpt.duration + self.simulateOpt.start;
         const double timeStart = self.simulateOpt.start;
+        self.integrator->setIntegrationStartTime(self.simulateOpt.start);
+        self.model->setIntegrationStartTime(self.simulateOpt.start);
+
+        const double timeEnd = self.simulateOpt.duration + self.simulateOpt.start;
 
         impl->simulatedSinceReset = true;
 
@@ -1866,9 +1864,11 @@ namespace rr {
                                              << ", end: " << timeEnd;
                     tout = self.integrator->integrate(tout, timeEnd - tout);
 
-
+                    //If tout is larger than timeEnd but not infinite, this is actually OK, because
+                    // it means that we're just taking a certain number of steps and don't care
+                    // about the time.
                     if (!isfinite(tout) || (tout == timeEnd)) {
-                        // time step is at infinity or zero so bail, but get the last value
+                        // time step is at infinity or maximum so bail, but get the last value
                         getSelectedValues(row, timeEnd);
                         results.push_back(row);
                         break;
@@ -2860,6 +2860,8 @@ namespace rr {
                 }
             }
         }
+
+        delete doc;
 
         return extended_matrix;
     }
@@ -4664,6 +4666,36 @@ namespace rr {
         return std::vector<std::string>(list.begin(), list.end());
     }
 
+    std::vector<std::string> RoadRunner::getAssignmentRuleIds()
+    {
+        std::list<std::string> list;
+        if (impl->model) {
+            impl->model->getAssignmentRuleIds(list);
+        }
+
+        return std::vector<std::string>(list.begin(), list.end());
+    }
+
+    std::vector<std::string> RoadRunner::getRateRuleIds()
+    {
+        std::list<std::string> list;
+        if (impl->model) {
+            impl->model->getRateRuleIds(list);
+        }
+
+        return std::vector<std::string>(list.begin(), list.end());
+    }
+
+    std::vector<std::string> RoadRunner::getInitialAssignmentIds()
+    {
+        std::list<std::string> list;
+        if (impl->model) {
+            impl->model->getInitialAssignmentIds(list);
+        }
+
+        return std::vector<std::string>(list.begin(), list.end());
+    }
+
     std::vector<std::string> RoadRunner::getBoundarySpeciesConcentrationIds() {
         std::list<std::string> list;
 
@@ -4753,9 +4785,8 @@ namespace rr {
     void RoadRunner::applySimulateOptions() {
         get_self();
 
-        if (self.simulateOpt.duration < 0 || self.simulateOpt.start < 0
-            || self.simulateOpt.steps < 0) {
-            throw std::invalid_argument("duration, startTime and steps must be non-negative");
+        if (self.simulateOpt.duration < 0 || self.simulateOpt.steps < 0) {
+            throw std::invalid_argument("duration and steps must be non-negative");
         }
 
         // This one creates the list of what we will look at in the result
@@ -5061,8 +5092,7 @@ namespace rr {
         rr::loadBinary(in, impl->configurationXML);
         //Create a new model from the stream
         //impl->model = new rrllvm::LLVMExecutableModel(in, impl->loadOpt.modelGeneratorOpt);
-        impl->model = std::unique_ptr<ExecutableModel>(
-                ExecutableModelFactory::createModel(in, impl->loadOpt.modelGeneratorOpt));
+        impl->model.reset(ExecutableModelFactory::createModel(in, impl->loadOpt.modelGeneratorOpt));
         impl->syncAllSolversWithModel(impl->model.get());
         if (impl->mLS)
             delete impl->mLS;
@@ -5112,7 +5142,7 @@ namespace rr {
         std::string savedSBML;
         rr::loadBinary(in, savedSBML);
         libsbml::SBMLReader reader;
-        impl->document = std::unique_ptr<libsbml::SBMLDocument>(reader.readSBMLFromString(savedSBML));
+        impl->document.reset(reader.readSBMLFromString(savedSBML));
 
         //Restart the integrator and reset the model time
         impl->integrator->restart(impl->model->getTime());
@@ -6382,8 +6412,7 @@ namespace rr {
 
 
             // regeneate the model
-            impl->model = std::unique_ptr<ExecutableModel>(
-                    ExecutableModelFactory::regenerateModel(
+            impl->model.reset(ExecutableModelFactory::regenerateModel(
                             impl->model.get(),
                             impl->document.get(),
                             impl->loadOpt.modelGeneratorOpt));

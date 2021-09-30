@@ -2386,7 +2386,7 @@ namespace std { class ostream{}; }
     }
 
 
-    int setFloatingSpeciesAmounts(size_t leni, int const* indx, int lenv, double const *values) {
+    int setFloatingSpeciesAmounts(size_t leni, int const* indx, size_t lenv, double const *values) {
         if (leni != lenv) {
             PyErr_Format(PyExc_ValueError,
                          "Arrays of lengths (%d,%d) given",
@@ -2397,7 +2397,7 @@ namespace std { class ostream{}; }
     }
 
 
-    int setFloatingSpeciesConcentrations(int leni, int const* indx, int lenv, double const *values) {
+    int setFloatingSpeciesConcentrations(size_t leni, int const* indx, size_t lenv, double const *values) {
         if (leni != lenv) {
             PyErr_Format(PyExc_ValueError,
                          "Arrays of lengths (%d,%d) given",
@@ -2407,7 +2407,7 @@ namespace std { class ostream{}; }
         return $self->setFloatingSpeciesConcentrations(leni, indx, values);
     }
 
-    int setBoundarySpeciesConcentrations(int leni, int const* indx, int lenv, double const *values) {
+    int setBoundarySpeciesConcentrations(size_t leni, int const* indx, size_t lenv, double const *values) {
         if (leni != lenv) {
             PyErr_Format(PyExc_ValueError,
                          "Arrays of lengths (%d,%d) given",
@@ -2417,7 +2417,7 @@ namespace std { class ostream{}; }
         return $self->setBoundarySpeciesConcentrations(leni, indx, values);
     }
 
-    int setGlobalParameterValues(int leni, int const* indx, int lenv, double const *values) {
+    int setGlobalParameterValues(size_t leni, int const* indx, size_t lenv, double const *values) {
         if (leni != lenv) {
             PyErr_Format(PyExc_ValueError,
                          "Arrays of lengths (%d,%d) given",
@@ -2427,7 +2427,7 @@ namespace std { class ostream{}; }
         return $self->setGlobalParameterValues(leni, indx, values);
     }
 
-    int setCompartmentVolumes(int leni, int const* indx, int lenv, double const *values) {
+    int setCompartmentVolumes(size_t leni, int const* indx, size_t lenv, double const *values) {
         if (leni != lenv) {
             PyErr_Format(PyExc_ValueError,
                          "Arrays of lengths (%d,%d) given",
@@ -2437,7 +2437,7 @@ namespace std { class ostream{}; }
         return $self->setCompartmentVolumes(leni, indx, values);
     }
 
-    int setConservedMoietyValues(int leni, int const* indx, int lenv, double const *values) {
+    int setConservedMoietyValues(size_t leni, int const* indx, size_t lenv, double const *values) {
         if (leni != lenv) {
             PyErr_Format(PyExc_ValueError,
                          "Arrays of lengths (%d,%d) given",
@@ -2447,7 +2447,7 @@ namespace std { class ostream{}; }
         return $self->setConservedMoietyValues(leni, indx, values);
     }
 
-    int setFloatingSpeciesInitConcentrations(int leni, int const* indx, int lenv, double const *values) {
+    int setFloatingSpeciesInitConcentrations(size_t leni, int const* indx, size_t lenv, double const *values) {
         if (leni != lenv) {
             PyErr_Format(PyExc_ValueError,
                          "Arrays of lengths (%d,%d) given",
@@ -2458,7 +2458,7 @@ namespace std { class ostream{}; }
     }
 
 
-    int setFloatingSpeciesInitAmounts(int leni, int const* indx, int lenv, double const *values) {
+    int setFloatingSpeciesInitAmounts(size_t leni, int const* indx, size_t lenv, double const *values) {
         if (leni != lenv) {
             PyErr_Format(PyExc_ValueError,
                          "Arrays of lengths (%d,%d) given",
@@ -2469,7 +2469,7 @@ namespace std { class ostream{}; }
     }
 
 
-    int setCompartmentInitVolumes(int leni, int const* indx, int lenv, double const *values) {
+    int setCompartmentInitVolumes(size_t leni, int const* indx, size_t lenv, double const *values) {
         if (leni != lenv) {
             PyErr_Format(PyExc_ValueError,
                          "Arrays of lengths (%d,%d) given",
@@ -2480,7 +2480,7 @@ namespace std { class ostream{}; }
     }
 
 
-    int setFloatingSpeciesInitConcentrations(int leni, int const* indx, int lenv, double const *values) {
+    int setFloatingSpeciesInitConcentrations(size_t leni, int const* indx, size_t lenv, double const *values) {
         if (leni != lenv) {
             PyErr_Format(PyExc_ValueError,
                          "Arrays of lengths (%d,%d) given",
@@ -2490,7 +2490,7 @@ namespace std { class ostream{}; }
         return $self->setFloatingSpeciesInitConcentrations(leni, indx, values);
     }
 
-    int setFloatingSpeciesInitAmounts(int leni, int const* indx, int lenv, double const *values) {
+    int setFloatingSpeciesInitAmounts(size_t leni, int const* indx, size_t lenv, double const *values) {
         if (leni != lenv) {
             PyErr_Format(PyExc_ValueError,
                          "Arrays of lengths (%d,%d) given",
@@ -2501,7 +2501,7 @@ namespace std { class ostream{}; }
     }
 
 
-    int setCompartmentInitVolumes(int leni, int const* indx, int lenv, double const *values) {
+    int setCompartmentInitVolumes(size_t leni, int const* indx, size_t lenv, double const *values) {
         if (leni != lenv) {
             PyErr_Format(PyExc_ValueError,
                          "Arrays of lengths (%d,%d) given",
