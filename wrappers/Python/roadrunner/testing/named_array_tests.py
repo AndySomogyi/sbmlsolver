@@ -1,26 +1,12 @@
 import numpy as np
 import sys
 
-sys.path += [
-    r'/home/ciaran/roadrunner/roadrunner/cmake-build-debug-wsl/lib/site-packages',
-    # r'D:\roadrunner\roadrunner\cmake-build-release\lib\site-packages'
-    # r"D:\roadrunner\roadrunner\install-msvc2019-rel\site-packages",
-    # r"D:\roadrunner\roadrunner\cmake-build-release-visual-studio\lib\site-packages"
-]
-
 import pickle
 import pickletools
 import unittest
 import roadrunner
 from roadrunner._roadrunner import NamedArray
-from roadrunner import Logger
-
 print(roadrunner.__file__)
-
-
-# n = NamedArray((3, 4))
-# print(n)
-#
 
 class NamedArrayTests(unittest.TestCase):
 
@@ -28,11 +14,6 @@ class NamedArrayTests(unittest.TestCase):
         pass
 
     def tearDown(self) -> None:
-        pass
-
-    @unittest.skip("as far as i can tell, equality "
-                   " operators do not work with NamedArray")
-    def test_equality_operators(self):
         pass
 
     def test_NamedArray_is_part_of__roadrunner_module(self):

@@ -814,7 +814,6 @@ namespace rr {
     static PyObject *
     NamedArray___getstate__(NamedArrayObject *self, PyObject *Py_UNUSED(ignored)) {
         rrLogDebug << __FUNC__;
-        std::cout << "self: " << self << "; ref cnt: " << PyArray_REFCOUNT(self);
         // see https://numpy.org/doc/stable/reference/c-api/array.html#c.PyArray_Dumps
         PyObject *arrayBytes = self->saveToBytes();
         if (!arrayBytes) {
