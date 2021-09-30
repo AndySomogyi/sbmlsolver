@@ -313,7 +313,7 @@ TEST_F(RoadRunnerAPITests, tmpDir) {
  * in LLVMExecutableModel
  */
 TEST_F(RoadRunnerAPITests, getModelName) {
-    RoadRunner rr(TestModelFactory("SimpleFlux")->str());
+    RoadRunner rr(SimpleFlux().str());
     ASSERT_STREQ(rr.getModelName().c_str(), "SimpleFlux");
 }
 
@@ -331,6 +331,11 @@ TEST_F(RoadRunnerAPITests, oneStep) {
     rr.oneStep(0, 10, true);
     ASSERT_EQ(rr.getModel()->getTime(), 10);
     delete testModel;
+}
+
+TEST(DeleteMe, t){
+    std::vector<int> x;
+    int d = x[0]; // segfault
 }
 
 /**

@@ -798,12 +798,26 @@ namespace rr {
 
     // Module initialization
 
+    static PyObject *getItemFromDictWithErrChecking(PyObject *dict, const char *string) {
+        rrLogDebug << __FUNC__;
+        PyDict_CheckExact(dict);
+        PyObject *item = PyDict_GetItemString(dict, string);
+        if (!item) {
+            PyErr_Format(PyExc_KeyError, "Could not find key '%s' in dict", string);
+            return nullptr;
+        }
+        rrLogDebug << "Done" << std::endl;
+        return item;
+    }
+
     /* Pickle the object */
     static PyObject *
     NamedArray___getstate__(NamedArrayObject *self, PyObject *Py_UNUSED(ignored)) {
-        rrLogInfo << __FUNC__;
+        rrLogDebug << __FUNC__;
+        std::cout << "self: " << self << "; ref cnt: " << PyArray_REFCOUNT(self);
         // see https://numpy.org/doc/stable/reference/c-api/array.html#c.PyArray_Dumps
-        PyObject *arrayBytes = self->arrayToBytes();
+        PyObject *arrayBytes = self->saveToBytes();
+        rrLogInfo << "arrayBytes address " << arrayBytes << " ref cnt  " << arrayBytes->ob_refcnt;
         if (!arrayBytes) {
             PyErr_SetString(PyExc_ValueError, "Could not convert array to bytes");
             return nullptr;
@@ -812,6 +826,7 @@ namespace rr {
         int nDims = PyArray_NDIM(self);
         std::int64_t dim1 = 0;
         std::int64_t dim2 = 0;
+        rrLogInfo << "arrayBytes address " << arrayBytes << " ref cnt  " << arrayBytes->ob_refcnt;
 
         npy_intp *shape = PyArray_SHAPE((PyArrayObject *) self);
         if (!shape) {
@@ -825,10 +840,8 @@ namespace rr {
         rrLogInfo << "nDims : " << nDims;
         rrLogInfo << "dim1 : " << dim1;
         rrLogInfo << "dim2 : " << dim2;
-        rrLogInfo << "self->rowNames: " << self->rowNames << " " << (self->rowNames == Py_None);
-        rrLogInfo << "self->colNames: " << self->colNames << " " << (self->colNames == Py_None);
-        rrLogInfo << "rownames ref cont: " << self->rowNames->ob_refcnt;
-        rrLogInfo << "colnames ref cont: " << self->colNames->ob_refcnt;
+        rrLogInfo << "self->rowNames address:" << self->rowNames << "; ref cont:  " << self->rowNames->ob_refcnt;
+        rrLogInfo << "self->colNames address:" << self->colNames << "; ref count: " << self->colNames->ob_refcnt;
         rrLogInfo << "arr bytes ref cont: " << arrayBytes->ob_refcnt;
 
         // string, bytes, string, object, string object string int
@@ -848,32 +861,45 @@ namespace rr {
                                               "in NamedArray.__getstate__");
             return nullptr;
         }
+        rrLogInfo << "arrayBytes address " << arrayBytes << " ref cnt  " << arrayBytes->ob_refcnt;
+
         // relinquish full control of these to the dictObj
-        Py_DECREF(self->rowNames);
-        Py_DECREF(self->colNames);
-        Py_DECREF(arrayBytes);
-        rrLogInfo << "self->rowNames: " << self->rowNames << " " << (self->rowNames == Py_None);
-        rrLogInfo << "self->colNames: " << self->colNames << " " << (self->colNames == Py_None);
+        rrLogInfo << "self->rowNames: " << self->rowNames;
+        rrLogInfo << "self->colNames: " << self->colNames;
         rrLogInfo << "rownames ref cont: " << self->rowNames->ob_refcnt;
         rrLogInfo << "colnames ref cont: " << self->colNames->ob_refcnt;
         rrLogInfo << "arr bytes ref cont: " << arrayBytes->ob_refcnt;
-
         rrLogInfo << " dictObj->ob_refcnt: " << dictObj->ob_refcnt;
-        rrLogInfo << "done" << std::endl;
+        rrLogInfo << "arrayBytes address " << arrayBytes << " ref cnt  " << arrayBytes->ob_refcnt;
+
+        // these references had a count of 1 when entering the function (the scope reference)
+        // and incremented 1 when they were inserted into the dictionary (the dict reference).
+        // we decerment the function scope reference.
+        Py_DECREF(self->rowNames);
+        Py_DECREF(self->colNames);
+        Py_DECREF(arrayBytes);
+        if (dictObj->ob_refcnt != 1) {
+            PyErr_Format(PyExc_MemoryError, "Expecting reference count to be equal to 1 not '%L", dictObj->ob_refcnt);
+        }
+        rrLogInfo << "arrayBytes address " << arrayBytes << " ref cnt  " << arrayBytes->ob_refcnt;
+
+        rrLogDebug << "Done" << std::endl;
         return dictObj;
     }
 
     static PyObject *
     NamedArray___reduce_ex__(NamedArrayObject *self, PyObject *args) {
 
-        rrLogInfo << __FUNC__;
+        rrLogDebug << __FUNC__;
+
         PyObject *state = NamedArray___getstate__(self, nullptr);
         if (!state) {
             // do not set an error here as it will override the
             // useful error from NamedArray___getstate__
 //            PyErr_SetString(PyExc_MemoryError, "state is nullptr");
-//            return nullptr;
+            return nullptr;
         }
+        rrLogInfo << "state address: " << state << "; ref count: " << state->ob_refcnt;
         rrLogInfo << "array ref count: " << PyDict_GetItemString(state, "array")->ob_refcnt;
         rrLogInfo << "rownames ref count: " << PyDict_GetItemString(state, "rownames")->ob_refcnt;
         rrLogInfo << "colnames ref count: " << PyDict_GetItemString(state, "colnames")->ob_refcnt;
@@ -881,42 +907,65 @@ namespace rr {
         // verify we have a dict
         PyDict_CheckExact(state);
 
+//                rrLogInfo << "arrayBytes address " << arrayBytes << " ref cnt  "<<  arrayBytes->ob_refcnt;
+//
         // borrowed reference
-        PyObject *nDimsObj = PyDict_GetItemString(state, "nDims");
-        if (!nDimsObj) {
-            PyErr_SetString(PyExc_ValueError, "Could not extract nDims "
-                                              "from state dict");
-        }
-        auto nDims = PyLong_AsLong(nDimsObj);
+        PyObject *nDimsObj = getItemFromDictWithErrChecking(state, "nDims");
+        PyObject *dim1 = getItemFromDictWithErrChecking(state, "dim1");
+        PyObject *dim2 = getItemFromDictWithErrChecking(state, "dim2");
+        rrLogInfo << "nDimsObj address : " << nDimsObj << "; ref count: " << nDimsObj->ob_refcnt;
+        rrLogInfo << "dim1 address : " << dim1 << "; ref count: " << dim1->ob_refcnt;
+        rrLogInfo << "dim2 address : " << dim2 << "; ref count: " << dim2->ob_refcnt;
+//        rrLogInfo << "arrayBytes address " << arrayBytes << " ref cnt  "<<  arrayBytes->ob_refcnt;
 
+        rrLogInfo << "Building dimensions tuple";
         PyObject *dimensionsTuple = nullptr;
+        auto nDims = PyLong_AsLong(nDimsObj);
         if (nDims == 2) {
-            dimensionsTuple = PyTuple_Pack(
-                    2,
-                    PyDict_GetItemString(state, "dim1"),
-                    PyDict_GetItemString(state, "dim2"));
+            dimensionsTuple = PyTuple_Pack(2, dim1, dim2);
+            if (!dimensionsTuple) {
+                PyErr_SetString(dimensionsTuple, "Could not create dimensions tuple");
+                return nullptr;
+            }
+            rrLogInfo << "dimensions tuple contents dim1 ref cnt :  " << PyTuple_GetItem(dimensionsTuple, 0)->ob_refcnt;
+            rrLogInfo << "dimensions tuple contents dim2 ref cnt :  " << PyTuple_GetItem(dimensionsTuple, 1)->ob_refcnt;
         } else if (nDims == 1) {
-            dimensionsTuple = PyTuple_Pack(
-                    1,
-                    PyDict_GetItemString(state, "dim1"));
+            dimensionsTuple = PyTuple_Pack(1, dim1);
+            if (!dimensionsTuple) {
+                PyErr_SetString(dimensionsTuple, "Could not create dimensions tuple");
+                return nullptr;
+            }
         } else {
             PyErr_Format(PyExc_ValueError, "Unexpected number of dimensions %i", nDims);
         }
+//        rrLogInfo << "arrayBytes address " << arrayBytes << " ref cnt  "<<  arrayBytes->ob_refcnt;
 
+        rrLogInfo << "dimensions tuple address: " << dimensionsTuple << " ref cnt : " << dimensionsTuple->ob_refcnt;
         // import _roadrunner and grab the NamedArray object
-        // from the Python end
-        PyObject *roadrunner = PyImport_ImportModule("roadrunner._roadrunner");
-        if (!roadrunner) {
+        // from the Python end (new reference)
+        PyObject *roadrunnerModule = PyImport_ImportModule("roadrunner._roadrunner");
+        if (!roadrunnerModule) {
             PyErr_SetString(PyExc_ImportError, "Could not import roadrunner._roadrunner");
             return nullptr;
         }
-        PyObject *namedArrayObj = PyObject_GetAttrString(roadrunner, "NamedArray");
-        if (!namedArrayObj) {
+
+        // new reference:
+        PyObject *namedArrayConstructor = PyObject_GetAttrString(roadrunnerModule, "NamedArray");
+        if (!namedArrayConstructor) {
             PyErr_SetString(PyExc_AttributeError, "Could not find NamedArray in the roadrunner._roadrunner module");
             return nullptr;
         }
+//        rrLogInfo << "arrayBytes address " << arrayBytes << " ref cnt  "<<  arrayBytes->ob_refcnt;
+
+        PyObject *nestedDimensionsTuple = PyTuple_Pack(1, dimensionsTuple);
+        rrLogInfo << "nestedDimensionsTuple address: " << nestedDimensionsTuple << "ref cnt: "
+                  << nestedDimensionsTuple->ob_refcnt;
+        rrLogInfo << "dimensionsTuple address: " << dimensionsTuple << "ref cnt: " << dimensionsTuple->ob_refcnt;
+        rrLogInfo << "namedArrayConstructor address: " << namedArrayConstructor << "refcnt: "
+                  << namedArrayConstructor->ob_refcnt;
 
         PyObject *tup = nullptr;
+        // Py_BuildValue adds 1 to ref counts of the objects we add to it.
         tup = Py_BuildValue(
                 "(OOOOO)",
                 /**
@@ -924,7 +973,7 @@ namespace rr {
                  * create the initial version of the object.
                  * Aka
                  */
-                namedArrayObj,
+                namedArrayConstructor,
 
                 /**
                  * A tuple of arguments for the callable object.
@@ -938,7 +987,7 @@ namespace rr {
                  *  NamedArray(*args)
                  * which expands to the inner tuple being passed for the np.shape parameter.
                  */
-                PyTuple_Pack(1, dimensionsTuple),
+                nestedDimensionsTuple,
 
                 /**
                  * Optionally, the object’s state, which will be passed to
@@ -951,10 +1000,48 @@ namespace rr {
                 Py_None,
                 Py_None
         );
+        // the inside tuple does not get incremented by the call to Py_BuildValue
+        // (callable, ((3, 4),), state, None, None)
+        //              ^^^^<-- Needs incrementing
+        Py_IncRef(dimensionsTuple);
+        rrLogInfo << "nestedDimensionsTuple address: " << nestedDimensionsTuple << "ref cnt: "
+                  << nestedDimensionsTuple->ob_refcnt;
+        rrLogInfo << "dimensionsTuple address: " << dimensionsTuple << "ref cnt: " << dimensionsTuple->ob_refcnt;
 
-        Py_DECREF(roadrunner);
-        Py_DECREF(namedArrayObj);
-        rrLogInfo << "Done" << std::endl;
+        rrLogInfo << "tup address: " << tup << "; ref cnt : " << tup->ob_refcnt;
+        rrLogInfo << "tup item 0 (namedArrayConstructor) ref cnt: " << PyTuple_GetItem(tup, 0)->ob_refcnt;
+        rrLogInfo << "tup item 1 (dimensions) tuple ref cnt: " << PyTuple_GetItem(tup, 1)->ob_refcnt;
+        rrLogInfo << "tup item 2 (state) ref cnt: " << PyTuple_GetItem(tup, 2)->ob_refcnt;
+        rrLogInfo << "dimensions tuple address: " << dimensionsTuple << " ref cnt : " << dimensionsTuple->ob_refcnt;
+        rrLogInfo << "state dct: array     " << PyDict_GetItemString(state, "array")->ob_refcnt;
+        rrLogInfo << "state dct: nDims     " << PyDict_GetItemString(state, "nDims")->ob_refcnt;
+        rrLogInfo << "state dct: dim1      " << PyDict_GetItemString(state, "dim1")->ob_refcnt;
+        rrLogInfo << "state dct: dim2      " << PyDict_GetItemString(state, "dim2")->ob_refcnt;
+        rrLogInfo << "state dct: rownames  " << PyDict_GetItemString(state, "rownames")->ob_refcnt;
+        rrLogInfo << "state dct: colnames  " << PyDict_GetItemString(state, "colnames")->ob_refcnt;
+        rrLogInfo << "state dct: colnames  " << PyDict_GetItemString(state, PICKLE_VERSION_KEY)->ob_refcnt;
+//        rrLogInfo << "arrayBytes address " << arrayBytes << " ref cnt  "<<  arrayBytes->ob_refcnt;
+
+        /**
+         * Creating a tuple with PyTuple or PyArgs correctly increments the ref count
+         * of objects you put into it. However they do not correctly
+         * increment the ref count for objects that are nested inside other
+         * containers. Therefore, we need to manually increment the contents of
+         * the state dictionary.
+         */
+//        Py_INCREF(PyDict_GetItemString(state, "array"));
+        Py_INCREF(PyDict_GetItemString(state, "nDims"));
+        Py_INCREF(PyDict_GetItemString(state, "dim1"));
+        Py_INCREF(PyDict_GetItemString(state, "dim2"));
+        Py_INCREF(PyDict_GetItemString(state, "rownames"));
+        Py_INCREF(PyDict_GetItemString(state, "colnames"));
+        Py_INCREF(PyDict_GetItemString(state, PICKLE_VERSION_KEY));
+
+        Py_DECREF(roadrunnerModule);
+        Py_DECREF(namedArrayConstructor);
+        Py_DECREF(nestedDimensionsTuple);
+        Py_DECREF(state);
+        rrLogDebug << "Done" << std::endl;
         return tup;
     }
 
@@ -978,13 +1065,293 @@ namespace rr {
         return;
     }
 
+    PyObject *deepCopyPyList(PyObject *listObj) {
+        PyList_CheckExact(listObj);
+        Py_ssize_t N = PyList_Size(listObj);
+        PyObject *newList = PyList_New(N);
+        if (!newList) {
+            PyErr_SetString(PyExc_ValueError, "Could not create a new list "
+                                              "for deep copy");
+            return nullptr;
+        }
+        // When you copy.deepcopy a list in Python
+        // you create a new list but not new items
+        // for inside the list
+        // Validated in python console:
+        // >>> import copy
+        // >>> l = [1,2,3]
+        // >>> l2 = copy.deepcopy(l)
+        // >>> id(l)
+        // 140053629264384
+        // >>> id(l2)
+        // 140053629372992
+        // >>> id(l[0])
+        // 140053681346864
+        // >>> id(l2[0])
+        // >>> # item 0 of l2 is same reference as item 0 of l
+        // 140053681346864
+        for (int i = 0; i < N; i++) {
+            PyObject *item = PyList_GetItem(listObj, i); // borrowed ref
+            if (!item) {
+                PyErr_SetString(PyExc_ValueError, "Item collected from old list "
+                                                  "is nullptr. Cannot create a deep copy "
+                                                  "for nullptr");
+                return nullptr;
+            }
+            Py_INCREF(item);
+            if (PyList_SetItem(newList, i, item) < 0) {
+                PyErr_Format(PyExc_ValueError, "Could not set item '%i'", i);
+                return nullptr;
+            };
+        }
+        return newList;
+    }
+
+//
+//    static PyObject *
+//    NamedArray___setstate__(NamedArrayObject *self, PyObject *state) {
+//        /**
+//         * self is a NamedArrayObject created with a call to
+//         * the NamedArray constructor.
+//         * >>> n = NamedArray((4, 5)) # it is the correct size already.
+//         * We need to
+//         *  1) read the binary data from within the state into a PyArray.
+//         *     Use PyArray_FromBuffer which will create a 1D array.
+//         *  2) We now have two arrays, self which is a conveniently shaped shell
+//         *     but no numbers and the array built from binary containing our numbers
+//         *     Change the pointer in self to point to the data from the other array.
+//         */
+//        // note: self == &(self->array)
+//        rrLogDebug << __FUNC__;
+//
+//        // ensure we have a dict object, ruling out dict subclasses
+//        if (!PyDict_CheckExact(state)) {
+//            PyErr_SetString(PyExc_ValueError, "__setstate__ input object is not a dict");
+//        }
+//
+//        verifyPickleVersion(state);
+//
+//        // decrement the existing before assigning the new
+////        Py_DECREF(&self->array);
+//        rrLogInfo << "self->array:" << self << " ref cnt: " <<PyArray_REFCOUNT((PyObject *) &self);
+//        rrLogInfo << "self->array:" << &self->array << " ref cnt: " <<PyArray_REFCOUNT((PyObject *) &self->array);
+//        rrLogInfo << "self->rownames:" << self->rowNames->ob_refcnt;
+//        rrLogInfo << "self->colnames:" << self->colNames->ob_refcnt;
+//
+//        // Grab the bytes object.
+//        PyObject *bytesObj = PyDict_GetItemString(state, "array"); // borrowed reference
+//        if (!bytesObj) {
+//            PyErr_SetString(PyExc_KeyError, "No 'array' key in pickled dict");
+//            return nullptr;
+//        }
+//
+//        rrLogInfo << "self->array:" << self << " ref cnt: " <<PyArray_REFCOUNT((PyObject *) &self->array);
+//        /**
+//         * We can load our bytes object back into a numpy array
+//         * with:
+//         *      PyObject *PyArray_FromBuffer(PyObject *buf, PyArray_Descr *dtype, npy_intp count, npy_intp offset)
+//         *
+//         */
+//        PyArray_Descr *descr = PyArray_DescrFromType(NPY_DOUBLE);
+//        if (!descr) {
+//            PyErr_SetString(PyExc_ValueError, "Could not create PyArray_Descr in NamedArray.__setstate__");
+//            return nullptr;
+//        }
+//
+//        PyObject *newArrFromBuf = PyArray_FromBuffer(bytesObj, descr, -1, 0);
+//        if (!newArrFromBuf) {
+//            PyErr_SetString(PyExc_ValueError,
+//                            "Could not create a PyArrayObject from a bytes buffer using PyArray_FromBuffer");
+//            return nullptr;
+//        }
+//
+//
+//        rrLogInfo << "self->array:" << &self->array << " ref cnt: " <<PyArray_REFCOUNT((PyObject *) &self->array);
+//        rrLogInfo << "self:" << &self << " ref cnt: " <<PyArray_REFCOUNT((PyObject *) &self);
+//        // but we need to reshape the result which is 1D (nrow x ncols)
+//        long nDims = PyLong_AsLong(PyDict_GetItemString(state, "nDims"));
+//
+//        PyObject *shape = nullptr;
+//        if (nDims == 1) {
+//            shape = Py_BuildValue(
+//                    "i",
+//                    PyLong_AsLong(PyDict_GetItemString(state, "dim1"))
+//            );
+//        } else if (nDims == 2) {
+//            shape = Py_BuildValue(
+//                    "ii",
+//                    PyLong_AsLong(PyDict_GetItemString(state, "dim1")),
+//                    PyLong_AsLong(PyDict_GetItemString(state, "dim2"))
+//            );
+//        }
+//        rrLogInfo << "shapre ref count: " << shape->ob_refcnt;
+//
+//        rrLogInfo << "self->array:" << self << " ref cnt: " <<PyArray_REFCOUNT((PyObject *) &self->array);
+//        PyObject *np = PyImport_ImportModule("numpy");
+//        if (!np) {
+//            PyErr_SetString(PyExc_ImportError, "Cannot import numpy");
+//            return nullptr;
+//        }
+//        rrLogInfo << "self->array:" << self << " ref cnt: " <<PyArray_REFCOUNT((PyObject *) &self->array);
+//        PyObject *resize = PyObject_GetAttrString(np, "resize");
+//        if (!resize) {
+//            PyErr_SetString(PyExc_ImportError, "Cannot get resize method from numpy module");
+//            return nullptr;
+//        }
+//        // call resize.
+//        rrLogInfo << "self->array:" << self << " ref cnt: " <<PyArray_REFCOUNT((PyObject *) &self->array);
+//        PyObject *newArrReshaped = PyObject_CallFunctionObjArgs(resize, newArrFromBuf, shape, NULL);
+//        if (!newArrReshaped) {
+//            PyErr_SetString(PyExc_ValueError, "Failed to reshape NamedArray");
+//        }
+////        rrLogInfo << "newArrReshaped address: " << newArrReshaped << "; refcount: " << PyArray_REFCOUNT(newArrReshaped);
+////
+////        rrLogInfo << "self->array:" << self << " ref cnt: " <<PyArray_REFCOUNT((PyObject *) &self->array);
+////        // and we're done with the np.resize
+////        Py_DECREF(np);
+////        rrLogInfo << "self->array:" << self << " ref cnt: " <<PyArray_REFCOUNT((PyObject *) &self->array);
+////        Py_DECREF(resize);
+////        rrLogInfo << "self->array:" << self << " ref cnt: " <<PyArray_REFCOUNT((PyObject *) &self->array);
+////        rrLogInfo << "self->array:" << self << " ref cnt: " <<PyArray_REFCOUNT((PyObject *) &self->array);
+////        rrLogInfo << "newArrFromBuf " << newArrFromBuf << "ref cont : " << newArrFromBuf->ob_refcnt;
+////        // newArrReshaped is a new reference so we decrement the old
+//////        Py_DECREF(newArrFromBuf);
+////        rrLogInfo << "newArrFromBuf " << newArrFromBuf << "ref cont : " << newArrFromBuf->ob_refcnt;
+////        rrLogInfo << "self->array:" << self << " ref cnt: " <<PyArray_REFCOUNT((PyObject *) &self->array);
+////
+////        rrLogInfo << "self address: " << self << "; refcount: " << PyArray_REFCOUNT(self);
+////        rrLogInfo << "self->array address: " << &(self->array) << "; refcount: " << PyArray_REFCOUNT((PyObject *) &(self->array));
+////
+////        rrLogInfo << "state address: " << state << "; refcount: " << state->ob_refcnt;
+////        rrLogInfo << "newArrFromBuf address: " << newArrFromBuf << "; refcount: " << newArrFromBuf->ob_refcnt;
+////        rrLogInfo << "newArrReshaped address: " << newArrReshaped << "; refcount: " << newArrReshaped->ob_refcnt;
+////
+////        rrLogWarn << "doing assignment newArrFromBuf = newArrReshaped";
+////        // reassign the newArray back to array
+//////        newArrFromBuf = newArrReshaped;
+////
+////        rrLogInfo << "self->array:" << self << " ref cnt: " <<PyArray_REFCOUNT((PyObject *) &self->array);
+////
+////        rrLogInfo << "self address: " << self << "; refcount: " << PyArray_REFCOUNT(self);
+////        rrLogInfo << "newArrReshaped address: " << newArrReshaped << "; refcount: " << PyArray_REFCOUNT(newArrReshaped);
+////        rrLogInfo << "self->array address: " << &(self->array) << "; refcount: "
+////                  << PyArray_REFCOUNT((PyObject *) &(self->array));
+////
+////        rrLogInfo << "self address: " << self << "; refcount: " << PyArray_REFCOUNT(self);
+////        rrLogInfo << "state address: " << state << "; refcount: " << state->ob_refcnt;
+////        rrLogInfo << "newArrFromBuf address: " << newArrFromBuf << "; refcount: " << newArrFromBuf->ob_refcnt;
+////        rrLogInfo << "newArrReshaped address: " << newArrReshaped << "; refcount: " << newArrReshaped->ob_refcnt;
+////
+////        rrLogInfo << "self address: " << self << "; refcount: " << PyArray_REFCOUNT(self);
+////
+////        // ..and decrement the shape
+////        Py_DECREF(shape);
+////        rrLogInfo << "self address: " << self << "; refcount: " << PyArray_REFCOUNT(self);
+////        rrLogInfo << "newArrReshaped address: " << newArrReshaped << "; refcount: " << PyArray_REFCOUNT(newArrReshaped);
+////        rrLogInfo << "self address: " << self << "; refcount: " << PyArray_REFCOUNT(self);
+////
+////        // We've been using a PyArrayObject until here.
+////        // assign its type back to NamedArray
+////        rrLogInfo << "self->array:" << self << " ref cnt: " <<PyArray_REFCOUNT((PyObject *) &self->array);
+////        rrLogInfo << "self address: " << self << "; refcount: " << PyArray_REFCOUNT(self);
+////        assert(newArrReshaped->ob_type == &PyArray_Type);
+////        rrLogInfo << "self address: " << self << "; refcount: " << PyArray_REFCOUNT(self);
+////        rrLogInfo << "self->array:" << self << " ref cnt: " <<PyArray_REFCOUNT((PyObject *) &self->array);
+////        rrLogInfo << "self address: " << self << "; refcount: " << PyArray_REFCOUNT(self);
+////        newArrReshaped->ob_type = &NamedArray_Type;
+////        rrLogInfo << "self address: " << self << "; refcount: " << PyArray_REFCOUNT(self);
+////        rrLogInfo << "self->array:" << self << " ref cnt: " <<PyArray_REFCOUNT((PyObject *) &self->array);
+////        assert(newArrReshaped->ob_type == &NamedArray_Type);
+////        rrLogInfo << "self address: " << self << "; refcount: " << PyArray_REFCOUNT(self);
+////        rrLogInfo << "self->array:" << self << " ref cnt: " <<PyArray_REFCOUNT((PyObject *) &self->array);
+////
+////        // and finally we can assign the array
+////        rrLogInfo << "newArrReshaped address: " << newArrReshaped << "; refcount: " << PyArray_REFCOUNT(newArrReshaped);
+////        rrLogInfo << "self->array:" << self << " ref cnt: " <<PyArray_REFCOUNT((PyObject *) &self->array);
+////        rrLogInfo << "self address: " << self << "; refcount: " << PyArray_REFCOUNT(self);
+////        // self and self->array address are the same!
+////        Py_DECREF(self);
+////        Py_IncRef(newArrReshaped);
+////        self = (NamedArrayObject*)newArrReshaped;
+////
+////        rrLogInfo << "self address: " << self << "; refcount: " << PyArray_REFCOUNT(self);
+////        rrLogInfo << "newArrReshaped address: " << newArrReshaped << "; refcount: " << PyArray_REFCOUNT(newArrReshaped);
+////        rrLogInfo << "self->array:" << self << " ref cnt: " <<PyArray_REFCOUNT((PyObject *) &self->array);
+////        rrLogInfo << "self address: " << self << "; ref count : " << PyArray_REFCOUNT(self);
+////        rrLogInfo << "self address: " << self << "; refcount: " << PyArray_REFCOUNT(self);
+////        /**
+////         * Now for row and colnames
+////         * We do not use the rowname / colnames
+////         * directly because this complicates memory management
+////         * Instead we should take a deep copy of the
+////         * row/col names and use this instead.
+////         */
+////        rrLogInfo << "=== making a copy of rownames field";
+////        PyObject *rownames = PyDict_GetItemString(state, "rownames");
+////
+////        rrLogInfo << "rownames ref cnt: " << rownames->ob_refcnt;
+////        if (!rownames) {
+////            PyErr_SetString(PyExc_KeyError, "No key 'rownames' in state dict");
+////        }
+////        PyObject *rownamesCopy = deepCopyPyList(rownames);
+////        rrLogInfo << "rownamesCopy->ob_refcnt: " << rownamesCopy->ob_refcnt;
+////        rrLogInfo << "rownames->ob_refcnt: " << rownames->ob_refcnt;
+//        // get rid of the preexisting reference
+//        // or it'll leak
+//        // (note you do not manually free anything
+//        //  even if the ref count is 0)
+////        Py_DECREF(self->rowNames);
+////
+////        // ensure we have extra reference to the
+////        // (or segfault)
+////        Py_INCREF(rownamesCopy);
+////        self->rowNames = rownamesCopy;
+//
+//
+//        /**
+//         * Colnames
+//         */
+////        rrLogInfo << "=== making a copy of colnames field";
+////        PyObject *colnames = PyDict_GetItemString(state, "colnames");
+////
+////        rrLogInfo << "colnames ref cnt: " << colnames->ob_refcnt;
+////        if (!colnames) {
+////            PyErr_SetString(PyExc_KeyError, "No key 'colnames' in state dict");
+////        }
+////        PyObject *colnamesCopy = deepCopyPyList(colnames);
+////        rrLogInfo << "colnamesCopy->ob_refcnt: " << colnamesCopy->ob_refcnt;
+////        rrLogInfo << "colnames->ob_refcnt: " << colnames->ob_refcnt;
+////        // get rid of the preexisting reference
+////        // or it'll leak
+////        // (note you do not manually free anything
+////        //  even if the ref count is 0)
+////        Py_DECREF(self->colNames);
+////
+////        // ensure we have extra reference to the
+////        // (or segfault)
+////        Py_INCREF(colnamesCopy);
+////        self->colNames = colnamesCopy;
+//        Py_INCREF((PyObject*)self);
+//        rrLogDebug << "Done" << std::endl;
+//        return Py_None;
+//    }
+
 
     static PyObject *
     NamedArray___setstate__(NamedArrayObject *self, PyObject *state) {
-        rrLogInfo << __FUNC__;
-
-        rrLogInfo << "self address : " << self;
-        rrLogInfo << "state address : " << state;
+        /**
+         * self is a NamedArrayObject created with a call to
+         * the NamedArray constructor.
+         * >>> n = NamedArray((4, 5)) # it is the correct size already.
+         * We need to
+         *  1) read the binary dataFromBytesArray from within the state into a PyArray.
+         *     Use PyArray_FromBuffer which will create a 1D array.
+         *  2) We now have two arrays, self which is a conveniently shaped shell
+         *     but no numbers and the array built from binary containing our numbers
+         *     Change the pointer in self to point to the dataFromBytesArray from the other array.
+         */
+        // note: self == &(self->array)
+        rrLogDebug << __FUNC__;
 
         // ensure we have a dict object, ruling out dict subclasses
         if (!PyDict_CheckExact(state)) {
@@ -994,172 +1361,51 @@ namespace rr {
         verifyPickleVersion(state);
 
         // decrement the existing before assigning the new
-        Py_DECREF(&self->array);
-        rrLogInfo << "self->array:" << PyArray_REFCOUNT((PyObject *) &self->array);
+        rrLogInfo << "self->array:" << self << " ref cnt: " << PyArray_REFCOUNT((PyObject *) &self);
+        rrLogInfo << "self->array:" << &self->array << " ref cnt: " << PyArray_REFCOUNT((PyObject *) &self->array);
         rrLogInfo << "self->rownames:" << self->rowNames->ob_refcnt;
         rrLogInfo << "self->colnames:" << self->colNames->ob_refcnt;
 
         // Grab the bytes object.
-        PyObject *bytesObj = PyDict_GetItemString(state, "array"); // borrowed reference
-        if (!bytesObj) {
-            PyErr_SetString(PyExc_KeyError, "No 'array' key in pickled dict");
-            return nullptr;
+        PyObject *bytesObj = getItemFromDictWithErrChecking(state, "array");
+        PyObject *nDimsObj = getItemFromDictWithErrChecking(state, "nDims");
+        PyObject *dim1Obj = getItemFromDictWithErrChecking(state, "dim1");
+        PyObject *dim2Obj = getItemFromDictWithErrChecking(state, "dim2");
+        long nDims = PyLong_AsLong(nDimsObj);
+        long dim1 = PyLong_AsLong(dim1Obj);
+        long dim2 = PyLong_AsLong(dim2Obj);
+
+        // ndims is restricted to 1 and 2 only
+        if (nDims == 1)
+            self->loadFromBytes(bytesObj, &dim1, nullptr);
+        else
+            self->loadFromBytes(bytesObj, &dim1, &dim2);
+
+        // This is an alternative implementation that requires copying
+        //   PyObject* rowNames = getItemFromDictWithErrChecking(state, "rownames");
+        //   self->rowNames = deepCopyPyList(rowNames);
+        // and this is the implementation that we are using, but note
+        // its harder to trace the memory footprint and may contain bugs.
+        self->rowNames = getItemFromDictWithErrChecking(state, "rownames");
+        Py_IncRef(self->rowNames);
+        for (int i = 0; i < PyList_Size(self->rowNames); i++)
+            Py_IncRef(PyList_GetItem(self->rowNames, i));
+
+        self->colNames = getItemFromDictWithErrChecking(state, "colnames");
+        Py_IncRef(self->colNames);
+        for (int i = 0; i < PyList_Size(self->colNames); i++) {
+            Py_IncRef(PyList_GetItem(self->colNames, i));
         }
-
-        /**
-         * We can load our bytes object back into a numpy array
-         * with:
-         *      PyObject *PyArray_FromBuffer(PyObject *buf, PyArray_Descr *dtype, npy_intp count, npy_intp offset)
-         *
-         */
-        PyArray_Descr *descr = PyArray_DescrFromType(NPY_DOUBLE);
-        if (!descr) {
-            PyErr_SetString(PyExc_ValueError, "Could not create PyArray_Descr in NamedArray.__setstate__");
-            return nullptr;
-        }
-
-        PyObject *arr = PyArray_FromBuffer(bytesObj, descr, -1, 0);
-        if (!arr) {
-            PyErr_SetString(PyExc_ValueError,
-                            "Could not create a PyArrayObject from a bytes buffer using PyArray_FromBuffer");
-            return nullptr;
-        }
-
-        // but we need to reshape the result which is 1D (nrow x ncols)
-        int nDims = PyLong_AsLong(PyDict_GetItemString(state, "nDims"));
-
-        PyObject *shape = nullptr;
-        if (nDims == 1) {
-            shape = Py_BuildValue(
-                    "i",
-                    PyLong_AsLong(PyDict_GetItemString(state, "dim1"))
-            );
-        } else if (nDims == 2) {
-            shape = Py_BuildValue(
-                    "ii",
-                    PyLong_AsLong(PyDict_GetItemString(state, "dim1")),
-                    PyLong_AsLong(PyDict_GetItemString(state, "dim2"))
-            );
-        }
-        rrLogInfo << "shapre ref count: " << shape->ob_refcnt;
-
-        PyObject *np = PyImport_ImportModule("numpy");
-        if (!np) {
-            PyErr_SetString(PyExc_ImportError, "Cannot import numpy");
-            return nullptr;
-        }
-        PyObject *resize = PyObject_GetAttrString(np, "resize");
-        if (!resize) {
-            PyErr_SetString(PyExc_ImportError, "Cannot get resize method from numpy module");
-            return nullptr;
-        }
-        // call resize.
-        PyObject *newArr = PyObject_CallFunctionObjArgs(resize, arr, shape, NULL);
-        if (!newArr) {
-            PyErr_SetString(PyExc_ValueError, "Failed to reshape NamedArray");
-        }
-        rrLogInfo << "np ref count: " << np->ob_refcnt;
-        rrLogInfo << "resize ref count: " << resize->ob_refcnt;
-        rrLogInfo << "old arr ref ount: " << arr->ob_refcnt;
-        rrLogInfo << "newArr ref ount: " << newArr->ob_refcnt;
-
-        // and we're done with the np.resize
-        Py_DECREF(np);
-        Py_DECREF(resize);
-
-        // newArr is a new reference so we decrement the old
-        // this should take the ref count to 0
-        Py_DECREF(arr);
-        // reassign the newArray back to array
-        arr = newArr;
-
-        // ..and decrement the shape
-        Py_DECREF(shape);
-
-
-        // We've been using a PyArrayObject until here.
-        // assign its type back to NamedArray
-        assert(arr->ob_type == &PyArray_Type);
-        newArr->ob_type = &NamedArray_Type;
-        assert(arr->ob_type == &NamedArray_Type);
-
-        // and finally we can assign the array
-        rrLogInfo << "arr ref ount: " << arr->ob_refcnt;
-
-        // we need to increment arr ref count
-        // for our instance (segfaults otherwise)
-        Py_INCREF(arr);
-        self->array = *(PyArrayObject *) arr;
-
-        /**
-         * Now for row and colnames
-         * We do not use the rowname / colnames
-         * directly because this complicates memory management
-         * Instead we should take a deep copy of the
-         * row/col names and use this instead.
-         */
-        rrLogInfo << "=== making a copy of rownames field";
-        PyObject *rownames = PyDict_GetItemString(state, "rownames");
-
-        rrLogInfo << "rownames ref cnt: " << rownames->ob_refcnt;
-        if (!rownames) {
-            PyErr_SetString(PyExc_KeyError, "No key 'rownames' in state dict");
-        }
-        PyObject *rownamesCopy = PyList_New(PyList_Size(rownames));
-        for (int i = 0; i < PyList_Size(rownames); i++) {
-            PyObject *value = PyList_GetItem(rownames, i);
-            PyObject *cpy = PyUnicode_FromString(PyUnicode_AsUTF8(value));
-            Py_INCREF(cpy);
-            rrLogInfo << i << " cpy ref cnt "  << cpy->ob_refcnt ;
-            PyList_SetItem(rownamesCopy, i, cpy);
-        }
-        rrLogInfo << "rownamesCopy->ob_refcnt: " << rownamesCopy->ob_refcnt;
-        rrLogInfo << "rownames->ob_refcnt: " << rownames->ob_refcnt;
-        // get rid of the preexisting reference
-        // or it'll leak
-        // (note you do not manually free anything
-        //  even if the ref count is 0)
-        Py_DECREF(self->rowNames);
-
-        // ensure we have extra reference to the
-        // (or segfault)
-        Py_INCREF(rownamesCopy);
-        self->rowNames = rownamesCopy;
-
-
-        // now for colnames,
-        rrLogInfo << "=== making a copy of colnames field";
-        PyObject *colnames = PyDict_GetItemString(state, "colnames");
-        rrLogInfo << "colnames ref cnt: " << colnames->ob_refcnt;
-        if (!colnames) {
-            PyErr_SetString(PyExc_KeyError, "No key 'colnames' in state dict");
-        }
-        PyObject *colnamesCopy = PyList_New(PyList_Size(colnames));
-        for (int i = 0; i < PyList_Size(colnames); i++) {
-            PyObject *value = PyList_GetItem(colnames, i);
-            PyObject *cpy = PyUnicode_FromString(PyUnicode_AsUTF8(value));
-            Py_INCREF(cpy);
-            PyList_SetItem(colnamesCopy, i, cpy);
-        }
-        // get rid of the preexisting reference
-        // or it'll leak
-        Py_DECREF(self->colNames);
-        // ensure we have extra reference to the
-        // (or segfault)
-        Py_INCREF(colnamesCopy);
-        self->colNames = colnamesCopy;
-
-
-        rrLogInfo << "Done" << std::endl;
+        rrLogDebug << "Done" << std::endl;
         return Py_None;
     }
 
 
     void pyutil_init(PyObject *module) {
-        rrLogInfo << __FUNC__;
+        rrLogDebug << __FUNC__;
         // note to developers: turn this to LOG_INFORMATION for details
         // when running the tests
-        Logger::setLevel(Logger::LOG_INFORMATION);
+        Logger::setLevel(Logger::LOG_DEBUG);
         // set up the base class to be the numpy ndarray PyArray_Type
         NamedArray_Type.tp_base = &PyArray_Type;
 
@@ -1190,7 +1436,7 @@ namespace rr {
             double *data, int pyFlags,
             const ls::DoubleMatrix *mat) {
         bool named = Config::getValue(Config::PYTHON_ENABLE_NAMED_MATRIX);
-        rrLogInfo << __FUNC__;
+        rrLogDebug << __FUNC__;
 
         if (named) {
 
@@ -1221,7 +1467,7 @@ namespace rr {
 
 
     PyObject *stringvector_to_py(const std::vector<std::string> &vec) {
-        rrLogInfo << __FUNC__;
+        rrLogDebug << __FUNC__;
         size_t size = vec.size();
 
         PyObject *pyList = PyList_New(size);
@@ -1237,7 +1483,7 @@ namespace rr {
     }
 
     PyObject *PyList_toPickle(PyObject *list) {
-        rrLogInfo << __FUNC__;
+        rrLogDebug << __FUNC__;
         static PyObject *module = NULL;
         PyObject *pickle;
 
@@ -1256,39 +1502,43 @@ namespace rr {
     }
 
     std::vector<std::string> py_to_stringvector(PyObject *obj) {
-        rrLogInfo << __FUNC__;
-        str_vector result;
-        if (obj) {
-            PyObject *seq = PySequence_Fast(obj, "expected a sequence");
-            if (obj) {
-                Py_ssize_t len = PySequence_Size(obj);
-                if (PyList_Check(seq))
-                    for (unsigned i = 0; i < len; i++) {
-                        PyObject *item = PyList_GET_ITEM(seq, i);
-                        // Return value: New reference.
-                        PyObject *pystr = PyObject_Str(item);
-                        result.push_back(rrPyString_AsString(pystr));
-                        Py_XDECREF(pystr);
-                    }
-                else
-                    for (unsigned i = 0; i < len; i++) {
-                        PyObject *item = PyTuple_GET_ITEM(seq, i);
-                        // Return value: New reference.
-                        PyObject *pystr = PyObject_Str(item);
-                        result.push_back(rrPyString_AsString(pystr));
-                        Py_XDECREF(pystr);
-                    }
-                Py_XDECREF(seq);
+        rrLogDebug << __FUNC__;
+        std::vector<std::string> result;
+        if (!obj)
+            return result;
+        PyObject *seq = PySequence_Fast(obj, "expected a sequence");
+        Py_ssize_t len = PySequence_Size(obj);
+        if (PyList_Check(seq))
+            for (unsigned i = 0; i < len; i++) {
+                PyObject *item = PyList_GetItem(seq, i);
+                if (!PyUnicode_CheckExact(item)) {
+                    PyErr_Format(PyExc_TypeError, "Expected a string but got '%s'", item->ob_type->tp_name);
+                    return {};
+                }
+                // Return value: New reference.
+                const char *pystr = PyUnicode_AsUTF8(item);
+                result.emplace_back(pystr);
             }
-        }
+        else
+            for (unsigned i = 0; i < len; i++) {
+                PyObject *item = PyTuple_GetItem(seq, i);
+                if (!PyUnicode_CheckExact(item)) {
+                    PyErr_Format(PyExc_TypeError, "Expected a string but got '%s'", item->ob_type->tp_name);
+                    return {};
+                }
+                // Return value: New reference.
+                const char *pystr = PyUnicode_AsUTF8(item);
+                result.emplace_back(pystr);
+            }
+        Py_XDECREF(seq);
 
-        rrLogInfo << "done" << std::endl;
+        rrLogDebug << "Done" << std::endl;
         return result;
     }
 
 
     Dictionary *Dictionary_from_py(PyObject *py) {
-        rrLogInfo << __FUNC__;
+        rrLogDebug << __FUNC__;
         if (PyDict_Check(py) == 0) {
             throw invalid_argument("object is not a dictionary");
         }
@@ -1313,15 +1563,14 @@ namespace rr {
                 throw invalid_argument("keys must be strings");
             }
         }
-        rrLogInfo << "done" << std::endl;
+        rrLogDebug << "Done" << std::endl;
         return dict;
     }
 
 
     static PyObject *NamedArrayObject_alloc(PyTypeObject *type, Py_ssize_t nitems) {
-        rrLogInfo << __FUNC__;
+        rrLogDebug << __FUNC__;
         assert(type->tp_basicsize == sizeof(NamedArrayObject));
-//        NamedArray_Type obj;
         NamedArrayObject *namedArrayObject = PyObject_New(NamedArrayObject, type);
         if (!namedArrayObject) {
             PyErr_SetString(PyExc_MemoryError, "Could allocate object of type 'NamedArray'");
@@ -1329,49 +1578,190 @@ namespace rr {
         }
         namedArrayObject->rowNames = nullptr;
         namedArrayObject->colNames = nullptr;
-        rrLogInfo << "namedArrayObject: " << namedArrayObject << ":  sizeof: " << sizeof(&namedArrayObject);
         rrLogInfo << "nitems: " << nitems;
-        rrLogInfo << "&namedArrayObject->array: " << &namedArrayObject->array;
-        rrLogInfo << "namedArrayObject->rowNames: " << namedArrayObject->rowNames;
-        rrLogInfo << "namedArrayObject->colNames: " << namedArrayObject->colNames;
+        rrLogInfo << "namedArrayObject              address: " << namedArrayObject << " refcount: "
+                  << PyArray_REFCOUNT(namedArrayObject);
+        rrLogInfo << "&namedArrayObject->array      address: " << &namedArrayObject->array << " refcount: "
+                  << PyArray_REFCOUNT(&namedArrayObject->array);
+        rrLogInfo << "namedArrayObject->rowNames    address: " << namedArrayObject->rowNames
+                  << " refcount: not yet allocated";
+        rrLogInfo << "namedArrayObject->colNames    address: " << namedArrayObject->colNames
+                  << " refcount: not yet allocated";
 
         PyObject *obj = PyObject_Init((PyObject *) namedArrayObject, type);
         if (!obj) {
             PyErr_SetString(PyExc_MemoryError, "Could not initialize object of type 'NamedArray'");
             return nullptr;
         }
-
-        rrLogInfo << "namedArrayObject ref count " << obj->ob_refcnt;
-//
         rrLogInfo << "created obj: " << obj << " of size: " << sizeof(obj);
-        rrLogInfo << "done" << std::endl;
+        rrLogDebug << "Done" << std::endl;
         return obj;
     }
 
-    PyObject *NamedArrayObject_Finalize(NamedArrayObject *self, PyObject *args /* should be called args???*/) {
-        // https://numpy.org/devdocs/user/basics.subclassing.html
-        rrLogInfo << __FUNC__;
-        rrLogInfo << "args->ob_type->tp_name: " << args->ob_type->tp_name
-                  << "tuple size: " << PyTuple_Size(args)
-                  << " ref count : " << args->ob_refcnt;
-        rrLogInfo << "self " << self << " args " << args;
-        rrLogInfo << "((PyObject*)&self->array)->ob_refcnt: " << ((PyObject *) &self->array)->ob_refcnt;
+    /**
+     * @brief the part of NamedArrayObject_Finalize that deals with the situation
+     * where the second argument PyObject* args evaluates to Py_None;
+     */
+    PyObject *NamedArrayObject_Finalize_FromConstructor(NamedArrayObject *self) {
+        rrLogDebug << __FUNC__;
 
-//        rrLogInfo << "self->array ref cnt :" << PyArray_REFCOUNT((PyObject *) &self->array);
-//        rrLogInfo << "self->rowNames->ob_refcnt: " << self->rowNames->ob_refcnt;
-//        rrLogInfo << "self->colNames->ob_refcnt: " << self->colNames->ob_refcnt;
+        rrLogInfo << "self->array:" << self << " ref cnt: " << PyArray_REFCOUNT((PyObject *) &self->array);
+        if (!self->rowNames) {
+            rrLogInfo << "self->rownames is nullptr: assigning to empty list";
+            PyObject *rows = PyList_New(0);
+            if (!rows) {
+                PyErr_SetString(PyExc_MemoryError, "Could not allocate a new list for rownames");
+                Py_RETURN_NONE;
+            }
+            self->rowNames = rows;
+        }
+        if (!self->colNames) {
+            rrLogInfo << "self->colnames is nullptr: assigning to empty list";
+            PyObject *cols = PyList_New(0);
+            if (!cols) {
+                PyErr_SetString(PyExc_MemoryError, "Could not allocate a new list for colnames");
+                Py_RETURN_NONE;
+            }
+            self->colNames = cols;
+        }
+        // Note it seems that we do not need to increment the ref count
+        // for these new lists.
+
+        // and assign
+        rrLogDebug << "Done" << std::endl;
+        Py_RETURN_NONE;
+    }
+
+    /**
+     * @brief the part of NamedArrayObject_Finalize that deals with the situation
+     * where the second argument PyObject* args evaluates to a PyArrayObject;
+     * @details since a PyArray does not have row/colnames then we can actually
+     * reuse the NamedArrayObject_Finalize_FromConstructor method.
+     */
+    PyObject *NamedArrayObject_Finalize_FromPyArray(NamedArrayObject *self) {
+        rrLogDebug << __FUNC__;
+        PyObject *obj = NamedArrayObject_Finalize_FromConstructor(self);
+        rrLogInfo << "done " << std::endl;
+        return obj;
+    }
+
+    /**
+     * @brief the part of NamedArrayObject_Finalize that deals with the situation
+     * where the second argument PyObject* args evaluates to another NamedArray ;
+     * In this case rhs contains the original state of the array
+     * before any slicing or other modifications that
+     * count as "templating"
+     * @see https://numpy.org/devdocs/user/basics.subclassing.html
+     *
+     * The array inside "self" contains a copy of the state
+     * of the array after being manipulated by numpy.
+     * For instance
+     *  >>> n = NamedArray((3, 4))
+     *  >>> v = n[1:, :]
+     * invokes NamedArray_Finalize where
+     *  - `n` maps to `rhs` aka the first rhs of the 1-tuple input args.
+     *     Its state is the original
+     *  - `v` maps to the `self` arugment. Its a copy of the np array with
+     *  any changes implemented
+     *
+     * Its all very reminiscent of a copy constructor in c++
+     */
+    PyObject *NamedArrayObject_Finalize_FromNamedArray(NamedArrayObject *self, PyObject *rhs) {
+        rrLogDebug << __FUNC__;
+
+        unsigned selfNdim = PyArray_NDIM(&self->array);
+        npy_intp selfRows = selfNdim > 0 ? PyArray_DIM(&self->array, 0) : 0;
+        npy_intp selfCols = selfNdim > 1 ? PyArray_DIM(&self->array, 1) : 0;
+        unsigned rhsfNdim = PyArray_NDIM(rhs);
+        npy_intp rhsfRows = rhsfNdim > 0 ? PyArray_DIM(rhs, 0) : 0;
+        npy_intp rhsfCols = rhsfNdim > 1 ? PyArray_DIM(rhs, 1) : 0;
+
+        rrLogInfo << ":::Dimensions::: ";
+        rrLogInfo << "selfNdim: " << selfNdim;
+        rrLogInfo << "selfRows: " << selfRows;
+        rrLogInfo << "selfCols: " << selfCols;
+        rrLogInfo << "rhsfNdim: " << rhsfNdim;
+        rrLogInfo << "rhsfRows: " << rhsfRows;
+        rrLogInfo << "rhsfCols: " << rhsfCols;
+        rrLogInfo << "self->array:" << self << " ref cnt: " << PyArray_REFCOUNT((PyObject *) &self->array);
+        rrLogInfo << "argument type is: " << rhs->ob_type->tp_name
+                  << (rhs->ob_type == &PyArray_Type) << " " << (rhs->ob_type == &NamedArray_Type);
+        NamedArrayObject *rhsAsNamedArrayObj = (NamedArrayObject *) rhs;
+        if (!rhsAsNamedArrayObj) {
+            PyErr_SetString(PyExc_MemoryError,
+                            "Could not cast argument to NamedArray_Finalize to a NamedArrayObject*");
+            Py_RETURN_NONE;
+        }
+        if (rhsAsNamedArrayObj->rowNames != NULL) {
+            rrLogInfo << "Moving rowNames reference from rhs to this array";
+            Py_ssize_t sizeOfRhsRownames = PyList_Size(rhsAsNamedArrayObj->rowNames);
+            rrLogInfo << "sizeOfRhsRownames " << sizeOfRhsRownames;
+
+            if (sizeOfRhsRownames != selfRows) {
+                // then we need to slice the rownames list
+                // self->rowNames is a new reference (Ref count = 1)
+                self->rowNames = PyList_GetSlice(rhsAsNamedArrayObj->rowNames, 0, selfRows);
+                // we therefore need to decrement the ref count of the original copy
+//                Py_DECREF(rhsAsNamedArrayObj->rowNames);
+                if (!self->rowNames) {
+                    PyErr_SetString(PyExc_IndexError, "Could not slice NamedArray rownames");
+                    Py_RETURN_NONE;
+                }
+            } else {
+                // in this case the same object is passed from rhs to rownames
+                // so the reference count stays the same.
+                self->rowNames = rhsAsNamedArrayObj->rowNames;
+            }
+
+            rrLogInfo << "self->rowNames ref count: " << self->rowNames->ob_refcnt;
+            rrLogInfo << "rhsAsNamedArrayObjec ref ocunt " << rhs->ob_refcnt;
+            // we steal the reference
+            rhsAsNamedArrayObj->rowNames = nullptr;
+        }
+
+
+        if (rhsAsNamedArrayObj->colNames != NULL) {
+            rrLogInfo << "Moving colNames reference from rhs to this array";
+
+            Py_ssize_t sizeOfRhsColnames = PyList_Size(rhsAsNamedArrayObj->colNames);
+            rrLogInfo << "sizeOfRhsColnames: " << sizeOfRhsColnames;
+            if (sizeOfRhsColnames != selfCols) {
+                // then we need to slice the colnames list
+                // self->colNames is a new reference (Ref count = 1)
+                self->colNames = PyList_GetSlice(rhsAsNamedArrayObj->colNames, 0, selfCols);
+                // we therefore need to decrement the ref count of the original copy
+//                Py_DECREF(rhsAsNamedArrayObj->colNames);
+                if (!self->colNames) {
+                    PyErr_SetString(PyExc_IndexError, "Could not slice NamedArray colnames");
+                    Py_RETURN_NONE;
+                }
+            } else {
+                // in this case the same object is passed from rhs to colnames
+                // so the reference count stays the same.
+                self->colNames = rhsAsNamedArrayObj->colNames;
+            }
+
+            rrLogInfo << "self->colNames ref count: " << self->colNames->ob_refcnt;
+            // we steal the reference
+            rhsAsNamedArrayObj->colNames = nullptr;
+        }
+        rrLogDebug << "Done" << std::endl;
+        Py_RETURN_NONE;
+    }
+
+
+    PyObject *NamedArrayObject_Finalize(NamedArrayObject *self, PyObject *args /* should be called args???*/) {
+        // Some docs on why this is needed: https://numpy.org/devdocs/user/basics.subclassing.html
         // when self is passed, the ref count of array goes up.
-        // However decrementing this count causes segfault,
-        // so presumably Python manages this extra reference for us.
+        rrLogDebug << __FUNC__;
+        rrLogInfo << "self: address: " << self << "; ref count: " << PyArray_REFCOUNT(self);
+        rrLogInfo << "self->array:   " << &(self->array) << "; ref count: " << PyArray_REFCOUNT(&(self->array));
 
         PyObject *rhs;
         if (PyArg_ParseTuple(args, "O", &rhs) < 0) {
             PyErr_SetString(PyExc_ValueError, "Could not get rhs from tuple");
             return nullptr;
         }
-        rrLogInfo << "self->array:" << PyArray_REFCOUNT((PyObject *) &self->array);
-        rrLogInfo << "argument type is: " << rhs->ob_type->tp_name
-                  << (rhs->ob_type == &PyArray_Type) << " " << (rhs->ob_type == &NamedArray_Type);
 
         // when NamedArray instantiated with constructor
         //   >>> n = NamedArray((3, 4)) # 1
@@ -1380,158 +1770,37 @@ namespace rr {
         // we are guarenteed to not have row or colnames because
         //  #1 syntax is not supported at this time and
         //  #2 np.ndarray does not have row/colnames
-        rrLogInfo << "self->array:" << PyArray_REFCOUNT((PyObject *) &self->array);
-        if (rhs == Py_None || rhs->ob_type == &PyArray_Type) {
-            rrLogInfo << "'None' path taken";
-            rrLogInfo << "self->array:" << PyArray_REFCOUNT((PyObject *) &self->array);
-            if (!self->rowNames) {
-                rrLogInfo << "self->rownames is nullptr: assigning to empty list";
-                PyObject *rows = PyList_New(0);
-                if (!rows) {
-                    PyErr_SetString(PyExc_MemoryError, "Could not allocate a new list for rownames");
-                    Py_RETURN_NONE;
-                }
-                self->rowNames = rows;
-            }
-            if (!self->colNames) {
-                rrLogInfo << "self->colnames is nullptr: assigning to empty list";
-                PyObject *cols = PyList_New(0);
-                if (!cols) {
-                    PyErr_SetString(PyExc_MemoryError, "Could not allocate a new list for colnames");
-                    Py_RETURN_NONE;
-                }
-                self->colNames = cols;
-            }
-            // Note it seems that we do not need to increment the ref count
-            // for these new lists.
-
-            // and assign
-            rrLogInfo << "done" << std::endl;
-            Py_RETURN_NONE;
-        }
-
-        if (rhs->ob_type == &NamedArray_Type) {
-            /**
-             * In this case rhs contains the oiriginal state of the array
-             * before any slicing or other modifications that
-             * count as "templating"
-             * @see https://numpy.org/devdocs/user/basics.subclassing.html
-             *
-             * The array inside "self" contains a copy of the state
-             * of the array after being manipulated by numpy.
-             * For instance
-             *  >>> n = NamedArray((3, 4))
-             *  >>> v = n[1:, :]
-             * invokes NamedArray_Finalize where
-             *  - `n` maps to `rhs` aka the first rhs of the 1-tuple input args.
-             *     Its state is the original
-             *  - `v` maps to the `self` arugment. Its a copy of the np array with
-             *  any changes implemented
-             *
-             * Its all very reminiscent of a copy constructor in c++
-             */
+        if (rhs == Py_None) {
+            rrLogInfo << "NamedArrayObject initialized from constructor. 'None' path taken";
+            return NamedArrayObject_Finalize_FromConstructor(self);
+        } else if (rhs->ob_type == &PyArray_Type) {
+            rrLogInfo << "Taking the PyArray_Type path";
+            return NamedArrayObject_Finalize_FromPyArray(self);
+        } else if (rhs->ob_type == &NamedArray_Type) {
             rrLogInfo << "Taking the NamedArray_Type path";
-            auto *arraydims = PyArray_SHAPE(&self->array);
-            rrLogInfo << "arraydims[0] :  " << arraydims[0] << " " << " arraydims[1]: " << arraydims[1];
-            NamedArrayObject *rhsAsNamedArrayObj = (NamedArrayObject *) rhs;
-            if (!rhsAsNamedArrayObj) {
-                PyErr_SetString(PyExc_MemoryError,
-                                "Could not cast argument to NamedArray_Finalize to a NamedArrayObject*");
-                Py_RETURN_NONE;
-            }
-            if (rhsAsNamedArrayObj->rowNames != NULL) {
-                rrLogInfo << "Moving rowNames reference from rhs to this array";
-
-                Py_ssize_t sizeOfRownames = PyList_Size(rhsAsNamedArrayObj->rowNames);
-
-                if (sizeOfRownames != arraydims[0]) {
-                    // then we need to slice the rownames list
-                    // self->rowNames is a new reference (Ref count = 1)
-                    self->rowNames = PyList_GetSlice(rhsAsNamedArrayObj->rowNames, 0, arraydims[0]);
-                    // we therefore need to decrement the ref count of the original copy
-                    Py_DECREF(rhsAsNamedArrayObj->rowNames);
-                    if (!self->rowNames) {
-                        PyErr_SetString(PyExc_IndexError, "Could not slice NamedArray rownames");
-                        Py_RETURN_NONE;
-                    }
-                } else {
-                    // in this case the same object is passed from rhs to rownames
-                    // so the reference count stays the same.
-                    self->rowNames = rhsAsNamedArrayObj->rowNames;
-                }
-
-                rrLogInfo << "self->rowNames ref count: " << self->rowNames->ob_refcnt;
-                rrLogInfo << "rhsAsNamedArrayObjec ref ocunt " << rhs->ob_refcnt;
-                // we steal the reference
-                rhsAsNamedArrayObj->rowNames = nullptr;
-            }
-
-
-            if (rhsAsNamedArrayObj->colNames != NULL) {
-                rrLogInfo << "Moving colNames reference from rhs to this array";
-
-                Py_ssize_t sizeOfcolnames = PyList_Size(rhsAsNamedArrayObj->colNames);
-
-                if (sizeOfcolnames != arraydims[1]) {
-                    // then we need to slice the colnames list
-                    // self->colNames is a new reference (Ref count = 1)
-                    self->colNames = PyList_GetSlice(rhsAsNamedArrayObj->colNames, 0, arraydims[1]);
-                    // we therefore need to decrement the ref count of the original copy
-                    Py_DECREF(rhsAsNamedArrayObj->colNames);
-                    if (!self->colNames) {
-                        PyErr_SetString(PyExc_IndexError, "Could not slice NamedArray colnames");
-                        Py_RETURN_NONE;
-                    }
-                } else {
-                    // in this case the same object is passed from rhs to colnames
-                    // so the reference count stays the same.
-                    self->colNames = rhsAsNamedArrayObj->colNames;
-                }
-
-                rrLogInfo << "self->colNames ref count: " << self->colNames->ob_refcnt;
-                // we steal the reference
-                rhsAsNamedArrayObj->colNames = nullptr;
-            }
+            return NamedArrayObject_Finalize_FromNamedArray(self, rhs);
+        } else {
+            rrLogErr << "Unexpected type passed to NamedArrayObject_Finalize for the args parameter";
+            PyErr_SetString(PyExc_ValueError,
+                            "Unexpected type passed to NamedArrayObject_Finalize for the args parameter");
         }
-
-        rrLogInfo << "done" << std::endl;
+        // decrement the refcount as we're done with this scope
+        rrLogInfo << "self->array: " << &self->array << " ref count: " << PyArray_REFCOUNT(&self->array);
+        rrLogInfo << "self: " << self << " ref count: " << PyArray_REFCOUNT(self);
+        Py_DecRef((PyObject *) &self->array);
+        rrLogDebug << "Done" << std::endl;
         Py_RETURN_NONE;
     }
 
-//    PyObject *NamedArrayObject_Finalize(NamedArrayObject *self, PyObject *parent) {
-//        rrLog(Logger::LOG_INFORMATION) << __FUNC__;
-//
-//        if (parent != NULL && parent->ob_type == &NamedArray_Type) {
-//            NamedArrayObject *p = (NamedArrayObject *) parent;
-//            if (p->rowNames != NULL) {
-//                Py_INCREF(p->rowNames);
-//                self->rowNames = p->rowNames;
-//            }
-//
-//            if (p->colNames != NULL) {
-//                Py_INCREF(p->colNames);
-//                self->colNames = p->colNames;
-//            }
-//
-//        }
-//        Py_RETURN_NONE;
-//    }
-
-
     static void NamedArrayObject_dealloc(NamedArrayObject *self) {
-        rrLogInfo << __FUNC__;
-//        rrLogInfo << "self address: " << self;
-//        rrLogInfo << "self->rownames address " << self->rowNames;
-//        rrLogInfo << "self->colNames address" << self->colNames;
+        rrLogDebug << __FUNC__;
+        // tp_dealloc is called by Py_DECREF and Py_XDECREF once the ref count
+        // gets to 0. Therefore, we expect to see the self ref count equal to 0.
 
-//        rrLogInfo << "self->array ref cnt :" << PyArray_REFCOUNT((PyObject *) &self->array);
-//        rrLogInfo << "self->rowNames->ob_refcnt: " << self->rowNames->ob_refcnt;
-//        rrLogInfo << "self->colNames->ob_refcnt: " << self->colNames->ob_refcnt;
-
-
+        rrLogWarn << "Remember you have commented out decrementing row/colnames";
         // decrement the rownames, allowing for possibility of being null
-        Py_XDECREF(self->rowNames);
-        Py_XDECREF(self->colNames);
+//        Py_XDECREF(self->rowNames);
+//        Py_XDECREF(self->colNames);
 
         PyObject *pself = (PyObject *) self;
         rrLogInfo << pself->ob_type->tp_name << " ref count: " << pself->ob_refcnt;
@@ -1539,7 +1808,7 @@ namespace rr {
         assert(pself->ob_type->tp_base == &PyArray_Type);
         PyArray_Type.tp_dealloc(pself);
 
-        rrLogInfo << "done" << std::endl;
+        rrLogDebug << "Done" << std::endl;
     }
 
 /*****************************************************************************************
@@ -1617,21 +1886,21 @@ namespace rr {
             ss << ((i < rows - 1) ? "]," : "]]");
             ss << endl;
         }
-        rrLogInfo << "done" << std::endl;
+        rrLogDebug << "Done" << std::endl;
         return ss.str();
 
 #undef GET_VAL
     }
 
     PyObject *NamedArray_repr(NamedArrayObject *self) {
-        rrLogInfo << __FUNC__;
-        PyObject* s = PyUnicode_FromFormat("<class NamedArray %s>", self);
-        rrLogInfo << "done" << std::endl;
+        rrLogDebug << __FUNC__;
+        PyObject *s = PyUnicode_FromFormat("<class NamedArray %s>", self);
+        rrLogDebug << "Done" << std::endl;
         return s;
     }
 
     PyObject *NamedArray_str(NamedArrayObject *self) {
-        rrLogInfo << __FUNC__;
+        rrLogDebug << __FUNC__;
         PyArrayObject *array = (PyArrayObject *) self;
         str_vector rowNames = py_to_stringvector(self->rowNames);
         str_vector colNames = py_to_stringvector(self->colNames);
@@ -1646,13 +1915,13 @@ namespace rr {
 
         string str = array_format(array, rowNames, colNames);
 
-        rrLogInfo << "done" << std::endl;
+        rrLogDebug << "Done" << std::endl;
         return rrPyString_FromString(str.c_str());
     }
 
 
     PyObject *convertStringVectorToPython(const std::vector<std::string> &vec) {
-        rrLogInfo << __FUNC__;
+        rrLogDebug << __FUNC__;
         long long size = (long long) vec.size();
 
         PyObject *pyList = PyList_New(size);
@@ -1665,12 +1934,12 @@ namespace rr {
             j++;
         }
 
-        rrLogInfo << "done" << std::endl;
+        rrLogDebug << "Done" << std::endl;
         return pyList;
     }
 
     std::vector<std::string> convertPythonListToStringVector(PyObject *pyList) {
-        rrLogInfo << __FUNC__;
+        rrLogDebug << __FUNC__;
         int size = (int) PyList_Size(pyList);
         std::vector<std::string> vec(size);
         for (Py_ssize_t i = 0; i < size; i++) {
@@ -1679,7 +1948,7 @@ namespace rr {
             vec[(int) i] = std::string(s);
         }
 
-        rrLogInfo << "done" << std::endl;
+        rrLogDebug << "Done" << std::endl;
         return vec;
     }
 

@@ -10,10 +10,9 @@ sys.path += [
 
 
 
-import roadrunner
-from roadrunner._roadrunner import NamedArray
-from roadrunner import Logger
-print(roadrunner.__file__)
+# import roadrunner
+# from roadrunner._roadrunner import NamedArray
+# from roadrunner import Logger
 #
 #
 # n = NamedArray((3, 4))
@@ -93,10 +92,25 @@ print(roadrunner.__file__)
 #     </listOfReactions>
 #   </model>
 # </sbml>"""
+from roadrunner._roadrunner import NamedArray
+import roadrunner
+print(roadrunner.__file__)
+
+import numpy as np
+import pickle
+print("Running this script")
+n = np.ones((2, 3)).view(NamedArray)
+n.rownames = ['R1', 'R2']
+n.colnames = ['C1', 'C2', 'C3']
+print(n)
+# state = n.__reduce_ex__(5)
+# print(state[0](*state[1]))
+b = pickle.dumps(n)
+l = pickle.loads(b)
+print(l)
+print((l == n).all())
 
 
-n = NamedArray((2, 3))
 
-print(sys.getrefcount(n))
 
 

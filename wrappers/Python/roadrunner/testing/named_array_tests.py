@@ -226,35 +226,41 @@ class NamedArrayTests(unittest.TestCase):
         # acquired a bytes object
         self.assertIsInstance(b, bytes)
 
+    def test_equality_still_works(self):
+        n = np.zeros((2, 3)).view(NamedArray)
+        n2 = np.zeros((2, 3)).view(NamedArray)
+        self.assertTrue((n == n2).all())
+
     def test_pickle_loads(self):
         n = np.zeros((2, 3)).view(NamedArray)
-        n[0, 1] = 3
-        n[0, 2] = 4
+        for i in range(2):
+            for j in range(3):
+                n[i, j] = i * 3 + j
         b = pickle.dumps(n)
         l = pickle.loads(b)
-        self.assertEqual(l[0, 1], 3)
-        self.assertEqual(l[0, 2], 4)
+        self.assertTrue((l == n).all())
 
-    # def test_pickle_loads_with_rownames(self):
-    #     n = np.zeros((2, 3)).view(NamedArray)
-    #     n.rownames = ['R1', 'R2']
-    #     print(n.rownames)
-    #     b = pickle.dumps(n)
-    #     l = pickle.loads(b)
-    #     print(l.rownames)
-    #     eq = l.rownames == ['R1', 'R2']
-    #     print(eq)
-    #     self.assertTrue(eq)
-    #     self.assertEqual(l.rownames, ['R1', 'R2'])
+    def test_pickle_loads_with_rownames(self):
+        n = np.zeros((2, 3)).view(NamedArray)
+        for i in range(2):
+            for j in range(3):
+                n[i, j] = i * 3 + j
+        n.rownames = ['R1', 'R2']
+        b = pickle.dumps(n)
+        l = pickle.loads(b)
+        self.assertEqual(l.rownames, ['R1', 'R2'])
+        self.assertTrue((n == l).all())
 
+    def test_pickle_loads_with_colnames(self):
+        n = np.zeros((2, 3)).view(NamedArray)
+        for i in range(2):
+            for j in range(3):
+                n[i, j] = i * 3 + j
+        n.colnames = ['C1', 'C1', 'C3']
+        print(n.colnames)
+        b = pickle.dumps(n)
+        l = pickle.loads(b)
+        self.assertEqual(l.colnames, ['C1', 'C1', 'C3'])
+        self.assertTrue((n == l).all())
 
-    # def test_pickle_loads_with_colnames(self):
-    #     n = np.zeros((2, 3)).view(NamedArray)
-    #     n.colnames = ['C1', 'C1', 'C3']
-    #     print(n.colnames)
-    #     b = pickle.dumps(n)
-    #     l = pickle.loads(b)
-    #     print(l.colnames)
-    #     self.assertEqual(l.colnames, ['C1', 'C1', 'C3'])
-    #
     #

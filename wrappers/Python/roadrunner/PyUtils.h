@@ -18,9 +18,9 @@
 #include "Matrix.h"
 #include "Matrix3D.h"
 #include <numpy/arrayobject.h>
+#include "rrLogger.h"
 
 namespace rr {
-
 
 /**
  * @brief Convert a Python string object to a @a std::string
@@ -137,7 +137,7 @@ namespace rr {
          * @brief create a binary string from the array field of NamedArrayObject.
          * @returns PyObject* of type Bytes
          */
-        PyObject *arrayToBytes() {
+        PyObject *saveToBytes() {
             PyArrayObject *arr = &array;
             PyObject *arrayBytes = PyArray_ToString(arr, NPY_CORDER);
             if (arrayBytes == nullptr) {
@@ -149,7 +149,7 @@ namespace rr {
             return arrayBytes;
         }
 
-        void bytesToArray(PyObject *bytesObject) {
+        void loadFromBytes(PyObject *bytesObject, long* dim1, long* dim2 = nullptr) {
             if (strcmp(bytesObject->ob_type->tp_name, "bytes") != 0) {
                 std::ostringstream err;
                 err << "Cannot accept object of type " << bytesObject->ob_type->tp_name
@@ -157,6 +157,37 @@ namespace rr {
                 PyErr_SetString(PyExc_TypeError, err.str().c_str());
             }
 
+            int size = 0;
+            if (dim2){
+                size = *dim1 * *dim2;
+            } else {
+                size = *dim1;
+            }
+            /**
+             * We can load our bytes object back into a numpy array
+             * with:
+             *      PyObject *PyArray_FromBuffer(PyObject *buf, PyArray_Descr *dtype, npy_intp count, npy_intp offset)
+             *
+             */
+            PyArray_Descr *descr = PyArray_DescrFromType(NPY_DOUBLE);
+            if (!descr) {
+                PyErr_SetString(PyExc_ValueError, "Could not create PyArray_Descr in NamedArray.__setstate__");
+                return ;
+            }
+
+            PyArrayObject *newArrFromBytes = (PyArrayObject *) PyArray_FromBuffer(bytesObject, descr, -1, 0);
+            if (!newArrFromBytes) {
+                PyErr_SetString(PyExc_ValueError,
+                                "Could not create a PyArrayObject from a bytes buffer using PyArray_FromBuffer");
+                return ;
+            }
+
+            double *dataFromBytesArray = (double *) PyArray_DATA(newArrFromBytes);
+            double *dataFromSelfArray = (double *) PyArray_DATA(&array);
+            for (int i = 0; i < size; i++) {
+                std::swap(dataFromBytesArray[i], dataFromSelfArray[i]);
+            }
+            PyArray_Type.tp_dealloc((PyObject*)newArrFromBytes);
         }
     };
 
@@ -164,9 +195,13 @@ namespace rr {
     /**
      * @brief allocates a NamedArrayObject, the underlying struct for
      * the Python NamedArray object.
-     * @details A NamedArrayObject is allocated using PyObject_New
-     * and then initialized with PyObject_Init.
      * @return new reference. PyObject* with a ref count of 1.
+     * @details A NamedArrayObject is allocated using PyObject_New
+     * and then initialized with PyObject_Init. The PyObject*
+     * returned is cast from a NamedArrayObject and
+     * the array field of this object has the same address.
+     * In other words
+     *  &namedArrayObject == &(namedArrayObject->array);
      */
     static PyObject *NamedArrayObject_alloc(PyTypeObject *type, Py_ssize_t nitems);
 
@@ -190,6 +225,13 @@ namespace rr {
      */
     static PyObject *NamedArrayObject_Finalize(NamedArrayObject *self, PyObject *args);
 
+    PyObject *NamedArrayObject_Finalize_FromConstructor(NamedArrayObject *self);
+
+    PyObject *NamedArrayObject_Finalize_FromPyArray(NamedArrayObject *self);
+
+    PyObject *NamedArrayObject_Finalize_FromNamedArray(NamedArrayObject *self, PyObject *rhs);
+
+
     static PyObject *NamedArray_repr(NamedArrayObject *self);
 
     static PyObject *NamedArray_str(NamedArrayObject *self);
@@ -211,7 +253,7 @@ namespace rr {
      * for the state.
      */
     static PyObject *
-    NamedArray___reduce_ex__(NamedArrayObject *self, PyObject* args);
+    NamedArray___reduce_ex__(NamedArrayObject *self, PyObject *args);
 
     static PyObject *
     NamedArray___setstate__(NamedArrayObject *self, PyObject *state);
