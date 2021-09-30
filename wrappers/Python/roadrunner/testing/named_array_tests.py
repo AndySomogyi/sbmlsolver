@@ -228,6 +228,33 @@ class NamedArrayTests(unittest.TestCase):
 
     def test_pickle_loads(self):
         n = np.zeros((2, 3)).view(NamedArray)
+        n[0, 1] = 3
+        n[0, 2] = 4
         b = pickle.dumps(n)
         l = pickle.loads(b)
-        print(l)
+        self.assertEqual(l[0, 1], 3)
+        self.assertEqual(l[0, 2], 4)
+
+    # def test_pickle_loads_with_rownames(self):
+    #     n = np.zeros((2, 3)).view(NamedArray)
+    #     n.rownames = ['R1', 'R2']
+    #     print(n.rownames)
+    #     b = pickle.dumps(n)
+    #     l = pickle.loads(b)
+    #     print(l.rownames)
+    #     eq = l.rownames == ['R1', 'R2']
+    #     print(eq)
+    #     self.assertTrue(eq)
+    #     self.assertEqual(l.rownames, ['R1', 'R2'])
+
+
+    # def test_pickle_loads_with_colnames(self):
+    #     n = np.zeros((2, 3)).view(NamedArray)
+    #     n.colnames = ['C1', 'C1', 'C3']
+    #     print(n.colnames)
+    #     b = pickle.dumps(n)
+    #     l = pickle.loads(b)
+    #     print(l.colnames)
+    #     self.assertEqual(l.colnames, ['C1', 'C1', 'C3'])
+    #
+    #
