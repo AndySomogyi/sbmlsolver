@@ -662,7 +662,6 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 //%ignore rr::RoadRunner::getStoichiometryMatrix;
 %ignore rr::RoadRunner::setNumPoints;
 //%ignore rr::RoadRunner::getConservationMatrix;
-%ignore rr::RoadRunner::getModelName;
 %ignore rr::RoadRunner::getTempFolder;
 %ignore rr::RoadRunner::setParameterValue;
 //%ignore rr::RoadRunner::getConservedMoietyIds;

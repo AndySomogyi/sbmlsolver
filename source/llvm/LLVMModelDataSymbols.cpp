@@ -120,20 +120,24 @@ LLVMModelDataSymbols::LLVMModelDataSymbols() :
 }
 
 LLVMModelDataSymbols::LLVMModelDataSymbols(const libsbml::Model *model, unsigned options)
-    :   independentFloatingSpeciesSize(0),
-        independentBoundarySpeciesSize(0),
-        independentGlobalParameterSize(0),
-        independentCompartmentSize(0),
-        independentInitFloatingSpeciesSize(0),
-        independentInitBoundarySpeciesSize(0),
-        independentInitGlobalParameterSize(0),
-        independentInitCompartmentSize(0)
+    : independentFloatingSpeciesSize(0),
+    independentBoundarySpeciesSize(0),
+    independentGlobalParameterSize(0),
+    independentCompartmentSize(0),
+    independentInitFloatingSpeciesSize(0),
+    independentInitBoundarySpeciesSize(0),
+    independentInitGlobalParameterSize(0),
+    independentInitCompartmentSize(0)
 {
     assert(sizeof(modelDataFieldsNames) / sizeof(const char*)
-            == NotSafe_FloatingSpeciesAmounts + 1
-            && "wrong number of items in modelDataFieldsNames");
+        == NotSafe_FloatingSpeciesAmounts + 1
+        && "wrong number of items in modelDataFieldsNames");
 
     modelName = model->getName();
+    if (modelName.empty())
+    {
+        modelName = model->getId();
+    }
 
     // first go through the rules, see if they determine other stuff
     {

@@ -3039,10 +3039,50 @@ namespace rr {
     }
 
     std::string RoadRunner::getModelName() {
-        return impl->model ? impl->model->getModelName() : std::string("");
+        if (impl->document && impl->document->isSetModel())
+        {
+            libsbml::Model* model = impl->document->getModel();
+            if (model->isSetName())
+            {
+                return model->getName();
+            }
+        }
+        if (impl->model)
+        {
+            return impl->model->getModelName();
+        }
+        return "";
     }
 
-/**
+    void RoadRunner::setModelName(const string& name)
+    {
+        if (impl->document && impl->document->isSetModel())
+        {
+            impl->document->getModel()->setName(name);
+        }
+    }
+
+    std::string RoadRunner::getModelId() {
+        if (impl->document && impl->document->isSetModel())
+        {
+            libsbml::Model* model = impl->document->getModel();
+            if (model->isSetId())
+            {
+                return model->getId();
+            }
+        }
+        return "";
+    }
+
+    void RoadRunner::setModelId(const string& id)
+    {
+        if (impl->document && impl->document->isSetModel())
+        {
+            impl->document->getModel()->setId(id);
+        }
+    }
+
+ /**
  * find an symbol id in the model and set its value.
  */
     static void setSBMLValue(libsbml::Model *model, const std::string &id, double value) {

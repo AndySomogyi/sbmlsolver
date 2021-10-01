@@ -264,6 +264,21 @@ namespace rr {
         std::string getModelName();
 
         /**
+         * sets the model name if a model is loaded.
+         */
+        void setModelName(const std::string& name);
+
+        /**
+         * returns the model id if a model is loaded, empty std::string otherwise.
+         */
+        std::string getModelId();
+
+        /**
+         * sets the model id if a model is loaded.
+         */
+        void setModelId(const std::string& id);
+
+        /**
          * @brief Clears the currently loaded model and all associated memory
          * @details Deletes jitted code and libStruct data
          * @returns True if memory was freed, false if no model was loaded

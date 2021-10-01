@@ -165,6 +165,19 @@ std::string fixMissingStoich(const std::string sbml) {
 
         Model *m = doc->getModel();
 
+        if (!m) {
+            if (doc->getNumErrors(libsbml::LIBSBML_SEV_ERROR) > 0)
+            {
+                const libsbml::SBMLError* err = doc->getError(0); //DEBUG should be doc->getErrorWithSeverity(0, libsbml::LIBSBML_SEV_ERROR); but won't work yet due to libsbml bug.  See https://github.com/sbmlteam/libsbml/pull/169
+                string errmsg = err->getMessage();
+                throw std::runtime_error("SBML document unable to be read.  Error from libsbml:\n" + doc->getErrorWithSeverity(0, libsbml::LIBSBML_SEV_ERROR)->getMessage());
+            }
+            //Otherwise, the document is fine, it just has no model:
+            std::string result = writeSBMLToStdString(doc);
+            delete doc;
+            return result;
+        }
+
         for (unsigned int j = 0; j<m->getNumReactions(); ++j) {
             Reaction* r = m->getReaction(j);
             if (!r)
