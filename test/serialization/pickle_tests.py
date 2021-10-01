@@ -55,7 +55,7 @@ class RoadRunnerPickleTests(unittest.TestCase):
         pass
 
     def test_to_pickle_and_back(self):
-        pfile = os.path.join(os.path.dirname(__file__), "pkl.pickle")
+        pfile = os.path.join(os.path.dirname(__file__), "pkl.serialization")
         with open(pfile, 'wb') as f:
             pickle.dump(self.rr, f)
 
@@ -66,7 +66,7 @@ class RoadRunnerPickleTests(unittest.TestCase):
         try:
             print(rr.simulate(0, 10, 11))
         except Exception:
-            self.fail("Cannot simulate a pickle loaded model")
+            self.fail("Cannot simulate a serialization loaded model")
 
         if os.path.isfile(pfile):
             os.remove(pfile)
@@ -103,89 +103,3 @@ class RoadRunnerPickleTests(unittest.TestCase):
         print(dfs)
 
 
-class NamedArrayPickleTests(unittest.TestCase):
-    rr = RoadRunner(tmf.SimpleFlux().str())
-
-    def setUp(self) -> None:
-        self.data = self.rr.simulate(0, 10, 11)
-        # set some rownames for the sake of testing
-        self.data.rownames = [i for i in range(11)]
-
-    def tearDown(self) -> None:
-        pass
-
-
-
-    def test_dumps(self):
-        print(f"Python interpreter at: {sys.executable}")
-        print(f'roadrunner at: {roadrunner.__file__}')
-
-        binary = pickle.dumps(self.data)
-        self.assertIsInstance(binary, bytes)
-
-    def test_loads(self):
-        binary = pickle.dumps(self.data)
-        pickle.loads(binary)
-
-
-
-    def testy(self):
-        import roadrunner
-        from roadrunner._roadrunner import NamedArray
-        # from roadrunner._roadrunner import named_array
-
-        # for i in dir(roadrunner._roadrunner):
-        #     print(i)
-
-        # print(NamedArray.__module__)
-        # import named_array
-
-    def test_d(self):
-        l = 1
-        print(l.__reduce_ex__(5))
-
-    def test_to_pickle_dump(self):
-        # l = (11, 3)
-        # lred = l.__reduce_ex__(5)
-        # fname = os.path.join(os.path.dirname(__file__), "data.pickle")
-        # print (pickletools.dis(pickle.dumps(lred, protocol=5)))
-        from roadrunner._roadrunner import NamedArray
-        n = NamedArray()
-        print(self.data.__reduce_ex__(5))
-        # binary = pickle.dumps(self.data)
-
-        print(pickletools.dis(pickle.dumps(binary, protocol=5)))
-        n.__reduce_ex__(binary)
-        # print(pickle.loads(binary))
-        # data2 = pickle.loads(binary)
-        # print(type(data2))
-        # print(data2)
-
-        # with open(fname, 'wb') as f:
-        #     pickle.dump(self.data, f)
-        # with open(fname, 'rb') as f:
-        #     data2 = pickle.load(f)
-
-        # print(data2)
-
-        #
-        # print(n)
-        #     # k, rownames=['R1'], colnames=[f'C{i}' for i in k]
-        # # ))
-        # import builtins
-        # # for i in dir(builtins):
-        # #     print(i)
-        # # for i in dir(roadrunner._roadrunner):
-        # #     print(i)
-        # # print(dir(builtins))
-        # # if os.path.isfile(fname):
-        # #     os.remove(fname)
-        # #
-        # with open(fname, 'wb') as f:
-        #     pickle.dump(self.data, f)
-        #
-        # # with open(fname, 'wb') as f:
-        # #     data2 = pickle.load(f)
-        # #
-        # # print(data2)
-        #

@@ -113,9 +113,9 @@ namespace rr {
     std::vector<std::string> py_to_stringvector(PyObject *obj);
 
 /**
- * @brief pickle a python list using the C API
- * @details Imports pickle from C and uses dump. Returns a
- * PyObject pickle.
+ * @brief serialization a python list using the C API
+ * @details Imports serialization from C and uses dump. Returns a
+ * PyObject serialization.
  * @details returned reference is owned
  */
     PyObject *PyList_toPickle(PyObject *list);

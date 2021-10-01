@@ -21,7 +21,7 @@ class NamedArrayTests(unittest.TestCase):
         the tp_name field of NamedArray_Type needed to be
         changed to roadrunner._roadrunner.NamedArray rather
         than NamedArray so that the __module__attribute
-        pointed to the correct location and pickle.dumps
+        pointed to the correct location and serialization.dumps
         looks in the right place for NamedArray
         :return:
         """

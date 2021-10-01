@@ -990,8 +990,8 @@ namespace rr {
 
     void verifyPickleVersion(PyObject *state) {
 
-        // check pickle version. At the time of writing there is only one
-        // pickle version, but this helps to future proof this code
+        // check serialization version. At the time of writing there is only one
+        // serialization version, but this helps to future proof this code
         PyObject *pklVersionPyObj = PyDict_GetItemString(state, PICKLE_VERSION_KEY);
         if (pklVersionPyObj == nullptr) {
             /* PyDict_GetItemString does not set error, so we do it*/
@@ -1195,7 +1195,7 @@ namespace rr {
         static PyObject *module = NULL;
         PyObject *pickle;
 
-        if (module == NULL && (module = PyImport_ImportModule("pickle")) == NULL)
+        if (module == NULL && (module = PyImport_ImportModule("serialization")) == NULL)
             return NULL;
 
         pickle = PyObject_CallMethodObjArgs(module,

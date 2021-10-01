@@ -4,7 +4,7 @@ if (BUILD_PYTHON AND BUILD_TESTS)
 
     #####################################################################
     #   Minimal swig bindings to a minimal C++ object.
-    #   This is proof of principle of how to pickle a PySWIGObject
+    #   This is proof of principle of how to serialization a PySWIGObject
     #   and does not involve roadrunner itself.
     #
 

@@ -1221,7 +1221,7 @@ namespace std { class ostream{}; }
 
         def __getstate__(self):
             from os.path import join, dirname, abspath
-            fname = join(abspath(dirname(__file__)), f"{self.getModel().getModelName()}.pickle")
+            fname = join(abspath(dirname(__file__)), f"{self.getModel().getModelName()}.serialization")
             self.saveState(fname)
             return fname
 

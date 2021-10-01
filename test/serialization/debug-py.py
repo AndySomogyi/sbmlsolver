@@ -24,11 +24,11 @@ sys.path += [
 
 
 
-# binary = pickle.dumps(data)
+# binary = serialization.dumps(data)
 #
-# print(pickletools.dis(pickle.dumps(binary, protocol=5)))
-# print(pickle.loads(binary))
-# data2 = pickle.loads(binary)
+# print(pickletools.dis(serialization.dumps(binary, protocol=5)))
+# print(serialization.loads(binary))
+# data2 = serialization.loads(binary)
 # # print(type(data2))
 # print(data2)
 # sbml = """<?xml version="1.0" encoding="UTF-8"?>
