@@ -67,6 +67,7 @@
 
 // python object.h
 #include "object.h"
+#include "modsupport.h"
 
 #include <iostream>
 #include <iomanip>
