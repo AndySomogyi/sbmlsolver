@@ -333,11 +333,6 @@ TEST_F(RoadRunnerAPITests, oneStep) {
     delete testModel;
 }
 
-TEST(DeleteMe, t){
-    std::vector<int> x;
-    int d = x[0]; // segfault
-}
-
 /**
  * Difference between oneStep and internalOneStep
  */
