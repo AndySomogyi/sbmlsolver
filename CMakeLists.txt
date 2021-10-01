@@ -562,8 +562,14 @@ configure_file(
         "${CMAKE_CURRENT_SOURCE_DIR}/requirements.txt"
         "${CMAKE_BINARY_DIR}/requirements.txt" @ONLY
 )
+configure_file(
+        "${CMAKE_CURRENT_SOURCE_DIR}/test-requirements.txt"
+        "${CMAKE_BINARY_DIR}/test-requirements.txt" @ONLY
+)
 install(
-        FILES "${CMAKE_CURRENT_SOURCE_DIR}/requirements.txt"
+        FILES
+            "${CMAKE_CURRENT_SOURCE_DIR}/requirements.txt"
+            "${CMAKE_CURRENT_SOURCE_DIR}/test-requirements.txt"
         DESTINATION .
 )
 

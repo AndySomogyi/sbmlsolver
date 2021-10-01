@@ -330,6 +330,7 @@ if (BUILD_PYTHON AND BUILD_TESTS)
     add_pytest_to_ctest(python_tests_TestModelFactoryTests "${RR_PYTHON_TESTING_BUILD_PREFIX}/TestModelFactoryTests.py")
     add_pytest_to_ctest(python_tests_RunRRTestsFromPython "${RR_PYTHON_TESTING_BUILD_PREFIX}/RunTesterWithUnitTest.py")
     add_pytest_to_ctest(python_tests_NamedArrayTests "${RR_PYTHON_TESTING_BUILD_PREFIX}/NamedArrayTests.py")
+    add_pytest_to_ctest(python_tests_PickleTests "${RR_PYTHON_TESTING_BUILD_PREFIX}/pickle_tests.py")
 
     message(STATUS "PyTestTests ${PyTestTests}")
 
