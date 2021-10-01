@@ -1130,11 +1130,26 @@ namespace rr {
         // set our getitem pointer
         NamedArray_MappingMethods.mp_subscript = (binaryfunc) NammedArray_subscript;
 
+#if (PY_MAJOR_VERSION >= 3 && PY_MINOR_VERSION >= 9)
+        // this if for python v3.9 and above. Remove
+        // old code when we drop support for py37 and py38
         if (PyModule_AddType(module, &NamedArray_Type) < 0) {
             PyErr_SetString(PyExc_ValueError, "Could not add NamedArray_Type to module roadrunner._roadrunner");
             return;
         }
+#else // python 3.9
+        int result;
+
+        if ((result = PyType_Ready(&NamedArray_Type)) < 0) {
+            std::cout << "PyType_Ready(&NamedArray_Type)) Failed, error: " << result;
+            return;
+        }
+
+        Py_INCREF(&NamedArray_Type);
+        result = PyModule_AddObject(module, "NamedArray", (PyObject *) (&NamedArray_Type));
+#endif // python 3.9
     }
+
 
 /*
 /* PyArray_New(&PyArray_Type, nd, dims, NPY_DOUBLE, NULL, data, 0,
@@ -1296,10 +1311,10 @@ namespace rr {
         return obj;
     }
 
-    /**
-     * @brief the part of NamedArrayObject_Finalize that deals with the situation
-     * where the second argument PyObject* args evaluates to Py_None;
-     */
+/**
+ * @brief the part of NamedArrayObject_Finalize that deals with the situation
+ * where the second argument PyObject* args evaluates to Py_None;
+ */
     PyObject *NamedArrayObject_Finalize_FromConstructor(NamedArrayObject *self) {
         rrLogDebug << __FUNC__;
 
@@ -1327,12 +1342,12 @@ namespace rr {
         Py_RETURN_NONE;
     }
 
-    /**
-     * @brief the part of NamedArrayObject_Finalize that deals with the situation
-     * where the second argument PyObject* args evaluates to a PyArrayObject;
-     * @details since a PyArray does not have row/colnames then we can actually
-     * reuse the NamedArrayObject_Finalize_FromConstructor method.
-     */
+/**
+ * @brief the part of NamedArrayObject_Finalize that deals with the situation
+ * where the second argument PyObject* args evaluates to a PyArrayObject;
+ * @details since a PyArray does not have row/colnames then we can actually
+ * reuse the NamedArrayObject_Finalize_FromConstructor method.
+ */
     PyObject *NamedArrayObject_Finalize_FromPyArray(NamedArrayObject *self) {
         rrLogDebug << __FUNC__;
         PyObject *obj = NamedArrayObject_Finalize_FromConstructor(self);
@@ -1340,27 +1355,27 @@ namespace rr {
         return obj;
     }
 
-    /**
-     * @brief the part of NamedArrayObject_Finalize that deals with the situation
-     * where the second argument PyObject* args evaluates to another NamedArray ;
-     * In this case rhs contains the original state of the array
-     * before any slicing or other modifications that
-     * count as "templating"
-     * @see https://numpy.org/devdocs/user/basics.subclassing.html
-     *
-     * The array inside "self" contains a copy of the state
-     * of the array after being manipulated by numpy.
-     * For instance
-     *  >>> n = NamedArray((3, 4))
-     *  >>> v = n[1:, :]
-     * invokes NamedArray_Finalize where
-     *  - `n` maps to `rhs` aka the first rhs of the 1-tuple input args.
-     *     Its state is the original
-     *  - `v` maps to the `self` arugment. Its a copy of the np array with
-     *  any changes implemented
-     *
-     * Its all very reminiscent of a copy constructor in c++
-     */
+/**
+ * @brief the part of NamedArrayObject_Finalize that deals with the situation
+ * where the second argument PyObject* args evaluates to another NamedArray ;
+ * In this case rhs contains the original state of the array
+ * before any slicing or other modifications that
+ * count as "templating"
+ * @see https://numpy.org/devdocs/user/basics.subclassing.html
+ *
+ * The array inside "self" contains a copy of the state
+ * of the array after being manipulated by numpy.
+ * For instance
+ *  >>> n = NamedArray((3, 4))
+ *  >>> v = n[1:, :]
+ * invokes NamedArray_Finalize where
+ *  - `n` maps to `rhs` aka the first rhs of the 1-tuple input args.
+ *     Its state is the original
+ *  - `v` maps to the `self` arugment. Its a copy of the np array with
+ *  any changes implemented
+ *
+ * Its all very reminiscent of a copy constructor in c++
+ */
     PyObject *NamedArrayObject_Finalize_FromNamedArray(NamedArrayObject *self, PyObject *rhs) {
         rrLogDebug << __FUNC__;
 
