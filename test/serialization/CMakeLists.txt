@@ -23,6 +23,8 @@ if (BUILD_PYTHON AND BUILD_TESTS)
             CPPObjectForPickling.h
     )
 
+    file(COPY pickle_tests.py DESTINATION "${RR_PYTHON_TESTING_BUILD_PREFIX}")
+
 
 endif ()
 

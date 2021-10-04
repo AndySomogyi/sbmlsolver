@@ -432,6 +432,7 @@ namespace rr {
 }
 
     PyObject *doublematrix_to_py(const ls::DoubleMatrix *m, bool structured_result, bool copy_result) {
+        rrLogDebug << __FUNC__;
         ls::DoubleMatrix *mat = const_cast<ls::DoubleMatrix *>(m);
 
         // a valid array descriptor:
@@ -441,21 +442,18 @@ namespace rr {
 
         // are we returning a structured array?
         if (structured_result) {
-
-            // get the column names
-            //const std::vector<SelectionRecord>& sel = ($self)->getSelections();
-            //std::vector<string> names(sel.size());
-
-            //for(int i = 0; i < sel.size(); ++i) {
-            //    names[i] = sel[i].to_string();
-            //}
+            rrLogDebug << "Structured result path";
 
             std::vector<string> names = mat->getColNames();
 
             unsigned int rows = mat->numRows();
             unsigned int cols = mat->numCols();
 
+            std::cout << "num rows: " << rows;
+            std::cout << "num cols: " << cols;
+
             if (cols == 0) {
+                rrLogDebug << "No columns, returning None";
                 Py_RETURN_NONE;
             }
 
@@ -465,7 +463,7 @@ namespace rr {
 
             double *mData = mat->getArray();
 
-            PyObject *list = PyList_New(names.size());
+            PyObject *list = PyList_New((std::int64_t) names.size());
 
             for (int i = 0; i < names.size(); ++i) {
                 PyObject *col = rrPyString_FromString(names[i].c_str());
@@ -475,7 +473,7 @@ namespace rr {
                 Py_DECREF(col);
                 Py_DECREF(type);
 
-                // list takes ownershipt of tuple
+                // list takes ownership of tuple
                 void PyList_SET_ITEM(list, i, tup);
             }
 
@@ -516,18 +514,28 @@ namespace rr {
 
                 // make a 1D array in this case
                 if (cols == 1 && mat->getColNames().size() == 0) {
+                    rrLogDebug << "1 column and no column names";
                     int nd = 1;
                     npy_intp dims[1] = {rows};
-                    pArray = PyArray_New(&PyArray_Type, nd, dims, NPY_DOUBLE,
-                                         NULL, NULL, 0, 0, NULL);
+                    pArray = PyArray_New(
+                            &PyArray_Type,       // PyTypeObject* subtype
+                            nd,                  // int nd
+                            dims,                // npy_intp const* dims
+                            NPY_DOUBLE,          // int type_num
+                            NULL,                // npy_intp const* strides
+                            nullptr,     // void* data
+                            0,                   // int itemsize
+                            0,                   // int flags
+                            NULL                 // PyObject* obj
+                    );
                 } else {
+                    rrLogDebug << "2D array";
                     int nd = 2;
                     npy_intp dims[2] = {rows, cols};
-                    pArray = NamedArray_New(nd, dims, NULL,
-                                            0, mat);
+                    pArray = NamedArray_New(nd, dims, nullptr, 0, mat);
                 }
 
-//                VERIFY_PYARRAY(pArray);
+                VERIFY_PYARRAY(pArray);
 
                 // copy our data into the numpy array
                 double *data = static_cast<double *>(PyArray_DATA(pArray));
@@ -551,9 +559,10 @@ namespace rr {
                                             NPY_ARRAY_CARRAY, mat);
                 }
 
-//                                VERIFY_PYARRAY(pArray);
+                VERIFY_PYARRAY(pArray);
 
             }
+            rrLogDebug << "Done" << std::endl;
             return pArray;
         }
     }
@@ -564,7 +573,6 @@ namespace rr {
      */
     PyObject *rrDoubleMatrix_to_py(const rr::Matrix<double> *m, bool copy_result) {
         rr::Matrix<double> *mat = const_cast<rr::Matrix<double> *>(m);
-        // this code doesn't work due to some bug in NamedArray stuff. No time to figure this out now
 //        bool structured_result = true;
 //        if (mat->rowNames.empty() && mat->colNames.empty()) {
 //            structured_result = false;
@@ -854,8 +862,6 @@ namespace rr {
             return nullptr;
         }
 
-        // relinquish full control of these to the dictObj
-
         // these references had a count of 1 when entering the function (the scope reference)
         // and incremented 1 when they were inserted into the dictionary (the dict reference).
         // we decerment the function scope reference.
@@ -1065,7 +1071,6 @@ namespace rr {
          *     but no numbers and the array built from binary containing our numbers
          *     Change the pointer in self to point to the dataFromBytesArray from the other array.
          */
-        // note: self == &(self->array)
         rrLogDebug << __FUNC__;
 
         // ensure we have a dict object, ruling out dict subclasses
@@ -1114,7 +1119,7 @@ namespace rr {
         rrLogDebug << __FUNC__;
         // note to developers: turn this to LOG_INFORMATION for details
         // when running the tests
-        // Logger::setLevel(Logger::LOG_DEBUG);
+         Logger::setLevel(Logger::LOG_DEBUG);
         // set up the base class to be the numpy ndarray PyArray_Type
         NamedArray_Type.tp_base = &PyArray_Type;
 
@@ -1155,10 +1160,7 @@ namespace rr {
 /* PyArray_New(&PyArray_Type, nd, dims, NPY_DOUBLE, NULL, data, 0,
                                      NPY_CARRAY | NPY_OWNDATA, NULL);
  */
-    PyObject *NamedArray_New(
-            int nd, npy_intp *dims,
-            double *data, int pyFlags,
-            const ls::DoubleMatrix *mat) {
+    PyObject *NamedArray_New(int nd, npy_intp *dims, double *data, int pyFlags, const ls::DoubleMatrix *mat) {
         bool named = Config::getValue(Config::PYTHON_ENABLE_NAMED_MATRIX);
         rrLogDebug << __FUNC__;
 
@@ -1167,10 +1169,23 @@ namespace rr {
             rrLogInfo << "creating NEW style array";
 
             //         (*(PyObject * (*)(PyTypeObject *, int, npy_intp const *, int, npy_intp const *, void *, int, int, PyObject *))
+            /**
+             * calls the NamedArray_New which feeds into NamedArray_Alloc
+             * and then NamedArray_Finalize.
+             */
+            // PyArray_New calls finalize twice, once for the pyarray and
+            // again for the subtype
             NamedArrayObject *array = (NamedArrayObject *) PyArray_New(
-                    &NamedArray_Type, nd, dims, NPY_DOUBLE, NULL, data, 0,
-                    pyFlags, NULL);
-
+                    &NamedArray_Type,   // PyTypeObject* subtype,
+                    nd,                 // int nd
+                    dims,               // npy_intp const* dims,
+                    NPY_DOUBLE,         // int type_num
+                    NULL,               // npy_intp const* strides,
+                    (void *) data,        // void* data,
+                    0,                  // int itemsize. If the type always has the same number of bytes, then itemsize is ignored. Otherwise, itemsize specifies the particular size of this array
+                    pyFlags,            // int flags,
+                    nullptr             // PyObject* obj
+            );
             if (array == NULL) {
                 const char *error = rrGetPyErrMessage();
                 rrLog(Logger::LOG_CRITICAL) << error;
@@ -1178,8 +1193,18 @@ namespace rr {
                 return NULL;
             }
 
+            if (PyList_Size(array->rowNames) != 0) {
+                PyErr_SetString(PyExc_ValueError, "Expecting empty initialized list for array->rowNames.");
+                return nullptr;
+            }
+
+            if (PyList_Size(array->colNames) != 0) {
+                PyErr_SetString(PyExc_ValueError, "Expecting empty initialized list for array->colNames.");
+                return nullptr;
+            }
             array->rowNames = stringvector_to_py(mat->getRowNames());
             array->colNames = stringvector_to_py(mat->getColNames());
+
             return (PyObject *) array;
 
         } else {
@@ -1300,13 +1325,14 @@ namespace rr {
             PyErr_SetString(PyExc_MemoryError, "Could allocate object of type 'NamedArray'");
             return nullptr;
         }
-        namedArrayObject->rowNames = nullptr;
-        namedArrayObject->colNames = nullptr;
+        namedArrayObject->rowNames = PyList_New(0);
+        namedArrayObject->colNames = PyList_New(0);
         PyObject *obj = PyObject_Init((PyObject *) namedArrayObject, type);
         if (!obj) {
             PyErr_SetString(PyExc_MemoryError, "Could not initialize object of type 'NamedArray'");
             return nullptr;
         }
+        rrLogDebug << "namedArrayObject allocated:  " << namedArrayObject;
         rrLogDebug << "Done" << std::endl;
         return obj;
     }
@@ -1319,6 +1345,7 @@ namespace rr {
         rrLogDebug << __FUNC__;
 
         if (!self->rowNames) {
+            rrLogDebug << "No rownames in self, using empty list instead";
             PyObject *rows = PyList_New(0);
             if (!rows) {
                 PyErr_SetString(PyExc_MemoryError, "Could not allocate a new list for rownames");
@@ -1327,6 +1354,7 @@ namespace rr {
             self->rowNames = rows;
         }
         if (!self->colNames) {
+            rrLogDebug << "No colnames in self, using empty list instead";
             PyObject *cols = PyList_New(0);
             if (!cols) {
                 PyErr_SetString(PyExc_MemoryError, "Could not allocate a new list for colnames");
@@ -1379,71 +1407,149 @@ namespace rr {
     PyObject *NamedArrayObject_Finalize_FromNamedArray(NamedArrayObject *self, PyObject *rhs) {
         rrLogDebug << __FUNC__;
 
+        if (self->rowNames == nullptr) {
+            PyErr_SetString(PyExc_MemoryError, "self->rownames is nullptr");
+            return nullptr;
+        }
+        if (self->colNames == nullptr) {
+            PyErr_SetString(PyExc_MemoryError, "self->colnames is nullptr");
+            return nullptr;
+        }
+        if (((NamedArrayObject *) rhs)->rowNames == nullptr) {
+            PyErr_SetString(PyExc_MemoryError, "rhs rownames is nullptr");
+            return nullptr;
+        }
+        if (((NamedArrayObject *) rhs)->colNames == nullptr) {
+            PyErr_SetString(PyExc_MemoryError, "rhs rownames is nullptr");
+            return nullptr;
+        }
+
         unsigned selfNdim = PyArray_NDIM(&self->array);
-        npy_intp selfRows = selfNdim > 0 ? PyArray_DIM(&self->array, 0) : 0;
-        npy_intp selfCols = selfNdim > 1 ? PyArray_DIM(&self->array, 1) : 0;
+        npy_intp selfNRows = selfNdim > 0 ? PyArray_DIM(&self->array, 0) : -1;
+        npy_intp selfNCols = selfNdim > 1 ? PyArray_DIM(&self->array, 1) : -1;
         unsigned rhsfNdim = PyArray_NDIM(rhs);
-        npy_intp rhsfRows = rhsfNdim > 0 ? PyArray_DIM(rhs, 0) : 0;
-        npy_intp rhsfCols = rhsfNdim > 1 ? PyArray_DIM(rhs, 1) : 0;
+        npy_intp rhsNRows = rhsfNdim > 0 ? PyArray_DIM(rhs, 0) : -1;
+        npy_intp rhsNCols = rhsfNdim > 1 ? PyArray_DIM(rhs, 1) : -1;
 
-        NamedArrayObject *rhsAsNamedArrayObj = (NamedArrayObject *) rhs;
-        if (!rhsAsNamedArrayObj) {
-            PyErr_SetString(PyExc_MemoryError,
-                            "Could not cast argument to NamedArray_Finalize to a NamedArrayObject*");
-            Py_RETURN_NONE;
-        }
-        if (rhsAsNamedArrayObj->rowNames != NULL) {
-            Py_ssize_t sizeOfRhsRownames = PyList_Size(rhsAsNamedArrayObj->rowNames);
+        rrLogDebug << "Self address: " << self << " rhs addr : " << rhs;
+        rrLogDebug << "selfNdim: " << selfNdim;
+        rrLogDebug << "selfNRows: " << selfNRows;
+        rrLogDebug << "selfNCols: " << selfNCols;
+        rrLogDebug << "rhsfNdim: " << rhsfNdim;
+        rrLogDebug << "rhsNRows: " << rhsNRows;
+        rrLogDebug << "rhsNCols: " << rhsNCols;
+        rrLogDebug << "PyList_Size(self->rowNames): " << PyList_Size(self->rowNames);
+        rrLogDebug << "PyList_Size(rhs->rowNames): " << PyList_Size(((NamedArrayObject *) rhs)->rowNames);
+        rrLogDebug << "PyList_Size(self->colNames): " << PyList_Size(self->colNames);
+        rrLogDebug << "PyList_Size(rhs->colNames): " << PyList_Size(((NamedArrayObject *) rhs)->colNames);
 
-            if (sizeOfRhsRownames != selfRows) {
-                // then we need to slice the rownames list
-                // self->rowNames is a new reference (Ref count = 1)
-                self->rowNames = PyList_GetSlice(rhsAsNamedArrayObj->rowNames, 0, selfRows);
-                // we therefore need to decrement the ref count of the original copy
-//                Py_DECREF(rhsAsNamedArrayObj->rowNames);
-                if (!self->rowNames) {
-                    PyErr_SetString(PyExc_IndexError, "Could not slice NamedArray rownames");
-                    Py_RETURN_NONE;
-                }
-            } else {
-                // in this case the same object is passed from rhs to rownames
-                // so the reference count stays the same.
-                self->rowNames = rhsAsNamedArrayObj->rowNames;
-            }
+        /**
+         * This is a bit confusing. Sometimes we want to keep the rhs, and other we want to keep
+         * the self object and its not clear why. When using slicing operations from numpy, we are getting
+         * another array from a *template*. This method is called and we need
+         * to manually take the column/row names from rhs to self, and self
+         * is what we keep. However, when creating a NamedArray using
+         * the doublematrix_to_py function it seems that rhs contains
+         * what we need and self is a row vector (len(3) and no columns).
+         *
+         * Its not 100% clear whats going on and theres but I cannot get the
+         * slicing + row/colnames working at the same time as doublematrix_to_py.
+         * Given time constraints and doublematrix_to_py is more important,
+         * we settle for just supporting this operation. Will return to this sometime in the
+         * future so leave the commented out code intact.
+         *
+         *     - ciaran
+         */
 
-            // we steal the reference
-            rhsAsNamedArrayObj->rowNames = nullptr;
-        }
-
-
-        if (rhsAsNamedArrayObj->colNames != NULL) {
-
-            Py_ssize_t sizeOfRhsColnames = PyList_Size(rhsAsNamedArrayObj->colNames);
-            if (sizeOfRhsColnames != selfCols) {
-                // then we need to slice the colnames list
-                // self->colNames is a new reference (Ref count = 1)
-                self->colNames = PyList_GetSlice(rhsAsNamedArrayObj->colNames, 0, selfCols);
-                // we therefore need to decrement the ref count of the original copy
-//                Py_DECREF(rhsAsNamedArrayObj->colNames);
-                if (!self->colNames) {
-                    PyErr_SetString(PyExc_IndexError, "Could not slice NamedArray colnames");
-                    Py_RETURN_NONE;
-                }
-            } else {
-                // in this case the same object is passed from rhs to colnames
-                // so the reference count stays the same.
-                self->colNames = rhsAsNamedArrayObj->colNames;
-            }
-
-            // we steal the reference
-            rhsAsNamedArrayObj->colNames = nullptr;
-        }
-        rrLogDebug << "Done" << std::endl;
         Py_RETURN_NONE;
+
+        // note this is likley not the best indicator of how the NamedArray was invoked.
+//        if (selfNdim == 1) {
+//            rrLogDebug << "NamedArray invoked from doublematrix_to_py. "
+//                          "Doing nothing, rhs already contains the data,"
+//                          " rows and cols we need";
+//            Py_RETURN_NONE;
+//        } else {
+//            rrLogDebug << "NamedArray invoked from template. Collecting row and column"
+//                          " information from rhs for self. ";
+//            double *data = (double *) PyArray_DATA(self);
+//            rrLogDebug << "data[0]: " << data[0];
+//            double *selfData = (double *) PyArray_DATA(self);
+//            double *rhsData = (double *) PyArray_DATA(rhs);
+//            NamedArrayObject *rhsAsNamedArrayObj = (NamedArrayObject *) rhs;
+//            if (!rhsAsNamedArrayObj) {
+//                PyErr_SetString(PyExc_MemoryError,
+//                                "Could not cast argument to NamedArray_Finalize to a NamedArrayObject*");
+//                Py_RETURN_NONE;
+//            }
+//
+//            PyObject *selfRownames = self->rowNames;
+//            PyObject *selfColnames = self->colNames;
+//            PyObject *rhsRownames = self->rowNames;
+//            PyObject *rhsColnames = self->colNames;
+//
+//
+//            if (PyList_Size(rhsAsNamedArrayObj->rowNames) != 0) {
+//                std::vector<double> selfFirstColumn;
+//                for (std::int64_t i = 0; i < selfNCols * selfNRows; i += selfNCols) {
+//                    selfFirstColumn.push_back(selfData[i]);
+//                }
+//                std::vector<double> rhsFirstColumn;
+//                for (std::int64_t i = 0; i < rhsNCols * rhsNRows; i += rhsNCols) {
+//                    rhsFirstColumn.push_back(rhsData[i]);
+//                }
+//                std::int64_t firstIdxOfSelfInRhs = std::distance(
+//                        rhsFirstColumn.begin(),
+//                        std::find(rhsFirstColumn.begin(), rhsFirstColumn.end(), selfFirstColumn[0])
+//                );
+//                std::int64_t lastIdxOfSelfInRhs = firstIdxOfSelfInRhs + selfNRows;
+//                // then we need to slice the rownames list
+//                // self->rowNames is a new reference (Ref count = 1)
+//                self->rowNames = PyList_GetSlice(rhsAsNamedArrayObj->rowNames, firstIdxOfSelfInRhs, lastIdxOfSelfInRhs);
+//                // we therefore need to decrement the ref count of the original copy
+//                Py_DECREF(rhsAsNamedArrayObj->rowNames);
+//                if (!self->rowNames) {
+//                    PyErr_SetString(PyExc_IndexError, "Could not slice NamedArray rownames");
+//                    Py_RETURN_NONE;
+//                }
+//            }
+//            if (PyList_Size(rhsAsNamedArrayObj->colNames) != 0) {
+//                std::vector<double> selfFirstRow(selfNRows);
+//                for (std::int64_t i = 0; i < selfNRows; i++) {
+//                    selfFirstRow[i] = selfData[i];
+//                }
+//
+//                std::vector<double> rhsFirstRow(rhsNRows);
+//                for (std::int64_t i = 0; i < rhsNRows; i++) {
+//                    rhsFirstRow[i] = selfData[i];
+//                }
+//
+//                std::int64_t firstIdxOfSelfInRhs = std::distance(
+//                        rhsFirstRow.begin(),
+//                        std::find(rhsFirstRow.begin(), rhsFirstRow.end(), selfFirstRow[0])
+//                );
+//                std::int64_t lastIdxOfSelfInRhs = firstIdxOfSelfInRhs + selfNCols ;
+//                rrLogDebug << firstIdxOfSelfInRhs << " " << lastIdxOfSelfInRhs;
+//
+//                // then we need to slice the rownames list
+//                // self->colNames is a new reference (Ref count = 1)
+//                Py_DECREF(self->colNames);
+//                self->colNames = PyList_GetSlice(rhsAsNamedArrayObj->colNames, firstIdxOfSelfInRhs, lastIdxOfSelfInRhs);
+//                Py_INCREF(self->colNames);
+//                // we therefore need to decrement the ref count of the original copy
+//                Py_DECREF(rhsAsNamedArrayObj->colNames);
+//                if (!self->colNames) {
+//                    PyErr_SetString(PyExc_IndexError, "Could not slice NamedArray colNames");
+//                    return nullptr;
+//                }
+//            }
+//            rrLogDebug << "Done" << std::endl;
+//            Py_RETURN_NONE;
+//        }
     }
 
 
-    PyObject *NamedArrayObject_Finalize(NamedArrayObject *self, PyObject *args /* should be called args???*/) {
+    PyObject *NamedArrayObject_Finalize(NamedArrayObject *self, PyObject *args) {
         // Some docs on why this is needed: https://numpy.org/devdocs/user/basics.subclassing.html
         // when self is passed, the ref count of array goes up.
         rrLogDebug << __FUNC__;
@@ -1453,6 +1559,7 @@ namespace rr {
             PyErr_SetString(PyExc_ValueError, "Could not get rhs from tuple");
             return nullptr;
         }
+        rrLogDebug << "finalizing object self: " << self << "; args " << rhs;
 
         // when NamedArray instantiated with constructor
         //   >>> n = NamedArray((3, 4)) # 1
@@ -1480,6 +1587,7 @@ namespace rr {
         rrLogDebug << "Done" << std::endl;
         Py_RETURN_NONE;
     }
+
 
     static void NamedArrayObject_dealloc(NamedArrayObject *self) {
         rrLogDebug << __FUNC__;

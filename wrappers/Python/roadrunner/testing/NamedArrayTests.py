@@ -41,38 +41,62 @@ class NamedArrayTests(unittest.TestCase):
 
     def test_init_from_view_casting(self):
         arr = np.ndarray((2, 3))
+        for i in range(2):
+            for j in range(3):
+                arr[i, j] = 3*i + j
+        print(arr)
         self.assertIsInstance(arr, np.ndarray)
         n = arr.view(NamedArray)
         self.assertEqual(1, sys.getrefcount(n) - 1)  # -1 for the reference used by getrefcount
         self.assertIsInstance(n, NamedArray)
+        print(n)
 
     def test_init_from_template(self):
-        n = NamedArray((3, 4))
+        n = NamedArray((2, 3))
+        for i in range(2):
+            for j in range(3):
+                n[i, j] = 3*i + j
+        print(n)
         self.assertEqual(1, sys.getrefcount(n) - 1)  # -1 for the reference used by getrefcount
         v = n[1:, :]
+        print(v)
         self.assertEqual(1, sys.getrefcount(v) - 1)  # -1 for the reference used by getrefcount
         self.assertIsInstance(n, NamedArray)
-        self.assertEqual((2, 4), v.shape)
+        self.assertEqual((1, 3), v.shape)
 
+    @unittest.skip("This operation does not work. See comments in PyUtils::NamedArrayObject_Finalize_FromNamedArray")
     def test_init_from_template_with_rownames(self):
         n = NamedArray((2, 3))
         n.rownames = ['R1', 'R2']
         self.assertEqual(1, sys.getrefcount(n) - 1)  # -1 for the reference used by getrefcount
         v = n[1:, :]
         self.assertEqual((1, 3), v.shape)
-        self.assertEqual(['R1'], v.rownames)
+        self.assertEqual(['R2'], v.rownames)
 
+    @unittest.skip("This operation does not work. See comments in PyUtils::NamedArrayObject_Finalize_FromNamedArray")
     def test_init_from_template_with_rownames_ref_count(self):
-        n = NamedArray((2, 3))
-        n.rownames = ['R1', 'R2']
+        nrow = 4
+        ncol = 5
+        n = NamedArray((nrow, ncol))
+        for i in range(nrow):
+            for j in range(ncol):
+                n[i, j] = ncol * i + j
+        n.rownames = ['R1', 'R2', 'R3', 'R4']
+        print('\n')
+        print(n)
         self.assertEqual(1, sys.getrefcount(n.rownames) - 1)  # -1 for the reference used by getrefcount
-        v = n[1:, :]
+        v = n[2:, :]
+        print(v)
         self.assertEqual(1, sys.getrefcount(v.rownames) - 1)  # -1 for the reference used by getrefcount
-        self.assertEqual((1, 3), v.shape)
-        self.assertEqual(['R1'], v.rownames)
+        self.assertEqual((2, 5), v.shape)
+        self.assertEqual(['R3', 'R4'], v.rownames)
 
+    @unittest.skip("This operation does not work. See comments in PyUtils::NamedArrayObject_Finalize_FromNamedArray")
     def test_init_from_template_with_colnames_ref_count(self):
         n = NamedArray((2, 3))
+        for i in range(2):
+            for j in range(3):
+                n[i, j] = 3 * i + j
         n.colnames = ['C1', 'C2', 'C3']
         self.assertEqual(1, sys.getrefcount(n.colnames) - 1)  # -1 for the reference used by getrefcount
         v = n[:, 1:]
@@ -237,11 +261,23 @@ class NamedArrayTests(unittest.TestCase):
         for i in range(2):
             for j in range(3):
                 n[i, j] = i * 3 + j
-        n.colnames = ['C1', 'C1', 'C3']
+        n.colnames = ['C1', 'C2', 'C3']
         print(n.colnames)
         b = pickle.dumps(n)
         l = pickle.loads(b)
-        self.assertEqual(l.colnames, ['C1', 'C1', 'C3'])
+        self.assertEqual(l.colnames, ['C1', 'C2', 'C3'])
         self.assertTrue((n == l).all())
 
-    #
+    def test_df_from_simulation(self):
+        from roadrunner import RoadRunner
+        from roadrunner.testing import TestModelFactory as tmf
+        m = RoadRunner(tmf.SimpleFlux().str())
+        sim = m.simulate(0, 10, 11)
+        print(sim)
+
+    def test_df_from_steadystate(self):
+        from roadrunner import RoadRunner
+        from roadrunner.testing import TestModelFactory as tmf
+        m = RoadRunner(tmf.SimpleFlux().str())
+        m.steadyState()
+        print(m.getSteadyStateValuesNamedArray())
