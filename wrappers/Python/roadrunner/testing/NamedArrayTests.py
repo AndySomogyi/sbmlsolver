@@ -6,7 +6,9 @@ import pickletools
 import unittest
 import roadrunner
 from roadrunner._roadrunner import NamedArray
+
 print(roadrunner.__file__)
+
 
 class NamedArrayTests(unittest.TestCase):
 
@@ -43,7 +45,7 @@ class NamedArrayTests(unittest.TestCase):
         arr = np.ndarray((2, 3))
         for i in range(2):
             for j in range(3):
-                arr[i, j] = 3*i + j
+                arr[i, j] = 3 * i + j
         print(arr)
         self.assertIsInstance(arr, np.ndarray)
         n = arr.view(NamedArray)
@@ -55,7 +57,7 @@ class NamedArrayTests(unittest.TestCase):
         n = NamedArray((2, 3))
         for i in range(2):
             for j in range(3):
-                n[i, j] = 3*i + j
+                n[i, j] = 3 * i + j
         print(n)
         self.assertEqual(1, sys.getrefcount(n) - 1)  # -1 for the reference used by getrefcount
         v = n[1:, :]
@@ -273,11 +275,15 @@ class NamedArrayTests(unittest.TestCase):
         from roadrunner.testing import TestModelFactory as tmf
         m = RoadRunner(tmf.SimpleFlux().str())
         sim = m.simulate(0, 10, 11)
-        print(sim)
+        self.assertEqual((11, 3), sim.shape)
+        self.assertEqual(sim.colnames, ['time', '[S1]', '[S2]'])
 
     def test_df_from_steadystate(self):
         from roadrunner import RoadRunner
         from roadrunner.testing import TestModelFactory as tmf
         m = RoadRunner(tmf.SimpleFlux().str())
         m.steadyState()
-        print(m.getSteadyStateValuesNamedArray())
+        mat = m.getSteadyStateValuesNamedArray()
+        self.assertEqual((1, 2), mat.shape)
+        self.assertEqual(mat.colnames, [ '[S1]', '[S2]'])
+
