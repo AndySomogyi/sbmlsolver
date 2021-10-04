@@ -28,9 +28,6 @@ using namespace ls;
 using namespace rr;
 using std::filesystem::path;
 
-//extern path rrTestDir_;
-//extern path stateSavingOutputDir;
-
 class StateSavingTests : public RoadRunnerTest {
 public:
     path stateSavingModelsDir = rrTestModelsDir_ / "StateSaving";
@@ -772,10 +769,72 @@ TEST_F(StateSavingTests, LOAD_ON_NEW_INSTANCE) {
     ASSERT_TRUE(rri.getBoundarySpeciesByIndex(0) == 0);
 }
 
-TEST_F(StateSavingTests, St) {
 
+class ForSerializationAsBinary {
+public:
+    ForSerializationAsBinary() = default;
 
+    explicit ForSerializationAsBinary(int number)
+            : number_(number) {}
 
+    std::stringstream toBinaryStream() {
+        std::stringstream out(std::ios::binary);
+        out.write((const char *) &number_, sizeof(int));
+        return out;
+    }
+
+    static void fromBinaryStream(ForSerializationAsBinary &obj, std::stringstream &os) {
+        int n;
+        os.read((char *) &n, sizeof(int));
+        std::cout << "n: " << n << std::endl;
+        obj.number_ = n;
+    }
+
+    int number_;
+};
+
+TEST(Serialisation, SimpleSerialization) {
+    ForSerializationAsBinary serializationAsBinary(4);
+    auto o = serializationAsBinary.toBinaryStream();
+    ForSerializationAsBinary loaded;
+    ForSerializationAsBinary::fromBinaryStream(loaded, o);
+    std::cout << "loaded.number_: " << loaded.number_ << std::endl;
+
+}
+
+TEST(d, d) {
+    std::ostringstream os;
+    int one = 1;
+    int two =2;
+    int three =3;
+    os.write((char*)&one, sizeof(int));
+    os.write((char*)&two, sizeof(int));
+    os.write((char*)&three, sizeof(int));
+    std::cout << os.str() << std::endl;
+}
+
+TEST_F(StateSavingTests, FromString) {
+    RoadRunner rr(OpenLinearFlux().str());
+    std::shared_ptr<std::stringstream> stateStream = rr.saveStateS('b');
+    RoadRunner rr2;
+    rr2.loadStateS(stateStream);
+    auto actualDataLsMatrix = *rr2.simulate(0, 10, 11);
+    auto actualData = rr::Matrix<double>(actualDataLsMatrix); // for almostEquals
+    auto expectedData = OpenLinearFlux().timeSeriesResult();
+    ASSERT_TRUE(expectedData.almostEquals(actualData, 1e-4));
+}
+
+TEST_F(StateSavingTests, FromFile) {
+    std::filesystem::path p = std::filesystem::current_path() / "savedState.rr";
+    std::cout << "saved to " << p << std::endl;
+    RoadRunner rr(OpenLinearFlux().str());
+    rr.saveState(p.string());
+    RoadRunner rr2;
+    rr2.loadState(p.string());
+    auto actualDataLsMatrix = *rr2.simulate(0, 10, 11);
+    auto actualData = rr::Matrix<double>(actualDataLsMatrix); // for almostEquals
+    auto expectedData = OpenLinearFlux().timeSeriesResult();
+    ASSERT_TRUE(expectedData.almostEquals(actualData, 1e-4));
 }
 
 

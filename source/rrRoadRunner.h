@@ -392,12 +392,14 @@ namespace rr {
          */
         void saveState(std::string filename, char opt = 'b');
 
+        std::shared_ptr<std::stringstream> RoadRunner::saveStateS(char opt = 'b');
+
         /*
         * Loads a roadrunner instance saved by saveState with the 'b' option
         */
-        void loadState(std::string filename);
+        void loadState(const std::string& filename);
 
-
+        void loadStateS(std::shared_ptr<std::stringstream>&) ;
 
         /**
          * RoadRunner keeps a copy of the simulation data around until the

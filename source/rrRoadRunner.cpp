@@ -478,9 +478,9 @@ namespace rr {
 
         friend RoadRunner;
 
-        protected:
-            std::unique_ptr<ExecutableModel> model;
-            std::unique_ptr<libsbml::SBMLDocument> document;
+    protected:
+        std::unique_ptr<ExecutableModel> model;
+        std::unique_ptr<libsbml::SBMLDocument> document;
 
     };
 
@@ -493,8 +493,8 @@ namespace rr {
         return impl->mInstanceID;
     }
 
-    RoadRunner::RoadRunner(unsigned int level, unsigned int version) 
-        : impl(new RoadRunnerImpl("", NULL)) {
+    RoadRunner::RoadRunner(unsigned int level, unsigned int version)
+            : impl(new RoadRunnerImpl("", NULL)) {
 
         llvm::InitializeNativeTarget();
         llvm::InitializeNativeTargetAsmPrinter();
@@ -1344,7 +1344,7 @@ namespace rr {
             // catch specifically for UninitializedValueException, otherwise for some
             // reason the message is erased, and an 'unknown error' is displayed to the user.
             throw e;
-        } catch (const rrllvm::LLVMException& e) {
+        } catch (const rrllvm::LLVMException &e) {
             // catch specifically for LLVMException, otherwise the exception type is removed, 
             // and an 'unknown error' is displayed to the user.
             throw e;
@@ -1747,7 +1747,7 @@ namespace rr {
             double f1 = fd2 + 8 * fi;
             double f2 = -(8 * fd + fi2);
 
-            delete [] ref;
+            delete[] ref;
 
             return 1 / (12 * hstep) * (f1 + f2);
         }
@@ -4666,8 +4666,7 @@ namespace rr {
         return std::vector<std::string>(list.begin(), list.end());
     }
 
-    std::vector<std::string> RoadRunner::getAssignmentRuleIds()
-    {
+    std::vector<std::string> RoadRunner::getAssignmentRuleIds() {
         std::list<std::string> list;
         if (impl->model) {
             impl->model->getAssignmentRuleIds(list);
@@ -4676,8 +4675,7 @@ namespace rr {
         return std::vector<std::string>(list.begin(), list.end());
     }
 
-    std::vector<std::string> RoadRunner::getRateRuleIds()
-    {
+    std::vector<std::string> RoadRunner::getRateRuleIds() {
         std::list<std::string> list;
         if (impl->model) {
             impl->model->getRateRuleIds(list);
@@ -4686,8 +4684,7 @@ namespace rr {
         return std::vector<std::string>(list.begin(), list.end());
     }
 
-    std::vector<std::string> RoadRunner::getInitialAssignmentIds()
-    {
+    std::vector<std::string> RoadRunner::getInitialAssignmentIds() {
         std::list<std::string> list;
         if (impl->model) {
             impl->model->getInitialAssignmentIds(list);
@@ -4811,50 +4808,58 @@ namespace rr {
 
     void RoadRunner::saveState(std::string filename, char opt) {
         check_model();
+        std::shared_ptr<std::stringstream> state = saveStateS(opt);
+        std::ofstream of(filename, std::iostream::binary);
+        of << state->rdbuf();
+        of.close();
+    }
+
+    std::shared_ptr<std::stringstream> RoadRunner::saveStateS(char opt) {
+        check_model();
         switch (opt) {
             case 'b': {
                 // binary mode
                 // can be loaded later
-                std::ofstream out(filename, std::iostream::binary);
-                if (!out) {
-                    throw std::invalid_argument("Error opening file " + filename + ": " + std::string(strerror(errno)));
-                }
-                rr::saveBinary(out, fileMagicNumber);
-                rr::saveBinary(out, dataVersionNumber);
+                auto outPtr = std::make_shared<std::stringstream>(std::iostream::binary | std::stringstream::out | std::stringstream::in);
+//                if (!out) {
+//                    throw std::invalid_argument("Error opening file " + filename + ": " + std::string(strerror(errno)));
+//                }
+                rr::saveBinary(*outPtr, fileMagicNumber);
+                rr::saveBinary(*outPtr, dataVersionNumber);
                 //Save all of roadrunner's data to the file
-                rr::saveBinary(out, impl->mInstanceID);
-                rr::saveBinary(out, impl->mDiffStepSize);
-                rr::saveBinary(out, impl->mSteadyStateThreshold);
+                rr::saveBinary(*outPtr, impl->mInstanceID);
+                rr::saveBinary(*outPtr, impl->mDiffStepSize);
+                rr::saveBinary(*outPtr, impl->mSteadyStateThreshold);
 
-                saveSelectionVector(out, impl->mSelectionList);
+                saveSelectionVector(*outPtr, impl->mSelectionList);
 
-                rr::saveBinary(out, impl->loadOpt.version);
-                rr::saveBinary(out, impl->loadOpt.size);
-                rr::saveBinary(out, impl->loadOpt.modelGeneratorOpt);
-                rr::saveBinary(out, impl->loadOpt.loadFlags);
+                rr::saveBinary(*outPtr, impl->loadOpt.version);
+                rr::saveBinary(*outPtr, impl->loadOpt.size);
+                rr::saveBinary(*outPtr, impl->loadOpt.modelGeneratorOpt);
+                rr::saveBinary(*outPtr, impl->loadOpt.loadFlags);
 
-                rr::saveBinary(out, impl->loadOpt.getKeys().size());
+                rr::saveBinary(*outPtr, impl->loadOpt.getKeys().size());
 
                 for (std::string k : impl->loadOpt.getKeys()) {
-                    rr::saveBinary(out, k);
-                    rr::saveBinary(out, impl->loadOpt.getItem(k));
+                    rr::saveBinary(*outPtr, k);
+                    rr::saveBinary(*outPtr, impl->loadOpt.getItem(k));
                 }
 
-                saveSelectionVector(out, impl->mSteadyStateSelection);
+                saveSelectionVector(*outPtr, impl->mSteadyStateSelection);
 
-                rr::saveBinary(out, impl->simulationResult.getColNames());
-                rr::saveBinary(out, impl->simulationResult.getRowNames());
+                rr::saveBinary(*outPtr, impl->simulationResult.getColNames());
+                rr::saveBinary(*outPtr, impl->simulationResult.getRowNames());
 
-                rr::saveBinary(out, impl->simulateOpt.reset_model);
-                rr::saveBinary(out, impl->simulateOpt.structured_result);
-                rr::saveBinary(out, impl->simulateOpt.copy_result);
-                rr::saveBinary(out, impl->simulateOpt.steps);
-                rr::saveBinary(out, impl->simulateOpt.start);
-                rr::saveBinary(out, impl->simulateOpt.duration);
-                rr::saveBinary(out, impl->simulateOpt.variables);
-                rr::saveBinary(out, impl->simulateOpt.amounts);
-                rr::saveBinary(out, impl->simulateOpt.concentrations);
-                rr::saveBinary(out, impl->simulateOpt.times);
+                rr::saveBinary(*outPtr, impl->simulateOpt.reset_model);
+                rr::saveBinary(*outPtr, impl->simulateOpt.structured_result);
+                rr::saveBinary(*outPtr, impl->simulateOpt.copy_result);
+                rr::saveBinary(*outPtr, impl->simulateOpt.steps);
+                rr::saveBinary(*outPtr, impl->simulateOpt.start);
+                rr::saveBinary(*outPtr, impl->simulateOpt.duration);
+                rr::saveBinary(*outPtr, impl->simulateOpt.variables);
+                rr::saveBinary(*outPtr, impl->simulateOpt.amounts);
+                rr::saveBinary(*outPtr, impl->simulateOpt.concentrations);
+                rr::saveBinary(*outPtr, impl->simulateOpt.times);
 
                 //rr::saveBinary(out, impl->simulateOpt.getKeys().size());
 
@@ -4863,35 +4868,34 @@ namespace rr {
                 //    rr::saveBinary(out, impl->simulateOpt.getItem(k));
                 //}
 
-                rr::saveBinary(out, impl->roadRunnerOptions.flags);
-                rr::saveBinary(out, impl->roadRunnerOptions.jacobianStepSize);
+                rr::saveBinary(*outPtr, impl->roadRunnerOptions.flags);
+                rr::saveBinary(*outPtr, impl->roadRunnerOptions.jacobianStepSize);
 
-                rr::saveBinary(out, impl->configurationXML);
+                rr::saveBinary(*outPtr, impl->configurationXML);
                 //Save the model (which saves the model data symbols and model resources)
-                impl->model->saveState(out);
+                impl->model->saveState(*outPtr);
 
-                rr::saveBinary(out, impl->integrator->getName());
-                rr::saveBinary(out, static_cast<unsigned long>(impl->integrator->getNumParams()));
+                rr::saveBinary(*outPtr, impl->integrator->getName());
+                rr::saveBinary(*outPtr, static_cast<unsigned long>(impl->integrator->getNumParams()));
                 for (std::string k : impl->integrator->getSettings()) {
-                    rr::saveBinary(out, k);
-                    rr::saveBinary(out, impl->integrator->getValue(k));
+                    rr::saveBinary(*outPtr, k);
+                    rr::saveBinary(*outPtr, impl->integrator->getValue(k));
                 }
 
-                rr::saveBinary(out, impl->steady_state_solver->getName());
-                rr::saveBinary(out, static_cast<unsigned long>(impl->steady_state_solver->getNumParams()));
+                rr::saveBinary(*outPtr, impl->steady_state_solver->getName());
+                rr::saveBinary(*outPtr, static_cast<unsigned long>(impl->steady_state_solver->getNumParams()));
                 for (std::string k : impl->steady_state_solver->getSettings()) {
-                    rr::saveBinary(out, k);
-                    rr::saveBinary(out, impl->steady_state_solver->getValue(k));
+                    rr::saveBinary(*outPtr, k);
+                    rr::saveBinary(*outPtr, impl->steady_state_solver->getValue(k));
                 }
 
 
-                rr::saveBinary(out, impl->sensitivity_solver->getName());
-                rr::saveBinary(out, static_cast<unsigned long>(impl->sensitivity_solver->getNumParams()));
+                rr::saveBinary(*outPtr, impl->sensitivity_solver->getName());
+                rr::saveBinary(*outPtr, static_cast<unsigned long>(impl->sensitivity_solver->getNumParams()));
                 for (std::string k : impl->sensitivity_solver->getSettings()) {
-                    rr::saveBinary(out, k);
-                    rr::saveBinary(out, impl->sensitivity_solver->getValue(k));
+                    rr::saveBinary(*outPtr, k);
+                    rr::saveBinary(*outPtr, impl->sensitivity_solver->getValue(k));
                 }
-
 
                 //Currently I save and reload the SBML that was used to create the model
                 //It is not parsed however, unless a instance of LibStructural needs to be
@@ -4899,107 +4903,109 @@ namespace rr {
                 //It might also be possible to construct LibStructural without SBML, but I'm not familiar with it
                 //If this implementation is too slow we can change that
                 char *sbmlToSave = impl->document->toSBML();
-                rr::saveBinary(out, std::string(sbmlToSave));
+                rr::saveBinary(*outPtr, std::string(sbmlToSave));
                 free(sbmlToSave);
-                break;
+                return outPtr;
             }
 
             case 'r': {
                 // human-readble mode
                 // for user debugging
-                std::ofstream out(filename, std::ios::out);
-                if (!out) {
-                    throw std::invalid_argument("Error opening file " + filename + ": " + std::string(strerror(errno)));
-                }
+                auto outPtr = std::make_shared<std::stringstream>(std::iostream::binary | std::stringstream::out | std::stringstream::in);
+//                if (!*outPtr) {
+//                    throw std::invalid_argument("Error opening file " + filename + ": " + std::string(strerror(errno)));
+//                }
 
-                out << "mInstanceID: " << impl->mInstanceID << std::endl;
-                out << "mDiffStepSize: " << impl->mDiffStepSize << std::endl;
-                out << "mSteadyStateThreshold: " << impl->mSteadyStateThreshold << std::endl << std::endl;
+                *outPtr << "mInstanceID: " << impl->mInstanceID << std::endl;
+                *outPtr << "mDiffStepSize: " << impl->mDiffStepSize << std::endl;
+                *outPtr << "mSteadyStateThreshold: " << impl->mSteadyStateThreshold << std::endl << std::endl;
 
-                out << "roadRunnerOptions: " << std::endl;
-                out << "	flags: " << impl->roadRunnerOptions.flags << std::endl;
-                out << "	jacobianStepSize: " << impl->roadRunnerOptions.jacobianStepSize << std::endl << std::endl;
+                *outPtr << "roadRunnerOptions: " << std::endl;
+                *outPtr << "	flags: " << impl->roadRunnerOptions.flags << std::endl;
+                *outPtr << "	jacobianStepSize: " << impl->roadRunnerOptions.jacobianStepSize << std::endl
+                        << std::endl;
 
-                out << "loadOpt: " << std::endl;
-                out << "	version: " << impl->loadOpt.version << std::endl;
-                out << "	modelGeneratorOpt: " << impl->loadOpt.modelGeneratorOpt << std::endl;
-                out << "	loadFlags: " << impl->loadOpt.loadFlags << std::endl;
+                *outPtr << "loadOpt: " << std::endl;
+                *outPtr << "	version: " << impl->loadOpt.version << std::endl;
+                *outPtr << "	modelGeneratorOpt: " << impl->loadOpt.modelGeneratorOpt << std::endl;
+                *outPtr << "	loadFlags: " << impl->loadOpt.loadFlags << std::endl;
                 for (std::string k : impl->loadOpt.getKeys()) {
-                    out << "	" << k << ": ";
+                    *outPtr << "	" << k << ": ";
 
                     switch (impl->loadOpt.getItem(k).type()) {
                         case Setting::BOOL:
-                            out << impl->loadOpt.getItem(k).get<bool>();
+                            *outPtr << impl->loadOpt.getItem(k).get<bool>();
                             break;
                         case Setting::CHAR:
-                            out << impl->loadOpt.getItem(k).get<char>();
+                            *outPtr << impl->loadOpt.getItem(k).get<char>();
                             break;
                         case Setting::DOUBLE:
-                            out << impl->loadOpt.getItem(k).get<double>();
+                            *outPtr << impl->loadOpt.getItem(k).get<double>();
                             break;
                         case Setting::FLOAT:
-                            out << impl->loadOpt.getItem(k).get<float>();
+                            *outPtr << impl->loadOpt.getItem(k).get<float>();
                             break;
                         case Setting::INT32:
-                            out << impl->loadOpt.getItem(k).get<std::int32_t>();
+                            *outPtr << impl->loadOpt.getItem(k).get<std::int32_t>();
                             break;
                         case Setting::INT64:
-                            out << impl->loadOpt.getItem(k).get<std::int64_t>();
+                            *outPtr << impl->loadOpt.getItem(k).get<std::int64_t>();
                             break;
                         case Setting::STRING:
-                            out << impl->loadOpt.getItem(k).get<std::string>();
+                            *outPtr << impl->loadOpt.getItem(k).get<std::string>();
                             break;
                         case Setting::UCHAR:
-                            out << impl->loadOpt.getItem(k).get<unsigned char>();
+                            *outPtr << impl->loadOpt.getItem(k).get<unsigned char>();
                             break;
                         case Setting::UINT32:
-                            out << impl->loadOpt.getItem(k).get<unsigned int>();
+                            *outPtr << impl->loadOpt.getItem(k).get<unsigned int>();
                             break;
                         case Setting::UINT64:
-                            out << impl->loadOpt.getItem(k).get<std::uint64_t>();
+                            *outPtr << impl->loadOpt.getItem(k).get<std::uint64_t>();
                             break;
                         default:
                             break;
                     }
-                    out << std::endl;
+                    *outPtr << std::endl;
                 }
-                out << std::endl;
+                *outPtr << std::endl;
 
-                out << "simulateOpt: " << std::endl;
-                out << impl->simulateOpt.toString() << std::endl << std::endl;
+                *outPtr << "simulateOpt: " << std::endl;
+                *outPtr << impl->simulateOpt.toString() << std::endl << std::endl;
 
-                out << "mSelectionList: " << std::endl;
+                *outPtr << "mSelectionList: " << std::endl;
                 for (SelectionRecord sr : impl->mSelectionList) {
-                    out << sr.to_string() << std::endl;
+                    *outPtr << sr.to_string() << std::endl;
                 }
-                out << std::endl;
+                *outPtr << std::endl;
 
-                out << "mSteadyStateSelection: " << std::endl;
+                *outPtr << "mSteadyStateSelection: " << std::endl;
                 for (SelectionRecord sr : impl->mSteadyStateSelection) {
-                    out << sr.to_string() << std::endl;
+                    *outPtr << sr.to_string() << std::endl;
                 }
-                out << std::endl;
+                *outPtr << std::endl;
 
-                out << impl->integrator->toString();
-                out << std::endl;
-                out << impl->steady_state_solver->toString();
-                out << std::endl;
+                *outPtr << impl->integrator->toString();
+                *outPtr << std::endl;
+                *outPtr << impl->steady_state_solver->toString();
+                *outPtr << std::endl;
 
-                out << "simulationResult: " << std::endl;
-                out << impl->simulationResult;
-                out << std::endl;
+                *outPtr << "simulationResult: " << std::endl;
+                *outPtr << impl->simulationResult;
+                *outPtr << std::endl;
 
-                out << std::dec << impl->model.get();
+                *outPtr << std::dec << impl->model.get();
 
-                //out << "configurationXML" << impl->configurationXML << std::endl;
-                //out << impl->mCurrentSBML;
-                break;
+                //*outPtr << "configurationXML" << impl->configurationXML << std::endl;
+                //*outPtr << impl->mCurrentSBML;
+                return outPtr;
+
             }
-
             default:
                 throw std::invalid_argument("Invalid option for saveState(), 'b' or 'r' expected");
                 break;
         }
+        return {};
     }
 
     void RoadRunner::saveSelectionVector(std::ostream &out, std::vector<SelectionRecord> &v) {
@@ -5012,135 +5018,139 @@ namespace rr {
         }
     }
 
+    void RoadRunner::loadState(const std::string& filename) {
+        std::ifstream ifs(filename, std::ios::binary);
+        std::shared_ptr<std::stringstream> ss = std::make_shared<std::stringstream>(
+                        std::iostream::binary |
+                        std::stringstream::out |
+                        std::stringstream::in);
+        *ss << ifs.rdbuf();
+        loadStateS(ss);
+    }
 
-    void RoadRunner::loadState(std::string filename) {
-        std::ifstream in(filename, std::iostream::binary);
-        if (!in.good()) {
-            throw std::invalid_argument("Error opening file " + filename + ": " + std::string(strerror(errno)));
-        }
+    void RoadRunner::loadStateS(std::shared_ptr<std::stringstream>& in) {
         int inMagicNumber;
-        rr::loadBinary(in, inMagicNumber);
+        rr::loadBinary(*in, inMagicNumber);
         if (inMagicNumber != fileMagicNumber) {
-            throw std::invalid_argument("The file " + filename +
-                                        " has the wrong magic number. Are you sure it is a roadrunner save state?");
+            throw std::invalid_argument("The state has the wrong magic number. Are you sure it is a roadrunner save state?");
         }
 
         int inVersionNumber;
-        rr::loadBinary(in, inVersionNumber);
+        rr::loadBinary(*in, inVersionNumber);
+        rrLogDebug << "inVersionNumber:" << inVersionNumber;
         if (inVersionNumber < dataVersionNumber) {
             throw std::invalid_argument(
-                    "The file " + filename + " was saved with a previous version of roadrunner");
+                    "The file state was saved with a previous version of roadrunner");
         }
         if (inVersionNumber > dataVersionNumber) {
             throw std::invalid_argument(
-                    "The file " + filename +
-                    " was saved with a version of roadrunner more recent than this executable.");
+                    "The file state was saved with a version of roadrunner more recent than this executable.");
         }
         //load roadrunner's data in the same order saveState saves it in
         int oldInstanceID;
-        rr::loadBinary(in, oldInstanceID); //Keep our current one; it's supposed to be unique.
-        rr::loadBinary(in, impl->mDiffStepSize);
-        rr::loadBinary(in, impl->mSteadyStateThreshold);
+        rr::loadBinary(*in, oldInstanceID); //Keep our current one; it's supposed to be unique.
+        rr::loadBinary(*in, impl->mDiffStepSize);
+        rr::loadBinary(*in, impl->mSteadyStateThreshold);
 
-        loadSelectionVector(in, impl->mSelectionList);
+        loadSelectionVector(*in, impl->mSelectionList);
 
-        rr::loadBinary(in, impl->loadOpt.version);
-        rr::loadBinary(in, impl->loadOpt.size);
-        rr::loadBinary(in, impl->loadOpt.modelGeneratorOpt);
-        rr::loadBinary(in, impl->loadOpt.loadFlags);
+        rr::loadBinary(*in, impl->loadOpt.version);
+        rr::loadBinary(*in, impl->loadOpt.size);
+        rr::loadBinary(*in, impl->loadOpt.modelGeneratorOpt);
+        rr::loadBinary(*in, impl->loadOpt.loadFlags);
 
         size_t loadOptSize;
-        rr::loadBinary(in, loadOptSize);
+        rr::loadBinary(*in, loadOptSize);
 
         for (int i = 0; i < loadOptSize; i++) {
             std::string k;
-            rr::loadBinary(in, k);
+            rr::loadBinary(*in, k);
             rr::Setting v;
-            rr::loadBinary(in, v);
+            rr::loadBinary(*in, v);
             impl->loadOpt.setItem(k, v);
         }
-        loadSelectionVector(in, impl->mSteadyStateSelection);
+        loadSelectionVector(*in, impl->mSteadyStateSelection);
         std::vector<std::string> colNames;
-        rr::loadBinary(in, colNames);
+        rr::loadBinary(*in, colNames);
         impl->simulationResult.setColNames(colNames.begin(), colNames.end());
         std::vector<std::string> rowNames;
-        rr::loadBinary(in, rowNames);
+        rr::loadBinary(*in, rowNames);
         impl->simulationResult.setRowNames(rowNames.begin(), rowNames.end());
-        rr::loadBinary(in, impl->simulateOpt.reset_model);
-        rr::loadBinary(in, impl->simulateOpt.structured_result);
-        rr::loadBinary(in, impl->simulateOpt.copy_result);
-        rr::loadBinary(in, impl->simulateOpt.steps);
-        rr::loadBinary(in, impl->simulateOpt.start);
-        rr::loadBinary(in, impl->simulateOpt.duration);
-        rr::loadBinary(in, impl->simulateOpt.variables);
-        rr::loadBinary(in, impl->simulateOpt.amounts);
-        rr::loadBinary(in, impl->simulateOpt.concentrations);
-        rr::loadBinary(in, impl->simulateOpt.times);
+        rr::loadBinary(*in, impl->simulateOpt.reset_model);
+        rr::loadBinary(*in, impl->simulateOpt.structured_result);
+        rr::loadBinary(*in, impl->simulateOpt.copy_result);
+        rr::loadBinary(*in, impl->simulateOpt.steps);
+        rr::loadBinary(*in, impl->simulateOpt.start);
+        rr::loadBinary(*in, impl->simulateOpt.duration);
+        rr::loadBinary(*in, impl->simulateOpt.variables);
+        rr::loadBinary(*in, impl->simulateOpt.amounts);
+        rr::loadBinary(*in, impl->simulateOpt.concentrations);
+        rr::loadBinary(*in, impl->simulateOpt.times);
 
         //size_t simulateOptSize;
-        //rr::loadBinary(in, simulateOptSize);
+        //rr::loadBinary(*in, simulateOptSize);
         //for (int i = 0; i < simulateOptSize; i++) {
         //    std::string k;
-        //    rr::loadBinary(in, k);
+        //    rr::loadBinary(*in, k);
         //    rr::Setting v;
-        //    rr::loadBinary(in, v);
+        //    rr::loadBinary(*in, v);
         //    impl->simulateOpt.setItem(k, v);
         //}
-        rr::loadBinary(in, impl->roadRunnerOptions.flags);
-        rr::loadBinary(in, impl->roadRunnerOptions.jacobianStepSize);
+        rr::loadBinary(*in, impl->roadRunnerOptions.flags);
+        rr::loadBinary(*in, impl->roadRunnerOptions.jacobianStepSize);
 
-        rr::loadBinary(in, impl->configurationXML);
+        rr::loadBinary(*in, impl->configurationXML);
         //Create a new model from the stream
-        //impl->model = new rrllvm::LLVMExecutableModel(in, impl->loadOpt.modelGeneratorOpt);
-        impl->model.reset(ExecutableModelFactory::createModel(in, impl->loadOpt.modelGeneratorOpt));
+        //impl->model = new rrllvm::LLVMExecutableModel(*in, impl->loadOpt.modelGeneratorOpt);
+        impl->model.reset(ExecutableModelFactory::createModel(*in, impl->loadOpt.modelGeneratorOpt));
         impl->syncAllSolversWithModel(impl->model.get());
         if (impl->mLS)
             delete impl->mLS;
 
         std::string integratorName;
-        rr::loadBinary(in, integratorName);
+        rr::loadBinary(*in, integratorName);
         setIntegrator(integratorName);
         unsigned long integratorNumParams;
-        rr::loadBinary(in, integratorNumParams);
+        rr::loadBinary(*in, integratorNumParams);
         for (int i = 0; i < integratorNumParams; i++) {
             std::string k;
-            rr::loadBinary(in, k);
+            rr::loadBinary(*in, k);
             rr::Setting v;
-            rr::loadBinary(in, v);
+            rr::loadBinary(*in, v);
             if (k != "maximum_adams_order")
                 impl->integrator->setValue(k, v);
         }
 
         std::string steadyStateSolverName;
-        rr::loadBinary(in, steadyStateSolverName);
+        rr::loadBinary(*in, steadyStateSolverName);
         setSteadyStateSolver(steadyStateSolverName);
         unsigned long solverNumParams;
-        rr::loadBinary(in, solverNumParams);
+        rr::loadBinary(*in, solverNumParams);
         for (int i = 0; i < solverNumParams; i++) {
             std::string k;
-            rr::loadBinary(in, k);
+            rr::loadBinary(*in, k);
             rr::Setting v;
-            rr::loadBinary(in, v);
+            rr::loadBinary(*in, v);
             impl->steady_state_solver->setValue(k, v);
         }
 
 
         std::string sensitivitySolverName;
-        rr::loadBinary(in, sensitivitySolverName);
+        rr::loadBinary(*in, sensitivitySolverName);
         setSensitivitySolver(sensitivitySolverName);
         unsigned long sensSolverNumParams;
-        rr::loadBinary(in, sensSolverNumParams);
+        rr::loadBinary(*in, sensSolverNumParams);
         for (int i = 0; i < sensSolverNumParams; i++) {
             std::string k;
-            rr::loadBinary(in, k);
+            rr::loadBinary(*in, k);
             rr::Setting v;
-            rr::loadBinary(in, v);
+            rr::loadBinary(*in, v);
             impl->sensitivity_solver->setValue(k, v);
         }
 
         //Currently the SBML is saved with the binary data, see saveState above
         std::string savedSBML;
-        rr::loadBinary(in, savedSBML);
+        rr::loadBinary(*in, savedSBML);
         libsbml::SBMLReader reader;
         impl->document.reset(reader.readSBMLFromString(savedSBML));
 
@@ -6413,9 +6423,9 @@ namespace rr {
 
             // regeneate the model
             impl->model.reset(ExecutableModelFactory::regenerateModel(
-                            impl->model.get(),
-                            impl->document.get(),
-                            impl->loadOpt.modelGeneratorOpt));
+                    impl->model.get(),
+                    impl->document.get(),
+                    impl->loadOpt.modelGeneratorOpt));
 
             //Force setIndividualTolerance to construct a std::vector of the correct size
             // todo I don't know whether this is a bug or not. I can't work out why this is here (cw)
