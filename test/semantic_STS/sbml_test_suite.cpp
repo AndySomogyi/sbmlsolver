@@ -6216,9 +6216,8 @@ TEST_F(SbmlTestSuite, t1487)
 {
     EXPECT_TRUE(RunTest(1487));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1488)
+TEST_F(SbmlTestSuite, t1488)
 {
-    // Incorrect interpretation: odd mathml in functions
     EXPECT_TRUE(RunTest(1488));
 }
 TEST_F(SbmlTestSuite, t1489)
@@ -6333,9 +6332,8 @@ TEST_F(SbmlTestSuite, t1516)
 {
     EXPECT_TRUE(RunTest(1516));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1517)
+TEST_F(SbmlTestSuite, t1517)
 {
-    // Incorrect mathml interpretation: trig in species references
     EXPECT_TRUE(RunTest(1517));
 }
 TEST_F(SbmlTestSuite, t1518)
