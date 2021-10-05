@@ -520,11 +520,9 @@
     }
     // note: it could be that printing terminates at first null character (at pos 3).
     // but its possible the full string does exist
-    std::cout << "\ncstring : " << cStr << std::endl;
     std::stringstream* sptr = new std::stringstream(std::iostream::binary | std::stringstream::out | std::stringstream::in);
     $1 = sptr;
-//    $1->write(cStr, cSize);
-    $1->write("strings", 8);
+    $1->write(cStr, cSize);
 }
 
 %apply std::stringstream*{

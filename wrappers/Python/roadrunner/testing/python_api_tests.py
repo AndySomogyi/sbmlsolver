@@ -803,7 +803,7 @@ class RoadRunnerTests(unittest.TestCase):
 
     def test_loadStateS(self):
         x = self.rr.saveStateS()
-        print(x)
+        print('x is ', x)
         rr2 = RoadRunner()
         rr2.loadStateS(x)
         # data = rr2.simulate(0, 10, 11)
