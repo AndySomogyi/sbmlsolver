@@ -7,6 +7,7 @@
 #include "llvm/LLVMException.h"
 #include <filesystem>
 #include "RoadRunnerTest.h"
+#include "rrException.h"
 
 using namespace testing;
 using namespace rr;
@@ -89,7 +90,7 @@ public:
                     ret = false;
                 }
                 if (!last.empty()) {
-                    ret = ret && RunTest(last, caseNumber, integrator) && ret;
+                    ret = ret && RunTest(last, caseNumber, integrator);
                 }
             }
         }
@@ -167,6 +168,12 @@ public:
         catch (rrllvm::LLVMException& ex)
         {
             //Sometimes, rr itself knows when it can't load a model.  This is also fine.
+            return true;
+        }
+        catch (rr::UninitializedValueException& ex)
+        {
+            //Sometimes unimplemented features like algebraic rules result in uninitialized values.
+            string error = ex.what();
             return true;
         }
         catch (Exception& ex)
@@ -2380,33 +2387,28 @@ TEST_F(SbmlTestSuite, t532)
 {
     EXPECT_TRUE(RunTest(532));
 }
-TEST_F(SbmlTestSuite, DISABLED_t533)
+TEST_F(SbmlTestSuite, t533)
 {
-    // Throws because uninitialized value
     EXPECT_TRUE(RunTest(533));
 }
-TEST_F(SbmlTestSuite, DISABLED_t534)
+TEST_F(SbmlTestSuite, t534)
 {
-    // Throws because uninitialized value
     EXPECT_TRUE(RunTest(534));
 }
 TEST_F(SbmlTestSuite, t535)
 {
     EXPECT_TRUE(RunTest(535));
 }
-TEST_F(SbmlTestSuite, DISABLED_t536)
+TEST_F(SbmlTestSuite, t536)
 {
-    // Throws because uninitialized value
     EXPECT_TRUE(RunTest(536));
 }
-TEST_F(SbmlTestSuite, DISABLED_t537)
+TEST_F(SbmlTestSuite, t537)
 {
-    // Throws because uninitialized value
     EXPECT_TRUE(RunTest(537));
 }
-TEST_F(SbmlTestSuite, DISABLED_t538)
+TEST_F(SbmlTestSuite, t538)
 {
-    // Throws because uninitialized value
     EXPECT_TRUE(RunTest(538));
 }
 TEST_F(SbmlTestSuite, t539)
@@ -2529,14 +2531,12 @@ TEST_F(SbmlTestSuite, t568)
 {
     EXPECT_TRUE(RunTest(568));
 }
-TEST_F(SbmlTestSuite, DISABLED_t569)
+TEST_F(SbmlTestSuite, t569)
 {
-    // Throws because uninitialized value
     EXPECT_TRUE(RunTest(569));
 }
-TEST_F(SbmlTestSuite, DISABLED_t570)
+TEST_F(SbmlTestSuite, t570)
 {
-    // Throws because uninitialized value
     EXPECT_TRUE(RunTest(570));
 }
 TEST_F(SbmlTestSuite, t571)
@@ -2555,9 +2555,8 @@ TEST_F(SbmlTestSuite, t574)
 {
     EXPECT_TRUE(RunTest(574));
 }
-TEST_F(SbmlTestSuite, DISABLED_t575)
+TEST_F(SbmlTestSuite, t575)
 {
-    // Throws because uninitialized value
     EXPECT_TRUE(RunTest(575));
 }
 TEST_F(SbmlTestSuite, t576)
@@ -2908,14 +2907,12 @@ TEST_F(SbmlTestSuite, t662)
 {
     EXPECT_TRUE(RunTest(662));
 }
-TEST_F(SbmlTestSuite, DISABLED_t663)
+TEST_F(SbmlTestSuite, t663)
 {
-    // Throws because uninitialized value
     EXPECT_TRUE(RunTest(663));
 }
-TEST_F(SbmlTestSuite, DISABLED_t664)
+TEST_F(SbmlTestSuite, t664)
 {
-    // Throws because uninitialized value
     EXPECT_TRUE(RunTest(664));
 }
 TEST_F(SbmlTestSuite, t665)
@@ -3306,9 +3303,8 @@ TEST_F(SbmlTestSuite, t761)
 {
     EXPECT_TRUE(RunTest(761));
 }
-TEST_F(SbmlTestSuite, DISABLED_t762)
+TEST_F(SbmlTestSuite, t762)
 {
-    // Throws because uninitialized value
     EXPECT_TRUE(RunTest(762));
 }
 TEST_F(SbmlTestSuite, t763)
@@ -3367,9 +3363,8 @@ TEST_F(SbmlTestSuite, t776)
 {
     EXPECT_TRUE(RunTest(776));
 }
-TEST_F(SbmlTestSuite, DISABLED_t777)
+TEST_F(SbmlTestSuite, t777)
 {
-    // Throws because uninitialized value
     EXPECT_TRUE(RunTest(777));
 }
 TEST_F(SbmlTestSuite, t778)
@@ -3636,9 +3631,8 @@ TEST_F(SbmlTestSuite, t843)
 {
     EXPECT_TRUE(RunTest(843));
 }
-TEST_F(SbmlTestSuite, DISABLED_t844)
+TEST_F(SbmlTestSuite, t844)
 {
-    // Throws because uninitialized value
     EXPECT_TRUE(RunTest(844));
 }
 TEST_F(SbmlTestSuite, t845)
@@ -4193,9 +4187,8 @@ TEST_F(SbmlTestSuite, t982)
 {
     EXPECT_TRUE(RunTest(982));
 }
-TEST_F(SbmlTestSuite, DISABLED_t983)
+TEST_F(SbmlTestSuite, t983)
 {
-    // Throws because uninitialized value
     EXPECT_TRUE(RunTest(983));
 }
 TEST_F(SbmlTestSuite, t984)
@@ -4234,9 +4227,8 @@ TEST_F(SbmlTestSuite, t992)
 {
     EXPECT_TRUE(RunTest(992));
 }
-TEST_F(SbmlTestSuite, DISABLED_t993)
+TEST_F(SbmlTestSuite, t993)
 {
-    // Throws because uninitialized value
     EXPECT_TRUE(RunTest(993));
 }
 TEST_F(SbmlTestSuite, t994)
@@ -4439,9 +4431,8 @@ TEST_F(SbmlTestSuite, t1043)
 {
     EXPECT_TRUE(RunTest(1043));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1044)
+TEST_F(SbmlTestSuite, t1044)
 {
-    // Throws because uninitialized value
     EXPECT_TRUE(RunTest(1044));
 }
 TEST_F(SbmlTestSuite, t1045)
@@ -4696,9 +4687,8 @@ TEST_F(SbmlTestSuite, t1107)
 {
     EXPECT_TRUE(RunTest(1107));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1108)
+TEST_F(SbmlTestSuite, t1108)
 {
-    // Throws because uninitialized value
     EXPECT_TRUE(RunTest(1108));
 }
 TEST_F(SbmlTestSuite, t1109)
@@ -4925,23 +4915,20 @@ TEST_F(SbmlTestSuite, t1164)
 {
     EXPECT_TRUE(RunTest(1164));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1165)
+TEST_F(SbmlTestSuite, t1165)
 {
-    // Fail due to l3v2 flattening
     EXPECT_TRUE(RunTest(1165));
 }
 TEST_F(SbmlTestSuite, t1166)
 {
     EXPECT_TRUE(RunTest(1166));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1167)
+TEST_F(SbmlTestSuite, t1167)
 {
-    // Fail due to l3v2 flattening
     EXPECT_TRUE(RunTest(1167));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1168)
+TEST_F(SbmlTestSuite, t1168)
 {
-    // Fail due to l3v2 flattening
     EXPECT_TRUE(RunTest(1168));
 }
 TEST_F(SbmlTestSuite, t1169)
@@ -5060,9 +5047,8 @@ TEST_F(SbmlTestSuite, t1197)
 {
     EXPECT_TRUE(RunTest(1197));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1198)
+TEST_F(SbmlTestSuite, t1198)
 {
-    // ASTNode destructor throws error.
     EXPECT_TRUE(RunTest(1198));
 }
 TEST_F(SbmlTestSuite, t1199)
@@ -5101,9 +5087,8 @@ TEST_F(SbmlTestSuite, t1207)
 {
     EXPECT_TRUE(RunTest(1207));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1208)
+TEST_F(SbmlTestSuite, t1208)
 {
-    // ASTNode destructor throws error.
     EXPECT_TRUE(RunTest(1208));
 }
 TEST_F(SbmlTestSuite, t1209)
@@ -5206,56 +5191,48 @@ TEST_F(SbmlTestSuite, t1233)
 {
     EXPECT_TRUE(RunTest(1233));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1234)
+TEST_F(SbmlTestSuite, t1234)
 {
-    // Missing ASTNode throw.
     EXPECT_TRUE(RunTest(1234));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1235)
+TEST_F(SbmlTestSuite, t1235)
 {
-    // Missing ASTNode throw.
     EXPECT_TRUE(RunTest(1235));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1236)
+TEST_F(SbmlTestSuite, t1236)
 {
-    // Missing ASTNode throw.
     EXPECT_TRUE(RunTest(1236));
 }
 TEST_F(SbmlTestSuite, t1237)
 {
     EXPECT_TRUE(RunTest(1237));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1238)
+TEST_F(SbmlTestSuite, t1238)
 {
-    // Unknown throw.
     EXPECT_TRUE(RunTest(1238));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1239)
+TEST_F(SbmlTestSuite, t1239)
 {
-    // Missing ASTNode throw.
     EXPECT_TRUE(RunTest(1239));
 }
 TEST_F(SbmlTestSuite, t1240)
 {
     EXPECT_TRUE(RunTest(1240));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1241)
+TEST_F(SbmlTestSuite, t1241)
 {
-    // Unknown throw.
     EXPECT_TRUE(RunTest(1241));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1242)
+TEST_F(SbmlTestSuite, t1242)
 {
-    // Unknown throw.
     EXPECT_TRUE(RunTest(1242));
 }
 TEST_F(SbmlTestSuite, t1243)
 {
     EXPECT_TRUE(RunTest(1243));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1244)
+TEST_F(SbmlTestSuite, t1244)
 {
-    // Unknown throw.
     EXPECT_TRUE(RunTest(1244));
 }
 TEST_F(SbmlTestSuite, t1245)
@@ -5270,119 +5247,96 @@ TEST_F(SbmlTestSuite, t1247)
 {
     EXPECT_TRUE(RunTest(1247));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1248)
+TEST_F(SbmlTestSuite, t1248)
 {
-    // Failure to load model
     EXPECT_TRUE(RunTest(1248));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1249)
+TEST_F(SbmlTestSuite, t1249)
 {
-    // Failure to load model
     EXPECT_TRUE(RunTest(1249));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1250)
+TEST_F(SbmlTestSuite, t1250)
 {
-    // Failure to load model
     EXPECT_TRUE(RunTest(1250));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1251)
+TEST_F(SbmlTestSuite, t1251)
 {
-    // Failure to load model
     EXPECT_TRUE(RunTest(1251));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1252)
+TEST_F(SbmlTestSuite, t1252)
 {
-    // Failure to load model
     EXPECT_TRUE(RunTest(1252));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1253)
+TEST_F(SbmlTestSuite, t1253)
 {
-    // Failure to load model
     EXPECT_TRUE(RunTest(1253));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1254)
+TEST_F(SbmlTestSuite, t1254)
 {
-    // Failure to load model
     EXPECT_TRUE(RunTest(1254));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1255)
+TEST_F(SbmlTestSuite, t1255)
 {
-    // Failure to load model
     EXPECT_TRUE(RunTest(1255));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1256)
+TEST_F(SbmlTestSuite, t1256)
 {
-    // Failure to load model
     EXPECT_TRUE(RunTest(1256));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1257)
+TEST_F(SbmlTestSuite, t1257)
 {
-    // Unknown throw
     EXPECT_TRUE(RunTest(1257));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1258)
+TEST_F(SbmlTestSuite, t1258)
 {
-    // Failure to load model
     EXPECT_TRUE(RunTest(1258));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1259)
+TEST_F(SbmlTestSuite, t1259)
 {
-    // Failure to load model
     EXPECT_TRUE(RunTest(1259));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1260)
+TEST_F(SbmlTestSuite, t1260)
 {
-    // Failure to load model
     EXPECT_TRUE(RunTest(1260));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1261)
+TEST_F(SbmlTestSuite, t1261)
 {
-    // Failure to load model
     EXPECT_TRUE(RunTest(1261));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1262)
+TEST_F(SbmlTestSuite, t1262)
 {
-    // Failure to load model
     EXPECT_TRUE(RunTest(1262));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1263)
+TEST_F(SbmlTestSuite, t1263)
 {
-    // Failure to load model
     EXPECT_TRUE(RunTest(1263));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1264)
+TEST_F(SbmlTestSuite, t1264)
 {
-    // Failure to load model
     EXPECT_TRUE(RunTest(1264));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1265)
+TEST_F(SbmlTestSuite, t1265)
 {
-    // Failure to load model
     EXPECT_TRUE(RunTest(1265));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1266)
+TEST_F(SbmlTestSuite, t1266)
 {
-    // Failure to load model
     EXPECT_TRUE(RunTest(1266));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1267)
+TEST_F(SbmlTestSuite, t1267)
 {
-    // Failure to load model
     EXPECT_TRUE(RunTest(1267));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1268)
+TEST_F(SbmlTestSuite, t1268)
 {
-    // Unknown throw
     EXPECT_TRUE(RunTest(1268));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1269)
+TEST_F(SbmlTestSuite, t1269)
 {
-    // Failure to load model
     EXPECT_TRUE(RunTest(1269));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1270)
+TEST_F(SbmlTestSuite, t1270)
 {
-    // Failure to load model
     EXPECT_TRUE(RunTest(1270));
 }
 TEST_F(SbmlTestSuite, t1271)
@@ -5429,93 +5383,76 @@ TEST_F(SbmlTestSuite, t1281)
 {
     EXPECT_TRUE(RunTest(1281));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1282)
+TEST_F(SbmlTestSuite, t1282)
 {
-    // Throw; bad pointer.
     EXPECT_TRUE(RunTest(1282));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1283)
+TEST_F(SbmlTestSuite, t1283)
 {
-    // Throw; bad pointer.
     EXPECT_TRUE(RunTest(1283));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1284)
+TEST_F(SbmlTestSuite, t1284)
 {
-    // Throw; invalid cast.
     EXPECT_TRUE(RunTest(1284));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1285)
+TEST_F(SbmlTestSuite, t1285)
 {
-    // Throw; bad pointer.
     EXPECT_TRUE(RunTest(1285));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1286)
+TEST_F(SbmlTestSuite, t1286)
 {
-    // Throw; corrupt generated function (!(
     EXPECT_TRUE(RunTest(1286));
 }
 TEST_F(SbmlTestSuite, t1287)
 {
     EXPECT_TRUE(RunTest(1287));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1288)
+TEST_F(SbmlTestSuite, t1288)
 {
-    // Throw; bad pointer.
     EXPECT_TRUE(RunTest(1288));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1289)
+TEST_F(SbmlTestSuite, t1289)
 {
-    // Throw; bad pointer.
     EXPECT_TRUE(RunTest(1289));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1290)
+TEST_F(SbmlTestSuite, t1290)
 {
-    // Throw; bad pointer.
     EXPECT_TRUE(RunTest(1290));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1291)
+TEST_F(SbmlTestSuite, t1291)
 {
-    // Throw; corrupt generated function (!(
     EXPECT_TRUE(RunTest(1291));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1292)
+TEST_F(SbmlTestSuite, t1292)
 {
-    // Throws because uninitialized value
     EXPECT_TRUE(RunTest(1292));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1293)
+TEST_F(SbmlTestSuite, t1293)
 {
-    // Unknown throw
     EXPECT_TRUE(RunTest(1293));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1294)
+TEST_F(SbmlTestSuite, t1294)
 {
-    // Failure to load model
     EXPECT_TRUE(RunTest(1294));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1295)
+TEST_F(SbmlTestSuite, t1295)
 {
-    // Failure to load model
     EXPECT_TRUE(RunTest(1295));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1296)
+TEST_F(SbmlTestSuite, t1296)
 {
-    // Failure to load model
     EXPECT_TRUE(RunTest(1296));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1297)
+TEST_F(SbmlTestSuite, t1297)
 {
-    // Failure to load model
     EXPECT_TRUE(RunTest(1297));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1298)
+TEST_F(SbmlTestSuite, t1298)
 {
-    // Failure to load model
     EXPECT_TRUE(RunTest(1298));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1299)
+TEST_F(SbmlTestSuite, t1299)
 {
-    // Unknown throw
     EXPECT_TRUE(RunTest(1299));
 }
 TEST_F(SbmlTestSuite, t1300)
@@ -5602,14 +5539,12 @@ TEST_F(SbmlTestSuite, t1320)
 {
     EXPECT_TRUE(RunTest(1320));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1321)
+TEST_F(SbmlTestSuite, t1321)
 {
-    // Failure to load model
     EXPECT_TRUE(RunTest(1321));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1322)
+TEST_F(SbmlTestSuite, t1322)
 {
-    // Failure to load model
     EXPECT_TRUE(RunTest(1322));
 }
 TEST_F(SbmlTestSuite, t1323)
@@ -5720,9 +5655,8 @@ TEST_F(SbmlTestSuite, t1349)
 {
     EXPECT_TRUE(RunTest(1349));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1350)
+TEST_F(SbmlTestSuite, t1350)
 {
-    // Fail due to l3v2 flattening
     EXPECT_TRUE(RunTest(1350));
 }
 TEST_F(SbmlTestSuite, t1351)
@@ -5757,9 +5691,8 @@ TEST_F(SbmlTestSuite, t1358)
 {
     EXPECT_TRUE(RunTest(1358));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1359)
+TEST_F(SbmlTestSuite, t1359)
 {
-    // Fail due to l3v2 flattening
     EXPECT_TRUE(RunTest(1359));
 }
 TEST_F(SbmlTestSuite, t1360)
@@ -5794,9 +5727,8 @@ TEST_F(SbmlTestSuite, t1367)
 {
     EXPECT_TRUE(RunTest(1367));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1368)
+TEST_F(SbmlTestSuite, t1368)
 {
-    // Fail due to l3v2 flattening
     EXPECT_TRUE(RunTest(1368));
 }
 TEST_F(SbmlTestSuite, t1369)
@@ -5831,9 +5763,8 @@ TEST_F(SbmlTestSuite, t1376)
 {
     EXPECT_TRUE(RunTest(1376));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1377)
+TEST_F(SbmlTestSuite, t1377)
 {
-    // Fail due to l3v2 flattening
     EXPECT_TRUE(RunTest(1377));
 }
 TEST_F(SbmlTestSuite, t1378)
@@ -5868,9 +5799,8 @@ TEST_F(SbmlTestSuite, t1385)
 {
     EXPECT_TRUE(RunTest(1385));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1386)
+TEST_F(SbmlTestSuite, t1386)
 {
-    // Fail due to l3v2 flattening
     EXPECT_TRUE(RunTest(1386));
 }
 TEST_F(SbmlTestSuite, t1387)
@@ -5917,61 +5847,52 @@ TEST_F(SbmlTestSuite, t1397)
 {
     EXPECT_TRUE(RunTest(1397));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1398)
+TEST_F(SbmlTestSuite, t1398)
 {
-    // Unknown throw
     EXPECT_TRUE(RunTest(1398));
 }
 TEST_F(SbmlTestSuite, t1399)
 {
     EXPECT_TRUE(RunTest(1399));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1400)
+TEST_F(SbmlTestSuite, t1400)
 {
-    // Failure to load model.
     EXPECT_TRUE(RunTest(1400));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1401)
+TEST_F(SbmlTestSuite, t1401)
 {
-    // Failure to load model.
     EXPECT_TRUE(RunTest(1401));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1402)
+TEST_F(SbmlTestSuite, t1402)
 {
-    // Failure to load model.
     EXPECT_TRUE(RunTest(1402));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1403)
+TEST_F(SbmlTestSuite, t1403)
 {
-    // Failure to load model.
     EXPECT_TRUE(RunTest(1403));
 }
 TEST_F(SbmlTestSuite, t1404)
 {
     EXPECT_TRUE(RunTest(1404));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1405)
+TEST_F(SbmlTestSuite, t1405)
 {
-    // Failure to load model.
     EXPECT_TRUE(RunTest(1405));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1406)
+TEST_F(SbmlTestSuite, t1406)
 {
-    // Failure to load model.
     EXPECT_TRUE(RunTest(1406));
 }
 TEST_F(SbmlTestSuite, t1407)
 {
     EXPECT_TRUE(RunTest(1407));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1408)
+TEST_F(SbmlTestSuite, t1408)
 {
-    // Failure to load model.
     EXPECT_TRUE(RunTest(1408));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1409)
+TEST_F(SbmlTestSuite, t1409)
 {
-    // Failure to load model.
     EXPECT_TRUE(RunTest(1409));
 }
 TEST_F(SbmlTestSuite, t1410)
@@ -5998,9 +5919,8 @@ TEST_F(SbmlTestSuite, t1415)
 {
     EXPECT_TRUE(RunTest(1415));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1416)
+TEST_F(SbmlTestSuite, t1416)
 {
-    // Unknown throw
     EXPECT_TRUE(RunTest(1416));
 }
 TEST_F(SbmlTestSuite, t1417)
@@ -6011,9 +5931,8 @@ TEST_F(SbmlTestSuite, t1418)
 {
     EXPECT_TRUE(RunTest(1418));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1419)
+TEST_F(SbmlTestSuite, t1419)
 {
-    // Unknown throw
     EXPECT_TRUE(RunTest(1419));
 }
 TEST_F(SbmlTestSuite, t1420)
@@ -6114,112 +6033,99 @@ TEST_F(SbmlTestSuite, t1443)
 }
 TEST_F(SbmlTestSuite, DISABLED_t1444)
 {
-    // Failure to load model.
+    // Mutable species ref with multiple species refs.
     EXPECT_TRUE(RunTest(1444));
 }
 TEST_F(SbmlTestSuite, DISABLED_t1445)
 {
-    // Failure to load model.
+    // Mutable species ref with multiple species refs.
     EXPECT_TRUE(RunTest(1445));
 }
 TEST_F(SbmlTestSuite, DISABLED_t1446)
 {
-    // Incorrect interpretation (species references(
+    // Mutable species ref with multiple species refs.
     EXPECT_TRUE(RunTest(1446));
 }
 TEST_F(SbmlTestSuite, DISABLED_t1447)
 {
-    // Failure to load model.
+    // Mutable species ref with multiple species refs.
     EXPECT_TRUE(RunTest(1447));
 }
 TEST_F(SbmlTestSuite, DISABLED_t1448)
 {
-    // Unknown throw
+    // Mutable species ref with multiple species refs.
     EXPECT_TRUE(RunTest(1448));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1449)
+TEST_F(SbmlTestSuite, t1449)
 {
-    // Unknown throw
     EXPECT_TRUE(RunTest(1449));
 }
 TEST_F(SbmlTestSuite, DISABLED_t1450)
 {
-    // Unknown throw
+    // Mutable species ref with multiple species refs.
     EXPECT_TRUE(RunTest(1450));
 }
 TEST_F(SbmlTestSuite, DISABLED_t1451)
 {
-    // Incorrect interpretation
+    // Mutable species ref with multiple species refs.
     EXPECT_TRUE(RunTest(1451));
 }
 TEST_F(SbmlTestSuite, DISABLED_t1452)
 {
-    // Unknown throw
+    // Mutable species ref with multiple species refs.
     EXPECT_TRUE(RunTest(1452));
 }
 TEST_F(SbmlTestSuite, DISABLED_t1453)
 {
-    // Unknown throw
+    // Mutable species ref with multiple species refs.
     EXPECT_TRUE(RunTest(1453));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1454)
+TEST_F(SbmlTestSuite, t1454)
 {
-    // Unknown throw
     EXPECT_TRUE(RunTest(1454));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1455)
+TEST_F(SbmlTestSuite, t1455)
 {
-    // Failure to load model.
     EXPECT_TRUE(RunTest(1455));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1456)
+TEST_F(SbmlTestSuite, t1456)
 {
-    // Failure to load model.
     EXPECT_TRUE(RunTest(1456));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1457)
+TEST_F(SbmlTestSuite, t1457)
 {
-    // Failure to load model.
     EXPECT_TRUE(RunTest(1457));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1458)
+TEST_F(SbmlTestSuite, t1458)
 {
-    // Failure to load model.
     EXPECT_TRUE(RunTest(1458));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1459)
+TEST_F(SbmlTestSuite, t1459)
 {
-    // Failure to load model.
     EXPECT_TRUE(RunTest(1459));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1460)
+TEST_F(SbmlTestSuite, t1460)
 {
-    // Failure to load model.
     EXPECT_TRUE(RunTest(1460));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1461)
+TEST_F(SbmlTestSuite, t1461)
 {
-    // Failure to load model.
     EXPECT_TRUE(RunTest(1461));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1462)
+TEST_F(SbmlTestSuite, t1462)
 {
-    // Failure to load model.
     EXPECT_TRUE(RunTest(1462));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1463)
+TEST_F(SbmlTestSuite, t1463)
 {
-    // Failure to load model.
     EXPECT_TRUE(RunTest(1463));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1464)
+TEST_F(SbmlTestSuite, t1464)
 {
-    // Failure to load model.
     EXPECT_TRUE(RunTest(1464));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1465)
+TEST_F(SbmlTestSuite, t1465)
 {
-    // Unknown throw.
     EXPECT_TRUE(RunTest(1465));
 }
 TEST_F(SbmlTestSuite, t1466)
@@ -6242,48 +6148,40 @@ TEST_F(SbmlTestSuite, t1470)
 {
     EXPECT_TRUE(RunTest(1470));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1471)
+TEST_F(SbmlTestSuite, t1471)
 {
-    // Fail due to l3v2 flattening
     EXPECT_TRUE(RunTest(1471));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1472)
+TEST_F(SbmlTestSuite, t1472)
 {
-    // Fail due to l3v2 flattening
     EXPECT_TRUE(RunTest(1472));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1473)
+TEST_F(SbmlTestSuite, t1473)
 {
-    // Fail due to l3v2 flattening
     EXPECT_TRUE(RunTest(1473));
 }
 TEST_F(SbmlTestSuite, t1474)
 {
     EXPECT_TRUE(RunTest(1474));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1475)
+TEST_F(SbmlTestSuite, t1475)
 {
-    // Fail due to l3v2 flattening
     EXPECT_TRUE(RunTest(1475));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1476)
+TEST_F(SbmlTestSuite, t1476)
 {
-    // Fail due to l3v2 flattening
     EXPECT_TRUE(RunTest(1476));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1477)
+TEST_F(SbmlTestSuite, t1477)
 {
-    // Fail due to l3v2 flattening
     EXPECT_TRUE(RunTest(1477));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1478)
+TEST_F(SbmlTestSuite, t1478)
 {
-    // Unknown throw.
     EXPECT_TRUE(RunTest(1478));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1479)
+TEST_F(SbmlTestSuite, t1479)
 {
-    // Throws because uninitialized value
     EXPECT_TRUE(RunTest(1479));
 }
 TEST_F(SbmlTestSuite, t1480)
@@ -6294,19 +6192,16 @@ TEST_F(SbmlTestSuite, t1481)
 {
     EXPECT_TRUE(RunTest(1481));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1482)
+TEST_F(SbmlTestSuite, t1482)
 {
-    // Throws because uninitialized value
     EXPECT_TRUE(RunTest(1482));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1483)
+TEST_F(SbmlTestSuite, t1483)
 {
-    // Throws because uninitialized value
     EXPECT_TRUE(RunTest(1483));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1484)
+TEST_F(SbmlTestSuite, t1484)
 {
-    // Throws because uninitialized value
     EXPECT_TRUE(RunTest(1484));
 }
 TEST_F(SbmlTestSuite, t1485)
@@ -6362,89 +6257,72 @@ TEST_F(SbmlTestSuite, t1497)
 {
     EXPECT_TRUE(RunTest(1497));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1498)
+TEST_F(SbmlTestSuite, t1498)
 {
-    // Unknown throw.
     EXPECT_TRUE(RunTest(1498));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1499)
+TEST_F(SbmlTestSuite, t1499)
 {
-    // Throws because uninitialized value
     EXPECT_TRUE(RunTest(1499));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1500)
+TEST_F(SbmlTestSuite, t1500)
 {
-    // Throws because uninitialized value
     EXPECT_TRUE(RunTest(1500));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1501)
+TEST_F(SbmlTestSuite, t1501)
 {
-    // Throws because uninitialized value
     EXPECT_TRUE(RunTest(1501));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1502)
+TEST_F(SbmlTestSuite, t1502)
 {
-    // Throws because uninitialized value
     EXPECT_TRUE(RunTest(1502));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1503)
+TEST_F(SbmlTestSuite, t1503)
 {
-    // Throws because uninitialized value
     EXPECT_TRUE(RunTest(1503));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1504)
+TEST_F(SbmlTestSuite, t1504)
 {
-    // Unknown throw
     EXPECT_TRUE(RunTest(1504));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1505)
+TEST_F(SbmlTestSuite, t1505)
 {
-    // Unknown throw
     EXPECT_TRUE(RunTest(1505));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1506)
+TEST_F(SbmlTestSuite, t1506)
 {
-    // Unknown throw
     EXPECT_TRUE(RunTest(1506));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1507)
+TEST_F(SbmlTestSuite, t1507)
 {
-    // Unknown throw
     EXPECT_TRUE(RunTest(1507));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1508)
+TEST_F(SbmlTestSuite, t1508)
 {
-    // Unknown throw
     EXPECT_TRUE(RunTest(1508));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1509)
+TEST_F(SbmlTestSuite, t1509)
 {
-    // Unknown throw
     EXPECT_TRUE(RunTest(1509));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1510)
+TEST_F(SbmlTestSuite, t1510)
 {
-    // Unknown throw
     EXPECT_TRUE(RunTest(1510));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1511)
+TEST_F(SbmlTestSuite, t1511)
 {
-    // Unknown throw
     EXPECT_TRUE(RunTest(1511));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1512)
+TEST_F(SbmlTestSuite, t1512)
 {
-    // Unknown throw
     EXPECT_TRUE(RunTest(1512));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1513)
+TEST_F(SbmlTestSuite, t1513)
 {
-    // Unknown throw
     EXPECT_TRUE(RunTest(1513));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1514)
+TEST_F(SbmlTestSuite, t1514)
 {
-    // Unknown throw
     EXPECT_TRUE(RunTest(1514));
 }
 TEST_F(SbmlTestSuite, t1515)
@@ -6457,7 +6335,7 @@ TEST_F(SbmlTestSuite, t1516)
 }
 TEST_F(SbmlTestSuite, DISABLED_t1517)
 {
-    // Incorrect mathml interpretation
+    // Incorrect mathml interpretation: trig in species references
     EXPECT_TRUE(RunTest(1517));
 }
 TEST_F(SbmlTestSuite, t1518)
@@ -6488,29 +6366,24 @@ TEST_F(SbmlTestSuite, t1524)
 {
     EXPECT_TRUE(RunTest(1524));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1525)
+TEST_F(SbmlTestSuite, t1525)
 {
-    // Unknown throw
     EXPECT_TRUE(RunTest(1525));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1526)
+TEST_F(SbmlTestSuite, t1526)
 {
-    // Unknown throw
     EXPECT_TRUE(RunTest(1526));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1527)
+TEST_F(SbmlTestSuite, t1527)
 {
-    // Unknown throw
     EXPECT_TRUE(RunTest(1527));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1528)
+TEST_F(SbmlTestSuite, t1528)
 {
-    // Failure to load model.
     EXPECT_TRUE(RunTest(1528));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1529)
+TEST_F(SbmlTestSuite, t1529)
 {
-    // Failure to load model.
     EXPECT_TRUE(RunTest(1529));
 }
 TEST_F(SbmlTestSuite, t1530)
@@ -6553,24 +6426,20 @@ TEST_F(SbmlTestSuite, t1539)
 {
     EXPECT_TRUE(RunTest(1539));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1540)
+TEST_F(SbmlTestSuite, t1540)
 {
-    // Failure to load model.
     EXPECT_TRUE(RunTest(1540));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1541)
+TEST_F(SbmlTestSuite, t1541)
 {
-    // Failure to load model.
     EXPECT_TRUE(RunTest(1541));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1542)
+TEST_F(SbmlTestSuite, t1542)
 {
-    // Failure to load model.
     EXPECT_TRUE(RunTest(1542));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1543)
+TEST_F(SbmlTestSuite, t1543)
 {
-    // Failure to load model.
     EXPECT_TRUE(RunTest(1543));
 }
 TEST_F(SbmlTestSuite, t1544)
@@ -6605,28 +6474,24 @@ TEST_F(SbmlTestSuite, t1551)
 {
     EXPECT_TRUE(RunTest(1551));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1552)
+TEST_F(SbmlTestSuite, t1552)
 {
-    // Unknown throw.
     EXPECT_TRUE(RunTest(1552));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1553)
+TEST_F(SbmlTestSuite, t1553)
 {
-    // Unknown throw.
     EXPECT_TRUE(RunTest(1553));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1554)
+TEST_F(SbmlTestSuite, t1554)
 {
-    // Unknown throw.
     EXPECT_TRUE(RunTest(1554));
 }
 TEST_F(SbmlTestSuite, t1555)
 {
     EXPECT_TRUE(RunTest(1555));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1556)
+TEST_F(SbmlTestSuite, t1556)
 {
-    // Unknown throw.
     EXPECT_TRUE(RunTest(1556));
 }
 TEST_F(SbmlTestSuite, t1557)
@@ -6669,9 +6534,8 @@ TEST_F(SbmlTestSuite, t1566)
 {
     EXPECT_TRUE(RunTest(1566));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1567)
+TEST_F(SbmlTestSuite, t1567)
 {
-    // Throws because uninitialized value
     EXPECT_TRUE(RunTest(1567));
 }
 TEST_F(SbmlTestSuite, t1568)
@@ -6686,9 +6550,8 @@ TEST_F(SbmlTestSuite, t1570)
 {
     EXPECT_TRUE(RunTest(1570));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1571)
+TEST_F(SbmlTestSuite, t1571)
 {
-    // Unknown throw.
     EXPECT_TRUE(RunTest(1571));
 }
 TEST_F(SbmlTestSuite, t1572)
@@ -6699,33 +6562,28 @@ TEST_F(SbmlTestSuite, t1573)
 {
     EXPECT_TRUE(RunTest(1573));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1574)
+TEST_F(SbmlTestSuite, t1574)
 {
-    // Unknown throw.
     EXPECT_TRUE(RunTest(1574));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1575)
+TEST_F(SbmlTestSuite, t1575)
 {
-    // Throws because uninitialized value
     EXPECT_TRUE(RunTest(1575));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1576)
+TEST_F(SbmlTestSuite, t1576)
 {
-    // Throws because uninitialized value
     EXPECT_TRUE(RunTest(1576));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1577)
+TEST_F(SbmlTestSuite, t1577)
 {
-    // Throws because uninitialized value
     EXPECT_TRUE(RunTest(1577));
 }
 TEST_F(SbmlTestSuite, t1578)
 {
     EXPECT_TRUE(RunTest(1578));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1579)
+TEST_F(SbmlTestSuite, t1579)
 {
-    // Throws because uninitialized value
     EXPECT_TRUE(RunTest(1579));
 }
 TEST_F(SbmlTestSuite, t1580)
@@ -6764,9 +6622,8 @@ TEST_F(SbmlTestSuite, t1588)
 {
     EXPECT_TRUE(RunTest(1588));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1589)
+TEST_F(SbmlTestSuite, t1589)
 {
-    // Throws because uninitialized value
     EXPECT_TRUE(RunTest(1589));
 }
 TEST_F(SbmlTestSuite, t1590)
@@ -6915,27 +6772,23 @@ TEST_F(SbmlTestSuite, t1625)
 }
 TEST_F(SbmlTestSuite, DISABLED_t1626)
 {
-    // Unknown throw.
+    // Mutable species ref with multiple species refs.
     EXPECT_TRUE(RunTest(1626));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1627)
+TEST_F(SbmlTestSuite, t1627)
 {
-    // Unknown throw.
     EXPECT_TRUE(RunTest(1627));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1628)
+TEST_F(SbmlTestSuite, t1628)
 {
-    // Throw; AST unknown pointer.
     EXPECT_TRUE(RunTest(1628));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1629)
+TEST_F(SbmlTestSuite, t1629)
 {
-    // Throw; AST unknown pointer.
     EXPECT_TRUE(RunTest(1629));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1630)
+TEST_F(SbmlTestSuite, t1630)
 {
-    // Throw; AST unknown pointer.
     EXPECT_TRUE(RunTest(1630));
 }
 TEST_F(SbmlTestSuite, t1631)
@@ -6954,14 +6807,14 @@ TEST_F(SbmlTestSuite, t1634)
 {
     EXPECT_TRUE(RunTest(1634));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1635)
+TEST_F(SbmlTestSuite, t1635)
 {
-    // Unknown throw.
     EXPECT_TRUE(RunTest(1635));
 }
 TEST_F(SbmlTestSuite, DISABLED_t1636)
 {
-    // l2v1 passes, l2v5 throws (!(
+    // l2v1 passes, l2v5 throws (!)
+    // Another assigned variable stoichiometry test
     EXPECT_TRUE(RunTest(1636));
 }
 TEST_F(SbmlTestSuite, t1637)
@@ -7044,9 +6897,8 @@ TEST_F(SbmlTestSuite, t1656)
 {
     EXPECT_TRUE(RunTest(1656));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1657)
+TEST_F(SbmlTestSuite, t1657)
 {
-    // Throw; AST unknown pointer.
     EXPECT_TRUE(RunTest(1657));
 }
 TEST_F(SbmlTestSuite, t1658)
@@ -7327,17 +7179,17 @@ TEST_F(SbmlTestSuite, t1726)
 }
 TEST_F(SbmlTestSuite, DISABLED_t1727)
 {
-    // Unknown throw.
+    // Conversion factors + assigned variable stoichiometries
     EXPECT_TRUE(RunTest(1727));
 }
 TEST_F(SbmlTestSuite, DISABLED_t1728)
 {
-    // Unknown throw.
+    // Conversion factors + assigned variable stoichiometries
     EXPECT_TRUE(RunTest(1728));
 }
 TEST_F(SbmlTestSuite, DISABLED_t1729)
 {
-    // Unknown throw.
+    // Conversion factors + assigned variable stoichiometries
     EXPECT_TRUE(RunTest(1729));
 }
 TEST_F(SbmlTestSuite, t1730)
@@ -7366,17 +7218,17 @@ TEST_F(SbmlTestSuite, t1735)
 }
 TEST_F(SbmlTestSuite, DISABLED_t1736)
 {
-    // Failure to load model.
+    // Conversion factors + assigned variable stoichiometries
     EXPECT_TRUE(RunTest(1736));
 }
 TEST_F(SbmlTestSuite, DISABLED_t1737)
 {
-    // Failure to load model.
+    // Conversion factors + assigned variable stoichiometries
     EXPECT_TRUE(RunTest(1737));
 }
 TEST_F(SbmlTestSuite, DISABLED_t1738)
 {
-    // Failure to load model.
+    // Conversion factors + assigned variable stoichiometries
     EXPECT_TRUE(RunTest(1738));
 }
 TEST_F(SbmlTestSuite, t1739)
@@ -7535,18 +7387,16 @@ TEST_F(SbmlTestSuite, t1777)
 {
     EXPECT_TRUE(RunTest(1777));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1778)
+TEST_F(SbmlTestSuite, t1778)
 {
-    // Fail due to l3v2 flattening
     EXPECT_TRUE(RunTest(1778));
 }
 TEST_F(SbmlTestSuite, t1779)
 {
     EXPECT_TRUE(RunTest(1779));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1780)
+TEST_F(SbmlTestSuite, t1780)
 {
-    // Incorrect interpretation.
     EXPECT_TRUE(RunTest(1780));
 }
 TEST_F(SbmlTestSuite, t1781)

@@ -1322,7 +1322,7 @@ namespace rr {
 
         // Check that stoichiometry is defined and, if variable in L2, named.
         //  If not, define it to be 1.0, and name it.
-        mCurrentSBML = fixMissingStoich(mCurrentSBML);
+        mCurrentSBML = fixMissingStoichAndMath(mCurrentSBML);
 
         // TODO: add documentation for validations
         if ((impl->loadOpt.loadFlags & LoadSBMLOptions::TURN_ON_VALIDATION) != 0) {
