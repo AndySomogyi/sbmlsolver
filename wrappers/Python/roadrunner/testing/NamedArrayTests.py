@@ -107,6 +107,16 @@ class NamedArrayTests(unittest.TestCase):
         self.assertEqual((2, 2), v.shape)
         self.assertEqual(['C1', 'C2'], v.colnames)
 
+    @unittest.skip("AttributeError: 'numpy.ndarray' object has no attribute 'colnames'"
+                   "This isn't supported by NamedArray")
+    def test_column_headings_after_vstack(self):
+        n1 = NamedArray((3, 4))
+        n1.colnames = ['C1', 'C2', 'C3']
+        n2 = NamedArray((3, 4))
+        n2.colnames = ['C1', 'C2', 'C3']
+        n3 = np.vstack([n1, n2])
+        self.assertEqual(['C1', 'C2', 'C3'], n3.colnames)
+
     def test_rownames_when_empty(self):
         n = NamedArray((2, 3))
         self.assertEqual([], n.rownames)

@@ -13,10 +13,7 @@ import ray
 import time
 import copy
 
-ray.init(ignore_reinit_error=True)
-
 from os.path import dirname, exists, join
-
 
 print(f"Python interpreter at: {sys.executable}")
 
@@ -28,7 +25,6 @@ print(f"Python interpreter at: {sys.executable}")
 # ]
 import roadrunner
 from roadrunner import *
-
 
 import roadrunner.testing.TestModelFactory as tmf
 from roadrunner.roadrunner import RoadRunner
@@ -48,10 +44,10 @@ def simulate_return_NamedArray(r):
     return r.simulate(0, 10, 11)
 
 
-
 @ray.remote
 class SimulatorActorPath(object):
     """Ray actor to execute simulations."""
+
     def __init__(self, r: roadrunner.RoadRunner):
         self.r: roadrunner.RoadRunner = r
 
@@ -66,8 +62,6 @@ class SimulatorActorPath(object):
         te = time.time()
         print("Finished '{}' simulations: {:2.2f} ms".format(size, (te - ts) * 1000))
         return results
-
-
 
 
 class RoadRunnerPickleTests(unittest.TestCase):
@@ -111,20 +105,28 @@ class RoadRunnerPickleTests(unittest.TestCase):
         p.close()
 
     def test_pool_returns_DataFrame(self):
+        N = 10
         p = Pool(processes=4)
-        dfs = p.map(simulate_return_dataframe, [self.rr for i in range(10)])
+        dfs = p.map(simulate_return_dataframe, [self.rr for i in range(N)])
         p.close()
         self.assertEqual(len(dfs), 10)
-        df = pd.concat(dfs, axis=1)
-        self.assertEqual(df.shape, (40, 3))
+        dct = {i: df for i, df in enumerate(dfs)}
+        df = pd.concat(dct, axis=0)
+        print(df)
+        self.assertEqual(df.shape, (N * 11, 3))
 
     def test_pool_returns_NamedArray(self):
+        N = 10
         p = Pool(processes=4)
-        arrs = p.map(simulate_return_NamedArray, [self.rr for i in range(10)])
+        arrs = p.map(simulate_return_NamedArray, [self.rr for i in range(N)])
         p.close()
         print(arrs)
+        data = np.vstack(arrs)
+        self.assertEqual((110, 3), data.shape)
 
     def test_using_ray_library(self):
+        ray.init(ignore_reinit_error=True)
+
         actor_count = 10  # cores to run this on
 
         rr = roadrunner.RoadRunner(tmf.SimpleFlux().str())
@@ -136,9 +138,6 @@ class RoadRunnerPickleTests(unittest.TestCase):
         for k, simulator in enumerate(simulators):
             tcs_id = simulator.simulate.remote(size=sim_per_actor)
             tc_ids.append(tcs_id)
-
         results = ray.get(tc_ids)
-
-        print(results)
-
-
+        data = np.vstack(results)
+        self.assertEqual((100, 101, 3), data.shape)
