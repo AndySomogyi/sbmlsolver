@@ -522,7 +522,7 @@
     // note: it could be that printing terminates at first null character (at pos 3).
     // but its possible the full string does exist
     std::cout << "\ncstring : " << cStr << std::endl;
-    $1 = &std::make_shared<std::stringstream>(std::iostream::binary | std::stringstream::out | std::stringstream::in);
+    *$1 = std::make_shared<std::stringstream>(std::iostream::binary | std::stringstream::out | std::stringstream::in);
     (**$1) << "Wrignitng oasdnfkjashdfliuaw bef";
 //    (*$1)->write(cStr, cSize);
 }
