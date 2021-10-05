@@ -1119,7 +1119,7 @@ namespace rr {
         rrLogDebug << __FUNC__;
         // note to developers: turn this to LOG_INFORMATION for details
         // when running the tests
-         Logger::setLevel(Logger::LOG_DEBUG);
+        // Logger::setLevel(Logger::LOG_DEBUG);
         // set up the base class to be the numpy ndarray PyArray_Type
         NamedArray_Type.tp_base = &PyArray_Type;
 

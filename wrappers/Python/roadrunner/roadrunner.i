@@ -460,7 +460,7 @@
     PyObject* bytes = PyBytes_FromStringAndSize(s.c_str(), s.size());
     if (!bytes){
         std::string err = "Could not create bytes object from stream";
-        PyErr_SetString(PyExc_ValueError, err);
+        PyErr_SetString(PyExc_ValueError, err.c_str());
         bytes = nullptr;
         goto fail;
     }
