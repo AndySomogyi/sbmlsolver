@@ -4808,19 +4808,20 @@ namespace rr {
 
     void RoadRunner::saveState(std::string filename, char opt) {
         check_model();
-        std::shared_ptr<std::stringstream> state = saveStateS(opt);
+        std::stringstream* state = saveStateS(opt);
         std::ofstream of(filename, std::iostream::binary);
         of << state->rdbuf();
         of.close();
+        delete state;
     }
 
-    std::shared_ptr<std::stringstream> RoadRunner::saveStateS(char opt) {
+    std::stringstream* RoadRunner::saveStateS(char opt) {
         check_model();
         switch (opt) {
             case 'b': {
                 // binary mode
                 // can be loaded later
-                auto outPtr = std::make_shared<std::stringstream>(std::iostream::binary | std::stringstream::out | std::stringstream::in);
+                auto outPtr = new std::stringstream(std::iostream::binary | std::stringstream::out | std::stringstream::in);
 //                if (!out) {
 //                    throw std::invalid_argument("Error opening file " + filename + ": " + std::string(strerror(errno)));
 //                }
@@ -4911,7 +4912,7 @@ namespace rr {
             case 'r': {
                 // human-readble mode
                 // for user debugging
-                auto outPtr = std::make_shared<std::stringstream>(std::iostream::binary | std::stringstream::out | std::stringstream::in);
+                auto outPtr = new std::stringstream(std::iostream::binary | std::stringstream::out | std::stringstream::in);
 //                if (!*outPtr) {
 //                    throw std::invalid_argument("Error opening file " + filename + ": " + std::string(strerror(errno)));
 //                }
@@ -5020,7 +5021,7 @@ namespace rr {
 
     void RoadRunner::loadState(const std::string& filename) {
         std::ifstream ifs(filename, std::ios::binary);
-        std::shared_ptr<std::stringstream> ss = std::make_shared<std::stringstream>(
+        std::stringstream* ss = new std::stringstream(
                         std::iostream::binary |
                         std::stringstream::out |
                         std::stringstream::in);
@@ -5028,7 +5029,7 @@ namespace rr {
         loadStateS(ss);
     }
 
-    void RoadRunner::loadStateS(std::shared_ptr<std::stringstream>& in) {
+    void RoadRunner::loadStateS(std::stringstream* in) {
         int inMagicNumber;
         rr::loadBinary(*in, inMagicNumber);
         std::string x = in->str();
@@ -5159,6 +5160,8 @@ namespace rr {
         //Restart the integrator and reset the model time
         impl->integrator->restart(impl->model->getTime());
         reset(SelectionRecord::TIME);
+
+        delete in;
     }
 
     void RoadRunner::loadSelectionVector(std::istream &in, std::vector<SelectionRecord> &v) {

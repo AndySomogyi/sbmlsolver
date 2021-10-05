@@ -384,22 +384,41 @@ namespace rr {
                 std::vector<std::string> species = std::vector<std::string>(),
                 int k = 0);
 
-        /*
-         *  Saves this roadrunner instance to a file so it can be reloaded later
-         * If opt == 'b' (the default value), this function will output a platform-specific
-         * binary file which can be reloaded later
-         * If opt == 'r', this function will output a human readable file which cannot be reloaded later
+        /**
+         * @brief similar to saveStateS but save data to
+         * file caled @param filename.
+         * @see RoadRunner::saveStateS
+         * @see RoadRunner::loadState
          */
         void saveState(std::string filename, char opt = 'b');
 
-        std::shared_ptr<std::stringstream> saveStateS(char opt = 'b');
+        /**
+         * @brief save state as binary to a stringstream so it can
+         * be loaded again later.
+         * @returns new reference to a stringstream - the
+         * caller is responsible for reclaiming memory
+         * @param opt, either 'b' (default) or 'r'. The latter
+         * is used for debugging.
+         * @see RoadRunner::loadStateS
+         * @see RoadRunner::saveState
+         */
+        std::stringstream* saveStateS(char opt = 'b');
 
-        /*
-        * Loads a roadrunner instance saved by saveState with the 'b' option
-        */
+         /**
+         * @brief Loads a roadrunner instance saved by
+         * saveState with the 'b' option
+         * @see RoadRunner::loadStateS
+         * @see RoadRunner::saveState
+         */
         void loadState(const std::string& filename);
 
-        void loadStateS(std::shared_ptr<std::stringstream>&) ;
+        /**
+         * @brief load state from a @param stringstream
+         * that was produced by RoadRunner::saveStateS.
+         * @details this function steals the reference
+         * to heap allocated @param state.
+         */
+        void loadStateS(std::stringstream* state) ;
 
         /**
          * RoadRunner keeps a copy of the simulation data around until the

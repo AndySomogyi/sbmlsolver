@@ -815,13 +815,14 @@ TEST(d, d) {
 
 TEST_F(StateSavingTests, FromString) {
     RoadRunner rr(OpenLinearFlux().str());
-    std::shared_ptr<std::stringstream> stateStream = rr.saveStateS('b');
+    std::stringstream* stateStream = rr.saveStateS('b');
     RoadRunner rr2;
     rr2.loadStateS(stateStream);
     auto actualDataLsMatrix = *rr2.simulate(0, 10, 11);
     auto actualData = rr::Matrix<double>(actualDataLsMatrix); // for almostEquals
     auto expectedData = OpenLinearFlux().timeSeriesResult();
     ASSERT_TRUE(expectedData.almostEquals(actualData, 1e-4));
+    delete stateStream;
 }
 
 //TEST_F(StateSavingTests, FromStringd) {

@@ -63,7 +63,7 @@
     #include "PyUtils.h"
     #include "PyLoggerStream.h"
 
-    #include <sstream> // for the std::shared_ptr<std::stringstream> typemap
+    #include <sstream> // for the std::stringstream* typemap
 
     #include "Registrable.h"
     #include "RegistrationFactory.h"
@@ -453,11 +453,10 @@
 %typemap(typecheck) const rr::Dictionary* = PyObject*;
 %apply const rr::Dictionary* {const Dictionary*, rr::Dictionary*, Dictionary*};
 
-// typemap for std::shared_ptr<std::stringstream> to python string
-%typemap(out) std::shared_ptr<std::stringstream>{
-    // marker for typemap(out): std::shared_ptr<std::stringstream>
-    std::shared_ptr<std::stringstream> ss = (std::shared_ptr< std::stringstream >)$1;
-    std::string s = ss->str();
+// typemap for std::stringstream* to python string
+%typemap(out) std::stringstream*{
+    // marker for typemap(out): std::stringstream*
+    std::string s = $1->str();
     PyObject* bytes = PyBytes_FromStringAndSize(s.c_str(), s.size());
     if (!bytes){
         PyErr_SetString(PyExc_ValueError, "Could not create bytes object from stream");
@@ -473,15 +472,15 @@
     $result = tup;
 }
 
-%apply std::shared_ptr<std::stringstream>{
-    const std::shared_ptr<std::stringstream>,
-    const std::shared_ptr<std::stringstream>&,
-    std::shared_ptr<std::stringstream>&
+%apply std::stringstream*{
+    const std::stringstream*,
+    const std::stringstream*&,
+    std::stringstream*&
 }
 
-// typemap for Python bytes to std::shared_ptr<std::stringstream>
-%typemap(in) std::shared_ptr<std::stringstream>{
-    // bytes to std::shared_ptr<std::stringstream> typemap#
+// typemap for Python bytes to std::stringstream*
+%typemap(in) std::stringstream*{
+    // bytes to std::stringstream* typemap#
     if (!PyTuple_CheckExact($input)){
         PyErr_SetString(PyExc_TypeError, "Expected 2-tuple object generated from RoadRunner.saveStateS.");
         $1 = nullptr;
@@ -522,15 +521,16 @@
     // note: it could be that printing terminates at first null character (at pos 3).
     // but its possible the full string does exist
     std::cout << "\ncstring : " << cStr << std::endl;
-    *$1 = std::make_shared<std::stringstream>(std::iostream::binary | std::stringstream::out | std::stringstream::in);
-    (**$1) << "Wrignitng oasdnfkjashdfliuaw bef";
-//    (*$1)->write(cStr, cSize);
+    std::stringstream* sptr = new std::stringstream(std::iostream::binary | std::stringstream::out | std::stringstream::in);
+    $1 = sptr;
+//    $1->write(cStr, cSize);
+    $1->write("strings", 8);
 }
 
-%apply std::shared_ptr<std::stringstream>{
-    const std::shared_ptr<std::stringstream>,
-    const std::shared_ptr<std::stringstream>&,
-    std::shared_ptr<std::stringstream>&
+%apply std::stringstream*{
+    const std::stringstream*,
+    const std::stringstream*&,
+    std::stringstream*&
 }
 
 
