@@ -392,7 +392,7 @@ namespace rr {
          */
         void saveState(std::string filename, char opt = 'b');
 
-        std::shared_ptr<std::stringstream> RoadRunner::saveStateS(char opt = 'b');
+        std::shared_ptr<std::stringstream> saveStateS(char opt = 'b');
 
         /*
         * Loads a roadrunner instance saved by saveState with the 'b' option

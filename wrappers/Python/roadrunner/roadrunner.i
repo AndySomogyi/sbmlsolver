@@ -63,6 +63,8 @@
     #include "PyUtils.h"
     #include "PyLoggerStream.h"
 
+    #include <sstream> // for the std::shared_ptr<std::stringstream> typemap
+
     #include "Registrable.h"
     #include "RegistrationFactory.h"
 
@@ -451,6 +453,88 @@
 %typemap(typecheck) const rr::Dictionary* = PyObject*;
 %apply const rr::Dictionary* {const Dictionary*, rr::Dictionary*, Dictionary*};
 
+// typemap for std::shared_ptr<std::stringstream> to python string
+%typemap(out) std::shared_ptr<std::stringstream>{
+    // marker for typemap(out): std::shared_ptr<std::stringstream>
+    std::shared_ptr<std::stringstream> ss = (std::shared_ptr< std::stringstream >)$1;
+    std::string s = ss->str();
+    PyObject* bytes = PyBytes_FromStringAndSize(s.c_str(), s.size());
+    if (!bytes){
+        PyErr_SetString(PyExc_ValueError, "Could not create bytes object from stream");
+        bytes = nullptr;
+    }
+    PyObject* size = PyLong_FromLong((long)s.size());
+    if (!size){
+        PyErr_SetString(PyExc_ValueError, "Could not Python int object");
+        size = nullptr;
+    }
+
+    PyObject* tup = PyTuple_Pack(2, bytes, size);
+    $result = tup;
+}
+
+%apply std::shared_ptr<std::stringstream>{
+    const std::shared_ptr<std::stringstream>,
+    const std::shared_ptr<std::stringstream>&,
+    std::shared_ptr<std::stringstream>&
+}
+
+// typemap for Python bytes to std::shared_ptr<std::stringstream>
+%typemap(in) std::shared_ptr<std::stringstream>{
+    // bytes to std::shared_ptr<std::stringstream> typemap#
+    if (!PyTuple_CheckExact($input)){
+        PyErr_SetString(PyExc_TypeError, "Expected 2-tuple object generated from RoadRunner.saveStateS.");
+        $1 = nullptr;
+    }
+    PyObject* bytes = PyTuple_GetItem($input, 0);
+    if (!bytes){
+        PyErr_SetString(PyExc_TypeError, "Could not extract bytes object from input tuple");
+        $1 = nullptr;
+    }
+    if (PyBytes_CheckExact(bytes) < 0){
+        PyErr_SetString(PyExc_TypeError, "First item of input tuple should be a bytes object "
+                                         "generated from RoadRunner.saveStateS.");
+        $1 = nullptr;
+    }
+
+    PyObject* size = PyTuple_GetItem($input, 1);
+    if (!size){
+        PyErr_SetString(PyExc_TypeError, "Could not extract long object (for size) from input tuple");
+        $1 = nullptr;
+    }
+    if (PyLong_CheckExact(size) < 0){
+        PyErr_SetString(PyExc_TypeError, "Second item of input tuple should be an int object "
+                                         "generated from RoadRunner.saveStateS.");
+        $1 = nullptr;
+    }
+    long cSize = PyLong_AsLong(size);
+    Py_ssize_t pyCSize = (Py_ssize_t)cSize;
+    std::cout << "cSize: " << cSize << std::endl;
+    PyObject_Print(bytes, stdout, 0);
+    // decode the bytes string to unicode
+    char* cStr;// = (char*)PyMem_RawMalloc(cSize);
+//    char* cStr = PyBytes_AsString($input);
+//    std::cout << "cStr: " << cStr << std::endl;
+    if (!PyBytes_AsStringAndSize(bytes, &cStr, &pyCSize)){
+        PyErr_SetString(PyExc_ValueError, "Cannot create a bytes object from args");
+        $1 = nullptr;
+    }
+    // note: it could be that printing terminates at first null character (at pos 3).
+    // but its possible the full string does exist
+    std::cout << "\ncstring : " << cStr << std::endl;
+    $1 = &std::make_shared<std::stringstream>(std::iostream::binary | std::stringstream::out | std::stringstream::in);
+    (**$1) << "Wrignitng oasdnfkjashdfliuaw bef";
+//    (*$1)->write(cStr, cSize);
+}
+
+%apply std::shared_ptr<std::stringstream>{
+    const std::shared_ptr<std::stringstream>,
+    const std::shared_ptr<std::stringstream>&,
+    std::shared_ptr<std::stringstream>&
+}
+
+
+
 %include "numpy.i"
 
 /**
@@ -573,6 +657,8 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 %apply (int DIM1, double* IN_ARRAY1) {(size_t lenv, const  double* values)};
 
 %apply int { size_t }
+
+
 
 #define LIB_EXTERN
 #define RR_DECLSPEC
@@ -959,19 +1045,12 @@ namespace std { class ostream{}; }
  */
 %newobject rr::ExecutableModelFactory::createModel;
 
-
-
 %include <Dictionary.h>
 %include <rrRoadRunnerOptions.h>
 %include <rrCompiler.h>
 %include <rrExecutableModel.h>
 %include <ExecutableModelFactory.h>
 %include <rrVersionInfo.h>
-
-
-// including rrLogger.h causes rr not to compile?
-// haven't worked out why but seems roadrunner python
-// works without it.
 %include <rrLogger.h>
 
 %thread;

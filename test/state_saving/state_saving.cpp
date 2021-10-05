@@ -824,6 +824,13 @@ TEST_F(StateSavingTests, FromString) {
     ASSERT_TRUE(expectedData.almostEquals(actualData, 1e-4));
 }
 
+//TEST_F(StateSavingTests, FromStringd) {
+//    RoadRunner rr(OpenLinearFlux().str());
+//    std::shared_ptr<std::stringstream> stateStream = rr.saveStateS('b');
+//    std::string s = stateStream->str();
+//    std::cout << "s here " << s << std::endl;
+//}
+
 TEST_F(StateSavingTests, FromFile) {
     std::filesystem::path p = std::filesystem::current_path() / "savedState.rr";
     std::cout << "saved to " << p << std::endl;

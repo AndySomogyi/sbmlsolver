@@ -5031,6 +5031,8 @@ namespace rr {
     void RoadRunner::loadStateS(std::shared_ptr<std::stringstream>& in) {
         int inMagicNumber;
         rr::loadBinary(*in, inMagicNumber);
+        std::string x = in->str();
+        rrLogDebug << "state string in " << x << std::endl;
         if (inMagicNumber != fileMagicNumber) {
             throw std::invalid_argument("The state has the wrong magic number. Are you sure it is a roadrunner save state?");
         }
