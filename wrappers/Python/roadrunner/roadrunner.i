@@ -459,17 +459,12 @@
     std::string s = $1->str();
     PyObject* bytes = PyBytes_FromStringAndSize(s.c_str(), s.size());
     if (!bytes){
-        PyErr_SetString(PyExc_ValueError, "Could not create bytes object from stream");
+        std::string err = "Could not create bytes object from stream";
+        PyErr_SetString(PyExc_ValueError, err);
         bytes = nullptr;
+        goto fail;
     }
-    PyObject* size = PyLong_FromLong((long)s.size());
-    if (!size){
-        PyErr_SetString(PyExc_ValueError, "Could not Python int object");
-        size = nullptr;
-    }
-
-    PyObject* tup = PyTuple_Pack(2, bytes, size);
-    $result = tup;
+    $result = bytes;
 }
 
 %apply std::stringstream*{
@@ -480,49 +475,35 @@
 
 // typemap for Python bytes to std::stringstream*
 %typemap(in) std::stringstream*{
-    // bytes to std::stringstream* typemap#
-    if (!PyTuple_CheckExact($input)){
-        PyErr_SetString(PyExc_TypeError, "Expected 2-tuple object generated from RoadRunner.saveStateS.");
-        $1 = nullptr;
-    }
-    PyObject* bytes = PyTuple_GetItem($input, 0);
+    // bytes to std::stringstream* typemap
+    PyObject* bytes = $input;
     if (!bytes){
-        PyErr_SetString(PyExc_TypeError, "Could not extract bytes object from input tuple");
+        std::string err = "Could not extract bytes object from input tuple";
+        rrLogErr << err;
+        PyErr_SetString(PyExc_TypeError,err.c_str());
         $1 = nullptr;
+        goto fail;
     }
     if (PyBytes_CheckExact(bytes) < 0){
-        PyErr_SetString(PyExc_TypeError, "First item of input tuple should be a bytes object "
-                                         "generated from RoadRunner.saveStateS.");
+        std::string err = "First item of input tuple should be a bytes object generated from RoadRunner.saveStateS";
+        PyErr_SetString(PyExc_TypeError, err.c_str());
         $1 = nullptr;
+        goto fail;
     }
 
-    PyObject* size = PyTuple_GetItem($input, 1);
-    if (!size){
-        PyErr_SetString(PyExc_TypeError, "Could not extract long object (for size) from input tuple");
-        $1 = nullptr;
-    }
-    if (PyLong_CheckExact(size) < 0){
-        PyErr_SetString(PyExc_TypeError, "Second item of input tuple should be an int object "
-                                         "generated from RoadRunner.saveStateS.");
-        $1 = nullptr;
-    }
-    long cSize = PyLong_AsLong(size);
-    Py_ssize_t pyCSize = (Py_ssize_t)cSize;
-    std::cout << "cSize: " << cSize << std::endl;
-    PyObject_Print(bytes, stdout, 0);
-    // decode the bytes string to unicode
-    char* cStr;// = (char*)PyMem_RawMalloc(cSize);
-//    char* cStr = PyBytes_AsString($input);
-//    std::cout << "cStr: " << cStr << std::endl;
-    if (!PyBytes_AsStringAndSize(bytes, &cStr, &pyCSize)){
+    Py_ssize_t size = PyBytes_Size(bytes);
+    char* cStr;
+    if (PyBytes_AsStringAndSize(bytes, &cStr, &size) < 0){
+        rrLogErr << "ValueError: Cannot create a bytes object";
         PyErr_SetString(PyExc_ValueError, "Cannot create a bytes object from args");
         $1 = nullptr;
+        goto fail;
     }
-    // note: it could be that printing terminates at first null character (at pos 3).
-    // but its possible the full string does exist
+    // note: printing terminates early with this string because
+    // null terminators are embedded within
     std::stringstream* sptr = new std::stringstream(std::iostream::binary | std::stringstream::out | std::stringstream::in);
     $1 = sptr;
-    $1->write(cStr, cSize);
+    $1->write(cStr, (long)size);
 }
 
 %apply std::stringstream*{

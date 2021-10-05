@@ -806,9 +806,9 @@ class RoadRunnerTests(unittest.TestCase):
         print('x is ', x)
         rr2 = RoadRunner()
         rr2.loadStateS(x)
-        # data = rr2.simulate(0, 10, 11)
-        # print(data)
-        # self.assertEqual((11, 3), data.shape)
+        data = rr2.simulate(0, 10, 11)
+        print(data)
+        self.assertEqual((11, 3), data.shape)
 
     def test_makeIntegrator(self):
         integrator = self.rr.makeIntegrator("gillespie")
