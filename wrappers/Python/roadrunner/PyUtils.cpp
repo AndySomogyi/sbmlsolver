@@ -856,7 +856,7 @@ namespace rr {
             Py_IncRef(Py_None);
             colnames = Py_None;
         } else {
-            colnames = self->rowNames;
+            colnames = self->colNames;
         }
 
         // string, bytes, string, object, string object string int
