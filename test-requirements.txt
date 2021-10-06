@@ -2,3 +2,6 @@ ray
 cpuinfo
 pandas
 mpi4py
+numpy
+pytest
+nose
