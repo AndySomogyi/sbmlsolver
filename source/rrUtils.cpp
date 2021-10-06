@@ -453,8 +453,11 @@ bool hasUnimplementedTags(const std::string& descriptionFileName, const string& 
     badtags.push_back("AlgebraicRule");
     badtags.push_back("CSymbolDelay");
     badtags.push_back("fbc");
-    badtags.push_back("BoolNumericSwap");
     badtags.push_back("FastReaction");
+    badtags.push_back("VolumeConcentrationRate");
+    badtags.push_back("RateOf");
+    badtags.push_back("AssignedVariableStoichiometry");
+
     if (integrator == "rk4" || integrator == "rk45")
     {
         badtags.push_back("EventWithDelay");
