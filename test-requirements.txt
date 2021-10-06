@@ -1,3 +1,4 @@
 ray
 cpuinfo
 pandas
+mpi4py
