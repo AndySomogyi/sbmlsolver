@@ -18,7 +18,7 @@
 #include "llvm/Config/llvm-config.h"
 #include "TestModelFactory.h"
 
-#include "../test_util.h"
+#include "test_util.h"
 #include <filesystem>
 #include "RoadRunnerTest.h"
 
@@ -802,17 +802,6 @@ TEST(Serialisation, SimpleSerialization) {
 
 }
 
-TEST(d, d) {
-    std::ostringstream os;
-    int one = 1;
-    int two =2;
-    int three =3;
-    os.write((char*)&one, sizeof(int));
-    os.write((char*)&two, sizeof(int));
-    os.write((char*)&three, sizeof(int));
-    std::cout << os.str() << std::endl;
-}
-
 TEST_F(StateSavingTests, FromString) {
     RoadRunner rr(OpenLinearFlux().str());
     std::stringstream* stateStream = rr.saveStateS('b');
@@ -822,15 +811,7 @@ TEST_F(StateSavingTests, FromString) {
     auto actualData = rr::Matrix<double>(actualDataLsMatrix); // for almostEquals
     auto expectedData = OpenLinearFlux().timeSeriesResult();
     ASSERT_TRUE(expectedData.almostEquals(actualData, 1e-4));
-    delete stateStream;
 }
-
-//TEST_F(StateSavingTests, FromStringd) {
-//    RoadRunner rr(OpenLinearFlux().str());
-//    std::shared_ptr<std::stringstream> stateStream = rr.saveStateS('b');
-//    std::string s = stateStream->str();
-//    std::cout << "s here " << s << std::endl;
-//}
 
 TEST_F(StateSavingTests, FromFile) {
     std::filesystem::path p = std::filesystem::current_path() / "savedState.rr";

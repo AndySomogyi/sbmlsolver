@@ -275,10 +275,10 @@ add_subdirectory(c_api_rrtests)
 add_subdirectory(model_analysis)
 add_subdirectory(model_editing)
 add_subdirectory(sbml_features)
-add_subdirectory(state_saving)
 add_subdirectory(sundials-tests)
 add_subdirectory(python)
 add_subdirectory(cxx_api_tests)
+add_subdirectory(serialization)
 
 if (WIN32 AND BUILD_RR_PLUGINS)
    set(
@@ -339,7 +339,6 @@ if (BUILD_PYTHON AND BUILD_TESTS)
             ctest --output-on-failure --verbose --extra-verbose --tests-regex python_tests*
     )
     #    add_dependencies(run-pytest-tests roadrunner_python TestModelFactory SettingTestsSwigAPI)
-    add_subdirectory(serialization)
 endif ()
 
 #########################################################
