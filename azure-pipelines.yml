@@ -214,8 +214,8 @@ stages:
               echo "ls"
               ls
               $(CondaExecutable) create --quiet --yes --name $(PythonName) python=$(PythonVersion)
-              echo "running: $(PipExecutable) install test-requirements.txt"
-              $(PipExecutable) install -r test-requirements.txt
+              echo "running: $(PipExecutable) install -r $(SOURCE_DIR)/test-requirements.txt"
+              $(PipExecutable) install -r $(SOURCE_DIR)/test-requirements.txt
             displayName: InstallCondaEnv
           - script: |
               which conda
@@ -1160,7 +1160,7 @@ stages:
               cd $(BUILD_DIRECTORY)
 
               echo "$(PipExecutable) install numpy pytest"
-              $(PipExecutable) install -r test-requirements.txt
+              $(PipExecutable) install -r $(SOURCE_DIR)/test-requirements.txt
 
               echo "sudo yum install -y ncurses-devel"
               sudo yum install -y ncurses-devel
