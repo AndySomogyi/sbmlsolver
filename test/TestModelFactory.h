@@ -458,7 +458,7 @@ public:
     ...:      return m
     ...:
     ...:  r = ss("""
-    ...:  model x
+    ...:  model OpenLinearFlux
     ...:      S1 = 0;
     ...:      S2 = 0;
     ...:      => S1; kin
