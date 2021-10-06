@@ -1278,14 +1278,11 @@ namespace std { class ostream{}; }
                 makeProperty(s, s)
 
         def __getstate__(self):
-            from os.path import join, dirname, abspath
-            fname = join(abspath(dirname(__file__)), f"{self.getModel().getModelName()}.serialization")
-            self.saveState(fname)
-            return fname
+            return self.saveStateS()
 
         def __setstate__(self, state):
             rr = RoadRunner()
-            rr.loadState(state)
+            rr.loadStateS(state)
             self.__dict__ = rr.__dict__
 
         # Set up the python dyanic properties for model access,
