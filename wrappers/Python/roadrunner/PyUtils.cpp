@@ -844,6 +844,21 @@ namespace rr {
         if (nDims > 1)
             dim2 = shape[1];
 
+        PyObject* rownames;
+        if (!self->rowNames){
+            Py_IncRef(Py_None);
+            rownames = Py_None;
+        } else {
+            rownames = self->rowNames;
+        }
+        PyObject* colnames;
+        if (!self->colNames){
+            Py_IncRef(Py_None);
+            colnames = Py_None;
+        } else {
+            colnames = self->rowNames;
+        }
+
         // string, bytes, string, object, string object string int
         // note that this adds 1 to the ref counts of arrayBytes
         // rownames and colnames
@@ -852,8 +867,8 @@ namespace rr {
                                           "nDims", nDims,
                                           "dim1", dim1,
                                           "dim2", dim2,
-                                          "rownames", self->rowNames == nullptr ? Py_None : self->rowNames,
-                                          "colnames", self->colNames == nullptr ? Py_None : self->colNames,
+                                          "rownames", rownames,
+                                          "colnames", colnames,
                                           PICKLE_VERSION_KEY, PICKLE_VERSION);
 
         if (!dictObj) {
@@ -967,6 +982,9 @@ namespace rr {
                 Py_None,
                 Py_None
         );
+        // we've used Py_None twice, so we need to increment its ref count twice
+        Py_IncRef(Py_None);
+        Py_IncRef(Py_None);
         // the inside tuple does not get incremented by the call to Py_BuildValue
         // (callable, ((3, 4),), state, None, None)
         //              ^^^^<-- Needs incrementing
@@ -1111,7 +1129,7 @@ namespace rr {
             Py_IncRef(PyList_GetItem(self->colNames, i));
         }
         rrLogDebug << "Done" << std::endl;
-        return Py_None;
+        Py_RETURN_NONE;
     }
 
 
@@ -1245,7 +1263,7 @@ namespace rr {
                                             NULL);
         if (!pickle) {
             std::cerr << "PyList_toPickle returned None";
-            return Py_None;
+            Py_RETURN_NONE;
         }
         return pickle;
     }
