@@ -35,7 +35,9 @@ to about a x3 speed up for this example.
 Threading library
 -----------------
 
-
+.. literalinclude:: gillespie_simulations_threading.py
+    :linenos:
+    :language: python
 
 
 
