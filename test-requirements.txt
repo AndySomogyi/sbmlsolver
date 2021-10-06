@@ -1,5 +1,5 @@
 ray
-cpuinfo
+py-cpuinfo
 pandas
 mpi4py
 numpy
