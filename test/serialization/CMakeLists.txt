@@ -6,7 +6,6 @@ add_test_executable(
         ../serialization/state_saving.cpp
 )
 
-file(COPY pickle_tests.py DESTINATION "${RR_PYTHON_TESTING_BUILD_PREFIX}")
 configure_file(
         "${CMAKE_CURRENT_SOURCE_DIR}/pickle_tests.py"
         "${RR_PYTHON_TESTING_BUILD_PREFIX}/pickle_tests.py"
