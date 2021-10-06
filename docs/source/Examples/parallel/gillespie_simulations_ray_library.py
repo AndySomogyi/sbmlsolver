@@ -1,16 +1,33 @@
+import numpy as np
+
 from roadrunner import RoadRunner
 from roadrunner.testing import TestModelFactory as tmf
-from multiprocessing import Pool, cpu_count
+from multiprocessing import cpu_count
+import ray
 import time
 from platform import platform
-import cpuinfo # pip install py-cpuinfo
+import cpuinfo  # pip install py-cpuinfo
 
 NCORES = cpu_count()
 NSIMS = 1000000
 
-def simulate_worker(r: RoadRunner):
-    r.resetAll()
-    return r.simulate(0, 10, 11)
+ray.init(ignore_reinit_error=True)
+
+
+@ray.remote
+class SimulatorActorPath(object):
+    """Ray actor to execute simulations."""
+
+    def __init__(self, r: RoadRunner):
+        self.r: RoadRunner = r
+
+    def simulate(self, size=1):
+        num_points = 101
+        results = np.ndarray((size, num_points, 2))  # 2 for 1 model species and time
+        for k in range(size):
+            self.r.resetAll()
+            results[k] = self.r.simulate(0, 100, num_points)
+        return results
 
 
 if __name__ == '__main__':
@@ -30,11 +47,15 @@ if __name__ == '__main__':
     gillespie_integrator = r.getIntegrator()
     gillespie_integrator.seed = 1234
 
-    # create a processing pool
-    p = Pool(processes=NCORES)
+    simulators = [SimulatorActorPath.remote(r) for _ in range(NCORES)]
 
-    # perform the simulations
-    arrays = p.map(simulate_worker, [r for i in range(NSIMS)])
+    # run simulations
+    tc_ids = []
+    for k, simulator in enumerate(simulators):
+        tcs_id = simulator.simulate.remote(size=int(np.floor(NSIMS / NCORES)))
+        tc_ids.append(tcs_id)
+    results = ray.get(tc_ids)
+    print(results)
 
     duration = time.time() - start
 
@@ -53,20 +74,9 @@ if __name__ == '__main__':
 
     '''
     Output: 
-        Took 19.231333017349243 seconds to run 1000000 stochastic simulations on 16 cores
-        Speed up is 3.3761327336346008
+        Took 99.32935857772827 seconds to run 1000000 stochastic simulations on 16 cores
+        Speed up is 0.6536590373780867
         Platform: Windows-10-10.0.22000-SP0
         python_version: 3.9.5.final.0 (64 bit)
         Processor: 11th Gen Intel(R) Core(TM) i9-11980HK @ 2.60GHz
     '''
-
-
-
-
-
-
-
-
-
-
-

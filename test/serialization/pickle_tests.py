@@ -31,16 +31,19 @@ from roadrunner.roadrunner import RoadRunner
 
 
 def simulate_return_None(r):
+    r.resetAll()
     print(r.simulate(0, 10, 11))
 
 
 def simulate_return_dataframe(r):
+    r.resetAll()
     data = r.simulate(0, 10, 11)
     df = pd.DataFrame(data, columns=data.colnames)
     return df
 
 
 def simulate_return_NamedArray(r):
+    r.resetAll()
     return r.simulate(0, 10, 11)
 
 

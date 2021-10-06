@@ -31,6 +31,7 @@ if __name__ == '__main__':
     # preallocate for efficiency
     data = np.ndarray((NSIMS, num_points, 2))
     for simulation_number in range(NSIMS):
+        r.resetAll()
         data[simulation_number] = r.simulate(start_time, end_time, num_points)
 
     print(data)

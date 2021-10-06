@@ -24,7 +24,8 @@ Multiprocessing library
 
 The simplest way in Python to use multiple cores simultaneously for running RoadRunner simulations
 is to use the `multiprocessing <https://docs.python.org/3/library/multiprocessing.html>`_ library.
-Further, the simplest multiprocessing tool that one can use is a `multiprocessing.Pool`.
+Further, the simplest multiprocessing tool that one can use is a `multiprocessing.Pool`. This leads
+to about a x3 speed up for this example.
 
 .. literalinclude:: gillespie_simulations_multiprocessing_pool.py
     :linenos:
@@ -41,7 +42,9 @@ Threading library
 Ray library
 ------------
 
-
+.. literalinclude:: gillespie_simulations_ray.py
+    :linenos:
+    :language: python
 
 
 MPI library
