@@ -1,7 +1,6 @@
 ray
 py-cpuinfo
 pandas
-mpi4py
 numpy
 pytest
 nose
