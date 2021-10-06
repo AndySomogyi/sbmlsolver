@@ -865,6 +865,7 @@ stages:
           PythonRoot: '$(MinicondaRoot)/envs/$(PythonName)'
           PythonLibDir: '$(PythonRoot)/lib'
           PythonExecutable: '$(PythonRoot)/bin/python'
+          PipExecutable: '$(PythonRoot)/bin/pip'
           SWIG_CACHE: 'false'
           LLVM_CACHE: 'false'
         steps:
@@ -981,6 +982,7 @@ stages:
               conda create -y --name $(PythonName) python=$(PythonVersion)
               conda activate $(PythonName)
               conda install --yes --quiet nose numpy pytest pandas
+              $(PipExecutable) install -r $(SOURCE_DIR)/test-requirements.txt
               echo "which python: $(which python)"
               echo "which conda: $(which conda)"
               python_exe="$(which python)"
