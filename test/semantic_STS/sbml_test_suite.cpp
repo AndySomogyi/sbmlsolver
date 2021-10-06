@@ -6031,27 +6031,27 @@ TEST_F(SbmlTestSuite, t1443)
 {
     EXPECT_TRUE(RunTest(1443));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1444)
+TEST_F(SbmlTestSuite, t1444)
 {
     // Mutable species ref with multiple species refs.
     EXPECT_TRUE(RunTest(1444));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1445)
+TEST_F(SbmlTestSuite, t1445)
 {
     // Mutable species ref with multiple species refs.
     EXPECT_TRUE(RunTest(1445));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1446)
+TEST_F(SbmlTestSuite, t1446)
 {
     // Mutable species ref with multiple species refs.
     EXPECT_TRUE(RunTest(1446));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1447)
+TEST_F(SbmlTestSuite, t1447)
 {
     // Mutable species ref with multiple species refs.
     EXPECT_TRUE(RunTest(1447));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1448)
+TEST_F(SbmlTestSuite, t1448)
 {
     // Mutable species ref with multiple species refs.
     EXPECT_TRUE(RunTest(1448));
@@ -6060,22 +6060,22 @@ TEST_F(SbmlTestSuite, t1449)
 {
     EXPECT_TRUE(RunTest(1449));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1450)
+TEST_F(SbmlTestSuite, t1450)
 {
     // Mutable species ref with multiple species refs.
     EXPECT_TRUE(RunTest(1450));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1451)
+TEST_F(SbmlTestSuite, t1451)
 {
     // Mutable species ref with multiple species refs.
     EXPECT_TRUE(RunTest(1451));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1452)
+TEST_F(SbmlTestSuite, t1452)
 {
     // Mutable species ref with multiple species refs.
     EXPECT_TRUE(RunTest(1452));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1453)
+TEST_F(SbmlTestSuite, t1453)
 {
     // Mutable species ref with multiple species refs.
     EXPECT_TRUE(RunTest(1453));
@@ -6768,7 +6768,7 @@ TEST_F(SbmlTestSuite, t1625)
 {
     EXPECT_TRUE(RunTest(1625));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1626)
+TEST_F(SbmlTestSuite, t1626)
 {
     // Mutable species ref with multiple species refs.
     EXPECT_TRUE(RunTest(1626));
@@ -6809,7 +6809,7 @@ TEST_F(SbmlTestSuite, t1635)
 {
     EXPECT_TRUE(RunTest(1635));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1636)
+TEST_F(SbmlTestSuite, t1636)
 {
     // l2v1 passes, l2v5 throws (!)
     // Another assigned variable stoichiometry test
@@ -7175,17 +7175,17 @@ TEST_F(SbmlTestSuite, t1726)
 {
     EXPECT_TRUE(RunTest(1726));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1727)
+TEST_F(SbmlTestSuite, t1727)
 {
     // Conversion factors + assigned variable stoichiometries
     EXPECT_TRUE(RunTest(1727));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1728)
+TEST_F(SbmlTestSuite, t1728)
 {
     // Conversion factors + assigned variable stoichiometries
     EXPECT_TRUE(RunTest(1728));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1729)
+TEST_F(SbmlTestSuite, t1729)
 {
     // Conversion factors + assigned variable stoichiometries
     EXPECT_TRUE(RunTest(1729));
@@ -7214,17 +7214,17 @@ TEST_F(SbmlTestSuite, t1735)
 {
     EXPECT_TRUE(RunTest(1735));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1736)
+TEST_F(SbmlTestSuite, t1736)
 {
     // Conversion factors + assigned variable stoichiometries
     EXPECT_TRUE(RunTest(1736));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1737)
+TEST_F(SbmlTestSuite, t1737)
 {
     // Conversion factors + assigned variable stoichiometries
     EXPECT_TRUE(RunTest(1737));
 }
-TEST_F(SbmlTestSuite, DISABLED_t1738)
+TEST_F(SbmlTestSuite, t1738)
 {
     // Conversion factors + assigned variable stoichiometries
     EXPECT_TRUE(RunTest(1738));
