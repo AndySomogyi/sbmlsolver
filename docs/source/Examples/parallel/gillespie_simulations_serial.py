@@ -12,7 +12,7 @@ if __name__ == '__main__':
     start = time.time()
 
     # get sbml to work with from one of our test modules
-    sbml = tmf.OpenLinearFlux().str()
+    sbml = tmf.BatchImmigrationDeath03().str()
 
     # create our roadrunner instance
     r = RoadRunner(sbml)
@@ -29,7 +29,7 @@ if __name__ == '__main__':
     num_points = 11
 
     # preallocate for efficiency
-    data = np.ndarray((NSIMS, num_points, 3))
+    data = np.ndarray((NSIMS, num_points, 2))
     for simulation_number in range(NSIMS):
         data[simulation_number] = r.simulate(start_time, end_time, num_points)
 
@@ -41,10 +41,15 @@ if __name__ == '__main__':
     print(f'Platform: {platform()}')
     print('python_version:', cpu_info['python_version'])
     print('Processor:', cpu_info['brand_raw'])
-    #   Took 16.568248987197876 seconds to run 1000000 stochastic simulations on 1 core
-    #   Platform: Windows-10-10.0.22000-SP0
-    #   python_version: 3.9.5.final.0 (64 bit)
-    #   Processor: 11th Gen Intel(R) Core(TM) i9-11980HK @ 2.60GHz
+
+    '''
+    Output:
+        Took 64.92753291130066 seconds to run 1000000 stochastic simulations on 1 core
+
+        Platform: Windows-10-10.0.22000-SP0
+        python_version: 3.9.5.final.0 (64 bit)
+        Processor: 11th Gen Intel(R) Core(TM) i9-11980HK @ 2.60GHz
+    '''
 
 
 

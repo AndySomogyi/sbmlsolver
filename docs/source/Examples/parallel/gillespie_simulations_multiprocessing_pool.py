@@ -17,7 +17,7 @@ if __name__ == '__main__':
     start = time.time()
 
     # get sbml to work with from one of our test modules
-    sbml = tmf.OpenLinearFlux().str()
+    sbml = tmf.BatchImmigrationDeath03().str()
 
     # create our roadrunner instance
     r = RoadRunner(sbml)
@@ -35,15 +35,30 @@ if __name__ == '__main__':
     # perform the simulations
     arrays = p.map(simulate_worker, [r for i in range(NSIMS)])
 
-    print('Took',  time.time() - start, 'seconds to run', NSIMS, 'stochastic simulations on', NCORES, ' core')
+    duration = time.time() - start
+
+    # the time it took in serial
+    serial_time = 64.92753291130066
+
+    # compute speedup
+    speedup = serial_time / duration
+
+    print(f'Took {duration} seconds to run', NSIMS, 'stochastic simulations on', NCORES, 'cores')
+    print(f'Speed up is {speedup}')
     cpu_info = cpuinfo.get_cpu_info()
     print(f'Platform: {platform()}')
     print('python_version:', cpu_info['python_version'])
     print('Processor:', cpu_info['brand_raw'])
-    #  Took 14.95907735824585 seconds to run 1000000 stochastic simulations on 16  core
-    #  Platform: Windows-10-10.0.22000-SP0
-    #  python_version: 3.9.5.final.0 (64 bit)
-    #  Processor: 11th Gen Intel(R) Core(TM) i9-11980HK @ 2.60GHz
+
+    '''
+    Output: 
+        Took 19.231333017349243 seconds to run 1000000 stochastic simulations on 16 cores
+        Speed up is 3.3761327336346008
+        Platform: Windows-10-10.0.22000-SP0
+        python_version: 3.9.5.final.0 (64 bit)
+        Processor: 11th Gen Intel(R) Core(TM) i9-11980HK @ 2.60GHz
+    '''
+
 
 
 

@@ -702,6 +702,17 @@ public:
     std::unordered_map<std::string, rr::Setting> mcaSettings() override;
 };
 
+/**
+ * @brief this is model number 00039 from the stochastic sbml test suite.
+ */
+class BatchImmigrationDeath03 : public TestModel {
+public:
+
+    std::string str() override;
+
+    std::string modelName() override;
+};
+
 
 /**
  * @brief returns a vector of strings that are the
