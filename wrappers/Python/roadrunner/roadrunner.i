@@ -63,6 +63,8 @@
     #include "PyUtils.h"
     #include "PyLoggerStream.h"
 
+    #include <sstream> // for the std::stringstream* typemap
+
     #include "Registrable.h"
     #include "RegistrationFactory.h"
 
@@ -451,11 +453,80 @@
 %typemap(typecheck) const rr::Dictionary* = PyObject*;
 %apply const rr::Dictionary* {const Dictionary*, rr::Dictionary*, Dictionary*};
 
+// typemap for std::stringstream* to python string
+%typemap(out) std::stringstream*{
+    // marker for typemap(out): std::stringstream*
+    std::string s = $1->str();
+    PyObject* bytes = PyBytes_FromStringAndSize(s.c_str(), s.size());
+    if (!bytes){
+        std::string err = "Could not create bytes object from stream";
+        PyErr_SetString(PyExc_ValueError, err.c_str());
+        bytes = nullptr;
+        goto fail;
+    }
+    $result = bytes;
+}
+
+%apply std::stringstream*{
+    const std::stringstream*,
+    const std::stringstream*&,
+    std::stringstream*&
+}
+
+// typemap for Python bytes to std::stringstream*
+%typemap(in) std::stringstream*{
+    // bytes to std::stringstream* typemap
+    PyObject* bytes = $input;
+    if (!bytes){
+        std::string err = "Could not extract bytes object from input tuple";
+        rrLogErr << err;
+        PyErr_SetString(PyExc_TypeError,err.c_str());
+        $1 = nullptr;
+        goto fail;
+    }
+    if (PyBytes_CheckExact(bytes) < 0){
+        std::string err = "First item of input tuple should be a bytes object generated from RoadRunner.saveStateS";
+        PyErr_SetString(PyExc_TypeError, err.c_str());
+        $1 = nullptr;
+        goto fail;
+    }
+
+    Py_ssize_t size = PyBytes_Size(bytes);
+    char* cStr;
+    if (PyBytes_AsStringAndSize(bytes, &cStr, &size) < 0){
+        rrLogErr << "ValueError: Cannot create a bytes object";
+        PyErr_SetString(PyExc_ValueError, "Cannot create a bytes object from args");
+        $1 = nullptr;
+        goto fail;
+    }
+    // note: printing terminates early with this string because
+    // null terminators are embedded within
+    std::stringstream* sptr = new std::stringstream(std::iostream::binary | std::stringstream::out | std::stringstream::in);
+    $1 = sptr;
+    $1->write(cStr, (long)size);
+}
+
+%apply std::stringstream*{
+    const std::stringstream*,
+    const std::stringstream*&,
+    std::stringstream*&
+}
+
+
+
 %include "numpy.i"
 
-
+/**
+ * C extension modules must import_array before
+ * the numpy C api can be used.
+ *
+ * https://numpy.org/doc/stable/user/c-info.how-to-extend.html
+ */
 %init %{
+// see https://docs.scipy.org/doc/numpy-1.10.1/reference/c-api.array.html#importing-the-api
 import_array();
+
+/*@param m is defined by a call to PyModuleInit from swig*/
 rr::pyutil_init(m);
 %}
 
@@ -565,6 +636,8 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 %apply (int DIM1, double* IN_ARRAY1) {(size_t lenv, const  double* values)};
 
 %apply int { size_t }
+
+
 
 #define LIB_EXTERN
 #define RR_DECLSPEC
@@ -950,19 +1023,12 @@ namespace std { class ostream{}; }
  */
 %newobject rr::ExecutableModelFactory::createModel;
 
-
-
 %include <Dictionary.h>
 %include <rrRoadRunnerOptions.h>
 %include <rrCompiler.h>
 %include <rrExecutableModel.h>
 %include <ExecutableModelFactory.h>
 %include <rrVersionInfo.h>
-
-
-// including rrLogger.h causes rr not to compile?
-// haven't worked out why but seems roadrunner python
-// works without it.
 %include <rrLogger.h>
 
 %thread;
@@ -1210,14 +1276,21 @@ namespace std { class ostream{}; }
             for s in model.getGlobalParameterIds() + model.getCompartmentIds() + model.getReactionIds() + model.getConservedMoietyIds():
                 makeProperty(s, s)
 
+        def __getstate__(self):
+            return self.saveStateS()
 
+        def __setstate__(self, state):
+            rr = RoadRunner()
+            rr.loadStateS(state)
+            self.__dict__ = rr.__dict__
 
         # Set up the python dyanic properties for model access,
         # save the original init method
         _swig_init = __init__
 
         def _new_init(self, *args):
-            # /if called with https, use Python for transport
+
+            # if called with https, use Python for transport
             if len(args) >= 1:
                 p = args[0]
                 if hasattr(p,'startswith') and p.startswith('https://'):
@@ -1235,6 +1308,7 @@ namespace std { class ostream{}; }
                     RoadRunner._swig_init(self, sbml)
                     RoadRunner._makeProperties(self)
                     return
+
             # Otherwise, use regular init
             RoadRunner._swig_init(self, *args)
             RoadRunner._makeProperties(self)

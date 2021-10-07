@@ -312,11 +312,9 @@ TEST_F(RoadRunnerAPITests, tmpDir) {
  * getModelName doesn't seem to work. But it should be tested
  * in LLVMExecutableModel
  */
-TEST_F(RoadRunnerAPITests, DISABLED_getModelName) {
-    TestModel* testModel = TestModelFactory("SimpleFlux");
-    RoadRunner rr(testModel->str());
-    ASSERT_STREQ(rr.getModelName().c_str(), "name");
-    delete testModel;
+TEST_F(RoadRunnerAPITests, getModelName) {
+    RoadRunner rr(SimpleFlux().str());
+    ASSERT_STREQ(rr.getModelName().c_str(), "SimpleFlux");
 }
 
 TEST_F(RoadRunnerAPITests, clearModel) {
