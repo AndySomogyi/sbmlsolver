@@ -61,8 +61,8 @@ std\+::vector$<$ \mbox{\hyperlink{classrr_1_1Integrator}{Integrator}} $\ast$ $>$
 \mbox{\Hypertarget{classrr_1_1RoadRunnerImpl_a03fad4a942e0f6fb6ee250391eebe275}\label{classrr_1_1RoadRunnerImpl_a03fad4a942e0f6fb6ee250391eebe275}} 
 std\+::vector$<$ \mbox{\hyperlink{classrr_1_1SteadyStateSolver}{Steady\+State\+Solver}} $\ast$ $>$ {\bfseries steady\+\_\+state\+\_\+solvers}
 \item 
-\mbox{\Hypertarget{classrr_1_1RoadRunnerImpl_a719e0e905cf6fbbf49d24be99db2c7c4}\label{classrr_1_1RoadRunnerImpl_a719e0e905cf6fbbf49d24be99db2c7c4}} 
-\mbox{\hyperlink{classrr_1_1SensitivitySolver}{Sensitivity\+Solver}} $\ast$ \mbox{\hyperlink{classrr_1_1RoadRunnerImpl_a719e0e905cf6fbbf49d24be99db2c7c4}{sensitivities\+\_\+solver}} = nullptr
+\mbox{\Hypertarget{classrr_1_1RoadRunnerImpl_ae6cfe1881d3996d8e0275110cfde4748}\label{classrr_1_1RoadRunnerImpl_ae6cfe1881d3996d8e0275110cfde4748}} 
+\mbox{\hyperlink{classrr_1_1SensitivitySolver}{Sensitivity\+Solver}} $\ast$ \mbox{\hyperlink{classrr_1_1RoadRunnerImpl_ae6cfe1881d3996d8e0275110cfde4748}{sensitivity\+\_\+solver}} = nullptr
 \begin{DoxyCompactList}\small\item\em Points to the current sensitivities solver. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classrr_1_1RoadRunnerImpl_a0a9a2af5451afaacca8030fedfef77d6}\label{classrr_1_1RoadRunnerImpl_a0a9a2af5451afaacca8030fedfef77d6}} 
 std\+::vector$<$ \mbox{\hyperlink{classrr_1_1SensitivitySolver}{Sensitivity\+Solver}} $\ast$ $>$ {\bfseries sensitivity\+\_\+solvers}
@@ -75,9 +75,6 @@ std\+::vector$<$ \mbox{\hyperlink{classrr_1_1SelectionRecord}{Selection\+Record}
 \begin{DoxyCompactList}\small\item\em Model\+Generator obtained from the factory. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classrr_1_1RoadRunnerImpl_a19f31dff952e138792bc594a62b38897}\label{classrr_1_1RoadRunnerImpl_a19f31dff952e138792bc594a62b38897}} 
 std\+::vector$<$ \mbox{\hyperlink{classrr_1_1SelectionRecord}{Selection\+Record}} $>$ {\bfseries m\+Steady\+State\+Selection}
-\item 
-\mbox{\Hypertarget{classrr_1_1RoadRunnerImpl_a0a098b7844b75dd6c4f1b792dd20a5a3}\label{classrr_1_1RoadRunnerImpl_a0a098b7844b75dd6c4f1b792dd20a5a3}} 
-std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{classrr_1_1ExecutableModel}{Executable\+Model}} $>$ {\bfseries model}
 \item 
 \mbox{\Hypertarget{classrr_1_1RoadRunnerImpl_ac3984d20f7a889192b00d8e15acd06cf}\label{classrr_1_1RoadRunnerImpl_ac3984d20f7a889192b00d8e15acd06cf}} 
 \mbox{\hyperlink{classrr_1_1Compiler}{Compiler}} $\ast$ \mbox{\hyperlink{classrr_1_1RoadRunnerImpl_ac3984d20f7a889192b00d8e15acd06cf}{compiler}}
@@ -95,6 +92,15 @@ std\+::string \mbox{\hyperlink{classrr_1_1RoadRunnerImpl_ae22f2a7f705354d374d27a
 \begin{DoxyCompactList}\small\item\em the xml std\+::string that is given in set\+Configuration\+XML. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classrr_1_1RoadRunnerImpl_a1ace36ac129fed50c43abf94c72fed9d}\label{classrr_1_1RoadRunnerImpl_a1ace36ac129fed50c43abf94c72fed9d}} 
 bool {\bfseries simulated\+Since\+Reset} = false
+\item 
+\mbox{\Hypertarget{classrr_1_1RoadRunnerImpl_a090eb95dd15a1edb5becd538920786e9}\label{classrr_1_1RoadRunnerImpl_a090eb95dd15a1edb5becd538920786e9}} 
+friend {\bfseries Road\+Runner}
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classrr_1_1RoadRunnerImpl_a0a098b7844b75dd6c4f1b792dd20a5a3}\label{classrr_1_1RoadRunnerImpl_a0a098b7844b75dd6c4f1b792dd20a5a3}} 
+std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{classrr_1_1ExecutableModel}{Executable\+Model}} $>$ {\bfseries model}
 \item 
 \mbox{\Hypertarget{classrr_1_1RoadRunnerImpl_a351eec90f0cb0348667df95ce9bd22e7}\label{classrr_1_1RoadRunnerImpl_a351eec90f0cb0348667df95ce9bd22e7}} 
 std\+::unique\+\_\+ptr$<$ libsbml\+::\+SBMLDocument $>$ {\bfseries document}

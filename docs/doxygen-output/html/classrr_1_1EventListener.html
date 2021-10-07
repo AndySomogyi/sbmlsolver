@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">roadrunner
-   &#160;<span id="projectnumber">2.0.9</span>
+   &#160;<span id="projectnumber">2.1.0</span>
    </div>
    <div id="projectbrief">Fast simulator for SBML models</div>
   </td>
@@ -102,7 +102,7 @@ virtual uint&#160;</td><td class="memItemRight" valign="bottom"><b>onAssignment<
 <p>In order to listen to sbml events, one simply implements the EventHandler interface and resgisters it with the ExecutableModel::setEventHandler method.</p>
 <p>To remove it, just pass in a 0.</p>
 <p>EventHanders are free to change any model parameters.</p>
-<p>They may return a result value specified by the Result enum. Currently, we we only have the HALT_SIMULATION which will result in <a class="el" href="classrr_1_1RoadRunner.html#a27aedd28b2a2d5453200ca4a4a2bf4c0" title="Carry out a single integration step using a stepsize as indicated in the method call.">RoadRunner::oneStep</a> or <a class="el" href="classrr_1_1RoadRunner.html#a5a079f580436e4bd0fccdc54a597d003" title="Simulate the current SBML model.">RoadRunner::simulate</a> to stop at the current time and return. This may be usefull if someone wants to run a simulation up until some threshold or state is reached. </p>
+<p>They may return a result value specified by the Result enum. Currently, we we only have the HALT_SIMULATION which will result in <a class="el" href="classrr_1_1RoadRunner.html#a27aedd28b2a2d5453200ca4a4a2bf4c0" title="Carry out a single integration step using a stepsize as indicated in the method call.">RoadRunner::oneStep</a> or <a class="el" href="classrr_1_1RoadRunner.html#a377834f22edadb7706779ecca7c1eb4e" title="Simulate the current SBML model.">RoadRunner::simulate</a> to stop at the current time and return. This may be usefull if someone wants to run a simulation up until some threshold or state is reached. </p>
 </div><hr/>The documentation for this class was generated from the following file:<ul>
 <li><a class="el" href="rrExecutableModel_8h_source.html">rrExecutableModel.h</a></li>
 </ul>

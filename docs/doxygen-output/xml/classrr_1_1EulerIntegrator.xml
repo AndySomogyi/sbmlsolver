@@ -532,7 +532,20 @@ the caller is responsible for deleting memory associated with the returned Solve
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="EulerIntegrator.h" line="58" column="9" bodyfile="Integrator.cpp" bodystart="34" bodyend="35"/>
+        <location file="EulerIntegrator.h" line="58" column="9" bodyfile="Integrator.cpp" bodystart="34" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1EulerIntegrator_1a661048f976364d39626d24e4745aa416" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>rr::Integrator::Integrator</definition>
+        <argsstring>()</argsstring>
+        <name>Integrator</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="EulerIntegrator.h" line="58" column="9" bodyfile="Integrator.cpp" bodystart="40" bodyend="44"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -610,7 +623,7 @@ the caller is responsible for deleting memory associated with the returned Solve
     </collaborationgraph>
     <location file="EulerIntegrator.h" line="55" column="5" bodyfile="EulerIntegrator.h" bodystart="55" bodyend="398"/>
     <listofallmembers>
-      <member refid="classrr_1_1Solver_1ad5b8ac1ef687d1a3c9f1f305cb73804d" prot="protected" virt="non-virtual"><scope>rr::EulerIntegrator</scope><name>addSetting</name></member>
+      <member refid="classrr_1_1Solver_1a9d801d628c80877bbadd4fcff012837d" prot="protected" virt="non-virtual"><scope>rr::EulerIntegrator</scope><name>addSetting</name></member>
       <member refid="classrr_1_1EulerIntegrator_1af348d85b0fbf92f117623d61bb8e5240" prot="public" virt="non-virtual"><scope>rr::EulerIntegrator</scope><name>applyEvents</name></member>
       <member refid="classrr_1_1EulerIntegrator_1a4cdcb7d886db15387047210e41d501f8" prot="public" virt="virtual"><scope>rr::EulerIntegrator</scope><name>construct</name></member>
       <member refid="classrr_1_1EulerIntegrator_1a370a0145394d1a9ed17a798565651369" prot="public" virt="virtual"><scope>rr::EulerIntegrator</scope><name>deleteItem</name></member>
@@ -657,10 +670,12 @@ the caller is responsible for deleting memory associated with the returned Solve
       <member refid="classrr_1_1EulerIntegrator_1ab65a96963262cce17a56c2605da5416f" prot="public" virt="virtual"><scope>rr::EulerIntegrator</scope><name>integrate</name></member>
       <member refid="classrr_1_1Integrator_1a0912499450e66cb4301263362d64a0d0" prot="public" virt="non-virtual"><scope>rr::EulerIntegrator</scope><name>IntegrationMethod</name></member>
       <member refid="classrr_1_1EulerIntegrator_1a8a79e9633a25767a1683a0334fd1d917" prot="public" virt="non-virtual"><scope>rr::EulerIntegrator</scope><name>Integrator</name></member>
+      <member refid="classrr_1_1EulerIntegrator_1a661048f976364d39626d24e4745aa416" prot="public" virt="non-virtual"><scope>rr::EulerIntegrator</scope><name>Integrator</name></member>
       <member refid="classrr_1_1Integrator_1a8a79e9633a25767a1683a0334fd1d917" prot="public" virt="non-virtual" ambiguityscope="rr::Integrator::"><scope>rr::EulerIntegrator</scope><name>Integrator</name></member>
       <member refid="classrr_1_1EulerIntegrator_1a389bb963b4313a5b4fd45ff7a4ab2a34" prot="private" virt="non-virtual"><scope>rr::EulerIntegrator</scope><name>listener</name></member>
       <member refid="classrr_1_1Integrator_1a3753687554e7e6bcf0c14c174deb2b0f" prot="public" virt="virtual"><scope>rr::EulerIntegrator</scope><name>loadConfigSettings</name></member>
       <member refid="classrr_1_1Integrator_1abd2e6c3616d1831c028f1061d927fbcd" prot="public" virt="virtual"><scope>rr::EulerIntegrator</scope><name>loadSBMLSettings</name></member>
+      <member refid="classrr_1_1Integrator_1ad8c8677013a9976bcbc7a6f7a82f136e" prot="protected" virt="non-virtual"><scope>rr::EulerIntegrator</scope><name>mIntegrationStartTime</name></member>
       <member refid="classrr_1_1Solver_1ab60e7640a8c959558a144d9d7ee45515" prot="protected" virt="non-virtual"><scope>rr::EulerIntegrator</scope><name>mModel</name></member>
       <member refid="classrr_1_1Integrator_1a0912499450e66cb4301263362d64a0d0a0f9b8ec4e01a0fcd2ce808c42c039940" prot="public" virt="non-virtual"><scope>rr::EulerIntegrator</scope><name>Other</name></member>
       <member refid="classrr_1_1EulerIntegrator_1acc0f1564974e6a8ba2572ee44c6af556" prot="private" virt="non-virtual"><scope>rr::EulerIntegrator</scope><name>previousEventStatus</name></member>
@@ -669,6 +684,7 @@ the caller is responsible for deleting memory associated with the returned Solve
       <member refid="classrr_1_1EulerIntegrator_1a08903e998cf527552442f8fa930772c8" prot="public" virt="virtual"><scope>rr::EulerIntegrator</scope><name>restart</name></member>
       <member refid="classrr_1_1Integrator_1a21645210737f35264504c3125c4679fe" prot="public" virt="virtual"><scope>rr::EulerIntegrator</scope><name>setConcentrationTolerance</name></member>
       <member refid="classrr_1_1Integrator_1a53099879e74aa5bea1139453db9b5732" prot="public" virt="virtual"><scope>rr::EulerIntegrator</scope><name>setIndividualTolerance</name></member>
+      <member refid="classrr_1_1Integrator_1a8b39797408013aaf5fa2d09cb71f8a17" prot="public" virt="non-virtual"><scope>rr::EulerIntegrator</scope><name>setIntegrationStartTime</name></member>
       <member refid="classrr_1_1EulerIntegrator_1a023226258950d8437b7a27c077b693b3" prot="public" virt="virtual"><scope>rr::EulerIntegrator</scope><name>setItem</name></member>
       <member refid="classrr_1_1EulerIntegrator_1acb23167cc7463d67301f00608131eb4c" prot="public" virt="virtual"><scope>rr::EulerIntegrator</scope><name>setListener</name></member>
       <member refid="classrr_1_1Solver_1a44a22cf0edead17a9cc923d87dcc063e" prot="public" virt="non-virtual"><scope>rr::EulerIntegrator</scope><name>settings</name></member>

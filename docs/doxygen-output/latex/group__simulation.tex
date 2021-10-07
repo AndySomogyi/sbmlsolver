@@ -18,15 +18,25 @@ C\+\_\+\+DECL\+\_\+\+SPEC bool rrc\+Call\+Conv \mbox{\hyperlink{group__simulatio
 \begin{DoxyCompactList}\small\item\em Set the time end for a time course simulation. \end{DoxyCompactList}\item 
 C\+\_\+\+DECL\+\_\+\+SPEC bool rrc\+Call\+Conv \mbox{\hyperlink{group__simulation_ga4575f315d9794b53adf78bfb60973d58}{set\+Num\+Points}} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{RRHandle}} handle, int number\+Of\+Points)
 \begin{DoxyCompactList}\small\item\em Set the number of points to generate in a time course simulation. \end{DoxyCompactList}\item 
+C\+\_\+\+DECL\+\_\+\+SPEC bool rrc\+Call\+Conv \mbox{\hyperlink{group__simulation_ga7d5bcc6699c0bd8702938abde4b14c2e}{set\+Times}} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{RRHandle}} handle, double $\ast$times, int size)
+\begin{DoxyCompactList}\small\item\em Set the times vector to output in a time course simulation. \end{DoxyCompactList}\item 
 C\+\_\+\+DECL\+\_\+\+SPEC bool rrc\+Call\+Conv \mbox{\hyperlink{group__simulation_ga61cca45bb48776d12f5bcc52d0c77e04}{set\+Time\+Course\+Selection\+List}} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{RRHandle}} handle, const char $\ast$list)
 \begin{DoxyCompactList}\small\item\em Set the selection list for output from simulate(void) or simulate\+Ex(void) \end{DoxyCompactList}\item 
 C\+\_\+\+DECL\+\_\+\+SPEC \mbox{\hyperlink{rrc__types_8h_a7c9475df6c7337d99482b13a365e7596}{RRString\+Array\+Ptr}} rrc\+Call\+Conv \mbox{\hyperlink{group__simulation_gab58d3101cad36a26f0d421e64cf0d0f6}{get\+Time\+Course\+Selection\+List}} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{RRHandle}} handle)
 \begin{DoxyCompactList}\small\item\em Get the current selection list for simulate(void) or simulate\+Ex(void) \end{DoxyCompactList}\item 
 C\+\_\+\+DECL\+\_\+\+SPEC \mbox{\hyperlink{rrc__types_8h_a9da8b124eb9c3c0045f8926c6a420b4a}{RRCData\+Ptr}} rrc\+Call\+Conv \mbox{\hyperlink{group__simulation_ga9ac99f6909eb0a6244035fc9cdeff94d}{simulate}} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{RRHandle}} handle)
 \begin{DoxyCompactList}\small\item\em Carry out a time-\/course simulation. set\+Time\+Start, set\+Time\+End, set\+Num\+Points, etc are used to set the simulation characteristics. \end{DoxyCompactList}\item 
+C\+\_\+\+DECL\+\_\+\+SPEC bool rrc\+Call\+Conv \mbox{\hyperlink{group__simulation_ga4e4e8ef75ba20f2ad989a4c2188b3a55}{simulate\+No\+Return}} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{RRHandle}} handle)
+\begin{DoxyCompactList}\small\item\em Carry out a time-\/course simulation. set\+Time\+Start, set\+Time\+End, set\+Num\+Points, etc are used to set the simulation characteristics. \end{DoxyCompactList}\item 
 C\+\_\+\+DECL\+\_\+\+SPEC \mbox{\hyperlink{rrc__types_8h_a9da8b124eb9c3c0045f8926c6a420b4a}{RRCData\+Ptr}} rrc\+Call\+Conv \mbox{\hyperlink{group__simulation_gaa52283eaebe340a4a39cc4900441be93}{get\+Simulation\+Result}} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{RRHandle}} handle)
 \begin{DoxyCompactList}\small\item\em Retrieve the result of the last simulation. \end{DoxyCompactList}\item 
+C\+\_\+\+DECL\+\_\+\+SPEC \mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{RRHandle}} rrc\+Call\+Conv \mbox{\hyperlink{group__simulation_gac8574ccef28db153428153c3f5abd516}{get\+Simulation\+Result\+As\+Double\+Matrix}} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{RRHandle}} handle)
+\begin{DoxyCompactList}\small\item\em Retrieve the result of the last simulation as a Double\+Matrix. \end{DoxyCompactList}\item 
 C\+\_\+\+DECL\+\_\+\+SPEC \mbox{\hyperlink{rrc__types_8h_a9da8b124eb9c3c0045f8926c6a420b4a}{RRCData\+Ptr}} rrc\+Call\+Conv \mbox{\hyperlink{group__simulation_ga12a2129f06507eafbace57a8612cc600}{simulate\+Ex}} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{RRHandle}} handle, const double time\+Start, const double time\+End, const int number\+Of\+Points)
+\begin{DoxyCompactList}\small\item\em Carry out a time-\/course simulation based on the given arguments, time start, time end and number of points. \end{DoxyCompactList}\item 
+C\+\_\+\+DECL\+\_\+\+SPEC bool rrc\+Call\+Conv \mbox{\hyperlink{group__simulation_gad4a0c2c01b4cd8b65fbdea3459aa7768}{simulate\+Ex\+No\+Return}} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{RRHandle}} handle, const double time\+Start, const double time\+End, const int number\+Of\+Points)
+\begin{DoxyCompactList}\small\item\em Carry out a time-\/course simulation based on the given arguments, time start, time end and number of points, but do not return results. \end{DoxyCompactList}\item 
+C\+\_\+\+DECL\+\_\+\+SPEC \mbox{\hyperlink{rrc__types_8h_a9da8b124eb9c3c0045f8926c6a420b4a}{RRCData\+Ptr}} rrc\+Call\+Conv \mbox{\hyperlink{group__simulation_gabf0748e0e5a62fe441a28d33badc5014}{simulate\+Times}} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{RRHandle}} handle, const double $\ast$times, int size)
 \begin{DoxyCompactList}\small\item\em Carry out a time-\/course simulation based on the given arguments, time start, time end and number of points. \end{DoxyCompactList}\item 
 C\+\_\+\+DECL\+\_\+\+SPEC bool rrc\+Call\+Conv \mbox{\hyperlink{group__simulation_ga8f7109b90040ff57b8366c2f1867f066}{one\+Step}} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{RRHandle}} handle, const double current\+Time, const double step\+Size, double $\ast$value)
 \begin{DoxyCompactList}\small\item\em Carry out a one step integration of the model. \end{DoxyCompactList}\item 
@@ -134,6 +144,24 @@ Retrieve the result of the last simulation.
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
 Returns an array (RRCData\+Ptr) of columns containing the results of the simulation including string labels for the individual columns. The client is responsible for freeing the resulting RRCData\+Ptr structure. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{group__simulation_gac8574ccef28db153428153c3f5abd516}\label{group__simulation_gac8574ccef28db153428153c3f5abd516}} 
+\index{Time-\/course simulation@{Time-\/course simulation}!getSimulationResultAsDoubleMatrix@{getSimulationResultAsDoubleMatrix}}
+\index{getSimulationResultAsDoubleMatrix@{getSimulationResultAsDoubleMatrix}!Time-\/course simulation@{Time-\/course simulation}}
+\doxysubsubsection{\texorpdfstring{getSimulationResultAsDoubleMatrix()}{getSimulationResultAsDoubleMatrix()}}
+{\footnotesize\ttfamily C\+\_\+\+DECL\+\_\+\+SPEC \mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{RRHandle}} rrc\+Call\+Conv get\+Simulation\+Result\+As\+Double\+Matrix (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{RRHandle}}}]{handle }\end{DoxyParamCaption})}
+
+
+
+Retrieve the result of the last simulation as a Double\+Matrix. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em handle} & Handle to a Road\+Runner instance \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns a pointer (RRHandle) containing the results of the simulation. The pointer is {\itshape not} owned by the caller. 
 \end{DoxyReturn}
 \mbox{\Hypertarget{group__simulation_gab58d3101cad36a26f0d421e64cf0d0f6}\label{group__simulation_gab58d3101cad36a26f0d421e64cf0d0f6}} 
 \index{Time-\/course simulation@{Time-\/course simulation}!getTimeCourseSelectionList@{getTimeCourseSelectionList}}
@@ -331,6 +359,28 @@ Set the time end for a time course simulation.
 \begin{DoxyReturn}{Returns}
 Returns true if successful 
 \end{DoxyReturn}
+\mbox{\Hypertarget{group__simulation_ga7d5bcc6699c0bd8702938abde4b14c2e}\label{group__simulation_ga7d5bcc6699c0bd8702938abde4b14c2e}} 
+\index{Time-\/course simulation@{Time-\/course simulation}!setTimes@{setTimes}}
+\index{setTimes@{setTimes}!Time-\/course simulation@{Time-\/course simulation}}
+\doxysubsubsection{\texorpdfstring{setTimes()}{setTimes()}}
+{\footnotesize\ttfamily C\+\_\+\+DECL\+\_\+\+SPEC bool rrc\+Call\+Conv set\+Times (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{RRHandle}}}]{handle,  }\item[{double $\ast$}]{times,  }\item[{int}]{size }\end{DoxyParamCaption})}
+
+
+
+Set the times vector to output in a time course simulation. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em handle} & Handle to a Road\+Runner instance \\
+\hline
+\mbox{\texttt{ in}}  & {\em times} & vector of doubles to use as time output points. \\
+\hline
+\mbox{\texttt{ in}}  & {\em size} & length of the times vector. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns true if successful 
+\end{DoxyReturn}
 \mbox{\Hypertarget{group__simulation_ga6f2c769375399d14087d6e5e99339aa7}\label{group__simulation_ga6f2c769375399d14087d6e5e99339aa7}} 
 \index{Time-\/course simulation@{Time-\/course simulation}!setTimeStart@{setTimeStart}}
 \index{setTimeStart@{setTimeStart}!Time-\/course simulation@{Time-\/course simulation}}
@@ -401,6 +451,94 @@ Example\+:
 \mbox{\texttt{ in}}  & {\em time\+End} & Time end \\
 \hline
 \mbox{\texttt{ in}}  & {\em number\+Of\+Points} & Number of points to generate \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns an array (RRCData\+Ptr) of columns containing the results of the simulation including string labels for the individual columns. The client is responsible for freeing the resulting RRCData\+Ptr structure. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{group__simulation_gad4a0c2c01b4cd8b65fbdea3459aa7768}\label{group__simulation_gad4a0c2c01b4cd8b65fbdea3459aa7768}} 
+\index{Time-\/course simulation@{Time-\/course simulation}!simulateExNoReturn@{simulateExNoReturn}}
+\index{simulateExNoReturn@{simulateExNoReturn}!Time-\/course simulation@{Time-\/course simulation}}
+\doxysubsubsection{\texorpdfstring{simulateExNoReturn()}{simulateExNoReturn()}}
+{\footnotesize\ttfamily C\+\_\+\+DECL\+\_\+\+SPEC bool rrc\+Call\+Conv simulate\+Ex\+No\+Return (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{RRHandle}}}]{handle,  }\item[{const double}]{time\+Start,  }\item[{const double}]{time\+End,  }\item[{const int}]{number\+Of\+Points }\end{DoxyParamCaption})}
+
+
+
+Carry out a time-\/course simulation based on the given arguments, time start, time end and number of points, but do not return results. 
+
+Example\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\mbox{\hyperlink{structRRCData}{RRCDataPtr}} m;}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keywordtype}{double} timeStart = 0.0;}
+\DoxyCodeLine{\textcolor{keywordtype}{double} timeEnd = 25;}
+\DoxyCodeLine{\textcolor{keywordtype}{int} numberOfPoints = 200;}
+\DoxyCodeLine{}
+\DoxyCodeLine{m = \mbox{\hyperlink{group__simulation_ga12a2129f06507eafbace57a8612cc600}{simulateEx}} (rrHandle, timeStart, timeEnd, numberOfPoints);}
+
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em handle} & Handle to a Road\+Runner instance \\
+\hline
+\mbox{\texttt{ in}}  & {\em time\+Start} & Time start \\
+\hline
+\mbox{\texttt{ in}}  & {\em time\+End} & Time end \\
+\hline
+\mbox{\texttt{ in}}  & {\em number\+Of\+Points} & Number of points to generate \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns an array (RRCData\+Ptr) of columns containing the results of the simulation including string labels for the individual columns. The client is responsible for freeing the resulting RRCData\+Ptr structure. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{group__simulation_ga4e4e8ef75ba20f2ad989a4c2188b3a55}\label{group__simulation_ga4e4e8ef75ba20f2ad989a4c2188b3a55}} 
+\index{Time-\/course simulation@{Time-\/course simulation}!simulateNoReturn@{simulateNoReturn}}
+\index{simulateNoReturn@{simulateNoReturn}!Time-\/course simulation@{Time-\/course simulation}}
+\doxysubsubsection{\texorpdfstring{simulateNoReturn()}{simulateNoReturn()}}
+{\footnotesize\ttfamily C\+\_\+\+DECL\+\_\+\+SPEC bool rrc\+Call\+Conv simulate\+No\+Return (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{RRHandle}}}]{handle }\end{DoxyParamCaption})}
+
+
+
+Carry out a time-\/course simulation. set\+Time\+Start, set\+Time\+End, set\+Num\+Points, etc are used to set the simulation characteristics. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em handle} & Handle to a Road\+Runner instance \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns an array (RRCData\+Ptr) of columns containing the results of the simulation including string labels for the individual columns. The client is responsible for freeing the resulting RRCData\+Ptr structure. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{group__simulation_gabf0748e0e5a62fe441a28d33badc5014}\label{group__simulation_gabf0748e0e5a62fe441a28d33badc5014}} 
+\index{Time-\/course simulation@{Time-\/course simulation}!simulateTimes@{simulateTimes}}
+\index{simulateTimes@{simulateTimes}!Time-\/course simulation@{Time-\/course simulation}}
+\doxysubsubsection{\texorpdfstring{simulateTimes()}{simulateTimes()}}
+{\footnotesize\ttfamily C\+\_\+\+DECL\+\_\+\+SPEC \mbox{\hyperlink{rrc__types_8h_a9da8b124eb9c3c0045f8926c6a420b4a}{RRCData\+Ptr}} rrc\+Call\+Conv simulate\+Times (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{RRHandle}}}]{handle,  }\item[{const double $\ast$}]{times,  }\item[{int}]{size }\end{DoxyParamCaption})}
+
+
+
+Carry out a time-\/course simulation based on the given arguments, time start, time end and number of points. 
+
+Example\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\mbox{\hyperlink{structRRCData}{RRCDataPtr}} m;}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keywordtype}{double}[4] times = \{0, 1, 5, 10\};}
+\DoxyCodeLine{}
+\DoxyCodeLine{m = \mbox{\hyperlink{group__simulation_gabf0748e0e5a62fe441a28d33badc5014}{simulateTimes}} (rrHandle, times, 4);}
+
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em handle} & Handle to a Road\+Runner instance \\
+\hline
+\mbox{\texttt{ in}}  & {\em times} & array of time points \\
+\hline
+\mbox{\texttt{ in}}  & {\em size} & size of time point array \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}

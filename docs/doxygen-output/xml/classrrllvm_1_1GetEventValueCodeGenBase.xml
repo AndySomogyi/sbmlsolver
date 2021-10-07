@@ -70,7 +70,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/GetEventValuesCodeGen.h" line="43" column="17" bodyfile="llvm/GetEventValuesCodeGen.h" bodystart="68" bodyend="129"/>
+        <location file="llvm/GetEventValuesCodeGen.h" line="43" column="17" bodyfile="llvm/GetEventValuesCodeGen.h" bodystart="68" bodyend="126"/>
       </memberdef>
       <memberdef kind="function" id="classrrllvm_1_1GetEventValueCodeGenBase_1a72911128b80b0ab3b23257750de4497d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>llvm::Type *</type>
@@ -78,7 +78,7 @@
         <argsstring>()</argsstring>
         <name>getRetType</name>
         <briefdescription>
-<para>default ret type is double, derived classes must override if usign non-default func sic </para>
+<para>default ret type is double, derived classes must override if using non-default func sic </para>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>

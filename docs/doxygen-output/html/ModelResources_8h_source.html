@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">roadrunner
-   &#160;<span id="projectnumber">2.0.9</span>
+   &#160;<span id="projectnumber">2.1.0</span>
    </div>
    <div id="projectbrief">Fast simulator for SBML models</div>
   </td>
@@ -128,35 +128,41 @@ $(function() {
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    SetFloatingSpeciesInitAmountCodeGen::FunctionPtr setFloatingSpeciesInitAmountsPtr;</div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    GetFloatingSpeciesInitAmountCodeGen::FunctionPtr getFloatingSpeciesInitAmountsPtr;</div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    GetCompartmentInitVolumeCodeGen::FunctionPtr getCompartmentInitVolumesPtr;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    SetCompartmentInitVolumeCodeGen::FunctionPtr setCompartmentInitVolumesPtr;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    SetBoundarySpeciesInitConcentrationCodeGen::FunctionPtr setBoundarySpeciesInitConcentrationsPtr;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    GetBoundarySpeciesInitConcentrationCodeGen::FunctionPtr getBoundarySpeciesInitConcentrationsPtr;</div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    GetGlobalParameterInitValueCodeGen::FunctionPtr getGlobalParameterInitValuePtr;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    SetGlobalParameterInitValueCodeGen::FunctionPtr setGlobalParameterInitValuePtr;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    SetBoundarySpeciesInitAmountCodeGen::FunctionPtr setBoundarySpeciesInitAmountsPtr;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    GetBoundarySpeciesInitAmountCodeGen::FunctionPtr getBoundarySpeciesInitAmountsPtr;</div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
-<div class="line"><a name="l00068"></a><span class="lineno"><a class="line" href="classrrllvm_1_1ModelResources.html#a9c6561f8bb57a983542c8dd36947c4e2">   68</a></span>&#160;    <span class="keyword">const</span> <a class="code" href="classrrllvm_1_1LLVMModelDataSymbols.html">LLVMModelDataSymbols</a> *<a class="code" href="classrrllvm_1_1ModelResources.html#a9c6561f8bb57a983542c8dd36947c4e2">symbols</a>;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    llvm::LLVMContext *context;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    llvm::ExecutionEngine *executionEngine;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    llvm::Module *module = <span class="keyword">nullptr</span>;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    std::string moduleStr;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="keyword">const</span> <span class="keyword">class </span><a class="code" href="classrr_1_1Random.html">Random</a> *random;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="keyword">const</span> std::string *errStr;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    GetCompartmentInitVolumeCodeGen::FunctionPtr getCompartmentInitVolumesPtr;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    SetCompartmentInitVolumeCodeGen::FunctionPtr setCompartmentInitVolumesPtr;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    GetGlobalParameterInitValueCodeGen::FunctionPtr getGlobalParameterInitValuePtr;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    SetGlobalParameterInitValueCodeGen::FunctionPtr setGlobalParameterInitValuePtr;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
+<div class="line"><a name="l00074"></a><span class="lineno"><a class="line" href="classrrllvm_1_1ModelResources.html#a9c6561f8bb57a983542c8dd36947c4e2">   74</a></span>&#160;    <span class="keyword">const</span> <a class="code" href="classrrllvm_1_1LLVMModelDataSymbols.html">LLVMModelDataSymbols</a> *<a class="code" href="classrrllvm_1_1ModelResources.html#a9c6561f8bb57a983542c8dd36947c4e2">symbols</a>;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    llvm::LLVMContext *context;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    llvm::ExecutionEngine *executionEngine;</div>
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160; </div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keywordtype">void</span> addGlobalMapping(std::string name, <span class="keywordtype">void</span>*);</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <span class="keywordtype">void</span> addGlobalMappings();</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="keyword">static</span> llvm::Function* createGlobalMappingFunction(<span class="keyword">const</span> <span class="keywordtype">char</span>* funcName, llvm::FunctionType *funcType, llvm::Module*);</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;};</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    llvm::Module *module = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160; </div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    std::string moduleStr;</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="keyword">const</span> <span class="keyword">class </span><a class="code" href="classrr_1_1Random.html">Random</a> *random;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="keyword">const</span> std::string *errStr;</div>
 <div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160; </div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;} <span class="comment">/* namespace rrllvm */</span></div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* CACHEDMODEL_H_ */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="keywordtype">void</span> addGlobalMapping(std::string name, <span class="keywordtype">void</span>*);</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keywordtype">void</span> addGlobalMappings();</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <span class="keyword">static</span> llvm::Function* createGlobalMappingFunction(<span class="keyword">const</span> <span class="keywordtype">char</span>* funcName, llvm::FunctionType *funcType, llvm::Module*);</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;};</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160; </div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;} <span class="comment">/* namespace rrllvm */</span></div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* CACHEDMODEL_H_ */</span><span class="preprocessor"></span></div>
 <div class="ttc" id="aLLVMExecutableModel_8h_html"><div class="ttname"><a href="LLVMExecutableModel_8h.html">LLVMExecutableModel.h</a></div><div class="ttdoc">LLVM executable model interface.</div></div>
 <div class="ttc" id="aclassrr_1_1Random_html"><div class="ttname"><a href="classrr_1_1Random.html">rr::Random</a></div><div class="ttdef"><b>Definition:</b> rrRandom.h:14</div></div>
 <div class="ttc" id="aclassrrllvm_1_1LLVMModelDataSymbols_html"><div class="ttname"><a href="classrrllvm_1_1LLVMModelDataSymbols.html">rrllvm::LLVMModelDataSymbols</a></div><div class="ttdoc">stores the names of all the symbols in the sbml model and thier indexes in the ModelData arrays.</div><div class="ttdef"><b>Definition:</b> LLVMModelDataSymbols.h:127</div></div>
 <div class="ttc" id="aclassrrllvm_1_1ModelResources_html"><div class="ttname"><a href="classrrllvm_1_1ModelResources.html">rrllvm::ModelResources</a></div><div class="ttdef"><b>Definition:</b> ModelResources.h:18</div></div>
-<div class="ttc" id="aclassrrllvm_1_1ModelResources_html_a9c6561f8bb57a983542c8dd36947c4e2"><div class="ttname"><a href="classrrllvm_1_1ModelResources.html#a9c6561f8bb57a983542c8dd36947c4e2">rrllvm::ModelResources::symbols</a></div><div class="ttdeci">const LLVMModelDataSymbols * symbols</div><div class="ttdoc">Public Member variables.</div><div class="ttdef"><b>Definition:</b> ModelResources.h:68</div></div>
+<div class="ttc" id="aclassrrllvm_1_1ModelResources_html_a9c6561f8bb57a983542c8dd36947c4e2"><div class="ttname"><a href="classrrllvm_1_1ModelResources.html#a9c6561f8bb57a983542c8dd36947c4e2">rrllvm::ModelResources::symbols</a></div><div class="ttdeci">const LLVMModelDataSymbols * symbols</div><div class="ttdoc">Public Member variables.</div><div class="ttdef"><b>Definition:</b> ModelResources.h:74</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

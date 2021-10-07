@@ -59,6 +59,8 @@
     <member refid="classrrllvm_1_1ASTNodeCodeGen_1a69559ab4b8ff63c2ff123cc8f3f5593b" kind="friend"><name>ASTNodeCodeGenScalarTicket</name></member>
     <member refid="classrrllvm_1_1ASTNodeCodeGen_1a8f27a81bbe9fbdf8f29dd2d9a54870de" kind="function"><name>ASTNodeCodeGen</name></member>
     <member refid="classrrllvm_1_1ASTNodeCodeGen_1a03807b2850f8e7818ad64bf145aa76db" kind="function"><name>~ASTNodeCodeGen</name></member>
+    <member refid="classrrllvm_1_1ASTNodeCodeGen_1a5926bbdb90c85ecadb92aeb6ac8628d1" kind="function"><name>codeGenDouble</name></member>
+    <member refid="classrrllvm_1_1ASTNodeCodeGen_1a09eac51c79e1f2509072f10615c09631" kind="function"><name>codeGenBoolean</name></member>
     <member refid="classrrllvm_1_1ASTNodeCodeGen_1a30dc7f36cc8d412257bf2806dd190af7" kind="function"><name>codeGen</name></member>
     <member refid="classrrllvm_1_1ASTNodeCodeGen_1a95b42193cf9062cc9d38e6a230f38347" kind="function"><name>binaryExprCodeGen</name></member>
     <member refid="classrrllvm_1_1ASTNodeCodeGen_1adff4f1fb164220bc04dbc10a3425ff75" kind="function"><name>notImplemented</name></member>
@@ -636,7 +638,7 @@
     <member refid="classrr_1_1CVODEIntegrator_1aa4049dfcb3f5086f84e439ee1c37d883" kind="variable"><name>nonLinSolver</name></member>
     <member refid="classrr_1_1CVODEIntegrator_1a6674ab1e9dfc6c4627e820eb5c1e8852" kind="variable"><name>linSolver</name></member>
     <member refid="classrr_1_1CVODEIntegrator_1ad0df731f78f1abae32e8d3043ab2db70" kind="variable"><name>listener</name></member>
-    <member refid="classrr_1_1CVODEIntegrator_1affb1d683887d8cbfd9a8d5d0a125aaa1" kind="variable"><name>lastEventTime</name></member>
+    <member refid="classrr_1_1CVODEIntegrator_1ab5bf8441f20d1b47b88d6433f6e4bd8f" kind="variable"><name>mLastEventTime</name></member>
     <member refid="classrr_1_1CVODEIntegrator_1ac19023ee4585263faebe4bb4e0198616" kind="variable"><name>variableStepPendingEvent</name></member>
     <member refid="classrr_1_1CVODEIntegrator_1a12e09d64dccc0997fda74582da507f76" kind="variable"><name>variableStepTimeEndEvent</name></member>
     <member refid="classrr_1_1CVODEIntegrator_1a3dfccc67478b9e66206c104c20b03c7f" kind="variable"><name>variableStepPostEventState</name></member>
@@ -673,6 +675,7 @@
     <member refid="classrr_1_1CVODEIntegrator_1a72452ef342616919777874ba32dcd1c3" kind="function"><name>getSolver</name></member>
     <member refid="classrr_1_1CVODEIntegrator_1ad3ad4d2d9d49bce33f8d34d177ff703a" kind="function"><name>getCvodeMemory</name></member>
     <member refid="classrr_1_1CVODEIntegrator_1a8a79e9633a25767a1683a0334fd1d917" kind="function"><name>Integrator</name></member>
+    <member refid="classrr_1_1CVODEIntegrator_1a661048f976364d39626d24e4745aa416" kind="function"><name>Integrator</name></member>
     <member refid="classrr_1_1CVODEIntegrator_1a26dbe3d01224a2f2ebf0264d0f754ac4" kind="function"><name>testRootsAtInitialTime</name></member>
     <member refid="classrr_1_1CVODEIntegrator_1a967747f26f15a184a0258a06b2d54048" kind="function"><name>haveVariables</name></member>
     <member refid="classrr_1_1CVODEIntegrator_1a97bd5d99beb0d80b16ea0aded9f5f896" kind="function"><name>assignResultsToModel</name></member>
@@ -727,6 +730,7 @@
     <member refid="classrr_1_1EulerIntegrator_1a5fcbf9856452f3b22dbe87a52873b994" kind="function"><name>getKeys</name></member>
     <member refid="classrr_1_1EulerIntegrator_1ade4200288b7b99ec7eee7cde2d9729b6" kind="function"><name>resetSettings</name></member>
     <member refid="classrr_1_1EulerIntegrator_1a8a79e9633a25767a1683a0334fd1d917" kind="function"><name>Integrator</name></member>
+    <member refid="classrr_1_1EulerIntegrator_1a661048f976364d39626d24e4745aa416" kind="function"><name>Integrator</name></member>
   </compound>
   <compound refid="classrrllvm_1_1EvalConversionFactorCodeGen" kind="class"><name>rrllvm::EvalConversionFactorCodeGen</name>
     <member refid="classrrllvm_1_1EvalConversionFactorCodeGen_1a08d00f0fd1eac93930f9235d79f679c3" kind="variable"><name>FunctionName</name></member>
@@ -877,6 +881,8 @@
     <member refid="classrr_1_1ExecutableModel_1a0503ffbf5c6c971cf545d7570ec0404ca389fbe7a44e9cb64d2e16415cd08554f" kind="enumvalue"><name>INTEGRATION</name></member>
     <member refid="classrr_1_1ExecutableModel_1a0503ffbf5c6c971cf545d7570ec0404ca3a399e67ea485968593a0c692643e107" kind="enumvalue"><name>OPTIMIZE_REACTION_RATE_SELECTION</name></member>
     <member refid="classrr_1_1ExecutableModel_1a4ee035f139a2124731903f5911c22690" kind="friend"><name>RoadRunner</name></member>
+    <member refid="classrr_1_1ExecutableModel_1abfa76a10231624f0acba7803d071964f" kind="variable"><name>mIntegrationStartTime</name></member>
+    <member refid="classrr_1_1ExecutableModel_1a304eb91e2abe96301321cf6507087a9f" kind="function"><name>ExecutableModel</name></member>
     <member refid="classrr_1_1ExecutableModel_1a07791b0ccd6feeb665278e9888cb8af7" kind="function"><name>getExecutableModelDesc</name></member>
     <member refid="classrr_1_1ExecutableModel_1a6ad7fd317a2335c337d7c8a3aeb8e044" kind="function"><name>getModelName</name></member>
     <member refid="classrr_1_1ExecutableModel_1ad38c7e2bf987ce1f7cbb8ac7316b8760" kind="function"><name>setTime</name></member>
@@ -903,6 +909,11 @@
     <member refid="classrr_1_1ExecutableModel_1a892be60159e501929cbb1169533d5104" kind="function"><name>getBoundarySpeciesAmounts</name></member>
     <member refid="classrr_1_1ExecutableModel_1a17dbc546d79fe987ff625e0c387f5cbd" kind="function"><name>getBoundarySpeciesConcentrations</name></member>
     <member refid="classrr_1_1ExecutableModel_1a1a4409ff1e5e41a13b1dcf2ab936ab23" kind="function"><name>setBoundarySpeciesConcentrations</name></member>
+    <member refid="classrr_1_1ExecutableModel_1af87aea77d1eaa28a12b0cfa5a9db2588" kind="function"><name>setBoundarySpeciesAmounts</name></member>
+    <member refid="classrr_1_1ExecutableModel_1a2e7799db0c63278059cef7de4ad18396" kind="function"><name>setBoundarySpeciesInitConcentrations</name></member>
+    <member refid="classrr_1_1ExecutableModel_1af215f6272824b762b01e7348c073d610" kind="function"><name>getBoundarySpeciesInitConcentrations</name></member>
+    <member refid="classrr_1_1ExecutableModel_1a7c2106b589bb41b2a01ab2dc5207024e" kind="function"><name>setBoundarySpeciesInitAmounts</name></member>
+    <member refid="classrr_1_1ExecutableModel_1ab55839f110bc70f7c5ae2cbd8f9225f7" kind="function"><name>getBoundarySpeciesInitAmounts</name></member>
     <member refid="classrr_1_1ExecutableModel_1aabbf6f025ea3c064f0dcaa5e4afaa87e" kind="function"><name>getNumGlobalParameters</name></member>
     <member refid="classrr_1_1ExecutableModel_1abcdcc03c4563dfbe6b64f932812906ee" kind="function"><name>getGlobalParameterIndex</name></member>
     <member refid="classrr_1_1ExecutableModel_1a741aa1e4a24bca93c8eb12019a33cd81" kind="function"><name>getGlobalParameterId</name></member>
@@ -912,6 +923,7 @@
     <member refid="classrr_1_1ExecutableModel_1a8a1693fc65e2e34772ca5acecad1e90b" kind="function"><name>getGlobalParameterInitValues</name></member>
     <member refid="classrr_1_1ExecutableModel_1acada1e982eafe06d0d5e46defdb40ca7" kind="function"><name>getNumCompartments</name></member>
     <member refid="classrr_1_1ExecutableModel_1aa19f2c21557264ce883bd24c3b8f647a" kind="function"><name>getCompartmentIndexForFloatingSpecies</name></member>
+    <member refid="classrr_1_1ExecutableModel_1ab5e600822c6d231eb8dad05b2af688b8" kind="function"><name>getCompartmentIndexForBoundarySpecies</name></member>
     <member refid="classrr_1_1ExecutableModel_1a366727be244766db2ff917b64949858c" kind="function"><name>getCompartmentIndex</name></member>
     <member refid="classrr_1_1ExecutableModel_1a8edf24e2351bc5796ddfa0901dcbaee5" kind="function"><name>getCompartmentId</name></member>
     <member refid="classrr_1_1ExecutableModel_1a977a5a3a7ed0fcfa04fe74369a4526ae" kind="function"><name>getCompartmentVolumes</name></member>
@@ -954,6 +966,9 @@
     <member refid="classrr_1_1ExecutableModel_1ae9b3e5baef45072822f9ccaf9d13ffa8" kind="function"><name>getEventIndex</name></member>
     <member refid="classrr_1_1ExecutableModel_1a4ae80f154f19c3cb39957630e803a152" kind="function"><name>getEventId</name></member>
     <member refid="classrr_1_1ExecutableModel_1a9a7ca6c6976625c1ebfa0e3cbeb6f51f" kind="function"><name>getEventIds</name></member>
+    <member refid="classrr_1_1ExecutableModel_1a05417ffc5049df95716079963cb2f753" kind="function"><name>getAssignmentRuleIds</name></member>
+    <member refid="classrr_1_1ExecutableModel_1a4445b440c3be7b63e587e000af4ada17" kind="function"><name>getRateRuleIds</name></member>
+    <member refid="classrr_1_1ExecutableModel_1a01404ae0883bfdf79a7932aa530a431c" kind="function"><name>getInitialAssignmentIds</name></member>
     <member refid="classrr_1_1ExecutableModel_1abc6d0913ac6cf58b413186e7dbfa2502" kind="function"><name>setEventListener</name></member>
     <member refid="classrr_1_1ExecutableModel_1a93633ae9a0f5b04c16115e291176aa9e" kind="function"><name>getEventListener</name></member>
     <member refid="classrr_1_1ExecutableModel_1a460387891972dfb029d5fdd6134c10eb" kind="function"><name>getFloatingSpeciesAmountRate</name></member>
@@ -965,6 +980,7 @@
     <member refid="classrr_1_1ExecutableModel_1a3474ace3dd70d16662142d377bd1b5f6" kind="function"><name>setFlags</name></member>
     <member refid="classrr_1_1ExecutableModel_1ad7d5fb21f3d7ad10f8e8714a49c11184" kind="function"><name>computeAllRatesOfChange</name></member>
     <member refid="classrr_1_1ExecutableModel_1a8db1a8a035e0b226b16ae10b18caaf1e" kind="function"><name>saveState</name></member>
+    <member refid="classrr_1_1ExecutableModel_1a44f6976be2f489aba16f41d7defbb575" kind="function"><name>setIntegrationStartTime</name></member>
     <member refid="classrr_1_1ExecutableModel_1aec2ca2935ed5ed13500204fdec32e058" kind="function"><name>setIntegration</name></member>
   </compound>
   <compound refid="classrr_1_1ExecutableModelFactory" kind="class"><name>rr::ExecutableModelFactory</name>
@@ -1024,6 +1040,7 @@
     <member refid="classrr_1_1ForwardSensitivitySolver_1ae013837b736cecfa1628da4f7f2095b8" kind="variable"><name>usingUseWhichParametersFromConstructor</name></member>
     <member refid="classrr_1_1ForwardSensitivitySolver_1a0ee9a6d000e960e7cd30abed3dacb8d1" kind="variable"><name>NLSsens</name></member>
     <member refid="classrr_1_1ForwardSensitivitySolver_1a6b7bf0b852c4e007745cf7b3f4ffb59d" kind="variable"><name>mSensitivityMatrix</name></member>
+    <member refid="classrr_1_1ForwardSensitivitySolver_1ae9f15e12c021c32cf11d51fb9c74a92d" kind="variable"><name>mSensitivityMatrixSize</name></member>
     <member refid="classrr_1_1ForwardSensitivitySolver_1af80e459aeaa62284d78f61b5c74a330e" kind="variable"><name>stateVectorVariables</name></member>
     <member refid="classrr_1_1ForwardSensitivitySolver_1a14f9b5843737f512beaaa8045b4bd312" kind="function"><name>ForwardSensitivitySolver</name></member>
     <member refid="classrr_1_1ForwardSensitivitySolver_1aba4498c5ec6aa00d8974c54b2d20e45b" kind="function"><name>~ForwardSensitivitySolver</name></member>
@@ -1049,7 +1066,7 @@
     <member refid="classrr_1_1ForwardSensitivitySolver_1ae2da77e914bbff9a93ef44c2c3546a3b" kind="function"><name>getStateVector</name></member>
     <member refid="classrr_1_1ForwardSensitivitySolver_1a7aa4a017b53b2e2ae10d09c1f1747efd" kind="function"><name>getSensitivityNVectorPtr</name></member>
     <member refid="classrr_1_1ForwardSensitivitySolver_1ac92ead0cef81dc069acb9c045bf02657" kind="function"><name>getSensitivityMatrix</name></member>
-    <member refid="classrr_1_1ForwardSensitivitySolver_1a70ad538b6dd6a87f785975874cbcc1c2" kind="function"><name>solveSensitivities</name></member>
+    <member refid="classrr_1_1ForwardSensitivitySolver_1a786b41a5f01a081790832957affddaed" kind="function"><name>solveSensitivities</name></member>
     <member refid="classrr_1_1ForwardSensitivitySolver_1ac041b6c31b3f47bb9bbf6d17bf80751a" kind="function"><name>setValue</name></member>
     <member refid="classrr_1_1ForwardSensitivitySolver_1add79660afc5ed06291e86e6803aaa978" kind="function"><name>constructorOperations</name></member>
     <member refid="classrr_1_1ForwardSensitivitySolver_1a9560b66cd93fc8dc3b4176519e372c56" kind="function"><name>setDefaultWhichParameters</name></member>
@@ -1085,6 +1102,20 @@
     <member refid="classrrllvm_1_1GetBoundarySpeciesConcentrationCodeGen_1aa8955652d9af8ca807162bfe64aee24f" kind="function"><name>~GetBoundarySpeciesConcentrationCodeGen</name></member>
     <member refid="classrrllvm_1_1GetBoundarySpeciesConcentrationCodeGen_1a119a826899e18f7830f82fab43dab3db" kind="function"><name>getIds</name></member>
   </compound>
+  <compound refid="classrrllvm_1_1GetBoundarySpeciesInitAmountCodeGen" kind="class"><name>rrllvm::GetBoundarySpeciesInitAmountCodeGen</name>
+    <member refid="classrrllvm_1_1GetBoundarySpeciesInitAmountCodeGen_1ad1b0afa28ca216785f2d5f45e5caebd8" kind="variable"><name>FunctionName</name></member>
+    <member refid="classrrllvm_1_1GetBoundarySpeciesInitAmountCodeGen_1a17c702407af4ffe5fd75d8b7e6100665" kind="variable"><name>IndexArgName</name></member>
+    <member refid="classrrllvm_1_1GetBoundarySpeciesInitAmountCodeGen_1a90ee77a1f5a20e75f43f0eb22a831c79" kind="function"><name>GetBoundarySpeciesInitAmountCodeGen</name></member>
+    <member refid="classrrllvm_1_1GetBoundarySpeciesInitAmountCodeGen_1a1e44d1f29591d90bf844131ab2b22ff7" kind="function"><name>~GetBoundarySpeciesInitAmountCodeGen</name></member>
+    <member refid="classrrllvm_1_1GetBoundarySpeciesInitAmountCodeGen_1aa0d337c743ef169f4878cb44f3b97a51" kind="function"><name>getIds</name></member>
+  </compound>
+  <compound refid="classrrllvm_1_1GetBoundarySpeciesInitConcentrationCodeGen" kind="class"><name>rrllvm::GetBoundarySpeciesInitConcentrationCodeGen</name>
+    <member refid="classrrllvm_1_1GetBoundarySpeciesInitConcentrationCodeGen_1abb7be5ffe9652fda63278e6c3c8fce29" kind="variable"><name>FunctionName</name></member>
+    <member refid="classrrllvm_1_1GetBoundarySpeciesInitConcentrationCodeGen_1a13d96b1f2f2475974cf60fcb15a5e0ce" kind="variable"><name>IndexArgName</name></member>
+    <member refid="classrrllvm_1_1GetBoundarySpeciesInitConcentrationCodeGen_1a4e24f736e47560adb0ce100acb92c712" kind="function"><name>GetBoundarySpeciesInitConcentrationCodeGen</name></member>
+    <member refid="classrrllvm_1_1GetBoundarySpeciesInitConcentrationCodeGen_1aeb8379432874351869cece59f175bd6b" kind="function"><name>~GetBoundarySpeciesInitConcentrationCodeGen</name></member>
+    <member refid="classrrllvm_1_1GetBoundarySpeciesInitConcentrationCodeGen_1ad244c6c8b8c9a71ad0430157813649db" kind="function"><name>getIds</name></member>
+  </compound>
   <compound refid="classrrllvm_1_1GetCompartmentInitVolumeCodeGen" kind="class"><name>rrllvm::GetCompartmentInitVolumeCodeGen</name>
     <member refid="classrrllvm_1_1GetCompartmentInitVolumeCodeGen_1a6bec154978a0a1c9c01587b3b4eac391" kind="variable"><name>FunctionName</name></member>
     <member refid="classrrllvm_1_1GetCompartmentInitVolumeCodeGen_1a9a9751256f6d8cc3e3bee901c524e70e" kind="variable"><name>IndexArgName</name></member>
@@ -1105,7 +1136,7 @@
     <member refid="classrrllvm_1_1GetEventDelayCodeGen_1a5cd976435a191e52e9229e4b6e92c08b" kind="variable"><name>node</name></member>
     <member refid="classrrllvm_1_1GetEventDelayCodeGen_1ac602bd404deb94c7978e3767c3179937" kind="function"><name>GetEventDelayCodeGen</name></member>
     <member refid="classrrllvm_1_1GetEventDelayCodeGen_1a8a7a167438345ff7cc95c975781a96fe" kind="function"><name>~GetEventDelayCodeGen</name></member>
-    <member refid="classrrllvm_1_1GetEventDelayCodeGen_1a875694725bfc8175d79421c3b4af5f49" kind="function"><name>getMath</name></member>
+    <member refid="classrrllvm_1_1GetEventDelayCodeGen_1ac0dcfaafd7455fb6ed5ad72a744d98e9" kind="function"><name>getMath</name></member>
     <member refid="classrrllvm_1_1GetEventDelayCodeGen_1aac4f2c4ea3096bfe30098e582a191dd7" kind="function"><name>createRet</name></member>
   </compound>
   <compound refid="classrrllvm_1_1GetEventPriorityCodeGen" kind="class"><name>rrllvm::GetEventPriorityCodeGen</name>
@@ -1114,14 +1145,14 @@
     <member refid="classrrllvm_1_1GetEventPriorityCodeGen_1a8cfe7eaf686b78346467bf2a4e95f594" kind="variable"><name>node</name></member>
     <member refid="classrrllvm_1_1GetEventPriorityCodeGen_1a3e8a43d341e19034ffe56a56d55fb563" kind="function"><name>GetEventPriorityCodeGen</name></member>
     <member refid="classrrllvm_1_1GetEventPriorityCodeGen_1a4780c3f3ea4813d62e41fc4008a973f8" kind="function"><name>~GetEventPriorityCodeGen</name></member>
-    <member refid="classrrllvm_1_1GetEventPriorityCodeGen_1abb1116af0e2604fc8e6e5230c98d9a61" kind="function"><name>getMath</name></member>
+    <member refid="classrrllvm_1_1GetEventPriorityCodeGen_1a8e96615240a2f04d081b7106aa201e1e" kind="function"><name>getMath</name></member>
   </compound>
   <compound refid="classrrllvm_1_1GetEventTriggerCodeGen" kind="class"><name>rrllvm::GetEventTriggerCodeGen</name>
     <member refid="classrrllvm_1_1GetEventTriggerCodeGen_1aeeb5c564a353c7e4dd95025e6670d6eb" kind="variable"><name>FunctionName</name></member>
     <member refid="classrrllvm_1_1GetEventTriggerCodeGen_1a4244be7eb9d3a06e738998cdb86042f6" kind="variable"><name>IndexArgName</name></member>
     <member refid="classrrllvm_1_1GetEventTriggerCodeGen_1af3e90fbb84eedac8b51d0b5ccd9133da" kind="function"><name>GetEventTriggerCodeGen</name></member>
     <member refid="classrrllvm_1_1GetEventTriggerCodeGen_1ab102a34e6f2cee8f596a9479d8c965e0" kind="function"><name>~GetEventTriggerCodeGen</name></member>
-    <member refid="classrrllvm_1_1GetEventTriggerCodeGen_1afee7ecc88cca4243e5d92287866f5d78" kind="function"><name>getMath</name></member>
+    <member refid="classrrllvm_1_1GetEventTriggerCodeGen_1a57e7a3bc2121dd00ffef78c7a5ae8c03" kind="function"><name>getMath</name></member>
     <member refid="classrrllvm_1_1GetEventTriggerCodeGen_1a27f33c860b27581d33f16f561343911f" kind="function"><name>getRetType</name></member>
     <member refid="classrrllvm_1_1GetEventTriggerCodeGen_1ad807a6ccb523b8d7bc7feaad2a0528a3" kind="function"><name>createRet</name></member>
   </compound>
@@ -1218,6 +1249,7 @@
     <member refid="classrr_1_1GillespieIntegrator_1aa412e44a4edb787ea54c397de0a94429" kind="function"><name>getListener</name></member>
     <member refid="classrr_1_1GillespieIntegrator_1ad90d4e1cc786cb9e9231cdcfc42a01ed" kind="function"><name>setListener</name></member>
     <member refid="classrr_1_1GillespieIntegrator_1a8a79e9633a25767a1683a0334fd1d917" kind="function"><name>Integrator</name></member>
+    <member refid="classrr_1_1GillespieIntegrator_1a661048f976364d39626d24e4745aa416" kind="function"><name>Integrator</name></member>
     <member refid="classrr_1_1GillespieIntegrator_1a428dfc2f707841441124464acf942de9" kind="function"><name>testRootsAtInitialTime</name></member>
     <member refid="classrr_1_1GillespieIntegrator_1a86a2804bbae3bf66f974c6bdd790eb6f" kind="function"><name>applyEvents</name></member>
     <member refid="classrr_1_1GillespieIntegrator_1afedd845c9444ad8a7c1ff560f6655b46" kind="function"><name>urand</name></member>
@@ -1328,7 +1360,9 @@
     <member refid="classrr_1_1Integrator_1a0912499450e66cb4301263362d64a0d0a35eaf1b6ad6c75eb82506ef35dd47c27" kind="enumvalue"><name>Stochastic</name></member>
     <member refid="classrr_1_1Integrator_1a0912499450e66cb4301263362d64a0d0aca69e7d9e0e8eb017d2351c375453822" kind="enumvalue"><name>Hybrid</name></member>
     <member refid="classrr_1_1Integrator_1a0912499450e66cb4301263362d64a0d0a0f9b8ec4e01a0fcd2ce808c42c039940" kind="enumvalue"><name>Other</name></member>
+    <member refid="classrr_1_1Integrator_1ad8c8677013a9976bcbc7a6f7a82f136e" kind="variable"><name>mIntegrationStartTime</name></member>
     <member refid="classrr_1_1Integrator_1a8a79e9633a25767a1683a0334fd1d917" kind="function"><name>Integrator</name></member>
+    <member refid="classrr_1_1Integrator_1a661048f976364d39626d24e4745aa416" kind="function"><name>Integrator</name></member>
     <member refid="classrr_1_1Integrator_1a35f0f55f14d225c1da02300f3f1c37b5" kind="function"><name>~Integrator</name></member>
     <member refid="classrr_1_1Integrator_1a6166cbf32c54a1d95a8a830b8db1424c" kind="function"><name>getIntegrationMethod</name></member>
     <member refid="classrr_1_1Integrator_1a6b12118cd1b0f047f5a64cfb0546b565" kind="function"><name>syncWithModel</name></member>
@@ -1344,6 +1378,7 @@
     <member refid="classrr_1_1Integrator_1ae4105739ea0544fe66db1482e0aeae9d" kind="function"><name>getListener</name></member>
     <member refid="classrr_1_1Integrator_1adde5221e0d61f9f5398d69020e1a5a86" kind="function"><name>toString</name></member>
     <member refid="classrr_1_1Integrator_1abb3c4ae3020a5df7abe40639037615cb" kind="function"><name>toRepr</name></member>
+    <member refid="classrr_1_1Integrator_1a8b39797408013aaf5fa2d09cb71f8a17" kind="function"><name>setIntegrationStartTime</name></member>
     <member refid="classrr_1_1Integrator_1a04bba4a342cc7197750f080d41d439e5" kind="function"><name>Solver</name></member>
     <member refid="classrr_1_1Integrator_1aa0a07553e368f0be33b9bfc429782a97" kind="function"><name>Solver</name></member>
     <member refid="classrr_1_1Integrator_1a18fa004a818506c15d47fa28015039c6" kind="function"><name>setValue</name></member>
@@ -1504,9 +1539,13 @@
     <member refid="classrrllvm_1_1LLVMExecutableModel_1a44ebaec7fbcb5b18e867980c9df14630" kind="variable"><name>setCompartmentVolumePtr</name></member>
     <member refid="classrrllvm_1_1LLVMExecutableModel_1a28d91f28261aeddee0dd4e8bdad82889" kind="variable"><name>setGlobalParameterPtr</name></member>
     <member refid="classrrllvm_1_1LLVMExecutableModel_1a32bc5ffa60d58bababfad330240064ff" kind="variable"><name>setFloatingSpeciesInitConcentrationsPtr</name></member>
+    <member refid="classrrllvm_1_1LLVMExecutableModel_1a044a436f1306d1813bd9164f5bdaeb5a" kind="variable"><name>setBoundarySpeciesInitConcentrationsPtr</name></member>
     <member refid="classrrllvm_1_1LLVMExecutableModel_1ae0f9b560b3bff0c347717f690b34a01a" kind="variable"><name>getFloatingSpeciesInitConcentrationsPtr</name></member>
+    <member refid="classrrllvm_1_1LLVMExecutableModel_1a9b197d869440bd5fe2ead60608206c76" kind="variable"><name>getBoundarySpeciesInitConcentrationsPtr</name></member>
     <member refid="classrrllvm_1_1LLVMExecutableModel_1af01bdb732e9a6ce77d1f1eaaf554a5e3" kind="variable"><name>setFloatingSpeciesInitAmountsPtr</name></member>
     <member refid="classrrllvm_1_1LLVMExecutableModel_1a5d0cc0929091cb34ec1e19f5debcc532" kind="variable"><name>getFloatingSpeciesInitAmountsPtr</name></member>
+    <member refid="classrrllvm_1_1LLVMExecutableModel_1aaa5b39686f363845da0e831471956506" kind="variable"><name>setBoundarySpeciesInitAmountsPtr</name></member>
+    <member refid="classrrllvm_1_1LLVMExecutableModel_1a331fc8556396b67292aa58baade06a63" kind="variable"><name>getBoundarySpeciesInitAmountsPtr</name></member>
     <member refid="classrrllvm_1_1LLVMExecutableModel_1a78f631555b6148608b39fc356a0e6a88" kind="variable"><name>setCompartmentInitVolumesPtr</name></member>
     <member refid="classrrllvm_1_1LLVMExecutableModel_1a2098cd40e8903f6a765dd8ba04c1b8d8" kind="variable"><name>getCompartmentInitVolumesPtr</name></member>
     <member refid="classrrllvm_1_1LLVMExecutableModel_1a6da2e16382e490ca7d7858d07e24fd54" kind="variable"><name>getGlobalParameterInitValuePtr</name></member>
@@ -1536,6 +1575,7 @@
     <member refid="classrrllvm_1_1LLVMExecutableModel_1ad5e1d402a4fac02f00da526bcd1cdb73" kind="function"><name>getNumGlobalParameters</name></member>
     <member refid="classrrllvm_1_1LLVMExecutableModel_1a04c95301ef203d73dd3fb3717db10df1" kind="function"><name>getNumCompartments</name></member>
     <member refid="classrrllvm_1_1LLVMExecutableModel_1a6c1a4a19798ce72f37848360cf3af692" kind="function"><name>getCompartmentIndexForFloatingSpecies</name></member>
+    <member refid="classrrllvm_1_1LLVMExecutableModel_1a60338eca0ad5984b5f5f6986beae1c87" kind="function"><name>getCompartmentIndexForBoundarySpecies</name></member>
     <member refid="classrrllvm_1_1LLVMExecutableModel_1a7326ff8b52c44cc6ebe88bad8495f175" kind="function"><name>getGlobalParameterValues</name></member>
     <member refid="classrrllvm_1_1LLVMExecutableModel_1a31abe40266c7c5a1da0fa6b07fd16e9d" kind="function"><name>setGlobalParameterValues</name></member>
     <member refid="classrrllvm_1_1LLVMExecutableModel_1a44eafee99d943d187bc60d9ab93a9f0c" kind="function"><name>getNumReactions</name></member>
@@ -1580,9 +1620,13 @@
     <member refid="classrrllvm_1_1LLVMExecutableModel_1a5de8a96030e376804d05413cf10f0338" kind="function"><name>getStoichiometry</name></member>
     <member refid="classrrllvm_1_1LLVMExecutableModel_1a1475e0cd372f9bea14493c595fe024fa" kind="function"><name>getStoichiometryMatrix</name></member>
     <member refid="classrrllvm_1_1LLVMExecutableModel_1ae18e2e04bafd5613f832d0723c6831d5" kind="function"><name>setFloatingSpeciesInitConcentrations</name></member>
+    <member refid="classrrllvm_1_1LLVMExecutableModel_1a255c7e48d3a23261b9988b33888564d3" kind="function"><name>setBoundarySpeciesInitConcentrations</name></member>
     <member refid="classrrllvm_1_1LLVMExecutableModel_1a0b370d57c274830d88084d2c232377ef" kind="function"><name>getFloatingSpeciesInitConcentrations</name></member>
+    <member refid="classrrllvm_1_1LLVMExecutableModel_1abe614510318c9608948362ba21047dda" kind="function"><name>getBoundarySpeciesInitConcentrations</name></member>
     <member refid="classrrllvm_1_1LLVMExecutableModel_1a2917252bcf019a085d8cef01d7752f4b" kind="function"><name>setFloatingSpeciesInitAmounts</name></member>
+    <member refid="classrrllvm_1_1LLVMExecutableModel_1a2bf030fd88daa3de4d803aaf0982fd43" kind="function"><name>setBoundarySpeciesInitAmounts</name></member>
     <member refid="classrrllvm_1_1LLVMExecutableModel_1a296f9db380418db1d6320fb50d839b40" kind="function"><name>getFloatingSpeciesInitAmounts</name></member>
+    <member refid="classrrllvm_1_1LLVMExecutableModel_1a0b605b2e80ec14af1d1ab71d692c8868" kind="function"><name>getBoundarySpeciesInitAmounts</name></member>
     <member refid="classrrllvm_1_1LLVMExecutableModel_1ac4868fa0f700923e1d26f59db2439be2" kind="function"><name>setCompartmentInitVolumes</name></member>
     <member refid="classrrllvm_1_1LLVMExecutableModel_1a959d502139b048414115f71be9f06603" kind="function"><name>getCompartmentInitVolumes</name></member>
     <member refid="classrrllvm_1_1LLVMExecutableModel_1a3f6882867b8da2742473c2647bf10af5" kind="function"><name>setGlobalParameterInitValues</name></member>
@@ -1614,6 +1658,9 @@
     <member refid="classrrllvm_1_1LLVMExecutableModel_1a2e869485a6748bd33b3320dc955422a4" kind="function"><name>getEventIndex</name></member>
     <member refid="classrrllvm_1_1LLVMExecutableModel_1aa0176a01e2eb098c2b91cfb3f69e11ec" kind="function"><name>getEventId</name></member>
     <member refid="classrrllvm_1_1LLVMExecutableModel_1aace8aab3fcc35b3095e593df45b91a29" kind="function"><name>getEventIds</name></member>
+    <member refid="classrrllvm_1_1LLVMExecutableModel_1ae5036fa43ef7c64bc4eec7eb7e4b2638" kind="function"><name>getAssignmentRuleIds</name></member>
+    <member refid="classrrllvm_1_1LLVMExecutableModel_1a66f5d83509885e90c1f473e3f331522d" kind="function"><name>getRateRuleIds</name></member>
+    <member refid="classrrllvm_1_1LLVMExecutableModel_1a5eba376a2f10b7dd3fc7f59bbdf4918e" kind="function"><name>getInitialAssignmentIds</name></member>
     <member refid="classrrllvm_1_1LLVMExecutableModel_1a08dba869293bde84f1cfa899604136d0" kind="function"><name>setEventListener</name></member>
     <member refid="classrrllvm_1_1LLVMExecutableModel_1a907f9153b53c47cacedbe96a73aa1f0d" kind="function"><name>getEventListener</name></member>
     <member refid="classrrllvm_1_1LLVMExecutableModel_1aba4cbc143e2a9ad641e8db160837e466" kind="function"><name>getFloatingSpeciesAmountRate</name></member>
@@ -1623,6 +1670,7 @@
     <member refid="classrrllvm_1_1LLVMExecutableModel_1a4b6f97fc9e431fcd768a5c40fee5a998" kind="function"><name>saveState</name></member>
     <member refid="classrrllvm_1_1LLVMExecutableModel_1ace4d93f759c326c498bef3cdf2cf2b4b" kind="function"><name>getSelection</name></member>
     <member refid="classrrllvm_1_1LLVMExecutableModel_1af3b6fbe559cf900ee50641b667ec5b50" kind="function"><name>applyEvents</name></member>
+    <member refid="classrrllvm_1_1LLVMExecutableModel_1a24583f6e396246ff532704c495426b7f" kind="function"><name>resetOneType</name></member>
     <member refid="classrrllvm_1_1LLVMExecutableModel_1ad7fb31b5ee198e288b854824e3b2fb2c" kind="function"><name>getValues</name></member>
     <member refid="classrrllvm_1_1LLVMExecutableModel_1a6a2a75755a28c9b385dd1d4c9706a7b2" kind="function"><name>setValues</name></member>
     <member refid="classrrllvm_1_1LLVMExecutableModel_1a74daa1dc077201c30e2fd1e2e1977112" kind="function"><name>dummy</name></member>
@@ -1710,6 +1758,7 @@
     <member refid="classrrllvm_1_1LLVMModelDataSymbols_1ad915ae8529f5d1739724a138dd951f8b" kind="variable"><name>independentInitGlobalParameterSize</name></member>
     <member refid="classrrllvm_1_1LLVMModelDataSymbols_1ace4e8ba519e7d52af3f50141136fe5d0" kind="variable"><name>independentInitCompartmentSize</name></member>
     <member refid="classrrllvm_1_1LLVMModelDataSymbols_1a076f2928ad6aeb44694e90cd4c9a7239" kind="variable"><name>floatingSpeciesCompartmentIndices</name></member>
+    <member refid="classrrllvm_1_1LLVMModelDataSymbols_1ae39b71ed7aab13022cd6aa92066d83f3" kind="variable"><name>boundarySpeciesCompartmentIndices</name></member>
     <member refid="classrrllvm_1_1LLVMModelDataSymbols_1a15562ccc22c7074cfb6fa217caa8f7f7" kind="variable"><name>modelName</name></member>
     <member refid="classrrllvm_1_1LLVMModelDataSymbols_1af9bed36aa9c0087e58041dafe727ded7" kind="variable"><name>floatingSpeciesMap</name></member>
     <member refid="classrrllvm_1_1LLVMModelDataSymbols_1a49aeda0eb1c41694f31f7d8a28ed7211" kind="variable"><name>boundarySpeciesMap</name></member>
@@ -1754,6 +1803,8 @@
     <member refid="classrrllvm_1_1LLVMModelDataSymbols_1a574e97b63fdb6098718d7f86bf0fab12" kind="function"><name>isRateRuleGlobalParameter</name></member>
     <member refid="classrrllvm_1_1LLVMModelDataSymbols_1a330dc333f5b9116091f8f79c10f4db46" kind="function"><name>getFloatingSpeciesIds</name></member>
     <member refid="classrrllvm_1_1LLVMModelDataSymbols_1a87b3733f8993e9654c1385256a370685" kind="function"><name>getFloatingSpeciesId</name></member>
+    <member refid="classrrllvm_1_1LLVMModelDataSymbols_1a5a64c6fcd5f052994c12908e4cce9110" kind="function"><name>getBoundarySpeciesId</name></member>
+    <member refid="classrrllvm_1_1LLVMModelDataSymbols_1a5b7b5828e4b4a125811ffe22dd2d883d" kind="function"><name>getCompartmentId</name></member>
     <member refid="classrrllvm_1_1LLVMModelDataSymbols_1af4ff843ba9adeebe28e935a7a20e4c1c" kind="function"><name>getGlobalParameterId</name></member>
     <member refid="classrrllvm_1_1LLVMModelDataSymbols_1af008f3b08eec501c2a338403cd33ef07" kind="function"><name>getFloatingSpeciesSize</name></member>
     <member refid="classrrllvm_1_1LLVMModelDataSymbols_1a141bc08ae5e8c6a2f27889179a8c05e8" kind="function"><name>getBoundarySpeciesSize</name></member>
@@ -1789,19 +1840,25 @@
     <member refid="classrrllvm_1_1LLVMModelDataSymbols_1a32e0b4d1aa32145bc261775d323e67b0" kind="function"><name>getStoichRowIndx</name></member>
     <member refid="classrrllvm_1_1LLVMModelDataSymbols_1a2c749029ee8a4a5f3dcfa3e49ee54824" kind="function"><name>getStoichColIndx</name></member>
     <member refid="classrrllvm_1_1LLVMModelDataSymbols_1af242d61196597833aa9e1c5c1850910d" kind="function"><name>isIndependentInitFloatingSpecies</name></member>
+    <member refid="classrrllvm_1_1LLVMModelDataSymbols_1a52ef222f608f2e024d6b126186dfe90c" kind="function"><name>isIndependentInitBoundarySpecies</name></member>
     <member refid="classrrllvm_1_1LLVMModelDataSymbols_1a775dc49eff5e65aa7e7e88d3a7485976" kind="function"><name>isIndependentInitElement</name></member>
     <member refid="classrrllvm_1_1LLVMModelDataSymbols_1a8711b0a0c667e10454984b6589409514" kind="function"><name>isIndependentInitCompartment</name></member>
     <member refid="classrrllvm_1_1LLVMModelDataSymbols_1a9e69809c00382d494280b0124bae2e57" kind="function"><name>isIndependentInitGlobalParameter</name></member>
     <member refid="classrrllvm_1_1LLVMModelDataSymbols_1a4980057e894a24a75faad509c9ecc616" kind="function"><name>isIndependentInitGlobalParameter</name></member>
     <member refid="classrrllvm_1_1LLVMModelDataSymbols_1ac7d78cdbadcc805571ab7ce9ff8870be" kind="function"><name>getFloatingSpeciesInitIndex</name></member>
+    <member refid="classrrllvm_1_1LLVMModelDataSymbols_1af6553b393cc60475e6555fa82ede5495" kind="function"><name>getBoundarySpeciesInitIndex</name></member>
     <member refid="classrrllvm_1_1LLVMModelDataSymbols_1af08014c2f00c6f8721f5ec253e9af2a2" kind="function"><name>getCompartmentInitIndex</name></member>
     <member refid="classrrllvm_1_1LLVMModelDataSymbols_1ac8c9d2e8c243bcbfc4b524dcee460be0" kind="function"><name>getCompartmentIndexForFloatingSpecies</name></member>
+    <member refid="classrrllvm_1_1LLVMModelDataSymbols_1ae926b204cd5a9536f6c74260582951e2" kind="function"><name>getCompartmentIndexForBoundarySpecies</name></member>
     <member refid="classrrllvm_1_1LLVMModelDataSymbols_1ade8b52affdb741d79c538f14c0813acf" kind="function"><name>getGlobalParameterInitIndex</name></member>
     <member refid="classrrllvm_1_1LLVMModelDataSymbols_1a318fc67557734a7a50eab9e4a0def38d" kind="function"><name>getInitCompartmentSize</name></member>
     <member refid="classrrllvm_1_1LLVMModelDataSymbols_1ad5b54f92fccaa1fe92d8406e2f9bc14c" kind="function"><name>getInitFloatingSpeciesSize</name></member>
     <member refid="classrrllvm_1_1LLVMModelDataSymbols_1aeb1eadd29a31d11893946d97ab58800e" kind="function"><name>getInitBoundarySpeciesSize</name></member>
     <member refid="classrrllvm_1_1LLVMModelDataSymbols_1ae896dde301d464d645a8a477d8e21d81" kind="function"><name>getInitGlobalParameterSize</name></member>
     <member refid="classrrllvm_1_1LLVMModelDataSymbols_1abfcfe60fdf6c0792a2a9cb61132cdff2" kind="function"><name>getEventIds</name></member>
+    <member refid="classrrllvm_1_1LLVMModelDataSymbols_1abf5ef1737b27bea8ad5b97b19fd04c6c" kind="function"><name>getAssignmentRuleIds</name></member>
+    <member refid="classrrllvm_1_1LLVMModelDataSymbols_1ab7872fcd6e3badfff50a81a5253e361b" kind="function"><name>getRateRuleIds</name></member>
+    <member refid="classrrllvm_1_1LLVMModelDataSymbols_1aebb5eecd5a5c493a2b894e87f234ae53" kind="function"><name>getInitialAssignmentIds</name></member>
     <member refid="classrrllvm_1_1LLVMModelDataSymbols_1ab3e8054b5ef8d3f6fe151f6f0b28b1c4" kind="function"><name>getEventId</name></member>
     <member refid="classrrllvm_1_1LLVMModelDataSymbols_1a080d4ea2f49acc229c3fd94dccbe1b43" kind="function"><name>getEventIndex</name></member>
     <member refid="classrrllvm_1_1LLVMModelDataSymbols_1adde4ee18438b1cca520afdd1c81c8781" kind="function"><name>saveState</name></member>
@@ -1967,15 +2024,21 @@
     <member refid="classrr_1_1Matrix_1a15848a37cb50e749fb8f7f00ae0a6b22" kind="function"><name>operator==</name></member>
     <member refid="classrr_1_1Matrix_1a4a1a8c0eada3c2c680cb5383fbd8e0e5" kind="function"><name>operator!=</name></member>
     <member refid="classrr_1_1Matrix_1ad2be619ba028bf0f0b5c229c13f64063" kind="function"><name>almostEquals</name></member>
-    <member refid="classrr_1_1Matrix_1a9cc83eb19abb5da6d8a7bea7bc89dc1b" kind="function"><name>mult</name></member>
+    <member refid="classrr_1_1Matrix_1adbdc267bb90e3e9c752758126e161791" kind="function"><name>mult</name></member>
     <member refid="classrr_1_1Matrix_1a481abe78869b481e1b825734bb8a51a2" kind="function"><name>empty</name></member>
     <member refid="classrr_1_1Matrix_1adaa546e9e056dbe943d43418653a123f" kind="function"><name>sortRowsByLabels</name></member>
     <member refid="classrr_1_1Matrix_1af564bfd45b879ba4244021846cd1f4f4" kind="function"><name>sortColsByLabels</name></member>
+    <member refid="classrr_1_1Matrix_1ad75ae4a4b1772808706dece01a3f241d" kind="function"><name>deleteRow</name></member>
+    <member refid="classrr_1_1Matrix_1ac1424ae3b932865405a9fe4c90ae3054" kind="function"><name>deleteRow</name></member>
+    <member refid="classrr_1_1Matrix_1a0d367c7df1fa56958b30182c5e2cd352" kind="function"><name>deleteCol</name></member>
+    <member refid="classrr_1_1Matrix_1abbdb193ce0a0bc3581f0d27695bce695" kind="function"><name>deleteCol</name></member>
   </compound>
   <compound refid="classrr_1_1Matrix3D" kind="class"><name>rr::Matrix3D</name>
     <member refid="classrr_1_1Matrix3D_1a10e9f9a773f4744b268844ee58da6bf5" kind="typedef"><name>Matrix3DInitializer</name></member>
     <member refid="classrr_1_1Matrix3D_1ae451ae4b426815e455538247fb06f19b" kind="variable"><name>index_</name></member>
     <member refid="classrr_1_1Matrix3D_1a26db981b1f5f13aa35a8e3c605067b9b" kind="variable"><name>data_</name></member>
+    <member refid="classrr_1_1Matrix3D_1ad86d016dc68ed798ec13ed75b920c797" kind="variable"><name>rowNames_</name></member>
+    <member refid="classrr_1_1Matrix3D_1aafc6249a38be368693fb2e2ab0f2aee8" kind="variable"><name>colNames_</name></member>
     <member refid="classrr_1_1Matrix3D_1a8336951dc875f560c5841f5c70fe36a1" kind="function"><name>Matrix3D</name></member>
     <member refid="classrr_1_1Matrix3D_1ac8734a9a680930e98361be461808ddde" kind="function"><name>Matrix3D</name></member>
     <member refid="classrr_1_1Matrix3D_1ae6f876b4499e0f9f964e75f1a8a575c6" kind="function"><name>Matrix3D</name></member>
@@ -1983,6 +2046,7 @@
     <member refid="classrr_1_1Matrix3D_1af348e449bfba28a9c62799bdb268cda0" kind="function"><name>pushBack</name></member>
     <member refid="classrr_1_1Matrix3D_1adf344bfa17d5a94157c9944bfabce492" kind="function"><name>operator[]</name></member>
     <member refid="classrr_1_1Matrix3D_1a0e6ccf3c0c6a740ca12af375fca03a99" kind="function"><name>slice</name></member>
+    <member refid="classrr_1_1Matrix3D_1a170fe788694b075b5509915831750bf9" kind="function"><name>colSliceByName</name></member>
     <member refid="classrr_1_1Matrix3D_1a3d3e20638dd709df478c6dab345585a3" kind="function"><name>slice</name></member>
     <member refid="classrr_1_1Matrix3D_1a210b05755e38bd590c84cae997afba59" kind="function"><name>slice</name></member>
     <member refid="classrr_1_1Matrix3D_1ae8a33b146d067035a4fc45a791d6680a" kind="function"><name>getItem</name></member>
@@ -1998,6 +2062,10 @@
     <member refid="classrr_1_1Matrix3D_1ac6964e5fab09e336189a817c8480307e" kind="function"><name>operator==</name></member>
     <member refid="classrr_1_1Matrix3D_1a8438b3dd5262ce21e26a3e6c2e21d9e5" kind="function"><name>operator!=</name></member>
     <member refid="classrr_1_1Matrix3D_1ac3204e01ccc855bab8f8959da10d63d5" kind="function"><name>almostEquals</name></member>
+    <member refid="classrr_1_1Matrix3D_1aff7a78da2a0c7854bf269d0b24ef7bbd" kind="function"><name>deleteRow</name></member>
+    <member refid="classrr_1_1Matrix3D_1ae2421bdde10d8ae3cc10b7705320b890" kind="function"><name>deleteRow</name></member>
+    <member refid="classrr_1_1Matrix3D_1ae6ae35f37769d51b3c5c3900e5724a2e" kind="function"><name>deleteCol</name></member>
+    <member refid="classrr_1_1Matrix3D_1a50b7689814b9c3d99fceaa3e7111aa4b" kind="function"><name>deleteCol</name></member>
     <member refid="classrr_1_1Matrix3D_1a02a8abe7d89e94fa4523faa7ecf7bafc" kind="friend"><name>operator&lt;&lt;</name></member>
   </compound>
   <compound refid="classrrllvm_1_1ModelDataIRBuilder" kind="class"><name>rrllvm::ModelDataIRBuilder</name>
@@ -2021,8 +2089,11 @@
     <member refid="classrrllvm_1_1ModelDataIRBuilder_1a8cb04bb1f7f48de204b27d75c41ea753" kind="function"><name>createCompLoad</name></member>
     <member refid="classrrllvm_1_1ModelDataIRBuilder_1a6e84263f8639dc61fb3f1b30106fb382" kind="function"><name>createCompStore</name></member>
     <member refid="classrrllvm_1_1ModelDataIRBuilder_1a0e6420b8f2afe9c8f0cffea300ef5f9f" kind="function"><name>createInitFloatSpeciesAmtGEP</name></member>
+    <member refid="classrrllvm_1_1ModelDataIRBuilder_1a8409fb8ce44ad066c436c3e0ab24ec17" kind="function"><name>createInitBoundarySpeciesAmtGEP</name></member>
     <member refid="classrrllvm_1_1ModelDataIRBuilder_1ab61b243ae9e02a6309c0df18a0a60349" kind="function"><name>createInitFloatSpeciesAmtLoad</name></member>
+    <member refid="classrrllvm_1_1ModelDataIRBuilder_1a189cf62265d236030ed7d493bc3943c3" kind="function"><name>createInitBoundarySpeciesAmtLoad</name></member>
     <member refid="classrrllvm_1_1ModelDataIRBuilder_1a3b7d25dce1824b6bd0de00cf3bcb80c6" kind="function"><name>createInitFloatSpeciesAmtStore</name></member>
+    <member refid="classrrllvm_1_1ModelDataIRBuilder_1a788ab717f75eb3b3bb14456ab9db9a2e" kind="function"><name>createInitBoundarySpeciesAmtStore</name></member>
     <member refid="classrrllvm_1_1ModelDataIRBuilder_1a4ebc50a06da2dec5079b837f1b7b8ba2" kind="function"><name>createInitCompGEP</name></member>
     <member refid="classrrllvm_1_1ModelDataIRBuilder_1a480ea9be1f574dec9ed7b7a1c01895e0" kind="function"><name>createInitCompLoad</name></member>
     <member refid="classrrllvm_1_1ModelDataIRBuilder_1a05cfbc9f4b384ddf4b8f671d0c9f8bc8" kind="function"><name>createInitCompStore</name></member>
@@ -2160,6 +2231,10 @@
     <member refid="classrrllvm_1_1ModelResources_1aee7a0fe12d357491c15823a5eb21b5fb" kind="variable"><name>getFloatingSpeciesInitConcentrationsPtr</name></member>
     <member refid="classrrllvm_1_1ModelResources_1a661a01ca2beacb761914156632201fcc" kind="variable"><name>setFloatingSpeciesInitAmountsPtr</name></member>
     <member refid="classrrllvm_1_1ModelResources_1a223503d9c74372cbf3651c12f9203f03" kind="variable"><name>getFloatingSpeciesInitAmountsPtr</name></member>
+    <member refid="classrrllvm_1_1ModelResources_1af5a39cffcc8e12bc927c046ef8367772" kind="variable"><name>setBoundarySpeciesInitConcentrationsPtr</name></member>
+    <member refid="classrrllvm_1_1ModelResources_1a4f7e80f425116a51f8e191af3a3251ac" kind="variable"><name>getBoundarySpeciesInitConcentrationsPtr</name></member>
+    <member refid="classrrllvm_1_1ModelResources_1ac827ba3d0158c9fcfe49df79ad1e3099" kind="variable"><name>setBoundarySpeciesInitAmountsPtr</name></member>
+    <member refid="classrrllvm_1_1ModelResources_1a50687403681ce88b3cd4fffa9e9e879c" kind="variable"><name>getBoundarySpeciesInitAmountsPtr</name></member>
     <member refid="classrrllvm_1_1ModelResources_1a5148d7dceb8ff3c4910c0a18a7c62303" kind="variable"><name>getCompartmentInitVolumesPtr</name></member>
     <member refid="classrrllvm_1_1ModelResources_1a5d94485fa11124bd1b53a6261cb4bf4a" kind="variable"><name>setCompartmentInitVolumesPtr</name></member>
     <member refid="classrrllvm_1_1ModelResources_1ad0d73c5ea1f3a83f1878a1ea32a6380a" kind="variable"><name>getGlobalParameterInitValuePtr</name></member>
@@ -2703,6 +2778,7 @@
     <member refid="classrr_1_1RK45Integrator_1a7fdc3829b5635e1b0cd18cced396261d" kind="function"><name>setListener</name></member>
     <member refid="classrr_1_1RK45Integrator_1af31a4d9eaff51261d8589f6020f2d612" kind="function"><name>getListener</name></member>
     <member refid="classrr_1_1RK45Integrator_1a8a79e9633a25767a1683a0334fd1d917" kind="function"><name>Integrator</name></member>
+    <member refid="classrr_1_1RK45Integrator_1a661048f976364d39626d24e4745aa416" kind="function"><name>Integrator</name></member>
     <member refid="classrr_1_1RK45Integrator_1a79b1afc7612cb7646fa288dea1425655" kind="function"><name>getRK45Name</name></member>
     <member refid="classrr_1_1RK45Integrator_1a4540762ed7dca923baa3849f25c4a88f" kind="function"><name>getRK45Description</name></member>
     <member refid="classrr_1_1RK45Integrator_1a0adfabeb7354eb4b364106b30d7b91e1" kind="function"><name>getRK45Hint</name></member>
@@ -2732,6 +2808,7 @@
     <member refid="classrr_1_1RK4Integrator_1a2d58f1e62b818ab6da2e72639eee0103" kind="function"><name>setListener</name></member>
     <member refid="classrr_1_1RK4Integrator_1a673dba96f3e55e5f1bda0872f01d12ac" kind="function"><name>getListener</name></member>
     <member refid="classrr_1_1RK4Integrator_1a8a79e9633a25767a1683a0334fd1d917" kind="function"><name>Integrator</name></member>
+    <member refid="classrr_1_1RK4Integrator_1a661048f976364d39626d24e4745aa416" kind="function"><name>Integrator</name></member>
     <member refid="classrr_1_1RK4Integrator_1a3b9acce50104e02572ff96e891d7a06c" kind="function"><name>testRootsAtInitialTime</name></member>
     <member refid="classrr_1_1RK4Integrator_1a572b31f2b67c7d9d6ca0c2da66154d61" kind="function"><name>applyEvents</name></member>
   </compound>
@@ -2776,14 +2853,20 @@
     <member refid="classrr_1_1RoadRunner_1ae645693f2c3652b951e106be544a09cd" kind="function"><name>sensitivitySolverExists</name></member>
     <member refid="classrr_1_1RoadRunner_1aecea2dbffc17d0322b00e18f126058b5" kind="function"><name>isModelLoaded</name></member>
     <member refid="classrr_1_1RoadRunner_1ac03b62cc39f62a61a556fe393e859e36" kind="function"><name>getModelName</name></member>
+    <member refid="classrr_1_1RoadRunner_1a946f9140f83ede43c2e5bc2192d8e052" kind="function"><name>setModelName</name></member>
+    <member refid="classrr_1_1RoadRunner_1ad46f7fb56422a9220e9b02d5acc13d78" kind="function"><name>getModelId</name></member>
+    <member refid="classrr_1_1RoadRunner_1a5c63bb6592faf97451de620a6ab4d444" kind="function"><name>setModelId</name></member>
     <member refid="classrr_1_1RoadRunner_1a6486934df5e346da4209a578f4eaea2b" kind="function"><name>clearModel</name></member>
     <member refid="classrr_1_1RoadRunner_1a27aedd28b2a2d5453200ca4a4a2bf4c0" kind="function"><name>oneStep</name></member>
     <member refid="classrr_1_1RoadRunner_1a2d4f3df674f8f6500d87a584b4f365cd" kind="function"><name>internalOneStep</name></member>
-    <member refid="classrr_1_1RoadRunner_1a5a079f580436e4bd0fccdc54a597d003" kind="function"><name>simulate</name></member>
-    <member refid="classrr_1_1RoadRunner_1ac38951d816285635bba0b095a875d7c0" kind="function"><name>simulate</name></member>
-    <member refid="classrr_1_1RoadRunner_1abccedac0c94a9a131341c90eb42111c8" kind="function"><name>timeSeriesSensitivities</name></member>
+    <member refid="classrr_1_1RoadRunner_1a377834f22edadb7706779ecca7c1eb4e" kind="function"><name>simulate</name></member>
+    <member refid="classrr_1_1RoadRunner_1ad3701c04d6317e96c2d2bb235b99d60b" kind="function"><name>simulate</name></member>
+    <member refid="classrr_1_1RoadRunner_1a3148beddf65c37bcdce6cfd2726c48ef" kind="function"><name>simulate</name></member>
+    <member refid="classrr_1_1RoadRunner_1a5b337a5d5625545db98bdcaf9ba71c7c" kind="function"><name>timeSeriesSensitivities</name></member>
     <member refid="classrr_1_1RoadRunner_1ac982f0742233d5ad487064734c3b793c" kind="function"><name>saveState</name></member>
-    <member refid="classrr_1_1RoadRunner_1a38cbd1331c551f4b62b07a3886efd68a" kind="function"><name>loadState</name></member>
+    <member refid="classrr_1_1RoadRunner_1a3f30bcb94eeb86ac029b123f51214c94" kind="function"><name>saveStateS</name></member>
+    <member refid="classrr_1_1RoadRunner_1a56030d98802a87d9aa960cbb7bb5f0c6" kind="function"><name>loadState</name></member>
+    <member refid="classrr_1_1RoadRunner_1a68f5a245b02936d4ed83dcfe9145bf83" kind="function"><name>loadStateS</name></member>
     <member refid="classrr_1_1RoadRunner_1a12d2a06c5525aaf10c541d9cc91665ca" kind="function"><name>getSimulationData</name></member>
     <member refid="classrr_1_1RoadRunner_1aca42a09b3b1ce89330d42c48ddae21c2" kind="function"><name>setSimulateOptions</name></member>
     <member refid="classrr_1_1RoadRunner_1a1200e15aa2a3c0b8662e26f74f8320ae" kind="function"><name>getSimulateOptions</name></member>
@@ -2907,6 +2990,9 @@
     <member refid="classrr_1_1RoadRunner_1a0cbcdf248d716058325e50adf9239d4d" kind="function"><name>getNumberOfIndependentSpecies</name></member>
     <member refid="classrr_1_1RoadRunner_1a744ddb0d6ee6b750e11d752685a29797" kind="function"><name>getGlobalParameterIds</name></member>
     <member refid="classrr_1_1RoadRunner_1a4d2c6e653ebbfdebfe9708ee6b99eacc" kind="function"><name>getBoundarySpeciesIds</name></member>
+    <member refid="classrr_1_1RoadRunner_1a64b828272c3f6429b72d38e39cfcc3c3" kind="function"><name>getAssignmentRuleIds</name></member>
+    <member refid="classrr_1_1RoadRunner_1aba310cd6f953aa82908c2006219270e6" kind="function"><name>getRateRuleIds</name></member>
+    <member refid="classrr_1_1RoadRunner_1a3702f25236b2aead62907f1982ec2ac4" kind="function"><name>getInitialAssignmentIds</name></member>
     <member refid="classrr_1_1RoadRunner_1a6d3c6c4f7d7e1a318ccda22b8c4dc540" kind="function"><name>getBoundarySpeciesConcentrationIds</name></member>
     <member refid="classrr_1_1RoadRunner_1afc7498e1fe7098233c87f4427e74509b" kind="function"><name>getBoundarySpeciesByIndex</name></member>
     <member refid="classrr_1_1RoadRunner_1a241c4374d564427ef61df52862136574" kind="function"><name>getGlobalParameterByIndex</name></member>
@@ -2914,37 +3000,37 @@
     <member refid="classrr_1_1RoadRunner_1af376e9fce37cc7b50cea8e8642eafb00" kind="function"><name>getGlobalParameterByName</name></member>
     <member refid="classrr_1_1RoadRunner_1abdb0de6271ba9e054316d739cb9da1e9" kind="function"><name>getConservedMoietyValues</name></member>
     <member refid="classrr_1_1RoadRunner_1ad352e9290b7827a2d780a3cc33be194d" kind="function"><name>getConservedMoietyIds</name></member>
-    <member refid="classrr_1_1RoadRunner_1ae505b07023b0c397922690e3cba1c0e9" kind="function"><name>RR_DEPRECATED</name></member>
-    <member refid="classrr_1_1RoadRunner_1a88e9bd692bbf27f47b7c57dbf4fccd3b" kind="function"><name>RR_DEPRECATED</name></member>
-    <member refid="classrr_1_1RoadRunner_1a86264b868b958f3cbd30002221df37b5" kind="function"><name>RR_DEPRECATED</name></member>
-    <member refid="classrr_1_1RoadRunner_1abe4e6847b1d556f82110facdb240cfc0" kind="function"><name>RR_DEPRECATED</name></member>
-    <member refid="classrr_1_1RoadRunner_1a6dbbede3f190b665b27c7d2840c4f8a4" kind="function"><name>RR_DEPRECATED</name></member>
-    <member refid="classrr_1_1RoadRunner_1a75fc853441d03470bee3152b822ede4d" kind="function"><name>RR_DEPRECATED</name></member>
-    <member refid="classrr_1_1RoadRunner_1a9cace9c8bf06ef61294b21f4ffefff77" kind="function"><name>RR_DEPRECATED</name></member>
-    <member refid="classrr_1_1RoadRunner_1a8b68daba3117345bcac672db70b6f02a" kind="function"><name>RR_DEPRECATED</name></member>
-    <member refid="classrr_1_1RoadRunner_1a36acbf6b92783473a2f6d2b60d4467f5" kind="function"><name>RR_DEPRECATED</name></member>
-    <member refid="classrr_1_1RoadRunner_1a9802dd9fc181dce30126da143336f2b8" kind="function"><name>RR_DEPRECATED</name></member>
-    <member refid="classrr_1_1RoadRunner_1a267406ac3460bdcb9b816a71cdedf7d8" kind="function"><name>RR_DEPRECATED</name></member>
-    <member refid="classrr_1_1RoadRunner_1a7144d86ae2eb84553b73e6943e300f03" kind="function"><name>RR_DEPRECATED</name></member>
-    <member refid="classrr_1_1RoadRunner_1a6f822b89a755e7acdf9d643b34ae3a08" kind="function"><name>RR_DEPRECATED</name></member>
-    <member refid="classrr_1_1RoadRunner_1afcb185afd00edc72fd27f912cf018c5c" kind="function"><name>RR_DEPRECATED</name></member>
-    <member refid="classrr_1_1RoadRunner_1aa9a32be46f851e915a92c23dda8c6075" kind="function"><name>RR_DEPRECATED</name></member>
-    <member refid="classrr_1_1RoadRunner_1a9a25f86724294542212b019c1d8178ab" kind="function"><name>RR_DEPRECATED</name></member>
-    <member refid="classrr_1_1RoadRunner_1ac26e9bcdbb6b51eafaa828b8a7c22dff" kind="function"><name>RR_DEPRECATED</name></member>
-    <member refid="classrr_1_1RoadRunner_1a9d8bad81e1317edf64f7c0c9ad934559" kind="function"><name>RR_DEPRECATED</name></member>
-    <member refid="classrr_1_1RoadRunner_1a8ea25f1280229e12cb125e686a5ee7f3" kind="function"><name>RR_DEPRECATED</name></member>
-    <member refid="classrr_1_1RoadRunner_1afced5aec249a0095a9dd52fa3aee0427" kind="function"><name>RR_DEPRECATED</name></member>
-    <member refid="classrr_1_1RoadRunner_1aeaa763bad88b0f8a1bbbbf0ee916c9cc" kind="function"><name>RR_DEPRECATED</name></member>
-    <member refid="classrr_1_1RoadRunner_1a1f365a99f1402a27f036d271031ab2c0" kind="function"><name>RR_DEPRECATED</name></member>
-    <member refid="classrr_1_1RoadRunner_1aef78bcf6e2f3a35ed0c9310d2cce0444" kind="function"><name>RR_DEPRECATED</name></member>
-    <member refid="classrr_1_1RoadRunner_1a345940bcbd10e4dd1652d6531760d88e" kind="function"><name>RR_DEPRECATED</name></member>
-    <member refid="classrr_1_1RoadRunner_1a496b8467f4c7016889cb30a1ade762eb" kind="function"><name>RR_DEPRECATED</name></member>
-    <member refid="classrr_1_1RoadRunner_1abb294ad0072e682120420736512ce03b" kind="function"><name>RR_DEPRECATED</name></member>
-    <member refid="classrr_1_1RoadRunner_1aedaac7ddc2307044590f4e8810da6a66" kind="function"><name>RR_DEPRECATED</name></member>
+    <member refid="classrr_1_1RoadRunner_1a0aeef3b4db855e2cd6e901372c9082f2" kind="function"><name>getNumberOfReactions</name></member>
+    <member refid="classrr_1_1RoadRunner_1a9284f10d515b8ef441473b5c14f5920e" kind="function"><name>getReactionRate</name></member>
+    <member refid="classrr_1_1RoadRunner_1a67736588f72a8fb4f429368716acda93" kind="function"><name>getRateOfChange</name></member>
+    <member refid="classrr_1_1RoadRunner_1a900fe6274335e44e7633e9e60695ed14" kind="function"><name>getRateOfChangeIds</name></member>
+    <member refid="classrr_1_1RoadRunner_1a2f26307521e9930a85ed5c44bae67cfa" kind="function"><name>getNumberOfCompartments</name></member>
+    <member refid="classrr_1_1RoadRunner_1a01dbe5358bd652891be6209260523cb6" kind="function"><name>setCompartmentByIndex</name></member>
+    <member refid="classrr_1_1RoadRunner_1a14b51ebe111fd7292dbca21a2749125b" kind="function"><name>getCompartmentByIndex</name></member>
+    <member refid="classrr_1_1RoadRunner_1a3175df12d85de114996361b468c2c38e" kind="function"><name>getCompartmentIds</name></member>
+    <member refid="classrr_1_1RoadRunner_1a54a9d80927c998e0981a2deac0671758" kind="function"><name>getNumberOfBoundarySpecies</name></member>
+    <member refid="classrr_1_1RoadRunner_1a42a995530149829e8deda1a18419a864" kind="function"><name>setBoundarySpeciesConcentrations</name></member>
+    <member refid="classrr_1_1RoadRunner_1abc64866144a2a728af78010c1d8badb2" kind="function"><name>setBoundarySpeciesAmounts</name></member>
+    <member refid="classrr_1_1RoadRunner_1af2467ad14443e89ac9a1ed98481093c3" kind="function"><name>getNumberOfFloatingSpecies</name></member>
+    <member refid="classrr_1_1RoadRunner_1a6b228e88494e9a1c5615c81889358df5" kind="function"><name>getFloatingSpeciesByIndex</name></member>
+    <member refid="classrr_1_1RoadRunner_1ad68d81c08a570f120db08c8e5ca735e9" kind="function"><name>setFloatingSpeciesByIndex</name></member>
+    <member refid="classrr_1_1RoadRunner_1a8c771da043718ef6a2ebf2a72cde498b" kind="function"><name>getFloatingSpeciesConcentrationsV</name></member>
+    <member refid="classrr_1_1RoadRunner_1a4151d7c08054661f86265e36cdef51ff" kind="function"><name>getFloatingSpeciesAmountsV</name></member>
+    <member refid="classrr_1_1RoadRunner_1a08b51ec16a7cd7d13bf2df7628adf471" kind="function"><name>getBoundarySpeciesConcentrationsV</name></member>
+    <member refid="classrr_1_1RoadRunner_1ae69dfa3779123d7d1b1da495477bcdd1" kind="function"><name>getBoundarySpeciesAmountsV</name></member>
+    <member refid="classrr_1_1RoadRunner_1a9f58d69e9b0d77e7a141c3cbab08cd46" kind="function"><name>getFloatingSpeciesInitialConcentrations</name></member>
+    <member refid="classrr_1_1RoadRunner_1a5e1dcd14759e468e510a298f61b267de" kind="function"><name>setFloatingSpeciesConcentrations</name></member>
+    <member refid="classrr_1_1RoadRunner_1a08176e93872548591ce96b2f9c20dc74" kind="function"><name>setFloatingSpeciesInitialConcentrationByIndex</name></member>
+    <member refid="classrr_1_1RoadRunner_1a3c85d3178f85ec302f1dd8f13fb87aa8" kind="function"><name>setFloatingSpeciesInitialConcentrations</name></member>
+    <member refid="classrr_1_1RoadRunner_1a2df3e839e9faa56b6fb1b50f64aedfb6" kind="function"><name>getFloatingSpeciesIds</name></member>
+    <member refid="classrr_1_1RoadRunner_1a4d160ec4bffd82338fbd6d7c367418f0" kind="function"><name>getFloatingSpeciesInitialConditionIds</name></member>
+    <member refid="classrr_1_1RoadRunner_1af23fe6ec9b4ca66c07e14db3dad23462" kind="function"><name>getNumberOfGlobalParameters</name></member>
+    <member refid="classrr_1_1RoadRunner_1aa90f680c2d8e3c1dbd67c90de015338c" kind="function"><name>setGlobalParameterByIndex</name></member>
+    <member refid="classrr_1_1RoadRunner_1a1104cc3634e461f963a8682cbb6e0bbe" kind="function"><name>getGlobalParameterValues</name></member>
     <member refid="classrr_1_1RoadRunner_1ad3f4b6ef217424cb9b12c798dfd1129c" kind="function"><name>evalModel</name></member>
-    <member refid="classrr_1_1RoadRunner_1aebcbfa2c066cbc09fc3e9acc1776ab20" kind="function"><name>RR_DEPRECATED</name></member>
-    <member refid="classrr_1_1RoadRunner_1a0684bcc378da80c4ec550e6141766d6c" kind="function"><name>RR_DEPRECATED</name></member>
-    <member refid="classrr_1_1RoadRunner_1a3eb7c5f79022169b6ef9a83d8f56b44b" kind="function"><name>RR_DEPRECATED</name></member>
+    <member refid="classrr_1_1RoadRunner_1a78708a8b3088ada0b5d7b2630a24904e" kind="function"><name>getNumberOfDependentSpecies</name></member>
+    <member refid="classrr_1_1RoadRunner_1a1d4371619e6e4e7a31ad721c75718c14" kind="function"><name>getReactionRates</name></member>
+    <member refid="classrr_1_1RoadRunner_1ae8b19594ecf70d1995fc30e63c9a0826" kind="function"><name>getReactionIds</name></member>
     <member refid="classrr_1_1RoadRunner_1a03d8db00d714b31251af8427e4bbac55" kind="function"><name>setTempDir</name></member>
     <member refid="classrr_1_1RoadRunner_1a0fde5be334c5dfd9cc8738210839978d" kind="function"><name>getTempDir</name></member>
     <member refid="classrr_1_1RoadRunner_1a22136f7f0ea6f72e6c8fce6de2dc93e2" kind="function"><name>getParamPromotedSBML</name></member>
@@ -3039,18 +3125,19 @@
     <member refid="classrr_1_1RoadRunnerImpl_1a41643078758b40614e337844218b308c" kind="variable"><name>integrators</name></member>
     <member refid="classrr_1_1RoadRunnerImpl_1a63ac6d4a8a7ff2a6ccd257f524a90207" kind="variable"><name>steady_state_solver</name></member>
     <member refid="classrr_1_1RoadRunnerImpl_1a03fad4a942e0f6fb6ee250391eebe275" kind="variable"><name>steady_state_solvers</name></member>
-    <member refid="classrr_1_1RoadRunnerImpl_1a719e0e905cf6fbbf49d24be99db2c7c4" kind="variable"><name>sensitivity_solver</name></member>
+    <member refid="classrr_1_1RoadRunnerImpl_1ae6cfe1881d3996d8e0275110cfde4748" kind="variable"><name>sensitivity_solver</name></member>
     <member refid="classrr_1_1RoadRunnerImpl_1a0a9a2af5451afaacca8030fedfef77d6" kind="variable"><name>sensitivity_solvers</name></member>
     <member refid="classrr_1_1RoadRunnerImpl_1aab066aadcb16f00cbffb56a14ab95721" kind="variable"><name>mSelectionList</name></member>
     <member refid="classrr_1_1RoadRunnerImpl_1a332b1440ab1affec5ffec18a290fca9d" kind="variable"><name>loadOpt</name></member>
     <member refid="classrr_1_1RoadRunnerImpl_1a19f31dff952e138792bc594a62b38897" kind="variable"><name>mSteadyStateSelection</name></member>
-    <member refid="classrr_1_1RoadRunnerImpl_1a0a098b7844b75dd6c4f1b792dd20a5a3" kind="variable"><name>model</name></member>
     <member refid="classrr_1_1RoadRunnerImpl_1ac3984d20f7a889192b00d8e15acd06cf" kind="variable"><name>compiler</name></member>
     <member refid="classrr_1_1RoadRunnerImpl_1a139f99b5e7d257214996f3ab0836b874" kind="variable"><name>mLS</name></member>
     <member refid="classrr_1_1RoadRunnerImpl_1a4097a1eb7855c1ddc66c9a18db9f3bfc" kind="variable"><name>simulateOpt</name></member>
     <member refid="classrr_1_1RoadRunnerImpl_1ab0d81fec655750d5e7a46be8be2d7aaa" kind="variable"><name>roadRunnerOptions</name></member>
     <member refid="classrr_1_1RoadRunnerImpl_1ae22f2a7f705354d374d27a7fb51ff275" kind="variable"><name>configurationXML</name></member>
     <member refid="classrr_1_1RoadRunnerImpl_1a1ace36ac129fed50c43abf94c72fed9d" kind="variable"><name>simulatedSinceReset</name></member>
+    <member refid="classrr_1_1RoadRunnerImpl_1a090eb95dd15a1edb5becd538920786e9" kind="variable"><name>RoadRunner</name></member>
+    <member refid="classrr_1_1RoadRunnerImpl_1a0a098b7844b75dd6c4f1b792dd20a5a3" kind="variable"><name>model</name></member>
     <member refid="classrr_1_1RoadRunnerImpl_1a351eec90f0cb0348667df95ce9bd22e7" kind="variable"><name>document</name></member>
     <member refid="classrr_1_1RoadRunnerImpl_1a98a6346886edafdcc19398968f87209b" kind="function"><name>RoadRunnerImpl</name></member>
     <member refid="classrr_1_1RoadRunnerImpl_1ad59de4dfb7d325b5148bcf17a41cb920" kind="function"><name>RoadRunnerImpl</name></member>
@@ -3291,17 +3378,23 @@
     <member refid="classrr_1_1SelectionRecord_1a898963ab24a6ba614913715c981d8394a97ca399197e5fd929907a0ed4d89376a" kind="enumvalue"><name>FLOATING_AMOUNT</name></member>
     <member refid="classrr_1_1SelectionRecord_1a898963ab24a6ba614913715c981d8394a6f87b59e6fc23b804b1508b190b63c6b" kind="enumvalue"><name>INDEPENDENT_FLOATING_AMOUNT</name></member>
     <member refid="classrr_1_1SelectionRecord_1a898963ab24a6ba614913715c981d8394aa08447b81625696af0c8f619d00652c9" kind="enumvalue"><name>DEPENDENT_FLOATING_AMOUNT</name></member>
-    <member refid="classrr_1_1SelectionRecord_1a898963ab24a6ba614913715c981d8394aaa2ec44f8ba163da3928c57efd91a6fa" kind="enumvalue"><name>BOUNDARY_AMOUNT</name></member>
-    <member refid="classrr_1_1SelectionRecord_1a898963ab24a6ba614913715c981d8394ae02e022418ffd5b35b6f68bf46842d28" kind="enumvalue"><name>BOUNDARY_CONCENTRATION</name></member>
     <member refid="classrr_1_1SelectionRecord_1a898963ab24a6ba614913715c981d8394a273f59f060edd0d4085773a15bc2e936" kind="enumvalue"><name>FLOATING_CONCENTRATION</name></member>
     <member refid="classrr_1_1SelectionRecord_1a898963ab24a6ba614913715c981d8394ac8d68d5b70417c692c1a88fe9b2d16a6" kind="enumvalue"><name>FLOATING_AMOUNT_RATE</name></member>
     <member refid="classrr_1_1SelectionRecord_1a898963ab24a6ba614913715c981d8394aea618f54792dbf90539f21ef7964073f" kind="enumvalue"><name>FLOATING_CONCENTRATION_RATE</name></member>
+    <member refid="classrr_1_1SelectionRecord_1a898963ab24a6ba614913715c981d8394aaa2ec44f8ba163da3928c57efd91a6fa" kind="enumvalue"><name>BOUNDARY_AMOUNT</name></member>
+    <member refid="classrr_1_1SelectionRecord_1a898963ab24a6ba614913715c981d8394a08b5b1a31e184ed39ca2d5b1e29c1881" kind="enumvalue"><name>INDEPENDENT_BOUNDARY_AMOUNT</name></member>
+    <member refid="classrr_1_1SelectionRecord_1a898963ab24a6ba614913715c981d8394a774fa455d9b377b0cfef551458b5a88d" kind="enumvalue"><name>DEPENDENT_BOUNDARY_AMOUNT</name></member>
+    <member refid="classrr_1_1SelectionRecord_1a898963ab24a6ba614913715c981d8394ae02e022418ffd5b35b6f68bf46842d28" kind="enumvalue"><name>BOUNDARY_CONCENTRATION</name></member>
+    <member refid="classrr_1_1SelectionRecord_1a898963ab24a6ba614913715c981d8394ad0c6995b92dbd537856e09914c9ece75" kind="enumvalue"><name>BOUNDARY_AMOUNT_RATE</name></member>
+    <member refid="classrr_1_1SelectionRecord_1a898963ab24a6ba614913715c981d8394a7440a6dddb1723d4988b9165539f8b37" kind="enumvalue"><name>BOUNDARY_CONCENTRATION_RATE</name></member>
     <member refid="classrr_1_1SelectionRecord_1a898963ab24a6ba614913715c981d8394a9e87d4763af9a8774b31ad1f69d66e25" kind="enumvalue"><name>GLOBAL_PARAMETER_RATE</name></member>
     <member refid="classrr_1_1SelectionRecord_1a898963ab24a6ba614913715c981d8394a474f33e2264e1732ec7dd131f840083b" kind="enumvalue"><name>REACTION_RATE</name></member>
     <member refid="classrr_1_1SelectionRecord_1a898963ab24a6ba614913715c981d8394a75155196d55bd80b547835a668473e49" kind="enumvalue"><name>INITIAL_AMOUNT</name></member>
     <member refid="classrr_1_1SelectionRecord_1a898963ab24a6ba614913715c981d8394a0a5b576c41331713c0cff67639e934dc" kind="enumvalue"><name>INITIAL_FLOATING_AMOUNT</name></member>
+    <member refid="classrr_1_1SelectionRecord_1a898963ab24a6ba614913715c981d8394ac96882c8b8d2926f7fa9262316726449" kind="enumvalue"><name>INITIAL_BOUNDARY_AMOUNT</name></member>
     <member refid="classrr_1_1SelectionRecord_1a898963ab24a6ba614913715c981d8394a9b128c51cc095f71f839fcffb3e74bb3" kind="enumvalue"><name>INITIAL_CONCENTRATION</name></member>
     <member refid="classrr_1_1SelectionRecord_1a898963ab24a6ba614913715c981d8394a731d1669fec8c53a6f783a0df0469002" kind="enumvalue"><name>INITIAL_FLOATING_CONCENTRATION</name></member>
+    <member refid="classrr_1_1SelectionRecord_1a898963ab24a6ba614913715c981d8394a5305f55f1f503186a2827a34fb031751" kind="enumvalue"><name>INITIAL_BOUNDARY_CONCENTRATION</name></member>
     <member refid="classrr_1_1SelectionRecord_1a898963ab24a6ba614913715c981d8394a4f5a65a461692bc847e9e8c6851bb951" kind="enumvalue"><name>INITIAL_COMPARTMENT</name></member>
     <member refid="classrr_1_1SelectionRecord_1a898963ab24a6ba614913715c981d8394ae4ecdedc44b9bae7bfe0cdf954e7c6fe" kind="enumvalue"><name>INITIAL_GLOBAL_PARAMETER</name></member>
     <member refid="classrr_1_1SelectionRecord_1a898963ab24a6ba614913715c981d8394a6035b6215bcb10361a15b6279c7e38e4" kind="enumvalue"><name>DEPENDENT_INITIAL_GLOBAL_PARAMETER</name></member>
@@ -3348,6 +3441,22 @@
     <member refid="classrrllvm_1_1SetBoundarySpeciesConcentrationCodeGen_1a2c38db136be998bb0efee65ec2ae2ac6" kind="function"><name>SetBoundarySpeciesConcentrationCodeGen</name></member>
     <member refid="classrrllvm_1_1SetBoundarySpeciesConcentrationCodeGen_1aa0b65876a007762d742862711bda3cec" kind="function"><name>~SetBoundarySpeciesConcentrationCodeGen</name></member>
     <member refid="classrrllvm_1_1SetBoundarySpeciesConcentrationCodeGen_1a848eb36bd682d39e4325dcaa8a622d00" kind="function"><name>getIds</name></member>
+  </compound>
+  <compound refid="classrrllvm_1_1SetBoundarySpeciesInitAmountCodeGen" kind="class"><name>rrllvm::SetBoundarySpeciesInitAmountCodeGen</name>
+    <member refid="classrrllvm_1_1SetBoundarySpeciesInitAmountCodeGen_1a37790c9e4aefbcd647d4f35a36a8ec02" kind="variable"><name>FunctionName</name></member>
+    <member refid="classrrllvm_1_1SetBoundarySpeciesInitAmountCodeGen_1a039d0979e2fdf81955fc4f10ab74f5d3" kind="variable"><name>IndexArgName</name></member>
+    <member refid="classrrllvm_1_1SetBoundarySpeciesInitAmountCodeGen_1a6f22e53c751b0b78df84fc298894cb3a" kind="function"><name>SetBoundarySpeciesInitAmountCodeGen</name></member>
+    <member refid="classrrllvm_1_1SetBoundarySpeciesInitAmountCodeGen_1af2dcf3d80357c6969d014bf5890fff34" kind="function"><name>~SetBoundarySpeciesInitAmountCodeGen</name></member>
+    <member refid="classrrllvm_1_1SetBoundarySpeciesInitAmountCodeGen_1a2b8484c845955a7421368de5d3559e2a" kind="function"><name>getIds</name></member>
+    <member refid="classrrllvm_1_1SetBoundarySpeciesInitAmountCodeGen_1a4446ed4ae3ee47bcf6591cd6e04ae6da" kind="function"><name>isInitialValue</name></member>
+  </compound>
+  <compound refid="classrrllvm_1_1SetBoundarySpeciesInitConcentrationCodeGen" kind="class"><name>rrllvm::SetBoundarySpeciesInitConcentrationCodeGen</name>
+    <member refid="classrrllvm_1_1SetBoundarySpeciesInitConcentrationCodeGen_1aa6d49b7b2c0767df0cb35fac9d65ceca" kind="variable"><name>FunctionName</name></member>
+    <member refid="classrrllvm_1_1SetBoundarySpeciesInitConcentrationCodeGen_1a3fcb76e73d293cf43654e717d922b841" kind="variable"><name>IndexArgName</name></member>
+    <member refid="classrrllvm_1_1SetBoundarySpeciesInitConcentrationCodeGen_1af5bf3d03a06b37d861b36971b8629503" kind="function"><name>SetBoundarySpeciesInitConcentrationCodeGen</name></member>
+    <member refid="classrrllvm_1_1SetBoundarySpeciesInitConcentrationCodeGen_1a4650da7e6d8151e0f03834ff9c2bbc05" kind="function"><name>~SetBoundarySpeciesInitConcentrationCodeGen</name></member>
+    <member refid="classrrllvm_1_1SetBoundarySpeciesInitConcentrationCodeGen_1accf011dbf75de87555d25dcf182c17e1" kind="function"><name>getIds</name></member>
+    <member refid="classrrllvm_1_1SetBoundarySpeciesInitConcentrationCodeGen_1a885d4f2a1e09188c8d6bc6613f47908b" kind="function"><name>isInitialValue</name></member>
   </compound>
   <compound refid="classrrllvm_1_1SetCompartmentInitVolumeCodeGen" kind="class"><name>rrllvm::SetCompartmentInitVolumeCodeGen</name>
     <member refid="classrrllvm_1_1SetCompartmentInitVolumeCodeGen_1ae9891742f027d5099c4c65c3d430f42f" kind="variable"><name>FunctionName</name></member>
@@ -3481,11 +3590,14 @@
     <member refid="classrr_1_1SimulateOptions_1a0953c07a719d03a4d558a9bf2ce16f83" kind="variable"><name>variables</name></member>
     <member refid="classrr_1_1SimulateOptions_1a13c457ced6a6396d9cb8dcecf42f0dee" kind="variable"><name>amounts</name></member>
     <member refid="classrr_1_1SimulateOptions_1a3fb8836610f52922ee371fdf06331e97" kind="variable"><name>concentrations</name></member>
+    <member refid="classrr_1_1SimulateOptions_1a47da5360a97032cb8c4cc54ef47401d9" kind="variable"><name>times</name></member>
+    <member refid="classrr_1_1SimulateOptions_1ab150dbecb0501eb3f78b4af1970b8c1b" kind="variable"><name>hstep</name></member>
     <member refid="classrr_1_1SimulateOptions_1af9d66c8fdefdb149ed56ff9b61725e35" kind="function"><name>SimulateOptions</name></member>
     <member refid="classrr_1_1SimulateOptions_1af028e3752c6c9c3e25d5ced5c3752b9d" kind="function"><name>toString</name></member>
     <member refid="classrr_1_1SimulateOptions_1ae95f2f7ba2b8af37a27e8c8f47f0ae72" kind="function"><name>toRepr</name></member>
     <member refid="classrr_1_1SimulateOptions_1a670a8cca2fd579cc776e70e95221bc81" kind="function"><name>loadSBMLSettings</name></member>
-    <member refid="classrr_1_1SimulateOptions_1ac37d1c469b5ca3f1a259b49f0c3b041a" kind="function"><name>setItem</name></member>
+    <member refid="classrr_1_1SimulateOptions_1abbdfae309d8622bb68ff68d7173a7b78" kind="function"><name>initialize</name></member>
+    <member refid="classrr_1_1SimulateOptions_1a5b05160fb010f3024c618b5225b75e4f" kind="function"><name>getNext</name></member>
   </compound>
   <compound refid="structSModelData" kind="struct"><name>SModelData</name>
     <member refid="structSModelData_1a0423ae4f18c2dd6c1faf27332e3f0b66" kind="variable"><name>time</name></member>
@@ -3576,7 +3688,7 @@
     <member refid="classrr_1_1Solver_1ae4ae3d123747f44ba18cb94a37cdcc6d" kind="function"><name>getName</name></member>
     <member refid="classrr_1_1Solver_1a30605288d92db09d42a886c132e5429f" kind="function"><name>getHint</name></member>
     <member refid="classrr_1_1Solver_1a1062b181455da6310d5678a4c978d072" kind="function"><name>getDescription</name></member>
-    <member refid="classrr_1_1Solver_1ad5b8ac1ef687d1a3c9f1f305cb73804d" kind="function"><name>addSetting</name></member>
+    <member refid="classrr_1_1Solver_1a9d801d628c80877bbadd4fcff012837d" kind="function"><name>addSetting</name></member>
   </compound>
   <compound refid="structrr_1_1sort__pred" kind="struct"><name>rr::sort_pred</name>
     <member refid="structrr_1_1sort__pred_1ac4c28257b4431772a322b1e9d0d57985" kind="function"><name>operator()</name></member>
@@ -3790,6 +3902,7 @@
   </compound>
   <compound refid="classrr_1_1TestSuiteModelSimulation" kind="class"><name>rr::TestSuiteModelSimulation</name>
     <member refid="classrr_1_1TestSuiteModelSimulation_1abd1ea039542d15f2f0acdc7a76ec3ac4" kind="variable"><name>mCurrentCaseNumber</name></member>
+    <member refid="classrr_1_1TestSuiteModelSimulation_1ae1b750fe02d4899da785d8c784f2418a" kind="variable"><name>mIntegratorName</name></member>
     <member refid="classrr_1_1TestSuiteModelSimulation_1ae3700553b5ff277775b87f3eccacec36" kind="variable"><name>mModelSettingsFileName</name></member>
     <member refid="classrr_1_1TestSuiteModelSimulation_1a701149b4c7cac375879822be5ad923e3" kind="variable"><name>mResultData</name></member>
     <member refid="classrr_1_1TestSuiteModelSimulation_1ae07d99464dec480b77ac4f703e8bac52" kind="variable"><name>mReferenceData</name></member>
@@ -3801,6 +3914,7 @@
     <member refid="classrr_1_1TestSuiteModelSimulation_1a48c4d3a1caa5fe0793feaecf5291a120" kind="function"><name>TestSuiteModelSimulation</name></member>
     <member refid="classrr_1_1TestSuiteModelSimulation_1a7a01addc1704a63ffbcad0b35a281794" kind="function"><name>~TestSuiteModelSimulation</name></member>
     <member refid="classrr_1_1TestSuiteModelSimulation_1a19df03ff6ffe762381ffe84d5365cc90" kind="function"><name>SetCaseNumber</name></member>
+    <member refid="classrr_1_1TestSuiteModelSimulation_1a4bc2dbb64f9c58b01dfad5b1f52f4220" kind="function"><name>SetIntegrator</name></member>
     <member refid="classrr_1_1TestSuiteModelSimulation_1a1d5e17b5417d284d4c043f764bcbdcc3" kind="function"><name>LoadReferenceData</name></member>
     <member refid="classrr_1_1TestSuiteModelSimulation_1ab84ebb55fa44c62b0318c64f00e9c99c" kind="function"><name>CreateErrorData</name></member>
     <member refid="classrr_1_1TestSuiteModelSimulation_1a7236cc31d52fa3d73c95f4a5d781920a" kind="function"><name>SaveAllData</name></member>
@@ -3814,7 +3928,7 @@
   <compound refid="classrr_1_1TimeSeriesSensitivitySolver" kind="class"><name>rr::TimeSeriesSensitivitySolver</name>
     <member refid="classrr_1_1TimeSeriesSensitivitySolver_1a5c63288a144c945524ff05fe63274f62" kind="function"><name>~TimeSeriesSensitivitySolver</name></member>
     <member refid="classrr_1_1TimeSeriesSensitivitySolver_1a9f070078f416a3cfb2c6fbb397b238c6" kind="function"><name>integrate</name></member>
-    <member refid="classrr_1_1TimeSeriesSensitivitySolver_1ab460ead5a873a10145c645c2e0d2a32f" kind="function"><name>solveSensitivities</name></member>
+    <member refid="classrr_1_1TimeSeriesSensitivitySolver_1a1f0c8cb09f7f29b6557943bc905d42fd" kind="function"><name>solveSensitivities</name></member>
   </compound>
   <compound refid="classrr_1_1Token" kind="class"><name>rr::Token</name>
     <member refid="classrr_1_1Token_1aa99968ad0d76b4ded8dccdf4653c17c3" kind="variable"><name>tokenCode</name></member>
@@ -4171,7 +4285,7 @@
     <member refid="rrUtils_8cpp_1a700b2f6e72a8beaf30a7fa41cd3b8a91" kind="function"><name>pause</name></member>
     <member refid="rrUtils_8cpp_1a706024111a960d6c69a6c52c5ff4cfe6" kind="function"><name>createTestSuiteFileNameParts</name></member>
     <member refid="rrUtils_8cpp_1a69b5061541f03bd882aa38462493e2d7" kind="function"><name>getTestSuiteSubFolderName</name></member>
-    <member refid="rrUtils_8cpp_1a0870967c68c86e70b4344784f808ea09" kind="function"><name>hasUnimplementedTags</name></member>
+    <member refid="rrUtils_8cpp_1a8dc45a306e6142ba0ce2881b91733eb0" kind="function"><name>hasUnimplementedTags</name></member>
     <member refid="rrUtils_8cpp_1acac684bc6e25f111e45fbc09a65087be" kind="function"><name>isSemiStochasticTest</name></member>
     <member refid="rrUtils_8cpp_1a602eeb02a9aeedd206f42dfabafb5ac7" kind="function"><name>isFBCTest</name></member>
     <member refid="rrUtils_8cpp_1aa1e38a29569597e4f5840d8c5b98b817" kind="function"><name>createFolder</name></member>
@@ -4186,6 +4300,7 @@
     <member refid="rrUtils_8cpp_1a1862b54c0ce8c2fa315dcc3e77641f47" kind="function"><name>createVector</name></member>
     <member refid="rrUtils_8cpp_1ad1b5afe93a1b01cb209678d5657b6f5f" kind="function"><name>getMicroSeconds</name></member>
     <member refid="rrUtils_8h_1ac85d46c7532cfd8e404777694d3edb32" kind="function"><name>populateFileSet</name></member>
+    <member refid="rrUtils_8h_1a706169d28163976b921a2f3f48ac27f7" kind="function"><name>hasUnimplementedTags</name></member>
     <member refid="rrVersionInfo_8cpp_1af920920c8778b635f231f004abe1733c" kind="function"><name>getVersionStr</name></member>
     <member refid="rrVersionInfo_8cpp_1aea285419594d847528e94d7a4091862b" kind="function"><name>getCopyrightStr</name></member>
     <member refid="SBMLValidator_8cpp_1a7f405d05e71fef7173969b80f7dfb1d7" kind="function"><name>validateSBML</name></member>
@@ -4193,7 +4308,7 @@
     <member refid="SBMLValidator_8cpp_1ad940221265fda26be8825c8a17683ed5" kind="function"><name>hasAssignmentRule</name></member>
     <member refid="SBMLValidator_8cpp_1ad9b66b84d1c41deb4ab5390db8cf44c1" kind="function"><name>isStoichDefined</name></member>
     <member refid="SBMLValidator_8cpp_1aaaacdf338bcb998b9133e5c0519864be" kind="function"><name>setSpeciesRefId</name></member>
-    <member refid="SBMLValidator_8cpp_1a9ff6266c35facdac8de65e8105d38572" kind="function"><name>fixMissingStoich</name></member>
+    <member refid="SBMLValidator_8cpp_1a370cfabdeadf7be286e3c12965403aed" kind="function"><name>fixMissingStoichAndMath</name></member>
     <member refid="rrCCompiler_8cpp_1a602ee4c4cf4696f30ae3914231a2de1b" kind="function"><name>getCompilerMessages</name></member>
     <member refid="rrCModelDataUtil_8cpp_1abdc46d37935e3b8673e0f5039338c70e" kind="function"><name>initModelData</name></member>
     <member refid="rrCModelDataUtil_8cpp_1a1c4cb1d6a06d74a8843c83c7a5c09d63" kind="function"><name>rrCalloc</name></member>
@@ -4366,14 +4481,19 @@
     <member refid="rrc__api_8cpp_1ab3384e36dfcb16f44a684469d17dfb37" kind="function"><name>setTimeStart</name></member>
     <member refid="rrc__api_8cpp_1a3d165422bee86f4662beb89784216d8b" kind="function"><name>setTimeEnd</name></member>
     <member refid="rrc__api_8cpp_1a7a132e807b8243aa0079a8134119bc84" kind="function"><name>setNumPoints</name></member>
+    <member refid="rrc__api_8cpp_1ad0f42ee2c23eeddca5ead4b4dcbd15eb" kind="function"><name>setTimes</name></member>
     <member refid="rrc__api_8cpp_1a2933ecafd293baf16a5840585e48ca24" kind="function"><name>getTimeStart</name></member>
     <member refid="rrc__api_8cpp_1a7f57fdf1c3bb7282d0639019bba19467" kind="function"><name>getTimeEnd</name></member>
     <member refid="rrc__api_8cpp_1a4552f3fa41307b7aaccb01ec17294079" kind="function"><name>getNumPoints</name></member>
     <member refid="rrc__api_8cpp_1a7937a2286d2641fb0f13aee44c79ba48" kind="function"><name>setTimeCourseSelectionList</name></member>
     <member refid="rrc__api_8cpp_1a1d5d2e0537a00dda270e6b5180aa354e" kind="function"><name>getTimeCourseSelectionList</name></member>
     <member refid="rrc__api_8cpp_1acd0799df482b82ca5f278728183b3ad4" kind="function"><name>simulate</name></member>
+    <member refid="rrc__api_8cpp_1ad91acd914fead70e2773b03b0f18bf79" kind="function"><name>simulateNoReturn</name></member>
     <member refid="rrc__api_8cpp_1a6fa478bae5afbe10ad6c1cf7c54ec23e" kind="function"><name>simulateEx</name></member>
+    <member refid="rrc__api_8cpp_1a738ed91a20a058f54c43d795d3557696" kind="function"><name>simulateExNoReturn</name></member>
+    <member refid="rrc__api_8cpp_1a44790b183288750f82c3448b68f46d36" kind="function"><name>simulateTimes</name></member>
     <member refid="rrc__api_8cpp_1a783c64c652ae5d151c8feb67574bbe0a" kind="function"><name>getSimulationResult</name></member>
+    <member refid="rrc__api_8cpp_1a9929e880300acdfb499c7979e79e3ce2" kind="function"><name>getSimulationResultAsDoubleMatrix</name></member>
     <member refid="rrc__api_8cpp_1a28f43438d80f217502721f97b576870b" kind="function"><name>getReactionIds</name></member>
     <member refid="rrc__api_8cpp_1afe0b91307d656ae3350b7b01bacddfe0" kind="function"><name>getRatesOfChange</name></member>
     <member refid="rrc__api_8cpp_1a080c39422addcc21fe1144e0264fe731" kind="function"><name>getRatesOfChangeIds</name></member>
@@ -4642,6 +4762,9 @@
     <member refid="rrc__logging__api_8cpp_1a496f721ce57f47dbf7f33bfe368038ff" kind="function"><name>getLogFileName</name></member>
     <member refid="rrc__logging__api_8cpp_1ae8ba1a612c355ddd3189c5299a2f7d97" kind="function"><name>logMsg</name></member>
     <member refid="rrc__nom__api_8cpp_1a0a25aaa9286a93df8ca034ad18cee9a3" kind="function"><name>getModelName</name></member>
+    <member refid="rrc__nom__api_8cpp_1a198ba3eb92e70cd1c3120245e1b732d1" kind="function"><name>setModelName</name></member>
+    <member refid="rrc__nom__api_8cpp_1acc43aeb96fc806ec7d9a25a8a5f9a94b" kind="function"><name>getModelId</name></member>
+    <member refid="rrc__nom__api_8cpp_1a7486d95544aa98902cfa40b31fbf8fef" kind="function"><name>setModelId</name></member>
     <member refid="rrc__nom__api_8cpp_1a10e1c419f0a3789c311371991912e4bc" kind="function"><name>getNumberOfRules</name></member>
     <member refid="rrc__utilities_8cpp_1ac6b909d39981583739971ca24a885af7" kind="function"><name>createText</name></member>
     <member refid="rrc__utilities_8cpp_1a6441f08fee1061ccab285ba58831925b" kind="function"><name>getFileContent</name></member>
@@ -5446,6 +5569,13 @@
   <compound refid="rrLogger_8h" kind="file"><name>rrLogger.h</name>
     <member refid="rrLogger_8h_1aade1a167159e476dee85a6a097cb7ccc" kind="define"><name>gLog</name></member>
     <member refid="rrLogger_8h_1a9e3796676dc7a3407313708a1af8ab10" kind="define"><name>rrLog</name></member>
+    <member refid="rrLogger_8h_1a75b02aff1b211c29e0240d709a9bd177" kind="define"><name>rrLogFatal</name></member>
+    <member refid="rrLogger_8h_1a43df12c767cd1029745d93fd7dbcd24a" kind="define"><name>rrLogCritical</name></member>
+    <member refid="rrLogger_8h_1a39f2e474c08ce2627d25b0d3000bf14b" kind="define"><name>rrLogErr</name></member>
+    <member refid="rrLogger_8h_1ae70f6846046321b510bcd70e1fa229ef" kind="define"><name>rrLogWarn</name></member>
+    <member refid="rrLogger_8h_1abc2ec08147cb241882e441cd4007202d" kind="define"><name>rrLogNotice</name></member>
+    <member refid="rrLogger_8h_1af5c1c555bf088c80011cf104c2836a96" kind="define"><name>rrLogInfo</name></member>
+    <member refid="rrLogger_8h_1a07508f37c8522e91d300e8cb4fcf9ffb" kind="define"><name>rrLogDebug</name></member>
   </compound>
   <compound refid="rrNLEQ1Interface_8cpp" kind="file"><name>rrNLEQ1Interface.cpp</name>
   </compound>
@@ -5456,7 +5586,6 @@
   <compound refid="rrNLEQ2Interface_8h" kind="file"><name>rrNLEQ2Interface.h</name>
   </compound>
   <compound refid="rrOSSpecifics_8h" kind="file"><name>rrOSSpecifics.h</name>
-    <member refid="rrOSSpecifics_8h_1a89f3032cf36207e3500ef6aeeeb30fb8" kind="define"><name>RR_DEPRECATED</name></member>
     <member refid="rrOSSpecifics_8h_1a0536a771dfd0d1d15f056467bb7681c3" kind="define"><name>rrCallConv</name></member>
     <member refid="rrOSSpecifics_8h_1a91ad9478d81a7aaf2593e8d9c3d06a14" kind="typedef"><name>uint</name></member>
     <member refid="rrOSSpecifics_8h_1ac319c165d52643e43249fe003e18bdf3" kind="typedef"><name>u_int</name></member>
@@ -5464,7 +5593,6 @@
   </compound>
   <compound refid="rrRoadRunner_8cpp" kind="file"><name>rrRoadRunner.cpp</name>
     <member refid="rrRoadRunner_8cpp_1a525335710b53cb064ca56b936120431e" kind="define"><name>_USE_MATH_DEFINES</name></member>
-    <member refid="rrRoadRunner_8cpp_1a89f3032cf36207e3500ef6aeeeb30fb8" kind="define"><name>RR_DEPRECATED</name></member>
     <member refid="rrRoadRunner_8cpp_1ad7a843fa6e85dc501df5d45983dfcb8a" kind="define"><name>get_self</name></member>
     <member refid="rrRoadRunner_8cpp_1a844801ca1b05da11ca4fe95005f0d6e8" kind="define"><name>check_model</name></member>
     <member refid="rrRoadRunner_8cpp_1a1ed165265998ffed0472e9737a59a2f3" kind="define"><name>assert_similar</name></member>
@@ -5773,11 +5901,16 @@
     <member refid="group__simulation_1ga6f2c769375399d14087d6e5e99339aa7" kind="function"><name>setTimeStart</name></member>
     <member refid="group__simulation_1ga93f6c401b6a9e301fcdc380a6048b28c" kind="function"><name>setTimeEnd</name></member>
     <member refid="group__simulation_1ga4575f315d9794b53adf78bfb60973d58" kind="function"><name>setNumPoints</name></member>
+    <member refid="group__simulation_1ga7d5bcc6699c0bd8702938abde4b14c2e" kind="function"><name>setTimes</name></member>
     <member refid="group__simulation_1ga61cca45bb48776d12f5bcc52d0c77e04" kind="function"><name>setTimeCourseSelectionList</name></member>
     <member refid="group__simulation_1gab58d3101cad36a26f0d421e64cf0d0f6" kind="function"><name>getTimeCourseSelectionList</name></member>
     <member refid="group__simulation_1ga9ac99f6909eb0a6244035fc9cdeff94d" kind="function"><name>simulate</name></member>
+    <member refid="group__simulation_1ga4e4e8ef75ba20f2ad989a4c2188b3a55" kind="function"><name>simulateNoReturn</name></member>
     <member refid="group__simulation_1gaa52283eaebe340a4a39cc4900441be93" kind="function"><name>getSimulationResult</name></member>
+    <member refid="group__simulation_1gac8574ccef28db153428153c3f5abd516" kind="function"><name>getSimulationResultAsDoubleMatrix</name></member>
     <member refid="group__simulation_1ga12a2129f06507eafbace57a8612cc600" kind="function"><name>simulateEx</name></member>
+    <member refid="group__simulation_1gad4a0c2c01b4cd8b65fbdea3459aa7768" kind="function"><name>simulateExNoReturn</name></member>
+    <member refid="group__simulation_1gabf0748e0e5a62fe441a28d33badc5014" kind="function"><name>simulateTimes</name></member>
     <member refid="group__simulation_1ga8f7109b90040ff57b8366c2f1867f066" kind="function"><name>oneStep</name></member>
     <member refid="group__simulation_1ga0d05bdfec6dd9387c64dd196ec3d880d" kind="function"><name>getTimeStart</name></member>
     <member refid="group__simulation_1ga83a02783c6a1c48eb05eafce742972cd" kind="function"><name>getTimeEnd</name></member>
@@ -5946,6 +6079,9 @@
   <compound refid="rrc__nom__api_8h" kind="file"><name>rrc_nom_api.h</name>
     <member refid="group__NOM_1ga97df6daacbf87b1b2d3b4dd3f4e05876" kind="function"><name>getNumberOfRules</name></member>
     <member refid="group__NOM_1gadd064802065aece47c2e966f9fff5958" kind="function"><name>getModelName</name></member>
+    <member refid="group__NOM_1ga41628ed993912f07fef8232af1a01051" kind="function"><name>setModelName</name></member>
+    <member refid="group__NOM_1ga300c79897dd0002ea7810b0bd7ce640c" kind="function"><name>getModelId</name></member>
+    <member refid="group__NOM_1gaa4a7f06dcfd66520eae88c7138c61364" kind="function"><name>setModelId</name></member>
   </compound>
   <compound refid="rrc__pch_8h" kind="file"><name>rrc_pch.h</name>
   </compound>
@@ -6174,11 +6310,16 @@
     <member refid="group__simulation_1ga6f2c769375399d14087d6e5e99339aa7" kind="function"><name>setTimeStart</name></member>
     <member refid="group__simulation_1ga93f6c401b6a9e301fcdc380a6048b28c" kind="function"><name>setTimeEnd</name></member>
     <member refid="group__simulation_1ga4575f315d9794b53adf78bfb60973d58" kind="function"><name>setNumPoints</name></member>
+    <member refid="group__simulation_1ga7d5bcc6699c0bd8702938abde4b14c2e" kind="function"><name>setTimes</name></member>
     <member refid="group__simulation_1ga61cca45bb48776d12f5bcc52d0c77e04" kind="function"><name>setTimeCourseSelectionList</name></member>
     <member refid="group__simulation_1gab58d3101cad36a26f0d421e64cf0d0f6" kind="function"><name>getTimeCourseSelectionList</name></member>
     <member refid="group__simulation_1ga9ac99f6909eb0a6244035fc9cdeff94d" kind="function"><name>simulate</name></member>
+    <member refid="group__simulation_1ga4e4e8ef75ba20f2ad989a4c2188b3a55" kind="function"><name>simulateNoReturn</name></member>
     <member refid="group__simulation_1gaa52283eaebe340a4a39cc4900441be93" kind="function"><name>getSimulationResult</name></member>
+    <member refid="group__simulation_1gac8574ccef28db153428153c3f5abd516" kind="function"><name>getSimulationResultAsDoubleMatrix</name></member>
     <member refid="group__simulation_1ga12a2129f06507eafbace57a8612cc600" kind="function"><name>simulateEx</name></member>
+    <member refid="group__simulation_1gad4a0c2c01b4cd8b65fbdea3459aa7768" kind="function"><name>simulateExNoReturn</name></member>
+    <member refid="group__simulation_1gabf0748e0e5a62fe441a28d33badc5014" kind="function"><name>simulateTimes</name></member>
     <member refid="group__simulation_1ga8f7109b90040ff57b8366c2f1867f066" kind="function"><name>oneStep</name></member>
     <member refid="group__simulation_1ga0d05bdfec6dd9387c64dd196ec3d880d" kind="function"><name>getTimeStart</name></member>
     <member refid="group__simulation_1ga83a02783c6a1c48eb05eafce742972cd" kind="function"><name>getTimeEnd</name></member>
@@ -6290,6 +6431,9 @@
   <compound refid="group__NOM" kind="group"><name>NOM</name>
     <member refid="group__NOM_1ga97df6daacbf87b1b2d3b4dd3f4e05876" kind="function"><name>getNumberOfRules</name></member>
     <member refid="group__NOM_1gadd064802065aece47c2e966f9fff5958" kind="function"><name>getModelName</name></member>
+    <member refid="group__NOM_1ga41628ed993912f07fef8232af1a01051" kind="function"><name>setModelName</name></member>
+    <member refid="group__NOM_1ga300c79897dd0002ea7810b0bd7ce640c" kind="function"><name>getModelId</name></member>
+    <member refid="group__NOM_1gaa4a7f06dcfd66520eae88c7138c61364" kind="function"><name>setModelId</name></member>
   </compound>
   <compound refid="group__LinearAlgebra" kind="group"><name>LinearAlgebra</name>
     <member refid="group__LinearAlgebra_1ga142092d1f7edcc6500f1b965abed68be" kind="function"><name>getEigenvaluesMatrix</name></member>
@@ -6436,9 +6580,9 @@
     <member refid="group__config_1ga6528c643dd196a5c91a95455f954076d" kind="function"><name>getConfigDouble</name></member>
     <member refid="group__config_1gaa2b527610b79828322a6b5d03ab4ace9" kind="function"><name>getListOfConfigKeys</name></member>
   </compound>
-  <compound refid="deprecated" kind="page"><name>deprecated</name>
-  </compound>
   <compound refid="todo" kind="page"><name>todo</name>
+  </compound>
+  <compound refid="deprecated" kind="page"><name>deprecated</name>
   </compound>
   <compound refid="dir_34dbdef0d0e5ad676053452b99dda973" kind="dir"><name>c</name>
   </compound>

@@ -286,12 +286,10 @@
 <para>The type of sbml element that the RoadRunner::setParameterValue and RoadRunner::getParameterValue method operate on. </para>
         </briefdescription>
         <detaileddescription>
-<para><xrefsect id="deprecated_1_deprecated000001"><xreftitle>Deprecated</xreftitle><xrefdescription><para>use the <ref refid="classrr_1_1ExecutableModel" kindref="compound">ExecutableModel</ref> methods directly. </para>
-</xrefdescription></xrefsect></para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="173" column="5" bodyfile="rrRoadRunner.cpp" bodystart="173" bodyend="179"/>
+        <location file="rrRoadRunner.cpp" line="168" column="5" bodyfile="rrRoadRunner.cpp" bodystart="168" bodyend="174"/>
       </memberdef>
       <memberdef kind="enum" id="SBMLValidator_8h_1ae9b68e1552acb4d494177d09c229a409" prot="public" static="no" strong="no">
         <type></type>
@@ -564,7 +562,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="91" column="25" bodyfile="rrRoadRunner.cpp" bodystart="91" bodyend="-1"/>
+        <location file="rrRoadRunner.cpp" line="88" column="25" bodyfile="rrRoadRunner.cpp" bodystart="88" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="rrRoadRunner_8cpp_1aa19d858a33d0a65ddd6461024968ce4d" prot="public" static="no">
         <type>std::string(ExecutableModel::*</type>
@@ -577,7 +575,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="97" column="13" bodyfile="rrRoadRunner.cpp" bodystart="97" bodyend="-1"/>
+        <location file="rrRoadRunner.cpp" line="94" column="13" bodyfile="rrRoadRunner.cpp" bodystart="94" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="rrRoadRunner_8cpp_1af48f09ff45a9173cae0c3617ac84ea11" prot="public" static="no">
         <type>int(ExecutableModel::*</type>
@@ -590,7 +588,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="99" column="13" bodyfile="rrRoadRunner.cpp" bodystart="99" bodyend="-1"/>
+        <location file="rrRoadRunner.cpp" line="96" column="13" bodyfile="rrRoadRunner.cpp" bodystart="96" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="rrRoadRunner_8cpp_1a67c05b3923fa2ea722f9eb140e00957b" prot="public" static="no">
         <type>std::list&lt; std::vector&lt; double &gt; &gt;</type>
@@ -604,7 +602,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="143" column="23" bodyfile="rrRoadRunner.cpp" bodystart="143" bodyend="-1"/>
+        <location file="rrRoadRunner.cpp" line="140" column="23" bodyfile="rrRoadRunner.cpp" bodystart="140" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="rrSparse_8h_1aa8a36b3ce021dddb42f59ad71b3346d8" prot="public" static="no">
         <type>struct <ref refid="structrr_1_1csr__matrix__t" kindref="compound">rr::csr_matrix_t</ref></type>
@@ -1283,7 +1281,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="89" column="18" bodyfile="rrRoadRunner.cpp" bodystart="89" bodyend="-1"/>
+        <location file="rrRoadRunner.cpp" line="86" column="18" bodyfile="rrRoadRunner.cpp" bodystart="86" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="rrRoadRunner_8cpp_1a7c3eab0b2c50956fefffc2708511c999" prot="public" static="yes" mutable="no">
         <type>int</type>
@@ -1297,7 +1295,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="165" column="16" bodyfile="rrRoadRunner.cpp" bodystart="165" bodyend="-1"/>
+        <location file="rrRoadRunner.cpp" line="162" column="16" bodyfile="rrRoadRunner.cpp" bodystart="162" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="rrSBMLReader_8cpp_1a888d8a9ffcc502f666e2216b17ae8c66" prot="public" static="yes" mutable="no">
         <type>Mutex</type>
@@ -1426,7 +1424,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="CVODEIntegrator.cpp" line="1178" column="9" bodyfile="CVODEIntegrator.cpp" bodystart="1178" bodyend="1197" declfile="CVODEIntegrator.cpp" declline="38" declcolumn="9"/>
+        <location file="CVODEIntegrator.cpp" line="1188" column="9" bodyfile="CVODEIntegrator.cpp" bodystart="1188" bodyend="1207" declfile="CVODEIntegrator.cpp" declline="38" declcolumn="9"/>
       </memberdef>
       <memberdef kind="function" id="CVODEIntegrator_8cpp_1ad01271862994ece03d70c65edb3bb5d8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -1455,7 +1453,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="CVODEIntegrator.cpp" line="1254" column="9" bodyfile="CVODEIntegrator.cpp" bodystart="1254" bodyend="1266" declfile="CVODEIntegrator.cpp" declline="40" declcolumn="9"/>
+        <location file="CVODEIntegrator.cpp" line="1264" column="9" bodyfile="CVODEIntegrator.cpp" bodystart="1264" bodyend="1276" declfile="CVODEIntegrator.cpp" declline="40" declcolumn="9"/>
       </memberdef>
       <memberdef kind="function" id="CVODEIntegrator_8cpp_1a5c0899abfe5f1d2057c866d8c77875b9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>void</type>
@@ -1537,7 +1535,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="CVODEIntegrator.cpp" line="1288" column="10" bodyfile="CVODEIntegrator.cpp" bodystart="1288" bodyend="1303" declfile="CVODEIntegrator.cpp" declline="73" declcolumn="17"/>
+        <location file="CVODEIntegrator.cpp" line="1298" column="10" bodyfile="CVODEIntegrator.cpp" bodystart="1298" bodyend="1313" declfile="CVODEIntegrator.cpp" declline="73" declcolumn="17"/>
       </memberdef>
       <memberdef kind="function" id="CVODEIntegrator_8h_1ab548fd7f7fca7e5c037680f49a491aa2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <templateparamlist>
@@ -1815,7 +1813,7 @@ Notes: error_code is negative for errors and positive (KIN_WARNING) for warnings
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="Matrix3D.h" line="328" column="5" bodyfile="Matrix3D.h" bodystart="328" bodyend="334"/>
+        <location file="Matrix3D.h" line="392" column="5" bodyfile="Matrix3D.h" bodystart="392" bodyend="398"/>
       </memberdef>
       <memberdef kind="function" id="rrConfig_8cpp_1adff16f2d5a5cafae53d69fcb162bfa54" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -1928,7 +1926,7 @@ Notes: error_code is negative for errors and positive (KIN_WARNING) for warnings
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.cpp" line="37" column="1" bodyfile="rrExecutableModel.cpp" bodystart="37" bodyend="103" declfile="rrExecutableModel.h" declline="781" declcolumn="17"/>
+        <location file="rrExecutableModel.cpp" line="42" column="5" bodyfile="rrExecutableModel.cpp" bodystart="42" bodyend="130" declfile="rrExecutableModel.h" declline="846" declcolumn="17"/>
       </memberdef>
       <memberdef kind="function" id="rrFileName_8cpp_1a643064bcda1ab0485dd3a39accecb990" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::ostream &amp;</type>
@@ -2010,7 +2008,7 @@ Notes: error_code is negative for errors and positive (KIN_WARNING) for warnings
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrLogger.cpp" line="360" column="24" bodyfile="rrLogger.cpp" bodystart="360" bodyend="368" declfile="rrLogger.cpp" declline="84" declcolumn="24"/>
+        <location file="rrLogger.cpp" line="361" column="24" bodyfile="rrLogger.cpp" bodystart="361" bodyend="369" declfile="rrLogger.cpp" declline="84" declcolumn="24"/>
       </memberdef>
       <memberdef kind="function" id="rrLogger_8cpp_1abe3093e711e62b578c02180e04ceb980" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>PatternFormatter *</type>
@@ -2024,7 +2022,7 @@ Notes: error_code is negative for errors and positive (KIN_WARNING) for warnings
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrLogger.cpp" line="370" column="25" bodyfile="rrLogger.cpp" bodystart="370" bodyend="378" declfile="rrLogger.cpp" declline="89" declcolumn="25"/>
+        <location file="rrLogger.cpp" line="371" column="25" bodyfile="rrLogger.cpp" bodystart="371" bodyend="379" declfile="rrLogger.cpp" declline="89" declcolumn="25"/>
       </memberdef>
       <memberdef kind="function" id="rrLogger_8cpp_1ae64639d18affe140d67004aa158f3a3c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>Channel *</type>
@@ -2053,7 +2051,7 @@ Notes: error_code is negative for errors and positive (KIN_WARNING) for warnings
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrLogger.cpp" line="163" column="14" bodyfile="rrLogger.cpp" bodystart="163" bodyend="204" declfile="rrLogger.h" declline="326" declcolumn="26"/>
+        <location file="rrLogger.cpp" line="163" column="14" bodyfile="rrLogger.cpp" bodystart="163" bodyend="205" declfile="rrLogger.h" declline="326" declcolumn="26"/>
       </memberdef>
       <memberdef kind="function" id="rrLogger_8cpp_1a4996b05a760f1b8eeedf3abfed936cac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -2066,7 +2064,7 @@ Notes: error_code is negative for errors and positive (KIN_WARNING) for warnings
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrLogger.cpp" line="512" column="6" bodyfile="rrLogger.cpp" bodystart="512" bodyend="515"/>
+        <location file="rrLogger.cpp" line="513" column="6" bodyfile="rrLogger.cpp" bodystart="513" bodyend="516"/>
       </memberdef>
       <memberdef kind="function" id="rrNLEQ1Interface_8cpp_1a602e172bdfe5a8eeea93fa7e1475848e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -2251,7 +2249,7 @@ Notes: error_code is negative for errors and positive (KIN_WARNING) for warnings
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="102" column="24" bodyfile="rrRoadRunner.cpp" bodystart="102" bodyend="116"/>
+        <location file="rrRoadRunner.cpp" line="99" column="24" bodyfile="rrRoadRunner.cpp" bodystart="99" bodyend="113"/>
       </memberdef>
       <memberdef kind="function" id="rrRoadRunner_8cpp_1aed3558708e5fa7c09e2b78d62ad5bbc3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::string &gt;</type>
@@ -2269,7 +2267,7 @@ Notes: error_code is negative for errors and positive (KIN_WARNING) for warnings
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="4127" column="24" bodyfile="rrRoadRunner.cpp" bodystart="4127" bodyend="4146" declfile="rrRoadRunner.cpp" declline="122" declcolumn="24"/>
+        <location file="rrRoadRunner.cpp" line="4204" column="24" bodyfile="rrRoadRunner.cpp" bodystart="4204" bodyend="4223" declfile="rrRoadRunner.cpp" declline="119" declcolumn="24"/>
       </memberdef>
       <memberdef kind="function" id="rrRoadRunner_8cpp_1a917d75bd4f447fd8ce903024a4b54b16" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; double &gt;</type>
@@ -2297,7 +2295,7 @@ Notes: error_code is negative for errors and positive (KIN_WARNING) for warnings
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="4504" column="17" bodyfile="rrRoadRunner.cpp" bodystart="4504" bodyend="4515" declfile="rrRoadRunner.cpp" declline="134" declcolumn="24"/>
+        <location file="rrRoadRunner.cpp" line="4589" column="17" bodyfile="rrRoadRunner.cpp" bodystart="4589" bodyend="4600" declfile="rrRoadRunner.cpp" declline="131" declcolumn="24"/>
       </memberdef>
       <memberdef kind="function" id="rrRoadRunner_8cpp_1a75109bf37b627be32b9afc0b88faa6cb" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
@@ -2314,7 +2312,7 @@ Notes: error_code is negative for errors and positive (KIN_WARNING) for warnings
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="4517" column="12" bodyfile="rrRoadRunner.cpp" bodystart="4517" bodyend="4523" declfile="rrRoadRunner.cpp" declline="136" declcolumn="19"/>
+        <location file="rrRoadRunner.cpp" line="4602" column="12" bodyfile="rrRoadRunner.cpp" bodystart="4602" bodyend="4608" declfile="rrRoadRunner.cpp" declline="133" declcolumn="19"/>
       </memberdef>
       <memberdef kind="function" id="rrRoadRunner_8cpp_1a974b1666ce3b0140ebe3f84c2de8dac8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
@@ -2331,7 +2329,7 @@ Notes: error_code is negative for errors and positive (KIN_WARNING) for warnings
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="4526" column="12" bodyfile="rrRoadRunner.cpp" bodystart="4526" bodyend="4538" declfile="rrRoadRunner.cpp" declline="138" declcolumn="19"/>
+        <location file="rrRoadRunner.cpp" line="4611" column="12" bodyfile="rrRoadRunner.cpp" bodystart="4611" bodyend="4623" declfile="rrRoadRunner.cpp" declline="135" declcolumn="19"/>
       </memberdef>
       <memberdef kind="function" id="rrRoadRunner_8cpp_1acf824e8a1d12cf613cbff9f108fb55e5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -2351,7 +2349,7 @@ Notes: error_code is negative for errors and positive (KIN_WARNING) for warnings
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="4729" column="17" bodyfile="rrRoadRunner.cpp" bodystart="4729" bodyend="4735" declfile="rrRoadRunner.cpp" declline="154" declcolumn="17"/>
+        <location file="rrRoadRunner.cpp" line="4841" column="17" bodyfile="rrRoadRunner.cpp" bodystart="4841" bodyend="4847" declfile="rrRoadRunner.cpp" declline="151" declcolumn="17"/>
       </memberdef>
       <memberdef kind="function" id="rrRoadRunner_8cpp_1a0600f1d6e25aacf7e78a999c5f09ea47" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -2372,7 +2370,7 @@ Notes: error_code is negative for errors and positive (KIN_WARNING) for warnings
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="6611" column="10" bodyfile="rrRoadRunner.cpp" bodystart="6611" bodyend="6621" declfile="rrRoadRunner.cpp" declline="160" declcolumn="17"/>
+        <location file="rrRoadRunner.cpp" line="6772" column="10" bodyfile="rrRoadRunner.cpp" bodystart="6772" bodyend="6782" declfile="rrRoadRunner.cpp" declline="157" declcolumn="17"/>
       </memberdef>
       <memberdef kind="function" id="rrRoadRunner_8cpp_1ad900af7633d26b2608f329edb942501a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -2397,7 +2395,7 @@ Notes: error_code is negative for errors and positive (KIN_WARNING) for warnings
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="6623" column="10" bodyfile="rrRoadRunner.cpp" bodystart="6623" bodyend="6634" declfile="rrRoadRunner.cpp" declline="162" declcolumn="17"/>
+        <location file="rrRoadRunner.cpp" line="6784" column="10" bodyfile="rrRoadRunner.cpp" bodystart="6784" bodyend="6795" declfile="rrRoadRunner.cpp" declline="159" declcolumn="17"/>
       </memberdef>
       <memberdef kind="function" id="rrRoadRunner_8cpp_1a569819a5525e04339f43eb978f1a190e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -2423,7 +2421,7 @@ Notes: error_code is negative for errors and positive (KIN_WARNING) for warnings
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="3021" column="17" bodyfile="rrRoadRunner.cpp" bodystart="3021" bodyend="3060"/>
+        <location file="rrRoadRunner.cpp" line="3088" column="17" bodyfile="rrRoadRunner.cpp" bodystart="3088" bodyend="3127"/>
       </memberdef>
       <memberdef kind="function" id="rrRoadRunner_8cpp_1a630339ba3a50c08fb38901e1decaf7b2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -2448,7 +2446,7 @@ Notes: error_code is negative for errors and positive (KIN_WARNING) for warnings
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="3063" column="17" bodyfile="rrRoadRunner.cpp" bodystart="3063" bodyend="3077"/>
+        <location file="rrRoadRunner.cpp" line="3130" column="17" bodyfile="rrRoadRunner.cpp" bodystart="3130" bodyend="3144"/>
       </memberdef>
       <memberdef kind="function" id="rrRoadRunner_8cpp_1a7c7c65070a14127d9d684112801d4360" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -2473,7 +2471,7 @@ Notes: error_code is negative for errors and positive (KIN_WARNING) for warnings
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="3949" column="24" bodyfile="rrRoadRunner.cpp" bodystart="3949" bodyend="3998"/>
+        <location file="rrRoadRunner.cpp" line="4026" column="24" bodyfile="rrRoadRunner.cpp" bodystart="4026" bodyend="4075"/>
       </memberdef>
       <memberdef kind="function" id="rrRoadRunner_8cpp_1a410ba7a28b6d72c94782c0b8d6a02902" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -2494,7 +2492,7 @@ Notes: error_code is negative for errors and positive (KIN_WARNING) for warnings
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="5749" column="10" bodyfile="rrRoadRunner.cpp" bodystart="5749" bodyend="5792"/>
+        <location file="rrRoadRunner.cpp" line="5883" column="10" bodyfile="rrRoadRunner.cpp" bodystart="5883" bodyend="5926"/>
       </memberdef>
       <memberdef kind="function" id="rrRoadRunnerData_8cpp_1a97fd3264b599691879100dd2bc4139dd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::ostream &amp;</type>
@@ -2601,7 +2599,7 @@ Notes: error_code is negative for errors and positive (KIN_WARNING) for warnings
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrSBMLReader.cpp" line="124" column="20" bodyfile="rrSBMLReader.cpp" bodystart="124" bodyend="188"/>
+        <location file="rrSBMLReader.cpp" line="124" column="20" bodyfile="rrSBMLReader.cpp" bodystart="124" bodyend="187"/>
       </memberdef>
       <memberdef kind="function" id="rrSBMLReader_8cpp_1abcd7fcef54bd4724c1b162db5b7cab80" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>char</type>
@@ -2618,7 +2616,7 @@ Notes: error_code is negative for errors and positive (KIN_WARNING) for warnings
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrSBMLReader.cpp" line="191" column="6" bodyfile="rrSBMLReader.cpp" bodystart="191" bodyend="193"/>
+        <location file="rrSBMLReader.cpp" line="190" column="6" bodyfile="rrSBMLReader.cpp" bodystart="190" bodyend="192"/>
       </memberdef>
       <memberdef kind="function" id="rrSelectionRecord_8cpp_1aecc9c110f75cc1ac54685b89171be7e5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::ostream &amp;</type>
@@ -2639,7 +2637,7 @@ Notes: error_code is negative for errors and positive (KIN_WARNING) for warnings
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrSelectionRecord.cpp" line="259" column="1" bodyfile="rrSelectionRecord.cpp" bodystart="259" bodyend="267" declfile="rrSelectionRecord.h" declline="391" declcolumn="1"/>
+        <location file="rrSelectionRecord.cpp" line="259" column="1" bodyfile="rrSelectionRecord.cpp" bodystart="259" bodyend="267" declfile="rrSelectionRecord.h" declline="423" declcolumn="1"/>
       </memberdef>
       <memberdef kind="function" id="rrSparse_8cpp_1afaa83180a614be810cf93055ae573763" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="structrr_1_1csr__matrix__t" kindref="compound">csr_matrix</ref> *</type>
@@ -3309,7 +3307,7 @@ Notes: error_code is negative for errors and positive (KIN_WARNING) for warnings
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrStringUtils.cpp" line="316" column="14" bodyfile="rrStringUtils.cpp" bodystart="316" bodyend="321" declfile="rrStringUtils.h" declline="72" declcolumn="30"/>
+        <location file="rrStringUtils.cpp" line="316" column="14" bodyfile="rrStringUtils.cpp" bodystart="316" bodyend="321" declfile="rrStringUtils.h" declline="72" declcolumn="29"/>
       </memberdef>
       <memberdef kind="function" id="rrStringUtils_8cpp_1a425c3a337563f14fdfa67809cea4ca3d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string &amp;</type>
@@ -3337,7 +3335,7 @@ Notes: error_code is negative for errors and positive (KIN_WARNING) for warnings
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrStringUtils.cpp" line="323" column="14" bodyfile="rrStringUtils.cpp" bodystart="323" bodyend="328" declfile="rrStringUtils.h" declline="78" declcolumn="30"/>
+        <location file="rrStringUtils.cpp" line="323" column="14" bodyfile="rrStringUtils.cpp" bodystart="323" bodyend="328" declfile="rrStringUtils.h" declline="78" declcolumn="29"/>
       </memberdef>
       <memberdef kind="function" id="rrStringUtils_8cpp_1a95aba1d1adea11f996cc0585d44e8ee3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -4858,7 +4856,7 @@ Notes: error_code is negative for errors and positive (KIN_WARNING) for warnings
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrStringUtils.h" line="371" column="12" bodyfile="rrStringUtils.h" bodystart="371" bodyend="467"/>
+        <location file="rrStringUtils.h" line="371" column="12" bodyfile="rrStringUtils.h" bodystart="371" bodyend="435"/>
       </memberdef>
       <memberdef kind="function" id="rrUtils_8cpp_1a481b1b5830f0013dbef86e825657af41" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -5220,14 +5218,18 @@ Notes: error_code is negative for errors and positive (KIN_WARNING) for warnings
         </inbodydescription>
         <location file="rrUtils.cpp" line="443" column="13" bodyfile="rrUtils.cpp" bodystart="443" bodyend="448" declfile="rrUtils.h" declline="110" declcolumn="41"/>
       </memberdef>
-      <memberdef kind="function" id="rrUtils_8cpp_1a0870967c68c86e70b4344784f808ea09" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="rrUtils_8cpp_1a8dc45a306e6142ba0ce2881b91733eb0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
-        <definition>RR_DECLSPEC bool rr::hasUnimplementedTags</definition>
-        <argsstring>(const std::string &amp;descriptionFileName)</argsstring>
+        <definition>bool rr::hasUnimplementedTags</definition>
+        <argsstring>(const std::string &amp;descriptionFileName, const string &amp;integrator)</argsstring>
         <name>hasUnimplementedTags</name>
         <param>
           <type>const std::string &amp;</type>
           <declname>descriptionFileName</declname>
+        </param>
+        <param>
+          <type>const string &amp;</type>
+          <declname>integrator</declname>
         </param>
         <briefdescription>
         </briefdescription>
@@ -5235,7 +5237,7 @@ Notes: error_code is negative for errors and positive (KIN_WARNING) for warnings
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrUtils.cpp" line="450" column="6" bodyfile="rrUtils.cpp" bodystart="450" bodyend="473" declfile="rrUtils.h" declline="112" declcolumn="29"/>
+        <location file="rrUtils.cpp" line="450" column="6" bodyfile="rrUtils.cpp" bodystart="450" bodyend="481"/>
       </memberdef>
       <memberdef kind="function" id="rrUtils_8cpp_1acac684bc6e25f111e45fbc09a65087be" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -5252,7 +5254,7 @@ Notes: error_code is negative for errors and positive (KIN_WARNING) for warnings
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrUtils.cpp" line="475" column="6" bodyfile="rrUtils.cpp" bodystart="475" bodyend="487" declfile="rrUtils.h" declline="114" declcolumn="29"/>
+        <location file="rrUtils.cpp" line="483" column="6" bodyfile="rrUtils.cpp" bodystart="483" bodyend="495" declfile="rrUtils.h" declline="114" declcolumn="29"/>
       </memberdef>
       <memberdef kind="function" id="rrUtils_8cpp_1a602eeb02a9aeedd206f42dfabafb5ac7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -5269,7 +5271,7 @@ Notes: error_code is negative for errors and positive (KIN_WARNING) for warnings
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrUtils.cpp" line="489" column="6" bodyfile="rrUtils.cpp" bodystart="489" bodyend="506" declfile="rrUtils.h" declline="116" declcolumn="29"/>
+        <location file="rrUtils.cpp" line="497" column="6" bodyfile="rrUtils.cpp" bodystart="497" bodyend="514" declfile="rrUtils.h" declline="116" declcolumn="29"/>
       </memberdef>
       <memberdef kind="function" id="rrUtils_8cpp_1aa1e38a29569597e4f5840d8c5b98b817" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -5288,7 +5290,7 @@ Notes: error_code is negative for errors and positive (KIN_WARNING) for warnings
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrUtils.cpp" line="529" column="6" bodyfile="rrUtils.cpp" bodystart="529" bodyend="541" declfile="rrUtils.h" declline="63" declcolumn="29"/>
+        <location file="rrUtils.cpp" line="537" column="6" bodyfile="rrUtils.cpp" bodystart="537" bodyend="549" declfile="rrUtils.h" declline="63" declcolumn="29"/>
       </memberdef>
       <memberdef kind="function" id="rrUtils_8cpp_1adab3ca838337b52f75719c14bf5326ea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -5309,7 +5311,7 @@ Notes: error_code is negative for errors and positive (KIN_WARNING) for warnings
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrUtils.cpp" line="543" column="6" bodyfile="rrUtils.cpp" bodystart="543" bodyend="549" declfile="rrUtils.h" declline="136" declcolumn="29"/>
+        <location file="rrUtils.cpp" line="551" column="6" bodyfile="rrUtils.cpp" bodystart="551" bodyend="557" declfile="rrUtils.h" declline="136" declcolumn="29"/>
       </memberdef>
       <memberdef kind="function" id="rrUtils_8cpp_1a3e712436e8a2d63e71021aa28b074b1d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -5338,7 +5340,7 @@ Notes: error_code is negative for errors and positive (KIN_WARNING) for warnings
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrUtils.cpp" line="551" column="6" bodyfile="rrUtils.cpp" bodystart="551" bodyend="565" declfile="rrUtils.h" declline="121" declcolumn="29"/>
+        <location file="rrUtils.cpp" line="559" column="6" bodyfile="rrUtils.cpp" bodystart="559" bodyend="573" declfile="rrUtils.h" declline="121" declcolumn="29"/>
       </memberdef>
       <memberdef kind="function" id="rrUtils_8cpp_1a74593febe25b33a5a4a222434a7ffdcb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -5363,7 +5365,7 @@ Notes: error_code is negative for errors and positive (KIN_WARNING) for warnings
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrUtils.cpp" line="567" column="6" bodyfile="rrUtils.cpp" bodystart="567" bodyend="580" declfile="rrUtils.h" declline="123" declcolumn="29"/>
+        <location file="rrUtils.cpp" line="575" column="6" bodyfile="rrUtils.cpp" bodystart="575" bodyend="588" declfile="rrUtils.h" declline="123" declcolumn="29"/>
       </memberdef>
       <memberdef kind="function" id="rrUtils_8cpp_1a16c57a93c67d3d3bcc2c619ce2be3d4f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -5388,7 +5390,7 @@ Notes: error_code is negative for errors and positive (KIN_WARNING) for warnings
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrUtils.cpp" line="582" column="6" bodyfile="rrUtils.cpp" bodystart="582" bodyend="595" declfile="rrUtils.h" declline="124" declcolumn="29"/>
+        <location file="rrUtils.cpp" line="590" column="6" bodyfile="rrUtils.cpp" bodystart="590" bodyend="603" declfile="rrUtils.h" declline="124" declcolumn="29"/>
       </memberdef>
       <memberdef kind="function" id="rrUtils_8cpp_1a869f2d6b16638b4853a5ff954fd66a83" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; double &gt;</type>
@@ -5409,7 +5411,7 @@ Notes: error_code is negative for errors and positive (KIN_WARNING) for warnings
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrUtils.cpp" line="597" column="13" bodyfile="rrUtils.cpp" bodystart="597" bodyend="612" declfile="rrUtils.h" declline="126" declcolumn="26"/>
+        <location file="rrUtils.cpp" line="605" column="13" bodyfile="rrUtils.cpp" bodystart="605" bodyend="620" declfile="rrUtils.h" declline="126" declcolumn="26"/>
       </memberdef>
       <memberdef kind="function" id="rrUtils_8cpp_1aa96a49ec24bc766d0185ede97ee4f953" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -5434,7 +5436,7 @@ Notes: error_code is negative for errors and positive (KIN_WARNING) for warnings
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrUtils.cpp" line="614" column="6" bodyfile="rrUtils.cpp" bodystart="614" bodyend="628" declfile="rrUtils.h" declline="119" declcolumn="29"/>
+        <location file="rrUtils.cpp" line="622" column="6" bodyfile="rrUtils.cpp" bodystart="622" bodyend="636" declfile="rrUtils.h" declline="119" declcolumn="29"/>
       </memberdef>
       <memberdef kind="function" id="rrUtils_8cpp_1a0095b8bd9e5a0bdd6c90b3e91e27c332" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -5459,7 +5461,7 @@ Notes: error_code is negative for errors and positive (KIN_WARNING) for warnings
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrUtils.cpp" line="630" column="6" bodyfile="rrUtils.cpp" bodystart="630" bodyend="644" declfile="rrUtils.h" declline="120" declcolumn="29"/>
+        <location file="rrUtils.cpp" line="638" column="6" bodyfile="rrUtils.cpp" bodystart="638" bodyend="652" declfile="rrUtils.h" declline="120" declcolumn="29"/>
       </memberdef>
       <memberdef kind="function" id="rrUtils_8cpp_1abc87cdbac229cf4a7f0bf7d8c20eaebf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -5484,7 +5486,7 @@ Notes: error_code is negative for errors and positive (KIN_WARNING) for warnings
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrUtils.cpp" line="646" column="6" bodyfile="rrUtils.cpp" bodystart="646" bodyend="660" declfile="rrUtils.h" declline="122" declcolumn="29"/>
+        <location file="rrUtils.cpp" line="654" column="6" bodyfile="rrUtils.cpp" bodystart="654" bodyend="668" declfile="rrUtils.h" declline="122" declcolumn="29"/>
       </memberdef>
       <memberdef kind="function" id="rrUtils_8cpp_1a1862b54c0ce8c2fa315dcc3e77641f47" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double *</type>
@@ -5501,7 +5503,7 @@ Notes: error_code is negative for errors and positive (KIN_WARNING) for warnings
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrUtils.cpp" line="662" column="8" bodyfile="rrUtils.cpp" bodystart="662" bodyend="676" declfile="rrUtils.h" declline="125" declcolumn="28"/>
+        <location file="rrUtils.cpp" line="670" column="8" bodyfile="rrUtils.cpp" bodystart="670" bodyend="684" declfile="rrUtils.h" declline="125" declcolumn="28"/>
       </memberdef>
       <memberdef kind="function" id="rrUtils_8cpp_1ad1b5afe93a1b01cb209678d5657b6f5f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int64_t</type>
@@ -5516,7 +5518,7 @@ Notes: error_code is negative for errors and positive (KIN_WARNING) for warnings
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrUtils.cpp" line="758" column="9" bodyfile="rrUtils.cpp" bodystart="758" bodyend="761" declfile="rrUtils.h" declline="146" declcolumn="21"/>
+        <location file="rrUtils.cpp" line="766" column="9" bodyfile="rrUtils.cpp" bodystart="766" bodyend="769" declfile="rrUtils.h" declline="146" declcolumn="21"/>
       </memberdef>
       <memberdef kind="function" id="rrUtils_8h_1ac85d46c7532cfd8e404777694d3edb32" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>RR_DECLSPEC size_t</type>
@@ -5538,6 +5540,27 @@ Notes: error_code is negative for errors and positive (KIN_WARNING) for warnings
         <inbodydescription>
         </inbodydescription>
         <location file="rrUtils.h" line="48" column="29" declfile="rrUtils.h" declline="48" declcolumn="29"/>
+      </memberdef>
+      <memberdef kind="function" id="rrUtils_8h_1a706169d28163976b921a2f3f48ac27f7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>RR_DECLSPEC bool</type>
+        <definition>RR_DECLSPEC bool rr::hasUnimplementedTags</definition>
+        <argsstring>(const std::string &amp;descriptionFileName, const std::string &amp;integrator)</argsstring>
+        <name>hasUnimplementedTags</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>descriptionFileName</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>integrator</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="rrUtils.h" line="112" column="29" declfile="rrUtils.h" declline="112" declcolumn="29"/>
       </memberdef>
       <memberdef kind="function" id="rrVersionInfo_8cpp_1af920920c8778b635f231f004abe1733c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -5662,28 +5685,26 @@ Notes: error_code is negative for errors and positive (KIN_WARNING) for warnings
         </inbodydescription>
         <location file="SBMLValidator.cpp" line="106" column="6" bodyfile="SBMLValidator.cpp" bodystart="106" bodyend="133"/>
       </memberdef>
-      <memberdef kind="function" id="SBMLValidator_8cpp_1a9ff6266c35facdac8de65e8105d38572" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="SBMLValidator_8cpp_1a370cfabdeadf7be286e3c12965403aed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
-        <definition>std::string rr::fixMissingStoich</definition>
+        <definition>std::string rr::fixMissingStoichAndMath</definition>
         <argsstring>(const std::string sbml)</argsstring>
-        <name>fixMissingStoich</name>
+        <name>fixMissingStoichAndMath</name>
         <param>
           <type>const std::string</type>
           <declname>sbml</declname>
         </param>
         <briefdescription>
-<para>Adds missing stoichiometry information. Assumes unit stoichiometry where not specified. </para>
+<para>Adds missing stoichiometry information and removes elements with no math. </para>
         </briefdescription>
         <detaileddescription>
-<para><simplesect kind="author"><para>JKM </para>
-</simplesect>
-<simplesect kind="return"><para>SBML std::string with stoich fixed </para>
+<para>Assumes unit stoichiometry where not specified <simplesect kind="return"><para>SBML std::string with stoich fixed </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SBMLValidator.cpp" line="135" column="13" bodyfile="SBMLValidator.cpp" bodystart="135" bodyend="213" declfile="SBMLValidator.h" declline="71" declcolumn="13"/>
+        <location file="SBMLValidator.cpp" line="135" column="13" bodyfile="SBMLValidator.cpp" bodystart="135" bodyend="277" declfile="SBMLValidator.h" declline="70" declcolumn="13"/>
       </memberdef>
       <memberdef kind="function" id="rrCCompiler_8cpp_1a602ee4c4cf4696f30ae3914231a2de1b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>

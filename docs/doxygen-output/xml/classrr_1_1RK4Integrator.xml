@@ -401,7 +401,20 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="RK4Integrator.h" line="32" column="9" bodyfile="Integrator.cpp" bodystart="34" bodyend="35"/>
+        <location file="RK4Integrator.h" line="32" column="9" bodyfile="Integrator.cpp" bodystart="34" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1RK4Integrator_1a661048f976364d39626d24e4745aa416" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>rr::Integrator::Integrator</definition>
+        <argsstring>()</argsstring>
+        <name>Integrator</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="RK4Integrator.h" line="32" column="9" bodyfile="Integrator.cpp" bodystart="40" bodyend="44"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-func">
@@ -504,7 +517,7 @@
     </collaborationgraph>
     <location file="RK4Integrator.h" line="28" column="5" bodyfile="RK4Integrator.h" bodystart="29" bodyend="178"/>
     <listofallmembers>
-      <member refid="classrr_1_1Solver_1ad5b8ac1ef687d1a3c9f1f305cb73804d" prot="protected" virt="non-virtual"><scope>rr::RK4Integrator</scope><name>addSetting</name></member>
+      <member refid="classrr_1_1Solver_1a9d801d628c80877bbadd4fcff012837d" prot="protected" virt="non-virtual"><scope>rr::RK4Integrator</scope><name>addSetting</name></member>
       <member refid="classrr_1_1RK4Integrator_1a572b31f2b67c7d9d6ca0c2da66154d61" prot="private" virt="non-virtual"><scope>rr::RK4Integrator</scope><name>applyEvents</name></member>
       <member refid="classrr_1_1RK4Integrator_1a4d3ac5da6eaa4d52fa07603e6e0d1681" prot="public" virt="virtual"><scope>rr::RK4Integrator</scope><name>construct</name></member>
       <member refid="classrr_1_1Solver_1a7d58e224664ab44e56f90802d9601f01" prot="public" virt="non-virtual"><scope>rr::RK4Integrator</scope><name>DescriptionMap</name></member>
@@ -544,6 +557,7 @@
       <member refid="classrr_1_1RK4Integrator_1a3656bd81548da001b68c969740a3bc94" prot="public" virt="virtual"><scope>rr::RK4Integrator</scope><name>integrate</name></member>
       <member refid="classrr_1_1Integrator_1a0912499450e66cb4301263362d64a0d0" prot="public" virt="non-virtual"><scope>rr::RK4Integrator</scope><name>IntegrationMethod</name></member>
       <member refid="classrr_1_1RK4Integrator_1a8a79e9633a25767a1683a0334fd1d917" prot="public" virt="non-virtual"><scope>rr::RK4Integrator</scope><name>Integrator</name></member>
+      <member refid="classrr_1_1RK4Integrator_1a661048f976364d39626d24e4745aa416" prot="public" virt="non-virtual"><scope>rr::RK4Integrator</scope><name>Integrator</name></member>
       <member refid="classrr_1_1Integrator_1a8a79e9633a25767a1683a0334fd1d917" prot="public" virt="non-virtual" ambiguityscope="rr::Integrator::"><scope>rr::RK4Integrator</scope><name>Integrator</name></member>
       <member refid="classrr_1_1RK4Integrator_1a3a4fbea2d72967669f32b121a75ee87f" prot="private" virt="non-virtual"><scope>rr::RK4Integrator</scope><name>k1</name></member>
       <member refid="classrr_1_1RK4Integrator_1a58329362c8c33d6b15b4b6073777255c" prot="private" virt="non-virtual"><scope>rr::RK4Integrator</scope><name>k2</name></member>
@@ -551,6 +565,7 @@
       <member refid="classrr_1_1RK4Integrator_1ac251c2d6f6b41c65d378649a51a73243" prot="private" virt="non-virtual"><scope>rr::RK4Integrator</scope><name>k4</name></member>
       <member refid="classrr_1_1Integrator_1a3753687554e7e6bcf0c14c174deb2b0f" prot="public" virt="virtual"><scope>rr::RK4Integrator</scope><name>loadConfigSettings</name></member>
       <member refid="classrr_1_1Integrator_1abd2e6c3616d1831c028f1061d927fbcd" prot="public" virt="virtual"><scope>rr::RK4Integrator</scope><name>loadSBMLSettings</name></member>
+      <member refid="classrr_1_1Integrator_1ad8c8677013a9976bcbc7a6f7a82f136e" prot="protected" virt="non-virtual"><scope>rr::RK4Integrator</scope><name>mIntegrationStartTime</name></member>
       <member refid="classrr_1_1Solver_1ab60e7640a8c959558a144d9d7ee45515" prot="protected" virt="non-virtual"><scope>rr::RK4Integrator</scope><name>mModel</name></member>
       <member refid="classrr_1_1Integrator_1a0912499450e66cb4301263362d64a0d0a0f9b8ec4e01a0fcd2ce808c42c039940" prot="public" virt="non-virtual"><scope>rr::RK4Integrator</scope><name>Other</name></member>
       <member refid="classrr_1_1RK4Integrator_1a1eb6cfa0ea863c828fc8b25ec2cfd389" prot="public" virt="virtual"><scope>rr::RK4Integrator</scope><name>resetSettings</name></member>
@@ -558,6 +573,7 @@
       <member refid="classrr_1_1RK4Integrator_1ac7059cef88e3a80e415855ec5fb2d2ef" prot="public" virt="non-virtual"><scope>rr::RK4Integrator</scope><name>RK4Integrator</name></member>
       <member refid="classrr_1_1Integrator_1a21645210737f35264504c3125c4679fe" prot="public" virt="virtual"><scope>rr::RK4Integrator</scope><name>setConcentrationTolerance</name></member>
       <member refid="classrr_1_1Integrator_1a53099879e74aa5bea1139453db9b5732" prot="public" virt="virtual"><scope>rr::RK4Integrator</scope><name>setIndividualTolerance</name></member>
+      <member refid="classrr_1_1Integrator_1a8b39797408013aaf5fa2d09cb71f8a17" prot="public" virt="non-virtual"><scope>rr::RK4Integrator</scope><name>setIntegrationStartTime</name></member>
       <member refid="classrr_1_1RK4Integrator_1a2d58f1e62b818ab6da2e72639eee0103" prot="public" virt="virtual"><scope>rr::RK4Integrator</scope><name>setListener</name></member>
       <member refid="classrr_1_1Solver_1a44a22cf0edead17a9cc923d87dcc063e" prot="public" virt="non-virtual"><scope>rr::RK4Integrator</scope><name>settings</name></member>
       <member refid="classrr_1_1Solver_1adcbacd57e2871a83bb9c4d7a4038a069" prot="public" virt="non-virtual"><scope>rr::RK4Integrator</scope><name>SettingsList</name></member>

@@ -195,7 +195,7 @@ the caller is responsible for deleting memory associated with the returned Solve
     </collaborationgraph>
     <location file="ApproxSteadyStateDecorator.h" line="12" column="5" bodyfile="ApproxSteadyStateDecorator.h" bodystart="12" bodyend="27"/>
     <listofallmembers>
-      <member refid="classrr_1_1Solver_1ad5b8ac1ef687d1a3c9f1f305cb73804d" prot="protected" virt="non-virtual"><scope>rr::ApproxSteadyStateDecorator</scope><name>addSetting</name></member>
+      <member refid="classrr_1_1Solver_1a9d801d628c80877bbadd4fcff012837d" prot="protected" virt="non-virtual"><scope>rr::ApproxSteadyStateDecorator</scope><name>addSetting</name></member>
       <member refid="classrr_1_1ApproxSteadyStateDecorator_1a43cc0bd1be464359eee980e13988224e" prot="public" virt="non-virtual"><scope>rr::ApproxSteadyStateDecorator</scope><name>ApproxSteadyStateDecorator</name></member>
       <member refid="classrr_1_1ApproxSteadyStateDecorator_1a9b10045973189abf997e769e203dd1a2" prot="public" virt="virtual"><scope>rr::ApproxSteadyStateDecorator</scope><name>construct</name></member>
       <member refid="classrr_1_1ApproxSteadyStateDecorator_1a3e7916ba27fe782a310df7415cb714bf" prot="private" virt="virtual"><scope>rr::ApproxSteadyStateDecorator</scope><name>decoratorName</name></member>

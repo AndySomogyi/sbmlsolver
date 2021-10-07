@@ -154,7 +154,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/ModelInitialValueSymbolResolver.h" line="56" column="25" bodyfile="llvm/ModelInitialValueSymbolResolver.cpp" bodystart="206" bodyend="257"/>
+        <location file="llvm/ModelInitialValueSymbolResolver.h" line="56" column="25" bodyfile="llvm/ModelInitialValueSymbolResolver.cpp" bodystart="230" bodyend="304"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

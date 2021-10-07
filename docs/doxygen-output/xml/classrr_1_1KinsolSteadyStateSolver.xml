@@ -803,7 +803,7 @@
     </collaborationgraph>
     <location file="KinsolSteadyStateSolver.h" line="44" column="5" bodyfile="KinsolSteadyStateSolver.h" bodystart="44" bodyend="296"/>
     <listofallmembers>
-      <member refid="classrr_1_1Solver_1ad5b8ac1ef687d1a3c9f1f305cb73804d" prot="protected" virt="non-virtual"><scope>rr::KinsolSteadyStateSolver</scope><name>addSetting</name></member>
+      <member refid="classrr_1_1Solver_1a9d801d628c80877bbadd4fcff012837d" prot="protected" virt="non-virtual"><scope>rr::KinsolSteadyStateSolver</scope><name>addSetting</name></member>
       <member refid="classrr_1_1KinsolSteadyStateSolver_1a80807be1f440f524769e55568a3abcf2" prot="protected" virt="non-virtual"><scope>rr::KinsolSteadyStateSolver</scope><name>constraints</name></member>
       <member refid="classrr_1_1Registrable_1a3f529e138fa0288622525bc13cd73c5f" prot="public" virt="pure-virtual"><scope>rr::KinsolSteadyStateSolver</scope><name>construct</name></member>
       <member refid="classrr_1_1KinsolSteadyStateSolver_1a7c7a941fbf27c7a3a5326b254ee2f1b1" prot="protected" virt="virtual"><scope>rr::KinsolSteadyStateSolver</scope><name>createKinsol</name></member>

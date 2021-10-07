@@ -22,6 +22,8 @@ void {\bfseries push\+Back} (Index\+Type idx, \mbox{\hyperlink{classrr_1_1Matrix
 \begin{DoxyCompactList}\small\item\em Indexer to slice a \mbox{\hyperlink{classrr_1_1Matrix3D}{Matrix3D}} and index value and data at idx. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{classrr_1_1Matrix}{rr\+::\+Matrix}}$<$ Data\+Type $>$ \& \mbox{\hyperlink{classrr_1_1Matrix3D_a0e6ccf3c0c6a740ca12af375fca03a99}{slice}} (int k)
 \begin{DoxyCompactList}\small\item\em 1D \mbox{\hyperlink{classrr_1_1Matrix}{Matrix}} slicer. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classrr_1_1Matrix3D}{rr\+::\+Matrix3D}}$<$ Data\+Type, Index\+Type $>$ \& \mbox{\hyperlink{classrr_1_1Matrix3D_a170fe788694b075b5509915831750bf9}{col\+Slice\+By\+Name}} (const std\+::vector$<$ std\+::string $>$ \&row\+Names)
+\begin{DoxyCompactList}\small\item\em slice a \mbox{\hyperlink{classrr_1_1Matrix3D}{Matrix3D}} by colnames. \end{DoxyCompactList}\item 
 std\+::vector$<$ Data\+Type $>$ \mbox{\hyperlink{classrr_1_1Matrix3D_a3d3e20638dd709df478c6dab345585a3}{slice}} (int k, int j)
 \begin{DoxyCompactList}\small\item\em 2D \mbox{\hyperlink{classrr_1_1Matrix}{Matrix}} slicer. \end{DoxyCompactList}\item 
 Data\+Type \mbox{\hyperlink{classrr_1_1Matrix3D_a210b05755e38bd590c84cae997afba59}{slice}} (int k, int j, int i)
@@ -59,7 +61,15 @@ bool \mbox{\hyperlink{classrr_1_1Matrix3D_a8438b3dd5262ce21e26a3e6c2e21d9e5}{ope
 \begin{DoxyCompactList}\small\item\em inequality operator \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classrr_1_1Matrix3D_ac3204e01ccc855bab8f8959da10d63d5}\label{classrr_1_1Matrix3D_ac3204e01ccc855bab8f8959da10d63d5}} 
 bool \mbox{\hyperlink{classrr_1_1Matrix3D_ac3204e01ccc855bab8f8959da10d63d5}{almost\+Equals}} (\mbox{\hyperlink{classrr_1_1Matrix3D}{Matrix3D}}$<$ double, double $>$ \&other, double tol)
-\begin{DoxyCompactList}\small\item\em equality operator for double Index\+Type and Data\+Type types only \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em equality operator for double Index\+Type and Data\+Type types only \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classrr_1_1Matrix3D_aff7a78da2a0c7854bf269d0b24ef7bbd}{delete\+Row}} (const int \&which)
+\begin{DoxyCompactList}\small\item\em delete the row indexed by \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classrr_1_1Matrix3D_ae2421bdde10d8ae3cc10b7705320b890}{delete\+Row}} (const std\+::string \&which)
+\begin{DoxyCompactList}\small\item\em delete the row indexed by \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classrr_1_1Matrix3D_ae6ae35f37769d51b3c5c3900e5724a2e}{delete\+Col}} (const int \&which)
+\begin{DoxyCompactList}\small\item\em delete the col indexed by \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classrr_1_1Matrix3D_a50b7689814b9c3d99fceaa3e7111aa4b}{delete\+Col}} (const std\+::string \&which)
+\begin{DoxyCompactList}\small\item\em delete the col indexed by \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Friends}
 \begin{DoxyCompactItemize}
 \item 
@@ -69,6 +79,98 @@ bool \mbox{\hyperlink{classrr_1_1Matrix3D_ac3204e01ccc855bab8f8959da10d63d5}{alm
 
 
 \doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classrr_1_1Matrix3D_a170fe788694b075b5509915831750bf9}\label{classrr_1_1Matrix3D_a170fe788694b075b5509915831750bf9}} 
+\index{rr::Matrix3D$<$ IndexType, DataType $>$@{rr::Matrix3D$<$ IndexType, DataType $>$}!colSliceByName@{colSliceByName}}
+\index{colSliceByName@{colSliceByName}!rr::Matrix3D$<$ IndexType, DataType $>$@{rr::Matrix3D$<$ IndexType, DataType $>$}}
+\doxysubsubsection{\texorpdfstring{colSliceByName()}{colSliceByName()}}
+{\footnotesize\ttfamily template$<$typename Index\+Type , typename Data\+Type $>$ \\
+\mbox{\hyperlink{classrr_1_1Matrix3D}{rr\+::\+Matrix3D}}$<$Data\+Type, Index\+Type$>$\& \mbox{\hyperlink{classrr_1_1Matrix3D}{rr\+::\+Matrix3D}}$<$ Index\+Type, Data\+Type $>$\+::col\+Slice\+By\+Name (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ std\+::string $>$ \&}]{row\+Names }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+slice a \mbox{\hyperlink{classrr_1_1Matrix3D}{Matrix3D}} by colnames. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em row\+Names} & the names of the columns to keep, the remaining rows are removed in the returned \mbox{\hyperlink{classrr_1_1Matrix3D}{Matrix3D}}. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classrr_1_1Matrix3D_ae6ae35f37769d51b3c5c3900e5724a2e}\label{classrr_1_1Matrix3D_ae6ae35f37769d51b3c5c3900e5724a2e}} 
+\index{rr::Matrix3D$<$ IndexType, DataType $>$@{rr::Matrix3D$<$ IndexType, DataType $>$}!deleteCol@{deleteCol}}
+\index{deleteCol@{deleteCol}!rr::Matrix3D$<$ IndexType, DataType $>$@{rr::Matrix3D$<$ IndexType, DataType $>$}}
+\doxysubsubsection{\texorpdfstring{deleteCol()}{deleteCol()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename Index\+Type , typename Data\+Type $>$ \\
+void \mbox{\hyperlink{classrr_1_1Matrix3D}{rr\+::\+Matrix3D}}$<$ Index\+Type, Data\+Type $>$\+::delete\+Col (\begin{DoxyParamCaption}\item[{const int \&}]{which }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+delete the col indexed by 
+
+
+\begin{DoxyParams}{Parameters}
+{\em which} & in each of the k submatrices in this \mbox{\hyperlink{classrr_1_1Matrix3D}{Matrix3D}}. \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{classrr_1_1Matrix_a0d367c7df1fa56958b30182c5e2cd352}{rr\+::\+Matrix\+::delete\+Col}}. 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{classrr_1_1Matrix3D_a50b7689814b9c3d99fceaa3e7111aa4b}\label{classrr_1_1Matrix3D_a50b7689814b9c3d99fceaa3e7111aa4b}} 
+\index{rr::Matrix3D$<$ IndexType, DataType $>$@{rr::Matrix3D$<$ IndexType, DataType $>$}!deleteCol@{deleteCol}}
+\index{deleteCol@{deleteCol}!rr::Matrix3D$<$ IndexType, DataType $>$@{rr::Matrix3D$<$ IndexType, DataType $>$}}
+\doxysubsubsection{\texorpdfstring{deleteCol()}{deleteCol()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename Index\+Type , typename Data\+Type $>$ \\
+void \mbox{\hyperlink{classrr_1_1Matrix3D}{rr\+::\+Matrix3D}}$<$ Index\+Type, Data\+Type $>$\+::delete\+Col (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{which }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+delete the col indexed by 
+
+
+\begin{DoxyParams}{Parameters}
+{\em which} & in each of the k submatrices in this \mbox{\hyperlink{classrr_1_1Matrix3D}{Matrix3D}}. \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{classrr_1_1Matrix_a0d367c7df1fa56958b30182c5e2cd352}{rr\+::\+Matrix\+::delete\+Col}}. 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{classrr_1_1Matrix3D_aff7a78da2a0c7854bf269d0b24ef7bbd}\label{classrr_1_1Matrix3D_aff7a78da2a0c7854bf269d0b24ef7bbd}} 
+\index{rr::Matrix3D$<$ IndexType, DataType $>$@{rr::Matrix3D$<$ IndexType, DataType $>$}!deleteRow@{deleteRow}}
+\index{deleteRow@{deleteRow}!rr::Matrix3D$<$ IndexType, DataType $>$@{rr::Matrix3D$<$ IndexType, DataType $>$}}
+\doxysubsubsection{\texorpdfstring{deleteRow()}{deleteRow()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename Index\+Type , typename Data\+Type $>$ \\
+void \mbox{\hyperlink{classrr_1_1Matrix3D}{rr\+::\+Matrix3D}}$<$ Index\+Type, Data\+Type $>$\+::delete\+Row (\begin{DoxyParamCaption}\item[{const int \&}]{which }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+delete the row indexed by 
+
+
+\begin{DoxyParams}{Parameters}
+{\em which} & in each of the k submatrices in this \mbox{\hyperlink{classrr_1_1Matrix3D}{Matrix3D}}. \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{classrr_1_1Matrix_ad75ae4a4b1772808706dece01a3f241d}{rr\+::\+Matrix\+::delete\+Row}}. 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{classrr_1_1Matrix3D_ae2421bdde10d8ae3cc10b7705320b890}\label{classrr_1_1Matrix3D_ae2421bdde10d8ae3cc10b7705320b890}} 
+\index{rr::Matrix3D$<$ IndexType, DataType $>$@{rr::Matrix3D$<$ IndexType, DataType $>$}!deleteRow@{deleteRow}}
+\index{deleteRow@{deleteRow}!rr::Matrix3D$<$ IndexType, DataType $>$@{rr::Matrix3D$<$ IndexType, DataType $>$}}
+\doxysubsubsection{\texorpdfstring{deleteRow()}{deleteRow()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename Index\+Type , typename Data\+Type $>$ \\
+void \mbox{\hyperlink{classrr_1_1Matrix3D}{rr\+::\+Matrix3D}}$<$ Index\+Type, Data\+Type $>$\+::delete\+Row (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{which }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+delete the row indexed by 
+
+
+\begin{DoxyParams}{Parameters}
+{\em which} & in each of the k submatrices in this \mbox{\hyperlink{classrr_1_1Matrix3D}{Matrix3D}}. \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{classrr_1_1Matrix_ad75ae4a4b1772808706dece01a3f241d}{rr\+::\+Matrix\+::delete\+Row}}. 
+\end{DoxySeeAlso}
 \mbox{\Hypertarget{classrr_1_1Matrix3D_a4a9b332443cffbf149576fe023175b65}\label{classrr_1_1Matrix3D_a4a9b332443cffbf149576fe023175b65}} 
 \index{rr::Matrix3D$<$ IndexType, DataType $>$@{rr::Matrix3D$<$ IndexType, DataType $>$}!getIndex@{getIndex}}
 \index{getIndex@{getIndex}!rr::Matrix3D$<$ IndexType, DataType $>$@{rr::Matrix3D$<$ IndexType, DataType $>$}}

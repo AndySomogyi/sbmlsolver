@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">roadrunner
-   &#160;<span id="projectnumber">2.0.9</span>
+   &#160;<span id="projectnumber">2.1.0</span>
    </div>
    <div id="projectbrief">Fast simulator for SBML models</div>
   </td>
@@ -94,6 +94,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a19df03ff6ffe762381ffe84d5365cc90"><td class="memItemLeft" align="right" valign="top"><a id="a19df03ff6ffe762381ffe84d5365cc90"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>SetCaseNumber</b> (int cNr)</td></tr>
 <tr class="separator:a19df03ff6ffe762381ffe84d5365cc90"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4bc2dbb64f9c58b01dfad5b1f52f4220"><td class="memItemLeft" align="right" valign="top"><a id="a4bc2dbb64f9c58b01dfad5b1f52f4220"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>SetIntegrator</b> (std::string integrator)</td></tr>
+<tr class="separator:a4bc2dbb64f9c58b01dfad5b1f52f4220"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1d5e17b5417d284d4c043f764bcbdcc3"><td class="memItemLeft" align="right" valign="top"><a id="a1d5e17b5417d284d4c043f764bcbdcc3"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>LoadReferenceData</b> (std::filesystem::path refDataFileName=&quot;&quot;)</td></tr>
 <tr class="separator:a1d5e17b5417d284d4c043f764bcbdcc3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -209,6 +212,9 @@ Protected Attributes</h2></td></tr>
 <tr class="memitem:abd1ea039542d15f2f0acdc7a76ec3ac4"><td class="memItemLeft" align="right" valign="top"><a id="abd1ea039542d15f2f0acdc7a76ec3ac4"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>mCurrentCaseNumber</b></td></tr>
 <tr class="separator:abd1ea039542d15f2f0acdc7a76ec3ac4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae1b750fe02d4899da785d8c784f2418a"><td class="memItemLeft" align="right" valign="top"><a id="ae1b750fe02d4899da785d8c784f2418a"></a>
+std::string&#160;</td><td class="memItemRight" valign="bottom"><b>mIntegratorName</b></td></tr>
+<tr class="separator:ae1b750fe02d4899da785d8c784f2418a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae3700553b5ff277775b87f3eccacec36"><td class="memItemLeft" align="right" valign="top"><a id="ae3700553b5ff277775b87f3eccacec36"></a>
 std::filesystem::path&#160;</td><td class="memItemRight" valign="bottom"><b>mModelSettingsFileName</b></td></tr>
 <tr class="separator:ae3700553b5ff277775b87f3eccacec36"><td class="memSeparator" colspan="2">&#160;</td></tr>

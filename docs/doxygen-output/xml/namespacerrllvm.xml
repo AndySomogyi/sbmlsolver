@@ -29,7 +29,9 @@
     <innerclass refid="classrrllvm_1_1GetEventDelayCodeGen" prot="public">rrllvm::GetEventDelayCodeGen</innerclass>
     <innerclass refid="classrrllvm_1_1GetInitialValueCodeGenBase" prot="public">rrllvm::GetInitialValueCodeGenBase</innerclass>
     <innerclass refid="classrrllvm_1_1GetFloatingSpeciesInitConcentrationCodeGen" prot="public">rrllvm::GetFloatingSpeciesInitConcentrationCodeGen</innerclass>
+    <innerclass refid="classrrllvm_1_1GetBoundarySpeciesInitConcentrationCodeGen" prot="public">rrllvm::GetBoundarySpeciesInitConcentrationCodeGen</innerclass>
     <innerclass refid="classrrllvm_1_1GetFloatingSpeciesInitAmountCodeGen" prot="public">rrllvm::GetFloatingSpeciesInitAmountCodeGen</innerclass>
+    <innerclass refid="classrrllvm_1_1GetBoundarySpeciesInitAmountCodeGen" prot="public">rrllvm::GetBoundarySpeciesInitAmountCodeGen</innerclass>
     <innerclass refid="classrrllvm_1_1GetCompartmentInitVolumeCodeGen" prot="public">rrllvm::GetCompartmentInitVolumeCodeGen</innerclass>
     <innerclass refid="classrrllvm_1_1GetGlobalParameterInitValueCodeGen" prot="public">rrllvm::GetGlobalParameterInitValueCodeGen</innerclass>
     <innerclass refid="classrrllvm_1_1GetValueCodeGenBase" prot="public">rrllvm::GetValueCodeGenBase</innerclass>
@@ -60,7 +62,9 @@
     <innerclass refid="classrrllvm_1_1SBMLInitialValueSymbolResolver" prot="public">rrllvm::SBMLInitialValueSymbolResolver</innerclass>
     <innerclass refid="classrrllvm_1_1SetInitialValueCodeGenBase" prot="public">rrllvm::SetInitialValueCodeGenBase</innerclass>
     <innerclass refid="classrrllvm_1_1SetFloatingSpeciesInitConcentrationCodeGen" prot="public">rrllvm::SetFloatingSpeciesInitConcentrationCodeGen</innerclass>
+    <innerclass refid="classrrllvm_1_1SetBoundarySpeciesInitConcentrationCodeGen" prot="public">rrllvm::SetBoundarySpeciesInitConcentrationCodeGen</innerclass>
     <innerclass refid="classrrllvm_1_1SetFloatingSpeciesInitAmountCodeGen" prot="public">rrllvm::SetFloatingSpeciesInitAmountCodeGen</innerclass>
+    <innerclass refid="classrrllvm_1_1SetBoundarySpeciesInitAmountCodeGen" prot="public">rrllvm::SetBoundarySpeciesInitAmountCodeGen</innerclass>
     <innerclass refid="classrrllvm_1_1SetCompartmentInitVolumeCodeGen" prot="public">rrllvm::SetCompartmentInitVolumeCodeGen</innerclass>
     <innerclass refid="classrrllvm_1_1SetGlobalParameterInitValueCodeGen" prot="public">rrllvm::SetGlobalParameterInitValueCodeGen</innerclass>
     <innerclass refid="classrrllvm_1_1SetValueCodeGenBase" prot="public">rrllvm::SetValueCodeGenBase</innerclass>
@@ -562,7 +566,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/GetEventValuesCodeGen.h" line="131" column="18" bodyfile="llvm/GetEventValuesCodeGen.h" bodystart="131" bodyend="-1"/>
+        <location file="llvm/GetEventValuesCodeGen.h" line="128" column="18" bodyfile="llvm/GetEventValuesCodeGen.h" bodystart="128" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="GetInitialValueCodeGenBase_8h_1a45c94878c959f394c7a130d8dc855cde" prot="public" static="no">
         <type>double(*</type>
@@ -575,7 +579,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/GetInitialValueCodeGenBase.h" line="25" column="9" bodyfile="llvm/GetInitialValueCodeGenBase.h" bodystart="25" bodyend="-1"/>
+        <location file="llvm/GetInitialValueCodeGenBase.h" line="25" column="13" bodyfile="llvm/GetInitialValueCodeGenBase.h" bodystart="25" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="GetValueCodeGenBase_8h_1a5138a371d6753a62f5313a759eebb8c2" prot="public" static="no">
         <type>double(*</type>
@@ -601,7 +605,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/LLVMModelDataSymbols.cpp" line="1097" column="33" bodyfile="llvm/LLVMModelDataSymbols.cpp" bodystart="1097" bodyend="-1"/>
+        <location file="llvm/LLVMModelDataSymbols.cpp" line="1307" column="33" bodyfile="llvm/LLVMModelDataSymbols.cpp" bodystart="1307" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="LLVMModelDataSymbols_8cpp_1ab7d0be483572f07194fad16c6237afb2" prot="public" static="no">
         <type>cxx11_ns::unordered_map&lt; uint, ssize_type &gt;</type>
@@ -614,7 +618,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/LLVMModelDataSymbols.cpp" line="1098" column="33" bodyfile="llvm/LLVMModelDataSymbols.cpp" bodystart="1098" bodyend="-1"/>
+        <location file="llvm/LLVMModelDataSymbols.cpp" line="1308" column="33" bodyfile="llvm/LLVMModelDataSymbols.cpp" bodystart="1308" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="LLVMModelGenerator_8cpp_1a623fb2eecf135c54d2c8ab4ae7dbadd5" prot="public" static="no">
         <type>std::weak_ptr&lt; <ref refid="classrrllvm_1_1ModelResources" kindref="compound">ModelResources</ref> &gt;</type>
@@ -859,7 +863,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/ASTNodeCodeGen.cpp" line="1386" column="13" bodyfile="llvm/ASTNodeCodeGen.cpp" bodystart="1386" bodyend="1397" declfile="llvm/ASTNodeCodeGen.cpp" declline="39" declcolumn="13"/>
+        <location file="llvm/ASTNodeCodeGen.cpp" line="1402" column="13" bodyfile="llvm/ASTNodeCodeGen.cpp" bodystart="1402" bodyend="1413" declfile="llvm/ASTNodeCodeGen.cpp" declline="39" declcolumn="13"/>
       </memberdef>
       <memberdef kind="function" id="ASTNodeCodeGen_8cpp_1ab6e2d1a7bcbe21244fe9d59cd807bcd2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -876,7 +880,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/ASTNodeCodeGen.cpp" line="41" column="13" bodyfile="llvm/ASTNodeCodeGen.cpp" bodystart="41" bodyend="47" declfile="llvm/ASTNodeCodeGen.h" declline="130" declcolumn="13"/>
+        <location file="llvm/ASTNodeCodeGen.cpp" line="41" column="13" bodyfile="llvm/ASTNodeCodeGen.cpp" bodystart="41" bodyend="47" declfile="llvm/ASTNodeCodeGen.h" declline="132" declcolumn="13"/>
       </memberdef>
       <memberdef kind="function" id="CodeGenBase_8cpp_1a4c8acfc52121bbe411d488f4d69b82dd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -996,7 +1000,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/LLVMModelGenerator.cpp" line="1013" column="13" bodyfile="llvm/LLVMModelGenerator.cpp" bodystart="1013" bodyend="1019" declfile="llvm/LLVMIncludes.h" declline="101" declcolumn="13"/>
+        <location file="llvm/LLVMModelGenerator.cpp" line="1093" column="13" bodyfile="llvm/LLVMModelGenerator.cpp" bodystart="1093" bodyend="1099" declfile="llvm/LLVMIncludes.h" declline="101" declcolumn="13"/>
       </memberdef>
       <memberdef kind="function" id="LLVMModelData_8cpp_1a2c8ed62c3575769c8bc81ed568811e81" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::ostream &amp;</type>
@@ -1017,7 +1021,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/LLVMModelData.cpp" line="49" column="1" bodyfile="llvm/LLVMModelData.cpp" bodystart="49" bodyend="99" declfile="llvm/LLVMModelData.h" declline="258" declcolumn="1"/>
+        <location file="llvm/LLVMModelData.cpp" line="49" column="1" bodyfile="llvm/LLVMModelData.cpp" bodystart="49" bodyend="104" declfile="llvm/LLVMModelData.h" declline="258" declcolumn="1"/>
       </memberdef>
       <memberdef kind="function" id="LLVMModelData_8cpp_1ace95dba9bf735deee2db65c16cc88f26" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1038,7 +1042,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/LLVMModelData.cpp" line="101" column="6" bodyfile="llvm/LLVMModelData.cpp" bodystart="101" bodyend="167" declfile="llvm/LLVMModelData.h" declline="248" declcolumn="6"/>
+        <location file="llvm/LLVMModelData.cpp" line="106" column="6" bodyfile="llvm/LLVMModelData.cpp" bodystart="106" bodyend="173" declfile="llvm/LLVMModelData.h" declline="248" declcolumn="6"/>
       </memberdef>
       <memberdef kind="function" id="LLVMModelData_8cpp_1a104516ebe59a471ed7d82b6f5f174553" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="structrrllvm_1_1LLVMModelData" kindref="compound">LLVMModelData</ref> *</type>
@@ -1055,7 +1059,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/LLVMModelData.cpp" line="173" column="15" bodyfile="llvm/LLVMModelData.cpp" bodystart="173" bodyend="253" declfile="llvm/LLVMModelData.h" declline="249" declcolumn="15"/>
+        <location file="llvm/LLVMModelData.cpp" line="179" column="15" bodyfile="llvm/LLVMModelData.cpp" bodystart="179" bodyend="260" declfile="llvm/LLVMModelData.h" declline="249" declcolumn="15"/>
       </memberdef>
       <memberdef kind="function" id="LLVMModelData_8cpp_1afb50a5a46b5a17f2ab5f90368247b8a8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1072,7 +1076,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/LLVMModelData.cpp" line="255" column="7" bodyfile="llvm/LLVMModelData.cpp" bodystart="255" bodyend="263" declfile="llvm/LLVMModelData.h" declline="250" declcolumn="6"/>
+        <location file="llvm/LLVMModelData.cpp" line="262" column="7" bodyfile="llvm/LLVMModelData.cpp" bodystart="262" bodyend="270" declfile="llvm/LLVMModelData.h" declline="250" declcolumn="6"/>
       </memberdef>
       <memberdef kind="function" id="LLVMModelGenerator_8cpp_1ab53298cb3bc264117463b07e2452e24f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <templateparamlist>
@@ -1124,7 +1128,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/LLVMModelGenerator.cpp" line="1021" column="15" bodyfile="llvm/LLVMModelGenerator.cpp" bodystart="1021" bodyend="1120" declfile="llvm/ModelGeneratorContext.h" declline="257" declcolumn="15"/>
+        <location file="llvm/LLVMModelGenerator.cpp" line="1101" column="15" bodyfile="llvm/LLVMModelGenerator.cpp" bodystart="1101" bodyend="1200" declfile="llvm/ModelGeneratorContext.h" declline="257" declcolumn="15"/>
       </memberdef>
       <memberdef kind="function" id="ModelDataIRBuilder_8cpp_1a9b6f0b05d36838414d31ff2f17f932eb" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>

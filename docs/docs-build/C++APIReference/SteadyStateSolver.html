@@ -1,74 +1,35 @@
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
-  
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
   <title>SteadyStateSolver &mdash; libRoadRunner 1.1.16 documentation</title>
-  
-
-  
-  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/tabs.css" type="text/css" />
-
-  
-  
-
-  
-  
-
-  
-
-  
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/tabs.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
-    
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-
-    
+    <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Variant" href="Variant.html" />
     <link rel="prev" title="SolverRegistration" href="SolverRegistration.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
-
-          
             <a href="../index.html" class="icon icon-home"> libRoadRunner
-          
-
-          
           </a>
-
-          
-            
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -76,18 +37,8 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
         </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Main">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../index.html">RoadRunner Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Installation/installation.html">Installing RoadRunner</a></li>
@@ -153,89 +104,50 @@
 <li class="toctree-l1"><a class="reference internal" href="../developers_docs/index.html">Developers Documentation</a></li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+      <nav class="wy-nav-top" aria-label="Top" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">libRoadRunner</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
           
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+<div role="navigation" aria-label="Breadcrumbs">
   <ul class="wy-breadcrumbs">
-    
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-        
           <li><a href="index.html">The LibRoadRunner C++ Library</a> &raquo;</li>
-        
       <li>SteadyStateSolver</li>
-    
-    
       <li class="wy-breadcrumbs-aside">
-        
-          
             <a href="../_sources/C++APIReference/SteadyStateSolver.rst.txt" rel="nofollow"> View page source</a>
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
-  <div class="section" id="steadystatesolver">
-<h1>SteadyStateSolver<a class="headerlink" href="#steadystatesolver" title="Permalink to this headline">¶</a></h1>
+             
+  <section id="steadystatesolver">
+<h1>SteadyStateSolver<a class="headerlink" href="#steadystatesolver" title="Permalink to this headline"></a></h1>
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4N2rr17SteadyStateSolverE">
-<span id="_CPPv3N2rr17SteadyStateSolverE"></span><span id="_CPPv2N2rr17SteadyStateSolverE"></span><span id="rr::SteadyStateSolver"></span><span class="target" id="classrr_1_1SteadyStateSolver"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">rr</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">SteadyStateSolver</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">rr</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="Solver.html#_CPPv4N2rr6SolverE" title="rr::Solver"><span class="n"><span class="pre">Solver</span></span></a><a class="headerlink" href="#_CPPv4N2rr17SteadyStateSolverE" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3N2rr17SteadyStateSolverE"></span><span id="_CPPv2N2rr17SteadyStateSolverE"></span><span id="rr::SteadyStateSolver"></span><span class="target" id="classrr_1_1SteadyStateSolver"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">rr</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">SteadyStateSolver</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">rr</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="Solver.html#_CPPv4N2rr6SolverE" title="rr::Solver"><span class="n"><span class="pre">Solver</span></span></a><a class="headerlink" href="#_CPPv4N2rr17SteadyStateSolverE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Subclassed by rr::KinsolSteadyStateSolver, rr::NLEQSolver, rr::SteadyStateSolverDecorator</p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N2rr17SteadyStateSolverD0Ev">
-<span id="_CPPv3N2rr17SteadyStateSolverD0Ev"></span><span id="_CPPv2N2rr17SteadyStateSolverD0Ev"></span><span id="rr::SteadyStateSolver::~SteadyStateSolver"></span><span class="target" id="classrr_1_1SteadyStateSolver_1aaa617ea8e7cbbd464dd9ff44220c65d7"></span><span class="sig-name descname"><span class="n"><span class="pre">~SteadyStateSolver</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">default</span></span><a class="headerlink" href="#_CPPv4N2rr17SteadyStateSolverD0Ev" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3N2rr17SteadyStateSolverD0Ev"></span><span id="_CPPv2N2rr17SteadyStateSolverD0Ev"></span><span id="rr::SteadyStateSolver::~SteadyStateSolver"></span><span class="target" id="classrr_1_1SteadyStateSolver_1aaa617ea8e7cbbd464dd9ff44220c65d7"></span><span class="sig-name descname"><span class="n"><span class="pre">~SteadyStateSolver</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">default</span></span><a class="headerlink" href="#_CPPv4N2rr17SteadyStateSolverD0Ev" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N2rr17SteadyStateSolver13syncWithModelEP15ExecutableModel">
-<span id="_CPPv3N2rr17SteadyStateSolver13syncWithModelEP15ExecutableModel"></span><span id="_CPPv2N2rr17SteadyStateSolver13syncWithModelEP15ExecutableModel"></span><span id="rr::SteadyStateSolver::syncWithModel__ExecutableModelP"></span><span class="target" id="classrr_1_1SteadyStateSolver_1ac69478bcf73ab02178b001250293c4c9"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">syncWithModel</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="rrExecutableModel.html#_CPPv4N2rr15ExecutableModelE" title="rr::ExecutableModel"><span class="n"><span class="pre">ExecutableModel</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">m</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N2rr17SteadyStateSolver13syncWithModelEP15ExecutableModel" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3N2rr17SteadyStateSolver13syncWithModelEP15ExecutableModel"></span><span id="_CPPv2N2rr17SteadyStateSolver13syncWithModelEP15ExecutableModel"></span><span id="rr::SteadyStateSolver::syncWithModel__ExecutableModelP"></span><span class="target" id="classrr_1_1SteadyStateSolver_1ac69478bcf73ab02178b001250293c4c9"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">syncWithModel</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="rrExecutableModel.html#_CPPv4N2rr15ExecutableModelE" title="rr::ExecutableModel"><span class="n"><span class="pre">ExecutableModel</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">m</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N2rr17SteadyStateSolver13syncWithModelEP15ExecutableModel" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Called whenever a new model is loaded to allow integrator to reset internal state. </p>
 <p><dl class="simple">
 <dt><strong>Author</strong></dt><dd><p>JKM </p>
@@ -246,17 +158,17 @@
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N2rr17SteadyStateSolver5solveEv">
-<span id="_CPPv3N2rr17SteadyStateSolver5solveEv"></span><span id="_CPPv2N2rr17SteadyStateSolver5solveEv"></span><span id="rr::SteadyStateSolver::solve"></span><span class="target" id="classrr_1_1SteadyStateSolver_1ae7ef6c028ac70664cb37c2cb69e546a2"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">solve</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N2rr17SteadyStateSolver5solveEv" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3N2rr17SteadyStateSolver5solveEv"></span><span id="_CPPv2N2rr17SteadyStateSolver5solveEv"></span><span id="rr::SteadyStateSolver::solve"></span><span class="target" id="classrr_1_1SteadyStateSolver_1ae7ef6c028ac70664cb37c2cb69e546a2"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">solve</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N2rr17SteadyStateSolver5solveEv" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N2rr17SteadyStateSolver18loadConfigSettingsEv">
-<span id="_CPPv3N2rr17SteadyStateSolver18loadConfigSettingsEv"></span><span id="_CPPv2N2rr17SteadyStateSolver18loadConfigSettingsEv"></span><span id="rr::SteadyStateSolver::loadConfigSettings"></span><span class="target" id="classrr_1_1SteadyStateSolver_1a613605d22b7da35a526473d107ca65bd"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">loadConfigSettings</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr17SteadyStateSolver18loadConfigSettingsEv" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3N2rr17SteadyStateSolver18loadConfigSettingsEv"></span><span id="_CPPv2N2rr17SteadyStateSolver18loadConfigSettingsEv"></span><span id="rr::SteadyStateSolver::loadConfigSettings"></span><span class="target" id="classrr_1_1SteadyStateSolver_1a613605d22b7da35a526473d107ca65bd"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">loadConfigSettings</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr17SteadyStateSolver18loadConfigSettingsEv" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK2rr17SteadyStateSolver8toStringEv">
-<span id="_CPPv3NK2rr17SteadyStateSolver8toStringEv"></span><span id="_CPPv2NK2rr17SteadyStateSolver8toStringEv"></span><span id="rr::SteadyStateSolver::toStringC"></span><span class="target" id="classrr_1_1SteadyStateSolver_1aaf40e2ae58d2f4fef80a00f5bb7fd413"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">toString</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4NK2rr17SteadyStateSolver8toStringEv" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3NK2rr17SteadyStateSolver8toStringEv"></span><span id="_CPPv2NK2rr17SteadyStateSolver8toStringEv"></span><span id="rr::SteadyStateSolver::toStringC"></span><span class="target" id="classrr_1_1SteadyStateSolver_1aaf40e2ae58d2f4fef80a00f5bb7fd413"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">toString</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4NK2rr17SteadyStateSolver8toStringEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return a std::string representation of the solver. </p>
 <p><dl class="simple">
 <dt><strong>Author</strong></dt><dd><p>KC </p>
@@ -267,7 +179,7 @@
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK2rr17SteadyStateSolver6toReprEv">
-<span id="_CPPv3NK2rr17SteadyStateSolver6toReprEv"></span><span id="_CPPv2NK2rr17SteadyStateSolver6toReprEv"></span><span id="rr::SteadyStateSolver::toReprC"></span><span class="target" id="classrr_1_1SteadyStateSolver_1a4307ed20fd04adf61cc8b4ef9a88f747"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">toRepr</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4NK2rr17SteadyStateSolver6toReprEv" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3NK2rr17SteadyStateSolver6toReprEv"></span><span id="_CPPv2NK2rr17SteadyStateSolver6toReprEv"></span><span id="rr::SteadyStateSolver::toReprC"></span><span class="target" id="classrr_1_1SteadyStateSolver_1a4307ed20fd04adf61cc8b4ef9a88f747"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">toRepr</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4NK2rr17SteadyStateSolver6toReprEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Return std::string representation a la Python <strong>repr</strong> method. </p>
 <p><dl class="simple">
 <dt><strong>Author</strong></dt><dd><p>KC </p>
@@ -278,71 +190,54 @@
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N2rr17SteadyStateSolver13resetSettingsEv">
-<span id="_CPPv3N2rr17SteadyStateSolver13resetSettingsEv"></span><span id="_CPPv2N2rr17SteadyStateSolver13resetSettingsEv"></span><span id="rr::SteadyStateSolver::resetSettings"></span><span class="target" id="classrr_1_1SteadyStateSolver_1ac9652965eb0defa7c12af91110dd68fc"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">resetSettings</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N2rr17SteadyStateSolver13resetSettingsEv" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3N2rr17SteadyStateSolver13resetSettingsEv"></span><span id="_CPPv2N2rr17SteadyStateSolver13resetSettingsEv"></span><span id="rr::SteadyStateSolver::resetSettings"></span><span class="target" id="classrr_1_1SteadyStateSolver_1ac9652965eb0defa7c12af91110dd68fc"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">resetSettings</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N2rr17SteadyStateSolver13resetSettingsEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Implements settings shared by all steady state solvers. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N2rr17SteadyStateSolver6SolverEv">
-<span id="_CPPv3N2rr17SteadyStateSolver6SolverEv"></span><span id="_CPPv2N2rr17SteadyStateSolver6SolverEv"></span><span id="rr::SteadyStateSolver::Solver"></span><span class="target" id="classrr_1_1SteadyStateSolver_1a04bba4a342cc7197750f080d41d439e5"></span><span class="sig-name descname"><span class="n"><span class="pre">Solver</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">default</span></span><a class="headerlink" href="#_CPPv4N2rr17SteadyStateSolver6SolverEv" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3N2rr17SteadyStateSolver6SolverEv"></span><span id="_CPPv2N2rr17SteadyStateSolver6SolverEv"></span><span id="rr::SteadyStateSolver::Solver"></span><span class="target" id="classrr_1_1SteadyStateSolver_1a04bba4a342cc7197750f080d41d439e5"></span><span class="sig-name descname"><span class="n"><span class="pre">Solver</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">default</span></span><a class="headerlink" href="#_CPPv4N2rr17SteadyStateSolver6SolverEv" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N2rr17SteadyStateSolver6SolverEP15ExecutableModel">
-<span id="_CPPv3N2rr17SteadyStateSolver6SolverEP15ExecutableModel"></span><span id="_CPPv2N2rr17SteadyStateSolver6SolverEP15ExecutableModel"></span><span id="rr::SteadyStateSolver::Solver__ExecutableModelP"></span><span class="target" id="classrr_1_1SteadyStateSolver_1aa0a07553e368f0be33b9bfc429782a97"></span><span class="k"><span class="pre">explicit</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Solver</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="rrExecutableModel.html#_CPPv4N2rr15ExecutableModelE" title="rr::ExecutableModel"><span class="n"><span class="pre">ExecutableModel</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">model</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr17SteadyStateSolver6SolverEP15ExecutableModel" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3N2rr17SteadyStateSolver6SolverEP15ExecutableModel"></span><span id="_CPPv2N2rr17SteadyStateSolver6SolverEP15ExecutableModel"></span><span id="rr::SteadyStateSolver::Solver__ExecutableModelP"></span><span class="target" id="classrr_1_1SteadyStateSolver_1aa0a07553e368f0be33b9bfc429782a97"></span><span class="k"><span class="pre">explicit</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Solver</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="rrExecutableModel.html#_CPPv4N2rr15ExecutableModelE" title="rr::ExecutableModel"><span class="n"><span class="pre">ExecutableModel</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">model</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr17SteadyStateSolver6SolverEP15ExecutableModel" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
 </div>
 </dd></dl>
 
-</div>
+</section>
 
 
            </div>
-           
           </div>
           <footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="Variant.html" class="btn btn-neutral float-right" title="Variant" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="SolverRegistration.html" class="btn btn-neutral float-left" title="SolverRegistration" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Variant.html" class="btn btn-neutral float-right" title="Variant" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &#169; Copyright 2013-2018, Andy Somogyi, J Kyle Medley, Kiri Choi, Herbert Suaro.
-
-    </p>
+    <p>&#169; Copyright 2013-2018, Andy Somogyi, J Kyle Medley, Kiri Choi, Herbert Suaro.</p>
   </div>
-    
-    
-    
-    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

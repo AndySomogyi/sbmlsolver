@@ -66,11 +66,11 @@
 <codeline lineno="62"><highlight class="normal">std::string<sp/>validateSBML(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>src,<sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/>opt</highlight></codeline>
 <codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>VALIDATE_IDENTIFIER<sp/>|<sp/>VALIDATE_GENERAL<sp/>|<sp/>VALIDATE_MATHML);</highlight></codeline>
 <codeline lineno="64"><highlight class="normal"></highlight></codeline>
-<codeline lineno="71"><highlight class="normal">std::string<sp/>fixMissingStoich(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>sbml);</highlight></codeline>
-<codeline lineno="72"><highlight class="normal"></highlight></codeline>
-<codeline lineno="73"><highlight class="normal">}<sp/></highlight><highlight class="comment">/*<sp/>namespace<sp/>rr<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="74"><highlight class="normal"></highlight></codeline>
-<codeline lineno="75"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">/*<sp/>SBMLVALIDATOR_H_<sp/>*/</highlight><highlight class="preprocessor"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal">std::string<sp/>fixMissingStoichAndMath(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>sbml);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal">}<sp/></highlight><highlight class="comment">/*<sp/>namespace<sp/>rr<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">/*<sp/>SBMLVALIDATOR_H_<sp/>*/</highlight><highlight class="preprocessor"></highlight></codeline>
     </programlisting>
     <location file="SBMLValidator.h"/>
   </compounddef>

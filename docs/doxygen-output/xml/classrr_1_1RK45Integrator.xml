@@ -467,7 +467,20 @@ the caller is responsible for deleting memory associated with the returned Solve
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="RK45Integrator.h" line="35" column="9" bodyfile="Integrator.cpp" bodystart="34" bodyend="35"/>
+        <location file="RK45Integrator.h" line="35" column="9" bodyfile="Integrator.cpp" bodystart="34" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1RK45Integrator_1a661048f976364d39626d24e4745aa416" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>rr::Integrator::Integrator</definition>
+        <argsstring>()</argsstring>
+        <name>Integrator</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="RK45Integrator.h" line="35" column="9" bodyfile="Integrator.cpp" bodystart="40" bodyend="44"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-static-func">
@@ -624,7 +637,7 @@ Uses the Fehlberg method, an adaptive step method, to integrate models. </para>
     </collaborationgraph>
     <location file="RK45Integrator.h" line="31" column="5" bodyfile="RK45Integrator.h" bodystart="32" bodyend="170"/>
     <listofallmembers>
-      <member refid="classrr_1_1Solver_1ad5b8ac1ef687d1a3c9f1f305cb73804d" prot="protected" virt="non-virtual"><scope>rr::RK45Integrator</scope><name>addSetting</name></member>
+      <member refid="classrr_1_1Solver_1a9d801d628c80877bbadd4fcff012837d" prot="protected" virt="non-virtual"><scope>rr::RK45Integrator</scope><name>addSetting</name></member>
       <member refid="classrr_1_1RK45Integrator_1a006b9768c5f6b12a97909d82e2984105" prot="private" virt="non-virtual"><scope>rr::RK45Integrator</scope><name>applyEvents</name></member>
       <member refid="classrr_1_1RK45Integrator_1afe2267491be1f0a96429d9f11d8c06c4" prot="public" virt="virtual"><scope>rr::RK45Integrator</scope><name>construct</name></member>
       <member refid="classrr_1_1Solver_1a7d58e224664ab44e56f90802d9601f01" prot="public" virt="non-virtual"><scope>rr::RK45Integrator</scope><name>DescriptionMap</name></member>
@@ -671,6 +684,7 @@ Uses the Fehlberg method, an adaptive step method, to integrate models. </para>
       <member refid="classrr_1_1RK45Integrator_1ab181e94750addee7066f7b35cce2fb4d" prot="public" virt="virtual"><scope>rr::RK45Integrator</scope><name>integrate</name></member>
       <member refid="classrr_1_1Integrator_1a0912499450e66cb4301263362d64a0d0" prot="public" virt="non-virtual"><scope>rr::RK45Integrator</scope><name>IntegrationMethod</name></member>
       <member refid="classrr_1_1RK45Integrator_1a8a79e9633a25767a1683a0334fd1d917" prot="public" virt="non-virtual"><scope>rr::RK45Integrator</scope><name>Integrator</name></member>
+      <member refid="classrr_1_1RK45Integrator_1a661048f976364d39626d24e4745aa416" prot="public" virt="non-virtual"><scope>rr::RK45Integrator</scope><name>Integrator</name></member>
       <member refid="classrr_1_1Integrator_1a8a79e9633a25767a1683a0334fd1d917" prot="public" virt="non-virtual" ambiguityscope="rr::Integrator::"><scope>rr::RK45Integrator</scope><name>Integrator</name></member>
       <member refid="classrr_1_1RK45Integrator_1a921c542303cecb0902fcd7d5ff9b6230" prot="private" virt="non-virtual"><scope>rr::RK45Integrator</scope><name>k1</name></member>
       <member refid="classrr_1_1RK45Integrator_1abb0e377bf361bc799aca504e4b400441" prot="private" virt="non-virtual"><scope>rr::RK45Integrator</scope><name>k2</name></member>
@@ -680,6 +694,7 @@ Uses the Fehlberg method, an adaptive step method, to integrate models. </para>
       <member refid="classrr_1_1RK45Integrator_1a4de25f3613f944e2406c01030a309b38" prot="private" virt="non-virtual"><scope>rr::RK45Integrator</scope><name>k6</name></member>
       <member refid="classrr_1_1Integrator_1a3753687554e7e6bcf0c14c174deb2b0f" prot="public" virt="virtual"><scope>rr::RK45Integrator</scope><name>loadConfigSettings</name></member>
       <member refid="classrr_1_1Integrator_1abd2e6c3616d1831c028f1061d927fbcd" prot="public" virt="virtual"><scope>rr::RK45Integrator</scope><name>loadSBMLSettings</name></member>
+      <member refid="classrr_1_1Integrator_1ad8c8677013a9976bcbc7a6f7a82f136e" prot="protected" virt="non-virtual"><scope>rr::RK45Integrator</scope><name>mIntegrationStartTime</name></member>
       <member refid="classrr_1_1Solver_1ab60e7640a8c959558a144d9d7ee45515" prot="protected" virt="non-virtual"><scope>rr::RK45Integrator</scope><name>mModel</name></member>
       <member refid="classrr_1_1Integrator_1a0912499450e66cb4301263362d64a0d0a0f9b8ec4e01a0fcd2ce808c42c039940" prot="public" virt="non-virtual"><scope>rr::RK45Integrator</scope><name>Other</name></member>
       <member refid="classrr_1_1RK45Integrator_1a68cd9b39288762b25f1410aa743f703c" prot="public" virt="virtual"><scope>rr::RK45Integrator</scope><name>resetSettings</name></member>
@@ -687,6 +702,7 @@ Uses the Fehlberg method, an adaptive step method, to integrate models. </para>
       <member refid="classrr_1_1RK45Integrator_1a56e76a2ebf06fb1a1eebc929d8cc292e" prot="public" virt="non-virtual"><scope>rr::RK45Integrator</scope><name>RK45Integrator</name></member>
       <member refid="classrr_1_1Integrator_1a21645210737f35264504c3125c4679fe" prot="public" virt="virtual"><scope>rr::RK45Integrator</scope><name>setConcentrationTolerance</name></member>
       <member refid="classrr_1_1Integrator_1a53099879e74aa5bea1139453db9b5732" prot="public" virt="virtual"><scope>rr::RK45Integrator</scope><name>setIndividualTolerance</name></member>
+      <member refid="classrr_1_1Integrator_1a8b39797408013aaf5fa2d09cb71f8a17" prot="public" virt="non-virtual"><scope>rr::RK45Integrator</scope><name>setIntegrationStartTime</name></member>
       <member refid="classrr_1_1RK45Integrator_1a7fdc3829b5635e1b0cd18cced396261d" prot="public" virt="virtual"><scope>rr::RK45Integrator</scope><name>setListener</name></member>
       <member refid="classrr_1_1Solver_1a44a22cf0edead17a9cc923d87dcc063e" prot="public" virt="non-virtual"><scope>rr::RK45Integrator</scope><name>settings</name></member>
       <member refid="classrr_1_1Solver_1adcbacd57e2871a83bb9c4d7a4038a069" prot="public" virt="non-virtual"><scope>rr::RK45Integrator</scope><name>SettingsList</name></member>

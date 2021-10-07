@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">roadrunner
-   &#160;<span id="projectnumber">2.0.9</span>
+   &#160;<span id="projectnumber">2.1.0</span>
    </div>
    <div id="projectbrief">Fast simulator for SBML models</div>
   </td>
@@ -177,7 +177,7 @@ $(function() {
 <div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;        <span class="keywordtype">void</span> defaultInit();</div>
 <div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;    };</div>
 <div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160; </div>
-<div class="line"><a name="l00235"></a><span class="lineno"><a class="line" href="classrr_1_1SimulateOptions.html">  235</a></span>&#160;    <span class="keyword">class </span>RR_DECLSPEC <a class="code" href="classrr_1_1SimulateOptions.html">SimulateOptions</a> : <span class="keyword">public</span> <a class="code" href="classrr_1_1BasicDictionary.html">BasicDictionary</a></div>
+<div class="line"><a name="l00235"></a><span class="lineno"><a class="line" href="classrr_1_1SimulateOptions.html">  235</a></span>&#160;    <span class="keyword">class </span>RR_DECLSPEC <a class="code" href="classrr_1_1SimulateOptions.html">SimulateOptions</a> <span class="comment">//: public BasicDictionary</span></div>
 <div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;    {</div>
 <div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;    <span class="keyword">public</span>:</div>
 <div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160; </div>
@@ -202,42 +202,57 @@ $(function() {
 <div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160; </div>
 <div class="line"><a name="l00315"></a><span class="lineno"><a class="line" href="classrr_1_1SimulateOptions.html#a3fb8836610f52922ee371fdf06331e97">  315</a></span>&#160;        std::vector&lt;std::string&gt; <a class="code" href="classrr_1_1SimulateOptions.html#a3fb8836610f52922ee371fdf06331e97">concentrations</a>;</div>
 <div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160; </div>
-<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;        std::string toString() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160; </div>
-<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;        std::string toRepr() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160; </div>
-<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;        <span class="comment">/*  Use this method to load SimulateOptions from an SBML file. Previously this was done by</span></div>
-<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;<span class="comment">         *  passing the filepath into the SimulateOptions constructor. However, the refactor has</span></div>
-<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;<span class="comment">         *  removed some properties from SimulateOptions and placed them in specific integrators. As</span></div>
-<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;<span class="comment">         *  a result, both the SimulateOptions and Integrator classes will have methods that allow</span></div>
-<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;<span class="comment">         *  users to read an SBML settings file.</span></div>
-<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;<span class="comment">         */</span></div>
-<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;        <span class="keywordtype">void</span> loadSBMLSettings(<span class="keyword">const</span> std::string&amp; filename);</div>
-<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160; </div>
-<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">void</span> setItem(<span class="keyword">const</span> std::string&amp; key, <span class="keyword">const</span> <a class="code" href="classrr_1_1Setting.html">rr::Setting</a>&amp; value);</div>
-<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160; </div>
-<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;    };</div>
-<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160; </div>
-<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160; </div>
+<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;        <span class="comment">/*</span></div>
+<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;<span class="comment">        * A list of the requested output times.  If set, the simulator will only</span></div>
+<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;<span class="comment">        * report simulation output at the requested values.</span></div>
+<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;<span class="comment">        */</span></div>
+<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;        std::vector&lt;double&gt; times;</div>
+<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160; </div>
+<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;        std::string toString() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160; </div>
+<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;        std::string toRepr() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160; </div>
+<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;        <span class="comment">/*  Use this method to load SimulateOptions from an SBML file. Previously this was done by</span></div>
+<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;<span class="comment">         *  passing the filepath into the SimulateOptions constructor. However, the refactor has</span></div>
+<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;<span class="comment">         *  removed some properties from SimulateOptions and placed them in specific integrators. As</span></div>
+<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;<span class="comment">         *  a result, both the SimulateOptions and Integrator classes will have methods that allow</span></div>
+<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;<span class="comment">         *  users to read an SBML settings file.</span></div>
+<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;<span class="comment">         */</span></div>
+<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;        <span class="keywordtype">void</span> loadSBMLSettings(<span class="keyword">const</span> std::string&amp; filename);</div>
 <div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160; </div>
-<div class="line"><a name="l00345"></a><span class="lineno"><a class="line" href="structrr_1_1RoadRunnerOptions.html">  345</a></span>&#160;    <span class="keyword">struct </span>RR_DECLSPEC <a class="code" href="structrr_1_1RoadRunnerOptions.html">RoadRunnerOptions</a></div>
-<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;    {</div>
-<div class="line"><a name="l00347"></a><span class="lineno"><a class="line" href="structrr_1_1RoadRunnerOptions.html#a835c7d4848b4611885e41029261ef2db">  347</a></span>&#160;        <span class="keyword">enum</span> <a class="code" href="structrr_1_1RoadRunnerOptions.html#a835c7d4848b4611885e41029261ef2db">Options</a></div>
-<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;        {</div>
-<div class="line"><a name="l00356"></a><span class="lineno"><a class="line" href="structrr_1_1RoadRunnerOptions.html#a835c7d4848b4611885e41029261ef2dbaf22b160124e62a6fa93c6737e96bfcb8">  356</a></span>&#160;            DISABLE_PYTHON_DYNAMIC_PROPERTIES = (0x1 &lt;&lt; 0), <span class="comment">// =&gt; 0x00000001</span></div>
-<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;        };</div>
-<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160; </div>
-<div class="line"><a name="l00362"></a><span class="lineno"><a class="line" href="structrr_1_1RoadRunnerOptions.html#ab94c4174ca069bee6014b6bd909928d5">  362</a></span>&#160;        std::uint32_t <a class="code" href="structrr_1_1RoadRunnerOptions.html#ab94c4174ca069bee6014b6bd909928d5">flags</a>;</div>
-<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160; </div>
-<div class="line"><a name="l00367"></a><span class="lineno"><a class="line" href="structrr_1_1RoadRunnerOptions.html#a2d2fb9efd9f69c0ab754bba73e3f8a1c">  367</a></span>&#160;        <span class="keywordtype">double</span> <a class="code" href="structrr_1_1RoadRunnerOptions.html#a2d2fb9efd9f69c0ab754bba73e3f8a1c">jacobianStepSize</a>;</div>
-<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160; </div>
-<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;        <a class="code" href="structrr_1_1RoadRunnerOptions.html">RoadRunnerOptions</a>();</div>
+<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;        <span class="comment">//virtual void setItem(const std::string&amp; key, const rr::Setting&amp; value);</span></div>
+<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160; </div>
+<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">void</span> initialize();</div>
+<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160; </div>
+<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">double</span> getNext(<span class="keywordtype">size_t</span> step);</div>
+<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160; </div>
+<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;    <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160; </div>
+<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;        <span class="keywordtype">double</span> hstep; <span class="comment">//Used if we have a duration and number of steps, but not &#39;times&#39;.</span></div>
+<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160; </div>
+<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160; </div>
+<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;    };</div>
+<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160; </div>
+<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160; </div>
+<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160; </div>
+<div class="line"><a name="l00360"></a><span class="lineno"><a class="line" href="structrr_1_1RoadRunnerOptions.html">  360</a></span>&#160;    <span class="keyword">struct </span>RR_DECLSPEC <a class="code" href="structrr_1_1RoadRunnerOptions.html">RoadRunnerOptions</a></div>
+<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;    {</div>
+<div class="line"><a name="l00362"></a><span class="lineno"><a class="line" href="structrr_1_1RoadRunnerOptions.html#a835c7d4848b4611885e41029261ef2db">  362</a></span>&#160;        <span class="keyword">enum</span> <a class="code" href="structrr_1_1RoadRunnerOptions.html#a835c7d4848b4611885e41029261ef2db">Options</a></div>
+<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;        {</div>
+<div class="line"><a name="l00371"></a><span class="lineno"><a class="line" href="structrr_1_1RoadRunnerOptions.html#a835c7d4848b4611885e41029261ef2dbaf22b160124e62a6fa93c6737e96bfcb8">  371</a></span>&#160;            DISABLE_PYTHON_DYNAMIC_PROPERTIES = (0x1 &lt;&lt; 0), <span class="comment">// =&gt; 0x00000001</span></div>
+<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;        };</div>
 <div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160; </div>
-<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;    };</div>
-<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160; </div>
-<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160; </div>
-<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;} <span class="comment">/* namespace rr */</span></div>
-<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* RRROADRUNNEROPTIONS_H_ */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00377"></a><span class="lineno"><a class="line" href="structrr_1_1RoadRunnerOptions.html#ab94c4174ca069bee6014b6bd909928d5">  377</a></span>&#160;        std::uint32_t <a class="code" href="structrr_1_1RoadRunnerOptions.html#ab94c4174ca069bee6014b6bd909928d5">flags</a>;</div>
+<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160; </div>
+<div class="line"><a name="l00382"></a><span class="lineno"><a class="line" href="structrr_1_1RoadRunnerOptions.html#a2d2fb9efd9f69c0ab754bba73e3f8a1c">  382</a></span>&#160;        <span class="keywordtype">double</span> <a class="code" href="structrr_1_1RoadRunnerOptions.html#a2d2fb9efd9f69c0ab754bba73e3f8a1c">jacobianStepSize</a>;</div>
+<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160; </div>
+<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;        <a class="code" href="structrr_1_1RoadRunnerOptions.html">RoadRunnerOptions</a>();</div>
+<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160; </div>
+<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;    };</div>
+<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160; </div>
+<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160; </div>
+<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;} <span class="comment">/* namespace rr */</span></div>
+<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* RRROADRUNNEROPTIONS_H_ */</span><span class="preprocessor"></span></div>
 <div class="ttc" id="aIntegrator_8h_html"><div class="ttname"><a href="Integrator_8h.html">Integrator.h</a></div><div class="ttdoc">RoadRunner's Gillespie SSA integrator.</div></div>
 <div class="ttc" id="aclassrr_1_1BasicDictionary_html"><div class="ttname"><a href="classrr_1_1BasicDictionary.html">rr::BasicDictionary</a></div><div class="ttdoc">This class is frozen, no new features Basic implementation of the Dictionary interface which uses a s...</div><div class="ttdef"><b>Definition:</b> Dictionary.h:140</div></div>
 <div class="ttc" id="aclassrr_1_1Dictionary_html"><div class="ttname"><a href="classrr_1_1Dictionary.html">rr::Dictionary</a></div><div class="ttdoc">This class is frozen, no new features A dictionary interface that objects can implement.</div><div class="ttdef"><b>Definition:</b> Dictionary.h:30</div></div>
@@ -258,10 +273,10 @@ $(function() {
 <div class="ttc" id="aclassrr_1_1SimulateOptions_html_a9087842fab7661b93dbc103e02f8908d"><div class="ttname"><a href="classrr_1_1SimulateOptions.html#a9087842fab7661b93dbc103e02f8908d">rr::SimulateOptions::structured_result</a></div><div class="ttdeci">bool structured_result</div><div class="ttdoc">Simulate should return a raw result matrix without adding any column names.</div><div class="ttdef"><b>Definition:</b> rrRoadRunnerOptions.h:252</div></div>
 <div class="ttc" id="aclassrr_1_1SimulateOptions_html_a93e8b08b6e526f96226333f83a1ac049"><div class="ttname"><a href="classrr_1_1SimulateOptions.html#a93e8b08b6e526f96226333f83a1ac049">rr::SimulateOptions::copy_result</a></div><div class="ttdeci">bool copy_result</div><div class="ttdoc">Make a copy of the simulation result in Python.</div><div class="ttdef"><b>Definition:</b> rrRoadRunnerOptions.h:257</div></div>
 <div class="ttc" id="aclassrr_1_1SimulateOptions_html_ae25c38171cedd08bf0cc43932c07822e"><div class="ttname"><a href="classrr_1_1SimulateOptions.html#ae25c38171cedd08bf0cc43932c07822e">rr::SimulateOptions::start</a></div><div class="ttdeci">double start</div><div class="ttdoc">The start time of the simulation time-series data.</div><div class="ttdef"><b>Definition:</b> rrRoadRunnerOptions.h:271</div></div>
-<div class="ttc" id="astructrr_1_1RoadRunnerOptions_html"><div class="ttname"><a href="structrr_1_1RoadRunnerOptions.html">rr::RoadRunnerOptions</a></div><div class="ttdoc">A set of options that determine how the top level RoadRunner class should behave.</div><div class="ttdef"><b>Definition:</b> rrRoadRunnerOptions.h:346</div></div>
-<div class="ttc" id="astructrr_1_1RoadRunnerOptions_html_a2d2fb9efd9f69c0ab754bba73e3f8a1c"><div class="ttname"><a href="structrr_1_1RoadRunnerOptions.html#a2d2fb9efd9f69c0ab754bba73e3f8a1c">rr::RoadRunnerOptions::jacobianStepSize</a></div><div class="ttdeci">double jacobianStepSize</div><div class="ttdoc">step size used for numeric Jacobian calculations.</div><div class="ttdef"><b>Definition:</b> rrRoadRunnerOptions.h:367</div></div>
-<div class="ttc" id="astructrr_1_1RoadRunnerOptions_html_a835c7d4848b4611885e41029261ef2db"><div class="ttname"><a href="structrr_1_1RoadRunnerOptions.html#a835c7d4848b4611885e41029261ef2db">rr::RoadRunnerOptions::Options</a></div><div class="ttdeci">Options</div><div class="ttdef"><b>Definition:</b> rrRoadRunnerOptions.h:348</div></div>
-<div class="ttc" id="astructrr_1_1RoadRunnerOptions_html_ab94c4174ca069bee6014b6bd909928d5"><div class="ttname"><a href="structrr_1_1RoadRunnerOptions.html#ab94c4174ca069bee6014b6bd909928d5">rr::RoadRunnerOptions::flags</a></div><div class="ttdeci">std::uint32_t flags</div><div class="ttdoc">a bitmask of the options specified in the Options enumeration.</div><div class="ttdef"><b>Definition:</b> rrRoadRunnerOptions.h:362</div></div>
+<div class="ttc" id="astructrr_1_1RoadRunnerOptions_html"><div class="ttname"><a href="structrr_1_1RoadRunnerOptions.html">rr::RoadRunnerOptions</a></div><div class="ttdoc">A set of options that determine how the top level RoadRunner class should behave.</div><div class="ttdef"><b>Definition:</b> rrRoadRunnerOptions.h:361</div></div>
+<div class="ttc" id="astructrr_1_1RoadRunnerOptions_html_a2d2fb9efd9f69c0ab754bba73e3f8a1c"><div class="ttname"><a href="structrr_1_1RoadRunnerOptions.html#a2d2fb9efd9f69c0ab754bba73e3f8a1c">rr::RoadRunnerOptions::jacobianStepSize</a></div><div class="ttdeci">double jacobianStepSize</div><div class="ttdoc">step size used for numeric Jacobian calculations.</div><div class="ttdef"><b>Definition:</b> rrRoadRunnerOptions.h:382</div></div>
+<div class="ttc" id="astructrr_1_1RoadRunnerOptions_html_a835c7d4848b4611885e41029261ef2db"><div class="ttname"><a href="structrr_1_1RoadRunnerOptions.html#a835c7d4848b4611885e41029261ef2db">rr::RoadRunnerOptions::Options</a></div><div class="ttdeci">Options</div><div class="ttdef"><b>Definition:</b> rrRoadRunnerOptions.h:363</div></div>
+<div class="ttc" id="astructrr_1_1RoadRunnerOptions_html_ab94c4174ca069bee6014b6bd909928d5"><div class="ttname"><a href="structrr_1_1RoadRunnerOptions.html#ab94c4174ca069bee6014b6bd909928d5">rr::RoadRunnerOptions::flags</a></div><div class="ttdeci">std::uint32_t flags</div><div class="ttdoc">a bitmask of the options specified in the Options enumeration.</div><div class="ttdef"><b>Definition:</b> rrRoadRunnerOptions.h:377</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

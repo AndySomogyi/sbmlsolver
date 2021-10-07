@@ -1,74 +1,35 @@
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
-  
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
   <title>Selecting Values &mdash; libRoadRunner 1.1.16 documentation</title>
-  
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/tabs.css" type="text/css" />
-
-  
-  
-
-  
-  
-
-  
-
-  
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/tabs.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
-    
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-
-    
+    <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Steady State Analysis" href="steady_state.html" />
     <link rel="prev" title="SBML Read/Write Functions" href="read_write_functions.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
-
-          
             <a href="index.html" class="icon icon-home"> libRoadRunner
-          
-
-          
           </a>
-
-          
-            
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -76,18 +37,8 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
         </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Main">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="index.html">RoadRunner Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Installation/installation.html">Installing RoadRunner</a></li>
@@ -118,81 +69,43 @@
 <li class="toctree-l1"><a class="reference internal" href="developers_docs/index.html">Developers Documentation</a></li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+      <nav class="wy-nav-top" aria-label="Top" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">libRoadRunner</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
           
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+<div role="navigation" aria-label="Breadcrumbs">
   <ul class="wy-breadcrumbs">
-    
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-        
       <li>Selecting Values</li>
-    
-    
       <li class="wy-breadcrumbs-aside">
-        
-          
             <a href="_sources/selecting_values.rst.txt" rel="nofollow"> View page source</a>
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
-  <div class="section" id="selecting-values">
-<span id="id1"></span><h1>Selecting Values<a class="headerlink" href="#selecting-values" title="Permalink to this headline">¶</a></h1>
+             
+  <section id="selecting-values">
+<span id="id1"></span><h1>Selecting Values<a class="headerlink" href="#selecting-values" title="Permalink to this headline"></a></h1>
 <p>RoadRunner supports wide range of options for selecting SBML and derivative values. Selections can
 be used to either retrieve or store values. We define SBML values as any element
 specified in the original SBML document, whereas derivative values are a function of one or more
 SBML values. As these functions typically have no inverse, these are read only selections.</p>
 <p>Selections are used a number of RoadRunner methods. They are used to determine what columns are
 selected in a simulation result and can also be used to directly select model values.</p>
-<div class="section" id="selection-syntax">
-<h2>Selection syntax<a class="headerlink" href="#selection-syntax" title="Permalink to this headline">¶</a></h2>
+<section id="selection-syntax">
+<h2>Selection syntax<a class="headerlink" href="#selection-syntax" title="Permalink to this headline"></a></h2>
 <p>The selection syntax is case sensitive (SBML elements are case sensitive), however it ignores all
 white space.</p>
 <p>Selection Types:</p>
@@ -245,8 +158,8 @@ which resets all current and initial values to the values specified in the SBML 
 <dt>Stoichiometry: <code class="docutils literal notranslate"><span class="pre">stoich(ParameterId,</span> <span class="pre">ReactionId)</span></code></dt><dd><p>Represents the stoichiometric coefficient for a given species and reaction.</p>
 </dd>
 </dl>
-<div class="section" id="getting-setting-the-amount-concentration-of-a-species">
-<h3>Getting/Setting the Amount/Concentration of a Species<a class="headerlink" href="#getting-setting-the-amount-concentration-of-a-species" title="Permalink to this headline">¶</a></h3>
+<section id="getting-setting-the-amount-concentration-of-a-species">
+<h3>Getting/Setting the Amount/Concentration of a Species<a class="headerlink" href="#getting-setting-the-amount-concentration-of-a-species" title="Permalink to this headline"></a></h3>
 <p>To retrieve the <em>amount</em> of a species “S1”, one may do any one of:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">S1_amt</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="p">[</span><span class="s2">&quot;S1&quot;</span><span class="p">]</span>
@@ -268,9 +181,9 @@ which resets all current and initial values to the values specified in the SBML 
 <span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="p">[</span><span class="s2">&quot;[S1]&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.4</span>  <span class="c1"># sets concentration</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="experimenting-with-selections">
-<h3>Experimenting With Selections<a class="headerlink" href="#experimenting-with-selections" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="experimenting-with-selections">
+<h3>Experimenting With Selections<a class="headerlink" href="#experimenting-with-selections" title="Permalink to this headline"></a></h3>
 <p>One might try individual selection string using the <a class="reference internal" href="C%2B%2BAPIReference/rrRoadRunner.html#_CPPv4N2rr10RoadRunner8getValueERKNSt6stringE" title="rr::RoadRunner::getValue"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">rr::RoadRunner::getValue()</span></code></a> method. This
 takes a selection string, determines if it is valid, and returns the value it selects. For example:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="o">.</span><span class="n">getValue</span><span class="p">(</span><span class="s2">&quot;cc(S1, J4_KS4)&quot;</span><span class="p">)</span>
@@ -302,9 +215,9 @@ the concentration of species <code class="docutils literal notranslate"><span cl
 <p>Even though the selection list intentionally appears as a list of strings, it is actually a list of
 selection objects. So, elements that are inserted or appended to this list must be selection objects
 created by <a class="reference internal" href="C%2B%2BAPIReference/rrRoadRunner.html#_CPPv4N2rr10RoadRunner15createSelectionERKNSt6stringE" title="rr::RoadRunner::createSelection"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">rr::RoadRunner::createSelection()</span></code></a>.</p>
-</div>
-<div class="section" id="selecting-simulation-results">
-<h3>Selecting Simulation Results<a class="headerlink" href="#selecting-simulation-results" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="selecting-simulation-results">
+<h3>Selecting Simulation Results<a class="headerlink" href="#selecting-simulation-results" title="Permalink to this headline"></a></h3>
 <p>The columns of the RoadRunner simulation results are determined by the <a class="reference internal" href="PythonAPIReference/cls_RoadRunner.html#RoadRunner.RoadRunner.timeCourseSelections" title="RoadRunner.RoadRunner.timeCourseSelections"><code class="xref py py-attr docutils literal notranslate"><span class="pre">timeCourseSelections</span></code></a>
 property. This is a list of what values will be displayed in the result, and can be set simply by:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span> <span class="n">rr</span><span class="o">.</span><span class="n">timeCourseSelections</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="s1">&#39;[S1]&#39;</span><span class="p">,</span> <span class="s1">&#39;S1&#39;</span><span class="p">,</span> <span class="s2">&quot;S1&#39;&quot;</span><span class="p">]</span>
@@ -316,56 +229,39 @@ wanted to plot the elasticity of a particular reaction <code class="docutils lit
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span> <span class="n">rr</span><span class="o">.</span><span class="n">timeCourseSelections</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="s1">&#39;[S1]&#39;</span><span class="p">,</span> <span class="s2">&quot;ee(J1, P1)&quot;</span><span class="p">]</span>
 </pre></div>
 </div>
-</div>
-</div>
-</div>
+</section>
+</section>
+</section>
 
 
            </div>
-           
           </div>
           <footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="steady_state.html" class="btn btn-neutral float-right" title="Steady State Analysis" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="read_write_functions.html" class="btn btn-neutral float-left" title="SBML Read/Write Functions" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="steady_state.html" class="btn btn-neutral float-right" title="Steady State Analysis" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &#169; Copyright 2013-2018, Andy Somogyi, J Kyle Medley, Kiri Choi, Herbert Suaro.
-
-    </p>
+    <p>&#169; Copyright 2013-2018, Andy Somogyi, J Kyle Medley, Kiri Choi, Herbert Suaro.</p>
   </div>
-    
-    
-    
-    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

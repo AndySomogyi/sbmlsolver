@@ -14,7 +14,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="207" column="13" bodyfile="rrRoadRunner.cpp" bodystart="207" bodyend="-1"/>
+        <location file="rrRoadRunner.cpp" line="202" column="13" bodyfile="rrRoadRunner.cpp" bodystart="202" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classrr_1_1RoadRunnerImpl_1a5522059d377f97e1c7da8dfa61e13a13" prot="public" static="no" mutable="no">
         <type>double</type>
@@ -27,7 +27,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="208" column="16" bodyfile="rrRoadRunner.cpp" bodystart="208" bodyend="-1"/>
+        <location file="rrRoadRunner.cpp" line="203" column="16" bodyfile="rrRoadRunner.cpp" bodystart="203" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classrr_1_1RoadRunnerImpl_1aa1e1a941280d94b051f20857ab492fd3" prot="public" static="no" mutable="no">
         <type>double</type>
@@ -40,7 +40,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="210" column="16" bodyfile="rrRoadRunner.cpp" bodystart="210" bodyend="-1"/>
+        <location file="rrRoadRunner.cpp" line="205" column="16" bodyfile="rrRoadRunner.cpp" bodystart="205" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classrr_1_1RoadRunnerImpl_1acb5d3e787499113b3c6c38c034363e7f" prot="public" static="no" mutable="no">
         <type>ls::DoubleMatrix</type>
@@ -53,7 +53,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="211" column="26" bodyfile="rrRoadRunner.cpp" bodystart="211" bodyend="-1"/>
+        <location file="rrRoadRunner.cpp" line="206" column="26" bodyfile="rrRoadRunner.cpp" bodystart="206" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classrr_1_1RoadRunnerImpl_1a399ac78c9504ddc6a30c516a987deba6" prot="public" static="no" mutable="no">
         <type><ref refid="classrr_1_1Integrator" kindref="compound">Integrator</ref> *</type>
@@ -69,7 +69,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="217" column="20" bodyfile="rrRoadRunner.cpp" bodystart="217" bodyend="-1"/>
+        <location file="rrRoadRunner.cpp" line="212" column="20" bodyfile="rrRoadRunner.cpp" bodystart="212" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classrr_1_1RoadRunnerImpl_1a41643078758b40614e337844218b308c" prot="public" static="no" mutable="no">
         <type>std::vector&lt; <ref refid="classrr_1_1Integrator" kindref="compound">Integrator</ref> * &gt;</type>
@@ -82,7 +82,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="218" column="21" bodyfile="rrRoadRunner.cpp" bodystart="218" bodyend="-1"/>
+        <location file="rrRoadRunner.cpp" line="213" column="21" bodyfile="rrRoadRunner.cpp" bodystart="213" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classrr_1_1RoadRunnerImpl_1a63ac6d4a8a7ff2a6ccd257f524a90207" prot="public" static="no" mutable="no">
         <type><ref refid="classrr_1_1SteadyStateSolver" kindref="compound">SteadyStateSolver</ref> *</type>
@@ -97,7 +97,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="223" column="27" bodyfile="rrRoadRunner.cpp" bodystart="223" bodyend="-1"/>
+        <location file="rrRoadRunner.cpp" line="218" column="27" bodyfile="rrRoadRunner.cpp" bodystart="218" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classrr_1_1RoadRunnerImpl_1a03fad4a942e0f6fb6ee250391eebe275" prot="public" static="no" mutable="no">
         <type>std::vector&lt; <ref refid="classrr_1_1SteadyStateSolver" kindref="compound">SteadyStateSolver</ref> * &gt;</type>
@@ -110,9 +110,9 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="224" column="21" bodyfile="rrRoadRunner.cpp" bodystart="224" bodyend="-1"/>
+        <location file="rrRoadRunner.cpp" line="219" column="21" bodyfile="rrRoadRunner.cpp" bodystart="219" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="classrr_1_1RoadRunnerImpl_1a719e0e905cf6fbbf49d24be99db2c7c4" prot="public" static="no" mutable="no">
+      <memberdef kind="variable" id="classrr_1_1RoadRunnerImpl_1ae6cfe1881d3996d8e0275110cfde4748" prot="public" static="no" mutable="no">
         <type><ref refid="classrr_1_1SensitivitySolver" kindref="compound">SensitivitySolver</ref> *</type>
         <definition>SensitivitySolver* rr::RoadRunnerImpl::sensitivity_solver</definition>
         <argsstring></argsstring>
@@ -125,7 +125,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="229" column="27" bodyfile="rrRoadRunner.cpp" bodystart="229" bodyend="-1"/>
+        <location file="rrRoadRunner.cpp" line="224" column="27" bodyfile="rrRoadRunner.cpp" bodystart="224" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classrr_1_1RoadRunnerImpl_1a0a9a2af5451afaacca8030fedfef77d6" prot="public" static="no" mutable="no">
         <type>std::vector&lt; <ref refid="classrr_1_1SensitivitySolver" kindref="compound">SensitivitySolver</ref> * &gt;</type>
@@ -138,7 +138,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="230" column="21" bodyfile="rrRoadRunner.cpp" bodystart="230" bodyend="-1"/>
+        <location file="rrRoadRunner.cpp" line="225" column="21" bodyfile="rrRoadRunner.cpp" bodystart="225" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classrr_1_1RoadRunnerImpl_1aab066aadcb16f00cbffb56a14ab95721" prot="public" static="no" mutable="no">
         <type>std::vector&lt; <ref refid="classrr_1_1SelectionRecord" kindref="compound">SelectionRecord</ref> &gt;</type>
@@ -151,7 +151,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="233" column="21" bodyfile="rrRoadRunner.cpp" bodystart="233" bodyend="-1"/>
+        <location file="rrRoadRunner.cpp" line="228" column="21" bodyfile="rrRoadRunner.cpp" bodystart="228" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classrr_1_1RoadRunnerImpl_1a332b1440ab1affec5ffec18a290fca9d" prot="public" static="no" mutable="no">
         <type><ref refid="classrr_1_1LoadSBMLOptions" kindref="compound">LoadSBMLOptions</ref></type>
@@ -165,7 +165,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="238" column="25" bodyfile="rrRoadRunner.cpp" bodystart="238" bodyend="-1"/>
+        <location file="rrRoadRunner.cpp" line="233" column="25" bodyfile="rrRoadRunner.cpp" bodystart="233" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classrr_1_1RoadRunnerImpl_1a19f31dff952e138792bc594a62b38897" prot="public" static="no" mutable="no">
         <type>std::vector&lt; <ref refid="classrr_1_1SelectionRecord" kindref="compound">SelectionRecord</ref> &gt;</type>
@@ -178,20 +178,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="240" column="21" bodyfile="rrRoadRunner.cpp" bodystart="240" bodyend="-1"/>
-      </memberdef>
-      <memberdef kind="variable" id="classrr_1_1RoadRunnerImpl_1a0a098b7844b75dd6c4f1b792dd20a5a3" prot="public" static="no" mutable="no">
-        <type>std::unique_ptr&lt; <ref refid="classrr_1_1ExecutableModel" kindref="compound">ExecutableModel</ref> &gt;</type>
-        <definition>std::unique_ptr&lt;ExecutableModel&gt; rr::RoadRunnerImpl::model</definition>
-        <argsstring></argsstring>
-        <name>model</name>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="242" column="25" bodyfile="rrRoadRunner.cpp" bodystart="242" bodyend="-1"/>
+        <location file="rrRoadRunner.cpp" line="235" column="21" bodyfile="rrRoadRunner.cpp" bodystart="235" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classrr_1_1RoadRunnerImpl_1ac3984d20f7a889192b00d8e15acd06cf" prot="public" static="no" mutable="no">
         <type><ref refid="classrr_1_1Compiler" kindref="compound">Compiler</ref> *</type>
@@ -205,7 +192,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="247" column="18" bodyfile="rrRoadRunner.cpp" bodystart="247" bodyend="-1"/>
+        <location file="rrRoadRunner.cpp" line="240" column="18" bodyfile="rrRoadRunner.cpp" bodystart="240" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classrr_1_1RoadRunnerImpl_1a139f99b5e7d257214996f3ab0836b874" prot="public" static="no" mutable="no">
         <type>ls::LibStructural *</type>
@@ -219,7 +206,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="253" column="27" bodyfile="rrRoadRunner.cpp" bodystart="253" bodyend="-1"/>
+        <location file="rrRoadRunner.cpp" line="246" column="27" bodyfile="rrRoadRunner.cpp" bodystart="246" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classrr_1_1RoadRunnerImpl_1a4097a1eb7855c1ddc66c9a18db9f3bfc" prot="public" static="no" mutable="no">
         <type><ref refid="classrr_1_1SimulateOptions" kindref="compound">SimulateOptions</ref></type>
@@ -233,7 +220,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="258" column="25" bodyfile="rrRoadRunner.cpp" bodystart="258" bodyend="-1"/>
+        <location file="rrRoadRunner.cpp" line="251" column="25" bodyfile="rrRoadRunner.cpp" bodystart="251" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classrr_1_1RoadRunnerImpl_1ab0d81fec655750d5e7a46be8be2d7aaa" prot="public" static="no" mutable="no">
         <type><ref refid="structrr_1_1RoadRunnerOptions" kindref="compound">RoadRunnerOptions</ref></type>
@@ -247,7 +234,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="263" column="27" bodyfile="rrRoadRunner.cpp" bodystart="263" bodyend="-1"/>
+        <location file="rrRoadRunner.cpp" line="256" column="27" bodyfile="rrRoadRunner.cpp" bodystart="256" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classrr_1_1RoadRunnerImpl_1ae22f2a7f705354d374d27a7fb51ff275" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -262,7 +249,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="270" column="21" bodyfile="rrRoadRunner.cpp" bodystart="270" bodyend="-1"/>
+        <location file="rrRoadRunner.cpp" line="263" column="21" bodyfile="rrRoadRunner.cpp" bodystart="263" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classrr_1_1RoadRunnerImpl_1a1ace36ac129fed50c43abf94c72fed9d" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -276,9 +263,37 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="275" column="14" bodyfile="rrRoadRunner.cpp" bodystart="275" bodyend="-1"/>
+        <location file="rrRoadRunner.cpp" line="268" column="14" bodyfile="rrRoadRunner.cpp" bodystart="268" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="classrr_1_1RoadRunnerImpl_1a351eec90f0cb0348667df95ce9bd22e7" prot="public" static="no" mutable="no">
+      <memberdef kind="variable" id="classrr_1_1RoadRunnerImpl_1a090eb95dd15a1edb5becd538920786e9" prot="public" static="no" mutable="no">
+        <type>friend</type>
+        <definition>friend rr::RoadRunnerImpl::RoadRunner</definition>
+        <argsstring></argsstring>
+        <name>RoadRunner</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="rrRoadRunner.cpp" line="479" column="16" bodyfile="rrRoadRunner.cpp" bodystart="479" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classrr_1_1RoadRunnerImpl_1a0a098b7844b75dd6c4f1b792dd20a5a3" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classrr_1_1ExecutableModel" kindref="compound">ExecutableModel</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;ExecutableModel&gt; rr::RoadRunnerImpl::model</definition>
+        <argsstring></argsstring>
+        <name>model</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="rrRoadRunner.cpp" line="482" column="25" bodyfile="rrRoadRunner.cpp" bodystart="482" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrr_1_1RoadRunnerImpl_1a351eec90f0cb0348667df95ce9bd22e7" prot="protected" static="no" mutable="no">
         <type>std::unique_ptr&lt; libsbml::SBMLDocument &gt;</type>
         <definition>std::unique_ptr&lt;libsbml::SBMLDocument&gt; rr::RoadRunnerImpl::document</definition>
         <argsstring></argsstring>
@@ -289,7 +304,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="277" column="25" bodyfile="rrRoadRunner.cpp" bodystart="277" bodyend="-1"/>
+        <location file="rrRoadRunner.cpp" line="483" column="25" bodyfile="rrRoadRunner.cpp" bodystart="483" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -312,7 +327,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="279" column="9" bodyfile="rrRoadRunner.cpp" bodystart="279" bodyend="293"/>
+        <location file="rrRoadRunner.cpp" line="270" column="9" bodyfile="rrRoadRunner.cpp" bodystart="270" bodyend="284"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunnerImpl_1ad59de4dfb7d325b5148bcf17a41cb920" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type></type>
@@ -329,7 +344,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="295" column="9" bodyfile="rrRoadRunner.cpp" bodystart="295" bodyend="310"/>
+        <location file="rrRoadRunner.cpp" line="286" column="9" bodyfile="rrRoadRunner.cpp" bodystart="286" bodyend="301"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunnerImpl_1ae70ba989534390c53ab2eafc75dd189f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type></type>
@@ -354,7 +369,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="313" column="9" bodyfile="rrRoadRunner.cpp" bodystart="313" bodyend="334"/>
+        <location file="rrRoadRunner.cpp" line="304" column="9" bodyfile="rrRoadRunner.cpp" bodystart="304" bodyend="325"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunnerImpl_1a43e10c0ddfffa060a90217a7a311e6d4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type></type>
@@ -371,7 +386,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="336" column="9" bodyfile="rrRoadRunner.cpp" bodystart="336" bodyend="369"/>
+        <location file="rrRoadRunner.cpp" line="327" column="9" bodyfile="rrRoadRunner.cpp" bodystart="327" bodyend="359"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunnerImpl_1a83cb17b6fae34777a07fbfc1e6d6480c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type></type>
@@ -384,7 +399,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="371" column="9" bodyfile="rrRoadRunner.cpp" bodystart="371" bodyend="380"/>
+        <location file="rrRoadRunner.cpp" line="361" column="9" bodyfile="rrRoadRunner.cpp" bodystart="361" bodyend="370"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunnerImpl_1a3096c8cbef76cdb9ee3df9e011086188" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>void</type>
@@ -397,7 +412,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="382" column="14" bodyfile="rrRoadRunner.cpp" bodystart="382" bodyend="403"/>
+        <location file="rrRoadRunner.cpp" line="372" column="14" bodyfile="rrRoadRunner.cpp" bodystart="372" bodyend="393"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunnerImpl_1a5142aa34305fe667568b9fd7016252d2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>void</type>
@@ -414,7 +429,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="405" column="14" bodyfile="rrRoadRunner.cpp" bodystart="405" bodyend="415"/>
+        <location file="rrRoadRunner.cpp" line="395" column="14" bodyfile="rrRoadRunner.cpp" bodystart="395" bodyend="405"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunnerImpl_1a90c9f423fe72446a48c0b866dbb2ac9e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>void</type>
@@ -439,7 +454,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="417" column="14" bodyfile="rrRoadRunner.cpp" bodystart="417" bodyend="439"/>
+        <location file="rrRoadRunner.cpp" line="407" column="14" bodyfile="rrRoadRunner.cpp" bodystart="407" bodyend="429"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunnerImpl_1a2d8b657633c50a1b348c00ab2454ff11" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>double</type>
@@ -460,7 +475,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="441" column="16" bodyfile="rrRoadRunner.cpp" bodystart="441" bodyend="481"/>
+        <location file="rrRoadRunner.cpp" line="431" column="16" bodyfile="rrRoadRunner.cpp" bodystart="431" bodyend="471"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RoadRunnerImpl_1a3bc658658e9c2b3ee0c604c75c6de7a2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>void</type>
@@ -493,7 +508,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrRoadRunner.cpp" line="484" column="14" bodyfile="rrRoadRunner.cpp" bodystart="484" bodyend="487"/>
+        <location file="rrRoadRunner.cpp" line="474" column="14" bodyfile="rrRoadRunner.cpp" bodystart="474" bodyend="477"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -505,45 +520,43 @@
       <node id="15">
         <label>rr::Integrator</label>
         <link refid="classrr_1_1Integrator"/>
-        <childnode refid="9" relation="public-inheritance">
+        <childnode refid="7" relation="public-inheritance">
         </childnode>
       </node>
       <node id="2">
         <label>rr::SimulateOptions</label>
         <link refid="classrr_1_1SimulateOptions"/>
-        <childnode refid="3" relation="public-inheritance">
-        </childnode>
-        <childnode refid="5" relation="usage">
+        <childnode refid="3" relation="usage">
           <edgelabel>output_file</edgelabel>
         </childnode>
       </node>
-      <node id="10">
+      <node id="8">
         <label>rr::Registrable</label>
         <link refid="classrr_1_1Registrable"/>
       </node>
-      <node id="13">
+      <node id="11">
         <label>rr::LoadSBMLOptions</label>
         <link refid="classrr_1_1LoadSBMLOptions"/>
-        <childnode refid="3" relation="public-inheritance">
-        </childnode>
-      </node>
-      <node id="7">
-        <label>rr::RoadRunnerOptions</label>
-        <link refid="structrr_1_1RoadRunnerOptions"/>
-      </node>
-      <node id="3">
-        <label>rr::BasicDictionary</label>
-        <link refid="classrr_1_1BasicDictionary"/>
-        <childnode refid="4" relation="public-inheritance">
+        <childnode refid="12" relation="public-inheritance">
         </childnode>
       </node>
       <node id="5">
-        <label>string</label>
+        <label>rr::RoadRunnerOptions</label>
+        <link refid="structrr_1_1RoadRunnerOptions"/>
       </node>
       <node id="12">
+        <label>rr::BasicDictionary</label>
+        <link refid="classrr_1_1BasicDictionary"/>
+        <childnode refid="13" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="10">
         <label>rr::SteadyStateSolver</label>
         <link refid="classrr_1_1SteadyStateSolver"/>
-        <childnode refid="9" relation="public-inheritance">
+        <childnode refid="7" relation="public-inheritance">
         </childnode>
       </node>
       <node id="1">
@@ -552,22 +565,22 @@
         <childnode refid="2" relation="usage">
           <edgelabel>simulateOpt</edgelabel>
         </childnode>
-        <childnode refid="6" relation="usage">
+        <childnode refid="4" relation="usage">
           <edgelabel>simulationResult</edgelabel>
         </childnode>
-        <childnode refid="7" relation="usage">
+        <childnode refid="5" relation="usage">
           <edgelabel>roadRunnerOptions</edgelabel>
         </childnode>
-        <childnode refid="8" relation="usage">
+        <childnode refid="6" relation="usage">
           <edgelabel>sensitivity_solver</edgelabel>
         </childnode>
-        <childnode refid="12" relation="usage">
+        <childnode refid="10" relation="usage">
           <edgelabel>steady_state_solver</edgelabel>
         </childnode>
-        <childnode refid="5" relation="usage">
+        <childnode refid="3" relation="usage">
           <edgelabel>configurationXML</edgelabel>
         </childnode>
-        <childnode refid="13" relation="usage">
+        <childnode refid="11" relation="usage">
           <edgelabel>loadOpt</edgelabel>
         </childnode>
         <childnode refid="14" relation="usage">
@@ -577,19 +590,19 @@
           <edgelabel>integrator</edgelabel>
         </childnode>
       </node>
-      <node id="9">
+      <node id="7">
         <label>rr::Solver</label>
         <link refid="classrr_1_1Solver"/>
-        <childnode refid="10" relation="public-inheritance">
+        <childnode refid="8" relation="public-inheritance">
         </childnode>
-        <childnode refid="11" relation="usage">
+        <childnode refid="9" relation="usage">
           <edgelabel>mModel</edgelabel>
         </childnode>
       </node>
-      <node id="6">
+      <node id="4">
         <label>DoubleMatrix</label>
       </node>
-      <node id="4">
+      <node id="13">
         <label>rr::Dictionary</label>
         <link refid="classrr_1_1Dictionary"/>
       </node>
@@ -597,24 +610,24 @@
         <label>rr::Compiler</label>
         <link refid="classrr_1_1Compiler"/>
       </node>
-      <node id="8">
+      <node id="6">
         <label>rr::SensitivitySolver</label>
         <link refid="classrr_1_1SensitivitySolver"/>
-        <childnode refid="9" relation="public-inheritance">
+        <childnode refid="7" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="11">
+      <node id="9">
         <label>rr::ExecutableModel</label>
         <link refid="classrr_1_1ExecutableModel"/>
       </node>
     </collaborationgraph>
-    <location file="rrRoadRunner.cpp" line="204" column="5" bodyfile="rrRoadRunner.cpp" bodystart="204" bodyend="489"/>
+    <location file="rrRoadRunner.cpp" line="199" column="5" bodyfile="rrRoadRunner.cpp" bodystart="199" bodyend="485"/>
     <listofallmembers>
       <member refid="classrr_1_1RoadRunnerImpl_1a3bc658658e9c2b3ee0c604c75c6de7a2" prot="public" virt="non-virtual"><scope>rr::RoadRunnerImpl</scope><name>changeParameter</name></member>
       <member refid="classrr_1_1RoadRunnerImpl_1ac3984d20f7a889192b00d8e15acd06cf" prot="public" virt="non-virtual"><scope>rr::RoadRunnerImpl</scope><name>compiler</name></member>
       <member refid="classrr_1_1RoadRunnerImpl_1ae22f2a7f705354d374d27a7fb51ff275" prot="public" virt="non-virtual"><scope>rr::RoadRunnerImpl</scope><name>configurationXML</name></member>
       <member refid="classrr_1_1RoadRunnerImpl_1a3096c8cbef76cdb9ee3df9e011086188" prot="public" virt="non-virtual"><scope>rr::RoadRunnerImpl</scope><name>deleteAllSolvers</name></member>
-      <member refid="classrr_1_1RoadRunnerImpl_1a351eec90f0cb0348667df95ce9bd22e7" prot="public" virt="non-virtual"><scope>rr::RoadRunnerImpl</scope><name>document</name></member>
+      <member refid="classrr_1_1RoadRunnerImpl_1a351eec90f0cb0348667df95ce9bd22e7" prot="protected" virt="non-virtual"><scope>rr::RoadRunnerImpl</scope><name>document</name></member>
       <member refid="classrr_1_1RoadRunnerImpl_1a2d8b657633c50a1b348c00ab2454ff11" prot="public" virt="non-virtual"><scope>rr::RoadRunnerImpl</scope><name>getParameterValue</name></member>
       <member refid="classrr_1_1RoadRunnerImpl_1a399ac78c9504ddc6a30c516a987deba6" prot="public" virt="non-virtual"><scope>rr::RoadRunnerImpl</scope><name>integrator</name></member>
       <member refid="classrr_1_1RoadRunnerImpl_1a41643078758b40614e337844218b308c" prot="public" virt="non-virtual"><scope>rr::RoadRunnerImpl</scope><name>integrators</name></member>
@@ -622,16 +635,17 @@
       <member refid="classrr_1_1RoadRunnerImpl_1a5522059d377f97e1c7da8dfa61e13a13" prot="public" virt="non-virtual"><scope>rr::RoadRunnerImpl</scope><name>mDiffStepSize</name></member>
       <member refid="classrr_1_1RoadRunnerImpl_1ae060f1fbeb0fb318fce843942e7e820e" prot="public" virt="non-virtual"><scope>rr::RoadRunnerImpl</scope><name>mInstanceID</name></member>
       <member refid="classrr_1_1RoadRunnerImpl_1a139f99b5e7d257214996f3ab0836b874" prot="public" virt="non-virtual"><scope>rr::RoadRunnerImpl</scope><name>mLS</name></member>
-      <member refid="classrr_1_1RoadRunnerImpl_1a0a098b7844b75dd6c4f1b792dd20a5a3" prot="public" virt="non-virtual"><scope>rr::RoadRunnerImpl</scope><name>model</name></member>
+      <member refid="classrr_1_1RoadRunnerImpl_1a0a098b7844b75dd6c4f1b792dd20a5a3" prot="protected" virt="non-virtual"><scope>rr::RoadRunnerImpl</scope><name>model</name></member>
       <member refid="classrr_1_1RoadRunnerImpl_1aab066aadcb16f00cbffb56a14ab95721" prot="public" virt="non-virtual"><scope>rr::RoadRunnerImpl</scope><name>mSelectionList</name></member>
       <member refid="classrr_1_1RoadRunnerImpl_1a19f31dff952e138792bc594a62b38897" prot="public" virt="non-virtual"><scope>rr::RoadRunnerImpl</scope><name>mSteadyStateSelection</name></member>
       <member refid="classrr_1_1RoadRunnerImpl_1aa1e1a941280d94b051f20857ab492fd3" prot="public" virt="non-virtual"><scope>rr::RoadRunnerImpl</scope><name>mSteadyStateThreshold</name></member>
+      <member refid="classrr_1_1RoadRunnerImpl_1a090eb95dd15a1edb5becd538920786e9" prot="public" virt="non-virtual"><scope>rr::RoadRunnerImpl</scope><name>RoadRunner</name></member>
       <member refid="classrr_1_1RoadRunnerImpl_1a98a6346886edafdcc19398968f87209b" prot="public" virt="non-virtual"><scope>rr::RoadRunnerImpl</scope><name>RoadRunnerImpl</name></member>
       <member refid="classrr_1_1RoadRunnerImpl_1ad59de4dfb7d325b5148bcf17a41cb920" prot="public" virt="non-virtual"><scope>rr::RoadRunnerImpl</scope><name>RoadRunnerImpl</name></member>
       <member refid="classrr_1_1RoadRunnerImpl_1ae70ba989534390c53ab2eafc75dd189f" prot="public" virt="non-virtual"><scope>rr::RoadRunnerImpl</scope><name>RoadRunnerImpl</name></member>
       <member refid="classrr_1_1RoadRunnerImpl_1a43e10c0ddfffa060a90217a7a311e6d4" prot="public" virt="non-virtual"><scope>rr::RoadRunnerImpl</scope><name>RoadRunnerImpl</name></member>
       <member refid="classrr_1_1RoadRunnerImpl_1ab0d81fec655750d5e7a46be8be2d7aaa" prot="public" virt="non-virtual"><scope>rr::RoadRunnerImpl</scope><name>roadRunnerOptions</name></member>
-      <member refid="classrr_1_1RoadRunnerImpl_1a719e0e905cf6fbbf49d24be99db2c7c4" prot="public" virt="non-virtual"><scope>rr::RoadRunnerImpl</scope><name>sensitivity_solver</name></member>
+      <member refid="classrr_1_1RoadRunnerImpl_1ae6cfe1881d3996d8e0275110cfde4748" prot="public" virt="non-virtual"><scope>rr::RoadRunnerImpl</scope><name>sensitivity_solver</name></member>
       <member refid="classrr_1_1RoadRunnerImpl_1a0a9a2af5451afaacca8030fedfef77d6" prot="public" virt="non-virtual"><scope>rr::RoadRunnerImpl</scope><name>sensitivity_solvers</name></member>
       <member refid="classrr_1_1RoadRunnerImpl_1a90c9f423fe72446a48c0b866dbb2ac9e" prot="public" virt="non-virtual"><scope>rr::RoadRunnerImpl</scope><name>setParameterValue</name></member>
       <member refid="classrr_1_1RoadRunnerImpl_1a1ace36ac129fed50c43abf94c72fed9d" prot="public" virt="non-virtual"><scope>rr::RoadRunnerImpl</scope><name>simulatedSinceReset</name></member>

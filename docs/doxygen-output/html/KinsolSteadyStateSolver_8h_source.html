@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">roadrunner
-   &#160;<span id="projectnumber">2.0.9</span>
+   &#160;<span id="projectnumber">2.1.0</span>
    </div>
    <div id="projectbrief">Fast simulator for SBML models</div>
   </td>
@@ -125,7 +125,7 @@ $(function() {
 <div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;            <span class="keywordtype">double</span> *y = NV_DATA_S(stateVecIn);</div>
 <div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160; </div>
 <div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;            <span class="comment">// initialize the out NVector with numerical limits for double</span></div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;            N_VConst(std::numeric_limits&lt;double&gt;::max(), stateVecOut);</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;            N_VConst((std::numeric_limits&lt;double&gt;::max)(), stateVecOut);</div>
 <div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;            <span class="keywordtype">double</span> *dydt = NV_DATA_S(stateVecOut);</div>
 <div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160; </div>
 <div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;            <span class="comment">// cast user data back into our solver type</span></div>
@@ -143,7 +143,7 @@ $(function() {
 <div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;            model-&gt;<a class="code" href="classrr_1_1ExecutableModel.html#a0495c2ece9edad29d61849b2443d4274">getStateVectorRate</a>(model-&gt;getTime(), y, dydt);</div>
 <div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160; </div>
 <div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; numStates; i++) {</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;                <span class="keywordflow">if</span> (dydt[i] == std::numeric_limits&lt;double&gt;::max()) {</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;                <span class="keywordflow">if</span> (dydt[i] == (std::numeric_limits&lt;double&gt;::max)()) {</div>
 <div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;                    std::ostringstream err;</div>
 <div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;                    err &lt;&lt; __FILE__<span class="stringliteral">&quot;:&quot;</span> &lt;&lt; __LINE__ &lt;&lt; <span class="stringliteral">&quot;:&quot;</span> &lt;&lt; <span class="stringliteral">&quot;kinsolDyDtFcn&quot;</span>;</div>
 <div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;                    err &lt;&lt; <span class="stringliteral">&quot;: steady state solver \&quot;&quot;</span> &lt;&lt; solver-&gt;getName()</div>

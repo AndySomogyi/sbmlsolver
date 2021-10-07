@@ -4,7 +4,6 @@
     <compoundname>rrc_cpp_support.h</compoundname>
     <includes local="no">vector</includes>
     <includes local="yes">rr-libstruct/lsMatrix.h</includes>
-    <includes refid="rrRoadRunnerData_8h" local="yes">rrRoadRunnerData.h</includes>
     <includes refid="rrcStringList_8h" local="yes">rrcStringList.h</includes>
     <includes refid="rrArrayList_8h" local="yes">rrArrayList.h</includes>
     <includes refid="rrc__types_8h" local="yes">rrc_types.h</includes>
@@ -16,42 +15,42 @@
     <includedby refid="rrc__nom__api_8cpp" local="yes">D:/roadrunner/roadrunner/wrappers/C/rrc_nom_api.cpp</includedby>
     <includedby refid="rrc__utilities_8cpp" local="yes">D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.cpp</includedby>
     <incdepgraph>
-      <node id="17">
+      <node id="14">
         <label>list</label>
       </node>
-      <node id="11">
+      <node id="7">
         <label>stdbool.h</label>
       </node>
-      <node id="12">
+      <node id="8">
         <label>rrConstants.h</label>
         <link refid="rrConstants_8h_source"/>
-        <childnode refid="13" relation="include">
-        </childnode>
-        <childnode refid="6" relation="include">
-        </childnode>
-        <childnode refid="14" relation="include">
+        <childnode refid="9" relation="include">
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
       </node>
-      <node id="13">
+      <node id="9">
         <label>limits</label>
       </node>
-      <node id="15">
+      <node id="12">
         <label>rrc_types.h</label>
         <link refid="rrc__types_8h"/>
       </node>
-      <node id="19">
+      <node id="16">
         <label>rrArrayListItem.h</label>
         <link refid="rrArrayListItem_8h_source"/>
-        <childnode refid="5" relation="include">
+        <childnode refid="11" relation="include">
         </childnode>
-        <childnode refid="9" relation="include">
+        <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="20" relation="include">
+        <childnode refid="17" relation="include">
         </childnode>
       </node>
-      <node id="5">
+      <node id="11">
         <label>rrExporter.h</label>
         <link refid="rrExporter_8h_source"/>
       </node>
@@ -64,57 +63,36 @@
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="9" relation="include">
+        <childnode refid="13" relation="include">
         </childnode>
-        <childnode refid="16" relation="include">
+        <childnode refid="12" relation="include">
         </childnode>
-        <childnode refid="15" relation="include">
-        </childnode>
-        <childnode refid="10" relation="include">
+        <childnode refid="6" relation="include">
         </childnode>
       </node>
-      <node id="6">
+      <node id="5">
         <label>string</label>
       </node>
-      <node id="16">
+      <node id="13">
         <label>rrArrayList.h</label>
         <link refid="rrArrayList_8h_source"/>
         <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="6" relation="include">
-        </childnode>
-        <childnode refid="17" relation="include">
-        </childnode>
-        <childnode refid="18" relation="include">
-        </childnode>
-        <childnode refid="19" relation="include">
-        </childnode>
-        <childnode refid="10" relation="include">
-        </childnode>
-        <childnode refid="9" relation="include">
-        </childnode>
-      </node>
-      <node id="7">
-        <label>fstream</label>
-      </node>
-      <node id="18">
-        <label>ostream</label>
-      </node>
-      <node id="4">
-        <label>rrRoadRunnerData.h</label>
-        <link refid="rrRoadRunnerData_8h_source"/>
-        <childnode refid="3" relation="include">
-        </childnode>
         <childnode refid="5" relation="include">
         </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
         <childnode refid="6" relation="include">
         </childnode>
-        <childnode refid="2" relation="include">
+        <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="7" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
+      </node>
+      <node id="15">
+        <label>ostream</label>
       </node>
       <node id="3">
         <label>rr-libstruct/lsMatrix.h</label>
@@ -122,36 +100,33 @@
       <node id="2">
         <label>vector</label>
       </node>
-      <node id="8">
-        <label>sstream</label>
-      </node>
-      <node id="14">
+      <node id="10">
         <label>cstdlib</label>
       </node>
-      <node id="10">
+      <node id="6">
         <label>rrc_exporter.h</label>
         <link refid="rrc__exporter_8h"/>
-        <childnode refid="11" relation="include">
+        <childnode refid="7" relation="include">
         </childnode>
       </node>
-      <node id="9">
+      <node id="4">
         <label>rrcStringList.h</label>
         <link refid="rrcStringList_8h_source"/>
         <childnode refid="2" relation="include">
         </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
         <childnode refid="6" relation="include">
         </childnode>
-        <childnode refid="10" relation="include">
+        <childnode refid="8" relation="include">
         </childnode>
         <childnode refid="12" relation="include">
         </childnode>
-        <childnode refid="15" relation="include">
-        </childnode>
       </node>
-      <node id="20">
+      <node id="17">
         <label>rrArrayListItemBase.h</label>
         <link refid="rrArrayListItemBase_8h_source"/>
-        <childnode refid="10" relation="include">
+        <childnode refid="6" relation="include">
         </childnode>
       </node>
     </incdepgraph>
@@ -204,55 +179,54 @@
 <codeline lineno="54"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>warning(disable:<sp/>26451)</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="55"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="56"><highlight class="normal"></highlight></codeline>
-<codeline lineno="57"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;rrRoadRunnerData.h&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="58"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;rrcStringList.h&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="59"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;rrArrayList.h&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="60"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="rrc__types_8h" kindref="compound">rrc_types.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="61"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="rrc__exporter_8h" kindref="compound">rrc_exporter.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="62"><highlight class="normal"></highlight></codeline>
-<codeline lineno="63"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">rr</highlight></codeline>
-<codeline lineno="64"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="65"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">RoadRunner;</highlight></codeline>
-<codeline lineno="66"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="67"><highlight class="normal"></highlight></codeline>
-<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//When<sp/>using<sp/>the<sp/>rrc_core_api<sp/>from<sp/>C++,<sp/>the<sp/>following<sp/>routines<sp/>are<sp/>useful</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="69"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">rrc</highlight></codeline>
-<codeline lineno="70"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="71"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>std::string;</highlight></codeline>
-<codeline lineno="72"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>std::vector;</highlight></codeline>
-<codeline lineno="73"><highlight class="normal"></highlight></codeline>
-<codeline lineno="80"><highlight class="normal">C_DECL_SPEC<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>setError(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>err);</highlight></codeline>
-<codeline lineno="81"><highlight class="normal"></highlight></codeline>
-<codeline lineno="88"><highlight class="normal">C_DECL_SPEC<sp/><ref refid="classrr_1_1RoadRunner" kindref="compound">rr::RoadRunner</ref>*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>castToRoadRunner(<ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref><sp/>rrHandle);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;rrcStringList.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;rrArrayList.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="rrc__types_8h" kindref="compound">rrc_types.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="rrc__exporter_8h" kindref="compound">rrc_exporter.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">rr</highlight></codeline>
+<codeline lineno="63"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">RoadRunner;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//When<sp/>using<sp/>the<sp/>rrc_core_api<sp/>from<sp/>C++,<sp/>the<sp/>following<sp/>routines<sp/>are<sp/>useful</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">rrc</highlight></codeline>
+<codeline lineno="69"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>std::string;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>std::vector;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal">C_DECL_SPEC<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>setError(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>err);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal">C_DECL_SPEC<sp/><ref refid="classrr_1_1RoadRunner" kindref="compound">rr::RoadRunner</ref>*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>castToRoadRunner(<ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref><sp/>rrHandle);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
 <codeline lineno="89"><highlight class="normal"></highlight></codeline>
-<codeline lineno="90"><highlight class="normal"></highlight></codeline>
-<codeline lineno="98"><highlight class="normal">C_DECL_SPEC<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>copyVector(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structRRVector" kindref="compound">RRVector</ref>*<sp/>source,<sp/>vector&lt;double&gt;&amp;<sp/>dest);</highlight></codeline>
-<codeline lineno="99"><highlight class="normal"></highlight></codeline>
-<codeline lineno="106"><highlight class="normal">C_DECL_SPEC<sp/><ref refid="structRRVector" kindref="compound">RRVectorPtr</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="group__helperRoutines_1ga9f52eab51dfe4dcd3d87538bf8ecd453" kindref="member">createVector</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>vector&lt;double&gt;&amp;<sp/>vec);</highlight></codeline>
-<codeline lineno="107"><highlight class="normal"></highlight></codeline>
-<codeline lineno="114"><highlight class="normal">C_DECL_SPEC<sp/><ref refid="structRRComplexVector" kindref="compound">RRComplexVectorPtr</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="group__helperRoutines_1ga9f52eab51dfe4dcd3d87538bf8ecd453" kindref="member">createVector</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>vector&lt;ls::Complex&gt;&amp;<sp/>vec);</highlight></codeline>
-<codeline lineno="115"><highlight class="normal"></highlight></codeline>
-<codeline lineno="122"><highlight class="normal">C_DECL_SPEC<sp/>vector&lt;double&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="group__helperRoutines_1ga9f52eab51dfe4dcd3d87538bf8ecd453" kindref="member">createVector</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structRRVector" kindref="compound">RRVector</ref>*<sp/>vec);</highlight></codeline>
-<codeline lineno="123"><highlight class="normal"></highlight></codeline>
-<codeline lineno="130"><highlight class="normal">C_DECL_SPEC<sp/><ref refid="structRRDoubleMatrix" kindref="compound">RRDoubleMatrixPtr</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>createMatrix(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ls::DoubleMatrix*<sp/>mat);</highlight></codeline>
-<codeline lineno="131"><highlight class="normal"></highlight></codeline>
-<codeline lineno="138" refid="rrc__cpp__support_8h_1a835ebb3ef0d2a50c6057c5c947389ee7" refkind="member"><highlight class="normal">C_DECL_SPEC<sp/>ls::DoubleMatrix*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>createMatrix(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structRRDoubleMatrix" kindref="compound">RRDoubleMatrixPtr</ref><sp/>mat);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal">C_DECL_SPEC<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>copyVector(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structRRVector" kindref="compound">RRVector</ref>*<sp/>source,<sp/>vector&lt;double&gt;&amp;<sp/>dest);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal">C_DECL_SPEC<sp/><ref refid="structRRVector" kindref="compound">RRVectorPtr</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="group__helperRoutines_1ga9f52eab51dfe4dcd3d87538bf8ecd453" kindref="member">createVector</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>vector&lt;double&gt;&amp;<sp/>vec);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal">C_DECL_SPEC<sp/><ref refid="structRRComplexVector" kindref="compound">RRComplexVectorPtr</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="group__helperRoutines_1ga9f52eab51dfe4dcd3d87538bf8ecd453" kindref="member">createVector</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>vector&lt;ls::Complex&gt;&amp;<sp/>vec);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal">C_DECL_SPEC<sp/>vector&lt;double&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="group__helperRoutines_1ga9f52eab51dfe4dcd3d87538bf8ecd453" kindref="member">createVector</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structRRVector" kindref="compound">RRVector</ref>*<sp/>vec);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal">C_DECL_SPEC<sp/><ref refid="structRRDoubleMatrix" kindref="compound">RRDoubleMatrixPtr</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>createMatrix(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ls::DoubleMatrix*<sp/>mat);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137" refid="rrc__cpp__support_8h_1a835ebb3ef0d2a50c6057c5c947389ee7" refkind="member"><highlight class="normal">C_DECL_SPEC<sp/>ls::DoubleMatrix*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>createMatrix(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structRRDoubleMatrix" kindref="compound">RRDoubleMatrixPtr</ref><sp/>mat);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
 <codeline lineno="139"><highlight class="normal"></highlight></codeline>
-<codeline lineno="140"><highlight class="normal"></highlight></codeline>
-<codeline lineno="147"><highlight class="normal">C_DECL_SPEC<sp/><ref refid="structRRComplexMatrix" kindref="compound">RRComplexMatrixPtr</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>createMatrix(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ls::ComplexMatrix*<sp/>mat);</highlight></codeline>
-<codeline lineno="148"><highlight class="normal"></highlight></codeline>
-<codeline lineno="149"><highlight class="normal"></highlight><highlight class="comment">//Lists<sp/>and<sp/>arrays</highlight></codeline>
-<codeline lineno="156"><highlight class="comment"></highlight><highlight class="normal">C_DECL_SPEC<sp/><ref refid="structRRStringArray" kindref="compound">RRStringArrayPtr</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>createList(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classrr_1_1StringList" kindref="compound">rrc::StringList</ref>&amp;<sp/>list);</highlight></codeline>
-<codeline lineno="157"><highlight class="normal"></highlight></codeline>
-<codeline lineno="164"><highlight class="normal">C_DECL_SPEC<sp/><ref refid="structRRList" kindref="compound">RRListPtr</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>createArrayList(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classrrc_1_1ArrayList" kindref="compound">ArrayList</ref>&amp;<sp/>list);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal">C_DECL_SPEC<sp/><ref refid="structRRComplexMatrix" kindref="compound">RRComplexMatrixPtr</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>createMatrix(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ls::ComplexMatrix*<sp/>mat);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="comment">//Lists<sp/>and<sp/>arrays</highlight></codeline>
+<codeline lineno="155"><highlight class="comment"></highlight><highlight class="normal">C_DECL_SPEC<sp/><ref refid="structRRStringArray" kindref="compound">RRStringArrayPtr</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>createList(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classrr_1_1StringList" kindref="compound">rrc::StringList</ref>&amp;<sp/>list);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal">C_DECL_SPEC<sp/><ref refid="structRRList" kindref="compound">RRListPtr</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>createArrayList(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classrrc_1_1ArrayList" kindref="compound">ArrayList</ref>&amp;<sp/>list);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
 <codeline lineno="165"><highlight class="normal"></highlight></codeline>
-<codeline lineno="166"><highlight class="normal"></highlight></codeline>
-<codeline lineno="174"><highlight class="normal">C_DECL_SPEC<sp/><ref refid="structRRCData" kindref="compound">RRCDataPtr</ref><sp/><sp/><sp/><sp/>createRRCData(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classrr_1_1RoadRunner" kindref="compound">rr::RoadRunner</ref>&amp;);</highlight></codeline>
-<codeline lineno="175"><highlight class="normal"></highlight></codeline>
-<codeline lineno="176"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="177"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal">C_DECL_SPEC<sp/><ref refid="structRRCData" kindref="compound">RRCDataPtr</ref><sp/><sp/><sp/><sp/>createRRCData(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classrr_1_1RoadRunner" kindref="compound">rr::RoadRunner</ref>&amp;);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
 <codeline lineno="178"><highlight class="normal"></highlight></codeline>
-<codeline lineno="179"><highlight class="normal"></highlight></codeline>
     </programlisting>
     <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_cpp_support.h"/>
   </compounddef>

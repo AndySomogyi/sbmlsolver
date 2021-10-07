@@ -9,7 +9,7 @@
       </param>
     </templateparamlist>
       <sectiondef kind="public-func">
-      <memberdef kind="function" id="classrr_1_1Matrix_1ab29900c20cb7cd0627f1dd01d0b767e4" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+      <memberdef kind="function" id="classrr_1_1Matrix_1ab29900c20cb7cd0627f1dd01d0b767e4" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
         <type></type>
         <definition>rr::Matrix&lt; T &gt;::Matrix</definition>
         <argsstring>(ls::Matrix&lt; T &gt; &amp;matrix)</argsstring>
@@ -25,9 +25,9 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="Matrix.h" line="1" column="0" bodyfile="Matrix.h" bodystart="35" bodyend="45"/>
+        <location file="Matrix.h" line="396" column="17" bodyfile="Matrix.h" bodystart="130" bodyend="140"/>
       </memberdef>
-      <memberdef kind="function" id="classrr_1_1Matrix_1acc820653bbfb9578443b2ea8ebdaac4e" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+      <memberdef kind="function" id="classrr_1_1Matrix_1acc820653bbfb9578443b2ea8ebdaac4e" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
         <type></type>
         <definition>rr::Matrix&lt; T &gt;::Matrix</definition>
         <argsstring>(ls::Matrix&lt; T &gt; *matrix)</argsstring>
@@ -42,9 +42,9 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="Matrix.h" line="1" column="0" bodyfile="Matrix.h" bodystart="47" bodyend="48"/>
+        <location file="Matrix.h" line="396" column="17" bodyfile="Matrix.h" bodystart="143" bodyend="144"/>
       </memberdef>
-      <memberdef kind="function" id="classrr_1_1Matrix_1a15848a37cb50e749fb8f7f00ae0a6b22" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+      <memberdef kind="function" id="classrr_1_1Matrix_1a15848a37cb50e749fb8f7f00ae0a6b22" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
         <definition>bool rr::Matrix&lt; T &gt;::operator==</definition>
         <argsstring>(Matrix&lt; T &gt; &amp;other)</argsstring>
@@ -63,9 +63,9 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="Matrix.h" line="55" column="14" bodyfile="Matrix.h" bodystart="55" bodyend="77"/>
+        <location file="Matrix.h" line="44" column="14" bodyfile="Matrix.h" bodystart="152" bodyend="174"/>
       </memberdef>
-      <memberdef kind="function" id="classrr_1_1Matrix_1a4a1a8c0eada3c2c680cb5383fbd8e0e5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+      <memberdef kind="function" id="classrr_1_1Matrix_1a4a1a8c0eada3c2c680cb5383fbd8e0e5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
         <definition>bool rr::Matrix&lt; T &gt;::operator!=</definition>
         <argsstring>(Matrix&lt; T &gt; &amp;other)</argsstring>
@@ -81,9 +81,9 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="Matrix.h" line="82" column="14" bodyfile="Matrix.h" bodystart="82" bodyend="84"/>
+        <location file="Matrix.h" line="49" column="14" bodyfile="Matrix.h" bodystart="180" bodyend="182"/>
       </memberdef>
-      <memberdef kind="function" id="classrr_1_1Matrix_1ad2be619ba028bf0f0b5c229c13f64063" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+      <memberdef kind="function" id="classrr_1_1Matrix_1ad2be619ba028bf0f0b5c229c13f64063" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
         <definition>bool rr::Matrix&lt; T &gt;::almostEquals</definition>
         <argsstring>(Matrix&lt; double &gt; &amp;other, const double &amp;tolerance)</argsstring>
@@ -113,11 +113,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="Matrix.h" line="90" column="14" bodyfile="Matrix.h" bodystart="90" bodyend="111"/>
+        <location file="Matrix.h" line="55" column="14" bodyfile="Matrix.h" bodystart="189" bodyend="210"/>
       </memberdef>
-      <memberdef kind="function" id="classrr_1_1Matrix_1a9cc83eb19abb5da6d8a7bea7bc89dc1b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+      <memberdef kind="function" id="classrr_1_1Matrix_1adbdc267bb90e3e9c752758126e161791" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classrr_1_1Matrix" kindref="compound">Matrix</ref>&lt; T &gt;</type>
-        <definition>Matrix&lt;T&gt; rr::Matrix&lt; T &gt;::mult</definition>
+        <definition>Matrix&lt; T &gt; rr::Matrix&lt; T &gt;::mult</definition>
         <argsstring>(Matrix&lt; T &gt; matrix)</argsstring>
         <name>mult</name>
         <param>
@@ -125,14 +125,15 @@
           <declname>matrix</declname>
         </param>
         <briefdescription>
+<para>matrix multiplication operator </para>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="Matrix.h" line="113" column="16" bodyfile="Matrix.h" bodystart="113" bodyend="116"/>
+        <location file="Matrix.h" line="60" column="16" bodyfile="Matrix.h" bodystart="213" bodyend="216"/>
       </memberdef>
-      <memberdef kind="function" id="classrr_1_1Matrix_1a481abe78869b481e1b825734bb8a51a2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+      <memberdef kind="function" id="classrr_1_1Matrix_1a481abe78869b481e1b825734bb8a51a2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
         <definition>bool rr::Matrix&lt; T &gt;::empty</definition>
         <argsstring>()</argsstring>
@@ -147,9 +148,9 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="Matrix.h" line="122" column="14" bodyfile="Matrix.h" bodystart="122" bodyend="126"/>
+        <location file="Matrix.h" line="66" column="14" bodyfile="Matrix.h" bodystart="223" bodyend="227"/>
       </memberdef>
-      <memberdef kind="function" id="classrr_1_1Matrix_1adaa546e9e056dbe943d43418653a123f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+      <memberdef kind="function" id="classrr_1_1Matrix_1adaa546e9e056dbe943d43418653a123f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
         <definition>void rr::Matrix&lt; T &gt;::sortRowsByLabels</definition>
         <argsstring>()</argsstring>
@@ -161,9 +162,9 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="Matrix.h" line="132" column="14" bodyfile="Matrix.h" bodystart="132" bodyend="162"/>
+        <location file="Matrix.h" line="72" column="14" bodyfile="Matrix.h" bodystart="234" bodyend="264"/>
       </memberdef>
-      <memberdef kind="function" id="classrr_1_1Matrix_1af564bfd45b879ba4244021846cd1f4f4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+      <memberdef kind="function" id="classrr_1_1Matrix_1af564bfd45b879ba4244021846cd1f4f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
         <definition>void rr::Matrix&lt; T &gt;::sortColsByLabels</definition>
         <argsstring>()</argsstring>
@@ -175,7 +176,142 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="Matrix.h" line="167" column="14" bodyfile="Matrix.h" bodystart="167" bodyend="197"/>
+        <location file="Matrix.h" line="78" column="14" bodyfile="Matrix.h" bodystart="271" bodyend="301"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1Matrix_1ad75ae4a4b1772808706dece01a3f241d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void rr::Matrix&lt; T &gt;::deleteRow</definition>
+        <argsstring>(int which)</argsstring>
+        <name>deleteRow</name>
+        <param>
+          <type>int</type>
+          <declname>which</declname>
+        </param>
+        <briefdescription>
+<para>delete row </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>which</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>from the matrix.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+memory isn&apos;t actually reclaimed nor the array resized. Instead the elements of the array to be removed are shifted one by one to the far right of the array that underlies the matrix. The _Row member variable is decremented so the additional elements are hidden from user. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>If row is the last row, there&apos;s no need to actually do any deleting. Instead we just keep the items there, but reduce the size of the row. Users are only exposed to the correct set of rows.</para>
+        </inbodydescription>
+        <location file="Matrix.h" line="89" column="14" bodyfile="Matrix.h" bodystart="305" bodyend="342"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1Matrix_1ac1424ae3b932865405a9fe4c90ae3054" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void rr::Matrix&lt; T &gt;::deleteRow</definition>
+        <argsstring>(const std::string &amp;which)</argsstring>
+        <name>deleteRow</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>which</declname>
+        </param>
+        <briefdescription>
+<para>delete a row with the label </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>which.</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+interally uses <ref refid="classrr_1_1Matrix_1ad75ae4a4b1772808706dece01a3f241d" kindref="member">deleteRow(int)</ref> overload after locating the index of the correct row to remove. <simplesect kind="note"><para>This method assumes that row names are unique. If they are not unique then only the first found row labelled</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>which</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>will be removed. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Matrix.h" line="100" column="14" bodyfile="Matrix.h" bodystart="345" bodyend="352"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1Matrix_1a0d367c7df1fa56958b30182c5e2cd352" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void rr::Matrix&lt; T &gt;::deleteCol</definition>
+        <argsstring>(int which)</argsstring>
+        <name>deleteCol</name>
+        <param>
+          <type>int</type>
+          <declname>which</declname>
+        </param>
+        <briefdescription>
+<para>delete col </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>which</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>from the matrix.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+memory isn&apos;t actually reclaimed nor the array resized. Instead the elements of the array to be removed are shifted one by one to the far right of the array that underlies the matrix. The _Col member variable is decremented so the additional elements are hidden from user. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Matrix.h" line="111" column="14" bodyfile="Matrix.h" bodystart="355" bodyend="392"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1Matrix_1abbdb193ce0a0bc3581f0d27695bce695" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void rr::Matrix&lt; T &gt;::deleteCol</definition>
+        <argsstring>(const std::string &amp;which)</argsstring>
+        <name>deleteCol</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>which</declname>
+        </param>
+        <briefdescription>
+<para>delete a col with the label </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>which.</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+interally uses <ref refid="classrr_1_1Matrix_1a0d367c7df1fa56958b30182c5e2cd352" kindref="member">deleteCol(int)</ref> overload after locating the index of the correct col to remove. <simplesect kind="note"><para>This method assumes that col names are unique. If they are not unique then only the first found col labelled</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>which</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>will be removed. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Matrix.h" line="122" column="14" bodyfile="Matrix.h" bodystart="396" bodyend="403"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -204,13 +340,17 @@
         <label>ls::Matrix&lt; T &gt;</label>
       </node>
     </collaborationgraph>
-    <location file="Matrix.h" line="14" column="5" bodyfile="Matrix.h" bodystart="14" bodyend="198"/>
+    <location file="Matrix.h" line="14" column="5" bodyfile="Matrix.h" bodystart="14" bodyend="123"/>
     <listofallmembers>
       <member refid="classrr_1_1Matrix_1ad2be619ba028bf0f0b5c229c13f64063" prot="public" virt="non-virtual"><scope>rr::Matrix</scope><name>almostEquals</name></member>
+      <member refid="classrr_1_1Matrix_1a0d367c7df1fa56958b30182c5e2cd352" prot="public" virt="non-virtual"><scope>rr::Matrix</scope><name>deleteCol</name></member>
+      <member refid="classrr_1_1Matrix_1abbdb193ce0a0bc3581f0d27695bce695" prot="public" virt="non-virtual"><scope>rr::Matrix</scope><name>deleteCol</name></member>
+      <member refid="classrr_1_1Matrix_1ad75ae4a4b1772808706dece01a3f241d" prot="public" virt="non-virtual"><scope>rr::Matrix</scope><name>deleteRow</name></member>
+      <member refid="classrr_1_1Matrix_1ac1424ae3b932865405a9fe4c90ae3054" prot="public" virt="non-virtual"><scope>rr::Matrix</scope><name>deleteRow</name></member>
       <member refid="classrr_1_1Matrix_1a481abe78869b481e1b825734bb8a51a2" prot="public" virt="non-virtual"><scope>rr::Matrix</scope><name>empty</name></member>
       <member refid="classrr_1_1Matrix_1ab29900c20cb7cd0627f1dd01d0b767e4" prot="public" virt="non-virtual"><scope>rr::Matrix</scope><name>Matrix</name></member>
       <member refid="classrr_1_1Matrix_1acc820653bbfb9578443b2ea8ebdaac4e" prot="public" virt="non-virtual"><scope>rr::Matrix</scope><name>Matrix</name></member>
-      <member refid="classrr_1_1Matrix_1a9cc83eb19abb5da6d8a7bea7bc89dc1b" prot="public" virt="non-virtual"><scope>rr::Matrix</scope><name>mult</name></member>
+      <member refid="classrr_1_1Matrix_1adbdc267bb90e3e9c752758126e161791" prot="public" virt="non-virtual"><scope>rr::Matrix</scope><name>mult</name></member>
       <member refid="classrr_1_1Matrix_1a4a1a8c0eada3c2c680cb5383fbd8e0e5" prot="public" virt="non-virtual"><scope>rr::Matrix</scope><name>operator!=</name></member>
       <member refid="classrr_1_1Matrix_1a15848a37cb50e749fb8f7f00ae0a6b22" prot="public" virt="non-virtual"><scope>rr::Matrix</scope><name>operator==</name></member>
       <member refid="classrr_1_1Matrix_1af564bfd45b879ba4244021846cd1f4f4" prot="public" virt="non-virtual"><scope>rr::Matrix</scope><name>sortColsByLabels</name></member>

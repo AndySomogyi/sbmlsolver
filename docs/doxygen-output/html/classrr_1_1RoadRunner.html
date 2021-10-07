@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">roadrunner
-   &#160;<span id="projectnumber">2.0.9</span>
+   &#160;<span id="projectnumber">2.1.0</span>
    </div>
    <div id="projectbrief">Fast simulator for SBML models</div>
   </td>
@@ -161,10 +161,12 @@ class <a class="el" href="classrr_1_1Compiler.html">Compiler</a> *&#160;</td><td
 <tr class="memdesc:accc767f44bdc41e29155e8a3ff6a4eb4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Make <a class="el" href="classrr_1_1SensitivitySolver.html" title="generic interface for all SensitivitySolvers">SensitivitySolver</a> for the given name. <br /></td></tr>
 <tr class="separator:accc767f44bdc41e29155e8a3ff6a4eb4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad9d66d24ede15b0c28db4093b782cd28"><td class="memItemLeft" align="right" valign="top"><a id="ad9d66d24ede15b0c28db4093b782cd28"></a>
-std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>getExistingIntegratorNames</b> ()</td></tr>
+std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1RoadRunner.html#ad9d66d24ede15b0c28db4093b782cd28">getExistingIntegratorNames</a> ()</td></tr>
+<tr class="memdesc:ad9d66d24ede15b0c28db4093b782cd28"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return a list of the names of all existing integrators. <br /></td></tr>
 <tr class="separator:ad9d66d24ede15b0c28db4093b782cd28"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa0bc0322f7c8728205afe03628c136cd"><td class="memItemLeft" align="right" valign="top"><a id="aa0bc0322f7c8728205afe03628c136cd"></a>
-std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>getExistingSteadyStateSolverNames</b> ()</td></tr>
+std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1RoadRunner.html#aa0bc0322f7c8728205afe03628c136cd">getExistingSteadyStateSolverNames</a> ()</td></tr>
+<tr class="memdesc:aa0bc0322f7c8728205afe03628c136cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return a list of the names of all existing integrators. <br /></td></tr>
 <tr class="separator:aa0bc0322f7c8728205afe03628c136cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa8b6f3e37b479867bc58c5ba7c40fb41"><td class="memItemLeft" align="right" valign="top"><a id="aa8b6f3e37b479867bc58c5ba7c40fb41"></a>
 std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1RoadRunner.html#aa8b6f3e37b479867bc58c5ba7c40fb41">getExistingSensitivitySolverNames</a> ()</td></tr>
@@ -195,6 +197,18 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>isModelLoaded</b> ()<
 std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1RoadRunner.html#ac03b62cc39f62a61a556fe393e859e36">getModelName</a> ()</td></tr>
 <tr class="memdesc:ac03b62cc39f62a61a556fe393e859e36"><td class="mdescLeft">&#160;</td><td class="mdescRight">returns the model name if a model is loaded, empty std::string otherwise. <br /></td></tr>
 <tr class="separator:ac03b62cc39f62a61a556fe393e859e36"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a946f9140f83ede43c2e5bc2192d8e052"><td class="memItemLeft" align="right" valign="top"><a id="a946f9140f83ede43c2e5bc2192d8e052"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1RoadRunner.html#a946f9140f83ede43c2e5bc2192d8e052">setModelName</a> (const std::string &amp;name)</td></tr>
+<tr class="memdesc:a946f9140f83ede43c2e5bc2192d8e052"><td class="mdescLeft">&#160;</td><td class="mdescRight">sets the model name if a model is loaded. <br /></td></tr>
+<tr class="separator:a946f9140f83ede43c2e5bc2192d8e052"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad46f7fb56422a9220e9b02d5acc13d78"><td class="memItemLeft" align="right" valign="top"><a id="ad46f7fb56422a9220e9b02d5acc13d78"></a>
+std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1RoadRunner.html#ad46f7fb56422a9220e9b02d5acc13d78">getModelId</a> ()</td></tr>
+<tr class="memdesc:ad46f7fb56422a9220e9b02d5acc13d78"><td class="mdescLeft">&#160;</td><td class="mdescRight">returns the model id if a model is loaded, empty std::string otherwise. <br /></td></tr>
+<tr class="separator:ad46f7fb56422a9220e9b02d5acc13d78"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5c63bb6592faf97451de620a6ab4d444"><td class="memItemLeft" align="right" valign="top"><a id="a5c63bb6592faf97451de620a6ab4d444"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1RoadRunner.html#a5c63bb6592faf97451de620a6ab4d444">setModelId</a> (const std::string &amp;id)</td></tr>
+<tr class="memdesc:a5c63bb6592faf97451de620a6ab4d444"><td class="mdescLeft">&#160;</td><td class="mdescRight">sets the model id if a model is loaded. <br /></td></tr>
+<tr class="separator:a5c63bb6592faf97451de620a6ab4d444"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6486934df5e346da4209a578f4eaea2b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1RoadRunner.html#a6486934df5e346da4209a578f4eaea2b">clearModel</a> ()</td></tr>
 <tr class="memdesc:a6486934df5e346da4209a578f4eaea2b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clears the currently loaded model and all associated memory.  <a href="classrr_1_1RoadRunner.html#a6486934df5e346da4209a578f4eaea2b">More...</a><br /></td></tr>
 <tr class="separator:a6486934df5e346da4209a578f4eaea2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -204,21 +218,30 @@ std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
 <tr class="memitem:a2d4f3df674f8f6500d87a584b4f365cd"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1RoadRunner.html#a2d4f3df674f8f6500d87a584b4f365cd">internalOneStep</a> (double currentTime, double stepSize, bool <a class="el" href="classrr_1_1RoadRunner.html#ae4b0eaa39fd37737e5f5fd7f7741e06c">reset</a>=true)</td></tr>
 <tr class="memdesc:a2d4f3df674f8f6500d87a584b4f365cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Carry out a single internal solver integration step.  <a href="classrr_1_1RoadRunner.html#a2d4f3df674f8f6500d87a584b4f365cd">More...</a><br /></td></tr>
 <tr class="separator:a2d4f3df674f8f6500d87a584b4f365cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5a079f580436e4bd0fccdc54a597d003"><td class="memItemLeft" align="right" valign="top">const ls::DoubleMatrix *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1RoadRunner.html#a5a079f580436e4bd0fccdc54a597d003">simulate</a> (const <a class="el" href="classrr_1_1Dictionary.html">Dictionary</a> *options=0)</td></tr>
-<tr class="memdesc:a5a079f580436e4bd0fccdc54a597d003"><td class="mdescLeft">&#160;</td><td class="mdescRight">Simulate the current SBML model.  <a href="classrr_1_1RoadRunner.html#a5a079f580436e4bd0fccdc54a597d003">More...</a><br /></td></tr>
-<tr class="separator:a5a079f580436e4bd0fccdc54a597d003"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac38951d816285635bba0b095a875d7c0"><td class="memItemLeft" align="right" valign="top">const ls::DoubleMatrix *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1RoadRunner.html#ac38951d816285635bba0b095a875d7c0">simulate</a> (double start, double stop, int num)</td></tr>
-<tr class="memdesc:ac38951d816285635bba0b095a875d7c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">simulate the model using currently set integrator  <a href="classrr_1_1RoadRunner.html#ac38951d816285635bba0b095a875d7c0">More...</a><br /></td></tr>
-<tr class="separator:ac38951d816285635bba0b095a875d7c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abccedac0c94a9a131341c90eb42111c8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classrr_1_1Matrix3D.html">Matrix3D</a>&lt; double, double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1RoadRunner.html#abccedac0c94a9a131341c90eb42111c8">timeSeriesSensitivities</a> (double start, double stop, int num, std::vector&lt; std::string &gt; params=std::vector&lt; std::string &gt;(), int k=0)</td></tr>
-<tr class="memdesc:abccedac0c94a9a131341c90eb42111c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">simulate a timeseries with sensitivities from start to step with num data points.  <a href="classrr_1_1RoadRunner.html#abccedac0c94a9a131341c90eb42111c8">More...</a><br /></td></tr>
-<tr class="separator:abccedac0c94a9a131341c90eb42111c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac982f0742233d5ad487064734c3b793c"><td class="memItemLeft" align="right" valign="top"><a id="ac982f0742233d5ad487064734c3b793c"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>saveState</b> (std::string filename, char opt='b')</td></tr>
+<tr class="memitem:a377834f22edadb7706779ecca7c1eb4e"><td class="memItemLeft" align="right" valign="top">const ls::DoubleMatrix *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1RoadRunner.html#a377834f22edadb7706779ecca7c1eb4e">simulate</a> (const <a class="el" href="classrr_1_1SimulateOptions.html">SimulateOptions</a> *options=0)</td></tr>
+<tr class="memdesc:a377834f22edadb7706779ecca7c1eb4e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Simulate the current SBML model.  <a href="classrr_1_1RoadRunner.html#a377834f22edadb7706779ecca7c1eb4e">More...</a><br /></td></tr>
+<tr class="separator:a377834f22edadb7706779ecca7c1eb4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad3701c04d6317e96c2d2bb235b99d60b"><td class="memItemLeft" align="right" valign="top">const ls::DoubleMatrix *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1RoadRunner.html#ad3701c04d6317e96c2d2bb235b99d60b">simulate</a> (double start, double stop, int points)</td></tr>
+<tr class="memdesc:ad3701c04d6317e96c2d2bb235b99d60b"><td class="mdescLeft">&#160;</td><td class="mdescRight">simulate the model using currently set integrator  <a href="classrr_1_1RoadRunner.html#ad3701c04d6317e96c2d2bb235b99d60b">More...</a><br /></td></tr>
+<tr class="separator:ad3701c04d6317e96c2d2bb235b99d60b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3148beddf65c37bcdce6cfd2726c48ef"><td class="memItemLeft" align="right" valign="top">const ls::DoubleMatrix *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1RoadRunner.html#a3148beddf65c37bcdce6cfd2726c48ef">simulate</a> (const std::vector&lt; double &gt; &amp;times)</td></tr>
+<tr class="memdesc:a3148beddf65c37bcdce6cfd2726c48ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">simulate the model using currently set integrator  <a href="classrr_1_1RoadRunner.html#a3148beddf65c37bcdce6cfd2726c48ef">More...</a><br /></td></tr>
+<tr class="separator:a3148beddf65c37bcdce6cfd2726c48ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5b337a5d5625545db98bdcaf9ba71c7c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classrr_1_1Matrix3D.html">Matrix3D</a>&lt; double, double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1RoadRunner.html#a5b337a5d5625545db98bdcaf9ba71c7c">timeSeriesSensitivities</a> (double start, double stop, int num, std::vector&lt; std::string &gt; params=std::vector&lt; std::string &gt;(), std::vector&lt; std::string &gt; species=std::vector&lt; std::string &gt;(), int k=0)</td></tr>
+<tr class="memdesc:a5b337a5d5625545db98bdcaf9ba71c7c"><td class="mdescLeft">&#160;</td><td class="mdescRight">simulate a timeseries with sensitivities from start to step with num data points.  <a href="classrr_1_1RoadRunner.html#a5b337a5d5625545db98bdcaf9ba71c7c">More...</a><br /></td></tr>
+<tr class="separator:a5b337a5d5625545db98bdcaf9ba71c7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac982f0742233d5ad487064734c3b793c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1RoadRunner.html#ac982f0742233d5ad487064734c3b793c">saveState</a> (std::string filename, char opt='b')</td></tr>
+<tr class="memdesc:ac982f0742233d5ad487064734c3b793c"><td class="mdescLeft">&#160;</td><td class="mdescRight">similar to saveStateS but save data to file caled  <a href="classrr_1_1RoadRunner.html#ac982f0742233d5ad487064734c3b793c">More...</a><br /></td></tr>
 <tr class="separator:ac982f0742233d5ad487064734c3b793c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a38cbd1331c551f4b62b07a3886efd68a"><td class="memItemLeft" align="right" valign="top"><a id="a38cbd1331c551f4b62b07a3886efd68a"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>loadState</b> (std::string filename)</td></tr>
-<tr class="separator:a38cbd1331c551f4b62b07a3886efd68a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3f30bcb94eeb86ac029b123f51214c94"><td class="memItemLeft" align="right" valign="top">std::stringstream *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1RoadRunner.html#a3f30bcb94eeb86ac029b123f51214c94">saveStateS</a> (char opt='b')</td></tr>
+<tr class="memdesc:a3f30bcb94eeb86ac029b123f51214c94"><td class="mdescLeft">&#160;</td><td class="mdescRight">save state as binary to a stringstream so it can be loaded again later.  <a href="classrr_1_1RoadRunner.html#a3f30bcb94eeb86ac029b123f51214c94">More...</a><br /></td></tr>
+<tr class="separator:a3f30bcb94eeb86ac029b123f51214c94"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a56030d98802a87d9aa960cbb7bb5f0c6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1RoadRunner.html#a56030d98802a87d9aa960cbb7bb5f0c6">loadState</a> (const std::string &amp;filename)</td></tr>
+<tr class="memdesc:a56030d98802a87d9aa960cbb7bb5f0c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Loads a roadrunner instance saved by saveState with the 'b' option.  <a href="classrr_1_1RoadRunner.html#a56030d98802a87d9aa960cbb7bb5f0c6">More...</a><br /></td></tr>
+<tr class="separator:a56030d98802a87d9aa960cbb7bb5f0c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a68f5a245b02936d4ed83dcfe9145bf83"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1RoadRunner.html#a68f5a245b02936d4ed83dcfe9145bf83">loadStateS</a> (std::stringstream *state)</td></tr>
+<tr class="memdesc:a68f5a245b02936d4ed83dcfe9145bf83"><td class="mdescLeft">&#160;</td><td class="mdescRight">load state from a  <a href="classrr_1_1RoadRunner.html#a68f5a245b02936d4ed83dcfe9145bf83">More...</a><br /></td></tr>
+<tr class="separator:a68f5a245b02936d4ed83dcfe9145bf83"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a12d2a06c5525aaf10c541d9cc91665ca"><td class="memItemLeft" align="right" valign="top">const ls::DoubleMatrix *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1RoadRunner.html#a12d2a06c5525aaf10c541d9cc91665ca">getSimulationData</a> () const</td></tr>
 <tr class="memdesc:a12d2a06c5525aaf10c541d9cc91665ca"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classrr_1_1RoadRunner.html" title="The main RoadRunner class.">RoadRunner</a> keeps a copy of the simulation data around until the next call to simulate.  <a href="classrr_1_1RoadRunner.html#a12d2a06c5525aaf10c541d9cc91665ca">More...</a><br /></td></tr>
 <tr class="separator:a12d2a06c5525aaf10c541d9cc91665ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -266,7 +289,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>changeInitialConditio
 <tr class="separator:a422a0c1c50dfe1b6ae343e9313a005ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a093f8d8cfe6959e2607eddccfd4a4989"><td class="memItemLeft" align="right" valign="top"><a id="a093f8d8cfe6959e2607eddccfd4a4989"></a>
 std::vector&lt; <a class="el" href="classrr_1_1SelectionRecord.html">rr::SelectionRecord</a> &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1RoadRunner.html#a093f8d8cfe6959e2607eddccfd4a4989">getSelections</a> ()</td></tr>
-<tr class="memdesc:a093f8d8cfe6959e2607eddccfd4a4989"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the currently selected columns that will be returned by calls to <a class="el" href="classrr_1_1RoadRunner.html#a5a079f580436e4bd0fccdc54a597d003" title="Simulate the current SBML model.">simulate()</a> or simulateEx(,,). <br /></td></tr>
+<tr class="memdesc:a093f8d8cfe6959e2607eddccfd4a4989"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the currently selected columns that will be returned by calls to <a class="el" href="classrr_1_1RoadRunner.html#a377834f22edadb7706779ecca7c1eb4e" title="Simulate the current SBML model.">simulate()</a> or simulateEx(,,). <br /></td></tr>
 <tr class="separator:a093f8d8cfe6959e2607eddccfd4a4989"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa030bd78fd18af9737b6798e246dd4cb"><td class="memItemLeft" align="right" valign="top"><a id="aa030bd78fd18af9737b6798e246dd4cb"></a>
 double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1RoadRunner.html#aa030bd78fd18af9737b6798e246dd4cb">getValue</a> (const std::string &amp;sel)</td></tr>
@@ -603,25 +626,42 @@ ls::DoubleMatrix&#160;</td><td class="memItemRight" valign="bottom"><a class="el
 <tr class="memdesc:a0e944d337b8d9204092df7056e1d2b83"><td class="mdescLeft">&#160;</td><td class="mdescRight">regenerate a model, this recompiles the internal runtime model.  <a href="classrr_1_1RoadRunner.html#a0e944d337b8d9204092df7056e1d2b83">More...</a><br /></td></tr>
 <tr class="separator:a0e944d337b8d9204092df7056e1d2b83"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af8d2ff8ebf2c85f918cc2888ac68f479"><td class="memItemLeft" align="right" valign="top"><a id="af8d2ff8ebf2c85f918cc2888ac68f479"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setBoundarySpeciesByIndex</b> (const int &amp;index, const double &amp;value)</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1RoadRunner.html#af8d2ff8ebf2c85f918cc2888ac68f479">setBoundarySpeciesByIndex</a> (const int &amp;index, const double &amp;value)</td></tr>
+<tr class="memdesc:af8d2ff8ebf2c85f918cc2888ac68f479"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias for this function on the child model object. <br /></td></tr>
 <tr class="separator:af8d2ff8ebf2c85f918cc2888ac68f479"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0cbcdf248d716058325e50adf9239d4d"><td class="memItemLeft" align="right" valign="top"><a id="a0cbcdf248d716058325e50adf9239d4d"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>getNumberOfIndependentSpecies</b> ()</td></tr>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1RoadRunner.html#a0cbcdf248d716058325e50adf9239d4d">getNumberOfIndependentSpecies</a> ()</td></tr>
+<tr class="memdesc:a0cbcdf248d716058325e50adf9239d4d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias for this function on the child model object. <br /></td></tr>
 <tr class="separator:a0cbcdf248d716058325e50adf9239d4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a744ddb0d6ee6b750e11d752685a29797"><td class="memItemLeft" align="right" valign="top"><a id="a744ddb0d6ee6b750e11d752685a29797"></a>
-std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>getGlobalParameterIds</b> ()</td></tr>
+<tr class="memitem:a744ddb0d6ee6b750e11d752685a29797"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1RoadRunner.html#a744ddb0d6ee6b750e11d752685a29797">getGlobalParameterIds</a> ()</td></tr>
+<tr class="memdesc:a744ddb0d6ee6b750e11d752685a29797"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias for this function on the child model object.  <a href="classrr_1_1RoadRunner.html#a744ddb0d6ee6b750e11d752685a29797">More...</a><br /></td></tr>
 <tr class="separator:a744ddb0d6ee6b750e11d752685a29797"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4d2c6e653ebbfdebfe9708ee6b99eacc"><td class="memItemLeft" align="right" valign="top"><a id="a4d2c6e653ebbfdebfe9708ee6b99eacc"></a>
-std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>getBoundarySpeciesIds</b> ()</td></tr>
+std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1RoadRunner.html#a4d2c6e653ebbfdebfe9708ee6b99eacc">getBoundarySpeciesIds</a> ()</td></tr>
+<tr class="memdesc:a4d2c6e653ebbfdebfe9708ee6b99eacc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias for this function on the child model object. <br /></td></tr>
 <tr class="separator:a4d2c6e653ebbfdebfe9708ee6b99eacc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6d3c6c4f7d7e1a318ccda22b8c4dc540"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1RoadRunner.html#a6d3c6c4f7d7e1a318ccda22b8c4dc540">getBoundarySpeciesConcentrationIds</a> ()</td></tr>
-<tr class="memdesc:a6d3c6c4f7d7e1a318ccda22b8c4dc540"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the ids for all boundary species concentrations.  <a href="classrr_1_1RoadRunner.html#a6d3c6c4f7d7e1a318ccda22b8c4dc540">More...</a><br /></td></tr>
+<tr class="memitem:a64b828272c3f6429b72d38e39cfcc3c3"><td class="memItemLeft" align="right" valign="top"><a id="a64b828272c3f6429b72d38e39cfcc3c3"></a>
+std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1RoadRunner.html#a64b828272c3f6429b72d38e39cfcc3c3">getAssignmentRuleIds</a> ()</td></tr>
+<tr class="memdesc:a64b828272c3f6429b72d38e39cfcc3c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the Ids of the elements assigned by assignment rules. <br /></td></tr>
+<tr class="separator:a64b828272c3f6429b72d38e39cfcc3c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aba310cd6f953aa82908c2006219270e6"><td class="memItemLeft" align="right" valign="top"><a id="aba310cd6f953aa82908c2006219270e6"></a>
+std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1RoadRunner.html#aba310cd6f953aa82908c2006219270e6">getRateRuleIds</a> ()</td></tr>
+<tr class="memdesc:aba310cd6f953aa82908c2006219270e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the Ids of the elements assigned by rate rules. <br /></td></tr>
+<tr class="separator:aba310cd6f953aa82908c2006219270e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3702f25236b2aead62907f1982ec2ac4"><td class="memItemLeft" align="right" valign="top"><a id="a3702f25236b2aead62907f1982ec2ac4"></a>
+std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1RoadRunner.html#a3702f25236b2aead62907f1982ec2ac4">getInitialAssignmentIds</a> ()</td></tr>
+<tr class="memdesc:a3702f25236b2aead62907f1982ec2ac4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the Ids of the elements with an initial assignment. <br /></td></tr>
+<tr class="separator:a3702f25236b2aead62907f1982ec2ac4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6d3c6c4f7d7e1a318ccda22b8c4dc540"><td class="memItemLeft" align="right" valign="top"><a id="a6d3c6c4f7d7e1a318ccda22b8c4dc540"></a>
+std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1RoadRunner.html#a6d3c6c4f7d7e1a318ccda22b8c4dc540">getBoundarySpeciesConcentrationIds</a> ()</td></tr>
+<tr class="memdesc:a6d3c6c4f7d7e1a318ccda22b8c4dc540"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the ids for all boundary species concentrations. <br /></td></tr>
 <tr class="separator:a6d3c6c4f7d7e1a318ccda22b8c4dc540"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afc7498e1fe7098233c87f4427e74509b"><td class="memItemLeft" align="right" valign="top"><a id="afc7498e1fe7098233c87f4427e74509b"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>getBoundarySpeciesByIndex</b> (const int &amp;index)</td></tr>
+double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1RoadRunner.html#afc7498e1fe7098233c87f4427e74509b">getBoundarySpeciesByIndex</a> (const int &amp;index)</td></tr>
+<tr class="memdesc:afc7498e1fe7098233c87f4427e74509b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias for this function on the child model object. <br /></td></tr>
 <tr class="separator:afc7498e1fe7098233c87f4427e74509b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a241c4374d564427ef61df52862136574"><td class="memItemLeft" align="right" valign="top"><a id="a241c4374d564427ef61df52862136574"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>getGlobalParameterByIndex</b> (const int &amp;index)</td></tr>
+<tr class="memitem:a241c4374d564427ef61df52862136574"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1RoadRunner.html#a241c4374d564427ef61df52862136574">getGlobalParameterByIndex</a> (const int &amp;index)</td></tr>
+<tr class="memdesc:a241c4374d564427ef61df52862136574"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias for this function on the child model object.  <a href="classrr_1_1RoadRunner.html#a241c4374d564427ef61df52862136574">More...</a><br /></td></tr>
 <tr class="separator:a241c4374d564427ef61df52862136574"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1b5525fc1a0ada03bb75f78f77c9bbbc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1RoadRunner.html#a1b5525fc1a0ada03bb75f78f77c9bbbc">setGlobalParameterByName</a> (const std::string &amp;param, double value)</td></tr>
 <tr class="memdesc:a1b5525fc1a0ada03bb75f78f77c9bbbc"><td class="mdescLeft">&#160;</td><td class="mdescRight">set the parameter with id  <a href="classrr_1_1RoadRunner.html#a1b5525fc1a0ada03bb75f78f77c9bbbc">More...</a><br /></td></tr>
@@ -635,99 +675,126 @@ double&#160;</td><td class="memItemRight" valign="bottom"><b>getGlobalParameterB
 <tr class="memitem:ad352e9290b7827a2d780a3cc33be194d"><td class="memItemLeft" align="right" valign="top"><a id="ad352e9290b7827a2d780a3cc33be194d"></a>
 std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>getConservedMoietyIds</b> ()</td></tr>
 <tr class="separator:ad352e9290b7827a2d780a3cc33be194d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae505b07023b0c397922690e3cba1c0e9"><td class="memItemLeft" align="right" valign="top"><a id="ae505b07023b0c397922690e3cba1c0e9"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>RR_DEPRECATED</b> (int <a class="el" href="group__reaction.html#gaaa9941b7cba362c4098feedb02b047a4">getNumberOfReactions</a>())</td></tr>
-<tr class="separator:ae505b07023b0c397922690e3cba1c0e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a88e9bd692bbf27f47b7c57dbf4fccd3b"><td class="memItemLeft" align="right" valign="top"><a id="a88e9bd692bbf27f47b7c57dbf4fccd3b"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>RR_DEPRECATED</b> (double <a class="el" href="group__reaction.html#ga6fbbae97760afea7cc74e26e2cb74926">getReactionRate</a>(const int &amp;index))</td></tr>
-<tr class="separator:a88e9bd692bbf27f47b7c57dbf4fccd3b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a86264b868b958f3cbd30002221df37b5"><td class="memItemLeft" align="right" valign="top"><a id="a86264b868b958f3cbd30002221df37b5"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>RR_DEPRECATED</b> (double <a class="el" href="group__rateOfChange.html#gacf4b39414587f2d4a51c8f90d7c4a571">getRateOfChange</a>(const int &amp;index))</td></tr>
-<tr class="separator:a86264b868b958f3cbd30002221df37b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abe4e6847b1d556f82110facdb240cfc0"><td class="memItemLeft" align="right" valign="top"><a id="abe4e6847b1d556f82110facdb240cfc0"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>RR_DEPRECATED</b> (std::vector&lt; std::string &gt; getRateOfChangeIds())</td></tr>
-<tr class="separator:abe4e6847b1d556f82110facdb240cfc0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6dbbede3f190b665b27c7d2840c4f8a4"><td class="memItemLeft" align="right" valign="top"><a id="a6dbbede3f190b665b27c7d2840c4f8a4"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>RR_DEPRECATED</b> (int <a class="el" href="group__compartment.html#gadb42e920ac63aa0b1b6d6a6a9c6fd504">getNumberOfCompartments</a>())</td></tr>
-<tr class="separator:a6dbbede3f190b665b27c7d2840c4f8a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a75fc853441d03470bee3152b822ede4d"><td class="memItemLeft" align="right" valign="top"><a id="a75fc853441d03470bee3152b822ede4d"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>RR_DEPRECATED</b> (void <a class="el" href="group__compartment.html#ga8baaf727b28d0acc9fdb90ae5682e4d7">setCompartmentByIndex</a>(const int &amp;index, const double &amp;value))</td></tr>
-<tr class="separator:a75fc853441d03470bee3152b822ede4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9cace9c8bf06ef61294b21f4ffefff77"><td class="memItemLeft" align="right" valign="top"><a id="a9cace9c8bf06ef61294b21f4ffefff77"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>RR_DEPRECATED</b> (double <a class="el" href="group__compartment.html#ga4ed76bba681918dd733c0857c160c2cb">getCompartmentByIndex</a>(const int &amp;index))</td></tr>
-<tr class="separator:a9cace9c8bf06ef61294b21f4ffefff77"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8b68daba3117345bcac672db70b6f02a"><td class="memItemLeft" align="right" valign="top"><a id="a8b68daba3117345bcac672db70b6f02a"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>RR_DEPRECATED</b> (std::vector&lt; std::string &gt; <a class="el" href="group__compartment.html#ga319aa6ee06a7150d35c87f8ed2c9ab8a">getCompartmentIds</a>())</td></tr>
-<tr class="separator:a8b68daba3117345bcac672db70b6f02a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a36acbf6b92783473a2f6d2b60d4467f5"><td class="memItemLeft" align="right" valign="top"><a id="a36acbf6b92783473a2f6d2b60d4467f5"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>RR_DEPRECATED</b> (int <a class="el" href="group__boundary.html#ga7baf198510082275b3648b5691dd16b5">getNumberOfBoundarySpecies</a>())</td></tr>
-<tr class="separator:a36acbf6b92783473a2f6d2b60d4467f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9802dd9fc181dce30126da143336f2b8"><td class="memItemLeft" align="right" valign="top"><a id="a9802dd9fc181dce30126da143336f2b8"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>RR_DEPRECATED</b> (std::vector&lt; double &gt; <a class="el" href="group__boundary.html#gaa36e026ba8f7488c7a57e96c0471763b">getBoundarySpeciesConcentrations</a>())</td></tr>
-<tr class="separator:a9802dd9fc181dce30126da143336f2b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a267406ac3460bdcb9b816a71cdedf7d8"><td class="memItemLeft" align="right" valign="top"><a id="a267406ac3460bdcb9b816a71cdedf7d8"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>RR_DEPRECATED</b> (void <a class="el" href="group__boundary.html#gacc067866a08d07a196d681328b5b3e38">setBoundarySpeciesConcentrations</a>(const std::vector&lt; double &gt; &amp;values))</td></tr>
-<tr class="separator:a267406ac3460bdcb9b816a71cdedf7d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7144d86ae2eb84553b73e6943e300f03"><td class="memItemLeft" align="right" valign="top"><a id="a7144d86ae2eb84553b73e6943e300f03"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>RR_DEPRECATED</b> (int <a class="el" href="group__floating.html#gab520e3bf495d490a96c5ee19870e7691">getNumberOfFloatingSpecies</a>())</td></tr>
-<tr class="separator:a7144d86ae2eb84553b73e6943e300f03"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6f822b89a755e7acdf9d643b34ae3a08"><td class="memItemLeft" align="right" valign="top"><a id="a6f822b89a755e7acdf9d643b34ae3a08"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>RR_DEPRECATED</b> (double <a class="el" href="group__floating.html#gaa5ab4c688801aa88c60bea9c745a8d7d">getFloatingSpeciesByIndex</a>(int index))</td></tr>
-<tr class="separator:a6f822b89a755e7acdf9d643b34ae3a08"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afcb185afd00edc72fd27f912cf018c5c"><td class="memItemLeft" align="right" valign="top"><a id="afcb185afd00edc72fd27f912cf018c5c"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>RR_DEPRECATED</b> (void <a class="el" href="group__floating.html#ga892e70470a45d8be4e443c6048064c0e">setFloatingSpeciesByIndex</a>(int index, double value))</td></tr>
-<tr class="separator:afcb185afd00edc72fd27f912cf018c5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa9a32be46f851e915a92c23dda8c6075"><td class="memItemLeft" align="right" valign="top"><a id="aa9a32be46f851e915a92c23dda8c6075"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>RR_DEPRECATED</b> (std::vector&lt; double &gt; getFloatingSpeciesConcentrationsV())</td></tr>
-<tr class="separator:aa9a32be46f851e915a92c23dda8c6075"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9a25f86724294542212b019c1d8178ab"><td class="memItemLeft" align="right" valign="top"><a id="a9a25f86724294542212b019c1d8178ab"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>RR_DEPRECATED</b> (std::vector&lt; double &gt; getFloatingSpeciesAmountsV())</td></tr>
-<tr class="separator:a9a25f86724294542212b019c1d8178ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac26e9bcdbb6b51eafaa828b8a7c22dff"><td class="memItemLeft" align="right" valign="top"><a id="ac26e9bcdbb6b51eafaa828b8a7c22dff"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>RR_DEPRECATED</b> (std::vector&lt; double &gt; getBoundarySpeciesConcentrationsV())</td></tr>
-<tr class="separator:ac26e9bcdbb6b51eafaa828b8a7c22dff"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9d8bad81e1317edf64f7c0c9ad934559"><td class="memItemLeft" align="right" valign="top"><a id="a9d8bad81e1317edf64f7c0c9ad934559"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>RR_DEPRECATED</b> (std::vector&lt; double &gt; getBoundarySpeciesAmountsV())</td></tr>
-<tr class="separator:a9d8bad81e1317edf64f7c0c9ad934559"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8ea25f1280229e12cb125e686a5ee7f3"><td class="memItemLeft" align="right" valign="top"><a id="a8ea25f1280229e12cb125e686a5ee7f3"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>RR_DEPRECATED</b> (std::vector&lt; double &gt; <a class="el" href="group__initialConditions.html#ga69c0a516f028a0608d8b9167ff56111f">getFloatingSpeciesInitialConcentrations</a>())</td></tr>
-<tr class="separator:a8ea25f1280229e12cb125e686a5ee7f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afced5aec249a0095a9dd52fa3aee0427"><td class="memItemLeft" align="right" valign="top"><a id="afced5aec249a0095a9dd52fa3aee0427"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>RR_DEPRECATED</b> (void <a class="el" href="group__floating.html#gab6bde54c81fa570ab09da91b65e92327">setFloatingSpeciesConcentrations</a>(const std::vector&lt; double &gt; &amp;values))</td></tr>
-<tr class="separator:afced5aec249a0095a9dd52fa3aee0427"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeaa763bad88b0f8a1bbbbf0ee916c9cc"><td class="memItemLeft" align="right" valign="top"><a id="aeaa763bad88b0f8a1bbbbf0ee916c9cc"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>RR_DEPRECATED</b> (void <a class="el" href="group__floating.html#ga1a86710f9772e7a7072aa7de264b0c45">setFloatingSpeciesInitialConcentrationByIndex</a>(const int &amp;index, const double &amp;value))</td></tr>
-<tr class="separator:aeaa763bad88b0f8a1bbbbf0ee916c9cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1f365a99f1402a27f036d271031ab2c0"><td class="memItemLeft" align="right" valign="top"><a id="a1f365a99f1402a27f036d271031ab2c0"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>RR_DEPRECATED</b> (void <a class="el" href="group__initialConditions.html#ga669ae93bd60148aaf48f7105748a551e">setFloatingSpeciesInitialConcentrations</a>(const std::vector&lt; double &gt; &amp;values))</td></tr>
-<tr class="separator:a1f365a99f1402a27f036d271031ab2c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aef78bcf6e2f3a35ed0c9310d2cce0444"><td class="memItemLeft" align="right" valign="top"><a id="aef78bcf6e2f3a35ed0c9310d2cce0444"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>RR_DEPRECATED</b> (std::vector&lt; std::string &gt; <a class="el" href="group__floating.html#gadfa89aaae617d977977469f3c8e0efae">getFloatingSpeciesIds</a>())</td></tr>
-<tr class="separator:aef78bcf6e2f3a35ed0c9310d2cce0444"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a345940bcbd10e4dd1652d6531760d88e"><td class="memItemLeft" align="right" valign="top"><a id="a345940bcbd10e4dd1652d6531760d88e"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>RR_DEPRECATED</b> (std::vector&lt; std::string &gt; <a class="el" href="group__initialConditions.html#ga1e19db0cfd663b9648f59191afdc64c6">getFloatingSpeciesInitialConditionIds</a>())</td></tr>
-<tr class="separator:a345940bcbd10e4dd1652d6531760d88e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a496b8467f4c7016889cb30a1ade762eb"><td class="memItemLeft" align="right" valign="top"><a id="a496b8467f4c7016889cb30a1ade762eb"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>RR_DEPRECATED</b> (size_t <a class="el" href="group__parameters.html#ga430bad38724b6db3feea39b31231e85e">getNumberOfGlobalParameters</a>())</td></tr>
-<tr class="separator:a496b8467f4c7016889cb30a1ade762eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abb294ad0072e682120420736512ce03b"><td class="memItemLeft" align="right" valign="top"><a id="abb294ad0072e682120420736512ce03b"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>RR_DEPRECATED</b> (void <a class="el" href="group__parameters.html#ga3f4d3739191a328326e0de1f7c07334a">setGlobalParameterByIndex</a>(const int index, const double value))</td></tr>
-<tr class="separator:abb294ad0072e682120420736512ce03b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aedaac7ddc2307044590f4e8810da6a66"><td class="memItemLeft" align="right" valign="top"><a id="aedaac7ddc2307044590f4e8810da6a66"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>RR_DEPRECATED</b> (std::vector&lt; double &gt; <a class="el" href="group__parameters.html#ga8786ef7925e23f93be3826e3bc1a7c73">getGlobalParameterValues</a>())</td></tr>
-<tr class="separator:aedaac7ddc2307044590f4e8810da6a66"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0aeef3b4db855e2cd6e901372c9082f2"><td class="memItemLeft" align="right" valign="top"><a id="a0aeef3b4db855e2cd6e901372c9082f2"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1RoadRunner.html#a0aeef3b4db855e2cd6e901372c9082f2">getNumberOfReactions</a> ()</td></tr>
+<tr class="memdesc:a0aeef3b4db855e2cd6e901372c9082f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias for this function on the child model object. <br /></td></tr>
+<tr class="separator:a0aeef3b4db855e2cd6e901372c9082f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9284f10d515b8ef441473b5c14f5920e"><td class="memItemLeft" align="right" valign="top"><a id="a9284f10d515b8ef441473b5c14f5920e"></a>
+double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1RoadRunner.html#a9284f10d515b8ef441473b5c14f5920e">getReactionRate</a> (const int &amp;index)</td></tr>
+<tr class="memdesc:a9284f10d515b8ef441473b5c14f5920e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias for this function on the child model object. <br /></td></tr>
+<tr class="separator:a9284f10d515b8ef441473b5c14f5920e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a67736588f72a8fb4f429368716acda93"><td class="memItemLeft" align="right" valign="top"><a id="a67736588f72a8fb4f429368716acda93"></a>
+double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1RoadRunner.html#a67736588f72a8fb4f429368716acda93">getRateOfChange</a> (const int &amp;index)</td></tr>
+<tr class="memdesc:a67736588f72a8fb4f429368716acda93"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias for this function on the child model object. <br /></td></tr>
+<tr class="separator:a67736588f72a8fb4f429368716acda93"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a900fe6274335e44e7633e9e60695ed14"><td class="memItemLeft" align="right" valign="top"><a id="a900fe6274335e44e7633e9e60695ed14"></a>
+std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1RoadRunner.html#a900fe6274335e44e7633e9e60695ed14">getRateOfChangeIds</a> ()</td></tr>
+<tr class="memdesc:a900fe6274335e44e7633e9e60695ed14"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias for this function on the child model object. <br /></td></tr>
+<tr class="separator:a900fe6274335e44e7633e9e60695ed14"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2f26307521e9930a85ed5c44bae67cfa"><td class="memItemLeft" align="right" valign="top"><a id="a2f26307521e9930a85ed5c44bae67cfa"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1RoadRunner.html#a2f26307521e9930a85ed5c44bae67cfa">getNumberOfCompartments</a> ()</td></tr>
+<tr class="memdesc:a2f26307521e9930a85ed5c44bae67cfa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias for this function on the child model object. <br /></td></tr>
+<tr class="separator:a2f26307521e9930a85ed5c44bae67cfa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a01dbe5358bd652891be6209260523cb6"><td class="memItemLeft" align="right" valign="top"><a id="a01dbe5358bd652891be6209260523cb6"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1RoadRunner.html#a01dbe5358bd652891be6209260523cb6">setCompartmentByIndex</a> (const int &amp;index, const double &amp;value)</td></tr>
+<tr class="memdesc:a01dbe5358bd652891be6209260523cb6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias for this function on the child model object. <br /></td></tr>
+<tr class="separator:a01dbe5358bd652891be6209260523cb6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a14b51ebe111fd7292dbca21a2749125b"><td class="memItemLeft" align="right" valign="top"><a id="a14b51ebe111fd7292dbca21a2749125b"></a>
+double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1RoadRunner.html#a14b51ebe111fd7292dbca21a2749125b">getCompartmentByIndex</a> (const int &amp;index)</td></tr>
+<tr class="memdesc:a14b51ebe111fd7292dbca21a2749125b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias for this function on the child model object. <br /></td></tr>
+<tr class="separator:a14b51ebe111fd7292dbca21a2749125b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3175df12d85de114996361b468c2c38e"><td class="memItemLeft" align="right" valign="top"><a id="a3175df12d85de114996361b468c2c38e"></a>
+std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1RoadRunner.html#a3175df12d85de114996361b468c2c38e">getCompartmentIds</a> ()</td></tr>
+<tr class="memdesc:a3175df12d85de114996361b468c2c38e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias for this function on the child model object. <br /></td></tr>
+<tr class="separator:a3175df12d85de114996361b468c2c38e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a54a9d80927c998e0981a2deac0671758"><td class="memItemLeft" align="right" valign="top"><a id="a54a9d80927c998e0981a2deac0671758"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1RoadRunner.html#a54a9d80927c998e0981a2deac0671758">getNumberOfBoundarySpecies</a> ()</td></tr>
+<tr class="memdesc:a54a9d80927c998e0981a2deac0671758"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias for this function on the child model object. <br /></td></tr>
+<tr class="separator:a54a9d80927c998e0981a2deac0671758"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a42a995530149829e8deda1a18419a864"><td class="memItemLeft" align="right" valign="top"><a id="a42a995530149829e8deda1a18419a864"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1RoadRunner.html#a42a995530149829e8deda1a18419a864">setBoundarySpeciesConcentrations</a> (const std::vector&lt; double &gt; &amp;values)</td></tr>
+<tr class="memdesc:a42a995530149829e8deda1a18419a864"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias for this function on the child model object. <br /></td></tr>
+<tr class="separator:a42a995530149829e8deda1a18419a864"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abc64866144a2a728af78010c1d8badb2"><td class="memItemLeft" align="right" valign="top"><a id="abc64866144a2a728af78010c1d8badb2"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1RoadRunner.html#abc64866144a2a728af78010c1d8badb2">setBoundarySpeciesAmounts</a> (const std::vector&lt; double &gt; &amp;values)</td></tr>
+<tr class="memdesc:abc64866144a2a728af78010c1d8badb2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias for this function on the child model object. <br /></td></tr>
+<tr class="separator:abc64866144a2a728af78010c1d8badb2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af2467ad14443e89ac9a1ed98481093c3"><td class="memItemLeft" align="right" valign="top"><a id="af2467ad14443e89ac9a1ed98481093c3"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1RoadRunner.html#af2467ad14443e89ac9a1ed98481093c3">getNumberOfFloatingSpecies</a> ()</td></tr>
+<tr class="memdesc:af2467ad14443e89ac9a1ed98481093c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias for this function on the child model object. <br /></td></tr>
+<tr class="separator:af2467ad14443e89ac9a1ed98481093c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6b228e88494e9a1c5615c81889358df5"><td class="memItemLeft" align="right" valign="top"><a id="a6b228e88494e9a1c5615c81889358df5"></a>
+double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1RoadRunner.html#a6b228e88494e9a1c5615c81889358df5">getFloatingSpeciesByIndex</a> (int index)</td></tr>
+<tr class="memdesc:a6b228e88494e9a1c5615c81889358df5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias for this function on the child model object. <br /></td></tr>
+<tr class="separator:a6b228e88494e9a1c5615c81889358df5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad68d81c08a570f120db08c8e5ca735e9"><td class="memItemLeft" align="right" valign="top"><a id="ad68d81c08a570f120db08c8e5ca735e9"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1RoadRunner.html#ad68d81c08a570f120db08c8e5ca735e9">setFloatingSpeciesByIndex</a> (int index, double value)</td></tr>
+<tr class="memdesc:ad68d81c08a570f120db08c8e5ca735e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias for this function on the child model object. <br /></td></tr>
+<tr class="separator:ad68d81c08a570f120db08c8e5ca735e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8c771da043718ef6a2ebf2a72cde498b"><td class="memItemLeft" align="right" valign="top"><a id="a8c771da043718ef6a2ebf2a72cde498b"></a>
+std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1RoadRunner.html#a8c771da043718ef6a2ebf2a72cde498b">getFloatingSpeciesConcentrationsV</a> ()</td></tr>
+<tr class="memdesc:a8c771da043718ef6a2ebf2a72cde498b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias for this function on the child model object. <br /></td></tr>
+<tr class="separator:a8c771da043718ef6a2ebf2a72cde498b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4151d7c08054661f86265e36cdef51ff"><td class="memItemLeft" align="right" valign="top"><a id="a4151d7c08054661f86265e36cdef51ff"></a>
+std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1RoadRunner.html#a4151d7c08054661f86265e36cdef51ff">getFloatingSpeciesAmountsV</a> ()</td></tr>
+<tr class="memdesc:a4151d7c08054661f86265e36cdef51ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias for this function on the child model object. <br /></td></tr>
+<tr class="separator:a4151d7c08054661f86265e36cdef51ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a08b51ec16a7cd7d13bf2df7628adf471"><td class="memItemLeft" align="right" valign="top"><a id="a08b51ec16a7cd7d13bf2df7628adf471"></a>
+std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1RoadRunner.html#a08b51ec16a7cd7d13bf2df7628adf471">getBoundarySpeciesConcentrationsV</a> ()</td></tr>
+<tr class="memdesc:a08b51ec16a7cd7d13bf2df7628adf471"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias for this function on the child model object. <br /></td></tr>
+<tr class="separator:a08b51ec16a7cd7d13bf2df7628adf471"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae69dfa3779123d7d1b1da495477bcdd1"><td class="memItemLeft" align="right" valign="top"><a id="ae69dfa3779123d7d1b1da495477bcdd1"></a>
+std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1RoadRunner.html#ae69dfa3779123d7d1b1da495477bcdd1">getBoundarySpeciesAmountsV</a> ()</td></tr>
+<tr class="memdesc:ae69dfa3779123d7d1b1da495477bcdd1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias for this function on the child model object. <br /></td></tr>
+<tr class="separator:ae69dfa3779123d7d1b1da495477bcdd1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f58d69e9b0d77e7a141c3cbab08cd46"><td class="memItemLeft" align="right" valign="top"><a id="a9f58d69e9b0d77e7a141c3cbab08cd46"></a>
+std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1RoadRunner.html#a9f58d69e9b0d77e7a141c3cbab08cd46">getFloatingSpeciesInitialConcentrations</a> ()</td></tr>
+<tr class="memdesc:a9f58d69e9b0d77e7a141c3cbab08cd46"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias for this function on the child model object. <br /></td></tr>
+<tr class="separator:a9f58d69e9b0d77e7a141c3cbab08cd46"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5e1dcd14759e468e510a298f61b267de"><td class="memItemLeft" align="right" valign="top"><a id="a5e1dcd14759e468e510a298f61b267de"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1RoadRunner.html#a5e1dcd14759e468e510a298f61b267de">setFloatingSpeciesConcentrations</a> (const std::vector&lt; double &gt; &amp;values)</td></tr>
+<tr class="memdesc:a5e1dcd14759e468e510a298f61b267de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias for this function on the child model object. <br /></td></tr>
+<tr class="separator:a5e1dcd14759e468e510a298f61b267de"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a08176e93872548591ce96b2f9c20dc74"><td class="memItemLeft" align="right" valign="top"><a id="a08176e93872548591ce96b2f9c20dc74"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1RoadRunner.html#a08176e93872548591ce96b2f9c20dc74">setFloatingSpeciesInitialConcentrationByIndex</a> (const int &amp;index, const double &amp;value)</td></tr>
+<tr class="memdesc:a08176e93872548591ce96b2f9c20dc74"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias for this function on the child model object. <br /></td></tr>
+<tr class="separator:a08176e93872548591ce96b2f9c20dc74"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3c85d3178f85ec302f1dd8f13fb87aa8"><td class="memItemLeft" align="right" valign="top"><a id="a3c85d3178f85ec302f1dd8f13fb87aa8"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1RoadRunner.html#a3c85d3178f85ec302f1dd8f13fb87aa8">setFloatingSpeciesInitialConcentrations</a> (const std::vector&lt; double &gt; &amp;values)</td></tr>
+<tr class="memdesc:a3c85d3178f85ec302f1dd8f13fb87aa8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias for this function on the child model object. <br /></td></tr>
+<tr class="separator:a3c85d3178f85ec302f1dd8f13fb87aa8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2df3e839e9faa56b6fb1b50f64aedfb6"><td class="memItemLeft" align="right" valign="top"><a id="a2df3e839e9faa56b6fb1b50f64aedfb6"></a>
+std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1RoadRunner.html#a2df3e839e9faa56b6fb1b50f64aedfb6">getFloatingSpeciesIds</a> ()</td></tr>
+<tr class="memdesc:a2df3e839e9faa56b6fb1b50f64aedfb6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias for this function on the child model object. <br /></td></tr>
+<tr class="separator:a2df3e839e9faa56b6fb1b50f64aedfb6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4d160ec4bffd82338fbd6d7c367418f0"><td class="memItemLeft" align="right" valign="top"><a id="a4d160ec4bffd82338fbd6d7c367418f0"></a>
+std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1RoadRunner.html#a4d160ec4bffd82338fbd6d7c367418f0">getFloatingSpeciesInitialConditionIds</a> ()</td></tr>
+<tr class="memdesc:a4d160ec4bffd82338fbd6d7c367418f0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias for this function on the child model object. <br /></td></tr>
+<tr class="separator:a4d160ec4bffd82338fbd6d7c367418f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af23fe6ec9b4ca66c07e14db3dad23462"><td class="memItemLeft" align="right" valign="top"><a id="af23fe6ec9b4ca66c07e14db3dad23462"></a>
+size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1RoadRunner.html#af23fe6ec9b4ca66c07e14db3dad23462">getNumberOfGlobalParameters</a> ()</td></tr>
+<tr class="memdesc:af23fe6ec9b4ca66c07e14db3dad23462"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias for this function on the child model object. <br /></td></tr>
+<tr class="separator:af23fe6ec9b4ca66c07e14db3dad23462"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa90f680c2d8e3c1dbd67c90de015338c"><td class="memItemLeft" align="right" valign="top"><a id="aa90f680c2d8e3c1dbd67c90de015338c"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1RoadRunner.html#aa90f680c2d8e3c1dbd67c90de015338c">setGlobalParameterByIndex</a> (const int index, const double value)</td></tr>
+<tr class="memdesc:aa90f680c2d8e3c1dbd67c90de015338c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias for this function on the child model object. <br /></td></tr>
+<tr class="separator:aa90f680c2d8e3c1dbd67c90de015338c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1104cc3634e461f963a8682cbb6e0bbe"><td class="memItemLeft" align="right" valign="top">std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1RoadRunner.html#a1104cc3634e461f963a8682cbb6e0bbe">getGlobalParameterValues</a> ()</td></tr>
+<tr class="memdesc:a1104cc3634e461f963a8682cbb6e0bbe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias for this function on the child model object.  <a href="classrr_1_1RoadRunner.html#a1104cc3634e461f963a8682cbb6e0bbe">More...</a><br /></td></tr>
+<tr class="separator:a1104cc3634e461f963a8682cbb6e0bbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad3f4b6ef217424cb9b12c798dfd1129c"><td class="memItemLeft" align="right" valign="top"><a id="ad3f4b6ef217424cb9b12c798dfd1129c"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>evalModel</b> ()</td></tr>
 <tr class="separator:ad3f4b6ef217424cb9b12c798dfd1129c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aebcbfa2c066cbc09fc3e9acc1776ab20"><td class="memItemLeft" align="right" valign="top"><a id="aebcbfa2c066cbc09fc3e9acc1776ab20"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>RR_DEPRECATED</b> (int <a class="el" href="group__floating.html#ga284f3c15160144a2639f1d3379f7766b">getNumberOfDependentSpecies</a>())</td></tr>
-<tr class="separator:aebcbfa2c066cbc09fc3e9acc1776ab20"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0684bcc378da80c4ec550e6141766d6c"><td class="memItemLeft" align="right" valign="top"><a id="a0684bcc378da80c4ec550e6141766d6c"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>RR_DEPRECATED</b> (std::vector&lt; double &gt; <a class="el" href="group__reaction.html#gae0d748f8af83914cc078f8728d67ed0e">getReactionRates</a>())</td></tr>
-<tr class="separator:a0684bcc378da80c4ec550e6141766d6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3eb7c5f79022169b6ef9a83d8f56b44b"><td class="memItemLeft" align="right" valign="top"><a id="a3eb7c5f79022169b6ef9a83d8f56b44b"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>RR_DEPRECATED</b> (std::vector&lt; std::string &gt; <a class="el" href="group__reaction.html#ga893427e9bcf19edb7742fd7a40bde89e">getReactionIds</a>())</td></tr>
-<tr class="separator:a3eb7c5f79022169b6ef9a83d8f56b44b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a78708a8b3088ada0b5d7b2630a24904e"><td class="memItemLeft" align="right" valign="top"><a id="a78708a8b3088ada0b5d7b2630a24904e"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1RoadRunner.html#a78708a8b3088ada0b5d7b2630a24904e">getNumberOfDependentSpecies</a> ()</td></tr>
+<tr class="memdesc:a78708a8b3088ada0b5d7b2630a24904e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias for this function on the child model object. <br /></td></tr>
+<tr class="separator:a78708a8b3088ada0b5d7b2630a24904e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1d4371619e6e4e7a31ad721c75718c14"><td class="memItemLeft" align="right" valign="top">std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1RoadRunner.html#a1d4371619e6e4e7a31ad721c75718c14">getReactionRates</a> ()</td></tr>
+<tr class="memdesc:a1d4371619e6e4e7a31ad721c75718c14"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias for this function on the child model object.  <a href="classrr_1_1RoadRunner.html#a1d4371619e6e4e7a31ad721c75718c14">More...</a><br /></td></tr>
+<tr class="separator:a1d4371619e6e4e7a31ad721c75718c14"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae8b19594ecf70d1995fc30e63c9a0826"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1RoadRunner.html#ae8b19594ecf70d1995fc30e63c9a0826">getReactionIds</a> ()</td></tr>
+<tr class="memdesc:ae8b19594ecf70d1995fc30e63c9a0826"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias for this function on the child model object.  <a href="classrr_1_1RoadRunner.html#ae8b19594ecf70d1995fc30e63c9a0826">More...</a><br /></td></tr>
+<tr class="separator:ae8b19594ecf70d1995fc30e63c9a0826"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a03d8db00d714b31251af8427e4bbac55"><td class="memItemLeft" align="right" valign="top"><a id="a03d8db00d714b31251af8427e4bbac55"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>setTempDir</b> (const std::string &amp;folder)</td></tr>
 <tr class="separator:a03d8db00d714b31251af8427e4bbac55"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1143,26 +1210,6 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
 
 </div>
 </div>
-<a id="a6d3c6c4f7d7e1a318ccda22b8c4dc540"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6d3c6c4f7d7e1a318ccda22b8c4dc540">&#9670;&nbsp;</a></span>getBoundarySpeciesConcentrationIds()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::vector&lt; std::string &gt; rr::RoadRunner::getBoundarySpeciesConcentrationIds </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Gets the ids for all boundary species concentrations. </p>
-<dl class="section author"><dt>Author</dt><dd>KC </dd></dl>
-
-</div>
-</div>
 <a id="ab13b18bcd87ed95a65b0f54412b22d53"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab13b18bcd87ed95a65b0f54412b22d53">&#9670;&nbsp;</a></span>getBoundarySpeciesConcentrationsNamedArray()</h2>
 
@@ -1553,6 +1600,27 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
 
 </div>
 </div>
+<a id="a241c4374d564427ef61df52862136574"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a241c4374d564427ef61df52862136574">&#9670;&nbsp;</a></span>getGlobalParameterByIndex()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double rr::RoadRunner::getGlobalParameterByIndex </td>
+          <td>(</td>
+          <td class="paramtype">const int &amp;&#160;</td>
+          <td class="paramname"><em>index</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Alias for this function on the child model object. </p>
+<p>use <a class="el" href="classrr_1_1ExecutableModel.html#af598ac63c984d7101b0d026dd217a822" title="get the global parameter values">ExecutableModel::getGlobalParameterValues</a> </p>
+
+</div>
+</div>
 <a id="af376e9fce37cc7b50cea8e8642eafb00"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af376e9fce37cc7b50cea8e8642eafb00">&#9670;&nbsp;</a></span>getGlobalParameterByName()</h2>
 
@@ -1578,6 +1646,46 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="a744ddb0d6ee6b750e11d752685a29797"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a744ddb0d6ee6b750e11d752685a29797">&#9670;&nbsp;</a></span>getGlobalParameterIds()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; std::string &gt; rr::RoadRunner::getGlobalParameterIds </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Alias for this function on the child model object. </p>
+<p>use ExecutableModel::getGlobalParameterIds </p>
+
+</div>
+</div>
+<a id="a1104cc3634e461f963a8682cbb6e0bbe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1104cc3634e461f963a8682cbb6e0bbe">&#9670;&nbsp;</a></span>getGlobalParameterValues()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; double &gt; rr::RoadRunner::getGlobalParameterValues </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Alias for this function on the child model object. </p>
+<p>use <a class="el" href="classrr_1_1ExecutableModel.html#af598ac63c984d7101b0d026dd217a822" title="get the global parameter values">ExecutableModel::getGlobalParameterValues</a> </p>
 
 </div>
 </div>
@@ -1803,6 +1911,46 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
 
 <p>Returns the rate of change of the floating species as a named array. </p>
 <dl class="section author"><dt>Author</dt><dd>KC </dd></dl>
+
+</div>
+</div>
+<a id="ae8b19594ecf70d1995fc30e63c9a0826"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae8b19594ecf70d1995fc30e63c9a0826">&#9670;&nbsp;</a></span>getReactionIds()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; std::string &gt; rr::RoadRunner::getReactionIds </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Alias for this function on the child model object. </p>
+<p>returns a list of reaction ids obtained from <a class="el" href="classrr_1_1ExecutableModel.html#aeb911dc90408981370c78149680d9027" title="get the name of the specified reaction">ExecutableModel::getReactionId</a> </p>
+
+</div>
+</div>
+<a id="a1d4371619e6e4e7a31ad721c75718c14"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1d4371619e6e4e7a31ad721c75718c14">&#9670;&nbsp;</a></span>getReactionRates()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; double &gt; rr::RoadRunner::getReactionRates </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Alias for this function on the child model object. </p>
+<p>use <a class="el" href="classrr_1_1ExecutableModel.html#a37c53cc370ff236657272f5596fd27ff" title="get the std::vector of reaction rates.">ExecutableModel::getReactionRates</a> </p>
 
 </div>
 </div>
@@ -2054,10 +2202,11 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
 <p>returns true if integrator </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">name</td><td>exists. </td></tr>
+    <tr><td class="paramname">name</td><td>exists.</td></tr>
   </table>
   </dd>
 </dl>
+<p>Use getRegisteredIntegratorNames to get a list of available integrator solver names. </p>
 
 </div>
 </div>
@@ -2141,6 +2290,56 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="a56030d98802a87d9aa960cbb7bb5f0c6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a56030d98802a87d9aa960cbb7bb5f0c6">&#9670;&nbsp;</a></span>loadState()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rr::RoadRunner::loadState </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>filename</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Loads a roadrunner instance saved by saveState with the 'b' option. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classrr_1_1RoadRunner.html#a68f5a245b02936d4ed83dcfe9145bf83" title="load state from a">RoadRunner::loadStateS</a> </dd>
+<dd>
+<a class="el" href="classrr_1_1RoadRunner.html#ac982f0742233d5ad487064734c3b793c" title="similar to saveStateS but save data to file caled">RoadRunner::saveState</a> </dd></dl>
+
+</div>
+</div>
+<a id="a68f5a245b02936d4ed83dcfe9145bf83"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a68f5a245b02936d4ed83dcfe9145bf83">&#9670;&nbsp;</a></span>loadStateS()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rr::RoadRunner::loadStateS </td>
+          <td>(</td>
+          <td class="paramtype">std::stringstream *&#160;</td>
+          <td class="paramname"><em>state</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>load state from a </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">stringstream</td><td>that was produced by <a class="el" href="classrr_1_1RoadRunner.html#a3f30bcb94eeb86ac029b123f51214c94" title="save state as binary to a stringstream so it can be loaded again later.">RoadRunner::saveStateS</a>.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>The stingstream pointer should be heap allocated and generated from <a class="el" href="classrr_1_1RoadRunner.html#a3f30bcb94eeb86ac029b123f51214c94" title="save state as binary to a stringstream so it can be loaded again later.">RoadRunner::saveStateS</a>. It is an error to use a stringstream that was generated in any other way. The memory associated with the stringstream is automatically cleaned up after loading the state. </p>
 
 </div>
 </div>
@@ -2549,6 +2748,75 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
 
 </div>
 </div>
+<a id="ac982f0742233d5ad487064734c3b793c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac982f0742233d5ad487064734c3b793c">&#9670;&nbsp;</a></span>saveState()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rr::RoadRunner::saveState </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>filename</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char&#160;</td>
+          <td class="paramname"><em>opt</em> = <code>'b'</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>similar to saveStateS but save data to file caled </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">filename.</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classrr_1_1RoadRunner.html#a3f30bcb94eeb86ac029b123f51214c94" title="save state as binary to a stringstream so it can be loaded again later.">RoadRunner::saveStateS</a> </dd>
+<dd>
+<a class="el" href="classrr_1_1RoadRunner.html#a56030d98802a87d9aa960cbb7bb5f0c6" title="Loads a roadrunner instance saved by saveState with the &#39;b&#39; option.">RoadRunner::loadState</a> </dd></dl>
+
+</div>
+</div>
+<a id="a3f30bcb94eeb86ac029b123f51214c94"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3f30bcb94eeb86ac029b123f51214c94">&#9670;&nbsp;</a></span>saveStateS()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::stringstream * rr::RoadRunner::saveStateS </td>
+          <td>(</td>
+          <td class="paramtype">char&#160;</td>
+          <td class="paramname"><em>opt</em> = <code>'b'</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>save state as binary to a stringstream so it can be loaded again later. </p>
+<dl class="section return"><dt>Returns</dt><dd>new reference to a stringstream - the caller is responsible for reclaiming memory Importantly, if the stream is read into a new <a class="el" href="classrr_1_1RoadRunner.html" title="The main RoadRunner class.">RoadRunner</a> instance via <a class="el" href="classrr_1_1RoadRunner.html#a68f5a245b02936d4ed83dcfe9145bf83" title="load state from a">RoadRunner::loadStateS</a> then the user no longer needs to handle the reference manually because <a class="el" href="classrr_1_1RoadRunner.html#a68f5a245b02936d4ed83dcfe9145bf83" title="load state from a">RoadRunner::loadStateS</a> does it after loading the state. </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">opt,either</td><td>'b' (default) or 'r'. The latter is used for debugging. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classrr_1_1RoadRunner.html#a68f5a245b02936d4ed83dcfe9145bf83" title="load state from a">RoadRunner::loadStateS</a> </dd>
+<dd>
+<a class="el" href="classrr_1_1RoadRunner.html#ac982f0742233d5ad487064734c3b793c" title="similar to saveStateS but save data to file caled">RoadRunner::saveState</a> </dd></dl>
+
+</div>
+</div>
 <a id="ae645693f2c3652b951e106be544a09cd"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae645693f2c3652b951e106be544a09cd">&#9670;&nbsp;</a></span>sensitivitySolverExists()</h2>
 
@@ -2925,6 +3193,7 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
   </table>
   </dd>
 </dl>
+<p>use getRegisteredSensitivitySolverNames to get a list of available sensitivity solver names </p>
 
 </div>
 </div>
@@ -2972,6 +3241,7 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
   </table>
   </dd>
 </dl>
+<p>use getRegisteredSteadyStateSolverNames to get a list of available names </p>
 
 </div>
 </div>
@@ -3028,8 +3298,8 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
 
 </div>
 </div>
-<a id="a5a079f580436e4bd0fccdc54a597d003"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5a079f580436e4bd0fccdc54a597d003">&#9670;&nbsp;</a></span>simulate() <span class="overload">[1/2]</span></h2>
+<a id="a377834f22edadb7706779ecca7c1eb4e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a377834f22edadb7706779ecca7c1eb4e">&#9670;&nbsp;</a></span>simulate() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -3037,7 +3307,7 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
         <tr>
           <td class="memname">const ls::DoubleMatrix * rr::RoadRunner::simulate </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="classrr_1_1Dictionary.html">Dictionary</a> *&#160;</td>
+          <td class="paramtype">const <a class="el" href="classrr_1_1SimulateOptions.html">SimulateOptions</a> *&#160;</td>
           <td class="paramname"><em>options</em> = <code>0</code></td><td>)</td>
           <td></td>
         </tr>
@@ -3050,25 +3320,23 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
 <dd>
 <a class="el" href="classrr_1_1SimulateOptions.html" title="This class is frozen, no new features RoadRunner simulation options.">SimulateOptions</a>.</dd></dl>
 <p>For example, to perform a simulation from time 0 to 10 with 1000 steps, using a stiff integtator, you would: </p><div class="fragment"><div class="line"><a class="code" href="classrr_1_1RoadRunner.html#a04a6fd481cfacc2510d5d113520143ef">RoadRunner</a> r = <a class="code" href="classrr_1_1RoadRunner.html#a04a6fd481cfacc2510d5d113520143ef">RoadRunner</a>(<span class="stringliteral">&quot;someFile.xml&quot;</span>);</div>
-<div class="line">BasicDictionary opt;</div>
-<div class="line">opt.setItem(<span class="stringliteral">&quot;start&quot;</span>, 0);</div>
-<div class="line">opt.setItem(<span class="stringliteral">&quot;duration&quot;</span>, 10);</div>
-<div class="line">opt.setItem(<span class="stringliteral">&quot;steps&quot;</span>, 1000);</div>
-<div class="line">opt.setItem(<span class="stringliteral">&quot;stiff&quot;</span>, <span class="keyword">true</span>);</div>
+<div class="line">SimulateOptions opt = r.getSimulateOptions();</div>
+<div class="line">opt.start = 0;</div>
+<div class="line">opt.duration = 10;</div>
+<div class="line">opt.steps = 1000;</div>
 <div class="line"><span class="keyword">const</span> DoubleMatrix *result = r.simulate(&amp;opt);</div>
-<div class="ttc" id="aclassrr_1_1RoadRunner_html_a04a6fd481cfacc2510d5d113520143ef"><div class="ttname"><a href="classrr_1_1RoadRunner.html#a04a6fd481cfacc2510d5d113520143ef">rr::RoadRunner::RoadRunner</a></div><div class="ttdeci">RoadRunner(unsigned int level=3, unsigned int version=2)</div><div class="ttdoc">create an empty RoadRunner object with given SBML level and version.</div><div class="ttdef"><b>Definition:</b> rrRoadRunner.cpp:500</div></div>
-</div><!-- fragment --><p>Similarly, if one wants to use a stochastic integrator, such as the Gillespie integrator, this is set via the "integrator" key, i.e. </p><div class="fragment"><div class="line"><a class="code" href="classrr_1_1RoadRunner.html#a04a6fd481cfacc2510d5d113520143ef">RoadRunner</a> r = <a class="code" href="classrr_1_1RoadRunner.html#a04a6fd481cfacc2510d5d113520143ef">RoadRunner</a>(<span class="stringliteral">&quot;someFile.xml&quot;</span>);</div>
-<div class="line">BasicDictionary opt;</div>
-<div class="line">opt.setItem(<span class="stringliteral">&quot;integrator&quot;</span>, <span class="stringliteral">&quot;gillespie&quot;</span>);</div>
-<div class="line">opt.setItem(<span class="stringliteral">&quot;start&quot;</span>, 0);</div>
-<div class="line">opt.setItem(<span class="stringliteral">&quot;duration&quot;</span>, 10);</div>
-<div class="line">opt.setItem(<span class="stringliteral">&quot;steps&quot;</span>, 1000);</div>
+<div class="ttc" id="aclassrr_1_1RoadRunner_html_a04a6fd481cfacc2510d5d113520143ef"><div class="ttname"><a href="classrr_1_1RoadRunner.html#a04a6fd481cfacc2510d5d113520143ef">rr::RoadRunner::RoadRunner</a></div><div class="ttdeci">RoadRunner(unsigned int level=3, unsigned int version=2)</div><div class="ttdoc">create an empty RoadRunner object with given SBML level and version.</div><div class="ttdef"><b>Definition:</b> rrRoadRunner.cpp:496</div></div>
+</div><!-- fragment --><p>Similarly, options specific to a particular integrator, such as the 'seed' option with the Gillespie integrator, this is set via the 'setIntegrator' "integrator" key, i.e. </p><div class="fragment"><div class="line"><a class="code" href="classrr_1_1RoadRunner.html#a04a6fd481cfacc2510d5d113520143ef">RoadRunner</a> r = <a class="code" href="classrr_1_1RoadRunner.html#a04a6fd481cfacc2510d5d113520143ef">RoadRunner</a>(<span class="stringliteral">&quot;someFile.xml&quot;</span>);</div>
+<div class="line">r.setIntegrator(<span class="stringliteral">&quot;gillespie&quot;</span>);</div>
+<div class="line">SimulateOptions opt;</div>
+<div class="line">opt.start = 0;</div>
+<div class="line">opt.duration = 10;</div>
+<div class="line">opt.steps = 1000;</div>
 <div class="line">opt.setItem(<span class="stringliteral">&quot;stiff&quot;</span>, <span class="keyword">true</span>);</div>
 <div class="line">opt.setItem(<span class="stringliteral">&quot;seed&quot;</span>, 12345);</div>
 <div class="line"><span class="keyword">const</span> DoubleMatrix *result = r.simulate(&amp;opt);</div>
-</div><!-- fragment --><p> Here, the "integrator" specifies the integrator to use. The "stiff" key is only used by the deterministic solvers, and it is safely ignored by the stochastic solvers. Also, the "seed" sets the random seed that the integrator uses. For more information about all of the avaialble options for each integrator,</p>
-<p>If one wants to not store the result matrix in memory and instead write it to a file during simulation, one can set the output_file option. When output file is nonempty, <a class="el" href="classrr_1_1RoadRunner.html#a5a079f580436e4bd0fccdc54a597d003" title="Simulate the current SBML model.">simulate()</a> will write to its path once every Config::K_ROWS_PER_WRITE rows are generated and clear the matrix. So an empty result matrix is returned, and the last simulation results are not stored.</p>
-<dl class="section see"><dt>See also</dt><dd>IntegratorFactory::getIntegratorOptions".</dd></dl>
+</div><!-- fragment --><p> Here, the "integrator" specifies the integrator to use. The "stiff" key is only used by the deterministic solvers, and it is safely ignored by the stochastic solvers. Also, the "seed" sets the random seed that the integrator uses. For more information about all of the available options for each integrator, </p><dl class="section see"><dt>See also</dt><dd>IntegratorFactory::getIntegratorOptions".</dd></dl>
+<p>If one wants to not store the result matrix in memory and instead write it to a file during simulation, one can set the output_file option. When output file is nonempty, <a class="el" href="classrr_1_1RoadRunner.html#a377834f22edadb7706779ecca7c1eb4e" title="Simulate the current SBML model.">simulate()</a> will write to its path once every Config::K_ROWS_PER_WRITE rows are generated and clear the matrix. So an empty result matrix is returned, and the last simulation results are not stored.</p>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
     <tr><td class="paramname">an</td><td>std::exception if any options are invalid. </td></tr>
@@ -3079,8 +3347,34 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
 
 </div>
 </div>
-<a id="ac38951d816285635bba0b095a875d7c0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac38951d816285635bba0b095a875d7c0">&#9670;&nbsp;</a></span>simulate() <span class="overload">[2/2]</span></h2>
+<a id="a3148beddf65c37bcdce6cfd2726c48ef"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3148beddf65c37bcdce6cfd2726c48ef">&#9670;&nbsp;</a></span>simulate() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const ls::DoubleMatrix * rr::RoadRunner::simulate </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; double &gt; &amp;&#160;</td>
+          <td class="paramname"><em>times</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>simulate the model using currently set integrator </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">times</td><td>a vector of all the time outputs desired. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ad3701c04d6317e96c2d2bb235b99d60b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad3701c04d6317e96c2d2bb235b99d60b">&#9670;&nbsp;</a></span>simulate() <span class="overload">[3/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -3101,7 +3395,7 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>num</em>&#160;</td>
+          <td class="paramname"><em>points</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -3116,7 +3410,7 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
   <table class="params">
     <tr><td class="paramname">start</td><td>starting time to simulate </td></tr>
     <tr><td class="paramname">stop</td><td>what time point does the simulation end? </td></tr>
-    <tr><td class="paramname">num</td><td>how many steps to simulate </td></tr>
+    <tr><td class="paramname">points</td><td>how many points to output (one greater than the number of steps to take). </td></tr>
   </table>
   </dd>
 </dl>
@@ -3176,8 +3470,8 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
 
 </div>
 </div>
-<a id="abccedac0c94a9a131341c90eb42111c8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abccedac0c94a9a131341c90eb42111c8">&#9670;&nbsp;</a></span>timeSeriesSensitivities()</h2>
+<a id="a5b337a5d5625545db98bdcaf9ba71c7c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5b337a5d5625545db98bdcaf9ba71c7c">&#9670;&nbsp;</a></span>timeSeriesSensitivities()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -3209,6 +3503,12 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
         <tr>
           <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">std::vector&lt; std::string &gt;&#160;</td>
+          <td class="paramname"><em>species</em> = <code>std::vector&lt;std::string&gt;()</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>k</em> = <code>0</code>&#160;</td>
         </tr>
@@ -3227,6 +3527,7 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
     <tr><td class="paramname">stop</td><td>last time point for time series simulation </td></tr>
     <tr><td class="paramname">num</td><td>number of data points to simulate. Determines Z of <a class="el" href="classrr_1_1Matrix3D.html">Matrix3D</a>. </td></tr>
     <tr><td class="paramname">params</td><td>vector of parameters that you want sensitivity for. When empty (default), compute sensitivities for all parameters vs all variables. </td></tr>
+    <tr><td class="paramname">species</td><td>vector of species to include in the results Default is empty, in which case all species will be included. All species are selected during solving and slicing only occurs at the end. </td></tr>
     <tr><td class="paramname">k</td><td>(default 0) return the kth other derivative of the sensitivity data. </td></tr>
   </table>
   </dd>

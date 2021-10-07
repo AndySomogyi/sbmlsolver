@@ -28,15 +28,7 @@ public:
     {
         //Run the first and last version of the file.
         string modelFileName, settingsFileName, descriptionFileName;
-        vector<string> lvs;
-        lvs.push_back("l1v2");
-        lvs.push_back("l2v1");
-        lvs.push_back("l2v2");
-        lvs.push_back("l2v3");
-        lvs.push_back("l2v4");
-        lvs.push_back("l2v5");
-        lvs.push_back("l3v1");
-        lvs.push_back("l3v2");
+        vector<string> lvs({"l1v2", "l2v1", "l2v2", "l2v3", "l2v4", "l2v5", "l3v1", "l3v2"});
         string testsuitedir = (rrTestSbmlTestSuiteDir_ / path("semantic")).string();
         string modelFilePath(testsuitedir);
         string first = "";

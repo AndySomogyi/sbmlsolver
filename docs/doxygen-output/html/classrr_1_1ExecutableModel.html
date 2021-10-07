@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">roadrunner
-   &#160;<span id="projectnumber">2.0.9</span>
+   &#160;<span id="projectnumber">2.1.0</span>
    </div>
    <div id="projectbrief">Fast simulator for SBML models</div>
   </td>
@@ -71,6 +71,7 @@ $(function() {
 <a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pro-methods">Protected Member Functions</a> &#124;
+<a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="#friends">Friends</a> &#124;
 <a href="classrr_1_1ExecutableModel-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -102,8 +103,11 @@ Public Types</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a07791b0ccd6feeb665278e9888cb8af7"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1ExecutableModel.html#a07791b0ccd6feeb665278e9888cb8af7">getExecutableModelDesc</a> () const =0</td></tr>
-<tr class="memdesc:a07791b0ccd6feeb665278e9888cb8af7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a human-readable description of the code generation backend, e.g. LLVM, legacy C, etc.  <a href="classrr_1_1ExecutableModel.html#a07791b0ccd6feeb665278e9888cb8af7">More...</a><br /></td></tr>
+<tr class="memitem:a304eb91e2abe96301321cf6507087a9f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1ExecutableModel.html#a304eb91e2abe96301321cf6507087a9f">ExecutableModel</a> ()</td></tr>
+<tr class="memdesc:a304eb91e2abe96301321cf6507087a9f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a human-readable description of the code generation backend, e.g. LLVM, legacy C, etc.  <a href="classrr_1_1ExecutableModel.html#a304eb91e2abe96301321cf6507087a9f">More...</a><br /></td></tr>
+<tr class="separator:a304eb91e2abe96301321cf6507087a9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a07791b0ccd6feeb665278e9888cb8af7"><td class="memItemLeft" align="right" valign="top"><a id="a07791b0ccd6feeb665278e9888cb8af7"></a>
+virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><b>getExecutableModelDesc</b> () const =0</td></tr>
 <tr class="separator:a07791b0ccd6feeb665278e9888cb8af7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6ad7fd317a2335c337d7c8a3aeb8e044"><td class="memItemLeft" align="right" valign="top"><a id="a6ad7fd317a2335c337d7c8a3aeb8e044"></a>
 virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1ExecutableModel.html#a6ad7fd317a2335c337d7c8a3aeb8e044">getModelName</a> ()=0</td></tr>
@@ -187,6 +191,23 @@ virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><b>getBou
 <tr class="memitem:a1a4409ff1e5e41a13b1dcf2ab936ab23"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1ExecutableModel.html#a1a4409ff1e5e41a13b1dcf2ab936ab23">setBoundarySpeciesConcentrations</a> (size_t len, int const *indx, double const *values)=0</td></tr>
 <tr class="memdesc:a1a4409ff1e5e41a13b1dcf2ab936ab23"><td class="mdescLeft">&#160;</td><td class="mdescRight">set the boundary species concentrations  <a href="classrr_1_1ExecutableModel.html#a1a4409ff1e5e41a13b1dcf2ab936ab23">More...</a><br /></td></tr>
 <tr class="separator:a1a4409ff1e5e41a13b1dcf2ab936ab23"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af87aea77d1eaa28a12b0cfa5a9db2588"><td class="memItemLeft" align="right" valign="top"><a id="af87aea77d1eaa28a12b0cfa5a9db2588"></a>
+virtual int&#160;</td><td class="memItemRight" valign="bottom"><b>setBoundarySpeciesAmounts</b> (size_t len, int const *indx, double const *values)=0</td></tr>
+<tr class="separator:af87aea77d1eaa28a12b0cfa5a9db2588"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2e7799db0c63278059cef7de4ad18396"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1ExecutableModel.html#a2e7799db0c63278059cef7de4ad18396">setBoundarySpeciesInitConcentrations</a> (size_t len, int const *indx, double const *values)=0</td></tr>
+<tr class="memdesc:a2e7799db0c63278059cef7de4ad18396"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the initial concentrations of the boundary species.  <a href="classrr_1_1ExecutableModel.html#a2e7799db0c63278059cef7de4ad18396">More...</a><br /></td></tr>
+<tr class="separator:a2e7799db0c63278059cef7de4ad18396"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af215f6272824b762b01e7348c073d610"><td class="memItemLeft" align="right" valign="top"><a id="af215f6272824b762b01e7348c073d610"></a>
+virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1ExecutableModel.html#af215f6272824b762b01e7348c073d610">getBoundarySpeciesInitConcentrations</a> (size_t len, int const *indx, double *values)=0</td></tr>
+<tr class="memdesc:af215f6272824b762b01e7348c073d610"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the initial concentrations of the boundary species, uses the same indexing as the other boundary species methods. <br /></td></tr>
+<tr class="separator:af215f6272824b762b01e7348c073d610"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7c2106b589bb41b2a01ab2dc5207024e"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1ExecutableModel.html#a7c2106b589bb41b2a01ab2dc5207024e">setBoundarySpeciesInitAmounts</a> (size_t len, int const *indx, double const *values)=0</td></tr>
+<tr class="memdesc:a7c2106b589bb41b2a01ab2dc5207024e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the initial amounts of the boundary species.  <a href="classrr_1_1ExecutableModel.html#a7c2106b589bb41b2a01ab2dc5207024e">More...</a><br /></td></tr>
+<tr class="separator:a7c2106b589bb41b2a01ab2dc5207024e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab55839f110bc70f7c5ae2cbd8f9225f7"><td class="memItemLeft" align="right" valign="top"><a id="ab55839f110bc70f7c5ae2cbd8f9225f7"></a>
+virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1ExecutableModel.html#ab55839f110bc70f7c5ae2cbd8f9225f7">getBoundarySpeciesInitAmounts</a> (size_t len, int const *indx, double *values)=0</td></tr>
+<tr class="memdesc:ab55839f110bc70f7c5ae2cbd8f9225f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the initial amounts of the boundary species, uses the same indexing as the other boundary species methods. <br /></td></tr>
+<tr class="separator:ab55839f110bc70f7c5ae2cbd8f9225f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aabbf6f025ea3c064f0dcaa5e4afaa87e"><td class="memItemLeft" align="right" valign="top"><a id="aabbf6f025ea3c064f0dcaa5e4afaa87e"></a>
 virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1ExecutableModel.html#aabbf6f025ea3c064f0dcaa5e4afaa87e">getNumGlobalParameters</a> ()=0</td></tr>
 <tr class="memdesc:aabbf6f025ea3c064f0dcaa5e4afaa87e"><td class="mdescLeft">&#160;</td><td class="mdescRight">get the number of global parameters <br /></td></tr>
@@ -218,6 +239,9 @@ virtual int&#160;</td><td class="memItemRight" valign="bottom"><b>getNumCompartm
 <tr class="memitem:aa19f2c21557264ce883bd24c3b8f647a"><td class="memItemLeft" align="right" valign="top"><a id="aa19f2c21557264ce883bd24c3b8f647a"></a>
 virtual int&#160;</td><td class="memItemRight" valign="bottom"><b>getCompartmentIndexForFloatingSpecies</b> (size_t index)=0</td></tr>
 <tr class="separator:aa19f2c21557264ce883bd24c3b8f647a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab5e600822c6d231eb8dad05b2af688b8"><td class="memItemLeft" align="right" valign="top"><a id="ab5e600822c6d231eb8dad05b2af688b8"></a>
+virtual int&#160;</td><td class="memItemRight" valign="bottom"><b>getCompartmentIndexForBoundarySpecies</b> (size_t index)=0</td></tr>
+<tr class="separator:ab5e600822c6d231eb8dad05b2af688b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a366727be244766db2ff917b64949858c"><td class="memItemLeft" align="right" valign="top"><a id="a366727be244766db2ff917b64949858c"></a>
 virtual int&#160;</td><td class="memItemRight" valign="bottom"><b>getCompartmentIndex</b> (const std::string &amp;eid)=0</td></tr>
 <tr class="separator:a366727be244766db2ff917b64949858c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -350,6 +374,15 @@ virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><b>getEve
 <tr class="memitem:a9a7ca6c6976625c1ebfa0e3cbeb6f51f"><td class="memItemLeft" align="right" valign="top"><a id="a9a7ca6c6976625c1ebfa0e3cbeb6f51f"></a>
 virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>getEventIds</b> (std::list&lt; std::string &gt; &amp;)=0</td></tr>
 <tr class="separator:a9a7ca6c6976625c1ebfa0e3cbeb6f51f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a05417ffc5049df95716079963cb2f753"><td class="memItemLeft" align="right" valign="top"><a id="a05417ffc5049df95716079963cb2f753"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>getAssignmentRuleIds</b> (std::list&lt; std::string &gt; &amp;)=0</td></tr>
+<tr class="separator:a05417ffc5049df95716079963cb2f753"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4445b440c3be7b63e587e000af4ada17"><td class="memItemLeft" align="right" valign="top"><a id="a4445b440c3be7b63e587e000af4ada17"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>getRateRuleIds</b> (std::list&lt; std::string &gt; &amp;)=0</td></tr>
+<tr class="separator:a4445b440c3be7b63e587e000af4ada17"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a01404ae0883bfdf79a7932aa530a431c"><td class="memItemLeft" align="right" valign="top"><a id="a01404ae0883bfdf79a7932aa530a431c"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>getInitialAssignmentIds</b> (std::list&lt; std::string &gt; &amp;)=0</td></tr>
+<tr class="separator:a01404ae0883bfdf79a7932aa530a431c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abc6d0913ac6cf58b413186e7dbfa2502"><td class="memItemLeft" align="right" valign="top"><a id="abc6d0913ac6cf58b413186e7dbfa2502"></a>
 virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>setEventListener</b> (size_t index, <a class="el" href="rrExecutableModel_8h.html#af42654ad469e89c71909fbbff90b3c07">EventListenerPtr</a> eventHandler)=0</td></tr>
 <tr class="separator:abc6d0913ac6cf58b413186e7dbfa2502"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -388,6 +421,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memitem:a8db1a8a035e0b226b16ae10b18caaf1e"><td class="memItemLeft" align="right" valign="top"><a id="a8db1a8a035e0b226b16ae10b18caaf1e"></a>
 virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>saveState</b> (std::ostream &amp;out)</td></tr>
 <tr class="separator:a8db1a8a035e0b226b16ae10b18caaf1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a44f6976be2f489aba16f41d7defbb575"><td class="memItemLeft" align="right" valign="top"><a id="a44f6976be2f489aba16f41d7defbb575"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>setIntegrationStartTime</b> (double time)</td></tr>
+<tr class="separator:a44f6976be2f489aba16f41d7defbb575"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
@@ -395,6 +431,12 @@ Protected Member Functions</h2></td></tr>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1ExecutableModel.html#aec2ca2935ed5ed13500204fdec32e058">setIntegration</a> (bool value)</td></tr>
 <tr class="memdesc:aec2ca2935ed5ed13500204fdec32e058"><td class="mdescLeft">&#160;</td><td class="mdescRight">is integration is currently proceeding. <br /></td></tr>
 <tr class="separator:aec2ca2935ed5ed13500204fdec32e058"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
+Protected Attributes</h2></td></tr>
+<tr class="memitem:abfa76a10231624f0acba7803d071964f"><td class="memItemLeft" align="right" valign="top"><a id="abfa76a10231624f0acba7803d071964f"></a>
+double&#160;</td><td class="memItemRight" valign="bottom"><b>mIntegrationStartTime</b></td></tr>
+<tr class="separator:abfa76a10231624f0acba7803d071964f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
 Friends</h2></td></tr>
@@ -430,6 +472,27 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>RoadRunner</b></td><
 </div>
 </div>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a304eb91e2abe96301321cf6507087a9f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a304eb91e2abe96301321cf6507087a9f">&#9670;&nbsp;</a></span>ExecutableModel()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">rr::ExecutableModel::ExecutableModel </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns a human-readable description of the code generation backend, e.g. LLVM, legacy C, etc. </p>
+<dl class="section author"><dt>Author</dt><dd>JKM </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>07/31/2015 </dd></dl>
+
+</div>
+</div>
 <a id="a7d670c92b720d7dcf3ab70fa9d1b14d0"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7d670c92b720d7dcf3ab70fa9d1b14d0">&#9670;&nbsp;</a></span>~ExecutableModel()</h2>
 
@@ -814,37 +877,6 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>RoadRunner</b></td><
 <p>So, on every modern system I'm aware of, bool is an unsigned char, so use that data type here. </p>
 
 <p>Implemented in <a class="el" href="classrrllvm_1_1LLVMExecutableModel.html#a6720985571bb7836a43f054dc8b60a60">rrllvm::LLVMExecutableModel</a>.</p>
-
-</div>
-</div>
-<a id="a07791b0ccd6feeb665278e9888cb8af7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a07791b0ccd6feeb665278e9888cb8af7">&#9670;&nbsp;</a></span>getExecutableModelDesc()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual std::string rr::ExecutableModel::getExecutableModelDesc </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Returns a human-readable description of the code generation backend, e.g. LLVM, legacy C, etc. </p>
-<dl class="section author"><dt>Author</dt><dd>JKM </dd></dl>
-<dl class="section date"><dt>Date</dt><dd>07/31/2015 </dd></dl>
-
-<p>Implemented in <a class="el" href="classrrllvm_1_1LLVMExecutableModel.html#a2fa49b7f906b27eb2848a308eda2cdaa">rrllvm::LLVMExecutableModel</a>, and <a class="el" href="classrr_1_1CompiledExecutableModel.html#ac831d54ccdde2cd5df4a086ff944102e">rr::CompiledExecutableModel</a>.</p>
 
 </div>
 </div>
@@ -1581,12 +1613,108 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>RoadRunner</b></td><
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">len</td><td>the length of the indx and values arrays. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">indx</td><td>an array of length len of boundary species to return. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">values</td><td>an array of at least length len which will store the returned boundary species amounts. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">values</td><td>an array of at least length len which will store the returned boundary species concentrations. </td></tr>
   </table>
   </dd>
 </dl>
 
 <p>Implemented in <a class="el" href="classrrllvm_1_1LLVMExecutableModel.html#aaa538c4229baa2ffb0173c43c58674b2">rrllvm::LLVMExecutableModel</a>.</p>
+
+</div>
+</div>
+<a id="a7c2106b589bb41b2a01ab2dc5207024e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7c2106b589bb41b2a01ab2dc5207024e">&#9670;&nbsp;</a></span>setBoundarySpeciesInitAmounts()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual int rr::ExecutableModel::setBoundarySpeciesInitAmounts </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>len</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int const *&#160;</td>
+          <td class="paramname"><em>indx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double const *&#160;</td>
+          <td class="paramname"><em>values</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Set the initial amounts of the boundary species. </p>
+<p>Takes the same indices as the other boundary species methods.</p>
+<p>Note, if a boundary species has an initial assignment rule, than the initial conditions value can only be set by updating the values on which it depends, it can not be set directly. </p>
+
+<p>Implemented in <a class="el" href="classrrllvm_1_1LLVMExecutableModel.html#a2bf030fd88daa3de4d803aaf0982fd43">rrllvm::LLVMExecutableModel</a>.</p>
+
+</div>
+</div>
+<a id="a2e7799db0c63278059cef7de4ad18396"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2e7799db0c63278059cef7de4ad18396">&#9670;&nbsp;</a></span>setBoundarySpeciesInitConcentrations()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual int rr::ExecutableModel::setBoundarySpeciesInitConcentrations </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>len</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int const *&#160;</td>
+          <td class="paramname"><em>indx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double const *&#160;</td>
+          <td class="paramname"><em>values</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Set the initial concentrations of the boundary species. </p>
+<p>Takes the same indices as the other boundary species methods.</p>
+<p>Note, if a boundary species has an initial assignment rule, than the initial conditions value can only be set by updating the values on which it depends, it can not be set directly. </p>
+
+<p>Implemented in <a class="el" href="classrrllvm_1_1LLVMExecutableModel.html#a255c7e48d3a23261b9988b33888564d3">rrllvm::LLVMExecutableModel</a>.</p>
 
 </div>
 </div>
@@ -1903,8 +2031,9 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>RoadRunner</b></td><
 
 </div>
 </div>
-<hr/>The documentation for this class was generated from the following file:<ul>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li><a class="el" href="rrExecutableModel_8h_source.html">rrExecutableModel.h</a></li>
+<li>rrExecutableModel.cpp</li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

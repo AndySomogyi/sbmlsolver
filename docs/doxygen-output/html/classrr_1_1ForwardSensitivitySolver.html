@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">roadrunner
-   &#160;<span id="projectnumber">2.0.9</span>
+   &#160;<span id="projectnumber">2.1.0</span>
    </div>
    <div id="projectbrief">Fast simulator for SBML models</div>
   </td>
@@ -173,9 +173,9 @@ N_Vector *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href
 <tr class="memitem:ac92ead0cef81dc069acb9c045bf02657"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classrr_1_1Matrix.html">rr::Matrix</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1ForwardSensitivitySolver.html#ac92ead0cef81dc069acb9c045bf02657">getSensitivityMatrix</a> (int k=0)</td></tr>
 <tr class="memdesc:ac92ead0cef81dc069acb9c045bf02657"><td class="mdescLeft">&#160;</td><td class="mdescRight">get current values of sensitivities of model variables to parameters.  <a href="classrr_1_1ForwardSensitivitySolver.html#ac92ead0cef81dc069acb9c045bf02657">More...</a><br /></td></tr>
 <tr class="separator:ac92ead0cef81dc069acb9c045bf02657"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a70ad538b6dd6a87f785975874cbcc1c2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classrr_1_1Matrix3D.html">Matrix3D</a>&lt; double, double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1ForwardSensitivitySolver.html#a70ad538b6dd6a87f785975874cbcc1c2">solveSensitivities</a> (double start, double stop, int num, std::vector&lt; std::string &gt; params=std::vector&lt; std::string &gt;(), int k=0)</td></tr>
-<tr class="memdesc:a70ad538b6dd6a87f785975874cbcc1c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">simulate a timeseries with sensitivities from start to step with num data points.  <a href="classrr_1_1ForwardSensitivitySolver.html#a70ad538b6dd6a87f785975874cbcc1c2">More...</a><br /></td></tr>
-<tr class="separator:a70ad538b6dd6a87f785975874cbcc1c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a786b41a5f01a081790832957affddaed"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classrr_1_1Matrix3D.html">Matrix3D</a>&lt; double, double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1ForwardSensitivitySolver.html#a786b41a5f01a081790832957affddaed">solveSensitivities</a> (double start, double stop, int num, std::vector&lt; std::string &gt; params=std::vector&lt; std::string &gt;(), std::vector&lt; std::string &gt; species=std::vector&lt; std::string &gt;(), int k=0)</td></tr>
+<tr class="memdesc:a786b41a5f01a081790832957affddaed"><td class="mdescLeft">&#160;</td><td class="mdescRight">simulate a timeseries with sensitivities from start to step with num data points.  <a href="classrr_1_1ForwardSensitivitySolver.html#a786b41a5f01a081790832957affddaed">More...</a><br /></td></tr>
+<tr class="separator:a786b41a5f01a081790832957affddaed"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac041b6c31b3f47bb9bbf6d17bf80751a"><td class="memItemLeft" align="right" valign="top"><a id="ac041b6c31b3f47bb9bbf6d17bf80751a"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>setValue</b> (const std::string &amp;key, <a class="el" href="classrr_1_1Setting.html">Setting</a> val)</td></tr>
 <tr class="separator:ac041b6c31b3f47bb9bbf6d17bf80751a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -330,9 +330,9 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>HintMap</b> = std::u
 using&#160;</td><td class="memItemRight" valign="bottom"><b>DescriptionMap</b> = std::unordered_map&lt; std::string, std::string &gt;</td></tr>
 <tr class="separator:a7d58e224664ab44e56f90802d9601f01 inherit pub_types_classrr_1_1Solver"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_methods_classrr_1_1Solver"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classrr_1_1Solver')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="classrr_1_1Solver.html">rr::Solver</a></td></tr>
-<tr class="memitem:ad5b8ac1ef687d1a3c9f1f305cb73804d inherit pro_methods_classrr_1_1Solver"><td class="memItemLeft" align="right" valign="top"><a id="ad5b8ac1ef687d1a3c9f1f305cb73804d"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>addSetting</b> (const std::string &amp;name, <a class="el" href="classrr_1_1Setting.html">Setting</a> val, std::string display_name, std::string hint, std::string description)</td></tr>
-<tr class="separator:ad5b8ac1ef687d1a3c9f1f305cb73804d inherit pro_methods_classrr_1_1Solver"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9d801d628c80877bbadd4fcff012837d inherit pro_methods_classrr_1_1Solver"><td class="memItemLeft" align="right" valign="top"><a id="a9d801d628c80877bbadd4fcff012837d"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>addSetting</b> (const std::string &amp;name, const <a class="el" href="classrr_1_1Setting.html">Setting</a> &amp;val, const std::string &amp;display_name, const std::string &amp;hint, const std::string &amp;description)</td></tr>
+<tr class="separator:a9d801d628c80877bbadd4fcff012837d inherit pro_methods_classrr_1_1Solver"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_attribs_classrr_1_1Solver"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classrr_1_1Solver')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="classrr_1_1Solver.html">rr::Solver</a></td></tr>
 <tr class="memitem:ab60e7640a8c959558a144d9d7ee45515 inherit pro_attribs_classrr_1_1Solver"><td class="memItemLeft" align="right" valign="top"><a id="ab60e7640a8c959558a144d9d7ee45515"></a>
 <a class="el" href="classrr_1_1ExecutableModel.html">ExecutableModel</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1Solver.html#ab60e7640a8c959558a144d9d7ee45515">mModel</a> = nullptr</td></tr>
@@ -494,8 +494,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>addSetting</b> (const
 
 </div>
 </div>
-<a id="a70ad538b6dd6a87f785975874cbcc1c2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a70ad538b6dd6a87f785975874cbcc1c2">&#9670;&nbsp;</a></span>solveSensitivities()</h2>
+<a id="a786b41a5f01a081790832957affddaed"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a786b41a5f01a081790832957affddaed">&#9670;&nbsp;</a></span>solveSensitivities()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -530,6 +530,12 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>addSetting</b> (const
         <tr>
           <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">std::vector&lt; std::string &gt;&#160;</td>
+          <td class="paramname"><em>species</em> = <code>std::vector&lt;std::string&gt;()</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>k</em> = <code>0</code>&#160;</td>
         </tr>
@@ -560,7 +566,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>addSetting</b> (const
 <dl class="section note"><dt>Note</dt><dd>for developers. Pass by value for the params is easier to wrap with swig. </dd></dl>
 <p>Note this is slightly contrived logic that is necessary for enabling users to supply whichParameters in the constructor and here via the params argument. This was an "accident of design" and it would be better to just have the whichParameters variable set in this method only.</p>
 
-<p>Implements <a class="el" href="classrr_1_1TimeSeriesSensitivitySolver.html#ab460ead5a873a10145c645c2e0d2a32f">rr::TimeSeriesSensitivitySolver</a>.</p>
+<p>Implements <a class="el" href="classrr_1_1TimeSeriesSensitivitySolver.html#a1f0c8cb09f7f29b6557943bc905d42fd">rr::TimeSeriesSensitivitySolver</a>.</p>
 
 </div>
 </div>

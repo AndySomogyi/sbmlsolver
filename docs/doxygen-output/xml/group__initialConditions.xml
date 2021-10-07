@@ -46,7 +46,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="2296" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="2296" declcolumn="30"/>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="2378" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="2378" declcolumn="30"/>
       </memberdef>
       <memberdef kind="function" id="group__initialConditions_1ga69c0a516f028a0608d8b9167ff56111f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>C_DECL_SPEC <ref refid="rrc__types_8h_1a3be72d6006034fd349f753d2bf441bf7" kindref="member">RRVectorPtr</ref> rrcCallConv</type>
@@ -78,7 +78,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="2307" column="37" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="2307" declcolumn="37"/>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="2389" column="37" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="2389" declcolumn="37"/>
       </memberdef>
       <memberdef kind="function" id="group__initialConditions_1ga1e19db0cfd663b9648f59191afdc64c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>C_DECL_SPEC <ref refid="rrc__types_8h_1a7c9475df6c7337d99482b13a365e7596" kindref="member">RRStringArrayPtr</ref> rrcCallConv</type>
@@ -93,7 +93,7 @@
 <para>Get the initial floating species Ids. </para>
         </briefdescription>
         <detaileddescription>
-<para><xrefsect id="deprecated_1_deprecated000003"><xreftitle>Deprecated</xreftitle><xrefdescription><para>Use <ref refid="group__initialConditions_1ga205905d483bb876f0557d8b40cba2213" kindref="member">getFloatingSpeciesInitialConcentrationIds</ref> </para>
+<para><xrefsect id="deprecated_1_deprecated000001"><xreftitle>Deprecated</xreftitle><xrefdescription><para>Use <ref refid="group__initialConditions_1ga205905d483bb876f0557d8b40cba2213" kindref="member">getFloatingSpeciesInitialConcentrationIds</ref> </para>
 </xrefdescription></xrefsect></para>
 <para>Example:<programlisting><codeline><highlight class="normal">vec<sp/>=<sp/>getFloatingSpeciesInitialConditionIds<sp/>(RRHandle<sp/>handle);<sp/></highlight></codeline>
 </programlisting></para>
@@ -112,7 +112,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="2319" column="42" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="2319" declcolumn="42"/>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="2401" column="42" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="2401" declcolumn="42"/>
       </memberdef>
       <memberdef kind="function" id="group__initialConditions_1ga205905d483bb876f0557d8b40cba2213" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>C_DECL_SPEC <ref refid="rrc__types_8h_1a7c9475df6c7337d99482b13a365e7596" kindref="member">RRStringArrayPtr</ref> rrcCallConv</type>
@@ -144,7 +144,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="2330" column="42" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="2330" declcolumn="42"/>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="2412" column="42" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="2412" declcolumn="42"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

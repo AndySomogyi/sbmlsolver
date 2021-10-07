@@ -222,7 +222,7 @@
     </collaborationgraph>
     <location file="BasicNewtonIteration.h" line="20" column="5" bodyfile="BasicNewtonIteration.h" bodystart="20" bodyend="55"/>
     <listofallmembers>
-      <member refid="classrr_1_1Solver_1ad5b8ac1ef687d1a3c9f1f305cb73804d" prot="protected" virt="non-virtual"><scope>rr::BasicNewtonIteration</scope><name>addSetting</name></member>
+      <member refid="classrr_1_1Solver_1a9d801d628c80877bbadd4fcff012837d" prot="protected" virt="non-virtual"><scope>rr::BasicNewtonIteration</scope><name>addSetting</name></member>
       <member refid="classrr_1_1BasicNewtonIteration_1a311a152d727b2dcd865cbb882408b7f3" prot="public" virt="non-virtual"><scope>rr::BasicNewtonIteration</scope><name>BasicNewtonIteration</name></member>
       <member refid="classrr_1_1KinsolSteadyStateSolver_1a80807be1f440f524769e55568a3abcf2" prot="protected" virt="non-virtual"><scope>rr::BasicNewtonIteration</scope><name>constraints</name></member>
       <member refid="classrr_1_1BasicNewtonIteration_1a9900814f49410af9534862070de4c9e5" prot="public" virt="virtual"><scope>rr::BasicNewtonIteration</scope><name>construct</name></member>

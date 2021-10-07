@@ -67,6 +67,9 @@ virtual int {\bfseries get\+Num\+Compartments} ()
 \mbox{\Hypertarget{classrrllvm_1_1LLVMExecutableModel_a6c1a4a19798ce72f37848360cf3af692}\label{classrrllvm_1_1LLVMExecutableModel_a6c1a4a19798ce72f37848360cf3af692}} 
 virtual int {\bfseries get\+Compartment\+Index\+For\+Floating\+Species} (size\+\_\+t index)
 \item 
+\mbox{\Hypertarget{classrrllvm_1_1LLVMExecutableModel_a60338eca0ad5984b5f5f6986beae1c87}\label{classrrllvm_1_1LLVMExecutableModel_a60338eca0ad5984b5f5f6986beae1c87}} 
+virtual int {\bfseries get\+Compartment\+Index\+For\+Boundary\+Species} (size\+\_\+t index)
+\item 
 virtual int \mbox{\hyperlink{classrrllvm_1_1LLVMExecutableModel_a7326ff8b52c44cc6ebe88bad8495f175}{get\+Global\+Parameter\+Values}} (size\+\_\+t len, int const $\ast$indx, double $\ast$values)
 \begin{DoxyCompactList}\small\item\em get the global parameter values \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classrrllvm_1_1LLVMExecutableModel_a31abe40266c7c5a1da0fa6b07fd16e9d}\label{classrrllvm_1_1LLVMExecutableModel_a31abe40266c7c5a1da0fa6b07fd16e9d}} 
@@ -181,14 +184,24 @@ virtual int \mbox{\hyperlink{classrrllvm_1_1LLVMExecutableModel_a1475e0cd372f9be
 \begin{DoxyCompactList}\small\item\em allocate a block of memory and copy the stochiometric values into it, and return it. \end{DoxyCompactList}\item 
 virtual int \mbox{\hyperlink{classrrllvm_1_1LLVMExecutableModel_ae18e2e04bafd5613f832d0723c6831d5}{set\+Floating\+Species\+Init\+Concentrations}} (size\+\_\+t len, const int $\ast$indx, double const $\ast$values)
 \begin{DoxyCompactList}\small\item\em Set the initial concentrations of the floating species. \end{DoxyCompactList}\item 
+virtual int \mbox{\hyperlink{classrrllvm_1_1LLVMExecutableModel_a255c7e48d3a23261b9988b33888564d3}{set\+Boundary\+Species\+Init\+Concentrations}} (size\+\_\+t len, const int $\ast$indx, double const $\ast$values)
+\begin{DoxyCompactList}\small\item\em Set the initial concentrations of the boundary species. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classrrllvm_1_1LLVMExecutableModel_a0b370d57c274830d88084d2c232377ef}\label{classrrllvm_1_1LLVMExecutableModel_a0b370d57c274830d88084d2c232377ef}} 
 virtual int \mbox{\hyperlink{classrrllvm_1_1LLVMExecutableModel_a0b370d57c274830d88084d2c232377ef}{get\+Floating\+Species\+Init\+Concentrations}} (size\+\_\+t len, const int $\ast$indx, double $\ast$values)
 \begin{DoxyCompactList}\small\item\em Get the initial concentrations of the floating species, uses the same indexing as the other floating species methods. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classrrllvm_1_1LLVMExecutableModel_abe614510318c9608948362ba21047dda}\label{classrrllvm_1_1LLVMExecutableModel_abe614510318c9608948362ba21047dda}} 
+virtual int \mbox{\hyperlink{classrrllvm_1_1LLVMExecutableModel_abe614510318c9608948362ba21047dda}{get\+Boundary\+Species\+Init\+Concentrations}} (size\+\_\+t len, const int $\ast$indx, double $\ast$values)
+\begin{DoxyCompactList}\small\item\em Get the initial concentrations of the boundary species, uses the same indexing as the other boundary species methods. \end{DoxyCompactList}\item 
 virtual int \mbox{\hyperlink{classrrllvm_1_1LLVMExecutableModel_a2917252bcf019a085d8cef01d7752f4b}{set\+Floating\+Species\+Init\+Amounts}} (size\+\_\+t len, const int $\ast$indx, double const $\ast$values)
 \begin{DoxyCompactList}\small\item\em Set the initial amounts of the floating species. \end{DoxyCompactList}\item 
+virtual int \mbox{\hyperlink{classrrllvm_1_1LLVMExecutableModel_a2bf030fd88daa3de4d803aaf0982fd43}{set\+Boundary\+Species\+Init\+Amounts}} (size\+\_\+t len, const int $\ast$indx, double const $\ast$values)
+\begin{DoxyCompactList}\small\item\em Set the initial amounts of the boundary species. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classrrllvm_1_1LLVMExecutableModel_a296f9db380418db1d6320fb50d839b40}\label{classrrllvm_1_1LLVMExecutableModel_a296f9db380418db1d6320fb50d839b40}} 
 virtual int \mbox{\hyperlink{classrrllvm_1_1LLVMExecutableModel_a296f9db380418db1d6320fb50d839b40}{get\+Floating\+Species\+Init\+Amounts}} (size\+\_\+t size\+\_\+t, const int $\ast$indx, double $\ast$values)
 \begin{DoxyCompactList}\small\item\em Get the initial amounts of the floating species, uses the same indexing as the other floating species methods. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classrrllvm_1_1LLVMExecutableModel_a0b605b2e80ec14af1d1ab71d692c8868}\label{classrrllvm_1_1LLVMExecutableModel_a0b605b2e80ec14af1d1ab71d692c8868}} 
+virtual int \mbox{\hyperlink{classrrllvm_1_1LLVMExecutableModel_a0b605b2e80ec14af1d1ab71d692c8868}{get\+Boundary\+Species\+Init\+Amounts}} (size\+\_\+t size\+\_\+t, const int $\ast$indx, double $\ast$values)
+\begin{DoxyCompactList}\small\item\em Get the initial amounts of the boundary species, uses the same indexing as the other boundary species methods. \end{DoxyCompactList}\item 
 virtual int \mbox{\hyperlink{classrrllvm_1_1LLVMExecutableModel_ac4868fa0f700923e1d26f59db2439be2}{set\+Compartment\+Init\+Volumes}} (size\+\_\+t len, const int $\ast$indx, double const $\ast$values)
 \begin{DoxyCompactList}\small\item\em Set the initial volumes of the compartments. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classrrllvm_1_1LLVMExecutableModel_a959d502139b048414115f71be9f06603}\label{classrrllvm_1_1LLVMExecutableModel_a959d502139b048414115f71be9f06603}} 
@@ -273,6 +286,15 @@ virtual std\+::string {\bfseries get\+Event\+Id} (size\+\_\+t index)
 \item 
 \mbox{\Hypertarget{classrrllvm_1_1LLVMExecutableModel_aace8aab3fcc35b3095e593df45b91a29}\label{classrrllvm_1_1LLVMExecutableModel_aace8aab3fcc35b3095e593df45b91a29}} 
 virtual void {\bfseries get\+Event\+Ids} (std\+::list$<$ std\+::string $>$ \&out)
+\item 
+\mbox{\Hypertarget{classrrllvm_1_1LLVMExecutableModel_ae5036fa43ef7c64bc4eec7eb7e4b2638}\label{classrrllvm_1_1LLVMExecutableModel_ae5036fa43ef7c64bc4eec7eb7e4b2638}} 
+virtual void {\bfseries get\+Assignment\+Rule\+Ids} (std\+::list$<$ std\+::string $>$ \&out)
+\item 
+\mbox{\Hypertarget{classrrllvm_1_1LLVMExecutableModel_a66f5d83509885e90c1f473e3f331522d}\label{classrrllvm_1_1LLVMExecutableModel_a66f5d83509885e90c1f473e3f331522d}} 
+virtual void {\bfseries get\+Rate\+Rule\+Ids} (std\+::list$<$ std\+::string $>$ \&out)
+\item 
+\mbox{\Hypertarget{classrrllvm_1_1LLVMExecutableModel_a5eba376a2f10b7dd3fc7f59bbdf4918e}\label{classrrllvm_1_1LLVMExecutableModel_a5eba376a2f10b7dd3fc7f59bbdf4918e}} 
+virtual void {\bfseries get\+Initial\+Assignment\+Ids} (std\+::list$<$ std\+::string $>$ \&out)
 \item 
 \mbox{\Hypertarget{classrrllvm_1_1LLVMExecutableModel_a08dba869293bde84f1cfa899604136d0}\label{classrrllvm_1_1LLVMExecutableModel_a08dba869293bde84f1cfa899604136d0}} 
 virtual void {\bfseries set\+Event\+Listener} (size\+\_\+t index, \mbox{\hyperlink{rrExecutableModel_8h_af42654ad469e89c71909fbbff90b3c07}{rr\+::\+Event\+Listener\+Ptr}} event\+Handler)
@@ -475,7 +497,7 @@ JKM
 \end{DoxyDate}
 
 
-Implements \mbox{\hyperlink{classrr_1_1ExecutableModel_a07791b0ccd6feeb665278e9888cb8af7}{rr\+::\+Executable\+Model}}.
+Implements \mbox{\hyperlink{classrr_1_1ExecutableModel}{rr\+::\+Executable\+Model}}.
 
 \mbox{\Hypertarget{classrrllvm_1_1LLVMExecutableModel_aba4cbc143e2a9ad641e8db160837e466}\label{classrrllvm_1_1LLVMExecutableModel_aba4cbc143e2a9ad641e8db160837e466}} 
 \index{rrllvm::LLVMExecutableModel@{rrllvm::LLVMExecutableModel}!getFloatingSpeciesAmountRate@{getFloatingSpeciesAmountRate}}
@@ -776,6 +798,10 @@ get the boundary species amounts
 \mbox{\texttt{ in}}  & {\em values} & an array of at least length len which will store the returned boundary species amounts. \\
 \hline
 \end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{classrr_1_1ExecutableModel}{rr\+::\+Executable\+Model}}.
+
 \mbox{\Hypertarget{classrrllvm_1_1LLVMExecutableModel_aaa538c4229baa2ffb0173c43c58674b2}\label{classrrllvm_1_1LLVMExecutableModel_aaa538c4229baa2ffb0173c43c58674b2}} 
 \index{rrllvm::LLVMExecutableModel@{rrllvm::LLVMExecutableModel}!setBoundarySpeciesConcentrations@{setBoundarySpeciesConcentrations}}
 \index{setBoundarySpeciesConcentrations@{setBoundarySpeciesConcentrations}!rrllvm::LLVMExecutableModel@{rrllvm::LLVMExecutableModel}}
@@ -798,6 +824,38 @@ get the boundary species concentrations
 
 
 Implements \mbox{\hyperlink{classrr_1_1ExecutableModel_a1a4409ff1e5e41a13b1dcf2ab936ab23}{rr\+::\+Executable\+Model}}.
+
+\mbox{\Hypertarget{classrrllvm_1_1LLVMExecutableModel_a2bf030fd88daa3de4d803aaf0982fd43}\label{classrrllvm_1_1LLVMExecutableModel_a2bf030fd88daa3de4d803aaf0982fd43}} 
+\index{rrllvm::LLVMExecutableModel@{rrllvm::LLVMExecutableModel}!setBoundarySpeciesInitAmounts@{setBoundarySpeciesInitAmounts}}
+\index{setBoundarySpeciesInitAmounts@{setBoundarySpeciesInitAmounts}!rrllvm::LLVMExecutableModel@{rrllvm::LLVMExecutableModel}}
+\doxysubsubsection{\texorpdfstring{setBoundarySpeciesInitAmounts()}{setBoundarySpeciesInitAmounts()}}
+{\footnotesize\ttfamily int rrllvm\+::\+LLVMExecutable\+Model\+::set\+Boundary\+Species\+Init\+Amounts (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{len,  }\item[{const int $\ast$}]{indx,  }\item[{double const $\ast$}]{values }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Set the initial amounts of the boundary species. 
+
+Takes the same indices as the other boundary species methods.
+
+Note, if a boundary species has an initial assignment rule, than the initial conditions value can only be set by updating the values on which it depends, it can not be set directly. 
+
+Implements \mbox{\hyperlink{classrr_1_1ExecutableModel_a7c2106b589bb41b2a01ab2dc5207024e}{rr\+::\+Executable\+Model}}.
+
+\mbox{\Hypertarget{classrrllvm_1_1LLVMExecutableModel_a255c7e48d3a23261b9988b33888564d3}\label{classrrllvm_1_1LLVMExecutableModel_a255c7e48d3a23261b9988b33888564d3}} 
+\index{rrllvm::LLVMExecutableModel@{rrllvm::LLVMExecutableModel}!setBoundarySpeciesInitConcentrations@{setBoundarySpeciesInitConcentrations}}
+\index{setBoundarySpeciesInitConcentrations@{setBoundarySpeciesInitConcentrations}!rrllvm::LLVMExecutableModel@{rrllvm::LLVMExecutableModel}}
+\doxysubsubsection{\texorpdfstring{setBoundarySpeciesInitConcentrations()}{setBoundarySpeciesInitConcentrations()}}
+{\footnotesize\ttfamily int rrllvm\+::\+LLVMExecutable\+Model\+::set\+Boundary\+Species\+Init\+Concentrations (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{len,  }\item[{const int $\ast$}]{indx,  }\item[{double const $\ast$}]{values }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Set the initial concentrations of the boundary species. 
+
+Takes the same indices as the other boundary species methods.
+
+Note, if a boundary species has an initial assignment rule, than the initial conditions value can only be set by updating the values on which it depends, it can not be set directly. 
+
+Implements \mbox{\hyperlink{classrr_1_1ExecutableModel_a2e7799db0c63278059cef7de4ad18396}{rr\+::\+Executable\+Model}}.
 
 \mbox{\Hypertarget{classrrllvm_1_1LLVMExecutableModel_ac4868fa0f700923e1d26f59db2439be2}\label{classrrllvm_1_1LLVMExecutableModel_ac4868fa0f700923e1d26f59db2439be2}} 
 \index{rrllvm::LLVMExecutableModel@{rrllvm::LLVMExecutableModel}!setCompartmentInitVolumes@{setCompartmentInitVolumes}}

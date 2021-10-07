@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">roadrunner
-   &#160;<span id="projectnumber">2.0.9</span>
+   &#160;<span id="projectnumber">2.1.0</span>
    </div>
    <div id="projectbrief">Fast simulator for SBML models</div>
   </td>
@@ -91,9 +91,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:af3e90fbb84eedac8b51d0b5ccd9133da"><td class="memItemLeft" align="right" valign="top"><a id="af3e90fbb84eedac8b51d0b5ccd9133da"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>GetEventTriggerCodeGen</b> (const <a class="el" href="classrrllvm_1_1ModelGeneratorContext.html">ModelGeneratorContext</a> &amp;mgc)</td></tr>
 <tr class="separator:af3e90fbb84eedac8b51d0b5ccd9133da"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afee7ecc88cca4243e5d92287866f5d78"><td class="memItemLeft" align="right" valign="top"><a id="afee7ecc88cca4243e5d92287866f5d78"></a>
-const libsbml::ASTNode *&#160;</td><td class="memItemRight" valign="bottom"><b>getMath</b> (const libsbml::Event *)</td></tr>
-<tr class="separator:afee7ecc88cca4243e5d92287866f5d78"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a57e7a3bc2121dd00ffef78c7a5ae8c03"><td class="memItemLeft" align="right" valign="top"><a id="a57e7a3bc2121dd00ffef78c7a5ae8c03"></a>
+llvm::Value *&#160;</td><td class="memItemRight" valign="bottom"><b>getMath</b> (const libsbml::Event *, <a class="el" href="classrrllvm_1_1ASTNodeCodeGen.html">ASTNodeCodeGen</a> &amp;astCodeGen)</td></tr>
+<tr class="separator:a57e7a3bc2121dd00ffef78c7a5ae8c03"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a27f33c860b27581d33f16f561343911f"><td class="memItemLeft" align="right" valign="top"><a id="a27f33c860b27581d33f16f561343911f"></a>
 llvm::Type *&#160;</td><td class="memItemRight" valign="bottom"><b>getRetType</b> ()</td></tr>
 <tr class="separator:a27f33c860b27581d33f16f561343911f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -109,7 +109,7 @@ llvm::Value *&#160;</td><td class="memItemRight" valign="bottom"><b>codeGen</b> 
 <tr class="separator:af20a6b4a97e94177380b19d93434fe05 inherit pub_methods_classrrllvm_1_1GetEventValueCodeGenBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a72911128b80b0ab3b23257750de4497d inherit pub_methods_classrrllvm_1_1GetEventValueCodeGenBase"><td class="memItemLeft" align="right" valign="top"><a id="a72911128b80b0ab3b23257750de4497d"></a>
 llvm::Type *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrllvm_1_1GetEventValueCodeGenBase.html#a72911128b80b0ab3b23257750de4497d">getRetType</a> ()</td></tr>
-<tr class="memdesc:a72911128b80b0ab3b23257750de4497d inherit pub_methods_classrrllvm_1_1GetEventValueCodeGenBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">default ret type is double, derived classes must override if usign non-default func sic <br /></td></tr>
+<tr class="memdesc:a72911128b80b0ab3b23257750de4497d inherit pub_methods_classrrllvm_1_1GetEventValueCodeGenBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">default ret type is double, derived classes must override if using non-default func sic <br /></td></tr>
 <tr class="separator:a72911128b80b0ab3b23257750de4497d inherit pub_methods_classrrllvm_1_1GetEventValueCodeGenBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa197681d25a12aa27979fbc8dc8e936c inherit pub_methods_classrrllvm_1_1GetEventValueCodeGenBase"><td class="memItemLeft" align="right" valign="top"><a id="aa197681d25a12aa27979fbc8dc8e936c"></a>
 llvm::Value *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrllvm_1_1GetEventValueCodeGenBase.html#aa197681d25a12aa27979fbc8dc8e936c">createRet</a> (llvm::Value *value)</td></tr>

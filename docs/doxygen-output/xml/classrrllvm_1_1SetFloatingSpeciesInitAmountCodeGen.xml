@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/SetInitialValuesCodeGen.h" line="53" column="23" bodyfile="llvm/SetInitialValuesCodeGen.h" bodystart="53" bodyend="-1"/>
+        <location file="llvm/SetInitialValuesCodeGen.h" line="72" column="23" bodyfile="llvm/SetInitialValuesCodeGen.h" bodystart="72" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classrrllvm_1_1SetFloatingSpeciesInitAmountCodeGen_1afb0569cfcb0315bf6573ae55fca18af6" prot="public" static="yes" mutable="no">
         <type>const char *</type>
@@ -30,7 +30,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/SetInitialValuesCodeGen.h" line="54" column="23" bodyfile="llvm/SetInitialValuesCodeGen.h" bodystart="54" bodyend="-1"/>
+        <location file="llvm/SetInitialValuesCodeGen.h" line="73" column="23" bodyfile="llvm/SetInitialValuesCodeGen.h" bodystart="73" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -49,7 +49,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/SetInitialValuesCodeGen.h" line="44" column="5" bodyfile="llvm/SetInitialValuesCodeGen.cpp" bodystart="54" bodyend="58"/>
+        <location file="llvm/SetInitialValuesCodeGen.h" line="63" column="5" bodyfile="llvm/SetInitialValuesCodeGen.cpp" bodystart="79" bodyend="83"/>
       </memberdef>
       <memberdef kind="function" id="classrrllvm_1_1SetFloatingSpeciesInitAmountCodeGen_1a1e496347339d4ee0657f0b23130a0821" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type></type>
@@ -62,7 +62,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/SetInitialValuesCodeGen.h" line="45" column="5" bodyfile="llvm/SetInitialValuesCodeGen.h" bodystart="45" bodyend="45"/>
+        <location file="llvm/SetInitialValuesCodeGen.h" line="64" column="5" bodyfile="llvm/SetInitialValuesCodeGen.h" bodystart="64" bodyend="64"/>
       </memberdef>
       <memberdef kind="function" id="classrrllvm_1_1SetFloatingSpeciesInitAmountCodeGen_1a52903f8d394403311fd119b37e25a7ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>StringIntVector</type>
@@ -75,7 +75,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/SetInitialValuesCodeGen.h" line="47" column="21" bodyfile="llvm/SetInitialValuesCodeGen.cpp" bodystart="60" bodyend="73"/>
+        <location file="llvm/SetInitialValuesCodeGen.h" line="66" column="21" bodyfile="llvm/SetInitialValuesCodeGen.cpp" bodystart="85" bodyend="98"/>
       </memberdef>
       <memberdef kind="function" id="classrrllvm_1_1SetFloatingSpeciesInitAmountCodeGen_1ae492d17e937ffd52df30b9c99f81c8bb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>bool</type>
@@ -88,7 +88,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/SetInitialValuesCodeGen.h" line="49" column="10" bodyfile="llvm/SetInitialValuesCodeGen.h" bodystart="49" bodyend="51"/>
+        <location file="llvm/SetInitialValuesCodeGen.h" line="68" column="10" bodyfile="llvm/SetInitialValuesCodeGen.h" bodystart="68" bodyend="70"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -131,7 +131,7 @@
         <link refid="classrrllvm_1_1CodeGenBase"/>
       </node>
     </collaborationgraph>
-    <location file="llvm/SetInitialValuesCodeGen.h" line="40" column="1" bodyfile="llvm/SetInitialValuesCodeGen.h" bodystart="42" bodyend="55"/>
+    <location file="llvm/SetInitialValuesCodeGen.h" line="59" column="1" bodyfile="llvm/SetInitialValuesCodeGen.h" bodystart="61" bodyend="74"/>
     <listofallmembers>
       <member refid="classrrllvm_1_1CodeGenBase_1a36a54f70488b5dc597b63d51b6339793" prot="protected" virt="non-virtual"><scope>rrllvm::SetFloatingSpeciesInitAmountCodeGen</scope><name>builder</name></member>
       <member refid="classrrllvm_1_1SetInitialValueCodeGenBase_1a296c8e1ff3f0ecfbb24ccdde2ac8fe1a" prot="public" virt="virtual"><scope>rrllvm::SetFloatingSpeciesInitAmountCodeGen</scope><name>codeGen</name></member>
