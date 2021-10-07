@@ -24,7 +24,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/LLVMModelGenerator.h" line="40" column="32" bodyfile="llvm/LLVMModelGenerator.cpp" bodystart="624" bodyend="1004"/>
+        <location file="llvm/LLVMModelGenerator.h" line="40" column="32" bodyfile="llvm/LLVMModelGenerator.cpp" bodystart="670" bodyend="1084"/>
       </memberdef>
       <memberdef kind="function" id="classrrllvm_1_1LLVMModelGenerator_1acca1a198b41b71a1abfc28f45422b861" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classrr_1_1ExecutableModel" kindref="compound">rr::ExecutableModel</ref> *</type>
@@ -51,7 +51,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/LLVMModelGenerator.h" line="48" column="28" bodyfile="llvm/LLVMModelGenerator.cpp" bodystart="89" bodyend="621"/>
+        <location file="llvm/LLVMModelGenerator.h" line="48" column="28" bodyfile="llvm/LLVMModelGenerator.cpp" bodystart="89" bodyend="667"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

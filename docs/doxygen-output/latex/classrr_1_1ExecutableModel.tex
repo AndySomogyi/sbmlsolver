@@ -25,8 +25,11 @@ enum \mbox{\hyperlink{classrr_1_1ExecutableModel_a0503ffbf5c6c971cf545d7570ec040
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-virtual std\+::string \mbox{\hyperlink{classrr_1_1ExecutableModel_a07791b0ccd6feeb665278e9888cb8af7}{get\+Executable\+Model\+Desc}} () const =0
+\mbox{\hyperlink{classrr_1_1ExecutableModel_a304eb91e2abe96301321cf6507087a9f}{Executable\+Model}} ()
 \begin{DoxyCompactList}\small\item\em Returns a human-\/readable description of the code generation backend, e.\+g. LLVM, legacy C, etc. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classrr_1_1ExecutableModel_a07791b0ccd6feeb665278e9888cb8af7}\label{classrr_1_1ExecutableModel_a07791b0ccd6feeb665278e9888cb8af7}} 
+virtual std\+::string {\bfseries get\+Executable\+Model\+Desc} () const =0
+\item 
 \mbox{\Hypertarget{classrr_1_1ExecutableModel_a6ad7fd317a2335c337d7c8a3aeb8e044}\label{classrr_1_1ExecutableModel_a6ad7fd317a2335c337d7c8a3aeb8e044}} 
 virtual std\+::string \mbox{\hyperlink{classrr_1_1ExecutableModel_a6ad7fd317a2335c337d7c8a3aeb8e044}{get\+Model\+Name}} ()=0
 \begin{DoxyCompactList}\small\item\em get the name of the model \end{DoxyCompactList}\item 
@@ -93,6 +96,19 @@ virtual int \mbox{\hyperlink{classrr_1_1ExecutableModel_a17dbc546d79fe987ff625e0
 \begin{DoxyCompactList}\small\item\em get the boundary species concentrations \end{DoxyCompactList}\item 
 virtual int \mbox{\hyperlink{classrr_1_1ExecutableModel_a1a4409ff1e5e41a13b1dcf2ab936ab23}{set\+Boundary\+Species\+Concentrations}} (size\+\_\+t len, int const $\ast$indx, double const $\ast$values)=0
 \begin{DoxyCompactList}\small\item\em set the boundary species concentrations \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classrr_1_1ExecutableModel_af87aea77d1eaa28a12b0cfa5a9db2588}\label{classrr_1_1ExecutableModel_af87aea77d1eaa28a12b0cfa5a9db2588}} 
+virtual int {\bfseries set\+Boundary\+Species\+Amounts} (size\+\_\+t len, int const $\ast$indx, double const $\ast$values)=0
+\item 
+virtual int \mbox{\hyperlink{classrr_1_1ExecutableModel_a2e7799db0c63278059cef7de4ad18396}{set\+Boundary\+Species\+Init\+Concentrations}} (size\+\_\+t len, int const $\ast$indx, double const $\ast$values)=0
+\begin{DoxyCompactList}\small\item\em Set the initial concentrations of the boundary species. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classrr_1_1ExecutableModel_af215f6272824b762b01e7348c073d610}\label{classrr_1_1ExecutableModel_af215f6272824b762b01e7348c073d610}} 
+virtual int \mbox{\hyperlink{classrr_1_1ExecutableModel_af215f6272824b762b01e7348c073d610}{get\+Boundary\+Species\+Init\+Concentrations}} (size\+\_\+t len, int const $\ast$indx, double $\ast$values)=0
+\begin{DoxyCompactList}\small\item\em Get the initial concentrations of the boundary species, uses the same indexing as the other boundary species methods. \end{DoxyCompactList}\item 
+virtual int \mbox{\hyperlink{classrr_1_1ExecutableModel_a7c2106b589bb41b2a01ab2dc5207024e}{set\+Boundary\+Species\+Init\+Amounts}} (size\+\_\+t len, int const $\ast$indx, double const $\ast$values)=0
+\begin{DoxyCompactList}\small\item\em Set the initial amounts of the boundary species. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classrr_1_1ExecutableModel_ab55839f110bc70f7c5ae2cbd8f9225f7}\label{classrr_1_1ExecutableModel_ab55839f110bc70f7c5ae2cbd8f9225f7}} 
+virtual int \mbox{\hyperlink{classrr_1_1ExecutableModel_ab55839f110bc70f7c5ae2cbd8f9225f7}{get\+Boundary\+Species\+Init\+Amounts}} (size\+\_\+t len, int const $\ast$indx, double $\ast$values)=0
+\begin{DoxyCompactList}\small\item\em Get the initial amounts of the boundary species, uses the same indexing as the other boundary species methods. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classrr_1_1ExecutableModel_aabbf6f025ea3c064f0dcaa5e4afaa87e}\label{classrr_1_1ExecutableModel_aabbf6f025ea3c064f0dcaa5e4afaa87e}} 
 virtual int \mbox{\hyperlink{classrr_1_1ExecutableModel_aabbf6f025ea3c064f0dcaa5e4afaa87e}{get\+Num\+Global\+Parameters}} ()=0
 \begin{DoxyCompactList}\small\item\em get the number of global parameters \end{DoxyCompactList}\item 
@@ -117,6 +133,9 @@ virtual int {\bfseries get\+Num\+Compartments} ()=0
 \item 
 \mbox{\Hypertarget{classrr_1_1ExecutableModel_aa19f2c21557264ce883bd24c3b8f647a}\label{classrr_1_1ExecutableModel_aa19f2c21557264ce883bd24c3b8f647a}} 
 virtual int {\bfseries get\+Compartment\+Index\+For\+Floating\+Species} (size\+\_\+t index)=0
+\item 
+\mbox{\Hypertarget{classrr_1_1ExecutableModel_ab5e600822c6d231eb8dad05b2af688b8}\label{classrr_1_1ExecutableModel_ab5e600822c6d231eb8dad05b2af688b8}} 
+virtual int {\bfseries get\+Compartment\+Index\+For\+Boundary\+Species} (size\+\_\+t index)=0
 \item 
 \mbox{\Hypertarget{classrr_1_1ExecutableModel_a366727be244766db2ff917b64949858c}\label{classrr_1_1ExecutableModel_a366727be244766db2ff917b64949858c}} 
 virtual int {\bfseries get\+Compartment\+Index} (const std\+::string \&eid)=0
@@ -226,6 +245,15 @@ virtual std\+::string {\bfseries get\+Event\+Id} (size\+\_\+t index)=0
 \mbox{\Hypertarget{classrr_1_1ExecutableModel_a9a7ca6c6976625c1ebfa0e3cbeb6f51f}\label{classrr_1_1ExecutableModel_a9a7ca6c6976625c1ebfa0e3cbeb6f51f}} 
 virtual void {\bfseries get\+Event\+Ids} (std\+::list$<$ std\+::string $>$ \&)=0
 \item 
+\mbox{\Hypertarget{classrr_1_1ExecutableModel_a05417ffc5049df95716079963cb2f753}\label{classrr_1_1ExecutableModel_a05417ffc5049df95716079963cb2f753}} 
+virtual void {\bfseries get\+Assignment\+Rule\+Ids} (std\+::list$<$ std\+::string $>$ \&)=0
+\item 
+\mbox{\Hypertarget{classrr_1_1ExecutableModel_a4445b440c3be7b63e587e000af4ada17}\label{classrr_1_1ExecutableModel_a4445b440c3be7b63e587e000af4ada17}} 
+virtual void {\bfseries get\+Rate\+Rule\+Ids} (std\+::list$<$ std\+::string $>$ \&)=0
+\item 
+\mbox{\Hypertarget{classrr_1_1ExecutableModel_a01404ae0883bfdf79a7932aa530a431c}\label{classrr_1_1ExecutableModel_a01404ae0883bfdf79a7932aa530a431c}} 
+virtual void {\bfseries get\+Initial\+Assignment\+Ids} (std\+::list$<$ std\+::string $>$ \&)=0
+\item 
 \mbox{\Hypertarget{classrr_1_1ExecutableModel_abc6d0913ac6cf58b413186e7dbfa2502}\label{classrr_1_1ExecutableModel_abc6d0913ac6cf58b413186e7dbfa2502}} 
 virtual void {\bfseries set\+Event\+Listener} (size\+\_\+t index, \mbox{\hyperlink{rrExecutableModel_8h_af42654ad469e89c71909fbbff90b3c07}{Event\+Listener\+Ptr}} event\+Handler)=0
 \item 
@@ -255,6 +283,9 @@ void \mbox{\hyperlink{classrr_1_1ExecutableModel_ad7d5fb21f3d7ad10f8e8714a49c111
 \begin{DoxyCompactList}\small\item\em for source compatability \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classrr_1_1ExecutableModel_a8db1a8a035e0b226b16ae10b18caaf1e}\label{classrr_1_1ExecutableModel_a8db1a8a035e0b226b16ae10b18caaf1e}} 
 virtual void {\bfseries save\+State} (std\+::ostream \&out)
+\item 
+\mbox{\Hypertarget{classrr_1_1ExecutableModel_a44f6976be2f489aba16f41d7defbb575}\label{classrr_1_1ExecutableModel_a44f6976be2f489aba16f41d7defbb575}} 
+virtual void {\bfseries set\+Integration\+Start\+Time} (double time)
 \end{DoxyCompactItemize}
 \doxysubsection*{Protected Member Functions}
 \begin{DoxyCompactItemize}
@@ -262,6 +293,12 @@ virtual void {\bfseries save\+State} (std\+::ostream \&out)
 \mbox{\Hypertarget{classrr_1_1ExecutableModel_aec2ca2935ed5ed13500204fdec32e058}\label{classrr_1_1ExecutableModel_aec2ca2935ed5ed13500204fdec32e058}} 
 void \mbox{\hyperlink{classrr_1_1ExecutableModel_aec2ca2935ed5ed13500204fdec32e058}{set\+Integration}} (bool value)
 \begin{DoxyCompactList}\small\item\em is integration is currently proceeding. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classrr_1_1ExecutableModel_abfa76a10231624f0acba7803d071964f}\label{classrr_1_1ExecutableModel_abfa76a10231624f0acba7803d071964f}} 
+double {\bfseries m\+Integration\+Start\+Time}
+\end{DoxyCompactItemize}
 \doxysubsection*{Friends}
 \begin{DoxyCompactItemize}
 \item 
@@ -299,6 +336,22 @@ OPTIMIZE\+\_\+\+REACTION\+\_\+\+RATE\+\_\+\+SELECTION&optimize not-\/recalculati
 
 
 \doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classrr_1_1ExecutableModel_a304eb91e2abe96301321cf6507087a9f}\label{classrr_1_1ExecutableModel_a304eb91e2abe96301321cf6507087a9f}} 
+\index{rr::ExecutableModel@{rr::ExecutableModel}!ExecutableModel@{ExecutableModel}}
+\index{ExecutableModel@{ExecutableModel}!rr::ExecutableModel@{rr::ExecutableModel}}
+\doxysubsubsection{\texorpdfstring{ExecutableModel()}{ExecutableModel()}}
+{\footnotesize\ttfamily rr\+::\+Executable\+Model\+::\+Executable\+Model (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Returns a human-\/readable description of the code generation backend, e.\+g. LLVM, legacy C, etc. 
+
+\begin{DoxyAuthor}{Author}
+JKM 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+07/31/2015 
+\end{DoxyDate}
 \mbox{\Hypertarget{classrr_1_1ExecutableModel_a7d670c92b720d7dcf3ab70fa9d1b14d0}\label{classrr_1_1ExecutableModel_a7d670c92b720d7dcf3ab70fa9d1b14d0}} 
 \index{rr::ExecutableModel@{rr::ExecutableModel}!````~ExecutableModel@{$\sim$ExecutableModel}}
 \index{````~ExecutableModel@{$\sim$ExecutableModel}!rr::ExecutableModel@{rr::ExecutableModel}}
@@ -462,26 +515,6 @@ The reason this returns an unsigned char instead of a bool array is this array i
 So, on every modern system I\textquotesingle{}m aware of, bool is an unsigned char, so use that data type here. 
 
 Implemented in \mbox{\hyperlink{classrrllvm_1_1LLVMExecutableModel_a6720985571bb7836a43f054dc8b60a60}{rrllvm\+::\+LLVMExecutable\+Model}}.
-
-\mbox{\Hypertarget{classrr_1_1ExecutableModel_a07791b0ccd6feeb665278e9888cb8af7}\label{classrr_1_1ExecutableModel_a07791b0ccd6feeb665278e9888cb8af7}} 
-\index{rr::ExecutableModel@{rr::ExecutableModel}!getExecutableModelDesc@{getExecutableModelDesc}}
-\index{getExecutableModelDesc@{getExecutableModelDesc}!rr::ExecutableModel@{rr::ExecutableModel}}
-\doxysubsubsection{\texorpdfstring{getExecutableModelDesc()}{getExecutableModelDesc()}}
-{\footnotesize\ttfamily virtual std\+::string rr\+::\+Executable\+Model\+::get\+Executable\+Model\+Desc (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
-
-
-
-Returns a human-\/readable description of the code generation backend, e.\+g. LLVM, legacy C, etc. 
-
-\begin{DoxyAuthor}{Author}
-JKM 
-\end{DoxyAuthor}
-\begin{DoxyDate}{Date}
-07/31/2015 
-\end{DoxyDate}
-
-
-Implemented in \mbox{\hyperlink{classrrllvm_1_1LLVMExecutableModel_a2fa49b7f906b27eb2848a308eda2cdaa}{rrllvm\+::\+LLVMExecutable\+Model}}, and \mbox{\hyperlink{classrr_1_1CompiledExecutableModel_ac831d54ccdde2cd5df4a086ff944102e}{rr\+::\+Compiled\+Executable\+Model}}.
 
 \mbox{\Hypertarget{classrr_1_1ExecutableModel_a460387891972dfb029d5fdd6134c10eb}\label{classrr_1_1ExecutableModel_a460387891972dfb029d5fdd6134c10eb}} 
 \index{rr::ExecutableModel@{rr::ExecutableModel}!getFloatingSpeciesAmountRate@{getFloatingSpeciesAmountRate}}
@@ -824,12 +857,44 @@ set the boundary species concentrations
 \hline
 \mbox{\texttt{ in}}  & {\em indx} & an array of length len of boundary species to return. \\
 \hline
-\mbox{\texttt{ in}}  & {\em values} & an array of at least length len which will store the returned boundary species amounts. \\
+\mbox{\texttt{ in}}  & {\em values} & an array of at least length len which will store the returned boundary species concentrations. \\
 \hline
 \end{DoxyParams}
 
 
 Implemented in \mbox{\hyperlink{classrrllvm_1_1LLVMExecutableModel_aaa538c4229baa2ffb0173c43c58674b2}{rrllvm\+::\+LLVMExecutable\+Model}}.
+
+\mbox{\Hypertarget{classrr_1_1ExecutableModel_a7c2106b589bb41b2a01ab2dc5207024e}\label{classrr_1_1ExecutableModel_a7c2106b589bb41b2a01ab2dc5207024e}} 
+\index{rr::ExecutableModel@{rr::ExecutableModel}!setBoundarySpeciesInitAmounts@{setBoundarySpeciesInitAmounts}}
+\index{setBoundarySpeciesInitAmounts@{setBoundarySpeciesInitAmounts}!rr::ExecutableModel@{rr::ExecutableModel}}
+\doxysubsubsection{\texorpdfstring{setBoundarySpeciesInitAmounts()}{setBoundarySpeciesInitAmounts()}}
+{\footnotesize\ttfamily virtual int rr\+::\+Executable\+Model\+::set\+Boundary\+Species\+Init\+Amounts (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{len,  }\item[{int const $\ast$}]{indx,  }\item[{double const $\ast$}]{values }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Set the initial amounts of the boundary species. 
+
+Takes the same indices as the other boundary species methods.
+
+Note, if a boundary species has an initial assignment rule, than the initial conditions value can only be set by updating the values on which it depends, it can not be set directly. 
+
+Implemented in \mbox{\hyperlink{classrrllvm_1_1LLVMExecutableModel_a2bf030fd88daa3de4d803aaf0982fd43}{rrllvm\+::\+LLVMExecutable\+Model}}.
+
+\mbox{\Hypertarget{classrr_1_1ExecutableModel_a2e7799db0c63278059cef7de4ad18396}\label{classrr_1_1ExecutableModel_a2e7799db0c63278059cef7de4ad18396}} 
+\index{rr::ExecutableModel@{rr::ExecutableModel}!setBoundarySpeciesInitConcentrations@{setBoundarySpeciesInitConcentrations}}
+\index{setBoundarySpeciesInitConcentrations@{setBoundarySpeciesInitConcentrations}!rr::ExecutableModel@{rr::ExecutableModel}}
+\doxysubsubsection{\texorpdfstring{setBoundarySpeciesInitConcentrations()}{setBoundarySpeciesInitConcentrations()}}
+{\footnotesize\ttfamily virtual int rr\+::\+Executable\+Model\+::set\+Boundary\+Species\+Init\+Concentrations (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{len,  }\item[{int const $\ast$}]{indx,  }\item[{double const $\ast$}]{values }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Set the initial concentrations of the boundary species. 
+
+Takes the same indices as the other boundary species methods.
+
+Note, if a boundary species has an initial assignment rule, than the initial conditions value can only be set by updating the values on which it depends, it can not be set directly. 
+
+Implemented in \mbox{\hyperlink{classrrllvm_1_1LLVMExecutableModel_a255c7e48d3a23261b9988b33888564d3}{rrllvm\+::\+LLVMExecutable\+Model}}.
 
 \mbox{\Hypertarget{classrr_1_1ExecutableModel_a83fa84b59feb32abe1f2a6b178b6f106}\label{classrr_1_1ExecutableModel_a83fa84b59feb32abe1f2a6b178b6f106}} 
 \index{rr::ExecutableModel@{rr::ExecutableModel}!setCompartmentInitVolumes@{setCompartmentInitVolumes}}
@@ -954,6 +1019,7 @@ Implemented in \mbox{\hyperlink{classrrllvm_1_1LLVMExecutableModel_a8ab1d594d85c
 
 
 
-The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{rrExecutableModel_8h}{rr\+Executable\+Model.\+h}}\end{DoxyCompactItemize}
+\mbox{\hyperlink{rrExecutableModel_8h}{rr\+Executable\+Model.\+h}}\item 
+rr\+Executable\+Model.\+cpp\end{DoxyCompactItemize}

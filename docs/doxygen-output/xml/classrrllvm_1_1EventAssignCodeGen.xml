@@ -73,7 +73,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/EventAssignCodeGen.h" line="22" column="10" bodyfile="llvm/EventAssignCodeGen.cpp" bodystart="30" bodyend="52"/>
+        <location file="llvm/EventAssignCodeGen.h" line="22" column="10" bodyfile="llvm/EventAssignCodeGen.cpp" bodystart="30" bodyend="71"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

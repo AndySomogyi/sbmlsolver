@@ -445,7 +445,7 @@
 <codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>defaultInit();</highlight></codeline>
 <codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
 <codeline lineno="223"><highlight class="normal"></highlight></codeline>
-<codeline lineno="235" refid="classrr_1_1SimulateOptions" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">RR_DECLSPEC<sp/><ref refid="classrr_1_1SimulateOptions" kindref="compound">SimulateOptions</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classrr_1_1BasicDictionary" kindref="compound">BasicDictionary</ref></highlight></codeline>
+<codeline lineno="235" refid="classrr_1_1SimulateOptions" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">RR_DECLSPEC<sp/><ref refid="classrr_1_1SimulateOptions" kindref="compound">SimulateOptions</ref><sp/></highlight><highlight class="comment">//:<sp/>public<sp/>BasicDictionary</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
 <codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
 <codeline lineno="238"><highlight class="normal"></highlight></codeline>
@@ -470,42 +470,57 @@
 <codeline lineno="309"><highlight class="normal"></highlight></codeline>
 <codeline lineno="315" refid="classrr_1_1SimulateOptions_1a3fb8836610f52922ee371fdf06331e97" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classrr_1_1SimulateOptions_1a3fb8836610f52922ee371fdf06331e97" kindref="member">concentrations</ref>;</highlight></codeline>
 <codeline lineno="316"><highlight class="normal"></highlight></codeline>
-<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>toString()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="321"><highlight class="normal"></highlight></codeline>
-<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>toRepr()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="326"><highlight class="normal"></highlight></codeline>
-<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/><sp/>Use<sp/>this<sp/>method<sp/>to<sp/>load<sp/>SimulateOptions<sp/>from<sp/>an<sp/>SBML<sp/>file.<sp/>Previously<sp/>this<sp/>was<sp/>done<sp/>by</highlight></codeline>
-<codeline lineno="328"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>passing<sp/>the<sp/>filepath<sp/>into<sp/>the<sp/>SimulateOptions<sp/>constructor.<sp/>However,<sp/>the<sp/>refactor<sp/>has</highlight></codeline>
-<codeline lineno="329"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>removed<sp/>some<sp/>properties<sp/>from<sp/>SimulateOptions<sp/>and<sp/>placed<sp/>them<sp/>in<sp/>specific<sp/>integrators.<sp/>As</highlight></codeline>
-<codeline lineno="330"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>a<sp/>result,<sp/>both<sp/>the<sp/>SimulateOptions<sp/>and<sp/>Integrator<sp/>classes<sp/>will<sp/>have<sp/>methods<sp/>that<sp/>allow</highlight></codeline>
-<codeline lineno="331"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>users<sp/>to<sp/>read<sp/>an<sp/>SBML<sp/>settings<sp/>file.</highlight></codeline>
-<codeline lineno="332"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>loadSBMLSettings(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>filename);</highlight></codeline>
-<codeline lineno="334"><highlight class="normal"></highlight></codeline>
-<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>setItem(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classrr_1_1Setting" kindref="compound">rr::Setting</ref>&amp;<sp/>value);</highlight></codeline>
-<codeline lineno="336"><highlight class="normal"></highlight></codeline>
-<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="338"><highlight class="normal"></highlight></codeline>
-<codeline lineno="339"><highlight class="normal"></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="318"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>A<sp/>list<sp/>of<sp/>the<sp/>requested<sp/>output<sp/>times.<sp/><sp/>If<sp/>set,<sp/>the<sp/>simulator<sp/>will<sp/>only</highlight></codeline>
+<codeline lineno="319"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>report<sp/>simulation<sp/>output<sp/>at<sp/>the<sp/>requested<sp/>values.</highlight></codeline>
+<codeline lineno="320"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;<sp/>times;</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>toString()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"></highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>toRepr()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"></highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/><sp/>Use<sp/>this<sp/>method<sp/>to<sp/>load<sp/>SimulateOptions<sp/>from<sp/>an<sp/>SBML<sp/>file.<sp/>Previously<sp/>this<sp/>was<sp/>done<sp/>by</highlight></codeline>
+<codeline lineno="334"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>passing<sp/>the<sp/>filepath<sp/>into<sp/>the<sp/>SimulateOptions<sp/>constructor.<sp/>However,<sp/>the<sp/>refactor<sp/>has</highlight></codeline>
+<codeline lineno="335"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>removed<sp/>some<sp/>properties<sp/>from<sp/>SimulateOptions<sp/>and<sp/>placed<sp/>them<sp/>in<sp/>specific<sp/>integrators.<sp/>As</highlight></codeline>
+<codeline lineno="336"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>a<sp/>result,<sp/>both<sp/>the<sp/>SimulateOptions<sp/>and<sp/>Integrator<sp/>classes<sp/>will<sp/>have<sp/>methods<sp/>that<sp/>allow</highlight></codeline>
+<codeline lineno="337"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/><sp/>users<sp/>to<sp/>read<sp/>an<sp/>SBML<sp/>settings<sp/>file.</highlight></codeline>
+<codeline lineno="338"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>loadSBMLSettings(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>filename);</highlight></codeline>
 <codeline lineno="340"><highlight class="normal"></highlight></codeline>
-<codeline lineno="345" refid="structrr_1_1RoadRunnerOptions" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">RR_DECLSPEC<sp/><ref refid="structrr_1_1RoadRunnerOptions" kindref="compound">RoadRunnerOptions</ref></highlight></codeline>
-<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="347" refid="structrr_1_1RoadRunnerOptions_1a835c7d4848b4611885e41029261ef2db" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/><ref refid="structrr_1_1RoadRunnerOptions_1a835c7d4848b4611885e41029261ef2db" kindref="member">Options</ref></highlight></codeline>
-<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="356" refid="structrr_1_1RoadRunnerOptions_1a835c7d4848b4611885e41029261ef2dbaf22b160124e62a6fa93c6737e96bfcb8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>DISABLE_PYTHON_DYNAMIC_PROPERTIES<sp/>=<sp/>(0x1<sp/>&lt;&lt;<sp/>0),<sp/></highlight><highlight class="comment">//<sp/>=&gt;<sp/>0x00000001</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="358"><highlight class="normal"></highlight></codeline>
-<codeline lineno="362" refid="structrr_1_1RoadRunnerOptions_1ab94c4174ca069bee6014b6bd909928d5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::uint32_t<sp/><ref refid="structrr_1_1RoadRunnerOptions_1ab94c4174ca069bee6014b6bd909928d5" kindref="member">flags</ref>;</highlight></codeline>
-<codeline lineno="363"><highlight class="normal"></highlight></codeline>
-<codeline lineno="367" refid="structrr_1_1RoadRunnerOptions_1a2d2fb9efd9f69c0ab754bba73e3f8a1c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structrr_1_1RoadRunnerOptions_1a2d2fb9efd9f69c0ab754bba73e3f8a1c" kindref="member">jacobianStepSize</ref>;</highlight></codeline>
-<codeline lineno="368"><highlight class="normal"></highlight></codeline>
-<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structrr_1_1RoadRunnerOptions" kindref="compound">RoadRunnerOptions</ref>();</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//virtual<sp/>void<sp/>setItem(const<sp/>std::string&amp;<sp/>key,<sp/>const<sp/>rr::Setting&amp;<sp/>value);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="342"><highlight class="normal"></highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>initialize();</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"></highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>getNext(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>step);</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"></highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"></highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>hstep;<sp/></highlight><highlight class="comment">//Used<sp/>if<sp/>we<sp/>have<sp/>a<sp/>duration<sp/>and<sp/>number<sp/>of<sp/>steps,<sp/>but<sp/>not<sp/>&apos;times&apos;.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="350"><highlight class="normal"></highlight></codeline>
+<codeline lineno="351"><highlight class="normal"></highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"></highlight></codeline>
+<codeline lineno="354"><highlight class="normal"></highlight></codeline>
+<codeline lineno="355"><highlight class="normal"></highlight></codeline>
+<codeline lineno="360" refid="structrr_1_1RoadRunnerOptions" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">RR_DECLSPEC<sp/><ref refid="structrr_1_1RoadRunnerOptions" kindref="compound">RoadRunnerOptions</ref></highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="362" refid="structrr_1_1RoadRunnerOptions_1a835c7d4848b4611885e41029261ef2db" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/><ref refid="structrr_1_1RoadRunnerOptions_1a835c7d4848b4611885e41029261ef2db" kindref="member">Options</ref></highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="371" refid="structrr_1_1RoadRunnerOptions_1a835c7d4848b4611885e41029261ef2dbaf22b160124e62a6fa93c6737e96bfcb8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>DISABLE_PYTHON_DYNAMIC_PROPERTIES<sp/>=<sp/>(0x1<sp/>&lt;&lt;<sp/>0),<sp/></highlight><highlight class="comment">//<sp/>=&gt;<sp/>0x00000001</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
 <codeline lineno="373"><highlight class="normal"></highlight></codeline>
-<codeline lineno="374"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="375"><highlight class="normal"></highlight></codeline>
-<codeline lineno="376"><highlight class="normal"></highlight></codeline>
-<codeline lineno="377"><highlight class="normal">}<sp/></highlight><highlight class="comment">/*<sp/>namespace<sp/>rr<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="378"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">/*<sp/>RRROADRUNNEROPTIONS_H_<sp/>*/</highlight><highlight class="preprocessor"></highlight></codeline>
+<codeline lineno="377" refid="structrr_1_1RoadRunnerOptions_1ab94c4174ca069bee6014b6bd909928d5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::uint32_t<sp/><ref refid="structrr_1_1RoadRunnerOptions_1ab94c4174ca069bee6014b6bd909928d5" kindref="member">flags</ref>;</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"></highlight></codeline>
+<codeline lineno="382" refid="structrr_1_1RoadRunnerOptions_1a2d2fb9efd9f69c0ab754bba73e3f8a1c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structrr_1_1RoadRunnerOptions_1a2d2fb9efd9f69c0ab754bba73e3f8a1c" kindref="member">jacobianStepSize</ref>;</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"></highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structrr_1_1RoadRunnerOptions" kindref="compound">RoadRunnerOptions</ref>();</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"></highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"></highlight></codeline>
+<codeline lineno="391"><highlight class="normal"></highlight></codeline>
+<codeline lineno="392"><highlight class="normal">}<sp/></highlight><highlight class="comment">/*<sp/>namespace<sp/>rr<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="393"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">/*<sp/>RRROADRUNNEROPTIONS_H_<sp/>*/</highlight><highlight class="preprocessor"></highlight></codeline>
     </programlisting>
     <location file="rrRoadRunnerOptions.h"/>
   </compounddef>

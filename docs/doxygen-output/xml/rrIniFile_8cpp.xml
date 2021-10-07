@@ -310,15 +310,15 @@
 <codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//const<sp/>bool<sp/>IniFile::mAutoCreateKeys<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>true;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="18"><highlight class="normal"></highlight></codeline>
 <codeline lineno="19"><highlight class="normal">IniFile::IniFile(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>szFileName,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>autoLoad,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>autoSave)</highlight></codeline>
-<codeline lineno="20"><highlight class="normal">:</highlight></codeline>
-<codeline lineno="21"><highlight class="normal">mCommentIndicators(</highlight><highlight class="stringliteral">&quot;;#&quot;</highlight><highlight class="normal">),</highlight></codeline>
-<codeline lineno="22"><highlight class="normal">mEqualIndicator(</highlight><highlight class="stringliteral">&quot;=&quot;</highlight><highlight class="normal">),</highlight></codeline>
-<codeline lineno="23"><highlight class="normal">mWhiteSpace(</highlight><highlight class="stringliteral">&quot;<sp/>\t\n\r&quot;</highlight><highlight class="normal">),</highlight></codeline>
-<codeline lineno="24"><highlight class="normal">mIniFileName(szFileName),</highlight></codeline>
-<codeline lineno="25"><highlight class="normal">mIsDirty(false),</highlight></codeline>
-<codeline lineno="26"><highlight class="normal">mAutoSave(autoSave),</highlight></codeline>
-<codeline lineno="27"><highlight class="normal">mAutoCreateKeys(1),</highlight></codeline>
-<codeline lineno="28"><highlight class="normal">mAutoCreateSections(1)</highlight></codeline>
+<codeline lineno="20"><highlight class="normal">:<sp/>mCommentIndicators(</highlight><highlight class="stringliteral">&quot;;#&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="21"><highlight class="normal">,<sp/>mEqualIndicator(</highlight><highlight class="stringliteral">&quot;=&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="22"><highlight class="normal">,<sp/>mWhiteSpace(</highlight><highlight class="stringliteral">&quot;<sp/>\t\n\r&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="23"><highlight class="normal">,<sp/>mIniFileName(szFileName)</highlight></codeline>
+<codeline lineno="24"><highlight class="normal">,<sp/>mIsDirty(false)</highlight></codeline>
+<codeline lineno="25"><highlight class="normal">,<sp/>mAutoSave(autoSave)</highlight></codeline>
+<codeline lineno="26"><highlight class="normal">,<sp/>mAutoCreateKeys(1)</highlight></codeline>
+<codeline lineno="27"><highlight class="normal">,<sp/>mAutoCreateSections(1)</highlight></codeline>
+<codeline lineno="28"><highlight class="normal">,<sp/>mFlags(0)</highlight></codeline>
 <codeline lineno="29"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//mFlags<sp/>=<sp/>(mAutoCreateSections<sp/>|<sp/>mAutoCreateKeys);</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(mIniFileName.size()<sp/>&gt;<sp/>2<sp/>&amp;&amp;<sp/>autoLoad<sp/>==<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">)</highlight></codeline>

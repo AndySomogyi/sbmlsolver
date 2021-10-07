@@ -45,12 +45,12 @@ integrating the model should update the sensitivities, which are available from 
         </inbodydescription>
         <location file="SensitivitySolver.h" line="55" column="24"/>
       </memberdef>
-      <memberdef kind="function" id="classrr_1_1TimeSeriesSensitivitySolver_1ab460ead5a873a10145c645c2e0d2a32f" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+      <memberdef kind="function" id="classrr_1_1TimeSeriesSensitivitySolver_1a1f0c8cb09f7f29b6557943bc905d42fd" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type><ref refid="classrr_1_1Matrix3D" kindref="compound">Matrix3D</ref>&lt; double, double &gt;</type>
         <definition>virtual Matrix3D&lt;double, double&gt; rr::TimeSeriesSensitivitySolver::solveSensitivities</definition>
-        <argsstring>(double start, double stop, int num, std::vector&lt; std::string &gt; params=std::vector&lt; std::string &gt;(), int k=0)=0</argsstring>
+        <argsstring>(double start, double stop, int num, std::vector&lt; std::string &gt; params, std::vector&lt; std::string &gt; species, int k)=0</argsstring>
         <name>solveSensitivities</name>
-        <reimplementedby refid="classrr_1_1ForwardSensitivitySolver_1a70ad538b6dd6a87f785975874cbcc1c2">solveSensitivities</reimplementedby>
+        <reimplementedby refid="classrr_1_1ForwardSensitivitySolver_1a786b41a5f01a081790832957affddaed">solveSensitivities</reimplementedby>
         <param>
           <type>double</type>
           <declname>start</declname>
@@ -66,12 +66,14 @@ integrating the model should update the sensitivities, which are available from 
         <param>
           <type>std::vector&lt; std::string &gt;</type>
           <declname>params</declname>
-          <defval>std::vector&lt; std::string &gt;()</defval>
+        </param>
+        <param>
+          <type>std::vector&lt; std::string &gt;</type>
+          <declname>species</declname>
         </param>
         <param>
           <type>int</type>
           <declname>k</declname>
-          <defval>0</defval>
         </param>
         <briefdescription>
 <para>simulate a timeseries with sensitivities from start to step with num data points. </para>
@@ -111,6 +113,23 @@ integrating the model should update the sensitivities, which are available from 
 </parameteritem>
 <parameteritem>
 <parameternamelist>
+<parametername>species</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>vector of species to include in the results. Note that unlike for</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>params</parametername>
+<parametername>reducing</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the number of species does not solve faster because the matrix slicing only occurs at the end. When empty (default) all species are returned. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
 <parametername>k</parametername>
 </parameternamelist>
 <parameterdescription>
@@ -122,7 +141,7 @@ integrating the model should update the sensitivities, which are available from 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="SensitivitySolver.h" line="71" column="26"/>
+        <location file="SensitivitySolver.h" line="75" column="26"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -191,9 +210,9 @@ integrating the model should update the sensitivities, which are available from 
         <link refid="classrr_1_1ExecutableModel"/>
       </node>
     </collaborationgraph>
-    <location file="SensitivitySolver.h" line="42" column="5" bodyfile="SensitivitySolver.h" bodystart="42" bodyend="76"/>
+    <location file="SensitivitySolver.h" line="42" column="5" bodyfile="SensitivitySolver.h" bodystart="42" bodyend="81"/>
     <listofallmembers>
-      <member refid="classrr_1_1Solver_1ad5b8ac1ef687d1a3c9f1f305cb73804d" prot="protected" virt="non-virtual"><scope>rr::TimeSeriesSensitivitySolver</scope><name>addSetting</name></member>
+      <member refid="classrr_1_1Solver_1a9d801d628c80877bbadd4fcff012837d" prot="protected" virt="non-virtual"><scope>rr::TimeSeriesSensitivitySolver</scope><name>addSetting</name></member>
       <member refid="classrr_1_1Registrable_1a3f529e138fa0288622525bc13cd73c5f" prot="public" virt="pure-virtual"><scope>rr::TimeSeriesSensitivitySolver</scope><name>construct</name></member>
       <member refid="classrr_1_1Solver_1a7d58e224664ab44e56f90802d9601f01" prot="public" virt="non-virtual"><scope>rr::TimeSeriesSensitivitySolver</scope><name>DescriptionMap</name></member>
       <member refid="classrr_1_1Solver_1a7e07121f652db358045d6f7b95889ea3" prot="public" virt="non-virtual"><scope>rr::TimeSeriesSensitivitySolver</scope><name>descriptions</name></member>
@@ -235,7 +254,7 @@ integrating the model should update the sensitivities, which are available from 
       <member refid="classrr_1_1SensitivitySolver_1a04bba4a342cc7197750f080d41d439e5" prot="public" virt="non-virtual"><scope>rr::TimeSeriesSensitivitySolver</scope><name>Solver</name></member>
       <member refid="classrr_1_1SensitivitySolver_1aa0a07553e368f0be33b9bfc429782a97" prot="public" virt="non-virtual"><scope>rr::TimeSeriesSensitivitySolver</scope><name>Solver</name></member>
       <member refid="classrr_1_1Solver_1aa0a07553e368f0be33b9bfc429782a97" prot="public" virt="non-virtual" ambiguityscope="rr::Solver::"><scope>rr::TimeSeriesSensitivitySolver</scope><name>Solver</name></member>
-      <member refid="classrr_1_1TimeSeriesSensitivitySolver_1ab460ead5a873a10145c645c2e0d2a32f" prot="public" virt="pure-virtual"><scope>rr::TimeSeriesSensitivitySolver</scope><name>solveSensitivities</name></member>
+      <member refid="classrr_1_1TimeSeriesSensitivitySolver_1a1f0c8cb09f7f29b6557943bc905d42fd" prot="public" virt="pure-virtual"><scope>rr::TimeSeriesSensitivitySolver</scope><name>solveSensitivities</name></member>
       <member refid="classrr_1_1Solver_1a99f48947491d7cd36c68cebba53915fe" prot="public" virt="non-virtual"><scope>rr::TimeSeriesSensitivitySolver</scope><name>sorted_settings</name></member>
       <member refid="classrr_1_1Solver_1aecb0e7c619e544aeabc6db9903165158" prot="public" virt="pure-virtual"><scope>rr::TimeSeriesSensitivitySolver</scope><name>syncWithModel</name></member>
       <member refid="classrr_1_1Solver_1a2f2b574b220becfebd1be2d8cc34d550" prot="public" virt="virtual"><scope>rr::TimeSeriesSensitivitySolver</scope><name>toRepr</name></member>

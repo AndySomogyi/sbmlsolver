@@ -58,7 +58,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="RegistrationFactory.h" line="38" column="16" bodyfile="RegistrationFactory.cpp" bodystart="20" bodyend="27"/>
+        <location file="RegistrationFactory.h" line="38" column="16" bodyfile="RegistrationFactory.cpp" bodystart="20" bodyend="37"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RegistrationFactory_1a54c731eac3f3b37041d17412e855191a" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -79,7 +79,7 @@ Should be called at startup for new integrators. </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="RegistrationFactory.h" line="46" column="22" bodyfile="RegistrationFactory.cpp" bodystart="29" bodyend="33"/>
+        <location file="RegistrationFactory.h" line="46" column="22" bodyfile="RegistrationFactory.cpp" bodystart="39" bodyend="43"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RegistrationFactory_1a47099ccc11d2e15fafb6f0b30a3c47bd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>std::size_t</type>
@@ -92,7 +92,7 @@ Should be called at startup for new integrators. </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="RegistrationFactory.h" line="59" column="29" bodyfile="RegistrationFactory.cpp" bodystart="35" bodyend="37"/>
+        <location file="RegistrationFactory.h" line="59" column="29" bodyfile="RegistrationFactory.cpp" bodystart="45" bodyend="47"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RegistrationFactory_1ab5399075e167b9af65a5cf0f52106594" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>std::string</type>
@@ -109,7 +109,7 @@ Should be called at startup for new integrators. </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="RegistrationFactory.h" line="61" column="29" bodyfile="RegistrationFactory.cpp" bodystart="39" bodyend="41"/>
+        <location file="RegistrationFactory.h" line="61" column="29" bodyfile="RegistrationFactory.cpp" bodystart="49" bodyend="51"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RegistrationFactory_1ac5a37f51c2af354b527ac1a3e4d36554" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>std::string</type>
@@ -126,7 +126,7 @@ Should be called at startup for new integrators. </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="RegistrationFactory.h" line="63" column="29" bodyfile="RegistrationFactory.cpp" bodystart="43" bodyend="45"/>
+        <location file="RegistrationFactory.h" line="63" column="29" bodyfile="RegistrationFactory.cpp" bodystart="53" bodyend="55"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1RegistrationFactory_1aab8247a922fa2b4d8d2293b129fa5582" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>std::string</type>
@@ -143,7 +143,7 @@ Should be called at startup for new integrators. </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="RegistrationFactory.h" line="65" column="29" bodyfile="RegistrationFactory.cpp" bodystart="47" bodyend="49"/>
+        <location file="RegistrationFactory.h" line="65" column="29" bodyfile="RegistrationFactory.cpp" bodystart="57" bodyend="59"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-static-func">

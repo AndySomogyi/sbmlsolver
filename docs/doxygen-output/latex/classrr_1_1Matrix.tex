@@ -22,9 +22,9 @@ bool \mbox{\hyperlink{classrr_1_1Matrix_a4a1a8c0eada3c2c680cb5383fbd8e0e5}{opera
 \begin{DoxyCompactList}\small\item\em inequality operators \end{DoxyCompactList}\item 
 bool \mbox{\hyperlink{classrr_1_1Matrix_ad2be619ba028bf0f0b5c229c13f64063}{almost\+Equals}} (\mbox{\hyperlink{classrr_1_1Matrix}{Matrix}}$<$ double $>$ \&other, const double \&tolerance)
 \begin{DoxyCompactList}\small\item\em Element-\/wise compareison between this Matrix$<$double$>$ with another. \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{classrr_1_1Matrix_a9cc83eb19abb5da6d8a7bea7bc89dc1b}\label{classrr_1_1Matrix_a9cc83eb19abb5da6d8a7bea7bc89dc1b}} 
-\mbox{\hyperlink{classrr_1_1Matrix}{Matrix}}$<$ T $>$ {\bfseries mult} (\mbox{\hyperlink{classrr_1_1Matrix}{Matrix}}$<$ T $>$ matrix)
-\item 
+\mbox{\Hypertarget{classrr_1_1Matrix_adbdc267bb90e3e9c752758126e161791}\label{classrr_1_1Matrix_adbdc267bb90e3e9c752758126e161791}} 
+\mbox{\hyperlink{classrr_1_1Matrix}{Matrix}}$<$ T $>$ \mbox{\hyperlink{classrr_1_1Matrix_adbdc267bb90e3e9c752758126e161791}{mult}} (\mbox{\hyperlink{classrr_1_1Matrix}{Matrix}}$<$ T $>$ matrix)
+\begin{DoxyCompactList}\small\item\em matrix multiplication operator \end{DoxyCompactList}\item 
 bool \mbox{\hyperlink{classrr_1_1Matrix_a481abe78869b481e1b825734bb8a51a2}{empty}} ()
 \begin{DoxyCompactList}\small\item\em indicator method for empty \mbox{\hyperlink{classrr_1_1Matrix}{Matrix}}. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classrr_1_1Matrix_adaa546e9e056dbe943d43418653a123f}\label{classrr_1_1Matrix_adaa546e9e056dbe943d43418653a123f}} 
@@ -32,7 +32,15 @@ void \mbox{\hyperlink{classrr_1_1Matrix_adaa546e9e056dbe943d43418653a123f}{sort\
 \begin{DoxyCompactList}\small\item\em Reorder \mbox{\hyperlink{classrr_1_1Matrix}{Matrix}} rows such that row names are in alphabetical order. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classrr_1_1Matrix_af564bfd45b879ba4244021846cd1f4f4}\label{classrr_1_1Matrix_af564bfd45b879ba4244021846cd1f4f4}} 
 void \mbox{\hyperlink{classrr_1_1Matrix_af564bfd45b879ba4244021846cd1f4f4}{sort\+Cols\+By\+Labels}} ()
-\begin{DoxyCompactList}\small\item\em Reorder \mbox{\hyperlink{classrr_1_1Matrix}{Matrix}} cols such that col names are in alphabetical order. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Reorder \mbox{\hyperlink{classrr_1_1Matrix}{Matrix}} cols such that col names are in alphabetical order. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classrr_1_1Matrix_ad75ae4a4b1772808706dece01a3f241d}{delete\+Row}} (int which)
+\begin{DoxyCompactList}\small\item\em delete row \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classrr_1_1Matrix_ac1424ae3b932865405a9fe4c90ae3054}{delete\+Row}} (const std\+::string \&which)
+\begin{DoxyCompactList}\small\item\em delete a row with the label \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classrr_1_1Matrix_a0d367c7df1fa56958b30182c5e2cd352}{delete\+Col}} (int which)
+\begin{DoxyCompactList}\small\item\em delete col \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classrr_1_1Matrix_abbdb193ce0a0bc3581f0d27695bce695}{delete\+Col}} (const std\+::string \&which)
+\begin{DoxyCompactList}\small\item\em delete a col with the label \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Member Function Documentation}
@@ -41,7 +49,7 @@ void \mbox{\hyperlink{classrr_1_1Matrix_af564bfd45b879ba4244021846cd1f4f4}{sort\
 \index{almostEquals@{almostEquals}!rr::Matrix$<$ T $>$@{rr::Matrix$<$ T $>$}}
 \doxysubsubsection{\texorpdfstring{almostEquals()}{almostEquals()}}
 {\footnotesize\ttfamily template$<$typename T $>$ \\
-bool \mbox{\hyperlink{classrr_1_1Matrix}{rr\+::\+Matrix}}$<$ T $>$\+::almost\+Equals (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classrr_1_1Matrix}{Matrix}}$<$ double $>$ \&}]{other,  }\item[{const double \&}]{tolerance }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+bool \mbox{\hyperlink{classrr_1_1Matrix}{rr\+::\+Matrix}}$<$ T $>$\+::almost\+Equals (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classrr_1_1Matrix}{Matrix}}$<$ double $>$ \&}]{other,  }\item[{const double \&}]{tolerance }\end{DoxyParamCaption})}
 
 
 
@@ -52,12 +60,92 @@ Element-\/wise compareison between this Matrix$<$double$>$ with another.
 {\em other} & Matrix$<$double$>$ \\
 \hline
 \end{DoxyParams}
-\mbox{\Hypertarget{classrr_1_1Matrix_a481abe78869b481e1b825734bb8a51a2}\label{classrr_1_1Matrix_a481abe78869b481e1b825734bb8a51a2}} 
+\mbox{\Hypertarget{classrr_1_1Matrix_abbdb193ce0a0bc3581f0d27695bce695}\label{classrr_1_1Matrix_abbdb193ce0a0bc3581f0d27695bce695}} 
+\index{rr::Matrix$<$ T $>$@{rr::Matrix$<$ T $>$}!deleteCol@{deleteCol}}
+\index{deleteCol@{deleteCol}!rr::Matrix$<$ T $>$@{rr::Matrix$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{deleteCol()}{deleteCol()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \mbox{\hyperlink{classrr_1_1Matrix}{rr\+::\+Matrix}}$<$ T $>$\+::delete\+Col (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{which }\end{DoxyParamCaption})}
+
+
+
+delete a col with the label 
+
+
+\begin{DoxyParams}{Parameters}
+{\em which.} & \\
+\hline
+\end{DoxyParams}
+interally uses \mbox{\hyperlink{classrr_1_1Matrix_a0d367c7df1fa56958b30182c5e2cd352}{delete\+Col(int)}} overload after locating the index of the correct col to remove. \begin{DoxyNote}{Note}
+This method assumes that col names are unique. If they are not unique then only the first found col labelled
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em which} & will be removed. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classrr_1_1Matrix_a0d367c7df1fa56958b30182c5e2cd352}\label{classrr_1_1Matrix_a0d367c7df1fa56958b30182c5e2cd352}} 
+\index{rr::Matrix$<$ T $>$@{rr::Matrix$<$ T $>$}!deleteCol@{deleteCol}}
+\index{deleteCol@{deleteCol}!rr::Matrix$<$ T $>$@{rr::Matrix$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{deleteCol()}{deleteCol()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \mbox{\hyperlink{classrr_1_1Matrix}{rr\+::\+Matrix}}$<$ T $>$\+::delete\+Col (\begin{DoxyParamCaption}\item[{int}]{which }\end{DoxyParamCaption})}
+
+
+
+delete col 
+
+
+\begin{DoxyParams}{Parameters}
+{\em which} & from the matrix.\\
+\hline
+\end{DoxyParams}
+memory isn\textquotesingle{}t actually reclaimed nor the array resized. Instead the elements of the array to be removed are shifted one by one to the far right of the array that underlies the matrix. The \+\_\+\+Col member variable is decremented so the additional elements are hidden from user. \mbox{\Hypertarget{classrr_1_1Matrix_ac1424ae3b932865405a9fe4c90ae3054}\label{classrr_1_1Matrix_ac1424ae3b932865405a9fe4c90ae3054}} 
+\index{rr::Matrix$<$ T $>$@{rr::Matrix$<$ T $>$}!deleteRow@{deleteRow}}
+\index{deleteRow@{deleteRow}!rr::Matrix$<$ T $>$@{rr::Matrix$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{deleteRow()}{deleteRow()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \mbox{\hyperlink{classrr_1_1Matrix}{rr\+::\+Matrix}}$<$ T $>$\+::delete\+Row (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{which }\end{DoxyParamCaption})}
+
+
+
+delete a row with the label 
+
+
+\begin{DoxyParams}{Parameters}
+{\em which.} & \\
+\hline
+\end{DoxyParams}
+interally uses \mbox{\hyperlink{classrr_1_1Matrix_ad75ae4a4b1772808706dece01a3f241d}{delete\+Row(int)}} overload after locating the index of the correct row to remove. \begin{DoxyNote}{Note}
+This method assumes that row names are unique. If they are not unique then only the first found row labelled
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em which} & will be removed. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classrr_1_1Matrix_ad75ae4a4b1772808706dece01a3f241d}\label{classrr_1_1Matrix_ad75ae4a4b1772808706dece01a3f241d}} 
+\index{rr::Matrix$<$ T $>$@{rr::Matrix$<$ T $>$}!deleteRow@{deleteRow}}
+\index{deleteRow@{deleteRow}!rr::Matrix$<$ T $>$@{rr::Matrix$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{deleteRow()}{deleteRow()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \mbox{\hyperlink{classrr_1_1Matrix}{rr\+::\+Matrix}}$<$ T $>$\+::delete\+Row (\begin{DoxyParamCaption}\item[{int}]{which }\end{DoxyParamCaption})}
+
+
+
+delete row 
+
+
+\begin{DoxyParams}{Parameters}
+{\em which} & from the matrix.\\
+\hline
+\end{DoxyParams}
+memory isn\textquotesingle{}t actually reclaimed nor the array resized. Instead the elements of the array to be removed are shifted one by one to the far right of the array that underlies the matrix. The \+\_\+\+Row member variable is decremented so the additional elements are hidden from user. If row is the last row, there\textquotesingle{}s no need to actually do any deleting. Instead we just keep the items there, but reduce the size of the row. Users are only exposed to the correct set of rows.\mbox{\Hypertarget{classrr_1_1Matrix_a481abe78869b481e1b825734bb8a51a2}\label{classrr_1_1Matrix_a481abe78869b481e1b825734bb8a51a2}} 
 \index{rr::Matrix$<$ T $>$@{rr::Matrix$<$ T $>$}!empty@{empty}}
 \index{empty@{empty}!rr::Matrix$<$ T $>$@{rr::Matrix$<$ T $>$}}
 \doxysubsubsection{\texorpdfstring{empty()}{empty()}}
 {\footnotesize\ttfamily template$<$typename T $>$ \\
-bool \mbox{\hyperlink{classrr_1_1Matrix}{rr\+::\+Matrix}}$<$ T $>$\+::empty (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+bool \mbox{\hyperlink{classrr_1_1Matrix}{rr\+::\+Matrix}}$<$ T $>$\+::empty}
 
 
 
@@ -71,7 +159,7 @@ true if matrix is empty, false otherwise
 \index{operator==@{operator==}!rr::Matrix$<$ T $>$@{rr::Matrix$<$ T $>$}}
 \doxysubsubsection{\texorpdfstring{operator==()}{operator==()}}
 {\footnotesize\ttfamily template$<$typename T $>$ \\
-bool \mbox{\hyperlink{classrr_1_1Matrix}{rr\+::\+Matrix}}$<$ T $>$\+::operator== (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classrr_1_1Matrix}{Matrix}}$<$ T $>$ \&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+bool \mbox{\hyperlink{classrr_1_1Matrix}{rr\+::\+Matrix}}$<$ T $>$\+::operator== (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classrr_1_1Matrix}{Matrix}}$<$ T $>$ \&}]{other }\end{DoxyParamCaption})}
 
 
 

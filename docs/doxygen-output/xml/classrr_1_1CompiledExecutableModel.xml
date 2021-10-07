@@ -3463,8 +3463,10 @@
       <member refid="classrr_1_1CompiledExecutableModel_1a2b6c90abe1a1052ebf4147609f65c338" prot="public" virt="virtual"><scope>rr::CompiledExecutableModel</scope><name>evalInitialConditions</name></member>
       <member refid="classrr_1_1CompiledExecutableModel_1a213b1bb086baf676d4a64a8db7cb228b" prot="public" virt="virtual"><scope>rr::CompiledExecutableModel</scope><name>evalReactionRates</name></member>
       <member refid="classrr_1_1CompiledExecutableModel_1a2e886dc06d056fbb6221f7a761f898cc" prot="public" virt="virtual"><scope>rr::CompiledExecutableModel</scope><name>eventAssignment</name></member>
+      <member refid="classrr_1_1ExecutableModel_1a304eb91e2abe96301321cf6507087a9f" prot="public" virt="non-virtual"><scope>rr::CompiledExecutableModel</scope><name>ExecutableModel</name></member>
       <member refid="classrr_1_1ExecutableModel_1a0503ffbf5c6c971cf545d7570ec0404c" prot="public" virt="non-virtual"><scope>rr::CompiledExecutableModel</scope><name>ExecutableModelFlags</name></member>
       <member refid="classrr_1_1CompiledExecutableModel_1aae2baea0b910865b8c85e773e69014be" prot="public" virt="non-virtual"><scope>rr::CompiledExecutableModel</scope><name>getAmount</name></member>
+      <member refid="classrr_1_1ExecutableModel_1a05417ffc5049df95716079963cb2f753" prot="public" virt="pure-virtual"><scope>rr::CompiledExecutableModel</scope><name>getAssignmentRuleIds</name></member>
       <member refid="classrr_1_1CompiledExecutableModel_1a09681dd060af48372696dee3427a509b" prot="public" virt="virtual"><scope>rr::CompiledExecutableModel</scope><name>getBoundarySpeciesAmounts</name></member>
       <member refid="classrr_1_1ExecutableModel_1a892be60159e501929cbb1169533d5104" prot="public" virt="pure-virtual" ambiguityscope="rr::ExecutableModel::"><scope>rr::CompiledExecutableModel</scope><name>getBoundarySpeciesAmounts</name></member>
       <member refid="classrr_1_1CompiledExecutableModel_1a66747b5067ff6a1799bf3f49ff9d6493" prot="public" virt="virtual"><scope>rr::CompiledExecutableModel</scope><name>getBoundarySpeciesCompartmentIndex</name></member>
@@ -3473,9 +3475,12 @@
       <member refid="classrr_1_1CompiledExecutableModel_1a3c99a105961f6fd7c69a2b7c1fb60032" prot="public" virt="virtual"><scope>rr::CompiledExecutableModel</scope><name>getBoundarySpeciesId</name></member>
       <member refid="classrr_1_1ExecutableModel_1a1eda6c6d5e9db5d9057510dbd9bbbef5" prot="public" virt="pure-virtual" ambiguityscope="rr::ExecutableModel::"><scope>rr::CompiledExecutableModel</scope><name>getBoundarySpeciesId</name></member>
       <member refid="classrr_1_1CompiledExecutableModel_1adf4ab509d93bab14f0b1e34b85ad704a" prot="public" virt="virtual"><scope>rr::CompiledExecutableModel</scope><name>getBoundarySpeciesIndex</name></member>
+      <member refid="classrr_1_1ExecutableModel_1ab55839f110bc70f7c5ae2cbd8f9225f7" prot="public" virt="pure-virtual"><scope>rr::CompiledExecutableModel</scope><name>getBoundarySpeciesInitAmounts</name></member>
+      <member refid="classrr_1_1ExecutableModel_1af215f6272824b762b01e7348c073d610" prot="public" virt="pure-virtual"><scope>rr::CompiledExecutableModel</scope><name>getBoundarySpeciesInitConcentrations</name></member>
       <member refid="classrr_1_1CompiledExecutableModel_1a9176b67fd6f37a242323fdd58f402a59" prot="public" virt="virtual"><scope>rr::CompiledExecutableModel</scope><name>getCompartmentId</name></member>
       <member refid="classrr_1_1ExecutableModel_1a8edf24e2351bc5796ddfa0901dcbaee5" prot="public" virt="pure-virtual" ambiguityscope="rr::ExecutableModel::"><scope>rr::CompiledExecutableModel</scope><name>getCompartmentId</name></member>
       <member refid="classrr_1_1CompiledExecutableModel_1ac086fec83ad0f77876aface9965f6e38" prot="public" virt="virtual"><scope>rr::CompiledExecutableModel</scope><name>getCompartmentIndex</name></member>
+      <member refid="classrr_1_1ExecutableModel_1ab5e600822c6d231eb8dad05b2af688b8" prot="public" virt="pure-virtual"><scope>rr::CompiledExecutableModel</scope><name>getCompartmentIndexForBoundarySpecies</name></member>
       <member refid="classrr_1_1ExecutableModel_1aa19f2c21557264ce883bd24c3b8f647a" prot="public" virt="pure-virtual"><scope>rr::CompiledExecutableModel</scope><name>getCompartmentIndexForFloatingSpecies</name></member>
       <member refid="classrr_1_1CompiledExecutableModel_1a445ab5652c7349bcbcb3469d5a94311e" prot="public" virt="virtual"><scope>rr::CompiledExecutableModel</scope><name>getCompartmentInitVolumes</name></member>
       <member refid="classrr_1_1ExecutableModel_1afbc91472ec905f668e0cc5714fdc30db" prot="public" virt="pure-virtual" ambiguityscope="rr::ExecutableModel::"><scope>rr::CompiledExecutableModel</scope><name>getCompartmentInitVolumes</name></member>
@@ -3526,6 +3531,7 @@
       <member refid="classrr_1_1ExecutableModel_1af598ac63c984d7101b0d026dd217a822" prot="public" virt="pure-virtual" ambiguityscope="rr::ExecutableModel::"><scope>rr::CompiledExecutableModel</scope><name>getGlobalParameterValues</name></member>
       <member refid="classrr_1_1CompiledExecutableModel_1a9c5f0f3045d073ae63d4f1e2b3cb232a" prot="public" virt="virtual"><scope>rr::CompiledExecutableModel</scope><name>getIds</name></member>
       <member refid="classrr_1_1CompiledExecutableModel_1a7cf0832caf732cda5e42967c922c1539" prot="public" virt="virtual"><scope>rr::CompiledExecutableModel</scope><name>getInfo</name></member>
+      <member refid="classrr_1_1ExecutableModel_1a01404ae0883bfdf79a7932aa530a431c" prot="public" virt="pure-virtual"><scope>rr::CompiledExecutableModel</scope><name>getInitialAssignmentIds</name></member>
       <member refid="classrr_1_1CompiledExecutableModel_1a7a35baccccf36442c3e38770587db25c" prot="public" virt="virtual"><scope>rr::CompiledExecutableModel</scope><name>getModelName</name></member>
       <member refid="classrr_1_1CompiledExecutableModel_1a61a5e57762fd8a4a87ac5843f2314347" prot="public" virt="virtual"><scope>rr::CompiledExecutableModel</scope><name>getNextPendingEventTime</name></member>
       <member refid="classrr_1_1CompiledExecutableModel_1a1c5cb4c75584906946d426d1193da39e" prot="public" virt="virtual"><scope>rr::CompiledExecutableModel</scope><name>getNumBoundarySpecies</name></member>
@@ -3542,6 +3548,7 @@
       <member refid="classrr_1_1CompiledExecutableModel_1a637150c6f6ca6bede8cbdd7e0405ce12" prot="public" virt="virtual"><scope>rr::CompiledExecutableModel</scope><name>getPendingEventSize</name></member>
       <member refid="classrr_1_1CompiledExecutableModel_1a02b3938fd3ad7d20d33ed3e0b42da21a" prot="public" virt="virtual"><scope>rr::CompiledExecutableModel</scope><name>getRandom</name></member>
       <member refid="classrr_1_1CompiledExecutableModel_1a728ba55db8c4d193990452c9303ea133" prot="public" virt="virtual"><scope>rr::CompiledExecutableModel</scope><name>getRandomSeed</name></member>
+      <member refid="classrr_1_1ExecutableModel_1a4445b440c3be7b63e587e000af4ada17" prot="public" virt="pure-virtual"><scope>rr::CompiledExecutableModel</scope><name>getRateRuleIds</name></member>
       <member refid="classrr_1_1ExecutableModel_1aa1d89fd7d5690de7add613f5ce75b631" prot="public" virt="pure-virtual"><scope>rr::CompiledExecutableModel</scope><name>getRateRuleSymbols</name></member>
       <member refid="classrr_1_1CompiledExecutableModel_1a2a820ae64f278087b85f836aef5afb32" prot="public" virt="virtual"><scope>rr::CompiledExecutableModel</scope><name>getRateRuleValues</name></member>
       <member refid="classrr_1_1CompiledExecutableModel_1a448c9bcff065fbb2e0c12015beea16c2" prot="public" virt="virtual"><scope>rr::CompiledExecutableModel</scope><name>getReactionId</name></member>
@@ -3570,6 +3577,7 @@
       <member refid="classrr_1_1CompiledExecutableModel_1ae3615496f4465565e719816aca47f842" prot="public" virt="non-virtual"><scope>rr::CompiledExecutableModel</scope><name>mDummyDouble</name></member>
       <member refid="classrr_1_1CompiledExecutableModel_1a92fa694df25872ca28ec2ebd013d0ddf" prot="public" virt="non-virtual"><scope>rr::CompiledExecutableModel</scope><name>mDummyDoubleArray</name></member>
       <member refid="classrr_1_1CompiledExecutableModel_1aefb33ef87d2734970098f151e3d0d146" prot="public" virt="non-virtual"><scope>rr::CompiledExecutableModel</scope><name>mDummyInt</name></member>
+      <member refid="classrr_1_1ExecutableModel_1abfa76a10231624f0acba7803d071964f" prot="protected" virt="non-virtual"><scope>rr::CompiledExecutableModel</scope><name>mIntegrationStartTime</name></member>
       <member refid="classrr_1_1CompiledExecutableModel_1a8a1e046aa716f81c30ebb4a8ffbd4a42" prot="public" virt="non-virtual"><scope>rr::CompiledExecutableModel</scope><name>mIsInitialized</name></member>
       <member refid="classrr_1_1CompiledExecutableModel_1a8cab5094a3391b0b93e5ad9862f30c8c" prot="public" virt="non-virtual"><scope>rr::CompiledExecutableModel</scope><name>modelStates</name></member>
       <member refid="classrr_1_1CompiledExecutableModel_1a96f54b093369dba01f1922282734ea73" prot="public" virt="non-virtual"><scope>rr::CompiledExecutableModel</scope><name>ms</name></member>
@@ -3587,8 +3595,11 @@
       <member refid="classrr_1_1CompiledExecutableModel_1ac2c5e8d6f0e487d12743d624a505173f" prot="public" virt="non-virtual"><scope>rr::CompiledExecutableModel</scope><name>retestEvents</name></member>
       <member refid="classrr_1_1ExecutableModel_1a8db1a8a035e0b226b16ae10b18caaf1e" prot="public" virt="virtual"><scope>rr::CompiledExecutableModel</scope><name>saveState</name></member>
       <member refid="classrr_1_1CompiledExecutableModel_1a2fc66633049fbc25d3838795ebf22684" prot="public" virt="virtual"><scope>rr::CompiledExecutableModel</scope><name>setBoundaryConditions</name></member>
+      <member refid="classrr_1_1ExecutableModel_1af87aea77d1eaa28a12b0cfa5a9db2588" prot="public" virt="pure-virtual"><scope>rr::CompiledExecutableModel</scope><name>setBoundarySpeciesAmounts</name></member>
       <member refid="classrr_1_1CompiledExecutableModel_1a98f019d5e748b28c6dd6e7273873a761" prot="public" virt="virtual"><scope>rr::CompiledExecutableModel</scope><name>setBoundarySpeciesConcentrations</name></member>
       <member refid="classrr_1_1ExecutableModel_1a1a4409ff1e5e41a13b1dcf2ab936ab23" prot="public" virt="pure-virtual" ambiguityscope="rr::ExecutableModel::"><scope>rr::CompiledExecutableModel</scope><name>setBoundarySpeciesConcentrations</name></member>
+      <member refid="classrr_1_1ExecutableModel_1a7c2106b589bb41b2a01ab2dc5207024e" prot="public" virt="pure-virtual"><scope>rr::CompiledExecutableModel</scope><name>setBoundarySpeciesInitAmounts</name></member>
+      <member refid="classrr_1_1ExecutableModel_1a2e7799db0c63278059cef7de4ad18396" prot="public" virt="pure-virtual"><scope>rr::CompiledExecutableModel</scope><name>setBoundarySpeciesInitConcentrations</name></member>
       <member refid="classrr_1_1CompiledExecutableModel_1aef5d86ce6963e7a60406d4a9b72a810a" prot="public" virt="virtual"><scope>rr::CompiledExecutableModel</scope><name>setCompartmentInitVolumes</name></member>
       <member refid="classrr_1_1ExecutableModel_1a83fa84b59feb32abe1f2a6b178b6f106" prot="public" virt="pure-virtual" ambiguityscope="rr::ExecutableModel::"><scope>rr::CompiledExecutableModel</scope><name>setCompartmentInitVolumes</name></member>
       <member refid="classrr_1_1CompiledExecutableModel_1a9ebcd8efc7236c3dd34d01a86c989012" prot="public" virt="virtual"><scope>rr::CompiledExecutableModel</scope><name>setCompartmentVolumes</name></member>
@@ -3614,6 +3625,7 @@
       <member refid="classrr_1_1ExecutableModel_1a46fbc6162f59ac7052c25879dba8e423" prot="public" virt="pure-virtual" ambiguityscope="rr::ExecutableModel::"><scope>rr::CompiledExecutableModel</scope><name>setGlobalParameterValues</name></member>
       <member refid="classrr_1_1CompiledExecutableModel_1ad575ef19c6c58454aa965dac1a980278" prot="public" virt="virtual"><scope>rr::CompiledExecutableModel</scope><name>setInitialConditions</name></member>
       <member refid="classrr_1_1ExecutableModel_1aec2ca2935ed5ed13500204fdec32e058" prot="protected" virt="non-virtual"><scope>rr::CompiledExecutableModel</scope><name>setIntegration</name></member>
+      <member refid="classrr_1_1ExecutableModel_1a44f6976be2f489aba16f41d7defbb575" prot="public" virt="virtual"><scope>rr::CompiledExecutableModel</scope><name>setIntegrationStartTime</name></member>
       <member refid="classrr_1_1CompiledExecutableModel_1a3bcfd7683ce99c101d216121c6f836df" prot="public" virt="virtual"><scope>rr::CompiledExecutableModel</scope><name>setParameterValues</name></member>
       <member refid="classrr_1_1CompiledExecutableModel_1adf911e78697e088e315c2235ebf63376" prot="public" virt="virtual"><scope>rr::CompiledExecutableModel</scope><name>setRandomSeed</name></member>
       <member refid="classrr_1_1CompiledExecutableModel_1ade8ee1b8f813ff02d80a9df79af4e461" prot="public" virt="virtual"><scope>rr::CompiledExecutableModel</scope><name>setRateRuleValues</name></member>

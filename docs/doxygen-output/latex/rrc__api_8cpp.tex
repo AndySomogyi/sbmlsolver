@@ -10,6 +10,7 @@ road\+Runner C wrappers 2012
 {\ttfamily \#include $<$sstream$>$}\newline
 {\ttfamily \#include $<$fstream$>$}\newline
 {\ttfamily \#include \char`\"{}rr\+Road\+Runner.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}rr\+Road\+Runner\+Data.\+h\char`\"{}}\newline
 {\ttfamily \#include \char`\"{}rr\+Road\+Runner\+Options.\+h\char`\"{}}\newline
 {\ttfamily \#include \char`\"{}rr\+Executable\+Model.\+h\char`\"{}}\newline
 {\ttfamily \#include \char`\"{}rr\+Compiler.\+h\char`\"{}}\newline
@@ -158,6 +159,9 @@ bool rrc\+Call\+Conv {\bfseries rrc\+::set\+Time\+End} (\mbox{\hyperlink{rrc__ty
 \mbox{\Hypertarget{rrc__api_8cpp_a7a132e807b8243aa0079a8134119bc84}\label{rrc__api_8cpp_a7a132e807b8243aa0079a8134119bc84}} 
 bool rrc\+Call\+Conv {\bfseries rrc\+::set\+Num\+Points} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{RRHandle}} handle, const int nr\+Points)
 \item 
+\mbox{\Hypertarget{rrc__api_8cpp_ad0f42ee2c23eeddca5ead4b4dcbd15eb}\label{rrc__api_8cpp_ad0f42ee2c23eeddca5ead4b4dcbd15eb}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::set\+Times} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{RRHandle}} handle, const double $\ast$times, int size)
+\item 
 \mbox{\Hypertarget{rrc__api_8cpp_a2933ecafd293baf16a5840585e48ca24}\label{rrc__api_8cpp_a2933ecafd293baf16a5840585e48ca24}} 
 bool rrc\+Call\+Conv {\bfseries rrc\+::get\+Time\+Start} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{RRHandle}} handle, double $\ast$time\+Start)
 \item 
@@ -176,11 +180,23 @@ bool rrc\+Call\+Conv {\bfseries rrc\+::set\+Time\+Course\+Selection\+List} (\mbo
 \mbox{\Hypertarget{rrc__api_8cpp_acd0799df482b82ca5f278728183b3ad4}\label{rrc__api_8cpp_acd0799df482b82ca5f278728183b3ad4}} 
 \mbox{\hyperlink{rrc__types_8h_a9da8b124eb9c3c0045f8926c6a420b4a}{RRCData\+Ptr}} rrc\+Call\+Conv {\bfseries rrc\+::simulate} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{RRHandle}} handle)
 \item 
+\mbox{\Hypertarget{rrc__api_8cpp_ad91acd914fead70e2773b03b0f18bf79}\label{rrc__api_8cpp_ad91acd914fead70e2773b03b0f18bf79}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::simulate\+No\+Return} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{RRHandle}} handle)
+\item 
 \mbox{\Hypertarget{rrc__api_8cpp_a6fa478bae5afbe10ad6c1cf7c54ec23e}\label{rrc__api_8cpp_a6fa478bae5afbe10ad6c1cf7c54ec23e}} 
 \mbox{\hyperlink{rrc__types_8h_a9da8b124eb9c3c0045f8926c6a420b4a}{RRCData\+Ptr}} rrc\+Call\+Conv {\bfseries rrc\+::simulate\+Ex} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{RRHandle}} handle, const double time\+Start, const double time\+End, const int number\+Of\+Points)
 \item 
+\mbox{\Hypertarget{rrc__api_8cpp_a738ed91a20a058f54c43d795d3557696}\label{rrc__api_8cpp_a738ed91a20a058f54c43d795d3557696}} 
+bool rrc\+Call\+Conv {\bfseries rrc\+::simulate\+Ex\+No\+Return} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{RRHandle}} handle, const double time\+Start, const double time\+End, const int number\+Of\+Points)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a44790b183288750f82c3448b68f46d36}\label{rrc__api_8cpp_a44790b183288750f82c3448b68f46d36}} 
+\mbox{\hyperlink{rrc__types_8h_a9da8b124eb9c3c0045f8926c6a420b4a}{RRCData\+Ptr}} rrc\+Call\+Conv {\bfseries rrc\+::simulate\+Times} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{RRHandle}} handle, const double $\ast$times, int size)
+\item 
 \mbox{\Hypertarget{rrc__api_8cpp_a783c64c652ae5d151c8feb67574bbe0a}\label{rrc__api_8cpp_a783c64c652ae5d151c8feb67574bbe0a}} 
 \mbox{\hyperlink{rrc__types_8h_a9da8b124eb9c3c0045f8926c6a420b4a}{RRCData\+Ptr}} rrc\+Call\+Conv {\bfseries rrc\+::get\+Simulation\+Result} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{RRHandle}} handle)
+\item 
+\mbox{\Hypertarget{rrc__api_8cpp_a9929e880300acdfb499c7979e79e3ce2}\label{rrc__api_8cpp_a9929e880300acdfb499c7979e79e3ce2}} 
+\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{RRHandle}} rrc\+Call\+Conv {\bfseries rrc\+::get\+Simulation\+Result\+As\+Double\+Matrix} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{RRHandle}} handle)
 \item 
 \mbox{\Hypertarget{rrc__api_8cpp_a28f43438d80f217502721f97b576870b}\label{rrc__api_8cpp_a28f43438d80f217502721f97b576870b}} 
 \mbox{\hyperlink{rrc__types_8h_a7c9475df6c7337d99482b13a365e7596}{RRString\+Array\+Ptr}} rrc\+Call\+Conv {\bfseries rrc\+::get\+Reaction\+Ids} (\mbox{\hyperlink{rrc__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{RRHandle}} handle)

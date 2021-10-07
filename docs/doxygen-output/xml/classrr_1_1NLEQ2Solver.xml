@@ -190,7 +190,7 @@
     </collaborationgraph>
     <location file="NLEQ2Solver.h" line="28" column="5" bodyfile="NLEQ2Solver.h" bodystart="28" bodyend="63"/>
     <listofallmembers>
-      <member refid="classrr_1_1Solver_1ad5b8ac1ef687d1a3c9f1f305cb73804d" prot="protected" virt="non-virtual"><scope>rr::NLEQ2Solver</scope><name>addSetting</name></member>
+      <member refid="classrr_1_1Solver_1a9d801d628c80877bbadd4fcff012837d" prot="protected" virt="non-virtual"><scope>rr::NLEQ2Solver</scope><name>addSetting</name></member>
       <member refid="classrr_1_1NLEQ2Solver_1a44270c2dfc8c31db54e69574565b0a93" prot="public" virt="virtual"><scope>rr::NLEQ2Solver</scope><name>construct</name></member>
       <member refid="classrr_1_1Solver_1a7d58e224664ab44e56f90802d9601f01" prot="public" virt="non-virtual"><scope>rr::NLEQ2Solver</scope><name>DescriptionMap</name></member>
       <member refid="classrr_1_1Solver_1a7e07121f652db358045d6f7b95889ea3" prot="public" virt="non-virtual"><scope>rr::NLEQ2Solver</scope><name>descriptions</name></member>

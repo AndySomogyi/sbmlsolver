@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">roadrunner
-   &#160;<span id="projectnumber">2.0.8</span>
+   &#160;<span id="projectnumber">2.1.0</span>
    </div>
    <div id="projectbrief">Fast simulator for SBML models</div>
   </td>
@@ -194,6 +194,14 @@ std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bott
 std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrllvm_1_1LLVMModelDataSymbols.html#a87b3733f8993e9654c1385256a370685">getFloatingSpeciesId</a> (size_t indx) const</td></tr>
 <tr class="memdesc:a87b3733f8993e9654c1385256a370685"><td class="mdescLeft">&#160;</td><td class="mdescRight">get the symbolic id of the i'th floating species. <br /></td></tr>
 <tr class="separator:a87b3733f8993e9654c1385256a370685"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5a64c6fcd5f052994c12908e4cce9110"><td class="memItemLeft" align="right" valign="top"><a id="a5a64c6fcd5f052994c12908e4cce9110"></a>
+std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrllvm_1_1LLVMModelDataSymbols.html#a5a64c6fcd5f052994c12908e4cce9110">getBoundarySpeciesId</a> (size_t indx) const</td></tr>
+<tr class="memdesc:a5a64c6fcd5f052994c12908e4cce9110"><td class="mdescLeft">&#160;</td><td class="mdescRight">get the symbolic id of the i'th boundary species. <br /></td></tr>
+<tr class="separator:a5a64c6fcd5f052994c12908e4cce9110"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5b7b5828e4b4a125811ffe22dd2d883d"><td class="memItemLeft" align="right" valign="top"><a id="a5b7b5828e4b4a125811ffe22dd2d883d"></a>
+std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrllvm_1_1LLVMModelDataSymbols.html#a5b7b5828e4b4a125811ffe22dd2d883d">getCompartmentId</a> (size_t indx) const</td></tr>
+<tr class="memdesc:a5b7b5828e4b4a125811ffe22dd2d883d"><td class="mdescLeft">&#160;</td><td class="mdescRight">get the symbolic id of the i'th compartment. <br /></td></tr>
+<tr class="separator:a5b7b5828e4b4a125811ffe22dd2d883d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af4ff843ba9adeebe28e935a7a20e4c1c"><td class="memItemLeft" align="right" valign="top"><a id="af4ff843ba9adeebe28e935a7a20e4c1c"></a>
 std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrllvm_1_1LLVMModelDataSymbols.html#af4ff843ba9adeebe28e935a7a20e4c1c">getGlobalParameterId</a> (size_t indx) const</td></tr>
 <tr class="memdesc:af4ff843ba9adeebe28e935a7a20e4c1c"><td class="mdescLeft">&#160;</td><td class="mdescRight">find the id of the given global parameter index. <br /></td></tr>
@@ -313,6 +321,9 @@ const std::vector&lt; uint &gt; &amp;&#160;</td><td class="memItemRight" valign=
 <tr class="memitem:af242d61196597833aa9e1c5c1850910d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrllvm_1_1LLVMModelDataSymbols.html#af242d61196597833aa9e1c5c1850910d">isIndependentInitFloatingSpecies</a> (const std::string &amp;symbol) const</td></tr>
 <tr class="memdesc:af242d61196597833aa9e1c5c1850910d"><td class="mdescLeft">&#160;</td><td class="mdescRight">checks if the given symbol is an init value for an independent floating species.  <a href="classrrllvm_1_1LLVMModelDataSymbols.html#af242d61196597833aa9e1c5c1850910d">More...</a><br /></td></tr>
 <tr class="separator:af242d61196597833aa9e1c5c1850910d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a52ef222f608f2e024d6b126186dfe90c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrllvm_1_1LLVMModelDataSymbols.html#a52ef222f608f2e024d6b126186dfe90c">isIndependentInitBoundarySpecies</a> (const std::string &amp;symbol) const</td></tr>
+<tr class="memdesc:a52ef222f608f2e024d6b126186dfe90c"><td class="mdescLeft">&#160;</td><td class="mdescRight">checks if the given symbol is an init value for an independent boundary species.  <a href="classrrllvm_1_1LLVMModelDataSymbols.html#a52ef222f608f2e024d6b126186dfe90c">More...</a><br /></td></tr>
+<tr class="separator:a52ef222f608f2e024d6b126186dfe90c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a775dc49eff5e65aa7e7e88d3a7485976"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrllvm_1_1LLVMModelDataSymbols.html#a775dc49eff5e65aa7e7e88d3a7485976">isIndependentInitElement</a> (const std::string &amp;symbol) const</td></tr>
 <tr class="memdesc:a775dc49eff5e65aa7e7e88d3a7485976"><td class="mdescLeft">&#160;</td><td class="mdescRight">Is this sbml element an independent initial value.  <a href="classrrllvm_1_1LLVMModelDataSymbols.html#a775dc49eff5e65aa7e7e88d3a7485976">More...</a><br /></td></tr>
 <tr class="separator:a775dc49eff5e65aa7e7e88d3a7485976"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -330,6 +341,9 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memitem:ac7d78cdbadcc805571ab7ce9ff8870be"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrllvm_1_1LLVMModelDataSymbols.html#ac7d78cdbadcc805571ab7ce9ff8870be">getFloatingSpeciesInitIndex</a> (const std::string &amp;symbol) const</td></tr>
 <tr class="memdesc:ac7d78cdbadcc805571ab7ce9ff8870be"><td class="mdescLeft">&#160;</td><td class="mdescRight">get the index of a floating species initial value.  <a href="classrrllvm_1_1LLVMModelDataSymbols.html#ac7d78cdbadcc805571ab7ce9ff8870be">More...</a><br /></td></tr>
 <tr class="separator:ac7d78cdbadcc805571ab7ce9ff8870be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af6553b393cc60475e6555fa82ede5495"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrllvm_1_1LLVMModelDataSymbols.html#af6553b393cc60475e6555fa82ede5495">getBoundarySpeciesInitIndex</a> (const std::string &amp;symbol) const</td></tr>
+<tr class="memdesc:af6553b393cc60475e6555fa82ede5495"><td class="mdescLeft">&#160;</td><td class="mdescRight">get the index of a boundary species initial value.  <a href="classrrllvm_1_1LLVMModelDataSymbols.html#af6553b393cc60475e6555fa82ede5495">More...</a><br /></td></tr>
+<tr class="separator:af6553b393cc60475e6555fa82ede5495"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af08014c2f00c6f8721f5ec253e9af2a2"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrllvm_1_1LLVMModelDataSymbols.html#af08014c2f00c6f8721f5ec253e9af2a2">getCompartmentInitIndex</a> (const std::string &amp;symbol) const</td></tr>
 <tr class="memdesc:af08014c2f00c6f8721f5ec253e9af2a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">get the index of a compartment initial value  <a href="classrrllvm_1_1LLVMModelDataSymbols.html#af08014c2f00c6f8721f5ec253e9af2a2">More...</a><br /></td></tr>
 <tr class="separator:af08014c2f00c6f8721f5ec253e9af2a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -337,6 +351,10 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrllvm_1_1LLVMModelDataSymbols.html#ac8c9d2e8c243bcbfc4b524dcee460be0">getCompartmentIndexForFloatingSpecies</a> (size_t floatIndex) const</td></tr>
 <tr class="memdesc:ac8c9d2e8c243bcbfc4b524dcee460be0"><td class="mdescLeft">&#160;</td><td class="mdescRight">get the index of a compartment for a float species. <br /></td></tr>
 <tr class="separator:ac8c9d2e8c243bcbfc4b524dcee460be0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae926b204cd5a9536f6c74260582951e2"><td class="memItemLeft" align="right" valign="top"><a id="ae926b204cd5a9536f6c74260582951e2"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrllvm_1_1LLVMModelDataSymbols.html#ae926b204cd5a9536f6c74260582951e2">getCompartmentIndexForBoundarySpecies</a> (size_t floatIndex) const</td></tr>
+<tr class="memdesc:ae926b204cd5a9536f6c74260582951e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">get the index of a compartment for a boundary species. <br /></td></tr>
+<tr class="separator:ae926b204cd5a9536f6c74260582951e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ade8b52affdb741d79c538f14c0813acf"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrllvm_1_1LLVMModelDataSymbols.html#ade8b52affdb741d79c538f14c0813acf">getGlobalParameterInitIndex</a> (const std::string &amp;symbol) const</td></tr>
 <tr class="memdesc:ade8b52affdb741d79c538f14c0813acf"><td class="mdescLeft">&#160;</td><td class="mdescRight">get the index of a global parameter initial value  <a href="classrrllvm_1_1LLVMModelDataSymbols.html#ade8b52affdb741d79c538f14c0813acf">More...</a><br /></td></tr>
 <tr class="separator:ade8b52affdb741d79c538f14c0813acf"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -355,6 +373,15 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>getInitGlobalParame
 <tr class="memitem:abfcfe60fdf6c0792a2a9cb61132cdff2"><td class="memItemLeft" align="right" valign="top"><a id="abfcfe60fdf6c0792a2a9cb61132cdff2"></a>
 std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>getEventIds</b> () const</td></tr>
 <tr class="separator:abfcfe60fdf6c0792a2a9cb61132cdff2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abf5ef1737b27bea8ad5b97b19fd04c6c"><td class="memItemLeft" align="right" valign="top"><a id="abf5ef1737b27bea8ad5b97b19fd04c6c"></a>
+std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>getAssignmentRuleIds</b> () const</td></tr>
+<tr class="separator:abf5ef1737b27bea8ad5b97b19fd04c6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab7872fcd6e3badfff50a81a5253e361b"><td class="memItemLeft" align="right" valign="top"><a id="ab7872fcd6e3badfff50a81a5253e361b"></a>
+std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>getRateRuleIds</b> () const</td></tr>
+<tr class="separator:ab7872fcd6e3badfff50a81a5253e361b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aebb5eecd5a5c493a2b894e87f234ae53"><td class="memItemLeft" align="right" valign="top"><a id="aebb5eecd5a5c493a2b894e87f234ae53"></a>
+std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>getInitialAssignmentIds</b> () const</td></tr>
+<tr class="separator:aebb5eecd5a5c493a2b894e87f234ae53"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab3e8054b5ef8d3f6fe151f6f0b28b1c4"><td class="memItemLeft" align="right" valign="top"><a id="ab3e8054b5ef8d3f6fe151f6f0b28b1c4"></a>
 std::string&#160;</td><td class="memItemRight" valign="bottom"><b>getEventId</b> (size_t indx) const</td></tr>
 <tr class="separator:ab3e8054b5ef8d3f6fe151f6f0b28b1c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -406,6 +433,27 @@ static const char *&#160;</td><td class="memItemRight" valign="bottom"><a class=
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="af6553b393cc60475e6555fa82ede5495"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af6553b393cc60475e6555fa82ede5495">&#9670;&nbsp;</a></span>getBoundarySpeciesInitIndex()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int rrllvm::LLVMModelDataSymbols::getBoundarySpeciesInitIndex </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>symbol</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>get the index of a boundary species initial value. </p>
+<p>has the same index as the run time boundary species. </p>
+
+</div>
+</div>
 <a id="af08014c2f00c6f8721f5ec253e9af2a2"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af08014c2f00c6f8721f5ec253e9af2a2">&#9670;&nbsp;</a></span>getCompartmentInitIndex()</h2>
 
@@ -691,6 +739,27 @@ static const char *&#160;</td><td class="memItemRight" valign="bottom"><a class=
 <p>if there are no rules for an element, then they are considered independent. </p>
 <p>These are only for elements, not init values, will return false for all init symbols.</p>
 <p>Only valid after class has been constructed. </p>
+
+</div>
+</div>
+<a id="a52ef222f608f2e024d6b126186dfe90c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a52ef222f608f2e024d6b126186dfe90c">&#9670;&nbsp;</a></span>isIndependentInitBoundarySpecies()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool rrllvm::LLVMModelDataSymbols::isIndependentInitBoundarySpecies </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>symbol</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>checks if the given symbol is an init value for an independent boundary species. </p>
+<p>Conserved Moiety species are considered to have independent initial condtions as in this case, the assignment rule only applies at time t &gt; 0. </p>
 
 </div>
 </div>

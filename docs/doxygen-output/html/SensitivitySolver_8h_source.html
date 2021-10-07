@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">roadrunner
-   &#160;<span id="projectnumber">2.0.8</span>
+   &#160;<span id="projectnumber">2.1.0</span>
    </div>
    <div id="projectbrief">Fast simulator for SBML models</div>
   </td>
@@ -103,42 +103,43 @@ $(function() {
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
 <div class="line"><a name="l00055"></a><span class="lineno"><a class="line" href="classrr_1_1TimeSeriesSensitivitySolver.html#a9f070078f416a3cfb2c6fbb397b238c6">   55</a></span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">double</span> <a class="code" href="classrr_1_1TimeSeriesSensitivitySolver.html#a9f070078f416a3cfb2c6fbb397b238c6">integrate</a>(<span class="keywordtype">double</span> t0, <span class="keywordtype">double</span> hstep) = 0;</div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
-<div class="line"><a name="l00071"></a><span class="lineno"><a class="line" href="classrr_1_1TimeSeriesSensitivitySolver.html#ab460ead5a873a10145c645c2e0d2a32f">   71</a></span>&#160;        <span class="keyword">virtual</span> <a class="code" href="classrr_1_1Matrix3D.html">Matrix3D&lt;double, double&gt;</a> <a class="code" href="classrr_1_1TimeSeriesSensitivitySolver.html#ab460ead5a873a10145c645c2e0d2a32f">solveSensitivities</a>(</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;                <span class="keywordtype">double</span> start, <span class="keywordtype">double</span> stop, <span class="keywordtype">int</span> num,</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;                std::vector&lt;std::string&gt; params = std::vector&lt;std::string&gt;(),</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;                <span class="keywordtype">int</span> k = 0) = 0;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    };</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160; </div>
-<div class="line"><a name="l00082"></a><span class="lineno"><a class="line" href="classrr_1_1SteadyStateSensitivitySolver.html">   82</a></span>&#160;    <span class="keyword">class </span><a class="code" href="classrr_1_1SteadyStateSensitivitySolver.html">SteadyStateSensitivitySolver</a> : <span class="keyword">public</span> <a class="code" href="classrr_1_1SensitivitySolver.html">SensitivitySolver</a> {</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        <span class="keyword">using</span> SensitivitySolver::SensitivitySolver;</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160; </div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        ~<a class="code" href="classrr_1_1SteadyStateSensitivitySolver.html">SteadyStateSensitivitySolver</a>() <span class="keyword">override</span> = <span class="keywordflow">default</span>;</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160; </div>
-<div class="line"><a name="l00093"></a><span class="lineno"><a class="line" href="classrr_1_1SteadyStateSensitivitySolver.html#a07e7a0c87c30a99fd58dd53c1ed63475">   93</a></span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">double</span> <a class="code" href="classrr_1_1SteadyStateSensitivitySolver.html#a07e7a0c87c30a99fd58dd53c1ed63475">solveSteadyState</a>() = 0;</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160; </div>
-<div class="line"><a name="l00106"></a><span class="lineno"><a class="line" href="classrr_1_1SteadyStateSensitivitySolver.html#a9bc29aa9469aa0a64beed8c9eeac55d8">  106</a></span>&#160;        <span class="keyword">virtual</span> <a class="code" href="classrr_1_1Matrix.html">rr::Matrix&lt;double&gt;</a> <a class="code" href="classrr_1_1SteadyStateSensitivitySolver.html#a9bc29aa9469aa0a64beed8c9eeac55d8">solveSensitivities</a>(</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;                std::vector&lt;std::string&gt; params = std::vector&lt;std::string&gt;(),</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;                        <span class="keywordtype">int</span> k = 0) = 0;</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160; </div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    };</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160; </div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;}</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160; </div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;<span class="preprocessor">#endif </span><span class="comment">//ROADRUNNER_SENSITIVITYSOLVER_H</span></div>
+<div class="line"><a name="l00075"></a><span class="lineno"><a class="line" href="classrr_1_1TimeSeriesSensitivitySolver.html#a1f0c8cb09f7f29b6557943bc905d42fd">   75</a></span>&#160;        <span class="keyword">virtual</span> <a class="code" href="classrr_1_1Matrix3D.html">Matrix3D&lt;double, double&gt;</a> <a class="code" href="classrr_1_1TimeSeriesSensitivitySolver.html#a1f0c8cb09f7f29b6557943bc905d42fd">solveSensitivities</a>(</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                <span class="keywordtype">double</span> start, <span class="keywordtype">double</span> stop, <span class="keywordtype">int</span> num,</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;                std::vector&lt;std::string&gt; params,</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;                std::vector&lt;std::string&gt; species,</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;                <span class="keywordtype">int</span> k) = 0;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160; </div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    };</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160; </div>
+<div class="line"><a name="l00087"></a><span class="lineno"><a class="line" href="classrr_1_1SteadyStateSensitivitySolver.html">   87</a></span>&#160;    <span class="keyword">class </span><a class="code" href="classrr_1_1SteadyStateSensitivitySolver.html">SteadyStateSensitivitySolver</a> : <span class="keyword">public</span> <a class="code" href="classrr_1_1SensitivitySolver.html">SensitivitySolver</a> {</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        <span class="keyword">using</span> SensitivitySolver::SensitivitySolver;</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160; </div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        ~<a class="code" href="classrr_1_1SteadyStateSensitivitySolver.html">SteadyStateSensitivitySolver</a>() <span class="keyword">override</span> = <span class="keywordflow">default</span>;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160; </div>
+<div class="line"><a name="l00098"></a><span class="lineno"><a class="line" href="classrr_1_1SteadyStateSensitivitySolver.html#a07e7a0c87c30a99fd58dd53c1ed63475">   98</a></span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">double</span> <a class="code" href="classrr_1_1SteadyStateSensitivitySolver.html#a07e7a0c87c30a99fd58dd53c1ed63475">solveSteadyState</a>() = 0;</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160; </div>
+<div class="line"><a name="l00111"></a><span class="lineno"><a class="line" href="classrr_1_1SteadyStateSensitivitySolver.html#a9bc29aa9469aa0a64beed8c9eeac55d8">  111</a></span>&#160;        <span class="keyword">virtual</span> <a class="code" href="classrr_1_1Matrix.html">rr::Matrix&lt;double&gt;</a> <a class="code" href="classrr_1_1SteadyStateSensitivitySolver.html#a9bc29aa9469aa0a64beed8c9eeac55d8">solveSensitivities</a>(</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;                std::vector&lt;std::string&gt; params = std::vector&lt;std::string&gt;(),</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;                        <span class="keywordtype">int</span> k = 0) = 0;</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160; </div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    };</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160; </div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;}</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160; </div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;<span class="preprocessor">#endif </span><span class="comment">//ROADRUNNER_SENSITIVITYSOLVER_H</span></div>
 <div class="ttc" id="aSolver_8h_html"><div class="ttname"><a href="Solver_8h.html">Solver.h</a></div><div class="ttdoc">Contains the base class for RoadRunner solvers.</div></div>
 <div class="ttc" id="aclassrr_1_1Matrix3D_html"><div class="ttname"><a href="classrr_1_1Matrix3D.html">rr::Matrix3D</a></div><div class="ttdef"><b>Definition:</b> Matrix3D.h:13</div></div>
 <div class="ttc" id="aclassrr_1_1Matrix_html"><div class="ttname"><a href="classrr_1_1Matrix.html">rr::Matrix</a></div><div class="ttdef"><b>Definition:</b> Matrix.h:14</div></div>
 <div class="ttc" id="aclassrr_1_1SensitivitySolver_html"><div class="ttname"><a href="classrr_1_1SensitivitySolver.html">rr::SensitivitySolver</a></div><div class="ttdoc">generic interface for all SensitivitySolvers</div><div class="ttdef"><b>Definition:</b> SensitivitySolver.h:22</div></div>
 <div class="ttc" id="aclassrr_1_1SensitivitySolver_html_ab6bc2c2f138c4983a244d36108f8af5e"><div class="ttname"><a href="classrr_1_1SensitivitySolver.html#ab6bc2c2f138c4983a244d36108f8af5e">rr::SensitivitySolver::getSensitivityMatrix</a></div><div class="ttdeci">virtual rr::Matrix&lt; double &gt; getSensitivityMatrix(int k=0)=0</div><div class="ttdoc">get current values of sensitivities of model variables to parameters.</div></div>
 <div class="ttc" id="aclassrr_1_1Solver_html"><div class="ttname"><a href="classrr_1_1Solver.html">rr::Solver</a></div><div class="ttdoc">Base class for all integrators and steady state solvers.</div><div class="ttdef"><b>Definition:</b> Solver.h:39</div></div>
-<div class="ttc" id="aclassrr_1_1SteadyStateSensitivitySolver_html"><div class="ttname"><a href="classrr_1_1SteadyStateSensitivitySolver.html">rr::SteadyStateSensitivitySolver</a></div><div class="ttdoc">genetic interface for sensitivity solvers that solve for steady state before computing model sensitiv...</div><div class="ttdef"><b>Definition:</b> SensitivitySolver.h:82</div></div>
+<div class="ttc" id="aclassrr_1_1SteadyStateSensitivitySolver_html"><div class="ttname"><a href="classrr_1_1SteadyStateSensitivitySolver.html">rr::SteadyStateSensitivitySolver</a></div><div class="ttdoc">genetic interface for sensitivity solvers that solve for steady state before computing model sensitiv...</div><div class="ttdef"><b>Definition:</b> SensitivitySolver.h:87</div></div>
 <div class="ttc" id="aclassrr_1_1SteadyStateSensitivitySolver_html_a07e7a0c87c30a99fd58dd53c1ed63475"><div class="ttname"><a href="classrr_1_1SteadyStateSensitivitySolver.html#a07e7a0c87c30a99fd58dd53c1ed63475">rr::SteadyStateSensitivitySolver::solveSteadyState</a></div><div class="ttdeci">virtual double solveSteadyState()=0</div><div class="ttdoc">solves the model for steady state.</div></div>
 <div class="ttc" id="aclassrr_1_1SteadyStateSensitivitySolver_html_a9bc29aa9469aa0a64beed8c9eeac55d8"><div class="ttname"><a href="classrr_1_1SteadyStateSensitivitySolver.html#a9bc29aa9469aa0a64beed8c9eeac55d8">rr::SteadyStateSensitivitySolver::solveSensitivities</a></div><div class="ttdeci">virtual rr::Matrix&lt; double &gt; solveSensitivities(std::vector&lt; std::string &gt; params=std::vector&lt; std::string &gt;(), int k=0)=0</div><div class="ttdoc">compute sensitivities at steady state</div></div>
 <div class="ttc" id="aclassrr_1_1TimeSeriesSensitivitySolver_html"><div class="ttname"><a href="classrr_1_1TimeSeriesSensitivitySolver.html">rr::TimeSeriesSensitivitySolver</a></div><div class="ttdoc">generic interface for sensitivity solvers that integrate the model and compute sensitivities at each ...</div><div class="ttdef"><b>Definition:</b> SensitivitySolver.h:42</div></div>
+<div class="ttc" id="aclassrr_1_1TimeSeriesSensitivitySolver_html_a1f0c8cb09f7f29b6557943bc905d42fd"><div class="ttname"><a href="classrr_1_1TimeSeriesSensitivitySolver.html#a1f0c8cb09f7f29b6557943bc905d42fd">rr::TimeSeriesSensitivitySolver::solveSensitivities</a></div><div class="ttdeci">virtual Matrix3D&lt; double, double &gt; solveSensitivities(double start, double stop, int num, std::vector&lt; std::string &gt; params, std::vector&lt; std::string &gt; species, int k)=0</div><div class="ttdoc">simulate a timeseries with sensitivities from start to step with num data points.</div></div>
 <div class="ttc" id="aclassrr_1_1TimeSeriesSensitivitySolver_html_a9f070078f416a3cfb2c6fbb397b238c6"><div class="ttname"><a href="classrr_1_1TimeSeriesSensitivitySolver.html#a9f070078f416a3cfb2c6fbb397b238c6">rr::TimeSeriesSensitivitySolver::integrate</a></div><div class="ttdeci">virtual double integrate(double t0, double hstep)=0</div><div class="ttdoc">integrate the model from t0 to t0 + hstep.</div></div>
-<div class="ttc" id="aclassrr_1_1TimeSeriesSensitivitySolver_html_ab460ead5a873a10145c645c2e0d2a32f"><div class="ttname"><a href="classrr_1_1TimeSeriesSensitivitySolver.html#ab460ead5a873a10145c645c2e0d2a32f">rr::TimeSeriesSensitivitySolver::solveSensitivities</a></div><div class="ttdeci">virtual Matrix3D&lt; double, double &gt; solveSensitivities(double start, double stop, int num, std::vector&lt; std::string &gt; params=std::vector&lt; std::string &gt;(), int k=0)=0</div><div class="ttdoc">simulate a timeseries with sensitivities from start to step with num data points.</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

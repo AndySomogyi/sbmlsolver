@@ -575,13 +575,13 @@
         <childnode refid="2" relation="usage">
           <edgelabel>mSettings</edgelabel>
         </childnode>
-        <childnode refid="6" relation="usage">
+        <childnode refid="4" relation="usage">
           <edgelabel>mEngine</edgelabel>
         </childnode>
-        <childnode refid="5" relation="usage">
+        <childnode refid="3" relation="usage">
           <edgelabel>mModelFileName</edgelabel>
         </childnode>
-        <childnode refid="7" relation="usage">
+        <childnode refid="5" relation="usage">
           <edgelabel>mDataOutputFolder</edgelabel>
           <edgelabel>mModelFilePath</edgelabel>
           <edgelabel>mModelSettingsFileName</edgelabel>
@@ -592,29 +592,17 @@
       <node id="2">
         <label>rr::SimulateOptions</label>
         <link refid="classrr_1_1SimulateOptions"/>
-        <childnode refid="3" relation="public-inheritance">
-        </childnode>
-        <childnode refid="5" relation="usage">
+        <childnode refid="3" relation="usage">
           <edgelabel>output_file</edgelabel>
         </childnode>
       </node>
-      <node id="7">
+      <node id="5">
         <label>path</label>
       </node>
       <node id="3">
-        <label>rr::BasicDictionary</label>
-        <link refid="classrr_1_1BasicDictionary"/>
-        <childnode refid="4" relation="public-inheritance">
-        </childnode>
-      </node>
-      <node id="5">
         <label>string</label>
       </node>
       <node id="4">
-        <label>rr::Dictionary</label>
-        <link refid="classrr_1_1Dictionary"/>
-      </node>
-      <node id="6">
         <label>rr::RoadRunner</label>
         <link refid="classrr_1_1RoadRunner"/>
       </node>

@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">roadrunner
-   &#160;<span id="projectnumber">2.0.8</span>
+   &#160;<span id="projectnumber">2.1.0</span>
    </div>
    <div id="projectbrief">Fast simulator for SBML models</div>
   </td>
@@ -141,6 +141,9 @@ virtual IntegratorListenerPtr&#160;</td><td class="memItemRight" valign="bottom"
 <tr class="memitem:a8a79e9633a25767a1683a0334fd1d917"><td class="memItemLeft" align="right" valign="top"><a id="a8a79e9633a25767a1683a0334fd1d917"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>Integrator</b> (<a class="el" href="classrr_1_1ExecutableModel.html">ExecutableModel</a> *model)</td></tr>
 <tr class="separator:a8a79e9633a25767a1683a0334fd1d917"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a661048f976364d39626d24e4745aa416"><td class="memItemLeft" align="right" valign="top"><a id="a661048f976364d39626d24e4745aa416"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Integrator</b> ()</td></tr>
+<tr class="separator:a661048f976364d39626d24e4745aa416"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classrr_1_1Integrator"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classrr_1_1Integrator')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classrr_1_1Integrator.html">rr::Integrator</a></td></tr>
 <tr class="memitem:a8a79e9633a25767a1683a0334fd1d917 inherit pub_methods_classrr_1_1Integrator"><td class="memItemLeft" align="right" valign="top"><a id="a8a79e9633a25767a1683a0334fd1d917"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>Integrator</b> (<a class="el" href="classrr_1_1ExecutableModel.html">ExecutableModel</a> *model)</td></tr>
@@ -169,6 +172,9 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>loadSBMLSetti
 <tr class="memitem:abb3c4ae3020a5df7abe40639037615cb inherit pub_methods_classrr_1_1Integrator"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1Integrator.html#abb3c4ae3020a5df7abe40639037615cb">toRepr</a> () const</td></tr>
 <tr class="memdesc:abb3c4ae3020a5df7abe40639037615cb inherit pub_methods_classrr_1_1Integrator"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return std::string representation a la Python <b>repr</b> method.  <a href="classrr_1_1Integrator.html#abb3c4ae3020a5df7abe40639037615cb">More...</a><br /></td></tr>
 <tr class="separator:abb3c4ae3020a5df7abe40639037615cb inherit pub_methods_classrr_1_1Integrator"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8b39797408013aaf5fa2d09cb71f8a17 inherit pub_methods_classrr_1_1Integrator"><td class="memItemLeft" align="right" valign="top"><a id="a8b39797408013aaf5fa2d09cb71f8a17"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setIntegrationStartTime</b> (double time)</td></tr>
+<tr class="separator:a8b39797408013aaf5fa2d09cb71f8a17 inherit pub_methods_classrr_1_1Integrator"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a04bba4a342cc7197750f080d41d439e5 inherit pub_methods_classrr_1_1Integrator"><td class="memItemLeft" align="right" valign="top"><a id="a04bba4a342cc7197750f080d41d439e5"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>Solver</b> ()=default</td></tr>
 <tr class="separator:a04bba4a342cc7197750f080d41d439e5 inherit pub_methods_classrr_1_1Integrator"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -304,9 +310,13 @@ HintMap&#160;</td><td class="memItemRight" valign="bottom"><b>hints</b></td></tr
 DescriptionMap&#160;</td><td class="memItemRight" valign="bottom"><b>descriptions</b></td></tr>
 <tr class="separator:a7e07121f652db358045d6f7b95889ea3 inherit pub_attribs_classrr_1_1Solver"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_methods_classrr_1_1Solver"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classrr_1_1Solver')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="classrr_1_1Solver.html">rr::Solver</a></td></tr>
-<tr class="memitem:ad5b8ac1ef687d1a3c9f1f305cb73804d inherit pro_methods_classrr_1_1Solver"><td class="memItemLeft" align="right" valign="top"><a id="ad5b8ac1ef687d1a3c9f1f305cb73804d"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>addSetting</b> (const std::string &amp;name, <a class="el" href="classrr_1_1Setting.html">Setting</a> val, std::string display_name, std::string hint, std::string description)</td></tr>
-<tr class="separator:ad5b8ac1ef687d1a3c9f1f305cb73804d inherit pro_methods_classrr_1_1Solver"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9d801d628c80877bbadd4fcff012837d inherit pro_methods_classrr_1_1Solver"><td class="memItemLeft" align="right" valign="top"><a id="a9d801d628c80877bbadd4fcff012837d"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>addSetting</b> (const std::string &amp;name, const <a class="el" href="classrr_1_1Setting.html">Setting</a> &amp;val, const std::string &amp;display_name, const std::string &amp;hint, const std::string &amp;description)</td></tr>
+<tr class="separator:a9d801d628c80877bbadd4fcff012837d inherit pro_methods_classrr_1_1Solver"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_attribs_classrr_1_1Integrator"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classrr_1_1Integrator')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="classrr_1_1Integrator.html">rr::Integrator</a></td></tr>
+<tr class="memitem:ad8c8677013a9976bcbc7a6f7a82f136e inherit pro_attribs_classrr_1_1Integrator"><td class="memItemLeft" align="right" valign="top"><a id="ad8c8677013a9976bcbc7a6f7a82f136e"></a>
+double&#160;</td><td class="memItemRight" valign="bottom"><b>mIntegrationStartTime</b></td></tr>
+<tr class="separator:ad8c8677013a9976bcbc7a6f7a82f136e inherit pro_attribs_classrr_1_1Integrator"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_attribs_classrr_1_1Solver"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classrr_1_1Solver')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="classrr_1_1Solver.html">rr::Solver</a></td></tr>
 <tr class="memitem:ab60e7640a8c959558a144d9d7ee45515 inherit pro_attribs_classrr_1_1Solver"><td class="memItemLeft" align="right" valign="top"><a id="ab60e7640a8c959558a144d9d7ee45515"></a>
 <a class="el" href="classrr_1_1ExecutableModel.html">ExecutableModel</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1Solver.html#ab60e7640a8c959558a144d9d7ee45515">mModel</a> = nullptr</td></tr>

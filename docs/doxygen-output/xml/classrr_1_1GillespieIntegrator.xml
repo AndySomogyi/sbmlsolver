@@ -334,7 +334,7 @@ the caller is responsible for deleting memory associated with the returned Solve
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="GillespieIntegrator.h" line="74" column="16" bodyfile="GillespieIntegrator.cpp" bodystart="428" bodyend="430"/>
+        <location file="GillespieIntegrator.h" line="74" column="16" bodyfile="GillespieIntegrator.cpp" bodystart="431" bodyend="433"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1GillespieIntegrator_1a9fe029c162b37172c49f2175c69eb8fc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>IntegrationMethod</type>
@@ -422,7 +422,7 @@ the caller is responsible for deleting memory associated with the returned Solve
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="GillespieIntegrator.h" line="102" column="16" bodyfile="GillespieIntegrator.cpp" bodystart="201" bodyend="368"/>
+        <location file="GillespieIntegrator.h" line="102" column="16" bodyfile="GillespieIntegrator.cpp" bodystart="201" bodyend="373"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1GillespieIntegrator_1a262d1d16bd30c35269cd3daabfd1b574" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -444,7 +444,7 @@ the caller is responsible for deleting memory associated with the returned Solve
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="GillespieIntegrator.h" line="108" column="14" bodyfile="GillespieIntegrator.cpp" bodystart="382" bodyend="404"/>
+        <location file="GillespieIntegrator.h" line="108" column="14" bodyfile="GillespieIntegrator.cpp" bodystart="387" bodyend="407"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1GillespieIntegrator_1aa412e44a4edb787ea54c397de0a94429" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>IntegratorListenerPtr</type>
@@ -462,7 +462,7 @@ the caller is responsible for deleting memory associated with the returned Solve
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="GillespieIntegrator.h" line="116" column="31" bodyfile="GillespieIntegrator.cpp" bodystart="410" bodyend="413"/>
+        <location file="GillespieIntegrator.h" line="116" column="31" bodyfile="GillespieIntegrator.cpp" bodystart="413" bodyend="416"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1GillespieIntegrator_1ad90d4e1cc786cb9e9231cdcfc42a01ed" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -483,7 +483,7 @@ the caller is responsible for deleting memory associated with the returned Solve
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="GillespieIntegrator.h" line="122" column="14" bodyfile="GillespieIntegrator.cpp" bodystart="406" bodyend="408"/>
+        <location file="GillespieIntegrator.h" line="122" column="14" bodyfile="GillespieIntegrator.cpp" bodystart="409" bodyend="411"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1GillespieIntegrator_1a8a79e9633a25767a1683a0334fd1d917" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
         <type></type>
@@ -500,7 +500,20 @@ the caller is responsible for deleting memory associated with the returned Solve
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="GillespieIntegrator.h" line="38" column="9" bodyfile="Integrator.cpp" bodystart="34" bodyend="35"/>
+        <location file="GillespieIntegrator.h" line="38" column="9" bodyfile="Integrator.cpp" bodystart="34" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1GillespieIntegrator_1a661048f976364d39626d24e4745aa416" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>rr::Integrator::Integrator</definition>
+        <argsstring>()</argsstring>
+        <name>Integrator</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="GillespieIntegrator.h" line="38" column="9" bodyfile="Integrator.cpp" bodystart="40" bodyend="44"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-func">
@@ -515,7 +528,7 @@ the caller is responsible for deleting memory associated with the returned Solve
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="GillespieIntegrator.h" line="144" column="14" bodyfile="GillespieIntegrator.cpp" bodystart="370" bodyend="375"/>
+        <location file="GillespieIntegrator.h" line="144" column="14" bodyfile="GillespieIntegrator.cpp" bodystart="375" bodyend="380"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1GillespieIntegrator_1a86a2804bbae3bf66f974c6bdd790eb6f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -536,7 +549,7 @@ the caller is responsible for deleting memory associated with the returned Solve
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="GillespieIntegrator.h" line="145" column="14" bodyfile="GillespieIntegrator.cpp" bodystart="377" bodyend="380"/>
+        <location file="GillespieIntegrator.h" line="145" column="14" bodyfile="GillespieIntegrator.cpp" bodystart="382" bodyend="385"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1GillespieIntegrator_1afedd845c9444ad8a7c1ff560f6655b46" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
@@ -549,7 +562,7 @@ the caller is responsible for deleting memory associated with the returned Solve
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="GillespieIntegrator.h" line="147" column="16" bodyfile="GillespieIntegrator.cpp" bodystart="415" bodyend="418"/>
+        <location file="GillespieIntegrator.h" line="147" column="16" bodyfile="GillespieIntegrator.cpp" bodystart="418" bodyend="421"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1GillespieIntegrator_1aefe7409a15c083899ff595498f0b17cd" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -566,7 +579,7 @@ the caller is responsible for deleting memory associated with the returned Solve
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="GillespieIntegrator.h" line="148" column="14" bodyfile="GillespieIntegrator.cpp" bodystart="420" bodyend="426"/>
+        <location file="GillespieIntegrator.h" line="148" column="14" bodyfile="GillespieIntegrator.cpp" bodystart="423" bodyend="429"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1GillespieIntegrator_1a708d408bfc8c93d3db30e245d15d8303" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::uint64_t</type>
@@ -685,7 +698,7 @@ Called whenever a model is loaded or a Gillespie integrator is constructed </par
     </collaborationgraph>
     <location file="GillespieIntegrator.h" line="35" column="5" bodyfile="GillespieIntegrator.h" bodystart="36" bodyend="163"/>
     <listofallmembers>
-      <member refid="classrr_1_1Solver_1ad5b8ac1ef687d1a3c9f1f305cb73804d" prot="protected" virt="non-virtual"><scope>rr::GillespieIntegrator</scope><name>addSetting</name></member>
+      <member refid="classrr_1_1Solver_1a9d801d628c80877bbadd4fcff012837d" prot="protected" virt="non-virtual"><scope>rr::GillespieIntegrator</scope><name>addSetting</name></member>
       <member refid="classrr_1_1GillespieIntegrator_1a86a2804bbae3bf66f974c6bdd790eb6f" prot="private" virt="non-virtual"><scope>rr::GillespieIntegrator</scope><name>applyEvents</name></member>
       <member refid="classrr_1_1GillespieIntegrator_1a3ba0c5feae9d3e0f6cc24a671183e430" prot="public" virt="virtual"><scope>rr::GillespieIntegrator</scope><name>construct</name></member>
       <member refid="classrr_1_1Solver_1a7d58e224664ab44e56f90802d9601f01" prot="public" virt="non-virtual"><scope>rr::GillespieIntegrator</scope><name>DescriptionMap</name></member>
@@ -731,9 +744,11 @@ Called whenever a model is loaded or a Gillespie integrator is constructed </par
       <member refid="classrr_1_1GillespieIntegrator_1a37f3be6adad08270982ba790c721aa64" prot="public" virt="virtual"><scope>rr::GillespieIntegrator</scope><name>integrate</name></member>
       <member refid="classrr_1_1Integrator_1a0912499450e66cb4301263362d64a0d0" prot="public" virt="non-virtual"><scope>rr::GillespieIntegrator</scope><name>IntegrationMethod</name></member>
       <member refid="classrr_1_1GillespieIntegrator_1a8a79e9633a25767a1683a0334fd1d917" prot="public" virt="non-virtual"><scope>rr::GillespieIntegrator</scope><name>Integrator</name></member>
+      <member refid="classrr_1_1GillespieIntegrator_1a661048f976364d39626d24e4745aa416" prot="public" virt="non-virtual"><scope>rr::GillespieIntegrator</scope><name>Integrator</name></member>
       <member refid="classrr_1_1Integrator_1a8a79e9633a25767a1683a0334fd1d917" prot="public" virt="non-virtual" ambiguityscope="rr::Integrator::"><scope>rr::GillespieIntegrator</scope><name>Integrator</name></member>
       <member refid="classrr_1_1Integrator_1a3753687554e7e6bcf0c14c174deb2b0f" prot="public" virt="virtual"><scope>rr::GillespieIntegrator</scope><name>loadConfigSettings</name></member>
       <member refid="classrr_1_1Integrator_1abd2e6c3616d1831c028f1061d927fbcd" prot="public" virt="virtual"><scope>rr::GillespieIntegrator</scope><name>loadSBMLSettings</name></member>
+      <member refid="classrr_1_1Integrator_1ad8c8677013a9976bcbc7a6f7a82f136e" prot="protected" virt="non-virtual"><scope>rr::GillespieIntegrator</scope><name>mIntegrationStartTime</name></member>
       <member refid="classrr_1_1Solver_1ab60e7640a8c959558a144d9d7ee45515" prot="protected" virt="non-virtual"><scope>rr::GillespieIntegrator</scope><name>mModel</name></member>
       <member refid="classrr_1_1GillespieIntegrator_1a6fc05dfea74798ea6a14476bf29e2c10" prot="private" virt="non-virtual"><scope>rr::GillespieIntegrator</scope><name>nReactions</name></member>
       <member refid="classrr_1_1Integrator_1a0912499450e66cb4301263362d64a0d0a0f9b8ec4e01a0fcd2ce808c42c039940" prot="public" virt="non-virtual"><scope>rr::GillespieIntegrator</scope><name>Other</name></member>
@@ -745,6 +760,7 @@ Called whenever a model is loaded or a Gillespie integrator is constructed </par
       <member refid="classrr_1_1Integrator_1a21645210737f35264504c3125c4679fe" prot="public" virt="virtual"><scope>rr::GillespieIntegrator</scope><name>setConcentrationTolerance</name></member>
       <member refid="classrr_1_1GillespieIntegrator_1aefe7409a15c083899ff595498f0b17cd" prot="private" virt="non-virtual"><scope>rr::GillespieIntegrator</scope><name>setEngineSeed</name></member>
       <member refid="classrr_1_1Integrator_1a53099879e74aa5bea1139453db9b5732" prot="public" virt="virtual"><scope>rr::GillespieIntegrator</scope><name>setIndividualTolerance</name></member>
+      <member refid="classrr_1_1Integrator_1a8b39797408013aaf5fa2d09cb71f8a17" prot="public" virt="non-virtual"><scope>rr::GillespieIntegrator</scope><name>setIntegrationStartTime</name></member>
       <member refid="classrr_1_1GillespieIntegrator_1ad90d4e1cc786cb9e9231cdcfc42a01ed" prot="public" virt="virtual"><scope>rr::GillespieIntegrator</scope><name>setListener</name></member>
       <member refid="classrr_1_1Solver_1a44a22cf0edead17a9cc923d87dcc063e" prot="public" virt="non-virtual"><scope>rr::GillespieIntegrator</scope><name>settings</name></member>
       <member refid="classrr_1_1Solver_1adcbacd57e2871a83bb9c4d7a4038a069" prot="public" virt="non-virtual"><scope>rr::GillespieIntegrator</scope><name>SettingsList</name></member>

@@ -490,7 +490,9 @@
       </node>
     </invincdepgraph>
     <innerclass refid="classrrllvm_1_1GetFloatingSpeciesInitConcentrationCodeGen" prot="public">rrllvm::GetFloatingSpeciesInitConcentrationCodeGen</innerclass>
+    <innerclass refid="classrrllvm_1_1GetBoundarySpeciesInitConcentrationCodeGen" prot="public">rrllvm::GetBoundarySpeciesInitConcentrationCodeGen</innerclass>
     <innerclass refid="classrrllvm_1_1GetFloatingSpeciesInitAmountCodeGen" prot="public">rrllvm::GetFloatingSpeciesInitAmountCodeGen</innerclass>
+    <innerclass refid="classrrllvm_1_1GetBoundarySpeciesInitAmountCodeGen" prot="public">rrllvm::GetBoundarySpeciesInitAmountCodeGen</innerclass>
     <innerclass refid="classrrllvm_1_1GetCompartmentInitVolumeCodeGen" prot="public">rrllvm::GetCompartmentInitVolumeCodeGen</innerclass>
     <innerclass refid="classrrllvm_1_1GetGlobalParameterInitValueCodeGen" prot="public">rrllvm::GetGlobalParameterInitValueCodeGen</innerclass>
     <innernamespace refid="namespacerrllvm">rrllvm</innernamespace>
@@ -538,58 +540,90 @@
 <codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>IndexArgName;</highlight></codeline>
 <codeline lineno="38"><highlight class="normal">};</highlight></codeline>
 <codeline lineno="39"><highlight class="normal"></highlight></codeline>
-<codeline lineno="40" refid="classrrllvm_1_1GetFloatingSpeciesInitAmountCodeGen" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classrrllvm_1_1GetFloatingSpeciesInitAmountCodeGen" kindref="compound">GetFloatingSpeciesInitAmountCodeGen</ref>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classrrllvm_1_1GetInitialValueCodeGenBase" kindref="compound">GetInitialValueCodeGenBase</ref>&lt;GetFloatingSpeciesInitAmountCodeGen,<sp/>true&gt;</highlight></codeline>
+<codeline lineno="40" refid="classrrllvm_1_1GetBoundarySpeciesInitConcentrationCodeGen" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classrrllvm_1_1GetBoundarySpeciesInitConcentrationCodeGen" kindref="compound">GetBoundarySpeciesInitConcentrationCodeGen</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classrrllvm_1_1GetInitialValueCodeGenBase" kindref="compound">GetInitialValueCodeGenBase</ref>&lt;GetBoundarySpeciesInitConcentrationCodeGen,<sp/>false&gt;</highlight></codeline>
 <codeline lineno="42"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="43"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classrrllvm_1_1GetFloatingSpeciesInitAmountCodeGen" kindref="compound">GetFloatingSpeciesInitAmountCodeGen</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classrrllvm_1_1ModelGeneratorContext" kindref="compound">ModelGeneratorContext</ref><sp/>&amp;mgc);</highlight></codeline>
-<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>~<ref refid="classrrllvm_1_1GetFloatingSpeciesInitAmountCodeGen" kindref="compound">GetFloatingSpeciesInitAmountCodeGen</ref>()<sp/>{};</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classrrllvm_1_1GetBoundarySpeciesInitConcentrationCodeGen" kindref="compound">GetBoundarySpeciesInitConcentrationCodeGen</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classrrllvm_1_1ModelGeneratorContext" kindref="compound">ModelGeneratorContext</ref>&amp;<sp/>mgc);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>~<ref refid="classrrllvm_1_1GetBoundarySpeciesInitConcentrationCodeGen" kindref="compound">GetBoundarySpeciesInitConcentrationCodeGen</ref>()<sp/>{};</highlight></codeline>
 <codeline lineno="46"><highlight class="normal"></highlight></codeline>
-<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>getIds()</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;string&gt;<sp/>getIds()</highlight></codeline>
 <codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>dataSymbols.<ref refid="classrrllvm_1_1LLVMModelDataSymbols_1a330dc333f5b9116091f8f79c10f4db46" kindref="member">getFloatingSpeciesIds</ref>();</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>dataSymbols.getBoundarySpeciesIds();</highlight></codeline>
 <codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="51"><highlight class="normal"></highlight></codeline>
 <codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>FunctionName;</highlight></codeline>
 <codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>IndexArgName;</highlight></codeline>
 <codeline lineno="54"><highlight class="normal">};</highlight></codeline>
 <codeline lineno="55"><highlight class="normal"></highlight></codeline>
-<codeline lineno="56" refid="classrrllvm_1_1GetCompartmentInitVolumeCodeGen" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classrrllvm_1_1GetCompartmentInitVolumeCodeGen" kindref="compound">GetCompartmentInitVolumeCodeGen</ref>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classrrllvm_1_1GetInitialValueCodeGenBase" kindref="compound">GetInitialValueCodeGenBase</ref>&lt;GetCompartmentInitVolumeCodeGen,<sp/>false&gt;</highlight></codeline>
+<codeline lineno="56" refid="classrrllvm_1_1GetFloatingSpeciesInitAmountCodeGen" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classrrllvm_1_1GetFloatingSpeciesInitAmountCodeGen" kindref="compound">GetFloatingSpeciesInitAmountCodeGen</ref>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classrrllvm_1_1GetInitialValueCodeGenBase" kindref="compound">GetInitialValueCodeGenBase</ref>&lt;GetFloatingSpeciesInitAmountCodeGen,<sp/>true&gt;</highlight></codeline>
 <codeline lineno="58"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="59"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classrrllvm_1_1GetCompartmentInitVolumeCodeGen" kindref="compound">GetCompartmentInitVolumeCodeGen</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classrrllvm_1_1ModelGeneratorContext" kindref="compound">ModelGeneratorContext</ref><sp/>&amp;mgc);</highlight></codeline>
-<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>~<ref refid="classrrllvm_1_1GetCompartmentInitVolumeCodeGen" kindref="compound">GetCompartmentInitVolumeCodeGen</ref>()<sp/>{};</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classrrllvm_1_1GetFloatingSpeciesInitAmountCodeGen" kindref="compound">GetFloatingSpeciesInitAmountCodeGen</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classrrllvm_1_1ModelGeneratorContext" kindref="compound">ModelGeneratorContext</ref><sp/>&amp;mgc);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>~<ref refid="classrrllvm_1_1GetFloatingSpeciesInitAmountCodeGen" kindref="compound">GetFloatingSpeciesInitAmountCodeGen</ref>()<sp/>{};</highlight></codeline>
 <codeline lineno="62"><highlight class="normal"></highlight></codeline>
 <codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>getIds()</highlight></codeline>
 <codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>dataSymbols.getCompartmentIds();</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>dataSymbols.<ref refid="classrrllvm_1_1LLVMModelDataSymbols_1a330dc333f5b9116091f8f79c10f4db46" kindref="member">getFloatingSpeciesIds</ref>();</highlight></codeline>
 <codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="67"><highlight class="normal"></highlight></codeline>
 <codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>FunctionName;</highlight></codeline>
 <codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>IndexArgName;</highlight></codeline>
 <codeline lineno="70"><highlight class="normal">};</highlight></codeline>
 <codeline lineno="71"><highlight class="normal"></highlight></codeline>
-<codeline lineno="72" refid="classrrllvm_1_1GetGlobalParameterInitValueCodeGen" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classrrllvm_1_1GetGlobalParameterInitValueCodeGen" kindref="compound">GetGlobalParameterInitValueCodeGen</ref>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classrrllvm_1_1GetInitialValueCodeGenBase" kindref="compound">GetInitialValueCodeGenBase</ref>&lt;GetGlobalParameterInitValueCodeGen,<sp/>false&gt;</highlight></codeline>
+<codeline lineno="72" refid="classrrllvm_1_1GetBoundarySpeciesInitAmountCodeGen" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classrrllvm_1_1GetBoundarySpeciesInitAmountCodeGen" kindref="compound">GetBoundarySpeciesInitAmountCodeGen</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classrrllvm_1_1GetInitialValueCodeGenBase" kindref="compound">GetInitialValueCodeGenBase</ref>&lt;GetBoundarySpeciesInitAmountCodeGen,<sp/>true&gt;</highlight></codeline>
 <codeline lineno="74"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="75"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classrrllvm_1_1GetGlobalParameterInitValueCodeGen" kindref="compound">GetGlobalParameterInitValueCodeGen</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classrrllvm_1_1ModelGeneratorContext" kindref="compound">ModelGeneratorContext</ref><sp/>&amp;mgc);</highlight></codeline>
-<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>~<ref refid="classrrllvm_1_1GetGlobalParameterInitValueCodeGen" kindref="compound">GetGlobalParameterInitValueCodeGen</ref>()<sp/>{};</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classrrllvm_1_1GetBoundarySpeciesInitAmountCodeGen" kindref="compound">GetBoundarySpeciesInitAmountCodeGen</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classrrllvm_1_1ModelGeneratorContext" kindref="compound">ModelGeneratorContext</ref>&amp;<sp/>mgc);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>~<ref refid="classrrllvm_1_1GetBoundarySpeciesInitAmountCodeGen" kindref="compound">GetBoundarySpeciesInitAmountCodeGen</ref>()<sp/>{};</highlight></codeline>
 <codeline lineno="78"><highlight class="normal"></highlight></codeline>
-<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>getIds()</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;string&gt;<sp/>getIds()</highlight></codeline>
 <codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>dataSymbols.getGlobalParameterIds();</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>dataSymbols.getBoundarySpeciesIds();</highlight></codeline>
 <codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="83"><highlight class="normal"></highlight></codeline>
 <codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>FunctionName;</highlight></codeline>
 <codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>IndexArgName;</highlight></codeline>
 <codeline lineno="86"><highlight class="normal">};</highlight></codeline>
 <codeline lineno="87"><highlight class="normal"></highlight></codeline>
-<codeline lineno="88"><highlight class="normal"></highlight></codeline>
-<codeline lineno="89"><highlight class="normal"></highlight></codeline>
-<codeline lineno="90"><highlight class="normal">}<sp/></highlight><highlight class="comment">/*<sp/>namespace<sp/>rr<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="91"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">/*<sp/>RRLLVM_GETINITIALVALUESCODEGEN_H_<sp/>*/</highlight><highlight class="preprocessor"></highlight></codeline>
+<codeline lineno="88" refid="classrrllvm_1_1GetCompartmentInitVolumeCodeGen" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classrrllvm_1_1GetCompartmentInitVolumeCodeGen" kindref="compound">GetCompartmentInitVolumeCodeGen</ref>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classrrllvm_1_1GetInitialValueCodeGenBase" kindref="compound">GetInitialValueCodeGenBase</ref>&lt;GetCompartmentInitVolumeCodeGen,<sp/>false&gt;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classrrllvm_1_1GetCompartmentInitVolumeCodeGen" kindref="compound">GetCompartmentInitVolumeCodeGen</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classrrllvm_1_1ModelGeneratorContext" kindref="compound">ModelGeneratorContext</ref><sp/>&amp;mgc);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>~<ref refid="classrrllvm_1_1GetCompartmentInitVolumeCodeGen" kindref="compound">GetCompartmentInitVolumeCodeGen</ref>()<sp/>{};</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>getIds()</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>dataSymbols.getCompartmentIds();</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>FunctionName;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>IndexArgName;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104" refid="classrrllvm_1_1GetGlobalParameterInitValueCodeGen" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classrrllvm_1_1GetGlobalParameterInitValueCodeGen" kindref="compound">GetGlobalParameterInitValueCodeGen</ref>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classrrllvm_1_1GetInitialValueCodeGenBase" kindref="compound">GetInitialValueCodeGenBase</ref>&lt;GetGlobalParameterInitValueCodeGen,<sp/>false&gt;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classrrllvm_1_1GetGlobalParameterInitValueCodeGen" kindref="compound">GetGlobalParameterInitValueCodeGen</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classrrllvm_1_1ModelGeneratorContext" kindref="compound">ModelGeneratorContext</ref><sp/>&amp;mgc);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>~<ref refid="classrrllvm_1_1GetGlobalParameterInitValueCodeGen" kindref="compound">GetGlobalParameterInitValueCodeGen</ref>()<sp/>{};</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>getIds()</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>dataSymbols.getGlobalParameterIds();</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>FunctionName;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>IndexArgName;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal">}<sp/></highlight><highlight class="comment">/*<sp/>namespace<sp/>rr<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">/*<sp/>RRLLVM_GETINITIALVALUESCODEGEN_H_<sp/>*/</highlight><highlight class="preprocessor"></highlight></codeline>
     </programlisting>
     <location file="llvm/GetInitialValuesCodeGen.h"/>
   </compounddef>

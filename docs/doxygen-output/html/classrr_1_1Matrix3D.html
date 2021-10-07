@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">roadrunner
-   &#160;<span id="projectnumber">2.0.8</span>
+   &#160;<span id="projectnumber">2.1.0</span>
    </div>
    <div id="projectbrief">Fast simulator for SBML models</div>
   </td>
@@ -101,6 +101,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>pushBack</b> (IndexTy
 <tr class="memitem:a0e6ccf3c0c6a740ca12af375fca03a99"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classrr_1_1Matrix.html">rr::Matrix</a>&lt; DataType &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1Matrix3D.html#a0e6ccf3c0c6a740ca12af375fca03a99">slice</a> (int k)</td></tr>
 <tr class="memdesc:a0e6ccf3c0c6a740ca12af375fca03a99"><td class="mdescLeft">&#160;</td><td class="mdescRight">1D <a class="el" href="classrr_1_1Matrix.html">Matrix</a> slicer.  <a href="classrr_1_1Matrix3D.html#a0e6ccf3c0c6a740ca12af375fca03a99">More...</a><br /></td></tr>
 <tr class="separator:a0e6ccf3c0c6a740ca12af375fca03a99"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a170fe788694b075b5509915831750bf9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classrr_1_1Matrix3D.html">rr::Matrix3D</a>&lt; DataType, IndexType &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1Matrix3D.html#a170fe788694b075b5509915831750bf9">colSliceByName</a> (const std::vector&lt; std::string &gt; &amp;rowNames)</td></tr>
+<tr class="memdesc:a170fe788694b075b5509915831750bf9"><td class="mdescLeft">&#160;</td><td class="mdescRight">slice a <a class="el" href="classrr_1_1Matrix3D.html">Matrix3D</a> by colnames.  <a href="classrr_1_1Matrix3D.html#a170fe788694b075b5509915831750bf9">More...</a><br /></td></tr>
+<tr class="separator:a170fe788694b075b5509915831750bf9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3d3e20638dd709df478c6dab345585a3"><td class="memItemLeft" align="right" valign="top">std::vector&lt; DataType &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1Matrix3D.html#a3d3e20638dd709df478c6dab345585a3">slice</a> (int k, int j)</td></tr>
 <tr class="memdesc:a3d3e20638dd709df478c6dab345585a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">2D <a class="el" href="classrr_1_1Matrix.html">Matrix</a> slicer.  <a href="classrr_1_1Matrix3D.html#a3d3e20638dd709df478c6dab345585a3">More...</a><br /></td></tr>
 <tr class="separator:a3d3e20638dd709df478c6dab345585a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -153,6 +156,18 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1Matrix3D.html#ac3204e01ccc855bab8f8959da10d63d5">almostEquals</a> (<a class="el" href="classrr_1_1Matrix3D.html">Matrix3D</a>&lt; double, double &gt; &amp;other, double tol)</td></tr>
 <tr class="memdesc:ac3204e01ccc855bab8f8959da10d63d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">equality operator for double IndexType and DataType types only <br /></td></tr>
 <tr class="separator:ac3204e01ccc855bab8f8959da10d63d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aff7a78da2a0c7854bf269d0b24ef7bbd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1Matrix3D.html#aff7a78da2a0c7854bf269d0b24ef7bbd">deleteRow</a> (const int &amp;which)</td></tr>
+<tr class="memdesc:aff7a78da2a0c7854bf269d0b24ef7bbd"><td class="mdescLeft">&#160;</td><td class="mdescRight">delete the row indexed by  <a href="classrr_1_1Matrix3D.html#aff7a78da2a0c7854bf269d0b24ef7bbd">More...</a><br /></td></tr>
+<tr class="separator:aff7a78da2a0c7854bf269d0b24ef7bbd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae2421bdde10d8ae3cc10b7705320b890"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1Matrix3D.html#ae2421bdde10d8ae3cc10b7705320b890">deleteRow</a> (const std::string &amp;which)</td></tr>
+<tr class="memdesc:ae2421bdde10d8ae3cc10b7705320b890"><td class="mdescLeft">&#160;</td><td class="mdescRight">delete the row indexed by  <a href="classrr_1_1Matrix3D.html#ae2421bdde10d8ae3cc10b7705320b890">More...</a><br /></td></tr>
+<tr class="separator:ae2421bdde10d8ae3cc10b7705320b890"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae6ae35f37769d51b3c5c3900e5724a2e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1Matrix3D.html#ae6ae35f37769d51b3c5c3900e5724a2e">deleteCol</a> (const int &amp;which)</td></tr>
+<tr class="memdesc:ae6ae35f37769d51b3c5c3900e5724a2e"><td class="mdescLeft">&#160;</td><td class="mdescRight">delete the col indexed by  <a href="classrr_1_1Matrix3D.html#ae6ae35f37769d51b3c5c3900e5724a2e">More...</a><br /></td></tr>
+<tr class="separator:ae6ae35f37769d51b3c5c3900e5724a2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a50b7689814b9c3d99fceaa3e7111aa4b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1Matrix3D.html#a50b7689814b9c3d99fceaa3e7111aa4b">deleteCol</a> (const std::string &amp;which)</td></tr>
+<tr class="memdesc:a50b7689814b9c3d99fceaa3e7111aa4b"><td class="mdescLeft">&#160;</td><td class="mdescRight">delete the col indexed by  <a href="classrr_1_1Matrix3D.html#a50b7689814b9c3d99fceaa3e7111aa4b">More...</a><br /></td></tr>
+<tr class="separator:a50b7689814b9c3d99fceaa3e7111aa4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
 Friends</h2></td></tr>
@@ -162,6 +177,190 @@ template&lt;typename IndexType_ , typename DataType_ &gt; </td></tr>
 <tr class="separator:a02a8abe7d89e94fa4523faa7ecf7bafc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="a170fe788694b075b5509915831750bf9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a170fe788694b075b5509915831750bf9">&#9670;&nbsp;</a></span>colSliceByName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename IndexType , typename DataType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classrr_1_1Matrix3D.html">rr::Matrix3D</a>&lt;DataType, IndexType&gt;&amp; <a class="el" href="classrr_1_1Matrix3D.html">rr::Matrix3D</a>&lt; IndexType, DataType &gt;::colSliceByName </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>rowNames</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>slice a <a class="el" href="classrr_1_1Matrix3D.html">Matrix3D</a> by colnames. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">rowNames</td><td>the names of the columns to keep, the remaining rows are removed in the returned <a class="el" href="classrr_1_1Matrix3D.html">Matrix3D</a>. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ae6ae35f37769d51b3c5c3900e5724a2e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae6ae35f37769d51b3c5c3900e5724a2e">&#9670;&nbsp;</a></span>deleteCol() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename IndexType , typename DataType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classrr_1_1Matrix3D.html">rr::Matrix3D</a>&lt; IndexType, DataType &gt;::deleteCol </td>
+          <td>(</td>
+          <td class="paramtype">const int &amp;&#160;</td>
+          <td class="paramname"><em>which</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>delete the col indexed by </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">which</td><td>in each of the k submatrices in this <a class="el" href="classrr_1_1Matrix3D.html">Matrix3D</a>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classrr_1_1Matrix.html#a0d367c7df1fa56958b30182c5e2cd352" title="delete col">rr::Matrix::deleteCol</a>. </dd></dl>
+
+</div>
+</div>
+<a id="a50b7689814b9c3d99fceaa3e7111aa4b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a50b7689814b9c3d99fceaa3e7111aa4b">&#9670;&nbsp;</a></span>deleteCol() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename IndexType , typename DataType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classrr_1_1Matrix3D.html">rr::Matrix3D</a>&lt; IndexType, DataType &gt;::deleteCol </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>which</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>delete the col indexed by </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">which</td><td>in each of the k submatrices in this <a class="el" href="classrr_1_1Matrix3D.html">Matrix3D</a>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classrr_1_1Matrix.html#a0d367c7df1fa56958b30182c5e2cd352" title="delete col">rr::Matrix::deleteCol</a>. </dd></dl>
+
+</div>
+</div>
+<a id="aff7a78da2a0c7854bf269d0b24ef7bbd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aff7a78da2a0c7854bf269d0b24ef7bbd">&#9670;&nbsp;</a></span>deleteRow() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename IndexType , typename DataType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classrr_1_1Matrix3D.html">rr::Matrix3D</a>&lt; IndexType, DataType &gt;::deleteRow </td>
+          <td>(</td>
+          <td class="paramtype">const int &amp;&#160;</td>
+          <td class="paramname"><em>which</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>delete the row indexed by </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">which</td><td>in each of the k submatrices in this <a class="el" href="classrr_1_1Matrix3D.html">Matrix3D</a>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classrr_1_1Matrix.html#ad75ae4a4b1772808706dece01a3f241d" title="delete row">rr::Matrix::deleteRow</a>. </dd></dl>
+
+</div>
+</div>
+<a id="ae2421bdde10d8ae3cc10b7705320b890"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae2421bdde10d8ae3cc10b7705320b890">&#9670;&nbsp;</a></span>deleteRow() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename IndexType , typename DataType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classrr_1_1Matrix3D.html">rr::Matrix3D</a>&lt; IndexType, DataType &gt;::deleteRow </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>which</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>delete the row indexed by </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">which</td><td>in each of the k submatrices in this <a class="el" href="classrr_1_1Matrix3D.html">Matrix3D</a>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classrr_1_1Matrix.html#ad75ae4a4b1772808706dece01a3f241d" title="delete row">rr::Matrix::deleteRow</a>. </dd></dl>
+
+</div>
+</div>
 <a id="a4a9b332443cffbf149576fe023175b65"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a4a9b332443cffbf149576fe023175b65">&#9670;&nbsp;</a></span>getIndex()</h2>
 

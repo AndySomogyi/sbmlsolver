@@ -17,6 +17,19 @@
         </inbodydescription>
         <location file="rrTestSuiteModelSimulation.h" line="19" column="33" bodyfile="rrTestSuiteModelSimulation.h" bodystart="19" bodyend="-1"/>
       </memberdef>
+      <memberdef kind="variable" id="classrr_1_1TestSuiteModelSimulation_1ae1b750fe02d4899da785d8c784f2418a" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string rr::TestSuiteModelSimulation::mIntegratorName</definition>
+        <argsstring></argsstring>
+        <name>mIntegratorName</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="rrTestSuiteModelSimulation.h" line="20" column="33" bodyfile="rrTestSuiteModelSimulation.h" bodystart="20" bodyend="-1"/>
+      </memberdef>
       <memberdef kind="variable" id="classrr_1_1TestSuiteModelSimulation_1ae3700553b5ff277775b87f3eccacec36" prot="protected" static="no" mutable="no">
         <type>std::filesystem::path</type>
         <definition>std::filesystem::path rr::TestSuiteModelSimulation::mModelSettingsFileName</definition>
@@ -28,7 +41,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrTestSuiteModelSimulation.h" line="20" column="33" bodyfile="rrTestSuiteModelSimulation.h" bodystart="20" bodyend="-1"/>
+        <location file="rrTestSuiteModelSimulation.h" line="21" column="33" bodyfile="rrTestSuiteModelSimulation.h" bodystart="21" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classrr_1_1TestSuiteModelSimulation_1a701149b4c7cac375879822be5ad923e3" prot="protected" static="no" mutable="no">
         <type><ref refid="classrr_1_1RoadRunnerData" kindref="compound">RoadRunnerData</ref></type>
@@ -41,7 +54,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrTestSuiteModelSimulation.h" line="21" column="33" bodyfile="rrTestSuiteModelSimulation.h" bodystart="21" bodyend="-1"/>
+        <location file="rrTestSuiteModelSimulation.h" line="22" column="33" bodyfile="rrTestSuiteModelSimulation.h" bodystart="22" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classrr_1_1TestSuiteModelSimulation_1ae07d99464dec480b77ac4f703e8bac52" prot="protected" static="no" mutable="no">
         <type><ref refid="classrr_1_1RoadRunnerData" kindref="compound">RoadRunnerData</ref></type>
@@ -54,7 +67,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrTestSuiteModelSimulation.h" line="22" column="33" bodyfile="rrTestSuiteModelSimulation.h" bodystart="22" bodyend="-1"/>
+        <location file="rrTestSuiteModelSimulation.h" line="23" column="33" bodyfile="rrTestSuiteModelSimulation.h" bodystart="23" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classrr_1_1TestSuiteModelSimulation_1aa57d0d1247e9420a6dca9313b9cc18e6" prot="protected" static="no" mutable="no">
         <type><ref refid="classrr_1_1RoadRunnerData" kindref="compound">RoadRunnerData</ref></type>
@@ -67,7 +80,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrTestSuiteModelSimulation.h" line="23" column="33" bodyfile="rrTestSuiteModelSimulation.h" bodystart="23" bodyend="-1"/>
+        <location file="rrTestSuiteModelSimulation.h" line="24" column="33" bodyfile="rrTestSuiteModelSimulation.h" bodystart="24" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classrr_1_1TestSuiteModelSimulation_1a59fd59a407df17e843db1d084ee297c9" prot="protected" static="no" mutable="no">
         <type>int</type>
@@ -80,7 +93,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrTestSuiteModelSimulation.h" line="26" column="33" bodyfile="rrTestSuiteModelSimulation.h" bodystart="26" bodyend="-1"/>
+        <location file="rrTestSuiteModelSimulation.h" line="27" column="33" bodyfile="rrTestSuiteModelSimulation.h" bodystart="27" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classrr_1_1TestSuiteModelSimulation_1ad2bbd3e128e592886ffe884656115a95" prot="protected" static="no" mutable="no">
         <type>double</type>
@@ -93,7 +106,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrTestSuiteModelSimulation.h" line="27" column="33" bodyfile="rrTestSuiteModelSimulation.h" bodystart="27" bodyend="-1"/>
+        <location file="rrTestSuiteModelSimulation.h" line="28" column="33" bodyfile="rrTestSuiteModelSimulation.h" bodystart="28" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="protected-func">
@@ -112,7 +125,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrTestSuiteModelSimulation.h" line="24" column="33" bodyfile="rrTestSuiteModelSimulation.cpp" bodystart="284" bodyend="291"/>
+        <location file="rrTestSuiteModelSimulation.h" line="25" column="33" bodyfile="rrTestSuiteModelSimulation.cpp" bodystart="296" bodyend="303"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1TestSuiteModelSimulation_1a102aee442bb96d36dd46fbea48440f17" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::filesystem::path</type>
@@ -129,7 +142,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrTestSuiteModelSimulation.h" line="25" column="33" bodyfile="rrTestSuiteModelSimulation.cpp" bodystart="293" bodyend="299"/>
+        <location file="rrTestSuiteModelSimulation.h" line="26" column="33" bodyfile="rrTestSuiteModelSimulation.cpp" bodystart="305" bodyend="311"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -159,7 +172,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrTestSuiteModelSimulation.h" line="30" column="33" bodyfile="rrTestSuiteModelSimulation.cpp" bodystart="16" bodyend="27"/>
+        <location file="rrTestSuiteModelSimulation.h" line="31" column="33" bodyfile="rrTestSuiteModelSimulation.cpp" bodystart="16" bodyend="28"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1TestSuiteModelSimulation_1a7a01addc1704a63ffbcad0b35a281794" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -172,7 +185,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrTestSuiteModelSimulation.h" line="31" column="32" bodyfile="rrTestSuiteModelSimulation.cpp" bodystart="29" bodyend="30"/>
+        <location file="rrTestSuiteModelSimulation.h" line="32" column="32" bodyfile="rrTestSuiteModelSimulation.cpp" bodystart="30" bodyend="31"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1TestSuiteModelSimulation_1a19df03ff6ffe762381ffe84d5365cc90" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -189,7 +202,24 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrTestSuiteModelSimulation.h" line="32" column="33" bodyfile="rrTestSuiteModelSimulation.cpp" bodystart="32" bodyend="35"/>
+        <location file="rrTestSuiteModelSimulation.h" line="33" column="33" bodyfile="rrTestSuiteModelSimulation.cpp" bodystart="33" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1TestSuiteModelSimulation_1a4bc2dbb64f9c58b01dfad5b1f52f4220" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void rr::TestSuiteModelSimulation::SetIntegrator</definition>
+        <argsstring>(std::string integrator)</argsstring>
+        <name>SetIntegrator</name>
+        <param>
+          <type>std::string</type>
+          <declname>integrator</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="rrTestSuiteModelSimulation.h" line="34" column="33" bodyfile="rrTestSuiteModelSimulation.cpp" bodystart="38" bodyend="41"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1TestSuiteModelSimulation_1a1d5e17b5417d284d4c043f764bcbdcc3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -207,7 +237,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrTestSuiteModelSimulation.h" line="33" column="33" bodyfile="rrTestSuiteModelSimulation.cpp" bodystart="84" bodyend="126"/>
+        <location file="rrTestSuiteModelSimulation.h" line="35" column="33" bodyfile="rrTestSuiteModelSimulation.cpp" bodystart="90" bodyend="132"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1TestSuiteModelSimulation_1ab84ebb55fa44c62b0318c64f00e9c99c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -220,7 +250,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrTestSuiteModelSimulation.h" line="34" column="33" bodyfile="rrTestSuiteModelSimulation.cpp" bodystart="143" bodyend="179"/>
+        <location file="rrTestSuiteModelSimulation.h" line="36" column="33" bodyfile="rrTestSuiteModelSimulation.cpp" bodystart="149" bodyend="185"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1TestSuiteModelSimulation_1a7236cc31d52fa3d73c95f4a5d781920a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -233,7 +263,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrTestSuiteModelSimulation.h" line="35" column="33" bodyfile="rrTestSuiteModelSimulation.cpp" bodystart="181" bodyend="282"/>
+        <location file="rrTestSuiteModelSimulation.h" line="37" column="33" bodyfile="rrTestSuiteModelSimulation.cpp" bodystart="187" bodyend="294"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1TestSuiteModelSimulation_1aba716bb560c028ffcb59724d952d307c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -246,7 +276,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrTestSuiteModelSimulation.h" line="36" column="33" bodyfile="rrTestSuiteModelSimulation.cpp" bodystart="37" bodyend="51"/>
+        <location file="rrTestSuiteModelSimulation.h" line="38" column="33" bodyfile="rrTestSuiteModelSimulation.cpp" bodystart="43" bodyend="57"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1TestSuiteModelSimulation_1a75aacfcd88048d3abb9b73b3b7136023" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
@@ -259,7 +289,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrTestSuiteModelSimulation.h" line="37" column="33" bodyfile="rrTestSuiteModelSimulation.cpp" bodystart="138" bodyend="141"/>
+        <location file="rrTestSuiteModelSimulation.h" line="39" column="33" bodyfile="rrTestSuiteModelSimulation.cpp" bodystart="144" bodyend="147"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1TestSuiteModelSimulation_1a96f82290fd5589cead73b90e42bd8110" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -272,7 +302,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrTestSuiteModelSimulation.h" line="38" column="33" bodyfile="rrTestSuiteModelSimulation.cpp" bodystart="128" bodyend="131"/>
+        <location file="rrTestSuiteModelSimulation.h" line="40" column="33" bodyfile="rrTestSuiteModelSimulation.cpp" bodystart="134" bodyend="137"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1TestSuiteModelSimulation_1af91c62936cdedf4a3c13efc847703206" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -285,7 +315,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrTestSuiteModelSimulation.h" line="39" column="33" bodyfile="rrTestSuiteModelSimulation.cpp" bodystart="133" bodyend="136"/>
+        <location file="rrTestSuiteModelSimulation.h" line="41" column="33" bodyfile="rrTestSuiteModelSimulation.cpp" bodystart="139" bodyend="142"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1TestSuiteModelSimulation_1af9640861d28a25c87af10888ba3d85c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -304,7 +334,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrTestSuiteModelSimulation.h" line="40" column="33" bodyfile="rrTestSuiteModelSimulation.cpp" bodystart="53" bodyend="62"/>
+        <location file="rrTestSuiteModelSimulation.h" line="42" column="33" bodyfile="rrTestSuiteModelSimulation.cpp" bodystart="59" bodyend="68"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1TestSuiteModelSimulation_1adeb2a4766188a8024e51b0e1b9abdc43" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -321,7 +351,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrTestSuiteModelSimulation.h" line="41" column="33" bodyfile="rrTestSuiteModelSimulation.cpp" bodystart="64" bodyend="82"/>
+        <location file="rrTestSuiteModelSimulation.h" line="43" column="33" bodyfile="rrTestSuiteModelSimulation.cpp" bodystart="70" bodyend="88"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -347,13 +377,13 @@
         <childnode refid="3" relation="usage">
           <edgelabel>mSettings</edgelabel>
         </childnode>
-        <childnode refid="7" relation="usage">
+        <childnode refid="5" relation="usage">
           <edgelabel>mEngine</edgelabel>
         </childnode>
-        <childnode refid="6" relation="usage">
+        <childnode refid="4" relation="usage">
           <edgelabel>mModelFileName</edgelabel>
         </childnode>
-        <childnode refid="8" relation="usage">
+        <childnode refid="6" relation="usage">
           <edgelabel>mDataOutputFolder</edgelabel>
           <edgelabel>mModelFilePath</edgelabel>
           <edgelabel>mModelSettingsFileName</edgelabel>
@@ -364,22 +394,14 @@
       <node id="3">
         <label>rr::SimulateOptions</label>
         <link refid="classrr_1_1SimulateOptions"/>
-        <childnode refid="4" relation="public-inheritance">
-        </childnode>
-        <childnode refid="6" relation="usage">
+        <childnode refid="4" relation="usage">
           <edgelabel>output_file</edgelabel>
         </childnode>
       </node>
-      <node id="8">
+      <node id="6">
         <label>path</label>
       </node>
       <node id="4">
-        <label>rr::BasicDictionary</label>
-        <link refid="classrr_1_1BasicDictionary"/>
-        <childnode refid="5" relation="public-inheritance">
-        </childnode>
-      </node>
-      <node id="6">
         <label>string</label>
       </node>
       <node id="1">
@@ -387,39 +409,38 @@
         <link refid="classrr_1_1TestSuiteModelSimulation"/>
         <childnode refid="2" relation="public-inheritance">
         </childnode>
-        <childnode refid="9" relation="usage">
+        <childnode refid="7" relation="usage">
           <edgelabel>mErrorData</edgelabel>
           <edgelabel>mReferenceData</edgelabel>
           <edgelabel>mResultData</edgelabel>
         </childnode>
-        <childnode refid="8" relation="usage">
+        <childnode refid="4" relation="usage">
+          <edgelabel>mIntegratorName</edgelabel>
+        </childnode>
+        <childnode refid="6" relation="usage">
           <edgelabel>mModelSettingsFileName</edgelabel>
         </childnode>
       </node>
-      <node id="9">
+      <node id="7">
         <label>rr::RoadRunnerData</label>
         <link refid="classrr_1_1RoadRunnerData"/>
-        <childnode refid="10" relation="usage">
+        <childnode refid="8" relation="usage">
           <edgelabel>mTheData</edgelabel>
           <edgelabel>mWeights</edgelabel>
         </childnode>
-        <childnode refid="6" relation="usage">
+        <childnode refid="4" relation="usage">
           <edgelabel>mName</edgelabel>
         </childnode>
       </node>
-      <node id="10">
+      <node id="8">
         <label>DoubleMatrix</label>
       </node>
       <node id="5">
-        <label>rr::Dictionary</label>
-        <link refid="classrr_1_1Dictionary"/>
-      </node>
-      <node id="7">
         <label>rr::RoadRunner</label>
         <link refid="classrr_1_1RoadRunner"/>
       </node>
     </collaborationgraph>
-    <location file="rrTestSuiteModelSimulation.h" line="16" column="1" bodyfile="rrTestSuiteModelSimulation.h" bodystart="17" bodyend="42"/>
+    <location file="rrTestSuiteModelSimulation.h" line="16" column="1" bodyfile="rrTestSuiteModelSimulation.h" bodystart="17" bodyend="44"/>
     <listofallmembers>
       <member refid="classrr_1_1SBMLModelSimulation_1a511226c185bb96944b24ccbf926e0975" prot="public" virt="non-virtual"><scope>rr::TestSuiteModelSimulation</scope><name>CompileModel</name></member>
       <member refid="classrr_1_1TestSuiteModelSimulation_1aba716bb560c028ffcb59724d952d307c" prot="public" virt="non-virtual"><scope>rr::TestSuiteModelSimulation</scope><name>CopyFilesToOutputFolder</name></member>
@@ -446,6 +467,7 @@
       <member refid="classrr_1_1SBMLModelSimulation_1a8954cfa1bc56e4199eab00dae5706302" prot="protected" virt="non-virtual"><scope>rr::TestSuiteModelSimulation</scope><name>mDataOutputFolder</name></member>
       <member refid="classrr_1_1SBMLModelSimulation_1a60f7673c75dc2d7ab3e907dc2ec53c39" prot="protected" virt="non-virtual"><scope>rr::TestSuiteModelSimulation</scope><name>mEngine</name></member>
       <member refid="classrr_1_1TestSuiteModelSimulation_1aa57d0d1247e9420a6dca9313b9cc18e6" prot="protected" virt="non-virtual"><scope>rr::TestSuiteModelSimulation</scope><name>mErrorData</name></member>
+      <member refid="classrr_1_1TestSuiteModelSimulation_1ae1b750fe02d4899da785d8c784f2418a" prot="protected" virt="non-virtual"><scope>rr::TestSuiteModelSimulation</scope><name>mIntegratorName</name></member>
       <member refid="classrr_1_1TestSuiteModelSimulation_1ad2bbd3e128e592886ffe884656115a95" prot="protected" virt="non-virtual"><scope>rr::TestSuiteModelSimulation</scope><name>mLargestError</name></member>
       <member refid="classrr_1_1SBMLModelSimulation_1ada1bcca37d76d585962a8f096497c17a" prot="protected" virt="non-virtual"><scope>rr::TestSuiteModelSimulation</scope><name>mModelFileName</name></member>
       <member refid="classrr_1_1SBMLModelSimulation_1a75266f7f4e354a6340c79a472a2c457f" prot="protected" virt="non-virtual"><scope>rr::TestSuiteModelSimulation</scope><name>mModelFilePath</name></member>
@@ -466,6 +488,7 @@
       <member refid="classrr_1_1SBMLModelSimulation_1a771083c45fd579a331024df694004f14" prot="public" virt="non-virtual"><scope>rr::TestSuiteModelSimulation</scope><name>SBMLModelSimulation</name></member>
       <member refid="classrr_1_1TestSuiteModelSimulation_1a19df03ff6ffe762381ffe84d5365cc90" prot="public" virt="non-virtual"><scope>rr::TestSuiteModelSimulation</scope><name>SetCaseNumber</name></member>
       <member refid="classrr_1_1SBMLModelSimulation_1a530d177d96459de5ee95cb675f7b80bc" prot="public" virt="non-virtual"><scope>rr::TestSuiteModelSimulation</scope><name>SetDataOutputFolder</name></member>
+      <member refid="classrr_1_1TestSuiteModelSimulation_1a4bc2dbb64f9c58b01dfad5b1f52f4220" prot="public" virt="non-virtual"><scope>rr::TestSuiteModelSimulation</scope><name>SetIntegrator</name></member>
       <member refid="classrr_1_1SBMLModelSimulation_1a60fdb17462b8665f15b27292bdad943e" prot="public" virt="non-virtual"><scope>rr::TestSuiteModelSimulation</scope><name>SetModelFileName</name></member>
       <member refid="classrr_1_1SBMLModelSimulation_1ae7b20887b28c4cedee3eee861b62402c" prot="public" virt="non-virtual"><scope>rr::TestSuiteModelSimulation</scope><name>SetModelFilePath</name></member>
       <member refid="classrr_1_1SBMLModelSimulation_1a80106e5d163765ea77126724208ab050" prot="public" virt="non-virtual"><scope>rr::TestSuiteModelSimulation</scope><name>SetNumberOfPoints</name></member>

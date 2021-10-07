@@ -168,7 +168,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/EvalInitialConditionsCodeGen.h" line="58" column="10" bodyfile="llvm/EvalInitialConditionsCodeGen.cpp" bodystart="287" bodyend="304"/>
+        <location file="llvm/EvalInitialConditionsCodeGen.h" line="58" column="10" bodyfile="llvm/EvalInitialConditionsCodeGen.cpp" bodystart="298" bodyend="315"/>
       </memberdef>
       <memberdef kind="function" id="classrrllvm_1_1EvalInitialConditionsCodeGen_1a347c4b13ef04beda0f80c0b89321e0b9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -189,7 +189,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/EvalInitialConditionsCodeGen.h" line="61" column="10" bodyfile="llvm/EvalInitialConditionsCodeGen.cpp" bodystart="265" bodyend="284"/>
+        <location file="llvm/EvalInitialConditionsCodeGen.h" line="61" column="10" bodyfile="llvm/EvalInitialConditionsCodeGen.cpp" bodystart="265" bodyend="295"/>
       </memberdef>
       <memberdef kind="function" id="classrrllvm_1_1EvalInitialConditionsCodeGen_1afde4b1d4247cf41e10705611020daade" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -231,7 +231,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/EvalInitialConditionsCodeGen.h" line="67" column="10" bodyfile="llvm/EvalInitialConditionsCodeGen.cpp" bodystart="306" bodyend="323"/>
+        <location file="llvm/EvalInitialConditionsCodeGen.h" line="67" column="10" bodyfile="llvm/EvalInitialConditionsCodeGen.cpp" bodystart="317" bodyend="334"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

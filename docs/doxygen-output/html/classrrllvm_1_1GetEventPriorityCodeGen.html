@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">roadrunner
-   &#160;<span id="projectnumber">2.0.8</span>
+   &#160;<span id="projectnumber">2.1.0</span>
    </div>
    <div id="projectbrief">Fast simulator for SBML models</div>
   </td>
@@ -91,9 +91,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a3e8a43d341e19034ffe56a56d55fb563"><td class="memItemLeft" align="right" valign="top"><a id="a3e8a43d341e19034ffe56a56d55fb563"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>GetEventPriorityCodeGen</b> (const <a class="el" href="classrrllvm_1_1ModelGeneratorContext.html">ModelGeneratorContext</a> &amp;mgc)</td></tr>
 <tr class="separator:a3e8a43d341e19034ffe56a56d55fb563"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abb1116af0e2604fc8e6e5230c98d9a61"><td class="memItemLeft" align="right" valign="top"><a id="abb1116af0e2604fc8e6e5230c98d9a61"></a>
-const libsbml::ASTNode *&#160;</td><td class="memItemRight" valign="bottom"><b>getMath</b> (const libsbml::Event *)</td></tr>
-<tr class="separator:abb1116af0e2604fc8e6e5230c98d9a61"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8e96615240a2f04d081b7106aa201e1e"><td class="memItemLeft" align="right" valign="top"><a id="a8e96615240a2f04d081b7106aa201e1e"></a>
+llvm::Value *&#160;</td><td class="memItemRight" valign="bottom"><b>getMath</b> (const libsbml::Event *, <a class="el" href="classrrllvm_1_1ASTNodeCodeGen.html">ASTNodeCodeGen</a> &amp;astCodeGen)</td></tr>
+<tr class="separator:a8e96615240a2f04d081b7106aa201e1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classrrllvm_1_1GetEventValueCodeGenBase"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classrrllvm_1_1GetEventValueCodeGenBase')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classrrllvm_1_1GetEventValueCodeGenBase.html">rrllvm::GetEventValueCodeGenBase&lt; GetEventPriorityCodeGen &gt;</a></td></tr>
 <tr class="memitem:af0c91ca79583f5b3b05824a01a6963b4 inherit pub_methods_classrrllvm_1_1GetEventValueCodeGenBase"><td class="memItemLeft" align="right" valign="top"><a id="af0c91ca79583f5b3b05824a01a6963b4"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>GetEventValueCodeGenBase</b> (const <a class="el" href="classrrllvm_1_1ModelGeneratorContext.html">ModelGeneratorContext</a> &amp;mgc)</td></tr>
@@ -103,7 +103,7 @@ llvm::Value *&#160;</td><td class="memItemRight" valign="bottom"><b>codeGen</b> 
 <tr class="separator:af20a6b4a97e94177380b19d93434fe05 inherit pub_methods_classrrllvm_1_1GetEventValueCodeGenBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a72911128b80b0ab3b23257750de4497d inherit pub_methods_classrrllvm_1_1GetEventValueCodeGenBase"><td class="memItemLeft" align="right" valign="top"><a id="a72911128b80b0ab3b23257750de4497d"></a>
 llvm::Type *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrllvm_1_1GetEventValueCodeGenBase.html#a72911128b80b0ab3b23257750de4497d">getRetType</a> ()</td></tr>
-<tr class="memdesc:a72911128b80b0ab3b23257750de4497d inherit pub_methods_classrrllvm_1_1GetEventValueCodeGenBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">default ret type is double, derived classes must override if usign non-default func sic <br /></td></tr>
+<tr class="memdesc:a72911128b80b0ab3b23257750de4497d inherit pub_methods_classrrllvm_1_1GetEventValueCodeGenBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">default ret type is double, derived classes must override if using non-default func sic <br /></td></tr>
 <tr class="separator:a72911128b80b0ab3b23257750de4497d inherit pub_methods_classrrllvm_1_1GetEventValueCodeGenBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa197681d25a12aa27979fbc8dc8e936c inherit pub_methods_classrrllvm_1_1GetEventValueCodeGenBase"><td class="memItemLeft" align="right" valign="top"><a id="aa197681d25a12aa27979fbc8dc8e936c"></a>
 llvm::Value *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrrllvm_1_1GetEventValueCodeGenBase.html#aa197681d25a12aa27979fbc8dc8e936c">createRet</a> (llvm::Value *value)</td></tr>

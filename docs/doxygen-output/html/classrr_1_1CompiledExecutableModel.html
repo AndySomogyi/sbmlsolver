@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">roadrunner
-   &#160;<span id="projectnumber">2.0.8</span>
+   &#160;<span id="projectnumber">2.1.0</span>
    </div>
    <div id="projectbrief">Fast simulator for SBML models</div>
   </td>
@@ -493,6 +493,9 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <tr class="memdesc:a87c0f1441bb4f5222d69228d15ac1b0f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set certain options that determine the state of the <a class="el" href="classrr_1_1ExecutableModel.html" title="Base class for all code generation systems; allows compiling and evaluating the model.">ExecutableModel</a>, these are listed in. <br /></td></tr>
 <tr class="separator:a87c0f1441bb4f5222d69228d15ac1b0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classrr_1_1ExecutableModel"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classrr_1_1ExecutableModel')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classrr_1_1ExecutableModel.html">rr::ExecutableModel</a></td></tr>
+<tr class="memitem:a304eb91e2abe96301321cf6507087a9f inherit pub_methods_classrr_1_1ExecutableModel"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1ExecutableModel.html#a304eb91e2abe96301321cf6507087a9f">ExecutableModel</a> ()</td></tr>
+<tr class="memdesc:a304eb91e2abe96301321cf6507087a9f inherit pub_methods_classrr_1_1ExecutableModel"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a human-readable description of the code generation backend, e.g. LLVM, legacy C, etc.  <a href="classrr_1_1ExecutableModel.html#a304eb91e2abe96301321cf6507087a9f">More...</a><br /></td></tr>
+<tr class="separator:a304eb91e2abe96301321cf6507087a9f inherit pub_methods_classrr_1_1ExecutableModel"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a50dfa7535bec552fbc8396bd1ce99155 inherit pub_methods_classrr_1_1ExecutableModel"><td class="memItemLeft" align="right" valign="top"><a id="a50dfa7535bec552fbc8396bd1ce99155"></a>
 virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><b>getFloatingSpeciesId</b> (size_t index)=0</td></tr>
 <tr class="separator:a50dfa7535bec552fbc8396bd1ce99155 inherit pub_methods_classrr_1_1ExecutableModel"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -540,6 +543,23 @@ virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><b>getBou
 <tr class="memitem:a1a4409ff1e5e41a13b1dcf2ab936ab23 inherit pub_methods_classrr_1_1ExecutableModel"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1ExecutableModel.html#a1a4409ff1e5e41a13b1dcf2ab936ab23">setBoundarySpeciesConcentrations</a> (size_t len, int const *indx, double const *values)=0</td></tr>
 <tr class="memdesc:a1a4409ff1e5e41a13b1dcf2ab936ab23 inherit pub_methods_classrr_1_1ExecutableModel"><td class="mdescLeft">&#160;</td><td class="mdescRight">set the boundary species concentrations  <a href="classrr_1_1ExecutableModel.html#a1a4409ff1e5e41a13b1dcf2ab936ab23">More...</a><br /></td></tr>
 <tr class="separator:a1a4409ff1e5e41a13b1dcf2ab936ab23 inherit pub_methods_classrr_1_1ExecutableModel"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af87aea77d1eaa28a12b0cfa5a9db2588 inherit pub_methods_classrr_1_1ExecutableModel"><td class="memItemLeft" align="right" valign="top"><a id="af87aea77d1eaa28a12b0cfa5a9db2588"></a>
+virtual int&#160;</td><td class="memItemRight" valign="bottom"><b>setBoundarySpeciesAmounts</b> (size_t len, int const *indx, double const *values)=0</td></tr>
+<tr class="separator:af87aea77d1eaa28a12b0cfa5a9db2588 inherit pub_methods_classrr_1_1ExecutableModel"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2e7799db0c63278059cef7de4ad18396 inherit pub_methods_classrr_1_1ExecutableModel"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1ExecutableModel.html#a2e7799db0c63278059cef7de4ad18396">setBoundarySpeciesInitConcentrations</a> (size_t len, int const *indx, double const *values)=0</td></tr>
+<tr class="memdesc:a2e7799db0c63278059cef7de4ad18396 inherit pub_methods_classrr_1_1ExecutableModel"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the initial concentrations of the boundary species.  <a href="classrr_1_1ExecutableModel.html#a2e7799db0c63278059cef7de4ad18396">More...</a><br /></td></tr>
+<tr class="separator:a2e7799db0c63278059cef7de4ad18396 inherit pub_methods_classrr_1_1ExecutableModel"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af215f6272824b762b01e7348c073d610 inherit pub_methods_classrr_1_1ExecutableModel"><td class="memItemLeft" align="right" valign="top"><a id="af215f6272824b762b01e7348c073d610"></a>
+virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1ExecutableModel.html#af215f6272824b762b01e7348c073d610">getBoundarySpeciesInitConcentrations</a> (size_t len, int const *indx, double *values)=0</td></tr>
+<tr class="memdesc:af215f6272824b762b01e7348c073d610 inherit pub_methods_classrr_1_1ExecutableModel"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the initial concentrations of the boundary species, uses the same indexing as the other boundary species methods. <br /></td></tr>
+<tr class="separator:af215f6272824b762b01e7348c073d610 inherit pub_methods_classrr_1_1ExecutableModel"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7c2106b589bb41b2a01ab2dc5207024e inherit pub_methods_classrr_1_1ExecutableModel"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1ExecutableModel.html#a7c2106b589bb41b2a01ab2dc5207024e">setBoundarySpeciesInitAmounts</a> (size_t len, int const *indx, double const *values)=0</td></tr>
+<tr class="memdesc:a7c2106b589bb41b2a01ab2dc5207024e inherit pub_methods_classrr_1_1ExecutableModel"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the initial amounts of the boundary species.  <a href="classrr_1_1ExecutableModel.html#a7c2106b589bb41b2a01ab2dc5207024e">More...</a><br /></td></tr>
+<tr class="separator:a7c2106b589bb41b2a01ab2dc5207024e inherit pub_methods_classrr_1_1ExecutableModel"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab55839f110bc70f7c5ae2cbd8f9225f7 inherit pub_methods_classrr_1_1ExecutableModel"><td class="memItemLeft" align="right" valign="top"><a id="ab55839f110bc70f7c5ae2cbd8f9225f7"></a>
+virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1ExecutableModel.html#ab55839f110bc70f7c5ae2cbd8f9225f7">getBoundarySpeciesInitAmounts</a> (size_t len, int const *indx, double *values)=0</td></tr>
+<tr class="memdesc:ab55839f110bc70f7c5ae2cbd8f9225f7 inherit pub_methods_classrr_1_1ExecutableModel"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the initial amounts of the boundary species, uses the same indexing as the other boundary species methods. <br /></td></tr>
+<tr class="separator:ab55839f110bc70f7c5ae2cbd8f9225f7 inherit pub_methods_classrr_1_1ExecutableModel"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a741aa1e4a24bca93c8eb12019a33cd81 inherit pub_methods_classrr_1_1ExecutableModel"><td class="memItemLeft" align="right" valign="top"><a id="a741aa1e4a24bca93c8eb12019a33cd81"></a>
 virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1ExecutableModel.html#a741aa1e4a24bca93c8eb12019a33cd81">getGlobalParameterId</a> (size_t index)=0</td></tr>
 <tr class="memdesc:a741aa1e4a24bca93c8eb12019a33cd81 inherit pub_methods_classrr_1_1ExecutableModel"><td class="mdescLeft">&#160;</td><td class="mdescRight">id of the indexed global parameter. <br /></td></tr>
@@ -560,6 +580,9 @@ virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
 <tr class="memitem:aa19f2c21557264ce883bd24c3b8f647a inherit pub_methods_classrr_1_1ExecutableModel"><td class="memItemLeft" align="right" valign="top"><a id="aa19f2c21557264ce883bd24c3b8f647a"></a>
 virtual int&#160;</td><td class="memItemRight" valign="bottom"><b>getCompartmentIndexForFloatingSpecies</b> (size_t index)=0</td></tr>
 <tr class="separator:aa19f2c21557264ce883bd24c3b8f647a inherit pub_methods_classrr_1_1ExecutableModel"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab5e600822c6d231eb8dad05b2af688b8 inherit pub_methods_classrr_1_1ExecutableModel"><td class="memItemLeft" align="right" valign="top"><a id="ab5e600822c6d231eb8dad05b2af688b8"></a>
+virtual int&#160;</td><td class="memItemRight" valign="bottom"><b>getCompartmentIndexForBoundarySpecies</b> (size_t index)=0</td></tr>
+<tr class="separator:ab5e600822c6d231eb8dad05b2af688b8 inherit pub_methods_classrr_1_1ExecutableModel"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8edf24e2351bc5796ddfa0901dcbaee5 inherit pub_methods_classrr_1_1ExecutableModel"><td class="memItemLeft" align="right" valign="top"><a id="a8edf24e2351bc5796ddfa0901dcbaee5"></a>
 virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><b>getCompartmentId</b> (size_t index)=0</td></tr>
 <tr class="separator:a8edf24e2351bc5796ddfa0901dcbaee5 inherit pub_methods_classrr_1_1ExecutableModel"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -611,6 +634,15 @@ virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><b>getEve
 <tr class="memitem:a9a7ca6c6976625c1ebfa0e3cbeb6f51f inherit pub_methods_classrr_1_1ExecutableModel"><td class="memItemLeft" align="right" valign="top"><a id="a9a7ca6c6976625c1ebfa0e3cbeb6f51f"></a>
 virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>getEventIds</b> (std::list&lt; std::string &gt; &amp;)=0</td></tr>
 <tr class="separator:a9a7ca6c6976625c1ebfa0e3cbeb6f51f inherit pub_methods_classrr_1_1ExecutableModel"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a05417ffc5049df95716079963cb2f753 inherit pub_methods_classrr_1_1ExecutableModel"><td class="memItemLeft" align="right" valign="top"><a id="a05417ffc5049df95716079963cb2f753"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>getAssignmentRuleIds</b> (std::list&lt; std::string &gt; &amp;)=0</td></tr>
+<tr class="separator:a05417ffc5049df95716079963cb2f753 inherit pub_methods_classrr_1_1ExecutableModel"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4445b440c3be7b63e587e000af4ada17 inherit pub_methods_classrr_1_1ExecutableModel"><td class="memItemLeft" align="right" valign="top"><a id="a4445b440c3be7b63e587e000af4ada17"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>getRateRuleIds</b> (std::list&lt; std::string &gt; &amp;)=0</td></tr>
+<tr class="separator:a4445b440c3be7b63e587e000af4ada17 inherit pub_methods_classrr_1_1ExecutableModel"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a01404ae0883bfdf79a7932aa530a431c inherit pub_methods_classrr_1_1ExecutableModel"><td class="memItemLeft" align="right" valign="top"><a id="a01404ae0883bfdf79a7932aa530a431c"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>getInitialAssignmentIds</b> (std::list&lt; std::string &gt; &amp;)=0</td></tr>
+<tr class="separator:a01404ae0883bfdf79a7932aa530a431c inherit pub_methods_classrr_1_1ExecutableModel"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abc6d0913ac6cf58b413186e7dbfa2502 inherit pub_methods_classrr_1_1ExecutableModel"><td class="memItemLeft" align="right" valign="top"><a id="abc6d0913ac6cf58b413186e7dbfa2502"></a>
 virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>setEventListener</b> (size_t index, <a class="el" href="rrExecutableModel_8h.html#af42654ad469e89c71909fbbff90b3c07">EventListenerPtr</a> eventHandler)=0</td></tr>
 <tr class="separator:abc6d0913ac6cf58b413186e7dbfa2502 inherit pub_methods_classrr_1_1ExecutableModel"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -627,6 +659,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memitem:a8db1a8a035e0b226b16ae10b18caaf1e inherit pub_methods_classrr_1_1ExecutableModel"><td class="memItemLeft" align="right" valign="top"><a id="a8db1a8a035e0b226b16ae10b18caaf1e"></a>
 virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>saveState</b> (std::ostream &amp;out)</td></tr>
 <tr class="separator:a8db1a8a035e0b226b16ae10b18caaf1e inherit pub_methods_classrr_1_1ExecutableModel"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a44f6976be2f489aba16f41d7defbb575 inherit pub_methods_classrr_1_1ExecutableModel"><td class="memItemLeft" align="right" valign="top"><a id="a44f6976be2f489aba16f41d7defbb575"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>setIntegrationStartTime</b> (double time)</td></tr>
+<tr class="separator:a44f6976be2f489aba16f41d7defbb575 inherit pub_methods_classrr_1_1ExecutableModel"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -769,6 +804,10 @@ Additional Inherited Members</h2></td></tr>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1ExecutableModel.html#aec2ca2935ed5ed13500204fdec32e058">setIntegration</a> (bool value)</td></tr>
 <tr class="memdesc:aec2ca2935ed5ed13500204fdec32e058 inherit pro_methods_classrr_1_1ExecutableModel"><td class="mdescLeft">&#160;</td><td class="mdescRight">is integration is currently proceeding. <br /></td></tr>
 <tr class="separator:aec2ca2935ed5ed13500204fdec32e058 inherit pro_methods_classrr_1_1ExecutableModel"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_attribs_classrr_1_1ExecutableModel"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classrr_1_1ExecutableModel')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="classrr_1_1ExecutableModel.html">rr::ExecutableModel</a></td></tr>
+<tr class="memitem:abfa76a10231624f0acba7803d071964f inherit pro_attribs_classrr_1_1ExecutableModel"><td class="memItemLeft" align="right" valign="top"><a id="abfa76a10231624f0acba7803d071964f"></a>
+double&#160;</td><td class="memItemRight" valign="bottom"><b>mIntegrationStartTime</b></td></tr>
+<tr class="separator:abfa76a10231624f0acba7803d071964f inherit pro_attribs_classrr_1_1ExecutableModel"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Both the <a class="el" href="classrr_1_1CModelGenerator.html" title="Generate executable SBML models by generating and compiling C source code into shared libraries with ...">CModelGenerator</a> and the CSharpModelGenerator use the same paradigm of producing source code, calling a external compiler and loadig the resulting shared library. </p>
@@ -1156,7 +1195,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <dl class="section author"><dt>Author</dt><dd>JKM </dd></dl>
 <dl class="section date"><dt>Date</dt><dd>07/31/2015 </dd></dl>
 
-<p>Implements <a class="el" href="classrr_1_1ExecutableModel.html#a07791b0ccd6feeb665278e9888cb8af7">rr::ExecutableModel</a>.</p>
+<p>Implements <a class="el" href="classrr_1_1ExecutableModel.html">rr::ExecutableModel</a>.</p>
 
 </div>
 </div>

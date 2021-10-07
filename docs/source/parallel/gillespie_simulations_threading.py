@@ -8,7 +8,8 @@ from platform import platform
 import cpuinfo # pip install py-cpuinfo
 
 NTHREADS = 16
-NSIMS = 100000
+NTHREADS = 128
+NSIMS = 1000000
 NSTEPS = 11
 
 
@@ -85,14 +86,3 @@ if __name__ == '__main__':
     python_version: 3.9.5.final.0 (64 bit)
     Processor: 11th Gen Intel(R) Core(TM) i9-11980HK @ 2.60GHz
     '''
-
-
-
-
-
-
-
-
-
-
-

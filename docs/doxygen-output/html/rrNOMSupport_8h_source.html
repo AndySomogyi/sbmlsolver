@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">roadrunner
-   &#160;<span id="projectnumber">2.0.8</span>
+   &#160;<span id="projectnumber">2.1.0</span>
    </div>
    <div id="projectbrief">Fast simulator for SBML models</div>
   </td>
@@ -193,7 +193,7 @@ $(function() {
 <div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;    std::string                  getCompartmentIdBySpeciesId(<span class="keyword">const</span> std::string&amp; sId);</div>
 <div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    std::string                  <a class="code" href="group__edit.html#gadbf20490f39ce700b719dc17810f186e">getKineticLaw</a>(<span class="keyword">const</span> <span class="keywordtype">int</span>&amp; index);</div>
 <div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;    std::string                  getMetaId(<span class="keyword">const</span> std::string&amp; sId);</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    std::string                  getModelId();</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    std::string                  <a class="code" href="group__NOM.html#ga300c79897dd0002ea7810b0bd7ce640c">getModelId</a>();</div>
 <div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;    std::string                  <a class="code" href="group__NOM.html#gadd064802065aece47c2e966f9fff5958">getModelName</a>() <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;    std::string                  getNotes(<span class="keyword">const</span> std::string&amp; sId);</div>
 <div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    std::string                  getNthBoundarySpeciesId(<span class="keyword">const</span> <span class="keywordtype">int</span>&amp; nIndex);</div>
@@ -233,7 +233,7 @@ $(function() {
 <div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;    <span class="keywordtype">void</span>                    <a class="code" href="group__loadsave.html#gaeaaaf4f7855457d6207934149f52f5f9">loadSBML</a>(<span class="keyword">const</span> std::string&amp; var0, <span class="keyword">const</span> std::string&amp; sTimeSymbol);</div>
 <div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160; </div>
 <div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;    <span class="keywordtype">void</span>                    setAnnotation(<span class="keyword">const</span> std::string&amp; sId, <span class="keyword">const</span> std::string&amp; sAnnotation);</div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;    <span class="keywordtype">void</span>                    setModelId(<span class="keyword">const</span> std::string&amp; sId);</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;    <span class="keywordtype">void</span>                    <a class="code" href="group__NOM.html#gaa4a7f06dcfd66520eae88c7138c61364">setModelId</a>(<span class="keyword">const</span> std::string&amp; sId);</div>
 <div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;    <span class="keywordtype">void</span>                    setNotes(<span class="keyword">const</span> std::string&amp; sId, <span class="keyword">const</span> std::string&amp; sNotes);</div>
 <div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;    <span class="keywordtype">void</span>                    setSBOTerm(<span class="keyword">const</span> std::string&amp; sId, <span class="keyword">const</span> <span class="keywordtype">int</span>&amp; nSBOTerm);</div>
 <div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;    <span class="keywordtype">void</span>                    <a class="code" href="group__state.html#gab8416894a99ef18924c1a719be4521f3">setValue</a>(<span class="keyword">const</span> std::string&amp; sId, <span class="keyword">const</span> <span class="keywordtype">double</span>&amp; dValue);</div>
@@ -318,6 +318,8 @@ $(function() {
 <div class="ttc" id="aclassrr_1_1StringListContainer_html"><div class="ttname"><a href="classrr_1_1StringListContainer.html">rr::StringListContainer</a></div><div class="ttdef"><b>Definition:</b> rrStringListContainer.h:18</div></div>
 <div class="ttc" id="aclassrr_1_1StringList_html"><div class="ttname"><a href="classrr_1_1StringList.html">rr::StringList</a></div><div class="ttdef"><b>Definition:</b> rrStringList.h:19</div></div>
 <div class="ttc" id="aclassrr_1_1StringSymbolHashTable_html"><div class="ttname"><a href="classrr_1_1StringSymbolHashTable.html">rr::StringSymbolHashTable</a></div><div class="ttdef"><b>Definition:</b> rrHashTable.h:17</div></div>
+<div class="ttc" id="agroup__NOM_html_ga300c79897dd0002ea7810b0bd7ce640c"><div class="ttname"><a href="group__NOM.html#ga300c79897dd0002ea7810b0bd7ce640c">getModelId</a></div><div class="ttdeci">C_DECL_SPEC char *rrcCallConv getModelId(RRHandle handle)</div><div class="ttdoc">Returns the id of currently loaded SBML model.</div></div>
+<div class="ttc" id="agroup__NOM_html_gaa4a7f06dcfd66520eae88c7138c61364"><div class="ttname"><a href="group__NOM.html#gaa4a7f06dcfd66520eae88c7138c61364">setModelId</a></div><div class="ttdeci">C_DECL_SPEC void rrcCallConv setModelId(RRHandle handle, char *id)</div><div class="ttdoc">Sets the id of currently loaded SBML model.</div></div>
 <div class="ttc" id="agroup__NOM_html_gadd064802065aece47c2e966f9fff5958"><div class="ttname"><a href="group__NOM.html#gadd064802065aece47c2e966f9fff5958">getModelName</a></div><div class="ttdeci">C_DECL_SPEC char *rrcCallConv getModelName(RRHandle handle)</div><div class="ttdoc">Returns the name of currently loaded SBML model.</div></div>
 <div class="ttc" id="agroup__edit_html_gadbf20490f39ce700b719dc17810f186e"><div class="ttname"><a href="group__edit.html#gadbf20490f39ce700b719dc17810f186e">getKineticLaw</a></div><div class="ttdeci">C_DECL_SPEC char *rrcCallConv getKineticLaw(RRHandle handle, const char *rid)</div><div class="ttdoc">Get the kinetic law for a existing reaction in the current model.</div></div>
 <div class="ttc" id="agroup__loadsave_html_ga583d80e8a54f0d41b8600bb4ece0e552"><div class="ttname"><a href="group__loadsave.html#ga583d80e8a54f0d41b8600bb4ece0e552">getSBML</a></div><div class="ttdeci">C_DECL_SPEC char *rrcCallConv getSBML(RRHandle handle)</div><div class="ttdoc">Retrieve the SBML model that was last loaded into roadRunner.</div></div>

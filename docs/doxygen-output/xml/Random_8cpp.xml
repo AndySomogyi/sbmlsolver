@@ -612,7 +612,7 @@
 <codeline lineno="161"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>addGlobalMappings(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ModelGeneratorContext&amp;<sp/>ctx)</highlight></codeline>
 <codeline lineno="162"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>llvm::Module<sp/>*module<sp/>=<sp/>ctx.getModule();</highlight></codeline>
-<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>LLVMContext&amp;<sp/>context<sp/>=<sp/>module-&gt;getContext();</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>LLVMContext&amp;<sp/>context<sp/>=<sp/>ctx.getContext();</highlight><highlight class="comment">//<sp/>module-&gt;getContext();</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>llvm::ExecutionEngine<sp/>*executionEngine<sp/>=<sp/>&amp;ctx.getExecutionEngine();</highlight></codeline>
 <codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>Type<sp/>*double_type<sp/>=<sp/>Type::getDoubleTy(context);</highlight></codeline>
 <codeline lineno="167"><highlight class="normal"></highlight></codeline>

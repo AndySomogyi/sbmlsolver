@@ -333,7 +333,7 @@
     </collaborationgraph>
     <location file="NewtonIteration.h" line="15" column="5" bodyfile="NewtonIteration.h" bodystart="15" bodyend="68"/>
     <listofallmembers>
-      <member refid="classrr_1_1Solver_1ad5b8ac1ef687d1a3c9f1f305cb73804d" prot="protected" virt="non-virtual"><scope>rr::NewtonIteration</scope><name>addSetting</name></member>
+      <member refid="classrr_1_1Solver_1a9d801d628c80877bbadd4fcff012837d" prot="protected" virt="non-virtual"><scope>rr::NewtonIteration</scope><name>addSetting</name></member>
       <member refid="classrr_1_1KinsolSteadyStateSolver_1a80807be1f440f524769e55568a3abcf2" prot="protected" virt="non-virtual"><scope>rr::NewtonIteration</scope><name>constraints</name></member>
       <member refid="classrr_1_1Registrable_1a3f529e138fa0288622525bc13cd73c5f" prot="public" virt="pure-virtual"><scope>rr::NewtonIteration</scope><name>construct</name></member>
       <member refid="classrr_1_1NewtonIteration_1a17436ae1ae76642be8f525addd8e2834" prot="protected" virt="virtual"><scope>rr::NewtonIteration</scope><name>createKinsol</name></member>

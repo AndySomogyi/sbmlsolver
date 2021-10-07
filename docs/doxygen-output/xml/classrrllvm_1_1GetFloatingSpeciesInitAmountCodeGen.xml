@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/GetInitialValuesCodeGen.h" line="52" column="23" bodyfile="llvm/GetInitialValuesCodeGen.h" bodystart="52" bodyend="-1"/>
+        <location file="llvm/GetInitialValuesCodeGen.h" line="68" column="23" bodyfile="llvm/GetInitialValuesCodeGen.h" bodystart="68" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classrrllvm_1_1GetFloatingSpeciesInitAmountCodeGen_1a97020e45d0eaa5c9565f42db157942cb" prot="public" static="yes" mutable="no">
         <type>const char *</type>
@@ -30,7 +30,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/GetInitialValuesCodeGen.h" line="53" column="23" bodyfile="llvm/GetInitialValuesCodeGen.h" bodystart="53" bodyend="-1"/>
+        <location file="llvm/GetInitialValuesCodeGen.h" line="69" column="23" bodyfile="llvm/GetInitialValuesCodeGen.h" bodystart="69" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -49,7 +49,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/GetInitialValuesCodeGen.h" line="44" column="5" bodyfile="llvm/GetInitialValuesCodeGen.cpp" bodystart="37" bodyend="41"/>
+        <location file="llvm/GetInitialValuesCodeGen.h" line="60" column="5" bodyfile="llvm/GetInitialValuesCodeGen.cpp" bodystart="47" bodyend="51"/>
       </memberdef>
       <memberdef kind="function" id="classrrllvm_1_1GetFloatingSpeciesInitAmountCodeGen_1ade210a2eb9f8aab720ca8947d415483d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type></type>
@@ -62,7 +62,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/GetInitialValuesCodeGen.h" line="45" column="5" bodyfile="llvm/GetInitialValuesCodeGen.h" bodystart="45" bodyend="45"/>
+        <location file="llvm/GetInitialValuesCodeGen.h" line="61" column="5" bodyfile="llvm/GetInitialValuesCodeGen.h" bodystart="61" bodyend="61"/>
       </memberdef>
       <memberdef kind="function" id="classrrllvm_1_1GetFloatingSpeciesInitAmountCodeGen_1a656b1e8eab0ebbe9aac143b424a4bd9a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>std::vector&lt; std::string &gt;</type>
@@ -75,7 +75,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/GetInitialValuesCodeGen.h" line="47" column="17" bodyfile="llvm/GetInitialValuesCodeGen.h" bodystart="47" bodyend="50"/>
+        <location file="llvm/GetInitialValuesCodeGen.h" line="63" column="17" bodyfile="llvm/GetInitialValuesCodeGen.h" bodystart="63" bodyend="66"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -118,7 +118,7 @@
         <link refid="classrrllvm_1_1CodeGenBase"/>
       </node>
     </collaborationgraph>
-    <location file="llvm/GetInitialValuesCodeGen.h" line="40" column="1" bodyfile="llvm/GetInitialValuesCodeGen.h" bodystart="42" bodyend="54"/>
+    <location file="llvm/GetInitialValuesCodeGen.h" line="56" column="1" bodyfile="llvm/GetInitialValuesCodeGen.h" bodystart="58" bodyend="70"/>
     <listofallmembers>
       <member refid="classrrllvm_1_1CodeGenBase_1a36a54f70488b5dc597b63d51b6339793" prot="protected" virt="non-virtual"><scope>rrllvm::GetFloatingSpeciesInitAmountCodeGen</scope><name>builder</name></member>
       <member refid="classrrllvm_1_1GetInitialValueCodeGenBase_1ab289240b6d53d7f0f1943eb30a6615f0" prot="public" virt="virtual"><scope>rrllvm::GetFloatingSpeciesInitAmountCodeGen</scope><name>codeGen</name></member>

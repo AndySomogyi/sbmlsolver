@@ -1,7 +1,7 @@
 Git Workflow
 =============
 
-In roadrunner we use a familiar and common github workflow that makes use of feature branches,
+In roadrunner we use a github workflow that makes use of feature branches,
 a develop branch (which is the default branch), an experimental release branch and a release
 branch. All new features, bug fixes, small changes etc. are conducted on a new branch from the
 develop branch.

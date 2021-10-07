@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">roadrunner
-   &#160;<span id="projectnumber">2.0.8</span>
+   &#160;<span id="projectnumber">2.1.0</span>
    </div>
    <div id="projectbrief">Fast simulator for SBML models</div>
   </td>
@@ -70,6 +70,7 @@ $(function() {
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-attribs">Public Attributes</a> &#124;
+<a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="classrr_1_1RoadRunnerImpl-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">rr::RoadRunnerImpl Class Reference</div>  </div>
@@ -136,10 +137,10 @@ std::vector&lt; <a class="el" href="classrr_1_1Integrator.html">Integrator</a> *
 <tr class="memitem:a03fad4a942e0f6fb6ee250391eebe275"><td class="memItemLeft" align="right" valign="top"><a id="a03fad4a942e0f6fb6ee250391eebe275"></a>
 std::vector&lt; <a class="el" href="classrr_1_1SteadyStateSolver.html">SteadyStateSolver</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>steady_state_solvers</b></td></tr>
 <tr class="separator:a03fad4a942e0f6fb6ee250391eebe275"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a719e0e905cf6fbbf49d24be99db2c7c4"><td class="memItemLeft" align="right" valign="top"><a id="a719e0e905cf6fbbf49d24be99db2c7c4"></a>
-<a class="el" href="classrr_1_1SensitivitySolver.html">SensitivitySolver</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1RoadRunnerImpl.html#a719e0e905cf6fbbf49d24be99db2c7c4">sensitivity_solver</a> = nullptr</td></tr>
-<tr class="memdesc:a719e0e905cf6fbbf49d24be99db2c7c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Points to the current sensitivities solver. <br /></td></tr>
-<tr class="separator:a719e0e905cf6fbbf49d24be99db2c7c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae6cfe1881d3996d8e0275110cfde4748"><td class="memItemLeft" align="right" valign="top"><a id="ae6cfe1881d3996d8e0275110cfde4748"></a>
+<a class="el" href="classrr_1_1SensitivitySolver.html">SensitivitySolver</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1RoadRunnerImpl.html#ae6cfe1881d3996d8e0275110cfde4748">sensitivity_solver</a> = nullptr</td></tr>
+<tr class="memdesc:ae6cfe1881d3996d8e0275110cfde4748"><td class="mdescLeft">&#160;</td><td class="mdescRight">Points to the current sensitivities solver. <br /></td></tr>
+<tr class="separator:ae6cfe1881d3996d8e0275110cfde4748"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0a9a2af5451afaacca8030fedfef77d6"><td class="memItemLeft" align="right" valign="top"><a id="a0a9a2af5451afaacca8030fedfef77d6"></a>
 std::vector&lt; <a class="el" href="classrr_1_1SensitivitySolver.html">SensitivitySolver</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>sensitivity_solvers</b></td></tr>
 <tr class="separator:a0a9a2af5451afaacca8030fedfef77d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -153,9 +154,6 @@ std::vector&lt; <a class="el" href="classrr_1_1SelectionRecord.html">SelectionRe
 <tr class="memitem:a19f31dff952e138792bc594a62b38897"><td class="memItemLeft" align="right" valign="top"><a id="a19f31dff952e138792bc594a62b38897"></a>
 std::vector&lt; <a class="el" href="classrr_1_1SelectionRecord.html">SelectionRecord</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>mSteadyStateSelection</b></td></tr>
 <tr class="separator:a19f31dff952e138792bc594a62b38897"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0a098b7844b75dd6c4f1b792dd20a5a3"><td class="memItemLeft" align="right" valign="top"><a id="a0a098b7844b75dd6c4f1b792dd20a5a3"></a>
-std::unique_ptr&lt; <a class="el" href="classrr_1_1ExecutableModel.html">ExecutableModel</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>model</b></td></tr>
-<tr class="separator:a0a098b7844b75dd6c4f1b792dd20a5a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac3984d20f7a889192b00d8e15acd06cf"><td class="memItemLeft" align="right" valign="top"><a id="ac3984d20f7a889192b00d8e15acd06cf"></a>
 <a class="el" href="classrr_1_1Compiler.html">Compiler</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrr_1_1RoadRunnerImpl.html#ac3984d20f7a889192b00d8e15acd06cf">compiler</a></td></tr>
 <tr class="memdesc:ac3984d20f7a889192b00d8e15acd06cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">here for compatiblity, will go. <br /></td></tr>
@@ -178,6 +176,15 @@ ls::LibStructural *&#160;</td><td class="memItemRight" valign="bottom"><a class=
 <tr class="memitem:a1ace36ac129fed50c43abf94c72fed9d"><td class="memItemLeft" align="right" valign="top"><a id="a1ace36ac129fed50c43abf94c72fed9d"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>simulatedSinceReset</b> = false</td></tr>
 <tr class="separator:a1ace36ac129fed50c43abf94c72fed9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a090eb95dd15a1edb5becd538920786e9"><td class="memItemLeft" align="right" valign="top"><a id="a090eb95dd15a1edb5becd538920786e9"></a>
+friend&#160;</td><td class="memItemRight" valign="bottom"><b>RoadRunner</b></td></tr>
+<tr class="separator:a090eb95dd15a1edb5becd538920786e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
+Protected Attributes</h2></td></tr>
+<tr class="memitem:a0a098b7844b75dd6c4f1b792dd20a5a3"><td class="memItemLeft" align="right" valign="top"><a id="a0a098b7844b75dd6c4f1b792dd20a5a3"></a>
+std::unique_ptr&lt; <a class="el" href="classrr_1_1ExecutableModel.html">ExecutableModel</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>model</b></td></tr>
+<tr class="separator:a0a098b7844b75dd6c4f1b792dd20a5a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a351eec90f0cb0348667df95ce9bd22e7"><td class="memItemLeft" align="right" valign="top"><a id="a351eec90f0cb0348667df95ce9bd22e7"></a>
 std::unique_ptr&lt; libsbml::SBMLDocument &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>document</b></td></tr>
 <tr class="separator:a351eec90f0cb0348667df95ce9bd22e7"><td class="memSeparator" colspan="2">&#160;</td></tr>

@@ -34,7 +34,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="728" column="9" bodyfile="rrExecutableModel.h" bodystart="728" bodyend="740"/>
+        <location file="rrExecutableModel.h" line="789" column="9" bodyfile="rrExecutableModel.h" bodystart="789" bodyend="801"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="friend">
@@ -52,17 +52,30 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="755" column="9" bodyfile="rrExecutableModel.h" bodystart="755" bodyend="-1"/>
+        <location file="rrExecutableModel.h" line="818" column="9" bodyfile="rrExecutableModel.h" bodystart="818" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classrr_1_1ExecutableModel_1abfa76a10231624f0acba7803d071964f" prot="protected" static="no" mutable="no">
+        <type>double</type>
+        <definition>double rr::ExecutableModel::mIntegrationStartTime</definition>
+        <argsstring></argsstring>
+        <name>mIntegrationStartTime</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="rrExecutableModel.h" line="822" column="16" bodyfile="rrExecutableModel.h" bodystart="822" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
-      <memberdef kind="function" id="classrr_1_1ExecutableModel_1a07791b0ccd6feeb665278e9888cb8af7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
-        <type>std::string</type>
-        <definition>virtual std::string rr::ExecutableModel::getExecutableModelDesc</definition>
-        <argsstring>() const =0</argsstring>
-        <name>getExecutableModelDesc</name>
-        <reimplementedby refid="classrr_1_1CompiledExecutableModel_1ac831d54ccdde2cd5df4a086ff944102e">getExecutableModelDesc</reimplementedby>
-        <reimplementedby refid="classrrllvm_1_1LLVMExecutableModel_1a2fa49b7f906b27eb2848a308eda2cdaa">getExecutableModelDesc</reimplementedby>
+      <memberdef kind="function" id="classrr_1_1ExecutableModel_1a304eb91e2abe96301321cf6507087a9f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>rr::ExecutableModel::ExecutableModel</definition>
+        <argsstring>()</argsstring>
+        <name>ExecutableModel</name>
         <briefdescription>
 <para>Returns a human-readable description of the code generation backend, e.g. LLVM, legacy C, etc. </para>
         </briefdescription>
@@ -75,7 +88,22 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="126" column="29"/>
+        <location file="rrExecutableModel.h" line="126" column="9" bodyfile="rrExecutableModel.cpp" bodystart="37" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1ExecutableModel_1a07791b0ccd6feeb665278e9888cb8af7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string rr::ExecutableModel::getExecutableModelDesc</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getExecutableModelDesc</name>
+        <reimplementedby refid="classrr_1_1CompiledExecutableModel_1ac831d54ccdde2cd5df4a086ff944102e">getExecutableModelDesc</reimplementedby>
+        <reimplementedby refid="classrrllvm_1_1LLVMExecutableModel_1a2fa49b7f906b27eb2848a308eda2cdaa">getExecutableModelDesc</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="rrExecutableModel.h" line="128" column="29"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1a6ad7fd317a2335c337d7c8a3aeb8e044" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>std::string</type>
@@ -91,7 +119,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="131" column="29"/>
+        <location file="rrExecutableModel.h" line="133" column="29"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1ad38c7e2bf987ce1f7cbb8ac7316b8760" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>void</type>
@@ -110,7 +138,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="133" column="22"/>
+        <location file="rrExecutableModel.h" line="135" column="22"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1a9f4ae8c898f3c1553377b0f90b96c8e4" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>double</type>
@@ -125,7 +153,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="135" column="24"/>
+        <location file="rrExecutableModel.h" line="137" column="24"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1a217c61819d9b029c5928ace53b805e89" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>void</type>
@@ -142,7 +170,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="143" column="22"/>
+        <location file="rrExecutableModel.h" line="145" column="22"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1a2acd2a498cee58cfdc676d9010be5ec0" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>int</type>
@@ -158,7 +186,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="155" column="21"/>
+        <location file="rrExecutableModel.h" line="157" column="21"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1aa2999a84a5a0d691dc08f3f78b94636d" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>int</type>
@@ -174,7 +202,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="160" column="21"/>
+        <location file="rrExecutableModel.h" line="162" column="21"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1a390a1905aabac6056f6dceff11833c43" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>int</type>
@@ -193,7 +221,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="162" column="21"/>
+        <location file="rrExecutableModel.h" line="164" column="21"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1a50dfa7535bec552fbc8396bd1ce99155" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>std::string</type>
@@ -211,7 +239,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="164" column="29"/>
+        <location file="rrExecutableModel.h" line="166" column="29"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1ace75e9d47e3eeb59661e7c2e2b2ed6e4" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>int</type>
@@ -227,7 +255,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="170" column="21"/>
+        <location file="rrExecutableModel.h" line="172" column="21"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1ac83c1f5b678079babd5eeb76c87a4e02" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>int</type>
@@ -280,7 +308,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="180" column="21"/>
+        <location file="rrExecutableModel.h" line="182" column="21"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1a47b3aed1ff982849b4398e85735650fc" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>int</type>
@@ -306,7 +334,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="183" column="21"/>
+        <location file="rrExecutableModel.h" line="185" column="21"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1ae1e4374bedf764a353165d7f3acc31c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>int</type>
@@ -332,7 +360,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="186" column="21"/>
+        <location file="rrExecutableModel.h" line="188" column="21"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1aae51da13c4dbe4e0ae21f12f3a23cdb8" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>int</type>
@@ -358,7 +386,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="190" column="21"/>
+        <location file="rrExecutableModel.h" line="192" column="21"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1afdb9b1204d85b4baf496e685e16c0479" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>int</type>
@@ -411,7 +439,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="201" column="21"/>
+        <location file="rrExecutableModel.h" line="203" column="21"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1aecd3bdfe291bd3791fe7e4e75a71ac3f" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>int</type>
@@ -464,7 +492,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="212" column="21"/>
+        <location file="rrExecutableModel.h" line="214" column="21"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1a29d64b57e270120b9ee37d3464ffbb3c" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>int</type>
@@ -493,7 +521,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="225" column="21"/>
+        <location file="rrExecutableModel.h" line="227" column="21"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1a6545a8afda7e5a52d9fb0ae945990d80" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>int</type>
@@ -520,7 +548,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="232" column="21"/>
+        <location file="rrExecutableModel.h" line="234" column="21"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1ab18c3070d601ba587d24a16353fc8b60" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>int</type>
@@ -549,7 +577,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="245" column="21"/>
+        <location file="rrExecutableModel.h" line="247" column="21"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1a21232f10be3c16a112ddd93170d9caa8" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>int</type>
@@ -576,7 +604,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="252" column="21"/>
+        <location file="rrExecutableModel.h" line="254" column="21"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1a6ee272090a6b7a4a6808f091c1930495" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>int</type>
@@ -592,7 +620,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="269" column="21"/>
+        <location file="rrExecutableModel.h" line="271" column="21"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1a28488139fa975776eded9e8c899c307d" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>int</type>
@@ -611,7 +639,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="271" column="21"/>
+        <location file="rrExecutableModel.h" line="273" column="21"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1a1eda6c6d5e9db5d9057510dbd9bbbef5" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>std::string</type>
@@ -629,7 +657,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="273" column="29"/>
+        <location file="rrExecutableModel.h" line="275" column="29"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1a892be60159e501929cbb1169533d5104" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>int</type>
@@ -682,7 +710,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="283" column="21"/>
+        <location file="rrExecutableModel.h" line="285" column="21"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1a17dbc546d79fe987ff625e0c387f5cbd" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>int</type>
@@ -735,7 +763,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="295" column="21"/>
+        <location file="rrExecutableModel.h" line="297" column="21"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1a1a4409ff1e5e41a13b1dcf2ab936ab23" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>int</type>
@@ -780,7 +808,7 @@
 <parametername direction="in">values</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>an array of at least length len which will store the returned boundary species amounts. </para>
+<para>an array of at least length len which will store the returned boundary species concentrations. </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
@@ -788,7 +816,145 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="306" column="21"/>
+        <location file="rrExecutableModel.h" line="308" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1ExecutableModel_1af87aea77d1eaa28a12b0cfa5a9db2588" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>int</type>
+        <definition>virtual int rr::ExecutableModel::setBoundarySpeciesAmounts</definition>
+        <argsstring>(size_t len, int const *indx, double const *values)=0</argsstring>
+        <name>setBoundarySpeciesAmounts</name>
+        <reimplementedby refid="classrrllvm_1_1LLVMExecutableModel_1a2b9157cb5bc361364d33f70b2361800b">setBoundarySpeciesAmounts</reimplementedby>
+        <param>
+          <type>size_t</type>
+          <declname>len</declname>
+        </param>
+        <param>
+          <type>int const *</type>
+          <declname>indx</declname>
+        </param>
+        <param>
+          <type>double const *</type>
+          <declname>values</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="rrExecutableModel.h" line="319" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1ExecutableModel_1a2e7799db0c63278059cef7de4ad18396" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>int</type>
+        <definition>virtual int rr::ExecutableModel::setBoundarySpeciesInitConcentrations</definition>
+        <argsstring>(size_t len, int const *indx, double const *values)=0</argsstring>
+        <name>setBoundarySpeciesInitConcentrations</name>
+        <reimplementedby refid="classrrllvm_1_1LLVMExecutableModel_1a255c7e48d3a23261b9988b33888564d3">setBoundarySpeciesInitConcentrations</reimplementedby>
+        <param>
+          <type>size_t</type>
+          <declname>len</declname>
+        </param>
+        <param>
+          <type>int const *</type>
+          <declname>indx</declname>
+        </param>
+        <param>
+          <type>double const *</type>
+          <declname>values</declname>
+        </param>
+        <briefdescription>
+<para>Set the initial concentrations of the boundary species. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Takes the same indices as the other boundary species methods.</para>
+<para>Note, if a boundary species has an initial assignment rule, than the initial conditions value can only be set by updating the values on which it depends, it can not be set directly. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="rrExecutableModel.h" line="332" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1ExecutableModel_1af215f6272824b762b01e7348c073d610" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>int</type>
+        <definition>virtual int rr::ExecutableModel::getBoundarySpeciesInitConcentrations</definition>
+        <argsstring>(size_t len, int const *indx, double *values)=0</argsstring>
+        <name>getBoundarySpeciesInitConcentrations</name>
+        <reimplementedby refid="classrrllvm_1_1LLVMExecutableModel_1abe614510318c9608948362ba21047dda">getBoundarySpeciesInitConcentrations</reimplementedby>
+        <param>
+          <type>size_t</type>
+          <declname>len</declname>
+        </param>
+        <param>
+          <type>int const *</type>
+          <declname>indx</declname>
+        </param>
+        <param>
+          <type>double *</type>
+          <declname>values</declname>
+        </param>
+        <briefdescription>
+<para>Get the initial concentrations of the boundary species, uses the same indexing as the other boundary species methods. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="rrExecutableModel.h" line="339" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1ExecutableModel_1a7c2106b589bb41b2a01ab2dc5207024e" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>int</type>
+        <definition>virtual int rr::ExecutableModel::setBoundarySpeciesInitAmounts</definition>
+        <argsstring>(size_t len, int const *indx, double const *values)=0</argsstring>
+        <name>setBoundarySpeciesInitAmounts</name>
+        <reimplementedby refid="classrrllvm_1_1LLVMExecutableModel_1a2bf030fd88daa3de4d803aaf0982fd43">setBoundarySpeciesInitAmounts</reimplementedby>
+        <param>
+          <type>size_t</type>
+          <declname>len</declname>
+        </param>
+        <param>
+          <type>int const *</type>
+          <declname>indx</declname>
+        </param>
+        <param>
+          <type>double const *</type>
+          <declname>values</declname>
+        </param>
+        <briefdescription>
+<para>Set the initial amounts of the boundary species. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Takes the same indices as the other boundary species methods.</para>
+<para>Note, if a boundary species has an initial assignment rule, than the initial conditions value can only be set by updating the values on which it depends, it can not be set directly. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="rrExecutableModel.h" line="352" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1ExecutableModel_1ab55839f110bc70f7c5ae2cbd8f9225f7" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>int</type>
+        <definition>virtual int rr::ExecutableModel::getBoundarySpeciesInitAmounts</definition>
+        <argsstring>(size_t len, int const *indx, double *values)=0</argsstring>
+        <name>getBoundarySpeciesInitAmounts</name>
+        <reimplementedby refid="classrrllvm_1_1LLVMExecutableModel_1a0b605b2e80ec14af1d1ab71d692c8868">getBoundarySpeciesInitAmounts</reimplementedby>
+        <param>
+          <type>size_t</type>
+          <declname>len</declname>
+        </param>
+        <param>
+          <type>int const *</type>
+          <declname>indx</declname>
+        </param>
+        <param>
+          <type>double *</type>
+          <declname>values</declname>
+        </param>
+        <briefdescription>
+<para>Get the initial amounts of the boundary species, uses the same indexing as the other boundary species methods. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="rrExecutableModel.h" line="359" column="21"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1aabbf6f025ea3c064f0dcaa5e4afaa87e" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>int</type>
@@ -804,7 +970,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="322" column="21"/>
+        <location file="rrExecutableModel.h" line="375" column="21"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1abcdcc03c4563dfbe6b64f932812906ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>int</type>
@@ -824,7 +990,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="327" column="21"/>
+        <location file="rrExecutableModel.h" line="380" column="21"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1a741aa1e4a24bca93c8eb12019a33cd81" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>std::string</type>
@@ -843,7 +1009,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="332" column="29"/>
+        <location file="rrExecutableModel.h" line="385" column="29"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1af598ac63c984d7101b0d026dd217a822" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>int</type>
@@ -896,7 +1062,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="342" column="21"/>
+        <location file="rrExecutableModel.h" line="395" column="21"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1a46fbc6162f59ac7052c25879dba8e423" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>int</type>
@@ -922,7 +1088,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="345" column="21"/>
+        <location file="rrExecutableModel.h" line="398" column="21"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1a71d62fc8b558dfb4da4de4dbd3845665" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>int</type>
@@ -950,7 +1116,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="353" column="21"/>
+        <location file="rrExecutableModel.h" line="406" column="21"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1a8a1693fc65e2e34772ca5acecad1e90b" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>int</type>
@@ -977,7 +1143,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="360" column="21"/>
+        <location file="rrExecutableModel.h" line="413" column="21"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1acada1e982eafe06d0d5e46defdb40ca7" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>int</type>
@@ -992,7 +1158,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="374" column="21"/>
+        <location file="rrExecutableModel.h" line="427" column="21"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1aa19f2c21557264ce883bd24c3b8f647a" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>int</type>
@@ -1010,7 +1176,25 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="376" column="21"/>
+        <location file="rrExecutableModel.h" line="429" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1ExecutableModel_1ab5e600822c6d231eb8dad05b2af688b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>int</type>
+        <definition>virtual int rr::ExecutableModel::getCompartmentIndexForBoundarySpecies</definition>
+        <argsstring>(size_t index)=0</argsstring>
+        <name>getCompartmentIndexForBoundarySpecies</name>
+        <reimplementedby refid="classrrllvm_1_1LLVMExecutableModel_1a60338eca0ad5984b5f5f6986beae1c87">getCompartmentIndexForBoundarySpecies</reimplementedby>
+        <param>
+          <type>size_t</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="rrExecutableModel.h" line="431" column="21"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1a366727be244766db2ff917b64949858c" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>int</type>
@@ -1029,7 +1213,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="378" column="21"/>
+        <location file="rrExecutableModel.h" line="433" column="21"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1a8edf24e2351bc5796ddfa0901dcbaee5" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>std::string</type>
@@ -1047,7 +1231,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="380" column="29"/>
+        <location file="rrExecutableModel.h" line="435" column="29"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1a977a5a3a7ed0fcfa04fe74369a4526ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>int</type>
@@ -1100,7 +1284,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="390" column="21"/>
+        <location file="rrExecutableModel.h" line="445" column="21"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1a81a08dad23cb196914961e41d1f2f491" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>int</type>
@@ -1126,7 +1310,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="393" column="21"/>
+        <location file="rrExecutableModel.h" line="448" column="21"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1a83fa84b59feb32abe1f2a6b178b6f106" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>int</type>
@@ -1155,7 +1339,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="406" column="21"/>
+        <location file="rrExecutableModel.h" line="461" column="21"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1afbc91472ec905f668e0cc5714fdc30db" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>int</type>
@@ -1182,7 +1366,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="413" column="21"/>
+        <location file="rrExecutableModel.h" line="468" column="21"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1a172aeacd0685bcce8153ae67718fc697" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>void</type>
@@ -1224,7 +1408,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="434" column="22"/>
+        <location file="rrExecutableModel.h" line="489" column="22"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1a200b81cd9a7f1f9a6b3af6a35fcc4c63" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>int</type>
@@ -1240,7 +1424,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="439" column="21"/>
+        <location file="rrExecutableModel.h" line="494" column="21"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1aebaced13ef2afd070d7a1c35eec8d9f2" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>double</type>
@@ -1261,7 +1445,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="445" column="24"/>
+        <location file="rrExecutableModel.h" line="500" column="24"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1ac98de72b8f4f43bc6b93b191852702b5" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>void</type>
@@ -1285,7 +1469,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="450" column="22"/>
+        <location file="rrExecutableModel.h" line="505" column="22"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1a2aacbf75ac32b2b188f7850cd48b8f71" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>int</type>
@@ -1340,7 +1524,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="467" column="21"/>
+        <location file="rrExecutableModel.h" line="522" column="21"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1af9f7809b903426c14942b01a8e24a2b7" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>double</type>
@@ -1365,7 +1549,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="474" column="24"/>
+        <location file="rrExecutableModel.h" line="529" column="24"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1ab4927aa2d8bf20c59b75a568757d369b" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>int</type>
@@ -1380,7 +1564,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="477" column="21"/>
+        <location file="rrExecutableModel.h" line="532" column="21"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1afb584e140ba5ef19865d0256d275e538" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>int</type>
@@ -1399,7 +1583,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="479" column="21"/>
+        <location file="rrExecutableModel.h" line="534" column="21"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1a0fac30c0c3cab7e52e7f305be6a453fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>std::string</type>
@@ -1417,7 +1601,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="481" column="29"/>
+        <location file="rrExecutableModel.h" line="536" column="29"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1a8a155a08e3a7f015ebbe54e6dded9cfb" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>int</type>
@@ -1443,7 +1627,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="483" column="21"/>
+        <location file="rrExecutableModel.h" line="538" column="21"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1a3281ae63f4ab21a070a7858f022c3f9a" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>int</type>
@@ -1469,7 +1653,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="485" column="21"/>
+        <location file="rrExecutableModel.h" line="540" column="21"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1aa6ccf1c5b3b8817c7ce291a933bcaab7" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>int</type>
@@ -1484,7 +1668,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="488" column="21"/>
+        <location file="rrExecutableModel.h" line="543" column="21"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1aa1d89fd7d5690de7add613f5ce75b631" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>std::vector&lt; std::string &gt;</type>
@@ -1504,7 +1688,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="496" column="29"/>
+        <location file="rrExecutableModel.h" line="551" column="29"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1acb056a72125190c2abe39dba9c3600f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>int</type>
@@ -1520,7 +1704,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="502" column="21"/>
+        <location file="rrExecutableModel.h" line="557" column="21"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1a86fe96598b06cee5ca9a28dfdfd9d437" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>int</type>
@@ -1543,7 +1727,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="508" column="21"/>
+        <location file="rrExecutableModel.h" line="563" column="21"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1aeb911dc90408981370c78149680d9027" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>std::string</type>
@@ -1562,7 +1746,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="513" column="29"/>
+        <location file="rrExecutableModel.h" line="568" column="29"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1a37c53cc370ff236657272f5596fd27ff" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>int</type>
@@ -1615,7 +1799,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="523" column="21"/>
+        <location file="rrExecutableModel.h" line="578" column="21"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1a8372872ec5858e91adc81080ad763c84" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>void</type>
@@ -1637,7 +1821,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="533" column="22"/>
+        <location file="rrExecutableModel.h" line="588" column="22"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1ac6c245edd9ecea5feea84cff15db7b26" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>std::string</type>
@@ -1656,7 +1840,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="538" column="29"/>
+        <location file="rrExecutableModel.h" line="593" column="29"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1a75b6f37ac538d2d2a0709fe4080b0570" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>int</type>
@@ -1690,7 +1874,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="556" column="21"/>
+        <location file="rrExecutableModel.h" line="611" column="21"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1a57a67063c957714b916d4a3d4277c3b9" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>int</type>
@@ -1722,7 +1906,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="567" column="21"/>
+        <location file="rrExecutableModel.h" line="622" column="21"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1a0495c2ece9edad29d61849b2443d4274" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>void</type>
@@ -1779,7 +1963,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="585" column="22"/>
+        <location file="rrExecutableModel.h" line="640" column="22"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1abe4be4ec2e96aaf0a256776dff3cc9a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>void</type>
@@ -1794,7 +1978,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="587" column="22"/>
+        <location file="rrExecutableModel.h" line="642" column="22"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1ab8073e0f3e57cb6f0d807bdf60d1d2a1" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>std::string</type>
@@ -1809,7 +1993,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="589" column="29"/>
+        <location file="rrExecutableModel.h" line="644" column="29"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1acea87cea26a0f322a8df7b5ae73f065c" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>void</type>
@@ -1828,7 +2012,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="591" column="22"/>
+        <location file="rrExecutableModel.h" line="646" column="22"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1abd94b60defc6ffa9ab17166ebaa440c5" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>int</type>
@@ -1843,7 +2027,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="598" column="21"/>
+        <location file="rrExecutableModel.h" line="653" column="21"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1a6402d7445658e1828be487e1a63bbc89" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>int</type>
@@ -1872,7 +2056,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="611" column="21"/>
+        <location file="rrExecutableModel.h" line="666" column="21"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1ae30181bdbfd3e4fedc2dedcf988ecb95" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>int</type>
@@ -1939,7 +2123,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="626" column="21"/>
+        <location file="rrExecutableModel.h" line="681" column="21"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1a2c4d631f32873d4d98d613add078d9b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>void</type>
@@ -1994,7 +2178,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="641" column="22"/>
+        <location file="rrExecutableModel.h" line="696" column="22"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1ad80b6a7167b0a78364dc680475ab2e3c" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>double</type>
@@ -2013,7 +2197,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="643" column="24"/>
+        <location file="rrExecutableModel.h" line="698" column="24"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1a9875c1203e09d4d51c29fdb2318f9a4c" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>int</type>
@@ -2028,7 +2212,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="645" column="21"/>
+        <location file="rrExecutableModel.h" line="700" column="21"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1a936756fa4facd2b182b4cfcbe0f07fab" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>void</type>
@@ -2043,7 +2227,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="647" column="22"/>
+        <location file="rrExecutableModel.h" line="702" column="22"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1a7d670c92b720d7dcf3ab70fa9d1b14d0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
         <type></type>
@@ -2058,7 +2242,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="655" column="17" bodyfile="rrExecutableModel.h" bodystart="655" bodyend="655"/>
+        <location file="rrExecutableModel.h" line="710" column="17" bodyfile="rrExecutableModel.h" bodystart="710" bodyend="710"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1ae9b3e5baef45072822f9ccaf9d13ffa8" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>int</type>
@@ -2079,7 +2263,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="666" column="21"/>
+        <location file="rrExecutableModel.h" line="721" column="21"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1a4ae80f154f19c3cb39957630e803a152" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>std::string</type>
@@ -2097,7 +2281,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="668" column="29"/>
+        <location file="rrExecutableModel.h" line="723" column="29"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1a9a7ca6c6976625c1ebfa0e3cbeb6f51f" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>void</type>
@@ -2114,7 +2298,58 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="670" column="22"/>
+        <location file="rrExecutableModel.h" line="725" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1ExecutableModel_1a05417ffc5049df95716079963cb2f753" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void rr::ExecutableModel::getAssignmentRuleIds</definition>
+        <argsstring>(std::list&lt; std::string &gt; &amp;)=0</argsstring>
+        <name>getAssignmentRuleIds</name>
+        <reimplementedby refid="classrrllvm_1_1LLVMExecutableModel_1ae5036fa43ef7c64bc4eec7eb7e4b2638">getAssignmentRuleIds</reimplementedby>
+        <param>
+          <type>std::list&lt; std::string &gt; &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="rrExecutableModel.h" line="727" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1ExecutableModel_1a4445b440c3be7b63e587e000af4ada17" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void rr::ExecutableModel::getRateRuleIds</definition>
+        <argsstring>(std::list&lt; std::string &gt; &amp;)=0</argsstring>
+        <name>getRateRuleIds</name>
+        <reimplementedby refid="classrrllvm_1_1LLVMExecutableModel_1a66f5d83509885e90c1f473e3f331522d">getRateRuleIds</reimplementedby>
+        <param>
+          <type>std::list&lt; std::string &gt; &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="rrExecutableModel.h" line="729" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1ExecutableModel_1a01404ae0883bfdf79a7932aa530a431c" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void rr::ExecutableModel::getInitialAssignmentIds</definition>
+        <argsstring>(std::list&lt; std::string &gt; &amp;)=0</argsstring>
+        <name>getInitialAssignmentIds</name>
+        <reimplementedby refid="classrrllvm_1_1LLVMExecutableModel_1a5eba376a2f10b7dd3fc7f59bbdf4918e">getInitialAssignmentIds</reimplementedby>
+        <param>
+          <type>std::list&lt; std::string &gt; &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="rrExecutableModel.h" line="731" column="22"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1abc6d0913ac6cf58b413186e7dbfa2502" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>void</type>
@@ -2136,7 +2371,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="672" column="22"/>
+        <location file="rrExecutableModel.h" line="733" column="22"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1a93633ae9a0f5b04c16115e291176aa9e" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type><ref refid="rrExecutableModel_8h_1af42654ad469e89c71909fbbff90b3c07" kindref="member">EventListenerPtr</ref></type>
@@ -2154,7 +2389,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="674" column="34"/>
+        <location file="rrExecutableModel.h" line="735" column="34"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1a460387891972dfb029d5fdd6134c10eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>double</type>
@@ -2197,7 +2432,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="689" column="24"/>
+        <location file="rrExecutableModel.h" line="750" column="24"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1ac87e7f485678d07d7567398dea63c512" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>void</type>
@@ -2217,7 +2452,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="696" column="22"/>
+        <location file="rrExecutableModel.h" line="757" column="22"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1aa5b4c23527fab27a54ac279de045c735" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>void</type>
@@ -2237,7 +2472,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="702" column="22"/>
+        <location file="rrExecutableModel.h" line="763" column="22"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1a7a543cc2ccca4130d26c871308fa2b4d" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>int64_t</type>
@@ -2253,7 +2488,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="707" column="25"/>
+        <location file="rrExecutableModel.h" line="768" column="25"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1a1f69d29d4291440935ed41122ed83e7f" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>double</type>
@@ -2270,7 +2505,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="715" column="24"/>
+        <location file="rrExecutableModel.h" line="776" column="24"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1a86c218fc4ad993ddd532a50f2918f383" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>uint32_t</type>
@@ -2286,7 +2521,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="720" column="26"/>
+        <location file="rrExecutableModel.h" line="781" column="26"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1a3474ace3dd70d16662142d377bd1b5f6" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>void</type>
@@ -2305,7 +2540,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="726" column="22"/>
+        <location file="rrExecutableModel.h" line="787" column="22"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1ad7d5fb21f3d7ad10f8e8714a49c11184" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>void</type>
@@ -2319,7 +2554,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="745" column="14" bodyfile="rrExecutableModel.h" bodystart="745" bodyend="745"/>
+        <location file="rrExecutableModel.h" line="806" column="14" bodyfile="rrExecutableModel.h" bodystart="806" bodyend="806"/>
       </memberdef>
       <memberdef kind="function" id="classrr_1_1ExecutableModel_1a8db1a8a035e0b226b16ae10b18caaf1e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
         <type>void</type>
@@ -2337,7 +2572,24 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="751" column="22" bodyfile="rrExecutableModel.h" bodystart="751" bodyend="753"/>
+        <location file="rrExecutableModel.h" line="812" column="22" bodyfile="rrExecutableModel.h" bodystart="812" bodyend="814"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1ExecutableModel_1a44f6976be2f489aba16f41d7defbb575" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void rr::ExecutableModel::setIntegrationStartTime</definition>
+        <argsstring>(double time)</argsstring>
+        <name>setIntegrationStartTime</name>
+        <param>
+          <type>double</type>
+          <declname>time</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="rrExecutableModel.h" line="816" column="22" bodyfile="rrExecutableModel.cpp" bodystart="133" bodyend="136"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="protected-func">
@@ -2357,7 +2609,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="rrExecutableModel.h" line="762" column="14" bodyfile="rrExecutableModel.h" bodystart="762" bodyend="770"/>
+        <location file="rrExecutableModel.h" line="827" column="14" bodyfile="rrExecutableModel.h" bodystart="827" bodyend="835"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -2386,17 +2638,22 @@
         <link refid="classrr_1_1ExecutableModel"/>
       </node>
     </inheritancegraph>
-    <location file="rrExecutableModel.h" line="118" column="5" bodyfile="rrExecutableModel.h" bodystart="118" bodyend="773"/>
+    <location file="rrExecutableModel.h" line="118" column="5" bodyfile="rrExecutableModel.h" bodystart="118" bodyend="838"/>
     <listofallmembers>
       <member refid="classrr_1_1ExecutableModel_1ae30181bdbfd3e4fedc2dedcf988ecb95" prot="public" virt="pure-virtual"><scope>rr::ExecutableModel</scope><name>applyEvents</name></member>
       <member refid="classrr_1_1ExecutableModel_1ad7d5fb21f3d7ad10f8e8714a49c11184" prot="public" virt="non-virtual"><scope>rr::ExecutableModel</scope><name>computeAllRatesOfChange</name></member>
+      <member refid="classrr_1_1ExecutableModel_1a304eb91e2abe96301321cf6507087a9f" prot="public" virt="non-virtual"><scope>rr::ExecutableModel</scope><name>ExecutableModel</name></member>
       <member refid="classrr_1_1ExecutableModel_1a0503ffbf5c6c971cf545d7570ec0404c" prot="public" virt="non-virtual"><scope>rr::ExecutableModel</scope><name>ExecutableModelFlags</name></member>
+      <member refid="classrr_1_1ExecutableModel_1a05417ffc5049df95716079963cb2f753" prot="public" virt="pure-virtual"><scope>rr::ExecutableModel</scope><name>getAssignmentRuleIds</name></member>
       <member refid="classrr_1_1ExecutableModel_1a892be60159e501929cbb1169533d5104" prot="public" virt="pure-virtual"><scope>rr::ExecutableModel</scope><name>getBoundarySpeciesAmounts</name></member>
       <member refid="classrr_1_1ExecutableModel_1a17dbc546d79fe987ff625e0c387f5cbd" prot="public" virt="pure-virtual"><scope>rr::ExecutableModel</scope><name>getBoundarySpeciesConcentrations</name></member>
       <member refid="classrr_1_1ExecutableModel_1a1eda6c6d5e9db5d9057510dbd9bbbef5" prot="public" virt="pure-virtual"><scope>rr::ExecutableModel</scope><name>getBoundarySpeciesId</name></member>
       <member refid="classrr_1_1ExecutableModel_1a28488139fa975776eded9e8c899c307d" prot="public" virt="pure-virtual"><scope>rr::ExecutableModel</scope><name>getBoundarySpeciesIndex</name></member>
+      <member refid="classrr_1_1ExecutableModel_1ab55839f110bc70f7c5ae2cbd8f9225f7" prot="public" virt="pure-virtual"><scope>rr::ExecutableModel</scope><name>getBoundarySpeciesInitAmounts</name></member>
+      <member refid="classrr_1_1ExecutableModel_1af215f6272824b762b01e7348c073d610" prot="public" virt="pure-virtual"><scope>rr::ExecutableModel</scope><name>getBoundarySpeciesInitConcentrations</name></member>
       <member refid="classrr_1_1ExecutableModel_1a8edf24e2351bc5796ddfa0901dcbaee5" prot="public" virt="pure-virtual"><scope>rr::ExecutableModel</scope><name>getCompartmentId</name></member>
       <member refid="classrr_1_1ExecutableModel_1a366727be244766db2ff917b64949858c" prot="public" virt="pure-virtual"><scope>rr::ExecutableModel</scope><name>getCompartmentIndex</name></member>
+      <member refid="classrr_1_1ExecutableModel_1ab5e600822c6d231eb8dad05b2af688b8" prot="public" virt="pure-virtual"><scope>rr::ExecutableModel</scope><name>getCompartmentIndexForBoundarySpecies</name></member>
       <member refid="classrr_1_1ExecutableModel_1aa19f2c21557264ce883bd24c3b8f647a" prot="public" virt="pure-virtual"><scope>rr::ExecutableModel</scope><name>getCompartmentIndexForFloatingSpecies</name></member>
       <member refid="classrr_1_1ExecutableModel_1afbc91472ec905f668e0cc5714fdc30db" prot="public" virt="pure-virtual"><scope>rr::ExecutableModel</scope><name>getCompartmentInitVolumes</name></member>
       <member refid="classrr_1_1ExecutableModel_1a977a5a3a7ed0fcfa04fe74369a4526ae" prot="public" virt="pure-virtual"><scope>rr::ExecutableModel</scope><name>getCompartmentVolumes</name></member>
@@ -2426,6 +2683,7 @@
       <member refid="classrr_1_1ExecutableModel_1af598ac63c984d7101b0d026dd217a822" prot="public" virt="pure-virtual"><scope>rr::ExecutableModel</scope><name>getGlobalParameterValues</name></member>
       <member refid="classrr_1_1ExecutableModel_1a172aeacd0685bcce8153ae67718fc697" prot="public" virt="pure-virtual"><scope>rr::ExecutableModel</scope><name>getIds</name></member>
       <member refid="classrr_1_1ExecutableModel_1ab8073e0f3e57cb6f0d807bdf60d1d2a1" prot="public" virt="pure-virtual"><scope>rr::ExecutableModel</scope><name>getInfo</name></member>
+      <member refid="classrr_1_1ExecutableModel_1a01404ae0883bfdf79a7932aa530a431c" prot="public" virt="pure-virtual"><scope>rr::ExecutableModel</scope><name>getInitialAssignmentIds</name></member>
       <member refid="classrr_1_1ExecutableModel_1a6ad7fd317a2335c337d7c8a3aeb8e044" prot="public" virt="pure-virtual"><scope>rr::ExecutableModel</scope><name>getModelName</name></member>
       <member refid="classrr_1_1ExecutableModel_1ad80b6a7167b0a78364dc680475ab2e3c" prot="public" virt="pure-virtual"><scope>rr::ExecutableModel</scope><name>getNextPendingEventTime</name></member>
       <member refid="classrr_1_1ExecutableModel_1a6ee272090a6b7a4a6808f091c1930495" prot="public" virt="pure-virtual"><scope>rr::ExecutableModel</scope><name>getNumBoundarySpecies</name></member>
@@ -2441,6 +2699,7 @@
       <member refid="classrr_1_1ExecutableModel_1a9875c1203e09d4d51c29fdb2318f9a4c" prot="public" virt="pure-virtual"><scope>rr::ExecutableModel</scope><name>getPendingEventSize</name></member>
       <member refid="classrr_1_1ExecutableModel_1a1f69d29d4291440935ed41122ed83e7f" prot="public" virt="pure-virtual"><scope>rr::ExecutableModel</scope><name>getRandom</name></member>
       <member refid="classrr_1_1ExecutableModel_1a7a543cc2ccca4130d26c871308fa2b4d" prot="public" virt="pure-virtual"><scope>rr::ExecutableModel</scope><name>getRandomSeed</name></member>
+      <member refid="classrr_1_1ExecutableModel_1a4445b440c3be7b63e587e000af4ada17" prot="public" virt="pure-virtual"><scope>rr::ExecutableModel</scope><name>getRateRuleIds</name></member>
       <member refid="classrr_1_1ExecutableModel_1aa1d89fd7d5690de7add613f5ce75b631" prot="public" virt="pure-virtual"><scope>rr::ExecutableModel</scope><name>getRateRuleSymbols</name></member>
       <member refid="classrr_1_1ExecutableModel_1a8372872ec5858e91adc81080ad763c84" prot="public" virt="pure-virtual"><scope>rr::ExecutableModel</scope><name>getRateRuleValues</name></member>
       <member refid="classrr_1_1ExecutableModel_1aeb911dc90408981370c78149680d9027" prot="public" virt="pure-virtual"><scope>rr::ExecutableModel</scope><name>getReactionId</name></member>
@@ -2455,6 +2714,7 @@
       <member refid="classrr_1_1ExecutableModel_1a9f4ae8c898f3c1553377b0f90b96c8e4" prot="public" virt="pure-virtual"><scope>rr::ExecutableModel</scope><name>getTime</name></member>
       <member refid="classrr_1_1ExecutableModel_1aebaced13ef2afd070d7a1c35eec8d9f2" prot="public" virt="pure-virtual"><scope>rr::ExecutableModel</scope><name>getValue</name></member>
       <member refid="classrr_1_1ExecutableModel_1a0503ffbf5c6c971cf545d7570ec0404ca389fbe7a44e9cb64d2e16415cd08554f" prot="public" virt="non-virtual"><scope>rr::ExecutableModel</scope><name>INTEGRATION</name></member>
+      <member refid="classrr_1_1ExecutableModel_1abfa76a10231624f0acba7803d071964f" prot="protected" virt="non-virtual"><scope>rr::ExecutableModel</scope><name>mIntegrationStartTime</name></member>
       <member refid="classrr_1_1ExecutableModel_1a0503ffbf5c6c971cf545d7570ec0404ca3a399e67ea485968593a0c692643e107" prot="public" virt="non-virtual"><scope>rr::ExecutableModel</scope><name>OPTIMIZE_REACTION_RATE_SELECTION</name></member>
       <member refid="classrr_1_1ExecutableModel_1acea87cea26a0f322a8df7b5ae73f065c" prot="public" virt="pure-virtual"><scope>rr::ExecutableModel</scope><name>print</name></member>
       <member refid="classrr_1_1ExecutableModel_1a217c61819d9b029c5928ace53b805e89" prot="public" virt="pure-virtual"><scope>rr::ExecutableModel</scope><name>reset</name></member>
@@ -2462,7 +2722,10 @@
       <member refid="classrr_1_1ExecutableModel_1a936756fa4facd2b182b4cfcbe0f07fab" prot="public" virt="pure-virtual"><scope>rr::ExecutableModel</scope><name>resetEvents</name></member>
       <member refid="classrr_1_1ExecutableModel_1a4ee035f139a2124731903f5911c22690" prot="public" virt="non-virtual"><scope>rr::ExecutableModel</scope><name>RoadRunner</name></member>
       <member refid="classrr_1_1ExecutableModel_1a8db1a8a035e0b226b16ae10b18caaf1e" prot="public" virt="virtual"><scope>rr::ExecutableModel</scope><name>saveState</name></member>
+      <member refid="classrr_1_1ExecutableModel_1af87aea77d1eaa28a12b0cfa5a9db2588" prot="public" virt="pure-virtual"><scope>rr::ExecutableModel</scope><name>setBoundarySpeciesAmounts</name></member>
       <member refid="classrr_1_1ExecutableModel_1a1a4409ff1e5e41a13b1dcf2ab936ab23" prot="public" virt="pure-virtual"><scope>rr::ExecutableModel</scope><name>setBoundarySpeciesConcentrations</name></member>
+      <member refid="classrr_1_1ExecutableModel_1a7c2106b589bb41b2a01ab2dc5207024e" prot="public" virt="pure-virtual"><scope>rr::ExecutableModel</scope><name>setBoundarySpeciesInitAmounts</name></member>
+      <member refid="classrr_1_1ExecutableModel_1a2e7799db0c63278059cef7de4ad18396" prot="public" virt="pure-virtual"><scope>rr::ExecutableModel</scope><name>setBoundarySpeciesInitConcentrations</name></member>
       <member refid="classrr_1_1ExecutableModel_1a83fa84b59feb32abe1f2a6b178b6f106" prot="public" virt="pure-virtual"><scope>rr::ExecutableModel</scope><name>setCompartmentInitVolumes</name></member>
       <member refid="classrr_1_1ExecutableModel_1a81a08dad23cb196914961e41d1f2f491" prot="public" virt="pure-virtual"><scope>rr::ExecutableModel</scope><name>setCompartmentVolumes</name></member>
       <member refid="classrr_1_1ExecutableModel_1a3281ae63f4ab21a070a7858f022c3f9a" prot="public" virt="pure-virtual"><scope>rr::ExecutableModel</scope><name>setConservedMoietyValues</name></member>
@@ -2475,6 +2738,7 @@
       <member refid="classrr_1_1ExecutableModel_1a71d62fc8b558dfb4da4de4dbd3845665" prot="public" virt="pure-virtual"><scope>rr::ExecutableModel</scope><name>setGlobalParameterInitValues</name></member>
       <member refid="classrr_1_1ExecutableModel_1a46fbc6162f59ac7052c25879dba8e423" prot="public" virt="pure-virtual"><scope>rr::ExecutableModel</scope><name>setGlobalParameterValues</name></member>
       <member refid="classrr_1_1ExecutableModel_1aec2ca2935ed5ed13500204fdec32e058" prot="protected" virt="non-virtual"><scope>rr::ExecutableModel</scope><name>setIntegration</name></member>
+      <member refid="classrr_1_1ExecutableModel_1a44f6976be2f489aba16f41d7defbb575" prot="public" virt="virtual"><scope>rr::ExecutableModel</scope><name>setIntegrationStartTime</name></member>
       <member refid="classrr_1_1ExecutableModel_1aa5b4c23527fab27a54ac279de045c735" prot="public" virt="pure-virtual"><scope>rr::ExecutableModel</scope><name>setRandomSeed</name></member>
       <member refid="classrr_1_1ExecutableModel_1a57a67063c957714b916d4a3d4277c3b9" prot="public" virt="pure-virtual"><scope>rr::ExecutableModel</scope><name>setStateVector</name></member>
       <member refid="classrr_1_1ExecutableModel_1ad38c7e2bf987ce1f7cbb8ac7316b8760" prot="public" virt="pure-virtual"><scope>rr::ExecutableModel</scope><name>setTime</name></member>

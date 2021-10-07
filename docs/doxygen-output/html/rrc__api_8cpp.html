@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">roadrunner
-   &#160;<span id="projectnumber">2.0.8</span>
+   &#160;<span id="projectnumber">2.1.0</span>
    </div>
    <div id="projectbrief">Fast simulator for SBML models</div>
   </td>
@@ -82,6 +82,7 @@ $(function() {
 <code>#include &lt;sstream&gt;</code><br />
 <code>#include &lt;fstream&gt;</code><br />
 <code>#include &quot;rrRoadRunner.h&quot;</code><br />
+<code>#include &quot;rrRoadRunnerData.h&quot;</code><br />
 <code>#include &quot;rrRoadRunnerOptions.h&quot;</code><br />
 <code>#include &quot;<a class="el" href="rrExecutableModel_8h_source.html">rrExecutableModel.h</a>&quot;</code><br />
 <code>#include &quot;rrCompiler.h&quot;</code><br />
@@ -231,6 +232,9 @@ bool rrcCallConv&#160;</td><td class="memItemRight" valign="bottom"><b>rrc::setT
 <tr class="memitem:a7a132e807b8243aa0079a8134119bc84"><td class="memItemLeft" align="right" valign="top"><a id="a7a132e807b8243aa0079a8134119bc84"></a>
 bool rrcCallConv&#160;</td><td class="memItemRight" valign="bottom"><b>rrc::setNumPoints</b> (<a class="el" href="rrc__types_8h.html#a1d68f0592372208fa5a5f2799ea4b3ae">RRHandle</a> handle, const int nrPoints)</td></tr>
 <tr class="separator:a7a132e807b8243aa0079a8134119bc84"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad0f42ee2c23eeddca5ead4b4dcbd15eb"><td class="memItemLeft" align="right" valign="top"><a id="ad0f42ee2c23eeddca5ead4b4dcbd15eb"></a>
+bool rrcCallConv&#160;</td><td class="memItemRight" valign="bottom"><b>rrc::setTimes</b> (<a class="el" href="rrc__types_8h.html#a1d68f0592372208fa5a5f2799ea4b3ae">RRHandle</a> handle, const double *times, int size)</td></tr>
+<tr class="separator:ad0f42ee2c23eeddca5ead4b4dcbd15eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2933ecafd293baf16a5840585e48ca24"><td class="memItemLeft" align="right" valign="top"><a id="a2933ecafd293baf16a5840585e48ca24"></a>
 bool rrcCallConv&#160;</td><td class="memItemRight" valign="bottom"><b>rrc::getTimeStart</b> (<a class="el" href="rrc__types_8h.html#a1d68f0592372208fa5a5f2799ea4b3ae">RRHandle</a> handle, double *timeStart)</td></tr>
 <tr class="separator:a2933ecafd293baf16a5840585e48ca24"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -249,12 +253,24 @@ bool rrcCallConv&#160;</td><td class="memItemRight" valign="bottom"><b>rrc::setT
 <tr class="memitem:acd0799df482b82ca5f278728183b3ad4"><td class="memItemLeft" align="right" valign="top"><a id="acd0799df482b82ca5f278728183b3ad4"></a>
 <a class="el" href="rrc__types_8h.html#a9da8b124eb9c3c0045f8926c6a420b4a">RRCDataPtr</a> rrcCallConv&#160;</td><td class="memItemRight" valign="bottom"><b>rrc::simulate</b> (<a class="el" href="rrc__types_8h.html#a1d68f0592372208fa5a5f2799ea4b3ae">RRHandle</a> handle)</td></tr>
 <tr class="separator:acd0799df482b82ca5f278728183b3ad4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad91acd914fead70e2773b03b0f18bf79"><td class="memItemLeft" align="right" valign="top"><a id="ad91acd914fead70e2773b03b0f18bf79"></a>
+bool rrcCallConv&#160;</td><td class="memItemRight" valign="bottom"><b>rrc::simulateNoReturn</b> (<a class="el" href="rrc__types_8h.html#a1d68f0592372208fa5a5f2799ea4b3ae">RRHandle</a> handle)</td></tr>
+<tr class="separator:ad91acd914fead70e2773b03b0f18bf79"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6fa478bae5afbe10ad6c1cf7c54ec23e"><td class="memItemLeft" align="right" valign="top"><a id="a6fa478bae5afbe10ad6c1cf7c54ec23e"></a>
 <a class="el" href="rrc__types_8h.html#a9da8b124eb9c3c0045f8926c6a420b4a">RRCDataPtr</a> rrcCallConv&#160;</td><td class="memItemRight" valign="bottom"><b>rrc::simulateEx</b> (<a class="el" href="rrc__types_8h.html#a1d68f0592372208fa5a5f2799ea4b3ae">RRHandle</a> handle, const double timeStart, const double timeEnd, const int numberOfPoints)</td></tr>
 <tr class="separator:a6fa478bae5afbe10ad6c1cf7c54ec23e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a738ed91a20a058f54c43d795d3557696"><td class="memItemLeft" align="right" valign="top"><a id="a738ed91a20a058f54c43d795d3557696"></a>
+bool rrcCallConv&#160;</td><td class="memItemRight" valign="bottom"><b>rrc::simulateExNoReturn</b> (<a class="el" href="rrc__types_8h.html#a1d68f0592372208fa5a5f2799ea4b3ae">RRHandle</a> handle, const double timeStart, const double timeEnd, const int numberOfPoints)</td></tr>
+<tr class="separator:a738ed91a20a058f54c43d795d3557696"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a44790b183288750f82c3448b68f46d36"><td class="memItemLeft" align="right" valign="top"><a id="a44790b183288750f82c3448b68f46d36"></a>
+<a class="el" href="rrc__types_8h.html#a9da8b124eb9c3c0045f8926c6a420b4a">RRCDataPtr</a> rrcCallConv&#160;</td><td class="memItemRight" valign="bottom"><b>rrc::simulateTimes</b> (<a class="el" href="rrc__types_8h.html#a1d68f0592372208fa5a5f2799ea4b3ae">RRHandle</a> handle, const double *times, int size)</td></tr>
+<tr class="separator:a44790b183288750f82c3448b68f46d36"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a783c64c652ae5d151c8feb67574bbe0a"><td class="memItemLeft" align="right" valign="top"><a id="a783c64c652ae5d151c8feb67574bbe0a"></a>
 <a class="el" href="rrc__types_8h.html#a9da8b124eb9c3c0045f8926c6a420b4a">RRCDataPtr</a> rrcCallConv&#160;</td><td class="memItemRight" valign="bottom"><b>rrc::getSimulationResult</b> (<a class="el" href="rrc__types_8h.html#a1d68f0592372208fa5a5f2799ea4b3ae">RRHandle</a> handle)</td></tr>
 <tr class="separator:a783c64c652ae5d151c8feb67574bbe0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9929e880300acdfb499c7979e79e3ce2"><td class="memItemLeft" align="right" valign="top"><a id="a9929e880300acdfb499c7979e79e3ce2"></a>
+<a class="el" href="rrc__types_8h.html#a1d68f0592372208fa5a5f2799ea4b3ae">RRHandle</a> rrcCallConv&#160;</td><td class="memItemRight" valign="bottom"><b>rrc::getSimulationResultAsDoubleMatrix</b> (<a class="el" href="rrc__types_8h.html#a1d68f0592372208fa5a5f2799ea4b3ae">RRHandle</a> handle)</td></tr>
+<tr class="separator:a9929e880300acdfb499c7979e79e3ce2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a28f43438d80f217502721f97b576870b"><td class="memItemLeft" align="right" valign="top"><a id="a28f43438d80f217502721f97b576870b"></a>
 <a class="el" href="rrc__types_8h.html#a7c9475df6c7337d99482b13a365e7596">RRStringArrayPtr</a> rrcCallConv&#160;</td><td class="memItemRight" valign="bottom"><b>rrc::getReactionIds</b> (<a class="el" href="rrc__types_8h.html#a1d68f0592372208fa5a5f2799ea4b3ae">RRHandle</a> handle)</td></tr>
 <tr class="separator:a28f43438d80f217502721f97b576870b"><td class="memSeparator" colspan="2">&#160;</td></tr>

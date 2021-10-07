@@ -9,12 +9,6 @@ This class is frozen, no new features \mbox{\hyperlink{classrr_1_1RoadRunner}{Ro
 
 {\ttfamily \#include $<$rr\+Road\+Runner\+Options.\+h$>$}
 
-Inheritance diagram for rr\+::Simulate\+Options\+:\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[height=3.000000cm]{classrr_1_1SimulateOptions}
-\end{center}
-\end{figure}
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
@@ -30,9 +24,11 @@ std\+::string \mbox{\hyperlink{classrr_1_1SimulateOptions_ae95f2f7ba2b8af37a27e8
 \mbox{\Hypertarget{classrr_1_1SimulateOptions_a670a8cca2fd579cc776e70e95221bc81}\label{classrr_1_1SimulateOptions_a670a8cca2fd579cc776e70e95221bc81}} 
 void {\bfseries load\+SBMLSettings} (const std\+::string \&filename)
 \item 
-\mbox{\Hypertarget{classrr_1_1SimulateOptions_ac37d1c469b5ca3f1a259b49f0c3b041a}\label{classrr_1_1SimulateOptions_ac37d1c469b5ca3f1a259b49f0c3b041a}} 
-virtual void \mbox{\hyperlink{classrr_1_1SimulateOptions_ac37d1c469b5ca3f1a259b49f0c3b041a}{set\+Item}} (const std\+::string \&key, const \mbox{\hyperlink{classrr_1_1Setting}{rr\+::\+Setting}} \&value)
-\begin{DoxyCompactList}\small\item\em sets an item in the internal unordered std\+::map. \end{DoxyCompactList}\end{DoxyCompactItemize}
+virtual void \mbox{\hyperlink{classrr_1_1SimulateOptions_abbdfae309d8622bb68ff68d7173a7b78}{initialize}} ()
+\item 
+\mbox{\Hypertarget{classrr_1_1SimulateOptions_a5b05160fb010f3024c618b5225b75e4f}\label{classrr_1_1SimulateOptions_a5b05160fb010f3024c618b5225b75e4f}} 
+virtual double {\bfseries get\+Next} (size\+\_\+t step)
+\end{DoxyCompactItemize}
 \doxysubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
@@ -58,8 +54,10 @@ std\+::vector$<$ std\+::string $>$ \mbox{\hyperlink{classrr_1_1SimulateOptions_a
 std\+::vector$<$ std\+::string $>$ \mbox{\hyperlink{classrr_1_1SimulateOptions_a13c457ced6a6396d9cb8dcecf42f0dee}{amounts}}
 \begin{DoxyCompactList}\small\item\em A list of the variable whose output in the results file is in amount (not concentration) units. \end{DoxyCompactList}\item 
 std\+::vector$<$ std\+::string $>$ \mbox{\hyperlink{classrr_1_1SimulateOptions_a3fb8836610f52922ee371fdf06331e97}{concentrations}}
-\begin{DoxyCompactList}\small\item\em A list of the variable whose output in the results file is in concentration (not amount) units. \end{DoxyCompactList}\end{DoxyCompactItemize}
-\doxysubsection*{Additional Inherited Members}
+\begin{DoxyCompactList}\small\item\em A list of the variable whose output in the results file is in concentration (not amount) units. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classrr_1_1SimulateOptions_a47da5360a97032cb8c4cc54ef47401d9}\label{classrr_1_1SimulateOptions_a47da5360a97032cb8c4cc54ef47401d9}} 
+std\+::vector$<$ double $>$ {\bfseries times}
+\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
@@ -68,6 +66,15 @@ This class is frozen, no new features \mbox{\hyperlink{classrr_1_1RoadRunner}{Ro
 This is the full set of options that determines how \mbox{\hyperlink{classrr_1_1RoadRunner}{Road\+Runner}} performs a simulation of an sbml model.
 
 This is a superset of the values stored in a sbml test suite settings file, the documentation of the fields which correspond to an sbml test suite settings was taken from \href{http://sbml.org}{\texttt{ http\+://sbml.\+org}} 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classrr_1_1SimulateOptions_abbdfae309d8622bb68ff68d7173a7b78}\label{classrr_1_1SimulateOptions_abbdfae309d8622bb68ff68d7173a7b78}} 
+\index{rr::SimulateOptions@{rr::SimulateOptions}!initialize@{initialize}}
+\index{initialize@{initialize}!rr::SimulateOptions@{rr::SimulateOptions}}
+\doxysubsubsection{\texorpdfstring{initialize()}{initialize()}}
+{\footnotesize\ttfamily void rr\+::\+Simulate\+Options\+::initialize (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+has\+Key(\char`\"{}times\char`\"{}))
 
 \doxysubsection{Member Data Documentation}
 \mbox{\Hypertarget{classrr_1_1SimulateOptions_a13c457ced6a6396d9cb8dcecf42f0dee}\label{classrr_1_1SimulateOptions_a13c457ced6a6396d9cb8dcecf42f0dee}} 

@@ -209,7 +209,7 @@ the caller is responsible for deleting memory associated with the returned Solve
     </collaborationgraph>
     <location file="PresimulationDecorator.h" line="18" column="5" bodyfile="PresimulationDecorator.h" bodystart="18" bodyend="40"/>
     <listofallmembers>
-      <member refid="classrr_1_1Solver_1ad5b8ac1ef687d1a3c9f1f305cb73804d" prot="protected" virt="non-virtual"><scope>rr::PresimulationDecorator</scope><name>addSetting</name></member>
+      <member refid="classrr_1_1Solver_1a9d801d628c80877bbadd4fcff012837d" prot="protected" virt="non-virtual"><scope>rr::PresimulationDecorator</scope><name>addSetting</name></member>
       <member refid="classrr_1_1PresimulationDecorator_1adc6965e565f36397206b93b7f85cb2e8" prot="public" virt="virtual"><scope>rr::PresimulationDecorator</scope><name>construct</name></member>
       <member refid="classrr_1_1PresimulationDecorator_1ac72c5ef5c3e84174337f1be9894193eb" prot="private" virt="virtual"><scope>rr::PresimulationDecorator</scope><name>decoratorName</name></member>
       <member refid="classrr_1_1Solver_1a7d58e224664ab44e56f90802d9601f01" prot="public" virt="non-virtual"><scope>rr::PresimulationDecorator</scope><name>DescriptionMap</name></member>

@@ -564,7 +564,7 @@
       <memberdef kind="define" id="rrLogger_8h_1a9e3796676dc7a3407313708a1af8ab10" prot="public" static="no">
         <name>rrLog</name>
         <param><defname>level</defname></param>
-        <initializer>    if (level &gt; <ref refid="classrr_1_1Logger_1ad6b48d767c766eeb3db7505a59631b6b" kindref="member">rr::Logger::getLevel</ref>()) { ; } \
+        <initializer>    if ((level) &gt; <ref refid="classrr_1_1Logger_1ad6b48d767c766eeb3db7505a59631b6b" kindref="member">rr::Logger::getLevel</ref>()) { ; } \
     else <ref refid="classrr_1_1LoggingBuffer" kindref="compound">rr::LoggingBuffer</ref>(level, __FILE__, __LINE__).stream()</initializer>
         <briefdescription>
         </briefdescription>
@@ -573,6 +573,83 @@
         <inbodydescription>
         </inbodydescription>
         <location file="rrLogger.h" line="334" column="9" bodyfile="rrLogger.h" bodystart="334" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="rrLogger_8h_1a75b02aff1b211c29e0240d709a9bd177" prot="public" static="no">
+        <name>rrLogFatal</name>
+        <initializer>rrLog(Logger::LOG_FATAL)        &lt;&lt; __LINE__ &lt;&lt; &quot;: &quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="rrLogger.h" line="344" column="9" bodyfile="rrLogger.h" bodystart="344" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="rrLogger_8h_1a43df12c767cd1029745d93fd7dbcd24a" prot="public" static="no">
+        <name>rrLogCritical</name>
+        <initializer>rrLog(Logger::LOG_CRITICAL)     &lt;&lt; __LINE__ &lt;&lt; &quot;: &quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="rrLogger.h" line="345" column="9" bodyfile="rrLogger.h" bodystart="345" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="rrLogger_8h_1a39f2e474c08ce2627d25b0d3000bf14b" prot="public" static="no">
+        <name>rrLogErr</name>
+        <initializer>rrLog(Logger::LOG_ERROR)        &lt;&lt; __LINE__ &lt;&lt; &quot;: &quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="rrLogger.h" line="346" column="9" bodyfile="rrLogger.h" bodystart="346" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="rrLogger_8h_1ae70f6846046321b510bcd70e1fa229ef" prot="public" static="no">
+        <name>rrLogWarn</name>
+        <initializer>rrLog(Logger::LOG_WARNING)      &lt;&lt; __LINE__ &lt;&lt; &quot;: &quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="rrLogger.h" line="347" column="9" bodyfile="rrLogger.h" bodystart="347" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="rrLogger_8h_1abc2ec08147cb241882e441cd4007202d" prot="public" static="no">
+        <name>rrLogNotice</name>
+        <initializer>rrLog(Logger::LOG_NOTICE)       &lt;&lt; __LINE__ &lt;&lt; &quot;: &quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="rrLogger.h" line="348" column="9" bodyfile="rrLogger.h" bodystart="348" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="rrLogger_8h_1af5c1c555bf088c80011cf104c2836a96" prot="public" static="no">
+        <name>rrLogInfo</name>
+        <initializer>rrLog(Logger::LOG_INFORMATION)  &lt;&lt; __LINE__ &lt;&lt; &quot;: &quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="rrLogger.h" line="349" column="9" bodyfile="rrLogger.h" bodystart="349" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="rrLogger_8h_1a07508f37c8522e91d300e8cb4fcf9ffb" prot="public" static="no">
+        <name>rrLogDebug</name>
+        <initializer>rrLog(Logger::LOG_DEBUG)        &lt;&lt; __LINE__ &lt;&lt; &quot;: &quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="rrLogger.h" line="350" column="9" bodyfile="rrLogger.h" bodystart="350" bodyend="-1"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -689,7 +766,7 @@
 <codeline lineno="332"><highlight class="normal"></highlight></codeline>
 <codeline lineno="333"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>NO_LOGGER</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="334"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>rrLog(level)<sp/>\</highlight></codeline>
-<codeline lineno="335"><highlight class="preprocessor"><sp/><sp/><sp/><sp/>if<sp/>(level<sp/>&gt;<sp/>rr::Logger::getLevel())<sp/>{<sp/>;<sp/>}<sp/>\</highlight></codeline>
+<codeline lineno="335"><highlight class="preprocessor"><sp/><sp/><sp/><sp/>if<sp/>((level)<sp/>&gt;<sp/>rr::Logger::getLevel())<sp/>{<sp/>;<sp/>}<sp/>\</highlight></codeline>
 <codeline lineno="336"><highlight class="preprocessor"><sp/><sp/><sp/><sp/>else<sp/>rr::LoggingBuffer(level,<sp/>__FILE__,<sp/>__LINE__).stream()</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="337"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="338"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>rrLog(level)<sp/>\</highlight></codeline>
@@ -698,11 +775,19 @@
 <codeline lineno="341"><highlight class="preprocessor"><sp/><sp/><sp/><sp/>LoggingBuffer(level,<sp/>__FILE__,<sp/>__LINE__)</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="342"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="343"><highlight class="normal"></highlight></codeline>
-<codeline lineno="344"><highlight class="normal"></highlight></codeline>
-<codeline lineno="345"><highlight class="normal">}<sp/></highlight><highlight class="comment">/*<sp/>namespace<sp/>rr<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="346"><highlight class="normal"></highlight></codeline>
-<codeline lineno="347"><highlight class="normal"></highlight></codeline>
-<codeline lineno="348"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">/*<sp/>rrLoggerH<sp/>*/</highlight><highlight class="preprocessor"></highlight></codeline>
+<codeline lineno="344"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>rrLogFatal<sp/><sp/><sp/><sp/><sp/>rrLog(Logger::LOG_FATAL)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/>__LINE__<sp/>&lt;&lt;<sp/>&quot;:<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="345"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>rrLogCritical<sp/><sp/>rrLog(Logger::LOG_CRITICAL)<sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/>__LINE__<sp/>&lt;&lt;<sp/>&quot;:<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="346"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>rrLogErr<sp/><sp/><sp/><sp/><sp/><sp/><sp/>rrLog(Logger::LOG_ERROR)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/>__LINE__<sp/>&lt;&lt;<sp/>&quot;:<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="347"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>rrLogWarn<sp/><sp/><sp/><sp/><sp/><sp/>rrLog(Logger::LOG_WARNING)<sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/>__LINE__<sp/>&lt;&lt;<sp/>&quot;:<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="348"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>rrLogNotice<sp/><sp/><sp/><sp/>rrLog(Logger::LOG_NOTICE)<sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/>__LINE__<sp/>&lt;&lt;<sp/>&quot;:<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="349"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>rrLogInfo<sp/><sp/><sp/><sp/><sp/><sp/>rrLog(Logger::LOG_INFORMATION)<sp/><sp/>&lt;&lt;<sp/>__LINE__<sp/>&lt;&lt;<sp/>&quot;:<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="350"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>rrLogDebug<sp/><sp/><sp/><sp/><sp/>rrLog(Logger::LOG_DEBUG)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/>__LINE__<sp/>&lt;&lt;<sp/>&quot;:<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="351"><highlight class="normal"></highlight></codeline>
+<codeline lineno="352"><highlight class="normal"></highlight></codeline>
+<codeline lineno="353"><highlight class="normal">}<sp/></highlight><highlight class="comment">/*<sp/>namespace<sp/>rr<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="354"><highlight class="normal"></highlight></codeline>
+<codeline lineno="355"><highlight class="normal"></highlight></codeline>
+<codeline lineno="356"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">/*<sp/>rrLoggerH<sp/>*/</highlight><highlight class="preprocessor"></highlight></codeline>
     </programlisting>
     <location file="rrLogger.h"/>
   </compounddef>

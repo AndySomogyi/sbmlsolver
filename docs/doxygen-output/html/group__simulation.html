@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">roadrunner
-   &#160;<span id="projectnumber">2.0.8</span>
+   &#160;<span id="projectnumber">2.1.0</span>
    </div>
    <div id="projectbrief">Fast simulator for SBML models</div>
   </td>
@@ -90,6 +90,9 @@ Functions</h2></td></tr>
 <tr class="memitem:ga4575f315d9794b53adf78bfb60973d58"><td class="memItemLeft" align="right" valign="top">C_DECL_SPEC bool rrcCallConv&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__simulation.html#ga4575f315d9794b53adf78bfb60973d58">setNumPoints</a> (<a class="el" href="rrc__types_8h.html#a1d68f0592372208fa5a5f2799ea4b3ae">RRHandle</a> handle, int numberOfPoints)</td></tr>
 <tr class="memdesc:ga4575f315d9794b53adf78bfb60973d58"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the number of points to generate in a time course simulation.  <a href="group__simulation.html#ga4575f315d9794b53adf78bfb60973d58">More...</a><br /></td></tr>
 <tr class="separator:ga4575f315d9794b53adf78bfb60973d58"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7d5bcc6699c0bd8702938abde4b14c2e"><td class="memItemLeft" align="right" valign="top">C_DECL_SPEC bool rrcCallConv&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__simulation.html#ga7d5bcc6699c0bd8702938abde4b14c2e">setTimes</a> (<a class="el" href="rrc__types_8h.html#a1d68f0592372208fa5a5f2799ea4b3ae">RRHandle</a> handle, double *times, int size)</td></tr>
+<tr class="memdesc:ga7d5bcc6699c0bd8702938abde4b14c2e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the times vector to output in a time course simulation.  <a href="group__simulation.html#ga7d5bcc6699c0bd8702938abde4b14c2e">More...</a><br /></td></tr>
+<tr class="separator:ga7d5bcc6699c0bd8702938abde4b14c2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga61cca45bb48776d12f5bcc52d0c77e04"><td class="memItemLeft" align="right" valign="top">C_DECL_SPEC bool rrcCallConv&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__simulation.html#ga61cca45bb48776d12f5bcc52d0c77e04">setTimeCourseSelectionList</a> (<a class="el" href="rrc__types_8h.html#a1d68f0592372208fa5a5f2799ea4b3ae">RRHandle</a> handle, const char *list)</td></tr>
 <tr class="memdesc:ga61cca45bb48776d12f5bcc52d0c77e04"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the selection list for output from simulate(void) or simulateEx(void)  <a href="group__simulation.html#ga61cca45bb48776d12f5bcc52d0c77e04">More...</a><br /></td></tr>
 <tr class="separator:ga61cca45bb48776d12f5bcc52d0c77e04"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -99,12 +102,24 @@ Functions</h2></td></tr>
 <tr class="memitem:ga9ac99f6909eb0a6244035fc9cdeff94d"><td class="memItemLeft" align="right" valign="top">C_DECL_SPEC <a class="el" href="rrc__types_8h.html#a9da8b124eb9c3c0045f8926c6a420b4a">RRCDataPtr</a> rrcCallConv&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__simulation.html#ga9ac99f6909eb0a6244035fc9cdeff94d">simulate</a> (<a class="el" href="rrc__types_8h.html#a1d68f0592372208fa5a5f2799ea4b3ae">RRHandle</a> handle)</td></tr>
 <tr class="memdesc:ga9ac99f6909eb0a6244035fc9cdeff94d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Carry out a time-course simulation. setTimeStart, setTimeEnd, setNumPoints, etc are used to set the simulation characteristics.  <a href="group__simulation.html#ga9ac99f6909eb0a6244035fc9cdeff94d">More...</a><br /></td></tr>
 <tr class="separator:ga9ac99f6909eb0a6244035fc9cdeff94d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga4e4e8ef75ba20f2ad989a4c2188b3a55"><td class="memItemLeft" align="right" valign="top">C_DECL_SPEC bool rrcCallConv&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__simulation.html#ga4e4e8ef75ba20f2ad989a4c2188b3a55">simulateNoReturn</a> (<a class="el" href="rrc__types_8h.html#a1d68f0592372208fa5a5f2799ea4b3ae">RRHandle</a> handle)</td></tr>
+<tr class="memdesc:ga4e4e8ef75ba20f2ad989a4c2188b3a55"><td class="mdescLeft">&#160;</td><td class="mdescRight">Carry out a time-course simulation. setTimeStart, setTimeEnd, setNumPoints, etc are used to set the simulation characteristics.  <a href="group__simulation.html#ga4e4e8ef75ba20f2ad989a4c2188b3a55">More...</a><br /></td></tr>
+<tr class="separator:ga4e4e8ef75ba20f2ad989a4c2188b3a55"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaa52283eaebe340a4a39cc4900441be93"><td class="memItemLeft" align="right" valign="top">C_DECL_SPEC <a class="el" href="rrc__types_8h.html#a9da8b124eb9c3c0045f8926c6a420b4a">RRCDataPtr</a> rrcCallConv&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__simulation.html#gaa52283eaebe340a4a39cc4900441be93">getSimulationResult</a> (<a class="el" href="rrc__types_8h.html#a1d68f0592372208fa5a5f2799ea4b3ae">RRHandle</a> handle)</td></tr>
 <tr class="memdesc:gaa52283eaebe340a4a39cc4900441be93"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the result of the last simulation.  <a href="group__simulation.html#gaa52283eaebe340a4a39cc4900441be93">More...</a><br /></td></tr>
 <tr class="separator:gaa52283eaebe340a4a39cc4900441be93"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac8574ccef28db153428153c3f5abd516"><td class="memItemLeft" align="right" valign="top">C_DECL_SPEC <a class="el" href="rrc__types_8h.html#a1d68f0592372208fa5a5f2799ea4b3ae">RRHandle</a> rrcCallConv&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__simulation.html#gac8574ccef28db153428153c3f5abd516">getSimulationResultAsDoubleMatrix</a> (<a class="el" href="rrc__types_8h.html#a1d68f0592372208fa5a5f2799ea4b3ae">RRHandle</a> handle)</td></tr>
+<tr class="memdesc:gac8574ccef28db153428153c3f5abd516"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the result of the last simulation as a DoubleMatrix.  <a href="group__simulation.html#gac8574ccef28db153428153c3f5abd516">More...</a><br /></td></tr>
+<tr class="separator:gac8574ccef28db153428153c3f5abd516"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga12a2129f06507eafbace57a8612cc600"><td class="memItemLeft" align="right" valign="top">C_DECL_SPEC <a class="el" href="rrc__types_8h.html#a9da8b124eb9c3c0045f8926c6a420b4a">RRCDataPtr</a> rrcCallConv&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__simulation.html#ga12a2129f06507eafbace57a8612cc600">simulateEx</a> (<a class="el" href="rrc__types_8h.html#a1d68f0592372208fa5a5f2799ea4b3ae">RRHandle</a> handle, const double timeStart, const double timeEnd, const int numberOfPoints)</td></tr>
 <tr class="memdesc:ga12a2129f06507eafbace57a8612cc600"><td class="mdescLeft">&#160;</td><td class="mdescRight">Carry out a time-course simulation based on the given arguments, time start, time end and number of points.  <a href="group__simulation.html#ga12a2129f06507eafbace57a8612cc600">More...</a><br /></td></tr>
 <tr class="separator:ga12a2129f06507eafbace57a8612cc600"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad4a0c2c01b4cd8b65fbdea3459aa7768"><td class="memItemLeft" align="right" valign="top">C_DECL_SPEC bool rrcCallConv&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__simulation.html#gad4a0c2c01b4cd8b65fbdea3459aa7768">simulateExNoReturn</a> (<a class="el" href="rrc__types_8h.html#a1d68f0592372208fa5a5f2799ea4b3ae">RRHandle</a> handle, const double timeStart, const double timeEnd, const int numberOfPoints)</td></tr>
+<tr class="memdesc:gad4a0c2c01b4cd8b65fbdea3459aa7768"><td class="mdescLeft">&#160;</td><td class="mdescRight">Carry out a time-course simulation based on the given arguments, time start, time end and number of points, but do not return results.  <a href="group__simulation.html#gad4a0c2c01b4cd8b65fbdea3459aa7768">More...</a><br /></td></tr>
+<tr class="separator:gad4a0c2c01b4cd8b65fbdea3459aa7768"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gabf0748e0e5a62fe441a28d33badc5014"><td class="memItemLeft" align="right" valign="top">C_DECL_SPEC <a class="el" href="rrc__types_8h.html#a9da8b124eb9c3c0045f8926c6a420b4a">RRCDataPtr</a> rrcCallConv&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__simulation.html#gabf0748e0e5a62fe441a28d33badc5014">simulateTimes</a> (<a class="el" href="rrc__types_8h.html#a1d68f0592372208fa5a5f2799ea4b3ae">RRHandle</a> handle, const double *times, int size)</td></tr>
+<tr class="memdesc:gabf0748e0e5a62fe441a28d33badc5014"><td class="mdescLeft">&#160;</td><td class="mdescRight">Carry out a time-course simulation based on the given arguments, time start, time end and number of points.  <a href="group__simulation.html#gabf0748e0e5a62fe441a28d33badc5014">More...</a><br /></td></tr>
+<tr class="separator:gabf0748e0e5a62fe441a28d33badc5014"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga8f7109b90040ff57b8366c2f1867f066"><td class="memItemLeft" align="right" valign="top">C_DECL_SPEC bool rrcCallConv&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__simulation.html#ga8f7109b90040ff57b8366c2f1867f066">oneStep</a> (<a class="el" href="rrc__types_8h.html#a1d68f0592372208fa5a5f2799ea4b3ae">RRHandle</a> handle, const double currentTime, const double stepSize, double *value)</td></tr>
 <tr class="memdesc:ga8f7109b90040ff57b8366c2f1867f066"><td class="mdescLeft">&#160;</td><td class="mdescRight">Carry out a one step integration of the model.  <a href="group__simulation.html#ga8f7109b90040ff57b8366c2f1867f066">More...</a><br /></td></tr>
 <tr class="separator:ga8f7109b90040ff57b8366c2f1867f066"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -233,6 +248,33 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Returns an array (RRCDataPtr) of columns containing the results of the simulation including string labels for the individual columns. The client is responsible for freeing the resulting RRCDataPtr structure. </dd></dl>
+
+</div>
+</div>
+<a id="gac8574ccef28db153428153c3f5abd516"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gac8574ccef28db153428153c3f5abd516">&#9670;&nbsp;</a></span>getSimulationResultAsDoubleMatrix()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">C_DECL_SPEC <a class="el" href="rrc__types_8h.html#a1d68f0592372208fa5a5f2799ea4b3ae">RRHandle</a> rrcCallConv getSimulationResultAsDoubleMatrix </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="rrc__types_8h.html#a1d68f0592372208fa5a5f2799ea4b3ae">RRHandle</a>&#160;</td>
+          <td class="paramname"><em>handle</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Retrieve the result of the last simulation as a DoubleMatrix. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">handle</td><td>Handle to a RoadRunner instance </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns a pointer (RRHandle) containing the results of the simulation. The pointer is <em>not</em> owned by the caller. </dd></dl>
 
 </div>
 </div>
@@ -553,6 +595,51 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="ga7d5bcc6699c0bd8702938abde4b14c2e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga7d5bcc6699c0bd8702938abde4b14c2e">&#9670;&nbsp;</a></span>setTimes()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">C_DECL_SPEC bool rrcCallConv setTimes </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="rrc__types_8h.html#a1d68f0592372208fa5a5f2799ea4b3ae">RRHandle</a>&#160;</td>
+          <td class="paramname"><em>handle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double *&#160;</td>
+          <td class="paramname"><em>times</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>size</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set the times vector to output in a time course simulation. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">handle</td><td>Handle to a RoadRunner instance </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">times</td><td>vector of doubles to use as time output points. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">size</td><td>length of the times vector. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns true if successful </dd></dl>
+
+</div>
+</div>
 <a id="ga6f2c769375399d14087d6e5e99339aa7"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga6f2c769375399d14087d6e5e99339aa7">&#9670;&nbsp;</a></span>setTimeStart()</h2>
 
@@ -672,6 +759,143 @@ Functions</h2></td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">timeStart</td><td>Time start </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">timeEnd</td><td>Time end </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">numberOfPoints</td><td>Number of points to generate </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns an array (RRCDataPtr) of columns containing the results of the simulation including string labels for the individual columns. The client is responsible for freeing the resulting RRCDataPtr structure. </dd></dl>
+
+</div>
+</div>
+<a id="gad4a0c2c01b4cd8b65fbdea3459aa7768"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gad4a0c2c01b4cd8b65fbdea3459aa7768">&#9670;&nbsp;</a></span>simulateExNoReturn()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">C_DECL_SPEC bool rrcCallConv simulateExNoReturn </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="rrc__types_8h.html#a1d68f0592372208fa5a5f2799ea4b3ae">RRHandle</a>&#160;</td>
+          <td class="paramname"><em>handle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const double&#160;</td>
+          <td class="paramname"><em>timeStart</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const double&#160;</td>
+          <td class="paramname"><em>timeEnd</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>numberOfPoints</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Carry out a time-course simulation based on the given arguments, time start, time end and number of points, but do not return results. </p>
+<p>Example: </p><div class="fragment"><div class="line"><a class="code" href="structRRCData.html">RRCDataPtr</a> m;</div>
+<div class="line"> </div>
+<div class="line"><span class="keywordtype">double</span> timeStart = 0.0;</div>
+<div class="line"><span class="keywordtype">double</span> timeEnd = 25;</div>
+<div class="line"><span class="keywordtype">int</span> numberOfPoints = 200;</div>
+<div class="line"> </div>
+<div class="line">m = <a class="code" href="group__simulation.html#ga12a2129f06507eafbace57a8612cc600">simulateEx</a> (rrHandle, timeStart, timeEnd, numberOfPoints);</div>
+</div><!-- fragment --><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">handle</td><td>Handle to a RoadRunner instance </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">timeStart</td><td>Time start </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">timeEnd</td><td>Time end </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">numberOfPoints</td><td>Number of points to generate </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns an array (RRCDataPtr) of columns containing the results of the simulation including string labels for the individual columns. The client is responsible for freeing the resulting RRCDataPtr structure. </dd></dl>
+
+</div>
+</div>
+<a id="ga4e4e8ef75ba20f2ad989a4c2188b3a55"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga4e4e8ef75ba20f2ad989a4c2188b3a55">&#9670;&nbsp;</a></span>simulateNoReturn()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">C_DECL_SPEC bool rrcCallConv simulateNoReturn </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="rrc__types_8h.html#a1d68f0592372208fa5a5f2799ea4b3ae">RRHandle</a>&#160;</td>
+          <td class="paramname"><em>handle</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Carry out a time-course simulation. setTimeStart, setTimeEnd, setNumPoints, etc are used to set the simulation characteristics. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">handle</td><td>Handle to a RoadRunner instance </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns an array (RRCDataPtr) of columns containing the results of the simulation including string labels for the individual columns. The client is responsible for freeing the resulting RRCDataPtr structure. </dd></dl>
+
+</div>
+</div>
+<a id="gabf0748e0e5a62fe441a28d33badc5014"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gabf0748e0e5a62fe441a28d33badc5014">&#9670;&nbsp;</a></span>simulateTimes()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">C_DECL_SPEC <a class="el" href="rrc__types_8h.html#a9da8b124eb9c3c0045f8926c6a420b4a">RRCDataPtr</a> rrcCallConv simulateTimes </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="rrc__types_8h.html#a1d68f0592372208fa5a5f2799ea4b3ae">RRHandle</a>&#160;</td>
+          <td class="paramname"><em>handle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const double *&#160;</td>
+          <td class="paramname"><em>times</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>size</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Carry out a time-course simulation based on the given arguments, time start, time end and number of points. </p>
+<p>Example: </p><div class="fragment"><div class="line"><a class="code" href="structRRCData.html">RRCDataPtr</a> m;</div>
+<div class="line"> </div>
+<div class="line"><span class="keywordtype">double</span>[4] times = {0, 1, 5, 10};</div>
+<div class="line"> </div>
+<div class="line">m = <a class="code" href="group__simulation.html#gabf0748e0e5a62fe441a28d33badc5014">simulateTimes</a> (rrHandle, times, 4);</div>
+<div class="ttc" id="agroup__simulation_html_gabf0748e0e5a62fe441a28d33badc5014"><div class="ttname"><a href="group__simulation.html#gabf0748e0e5a62fe441a28d33badc5014">simulateTimes</a></div><div class="ttdeci">C_DECL_SPEC RRCDataPtr rrcCallConv simulateTimes(RRHandle handle, const double *times, int size)</div><div class="ttdoc">Carry out a time-course simulation based on the given arguments, time start, time end and number of p...</div></div>
+</div><!-- fragment --><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">handle</td><td>Handle to a RoadRunner instance </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">times</td><td>array of time points </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">size</td><td>size of time point array </td></tr>
   </table>
   </dd>
 </dl>

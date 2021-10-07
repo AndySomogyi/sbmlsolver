@@ -149,7 +149,7 @@
     </collaborationgraph>
     <location file="SensitivitySolver.h" line="22" column="5" bodyfile="SensitivitySolver.h" bodystart="22" bodyend="35"/>
     <listofallmembers>
-      <member refid="classrr_1_1Solver_1ad5b8ac1ef687d1a3c9f1f305cb73804d" prot="protected" virt="non-virtual"><scope>rr::SensitivitySolver</scope><name>addSetting</name></member>
+      <member refid="classrr_1_1Solver_1a9d801d628c80877bbadd4fcff012837d" prot="protected" virt="non-virtual"><scope>rr::SensitivitySolver</scope><name>addSetting</name></member>
       <member refid="classrr_1_1Registrable_1a3f529e138fa0288622525bc13cd73c5f" prot="public" virt="pure-virtual"><scope>rr::SensitivitySolver</scope><name>construct</name></member>
       <member refid="classrr_1_1Solver_1a7d58e224664ab44e56f90802d9601f01" prot="public" virt="non-virtual"><scope>rr::SensitivitySolver</scope><name>DescriptionMap</name></member>
       <member refid="classrr_1_1Solver_1a7e07121f652db358045d6f7b95889ea3" prot="public" virt="non-virtual"><scope>rr::SensitivitySolver</scope><name>descriptions</name></member>

@@ -1,10 +1,8 @@
-Using RoadRunner with Python's parallel libraries
-======================================================
+Parallel RoadRunner
+===================
 
-The model
----------
 For these simulations we use a simple model that we can access easily from one of RoadRunners
-test suites. Its called 'BatchImmigrationDeath03' and is model number 00039 from the
+test suites. Its called ``BatchImmigrationDeath03`` and is model number ``00039`` from the
 stochastic sbml test suite.
 
 In each of the following sections we use RoadRunner to generate 1e6 stochastic simulations.
@@ -32,29 +30,14 @@ to about a x3 speed up for this example.
     :language: python
 
 
-Threading library
------------------
-
-.. literalinclude:: gillespie_simulations_threading.py
-    :linenos:
-    :language: python
-
-
-
 Ray library
 ------------
 
-.. literalinclude:: gillespie_simulations_ray.py
+.. literalinclude:: gillespie_simulations_ray_library.py
     :linenos:
     :language: python
 
 
-MPI library
-------------
-
-.. note::
-
-    coming soon...
 
 
 
