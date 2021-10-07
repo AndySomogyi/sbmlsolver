@@ -8,4 +8,4 @@ a runnable module as::
 This module basically has a single function,::
     runTester()
 
-This runs the built in unit tests.. 
+This runs the built-in unit tests.

@@ -114,9 +114,9 @@
       </memberdef>
       <memberdef kind="variable" id="classrr_1_1RoadRunnerImpl_1a719e0e905cf6fbbf49d24be99db2c7c4" prot="public" static="no" mutable="no">
         <type><ref refid="classrr_1_1SensitivitySolver" kindref="compound">SensitivitySolver</ref> *</type>
-        <definition>SensitivitySolver* rr::RoadRunnerImpl::sensitivities_solver</definition>
+        <definition>SensitivitySolver* rr::RoadRunnerImpl::sensitivity_solver</definition>
         <argsstring></argsstring>
-        <name>sensitivities_solver</name>
+        <name>sensitivity_solver</name>
         <initializer>= nullptr</initializer>
         <briefdescription>
 <para>Points to the current sensitivities solver. </para>
@@ -559,7 +559,7 @@
           <edgelabel>roadRunnerOptions</edgelabel>
         </childnode>
         <childnode refid="8" relation="usage">
-          <edgelabel>sensitivities_solver</edgelabel>
+          <edgelabel>sensitivity_solver</edgelabel>
         </childnode>
         <childnode refid="12" relation="usage">
           <edgelabel>steady_state_solver</edgelabel>
@@ -631,7 +631,7 @@
       <member refid="classrr_1_1RoadRunnerImpl_1ae70ba989534390c53ab2eafc75dd189f" prot="public" virt="non-virtual"><scope>rr::RoadRunnerImpl</scope><name>RoadRunnerImpl</name></member>
       <member refid="classrr_1_1RoadRunnerImpl_1a43e10c0ddfffa060a90217a7a311e6d4" prot="public" virt="non-virtual"><scope>rr::RoadRunnerImpl</scope><name>RoadRunnerImpl</name></member>
       <member refid="classrr_1_1RoadRunnerImpl_1ab0d81fec655750d5e7a46be8be2d7aaa" prot="public" virt="non-virtual"><scope>rr::RoadRunnerImpl</scope><name>roadRunnerOptions</name></member>
-      <member refid="classrr_1_1RoadRunnerImpl_1a719e0e905cf6fbbf49d24be99db2c7c4" prot="public" virt="non-virtual"><scope>rr::RoadRunnerImpl</scope><name>sensitivities_solver</name></member>
+      <member refid="classrr_1_1RoadRunnerImpl_1a719e0e905cf6fbbf49d24be99db2c7c4" prot="public" virt="non-virtual"><scope>rr::RoadRunnerImpl</scope><name>sensitivity_solver</name></member>
       <member refid="classrr_1_1RoadRunnerImpl_1a0a9a2af5451afaacca8030fedfef77d6" prot="public" virt="non-virtual"><scope>rr::RoadRunnerImpl</scope><name>sensitivity_solvers</name></member>
       <member refid="classrr_1_1RoadRunnerImpl_1a90c9f423fe72446a48c0b866dbb2ac9e" prot="public" virt="non-virtual"><scope>rr::RoadRunnerImpl</scope><name>setParameterValue</name></member>
       <member refid="classrr_1_1RoadRunnerImpl_1a1ace36ac129fed50c43abf94c72fed9d" prot="public" virt="non-virtual"><scope>rr::RoadRunnerImpl</scope><name>simulatedSinceReset</name></member>

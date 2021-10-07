@@ -38,6 +38,11 @@ public:
     MOCK_METHOD(int, getBoundarySpeciesAmounts,            (size_t len, int const *indx, double *values),        (override));
     MOCK_METHOD(int, getBoundarySpeciesConcentrations,     (size_t len, int const *indx, double *values),        (override));
     MOCK_METHOD(int, setBoundarySpeciesConcentrations,     (size_t len, int const *indx, double const *values), (override));
+    MOCK_METHOD(int, setBoundarySpeciesAmounts, (size_t len, int const* indx, double const* values), (override));
+    MOCK_METHOD(int, setBoundarySpeciesInitConcentrations, (size_t len, int const* indx, double const* values), (override));
+    MOCK_METHOD(int, getBoundarySpeciesInitConcentrations, (size_t len, int const* indx, double* values), (override));
+    MOCK_METHOD(int, setBoundarySpeciesInitAmounts, (size_t len, int const* indx, double const* values), (override));
+    MOCK_METHOD(int, getBoundarySpeciesInitAmounts, (size_t len, int const* indx, double* values), (override));
     MOCK_METHOD(int, getNumGlobalParameters,               (), (override));
     MOCK_METHOD(int, getGlobalParameterIndex,              (const std::string &eid), (override));
     MOCK_METHOD(std::string, getGlobalParameterId, (size_t index), (override));
@@ -47,6 +52,7 @@ public:
     MOCK_METHOD(int, getGlobalParameterInitValues, (size_t len, int const *indx, double *values), (override));
     MOCK_METHOD(int, getNumCompartments, (), (override));
     MOCK_METHOD(int, getCompartmentIndexForFloatingSpecies, (size_t index), (override));
+    MOCK_METHOD(int, getCompartmentIndexForBoundarySpecies, (size_t index), (override));
     MOCK_METHOD(int, getCompartmentIndex, (const std::string &eid), (override));
     MOCK_METHOD(std::string, getCompartmentId, (size_t index), (override));
     MOCK_METHOD(int, getCompartmentVolumes, (size_t len, int const *indx, double *values), (override));
@@ -90,6 +96,9 @@ public:
     MOCK_METHOD(int, getEventIndex, (const std::string &eid), (override));
     MOCK_METHOD(std::string, getEventId, (size_t index), (override));
     MOCK_METHOD(void, getEventIds, (std::list<std::string> & ), (override));
+    MOCK_METHOD(void, getAssignmentRuleIds, (std::list<std::string>&), (override));
+    MOCK_METHOD(void, getRateRuleIds, (std::list<std::string>&), (override));
+    MOCK_METHOD(void, getInitialAssignmentIds, (std::list<std::string>&), (override));
     MOCK_METHOD(void, setEventListener, (size_t index, EventListenerPtr eventHandler), (override));
     MOCK_METHOD(EventListenerPtr, getEventListener, (size_t index), (override));
     MOCK_METHOD(double, getFloatingSpeciesAmountRate, (size_t index,const double *reactionRates), (override));

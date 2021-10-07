@@ -11,7 +11,7 @@
 namespace cs_ChiSquare {
     using namespace std;
     using tlp::StringList;
-    rrc::THostInterface* mhostInterface;
+    rrc::THostInterface* gHostInterface = NULL;
 
 
     ChiSquare::ChiSquare() :
@@ -99,19 +99,19 @@ namespace cs_ChiSquare {
 
     #ifdef EXPORT_CHI_SQUARE
     // Plugin factory function
-    ChiSquare* plugins_cc createPlugin()
+    TLP_DS ChiSquare* plugins_cc createPlugin()
     {
         //allocate a new object and return it
         return new ChiSquare();
     }
 
-    const char* plugins_cc getImplementationLanguage()
+    TLP_DS const char* plugins_cc getImplementationLanguage()
     {
         return "CPP";
     }
 
-    void plugins_cc setHostInterface(rrc::THostInterface* _hostInterface) {
-        mhostInterface = _hostInterface;
+    TLP_DS void plugins_cc setHostInterface(rrc::THostInterface* _hostInterface) {
+        gHostInterface = _hostInterface;
     }
     #endif
 

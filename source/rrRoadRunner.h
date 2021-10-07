@@ -184,11 +184,14 @@ namespace rr {
          */
         SensitivitySolver *makeSensitivitySolver(const std::string &name);
 
-
-        /* Return a list of the names of all existing integrators. */
+        /**
+         * Return a list of the names of all existing integrators.
+         */
         std::vector<std::string> getExistingIntegratorNames();
 
-        /* Return a list of the names of all existing integrators. */
+        /**
+         * Return a list of the names of all existing integrators.
+         */
         std::vector<std::string> getExistingSteadyStateSolverNames();
 
         /**
@@ -219,16 +222,22 @@ namespace rr {
 
         /**
          * @brief set the current SteadyStateSolver to @param name;
+         * @details use getRegisteredSteadyStateSolverNames to
+         * get a list of available names
          */
         void setSteadyStateSolver(const std::string &name);
 
         /**
          * @brief set the current SensitivitySolver to @param name;
+         * @details use getRegisteredSensitivitySolverNames to
+         * get a list of available sensitivity solver names
          */
         void setSensitivitySolver(const std::string &name);
 
         /**
          * @brief returns true if integrator @param name exists.
+         * @details Use getRegisteredIntegratorNames to get a list of
+         * available integrator solver names.
          */
         bool integratorExists(const std::string &name);
 
@@ -253,6 +262,21 @@ namespace rr {
          * returns the model name if a model is loaded, empty std::string otherwise.
          */
         std::string getModelName();
+
+        /**
+         * sets the model name if a model is loaded.
+         */
+        void setModelName(const std::string& name);
+
+        /**
+         * returns the model id if a model is loaded, empty std::string otherwise.
+         */
+        std::string getModelId();
+
+        /**
+         * sets the model id if a model is loaded.
+         */
+        void setModelId(const std::string& id);
 
         /**
          * @brief Clears the currently loaded model and all associated memory
@@ -297,23 +321,23 @@ namespace rr {
          * stiff integtator, you would:
          * @code
          * RoadRunner r = RoadRunner("someFile.xml");
-         * BasicDictionary opt;
-         * opt.setItem("start", 0);
-         * opt.setItem("duration", 10);
-         * opt.setItem("steps", 1000);
-         * opt.setItem("stiff", true);
+         * SimulateOptions opt = r.getSimulateOptions();
+         * opt.start = 0;
+         * opt.duration = 10;
+         * opt.steps = 1000;
          * const DoubleMatrix *result = r.simulate(&opt);
          * @endcode
          *
-         * Similarly, if one wants to use a stochastic integrator, such as the Gillespie
-         * integrator, this is set via the "integrator" key, i.e.
+         * Similarly, options specific to a particular integrator, such as the 'seed' option
+         * with the Gillespie
+         * integrator, this is set via the 'setIntegrator' "integrator" key, i.e.
          * @code
          * RoadRunner r = RoadRunner("someFile.xml");
-         * BasicDictionary opt;
-         * opt.setItem("integrator", "gillespie");
-         * opt.setItem("start", 0);
-         * opt.setItem("duration", 10);
-         * opt.setItem("steps", 1000);
+         * r.setIntegrator("gillespie");
+         * SimulateOptions opt;
+         * opt.start = 0;
+         * opt.duration = 10;
+         * opt.steps = 1000;
          * opt.setItem("stiff", true);
          * opt.setItem("seed", 12345);
          * const DoubleMatrix *result = r.simulate(&opt);
@@ -321,7 +345,8 @@ namespace rr {
          * Here, the "integrator" specifies the integrator to use. The "stiff" key
          * is only used by the deterministic solvers, and it is safely ignored by the
          * stochastic solvers. Also, the "seed" sets the random seed that the integrator
-         * uses. For more information about all of the avaialble options for each integrator,
+         * uses. For more information about all of the available options for each integrator,
+         * @see IntegratorFactory::getIntegratorOptions".
          *
          * If one wants to not store the result matrix in memory and instead write it
          * to a file during simulation, one can set the output_file option. When
@@ -330,21 +355,25 @@ namespace rr {
          * empty result matrix is returned, and the last simulation results are not
          * stored.
          *
-         * @see IntegratorFactory::getIntegratorOptions".
-         *
          * @throws an std::exception if any options are invalid.
          * @returns a borrowed reference to a DoubleMatrix object if successful. The matrix
          * will be empty if output_file is specified and nonempty.
          */
-        const ls::DoubleMatrix *simulate(const Dictionary *options = 0);
+        const ls::DoubleMatrix *simulate(const SimulateOptions *options = 0);
 
         /**
          * @brief simulate the model using currently set integrator
          * @param start starting time to simulate
          * @param stop what time point does the simulation end?
-         * @param num how many steps to simulate
+         * @param points how many points to output (one greater than the number of steps to take).
          */
-        const ls::DoubleMatrix *simulate(double start, double stop, int num);
+        const ls::DoubleMatrix *simulate(double start, double stop, int points);
+
+        /**
+         * @brief simulate the model using currently set integrator
+         * @param times a vector of all the time outputs desired.
+         */
+        const ls::DoubleMatrix *simulate(const std::vector<double> &times);
 
         /**
          * @brief simulate a timeseries with sensitivities from start to step with num
@@ -358,24 +387,55 @@ namespace rr {
          * @param num number of data points to simulate. Determines Z of Matrix3D.
          * @param params vector of parameters that you want sensitivity for. When empty (default), compute
          * sensitivities for all parameters vs all variables.
+         * @param species vector of species to include in the results
+         * Default is empty, in which case all species will be included.
+         * All species are selected during solving and slicing only occurs
+         * at the end.
          * @param k (default 0) return the kth other derivative of the sensitivity data.
          */
-        Matrix3D<double, double> timeSeriesSensitivities(double start, double stop, int num,
+        Matrix3D<double, double> timeSeriesSensitivities(
+                double start, double stop, int num,
                 std::vector<std::string> params = std::vector<std::string>(),
+                std::vector<std::string> species = std::vector<std::string>(),
                 int k = 0);
 
-        /*
-        *  Saves this roadrunner instance to a file so it can be reloaded later
-        * If opt == 'b' (the default value), this function will output a platform-specific
-        * binary file which can be reloaded later
-        * If opt == 'r', this function will output a human readable file which cannot be reloaded later
-        */
+        /**
+         * @brief similar to saveStateS but save data to file caled @param filename.
+         * @see RoadRunner::saveStateS
+         * @see RoadRunner::loadState
+         */
         void saveState(std::string filename, char opt = 'b');
 
-        /*
-        * Loads a roadrunner instance saved by saveState with the 'b' option
-        */
-        void loadState(std::string filename);
+        /**
+         * @brief save state as binary to a stringstream so it can be loaded again later.
+         * @returns new reference to a stringstream - the caller is responsible for reclaiming memory
+         *   Importantly, if the stream is read into a new RoadRunner instance via
+         *   RoadRunner::loadStateS then the user no longer needs to handle the reference manually
+         *   because RoadRunner::loadStateS does it after loading the state.
+         * @param opt, either 'b' (default) or 'r'. The latter is used for debugging.
+         * @see RoadRunner::loadStateS
+         * @see RoadRunner::saveState
+         */
+        std::stringstream* saveStateS(char opt = 'b');
+
+         /**
+         * @brief Loads a roadrunner instance saved by
+         * saveState with the 'b' option
+         * @see RoadRunner::loadStateS
+         * @see RoadRunner::saveState
+         */
+        void loadState(const std::string& filename);
+
+        /**
+         * @brief load state from a @param stringstream
+         * that was produced by RoadRunner::saveStateS.
+         * @details The stingstream pointer should be heap allocated
+         * and generated from RoadRunner::saveStateS. It is an error to
+         * use a stringstream that was generated in any other way. The memory
+         * associated with the stringstream is automatically cleaned up
+         * after loading the state.
+         */
+        void loadStateS(std::stringstream* state) ;
 
         /**
          * RoadRunner keeps a copy of the simulation data around until the
@@ -458,11 +518,8 @@ namespace rr {
          * set the floating species initial concentrations.
          *
          * equivalent to ExecutableModel::reset, then ExecutableModel::setFloatingSpeciesConcentrations
-         *
-         * @deprecated
          */
         void changeInitialConditions(const std::vector<double> &ic);
-
 
         /**
          * get a pointer to the ExecutableModel owned by the RoadRunner object.
@@ -940,7 +997,6 @@ namespace rr {
          */
         bool getHasOnlySubstanceUnits(const std::string &sid);
 
-
         /**
          * Set initial amount for an existing species. Initial amount/concentration set before will be unset.
          * @param sid: the ID of a species
@@ -1389,45 +1445,54 @@ namespace rr {
         /*********              Used by rrplugins             *************************/
 
         /**
-         * @internal
-         * @deprecated
+         * Alias for this function on the child model object.
          */
         void setBoundarySpeciesByIndex(const int &index, const double &value);
 
         /**
-         * @internal
-         * @deprecated
+         * Alias for this function on the child model object.
          */
         int getNumberOfIndependentSpecies();
 
         /**
-         * @internal
-         * @deprecated use ExecutableModel::getGlobalParameterIds
+         * Alias for this function on the child model object.
+         * use ExecutableModel::getGlobalParameterIds
          */
         std::vector<std::string> getGlobalParameterIds();
 
         /**
-         * @internal
-         * @deprecated
+         * Alias for this function on the child model object.
          */
         std::vector<std::string> getBoundarySpeciesIds();
 
+        /**
+         * Get the Ids of the elements assigned by assignment rules.
+         */
+        std::vector<std::string> getAssignmentRuleIds();
 
         /**
-        * @author KC
+         * Get the Ids of the elements assigned by rate rules.
+         */
+        std::vector<std::string> getRateRuleIds();
+
+        /**
+         * Get the Ids of the elements with an initial assignment.
+         */
+        std::vector<std::string> getInitialAssignmentIds();
+
+        /**
         * @brief Gets the ids for all boundary species concentrations
         */
         std::vector<std::string> getBoundarySpeciesConcentrationIds();
 
         /**
-         * @internal
-         * @deprecated
+         * Alias for this function on the child model object.
          */
         double getBoundarySpeciesByIndex(const int &index);
 
         /**
-         * @internal
-         * @deprecated use ExecutableModel::getGlobalParameterValues
+         * Alias for this function on the child model object.
+         * use ExecutableModel::getGlobalParameterValues
          */
         double getGlobalParameterByIndex(const int &index);
 
@@ -1459,200 +1524,166 @@ namespace rr {
 #ifndef SWIG // deprecated methods not SWIG'ed
 
         /**
-         * @internal
-         * @deprecated
+         * Alias for this function on the child model object.
          */
-        RR_DEPRECATED(int getNumberOfReactions());
+        int getNumberOfReactions();
 
         /**
-         * @internal
-         * @deprecated
+         * Alias for this function on the child model object.
          */
-        RR_DEPRECATED(double getReactionRate(const int &index));
+        double getReactionRate(const int &index);
 
         /**
-         * @internal
-         * @deprecated
+         * Alias for this function on the child model object.
          */
-        RR_DEPRECATED(double getRateOfChange(const int &index));
+        double getRateOfChange(const int &index);
 
         /**
-         * @internal
-         * @deprecated
+         * Alias for this function on the child model object.
          */
-        RR_DEPRECATED(std::vector<std::string> getRateOfChangeIds());
+        std::vector<std::string> getRateOfChangeIds();
 
         /**
-         * @internal
-         * @deprecated
+         * Alias for this function on the child model object.
          */
+        int getNumberOfCompartments();
 
         /**
-         * @internal
-         * @deprecated
+         * Alias for this function on the child model object.
          */
-        RR_DEPRECATED(int getNumberOfCompartments());
+        void setCompartmentByIndex(const int &index, const double &value);
 
         /**
-         * @internal
-         * @deprecated
+         * Alias for this function on the child model object.
          */
-        RR_DEPRECATED(void setCompartmentByIndex(const int &index, const double &value));
+        double getCompartmentByIndex(const int &index);
 
         /**
-         * @internal
-         * @deprecated
+         * Alias for this function on the child model object.
          */
-        RR_DEPRECATED(double getCompartmentByIndex(const int &index));
+        std::vector<std::string> getCompartmentIds();
 
         /**
-         * @internal
-         * @deprecated
+         * Alias for this function on the child model object.
          */
-        RR_DEPRECATED(std::vector<std::string> getCompartmentIds());
+        int getNumberOfBoundarySpecies();
 
         /**
-         * @internal
-         * @deprecated
+         * Alias for this function on the child model object.
          */
-        RR_DEPRECATED(int getNumberOfBoundarySpecies());
+        void setBoundarySpeciesConcentrations(const std::vector<double> &values);
 
         /**
-         * @internal
-         * @deprecated
+         * Alias for this function on the child model object.
          */
-        RR_DEPRECATED(std::vector<double> getBoundarySpeciesConcentrations());
+        void setBoundarySpeciesAmounts(const std::vector<double> &values);
 
         /**
-         * @internal
-         * @deprecated
+         * Alias for this function on the child model object.
          */
-        RR_DEPRECATED(void setBoundarySpeciesConcentrations(const std::vector<double> &values));
+        int getNumberOfFloatingSpecies();
 
         /**
-         * @internal
-         * @deprecated
+         * Alias for this function on the child model object.
          */
-        RR_DEPRECATED(int getNumberOfFloatingSpecies());
+        double getFloatingSpeciesByIndex(int index);
 
         /**
-         * @internal
-         * @deprecated
+         * Alias for this function on the child model object.
          */
-        RR_DEPRECATED(double getFloatingSpeciesByIndex(int index));
+        void setFloatingSpeciesByIndex(int index, double value);
 
         /**
-         * @internal
-         * @deprecated
+         * Alias for this function on the child model object.
          */
-        RR_DEPRECATED(void setFloatingSpeciesByIndex(int index, double value));
+        std::vector<double> getFloatingSpeciesConcentrationsV();
 
         /**
-         * @internal
-         * @deprecated
-         */
-        RR_DEPRECATED(std::vector<double> getFloatingSpeciesConcentrationsV());
-
-        /**
-        * @internal
-        * @deprecated
+        * Alias for this function on the child model object.
         */
-        RR_DEPRECATED(std::vector<double> getFloatingSpeciesAmountsV());
+        std::vector<double> getFloatingSpeciesAmountsV();
 
         /**
-        * @internal
-        * @deprecated
+        * Alias for this function on the child model object.
         */
-        RR_DEPRECATED(std::vector<double> getBoundarySpeciesConcentrationsV());
+        std::vector<double> getBoundarySpeciesConcentrationsV();
 
         /**
-        * @internal
-        * @deprecated
+        * Alias for this function on the child model object.
         */
-        RR_DEPRECATED(std::vector<double> getBoundarySpeciesAmountsV());
+        std::vector<double> getBoundarySpeciesAmountsV();
 
         /**
-         * @internal
-         * @deprecated
+         * Alias for this function on the child model object.
          */
-        RR_DEPRECATED(std::vector<double> getFloatingSpeciesInitialConcentrations());
+        std::vector<double> getFloatingSpeciesInitialConcentrations();
 
         /**
-         * @internal
-         * @deprecated
+         * Alias for this function on the child model object.
          */
-        RR_DEPRECATED(void setFloatingSpeciesConcentrations(const std::vector<double> &values));
+        void setFloatingSpeciesConcentrations(const std::vector<double> &values);
 
         /**
-         * @internal
-         * @deprecated
+         * Alias for this function on the child model object.
          */
-        RR_DEPRECATED(void setFloatingSpeciesInitialConcentrationByIndex(const int &index,
-                              const double &value));
+        void setFloatingSpeciesInitialConcentrationByIndex(const int &index,
+                              const double &value);
 
         /**
-         * @internal
-         * @deprecated
+         * Alias for this function on the child model object.
          */
-        RR_DEPRECATED(void setFloatingSpeciesInitialConcentrations(const std::vector<double> &values));
+        void setFloatingSpeciesInitialConcentrations(const std::vector<double> &values);
 
         /**
-         * @internal
-         * @deprecated
+         * Alias for this function on the child model object.
          */
-        RR_DEPRECATED(std::vector<std::string> getFloatingSpeciesIds());
+        std::vector<std::string> getFloatingSpeciesIds();
 
         /**
-         * @internal
-         * @deprecated
+         * Alias for this function on the child model object.
          */
-        RR_DEPRECATED(std::vector<std::string> getFloatingSpeciesInitialConditionIds());
+        std::vector<std::string> getFloatingSpeciesInitialConditionIds();
 
         /**
-         * @internal
-         * @deprecated use ExecutableModel::getNumGlobalParameters
+         * Alias for this function on the child model object.
          */
-        RR_DEPRECATED(size_t getNumberOfGlobalParameters());
+        size_t getNumberOfGlobalParameters();
 
         /**
-         * @internal
-         * @deprecated use ExecutableModel::setGlobalParameterValues
+         * Alias for this function on the child model object.
          */
-        RR_DEPRECATED(void setGlobalParameterByIndex(const int index, const double value));
+        void setGlobalParameterByIndex(const int index, const double value);
 
 
         /**
-         * @internal
-         * @deprecated use ExecutableModel::getGlobalParameterValues
+         * Alias for this function on the child model object.
+         * use ExecutableModel::getGlobalParameterValues
          */
-        RR_DEPRECATED(std::vector<double> getGlobalParameterValues());
+        std::vector<double> getGlobalParameterValues();
 
         /**
          * @internal
-         * @deprecated
          */
         void evalModel();
 
         /**
-         * @internal
-         * @deprecated
+         * Alias for this function on the child model object.
          */
-        RR_DEPRECATED(int getNumberOfDependentSpecies());
+        int getNumberOfDependentSpecies();
 
 
         /**
-         * @internal
-         * @deprecated, use ExecutableModel::getReactionRates
+         * Alias for this function on the child model object.
+         * use ExecutableModel::getReactionRates
          */
-        RR_DEPRECATED(std::vector<double> getReactionRates());
+        std::vector<double> getReactionRates();
 
         /**
-         * @internal
-         * @deprecated
+         * Alias for this function on the child model object.
          * returns a list of reaction ids obtained from
          * ExecutableModel::getReactionId
          */
-        RR_DEPRECATED(std::vector<std::string> getReactionIds());
+        std::vector<std::string> getReactionIds();
 
         /**
          * @internal

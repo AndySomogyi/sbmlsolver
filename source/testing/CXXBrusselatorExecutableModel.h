@@ -205,11 +205,61 @@ public:
      * @param[in] len the length of the indx and values arrays.
      * @param[in] indx an array of length len of boundary species to return.
      * @param[in] values an array of at least length len which will store the
-     *                returned boundary species amounts.
+     *                returned boundary species concentrations.
      */
     virtual int setBoundarySpeciesConcentrations(size_t len, int const *indx,
             double const *values);
 
+    /**
+     * set the boundary species amounts
+     *
+     * @param[in] len the length of the indx and values arrays.
+     * @param[in] indx an array of length len of boundary species to return.
+     * @param[in] values an array of at least length len which will store the
+     *                returned boundary species amounts.
+     */
+    virtual int setBoundarySpeciesAmounts(size_t len, int const* indx,
+        double const* values);
+
+    /**
+     * Set the initial concentrations of the boundary species.
+     *
+     * Takes the same indices as the other boundary species methods.
+     *
+     * Note, if a boundary species has an initial assignment rule,
+     * than the initial conditions value can only be set by
+     * updating the values on which it depends, it can not be set
+     * directly.
+     */
+    virtual int setBoundarySpeciesInitConcentrations(size_t len, int const* indx,
+        double const* values);
+
+    /**
+     * Get the initial concentrations of the boundary species,
+     * uses the same indexing as the other boundary species methods.
+     */
+    virtual int getBoundarySpeciesInitConcentrations(size_t len, int const* indx,
+        double* values);
+
+    /**
+     * Set the initial amounts of the boundary species.
+     *
+     * Takes the same indices as the other boundary species methods.
+     *
+     * Note, if a boundary species has an initial assignment rule,
+     * than the initial conditions value can only be set by
+     * updating the values on which it depends, it can not be set
+     * directly.
+     */
+    virtual int setBoundarySpeciesInitAmounts(size_t len, int const* indx,
+        double const* values);
+
+    /**
+     * Get the initial amounts of the boundary species,
+     * uses the same indexing as the other boundary species methods.
+     */
+    virtual int getBoundarySpeciesInitAmounts(size_t len, int const* indx,
+        double* values);
 
     /************************ End Boundary Species Section ************************/
     #endif /***********************************************************************/
@@ -261,6 +311,8 @@ public:
 
     virtual int getNumCompartments();
     virtual int getCompartmentIndex(const std::string& eid);
+    virtual int getCompartmentIndexForFloatingSpecies(size_t index);
+    virtual int getCompartmentIndexForBoundarySpecies(size_t index);
     virtual std::string getCompartmentId(size_t index);
 
     /**
@@ -517,6 +569,9 @@ public:
     virtual int getEventIndex(const std::string& eid);
     virtual std::string getEventId(size_t index);
     virtual void getEventIds(std::list<std::string>& out) override;
+    virtual void getAssignmentRuleIds(std::list<std::string>& out);
+    virtual void getRateRuleIds(std::list<std::string>& out);
+    virtual void getInitialAssignmentIds(std::list<std::string>& out);
     virtual void setEventListener(size_t index, rr::EventListenerPtr eventHandler);
     virtual rr::EventListenerPtr getEventListener(size_t index);
 

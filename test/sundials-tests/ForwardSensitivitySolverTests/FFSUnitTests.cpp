@@ -144,7 +144,8 @@ TEST_F(FFSUnitTests, SolveSensitivitiesForSelectiveParameters2) {
     RoadRunner r(SimpleFlux().str());
     ExecutableModel *model = r.getModel();
     ForwardSensitivitySolver forwardSensitivitySolver(model);
-    forwardSensitivitySolver.solveSensitivities(0, 10, 11, {"kf"});
+    auto res = forwardSensitivitySolver.solveSensitivities(0, 10, 11, {"kf"});
+    ASSERT_EQ(res.getRowNames(), std::vector<std::string>({"kf"}));
 }
 
 TEST_F(FFSUnitTests, SolveTwiceWithDifferentParametersBothTimes) {
@@ -168,9 +169,34 @@ TEST_F(FFSUnitTests, SolveTwiceWithDifferentParametersBothTimesEmptySecond) {
     ASSERT_EQ(4, second.numRows());
 }
 
-
-
-
+TEST_F(FFSUnitTests, SolveSensitivitiesForSelectiveSpecies) {
+    /**
+     * 		0
+     *   S1,S2
+     *   0,0
+     *   0,0
+     *
+     *           4.5
+     *   S1,S2
+     *   -28.237,28.237
+     *   10.8059,-10.8059
+     *
+     *           9
+     *   S1,S2
+     *   -35.8106,35.8106
+     *   27.0317,-27.0317
+     *
+     */
+    RoadRunner r(SimpleFlux().str());
+    ExecutableModel *model = r.getModel();
+    ForwardSensitivitySolver forwardSensitivitySolver(model);
+    auto res = forwardSensitivitySolver.solveSensitivities(0, 9, 3, {}, {"S1"});
+    std::cout << res << std::endl;
+    ASSERT_EQ(res.getColNames(), std::vector<std::string>({"S1"}));
+    ASSERT_EQ(1, res.numCols());
+    ASSERT_EQ(2, res.numRows());
+    ASSERT_EQ(3, res.numZ());
+}
 
 
 

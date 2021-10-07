@@ -150,6 +150,7 @@ namespace rr {
          */
         Matrix3D<double, double> solveSensitivities(double start, double stop, int num,
                                                     std::vector<std::string> params = std::vector<std::string>(),
+                                                    std::vector<std::string> species = std::vector<std::string>(),
                                                     int k = 0);
 
         void setValue(const std::string &key, Setting val);
@@ -268,6 +269,8 @@ namespace rr {
 //        using NVectorArrayPtr = std::unique_ptr<N_Vector*, std::function<void( N_Vector*, int)>>;
 //        using NVectorArrayPtr = std::unique_ptr<N_Vector*, decltype(&N_VDestroyVectorArray_Serial)>;
 //        NVectorArrayPtr mSensitivityMatrixUnique = std::make_unique<N_Vector*, decltype(&N_VDestroyVectorArray_Serial)>(nullptr);
+
+        int mSensitivityMatrixSize = 0;
 
         /**
          * @brief indicator for whether model has state vector variables or not

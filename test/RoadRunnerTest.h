@@ -51,6 +51,7 @@ protected:
     path rrTestDir_;
     path rrTestModelsDir_;
     path rrTestSbmlTestSuiteDir_;
+    path rrPluginsBuildDir_;
 };
 
 

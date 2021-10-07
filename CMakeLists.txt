@@ -7,8 +7,8 @@ cmake_minimum_required(VERSION 3.16)
 # Version information and include modules
 
 set(ROADRUNNER_VERSION_MAJOR 2)
-set(ROADRUNNER_VERSION_MINOR 0)
-set(ROADRUNNER_VERSION_PATCH 9)
+set(ROADRUNNER_VERSION_MINOR 1)
+set(ROADRUNNER_VERSION_PATCH 0)
 
 set(ROADRUNNER_VERSION "${ROADRUNNER_VERSION_MAJOR}.${ROADRUNNER_VERSION_MINOR}.${ROADRUNNER_VERSION_PATCH}")
 project(
@@ -74,6 +74,9 @@ write_git_info() # write the git branch and commit hash to console
 # load cmake_dependent_options
 include(CMakeDependentOption)
 
+include(ConfigurationSummary)
+include(ConfigurationSummaryPython)
+
 #############################################################
 #   Configuration Options
 #
@@ -103,9 +106,11 @@ option(BUILD_LEGACY_C "Build the legacy C code generating backend (deprecated)" 
 # should we build the swig python wrapper?
 option(BUILD_PYTHON "Build the SWIG generated python wrapper" OFF)
 if (BUILD_PYTHON)
-    find_package(Python COMPONENTS Interpreter Development NumPy REQUIRED)
+    find_package(Python COMPONENTS Interpreter Development NumPy)
     if (NOT ${Python_FOUND})
-        message(FATAL_ERROR "Could not find Python")
+        # sets a variable called PythonSummary
+        ConfigurationSummaryPython()
+        message(FATAL_ERROR "Could not find Python:\n ${PythonSummary}")
     endif ()
 
     if ("${Python_ROOT_DIR}" STREQUAL "")
@@ -220,15 +225,13 @@ cmake_dependent_option(RR_PLUGINS_BUILD_ADD_NOISE_PLUGIN "Build the Add Noise Pl
 cmake_dependent_option(RR_PLUGINS_BUILD_CHISQUARE_PLUGIN "Build the ChiSquare Plugin" ON "BUILD_RR_PLUGINS" OFF)
 cmake_dependent_option(RR_PLUGINS_BUILD_AUTO2000_PLUGIN "Build the Auto 2000 Plugin" ON "BUILD_RR_PLUGINS" OFF)
 cmake_dependent_option(RR_PLUGINS_BUILD_HELLO_PLUGIN "Build the Demo Plugin" ON "BUILD_RR_PLUGINS" OFF)
+cmake_dependent_option(RR_PLUGINS_BUILD_LEVENBERG_MARQUARDT_PLUGIN "Build the Levenberg-Marquardt Plugin" ON "BUILD_RR_PLUGINS" OFF)
+cmake_dependent_option(RR_PLUGINS_BUILD_NELDER_MEAD_PLUGIN "Build the Nelder-Mead Plugin" ON "BUILD_RR_PLUGINS" OFF)
+cmake_dependent_option(RR_PLUGINS_BUILD_MONTE_CARLO_PLUGIN "Build the Monte Carlo Plugin" ON "BUILD_RR_PLUGINS" OFF)
 
-# Plugin selection: Unreleased
-cmake_dependent_option(RR_PLUGINS_BUILD_LEVENBERG_MARQUARDT_PLUGIN "Build the Levenberg-Marquardt Plugin (beta)" OFF "BUILD_RR_PLUGINS" OFF)
-cmake_dependent_option(RR_PLUGINS_BUILD_NELDER_MEAD_PLUGIN "Build the Nelder-Mead Plugin (beta)" OFF "BUILD_RR_PLUGINS" OFF)
-cmake_dependent_option(RR_PLUGINS_BUILD_MONTE_CARLO_PLUGIN "Build the Monte Carlo Plugin (beta)" OFF "BUILD_RR_PLUGINS" OFF)
-
-mark_as_advanced(RR_PLUGINS_BUILD_LEVENBERG_MARQUARDT_PLUGIN)
-mark_as_advanced(RR_PLUGINS_BUILD_NELDER_MEAD_PLUGIN)
-mark_as_advanced(RR_PLUGINS_BUILD_MONTE_CARLO_PLUGIN)
+#mark_as_advanced(RR_PLUGINS_BUILD_LEVENBERG_MARQUARDT_PLUGIN)
+#mark_as_advanced(RR_PLUGINS_BUILD_NELDER_MEAD_PLUGIN)
+#mark_as_advanced(RR_PLUGINS_BUILD_MONTE_CARLO_PLUGIN)
 
 set(CXX_STANDARD 17 CACHE STRING "set the cmake standard to use")
 
@@ -559,8 +562,14 @@ configure_file(
         "${CMAKE_CURRENT_SOURCE_DIR}/requirements.txt"
         "${CMAKE_BINARY_DIR}/requirements.txt" @ONLY
 )
+configure_file(
+        "${CMAKE_CURRENT_SOURCE_DIR}/test-requirements.txt"
+        "${CMAKE_BINARY_DIR}/test-requirements.txt" @ONLY
+)
 install(
-        FILES "${CMAKE_CURRENT_SOURCE_DIR}/requirements.txt"
+        FILES
+            "${CMAKE_CURRENT_SOURCE_DIR}/requirements.txt"
+            "${CMAKE_CURRENT_SOURCE_DIR}/test-requirements.txt"
         DESTINATION .
 )
 

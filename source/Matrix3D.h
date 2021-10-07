@@ -25,7 +25,6 @@ namespace rr {
         Matrix3D(int numRows, int numCols, int numZ) :
                 index_(std::vector<IndexType>(numZ)),
                 data_(std::vector<Matrix < DataType>>(numZ)) {
-
             for (int i = 0; i < numZ; i++) {
                 data_[i].resize(numRows, numCols);
             }
@@ -107,6 +106,15 @@ namespace rr {
                 throw std::invalid_argument(err.str());
             }
             return data_[k];
+        }
+
+        /**
+         * @brief slice a Matrix3D by colnames.
+         * @param rowNames the names of the columns to keep, the remaining rows
+         * are removed in the returned Matrix3D.
+         */
+        rr::Matrix3D<DataType, IndexType> &colSliceByName(const std::vector<std::string> &rowNames) {
+
         }
 
         /**
@@ -239,6 +247,7 @@ namespace rr {
          * @brief set row names for each of the z matrices
          */
         void setRowNames(const std::vector<std::string> &rowNames) {
+            rowNames_ = rowNames;
             for (int i = 0; i < numZ(); i++) {
                 data_[i].setRowNames(rowNames);
             }
@@ -248,6 +257,7 @@ namespace rr {
          * @brief set col names for each of the z matrices
          */
         void setColNames(const std::vector<std::string> &colNames) {
+            colNames_ = colNames;
             for (int i = 0; i < numZ(); i++) {
                 data_[i].setColNames(colNames);
             }
@@ -256,14 +266,14 @@ namespace rr {
         /**
          * @brief return the row names for this Matrix3D
          */
-        std::vector<std::string> getRowNames(){
+        std::vector<std::string> getRowNames() {
             return slice(0).rowNames;
         }
 
         /**
          * @brief return the column names for this Matrix3D
          */
-        std::vector<std::string> getColNames(){
+        std::vector<std::string> getColNames() {
             return slice(0).colNames;
         }
 
@@ -319,9 +329,63 @@ namespace rr {
         template<typename IndexType_, typename DataType_>
         friend std::ostream &operator<<(std::ostream &os, Matrix3D<IndexType_, DataType_> &matrix3D);
 
+        /**
+         * @brief delete the row indexed by @param which
+         * in each of the k submatrices in this Matrix3D.
+         * @see rr::Matrix::deleteRow.
+         */
+        void deleteRow(const int& which){
+            // iterate over each submatrix
+            for (int k=0; k<numZ(); k++){
+                Matrix<DataType>& submatrix = data_[k];
+                submatrix.deleteRow(which);
+            }
+        }
+
+        /**
+         * @brief delete the row indexed by @param which
+         * in each of the k submatrices in this Matrix3D.
+         * @see rr::Matrix::deleteRow.
+         */
+        void deleteRow(const std::string& which){
+            // iterate over each submatrix
+            for (int k=0; k<numZ(); k++){
+                Matrix<DataType>& submatrix = data_[k];
+                submatrix.deleteRow(which);
+            }
+        }
+
+        /**
+         * @brief delete the col indexed by @param which
+         * in each of the k submatrices in this Matrix3D.
+         * @see rr::Matrix::deleteCol.
+         */
+        void deleteCol(const int& which){
+            // iterate over each submatrix
+            for (int k=0; k<numZ(); k++){
+                Matrix<DataType>& submatrix = data_[k];
+                submatrix.deleteCol(which);
+            }
+        }
+
+        /**
+         * @brief delete the col indexed by @param which
+         * in each of the k submatrices in this Matrix3D.
+         * @see rr::Matrix::deleteCol.
+         */
+        void deleteCol(const std::string& which){
+            // iterate over each submatrix
+            for (int k=0; k<numZ(); k++){
+                Matrix<DataType>& submatrix = data_[k];
+                submatrix.deleteCol(which);
+            }
+        }
+
     private:
         std::vector<IndexType> index_;
         std::vector<Matrix < DataType>> data_;
+        std::vector<std::string> rowNames_{};
+        std::vector<std::string> colNames_{};
     };
 
     template<typename IndexType_, typename DataType_>

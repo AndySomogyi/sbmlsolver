@@ -38,20 +38,27 @@ function(add_test_executable TEST_TARGET OUT_VARIABLE)
     add_executable(${TEST_TARGET} ${ARGN} $<TARGET_OBJECTS:rr-mockups>
             ${ThisSourceDirectory}/TestModelFactory)
 
+    if (TEST_TARGET MATCHES ".*plugin.*")
+       set(TEST_PLUGIN_INCLUDE "$<TARGET_PROPERTY:telplugins_c_api,INCLUDE_DIRECTORIES>")
+       set(TEST_PLUGIN_LIB "telplugins_c_api")
+    else()
+       set(TEST_PLUGIN_LIB "roadrunner_c_api")
+    endif()
+
     target_include_directories(
             ${TEST_TARGET} PRIVATE
             "${ThisSourceDirectory}"
             "${ThisBinaryDirectory}"
             "${MOCKUPS_DIRECTORY}"
+            "${TEST_PLUGIN_INCLUDE}"
             "${RR_Python_wrapper_dir}" # for PyUtils in tests that need it
     )
 
     target_link_libraries(${TEST_TARGET} PRIVATE
-            roadrunner_c_api
-            roadrunner-static
-            rr-mockups
+#            rr-mockups
+            ${TEST_PLUGIN_LIB}
             gtest gtest_main gmock gmock_main
-            )
+    )
 
     # This causes a weird build error whereby it is no longer possible
     # to name a class the name as the binary filename. However, since w
@@ -101,7 +108,7 @@ endfunction()
 macro(add_rr_test_swig_library SWIG_TARGET_NAME SWIG_INTERFACE_FILE)
     # no harm in finding python here
     find_package(Python COMPONENTS Interpreter Development NumPy REQUIRED)
-    find_package(SWIG 4.0.2 REQUIRED
+    find_package(SWIG 4.0.1 REQUIRED
             COMPONENTS python
             )
     include(UseSWIG)
@@ -268,10 +275,26 @@ add_subdirectory(c_api_rrtests)
 add_subdirectory(model_analysis)
 add_subdirectory(model_editing)
 add_subdirectory(sbml_features)
-add_subdirectory(state_saving)
 add_subdirectory(sundials-tests)
 add_subdirectory(python)
 add_subdirectory(cxx_api_tests)
+add_subdirectory(serialization)
+
+if (WIN32 AND BUILD_RR_PLUGINS)
+   set(
+        SharedPluginTestFiles
+        # path *must* be absolute to work in cmake functions/macros
+        "${CMAKE_CURRENT_BINARY_DIR}/RoadRunnerPluginDirectory.h"
+        "${CMAKE_CURRENT_BINARY_DIR}/RoadRunnerPluginDirectory.cpp"
+   )
+
+   add_subdirectory(plugin_api)
+   add_subdirectory(plugin_auto2000)
+   add_subdirectory(plugin_levenberg_marquardt)
+   add_subdirectory(plugin_monte_carlo_bs)
+   add_subdirectory(plugin_nelder_mead)
+   add_subdirectory(plugin_test_model)
+endif() #BUILD_RR_PLUGINS
 
 #List the semantic_STS last, since it takes much longer to run than the others.
 # (fyi, build the run-ctest-exclude-sbml-test-suite target - see below)
@@ -285,9 +308,11 @@ if (BUILD_PYTHON AND BUILD_TESTS)
 
     set(PyTestTests)
     macro(add_pytest_to_ctest TestName TestSourceFile)
+        # make sure file is up to date
+        # run pytest with -rP to always capture stdout regardless of pass/fail
         add_test(
                 NAME ${TestName}
-                COMMAND Python::Interpreter -m pytest ${TestSourceFile}
+                COMMAND Python::Interpreter -m pytest -rP ${TestSourceFile}
                 WORKING_DIRECTORY "${RR_PYTHON_TESTING_BUILD_PREFIX}"
         )
         set_tests_properties(${TestName} PROPERTIES ENVIRONMENT "PYTHONPATH=${PYTHON_PACKAGE_SITE_DIR_BUILD_TREE}:$PYTHONPATH")
@@ -303,6 +328,9 @@ if (BUILD_PYTHON AND BUILD_TESTS)
     add_pytest_to_ctest(python_tests_SteadyStateSolverTests "${RR_PYTHON_TESTING_BUILD_PREFIX}/SteadyStateSolverTests.py")
     add_pytest_to_ctest(python_tests_StructuralAnalysisTests "${RR_PYTHON_TESTING_BUILD_PREFIX}/StructuralAnalysisTests.py")
     add_pytest_to_ctest(python_tests_TestModelFactoryTests "${RR_PYTHON_TESTING_BUILD_PREFIX}/TestModelFactoryTests.py")
+    add_pytest_to_ctest(python_tests_RunRRTestsFromPython "${RR_PYTHON_TESTING_BUILD_PREFIX}/RunTesterWithUnitTest.py")
+    add_pytest_to_ctest(python_tests_NamedArrayTests "${RR_PYTHON_TESTING_BUILD_PREFIX}/NamedArrayTests.py")
+    add_pytest_to_ctest(python_tests_PickleTests "${RR_PYTHON_TESTING_BUILD_PREFIX}/pickle_tests.py")
 
     message(STATUS "PyTestTests ${PyTestTests}")
 
@@ -311,7 +339,6 @@ if (BUILD_PYTHON AND BUILD_TESTS)
             ctest --output-on-failure --verbose --extra-verbose --tests-regex python_tests*
     )
     #    add_dependencies(run-pytest-tests roadrunner_python TestModelFactory SettingTestsSwigAPI)
-
 endif ()
 
 #########################################################

@@ -134,7 +134,6 @@ TEST_F(Matrix3DTests, CheckSlice3D3x4x2) {
     ASSERT_NEAR(23.0, matrix3D.slice(2, 3, 1), 1e-7);
 }
 
-
 TEST_F(Matrix3DTests, NumRows) {
     Matrix3D<double, double> matrix3D(
             {0.0, 1.0},
@@ -418,8 +417,6 @@ TEST_F(Matrix3DTests, AlmostEqualsWhenFalse) {
     ASSERT_FALSE(first.almostEquals(second, 1e-4));
 }
 
-
-
 TEST_F(Matrix3DTests, CheckRowNames) {
     Matrix3D<double, double> matrix3D(
             {0.0, 1.0},
@@ -458,6 +455,531 @@ TEST_F(Matrix3DTests, CheckColNames) {
     );
     matrix3D.setColNames({"First", "Second"});
     ASSERT_EQ(matrix3D.getColNames(), std::vector<std::string>({"First", "Second"}));
+}
+
+TEST_F(Matrix3DTests, CheckDeleteRow0UsingIndex) {
+    Matrix3D<double, double> matrix3D(
+            {0.0, 1.0},
+            {
+                    // 0.0
+                    {
+                            {0.0, 1.0,  2.0},
+                            {3.0,  4.0,  5.0},
+                            {6.0,  7.0,  8.0}
+                    },
+                    // 1.0
+                    {
+                            {9.0, 10.0, 11.0},
+                            {12.0, 13.0, 14.0},
+                            {15.0, 16.0, 17.0},
+                    }
+            }
+    );
+    matrix3D.setColNames({"C1", "C2", "C3"});
+    matrix3D.setRowNames({"R1", "R2", "R3"});
+
+    matrix3D.deleteRow(0);
+
+    Matrix3D<double, double> expected(
+            {0.0, 1.0},
+            {
+                    // 0.0
+                    {
+                            {3.0,  4.0,  5.0},
+                            {6.0,  7.0,  8.0}
+                    },
+                    // 1.0
+                    {
+                            {12.0, 13.0, 14.0},
+                            {15.0, 16.0, 17.0},
+                    }
+            }
+    );
+    ASSERT_TRUE(matrix3D == expected);
+    ASSERT_TRUE(matrix3D.getRowNames() == std::vector<std::string>({"R2", "R3"}));
+    ASSERT_TRUE(matrix3D.getColNames() == std::vector<std::string>({"C1", "C2", "C3"}));
+}
+TEST_F(Matrix3DTests, CheckDeleteRow1UsingIndex) {
+    Matrix3D<double, double> matrix3D(
+            {0.0, 1.0},
+            {
+                    // 0.0
+                    {
+                            {0.0, 1.0,  2.0},
+                            {3.0,  4.0,  5.0},
+                            {6.0,  7.0,  8.0}
+                    },
+                    // 1.0
+                    {
+                            {9.0, 10.0, 11.0},
+                            {12.0, 13.0, 14.0},
+                            {15.0, 16.0, 17.0},
+                    }
+            }
+    );
+    matrix3D.setColNames({"C1", "C2", "C3"});
+    matrix3D.setRowNames({"R1", "R2", "R3"});
+
+    matrix3D.deleteRow(1);
+
+    Matrix3D<double, double> expected(
+            {0.0, 1.0},
+            {
+                    // 0.0
+                    {
+                            {0.0,  1.0,  2.0},
+                            {6.0,  7.0,  8.0}
+                    },
+                    // 1.0
+                    {
+                            {9.0, 10.0, 11.0},
+                            {15.0, 16.0, 17.0},
+                    }
+            }
+    );
+    ASSERT_TRUE(matrix3D == expected);
+    ASSERT_TRUE(matrix3D.getRowNames() == std::vector<std::string>({"R1", "R3"}));
+    ASSERT_TRUE(matrix3D.getColNames() == std::vector<std::string>({"C1", "C2", "C3"}));
+}
+TEST_F(Matrix3DTests, CheckDeleteRow2UsingIndex) {
+    Matrix3D<double, double> matrix3D(
+            {0.0, 1.0},
+            {
+                    // 0.0
+                    {
+                            {0.0, 1.0,  2.0},
+                            {3.0,  4.0,  5.0},
+                            {6.0,  7.0,  8.0}
+                    },
+                    // 1.0
+                    {
+                            {9.0, 10.0, 11.0},
+                            {12.0, 13.0, 14.0},
+                            {15.0, 16.0, 17.0},
+                    }
+            }
+    );
+    matrix3D.setColNames({"C1", "C2", "C3"});
+    matrix3D.setRowNames({"R1", "R2", "R3"});
+
+    matrix3D.deleteRow(2);
+
+    Matrix3D<double, double> expected(
+            {0.0, 1.0},
+            {
+                    // 0.0
+                    {
+                            {0.0,  1.0,  2.0},
+                            {3.0,  4.0,  5.0},
+                    },
+                    // 1.0
+                    {
+                            {9.0, 10.0, 11.0},
+                            {12.0, 13.0, 14.0},
+                    }
+            }
+    );
+    ASSERT_TRUE(matrix3D == expected);
+    ASSERT_TRUE(matrix3D.getRowNames() == std::vector<std::string>({"R1", "R2"}));
+    ASSERT_TRUE(matrix3D.getColNames() == std::vector<std::string>({"C1", "C2", "C3"}));
+}
+
+TEST_F(Matrix3DTests, CheckDeleteCol0UsingIndex) {
+    Matrix3D<double, double> matrix3D(
+            {0.0, 1.0},
+            {
+                    // 0.0
+                    {
+                            {0.0, 1.0,  2.0},
+                            {3.0,  4.0,  5.0},
+                            {6.0,  7.0,  8.0}
+                    },
+                    // 1.0
+                    {
+                            {9.0, 10.0, 11.0},
+                            {12.0, 13.0, 14.0},
+                            {15.0, 16.0, 17.0},
+                    }
+            }
+    );
+    matrix3D.setColNames({"C1", "C2", "C3"});
+    matrix3D.setRowNames({"R1", "R2", "R3"});
+
+    matrix3D.deleteCol(0);
+
+    Matrix3D<double, double> expected(
+            {0.0, 1.0},
+            {
+                    // 0.0
+                    {
+                            { 1.0,  2.0},
+                            { 4.0,  5.0},
+                            { 7.0,  8.0}
+                    },
+                    // 1.0
+                    {
+                            {10.0,   11.0},
+                            {13.0,   14.0},
+                            {16.0,   17.0},
+                    }
+            }
+    );
+    std::cout << expected << std::endl;
+    std::cout << matrix3D << std::endl;
+    ASSERT_TRUE(matrix3D == expected);
+    ASSERT_TRUE(matrix3D.getRowNames() == std::vector<std::string>({"R1", "R2", "R3"}));
+    ASSERT_TRUE(matrix3D.getColNames() == std::vector<std::string>({"C2", "C3"}));
+}
+TEST_F(Matrix3DTests, CheckDeleteCol1UsingIndex) {
+    Matrix3D<double, double> matrix3D(
+            {0.0, 1.0},
+            {
+                    // 0.0
+                    {
+                            {0.0, 1.0,  2.0},
+                            {3.0,  4.0,  5.0},
+                            {6.0,  7.0,  8.0}
+                    },
+                    // 1.0
+                    {
+                            {9.0, 10.0, 11.0},
+                            {12.0, 13.0, 14.0},
+                            {15.0, 16.0, 17.0},
+                    }
+            }
+    );
+    matrix3D.setColNames({"C1", "C2", "C3"});
+    matrix3D.setRowNames({"R1", "R2", "R3"});
+
+    matrix3D.deleteCol(1);
+
+    Matrix3D<double, double> expected(
+            {0.0, 1.0},
+            {
+                    // 0.0
+                    {
+                            {0.0,  2.0},
+                            {3.0,  5.0},
+                            {6.0,  8.0}
+                    },
+                    // 1.0
+                    {
+                            {9.0,   11.0},
+                            {12.0,  14.0},
+                            {15.0,  17.0},
+                    }
+            }
+    );
+    ASSERT_TRUE(matrix3D == expected);
+    ASSERT_TRUE(matrix3D.getRowNames() == std::vector<std::string>({"R1", "R2", "R3"}));
+    ASSERT_TRUE(matrix3D.getColNames() == std::vector<std::string>({"C1", "C3"}));
+}
+TEST_F(Matrix3DTests, CheckDeleteCol2UsingIndex) {
+    Matrix3D<double, double> matrix3D(
+            {0.0, 1.0},
+            {
+                    // 0.0
+                    {
+                            {0.0, 1.0,  2.0},
+                            {3.0,  4.0,  5.0},
+                            {6.0,  7.0,  8.0}
+                    },
+                    // 1.0
+                    {
+                            {9.0, 10.0, 11.0},
+                            {12.0, 13.0, 14.0},
+                            {15.0, 16.0, 17.0},
+                    }
+            }
+    );
+    matrix3D.setColNames({"C1", "C2", "C3"});
+    matrix3D.setRowNames({"R1", "R2", "R3"});
+
+    matrix3D.deleteCol(2);
+
+    Matrix3D<double, double> expected(
+            {0.0, 1.0},
+            {
+                    // 0.0
+                    {
+                            {0.0,  1.0},
+                            {3.0,  4.0},
+                            {6.0,  7.0}
+                    },
+                    // 1.0
+                    {
+                            {9.0, 10.0},
+                            {12.0, 13.0},
+                            {15.0, 16.0},
+                    }
+            }
+    );
+    ASSERT_TRUE(matrix3D == expected);
+    ASSERT_TRUE(matrix3D.getRowNames() == std::vector<std::string>({"R1", "R2", "R3"}));
+    ASSERT_TRUE(matrix3D.getColNames() == std::vector<std::string>({"C1", "C2"}));
+}
+
+
+TEST_F(Matrix3DTests, CheckDeleteRow0UsingString) {
+    Matrix3D<double, double> matrix3D(
+            {0.0, 1.0},
+            {
+                    // 0.0
+                    {
+                            {0.0, 1.0,  2.0},
+                            {3.0,  4.0,  5.0},
+                            {6.0,  7.0,  8.0}
+                    },
+                    // 1.0
+                    {
+                            {9.0, 10.0, 11.0},
+                            {12.0, 13.0, 14.0},
+                            {15.0, 16.0, 17.0},
+                    }
+            }
+    );
+    matrix3D.setColNames({"C1", "C2", "C3"});
+    matrix3D.setRowNames({"R1", "R2", "R3"});
+
+    matrix3D.deleteRow("R1");
+
+    Matrix3D<double, double> expected(
+            {0.0, 1.0},
+            {
+                    // 0.0
+                    {
+                            {3.0,  4.0,  5.0},
+                            {6.0,  7.0,  8.0}
+                    },
+                    // 1.0
+                    {
+                            {12.0, 13.0, 14.0},
+                            {15.0, 16.0, 17.0},
+                    }
+            }
+    );
+    ASSERT_TRUE(matrix3D == expected);
+    ASSERT_TRUE(matrix3D.getRowNames() == std::vector<std::string>({"R2", "R3"}));
+    ASSERT_TRUE(matrix3D.getColNames() == std::vector<std::string>({"C1", "C2", "C3"}));
+}
+TEST_F(Matrix3DTests, CheckDeleteRow1UsingString) {
+    Matrix3D<double, double> matrix3D(
+            {0.0, 1.0},
+            {
+                    // 0.0
+                    {
+                            {0.0, 1.0,  2.0},
+                            {3.0,  4.0,  5.0},
+                            {6.0,  7.0,  8.0}
+                    },
+                    // 1.0
+                    {
+                            {9.0, 10.0, 11.0},
+                            {12.0, 13.0, 14.0},
+                            {15.0, 16.0, 17.0},
+                    }
+            }
+    );
+    matrix3D.setColNames({"C1", "C2", "C3"});
+    matrix3D.setRowNames({"R1", "R2", "R3"});
+
+    matrix3D.deleteRow("R2");
+
+    Matrix3D<double, double> expected(
+            {0.0, 1.0},
+            {
+                    // 0.0
+                    {
+                            {0.0,  1.0,  2.0},
+                            {6.0,  7.0,  8.0}
+                    },
+                    // 1.0
+                    {
+                            {9.0, 10.0, 11.0},
+                            {15.0, 16.0, 17.0},
+                    }
+            }
+    );
+    ASSERT_TRUE(matrix3D == expected);
+    ASSERT_TRUE(matrix3D.getRowNames() == std::vector<std::string>({"R1", "R3"}));
+    ASSERT_TRUE(matrix3D.getColNames() == std::vector<std::string>({"C1", "C2", "C3"}));
+}
+TEST_F(Matrix3DTests, CheckDeleteRow2UsingString) {
+    Matrix3D<double, double> matrix3D(
+            {0.0, 1.0},
+            {
+                    // 0.0
+                    {
+                            {0.0, 1.0,  2.0},
+                            {3.0,  4.0,  5.0},
+                            {6.0,  7.0,  8.0}
+                    },
+                    // 1.0
+                    {
+                            {9.0, 10.0, 11.0},
+                            {12.0, 13.0, 14.0},
+                            {15.0, 16.0, 17.0},
+                    }
+            }
+    );
+    matrix3D.setColNames({"C1", "C2", "C3"});
+    matrix3D.setRowNames({"R1", "R2", "R3"});
+
+    matrix3D.deleteRow("R3");
+
+    Matrix3D<double, double> expected(
+            {0.0, 1.0},
+            {
+                    // 0.0
+                    {
+                            {0.0,  1.0,  2.0},
+                            {3.0,  4.0,  5.0},
+                    },
+                    // 1.0
+                    {
+                            {9.0, 10.0, 11.0},
+                            {12.0, 13.0, 14.0},
+                    }
+            }
+    );
+    ASSERT_TRUE(matrix3D == expected);
+    ASSERT_TRUE(matrix3D.getRowNames() == std::vector<std::string>({"R1", "R2"}));
+    ASSERT_TRUE(matrix3D.getColNames() == std::vector<std::string>({"C1", "C2", "C3"}));
+}
+
+TEST_F(Matrix3DTests, CheckDeleteCol0UsingString) {
+    Matrix3D<double, double> matrix3D(
+            {0.0, 1.0},
+            {
+                    // 0.0
+                    {
+                            {0.0, 1.0,  2.0},
+                            {3.0,  4.0,  5.0},
+                            {6.0,  7.0,  8.0}
+                    },
+                    // 1.0
+                    {
+                            {9.0, 10.0, 11.0},
+                            {12.0, 13.0, 14.0},
+                            {15.0, 16.0, 17.0},
+                    }
+            }
+    );
+    matrix3D.setColNames({"C1", "C2", "C3"});
+    matrix3D.setRowNames({"R1", "R2", "R3"});
+
+    matrix3D.deleteCol("C1");
+
+    Matrix3D<double, double> expected(
+            {0.0, 1.0},
+            {
+                    // 0.0
+                    {
+                            { 1.0,  2.0},
+                            { 4.0,  5.0},
+                            { 7.0,  8.0}
+                    },
+                    // 1.0
+                    {
+                            {10.0,   11.0},
+                            {13.0,   14.0},
+                            {16.0,   17.0},
+                    }
+            }
+    );
+    std::cout << expected << std::endl;
+    std::cout << matrix3D << std::endl;
+    ASSERT_TRUE(matrix3D == expected);
+    ASSERT_TRUE(matrix3D.getRowNames() == std::vector<std::string>({"R1", "R2", "R3"}));
+    ASSERT_TRUE(matrix3D.getColNames() == std::vector<std::string>({"C2", "C3"}));
+}
+TEST_F(Matrix3DTests, CheckDeleteCol1UsingString) {
+    Matrix3D<double, double> matrix3D(
+            {0.0, 1.0},
+            {
+                    // 0.0
+                    {
+                            {0.0, 1.0,  2.0},
+                            {3.0,  4.0,  5.0},
+                            {6.0,  7.0,  8.0}
+                    },
+                    // 1.0
+                    {
+                            {9.0, 10.0, 11.0},
+                            {12.0, 13.0, 14.0},
+                            {15.0, 16.0, 17.0},
+                    }
+            }
+    );
+    matrix3D.setColNames({"C1", "C2", "C3"});
+    matrix3D.setRowNames({"R1", "R2", "R3"});
+
+    matrix3D.deleteCol("C2");
+
+    Matrix3D<double, double> expected(
+            {0.0, 1.0},
+            {
+                    // 0.0
+                    {
+                            {0.0,  2.0},
+                            {3.0,  5.0},
+                            {6.0,  8.0}
+                    },
+                    // 1.0
+                    {
+                            {9.0,   11.0},
+                            {12.0,  14.0},
+                            {15.0,  17.0},
+                    }
+            }
+    );
+    ASSERT_TRUE(matrix3D == expected);
+    ASSERT_TRUE(matrix3D.getRowNames() == std::vector<std::string>({"R1", "R2", "R3"}));
+    ASSERT_TRUE(matrix3D.getColNames() == std::vector<std::string>({"C1", "C3"}));
+}
+TEST_F(Matrix3DTests, CheckDeleteCol2UsingString) {
+    Matrix3D<double, double> matrix3D(
+            {0.0, 1.0},
+            {
+                    // 0.0
+                    {
+                            {0.0, 1.0,  2.0},
+                            {3.0,  4.0,  5.0},
+                            {6.0,  7.0,  8.0}
+                    },
+                    // 1.0
+                    {
+                            {9.0, 10.0, 11.0},
+                            {12.0, 13.0, 14.0},
+                            {15.0, 16.0, 17.0},
+                    }
+            }
+    );
+    matrix3D.setColNames({"C1", "C2", "C3"});
+    matrix3D.setRowNames({"R1", "R2", "R3"});
+
+    matrix3D.deleteCol("C3");
+
+    Matrix3D<double, double> expected(
+            {0.0, 1.0},
+            {
+                    // 0.0
+                    {
+                            {0.0,  1.0},
+                            {3.0,  4.0},
+                            {6.0,  7.0}
+                    },
+                    // 1.0
+                    {
+                            {9.0, 10.0},
+                            {12.0, 13.0},
+                            {15.0, 16.0},
+                    }
+            }
+    );
+    ASSERT_TRUE(matrix3D == expected);
+    ASSERT_TRUE(matrix3D.getRowNames() == std::vector<std::string>({"R1", "R2", "R3"}));
+    ASSERT_TRUE(matrix3D.getColNames() == std::vector<std::string>({"C1", "C2"}));
 }
 
 

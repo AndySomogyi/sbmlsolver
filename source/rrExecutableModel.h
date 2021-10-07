@@ -123,6 +123,8 @@ namespace rr {
          * @brief Returns a human-readable description of the code generation backend,
          * e.g. LLVM, legacy C, etc.
          */
+        ExecutableModel();
+
         virtual std::string getExecutableModelDesc() const = 0;
 
         /**
@@ -301,10 +303,61 @@ namespace rr {
          * @param[in] len the length of the indx and values arrays.
          * @param[in] indx an array of length len of boundary species to return.
          * @param[in] values an array of at least length len which will store the
-         *                returned boundary species amounts.
+         *                returned boundary species concentrations.
          */
         virtual int setBoundarySpeciesConcentrations(size_t len, int const *indx,
                                                      double const *values) = 0;
+
+        /*
+         * set the boundary species amounts
+         *
+         * @param[in] len the length of the indx and values arrays.
+         * @param[in] indx an array of length len of boundary species to return.
+         * @param[in] values an array of at least length len which will store the
+         *                returned boundary species amounts.
+         */
+        virtual int setBoundarySpeciesAmounts(size_t len, int const* indx,
+            double const* values) = 0;
+
+        /**
+         * Set the initial concentrations of the boundary species.
+         *
+         * Takes the same indices as the other boundary species methods.
+         *
+         * Note, if a boundary species has an initial assignment rule,
+         * than the initial conditions value can only be set by
+         * updating the values on which it depends, it can not be set
+         * directly.
+         */
+        virtual int setBoundarySpeciesInitConcentrations(size_t len, int const* indx,
+            double const* values) = 0;
+
+        /**
+         * Get the initial concentrations of the boundary species,
+         * uses the same indexing as the other boundary species methods.
+         */
+        virtual int getBoundarySpeciesInitConcentrations(size_t len, int const* indx,
+            double* values) = 0;
+
+        /**
+         * Set the initial amounts of the boundary species.
+         *
+         * Takes the same indices as the other boundary species methods.
+         *
+         * Note, if a boundary species has an initial assignment rule,
+         * than the initial conditions value can only be set by
+         * updating the values on which it depends, it can not be set
+         * directly.
+         */
+        virtual int setBoundarySpeciesInitAmounts(size_t len, int const* indx,
+            double const* values) = 0;
+
+        /**
+         * Get the initial amounts of the boundary species,
+         * uses the same indexing as the other boundary species methods.
+         */
+        virtual int getBoundarySpeciesInitAmounts(size_t len, int const* indx,
+            double* values) = 0;
 
 
         /************************ End Boundary Species Section ************************/
@@ -374,6 +427,8 @@ namespace rr {
         virtual int getNumCompartments() = 0;
 
         virtual int getCompartmentIndexForFloatingSpecies(size_t index) = 0;
+
+        virtual int getCompartmentIndexForBoundarySpecies(size_t index) = 0;
 
         virtual int getCompartmentIndex(const std::string &eid) = 0;
 
@@ -669,6 +724,12 @@ namespace rr {
 
         virtual void getEventIds(std::list<std::string>&) = 0;
 
+        virtual void getAssignmentRuleIds(std::list<std::string>&) = 0;
+
+        virtual void getRateRuleIds(std::list<std::string>&) = 0;
+
+        virtual void getInitialAssignmentIds(std::list<std::string>&) = 0;
+
         virtual void setEventListener(size_t index, EventListenerPtr eventHandler) = 0;
 
         virtual EventListenerPtr getEventListener(size_t index) = 0;
@@ -752,9 +813,13 @@ namespace rr {
             out << "Saving state not implemented for this model type";
         }
 
+        virtual void setIntegrationStartTime(double time);
+
         friend class RoadRunner;
 
     protected:
+
+        double mIntegrationStartTime;
 
         /**
          * is integration is currently proceeding.

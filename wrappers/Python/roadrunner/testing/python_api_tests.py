@@ -801,6 +801,14 @@ class RoadRunnerTests(unittest.TestCase):
         self.assertTrue(self.rr.isModelLoaded())
         os.remove(fname)
 
+    def test_loadStateS(self):
+        x = self.rr.saveStateS()
+        rr2 = RoadRunner()
+        rr2.loadStateS(x)
+        data = rr2.simulate(0, 10, 11)
+        print(data)
+        self.assertEqual((11, 3), data.shape)
+
     def test_makeIntegrator(self):
         integrator = self.rr.makeIntegrator("gillespie")
         self.assertIsInstance(
@@ -1109,3 +1117,11 @@ class RoadRunnerTests(unittest.TestCase):
         m.addSpeciesConcentration("S100", "default_compartment", 123.3, False, False, "", True)
         m._makeProperties()
         self.assertAlmostEqual(m.S100, 123.3)
+
+    def test_simulateWithTimes(self):
+        self.rr.resetToOrigin()
+        self.rr.simulate(times = [0, 1, 5, 10])
+        result = self.rr.getSimulationData()
+        self.assertEqual(list(result[:,0]), [0, 1, 5, 10])
+
+

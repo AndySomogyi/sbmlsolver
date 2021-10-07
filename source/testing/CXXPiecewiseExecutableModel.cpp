@@ -15,6 +15,7 @@ namespace rrtesting
 {
 
 CXXPiecewiseExecutableModel::CXXPiecewiseExecutableModel(const rr::Dictionary* dict)
+       : ExecutableModel()
 {
     rrLog(Logger::LOG_NOTICE) << __FUNC__;
 }
@@ -160,6 +161,36 @@ int CXXPiecewiseExecutableModel::setBoundarySpeciesConcentrations(size_t len,
     return 0;
 }
 
+int CXXPiecewiseExecutableModel::setBoundarySpeciesAmounts(size_t len,
+    const int* indx, const double* values)
+{
+    return 0;
+}
+
+int CXXPiecewiseExecutableModel::setBoundarySpeciesInitConcentrations(size_t len,
+    const int* indx, const double* values)
+{
+    return 0;
+}
+
+int CXXPiecewiseExecutableModel::getBoundarySpeciesInitConcentrations(size_t len,
+    const int* indx, double* values)
+{
+    return 0;
+}
+
+int CXXPiecewiseExecutableModel::setBoundarySpeciesInitAmounts(size_t len, const int* indx,
+    const double* values)
+{
+    return 0;
+}
+
+int CXXPiecewiseExecutableModel::getBoundarySpeciesInitAmounts(size_t len, const int* indx,
+    double* values)
+{
+    return 0;
+}
+
 int CXXPiecewiseExecutableModel::getNumGlobalParameters()
 {
     return 0;
@@ -193,6 +224,16 @@ int CXXPiecewiseExecutableModel::getNumCompartments()
 }
 
 int CXXPiecewiseExecutableModel::getCompartmentIndex(const std::string& eid)
+{
+    return 0;
+}
+
+int CXXPiecewiseExecutableModel::getCompartmentIndexForFloatingSpecies(size_t index)
+{
+    return 0;
+}
+
+int CXXPiecewiseExecutableModel::getCompartmentIndexForBoundarySpecies(size_t index)
 {
     return 0;
 }
@@ -398,6 +439,18 @@ std::string CXXPiecewiseExecutableModel::getEventId(int index)
 }
 
 void CXXPiecewiseExecutableModel::getEventIds(std::list<std::string>&) {
+}
+
+void CXXPiecewiseExecutableModel::getAssignmentRuleIds(std::list<std::string>& out)
+{
+}
+
+void CXXPiecewiseExecutableModel::getRateRuleIds(std::list<std::string>& out)
+{
+}
+
+void CXXPiecewiseExecutableModel::getInitialAssignmentIds(std::list<std::string>& out)
+{
 }
 
 void CXXPiecewiseExecutableModel::setEventListener(int index,

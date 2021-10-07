@@ -66,12 +66,17 @@ namespace rr {
          * @param num number of data points to simulate. Determines Z of Matrix3D.
          * @param params vector of parameters that you want sensitivity for. When empty (default), compute
          * sensitivities for all parameters vs all variables.
+         * @param species vector of species to include in the results.
+         * Note that unlike for @param params, reducing the number of
+         * species does not solve faster because the matrix slicing only
+         * occurs at the end. When empty (default) all species are returned.
          * @param k (default 0) return the kth other derivative of the sensitivity data.
          */
         virtual Matrix3D<double, double> solveSensitivities(
                 double start, double stop, int num,
-                std::vector<std::string> params = std::vector<std::string>(),
-                int k = 0) = 0;
+                std::vector<std::string> params,
+                std::vector<std::string> species,
+                int k) = 0;
 
     };
 

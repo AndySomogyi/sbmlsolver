@@ -5,7 +5,6 @@ set_source_files_properties(roadrunner.i PROPERTIES
         CPLUSPLUS ON
         )
 
-
 set_property(SOURCE roadrunner.i PROPERTY
         SWIG_FLAGS
         # Enable threading
@@ -54,7 +53,11 @@ endif ()
 # we make this target a module library (dll only on windows, so extension on mac and linux).
 swig_add_library(roadrunner_python
         TYPE MODULE LANGUAGE python
-        SOURCES roadrunner.i PyUtils PyLoggerStream)
+        SOURCES roadrunner.i rr_docstrings.txt PyUtils.h PyUtils.cpp PyLoggerStream.h PyLoggerStream.cpp PyEventListener.h PyIntegratorListener.h)
+
+# None of these worked, so I renamed rr_docstrings.i to rr_docstrings.txt, to prevent it from being compiled on its own:
+#set_source_files_properties(rr_docstrings.i PROPERTIES HEADER_FILE_ONLY TRUE)
+#set_source_files_properties(rr_docstrings.i PROPERTIES SKIP_PRECOMPILE_HEADERS TRUE)
 
 message("PYTHON_PACKAGE_BUILD_PREFIX ${PYTHON_PACKAGE_BUILD_PREFIX}")
 set_target_properties(roadrunner_python PROPERTIES
@@ -78,6 +81,7 @@ set_target_properties(roadrunner_python PROPERTIES
         ARCHIVE_OUTPUT_DIRECTORY_RELWITHDEBINFO "${PYTHON_PACKAGE_BUILD_PREFIX}"
         OUTPUT_NAME roadrunner
         SWIG_USE_TARGET_INCLUDE_DIRECTORIES TRUE # Needed for target_include_directories to have any effect on swig target
+        DEBUG_POSTFIX "" # prevent _roadrunnerd
         )
 # Move the roadrunner.py produced by swig in the binary tree to the site-pacakges/lib folder with the binaries
 add_custom_command(
@@ -132,6 +136,8 @@ else ()
     message(STATIC "system not supported")
 endif ()
 
+add_dependencies(roadrunner_python TestModelFactory)
+
 install(
         TARGETS roadrunner_python
         DESTINATION "${PYTHON_PACKAGE_INSTALL_PREFIX}"
@@ -147,6 +153,7 @@ install(
         FILES
         testing/__init__.py
         testing/__main__.py
+        testing/RunTesterWithUnitTest.py
         testing/README.txt
         testing/tester.py
         testing/testfiles.py

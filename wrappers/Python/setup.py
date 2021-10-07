@@ -21,7 +21,7 @@ class BinaryDistribution(Distribution):
 # when true, the pip package will have the name libroadrunner[experimental]
 # and will be downloadable via pip from the experimental namespace:
 #   pip install libroadrunner[experimental]
-EXPERIMENTAL = True
+EXPERIMENTAL = False
 
 setup(
     name='libroadrunner-experimental' if EXPERIMENTAL else "libroadrunner",
@@ -49,7 +49,8 @@ setup(
     package_data={
         # add dll, won't hurt unix, not there anyway
         'roadrunner': ['_roadrunner*', '*.so', '*.so.*', '*.dll', '*.txt', '*.dylib', '*.pyd'],
-        'roadrunner.testing': ['*.xml', '*.txt', '*.dat', 'dsmts/*.xml', 'dsmts/*.csv', 'test_data/*']
+        'roadrunner.testing': ['*.so', '*.so.*', '*.dll', '*.dylib', '*.pyd',
+                               '*.xml', '*.txt', '*.dat', 'dsmts/*.xml', 'dsmts/*.csv', 'test_data/*']
     },
     # read dependencies directly from requirements.txt, Then, manage them
     # only from one place.

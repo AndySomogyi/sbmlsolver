@@ -20,6 +20,7 @@ namespace rrtesting
 
 
 CXXEnzymeExecutableModel::CXXEnzymeExecutableModel(const rr::Dictionary* dict)
+       : ExecutableModel()
 {
     rrLog(Logger::LOG_NOTICE) << __FUNC__;
 
@@ -219,6 +220,36 @@ int CXXEnzymeExecutableModel::setBoundarySpeciesConcentrations(size_t len,
     return 0;
 }
 
+int CXXEnzymeExecutableModel::setBoundarySpeciesAmounts(size_t len,
+    const int* indx, const double* values)
+{
+    return 0;
+}
+
+int CXXEnzymeExecutableModel::setBoundarySpeciesInitConcentrations(size_t len,
+    const int* indx, const double* values)
+{
+    return 0;
+}
+
+int CXXEnzymeExecutableModel::getBoundarySpeciesInitConcentrations(size_t len,
+    const int* indx, double* values)
+{
+    return 0;
+}
+
+int CXXEnzymeExecutableModel::setBoundarySpeciesInitAmounts(size_t len, const int* indx,
+    const double* values)
+{
+    return 0;
+}
+
+int CXXEnzymeExecutableModel::getBoundarySpeciesInitAmounts(size_t len, const int* indx,
+    double* values)
+{
+    return 0;
+}
+
 int CXXEnzymeExecutableModel::getNumGlobalParameters()
 {
     return 0;
@@ -266,6 +297,11 @@ int CXXEnzymeExecutableModel::getNumCompartments()
 int CXXEnzymeExecutableModel::getCompartmentIndexForFloatingSpecies(size_t index)
 {
 	return 0;
+}
+
+int CXXEnzymeExecutableModel::getCompartmentIndexForBoundarySpecies(size_t index)
+{
+    return 0;
 }
 
 int CXXEnzymeExecutableModel::getCompartmentIndex(const std::string& eid)
@@ -590,6 +626,18 @@ std::string CXXEnzymeExecutableModel::getEventId(size_t index)
 }
 
 void CXXEnzymeExecutableModel::getEventIds(std::list<std::string>&)
+{
+}
+
+void CXXEnzymeExecutableModel::getAssignmentRuleIds(std::list<std::string>& out)
+{
+}
+
+void CXXEnzymeExecutableModel::getRateRuleIds(std::list<std::string>& out)
+{
+}
+
+void CXXEnzymeExecutableModel::getInitialAssignmentIds(std::list<std::string>& out)
 {
 }
 

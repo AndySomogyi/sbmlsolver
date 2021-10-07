@@ -237,7 +237,7 @@ namespace rr {
                         }
                         // furthermore, if we have a long which has a value greater than
                         // that of int32 maximum, we have a problem and throw
-                        if (*lValue > ((std::int64_t) std::numeric_limits<int>::max())) {
+                        if (*lValue > ((std::int64_t) (std::numeric_limits<int>::max)())) {
                             throw std::bad_variant_access{}; // has annoying private constructor so we can't add arguments
                             return As{}; // must be present
                         }
@@ -245,7 +245,7 @@ namespace rr {
                     // if we have a double, with value greater than std::numeric_limits<float>::max
                     // and we try to convert to float, we have an error
                     if (auto lValue = std::get_if<float>(&value_)) {
-                        if (*lValue > (std::numeric_limits<float>::max())) {
+                        if (*lValue > ((std::numeric_limits<float>::max)())) {
                             throw std::bad_variant_access{};
                             return As{}; // must be present
                         }

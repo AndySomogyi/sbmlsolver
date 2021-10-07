@@ -46,6 +46,7 @@
 #include <sstream>
 #include <fstream>
 #include "rrRoadRunner.h"
+#include "rrRoadRunnerData.h"
 #include "rrRoadRunnerOptions.h"
 #include "rrExecutableModel.h"
 #include "rrCompiler.h"
@@ -585,6 +586,20 @@ bool rrcCallConv setNumPoints(RRHandle handle, const int nrPoints)
     catch_bool_macro
 }
 
+bool rrcCallConv setTimes(RRHandle handle, const double* times, int size)
+{
+    start_try
+        RoadRunner* rri = castToRoadRunner(handle);
+        SimulateOptions& opt = rri->getSimulateOptions();
+        opt.times.clear();
+        for (int t = 0; t < size; t++)
+        {
+            opt.times.push_back(times[t]);
+        }
+        return true;
+    catch_bool_macro
+}
+
 bool rrcCallConv getTimeStart(RRHandle handle, double* timeStart)
 {
     start_try
@@ -658,12 +673,39 @@ RRCDataPtr rrcCallConv simulate(RRHandle handle)
     catch_ptr_macro
 }
 
+bool rrcCallConv simulateNoReturn(RRHandle handle)
+{
+    start_try
+        RoadRunner* rri = castToRoadRunner(handle);
+        rri->simulate();
+        return true;
+    catch_bool_macro
+}
+
 RRCDataPtr rrcCallConv simulateEx(RRHandle handle, const double timeStart, const double timeEnd, const int numberOfPoints)
 {
     start_try
         setTimeStart(handle, timeStart);
         setTimeEnd (handle, timeEnd);
         setNumPoints(handle, numberOfPoints);
+        return simulate(handle);
+    catch_ptr_macro
+}
+
+bool rrcCallConv simulateExNoReturn(RRHandle handle, const double timeStart, const double timeEnd, const int numberOfPoints)
+{
+    start_try
+        setTimeStart(handle, timeStart);
+        setTimeEnd(handle, timeEnd);
+        setNumPoints(handle, numberOfPoints);
+        return simulateNoReturn(handle);
+    catch_bool_macro
+}
+
+RRCDataPtr rrcCallConv simulateTimes(RRHandle handle, const double* times, int size)
+{
+    start_try
+        setTimes(handle, times, size);
         return simulate(handle);
     catch_ptr_macro
 }
@@ -675,6 +717,17 @@ RRCDataPtr rrcCallConv getSimulationResult(RRHandle handle)
 
         //Extract the data and return struct..
         return  createRRCData(*rri);
+    catch_ptr_macro
+}
+
+
+RRHandle rrcCallConv getSimulationResultAsDoubleMatrix(RRHandle handle)
+{
+    start_try
+        RoadRunner* rri = castToRoadRunner(handle);
+
+        //Extract the data and return struct..
+        return const_cast<void*>(static_cast<const void*>(rri->getSimulationData()));
     catch_ptr_macro
 }
 
@@ -3540,7 +3593,13 @@ bool rrcCallConv resetAll(RRHandle handle)
 {
     start_try
         RoadRunner* rri = castToRoadRunner(handle);
-        rri->reset(SelectionRecord::TIME | SelectionRecord::RATE | SelectionRecord::FLOATING | SelectionRecord::GLOBAL_PARAMETER);
+        rri->reset(
+            SelectionRecord::TIME |
+            SelectionRecord::RATE | 
+            SelectionRecord::FLOATING |
+            SelectionRecord::BOUNDARY |
+            SelectionRecord::COMPARTMENT |
+            SelectionRecord::GLOBAL_PARAMETER);
         return true;
     catch_bool_macro
 }

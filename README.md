@@ -2,6 +2,28 @@
 [![GitHub version](https://badge.fury.io/gh/sys-bio%2Froadrunner.svg)](http://badge.fury.io/gh/sys-bio%2Froadrunner)
 [![Build Status](https://dev.azure.com/TheRoadrunnerProject/roadrunner/_apis/build/status/sys-bio.roadrunner?branchName=develop)](https://dev.azure.com/TheRoadrunnerProject/roadrunner/_build/latest?definitionId=8&branchName=develop)
 
+<table style="width:100%">
+  <tr>
+    <td><img alt="Read the Docs" src="https://img.shields.io/readthedocs/roadrunner"></td>
+    <td><a href="https://badge.fury.io/gh/sys-bio%2Froadrunner"><img src="https://badge.fury.io/gh/sys-bio%2Froadrunner.svg" alt="GitHub version" height="18"></a></td>
+  </tr>
+</table> 
+
+ <table style="width:100%">
+  <tr>
+    <td><img alt="Licence", src="https://img.shields.io/badge/License-Apache%202.0-yellowgreen"</td>
+    <td><img alt="PyPI - Downloads", src="https://img.shields.io/pypi/dm/roadrunner"></td>
+    <td><img alt="Funding", src="https://img.shields.io/badge/Funding-NIH%20(GM123032)-blue"></td>
+    <td><a href="https://badge.fury.io/py/tellurium"><img src="https://badge.fury.io/py/roadrunner.svg" alt="PyPI version" height="18"></a> </td>
+   </tr>
+</table> 
+
+# Summary
+
+libroadrunner is a C/C++ library that supports simulation of SBML based models. It uses LLVM to generate extremely high performace code and is the fastest SBML based simulator currently avaialable. Its main purpose is for use as a resuable library that can be hosted by other applications, particularly on large compute clusters for doing parameter optimization where performance is critical. 
+
+We provide C/C++, Python and Julia bindings.
+
 # Installation
 Python front end (stable):
 
@@ -19,11 +41,13 @@ Experimental front end:
 
 Copyright 2013-2021
 
-E. T. Somogyi <sup>1</sup>, J. K. Medley <sup>3</sup>, M. T. Karlsson <sup>2</sup>, M. Swat <sup>1</sup>, M. Galdzicki <sup>3</sup>, K. Choi <sup>3</sup>, W. Copeland <sup>3</sup> and H. M. Sauro <sup>3</sup>
+E. T. Somogyi <sup>1</sup>, J. K. Medley <sup>3</sup>, M. T. Karlsson <sup>2</sup>, M. Swat <sup>1</sup>, M. Galdzicki <sup>3</sup>, K. Choi <sup>3</sup>, W. Copeland <sup>3</sup>, L. Smith <sup>3</sup>, C. Welsh <sup>3</sup> and H. M. Sauro <sup>3</sup>
 
 1. Biocomplexity Institute, Indiana University, Simon Hall MSB1, Bloomington, IN 47405
 2. Dune Scientific, 10522 Lake City Way NE, #302 Seattle WA
 3. Department of Bioengineering, University of Washington, Seattle, WA, 98195
+
+The current (2021) developers are Lucian Smith and Ciaran Welsh.
 
 ## Introduction
 
