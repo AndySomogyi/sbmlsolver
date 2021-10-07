@@ -55,6 +55,8 @@ For instructions on how to install roadrunner please see the :ref:`installation 
     stoichiometric
     bifurcation
     simulation_and_integration
+    sensitivities/sensitivities_index
+    parallel/parallel_index
     utility_functions
     accessing_model
     rrplugins/rrplugins_documentation
