@@ -2,6 +2,7 @@
 #define rrSBMLTestSuiteSimulation_CAPIH
 #include "rrTestSuiteModelSimulation.h"
 #include "C/rrc_api.h"
+#include "RoadRunnerTest.h"
 
 bool RunTest(const string& version, int number);
 

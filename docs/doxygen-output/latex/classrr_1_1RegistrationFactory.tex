@@ -1,0 +1,125 @@
+\hypertarget{classrr_1_1RegistrationFactory}{}\doxysection{rr\+::Registration\+Factory Class Reference}
+\label{classrr_1_1RegistrationFactory}\index{rr::RegistrationFactory@{rr::RegistrationFactory}}
+
+
+Constructs new integrators.  
+
+
+
+
+{\ttfamily \#include $<$Registration\+Factory.\+h$>$}
+
+Inheritance diagram for rr\+::Registration\+Factory\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classrr_1_1RegistrationFactory}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classrr_1_1Solver}{Solver}} $\ast$ \mbox{\hyperlink{classrr_1_1RegistrationFactory_af6a9a68a5895f4da2bf3f57872b09bd4}{New}} (const std\+::string \&name, \mbox{\hyperlink{classrr_1_1ExecutableModel}{Executable\+Model}} $\ast$m) const
+\begin{DoxyCompactList}\small\item\em Constructs a new integrator given the name (e.\+g. cvode, gillespie) \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{classrr_1_1RegistrationFactory_a54c731eac3f3b37041d17412e855191a}{register\+Solver}} (\mbox{\hyperlink{classrr_1_1Registrable}{Registrable}} $\ast$i)
+\begin{DoxyCompactList}\small\item\em Registers a new integrator with the factory so that it can be constructed. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classrr_1_1RegistrationFactory_a47099ccc11d2e15fafb6f0b30a3c47bd}\label{classrr_1_1RegistrationFactory_a47099ccc11d2e15fafb6f0b30a3c47bd}} 
+virtual std\+::size\+\_\+t {\bfseries size} () const
+\item 
+\mbox{\Hypertarget{classrr_1_1RegistrationFactory_ab5399075e167b9af65a5cf0f52106594}\label{classrr_1_1RegistrationFactory_ab5399075e167b9af65a5cf0f52106594}} 
+virtual std\+::string {\bfseries name} (std\+::size\+\_\+t n) const
+\item 
+\mbox{\Hypertarget{classrr_1_1RegistrationFactory_ac5a37f51c2af354b527ac1a3e4d36554}\label{classrr_1_1RegistrationFactory_ac5a37f51c2af354b527ac1a3e4d36554}} 
+virtual std\+::string {\bfseries hint} (std\+::size\+\_\+t n) const
+\item 
+\mbox{\Hypertarget{classrr_1_1RegistrationFactory_aab8247a922fa2b4d8d2293b129fa5582}\label{classrr_1_1RegistrationFactory_aab8247a922fa2b4d8d2293b129fa5582}} 
+virtual std\+::string {\bfseries description} (std\+::size\+\_\+t n) const
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$class Factory\+Type $>$ }\\static Factory\+Type \& \mbox{\hyperlink{classrr_1_1RegistrationFactory_ae45f4f0ee24b8eed1481ff11cac5822c}{get\+Instance}} (std\+::mutex \&mutex)
+\begin{DoxyCompactList}\small\item\em Returns the singleton instance of the integrator factory. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classrr_1_1RegistrationFactory_a937d80a2cd2ace8570a571ab32c53f72}{Registration\+Factory}} ()=default
+\begin{DoxyCompactList}\small\item\em Prevents external instantiation. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classrr_1_1RegistrationFactory_ab1f8e12285e842396a4d292cd0a96502}\label{classrr_1_1RegistrationFactory_ab1f8e12285e842396a4d292cd0a96502}} 
+Registrable\+Vector {\bfseries registrars}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Constructs new integrators. 
+
+\begin{DoxyAuthor}{Author}
+JKM, WBC
+\end{DoxyAuthor}
+Implements the factory and singleton patterns. Constructs a new integrator given the name (e.\+g. cvode, gillespie) and returns a base pointer to \mbox{\hyperlink{classrr_1_1Integrator}{rr\+::\+Integrator}}. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classrr_1_1RegistrationFactory_a937d80a2cd2ace8570a571ab32c53f72}\label{classrr_1_1RegistrationFactory_a937d80a2cd2ace8570a571ab32c53f72}} 
+\index{rr::RegistrationFactory@{rr::RegistrationFactory}!RegistrationFactory@{RegistrationFactory}}
+\index{RegistrationFactory@{RegistrationFactory}!rr::RegistrationFactory@{rr::RegistrationFactory}}
+\doxysubsubsection{\texorpdfstring{RegistrationFactory()}{RegistrationFactory()}}
+{\footnotesize\ttfamily rr\+::\+Registration\+Factory\+::\+Registration\+Factory (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [default]}}
+
+
+
+Prevents external instantiation. 
+
+\begin{DoxyAuthor}{Author}
+JKM, WBC 
+\end{DoxyAuthor}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classrr_1_1RegistrationFactory_ae45f4f0ee24b8eed1481ff11cac5822c}\label{classrr_1_1RegistrationFactory_ae45f4f0ee24b8eed1481ff11cac5822c}} 
+\index{rr::RegistrationFactory@{rr::RegistrationFactory}!getInstance@{getInstance}}
+\index{getInstance@{getInstance}!rr::RegistrationFactory@{rr::RegistrationFactory}}
+\doxysubsubsection{\texorpdfstring{getInstance()}{getInstance()}}
+{\footnotesize\ttfamily template$<$class Factory\+Type $>$ \\
+static Factory\+Type\& rr\+::\+Registration\+Factory\+::get\+Instance (\begin{DoxyParamCaption}\item[{std\+::mutex \&}]{mutex }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+Returns the singleton instance of the integrator factory. 
+
+\begin{DoxyAuthor}{Author}
+JKM, WBC 
+\end{DoxyAuthor}
+\mbox{\Hypertarget{classrr_1_1RegistrationFactory_af6a9a68a5895f4da2bf3f57872b09bd4}\label{classrr_1_1RegistrationFactory_af6a9a68a5895f4da2bf3f57872b09bd4}} 
+\index{rr::RegistrationFactory@{rr::RegistrationFactory}!New@{New}}
+\index{New@{New}!rr::RegistrationFactory@{rr::RegistrationFactory}}
+\doxysubsubsection{\texorpdfstring{New()}{New()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classrr_1_1Solver}{Solver}} $\ast$ rr\+::\+Registration\+Factory\+::\+New (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{name,  }\item[{\mbox{\hyperlink{classrr_1_1ExecutableModel}{Executable\+Model}} $\ast$}]{m }\end{DoxyParamCaption}) const}
+
+
+
+Constructs a new integrator given the name (e.\+g. cvode, gillespie) 
+
+\begin{DoxyAuthor}{Author}
+JKM, WBC 
+\end{DoxyAuthor}
+\mbox{\Hypertarget{classrr_1_1RegistrationFactory_a54c731eac3f3b37041d17412e855191a}\label{classrr_1_1RegistrationFactory_a54c731eac3f3b37041d17412e855191a}} 
+\index{rr::RegistrationFactory@{rr::RegistrationFactory}!registerSolver@{registerSolver}}
+\index{registerSolver@{registerSolver}!rr::RegistrationFactory@{rr::RegistrationFactory}}
+\doxysubsubsection{\texorpdfstring{registerSolver()}{registerSolver()}}
+{\footnotesize\ttfamily void rr\+::\+Registration\+Factory\+::register\+Solver (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classrr_1_1Registrable}{Registrable}} $\ast$}]{i }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Registers a new integrator with the factory so that it can be constructed. 
+
+\begin{DoxyAuthor}{Author}
+JKM, WBC
+\end{DoxyAuthor}
+Should be called at startup for new integrators. 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Registration\+Factory.\+h\item 
+Registration\+Factory.\+cpp\end{DoxyCompactItemize}

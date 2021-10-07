@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="dir_719fc6f2e18f182fad49432e3a9b2172" kind="dir">
+    <compoundname>D:/roadrunner/roadrunner/wrappers/C</compoundname>
+    <innerfile refid="libMain_8cpp">libMain.cpp</innerfile>
+    <innerfile refid="rrArrayList_8cpp">rrArrayList.cpp</innerfile>
+    <innerfile refid="rrArrayList_8h">rrArrayList.h</innerfile>
+    <innerfile refid="rrArrayListItem_8cpp">rrArrayListItem.cpp</innerfile>
+    <innerfile refid="rrArrayListItem_8h">rrArrayListItem.h</innerfile>
+    <innerfile refid="rrArrayListItemBase_8cpp">rrArrayListItemBase.cpp</innerfile>
+    <innerfile refid="rrArrayListItemBase_8h">rrArrayListItemBase.h</innerfile>
+    <innerfile refid="rrc__api_8cpp">rrc_api.cpp</innerfile>
+    <innerfile refid="rrc__api_8h">rrc_api.h</innerfile>
+    <innerfile refid="rrc__autolink_8cpp">rrc_autolink.cpp</innerfile>
+    <innerfile refid="rrc__cpp__support_8cpp">rrc_cpp_support.cpp</innerfile>
+    <innerfile refid="rrc__cpp__support_8h">rrc_cpp_support.h</innerfile>
+    <innerfile refid="rrc__exporter_8h">rrc_exporter.h</innerfile>
+    <innerfile refid="rrc__libstruct__api_8cpp">rrc_libstruct_api.cpp</innerfile>
+    <innerfile refid="rrc__libstruct__api_8h">rrc_libstruct_api.h</innerfile>
+    <innerfile refid="rrc__logging__api_8cpp">rrc_logging_api.cpp</innerfile>
+    <innerfile refid="rrc__logging__api_8h">rrc_logging_api.h</innerfile>
+    <innerfile refid="rrc__macros_8h">rrc_macros.h</innerfile>
+    <innerfile refid="rrc__nom__api_8cpp">rrc_nom_api.cpp</innerfile>
+    <innerfile refid="rrc__nom__api_8h">rrc_nom_api.h</innerfile>
+    <innerfile refid="rrc__pch_8h">rrc_pch.h</innerfile>
+    <innerfile refid="rrc__types_8h">rrc_types.h</innerfile>
+    <innerfile refid="rrc__utilities_8cpp">rrc_utilities.cpp</innerfile>
+    <innerfile refid="rrc__utilities_8h">rrc_utilities.h</innerfile>
+    <innerfile refid="rrcStringList_8cpp">rrcStringList.cpp</innerfile>
+    <innerfile refid="rrcStringList_8h">rrcStringList.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="D:/roadrunner/roadrunner/wrappers/C/"/>
+  </compounddef>
+</doxygen>

@@ -25,7 +25,7 @@ std::string validateSBML(const std::string src, unsigned opt)
     SBMLDocument *doc = NULL;
 
     try {
-        string sbml = SBMLReader::read(src);
+        std::string sbml = SBMLReader::read(src);
         doc =  readSBMLFromString (sbml.c_str());
 
         doc->setConsistencyChecks(LIBSBML_CAT_GENERAL_CONSISTENCY,
@@ -103,7 +103,7 @@ static bool isStoichDefined(const SpeciesReference* s) {
     return (s->isSetStoichiometry() || s->isSetStoichiometryMath());
 }
 
-void setSpeciesRefId(SpeciesReference* sr, const string& idbase) 
+void setSpeciesRefId(SpeciesReference* sr, const std::string& idbase)
 {
     Model* model = const_cast<Model*>(sr->getModel());
     const SBase* sbase = model->getElementBySId(idbase);
@@ -132,7 +132,8 @@ void setSpeciesRefId(SpeciesReference* sr, const string& idbase)
     }
 }
 
-std::string fixMissingStoich(const std::string sbml) {
+std::string fixMissingStoichAndMath(const std::string sbml) {
+
     SBMLDocument *doc = NULL;
 
     bool sbml_decl_okay = false;
@@ -159,11 +160,74 @@ std::string fixMissingStoich(const std::string sbml) {
     if (!sbml_decl_okay)
       throw std::runtime_error("SBML document must begin with an XML declaration or an SBML declaration");
 
-
     try {
-        doc =  readSBMLFromString (sbml.c_str());
+        doc = readSBMLFromString(sbml.c_str());
 
-        Model *m = doc->getModel();
+        Model* m = doc->getModel();
+
+        if (!m) {
+            if (doc->getNumErrors(libsbml::LIBSBML_SEV_ERROR) > 0)
+            {
+                const libsbml::SBMLError* err = doc->getError(0); //DEBUG should be doc->getErrorWithSeverity(0, libsbml::LIBSBML_SEV_ERROR); but won't work yet due to libsbml bug.  See https://github.com/sbmlteam/libsbml/pull/169
+                string errmsg = err->getMessage();
+                throw std::runtime_error("SBML document unable to be read.  Error from libsbml:\n" + doc->getErrorWithSeverity(0, libsbml::LIBSBML_SEV_ERROR)->getMessage());
+            }
+            //Otherwise, the document is fine, it just has no model:
+            std::string result = writeSBMLToStdString(doc);
+            delete doc;
+            return result;
+        }
+
+        //Initial Assignments with no math:
+        std::vector<std::string> badias;
+        for (unsigned int ia = 0; ia < m->getNumInitialAssignments(); ia++)
+        {
+            InitialAssignment* init = m->getInitialAssignment(ia);
+            if (!init->isSetMath())
+            {
+                badias.push_back(init->getId());
+            }
+        }
+        for (size_t badia = 0; badia < badias.size(); badia++)
+        {
+            delete m->removeInitialAssignment(badias[badia]);
+        }
+
+        //Rules with no math:
+        std::vector<std::string> badrules;
+        for (unsigned int r = 0; r < m->getNumRules(); r++)
+        {
+            Rule* rule = m->getRule(r);
+            if (!rule->isSetMath())
+            {
+                badrules.push_back(rule->getId());
+            }
+        }
+        for (size_t badrule = 0; badrule < badrules.size(); badrule++)
+        {
+            delete m->removeRule(badrules[badrule]);
+        }
+
+        //Event Triggers with no math:
+        std::vector<std::string> badevents;
+        for (unsigned int e = 0; e < m->getNumEvents(); e++)
+        {
+            Event* event = m->getEvent(e);
+            if (!event->isSetTrigger() || !event->getTrigger()->isSetMath())
+            {
+                if (!event->isSetId())
+                {
+                    event->setId("REMOVEME_" + std::to_string(e));
+                }
+                badevents.push_back(event->getId());
+                continue;
+            }
+            //Event assignments, priorities, and delays are handled separately.
+        }
+        for (size_t badevent = 0; badevent < badevents.size(); badevent++)
+        {
+            delete m->removeEvent(badevents[badevent]);
+        }
 
         for (unsigned int j = 0; j<m->getNumReactions(); ++j) {
             Reaction* r = m->getReaction(j);
@@ -178,7 +242,7 @@ std::string fixMissingStoich(const std::string sbml) {
                         throw std::runtime_error("Unable to set stoichiometry");
                     }
                 if (s->isSetStoichiometryMath()) {
-                    string id = s->getId();
+                    std::string id = s->getId();
                     if (!s->isSetId()) {
                         setSpeciesRefId(s, r->getId() + "_reactant_" + s->getSpecies() + "_stoichiometry");
                     }
@@ -192,7 +256,7 @@ std::string fixMissingStoich(const std::string sbml) {
                         throw std::runtime_error("Unable to set stoichiometry");
                     }
                 if (s->isSetStoichiometryMath()) {
-                    string id = s->getId();
+                    std::string id = s->getId();
                     if (!s->isSetId()) {
                         setSpeciesRefId(s, r->getId() + "_product_" + s->getSpecies() + "_stoichiometry");
                     }
@@ -207,7 +271,7 @@ std::string fixMissingStoich(const std::string sbml) {
         throw;
     }
 
-    string result = writeSBMLToStdString(doc);
+    std::string result = writeSBMLToStdString(doc);
     delete doc;
     return result;
 }

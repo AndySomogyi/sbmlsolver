@@ -1,0 +1,311 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="rrc__libstruct__api_8h" kind="file" language="C++">
+    <compoundname>rrc_libstruct_api.h</compoundname>
+    <includes refid="rrc__exporter_8h" local="yes">rrc_exporter.h</includes>
+    <includes refid="rrc__types_8h" local="yes">rrc_types.h</includes>
+    <includedby refid="rrc__api_8h" local="yes">D:/roadrunner/roadrunner/wrappers/C/rrc_api.h</includedby>
+    <includedby refid="rrc__libstruct__api_8cpp" local="yes">D:/roadrunner/roadrunner/wrappers/C/rrc_libstruct_api.cpp</includedby>
+    <incdepgraph>
+      <node id="3">
+        <label>stdbool.h</label>
+      </node>
+      <node id="4">
+        <label>rrc_types.h</label>
+        <link refid="rrc__types_8h"/>
+      </node>
+      <node id="1">
+        <label>D:/roadrunner/roadrunner/wrappers/C/rrc_libstruct_api.h</label>
+        <link refid="rrc__libstruct__api_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>rrc_exporter.h</label>
+        <link refid="rrc__exporter_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="3">
+        <label>D:/roadrunner/roadrunner/wrappers/C/rrc_api.cpp</label>
+        <link refid="rrc__api_8cpp"/>
+      </node>
+      <node id="1">
+        <label>D:/roadrunner/roadrunner/wrappers/C/rrc_libstruct_api.h</label>
+        <link refid="rrc__libstruct__api_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>D:/roadrunner/roadrunner/wrappers/C/rrc_api.h</label>
+        <link refid="rrc__api_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__Stoich_1gabcc1c1d88e91e4c17888f63a1158fade" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC <ref refid="rrc__types_8h_1ae586a879d30f0823087e42d93464b5dd" kindref="member">RRDoubleMatrixPtr</ref> rrcCallConv</type>
+        <definition>C_DECL_SPEC RRDoubleMatrixPtr rrcCallConv getL0Matrix</definition>
+        <argsstring>(RRHandle handle)</argsstring>
+        <name>getL0Matrix</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+<para>Returns the L0 Matrix. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>L0 is defined such that L0 Nr = N0. L0 forms part of the link matrix, L. N0 is the set of linear dependent rows from the lower portion of the reordered stoichiometry matrix.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns null if it fails, otherwise returns the L0 matrix.</para>
+</simplesect>
+<simplesect kind="remark"><para>To free the returned matrix call freeMatrix with the matrix as parameter. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_libstruct_api.h" line="65" column="43" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_libstruct_api.h" declline="65" declcolumn="43"/>
+      </memberdef>
+      <memberdef kind="function" id="group__Stoich_1ga0c68a334f896f419160f09e140c52a5b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC <ref refid="rrc__types_8h_1a8cf9e865d8541d100f153800adbb7c3f" kindref="member">RRComplexMatrixPtr</ref> rrcCallConv</type>
+        <definition>C_DECL_SPEC RRComplexMatrixPtr rrcCallConv getEigenVectors</definition>
+        <argsstring>(RRDoubleMatrixPtr matrix)</argsstring>
+        <name>getEigenVectors</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1ae586a879d30f0823087e42d93464b5dd" kindref="member">RRDoubleMatrixPtr</ref></type>
+          <declname>matrix</declname>
+        </param>
+        <briefdescription>
+<para>Calculates the eigen-vectors of a square real matrix. This function calculates the complex (right)eigenvectors of the given real matrix. The complex matrix returned contains the eigenvectors in the columns, in the same order as LibLA_getEigenValues. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The right eigenvector v(j) of A satisfies: <simplesect kind="par"><title></title><para>A * v(j) = lambda(j) * v(j) </para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">matrix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RRMatrix </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns null if it fails, otherwise returns a <ref refid="structRRComplexMatrix" kindref="compound">RRComplexMatrix</ref>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_libstruct_api.h" line="78" column="44" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_libstruct_api.h" declline="78" declcolumn="44"/>
+      </memberdef>
+      <memberdef kind="function" id="group__Stoich_1ga5d823d9deca09548bf65c9df30bf0aac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC <ref refid="rrc__types_8h_1a8cf9e865d8541d100f153800adbb7c3f" kindref="member">RRComplexMatrixPtr</ref> rrcCallConv</type>
+        <definition>C_DECL_SPEC RRComplexMatrixPtr rrcCallConv getZEigenVectors</definition>
+        <argsstring>(RRComplexMatrixPtr matrix)</argsstring>
+        <name>getZEigenVectors</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a8cf9e865d8541d100f153800adbb7c3f" kindref="member">RRComplexMatrixPtr</ref></type>
+          <declname>matrix</declname>
+        </param>
+        <briefdescription>
+<para>Calculates the eigen-vectors of a square nonsymmetrix complex matrix. This function calculates the complex (right)eigenvectors of the given real matrix. The complex matrix returned contains the eigenvectors in the columns, in the same order as getZEigenValues. The right eigenvector v(j) of A satisfies: </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="par"><title></title><para>A * v(j) = lambda(j) * v(j) </para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">matrix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a <ref refid="structRRComplexMatrix" kindref="compound">RRComplexMatrix</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns null if it fails, otherwise returns a <ref refid="structRRComplexMatrix" kindref="compound">RRComplexMatrix</ref>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_libstruct_api.h" line="91" column="44" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_libstruct_api.h" declline="91" declcolumn="44"/>
+      </memberdef>
+      <memberdef kind="function" id="group__Stoich_1gaed6227a5e35be5cfdaf667ddb3f9afe9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="rrc__types_8h_1a3be72d6006034fd349f753d2bf441bf7" kindref="member">RRVectorPtr</ref></type>
+        <definition>RRVectorPtr getConservedSums</definition>
+        <argsstring>(RRHandle handle)</argsstring>
+        <name>getConservedSums</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+<para>Returns values for conservation laws using the current initial conditions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="remark"><para>free vector using freeVector function</para>
+</simplesect>
+<simplesect kind="return"><para>The return value will be zero (0) when successful, and negative (-1) in case no stoichiometry matrix was loaded beforehand or none of the analysis methods has been called yet. </para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns null if it fails, otherwise returns a RRVectorHandle. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_libstruct_api.h" line="106" column="13" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_libstruct_api.h" declline="106" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="group__LinearAlgebra_1ga142092d1f7edcc6500f1b965abed68be" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC <ref refid="rrc__types_8h_1ae586a879d30f0823087e42d93464b5dd" kindref="member">RRDoubleMatrixPtr</ref> rrcCallConv</type>
+        <definition>C_DECL_SPEC RRDoubleMatrixPtr rrcCallConv getEigenvaluesMatrix</definition>
+        <argsstring>(const RRDoubleMatrixPtr mat)</argsstring>
+        <name>getEigenvaluesMatrix</name>
+        <param>
+          <type>const <ref refid="rrc__types_8h_1ae586a879d30f0823087e42d93464b5dd" kindref="member">RRDoubleMatrixPtr</ref></type>
+          <declname>mat</declname>
+        </param>
+        <briefdescription>
+<para>Compute the eigenvalues of a double matrix. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mat</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to a to double matrix </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns NULL if it fails, otherwise returns a matrix of eigenvalues. The first column will contain the real values and the second column the imaginary values </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_libstruct_api.h" line="120" column="43" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_libstruct_api.h" declline="120" declcolumn="43"/>
+      </memberdef>
+      <memberdef kind="function" id="group__LinearAlgebra_1ga9902e4c49cc0334f2d2b297b977856c3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC <ref refid="rrc__types_8h_1ae05c63419a6ca0575eb327fd04dae4b5" kindref="member">RRComplexVectorPtr</ref> rrcCallConv</type>
+        <definition>C_DECL_SPEC RRComplexVectorPtr rrcCallConv getEigenvaluesVector</definition>
+        <argsstring>(const RRDoubleMatrixPtr mat)</argsstring>
+        <name>getEigenvaluesVector</name>
+        <param>
+          <type>const <ref refid="rrc__types_8h_1ae586a879d30f0823087e42d93464b5dd" kindref="member">RRDoubleMatrixPtr</ref></type>
+          <declname>mat</declname>
+        </param>
+        <briefdescription>
+<para>Compute the eigenvalues of a double matrix. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mat</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to input matrix </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns null if it fails, otherwise returns a complex vector of eigenvalues. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_libstruct_api.h" line="129" column="44" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_libstruct_api.h" declline="129" declcolumn="44"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>roadRunner C wrappers 2012 </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="author"><para>Totte Karlsson &amp; Herbert M Sauro</para>
+</simplesect>
+&lt;-----------------------------------------------------------<mdash/> This file is part of cRoadRunner. See <ulink url="http://code.google.com/p/roadrunnerlib">http://code.google.com/p/roadrunnerlib</ulink> for more details.</para>
+<para>Copyright (C) 2012-2013 University of Washington, Seattle, WA, USA</para>
+<para>Licensed under the Apache License, Version 2.0 (the &quot;License&quot;); you may not use this file except in compliance with the License. You may obtain a copy of the License at <verbatim>http://www.apache.org/licenses/LICENSE-2.0
+</verbatim> Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.</para>
+<para>In plain english this means:</para>
+<para>You CAN freely download and use this software, in whole or in part, for personal, company internal, or commercial purposes;</para>
+<para>You CAN use the software in packages or distributions that you create.</para>
+<para>You SHOULD include a copy of the license in any redistribution you may make;</para>
+<para>You are NOT required include the source of software, or of any modifications you may have made to it, in any redistribution you may assemble that includes it.</para>
+<para>YOU CANNOT:</para>
+<para>redistribute any piece of this software without proper attribution; </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>rrc_libstruct_apiH</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>rrc_libstruct_apiH</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="rrc__exporter_8h" kindref="compound">rrc_exporter.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="rrc__types_8h" kindref="compound">rrc_types.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(__cplusplus)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">rrc</highlight></codeline>
+<codeline lineno="48"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="group__Stoich_1gabcc1c1d88e91e4c17888f63a1158fade" refkind="member"><highlight class="normal">C_DECL_SPEC<sp/><ref refid="structRRDoubleMatrix" kindref="compound">RRDoubleMatrixPtr</ref><sp/>rrcCallConv<sp/><ref refid="group__Stoich_1gabcc1c1d88e91e4c17888f63a1158fade" kindref="member">getL0Matrix</ref>(<ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref><sp/>handle);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="group__Stoich_1ga0c68a334f896f419160f09e140c52a5b" refkind="member"><highlight class="normal">C_DECL_SPEC<sp/><ref refid="structRRComplexMatrix" kindref="compound">RRComplexMatrixPtr</ref><sp/>rrcCallConv<sp/><ref refid="group__Stoich_1ga0c68a334f896f419160f09e140c52a5b" kindref="member">getEigenVectors</ref>(<ref refid="structRRDoubleMatrix" kindref="compound">RRDoubleMatrixPtr</ref><sp/>matrix);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91" refid="group__Stoich_1ga5d823d9deca09548bf65c9df30bf0aac" refkind="member"><highlight class="normal">C_DECL_SPEC<sp/><ref refid="structRRComplexMatrix" kindref="compound">RRComplexMatrixPtr</ref><sp/>rrcCallConv<sp/><ref refid="group__Stoich_1ga5d823d9deca09548bf65c9df30bf0aac" kindref="member">getZEigenVectors</ref>(<ref refid="structRRComplexMatrix" kindref="compound">RRComplexMatrixPtr</ref><sp/>matrix);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="comment">//<sp/>int<sp/>LibStructural_getConservedSums(double*<sp/>*outArray,<sp/>int<sp/>*outLength);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106" refid="group__Stoich_1gaed6227a5e35be5cfdaf667ddb3f9afe9" refkind="member"><highlight class="normal"><ref refid="structRRVector" kindref="compound">RRVectorPtr</ref><sp/><ref refid="group__Stoich_1gaed6227a5e35be5cfdaf667ddb3f9afe9" kindref="member">getConservedSums</ref>(<ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref><sp/>handle);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="comment">//<sp/>--------------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="comment">//<sp/>General<sp/>purpose<sp/>linear<sp/>algebra<sp/>methods</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="comment">//<sp/>--------------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120" refid="group__LinearAlgebra_1ga142092d1f7edcc6500f1b965abed68be" refkind="member"><highlight class="normal">C_DECL_SPEC<sp/><ref refid="structRRDoubleMatrix" kindref="compound">RRDoubleMatrixPtr</ref><sp/>rrcCallConv<sp/><ref refid="group__LinearAlgebra_1ga142092d1f7edcc6500f1b965abed68be" kindref="member">getEigenvaluesMatrix</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structRRDoubleMatrix" kindref="compound">RRDoubleMatrixPtr</ref><sp/>mat);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129" refid="group__LinearAlgebra_1ga9902e4c49cc0334f2d2b297b977856c3" refkind="member"><highlight class="normal">C_DECL_SPEC<sp/><ref refid="structRRComplexVector" kindref="compound">RRComplexVectorPtr</ref><sp/>rrcCallConv<sp/><ref refid="group__LinearAlgebra_1ga9902e4c49cc0334f2d2b297b977856c3" kindref="member">getEigenvaluesVector</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structRRDoubleMatrix" kindref="compound">RRDoubleMatrixPtr</ref><sp/>mat);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="comment">//---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(__cplusplus)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="134"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">//rrc<sp/>namespace<sp/>and<sp/>extern<sp/>&quot;C&quot;<sp/>scopes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>DOXYGEN_SHOULD_SKIP_THIS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">/*<sp/>DOXYGEN_SHOULD_SKIP_THIS<sp/>*/</highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">//Header<sp/>guard</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_libstruct_api.h"/>
+  </compounddef>
+</doxygen>

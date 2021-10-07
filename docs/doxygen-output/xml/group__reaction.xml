@@ -1,0 +1,202 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="group__reaction" kind="group">
+    <compoundname>reaction</compoundname>
+    <title>Reaction group</title>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__reaction_1gaaa9941b7cba362c4098feedb02b047a4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC int rrcCallConv</type>
+        <definition>C_DECL_SPEC int rrcCallConv getNumberOfReactions</definition>
+        <argsstring>(RRHandle handle)</argsstring>
+        <name>getNumberOfReactions</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+<para>Obtain the number of reactions in the loaded model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Example:<programlisting><codeline><highlight class="normal">number<sp/>=<sp/>getNumberOfReactions<sp/>(RRHandle<sp/>handle);<sp/></highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns -1 if it fails, if successful it return 0 or more, indicating the number of reactions </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="2428" column="29" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="2428" declcolumn="29"/>
+      </memberdef>
+      <memberdef kind="function" id="group__reaction_1ga6fbbae97760afea7cc74e26e2cb74926" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC bool rrcCallConv</type>
+        <definition>C_DECL_SPEC bool rrcCallConv getReactionRate</definition>
+        <argsstring>(RRHandle handle, const int index, double *rate)</argsstring>
+        <name>getReactionRate</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <param>
+          <type>const int</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>double *</type>
+          <declname>rate</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve a give reaction rate as indicated by the index parameter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- The index is used to specify which reaction rate to retrieve </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>rate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- The reaction rate is returned in the rate argument </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns false if it fails </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="2440" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="2440" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="group__reaction_1gae0d748f8af83914cc078f8728d67ed0e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC <ref refid="rrc__types_8h_1a3be72d6006034fd349f753d2bf441bf7" kindref="member">RRVectorPtr</ref> rrcCallConv</type>
+        <definition>C_DECL_SPEC RRVectorPtr rrcCallConv getReactionRates</definition>
+        <argsstring>(RRHandle handle)</argsstring>
+        <name>getReactionRates</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve a vector of reaction rates as determined by the current state of the model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns null if it fails, otherwise it returns a vector of reaction rates </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="2450" column="37" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="2450" declcolumn="37"/>
+      </memberdef>
+      <memberdef kind="function" id="group__reaction_1ga106854f50f9896130fb77f64f2c5885c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC <ref refid="rrc__types_8h_1a3be72d6006034fd349f753d2bf441bf7" kindref="member">RRVectorPtr</ref> rrcCallConv</type>
+        <definition>C_DECL_SPEC RRVectorPtr rrcCallConv getReactionRatesEx</definition>
+        <argsstring>(RRHandle handle, const RRVectorPtr vec)</argsstring>
+        <name>getReactionRatesEx</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <param>
+          <type>const <ref refid="rrc__types_8h_1a3be72d6006034fd349f753d2bf441bf7" kindref="member">RRVectorPtr</ref></type>
+          <declname>vec</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve a vector of reaction rates given a vector of species concentrations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>vec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The vector of floating species concentrations </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns null if it fails otherwise it returns a vector of reaction rates </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="2461" column="37" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="2461" declcolumn="37"/>
+      </memberdef>
+      <memberdef kind="function" id="group__reaction_1ga893427e9bcf19edb7742fd7a40bde89e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC <ref refid="rrc__types_8h_1a7c9475df6c7337d99482b13a365e7596" kindref="member">RRStringArrayPtr</ref> rrcCallConv</type>
+        <definition>C_DECL_SPEC RRStringArrayPtr rrcCallConv getReactionIds</definition>
+        <argsstring>(RRHandle handle)</argsstring>
+        <name>getReactionIds</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+<para>Obtain the list of reaction Ids. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns null if it fails, if successful it returns a pointer to a RRStringArrayPtr struct </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="2585" column="42" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="2585" declcolumn="42"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Get information about reaction rates. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

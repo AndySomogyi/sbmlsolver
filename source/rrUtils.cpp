@@ -1,10 +1,10 @@
 #pragma hdrstop
 
+#include <filesystem>
 #if defined(_WIN32) || defined(__WIN32__)
 #include <windows.h>
 #include <io.h>
 #include <conio.h>
-
 #endif
 
 #if defined(__BORLANDC__)
@@ -59,15 +59,16 @@
 // Poco timestamp
 #include <Poco/Timestamp.h>
 
+using std::filesystem::path;
 namespace rr
 {
-using namespace std;
 
-bool cleanFolder(const string& folder, const string& baseName, const std::vector<std::string>& extensions)
+
+bool cleanFolder(const std::string& folder, const std::string& baseName, const std::vector<std::string>& extensions)
 {
     for(int i = 0; i < extensions.size(); i++)
        {
-        string aFName = joinPath(folder, baseName) + "." + extensions[i];
+        std::string aFName = (path(folder) /= baseName).string() + "." + extensions[i];
         Poco::File aFile(aFName);
         if(aFile.exists())
         {
@@ -106,15 +107,15 @@ static char rrGetch()
 #define rrGetch getch
 #endif
 
-string getMD5(const string& text)
+std::string getMD5(const std::string& text)
 {
     Poco::MD5Engine md5;
     md5.update(text);
-    string digestString(Poco::DigestEngine::digestToHex(md5.digest()));
+    std::string digestString(Poco::DigestEngine::digestToHex(md5.digest()));
     return digestString;
 }
 
-string getTime()
+std::string getTime()
 {
 // Get current date/time, format is YYYY-MM-DD.HH:mm:ss
     time_t     now = time(0);
@@ -128,7 +129,7 @@ string getTime()
     return buf;
 }
 
-string getDateTime()
+std::string getDateTime()
 {
     // Get current date/time, format is YYYY-MM-DD.HH:mm:ss
     time_t     now = time(0);
@@ -142,7 +143,7 @@ string getDateTime()
     return buf;
 }
 
-string getTempDir()
+std::string getTempDir()
 {
     std::string tmpPath = Config::getString(Config::TEMP_DIR_PATH);
 
@@ -155,10 +156,10 @@ string getTempDir()
 
         if (file.exists() && file.isDirectory()) {
             tmpPath = path.toString();
-            Log(Logger::LOG_DEBUG) << "getTempDir(): " << tmpPath;
+            rrLog(Logger::LOG_DEBUG) << "getTempDir(): " << tmpPath;
             return tmpPath;
         } else {
-            Log(Logger::LOG_WARNING) << "Temp dir path specified in config, \""
+            rrLog(Logger::LOG_WARNING) << "Temp dir path specified in config, \""
                     << tmpPath << "\" is not a valid path, returning sytem tmp path: "
                     << Poco::Path::temp();
         }
@@ -166,7 +167,7 @@ string getTempDir()
 
     Poco::Path temp(Poco::Path::temp());
     tmpPath = temp.makeAbsolute().toString();
-    Log(Logger::LOG_DEBUG) << "getTempDir(): " << tmpPath;
+    rrLog(Logger::LOG_DEBUG) << "getTempDir(): " << tmpPath;
     return tmpPath;
 }
 
@@ -201,24 +202,24 @@ std::string getCurrentSharedLibDir()
             &hm))
     {
         int ret = GetLastError();
-        throw rr::Exception(string("error in GetModuleHandleExA: " + rr::toString(ret)));
+        throw rr::Exception(std::string("error in GetModuleHandleExA: " + rr::toString(ret)));
     }
 
     GetModuleFileNameA(hm, buffer, sizeof(buffer));
 
-    string path(buffer);
+    std::string path(buffer);
     return path.substr( 0, path.find_last_of( '\\' ) + 1 );
 #endif
 }
 
 
-string getCurrentExeFolder()
+std::string getCurrentExeFolder()
 {
 #if defined(_WIN32) || defined(__WIN32__)
     char path[MAX_PATH];
     if(GetModuleFileNameA(NULL, path, ARRAYSIZE(path)) != 0)
     {
-        string aPath(getFilePath(path));
+        std::string aPath(getFilePath(path));
         return aPath;
     }
     return "";
@@ -227,13 +228,13 @@ string getCurrentExeFolder()
     unsigned  bufsize = sizeof(exepath);
     if (_NSGetExecutablePath(exepath, &bufsize) == 0)
     {
-        string thePath = getFilePath(exepath);
-        Log(lDebug1) << "Current exe folder says:" << thePath;
+        std::string thePath = getFilePath(exepath);
+        rrLog(lDebug1) << "Current exe folder says:" << thePath;
         return thePath;
     }
     else
     {
-        Log(Logger::LOG_ERROR) << "_NSGetExecutablePath failed";
+        rrLog(Logger::LOG_ERROR) << "_NSGetExecutablePath failed";
         return "";
     }
 #elif defined (__linux)
@@ -245,17 +246,17 @@ string getCurrentExeFolder()
 
     if (r < 0)
     {
-        throw rr::Exception(string("error readlink(") + string((char*)arg1) + string(") failed"));
+        throw rr::Exception(std::string("error readlink(") + std::string((char*)arg1) + std::string(") failed"));
     }
 
-    string thePath = getFilePath(exepath);
-    Log(lDebug1) << "Current exe folder says:" << thePath;
+    std::string thePath = getFilePath(exepath);
+    rrLog(lDebug1) << "Current exe folder says:" << thePath;
     return thePath;
 #endif
 
 }
 
-string getParentFolder(const string& path)
+std::string getParentFolder(const std::string& path)
 {
     if (path.empty()) {
         return "";
@@ -266,16 +267,16 @@ string getParentFolder(const string& path)
     return p.toString();
 }
 
-string getCWD()
+std::string getCWD()
 {
     //Get the working directory
     char *buffer;
 
-    string cwd;
+    std::string cwd;
     // Get the current working directory:
     if( (buffer = getcwd( NULL, 512 )) == NULL )
     {
-        Log(Logger::LOG_ERROR)<<"getCWD failed";
+        rrLog(Logger::LOG_ERROR)<<"getCWD failed";
         return "";
     }
     else
@@ -297,11 +298,11 @@ const char getPathSeparator()
     return gPathSeparator;
 }
 
-string getFileContent(const string& fName)
+std::string getFileContent(std::filesystem::path fName)
 {
-    string content;
+    std::string content;
 
-    vector<string> lines = getLinesInFile(fName);
+    std::vector<std::string> lines = getLinesInFile(fName);
     for(int i = 0; i < lines.size(); i++)
     {
         content += lines[i];
@@ -311,14 +312,14 @@ string getFileContent(const string& fName)
     return content;
 }
 
-vector<string> getLinesInFile(const string& fName)
+std::vector<std::string> getLinesInFile(std::filesystem::path fName)
 {
-    vector<string> lines;
+    std::vector<std::string> lines;
 
-    ifstream ifs(fName.c_str());
+    std::ifstream ifs(fName.c_str());
     if(!ifs)
     {
-        Log(Logger::LOG_ERROR)<<"Failed opening file: "<<fName;
+        rrLog(Logger::LOG_ERROR)<<"Failed opening file: "<<fName;
         return lines;
     }
 
@@ -341,13 +342,13 @@ std::ptrdiff_t indexOf(const std::vector<std::string>& vec, const std::string& e
 }
 
 // String utils
-//string RemoveTrailingSeparator(const string& fldr, const char sep = gPathSeparator);//"\\");
-string removeTrailingSeparator(const string& _folder, const char sep)
+//std::string RemoveTrailingSeparator(const std::string& fldr, const char sep = gPathSeparator);//"\\");
+std::string removeTrailingSeparator(const std::string& _folder, const char sep)
 {
     if((_folder.size() > 0) && (_folder[_folder.size() -1] == sep))
     {
         size_t endOfPathIndex = _folder.rfind(sep, _folder.size());
-        string folder = _folder.substr(0, endOfPathIndex);
+        std::string folder = _folder.substr(0, endOfPathIndex);
         return folder;
     }
     else
@@ -365,12 +366,12 @@ bool isNaN(const double& aNum)
 #endif
 }
 
-bool isNullOrEmpty(const string& str)
+bool isNullOrEmpty(const std::string& str)
 {
     return !str.size();
 }
 
-void pause(bool doIt, const string& msg)
+void pause(bool doIt, const std::string& msg)
 {
     if(!doIt)
     {
@@ -379,13 +380,13 @@ void pause(bool doIt, const string& msg)
 
     if(msg.size() == 0)
     {
-        cout<<"Hit any key to exit...";
+        std::cout<<"Hit any key to exit...";
     }
     else
     {
-        cout<<msg;
+        std::cout<<msg;
     }
-    cin.ignore(0,'\n');
+    std::cin.ignore(0,'\n');
 
     rrGetch();
 
@@ -401,66 +402,75 @@ void pause(bool doIt, const string& msg)
  * 04 Read permission
  * 06 Read and write permission
 */
-bool fileExists(const string& fname, int fileMode)
+//bool fileExists(const std::string& fname, int fileMode)
+//{
+//#if !defined (WIN32)
+//    bool res = (access(fname.c_str(), fileMode) == 0);
+//#else
+//    bool res = (_access(fname.c_str(), fileMode) == 0);
+//#endif
+//
+//    return res;
+//}
+
+//bool folderExists(const std::string& folderName)
+//{
+//    return std::filesystem::exists(folderName);
+//#if defined(WIN32)
+//    LPCTSTR szPath = folderName.c_str();
+//    DWORD dwAttrib = GetFileAttributes(szPath);
+//    return (dwAttrib != INVALID_FILE_ATTRIBUTES && (dwAttrib & FILE_ATTRIBUTE_DIRECTORY));
+//#else
+//    struct stat status;
+//    return stat(folderName.c_str(), &status) == 0 ? true : false;
+//#endif
+//}
+
+void createTestSuiteFileNameParts(int caseNr, const std::string& postFixPart, std::string & modelFilePath, std::string& modelName, std::string& settingsFName, std::string& descriptionFName)
 {
-#if !defined (WIN32)
-    bool res = (access(fname.c_str(), fileMode) == 0);
-#else
-    bool res = (_access(fname.c_str(), fileMode) == 0);
-#endif
+    std::stringstream modelSubPath, modelFileName, settingsFileName, descriptionFileName;
 
-    return res;
-}
-
-bool folderExists(const string& folderName)
-{
-#if defined(WIN32)
-    LPCTSTR szPath = folderName.c_str();
-    DWORD dwAttrib = GetFileAttributes(szPath);
-    return (dwAttrib != INVALID_FILE_ATTRIBUTES && (dwAttrib & FILE_ATTRIBUTE_DIRECTORY));
-#else
-    struct stat status;
-    return stat(folderName.c_str(), &status) == 0 ? true : false;
-#endif
-}
-
-void createTestSuiteFileNameParts(int caseNr, const string& postFixPart, string& modelFilePath, string& modelName, string& settingsFName, string& descriptionFName)
-{
-    stringstream modelSubPath, modelFileName, settingsFileName, descriptionFileName;
-
-    modelSubPath<<setfill('0')<<setw(5)<<caseNr;        //create the "00023" subfolder format
-    modelFileName<<setfill('0')<<setw(5)<<caseNr<<postFixPart;
-    modelFilePath = joinPath(modelFilePath, modelSubPath.str());
+    modelSubPath<<std::setfill('0')<<std::setw(5)<<caseNr;        //create the "00023" subfolder format
+    modelFileName<<std::setfill('0')<<std::setw(5)<<caseNr<<postFixPart;
+    modelFilePath = (path(modelFilePath) /= modelSubPath.str()).string();
     modelName =  modelFileName.str();
-    settingsFileName << setfill('0')<<setw(5)<<caseNr<<"-settings.txt";
+    settingsFileName << std::setfill('0')<<std::setw(5)<<caseNr<<"-settings.txt";
     settingsFName = settingsFileName.str();
-    descriptionFileName << setfill('0') << setw(5) << caseNr << "-model.m";
+    descriptionFileName << std::setfill('0') << std::setw(5) << caseNr << "-model.m";
     descriptionFName = descriptionFileName.str();
 }
 
-string getTestSuiteSubFolderName(int caseNr)
+std::string getTestSuiteSubFolderName(int caseNr)
 {
-    stringstream modelSubPath;
-    modelSubPath<<setfill('0')<<setw(5)<<caseNr;        //create the "00023" subfolder format
+    std::stringstream modelSubPath;
+    modelSubPath<<std::setfill('0')<<std::setw(5)<<caseNr;        //create the "00023" subfolder format
     return modelSubPath.str();
 }
 
-bool hasUnimplementedTags(const string& descriptionFileName)
+bool hasUnimplementedTags(const std::string& descriptionFileName, const string& integrator)
 {
-    vector<string> badtags;
+    std::vector<std::string> badtags;
     badtags.push_back("AlgebraicRule");
     badtags.push_back("CSymbolDelay");
     badtags.push_back("fbc");
-    badtags.push_back("BoolNumericSwap");
     badtags.push_back("FastReaction");
-    ifstream descfile(descriptionFileName);
+    badtags.push_back("VolumeConcentrationRate");
+    badtags.push_back("RateOf");
+    badtags.push_back("AssignedVariableStoichiometry");
+
+    if (integrator == "rk4" || integrator == "rk45")
+    {
+        badtags.push_back("EventWithDelay");
+        badtags.push_back("EventNoDelay");
+    }
+    std::ifstream descfile(descriptionFileName);
     if (descfile.good()) {
-        string line;
+        std::string line;
         while (getline(descfile, line)) {
-            if (line.find("Tags") != string::npos) {
+            if (line.find("Tags") != std::string::npos) {
                 for (size_t i = 0; i < badtags.size(); i++) {
-                    string tag = badtags[i];
-                    if (line.find(tag) != string::npos) {
+                    std::string tag = badtags[i];
+                    if (line.find(tag) != std::string::npos) {
                         return true;
                     }
                 }
@@ -470,13 +480,13 @@ bool hasUnimplementedTags(const string& descriptionFileName)
     return false;
 }
 
-bool isSemiStochasticTest(const string& descriptionFileName)
+bool isSemiStochasticTest(const std::string& descriptionFileName)
 {
-    ifstream descfile(descriptionFileName);
+    std::ifstream descfile(descriptionFileName);
     if (descfile.good()) {
-        string line;
+        std::string line;
         while (getline(descfile, line)) {
-            if (line.find("synopsis") != string::npos && line.find("STOCHASTIC") != string::npos) {
+            if (line.find("synopsis") != std::string::npos && line.find("STOCHASTIC") != std::string::npos) {
                 return true;
             }
         }
@@ -484,14 +494,14 @@ bool isSemiStochasticTest(const string& descriptionFileName)
     return false;
 }
 
-bool isFBCTest(const string& descriptionFileName)
+bool isFBCTest(const std::string& descriptionFileName)
 {
-    ifstream descfile(descriptionFileName);
+    std::ifstream descfile(descriptionFileName);
     if (descfile.good()) {
-        string line;
+        std::string line;
         while (getline(descfile, line)) {
-            if (line.find("testType") != string::npos) {
-                if (line.find("FluxBalanceSteadyState") != string::npos) {
+            if (line.find("testType") != std::string::npos) {
+                if (line.find("FluxBalanceSteadyState") != std::string::npos) {
                     return true;
                 }
                 else {
@@ -503,36 +513,50 @@ bool isFBCTest(const string& descriptionFileName)
     return false;
 }
 
-bool createFolder(const string& folder)
+//bool createFolder(const std::string& folder)
+//{
+//    if(std::filesystem::exists(folder))
+//    {
+//        return true;
+//    }
+//
+//#if defined(WIN32)
+//    int res = mkdir(folder.c_str());
+//#else
+//    int temp;
+//#define MY_MASK 0777
+////     printf("Default mask: %o\n", MY_MASK & ~022 & MY_MASK);
+//      temp = umask(0);
+////      printf("Previous umask = %o\n", temp);
+//    int res = mkdir(folder.c_str(), S_IRWXU | S_IRWXG | S_IRWXO);
+//#endif
+//
+//    return (res==0) ? true : false;
+//}
+
+bool createFolder(const std::string& folder)
 {
-    if(fileExists(folder))
+    if(std::filesystem::exists(folder))
     {
         return true;
     }
-
-#if defined(WIN32)
-    int res = mkdir(folder.c_str());
-#else
-    int temp;
-#define MY_MASK 0777
-//     printf("Default mask: %o\n", MY_MASK & ~022 & MY_MASK);
-      temp = umask(0);
-//      printf("Previous umask = %o\n", temp);
-    int res = mkdir(folder.c_str(), S_IRWXU | S_IRWXG | S_IRWXO);
-#endif
-
-    return (res==0) ? true : false;
+    try {
+        std::filesystem::create_directories(folder);
+        return true;
+    } catch (std::exception &e) {
+        return false;
+    }
 }
 
-bool createFile(const string& fName, std::ios_base::openmode mode)
+bool createFile(const std::string& fName, std::ios_base::openmode mode)
 {
-    ofstream test;
+    std::ofstream test;
     test.open(fName.c_str(), mode);
     test.close();
-    return fileExists(fName);
+    return std::filesystem::exists(fName);
 }
 
-bool copyValues(vector<double>& dest, double* source, const int& nrVals, const int& startIndex)
+bool copyValues(std::vector<double>& dest, double* source, const int& nrVals, const int& startIndex)
 {
     if(!dest.size() || !source || startIndex > dest.size())
     {
@@ -548,11 +572,11 @@ bool copyValues(vector<double>& dest, double* source, const int& nrVals, const i
 
 }
 
-bool copyStdVectorToCArray(const vector<double>& src, double* dest,  int size)
+bool copyStdVectorToCArray(const std::vector<double>& src, double* dest,  int size)
 {
     if((size && !dest) || size > src.size())
     {
-        Log(Logger::LOG_ERROR)<<"Tried to copy to NULL vector, or incompatible size of vectors";
+        rrLog(Logger::LOG_ERROR)<<"Tried to copy to NULL std::vector, or incompatible size of vectors";
         return false;
     }
 
@@ -563,11 +587,11 @@ bool copyStdVectorToCArray(const vector<double>& src, double* dest,  int size)
     return true;
 }
 
-bool copyStdVectorToCArray(const vector<bool>&   src,  bool*  dest,  int size)
+bool copyStdVectorToCArray(const std::vector<bool>&   src,  bool*  dest,  int size)
 {
     if((size && !dest) || size > src.size())
     {
-        Log(Logger::LOG_ERROR)<<"Tried to copy to NULL vector, or incompatible size of vectors";
+        rrLog(Logger::LOG_ERROR)<<"Tried to copy to NULL std::vector, or incompatible size of vectors";
         return false;
     }
 
@@ -578,12 +602,12 @@ bool copyStdVectorToCArray(const vector<bool>&   src,  bool*  dest,  int size)
     return true;
 }
 
-vector<double> createVector(const double* src, const int& size)
+std::vector<double> createVector(const double* src, const int& size)
 {
-    vector<double> dest;
+    std::vector<double> dest;
     if(size && !src)
     {
-        Log(Logger::LOG_ERROR)<<"Tried to copy from NULL vector";
+        rrLog(Logger::LOG_ERROR)<<"Tried to copy from NULL std::vector";
         return dest;
     }
 
@@ -595,11 +619,11 @@ vector<double> createVector(const double* src, const int& size)
     return dest;
 }
 
-bool copyCArrayToStdVector(const int* src, vector<int>& dest, int size)
+bool copyCArrayToStdVector(const int* src, std::vector<int>& dest, int size)
 {
     if(size && !src)
     {
-        Log(Logger::LOG_ERROR)<<"Tried to copy from NULL vector";
+        rrLog(Logger::LOG_ERROR)<<"Tried to copy from NULL std::vector";
         return false;
     }
 
@@ -611,11 +635,11 @@ bool copyCArrayToStdVector(const int* src, vector<int>& dest, int size)
     return true;
 }
 
-bool copyCArrayToStdVector(const double* src, vector<double>& dest, int size)
+bool copyCArrayToStdVector(const double* src, std::vector<double>& dest, int size)
 {
     if(size && !src)
     {
-        Log(Logger::LOG_ERROR)<<"Tried to copy from NULL vector";
+        rrLog(Logger::LOG_ERROR)<<"Tried to copy from NULL std::vector";
         return false;
     }
 
@@ -627,11 +651,11 @@ bool copyCArrayToStdVector(const double* src, vector<double>& dest, int size)
     return true;
 }
 
-bool copyCArrayToStdVector(const bool* src, vector<bool>& dest, int size)
+bool copyCArrayToStdVector(const bool* src, std::vector<bool>& dest, int size)
 {
     if(size && !src)
     {
-        Log(Logger::LOG_ERROR)<<"Tried to copy from NULL vector";
+        rrLog(Logger::LOG_ERROR)<<"Tried to copy from NULL std::vector";
         return false;
     }
 
@@ -643,12 +667,12 @@ bool copyCArrayToStdVector(const bool* src, vector<bool>& dest, int size)
     return true;
 }
 
-double* createVector(const vector<double>& vec)
+double* createVector(const std::vector<double>& vec)
 {
     double* avec = new double[vec.size()];
     if(!avec)
     {
-        Log(Logger::LOG_ERROR)<<"Failed to allocate c vector";
+        rrLog(Logger::LOG_ERROR)<<"Failed to allocate c std::vector";
         return NULL;
     }
 
@@ -658,44 +682,44 @@ double* createVector(const vector<double>& vec)
     }
     return avec;
 }
-
-string joinPath(const string& base, const string& file, const char pathSeparator)
-{
-    if (base.empty()) {
-        return file;
-    }
-
-    if (file.empty()) {
-        return base;
-    }
-
-    Poco::Path basePath(base);
-    basePath.append(Poco::Path(file));
-    return basePath.toString();
-}
-
-string joinPath(const string& p1, const string& p2, const string& p3, const char pathSeparator)
-{
-    string tmp(joinPath(p1, p2, gPathSeparator));
-    return joinPath(tmp, p3, gPathSeparator);
-}
-
-string joinPath(const string& p1, const string& p2, const string& p3, const string& p4, const char pathSeparator)
-{
-    string tmp(joinPath(p1, p2, p3, gPathSeparator));
-    return joinPath(tmp, p4, gPathSeparator);
-}
-
-string joinPath(const string& p1, const string& p2, const string& p3, const string& p4, const string& p5, const char pathSeparator)
-{
-    string tmp(joinPath(p1, p2, p3, p4, gPathSeparator));
-    return joinPath(tmp, p5, gPathSeparator);
-}
+//
+//std::string joinPath(const std::string& base, const std::string& file, const char pathSeparator)
+//{
+//    if (base.empty()) {
+//        return file;
+//    }
+//
+//    if (file.empty()) {
+//        return base;
+//    }
+//
+//    Poco::Path basePath(base);
+//    basePath.append(Poco::Path(file));
+//    return basePath.toString();
+//}
+//
+//std::string joinPath(const std::string& p1, const std::string& p2, const std::string& p3, const char pathSeparator)
+//{
+//    std::string tmp(joinPath(p1, p2, gPathSeparator));
+//    return joinPath(tmp, p3, gPathSeparator);
+//}
+//
+//std::string joinPath(const std::string& p1, const std::string& p2, const std::string& p3, const std::string& p4, const char pathSeparator)
+//{
+//    std::string tmp(joinPath(p1, p2, p3, gPathSeparator));
+//    return joinPath(tmp, p4, gPathSeparator);
+//}
+//
+//std::string joinPath(const std::string& p1, const std::string& p2, const std::string& p3, const std::string& p4, const std::string& p5, const char pathSeparator)
+//{
+//    std::string tmp(joinPath(p1, p2, p3, p4, gPathSeparator));
+//    return joinPath(tmp, p5, gPathSeparator);
+//}
 
 
 #if defined(_WIN32) || defined(__WIN32__)
 
-string getWINAPIError(DWORD errorCode, LPTSTR lpszFunction)
+std::string getWINAPIError(DWORD errorCode, LPTSTR lpszFunction)
 {
     LPVOID lpMsgBuf;
     LPVOID lpDisplayBuf;
@@ -708,7 +732,7 @@ string getWINAPIError(DWORD errorCode, LPTSTR lpszFunction)
         NULL,
         dw,
         MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-        (LPTSTR) &lpMsgBuf,
+        (LPSTR) &lpMsgBuf,
         0, NULL
     );
 
@@ -723,16 +747,16 @@ string getWINAPIError(DWORD errorCode, LPTSTR lpszFunction)
                         lpMsgBuf);
 
 	// This used to be cast to LPCTSTR, but it didn't compile
-    string errorMsg = string((const char*)lpDisplayBuf);
+    std::string errorMsg = std::string((const char*)lpDisplayBuf);
     LocalFree(lpMsgBuf);
     LocalFree(lpDisplayBuf);
     return errorMsg;
 }
 
-size_t populateFileSet(const string& folder, set<string>& files)
+size_t populateFileSet(const std::string& folder, std::set<std::string>& files)
 {
      //Get models file names in models folder
-    string globPath =  rr::joinPath(folder, "*.xml");
+    std::string globPath =  (path(folder) /= "*.xml").string();
     Poco::Glob::glob(globPath, files);
     return files.size();
 }

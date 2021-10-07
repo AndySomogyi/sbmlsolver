@@ -22,7 +22,7 @@ namespace rrllvm {
     using namespace rr;
     using namespace llvm;
     using namespace libsbml;
-    using namespace std;
+
 
     const char *EvalVolatileStoichCodeGen::FunctionName = "evalVolatileStoich";
 
@@ -56,7 +56,7 @@ namespace rrllvm {
 
                 if (p->isSetId() && p->getId().length() > 0 &&
                     !isConstantSpeciesReference(p)) {
-                    Log(Logger::LOG_INFORMATION) <<
+                    rrLog(Logger::LOG_INFORMATION) <<
                                                  "generating update code for non-constant species "
                                                  "reference product " << p->getId();
 
@@ -67,9 +67,9 @@ namespace rrllvm {
                         value = resolver.loadSymbolValue(p->getId());
                     } else if (p->isSetStoichiometryMath()) {
                         const StoichiometryMath *sm = p->getStoichiometryMath();
-                        value = astCodeGen.codeGen(sm->getMath());
+                        value = astCodeGen.codeGenDouble(sm->getMath());
                     } else {
-                        Log(Logger::LOG_WARNING) << "species reference "
+                        rrLog(Logger::LOG_WARNING) << "species reference "
                                                  << p->getId() << " has been determined to be "
                                                                   "non-constant, but it has no rules or MathML, so"
                                                                   " no update code will be generated";
@@ -91,19 +91,25 @@ namespace rrllvm {
                     reaction->getListOfReactants();
 
             for (uint j = 0; j < reactants->size(); ++j) {
-                const SpeciesReference *r =
-                        (const SpeciesReference *) reactants->get(j);
+                const SpeciesReference *r = (const SpeciesReference *) reactants->get(j);
 
                 if (r->isSetId() && r->getId().length() > 0
                     && !isConstantSpeciesReference(r)) {
-                    Log(Logger::LOG_INFORMATION) <<
+                    rrLog(Logger::LOG_INFORMATION) <<
                                                  "generating update code for non-constant species "
                                                  "reference reactant " << r->getId();
 
                     const StoichiometryMath *sm = r->getStoichiometryMath();
-                    assert(sm);
+                    if (!sm){
+                        rrLog(Logger::LOG_WARNING) << "No stoichiometry found for "
+                                                      "species \"" << r->getId() << "\""
+                                                      " in reaction \"" << reaction->getName() << "\"" << std::endl;
+                        continue;
+                    }
 
-                    Value *value = astCodeGen.codeGen(sm->getMath());
+//                    assert(sm && "SmoichiometryMath variable sm is nullptr");
+
+                    Value *value = astCodeGen.codeGenDouble(sm->getMath());
 
                     // reactants are consumed, so they get a negative stoichiometry
                     Value *negOne = ConstantFP::get(builder.getContext(), APFloat(-1.0));

@@ -16,7 +16,7 @@
 #include <cassert>
 #include <cctype>
 #include <cstdlib>
-#include <fstream> // std::ofstream
+#include <fstream> // ofstream
 #include <stdexcept>
 
 // TODO When we have gcc 4.4 as minimal compiler, drop poco and use C++ standard
@@ -41,7 +41,7 @@ using std::string;
 
 namespace rr {
 
-typedef cxx11_ns::unordered_map<std::string, int> StringIntMap;
+typedef std::unordered_map<std::string, int> StringIntMap;
 
 /**
  * check range of key
@@ -77,68 +77,64 @@ static std::string strip(const std::string &in) {
   return out;
 }
 
-static Variant values[] = {
-    Variant(false),  // LOADSBMLOPTIONS_CONSERVED_MOIETIES
-    Variant(false),  // LOADSBMLOPTIONS_RECOMPILE
-    Variant(false),  // LOADSBMLOPTIONS_READ_ONLY
-    Variant(true),   // LOADSBMLOPTIONS_MUTABLE_INITIAL_CONDITIONS
-    Variant(false),  // LOADSBMLOPTIONS_OPTIMIZE_GVN
-    Variant(false),  // LOADSBMLOPTIONS_OPTIMIZE_CFG_SIMPLIFICATION
-    Variant(false),  // LOADSBMLOPTIONS_OPTIMIZE_INSTRUCTION_COMBINING
-    Variant(false),  // LOADSBMLOPTIONS_OPTIMIZE_DEAD_INST_ELIMINATION
-    Variant(false),  // LOADSBMLOPTIONS_OPTIMIZE_DEAD_CODE_ELIMINATION
-    Variant(false),  // LOADSBMLOPTIONS_OPTIMIZE_INSTRUCTION_SIMPLIFIER
-    Variant(false),  // LOADSBMLOPTIONS_USE_MCJIT
-    Variant(50),     // SIMULATEOPTIONS_STEPS,
-    Variant(5),      // SIMULATEOPTIONS_DURATION,
-    Variant(1.e-10), // SIMULATEOPTIONS_ABSOLUTE,
-    Variant(1.e-5),  // SIMULATEOPTIONS_RELATIVE,
-    Variant(false),  // SIMULATEOPTIONS_STRUCTURED_RESULT,
-    Variant(true),   // SIMULATEOPTIONS_STIFF,
-    Variant(false),  // SIMULATEOPTIONS_MULTI_STEP,
-    Variant(false),  // SIMULATEOPTIONS_DETERMINISTIC_VARIABLE_STEP,
-    Variant(true),   // SIMULATEOPTIONS_STOCHASTIC_VARIABLE_STEP,
-    Variant(std::string("CVODE")), // SIMULATEOPTIONS_INTEGRATOR
-    Variant(-1),                   // SIMULATEOPTIONS_INITIAL_TIMESTEP,
-    Variant(-1),                   // SIMULATEOPTIONS_MINIMUM_TIMESTEP,
-    Variant(-1),                   // SIMULATEOPTIONS_MAXIMUM_TIMESTEP,
-    Variant(-1),                   // SIMULATEOPTIONS_MAXIMUM_NUM_STEPS
-    Variant(0),                    // ROADRUNNER_DISABLE_WARNINGS
-    Variant(false), // ROADRUNNER_DISABLE_PYTHON_DYNAMIC_PROPERTIES
-    Variant(int(AllChecksON &UnitsCheckOFF)), // SBML_APPLICABLEVALIDATORS
-    Variant(0.00001),                         // ROADRUNNER_JACOBIAN_STEP_SIZE
-    Variant((int)(SelectionRecord::TIME | SelectionRecord::RATE |
-                  SelectionRecord::FLOATING)), // MODEL_RESET
-    Variant(1.e-12),                           // CVODE_MIN_ABSOLUTE
-    Variant(1.e-6),                            // CVODE_MIN_RELATIVE
-    Variant(true),                             // SIMULATEOPTIONS_COPY_RESULT
-    Variant(false),                            // STEADYSTATE_PRESIMULATION
-    Variant(100),   // STEADYSTATE_PRESIMULATION_MAX_STEPS
-    Variant(100),   // STEADYSTATE_PRESIMULATION_TIME
-    Variant(false), // STEADYSTATE_APPROX
-    Variant(1.e-6), // STEADYSTATE_APPROX_TOL
-    Variant(10000), // STEADYSTATE_APPROX_MAX_STEPS
-    Variant(10000), // STEADYSTATE_APPROX_TIME
-    Variant(1e-12), // STEADYSTATE_RELATIVE
-    Variant(100),   // STEADYSTATE_MAXIMUM_NUM_STEPS
-    Variant(1e-20), // STEADYSTATE_MINIMUM_DAMPING
-    Variant(0),     // STEADYSTATE_BROYDEN
-    Variant(3),     // STEADYSTATE_LINEARITY
-    Variant(
-        (int)Config::
-            ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS), // ROADRUNNER_JACOBIAN_MODE
-    Variant(std::string(".")),                        // TEMP_DIR_PATH,
-    Variant(std::string("")),                         // LOGGER_LOG_FILE_PATH,
-    Variant(-1),                                      // RANDOM_SEED
-    Variant(true),  // PYTHON_ENABLE_NAMED_MATRIX
-    Variant(true),  // LLVM_SYMBOL_CACHE
-    Variant(true),  // OPTIMIZE_REACTION_RATE_SELECTION
-    Variant(true),  // LOADSBMLOPTIONS_PERMISSIVE
-    Variant(100000), // MAX_OUTPUT_ROWS
-    Variant(false), // ALLOW_EVENTS_IN_STEADY_STATE_CALCULATIONS
-    Variant(true),  // VALIDATION_IN_REGENERATION
-    Variant(1000),  // K_ROWS_PER_WRITE
-                    // add space after develop keys to clean up merging
+static Setting values[] = {
+    Setting(false),                             // LOADSBMLOPTIONS_CONSERVED_MOIETIES
+    Setting(false),                             // LOADSBMLOPTIONS_RECOMPILE
+    Setting(false),                             // LOADSBMLOPTIONS_READ_ONLY
+    Setting(true),                              // LOADSBMLOPTIONS_MUTABLE_INITIAL_CONDITIONS
+    Setting(false),                             // LOADSBMLOPTIONS_OPTIMIZE_GVN
+    Setting(false),                             // LOADSBMLOPTIONS_OPTIMIZE_CFG_SIMPLIFICATION
+    Setting(false),                             // LOADSBMLOPTIONS_OPTIMIZE_INSTRUCTION_COMBINING
+    Setting(false),                             // LOADSBMLOPTIONS_OPTIMIZE_DEAD_INST_ELIMINATION
+    Setting(false),                             // LOADSBMLOPTIONS_OPTIMIZE_DEAD_CODE_ELIMINATION
+    Setting(false),                             // LOADSBMLOPTIONS_OPTIMIZE_INSTRUCTION_SIMPLIFIER
+    Setting(false),                             // LOADSBMLOPTIONS_USE_MCJIT
+    Setting(50),                                // SIMULATEOPTIONS_STEPS,
+    Setting(5.0),                               // SIMULATEOPTIONS_DURATION,
+    Setting(1.e-10),                            // SIMULATEOPTIONS_ABSOLUTE,
+    Setting(1.e-5),                             // SIMULATEOPTIONS_RELATIVE,
+    Setting(false),                             // SIMULATEOPTIONS_STRUCTURED_RESULT,
+    Setting(true),                              // SIMULATEOPTIONS_STIFF,
+    Setting(false),                             // SIMULATEOPTIONS_MULTI_STEP,
+    Setting(false),                             // SIMULATEOPTIONS_DETERMINISTIC_VARIABLE_STEP,
+    Setting(true),                              // SIMULATEOPTIONS_STOCHASTIC_VARIABLE_STEP,
+    Setting(std::string("CVODE")),          // SIMULATEOPTIONS_INTEGRATOR
+    Setting(-1),                                // SIMULATEOPTIONS_INITIAL_TIMESTEP,
+    Setting(-1),                                // SIMULATEOPTIONS_MINIMUM_TIMESTEP,
+    Setting(-1),                                // SIMULATEOPTIONS_MAXIMUM_TIMESTEP,
+    Setting(-1),                                // SIMULATEOPTIONS_MAXIMUM_NUM_STEPS
+    Setting(false),                             // ROADRUNNER_DISABLE_WARNINGS
+    Setting(false),                             // ROADRUNNER_DISABLE_PYTHON_DYNAMIC_PROPERTIES
+    Setting(int(AllChecksON &UnitsCheckOFF)),   // SBML_APPLICABLEVALIDATORS
+    Setting(0.00001),                           // ROADRUNNER_JACOBIAN_STEP_SIZE
+    Setting((int)(SelectionRecord::TIME | SelectionRecord::RATE | SelectionRecord::FLOATING)), // MODEL_RESET
+    Setting(1.e-12),                            // CVODE_MIN_ABSOLUTE
+    Setting(1.e-6),                             // CVODE_MIN_RELATIVE
+    Setting(true),                              // SIMULATEOPTIONS_COPY_RESULT
+    Setting(false),                             // STEADYSTATE_PRESIMULATION
+    Setting(100),                               // STEADYSTATE_PRESIMULATION_MAX_STEPS
+    Setting(100.0),                             // STEADYSTATE_PRESIMULATION_TIME
+    Setting(false),                             // STEADYSTATE_APPROX
+    Setting(1.e-6),                             // STEADYSTATE_APPROX_TOL
+    Setting(10000),                             // STEADYSTATE_APPROX_MAX_STEPS
+    Setting(10000.0),                           // STEADYSTATE_APPROX_TIME
+    Setting(1e-12),                             // STEADYSTATE_RELATIVE
+    Setting(100),                               // STEADYSTATE_MAXIMUM_NUM_STEPS
+    Setting(1e-20),                             // STEADYSTATE_MINIMUM_DAMPING
+    Setting(0),                                 // STEADYSTATE_BROYDEN
+    Setting(3),                                 // STEADYSTATE_LINEARITY
+    Setting((std::int32_t)Config::ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS), // ROADRUNNER_JACOBIAN_MODE
+    Setting(std::string(".")),              // TEMP_DIR_PATH,
+    Setting(std::string("")),               // LOGGER_LOG_FILE_PATH,
+    Setting(-1),                 // RANDOM_SEED
+    Setting(true),                              // PYTHON_ENABLE_NAMED_MATRIX
+    Setting(true),                              // LLVM_SYMBOL_CACHE
+    Setting(true),                              // OPTIMIZE_REACTION_RATE_SELECTION
+    Setting(true),                              // LOADSBMLOPTIONS_PERMISSIVE
+    Setting(100000),                            // MAX_OUTPUT_ROWS
+    Setting(false),                             // ALLOW_EVENTS_IN_STEADY_STATE_CALCULATIONS
+    Setting(true),                              // VALIDATION_IN_REGENERATION
+    Setting(1000),                              // K_ROWS_PER_WRITE
 
 };
 
@@ -149,17 +145,17 @@ static void readDefaultConfig() {
   Mutex::ScopedLock lock(configMutex);
 
   if (!initialized) {
-    assert(rr::Config::CONFIG_END == sizeof(values) / sizeof(Variant) &&
+    assert(rr::Config::CONFIG_END == sizeof(values) / sizeof(Setting) &&
            "values array size different than CONFIG_END");
 
-    string confPath = rr::Config::getConfigFilePath();
+    std::string confPath = rr::Config::getConfigFilePath();
 
     try {
       if (confPath.size() > 0) {
         rr::Config::readConfigFile(confPath);
       }
     } catch (std::exception &e) {
-      Log(rr::Logger::LOG_WARNING)
+      rrLog(rr::Logger::LOG_WARNING)
           << "error reading configuration file: " << confPath << ", "
           << e.what();
     }
@@ -168,7 +164,7 @@ static void readDefaultConfig() {
 }
 
 /**
- * load the names of the keys and values into a map
+ * load the names of the keys and values into a std::map
  */
 static void getKeyNames(StringIntMap &keys) {
   keys["LOADSBMLOPTIONS_CONSERVED_MOIETIES"] =
@@ -254,10 +250,10 @@ static void getKeyNames(StringIntMap &keys) {
 
   // add space after develop keys to clean up merging.
 
-  assert(rr::Config::CONFIG_END == sizeof(values) / sizeof(Variant) &&
+  assert(rr::Config::CONFIG_END == sizeof(values) / sizeof(Setting) &&
          "values array size different than CONFIG_END");
   assert(rr::Config::CONFIG_END == keys.size() &&
-         "number of keys in map does not match static values");
+         "number of keys in std::map does not match static values");
 }
 
 static std::string reverseLookup(StringIntMap &keys, Config::Keys k) {
@@ -268,8 +264,8 @@ static std::string reverseLookup(StringIntMap &keys, Config::Keys k) {
   throw std::runtime_error("No such key");
 }
 
-std::vector<string> Config::getKeyList() {
-  std::vector<string> result;
+std::vector<std::string> Config::getKeyList() {
+  std::vector<std::string> result;
   StringIntMap m;
 
   getKeyNames(m);
@@ -279,6 +275,7 @@ std::vector<string> Config::getKeyList() {
       std::string key_str = reverseLookup(m, (Config::Keys)n);
       result.push_back(key_str);
     } catch (std::runtime_error) {
+        continue;
     }
   }
 
@@ -288,19 +285,19 @@ std::vector<string> Config::getKeyList() {
 std::string Config::getString(Keys key) {
   readDefaultConfig();
   CHECK_RANGE(key);
-  return values[key].convert<std::string>();
+  return values[key].toString();
 }
 
 int Config::getInt(Keys key) {
   readDefaultConfig();
   CHECK_RANGE(key);
-  return values[key].convert<int>();
+  return values[key].get<int>();
 }
 
 double Config::getDouble(Keys key) {
   readDefaultConfig();
   CHECK_RANGE(key);
-  return values[key].convert<double>();
+  return values[key].get<double>();
 }
 
 std::string Config::getConfigFilePath() {
@@ -309,10 +306,10 @@ std::string Config::getConfigFilePath() {
   std::string path;
   Poco::Path ppath;
 
-  Log(rr::Logger::LOG_DEBUG)
+  rrLog(rr::Logger::LOG_DEBUG)
       << "trying config file from ROADRUNNER_CONFIG " << (env ? env : "NULL");
 
-  if (env && rr::fileExists(env, 4)) {
+  if (env && std::filesystem::exists(env)) {
     return env;
   }
 
@@ -320,21 +317,21 @@ std::string Config::getConfigFilePath() {
   ppath.assign(Poco::Path::home());
   ppath.setFileName("roadrunner.conf");
   path = ppath.toString();
-  Log(rr::Logger::LOG_DEBUG) << "trying config file " << path;
-  if (rr::fileExists(path, 4)) {
+  rrLog(rr::Logger::LOG_DEBUG) << "trying config file " << path;
+  if (std::filesystem::exists(path)) {
     return path;
   }
 
   ppath.setFileName(".roadrunner.conf");
   path = ppath.toString();
-  Log(rr::Logger::LOG_DEBUG) << "trying config file " << path;
-  if (rr::fileExists(path, 4)) {
+  rrLog(rr::Logger::LOG_DEBUG) << "trying config file " << path;
+  if (std::filesystem::exists(path)) {
     return path;
   }
 
-  // this could be an empty string if we are in a statically
+  // this could be an empty std::string if we are in a statically
   // linked executable, if so, Poco::Path will puke if popDir is called
-  string chkDir = rr::getCurrentSharedLibDir();
+  std::string chkDir = rr::getCurrentSharedLibDir();
   if (chkDir.empty()) {
     chkDir = rr::getCurrentExeFolder();
   }
@@ -345,8 +342,8 @@ std::string Config::getConfigFilePath() {
   ppath.assign(chkDir);
   ppath.setFileName("roadrunner.conf");
   path = ppath.toString();
-  Log(rr::Logger::LOG_DEBUG) << "trying config file " << path;
-  if (rr::fileExists(path, 4)) {
+  rrLog(rr::Logger::LOG_DEBUG) << "trying config file " << path;
+  if (std::filesystem::exists(path)) {
     return path;
   }
 
@@ -355,23 +352,23 @@ std::string Config::getConfigFilePath() {
   ppath.popDirectory();
   ppath.setFileName("roadrunner.conf");
   path = ppath.toString();
-  Log(rr::Logger::LOG_DEBUG) << "trying config file " << path;
-  if (rr::fileExists(path, 4)) {
+  rrLog(rr::Logger::LOG_DEBUG) << "trying config file " << path;
+  if (std::filesystem::exists(path)) {
     return path;
   }
 
-  Log(rr::Logger::LOG_DEBUG) << "no config file found; using built-in defaults";
+  rrLog(rr::Logger::LOG_DEBUG) << "no config file found; using built-in defaults";
   return "";
 }
 
-void Config::setValue(Keys key, const Variant &value) {
+void Config::setValue(Keys key, Setting value) {
   readDefaultConfig();
   CHECK_RANGE(key);
-  values[key] = value;
+  values[key] = std::move(value);
 }
 
 /*void Config::setValues(const std::vector<Keys> keys, const
-std::vector<Variant> values)
+std::vector<Setting> values)
 {
         auto keyit = keys.begin();
         auto valueit = values.begin();
@@ -383,7 +380,7 @@ std::vector<Variant> values)
 void Config::readConfigFile(const std::string &path) {
   Mutex::ScopedLock lock(configMutex);
 
-  const Poco::RegularExpression re("^\\s*(\\w*)\\s*:\\s*(.*)\\s*$",
+  const Poco::RegularExpression re(R"(^\s*(\w*)\s*:\s*(.*)\s*$)",
                                    RegularExpression::RE_CASELESS);
   StringIntMap keys;
   std::ifstream in(path.c_str());
@@ -404,12 +401,12 @@ void Config::readConfigFile(const std::string &path) {
     if (nmatch == 3) {
       StringIntMap::const_iterator i = keys.find(matches[1]);
       if (i != keys.end()) {
-        values[i->second] = Variant::parse((matches[2]));
-        Log(Logger::LOG_INFORMATION)
+        values[i->second] = Setting::parse((matches[2]));
+        rrLog(Logger::LOG_INFORMATION)
             << "read key " << i->first
-            << " with value: " << values[i->second].toString();
+            << " with value: " << values[i->second].get<std::string>();
       } else {
-        Log(Logger::LOG_WARNING)
+        rrLog(Logger::LOG_WARNING)
             << "invalid key: \"" << matches[1] << "\" in " << path;
       }
     }
@@ -418,7 +415,7 @@ void Config::readConfigFile(const std::string &path) {
   initialized = true;
 }
 
-const Variant &Config::getValue(Keys key) {
+Setting Config::getValue(Keys key) {
   readDefaultConfig();
   CHECK_RANGE(key);
   return values[key];
@@ -427,7 +424,7 @@ const Variant &Config::getValue(Keys key) {
 bool Config::getBool(Keys key) {
   readDefaultConfig();
   CHECK_RANGE(key);
-  return values[key].convert<bool>();
+  return values[key].get<bool>();
 }
 
 void Config::writeConfigFile(const std::string &path) {
@@ -444,8 +441,8 @@ void Config::writeConfigFile(const std::string &path) {
 
   getKeyNames(keys);
 
-  for (StringIntMap::const_iterator i = keys.begin(); i != keys.end(); ++i) {
-    out << i->first << ": " << values[i->second].toString() << std::endl;
+  for (auto [keyName, keyEnumeration] : keys){
+    out << keyName << ": " << values[keyEnumeration].toString() << std::endl;
   }
 }
 

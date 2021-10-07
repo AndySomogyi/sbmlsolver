@@ -13,124 +13,53 @@
 
 #ifndef rrNLEQ2SolverH
 #define rrNLEQ2SolverH
+
 #include <vector>
-#include "SteadyStateSolver.h"
+#include "NLEQSolver.h"
 #include "rrExecutableModel.h"
+
 using std::vector;
 
-namespace rr
-{
+namespace rr {
 
 /**
  * @internal
  */
-class RR_DECLSPEC NLEQ2Solver : public SteadyStateSolver
-{
+    class RR_DECLSPEC NLEQ2Solver : public NLEQSolver {
     public:
-        /**
-        * Creates a new Instance of NLEQ for the given Model
-        */
-        NLEQ2Solver(ExecutableModel *_model = NULL);
-        ~NLEQ2Solver();
 
-        /**
-        * @author JKM
-        * @brief Called whenever a new model is loaded to allow integrator
-        * to reset internal state
-        */
-        virtual void syncWithModel(ExecutableModel* m);
-
-        void loadConfigSettings();
-
-        /**
-        * @author JKM
-        * @brief Reset all integrator settings to their respective default values
-        */
-        void resetSettings();
+        using NLEQSolver::NLEQSolver;
 
         /**
         * @author WBC, JKM
         * @brief Get the name for this Solver
         * @note Delegates to @ref getName
         */
-        std::string getName() const;
-
-        /**
-        * @author JKM
-        * @brief Get the name for this Solver
-        */
-        static std::string getNLEQName();
+        std::string getName() const override;
 
         /**
         * @author WBC
         * @brief Get the description for this Solver
         * @note Delegates to @ref getDescription
         */
-        std::string getDescription() const;
-
-        /**
-        * @author JKM
-        * @brief Get the description for this Solver
-        */
-        static std::string getNLEQDescription();
+        std::string getDescription() const override;
 
         /**
         * @author WBC
         * @brief Get the hint for this Solver
         * @note Delegates to @ref getHint
         */
-        std::string getHint() const;
-
-        /**
-        * @author JKM
-        * @brief Get the hint for this Solver
-        */
-        static std::string getNLEQHint();
+        std::string getHint() const override;
 
         // ** Solver routines
-        double solve();
+        double solve() override;
 
-    private:
-        ExecutableModel *model; // Model generated from the SBML. Static so we can access it from standalone function
-};
-
-
-    // ** Registration *********************************************************
-
-
-    class NLEQ2SolverRegistrar : public SteadyStateSolverRegistrar {
-        public:
-            /**
-            * @author JKM
-            * @brief Gets the name associated with this integrator type
-            */
-            virtual std::string getName() const {
-                return NLEQ2Solver::getNLEQName();
-            }
-
-            /**
-            * @author JKM
-            * @brief Gets the description associated with this integrator type
-            */
-            virtual std::string getDescription() const {
-                return NLEQ2Solver::getNLEQDescription();
-            }
-
-            /**
-            * @author JKM
-            * @brief Gets the hint associated with this integrator type
-            */
-            virtual std::string getHint() const {
-                return NLEQ2Solver::getNLEQHint();
-            }
-
-            /**
-            * @author JKM
-            * @brief Constructs a new integrator of a given type
-            */
-            virtual SteadyStateSolver* construct(ExecutableModel *model) const {
-                return new NLEQ2Solver(model);
-            }
+        /**
+         * @brief construct an instance of NLEQ2Solver
+         * @details Caller is responsible for deleting memory
+         * associated with returned Solver*.
+         */
+        Solver *construct(ExecutableModel *executableModel) const override;
     };
 }
 

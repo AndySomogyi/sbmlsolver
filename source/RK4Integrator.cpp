@@ -19,12 +19,12 @@ namespace rr
 {
 
     RK4Integrator::RK4Integrator(ExecutableModel *m)
-    {
-        Log(Logger::LOG_NOTICE) << "creating runge-kutta integrator";
-        resetSettings();
+        : Integrator(m){
+        rrLog(Logger::LOG_NOTICE) << "creating runge-kutta integrator";
+        RK4Integrator::resetSettings();
         stateVectorSize = 0;
         k1 = k2 = k3 = k4 = y = ytmp = NULL;
-        syncWithModel(m);
+        RK4Integrator::syncWithModel(m);
     }
 
     void RK4Integrator::syncWithModel(ExecutableModel* m)
@@ -37,10 +37,10 @@ namespace rr
         delete []y;
         delete []ytmp;
 
-        model = m;
+        mModel = m;
 
-        if (model) {
-            stateVectorSize = model->getStateVector(NULL);
+        if (mModel) {
+            stateVectorSize = mModel->getStateVector(NULL);
             k1 = new double[stateVectorSize];
             k2 = new double[stateVectorSize];
             k3 = new double[stateVectorSize];
@@ -57,12 +57,14 @@ namespace rr
 
     RK4Integrator::~RK4Integrator()
     {
-        delete []k1;
-        delete []k2;
-        delete []k3;
-        delete []k4;
-        delete []y;
-        delete []ytmp;
+        if (mModel) {
+            delete[]k1;
+            delete[]k2;
+            delete[]k3;
+            delete[]k4;
+            delete[]y;
+            delete[]ytmp;
+        }
     }
 
     double RK4Integrator::integrate(double t, double h)
@@ -75,11 +77,11 @@ namespace rr
         tf = t + h;
         singleStep = false;
 
-        if (!model) {
+        if (!mModel) {
             throw std::runtime_error("RK4Integrator::integrate: No model");
         }
 
-        Log(Logger::LOG_DEBUG) <<
+        rrLog(Logger::LOG_DEBUG) <<
                 "RK4Integrator::integrate(" << t << ", " << h << ")";
 
         // blas daxpy: y -> y + \alpha x
@@ -87,30 +89,30 @@ namespace rr
         integer inc = 1;
         double alpha = 0;
 
-        model->setTime(t);
+        mModel->setTime(t);
 
-        model->getStateVector(y);
+        mModel->getStateVector(y);
 
         // k1 = f(t_n, y_n)
-        model->getStateVectorRate(t, y, k1);
+        mModel->getStateVectorRate(t, y, k1);
 
         // k2 = f(t_n + h/2, y_n + (h/2) * k_1)
         alpha = h/2.;
         dcopy_(&n, y, &inc, ytmp, &inc);
         daxpy_(&n, &alpha, k1, &inc, ytmp, &inc);
-        model->getStateVectorRate(t + alpha, ytmp, k2);
+        mModel->getStateVectorRate(t + alpha, ytmp, k2);
 
         // k3 = f(t_n + h/2, y_n + (h/2) * k_2)
         alpha = h/2.;
         dcopy_(&n, y, &inc, ytmp, &inc);
         daxpy_(&n, &alpha, k2, &inc, ytmp, &inc);
-        model->getStateVectorRate(t + alpha, ytmp, k3);
+        mModel->getStateVectorRate(t + alpha, ytmp, k3);
 
         // k4 = f(t_n + h, y_n + (h) * k_3)
         alpha = h;
         dcopy_(&n, y, &inc, ytmp, &inc);
         daxpy_(&n, &alpha, k3, &inc, ytmp, &inc);
-        model->getStateVectorRate(t + alpha, ytmp, k4);
+        mModel->getStateVectorRate(t + alpha, ytmp, k4);
 
         // k_1 = k_1 + 2 k_2
         alpha = 2.;
@@ -129,45 +131,45 @@ namespace rr
 
         daxpy_(&n, &alpha, k1, &inc, y, &inc);
 
-        model->setTime(t + h);
-        model->setStateVector(y);
+        mModel->setTime(t + h);
+        mModel->setStateVector(y);
 
         return t + h;
     }
 
     void RK4Integrator::testRootsAtInitialTime()
     {
-        std::vector<unsigned char> initialEventStatus(model->getEventTriggers(0, 0, 0), false);
-        model->getEventTriggers(initialEventStatus.size(), 0, initialEventStatus.size() == 0 ? NULL : &initialEventStatus[0]);
+        std::vector<unsigned char> initialEventStatus(mModel->getEventTriggers(0, 0, 0), false);
+        mModel->getEventTriggers(initialEventStatus.size(), 0, initialEventStatus.size() == 0 ? NULL : &initialEventStatus[0]);
         applyEvents(0, initialEventStatus);
     }
 
     void RK4Integrator::applyEvents(double timeEnd, std::vector<unsigned char> &previousEventStatus)
     {
-        model->applyEvents(timeEnd, previousEventStatus.size() == 0 ? NULL : &previousEventStatus[0], y, y);
+        mModel->applyEvents(timeEnd, previousEventStatus.size() == 0 ? NULL : &previousEventStatus[0], y, y);
     }
 
     void RK4Integrator::restart(double t0)
     {
-        if (!model) {
+        if (!mModel) {
             return;
         }
 
         if (t0 <= 0.0) {
             if (y)
             {
-                model->getStateVector(y);
+                mModel->getStateVector(y);
             }
 
             testRootsAtInitialTime();
         }
 
-        model->setTime(t0);
+        mModel->setTime(t0);
 
-        // copy state vector into memory
+        // copy state std::vector into memory
         if (y)
         {
-            model->getStateVector(y);
+            mModel->getStateVector(y);
         }
     }
 
@@ -180,32 +182,11 @@ namespace rr
         return IntegratorListenerPtr();
     }
 
-    //std::string RK4Integrator::toString() const
-    //{
-    //    return toRepr();
-    //}
-
-    //std::string RK4Integrator::toRepr() const
-    //{
-    //    std::stringstream ss;
-    //    ss << "< roadrunner.RK4Integrator() { 'this' : "
-    //            << (void*)this << " }>";
-    //    return ss.str();
-    //}
-
     std::string RK4Integrator::getName() const {
-        return RK4Integrator::getRK4Name();
-    }
-
-    std::string RK4Integrator::getRK4Name() {
         return "rk4";
     }
 
     std::string RK4Integrator::getDescription() const {
-        return RK4Integrator::getRK4Description();
-    }
-
-    std::string RK4Integrator::getRK4Description() {
         return "Runge-Kutta methods are a family of algorithms for solving "
             "ODEs. They have considerably better accuracy than the Euler "
             "method. This integrator is a standard 4th order Runge-Kutta "
@@ -213,17 +194,17 @@ namespace rr
     }
 
     std::string RK4Integrator::getHint() const {
-        return RK4Integrator::getRK4Hint();
-    }
-
-    std::string RK4Integrator::getRK4Hint() {
         return "Internal RK4 ODE solver";
     }
 
-    Variant RK4Integrator::getValue(std::string key)
+    Solver * RK4Integrator::construct(ExecutableModel *model) const {
+        return new RK4Integrator(model);
+    }
+
+    Setting RK4Integrator::getValue(std::string key)
     {
         if (key == "variable_step_size")
-            return false;
+            return Setting(false);
         else
             return Integrator::getValue(key);
     }
@@ -239,12 +220,12 @@ namespace rr
     }
 
 //     void RK4Integrator::setItem(const std::string& key,
-//             const rr::Variant& value)
+//             const rr::Setting& value)
 //     {
 //         throw std::invalid_argument("invalid key");
 //     }
 //
-//     Variant RK4Integrator::getItem(const std::string& key) const
+//     Setting RK4Integrator::getItem(const std::string& key) const
 //     {
 //         throw std::invalid_argument("invalid key");
 //     }

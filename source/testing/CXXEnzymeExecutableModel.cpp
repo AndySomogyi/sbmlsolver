@@ -20,8 +20,9 @@ namespace rrtesting
 
 
 CXXEnzymeExecutableModel::CXXEnzymeExecutableModel(const rr::Dictionary* dict)
+       : ExecutableModel()
 {
-    Log(Logger::LOG_NOTICE) << __FUNC__;
+    rrLog(Logger::LOG_NOTICE) << __FUNC__;
 
     volumes = new double[1];
 
@@ -35,7 +36,7 @@ CXXEnzymeExecutableModel::CXXEnzymeExecutableModel(const rr::Dictionary* dict)
     numReactions = numSource;
     numSpecies = 2*numSource;
 
-    Log(Logger::LOG_NOTICE) << "creating " << numSpecies << " number of species test";
+    rrLog(Logger::LOG_NOTICE) << "creating " << numSpecies << " number of species test";
 
 
     floatingSpeciesAmounts = new double[numSpecies];
@@ -65,7 +66,7 @@ CXXEnzymeExecutableModel::CXXEnzymeExecutableModel(const rr::Dictionary* dict)
 
 CXXEnzymeExecutableModel::~CXXEnzymeExecutableModel()
 {
-    Log(Logger::LOG_NOTICE) << __FUNC__;
+    rrLog(Logger::LOG_NOTICE) << __FUNC__;
 
     delete[] volumes;
     delete[] floatingSpeciesAmounts;
@@ -219,6 +220,36 @@ int CXXEnzymeExecutableModel::setBoundarySpeciesConcentrations(size_t len,
     return 0;
 }
 
+int CXXEnzymeExecutableModel::setBoundarySpeciesAmounts(size_t len,
+    const int* indx, const double* values)
+{
+    return 0;
+}
+
+int CXXEnzymeExecutableModel::setBoundarySpeciesInitConcentrations(size_t len,
+    const int* indx, const double* values)
+{
+    return 0;
+}
+
+int CXXEnzymeExecutableModel::getBoundarySpeciesInitConcentrations(size_t len,
+    const int* indx, double* values)
+{
+    return 0;
+}
+
+int CXXEnzymeExecutableModel::setBoundarySpeciesInitAmounts(size_t len, const int* indx,
+    const double* values)
+{
+    return 0;
+}
+
+int CXXEnzymeExecutableModel::getBoundarySpeciesInitAmounts(size_t len, const int* indx,
+    double* values)
+{
+    return 0;
+}
+
 int CXXEnzymeExecutableModel::getNumGlobalParameters()
 {
     return 0;
@@ -266,6 +297,11 @@ int CXXEnzymeExecutableModel::getNumCompartments()
 int CXXEnzymeExecutableModel::getCompartmentIndexForFloatingSpecies(size_t index)
 {
 	return 0;
+}
+
+int CXXEnzymeExecutableModel::getCompartmentIndexForBoundarySpecies(size_t index)
+{
+    return 0;
 }
 
 int CXXEnzymeExecutableModel::getCompartmentIndex(const std::string& eid)
@@ -405,6 +441,11 @@ int CXXEnzymeExecutableModel::getNumRateRules()
     return 0;
 }
 
+std::vector<std::string> CXXEnzymeExecutableModel::getRateRuleSymbols() const {
+    return std::vector<std::string>();
+}
+
+
 int CXXEnzymeExecutableModel::getNumReactions()
 {
     return numReactions;
@@ -485,12 +526,12 @@ void CXXEnzymeExecutableModel::getStateVectorRate(double time, const double* y,
 
     if (y && dydt)
     {
-        // save and assign state vector
+        // save and assign state std::vector
         double *savedFloatingSpeciesAmounts = floatingSpeciesAmounts;
         floatingSpeciesAmounts = const_cast<double*>(y);
         floatingSpeciesAmountRates = dydt;
 
-        // not setting state vector, react rates get dirty
+        // not setting state std::vector, react rates get dirty
         double conversionFactor = evalReactionRates();
 
         csr_matrix_dgemv(conversionFactor, stoichiometry, reactionRates, 0.0, floatingSpeciesAmountRates);
@@ -585,6 +626,18 @@ std::string CXXEnzymeExecutableModel::getEventId(size_t index)
 }
 
 void CXXEnzymeExecutableModel::getEventIds(std::list<std::string>&)
+{
+}
+
+void CXXEnzymeExecutableModel::getAssignmentRuleIds(std::list<std::string>& out)
+{
+}
+
+void CXXEnzymeExecutableModel::getRateRuleIds(std::list<std::string>& out)
+{
+}
+
+void CXXEnzymeExecutableModel::getInitialAssignmentIds(std::list<std::string>& out)
 {
 }
 

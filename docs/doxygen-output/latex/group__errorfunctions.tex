@@ -1,0 +1,57 @@
+\hypertarget{group__errorfunctions}{}\doxysection{Error handling functions}
+\label{group__errorfunctions}\index{Error handling functions@{Error handling functions}}
+
+
+Error handling routines.  
+
+
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+C\+\_\+\+DECL\+\_\+\+SPEC bool rrc\+Call\+Conv \mbox{\hyperlink{group__errorfunctions_ga5ff7d55f1f52b72f5f17a687c0c361fd}{has\+Error}} (void)
+\begin{DoxyCompactList}\small\item\em Check if there is an error string to retrieve. \end{DoxyCompactList}\item 
+C\+\_\+\+DECL\+\_\+\+SPEC char $\ast$rrc\+Call\+Conv \mbox{\hyperlink{group__errorfunctions_gaa698640f13467d87966d8b90f0c3944c}{get\+Last\+Error}} (void)
+\begin{DoxyCompactList}\small\item\em Retrieve the current error string. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Error handling routines. 
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{group__errorfunctions_gaa698640f13467d87966d8b90f0c3944c}\label{group__errorfunctions_gaa698640f13467d87966d8b90f0c3944c}} 
+\index{Error handling functions@{Error handling functions}!getLastError@{getLastError}}
+\index{getLastError@{getLastError}!Error handling functions@{Error handling functions}}
+\doxysubsubsection{\texorpdfstring{getLastError()}{getLastError()}}
+{\footnotesize\ttfamily C\+\_\+\+DECL\+\_\+\+SPEC char$\ast$ rrc\+Call\+Conv get\+Last\+Error (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Retrieve the current error string. 
+
+Example\+:
+\begin{DoxyCode}{0}
+\DoxyCodeLine{str = \mbox{\hyperlink{group__errorfunctions_gaa698640f13467d87966d8b90f0c3944c}{getLastError}} (\textcolor{keywordtype}{void}); }
+
+\end{DoxyCode}
+
+
+\begin{DoxyReturn}{Returns}
+Return null if fails, otherwise returns a pointer to the error string 
+\end{DoxyReturn}
+\mbox{\Hypertarget{group__errorfunctions_ga5ff7d55f1f52b72f5f17a687c0c361fd}\label{group__errorfunctions_ga5ff7d55f1f52b72f5f17a687c0c361fd}} 
+\index{Error handling functions@{Error handling functions}!hasError@{hasError}}
+\index{hasError@{hasError}!Error handling functions@{Error handling functions}}
+\doxysubsubsection{\texorpdfstring{hasError()}{hasError()}}
+{\footnotesize\ttfamily C\+\_\+\+DECL\+\_\+\+SPEC bool rrc\+Call\+Conv has\+Error (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Check if there is an error string to retrieve. 
+
+Example\+: status = has\+Error (void)
+
+\begin{DoxyReturn}{Returns}
+Returns true if there is an error waiting to be retrieved 
+\end{DoxyReturn}

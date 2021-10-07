@@ -19,11 +19,11 @@
 namespace rr
 {
 
-using namespace std;
+
 using namespace ls;
 using namespace libsbml;
 
-static string getSupportCodeDir(const std::string supdir) {
+static std::string getSupportCodeDir(const std::string supdir) {
     if (supdir.empty()) {
         return joinPath("..", "rr_support");
     } else {
@@ -35,7 +35,7 @@ static string getSupportCodeDir(const std::string supdir) {
 
 Mutex               CModelGenerator::mCompileMutex;
 
-CModelGenerator::CModelGenerator(const string& tempFolder, const string& supportCodeFolder, const string& compiler)
+CModelGenerator::CModelGenerator(const std::string& tempFolder, const std::string& supportCodeFolder, const std::string& compiler)
 :
 CompiledModelGenerator(),
 mCompiler(getSupportCodeDir(supportCodeFolder), compiler),
@@ -58,32 +58,32 @@ int CModelGenerator::getNumberOfFloatingSpecies()
     return ms.mFloatingSpeciesConcentrationList.size();    //Todo: is there a list of floating species?
 }
 
-string CModelGenerator::getHeaderCode()
+std::string CModelGenerator::getHeaderCode()
 {
     return mHeader.ToString();
 }
 
-string CModelGenerator::getSourceCode()
+std::string CModelGenerator::getSourceCode()
 {
     return mSource.ToString();
 }
 
-string CModelGenerator::getHeaderCodeFileName()
+std::string CModelGenerator::getHeaderCodeFileName()
 {
     return mHeaderCodeFileName;
 }
 
-string CModelGenerator::getSourceCodeFileName()
+std::string CModelGenerator::getSourceCodeFileName()
 {
     return mSourceCodeFileName;
 }
 
-// Generates the Model Code from the SBML string
-string CModelGenerator::generateModelCode(const string& sbmlStr, const bool& _computeAndAssignConsevationLaws)
+// Generates the Model Code from the SBML std::string
+std::string CModelGenerator::generateModelCode(const std::string& sbmlStr, const bool& _computeAndAssignConsevationLaws)
 {
     //This function now assume that the sbml already been loaded into NOM and libstruct..
     mComputeAndAssignConsevationLaws  = _computeAndAssignConsevationLaws;
-    Log(lDebug2)<<"Entering CModelGenerators generateModelCode function";
+    rrLog(lDebug2)<<"Entering CModelGenerators generateModelCode function";
     StringList  Warnings;
     CodeBuilder ignore;     //The Write functions below are inherited with a CodeBuilder in the
                             //prototype that is not to be used..
@@ -92,8 +92,8 @@ string CModelGenerator::generateModelCode(const string& sbmlStr, const bool& _co
     mHeader.Clear();
     mSource.Clear();
 
-    Log(lDebug1)<<"Processing model: "<< ms.mModelName;
-    Log(lDebug3)<<"Number of reactions:"<< ms.mNumReactions;
+    rrLog(lDebug1)<<"Processing model: "<< ms.mModelName;
+    rrLog(lDebug3)<<"Number of reactions:"<< ms.mNumReactions;
 
     //Write model to String builder...
     writeClassHeader(ignore);
@@ -146,9 +146,9 @@ string CModelGenerator::generateModelCode(const string& sbmlStr, const bool& _co
     writeInitFunction(mHeader, mSource);
 
     mHeader<<"\n\n#endif //modelH"<<NL();
-    string modelCode = mHeader.ToString() + mSource.ToString();
+    std::string modelCode = mHeader.ToString() + mSource.ToString();
 
-    Log(lDebug5)<<" ------ Model Code --------\n"
+    rrLog(lDebug5)<<" ------ Model Code --------\n"
             <<modelCode
             <<" ----- End of Model Code -----\n";
 
@@ -158,30 +158,30 @@ string CModelGenerator::generateModelCode(const string& sbmlStr, const bool& _co
 void CModelGenerator::writeClassHeader(CodeBuilder& ignore)
 {
     //Create c code header file....
-    mHeader<<"#ifndef modelH"<<endl;
-    mHeader<<"#define modelH"<<endl;
-    mHeader<<"#include <stdio.h>"<<endl;
-    mHeader<<"#include <stdbool.h>"<<endl;
-    mHeader<<"#include \"rrModelData.h\"\t             //Contains the structure defining model data passed to the shared library."<<endl;
-    mHeader<<"#include \"rrCExporter.h\"\t             //Export Stuff."<<endl;
+    mHeader<<"#ifndef modelH"<<std::endl;
+    mHeader<<"#define modelH"<<std::endl;
+    mHeader<<"#include <stdio.h>"<<std::endl;
+    mHeader<<"#include <stdbool.h>"<<std::endl;
+    mHeader<<"#include \"rrModelData.h\"\t             //Contains the structure defining model data passed to the shared library."<<std::endl;
+    mHeader<<"#include \"rrCExporter.h\"\t             //Export Stuff."<<std::endl;
 
 
     mHeader<<append("//************************************************************************** " + NL());
-    mHeader<<"//Number of floating species: "<<ms.mFloatingSpeciesConcentrationList.size()<<endl;
+    mHeader<<"//Number of floating species: "<<ms.mFloatingSpeciesConcentrationList.size()<<std::endl;
     for (int i = 0; i < ms.mFloatingSpeciesConcentrationList.size(); i++)
     {
-        mHeader<<"\t// y["<<i<<"] = "<<ms.mFloatingSpeciesConcentrationList[i].name<<endl;//{2}", NL());
+        mHeader<<"\t// y["<<i<<"] = "<<ms.mFloatingSpeciesConcentrationList[i].name<<std::endl;//{2}", NL());
     }
 
     mHeader<<append("//************************************************************************** " + NL());
     mHeader<<append(NL());
 
     //Header of the source file...
-    mSource<<"#include <math.h>"<<endl;
-    mSource<<"#include <stdio.h>"<<endl;
-    mSource<<"#include <stdlib.h>"<<endl;
-    mSource<<"#include <string.h>"<<endl;
-    mSource<<"#include \"rrSupport.h\"\t     //Supportfunctions for event handling.."<<endl;
+    mSource<<"#include <math.h>"<<std::endl;
+    mSource<<"#include <stdio.h>"<<std::endl;
+    mSource<<"#include <stdlib.h>"<<std::endl;
+    mSource<<"#include <string>"<<std::endl;
+    mSource<<"#include \"rrSupport.h\"\t     //Supportfunctions for event handling.."<<std::endl;
 }
 
 void CModelGenerator::writeOutVariables(CodeBuilder& ignore)
@@ -218,7 +218,7 @@ void CModelGenerator::writeComputeAllRatesOfChange(CodeBuilder& ignore, const in
         isThereAnEntry = false;
         for (int j = 0; j < numIndependentSpecies; j++)
         {
-            string dyName = format("md->floatingSpeciesAmountRates[{0}]", j);
+            std::string dyName = format("md->floatingSpeciesAmountRates[{0}]", j);
 
             if (L0(i,j) > 0)
             {
@@ -260,12 +260,12 @@ void CModelGenerator::writeComputeAllRatesOfChange(CodeBuilder& ignore, const in
 void CModelGenerator::writeComputeConservedTotals(CodeBuilder& ignore, const int& numFloatingSpecies, const int& numDependentSpecies)
 {
     mHeader.AddFunctionExport("void", "computeConservedTotals(ModelData* md)");
-    mSource<<"// Uses the equation: C = Sd - L0*Si"<<endl;
+    mSource<<"// Uses the equation: C = Sd - L0*Si"<<std::endl;
     mSource<<"void computeConservedTotals(ModelData* md)\n{";
 
     if (numDependentSpecies > 0)
     {
-        string factor;
+        std::string factor;
         ls::DoubleMatrix *gamma = mLibStruct->getGammaMatrix();
 
 
@@ -295,8 +295,8 @@ void CModelGenerator::writeComputeConservedTotals(CodeBuilder& ignore, const int
 
                     if (current > 0)
                     {
-                        string cYY = "floatingSpeciesConcentrations" + convertSpeciesToY(ms.mFloatingSpeciesConcentrationList[j].name);
-                        string cTC = convertCompartmentToC(ms.mFloatingSpeciesConcentrationList[j].compartmentName);
+                        std::string cYY = "floatingSpeciesConcentrations" + convertSpeciesToY(ms.mFloatingSpeciesConcentrationList[j].name);
+                        std::string cTC = convertCompartmentToC(ms.mFloatingSpeciesConcentrationList[j].compartmentName);
                         mSource<<append(" + " + factor + "md->" + cYY +
                                   mFixAmountCompartments +
                                   convertCompartmentToC(ms.mFloatingSpeciesConcentrationList[j].compartmentName));
@@ -335,14 +335,14 @@ void CModelGenerator::writeUpdateDependentSpecies(CodeBuilder& ignore, const int
         {
             mSource<<format("\n\tmd->floatingSpeciesConcentrations[{0}] = ", (i + numIndependentSpecies));
             mSource<<format("(md->dependentSpeciesConservedSums[{0}]", i);
-            string cLeftName =
+            std::string cLeftName =
                 convertCompartmentToC(
                     ms.mFloatingSpeciesConcentrationList[i + numIndependentSpecies].compartmentName);
 
             for (int j = 0; j < numIndependentSpecies; j++)
             {
-                string yName = format("md->floatingSpeciesConcentrations[{0}]", j);
-                string cName = convertCompartmentToC(ms.mFloatingSpeciesConcentrationList[j].compartmentName);
+                std::string yName = format("md->floatingSpeciesConcentrations[{0}]", j);
+                std::string cName = convertCompartmentToC(ms.mFloatingSpeciesConcentrationList[j].compartmentName);
                 double* mat = L0.GetPointer();
                 double matElementValue = L0(i,j);
 
@@ -402,43 +402,43 @@ void CModelGenerator::writeUserDefinedFunctions(CodeBuilder& ignore)
             StringListContainer oList = mNOM->getNthFunctionDefinition(i);
             StringList aList = oList[0];
 
-              string sName = aList[0];
+              std::string sName = aList[0];
               //sName.Trim();
             //! ms.mFunctionNames.add(sName);
             StringList oArguments = oList[1];
             StringList list2 = oList[2];
-            string sBody = list2[0];
+            std::string sBody = list2[0];
 
             mSource<<format("// User defined function:  {0}{1}", sName, NL());
             mSource<<format("\t double {0} (", sName);
 
             for (int j = 0; j < oArguments.Count(); j++)
             {
-                mSource<<append("double " + (string)oArguments[j]);
-                //! ms.mFunctionParameters.add((string)oArguments[j]);
+                mSource<<append("double " + (std::string)oArguments[j]);
+                //! ms.mFunctionParameters.add((std::string)oArguments[j]);
                 if (j < oArguments.Count() - 1)
                 {
                     mSource<<append(", ");
                 }
             }
-            string userFunc = convertUserFunctionExpression(sBody);
+            std::string userFunc = convertUserFunctionExpression(sBody);
 
-            if(userFunc.find("spf_piecewise") != string::npos)
+            if(userFunc.find("spf_piecewise") != std::string::npos)
             {
                 convertFunctionCallToUseVarArgsSyntax("spf_piecewise", userFunc);
             }
 
-            if(userFunc.find("spf_and") != string::npos)
+            if(userFunc.find("spf_and") != std::string::npos)
             {
                 convertFunctionCallToUseVarArgsSyntax("spf_and", userFunc);
             }
 
-            if(userFunc.find("spf_or") != string::npos)
+            if(userFunc.find("spf_or") != std::string::npos)
             {
                 convertFunctionCallToUseVarArgsSyntax("spf_or", userFunc);
             }
 
-            if(userFunc.find("spf_xor") != string::npos)
+            if(userFunc.find("spf_xor") != std::string::npos)
             {
                 convertFunctionCallToUseVarArgsSyntax("spf_xor", userFunc);
             }
@@ -544,7 +544,7 @@ void CModelGenerator::writeAccessors(CodeBuilder& ignore)
     //mSource<<"return md->localParameterDimensions[reactionId];\n}\n\n";
 }
 
-string CModelGenerator::findSymbol(const string& varName)
+std::string CModelGenerator::findSymbol(const std::string& varName)
 {
       int index = 0;
       if (ms.mFloatingSpeciesConcentrationList.find(varName, index))
@@ -581,8 +581,8 @@ void CModelGenerator::writeTestConstraints(CodeBuilder& ignore)
 
     for (int i = 0; i < mNOM->getNumConstraints(); i++)
     {
-        string sMessage;
-        string sCheck = mNOM->getNthConstraint(i, sMessage);
+        std::string sMessage;
+        std::string sCheck = mNOM->getNthConstraint(i, sMessage);
 
         mSource<<append("\tif (" + substituteTerms(mNOM->getNumReactions(), "", sCheck) + " == 0.0 )" + NL());
         mSource<<append("\t\tthrow new Exception(\"" + sMessage + "\");" + NL());
@@ -601,10 +601,10 @@ void CModelGenerator::writeEvalInitialAssignments(CodeBuilder& ignore, const int
 
     if (numInitialAssignments > 0)
     {
-        vector< pair<string, string> > oList;// = new List<Pair<string, string>>();
+        std::vector< std::pair<std::string, std::string> > oList;// = new List<Pair<std::string, std::string>>();
         for (int i = 0; i < numInitialAssignments; i++)
         {
-            pair<string, string> pair = mNOM->getNthInitialAssignmentPair(i);
+            std::pair<std::string, std::string> std::pair = mNOM->getNthInitialAssignmentPair(i);
             oList.push_back(mNOM->getNthInitialAssignmentPair(i));
         }
 
@@ -617,7 +617,7 @@ void CModelGenerator::writeEvalInitialAssignments(CodeBuilder& ignore, const int
 
             for (int i = 0; i < oList.size(); i++)
             {
-                pair<string, string> current = oList[i];
+                std::pair<std::string, std::string> current = oList[i];
                 for (int j = i + 1; j < oList.size(); j++)
                 {
                     if (expressionContainsSymbol(current.second, oList[j].first))
@@ -635,23 +635,23 @@ void CModelGenerator::writeEvalInitialAssignments(CodeBuilder& ignore, const int
 
             if (bChange)
             {
-                pair<string, string> pairToMove = oList[nIndex];
+                std::pair<std::string, std::string> pairToMove = oList[nIndex];
                 oList.erase(oList.begin() + nIndex);
                 //oList.RemoveAt(nIndex);
                 oList.insert(oList.begin(), pairToMove);    //Todo: check it this is correct...
             }
         }
 
-        vector< pair<string, string> >::iterator iter;
+        std::vector< std::pair<std::string, std::string> >::iterator iter;
         for(iter = oList.begin(); iter < oList.end(); iter++)
         {
-            pair<string, string>& pair = (*iter);
-            string leftSideRule = findSymbol(pair.first);
-            string rightSideRule = pair.second;
+            std::pair<std::string, std::string>& std::pair = (*iter);
+            std::string leftSideRule = findSymbol(std::pair.first);
+            std::string rightSideRule = std::pair.second;
             if (leftSideRule.size())
             {
                 mSource<<append(leftSideRule + " = ");
-                string temp = append(substituteTerms(numReactions, "", rightSideRule) + ";" + NL());
+                std::string temp = append(substituteTerms(numReactions, "", rightSideRule) + ";" + NL());
                 mSource<<temp;
             }
         }
@@ -659,7 +659,7 @@ void CModelGenerator::writeEvalInitialAssignments(CodeBuilder& ignore, const int
     for (int i = 0; i < mNOM->getModel()->getNumEvents(); i++)
     {
         libsbml::Event *current = mNOM->getModel()->getEvent(i);
-        string initialTriggerValue = toString(current->getTrigger()->getInitialValue());//.ToString().ToLowerInvariant();
+        std::string initialTriggerValue = toString(current->getTrigger()->getInitialValue());//.ToString().ToLowerInvariant();
         mSource<<append("\tmd->eventStatusArray[" + toString(i) + "] = " + initialTriggerValue + ";" + NL());
         mSource<<append("\tmd->previousEventStatusArray[" + toString(i) + "] = " + initialTriggerValue + ";" + NL());
     }
@@ -680,22 +680,22 @@ int CModelGenerator::writeComputeRules(CodeBuilder& ignore, const int& numReacti
     {
         try
         {
-            string leftSideRule = "";
-            string rightSideRule = "";
-            string ruleType = mNOM->getNthRuleType(i);
+            std::string leftSideRule = "";
+            std::string rightSideRule = "";
+            std::string ruleType = mNOM->getNthRuleType(i);
 
             // We only support assignment and ode rules at the moment
-            string eqnRule = mNOM->getNthRule(i);
+            std::string eqnRule = mNOM->getNthRule(i);
             RRRule aRule(eqnRule, ruleType);
-            string varName       = trim(aRule.GetLHS());
-            string rightSide     = trim(aRule.GetRHS());
+            std::string varName       = trim(aRule.GetLHS());
+            std::string rightSide     = trim(aRule.GetRHS());
 
             bool isRateRule = false;
 
             switch (aRule.GetType())
             {
                 case rtAlgebraic:
-                    Log(lWarning)<<"RoadRunner does not yet support algebraic rules in SBML, they will be ignored.";
+                    rrLog(lWarning)<<"RoadRunner does not yet support algebraic rules in SBML, they will be ignored.";
                     leftSideRule = "";//NULL;
                 break;
 
@@ -720,14 +720,14 @@ int CModelGenerator::writeComputeRules(CodeBuilder& ignore, const int& numReacti
                     }
                     break;
                 case rtUnknown:
-                    Log(Logger::LOG_ERROR) << "Unknown rule type in " << __FUNC__;
+                    rrLog(Logger::LOG_ERROR) << "Unknown rule type in " << __FUNC__;
                     break;
             }
 
             // Run the equation through MathML to carry out any conversions (eg ^ to Pow)
             if(rightSide.size())
             {
-                string rightSideMathml    = NOMSupport::convertStringToMathML(rightSide);
+                std::string rightSideMathml    = NOMSupport::convertStringToMathML(rightSide);
                 rightSideRule             = NOMSupport::convertMathMLToString(rightSideMathml);
             }
 
@@ -738,11 +738,11 @@ int CModelGenerator::writeComputeRules(CodeBuilder& ignore, const int& numReacti
                 bool isSpecies = ms.mFloatingSpeciesConcentrationList.find(varName, speciesIndex);
 
                 const Symbol* symbol = (speciesIndex != -1) ? &(ms.mFloatingSpeciesConcentrationList[speciesIndex]) : NULL;
-                string sCompartment;
+                std::string sCompartment;
 
-                if(isRateRule && mNOM->multiplyCompartment(varName, sCompartment) && (rightSide.find(sCompartment) == string::npos))
+                if(isRateRule && mNOM->multiplyCompartment(varName, sCompartment) && (rightSide.find(sCompartment) == std::string::npos))
                 {
-                    string temp = format("({0}) * {1};{2}", substituteTerms(numReactions, "", rightSideRule), findSymbol(sCompartment), NL());
+                    std::string temp = format("({0}) * {1};{2}", substituteTerms(numReactions, "", rightSideRule), findSymbol(sCompartment), NL());
                     //temp = ReplaceWord("time", "md->time", temp);
                     mSource<<temp;
                 }
@@ -754,10 +754,10 @@ int CModelGenerator::writeComputeRules(CodeBuilder& ignore, const int& numReacti
                     }
                     else
                     {
-                        string temp   = format("{0};{1}", substituteTerms(numReactions, "", rightSideRule), NL());
+                        std::string temp   = format("{0};{1}", substituteTerms(numReactions, "", rightSideRule), NL());
                         //temp = ReplaceWord("time", "md->time", temp);
 
-                        if(temp.find("spf_piecewise") != string::npos)
+                        if(temp.find("spf_piecewise") != std::string::npos)
                         {
                             convertFunctionCallToUseVarArgsSyntax("spf_piecewise", temp);
                         }
@@ -802,7 +802,7 @@ int CModelGenerator::writeComputeRules(CodeBuilder& ignore, const int& numReacti
         {
             mSource<<"\n";
         }
-        mSource<<"\t"<<(string) ms.mRateRules.find(i)->second << " = md->rateRuleRates[" << i << "];\n";
+        mSource<<"\t"<<(std::string) ms.mRateRules.find(i)->second << " = md->rateRuleRates[" << i << "];\n";
     }
 
     mSource<<append("}" + NL() + NL());
@@ -816,7 +816,7 @@ int CModelGenerator::writeComputeRules(CodeBuilder& ignore, const int& numReacti
             mSource<<"\n";
         }
 
-        string varName = (string) mapVariables[i];
+        std::string varName = (std::string) mapVariables[i];
         if(varName.size())
         {
             double value = mNOM->getValue(varName);
@@ -870,15 +870,15 @@ void CModelGenerator::writeComputeReactionRates(CodeBuilder& ignore, const int& 
 
     for (int i = 0; i < numReactions; i++)
     {
-        string kineticLaw = mNOM->getKineticLaw(i);
+        std::string kineticLaw = mNOM->getKineticLaw(i);
 
         // The following code is for the case when the kineticLaw contains a ^ in place
         // of pow for exponent handling. It would not be needed in the case when there is
         // no ^ in the kineticLaw.
-        string subKineticLaw;
+        std::string subKineticLaw;
 //        if (kineticLaw.IndexOf("^", System.StringComparison.Ordinal) > 0) //Todo: fix this...
 //        {
-//            string kineticLaw_mathml = mNOM->convertStringToMathML(kineticLaw);
+//            std::string kineticLaw_mathml = mNOM->convertStringToMathML(kineticLaw);
 //            subKineticLaw = mNOM->convertMathMLToString(kineticLaw_mathml);
 //        }
 //        else
@@ -886,33 +886,33 @@ void CModelGenerator::writeComputeReactionRates(CodeBuilder& ignore, const int& 
             subKineticLaw = kineticLaw;
         }
 
-        string modKineticLaw = substituteTerms(ms.mReactionList[i].name, subKineticLaw, true) + ";";
+        std::string modKineticLaw = substituteTerms(ms.mReactionList[i].name, subKineticLaw, true) + ";";
 
         // modify to use current y ...
         modKineticLaw = substitute(modKineticLaw, "_y[", "y[");
-        string expression = format("\n\tmd->reactionRates[{0}] = {1}{2}", i, modKineticLaw, NL());
+        std::string expression = format("\n\tmd->reactionRates[{0}] = {1}{2}", i, modKineticLaw, NL());
 
-        if(expression.find("spf_and") != string::npos)
+        if(expression.find("spf_and") != std::string::npos)
         {
             convertFunctionCallToUseVarArgsSyntax("spf_and", expression);
         }
 
-        if(expression.find("spf_or") != string::npos)
+        if(expression.find("spf_or") != std::string::npos)
         {
             convertFunctionCallToUseVarArgsSyntax("spf_or", expression);
         }
 
-        if(expression.find("spf_xor") != string::npos)
+        if(expression.find("spf_xor") != std::string::npos)
         {
             convertFunctionCallToUseVarArgsSyntax("spf_xor", expression);
         }
 
-        if(expression.find("spf_squarewave") != string::npos)
+        if(expression.find("spf_squarewave") != std::string::npos)
         {
             convertFunctionCallToUseVarArgsSyntax("spf_squarewave", expression);
         }
 
-        if(expression.find("spf_piecewise") != string::npos)
+        if(expression.find("spf_piecewise") != std::string::npos)
         {
             convertFunctionCallToUseVarArgsSyntax("spf_piecewise", expression);
         }
@@ -935,7 +935,7 @@ void CModelGenerator::writeEvalEvents(CodeBuilder& ignore, const int& numEvents,
     {
         for (int i = 0; i < numAdditionalRates(); i++)
         {
-            mSource<<gTab<<(string) ms.mRateRules.find(i)->second << " = oAmounts[" << i << "];" << NL();
+            mSource<<gTab<<(std::string) ms.mRateRules.find(i)->second << " = oAmounts[" << i << "];" << NL();
         }
         for (int i = 0; i < numFloatingSpecies; i++)
         {
@@ -952,7 +952,7 @@ void CModelGenerator::writeEvalEvents(CodeBuilder& ignore, const int& numEvents,
     {
         StringListContainer ev = mNOM->getNthEvent(i);
         StringList tempList = ev[0];
-        string eventString = tempList[0];
+        std::string eventString = tempList[0];
 
         eventString = substituteTerms(0, "", eventString);
         mSource<<"\tmd->previousEventStatusArray[" << i << "] = md->eventStatusArray[" << i << "];" << NL();
@@ -978,7 +978,7 @@ void CModelGenerator::writeEvalModel(CodeBuilder& ignore, const int& numReaction
 
     for (int i = 0; i < numAdditionalRates(); i++)
     {
-        mSource<<"\n"<<(string)ms.mRateRules.find(i)->second << " = oAmounts[" << i << "];" << NL();
+        mSource<<"\n"<<(std::string)ms.mRateRules.find(i)->second << " = oAmounts[" << i << "];" << NL();
     }
 
     for (int i = 0; i < numFloatingSpecies; i++)
@@ -1000,11 +1000,11 @@ void CModelGenerator::writeEvalModel(CodeBuilder& ignore, const int& numReaction
     mSource<<append("\tcomputeReactionRates(md);" + NL());
 
     // write out the ODE equations
-    string stoich;
+    std::string stoich;
     for (int i = 0; i < numIndependentSpecies; i++)
     {
         CodeBuilder eqnBuilder;// = new CodeBuilder(" ");
-        string floatingSpeciesName = ms.mIndependentSpeciesList[i];
+        std::string floatingSpeciesName = ms.mIndependentSpeciesList[i];
         for (int j = 0; j < numReactions; j++)
         {
             Reaction *oReaction = mNOM->getModel()->getReaction(j);
@@ -1014,7 +1014,7 @@ void CModelGenerator::writeEvalModel(CodeBuilder& ignore, const int& numReaction
             {
                 SpeciesReference* product = oReaction->getProduct(k1);
 
-                string productName = product->getSpecies();
+                std::string productName = product->getSpecies();
                 if (floatingSpeciesName == productName)
                 {
                     productStoichiometry = product->getStoichiometry();
@@ -1068,7 +1068,7 @@ void CModelGenerator::writeEvalModel(CodeBuilder& ignore, const int& numReaction
             for (int k1 = 0; k1 < numReactants; k1++)
             {
                 SpeciesReference *reactant = oReaction->getReactant(k1);
-                string reactantName = reactant->getSpecies();
+                std::string reactantName = reactant->getSpecies();
                 if (floatingSpeciesName == reactantName)
                 {
                     reactantStoichiometry = reactant->getStoichiometry();
@@ -1117,7 +1117,7 @@ void CModelGenerator::writeEvalModel(CodeBuilder& ignore, const int& numReaction
             }
         }
 
-        string finalStr = eqnBuilder.ToString();//.trim();
+        std::string finalStr = eqnBuilder.ToString();//.trim();
 
         if (isNullOrEmpty(finalStr))
         {
@@ -1127,7 +1127,7 @@ void CModelGenerator::writeEvalModel(CodeBuilder& ignore, const int& numReaction
         if (mNOM->getSBMLDocument()->getLevel() > 2)
         {
             // remember to take the conversion factor into account
-            string factor = "";
+            std::string factor = "";
             Species* species = mNOM->getModel()->getSpecies(floatingSpeciesName);
             if (species != NULL)
             {
@@ -1162,8 +1162,8 @@ void CModelGenerator::writeEvalModel(CodeBuilder& ignore, const int& numReaction
 void CModelGenerator::writeEventAssignments(CodeBuilder& ignore, const int& numReactions, const int& numEvents)
 {
     StringList delays;
-    vector<bool> eventType;
-    vector<bool> eventPersistentType;
+    std::vector<bool> eventType;
+    std::vector<bool> eventPersistentType;
     if (numEvents > 0)
     {
         //Get array of pointers functions
@@ -1180,12 +1180,12 @@ void CModelGenerator::writeEventAssignments(CodeBuilder& ignore, const int& numR
 
             StringList event = ev[1];
             int numItems = event.Count();
-            string str = substituteTerms(numReactions, "", event[0]);
+            std::string str = substituteTerms(numReactions, "", event[0]);
             delays.add(str);
 
             mSource<<format("void eventAssignment_{0}(ModelData* md) \n{{1}", i, NL());
 
-            string funcName(format("performEventAssignment_{0}(ModelData* md, double* values)", i));
+            std::string funcName(format("performEventAssignment_{0}(ModelData* md, double* values)", i));
             mHeader.AddFunctionExport("void", funcName);
             mSource<<format("\tperformEventAssignment_{0}(md, computeEventAssignment_{0}(md) );{1}", i, NL());
             mSource<<append("}\n\n");
@@ -1203,29 +1203,29 @@ void CModelGenerator::writeEventAssignments(CodeBuilder& ignore, const int& numR
             for (int j = 2; j < ev.Count(); j++)
             {
                 StringList asgn = (StringList) ev[j];
-                //string assignmentVar = substituteTerms(numReactions, "", (string)asgn[0]);
-                string assignmentVar = findSymbol((string)asgn[0]);
-                string str;
+                //std::string assignmentVar = substituteTerms(numReactions, "", (std::string)asgn[0]);
+                std::string assignmentVar = findSymbol((std::string)asgn[0]);
+                std::string str;
                 const Symbol *species = getSpecies(assignmentVar);
 
 
                 if (species != NULL && species->hasOnlySubstance)
                 {
-                    str = format("{0} = ({1}) / {2}", assignmentVar, substituteTerms(numReactions, "", (string)asgn[1]), findSymbol(species->compartmentName));
+                    str = format("{0} = ({1}) / {2}", assignmentVar, substituteTerms(numReactions, "", (std::string)asgn[1]), findSymbol(species->compartmentName));
                 }
                 else
                 {
-                    str = format("{0} = {1}", assignmentVar, substituteTerms(numReactions, "", (string) asgn[1]));
+                    str = format("{0} = {1}", assignmentVar, substituteTerms(numReactions, "", (std::string) asgn[1]));
                 }
 
-                string sTempVar = format("values[{0}]", nCount);
+                std::string sTempVar = format("values[{0}]", nCount);
 
                 oTemp.add(assignmentVar);
                 oValue.add(sTempVar);
 
                 str = sTempVar+ str.substr(str.find(" ="));
                 nCount++;
-                string temp = format("\t\t{0};{1}", str, NL());
+                std::string temp = format("\t\t{0};{1}", str, NL());
                 mSource<<temp;
             }
             mSource<<append("\treturn values;" + NL());
@@ -1235,7 +1235,7 @@ void CModelGenerator::writeEventAssignments(CodeBuilder& ignore, const int& numR
             for (int j = 0; j < oTemp.Count(); j++)
             {
                 mSource<<format("\t\t{0} = values[{1}];{2}", oTemp[j], j, NL());
-                string aStr = (string) oTemp[j];
+                std::string aStr = (std::string) oTemp[j];
                 aStr = trim(aStr);
 
                 if (startsWith(aStr, "md->compartmentVolumes[")) //Todo:May have to trim?
@@ -1278,7 +1278,7 @@ void CModelGenerator::writeEventAssignments(CodeBuilder& ignore, const int& numR
 
         if (current->isSetPriority() && current->getPriority()->isSetMath())
         {
-            string priority = SBML_formulaToStdString(current->getPriority()->getMath());
+            std::string priority = SBML_formulaToStdString(current->getPriority()->getMath());
             mSource<<"\n"<<format("\tmd->eventPriorities[{0}] = {1};{2}", i, substituteTerms(numReactions, "", priority), NL());
 
         }
@@ -1299,12 +1299,12 @@ void CModelGenerator::writeSetParameterValues(CodeBuilder& ignore, const int& nu
     for (int i = 0; i < ms.mGlobalParameterList.size(); i++)
     {
         //If !+INF
-        string para = format("\n\t{0} = (double){1};{2}",
+        std::string para = format("\n\t{0} = (double){1};{2}",
                       convertSymbolToGP(ms.mGlobalParameterList[i].name),
                       writeDouble(ms.mGlobalParameterList[i].value),
                       NL());
         //If a parameter is INF, it means it is not initialized properly ??
-        if(para.find("INF") == string::npos && para.find("NAN") == string::npos)
+        if(para.find("INF") == std::string::npos && para.find("NAN") == std::string::npos)
         {
             mSource<<para;
         }
@@ -1334,11 +1334,11 @@ void CModelGenerator::writeSetCompartmentVolumes(CodeBuilder& ignore)
 
         // at this point we also have to take care of all initial assignments for compartments as well as
         // the assignment rules on compartments ... otherwise we are in trouble :)
-        stack<string> initializations = mNOM->getMatchForSymbol(ms.mCompartmentList[i].name);
+        stack<std::string> initializations = mNOM->getMatchForSymbol(ms.mCompartmentList[i].name);
         while (initializations.size() > 0)
         {
-            string term(initializations.top());
-            string sub = substituteTerms(ms.mNumReactions, "", term);
+            std::string term(initializations.top());
+            std::string sub = substituteTerms(ms.mNumReactions, "", term);
             mSource<<append("\t" + sub + ";" + NL());
             initializations.pop();
         }
@@ -1383,7 +1383,7 @@ void CModelGenerator::writeSetInitialConditions(CodeBuilder& ignore, const int& 
         }
         else
         {
-            string formula = ms.mFloatingSpeciesConcentrationList[i].formula;
+            std::string formula = ms.mFloatingSpeciesConcentrationList[i].formula;
             mSource<<append("\n\tmd->floatingSpeciesInitConcentrations" + convertSpeciesToY(ms.mFloatingSpeciesConcentrationList[i].name) + " = (double) " +
                       formula + ";");
         }
@@ -1405,7 +1405,7 @@ void CModelGenerator::writeSetInitialConditions(CodeBuilder& ignore, const int& 
     mSource<<append("}" + NL() + NL());
 }
 
-string CModelGenerator::convertSpeciesToY(const string& speciesName)
+std::string CModelGenerator::convertSpeciesToY(const std::string& speciesName)
 {
     int index;
     if (ms.mFloatingSpeciesConcentrationList.find(speciesName, index))
@@ -1416,7 +1416,7 @@ string CModelGenerator::convertSpeciesToY(const string& speciesName)
     throw new CoreException("Internal Error: Unable to locate species: " + speciesName);
 }
 
-string CModelGenerator::convertSpeciesToBc(const string& speciesName)
+std::string CModelGenerator::convertSpeciesToBc(const std::string& speciesName)
 {
     int index;
     if (ms.mBoundarySpeciesList.find(speciesName, index))
@@ -1427,7 +1427,7 @@ string CModelGenerator::convertSpeciesToBc(const string& speciesName)
     throw CoreException("Internal Error: Unable to locate species: " + speciesName);
 }
 
-string CModelGenerator::convertCompartmentToC(const string& compartmentName)
+std::string CModelGenerator::convertCompartmentToC(const std::string& compartmentName)
 {
     int index;
     if (ms.mCompartmentList.find(compartmentName, index))
@@ -1438,7 +1438,7 @@ string CModelGenerator::convertCompartmentToC(const string& compartmentName)
     throw CoreException("Internal Error: Unable to locate compartment: " + compartmentName);
 }
 
-string CModelGenerator::convertSymbolToGP(const string& parameterName)
+std::string CModelGenerator::convertSymbolToGP(const std::string& parameterName)
 {
     int index;
     if (ms.mGlobalParameterList.find(parameterName, index))
@@ -1448,7 +1448,7 @@ string CModelGenerator::convertSymbolToGP(const string& parameterName)
       throw CoreException("Internal Error: Unable to locate parameter: " + parameterName);
 }
 
-string CModelGenerator::convertSymbolToC(const string& compartmentName)
+std::string CModelGenerator::convertSymbolToC(const std::string& compartmentName)
 {
     int index;
     if (ms.mCompartmentList.find(compartmentName, index))
@@ -1492,7 +1492,7 @@ void CModelGenerator::writeInitFunction(CodeBuilder& ignore, CodeBuilder& source
     {
         for (int i = 0; i < ms.mNumEvents; i++)
         {
-            string iStr = toString(i);
+            std::string iStr = toString(i);
             source<<append("\tmd->eventAssignments[" + iStr + "] = eventAssignment_" + iStr +";" + NL());
             source<<append("\tmd->computeEventAssignments[" + iStr + "] = (ComputeEventAssignmentHandler) computeEventAssignment_" + iStr + ";" + NL());
             source<<append("\tmd->performEventAssignments[" + iStr + "] = (PerformEventAssignmentHandler) performEventAssignment_" + iStr + ";" + NL());
@@ -1522,26 +1522,26 @@ void CModelGenerator::writeInitFunction(CodeBuilder& ignore, CodeBuilder& source
 void CModelGenerator::write_getModelNameFunction(CodeBuilder& ignore, CodeBuilder& source)
 {
     source.Line("char* getModelName(ModelData* md)");
-    source<<"{"                                         <<endl;
+    source<<"{"                                         <<std::endl;
     source.TLine("return md->modelName;");
-    source<<"}"                                         <<endl;
+    source<<"}"                                         <<std::endl;
     source.NewLine();
 }
 
-bool CModelGenerator::saveSourceCodeToFolder(const string& folder, const string& baseName)
+bool CModelGenerator::saveSourceCodeToFolder(const std::string& folder, const std::string& baseName)
 {
-    string fName         = getFileName(baseName);
+    std::string fName         = getFileName(baseName);
     mHeaderCodeFileName = joinPath(folder, fName);
     mHeaderCodeFileName = changeFileExtensionTo(mHeaderCodeFileName, ".h");
 
-    ofstream outFile(mHeaderCodeFileName.c_str());
+    std::ofstream outFile(mHeaderCodeFileName.c_str());
     if(!outFile)
     {
         throw(Exception("Failed to open file:" + mHeaderCodeFileName));
     }
 
     outFile<<getHeaderCode();
-    Log(lDebug3)<<"Wrote header to file: "<<mHeaderCodeFileName;
+    rrLog(lDebug3)<<"Wrote header to file: "<<mHeaderCodeFileName;
     outFile.close();
 
     mSourceCodeFileName = changeFileExtensionTo(mHeaderCodeFileName, ".c");
@@ -1549,27 +1549,27 @@ bool CModelGenerator::saveSourceCodeToFolder(const string& folder, const string&
 
     //We don't know the name of the file until here..
     //Write an include statement to it..
-    vector<string> fNameParts = splitString(mSourceCodeFileName,"\\");
-    string headerFName = fNameParts[fNameParts.size() - 1];
+    std::vector<std::string> fNameParts = splitString(mSourceCodeFileName,"\\");
+    std::string headerFName = fNameParts[fNameParts.size() - 1];
 
     headerFName = changeFileExtensionTo(headerFName, ".h");
-    outFile<<"#include \""<<getFileName(headerFName)<<"\"\n"<<endl;
+    outFile<<"#include \""<<getFileName(headerFName)<<"\"\n"<<std::endl;
     outFile<<getSourceCode();
     outFile.close();
-    Log(lDebug3)<<"Wrote source code to file: "<<mSourceCodeFileName;
+    rrLog(lDebug3)<<"Wrote source code to file: "<<mSourceCodeFileName;
 
     return true;
 }
 
-string CModelGenerator::convertUserFunctionExpression(const string& equation)
+std::string CModelGenerator::convertUserFunctionExpression(const std::string& equation)
 {
     if(!equation.size())
     {
-        Log(Logger::LOG_ERROR)<<"The equation string supplied to "<<__FUNCTION__<<" is empty";
+        rrLog(Logger::LOG_ERROR)<<"The equation std::string supplied to "<<__FUNCTION__<<" is empty";
         return "";
     }
     Scanner s;
-    stringstream ss;
+    std::stringstream ss;
     ss<<equation;
     s.AssignStream(ss);
     s.startScanner();
@@ -1580,7 +1580,7 @@ string CModelGenerator::convertUserFunctionExpression(const string& equation)
     {
         while (s.token() != CodeTypes::tEndOfStreamToken)
            {
-            string theToken = s.tokenString;
+            std::string theToken = s.tokenString;
                switch (s.token())
                {
                 case CodeTypes::tWordToken:
@@ -1866,7 +1866,7 @@ string CModelGenerator::convertUserFunctionExpression(const string& equation)
                    mSource<<append("spf_xor");
                    break;
                    default:
-                   stringstream msg;
+                   std::stringstream msg;
                    msg<< "Unknown token in convertUserFunctionExpression: " << s.tokenToString(s.token()) <<
                            "Exception raised in Module:roadRunner, Method:convertUserFunctionExpression";
                    throw Exception(msg.str());
@@ -1881,9 +1881,9 @@ string CModelGenerator::convertUserFunctionExpression(const string& equation)
     return mSource.ToString();
 }
 
-void CModelGenerator::substituteEquation(const string& reactionName, Scanner& s, CodeBuilder& mSource)
+void CModelGenerator::substituteEquation(const std::string& reactionName, Scanner& s, CodeBuilder& mSource)
 {
-    string theToken(s.tokenString);
+    std::string theToken(s.tokenString);
     if(theToken == "pow")
     {
         mSource<<append("spf_pow");
@@ -2101,7 +2101,7 @@ void CModelGenerator::substituteEquation(const string& reactionName, Scanner& s,
     else if(theToken == "delay")
     {
         mSource<<append("spf_delay");
-        Log(lWarning)<<"RoadRunner does not yet support delay differential equations in SBML, they will be ignored (i.e. treated as delay = 0).";
+        rrLog(lWarning)<<"RoadRunner does not yet support delay differential equations in SBML, they will be ignored (i.e. treated as delay = 0).";
     }
     else
     {
@@ -2130,7 +2130,7 @@ void CModelGenerator::substituteEquation(const string& reactionName, Scanner& s,
     }
 }
 
-void CModelGenerator::substituteWords(const string& reactionName, bool bFixAmounts, Scanner& s, CodeBuilder& mSource)
+void CModelGenerator::substituteWords(const std::string& reactionName, bool bFixAmounts, Scanner& s, CodeBuilder& mSource)
 {
     // Global parameters have priority
     int index;
@@ -2188,9 +2188,9 @@ void CModelGenerator::substituteWords(const string& reactionName, bool bFixAmoun
     }
 }
 
-void CModelGenerator::substituteToken(const string& reactionName, bool bFixAmounts, Scanner& s, CodeBuilder& mSource)
+void CModelGenerator::substituteToken(const std::string& reactionName, bool bFixAmounts, Scanner& s, CodeBuilder& mSource)
 {
-    string aToken = s.tokenString;
+    std::string aToken = s.tokenString;
     CodeTypes::CodeTypes codeType = s.token();
     switch(codeType)
     {
@@ -2267,7 +2267,7 @@ void CModelGenerator::substituteToken(const string& reactionName, bool bFixAmoun
             mSource<<format("{0}spf_xor", NL());
             break;
         default:
-        string aToken = s.tokenToString(s.token());
+        std::string aToken = s.tokenToString(s.token());
         Exception ae = Exception(
                  format("Unknown token in substituteTerms: {0}", aToken,
                  "Exception raised in Module:roadRunner, Method:substituteTerms"));
@@ -2275,24 +2275,24 @@ void CModelGenerator::substituteToken(const string& reactionName, bool bFixAmoun
     }
 }
 
-bool CModelGenerator::generateModelCode(const string& sbml, const string& modelName, bool computeAndAssignConsevationLaws)
+bool CModelGenerator::generateModelCode(const std::string& sbml, const std::string& modelName, bool computeAndAssignConsevationLaws)
 {
     if(sbml.size())
     {
         mCurrentSBML = sbml;
     }
 
-    string modelCode = generateModelCode(mCurrentSBML, computeAndAssignConsevationLaws);
+    std::string modelCode = generateModelCode(mCurrentSBML, computeAndAssignConsevationLaws);
 
     if(!modelCode.size())
     {
-        Log(Logger::LOG_ERROR)<<"Failed to generate model code";
+        rrLog(Logger::LOG_ERROR)<<"Failed to generate model code";
         return false;
     }
 
     if(!saveSourceCodeToFolder(mTempFileFolder, modelName))
     {
-        Log(Logger::LOG_ERROR)<<"Failed saving generated source code";
+        rrLog(Logger::LOG_ERROR)<<"Failed saving generated source code";
     }
 
     return true;
@@ -2302,7 +2302,7 @@ bool CModelGenerator::compileModel()
 {
     if(!compileCurrentModel())
     {
-        Log(Logger::LOG_ERROR)<<"Failed compiling model";
+        rrLog(Logger::LOG_ERROR)<<"Failed compiling model";
         return false;
     }
 
@@ -2315,25 +2315,25 @@ bool CModelGenerator::compileCurrentModel()
     //*if(!codeGen)
     //*{
     //*    //CodeGenerator has not been allocaed
-    //*    Log(lError)<<"Generate code before compiling....";
+    //*    rrLog(lError)<<"Generate code before compiling....";
     //*    return false;
     //*}
 
     //Compile the model
     if(!mCompiler.compileSource(getSourceCodeFileName()))
     {
-        Log(Logger::LOG_ERROR)<<"Model failed compilation";
+        rrLog(Logger::LOG_ERROR)<<"Model failed compilation";
         return false;
     }
-    Log(lDebug)<<"Model compiled successfully. ";
-    Log(lDebug)<<mModelLib->getFullFileName()<<" was created";
+    rrLog(lDebug)<<"Model compiled successfully. ";
+    rrLog(lDebug)<<mModelLib->getFullFileName()<<" was created";
     return true;
 }
 
 
-bool CModelGenerator::setTemporaryDirectory(const string& _path)
+bool CModelGenerator::setTemporaryDirectory(const std::string& _path)
 {
-    string path = _path;
+    std::string path = _path;
     if(!_path.size())
     {
         path = getCWD();
@@ -2341,23 +2341,23 @@ bool CModelGenerator::setTemporaryDirectory(const string& _path)
 
     if(folderExists(path))
     {
-        Log(lDebug2)<<"Setting model generators temp file folder to "<< path;
+        rrLog(lDebug2)<<"Setting model generators temp file folder to "<< path;
         mCompiler.setOutputPath(path);
         mTempFileFolder = path;
         return true;
     }
     else
     {
-        stringstream msg;
+        std::stringstream msg;
         msg<<"The folder: "<<path<<" don't exist...";
-        Log(Logger::LOG_ERROR)<<msg.str();
+        rrLog(Logger::LOG_ERROR)<<msg.str();
         CoreException e(msg.str());
         throw(e);
     }
 }
 
 
-ExecutableModel *CModelGenerator::createModel(const string& sbml, uint options)
+ExecutableModel *CModelGenerator::createModel(const std::string& sbml, uint options)
 {
     bool computeAndAssignConsevationLaws =
                 options & LoadSBMLOptions::CONSERVED_MOIETIES;
@@ -2372,7 +2372,7 @@ ExecutableModel *CModelGenerator::createModel(const string& sbml, uint options)
     return model;
 }
 
-ExecutableModel *CModelGenerator::createModel(const string& sbml, LibStructural *ls,
+ExecutableModel *CModelGenerator::createModel(const std::string& sbml, LibStructural *ls,
         bool forceReCompile, bool computeAndAssignConsevationLaws)
 {
     NOMSupport nom;
@@ -2387,13 +2387,13 @@ ExecutableModel *CModelGenerator::createModel(const string& sbml, LibStructural 
 
 
     //clear temp folder of roadrunner generated files, only if roadRunner instance == 1
-    Log(lDebug)<<"Loading SBML into simulator";
+    rrLog(lDebug)<<"Loading SBML into simulator";
     if (!sbml.size())
     {
-        throw(CoreException("SBML string is empty!"));
+        throw(CoreException("SBML std::string is empty!"));
     }
 
-    string modelName = getMD5(sbml);
+    std::string modelName = getMD5(sbml);
 
     //Check if model has been compiled
     mModelLib->setPath(mTempFileFolder);
@@ -2419,37 +2419,37 @@ ExecutableModel *CModelGenerator::createModel(const string& sbml, LibStructural 
         {
             if(!compileModel())
             {
-                Log(Logger::LOG_ERROR)<<"Failed to generate and compile model";
+                rrLog(Logger::LOG_ERROR)<<"Failed to generate and compile model";
                 return 0;
             }
 
             if(!mModelLib->load())
             {
-                Log(Logger::LOG_ERROR)<<"Failed to load model DLL";
+                rrLog(Logger::LOG_ERROR)<<"Failed to load model DLL";
                 return 0;
             }
         }
         else
         {
-            Log(lDebug)<<"Model compiled files already generated.";
+            rrLog(lDebug)<<"Model compiled files already generated.";
             if(!mModelLib->isLoaded())
             {
                 if(!mModelLib->load())
                 {
-                    Log(Logger::LOG_ERROR)<<"Failed to load model DLL";
+                    rrLog(Logger::LOG_ERROR)<<"Failed to load model DLL";
                     return 0;
                 }
             }
             else
             {
-                Log(lDebug)<<"Model lib is already loaded.";
+                rrLog(lDebug)<<"Model lib is already loaded.";
             }
         }
 
     }//End of scope for compile Mutex
     catch(const Exception& ex)
     {
-        Log(Logger::LOG_ERROR)<<"Compiler problem: "<<ex.what();
+        rrLog(Logger::LOG_ERROR)<<"Compiler problem: "<<ex.what();
     }
 
     CompiledExecutableModel *model = 0;
@@ -2461,7 +2461,7 @@ ExecutableModel *CModelGenerator::createModel(const string& sbml, LibStructural 
     }
     else
     {
-        Log(Logger::LOG_ERROR)<<"Failed to create model from DLL";
+        rrLog(Logger::LOG_ERROR)<<"Failed to create model from DLL";
         model = NULL;
     }
 
@@ -2516,21 +2516,21 @@ Compiler* CModelGenerator::getCompiler()
 }
 
 
-bool CModelGenerator::setCompiler(const string& compiler)
+bool CModelGenerator::setCompiler(const std::string& compiler)
 {
     return mCompiler.setCompiler(compiler);
 }
 
-string CModelGenerator::getTemporaryDirectory()
+std::string CModelGenerator::getTemporaryDirectory()
 {
     return mTempFileFolder;
 }
 
-bool CModelGenerator::loadSBMLIntoNOM(NOMSupport &nom, const string& sbml)
+bool CModelGenerator::loadSBMLIntoNOM(NOMSupport &nom, const std::string& sbml)
 {
-    string sASCII = NOMSupport::convertTime(sbml, "time");
+    std::string sASCII = NOMSupport::convertTime(sbml, "time");
 
-    Log(lDebug4)<<"Loading SBML into NOM";
+    rrLog(lDebug4)<<"Loading SBML into NOM";
     nom.loadSBML(sASCII.c_str(), "time");
     return true;
 }

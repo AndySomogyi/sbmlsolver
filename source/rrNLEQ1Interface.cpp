@@ -30,7 +30,7 @@ static Mutex mutex;
 // the NLEQ callback, we use same data types as f2c here.
 static void ModelFunction(int* nx, double* y, double* fval, int* pErr);
 
-static string ErrorForStatus(int error);
+static std::string ErrorForStatus(int error);
 
 static bool isError(int e)
 {
@@ -88,9 +88,9 @@ NLEQ1Interface::~NLEQ1Interface()
 
 void NLEQ1Interface::setup()
 {
-    // size of state vector
+    // size of state std::vector
     n = model->getStateVector(0);
-    Log(Logger::LOG_DEBUG) << "NLEQ1Interface: size of state vector = " << n;
+    rrLog(Logger::LOG_DEBUG) << "NLEQ1Interface: size of state std::vector = " << n;
 
     // Allocate space, see NLEQ docs for details
     LRWK = (n + 2 + 15)*n + 61;
@@ -149,7 +149,7 @@ double NLEQ1Interface::solve()
     // lock so only one thread can be here.
     Mutex::ScopedLock lock(mutex);
 
-    Log(Logger::LOG_DEBUG) << "NLEQ1Interface::solve";
+    rrLog(Logger::LOG_DEBUG) << "NLEQ1Interface::solve";
 
     // Set up a dummy Jacobian, actual Jacobian is computed
     // by NLEQ1 using finite differences
@@ -200,7 +200,7 @@ double NLEQ1Interface::solve()
     try
     {
         callbackModel = model;
-        vector<double> stateVector(n);
+        std::vector<double> stateVector(n);
         model->getStateVector(&stateVector[0]);
 
         NLEQ1(  &n,
@@ -229,10 +229,10 @@ double NLEQ1Interface::solve()
     if(ierr > 0 )
     {
         if (isWarning(ierr)) {
-            Log(Logger::LOG_WARNING) << ErrorForStatus(ierr);
+            rrLog(Logger::LOG_WARNING) << ErrorForStatus(ierr);
         } else {
-            string err = ErrorForStatus(ierr);
-            Log(Logger::LOG_ERROR)<<"Error :"<<err;
+            std::string err = ErrorForStatus(ierr);
+            // we've thrown so no need to also log the error
             throw NLEQException(err);
         }
     }
@@ -243,7 +243,7 @@ double NLEQ1Interface::solve()
 
 
 /*     FCN(N,X,F,IFAIL) Ext    Function subroutine */
-/*       N              Int    Number of vector components (input) */
+/*       N              Int    Number of std::vector components (input) */
 /*       X(N)           Dble   Vector of unknowns (input) */
 /*       F(N)           Dble   Vector of function values (output) */
 /*       IFAIL          Int    FCN evaluation-failure indicator. (output) */
@@ -273,9 +273,9 @@ void ModelFunction(int* nx, double* y, double* fval, int* pErr)
     ExecutableModel* model = callbackModel;
     assert(model && "model is NULL");
 
-    assert(*nx == model->getStateVector(0) && "incorrect state vector size");
+    assert(*nx == model->getStateVector(0) && "incorrect state std::vector size");
 
-    // sets the state vector
+    // sets the state std::vector
     model->setStateVector(y);
 
     model->getStateVectorRate(0, y, fval);
@@ -308,7 +308,7 @@ void ModelFunction(int* nx, double* y, double* fval, int* pErr)
         }
         ss << "]" << std::endl;
 
-        Log(Logger::LOG_DEBUG) << ss.str();
+        rrLog(Logger::LOG_DEBUG) << ss.str();
     }
 
     *pErr = 0;
@@ -322,7 +322,7 @@ void ModelFunction(int* nx, double* y, double* fval, int* pErr)
     }
 }
 
-void NLEQ1Interface::setScalingFactors(const vector<double>& sx)
+void NLEQ1Interface::setScalingFactors(const std::vector<double>& sx)
 {
     for (int i = 0; i < n; i++)
     {
@@ -355,7 +355,7 @@ int NLEQ1Interface::getNumberOfModelEvaluationsForJacobian()
     return IWK[7];
 }
 
-string ErrorForStatus(int error)
+std::string ErrorForStatus(int error)
 {
     switch (error)
     {
@@ -367,7 +367,7 @@ string ErrorForStatus(int error)
     case 10:    return ("Integer or real workspace too small in NLEQ");
     case 20:    return ("Bad input to size of model parameter");
     case 21:    return ("Nonpositive value for RTOL supplied to NLEQ");
-    case 22:    return ("Negative scaling value via vector XSCAL supplied");
+    case 22:    return ("Negative scaling value via std::vector XSCAL supplied");
     case 30:    return ("One or more fields specified in IOPT are invalid (NLEQ)");
     case 80:    return ("Error signalled by linear solver routine N1FACT, in NLEQ");
     case 81:    return ("Error signalled by linear solver routine N1SOLV, in NLEQ");
@@ -424,13 +424,13 @@ static const char* keys[] =
         "linearity.hint"
 };
 
-void NLEQ1Interface::setItem(const std::string& key, const rr::Variant& value)
+void NLEQ1Interface::setItem(const std::string& key, const rr::Setting& value)
 {
 }
 
-Variant NLEQ1Interface::getItem(const std::string& key) const
+Setting NLEQ1Interface::getItem(const std::string& key) const
 {
-    return 0;
+    return Setting(); // Was 0; Not sure why
 }
 
 bool NLEQ1Interface::hasKey(const std::string& key) const
@@ -452,50 +452,50 @@ const Dictionary* NLEQ1Interface::getSteadyStateOptions()
 {
     static BasicDictionary dict;
 
-    dict.setItem("steadyState", "NLEQ1");
-    dict.setItem("steadyState.hint", "NLEQ1 hint");
-    dict.setItem("steadyState.description", "NLEQ1 description");
+    dict.setItem("steadyState", Setting("NLEQ1"));
+    dict.setItem("steadyState.hint", Setting("NLEQ1 hint"));
+    dict.setItem("steadyState.description", Setting("NLEQ1 description"));
 
-    dict.setItem("allowPreSim", Config::getBool(Config::STEADYSTATE_PRESIMULATION));
-    dict.setItem("preSimMaximumSteps", Config::getInt(Config::STEADYSTATE_PRESIMULATION_MAX_STEPS));
-    dict.setItem("preSimTime", Config::getDouble(Config::STEADYSTATE_PRESIMULATION_TIME));
-    dict.setItem("allowApprox", Config::getBool(Config::STEADYSTATE_APPROX));
-    dict.setItem("approxTolerance", Config::getDouble(Config::STEADYSTATE_APPROX_TOL));
-    dict.setItem("approxMaximumSteps", Config::getInt(Config::STEADYSTATE_APPROX_MAX_STEPS));
-    dict.setItem("approxTime", Config::getDouble(Config::STEADYSTATE_APPROX_TIME));
-    dict.setItem("relativeTolerance", Config::getDouble(Config::STEADYSTATE_RELATIVE));
-    dict.setItem("maxIterations", Config::getInt(Config::STEADYSTATE_MAXIMUM_NUM_STEPS));
-    dict.setItem("minDamping", Config::getDouble(Config::STEADYSTATE_MINIMUM_DAMPING));
-    dict.setItem("broyden", Config::getInt(Config::STEADYSTATE_BROYDEN));
-    dict.setItem("linearity", Config::getInt(Config::STEADYSTATE_LINEARITY));
+    dict.setItem("allowPreSim",             Setting(Config::getBool(Config::STEADYSTATE_PRESIMULATION)));
+    dict.setItem("preSimMaximumSteps",      Setting(Config::getInt(Config::STEADYSTATE_PRESIMULATION_MAX_STEPS)));
+    dict.setItem("preSimTime",              Setting(Config::getDouble(Config::STEADYSTATE_PRESIMULATION_TIME)));
+    dict.setItem("allowApprox",             Setting(Config::getBool(Config::STEADYSTATE_APPROX)));
+    dict.setItem("approxTolerance",         Setting(Config::getDouble(Config::STEADYSTATE_APPROX_TOL)));
+    dict.setItem("approxMaximumSteps",      Setting(Config::getInt(Config::STEADYSTATE_APPROX_MAX_STEPS)));
+    dict.setItem("approxTime",              Setting(Config::getDouble(Config::STEADYSTATE_APPROX_TIME)));
+    dict.setItem("relativeTolerance",       Setting(Config::getDouble(Config::STEADYSTATE_RELATIVE)));
+    dict.setItem("maxIterations",           Setting(Config::getInt(Config::STEADYSTATE_MAXIMUM_NUM_STEPS)));
+    dict.setItem("minDamping",              Setting(Config::getDouble(Config::STEADYSTATE_MINIMUM_DAMPING)));
+    dict.setItem("broyden",                 Setting(Config::getInt(Config::STEADYSTATE_BROYDEN)));
+    dict.setItem("linearity",               Setting(Config::getInt(Config::STEADYSTATE_LINEARITY)));
 
-    dict.setItem("allowPreSim.description", "startWithApprox.description");
-    dict.setItem("preSimTolerance.description", "preSimTolerance.description");
-    dict.setItem("preSimMaximumSteps.description", "preSimMaximumSteps.description");
-    dict.setItem("preSimTime.description", "preSimTime.description");
-    dict.setItem("allowApprox.description", "allowApprox.description");
-    dict.setItem("approxTolerance.description", "approxTolerance.description");
-    dict.setItem("approxMaximumSteps.description", "approxMaximumSteps.description");
-    dict.setItem("approxTime.description", "approxTime.description");
-    dict.setItem("relativeTolerance.description", "relativeTolerance.description");
-    dict.setItem("maxIterations.description", "maxIterations.description");
-    dict.setItem("minDamping.description", "minDamping.description");
-    dict.setItem("broyden.description", "broyden.description");
-    dict.setItem("linearity.description", "linearity.description");
+    dict.setItem("allowPreSim.description",         Setting("startWithApprox.description"));
+    dict.setItem("preSimTolerance.description",     Setting("preSimTolerance.description"));
+    dict.setItem("preSimMaximumSteps.description",  Setting("preSimMaximumSteps.description"));
+    dict.setItem("preSimTime.description",          Setting("preSimTime.description"));
+    dict.setItem("allowApprox.description",         Setting("allowApprox.description"));
+    dict.setItem("approxTolerance.description",     Setting("approxTolerance.description"));
+    dict.setItem("approxMaximumSteps.description",  Setting("approxMaximumSteps.description"));
+    dict.setItem("approxTime.description",          Setting("approxTime.description"));
+    dict.setItem("relativeTolerance.description",   Setting("relativeTolerance.description"));
+    dict.setItem("maxIterations.description",       Setting("maxIterations.description"));
+    dict.setItem("minDamping.description",          Setting("minDamping.description"));
+    dict.setItem("broyden.description",             Setting("broyden.description"));
+    dict.setItem("linearity.description",           Setting("linearity.description"));
 
-    dict.setItem("allowPreSim.hint", "startWithApprox.hint");
-    dict.setItem("preSimTolerance.hint", "preSimTolerance.hint");
-    dict.setItem("preSimMaximumSteps.hint", "preSimMaximumSteps.hint");
-    dict.setItem("preSimTime.hint", "preSimTime.hint");
-    dict.setItem("allowApprox.hint", "allowApprox.hint");
-    dict.setItem("approxTolerance.hint", "approxTolerance.hint");
-    dict.setItem("approxMaximumSteps.hint", "approxMaximumSteps.hint");
-    dict.setItem("approxTime.hint", "approxTime.hint");
-    dict.setItem("relativeTolerance.hint", "relativeTolerance.hint");
-    dict.setItem("maxIterations.hint", "maxIterations.hint");
-    dict.setItem("minDamping.hint", "minDamping.hint");
-    dict.setItem("broyden.hint", "broyden.hint");
-    dict.setItem("linearity.hint", "linearity.hint");
+    dict.setItem("allowPreSim.hint",                Setting("startWithApprox.hint"));
+    dict.setItem("preSimTolerance.hint",            Setting("preSimTolerance.hint"));
+    dict.setItem("preSimMaximumSteps.hint",         Setting("preSimMaximumSteps.hint"));
+    dict.setItem("preSimTime.hint",                 Setting("preSimTime.hint"));
+    dict.setItem("allowApprox.hint",                Setting("allowApprox.hint"));
+    dict.setItem("approxTolerance.hint",            Setting("approxTolerance.hint"));
+    dict.setItem("approxMaximumSteps.hint",         Setting("approxMaximumSteps.hint"));
+    dict.setItem("approxTime.hint",                 Setting("approxTime.hint"));
+    dict.setItem("relativeTolerance.hint",          Setting("relativeTolerance.hint"));
+    dict.setItem("maxIterations.hint",              Setting("maxIterations.hint"));
+    dict.setItem("minDamping.hint",                 Setting("minDamping.hint"));
+    dict.setItem("broyden.hint",                    Setting("broyden.hint"));
+    dict.setItem("linearity.hint",                  Setting("linearity.hint"));
 
     return &dict;
 }
@@ -503,7 +503,7 @@ const Dictionary* NLEQ1Interface::getSteadyStateOptions()
 double NLEQ1Interface::computeSumsOfSquares()
 {
     double sum = 0;
-    vector<double> rates(model->getStateVector(0));
+    std::vector<double> rates(model->getStateVector(0));
     model->getStateVectorRate(0, 0, &rates[0]);
 
     for (int i = 0; i < n; i++)

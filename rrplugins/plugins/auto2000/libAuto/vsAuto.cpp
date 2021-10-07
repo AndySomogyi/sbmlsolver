@@ -2,6 +2,8 @@
 #include <cstring>
 #include <fstream>
 
+#include "telLogger.h"
+
 #if defined(_MSC_VER)
     #include <direct.h>
     #define getcwd _getcwd
@@ -338,8 +340,12 @@ void autoCallConv CallAuto(const string& tempFolder)
     }
     catch(exception& e)
     {
-        //Re throw
-        cerr<<"Exception in LibAuto: "<<e.what();
+        RRPLOG(tlp::lError) <<"Exception in LibAuto: "<<e.what();
+
+    }
+    catch (const char* e)
+    {
+        RRPLOG(tlp::lError) << "Exception in LibAuto: " << e;
 
     }
     autolib::CloseAllFiles();

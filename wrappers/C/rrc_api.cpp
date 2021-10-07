@@ -39,12 +39,14 @@
  * redistribute any piece of this software without proper attribution;
 */
 
+
 #pragma hdrstop
 #include <string>
 #include <iostream>
 #include <sstream>
 #include <fstream>
 #include "rrRoadRunner.h"
+#include "rrRoadRunnerData.h"
 #include "rrRoadRunnerOptions.h"
 #include "rrExecutableModel.h"
 #include "rrCompiler.h"
@@ -61,6 +63,9 @@
 #include "Dictionary.h"
 #include "rrConfig.h"
 #include <ctime>
+#include "IntegratorFactory.h"
+#include "SensitivitySolverFactory.h"
+#include "SteadyStateSolverFactory.h"
 
 
 #if defined(_MSC_VER)
@@ -84,6 +89,9 @@
     #include <limits.h>
     #define RR_MAX_PATH PATH_MAX
 #endif
+
+#include <filesystem>
+namespace fs = std::filesystem;
 //---------------------------------------------------------------------------
 
 namespace rrc
@@ -151,8 +159,11 @@ static std::vector<std::string> rr_getReactionIds(RoadRunner* r);
 RRHandle rrcCallConv createRRInstance()
 {
     start_try
-        string rrInstallFolder(getParentFolder(getRRCAPILocation()));
-        return new RoadRunner("", getTempDir(), joinPath(rrInstallFolder, "rr_support"));
+        char* capiLocation = getRRCAPILocation(); // return type is dynamically allocated.
+        string rrInstallFolder(getParentFolder(capiLocation));
+        free(capiLocation);
+        std::filesystem::path supportCodeDir = std::filesystem::path(rrInstallFolder) /= "rr_support";
+        return new RoadRunner("", getTempDir(), supportCodeDir.string());
     catch_ptr_macro
 }
 
@@ -164,26 +175,27 @@ RRHandle rrcCallConv createRRInstanceEx(const char* tempFolder, const char* comp
         string rrInstallFolder(text2);
         rr::freeText(text1);
         string compiler = compiler_cstr ? compiler_cstr : "";
+        std::filesystem::path supportCodeDir = std::filesystem::path(rrInstallFolder) /= "rr_support";
 
-        if(tempFolder != NULL && !fileExists(tempFolder))
+        if(tempFolder != NULL && !std::filesystem::exists(tempFolder))
         {
             stringstream msg;
             msg<<"The temporary folder: "<<tempFolder<<" do not exist";
-            Log(Logger::LOG_ERROR)<<msg.str();
+            rrLog(Logger::LOG_ERROR)<<msg.str();
             throw(Exception(msg.str()));
         }
         else if(tempFolder)
         {
-            return new RoadRunner(compiler, tempFolder, joinPath(rrInstallFolder, "rr_support"));
+            return new RoadRunner(compiler, tempFolder, supportCodeDir.string());
         }
         else
         {
-            return new RoadRunner(compiler, getTempDir(), joinPath(rrInstallFolder, "rr_support"));
+            return new RoadRunner(compiler, getTempDir(), supportCodeDir.string());
         }
     catch_ptr_macro
 }
 
-char* rrcCallConv getInstallFolder()
+char* getInstallFolder()
 {
     if(!gInstallFolder[0])
     {
@@ -239,7 +251,7 @@ char* rrcCallConv getRRCAPILocation()
     char path[MAX_PATH];
     HINSTANCE handle = NULL;
     const char* dllName = "roadrunner_c_api";
-    handle = GetModuleHandle(dllName);
+    handle = GetModuleHandle(reinterpret_cast<LPCWSTR>(dllName));
     int nrChars = GetModuleFileNameA(handle, path, sizeof(path));
     if(nrChars != 0)
     {
@@ -249,7 +261,7 @@ char* rrcCallConv getRRCAPILocation()
     }
     return NULL;
 #else
-    return rr::createText(joinPath(getInstallFolder(),"/lib"));
+    return rr::createText(fs::absolute(fs::path(getInstallFolder()) / "lib"));
 #endif
 }
 
@@ -419,7 +431,7 @@ bool rrcCallConv loadSBMLFromFile(RRHandle _handle, const char* fileName)
 {
     start_try
         //Check first if file exists first
-        if(!fileExists(fileName))
+        if(!std::filesystem::exists(fileName))
         {
             stringstream msg;
             msg<<"The file "<<fileName<<" was not found";
@@ -437,7 +449,7 @@ bool rrcCallConv loadSBMLFromFileE(RRHandle _handle, const char* fileName, bool 
 {
     start_try
         //Check first if file exists first
-        if(!fileExists(fileName))
+        if(!std::filesystem::exists(fileName))
         {
             stringstream msg;
             msg<<"The file "<<fileName<<" was not found";
@@ -504,7 +516,7 @@ bool rrcCallConv loadSimulationSettings(RRHandle handle, const char* fileName)
 {
     start_try
         //Check first if file exists first
-        if(!fileExists(fileName))
+        if(!std::filesystem::exists(fileName))
         {
             stringstream msg;
             msg<<"The file "<<fileName<<" was not found";
@@ -570,6 +582,20 @@ bool rrcCallConv setNumPoints(RRHandle handle, const int nrPoints)
         RoadRunner* rri = castToRoadRunner(handle);
         SimulateOptions &opt = rri->getSimulateOptions();
         opt.steps = nrPoints - 1;
+        return true;
+    catch_bool_macro
+}
+
+bool rrcCallConv setTimes(RRHandle handle, const double* times, int size)
+{
+    start_try
+        RoadRunner* rri = castToRoadRunner(handle);
+        SimulateOptions& opt = rri->getSimulateOptions();
+        opt.times.clear();
+        for (int t = 0; t < size; t++)
+        {
+            opt.times.push_back(times[t]);
+        }
         return true;
     catch_bool_macro
 }
@@ -647,12 +673,39 @@ RRCDataPtr rrcCallConv simulate(RRHandle handle)
     catch_ptr_macro
 }
 
+bool rrcCallConv simulateNoReturn(RRHandle handle)
+{
+    start_try
+        RoadRunner* rri = castToRoadRunner(handle);
+        rri->simulate();
+        return true;
+    catch_bool_macro
+}
+
 RRCDataPtr rrcCallConv simulateEx(RRHandle handle, const double timeStart, const double timeEnd, const int numberOfPoints)
 {
     start_try
         setTimeStart(handle, timeStart);
         setTimeEnd (handle, timeEnd);
         setNumPoints(handle, numberOfPoints);
+        return simulate(handle);
+    catch_ptr_macro
+}
+
+bool rrcCallConv simulateExNoReturn(RRHandle handle, const double timeStart, const double timeEnd, const int numberOfPoints)
+{
+    start_try
+        setTimeStart(handle, timeStart);
+        setTimeEnd(handle, timeEnd);
+        setNumPoints(handle, numberOfPoints);
+        return simulateNoReturn(handle);
+    catch_bool_macro
+}
+
+RRCDataPtr rrcCallConv simulateTimes(RRHandle handle, const double* times, int size)
+{
+    start_try
+        setTimes(handle, times, size);
         return simulate(handle);
     catch_ptr_macro
 }
@@ -664,6 +717,17 @@ RRCDataPtr rrcCallConv getSimulationResult(RRHandle handle)
 
         //Extract the data and return struct..
         return  createRRCData(*rri);
+    catch_ptr_macro
+}
+
+
+RRHandle rrcCallConv getSimulationResultAsDoubleMatrix(RRHandle handle)
+{
+    start_try
+        RoadRunner* rri = castToRoadRunner(handle);
+
+        //Extract the data and return struct..
+        return const_cast<void*>(static_cast<const void*>(rri->getSimulationData()));
     catch_ptr_macro
 }
 
@@ -1276,7 +1340,7 @@ bool rrcCallConv steadyState(RRHandle handle, double* value)
 {
     start_try
         RoadRunner* rri = castToRoadRunner(handle);
-        Log(Logger::LOG_DEBUG) << "rrcCallConv steadyState";
+        rrLog(Logger::LOG_DEBUG) << "rrcCallConv steadyState";
         *value = rri->steadyState();
         return true;
     catch_bool_macro
@@ -1475,7 +1539,7 @@ RRListPtr rrcCallConv getElasticityCoefficientIds(RRHandle handle)
 int rrcCallConv getNumRegisteredIntegrators()
 {
 	start_try;
-		return static_cast<int>(IntegratorFactory::getInstance().getNumIntegrators());
+		return static_cast<int>(IntegratorFactory::getInstance().size());
     catch_int_macro
 }
 
@@ -1483,10 +1547,10 @@ char* rrcCallConv getRegisteredIntegratorName(int n)
 {
     start_try;
         if (n < 0) {
-            Log(Logger::LOG_WARNING) << "Negative index passed to getRegisteredIntegratorName";
+            rrLog(Logger::LOG_WARNING) << "Negative index passed to getRegisteredIntegratorName";
             n = 0;
         }
-        return rr::createText(IntegratorFactory::getInstance().getIntegratorName(n));
+        return rr::createText(IntegratorFactory::getInstance().name(n));
     catch_ptr_macro
 }
 
@@ -1494,10 +1558,10 @@ char* rrcCallConv getRegisteredIntegratorHint(int n)
 {
     start_try;
         if (n < 0) {
-            Log(Logger::LOG_WARNING) << "Negative index passed to getRegisteredIntegratorName";
+            rrLog(Logger::LOG_WARNING) << "Negative index passed to getRegisteredIntegratorName";
             n = 0;
         }
-        return rr::createText(IntegratorFactory::getInstance().getIntegratorHint(n));
+        return rr::createText(IntegratorFactory::getInstance().hint(n));
     catch_ptr_macro
 }
 
@@ -1505,10 +1569,10 @@ char* rrcCallConv getRegisteredIntegratorDescription(int n)
 {
     start_try;
         if (n < 0) {
-            Log(Logger::LOG_WARNING) << "Negative index passed to getRegisteredIntegratorName";
+            rrLog(Logger::LOG_WARNING) << "Negative index passed to getRegisteredIntegratorName";
             n = 0;
         }
-        return rr::createText(IntegratorFactory::getInstance().getIntegratorDescription(n));
+        return rr::createText(IntegratorFactory::getInstance().description(n));
     catch_ptr_macro
 }
 
@@ -1523,7 +1587,7 @@ int rrcCallConv getNumInstantiatedIntegrators(RRHandle handle)
 int rrcCallConv setCurrentIntegrator (RRHandle handle, char *nameOfIntegrator)
 {
 	start_try
-        Log(Logger::LOG_DEBUG) << "setCurrentIntegrator called with " << nameOfIntegrator;
+        rrLog(Logger::LOG_DEBUG) << "setCurrentIntegrator called with " << nameOfIntegrator;
 		RoadRunner* rri = castToRoadRunner(handle);
 		rri->setIntegrator(std::string(nameOfIntegrator));
 		return true;
@@ -1683,20 +1747,39 @@ int rrcCallConv getCurrentIntegratorParameterType (RRHandle handle, char *parame
 // Model editing methods
 // -------------------------------------------------------------------------------------
 
-bool rrcCallConv addSpecies(RRHandle handle, const char* sid, const char* compartment, double initialAmount, bool hasOnlySubstanceUnits, bool boundaryCondition)
+bool rrcCallConv addSpeciesConcentration (RRHandle handle, const char* sid, const char* compartment, double initialConcentration, bool hasOnlySubstanceUnits, bool boundaryCondition)
+{
+    start_try
+        RoadRunner* rri = castToRoadRunner (handle);
+        rri->addSpeciesConcentration (sid, compartment, initialConcentration, hasOnlySubstanceUnits, boundaryCondition);
+        return true;
+    catch_bool_macro
+}
+
+
+bool rrcCallConv addSpeciesAmount(RRHandle handle, const char* sid, const char* compartment, double initialAmount, bool hasOnlySubstanceUnits, bool boundaryCondition)
 {
 	start_try
 		RoadRunner* rri = castToRoadRunner(handle);
-		rri->addSpecies(sid, compartment, initialAmount, hasOnlySubstanceUnits, boundaryCondition);
+		rri->addSpeciesAmount(sid, compartment, initialAmount, hasOnlySubstanceUnits, boundaryCondition);
 		return true;
 	catch_bool_macro
 }
 
-bool rrcCallConv addSpeciesNoRegen(RRHandle handle, const char* sid, const char* compartment, double initialAmount, bool hasOnlySubstanceUnits, bool boundaryCondition)
+bool rrcCallConv addSpeciesConcentrationNoRegen(RRHandle handle, const char* sid, const char* compartment, double initialConcentration, bool hasOnlySubstanceUnits, bool boundaryCondition)
+{
+    start_try
+        RoadRunner* rri = castToRoadRunner(handle);
+        rri->addSpeciesConcentration(sid, compartment, initialConcentration, hasOnlySubstanceUnits, boundaryCondition, "", false);
+        return true;
+    catch_bool_macro
+}
+
+bool rrcCallConv addSpeciesAmountNoRegen(RRHandle handle, const char* sid, const char* compartment, double initialAmount, bool hasOnlySubstanceUnits, bool boundaryCondition)
 {
 	start_try
 		RoadRunner* rri = castToRoadRunner(handle);
-		rri->addSpecies(sid, compartment, initialAmount, hasOnlySubstanceUnits, boundaryCondition, "", false);
+		rri->addSpeciesAmount(sid, compartment, initialAmount, hasOnlySubstanceUnits, boundaryCondition, "", false);
 		return true;
 	catch_bool_macro
 }
@@ -1991,6 +2074,15 @@ bool rrcCallConv removeCompartmentNoRegen(RRHandle handle, const char* cid)
 	catch_bool_macro
 }
 
+bool rrcCallConv addInitialAssignment (RRHandle handle, char *vid, char *formula, bool forceRegenerate)
+{
+    start_try
+        RoadRunner* rri = castToRoadRunner (handle);
+    rri->addInitialAssignment (vid, formula, forceRegenerate);
+    return true;
+    catch_bool_macro
+}
+
 
 bool rrcCallConv addAssignmentRule(RRHandle handle, const char* vid, const char* formula)
 {
@@ -2211,6 +2303,16 @@ bool rrcCallConv removeEventsNoRegen(RRHandle handle, const char* eid)
 	catch_bool_macro
 }
 
+bool rrcCallConv regenerate (RRHandle handle)
+{
+   start_try
+       RoadRunner* rri = castToRoadRunner (handle);
+       rri->regenerateModel ();
+      return true;
+  catch_bool_macro
+}
+
+
 bool rrcCallConv validateCurrentSBML(RRHandle handle)
 {
 	start_try
@@ -2231,7 +2333,7 @@ int rrcCallConv getCurrentIntegratorParameterInt (RRHandle handle, char *paramet
 		RoadRunner* rri = castToRoadRunner(handle);
 		stringstream key;
 		key << parameterName;
-		return rri->getIntegrator()->getValueAsInt(key.str());
+		return (int)rri->getIntegrator()->getValue(key.str());
     catch_int_macro
 }
 
@@ -2241,7 +2343,7 @@ int rrcCallConv setCurrentIntegratorParameterInt (RRHandle handle, char *paramet
 		RoadRunner* rri = castToRoadRunner(handle);
 		stringstream key;
 		key << parameterName;
-		rri->getIntegrator()->setValue(key.str(), value);
+		rri->getIntegrator()->setValue(key.str(), Setting(value));
         return true;
     catch_int_macro
 }
@@ -2252,7 +2354,7 @@ unsigned int rrcCallConv getCurrentIntegratorParameterUInt (RRHandle handle, cha
         RoadRunner* rri = castToRoadRunner(handle);
         stringstream key;
         key << parameterName;
-        return rri->getIntegrator()->getValueAsInt(key.str());
+        return (int)rri->getIntegrator()->getValue(key.str());
     catch_int_macro
 }
 
@@ -2262,7 +2364,7 @@ int rrcCallConv setCurrentIntegratorParameterUInt (RRHandle handle, char *parame
         RoadRunner* rri = castToRoadRunner(handle);
         stringstream key;
         key << parameterName;
-        rri->getIntegrator()->setValue(key.str(), value);
+        rri->getIntegrator()->setValue(key.str(), Setting(value));
         return true;
     catch_int_macro
 }
@@ -2273,7 +2375,7 @@ double rrcCallConv getCurrentIntegratorParameterDouble (RRHandle handle, char *p
 		RoadRunner* rri = castToRoadRunner(handle);
 		stringstream key;
 		key << parameterName;
-		return rri->getIntegrator()->getValueAsDouble(key.str());
+		return (double)rri->getIntegrator()->getValue(key.str());
 	catch_int_macro
 }
 
@@ -2283,7 +2385,7 @@ int rrcCallConv setCurrentIntegratorParameterDouble (RRHandle handle, char *para
 		RoadRunner* rri = castToRoadRunner(handle);
 		stringstream key;
 		key << parameterName;
-		rri->getIntegrator()->setValue(key.str(), value);
+		rri->getIntegrator()->setValue(key.str(), Setting(value));
 		return true;
 	catch_int_macro
 }
@@ -2307,7 +2409,7 @@ int rrcCallConv setCurrentIntegratorParameterString (RRHandle handle, char *para
 		RoadRunner* rri = castToRoadRunner(handle);
 		stringstream key;
 		key << parameterName;
-		rri->getIntegrator()->setValue(key.str(), value);
+		rri->getIntegrator()->setValue(key.str(), Setting(value));
 		return true;
 	catch_int_macro
 }
@@ -2319,7 +2421,7 @@ int rrcCallConv getCurrentIntegratorParameterBoolean (RRHandle handle, char *par
 		RoadRunner* rri = castToRoadRunner(handle);
 		stringstream key;
 		key << parameterName;
-		return rri->getIntegrator()->getValueAsBool(key.str());
+		return (bool)rri->getIntegrator()->getValue(key.str());
 	catch_int_macro
 }
 
@@ -2330,7 +2432,7 @@ int rrcCallConv setCurrentIntegratorParameterBoolean (RRHandle handle, char *par
 		RoadRunner* rri = castToRoadRunner(handle);
 		stringstream key;
 		key << parameterName;
-		rri->getIntegrator()->setValue(key.str(), (bool)value);
+		rri->getIntegrator()->setValue(key.str(), Setting((bool)value));
 		return true;
 	catch_int_macro
 }
@@ -2343,7 +2445,7 @@ int rrcCallConv getCurrentIntegratorParameterDoubleArray(RRHandle handle, char* 
 		RoadRunner* rri = castToRoadRunner(handle);
 		stringstream key;
 		key << parameterName;
-		vector<double> v = rri->getIntegrator()->getValueAsDoubleVector(key.str());
+		vector<double> v = rri->getIntegrator()->getValue(key.str());
 
 		// TODO: potential memory leak?
 		double* ptr = (double*)malloc(v.size() * sizeof(double));
@@ -2364,7 +2466,7 @@ int rrcCallConv setCurrentIntegratorParameterDoubleArray(RRHandle handle, char* 
 		stringstream key;
 		key << parameterName;
 		vector<double> v(value, value + len);
-		rri->getIntegrator()->setValue(key.str(), v);
+		rri->getIntegrator()->setValue(key.str(),Setting( v));
 		return true;
 	catch_int_macro
 }
@@ -2373,7 +2475,7 @@ int rrcCallConv setCurrentIntegratorScalarConcentrationTolerance(RRHandle handle
 {
 	start_try
 		RoadRunner* rri = castToRoadRunner(handle);
-		rri->getIntegrator()->setConcentrationTolerance(value);
+		rri->getIntegrator()->setConcentrationTolerance(Setting(value));
 		return true;
 	catch_int_macro
 }
@@ -2383,7 +2485,7 @@ int rrcCallConv setCurrentIntegratorVectorConcentrationTolerance(RRHandle handle
 	start_try
 		RoadRunner* rri = castToRoadRunner(handle);
 		vector<double> v(value, value + len);
-		rri->getIntegrator()->setConcentrationTolerance(v);
+		rri->getIntegrator()->setConcentrationTolerance(Setting(v));
 		return true;
 	catch_int_macro
 }
@@ -2406,7 +2508,7 @@ int rrcCallConv setCurrentIntegratorIndividualTolerance(RRHandle handle, char* s
 int rrcCallConv getNumRegisteredSteadyStateSolvers()
 {
     start_try;
-        return static_cast<int>(SteadyStateSolverFactory::getInstance().getNumSteadyStateSolvers());
+        return static_cast<int>(SteadyStateSolverFactory::getInstance().size());
     catch_int_macro
 }
 
@@ -2414,10 +2516,10 @@ char* rrcCallConv getRegisteredSteadyStateSolverName(int n)
 {
     start_try;
         if (n < 0) {
-            Log(Logger::LOG_WARNING) << "Negative index passed to getRegisteredSteadyStateSolverName";
+            rrLog(Logger::LOG_WARNING) << "Negative index passed to getRegisteredSteadyStateSolverName";
             n = 0;
         }
-        return rr::createText(SteadyStateSolverFactory::getInstance().getSteadyStateSolverName(n));
+        return rr::createText(SteadyStateSolverFactory::getInstance().name(n));
     catch_ptr_macro
 }
 
@@ -2425,10 +2527,10 @@ char* rrcCallConv getRegisteredSteadyStateSolverHint(int n)
 {
     start_try;
         if (n < 0) {
-            Log(Logger::LOG_WARNING) << "Negative index passed to getRegisteredSteadyStateSolverName";
+            rrLog(Logger::LOG_WARNING) << "Negative index passed to getRegisteredSteadyStateSolverName";
             n = 0;
         }
-        return rr::createText(SteadyStateSolverFactory::getInstance().getSteadyStateSolverHint(n));
+        return rr::createText(SteadyStateSolverFactory::getInstance().hint(n));
     catch_ptr_macro
 }
 
@@ -2436,17 +2538,17 @@ char* rrcCallConv getRegisteredSteadyStateSolverDescription(int n)
 {
     start_try;
         if (n < 0) {
-            Log(Logger::LOG_WARNING) << "Negative index passed to getRegisteredSteadyStateSolverName";
+            rrLog(Logger::LOG_WARNING) << "Negative index passed to getRegisteredSteadyStateSolverName";
             n = 0;
         }
-        return rr::createText(SteadyStateSolverFactory::getInstance().getSteadyStateSolverDescription(n));
+        return rr::createText(SteadyStateSolverFactory::getInstance().description(n));
     catch_ptr_macro
 }
 
 int rrcCallConv setCurrentSteadyStateSolver (RRHandle handle, char *nameOfSteadyStateSolver)
 {
     start_try
-        Log(Logger::LOG_DEBUG) << "setCurrentSteadyStateSolver called with " << nameOfSteadyStateSolver;
+        rrLog(Logger::LOG_DEBUG) << "setCurrentSteadyStateSolver called with " << nameOfSteadyStateSolver;
         RoadRunner* rri = castToRoadRunner(handle);
         rri->setSteadyStateSolver(std::string(nameOfSteadyStateSolver));
         return true;
@@ -2564,28 +2666,28 @@ int rrcCallConv resetCurrentSteadyStateSolverParameters (RRHandle handle)
 
 const char* rrcCallConv solverTypeToString (int code)
 {
-    switch (Variant::TypeId(code)) {
-        case Variant::STRING:
+    switch (Setting::TypeId(code)) {
+        case Setting::STRING:
             return "string";
-        case Variant::BOOL:
+        case Setting::BOOL:
             return "bool";
-        case Variant::INT32:
+        case Setting::INT32:
             return "int32";
-        case Variant::UINT32:
+        case Setting::UINT32:
             return "uint32";
-        case Variant::INT64:
+        case Setting::INT64:
             return "int64";
-        case Variant::UINT64:
+        case Setting::UINT64:
             return "uint64";
-        case Variant::FLOAT:
+        case Setting::FLOAT:
             return "float";
-        case Variant::DOUBLE:
+        case Setting::DOUBLE:
             return "double";
-        case Variant::CHAR:
+        case Setting::CHAR:
             return "char";
-        case Variant::UCHAR:
+        case Setting::UCHAR:
             return "uchar";
-        case Variant::EMPTY:
+        case Setting::EMPTY:
             return "empty";
         default:
             return "<invalid>";
@@ -2643,7 +2745,7 @@ int rrcCallConv getCurrentSteadyStateSolverParameterInt (RRHandle handle, char *
         RoadRunner* rri = castToRoadRunner(handle);
         stringstream key;
         key << parameterName;
-        return rri->getSteadyStateSolver()->getValueAsInt(key.str());
+        return (int)rri->getSteadyStateSolver()->getValue(key.str());
     catch_int_macro
 }
 
@@ -2653,7 +2755,7 @@ int rrcCallConv setCurrentSteadyStateSolverParameterInt (RRHandle handle, char *
         RoadRunner* rri = castToRoadRunner(handle);
         stringstream key;
         key << parameterName;
-        rri->getSteadyStateSolver()->setValue(key.str(), value);
+        rri->getSteadyStateSolver()->setValue(key.str(), Setting(value));
         return true;
     catch_int_macro
 }
@@ -2664,7 +2766,7 @@ unsigned int rrcCallConv getCurrentSteadyStateSolverParameterUInt (RRHandle hand
         RoadRunner* rri = castToRoadRunner(handle);
         stringstream key;
         key << parameterName;
-        return rri->getSteadyStateSolver()->getValueAsInt(key.str());
+        return (int)rri->getSteadyStateSolver()->getValue(key.str());
     catch_int_macro
 }
 
@@ -2674,7 +2776,7 @@ int rrcCallConv setCurrentSteadyStateSolverParameterUInt (RRHandle handle, char 
         RoadRunner* rri = castToRoadRunner(handle);
         stringstream key;
         key << parameterName;
-        rri->getSteadyStateSolver()->setValue(key.str(), value);
+        rri->getSteadyStateSolver()->setValue(key.str(), Setting(value));
         return true;
     catch_int_macro
 }
@@ -2685,7 +2787,7 @@ double rrcCallConv getCurrentSteadyStateSolverParameterDouble (RRHandle handle, 
         RoadRunner* rri = castToRoadRunner(handle);
         stringstream key;
         key << parameterName;
-        return rri->getSteadyStateSolver()->getValueAsDouble(key.str());
+        return (double)rri->getSteadyStateSolver()->getValue(key.str());
     catch_int_macro
 }
 
@@ -2695,7 +2797,7 @@ int rrcCallConv setCurrentSteadyStateSolverParameterDouble (RRHandle handle, cha
         RoadRunner* rri = castToRoadRunner(handle);
         stringstream key;
         key << parameterName;
-        rri->getSteadyStateSolver()->setValue(key.str(), value);
+        rri->getSteadyStateSolver()->setValue(key.str(), Setting(value));
         return true;
     catch_int_macro
 }
@@ -2719,7 +2821,7 @@ int rrcCallConv setCurrentSteadyStateSolverParameterString (RRHandle handle, cha
         RoadRunner* rri = castToRoadRunner(handle);
         stringstream key;
         key << parameterName;
-        rri->getSteadyStateSolver()->setValue(key.str(), value);
+        rri->getSteadyStateSolver()->setValue(key.str(), Setting(value));
         return true;
     catch_int_macro
 }
@@ -2731,7 +2833,7 @@ int rrcCallConv getCurrentSteadyStateSolverParameterBoolean (RRHandle handle, ch
         RoadRunner* rri = castToRoadRunner(handle);
         stringstream key;
         key << parameterName;
-        return rri->getSteadyStateSolver()->getValueAsBool(key.str());
+        return (bool)rri->getSteadyStateSolver()->getValue(key.str());
     catch_int_macro
 }
 
@@ -2742,7 +2844,7 @@ int rrcCallConv setCurrentSteadyStateSolverParameterBoolean (RRHandle handle, ch
         RoadRunner* rri = castToRoadRunner(handle);
         stringstream key;
         key << parameterName;
-        rri->getSteadyStateSolver()->setValue(key.str(), (bool)value);
+        rri->getSteadyStateSolver()->setValue(key.str(), Setting((bool)value));
         return true;
     catch_int_macro
 }
@@ -3266,8 +3368,8 @@ C_DECL_SPEC bool rrcCallConv getSeed(RRHandle h, long* result) {
     start_try
         RoadRunner *r = (RoadRunner*)h;
         //Integrator *intg = r->getIntegrator(Integrator::GILLESPIE);
-		//*result = intg->getItem("seed").convert<long>();
-		*result = r->getIntegrator()->getValue("seed").convert<long>();
+		//*result = intg->getItem("seed").get<long>();
+		*result = r->getIntegrator()->getValue("seed").get<std::int32_t>();
         return true;
     catch_bool_macro;
 }
@@ -3280,12 +3382,14 @@ C_DECL_SPEC bool rrcCallConv setSeed(RRHandle h, long result) {
 		Integrator *intg = r->getIntegrator();
 		if (intg->getName() == "gillespie")
 		{
-			intg->setValue("seed", result);
+			intg->setValue("seed", Setting(result));
 		}
 		else
 		{
-			Integrator *intg = IntegratorFactory::getInstance().New("gillespie", r->getModel());
-			intg->setValue("seed", result);
+			Integrator *intg = dynamic_cast<Integrator*>(
+			        IntegratorFactory::getInstance().New("gillespie", r->getModel())
+            );
+			intg->setValue("seed", Setting(result));
 		}
         return true;
     catch_bool_macro
@@ -3298,7 +3402,7 @@ C_DECL_SPEC RRCDataPtr rrcCallConv gillespie(RRHandle handle) {
         //o.integrator = Integrator::GILLESPIE;
         //o.integratorFlags |= Integrator::VARIABLE_STEP;
 		r->setIntegrator("gillespie");
-		r->getIntegrator()->setValue("variable_step_size", false);
+		r->getIntegrator()->setValue("variable_step_size", Setting(false));
         r->simulate();
         return createRRCData(*r);
     catch_ptr_macro
@@ -3319,7 +3423,7 @@ C_DECL_SPEC RRCDataPtr rrcCallConv gillespieOnGrid(RRHandle handle) {
         //o.integrator = Integrator::GILLESPIE;
         //o.integratorFlags &= !Integrator::VARIABLE_STEP;
         r->setIntegrator("gillespie");
-		r->getIntegrator()->setValue("variable_step_size", false);
+		r->getIntegrator()->setValue("variable_step_size", Setting(false));
         r->simulate();
         return createRRCData(*r);
     catch_ptr_macro
@@ -3342,7 +3446,7 @@ C_DECL_SPEC RRCDataPtr rrcCallConv gillespieMeanOnGrid(RRHandle handle, int numb
         //o.integrator = Integrator::GILLESPIE;
         //o.integratorFlags &= !Integrator::VARIABLE_STEP;
         r->setIntegrator("gillespie");
-		r->getIntegrator()->setValue("variable_step_size", false);
+		r->getIntegrator()->setValue("variable_step_size", Setting(false));
 
         double steps = o.steps;
 
@@ -3409,7 +3513,7 @@ C_DECL_SPEC RRCDataPtr rrcCallConv gillespieMeanSDOnGrid(RRHandle handle, int nu
         SimulateOptions& o = r->getSimulateOptions();
         r->setIntegrator("gillespie");
 		//o.integratorFlags &= !Integrator::VARIABLE_STEP;
-		r->getIntegrator()->setValue("variable_step_size", false);
+		r->getIntegrator()->setValue("variable_step_size", Setting(false));
 
         double steps = o.steps;
 
@@ -3489,7 +3593,13 @@ bool rrcCallConv resetAll(RRHandle handle)
 {
     start_try
         RoadRunner* rri = castToRoadRunner(handle);
-        rri->reset(SelectionRecord::TIME | SelectionRecord::RATE | SelectionRecord::FLOATING | SelectionRecord::GLOBAL_PARAMETER);
+        rri->reset(
+            SelectionRecord::TIME |
+            SelectionRecord::RATE | 
+            SelectionRecord::FLOATING |
+            SelectionRecord::BOUNDARY |
+            SelectionRecord::COMPARTMENT |
+            SelectionRecord::GLOBAL_PARAMETER);
         return true;
     catch_bool_macro
 }
@@ -3514,7 +3624,7 @@ bool rrcCallConv resetParameter(RRHandle handle)
 
 int rrcCallConv setConfigBool(const char* key, int value) {
     start_try
-        rr::Config::setValue(rr::Config::stringToKey(key), (bool)value);
+        rr::Config::setValue(rr::Config::stringToKey(key), Setting((bool)value));
         return true;
     catch_int_macro
 }
@@ -3527,7 +3637,7 @@ int rrcCallConv getConfigBool(const char* key) {
 
 int rrcCallConv setConfigInt(const char* key, int value) {
     start_try
-        rr::Config::setValue(rr::Config::stringToKey(key), value);
+        rr::Config::setValue(rr::Config::stringToKey(key), Setting(value));
         return true;
     catch_int_macro
 }
@@ -3540,7 +3650,7 @@ int rrcCallConv getConfigInt(const char* key) {
 
 int rrcCallConv setConfigDouble(const char* key, double value) {
     start_try
-        rr::Config::setValue(rr::Config::stringToKey(key), value);
+        rr::Config::setValue(rr::Config::stringToKey(key), Setting(value));
         return true;
     catch_int_macro
 }

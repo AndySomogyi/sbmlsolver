@@ -7,16 +7,23 @@ cmake_minimum_required(VERSION 3.16)
 # Version information and include modules
 
 set(ROADRUNNER_VERSION_MAJOR 2)
-set(ROADRUNNER_VERSION_MINOR 0)
-set(ROADRUNNER_VERSION_PATCH 4)
+set(ROADRUNNER_VERSION_MINOR 1)
+set(ROADRUNNER_VERSION_PATCH 0)
 
 set(ROADRUNNER_VERSION "${ROADRUNNER_VERSION_MAJOR}.${ROADRUNNER_VERSION_MINOR}.${ROADRUNNER_VERSION_PATCH}")
 project(
         roadrunner
         DESCRIPTION "roadrunner project"
         VERSION ${ROADRUNNER_VERSION}
-        LANGUAGES CXX
+        LANGUAGES CXX C
 )
+
+if (${CMAKE_VERSION} VERSION_GREATER_EQUAL "3.20")
+    # Source file extensions (.h/.cpp) do not need to be explicitly
+    #   specified if CMP0115 set to OLD.
+    #   New behavior requires all extensions be explicit
+    cmake_policy(SET CMP0115 OLD)
+endif ()
 
 
 if ("${CMAKE_SIZEOF_VOID_P}" STREQUAL "4")
@@ -39,6 +46,7 @@ visual studio developers command prompt for running the cmake command" .)
         message(WARNING "You are generating a 32-bit version of roadrunner on a \
 x64 bit machine")
     endif ()
+
 endif ()
 
 set(CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH}" "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
@@ -65,6 +73,9 @@ write_git_info() # write the git branch and commit hash to console
 
 # load cmake_dependent_options
 include(CMakeDependentOption)
+
+include(ConfigurationSummary)
+include(ConfigurationSummaryPython)
 
 #############################################################
 #   Configuration Options
@@ -95,34 +106,40 @@ option(BUILD_LEGACY_C "Build the legacy C code generating backend (deprecated)" 
 # should we build the swig python wrapper?
 option(BUILD_PYTHON "Build the SWIG generated python wrapper" OFF)
 if (BUILD_PYTHON)
-	find_package (Python COMPONENTS Interpreter Development NumPy REQUIRED)
-	if (NOT ${Python_FOUND})
-	    message(FATAL_ERROR "Could not find Python")
-	endif()
-	
-	if ("${Python_ROOT_DIR}" STREQUAL "")
-	   get_filename_component(PRD ${Python_EXECUTABLE} DIRECTORY)
-	   set(Python_ROOT_DIR "${PRD}" CACHE PATH "Path to python executable and libraries (optional).")
-	endif()
+    find_package(Python COMPONENTS Interpreter Development NumPy)
+    if (NOT ${Python_FOUND})
+        # sets a variable called PythonSummary
+        ConfigurationSummaryPython()
+        message(FATAL_ERROR "Could not find Python:\n ${PythonSummary}")
+    endif ()
+
+    if ("${Python_ROOT_DIR}" STREQUAL "")
+        get_filename_component(PRD ${Python_EXECUTABLE} DIRECTORY)
+        set(Python_ROOT_DIR "${PRD}" CACHE PATH "Path to python executable and libraries (optional).")
+    endif ()
+
+    # build directories
+    set(PYTHON_PACKAGE_SITE_DIR_BUILD_TREE "${CMAKE_BINARY_DIR}/lib/site-packages" CACHE PATH "Path to Python site packages directory in the build tree")
+    set(PYTHON_PACKAGE_BUILD_PREFIX "${PYTHON_PACKAGE_SITE_DIR_BUILD_TREE}/roadrunner")
+    set(RR_PYTHON_TESTING_BUILD_PREFIX "${PYTHON_PACKAGE_BUILD_PREFIX}/testing")
+
+    # install directories
+    set(PYTHON_PACKAGE_SITE_DIR "${CMAKE_INSTALL_PREFIX}/site-packages" CACHE PATH "Path to Python site packages directory in the install tree")
+    set(PYTHON_PACKAGE_INSTALL_PREFIX "${PYTHON_PACKAGE_SITE_DIR}/roadrunner")#CACHE PATH "Destination for roadrunner python bindings.")
+    set(RR_PYTHON_TESTING_INSTALL_PREFIX "${PYTHON_PACKAGE_INSTALL_PREFIX}/testing")
 
 
-	#set_property(CACHE ADVANCED VARIABLE Python_EXECUTABLE)
-	#mark_as_advanced(Python_EXECUTABLE)
-	#set_property(CACHE Python_LIBRARY)
-	#set_property(CACHE Python_INCLUDE_DIR)
+    # plugin directories
+    set(RR_PLUGINS_PYTHON_INSTALL_PREFIX "${PYTHON_PACKAGE_SITE_DIR}/rrplugins")#CACHE PATH "Destination for rrplugins python bindings.")
+    set(RR_PLUGINS_PYLIB_INSTALL_PREFIX "${PYTHON_PACKAGE_SITE_DIR}/rrplugins/libs")#CACHE PATH "Destination for rrplugins python binding libraries.")
 
-	set(PYTHON_PACKAGE_SITE_DIR          ${CMAKE_INSTALL_PREFIX}/site-packages      CACHE PATH "Path to Python site packages directory")
-	set(PYTHON_PACKAGE_INSTALL_PREFIX    ${PYTHON_PACKAGE_SITE_DIR}/roadrunner      )#CACHE PATH "Destination for roadrunner python bindings.")
-	set(RR_PLUGINS_PYTHON_INSTALL_PREFIX ${PYTHON_PACKAGE_SITE_DIR}/rrplugins       )#CACHE PATH "Destination for rrplugins python bindings.")
-	set(RR_PLUGINS_PYLIB_INSTALL_PREFIX  ${PYTHON_PACKAGE_SITE_DIR}/rrplugins/libs  )#CACHE PATH "Destination for rrplugins python binding libraries.")
-	cmake_dependent_option(RR_PLUGINS_BUILD_PYTHON_API "Build the RR plugin PYTHON API" ON "BUILD_RR_PLUGINS" OFF)
-#	cmake_dependent_option(BUILD_PYTHON_CTYPES_API "Build the ctypes python API for roadrunner" ON
-#	        "BUILD_PYTHON" OFF)
-#	cmake_dependent_option(WITH_CONDA_BUILDER "Include files required to build the conda package" OFF
-#	        "BUILD_PYTHON" OFF)
-endif()
+    cmake_dependent_option(RR_PLUGINS_BUILD_PYTHON_API "Build the RR plugin PYTHON API" ON "BUILD_RR_PLUGINS" OFF)
 
-
+    #	cmake_dependent_option(BUILD_PYTHON_CTYPES_API "Build the ctypes python API for roadrunner" ON
+    #	        "BUILD_PYTHON" OFF)
+    #	cmake_dependent_option(WITH_CONDA_BUILDER "Include files required to build the conda package" OFF
+    #	        "BUILD_PYTHON" OFF)
+endif ()
 
 #Setup so that roadrunner is always built as a dll and linked statically with 'as much as possible'
 option(BUILD_RR_CAPI "Generate C API" ON)
@@ -143,7 +160,56 @@ option(WITH_ADDRESS_SANITIZER "Build roadrunner with memory sanitizer tool (assu
 # telplugin options
 option(BUILD_RR_PLUGINS "Build the telplugins package" OFF)
 
-# todo consider whether we want to rebrand "telplugins" to rrplugins or something similar. These are actually roadrunner plugins not tellurium.
+#####################################################
+# Configure Asan build
+# https://stackoverflow.com/a/64294837/3059024
+#   and
+# Professional CMake: A Practical Guide.
+# Usage:
+#   -DCMAKE_BUILD_TYPE=Asan ...
+#
+
+if ("${CMAKE_BUILD_TYPE}" STREQUAL "Asan")
+    # these variables only get used in Asan builds
+    # and they will only work if CMake can find address sanitizer
+    # executable.
+    #
+    # The Asan build is based on the Debug build, but with a few extra flags
+    #
+    get_property(isMultiConfig GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
+
+    if (isMultiConfig)
+        if (NOT "Asan" IN_LIST CMAKE_CONFIGURATION_TYPES)
+            list(APPEND CMAKE_CONFIGURATION_TYPES Asan)
+        endif ()
+    else ()
+        set(allowedBuildTypes Asan Debug Release RelWithDebInfo MinSizeRel)
+        set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "${allowedBuildTypes}")
+
+        if (CMAKE_BUILD_TYPE AND NOT CMAKE_BUILD_TYPE IN_LIST allowedBuildTypes)
+            message(FATAL_ERROR "Invalid build type: ${CMAKE_BUILD_TYPE}")
+        endif ()
+    endif ()
+
+
+    set(CMAKE_C_FLAGS_ASAN
+            "${CMAKE_C_FLAGS_DEBUG} -fsanitize=address -fno-omit-frame-pointer" CACHE STRING
+            "Flags used by the C compiler for Asan build type or configuration." FORCE)
+
+    set(CMAKE_CXX_FLAGS_ASAN
+            "${CMAKE_CXX_FLAGS_DEBUG} -fsanitize=address -fno-omit-frame-pointer" CACHE STRING
+            "Flags used by the C++ compiler for Asan build type or configuration." FORCE)
+
+    set(CMAKE_EXE_LINKER_FLAGS_ASAN
+            "${CMAKE_SHARED_LINKER_FLAGS_DEBUG} -fsanitize=address" CACHE STRING
+            "Linker flags to be used to create executables for Asan build type." FORCE)
+
+    set(CMAKE_SHARED_LINKER_FLAGS_ASAN
+            "${CMAKE_SHARED_LINKER_FLAGS_DEBUG} -fsanitize=address" CACHE STRING
+            "Linker lags to be used to create shared libraries for Asan build type." FORCE)
+endif ()
+
+
 ## Feature selection
 
 # These options are dependent on BUILD_RR_PLUGINS option. This reads: when BUILD_RR_PLUGINS=ON set the value of
@@ -159,21 +225,19 @@ cmake_dependent_option(RR_PLUGINS_BUILD_ADD_NOISE_PLUGIN "Build the Add Noise Pl
 cmake_dependent_option(RR_PLUGINS_BUILD_CHISQUARE_PLUGIN "Build the ChiSquare Plugin" ON "BUILD_RR_PLUGINS" OFF)
 cmake_dependent_option(RR_PLUGINS_BUILD_AUTO2000_PLUGIN "Build the Auto 2000 Plugin" ON "BUILD_RR_PLUGINS" OFF)
 cmake_dependent_option(RR_PLUGINS_BUILD_HELLO_PLUGIN "Build the Demo Plugin" ON "BUILD_RR_PLUGINS" OFF)
+cmake_dependent_option(RR_PLUGINS_BUILD_LEVENBERG_MARQUARDT_PLUGIN "Build the Levenberg-Marquardt Plugin" ON "BUILD_RR_PLUGINS" OFF)
+cmake_dependent_option(RR_PLUGINS_BUILD_NELDER_MEAD_PLUGIN "Build the Nelder-Mead Plugin" ON "BUILD_RR_PLUGINS" OFF)
+cmake_dependent_option(RR_PLUGINS_BUILD_MONTE_CARLO_PLUGIN "Build the Monte Carlo Plugin" ON "BUILD_RR_PLUGINS" OFF)
 
-#todo do these exist???
-#set (RR_PLUGINS_BUILD_LEVENBERG_MARQUARDT_PLUGIN ON CACHE BOOL "Build the Levenberg-Marquardt Plugin")
-#set (RR_PLUGINS_BUILD_NELDER_MEAD_PLUGIN ON CACHE BOOL "Build the Nelder-Mead Plugin")
+#mark_as_advanced(RR_PLUGINS_BUILD_LEVENBERG_MARQUARDT_PLUGIN)
+#mark_as_advanced(RR_PLUGINS_BUILD_NELDER_MEAD_PLUGIN)
+#mark_as_advanced(RR_PLUGINS_BUILD_MONTE_CARLO_PLUGIN)
 
-set(CXX_STANDARD 14 CACHE STRING "set the cmake standard to use")
+set(CXX_STANDARD 17 CACHE STRING "set the cmake standard to use")
 
 ##################################################
 #   Settings
 #
-
-# Would be nice to set these options but I tried it and we cannot without
-# breaking the build (cw)
-#set(CMAKE_CXX_VISIBILITY_PRESET hidden)
-#set(CMAKE_VISIBILITY_INLINES_HIDDEN YES)
 
 #handle rpath
 set(CMAKE_MACOSX_RPATH TRUE)
@@ -193,9 +257,7 @@ if (BUILD_TESTS OR BUILD_JAVA)
     enable_testing()
 endif ()
 
-# TODO: add some logic to automatically set based on compiler version
-# todo: turn on C++17 and see if it errors.
-#   - it does. Therefore todo: fix errors with c++17
+
 set(RR_USE_CXX14 TRUE CACHE BOOL "Set to TRUE to enable C++14 features")
 
 # new clang on OSX and msvc use std namespace.
@@ -209,14 +271,10 @@ set(CMAKE_BUILD_TYPE "Release" CACHE STRING
         "Choose the build type. The options are: None (CMAKE_CXX_FLAGS or
      CMAKE_C_FLAGS are used), Debug, Release, RelWithDebInfo, MinSizeRel.")
 
-if (WITH_ADDRESS_SANITIZER)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address")
-endif ()
-
-
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
+message(STATUS "PROJECT_BINARY_DIR ${PROJECT_BINARY_DIR}")
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/lib")
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/lib")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/bin")
 
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
@@ -234,9 +292,6 @@ else ()
     message(STATUS "not building legacy C backend")
 endif (BUILD_LEGACY_C)
 
-
-# Set C++14 flags
-set(CMAKE_CXX_STANDARD ${CXX_STANDARD})
 
 # Enable cmake printing out commands
 set(CMAKE_VERBOSE_MAKEFILE TRUE)
@@ -289,9 +344,7 @@ set(CMAKE_DEBUG_POSTFIX "d")
 
 if (NOT EXISTS ${RR_DEPENDENCIES_INSTALL_PREFIX})
     message(FATAL_ERROR "The path given to -DRR_DEPENDENCIES_INSTALL_PREFIX (\"${RR_DEPENDENCIES_INSTALL_PREFIX}\") does not exist. Please \
-build the dependency package. If you set
-    -DCMAKE_INSTALL_PREFIX=/path/to/roadrunner/root/dependencies
-they will be found automatically. If not, you will need to pass in
+build the dependency package (https://github.com/sys-bio/libroadrunner-deps) and pass in
     -DRR_DEPENDENCIES_INSTALL_PREFIX=\"/full/path/to/dependency/install/tree\"
 to the roadrunner cmake command.")
 endif ()
@@ -304,15 +357,20 @@ exists and is the full path to the installed dependency tree.")
 endif ()
 
 set(RR_ROOT "${CMAKE_CURRENT_SOURCE_DIR}")
-set(DEPENDENCY_CMAKE_CONFIG_PATHS "${RR_DEPENDENCIES_INSTALL_PREFIX}/lib/cmake")
+set(DEPENDENCY_CMAKE_CONFIG_PATHS
+        "${RR_DEPENDENCIES_INSTALL_PREFIX}/lib/cmake"
+        "${RR_DEPENDENCIES_INSTALL_PREFIX}/lib64/cmake"
+        "${RR_DEPENDENCIES_INSTALL_PREFIX}/cmake"
+        "${RR_DEPENDENCIES_INSTALL_PREFIX}/lib/cmake/Poco"
+        )
 set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} "${DEPENDENCY_CMAKE_CONFIG_PATHS}")
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${DEPENDENCY_CMAKE_CONFIG_PATHS}")
-
+message(STATUS "CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH}")
 if (WIN32)
     set(SBML_TARGET_NAME "libsbml-static")
-else()
+else ()
     set(SBML_TARGET_NAME "sbml-static")
-endif(WIN32)
+endif (WIN32)
 
 
 find_package(Threads) # for libxml2, FindThreads.cmake is shipped with cmake
@@ -329,15 +387,26 @@ find_package(nleq2 CONFIG REQUIRED)
 find_package(PocoFoundation CONFIG REQUIRED)
 find_package(PocoNet CONFIG REQUIRED)
 find_package(PocoXML CONFIG REQUIRED)
-find_package(Sundials CONFIG REQUIRED)
 find_package(LLVM REQUIRED)
+find_package(SUNDIALS CONFIG REQUIRED)
+
+# not for windows. So not required, but we throw error if not win and not found.
+find_package(Curses)
+
+if (NOT WIN32 AND NOT ${CURSES_FOUND})
+    message(FATAL_ERROR "ncurses library not found. Please install it with your native package manager")
+endif ()
+
+
+set(BUILD_SHARED_LIBS OFF)
+set(BUILD_STATIC_LIBS ON)
 
 # install dependencies so clients can use roadrunner from c++/cmake
 message(STATUS "CMAKE_INSTALL_LIBDIR ${CMAKE_INSTALL_LIBDIR}")
-install(DIRECTORY ${RR_DEPENDENCIES_INSTALL_PREFIX}/lib DESTINATION     ${CMAKE_INSTALL_PREFIX})
-install(DIRECTORY ${RR_DEPENDENCIES_INSTALL_PREFIX}/bin DESTINATION     ${CMAKE_INSTALL_PREFIX})
+install(DIRECTORY ${RR_DEPENDENCIES_INSTALL_PREFIX}/lib DESTINATION ${CMAKE_INSTALL_PREFIX})
+install(DIRECTORY ${RR_DEPENDENCIES_INSTALL_PREFIX}/bin DESTINATION ${CMAKE_INSTALL_PREFIX})
 install(DIRECTORY ${RR_DEPENDENCIES_INSTALL_PREFIX}/include DESTINATION ${CMAKE_INSTALL_PREFIX})
-install(DIRECTORY ${RR_DEPENDENCIES_INSTALL_PREFIX}/share DESTINATION   ${CMAKE_INSTALL_PREFIX})
+install(DIRECTORY ${RR_DEPENDENCIES_INSTALL_PREFIX}/share DESTINATION ${CMAKE_INSTALL_PREFIX})
 
 # install a cmake script for consumer libraries to easily import roadrunner targets
 install(FILES cmake/ImportRoadrunnerAndDependencies.cmake DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake")
@@ -361,17 +430,17 @@ endif ()
 # Building
 #
 
+
+# Set standard
+set(CMAKE_CXX_STANDARD 17)
+if (NOT WIN32)
+    # some cmake (or gcc) bug means that we also need to set -std=c++17
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17")
+endif ()
+
 # We always have to build the roadrunner core, everything depends on this
 add_subdirectory(source)
 
-
-##########################################################
-# Tests
-#
-
-# Empty space ready for when tests arrive.
-
-#
 ###########################################################
 ## API's
 
@@ -395,7 +464,6 @@ endif ()
 #
 
 if (${BUILD_PACKAGING})
-    #todo raise question of deleting the "installer" folder (cw)
     # it doesn't look that useful and we now have the contents of
     # packaging that will automate production of binary releases.
     add_subdirectory(packaging)
@@ -407,6 +475,22 @@ endif ()
 #
 
 if (BUILD_TESTS)
+    # these two must be present at top level cmake
+    # so that we can use gtest_discover_tests as opposed
+    # to add_test.
+    enable_testing()
+    include(GoogleTest)
+
+    # defined here, passed on to running the Python tests via CTest
+    set(PYTHON_API_IN_BINARY_TREE "${CMAKE_CURRENT_BINARY_DIR}/wrappers/Python")
+
+    # these sources are needed in some tests
+    set(
+            RR_PYTHON_PYUTILS_SRC
+            "${CMAKE_CURRENT_SOURCE_DIR}/wrappers/Python/roadrunner/PyUtils.cpp"
+            "${CMAKE_CURRENT_SOURCE_DIR}/wrappers/Python/roadrunner/PyUtils.h"
+    )
+
     add_subdirectory(test)
 
     message(STATUS "building tests")
@@ -420,7 +504,6 @@ if (BUILD_TESTS)
     foreach (f ${PYTHON_TEST_FILES})
         if (NOT IS_DIRECTORY ${f})
             get_filename_component(FILE_NAME ${f} NAME)
-            configure_file(${f} testing/${FILE_NAME} COPYONLY)
             configure_file(${f} lib/site-packages/roadrunner/testing/${FILE_NAME} COPYONLY)
         endif ()
     endforeach ()
@@ -471,8 +554,23 @@ if (${BORLAND})
 endif ()
 
 configure_file(
-        ${CMAKE_CURRENT_SOURCE_DIR}/VERSION.txt.in
-        ${CMAKE_CURRENT_BINARY_DIR}/VERSION.txt @ONLY
+        "${CMAKE_CURRENT_SOURCE_DIR}/VERSION.txt.in"
+        "${CMAKE_CURRENT_BINARY_DIR}/VERSION.txt" @ONLY
+)
+
+configure_file(
+        "${CMAKE_CURRENT_SOURCE_DIR}/requirements.txt"
+        "${CMAKE_BINARY_DIR}/requirements.txt" @ONLY
+)
+configure_file(
+        "${CMAKE_CURRENT_SOURCE_DIR}/test-requirements.txt"
+        "${CMAKE_BINARY_DIR}/test-requirements.txt" @ONLY
+)
+install(
+        FILES
+            "${CMAKE_CURRENT_SOURCE_DIR}/requirements.txt"
+            "${CMAKE_CURRENT_SOURCE_DIR}/test-requirements.txt"
+        DESTINATION .
 )
 
 install(

@@ -86,7 +86,7 @@ typedef struct SModelData
      * All of the elelments which have a rate rule are stored here.
      *
      * As the integrator runs, this pointer can simply point to an offset
-     * in the integrator's state vector.
+     * in the integrator's state std::vector.
      *
      * Only used in the LLVM version.
      */

@@ -35,6 +35,7 @@
 #endif
 
 #include <sbml/SBMLReader.h>
+#include <memory>
 #include <string>
 #include <vector>
 #include <math.h>
@@ -48,7 +49,7 @@
 #endif
 
 using namespace llvm;
-using namespace std;
+
 using namespace libsbml;
 
 using rr::Logger;
@@ -95,13 +96,13 @@ double atanh(double value)
 
 #endif
 
-ModelGeneratorContext::ModelGeneratorContext(std::string const &sbml,
-    unsigned options) :
+ModelGeneratorContext::ModelGeneratorContext(std::string const &sbml, unsigned options)
+    :
         ownedDoc(0),
         doc(0),
         symbols(0),
         modelSymbols(0),
-        errString(new string()),
+        errString(new std::string()),
         context(0),
         executionEngine(0),
         builder(0),
@@ -111,9 +112,9 @@ ModelGeneratorContext::ModelGeneratorContext(std::string const &sbml,
         random(0)
 {
     if(useSymbolCache()) {
-        Log(Logger::LOG_INFORMATION) << "Using LLVM symbol/value cache";
+        rrLog(Logger::LOG_INFORMATION) << "Using LLVM symbol/value cache";
     } else {
-        Log(Logger::LOG_INFORMATION) << "Not using LLVM symbol/value cache";
+        rrLog(Logger::LOG_INFORMATION) << "Not using LLVM symbol/value cache";
     }
 
     try
@@ -122,10 +123,10 @@ ModelGeneratorContext::ModelGeneratorContext(std::string const &sbml,
 
         if (options & LoadSBMLOptions::CONSERVED_MOIETIES)
         {
-            if ((rr::Config::getInt(rr::Config::ROADRUNNER_DISABLE_WARNINGS) &
+            if ((rr::Config::getBool(rr::Config::ROADRUNNER_DISABLE_WARNINGS) &
                     rr::Config::ROADRUNNER_DISABLE_WARNINGS_CONSERVED_MOIETY) == 0)
             {
-                Log(Logger::LOG_NOTICE) << "performing conserved moiety conversion";
+                rrLog(Logger::LOG_NOTICE) << "performing conserved moiety conversion";
             }
 
             // check if already conserved doc
@@ -152,9 +153,9 @@ ModelGeneratorContext::ModelGeneratorContext(std::string const &sbml,
                 SBMLWriter sw;
                 char* convertedStr = sw.writeToString(doc);
 
-                Log(Logger::LOG_INFORMATION) << "***************** Conserved Moiety Converted Document ***************";
-                Log(Logger::LOG_INFORMATION) << convertedStr;
-                Log(Logger::LOG_INFORMATION) << "*********************************************************************";
+                rrLog(Logger::LOG_INFORMATION) << "***************** Conserved Moiety Converted Document ***************";
+                rrLog(Logger::LOG_INFORMATION) << convertedStr;
+                rrLog(Logger::LOG_INFORMATION) << "*********************************************************************";
 
                 free(convertedStr);
             }
@@ -174,10 +175,10 @@ ModelGeneratorContext::ModelGeneratorContext(std::string const &sbml,
 		InitializeNativeTargetAsmPrinter();
 		InitializeNativeTargetAsmParser();
 
-
         context = new LLVMContext();
+
         // Make the module, which holds all the code.
-        module_uniq = unique_ptr<Module>(new Module("LLVM Module", *context));
+        module_uniq = std::make_unique<Module>("LLVM Module", *context);
 		module = module_uniq.get();
 
 		// These were moved up here because they require the module ptr. May need to further edit these functions
@@ -190,7 +191,7 @@ ModelGeneratorContext::ModelGeneratorContext(std::string const &sbml,
         EngineBuilder engineBuilder(std::move(module_uniq));
 		
 		engineBuilder.setErrorStr(errString)
-			.setMCJITMemoryManager(unique_ptr<SectionMemoryManager>(new SectionMemoryManager()));
+			.setMCJITMemoryManager(std::make_unique<SectionMemoryManager>());
 
         executionEngine = engineBuilder.create();
 
@@ -230,7 +231,7 @@ ModelGeneratorContext::ModelGeneratorContext(libsbml::SBMLDocument const *_doc,
         doc(_doc),
         symbols(NULL),
         modelSymbols(NULL),
-        errString(new string()),
+        errString(new std::string()),
         context(0),
         executionEngine(0),
         builder(0),
@@ -240,16 +241,16 @@ ModelGeneratorContext::ModelGeneratorContext(libsbml::SBMLDocument const *_doc,
         random(0)
 {
     if(useSymbolCache()) {
-        Log(Logger::LOG_INFORMATION) << "Using LLVM symbol/value cache";
+        rrLog(Logger::LOG_INFORMATION) << "Using LLVM symbol/value cache";
     } else {
-        Log(Logger::LOG_INFORMATION) << "Not using LLVM symbol/value cache";
+        rrLog(Logger::LOG_INFORMATION) << "Not using LLVM symbol/value cache";
     }
 
     try
     {
         if (options & LoadSBMLOptions::CONSERVED_MOIETIES)
         {
-            Log(Logger::LOG_NOTICE) << "performing conserved moiety conversion";
+            rrLog(Logger::LOG_NOTICE) << "performing conserved moiety conversion";
 
             moietyConverter = new rr::conservation::ConservedMoietyConverter();
 
@@ -268,9 +269,9 @@ ModelGeneratorContext::ModelGeneratorContext(libsbml::SBMLDocument const *_doc,
             SBMLWriter sw;
             char* convertedStr = sw.writeToString(_doc);
 
-            Log(Logger::LOG_INFORMATION) << "***************** Conserved Moiety Converted Document ***************";
-            Log(Logger::LOG_INFORMATION) << convertedStr;
-            Log(Logger::LOG_INFORMATION) << "*********************************************************************";
+            rrLog(Logger::LOG_INFORMATION) << "***************** Conserved Moiety Converted Document ***************";
+            rrLog(Logger::LOG_INFORMATION) << convertedStr;
+            rrLog(Logger::LOG_INFORMATION) << "*********************************************************************";
 
             delete convertedStr;
         }
@@ -288,13 +289,13 @@ ModelGeneratorContext::ModelGeneratorContext(libsbml::SBMLDocument const *_doc,
 
         context = new LLVMContext();
         // Make the module, which holds all the code.
-        module_uniq = unique_ptr<Module>(new Module("LLVM Module", *context));
+        module_uniq = std::unique_ptr<Module>(new Module("LLVM Module", *context));
 		module = module_uniq.get();
 
         builder = new IRBuilder<>(*context);
 
         // engine take ownership of module
-        EngineBuilder engineBuilder(unique_ptr<Module>(new Module("Empty LLVM Module", *context)));
+        EngineBuilder engineBuilder(std::unique_ptr<Module>(new Module("Empty LLVM Module", *context)));
 
         //engineBuilder.setEngineKind(EngineKind::JIT);
         engineBuilder.setErrorStr(errString);
@@ -346,7 +347,7 @@ ModelGeneratorContext::ModelGeneratorContext() :
         doc(ownedDoc),
         symbols(new LLVMModelDataSymbols(doc->getModel(), 0)),
         modelSymbols(new LLVMModelSymbols(getModel(), *symbols)),
-        errString(new string()),
+        errString(new std::string()),
         options(0),
         functionPassManager(0)
 {
@@ -356,7 +357,7 @@ ModelGeneratorContext::ModelGeneratorContext() :
 
     context = new LLVMContext();
     // Make the module, which holds all the code.
-    module_uniq = unique_ptr<Module>(new Module("LLVM Module", *context));
+    module_uniq = std::unique_ptr<Module>(new Module("LLVM Module", *context));
 	module = module_uniq.get();
 
     builder = new IRBuilder<>(*context);
@@ -433,18 +434,18 @@ llvm::IRBuilder<> &ModelGeneratorContext::getBuilder() const
 }
 
 
-void ModelGeneratorContext::transferObjectsToResources(shared_ptr<rrllvm::ModelResources> rc)
+void ModelGeneratorContext::transferObjectsToResources(std::shared_ptr<rrllvm::ModelResources> rc)
 {
     rc->symbols = symbols;
-    symbols = 0;
+    symbols = nullptr;
     rc->context = context;
-    context = 0;
+    context = nullptr;
     rc->executionEngine = executionEngine;
-    executionEngine = 0;
+    executionEngine = nullptr;
     rc->random = random;
-    random = 0;
+    random = nullptr;
 	rc->errStr = errString;
-    errString = 0;
+    errString = nullptr;
 }
 
 const LLVMModelSymbols& ModelGeneratorContext::getModelSymbols() const
@@ -497,38 +498,38 @@ void ModelGeneratorContext::initFunctionPassManager()
 
         if (options & LoadSBMLOptions::OPTIMIZE_INSTRUCTION_SIMPLIFIER)
         {
-            Log(Logger::LOG_INFORMATION) << "using OPTIMIZE_INSTRUCTION_SIMPLIFIER";
+            rrLog(Logger::LOG_INFORMATION) << "using OPTIMIZE_INSTRUCTION_SIMPLIFIER";
             functionPassManager->add(createInstructionSimplifierPass());
         }
 
         if (options & LoadSBMLOptions::OPTIMIZE_INSTRUCTION_COMBINING)
         {
-            Log(Logger::LOG_INFORMATION) << "using OPTIMIZE_INSTRUCTION_COMBINING";
+            rrLog(Logger::LOG_INFORMATION) << "using OPTIMIZE_INSTRUCTION_COMBINING";
             functionPassManager->add(createInstructionCombiningPass());
         }
 
         if(options & LoadSBMLOptions::OPTIMIZE_GVN)
         {
-            Log(Logger::LOG_INFORMATION) << "using GVN optimization";
+            rrLog(Logger::LOG_INFORMATION) << "using GVN optimization";
             functionPassManager->add(createNewGVNPass());
 			
         }
 
         if (options & LoadSBMLOptions::OPTIMIZE_CFG_SIMPLIFICATION)
         {
-            Log(Logger::LOG_INFORMATION) << "using OPTIMIZE_CFG_SIMPLIFICATION";
+            rrLog(Logger::LOG_INFORMATION) << "using OPTIMIZE_CFG_SIMPLIFICATION";
             functionPassManager->add(createCFGSimplificationPass());
         }
 
         if (options & LoadSBMLOptions::OPTIMIZE_DEAD_INST_ELIMINATION)
         {
-            Log(Logger::LOG_INFORMATION) << "using OPTIMIZE_DEAD_INST_ELIMINATION";
+            rrLog(Logger::LOG_INFORMATION) << "using OPTIMIZE_DEAD_INST_ELIMINATION";
             functionPassManager->add(createDeadInstEliminationPass());
         }
 
         if (options & LoadSBMLOptions::OPTIMIZE_DEAD_CODE_ELIMINATION)
         {
-            Log(Logger::LOG_INFORMATION) << "using OPTIMIZE_DEAD_CODE_ELIMINATION";
+            rrLog(Logger::LOG_INFORMATION) << "using OPTIMIZE_DEAD_CODE_ELIMINATION";
             functionPassManager->add(createDeadCodeEliminationPass());
         }
 
@@ -541,15 +542,15 @@ void ModelGeneratorContext::initFunctionPassManager()
 /*********************** TESTING STUFF WILL GO AWAY EVENTUALLY ***********************/
 
 static void dispDouble(double d) {
-    cout << __FUNC__ << ": " << d << "\n";
+    std::cout << __FUNC__ << ": " << d << "\n";
 }
 
 static void dispInt(int i) {
-    cout << __FUNC__ << ": " << i << "\n";
+    std::cout << __FUNC__ << ": " << i << "\n";
 }
 
 static void dispChar(char c) {
-    cout << __FUNC__ << ": " << (int)c << "\n";
+    std::cout << __FUNC__ << ": " << (int)c << "\n";
 }
 
 /*************************************************************************************/
@@ -808,7 +809,7 @@ static void createLibraryFunction(llvm::LibFunc funcId,
     }
     else
     {
-        string msg = "native target does not have library function for ";
+        std::string msg = "native target does not have library function for ";
         msg += targetLib.getName(funcId);
         throw_llvm_exception(msg);
     }
@@ -831,15 +832,15 @@ static SBMLDocument *checkedReadSBMLFromString(const char* xml)
         {
             // fatal error
             SBMLErrorLog *log = doc->getErrorLog();
-            string errors = log ? log->toString() : " NULL SBML Error Log";
+            std::string errors = log ? log->toString() : " NULL SBML Error Log";
             delete doc;
             throw_llvm_exception("Fatal SBML error, no model, errors in sbml document: " + errors);
         }
         else if (doc->getNumErrors() > 0)
         {
             SBMLErrorLog *log = doc->getErrorLog();
-            string errors = log ? log->toString() : " NULL SBML Error Log";
-            Log(rr::Logger::LOG_WARNING) << "Warning, errors found in sbml document: " + errors;
+            std::string errors = log ? log->toString() : " NULL SBML Error Log";
+            rrLog(rr::Logger::LOG_WARNING) << "Warning, errors found in sbml document: " + errors;
         }
     }
     else

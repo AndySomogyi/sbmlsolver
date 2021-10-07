@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="group__reset" kind="group">
+    <compoundname>reset</compoundname>
+    <title>Reset methods</title>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__reset_1gabde768cf80e67fe8f2811a28843e41f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC bool rrcCallConv</type>
+        <definition>C_DECL_SPEC bool rrcCallConv reset</definition>
+        <argsstring>(RRHandle handle)</argsstring>
+        <name>reset</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+<para>Resets all variables of the model to their current initial values. Does not change the parameters. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Boolean indicating success </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="3048" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="3048" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="group__reset_1ga50d3ec99c57ba89550a4deef3129e19f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC bool rrcCallConv</type>
+        <definition>C_DECL_SPEC bool rrcCallConv resetAll</definition>
+        <argsstring>(RRHandle handle)</argsstring>
+        <name>resetAll</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+<para>Resets all variables of the model to their current initial values, and resets all parameters to their original values. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Boolean indicating success </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="3058" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="3058" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="group__reset_1ga24d6b0810b8cbf5a7e9b4da38908b6f7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC bool rrcCallConv</type>
+        <definition>C_DECL_SPEC bool rrcCallConv resetToOrigin</definition>
+        <argsstring>(RRHandle handle)</argsstring>
+        <name>resetToOrigin</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+<para>Resets the model to the state in which it was first loaded, including initial conditions, variables, and parameters. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Boolean indicating success </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="3068" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="3068" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="group__reset_1gac01ad3eb713a26ab871f16f27f3d5304" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC bool rrcCallConv</type>
+        <definition>C_DECL_SPEC bool rrcCallConv resetParameter</definition>
+        <argsstring>(RRHandle handle)</argsstring>
+        <name>resetParameter</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+<para>Resets all parameters of the model to their current initial values. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Boolean indicating success </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="3077" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="3077" declcolumn="30"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Methods for resetting instances to various initial states. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

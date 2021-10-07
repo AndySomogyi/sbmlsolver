@@ -14,7 +14,7 @@
 #include <vector>
 
 using namespace llvm;
-using namespace std;
+
 
 namespace rrllvm
 {

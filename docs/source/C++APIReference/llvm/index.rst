@@ -21,16 +21,10 @@ LLVM Docs
     EventQueue.rst
     EventTriggerCodeGen.rst
     FunctionResolver.rst
-    GetEventValuesCodeGen.rst
-    GetInitialValueCodeGenBase.rst
-    GetInitialValuesCodeGen.rst
-    GetValueCodeGenBase.rst
-    GetValuesCodeGen.rst
     KineticLawParameterResolver.rst
     LLVMCompiler.rst
     LLVMException.rst
     LLVMExecutableModel.rst
-    LLVMIncludes.rst
     LLVMModelData.rst
     LLVMModelDataSymbols.rst
     LLVMModelGenerator.rst
@@ -43,7 +37,6 @@ LLVM Docs
     ModelResources.rst
     Random.rst
     SBMLInitialValueSymbolResolver.rst
-    SBMLSupportFunctions.rst
     SetInitialValueCodeGenBase.rst
     SetInitialValuesCodeGen.rst
     SetValueCodeGenBase.rst

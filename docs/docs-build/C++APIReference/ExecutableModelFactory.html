@@ -1,72 +1,35 @@
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ExecutableModelFactory &mdash; libRoadRunner 1.1.16 documentation</title>
-  
-
-  
-  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/sphinx_tabs/semantic-ui-2.4.1/segment.min.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/sphinx_tabs/semantic-ui-2.4.1/menu.min.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/sphinx_tabs/semantic-ui-2.4.1/tab.min.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/sphinx_tabs/tabs.css" type="text/css" />
-
-  
-  
-  
-  
-
-  
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/tabs.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
-        <script src="../_static/language_data.js"></script>
-    
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-
-    
+    <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="GillespieIntegrator" href="GillespieIntegrator.html" />
     <link rel="prev" title="EulerIntegrator" href="EulerIntegrator.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
-
-          
-            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> libRoadRunner
-          
-
-          
+            <a href="../index.html" class="icon icon-home"> libRoadRunner
           </a>
-
-          
-            
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -74,22 +37,13 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
         </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Main">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../index.html">RoadRunner Documentation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Installation/installation.html">Installing RoadRunner</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Examples/examples_index.html">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../read_write_functions.html">SBML Read/Write Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../selecting_values.html">Selecting Values</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../steady_state.html">Steady State Analysis</a></li>
@@ -98,10 +52,11 @@
 <li class="toctree-l1"><a class="reference internal" href="../stability.html">Stability Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../stoichiometric.html">Stoichiometric Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../bifurcation.html">Bifurcation Analysis</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../integration.html">Simulation and Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../simulation_and_integration.html">Simulation and Integration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utility_functions.html">Utility Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../accessing_model.html">Accessing the SBML Model Variables</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../api_reference.html">RoadRunner API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rrplugins/rrplugins_documentation.html">rrPlugins Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../PythonAPIReference/api_reference.html">Python RoadRunner API Reference</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">The LibRoadRunner C++ Library</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="llvm/index.html">LLVM Docs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="CVODEIntegrator.html">CVODEIntegrator</a></li>
@@ -146,165 +101,103 @@
 <li class="toctree-l2"><a class="reference internal" href="index.html#a-complete-example-of-creating-an-integrator">A complete example of creating an integrator</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../CAPIReference/index.html">The LibRoadRunner C Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers_docs/index.html">Developers Documentation</a></li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+      <nav class="wy-nav-top" aria-label="Top" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">libRoadRunner</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
           
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+<div role="navigation" aria-label="Breadcrumbs">
   <ul class="wy-breadcrumbs">
-    
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-        
           <li><a href="index.html">The LibRoadRunner C++ Library</a> &raquo;</li>
-        
       <li>ExecutableModelFactory</li>
-    
-    
       <li class="wy-breadcrumbs-aside">
-        
-            
             <a href="../_sources/C++APIReference/ExecutableModelFactory.rst.txt" rel="nofollow"> View page source</a>
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
-  <div class="section" id="executablemodelfactory">
-<h1>ExecutableModelFactory<a class="headerlink" href="#executablemodelfactory" title="Permalink to this headline">¶</a></h1>
+             
+  <section id="executablemodelfactory">
+<h1>ExecutableModelFactory<a class="headerlink" href="#executablemodelfactory" title="Permalink to this headline"></a></h1>
 <dl class="cpp class">
-<dt id="_CPPv4N2rr22ExecutableModelFactoryE">
-<span id="_CPPv3N2rr22ExecutableModelFactoryE"></span><span id="_CPPv2N2rr22ExecutableModelFactoryE"></span><span id="rr::ExecutableModelFactory"></span><span class="target" id="classrr_1_1ExecutableModelFactory"></span><em class="property">class </em><code class="sig-prename descclassname">rr<code class="sig-prename descclassname">::</code></code><code class="sig-name descname">ExecutableModelFactory</code><a class="headerlink" href="#_CPPv4N2rr22ExecutableModelFactoryE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N2rr22ExecutableModelFactoryE">
+<span id="_CPPv3N2rr22ExecutableModelFactoryE"></span><span id="_CPPv2N2rr22ExecutableModelFactoryE"></span><span id="rr::ExecutableModelFactory"></span><span class="target" id="classrr_1_1ExecutableModelFactory"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">rr</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">ExecutableModelFactory</span></span></span><a class="headerlink" href="#_CPPv4N2rr22ExecutableModelFactoryE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>A factory class to create <a class="reference internal" href="rrExecutableModel.html#classrr_1_1ExecutableModel"><span class="std std-ref">ExecutableModel</span></a> objects. </p>
 <div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric">Public Static Functions</p>
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-static-functions">Public Static Functions</p>
 <dl class="cpp function">
-<dt id="_CPPv4N2rr22ExecutableModelFactory11createModelERKNSt6stringEPK10Dictionary">
-<span id="_CPPv3N2rr22ExecutableModelFactory11createModelERKNSt6stringEPK10Dictionary"></span><span id="_CPPv2N2rr22ExecutableModelFactory11createModelERKNSt6stringEPK10Dictionary"></span><span id="rr::ExecutableModelFactory::createModel__ssCR.DictionaryCP"></span><span class="target" id="classrr_1_1ExecutableModelFactory_1a522884de93dc83ce2958b32874a956a8"></span><a class="reference internal" href="rrExecutableModel.html#_CPPv4N2rr15ExecutableModelE" title="rr::ExecutableModel">ExecutableModel</a> *<code class="sig-name descname">createModel</code><span class="sig-paren">(</span><em class="property">const</em> std::string &amp;<em>sbml</em>, <em class="property">const</em> <a class="reference internal" href="Dictionary.html#_CPPv4N2rr10DictionaryE" title="rr::Dictionary">Dictionary</a> *<em>dict</em> = 0<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr22ExecutableModelFactory11createModelERKNSt6stringEPK10Dictionary" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N2rr22ExecutableModelFactory11createModelERKNSt6stringEPK10Dictionary">
+<span id="_CPPv3N2rr22ExecutableModelFactory11createModelERKNSt6stringEPK10Dictionary"></span><span id="_CPPv2N2rr22ExecutableModelFactory11createModelERKNSt6stringEPK10Dictionary"></span><span id="rr::ExecutableModelFactory::createModel__ssCR.DictionaryCP"></span><span class="target" id="classrr_1_1ExecutableModelFactory_1a522884de93dc83ce2958b32874a956a8"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><a class="reference internal" href="rrExecutableModel.html#_CPPv4N2rr15ExecutableModelE" title="rr::ExecutableModel"><span class="n"><span class="pre">ExecutableModel</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">createModel</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">sbml</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="Dictionary.html#_CPPv4N2rr10DictionaryE" title="rr::Dictionary"><span class="n"><span class="pre">Dictionary</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">dict</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr22ExecutableModelFactory11createModelERKNSt6stringEPK10Dictionary" title="Permalink to this definition"></a><br /></dt>
 <dd><p>creates a NEW object which must be deleted by the caller. </p>
-<p><dl class="simple">
-<dt><strong>Parameters</strong></dt><dd><ul class="breatheparameterlist simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">sbml</span></code>: an sbml string </p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">dict</span></code>: a dictionary of options, this is typcally a <a class="reference internal" href="rrRoadRunnerOptions.html#classrr_1_1LoadSBMLOptions"><span class="std std-ref">LoadSBMLOptions</span></a> object, but it may be any dictionary. </p></li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sbml</strong> – an sbml std::string </p></li>
+<li><p><strong>dict</strong> – a dictionary of options, this is typcally a <a class="reference internal" href="rrRoadRunnerOptions.html#classrr_1_1LoadSBMLOptions"><span class="std std-ref">LoadSBMLOptions</span></a> object, but it may be any dictionary. </p></li>
 </ul>
 </dd>
 </dl>
-</p>
 </dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N2rr22ExecutableModelFactory11createModelERNSt7istreamE4uint">
-<span id="_CPPv3N2rr22ExecutableModelFactory11createModelERNSt7istreamE4uint"></span><span id="_CPPv2N2rr22ExecutableModelFactory11createModelERNSt7istreamE4uint"></span><span id="rr::ExecutableModelFactory::createModel__isR.uint"></span><span class="target" id="classrr_1_1ExecutableModelFactory_1a23c5051dcf9ea4615029bf6305338dcc"></span><a class="reference internal" href="rrExecutableModel.html#_CPPv4N2rr15ExecutableModelE" title="rr::ExecutableModel">ExecutableModel</a> *<code class="sig-name descname">createModel</code><span class="sig-paren">(</span>std::istream &amp;<em>in</em>, uint <em>modelGeneratorOpt</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr22ExecutableModelFactory11createModelERNSt7istreamE4uint" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N2rr22ExecutableModelFactory11createModelERNSt7istreamE4uint">
+<span id="_CPPv3N2rr22ExecutableModelFactory11createModelERNSt7istreamE4uint"></span><span id="_CPPv2N2rr22ExecutableModelFactory11createModelERNSt7istreamE4uint"></span><span id="rr::ExecutableModelFactory::createModel__isR.uint"></span><span class="target" id="classrr_1_1ExecutableModelFactory_1a23c5051dcf9ea4615029bf6305338dcc"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><a class="reference internal" href="rrExecutableModel.html#_CPPv4N2rr15ExecutableModelE" title="rr::ExecutableModel"><span class="n"><span class="pre">ExecutableModel</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">createModel</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">istream</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">in</span></span>, <span class="n"><span class="pre">uint</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">modelGeneratorOpt</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr22ExecutableModelFactory11createModelERNSt7istreamE4uint" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
 <dl class="cpp function">
-<dt id="_CPPv4N2rr22ExecutableModelFactory15regenerateModelEP15ExecutableModelPN7libsbml12SBMLDocumentE4uint">
-<span id="_CPPv3N2rr22ExecutableModelFactory15regenerateModelEP15ExecutableModelPN7libsbml12SBMLDocumentE4uint"></span><span id="_CPPv2N2rr22ExecutableModelFactory15regenerateModelEP15ExecutableModelPN7libsbml12SBMLDocumentE4uint"></span><span id="rr::ExecutableModelFactory::regenerateModel__ExecutableModelP.libsbml::SBMLDocumentP.uint"></span><span class="target" id="classrr_1_1ExecutableModelFactory_1a71cd447b734c18c4514d238db701205f"></span><a class="reference internal" href="rrExecutableModel.html#_CPPv4N2rr15ExecutableModelE" title="rr::ExecutableModel">ExecutableModel</a> *<code class="sig-name descname">regenerateModel</code><span class="sig-paren">(</span><a class="reference internal" href="rrExecutableModel.html#_CPPv4N2rr15ExecutableModelE" title="rr::ExecutableModel">ExecutableModel</a> *<em>oldModel</em>, libsbml::SBMLDocument *<em>doc</em>, uint <em>options</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr22ExecutableModelFactory15regenerateModelEP15ExecutableModelPN7libsbml12SBMLDocumentE4uint" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N2rr22ExecutableModelFactory15regenerateModelEP15ExecutableModelPN7libsbml12SBMLDocumentE4uint">
+<span id="_CPPv3N2rr22ExecutableModelFactory15regenerateModelEP15ExecutableModelPN7libsbml12SBMLDocumentE4uint"></span><span id="_CPPv2N2rr22ExecutableModelFactory15regenerateModelEP15ExecutableModelPN7libsbml12SBMLDocumentE4uint"></span><span id="rr::ExecutableModelFactory::regenerateModel__ExecutableModelP.libsbml::SBMLDocumentP.uint"></span><span class="target" id="classrr_1_1ExecutableModelFactory_1a71cd447b734c18c4514d238db701205f"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><a class="reference internal" href="rrExecutableModel.html#_CPPv4N2rr15ExecutableModelE" title="rr::ExecutableModel"><span class="n"><span class="pre">ExecutableModel</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">regenerateModel</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="rrExecutableModel.html#_CPPv4N2rr15ExecutableModelE" title="rr::ExecutableModel"><span class="n"><span class="pre">ExecutableModel</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">oldModel</span></span>, <span class="n"><span class="pre">libsbml</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">SBMLDocument</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">doc</span></span>, <span class="n"><span class="pre">uint</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">options</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2rr22ExecutableModelFactory15regenerateModelEP15ExecutableModelPN7libsbml12SBMLDocumentE4uint" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
 </div>
 </dd></dl>
 
-</div>
+</section>
 
 
            </div>
-           
           </div>
           <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="GillespieIntegrator.html" class="btn btn-neutral float-right" title="GillespieIntegrator" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="EulerIntegrator.html" class="btn btn-neutral float-left" title="EulerIntegrator" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="EulerIntegrator.html" class="btn btn-neutral float-left" title="EulerIntegrator" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="GillespieIntegrator.html" class="btn btn-neutral float-right" title="GillespieIntegrator" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        
-        &copy; Copyright 2013-2018, Andy Somogyi, J Kyle Medley, Kiri Choi, Herbert Suaro
-
-    </p>
+    <p>&#169; Copyright 2013-2018, Andy Somogyi, J Kyle Medley, Kiri Choi, Herbert Suaro.</p>
   </div>
-    
-    
-    
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
-    
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
-
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

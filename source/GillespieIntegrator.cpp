@@ -7,18 +7,16 @@
 
 #include "GillespieIntegrator.h"
 #include "rrUtils.h"
-#include "rrLogger.h"
 #include "rrConfig.h"
 
 #include <cstring>
-#include <assert.h>
+#include <cassert>
 #include <iostream>
 #include <exception>
-#include <ctime>
 #include <limits>
-#include <sstream>
+#include <chrono>
 
-using namespace std;
+
 
 // min and max macros on windows interfer with max method of engine.
 #undef max
@@ -26,77 +24,87 @@ using namespace std;
 
 namespace rr
 {
-	static unsigned long defaultSeed()
+	static std::uint64_t defaultSeed()
 	{
-		int64_t seed = Config::getValue(Config::RANDOM_SEED).convert<int>();
+	    Setting seedSetting = Config::getValue(Config::RANDOM_SEED);
+	    std::uint64_t seed;
+	    if (auto int32Val = seedSetting.get_if<std::int32_t>()) {
+	        seed = (std::uint64_t)*int32Val;
+	    } else if (auto uInt32Val= seedSetting.get_if<std::uint32_t>()){
+	        seed = (std::uint64_t)*uInt32Val;
+	    } else if (auto int64Val = seedSetting.get_if<std::int64_t>()){
+	        seed = (std::uint64_t)*int64Val;
+	    } else if (auto uInt64Val= seedSetting.get_if<std::uint64_t>()){
+	        seed = *uInt64Val;
+	    } else {
+	        throw std::invalid_argument("GillespieIntegrator::defaultSeed: Seed is of incorrect type.");
+	    }
 		if (seed < 0)
 		{
-			// system time in microseconds since 1970
-			seed = getMicroSeconds();
+			seed = std::chrono::high_resolution_clock::now().time_since_epoch().count();
 		}
-
-		unsigned long maxl = std::numeric_limits<unsigned long>::max() - 2;
-
-		seed = seed % maxl;
-
-		return (unsigned long)seed;
+		return seed	;
 	}
 
 	void GillespieIntegrator::initializeFromModel() {
-        nReactions = model->getNumReactions();
+        nReactions = mModel->getNumReactions();
         reactionRates = new double[nReactions];
         reactionRatesBuffer = new double[nReactions];
-        stateVectorSize = model->getStateVector(0);
+        stateVectorSize = mModel->getStateVector(nullptr);
         stateVector = new double[stateVectorSize];
         stateVectorRate = new double[stateVectorSize];
 
-        eventStatus = std::vector<unsigned char>(model->getEventTriggers(0, 0, 0), false);
-        previousEventStatus = std::vector<unsigned char>(model->getEventTriggers(0, 0, 0), false);
+        eventStatus = std::vector<unsigned char>(mModel->getEventTriggers(0, nullptr, nullptr), false);
+        previousEventStatus = std::vector<unsigned char>(mModel->getEventTriggers(0, nullptr, nullptr), false);
 
-        floatingSpeciesStart = stateVectorSize - model->getNumIndFloatingSpecies();
+        floatingSpeciesStart = stateVectorSize - mModel->getNumIndFloatingSpecies();
 
         assert(floatingSpeciesStart >= 0);
 
         // get rows and columns
-        model->getStoichiometryMatrix(&stoichRows, &stoichCols, 0);
+        mModel->getStoichiometryMatrix(&stoichRows, &stoichCols, nullptr);
         stoichData = new double[stoichRows * stoichCols];
 
         // fill stoichData
-        model->getStoichiometryMatrix(&stoichRows, &stoichCols, &stoichData);
+        mModel->getStoichiometryMatrix(&stoichRows, &stoichCols, &stoichData);
 
-        setEngineSeed(getValue("seed").convert<unsigned long>());
+        setEngineSeed(getValue("seed").get<std::uint64_t>());
 	}
 
-	GillespieIntegrator::GillespieIntegrator(ExecutableModel* m) :
-			model(m),
+	GillespieIntegrator::GillespieIntegrator(ExecutableModel* m)
+	    :   Integrator(m),
 			timeScale(1.0),
 			stoichScale(1.0),
 			stoichRows(0),
 			stoichCols(0),
-			stoichData(NULL),
-			reactionRates(NULL),
-			reactionRatesBuffer(NULL),
-			stateVector(NULL),
-			stateVectorRate(NULL)
+			stoichData(nullptr),
+			reactionRates(nullptr),
+			reactionRatesBuffer(nullptr),
+			stateVector(nullptr),
+			stateVectorRate(nullptr)
 	{
-		resetSettings();
+		GillespieIntegrator::resetSettings();
 
-        if (model)
+        if (mModel)
             initializeFromModel();
 	}
 
 	GillespieIntegrator::~GillespieIntegrator()
 	{
-		delete[] reactionRates;
-		delete[] reactionRatesBuffer;
-		delete[] stateVector;
-		delete[] stateVectorRate;
-		delete[] stoichData;
-        reactionRates = NULL;
-        reactionRatesBuffer = NULL;
-        stateVector = NULL;
-        stateVectorRate = NULL;
-        stoichData = NULL;
+	    if (mModel) {
+	        // like in the constructor, we only delete these components
+	        // if the model was present on construction.
+            delete[] reactionRates;
+            delete[] reactionRatesBuffer;
+            delete[] stateVector;
+            delete[] stateVectorRate;
+            delete[] stoichData;
+            reactionRates = nullptr;
+            reactionRatesBuffer = nullptr;
+            stateVector = nullptr;
+            stateVectorRate = nullptr;
+            stoichData = nullptr;
+        }
 	}
 
     void GillespieIntegrator::syncWithModel(ExecutableModel* m)
@@ -107,14 +115,14 @@ namespace rr
         delete[] stateVector;
         delete[] stateVectorRate;
         delete[] stoichData;
-        reactionRates = NULL;
-        reactionRatesBuffer = NULL;
-        stateVector = NULL;
-        stateVectorRate = NULL;
-        stoichData = NULL;
+        reactionRates = nullptr;
+        reactionRatesBuffer = nullptr;
+        stateVector = nullptr;
+        stateVectorRate = nullptr;
+        stoichData = nullptr;
 
-        model = m;
-        model->reset();
+        mModel = m;
+        mModel->reset();
 
         nReactions = 0;
         stateVectorSize = 0;
@@ -124,24 +132,16 @@ namespace rr
 
         stoichRows = 0;
         stoichCols = 0;
-        stoichData = NULL;
+        stoichData = nullptr;
 
         initializeFromModel();
     }
 
     std::string GillespieIntegrator::getName() const {
-        return GillespieIntegrator::getGillespieName();
-    }
-
-    std::string GillespieIntegrator::getGillespieName() {
         return "gillespie";
     }
 
     std::string GillespieIntegrator::getDescription() const {
-        return GillespieIntegrator::getGillespieDescription();
-    }
-
-    std::string GillespieIntegrator::getGillespieDescription() {
         return "RoadRunner's implementation of the standard Gillespie Direct "
             "Method SSA. The granularity of this simulator is individual "
             "molecules and kinetic processes are stochastic. "
@@ -150,10 +150,6 @@ namespace rr
     }
 
     std::string GillespieIntegrator::getHint() const {
-        return GillespieIntegrator::getGillespieHint();
-    }
-
-    std::string GillespieIntegrator::getGillespieHint() {
         return "Gillespie Direct Method SSA";
     }
 
@@ -162,7 +158,7 @@ namespace rr
 		return Integrator::Deterministic;
 	}
 
-	void GillespieIntegrator::setValue(string key, const Variant& val)
+	void GillespieIntegrator::setValue(const std::string& key, Setting val)
 	{
 		Integrator::setValue(key, val);
 
@@ -172,17 +168,17 @@ namespace rr
 		{
 			try
 			{
-				unsigned long seed = val.convert<unsigned long>();
+				auto seed = val.getAs<std::uint64_t>();
 				setEngineSeed(seed);
 			}
 			catch (std::exception& e)
 			{
 				std::stringstream ss;
-				ss << "Could not convert the value \"" << val.toString();
-				ss << "\" to an unsigned long integer. " << endl;
+				ss << "Could not convert the value \"" << val.get<std::string>();
+				ss << "\" to an unsigned long integer. " << std::endl;
 				ss << "The seed must be a number between 0 and ";
 				ss << std::numeric_limits<unsigned long>::max();
-				ss << "; error message: " << e.what() << ".";
+				ss << "; "<<std::endl << "error message: " << e.what() << ".";
 				throw std::invalid_argument(ss.str());
 			}
 		}
@@ -193,21 +189,26 @@ namespace rr
         Solver::resetSettings();
 
         // Set default integrator settings.
-        addSetting("seed",              defaultSeed(), "Seed", "Set the seed into the random engine. (ulong)", "(ulong) Set the seed into the random engine.");
-        addSetting("variable_step_size",true, "Variable Step Size", "Perform a variable time step simulation. (bool)", "(bool) Enabling this setting will allow the integrator to adapt the size of each time step. This will result in a non-uniform time column.  The number of steps or points will be ignored, and the max number of output rows will be used instead.");
-        addSetting("initial_time_step", 0.0,   "Initial Time Step", "Specifies the initial time step size. (double)", "(double) Specifies the initial time step size.");
-        addSetting("minimum_time_step", 0.0,   "Minimum Time Step", "Specifies the minimum absolute value of step size allowed. (double)", "(double) The minimum absolute value of step size allowed.");
-        addSetting("maximum_time_step", 0.0,   "Maximum Time Step", "Specifies the maximum absolute value of step size allowed. (double)", "(double) The maximum absolute value of step size allowed.");
-        addSetting("nonnegative",       false, "Non-negative species only", "Prevents species amounts from going negative during a simulation. (bool)", "(bool) Enforce non-negative species constraint.");
-        addSetting("max_output_rows", Config::getInt(Config::MAX_OUTPUT_ROWS), "Maximum Output Rows", "For variable step size simulations, the maximum number of output rows produced (int).", "(int) This will set the maximum number of output rows for variable step size integration.  This may truncate some simulations that may not reach the desired end time, but prevents massive output for simulations where the variable step size ends up decreasing too much.  This setting is ignored when the variable_step_size is false, and is also ignored when the output is being written directly to a file.");
+        addSetting("seed",                  std::uint64_t(defaultSeed()), "Seed", "Set the seed into the random engine. (ulong)", "(ulong) Set the seed into the random engine.");
+        addSetting("variable_step_size",    Setting(true), "Variable Step Size", "Perform a variable time step simulation. (bool)", "(bool) Enabling this setting will allow the integrator to adapt the size of each time step. This will result in a non-uniform time column.  The number of steps or points will be ignored, and the max number of output rows will be used instead.");
+        //addSetting("initial_time_step",     Setting(0.0),   "Initial Time Step", "Specifies the initial time step size. (double)", "(double) Specifies the initial time step size.");
+        addSetting("minimum_time_step",     Setting(0.0),   "Minimum Time Step", "Specifies the minimum absolute value of step size allowed. (double)", "(double) The minimum absolute value of step size allowed.");
+        addSetting("maximum_time_step",     Setting(0.0),   "Maximum Time Step", "Specifies the maximum absolute value of step size allowed. (double)", "(double) The maximum absolute value of step size allowed.");
+        addSetting("nonnegative",           Setting(false), "Non-negative species only", "Prevents species amounts from going negative during a simulation. (bool)", "(bool) Enforce non-negative species constraint.");
+        addSetting("max_output_rows",       Setting(Config::getInt(Config::MAX_OUTPUT_ROWS)), "Maximum Output Rows", "For variable step size simulations, the maximum number of output rows produced (int).", "(int) This will set the maximum number of output rows for variable step size integration.  This may truncate some simulations that may not reach the desired end time, but prevents massive output for simulations where the variable step size ends up decreasing too much.  This setting is ignored when the variable_step_size is false, and is also ignored when the output is being written directly to a file.");
     }
 
 	double GillespieIntegrator::integrate(double t, double hstep)
 	{
-		double tf = 0;
+		double tf;
 		bool singleStep;
-		bool varStep = getValue("variable_step_size").convert<bool>();
-		double minTimeStep = getValue("minimum_time_step").convert<double>();
+		bool varStep = getValue("variable_step_size").get<bool>();
+		auto minTimeStep = getValue("minimum_time_step").get<double>();
+		auto maxTimeStep = getValue("maximum_time_step").get<double>();
+		if (maxTimeStep > minTimeStep)
+		{
+			hstep = std::min(hstep, maxTimeStep);
+		}
 
 		if (varStep)
 		{
@@ -234,11 +235,11 @@ namespace rr
 
 		assert(hstep > 0 || singleStep && "hstep must be > 0 or we must be taking a single step.");
 
-		Log(Logger::LOG_DEBUG) << "ssa(" << t << ", " << tf << ")";
+		rrLog(Logger::LOG_DEBUG) << "ssa(" << t << ", " << tf << ")";
 
-		// get the initial state vector
-		model->setTime(t);
-		model->getStateVector(stateVector);
+		// get the initial state std::vector
+		mModel->setTime(t);
+		mModel->getStateVector(stateVector);
 
 		while (singleStep || t < tf)
 		{
@@ -252,15 +253,15 @@ namespace rr
 			double s = 0;
 
 			// next time
-			double tau = 0;
+			double tau;
 
 			// get the 'propensity' -- reaction rates
-			model->getReactionRates(nReactions, 0, reactionRates);
+			mModel->getReactionRates(nReactions, nullptr, reactionRates);
 
 			// sum the propensity
 			for (int k = 0; k < nReactions; k++)
 			{
-				Log(Logger::LOG_DEBUG) << "reac rate: " << k << ": "
+				rrLog(Logger::LOG_DEBUG) << "reac rate: " << k << ": "
 					<< reactionRates[k];
 
 				// if reaction rate is negative, that means reaction goes in reverse,
@@ -278,7 +279,7 @@ namespace rr
 			else
 			{
 				// no reaction occurs
-				return std::numeric_limits<double>::infinity();
+				return tf;
 			}
 			if (!singleStep && t + tau > tf)        // if time exhausted, don't allow reaction to proceed
 			{
@@ -312,7 +313,7 @@ namespace rr
 
 			bool skip = false;
 
-			if (getValueAsBool("nonnegative")) {
+			if ((bool)getValue("nonnegative")) {
 				// skip reactions which cause species amts to become negative
 				for (int i = floatingSpeciesStart; i < stateVectorSize; ++i) {
 					if (stateVector[i]
@@ -332,25 +333,25 @@ namespace rr
 						* stoichScale * sign;
 
 					if (stateVector[i] < 0.0) {
-						Log(Logger::LOG_WARNING) << "Error, negative value of "
+						rrLog(Logger::LOG_WARNING) << "Error, negative value of "
 							<< stateVector[i]
 							<< " encountred for floating species "
-							<< model->getFloatingSpeciesId(i - floatingSpeciesStart);
+							<< mModel->getFloatingSpeciesId(i - floatingSpeciesStart);
 						t = std::numeric_limits<double>::infinity();
 					}
 				}
 			}
 
 			// rates could be time dependent
-			model->setTime(t);
-			model->setStateVector(stateVector);
+			mModel->setTime(t);
+			mModel->setStateVector(stateVector);
 
 			// events
 			bool triggered = false;
 
-			model->getEventTriggers(eventStatus.size(), NULL, eventStatus.size() ? &eventStatus[0] : NULL);
-			for(int k_=0; k_<eventStatus.size(); ++k_) {
-				if (eventStatus.at(k_))
+			mModel->getEventTriggers(eventStatus.size(), nullptr, !eventStatus.empty() ? &eventStatus[0] : nullptr);
+			for(unsigned char eventStatu : eventStatus) {
+				if (eventStatu)
 					triggered = true;
 			}
 
@@ -358,7 +359,7 @@ namespace rr
 				applyEvents(t, previousEventStatus);
 			}
 
-			if (eventStatus.size())
+			if (!eventStatus.empty())
 				memcpy(&previousEventStatus[0], &eventStatus[0], eventStatus.size()*sizeof(unsigned char));
 
 
@@ -373,37 +374,35 @@ namespace rr
 
     void GillespieIntegrator::testRootsAtInitialTime()
     {
-        vector<unsigned char> initialEventStatus(model->getEventTriggers(0, 0, 0), false);
-        model->getEventTriggers(initialEventStatus.size(), 0, initialEventStatus.size() == 0 ? NULL : &initialEventStatus[0]);
-        applyEvents(0, initialEventStatus);
+        std::vector<unsigned char> initialEventStatus(mModel->getEventTriggers(0, nullptr, nullptr), false);
+        mModel->getEventTriggers(initialEventStatus.size(), nullptr, initialEventStatus.empty() ? nullptr : &initialEventStatus[0]);
+        applyEvents(mIntegrationStartTime, initialEventStatus);
     }
 
-    void GillespieIntegrator::applyEvents(double timeEnd, vector<unsigned char> &previousEventStatus)
+    void GillespieIntegrator::applyEvents(double timeEnd, std::vector<unsigned char> &prevEventStatus)
     {
-        model->applyEvents(timeEnd, previousEventStatus.size() == 0 ? NULL : &previousEventStatus[0], stateVector, stateVector);
+        mModel->applyEvents(timeEnd, prevEventStatus.empty() ? nullptr : &prevEventStatus[0], stateVector, stateVector);
     }
 
 	void GillespieIntegrator::restart(double t0)
 	{
-        if (!model) {
+        if (!mModel) {
             return;
         }
 
-        if (t0 <= 0.0) {
-            if (stateVector)
-            {
-                model->getStateVector(stateVector);
-            }
-
-            testRootsAtInitialTime();
-        }
-
-        model->setTime(t0);
-
-        // copy state vector into memory
         if (stateVector)
         {
-            model->getStateVector(stateVector);
+            mModel->getStateVector(stateVector);
+        }
+
+        testRootsAtInitialTime();
+
+        mModel->setTime(t0);
+
+        // copy state std::vector into memory
+        if (stateVector)
+        {
+            mModel->getStateVector(stateVector);
         }
 	}
 
@@ -418,15 +417,19 @@ namespace rr
 
 	double GillespieIntegrator::urand()
 	{
-		return (double)engine() / (double)engine.max();
+		return (double)engine() / (double)std::mt19937::max();
 	}
 
-	void GillespieIntegrator::setEngineSeed(unsigned long seed)
+	void GillespieIntegrator::setEngineSeed(std::uint64_t seed)
 	{
-		Log(Logger::LOG_INFORMATION) << "Using user specified seed value: " << seed;
+		rrLog(Logger::LOG_INFORMATION) << "Using user specified seed value: " << seed;
 
 		// MSVC needs an explicit cast, fail to compile otherwise.
-		engine.seed((unsigned long)seed);
+		engine.seed((std::int64_t)seed);
 	}
 
-	} /* namespace rr */
+    Solver *GillespieIntegrator::construct(ExecutableModel *executableModel) const {
+        return new GillespieIntegrator(executableModel);
+    }
+
+} /* namespace rr */

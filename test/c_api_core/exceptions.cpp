@@ -5,67 +5,62 @@
 #include "rrUtils.h"
 #include "rrIniFile.h"
 
-#include <string>
+#include "RoadRunnerTest.h"
 
-//Add using clauses..
+
+#include <string>
+#include <filesystem>
+#include <rrRoadRunner.h>
+
 using namespace std;
 using namespace rrc;
+using std::filesystem::path;
 
-using rr::joinPath;
-using rr::fileExists;
 
-extern string gRRTestDir;
-extern string gRROutputDir;
-extern rr::IniFile iniFile;
-extern RRHandle gRR;
+#include "CAPICoreTest.h"
 
-//This tests is mimicking the Python tests
-extern string TestModelFileName;
+class CAPIExceptions : public CAPICoreTest {
+public:
 
-TEST(C_API_EXCEPTIONS, DATA_FILES)
-{
-    string testDataFileName = joinPath(gRRTestDir, "models/C_API_CORE/TestModel_1.dat");
+    CAPIExceptions() = default;
 
-    ASSERT_TRUE(fileExists(testDataFileName));
-    ASSERT_TRUE(iniFile.Load(testDataFileName));
+};
+
+TEST_F(CAPIExceptions, DATA_FILES) {
+    path testDataFileName = rrTestModelsDir_ / "CAPICore";
+    path testModelFileName;
+    testDataFileName /= "TestModel_1.dat";
+
+    ASSERT_TRUE(std::filesystem::exists(testDataFileName));
+    ASSERT_TRUE(iniFile.Load(testDataFileName.string()));
 
     //clog << "Loaded test data from file: " << testDataFileName;
-    if (iniFile.GetSection("SBML_FILE"))
-    {
-        rr::IniSection* sbml = iniFile.GetSection("SBML_FILE");
-        rr::IniKey* fNameKey = sbml->GetKey("sbmlFile");
-        if (fNameKey)
-        {
-            TestModelFileName = joinPath(gRRTestDir + "models/C_API_CORE/", fNameKey->mValue);
-            EXPECT_TRUE(fileExists(TestModelFileName));
+    if (iniFile.GetSection("SBML_FILE")) {
+        rr::IniSection *sbml = iniFile.GetSection("SBML_FILE");
+        rr::IniKey *fNameKey = sbml->GetKey("sbmlFile");
+        if (fNameKey) {
+            testModelFileName = fs::absolute(cAPICoreModelsDir / fNameKey->mValue);
+            EXPECT_TRUE(std::filesystem::exists(testModelFileName));
         }
-    }
-    else
-    {
+    } else {
         EXPECT_TRUE(false);
     }
 }
 
-TEST(C_API_EXCEPTIONS, LOAD_SBML)
-{
-    EXPECT_TRUE(loadSBMLFromFile(gRR, TestModelFileName.c_str()));
+TEST_F(CAPIExceptions, LOAD_SBML) {
+    path TestModelFileName = cAPICoreModelsDir / "feedback.xml";
+    ASSERT_TRUE(fs::exists(TestModelFileName));
+    EXPECT_TRUE(loadSBMLFromFile(gRR, TestModelFileName.string().c_str()));
 }
 
-TEST(C_API_EXCEPTIONS, SET_COMPUTE_AND_ASSIGN_CONSERVATION_LAWS)
-{
+TEST_F(CAPIExceptions, SET_COMPUTE_AND_ASSIGN_CONSERVATION_LAWS) {
+    path TestModelFileName = cAPICoreModelsDir / "Test_1.xml";
+    loadSBMLFromFile(gRR, TestModelFileName.string().c_str());
     ASSERT_TRUE(gRR != NULL);
     bool res = setComputeAndAssignConservationLaws(gRR, true);
     EXPECT_TRUE(res);
-    clog << "\nConversation laws: " << res << endl;
-}
-
-TEST(C_API_EXCEPTIONS, GET_UNSCALED_ELASTICITY_COEFFICIENT)
-{
-    double test;
-    bool val = getuEE(gRR, "J1", "S1", &test);
-
-    // val = getuEE("J1", "S34", test);
-
-     //val =  getuCC("J1", "S1", test);
+    clog << "\nConservation laws: " << res << endl;
 
 }
+
+

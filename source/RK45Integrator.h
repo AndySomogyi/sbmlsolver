@@ -16,6 +16,7 @@
 
 #include <Integrator.h>
 #include <rrRoadRunnerOptions.h>
+#include "Registrable.h"
 
 namespace rr
 {
@@ -30,6 +31,9 @@ namespace rr
     class RK45Integrator: public Integrator
     {
     public:
+
+        using Integrator::Integrator;
+
         /**
          * @author KC
          * @brief Constructor: takes an executable model, does not own the pointer
@@ -58,10 +62,10 @@ namespace rr
         /**
          * @author CC
          * @brief Integrates the model from t to t + h.
-         * @details Attempts to find the state vector at
+         * @details Attempts to find the state std::vector at
          * t + h, and returns time t + h if successful.
          * If the integrator does not find a convergent
-         * solution, the state vector is not updated and 
+         * solution, the state std::vector is not updated and
          * t is returned.
          * Also calculates a new timestep and saves it 
          * to a member variable for future use.
@@ -114,9 +118,11 @@ namespace rr
          */
         static std::string getRK45Hint();
 
+        Solver* construct(ExecutableModel* executableModel) const;
+
         // ** Getters / Setters ************************************************
 
-        virtual Variant getValue(std::string key);
+        virtual Setting getValue(std::string key);
 
         /**
          * @author JKM
@@ -143,11 +149,8 @@ namespace rr
         */
         virtual IntegratorListenerPtr getListener();
 
-    public:
-
 
     private:
-        ExecutableModel *model;
 
         unsigned stateVectorSize;
 
@@ -164,45 +167,6 @@ namespace rr
         void testRootsAtInitialTime();
         void applyEvents(double timeEnd, std::vector<unsigned char> &previousEventStatus);
 
-    };
-
-
-    // ** Registration *********************************************************
-
-
-    class RK45IntegratorRegistrar : public IntegratorRegistrar {
-        public:
-            /**
-            * @author JKM
-            * @brief Gets the name associated with this integrator type
-            */
-            virtual std::string getName() const {
-                return RK45Integrator::getRK45Name();
-            }
-
-            /**
-            * @author JKM
-            * @brief Gets the description associated with this integrator type
-            */
-            virtual std::string getDescription() const {
-                return RK45Integrator::getRK45Description();
-            }
-
-            /**
-            * @author JKM
-            * @brief Gets the hint associated with this integrator type
-            */
-            virtual std::string getHint() const {
-                return RK45Integrator::getRK45Hint();
-            }
-
-            /**
-            * @author JKM
-            * @brief Constructs a new integrator of a given type
-            */
-            virtual Integrator* construct(ExecutableModel *model) const {
-                return new RK45Integrator(model);
-            }
     };
 
 } /* namespace rr */

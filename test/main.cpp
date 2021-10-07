@@ -1,12 +1,17 @@
+/**
+ * Deprecated in favour of RoadRunnerTest
+ */
+
 #include "gtest/gtest.h"
 #include "C/rrc_api.h"
 #include "rrIniFile.h"
 #include "rrLogger.h"
+#include <filesystem>
 
-
-std::string     gRRTestDir= "";
-std::string     gRROutputDir = "";
-std::string     TestModelFileName = "";
+using std::filesystem::path;
+path     gRRTestDir= "";
+path     gRROutputDir = "";
+path     TestModelFileName = "";
 rrc::RRHandle gRR = rrc::createRRInstance();;
 rr::IniFile iniFile;
 
@@ -25,7 +30,6 @@ int main(int argc, char** argv)
         std::cerr << "Please set the 'testdir' environment variable before running tests.  This should be the 'test/' directory of the roadrunner root directory." << std::endl;
         return 1;
     }
-    gRRTestDir += "/";
 
     //Setup the output directory (will be the relative directory "output/" by default)
     char* outdir = getenv("outdir");
@@ -35,7 +39,6 @@ int main(int argc, char** argv)
     if (gRROutputDir.empty()) {
         gRROutputDir = "output";
     }
-    gRROutputDir += "/";
 
     //Set the logging level to 'notice':
     rr::Logger::enableConsoleLogging(rr::Logger::LOG_NOTICE);

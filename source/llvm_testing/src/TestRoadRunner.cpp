@@ -17,7 +17,7 @@
 #include "conservation/ConservedMoietyPlugin.h"
 #include "conservation/ConservedMoietyConverter.h"
 
-using namespace std;
+
 using namespace libsbml;
 using namespace rr::conservation;
 
@@ -37,10 +37,10 @@ TestRoadRunner::TestRoadRunner(const std::string& version, int caseNumber) :
     //fileName = getModelFileName(version, caseNumber);
 
     home = getenv("HOME");
-    dataOutputFolder = home + string("/tmp");
-    string dummy;
-    string logFileName;
-    string settingsFileName;
+    dataOutputFolder = home + std::string("/tmp");
+    std::string dummy;
+    std::string logFileName;
+    std::string settingsFileName;
 
 
 
@@ -52,7 +52,7 @@ TestRoadRunner::TestRoadRunner(const std::string& version, int caseNumber) :
 
     if(!createFolder(dataOutputFolder))
     {
-        string msg("Failed creating output folder for data output: " + dataOutputFolder);
+        std::string msg("Failed creating output folder for data output: " + dataOutputFolder);
         throw(Exception(msg));
     }
 }
@@ -78,7 +78,7 @@ void TestRoadRunner::loadSBML(const std::string& compiler)
     modelFilePath = home + "/src/sbml_test/cases/semantic";
 
     simulation->SetCaseNumber(caseNumber);
-    string dummy;
+    std::string dummy;
     createTestSuiteFileNameParts(caseNumber, "-sbml-" + version + ".xml",
             modelFilePath, modelFileName, settingsFileName, dummy);
 
@@ -98,10 +98,10 @@ void TestRoadRunner::loadSBML(const std::string& compiler)
     }
 
     //Then read settings file if it exists..
-    string settingsOveride("");
+    std::string settingsOveride("");
     if (!simulation->LoadSettingsEx(settingsOveride))
     {
-        Log(Logger::LOG_ERROR) << "Failed loading SBML model settings";
+        rrLog(Logger::LOG_ERROR) << "Failed loading SBML model settings";
         throw Exception("Failed loading SBML model settings");
     }
 
@@ -145,11 +145,11 @@ void TestRoadRunner::compareReference()
     simulation->SaveModelAsXML(dataOutputFolder);
     if (!result)
     {
-        Log(Logger::LOG_NOTICE) << "Test failed..\n";
+        rrLog(Logger::LOG_NOTICE) << "Test failed..\n";
     }
     else
     {
-        Log(Logger::LOG_NOTICE) << "Test passed..\n";
+        rrLog(Logger::LOG_NOTICE) << "Test passed..\n";
     }
 }
 
@@ -171,11 +171,11 @@ void TestRoadRunner::test2()
     std::cout << "columns: " << data->CSize << ", rows: " << data->RSize << std::endl;
 
     for (int r = 0; r < data->RSize; ++r) {
-        cout << "row " << r << ", [";
+        std::cout << "row " << r << ", [";
         for (int c = 0; c < data->CSize; ++c) {
-            cout << data->Data[r*data->CSize + c] << ", ";
+            std::cout << data->Data[r*data->CSize + c] << ", ";
         }
-        cout << "]" << std::endl;
+        std::cout << "]" << std::endl;
     }
 	*/
 #endif
@@ -200,11 +200,11 @@ void TestRoadRunner::test3()
     std::cout << "columns: " << data->CSize << ", rows: " << data->RSize << std::endl;
 
     for (int r = 0; r < data->RSize; ++r) {
-        cout << "row " << r << ", [";
+        std::cout << "row " << r << ", [";
         for (int c = 0; c < data->CSize; ++c) {
-            cout << data->Data[r*data->CSize + c] << ", ";
+            std::cout << data->Data[r*data->CSize + c] << ", ";
         }
-        cout << "]" << std::endl;
+        std::cout << "]" << std::endl;
     }
 	*/
 #endif
@@ -214,7 +214,7 @@ void TestRoadRunner::test3()
 
 /*
 
-bool RunTest(const string& version, int caseNumber)
+bool RunTest(const std::string& version, int caseNumber)
 {
     bool result = false;
     RRHandle gRR = 0;
@@ -247,7 +247,7 @@ bool RunTest(const string& version, int caseNumber)
 
 
         //Then read settings file if it exists..
-        string settingsOveride("");
+        std::string settingsOveride("");
         if(!simulation.LoadSettings(settingsOveride))
         {
             throw("Failed loading simulation settings");
@@ -286,8 +286,8 @@ bool RunTest(const string& version, int caseNumber)
     }
     catch(rr::Exception& ex)
     {
-        string error = ex.what();
-        cerr<<"Case "<<caseNumber<<": Exception: "<<error<<endl;
+        std::string error = ex.what();
+        cerr<<"Case "<<caseNumber<<": Exception: "<<error<<std::endl;
         result = false;;
     }
 
@@ -328,7 +328,7 @@ std::string TestRoadRunner::read_uri(const std::string& uri)
     }
     catch(std::exception& ex)
     {
-        cout << "caught exception " << ex.what() << endl;
+        std::cout << "caught exception " << ex.what() << std::endl;
         return ex.what();
     }
 
@@ -363,7 +363,7 @@ void TestRoadRunner::testLoad(const std::string& uri)
     }
     catch(std::exception& e)
     {
-        cout << "error: " << e.what() << std::endl;
+        std::cout << "error: " << e.what() << std::endl;
     }
 }
 
@@ -377,7 +377,7 @@ void TestRoadRunner::testCons1()
     ConservationDocumentPlugin* docPlugin =
             dynamic_cast<ConservationDocumentPlugin*>(doc.getPlugin("conservation"));
 
-    cout << "document plugin: " << docPlugin << endl;
+    std::cout << "document plugin: " << docPlugin << std::endl;
 
     Model *m = doc.createModel("foo");
 
@@ -386,18 +386,18 @@ void TestRoadRunner::testCons1()
     ConservedMoietyPlugin *paramPlugin =
             dynamic_cast<ConservedMoietyPlugin*>(p->getPlugin("conservation"));
 
-    cout << "parameter plugin: " << paramPlugin << endl;
+    std::cout << "parameter plugin: " << paramPlugin << std::endl;
 
     Species *s = m->createSpecies();
 
     ConservedMoietyPlugin *speciesPlugin =
             dynamic_cast<ConservedMoietyPlugin*>(s->getPlugin("conservation"));
 
-    cout << "species plugin: " << speciesPlugin << endl;
+    std::cout << "species plugin: " << speciesPlugin << std::endl;
 
 
 
-    cout << "its all good" << endl;
+    std::cout << "its all good" << std::endl;
 
 }
 
@@ -430,11 +430,11 @@ void TestRoadRunner::testCons2(const std::string& fname)
             dynamic_cast<ConservationDocumentPlugin*>(newDoc->getPlugin(
                     "conservation"));
 
-    cout << "document plugin: " << docPlugin << endl;
+    std::cout << "document plugin: " << docPlugin << std::endl;
 
     libsbml::SBMLWriter writer;
 
-    string base = removeExtension(fname);
+    std::string base = removeExtension(fname);
 
     writer.writeSBML(conv.getLevelConvertedDocument(), base + ".l3v1.xml");
 
@@ -442,7 +442,7 @@ void TestRoadRunner::testCons2(const std::string& fname)
 
     delete doc;
 
-    cout << "its all good" << endl;
+    std::cout << "its all good" << std::endl;
 }
 
 void TestRoadRunner::testRead(const std::string &fname)
@@ -463,8 +463,8 @@ void TestRoadRunner::testRead(const std::string &fname)
     {
         const Parameter *p = params->get(i);
 
-        cout << "param \'" << p->getId() << "\', conservedMoiety: "
-                << ConservationExtension::getConservedMoiety(*p) << endl;
+        std::cout << "param \'" << p->getId() << "\', conservedMoiety: "
+                << ConservationExtension::getConservedMoiety(*p) << std::endl;
     }
 
     const ListOfSpecies *species = m->getListOfSpecies();
@@ -473,8 +473,8 @@ void TestRoadRunner::testRead(const std::string &fname)
     {
         const Species *s = species->get(i);
 
-        cout << "species \'" << s->getId() << "\', conservedMoiety: "
-                        << ConservationExtension::getConservedMoiety(*s) << endl;
+        std::cout << "species \'" << s->getId() << "\', conservedMoiety: "
+                        << ConservationExtension::getConservedMoiety(*s) << std::endl;
 
     }
 
@@ -499,89 +499,89 @@ void TestRoadRunner::testRead(const std::string &fname)
 
 
 
-    cout << "its all good" << endl;
+    std::cout << "its all good" << std::endl;
 }
 
 void TestRoadRunner::testLogging(const std::string& logFileName)
 {
     Logger::enableConsoleLogging(Logger::LOG_NOTICE);
 
-    Log(Logger::LOG_NOTICE) << "console only notice";
+    rrLog(Logger::LOG_NOTICE) << "console only notice";
 
-    Log(Logger::LOG_NOTICE) << "setting logging to file: " << logFileName;
+    rrLog(Logger::LOG_NOTICE) << "setting logging to file: " << logFileName;
 
     Logger::enableFileLogging(logFileName, Logger::LOG_NOTICE);
 
-    cout << "console and file logging:" << endl;
+    std::cout << "console and file logging:" << std::endl;
 
-    cout << "log file name: " << Logger::getFileName() << endl;
+    std::cout << "log file name: " << Logger::getFileName() << std::endl;
 
-    Log(Logger::LOG_FATAL) << "console and file: A fatal error";
-    Log(Logger::LOG_CRITICAL) << "console and file: A critical error";
-    Log(Logger::LOG_ERROR) << "console and file: An error";
-    Log(Logger::LOG_WARNING) << "console and file: A warning. ";
-    Log(Logger::LOG_NOTICE) << "console and file: A notice.";
-    Log(Logger::LOG_INFORMATION) << "console and file: An informational message";
-    Log(Logger::LOG_DEBUG) << "console and file: A debugging message.";
-    Log(Logger::LOG_TRACE) << "console and file: A tracing message.";
+    rrLog(Logger::LOG_FATAL) << "console and file: A fatal error";
+    rrLog(Logger::LOG_CRITICAL) << "console and file: A critical error";
+    rrLog(Logger::LOG_ERROR) << "console and file: An error";
+    rrLog(Logger::LOG_WARNING) << "console and file: A warning. ";
+    rrLog(Logger::LOG_NOTICE) << "console and file: A notice.";
+    rrLog(Logger::LOG_INFORMATION) << "console and file: An informational message";
+    rrLog(Logger::LOG_DEBUG) << "console and file: A debugging message.";
+    rrLog(Logger::LOG_TRACE) << "console and file: A tracing message.";
 
     Logger::disableConsoleLogging();
 
-    cout << "file only logging:" << endl;
+    std::cout << "file only logging:" << std::endl;
 
-    cout << "log file name: " << Logger::getFileName() << endl;
+    std::cout << "log file name: " << Logger::getFileName() << std::endl;
 
-    Log(Logger::LOG_FATAL) << "file only: A fatal error";
-    Log(Logger::LOG_CRITICAL) << "file only: A critical error";
-    Log(Logger::LOG_ERROR) << "file only: An error";
-    Log(Logger::LOG_WARNING) << "file only: A warning. ";
-    Log(Logger::LOG_NOTICE) << "file only: A notice.";
-    Log(Logger::LOG_INFORMATION) << "file only: An informational message";
-    Log(Logger::LOG_DEBUG) << "file only: A debugging message.";
-    Log(Logger::LOG_TRACE) << "file only: A tracing message.";
+    rrLog(Logger::LOG_FATAL) << "file only: A fatal error";
+    rrLog(Logger::LOG_CRITICAL) << "file only: A critical error";
+    rrLog(Logger::LOG_ERROR) << "file only: An error";
+    rrLog(Logger::LOG_WARNING) << "file only: A warning. ";
+    rrLog(Logger::LOG_NOTICE) << "file only: A notice.";
+    rrLog(Logger::LOG_INFORMATION) << "file only: An informational message";
+    rrLog(Logger::LOG_DEBUG) << "file only: A debugging message.";
+    rrLog(Logger::LOG_TRACE) << "file only: A tracing message.";
 
-    cout << "no logging: " << endl;
+    std::cout << "no logging: " << std::endl;
 
     Logger::disableLogging();
 
-    cout << "log file name: " << Logger::getFileName() << endl;
+    std::cout << "log file name: " << Logger::getFileName() << std::endl;
 
-    Log(Logger::LOG_FATAL) << "no log: A fatal error";
-    Log(Logger::LOG_CRITICAL) << "no log: A critical error";
-    Log(Logger::LOG_ERROR) << "no log: An error";
-    Log(Logger::LOG_WARNING) << "no log: A warning. ";
-    Log(Logger::LOG_NOTICE) << "no log: A notice.";
-    Log(Logger::LOG_INFORMATION) << "no log: An informational message";
-    Log(Logger::LOG_DEBUG) << "no log: A debugging message.";
-    Log(Logger::LOG_TRACE) << "no log: A tracing message.";
+    rrLog(Logger::LOG_FATAL) << "no log: A fatal error";
+    rrLog(Logger::LOG_CRITICAL) << "no log: A critical error";
+    rrLog(Logger::LOG_ERROR) << "no log: An error";
+    rrLog(Logger::LOG_WARNING) << "no log: A warning. ";
+    rrLog(Logger::LOG_NOTICE) << "no log: A notice.";
+    rrLog(Logger::LOG_INFORMATION) << "no log: An informational message";
+    rrLog(Logger::LOG_DEBUG) << "no log: A debugging message.";
+    rrLog(Logger::LOG_TRACE) << "no log: A tracing message.";
 
     Logger::enableConsoleLogging();
 
-    cout << "console logging: " << endl;
+    std::cout << "console logging: " << std::endl;
 
-    Log(Logger::LOG_FATAL) << "console logging: A fatal error";
-    Log(Logger::LOG_CRITICAL) << "console logging: A critical error";
-    Log(Logger::LOG_ERROR) << "console logging: An error";
-    Log(Logger::LOG_WARNING) << "console logging: A warning. ";
-    Log(Logger::LOG_NOTICE) << "console logging: A notice.";
-    Log(Logger::LOG_INFORMATION) << "console logging: An informational message";
-    Log(Logger::LOG_DEBUG) << "console logging: A debugging message.";
-    Log(Logger::LOG_TRACE) << "console logging: A tracing message.";
+    rrLog(Logger::LOG_FATAL) << "console logging: A fatal error";
+    rrLog(Logger::LOG_CRITICAL) << "console logging: A critical error";
+    rrLog(Logger::LOG_ERROR) << "console logging: An error";
+    rrLog(Logger::LOG_WARNING) << "console logging: A warning. ";
+    rrLog(Logger::LOG_NOTICE) << "console logging: A notice.";
+    rrLog(Logger::LOG_INFORMATION) << "console logging: An informational message";
+    rrLog(Logger::LOG_DEBUG) << "console logging: A debugging message.";
+    rrLog(Logger::LOG_TRACE) << "console logging: A tracing message.";
 
     Logger::enableFileLogging(logFileName, Logger::LOG_NOTICE);
 
-    cout << "console and file logging:" << endl;
+    std::cout << "console and file logging:" << std::endl;
 
-    cout << "log file name: " << Logger::getFileName() << endl;
+    std::cout << "log file name: " << Logger::getFileName() << std::endl;
 
-    Log(Logger::LOG_FATAL) << "console and file: A fatal error";
-    Log(Logger::LOG_CRITICAL) << "console and file: A critical error";
-    Log(Logger::LOG_ERROR) << "console and file: An error";
-    Log(Logger::LOG_WARNING) << "console and file: A warning. ";
-    Log(Logger::LOG_NOTICE) << "console and file: A notice.";
-    Log(Logger::LOG_INFORMATION) << "console and file: An informational message";
-    Log(Logger::LOG_DEBUG) << "console and file: A debugging message.";
-    Log(Logger::LOG_TRACE) << "console and file: A tracing message.";
+    rrLog(Logger::LOG_FATAL) << "console and file: A fatal error";
+    rrLog(Logger::LOG_CRITICAL) << "console and file: A critical error";
+    rrLog(Logger::LOG_ERROR) << "console and file: An error";
+    rrLog(Logger::LOG_WARNING) << "console and file: A warning. ";
+    rrLog(Logger::LOG_NOTICE) << "console and file: A notice.";
+    rrLog(Logger::LOG_INFORMATION) << "console and file: An informational message";
+    rrLog(Logger::LOG_DEBUG) << "console and file: A debugging message.";
+    rrLog(Logger::LOG_TRACE) << "console and file: A tracing message.";
 
 }
 

@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
   <compounddef id="classrrllvm_1_1GetFloatingSpeciesConcentrationCodeGen" kind="class" language="C++" prot="public">
     <compoundname>rrllvm::GetFloatingSpeciesConcentrationCodeGen</compoundname>
     <basecompoundref refid="classrrllvm_1_1GetValueCodeGenBase" prot="public" virt="non-virtual">rrllvm::GetValueCodeGenBase&lt; GetFloatingSpeciesConcentrationCodeGen, false &gt;</basecompoundref>
@@ -64,9 +64,9 @@
         </inbodydescription>
         <location file="llvm/GetValuesCodeGen.h" line="75" column="5" bodyfile="llvm/GetValuesCodeGen.h" bodystart="75" bodyend="75"/>
       </memberdef>
-      <memberdef kind="function" id="classrrllvm_1_1GetFloatingSpeciesConcentrationCodeGen_1a470451d03a8b872b23f382fdaff33682" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
-        <type>std::vector&lt; string &gt;</type>
-        <definition>std::vector&lt;string&gt; rrllvm::GetFloatingSpeciesConcentrationCodeGen::getIds</definition>
+      <memberdef kind="function" id="classrrllvm_1_1GetFloatingSpeciesConcentrationCodeGen_1a94269418eb3c8d5552824b3e97f54136" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; rrllvm::GetFloatingSpeciesConcentrationCodeGen::getIds</definition>
         <argsstring>()</argsstring>
         <name>getIds</name>
         <briefdescription>
@@ -101,25 +101,6 @@
       </node>
     </inheritancegraph>
     <collaborationgraph>
-      <node id="6">
-        <label>rrllvm::ASTNodeFactory</label>
-        <link refid="classrrllvm_1_1ASTNodeFactory"/>
-      </node>
-      <node id="4">
-        <label>rrllvm::LLVMModelSymbols</label>
-        <link refid="classrrllvm_1_1LLVMModelSymbols"/>
-        <childnode refid="5" relation="private-inheritance">
-        </childnode>
-        <childnode refid="6" relation="usage">
-          <edgelabel>nodes</edgelabel>
-        </childnode>
-        <childnode refid="7" relation="usage">
-          <edgelabel>assignmentRules</edgelabel>
-          <edgelabel>initialAssignmentRules</edgelabel>
-          <edgelabel>initialValues</edgelabel>
-          <edgelabel>rateRules</edgelabel>
-        </childnode>
-      </node>
       <node id="2">
         <label>rrllvm::GetValueCodeGenBase&lt; GetFloatingSpeciesConcentrationCodeGen, false &gt;</label>
         <link refid="classrrllvm_1_1GetValueCodeGenBase"/>
@@ -129,46 +110,12 @@
       <node id="3">
         <label>rrllvm::CodeGenBase&lt; GetValueCodeGenBase_FunctionPtr &gt;</label>
         <link refid="classrrllvm_1_1CodeGenBase"/>
-        <childnode refid="4" relation="usage">
-          <edgelabel>modelSymbols</edgelabel>
-        </childnode>
-        <childnode refid="9" relation="usage">
-          <edgelabel>dataSymbols</edgelabel>
-        </childnode>
-        <childnode refid="10" relation="usage">
-          <edgelabel>modelGenContext</edgelabel>
-        </childnode>
-      </node>
-      <node id="10">
-        <label>rrllvm::ModelGeneratorContext</label>
-        <link refid="classrrllvm_1_1ModelGeneratorContext"/>
-      </node>
-      <node id="9">
-        <label>rrllvm::LLVMModelDataSymbols</label>
-        <link refid="classrrllvm_1_1LLVMModelDataSymbols"/>
-      </node>
-      <node id="7">
-        <label>rrllvm::SymbolForest</label>
-        <link refid="classrrllvm_1_1SymbolForest"/>
-        <childnode refid="8" relation="usage">
-          <edgelabel>boundarySpecies</edgelabel>
-          <edgelabel>compartments</edgelabel>
-          <edgelabel>floatingSpecies</edgelabel>
-          <edgelabel>globalParameters</edgelabel>
-          <edgelabel>speciesReferences</edgelabel>
-        </childnode>
       </node>
       <node id="1">
         <label>rrllvm::GetFloatingSpeciesConcentrationCodeGen</label>
         <link refid="classrrllvm_1_1GetFloatingSpeciesConcentrationCodeGen"/>
         <childnode refid="2" relation="public-inheritance">
         </childnode>
-      </node>
-      <node id="5">
-        <label>libsbml::SBMLVisitor</label>
-      </node>
-      <node id="8">
-        <label>map&lt; string, const libsbml::ASTNode * &gt;</label>
       </node>
     </collaborationgraph>
     <location file="llvm/GetValuesCodeGen.h" line="70" column="1" bodyfile="llvm/GetValuesCodeGen.h" bodystart="72" bodyend="84"/>
@@ -187,7 +134,7 @@
       <member refid="classrrllvm_1_1CodeGenBase_1addedde72248fde005bff3060843de531" prot="protected" virt="non-virtual"><scope>rrllvm::GetFloatingSpeciesConcentrationCodeGen</scope><name>functionPassManager</name></member>
       <member refid="classrrllvm_1_1GetValueCodeGenBase_1a198aef7eea324b26f9ce2328f0c50d94" prot="public" virt="non-virtual"><scope>rrllvm::GetFloatingSpeciesConcentrationCodeGen</scope><name>FunctionPtr</name></member>
       <member refid="classrrllvm_1_1GetFloatingSpeciesConcentrationCodeGen_1a9e0ddb30ba863026bd02b7667a3c3d11" prot="public" virt="non-virtual"><scope>rrllvm::GetFloatingSpeciesConcentrationCodeGen</scope><name>GetFloatingSpeciesConcentrationCodeGen</name></member>
-      <member refid="classrrllvm_1_1GetFloatingSpeciesConcentrationCodeGen_1a470451d03a8b872b23f382fdaff33682" prot="public" virt="non-virtual"><scope>rrllvm::GetFloatingSpeciesConcentrationCodeGen</scope><name>getIds</name></member>
+      <member refid="classrrllvm_1_1GetFloatingSpeciesConcentrationCodeGen_1a94269418eb3c8d5552824b3e97f54136" prot="public" virt="non-virtual"><scope>rrllvm::GetFloatingSpeciesConcentrationCodeGen</scope><name>getIds</name></member>
       <member refid="classrrllvm_1_1GetValueCodeGenBase_1a0e71d10a41673d1c5264682a0b23f931" prot="public" virt="non-virtual"><scope>rrllvm::GetFloatingSpeciesConcentrationCodeGen</scope><name>GetValueCodeGenBase</name></member>
       <member refid="classrrllvm_1_1GetFloatingSpeciesConcentrationCodeGen_1a92990a5efa2284d1accae11fd282a1bc" prot="public" virt="non-virtual"><scope>rrllvm::GetFloatingSpeciesConcentrationCodeGen</scope><name>IndexArgName</name></member>
       <member refid="classrrllvm_1_1CodeGenBase_1afb6ef03ee896534cde79895141a8a666" prot="protected" virt="non-virtual"><scope>rrllvm::GetFloatingSpeciesConcentrationCodeGen</scope><name>model</name></member>

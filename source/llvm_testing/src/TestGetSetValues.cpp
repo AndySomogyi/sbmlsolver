@@ -13,7 +13,7 @@
 namespace rr
 {
 
-using namespace std;
+
 
 TestGetSetValues::TestGetSetValues(const std::string& compiler,
         const std::string& version, int caseNumber)
@@ -27,34 +27,34 @@ TestGetSetValues::~TestGetSetValues()
 
 bool TestGetSetValues::test()
 {
-    Log(Logger::LOG_INFORMATION) << "Evaluating Initial Conditions for " << fileName << endl;
+    rrLog(Logger::LOG_INFORMATION) << "Evaluating Initial Conditions for " << fileName << std::endl;
 
 
-    Log(Logger::LOG_INFORMATION) << "before set: " << model << endl;
+    rrLog(Logger::LOG_INFORMATION) << "before set: " << model << std::endl;
 
     double val = 0;
     model->getCompartmentVolumes(1, 0, &val);
 
-    Log(Logger::LOG_INFORMATION) << "initial volume: " << val << endl;
+    rrLog(Logger::LOG_INFORMATION) << "initial volume: " << val << std::endl;
 
     val = 2;
     model->setCompartmentVolumes(1, 0, &val);
 
-    Log(Logger::LOG_INFORMATION) << "after: " << model << endl;
+    rrLog(Logger::LOG_INFORMATION) << "after: " << model << std::endl;
 
     model->getCompartmentVolumes(1, 0, &val);
 
-    Log(Logger::LOG_INFORMATION) << "new volume: " << val << endl;
+    rrLog(Logger::LOG_INFORMATION) << "new volume: " << val << std::endl;
 
     double amt = 2;
 
     model->setFloatingSpeciesAmounts(1, 0, &amt);
 
-    Log(Logger::LOG_INFORMATION) << "after set amt: " << model << endl;
+    rrLog(Logger::LOG_INFORMATION) << "after set amt: " << model << std::endl;
 
     model->setFloatingSpeciesConcentrations(1, 0, &amt);
 
-    Log(Logger::LOG_INFORMATION) << "after set conc: " << model << endl;
+    rrLog(Logger::LOG_INFORMATION) << "after set conc: " << model << std::endl;
 
 
 

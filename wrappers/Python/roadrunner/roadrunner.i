@@ -1,7 +1,6 @@
 
 // Module Name
-%module(docstring="The RoadRunner SBML Simulation Engine, (c) 2009-2014 Andy Somogyi and Herbert Sauro",
-        "threads"=1 /*, directors="1"*/) roadrunner
+%module(directors="1", docstring="The RoadRunner SBML Simulation Engine, (c) 2009-2014 Andy Somogyi and Herbert Sauro","threads"=1) roadrunner
 
 // most methods should leave the GIL locked, no point to extra overhead
 // for fast methods. Only Roadrunner with long methods like simulate
@@ -23,7 +22,7 @@
 %{
     #define SWIG_FILE_WITH_INIT
     // see discussion on import array,
-    // http://docs.scipy.org/doc/numpy/reference/c-api.array.html#miscellaneous
+    // https://numpy.org/doc/stable/reference/c-api/array.html#importing-the-api
     #define PY_ARRAY_UNIQUE_SYMBOL RoadRunner_ARRAY_API
     //Can't require new wrappers on MacOS 10.9
     //#define NPY_NO_DEPRECATED_API NPY_1_7_API_VERSION
@@ -64,21 +63,46 @@
     #include "PyUtils.h"
     #include "PyLoggerStream.h"
 
+    #include <sstream> // for the std::stringstream* typemap
+
+    #include "Registrable.h"
+    #include "RegistrationFactory.h"
+
+    // Steady State Solvers
+    #include "KinsolSteadyStateSolver.h"
+    #include "NewtonIteration.h"
+    #include "BasicNewtonIteration.h"
+    #include "LinesearchNewtonIteration.h"
+    #include "NLEQ1Solver.h"
+    #include "NLEQ2Solver.h"
+
+    // sundials Sensitivity solvers
+    #include "SensitivitySolver.h"
+    #include "ForwardSensitivitySolver.h"
+    #include "Matrix.h"
+    #include "Matrix3D.h"
+
+    // Integrators
+    #include "CVODEIntegrator.h"
+    #include "GillespieIntegrator.h"
+    #include "RK4Integrator.h"
+    #include "RK45Integrator.h"
+    #include "EulerIntegrator.h"
+
+
     // make a python obj out of the C++ ExecutableModel, this is used by the PyEventListener
     // class. This function is defined later in this compilation unit.
     PyObject *ExecutableModel_NewPythonObj(rr::ExecutableModel*);
     PyObject *Integrator_NewPythonObj(rr::Integrator*);
 
-
     #include "PyEventListener.h"
     #include "PyIntegratorListener.h"
-
     #include "tr1proxy/cxx11_ns.h"
 
-    using ls::Matrix;
-    using ls::DoubleMatrix;
-    using ls::Complex;
-    using ls::ComplexMatrix;
+    /**
+     * Note, avoid "using" declarations, which can confuse
+     * swig. Best to just be explicit about namespaces.
+     */
 
 
 // Windows is just so special...
@@ -89,14 +113,12 @@
     #define isnan std::isnan
 #endif
 
-
     using namespace rr;
 
 #define VERIFY_PYARRAY(p) { \
     assert(p && "PyArray is NULL"); \
     assert((PyArray_NBYTES(p) > 0 ? PyArray_ISCARRAY(p) : true) &&  "PyArray must be C format"); \
 }
-
 
     class DictionaryHolder {
     public:
@@ -105,15 +127,11 @@
         DictionaryHolder() { dict = NULL; }
 
         ~DictionaryHolder() {
-            Log(Logger::LOG_TRACE) << __FUNC__ << ", deleting dictionary " << (void*)dict;
+            rrLog(Logger::LOG_TRACE) << __FUNC__ << ", deleting dictionary " << (void*)dict;
             delete dict;
         }
     };
-
-
 %}
-
-
 
 
 %naturalvar;
@@ -122,9 +140,8 @@
 %include "std_string.i"
 
 // C++ std::map handling
-%include "std_map.i"
+%include "std_unordered_map.i"
 
-// C++ std::map handling
 %include "std_vector.i"
 
 %include "std_list.i"
@@ -136,7 +153,7 @@
 %include "rr_stdint.i"
 
 // all the documentation goes here.
-%include "rr_docstrings.i"
+%include "rr_docstrings.txt"
 
 
 // the cmake _CMakeLists.txt file in this directory sets the value of the
@@ -147,21 +164,23 @@
 
 %shared_ptr(rr::PyIntegratorListener)
 
+%include "rrExporter.h"
 
 
 %template(IntVector) std::vector<int>;
-%template(StringVector) std::vector<std::string>;
-%template(StringList) std::list<std::string>;
+%template() std::vector<std::string>;
+%template() std::list<std::string>;
+//%template(DoubleMap) std::unordered_map< std::string,double,std::hash< std::string >,std::equal_to< std::string >,std::allocator< std::pair< std::string const,double > > > >;
 
-%apply std::vector<std::string> {vector<std::string>, vector<string>, std::vector<string> };
+
 
 //%template(SelectionRecordVector) std::vector<rr::SelectionRecord>;
-//%apply std::vector<rr::SelectionRecord> {std::vector<SelectionRecord>, std::vector<rr::SelectionRecord>, vector<SelectionRecord>};
+//%apply std::vector<rr::SelectionRecord> {std::vector<SelectionRecord>, std::vector<rr::SelectionRecord>, std::vector<SelectionRecord>};
 
 %apply std::list<std::string>& OUTPUT {std::list<std::string>};
 
 %template(DictionaryVector) std::vector<const rr::Dictionary*>;
-%apply std::vector<const rr::Dictionary*> {std::vector<const Dictionary*>, vector<const rr::Dictionary*>, vector<const Dictionary*>};
+%apply std::vector<const rr::Dictionary*> {std::vector<const Dictionary*>, std::vector<const rr::Dictionary*>, std::vector<const Dictionary*>};
 
 %exception {
   try {
@@ -195,6 +214,41 @@
 
 %apply const ls::DoubleMatrix* {ls::DoubleMatrix*, DoubleMatrix*, const DoubleMatrix* };
 
+/**
+ * Converts a rr::Matrix<double> to a numpy array,
+ * using the same functions/methods as for ls::Matrix<double> (its superclass)
+ * (proxy via rrDoubleMatrix_to_py)
+ */
+%typemap(out) rr::Matrix<double> {
+    // marker for rrDoubleMatrix typemap. Look for me in TestModelFactoryPYTHON_wrap.cxx
+    const rr::Matrix<double>* mat = &($1);
+    $result = rrDoubleMatrix_to_py(mat, true);
+}
+
+%apply rr::Matrix<double> {
+    const rr::Matrix<double>,
+    const rr::Matrix<double>&,
+    rr::Matrix<double>&
+};
+
+
+/**
+ * Note - you do not need to %include "Matrix3D.h"
+ * since we convert it to a Tuple[np.ndarray, np.ndarray]
+ */
+//%include "Matrix3D.h"
+%typemap(out) rr::Matrix3D<double, double> {
+    // marker for a rr::Matrix3D<double, double> typemap
+    Matrix3DToNumpy matrix3DtoNumpy($1);
+    PyObject* npArray3D = matrix3DtoNumpy.convertData();
+    PyObject* idx = matrix3DtoNumpy.convertIndex();
+    PyObject* colnames = matrix3DtoNumpy.convertColNames();
+    PyObject* rownames = matrix3DtoNumpy.convertRowNames();
+
+    $result = PyTuple_Pack(4, idx, npArray3D, rownames, colnames);
+}
+
+
 
 
 /* Convert from C --> Python */
@@ -204,7 +258,7 @@
     npy_intp dims[1] = {static_cast<npy_intp>(len)};
 
     PyObject *array = PyArray_SimpleNew(1, dims, NPY_DOUBLE);
-    VERIFY_PYARRAY(array);
+//    VERIFY_PYARRAY(array);
 
     if (!array) {
         // TODO error handling.
@@ -220,9 +274,10 @@
     $result  = array;
 }
 
+%typedef ls::Complex std::complex<double>;
 
 /* Convert from C --> Python */
-%typemap(out) std::vector<ls::Complex> {
+%typemap(out) std::vector<std::complex<double>> {
 
     typedef std::complex<double> cpx;
 
@@ -230,92 +285,150 @@
 
     bool iscpx = false;
 
-    // small number
-    double epsilon = 2 * std::numeric_limits<double>::epsilon();
-    for (std::vector<cpx>::const_iterator i = vec.begin(); i != vec.end(); ++i)
-    {
-        iscpx = iscpx || (std::imag(*i) >= epsilon);
-        if (iscpx) break;
+    size_t len = $1.size();
+    npy_intp dims[1] = {static_cast<npy_intp>(len)};
+
+    PyObject *array = PyArray_SimpleNew(1, dims, NPY_COMPLEX128);
+    VERIFY_PYARRAY(array);
+
+    if (!array) {
+        // TODO error handling.
+        return 0;
     }
 
-    if (iscpx) {
-        size_t len = $1.size();
-        npy_intp dims[1] = {static_cast<npy_intp>(len)};
+    cpx *data = (cpx*)PyArray_DATA((PyArrayObject*)array);
 
-        PyObject *array = PyArray_SimpleNew(1, dims, NPY_COMPLEX128);
-        VERIFY_PYARRAY(array);
+    memcpy(data, &vec[0], sizeof(std::complex<double>)*len);
 
-        if (!array) {
-            // TODO error handling.
-            return 0;
-        }
-
-        cpx *data = (cpx*)PyArray_DATA((PyArrayObject*)array);
-
-        memcpy(data, &vec[0], sizeof(std::complex<double>)*len);
-
-        $result  = array;
-    } else {
-        size_t len = $1.size();
-        npy_intp dims[1] = {static_cast<npy_intp>(len)};
-
-        PyObject *array = PyArray_SimpleNew(1, dims, NPY_DOUBLE);
-        VERIFY_PYARRAY(array);
-
-        if (!array) {
-            // TODO error handling.
-            return 0;
-        }
-
-        double *data = (double*)PyArray_DATA((PyArrayObject*)array);
-
-        for (int i = 0; i < vec.size(); ++i) {
-            data[i] = std::real(vec[i]);
-        }
-
-        $result  = array;
-    }
+    $result  = array;
 }
 
 
 
-%typemap(out) const rr::Variant& {
+/**
+ * converts a C++ rr::Setting to a Python variable, depending on its type
+ * The "work" of this typemap is offloaded to the rr::Variant_to_py function.
+ */
+%typemap(out) rr::Setting{
     try {
-        const rr::Variant& temp = *($1);
-        $result = Variant_to_py(temp);
-    } catch (const std::exception& e) {
+        // I'm a marker rr::Setting(out). Look for me in the swig_wrap.cxx file
+        // to verify that this type map is being properly applied
+        $result = rr::Variant_to_py($1);
+    } catch (const std::exception& e){
         SWIG_exception(SWIG_RuntimeError, e.what());
     }
 }
 
+/**
+ * Apply the %typemap(out) rr::Setting to
+ * other Setting types. Note that both
+ * rr:: qualified and unqualified are
+ * necessary!
+ */
+%apply rr::Setting{
+    // both syntax's of const are needed!
+    const rr::Setting&,
+    rr::Setting const &,
+    Setting const &,
+    rr::Setting&,
+    Setting&
+};
 
-%typemap(out) const rr::Variant {
+// converts a Python Variable to a C++ rr::Setting
+%typemap(in) const rr::Setting&(PyObject* settingObjFromPython){
     try {
-        $result = Variant_to_py($1);
-    } catch (const std::exception& e) {
+        // I'm a marker rr::Setting(in). Look for me in the swig_wrap.cxx file
+        // to verify that this type map is being properly applied
+        $1 = rr::Variant_from_py($input);
+
+    } catch (const std::exception& e){
         SWIG_exception(SWIG_RuntimeError, e.what());
     }
 }
+%apply const rr::Setting&{
+    // both syntax's of const are needed!
+    const rr::Setting&,
+    rr::Setting const &,
+    const Setting&,
+    Setting const &,
+    rr::Setting&,
+    Setting&,
+    rr::Setting,
+    Setting
+};
 
-%apply const rr::Variant {Variant, rr::Variant, const Variant};
 
+/**
+ * @brief typemap to convert a string : Variant map into a Python dict.
+ * Used in the "settings" map of TestModelFactory (tmf).
+ *
+ * @note std::unordered_map<std::string, rr:Variant> gets expanded by swig to
+ * the full version below. The full version is needed for swig to recognize the type
+ * and use this typemap
+ */
+%typemap(out) std::unordered_map< std::string, rr::Setting> {
+    // I'm a marker for %typemap(out) std::unordered_map< std::string, rr::Setting>
+    // Look me up in the swig generated wrapper cxx file to
+    // make sure this typemap is being properly applied
+    $result = PyDict_New();
+    if (!$result){
+        std::cerr << "Could not create Python Dict" << std::endl;
+    }
 
-%typemap(in) const rr::Variant& (rr::Variant temp) {
-
-    try {
-        temp = Variant_from_py($input);
-        $1 = &temp;
-    } catch (const std::exception& e) {
-        SWIG_exception(SWIG_RuntimeError, e.what());
+    for (const auto& item: *$1){
+        int err = PyDict_SetItem($result, PyUnicode_FromString(item.first.c_str()), Variant_to_py(item.second));
+        if (err < 0){
+            std::cout << "Could not create item in Python Dict" << std::endl;
+        }
     }
 }
 
-%apply const rr::Variant& {rr::Variant&, Variant&, const Variant&};
+
+/**
+ * @brief Apply the %typemap(out) std::unordered_map< std::string, rr::Setting>
+ * to the following types.
+ * @note swig is sensitive to rr:: qualified and unqualified types, even though they are the same
+ */
+%apply std::unordered_map< std::string, rr::Setting>{
+    std::unordered_map< std::string,rr::Setting,std::hash< std::string >,std::equal_to< std::string >,std::allocator< std::pair< std::string const,rr::Setting > > >,   // with rr::,       no reference
+    std::unordered_map< std::string,Setting,std::hash< std::string >,std::equal_to< std::string >,std::allocator< std::pair< std::string const,Setting > > >,           // no rr::          no reference
+     std::unordered_map< std::string,rr::Setting,std::hash< std::string >,std::equal_to< std::string >,std::allocator< std::pair< std::string const,rr::Setting > > > &, // with rr::        reference
+     std::unordered_map< std::string,Setting,std::hash< std::string >,std::equal_to< std::string >,std::allocator< std::pair< std::string const,Setting > > > &, // without rr::     reference
+
+    const std::unordered_map< std::string,rr::Setting,std::hash< std::string >,std::equal_to< std::string >,std::allocator< std::pair< std::string const,rr::Setting > > >,   // with rr::,       no reference
+    const std::unordered_map< std::string,Setting,std::hash< std::string >,std::equal_to< std::string >,std::allocator< std::pair< std::string const,Setting > > >          // no rr::          no reference
+    // note: it seems that this typemap cannot be applied to constant references,
+
+    // const std::unordered_map< std::string,rr::Setting,std::hash< std::string >,std::equal_to< std::string >,std::allocator< std::pair< std::string const,rr::Setting > > > &, // with rr::        reference
+    // const std::unordered_map< std::string,Setting,std::hash< std::string >,std::equal_to< std::string >,std::allocator< std::pair< std::string const,Setting > > > & // without rr::     reference
+};
+
+// C++ std::unordered_map<std::string, double> to Python Dictionary
+//%template(StringDoubleMap) std::unordered_map<std::string, double>;
+
+%typemap(out) std::unordered_map<std::string, double> {
+    // Marker for StringDoubleMap
+    $result = PyDict_New();
+    if (!$result){
+        std::cerr << "Could not create Python Dict" << std::endl;
+    }
+
+    for (const auto& item: *(&$1)){
+        int err = PyDict_SetItem($result, PyUnicode_FromString(item.first.c_str()), PyFloat_FromDouble(item.second));
+        if (err < 0){
+            std::cout << "Could not create item in Python Dict" << std::endl;
+        }
+    }
+}
+
 
 /**
  * input map, convert an incomming object to a roadrunner Dictionary*
  */
 %typemap(in) const rr::Dictionary* (DictionaryHolder holder, void* argp) {
+    // I'm a marker for %typemap(in) const rr::Dictionary* (DictionaryHolder holder, void* argp)
+    // Look me up in the swig generated wrapper cxx file to
+    // make sure this typemap is being properly applied
 
     try {
         // check if null, this is fine,
@@ -338,45 +451,82 @@
 }
 
 %typemap(typecheck) const rr::Dictionary* = PyObject*;
-
 %apply const rr::Dictionary* {const Dictionary*, rr::Dictionary*, Dictionary*};
 
+// typemap for std::stringstream* to python string
+%typemap(out) std::stringstream*{
+    // marker for typemap(out): std::stringstream*
+    std::string s = $1->str();
+    PyObject* bytes = PyBytes_FromStringAndSize(s.c_str(), s.size());
+    if (!bytes){
+        std::string err = "Could not create bytes object from stream";
+        PyErr_SetString(PyExc_ValueError, err.c_str());
+        bytes = nullptr;
+        goto fail;
+    }
+    $result = bytes;
+}
 
+%apply std::stringstream*{
+    const std::stringstream*,
+    const std::stringstream*&,
+    std::stringstream*&
+}
 
-
-
-
-
-/*
-%typemap(out) std::vector<std::string> {
-
-    size_t len = $1.size();
-
-    PyObject* pyList = PyList_New(len);
-
-    for(int i = 0; i < len; i++)
-    {
-        const std::string& str  = $1.at(i);
-        PyObject* pyStr = PyString_FromString(str.c_str());
-        PyList_SET_ITEM(pyList, i, pyStr);
+// typemap for Python bytes to std::stringstream*
+%typemap(in) std::stringstream*{
+    // bytes to std::stringstream* typemap
+    PyObject* bytes = $input;
+    if (!bytes){
+        std::string err = "Could not extract bytes object from input tuple";
+        rrLogErr << err;
+        PyErr_SetString(PyExc_TypeError,err.c_str());
+        $1 = nullptr;
+        goto fail;
+    }
+    if (PyBytes_CheckExact(bytes) < 0){
+        std::string err = "First item of input tuple should be a bytes object generated from RoadRunner.saveStateS";
+        PyErr_SetString(PyExc_TypeError, err.c_str());
+        $1 = nullptr;
+        goto fail;
     }
 
-    $result = pyList;
+    Py_ssize_t size = PyBytes_Size(bytes);
+    char* cStr;
+    if (PyBytes_AsStringAndSize(bytes, &cStr, &size) < 0){
+        rrLogErr << "ValueError: Cannot create a bytes object";
+        PyErr_SetString(PyExc_ValueError, "Cannot create a bytes object from args");
+        $1 = nullptr;
+        goto fail;
+    }
+    // note: printing terminates early with this string because
+    // null terminators are embedded within
+    std::stringstream* sptr = new std::stringstream(std::iostream::binary | std::stringstream::out | std::stringstream::in);
+    $1 = sptr;
+    $1->write(cStr, (long)size);
 }
-*/
 
-//%apply std::vector<std::string> {vector<std::string>, vector<string>, std::vector<string> };
-
-
-
+%apply std::stringstream*{
+    const std::stringstream*,
+    const std::stringstream*&,
+    std::stringstream*&
+}
 
 
 
 %include "numpy.i"
 
-
+/**
+ * C extension modules must import_array before
+ * the numpy C api can be used.
+ *
+ * https://numpy.org/doc/stable/user/c-info.how-to-extend.html
+ */
 %init %{
+// see https://docs.scipy.org/doc/numpy-1.10.1/reference/c-api.array.html#importing-the-api
 import_array();
+
+/*@param m is defined by a call to PyModuleInit from swig*/
 rr::pyutil_init(m);
 %}
 
@@ -387,7 +537,7 @@ rr::pyutil_init(m);
 
     static void rr_sighandler(int sig) {
         std::cout << "handling signal " << sig << std::endl;
-        Log(rr::Logger::LOG_WARNING) << "signal handler : " << sig;
+        rrLog(rr::Logger::LOG_WARNING) << "signal handler : " << sig;
     }
 
     static unsigned long sigtrap() {
@@ -398,15 +548,12 @@ rr::pyutil_init(m);
 #else
 
     static unsigned long sigtrap() {
-        Log(rr::Logger::LOG_WARNING) << "sigtrap not supported on Windows";
+        rrLog(rr::Logger::LOG_WARNING) << "sigtrap not supported on Windows";
         return 0;
     }
 
 #endif
 %}
-
-
-
 
 
 size_t sigtrap();
@@ -429,7 +576,7 @@ static PyObject* _ExecutableModel_getValues(rr::ExecutableModel *self, getValues
 
     npy_intp dims[1] = {static_cast<npy_intp>(len)};
     PyObject *array = PyArray_SimpleNew(1, dims, NPY_DOUBLE);
-    VERIFY_PYARRAY(array);
+//    VERIFY_PYARRAY(array);
 
     if (!array) {
         // TODO error handling.
@@ -489,6 +636,8 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 %apply (int DIM1, double* IN_ARRAY1) {(size_t lenv, const  double* values)};
 
 %apply int { size_t }
+
+
 
 #define LIB_EXTERN
 #define RR_DECLSPEC
@@ -586,7 +735,6 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 //%ignore rr::RoadRunner::getStoichiometryMatrix;
 %ignore rr::RoadRunner::setNumPoints;
 //%ignore rr::RoadRunner::getConservationMatrix;
-%ignore rr::RoadRunner::getModelName;
 %ignore rr::RoadRunner::getTempFolder;
 %ignore rr::RoadRunner::setParameterValue;
 //%ignore rr::RoadRunner::getConservedMoietyIds;
@@ -680,6 +828,11 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 %rename (__str__) rr::Integrator::toString;
 //%rename (__repr__) rr::Integrator::toRepr;
 
+%ignore rr::integratorFactoryMutex;
+%ignore rr::integratorRegistrationMutex;
+%ignore rr::steadyStateSolverFactoryMutex;
+%ignore rr::steadyStateSolverRegistrationMutex;
+
 
 %rename (__str__) rr::SteadyStateSolver::toString;
 
@@ -705,9 +858,10 @@ PyObject *Integrator_NewPythonObj(rr::Integrator* i) {
 
 //Model editing proxies so that we can regenerate properties each time we regenerate the model
 %rename (_addParameter) rr::RoadRunner::addParameter(const std::string&, double, bool);
-%rename (_addSpecies) rr::RoadRunner::addSpecies(const std::string&, const std::string&, double, bool, bool, const std::string&, bool);
+%rename (_addSpeciesConcentration) rr::RoadRunner::addSpeciesConcentration(const std::string&, const std::string&, double, bool, bool, const std::string&, bool);
+%rename (_addSpeciesAmount) rr::RoadRunner::addSpeciesAmount(const std::string&, const std::string&, double, bool, bool, const std::string&, bool);
 %rename (_addCompartment) rr::RoadRunner::addCompartment(const std::string&, double, bool);
-%rename (_addReaction) rr::RoadRunner::addReaction(const std::string&, std::vector<string>, std::vector<string>, const std::string&, bool);
+%rename (_addReaction) rr::RoadRunner::addReaction(const std::string&, std::vector<std::string>, std::vector<std::string>, const std::string&, bool);
 
 
 // Swig wraps C++ vectors to tuples, need to wrap lists instead on some methods
@@ -863,21 +1017,19 @@ namespace std { class ostream{}; }
  * include the roadrunner files here, this is where the wrappers are generated.
  */
 
-
+//
 /**
  * this returns a new object
  */
 %newobject rr::ExecutableModelFactory::createModel;
 
-
-
 %include <Dictionary.h>
 %include <rrRoadRunnerOptions.h>
-%include <rrLogger.h>
 %include <rrCompiler.h>
 %include <rrExecutableModel.h>
 %include <ExecutableModelFactory.h>
 %include <rrVersionInfo.h>
+%include <rrLogger.h>
 
 %thread;
 %include <rrRoadRunner.h>
@@ -885,16 +1037,24 @@ namespace std { class ostream{}; }
 
 %include <rrSelectionRecord.h>
 %include <conservation/ConservedMoietyConverter.h>
+
+%include "RegistrationFactory.h"
+%include "Registrable.h"
+/**
+ * Solve base class tells swig to properly handle
+ * cross language polymorphism.
+ */
 %include <Solver.h>
+%feature("director") Solver;
 %include <Integrator.h>
 %include <SteadyStateSolver.h>
+%include <SensitivitySolver.h>
 
 %include "PyEventListener.h"
 %include "PyIntegratorListener.h"
 %include <rrConfig.h>
 %include <SBMLValidator.h>
 %include <rrSBMLReader.h>
-
 
 %extend rr::RoadRunner
 {
@@ -936,7 +1096,7 @@ namespace std { class ostream{}; }
         ($self)->setValue(id, value);
     }
 
-    PyObject *getIds(int types) {
+    PyObject *_getIds(int types) {
         std::list<std::string> ids;
 
         ($self)->getIds(types, ids);
@@ -956,6 +1116,31 @@ namespace std { class ostream{}; }
 
         return pyList;
     }
+
+    void _setSimulateOptionsTimes(rr::SimulateOptions* opt, PyObject* list) {
+        // Verify that input is a list
+        if (!PyList_Check(list)) {
+            PyErr_Format(PyExc_TypeError, "The argument must be of list or subtype of list.");
+            return;
+        }
+        opt->times.clear();
+        for (unsigned int j = 0; j < PyList_Size(list); ++j) {
+            PyObject* pval = PyList_GetItem(list, j);
+            double val;
+            // Verify that pval is a number
+            if (PyFloat_Check(pval)) {
+                val = PyFloat_AsDouble(pval);
+            }
+            else if (PyInt_Check(pval)) {
+                val = PyInt_AsLong(pval);
+            }
+            else {
+                PyErr_Format(PyExc_TypeError, "The entries in the list must be numbers.");
+                return;
+            }
+            opt->times.push_back(val);
+        }
+     }
 
     /**
      * returns the SelectionRecord vector python list of strings.
@@ -1006,6 +1191,12 @@ namespace std { class ostream{}; }
 
 
    %pythoncode %{
+        def __getattr__(self, name):
+            if name != "this" and name in self._getIds(_roadrunner.SelectionRecord_ALL):
+                return self[name]
+            else:
+                raise AttributeError(name)
+
         def getValue(self, *args):
             import re
             reg = re.compile(r'eigen\s*\(\s*(\w*)\s*\)\s*$')
@@ -1029,41 +1220,24 @@ namespace std { class ostream{}; }
             self._setConservedMoietyAnalysis(value)
             self._makeProperties()
 
-        __swig_getmethods__["selections"] = _getSelections # DEPRECATED
-        __swig_setmethods__["selections"] = _setSelections # DEPRECATED
-        __swig_getmethods__["timeCourseSelections"] = _getSelections
-        __swig_setmethods__["timeCourseSelections"] = _setSelections
-        __swig_getmethods__["steadyStateSelections"] = _getSteadyStateSelections
-        __swig_setmethods__["steadyStateSelections"] = _setSteadyStateSelections
-        __swig_getmethods__["conservedMoietyAnalysis"] = _getConservedMoietyAnalysis
-        __swig_setmethods__["conservedMoietyAnalysis"] = _setConservedMoietyAnalysisProxy
-        __swig_getmethods__["model"] = _getModel
-        __swig_getmethods__["integrator"] = getIntegrator
-        __swig_setmethods__["integrator"] = setIntegrator
+        selections = property(_getSelections, _setSelections)
+        timeCourseSelections = property(_getSelections, _setSelections)
+        steadyStateSelections = property(_getSteadyStateSelections, _setSteadyStateSelections)
+        conservedMoietyAnalysis = property(_getConservedMoietyAnalysis, _setConservedMoietyAnalysis)
+        model = property(_getModel)
+        integrator = property(getIntegrator, setIntegrator)
 
-        if _newclass:
-            selections = property(_getSelections, _setSelections)
-            timeCourseSelections = property(_getSelections, _setSelections)
-            steadyStateSelections = property(_getSteadyStateSelections, _setSteadyStateSelections)
-            conservedMoietyAnalysis=property(_getConservedMoietyAnalysis, _setConservedMoietyAnalysis)
-            model = property(getModel)
-            integrator = property(getIntegrator)
-
-
-        # static list of properties added to the RoadRunner
-        # class object
+        # static list of properties added to the RoadRunner class object
         _properties = []
 
         def _makeProperties(self):
-
+            """creates dynamic properties for model components, like floating species
+            concentrations or amounts etc.
+            """
             #global _properties
 
             # always clear the old properties
-            for s in RoadRunner._properties:
-                if s in RoadRunner.__swig_getmethods__:
-                    del RoadRunner.__swig_getmethods__[s]
-                if s in RoadRunner.__swig_setmethods__:
-                    del RoadRunner.__swig_setmethods__[s]
+            for s in self._properties:
                 if hasattr(RoadRunner, s):
                     delattr(RoadRunner, s)
 
@@ -1078,16 +1252,12 @@ namespace std { class ostream{}; }
             if self.getModel() is None:
                 return
 
-            def mk_fget(sel): return lambda self: self.getModel().__getitem__(sel)
-            def mk_fset(sel): return lambda self, val: self.getModel().__setitem__(sel, val)
-
-
             def makeProperty(name, sel):
-                fget = mk_fget(sel)
-                fset = mk_fset(sel)
-                RoadRunner.__swig_getmethods__[name] = fget
-                RoadRunner.__swig_setmethods__[name] = fset
-                setattr(RoadRunner, name, property(fget, fset))
+                prop = property(
+                        lambda self: self.getModel().__getitem__(sel),
+                        lambda self, val: self.getModel().__setitem__(sel, val)
+                )
+                setattr(RoadRunner, name, prop)
                 RoadRunner._properties.append(name)
 
             model = self.getModel()
@@ -1106,13 +1276,20 @@ namespace std { class ostream{}; }
             for s in model.getGlobalParameterIds() + model.getCompartmentIds() + model.getReactionIds() + model.getConservedMoietyIds():
                 makeProperty(s, s)
 
+        def __getstate__(self):
+            return self.saveStateS()
 
+        def __setstate__(self, state):
+            rr = RoadRunner()
+            rr.loadStateS(state)
+            self.__dict__ = rr.__dict__
 
         # Set up the python dyanic properties for model access,
         # save the original init method
         _swig_init = __init__
 
         def _new_init(self, *args):
+
             # if called with https, use Python for transport
             if len(args) >= 1:
                 p = args[0]
@@ -1131,6 +1308,7 @@ namespace std { class ostream{}; }
                     RoadRunner._swig_init(self, sbml)
                     RoadRunner._makeProperties(self)
                     return
+
             # Otherwise, use regular init
             RoadRunner._swig_init(self, *args)
             RoadRunner._makeProperties(self)
@@ -1138,16 +1316,24 @@ namespace std { class ostream{}; }
         # set the ctor to use the new init
         __init__ = _new_init
 
-
-
-
         def load(self, *args):
             self._load(*args)
             RoadRunner._makeProperties(self)
 
-
         def keys(self, types=_roadrunner.SelectionRecord_ALL):
             return self.getIds(types)
+
+        def getIds(self, types=_roadrunner.SelectionRecord_ALL):
+            """
+            Return a list of selection ids that this object can select on.
+
+            The optional argument 'types' may be a selection record which by default
+            is roadrunner.SelectionRecord.ALL
+    
+            :rtype: list
+            """
+
+            return self._getIds(types)
 
         def values(self, types=_roadrunner.SelectionRecord_ALL):
             return [self.getValue(k) for k in self.keys(types)]
@@ -1176,45 +1362,47 @@ namespace std { class ostream{}; }
             """
             return self.values(types).__iter__()
 
-        def simulate(self, start=None, end=None, points=None, selections=None, output_file=None, steps=None):
+        def simulate(self, start=None, end=None, points=None, selections=None, output_file=None, steps=None, times=None):
             '''
             Simulate and optionally plot current SBML model. This is the one stop shopping method
-            for simulation and plotting. 
+            for simulation and plotting.
 
-            simulate accepts up to five positional arguments. 
+            simulate accepts up to five positional arguments.
 
             The first five (optional) arguments are treated as:
-                    
-                1: Start Time, if this is a number. 
+
+                1: Start Time, if this is a number.
 
                 2: End Time, if this is a number.
 
                 3: Number of points, if this is a number.
-                    
+
                 4: List of Selections. A list of variables to include in the output, e.g. ``['time','A']`` for a model with species ``A``. More below.
 
                 5: output file path. The file to which simulation results will be written. If this is specified and
                 nonempty, simulation output will be written to output_file every Config::K_ROWS_PER_WRITE generated.
                 Note that simulate() will not return the result matrix if it is writing to output_file.
                 It will also not keep any simulation data, so in that case one should not call ``r.plot()``
-                without arguments. This should be specified when one cannot, or does not want to, keep the 
+                without arguments. This should be specified when one cannot, or does not want to, keep the
                 entire result matrix in memory.
 
 
             All five of the positional arguments are optional. If any of the positional arguments are
-            a list of string instead of a number, then they are interpreted as a list of selections. 
+            a list of string instead of a number, then they are interpreted as a list of selections.
 
             There are a number of ways to call simulate.
 
-            1: With no arguments. In this case, the current set of options from the previous 
-              ``simulate`` call will be used. If this is the first time ``simulate`` is called, 
+            1: With no arguments. In this case, the current set of options from the previous
+              ``simulate`` call will be used. If this is the first time ``simulate`` is called,
               then a default set of values is used. The default set of values are (start = 0, end = 5, points = 51).
 
-            2: With up to five positions arguments, described above. 
+            2: With up to five positions arguments, described above.
 
-            Finally, you can pass steps keyword argument instead of points. 
+            Finally, you can pass keyword arguments.  The above options can all be set by keyword (start, end, points, selections, and output_file), or as an alternative you can use 'steps' instead of 'points', or 'times' instead of start/end/points:
 
             steps (Optional) Number of steps at which the output is sampled where the samples are evenly spaced. Steps = points-1. Steps and points may not both be specified.
+
+            times (Optional): Explicit time output vector.  A list of time points at which to produce output.  For example, passing in [0, 1, 5, 10] will produce output at those time points specifically, which would not be possible with evenly-spaced timepoints using start/end/points.  Will override the start/end/points values if used.
 
             '''
 
@@ -1266,7 +1454,7 @@ namespace std { class ostream{}; }
             o = self.__simulateOptions
             originalSteps = o.steps
             originalVSS = True;
-        
+
             if self.getIntegrator().hasValue('variable_step_size'):
                 originalVSS = self.getIntegrator().getValue('variable_step_size')
                 if end is not None and (points is not None or steps is not None):
@@ -1287,6 +1475,11 @@ namespace std { class ostream{}; }
             if selections is not None:
                 self.timeCourseSelections = selections
 
+            if times is not None:
+                if start is not None or end is not None or points is not None or steps is not None:
+                    raise ValueError("Cannot call 'simulate' with the 'times' argument plus any of 'start', 'end', 'points' or 'steps' defined.")
+                self._setSimulateOptionsTimes(o, list(times))
+
             if has_output_file:
                 o.output_file = output_file
             else:
@@ -1298,10 +1491,11 @@ namespace std { class ostream{}; }
             result = self._simulate(o)
 
             #Check to make sure we made it to the 'end'.
-            if end is not None:
-                lastresult_time = result[len(result)-1][0]
+            selections_lower = [x.lower() for x in self.timeCourseSelections]
+            if end is not None and "time" in selections_lower:
+                lastresult_time = result[len(result)-1][selections_lower.index("time")]
                 if end - lastresult_time > end/10000:
-                    warnings.warn("Simulation requested end point (" + str(end) + ") not reached, because the maximum number of steps reached.  Possible solutions include:\n  * Setting an explicit number of points (i.e. r.simulate(" + str(start) + ", " + str(end) + ", 1001)\n  * Setting r.integrator.variable_step_size to 'False'\n* Setting ")
+                    warnings.warn("Simulation requested end time point (" + str(end) + ") not reached, because the maximum number of steps reached.  Possible solutions include:\n  * Setting an explicit number of points (i.e. r.simulate(" + str(start) + ", " + str(end) + ", 1001)\n  * Setting r.integrator.variable_step_size to 'False'\n  * Setting r.integrator.max_output_rows to a larger number ")
 
             #Reset any integrator variables we might have changed
             o.steps = originalSteps
@@ -1312,10 +1506,6 @@ namespace std { class ostream{}; }
                 # result should be empty here.
                 return 'Your results have been written to "{}".'.format(output_file)\
                     + 'To obtain the results directly, pass None or "" to the output_file keyword argument'
-
-            if result.shape[0] > Config.getValue(Config.MAX_OUTPUT_ROWS):
-                warnings.warn("Simulation returned more points than max output rows specified. "
-                              "Try incresing the number of maximum output rows or minimum step size.")
 
             return result
 
@@ -1570,9 +1760,6 @@ namespace std { class ostream{}; }
 
             return result
 
-        # ---------------------------------------------------------------------
-        # Reset Methods
-        # ---------------------------------------------------------------------
         def resetToOrigin(self):
             """ Reset model to state when first loaded.
 
@@ -1587,14 +1774,15 @@ namespace std { class ostream{}; }
         def resetAll(self):
             """ Reset all model variables to CURRENT init(X) values.
 
-            This resets all variables, S1, S2 etc to the CURRENT init(X) values. It also resets all
-            parameters back to the values they had when the model was first loaded.
+            This resets all variables and parameters in the model (S1, S2, k1, etc.) to the CURRENT init(X) values.
             """
             self.reset(SelectionRecord.TIME |
                        SelectionRecord.RATE |
                        SelectionRecord.FLOATING |
+                       SelectionRecord.BOUNDARY |
+                       SelectionRecord.COMPARTMENT |
                        SelectionRecord.GLOBAL_PARAMETER)
-        
+
         def resetParameter(self):
             """ Reset parameters to CURRENT init(X) values.
 
@@ -1688,8 +1876,9 @@ namespace std { class ostream{}; }
         def getReactionRates(self):
             return self.getModel().getReactionRates()
 
-        if _newclass:
-            integrator = property(getIntegrator, setIntegrator)
+        integrator = property(getIntegrator, setIntegrator)
+        #if _newclass:
+            #integrator = property(getIntegrator, setIntegrator)
 
         def setIntegratorSetting(self, integratorName, settingName, value):
             import sys
@@ -1727,9 +1916,23 @@ namespace std { class ostream{}; }
         def addReaction(self, *args):
             self._addReaction(*args)
             self._makeProperties()
+
+        def addSpecies(self, sid, compartment, initAmount = 0.0, initConcentration = 0.0, hasOnlySubstanceUnits=False, boundaryCondition=False, substanceUnits = "", forceRegenerate = True):
+            if initConcentration==0.0:
+                self._addSpeciesAmount(sid, compartment, initAmount, hasOnlySubstanceUnits, boundaryCondition, substanceUnits, forceRegenerate)
+            elif initAmount==0.0:
+                self._addSpeciesConcentration(sid, compartment, initConcentration, hasOnlySubstanceUnits, boundaryCondition, substanceUnits, forceRegenerate)
+            else:
+                raise AttributeError("When calling 'addSpecies' you may only define initAmount or initConcentration, not both.")
                 
-        def addSpecies(self, sid, compartment, initAmount = 0.0, hasOnlySubstanceUnits=False, boundaryCondition=False, substanceUnits = "", forceRegenerate = True):
-            self._addSpecies(sid, compartment, initAmount, hasOnlySubstanceUnits, boundaryCondition, substanceUnits, forceRegenerate)
+            self._makeProperties()
+
+        def addSpeciesAmount(self, sid, compartment, initAmount = 0.0, hasOnlySubstanceUnits=False, boundaryCondition=False, substanceUnits = "", forceRegenerate = True):
+            self._addSpeciesAmount(sid, compartment, initAmount, hasOnlySubstanceUnits, boundaryCondition, substanceUnits, forceRegenerate)
+            self._makeProperties()
+
+        def addSpeciesConcentration(self, sid, compartment, initConcentration = 0.0, hasOnlySubstanceUnits=False, boundaryCondition=False, substanceUnits = "", forceRegenerate = True):
+            self._addSpeciesConcentration(sid, compartment, initConcentration, hasOnlySubstanceUnits, boundaryCondition, substanceUnits, forceRegenerate)
             self._makeProperties()
 
         def addCompartment(self, *args):
@@ -1741,14 +1944,9 @@ namespace std { class ostream{}; }
             return self.getDiffStepSize()
 
         def _diffstep_stter(self, v):
-            print('diffstep.setter')
             self.setDiffStepSize(v)
 
-        __swig_getmethods__['diffstep'] = _diffstep_getter
-        __swig_setmethods__['diffstep'] = _diffstep_stter
-
-        if _newclass:
-            diffstep = property(_diffstep_getter, _diffstep_stter)
+        diffstep = property(_diffstep_getter, _diffstep_stter)
 
         def _steadyStateThresh_getter(self):
             '''Steady state threshold used in MCA'''
@@ -1757,33 +1955,29 @@ namespace std { class ostream{}; }
         def _steadyStateThresh_setter(self, v):
             self.setSteadyStateThreshold(v)
 
-        __swig_getmethods__['steadyStateThresh'] = _steadyStateThresh_getter
-        __swig_setmethods__['steadyStateThresh'] = _steadyStateThresh_setter
-
-        if _newclass:
-            steadyStateThresh = property(_steadyStateThresh_getter, _steadyStateThresh_setter)
+        steadyStateThresh = property(_steadyStateThresh_getter, _steadyStateThresh_setter)
     %}
 }
 
 %{
     rr::SimulateOptions* rr_RoadRunner___simulateOptions_get(RoadRunner* r) {
-        //Log(Logger::LOG_WARNING) << "DO NOT USE simulateOptions, it is DEPRECATED";
+        rrLog(Logger::LOG_WARNING) << "DO NOT USE simulateOptions, it is DEPRECATED";
         return &r->getSimulateOptions();
     }
 
     void rr_RoadRunner___simulateOptions_set(RoadRunner* r, const rr::SimulateOptions* opt) {
-        //Log(Logger::LOG_WARNING) << "DO NOT USE simulateOptions, it is DEPRECATED";
+        rrLog(Logger::LOG_WARNING) << "DO NOT USE simulateOptions, it is DEPRECATED";
         r->setSimulateOptions(*opt);
     }
 
 
     rr::RoadRunnerOptions* rr_RoadRunner_options_get(RoadRunner* r) {
-        Log(Logger::LOG_WARNING) << "DO NOT USE options, it is DEPRECATED";
+        rrLog(Logger::LOG_WARNING) << "DO NOT USE options, it is DEPRECATED";
         return &r->getOptions();
     }
 
     void rr_RoadRunner_options_set(RoadRunner* r, const rr::RoadRunnerOptions* opt) {
-        Log(Logger::LOG_WARNING) << "DO NOT USE options, it is DEPRECATED";
+        rrLog(Logger::LOG_WARNING) << "DO NOT USE options, it is DEPRECATED";
         rr::RoadRunnerOptions *rropt = &r->getOptions();
         *rropt = *opt;
     }
@@ -1860,11 +2054,11 @@ namespace std { class ostream{}; }
     }
 
     bool rr_SimulateOptions_copyResult_get(SimulateOptions* opt) {
-        return opt->getItem("copyResult");
+        return opt->copy_result;
     }
 
     void rr_SimulateOptions_copyResult_set(SimulateOptions* opt, bool value) {
-        opt->setItem("copyResult", value);
+        opt->copy_result = value;
     }
 %}
 
@@ -1967,7 +2161,6 @@ namespace std { class ostream{}; }
         } else {
             opt->modelGeneratorOpt &= ~rr::LoadSBMLOptions::READ_ONLY;
         }
-
     }
 %}
 
@@ -2135,7 +2328,7 @@ namespace std { class ostream{}; }
                                           &rr::ExecutableModel::getNumCompartments, (size_t)0, (int const*)0);
     }
 
-    
+
     /***
      ** get ids section
      ***/
@@ -2247,7 +2440,7 @@ namespace std { class ostream{}; }
     }
 
 
-    int setFloatingSpeciesAmounts(size_t leni, int const* indx, int lenv, double const *values) {
+    int setFloatingSpeciesAmounts(size_t leni, int const* indx, size_t lenv, double const *values) {
         if (leni != lenv) {
             PyErr_Format(PyExc_ValueError,
                          "Arrays of lengths (%d,%d) given",
@@ -2258,7 +2451,7 @@ namespace std { class ostream{}; }
     }
 
 
-    int setFloatingSpeciesConcentrations(int leni, int const* indx, int lenv, double const *values) {
+    int setFloatingSpeciesConcentrations(size_t leni, int const* indx, size_t lenv, double const *values) {
         if (leni != lenv) {
             PyErr_Format(PyExc_ValueError,
                          "Arrays of lengths (%d,%d) given",
@@ -2268,7 +2461,7 @@ namespace std { class ostream{}; }
         return $self->setFloatingSpeciesConcentrations(leni, indx, values);
     }
 
-    int setBoundarySpeciesConcentrations(int leni, int const* indx, int lenv, double const *values) {
+    int setBoundarySpeciesConcentrations(size_t leni, int const* indx, size_t lenv, double const *values) {
         if (leni != lenv) {
             PyErr_Format(PyExc_ValueError,
                          "Arrays of lengths (%d,%d) given",
@@ -2278,7 +2471,7 @@ namespace std { class ostream{}; }
         return $self->setBoundarySpeciesConcentrations(leni, indx, values);
     }
 
-    int setGlobalParameterValues(int leni, int const* indx, int lenv, double const *values) {
+    int setGlobalParameterValues(size_t leni, int const* indx, size_t lenv, double const *values) {
         if (leni != lenv) {
             PyErr_Format(PyExc_ValueError,
                          "Arrays of lengths (%d,%d) given",
@@ -2288,7 +2481,7 @@ namespace std { class ostream{}; }
         return $self->setGlobalParameterValues(leni, indx, values);
     }
 
-    int setCompartmentVolumes(int leni, int const* indx, int lenv, double const *values) {
+    int setCompartmentVolumes(size_t leni, int const* indx, size_t lenv, double const *values) {
         if (leni != lenv) {
             PyErr_Format(PyExc_ValueError,
                          "Arrays of lengths (%d,%d) given",
@@ -2298,7 +2491,7 @@ namespace std { class ostream{}; }
         return $self->setCompartmentVolumes(leni, indx, values);
     }
 
-    int setConservedMoietyValues(int leni, int const* indx, int lenv, double const *values) {
+    int setConservedMoietyValues(size_t leni, int const* indx, size_t lenv, double const *values) {
         if (leni != lenv) {
             PyErr_Format(PyExc_ValueError,
                          "Arrays of lengths (%d,%d) given",
@@ -2308,7 +2501,7 @@ namespace std { class ostream{}; }
         return $self->setConservedMoietyValues(leni, indx, values);
     }
 
-    int setFloatingSpeciesInitConcentrations(int leni, int const* indx, int lenv, double const *values) {
+    int setFloatingSpeciesInitConcentrations(size_t leni, int const* indx, size_t lenv, double const *values) {
         if (leni != lenv) {
             PyErr_Format(PyExc_ValueError,
                          "Arrays of lengths (%d,%d) given",
@@ -2319,7 +2512,7 @@ namespace std { class ostream{}; }
     }
 
 
-    int setFloatingSpeciesInitAmounts(int leni, int const* indx, int lenv, double const *values) {
+    int setFloatingSpeciesInitAmounts(size_t leni, int const* indx, size_t lenv, double const *values) {
         if (leni != lenv) {
             PyErr_Format(PyExc_ValueError,
                          "Arrays of lengths (%d,%d) given",
@@ -2330,7 +2523,7 @@ namespace std { class ostream{}; }
     }
 
 
-    int setCompartmentInitVolumes(int leni, int const* indx, int lenv, double const *values) {
+    int setCompartmentInitVolumes(size_t leni, int const* indx, size_t lenv, double const *values) {
         if (leni != lenv) {
             PyErr_Format(PyExc_ValueError,
                          "Arrays of lengths (%d,%d) given",
@@ -2341,7 +2534,7 @@ namespace std { class ostream{}; }
     }
 
 
-    int setFloatingSpeciesInitConcentrations(int leni, int const* indx, int lenv, double const *values) {
+    int setFloatingSpeciesInitConcentrations(size_t leni, int const* indx, size_t lenv, double const *values) {
         if (leni != lenv) {
             PyErr_Format(PyExc_ValueError,
                          "Arrays of lengths (%d,%d) given",
@@ -2351,7 +2544,7 @@ namespace std { class ostream{}; }
         return $self->setFloatingSpeciesInitConcentrations(leni, indx, values);
     }
 
-    int setFloatingSpeciesInitAmounts(int leni, int const* indx, int lenv, double const *values) {
+    int setFloatingSpeciesInitAmounts(size_t leni, int const* indx, size_t lenv, double const *values) {
         if (leni != lenv) {
             PyErr_Format(PyExc_ValueError,
                          "Arrays of lengths (%d,%d) given",
@@ -2362,7 +2555,7 @@ namespace std { class ostream{}; }
     }
 
 
-    int setCompartmentInitVolumes(int leni, int const* indx, int lenv, double const *values) {
+    int setCompartmentInitVolumes(size_t leni, int const* indx, size_t lenv, double const *values) {
         if (leni != lenv) {
             PyErr_Format(PyExc_ValueError,
                          "Arrays of lengths (%d,%d) given",
@@ -2386,7 +2579,7 @@ namespace std { class ostream{}; }
         PyObject *pArray = PyArray_New(&PyArray_Type, nd, dims, NPY_DOUBLE, NULL, data, 0,
                 NPY_ARRAY_CARRAY | NPY_ARRAY_OWNDATA, NULL);
 
-        VERIFY_PYARRAY(pArray);
+//        VERIFY_PYARRAY(pArray);
 
         return pArray;
     }
@@ -2504,16 +2697,16 @@ namespace std { class ostream{}; }
             return x
 
         def __getattr__(self, name):
-            if(name in self.getSettings()):
+            if name in self.getSettings():
                 return Solver.getValue(self, name)
             else:
-                return _swig_getattr(self, Integrator, name)
+                return self.__dict__[name]
 
         def __setattr__(self, name, value):
             if(name != 'this' and name in self.getSettings()):
                 self.setValue(name, value)
             else:
-                _swig_setattr(self, Integrator, name, value)
+                self.__dict__[name] = value
 
         def getSetting(self, k):
             return self.getValue(k)
@@ -2531,26 +2724,26 @@ namespace std { class ostream{}; }
 
     void _setListener(const rr::PyIntegratorListenerPtr &listener) {
 
-        Log(rr::Logger::LOG_INFORMATION) << __FUNC__ << ", use count: " << listener.use_count();
+        rrLog(rr::Logger::LOG_INFORMATION) << __FUNC__ << ", use count: " << listener.use_count();
 
         cxx11_ns::shared_ptr<rr::IntegratorListener> i =
             cxx11_ns::dynamic_pointer_cast<rr::IntegratorListener>(listener);
 
-        Log(rr::Logger::LOG_INFORMATION) << __FUNC__ << ", after cast use count: " << listener.use_count();
+        rrLog(rr::Logger::LOG_INFORMATION) << __FUNC__ << ", after cast use count: " << listener.use_count();
 
         ($self)->setListener(i);
     }
 
     rr::PyIntegratorListenerPtr _getListener() {
 
-        Log(rr::Logger::LOG_INFORMATION) << __FUNC__;
+        rrLog(rr::Logger::LOG_INFORMATION) << __FUNC__;
 
         rr::IntegratorListenerPtr l = ($self)->getListener();
 
         rr::PyIntegratorListenerPtr ptr =
             cxx11_ns::dynamic_pointer_cast<rr::PyIntegratorListener>(l);
 
-        Log(rr::Logger::LOG_INFORMATION) << __FUNC__ << ", use count: " << ptr.use_count();
+        rrLog(rr::Logger::LOG_INFORMATION) << __FUNC__ << ", use count: " << ptr.use_count();
 
         return ptr;
     }
@@ -2558,11 +2751,11 @@ namespace std { class ostream{}; }
     void _clearListener() {
         rr::IntegratorListenerPtr current = ($self)->getListener();
 
-        Log(rr::Logger::LOG_INFORMATION) << __FUNC__ << ", current use count before clear: " << current.use_count();
+        rrLog(rr::Logger::LOG_INFORMATION) << __FUNC__ << ", current use count before clear: " << current.use_count();
 
         ($self)->setListener(rr::IntegratorListenerPtr());
 
-        Log(rr::Logger::LOG_INFORMATION) << __FUNC__ << ", current use count after clear: " << current.use_count();
+        rrLog(rr::Logger::LOG_INFORMATION) << __FUNC__ << ", current use count after clear: " << current.use_count();
     }
 
     // we want to get the listener back as a PyIntegratorListener, however
@@ -2579,10 +2772,7 @@ namespace std { class ostream{}; }
             else:
                 self._setListener(listener)
 
-        __swig_getmethods__["listener"] = getListener
-        __swig_setmethods__["listener"] = setListener
-        if _newclass:
-            listener = property(getListener, setListener)
+        listener = property(getListener, setListener)
 
         def __dir__(self):
             x = dir(type(self))
@@ -2593,13 +2783,13 @@ namespace std { class ostream{}; }
             if(name in self.getSettings()):
                 return Solver.getValue(self, name)
             else:
-                return _swig_getattr(self, Integrator, name)
+                return self.__dict__[name]
 
         def __setattr__(self, name, value):
             if(name != 'this' and name in self.getSettings()):
                 self.setValue(name, value)
             else:
-                _swig_setattr(self, Integrator, name, value)
+                self.__dict__[name] = value
 
         def __repr__(self):
             return self.toRepr()
@@ -2623,13 +2813,13 @@ namespace std { class ostream{}; }
             if(name in self.getSettings()):
                 return Solver.getValue(self, name)
             else:
-                return _swig_getattr(self, Integrator, name)
+                return self.__dict__[name]
 
         def __setattr__(self, name, value):
             if(name != 'this' and name in self.getSettings()):
                 self.setValue(name, value)
             else:
-                _swig_setattr(self, Integrator, name, value)
+                self.__dict__[name] = value
 
         def __repr__(self):
             return self.toRepr()
@@ -2644,33 +2834,139 @@ namespace std { class ostream{}; }
 
 %extend rr::PyIntegratorListener {
     %pythoncode %{
-        __swig_getmethods__["onTimeStep"] = getOnTimeStep
-        __swig_setmethods__["onTimeStep"] = setOnTimeStep
-        if _newclass: onTimeStep = property(getOnTimeStep, setOnTimeStep)
+        onTimeStep = property(getOnTimeStep, setOnTimeStep)
 
-        __swig_getmethods__["onEvent"] = getOnEvent
-        __swig_setmethods__["onEvent"] = setOnEvent
-        if _newclass: onEvent = property(getOnEvent, setOnEvent)
+        onEvent = property(getOnEvent, setOnEvent)
      %}
 }
 
 %extend rr::PyEventListener {
     %pythoncode %{
-        __swig_getmethods__["onTrigger"] = getOnTrigger
-        __swig_setmethods__["onTrigger"] = setOnTrigger
-        if _newclass: onTrigger = property(getOnTrigger, setOnTrigger)
+        onTrigger = property(getOnTrigger, setOnTrigger)
 
-        __swig_getmethods__["onAssignment"] = getOnAssignment
-        __swig_setmethods__["onAssignment"] = setOnAssignment
-        if _newclass: onAssignment = property(getOnAssignment, setOnAssignment)
+        onAssignment = property(getOnAssignment, setOnAssignment)
      %}
+}
+
+%pythoncode {
+
+from typing import List, Optional
+import numpy as np
+def plotTimeSeriesSens(time:np.array, sens:np.array,
+                       rownames:List[str], colnames:List[str],
+                       ncol:int=3, fname:Optional[str]=None):
+    """Plot time series sensitivities
+
+    The time, sens, rownames and colnames arguments are generated
+    with a call to roadrunner.timeSeriesSensitivities.
+
+    :param time (np.array): The time points at which the time series sensitivity analysis was conducted.
+    :param sens (3D np.array): The sensitivity matrix.
+    :param rownames (List[str]): Names of parameters
+    :param colnames (List[str]: Names of species
+    :param ncol (int): Number of columns to plot. The number of rows is computed based on this number (default=3)
+    :param fname (str): Default=None, if specified, full path to where to save the output figure.
+
+    Example
+    ---------
+    import roadrunner as rr
+    from roadrunner.testing.TestModelFactory import TestModelFactory, getAvailableTestModels
+    sbml = TestModelFactory("Venkatraman2010").str()  # get the test model's sbml string
+    time, sens, rownames, colnames = model.timeSeriesSensitivities(
+        0, 10, 101, params=["keff1", "keff2", "keff3"], species=["tcUPA", "scUPA"])
+    plotTimeSeriesSens(time, sens, rownames, colnames)
+    """
+    import matplotlib.pyplot as plt
+    import pandas as pd
+    import seaborn as sns
+
+    sns.set_style("white")
+    sns.set_context("paper")
+
+    total = len(rownames) * len(colnames)
+    if ncol > total:
+        ncol = total
+    nrow = int(total / ncol if total % ncol == 0 else np.ceil(total / ncol))
+    df_dct = {}
+    for t, mat in zip(time, sens):
+        df_dct[t] = pd.DataFrame(mat, columns=colnames, index=rownames)
+
+    df = pd.concat(df_dct)
+    df.index.names = ["time", "param"]
+    df.columns.names = ["species"]
+    df = df.unstack()
+    print(df)
+    fig, ax = plt.subplots(nrows=nrow, ncols=ncol)
+
+    for j, species in enumerate(colnames):
+        for i, param in enumerate(rownames):
+            ax[i, j].plot(time, df[(species, param)].to_numpy(), label=f"{species}:{param}")
+            sns.despine(ax=ax[i, j], top=True, right=True)
+            ax[i, j].set_title(f"{species}:{param}")
+
+            if j == 0:
+                ax[i, j].set_ylabel(f"Sensitivities")
+
+            if i == nrow-1:
+                ax[i, j].set_xlabel(f"Time")
+
+    fig.tight_layout()
+    if fname is None:
+        plt.show()
+    else:
+        fig.savefig(fname, dpi=300, bbox_inches='tight')
 }
 
 
 // Copy this code ad verbatim to the Python module
 %pythoncode %{
-RoadRunner.ensureSolversRegistered()
+RoadRunner.registerSolvers()
 integrators = list(RoadRunner.getRegisteredIntegratorNames())
 steadyStateSolvers = list(RoadRunner.getRegisteredSteadyStateSolverNames())
 solvers = integrators + steadyStateSolvers
 %}
+
+
+// no need to port the mutexes
+%ignore rr::sensitivitySolverMutex;
+%ignore rr::sensitivityRegistrationMutex;
+%ignore rr::steadyStateSolverFactoryMutex;
+%ignore rr::steadyStateSolverRegistrationMutex;
+%ignore rr::integratorFactoryMutex;
+%ignore rr::integratorRegistrationMutex;
+
+
+// sundials steady state solvers
+%include "KinsolSteadyStateSolver.h"
+%include "NewtonIteration.h"
+%include "BasicNewtonIteration.h"
+%include "LinesearchNewtonIteration.h"
+%include "NLEQSolver.h"
+%include "NLEQ1Solver.h"
+%include "NLEQ2Solver.h"
+
+// sundials Sensitivity solvers
+%include "ForwardSensitivitySolver.h"
+
+
+// Integrators
+%include "CVODEIntegrator.h"
+%include "GillespieIntegrator.h"
+%include "RK4Integrator.h"
+%include "RK45Integrator.h"
+%include "EulerIntegrator.h"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

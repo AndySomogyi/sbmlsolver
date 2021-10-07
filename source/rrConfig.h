@@ -10,7 +10,7 @@
 
 #include <string>
 #include "rrExporter.h"
-#include "Variant.h"
+#include "Setting.h"
 #include <vector>
 
 namespace rr
@@ -19,8 +19,8 @@ namespace rr
 /**
  * read or store default values.
  *
- * Many of RoadRunner classes use a number of configration parameters. Most of these can be set
- * using the Config class. The values stored in the Config class only determine the defaut values of
+ * Many of RoadRunner classes use a number of configuration parameters. Most of these can be set
+ * using the Config class. The values stored in the Config class only determine the default values of
  * parameters.
  *
  * The Config class will look in the following locations for the config file, and will load the
@@ -48,7 +48,7 @@ namespace rr
  * /Users/andy/local/roadrunner.conf
  *
  * The conf file is just a plain text file of where each line may
- * be key / value pair separated by a :", i.e.
+ * be key / value std::pair separated by a :", i.e.
  *
  * KEY_NAME : Value Any line that does not match this format is ignored, and keys that are not found
  * are also ignored. Therefore, any line that does not start w* ith a word character is considered a
@@ -227,7 +227,7 @@ public:
         SIMULATEOPTIONS_STOCHASTIC_VARIABLE_STEP,
 
         /**
-         * Default integrator to use, currently supports a string of "CVODE" or "Gillespie",
+         * Default integrator to use, currently supports a std::string of "CVODE" or "Gillespie",
          * default is "CVODE"
          */
         SIMULATEOPTIONS_INTEGRATOR,
@@ -534,33 +534,6 @@ public:
         */
         K_ROWS_PER_WRITE,
 
-
-        // add lots of space so not to conflict with other branches.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         /**
          * Needs to be the last item in the enum, no mater how many
          * other items are added, this is used internally to create
@@ -583,7 +556,7 @@ public:
     };
 
     /**
-     * read the config value as a string.
+     * read the config value as a std::string.
      */
     static std::string getString(Keys);
 
@@ -601,7 +574,7 @@ public:
 
     /**
      * If a config file was found in one of the above locations, its full path is returned here.
-     * Otherwise, if no file was found, an empty string is returned.
+     * Otherwise, if no file was found, an empty std::string is returned.
      */
     static std::string getConfigFilePath();
 
@@ -610,11 +583,11 @@ public:
      * note, this value is only used in any new objects created after it has been set.
      */
 
-    static void setValue(Keys, const Variant& value);
+    static void setValue(Keys, Setting value);
 
-	//static void setValues(const std::vector<Keys> keys, const std::vector<Variant> values);
+	//static void setValues(const std::vector<Keys> keys, const std::vector<Setting> values);
 
-    static const Variant& getValue(Keys);
+    static Setting getValue(Keys);
 
     /**
      * Read all of the values stored in a configuration file and set all the keys

@@ -15,7 +15,7 @@
 #include <algorithm>
 
 using namespace llvm;
-using namespace std;
+
 
 
 
@@ -34,12 +34,37 @@ SetFloatingSpeciesInitConcentrationCodeGen::SetFloatingSpeciesInitConcentrationC
 
 StringIntVector SetFloatingSpeciesInitConcentrationCodeGen::getIds()
 {
-    std::vector<string> ids = dataSymbols.getFloatingSpeciesIds();
+    std::vector<std::string> ids = dataSymbols.getFloatingSpeciesIds();
     StringIntVector result;
 
     for(StringVector::iterator i = ids.begin(); i != ids.end(); ++i)
     {
         if (dataSymbols.isIndependentInitFloatingSpecies(*i))
+        {
+            result.push_back(make_pair(*i, distance(ids.begin(), i)));
+        }
+    }
+    return result;
+}
+
+
+const char* SetBoundarySpeciesInitConcentrationCodeGen::FunctionName = "setBoundarySpeciesInitConcentrations";
+const char* SetBoundarySpeciesInitConcentrationCodeGen::IndexArgName = "boundarySpeciesIndex";
+
+SetBoundarySpeciesInitConcentrationCodeGen::SetBoundarySpeciesInitConcentrationCodeGen(
+    const ModelGeneratorContext& mgc) :
+    SetInitialValueCodeGenBase<SetBoundarySpeciesInitConcentrationCodeGen, false>(mgc)
+{
+}
+
+StringIntVector SetBoundarySpeciesInitConcentrationCodeGen::getIds()
+{
+    std::vector<string> ids = dataSymbols.getBoundarySpeciesIds();
+    StringIntVector result;
+
+    for (StringVector::iterator i = ids.begin(); i != ids.end(); ++i)
+    {
+        if (dataSymbols.isIndependentInitBoundarySpecies(*i))
         {
             result.push_back(make_pair(*i, distance(ids.begin(), i)));
         }
@@ -59,12 +84,36 @@ SetFloatingSpeciesInitAmountCodeGen::SetFloatingSpeciesInitAmountCodeGen(
 
 StringIntVector SetFloatingSpeciesInitAmountCodeGen::getIds()
 {
-    std::vector<string> ids = dataSymbols.getFloatingSpeciesIds();
+    std::vector<std::string> ids = dataSymbols.getFloatingSpeciesIds();
     StringIntVector result;
 
     for(StringVector::iterator i = ids.begin(); i != ids.end(); ++i)
     {
         if (dataSymbols.isIndependentInitFloatingSpecies(*i))
+        {
+            result.push_back(make_pair(*i, distance(ids.begin(), i)));
+        }
+    }
+    return result;
+}
+
+const char* SetBoundarySpeciesInitAmountCodeGen::FunctionName = "setBoundarySpeciesInitAmounts";
+const char* SetBoundarySpeciesInitAmountCodeGen::IndexArgName = "boundarySpeciesIndex";
+
+SetBoundarySpeciesInitAmountCodeGen::SetBoundarySpeciesInitAmountCodeGen(
+    const ModelGeneratorContext& mgc) :
+    SetInitialValueCodeGenBase<SetBoundarySpeciesInitAmountCodeGen, true>(mgc)
+{
+}
+
+StringIntVector SetBoundarySpeciesInitAmountCodeGen::getIds()
+{
+    std::vector<string> ids = dataSymbols.getBoundarySpeciesIds();
+    StringIntVector result;
+
+    for (StringVector::iterator i = ids.begin(); i != ids.end(); ++i)
+    {
+        if (dataSymbols.isIndependentInitBoundarySpecies(*i))
         {
             result.push_back(make_pair(*i, distance(ids.begin(), i)));
         }
@@ -83,7 +132,7 @@ SetCompartmentInitVolumeCodeGen::SetCompartmentInitVolumeCodeGen(
 
 StringIntVector SetCompartmentInitVolumeCodeGen::getIds()
 {
-    std::vector<string> ids = dataSymbols.getCompartmentIds();
+    std::vector<std::string> ids = dataSymbols.getCompartmentIds();
     StringIntVector result;
 
     for(StringVector::iterator i = ids.begin(); i != ids.end(); ++i)
@@ -108,7 +157,7 @@ SetGlobalParameterInitValueCodeGen::SetGlobalParameterInitValueCodeGen(
 
 StringIntVector SetGlobalParameterInitValueCodeGen::getIds()
 {
-    std::vector<string> ids = dataSymbols.getGlobalParameterIds();
+    std::vector<std::string> ids = dataSymbols.getGlobalParameterIds();
     StringIntVector result;
 
     for(StringVector::iterator i = ids.begin(); i != ids.end(); ++i)

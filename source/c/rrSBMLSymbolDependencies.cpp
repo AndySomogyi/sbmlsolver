@@ -5,7 +5,7 @@
 #include "rrStringUtils.h"
 #include "rrSBMLSymbol.h"
 //---------------------------------------------------------------------------
-using namespace std;
+
 namespace rr
 {
 

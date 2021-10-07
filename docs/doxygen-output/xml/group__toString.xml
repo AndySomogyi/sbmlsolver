@@ -1,0 +1,161 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="group__toString" kind="group">
+    <compoundname>toString</compoundname>
+    <title>ToString routines</title>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__toString_1gaff70db9c262110e72d1cf090b04d05a3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC char *rrcCallConv</type>
+        <definition>C_DECL_SPEC char* rrcCallConv vectorToString</definition>
+        <argsstring>(const RRVectorPtr vec)</argsstring>
+        <name>vectorToString</name>
+        <param>
+          <type>const <ref refid="rrc__types_8h_1a3be72d6006034fd349f753d2bf441bf7" kindref="member">RRVectorPtr</ref></type>
+          <declname>vec</declname>
+        </param>
+        <briefdescription>
+<para>Returns a vector in string form. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Returns vector as a character string </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="581" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="581" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="group__toString_1gaef1d1f1789f4c5bca4e6b7af4bf53885" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC char *rrcCallConv</type>
+        <definition>C_DECL_SPEC char* rrcCallConv complexVectorToString</definition>
+        <argsstring>(const RRComplexVectorPtr vec)</argsstring>
+        <name>complexVectorToString</name>
+        <param>
+          <type>const <ref refid="rrc__types_8h_1ae05c63419a6ca0575eb327fd04dae4b5" kindref="member">RRComplexVectorPtr</ref></type>
+          <declname>vec</declname>
+        </param>
+        <briefdescription>
+<para>Returns a complex vector in string form. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Returns complex vector as a character string </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="588" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="588" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="group__toString_1ga9ecd62cd0fd10a179bd2fe5e55f69929" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC char *rrcCallConv</type>
+        <definition>C_DECL_SPEC char* rrcCallConv rrCDataToString</definition>
+        <argsstring>(const RRCDataPtr rrData)</argsstring>
+        <name>rrCDataToString</name>
+        <param>
+          <type>const <ref refid="rrc__types_8h_1a9da8b124eb9c3c0045f8926c6a420b4a" kindref="member">RRCDataPtr</ref></type>
+          <declname>rrData</declname>
+        </param>
+        <briefdescription>
+<para>Returns a rrCData struct in string form. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Returns rrCData struct as a character string </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="595" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="595" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="group__toString_1ga02a9a7fee7703402fcf6e36f30d384be" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC char *rrcCallConv</type>
+        <definition>C_DECL_SPEC char* rrcCallConv matrixToString</definition>
+        <argsstring>(const RRDoubleMatrixPtr mat)</argsstring>
+        <name>matrixToString</name>
+        <param>
+          <type>const <ref refid="rrc__types_8h_1ae586a879d30f0823087e42d93464b5dd" kindref="member">RRDoubleMatrixPtr</ref></type>
+          <declname>mat</declname>
+        </param>
+        <briefdescription>
+<para>Returns a matrix in string form. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Returns matrix as a character string </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="602" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="602" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="group__toString_1gacb4e2892fead121b86bcaf22fea17178" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC char *rrcCallConv</type>
+        <definition>C_DECL_SPEC char* rrcCallConv complexMatrixToString</definition>
+        <argsstring>(const RRComplexMatrixPtr mat)</argsstring>
+        <name>complexMatrixToString</name>
+        <param>
+          <type>const <ref refid="rrc__types_8h_1a8cf9e865d8541d100f153800adbb7c3f" kindref="member">RRComplexMatrixPtr</ref></type>
+          <declname>mat</declname>
+        </param>
+        <briefdescription>
+<para>Returns a complex matrix in string form. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Returns complex matrix as a character string </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="609" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="609" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="group__toString_1ga57ac412ea941375e41f6cbc193c666e1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC char *rrcCallConv</type>
+        <definition>C_DECL_SPEC char* rrcCallConv stringArrayToString</definition>
+        <argsstring>(const RRStringArrayPtr list)</argsstring>
+        <name>stringArrayToString</name>
+        <param>
+          <type>const <ref refid="rrc__types_8h_1a7c9475df6c7337d99482b13a365e7596" kindref="member">RRStringArrayPtr</ref></type>
+          <declname>list</declname>
+        </param>
+        <briefdescription>
+<para>Returns a string list in string form. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Returns string list as a character string </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="630" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="630" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="group__toString_1ga7cfc863a3d8fec26c951a2f40fa7dfa4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC char *rrcCallConv</type>
+        <definition>C_DECL_SPEC char* rrcCallConv listToString</definition>
+        <argsstring>(const RRListPtr list)</argsstring>
+        <name>listToString</name>
+        <param>
+          <type>const <ref refid="rrc__types_8h_1a32a8a60ac06858ff3a791672bd2bec73" kindref="member">RRListPtr</ref></type>
+          <declname>list</declname>
+        </param>
+        <briefdescription>
+<para>Returns a list in string form. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Returns list as a character string </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="637" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="637" declcolumn="30"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Render various result data types as strings. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

@@ -15,30 +15,51 @@
 
 #include "Solver.h"
 #include "rrConfig.h"
-#include <typeinfo>
 #include <iomanip>
+#include <utility>
+#include <iostream>
 
 // == CODE ====================================================
 
-using namespace std;
 namespace rr
 {
+    Solver::Solver(ExecutableModel* model)
+        : mModel(model){}
 
-    void Solver::addSetting(string name, Variant val, string display_name, string hint, string description)
-    {
-        sorted_settings.push_back(name);
-        settings[name] = val;
-        display_names_[name] = display_name;
-        hints[name] = hint;
-        descriptions[name] = description;
+    void Solver::addSetting(const std::string& name, const Setting& val, const std::string& display_name, const std::string& hint, const std::string& description) {
+        if (settings.find(name) == settings.end()) {
+            // only add the new setting if its not already present
+            sorted_settings.push_back(name);
+            settings[name] = val;
+            display_names_[name] = display_name;
+            hints[name] = hint;
+            descriptions[name] = description;
+        }
     }
 
-    std::vector<string> Solver::getSettings() const
+    void Solver::updateSettings(Dictionary * inputSettings)
     {
-        std::vector<string> keys;
-        for (SettingsList::const_iterator i = sorted_settings.begin(); i != sorted_settings.end(); ++i)
+        if (!inputSettings)
+            return;
+        const std::vector<std::string>& thisSolversSettings = getSettings();
+        for (const auto& setting: thisSolversSettings){
+            if (inputSettings->hasKey(setting)){
+                setValue(setting, inputSettings->getItem(setting));
+            }
+        }
+    }
+
+    std::unordered_map<std::string, Setting>& Solver::getSettingsMap()
+    {
+        return settings;
+    }
+
+    std::vector<std::string> Solver::getSettings() const
+    {
+        std::vector<std::string> keys;
+        for (const auto & sorted_setting : sorted_settings)
         {
-            keys.push_back(*i);
+            keys.push_back(sorted_setting);
         }
         return keys;
     }
@@ -55,7 +76,7 @@ namespace rr
     {
         if (sorted_settings.size() != settings.size())
             throw std::runtime_error("Setting count inconsistency");
-        return sorted_settings.size();
+        return settings.size();
     }
 
     std::string Solver::getParamName(size_t n) const
@@ -80,9 +101,9 @@ namespace rr
         return getDescription(getParamName(n));
     }
 
-    Variant Solver::getValue(std::string key) const
+    Setting Solver::getValue(const std::string& key) const
     {
-        SettingsMap::const_iterator option = settings.find(key);
+        auto option = settings.find(key);
         if (option == settings.end())
         {
             throw std::invalid_argument("Solver::getValue: invalid key: " + key);
@@ -90,77 +111,30 @@ namespace rr
         return option->second;
     }
 
-    Variant Solver::hasValue(std::string key) const
+    Setting Solver::hasValue(const std::string& key) const
     {
-        return settings.find(key) != settings.end();
-    }
-
-    int Solver::getValueAsInt(std::string key)
-    {
-        return getValue(key).convert<int>();
-    }
-
-    unsigned int Solver::getValueAsUInt(std::string key)
-    {
-        return getValue(key).convert<unsigned int>();
-    }
-
-    long Solver::getValueAsLong(std::string key)
-    {
-        return getValue(key).convert<long>();
-    }
-
-    unsigned long Solver::getValueAsULong(std::string key)
-    {
-        return getValue(key).convert<unsigned long>();
-    }
-
-    float Solver::getValueAsFloat(std::string key)
-    {
-        return getValue(key).convert<float>();
-    }
-
-    double Solver::getValueAsDouble(std::string key)
-    {
-        return getValue(key).convert<double>();
-    }
-
-	vector<double> Solver::getValueAsDoubleVector(std::string key)
-	{
-		return getValue(key).convert< vector<double> >();
-	}
-
-    char Solver::getValueAsChar(std::string key)
-    {
-        return getValue(key).convert<char>();
-    }
-
-    unsigned char Solver::getValueAsUChar(std::string key)
-    {
-        return getValue(key).convert<unsigned char>();
-    }
-
-    std::string Solver::getValueAsString(std::string key)
-    {
-        return getValue(key).convert<std::string>();
-    }
-
-    bool Solver::getValueAsBool(std::string key)
-    {
-        return getValue(key).convert<bool>();
-    }
-
-    void Solver::setValue(std::string key, const Variant& value)
-    {
-        if (settings.find(key) ==  settings.end())
-            throw std::invalid_argument(getName() + " invalid key: " + key);
-        settings[key] = value;
+        return Setting(settings.find(key) != settings.end());
     }
 
 
-    const std::string& Solver::getDisplayName(std::string key) const
+    std::string Solver::getValueAsString(const std::string& key)
     {
-        DisplayNameMap::const_iterator option = Solver::display_names_.find(key);
+        return getValue(key).get<std::string>();
+    }
+
+    void Solver::setValue(const std::string& key, Setting value)
+    {
+        if (settings.find(key) ==  settings.end()){
+            std::string name = getName();
+            throw std::invalid_argument(name + " invalid key: " + key);
+        }
+        settings[key] =  std::move(value);
+    }
+
+
+    const std::string& Solver::getDisplayName(const std::string& key) const
+    {
+        auto option = Solver::display_names_.find(key);
         if (option == display_names_.end())
         {
             throw std::invalid_argument("invalid key: " + key);
@@ -168,9 +142,9 @@ namespace rr
         return option->second;
     }
 
-    const std::string& Solver::getHint(std::string key) const
+    const std::string& Solver::getHint(const std::string& key) const
     {
-        HintMap::const_iterator option = Solver::hints.find(key);
+        auto option = Solver::hints.find(key);
         if (option == hints.end())
         {
             throw std::invalid_argument("invalid key: " + key);
@@ -178,9 +152,9 @@ namespace rr
         return option->second;
     }
 
-    const std::string& Solver::getDescription(std::string key) const
+    const std::string& Solver::getDescription(const std::string& key) const
     {
-        DescriptionMap::const_iterator option = Solver::descriptions.find(key);
+        auto option = Solver::descriptions.find(key);
         if (option == descriptions.end())
         {
             throw std::invalid_argument("invalid key: " + key);
@@ -188,7 +162,7 @@ namespace rr
         return option->second;
     }
 
-    const Variant::TypeId Solver::getType(std::string key)
+    Setting::TypeId Solver::getType(const std::string& key) const
     {
         return getValue(key).type();
     }
@@ -196,16 +170,17 @@ namespace rr
     std::string Solver::getSettingsRepr() const
     {
         std::stringstream ss;
-        for(size_t n=0; n<getNumParams(); ++n)
+        for(size_t n=0; n < getNumParams(); ++n){
             ss << "    " << std::setw(20) << getParamName(n) << ": " << getValue(getParamName(n)).toString() << "\n";
+        }
         return ss.str();
     }
 
     std::string Solver::settingsPyDictRepr() const
     {
         std::stringstream ss;
-        for(size_t n=0; n<getNumParams(); ++n)
-            ss << (n ? ", " : "") << "'" << getParamName(n) << "': " << getValue(getParamName(n)).pythonRepr();
+        for(size_t n=0; n < getNumParams(); ++n)
+            ss << (n ? ", " : "") << "'" << getParamName(n) << "': " << getValue(getParamName(n)).toString();
         return ss.str();
     }
 
@@ -225,4 +200,13 @@ namespace rr
         ss << "< roadrunner.Solver() \"" << getName() << "\" " << settingsPyDictRepr() << " >\n";
         return ss.str();
     }
+
+    ExecutableModel *Solver::getModel() const {
+        if (!mModel){
+            throw NullPointerException("Solver::getModel(): mModel pointer is null");
+        }
+        return mModel;
+    }
 }
+
+

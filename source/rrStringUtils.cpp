@@ -12,11 +12,11 @@
 #include "rrUtils.h"
 #include "rrLogger.h"
 
-using namespace std;
+
 namespace rr
 {
 
-char* createText(const string& str)
+char* createText(const std::string& str)
 {
     if(str.size() == 0)
     {
@@ -47,10 +47,10 @@ bool freeText(char* str)
     return true;
 }
 
-string replaceWord(const string& str1, const string& str2, const string& theString)
+std::string replaceWord(const std::string& str1, const std::string& str2, const std::string& theString)
 {
-    string temp(theString);
-    while(temp.find(str1) != string::npos)
+    std::string temp(theString);
+    while(temp.find(str1) != std::string::npos)
     {
         temp.replace(temp.find(str1), str1.size(), str2);
     };
@@ -58,16 +58,16 @@ string replaceWord(const string& str1, const string& str2, const string& theStri
     return temp;
 }
 
-bool convertFunctionCallToUseVarArgsSyntax(const string& funcName, string& expression)
+bool convertFunctionCallToUseVarArgsSyntax(const std::string& funcName, std::string& expression)
 {
     size_t startFrom = expression.find(funcName);
-    if(startFrom != string::npos)
+    if(startFrom != std::string::npos)
     {
         //Convert this to variable syntax...
         size_t rightPos = findMatchingRightParenthesis(expression, startFrom);
-        if(rightPos != string::npos)
+        if(rightPos != std::string::npos)
         {
-            string funcArgs = expression.substr(startFrom, rightPos - startFrom);
+            std::string funcArgs = expression.substr(startFrom, rightPos - startFrom);
             int nrOfArgs    = getNumberOfFunctionArguments(funcArgs);
 
             //Convert to a va_list thing
@@ -78,9 +78,9 @@ bool convertFunctionCallToUseVarArgsSyntax(const string& funcName, string& expre
     return true;
 }
 
-string removeChars(const string& str, const string& chars)
+std::string removeChars(const std::string& str, const std::string& chars)
 {
-    string result(str);
+    std::string result(str);
     for(int chrNr = 0; chrNr < chars.size(); chrNr++)
     {
            result.erase(std::remove(result.begin(), result.end(), chars[chrNr]), result.end());
@@ -98,7 +98,7 @@ bool isUnwantedChar(char ch) //Predicate for find_if algorithms..
     return false;
 }
 
-size_t findMatchingRightParenthesis(const string& expression, const size_t startFrom)
+size_t findMatchingRightParenthesis(const std::string& expression, const size_t startFrom)
 {
     int pCount = 0;
 
@@ -127,7 +127,7 @@ size_t findMatchingRightParenthesis(const string& expression, const size_t start
     return std::string::npos;
 }
 
-int getNumberOfFunctionArguments(const string& expression)
+int getNumberOfFunctionArguments(const std::string& expression)
 {
     int pCount = 0;    //count parenthesis
     int nrOfArgs = 1;
@@ -157,9 +157,9 @@ int getNumberOfFunctionArguments(const string& expression)
      return nrOfArgs;
 }
 
-string tabs(const int& nr)
+std::string tabs(const int& nr)
 {
-    stringstream some_tabs;
+    std::stringstream some_tabs;
     for(int i = 0;i < nr; i++)
     {
         some_tabs <<"\t";
@@ -167,17 +167,17 @@ string tabs(const int& nr)
     return some_tabs.str();
 }
 
-string NL()
+std::string NL()
 {
-    stringstream newLine;
-    newLine << endl;
+    std::stringstream newLine;
+    newLine << std::endl;
     return newLine.str();
 }
 
 
-string getFileName(const string& fileN)
+std::string getFileName(const std::string& fileN)
 {
-    string fName;
+    std::string fName;
     if(fileN.find_last_of( '\\' ) != std::string::npos)
     {
         fName = fileN.substr(fileN.find_last_of( '\\' )+ 1, fileN.size());
@@ -192,9 +192,9 @@ string getFileName(const string& fileN)
     return fileN; //There was no path in present..
 }
 
-string getFileNameNoExtension(const string& fileN)
+std::string getFileNameNoExtension(const std::string& fileN)
 {
-    string fName;
+    std::string fName;
     if(fileN.find_last_of( '\\' ) != std::string::npos)
     {
         fName = fileN.substr(fileN.find_last_of( '\\' )+ 1, fileN.size());
@@ -211,9 +211,9 @@ string getFileNameNoExtension(const string& fileN)
     return changeFileExtensionTo(fName, "");
 }
 
-string getFileExtension(const string& fileN)
+std::string getFileExtension(const std::string& fileN)
 {
-    string fExtension;
+    std::string fExtension;
 
     fExtension = getFileName(fileN);
 
@@ -228,9 +228,9 @@ string getFileExtension(const string& fileN)
     }
 }
 
-string getFilePath(const string& fileN)
+std::string getFilePath(const std::string& fileN)
 {
-    string path;
+    std::string path;
     if(fileN.find_last_of( '\\' ) != std::string::npos)
     {
         path = fileN.substr( 0, fileN.find_last_of( '\\' ));
@@ -245,16 +245,16 @@ string getFilePath(const string& fileN)
     return "";
 }
 
-string changeFileExtensionTo(const string& _fName, const string& newExtension)
+std::string changeFileExtensionTo(const std::string& _fName, const std::string& newExtension)
 {
     //Be aware of the case
     //".\\fName"
     //where  the . is not part of the filename
-    string path = getFilePath(_fName);
-    string fName = getFileName(_fName);
+    std::string path = getFilePath(_fName);
+    std::string fName = getFileName(_fName);
     //First create the file name, remove current extension if it exists
 
-    if(fName.find_last_of('.') != string::npos)
+    if(fName.find_last_of('.') != std::string::npos)
     {
         //Extension does exist. Cut it, and append new one
         fName =  fName.substr(0, fName.find_last_of('.'));
@@ -273,30 +273,30 @@ string changeFileExtensionTo(const string& _fName, const string& newExtension)
         fName = fName + "." + newExtension;
     }
 
-    return joinPath(path, fName);
+    return (std::filesystem::path(path) /= fName).string();
 }
 
-bool startsWith(const string& src, const string& sub)
+bool startsWith(const std::string& src, const std::string& sub)
 {
     bool result = (src.compare(0, sub.size(), sub) == 0);
     return result;
 }
 
-bool endsWith(const string& src, const string& sub)
+bool endsWith(const std::string& src, const std::string& sub)
 {
     bool result = (src.compare(src.size() - sub.size(), src.size(), sub) == 0);
     return result;
 }
 
-string trim(const string& str, const char& ch)
+std::string trim(const std::string& str, const char& ch)
 {
-    string trimmed(str);
-    string::size_type pos = trimmed.find_last_not_of(ch);
-    if(pos != string::npos)
+    std::string trimmed(str);
+    std::string::size_type pos = trimmed.find_last_not_of(ch);
+    if(pos != std::string::npos)
     {
         trimmed.erase(pos + 1);
         pos = trimmed.find_first_not_of(ch);
-        if(pos != string::npos)
+        if(pos != std::string::npos)
         {
             trimmed.erase(0, pos);
         }
@@ -308,56 +308,75 @@ string trim(const string& str, const char& ch)
     return trimmed;
 }
 
-string removeNewLines(const string& str, const int& howMany)
+std::string& trim(std::string& str)
+{
+    return ltrim(rtrim(str));
+}
+
+std::string & ltrim(std::string & str)
+{
+  auto it2 =  std::find_if( str.begin() , str.end() , [](char ch){ return !std::isspace<char>(ch , std::locale::classic() ) ; } );
+  str.erase( str.begin() , it2);
+  return str;
+}
+
+std::string & rtrim(std::string & str)
+{
+  auto it1 =  std::find_if( str.rbegin() , str.rend() , [](char ch){ return !std::isspace<char>(ch , std::locale::classic() ) ; } );
+  str.erase( it1.base() , str.end() );
+  return str;
+}
+
+std::string removeNewLines(const std::string& str, const int& howMany)
 {
     return substitute(str, "\n" , "", howMany);
 }
 
-string format(const string& src, const string& arg)
+std::string format(const std::string& src, const std::string& arg)
 {
     return substitute(src, "{0}", arg);
 }
 
-string format(const string& src, const int& arg)
+std::string format(const std::string& src, const int& arg)
 {
     return substitute(src, "{0}", toString(arg));
 }
 
-string format(const string& src, const string& arg1, const string& arg2)
+std::string format(const std::string& src, const std::string& arg1, const std::string& arg2)
 {
-    string tmp = substitute(src, "{0}", arg1);
+    std::string tmp = substitute(src, "{0}", arg1);
     return substitute(tmp, "{1}", arg2);
 }
 
-string format(const string& src, const string& arg1, const int& arg2)
+std::string format(const std::string& src, const std::string& arg1, const int& arg2)
 {
-    string tmp = substitute(src, "{0}", arg1);
+    std::string tmp = substitute(src, "{0}", arg1);
     return substitute(tmp, "{1}", toString(arg2));
 }
 
-string format(const string& src, const string& arg1, const string& arg2, const string& arg3)
+std::string format(const std::string& src, const std::string& arg1, const std::string& arg2, const std::string& arg3)
 {
-    string tmp(src);
+    std::string tmp(src);
     tmp = substitute(tmp, "{0}", arg1);
     tmp = substitute(tmp, "{1}", arg2);
     tmp = substitute(tmp, "{2}", arg3);
     return tmp;
 }
 
-string format(const string& src, const string& arg1, const int& arg2, const string& arg3)
+std::string format(const std::string& src, const std::string& arg1, const int& arg2, const std::string& arg3)
 {
-    string tmp = substitute(src, "{0}", arg1);
+    std::string tmp = substitute(src, "{0}", arg1);
     tmp = substitute(tmp, "{1}", toString(arg2));
      return substitute(tmp, "{2}", arg3);
 }
 
-string format(const string& str1, const string& arg1, const string& arg2, const string& arg3, const string& arg4)
+std::string format(const std::string& str1, const std::string& arg1, const std::string& arg2, const std::string& arg3, const std::string& arg4)
 {
-    string token1("{0}");
-    string token2("{1}");
-    string token3("{2}");
-    string token4("{3}");
-    string newString(str1);
+    std::string token1("{0}");
+    std::string token2("{1}");
+    std::string token3("{2}");
+    std::string token4("{3}");
+    std::string newString(str1);
 
     newString = substitute(newString, token1, arg1);
     newString = substitute(newString, token2, arg2);
@@ -366,14 +385,14 @@ string format(const string& str1, const string& arg1, const string& arg2, const 
     return newString;
 }
 
-string format(const string& str1, const string& arg1, const string& arg2, const string& arg3, const string& arg4, const string& arg5)
+std::string format(const std::string& str1, const std::string& arg1, const std::string& arg2, const std::string& arg3, const std::string& arg4, const std::string& arg5)
 {
-    string token1("{0}");
-    string token2("{1}");
-    string token3("{2}");
-    string token4("{3}");
-    string token5("{4}");
-    string newString(str1);
+    std::string token1("{0}");
+    std::string token2("{1}");
+    std::string token3("{2}");
+    std::string token4("{3}");
+    std::string token5("{4}");
+    std::string newString(str1);
 
     newString = substitute(newString, token1, arg1);
     newString = substitute(newString, token2, arg2);
@@ -383,23 +402,23 @@ string format(const string& str1, const string& arg1, const string& arg2, const 
     return newString;
 }
 
-string format(const string& str1, const unsigned int& arg1, const string& arg2)
+std::string format(const std::string& str1, const unsigned int& arg1, const std::string& arg2)
 {
-    string token1("{0}");
-    string token2("{1}");
-    string newString(str1);
+    std::string token1("{0}");
+    std::string token2("{1}");
+    std::string newString(str1);
 
     newString = substitute(newString, token1, (int) arg1);
     newString = substitute(newString, token2, arg2);
     return newString;
 }
 
-string format(const string& str1, const unsigned int& arg1, const string& arg2, const string& arg3)
+std::string format(const std::string& str1, const unsigned int& arg1, const std::string& arg2, const std::string& arg3)
 {
-    string token1("{0}");
-    string token2("{1}");
-    string token3("{2}");
-    string newString(str1);
+    std::string token1("{0}");
+    std::string token2("{1}");
+    std::string token3("{2}");
+    std::string newString(str1);
 
     newString = substitute(newString, token1, rr::toString(arg1));
     newString = substitute(newString, token2, arg2);
@@ -408,13 +427,13 @@ string format(const string& str1, const unsigned int& arg1, const string& arg2, 
     return newString;
 }
 
-string format(const string& str1, const unsigned int& arg1, const unsigned int& arg2, const string& arg3, const string& arg4)
+std::string format(const std::string& str1, const unsigned int& arg1, const unsigned int& arg2, const std::string& arg3, const std::string& arg4)
 {
-    string tok1("{0}");
-    string tok2("{1}");
-    string tok3("{2}");
-    string tok4("{2}");
-    string newString(str1);
+    std::string tok1("{0}");
+    std::string tok2("{1}");
+    std::string tok3("{2}");
+    std::string tok4("{2}");
+    std::string newString(str1);
 
     newString = substitute(newString, tok1, arg1);
     newString = substitute(newString, tok2, arg2);
@@ -424,22 +443,22 @@ string format(const string& str1, const unsigned int& arg1, const unsigned int& 
     return newString;
 }
 
-string substitute(const string& src, const string& thisOne, const int& withThisOne, const int& howMany)
+std::string substitute(const std::string& src, const std::string& thisOne, const int& withThisOne, const int& howMany)
 {
     return substitute(src, thisOne, toString(withThisOne), howMany);
 }
 
-//string substitute(const string& src, const string& thisOne, const double& withThisOne, const int& howMany)
+//std::string substitute(const std::string& src, const std::string& thisOne, const double& withThisOne, const int& howMany)
 //{
 //    return substitute(src, thisOne, toString(withThisOne), howMany);
 //}
 
-string substitute(const string& src, const string& thisOne, const string& withThisOne, const int& howMany)
+std::string substitute(const std::string& src, const std::string& thisOne, const std::string& withThisOne, const int& howMany)
 {
-    string newString(src);
+    std::string newString(src);
     int count = 0;
 
-    while(newString.find(thisOne) != string::npos)
+    while(newString.find(thisOne) != std::string::npos)
     {
         if(count == howMany)
         {
@@ -454,60 +473,60 @@ string substitute(const string& src, const string& thisOne, const string& withTh
     return newString;
 }
 
-//bool InStringList(const string& fldr, list<string>& theList)
+//bool InStringList(const std::string& fldr, std::list<std::string>& theList)
 //{
-//    list<string>::iterator index = std::find_if(theList.begin(), theList.end(),  mtkCompareStrings(fldr));
+//    std::list<std::string>::iterator index = std::find_if(theList.begin(), theList.end(),  mtkCompareStrings(fldr));
 //    return (index != theList.end()) ? true : false;
 //}
 
-string intToStr(const int& nt)
+std::string intToStr(const int& nt)
 {
-    //char *itoa(int value, char *string, int radix);
+    //char *itoa(int value, char *std::string, int radix);
 //    char str[100];
 //    itoa(nt, str, 10);
-    stringstream number;
+    std::stringstream number;
     number<<nt;
 
-//    string valStr(str);
+//    std::string valStr(str);
     return number.str();
 }
 
-string dblToStr(const double& nt)
+std::string dblToStr(const double& nt)
 {
     char str[25];
     int sig = 5; /* significant digits */
     char* ptr =  gcvt(nt, sig, str);
-    return string(str);
+    return std::string(str);
 }
 
-int strToInt(const string& str)
+int strToInt(const std::string& str)
 {
     return atoi(str.c_str());
 }
 
-double strToDbl(const string& str)
+double strToDbl(const std::string& str)
 {
     char *endptr;
     return strtod(str.c_str(), &endptr);
 }
 
-vector<string> splitString(const string &text, const char& oneSep)
+std::vector<std::string> splitString(const std::string &text, const char& oneSep)
 {
-    string separator;
+    std::string separator;
     separator = oneSep;
     return splitString(text, separator);
 }
 
-vector<string> splitString(const string &text, const string &separators)
+std::vector<std::string> splitString(const std::string &text, const std::string &separators)
 {
-    vector<string> words;
+    std::vector<std::string> words;
     size_t n = text.length();
     size_t start = text.find_first_not_of(separators);
 
     while( (start < n) )
     {
         size_t stop = text.find_first_of(separators, start);
-        if( (stop == string::npos) || (stop > n) )
+        if( (stop == std::string::npos) || (stop > n) )
         {
             stop = n;
         }
@@ -518,15 +537,15 @@ vector<string> splitString(const string &text, const string &separators)
     return words;
 }
 
-vector<string> splitString(const string &text, const string &separators, bool cutDelimiter)
+std::vector<std::string> splitString(const std::string &text, const std::string &separators, bool cutDelimiter)
 {
-    vector<string> words;
+    std::vector<std::string> words;
     size_t n = text.length();
     size_t start = text.find_first_not_of(separators);
-    while( (start != string::npos) && (start < n) )
+    while( (start != std::string::npos) && (start < n) )
     {
         size_t stop = text.find_first_of(separators, start);
-        if( (stop == string::npos) || (stop > n) )
+        if( (stop == std::string::npos) || (stop > n) )
         {
             stop = n;
         }
@@ -550,14 +569,14 @@ vector<string> splitString(const string &text, const string &separators, bool cu
     return words;
 }
 
-size_t splitString(vector<string>& words, const string &text, const string &separators)
+size_t splitString(std::vector<std::string>& words, const std::string &text, const std::string &separators)
 {
     size_t n = text.length();
     size_t start = text.find_first_not_of(separators);
-    while( (start != string::npos) && (start < n) )
+    while( (start != std::string::npos) && (start < n) )
     {
         size_t stop = text.find_first_of(separators, start);
-        if( (stop == string::npos) || (stop > n) )
+        if( (stop == std::string::npos) || (stop > n) )
         {
             stop = n;
         }
@@ -568,12 +587,12 @@ size_t splitString(vector<string>& words, const string &text, const string &sepa
     return words.size();
 }
 
-int toInt(const string& str)
+int toInt(const std::string& str)
 {
     return atoi(str.c_str());
 }
 
-bool toBool(const string& str)
+bool toBool(const std::string& str)
 {
     if(str.size() < 2)
     {
@@ -586,7 +605,7 @@ bool toBool(const string& str)
     }
 }
 
-double toDouble(const string& str)
+double toDouble(const std::string& str)
 {
     // The MSVC strtod is buggy in that it does not parse InF and NaN values,
     // so have to compensate.
@@ -608,11 +627,11 @@ double toDouble(const string& str)
 
     if(!str.size())
     {
-        Log(Logger::LOG_WARNING) << "returning 0.0 for empty string in toDouble()";
+        rrLog(Logger::LOG_WARNING) << "returning 0.0 for empty std::string in toDouble()";
         return 0;
     }
 
-    string s = str;
+    std::string s = str;
     std::transform(s.begin(), s.end(), s.begin(), ::toupper);
 
     if(s.find("NAN") != std::string::npos || s == "-")
@@ -635,29 +654,29 @@ double toDouble(const string& str)
         }
     }
 
-    Log(Logger::LOG_WARNING) << "could not parse string \"" << str << "\" to double, returning NaN";
+    rrLog(Logger::LOG_WARNING) << "could not parse std::string \"" << str << "\" to double, returning NaN";
     return std::numeric_limits<double>::quiet_NaN();
 }
 
-vector<double> toDoubleVector(const string& str)
+std::vector<double> toDoubleVector(const std::string& str)
 {
-	// double vector is in the form "[d1,d2,d3...dn]"
+	// double std::vector is in the form "[d1,d2,d3...dn]"
 	// get rid of '[' and ']' first
 
 	size_t start = str.find("[");
-	string st = str.substr(start + 1, str.size() - 1);
-	// parse into string vector
-	vector<string> parts(splitString(st, ","));
-	vector<double> res;
+	std::string st = str.substr(start + 1, str.size() - 1);
+	// parse into std::string std::vector
+	std::vector<std::string> parts(splitString(st, ","));
+	std::vector<double> res;
 	for (unsigned i = 0; i < parts.size(); i++)
 		res.push_back(toDouble(parts[i]));
 	return res;
 
 }
 
-complex<double> toComplex(const string& str)
+complex<double> toComplex(const std::string& str)
 {
-    vector<string> parts(splitString(str,"(,)"));
+    std::vector<std::string> parts(splitString(str,"(,)"));
 
     if(parts.size() != 2)
     {
@@ -689,62 +708,62 @@ complex<double> toComplex(const string& str)
     return complex<double>(re,im);
 }
 
-string toUpperOrLowerCase(const string& inStr, int (*func)(int))
+std::string toUpperOrLowerCase(const std::string& inStr, int (*func)(int))
 {
-    string rString(inStr);
+    std::string rString(inStr);
     std::transform(rString.begin(), rString.end(), rString.begin(), func);
     return rString;
 }
 
-string toUpper(const string& inStr)
+std::string toUpper(const std::string& inStr)
 {
-    string rString(inStr);
+    std::string rString(inStr);
     std::transform(rString.begin(), rString.end(), rString.begin(), (int(*)(int)) toupper);
     return rString;
 }
 
-string toLower(const string& inStr)
+std::string toLower(const std::string& inStr)
 {
-    string rString(inStr);
+    std::string rString(inStr);
     std::transform(rString.begin(), rString.end(), rString.begin(), (int(*)(int)) tolower);
     return rString;
 }
 
-string toString(const char* str)
+std::string toString(const char* str)
 {
-    return (string(str));
+    return (std::string(str));
 }
 
-string toString(const bool& val)
+std::string toString(const bool& val)
 {
     return val ? "true" : "false";
 }
 
-string toString(const double& val, const string& format)
+std::string toString(const double& val, const std::string& format)
 {
     char sBuffer[256];
     sprintf(sBuffer, format.c_str(), val);
-    return string(sBuffer);
+    return std::string(sBuffer);
 }
 
-//string toString(const int& val)
+//std::string toString(const int& val)
 //{
 //    char sBuffer[256];
 //    sprintf(sBuffer, format.c_str(), val);
-//    return string(sBuffer);
+//    return std::string(sBuffer);
 //}
 
-string toString(const unsigned int& n, const string& format, const int nBase)
+std::string toString(const unsigned int& n, const std::string& format, const int nBase)
 {
     char sBuffer[256];
     if (nBase == 16)
     {
         sprintf(sBuffer, "%X", n);
-        return string("0x") + string(sBuffer);
+        return std::string("0x") + std::string(sBuffer);
     }
     else if(nBase == 2)
     {
-        string tmp = "";
+        std::string tmp = "";
         int k = n;
         for (int i=0; i<8; i++)
         {
@@ -759,21 +778,21 @@ string toString(const unsigned int& n, const string& format, const int nBase)
     else
     {
         sprintf(sBuffer, "%d", n);
-        return string(sBuffer);
+        return std::string(sBuffer);
     }
 }
 
-string toString(const int& n, const string& format, const int nBase)
+std::string toString(const int& n, const std::string& format, const int nBase)
 {
     char sBuffer[256];
     if (nBase == 16)
     {
         sprintf(sBuffer, "%X", n);
-        return string("0x") + string(sBuffer);
+        return std::string("0x") + std::string(sBuffer);
     }
     else if(nBase == 2)
     {
-        string tmp = "";
+        std::string tmp = "";
         int k = n;
         for (int i=0; i<8; i++)
         {
@@ -788,21 +807,21 @@ string toString(const int& n, const string& format, const int nBase)
     else
     {
         sprintf(sBuffer, "%d", n);
-        return string(sBuffer);
+        return std::string(sBuffer);
     }
 }
 
-string toString(const int n, const int nBase)
+std::string toString(const int n, const int nBase)
 {
     char sBuffer[256];
     if (nBase == 16)
     {
         sprintf(sBuffer, "%X", n);
-        return string("0x") + string(sBuffer);
+        return std::string("0x") + std::string(sBuffer);
     }
     else if(nBase == 2)
     {
-        string tmp = "";
+        std::string tmp = "";
         int k = n;
         for (int i=0; i<8; i++)
         {
@@ -817,70 +836,70 @@ string toString(const int n, const int nBase)
     else
     {
         sprintf(sBuffer, "%d", n);
-        return string(sBuffer);
+        return std::string(sBuffer);
     }
 }
 
-string toString(const long n, const int nBase)
+std::string toString(const long n, const int nBase)
 {
     char sBuffer[256];
     if (nBase == 10)
     {
         sprintf(sBuffer, "%lu", n);
-        return string(sBuffer);
+        return std::string(sBuffer);
     }
     return toString( int(n), nBase);
 }
 
-string toString(const unsigned long n, const int nBase)
+std::string toString(const unsigned long n, const int nBase)
 {
     char sBuffer[256];
     if (nBase == 10)
     {
         sprintf(sBuffer, "%lu", n);
-        return string(sBuffer);
+        return std::string(sBuffer);
     }
     return toString( int(n), nBase);
 }
 
-string toString(const unsigned short n, const int nBase)
+std::string toString(const unsigned short n, const int nBase)
 {
     char sBuffer[256];
     if (nBase == 10)
     {
         sprintf(sBuffer, "%u", n);
-        return string(sBuffer);
+        return std::string(sBuffer);
     }
     return toString( int(n), nBase);
 }
 
-string toString(const short n, const int nBase)
+std::string toString(const short n, const int nBase)
 {
     return toString( int(n), nBase);
 }
 
-string toString(const char n)
+std::string toString(const char n)
 {
     char sBuffer[256];
     sprintf(sBuffer, "%c", n);
-    return string(sBuffer);
+    return std::string(sBuffer);
 }
 
-string toString(const unsigned char n)
+std::string toString(const unsigned char n)
 {
     char sBuffer[256];
     sprintf(sBuffer, "%c", n);
-    return string(sBuffer);
+    return std::string(sBuffer);
 }
 
-string toString(const string& str)
+std::string toString(const std::string& str)
 {
     return str;
 }
 
-string toString(const vector<string>& vec, const string& sep)
+std::string toString(const std::vector<std::string>& vec, const std::string& sep)
 {
-    stringstream text;
+    std::stringstream text;
     text<<"{";
     for(int i = 0; i < vec.size(); i++)
     {
@@ -894,14 +913,14 @@ string toString(const vector<string>& vec, const string& sep)
     return text.str();
 }
 
-string toStringSize(size_t n)
+std::string toStringSize(size_t n)
 {
-    stringstream ss;
+    std::stringstream ss;
     ss << n;
     return ss.str();
 }
 
-int compareNoCase(const string& str1, const string& str2)
+int compareNoCase(const std::string& str1, const std::string& str2)
 {
 #if defined(_WIN32) || defined(__WIN32__)
     int res = stricmp(str1.c_str(), str2.c_str());
@@ -911,53 +930,53 @@ int compareNoCase(const string& str1, const string& str2)
     return res;
 }
 
-string append(const string& str)
+std::string append(const std::string& str)
 {
-    //stringstream ss;
+    //std::stringstream ss;
     //ss<<str;
     return str;
 }
 
-string append(const int& str)
+std::string append(const int& str)
 {
-    stringstream ss;
+    std::stringstream ss;
     ss<<str;
     return ss.str();
 }
 
 
-string append(const unsigned int& str)
+std::string append(const unsigned int& str)
 {
-    stringstream ss;
+    std::stringstream ss;
     ss<<str;
     return ss.str();
 }
 
 
-string append(const string& s1, const string& s2)
+std::string append(const std::string& s1, const std::string& s2)
 {
-    stringstream ss;
+    std::stringstream ss;
     ss<<s1<<s2;
     return ss.str();
 }
 
-string append(const string& s1, const string& s2, const string& s3)
+std::string append(const std::string& s1, const std::string& s2, const std::string& s3)
 {
-    stringstream ss;
+    std::stringstream ss;
     ss<<s1<<s2<<s3;
     return ss.str();
 }
 
-string append(const string& s1, const unsigned int& s2, const string& s3)
+std::string append(const std::string& s1, const unsigned int& s2, const std::string& s3)
 {
-    stringstream ss;
+    std::stringstream ss;
     ss<<s1<<s2<<s3;
     return ss.str();
 }
 
-string append(const string& s1, const unsigned int& s2, const string& s3, const string& s4)
+std::string append(const std::string& s1, const unsigned int& s2, const std::string& s3, const std::string& s4)
 {
-    stringstream ss;
+    std::stringstream ss;
     ss<<s1<<s2<<s3<<s4;
     return ss.str();
 }

@@ -17,7 +17,7 @@
 
 namespace rr
 {
-using namespace std;
+
 
 TestBase::TestBase(const std::string& compiler, const std::string& version, int caseNumber) :
     model(0),
@@ -29,19 +29,19 @@ TestBase::TestBase(const std::string& compiler, const std::string& version, int 
 
     if(!fileExists(fileName))
     {
-        stringstream msg;
+        std::stringstream msg;
         msg<<"File: "<<fileName<<" does not exist";
-        Log(Logger::LOG_ERROR)<<msg.str();
+        rrLog(Logger::LOG_ERROR)<<msg.str();
 
         throw std::runtime_error(msg.str());
     }
 
-    ifstream ifs(fileName.c_str());
+    std::ifstream ifs(fileName.c_str());
     if(!ifs)
     {
-        stringstream msg;
+        std::stringstream msg;
         msg<<"Failed opening file: "<<fileName;
-        Log(Logger::LOG_ERROR)<<msg.str();
+        rrLog(Logger::LOG_ERROR)<<msg.str();
 
         throw std::runtime_error(msg.str());
     }
@@ -49,16 +49,16 @@ TestBase::TestBase(const std::string& compiler, const std::string& version, int 
     std::string sbml((std::istreambuf_iterator<char>(ifs)), std::istreambuf_iterator<char>());
 
     ifs.close();
-    Log(Logger::LOG_INFORMATION)
-        << "/*** SBML " << fileName << " ***/" << endl
-        << sbml << endl
+    rrLog(Logger::LOG_INFORMATION)
+        << "/*** SBML " << fileName << " ***/" << std::endl
+        << sbml << std::endl
         << "/****************************************************************************************/"
-        << endl;
+        << std::endl;
 
 
-    string home = getenv("HOME");
-    string tmp = home + string("/tmp");
-    string support = home + "/local/rr_support/";
+    std::string home = getenv("HOME");
+    std::string tmp = home + std::string("/tmp");
+    std::string support = home + "/local/rr_support/";
 
     LoadSBMLOptions opt;
 
@@ -67,7 +67,7 @@ TestBase::TestBase(const std::string& compiler, const std::string& version, int 
 
 TestBase::~TestBase()
 {
-    Log(lInfo) << "deleting model, " << __FUNC__;
+    rrLog(lInfo) << "deleting model, " << __FUNC__;
     delete model;
 }
 

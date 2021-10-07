@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
   <compounddef id="classrr_1_1EventListenerException" kind="class" language="C++" prot="public">
     <compoundname>rr::EventListenerException</compoundname>
-    <basecompoundref prot="public" virt="non-virtual">exception</basecompoundref>
+    <basecompoundref prot="public" virt="non-virtual">std::exception</basecompoundref>
       <sectiondef kind="private-attrib">
       <memberdef kind="variable" id="classrr_1_1EventListenerException_1a9ff5ce2f60e2c7bd4778ef627e35741a" prot="private" static="no" mutable="no">
         <type>uint</type>
@@ -96,25 +96,25 @@
     <detaileddescription>
     </detaileddescription>
     <inheritancegraph>
-      <node id="2">
-        <label>exception</label>
-      </node>
       <node id="1">
         <label>rr::EventListenerException</label>
         <link refid="classrr_1_1EventListenerException"/>
         <childnode refid="2" relation="public-inheritance">
         </childnode>
+      </node>
+      <node id="2">
+        <label>std::exception</label>
       </node>
     </inheritancegraph>
     <collaborationgraph>
-      <node id="2">
-        <label>exception</label>
-      </node>
       <node id="1">
         <label>rr::EventListenerException</label>
         <link refid="classrr_1_1EventListenerException"/>
         <childnode refid="2" relation="public-inheritance">
         </childnode>
+      </node>
+      <node id="2">
+        <label>std::exception</label>
       </node>
     </collaborationgraph>
     <location file="rrExecutableModel.h" line="73" column="5" bodyfile="rrExecutableModel.h" bodystart="73" bodyend="100"/>

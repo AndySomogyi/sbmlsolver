@@ -14,10 +14,6 @@
 
 #include <string>
 #include <vector>
-#include "tr1proxy/rr_memory.h"
-#include "tr1proxy/rr_unordered_map.h"
-
-#include <stdint.h>
 
 namespace rr
 {
@@ -162,46 +158,44 @@ namespace rr
 		/**
 		* the version this struct
 		*/
-		uint16_t version;
+		std::uint16_t version;
 
 		/**
 		* sizeof this struct
 		*/
-		uint16_t size;
+		std::uint16_t size;
 
+		std::uint32_t modelGeneratorOpt;
 
-		uint32_t modelGeneratorOpt;
-
-		uint32_t loadFlags;
+		std::uint32_t loadFlags;
 
 
 		/**
-		* sets an item in the internal unordered map.
+		* sets an item in the internal unordered std::map.
 		*/
-		virtual void setItem(const std::string& key, const rr::Variant& value);
+		void setItem(const std::string& key, const rr::Setting& value) override;
 
 		/**
-		* gets an item from the internal unordered map.
+		* gets an item from the internal unordered std::map.
 		*/
-		virtual Variant getItem(const std::string& key) const;
+		Setting getItem(const std::string& key) const override;
 
 		/**
 		* is there a key matching this name.
 		*
 		* @retruns true if this key exists, false otherwise.
 		*/
-		virtual bool hasKey(const std::string& key) const;
+		bool hasKey(const std::string& key) const override;
 
 		/**
 		* remove a value
 		*/
-		virtual size_t deleteItem(const std::string& key);
+		size_t deleteItem(const std::string& key) override;
 
 		/**
 		* list of keys in this object.
 		*/
-		virtual std::vector<std::string> getKeys() const;
-
+		std::vector<std::string> getKeys() const override;
 
 		inline bool getConservedMoietyConversion() const {
 			return modelGeneratorOpt & CONSERVED_MOIETIES;
@@ -238,7 +232,7 @@ namespace rr
 	* documentation of the fields which correspond to an sbml test suite settings was
 	* taken from http://sbml.org
 	*/
-	class RR_DECLSPEC SimulateOptions : public BasicDictionary
+	class RR_DECLSPEC SimulateOptions //: public BasicDictionary
 	{
 	public:
 
@@ -282,7 +276,7 @@ namespace rr
 		double duration;
 
 
-        /**
+		/**
         * The ouptut file for simulation results. If non-empty, then the
         * simulation results are batch-written to output_file every 
         * Config::K_ROWS_PER_WRITE rows, and an empty
@@ -320,6 +314,12 @@ namespace rr
 		*/
 		std::vector<std::string> concentrations;
 
+		/*
+		* A list of the requested output times.  If set, the simulator will only
+		* report simulation output at the requested values.
+		*/
+		std::vector<double> times;
+
 		/**
 		* get a description of this object, compatable with python __str__
 		*/
@@ -338,7 +338,16 @@ namespace rr
 		 */
 		void loadSBMLSettings(const std::string& filename);
 
-    virtual void setItem(const std::string& key, const rr::Variant& value);
+        //virtual void setItem(const std::string& key, const rr::Setting& value);
+
+		virtual void initialize();
+
+		virtual double getNext(size_t step);
+
+    private:
+
+		double hstep; //Used if we have a duration and number of steps, but not 'times'.
+
 
 	};
 
@@ -365,7 +374,7 @@ namespace rr
 		/**
 		* a bitmask of the options specified in the Options enumeration.
 		*/
-		uint32_t flags;
+		std::uint32_t flags;
 
 		/**
 		* step size used for numeric Jacobian calculations.

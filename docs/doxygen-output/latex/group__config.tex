@@ -1,0 +1,147 @@
+\hypertarget{group__config}{}\doxysection{Configuration keys/values}
+\label{group__config}\index{Configuration keys/values@{Configuration keys/values}}
+
+
+Loads and sets configuration options.  
+
+
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+C\+\_\+\+DECL\+\_\+\+SPEC int rrc\+Call\+Conv \mbox{\hyperlink{group__config_ga40e2c5a001c602ed3c3391a11197058a}{set\+Config\+Bool}} (const char $\ast$key, int value)
+\begin{DoxyCompactList}\small\item\em Set a boolean configuration value. \end{DoxyCompactList}\item 
+C\+\_\+\+DECL\+\_\+\+SPEC int rrc\+Call\+Conv \mbox{\hyperlink{group__config_ga1b7b8b7da9293048efbf9b5f7516e343}{get\+Config\+Bool}} (const char $\ast$key)
+\begin{DoxyCompactList}\small\item\em Get a boolean configuration value. \end{DoxyCompactList}\item 
+C\+\_\+\+DECL\+\_\+\+SPEC int rrc\+Call\+Conv \mbox{\hyperlink{group__config_ga7b6dbe4176018c39aeaacbda1e7e3bdf}{set\+Config\+Int}} (const char $\ast$key, int value)
+\begin{DoxyCompactList}\small\item\em Set an integer configuration value. \end{DoxyCompactList}\item 
+C\+\_\+\+DECL\+\_\+\+SPEC int rrc\+Call\+Conv \mbox{\hyperlink{group__config_ga98c02a19a1b4f8670f7325d76fa765d3}{get\+Config\+Int}} (const char $\ast$key)
+\begin{DoxyCompactList}\small\item\em Get an integer configuration value. \end{DoxyCompactList}\item 
+C\+\_\+\+DECL\+\_\+\+SPEC int rrc\+Call\+Conv \mbox{\hyperlink{group__config_ga7d88b86313f205f7048083cfce654736}{set\+Config\+Double}} (const char $\ast$key, double value)
+\begin{DoxyCompactList}\small\item\em Set a double configuration value. \end{DoxyCompactList}\item 
+C\+\_\+\+DECL\+\_\+\+SPEC double rrc\+Call\+Conv \mbox{\hyperlink{group__config_ga6528c643dd196a5c91a95455f954076d}{get\+Config\+Double}} (const char $\ast$key)
+\begin{DoxyCompactList}\small\item\em Get a double configuration value. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{group__config_gaa2b527610b79828322a6b5d03ab4ace9}\label{group__config_gaa2b527610b79828322a6b5d03ab4ace9}} 
+C\+\_\+\+DECL\+\_\+\+SPEC \mbox{\hyperlink{rrc__types_8h_a7c9475df6c7337d99482b13a365e7596}{RRString\+Array\+Ptr}} rrc\+Call\+Conv \mbox{\hyperlink{group__config_gaa2b527610b79828322a6b5d03ab4ace9}{get\+List\+Of\+Config\+Keys}} ()
+\begin{DoxyCompactList}\small\item\em Get a list of all possible config keys. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Loads and sets configuration options. 
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{group__config_ga1b7b8b7da9293048efbf9b5f7516e343}\label{group__config_ga1b7b8b7da9293048efbf9b5f7516e343}} 
+\index{Configuration keys/values@{Configuration keys/values}!getConfigBool@{getConfigBool}}
+\index{getConfigBool@{getConfigBool}!Configuration keys/values@{Configuration keys/values}}
+\doxysubsubsection{\texorpdfstring{getConfigBool()}{getConfigBool()}}
+{\footnotesize\ttfamily C\+\_\+\+DECL\+\_\+\+SPEC int rrc\+Call\+Conv get\+Config\+Bool (\begin{DoxyParamCaption}\item[{const char $\ast$}]{key }\end{DoxyParamCaption})}
+
+
+
+Get a boolean configuration value. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em key} & The configuration key \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+On error, sets an error message which can be retrieved via \mbox{\hyperlink{group__errorfunctions_gaa698640f13467d87966d8b90f0c3944c}{get\+Last\+Error}} 
+\end{DoxyNote}
+\mbox{\Hypertarget{group__config_ga6528c643dd196a5c91a95455f954076d}\label{group__config_ga6528c643dd196a5c91a95455f954076d}} 
+\index{Configuration keys/values@{Configuration keys/values}!getConfigDouble@{getConfigDouble}}
+\index{getConfigDouble@{getConfigDouble}!Configuration keys/values@{Configuration keys/values}}
+\doxysubsubsection{\texorpdfstring{getConfigDouble()}{getConfigDouble()}}
+{\footnotesize\ttfamily C\+\_\+\+DECL\+\_\+\+SPEC double rrc\+Call\+Conv get\+Config\+Double (\begin{DoxyParamCaption}\item[{const char $\ast$}]{key }\end{DoxyParamCaption})}
+
+
+
+Get a double configuration value. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em key} & The configuration key \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+On error, sets an error message which can be retrieved via \mbox{\hyperlink{group__errorfunctions_gaa698640f13467d87966d8b90f0c3944c}{get\+Last\+Error}} 
+\end{DoxyNote}
+\mbox{\Hypertarget{group__config_ga98c02a19a1b4f8670f7325d76fa765d3}\label{group__config_ga98c02a19a1b4f8670f7325d76fa765d3}} 
+\index{Configuration keys/values@{Configuration keys/values}!getConfigInt@{getConfigInt}}
+\index{getConfigInt@{getConfigInt}!Configuration keys/values@{Configuration keys/values}}
+\doxysubsubsection{\texorpdfstring{getConfigInt()}{getConfigInt()}}
+{\footnotesize\ttfamily C\+\_\+\+DECL\+\_\+\+SPEC int rrc\+Call\+Conv get\+Config\+Int (\begin{DoxyParamCaption}\item[{const char $\ast$}]{key }\end{DoxyParamCaption})}
+
+
+
+Get an integer configuration value. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em key} & The configuration key \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+On error, sets an error message which can be retrieved via \mbox{\hyperlink{group__errorfunctions_gaa698640f13467d87966d8b90f0c3944c}{get\+Last\+Error}} 
+\end{DoxyNote}
+\mbox{\Hypertarget{group__config_ga40e2c5a001c602ed3c3391a11197058a}\label{group__config_ga40e2c5a001c602ed3c3391a11197058a}} 
+\index{Configuration keys/values@{Configuration keys/values}!setConfigBool@{setConfigBool}}
+\index{setConfigBool@{setConfigBool}!Configuration keys/values@{Configuration keys/values}}
+\doxysubsubsection{\texorpdfstring{setConfigBool()}{setConfigBool()}}
+{\footnotesize\ttfamily C\+\_\+\+DECL\+\_\+\+SPEC int rrc\+Call\+Conv set\+Config\+Bool (\begin{DoxyParamCaption}\item[{const char $\ast$}]{key,  }\item[{int}]{value }\end{DoxyParamCaption})}
+
+
+
+Set a boolean configuration value. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em key} & The configuration key \\
+\hline
+\mbox{\texttt{ in}}  & {\em value} & The value to assign to the configuration key \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns positive if successful 
+\end{DoxyReturn}
+\mbox{\Hypertarget{group__config_ga7d88b86313f205f7048083cfce654736}\label{group__config_ga7d88b86313f205f7048083cfce654736}} 
+\index{Configuration keys/values@{Configuration keys/values}!setConfigDouble@{setConfigDouble}}
+\index{setConfigDouble@{setConfigDouble}!Configuration keys/values@{Configuration keys/values}}
+\doxysubsubsection{\texorpdfstring{setConfigDouble()}{setConfigDouble()}}
+{\footnotesize\ttfamily C\+\_\+\+DECL\+\_\+\+SPEC int rrc\+Call\+Conv set\+Config\+Double (\begin{DoxyParamCaption}\item[{const char $\ast$}]{key,  }\item[{double}]{value }\end{DoxyParamCaption})}
+
+
+
+Set a double configuration value. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em key} & The configuration key \\
+\hline
+\mbox{\texttt{ in}}  & {\em value} & The value to assign to the configuration key \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns positive if successful 
+\end{DoxyReturn}
+\mbox{\Hypertarget{group__config_ga7b6dbe4176018c39aeaacbda1e7e3bdf}\label{group__config_ga7b6dbe4176018c39aeaacbda1e7e3bdf}} 
+\index{Configuration keys/values@{Configuration keys/values}!setConfigInt@{setConfigInt}}
+\index{setConfigInt@{setConfigInt}!Configuration keys/values@{Configuration keys/values}}
+\doxysubsubsection{\texorpdfstring{setConfigInt()}{setConfigInt()}}
+{\footnotesize\ttfamily C\+\_\+\+DECL\+\_\+\+SPEC int rrc\+Call\+Conv set\+Config\+Int (\begin{DoxyParamCaption}\item[{const char $\ast$}]{key,  }\item[{int}]{value }\end{DoxyParamCaption})}
+
+
+
+Set an integer configuration value. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em key} & The configuration key \\
+\hline
+\mbox{\texttt{ in}}  & {\em value} & The value to assign to the configuration key \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns positive if successful 
+\end{DoxyReturn}

@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="group__LinearAlgebra" kind="group">
+    <compoundname>LinearAlgebra</compoundname>
+    <title>Linear algebra functions</title>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__LinearAlgebra_1ga142092d1f7edcc6500f1b965abed68be" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC <ref refid="rrc__types_8h_1ae586a879d30f0823087e42d93464b5dd" kindref="member">RRDoubleMatrixPtr</ref> rrcCallConv</type>
+        <definition>C_DECL_SPEC RRDoubleMatrixPtr rrcCallConv getEigenvaluesMatrix</definition>
+        <argsstring>(const RRDoubleMatrixPtr mat)</argsstring>
+        <name>getEigenvaluesMatrix</name>
+        <param>
+          <type>const <ref refid="rrc__types_8h_1ae586a879d30f0823087e42d93464b5dd" kindref="member">RRDoubleMatrixPtr</ref></type>
+          <declname>mat</declname>
+        </param>
+        <briefdescription>
+<para>Compute the eigenvalues of a double matrix. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mat</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to a to double matrix </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns NULL if it fails, otherwise returns a matrix of eigenvalues. The first column will contain the real values and the second column the imaginary values </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_libstruct_api.h" line="120" column="43" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_libstruct_api.h" declline="120" declcolumn="43"/>
+      </memberdef>
+      <memberdef kind="function" id="group__LinearAlgebra_1ga9902e4c49cc0334f2d2b297b977856c3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC <ref refid="rrc__types_8h_1ae05c63419a6ca0575eb327fd04dae4b5" kindref="member">RRComplexVectorPtr</ref> rrcCallConv</type>
+        <definition>C_DECL_SPEC RRComplexVectorPtr rrcCallConv getEigenvaluesVector</definition>
+        <argsstring>(const RRDoubleMatrixPtr mat)</argsstring>
+        <name>getEigenvaluesVector</name>
+        <param>
+          <type>const <ref refid="rrc__types_8h_1ae586a879d30f0823087e42d93464b5dd" kindref="member">RRDoubleMatrixPtr</ref></type>
+          <declname>mat</declname>
+        </param>
+        <briefdescription>
+<para>Compute the eigenvalues of a double matrix. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mat</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to input matrix </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns null if it fails, otherwise returns a complex vector of eigenvalues. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_libstruct_api.h" line="129" column="44" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_libstruct_api.h" declline="129" declcolumn="44"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Linear algebra utility functions. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

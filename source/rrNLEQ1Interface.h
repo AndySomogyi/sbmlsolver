@@ -3,7 +3,9 @@
 #include <vector>
 #include "rrExporter.h"
 #include "rrExecutableModel.h"
-#include "rrSteadyStateSolver.h"
+#include "Dictionary.h"
+
+
 using std::vector;
 
 namespace rr
@@ -12,7 +14,7 @@ namespace rr
 /**
  * @internal
  */
-class RR_DECLSPEC NLEQ1Interface : public rrSteadyStateSolver
+class RR_DECLSPEC NLEQ1Interface : public Dictionary
 {
 
 public:
@@ -39,12 +41,12 @@ public:
     /**
      * set an arbitrary key
      */
-    virtual void setItem(const std::string& key, const rr::Variant& value);
+    virtual void setItem(const std::string& key, const rr::Setting& value);
 
     /**
      * get a value. Variants are POD.
      */
-    virtual Variant getItem(const std::string& key) const;
+    virtual Setting getItem(const std::string& key) const;
 
     /**
      * is there a key matching this name.
@@ -82,6 +84,7 @@ private:
 
     bool isAvailable();
 
+public:
     bool allowPreSim;
     double preSimTolerance;
     int preSimMaximumSteps;
@@ -100,7 +103,7 @@ private:
     /// Sets the Scaling Factors
     /// </summary>
     /// <param name="sx">Array of Scaling factors</param>
-    void                            setScalingFactors(const vector<double>& sx);
+    void                            setScalingFactors(const std::vector<double>& sx);
 
     /// <summary>
     /// Returns the Number of Newton Iterations

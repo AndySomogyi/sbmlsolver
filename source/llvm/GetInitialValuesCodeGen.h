@@ -28,9 +28,25 @@ public:
     GetFloatingSpeciesInitConcentrationCodeGen(const ModelGeneratorContext &mgc);
     ~GetFloatingSpeciesInitConcentrationCodeGen() {};
 
-    std::vector<string> getIds()
+    std::vector<std::string> getIds()
     {
         return dataSymbols.getFloatingSpeciesIds();
+    }
+
+    static const char* FunctionName;
+    static const char* IndexArgName;
+};
+
+class GetBoundarySpeciesInitConcentrationCodeGen : public
+    GetInitialValueCodeGenBase<GetBoundarySpeciesInitConcentrationCodeGen, false>
+{
+public:
+    GetBoundarySpeciesInitConcentrationCodeGen(const ModelGeneratorContext& mgc);
+    ~GetBoundarySpeciesInitConcentrationCodeGen() {};
+
+    std::vector<string> getIds()
+    {
+        return dataSymbols.getBoundarySpeciesIds();
     }
 
     static const char* FunctionName;
@@ -44,9 +60,25 @@ public:
     GetFloatingSpeciesInitAmountCodeGen(const ModelGeneratorContext &mgc);
     ~GetFloatingSpeciesInitAmountCodeGen() {};
 
-    std::vector<string> getIds()
+    std::vector<std::string> getIds()
     {
         return dataSymbols.getFloatingSpeciesIds();
+    }
+
+    static const char* FunctionName;
+    static const char* IndexArgName;
+};
+
+class GetBoundarySpeciesInitAmountCodeGen : public
+    GetInitialValueCodeGenBase<GetBoundarySpeciesInitAmountCodeGen, true>
+{
+public:
+    GetBoundarySpeciesInitAmountCodeGen(const ModelGeneratorContext& mgc);
+    ~GetBoundarySpeciesInitAmountCodeGen() {};
+
+    std::vector<string> getIds()
+    {
+        return dataSymbols.getBoundarySpeciesIds();
     }
 
     static const char* FunctionName;
@@ -60,7 +92,7 @@ public:
     GetCompartmentInitVolumeCodeGen(const ModelGeneratorContext &mgc);
     ~GetCompartmentInitVolumeCodeGen() {};
 
-    std::vector<string> getIds()
+    std::vector<std::string> getIds()
     {
         return dataSymbols.getCompartmentIds();
     }
@@ -76,7 +108,7 @@ public:
     GetGlobalParameterInitValueCodeGen(const ModelGeneratorContext &mgc);
     ~GetGlobalParameterInitValueCodeGen() {};
 
-    std::vector<string> getIds()
+    std::vector<std::string> getIds()
     {
         return dataSymbols.getGlobalParameterIds();
     }

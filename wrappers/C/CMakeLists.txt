@@ -13,16 +13,8 @@ set(
         rrc_libstruct_api.h
         rrc_utilities.h
         rrc_cpp_support.h
-#=======
-#set(C_API_INCLUDE_ROOT "${RR_ROOT}/wrappers/C")
-
-
-#include_directories(
-#${RR_GENERATED_HEADER_PATH}     #we have to do this to get the generated header, NEEDED FOR rrVersionInfo.h file
-#${C_API_INCLUDE_ROOT}
-#${RR_ROOT}/source
-#${THIRD_PARTY_INSTALL_FOLDER}/include
-#>>>>>>> 32624909156eb38d84edf40566b07980f7435fca
+		rrc_exporter.h
+		rrc_types.h
 )
 
 set(
@@ -51,7 +43,8 @@ target_include_directories(${target} PUBLIC
 # Note: properties of roadrunner-static are transitive. Link libraries and
 # include_directories for roadrunner-static all come with the
 # roadrunner-static target automatically.
-target_link_libraries(${target} PUBLIC roadrunner-static)
+target_link_libraries(${target} PUBLIC roadrunner-static "$<TARGET_PROPERTY:roadrunner-static,LINK_LIBRARIES>"
+		)
 
 add_dependencies(${target} roadrunner-static)
 
@@ -77,5 +70,23 @@ install(
         EXPORT_LINK_INTERFACE_LIBRARIES
 )
 
+# Create a static c api, too.
 
+#The C-api is built as a shared library..
+add_library(${target}-static STATIC ${HEADERS} ${SOURCES})
+
+target_include_directories(${target}-static PUBLIC
+        "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/..>" # for #include "C/rrc_api.h"
+        "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>"
+        )
+
+# link statically so users of the c library will not also need the shared.
+# Note: properties of roadrunner-static are transitive. Link libraries and
+# include_directories for roadrunner-static all come with the
+# roadrunner-static target automatically.
+target_link_libraries(${target}-static PUBLIC roadrunner-static)
+
+add_dependencies(${target}-static roadrunner-static)
+
+target_compile_definitions(${target}-static PRIVATE EXPORT_RRC STATIC_RR)
 

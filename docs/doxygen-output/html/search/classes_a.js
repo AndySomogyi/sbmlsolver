@@ -1,17 +1,19 @@
 var searchData=
 [
-  ['modeldatairbuilder_990',['ModelDataIRBuilder',['../classrrllvm_1_1ModelDataIRBuilder.html',1,'rrllvm']]],
-  ['modeldataloadsymbolresolver_991',['ModelDataLoadSymbolResolver',['../classrrllvm_1_1ModelDataLoadSymbolResolver.html',1,'rrllvm']]],
-  ['modeldatastoresymbolresolver_992',['ModelDataStoreSymbolResolver',['../classrrllvm_1_1ModelDataStoreSymbolResolver.html',1,'rrllvm']]],
-  ['modelgeneratorcontext_993',['ModelGeneratorContext',['../classrrllvm_1_1ModelGeneratorContext.html',1,'rrllvm']]],
-  ['modelinitialvaluestoresymbolresolver_994',['ModelInitialValueStoreSymbolResolver',['../classrrllvm_1_1ModelInitialValueStoreSymbolResolver.html',1,'rrllvm']]],
-  ['modelinitialvaluesymbolresolver_995',['ModelInitialValueSymbolResolver',['../classrrllvm_1_1ModelInitialValueSymbolResolver.html',1,'rrllvm']]],
-  ['modelresources_996',['ModelResources',['../classrrllvm_1_1ModelResources.html',1,'rrllvm']]],
-  ['modelsharedlibrary_997',['ModelSharedLibrary',['../classrr_1_1ModelSharedLibrary.html',1,'rr']]],
-  ['modelsymbols_998',['ModelSymbols',['../classrr_1_1ModelSymbols.html',1,'rr']]],
-  ['mtrand_999',['MTRand',['../classMTRand.html',1,'']]],
-  ['mtrand53_1000',['MTRand53',['../classMTRand53.html',1,'']]],
-  ['mtrand_5fclosed_1001',['MTRand_closed',['../classMTRand__closed.html',1,'']]],
-  ['mtrand_5fint32_1002',['MTRand_int32',['../classMTRand__int32.html',1,'']]],
-  ['mtrand_5fopen_1003',['MTRand_open',['../classMTRand__open.html',1,'']]]
+  ['matrix_1538',['Matrix',['../classrr_1_1Matrix.html',1,'rr']]],
+  ['matrix3d_1539',['Matrix3D',['../classrr_1_1Matrix3D.html',1,'rr']]],
+  ['modeldatairbuilder_1540',['ModelDataIRBuilder',['../classrrllvm_1_1ModelDataIRBuilder.html',1,'rrllvm']]],
+  ['modeldataloadsymbolresolver_1541',['ModelDataLoadSymbolResolver',['../classrrllvm_1_1ModelDataLoadSymbolResolver.html',1,'rrllvm']]],
+  ['modeldatastoresymbolresolver_1542',['ModelDataStoreSymbolResolver',['../classrrllvm_1_1ModelDataStoreSymbolResolver.html',1,'rrllvm']]],
+  ['modelgeneratorcontext_1543',['ModelGeneratorContext',['../classrrllvm_1_1ModelGeneratorContext.html',1,'rrllvm']]],
+  ['modelinitialvaluestoresymbolresolver_1544',['ModelInitialValueStoreSymbolResolver',['../classrrllvm_1_1ModelInitialValueStoreSymbolResolver.html',1,'rrllvm']]],
+  ['modelinitialvaluesymbolresolver_1545',['ModelInitialValueSymbolResolver',['../classrrllvm_1_1ModelInitialValueSymbolResolver.html',1,'rrllvm']]],
+  ['modelresources_1546',['ModelResources',['../classrrllvm_1_1ModelResources.html',1,'rrllvm']]],
+  ['modelsharedlibrary_1547',['ModelSharedLibrary',['../classrr_1_1ModelSharedLibrary.html',1,'rr']]],
+  ['modelsymbols_1548',['ModelSymbols',['../classrr_1_1ModelSymbols.html',1,'rr']]],
+  ['mtrand_1549',['MTRand',['../classMTRand.html',1,'']]],
+  ['mtrand53_1550',['MTRand53',['../classMTRand53.html',1,'']]],
+  ['mtrand_5fclosed_1551',['MTRand_closed',['../classMTRand__closed.html',1,'']]],
+  ['mtrand_5fint32_1552',['MTRand_int32',['../classMTRand__int32.html',1,'']]],
+  ['mtrand_5fopen_1553',['MTRand_open',['../classMTRand__open.html',1,'']]]
 ];

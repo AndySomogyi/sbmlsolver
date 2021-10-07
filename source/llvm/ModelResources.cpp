@@ -44,7 +44,7 @@ namespace rrllvm
 {
 
 ModelResources::ModelResources() :
-        symbols(0), executionEngine(0), context(0), random(0), errStr(0)
+        symbols(nullptr), executionEngine(nullptr), context(nullptr), random(nullptr), errStr(nullptr)
 {
     // the reset of the ivars are assigned by the generator,
     // and in an exception they are not, does not matter as
@@ -53,11 +53,11 @@ ModelResources::ModelResources() :
 
 ModelResources::~ModelResources()
 {
-    Log(Logger::LOG_DEBUG) << __FUNC__;
+    rrLog(Logger::LOG_DEBUG) << __FUNC__;
 
-    if (errStr && errStr->size() > 0)
+    if (errStr && !errStr->empty())
     {
-        Log(Logger::LOG_WARNING) << "Non-empty LLVM ExecutionEngine error string: " << *errStr;
+        rrLog(Logger::LOG_WARNING) << "Non-empty LLVM ExecutionEngine error std::string: " << *errStr;
     }
 
     delete symbols;
@@ -201,7 +201,7 @@ void ModelResources::addGlobalMappings()
 }
 
 
-void ModelResources::loadState(std::istream& in, uint modelGeneratorOpt) 
+void ModelResources::loadState(std::istream& in, uint modelGeneratorOpt)
 {
 	if (symbols)
 		delete symbols;
@@ -342,6 +342,16 @@ void ModelResources::loadState(std::istream& in, uint modelGeneratorOpt)
 		setFloatingSpeciesInitAmountsPtr = (SetBoundarySpeciesAmountCodeGen::FunctionPtr)
 			executionEngine->getFunctionAddress("setFloatingSpeciesInitAmounts");
 
+		getBoundarySpeciesInitConcentrationsPtr = (GetBoundarySpeciesAmountCodeGen::FunctionPtr)
+			executionEngine->getFunctionAddress("getBoundarySpeciesInitConcentrations");
+		setBoundarySpeciesInitConcentrationsPtr = (SetBoundarySpeciesAmountCodeGen::FunctionPtr)
+			executionEngine->getFunctionAddress("setBoundarySpeciesInitConcentrations");
+
+		getBoundarySpeciesInitAmountsPtr = (GetBoundarySpeciesAmountCodeGen::FunctionPtr)
+			executionEngine->getFunctionAddress("getBoundarySpeciesInitAmounts");
+		setBoundarySpeciesInitAmountsPtr = (SetBoundarySpeciesAmountCodeGen::FunctionPtr)
+			executionEngine->getFunctionAddress("setBoundarySpeciesInitAmounts");
+
 		getCompartmentInitVolumesPtr = (GetBoundarySpeciesAmountCodeGen::FunctionPtr)
 			executionEngine->getFunctionAddress("getCompartmentInitVolumes");
 		setCompartmentInitVolumesPtr = (SetBoundarySpeciesAmountCodeGen::FunctionPtr)
@@ -358,6 +368,10 @@ void ModelResources::loadState(std::istream& in, uint modelGeneratorOpt)
 		setFloatingSpeciesInitConcentrationsPtr = 0;
 		getFloatingSpeciesInitAmountsPtr = 0;
 		setFloatingSpeciesInitAmountsPtr = 0;
+		getBoundarySpeciesInitConcentrationsPtr = 0;
+		setBoundarySpeciesInitConcentrationsPtr = 0;
+		getBoundarySpeciesInitAmountsPtr = 0;
+		setBoundarySpeciesInitAmountsPtr = 0;
 		getCompartmentInitVolumesPtr = 0;
 		setCompartmentInitVolumesPtr = 0;
 		getGlobalParameterInitValuePtr = 0;

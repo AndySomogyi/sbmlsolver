@@ -6,19 +6,25 @@
 #include "sbml/SBMLTypes.h"
 #include "sbml/SBMLReader.h"
 #include "../test_util.h"
+#include <filesystem>
+#include "RoadRunnerTest.h"
 
 using namespace testing;
 using namespace rr;
 using namespace std;
+using std::filesystem::path;
 
-extern string gRRTestDir;
-extern string gRROutputDir;
+class SBMLFeatures : public RoadRunnerTest {
+public:
+    path SBMLFeaturesDir = rrTestModelsDir_ / "SBMLFeatures";
+    SBMLFeatures() = default;
+};
 
-TEST(SBML_FEATURES, BOOLEAN_DELAY_1)
+TEST_F(SBMLFeatures, BOOLEAN_DELAY_1)
 {
     try
     {
-        RoadRunner rri(joinPath(gRRTestDir, "models/SBML_FEATURES/boolean_trigger.l3v2.xml"));
+        RoadRunner rri((SBMLFeaturesDir / "boolean_trigger.l3v2.xml").string());
         rri.validateCurrentSBML();
         rri.getSimulateOptions().duration = 2;
         rri.simulate();
@@ -33,11 +39,11 @@ TEST(SBML_FEATURES, BOOLEAN_DELAY_1)
         EXPECT_TRUE(false);
     }
 }
-TEST(SBML_FEATURES, BOOLEAN_DELAY_2)
+TEST_F(SBMLFeatures, BOOLEAN_DELAY_2)
 {
     try
     {
-        RoadRunner rri(joinPath(gRRTestDir, "models/SBML_FEATURES/boolean_trigger_2.l3v2.xml"));
+        RoadRunner rri((SBMLFeaturesDir / "boolean_trigger_2.l3v2.xml").string());
         rri.validateCurrentSBML();
         rri.getSimulateOptions().duration = 1;
         rri.simulate();

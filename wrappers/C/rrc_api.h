@@ -77,12 +77,12 @@ C_DECL_SPEC RRHandle rrcCallConv createRRInstanceEx(const char* tempFolder, cons
 */
 C_DECL_SPEC bool rrcCallConv freeRRInstance(RRHandle handle);
 
-/*!
- \brief Returns the folder in which the RoadRunner wrappers is installed
- \return Pointer to string holding the install folder
- \ingroup initialization
+/**
+ @brief Returns the folder in which the RoadRunner wrappers is installed
+ @return Pointer to string holding the install folder
+ @ingroup initialization
 */
-C_DECL_SPEC char* rrcCallConv  getInstallFolder(void);
+char* getInstallFolder(void);
 
 /*!
  \brief Set the internal string containing the folder in where the RoadRunner C wrappers is installed
@@ -452,7 +452,33 @@ C_DECL_SPEC char* rrcCallConv getSBML(RRHandle handle);
  \return Returns false if the call fails, otherwise returns a true
  \ingroup edit
 */
-C_DECL_SPEC bool rrcCallConv addSpecies(RRHandle handle, const char* sid, const char* compartment, double initialAmount, bool hasOnlySubstanceUnits, bool boundaryCondition);
+C_DECL_SPEC bool rrcCallConv addSpeciesAmount  (RRHandle handle, const char* sid, const char* compartment, double initialAmount,        bool hasOnlySubstanceUnits, bool boundaryCondition);
+
+/*!
+ \brief Add a species to the current model
+ \param[in] handle Handle to a RoadRunner instance
+ \param[in] sid ID of the species to be added
+ \param[in] compartment Compartment of the species to be added
+ \param[in] initialConcentration Initial concentration of the species to be added
+ \param[in] substanceUnit Substance unit of the species to be added
+ \return Returns false if the call fails, otherwise returns a true
+ \ingroup edit
+*/
+C_DECL_SPEC bool rrcCallConv addSpeciesConcentration (RRHandle handle, const char* sid, const char* compartment, double initialConcentration, bool hasOnlySubstanceUnits, bool boundaryCondition);
+
+/*!
+ \brief Add a species to the current model, without regenerating it
+        The last modification must regenerate for the modifications to take effect
+ \param[in] handle Handle to a RoadRunner instance
+ \param[in] sid ID of the species to be added
+ \param[in] compartment Compartment of the species to be added
+ \param[in] initialConcentration Initial concentration of the species to be added
+ \param[in] substanceUnit Substance unit of the species to be added
+ \return Returns false if the call fails, otherwise returns a true
+ \ingroup edit
+*/
+C_DECL_SPEC bool rrcCallConv addSpeciesConcentrationNoRegen(RRHandle handle, const char* sid, const char* compartment, double initialConcentration, bool hasOnlySubstanceUnits, bool boundaryCondition);
+
 
 /*!
  \brief Add a species to the current model, without regenerating it
@@ -465,7 +491,7 @@ C_DECL_SPEC bool rrcCallConv addSpecies(RRHandle handle, const char* sid, const 
  \return Returns false if the call fails, otherwise returns a true
  \ingroup edit
 */
-C_DECL_SPEC bool rrcCallConv addSpeciesNoRegen(RRHandle handle, const char* sid, const char* compartment, double initialAmount, bool hasOnlySubstanceUnits, bool boundaryCondition);
+C_DECL_SPEC bool rrcCallConv addSpeciesAmountNoRegen(RRHandle handle, const char* sid, const char* compartment, double initialAmount, bool hasOnlySubstanceUnits, bool boundaryCondition);
 
 
 /*!
@@ -802,6 +828,16 @@ C_DECL_SPEC bool rrcCallConv removeCompartment(RRHandle handle, const char* cid)
 */
 C_DECL_SPEC bool rrcCallConv removeCompartmentNoRegen(RRHandle handle, const char* cid);
 
+/*!
+\brief Add an initial assignment to an exsiting symbol of the current model
+\param vid : ID of symbol
+\param formula : the math formula of the initial assignment
+\param forceRegenerate : a boolean value to indicate if the model is regenerated
+after this function call default value is true to regenerate model after each call
+of editing function to save time for editing for multiple times, one could
+set this flag to true only in the last call of editing
+*/
+C_DECL_SPEC bool rrcCallConv addInitialAssignment (RRHandle handle, char* vid, char* formula, bool forceRegenerate);
 
 
 /*!
@@ -1065,6 +1101,16 @@ C_DECL_SPEC bool rrcCallConv removeEvent(RRHandle handle, const char* eid);
 */
 C_DECL_SPEC bool rrcCallConv removeEventsNoRegen(RRHandle handle, const char* eid);
 
+
+/*!
+ \brief After a model has been edited, it needs to be compiled. Call regenerate to 
+   recompile a model so that it is ready for use. 
+ \param[in] handle Handle to a RoadRunner instance
+ \return Returns false if the call fails, otherwise returns a true
+ \ingroup edit
+*/
+C_DECL_SPEC bool rrcCallConv regenerate (RRHandle handle);
+
 /*!
  \brief Validate the current SBML file
  \param[in] handle Handle to a RoadRunner instance
@@ -1280,7 +1326,7 @@ C_DECL_SPEC RRStringArrayPtr rrcCallConv getListOfCurrentIntegratorParameterName
 /*!
 \brief Get the description for a specific integrator setting.
 \param[in] handle Handle to a RoadRunner instance.
-\param[in] paramterName Name of the integrator setting.
+\param[in] parameterName Name of the integrator setting.
 \return Returns a description for the integrator setting.
 \ingroup simopts
 */
@@ -1289,7 +1335,7 @@ C_DECL_SPEC char* rrcCallConv getCurrentIntegratorParameterDescription (RRHandle
 /*!
 \brief Get the hint for a specific integrator setting.
 \param[in] handle Handle to a RoadRunner instance.
-\param[in] paramterName Name of the integrator setting.
+\param[in] parameterName Name of the integrator setting.
 \return Returns a hint for the integrator setting.
 \ingroup simopts
 */
@@ -1298,7 +1344,7 @@ C_DECL_SPEC char* rrcCallConv getCurrentIntegratorParameterHint (RRHandle handle
 /*!
 \brief Get the return type for a specific integrator setting.
 \param[in] handle Handle to a RoadRunner instance.
-\param[in] paramterName Name of the integrator setting.
+\param[in] parameterName Name of the integrator setting.
 \return Returns a integer that indicates the return type for the integrator setting. 0-STRING, 1-BOOL, 2-INT32, 3-UINT32, 4-INT64, 5-UINT64, 6-FLOAT, 7-DOUBLE, 8-CHAR, 9-UCHAR, 10-EMPTY
 \ingroup simopts
 */
@@ -1307,7 +1353,7 @@ C_DECL_SPEC int rrcCallConv getCurrentIntegratorParameterType (RRHandle handle, 
 /*!
 \brief Get the integer value for a specific integrator setting.
 \param[in] handle Handle to a RoadRunner instance.
-\param[in] paramterName Name of the integrator setting.
+\param[in] parameterName Name of the integrator setting.
 \return Returns an integer value for the integrator setting.
 \ingroup simopts
 */
@@ -1316,7 +1362,7 @@ C_DECL_SPEC int rrcCallConv getCurrentIntegratorParameterInt (RRHandle handle, c
 /*!
 \brief Set the integer value for a specific integrator setting.
 \param[in] handle Handle to a RoadRunner instance.
-\param[in] paramterName Name of the integrator setting.
+\param[in] parameterName Name of the integrator setting.
 \param[in] value The integer value for the integrator setting.
 \return Returns True if successful.
 \ingroup simopts
@@ -1326,7 +1372,7 @@ C_DECL_SPEC int rrcCallConv setCurrentIntegratorParameterInt (RRHandle handle, c
 /*!
 \brief Get the unsigned integer value for a specific integrator setting.
 \param[in] handle Handle to a RoadRunner instance.
-\param[in] paramterName Name of the integrator setting.
+\param[in] parameterName Name of the integrator setting.
 \return Returns an integer value for the integrator setting.
 \ingroup simopts
 */
@@ -1335,7 +1381,7 @@ C_DECL_SPEC unsigned int rrcCallConv getCurrentIntegratorParameterUInt (RRHandle
 /*!
 \brief Set the unsigned integer value for a specific integrator setting.
 \param[in] handle Handle to a RoadRunner instance.
-\param[in] paramterName Name of the integrator setting.
+\param[in] parameterName Name of the integrator setting.
 \param[in] value The integer value for the integrator setting.
 \return Returns True if successful.
 \ingroup simopts
@@ -1345,7 +1391,7 @@ C_DECL_SPEC int rrcCallConv setCurrentIntegratorParameterUInt (RRHandle handle, 
 /*!
 \brief Get the double value for a specific integrator setting.
 \param[in] handle Handle to a RoadRunner instance.
-\param[in] paramterName Name of the integrator setting.
+\param[in] parameterName Name of the integrator setting.
 \return Returns a double value for the integrator setting.
 \ingroup simopts
 */
@@ -1354,7 +1400,7 @@ C_DECL_SPEC double rrcCallConv getCurrentIntegratorParameterDouble (RRHandle han
 /*!
 \brief Set the double value for a specific integrator setting.
 \param[in] handle Handle to a RoadRunner instance.
-\param[in] paramterName Name of the integrator setting.
+\param[in] parameterName Name of the integrator setting.
 \param[in] value The double value for the integrator setting.
 \return Returns True if successful.
 \ingroup simopts
@@ -1364,7 +1410,7 @@ C_DECL_SPEC int rrcCallConv setCurrentIntegratorParameterDouble (RRHandle handle
 /*!
 \brief Get the string value for a specific integrator setting.
 \param[in] handle Handle to a RoadRunner instance.
-\param[in] paramterName Name of the integrator setting.
+\param[in] parameterName Name of the integrator setting.
 \return Returns a string value for the integrator setting.
 \ingroup simopts
 */
@@ -1373,7 +1419,7 @@ C_DECL_SPEC char* rrcCallConv getCurrentIntegratorParameterString (RRHandle hand
 /*!
 \brief Set the string value for a specific integrator setting.
 \param[in] handle Handle to a RoadRunner instance.
-\param[in] paramterName Name of the integrator setting.
+\param[in] parameterName Name of the integrator setting.
 \param[in] value The string value for the integrator setting.
 \return Returns True if successful.
 \ingroup simopts
@@ -1383,7 +1429,7 @@ C_DECL_SPEC int rrcCallConv setCurrentIntegratorParameterString (RRHandle handle
 /*!
 \brief Get the boolean value for a specific integrator setting.
 \param[in] handle Handle to a RoadRunner instance.
-\param[in] paramterName Name of the integrator setting.
+\param[in] parameterName Name of the integrator setting.
 \return Returns a boolean value for the integrator setting.
 \ingroup simopts
 */
@@ -1392,7 +1438,7 @@ C_DECL_SPEC int rrcCallConv getCurrentIntegratorParameterBoolean (RRHandle handl
 /*!
 \brief Set the boolean value for a specific integrator setting.
 \param[in] handle Handle to a RoadRunner instance.
-\param[in] paramterName Name of the integrator setting.
+\param[in] parameterName Name of the integrator setting.
 \param[in] value The boolean value for the integrator setting.
 \return Returns True if successful.
 \ingroup simopts
@@ -1403,7 +1449,7 @@ C_DECL_SPEC int rrcCallConv setCurrentIntegratorParameterBoolean (RRHandle handl
 /*!
 \brief Get the double array value for a specific integrator setting. Should only used for absoluate tolerace.
 \param[in] handle Handle to a RoadRunner instance.
-\param[in] paramterName Name of the integrator setting.
+\param[in] parameterName Name of the integrator setting.
 \param[in] value Return the values as in this double array.
 \param[in] len Return the length double array.
 \return Returns True if successful.
@@ -1414,7 +1460,7 @@ C_DECL_SPEC int rrcCallConv getCurrentIntegratorParameterDoubleArray (RRHandle h
 /*!
 \brief Set the double array value for a specific integrator setting. Should only used for absoluate tolerace.
 \param[in] handle Handle to a RoadRunner instance.
-\param[in] paramterName Name of the integrator setting.
+\param[in] parameterName Name of the integrator setting.
 \param[in] value The double array value for the integrator setting.
 \param[in] len The length of given soubld array.
 \return Returns True if successful.
@@ -1447,7 +1493,7 @@ C_DECL_SPEC int rrcCallConv setCurrentIntegratorVectorConcentrationTolerance(RRH
 /*!
 \brief Set the double array value for a specific integrator setting. Should only used for absoluate tolerace.
 \param[in] handle Handle to a RoadRunner instance.
-\param[in] paramterName Name of the integrator setting.
+\param[in] parameterName Name of the integrator setting.
 \param[in] value The double array value for the integrator setting.
 \param[in] len The length of given soubld array.
 \return Returns True if successful.
@@ -1601,7 +1647,7 @@ C_DECL_SPEC RRStringArrayPtr rrcCallConv getListOfCurrentSteadyStateSolverParame
 /*!
 \brief Get the description for a specific steady state solver setting.
 \param[in] handle Handle to a RoadRunner instance.
-\param[in] paramterName Name of the steady state solver setting.
+\param[in] parameterName Name of the steady state solver setting.
 \return Returns a description for the steady state solver setting.
 \ingroup simopts
 */
@@ -1610,7 +1656,7 @@ C_DECL_SPEC char* rrcCallConv getCurrentSteadyStateSolverParameterDescription (R
 /*!
 \brief Get the hint for a specific steady state solver setting.
 \param[in] handle Handle to a RoadRunner instance.
-\param[in] paramterName Name of the steady state solver setting.
+\param[in] parameterName Name of the steady state solver setting.
 \return Returns a hint for the steady state solver setting.
 \ingroup simopts
 */
@@ -1619,7 +1665,7 @@ C_DECL_SPEC char* rrcCallConv getCurrentSteadyStateSolverParameterHint (RRHandle
 /*!
 \brief Get the return type for a specific steady state solver setting.
 \param[in] handle Handle to a RoadRunner instance.
-\param[in] paramterName Name of the steady state solver setting.
+\param[in] parameterName Name of the steady state solver setting.
 \return Returns a integer that indicates the return type for the steady state solver setting. 0-STRING, 1-BOOL, 2-INT32, 3-UINT32, 4-INT64, 5-UINT64, 6-FLOAT, 7-DOUBLE, 8-CHAR, 9-UCHAR, 10-EMPTY
 \ingroup simopts
 */
@@ -1628,7 +1674,7 @@ C_DECL_SPEC int rrcCallConv getCurrentSteadyStateSolverParameterType (RRHandle h
 /*!
 \brief Get the integer value for a specific steady state solver setting.
 \param[in] handle Handle to a RoadRunner instance.
-\param[in] paramterName Name of the steady state solver setting.
+\param[in] parameterName Name of the steady state solver setting.
 \return Returns an integer value for the steady state solver setting.
 \ingroup simopts
 */
@@ -1637,7 +1683,7 @@ C_DECL_SPEC int rrcCallConv getCurrentSteadyStateSolverParameterInt (RRHandle ha
 /*!
 \brief Set the integer value for a specific steady state solver setting.
 \param[in] handle Handle to a RoadRunner instance.
-\param[in] paramterName Name of the steady state solver setting.
+\param[in] parameterName Name of the steady state solver setting.
 \param[in] value The integer value for the steady state solver setting.
 \return Returns True if successful.
 \ingroup simopts
@@ -1647,7 +1693,7 @@ C_DECL_SPEC int rrcCallConv setCurrentSteadyStateSolverParameterInt (RRHandle ha
 /*!
 \brief Get the unsigned integer value for a specific steady state solver setting.
 \param[in] handle Handle to a RoadRunner instance.
-\param[in] paramterName Name of the steady state solver setting.
+\param[in] parameterName Name of the steady state solver setting.
 \return Returns an integer value for the steady state solver setting.
 \ingroup simopts
 */
@@ -1656,7 +1702,7 @@ C_DECL_SPEC unsigned int rrcCallConv getCurrentSteadyStateSolverParameterUInt (R
 /*!
 \brief Set the unsigned integer value for a specific steady state solver setting.
 \param[in] handle Handle to a RoadRunner instance.
-\param[in] paramterName Name of the steady state solver setting.
+\param[in] parameterName Name of the steady state solver setting.
 \param[in] value The integer value for the steady state solver setting.
 \return Returns True if successful.
 \ingroup simopts
@@ -1666,7 +1712,7 @@ C_DECL_SPEC int rrcCallConv setCurrentSteadyStateSolverParameterUInt (RRHandle h
 /*!
 \brief Get the double value for a specific steady state solver setting.
 \param[in] handle Handle to a RoadRunner instance.
-\param[in] paramterName Name of the steady state solver setting.
+\param[in] parameterName Name of the steady state solver setting.
 \return Returns a double value for the steady state solver setting.
 \ingroup simopts
 */
@@ -1675,7 +1721,7 @@ C_DECL_SPEC double rrcCallConv getCurrentSteadyStateSolverParameterDouble (RRHan
 /*!
 \brief Set the double value for a specific steady state solver setting.
 \param[in] handle Handle to a RoadRunner instance.
-\param[in] paramterName Name of the steady state solver setting.
+\param[in] parameterName Name of the steady state solver setting.
 \param[in] value The double value for the steady state solver setting.
 \return Returns True if successful.
 \ingroup simopts
@@ -1685,7 +1731,7 @@ C_DECL_SPEC int rrcCallConv setCurrentSteadyStateSolverParameterDouble (RRHandle
 /*!
 \brief Get the string value for a specific steady state solver setting.
 \param[in] handle Handle to a RoadRunner instance.
-\param[in] paramterName Name of the steady state solver setting.
+\param[in] parameterName Name of the steady state solver setting.
 \return Returns a string value for the steady state solver setting.
 \ingroup simopts
 */
@@ -1694,7 +1740,7 @@ C_DECL_SPEC char* rrcCallConv getCurrentSteadyStateSolverParameterString (RRHand
 /*!
 \brief Set the string value for a specific steady state solver setting.
 \param[in] handle Handle to a RoadRunner instance.
-\param[in] paramterName Name of the steady state solver setting.
+\param[in] parameterName Name of the steady state solver setting.
 \param[in] value The string value for the steady state solver setting.
 \return Returns True if successful.
 \ingroup simopts
@@ -1704,7 +1750,7 @@ C_DECL_SPEC int rrcCallConv setCurrentSteadyStateSolverParameterString (RRHandle
 /*!
 \brief Get the boolean value for a specific steady state solver setting.
 \param[in] handle Handle to a RoadRunner instance.
-\param[in] paramterName Name of the steady state solver setting.
+\param[in] parameterName Name of the steady state solver setting.
 \return Returns a boolean value for the steady state solver setting.
 \ingroup simopts
 */
@@ -1713,7 +1759,7 @@ C_DECL_SPEC int rrcCallConv getCurrentSteadyStateSolverParameterBoolean (RRHandl
 /*!
 \brief Set the boolean value for a specific steady state solver setting.
 \param[in] handle Handle to a RoadRunner instance.
-\param[in] paramterName Name of the steady state solver setting.
+\param[in] parameterName Name of the steady state solver setting.
 \param[in] value The boolean value for the steady state solver setting.
 \return Returns True if successful.
 \ingroup simopts
@@ -1747,6 +1793,17 @@ C_DECL_SPEC bool rrcCallConv setTimeEnd(RRHandle handle, double timeEnd);
  \ingroup simulation
 */
 C_DECL_SPEC bool rrcCallConv setNumPoints(RRHandle handle, int numberOfPoints);
+
+
+/*!
+ \brief Set the times vector to output in a time course simulation
+ \param[in] handle Handle to a RoadRunner instance
+ \param[in] times vector of doubles to use as time output points.
+ \param[in] size length of the times vector.
+ \return Returns true if successful
+ \ingroup simulation
+*/
+C_DECL_SPEC bool rrcCallConv setTimes(RRHandle handle, double* times, int size);
 
 
 /*!
@@ -1790,6 +1847,18 @@ C_DECL_SPEC RRStringArrayPtr rrcCallConv getTimeCourseSelectionList(RRHandle han
 C_DECL_SPEC RRCDataPtr rrcCallConv simulate(RRHandle handle);
 
 /*!
+ \brief Carry out a time-course simulation. setTimeStart, setTimeEnd,
+ setNumPoints, etc are used to set the simulation characteristics.
+
+ \param[in] handle Handle to a RoadRunner instance
+ \return Returns an array (RRCDataPtr) of columns containing the results of the
+ simulation including string labels for the individual columns. The client is
+ responsible for freeing the resulting RRCDataPtr structure.
+ \ingroup simulation
+*/
+C_DECL_SPEC bool rrcCallConv simulateNoReturn(RRHandle handle);
+
+/*!
  \brief Retrieve the result of the last simulation.
  \param[in] handle Handle to a RoadRunner instance
  \return Returns an array (RRCDataPtr) of columns containing the results of the
@@ -1798,6 +1867,16 @@ C_DECL_SPEC RRCDataPtr rrcCallConv simulate(RRHandle handle);
  \ingroup simulation
 */
 C_DECL_SPEC RRCDataPtr rrcCallConv getSimulationResult(RRHandle handle);
+
+
+/*!
+ \brief Retrieve the result of the last simulation as a DoubleMatrix
+ \param[in] handle Handle to a RoadRunner instance
+ \return Returns a pointer (RRHandle) containing the results of the
+ simulation.  The pointer is *not* owned by the caller.
+ \ingroup simulation
+*/
+C_DECL_SPEC RRHandle rrcCallConv getSimulationResultAsDoubleMatrix(RRHandle handle);
 
 
 /*!
@@ -1825,6 +1904,55 @@ C_DECL_SPEC RRCDataPtr rrcCallConv getSimulationResult(RRHandle handle);
  \ingroup simulation
 */
 C_DECL_SPEC RRCDataPtr rrcCallConv simulateEx(RRHandle handle, const double timeStart, const double timeEnd, const int numberOfPoints);
+
+/*!
+ \brief Carry out a time-course simulation based on the given arguments, time start,
+ time end and number of points, but do not return results.
+
+ Example:
+ \code
+    RRCDataPtr m;
+
+    double timeStart = 0.0;
+    double timeEnd = 25;
+    int numberOfPoints = 200;
+
+    m = simulateEx (rrHandle, timeStart, timeEnd, numberOfPoints);
+    \endcode
+
+ \param[in] handle Handle to a RoadRunner instance
+ \param[in] timeStart Time start
+ \param[in] timeEnd Time end
+ \param[in] numberOfPoints Number of points to generate
+ \return Returns an array (RRCDataPtr) of columns containing the results of the
+ simulation including string labels for the individual columns. The client is
+ responsible for freeing the resulting RRCDataPtr structure.
+ \ingroup simulation
+*/
+C_DECL_SPEC bool rrcCallConv simulateExNoReturn(RRHandle handle, const double timeStart, const double timeEnd, const int numberOfPoints);
+
+/*!
+ \brief Carry out a time-course simulation based on the given arguments, time start,
+ time end and number of points.
+
+ Example:
+ \code
+    RRCDataPtr m;
+
+    double[4] times = {0, 1, 5, 10};
+
+    m = simulateTimes (rrHandle, times, 4);
+    \endcode
+
+ \param[in] handle Handle to a RoadRunner instance
+ \param[in] times array of time points
+ \param[in] size size of time point array
+ \return Returns an array (RRCDataPtr) of columns containing the results of the
+ simulation including string labels for the individual columns. The client is
+ responsible for freeing the resulting RRCDataPtr structure.
+ \ingroup simulation
+*/
+C_DECL_SPEC RRCDataPtr rrcCallConv simulateTimes(RRHandle handle, const double* times, int size);
 
 /*!
  \brief Carry out a one step integration of the model

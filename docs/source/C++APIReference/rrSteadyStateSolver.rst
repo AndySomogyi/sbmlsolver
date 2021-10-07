@@ -1,7 +1,7 @@
 rrSteadyStateSolver
 =======================================================
 
-.. doxygenclass:: rr::rrSteadyStateSolver
+.. doxygenclass:: rr::SteadyStateSolver
     :members:
     :protected-members:
     :private-members:

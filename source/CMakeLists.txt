@@ -36,7 +36,6 @@ set(rrHeaders)
 set(
         rrCoreSources
         rrConfig.cpp
-        rrSteadyStateSolver.cpp
         rrConstants.cpp
         rrException.cpp
         rrGetOptions.cpp
@@ -47,7 +46,6 @@ set(
         rrStringUtils.cpp
         rrUtils.cpp
         Integrator.cpp
-        IntegratorRegistration.cpp
         CVODEIntegrator.cpp
         Dictionary.cpp
         GillespieIntegrator.cpp
@@ -55,6 +53,7 @@ set(
         RK45Integrator.cpp
         NLEQ1Solver.cpp
         NLEQ2Solver.cpp
+        NLEQSolver.cpp
         rrNLEQ1Interface.cpp
         rrNLEQ2Interface.cpp
         rrTestSuiteModelSimulation.cpp
@@ -72,8 +71,29 @@ set(
         SBMLValidator.cpp
         SteadyStateSolver.cpp
         Solver.cpp
-        SolverRegistration.cpp
-        Variant.cpp
+        #        Variant.cpp
+        Setting.cpp
+        ForwardSensitivitySolver.cpp
+
+        ForwardSensitivitySolver.cpp
+
+        RegistrationFactory.cpp
+        SensitivitySolverFactory.cpp
+        SteadyStateSolverFactory.cpp
+        IntegratorFactory.cpp
+
+        KinsolSteadyStateSolver.cpp
+        FixedPointIteration.cpp
+        NewtonIteration.cpp
+        BasicNewtonIteration.cpp
+        LinesearchNewtonIteration.cpp
+        KinsolErrHandler.cpp
+        SVD.cpp
+        SteadyStateSolverDecorator.cpp
+        PresimulationDecorator.cpp
+        PresimulationProgramDecorator.cpp
+        ApproxSteadyStateDecorator.cpp
+
         conservation/ConservationExtension.cpp
         conservation/ConservationDocumentPlugin.cpp
         conservation/ConservedMoietyPlugin.cpp
@@ -90,7 +110,6 @@ set(
         rrExporter.h
         rrOSSpecifics.h
         rrConfig.h
-        rrSteadyStateSolver.h
         rrConstants.h
         rrException.h
         rrGetOptions.h
@@ -101,7 +120,6 @@ set(
         rrStringUtils.h
         rrUtils.h
         Integrator.h
-        IntegratorRegistration.h
         CVODEIntegrator.h
         Dictionary.h
         GillespieIntegrator.h
@@ -109,6 +127,7 @@ set(
         RK45Integrator.h
         NLEQ1Solver.h
         NLEQ2Solver.h
+        NLEQSolver.h
         rrNLEQ1Interface.h
         rrNLEQ2Interface.h
         rrTestSuiteModelSimulation.h
@@ -126,8 +145,41 @@ set(
         SBMLValidator.h
         SteadyStateSolver.h
         Solver.h
-        SolverRegistration.h
-        Variant.h
+        #        Variant.h
+        Setting.h
+        ForwardSensitivitySolver.h
+        ForwardSensitivitySolver.h
+        SensitivitySolver.h
+        RegistrationFactory.cpp
+        Registrable.h
+        SensitivitySolverFactory.h
+        SteadyStateSolverFactory.h
+        IntegratorFactory.h
+
+        Matrix.h
+        Matrix3D.h
+
+        KinsolErrHandler.h
+        KinsolSteadyStateSolver.h
+        FixedPointIteration.h
+        NewtonIteration.h
+        BasicNewtonIteration.h
+        LinesearchNewtonIteration.h
+        SVD.h
+        SteadyStateSolverDecorator.h
+        PresimulationDecorator.h
+        PresimulationProgramDecorator.h
+        ApproxSteadyStateDecorator.h
+
+        conservation/ConservationExtension.h
+        conservation/ConservationDocumentPlugin.h
+        conservation/ConservedMoietyPlugin.h
+        conservation/ConservedMoietyConverter.h
+        #todo pull test files out of main library sources.
+        testing/CXXExecutableModel.h
+        testing/CXXEnzymeExecutableModel.h
+        testing/CXXBrusselatorExecutableModel.h
+        testing/CXXPiecewiseExecutableModel.h
 )
 install(FILES ${rrCoreHeaders} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/rr)
 
@@ -237,6 +289,8 @@ if (BUILD_LLVM)
     set(rrSources ${rrSources} ${rrLLVMSources})
     set(rrHeaders ${rrHeaders} ${rrLLVMHeaders})
 
+    message(STATUS "LLVM_FLAGS ${LLVM_FLAGS}")
+
     if (NOT LLVM_FLAGS)
         message(FATAL_ERROR "No LLVM_FLAGS variable found")
     endif ()
@@ -245,10 +299,11 @@ if (BUILD_LLVM)
     #     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${LLVM_FLAGS}") # Set per-source
     # set up appropriate flags for using LLVM
     # TODO remove the code below and check for errors. Are these actually needed?
-    set_source_files_properties(${rrLLVMSources} PROPERTIES COMPILE_FLAGS ${LLVM_FLAGS})
+    # Done: on g++, commenting this line out does not break the build. In fact, it fixes
+    #   this build since llvm adds extra flags which override roadrunner flags (-std=c++ for example)
+    #    set_source_files_properties(${rrLLVMSources} PROPERTIES COMPILE_FLAGS ${LLVM_FLAGS})
     # add LLVM-based model sources to list
     set(rrSources ${rrSources} ${rrLLVMSources} ${rrLLVMHeaders})
-    #cl   /TP -DBUILD_LLVM -DCRT_NONSTDC_NO_DEPRECATE -DLIBLAX_STATIC -DLIBSBML_STATIC -DLIBSBML_USE_CPP_NAMESPACE -DPOCO_NO_AUTOMATIC_LIBS -DPOCO_STATIC -DSTATIC_LIBSTRUCT -DSTATIC_NLEQ1 -DSTATIC_NLEQ2 -DSTATIC_PUGI -DSTATIC_RR -D_CRT_SECURE_NO_WARNINGS -ID:\rrbuild\roadrunner\source -ID:\rrbuild\roadrunner\third_party\nleq1\include -ID:\rrbuild\roadrunner\third_party\nleq2\include -ID:\rrbuild\roadrunner\third_party\clapack3.2.1\include -ID:\rrbuild\roadrunner\third_party\libsbml\include -ID:\rrbuild\roadrunner\third_party\rr-libstruct\include -ID:\rrbuild\roadrunner\third_party\poco_1.5.3\include -ID:\rrbuild\roadrunner\third_party\sundials\include -ID:\rrbuild\roadrunner\third_party\unit_test -ID:\LLVM6.0.1\install-msvc-with-extra-flags\include /DWIN32 /D_WINDOWS /GR /EHsc /O2 /Ob2 /DNDEBUG -MT   /wd4251 /wd4018 /wd4996 /EHsc -DSTATIC_RR -ID:\LLVM6.0.1\install-msvc-with-extra-flags\include /DWIN32 /D_WINDOWS   /Zc:inline /Zc:strictStrings /Oi /Zc:rvalueCast /W4 -wd4141 -wd4146 -wd4180 -wd4244 -wd4258 -wd4267 -wd4291 -wd4345 -wd4351 -wd4355 -wd4456 -wd4457 -wd4458 -wd4459 -wd4503 -wd4624 -wd4722 -wd4800 -wd4100 -wd4127 -wd4512 -wd4505 -wd4610 -wd4510 -wd4702 -wd4245 -wd4706 -wd4310 -wd4701 -wd4703 -wd4389 -wd4611 -wd4805 -wd4204 -wd4577 -wd4091 -wd4592 -wd4319 -wd4324 -w14062 -we4238 /MD /O2 /Ob2 /DNDEBUG  /EHsc /GR -D_CRT_SECURE_NO_DEPRECATE -D_CRT_SECURE_NO_WARNINGS -D_CRT_NONSTDC_NO_DEPRECATE -D_CRT_NONSTDC_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE -D_SCL_SECURE_NO_WARNINGS -DUNICODE -D_UNICODE -D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS -D__STDC_LIMIT_MACROS /FoCMakeFiles\roadrunner-static.dir\llvm\Random.cpp.obj /FdCMakeFiles\roadrunner-static.dir\roadrunner-static.pdb /FS -c D:\rrbuild\roadrunner\source\llvm\Random.cpp
 endif (BUILD_LLVM)
 
 # Add C legacy code to sources if needed
@@ -331,9 +386,7 @@ add_library(${target}-static STATIC ${rrSources} ${rrHeaders})
 # specify STATIC_RR
 target_compile_definitions(${target}-static PUBLIC STATIC_RR)
 
-target_include_directories(
-        ${target}-static PUBLIC
-        "$<BUILD_INTERFACE:${LLVM_INCLUDE_DIRS}>"
+set(INCLUDE_DIRS "$<BUILD_INTERFACE:${LLVM_INCLUDE_DIRS}>"
         "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>"
         "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/llvm>"
         "$<BUILD_INTERFACE:${LLVM_INCLUDE_DIRS}>"
@@ -344,7 +397,13 @@ target_include_directories(
         # #include "libxml/tree.h", for instance in the plugin code.
         "$<BUILD_INTERFACE:${DEPENDENCY_INCLUDE_DIR}/libxml2>"
         "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>"
-        "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>"
+        "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>")
+if (NOT WIN32)
+    set(INCLUDE_DIRS ${INCLUDE_DIRS} "$<BUILD_INTERFACE:${CURSES_INCLUDE_DIRS}>")
+endif ()
+
+target_include_directories(
+        ${target}-static PUBLIC ${INCLUDE_DIRS}
 )
 
 # Extra platform specific libraries
@@ -353,40 +412,69 @@ target_include_directories(
 set(PLATFORM_SPECIFIC_LIBS)
 if (UNIX)
     #    icui18n icuuc (can be used instead of iconv)
-    set(PLATFORM_SPECIFIC_LIBS ${PLATFORM_SPECIFIC_LIBS} pthread dl m)
+    set(PLATFORM_SPECIFIC_LIBS ${PLATFORM_SPECIFIC_LIBS} pthread dl m ${CURSES_LIBRARIES})
 elseif (WIN32)
     set(PLATFORM_SPECIFIC_LIBS ${PLATFORM_SPECIFIC_LIBS} Ws2_32)
-elseif (APPLE)
-    message(WARNING "mac specific link libraries should go here, I don't know if they
-will be different from linux Please remove this warning. (Ciaran)")
+elseif (APPLE AND NOT UNIX)
+    set(PLATFORM_SPECIFIC_LIBS ${PLATFORM_SPECIFIC_LIBS} ${CURSES_LIBRARIES})
+
 endif ()
+
+message(STATUS " LLVM_LIBRARIES ${LLVM_LIBRARIES}}")
 
 # link the libraries -- remember that order here
 #   is important on linux builds so don't change
-
 target_link_libraries(
         ${target}-static
         PUBLIC
+        ${PLATFORM_SPECIFIC_LIBS}
+
         ${LLVM_LIBRARIES}
         rr-libstruct::rr-libstruct-static
         ${SBML_TARGET_NAME}
-#These libraries libraries seem to be already linked in a different way.
+        #These libraries libraries seem to be already linked in a different way.
         #libz2
         #LibXml2::LibXml2
         zlib::zlibstatic
         nleq2::nleq2-static
         nleq1::nleq1-static
         clapack::lapack clapack::blas clapack::f2c
-        sundials::sundials_cvode_static sundials::sundials_nvecserial_static
-        PocoFoundation::PocoFoundation
-        PocoNet::PocoNet
+
+        SUNDIALS::generic_static
+        SUNDIALS::nvecserial_static
+        SUNDIALS::nvecmanyvector_static
+        SUNDIALS::sunmatrixband_static
+        SUNDIALS::sunmatrixdense_static
+        SUNDIALS::sunmatrixsparse_static
+        SUNDIALS::sunlinsolband_static
+        SUNDIALS::sunlinsoldense_static
+        SUNDIALS::sunlinsolpcg_static
+        SUNDIALS::sunlinsolspbcgs_static
+        SUNDIALS::sunlinsolspfgmr_static
+        SUNDIALS::sunlinsolspgmr_static
+        SUNDIALS::sunlinsolsptfqmr_static
+        SUNDIALS::sunnonlinsolnewton_static
+        SUNDIALS::sunnonlinsolfixedpoint_static
+        # cvodes is a superset of cvode.
+        # linking the both can cause a duplicate symbol problem
+        # SUNDIALS::cvode_static
+        SUNDIALS::cvodes_static
+        SUNDIALS::kinsol_static
+
+
+        Poco::Foundation
+        Poco::Net
+        Poco::XML
         iconv::libcharset iconv::libiconv-static
-        ${PLATFORM_SPECIFIC_LIBS}
+
 )
+
+#get_target_property(v ${target}-static LINK_FLAGS)
+#MESSAGE(STATUS "vty ${v}")
 
 add_library(${target} SHARED ${rrSources} ${rrHeaders})
 target_compile_definitions(${target} PRIVATE EXPORT_RR)
-target_link_libraries(${target} PUBLIC $<TARGET_PROPERTY:${target}-static,LINK_LIBRARIES> )
+target_link_libraries(${target} PUBLIC $<TARGET_PROPERTY:${target}-static,LINK_LIBRARIES>)
 target_include_directories(${target} PUBLIC $<TARGET_PROPERTY:${target}-static,INCLUDE_DIRECTORIES>)
 
 
@@ -434,13 +522,14 @@ install(
 
 
 #Libxml we can't build right now
-if(${BORLAND})
-    target_link_libraries (${target}-static libxml2_xe)
-endif()
+if (${BORLAND})
+    target_link_libraries(${target}-static libxml2_xe)
+endif ()
 
 
-if(BUILD_TEST_TOOLS)
-    if(BUILD_LLVM)
+if (BUILD_TEST_TOOLS)
+    if (BUILD_LLVM)
         add_subdirectory(llvm_testing)
-    endif(BUILD_LLVM)
-endif()
+    endif (BUILD_LLVM)
+endif ()
+

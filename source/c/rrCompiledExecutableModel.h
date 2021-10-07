@@ -64,7 +64,7 @@ public:
     virtual bool getConservedSumChanged();
     virtual void setConservedSumChanged(bool);
 
-    virtual string getModelName();
+    virtual std::string getModelName();
 
     virtual void setTime(double _time);
     virtual double getTime();
@@ -116,12 +116,12 @@ public:
     virtual int getNumDepFloatingSpecies();
 
     virtual int getNumFloatingSpecies();
-    virtual int getFloatingSpeciesIndex(const string& name);
-    virtual string getFloatingSpeciesId(int index);
+    virtual int getFloatingSpeciesIndex(const std::string& name);
+    virtual std::string getFloatingSpeciesId(int index);
 
     virtual int getNumBoundarySpecies();
-    virtual int getBoundarySpeciesIndex(const string &name);
-    virtual string getBoundarySpeciesId(int index);
+    virtual int getBoundarySpeciesIndex(const std::string &name);
+    virtual std::string getBoundarySpeciesId(int index);
     virtual int getBoundarySpeciesCompartmentIndex(int index);
 
     /**
@@ -202,7 +202,7 @@ public:
 
     virtual int getNumGlobalParameters();
     virtual int getGlobalParameterIndex(const std::string& name);
-    virtual string getGlobalParameterId(int index);
+    virtual std::string getGlobalParameterId(int index);
 
     /**
      * get the global parameter values
@@ -219,8 +219,8 @@ public:
             const double *values);
 
     virtual int getNumCompartments();
-    virtual int getCompartmentIndex(const string& name);
-    virtual string getCompartmentId(int index);
+    virtual int getCompartmentIndex(const std::string& name);
+    virtual std::string getCompartmentId(int index);
 
     /**
      * get the compartment volumes
@@ -251,7 +251,7 @@ public:
     /**
      * get the name of the specified reaction
      */
-    virtual string getReactionId(int index);
+    virtual std::string getReactionId(int index);
 
     virtual int getNumEvents();
     virtual void computeEventPriorites();
@@ -283,24 +283,24 @@ public:
     virtual void setRateRuleValues(const double *rateRuleValues);
 
     /**
-     * copies the internal model state vector into the provided
+     * copies the internal model state std::vector into the provided
      * buffer.
      *
-     * @param[out] stateVector a buffer to copy the state vector into, if NULL,
+     * @param[out] stateVector a buffer to copy the state std::vector into, if NULL,
      *         return the size required.
      *
      * @return the number of items coppied into the provided buffer, if
-     *         stateVector is NULL, returns the length of the state vector.
+     *         stateVector is NULL, returns the length of the state std::vector.
      */
     virtual int getStateVector(double *stateVector);
 
     /**
-     * sets the internal model state to the provided packed state vector.
+     * sets the internal model state to the provided packed state std::vector.
      *
-     * @param[in] an array which holds the packed state vector, must be
+     * @param[in] an array which holds the packed state std::vector, must be
      *         at least the size returned by getStateVector.
      *
-     * @return the number of items copied from the state vector, negative
+     * @return the number of items copied from the state std::vector, negative
      *         on failure.
      */
     virtual int setStateVector(const double *stateVector);
@@ -310,16 +310,16 @@ public:
     virtual void computeAllRatesOfChange();
 
     /**
-     * the state vector y is the rate rule values and floating species
+     * the state std::vector y is the rate rule values and floating species
      * concentrations concatenated. y is of length numFloatingSpecies + numRateRules.
      *
-     * The state vector is packed such that the first n raterule elements are the
+     * The state std::vector is packed such that the first n raterule elements are the
      * values of the rate rules, and the last n floatingspecies are the floating
      * species values.
      *
      * @param[in] time current simulator time
-     * @param[in] y state vector, must be of size returned by getStateVector
-     * @param[out] dydt calculated rate of change of the state vector, if null,
+     * @param[in] y state std::vector, must be of size returned by getStateVector
+     * @param[out] dydt calculated rate of change of the state std::vector, if null,
      * it is ignored.
      */
     virtual void getStateVectorRate(double time, const double *y, double *dydt = 0);
@@ -328,7 +328,7 @@ public:
     virtual void resetEvents();
     virtual void testConstraints();
     virtual void initializeRateRuleSymbols();
-    virtual string getInfo();
+    virtual std::string getInfo();
 
     virtual void print(std::ostream &stream);
 
@@ -353,8 +353,8 @@ public:
     virtual int getEventTriggers(int len, const int *indx, unsigned char *values);
 
     virtual int getNumConservedMoieties();
-    virtual int getConservedMoietyIndex(const string& name);
-    virtual string getConservedMoietyId(int index);
+    virtual int getConservedMoietyIndex(const std::string& name);
+    virtual std::string getConservedMoietyId(int index);
     virtual int getConservedMoietyValues(int len, int const *indx, double *values);
     virtual int setConservedMoietyValues(int len, int const *indx,
             const double *values);
@@ -448,21 +448,21 @@ public:
     c_void_MDS                        cComputeReactionRates;
     c_void_MDS                        ccomputeEventPriorities;
 
-    vector<PendingAssignment>   mAssignments;
+    std::vector<PendingAssignment>   mAssignments;
 
-    vector<double>              mAssignmentTimes;
+    std::vector<double>              mAssignmentTimes;
 
     DoubleMatrix stoichiometryMatrix;
 
-    vector<int> retestEvents(const double& timeEnd,
-            const vector<int>& handledEvents, vector<int>& removeEvents);
+    std::vector<int> retestEvents(const double& timeEnd,
+            const std::vector<int>& handledEvents, std::vector<int>& removeEvents);
 
-    vector<int> retestEvents(const double& timeEnd, vector<int>& handledEvents,
+    std::vector<int> retestEvents(const double& timeEnd, std::vector<int>& handledEvents,
             const bool& assignOldState);
 
-    vector<int> retestEvents(const double& timeEnd,
-            const vector<int>& handledEvents,
-            const bool& assignOldState, vector<int>& removeEvents);
+    std::vector<int> retestEvents(const double& timeEnd,
+            const std::vector<int>& handledEvents,
+            const bool& assignOldState, std::vector<int>& removeEvents);
 
     virtual int applyPendingEvents(double timeEnd);
 
@@ -477,9 +477,9 @@ public:
 
     void removePendingAssignmentForIndex(int eventIndex);
 
-    void sortEventsByPriority(vector<Event>& firedEvents);
+    void sortEventsByPriority(std::vector<Event>& firedEvents);
 
-    void sortEventsByPriority(vector<int>& firedEvents);
+    void sortEventsByPriority(std::vector<int>& firedEvents);
 
 
     virtual int setFloatingSpeciesInitAmounts(int len, int const *indx,

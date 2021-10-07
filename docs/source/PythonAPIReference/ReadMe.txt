@@ -1,0 +1,1 @@
+This API doc was written manually, outside of code.

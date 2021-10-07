@@ -23,7 +23,7 @@ namespace rrllvm
 using namespace rr;
 using namespace llvm;
 using namespace libsbml;
-using namespace std;
+
 
 const char* EvalConversionFactorCodeGen::FunctionName = "evalConversionFactor";
 
@@ -39,7 +39,7 @@ EvalConversionFactorCodeGen::~EvalConversionFactorCodeGen()
 
 Value* EvalConversionFactorCodeGen::codeGen()
 {
-    Value *modelData = 0;
+    Value *modelData = nullptr;
 
     codeGenVoidModelDataHeader(FunctionName, modelData);
 
@@ -49,7 +49,7 @@ Value* EvalConversionFactorCodeGen::codeGen()
 
     ASTNodeCodeGen astCodeGen(builder, resolver, modelGenContext, modelData);
 
-    string mcfName = model->isSetConversionFactor() ?
+    std::string mcfName = model->isSetConversionFactor() ?
             model->getConversionFactor() : "";
 
     Value *mcfVal = mcfName.empty() ?
@@ -66,7 +66,7 @@ Value* EvalConversionFactorCodeGen::codeGen()
         {
             if (s->isSetConversionFactor())
             {
-                const string& cf = s->getConversionFactor();
+                const std::string& cf = s->getConversionFactor();
                 if (cf.compare(mcfName) != 0)
                 {
                     Value *cfv = resolver.loadSymbolValue(cf);

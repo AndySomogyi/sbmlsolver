@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="dir_34dbdef0d0e5ad676053452b99dda973" kind="dir">
+    <compoundname>c</compoundname>
+    <innerfile refid="mtrand_8cpp">mtrand.cpp</innerfile>
+    <innerfile refid="mtrand_8h">mtrand.h</innerfile>
+    <innerfile refid="mttest_8cpp">mttest.cpp</innerfile>
+    <innerfile refid="rrCCompiler_8cpp">rrCCompiler.cpp</innerfile>
+    <innerfile refid="rrCCompiler_8h">rrCCompiler.h</innerfile>
+    <innerfile refid="rrCModelDataUtil_8cpp">rrCModelDataUtil.cpp</innerfile>
+    <innerfile refid="rrCModelDataUtil_8h">rrCModelDataUtil.h</innerfile>
+    <innerfile refid="rrCModelGenerator_8cpp">rrCModelGenerator.cpp</innerfile>
+    <innerfile refid="rrCModelGenerator_8h">rrCModelGenerator.h</innerfile>
+    <innerfile refid="rrCodeBuilder_8cpp">rrCodeBuilder.cpp</innerfile>
+    <innerfile refid="rrCodeBuilder_8h">rrCodeBuilder.h</innerfile>
+    <innerfile refid="rrCodeTypes_8h">rrCodeTypes.h</innerfile>
+    <innerfile refid="rrCompiledExecutableModel_8cpp">rrCompiledExecutableModel.cpp</innerfile>
+    <innerfile refid="rrCompiledExecutableModel_8h">rrCompiledExecutableModel.h</innerfile>
+    <innerfile refid="rrCompiledModelGenerator_8cpp">rrCompiledModelGenerator.cpp</innerfile>
+    <innerfile refid="rrCompiledModelGenerator_8h">rrCompiledModelGenerator.h</innerfile>
+    <innerfile refid="rrCompiledModelState_8cpp">rrCompiledModelState.cpp</innerfile>
+    <innerfile refid="rrCompiledModelState_8h">rrCompiledModelState.h</innerfile>
+    <innerfile refid="rrEvent_8cpp">rrEvent.cpp</innerfile>
+    <innerfile refid="rrEvent_8h">rrEvent.h</innerfile>
+    <innerfile refid="rrHashTable_8cpp">rrHashTable.cpp</innerfile>
+    <innerfile refid="rrHashTable_8h">rrHashTable.h</innerfile>
+    <innerfile refid="rrModelData_8h">rrModelData.h</innerfile>
+    <innerfile refid="rrModelSharedLibrary_8cpp">rrModelSharedLibrary.cpp</innerfile>
+    <innerfile refid="rrModelSharedLibrary_8h">rrModelSharedLibrary.h</innerfile>
+    <innerfile refid="rrModelSymbols_8cpp">rrModelSymbols.cpp</innerfile>
+    <innerfile refid="rrModelSymbols_8h">rrModelSymbols.h</innerfile>
+    <innerfile refid="rrNOMSupport_8cpp">rrNOMSupport.cpp</innerfile>
+    <innerfile refid="rrNOMSupport_8h">rrNOMSupport.h</innerfile>
+    <innerfile refid="rrPendingAssignment_8cpp">rrPendingAssignment.cpp</innerfile>
+    <innerfile refid="rrPendingAssignment_8h">rrPendingAssignment.h</innerfile>
+    <innerfile refid="rrRandom_8cpp">rrRandom.cpp</innerfile>
+    <innerfile refid="rrRandom_8h">rrRandom.h</innerfile>
+    <innerfile refid="rrRule_8cpp">rrRule.cpp</innerfile>
+    <innerfile refid="rrRule_8h">rrRule.h</innerfile>
+    <innerfile refid="rrSBMLSymbol_8cpp">rrSBMLSymbol.cpp</innerfile>
+    <innerfile refid="rrSBMLSymbol_8h">rrSBMLSymbol.h</innerfile>
+    <innerfile refid="rrSBMLSymbolDependencies_8cpp">rrSBMLSymbolDependencies.cpp</innerfile>
+    <innerfile refid="rrSBMLSymbolDependencies_8h">rrSBMLSymbolDependencies.h</innerfile>
+    <innerfile refid="rrScanner_8cpp">rrScanner.cpp</innerfile>
+    <innerfile refid="rrScanner_8h">rrScanner.h</innerfile>
+    <innerfile refid="rrStringBuilder_8cpp">rrStringBuilder.cpp</innerfile>
+    <innerfile refid="rrStringBuilder_8h">rrStringBuilder.h</innerfile>
+    <innerfile refid="rrStringList_8cpp">rrStringList.cpp</innerfile>
+    <innerfile refid="rrStringList_8h">rrStringList.h</innerfile>
+    <innerfile refid="rrStringListContainer_8cpp">rrStringListContainer.cpp</innerfile>
+    <innerfile refid="rrStringListContainer_8h">rrStringListContainer.h</innerfile>
+    <innerfile refid="rrSymbol_8cpp">rrSymbol.cpp</innerfile>
+    <innerfile refid="rrSymbol_8h">rrSymbol.h</innerfile>
+    <innerfile refid="rrSymbolList_8cpp">rrSymbolList.cpp</innerfile>
+    <innerfile refid="rrSymbolList_8h">rrSymbolList.h</innerfile>
+    <innerfile refid="rrToken_8cpp">rrToken.cpp</innerfile>
+    <innerfile refid="rrToken_8h">rrToken.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="c/"/>
+  </compounddef>
+</doxygen>

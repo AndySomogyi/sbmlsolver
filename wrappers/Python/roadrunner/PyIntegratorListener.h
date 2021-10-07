@@ -12,12 +12,12 @@ public:
 
     PyIntegratorListener() : pyOnTimeStep(0), pyOnEvent(0)
     {
-        Log(Logger::LOG_NOTICE) << __FUNC__;
+        rrLog(Logger::LOG_NOTICE) << __FUNC__;
     }
 
     virtual ~PyIntegratorListener()
     {
-        Log(Logger::LOG_NOTICE) << __FUNC__;
+        rrLog(Logger::LOG_NOTICE) << __FUNC__;
 
         PyGILState_STATE gstate = PyGILState_Ensure();
 
@@ -93,7 +93,7 @@ private:
         uint result = 0;
         std::string err;
 
-        Log(Logger::LOG_INFORMATION) << __FUNC__ << "integrator: " << (void*)integrator << ", model: " << (void*)model << ", time: " << time;
+        rrLog(Logger::LOG_INFORMATION) << __FUNC__ << "integrator: " << (void*)integrator << ", model: " << (void*)model << ", time: " << time;
 
         if (pyOnTimeStep) {
 
@@ -116,7 +116,7 @@ private:
                 PyObject* pystr = PyObject_Str(PyErr_Occurred());
                 err = std::string("Error calling Python onTimeStep method: ") + PyString_AsString(pystr);
 
-                Log(Logger::LOG_ERROR) << err;
+                rrLog(Logger::LOG_ERROR) << err;
 
                 Py_XDECREF(pystr);
                 PyErr_Clear();
@@ -128,8 +128,8 @@ private:
                 PyObject* pystr = PyObject_Str(pyres);
                 const char* cstr = PyString_AsString(pystr);
 
-                Log(Logger::LOG_WARNING) << "The Python onTrigger handler returned " << cstr;
-                Log(Logger::LOG_WARNING) << "No result is required";
+                rrLog(Logger::LOG_WARNING) << "The Python onTrigger handler returned " << cstr;
+                rrLog(Logger::LOG_WARNING) << "No result is required";
 
                 Py_XDECREF(pystr);
             }
@@ -160,7 +160,7 @@ private:
         uint result = 0;
         std::string err;
 
-        Log(Logger::LOG_INFORMATION) << __FUNC__ << "integrator: " << (void*)integrator << ", model: " << (void*)model << ", time: " << time;
+        rrLog(Logger::LOG_INFORMATION) << __FUNC__ << "integrator: " << (void*)integrator << ", model: " << (void*)model << ", time: " << time;
 
         if (pyOnEvent) {
             PyGILState_STATE gstate = PyGILState_Ensure();
@@ -175,7 +175,7 @@ private:
                 PyObject* pystr = PyObject_Str(PyErr_Occurred());
                 err = std::string("Error calling Python onEvent method: ") + PyString_AsString(pystr);
 
-                Log(Logger::LOG_ERROR) << err;
+                rrLog(Logger::LOG_ERROR) << err;
 
                 Py_XDECREF(pystr);
                 PyErr_Clear();
@@ -184,8 +184,8 @@ private:
                 PyObject* pystr = PyObject_Str(pyres);
                 const char* cstr = PyString_AsString(pystr);
 
-                Log(Logger::LOG_WARNING) << "The Python onAssignment handler returned " << cstr;
-                Log(Logger::LOG_WARNING) << "No result is required";
+                rrLog(Logger::LOG_WARNING) << "The Python onAssignment handler returned " << cstr;
+                rrLog(Logger::LOG_WARNING) << "No result is required";
 
                 Py_XDECREF(pystr);
             }

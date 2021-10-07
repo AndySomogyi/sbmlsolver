@@ -1,0 +1,59 @@
+\hypertarget{classrr_1_1SensitivitySolver}{}\doxysection{rr\+::Sensitivity\+Solver Class Reference}
+\label{classrr_1_1SensitivitySolver}\index{rr::SensitivitySolver@{rr::SensitivitySolver}}
+
+
+generic interface for all Sensitivity\+Solvers  
+
+
+
+
+{\ttfamily \#include $<$Sensitivity\+Solver.\+h$>$}
+
+Inheritance diagram for rr\+::Sensitivity\+Solver\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=5.000000cm]{classrr_1_1SensitivitySolver}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual \mbox{\hyperlink{classrr_1_1Matrix}{rr\+::\+Matrix}}$<$ double $>$ \mbox{\hyperlink{classrr_1_1SensitivitySolver_ab6bc2c2f138c4983a244d36108f8af5e}{get\+Sensitivity\+Matrix}} (int k=0)=0
+\begin{DoxyCompactList}\small\item\em get current values of sensitivities of model variables to parameters. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classrr_1_1SensitivitySolver_a04bba4a342cc7197750f080d41d439e5}\label{classrr_1_1SensitivitySolver_a04bba4a342cc7197750f080d41d439e5}} 
+{\bfseries Solver} ()=default
+\item 
+\mbox{\Hypertarget{classrr_1_1SensitivitySolver_aa0a07553e368f0be33b9bfc429782a97}\label{classrr_1_1SensitivitySolver_aa0a07553e368f0be33b9bfc429782a97}} 
+{\bfseries Solver} (\mbox{\hyperlink{classrr_1_1ExecutableModel}{Executable\+Model}} $\ast$model)
+\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Detailed Description}
+generic interface for all Sensitivity\+Solvers 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classrr_1_1SensitivitySolver_ab6bc2c2f138c4983a244d36108f8af5e}\label{classrr_1_1SensitivitySolver_ab6bc2c2f138c4983a244d36108f8af5e}} 
+\index{rr::SensitivitySolver@{rr::SensitivitySolver}!getSensitivityMatrix@{getSensitivityMatrix}}
+\index{getSensitivityMatrix@{getSensitivityMatrix}!rr::SensitivitySolver@{rr::SensitivitySolver}}
+\doxysubsubsection{\texorpdfstring{getSensitivityMatrix()}{getSensitivityMatrix()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{classrr_1_1Matrix}{rr\+::\+Matrix}}$<$double$>$ rr\+::\+Sensitivity\+Solver\+::get\+Sensitivity\+Matrix (\begin{DoxyParamCaption}\item[{int}]{k = {\ttfamily 0} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+get current values of sensitivities of model variables to parameters. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em kth} & derivative of the sensitivities. \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \mbox{\hyperlink{classrr_1_1ForwardSensitivitySolver_ac92ead0cef81dc069acb9c045bf02657}{rr\+::\+Forward\+Sensitivity\+Solver}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Sensitivity\+Solver.\+h\end{DoxyCompactItemize}

@@ -21,7 +21,7 @@ import random
 import string
 import roadrunner
 from roadrunner import Config
-from roadrunner import Logger
+# from roadrunner import Logger
 import re
 import numpy
 from numpy import *
@@ -53,6 +53,10 @@ def passMsg (errorFlag, msg = ""):
     if not errorFlag:
         gPassedTests = gPassedTests+1
         return "PASS"
+    print("Traceback from failed test: ")
+    import traceback
+    for line in traceback.format_stack():
+        print(line.strip())
     gFailedTests = gFailedTests+1
     return "*****FAIL*****" + msg
 
@@ -569,6 +573,7 @@ def checkInitalFloatingSpeciesConcentations(rrInstance, testId):
 def checkReactionRates(rrInstance, testId):
     print(("Check " + testId).ljust( rpadding), end="")
     ss = rrInstance.model.getReactionRates()
+    print("reaction rates: " , ss)
     compareUpcomingValuesWith(ss, 1E-4)
 
 
@@ -736,7 +741,7 @@ def setGetValues(rrInstance, IdList, testId):
     errorFlag = False
     for i in range (len(IdList)):
         value = random.random()*10
-        rrInstance.model[dList[i]] = value
+        rrInstance.model[IdList[i]] = value
         if expectApproximately (rrInstance.model[IdList[i]], value, 1E-6) == False:
             errorFlag = True
             break
@@ -932,7 +937,14 @@ def testResetAll(rrInstance, testId):
     rrInstance.resetAll()
     k = rrInstance.getValue(words[0])
     d = rrInstance.getValue(words[2])
-    if (k == float(words[1])) or (d != float(words[3])):
+    if (k == float(words[1])) or (d == float(words[3])):
+        errorFlag = True
+    rrInstance.setValue("init(" + words[0] + ")", float(words[1]))
+    rrInstance.setValue("init(" + words[2] + ")", float(words[3]))
+    rrInstance.resetAll()
+    k = rrInstance.getValue(words[0])
+    d = rrInstance.getValue(words[2])
+    if (k != float(words[1])) or (d != float(words[3])):
         errorFlag = True
     print(passMsg (errorFlag))
     
@@ -941,6 +953,7 @@ def testResetToOrigin(rrInstance, testId):
     errorFlag = False
     words = divide(readLine())
     rrInstance.setValue(words[0], float(words[1]))
+    rrInstance.setValue("init(" + words[0] + ")", float(words[1]))
     rrInstance.resetToOrigin()
     d = rrInstance.getValue(words[0])
     rrInstance.reset()
@@ -1188,11 +1201,11 @@ def checkGillespieSeed(rrInstance, testId):
     errorFlag = False
     rrInstance.setIntegrator('gillespie')
     words = divide(readLine())
-    rrInstance.getIntegrator().setValue('seed', words[0])
+    rrInstance.getIntegrator().setValue('seed', int(words[0]))
     arr1 = rrInstance.simulate(0,100)
     arr1_t1 = arr1[1,0]
     rrInstance.reset()
-    rrInstance.getIntegrator().setValue('seed', words[1])
+    rrInstance.getIntegrator().setValue('seed', int(words[1]))
     arr2 = rrInstance.simulate(0,100)
     arr2_t1 = arr2[1,0]
     if arr1_t1 == arr2_t1:
@@ -1240,24 +1253,24 @@ def unitTestIntegratorSettings(testDir):
 
     print(passMsg (errorFlag))
 
-def addSpecies(rrInstance, testId):
+def addSpeciesConcentration(rrInstance, testId):
     words = []
     words = divide(readLine())
     print("Add species " + words[0])
     if (len(words)==2):
-        rrInstance.addSpecies(words[0], words[1])
+        rrInstance.addSpeciesConcentration(words[0], words[1])
     elif (len(words)==3):
-        rrInstance.addSpecies(words[0], words[1], float(words[2]))
+        rrInstance.addSpeciesConcentration(words[0], words[1], float(words[2]))
     elif (len(words)==4):
-        rrInstance.addSpecies(words[0], words[1], float(words[2]), str2bool(words[3]))
+        rrInstance.addSpeciesConcentration(words[0], words[1], float(words[2]), str2bool(words[3]))
     elif (len(words)==5):
-        rrInstance.addSpecies(words[0], words[1], float(words[2]), str2bool(words[3]), str2bool(words[4]))
+        rrInstance.addSpeciesConcentration(words[0], words[1], float(words[2]), str2bool(words[3]), str2bool(words[4]))
     elif (len(words)==6):
-        rrInstance.addSpecies(words[0], words[1], float(words[2]), str2bool(words[3]), str2bool(words[4]), words[5])
+        rrInstance.addSpeciesConcentration(words[0], words[1], float(words[2]), str2bool(words[3]), str2bool(words[4]), words[5])
     elif (len(words)==7):
-        rrInstance.addSpecies(words[0], words[1], float(words[2]), str2bool(words[3]), str2bool(words[4]), words[5], str2bool(words[6]))
+        rrInstance.addSpeciesConcentration(words[0], words[1], float(words[2]), str2bool(words[3]), str2bool(words[4]), words[5], str2bool(words[6]))
     else:
-        print(passMsg(False, "Incorrect number of arguments given to addSpecies."))
+        print(passMsg(False, "Incorrect number of arguments given to addSpeciesConcentration."))
 
 
 def addReaction(rrInstance, testId):
@@ -1503,7 +1516,7 @@ def scriptTests():
 
 # ------------------------------------------------------------------------
 # List of tests
-functions = {'[Add Species]' : addSpecies,
+functions = {'[Add Species]' : addSpeciesConcentration,
              '[Add Reaction]' : addReaction,
              '[Add Parameter]' : addParameter,
              '[Add Compartment]' : addCompartment,
@@ -1613,6 +1626,35 @@ def getDefaultTestDir():
     return p.join(d,"test_data")
 
 
+def getRRTestDir(starting_path=None, max_depth=4):
+    """Looks for a directory containing "rrtest" files.
+
+    Starts in :param starting_path: and recursively searches parent
+    directories :param max_depth: times. The first directory found
+    that contains a file with the extension "rrtest" will be returned
+    or an error will be raised otherwise
+
+    :param starting_path: if None, defaults to folder called test_data
+                          in the current directory.
+    :return:
+    """
+    path = os.path.join(os.path.dirname(__file__), "test_data") if starting_path is None else starting_path
+    if not os.path.exists(path):
+        return getRRTestDir(os.path.dirname(path))
+    for root, dirs, files in os.walk(path):
+        rrtest_files = glob.glob(os.path.join(root, "*.rrtest"))
+        if len(rrtest_files) != 0:
+            return root
+        else:
+            for d in dirs:
+                rrtest_files = glob.glob(os.path.join(d, "*.rrtest"))
+                if len(rrtest_files) != 0:
+                    return d
+    # if we get this far, then there are no rrtest files in
+    # this directory, or any directory under it. So we repeat
+    # with parent directory
+    return getRRTestDir(os.path.dirname(path))
+
 def runTester (testDir=None):
     """
     Run a series of tests from a testing dir.
@@ -1651,8 +1693,8 @@ def runTester (testDir=None):
         if testId == '[SBML]':
             sbmlStr, testId = getSBMLStr ()
         else:
-            Logger.log(Logger.LOG_WARNING, "rrtest file, \""
-                       + file + "\" missing SBML section, ignoring test file")
+            # Logger.log(Logger.LOG_WARNING, "rrtest file, \""
+            #            + file + "\" missing SBML section, ignoring test file")
             continue
 
 
@@ -1699,8 +1741,16 @@ def runTester (testDir=None):
     for testFunc in [unitTestIntegratorSettings]:
       testFunc(testDir)
 
-    print("\n\nTotal failed tests:\t", gFailedTests, \
-    "\nTotal unknown tests:\t", unknownTests, \
-    "\nTotal passed tests:\t", gPassedTests)
+    summary = f"Total failed tests:\t {gFailedTests}\n" \
+              f"Total unknown tests:\t {unknownTests}\n" \
+              f"Total passed tests:\t {gPassedTests}"
+
+    print(summary)
+
+    class FailedTestsError(Exception):
+        pass
+
+    if gFailedTests > 0:
+        raise FailedTestsError(summary)
 
     return gFailedTests

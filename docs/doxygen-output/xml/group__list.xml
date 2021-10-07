@@ -1,0 +1,612 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="group__list" kind="group">
+    <compoundname>list</compoundname>
+    <title>List handling routines</title>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__list_1ga0d154a4c5f0aef656c333775638b2b7d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC <ref refid="rrc__types_8h_1a32a8a60ac06858ff3a791672bd2bec73" kindref="member">RRListPtr</ref> rrcCallConv</type>
+        <definition>C_DECL_SPEC RRListPtr rrcCallConv createRRList</definition>
+        <argsstring>(void)</argsstring>
+        <name>createRRList</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+<para>Create a new list. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>A list is a container for storing list items. List items can represent integers, double, strings and lists. To populate a list, create list items of the appropriate type and add them to the list</para>
+<para>Example, build the list [123, [3.1415926]]</para>
+<para><programlisting><codeline><highlight class="normal">l<sp/>=<sp/>createRRList(RRHandle<sp/>handle);</highlight></codeline>
+<codeline><highlight class="normal">item<sp/>=<sp/>createIntegerItem<sp/>(123);</highlight></codeline>
+<codeline><highlight class="normal">addItem<sp/>(l,<sp/>item);</highlight></codeline>
+<codeline><highlight class="normal">item1<sp/>=<sp/>createListItem(RRHandle<sp/>handle);</highlight></codeline>
+<codeline><highlight class="normal">item2<sp/>=<sp/>createDoubleItem<sp/>(3.1415926);</highlight></codeline>
+<codeline><highlight class="normal">addItem<sp/>(item1,<sp/>item2);</highlight></codeline>
+<codeline><highlight class="normal">addItem<sp/>(l,<sp/>item1);</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">item<sp/>=<sp/>getListItem<sp/>(l,<sp/>0);</highlight></codeline>
+<codeline><highlight class="normal">printf<sp/>(&quot;item<sp/>=<sp/>%d\n&quot;,<sp/>item-&gt;data.iValue);</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">printf<sp/>(listToString<sp/>(l));</highlight></codeline>
+<codeline><highlight class="normal">freeRRList<sp/>(l);</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>Returns null if fails, otherwise returns a pointer to a new list structure </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="133" column="35" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="133" declcolumn="35"/>
+      </memberdef>
+      <memberdef kind="function" id="group__list_1gafd22078b804cc5b7e39849fb51c7519a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC void rrcCallConv</type>
+        <definition>C_DECL_SPEC void rrcCallConv freeRRList</definition>
+        <argsstring>(RRListPtr list)</argsstring>
+        <name>freeRRList</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a32a8a60ac06858ff3a791672bd2bec73" kindref="member">RRListPtr</ref></type>
+          <declname>list</declname>
+        </param>
+        <briefdescription>
+<para>Free RRListPtr structure, i.e destroy a list. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="139" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="139" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="group__list_1gadc06b896a3117610bbdcf25abb984f98" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC int rrcCallConv</type>
+        <definition>C_DECL_SPEC int rrcCallConv getListLength</definition>
+        <argsstring>(RRListPtr myList)</argsstring>
+        <name>getListLength</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a32a8a60ac06858ff3a791672bd2bec73" kindref="member">RRListPtr</ref></type>
+          <declname>myList</declname>
+        </param>
+        <briefdescription>
+<para>Returns the length of a given list. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">myList</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The list to retrieve the length from </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Length of list </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="148" column="29" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="148" declcolumn="29"/>
+      </memberdef>
+      <memberdef kind="function" id="group__list_1ga1b1b84f8ecafcb31e12e66a0f0f1b49b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC <ref refid="rrc__types_8h_1a79938364b69256c42480bb3a29ebf73e" kindref="member">RRListItemPtr</ref> rrcCallConv</type>
+        <definition>C_DECL_SPEC RRListItemPtr rrcCallConv createIntegerItem</definition>
+        <argsstring>(int value)</argsstring>
+        <name>createIntegerItem</name>
+        <param>
+          <type>int</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Create a list item to store an integer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The integer to store in the list item </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A pointer to the list item </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="158" column="39" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="158" declcolumn="39"/>
+      </memberdef>
+      <memberdef kind="function" id="group__list_1ga53219912496c999a31ae4f108b1a8247" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC <ref refid="rrc__types_8h_1a79938364b69256c42480bb3a29ebf73e" kindref="member">RRListItemPtr</ref> rrcCallConv</type>
+        <definition>C_DECL_SPEC RRListItemPtr rrcCallConv createDoubleItem</definition>
+        <argsstring>(double value)</argsstring>
+        <name>createDoubleItem</name>
+        <param>
+          <type>double</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Create a list item to store a double value. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The double to store in the list item </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A pointer to the list item </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="167" column="39" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="167" declcolumn="39"/>
+      </memberdef>
+      <memberdef kind="function" id="group__list_1gacc07a37b137b826130770eacd8c93d4e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC <ref refid="rrc__types_8h_1a79938364b69256c42480bb3a29ebf73e" kindref="member">RRListItemPtr</ref> rrcCallConv</type>
+        <definition>C_DECL_SPEC RRListItemPtr rrcCallConv createStringItem</definition>
+        <argsstring>(char *value)</argsstring>
+        <name>createStringItem</name>
+        <param>
+          <type>char *</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Create a list item to store a pointer to a char*. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The string to store in the list item </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A pointer to the list item </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="176" column="39" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="176" declcolumn="39"/>
+      </memberdef>
+      <memberdef kind="function" id="group__list_1gab092027f0f1176d66f13cb570efa28c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC <ref refid="rrc__types_8h_1a79938364b69256c42480bb3a29ebf73e" kindref="member">RRListItemPtr</ref> rrcCallConv</type>
+        <definition>C_DECL_SPEC RRListItemPtr rrcCallConv createListItem</definition>
+        <argsstring>(struct RRList *value)</argsstring>
+        <name>createListItem</name>
+        <param>
+          <type>struct <ref refid="structRRList" kindref="compound">RRList</ref> *</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Create a list item to store a list. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The list to store in the list item </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A pointer to the list item </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="185" column="39" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="185" declcolumn="39"/>
+      </memberdef>
+      <memberdef kind="function" id="group__list_1ga2ae7d5112afc94d0dae42cc89b5158ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC int rrcCallConv</type>
+        <definition>C_DECL_SPEC int rrcCallConv addItem</definition>
+        <argsstring>(RRListPtr list, RRListItemPtr *item)</argsstring>
+        <name>addItem</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a32a8a60ac06858ff3a791672bd2bec73" kindref="member">RRListPtr</ref></type>
+          <declname>list</declname>
+        </param>
+        <param>
+          <type><ref refid="rrc__types_8h_1a79938364b69256c42480bb3a29ebf73e" kindref="member">RRListItemPtr</ref> *</type>
+          <declname>item</declname>
+        </param>
+        <briefdescription>
+<para>Add a list item to a list and return index to the added item. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting><codeline><highlight class="normal">x<sp/>=<sp/>createRRList(RRHandle<sp/>handle);</highlight></codeline>
+<codeline><highlight class="normal">item1<sp/>=<sp/>createIntegerItem<sp/>(4);</highlight></codeline>
+<codeline><highlight class="normal">add<sp/>(x,<sp/>item1);</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">list</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The list to store the item in </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">item</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The list item to store in the list </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The index to where the list item was added </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="201" column="29" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="201" declcolumn="29"/>
+      </memberdef>
+      <memberdef kind="function" id="group__list_1ga11a02911ab01db4dc839ae97782e5bf1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC <ref refid="rrc__types_8h_1a79938364b69256c42480bb3a29ebf73e" kindref="member">RRListItemPtr</ref> rrcCallConv</type>
+        <definition>C_DECL_SPEC RRListItemPtr rrcCallConv getListItem</definition>
+        <argsstring>(RRListPtr list, int index)</argsstring>
+        <name>getListItem</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a32a8a60ac06858ff3a791672bd2bec73" kindref="member">RRListPtr</ref></type>
+          <declname>list</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+<para>Returns the index^th item from the list. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">list</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The list to retrieve the list item from </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The index list item we are interested in</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A pointer to the retrieved list item </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="213" column="39" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="213" declcolumn="39"/>
+      </memberdef>
+      <memberdef kind="function" id="group__list_1gaecb302d3561bc1e80a8123f991970fa8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC int rrcCallConv</type>
+        <definition>C_DECL_SPEC int rrcCallConv isListItemInteger</definition>
+        <argsstring>(RRListItemPtr item)</argsstring>
+        <name>isListItemInteger</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a79938364b69256c42480bb3a29ebf73e" kindref="member">RRListItemPtr</ref></type>
+          <declname>item</declname>
+        </param>
+        <briefdescription>
+<para>Returns true or false if the list item is an integer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">item</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The list </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>If true, then the list item holds an integer </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="222" column="29" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="222" declcolumn="29"/>
+      </memberdef>
+      <memberdef kind="function" id="group__list_1ga462c5cc75cb0f353a9d1f0cd8324876c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC int rrcCallConv</type>
+        <definition>C_DECL_SPEC int rrcCallConv isListItemDouble</definition>
+        <argsstring>(RRListItemPtr item)</argsstring>
+        <name>isListItemDouble</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a79938364b69256c42480bb3a29ebf73e" kindref="member">RRListItemPtr</ref></type>
+          <declname>item</declname>
+        </param>
+        <briefdescription>
+<para>Returns true or false if the list item is a double. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">item</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The list </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>If true, then the list item holds a double </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="231" column="29" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="231" declcolumn="29"/>
+      </memberdef>
+      <memberdef kind="function" id="group__list_1ga2198a9abc9617d9e926f515faa1663ac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC int rrcCallConv</type>
+        <definition>C_DECL_SPEC int rrcCallConv isListItemString</definition>
+        <argsstring>(RRListItemPtr item)</argsstring>
+        <name>isListItemString</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a79938364b69256c42480bb3a29ebf73e" kindref="member">RRListItemPtr</ref></type>
+          <declname>item</declname>
+        </param>
+        <briefdescription>
+<para>Returns true or false if the list item is a character array. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">item</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The list </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>If true, then the list item holds an character array </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="240" column="29" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="240" declcolumn="29"/>
+      </memberdef>
+      <memberdef kind="function" id="group__list_1gad17754e97e43d0ed08c2a5cca68f7a39" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC int rrcCallConv</type>
+        <definition>C_DECL_SPEC int rrcCallConv isListItemList</definition>
+        <argsstring>(RRListItemPtr item)</argsstring>
+        <name>isListItemList</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a79938364b69256c42480bb3a29ebf73e" kindref="member">RRListItemPtr</ref></type>
+          <declname>item</declname>
+        </param>
+        <briefdescription>
+<para>Returns true or false if the list item is a list itself. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">item</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The list </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>If true, then the list item holds a list </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="249" column="29" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="249" declcolumn="29"/>
+      </memberdef>
+      <memberdef kind="function" id="group__list_1ga68d5e8b5116e1076c5cac49858d469f6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC int rrcCallConv</type>
+        <definition>C_DECL_SPEC int rrcCallConv isListItem</definition>
+        <argsstring>(RRListItemPtr item, enum ListItemType itemType)</argsstring>
+        <name>isListItem</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a79938364b69256c42480bb3a29ebf73e" kindref="member">RRListItemPtr</ref></type>
+          <declname>item</declname>
+        </param>
+        <param>
+          <type>enum <ref refid="rrc__types_8h_1ab99437ab2e88aa90b7ebb8add042b25e" kindref="member">ListItemType</ref></type>
+          <declname>itemType</declname>
+        </param>
+        <briefdescription>
+<para>Returns true or false if the list item is the given itemType. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">item</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The list </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">itemType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The list item type to check for </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>If true, then the list item holds a list </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="259" column="29" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="259" declcolumn="29"/>
+      </memberdef>
+      <memberdef kind="function" id="group__list_1ga1e19335d11372caa5e9dc2d8976ce688" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC int rrcCallConv</type>
+        <definition>C_DECL_SPEC int rrcCallConv getIntegerListItem</definition>
+        <argsstring>(RRListItemPtr item, int *value)</argsstring>
+        <name>getIntegerListItem</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a79938364b69256c42480bb3a29ebf73e" kindref="member">RRListItemPtr</ref></type>
+          <declname>item</declname>
+        </param>
+        <param>
+          <type>int *</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Returns the integer from a list item. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">item</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The list item to work with </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The integer value returned by the method </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns true is successful, else false </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="269" column="29" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="269" declcolumn="29"/>
+      </memberdef>
+      <memberdef kind="function" id="group__list_1gab383162093a2782001a6d623dc077dc5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC int rrcCallConv</type>
+        <definition>C_DECL_SPEC int rrcCallConv getDoubleListItem</definition>
+        <argsstring>(RRListItemPtr item, double *value)</argsstring>
+        <name>getDoubleListItem</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a79938364b69256c42480bb3a29ebf73e" kindref="member">RRListItemPtr</ref></type>
+          <declname>item</declname>
+        </param>
+        <param>
+          <type>double *</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Returns the double from a list item. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">item</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The list item to work with </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The double value returned by the method </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns true is successful, else false </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="279" column="29" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="279" declcolumn="29"/>
+      </memberdef>
+      <memberdef kind="function" id="group__list_1ga177fc925d1726b0844c17837d3ed4425" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC char *rrcCallConv</type>
+        <definition>C_DECL_SPEC char* rrcCallConv getStringListItem</definition>
+        <argsstring>(RRListItemPtr item)</argsstring>
+        <name>getStringListItem</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a79938364b69256c42480bb3a29ebf73e" kindref="member">RRListItemPtr</ref></type>
+          <declname>item</declname>
+        </param>
+        <briefdescription>
+<para>Returns the string from a list item. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">item</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The list item to work with </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns NULL if it fails, otherwise returns a pointer to the string </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="288" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="288" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="group__list_1gaf9b1219b9a239f0fb73cd83095bbecce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC <ref refid="rrc__types_8h_1a32a8a60ac06858ff3a791672bd2bec73" kindref="member">RRListPtr</ref> rrcCallConv</type>
+        <definition>C_DECL_SPEC RRListPtr rrcCallConv getList</definition>
+        <argsstring>(RRListItemPtr item)</argsstring>
+        <name>getList</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a79938364b69256c42480bb3a29ebf73e" kindref="member">RRListItemPtr</ref></type>
+          <declname>item</declname>
+        </param>
+        <briefdescription>
+<para>Returns a list from a list item if it contains a list. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">item</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The list item to retrieve the list type from </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns NULL if item isn&apos;t a list, otherwise it returns a list from the item </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="298" column="35" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="298" declcolumn="35"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Some methods return lists (heterogeneous arrays of data), these routines make it easier to manipulate lists. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

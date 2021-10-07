@@ -33,13 +33,14 @@ public:
             llvm::Value *modelData);
     ~ASTNodeCodeGen();
 
-    llvm::Value *codeGen(const libsbml::ASTNode *ast);
+    llvm::Value* codeGenDouble(const libsbml::ASTNode* ast);
+    llvm::Value* codeGenBoolean(const libsbml::ASTNode* ast);
 private:
+    llvm::Value* codeGen(const libsbml::ASTNode* ast);
 
     /**
      * sbml ASTNode does not contain as assigment '=' type, assigment
      * is handled by other sbml elements such as initialAssigment.
-     *
      */
     llvm::Value *binaryExprCodeGen(const libsbml::ASTNode *ast);
 

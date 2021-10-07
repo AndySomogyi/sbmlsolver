@@ -10,7 +10,7 @@
 #include "rrLogger.h"
 #include "rrExecutableModel.h"
 #include <stdlib.h>
-#include <string.h>
+#include <string>
 #include <stdexcept>
 #include <set>
 #include <algorithm>
@@ -29,9 +29,9 @@
 
 namespace rr {
 
-using namespace std;
 
-// sorting predicate for vector of column values,
+
+// sorting predicate for std::vector of column values,
 // sort on the index, take value along for the ride.
 struct sort_pred
 {
@@ -50,7 +50,7 @@ csr_matrix* csr_matrix_new(unsigned m, unsigned n,
 
 	if (colidx.size() != nnz || values.size() != nnz)
 	{
-		throw runtime_error("rowidx, colidx and values must be the same length");
+		throw std::runtime_error("rowidx, colidx and values must be the same length");
 	}
 
 	for (size_t i = 0; i < nnz; i++)
@@ -59,22 +59,22 @@ csr_matrix* csr_matrix_new(unsigned m, unsigned n,
 		{
 			snprintf(err, sizeof(err) / sizeof(char),
 				"rowidx[%zi] == %i >= row count %ui", i, rowidx[i], m);
-			throw runtime_error(err);
+			throw std::runtime_error(err);
 		}
 		if (colidx[i] >= n)
 		{
 			snprintf(err, sizeof(err) / sizeof(char),
 				"colidx[%zi] == %i >= column count %ui", i, colidx[i], n);
-			throw runtime_error(err);
+			throw std::runtime_error(err);
 		}
 	}
 
 	csr_matrix* mat = (csr_matrix*)calloc(1, sizeof(csr_matrix));
 
 	// values that will get stuffed into struct
-	vector<double> mvalues;
-	vector<unsigned int> mcolidx;
-	vector<unsigned int> mrowptr;
+	std::vector<double> mvalues;
+	std::vector<unsigned int> mcolidx;
+	std::vector<unsigned int> mrowptr;
 
 	mat->m = m;
 	mat->n = n;
@@ -86,19 +86,19 @@ csr_matrix* csr_matrix_new(unsigned m, unsigned n,
 	for (unsigned i = 0; i < m; i++)
 	{
 		// find all the values in this row
-		vector<pair<unsigned, double> > cols;
+		std::vector<std::pair<unsigned, double> > cols;
 		for (unsigned j = 0; j < nnz; j++)
 		{
 			if (i == rowidx[j])
 			{
-				cols.push_back(pair<unsigned, double>(colidx[j], values[j]));
+				cols.push_back(std::pair<unsigned, double>(colidx[j], values[j]));
 			}
 		}
 
 		// sort by the column index
 		sort(cols.begin(), cols.end(), sort_pred());
 
-		for (vector<pair<unsigned, double> >::const_iterator j = cols.begin(); j != cols.end(); j++)
+		for (std::vector<std::pair<unsigned, double> >::const_iterator j = cols.begin(); j != cols.end(); j++)
 		{
 			mcolidx.push_back(j->first);
 			mvalues.push_back(j->second);
@@ -240,7 +240,7 @@ void csr_matrix_fill_dense(const csr_matrix *A, double *dense)
     }
 }
 
-void csr_matrix_dump_binary(const csr_matrix *x, std::ostream& out) 
+void csr_matrix_dump_binary(const csr_matrix *x, std::ostream& out)
 {
 	rr::saveBinary(out, x->m);
 	rr::saveBinary(out, x->n);
@@ -250,7 +250,7 @@ void csr_matrix_dump_binary(const csr_matrix *x, std::ostream& out)
 	out.write((char*)(x->rowptr), (x->m + 1) * sizeof(unsigned));
 }
 
-csr_matrix* csr_matrix_new_from_binary(std::istream& in) 
+csr_matrix* csr_matrix_new_from_binary(std::istream& in)
 {
 	csr_matrix* x = (csr_matrix*)malloc(sizeof(csr_matrix));
 	rr::loadBinary(in, x->m);
@@ -271,18 +271,18 @@ csr_matrix* csr_matrix_new_from_binary(std::istream& in)
 std::ostream& operator <<(std::ostream& os, const csr_matrix* mat)
 {
     os.precision(2);                   // Set 2 digits past the decimal
-    os.flags(ios::right | ios::fixed); // Fixed point, right justified
+    os.flags(std::ios::right | std::ios::fixed); // Fixed point, right justified
 
     os << "csr_matrix\n";
 
     if (mat == 0)
     {
-        os << "NULL" << endl;
+        os << "NULL" << std::endl;
         return os;
     }
 
     os << "rows: " << mat->m << ", columns: " << mat->n;
-    os << ", non-zero entries: " << mat->nnz << endl;
+    os << ", non-zero entries: " << mat->nnz << std::endl;
     if (mat->nnz > 0)
     {
         os << '[';
@@ -307,17 +307,17 @@ std::ostream& operator <<(std::ostream& os, const csr_matrix* mat)
             }
             if (m < mat->m - 1)
             {
-                os << endl;
+                os << std::endl;
             }
             else
             {
-                os << ']' << endl;
+                os << ']' << std::endl;
             }
         }
     }
     else
     {
-        os << "[[]]" << endl;
+        os << "[[]]" << std::endl;
     }
 
     return os;

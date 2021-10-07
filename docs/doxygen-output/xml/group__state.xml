@@ -1,0 +1,246 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="group__state" kind="group">
+    <compoundname>state</compoundname>
+    <title>Current state of system</title>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__state_1ga6ff35b4282c583424f4d5708330012b9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC bool rrcCallConv</type>
+        <definition>C_DECL_SPEC bool rrcCallConv getValue</definition>
+        <argsstring>(RRHandle handle, const char *symbolId, double *value)</argsstring>
+        <name>getValue</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>symbolId</declname>
+        </param>
+        <param>
+          <type>double *</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Get the value for a given symbol, use getAvailableTimeCourseSymbols(void) for a list of symbols. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Example:<programlisting><codeline><highlight class="normal">status<sp/>=<sp/>getValue<sp/>(rrHandle,<sp/>&quot;S1&quot;,<sp/>&amp;value);<sp/></highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>symbolId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The symbol that we wish to obtain the value for </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The value that will be retrieved </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns true if successful </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="2082" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="2082" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="group__state_1gab8416894a99ef18924c1a719be4521f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC bool rrcCallConv</type>
+        <definition>C_DECL_SPEC bool rrcCallConv setValue</definition>
+        <argsstring>(RRHandle handle, const char *symbolId, const double value)</argsstring>
+        <name>setValue</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>symbolId</declname>
+        </param>
+        <param>
+          <type>const double</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Set the value for a given symbol, use getAvailableTimeCourseSymbols(void) for a list of symbols. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Example:<programlisting><codeline><highlight class="normal">status<sp/>=<sp/>setValue<sp/>(rrHandle,<sp/>&quot;S1&quot;,<sp/>0.5);<sp/></highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>symbolId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The symbol that we wish to set the value </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The value that will be set to the symbol </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns true if successful </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="2096" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="2096" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="group__state_1ga045d3842446954ba06e4010e19a2f1b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC bool rrcCallConv</type>
+        <definition>C_DECL_SPEC bool rrcCallConv evalModel</definition>
+        <argsstring>(RRHandle handle)</argsstring>
+        <name>evalModel</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate the current model, that it update all assignments and rates of change. Do not carry out an integration step. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns false if it fails </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="2519" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="2519" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="group__state_1ga37cb4ffafece558c4b6f1af4e53667b9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC <ref refid="rrc__types_8h_1a7c9475df6c7337d99482b13a365e7596" kindref="member">RRStringArrayPtr</ref> rrcCallConv</type>
+        <definition>C_DECL_SPEC RRStringArrayPtr rrcCallConv getEigenvalueIds</definition>
+        <argsstring>(RRHandle handle)</argsstring>
+        <name>getEigenvalueIds</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+<para>Obtain the list of eigenvalue Ids. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns -1 if it fails, if successful it returns a pointer to a RRStringArrayPtr struct </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="2657" column="42" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="2657" declcolumn="42"/>
+      </memberdef>
+      <memberdef kind="function" id="group__state_1ga60829d32710dc201c4103c76214a4bc6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC <ref refid="rrc__types_8h_1a32a8a60ac06858ff3a791672bd2bec73" kindref="member">RRListPtr</ref> rrcCallConv</type>
+        <definition>C_DECL_SPEC RRListPtr rrcCallConv getAvailableTimeCourseSymbols</definition>
+        <argsstring>(RRHandle handle)</argsstring>
+        <name>getAvailableTimeCourseSymbols</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+<para>Obtain the list of all available symbols. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns -1 if it fails, if successful it returns a pointer to a RRListHandle struct </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="2666" column="35" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="2666" declcolumn="35"/>
+      </memberdef>
+      <memberdef kind="function" id="group__state_1gafe7dc6a912c3f97edd20b1e6da61b12c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC <ref refid="rrc__types_8h_1a32a8a60ac06858ff3a791672bd2bec73" kindref="member">RRListPtr</ref> rrcCallConv</type>
+        <definition>C_DECL_SPEC RRListPtr rrcCallConv getAvailableSteadyStateSymbols</definition>
+        <argsstring>(RRHandle handle)</argsstring>
+        <name>getAvailableSteadyStateSymbols</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+<para>Obtain the list of all available steady state symbols. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RoadRunner instance </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns -1 if it fails, if successful it returns a pointer to a RRListPtr struct </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" line="2675" column="35" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_api.h" declline="2675" declcolumn="35"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Compute derivatives, fluxes, and other values of the system at the current state. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

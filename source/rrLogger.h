@@ -19,8 +19,18 @@ namespace rr
  * This object allows us to to use the new Poco logging system and maintain
  * compatability with all existing code.
  *
- * This object is returne from the rr::Logger, exposes a ostream interface, and
+ * This object is returne from the rr::Logger, exposes a std::ostream interface, and
  * and dumps to the log when it goes out of scope.
+ *
+ * Levels are determined by Poco::Message::Priority:
+ *      - Poco::Message::Priority::PRIO_FATAL       = 1
+ *      - Poco::Message::Priority::PRIO_CRITICAL    = 2
+ *      - Poco::Message::Priority::PRIO_ERROR       = 3
+ *      - Poco::Message::Priority::PRIO_WARNING     = 4
+ *      - Poco::Message::Priority::PRIO_NOTICE      = 5
+ *      - Poco::Message::Priority::PRIO_INFORMATION = 6
+ *      - Poco::Message::Priority::PRIO_DEBUG       = 7
+ *      - Poco::Message::Priority::PRIO_TRACE       = 8
  */
 class RR_DECLSPEC LoggingBuffer
 {
@@ -28,7 +38,7 @@ public:
     LoggingBuffer(int level, const char* file, int line);
 
     /**
-     * dump the contents of the stringstream to the log.
+     * @brief dump the contents of the std::stringstream to the log.
      */
     ~LoggingBuffer();
 
@@ -59,15 +69,26 @@ public:
      */
     enum Level
     {
-        LOG_CURRENT = 0, /// Use the current level -- don't change the level from what it is.
-        LOG_FATAL = 1,   /// A fatal error. The application will most likely terminate. This is the highest priority.
-        LOG_CRITICAL,    /// A critical error. The application might not be able to continue running successfully.
-        LOG_ERROR,       /// An error. An operation did not complete successfully, but the application as a whole is not affected.
-        LOG_WARNING,     /// A warning. An operation completed with an unexpected result.
-        LOG_NOTICE,      /// A notice, which is an information with just a higher priority.
-        LOG_INFORMATION, /// An informational message, usually denoting the successful completion of an operation.
-        LOG_DEBUG,       /// A debugging message.
-        LOG_TRACE        /// A tracing message. This is the lowest priority.
+        /**
+         *  LOG_CURRENT: Use the current level -- don't change the level from what it is.
+         *  LOG_FATAL: A fatal error. The application will most likely terminate. This is the highest priority.
+         *  LOG_CRITICAL: A critical error. The application might not be able to continue running successfully.
+         *  LOG_ERROR: An error. An operation did not complete successfully, but the application as a whole is not affected.
+         *  LOG_WARNING: A warning. An operation completed with an unexpected result.
+         *  LOG_NOTICE: A notice, which is an information with just a higher priority.
+         *  LOG_INFORMATION: An informational message, usually denoting the successful completion of an operation.
+         *  LOG_DEBUG: A debugging message.
+         *  LOG_TRACE: A tracing message. This is the lowest priority.
+         */
+        LOG_CURRENT = 0,
+        LOG_FATAL = 1,
+        LOG_CRITICAL = 2,
+        LOG_ERROR = 3,
+        LOG_WARNING = 4,
+        LOG_NOTICE = 5,
+        LOG_INFORMATION = 6,
+        LOG_DEBUG = 7,
+        LOG_TRACE =8
     };
 
     /**
@@ -98,7 +119,7 @@ public:
     /**
      * turns on file logging to the given file as the given level.
      *
-     * If fileName is an empty string, then this will use the file
+     * If fileName is an empty std::string, then this will use the file
      * specified in the Config::LOGGER_LOG_FILE_PATH. If this is empty,
      * a file called "roadrunner.log" will be created in the
      * temp directory.
@@ -128,7 +149,7 @@ public:
     /**
      * Internally, RoadRunner uses the Poco logging framework, so we
      * can custom format logging output based on a formatting pattern
-     * string.
+     * std::string.
      *
      * The format pattern is used as a template to format the message and
      * is copied character by character except for the following special characters,
@@ -156,7 +177,7 @@ public:
      *   * %T - message thread name
      *   * %I - message thread identifier (numeric)
      *   * %N - node or host name
-     *   * %U - message source file path (empty string if not set)
+     *   * %U - message source file path (empty std::string if not set)
      *   * %u - message source line number (0 if not set)
      *   * %w - message date/time abbreviated weekday (Mon, Tue, ...)
      *   * %W - message date/time full weekday (Monday, Tuesday, ...)
@@ -198,7 +219,7 @@ public:
     static std::string levelToString(int level);
 
     /**
-     * parses a string and returns a Logger::Level
+     * parses a std::string and returns a Logger::Level
      */
     static Level stringToLevel(const std::string& str);
 
@@ -264,7 +285,7 @@ public:
 #ifndef SWIG // don't expose this to SWIG
 
     /**
-     * Set a pointer to an ostream object where the console logger should
+     * Set a pointer to an std::ostream object where the console logger should
      * log to.
      *
      * Normally, this points to std::clog.
@@ -310,15 +331,23 @@ RR_DECLSPEC Poco::Logger &getLogger();
 #define gLog Logger()
 
 #ifndef NO_LOGGER
-#define Log(level) \
-    if (level > rr::Logger::getLevel()) { ; } \
+#define rrLog(level) \
+    if ((level) > rr::Logger::getLevel()) { ; } \
     else rr::LoggingBuffer(level, __FILE__, __LINE__).stream()
 #else
-#define Log(level) \
+#define rrLog(level) \
     if (true) {  }\
     else \
     LoggingBuffer(level, __FILE__, __LINE__)
 #endif
+
+#define rrLogFatal     rrLog(Logger::LOG_FATAL)        << __LINE__ << ": "
+#define rrLogCritical  rrLog(Logger::LOG_CRITICAL)     << __LINE__ << ": "
+#define rrLogErr       rrLog(Logger::LOG_ERROR)        << __LINE__ << ": "
+#define rrLogWarn      rrLog(Logger::LOG_WARNING)      << __LINE__ << ": "
+#define rrLogNotice    rrLog(Logger::LOG_NOTICE)       << __LINE__ << ": "
+#define rrLogInfo      rrLog(Logger::LOG_INFORMATION)  << __LINE__ << ": "
+#define rrLogDebug     rrLog(Logger::LOG_DEBUG)        << __LINE__ << ": "
 
 
 } /* namespace rr */

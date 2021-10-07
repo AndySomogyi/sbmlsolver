@@ -210,6 +210,49 @@ public:
     virtual int setBoundarySpeciesConcentrations(size_t len, int const *indx,
             double const *values);
 
+    virtual int setBoundarySpeciesAmounts(size_t len, int const* indx,
+        const double* values);
+
+    /**
+     * Set the initial concentrations of the boundary species.
+     *
+     * Takes the same indices as the other boundary species methods.
+     *
+     * Note, if a boundary species has an initial assignment rule,
+     * than the initial conditions value can only be set by
+     * updating the values on which it depends, it can not be set
+     * directly.
+     */
+    virtual int setBoundarySpeciesInitConcentrations(size_t len, int const* indx,
+        double const* values);
+
+    /**
+     * Get the initial concentrations of the boundary species,
+     * uses the same indexing as the other boundary species methods.
+     */
+    virtual int getBoundarySpeciesInitConcentrations(size_t len, int const* indx,
+        double* values);
+
+    /**
+     * Set the initial amounts of the boundary species.
+     *
+     * Takes the same indices as the other boundary species methods.
+     *
+     * Note, if a boundary species has an initial assignment rule,
+     * than the initial conditions value can only be set by
+     * updating the values on which it depends, it can not be set
+     * directly.
+     */
+    virtual int setBoundarySpeciesInitAmounts(size_t len, int const* indx,
+        double const* values);
+
+    /**
+     * Get the initial amounts of the boundary species,
+     * uses the same indexing as the other boundary species methods.
+     */
+    virtual int getBoundarySpeciesInitAmounts(size_t len, int const* indx,
+        double* values);
+
 
     /************************ End Boundary Species Section ************************/
     #endif /***********************************************************************/
@@ -261,6 +304,8 @@ public:
 
     virtual int getNumCompartments();
     virtual int getCompartmentIndex(const std::string& eid);
+    virtual int getCompartmentIndexForFloatingSpecies(size_t index);
+    virtual int getCompartmentIndexForBoundarySpecies(size_t index);
     virtual std::string getCompartmentId(int index);
 
     /**
@@ -323,8 +368,8 @@ public:
     virtual int getSupportedIdTypes();
 
     /**
-     * gets the value for the given id string. The string must be a SelectionRecord
-     * string that is accepted by this class.
+     * gets the value for the given id std::string. The std::string must be a SelectionRecord
+     * std::string that is accepted by this class.
      */
     virtual double getValue(const std::string& id);
 
@@ -384,7 +429,7 @@ public:
     virtual std::string getReactionId(size_t index);
 
     /**
-     * get the vector of reaction rates.
+     * get the std::vector of reaction rates.
      *
      * @param len: the length of the suplied buffer, must be >= reaction rates size.
      * @param indx: pointer to index array. If NULL, then it is ignored and the
@@ -404,53 +449,53 @@ public:
     virtual void getRateRuleValues(double *rateRuleValues);
 
     /**
-     * get the id of an element of the state vector.
+     * get the id of an element of the state std::vector.
      */
     virtual std::string getStateVectorId(int index);
 
     /**
-     * The state vector is a vector of elements that are defined by
+     * The state std::vector is a std::vector of elements that are defined by
      * differential equations (rate rules) or independent floating species
      * are defined by reactions.
      *
-     * To get the ids of the state vector elements, use getStateVectorId.
+     * To get the ids of the state std::vector elements, use getStateVectorId.
      *
-     * copies the internal model state vector into the provided
+     * copies the internal model state std::vector into the provided
      * buffer.
      *
-     * @param[out] stateVector a buffer to copy the state vector into, if NULL,
+     * @param[out] stateVector a buffer to copy the state std::vector into, if NULL,
      *         return the size required.
      *
      * @return the number of items coppied into the provided buffer, if
-     *         stateVector is NULL, returns the length of the state vector.
+     *         stateVector is NULL, returns the length of the state std::vector.
      */
     virtual int getStateVector(double *stateVector);
 
     /**
-     * sets the internal model state to the provided packed state vector.
+     * sets the internal model state to the provided packed state std::vector.
      *
-     * @param[in] an array which holds the packed state vector, must be
+     * @param[in] an array which holds the packed state std::vector, must be
      *         at least the size returned by getStateVector.
      *
-     * @return the number of items copied from the state vector, negative
+     * @return the number of items copied from the state std::vector, negative
      *         on failure.
      */
     virtual int setStateVector(const double *stateVector);
 
     /**
-     * the state vector y is the rate rule values and floating species
+     * the state std::vector y is the rate rule values and floating species
      * concentrations concatenated. y is of length numFloatingSpecies + numRateRules.
      *
-     * The state vector is packed such that the first n raterule elements are the
+     * The state std::vector is packed such that the first n raterule elements are the
      * values of the rate rules, and the last n floatingspecies are the floating
      * species values.
      *
      * @param[in] time current simulator time
-     * @param[in] y state vector, must be either null, or have a size of that
+     * @param[in] y state std::vector, must be either null, or have a size of that
      *         speciefied by getStateVector. If y is null, then the model is
      *         evaluated using its current state. If y is not null, then the
-     *         y is considered the state vector.
-     * @param[out] dydt calculated rate of change of the state vector, if null,
+     *         y is considered the state std::vector.
+     * @param[out] dydt calculated rate of change of the state std::vector, if null,
      *         it is ignored.
      */
     virtual void getStateVectorRate(double time, const double *y, double* dydt=0);
@@ -493,7 +538,7 @@ public:
      * as there is a zero crossing.
      *
      * @param time[in] current time
-     * @param y[in] the state vector
+     * @param y[in] the state std::vector
      * @param gdot[out] result event roots, this is of length numEvents.
      */
     virtual void getEventRoots(double time, const double* y, double* gdot);
@@ -517,18 +562,21 @@ public:
     virtual int getEventIndex(const std::string& eid);
     virtual std::string getEventId(int index);
     virtual void getEventIds(std::list<std::string>& out);
+    virtual void getAssignmentRuleIds(std::list<std::string>& out);
+    virtual void getRateRuleIds(std::list<std::string>& out);
+    virtual void getInitialAssignmentIds(std::list<std::string>& out);
     virtual void setEventListener(int index, rr::EventListenerPtr eventHandler);
     virtual rr::EventListenerPtr getEventListener(int index);
 
     /**
      * Get the amount rate of change for the i'th floating species
-     * given a reaction rates vector.
+     * given a reaction rates std::vector.
      *
      * TODO: This should be merged with getFloatingSpeciesAmountRates, but that will
      * break inteface, will do in next point release.
      *
      * TODO: If the conversion factor changes in between getting the
-     * reaction rates vector via getReactionRates
+     * reaction rates std::vector via getReactionRates
      *
      * @param index: index of the desired floating speceis rate.
      * @param reactionRates: pointer to buffer of reaction rates.

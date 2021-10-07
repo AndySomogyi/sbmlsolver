@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="structRRCData" kind="struct" language="C++" prot="public">
+    <compoundname>RRCData</compoundname>
+    <includes refid="rrc__types_8h" local="no">rrc_types.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structRRCData_1aaebd12e68638f3572eea166c7dd0af69" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int RRCData::RSize</definition>
+        <argsstring></argsstring>
+        <name>RSize</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>The number of rows in the data matrix </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_types.h" line="112" column="21" bodyfile="D:/roadrunner/roadrunner/wrappers/C/rrc_types.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structRRCData_1a573616e93e0241d11b40ea56c708041b" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int RRCData::CSize</definition>
+        <argsstring></argsstring>
+        <name>CSize</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>The number of columns in the data matrix </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_types.h" line="113" column="21" bodyfile="D:/roadrunner/roadrunner/wrappers/C/rrc_types.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structRRCData_1a4f2db98f036a01dca7168fee658bac0c" prot="public" static="no" mutable="no">
+        <type>double *</type>
+        <definition>double* RRCData::Data</definition>
+        <argsstring></argsstring>
+        <name>Data</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>A pointer to the data stored in the matrix. Access an element using Data[row*CSize + col] </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_types.h" line="114" column="20" bodyfile="D:/roadrunner/roadrunner/wrappers/C/rrc_types.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structRRCData_1a2579ee2008f91694842f2278630852bf" prot="public" static="no" mutable="no">
+        <type>double *</type>
+        <definition>double* RRCData::Weights</definition>
+        <argsstring></argsstring>
+        <name>Weights</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>A pointer to weights stored in the Weights matrix. Access an element using Weights[row*CSize + col] </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_types.h" line="115" column="20" bodyfile="D:/roadrunner/roadrunner/wrappers/C/rrc_types.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structRRCData_1a54acd2748775883500033984275be173" prot="public" static="no" mutable="no">
+        <type>char **</type>
+        <definition>char** RRCData::ColumnHeaders</definition>
+        <argsstring></argsstring>
+        <name>ColumnHeaders</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Pointer to an array of column header strings </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_types.h" line="116" column="19" bodyfile="D:/roadrunner/roadrunner/wrappers/C/rrc_types.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Structure for the result type from the simulate calls. The client is responsible for freeing the RRCDataPtr. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_types.h" line="110" column="1" bodyfile="D:/roadrunner/roadrunner/wrappers/C/rrc_types.h" bodystart="111" bodyend="117"/>
+    <listofallmembers>
+      <member refid="structRRCData_1a54acd2748775883500033984275be173" prot="public" virt="non-virtual"><scope>RRCData</scope><name>ColumnHeaders</name></member>
+      <member refid="structRRCData_1a573616e93e0241d11b40ea56c708041b" prot="public" virt="non-virtual"><scope>RRCData</scope><name>CSize</name></member>
+      <member refid="structRRCData_1a4f2db98f036a01dca7168fee658bac0c" prot="public" virt="non-virtual"><scope>RRCData</scope><name>Data</name></member>
+      <member refid="structRRCData_1aaebd12e68638f3572eea166c7dd0af69" prot="public" virt="non-virtual"><scope>RRCData</scope><name>RSize</name></member>
+      <member refid="structRRCData_1a2579ee2008f91694842f2278630852bf" prot="public" virt="non-virtual"><scope>RRCData</scope><name>Weights</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

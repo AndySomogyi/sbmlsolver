@@ -9,12 +9,6 @@ This class is frozen, no new features \mbox{\hyperlink{classrr_1_1RoadRunner}{Ro
 
 {\ttfamily \#include $<$rr\+Road\+Runner\+Options.\+h$>$}
 
-Inheritance diagram for rr\+::Simulate\+Options\+:\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[height=3.000000cm]{classrr_1_1SimulateOptions}
-\end{center}
-\end{figure}
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
@@ -28,11 +22,13 @@ std\+::string \mbox{\hyperlink{classrr_1_1SimulateOptions_af028e3752c6c9c3e25d5c
 std\+::string \mbox{\hyperlink{classrr_1_1SimulateOptions_ae95f2f7ba2b8af37a27e8c8f47f0ae72}{to\+Repr}} () const
 \begin{DoxyCompactList}\small\item\em get a short descriptions of this object, compatable with python {\bfseries{repr}}. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classrr_1_1SimulateOptions_a670a8cca2fd579cc776e70e95221bc81}\label{classrr_1_1SimulateOptions_a670a8cca2fd579cc776e70e95221bc81}} 
-void {\bfseries load\+S\+B\+M\+L\+Settings} (const std\+::string \&filename)
+void {\bfseries load\+SBMLSettings} (const std\+::string \&filename)
 \item 
-\mbox{\Hypertarget{classrr_1_1SimulateOptions_ae864e702c9a40669ac9088731ff49884}\label{classrr_1_1SimulateOptions_ae864e702c9a40669ac9088731ff49884}} 
-virtual void \mbox{\hyperlink{classrr_1_1SimulateOptions_ae864e702c9a40669ac9088731ff49884}{set\+Item}} (const std\+::string \&key, const \mbox{\hyperlink{classrr_1_1Variant}{rr\+::\+Variant}} \&value)
-\begin{DoxyCompactList}\small\item\em sets an item in the internal unordered map. \end{DoxyCompactList}\end{DoxyCompactItemize}
+virtual void \mbox{\hyperlink{classrr_1_1SimulateOptions_abbdfae309d8622bb68ff68d7173a7b78}{initialize}} ()
+\item 
+\mbox{\Hypertarget{classrr_1_1SimulateOptions_a5b05160fb010f3024c618b5225b75e4f}\label{classrr_1_1SimulateOptions_a5b05160fb010f3024c618b5225b75e4f}} 
+virtual double {\bfseries get\+Next} (size\+\_\+t step)
+\end{DoxyCompactItemize}
 \doxysubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
@@ -58,8 +54,10 @@ std\+::vector$<$ std\+::string $>$ \mbox{\hyperlink{classrr_1_1SimulateOptions_a
 std\+::vector$<$ std\+::string $>$ \mbox{\hyperlink{classrr_1_1SimulateOptions_a13c457ced6a6396d9cb8dcecf42f0dee}{amounts}}
 \begin{DoxyCompactList}\small\item\em A list of the variable whose output in the results file is in amount (not concentration) units. \end{DoxyCompactList}\item 
 std\+::vector$<$ std\+::string $>$ \mbox{\hyperlink{classrr_1_1SimulateOptions_a3fb8836610f52922ee371fdf06331e97}{concentrations}}
-\begin{DoxyCompactList}\small\item\em A list of the variable whose output in the results file is in concentration (not amount) units. \end{DoxyCompactList}\end{DoxyCompactItemize}
-\doxysubsection*{Additional Inherited Members}
+\begin{DoxyCompactList}\small\item\em A list of the variable whose output in the results file is in concentration (not amount) units. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classrr_1_1SimulateOptions_a47da5360a97032cb8c4cc54ef47401d9}\label{classrr_1_1SimulateOptions_a47da5360a97032cb8c4cc54ef47401d9}} 
+std\+::vector$<$ double $>$ {\bfseries times}
+\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
@@ -68,6 +66,15 @@ This class is frozen, no new features \mbox{\hyperlink{classrr_1_1RoadRunner}{Ro
 This is the full set of options that determines how \mbox{\hyperlink{classrr_1_1RoadRunner}{Road\+Runner}} performs a simulation of an sbml model.
 
 This is a superset of the values stored in a sbml test suite settings file, the documentation of the fields which correspond to an sbml test suite settings was taken from \href{http://sbml.org}{\texttt{ http\+://sbml.\+org}} 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classrr_1_1SimulateOptions_abbdfae309d8622bb68ff68d7173a7b78}\label{classrr_1_1SimulateOptions_abbdfae309d8622bb68ff68d7173a7b78}} 
+\index{rr::SimulateOptions@{rr::SimulateOptions}!initialize@{initialize}}
+\index{initialize@{initialize}!rr::SimulateOptions@{rr::SimulateOptions}}
+\doxysubsubsection{\texorpdfstring{initialize()}{initialize()}}
+{\footnotesize\ttfamily void rr\+::\+Simulate\+Options\+::initialize (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+has\+Key(\char`\"{}times\char`\"{}))
 
 \doxysubsection{Member Data Documentation}
 \mbox{\Hypertarget{classrr_1_1SimulateOptions_a13c457ced6a6396d9cb8dcecf42f0dee}\label{classrr_1_1SimulateOptions_a13c457ced6a6396d9cb8dcecf42f0dee}} 
@@ -110,7 +117,7 @@ Large simulations should have this disabled. \mbox{\Hypertarget{classrr_1_1Simul
 
 The ouptut file for simulation results. 
 
-If non-\/empty, then the simulation results are batch-\/written to output\+\_\+file every Config\+::\+K\+\_\+\+R\+O\+W\+S\+\_\+\+P\+E\+R\+\_\+\+W\+R\+I\+TE rows, and an empty result matrix is returned. \mbox{\Hypertarget{classrr_1_1SimulateOptions_ae25c38171cedd08bf0cc43932c07822e}\label{classrr_1_1SimulateOptions_ae25c38171cedd08bf0cc43932c07822e}} 
+If non-\/empty, then the simulation results are batch-\/written to output\+\_\+file every Config\+::\+K\+\_\+\+ROWS\+\_\+\+PER\+\_\+\+WRITE rows, and an empty result matrix is returned. \mbox{\Hypertarget{classrr_1_1SimulateOptions_ae25c38171cedd08bf0cc43932c07822e}\label{classrr_1_1SimulateOptions_ae25c38171cedd08bf0cc43932c07822e}} 
 \index{rr::SimulateOptions@{rr::SimulateOptions}!start@{start}}
 \index{start@{start}!rr::SimulateOptions@{rr::SimulateOptions}}
 \doxysubsubsection{\texorpdfstring{start}{start}}
@@ -140,11 +147,11 @@ The samples are evenly spaced. When a simulation system calculates the data poin
 
 The variables (in addition to time) whose values will be saved in the result. 
 
-These are S\+B\+ML model id\textquotesingle{}s. Order is significant, as this determines the order of the columns in the result matrix.
+These are SBML model id\textquotesingle{}s. Order is significant, as this determines the order of the columns in the result matrix.
 
 Important\+: if a symbol in this list refers to a species in the model, then that symbol will also be listed in either the amount or concentration lists below.
 
-N\+O\+TE\+:If a listed variable has two underscores in it (\textquotesingle{}\+\_\+\+\_\+\textquotesingle{}), that variable is actually present only in a submodel of the main model, from the Hierarchical Model Composition package, in the format submodel\+I\+D\+\_\+\+\_\+variable\+ID. If the model is flattened, the variable will appear automatically. 
+NOTE\+:If a listed variable has two underscores in it (\textquotesingle{}\+\_\+\+\_\+\textquotesingle{}), that variable is actually present only in a submodel of the main model, from the Hierarchical Model Composition package, in the format submodel\+ID\+\_\+\+\_\+variable\+ID. If the model is flattened, the variable will appear automatically. 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 

@@ -36,7 +36,7 @@
 
 #include <Poco/UUIDGenerator.h>
 
-using namespace std;
+
 using namespace libsbml;
 
 static const int loggingLevel = rr::Logger::LOG_DEBUG;
@@ -191,20 +191,20 @@ int ConservedMoietyConverter::convert()
 
     if (mDocument == NULL)
     {
-        Log(Logger::LOG_ERROR) << "ConservedMoietyConverter document as not been set";
+        rrLog(Logger::LOG_ERROR) << "ConservedMoietyConverter document as not been set";
         return LIBSBML_INVALID_OBJECT;
     }
 
     if (mDocument->checkL3v2Compatibility() != 0)
     {
-        Log(Logger::LOG_ERROR) << "ConservedMoietyConverter document not compatible with L3v2 "
+        rrLog(Logger::LOG_ERROR) << "ConservedMoietyConverter document not compatible with L3v2 "
                 << std::endl;
         return 1;
     }
 
     if (!mDocument->setLevelAndVersion(3,2))
     {
-        Log(Logger::LOG_ERROR) << "ConservedMoietyConverter mDocument->setLevelAndVersion failed "
+        rrLog(Logger::LOG_ERROR) << "ConservedMoietyConverter mDocument->setLevelAndVersion failed "
                 << std::endl;
         return 1;
     }
@@ -213,7 +213,7 @@ int ConservedMoietyConverter::convert()
     Model* mModel = mDocument->getModel();
     if (mModel == NULL)
     {
-        Log(Logger::LOG_ERROR) << "ConservedMoietyConverter document does not have a model";
+        rrLog(Logger::LOG_ERROR) << "ConservedMoietyConverter document does not have a model";
         return LIBSBML_INVALID_OBJECT;
     }
 
@@ -236,7 +236,7 @@ int ConservedMoietyConverter::convert()
 
     if ((err = docPlugin->setRequired(true)) != LIBSBML_OPERATION_SUCCESS)
     {
-        Log(Logger::LOG_ERROR) << "ConservedMoietyConverter docPlugin->setRequired(true) failed: "
+        rrLog(Logger::LOG_ERROR) << "ConservedMoietyConverter docPlugin->setRequired(true) failed: "
                 << std::endl
                 << OperationReturnValue_toString(err);
         return err;
@@ -245,7 +245,7 @@ int ConservedMoietyConverter::convert()
     // makes a clone of the model
     if((err = resultDoc->setModel(mModel)) != LIBSBML_OPERATION_SUCCESS)
     {
-        Log(Logger::LOG_ERROR) << "ConservedMoietyConverter resultDoc->setModel(mModel) failed: "
+        rrLog(Logger::LOG_ERROR) << "ConservedMoietyConverter resultDoc->syncWithModel(mModel) failed: "
                 << std::endl
                 << OperationReturnValue_toString(err);
         return err;
@@ -255,28 +255,28 @@ int ConservedMoietyConverter::convert()
 
     assert(resultModel && "resultModel is NULL");
 
-    vector<string> indSpecies = structural->getIndependentSpecies();
+    std::vector<std::string> indSpecies = structural->getIndependentSpecies();
 
-    vector<string> depSpecies = structural->getDependentSpecies();
+    std::vector<std::string> depSpecies = structural->getDependentSpecies();
 
     // creates a new matrix
     ls::DoubleMatrix *L0 = structural->getL0Matrix();
 
     if (rr::Logger::getLevel() >= loggingLevel)
     {
-        Log(loggingLevel) << "performing conversion on " << mModel->getName();
-        Log(loggingLevel) << "independent species: " << toString(indSpecies);
-        Log(loggingLevel) << "dependent species: " << toString(depSpecies);
-        Log(loggingLevel) << "L0 matrix: " << endl << *L0;
-        Log(loggingLevel) << "Stoichiometry Matrix: " << endl
+        rrLog(loggingLevel) << "performing conversion on " << mModel->getName();
+        rrLog(loggingLevel) << "independent species: " << toString(indSpecies);
+        rrLog(loggingLevel) << "dependent species: " << toString(depSpecies);
+        rrLog(loggingLevel) << "L0 matrix: " << std::endl << *L0;
+        rrLog(loggingLevel) << "Stoichiometry Matrix: " << std::endl
                 << *(structural->getStoichiometryMatrix());
-        Log(loggingLevel) << "Reordered Stoichiometry Matrix: "
-                << endl << *(structural->getReorderedStoichiometryMatrix());
+        rrLog(loggingLevel) << "Reordered Stoichiometry Matrix: "
+                << std::endl << *(structural->getReorderedStoichiometryMatrix());
     }
 
     createReorderedSpecies(resultModel, mModel, indSpecies, depSpecies);
 
-    vector<string> conservedMoieties = createConservedMoietyParameters(
+    std::vector<std::string> conservedMoieties = createConservedMoietyParameters(
             resultModel, *L0, indSpecies, depSpecies);
 
     createDependentSpeciesRules(resultModel, *L0, conservedMoieties,
@@ -308,7 +308,7 @@ int ConservedMoietyConverter::setDocument(const libsbml::SBMLDocument* doc)
 
     if (doc == 0)
     {
-        Log(Logger::LOG_ERROR) << "ConservedMoietyConverter::setDocument argument is NULL";
+        rrLog(Logger::LOG_ERROR) << "ConservedMoietyConverter::setDocument argument is NULL";
         return LIBSBML_INVALID_OBJECT;
     }
 
@@ -320,10 +320,10 @@ int ConservedMoietyConverter::setDocument(const libsbml::SBMLDocument* doc)
     if (doc->getLevel() != ConservationExtension::getDefaultLevel()
         || doc->getVersion() != ConservationExtension::getDefaultVersion())
     {
-        if ((rr::Config::getInt(rr::Config::ROADRUNNER_DISABLE_WARNINGS) &
-                rr::Config::ROADRUNNER_DISABLE_WARNINGS_CONSERVED_MOIETY) == 0)
+        if ((rr::Config::getBool(rr::Config::ROADRUNNER_DISABLE_WARNINGS) &
+                rr::Config::ROADRUNNER_DISABLE_WARNINGS_CONSERVED_MOIETY == 0))
         {
-            Log(rr::Logger::LOG_NOTICE) << "source document is level " << doc->getLevel()
+            rrLog(rr::Logger::LOG_NOTICE) << "source document is level " << doc->getLevel()
                         << ", version " << doc->getVersion() << ", converting to "
                         << "level " << ConservationExtension::getDefaultLevel()
                         << ", version " << ConservationExtension::getDefaultVersion()
@@ -349,11 +349,11 @@ int ConservedMoietyConverter::setDocument(const libsbml::SBMLDocument* doc)
 
         if ((result = versionConverter.convert()) != LIBSBML_OPERATION_SUCCESS)
         {
-            Log(rr::Logger::LOG_ERROR) << "could not upgrade source sbml level or version";
+            rrLog(rr::Logger::LOG_ERROR) << "could not upgrade source sbml level or version";
 
             const SBMLErrorLog *log = doc->getErrorLog();
-            string errors = log ? log->toString() : string(" NULL SBML Error Log");
-            Log(rr::Logger::LOG_ERROR) << "Conversion Errors: " + errors;
+            std::string errors = log ? log->toString() : std::string(" NULL SBML Error Log");
+            rrLog(rr::Logger::LOG_ERROR) << "Conversion Errors: " + errors;
 
             return result;
         }
@@ -394,11 +394,11 @@ int ConservedMoietyConverter::setDocument(const libsbml::SBMLDocument* doc)
             */
             if (errors > 0)
             {
-                Log(rr::Logger::LOG_ERROR) << "Invalid document for moiety conversion:";
+                rrLog(rr::Logger::LOG_ERROR) << "Invalid document for moiety conversion:";
 
                 const SBMLErrorLog *log = pdoc->getErrorLog();
-                string errors = log ? log->toString() : string(" NULL SBML Error Log");
-                Log(rr::Logger::LOG_ERROR) << "Conversion Errors: " + errors;
+                std::string errors = log ? log->toString() : std::string(" NULL SBML Error Log");
+                rrLog(rr::Logger::LOG_ERROR) << "Conversion Errors: " + errors;
 
                 return LIBSBML_CONV_INVALID_SRC_DOCUMENT;
             }
@@ -499,7 +499,7 @@ static std::vector<std::string> createConservedMoietyParameters(
     for (unsigned int i = 0; i < depSpecies.size(); ++i)
     {
         Poco::UUID uuid = uuidGen.create();
-        string id = "_CSUM" + rr::toStringSize(i);
+        std::string id = "_CSUM" + rr::toStringSize(i);
         std::replace( id.begin(), id.end(), '-', '_');
 
 
@@ -573,7 +573,7 @@ static void createDependentSpeciesRules(Model* newModel,
 {
     for (unsigned i = 0; i < depSpecies.size(); ++i)
     {
-        const string& id = depSpecies[i];
+        const std::string& id = depSpecies[i];
 
         const Species *dspecies = newModel->getSpecies(id);
         if (dspecies == 0)
@@ -634,7 +634,7 @@ static void updateReactions(Model* newModel,
         const std::vector<std::string>& indSpecies,
         const std::vector<std::string>& depSpecies)
 {
-    set<string> depSet(depSpecies.begin(), depSpecies.end());
+    std::set<std::string> depSet(depSpecies.begin(), depSpecies.end());
 
     ListOfReactions *reactions = newModel->getListOfReactions();
 
@@ -719,7 +719,7 @@ static ASTNode *createSpeciesAmountNode(const Model* model, const std::string& n
 
 static inline void conservedMoietyException(const std::string& what)
 {
-    Log(rr::Logger::LOG_INFORMATION) << what;
+    rrLog(rr::Logger::LOG_INFORMATION) << what;
 
     static const char* help = "\n To disable conserved moiety conversion, either \n"
             "\t a: set [Your roadrunner variable].conservedMoietyAnalysis = False, \n"
@@ -751,7 +751,7 @@ static void conservedMoietyCheck(const SBMLDocument *doc)
         const Species *species = dynamic_cast<const Species*>(element);
         if(species && !species->getBoundaryCondition() && model->getNumReactions() > 0)
         {
-            string msg = "Cannot perform moiety conversion when floating "
+            std::string msg = "Cannot perform moiety conversion when floating "
                     "species are defined by rules. The floating species, "
                     + species->getId() + " is defined by rule " + rule->getId()
                     + ".";
@@ -762,7 +762,7 @@ static void conservedMoietyCheck(const SBMLDocument *doc)
                 dynamic_cast<const SpeciesReference*>(element);
         if(ref)
         {
-            string msg = "Cannot perform moiety conversion with non-constant "
+            std::string msg = "Cannot perform moiety conversion with non-constant "
                     "stoichiometry. The species reference " + ref->getId() +
                     " which refers to species " + ref->getSpecies() + " has "
                     "stoichiometry defined by rule " + rule->getId() + ".";
@@ -785,7 +785,7 @@ static void conservedMoietyCheck(const SBMLDocument *doc)
             // has the constant attribute
             if (doc->getLevel() >= 3 &&  !ref->getConstant())
             {
-                string msg = "Cannot perform moiety conversion with non-constant "
+                std::string msg = "Cannot perform moiety conversion with non-constant "
                         "stoichiometry. The species reference " + ref->getId() +
                         " which refers to species " + ref->getSpecies() +
                         " does not have the constant attribute set.";
@@ -794,7 +794,7 @@ static void conservedMoietyCheck(const SBMLDocument *doc)
 
             else if(ref->isSetStoichiometryMath())
             {
-                string msg = "Cannot perform moiety conversion with non-constant "
+                std::string msg = "Cannot perform moiety conversion with non-constant "
                         "stoichiometry. The species reference " + ref->getId() +
                         " which refers to species " + ref->getSpecies() +
                         " has stochiometryMath set.";
@@ -822,7 +822,7 @@ static void conservedMoietyCheck(const SBMLDocument *doc)
             const Species *species = dynamic_cast<const Species*>(element);
             if(species && !species->getBoundaryCondition())
             {
-                string msg = "Cannot perform moiety conversion when floating "
+                std::string msg = "Cannot perform moiety conversion when floating "
                         "species have events. The floating species, "
                         + species->getId() + " has event " + event->getId() + ".";
                 conservedMoietyException(msg);
@@ -832,7 +832,7 @@ static void conservedMoietyCheck(const SBMLDocument *doc)
                     dynamic_cast<const SpeciesReference*>(element);
             if(ref)
             {
-                string msg = "Cannot perform moiety conversion with non-constant "
+                std::string msg = "Cannot perform moiety conversion with non-constant "
                         "stoichiometry. The species reference " + ref->getId() +
                         " which refers to species " + ref->getSpecies() + " has "
                         "event " + event->getId() + ".";

@@ -191,16 +191,16 @@ SUITE(TEST_MODEL)
             // path of current prog
             string prog = rr::getCurrentExeFolder();
 
-            Log(Logger::LOG_NOTICE) << "prog: " << prog;
+            rrLog(Logger::LOG_NOTICE) << "prog: " << prog;
 
             path = Poco::Path(prog);
 
-            Log(Logger::LOG_NOTICE) << "path: " << path.toString();
+            rrLog(Logger::LOG_NOTICE) << "path: " << path.toString();
 
             path.makeParent();
 
 
-            Log(Logger::LOG_NOTICE) << "popdir: " << path.toString();
+            rrLog(Logger::LOG_NOTICE) << "popdir: " << path.toString();
 
             path.pushDirectory("testing");
         }
@@ -211,7 +211,7 @@ SUITE(TEST_MODEL)
 
         path.makeAbsolute();
 
-        Log(Logger::LOG_WARNING) << "Looking in " << path.toString() << " for test files";
+        rrLog(Logger::LOG_WARNING) << "Looking in " << path.toString() << " for test files";
 
 //         path.setFileName("*.rrtest");
 
@@ -263,7 +263,7 @@ SUITE(TEST_MODEL)
 
     TEST(DATA_FILES)
     {
-        Log(Logger::LOG_NOTICE) << "Running Test Suite TEST_MODEL on " << TestDataFileName;
+        rrLog(Logger::LOG_NOTICE) << "Running Test Suite TEST_MODEL on " << TestDataFileName;
 
         gRR = createRRInstanceEx(gTempFolder.c_str(), gCompiler.c_str());
 
@@ -277,7 +277,7 @@ SUITE(TEST_MODEL)
         if(!sbmlsec)
         {
             CHECK(false);
-            Log(Logger::LOG_FATAL) << "No 'SBML' section found in " << TestDataFileName;
+            rrLog(Logger::LOG_FATAL) << "No 'SBML' section found in " << TestDataFileName;
             return;
         }
         sbmlsec->mIsUsed = true;
@@ -290,7 +290,7 @@ SUITE(TEST_MODEL)
         if(!loadSBMLEx(gRR, sbml.c_str(), true))
         {
             CHECK(false);
-            Log(Logger::LOG_FATAL) << "Unable to load SBML:" << endl << sbml;
+            rrLog(Logger::LOG_FATAL) << "Unable to load SBML:" << endl << sbml;
         }
     }
 
@@ -1988,7 +1988,7 @@ SUITE(TEST_MODEL)
         }
         clog<< endl << "==== AMOUNT_CONCENTRATION_JACOBIANS ====" << endl << endl;
         aSection->mIsUsed = true;
-        rr::Variant saved = Config::getValue(Config::ROADRUNNER_JACOBIAN_MODE);
+        rr::Setting saved = Config::getValue(Config::ROADRUNNER_JACOBIAN_MODE);
         Config::setValue(Config::ROADRUNNER_JACOBIAN_MODE, (unsigned)Config::ROADRUNNER_JACOBIAN_MODE_AMOUNTS);
         compareJacobians(gRR);
         Config::setValue(Config::ROADRUNNER_JACOBIAN_MODE, (unsigned)Config::ROADRUNNER_JACOBIAN_MODE_CONCENTRATIONS);

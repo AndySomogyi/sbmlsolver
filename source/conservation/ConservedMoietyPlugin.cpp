@@ -109,7 +109,7 @@ void rr::conservation::ConservedMoietyPlugin::readAttributes(
         {
             std::string value = attributes.getValue("conservedQuantity");
             throw std::invalid_argument("conservedQuantity attribute with value " + value
-                                        + " can not be converted to a string");
+                                        + " can not be converted to a std::string");
         }
         std::string s=conservedQuantity;
         std::size_t i=s.find(",");

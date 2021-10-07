@@ -57,3 +57,7 @@ install-release
 build-debug
 build-release
 install-debug
+roadrunner-install-rel
+
+# temp.
+sundials

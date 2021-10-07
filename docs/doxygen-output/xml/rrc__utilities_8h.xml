@@ -1,0 +1,2105 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="rrc__utilities_8h" kind="file" language="C++">
+    <compoundname>rrc_utilities.h</compoundname>
+    <includes refid="rrc__exporter_8h" local="yes">rrc_exporter.h</includes>
+    <includes refid="rrc__types_8h" local="yes">rrc_types.h</includes>
+    <includes refid="rrc__macros_8h" local="yes">rrc_macros.h</includes>
+    <includedby refid="rrc__api_8cpp" local="yes">D:/roadrunner/roadrunner/wrappers/C/rrc_api.cpp</includedby>
+    <includedby refid="rrc__api_8h" local="yes">D:/roadrunner/roadrunner/wrappers/C/rrc_api.h</includedby>
+    <includedby refid="rrc__cpp__support_8cpp" local="yes">D:/roadrunner/roadrunner/wrappers/C/rrc_cpp_support.cpp</includedby>
+    <includedby refid="rrc__libstruct__api_8cpp" local="yes">D:/roadrunner/roadrunner/wrappers/C/rrc_libstruct_api.cpp</includedby>
+    <includedby refid="rrc__utilities_8cpp" local="yes">D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.cpp</includedby>
+    <incdepgraph>
+      <node id="3">
+        <label>stdbool.h</label>
+      </node>
+      <node id="4">
+        <label>rrc_types.h</label>
+        <link refid="rrc__types_8h"/>
+      </node>
+      <node id="5">
+        <label>rrc_macros.h</label>
+        <link refid="rrc__macros_8h"/>
+      </node>
+      <node id="2">
+        <label>rrc_exporter.h</label>
+        <link refid="rrc__exporter_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h</label>
+        <link refid="rrc__utilities_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>D:/roadrunner/roadrunner/wrappers/C/rrc_api.cpp</label>
+        <link refid="rrc__api_8cpp"/>
+      </node>
+      <node id="3">
+        <label>D:/roadrunner/roadrunner/wrappers/C/rrc_api.h</label>
+        <link refid="rrc__api_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h</label>
+        <link refid="rrc__utilities_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="rrc__utilities_8h_1a8f3828dfd1294cbcf4e57b4e382f8a8c" prot="public" static="no" mutable="no">
+        <type>char *</type>
+        <definition>char* gLastError</definition>
+        <argsstring></argsstring>
+        <name>gLastError</name>
+        <briefdescription>
+<para>Global parameter holding last error, if any. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="60" column="13" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="60" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="variable" id="rrc__utilities_8h_1ae4404be9766c980f2b2065a726ad42a6" prot="public" static="no" mutable="no">
+        <type>char *</type>
+        <definition>char* gInstallFolder</definition>
+        <argsstring></argsstring>
+        <name>gInstallFolder</name>
+        <briefdescription>
+<para>Global parameter holding C wrappers install folder. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="65" column="13" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="65" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="variable" id="rrc__utilities_8h_1a7abd7eb1ec507cbb9cd17ad024d0dc66" prot="public" static="no" mutable="no">
+        <type>const char *</type>
+        <definition>const char* ALLOCATE_API_ERROR_MSG</definition>
+        <argsstring></argsstring>
+        <name>ALLOCATE_API_ERROR_MSG</name>
+        <briefdescription>
+<para>Global parameter holding message for an un-allocated wrappers. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="71" column="20" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="71" declcolumn="20"/>
+      </memberdef>
+      <memberdef kind="variable" id="rrc__utilities_8h_1af8776c486d2155e2b40d97013c89c558" prot="public" static="no" mutable="no">
+        <type>const char *</type>
+        <definition>const char* INVALID_HANDLE_ERROR_MSG</definition>
+        <argsstring></argsstring>
+        <name>INVALID_HANDLE_ERROR_MSG</name>
+        <briefdescription>
+<para>Global parameter holding message when an invalid is handed to a function. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="76" column="20" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="76" declcolumn="20"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="rrc__utilities_8h_1acc9949f745af42ea6b3539620e2b8d9d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC char *rrcCallConv</type>
+        <definition>C_DECL_SPEC char* rrcCallConv getFileContent</definition>
+        <argsstring>(const char *fName)</argsstring>
+        <name>getFileContent</name>
+        <param>
+          <type>const char *</type>
+          <declname>fName</declname>
+        </param>
+        <briefdescription>
+<para>Retrieves the the content of a file. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to a string holding the name and optionla path to a file </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Content of file as a string, returns null if it fails </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="84" column="40" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="84" declcolumn="40"/>
+      </memberdef>
+      <memberdef kind="function" id="rrc__utilities_8h_1ac28208e24619f20c9cc90f7319ea270e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC char *rrcCallConv</type>
+        <definition>C_DECL_SPEC char* rrcCallConv createText</definition>
+        <argsstring>(const char *text)</argsstring>
+        <name>createText</name>
+        <param>
+          <type>const char *</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Creates memory for holding a string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to a string </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to a memory holding a copy of the input string </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="92" column="40" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="92" declcolumn="40"/>
+      </memberdef>
+      <memberdef kind="function" id="rrc__utilities_8h_1a9034d02bd121fa7f5eb6b4efa642d86a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC char *rrcCallConv</type>
+        <definition>C_DECL_SPEC char* rrcCallConv createTextMemory</definition>
+        <argsstring>(const int count)</argsstring>
+        <name>createTextMemory</name>
+        <param>
+          <type>const int</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+<para>Creates memory for holding a string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>integer indicating number of elements to allocate </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to string memory </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="100" column="40" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="100" declcolumn="40"/>
+      </memberdef>
+      <memberdef kind="function" id="group__list_1ga0d154a4c5f0aef656c333775638b2b7d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC <ref refid="rrc__types_8h_1a32a8a60ac06858ff3a791672bd2bec73" kindref="member">RRListPtr</ref> rrcCallConv</type>
+        <definition>C_DECL_SPEC RRListPtr rrcCallConv createRRList</definition>
+        <argsstring>(void)</argsstring>
+        <name>createRRList</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+<para>Create a new list. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>A list is a container for storing list items. List items can represent integers, double, strings and lists. To populate a list, create list items of the appropriate type and add them to the list</para>
+<para>Example, build the list [123, [3.1415926]]</para>
+<para><programlisting><codeline><highlight class="normal">l<sp/>=<sp/>createRRList(RRHandle<sp/>handle);</highlight></codeline>
+<codeline><highlight class="normal">item<sp/>=<sp/>createIntegerItem<sp/>(123);</highlight></codeline>
+<codeline><highlight class="normal">addItem<sp/>(l,<sp/>item);</highlight></codeline>
+<codeline><highlight class="normal">item1<sp/>=<sp/>createListItem(RRHandle<sp/>handle);</highlight></codeline>
+<codeline><highlight class="normal">item2<sp/>=<sp/>createDoubleItem<sp/>(3.1415926);</highlight></codeline>
+<codeline><highlight class="normal">addItem<sp/>(item1,<sp/>item2);</highlight></codeline>
+<codeline><highlight class="normal">addItem<sp/>(l,<sp/>item1);</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">item<sp/>=<sp/>getListItem<sp/>(l,<sp/>0);</highlight></codeline>
+<codeline><highlight class="normal">printf<sp/>(&quot;item<sp/>=<sp/>%d\n&quot;,<sp/>item-&gt;data.iValue);</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">printf<sp/>(listToString<sp/>(l));</highlight></codeline>
+<codeline><highlight class="normal">freeRRList<sp/>(l);</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>Returns null if fails, otherwise returns a pointer to a new list structure </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="133" column="35" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="133" declcolumn="35"/>
+      </memberdef>
+      <memberdef kind="function" id="group__list_1gafd22078b804cc5b7e39849fb51c7519a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC void rrcCallConv</type>
+        <definition>C_DECL_SPEC void rrcCallConv freeRRList</definition>
+        <argsstring>(RRListPtr list)</argsstring>
+        <name>freeRRList</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a32a8a60ac06858ff3a791672bd2bec73" kindref="member">RRListPtr</ref></type>
+          <declname>list</declname>
+        </param>
+        <briefdescription>
+<para>Free RRListPtr structure, i.e destroy a list. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="139" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="139" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="group__list_1gadc06b896a3117610bbdcf25abb984f98" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC int rrcCallConv</type>
+        <definition>C_DECL_SPEC int rrcCallConv getListLength</definition>
+        <argsstring>(RRListPtr myList)</argsstring>
+        <name>getListLength</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a32a8a60ac06858ff3a791672bd2bec73" kindref="member">RRListPtr</ref></type>
+          <declname>myList</declname>
+        </param>
+        <briefdescription>
+<para>Returns the length of a given list. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">myList</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The list to retrieve the length from </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Length of list </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="148" column="29" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="148" declcolumn="29"/>
+      </memberdef>
+      <memberdef kind="function" id="group__list_1ga1b1b84f8ecafcb31e12e66a0f0f1b49b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC <ref refid="rrc__types_8h_1a79938364b69256c42480bb3a29ebf73e" kindref="member">RRListItemPtr</ref> rrcCallConv</type>
+        <definition>C_DECL_SPEC RRListItemPtr rrcCallConv createIntegerItem</definition>
+        <argsstring>(int value)</argsstring>
+        <name>createIntegerItem</name>
+        <param>
+          <type>int</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Create a list item to store an integer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The integer to store in the list item </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A pointer to the list item </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="158" column="39" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="158" declcolumn="39"/>
+      </memberdef>
+      <memberdef kind="function" id="group__list_1ga53219912496c999a31ae4f108b1a8247" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC <ref refid="rrc__types_8h_1a79938364b69256c42480bb3a29ebf73e" kindref="member">RRListItemPtr</ref> rrcCallConv</type>
+        <definition>C_DECL_SPEC RRListItemPtr rrcCallConv createDoubleItem</definition>
+        <argsstring>(double value)</argsstring>
+        <name>createDoubleItem</name>
+        <param>
+          <type>double</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Create a list item to store a double value. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The double to store in the list item </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A pointer to the list item </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="167" column="39" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="167" declcolumn="39"/>
+      </memberdef>
+      <memberdef kind="function" id="group__list_1gacc07a37b137b826130770eacd8c93d4e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC <ref refid="rrc__types_8h_1a79938364b69256c42480bb3a29ebf73e" kindref="member">RRListItemPtr</ref> rrcCallConv</type>
+        <definition>C_DECL_SPEC RRListItemPtr rrcCallConv createStringItem</definition>
+        <argsstring>(char *value)</argsstring>
+        <name>createStringItem</name>
+        <param>
+          <type>char *</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Create a list item to store a pointer to a char*. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The string to store in the list item </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A pointer to the list item </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="176" column="39" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="176" declcolumn="39"/>
+      </memberdef>
+      <memberdef kind="function" id="group__list_1gab092027f0f1176d66f13cb570efa28c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC <ref refid="rrc__types_8h_1a79938364b69256c42480bb3a29ebf73e" kindref="member">RRListItemPtr</ref> rrcCallConv</type>
+        <definition>C_DECL_SPEC RRListItemPtr rrcCallConv createListItem</definition>
+        <argsstring>(struct RRList *value)</argsstring>
+        <name>createListItem</name>
+        <param>
+          <type>struct <ref refid="structRRList" kindref="compound">RRList</ref> *</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Create a list item to store a list. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The list to store in the list item </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A pointer to the list item </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="185" column="39" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="185" declcolumn="39"/>
+      </memberdef>
+      <memberdef kind="function" id="group__list_1ga2ae7d5112afc94d0dae42cc89b5158ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC int rrcCallConv</type>
+        <definition>C_DECL_SPEC int rrcCallConv addItem</definition>
+        <argsstring>(RRListPtr list, RRListItemPtr *item)</argsstring>
+        <name>addItem</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a32a8a60ac06858ff3a791672bd2bec73" kindref="member">RRListPtr</ref></type>
+          <declname>list</declname>
+        </param>
+        <param>
+          <type><ref refid="rrc__types_8h_1a79938364b69256c42480bb3a29ebf73e" kindref="member">RRListItemPtr</ref> *</type>
+          <declname>item</declname>
+        </param>
+        <briefdescription>
+<para>Add a list item to a list and return index to the added item. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting><codeline><highlight class="normal">x<sp/>=<sp/>createRRList(RRHandle<sp/>handle);</highlight></codeline>
+<codeline><highlight class="normal">item1<sp/>=<sp/>createIntegerItem<sp/>(4);</highlight></codeline>
+<codeline><highlight class="normal">add<sp/>(x,<sp/>item1);</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">list</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The list to store the item in </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">item</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The list item to store in the list </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The index to where the list item was added </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="201" column="29" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="201" declcolumn="29"/>
+      </memberdef>
+      <memberdef kind="function" id="group__list_1ga11a02911ab01db4dc839ae97782e5bf1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC <ref refid="rrc__types_8h_1a79938364b69256c42480bb3a29ebf73e" kindref="member">RRListItemPtr</ref> rrcCallConv</type>
+        <definition>C_DECL_SPEC RRListItemPtr rrcCallConv getListItem</definition>
+        <argsstring>(RRListPtr list, int index)</argsstring>
+        <name>getListItem</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a32a8a60ac06858ff3a791672bd2bec73" kindref="member">RRListPtr</ref></type>
+          <declname>list</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+<para>Returns the index^th item from the list. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">list</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The list to retrieve the list item from </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The index list item we are interested in</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A pointer to the retrieved list item </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="213" column="39" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="213" declcolumn="39"/>
+      </memberdef>
+      <memberdef kind="function" id="group__list_1gaecb302d3561bc1e80a8123f991970fa8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC int rrcCallConv</type>
+        <definition>C_DECL_SPEC int rrcCallConv isListItemInteger</definition>
+        <argsstring>(RRListItemPtr item)</argsstring>
+        <name>isListItemInteger</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a79938364b69256c42480bb3a29ebf73e" kindref="member">RRListItemPtr</ref></type>
+          <declname>item</declname>
+        </param>
+        <briefdescription>
+<para>Returns true or false if the list item is an integer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">item</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The list </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>If true, then the list item holds an integer </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="222" column="29" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="222" declcolumn="29"/>
+      </memberdef>
+      <memberdef kind="function" id="group__list_1ga462c5cc75cb0f353a9d1f0cd8324876c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC int rrcCallConv</type>
+        <definition>C_DECL_SPEC int rrcCallConv isListItemDouble</definition>
+        <argsstring>(RRListItemPtr item)</argsstring>
+        <name>isListItemDouble</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a79938364b69256c42480bb3a29ebf73e" kindref="member">RRListItemPtr</ref></type>
+          <declname>item</declname>
+        </param>
+        <briefdescription>
+<para>Returns true or false if the list item is a double. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">item</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The list </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>If true, then the list item holds a double </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="231" column="29" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="231" declcolumn="29"/>
+      </memberdef>
+      <memberdef kind="function" id="group__list_1ga2198a9abc9617d9e926f515faa1663ac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC int rrcCallConv</type>
+        <definition>C_DECL_SPEC int rrcCallConv isListItemString</definition>
+        <argsstring>(RRListItemPtr item)</argsstring>
+        <name>isListItemString</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a79938364b69256c42480bb3a29ebf73e" kindref="member">RRListItemPtr</ref></type>
+          <declname>item</declname>
+        </param>
+        <briefdescription>
+<para>Returns true or false if the list item is a character array. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">item</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The list </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>If true, then the list item holds an character array </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="240" column="29" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="240" declcolumn="29"/>
+      </memberdef>
+      <memberdef kind="function" id="group__list_1gad17754e97e43d0ed08c2a5cca68f7a39" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC int rrcCallConv</type>
+        <definition>C_DECL_SPEC int rrcCallConv isListItemList</definition>
+        <argsstring>(RRListItemPtr item)</argsstring>
+        <name>isListItemList</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a79938364b69256c42480bb3a29ebf73e" kindref="member">RRListItemPtr</ref></type>
+          <declname>item</declname>
+        </param>
+        <briefdescription>
+<para>Returns true or false if the list item is a list itself. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">item</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The list </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>If true, then the list item holds a list </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="249" column="29" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="249" declcolumn="29"/>
+      </memberdef>
+      <memberdef kind="function" id="group__list_1ga68d5e8b5116e1076c5cac49858d469f6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC int rrcCallConv</type>
+        <definition>C_DECL_SPEC int rrcCallConv isListItem</definition>
+        <argsstring>(RRListItemPtr item, enum ListItemType itemType)</argsstring>
+        <name>isListItem</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a79938364b69256c42480bb3a29ebf73e" kindref="member">RRListItemPtr</ref></type>
+          <declname>item</declname>
+        </param>
+        <param>
+          <type>enum <ref refid="rrc__types_8h_1ab99437ab2e88aa90b7ebb8add042b25e" kindref="member">ListItemType</ref></type>
+          <declname>itemType</declname>
+        </param>
+        <briefdescription>
+<para>Returns true or false if the list item is the given itemType. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">item</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The list </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">itemType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The list item type to check for </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>If true, then the list item holds a list </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="259" column="29" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="259" declcolumn="29"/>
+      </memberdef>
+      <memberdef kind="function" id="group__list_1ga1e19335d11372caa5e9dc2d8976ce688" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC int rrcCallConv</type>
+        <definition>C_DECL_SPEC int rrcCallConv getIntegerListItem</definition>
+        <argsstring>(RRListItemPtr item, int *value)</argsstring>
+        <name>getIntegerListItem</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a79938364b69256c42480bb3a29ebf73e" kindref="member">RRListItemPtr</ref></type>
+          <declname>item</declname>
+        </param>
+        <param>
+          <type>int *</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Returns the integer from a list item. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">item</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The list item to work with </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The integer value returned by the method </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns true is successful, else false </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="269" column="29" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="269" declcolumn="29"/>
+      </memberdef>
+      <memberdef kind="function" id="group__list_1gab383162093a2782001a6d623dc077dc5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC int rrcCallConv</type>
+        <definition>C_DECL_SPEC int rrcCallConv getDoubleListItem</definition>
+        <argsstring>(RRListItemPtr item, double *value)</argsstring>
+        <name>getDoubleListItem</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a79938364b69256c42480bb3a29ebf73e" kindref="member">RRListItemPtr</ref></type>
+          <declname>item</declname>
+        </param>
+        <param>
+          <type>double *</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Returns the double from a list item. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">item</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The list item to work with </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The double value returned by the method </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns true is successful, else false </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="279" column="29" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="279" declcolumn="29"/>
+      </memberdef>
+      <memberdef kind="function" id="group__list_1ga177fc925d1726b0844c17837d3ed4425" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC char *rrcCallConv</type>
+        <definition>C_DECL_SPEC char* rrcCallConv getStringListItem</definition>
+        <argsstring>(RRListItemPtr item)</argsstring>
+        <name>getStringListItem</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a79938364b69256c42480bb3a29ebf73e" kindref="member">RRListItemPtr</ref></type>
+          <declname>item</declname>
+        </param>
+        <briefdescription>
+<para>Returns the string from a list item. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">item</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The list item to work with </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns NULL if it fails, otherwise returns a pointer to the string </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="288" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="288" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="group__list_1gaf9b1219b9a239f0fb73cd83095bbecce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC <ref refid="rrc__types_8h_1a32a8a60ac06858ff3a791672bd2bec73" kindref="member">RRListPtr</ref> rrcCallConv</type>
+        <definition>C_DECL_SPEC RRListPtr rrcCallConv getList</definition>
+        <argsstring>(RRListItemPtr item)</argsstring>
+        <name>getList</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a79938364b69256c42480bb3a29ebf73e" kindref="member">RRListItemPtr</ref></type>
+          <declname>item</declname>
+        </param>
+        <briefdescription>
+<para>Returns a list from a list item if it contains a list. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">item</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The list item to retrieve the list type from </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns NULL if item isn&apos;t a list, otherwise it returns a list from the item </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="298" column="35" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="298" declcolumn="35"/>
+      </memberdef>
+      <memberdef kind="function" id="group__freeRoutines_1ga2f52213c492e3c4c5d2ac6c72e04a035" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC int rrcCallConv</type>
+        <definition>C_DECL_SPEC int rrcCallConv freeRRCData</definition>
+        <argsstring>(RRCDataPtr handle)</argsstring>
+        <name>freeRRCData</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a9da8b124eb9c3c0045f8926c6a420b4a" kindref="member">RRCDataPtr</ref></type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+<para>Free the memory associated to a <ref refid="structRRCData" kindref="compound">RRCData</ref> object. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="308" column="29" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="308" declcolumn="29"/>
+      </memberdef>
+      <memberdef kind="function" id="group__freeRoutines_1gaaaea1b8264a6d7511153ef611fa88e53" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC int rrcCallConv</type>
+        <definition>C_DECL_SPEC int rrcCallConv freeText</definition>
+        <argsstring>(char *text)</argsstring>
+        <name>freeText</name>
+        <param>
+          <type>char *</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Free char* generated by library routines. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="314" column="29" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="314" declcolumn="29"/>
+      </memberdef>
+      <memberdef kind="function" id="group__freeRoutines_1ga905dbf578855f9e21e956f6066a6a2b5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC int rrcCallConv</type>
+        <definition>C_DECL_SPEC int rrcCallConv freeStringArray</definition>
+        <argsstring>(RRStringArrayPtr sl)</argsstring>
+        <name>freeStringArray</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a7c9475df6c7337d99482b13a365e7596" kindref="member">RRStringArrayPtr</ref></type>
+          <declname>sl</declname>
+        </param>
+        <briefdescription>
+<para>Free RRStringListHandle structures. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Free RRStringArrayPtr structures </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="327" column="29" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="327" declcolumn="29"/>
+      </memberdef>
+      <memberdef kind="function" id="group__freeRoutines_1ga97046231a95430c020e94004ca257b83" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC int rrcCallConv</type>
+        <definition>C_DECL_SPEC int rrcCallConv freeVector</definition>
+        <argsstring>(RRVectorPtr vector)</argsstring>
+        <name>freeVector</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a3be72d6006034fd349f753d2bf441bf7" kindref="member">RRVectorPtr</ref></type>
+          <declname>vector</declname>
+        </param>
+        <briefdescription>
+<para>Free RRVectorHandle structures. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="333" column="29" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="333" declcolumn="29"/>
+      </memberdef>
+      <memberdef kind="function" id="group__freeRoutines_1ga9adcba296046c5770d44e64626b600ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC int rrcCallConv</type>
+        <definition>C_DECL_SPEC int rrcCallConv freeMatrix</definition>
+        <argsstring>(RRDoubleMatrixPtr matrix)</argsstring>
+        <name>freeMatrix</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1ae586a879d30f0823087e42d93464b5dd" kindref="member">RRDoubleMatrixPtr</ref></type>
+          <declname>matrix</declname>
+        </param>
+        <briefdescription>
+<para>Free RRDoubleMatrixPtr structures. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="339" column="29" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="339" declcolumn="29"/>
+      </memberdef>
+      <memberdef kind="function" id="group__helperRoutines_1gaa54dd2d3c615bb2838c0670d0344e001" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC int rrcCallConv</type>
+        <definition>C_DECL_SPEC int rrcCallConv getVectorLength</definition>
+        <argsstring>(RRVectorPtr vector)</argsstring>
+        <name>getVectorLength</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a3be72d6006034fd349f753d2bf441bf7" kindref="member">RRVectorPtr</ref></type>
+          <declname>vector</declname>
+        </param>
+        <briefdescription>
+<para>Get the number of elements in a vector type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Vectors are indexed from zero</para>
+<para>Example:<programlisting><codeline><highlight class="normal">count<sp/>=<sp/>getVectorLength<sp/>(myVector);<sp/></highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>vector</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointer to the vector variable type </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns -1 if it fails, otherwise returns the number of elements in the vector </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="356" column="29" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="356" declcolumn="29"/>
+      </memberdef>
+      <memberdef kind="function" id="group__helperRoutines_1ga9f52eab51dfe4dcd3d87538bf8ecd453" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC <ref refid="rrc__types_8h_1a3be72d6006034fd349f753d2bf441bf7" kindref="member">RRVectorPtr</ref> rrcCallConv</type>
+        <definition>C_DECL_SPEC RRVectorPtr rrcCallConv createVector</definition>
+        <argsstring>(int size)</argsstring>
+        <name>createVector</name>
+        <param>
+          <type>int</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+<para>Create a new vector with a given size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Vectors are indexed from zero</para>
+<para>Example:<programlisting><codeline><highlight class="normal">myVector<sp/>=<sp/>createVector<sp/>(10);<sp/></highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The number of element in the new vector </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns null if it fails, otherwise returns a pointer to the new vector </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="369" column="37" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="369" declcolumn="37"/>
+      </memberdef>
+      <memberdef kind="function" id="group__helperRoutines_1gab84c62954e2a81c5dbc2c897e88b05f2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC int rrcCallConv</type>
+        <definition>C_DECL_SPEC int rrcCallConv getVectorElement</definition>
+        <argsstring>(RRVectorPtr vector, int index, double *value)</argsstring>
+        <name>getVectorElement</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a3be72d6006034fd349f753d2bf441bf7" kindref="member">RRVectorPtr</ref></type>
+          <declname>vector</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>double *</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Get a particular element from a vector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Vectors are indexed from zero</para>
+<para>Example:<programlisting><codeline><highlight class="normal">status<sp/>=<sp/>getVectorElement<sp/>(myVector,<sp/>10,<sp/>*value);<sp/></highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>vector</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointer to the vector variable type </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An integer indicating the ith element to retrieve (indexing is from zero) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointer to the retrieved double value </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns true if successful </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="384" column="29" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="384" declcolumn="29"/>
+      </memberdef>
+      <memberdef kind="function" id="group__helperRoutines_1gab7ecf31370cd1f63c424d703f1a676cc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC int rrcCallConv</type>
+        <definition>C_DECL_SPEC int rrcCallConv setVectorElement</definition>
+        <argsstring>(RRVectorPtr vector, int index, double value)</argsstring>
+        <name>setVectorElement</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a3be72d6006034fd349f753d2bf441bf7" kindref="member">RRVectorPtr</ref></type>
+          <declname>vector</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Set a particular element in a vector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Vectors are indexed from zero</para>
+<para>Example:<programlisting><codeline><highlight class="normal">status<sp/>=<sp/>setVectorElement<sp/>(myVector,<sp/>10,<sp/>3.1415);<sp/></highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>vector</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointer to the vector variable type </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An integer indicating the ith element to set (indexing is from zero) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The value to store in the vector at the indexth position </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns true if successful </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="400" column="29" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="400" declcolumn="29"/>
+      </memberdef>
+      <memberdef kind="function" id="group__helperRoutines_1gabf1979f15bd6b02315b3f9d880fded85" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC <ref refid="rrc__types_8h_1ae586a879d30f0823087e42d93464b5dd" kindref="member">RRDoubleMatrixPtr</ref> rrcCallConv</type>
+        <definition>C_DECL_SPEC RRDoubleMatrixPtr rrcCallConv createRRMatrix</definition>
+        <argsstring>(int r, int c)</argsstring>
+        <name>createRRMatrix</name>
+        <param>
+          <type>int</type>
+          <declname>r</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>c</declname>
+        </param>
+        <briefdescription>
+<para>Create an empty matrix of size r by c. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Matrices are indexed from zero</para>
+<para>Example:<programlisting><codeline><highlight class="normal">m<sp/>=<sp/>createRRMatrix<sp/>(2,<sp/>3);<sp/></highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>r</parametername>
+<parametername>c</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Row and column sizes </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns NULL if fails, otherwise returns a handle to the matrix </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="413" column="43" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="413" declcolumn="43"/>
+      </memberdef>
+      <memberdef kind="function" id="group__helperRoutines_1ga13d0d619adf01ca451033e742aaed38e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC int rrcCallConv</type>
+        <definition>C_DECL_SPEC int rrcCallConv getMatrixNumRows</definition>
+        <argsstring>(RRDoubleMatrixPtr m)</argsstring>
+        <name>getMatrixNumRows</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1ae586a879d30f0823087e42d93464b5dd" kindref="member">RRDoubleMatrixPtr</ref></type>
+          <declname>m</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve the number of rows in the given matrix. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Matrices are indexed from zero</para>
+<para>Example:<programlisting><codeline><highlight class="normal">nRows<sp/>=<sp/>getMatrixNumRows<sp/>(m);<sp/></highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>m</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointer to a matrix type variable </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns -1 if fails, otherwise returns the number of rows </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="426" column="29" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="426" declcolumn="29"/>
+      </memberdef>
+      <memberdef kind="function" id="group__helperRoutines_1ga643d224921897abead4fdcdf1e1e362e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC int rrcCallConv</type>
+        <definition>C_DECL_SPEC int rrcCallConv getMatrixNumCols</definition>
+        <argsstring>(RRDoubleMatrixPtr m)</argsstring>
+        <name>getMatrixNumCols</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1ae586a879d30f0823087e42d93464b5dd" kindref="member">RRDoubleMatrixPtr</ref></type>
+          <declname>m</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve the number of columns in the given matrix. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Matrices are indexed from zero</para>
+<para>Example:<programlisting><codeline><highlight class="normal">nRows<sp/>=<sp/>getMatrixNumCols<sp/>(m);<sp/></highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>m</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointer to a matrix type variable </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns -1 if fails, otherwise returns the number of columns </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="439" column="29" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="439" declcolumn="29"/>
+      </memberdef>
+      <memberdef kind="function" id="group__helperRoutines_1ga412ade7dedfbaeafd99eb4abe3fa4f7e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC int rrcCallConv</type>
+        <definition>C_DECL_SPEC int rrcCallConv getMatrixElement</definition>
+        <argsstring>(RRDoubleMatrixPtr m, int r, int c, double *value)</argsstring>
+        <name>getMatrixElement</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1ae586a879d30f0823087e42d93464b5dd" kindref="member">RRDoubleMatrixPtr</ref></type>
+          <declname>m</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>r</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>c</declname>
+        </param>
+        <param>
+          <type>double *</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve an element at a given row and column from a matrix type variable. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Matrices are indexed from zero</para>
+<para>Example: <programlisting><codeline><highlight class="normal">status<sp/>=<sp/>getMatrixElement<sp/>(m,<sp/>2,<sp/>4,<sp/>&amp;value);</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">m</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointer to a matrix type variable </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">r</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The row index to the matrix </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">c</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The column index to the matrix </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The retrieved value from the matrix </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns True if successful </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="458" column="29" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="458" declcolumn="29"/>
+      </memberdef>
+      <memberdef kind="function" id="group__helperRoutines_1gae8a55dbfe92b2f7cb325970a75f69e1c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC int rrcCallConv</type>
+        <definition>C_DECL_SPEC int rrcCallConv setMatrixElement</definition>
+        <argsstring>(RRDoubleMatrixPtr m, int r, int c, double value)</argsstring>
+        <name>setMatrixElement</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1ae586a879d30f0823087e42d93464b5dd" kindref="member">RRDoubleMatrixPtr</ref></type>
+          <declname>m</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>r</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>c</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Set an element at a given row and column with a given value in a matrix type variable. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Matrices are indexed from zero</para>
+<para>Example: <programlisting><codeline><highlight class="normal">status<sp/>=<sp/>setMatrixElement<sp/>(m,<sp/>2,<sp/>4,<sp/>value);</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">m</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointer to a matrix type variable </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">r</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The row index to the matrix </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">c</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The column index to the matrix </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The value to set to the matrix element </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns True if successful </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="477" column="29" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="477" declcolumn="29"/>
+      </memberdef>
+      <memberdef kind="function" id="group__helperRoutines_1gab72f77166a650f91ce979db7e1b5558d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC int rrcCallConv</type>
+        <definition>C_DECL_SPEC int rrcCallConv getComplexMatrixElement</definition>
+        <argsstring>(RRComplexMatrixPtr m, int r, int c, RRComplexPtr value)</argsstring>
+        <name>getComplexMatrixElement</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a8cf9e865d8541d100f153800adbb7c3f" kindref="member">RRComplexMatrixPtr</ref></type>
+          <declname>m</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>r</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>c</declname>
+        </param>
+        <param>
+          <type><ref refid="rrc__types_8h_1ada2046d7326c56ae29d8510fbf6622ee" kindref="member">RRComplexPtr</ref></type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve an element at a given row and column from a complex matrix type variable. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Matrices are indexed from zero</para>
+<para>Example: <programlisting><codeline><highlight class="normal">status<sp/>=<sp/>getComplexMatrixElement<sp/>(m,<sp/>2,<sp/>4,<sp/>&amp;value);</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">m</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointer to a complex matrix type variable </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">r</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The row index to the matrix </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">c</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The column index to the matrix </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The retrieved value from the matrix </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns True if successful </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="497" column="29" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="497" declcolumn="29"/>
+      </memberdef>
+      <memberdef kind="function" id="group__helperRoutines_1ga9d777aebf7c6bbd55b9b06f31e7e9f42" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC int rrcCallConv</type>
+        <definition>C_DECL_SPEC int rrcCallConv setComplexMatrixElement</definition>
+        <argsstring>(RRComplexMatrixPtr m, int r, int c, RRComplexPtr value)</argsstring>
+        <name>setComplexMatrixElement</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a8cf9e865d8541d100f153800adbb7c3f" kindref="member">RRComplexMatrixPtr</ref></type>
+          <declname>m</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>r</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>c</declname>
+        </param>
+        <param>
+          <type><ref refid="rrc__types_8h_1ada2046d7326c56ae29d8510fbf6622ee" kindref="member">RRComplexPtr</ref></type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Set an element at a given row and column with a given value in a complex matrix type variable. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Matrices are indexed from zero</para>
+<para>Example: <programlisting><codeline><highlight class="normal">status<sp/>=<sp/>setComplexMatrixElement<sp/>(m,<sp/>2,<sp/>4,<sp/>value);</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">m</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointer to a complex matrix type variable </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">r</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The row index to the matrix </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">c</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The column index to the matrix </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The value to set to the complex matrix element </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns True if successful </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="517" column="29" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="517" declcolumn="29"/>
+      </memberdef>
+      <memberdef kind="function" id="group__helperRoutines_1gae18768d9447fda2618cacb5099eb768e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC int rrcCallConv</type>
+        <definition>C_DECL_SPEC int rrcCallConv getRRDataNumRows</definition>
+        <argsstring>(RRCDataPtr rrData)</argsstring>
+        <name>getRRDataNumRows</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a9da8b124eb9c3c0045f8926c6a420b4a" kindref="member">RRCDataPtr</ref></type>
+          <declname>rrData</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve the number of rows in the given RoadRunner numerical data (returned from <ref refid="group__simulation_1ga9ac99f6909eb0a6244035fc9cdeff94d" kindref="member">simulate(RRHandle handle)</ref>) </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Example:<programlisting><codeline><highlight class="normal">nRows<sp/>=<sp/>getRRDataNumRows<sp/>(result);<sp/></highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rrData</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointer to a RoadRunner numerical data type variable </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns -1 if fails, otherwise returns the number of rows </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="529" column="29" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="529" declcolumn="29"/>
+      </memberdef>
+      <memberdef kind="function" id="group__helperRoutines_1ga76a2e0f7b1704b28ef0b6661b5e6ada9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC int rrcCallConv</type>
+        <definition>C_DECL_SPEC int rrcCallConv getRRDataNumCols</definition>
+        <argsstring>(RRCDataPtr rrData)</argsstring>
+        <name>getRRDataNumCols</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a9da8b124eb9c3c0045f8926c6a420b4a" kindref="member">RRCDataPtr</ref></type>
+          <declname>rrData</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve the number of columns in the given rrData data (returned form <ref refid="group__simulation_1ga9ac99f6909eb0a6244035fc9cdeff94d" kindref="member">simulate(RRHandle handle)</ref>) </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Example:<programlisting><codeline><highlight class="normal">nRows<sp/>=<sp/>getResultNumCols<sp/>(rrData);<sp/></highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rrData</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointer to a rrData type variable </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns -1 if fails, otherwise returns the number of columns </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="540" column="29" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="540" declcolumn="29"/>
+      </memberdef>
+      <memberdef kind="function" id="group__helperRoutines_1gad475100038d18ad8033220f10a05156a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC int rrcCallConv</type>
+        <definition>C_DECL_SPEC int rrcCallConv getRRCDataElement</definition>
+        <argsstring>(RRCDataPtr rrData, int r, int c, double *value)</argsstring>
+        <name>getRRCDataElement</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a9da8b124eb9c3c0045f8926c6a420b4a" kindref="member">RRCDataPtr</ref></type>
+          <declname>rrData</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>r</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>c</declname>
+        </param>
+        <param>
+          <type>double *</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Retrieves an element at a given row and column from a RoadRunner data type variable. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>RoadRunner numerical data are indexed from zero</para>
+<para>Example:<programlisting><codeline><highlight class="normal">status<sp/>=<sp/>getRRCDataElement<sp/>(rrData,<sp/>2,<sp/>4,<sp/>*value);<sp/></highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rrData</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointer to a rrData type variable </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">r</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>-The row index to the rrData data </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">c</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- The column index to the rrData data </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- The retrieved value from the rrData data </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns true if successful </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="556" column="29" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="556" declcolumn="29"/>
+      </memberdef>
+      <memberdef kind="function" id="group__helperRoutines_1gaaa98160597f72e56bf32eff95e7b1f0c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC char *rrcCallConv</type>
+        <definition>C_DECL_SPEC char* rrcCallConv getRRDataColumnLabel</definition>
+        <argsstring>(RRCDataPtr rrData, int column)</argsstring>
+        <name>getRRDataColumnLabel</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a9da8b124eb9c3c0045f8926c6a420b4a" kindref="member">RRCDataPtr</ref></type>
+          <declname>rrData</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>column</declname>
+        </param>
+        <briefdescription>
+<para>Retrieves a label for a given column in a rrData type variable. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Result data are indexed from zero</para>
+<para>Example:<programlisting><codeline><highlight class="normal">str<sp/>=<sp/>getResultColumnLabel<sp/>(rrData,<sp/>2,<sp/>4);<sp/></highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rrData</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointer to a rrData type variable </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">column</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- The column index for the rrData data (indexing from zero) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns null if fails, otherwise returns a pointer to the string column label </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="570" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="570" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="group__toString_1gaff70db9c262110e72d1cf090b04d05a3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC char *rrcCallConv</type>
+        <definition>C_DECL_SPEC char* rrcCallConv vectorToString</definition>
+        <argsstring>(const RRVectorPtr vec)</argsstring>
+        <name>vectorToString</name>
+        <param>
+          <type>const <ref refid="rrc__types_8h_1a3be72d6006034fd349f753d2bf441bf7" kindref="member">RRVectorPtr</ref></type>
+          <declname>vec</declname>
+        </param>
+        <briefdescription>
+<para>Returns a vector in string form. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Returns vector as a character string </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="581" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="581" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="group__toString_1gaef1d1f1789f4c5bca4e6b7af4bf53885" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC char *rrcCallConv</type>
+        <definition>C_DECL_SPEC char* rrcCallConv complexVectorToString</definition>
+        <argsstring>(const RRComplexVectorPtr vec)</argsstring>
+        <name>complexVectorToString</name>
+        <param>
+          <type>const <ref refid="rrc__types_8h_1ae05c63419a6ca0575eb327fd04dae4b5" kindref="member">RRComplexVectorPtr</ref></type>
+          <declname>vec</declname>
+        </param>
+        <briefdescription>
+<para>Returns a complex vector in string form. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Returns complex vector as a character string </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="588" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="588" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="group__toString_1ga9ecd62cd0fd10a179bd2fe5e55f69929" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC char *rrcCallConv</type>
+        <definition>C_DECL_SPEC char* rrcCallConv rrCDataToString</definition>
+        <argsstring>(const RRCDataPtr rrData)</argsstring>
+        <name>rrCDataToString</name>
+        <param>
+          <type>const <ref refid="rrc__types_8h_1a9da8b124eb9c3c0045f8926c6a420b4a" kindref="member">RRCDataPtr</ref></type>
+          <declname>rrData</declname>
+        </param>
+        <briefdescription>
+<para>Returns a rrCData struct in string form. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Returns rrCData struct as a character string </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="595" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="595" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="group__toString_1ga02a9a7fee7703402fcf6e36f30d384be" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC char *rrcCallConv</type>
+        <definition>C_DECL_SPEC char* rrcCallConv matrixToString</definition>
+        <argsstring>(const RRDoubleMatrixPtr mat)</argsstring>
+        <name>matrixToString</name>
+        <param>
+          <type>const <ref refid="rrc__types_8h_1ae586a879d30f0823087e42d93464b5dd" kindref="member">RRDoubleMatrixPtr</ref></type>
+          <declname>mat</declname>
+        </param>
+        <briefdescription>
+<para>Returns a matrix in string form. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Returns matrix as a character string </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="602" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="602" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="group__toString_1gacb4e2892fead121b86bcaf22fea17178" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC char *rrcCallConv</type>
+        <definition>C_DECL_SPEC char* rrcCallConv complexMatrixToString</definition>
+        <argsstring>(const RRComplexMatrixPtr mat)</argsstring>
+        <name>complexMatrixToString</name>
+        <param>
+          <type>const <ref refid="rrc__types_8h_1a8cf9e865d8541d100f153800adbb7c3f" kindref="member">RRComplexMatrixPtr</ref></type>
+          <declname>mat</declname>
+        </param>
+        <briefdescription>
+<para>Returns a complex matrix in string form. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Returns complex matrix as a character string </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="609" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="609" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="group__stringArray_1ga4fcdcd7af4041c61ad958b7444ed0263" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC int rrcCallConv</type>
+        <definition>C_DECL_SPEC int rrcCallConv getNumberOfStringElements</definition>
+        <argsstring>(const RRStringArrayPtr list)</argsstring>
+        <name>getNumberOfStringElements</name>
+        <param>
+          <type>const <ref refid="rrc__types_8h_1a7c9475df6c7337d99482b13a365e7596" kindref="member">RRStringArrayPtr</ref></type>
+          <declname>list</declname>
+        </param>
+        <briefdescription>
+<para>Returns the length of a string array. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Returns the length of a string array, return -1 if string array is NULL </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="616" column="29" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="616" declcolumn="29"/>
+      </memberdef>
+      <memberdef kind="function" id="group__stringArray_1ga6543d536e989bd4cbf52b53e000cf025" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC char *rrcCallConv</type>
+        <definition>C_DECL_SPEC char* rrcCallConv getStringElement</definition>
+        <argsstring>(RRStringArrayPtr list, int index)</argsstring>
+        <name>getStringElement</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a7c9475df6c7337d99482b13a365e7596" kindref="member">RRStringArrayPtr</ref></type>
+          <declname>list</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+<para>Returns the indexth element from the string array in the argument value. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Returns pointer to string else return null if error </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="623" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="623" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="group__toString_1ga57ac412ea941375e41f6cbc193c666e1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC char *rrcCallConv</type>
+        <definition>C_DECL_SPEC char* rrcCallConv stringArrayToString</definition>
+        <argsstring>(const RRStringArrayPtr list)</argsstring>
+        <name>stringArrayToString</name>
+        <param>
+          <type>const <ref refid="rrc__types_8h_1a7c9475df6c7337d99482b13a365e7596" kindref="member">RRStringArrayPtr</ref></type>
+          <declname>list</declname>
+        </param>
+        <briefdescription>
+<para>Returns a string list in string form. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Returns string list as a character string </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="630" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="630" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="group__toString_1ga7cfc863a3d8fec26c951a2f40fa7dfa4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC char *rrcCallConv</type>
+        <definition>C_DECL_SPEC char* rrcCallConv listToString</definition>
+        <argsstring>(const RRListPtr list)</argsstring>
+        <name>listToString</name>
+        <param>
+          <type>const <ref refid="rrc__types_8h_1a32a8a60ac06858ff3a791672bd2bec73" kindref="member">RRListPtr</ref></type>
+          <declname>list</declname>
+        </param>
+        <briefdescription>
+<para>Returns a list in string form. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Returns list as a character string </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="637" column="30" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="637" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="group__helperRoutines_1ga39acec7b552d0d705387d45e160a6448" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC int rrcCallConv</type>
+        <definition>C_DECL_SPEC int rrcCallConv writeRRData</definition>
+        <argsstring>(RRHandle handle, const char *fileNameAndPath)</argsstring>
+        <name>writeRRData</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>fileNameAndPath</declname>
+        </param>
+        <briefdescription>
+<para>Writes RoadRunner data to file. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a Roadrunner Instance </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fileNameAndPath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to string holding the file(with path) to write data to </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns a t/f indicating the result </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="648" column="29" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="648" declcolumn="29"/>
+      </memberdef>
+      <memberdef kind="function" id="group__helperRoutines_1ga15cdab183a7e81c1e7beba9b80a6544c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>C_DECL_SPEC int rrcCallConv</type>
+        <definition>C_DECL_SPEC int rrcCallConv compileSource</definition>
+        <argsstring>(RRHandle handle, const char *sourceFileNameAndPath)</argsstring>
+        <name>compileSource</name>
+        <param>
+          <type><ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>sourceFileNameAndPath</declname>
+        </param>
+        <briefdescription>
+<para>Compiles source code. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to a RRInstance </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>sourceFileNameAndPath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to string holding the file(with path) to compile </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns a t/f indicating the result </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" line="660" column="29" declfile="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h" declline="660" declcolumn="29"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>roadRunner C wrappers 2012 </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="author"><para>Totte Karlsson &amp; Herbert M Sauro</para>
+</simplesect>
+&lt;-----------------------------------------------------------<mdash/> This file is part of cRoadRunner. See <ulink url="http://code.google.com/p/roadrunnerlib">http://code.google.com/p/roadrunnerlib</ulink> for more details.</para>
+<para>Copyright (C) 2012-2013 University of Washington, Seattle, WA, USA</para>
+<para>Licensed under the Apache License, Version 2.0 (the &quot;License&quot;); you may not use this file except in compliance with the License. You may obtain a copy of the License at <verbatim>http://www.apache.org/licenses/LICENSE-2.0
+</verbatim> Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.</para>
+<para>In plain english this means:</para>
+<para>You CAN freely download and use this software, in whole or in part, for personal, company internal, or commercial purposes;</para>
+<para>You CAN use the software in packages or distributions that you create.</para>
+<para>You SHOULD include a copy of the license in any redistribution you may make;</para>
+<para>You are NOT required include the source of software, or of any modifications you may have made to it, in any redistribution you may assemble that includes it.</para>
+<para>YOU CANNOT:</para>
+<para>redistribute any piece of this software without proper attribution; </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>rrc_utilitiesH</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>rrc_utilitiesH</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="rrc__exporter_8h" kindref="compound">rrc_exporter.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="rrc__types_8h" kindref="compound">rrc_types.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="rrc__exporter_8h" kindref="compound">rrc_exporter.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="rrc__macros_8h" kindref="compound">rrc_macros.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(__cplusplus)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">rrc</highlight></codeline>
+<codeline lineno="52"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="rrc__utilities_8h_1a8f3828dfd1294cbcf4e57b4e382f8a8c" kindref="member">gLastError</ref>;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="rrc__utilities_8h_1ae4404be9766c980f2b2065a726ad42a6" kindref="member">gInstallFolder</ref>;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//Error/Warning<sp/>Messages</highlight></codeline>
+<codeline lineno="71"><highlight class="comment"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><sp/><ref refid="rrc__utilities_8h_1a7abd7eb1ec507cbb9cd17ad024d0dc66" kindref="member">ALLOCATE_API_ERROR_MSG</ref>;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><sp/><ref refid="rrc__utilities_8h_1af8776c486d2155e2b40d97013c89c558" kindref="member">INVALID_HANDLE_ERROR_MSG</ref>;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84" refid="rrc__utilities_8h_1acc9949f745af42ea6b3539620e2b8d9d" refkind="member"><highlight class="normal">C_DECL_SPEC<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rrcCallConv<sp/><sp/><sp/><sp/><ref refid="rrc__utilities_8h_1acc9949f745af42ea6b3539620e2b8d9d" kindref="member">getFileContent</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>fName);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="rrc__utilities_8h_1ac28208e24619f20c9cc90f7319ea270e" refkind="member"><highlight class="normal">C_DECL_SPEC<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rrcCallConv<sp/><sp/><sp/><sp/><ref refid="rrc__utilities_8h_1ac28208e24619f20c9cc90f7319ea270e" kindref="member">createText</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>text);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100" refid="rrc__utilities_8h_1a9034d02bd121fa7f5eb6b4efa642d86a" refkind="member"><highlight class="normal">C_DECL_SPEC<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rrcCallConv<sp/><sp/><sp/><sp/><ref refid="rrc__utilities_8h_1a9034d02bd121fa7f5eb6b4efa642d86a" kindref="member">createTextMemory</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>count);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="comment">//<sp/>--------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="comment">//<sp/>List<sp/>support<sp/>routines</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="comment">//<sp/>--------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133" refid="group__list_1ga0d154a4c5f0aef656c333775638b2b7d" refkind="member"><highlight class="normal">C_DECL_SPEC<sp/><ref refid="structRRList" kindref="compound">RRListPtr</ref><sp/>rrcCallConv<sp/><ref refid="group__list_1ga0d154a4c5f0aef656c333775638b2b7d" kindref="member">createRRList</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139" refid="group__list_1gafd22078b804cc5b7e39849fb51c7519a" refkind="member"><highlight class="normal">C_DECL_SPEC<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>rrcCallConv<sp/><ref refid="group__list_1gafd22078b804cc5b7e39849fb51c7519a" kindref="member">freeRRList</ref><sp/>(<ref refid="structRRList" kindref="compound">RRListPtr</ref><sp/>list);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148" refid="group__list_1gadc06b896a3117610bbdcf25abb984f98" refkind="member"><highlight class="normal">C_DECL_SPEC<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>rrcCallConv<sp/><ref refid="group__list_1gadc06b896a3117610bbdcf25abb984f98" kindref="member">getListLength</ref><sp/>(<ref refid="structRRList" kindref="compound">RRListPtr</ref><sp/>myList);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158" refid="group__list_1ga1b1b84f8ecafcb31e12e66a0f0f1b49b" refkind="member"><highlight class="normal">C_DECL_SPEC<sp/><ref refid="structRRListItem" kindref="compound">RRListItemPtr</ref><sp/>rrcCallConv<sp/><ref refid="group__list_1ga1b1b84f8ecafcb31e12e66a0f0f1b49b" kindref="member">createIntegerItem</ref><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>value);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167" refid="group__list_1ga53219912496c999a31ae4f108b1a8247" refkind="member"><highlight class="normal">C_DECL_SPEC<sp/><ref refid="structRRListItem" kindref="compound">RRListItemPtr</ref><sp/>rrcCallConv<sp/><ref refid="group__list_1ga53219912496c999a31ae4f108b1a8247" kindref="member">createDoubleItem</ref><sp/><sp/>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>value);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176" refid="group__list_1gacc07a37b137b826130770eacd8c93d4e" refkind="member"><highlight class="normal">C_DECL_SPEC<sp/><ref refid="structRRListItem" kindref="compound">RRListItemPtr</ref><sp/>rrcCallConv<sp/><ref refid="group__list_1gacc07a37b137b826130770eacd8c93d4e" kindref="member">createStringItem</ref><sp/><sp/>(</highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>value);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185" refid="group__list_1gab092027f0f1176d66f13cb570efa28c8" refkind="member"><highlight class="normal">C_DECL_SPEC<sp/><ref refid="structRRListItem" kindref="compound">RRListItemPtr</ref><sp/>rrcCallConv<sp/><ref refid="group__list_1gab092027f0f1176d66f13cb570efa28c8" kindref="member">createListItem</ref><sp/>(</highlight><highlight class="keyword">struct</highlight><highlight class="normal"><sp/><ref refid="structRRList" kindref="compound">RRList</ref>*<sp/>value);</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201" refid="group__list_1ga2ae7d5112afc94d0dae42cc89b5158ee" refkind="member"><highlight class="normal">C_DECL_SPEC<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>rrcCallConv<sp/><ref refid="group__list_1ga2ae7d5112afc94d0dae42cc89b5158ee" kindref="member">addItem</ref><sp/>(<ref refid="structRRList" kindref="compound">RRListPtr</ref><sp/>list,<sp/><ref refid="structRRListItem" kindref="compound">RRListItemPtr</ref><sp/>*item);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213" refid="group__list_1ga11a02911ab01db4dc839ae97782e5bf1" refkind="member"><highlight class="normal">C_DECL_SPEC<sp/><ref refid="structRRListItem" kindref="compound">RRListItemPtr</ref><sp/>rrcCallConv<sp/><ref refid="group__list_1ga11a02911ab01db4dc839ae97782e5bf1" kindref="member">getListItem</ref><sp/>(<ref refid="structRRList" kindref="compound">RRListPtr</ref><sp/>list,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>index);</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222" refid="group__list_1gaecb302d3561bc1e80a8123f991970fa8" refkind="member"><highlight class="normal">C_DECL_SPEC<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>rrcCallConv<sp/><ref refid="group__list_1gaecb302d3561bc1e80a8123f991970fa8" kindref="member">isListItemInteger</ref><sp/>(<ref refid="structRRListItem" kindref="compound">RRListItemPtr</ref><sp/>item);</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231" refid="group__list_1ga462c5cc75cb0f353a9d1f0cd8324876c" refkind="member"><highlight class="normal">C_DECL_SPEC<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>rrcCallConv<sp/><ref refid="group__list_1ga462c5cc75cb0f353a9d1f0cd8324876c" kindref="member">isListItemDouble</ref><sp/>(<ref refid="structRRListItem" kindref="compound">RRListItemPtr</ref><sp/>item);</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240" refid="group__list_1ga2198a9abc9617d9e926f515faa1663ac" refkind="member"><highlight class="normal">C_DECL_SPEC<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>rrcCallConv<sp/><ref refid="group__list_1ga2198a9abc9617d9e926f515faa1663ac" kindref="member">isListItemString</ref><sp/>(<ref refid="structRRListItem" kindref="compound">RRListItemPtr</ref><sp/>item);</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="249" refid="group__list_1gad17754e97e43d0ed08c2a5cca68f7a39" refkind="member"><highlight class="normal">C_DECL_SPEC<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>rrcCallConv<sp/><ref refid="group__list_1gad17754e97e43d0ed08c2a5cca68f7a39" kindref="member">isListItemList</ref><sp/>(<ref refid="structRRListItem" kindref="compound">RRListItemPtr</ref><sp/>item);</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259" refid="group__list_1ga68d5e8b5116e1076c5cac49858d469f6" refkind="member"><highlight class="normal">C_DECL_SPEC<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>rrcCallConv<sp/><ref refid="group__list_1ga68d5e8b5116e1076c5cac49858d469f6" kindref="member">isListItem</ref><sp/>(<ref refid="structRRListItem" kindref="compound">RRListItemPtr</ref><sp/>item,<sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/><ref refid="rrc__types_8h_1ab99437ab2e88aa90b7ebb8add042b25e" kindref="member">ListItemType</ref><sp/>itemType);</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight></codeline>
+<codeline lineno="269" refid="group__list_1ga1e19335d11372caa5e9dc2d8976ce688" refkind="member"><highlight class="normal">C_DECL_SPEC<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>rrcCallConv<sp/><ref refid="group__list_1ga1e19335d11372caa5e9dc2d8976ce688" kindref="member">getIntegerListItem</ref><sp/>(<ref refid="structRRListItem" kindref="compound">RRListItemPtr</ref><sp/>item,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>*value);</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight></codeline>
+<codeline lineno="279" refid="group__list_1gab383162093a2782001a6d623dc077dc5" refkind="member"><highlight class="normal">C_DECL_SPEC<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>rrcCallConv<sp/><ref refid="group__list_1gab383162093a2782001a6d623dc077dc5" kindref="member">getDoubleListItem</ref><sp/>(<ref refid="structRRListItem" kindref="compound">RRListItemPtr</ref><sp/>item,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>*value);</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight></codeline>
+<codeline lineno="288" refid="group__list_1ga177fc925d1726b0844c17837d3ed4425" refkind="member"><highlight class="normal">C_DECL_SPEC<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>rrcCallConv<sp/><ref refid="group__list_1ga177fc925d1726b0844c17837d3ed4425" kindref="member">getStringListItem</ref><sp/>(<ref refid="structRRListItem" kindref="compound">RRListItemPtr</ref><sp/>item);</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight></codeline>
+<codeline lineno="298" refid="group__list_1gaf9b1219b9a239f0fb73cd83095bbecce" refkind="member"><highlight class="normal">C_DECL_SPEC<sp/><ref refid="structRRList" kindref="compound">RRListPtr</ref><sp/>rrcCallConv<sp/><ref refid="group__list_1gaf9b1219b9a239f0fb73cd83095bbecce" kindref="member">getList</ref>(<ref refid="structRRListItem" kindref="compound">RRListItemPtr</ref><sp/>item);</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"></highlight><highlight class="comment">//<sp/>--------------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Free<sp/>memory<sp/>functions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"></highlight><highlight class="comment">//<sp/>--------------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"></highlight></codeline>
+<codeline lineno="308" refid="group__freeRoutines_1ga2f52213c492e3c4c5d2ac6c72e04a035" refkind="member"><highlight class="normal">C_DECL_SPEC<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>rrcCallConv<sp/><ref refid="group__freeRoutines_1ga2f52213c492e3c4c5d2ac6c72e04a035" kindref="member">freeRRCData</ref>(<ref refid="structRRCData" kindref="compound">RRCDataPtr</ref><sp/>handle);</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight></codeline>
+<codeline lineno="314" refid="group__freeRoutines_1gaaaea1b8264a6d7511153ef611fa88e53" refkind="member"><highlight class="normal">C_DECL_SPEC<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>rrcCallConv<sp/><ref refid="group__freeRoutines_1gaaaea1b8264a6d7511153ef611fa88e53" kindref="member">freeText</ref>(</highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>text);</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"></highlight><highlight class="comment">//C_DECL_SPEC<sp/>int<sp/>rrcCallConv<sp/>freeStringList(RRStringListHandle<sp/>sl);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="322"><highlight class="normal"></highlight></codeline>
+<codeline lineno="327" refid="group__freeRoutines_1ga905dbf578855f9e21e956f6066a6a2b5" refkind="member"><highlight class="normal">C_DECL_SPEC<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>rrcCallConv<sp/><ref refid="group__freeRoutines_1ga905dbf578855f9e21e956f6066a6a2b5" kindref="member">freeStringArray</ref>(<ref refid="structRRStringArray" kindref="compound">RRStringArrayPtr</ref><sp/>sl);</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"></highlight></codeline>
+<codeline lineno="333" refid="group__freeRoutines_1ga97046231a95430c020e94004ca257b83" refkind="member"><highlight class="normal">C_DECL_SPEC<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>rrcCallConv<sp/><ref refid="group__freeRoutines_1ga97046231a95430c020e94004ca257b83" kindref="member">freeVector</ref>(<ref refid="structRRVector" kindref="compound">RRVectorPtr</ref><sp/>vector);</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"></highlight></codeline>
+<codeline lineno="339" refid="group__freeRoutines_1ga9adcba296046c5770d44e64626b600ba" refkind="member"><highlight class="normal">C_DECL_SPEC<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>rrcCallConv<sp/><ref refid="group__freeRoutines_1ga9adcba296046c5770d44e64626b600ba" kindref="member">freeMatrix</ref>(<ref refid="structRRDoubleMatrix" kindref="compound">RRDoubleMatrixPtr</ref><sp/>matrix);</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"></highlight></codeline>
+<codeline lineno="341"><highlight class="normal"></highlight><highlight class="comment">//<sp/>--------------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="342"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helper<sp/>Methods</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="343"><highlight class="normal"></highlight><highlight class="comment">//<sp/>--------------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="344"><highlight class="normal"></highlight></codeline>
+<codeline lineno="356" refid="group__helperRoutines_1gaa54dd2d3c615bb2838c0670d0344e001" refkind="member"><highlight class="normal">C_DECL_SPEC<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>rrcCallConv<sp/><ref refid="group__helperRoutines_1gaa54dd2d3c615bb2838c0670d0344e001" kindref="member">getVectorLength</ref><sp/>(<ref refid="structRRVector" kindref="compound">RRVectorPtr</ref><sp/>vector);</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"></highlight></codeline>
+<codeline lineno="369" refid="group__helperRoutines_1ga9f52eab51dfe4dcd3d87538bf8ecd453" refkind="member"><highlight class="normal">C_DECL_SPEC<sp/><ref refid="structRRVector" kindref="compound">RRVectorPtr</ref><sp/>rrcCallConv<sp/><ref refid="group__helperRoutines_1ga9f52eab51dfe4dcd3d87538bf8ecd453" kindref="member">createVector</ref><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>size);</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"></highlight></codeline>
+<codeline lineno="384" refid="group__helperRoutines_1gab84c62954e2a81c5dbc2c897e88b05f2" refkind="member"><highlight class="normal">C_DECL_SPEC<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>rrcCallConv<sp/><ref refid="group__helperRoutines_1gab84c62954e2a81c5dbc2c897e88b05f2" kindref="member">getVectorElement</ref><sp/>(<ref refid="structRRVector" kindref="compound">RRVectorPtr</ref><sp/>vector,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>index,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">*<sp/>value);</highlight></codeline>
+<codeline lineno="385"><highlight class="normal"></highlight></codeline>
+<codeline lineno="386"><highlight class="normal"></highlight></codeline>
+<codeline lineno="400" refid="group__helperRoutines_1gab7ecf31370cd1f63c424d703f1a676cc" refkind="member"><highlight class="normal">C_DECL_SPEC<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>rrcCallConv<sp/><ref refid="group__helperRoutines_1gab7ecf31370cd1f63c424d703f1a676cc" kindref="member">setVectorElement</ref><sp/>(<ref refid="structRRVector" kindref="compound">RRVectorPtr</ref><sp/>vector,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>index,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>value);</highlight></codeline>
+<codeline lineno="401"><highlight class="normal"></highlight></codeline>
+<codeline lineno="413" refid="group__helperRoutines_1gabf1979f15bd6b02315b3f9d880fded85" refkind="member"><highlight class="normal">C_DECL_SPEC<sp/><ref refid="structRRDoubleMatrix" kindref="compound">RRDoubleMatrixPtr</ref><sp/>rrcCallConv<sp/><ref refid="group__helperRoutines_1gabf1979f15bd6b02315b3f9d880fded85" kindref="member">createRRMatrix</ref><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>r,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>c);</highlight></codeline>
+<codeline lineno="414"><highlight class="normal"></highlight></codeline>
+<codeline lineno="426" refid="group__helperRoutines_1ga13d0d619adf01ca451033e742aaed38e" refkind="member"><highlight class="normal">C_DECL_SPEC<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>rrcCallConv<sp/><ref refid="group__helperRoutines_1ga13d0d619adf01ca451033e742aaed38e" kindref="member">getMatrixNumRows</ref><sp/>(<ref refid="structRRDoubleMatrix" kindref="compound">RRDoubleMatrixPtr</ref><sp/>m);</highlight></codeline>
+<codeline lineno="427"><highlight class="normal"></highlight></codeline>
+<codeline lineno="439" refid="group__helperRoutines_1ga643d224921897abead4fdcdf1e1e362e" refkind="member"><highlight class="normal">C_DECL_SPEC<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>rrcCallConv<sp/><ref refid="group__helperRoutines_1ga643d224921897abead4fdcdf1e1e362e" kindref="member">getMatrixNumCols</ref><sp/>(<ref refid="structRRDoubleMatrix" kindref="compound">RRDoubleMatrixPtr</ref><sp/>m);</highlight></codeline>
+<codeline lineno="440"><highlight class="normal"></highlight></codeline>
+<codeline lineno="458" refid="group__helperRoutines_1ga412ade7dedfbaeafd99eb4abe3fa4f7e" refkind="member"><highlight class="normal">C_DECL_SPEC<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>rrcCallConv<sp/><ref refid="group__helperRoutines_1ga412ade7dedfbaeafd99eb4abe3fa4f7e" kindref="member">getMatrixElement</ref><sp/>(<ref refid="structRRDoubleMatrix" kindref="compound">RRDoubleMatrixPtr</ref><sp/>m,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>r,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>c,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">*<sp/>value);</highlight></codeline>
+<codeline lineno="459"><highlight class="normal"></highlight></codeline>
+<codeline lineno="477" refid="group__helperRoutines_1gae8a55dbfe92b2f7cb325970a75f69e1c" refkind="member"><highlight class="normal">C_DECL_SPEC<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>rrcCallConv<sp/><ref refid="group__helperRoutines_1gae8a55dbfe92b2f7cb325970a75f69e1c" kindref="member">setMatrixElement</ref><sp/>(<ref refid="structRRDoubleMatrix" kindref="compound">RRDoubleMatrixPtr</ref><sp/>m,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>r,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>c,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>value);</highlight></codeline>
+<codeline lineno="478"><highlight class="normal"></highlight></codeline>
+<codeline lineno="479"><highlight class="normal"></highlight></codeline>
+<codeline lineno="497" refid="group__helperRoutines_1gab72f77166a650f91ce979db7e1b5558d" refkind="member"><highlight class="normal">C_DECL_SPEC<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>rrcCallConv<sp/><ref refid="group__helperRoutines_1gab72f77166a650f91ce979db7e1b5558d" kindref="member">getComplexMatrixElement</ref><sp/>(<ref refid="structRRComplexMatrix" kindref="compound">RRComplexMatrixPtr</ref><sp/>m,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>r,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>c,<sp/><ref refid="structRRComplex" kindref="compound">RRComplexPtr</ref><sp/>value);</highlight></codeline>
+<codeline lineno="498"><highlight class="normal"></highlight></codeline>
+<codeline lineno="499"><highlight class="normal"></highlight></codeline>
+<codeline lineno="517" refid="group__helperRoutines_1ga9d777aebf7c6bbd55b9b06f31e7e9f42" refkind="member"><highlight class="normal">C_DECL_SPEC<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>rrcCallConv<sp/><ref refid="group__helperRoutines_1ga9d777aebf7c6bbd55b9b06f31e7e9f42" kindref="member">setComplexMatrixElement</ref><sp/>(<ref refid="structRRComplexMatrix" kindref="compound">RRComplexMatrixPtr</ref><sp/>m,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>r,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>c,<sp/><ref refid="structRRComplex" kindref="compound">RRComplexPtr</ref><sp/>value);</highlight></codeline>
+<codeline lineno="518"><highlight class="normal"></highlight></codeline>
+<codeline lineno="519"><highlight class="normal"></highlight></codeline>
+<codeline lineno="529" refid="group__helperRoutines_1gae18768d9447fda2618cacb5099eb768e" refkind="member"><highlight class="normal">C_DECL_SPEC<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>rrcCallConv<sp/><ref refid="group__helperRoutines_1gae18768d9447fda2618cacb5099eb768e" kindref="member">getRRDataNumRows</ref><sp/>(<ref refid="structRRCData" kindref="compound">RRCDataPtr</ref><sp/>rrData);</highlight></codeline>
+<codeline lineno="530"><highlight class="normal"></highlight></codeline>
+<codeline lineno="540" refid="group__helperRoutines_1ga76a2e0f7b1704b28ef0b6661b5e6ada9" refkind="member"><highlight class="normal">C_DECL_SPEC<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>rrcCallConv<sp/><ref refid="group__helperRoutines_1ga76a2e0f7b1704b28ef0b6661b5e6ada9" kindref="member">getRRDataNumCols</ref><sp/>(<ref refid="structRRCData" kindref="compound">RRCDataPtr</ref><sp/>rrData);</highlight></codeline>
+<codeline lineno="541"><highlight class="normal"></highlight></codeline>
+<codeline lineno="556" refid="group__helperRoutines_1gad475100038d18ad8033220f10a05156a" refkind="member"><highlight class="normal">C_DECL_SPEC<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>rrcCallConv<sp/><ref refid="group__helperRoutines_1gad475100038d18ad8033220f10a05156a" kindref="member">getRRCDataElement</ref><sp/>(<ref refid="structRRCData" kindref="compound">RRCDataPtr</ref><sp/>rrData,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>r,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>c,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>*value);</highlight></codeline>
+<codeline lineno="557"><highlight class="normal"></highlight></codeline>
+<codeline lineno="570" refid="group__helperRoutines_1gaaa98160597f72e56bf32eff95e7b1f0c" refkind="member"><highlight class="normal">C_DECL_SPEC<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>rrcCallConv<sp/><ref refid="group__helperRoutines_1gaaa98160597f72e56bf32eff95e7b1f0c" kindref="member">getRRDataColumnLabel</ref><sp/>(<ref refid="structRRCData" kindref="compound">RRCDataPtr</ref><sp/>rrData,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>column);</highlight></codeline>
+<codeline lineno="571"><highlight class="normal"></highlight></codeline>
+<codeline lineno="572"><highlight class="normal"></highlight><highlight class="comment">//<sp/>--------------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="573"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Convert<sp/>data<sp/>to<sp/>string<sp/>functions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="574"><highlight class="normal"></highlight><highlight class="comment">//<sp/>--------------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="575"><highlight class="normal"></highlight></codeline>
+<codeline lineno="581" refid="group__toString_1gaff70db9c262110e72d1cf090b04d05a3" refkind="member"><highlight class="normal">C_DECL_SPEC<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>rrcCallConv<sp/><ref refid="group__toString_1gaff70db9c262110e72d1cf090b04d05a3" kindref="member">vectorToString</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structRRVector" kindref="compound">RRVectorPtr</ref><sp/>vec);</highlight></codeline>
+<codeline lineno="582"><highlight class="normal"></highlight></codeline>
+<codeline lineno="588" refid="group__toString_1gaef1d1f1789f4c5bca4e6b7af4bf53885" refkind="member"><highlight class="normal">C_DECL_SPEC<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>rrcCallConv<sp/><ref refid="group__toString_1gaef1d1f1789f4c5bca4e6b7af4bf53885" kindref="member">complexVectorToString</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structRRComplexVector" kindref="compound">RRComplexVectorPtr</ref><sp/>vec);</highlight></codeline>
+<codeline lineno="589"><highlight class="normal"></highlight></codeline>
+<codeline lineno="595" refid="group__toString_1ga9ecd62cd0fd10a179bd2fe5e55f69929" refkind="member"><highlight class="normal">C_DECL_SPEC<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>rrcCallConv<sp/><ref refid="group__toString_1ga9ecd62cd0fd10a179bd2fe5e55f69929" kindref="member">rrCDataToString</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structRRCData" kindref="compound">RRCDataPtr</ref><sp/>rrData);</highlight></codeline>
+<codeline lineno="596"><highlight class="normal"></highlight></codeline>
+<codeline lineno="602" refid="group__toString_1ga02a9a7fee7703402fcf6e36f30d384be" refkind="member"><highlight class="normal">C_DECL_SPEC<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>rrcCallConv<sp/><ref refid="group__toString_1ga02a9a7fee7703402fcf6e36f30d384be" kindref="member">matrixToString</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structRRDoubleMatrix" kindref="compound">RRDoubleMatrixPtr</ref><sp/>mat);</highlight></codeline>
+<codeline lineno="603"><highlight class="normal"></highlight></codeline>
+<codeline lineno="609" refid="group__toString_1gacb4e2892fead121b86bcaf22fea17178" refkind="member"><highlight class="normal">C_DECL_SPEC<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>rrcCallConv<sp/><ref refid="group__toString_1gacb4e2892fead121b86bcaf22fea17178" kindref="member">complexMatrixToString</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structRRComplexMatrix" kindref="compound">RRComplexMatrixPtr</ref><sp/>mat);</highlight></codeline>
+<codeline lineno="610"><highlight class="normal"></highlight></codeline>
+<codeline lineno="616" refid="group__stringArray_1ga4fcdcd7af4041c61ad958b7444ed0263" refkind="member"><highlight class="normal">C_DECL_SPEC<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>rrcCallConv<sp/><ref refid="group__stringArray_1ga4fcdcd7af4041c61ad958b7444ed0263" kindref="member">getNumberOfStringElements</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structRRStringArray" kindref="compound">RRStringArrayPtr</ref><sp/>list);</highlight></codeline>
+<codeline lineno="617"><highlight class="normal"></highlight></codeline>
+<codeline lineno="623" refid="group__stringArray_1ga6543d536e989bd4cbf52b53e000cf025" refkind="member"><highlight class="normal">C_DECL_SPEC<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>rrcCallConv<sp/><ref refid="group__stringArray_1ga6543d536e989bd4cbf52b53e000cf025" kindref="member">getStringElement</ref><sp/>(<ref refid="structRRStringArray" kindref="compound">RRStringArrayPtr</ref><sp/>list,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>index);</highlight></codeline>
+<codeline lineno="624"><highlight class="normal"></highlight></codeline>
+<codeline lineno="630" refid="group__toString_1ga57ac412ea941375e41f6cbc193c666e1" refkind="member"><highlight class="normal">C_DECL_SPEC<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>rrcCallConv<sp/><ref refid="group__toString_1ga57ac412ea941375e41f6cbc193c666e1" kindref="member">stringArrayToString</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structRRStringArray" kindref="compound">RRStringArrayPtr</ref><sp/>list);</highlight></codeline>
+<codeline lineno="631"><highlight class="normal"></highlight></codeline>
+<codeline lineno="637" refid="group__toString_1ga7cfc863a3d8fec26c951a2f40fa7dfa4" refkind="member"><highlight class="normal">C_DECL_SPEC<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>rrcCallConv<sp/><ref refid="group__toString_1ga7cfc863a3d8fec26c951a2f40fa7dfa4" kindref="member">listToString</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structRRList" kindref="compound">RRListPtr</ref><sp/>list);</highlight></codeline>
+<codeline lineno="638"><highlight class="normal"></highlight></codeline>
+<codeline lineno="639"><highlight class="normal"></highlight></codeline>
+<codeline lineno="640"><highlight class="normal"></highlight><highlight class="comment">//========================<sp/>DATA<sp/>WRITING<sp/>ROUTINES<sp/>=============================</highlight></codeline>
+<codeline lineno="648" refid="group__helperRoutines_1ga39acec7b552d0d705387d45e160a6448" refkind="member"><highlight class="comment"></highlight><highlight class="normal">C_DECL_SPEC<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>rrcCallConv<sp/><ref refid="group__helperRoutines_1ga39acec7b552d0d705387d45e160a6448" kindref="member">writeRRData</ref>(<ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref><sp/>handle,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>fileNameAndPath);</highlight></codeline>
+<codeline lineno="649"><highlight class="normal"></highlight></codeline>
+<codeline lineno="650"><highlight class="normal"></highlight></codeline>
+<codeline lineno="652"><highlight class="comment">//<sp/>TEST<sp/>UTILITY<sp/>functions<sp/>(to<sp/>be<sp/>documented<sp/>later.<sp/>Only<sp/>for<sp/>internal<sp/>testing)</highlight></codeline>
+<codeline lineno="660" refid="group__helperRoutines_1ga15cdab183a7e81c1e7beba9b80a6544c" refkind="member"><highlight class="comment"></highlight><highlight class="normal">C_DECL_SPEC<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>rrcCallConv<sp/><ref refid="group__helperRoutines_1ga15cdab183a7e81c1e7beba9b80a6544c" kindref="member">compileSource</ref>(<ref refid="rrc__types_8h_1a1d68f0592372208fa5a5f2799ea4b3ae" kindref="member">RRHandle</ref><sp/>handle,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>sourceFileNameAndPath);</highlight></codeline>
+<codeline lineno="661"><highlight class="normal"></highlight></codeline>
+<codeline lineno="662"><highlight class="normal"></highlight></codeline>
+<codeline lineno="663"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(__cplusplus)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="664"><highlight class="normal"></highlight></codeline>
+<codeline lineno="665"><highlight class="normal">}<sp/><sp/><sp/></highlight><highlight class="comment">//namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="666"><highlight class="normal">}<sp/><sp/><sp/></highlight><highlight class="comment">//Extern<sp/>&quot;C&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="667"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="668"><highlight class="normal"></highlight></codeline>
+<codeline lineno="669"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+    </programlisting>
+    <location file="D:/roadrunner/roadrunner/wrappers/C/rrc_utilities.h"/>
+  </compounddef>
+</doxygen>

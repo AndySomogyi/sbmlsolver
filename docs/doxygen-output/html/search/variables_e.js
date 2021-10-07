@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['p1_1601',['p1',['../classrr_1_1SelectionRecord.html#ad97672baac3b6608f10a253d8594d39b',1,'rr::SelectionRecord']]],
-  ['p2_1602',['p2',['../classrr_1_1SelectionRecord.html#a541046e11c7748d5fe403cbb681629a5',1,'rr::SelectionRecord']]]
+  ['options_2602',['options',['../classrrllvm_1_1CodeGenBase.html#a747be8f3c35284547ad6f31b36736471',1,'rrllvm::CodeGenBase']]],
+  ['output_5ffile_2603',['output_file',['../classrr_1_1SimulateOptions.html#a09d7ee18803cb8ca6f96f71d60eeb78e',1,'rr::SimulateOptions']]]
 ];
