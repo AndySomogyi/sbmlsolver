@@ -14,15 +14,14 @@
 // == INCLUDES ================================================
 
 #include "Integrator.h"
-// #include "CVODEIntegrator.h"
-// #include "GillespieIntegrator.h"
-// #include "RK4Integrator.h"
-// #include "EulerIntegrator.h"
+#include "CVODEIntegrator.h"
+#include "GillespieIntegrator.h"
+#include "RK4Integrator.h"
+#include "EulerIntegrator.h"
+#include "RK45Integrator.h"
+
 #include "rrExecutableModel.h"
-#include "rrStringUtils.h"
 #include "rrConfig.h"
-#include "rrUtils.h"
-#include <typeinfo>
 
 // == CODE ====================================================
 
@@ -33,7 +32,16 @@ namespace rr
 		INTEGRATOR
 	  ------------------------------------------------------------------------------------------*/
 	Integrator::Integrator(ExecutableModel *model)
-	    : Solver(model){}
+        : Solver(model)
+        , mIntegrationStartTime(0.0)
+    {
+    }
+
+    Integrator::Integrator()
+        : Solver()
+        , mIntegrationStartTime(0.0)
+    {
+    }
 
     void Integrator::syncWithModel(ExecutableModel* m) {}
 
@@ -76,53 +84,10 @@ namespace rr
 		return v;
 	}
 
-    IntegratorRegistrar::~IntegratorRegistrar() {}
-
-    /********************************************************************************************
-    * INTEGRATOR FACTORY
-    ********************************************************************************************/
-
-    IntegratorFactory::~IntegratorFactory() {
-        for (IntegratorRegistrars::const_iterator it(mRegisteredIntegrators.begin()); it != mRegisteredIntegrators.end(); ++it) {
-            delete *it;
-        }
+    void Integrator::setIntegrationStartTime(double time)
+    {
+        mIntegrationStartTime = time;
     }
 
-    Integrator* IntegratorFactory::New(std::string name, ExecutableModel* m) const {
-        for (IntegratorRegistrars::const_iterator it(mRegisteredIntegrators.begin()); it != mRegisteredIntegrators.end(); ++it) {
-            if ((*it)->getName() == name) {
-                return (*it)->construct(m);
-            }
-        }
-        throw InvalidKeyException("No such integrator: " + name);
-    }
-
-    void IntegratorFactory::registerIntegrator(IntegratorRegistrar* i) {
-        if (!i)
-            throw CoreException("Registrar is null");
-        mRegisteredIntegrators.push_back(i);
-    }
-
-    IntegratorFactory& IntegratorFactory::getInstance() {
-        // FIXME: not thread safe -- JKM, July 24, 2015.
-        static IntegratorFactory factory;
-        return factory;
-    }
-
-    std::size_t IntegratorFactory::getNumIntegrators() const {
-        return mRegisteredIntegrators.size();
-    }
-
-    std::string IntegratorFactory::getIntegratorName(std::size_t n) const {
-        return mRegisteredIntegrators.at(n)->getName();
-    }
-
-    std::string IntegratorFactory::getIntegratorHint(std::size_t n) const {
-        return mRegisteredIntegrators.at(n)->getHint();
-    }
-
-    std::string IntegratorFactory::getIntegratorDescription(std::size_t n) const {
-        return mRegisteredIntegrators.at(n)->getDescription();
-    }
 
 }

@@ -21,8 +21,10 @@ configure_file(RoadRunnerTestDirectory.cpp.in "${CMAKE_CURRENT_BINARY_DIR}/RoadR
 
 # "CMAKE_CURRENT_SOURCE_DIR" changes in the different files were
 # add_test_executable gets called. We can use this as a constant
-set(ThisSourceDirectory ${CMAKE_CURRENT_SOURCE_DIR})
-set(ThisBinaryDirectory ${CMAKE_CURRENT_BINARY_DIR})
+set(ThisSourceDirectory "${CMAKE_CURRENT_SOURCE_DIR}")
+set(ThisBinaryDirectory "${CMAKE_CURRENT_BINARY_DIR}")
+set(MOCKUPS_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/mockups")
+set(RR_Python_wrapper_dir "${CMAKE_CURRENT_SOURCE_DIR}/../wrappers/Python/roadrunner")
 
 #todo move these to the rr_root/cmake folder
 # Adds a new executable cmake target to cmake.
@@ -33,23 +35,37 @@ set(ThisBinaryDirectory ${CMAKE_CURRENT_BINARY_DIR})
 #   - All further arguments are added to the binary as sources.
 function(add_test_executable TEST_TARGET OUT_VARIABLE)
     #message(STATUS "Adding test ${TEST_TARGET} as part of ${OUT_VARIABLE}. Source Files: ARGN: ${ARGN}" )
-    add_executable(${TEST_TARGET} ${ARGN})
+    add_executable(${TEST_TARGET} ${ARGN} $<TARGET_OBJECTS:rr-mockups>
+            ${ThisSourceDirectory}/TestModelFactory)
+
+    if (TEST_TARGET MATCHES ".*plugin.*")
+       set(TEST_PLUGIN_INCLUDE "$<TARGET_PROPERTY:telplugins_c_api,INCLUDE_DIRECTORIES>")
+       set(TEST_PLUGIN_LIB "telplugins_c_api")
+    else()
+       set(TEST_PLUGIN_LIB "roadrunner_c_api")
+    endif()
 
     target_include_directories(
             ${TEST_TARGET} PRIVATE
             "${ThisSourceDirectory}"
             "${ThisBinaryDirectory}"
+            "${MOCKUPS_DIRECTORY}"
+            "${TEST_PLUGIN_INCLUDE}"
+            "${RR_Python_wrapper_dir}" # for PyUtils in tests that need it
     )
 
     target_link_libraries(${TEST_TARGET} PRIVATE
-            roadrunner_c_api roadrunner-static gtest gtest_main gmock gmock_main
-            )
+#            rr-mockups
+            ${TEST_PLUGIN_LIB}
+            gtest gtest_main gmock gmock_main
+    )
+
     # This causes a weird build error whereby it is no longer possible
     # to name a class the name as the binary filename. However, since w
     # link to roadrunner-static, the flags needed should be transitive
     #    add_compile_definitions(${TEST_TARGET} PRIVATE STATIC_RR)
 
-    add_dependencies(${TEST_TARGET} roadrunner-static gtest gtest_main gmock gmock_main)
+    add_dependencies(${TEST_TARGET} roadrunner-static gtest gtest_main gmock gmock_main rr-mockups)
     set_target_properties(${TEST_TARGET} PROPERTIES LINKER_LANGUAGE CXX)
 
     # Add to ctest.
@@ -89,10 +105,10 @@ endfunction()
 #   SWIG_INTERFACE_FILE one or more swig interface files
 #   Any other argument to this function is assumed to be source files
 #   to be added to the swig target.
-macro(add_swig_executable SWIG_TARGET_NAME SWIG_INTERFACE_FILE)
+macro(add_rr_test_swig_library SWIG_TARGET_NAME SWIG_INTERFACE_FILE)
     # no harm in finding python here
     find_package(Python COMPONENTS Interpreter Development NumPy REQUIRED)
-    find_package(SWIG 4.0.2 REQUIRED
+    find_package(SWIG 4.0.1 REQUIRED
             COMPONENTS python
             )
     include(UseSWIG)
@@ -103,7 +119,9 @@ macro(add_swig_executable SWIG_TARGET_NAME SWIG_INTERFACE_FILE)
             SWIG_FLAGS
             # turns on automatic annotation of python arg and return types
             # BUT does so in c++ types. Therefore I'm not sure how much value this adds.
-            "-py3"
+            -py3
+            -threads
+            -doxygen
             )
 
     swig_add_library(${SWIG_TARGET_NAME}
@@ -113,21 +131,69 @@ macro(add_swig_executable SWIG_TARGET_NAME SWIG_INTERFACE_FILE)
             )
 
     #    set(CMAKE_SWIG_FLAGS "-py3 -castmode -keyword")
-    set_target_properties(${SWIG_TARGET_NAME} PROPERTIES
+    set_target_properties(
+            ${SWIG_TARGET_NAME} PROPERTIES
+
+            # On windows with the Visual Studio CMake generators, the pyd file
+            # is put into a configuration directory (release / debug etc.)
+            # however we use the makefile way of doing things and put them in to
+            # one directory on all systems.
+            RUNTIME_OUTPUT_DIRECTORY "${RR_PYTHON_TESTING_BUILD_PREFIX}"
+            RUNTIME_OUTPUT_DIRECTORY_RELEASE "${RR_PYTHON_TESTING_BUILD_PREFIX}"
+            RUNTIME_OUTPUT_DIRECTORY_DEBUG "${RR_PYTHON_TESTING_BUILD_PREFIX}"
+            RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO "${RR_PYTHON_TESTING_BUILD_PREFIX}"
+
+            LIBRARY_OUTPUT_DIRECTORY "${RR_PYTHON_TESTING_BUILD_PREFIX}"
+            LIBRARY_OUTPUT_DIRECTORY_DEBUG "${RR_PYTHON_TESTING_BUILD_PREFIX}"
+            LIBRARY_OUTPUT_DIRECTORY_RELEASE "${RR_PYTHON_TESTING_BUILD_PREFIX}"
+            LIBRARY_OUTPUT_DIRECTORY_RELWITHDEBINFO "${RR_PYTHON_TESTING_BUILD_PREFIX}"
+
+            ARCHIVE_OUTPUT_DIRECTORY "${RR_PYTHON_TESTING_BUILD_PREFIX}"
+            ARCHIVE_OUTPUT_DIRECTORY_RELEASE "${RR_PYTHON_TESTING_BUILD_PREFIX}"
+            ARCHIVE_OUTPUT_DIRECTORY_DEBUG "${RR_PYTHON_TESTING_BUILD_PREFIX}"
+            ARCHIVE_OUTPUT_DIRECTORY_RELWITHDEBINFO "${RR_PYTHON_TESTING_BUILD_PREFIX}"
+
+            # make the command "target_include_directories" work with swig targets
             SWIG_USE_TARGET_INCLUDE_DIRECTORIES TRUE
-            )
+            OUTPUT_NAME ${SWIG_TARGET_NAME}
+    )
 
     target_include_directories(${SWIG_TARGET_NAME} PUBLIC
-            ${Python_INCLUDE_DIRS}
-            ${CMAKE_CURRENT_SOURCE_DIR}
-            "${RR_ROOT}/wrappers/Python/include" # for additional includes(.i) in tests
+            "${ThisSourceDirectory}" # test root
+            "${CMAKE_CURRENT_SOURCE_DIR}"
+            "${RR_ROOT}/wrappers/Python/include"
+            "${RR_ROOT}/wrappers/Python/roadrunner"
             $<TARGET_PROPERTY:roadrunner-static,INCLUDE_DIRECTORIES>
-            $<TARGET_PROPERTY:roadrunner_python,INCLUDE_DIRECTORIES>
+            "${RR_DEPENDENCIES_INSTALL_PREFIX}/include/rr-libstruct"
+            "${Python_INCLUDE_DIRS}"
+            "${Python_NumPy_INCLUDE_DIRS}"
+            #            $<TARGET_PROPERTY:roadrunner_python,INCLUDE_DIRECTORIES>
             )
-    target_link_libraries(${SWIG_TARGET_NAME} PUBLIC
-            roadrunner-static
-            ${Python_LIBRARIES}
-            )
+    if (NOT APPLE)
+        target_link_libraries(${SWIG_TARGET_NAME} PUBLIC
+                rr-mockups
+                roadrunner-static
+                Python::Python # remember, includes will just come with linking Python::Python
+                Python::NumPy  # remember, includes will just come with linking Python::NumPy
+                )
+    else ()
+
+        set_target_properties(${SWIG_TARGET_NAME}
+                PROPERTIES
+                LINK_FLAGS "-undefined dynamic_lookup"
+                INSTALL_RPATH "@loader_path/../../lib;@loader_path/"
+                INSTALL_NAME_DIR "@rpath"
+                )
+        swig_link_libraries(${SWIG_TARGET_NAME} PUBLIC
+                rr-mockups
+                roadrunner-static
+                # Since we are using "-undefined dynamic_lookup"
+                # we do not need to link to Python here - they will
+                # be found at runtime.
+                #Python::Python
+                #Python::NumPy
+                )
+    endif ()
 
     message(STATUS "Adding swig executable: ${SWIG_TARGET_NAME}")
     message(STATUS "Swig target \"${SWIG_TARGET_NAME}\" will be copied to \"${RR_PYTHON_TESTING_BUILD_PREFIX}\" in the build tree after the target is built")
@@ -144,35 +210,44 @@ macro(add_swig_executable SWIG_TARGET_NAME SWIG_INTERFACE_FILE)
             COMMAND ${CMAKE_COMMAND} -E copy "${SWIG_GENERATED_PYTHON_FILE}" "${RR_PYTHON_TESTING_BUILD_PREFIX}"
     )
 
-    # todo "install" commands
-
+    # install python test files to install tree
+    install(TARGETS ${SWIG_TARGET_NAME} DESTINATION "${RR_PYTHON_TESTING_INSTALL_PREFIX}")
+    install(
+            FILES
+            "${RR_PYTHON_TESTING_BUILD_PREFIX}/${SWIG_TARGET_NAME}.py"
+            DESTINATION
+            "${RR_PYTHON_TESTING_INSTALL_PREFIX}/"
+    )
 endmacro()
 
 #########################################################
 #   Build the TestModelFactory
 #
+message(STATUS "RR_PYTHON_TESTING_BUILD_PREFIX: ${RR_PYTHON_TESTING_BUILD_PREFIX}")
 
 if (BUILD_PYTHON AND BUILD_TESTS)
     message(STATUS "Building TestModelFactory")
-    add_swig_executable(TestModelFactory
+    add_rr_test_swig_library(TestModelFactory
             "${CMAKE_CURRENT_SOURCE_DIR}/TestModelFactory.i"
             "${CMAKE_CURRENT_SOURCE_DIR}/TestModelFactory.h"
             "${CMAKE_CURRENT_SOURCE_DIR}/TestModelFactory.cpp"
-            "../wrappers/Python/roadrunner/PyUtils"
+            "../wrappers/Python/roadrunner/PyUtils.h"
+            "../wrappers/Python/roadrunner/PyUtils.cpp"
             )
 
-    configure_file(testTestModelFactory.py "${RR_PYTHON_TESTING_DIR}" COPYONLY)
+    configure_file(
+            "${CMAKE_CURRENT_SOURCE_DIR}/TestModelFactoryTests.py"
+            "${RR_PYTHON_TESTING_BUILD_PREFIX}/TestModelFactoryTests.py" COPYONLY)
+    configure_file(
+            "${CMAKE_CURRENT_SOURCE_DIR}/RoadRunnerTest.py"
+            "${RR_PYTHON_TESTING_BUILD_PREFIX}/RoadRunnerTest.py" COPYONLY)
 
-    # install python test files to install tree
-    install(TARGETS TestModelFactory DESTINATION site-packages/roadrunner/testing)
     install(
             FILES
-                "${CMAKE_CURRENT_BINARY_DIR}/TestModelFactory.py"
-                "${CMAKE_CURRENT_SOURCE_DIR}/testTestModelFactory.py"
+            "${RR_PYTHON_TESTING_BUILD_PREFIX}/TestModelFactoryTests.py"
             DESTINATION
-            site-packages/roadrunner/testing
+            "${RR_PYTHON_TESTING_INSTALL_PREFIX}"
     )
-
 endif ()
 
 
@@ -194,25 +269,84 @@ set(
         "${CMAKE_CURRENT_SOURCE_DIR}/TestModelFactory.cpp" # need explicit extensions here (for some reason)
 )
 
+add_subdirectory(mockups)
 add_subdirectory(c_api_core)
 add_subdirectory(c_api_rrtests)
 add_subdirectory(model_analysis)
 add_subdirectory(model_editing)
 add_subdirectory(sbml_features)
-add_subdirectory(state_saving)
 add_subdirectory(sundials-tests)
 add_subdirectory(python)
 add_subdirectory(cxx_api_tests)
+add_subdirectory(serialization)
+
+if (WIN32 AND BUILD_RR_PLUGINS)
+   set(
+        SharedPluginTestFiles
+        # path *must* be absolute to work in cmake functions/macros
+        "${CMAKE_CURRENT_BINARY_DIR}/RoadRunnerPluginDirectory.h"
+        "${CMAKE_CURRENT_BINARY_DIR}/RoadRunnerPluginDirectory.cpp"
+   )
+
+   add_subdirectory(plugin_api)
+   add_subdirectory(plugin_auto2000)
+   add_subdirectory(plugin_levenberg_marquardt)
+   add_subdirectory(plugin_monte_carlo_bs)
+   add_subdirectory(plugin_nelder_mead)
+   add_subdirectory(plugin_test_model)
+endif() #BUILD_RR_PLUGINS
 
 #List the semantic_STS last, since it takes much longer to run than the others.
 # (fyi, build the run-ctest-exclude-sbml-test-suite target - see below)
 add_subdirectory(semantic_STS)
+
+
+#######################################################################
+#   Add Python unit tests to ctest. Assumes availability of pytest (pip install pytest)
+#
+if (BUILD_PYTHON AND BUILD_TESTS)
+
+    set(PyTestTests)
+    macro(add_pytest_to_ctest TestName TestSourceFile)
+        # make sure file is up to date
+        # run pytest with -rP to always capture stdout regardless of pass/fail
+        add_test(
+                NAME ${TestName}
+                COMMAND Python::Interpreter -m pytest -rP ${TestSourceFile}
+                WORKING_DIRECTORY "${RR_PYTHON_TESTING_BUILD_PREFIX}"
+        )
+        set_tests_properties(${TestName} PROPERTIES ENVIRONMENT "PYTHONPATH=${PYTHON_PACKAGE_SITE_DIR_BUILD_TREE}:$PYTHONPATH")
+        set(PyTestTests ${PyTestTests} ${TestName})
+    endmacro()
+
+
+    add_pytest_to_ctest(python_tests_AutomaticMoietyConservationAnalysisTests "${RR_PYTHON_TESTING_BUILD_PREFIX}/AutomaticMoietyConservationAnalysisTests.py")
+    add_pytest_to_ctest(python_tests_ForwardSensitivitySolverTests "${RR_PYTHON_TESTING_BUILD_PREFIX}/ForwardSensitivitySolverTests.py")
+    add_pytest_to_ctest(python_tests_IntegratorTests "${RR_PYTHON_TESTING_BUILD_PREFIX}/IntegratorTests.py")
+    add_pytest_to_ctest(python_tests_python_api_tests "${RR_PYTHON_TESTING_BUILD_PREFIX}/python_api_tests.py")
+    add_pytest_to_ctest(python_tests_SettingTests "${RR_PYTHON_TESTING_BUILD_PREFIX}/SettingTests.py")
+    add_pytest_to_ctest(python_tests_SteadyStateSolverTests "${RR_PYTHON_TESTING_BUILD_PREFIX}/SteadyStateSolverTests.py")
+    add_pytest_to_ctest(python_tests_StructuralAnalysisTests "${RR_PYTHON_TESTING_BUILD_PREFIX}/StructuralAnalysisTests.py")
+    add_pytest_to_ctest(python_tests_TestModelFactoryTests "${RR_PYTHON_TESTING_BUILD_PREFIX}/TestModelFactoryTests.py")
+    add_pytest_to_ctest(python_tests_RunRRTestsFromPython "${RR_PYTHON_TESTING_BUILD_PREFIX}/RunTesterWithUnitTest.py")
+    add_pytest_to_ctest(python_tests_NamedArrayTests "${RR_PYTHON_TESTING_BUILD_PREFIX}/NamedArrayTests.py")
+    add_pytest_to_ctest(python_tests_PickleTests "${RR_PYTHON_TESTING_BUILD_PREFIX}/pickle_tests.py")
+
+    message(STATUS "PyTestTests ${PyTestTests}")
+
+    add_custom_target(
+            run-pytest-tests
+            ctest --output-on-failure --verbose --extra-verbose --tests-regex python_tests*
+    )
+    #    add_dependencies(run-pytest-tests roadrunner_python TestModelFactory SettingTestsSwigAPI)
+endif ()
 
 #########################################################
 #   Install tests and create wrapper for ctest command
 #
 install(TARGETS ${test_targets})
 
+MESSAGE(STATUS "CMAKE_BINARY_DIR ${CMAKE_BINARY_DIR}")
 set(ctest_args "--build-config ${CMAKE_BUILD_TYPE} --output-on-failure --parallel 8 --progress --verbose --extra-verbose ${CMAKE_BINARY_DIR}")
 
 # Creates a custom target which runs all tests
@@ -236,6 +370,9 @@ add_custom_target(
 )
 
 add_dependencies(run-ctest-only-sbml-test-suite ${test_targets})
+
+
+
 
 
 

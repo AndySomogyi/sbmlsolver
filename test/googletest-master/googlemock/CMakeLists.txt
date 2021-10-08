@@ -163,6 +163,7 @@ if (gmock_build_tests)
   cxx_test(gmock_test gmock_main)
 
   if (DEFINED GTEST_HAS_PTHREAD)
+    message(FATAL "GTEST_HAS_PTHREAD ${GTEST_HAS_PTHREAD}")
     cxx_test(gmock_stress_test gmock)
   endif()
 

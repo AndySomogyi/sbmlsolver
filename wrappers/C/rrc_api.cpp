@@ -46,6 +46,7 @@
 #include <sstream>
 #include <fstream>
 #include "rrRoadRunner.h"
+#include "rrRoadRunnerData.h"
 #include "rrRoadRunnerOptions.h"
 #include "rrExecutableModel.h"
 #include "rrCompiler.h"
@@ -62,6 +63,9 @@
 #include "Dictionary.h"
 #include "rrConfig.h"
 #include <ctime>
+#include "IntegratorFactory.h"
+#include "SensitivitySolverFactory.h"
+#include "SteadyStateSolverFactory.h"
 
 
 #if defined(_MSC_VER)
@@ -582,6 +586,20 @@ bool rrcCallConv setNumPoints(RRHandle handle, const int nrPoints)
     catch_bool_macro
 }
 
+bool rrcCallConv setTimes(RRHandle handle, const double* times, int size)
+{
+    start_try
+        RoadRunner* rri = castToRoadRunner(handle);
+        SimulateOptions& opt = rri->getSimulateOptions();
+        opt.times.clear();
+        for (int t = 0; t < size; t++)
+        {
+            opt.times.push_back(times[t]);
+        }
+        return true;
+    catch_bool_macro
+}
+
 bool rrcCallConv getTimeStart(RRHandle handle, double* timeStart)
 {
     start_try
@@ -655,12 +673,39 @@ RRCDataPtr rrcCallConv simulate(RRHandle handle)
     catch_ptr_macro
 }
 
+bool rrcCallConv simulateNoReturn(RRHandle handle)
+{
+    start_try
+        RoadRunner* rri = castToRoadRunner(handle);
+        rri->simulate();
+        return true;
+    catch_bool_macro
+}
+
 RRCDataPtr rrcCallConv simulateEx(RRHandle handle, const double timeStart, const double timeEnd, const int numberOfPoints)
 {
     start_try
         setTimeStart(handle, timeStart);
         setTimeEnd (handle, timeEnd);
         setNumPoints(handle, numberOfPoints);
+        return simulate(handle);
+    catch_ptr_macro
+}
+
+bool rrcCallConv simulateExNoReturn(RRHandle handle, const double timeStart, const double timeEnd, const int numberOfPoints)
+{
+    start_try
+        setTimeStart(handle, timeStart);
+        setTimeEnd(handle, timeEnd);
+        setNumPoints(handle, numberOfPoints);
+        return simulateNoReturn(handle);
+    catch_bool_macro
+}
+
+RRCDataPtr rrcCallConv simulateTimes(RRHandle handle, const double* times, int size)
+{
+    start_try
+        setTimes(handle, times, size);
         return simulate(handle);
     catch_ptr_macro
 }
@@ -672,6 +717,17 @@ RRCDataPtr rrcCallConv getSimulationResult(RRHandle handle)
 
         //Extract the data and return struct..
         return  createRRCData(*rri);
+    catch_ptr_macro
+}
+
+
+RRHandle rrcCallConv getSimulationResultAsDoubleMatrix(RRHandle handle)
+{
+    start_try
+        RoadRunner* rri = castToRoadRunner(handle);
+
+        //Extract the data and return struct..
+        return const_cast<void*>(static_cast<const void*>(rri->getSimulationData()));
     catch_ptr_macro
 }
 
@@ -1483,7 +1539,7 @@ RRListPtr rrcCallConv getElasticityCoefficientIds(RRHandle handle)
 int rrcCallConv getNumRegisteredIntegrators()
 {
 	start_try;
-		return static_cast<int>(IntegratorFactory::getInstance().getNumIntegrators());
+		return static_cast<int>(IntegratorFactory::getInstance().size());
     catch_int_macro
 }
 
@@ -1494,7 +1550,7 @@ char* rrcCallConv getRegisteredIntegratorName(int n)
             rrLog(Logger::LOG_WARNING) << "Negative index passed to getRegisteredIntegratorName";
             n = 0;
         }
-        return rr::createText(IntegratorFactory::getInstance().getIntegratorName(n));
+        return rr::createText(IntegratorFactory::getInstance().name(n));
     catch_ptr_macro
 }
 
@@ -1505,7 +1561,7 @@ char* rrcCallConv getRegisteredIntegratorHint(int n)
             rrLog(Logger::LOG_WARNING) << "Negative index passed to getRegisteredIntegratorName";
             n = 0;
         }
-        return rr::createText(IntegratorFactory::getInstance().getIntegratorHint(n));
+        return rr::createText(IntegratorFactory::getInstance().hint(n));
     catch_ptr_macro
 }
 
@@ -1516,7 +1572,7 @@ char* rrcCallConv getRegisteredIntegratorDescription(int n)
             rrLog(Logger::LOG_WARNING) << "Negative index passed to getRegisteredIntegratorName";
             n = 0;
         }
-        return rr::createText(IntegratorFactory::getInstance().getIntegratorDescription(n));
+        return rr::createText(IntegratorFactory::getInstance().description(n));
     catch_ptr_macro
 }
 
@@ -2452,7 +2508,7 @@ int rrcCallConv setCurrentIntegratorIndividualTolerance(RRHandle handle, char* s
 int rrcCallConv getNumRegisteredSteadyStateSolvers()
 {
     start_try;
-        return static_cast<int>(SteadyStateSolverFactory::getInstance().getNumSteadyStateSolvers());
+        return static_cast<int>(SteadyStateSolverFactory::getInstance().size());
     catch_int_macro
 }
 
@@ -2463,7 +2519,7 @@ char* rrcCallConv getRegisteredSteadyStateSolverName(int n)
             rrLog(Logger::LOG_WARNING) << "Negative index passed to getRegisteredSteadyStateSolverName";
             n = 0;
         }
-        return rr::createText(SteadyStateSolverFactory::getInstance().getSteadyStateSolverName(n));
+        return rr::createText(SteadyStateSolverFactory::getInstance().name(n));
     catch_ptr_macro
 }
 
@@ -2474,7 +2530,7 @@ char* rrcCallConv getRegisteredSteadyStateSolverHint(int n)
             rrLog(Logger::LOG_WARNING) << "Negative index passed to getRegisteredSteadyStateSolverName";
             n = 0;
         }
-        return rr::createText(SteadyStateSolverFactory::getInstance().getSteadyStateSolverHint(n));
+        return rr::createText(SteadyStateSolverFactory::getInstance().hint(n));
     catch_ptr_macro
 }
 
@@ -2485,7 +2541,7 @@ char* rrcCallConv getRegisteredSteadyStateSolverDescription(int n)
             rrLog(Logger::LOG_WARNING) << "Negative index passed to getRegisteredSteadyStateSolverName";
             n = 0;
         }
-        return rr::createText(SteadyStateSolverFactory::getInstance().getSteadyStateSolverDescription(n));
+        return rr::createText(SteadyStateSolverFactory::getInstance().description(n));
     catch_ptr_macro
 }
 
@@ -3330,7 +3386,9 @@ C_DECL_SPEC bool rrcCallConv setSeed(RRHandle h, long result) {
 		}
 		else
 		{
-			Integrator *intg = IntegratorFactory::getInstance().New("gillespie", r->getModel());
+			Integrator *intg = dynamic_cast<Integrator*>(
+			        IntegratorFactory::getInstance().New("gillespie", r->getModel())
+            );
 			intg->setValue("seed", Setting(result));
 		}
         return true;
@@ -3535,7 +3593,13 @@ bool rrcCallConv resetAll(RRHandle handle)
 {
     start_try
         RoadRunner* rri = castToRoadRunner(handle);
-        rri->reset(SelectionRecord::TIME | SelectionRecord::RATE | SelectionRecord::FLOATING | SelectionRecord::GLOBAL_PARAMETER);
+        rri->reset(
+            SelectionRecord::TIME |
+            SelectionRecord::RATE | 
+            SelectionRecord::FLOATING |
+            SelectionRecord::BOUNDARY |
+            SelectionRecord::COMPARTMENT |
+            SelectionRecord::GLOBAL_PARAMETER);
         return true;
     catch_bool_macro
 }

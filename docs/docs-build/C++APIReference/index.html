@@ -1,72 +1,35 @@
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
-  
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
   <title>The LibRoadRunner C++ Library &mdash; libRoadRunner 1.1.16 documentation</title>
-  
-
-  
-  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/tabs.css" type="text/css" />
-
-  
-  
-
-  
-  
-
-  
-
-  
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/tabs.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
-        <script src="../_static/language_data.js"></script>
-    
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-
-    
+    <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="LLVM Docs" href="llvm/index.html" />
     <link rel="prev" title="Conserved Moiety Conversion" href="../PythonAPIReference/cls_PyConservedMoietyConverter.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
-
-          
             <a href="../index.html" class="icon icon-home"> libRoadRunner
-          
-
-          
           </a>
-
-          
-            
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -74,22 +37,13 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
         </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Main">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../index.html">RoadRunner Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Installation/installation.html">Installing RoadRunner</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Examples/examples_index.html">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../read_write_functions.html">SBML Read/Write Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../selecting_values.html">Selecting Values</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../steady_state.html">Steady State Analysis</a></li>
@@ -147,84 +101,47 @@
 <li class="toctree-l2"><a class="reference internal" href="#a-complete-example-of-creating-an-integrator">A complete example of creating an integrator</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../developers_docs/index.html">Developers Documentation</a></li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+      <nav class="wy-nav-top" aria-label="Top" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">libRoadRunner</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
           
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+<div role="navigation" aria-label="Breadcrumbs">
   <ul class="wy-breadcrumbs">
-    
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-        
       <li>The LibRoadRunner C++ Library</li>
-    
-    
       <li class="wy-breadcrumbs-aside">
-        
-          
             <a href="../_sources/C++APIReference/index.rst.txt" rel="nofollow"> View page source</a>
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
-  <div class="section" id="the-libroadrunner-c-library">
-<h1>The LibRoadRunner C++ Library<a class="headerlink" href="#the-libroadrunner-c-library" title="Permalink to this headline">¶</a></h1>
+             
+  <section id="the-libroadrunner-c-library">
+<h1>The LibRoadRunner C++ Library<a class="headerlink" href="#the-libroadrunner-c-library" title="Permalink to this headline"></a></h1>
 <div class="toctree-wrapper compound">
 </div>
-<div class="section" id="introduction">
-<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline"></a></h2>
 <p>This document describes the application programming interface (wrappers) of RoadRunner,
 an open source (BSD) library for computing structural characteristics of cellular networks.</p>
-</div>
-<div class="section" id="creating-a-new-integrator">
-<h2>Creating a new Integrator<a class="headerlink" href="#creating-a-new-integrator" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="creating-a-new-integrator">
+<h2>Creating a new Integrator<a class="headerlink" href="#creating-a-new-integrator" title="Permalink to this headline"></a></h2>
 <p>One of the key design goals of the LibRoadRunner library is extensibility. This means that the
 library is designed with the idea that most internal components are loosely coupled and that
 it is simple to add new solvers such as new steady state solvers or integrators. This section
@@ -245,9 +162,9 @@ done with the &lt;TT&gt;integrator&lt;/TT&gt; keyword, i.e.</p>
 </div>
 <p>To create a new integrator, one first needs to create an object that implments the Integrator interface,
 tell RoadRunner about it.</p>
-</div>
-<div class="section" id="implementing-the-integrator-interface">
-<h2>Implementing the Integrator interface<a class="headerlink" href="#implementing-the-integrator-interface" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="implementing-the-integrator-interface">
+<h2>Implementing the Integrator interface<a class="headerlink" href="#implementing-the-integrator-interface" title="Permalink to this headline"></a></h2>
 <p>The IntegratorFactory is the ONLY object that creates integrators.</p>
 <p>Integrators are created when the IntegratorFactory::New method is called,
 typically by the top level RoadRunner object. New Integrators are given a pointer to an
@@ -328,9 +245,9 @@ should have three key/value pairs.</p>
 </table>
 <p>When the Integrator::setSimulateOptions method is called, the integrator should read any
 parameters it expects out of the given dictionary.</p>
-</div>
-<div class="section" id="telling-roadrunner-about-the-new-integrator">
-<h2>Telling RoadRunner about the new Integrator<a class="headerlink" href="#telling-roadrunner-about-the-new-integrator" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="telling-roadrunner-about-the-new-integrator">
+<h2>Telling RoadRunner about the new Integrator<a class="headerlink" href="#telling-roadrunner-about-the-new-integrator" title="Permalink to this headline"></a></h2>
 <p>In order for the RoadRunner::simulate method use the new integrator, it needs to know about it.
 The IntegratorFactory is the only object that knows about all the integrators, and a few lines of
 code need to be added in the implementation of this object so that it can construct one.</p>
@@ -364,9 +281,9 @@ the dictionary that was created in the getIntegratorOptions method, e.g.</p>
 can be used by just adding the &lt;tt&gt;integrator=”myNewIntegrator”&lt;/tt&gt; argument whenever the
 RoadRunner.simulate method is called. The EulerIntegrator was created as an example of how to create and add
 a new integrator, have a look at it.</p>
-</div>
-<div class="section" id="a-complete-example-of-creating-an-integrator">
-<h2>A complete example of creating an integrator<a class="headerlink" href="#a-complete-example-of-creating-an-integrator" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="a-complete-example-of-creating-an-integrator">
+<h2>A complete example of creating an integrator<a class="headerlink" href="#a-complete-example-of-creating-an-integrator" title="Permalink to this headline"></a></h2>
 <p>This section includes the complete Euler integrator implemented in EulerIntegrator.h as an example of
 creating a new integrator.
 This class has two demo paramters which may be set via the keyword arguments to RoadRunner.simulate
@@ -382,55 +299,38 @@ would be:</p>
 <p>The EulerIntegrator.h file serves as a complete example of creating an new integrator.
 This example was written entierly in the header file for clarity, but a real integrator
 should separate the code and header files.</p>
-</div>
-</div>
+</section>
+</section>
 
 
            </div>
-           
           </div>
           <footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="llvm/index.html" class="btn btn-neutral float-right" title="LLVM Docs" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="../PythonAPIReference/cls_PyConservedMoietyConverter.html" class="btn btn-neutral float-left" title="Conserved Moiety Conversion" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="llvm/index.html" class="btn btn-neutral float-right" title="LLVM Docs" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &#169; Copyright 2013-2018, Andy Somogyi, J Kyle Medley, Kiri Choi, Herbert Suaro.
-
-    </p>
+    <p>&#169; Copyright 2013-2018, Andy Somogyi, J Kyle Medley, Kiri Choi, Herbert Suaro.</p>
   </div>
-    
-    
-    
-    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

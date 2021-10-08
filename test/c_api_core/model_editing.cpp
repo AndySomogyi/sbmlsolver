@@ -102,7 +102,7 @@ public:
 
             libsbml::SBMLReader reader;
             path fullPath = modelFilePath / modelFileName;
-            doc = *reader.readSBML(fullPath.string());
+//            doc = *reader.readSBML(fullPath.string());
 
             if (!simulation.LoadSBMLFromFile()) {
                 throw (Exception("Failed loading sbml from file"));
@@ -195,7 +195,7 @@ public:
             //Read SBML models.....
             simulation.SetCaseNumber(0);
 
-            path modelFilePath = modelEditingModels/ path(testName);
+            path modelFilePath = modelEditingModels / path(testName);
             string modelFileName = testName + "-sbml-" + version + ".xml";
             string settingsFileName = testName + "-settings.txt";
 
@@ -266,6 +266,7 @@ public:
             return false;
         }
 
+        freeRRInstance(rrh);
         return result;
     }
 
@@ -295,9 +296,11 @@ TEST_F(CAPIModelEditingTests, ADD_REACTION_1) {
 }
 
 TEST_F(CAPIModelEditingTests, REMOVE_REACTION_1) {
-    EXPECT_TRUE(RunTestWithModification([](RRHandle rri) {
-        removeReaction(rri, "reaction2");
-    }));
+    EXPECT_TRUE(
+            RunTestWithModification([](RRHandle rri) {
+                removeReaction(rri, "reaction2");
+            })
+    );
 }
 
 TEST_F(CAPIModelEditingTests, ADD_SPECIES_1) {
@@ -406,7 +409,8 @@ TEST_F(CAPIModelEditingTests, ADD_TRIGGER_1) {
 
 TEST_F(CAPIModelEditingTests, PAUSE_10) {
     EXPECT_TRUE(RunTestWithModification([](RRHandle rri) {
-        simulate(rri);
+        RRCDataPtr results = simulate(rri);
+        freeRRCData(results);
         addDelay(rri, "event1", "0.2");
     }));
 }
@@ -658,13 +662,15 @@ TEST_F(CAPIModelEditingTests, FROM_SCRATCH_6) {
 
 TEST_F(CAPIModelEditingTests, FROM_SCRATCH_7) {
     path modelFilePath(rrTestModelsDir_ / "CAPIModelEditingTests");
-    RRHandle rr = createRRInstance();
-    loadSBML(rr, (modelFilePath / "tiny_example_1.xml").string().c_str());
-    addCompartmentNoRegen(rr, "c1", 3.0);
-    addSpeciesConcentrationNoRegen(rr, "S1", "c1", 0.0005, false, false);
-    addSpeciesConcentrationNoRegen(rr, "S2", "c1", 0.3, false, false);
+    RoadRunner rr(3, 1);
+    loadSBML(&rr, (modelFilePath / "tiny_example_1.xml").string().c_str());
+    addCompartmentNoRegen(&rr, "c1", 3.0);
+    addSpeciesConcentrationNoRegen(&rr, "S1", "c1", 0.0005, false, false);
+    addSpeciesConcentrationNoRegen(&rr, "S2", "c1", 0.3, false, false);
     const char *reactants[] = {"S1"};
     const char *products[] = {"S1"};
-    addReaction(rr, "reaction1", reactants, 1, products, 1, "c1 * S1 * S2");
-    validateModifiedSBML(std::string(getSBML(rr)));
+    addReaction(&rr, "reaction1", reactants, 1, products, 1, "c1 * S1 * S2");
+    char* model = getSBML(&rr);
+    validateModifiedSBML(std::string(model));
+    rr::freeText(model);
 }

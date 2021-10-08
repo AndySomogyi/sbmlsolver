@@ -17,20 +17,13 @@ namespace rrllvm
 class ModelResources
 {
 public:
+
     ModelResources();
     ~ModelResources();
 
 	void saveState(std::ostream& out) const;
 	void loadState(std::istream& in, uint loadOpt);
 
-    const LLVMModelDataSymbols *symbols;
-    llvm::LLVMContext *context;
-    llvm::ExecutionEngine *executionEngine;
-
-    llvm::Module *module = 0;
-    std::string moduleStr;
-    const class Random *random;
-    const std::string *errStr;
 
     EvalInitialConditionsCodeGen::FunctionPtr evalInitialConditionsPtr;
     EvalReactionRatesCodeGen::FunctionPtr evalReactionRatesPtr;
@@ -62,11 +55,32 @@ public:
     SetFloatingSpeciesInitAmountCodeGen::FunctionPtr setFloatingSpeciesInitAmountsPtr;
     GetFloatingSpeciesInitAmountCodeGen::FunctionPtr getFloatingSpeciesInitAmountsPtr;
 
+    SetBoundarySpeciesInitConcentrationCodeGen::FunctionPtr setBoundarySpeciesInitConcentrationsPtr;
+    GetBoundarySpeciesInitConcentrationCodeGen::FunctionPtr getBoundarySpeciesInitConcentrationsPtr;
+
+    SetBoundarySpeciesInitAmountCodeGen::FunctionPtr setBoundarySpeciesInitAmountsPtr;
+    GetBoundarySpeciesInitAmountCodeGen::FunctionPtr getBoundarySpeciesInitAmountsPtr;
+
     GetCompartmentInitVolumeCodeGen::FunctionPtr getCompartmentInitVolumesPtr;
     SetCompartmentInitVolumeCodeGen::FunctionPtr setCompartmentInitVolumesPtr;
 
     GetGlobalParameterInitValueCodeGen::FunctionPtr getGlobalParameterInitValuePtr;
     SetGlobalParameterInitValueCodeGen::FunctionPtr setGlobalParameterInitValuePtr;
+
+    /**
+     * Public Member variables
+     */
+
+    const LLVMModelDataSymbols *symbols;
+    llvm::LLVMContext *context;
+    llvm::ExecutionEngine *executionEngine;
+
+    llvm::Module *module = nullptr;
+
+    std::string moduleStr;
+    const class Random *random;
+    const std::string *errStr;
+
 private:
 	void addGlobalMapping(std::string name, void*);
 	void addGlobalMappings();

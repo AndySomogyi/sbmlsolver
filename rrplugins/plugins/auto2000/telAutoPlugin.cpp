@@ -11,7 +11,7 @@ using namespace std;
 using namespace tlp;
 using namespace telauto;
 
-rrc::THostInterface* _mhostInterface;
+rrc::THostInterface* gHostInterface = NULL;
 
 AutoPlugin::AutoPlugin()
 :
@@ -92,19 +92,18 @@ mMaxColumns(                        7,         "MaxColumns",                    
     mVersion = "1.0.0";
     //Setup the plugin properties
     addProperties();
-    mhostInterface = _mhostInterface;
     
     //Create a roadrunner to use
 
-    rrHandle = mhostInterface->createRRInstance();
-    mhostInterface->setCurrentSteadyStateSolver(rrHandle, (char *)"nleq2");
-    mhostInterface->setCurrentSteadyStateSolverParameterBoolean(rrHandle, (char *)"allow_presimulation", 1);
-    mhostInterface->setCurrentSteadyStateSolverParameterBoolean(rrHandle, (char*)"allow_approx", 1);
-    mhostInterface->setCurrentSteadyStateSolverParameterDouble(rrHandle, (char*)"relative_tolerance", 1e-16);
-    mhostInterface->setCurrentSteadyStateSolverParameterDouble(rrHandle, (char*)"minimum_damping", 1e-4);
+    rrHandle = gHostInterface->createRRInstance();
+    gHostInterface->setCurrentSteadyStateSolver(rrHandle, (char *)"nleq2");
+    gHostInterface->setCurrentSteadyStateSolverParameterBoolean(rrHandle, (char *)"allow_presimulation", 1);
+    gHostInterface->setCurrentSteadyStateSolverParameterBoolean(rrHandle, (char*)"allow_approx", 1);
+    gHostInterface->setCurrentSteadyStateSolverParameterDouble(rrHandle, (char*)"relative_tolerance", 1e-16);
+    gHostInterface->setCurrentSteadyStateSolverParameterDouble(rrHandle, (char*)"minimum_damping", 1e-4);
 
-    mRRAuto.assignRoadRunner(rrHandle,mhostInterface);
-    mAutoWorker.assignRoadRunner(rrHandle,mhostInterface);
+    mRRAuto.assignRoadRunner(rrHandle);
+    mAutoWorker.assignRoadRunner(rrHandle);
     
     mHint ="Bifurcation Analyis using AUTO2000";
     mDescription="The Auto2000 plugin is a wrapper around the AUTO 2000 Bifurcation analysis library. This plugin was inspired and are using many of Frank Bergmann's \
@@ -181,12 +180,12 @@ bool AutoPlugin::execute(bool inThread)
     //Tempfolder setup
     if(getTempFolder() == ".")
     {
-        mhostInterface->setTempFolder(rrHandle, getCWD().c_str());
+        gHostInterface->setTempFolder(rrHandle, getCWD().c_str());
         mRRAuto.setTempFolder(getCWD());
     }
     else
     {
-        mhostInterface->setTempFolder(rrHandle, getTempFolder().c_str());
+        gHostInterface->setTempFolder(rrHandle, getTempFolder().c_str());
         mRRAuto.setTempFolder(getTempFolder());
     }
 
@@ -276,19 +275,19 @@ size_t AutoPlugin::getPDFManualByteSize()
 
 #ifdef EXPORT_AUTO2000
 //Functions allowing the plugin to be loaded by plugin manager
-AutoPlugin* createPlugin()
+TLP_DS AutoPlugin* createPlugin()
 {
     //allocate a new object and return it
     return new AutoPlugin;
 }
 
-const char* getImplementationLanguage()
+TLP_DS const char* getImplementationLanguage()
 {
     return "CPP";
 }
 
-void plugins_cc setHostInterface(rrc::THostInterface* _hostInterface) {
-    _mhostInterface = _hostInterface;
+TLP_DS void plugins_cc setHostInterface(rrc::THostInterface* _hostInterface) {
+    gHostInterface = _hostInterface;
 }
 
 #endif

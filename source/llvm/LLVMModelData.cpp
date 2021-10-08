@@ -27,7 +27,7 @@ static void dump_array(std::ostream &os, int n, const double *p)
         os << '[';
         for (int i = 0; i < n; ++i)
         {
-            os << p[i];
+            os << std::fixed << p[i];
             if (i < n - 1)
             {
                 os << ", ";
@@ -51,7 +51,7 @@ std::ostream& operator <<(std::ostream& os, const LLVMModelData& data)
     os << "LLVMModelData:"                  << std::endl;
     os << "size: "                          << data.size << std::endl;
     os << "flags: "                         << data.flags << std::endl;
-    os << "time: "                          << data.time << std::endl;
+    os << "time: "                          << std::fixed << data.time << std::endl;
     os << "numIndFloatingSpecies: "         << data.numIndFloatingSpecies << std::endl;
 
     os << "numIndGlobalParameters: "        << data.numIndGlobalParameters << std::endl;
@@ -86,7 +86,11 @@ std::ostream& operator <<(std::ostream& os, const LLVMModelData& data)
     os << "initFloatingSpeciesAmounts: "    << std::endl;
     dump_array(os, data.numInitFloatingSpecies, data.initFloatingSpeciesAmountsAlias);
 
-    os << "numInitCompartments: "           << data.numInitCompartments << std::endl;
+    os << "numInitBoundarySpecies: " << data.numInitBoundarySpecies << std::endl;
+    os << "initBoundarySpeciesAmounts: " << std::endl;
+    dump_array(os, data.numInitBoundarySpecies, data.initBoundarySpeciesAmountsAlias);
+
+	os << "numInitCompartments: "           << data.numInitCompartments << std::endl;
     os << "initCompartmentVolumes:"         << std::endl;
     dump_array(os, data.numInitCompartments, data.initCompartmentVolumesAlias);
 
@@ -94,6 +98,7 @@ std::ostream& operator <<(std::ostream& os, const LLVMModelData& data)
     os << "initGlobalParameters: "          << std::endl;
     dump_array(os, data.numInitGlobalParameters, data.initGlobalParametersAlias);
 
+	os << std::endl;
 
     return os;
 }
@@ -160,7 +165,8 @@ void LLVMModelData_save(LLVMModelData *data, std::ostream& out)
 	//save the data itself
 	//the size is the sum of the 10 unsigned integers at the top of LLVMModelData
 	unsigned dataSize = data->numIndCompartments + data->numIndFloatingSpecies + data->numIndBoundarySpecies + 
-		                data->numIndGlobalParameters + data->numRateRules + data->numReactions + data->numInitCompartments + data->numInitFloatingSpecies + 
+		                data->numIndGlobalParameters + data->numRateRules + data->numReactions + 
+						data->numInitCompartments + data->numInitFloatingSpecies + 
 		                data->numInitBoundarySpecies + data->numInitGlobalParameters;
 
 	out.write((char*)(data->data), dataSize*sizeof(double));
@@ -243,7 +249,8 @@ LLVMModelData* LLVMModelData_from_save(std::istream& in)
 	//save the data itself
 	//the size is the sum of the 10 unsigned integers at the top of LLVMModelData
 	unsigned dataSize = data->numIndCompartments + data->numIndFloatingSpecies + data->numIndBoundarySpecies + 
-		                data->numIndGlobalParameters + data->numRateRules + data->numReactions + data->numInitCompartments + data->numInitFloatingSpecies + 
+		                data->numIndGlobalParameters + data->numRateRules + data->numReactions + 
+						data->numInitCompartments + data->numInitFloatingSpecies + 
 		                data->numInitBoundarySpecies + data->numInitGlobalParameters;
 	if (dataSize*sizeof(double) + sizeof(LLVMModelData) != size) {
 		size = dataSize + sizeof(LLVMModelData);

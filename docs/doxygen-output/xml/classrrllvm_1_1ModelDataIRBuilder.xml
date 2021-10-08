@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
   <compounddef id="classrrllvm_1_1ModelDataIRBuilder" kind="class" language="C++" prot="public">
     <compoundname>rrllvm::ModelDataIRBuilder</compoundname>
       <sectiondef kind="public-static-attrib">
@@ -15,7 +15,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/ModelDataIRBuilder.h" line="310" column="23" bodyfile="llvm/ModelDataIRBuilder.h" bodystart="310" bodyend="-1"/>
+        <location file="llvm/ModelDataIRBuilder.h" line="327" column="23" bodyfile="llvm/ModelDataIRBuilder.h" bodystart="327" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classrrllvm_1_1ModelDataIRBuilder_1a93563e90ab8b9113af95eb6fc3fe7712" prot="public" static="yes" mutable="no">
         <type>const char *</type>
@@ -29,7 +29,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/ModelDataIRBuilder.h" line="311" column="23" bodyfile="llvm/ModelDataIRBuilder.h" bodystart="311" bodyend="-1"/>
+        <location file="llvm/ModelDataIRBuilder.h" line="328" column="23" bodyfile="llvm/ModelDataIRBuilder.h" bodystart="328" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classrrllvm_1_1ModelDataIRBuilder_1aa128aa56d7a80229166d0466db3ea013" prot="public" static="yes" mutable="no">
         <type>const char *</type>
@@ -43,7 +43,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/ModelDataIRBuilder.h" line="312" column="23" bodyfile="llvm/ModelDataIRBuilder.h" bodystart="312" bodyend="-1"/>
+        <location file="llvm/ModelDataIRBuilder.h" line="329" column="23" bodyfile="llvm/ModelDataIRBuilder.h" bodystart="329" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classrrllvm_1_1ModelDataIRBuilder_1ad773880ed5bb45eb56947118c5bb7551" prot="public" static="yes" mutable="no">
         <type>const char *</type>
@@ -57,7 +57,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/ModelDataIRBuilder.h" line="313" column="23" bodyfile="llvm/ModelDataIRBuilder.h" bodystart="313" bodyend="-1"/>
+        <location file="llvm/ModelDataIRBuilder.h" line="330" column="23" bodyfile="llvm/ModelDataIRBuilder.h" bodystart="330" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-attrib">
@@ -73,7 +73,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/ModelDataIRBuilder.h" line="319" column="17" bodyfile="llvm/ModelDataIRBuilder.h" bodystart="319" bodyend="-1"/>
+        <location file="llvm/ModelDataIRBuilder.h" line="336" column="17" bodyfile="llvm/ModelDataIRBuilder.h" bodystart="336" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classrrllvm_1_1ModelDataIRBuilder_1ae6b5986717b6f8aed9f48d4c41623bf5" prot="private" static="no" mutable="no">
         <type>llvm::IRBuilder &amp;</type>
@@ -86,7 +86,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/ModelDataIRBuilder.h" line="321" column="6" bodyfile="llvm/ModelDataIRBuilder.h" bodystart="321" bodyend="-1"/>
+        <location file="llvm/ModelDataIRBuilder.h" line="338" column="6" bodyfile="llvm/ModelDataIRBuilder.h" bodystart="338" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classrrllvm_1_1ModelDataIRBuilder_1a01e0e089b5277e1bc03231e4047434a7" prot="private" static="no" mutable="no">
         <type><ref refid="classrrllvm_1_1LLVMModelDataSymbols" kindref="compound">LLVMModelDataSymbols</ref> const  &amp;</type>
@@ -99,22 +99,25 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/ModelDataIRBuilder.h" line="323" column="32" bodyfile="llvm/ModelDataIRBuilder.h" bodystart="323" bodyend="-1"/>
+        <location file="llvm/ModelDataIRBuilder.h" line="340" column="32" bodyfile="llvm/ModelDataIRBuilder.h" bodystart="340" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="friend">
       <memberdef kind="friend" id="classrrllvm_1_1ModelDataIRBuilder_1ae8d3686601dff2b1db2a9b162f3e7eb5" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>friend class</type>
+        <type>class</type>
         <definition>friend class LLVMModelDataIRBuilderTesting</definition>
         <argsstring></argsstring>
         <name>LLVMModelDataIRBuilderTesting</name>
+        <param>
+          <type><ref refid="classrrllvm_1_1LLVMModelDataIRBuilderTesting" kindref="compound">LLVMModelDataIRBuilderTesting</ref></type>
+        </param>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/ModelDataIRBuilder.h" line="341" column="5" bodyfile="llvm/ModelDataIRBuilder.h" bodystart="341" bodyend="-1"/>
+        <location file="llvm/ModelDataIRBuilder.h" line="358" column="5" bodyfile="llvm/ModelDataIRBuilder.h" bodystart="358" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -162,7 +165,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/ModelDataIRBuilder.h" line="37" column="17" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="257" bodyend="266"/>
+        <location file="llvm/ModelDataIRBuilder.h" line="36" column="17" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="256" bodyend="265"/>
       </memberdef>
       <memberdef kind="function" id="classrrllvm_1_1ModelDataIRBuilder_1a971d0b8e40c0dd0f1c283162a1dd201b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>llvm::Value *</type>
@@ -184,7 +187,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/ModelDataIRBuilder.h" line="40" column="17" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="430" bodyend="437"/>
+        <location file="llvm/ModelDataIRBuilder.h" line="39" column="17" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="429" bodyend="436"/>
       </memberdef>
       <memberdef kind="function" id="classrrllvm_1_1ModelDataIRBuilder_1ac0d44b92ab4ecc37a9b8036f3493a760" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>llvm::Value *</type>
@@ -201,7 +204,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/ModelDataIRBuilder.h" line="43" column="17" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="109" bodyend="115"/>
+        <location file="llvm/ModelDataIRBuilder.h" line="42" column="17" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="109" bodyend="115"/>
       </memberdef>
       <memberdef kind="function" id="classrrllvm_1_1ModelDataIRBuilder_1a9596e6e855dce4a953b33029d33b4d3c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>llvm::Value *</type>
@@ -234,7 +237,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/ModelDataIRBuilder.h" line="50" column="17"/>
+        <location file="llvm/ModelDataIRBuilder.h" line="49" column="17"/>
       </memberdef>
       <memberdef kind="function" id="classrrllvm_1_1ModelDataIRBuilder_1a0c6f0447aae3aa5ac8fddec77a64b23f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>llvm::Value *</type>
@@ -261,7 +264,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/ModelDataIRBuilder.h" line="56" column="17"/>
+        <location file="llvm/ModelDataIRBuilder.h" line="55" column="17"/>
       </memberdef>
       <memberdef kind="function" id="classrrllvm_1_1ModelDataIRBuilder_1afdbd5af4da9e556e97f737bee861f5f8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>llvm::Value *</type>
@@ -287,7 +290,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/ModelDataIRBuilder.h" line="59" column="17" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="331" bodyend="335"/>
+        <location file="llvm/ModelDataIRBuilder.h" line="58" column="17" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="330" bodyend="334"/>
       </memberdef>
       <memberdef kind="function" id="classrrllvm_1_1ModelDataIRBuilder_1af906d25a2a99e39e5fab6be173e15dda" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>llvm::Value *</type>
@@ -317,7 +320,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/ModelDataIRBuilder.h" line="62" column="17" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="387" bodyend="392"/>
+        <location file="llvm/ModelDataIRBuilder.h" line="61" column="17" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="386" bodyend="391"/>
       </memberdef>
       <memberdef kind="function" id="classrrllvm_1_1ModelDataIRBuilder_1a124c650e4d831ce3b93acdb6d9b86e00" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>llvm::Value *</type>
@@ -335,7 +338,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/ModelDataIRBuilder.h" line="68" column="17" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="408" bodyend="414"/>
+        <location file="llvm/ModelDataIRBuilder.h" line="67" column="17" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="407" bodyend="413"/>
       </memberdef>
       <memberdef kind="function" id="classrrllvm_1_1ModelDataIRBuilder_1a8cb04bb1f7f48de204b27d75c41ea753" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>llvm::Value *</type>
@@ -358,7 +361,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/ModelDataIRBuilder.h" line="73" column="17" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="394" bodyend="399"/>
+        <location file="llvm/ModelDataIRBuilder.h" line="72" column="17" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="393" bodyend="398"/>
       </memberdef>
       <memberdef kind="function" id="classrrllvm_1_1ModelDataIRBuilder_1a6e84263f8639dc61fb3f1b30106fb382" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>llvm::Value *</type>
@@ -380,7 +383,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/ModelDataIRBuilder.h" line="79" column="17" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="401" bodyend="406"/>
+        <location file="llvm/ModelDataIRBuilder.h" line="78" column="17" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="400" bodyend="405"/>
       </memberdef>
       <memberdef kind="function" id="classrrllvm_1_1ModelDataIRBuilder_1a0e6420b8f2afe9c8f0cffea300ef5f9f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>llvm::Value *</type>
@@ -403,7 +406,30 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/ModelDataIRBuilder.h" line="85" column="17" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="456" bodyend="464"/>
+        <location file="llvm/ModelDataIRBuilder.h" line="84" column="17" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="455" bodyend="463"/>
+      </memberdef>
+      <memberdef kind="function" id="classrrllvm_1_1ModelDataIRBuilder_1a8409fb8ce44ad066c436c3e0ab24ec17" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>llvm::Value *</type>
+        <definition>llvm::Value * rrllvm::ModelDataIRBuilder::createInitBoundarySpeciesAmtGEP</definition>
+        <argsstring>(const std::string &amp;id, const llvm::Twine &amp;name=&quot;&quot;)</argsstring>
+        <name>createInitBoundarySpeciesAmtGEP</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>const llvm::Twine &amp;</type>
+          <declname>name</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>the GEP for a boundary species initial amount </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ModelDataIRBuilder.h" line="90" column="17" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="465" bodyend="473"/>
       </memberdef>
       <memberdef kind="function" id="classrrllvm_1_1ModelDataIRBuilder_1ab61b243ae9e02a6309c0df18a0a60349" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>llvm::Value *</type>
@@ -426,7 +452,30 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/ModelDataIRBuilder.h" line="91" column="17" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="466" bodyend="471"/>
+        <location file="llvm/ModelDataIRBuilder.h" line="96" column="17" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="475" bodyend="480"/>
+      </memberdef>
+      <memberdef kind="function" id="classrrllvm_1_1ModelDataIRBuilder_1a189cf62265d236030ed7d493bc3943c3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>llvm::Value *</type>
+        <definition>llvm::Value * rrllvm::ModelDataIRBuilder::createInitBoundarySpeciesAmtLoad</definition>
+        <argsstring>(const std::string &amp;id, const llvm::Twine &amp;name=&quot;&quot;)</argsstring>
+        <name>createInitBoundarySpeciesAmtLoad</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>const llvm::Twine &amp;</type>
+          <declname>name</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>load the boundary species initial amount value </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ModelDataIRBuilder.h" line="102" column="17" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="482" bodyend="487"/>
       </memberdef>
       <memberdef kind="function" id="classrrllvm_1_1ModelDataIRBuilder_1a3b7d25dce1824b6bd0de00cf3bcb80c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>llvm::Value *</type>
@@ -448,7 +497,29 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/ModelDataIRBuilder.h" line="97" column="17" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="473" bodyend="478"/>
+        <location file="llvm/ModelDataIRBuilder.h" line="108" column="17" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="489" bodyend="494"/>
+      </memberdef>
+      <memberdef kind="function" id="classrrllvm_1_1ModelDataIRBuilder_1a788ab717f75eb3b3bb14456ab9db9a2e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>llvm::Value *</type>
+        <definition>llvm::Value * rrllvm::ModelDataIRBuilder::createInitBoundarySpeciesAmtStore</definition>
+        <argsstring>(const std::string &amp;id, llvm::Value *value)</argsstring>
+        <name>createInitBoundarySpeciesAmtStore</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>llvm::Value *</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>store the boundary species initial value </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="llvm/ModelDataIRBuilder.h" line="114" column="17" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="496" bodyend="501"/>
       </memberdef>
       <memberdef kind="function" id="classrrllvm_1_1ModelDataIRBuilder_1a4ebc50a06da2dec5079b837f1b7b8ba2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>llvm::Value *</type>
@@ -471,7 +542,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/ModelDataIRBuilder.h" line="103" column="17" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="480" bodyend="488"/>
+        <location file="llvm/ModelDataIRBuilder.h" line="120" column="17" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="503" bodyend="511"/>
       </memberdef>
       <memberdef kind="function" id="classrrllvm_1_1ModelDataIRBuilder_1a480ea9be1f574dec9ed7b7a1c01895e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>llvm::Value *</type>
@@ -494,7 +565,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/ModelDataIRBuilder.h" line="109" column="17" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="490" bodyend="495"/>
+        <location file="llvm/ModelDataIRBuilder.h" line="126" column="17" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="513" bodyend="518"/>
       </memberdef>
       <memberdef kind="function" id="classrrllvm_1_1ModelDataIRBuilder_1a05cfbc9f4b384ddf4b8f671d0c9f8bc8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>llvm::Value *</type>
@@ -516,7 +587,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/ModelDataIRBuilder.h" line="115" column="17" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="497" bodyend="502"/>
+        <location file="llvm/ModelDataIRBuilder.h" line="132" column="17" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="520" bodyend="525"/>
       </memberdef>
       <memberdef kind="function" id="classrrllvm_1_1ModelDataIRBuilder_1ac6a73266b8481b9bb0f8701f7a8e9b0f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>llvm::Value *</type>
@@ -539,7 +610,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/ModelDataIRBuilder.h" line="122" column="17" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="504" bodyend="512"/>
+        <location file="llvm/ModelDataIRBuilder.h" line="139" column="17" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="527" bodyend="535"/>
       </memberdef>
       <memberdef kind="function" id="classrrllvm_1_1ModelDataIRBuilder_1a302e5fb2002300229b27171b0de23a03" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>llvm::Value *</type>
@@ -562,7 +633,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/ModelDataIRBuilder.h" line="128" column="17" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="514" bodyend="519"/>
+        <location file="llvm/ModelDataIRBuilder.h" line="145" column="17" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="537" bodyend="542"/>
       </memberdef>
       <memberdef kind="function" id="classrrllvm_1_1ModelDataIRBuilder_1a4f65bf495a35c99b2eafc6c1b7661ea5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>llvm::Value *</type>
@@ -584,7 +655,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/ModelDataIRBuilder.h" line="134" column="17" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="521" bodyend="526"/>
+        <location file="llvm/ModelDataIRBuilder.h" line="151" column="17" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="544" bodyend="549"/>
       </memberdef>
       <memberdef kind="function" id="classrrllvm_1_1ModelDataIRBuilder_1af5906c55601030879bd70b5f8cb66e94" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>llvm::Value *</type>
@@ -607,7 +678,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/ModelDataIRBuilder.h" line="140" column="17" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="439" bodyend="446"/>
+        <location file="llvm/ModelDataIRBuilder.h" line="157" column="17" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="438" bodyend="445"/>
       </memberdef>
       <memberdef kind="function" id="classrrllvm_1_1ModelDataIRBuilder_1ae1635c844ac339ad5133df80bbf9ef01" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>llvm::Value *</type>
@@ -629,7 +700,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/ModelDataIRBuilder.h" line="146" column="17" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="448" bodyend="454"/>
+        <location file="llvm/ModelDataIRBuilder.h" line="163" column="17" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="447" bodyend="453"/>
       </memberdef>
       <memberdef kind="function" id="classrrllvm_1_1ModelDataIRBuilder_1ab55a69cddecaf17bc4e5b1edcb5a81d2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>llvm::Value *</type>
@@ -652,7 +723,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/ModelDataIRBuilder.h" line="152" column="17" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="268" bodyend="273"/>
+        <location file="llvm/ModelDataIRBuilder.h" line="169" column="17" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="267" bodyend="272"/>
       </memberdef>
       <memberdef kind="function" id="classrrllvm_1_1ModelDataIRBuilder_1a0bf91a06351023837251f46610ccc031" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>llvm::Value *</type>
@@ -674,7 +745,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/ModelDataIRBuilder.h" line="158" column="17" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="275" bodyend="280"/>
+        <location file="llvm/ModelDataIRBuilder.h" line="175" column="17" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="274" bodyend="279"/>
       </memberdef>
       <memberdef kind="function" id="classrrllvm_1_1ModelDataIRBuilder_1aee43a7f65c430949377f8ceceec46f4e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>llvm::Value *</type>
@@ -697,7 +768,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/ModelDataIRBuilder.h" line="164" column="17" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="282" bodyend="290"/>
+        <location file="llvm/ModelDataIRBuilder.h" line="181" column="17" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="281" bodyend="289"/>
       </memberdef>
       <memberdef kind="function" id="classrrllvm_1_1ModelDataIRBuilder_1ab98f914dc0095a2646ec5050683eb5c5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>llvm::Value *</type>
@@ -720,7 +791,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/ModelDataIRBuilder.h" line="170" column="17" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="292" bodyend="297"/>
+        <location file="llvm/ModelDataIRBuilder.h" line="187" column="17" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="291" bodyend="296"/>
       </memberdef>
       <memberdef kind="function" id="classrrllvm_1_1ModelDataIRBuilder_1a50753f4c521aef13a153dc1e78c5be77" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>llvm::Value *</type>
@@ -742,7 +813,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/ModelDataIRBuilder.h" line="176" column="17" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="299" bodyend="304"/>
+        <location file="llvm/ModelDataIRBuilder.h" line="193" column="17" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="298" bodyend="303"/>
       </memberdef>
       <memberdef kind="function" id="classrrllvm_1_1ModelDataIRBuilder_1a2766f9edfce6b34f7dfafc2601b222a8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>llvm::Value *</type>
@@ -765,7 +836,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/ModelDataIRBuilder.h" line="182" column="17" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="416" bodyend="421"/>
+        <location file="llvm/ModelDataIRBuilder.h" line="199" column="17" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="415" bodyend="420"/>
       </memberdef>
       <memberdef kind="function" id="classrrllvm_1_1ModelDataIRBuilder_1a82731767e95190c72747616563e7a084" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>llvm::Value *</type>
@@ -787,7 +858,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/ModelDataIRBuilder.h" line="188" column="17" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="423" bodyend="428"/>
+        <location file="llvm/ModelDataIRBuilder.h" line="205" column="17" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="422" bodyend="427"/>
       </memberdef>
       <memberdef kind="function" id="classrrllvm_1_1ModelDataIRBuilder_1a97709b7e62c1cc927040f31ad916fa4e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>llvm::Value *</type>
@@ -810,7 +881,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/ModelDataIRBuilder.h" line="194" column="17" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="528" bodyend="533"/>
+        <location file="llvm/ModelDataIRBuilder.h" line="211" column="17" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="551" bodyend="556"/>
       </memberdef>
       <memberdef kind="function" id="classrrllvm_1_1ModelDataIRBuilder_1ad1361738088499a0be5b02d6947af7c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>llvm::Value *</type>
@@ -832,7 +903,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/ModelDataIRBuilder.h" line="200" column="17" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="535" bodyend="540"/>
+        <location file="llvm/ModelDataIRBuilder.h" line="217" column="17" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="558" bodyend="563"/>
       </memberdef>
       <memberdef kind="function" id="classrrllvm_1_1ModelDataIRBuilder_1a62759f27f21636aeae98d68a2d481da8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>llvm::Value *</type>
@@ -855,7 +926,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/ModelDataIRBuilder.h" line="206" column="17" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="337" bodyend="345"/>
+        <location file="llvm/ModelDataIRBuilder.h" line="223" column="17" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="336" bodyend="344"/>
       </memberdef>
       <memberdef kind="function" id="classrrllvm_1_1ModelDataIRBuilder_1a1ce8a56c0e142b190ffc7096f332a203" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>llvm::Value *</type>
@@ -878,7 +949,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/ModelDataIRBuilder.h" line="212" column="17" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="347" bodyend="353"/>
+        <location file="llvm/ModelDataIRBuilder.h" line="229" column="17" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="346" bodyend="352"/>
       </memberdef>
       <memberdef kind="function" id="classrrllvm_1_1ModelDataIRBuilder_1a604302c4ef21692b690f31652639d5ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>llvm::Value *</type>
@@ -900,7 +971,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/ModelDataIRBuilder.h" line="218" column="17" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="355" bodyend="360"/>
+        <location file="llvm/ModelDataIRBuilder.h" line="235" column="17" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="354" bodyend="359"/>
       </memberdef>
       <memberdef kind="function" id="classrrllvm_1_1ModelDataIRBuilder_1ae02c48627dd549f3df06472b956eb4f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>llvm::Value *</type>
@@ -923,7 +994,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/ModelDataIRBuilder.h" line="224" column="17" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="362" bodyend="370"/>
+        <location file="llvm/ModelDataIRBuilder.h" line="241" column="17" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="361" bodyend="369"/>
       </memberdef>
       <memberdef kind="function" id="classrrllvm_1_1ModelDataIRBuilder_1ad05a66482d3ed25eb5ec9aada8e6af7a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>llvm::Value *</type>
@@ -946,7 +1017,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/ModelDataIRBuilder.h" line="230" column="17" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="372" bodyend="378"/>
+        <location file="llvm/ModelDataIRBuilder.h" line="247" column="17" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="371" bodyend="377"/>
       </memberdef>
       <memberdef kind="function" id="classrrllvm_1_1ModelDataIRBuilder_1a3f3ead3660137f93ebee183ae627ea04" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>llvm::Value *</type>
@@ -968,7 +1039,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/ModelDataIRBuilder.h" line="236" column="17" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="380" bodyend="385"/>
+        <location file="llvm/ModelDataIRBuilder.h" line="253" column="17" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="379" bodyend="384"/>
       </memberdef>
       <memberdef kind="function" id="classrrllvm_1_1ModelDataIRBuilder_1a275d002c55ffc53fbe603b4bc8f80232" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>llvm::Value *</type>
@@ -998,7 +1069,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/ModelDataIRBuilder.h" line="239" column="17" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="542" bodyend="551"/>
+        <location file="llvm/ModelDataIRBuilder.h" line="256" column="17" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="565" bodyend="574"/>
       </memberdef>
       <memberdef kind="function" id="classrrllvm_1_1ModelDataIRBuilder_1a3427a04546565db36db25fd75b589e3f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>llvm::Value *</type>
@@ -1024,7 +1095,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/ModelDataIRBuilder.h" line="242" column="17" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="553" bodyend="562"/>
+        <location file="llvm/ModelDataIRBuilder.h" line="259" column="17" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="576" bodyend="585"/>
       </memberdef>
       <memberdef kind="function" id="classrrllvm_1_1ModelDataIRBuilder_1ac50c19bf14549e5d7c7d24379a5f9bfa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>llvm::Value *</type>
@@ -1038,7 +1109,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/ModelDataIRBuilder.h" line="248" column="17" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="564" bodyend="569"/>
+        <location file="llvm/ModelDataIRBuilder.h" line="265" column="17" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="587" bodyend="592"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-static-func">
@@ -1079,7 +1150,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/ModelDataIRBuilder.h" line="255" column="27" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="248" bodyend="255"/>
+        <location file="llvm/ModelDataIRBuilder.h" line="272" column="27" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="247" bodyend="254"/>
       </memberdef>
       <memberdef kind="function" id="classrrllvm_1_1ModelDataIRBuilder_1a98a0c888fd91ecabdc9d4ff17eccb3f9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>llvm::CallInst *</type>
@@ -1114,7 +1185,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/ModelDataIRBuilder.h" line="264" column="27" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="321" bodyend="328"/>
+        <location file="llvm/ModelDataIRBuilder.h" line="281" column="27" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="320" bodyend="327"/>
       </memberdef>
       <memberdef kind="function" id="classrrllvm_1_1ModelDataIRBuilder_1a71f439ded73bbea7284d7675f824f177" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>llvm::Function *</type>
@@ -1133,7 +1204,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/ModelDataIRBuilder.h" line="273" column="27" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="204" bodyend="225"/>
+        <location file="llvm/ModelDataIRBuilder.h" line="290" column="27" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="203" bodyend="224"/>
       </memberdef>
       <memberdef kind="function" id="classrrllvm_1_1ModelDataIRBuilder_1a43814b580c9cb37b7f19bd3835ff2852" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>llvm::Function *</type>
@@ -1152,7 +1223,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/ModelDataIRBuilder.h" line="280" column="27" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="227" bodyend="246"/>
+        <location file="llvm/ModelDataIRBuilder.h" line="297" column="27" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="226" bodyend="245"/>
       </memberdef>
       <memberdef kind="function" id="classrrllvm_1_1ModelDataIRBuilder_1a3dd75d52850dbecf8f2ce22209aca7b4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>llvm::StructType *</type>
@@ -1176,7 +1247,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/ModelDataIRBuilder.h" line="287" column="29" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="158" bodyend="202"/>
+        <location file="llvm/ModelDataIRBuilder.h" line="304" column="29" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="157" bodyend="201"/>
       </memberdef>
       <memberdef kind="function" id="classrrllvm_1_1ModelDataIRBuilder_1aa97533e0c2786753ab0d33259e097fb1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>llvm::StructType *</type>
@@ -1203,7 +1274,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/ModelDataIRBuilder.h" line="296" column="29" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="597" bodyend="694"/>
+        <location file="llvm/ModelDataIRBuilder.h" line="313" column="29" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="620" bodyend="717"/>
       </memberdef>
       <memberdef kind="function" id="classrrllvm_1_1ModelDataIRBuilder_1a0ef021e16b99691a0cde663060898c4c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>llvm::StructType *</type>
@@ -1223,7 +1294,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/ModelDataIRBuilder.h" line="306" column="29" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="696" bodyend="707"/>
+        <location file="llvm/ModelDataIRBuilder.h" line="323" column="29" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="719" bodyend="730"/>
       </memberdef>
       <memberdef kind="function" id="classrrllvm_1_1ModelDataIRBuilder_1a9e54ce2a6efeccfd93e30b72d92c7a6f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>unsigned</type>
@@ -1244,7 +1315,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/ModelDataIRBuilder.h" line="308" column="21" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="709" bodyend="743"/>
+        <location file="llvm/ModelDataIRBuilder.h" line="325" column="21" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="732" bodyend="766"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-static-func">
@@ -1279,7 +1350,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/ModelDataIRBuilder.h" line="333" column="25" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="306" bodyend="318"/>
+        <location file="llvm/ModelDataIRBuilder.h" line="350" column="25" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="305" bodyend="317"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-func">
@@ -1303,14 +1374,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/ModelDataIRBuilder.h" line="339" column="10" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="572" bodyend="595"/>
+        <location file="llvm/ModelDataIRBuilder.h" line="356" column="10" bodyfile="llvm/ModelDataIRBuilder.cpp" bodystart="595" bodyend="618"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="llvm/ModelDataIRBuilder.h" line="27" column="1" bodyfile="llvm/ModelDataIRBuilder.h" bodystart="28" bodyend="342"/>
+    <location file="llvm/ModelDataIRBuilder.h" line="27" column="1" bodyfile="llvm/ModelDataIRBuilder.h" bodystart="28" bodyend="359"/>
     <listofallmembers>
       <member refid="classrrllvm_1_1ModelDataIRBuilder_1ae6b5986717b6f8aed9f48d4c41623bf5" prot="private" virt="non-virtual"><scope>rrllvm::ModelDataIRBuilder</scope><name>builder</name></member>
       <member refid="classrrllvm_1_1ModelDataIRBuilder_1a971d0b8e40c0dd0f1c283162a1dd201b" prot="public" virt="non-virtual"><scope>rrllvm::ModelDataIRBuilder</scope><name>createBoundSpeciesAmtGEP</name></member>
@@ -1332,6 +1403,9 @@
       <member refid="classrrllvm_1_1ModelDataIRBuilder_1ac0d44b92ab4ecc37a9b8036f3493a760" prot="public" virt="non-virtual"><scope>rrllvm::ModelDataIRBuilder</scope><name>createGlobalParamGEP</name></member>
       <member refid="classrrllvm_1_1ModelDataIRBuilder_1af5906c55601030879bd70b5f8cb66e94" prot="public" virt="non-virtual"><scope>rrllvm::ModelDataIRBuilder</scope><name>createGlobalParamLoad</name></member>
       <member refid="classrrllvm_1_1ModelDataIRBuilder_1ae1635c844ac339ad5133df80bbf9ef01" prot="public" virt="non-virtual"><scope>rrllvm::ModelDataIRBuilder</scope><name>createGlobalParamStore</name></member>
+      <member refid="classrrllvm_1_1ModelDataIRBuilder_1a8409fb8ce44ad066c436c3e0ab24ec17" prot="public" virt="non-virtual"><scope>rrllvm::ModelDataIRBuilder</scope><name>createInitBoundarySpeciesAmtGEP</name></member>
+      <member refid="classrrllvm_1_1ModelDataIRBuilder_1a189cf62265d236030ed7d493bc3943c3" prot="public" virt="non-virtual"><scope>rrllvm::ModelDataIRBuilder</scope><name>createInitBoundarySpeciesAmtLoad</name></member>
+      <member refid="classrrllvm_1_1ModelDataIRBuilder_1a788ab717f75eb3b3bb14456ab9db9a2e" prot="public" virt="non-virtual"><scope>rrllvm::ModelDataIRBuilder</scope><name>createInitBoundarySpeciesAmtStore</name></member>
       <member refid="classrrllvm_1_1ModelDataIRBuilder_1a4ebc50a06da2dec5079b837f1b7b8ba2" prot="public" virt="non-virtual"><scope>rrllvm::ModelDataIRBuilder</scope><name>createInitCompGEP</name></member>
       <member refid="classrrllvm_1_1ModelDataIRBuilder_1a480ea9be1f574dec9ed7b7a1c01895e0" prot="public" virt="non-virtual"><scope>rrllvm::ModelDataIRBuilder</scope><name>createInitCompLoad</name></member>
       <member refid="classrrllvm_1_1ModelDataIRBuilder_1a05cfbc9f4b384ddf4b8f671d0c9f8bc8" prot="public" virt="non-virtual"><scope>rrllvm::ModelDataIRBuilder</scope><name>createInitCompStore</name></member>

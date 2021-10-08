@@ -49,7 +49,8 @@ setup(
     package_data={
         # add dll, won't hurt unix, not there anyway
         'roadrunner': ['_roadrunner*', '*.so', '*.so.*', '*.dll', '*.txt', '*.dylib', '*.pyd'],
-        'roadrunner.testing': ['*.xml', '*.txt', '*.dat', 'dsmts/*.xml', 'dsmts/*.csv', 'test_data/*']
+        'roadrunner.testing': ['*.so', '*.so.*', '*.dll', '*.dylib', '*.pyd',
+                               '*.xml', '*.txt', '*.dat', 'dsmts/*.xml', 'dsmts/*.csv', 'test_data/*']
     },
     # read dependencies directly from requirements.txt, Then, manage them
     # only from one place.

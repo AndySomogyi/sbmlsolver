@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
   <compounddef id="rrEvent_8cpp" kind="file" language="C++">
     <compoundname>rrEvent.cpp</compoundname>
     <includes refid="rrEvent_8h" local="yes">rrEvent.h</includes>
@@ -127,7 +127,7 @@
 <codeline lineno="70"><highlight class="normal">std::ostream&amp;<sp/>operator&lt;&lt;(std::ostream&amp;<sp/>stream,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Event&amp;<sp/>anEvent)</highlight></codeline>
 <codeline lineno="71"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>something<sp/>bizarre<sp/>in<sp/>gcc<sp/>was<sp/>causing<sp/>this<sp/>to<sp/>fail<sp/>if<sp/>the<sp/>event<sp/>fields<sp/>are</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>dumped<sp/>directly<sp/>to<sp/>the<sp/>ostream.<sp/>Seems<sp/>fine<sp/>if<sp/>we<sp/>make<sp/>a<sp/>stack<sp/>based<sp/>copy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>dumped<sp/>directly<sp/>to<sp/>the<sp/>std::ostream.<sp/>Seems<sp/>fine<sp/>if<sp/>we<sp/>make<sp/>a<sp/>stack<sp/>based<sp/>copy</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>though</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="75"><highlight class="normal"></highlight></codeline>
 <codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>stream<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Event<sp/>ID:<sp/>&quot;</highlight><highlight class="normal">;</highlight></codeline>

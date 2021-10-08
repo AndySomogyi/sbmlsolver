@@ -119,9 +119,8 @@ LLVMModelDataSymbols::LLVMModelDataSymbols() :
             && "wrong number of items in modelDataFieldsNames");
 }
 
-LLVMModelDataSymbols::LLVMModelDataSymbols(const libsbml::Model *model,
-        unsigned options) :
-    independentFloatingSpeciesSize(0),
+LLVMModelDataSymbols::LLVMModelDataSymbols(const libsbml::Model *model, unsigned options)
+    : independentFloatingSpeciesSize(0),
     independentBoundarySpeciesSize(0),
     independentGlobalParameterSize(0),
     independentCompartmentSize(0),
@@ -131,10 +130,14 @@ LLVMModelDataSymbols::LLVMModelDataSymbols(const libsbml::Model *model,
     independentInitCompartmentSize(0)
 {
     assert(sizeof(modelDataFieldsNames) / sizeof(const char*)
-            == NotSafe_FloatingSpeciesAmounts + 1
-            && "wrong number of items in modelDataFieldsNames");
+        == NotSafe_FloatingSpeciesAmounts + 1
+        && "wrong number of items in modelDataFieldsNames");
 
     modelName = model->getName();
+    if (modelName.empty())
+    {
+        modelName = model->getId();
+    }
 
     // first go through the rules, see if they determine other stuff
     {
@@ -181,6 +184,11 @@ LLVMModelDataSymbols::LLVMModelDataSymbols(const libsbml::Model *model,
 
 
     // process the floating species
+    // Note to self (ciaran). This function call is not clear to me
+    //      initFloatingSpecies(model, options & rr::LoadSBMLOptions::CONSERVED_MOIETIES);
+    // I'm yet to work out the value of "options &" part of this. What is it, error checking? Implicit validation that options
+    // has been defined and then consequently that we have a model? What ever it is, it is not clear to me. In what situation
+    // should options be 0 vs non 0? We should have a test each for these situations.
     initFloatingSpecies(model, options & rr::LoadSBMLOptions::CONSERVED_MOIETIES);
 
     // display compartment info. We need to get the compartments before the
@@ -468,7 +476,7 @@ std::string LLVMModelDataSymbols::getFloatingSpeciesId(size_t indx) const
     }
 
     std::stringstream errSS;
-    errSS << "attempted to access floating species id at index " << indx << ", but ";
+    errSS << "Attempted to access floating species id at index " << indx << ", but ";
     auto size = floatingSpeciesMap.size();
     if (size == 0) {
         errSS << "there are no floating species in the model.";
@@ -477,7 +485,61 @@ std::string LLVMModelDataSymbols::getFloatingSpeciesId(size_t indx) const
         errSS << "there is only a single floating species in the model with index '0'.";
     }
     else {
-        errSS << "there are only " << size << "floating species in the model with indexes '0'-'" << (size - 1) << "'.";
+        errSS << "there are only " << size << " floating species in the model with indexes '0'-'" << (size - 1) << "'.";
+    }
+    throw std::out_of_range(errSS.str());
+}
+
+
+std::string LLVMModelDataSymbols::getBoundarySpeciesId(size_t indx) const
+{
+    for (StringUIntMap::const_iterator i = boundarySpeciesMap.begin();
+        i != boundarySpeciesMap.end(); ++i)
+    {
+        if (i->second == indx)
+        {
+            return i->first;
+        }
+    }
+
+    std::stringstream errSS;
+    errSS << "Attempted to access boundary species id at index " << indx << ", but ";
+    auto size = boundarySpeciesMap.size();
+    if (size == 0) {
+        errSS << "there are no boundary species in the model.";
+    }
+    else if (size == 1) {
+        errSS << "there is only a single boundary species in the model with index '0'.";
+    }
+    else {
+        errSS << "there are only " << size << " boundary species in the model with indexes '0'-'" << (size - 1) << "'.";
+    }
+    throw std::out_of_range(errSS.str());
+}
+
+
+std::string LLVMModelDataSymbols::getCompartmentId(size_t indx) const
+{
+    for (StringUIntMap::const_iterator i = compartmentsMap.begin();
+        i != compartmentsMap.end(); ++i)
+    {
+        if (i->second == indx)
+        {
+            return i->first;
+        }
+    }
+
+    std::stringstream errSS;
+    errSS << "Attempted to access compartment id at index " << indx << ", but ";
+    auto size = boundarySpeciesMap.size();
+    if (size == 0) {
+        errSS << "there are no compartments in the model.";
+    }
+    else if (size == 1) {
+        errSS << "there is only a single compartment in the model with index '0'.";
+    }
+    else {
+        errSS << "there are only " << size << " compartments in the model with indexes '0'-'" << (size - 1) << "'.";
     }
     throw std::out_of_range(errSS.str());
 }
@@ -733,65 +795,206 @@ void LLVMModelDataSymbols::initGlobalParameters(const libsbml::Model* model,
 
 void LLVMModelDataSymbols::initBoundarySpecies(const libsbml::Model* model)
 {
-    const ListOfSpecies *species = model->getListOfSpecies();
+    const ListOfSpecies* species = model->getListOfSpecies();
+
+    // independent at run time, no rules of any sort
     std::list<std::string> indBndSpecies;
     std::list<std::string> depBndSpecies;
 
-    // get the boundary species
+    std::list<std::string> indInitBndSpecies;
+    std::list<std::string> depInitBndSpecies;
 
+    // figure out 'fully' indendent Bnd species -- those without rules.
     for (size_t i = 0; i < species->size(); ++i)
     {
-        const Species *s = species->get(i);
-        if (s->getBoundaryCondition())
+        const Species* s = species->get(i);
+        std::vector<std::string> quantities = ConservationExtension::getConservedQuantities(*s);
+
+        if (!s->getBoundaryCondition())
         {
-            if (isIndependentElement(s->getId()))
-            {
-                indBndSpecies.push_back(s->getId());
+            continue;
+        }
+
+        const std::string& sid = s->getId();
+
+        if (isIndependentElement(sid))
+        {
+            indBndSpecies.push_back(sid);
+            if (quantities.size()) {
+                for (size_t j = 0; j < quantities.size(); ++j) {
+                    std::string quantity = quantities.at(j);
+                    conservedMoietyIndSpecies[quantity].push_back(indBndSpecies.size() - 1);
+                }
             }
-            else
-            {
-                depBndSpecies.push_back(s->getId());
+        }
+        else
+        {
+            depBndSpecies.push_back(sid);
+            if (quantities.size()) {
+                for (size_t j = 0; j < quantities.size(); ++j) {
+                    std::string quantity = quantities.at(j);
+                    conservedMoietyDepSpecies[quantity] = depBndSpecies.size() - 1;
+                }
             }
+        }
+
+        bool conservedMoiety = ConservationExtension::getConservedMoiety(*s);
+
+        bool indInit = (!hasInitialAssignmentRule(sid) &&
+            (!hasAssignmentRule(sid) || conservedMoiety));
+
+        // conserved moiety species assignment rules do not apply at
+        // time t < 0
+        if (indInit)
+        {
+            indInitBndSpecies.push_back(sid);
+        }
+        else
+        {
+            depInitBndSpecies.push_back(sid);
+        }
+
+        if (conservedMoiety) {
+            conservedMoietySpeciesSet.insert(sid);
         }
     }
 
     // stuff the species in the std::map
     for (std::list<std::string>::const_iterator i = indBndSpecies.begin();
-            i != indBndSpecies.end(); ++i)
+        i != indBndSpecies.end(); ++i)
     {
-        size_t bi = boundarySpeciesMap.size();
-        boundarySpeciesMap[*i] = bi;
+        size_t si = boundarySpeciesMap.size();
+        boundarySpeciesMap[*i] = si;
     }
 
     for (std::list<std::string>::const_iterator i = depBndSpecies.begin();
-            i != depBndSpecies.end(); ++i)
+        i != depBndSpecies.end(); ++i)
     {
-        size_t bi = boundarySpeciesMap.size();
-        boundarySpeciesMap[*i] = bi;
+        size_t si = boundarySpeciesMap.size();
+        boundarySpeciesMap[*i] = si;
     }
 
-    // finally set how many we have
+    // stuff the species in the std::map
+    for (std::list<std::string>::const_iterator i = indInitBndSpecies.begin();
+        i != indInitBndSpecies.end(); ++i)
+    {
+        size_t si = initBoundarySpeciesMap.size();
+        initBoundarySpeciesMap[*i] = si;
+    }
+
+    for (std::list<std::string>::const_iterator i = depInitBndSpecies.begin();
+        i != depInitBndSpecies.end(); ++i)
+    {
+        size_t si = initBoundarySpeciesMap.size();
+        initBoundarySpeciesMap[*i] = si;
+    }
+
+    // finally set how many ind species we've found
     independentBoundarySpeciesSize = indBndSpecies.size();
+    independentInitBoundarySpeciesSize = indInitBndSpecies.size();
+
+    // std::map the boundary species to their compartments.
+    boundarySpeciesCompartmentIndices.resize(boundarySpeciesMap.size());
+
+    for (StringUIntMap::const_iterator i = boundarySpeciesMap.begin();
+        i != boundarySpeciesMap.end(); ++i)
+    {
+        const Species* s = model->getSpecies(i->first);
+        assert(s && "known species is NULL");
+        StringUIntMap::const_iterator j = compartmentsMap.find(s->getCompartment());
+        if (j == compartmentsMap.end())
+        {
+            throw_llvm_exception("species " + s->getId() +
+                " references unknown compartment " + s->getCompartment());
+        }
+
+        assert(i->second < boundarySpeciesCompartmentIndices.size());
+        assert(j->second < compartmentsMap.size());
+        boundarySpeciesCompartmentIndices[i->second] = j->second;
+    }
 
     if (Logger::LOG_DEBUG <= getLogger().getLevel())
     {
         LoggingBuffer log(Logger::LOG_DEBUG, __FILE__, __LINE__);
 
-        log.stream() << "found "
-                << indBndSpecies.size() << " independent and "
-                << depBndSpecies.size() << " dependent boundary species."
-                << std::endl;
+        log.stream() << "found " << indBndSpecies.size()
+            << " independent and " << depBndSpecies.size()
+            << " dependent boundary species." << std::endl;
 
         std::vector<std::string> ids = getBoundarySpeciesIds();
         for (size_t i = 0; i < ids.size(); ++i)
         {
-            log.stream() << "boundary species [" << i << "] = \'" << ids[i] << "\'" << std::endl;
+            log.stream() << "boundary species [" << i << "] = \'" << ids[i]
+                << "\'" << std::endl;
         }
+
+
+        log.stream() << "found " << indInitBndSpecies.size()
+            << " independent and " << depInitBndSpecies.size()
+            << " dependent initial boundary species." << std::endl;
     }
 }
 
-void LLVMModelDataSymbols::initFloatingSpecies(const libsbml::Model* model,
-        bool computeAndAssignConsevationLaws)
+//void LLVMModelDataSymbols::initBoundarySpecies(const libsbml::Model* model)
+//{
+//    const ListOfSpecies *species = model->getListOfSpecies();
+//    std::list<std::string> indBndSpecies;
+//    std::list<std::string> depBndSpecies;
+//
+//    // get the boundary species
+//
+//    for (size_t i = 0; i < species->size(); ++i)
+//    {
+//        const Species *s = species->get(i);
+//        if (s->getBoundaryCondition())
+//        {
+//            if (isIndependentElement(s->getId()))
+//            {
+//                indBndSpecies.push_back(s->getId());
+//            }
+//            else
+//            {
+//                depBndSpecies.push_back(s->getId());
+//            }
+//        }
+//    }
+//
+//    // stuff the species in the std::map
+//    for (std::list<std::string>::const_iterator i = indBndSpecies.begin();
+//            i != indBndSpecies.end(); ++i)
+//    {
+//        size_t bi = boundarySpeciesMap.size();
+//        boundarySpeciesMap[*i] = bi;
+//    }
+//
+//    for (std::list<std::string>::const_iterator i = depBndSpecies.begin();
+//            i != depBndSpecies.end(); ++i)
+//    {
+//        size_t bi = boundarySpeciesMap.size();
+//        boundarySpeciesMap[*i] = bi;
+//    }
+//
+//    // finally set how many we have
+//    independentBoundarySpeciesSize = indBndSpecies.size();
+//
+//    if (Logger::LOG_DEBUG <= getLogger().getLevel())
+//    {
+//        LoggingBuffer log(Logger::LOG_DEBUG, __FILE__, __LINE__);
+//
+//        log.stream() << "found "
+//                << indBndSpecies.size() << " independent and "
+//                << depBndSpecies.size() << " dependent boundary species."
+//                << std::endl;
+//
+//        std::vector<std::string> ids = getBoundarySpeciesIds();
+//        for (size_t i = 0; i < ids.size(); ++i)
+//        {
+//            log.stream() << "boundary species [" << i << "] = \'" << ids[i] << "\'" << std::endl;
+//        }
+//    }
+//}
+
+void LLVMModelDataSymbols::initFloatingSpecies(const libsbml::Model* model, bool computeAndAssignConsevationLaws)
 {
     const ListOfSpecies *species = model->getListOfSpecies();
 
@@ -878,8 +1081,7 @@ void LLVMModelDataSymbols::initFloatingSpecies(const libsbml::Model* model,
         if (computeAndAssignConsevationLaws)
         {
             // look in the set we just made
-            if (conservedMoietySpeciesSet.find(*i) !=
-                    conservedMoietySpeciesSet.end())
+            if (conservedMoietySpeciesSet.find(*i) != conservedMoietySpeciesSet.end())
             {
                 // keep incrementing the size each time we add one.
                 size_t cmIndex = floatingSpeciesToConservedMoietyIdMap.size();
@@ -915,8 +1117,7 @@ void LLVMModelDataSymbols::initFloatingSpecies(const libsbml::Model* model,
     {
         const Species* s = model->getSpecies(i->first);
         assert(s && "known species is NULL");
-        StringUIntMap::const_iterator j =
-                compartmentsMap.find(s->getCompartment());
+        StringUIntMap::const_iterator j = compartmentsMap.find(s->getCompartment());
         if (j == compartmentsMap.end())
         {
             throw_llvm_exception("species " + s->getId() +
@@ -1063,6 +1264,16 @@ int LLVMModelDataSymbols::getCompartmentIndexForFloatingSpecies(
         return -1;
     }
     return floatingSpeciesCompartmentIndices[floatIndex];
+}
+
+int LLVMModelDataSymbols::getCompartmentIndexForBoundarySpecies(
+    size_t floatIndex) const
+{
+    if (floatIndex >= boundarySpeciesCompartmentIndices.size())
+    {
+        return -1;
+    }
+    return boundarySpeciesCompartmentIndices[floatIndex];
 }
 
 bool LLVMModelDataSymbols::isConservedMoietySpecies(uint id, uint& result) const
@@ -1424,6 +1635,17 @@ int LLVMModelDataSymbols::getFloatingSpeciesInitIndex(
     return -1;
 }
 
+int LLVMModelDataSymbols::getBoundarySpeciesInitIndex(
+    const std::string& symbol) const
+{
+    StringUIntMap::const_iterator i = initBoundarySpeciesMap.find(symbol);
+    if (i != initBoundarySpeciesMap.end())
+    {
+        return i->second;
+    }
+    return -1;
+}
+
 int LLVMModelDataSymbols::getCompartmentInitIndex(
         const std::string& symbol) const
 {
@@ -1459,6 +1681,14 @@ bool LLVMModelDataSymbols::isIndependentInitFloatingSpecies(
     StringUIntMap::const_iterator i = initFloatingSpeciesMap.find(symbol);
     return i != initFloatingSpeciesMap.end() &&
             i->second < independentInitFloatingSpeciesSize;
+}
+
+bool LLVMModelDataSymbols::isIndependentInitBoundarySpecies(
+    const std::string& symbol) const
+{
+    StringUIntMap::const_iterator i = initBoundarySpeciesMap.find(symbol);
+    return i != initBoundarySpeciesMap.end() &&
+        i->second < independentInitBoundarySpeciesSize;
 }
 
 bool LLVMModelDataSymbols::isIndependentInitCompartment(
@@ -1518,6 +1748,31 @@ size_t LLVMModelDataSymbols::getInitGlobalParameterSize() const
 std::vector<std::string> LLVMModelDataSymbols::getEventIds() const
 {
     return getIds(eventIds);
+}
+
+std::vector<std::string> LLVMModelDataSymbols::getAssignmentRuleIds() const
+{
+    std::vector<string> ret;
+    for (std::set<string>::iterator ar = assignmentRules.begin(); ar != assignmentRules.end(); ar++)
+    {
+        ret.push_back(*ar);
+    }
+    return ret;
+}
+
+std::vector<std::string> LLVMModelDataSymbols::getRateRuleIds() const
+{
+    return getIds(rateRules);
+}
+
+std::vector<std::string> LLVMModelDataSymbols::getInitialAssignmentIds() const
+{
+    std::vector<string> ret;
+    for (std::set<string>::iterator ia = initAssignmentRules.begin(); ia != initAssignmentRules.end(); ia++)
+    {
+        ret.push_back(*ia);
+    }
+    return ret;
 }
 
 std::string LLVMModelDataSymbols::getEventId(size_t indx) const
@@ -1640,6 +1895,7 @@ void LLVMModelDataSymbols::saveState(std::ostream& out) const
 	rr::saveBinary(out, independentInitCompartmentSize);
     
 	rr::saveBinary(out, floatingSpeciesCompartmentIndices);
+    rr::saveBinary(out, boundarySpeciesCompartmentIndices);
 
 	rr::saveBinary(out, modelName);
 	rr::saveBinary(out, floatingSpeciesMap);
@@ -1690,6 +1946,7 @@ void LLVMModelDataSymbols::loadState(std::istream& in)
 	rr::loadBinary(in, independentInitCompartmentSize);
     
 	rr::loadBinary(in, floatingSpeciesCompartmentIndices);
+    rr::loadBinary(in, boundarySpeciesCompartmentIndices);
 
 	rr::loadBinary(in, modelName);
 	rr::loadBinary(in, floatingSpeciesMap);

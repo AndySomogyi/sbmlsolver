@@ -45,6 +45,7 @@ For instructions on how to install roadrunner please see the :ref:`installation 
     self
     Installation/installation
     tutorial/tutorial
+    Examples/examples_index
     read_write_functions
     selecting_values
     steady_state
@@ -54,11 +55,14 @@ For instructions on how to install roadrunner please see the :ref:`installation 
     stoichiometric
     bifurcation
     simulation_and_integration
+    sensitivities/sensitivities_index
+    parallel/parallel_index
     utility_functions
     accessing_model
     rrplugins/rrplugins_documentation
     PythonAPIReference/api_reference
     C++APIReference/index
+    developers_docs/index
 
 
 Indices and tables

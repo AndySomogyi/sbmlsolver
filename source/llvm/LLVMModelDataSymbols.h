@@ -106,13 +106,13 @@ enum EventAtributes
  * There can exist rules (assigment, rate, and eventually algebraic) rules
  * that determine the value of a symbol.
  *
- * All items for which a rate rule exists are stored in the
+ * * All items for which a rate rule exists are stored in the
  * modelData::rateRules array.
  *
- * No space is allocated for items determined by rate rules.
+ * * No space is allocated for items determined by rate rules.
  *
  * * All elements get an index value, even the dependent ones, this allows
- * us uniquely indentify them in the generated accessor functions.
+ * us uniquely identify them in the generated accessor functions.
  *
  * * Most of the indexes used in this class are indexes into ModelData
  * arrays, therefore we use unsigned integers -- these are less error
@@ -130,7 +130,7 @@ public:
     typedef std::map<std::string, uint> StringUIntMap;
     typedef std::map<std::string, std::vector<uint> > StringUIntVectorMap;
     typedef std::pair<std::string, uint> StringUIntPair;
-    typedef cxx11_ns::unordered_map<uint, uint> UIntUIntMap;
+    typedef std::unordered_map<uint, uint> UIntUIntMap;
 
     enum SpeciesReferenceType
     {
@@ -145,7 +145,13 @@ public:
      */
     enum SymbolIndexType
     {
-        FLOATING_SPECIES, BOUNDARY_SPECIES, COMPARTMENT, GLOBAL_PARAMETER, REACTION, EVENT, INVALID_SYMBOL
+        FLOATING_SPECIES,
+        BOUNDARY_SPECIES,
+        COMPARTMENT,
+        GLOBAL_PARAMETER,
+        REACTION,
+        EVENT,
+        INVALID_SYMBOL
     };
 
     /**
@@ -254,6 +260,18 @@ public:
 
 
     /**
+     * get the symbolic id of the i'th boundary species.
+     */
+    std::string getBoundarySpeciesId(size_t indx) const;
+
+
+    /**
+     * get the symbolic id of the i'th compartment.
+     */
+    std::string getCompartmentId(size_t indx) const;
+
+
+    /**
      * find the id of the given global parameter index.
      */
     std::string getGlobalParameterId(size_t indx) const;
@@ -330,17 +348,13 @@ public:
             const std::string& id) const;
 
 
-/******* Conserved Moiety Section ********************************************/
-#if (1) /*********************************************************************/
-/*****************************************************************************/
-
-
-
+    /******* Conserved Moiety Section ********************************************/
 
     /**
      * checks if the given symbol is a init value for a conserved species.
      *
      * Global parameters or floating species can be conservied moieties,
+     *
      * a global parameter is a CM if it is defined by a inital assignment rules
      * as a linear of one CM species and a set of indepdent
      * floating species.
@@ -439,9 +453,7 @@ private:
     StringUIntVectorMap conservedMoietyIndSpecies;
 
 
-/*****************************************************************************/
-#endif /* Conserved Moiety Section ******************************************/
-/*****************************************************************************/
+    /* End Conserved Moiety Section ******************************************/
 public:
 
     const std::vector<unsigned char>& getEventAttributes() const;
@@ -469,8 +481,6 @@ public:
 
 
 /************************ Initial Conditions Section *************************/
-#if (1) /*********************************************************************/
-/*****************************************************************************/
 
     /**
      * checks if the given symbol is an init value for an independent
@@ -481,6 +491,16 @@ public:
      * at time t > 0.
      */
     bool isIndependentInitFloatingSpecies(const std::string& symbol) const;
+
+    /**
+     * checks if the given symbol is an init value for an independent
+     * boundary species.
+     *
+     * Conserved Moiety species are considered to have independent
+     * initial condtions as in this case, the assignment rule only applies
+     * at time t > 0.
+     */
+    bool isIndependentInitBoundarySpecies(const std::string& symbol) const;
 
     /**
      * Is this sbml element an independent initial value.
@@ -516,6 +536,13 @@ public:
     int getFloatingSpeciesInitIndex(const std::string& symbol) const;
 
     /**
+     * get the index of a boundary species initial value.
+     *
+     * has the same index as the run time boundary species.
+     */
+    int getBoundarySpeciesInitIndex(const std::string& symbol) const;
+
+    /**
      * get the index of a compartment initial value
      *
      * has the same index as the run time compartment.
@@ -526,6 +553,11 @@ public:
      * get the index of a compartment for a float species.
      */
     int getCompartmentIndexForFloatingSpecies(size_t floatIndex) const;
+
+    /**
+     * get the index of a compartment for a boundary species.
+     */
+    int getCompartmentIndexForBoundarySpecies(size_t floatIndex) const;
 
     /**
      * get the index of a global parameter initial value
@@ -540,6 +572,12 @@ public:
     size_t getInitGlobalParameterSize() const;
 
     std::vector<std::string> getEventIds() const;
+
+    std::vector<std::string> getAssignmentRuleIds() const;
+
+    std::vector<std::string> getRateRuleIds() const;
+
+    std::vector<std::string> getInitialAssignmentIds() const;
 
     std::string getEventId(size_t indx) const;
 
@@ -605,9 +643,12 @@ private:
      */
     std::vector<uint> floatingSpeciesCompartmentIndices;
 
-/************************ End Initial Conditions Section *********************/
-#endif /**********************************************************************/
-/*****************************************************************************/
+    /**
+     * index of compartments for each boundary species.
+     */
+    std::vector<uint> boundarySpeciesCompartmentIndices;
+
+    /************************ End Initial Conditions Section *********************/
 
 
 private:

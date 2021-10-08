@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
   <compounddef id="rrSBMLSymbol_8cpp" kind="file" language="C++">
     <compoundname>rrSBMLSymbol.cpp</compoundname>
     <includes local="no">iostream</includes>
@@ -10,6 +10,9 @@
     <incdepgraph>
       <node id="16">
         <label>list</label>
+      </node>
+      <node id="24">
+        <label>functional</label>
       </node>
       <node id="13">
         <label>rrConstants.h</label>
@@ -23,8 +26,35 @@
         <childnode refid="8" relation="include">
         </childnode>
       </node>
+      <node id="20">
+        <label>Setting.h</label>
+        <link refid="Setting_8h_source"/>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+      </node>
       <node id="3">
         <label>limits</label>
+      </node>
+      <node id="30">
+        <label>filesystem</label>
       </node>
       <node id="10">
         <label>float.h</label>
@@ -33,8 +63,11 @@
         <label>rrExporter.h</label>
         <link refid="rrExporter_8h_source"/>
       </node>
-      <node id="22">
+      <node id="29">
         <label>stdint.h</label>
+      </node>
+      <node id="21">
+        <label>variant</label>
       </node>
       <node id="11">
         <label>string</label>
@@ -42,10 +75,13 @@
       <node id="18">
         <label>map</label>
       </node>
+      <node id="28">
+        <label>exception</label>
+      </node>
       <node id="5">
         <label>ostream</label>
       </node>
-      <node id="23">
+      <node id="31">
         <label>rrSBMLSymbolDependencies.h</label>
         <link refid="rrSBMLSymbolDependencies_8h_source"/>
         <childnode refid="5" relation="include">
@@ -70,10 +106,22 @@
         </childnode>
         <childnode refid="15" relation="include">
         </childnode>
-        <childnode refid="23" relation="include">
+        <childnode refid="31" relation="include">
         </childnode>
       </node>
-      <node id="21">
+      <node id="27">
+        <label>rrException.h</label>
+        <link refid="rrException_8h_source"/>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="25">
         <label>typeinfo</label>
       </node>
       <node id="9">
@@ -95,8 +143,14 @@
         </childnode>
         <childnode refid="15" relation="include">
         </childnode>
-        <childnode refid="22" relation="include">
+        <childnode refid="29" relation="include">
         </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+      </node>
+      <node id="26">
+        <label>setting_t.h</label>
+        <link refid="setting__t_8h_source"/>
       </node>
       <node id="6">
         <label>vector</label>
@@ -114,8 +168,11 @@
         </childnode>
         <childnode refid="9" relation="include">
         </childnode>
-        <childnode refid="23" relation="include">
+        <childnode refid="31" relation="include">
         </childnode>
+      </node>
+      <node id="22">
+        <label>sstream</label>
       </node>
       <node id="14">
         <label>cstdlib</label>
@@ -147,23 +204,14 @@
         <childnode refid="20" relation="include">
         </childnode>
       </node>
-      <node id="20">
-        <label>Variant.h</label>
-        <link refid="Variant_8h_source"/>
-        <childnode refid="8" relation="include">
-        </childnode>
-        <childnode refid="21" relation="include">
-        </childnode>
-        <childnode refid="11" relation="include">
-        </childnode>
-        <childnode refid="6" relation="include">
-        </childnode>
-      </node>
       <node id="7">
         <label>deque</label>
       </node>
       <node id="19">
         <label>unordered_map</label>
+      </node>
+      <node id="23">
+        <label>type_traits</label>
       </node>
       <node id="12">
         <label>set</label>
@@ -187,7 +235,7 @@
 <codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="8"><highlight class="normal"></highlight></codeline>
 <codeline lineno="9"><highlight class="normal"></highlight></codeline>
-<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">std;</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
 <codeline lineno="11"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">rr</highlight></codeline>
 <codeline lineno="12"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="13"><highlight class="normal"></highlight></codeline>
@@ -268,23 +316,23 @@
 <codeline lineno="88"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="89"><highlight class="normal"></highlight></codeline>
 <codeline lineno="90"><highlight class="normal"></highlight></codeline>
-<codeline lineno="91"><highlight class="normal">ostream&amp;<sp/>operator&lt;&lt;(ostream&amp;<sp/>stream,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>SBMLSymbol&amp;<sp/>symbol)</highlight></codeline>
+<codeline lineno="91"><highlight class="normal">std::ostream&amp;<sp/>operator&lt;&lt;(std::ostream&amp;<sp/>stream,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>SBMLSymbol&amp;<sp/>symbol)</highlight></codeline>
 <codeline lineno="92"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//stream<sp/>symbol<sp/>to<sp/>stream</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>stream&lt;&lt;</highlight><highlight class="stringliteral">&quot;ID<sp/>=<sp/>&quot;</highlight><highlight class="normal">&lt;&lt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>symbol.mId<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;endl;</highlight></codeline>
-<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>stream&lt;&lt;</highlight><highlight class="stringliteral">&quot;Type<sp/>=<sp/>&quot;</highlight><highlight class="normal">&lt;&lt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>symbol.mType<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;endl;</highlight></codeline>
-<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>stream&lt;&lt;</highlight><highlight class="stringliteral">&quot;Value<sp/>=<sp/>&quot;</highlight><highlight class="normal">&lt;&lt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>symbol.mValue<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;endl;</highlight></codeline>
-<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>stream&lt;&lt;</highlight><highlight class="stringliteral">&quot;Has<sp/>Initial<sp/>Assignment<sp/>=<sp/>&quot;</highlight><highlight class="normal">&lt;&lt;symbol.HasInitialAssignment()<sp/><sp/><sp/><sp/><sp/>&lt;&lt;endl;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>stream&lt;&lt;</highlight><highlight class="stringliteral">&quot;ID<sp/>=<sp/>&quot;</highlight><highlight class="normal">&lt;&lt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>symbol.mId<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;std::endl;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>stream&lt;&lt;</highlight><highlight class="stringliteral">&quot;Type<sp/>=<sp/>&quot;</highlight><highlight class="normal">&lt;&lt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>symbol.mType<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;std::endl;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>stream&lt;&lt;</highlight><highlight class="stringliteral">&quot;Value<sp/>=<sp/>&quot;</highlight><highlight class="normal">&lt;&lt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>symbol.mValue<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;std::endl;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>stream&lt;&lt;</highlight><highlight class="stringliteral">&quot;Has<sp/>Initial<sp/>Assignment<sp/>=<sp/>&quot;</highlight><highlight class="normal">&lt;&lt;symbol.HasInitialAssignment()<sp/><sp/><sp/><sp/><sp/>&lt;&lt;std::endl;</highlight></codeline>
 <codeline lineno="98"><highlight class="normal"></highlight></codeline>
 <codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(symbol.HasInitialAssignment())</highlight></codeline>
 <codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stream&lt;&lt;</highlight><highlight class="stringliteral">&quot;Intial<sp/>Assignment<sp/>=<sp/>&quot;</highlight><highlight class="normal">&lt;&lt;symbol.mInitialAssignment<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;endl;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stream&lt;&lt;</highlight><highlight class="stringliteral">&quot;Intial<sp/>Assignment<sp/>=<sp/>&quot;</highlight><highlight class="normal">&lt;&lt;symbol.mInitialAssignment<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;std::endl;</highlight></codeline>
 <codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="103"><highlight class="normal"></highlight></codeline>
-<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>stream&lt;&lt;</highlight><highlight class="stringliteral">&quot;Has<sp/>Rule<sp/>=<sp/>&quot;</highlight><highlight class="normal">&lt;&lt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>toString(symbol.mHasRule)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;endl;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>stream&lt;&lt;</highlight><highlight class="stringliteral">&quot;Has<sp/>Rule<sp/>=<sp/>&quot;</highlight><highlight class="normal">&lt;&lt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>toString(symbol.mHasRule)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;std::endl;</highlight></codeline>
 <codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(symbol.mHasRule)</highlight></codeline>
 <codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stream&lt;&lt;</highlight><highlight class="stringliteral">&quot;Rule<sp/>=<sp/>&quot;</highlight><highlight class="normal">&lt;&lt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>symbol.mRule<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;endl;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stream&lt;&lt;</highlight><highlight class="stringliteral">&quot;Rule<sp/>=<sp/>&quot;</highlight><highlight class="normal">&lt;&lt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>symbol.mRule<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;std::endl;</highlight></codeline>
 <codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>stream;</highlight></codeline>
 <codeline lineno="110"><highlight class="normal">}</highlight></codeline>

@@ -29,7 +29,6 @@ class AutoPlugin : public tlp::CPPPlugin
         telauto::AutoTellurimInterface&         getRRAuto();
         unsigned char*                          getManualAsPDF() const;
         size_t                                  getPDFManualByteSize();
-        rrc::THostInterface*                    mhostInterface;
         rrc::RRHandle                           rrHandle;
 
     protected:
@@ -206,9 +205,9 @@ class AutoPlugin : public tlp::CPPPlugin
 #ifdef EXPORT_AUTO2000
 extern "C"
 {
-TLP_DS AutoPlugin* createPlugin();
-TLP_DS const char* getImplementationLanguage();
-TLP_DS void plugins_cc setHostInterface(rrc::THostInterface* _hostInterface);
+    TLP_DS AutoPlugin* createPlugin();
+    TLP_DS const char* getImplementationLanguage();
+    TLP_DS void plugins_cc setHostInterface(rrc::THostInterface* _hostInterface);
 }
 #endif
 

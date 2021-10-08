@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
   <compounddef id="rrc__utilities_8cpp" kind="file" language="C++">
     <compoundname>rrc_utilities.cpp</compoundname>
     <includes refid="rrc__types_8h" local="yes">rrc_types.h</includes>
@@ -16,7 +16,7 @@
     <includes refid="rrException_8h" local="yes">rrException.h</includes>
     <includes local="no">limits.h</includes>
     <incdepgraph>
-      <node id="20">
+      <node id="17">
         <label>list</label>
       </node>
       <node id="4">
@@ -35,101 +35,140 @@
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
-        <childnode refid="12" relation="include">
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
         </childnode>
         <childnode refid="24" relation="include">
         </childnode>
-        <childnode refid="14" relation="include">
-        </childnode>
-        <childnode refid="13" relation="include">
-        </childnode>
-        <childnode refid="25" relation="include">
-        </childnode>
-        <childnode refid="43" relation="include">
-        </childnode>
-        <childnode refid="36" relation="include">
-        </childnode>
         <childnode refid="49" relation="include">
         </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="56" relation="include">
+        </childnode>
       </node>
-      <node id="16">
+      <node id="32">
+        <label>functional</label>
+      </node>
+      <node id="12">
         <label>rrConstants.h</label>
         <link refid="rrConstants_8h_source"/>
-        <childnode refid="17" relation="include">
-        </childnode>
-        <childnode refid="12" relation="include">
-        </childnode>
-        <childnode refid="18" relation="include">
+        <childnode refid="13" relation="include">
         </childnode>
         <childnode refid="11" relation="include">
         </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
       </node>
-      <node id="17">
+      <node id="29">
+        <label>Setting.h</label>
+        <link refid="Setting_8h_source"/>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
         <label>limits</label>
+      </node>
+      <node id="55">
+        <label>filesystem</label>
       </node>
       <node id="2">
         <label>rrc_types.h</label>
         <link refid="rrc__types_8h"/>
       </node>
-      <node id="44">
+      <node id="50">
         <label>float.h</label>
       </node>
-      <node id="22">
+      <node id="19">
         <label>rrArrayListItem.h</label>
         <link refid="rrArrayListItem_8h_source"/>
-        <childnode refid="11" relation="include">
-        </childnode>
         <childnode refid="15" relation="include">
         </childnode>
-        <childnode refid="23" relation="include">
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
         </childnode>
       </node>
-      <node id="11">
+      <node id="15">
         <label>rrExporter.h</label>
         <link refid="rrExporter_8h_source"/>
       </node>
-      <node id="40">
+      <node id="54">
         <label>stdint.h</label>
       </node>
-      <node id="34">
-        <label>Integrator.h</label>
-        <link refid="Integrator_8h"/>
-        <childnode refid="35" relation="include">
-        </childnode>
-        <childnode refid="26" relation="include">
-        </childnode>
-        <childnode refid="29" relation="include">
-        </childnode>
-        <childnode refid="36" relation="include">
-        </childnode>
-        <childnode refid="38" relation="include">
-        </childnode>
-        <childnode refid="32" relation="include">
-        </childnode>
-        <childnode refid="33" relation="include">
-        </childnode>
-        <childnode refid="39" relation="include">
-        </childnode>
-      </node>
-      <node id="39">
-        <label>stdexcept</label>
+      <node id="30">
+        <label>variant</label>
       </node>
       <node id="38">
-        <label>Solver.h</label>
-        <link refid="Solver_8h"/>
+        <label>Integrator.h</label>
+        <link refid="Integrator_8h"/>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
         <childnode refid="35" relation="include">
         </childnode>
-        <childnode refid="26" relation="include">
+        <childnode refid="40" relation="include">
         </childnode>
-        <childnode refid="29" relation="include">
+        <childnode refid="42" relation="include">
         </childnode>
-        <childnode refid="36" relation="include">
+        <childnode refid="43" relation="include">
         </childnode>
-        <childnode refid="32" relation="include">
+        <childnode refid="41" relation="include">
         </childnode>
-        <childnode refid="33" relation="include">
+        <childnode refid="45" relation="include">
         </childnode>
+        <childnode refid="44" relation="include">
+        </childnode>
+      </node>
+      <node id="44">
+        <label>stdexcept</label>
+      </node>
+      <node id="40">
+        <label>Solver.h</label>
+        <link refid="Solver_8h"/>
         <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="41" relation="include">
+        </childnode>
+        <childnode refid="42" relation="include">
+        </childnode>
+        <childnode refid="43" relation="include">
+        </childnode>
+        <childnode refid="44" relation="include">
         </childnode>
       </node>
       <node id="7">
@@ -141,187 +180,181 @@
         </childnode>
         <childnode refid="10" relation="include">
         </childnode>
-        <childnode refid="15" relation="include">
-        </childnode>
-        <childnode refid="19" relation="include">
+        <childnode refid="16" relation="include">
         </childnode>
         <childnode refid="2" relation="include">
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
       </node>
-      <node id="35">
+      <node id="39">
         <label>rrLogger.h</label>
         <link refid="rrLogger_8h_source"/>
-        <childnode refid="14" relation="include">
+        <childnode refid="22" relation="include">
         </childnode>
-        <childnode refid="11" relation="include">
+        <childnode refid="15" relation="include">
         </childnode>
       </node>
-      <node id="12">
+      <node id="11">
         <label>string</label>
       </node>
       <node id="6">
         <label>rrc_macros.h</label>
         <link refid="rrc__macros_8h"/>
       </node>
-      <node id="33">
+      <node id="43">
         <label>tr1proxy/rr_unordered_map.h</label>
       </node>
-      <node id="47">
+      <node id="53">
         <label>map</label>
       </node>
-      <node id="41">
+      <node id="47">
         <label>sbml/Species.h</label>
       </node>
-      <node id="19">
+      <node id="16">
         <label>rrArrayList.h</label>
         <link refid="rrArrayList_8h_source"/>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="12" relation="include">
+        <childnode refid="11" relation="include">
         </childnode>
-        <childnode refid="20" relation="include">
+        <childnode refid="17" relation="include">
         </childnode>
-        <childnode refid="21" relation="include">
+        <childnode refid="18" relation="include">
         </childnode>
-        <childnode refid="22" relation="include">
+        <childnode refid="19" relation="include">
         </childnode>
         <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="36">
+        <label>exception</label>
+      </node>
+      <node id="23">
+        <label>fstream</label>
+      </node>
+      <node id="18">
+        <label>ostream</label>
+      </node>
+      <node id="56">
+        <label>limits.h</label>
+      </node>
+      <node id="35">
+        <label>rrException.h</label>
+        <link refid="rrException_8h_source"/>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
         </childnode>
         <childnode refid="15" relation="include">
         </childnode>
       </node>
-      <node id="37">
-        <label>exception</label>
-      </node>
-      <node id="13">
-        <label>fstream</label>
-      </node>
-      <node id="21">
-        <label>ostream</label>
-      </node>
-      <node id="49">
-        <label>limits.h</label>
-      </node>
-      <node id="36">
-        <label>rrException.h</label>
-        <link refid="rrException_8h_source"/>
-        <childnode refid="37" relation="include">
-        </childnode>
-        <childnode refid="12" relation="include">
-        </childnode>
-        <childnode refid="11" relation="include">
-        </childnode>
-      </node>
-      <node id="27">
+      <node id="26">
         <label>rrSelectionRecord.h</label>
         <link refid="rrSelectionRecord_8h_source"/>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
         <childnode refid="11" relation="include">
         </childnode>
-        <childnode refid="21" relation="include">
-        </childnode>
-        <childnode refid="12" relation="include">
-        </childnode>
       </node>
-      <node id="31">
+      <node id="33">
         <label>typeinfo</label>
       </node>
-      <node id="10">
-        <label>rrRoadRunnerData.h</label>
-        <link refid="rrRoadRunnerData_8h_source"/>
-        <childnode refid="9" relation="include">
-        </childnode>
-        <childnode refid="11" relation="include">
-        </childnode>
-        <childnode refid="12" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
-        <childnode refid="13" relation="include">
-        </childnode>
-        <childnode refid="14" relation="include">
-        </childnode>
-      </node>
-      <node id="28">
+      <node id="27">
         <label>rrRoadRunnerOptions.h</label>
         <link refid="rrRoadRunnerOptions_8h_source"/>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
         <childnode refid="11" relation="include">
         </childnode>
-        <childnode refid="29" relation="include">
-        </childnode>
-        <childnode refid="34" relation="include">
-        </childnode>
-        <childnode refid="12" relation="include">
-        </childnode>
         <childnode refid="8" relation="include">
-        </childnode>
-        <childnode refid="32" relation="include">
-        </childnode>
-        <childnode refid="33" relation="include">
-        </childnode>
-        <childnode refid="40" relation="include">
         </childnode>
       </node>
       <node id="9">
         <label>rr-libstruct/lsMatrix.h</label>
       </node>
-      <node id="43">
+      <node id="49">
         <label>rrUtils.h</label>
         <link refid="rrUtils_8h_source"/>
-        <childnode refid="44" relation="include">
+        <childnode refid="50" relation="include">
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="12" relation="include">
-        </childnode>
-        <childnode refid="24" relation="include">
-        </childnode>
-        <childnode refid="42" relation="include">
-        </childnode>
         <childnode refid="11" relation="include">
         </childnode>
-        <childnode refid="16" relation="include">
+        <childnode refid="21" relation="include">
         </childnode>
-        <childnode refid="45" relation="include">
+        <childnode refid="48" relation="include">
         </childnode>
-        <childnode refid="40" relation="include">
+        <childnode refid="15" relation="include">
         </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="51" relation="include">
+        </childnode>
+        <childnode refid="54" relation="include">
+        </childnode>
+        <childnode refid="55" relation="include">
+        </childnode>
+      </node>
+      <node id="34">
+        <label>setting_t.h</label>
+        <link refid="setting__t_8h_source"/>
       </node>
       <node id="8">
         <label>vector</label>
       </node>
-      <node id="14">
+      <node id="22">
         <label>sstream</label>
       </node>
-      <node id="18">
-        <label>cstdlib</label>
-      </node>
-      <node id="24">
-        <label>iostream</label>
-      </node>
-      <node id="45">
-        <label>rrStringUtils.h</label>
-        <link refid="rrStringUtils_8h_source"/>
-        <childnode refid="12" relation="include">
+      <node id="41">
+        <label>Registrable.h</label>
+        <link refid="Registrable_8h_source"/>
+        <childnode refid="15" relation="include">
         </childnode>
-        <childnode refid="20" relation="include">
+        <childnode refid="21" relation="include">
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="46" relation="include">
+      </node>
+      <node id="14">
+        <label>cstdlib</label>
+      </node>
+      <node id="21">
+        <label>iostream</label>
+      </node>
+      <node id="51">
+        <label>rrStringUtils.h</label>
+        <link refid="rrStringUtils_8h_source"/>
+        <childnode refid="11" relation="include">
         </childnode>
-        <childnode refid="47" relation="include">
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="52" relation="include">
+        </childnode>
+        <childnode refid="53" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
         </childnode>
         <childnode refid="48" relation="include">
         </childnode>
-        <childnode refid="42" relation="include">
+        <childnode refid="12" relation="include">
         </childnode>
-        <childnode refid="16" relation="include">
+        <childnode refid="15" relation="include">
         </childnode>
-        <childnode refid="11" relation="include">
-        </childnode>
-        <childnode refid="30" relation="include">
+        <childnode refid="29" relation="include">
         </childnode>
       </node>
       <node id="3">
@@ -330,67 +363,75 @@
         <childnode refid="4" relation="include">
         </childnode>
       </node>
-      <node id="30">
-        <label>Variant.h</label>
-        <link refid="Variant_8h_source"/>
-        <childnode refid="11" relation="include">
-        </childnode>
-        <childnode refid="31" relation="include">
-        </childnode>
-        <childnode refid="12" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
-      </node>
-      <node id="48">
+      <node id="37">
         <label>unordered_map</label>
       </node>
-      <node id="32">
+      <node id="42">
         <label>tr1proxy/rr_memory.h</label>
       </node>
-      <node id="15">
+      <node id="10">
         <label>rrcStringList.h</label>
         <link refid="rrcStringList_8h_source"/>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="12" relation="include">
+        <childnode refid="11" relation="include">
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="16" relation="include">
+        <childnode refid="12" relation="include">
         </childnode>
         <childnode refid="2" relation="include">
         </childnode>
       </node>
-      <node id="23">
+      <node id="46">
+        <label>mutex</label>
+      </node>
+      <node id="20">
         <label>rrArrayListItemBase.h</label>
         <link refid="rrArrayListItemBase_8h_source"/>
         <childnode refid="3" relation="include">
         </childnode>
       </node>
-      <node id="25">
+      <node id="45">
+        <label>RegistrationFactory.h</label>
+        <link refid="RegistrationFactory_8h_source"/>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="46" relation="include">
+        </childnode>
+        <childnode refid="41" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+      </node>
+      <node id="24">
         <label>rrRoadRunner.h</label>
         <link refid="rrRoadRunner_8h_source"/>
+        <childnode refid="25" relation="include">
+        </childnode>
         <childnode refid="26" relation="include">
         </childnode>
         <childnode refid="27" relation="include">
         </childnode>
-        <childnode refid="28" relation="include">
-        </childnode>
-        <childnode refid="41" relation="include">
+        <childnode refid="47" relation="include">
         </childnode>
         <childnode refid="9" relation="include">
         </childnode>
-        <childnode refid="12" relation="include">
+        <childnode refid="11" relation="include">
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="20" relation="include">
+        <childnode refid="17" relation="include">
         </childnode>
-        <childnode refid="42" relation="include">
+        <childnode refid="48" relation="include">
         </childnode>
       </node>
-      <node id="42">
+      <node id="31">
+        <label>type_traits</label>
+      </node>
+      <node id="48">
         <label>set</label>
       </node>
       <node id="5">
@@ -403,27 +444,27 @@
         <childnode refid="6" relation="include">
         </childnode>
       </node>
-      <node id="46">
+      <node id="52">
         <label>complex</label>
       </node>
-      <node id="29">
+      <node id="28">
         <label>Dictionary.h</label>
         <link refid="Dictionary_8h_source"/>
-        <childnode refid="30" relation="include">
+        <childnode refid="29" relation="include">
         </childnode>
-        <childnode refid="12" relation="include">
+        <childnode refid="11" relation="include">
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="32" relation="include">
+        <childnode refid="37" relation="include">
         </childnode>
-        <childnode refid="33" relation="include">
+        <childnode refid="15" relation="include">
         </childnode>
       </node>
-      <node id="26">
+      <node id="25">
         <label>rrOSSpecifics.h</label>
         <link refid="rrOSSpecifics_8h_source"/>
-        <childnode refid="11" relation="include">
+        <childnode refid="15" relation="include">
         </childnode>
       </node>
     </incdepgraph>
@@ -529,12 +570,12 @@
 <codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
 <codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(theList-&gt;<ref refid="structRRList_1a3ab34807b735e2b319a6b4c5a09854dd" kindref="member">Items</ref>[i]-&gt;<ref refid="structRRListItem_1a588ebb27c785286b9c809720be675a1d" kindref="member">ItemType</ref><sp/>==<sp/>litString)</highlight></codeline>
 <codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal"><sp/>[]<sp/>theList-&gt;<ref refid="structRRList_1a3ab34807b735e2b319a6b4c5a09854dd" kindref="member">Items</ref>[i]-&gt;<ref refid="structRRListItem_1aa9fd8c095a3bd78adb31ce653837dacc" kindref="member">data</ref>.<ref refid="structRRListItem_1acfcabe3d9036821e5631222561c69951" kindref="member">sValue</ref>;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal"><sp/>[]<sp/>theList-&gt;<ref refid="structRRList_1a3ab34807b735e2b319a6b4c5a09854dd" kindref="member">Items</ref>[i]-&gt;<ref refid="structRRListItem_1aae9e7b64a2d48451eba4d57c26cfff89" kindref="member">data</ref>.<ref refid="structRRListItem_1acfcabe3d9036821e5631222561c69951" kindref="member">sValue</ref>;</highlight></codeline>
 <codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="86"><highlight class="normal"></highlight></codeline>
 <codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(theList-&gt;<ref refid="structRRList_1a3ab34807b735e2b319a6b4c5a09854dd" kindref="member">Items</ref>[i]-&gt;<ref refid="structRRListItem_1a588ebb27c785286b9c809720be675a1d" kindref="member">ItemType</ref><sp/>==<sp/>litList)</highlight></codeline>
 <codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="group__list_1gafd22078b804cc5b7e39849fb51c7519a" kindref="member">freeRRList</ref><sp/>((<ref refid="structRRList" kindref="compound">RRList</ref><sp/>*)<sp/>theList-&gt;<ref refid="structRRList_1a3ab34807b735e2b319a6b4c5a09854dd" kindref="member">Items</ref>[i]-&gt;<ref refid="structRRListItem_1aa9fd8c095a3bd78adb31ce653837dacc" kindref="member">data</ref>.<ref refid="structRRListItem_1a7ba0216f30cfc65a905470abcf01534d" kindref="member">lValue</ref>);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="group__list_1gafd22078b804cc5b7e39849fb51c7519a" kindref="member">freeRRList</ref><sp/>((<ref refid="structRRList" kindref="compound">RRList</ref><sp/>*)<sp/>theList-&gt;<ref refid="structRRList_1a3ab34807b735e2b319a6b4c5a09854dd" kindref="member">Items</ref>[i]-&gt;<ref refid="structRRListItem_1aae9e7b64a2d48451eba4d57c26cfff89" kindref="member">data</ref>.<ref refid="structRRListItem_1a7ba0216f30cfc65a905470abcf01534d" kindref="member">lValue</ref>);</highlight></codeline>
 <codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal"><sp/>theList-&gt;<ref refid="structRRList_1a3ab34807b735e2b319a6b4c5a09854dd" kindref="member">Items</ref>[i];</highlight></codeline>
 <codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
@@ -546,7 +587,7 @@
 <codeline lineno="98"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structRRListItem" kindref="compound">RRListItemPtr</ref><sp/>item<sp/>=<sp/><sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/><ref refid="structRRListItem" kindref="compound">RRListItem</ref>;</highlight></codeline>
 <codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>item-&gt;<ref refid="structRRListItem_1a588ebb27c785286b9c809720be675a1d" kindref="member">ItemType</ref><sp/>=<sp/>litInteger;</highlight></codeline>
-<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>item-&gt;<ref refid="structRRListItem_1aa9fd8c095a3bd78adb31ce653837dacc" kindref="member">data</ref>.<ref refid="structRRListItem_1ae15de7b1f1a6471da72b9772c53cc1da" kindref="member">iValue</ref><sp/>=<sp/>value;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>item-&gt;<ref refid="structRRListItem_1aae9e7b64a2d48451eba4d57c26cfff89" kindref="member">data</ref>.<ref refid="structRRListItem_1ae15de7b1f1a6471da72b9772c53cc1da" kindref="member">iValue</ref><sp/>=<sp/>value;</highlight></codeline>
 <codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>item;</highlight></codeline>
 <codeline lineno="103"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="104"><highlight class="normal"></highlight></codeline>
@@ -554,7 +595,7 @@
 <codeline lineno="106"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structRRListItem" kindref="compound">RRListItemPtr</ref><sp/>item<sp/>=<sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/><ref refid="structRRListItem" kindref="compound">RRListItem</ref>;</highlight></codeline>
 <codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>item-&gt;<ref refid="structRRListItem_1a588ebb27c785286b9c809720be675a1d" kindref="member">ItemType</ref><sp/>=<sp/>litDouble;</highlight></codeline>
-<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>item-&gt;<ref refid="structRRListItem_1aa9fd8c095a3bd78adb31ce653837dacc" kindref="member">data</ref>.<ref refid="structRRListItem_1a6d5c2beab9812853769f9a32768207c2" kindref="member">dValue</ref><sp/>=<sp/>value;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>item-&gt;<ref refid="structRRListItem_1aae9e7b64a2d48451eba4d57c26cfff89" kindref="member">data</ref>.<ref refid="structRRListItem_1a6d5c2beab9812853769f9a32768207c2" kindref="member">dValue</ref><sp/>=<sp/>value;</highlight></codeline>
 <codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>item;</highlight></codeline>
 <codeline lineno="111"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="112"><highlight class="normal"></highlight></codeline>
@@ -562,7 +603,7 @@
 <codeline lineno="114"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structRRListItem" kindref="compound">RRListItemPtr</ref><sp/>item<sp/>=<sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/><ref refid="structRRListItem" kindref="compound">RRListItem</ref>;</highlight></codeline>
 <codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>item-&gt;<ref refid="structRRListItem_1a588ebb27c785286b9c809720be675a1d" kindref="member">ItemType</ref><sp/>=<sp/>litString;</highlight></codeline>
-<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>item-&gt;<ref refid="structRRListItem_1aa9fd8c095a3bd78adb31ce653837dacc" kindref="member">data</ref>.<ref refid="structRRListItem_1acfcabe3d9036821e5631222561c69951" kindref="member">sValue</ref><sp/>=<sp/><ref refid="rrc__utilities_8h_1ac28208e24619f20c9cc90f7319ea270e" kindref="member">rr::createText</ref>(value);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>item-&gt;<ref refid="structRRListItem_1aae9e7b64a2d48451eba4d57c26cfff89" kindref="member">data</ref>.<ref refid="structRRListItem_1acfcabe3d9036821e5631222561c69951" kindref="member">sValue</ref><sp/>=<sp/><ref refid="rrc__utilities_8h_1ac28208e24619f20c9cc90f7319ea270e" kindref="member">rr::createText</ref>(value);</highlight></codeline>
 <codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>item;</highlight></codeline>
 <codeline lineno="119"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="120"><highlight class="normal"></highlight></codeline>
@@ -570,7 +611,7 @@
 <codeline lineno="122"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structRRListItem" kindref="compound">RRListItemPtr</ref><sp/>item<sp/>=<sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/><ref refid="structRRListItem" kindref="compound">RRListItem</ref>;</highlight></codeline>
 <codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>item-&gt;<ref refid="structRRListItem_1a588ebb27c785286b9c809720be675a1d" kindref="member">ItemType</ref><sp/>=<sp/>litList;</highlight></codeline>
-<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>item-&gt;<ref refid="structRRListItem_1aa9fd8c095a3bd78adb31ce653837dacc" kindref="member">data</ref>.<ref refid="structRRListItem_1a7ba0216f30cfc65a905470abcf01534d" kindref="member">lValue</ref><sp/>=<sp/>value;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>item-&gt;<ref refid="structRRListItem_1aae9e7b64a2d48451eba4d57c26cfff89" kindref="member">data</ref>.<ref refid="structRRListItem_1a7ba0216f30cfc65a905470abcf01534d" kindref="member">lValue</ref><sp/>=<sp/>value;</highlight></codeline>
 <codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>item;</highlight></codeline>
 <codeline lineno="127"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="128"><highlight class="normal"></highlight></codeline>
@@ -631,7 +672,7 @@
 <codeline lineno="183"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(item-&gt;<ref refid="structRRListItem_1a588ebb27c785286b9c809720be675a1d" kindref="member">ItemType</ref><sp/>==<sp/>litInteger)</highlight></codeline>
 <codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*value<sp/>=<sp/>item-&gt;<ref refid="structRRListItem_1aa9fd8c095a3bd78adb31ce653837dacc" kindref="member">data</ref>.<ref refid="structRRListItem_1ae15de7b1f1a6471da72b9772c53cc1da" kindref="member">iValue</ref>;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*value<sp/>=<sp/>item-&gt;<ref refid="structRRListItem_1aae9e7b64a2d48451eba4d57c26cfff89" kindref="member">data</ref>.<ref refid="structRRListItem_1ae15de7b1f1a6471da72b9772c53cc1da" kindref="member">iValue</ref>;</highlight></codeline>
 <codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
@@ -641,7 +682,7 @@
 <codeline lineno="193"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(item-&gt;<ref refid="structRRListItem_1a588ebb27c785286b9c809720be675a1d" kindref="member">ItemType</ref><sp/>==<sp/>litDouble)</highlight></codeline>
 <codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*value<sp/>=<sp/>item-&gt;<ref refid="structRRListItem_1aa9fd8c095a3bd78adb31ce653837dacc" kindref="member">data</ref>.<ref refid="structRRListItem_1a6d5c2beab9812853769f9a32768207c2" kindref="member">dValue</ref>;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*value<sp/>=<sp/>item-&gt;<ref refid="structRRListItem_1aae9e7b64a2d48451eba4d57c26cfff89" kindref="member">data</ref>.<ref refid="structRRListItem_1a6d5c2beab9812853769f9a32768207c2" kindref="member">dValue</ref>;</highlight></codeline>
 <codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="199"><highlight class="normal"></highlight></codeline>
@@ -650,12 +691,12 @@
 <codeline lineno="202"><highlight class="normal"></highlight></codeline>
 <codeline lineno="203"><highlight class="normal"></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>rrcCallConv<sp/><ref refid="group__list_1ga177fc925d1726b0844c17837d3ed4425" kindref="member">getStringListItem</ref><sp/>(<ref refid="structRRListItem" kindref="compound">RRListItemPtr</ref><sp/>item)</highlight></codeline>
 <codeline lineno="204"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(item-&gt;<ref refid="structRRListItem_1a588ebb27c785286b9c809720be675a1d" kindref="member">ItemType</ref><sp/>==<sp/>litString)<sp/>?<sp/>item-&gt;<ref refid="structRRListItem_1aa9fd8c095a3bd78adb31ce653837dacc" kindref="member">data</ref>.<ref refid="structRRListItem_1acfcabe3d9036821e5631222561c69951" kindref="member">sValue</ref><sp/>:<sp/>NULL;</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(item-&gt;<ref refid="structRRListItem_1a588ebb27c785286b9c809720be675a1d" kindref="member">ItemType</ref><sp/>==<sp/>litString)<sp/>?<sp/>item-&gt;<ref refid="structRRListItem_1aae9e7b64a2d48451eba4d57c26cfff89" kindref="member">data</ref>.<ref refid="structRRListItem_1acfcabe3d9036821e5631222561c69951" kindref="member">sValue</ref><sp/>:<sp/>NULL;</highlight></codeline>
 <codeline lineno="206"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="207"><highlight class="normal"></highlight></codeline>
 <codeline lineno="208"><highlight class="normal"><ref refid="structRRList" kindref="compound">RRListPtr</ref><sp/>rrcCallConv<sp/><ref refid="group__list_1gaf9b1219b9a239f0fb73cd83095bbecce" kindref="member">getList</ref><sp/>(<ref refid="structRRListItem" kindref="compound">RRListItemPtr</ref><sp/>item)</highlight></codeline>
 <codeline lineno="209"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(item-&gt;<ref refid="structRRListItem_1a588ebb27c785286b9c809720be675a1d" kindref="member">ItemType</ref><sp/>==<sp/>litList)<sp/>?<sp/>item-&gt;<ref refid="structRRListItem_1aa9fd8c095a3bd78adb31ce653837dacc" kindref="member">data</ref>.<ref refid="structRRListItem_1a7ba0216f30cfc65a905470abcf01534d" kindref="member">lValue</ref><sp/>:<sp/>NULL;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(item-&gt;<ref refid="structRRListItem_1a588ebb27c785286b9c809720be675a1d" kindref="member">ItemType</ref><sp/>==<sp/>litList)<sp/>?<sp/>item-&gt;<ref refid="structRRListItem_1aae9e7b64a2d48451eba4d57c26cfff89" kindref="member">data</ref>.<ref refid="structRRListItem_1a7ba0216f30cfc65a905470abcf01534d" kindref="member">lValue</ref><sp/>:<sp/>NULL;</highlight></codeline>
 <codeline lineno="211"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="212"><highlight class="normal"></highlight></codeline>
 <codeline lineno="213"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>rrcCallConv<sp/><ref refid="group__list_1ga68d5e8b5116e1076c5cac49858d469f6" kindref="member">isListItem</ref><sp/>(<ref refid="structRRListItem" kindref="compound">RRListItemPtr</ref><sp/>item,<sp/><ref refid="rrc__types_8h_1ab99437ab2e88aa90b7ebb8add042b25e" kindref="member">ListItemType</ref><sp/>itemType)</highlight></codeline>
@@ -688,7 +729,7 @@
 <codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal">(list-&gt;<ref refid="structRRList_1a3ab34807b735e2b319a6b4c5a09854dd" kindref="member">Items</ref>[i]-&gt;<ref refid="structRRListItem_1a588ebb27c785286b9c809720be675a1d" kindref="member">ItemType</ref>)</highlight></codeline>
 <codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
 <codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>litString:</highlight></codeline>
-<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cVal<sp/>=<sp/>list-&gt;<ref refid="structRRList_1a3ab34807b735e2b319a6b4c5a09854dd" kindref="member">Items</ref>[i]-&gt;<ref refid="structRRListItem_1aa9fd8c095a3bd78adb31ce653837dacc" kindref="member">data</ref>.<ref refid="structRRListItem_1acfcabe3d9036821e5631222561c69951" kindref="member">sValue</ref>;</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cVal<sp/>=<sp/>list-&gt;<ref refid="structRRList_1a3ab34807b735e2b319a6b4c5a09854dd" kindref="member">Items</ref>[i]-&gt;<ref refid="structRRListItem_1aae9e7b64a2d48451eba4d57c26cfff89" kindref="member">data</ref>.<ref refid="structRRListItem_1acfcabe3d9036821e5631222561c69951" kindref="member">sValue</ref>;</highlight></codeline>
 <codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>resStr&lt;&lt;</highlight><highlight class="stringliteral">&quot;\&quot;&quot;</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(cVal)</highlight></codeline>
 <codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
@@ -698,17 +739,17 @@
 <codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="251"><highlight class="normal"></highlight></codeline>
 <codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>litInteger:</highlight></codeline>
-<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>intVal<sp/>=<sp/>list-&gt;<ref refid="structRRList_1a3ab34807b735e2b319a6b4c5a09854dd" kindref="member">Items</ref>[i]-&gt;<ref refid="structRRListItem_1aa9fd8c095a3bd78adb31ce653837dacc" kindref="member">data</ref>.<ref refid="structRRListItem_1ae15de7b1f1a6471da72b9772c53cc1da" kindref="member">iValue</ref>;</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>intVal<sp/>=<sp/>list-&gt;<ref refid="structRRList_1a3ab34807b735e2b319a6b4c5a09854dd" kindref="member">Items</ref>[i]-&gt;<ref refid="structRRListItem_1aae9e7b64a2d48451eba4d57c26cfff89" kindref="member">data</ref>.<ref refid="structRRListItem_1ae15de7b1f1a6471da72b9772c53cc1da" kindref="member">iValue</ref>;</highlight></codeline>
 <codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>resStr&lt;&lt;<sp/>(intVal);</highlight></codeline>
 <codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="256"><highlight class="normal"></highlight></codeline>
 <codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>litDouble:</highlight></codeline>
-<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dVal<sp/>=<sp/><sp/>list-&gt;<ref refid="structRRList_1a3ab34807b735e2b319a6b4c5a09854dd" kindref="member">Items</ref>[i]-&gt;<ref refid="structRRListItem_1aa9fd8c095a3bd78adb31ce653837dacc" kindref="member">data</ref>.<ref refid="structRRListItem_1a6d5c2beab9812853769f9a32768207c2" kindref="member">dValue</ref>;</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dVal<sp/>=<sp/><sp/>list-&gt;<ref refid="structRRList_1a3ab34807b735e2b319a6b4c5a09854dd" kindref="member">Items</ref>[i]-&gt;<ref refid="structRRListItem_1aae9e7b64a2d48451eba4d57c26cfff89" kindref="member">data</ref>.<ref refid="structRRListItem_1a6d5c2beab9812853769f9a32768207c2" kindref="member">dValue</ref>;</highlight></codeline>
 <codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>resStr&lt;&lt;<sp/>(dVal);</highlight></codeline>
 <codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="261"><highlight class="normal"></highlight></codeline>
 <codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>litList:</highlight></codeline>
-<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>lVal<sp/>=<sp/>list-&gt;<ref refid="structRRList_1a3ab34807b735e2b319a6b4c5a09854dd" kindref="member">Items</ref>[i]-&gt;<ref refid="structRRListItem_1aa9fd8c095a3bd78adb31ce653837dacc" kindref="member">data</ref>.<ref refid="structRRListItem_1a7ba0216f30cfc65a905470abcf01534d" kindref="member">lValue</ref>;</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>lVal<sp/>=<sp/>list-&gt;<ref refid="structRRList_1a3ab34807b735e2b319a6b4c5a09854dd" kindref="member">Items</ref>[i]-&gt;<ref refid="structRRListItem_1aae9e7b64a2d48451eba4d57c26cfff89" kindref="member">data</ref>.<ref refid="structRRListItem_1a7ba0216f30cfc65a905470abcf01534d" kindref="member">lValue</ref>;</highlight></codeline>
 <codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(lVal)</highlight></codeline>
 <codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
 <codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>text<sp/>=<sp/><ref refid="group__toString_1ga7cfc863a3d8fec26c951a2f40fa7dfa4" kindref="member">listToString</ref>(lVal);</highlight></codeline>
@@ -779,7 +820,7 @@
 <codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal">(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>sl-&gt;<ref refid="structRRStringArray_1ac36cf70dc7a2832c24c5dec622fec2fb" kindref="member">Count</ref>;<sp/>i++)</highlight></codeline>
 <codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal"><sp/>[]<sp/>sl-&gt;<ref refid="structRRStringArray_1a848b81ad8aeeb26b39411c462aab1312" kindref="member">String</ref>[i];</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>free(sl-&gt;<ref refid="structRRStringArray_1a848b81ad8aeeb26b39411c462aab1312" kindref="member">String</ref>[i]);</highlight></codeline>
 <codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal"><sp/>[]<sp/>sl-&gt;<ref refid="structRRStringArray_1a848b81ad8aeeb26b39411c462aab1312" kindref="member">String</ref>;</highlight></codeline>
 <codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal"><sp/>sl;</highlight></codeline>

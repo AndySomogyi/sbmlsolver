@@ -115,8 +115,7 @@ llvm::Value* ModelDataIRBuilder::createGlobalParamGEP(const std::string& id)
 }
 
 
-llvm::Value* ModelDataIRBuilder::createGEP(ModelDataFields field,
-        const Twine& name)
+llvm::Value* ModelDataIRBuilder::createGEP(ModelDataFields field, const Twine& name)
 {
     const char* fieldName = LLVMModelDataSymbols::getFieldName(field);
 	// FIXME:
@@ -463,6 +462,16 @@ llvm::Value* ModelDataIRBuilder::createInitFloatSpeciesAmtGEP(
             name.isTriviallyEmpty() ? id : name);
 }
 
+llvm::Value* ModelDataIRBuilder::createInitBoundarySpeciesAmtGEP(
+    const std::string& id, const llvm::Twine& name)
+{
+    int index = symbols.getBoundarySpeciesInitIndex(id);
+    assert(index < symbols.getInitBoundarySpeciesSize());
+    assert(index >= 0);
+    return createGEP(InitBoundarySpeciesAmounts, index,
+        name.isTriviallyEmpty() ? id : name);
+}
+
 llvm::Value* ModelDataIRBuilder::createInitFloatSpeciesAmtLoad(
         const std::string& id, const llvm::Twine& name)
 {
@@ -470,10 +479,24 @@ llvm::Value* ModelDataIRBuilder::createInitFloatSpeciesAmtLoad(
     return builder.CreateLoad(gep, name);
 }
 
+llvm::Value* ModelDataIRBuilder::createInitBoundarySpeciesAmtLoad(
+    const std::string& id, const llvm::Twine& name)
+{
+    Value* gep = createInitBoundarySpeciesAmtGEP(id);
+    return builder.CreateLoad(gep, name);
+}
+
 llvm::Value* ModelDataIRBuilder::createInitFloatSpeciesAmtStore(
         const std::string& id, llvm::Value* value)
 {
     Value *gep = createInitFloatSpeciesAmtGEP(id);
+    return builder.CreateStore(value, gep);
+}
+
+llvm::Value* ModelDataIRBuilder::createInitBoundarySpeciesAmtStore(
+    const std::string& id, llvm::Value* value)
+{
+    Value* gep = createInitBoundarySpeciesAmtGEP(id);
     return builder.CreateStore(value, gep);
 }
 

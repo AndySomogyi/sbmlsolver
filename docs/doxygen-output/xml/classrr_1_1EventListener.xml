@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
   <compounddef id="classrr_1_1EventListener" kind="class" language="C++" prot="public" abstract="yes">
     <compoundname>rr::EventListener</compoundname>
     <includes refid="rrExecutableModel_8h" local="no">rrExecutableModel.h</includes>
@@ -99,7 +99,7 @@
 <para>In order to listen to sbml events, one simply implements the EventHandler interface and resgisters it with the ExecutableModel::setEventHandler method.</para>
 <para>To remove it, just pass in a 0.</para>
 <para>EventHanders are free to change any model parameters.</para>
-<para>They may return a result value specified by the Result enum. Currently, we we only have the HALT_SIMULATION which will result in <ref refid="classrr_1_1RoadRunner_1a27aedd28b2a2d5453200ca4a4a2bf4c0" kindref="member">RoadRunner::oneStep</ref> or <ref refid="classrr_1_1RoadRunner_1a0843eb317d47d28a27929d326d4f1f88" kindref="member">RoadRunner::simulate</ref> to stop at the current time and return. This may be usefull if someone wants to run a simulation up until some threshold or state is reached. </para>
+<para>They may return a result value specified by the Result enum. Currently, we we only have the HALT_SIMULATION which will result in <ref refid="classrr_1_1RoadRunner_1a27aedd28b2a2d5453200ca4a4a2bf4c0" kindref="member">RoadRunner::oneStep</ref> or <ref refid="classrr_1_1RoadRunner_1a377834f22edadb7706779ecca7c1eb4e" kindref="member">RoadRunner::simulate</ref> to stop at the current time and return. This may be usefull if someone wants to run a simulation up until some threshold or state is reached. </para>
     </detaileddescription>
     <location file="rrExecutableModel.h" line="54" column="5" bodyfile="rrExecutableModel.h" bodystart="54" bodyend="65"/>
     <listofallmembers>

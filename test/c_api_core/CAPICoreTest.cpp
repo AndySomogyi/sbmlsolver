@@ -105,7 +105,7 @@ TEST_F(CAPICoreTest, ReloadingModelModelRecompilation) {
     freeRRInstance(aRR);
 }
 
-TEST_F(CAPICoreTest, RoloadingModelNoModelRecompilation) {
+TEST_F(CAPICoreTest, ReloadingModelNoModelRecompilation) {
     RRHandle aRR = createRRInstance();
     EXPECT_TRUE(std::filesystem::exists(testModelFilePath));
 
@@ -159,6 +159,22 @@ TEST_F(CAPICoreTest, LoadModelFromString) {
     freeRRInstance(aRR2);
 }
 
+TEST_F(CAPICoreTest, SimulateTimes) {
+    string xml = getFileContent((testModelFilePath.string()));
+    RRHandle aRR1 = createRRInstance();
+    EXPECT_TRUE(loadSBML(aRR1, xml.c_str()));
+    double times[4] = {0, 1, 5, 10};
+    RRCDataPtr results = simulateTimes(aRR1, times, 4);
+    EXPECT_EQ(results->RSize, 4);
+    int csize = results->CSize;
+    EXPECT_EQ(results->Data[0 * csize], 0);
+    EXPECT_EQ(results->Data[1 * csize], 1);
+    EXPECT_EQ(results->Data[2 * csize], 5);
+    EXPECT_EQ(results->Data[3 * csize], 10);
+    freeRRInstance(aRR1);
+    freeRRCData(results);
+}
+
 #if !defined(__APPLE__)
 TEST_F(CAPICoreTest, GetMicroSeconds) {
     // make sure that the time is essentially the same as sleep time in
@@ -172,7 +188,7 @@ TEST_F(CAPICoreTest, GetMicroSeconds) {
 
     cout << "microseconds, start: " << start << ", end: " << end << ", diff: " << diff
          << ", expected sleep mu s: " << 1000 * millis
-         << ", diff between expeted and actual mu s: " << diff - (1000 * millis) << endl;
+         << ", diff between expected and actual mu s: " << diff - (1000 * millis) << endl;
 
     // timer varies from system to system, but should be semi-close, like say 20%
     // tolerance changed to 50% because
@@ -198,6 +214,62 @@ TEST_F(CAPICoreTest, GetMicroSeconds) {
 
 #endif
 
+
+TEST_F(CAPICoreTest, CheckRegisteredIntegrators) {
+    auto *rr = (RoadRunner *) createRRInstance();
+    auto integratorNames = rr->getRegisteredIntegratorNames();
+    ASSERT_EQ(integratorNames, std::vector<std::string>({"cvode", "gillespie", "rk4", "rk45", "euler"}));
+    delete rr;
+}
+
+TEST_F(CAPICoreTest, CheckRK4WorksFromC) {
+    // This code is the contents of createRRInstance in the C api
+    char *capiLocation = getRRCAPILocation(); // return type is dynamically allocated.
+    string rrInstallFolder(getParentFolder(capiLocation));
+    free(capiLocation);
+    std::filesystem::path supportCodeDir = std::filesystem::path(rrInstallFolder) /= "rr_support";
+    RoadRunner rr("", getTempDir(), supportCodeDir.string());
+    // end
+
+    // This code is from the top of checkRRTest
+    path rrTestFileDir = rrTestDir_ / "rrtest_files";
+    path rrTestFileName = rrTestFileDir / "Test_1.rrtest";
+
+    // This code from check_LoadData
+    // need to re-assign it, Load does not clear old data.;
+
+    IniFile iniFile;
+    iniFile.Clear();
+
+    EXPECT_TRUE(std::filesystem::exists(rrTestFileName));
+    EXPECT_TRUE(iniFile.Load(rrTestFileName.string()));
+
+    IniSection *sbmlsec = iniFile.GetSection("SBML");
+    if (!sbmlsec) {
+        EXPECT_TRUE(false);
+        return;
+    }
+    sbmlsec->mIsUsed = true;
+    string sbml = sbmlsec->GetNonKeysAsString();
+    if (sbml.find('<') == string::npos) {
+        sbml = (rrTestDir_ / path("rrtest_files") / sbml).string();
+        EXPECT_TRUE(std::filesystem::exists(sbml));
+    }
+    if (!loadSBMLEx(&rr, sbml.c_str(), true)) {
+        EXPECT_TRUE(false);
+    }
+
+    SimulateOptions opt;
+    opt.start = 0;
+    opt.duration = 10;
+    auto *cvode = rr.simulate(&opt);
+
+    rr.setIntegrator("rk4");
+    auto *rk4 = rr.simulate(&opt);
+    for (int k = 0; k < cvode->CSize(); k++) {
+        EXPECT_NEAR((*cvode)(cvode->RSize() - 1, k), (*rk4)(rk4->RSize() - 1, k), 1e-6);
+    }
+}
 
 
 

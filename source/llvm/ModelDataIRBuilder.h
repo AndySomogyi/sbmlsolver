@@ -31,8 +31,7 @@ public:
     /**
      * these only make sense attached to a modelData pointer.
      */
-    ModelDataIRBuilder(llvm::Value *modelData, LLVMModelDataSymbols const&,
-            llvm::IRBuilder<> &);
+    ModelDataIRBuilder(llvm::Value *modelData, LLVMModelDataSymbols const&,llvm::IRBuilder<> &);
 
     llvm::Value *createFloatSpeciesAmtGEP(const std::string &id,
             const llvm::Twine &name = "");
@@ -86,16 +85,34 @@ public:
             const llvm::Twine &name = "");
 
     /**
+     * the GEP for a boundary species initial amount
+     */
+    llvm::Value* createInitBoundarySpeciesAmtGEP(const std::string& id,
+        const llvm::Twine& name = "");
+
+    /**
      * load the floating species initial amount value
      */
     llvm::Value *createInitFloatSpeciesAmtLoad(const std::string& id,
             const llvm::Twine& name ="");
 
     /**
+     * load the boundary species initial amount value
+     */
+    llvm::Value* createInitBoundarySpeciesAmtLoad(const std::string& id,
+        const llvm::Twine& name = "");
+
+    /**
      * store the floating species initial value
      */
     llvm::Value *createInitFloatSpeciesAmtStore(const std::string &id,
             llvm::Value *value);
+
+    /**
+     * store the boundary species initial value
+     */
+    llvm::Value* createInitBoundarySpeciesAmtStore(const std::string& id,
+        llvm::Value* value);
 
     /**
      * the GEP for a compartment

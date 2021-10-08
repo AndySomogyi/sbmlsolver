@@ -1,0 +1,1039 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="classrr_1_1ForwardSensitivitySolver" kind="class" language="C++" prot="public">
+    <compoundname>rr::ForwardSensitivitySolver</compoundname>
+    <basecompoundref refid="classrr_1_1TimeSeriesSensitivitySolver" prot="public" virt="non-virtual">rr::TimeSeriesSensitivitySolver</basecompoundref>
+    <includes refid="ForwardSensitivitySolver_8h" local="no">ForwardSensitivitySolver.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classrr_1_1ForwardSensitivitySolver_1ad8e9532fb451fb07102d541c0c99431d" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; rr::ForwardSensitivitySolver::p</definition>
+        <argsstring></argsstring>
+        <name>p</name>
+        <briefdescription>
+<para>parameters in the model as a member variable which enables passing the underlying data pointer to sundials for finite difference approx </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This is the full vector of model global parameters in the order indexed in the model. <simplesect kind="see"><para><ref refid="classrr_1_1ForwardSensitivitySolver_1aab51eee428bdc2a931fdef6034c43115" kindref="member">plist</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ForwardSensitivitySolver.h" line="166" column="21" bodyfile="ForwardSensitivitySolver.h" bodystart="166" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrr_1_1ForwardSensitivitySolver_1af70b5c29f06f44ff929f716e685db223" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; rr::ForwardSensitivitySolver::pbar</definition>
+        <argsstring></argsstring>
+        <name>pbar</name>
+        <briefdescription>
+<para>scaling factors. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set to the values of the parameters for sensitivity. This should be identical to p as acceptible default. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ForwardSensitivitySolver.h" line="173" column="21" bodyfile="ForwardSensitivitySolver.h" bodystart="173" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrr_1_1ForwardSensitivitySolver_1aab51eee428bdc2a931fdef6034c43115" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt;int&gt; rr::ForwardSensitivitySolver::plist</definition>
+        <argsstring></argsstring>
+        <name>plist</name>
+        <briefdescription>
+<para>which parameters to get sensitivity for as int? </para>
+        </briefdescription>
+        <detaileddescription>
+<para>indexes parameters in p and pbar. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ForwardSensitivitySolver.h" line="179" column="21" bodyfile="ForwardSensitivitySolver.h" bodystart="179" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrr_1_1ForwardSensitivitySolver_1a5ccab42d7414fe3bf6407805d8472eb8" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; rr::ForwardSensitivitySolver::whichParameters</definition>
+        <argsstring></argsstring>
+        <name>whichParameters</name>
+        <briefdescription>
+<para>which parameters to get sensitivities for, as strings </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ForwardSensitivitySolver.h" line="184" column="21" bodyfile="ForwardSensitivitySolver.h" bodystart="184" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrr_1_1ForwardSensitivitySolver_1a051a2fd4e4a5a644b5f4b32f425e3552" prot="public" static="no" mutable="no">
+        <type>ParameterMap</type>
+        <definition>ParameterMap rr::ForwardSensitivitySolver::globalParameterMap</definition>
+        <argsstring></argsstring>
+        <name>globalParameterMap</name>
+        <briefdescription>
+<para>a map containing model parameter names to values </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ForwardSensitivitySolver.h" line="189" column="22" bodyfile="ForwardSensitivitySolver.h" bodystart="189" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrr_1_1ForwardSensitivitySolver_1a9cf514ad265733e39fa93296e27726d2" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int rr::ForwardSensitivitySolver::Np</definition>
+        <argsstring></argsstring>
+        <name>Np</name>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>number of global parameters in the model </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ForwardSensitivitySolver.h" line="194" column="13" bodyfile="ForwardSensitivitySolver.h" bodystart="194" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrr_1_1ForwardSensitivitySolver_1ace176b4a2248e742351ddd30d4d900ba" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int rr::ForwardSensitivitySolver::Ns</definition>
+        <argsstring></argsstring>
+        <name>Ns</name>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>number of parameters we want to find sensitivities for </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ForwardSensitivitySolver.h" line="199" column="13" bodyfile="ForwardSensitivitySolver.h" bodystart="199" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrr_1_1ForwardSensitivitySolver_1aa84e84aba27a1fd6826cd7581b228d39" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int rr::ForwardSensitivitySolver::numModelVariables</definition>
+        <argsstring></argsstring>
+        <name>numModelVariables</name>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>the number of state variables in the model </para>
+        </briefdescription>
+        <detaileddescription>
+<para>aka the size of the mStateVector </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ForwardSensitivitySolver.h" line="205" column="13" bodyfile="ForwardSensitivitySolver.h" bodystart="205" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classrr_1_1ForwardSensitivitySolver_1ad287542aa7620680574d6dbe3b843ffb" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classrr_1_1CVODEIntegrator" kindref="compound">CVODEIntegrator</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;CVODEIntegrator&gt; rr::ForwardSensitivitySolver::cvodeIntegrator</definition>
+        <argsstring></argsstring>
+        <name>cvodeIntegrator</name>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para>An instance of <ref refid="classrr_1_1CVODEIntegrator" kindref="compound">CVODEIntegrator</ref> is needed for the forward sensitivity solver. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The <ref refid="classrr_1_1ForwardSensitivitySolver" kindref="compound">ForwardSensitivitySolver</ref> is in essence a <ref refid="classrr_1_1CVODEIntegrator" kindref="compound">CVODEIntegrator</ref> and a <ref refid="classrr_1_1SensitivitySolver" kindref="compound">SensitivitySolver</ref>. However we avoid the diamond inheritance problem that would arise from inheriting from both and the consequent need to use virtual inheritance, which may come with hidden problems; </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ForwardSensitivitySolver.h" line="217" column="25" bodyfile="ForwardSensitivitySolver.h" bodystart="217" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrr_1_1ForwardSensitivitySolver_1a55828e745fee3bd396ffdba4d4dcf98b" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool rr::ForwardSensitivitySolver::usingDefaultWhichParameters</definition>
+        <argsstring></argsstring>
+        <name>usingDefaultWhichParameters</name>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>indicator variable that specifies whether a user has manually chosen which parameters to compute sensitivities for. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>when true, the <ref refid="classrr_1_1ForwardSensitivitySolver" kindref="compound">ForwardSensitivitySolver</ref> needs to update the default list of parameters to compute sensitivities for because its possible the user may modify the model between instantiation of the <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadRunner</ref> instance and solving for sensitivities.</para>
+<para>this indicator is needed, since the test for empty whichParameter variable only works on instantiation of the FFS class</para>
+<para>inverse of usingUseWhichParametersFromConstructor. Used for readibility in some places - helps prevent need to do mental aerobics with booleans </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ForwardSensitivitySolver.h" line="246" column="14" bodyfile="ForwardSensitivitySolver.h" bodystart="246" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrr_1_1ForwardSensitivitySolver_1ae013837b736cecfa1628da4f7f2095b8" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool rr::ForwardSensitivitySolver::usingUseWhichParametersFromConstructor</definition>
+        <argsstring></argsstring>
+        <name>usingUseWhichParametersFromConstructor</name>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>indicator variable which is true when the constructor that has &quot;whichParameters&quot; argument is used. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This is needed for the dual control over which parameters to solve sensitivities for - construtor and main solveSensitivities method.</para>
+<para>inverse of usingDefaultWhichParameters. Used for readibility in some places - helps prevent need to do mental aerobics with booleans </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ForwardSensitivitySolver.h" line="258" column="14" bodyfile="ForwardSensitivitySolver.h" bodystart="258" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrr_1_1ForwardSensitivitySolver_1a0ee9a6d000e960e7cd30abed3dacb8d1" prot="private" static="no" mutable="no">
+        <type>SUNNonlinearSolver</type>
+        <definition>SUNNonlinearSolver rr::ForwardSensitivitySolver::NLSsens</definition>
+        <argsstring></argsstring>
+        <name>NLSsens</name>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para>Non-linear solver for sensitivity analysis. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ForwardSensitivitySolver.h" line="263" column="28" bodyfile="ForwardSensitivitySolver.h" bodystart="263" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrr_1_1ForwardSensitivitySolver_1a6b7bf0b852c4e007745cf7b3f4ffb59d" prot="private" static="no" mutable="no">
+        <type>N_Vector *</type>
+        <definition>N_Vector* rr::ForwardSensitivitySolver::mSensitivityMatrix</definition>
+        <argsstring></argsstring>
+        <name>mSensitivityMatrix</name>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para>place to store the sensitivities </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ForwardSensitivitySolver.h" line="268" column="18" bodyfile="ForwardSensitivitySolver.h" bodystart="268" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrr_1_1ForwardSensitivitySolver_1ae9f15e12c021c32cf11d51fb9c74a92d" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int rr::ForwardSensitivitySolver::mSensitivityMatrixSize</definition>
+        <argsstring></argsstring>
+        <name>mSensitivityMatrixSize</name>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ForwardSensitivitySolver.h" line="273" column="13" bodyfile="ForwardSensitivitySolver.h" bodystart="273" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classrr_1_1ForwardSensitivitySolver_1af80e459aeaa62284d78f61b5c74a330e" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool rr::ForwardSensitivitySolver::stateVectorVariables</definition>
+        <argsstring></argsstring>
+        <name>stateVectorVariables</name>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>indicator for whether model has state vector variables or not </para>
+        </briefdescription>
+        <detaileddescription>
+<para>mirrors <ref refid="classrr_1_1CVODEIntegrator" kindref="compound">CVODEIntegrator</ref> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ForwardSensitivitySolver.h" line="279" column="14" bodyfile="ForwardSensitivitySolver.h" bodystart="279" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classrr_1_1ForwardSensitivitySolver_1a14f9b5843737f512beaaa8045b4bd312" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>rr::ForwardSensitivitySolver::ForwardSensitivitySolver</definition>
+        <argsstring>()=default</argsstring>
+        <name>ForwardSensitivitySolver</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ForwardSensitivitySolver.h" line="34" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1ForwardSensitivitySolver_1aba4498c5ec6aa00d8974c54b2d20e45b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>rr::ForwardSensitivitySolver::~ForwardSensitivitySolver</definition>
+        <argsstring>() override</argsstring>
+        <name>~ForwardSensitivitySolver</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ForwardSensitivitySolver.h" line="36" column="9" bodyfile="ForwardSensitivitySolver.cpp" bodystart="170" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1ForwardSensitivitySolver_1a82957fbf97d040947dd00090674d9877" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>rr::ForwardSensitivitySolver::ForwardSensitivitySolver</definition>
+        <argsstring>(ExecutableModel *executableModel)</argsstring>
+        <name>ForwardSensitivitySolver</name>
+        <param>
+          <type><ref refid="classrr_1_1ExecutableModel" kindref="compound">ExecutableModel</ref> *</type>
+          <declname>executableModel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ForwardSensitivitySolver.h" line="38" column="18" bodyfile="ForwardSensitivitySolver.cpp" bodystart="147" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1ForwardSensitivitySolver_1a9b46ed04c6a1592e58895c8a593cac3b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>rr::ForwardSensitivitySolver::ForwardSensitivitySolver</definition>
+        <argsstring>(ExecutableModel *executableModel, std::vector&lt; std::string &gt; whichParameters)</argsstring>
+        <name>ForwardSensitivitySolver</name>
+        <param>
+          <type><ref refid="classrr_1_1ExecutableModel" kindref="compound">ExecutableModel</ref> *</type>
+          <declname>executableModel</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; std::string &gt;</type>
+          <declname>whichParameters</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ForwardSensitivitySolver.h" line="40" column="9" bodyfile="ForwardSensitivitySolver.cpp" bodystart="157" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1ForwardSensitivitySolver_1a5617f1a29c1b3394a5bbf1bef36a3ab3" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>double</type>
+        <definition>double rr::ForwardSensitivitySolver::integrate</definition>
+        <argsstring>(double tStart, double hstep) override</argsstring>
+        <name>integrate</name>
+        <reimplements refid="classrr_1_1TimeSeriesSensitivitySolver_1a9f070078f416a3cfb2c6fbb397b238c6">integrate</reimplements>
+        <param>
+          <type>double</type>
+          <declname>t0</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>hstep</declname>
+        </param>
+        <briefdescription>
+<para>integrate the model from t0 to t0 + hstep. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>this signature is the same as that found in Integrator().</para>
+</simplesect>
+integrating the model should update the sensitivities, which are available from getSensitivities() </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ForwardSensitivitySolver.h" line="42" column="16" bodyfile="ForwardSensitivitySolver.cpp" bodystart="165" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1ForwardSensitivitySolver_1a7649a64267a6bad7d691a95252941b17" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void rr::ForwardSensitivitySolver::create</definition>
+        <argsstring>()</argsstring>
+        <name>create</name>
+        <briefdescription>
+<para>instantiate the code necessary to use cvodes </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>note the cvDirectDemo.c example from sundials is useful to see the different cvode options in action</para>
+<para>Sensitivity setup Only do this if there are model variables and parameters since its possible to have an empty <ref refid="classrr_1_1RoadRunner" kindref="compound">RoadRunner</ref> object from which we create a model using the direct interface.</para>
+        </inbodydescription>
+        <location file="ForwardSensitivitySolver.h" line="48" column="14" bodyfile="ForwardSensitivitySolver.cpp" bodystart="188" bodyend="412"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1ForwardSensitivitySolver_1a9f78958e67898b39a0f70ff4207583a1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void rr::ForwardSensitivitySolver::freeSundialsMemory</definition>
+        <argsstring>()</argsstring>
+        <name>freeSundialsMemory</name>
+        <briefdescription>
+<para>free sundials memory associated with sensitivities </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ForwardSensitivitySolver.h" line="53" column="14" bodyfile="ForwardSensitivitySolver.cpp" bodystart="174" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1ForwardSensitivitySolver_1a38a772f5306181ab61940bd453059ce4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string rr::ForwardSensitivitySolver::getName</definition>
+        <argsstring>() const override</argsstring>
+        <name>getName</name>
+        <reimplements refid="classrr_1_1Registrable_1a7d66e096a8c5cfd5e3fdb6cf5aa339d6">getName</reimplements>
+        <briefdescription>
+<para>Get the name of this solver. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ForwardSensitivitySolver.h" line="58" column="21" bodyfile="ForwardSensitivitySolver.cpp" bodystart="436" bodyend="438"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1ForwardSensitivitySolver_1ad1f87f41aa3d2798b5b129f1ca773a08" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string rr::ForwardSensitivitySolver::getDescription</definition>
+        <argsstring>() const override</argsstring>
+        <name>getDescription</name>
+        <reimplements refid="classrr_1_1Registrable_1af8b4a2f0dc7cc99fa22c1056f917e5d4">getDescription</reimplements>
+        <briefdescription>
+<para>Get the description of this solver. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ForwardSensitivitySolver.h" line="63" column="21" bodyfile="ForwardSensitivitySolver.cpp" bodystart="440" bodyend="442"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1ForwardSensitivitySolver_1a7ebffaf9c2b7d876ba0a845e869b0558" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string rr::ForwardSensitivitySolver::getHint</definition>
+        <argsstring>() const override</argsstring>
+        <name>getHint</name>
+        <reimplements refid="classrr_1_1Registrable_1a1a6c686212133cda58ab44b310f401d9">getHint</reimplements>
+        <briefdescription>
+<para>Get a (user-readable) hint for this solver. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ForwardSensitivitySolver.h" line="68" column="21" bodyfile="ForwardSensitivitySolver.cpp" bodystart="444" bodyend="446"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1ForwardSensitivitySolver_1ae938e625ed4e8d3536b6b3fb9371a08d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="classrr_1_1Solver" kindref="compound">Solver</ref> *</type>
+        <definition>Solver * rr::ForwardSensitivitySolver::construct</definition>
+        <argsstring>(ExecutableModel *executableModel) const override</argsstring>
+        <name>construct</name>
+        <reimplements refid="classrr_1_1Registrable_1a3f529e138fa0288622525bc13cd73c5f">construct</reimplements>
+        <param>
+          <type><ref refid="classrr_1_1ExecutableModel" kindref="compound">ExecutableModel</ref> *</type>
+          <declname>model</declname>
+        </param>
+        <briefdescription>
+<para>Constructs a new <ref refid="classrr_1_1Solver" kindref="compound">Solver</ref> of a given type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="author"><para>JKM, WBC</para>
+</simplesect>
+the caller is responsible for deleting memory associated with the returned Solver*. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ForwardSensitivitySolver.h" line="70" column="16" bodyfile="ForwardSensitivitySolver.cpp" bodystart="448" bodyend="450"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1ForwardSensitivitySolver_1a66033d9628dea4a1e2ffc2158087a2e1" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void rr::ForwardSensitivitySolver::resetSettings</definition>
+        <argsstring>() override</argsstring>
+        <name>resetSettings</name>
+        <reimplements refid="classrr_1_1Solver_1a71c8b404a40447f879b2253e7dcc3b85">resetSettings</reimplements>
+        <briefdescription>
+<para>resets all settings back to default values </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ForwardSensitivitySolver.h" line="75" column="14" bodyfile="ForwardSensitivitySolver.cpp" bodystart="467" bodyend="481"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1ForwardSensitivitySolver_1aa0560086789464708c95896272e1b5ce" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void rr::ForwardSensitivitySolver::syncWithModel</definition>
+        <argsstring>(ExecutableModel *executableModel) override</argsstring>
+        <name>syncWithModel</name>
+        <reimplements refid="classrr_1_1Solver_1aecb0e7c619e544aeabc6db9903165158">syncWithModel</reimplements>
+        <param>
+          <type><ref refid="classrr_1_1ExecutableModel" kindref="compound">ExecutableModel</ref> *</type>
+          <declname>m</declname>
+        </param>
+        <briefdescription>
+<para>Called whenever a new model is loaded to allow integrator to reset internal state. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="author"><para>JKM </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ForwardSensitivitySolver.h" line="77" column="14" bodyfile="ForwardSensitivitySolver.cpp" bodystart="414" bodyend="434"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1ForwardSensitivitySolver_1acd883d6f972f3735251d363a69ae9da1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string rr::ForwardSensitivitySolver::toRepr</definition>
+        <argsstring>() const override</argsstring>
+        <name>toRepr</name>
+        <reimplements refid="classrr_1_1Solver_1a2f2b574b220becfebd1be2d8cc34d550">toRepr</reimplements>
+        <briefdescription>
+<para>Return std::string representation a la Python <bold>repr</bold> method. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="author"><para>JKM </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ForwardSensitivitySolver.h" line="79" column="21" bodyfile="ForwardSensitivitySolver.cpp" bodystart="461" bodyend="465"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1ForwardSensitivitySolver_1a34664475ff5fb64c70f81486c49938d2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void rr::ForwardSensitivitySolver::loadConfigSettings</definition>
+        <argsstring>()</argsstring>
+        <name>loadConfigSettings</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ForwardSensitivitySolver.h" line="81" column="14" bodyfile="ForwardSensitivitySolver.cpp" bodystart="483" bodyend="485"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1ForwardSensitivitySolver_1a3d626fc6eb7f2698840a4d2a94da5720" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string rr::ForwardSensitivitySolver::toString</definition>
+        <argsstring>() const override</argsstring>
+        <name>toString</name>
+        <reimplements refid="classrr_1_1Solver_1af08f448f7eea26415a47caaae161de02">toString</reimplements>
+        <briefdescription>
+<para>Return a std::string representation of the solver. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="author"><para>JKM </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ForwardSensitivitySolver.h" line="83" column="21" bodyfile="ForwardSensitivitySolver.cpp" bodystart="452" bodyend="459"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1ForwardSensitivitySolver_1ad71e98f12d325629eb22b6473ec48cb4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; rr::ForwardSensitivitySolver::getGlobalParameterNames</definition>
+        <argsstring>()</argsstring>
+        <name>getGlobalParameterNames</name>
+        <briefdescription>
+<para>returns a vector of global parameter names extracted from the model </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ForwardSensitivitySolver.h" line="89" column="21" bodyfile="ForwardSensitivitySolver.cpp" bodystart="487" bodyend="494"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1ForwardSensitivitySolver_1ae1bc2fdffabdd3c03b1fb992b94d3efe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; rr::ForwardSensitivitySolver::getVariableNames</definition>
+        <argsstring>()</argsstring>
+        <name>getVariableNames</name>
+        <briefdescription>
+<para>get a vector of variable names in the order that they appear in the model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>variables refers to each equation in the model and are obtained with <ref refid="classrr_1_1ExecutableModel_1ac6c245edd9ecea5feea84cff15db7b26" kindref="member">ExecutableModel::getStateVectorId</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ForwardSensitivitySolver.h" line="97" column="21" bodyfile="ForwardSensitivitySolver.cpp" bodystart="496" bodyend="503"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1ForwardSensitivitySolver_1af5953818d5d18ee9537733e4553525cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>ParameterMap</type>
+        <definition>ParameterMap rr::ForwardSensitivitySolver::getModelParametersAsMap</definition>
+        <argsstring>()</argsstring>
+        <name>getModelParametersAsMap</name>
+        <briefdescription>
+<para>get global parameters as an unordered map, strings as keys and parameter values as values </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ForwardSensitivitySolver.h" line="103" column="22" bodyfile="ForwardSensitivitySolver.cpp" bodystart="505" bodyend="519"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1ForwardSensitivitySolver_1a7d4821b296ddd8878ce8d490598bf0d2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt; double &gt; rr::ForwardSensitivitySolver::getModelParametersAsVector</definition>
+        <argsstring>()</argsstring>
+        <name>getModelParametersAsVector</name>
+        <briefdescription>
+<para>return a std::vector&lt;double&gt; of model parameters in the order they appear in the model. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ForwardSensitivitySolver.h" line="109" column="21" bodyfile="ForwardSensitivitySolver.cpp" bodystart="521" bodyend="535"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1ForwardSensitivitySolver_1aed656c6267d711b2e2d45574a42695a8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void rr::ForwardSensitivitySolver::deducePlist</definition>
+        <argsstring>()</argsstring>
+        <name>deducePlist</name>
+        <briefdescription>
+<para>returns the indexes of parameters that user wants sensitivities for, based off of whichParameters. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ForwardSensitivitySolver.h" line="115" column="14" bodyfile="ForwardSensitivitySolver.cpp" bodystart="537" bodyend="562"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1ForwardSensitivitySolver_1ae2da77e914bbff9a93ef44c2c3546a3b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>N_Vector</type>
+        <definition>N_Vector rr::ForwardSensitivitySolver::getStateVector</definition>
+        <argsstring>()</argsstring>
+        <name>getStateVector</name>
+        <briefdescription>
+<para>retuns pointer to the state vector used by sundials for solving ODE. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ForwardSensitivitySolver.h" line="121" column="18" bodyfile="ForwardSensitivitySolver.cpp" bodystart="564" bodyend="566"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1ForwardSensitivitySolver_1a7aa4a017b53b2e2ae10d09c1f1747efd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>N_Vector *</type>
+        <definition>N_Vector * rr::ForwardSensitivitySolver::getSensitivityNVectorPtr</definition>
+        <argsstring>()</argsstring>
+        <name>getSensitivityNVectorPtr</name>
+        <briefdescription>
+<para>retuns pointer to the state vector used by sundials for storing sensitivity matrix. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ForwardSensitivitySolver.h" line="127" column="18" bodyfile="ForwardSensitivitySolver.cpp" bodystart="568" bodyend="570"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1ForwardSensitivitySolver_1ac92ead0cef81dc069acb9c045bf02657" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="classrr_1_1Matrix" kindref="compound">rr::Matrix</ref>&lt; double &gt;</type>
+        <definition>rr::Matrix&lt; double &gt; rr::ForwardSensitivitySolver::getSensitivityMatrix</definition>
+        <argsstring>(int k=0)</argsstring>
+        <name>getSensitivityMatrix</name>
+        <reimplements refid="classrr_1_1SensitivitySolver_1ab6bc2c2f138c4983a244d36108f8af5e">getSensitivityMatrix</reimplements>
+        <param>
+          <type>int</type>
+          <declname>k</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>get current values of sensitivities of model variables to parameters. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>kth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>derivative of the sensitivities. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ForwardSensitivitySolver.h" line="134" column="20" bodyfile="ForwardSensitivitySolver.cpp" bodystart="572" bodyend="596"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1ForwardSensitivitySolver_1a786b41a5f01a081790832957affddaed" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="classrr_1_1Matrix3D" kindref="compound">Matrix3D</ref>&lt; double, double &gt;</type>
+        <definition>Matrix3D&lt; double, double &gt; rr::ForwardSensitivitySolver::solveSensitivities</definition>
+        <argsstring>(double start, double stop, int num, std::vector&lt; std::string &gt; params=std::vector&lt; std::string &gt;(), std::vector&lt; std::string &gt; species=std::vector&lt; std::string &gt;(), int k=0)</argsstring>
+        <name>solveSensitivities</name>
+        <reimplements refid="classrr_1_1TimeSeriesSensitivitySolver_1a1f0c8cb09f7f29b6557943bc905d42fd">solveSensitivities</reimplements>
+        <param>
+          <type>double</type>
+          <declname>start</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>stop</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>num</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; std::string &gt;</type>
+          <declname>params</declname>
+          <defval>std::vector&lt; std::string &gt;()</defval>
+        </param>
+        <param>
+          <type>std::vector&lt; std::string &gt;</type>
+          <declname>species</declname>
+          <defval>std::vector&lt; std::string &gt;()</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>k</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>simulate a timeseries with sensitivities from start to step with num data points. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><ref refid="classrr_1_1Matrix3D" kindref="compound">Matrix3D</ref> indexed by time. Each element of the 3D matrix is a Matrix&lt;double&gt; with rows and columns parameters and model variables respectively. The parameter k determines the kth order derivative of the sensitivity information that will be returned <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>start</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>starting time for time series simulation </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>stop</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>last time point for time series simulation </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>num</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>number of data points to simulate. Determines Z of <ref refid="classrr_1_1Matrix3D" kindref="compound">Matrix3D</ref>. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>vector of parameters that you want sensitivity for. When empty (default), compute sensitivities for all parameters vs all variables. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>(default 0) return the kth other derivative of the sensitivity data. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>for developers. Pass by value for the params is easier to wrap with swig. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Note this is slightly contrived logic that is necessary for enabling users to supply whichParameters in the constructor and here via the params argument. This was an &quot;accident of design&quot; and it would be better to just have the whichParameters variable set in this method only.</para>
+        </inbodydescription>
+        <location file="ForwardSensitivitySolver.h" line="151" column="18" bodyfile="ForwardSensitivitySolver.cpp" bodystart="638" bodyend="712"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1ForwardSensitivitySolver_1ac041b6c31b3f47bb9bbf6d17bf80751a" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void rr::ForwardSensitivitySolver::setValue</definition>
+        <argsstring>(const std::string &amp;key, Setting val)</argsstring>
+        <name>setValue</name>
+        <reimplements refid="classrr_1_1Solver_1a18fa004a818506c15d47fa28015039c6">setValue</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type><ref refid="classrr_1_1Setting" kindref="compound">Setting</ref></type>
+          <declname>val</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ForwardSensitivitySolver.h" line="156" column="14" bodyfile="ForwardSensitivitySolver.cpp" bodystart="599" bodyend="617"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="classrr_1_1ForwardSensitivitySolver_1add79660afc5ed06291e86e6803aaa978" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void rr::ForwardSensitivitySolver::constructorOperations</definition>
+        <argsstring>()</argsstring>
+        <name>constructorOperations</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ForwardSensitivitySolver.h" line="219" column="14" bodyfile="ForwardSensitivitySolver.cpp" bodystart="96" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1ForwardSensitivitySolver_1a9560b66cd93fc8dc3b4176519e372c56" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void rr::ForwardSensitivitySolver::setDefaultWhichParameters</definition>
+        <argsstring>()</argsstring>
+        <name>setDefaultWhichParameters</name>
+        <briefdescription>
+<para>set whichParameters to all model parameters in the order they appear in the model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>whichParameters is a string vector that determines which parameters we compute sensitivities for. When user does not provide explicit parameters for sensitivities, all are used.</para>
+<para>for developers. The whichParameters variable needs updating when a parameter is added or removed via <ref refid="classrr_1_1RoadRunner_1a68e98a5de63e4dc8418738290d4c762b" kindref="member">RoadRunner::addParameter</ref> or RoadRunner::RemoveParameter. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ForwardSensitivitySolver.h" line="231" column="14" bodyfile="ForwardSensitivitySolver.cpp" bodystart="90" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1ForwardSensitivitySolver_1ae3af2f9fa76bd74bd939d7102127d975" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; rr::ForwardSensitivitySolver::getParameterNamesFromPlist</definition>
+        <argsstring>()</argsstring>
+        <name>getParameterNamesFromPlist</name>
+        <briefdescription>
+<para>get the parameter names that correspond to the current values of plist </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ForwardSensitivitySolver.h" line="284" column="21" bodyfile="ForwardSensitivitySolver.cpp" bodystart="619" bodyend="627"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1ForwardSensitivitySolver_1ae7eb0542fc0fcdf9611169f145af1963" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt; double &gt; rr::ForwardSensitivitySolver::getParameterValuesFromPlist</definition>
+        <argsstring>()</argsstring>
+        <name>getParameterValuesFromPlist</name>
+        <briefdescription>
+<para>get the parameter values that correspond to the current values of plist </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ForwardSensitivitySolver.h" line="289" column="21" bodyfile="ForwardSensitivitySolver.cpp" bodystart="629" bodyend="636"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="friend">
+      <memberdef kind="friend" id="classrr_1_1ForwardSensitivitySolver_1a94a18c4a7ce92d176eecc5da3e4a64e8" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int FFSDyDtFcn</definition>
+        <argsstring>(realtype time, N_Vector cv_y, N_Vector cv_ydot, void *userData)</argsstring>
+        <name>FFSDyDtFcn</name>
+        <param>
+          <type>realtype</type>
+          <declname>time</declname>
+        </param>
+        <param>
+          <type>N_Vector</type>
+          <declname>cv_y</declname>
+        </param>
+        <param>
+          <type>N_Vector</type>
+          <declname>cv_ydot</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>userData</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ForwardSensitivitySolver.h" line="291" column="20" bodyfile="ForwardSensitivitySolver.cpp" bodystart="33" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="friend" id="classrr_1_1ForwardSensitivitySolver_1ab0f65e181178179b40d9f4b5c68f69d5" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int FFSRootFcn</definition>
+        <argsstring>(realtype time, N_Vector y_vector, realtype *gout, void *user_data)</argsstring>
+        <name>FFSRootFcn</name>
+        <param>
+          <type>realtype</type>
+          <declname>time</declname>
+        </param>
+        <param>
+          <type>N_Vector</type>
+          <declname>y_vector</declname>
+        </param>
+        <param>
+          <type>realtype *</type>
+          <declname>gout</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>user_data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="ForwardSensitivitySolver.h" line="293" column="20" bodyfile="ForwardSensitivitySolver.cpp" bodystart="60" bodyend="72"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Time based sensivitity solver. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Uses <ref refid="classrr_1_1CVODEIntegrator" kindref="compound">CVODEIntegrator</ref> to integrate the <ref refid="classrr_1_1ExecutableModel" kindref="compound">ExecutableModel</ref> and cvodes to compute sensitivity information at each time point. Implements the <ref refid="classrr_1_1TimeSeriesSensitivitySolver" kindref="compound">TimeSeriesSensitivitySolver</ref> interface </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="5">
+        <label>rr::Registrable</label>
+        <link refid="classrr_1_1Registrable"/>
+      </node>
+      <node id="2">
+        <label>rr::TimeSeriesSensitivitySolver</label>
+        <link refid="classrr_1_1TimeSeriesSensitivitySolver"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>rr::Solver</label>
+        <link refid="classrr_1_1Solver"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>rr::SensitivitySolver</label>
+        <link refid="classrr_1_1SensitivitySolver"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>rr::ForwardSensitivitySolver</label>
+        <link refid="classrr_1_1ForwardSensitivitySolver"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="5">
+        <label>rr::Registrable</label>
+        <link refid="classrr_1_1Registrable"/>
+      </node>
+      <node id="2">
+        <label>rr::TimeSeriesSensitivitySolver</label>
+        <link refid="classrr_1_1TimeSeriesSensitivitySolver"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>rr::Solver</label>
+        <link refid="classrr_1_1Solver"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>mModel</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>rr::SensitivitySolver</label>
+        <link refid="classrr_1_1SensitivitySolver"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>rr::ExecutableModel</label>
+        <link refid="classrr_1_1ExecutableModel"/>
+      </node>
+      <node id="1">
+        <label>rr::ForwardSensitivitySolver</label>
+        <link refid="classrr_1_1ForwardSensitivitySolver"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="ForwardSensitivitySolver.h" line="31" column="5" bodyfile="ForwardSensitivitySolver.h" bodystart="31" bodyend="295"/>
+    <listofallmembers>
+      <member refid="classrr_1_1Solver_1a9d801d628c80877bbadd4fcff012837d" prot="protected" virt="non-virtual"><scope>rr::ForwardSensitivitySolver</scope><name>addSetting</name></member>
+      <member refid="classrr_1_1ForwardSensitivitySolver_1ae938e625ed4e8d3536b6b3fb9371a08d" prot="public" virt="virtual"><scope>rr::ForwardSensitivitySolver</scope><name>construct</name></member>
+      <member refid="classrr_1_1ForwardSensitivitySolver_1add79660afc5ed06291e86e6803aaa978" prot="private" virt="non-virtual"><scope>rr::ForwardSensitivitySolver</scope><name>constructorOperations</name></member>
+      <member refid="classrr_1_1ForwardSensitivitySolver_1a7649a64267a6bad7d691a95252941b17" prot="public" virt="non-virtual"><scope>rr::ForwardSensitivitySolver</scope><name>create</name></member>
+      <member refid="classrr_1_1ForwardSensitivitySolver_1ad287542aa7620680574d6dbe3b843ffb" prot="private" virt="non-virtual"><scope>rr::ForwardSensitivitySolver</scope><name>cvodeIntegrator</name></member>
+      <member refid="classrr_1_1ForwardSensitivitySolver_1aed656c6267d711b2e2d45574a42695a8" prot="public" virt="non-virtual"><scope>rr::ForwardSensitivitySolver</scope><name>deducePlist</name></member>
+      <member refid="classrr_1_1Solver_1a7d58e224664ab44e56f90802d9601f01" prot="public" virt="non-virtual"><scope>rr::ForwardSensitivitySolver</scope><name>DescriptionMap</name></member>
+      <member refid="classrr_1_1Solver_1a7e07121f652db358045d6f7b95889ea3" prot="public" virt="non-virtual"><scope>rr::ForwardSensitivitySolver</scope><name>descriptions</name></member>
+      <member refid="classrr_1_1Solver_1a199de66231b25fef30d8ef2bdff80db7" prot="public" virt="non-virtual"><scope>rr::ForwardSensitivitySolver</scope><name>display_names_</name></member>
+      <member refid="classrr_1_1Solver_1a76b76c8ba3a31a2c6a600322c90a0452" prot="public" virt="non-virtual"><scope>rr::ForwardSensitivitySolver</scope><name>DisplayNameMap</name></member>
+      <member refid="classrr_1_1ForwardSensitivitySolver_1a94a18c4a7ce92d176eecc5da3e4a64e8" prot="private" virt="non-virtual"><scope>rr::ForwardSensitivitySolver</scope><name>FFSDyDtFcn</name></member>
+      <member refid="classrr_1_1ForwardSensitivitySolver_1ab0f65e181178179b40d9f4b5c68f69d5" prot="private" virt="non-virtual"><scope>rr::ForwardSensitivitySolver</scope><name>FFSRootFcn</name></member>
+      <member refid="classrr_1_1ForwardSensitivitySolver_1a14f9b5843737f512beaaa8045b4bd312" prot="public" virt="non-virtual"><scope>rr::ForwardSensitivitySolver</scope><name>ForwardSensitivitySolver</name></member>
+      <member refid="classrr_1_1ForwardSensitivitySolver_1a82957fbf97d040947dd00090674d9877" prot="public" virt="non-virtual"><scope>rr::ForwardSensitivitySolver</scope><name>ForwardSensitivitySolver</name></member>
+      <member refid="classrr_1_1ForwardSensitivitySolver_1a9b46ed04c6a1592e58895c8a593cac3b" prot="public" virt="non-virtual"><scope>rr::ForwardSensitivitySolver</scope><name>ForwardSensitivitySolver</name></member>
+      <member refid="classrr_1_1ForwardSensitivitySolver_1a9f78958e67898b39a0f70ff4207583a1" prot="public" virt="non-virtual"><scope>rr::ForwardSensitivitySolver</scope><name>freeSundialsMemory</name></member>
+      <member refid="classrr_1_1ForwardSensitivitySolver_1ad1f87f41aa3d2798b5b129f1ca773a08" prot="public" virt="virtual"><scope>rr::ForwardSensitivitySolver</scope><name>getDescription</name></member>
+      <member refid="classrr_1_1Solver_1a522a881e88165986944db55a8f2da845" prot="public" virt="non-virtual" ambiguityscope="rr::TimeSeriesSensitivitySolver::"><scope>rr::ForwardSensitivitySolver</scope><name>getDescription</name></member>
+      <member refid="classrr_1_1Solver_1a1062b181455da6310d5678a4c978d072" prot="public" virt="non-virtual" ambiguityscope="rr::TimeSeriesSensitivitySolver::"><scope>rr::ForwardSensitivitySolver</scope><name>getDescription</name></member>
+      <member refid="classrr_1_1Solver_1a1fce02df70c95855d9d3cd7e3d352c08" prot="public" virt="non-virtual"><scope>rr::ForwardSensitivitySolver</scope><name>getDisplayName</name></member>
+      <member refid="classrr_1_1ForwardSensitivitySolver_1ad71e98f12d325629eb22b6473ec48cb4" prot="public" virt="non-virtual"><scope>rr::ForwardSensitivitySolver</scope><name>getGlobalParameterNames</name></member>
+      <member refid="classrr_1_1ForwardSensitivitySolver_1a7ebffaf9c2b7d876ba0a845e869b0558" prot="public" virt="virtual"><scope>rr::ForwardSensitivitySolver</scope><name>getHint</name></member>
+      <member refid="classrr_1_1Solver_1a4915611d49d03f0fe499bed99a05aae1" prot="public" virt="non-virtual" ambiguityscope="rr::TimeSeriesSensitivitySolver::"><scope>rr::ForwardSensitivitySolver</scope><name>getHint</name></member>
+      <member refid="classrr_1_1Solver_1a30605288d92db09d42a886c132e5429f" prot="public" virt="non-virtual" ambiguityscope="rr::TimeSeriesSensitivitySolver::"><scope>rr::ForwardSensitivitySolver</scope><name>getHint</name></member>
+      <member refid="classrr_1_1Solver_1ac89194d54aaad3ecc71e1cfbbef83d15" prot="public" virt="virtual"><scope>rr::ForwardSensitivitySolver</scope><name>getModel</name></member>
+      <member refid="classrr_1_1ForwardSensitivitySolver_1af5953818d5d18ee9537733e4553525cf" prot="public" virt="non-virtual"><scope>rr::ForwardSensitivitySolver</scope><name>getModelParametersAsMap</name></member>
+      <member refid="classrr_1_1ForwardSensitivitySolver_1a7d4821b296ddd8878ce8d490598bf0d2" prot="public" virt="non-virtual"><scope>rr::ForwardSensitivitySolver</scope><name>getModelParametersAsVector</name></member>
+      <member refid="classrr_1_1ForwardSensitivitySolver_1a38a772f5306181ab61940bd453059ce4" prot="public" virt="virtual"><scope>rr::ForwardSensitivitySolver</scope><name>getName</name></member>
+      <member refid="classrr_1_1Solver_1ae4ae3d123747f44ba18cb94a37cdcc6d" prot="public" virt="non-virtual" ambiguityscope="rr::TimeSeriesSensitivitySolver::"><scope>rr::ForwardSensitivitySolver</scope><name>getName</name></member>
+      <member refid="classrr_1_1Solver_1abbefd0f38dfa2651c74f8abbd6d7b143" prot="public" virt="virtual"><scope>rr::ForwardSensitivitySolver</scope><name>getNumParams</name></member>
+      <member refid="classrr_1_1Solver_1aa13e13a92531fde27fe5711790eee0f7" prot="public" virt="virtual"><scope>rr::ForwardSensitivitySolver</scope><name>getParamDesc</name></member>
+      <member refid="classrr_1_1Solver_1afc0a667f204105aa133376144ce14c75" prot="public" virt="virtual"><scope>rr::ForwardSensitivitySolver</scope><name>getParamDisplayName</name></member>
+      <member refid="classrr_1_1ForwardSensitivitySolver_1ae3af2f9fa76bd74bd939d7102127d975" prot="private" virt="non-virtual"><scope>rr::ForwardSensitivitySolver</scope><name>getParameterNamesFromPlist</name></member>
+      <member refid="classrr_1_1ForwardSensitivitySolver_1ae7eb0542fc0fcdf9611169f145af1963" prot="private" virt="non-virtual"><scope>rr::ForwardSensitivitySolver</scope><name>getParameterValuesFromPlist</name></member>
+      <member refid="classrr_1_1Solver_1aa604b810ab3f1a2c8bc6dfa6fc731dc2" prot="public" virt="virtual"><scope>rr::ForwardSensitivitySolver</scope><name>getParamHint</name></member>
+      <member refid="classrr_1_1Solver_1ae2bb88ffce40a0136c86a020b4c39037" prot="public" virt="virtual"><scope>rr::ForwardSensitivitySolver</scope><name>getParamName</name></member>
+      <member refid="classrr_1_1ForwardSensitivitySolver_1ac92ead0cef81dc069acb9c045bf02657" prot="public" virt="virtual"><scope>rr::ForwardSensitivitySolver</scope><name>getSensitivityMatrix</name></member>
+      <member refid="classrr_1_1ForwardSensitivitySolver_1a7aa4a017b53b2e2ae10d09c1f1747efd" prot="public" virt="non-virtual"><scope>rr::ForwardSensitivitySolver</scope><name>getSensitivityNVectorPtr</name></member>
+      <member refid="classrr_1_1Solver_1ae2b13c6ae06980b14a80e8a32766dcfa" prot="public" virt="non-virtual"><scope>rr::ForwardSensitivitySolver</scope><name>getSettings</name></member>
+      <member refid="classrr_1_1Solver_1a925e4dae5c4e3e71a2983dc58af9e550" prot="public" virt="non-virtual"><scope>rr::ForwardSensitivitySolver</scope><name>getSettingsMap</name></member>
+      <member refid="classrr_1_1Solver_1a3f7a3671a4f2ee508fa015ed4b164213" prot="public" virt="virtual"><scope>rr::ForwardSensitivitySolver</scope><name>getSettingsRepr</name></member>
+      <member refid="classrr_1_1ForwardSensitivitySolver_1ae2da77e914bbff9a93ef44c2c3546a3b" prot="public" virt="non-virtual"><scope>rr::ForwardSensitivitySolver</scope><name>getStateVector</name></member>
+      <member refid="classrr_1_1Solver_1a0bd064d494a0701edffca5eb67b64b2a" prot="public" virt="non-virtual"><scope>rr::ForwardSensitivitySolver</scope><name>getType</name></member>
+      <member refid="classrr_1_1Solver_1a87339915a211b22ecd63078bb1cb7ca9" prot="public" virt="virtual"><scope>rr::ForwardSensitivitySolver</scope><name>getValue</name></member>
+      <member refid="classrr_1_1Solver_1a83b99af970b895d62998bf90ec619168" prot="public" virt="virtual"><scope>rr::ForwardSensitivitySolver</scope><name>getValueAsString</name></member>
+      <member refid="classrr_1_1ForwardSensitivitySolver_1ae1bc2fdffabdd3c03b1fb992b94d3efe" prot="public" virt="non-virtual"><scope>rr::ForwardSensitivitySolver</scope><name>getVariableNames</name></member>
+      <member refid="classrr_1_1ForwardSensitivitySolver_1a051a2fd4e4a5a644b5f4b32f425e3552" prot="public" virt="non-virtual"><scope>rr::ForwardSensitivitySolver</scope><name>globalParameterMap</name></member>
+      <member refid="classrr_1_1Solver_1afc1e25855220cbe469433c70f8c44ea5" prot="public" virt="virtual"><scope>rr::ForwardSensitivitySolver</scope><name>hasValue</name></member>
+      <member refid="classrr_1_1Solver_1ac39f2073d482cdf591d93415557c6751" prot="public" virt="non-virtual"><scope>rr::ForwardSensitivitySolver</scope><name>HintMap</name></member>
+      <member refid="classrr_1_1Solver_1a39049af7a03fd00b1021c1ce9a9691fc" prot="public" virt="non-virtual"><scope>rr::ForwardSensitivitySolver</scope><name>hints</name></member>
+      <member refid="classrr_1_1ForwardSensitivitySolver_1a5617f1a29c1b3394a5bbf1bef36a3ab3" prot="public" virt="virtual"><scope>rr::ForwardSensitivitySolver</scope><name>integrate</name></member>
+      <member refid="classrr_1_1ForwardSensitivitySolver_1a34664475ff5fb64c70f81486c49938d2" prot="public" virt="non-virtual"><scope>rr::ForwardSensitivitySolver</scope><name>loadConfigSettings</name></member>
+      <member refid="classrr_1_1Solver_1ab60e7640a8c959558a144d9d7ee45515" prot="protected" virt="non-virtual"><scope>rr::ForwardSensitivitySolver</scope><name>mModel</name></member>
+      <member refid="classrr_1_1ForwardSensitivitySolver_1a6b7bf0b852c4e007745cf7b3f4ffb59d" prot="private" virt="non-virtual"><scope>rr::ForwardSensitivitySolver</scope><name>mSensitivityMatrix</name></member>
+      <member refid="classrr_1_1ForwardSensitivitySolver_1ae9f15e12c021c32cf11d51fb9c74a92d" prot="private" virt="non-virtual"><scope>rr::ForwardSensitivitySolver</scope><name>mSensitivityMatrixSize</name></member>
+      <member refid="classrr_1_1ForwardSensitivitySolver_1a0ee9a6d000e960e7cd30abed3dacb8d1" prot="private" virt="non-virtual"><scope>rr::ForwardSensitivitySolver</scope><name>NLSsens</name></member>
+      <member refid="classrr_1_1ForwardSensitivitySolver_1a9cf514ad265733e39fa93296e27726d2" prot="public" virt="non-virtual"><scope>rr::ForwardSensitivitySolver</scope><name>Np</name></member>
+      <member refid="classrr_1_1ForwardSensitivitySolver_1ace176b4a2248e742351ddd30d4d900ba" prot="public" virt="non-virtual"><scope>rr::ForwardSensitivitySolver</scope><name>Ns</name></member>
+      <member refid="classrr_1_1ForwardSensitivitySolver_1aa84e84aba27a1fd6826cd7581b228d39" prot="public" virt="non-virtual"><scope>rr::ForwardSensitivitySolver</scope><name>numModelVariables</name></member>
+      <member refid="classrr_1_1ForwardSensitivitySolver_1ad8e9532fb451fb07102d541c0c99431d" prot="public" virt="non-virtual"><scope>rr::ForwardSensitivitySolver</scope><name>p</name></member>
+      <member refid="classrr_1_1ForwardSensitivitySolver_1af70b5c29f06f44ff929f716e685db223" prot="public" virt="non-virtual"><scope>rr::ForwardSensitivitySolver</scope><name>pbar</name></member>
+      <member refid="classrr_1_1ForwardSensitivitySolver_1aab51eee428bdc2a931fdef6034c43115" prot="public" virt="non-virtual"><scope>rr::ForwardSensitivitySolver</scope><name>plist</name></member>
+      <member refid="classrr_1_1ForwardSensitivitySolver_1a66033d9628dea4a1e2ffc2158087a2e1" prot="public" virt="virtual"><scope>rr::ForwardSensitivitySolver</scope><name>resetSettings</name></member>
+      <member refid="classrr_1_1ForwardSensitivitySolver_1a9560b66cd93fc8dc3b4176519e372c56" prot="private" virt="non-virtual"><scope>rr::ForwardSensitivitySolver</scope><name>setDefaultWhichParameters</name></member>
+      <member refid="classrr_1_1Solver_1a44a22cf0edead17a9cc923d87dcc063e" prot="public" virt="non-virtual"><scope>rr::ForwardSensitivitySolver</scope><name>settings</name></member>
+      <member refid="classrr_1_1Solver_1adcbacd57e2871a83bb9c4d7a4038a069" prot="public" virt="non-virtual"><scope>rr::ForwardSensitivitySolver</scope><name>SettingsList</name></member>
+      <member refid="classrr_1_1Solver_1a61c0fd04ad69fc173c51dac3bdde2431" prot="public" virt="non-virtual"><scope>rr::ForwardSensitivitySolver</scope><name>SettingsMap</name></member>
+      <member refid="classrr_1_1Solver_1a37b032d8755eaccd3480531bdc2a4596" prot="public" virt="virtual"><scope>rr::ForwardSensitivitySolver</scope><name>settingsPyDictRepr</name></member>
+      <member refid="classrr_1_1ForwardSensitivitySolver_1ac041b6c31b3f47bb9bbf6d17bf80751a" prot="public" virt="virtual"><scope>rr::ForwardSensitivitySolver</scope><name>setValue</name></member>
+      <member refid="classrr_1_1SensitivitySolver_1a04bba4a342cc7197750f080d41d439e5" prot="public" virt="non-virtual"><scope>rr::ForwardSensitivitySolver</scope><name>Solver</name></member>
+      <member refid="classrr_1_1SensitivitySolver_1aa0a07553e368f0be33b9bfc429782a97" prot="public" virt="non-virtual"><scope>rr::ForwardSensitivitySolver</scope><name>Solver</name></member>
+      <member refid="classrr_1_1Solver_1aa0a07553e368f0be33b9bfc429782a97" prot="public" virt="non-virtual" ambiguityscope="rr::Solver::"><scope>rr::ForwardSensitivitySolver</scope><name>Solver</name></member>
+      <member refid="classrr_1_1ForwardSensitivitySolver_1a786b41a5f01a081790832957affddaed" prot="public" virt="virtual"><scope>rr::ForwardSensitivitySolver</scope><name>solveSensitivities</name></member>
+      <member refid="classrr_1_1Solver_1a99f48947491d7cd36c68cebba53915fe" prot="public" virt="non-virtual"><scope>rr::ForwardSensitivitySolver</scope><name>sorted_settings</name></member>
+      <member refid="classrr_1_1ForwardSensitivitySolver_1af80e459aeaa62284d78f61b5c74a330e" prot="private" virt="non-virtual"><scope>rr::ForwardSensitivitySolver</scope><name>stateVectorVariables</name></member>
+      <member refid="classrr_1_1ForwardSensitivitySolver_1aa0560086789464708c95896272e1b5ce" prot="public" virt="virtual"><scope>rr::ForwardSensitivitySolver</scope><name>syncWithModel</name></member>
+      <member refid="classrr_1_1ForwardSensitivitySolver_1acd883d6f972f3735251d363a69ae9da1" prot="public" virt="virtual"><scope>rr::ForwardSensitivitySolver</scope><name>toRepr</name></member>
+      <member refid="classrr_1_1ForwardSensitivitySolver_1a3d626fc6eb7f2698840a4d2a94da5720" prot="public" virt="virtual"><scope>rr::ForwardSensitivitySolver</scope><name>toString</name></member>
+      <member refid="classrr_1_1Solver_1a19315632eeab070bdbfe2fa4ae66ca6c" prot="public" virt="non-virtual"><scope>rr::ForwardSensitivitySolver</scope><name>updateSettings</name></member>
+      <member refid="classrr_1_1ForwardSensitivitySolver_1a55828e745fee3bd396ffdba4d4dcf98b" prot="private" virt="non-virtual"><scope>rr::ForwardSensitivitySolver</scope><name>usingDefaultWhichParameters</name></member>
+      <member refid="classrr_1_1ForwardSensitivitySolver_1ae013837b736cecfa1628da4f7f2095b8" prot="private" virt="non-virtual"><scope>rr::ForwardSensitivitySolver</scope><name>usingUseWhichParametersFromConstructor</name></member>
+      <member refid="classrr_1_1ForwardSensitivitySolver_1a5ccab42d7414fe3bf6407805d8472eb8" prot="public" virt="non-virtual"><scope>rr::ForwardSensitivitySolver</scope><name>whichParameters</name></member>
+      <member refid="classrr_1_1ForwardSensitivitySolver_1aba4498c5ec6aa00d8974c54b2d20e45b" prot="public" virt="non-virtual"><scope>rr::ForwardSensitivitySolver</scope><name>~ForwardSensitivitySolver</name></member>
+      <member refid="classrr_1_1Registrable_1aca014aaba0d4aaa80f89c4451bce5b4c" prot="public" virt="virtual"><scope>rr::ForwardSensitivitySolver</scope><name>~Registrable</name></member>
+      <member refid="classrr_1_1SensitivitySolver_1a86074e08e95d4ee14711b389d74c3931" prot="public" virt="virtual"><scope>rr::ForwardSensitivitySolver</scope><name>~SensitivitySolver</name></member>
+      <member refid="classrr_1_1Solver_1a3a6586c87e2218dd22f1461f50d5c0dd" prot="public" virt="non-virtual"><scope>rr::ForwardSensitivitySolver</scope><name>~Solver</name></member>
+      <member refid="classrr_1_1TimeSeriesSensitivitySolver_1a5c63288a144c945524ff05fe63274f62" prot="public" virt="non-virtual"><scope>rr::ForwardSensitivitySolver</scope><name>~TimeSeriesSensitivitySolver</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

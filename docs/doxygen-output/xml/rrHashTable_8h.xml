@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
   <compounddef id="rrHashTable_8h" kind="file" language="C++">
     <compoundname>rrHashTable.h</compoundname>
     <includes local="no">map</includes>
@@ -14,6 +14,9 @@
       <node id="17">
         <label>list</label>
       </node>
+      <node id="24">
+        <label>functional</label>
+      </node>
       <node id="13">
         <label>rrConstants.h</label>
         <link refid="rrConstants_8h_source"/>
@@ -26,8 +29,35 @@
         <childnode refid="4" relation="include">
         </childnode>
       </node>
+      <node id="20">
+        <label>Setting.h</label>
+        <link refid="Setting_8h_source"/>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+      </node>
       <node id="14">
         <label>limits</label>
+      </node>
+      <node id="30">
+        <label>filesystem</label>
       </node>
       <node id="10">
         <label>float.h</label>
@@ -36,8 +66,11 @@
         <label>rrExporter.h</label>
         <link refid="rrExporter_8h_source"/>
       </node>
-      <node id="22">
+      <node id="29">
         <label>stdint.h</label>
+      </node>
+      <node id="21">
+        <label>variant</label>
       </node>
       <node id="3">
         <label>string</label>
@@ -45,10 +78,13 @@
       <node id="2">
         <label>map</label>
       </node>
+      <node id="28">
+        <label>exception</label>
+      </node>
       <node id="6">
         <label>ostream</label>
       </node>
-      <node id="23">
+      <node id="31">
         <label>rrSBMLSymbolDependencies.h</label>
         <link refid="rrSBMLSymbolDependencies_8h_source"/>
         <childnode refid="6" relation="include">
@@ -62,7 +98,19 @@
         <childnode refid="9" relation="include">
         </childnode>
       </node>
-      <node id="21">
+      <node id="27">
+        <label>rrException.h</label>
+        <link refid="rrException_8h_source"/>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="25">
         <label>typeinfo</label>
       </node>
       <node id="9">
@@ -84,8 +132,14 @@
         </childnode>
         <childnode refid="16" relation="include">
         </childnode>
-        <childnode refid="22" relation="include">
+        <childnode refid="29" relation="include">
         </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+      </node>
+      <node id="26">
+        <label>setting_t.h</label>
+        <link refid="setting__t_8h_source"/>
       </node>
       <node id="7">
         <label>vector</label>
@@ -103,8 +157,11 @@
         </childnode>
         <childnode refid="9" relation="include">
         </childnode>
-        <childnode refid="23" relation="include">
+        <childnode refid="31" relation="include">
         </childnode>
+      </node>
+      <node id="22">
+        <label>sstream</label>
       </node>
       <node id="15">
         <label>cstdlib</label>
@@ -136,23 +193,14 @@
         <childnode refid="20" relation="include">
         </childnode>
       </node>
-      <node id="20">
-        <label>Variant.h</label>
-        <link refid="Variant_8h_source"/>
-        <childnode refid="4" relation="include">
-        </childnode>
-        <childnode refid="21" relation="include">
-        </childnode>
-        <childnode refid="3" relation="include">
-        </childnode>
-        <childnode refid="7" relation="include">
-        </childnode>
-      </node>
       <node id="8">
         <label>deque</label>
       </node>
       <node id="19">
         <label>unordered_map</label>
+      </node>
+      <node id="23">
+        <label>type_traits</label>
       </node>
       <node id="12">
         <label>set</label>
@@ -246,18 +294,18 @@
 <codeline lineno="13"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">rr</highlight></codeline>
 <codeline lineno="14"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="15"><highlight class="normal"></highlight></codeline>
-<codeline lineno="16" refid="classrr_1_1StringSymbolHashTable" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">RR_DECLSPEC<sp/><ref refid="classrr_1_1StringSymbolHashTable" kindref="compound">StringSymbolHashTable</ref>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>map&lt;string,<sp/>SBMLSymbol&gt;</highlight></codeline>
+<codeline lineno="16" refid="classrr_1_1StringSymbolHashTable" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">RR_DECLSPEC<sp/><ref refid="classrr_1_1StringSymbolHashTable" kindref="compound">StringSymbolHashTable</ref>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>SBMLSymbol&gt;</highlight></codeline>
 <codeline lineno="17"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
 <codeline lineno="19"><highlight class="normal"></highlight></codeline>
 <codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
 <codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classrr_1_1StringSymbolHashTable" kindref="compound">StringSymbolHashTable</ref>();</highlight></codeline>
-<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>map&lt;string,<sp/>SBMLSymbol&gt;::iterator<sp/><sp/><sp/><sp/><sp/>mIter;</highlight></codeline>
-<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ContainsKey(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>aKey);</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>SBMLSymbol&gt;::iterator<sp/><sp/><sp/><sp/><sp/>mIter;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ContainsKey(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>aKey);</highlight></codeline>
 <codeline lineno="24"><highlight class="normal">};</highlight></codeline>
 <codeline lineno="25"><highlight class="normal"></highlight></codeline>
-<codeline lineno="26"><highlight class="normal">ostream&amp;<sp/>operator&lt;&lt;(ostream&amp;<sp/>stream,<sp/><ref refid="classrr_1_1StringSymbolHashTable" kindref="compound">StringSymbolHashTable</ref>&amp;<sp/>hash);</highlight></codeline>
-<codeline lineno="27" refid="classrr_1_1IntStringHashTable" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">RR_DECLSPEC<sp/><ref refid="classrr_1_1IntStringHashTable" kindref="compound">IntStringHashTable</ref>:<sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>map&lt;int,<sp/>string&gt;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal">std::ostream&amp;<sp/>operator&lt;&lt;(std::ostream&amp;<sp/>stream,<sp/><ref refid="classrr_1_1StringSymbolHashTable" kindref="compound">StringSymbolHashTable</ref>&amp;<sp/>hash);</highlight></codeline>
+<codeline lineno="27" refid="classrr_1_1IntStringHashTable" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">RR_DECLSPEC<sp/><ref refid="classrr_1_1IntStringHashTable" kindref="compound">IntStringHashTable</ref>:<sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>std::map&lt;int,<sp/>std::string&gt;</highlight></codeline>
 <codeline lineno="28"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
 <codeline lineno="30"><highlight class="normal"></highlight></codeline>

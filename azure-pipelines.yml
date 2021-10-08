@@ -157,7 +157,7 @@ stages:
               targetFolder: $(Build.ArtifactStagingDirectory)
             displayName: Copy to Staging Area
           - publish: $(Build.ArtifactStagingDirectory)
-            artifact: roadrunner-$(Agent.OS)-$(BuildType)
+            artifact: roadrunner-MacOS10.15-$(BuildType)
             displayName: Publish
 
   - stage: MacBuildRoadrunnerPython
@@ -214,8 +214,8 @@ stages:
               echo "ls"
               ls
               $(CondaExecutable) create --quiet --yes --name $(PythonName) python=$(PythonVersion)
-              echo "running: $(PipExecutable) install numpy"
-              $(PipExecutable) install numpy
+              echo "running: $(PipExecutable) install -r $(SOURCE_DIR)/test-requirements.txt"
+              $(PipExecutable) install -r $(SOURCE_DIR)/test-requirements.txt
             displayName: InstallCondaEnv
           - script: |
               which conda
@@ -273,12 +273,12 @@ stages:
               rm -r $(DEPS_INSTALL_PREFIX)/install-azure
               ls
             displayName: Move Dependencies
-          #- task: Cache@2
-          #  inputs:
-          #    key: "Swig | $(Agent.OS)"
-          #    path: $(SWIG_INSTALL_PREFIX)
-          #    cacheHitVar: SWIG_CACHE
-          #  displayName: Cache Swig-4.0.2
+          - task: Cache@2
+            inputs:
+              key: "Swig | $(Agent.OS)"
+              path: $(SWIG_INSTALL_PREFIX)
+              cacheHitVar: SWIG_CACHE
+            displayName: Cache Swig-4.0.2
           - script: |
               echo "installing pcre"
               sudo apt install -y libpcre3 libpcre3-dev
@@ -338,7 +338,11 @@ stages:
               cd $(INSTALL_DIR)
               echo "ls in install dir"
               ls
-              $(PythonExecutable) site-packages/roadrunner/testing/__main__.py
+              #$(PythonExecutable) site-packages/roadrunner/testing/__main__.py
+              echo "Switching to build dir: $(BUILD_DIR)"
+              cd $(BUILD_DIR)
+              echo "ctest --output-on-failure --verbose --extra-verbose --tests-regex python_tests*"
+              ctest --output-on-failure --verbose --extra-verbose --tests-regex python_tests*
             displayName: RunPythonTests
           - script: |
               # todo workout whether the top few lines are needed now I'm using $(PythonExecutable)
@@ -360,7 +364,7 @@ stages:
           - task: CopyFiles@2
             inputs:
               contents: '$(INSTALL_DIR)/**'
-              targetFolder: $(Build.ArtifactStagingDirectory)/Install-$(PythonName)
+              targetFolder: $(Build.ArtifactStagingDirectory)/roadrunner-MacOS10.15-$(PythonName)
             displayName: Copy Install Tree to Staging Area
           - task: CopyFiles@2
             inputs:
@@ -368,7 +372,7 @@ stages:
               targetFolder: $(Build.ArtifactStagingDirectory)/pip-wheels
             displayName: Copy Pip Wheels to Staging Area
           - publish: $(Build.ArtifactStagingDirectory)
-            artifact: roadrunner-$(Agent.OS)-$(PythonName)
+            artifact: roadrunner-MacOS10.15-$(PythonName)
             displayName: Publish Pip Wheels Artifacts
 
 ########################################################################
@@ -525,6 +529,7 @@ stages:
           PipExecutable: '$(PythonScriptsDir)\pip.exe'
 
           # override the variable for swigwin since swig exe is in different place
+          # on windows build compared to mac and linux
           SWIG_EXECUTABLE: '$(SWIG_INSTALL_PREFIX)/swig.exe'
           SWIG_CACHE: 'false'
           LLVM_CACHE: 'false'
@@ -589,12 +594,12 @@ stages:
               rm -r $(DEPS_INSTALL_PREFIX)/install-azure
               ls
             displayName: Move Dependencies
-          #- task: Cache@2
-          #  inputs:
-          #    key: "Swig | $(Agent.OS)"
-          #    path: $(SWIG_INSTALL_PREFIX)
-          #    cacheHitVar: SWIG_CACHE
-          #  displayName: Cache Swig-4.0.2
+          - task: Cache@2
+            inputs:
+              key: "Swig | $(Agent.OS)"
+              path: $(SWIG_INSTALL_PREFIX)
+              cacheHitVar: SWIG_CACHE
+            displayName: Cache Swig-4.0.2
           - powershell: |
               echo "cd to swig source dir: $(SWIG_SOURCE_DIR)"
               cd $(SWIG_SOURCE_DIR)
@@ -640,8 +645,8 @@ stages:
               conda create --quiet --yes --name $(PythonName) python=$(PythonVersion)
               echo "pip help:"
               $(PipExecutable) install --help
-              echo "Installing nose and numpy: $(PipExecutable) install --yes nose numpy"
-              $(PipExecutable) install -q nose numpy
+              echo "Installing nose and numpy: $(PipExecutable) install --yes nose numpy pytest"
+              $(PipExecutable) install -q -r test-requirements.txt
               $ENV:PATH="$ENV:PATH;$(PythonScriptsDir)"
               echo "cd to build dir $(BUILD_DIR)"
               cd $(BUILD_DIR)
@@ -655,7 +660,12 @@ stages:
               echo "python exe $(PythonExecutable)"
               echo "ls in install dir"
               ls
-              $(PythonExecutable) site-packages/roadrunner/testing/__main__.py
+              #$(PythonExecutable) site-packages/roadrunner/testing/__main__.py
+
+              echo "Switching to build dir: $(BUILD_DIR)"
+              cd $(BUILD_DIR)
+              echo "ctest --output-on-failure --verbose --extra-verbose --tests-regex python_tests*"
+              ctest -C Release --output-on-failure --verbose --extra-verbose --tests-regex python_tests*
             displayName: RunPythonTests
           - powershell: |
               echo "cd to isntall dir: $(INSTALL_DIR)"
@@ -669,7 +679,7 @@ stages:
           - task: CopyFiles@2
             inputs:
               contents: '$(INSTALL_DIR)/**'
-              targetFolder: $(Build.ArtifactStagingDirectory)/Install-$(PythonName)
+              targetFolder: $(Build.ArtifactStagingDirectory)/roadrunner-Windows2019-$(PythonName)
             displayName: Copy Install Tree to Staging Area
           - task: CopyFiles@2
             inputs:
@@ -677,7 +687,7 @@ stages:
               targetFolder: $(Build.ArtifactStagingDirectory)/pip-wheels
             displayName: Copy Pip Wheels to Staging Area
           - publish: $(Build.ArtifactStagingDirectory)
-            artifact: roadrunner-$(Agent.OS)-$(PythonName)
+            artifact: roadrunner-Windows2019-$(PythonName)
             displayName: Publish Pip Wheels Artifacts
 
 
@@ -855,6 +865,7 @@ stages:
           PythonRoot: '$(MinicondaRoot)/envs/$(PythonName)'
           PythonLibDir: '$(PythonRoot)/lib'
           PythonExecutable: '$(PythonRoot)/bin/python'
+          PipExecutable: '$(PythonRoot)/bin/pip'
           SWIG_CACHE: 'false'
           LLVM_CACHE: 'false'
         steps:
@@ -918,12 +929,12 @@ stages:
               rm -r $(DEPS_INSTALL_PREFIX)/install-azure
               ls
             displayName: Move Dependencies
-          #- task: Cache@2
-          #  inputs:
-          #    key: "Swig | $(Agent.OS)"
-          #    path: $(SWIG_INSTALL_PREFIX)
-          #    cacheHitVar: SWIG_CACHE
-          #  displayName: Cache Swig-4.0.2
+          - task: Cache@2
+            inputs:
+              key: "Swig | $(Agent.OS)"
+              path: $(SWIG_INSTALL_PREFIX)
+              cacheHitVar: SWIG_CACHE
+            displayName: Cache Swig-4.0.2
           - script: |
               echo "installing pcre"
               sudo apt install -y libpcre3 libpcre3-dev
@@ -970,7 +981,8 @@ stages:
               eval "$(conda shell.bash hook)"
               conda create -y --name $(PythonName) python=$(PythonVersion)
               conda activate $(PythonName)
-              conda install --yes --quiet nose numpy
+              conda install --yes --quiet nose numpy pytest pandas
+              $(PipExecutable) install -r $(SOURCE_DIR)/test-requirements.txt
               echo "which python: $(which python)"
               echo "which conda: $(which conda)"
               python_exe="$(which python)"
@@ -1001,7 +1013,11 @@ stages:
               cd $(INSTALL_DIR)
               echo "ls in install dir"
               ls
-              $(PythonExecutable) site-packages/roadrunner/testing/__main__.py
+              #$(PythonExecutable) site-packages/roadrunner/testing/__main__.py
+              echo "Switching to build dir: $(BUILD_DIR)"
+              cd $(BUILD_DIR)
+              echo "ctest --output-on-failure --verbose --extra-verbose --tests-regex python_tests*"
+              ctest --output-on-failure --verbose --extra-verbose --tests-regex python_tests*
             displayName: RunPythonTests
           - script: |
               # todo workout whether the top few lines are needed now I'm using $(PythonExecutable)
@@ -1021,7 +1037,7 @@ stages:
           - task: CopyFiles@2
             inputs:
               contents: '$(INSTALL_DIR)/**'
-              targetFolder: $(Build.ArtifactStagingDirectory)/Install-$(PythonName)
+              targetFolder: $(Build.ArtifactStagingDirectory)/roadrunner-Ubuntu18.04-$(PythonName)
             displayName: Copy Install Tree to Staging Area
           - task: CopyFiles@2
             inputs:
@@ -1029,7 +1045,7 @@ stages:
               targetFolder: $(Build.ArtifactStagingDirectory)/pip-wheels
             displayName: Copy Pip Wheels to Staging Area
           - publish: $(Build.ArtifactStagingDirectory)
-            artifact: roadrunner-$(Agent.OS)-$(PythonName)
+            artifact: roadrunner-Ubuntu18.04-$(PythonName)
             displayName: Publish Pip Wheels Artifacts
 
 #########################################################################
@@ -1145,8 +1161,8 @@ stages:
               echo "cd $(BUILD_DIRECTORY)"
               cd $(BUILD_DIRECTORY)
 
-              echo "$(PipExecutable) install numpy"
-              $(PipExecutable) install numpy
+              echo "$(PipExecutable) install numpy pytest"
+              $(PipExecutable) install -r $(SOURCE_DIR)/test-requirements.txt
 
               echo "sudo yum install -y ncurses-devel"
               sudo yum install -y ncurses-devel
@@ -1158,6 +1174,16 @@ stages:
               ctest --verbose --extra-verbose --output-on-failure
 
             displayName: Build With Python
+          - script: |
+              echo ". ~/.bashrc"
+              . ~/.bashrc
+              $(CondaExecutable) activate $(PythonName)
+
+              echo "cd'ing to build dir $(BUILD_DIR)"
+              cd $(BUILD_DIR)
+              cmake --build . --target run-pytest-tests -j4
+
+            displayName: Run Tests
 
           - script: |
               echo "cd to $(INSTALL_DIRECTORY)"
@@ -1166,9 +1192,11 @@ stages:
               echo "ls"
               ls
 
-              $(PipExecutable) install numpy
+              $(PipExecutable) install numpy pytest
               echo "$(PythonExecutable) ./setup.py bdist_wheel"
               $(PythonExecutable) ./setup.py bdist_wheel
+              $(PythonExecutable) ./setup_rrplugins.py bdist_wheel
+
 
               # cd dist
               # wheel=$(realpath $(ls))

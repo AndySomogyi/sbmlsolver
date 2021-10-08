@@ -210,6 +210,49 @@ public:
     virtual int setBoundarySpeciesConcentrations(size_t len, int const *indx,
             double const *values);
 
+    virtual int setBoundarySpeciesAmounts(size_t len, int const* indx,
+        const double* values);
+
+    /**
+     * Set the initial concentrations of the boundary species.
+     *
+     * Takes the same indices as the other boundary species methods.
+     *
+     * Note, if a boundary species has an initial assignment rule,
+     * than the initial conditions value can only be set by
+     * updating the values on which it depends, it can not be set
+     * directly.
+     */
+    virtual int setBoundarySpeciesInitConcentrations(size_t len, int const* indx,
+        double const* values);
+
+    /**
+     * Get the initial concentrations of the boundary species,
+     * uses the same indexing as the other boundary species methods.
+     */
+    virtual int getBoundarySpeciesInitConcentrations(size_t len, int const* indx,
+        double* values);
+
+    /**
+     * Set the initial amounts of the boundary species.
+     *
+     * Takes the same indices as the other boundary species methods.
+     *
+     * Note, if a boundary species has an initial assignment rule,
+     * than the initial conditions value can only be set by
+     * updating the values on which it depends, it can not be set
+     * directly.
+     */
+    virtual int setBoundarySpeciesInitAmounts(size_t len, int const* indx,
+        double const* values);
+
+    /**
+     * Get the initial amounts of the boundary species,
+     * uses the same indexing as the other boundary species methods.
+     */
+    virtual int getBoundarySpeciesInitAmounts(size_t len, int const* indx,
+        double* values);
+
 
     /************************ End Boundary Species Section ************************/
     #endif /***********************************************************************/
@@ -261,6 +304,8 @@ public:
 
     virtual int getNumCompartments();
     virtual int getCompartmentIndex(const std::string& eid);
+    virtual int getCompartmentIndexForFloatingSpecies(size_t index);
+    virtual int getCompartmentIndexForBoundarySpecies(size_t index);
     virtual std::string getCompartmentId(int index);
 
     /**
@@ -517,6 +562,9 @@ public:
     virtual int getEventIndex(const std::string& eid);
     virtual std::string getEventId(int index);
     virtual void getEventIds(std::list<std::string>& out);
+    virtual void getAssignmentRuleIds(std::list<std::string>& out);
+    virtual void getRateRuleIds(std::list<std::string>& out);
+    virtual void getInitialAssignmentIds(std::list<std::string>& out);
     virtual void setEventListener(int index, rr::EventListenerPtr eventHandler);
     virtual rr::EventListenerPtr getEventListener(int index);
 

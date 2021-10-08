@@ -502,6 +502,44 @@ void ModelEditingTests::removeAndReaddAllCompartments(RoadRunner *rri, libsbml::
 }
 
 
+TEST_F(ModelEditingTests, SET_BOUNDARY_INIT) {
+    RoadRunner rri;
+    //Logger::setLevel(Logger::LOG_DEBUG);
+    rri.addCompartment("compartment", 3.5, false);
+    //Boundary species:
+    rri.addSpeciesConcentration("S2", "compartment", 1.0, false, true);
+    double x = rri.getValue("init(S2)");
+    EXPECT_EQ(x, 3.5);
+    x = rri.getValue("init([S2])");
+    EXPECT_EQ(x, 1.0);
+
+    //Now set the initial amount to something new:
+    rri.setValue("init(S2)", 5.0);
+    x = rri.getValue("init(S2)");
+    EXPECT_EQ(x, 5.0);
+    x = rri.getValue("init([S2])");
+    EXPECT_EQ(x, 5.0/3.5);
+
+    //Now set the initial concentration to something new:
+    rri.setValue("init([S2])", 5.5);
+    x = rri.getValue("init(S2)");
+    EXPECT_EQ(x, 5.5*3.5);
+    x = rri.getValue("init([S2])");
+    EXPECT_EQ(x, 5.5);
+
+    //Boundary species:
+    rri.addSpeciesAmount("S3", "compartment", 1.0, true, true);
+    rri.setValue("init(S3)", 6.0);
+    x = rri.getValue("init(S3)");
+    EXPECT_EQ(x, 6.0);
+    //Floating species:
+    rri.addSpeciesConcentration("S1", "compartment", 1.0, false, false);
+    rri.setValue("init(S1)", 7.0);
+    x = rri.getValue("init(S1)");
+    EXPECT_EQ(x, 7.0);
+}
+
+
 TEST_F(ModelEditingTests, CLEAR_MODEL_1) {
     RoadRunner rri;
     rri.addCompartment("compartment", 3.14159);
@@ -1485,4 +1523,34 @@ TEST_F(ModelEditingTests, CHECK_REGENERATE) {
 
 }
 
+
+TEST_F(ModelEditingTests, GET_SET_MODELNAME1) {
+    RoadRunner rri;
+    EXPECT_STREQ(rri.getModelName().c_str(), "");
+    rri.setModelName("test");
+    EXPECT_STREQ(rri.getModelName().c_str(), "test");
+}
+
+TEST_F(ModelEditingTests, GET_SET_MODELNAME2) {
+    RoadRunner rri("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<sbml xmlns=\"http://www.sbml.org/sbml/level3/version2/core\" level=\"3\" version=\"2\">\n  <model name=\"foo\"/>\n</sbml>\n");
+    EXPECT_STREQ(rri.getModelName().c_str(), "foo");
+    rri.setModelName("test");
+    EXPECT_STREQ(rri.getModelName().c_str(), "test");
+    EXPECT_STREQ(rri.getSBML().c_str(), "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<sbml xmlns=\"http://www.sbml.org/sbml/level3/version2/core\" level=\"3\" version=\"2\">\n  <model name=\"test\"/>\n</sbml>\n");
+}
+
+TEST_F(ModelEditingTests, GET_SET_MODELID1) {
+    RoadRunner rri;
+    EXPECT_STREQ(rri.getModelId().c_str(), "");
+    rri.setModelId("test");
+    EXPECT_STREQ(rri.getModelId().c_str(), "test");
+}
+
+TEST_F(ModelEditingTests, GET_SET_MODELID2) {
+    RoadRunner rri("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<sbml xmlns=\"http://www.sbml.org/sbml/level3/version2/core\" level=\"3\" version=\"2\">\n  <model id=\"foo\"/>\n</sbml>\n");
+    EXPECT_STREQ(rri.getModelId().c_str(), "foo");
+    rri.setModelId("test");
+    EXPECT_STREQ(rri.getModelId().c_str(), "test");
+    EXPECT_STREQ(rri.getSBML().c_str(), "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<sbml xmlns=\"http://www.sbml.org/sbml/level3/version2/core\" level=\"3\" version=\"2\">\n  <model id=\"test\"/>\n</sbml>\n");
+}
 

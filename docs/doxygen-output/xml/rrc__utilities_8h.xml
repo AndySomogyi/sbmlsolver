@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
   <compounddef id="rrc__utilities_8h" kind="file" language="C++">
     <compoundname>rrc_utilities.h</compoundname>
     <includes refid="rrc__exporter_8h" local="yes">rrc_exporter.h</includes>
@@ -1922,8 +1922,7 @@
 &lt;-----------------------------------------------------------<mdash/> This file is part of cRoadRunner. See <ulink url="http://code.google.com/p/roadrunnerlib">http://code.google.com/p/roadrunnerlib</ulink> for more details.</para>
 <para>Copyright (C) 2012-2013 University of Washington, Seattle, WA, USA</para>
 <para>Licensed under the Apache License, Version 2.0 (the &quot;License&quot;); you may not use this file except in compliance with the License. You may obtain a copy of the License at <verbatim>http://www.apache.org/licenses/LICENSE-2.0
-</verbatim></para>
-<para>Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.</para>
+</verbatim> Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.</para>
 <para>In plain english this means:</para>
 <para>You CAN freely download and use this software, in whole or in part, for personal, company internal, or commercial purposes;</para>
 <para>You CAN use the software in packages or distributions that you create.</para>
@@ -1933,8 +1932,8 @@
 <para>redistribute any piece of this software without proper attribution; </para>
     </detaileddescription>
     <programlisting>
-<codeline lineno="1"></codeline>
-<codeline lineno="42"><highlight class="preprocessor">#ifndef<sp/>rrc_utilitiesH</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>rrc_utilitiesH</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="43"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>rrc_utilitiesH</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="rrc__exporter_8h" kindref="compound">rrc_exporter.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="45"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="rrc__types_8h" kindref="compound">rrc_types.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
@@ -1949,14 +1948,14 @@
 <codeline lineno="54"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="55"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="56"><highlight class="normal"></highlight></codeline>
-<codeline lineno="60"><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="rrc__utilities_8h_1a8f3828dfd1294cbcf4e57b4e382f8a8c" kindref="member">gLastError</ref>;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="rrc__utilities_8h_1a8f3828dfd1294cbcf4e57b4e382f8a8c" kindref="member">gLastError</ref>;</highlight></codeline>
 <codeline lineno="61"><highlight class="normal"></highlight></codeline>
-<codeline lineno="65"><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="rrc__utilities_8h_1ae4404be9766c980f2b2065a726ad42a6" kindref="member">gInstallFolder</ref>;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="rrc__utilities_8h_1ae4404be9766c980f2b2065a726ad42a6" kindref="member">gInstallFolder</ref>;</highlight></codeline>
 <codeline lineno="66"><highlight class="normal"></highlight></codeline>
 <codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//Error/Warning<sp/>Messages</highlight></codeline>
 <codeline lineno="71"><highlight class="comment"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><sp/><ref refid="rrc__utilities_8h_1a7abd7eb1ec507cbb9cd17ad024d0dc66" kindref="member">ALLOCATE_API_ERROR_MSG</ref>;</highlight></codeline>
 <codeline lineno="72"><highlight class="normal"></highlight></codeline>
-<codeline lineno="76"><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><sp/><ref refid="rrc__utilities_8h_1af8776c486d2155e2b40d97013c89c558" kindref="member">INVALID_HANDLE_ERROR_MSG</ref>;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><sp/><ref refid="rrc__utilities_8h_1af8776c486d2155e2b40d97013c89c558" kindref="member">INVALID_HANDLE_ERROR_MSG</ref>;</highlight></codeline>
 <codeline lineno="77"><highlight class="normal"></highlight></codeline>
 <codeline lineno="84" refid="rrc__utilities_8h_1acc9949f745af42ea6b3539620e2b8d9d" refkind="member"><highlight class="normal">C_DECL_SPEC<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rrcCallConv<sp/><sp/><sp/><sp/><ref refid="rrc__utilities_8h_1acc9949f745af42ea6b3539620e2b8d9d" kindref="member">getFileContent</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>fName);</highlight></codeline>
 <codeline lineno="85"><highlight class="normal"></highlight></codeline>
@@ -2016,7 +2015,7 @@
 <codeline lineno="314" refid="group__freeRoutines_1gaaaea1b8264a6d7511153ef611fa88e53" refkind="member"><highlight class="normal">C_DECL_SPEC<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>rrcCallConv<sp/><ref refid="group__freeRoutines_1gaaaea1b8264a6d7511153ef611fa88e53" kindref="member">freeText</ref>(</highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>text);</highlight></codeline>
 <codeline lineno="315"><highlight class="normal"></highlight></codeline>
 <codeline lineno="316"><highlight class="normal"></highlight></codeline>
-<codeline lineno="321"><highlight class="comment">//C_DECL_SPEC<sp/>int<sp/>rrcCallConv<sp/>freeStringList(RRStringListHandle<sp/>sl);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"></highlight><highlight class="comment">//C_DECL_SPEC<sp/>int<sp/>rrcCallConv<sp/>freeStringList(RRStringListHandle<sp/>sl);</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="322"><highlight class="normal"></highlight></codeline>
 <codeline lineno="327" refid="group__freeRoutines_1ga905dbf578855f9e21e956f6066a6a2b5" refkind="member"><highlight class="normal">C_DECL_SPEC<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>rrcCallConv<sp/><ref refid="group__freeRoutines_1ga905dbf578855f9e21e956f6066a6a2b5" kindref="member">freeStringArray</ref>(<ref refid="structRRStringArray" kindref="compound">RRStringArrayPtr</ref><sp/>sl);</highlight></codeline>
 <codeline lineno="328"><highlight class="normal"></highlight></codeline>

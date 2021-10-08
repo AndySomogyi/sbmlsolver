@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
   <compounddef id="classrrllvm_1_1ModelInitialValueStoreSymbolResolver" kind="class" language="C++" prot="public">
     <compoundname>rrllvm::ModelInitialValueStoreSymbolResolver</compoundname>
     <basecompoundref refid="classrrllvm_1_1StoreSymbolResolver" prot="public" virt="non-virtual">rrllvm::StoreSymbolResolver</basecompoundref>
@@ -154,7 +154,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/ModelInitialValueSymbolResolver.h" line="56" column="25" bodyfile="llvm/ModelInitialValueSymbolResolver.cpp" bodystart="206" bodyend="257"/>
+        <location file="llvm/ModelInitialValueSymbolResolver.h" line="56" column="25" bodyfile="llvm/ModelInitialValueSymbolResolver.cpp" bodystart="230" bodyend="304"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

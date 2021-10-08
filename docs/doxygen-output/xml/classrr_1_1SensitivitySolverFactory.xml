@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="classrr_1_1SensitivitySolverFactory" kind="class" language="C++" prot="public">
+    <compoundname>rr::SensitivitySolverFactory</compoundname>
+    <basecompoundref refid="classrr_1_1RegistrationFactory" prot="public" virt="non-virtual">rr::RegistrationFactory</basecompoundref>
+    <includes refid="SensitivitySolverFactory_8h" local="no">SensitivitySolverFactory.h</includes>
+      <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classrr_1_1SensitivitySolverFactory_1a195775f017038cee09a4d9921a70f0e7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classrr_1_1SensitivitySolverFactory" kindref="compound">SensitivitySolverFactory</ref> &amp;</type>
+        <definition>SensitivitySolverFactory &amp; rr::SensitivitySolverFactory::getInstance</definition>
+        <argsstring>()</argsstring>
+        <name>getInstance</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SensitivitySolverFactory.h" line="24" column="41" bodyfile="SensitivitySolverFactory.cpp" bodystart="13" bodyend="15"/>
+      </memberdef>
+      <memberdef kind="function" id="classrr_1_1SensitivitySolverFactory_1ab958e0c92c2c60b5b3db2ed1d00c8b95" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void rr::SensitivitySolverFactory::Register</definition>
+        <argsstring>()</argsstring>
+        <name>Register</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="SensitivitySolverFactory.h" line="26" column="21" bodyfile="SensitivitySolverFactory.cpp" bodystart="17" bodyend="24"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Constructs new integrators. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="author"><para>JKM, WBC</para>
+</simplesect>
+Implements the factory and singleton patterns. Constructs a new integrator given the name (e.g. cvode, gillespie) and returns a base pointer to <ref refid="classrr_1_1SensitivitySolver" kindref="compound">rr::SensitivitySolver</ref>. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>rr::SensitivitySolverFactory</label>
+        <link refid="classrr_1_1SensitivitySolverFactory"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>rr::RegistrationFactory</label>
+        <link refid="classrr_1_1RegistrationFactory"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>rr::SensitivitySolverFactory</label>
+        <link refid="classrr_1_1SensitivitySolverFactory"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>rr::RegistrationFactory</label>
+        <link refid="classrr_1_1RegistrationFactory"/>
+      </node>
+    </collaborationgraph>
+    <location file="SensitivitySolverFactory.h" line="20" column="5" bodyfile="SensitivitySolverFactory.h" bodystart="21" bodyend="27"/>
+    <listofallmembers>
+      <member refid="classrr_1_1RegistrationFactory_1aab8247a922fa2b4d8d2293b129fa5582" prot="public" virt="virtual"><scope>rr::SensitivitySolverFactory</scope><name>description</name></member>
+      <member refid="classrr_1_1SensitivitySolverFactory_1a195775f017038cee09a4d9921a70f0e7" prot="public" virt="non-virtual"><scope>rr::SensitivitySolverFactory</scope><name>getInstance</name></member>
+      <member refid="classrr_1_1RegistrationFactory_1ae45f4f0ee24b8eed1481ff11cac5822c" prot="public" virt="non-virtual" ambiguityscope="rr::RegistrationFactory::"><scope>rr::SensitivitySolverFactory</scope><name>getInstance</name></member>
+      <member refid="classrr_1_1RegistrationFactory_1ac5a37f51c2af354b527ac1a3e4d36554" prot="public" virt="virtual"><scope>rr::SensitivitySolverFactory</scope><name>hint</name></member>
+      <member refid="classrr_1_1RegistrationFactory_1ab5399075e167b9af65a5cf0f52106594" prot="public" virt="virtual"><scope>rr::SensitivitySolverFactory</scope><name>name</name></member>
+      <member refid="classrr_1_1RegistrationFactory_1af6a9a68a5895f4da2bf3f57872b09bd4" prot="public" virt="non-virtual"><scope>rr::SensitivitySolverFactory</scope><name>New</name></member>
+      <member refid="classrr_1_1SensitivitySolverFactory_1ab958e0c92c2c60b5b3db2ed1d00c8b95" prot="public" virt="non-virtual"><scope>rr::SensitivitySolverFactory</scope><name>Register</name></member>
+      <member refid="classrr_1_1RegistrationFactory_1a54c731eac3f3b37041d17412e855191a" prot="public" virt="virtual"><scope>rr::SensitivitySolverFactory</scope><name>registerSolver</name></member>
+      <member refid="classrr_1_1RegistrationFactory_1ab1f8e12285e842396a4d292cd0a96502" prot="protected" virt="non-virtual"><scope>rr::SensitivitySolverFactory</scope><name>registrars</name></member>
+      <member refid="classrr_1_1RegistrationFactory_1a937d80a2cd2ace8570a571ab32c53f72" prot="protected" virt="non-virtual"><scope>rr::SensitivitySolverFactory</scope><name>RegistrationFactory</name></member>
+      <member refid="classrr_1_1RegistrationFactory_1a47099ccc11d2e15fafb6f0b30a3c47bd" prot="public" virt="virtual"><scope>rr::SensitivitySolverFactory</scope><name>size</name></member>
+      <member refid="classrr_1_1RegistrationFactory_1a1bf700b4a149b2ace54e205bdf8e32de" prot="public" virt="virtual"><scope>rr::SensitivitySolverFactory</scope><name>~RegistrationFactory</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

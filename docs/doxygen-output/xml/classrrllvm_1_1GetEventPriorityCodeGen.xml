@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.20" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
   <compounddef id="classrrllvm_1_1GetEventPriorityCodeGen" kind="class" language="C++" prot="public">
     <compoundname>rrllvm::GetEventPriorityCodeGen</compoundname>
     <basecompoundref refid="classrrllvm_1_1GetEventValueCodeGenBase" prot="public" virt="non-virtual">rrllvm::GetEventValueCodeGenBase&lt; GetEventPriorityCodeGen &gt;</basecompoundref>
@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/GetEventValuesCodeGen.h" line="160" column="23" bodyfile="llvm/GetEventValuesCodeGen.h" bodystart="160" bodyend="-1"/>
+        <location file="llvm/GetEventValuesCodeGen.h" line="157" column="23" bodyfile="llvm/GetEventValuesCodeGen.h" bodystart="157" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classrrllvm_1_1GetEventPriorityCodeGen_1a70284d83159e647334d70951f77c610a" prot="public" static="yes" mutable="no">
         <type>const char *</type>
@@ -30,7 +30,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/GetEventValuesCodeGen.h" line="161" column="23" bodyfile="llvm/GetEventValuesCodeGen.h" bodystart="161" bodyend="-1"/>
+        <location file="llvm/GetEventValuesCodeGen.h" line="158" column="23" bodyfile="llvm/GetEventValuesCodeGen.h" bodystart="158" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-attrib">
@@ -45,7 +45,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/GetEventValuesCodeGen.h" line="164" column="22" bodyfile="llvm/GetEventValuesCodeGen.h" bodystart="164" bodyend="-1"/>
+        <location file="llvm/GetEventValuesCodeGen.h" line="161" column="22" bodyfile="llvm/GetEventValuesCodeGen.h" bodystart="161" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -64,7 +64,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/GetEventValuesCodeGen.h" line="155" column="5" bodyfile="llvm/GetEventValuesCodeGen.cpp" bodystart="61" bodyend="66"/>
+        <location file="llvm/GetEventValuesCodeGen.h" line="152" column="5" bodyfile="llvm/GetEventValuesCodeGen.cpp" bodystart="62" bodyend="67"/>
       </memberdef>
       <memberdef kind="function" id="classrrllvm_1_1GetEventPriorityCodeGen_1a4780c3f3ea4813d62e41fc4008a973f8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -77,16 +77,20 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/GetEventValuesCodeGen.h" line="156" column="5" bodyfile="llvm/GetEventValuesCodeGen.cpp" bodystart="68" bodyend="71"/>
+        <location file="llvm/GetEventValuesCodeGen.h" line="153" column="5" bodyfile="llvm/GetEventValuesCodeGen.cpp" bodystart="69" bodyend="72"/>
       </memberdef>
-      <memberdef kind="function" id="classrrllvm_1_1GetEventPriorityCodeGen_1abb1116af0e2604fc8e6e5230c98d9a61" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>const libsbml::ASTNode *</type>
-        <definition>const libsbml::ASTNode * rrllvm::GetEventPriorityCodeGen::getMath</definition>
-        <argsstring>(const libsbml::Event *)</argsstring>
+      <memberdef kind="function" id="classrrllvm_1_1GetEventPriorityCodeGen_1a8e96615240a2f04d081b7106aa201e1e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>llvm::Value *</type>
+        <definition>llvm::Value * rrllvm::GetEventPriorityCodeGen::getMath</definition>
+        <argsstring>(const libsbml::Event *, ASTNodeCodeGen &amp;astCodeGen)</argsstring>
         <name>getMath</name>
         <param>
           <type>const libsbml::Event *</type>
           <defname>event</defname>
+        </param>
+        <param>
+          <type><ref refid="classrrllvm_1_1ASTNodeCodeGen" kindref="compound">ASTNodeCodeGen</ref> &amp;</type>
+          <declname>astCodeGen</declname>
         </param>
         <briefdescription>
         </briefdescription>
@@ -94,7 +98,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="llvm/GetEventValuesCodeGen.h" line="158" column="28" bodyfile="llvm/GetEventValuesCodeGen.cpp" bodystart="73" bodyend="89"/>
+        <location file="llvm/GetEventValuesCodeGen.h" line="155" column="17" bodyfile="llvm/GetEventValuesCodeGen.cpp" bodystart="74" bodyend="92"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -120,54 +124,15 @@
       </node>
     </inheritancegraph>
     <collaborationgraph>
-      <node id="6">
-        <label>rrllvm::ASTNodeFactory</label>
-        <link refid="classrrllvm_1_1ASTNodeFactory"/>
-      </node>
-      <node id="4">
-        <label>rrllvm::LLVMModelSymbols</label>
-        <link refid="classrrllvm_1_1LLVMModelSymbols"/>
-        <childnode refid="5" relation="private-inheritance">
-        </childnode>
-        <childnode refid="6" relation="usage">
-          <edgelabel>nodes</edgelabel>
-        </childnode>
-        <childnode refid="7" relation="usage">
-          <edgelabel>assignmentRules</edgelabel>
-          <edgelabel>initialAssignmentRules</edgelabel>
-          <edgelabel>initialValues</edgelabel>
-          <edgelabel>rateRules</edgelabel>
-        </childnode>
-      </node>
-      <node id="10">
-        <label>rrllvm::ModelGeneratorContext</label>
-        <link refid="classrrllvm_1_1ModelGeneratorContext"/>
-      </node>
-      <node id="9">
-        <label>rrllvm::LLVMModelDataSymbols</label>
-        <link refid="classrrllvm_1_1LLVMModelDataSymbols"/>
-      </node>
       <node id="1">
         <label>rrllvm::GetEventPriorityCodeGen</label>
         <link refid="classrrllvm_1_1GetEventPriorityCodeGen"/>
         <childnode refid="2" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="5">
-        <label>SBMLVisitor</label>
-      </node>
       <node id="3">
         <label>rrllvm::CodeGenBase&lt; GetEventValueCodeGenBase_FunctionPtr &gt;</label>
         <link refid="classrrllvm_1_1CodeGenBase"/>
-        <childnode refid="4" relation="usage">
-          <edgelabel>modelSymbols</edgelabel>
-        </childnode>
-        <childnode refid="9" relation="usage">
-          <edgelabel>dataSymbols</edgelabel>
-        </childnode>
-        <childnode refid="10" relation="usage">
-          <edgelabel>modelGenContext</edgelabel>
-        </childnode>
       </node>
       <node id="2">
         <label>rrllvm::GetEventValueCodeGenBase&lt; GetEventPriorityCodeGen &gt;</label>
@@ -175,22 +140,8 @@
         <childnode refid="3" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="7">
-        <label>rrllvm::SymbolForest</label>
-        <link refid="classrrllvm_1_1SymbolForest"/>
-        <childnode refid="8" relation="usage">
-          <edgelabel>boundarySpecies</edgelabel>
-          <edgelabel>compartments</edgelabel>
-          <edgelabel>floatingSpecies</edgelabel>
-          <edgelabel>globalParameters</edgelabel>
-          <edgelabel>speciesReferences</edgelabel>
-        </childnode>
-      </node>
-      <node id="8">
-        <label>map&lt; string, const libsbml::ASTNode * &gt;</label>
-      </node>
     </collaborationgraph>
-    <location file="llvm/GetEventValuesCodeGen.h" line="151" column="1" bodyfile="llvm/GetEventValuesCodeGen.h" bodystart="153" bodyend="165"/>
+    <location file="llvm/GetEventValuesCodeGen.h" line="148" column="1" bodyfile="llvm/GetEventValuesCodeGen.h" bodystart="150" bodyend="162"/>
     <listofallmembers>
       <member refid="classrrllvm_1_1CodeGenBase_1a36a54f70488b5dc597b63d51b6339793" prot="protected" virt="non-virtual"><scope>rrllvm::GetEventPriorityCodeGen</scope><name>builder</name></member>
       <member refid="classrrllvm_1_1GetEventValueCodeGenBase_1af20a6b4a97e94177380b19d93434fe05" prot="public" virt="virtual"><scope>rrllvm::GetEventPriorityCodeGen</scope><name>codeGen</name></member>
@@ -208,7 +159,7 @@
       <member refid="classrrllvm_1_1GetEventValueCodeGenBase_1aaa3521df50919fe09fc2683ccd5cd815" prot="public" virt="non-virtual"><scope>rrllvm::GetEventPriorityCodeGen</scope><name>FunctionPtr</name></member>
       <member refid="classrrllvm_1_1GetEventPriorityCodeGen_1a3e8a43d341e19034ffe56a56d55fb563" prot="public" virt="non-virtual"><scope>rrllvm::GetEventPriorityCodeGen</scope><name>GetEventPriorityCodeGen</name></member>
       <member refid="classrrllvm_1_1GetEventValueCodeGenBase_1af0c91ca79583f5b3b05824a01a6963b4" prot="public" virt="non-virtual"><scope>rrllvm::GetEventPriorityCodeGen</scope><name>GetEventValueCodeGenBase</name></member>
-      <member refid="classrrllvm_1_1GetEventPriorityCodeGen_1abb1116af0e2604fc8e6e5230c98d9a61" prot="public" virt="non-virtual"><scope>rrllvm::GetEventPriorityCodeGen</scope><name>getMath</name></member>
+      <member refid="classrrllvm_1_1GetEventPriorityCodeGen_1a8e96615240a2f04d081b7106aa201e1e" prot="public" virt="non-virtual"><scope>rrllvm::GetEventPriorityCodeGen</scope><name>getMath</name></member>
       <member refid="classrrllvm_1_1GetEventValueCodeGenBase_1a72911128b80b0ab3b23257750de4497d" prot="public" virt="non-virtual"><scope>rrllvm::GetEventPriorityCodeGen</scope><name>getRetType</name></member>
       <member refid="classrrllvm_1_1GetEventPriorityCodeGen_1a70284d83159e647334d70951f77c610a" prot="public" virt="non-virtual"><scope>rrllvm::GetEventPriorityCodeGen</scope><name>IndexArgName</name></member>
       <member refid="classrrllvm_1_1CodeGenBase_1afb6ef03ee896534cde79895141a8a666" prot="protected" virt="non-virtual"><scope>rrllvm::GetEventPriorityCodeGen</scope><name>model</name></member>

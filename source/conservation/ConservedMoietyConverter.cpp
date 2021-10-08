@@ -245,7 +245,7 @@ int ConservedMoietyConverter::convert()
     // makes a clone of the model
     if((err = resultDoc->setModel(mModel)) != LIBSBML_OPERATION_SUCCESS)
     {
-        rrLog(Logger::LOG_ERROR) << "ConservedMoietyConverter resultDoc->setModel(mModel) failed: "
+        rrLog(Logger::LOG_ERROR) << "ConservedMoietyConverter resultDoc->syncWithModel(mModel) failed: "
                 << std::endl
                 << OperationReturnValue_toString(err);
         return err;
@@ -321,7 +321,7 @@ int ConservedMoietyConverter::setDocument(const libsbml::SBMLDocument* doc)
         || doc->getVersion() != ConservationExtension::getDefaultVersion())
     {
         if ((rr::Config::getBool(rr::Config::ROADRUNNER_DISABLE_WARNINGS) &
-                rr::Config::ROADRUNNER_DISABLE_WARNINGS_CONSERVED_MOIETY) == 0)
+                rr::Config::ROADRUNNER_DISABLE_WARNINGS_CONSERVED_MOIETY == 0))
         {
             rrLog(rr::Logger::LOG_NOTICE) << "source document is level " << doc->getLevel()
                         << ", version " << doc->getVersion() << ", converting to "

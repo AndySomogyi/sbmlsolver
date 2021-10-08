@@ -3,7 +3,6 @@
 #include <vector>
 #include "telTelluriumData.h"
 #include "telStringList.h"
-#include "telConstants.h"
 #include "telAutoConstants.h"
 //---------------------------------------------------------------------------
 
