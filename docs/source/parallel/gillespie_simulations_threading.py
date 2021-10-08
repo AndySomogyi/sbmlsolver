@@ -9,7 +9,7 @@ import cpuinfo # pip install py-cpuinfo
 
 NTHREADS = 16
 NTHREADS = 128
-NSIMS = 1000000
+NSIMS = 100000
 NSTEPS = 11
 
 
