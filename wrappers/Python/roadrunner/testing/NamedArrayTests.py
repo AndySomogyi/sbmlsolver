@@ -297,3 +297,35 @@ class NamedArrayTests(unittest.TestCase):
         self.assertEqual((1, 2), mat.shape)
         self.assertEqual(mat.colnames, [ '[S1]', '[S2]'])
 
+    def test_viewcast_NamedArray_to_ndarray(self):
+        n = NamedArray((2, 3))
+        for i in range(2):
+            for j in range(3):
+                n[i, j] = 3*i + j
+        arr = n.view(np.ndarray)
+        self.assertIsInstance(arr, np.ndarray)
+
+    def test_viewcast_ndarray_to_NamedArray(self):
+        arr = NamedArray((2, 3))
+        for i in range(2):
+            for j in range(3):
+                arr[i, j] = 3*i + j
+        n = arr.view(NamedArray)
+        self.assertIsInstance(n, NamedArray)
+
+    def test_viewcast_NamedArray_to_masked_array(self):
+        n = NamedArray((2, 3))
+        for i in range(2):
+            for j in range(3):
+                n[i, j] = 3*i + j
+        arr = n.view(np.ma.MaskedArray)
+        self.assertIsInstance(arr, np.ma.MaskedArray)
+
+    def test_viewcast_masked_array_to_NamedArray(self):
+        arr = np.ndarray((2,3))
+        for i in range(2):
+            for j in range(3):
+                arr[i, j] = 3*i + j
+        m = arr.view(np.ma.MaskedArray)
+        n = m.view(NamedArray)
+        self.assertIsInstance(n, NamedArray)

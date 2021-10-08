@@ -1566,6 +1566,14 @@ namespace rr {
 //        }
     }
 
+    bool isSubclassOfPyArray(PyObject* obj){
+        int ret = PyObject_IsInstance(obj, (PyObject*)&PyArray_Type);
+        if (ret < 0){
+            PyErr_SetString(PyExc_ValueError, "Could not determine type of object");
+        }
+        return (bool) ret;
+    }
+
 
     PyObject *NamedArrayObject_Finalize(NamedArrayObject *self, PyObject *args) {
         // Some docs on why this is needed: https://numpy.org/devdocs/user/basics.subclassing.html
@@ -1578,6 +1586,7 @@ namespace rr {
             return nullptr;
         }
         rrLogDebug << "finalizing object self: " << self << "; args " << rhs;
+//        rrLogDebug << "rhs->ob_type->ob_base.ob_base.ob_type: " << rhs->;
 
         // when NamedArray instantiated with constructor
         //   >>> n = NamedArray((3, 4)) # 1
@@ -1586,13 +1595,17 @@ namespace rr {
         // we are guarenteed to not have row or colnames because
         //  #1 syntax is not supported at this time and
         //  #2 np.ndarray does not have row/colnames
-        if (rhs == Py_None) {
+        //
+        // the isSubclass part was added to patch issue 873
+        // It may not be ideal, but it does fix the problem.
+        if (rhs == Py_None || isSubclassOfPyArray(rhs)) {
             rrLogDebug << "NamedArrayObject initialized from constructor. 'None' path taken";
             return NamedArrayObject_Finalize_FromConstructor(self);
         } else if (rhs->ob_type == &PyArray_Type) {
             rrLogDebug << "Taking the PyArray_Type path";
             return NamedArrayObject_Finalize_FromPyArray(self);
         } else if (rhs->ob_type == &NamedArray_Type) {
+//        } else if (isSubclassOfPyArray(rhs)) {
             rrLogDebug << "Taking the NamedArray_Type path";
             return NamedArrayObject_Finalize_FromNamedArray(self, rhs);
         } else {
