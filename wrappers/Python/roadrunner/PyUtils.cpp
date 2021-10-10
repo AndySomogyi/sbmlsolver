@@ -1720,13 +1720,7 @@ namespace rr {
 
     PyObject *NamedArray_repr(NamedArrayObject *self) {
         rrLogDebug << __FUNC__;
-        const void * address = static_cast<const void*>(self);
-        std::stringstream ss;
-        ss << address;
-        std::string stringPtrVal = ss.str();
-        PyObject *s = PyUnicode_FromFormat("<NamedArray object at %s>", stringPtrVal.c_str());
-        rrLogDebug << "Done" << std::endl;
-        return s;
+        return NamedArray_str(self);
     }
 
     PyObject *NamedArray_str(NamedArrayObject *self) {
