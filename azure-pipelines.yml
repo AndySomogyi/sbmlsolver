@@ -10,7 +10,7 @@ trigger:
     include:
     - develop
     - release
-    - release-experimental
+    - experimental-release
 
 variables:
   SOURCE_DIR: '$(System.DefaultWorkingDirectory)' # eg /home/vsts/work/1/s
