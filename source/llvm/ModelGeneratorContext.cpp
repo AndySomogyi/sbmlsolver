@@ -477,6 +477,10 @@ void ModelGeneratorContext::initFunctionPassManager()
     // Set up the optimizer pipeline.  Start with registering info about how the
     // target lays out data structures.
 
+    /**
+     * Note to developers - passes are stored in llvm/Transforms/Scalar.h.
+     */
+
     // we only support LLVM >= 3.1
 #if (LLVM_VERSION_MAJOR == 3) && (LLVM_VERSION_MINOR == 1)
 //#if (LLVM_VERSION_MAJOR == 6)
@@ -499,7 +503,14 @@ void ModelGeneratorContext::initFunctionPassManager()
         if (options & LoadSBMLOptions::OPTIMIZE_INSTRUCTION_SIMPLIFIER)
         {
             rrLog(Logger::LOG_INFORMATION) << "using OPTIMIZE_INSTRUCTION_SIMPLIFIER";
+#if LLVM_VERSION_MAJOR == 6
             functionPassManager->add(createInstructionSimplifierPass());
+#elif LLVM_VERSION_MAJOR >= 12
+            functionPassManager->add(createInstSimplifyLegacyPass());
+#else
+            rrLogWarn << "Not using llvm optimization \"OPTIMIZE_INSTRUCTION_SIMPLIFIER\" "
+                         "because llvm version is " << LLVM_VERSION_MAJOR;
+#endif
         }
 
         if (options & LoadSBMLOptions::OPTIMIZE_INSTRUCTION_COMBINING)
@@ -524,7 +535,15 @@ void ModelGeneratorContext::initFunctionPassManager()
         if (options & LoadSBMLOptions::OPTIMIZE_DEAD_INST_ELIMINATION)
         {
             rrLog(Logger::LOG_INFORMATION) << "using OPTIMIZE_DEAD_INST_ELIMINATION";
+#if LLVM_VERSION_MAJOR == 6
             functionPassManager->add(createDeadInstEliminationPass());
+#elif LLVM_VERSION_MAJOR >= 12
+            // do nothing since this seems to have been removed
+            // or replaced with createDeadCodeEliminationPass, which we add below anyway
+#else
+            rrLogWarn << "Not using OPTIMIZE_DEAD_INST_ELIMINATION because you are using"
+                         "LLVM version " << LLVM_VERSION_MAJOR;
+#endif
         }
 
         if (options & LoadSBMLOptions::OPTIMIZE_DEAD_CODE_ELIMINATION)
