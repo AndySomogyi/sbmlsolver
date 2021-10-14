@@ -85,6 +85,19 @@ void copyCachedModel(a_type* src, b_type* dst)
     dst->evalConversionFactorPtr = src->evalConversionFactorPtr;
 }
 
+/**
+ * @brief cross platform mechanism for getting the target machine
+ * file type.
+ */
+#if LLVM_VERSION_MAJOR == 6
+llvm::LLVMTargetMachine::CodeGenFileType getCodeGenFileType(){
+    return llvm::TargetMachine::CGFT_ObjectFile;
+}
+#elif LLVM_VERSION_MAJOR >=12
+llvm::CodeGenFileType getCodeGenFileType(){
+    return llvm::CGFT_ObjectFile;
+}
+#endif
 
 ExecutableModel* LLVMModelGenerator::regenerateModel(ExecutableModel* oldModel, libsbml::SBMLDocument* doc, uint options)
 {
@@ -220,23 +233,26 @@ ExecutableModel* LLVMModelGenerator::regenerateModel(ExecutableModel* oldModel, 
 
 	llvm::InitializeNativeTarget();
 
-	//Write the object file to modBuffer
+	//Write the object file to modBufferOut
 	std::error_code EC;
-	llvm::SmallVector<char, 10> modBuffer;
-	llvm::raw_svector_ostream mStrStream(modBuffer);
+	llvm::SmallVector<char, 10> modBufferOut;
+	llvm::raw_svector_ostream mStrStreamOut(modBufferOut);
 
 	llvm::legacy::PassManager pass;
-	auto FileType = TargetMachine->CGFT_ObjectFile;
+	auto FileType = getCodeGenFileType();
 
-	if (TargetMachine->addPassesToEmitFile(pass, mStrStream, FileType))
+#if LLVM_VERSION_MAJOR == 6
+	if (TargetMachine->addPassesToEmitFile(pass, mStrStreamOut, FileType))
+#elif LLVM_VERSION_MAJOR >= 12
+	if (TargetMachine->addPassesToEmitFile(pass, mStrStreamOut, nullptr, FileType))
+#endif
 	{
 		throw "TargetMachine can't emit a file of type CGFT_ObjectFile";
 	}
-
 	pass.run(*context.getModule());
 
-	//Read from modBuffer into our execution engine
-	std::string moduleStr(modBuffer.begin(), modBuffer.end());
+	//Read from modBufferOut into our execution engine
+	std::string moduleStr(modBufferOut.begin(), modBufferOut.end());
 
 	auto memBuffer(llvm::MemoryBuffer::getMemBuffer(moduleStr));
 
@@ -838,23 +854,27 @@ ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml, std::u
 
 	llvm::InitializeNativeTarget(); // todo may have already been called in RoadRunner constructor
 
-	//Write the object file to modBuffer
+	//Write the object file to modBufferOut
 	std::error_code EC;
-	llvm::SmallVector<char, 10> modBuffer;
-	llvm::raw_svector_ostream mStrStream(modBuffer);
+	llvm::SmallVector<char, 10> modBufferOut;
+	llvm::raw_svector_ostream mStrStreamOut(modBufferOut);
 
 	llvm::legacy::PassManager pass;
-	auto FileType = TargetMachine->CGFT_ObjectFile;
+	auto FileType = getCodeGenFileType();
 
-	if (TargetMachine->addPassesToEmitFile(pass, mStrStream, FileType))
+#if LLVM_VERSION_MAJOR == 6
+	if (TargetMachine->addPassesToEmitFile(pass, mStrStreamOut, FileType))
+#elif LLVM_VERSION_MAJOR >= 12
+	if (TargetMachine->addPassesToEmitFile(pass, mStrStreamOut, nullptr, FileType))
+#endif
 	{
-		throw std::logic_error("TargetMachine can't emit a file of type CGFT_ObjectFile");
+		throw "TargetMachine can't emit a file of type CGFT_ObjectFile";
 	}
 
 	pass.run(*context.getModule());
 
-	//Read from modBuffer into our execution engine
-	std::string moduleStr(modBuffer.begin(), modBuffer.end());
+	//Read from modBufferOut into our execution engine
+	std::string moduleStr(modBufferOut.begin(), modBufferOut.end());
 
 	auto memBuffer(llvm::MemoryBuffer::getMemBuffer(moduleStr));
 
