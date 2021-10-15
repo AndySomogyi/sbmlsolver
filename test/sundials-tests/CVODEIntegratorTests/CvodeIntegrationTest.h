@@ -8,6 +8,7 @@
 #include "Matrix.h"
 #include "rrRoadRunner.h"
 #include "LLVMExecutableModel.h"
+#include "rrLogger.h"
 
 using namespace rr;
 
@@ -18,7 +19,10 @@ using namespace rr;
 class CVODEIntegratorTests : public ::testing::Test {
 public:
 
-    CVODEIntegratorTests() = default;
+    CVODEIntegratorTests() {
+        Logger::setFormattingPattern("%U:%u:%l: %t");
+        Logger::setLevel(Logger::LOG_DEBUG);
+    };
 
     /**
      * Test to check that a sbml model can simulate using CVODEIntegrator

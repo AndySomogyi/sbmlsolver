@@ -271,6 +271,7 @@ set(
 
 add_subdirectory(mockups)
 add_subdirectory(c_api_core)
+add_subdirectory(llvm_tests)
 add_subdirectory(c_api_rrtests)
 add_subdirectory(model_analysis)
 add_subdirectory(model_editing)

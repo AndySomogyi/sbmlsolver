@@ -724,7 +724,7 @@ llvm::StructType *ModelDataIRBuilder::createModelDataStructType(llvm::Module *mo
         structType = StructType::create(context, elements, LLVMModelDataName);
 
         // make sure we can get the struct in the future
-        assert(module->getTypeByName(LLVMModelDataName) &&
+        assert(getTypeByName(module, LLVMModelDataName) &&
                 "Could not get LLVMModelData struct from llvm module after creating it");
     }
     return structType;

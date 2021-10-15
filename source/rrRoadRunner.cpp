@@ -527,23 +527,25 @@ namespace rr {
     RoadRunner::RoadRunner(const std::string &uriOrSBML,
                            const Dictionary *options) :
             impl(new RoadRunnerImpl(uriOrSBML, options)) {
+
+        rrLogInfo << "Instantiating a roadrunner model from uri or sbml";
         /**
-     * The main program should call this function to
-     * initialize the native target corresponding to the host.  This is useful
-     * for JIT applications to ensure that the target gets linked in correctly.
-     * It is legal for a client to make multiple calls to this function.
-     */
+         * The main program should call this function to
+         * initialize the native target corresponding to the host.  This is useful
+         * for JIT applications to ensure that the target gets linked in correctly.
+         * It is legal for a client to make multiple calls to this function.
+         */
         llvm::InitializeNativeTarget(); // looks like this has been renamed to LLVMInitializeNativeTarget: https://stackoverflow.com/a/21149010/3059024
 
         /**
-	 * The main program should call
-     * this function to initialize the native target asm printer.
-	 */
+         * The main program should call
+         * this function to initialize the native target assembly (asm) printer.
+         */
         llvm::InitializeNativeTargetAsmPrinter();
 
         /**
          * The main program should call
-         *  this function to initialize the native target asm parser.
+         *  this function to initialize the native target assembly (asm) parser.
          */
         llvm::InitializeNativeTargetAsmParser();
 
@@ -3039,52 +3041,43 @@ namespace rr {
     }
 
     std::string RoadRunner::getModelName() {
-        if (impl->document && impl->document->isSetModel())
-        {
-            libsbml::Model* model = impl->document->getModel();
-            if (model->isSetName())
-            {
+        if (impl->document && impl->document->isSetModel()) {
+            libsbml::Model *model = impl->document->getModel();
+            if (model->isSetName()) {
                 return model->getName();
             }
         }
-        if (impl->model)
-        {
+        if (impl->model) {
             return impl->model->getModelName();
         }
         return "";
     }
 
-    void RoadRunner::setModelName(const string& name)
-    {
-        if (impl->document && impl->document->isSetModel())
-        {
+    void RoadRunner::setModelName(const string &name) {
+        if (impl->document && impl->document->isSetModel()) {
             impl->document->getModel()->setName(name);
         }
     }
 
     std::string RoadRunner::getModelId() {
-        if (impl->document && impl->document->isSetModel())
-        {
-            libsbml::Model* model = impl->document->getModel();
-            if (model->isSetId())
-            {
+        if (impl->document && impl->document->isSetModel()) {
+            libsbml::Model *model = impl->document->getModel();
+            if (model->isSetId()) {
                 return model->getId();
             }
         }
         return "";
     }
 
-    void RoadRunner::setModelId(const string& id)
-    {
-        if (impl->document && impl->document->isSetModel())
-        {
+    void RoadRunner::setModelId(const string &id) {
+        if (impl->document && impl->document->isSetModel()) {
             impl->document->getModel()->setId(id);
         }
     }
 
- /**
- * find an symbol id in the model and set its value.
- */
+    /**
+    * find an symbol id in the model and set its value.
+    */
     static void setSBMLValue(libsbml::Model *model, const std::string &id, double value) {
         if (model == NULL) {
             throw Exception("You need to load the model first");
@@ -4848,20 +4841,21 @@ namespace rr {
 
     void RoadRunner::saveState(std::string filename, char opt) {
         check_model();
-        std::stringstream* state = saveStateS(opt);
+        std::stringstream *state = saveStateS(opt);
         std::ofstream of(filename, std::iostream::binary);
         of << state->rdbuf();
         of.close();
         delete state;
     }
 
-    std::stringstream* RoadRunner::saveStateS(char opt) {
+    std::stringstream *RoadRunner::saveStateS(char opt) {
         check_model();
         switch (opt) {
             case 'b': {
                 // binary mode
                 // can be loaded later
-                auto outPtr = new std::stringstream(std::iostream::binary | std::stringstream::out | std::stringstream::in);
+                auto outPtr = new std::stringstream(
+                        std::iostream::binary | std::stringstream::out | std::stringstream::in);
 //                if (!out) {
 //                    throw std::invalid_argument("Error opening file " + filename + ": " + std::string(strerror(errno)));
 //                }
@@ -4952,7 +4946,8 @@ namespace rr {
             case 'r': {
                 // human-readble mode
                 // for user debugging
-                auto outPtr = new std::stringstream(std::iostream::binary | std::stringstream::out | std::stringstream::in);
+                auto outPtr = new std::stringstream(
+                        std::iostream::binary | std::stringstream::out | std::stringstream::in);
 //                if (!*outPtr) {
 //                    throw std::invalid_argument("Error opening file " + filename + ": " + std::string(strerror(errno)));
 //                }
@@ -5059,22 +5054,23 @@ namespace rr {
         }
     }
 
-    void RoadRunner::loadState(const std::string& filename) {
+    void RoadRunner::loadState(const std::string &filename) {
         std::ifstream ifs(filename, std::ios::binary);
-        std::stringstream* ss = new std::stringstream(
-                        std::iostream::binary |
-                        std::stringstream::out |
-                        std::stringstream::in);
+        std::stringstream *ss = new std::stringstream(
+                std::iostream::binary |
+                std::stringstream::out |
+                std::stringstream::in);
         *ss << ifs.rdbuf();
         loadStateS(ss);
     }
 
-    void RoadRunner::loadStateS(std::stringstream* in) {
+    void RoadRunner::loadStateS(std::stringstream *in) {
         int inMagicNumber;
         rr::loadBinary(*in, inMagicNumber);
         std::string x = in->str();
         if (inMagicNumber != fileMagicNumber) {
-            throw std::invalid_argument("The state has the wrong magic number. Are you sure it is a roadrunner save state?");
+            throw std::invalid_argument(
+                    "The state has the wrong magic number. Are you sure it is a roadrunner save state?");
         }
 
         int inVersionNumber;

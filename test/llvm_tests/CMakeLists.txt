@@ -1,0 +1,3 @@
+add_test_executable(llvm_tests_LLVMModelDataSymbolsTests test_targets LLVMModelDataSymbolsTests.cpp)
+
+set(test_targets ${test_targets} PARENT_SCOPE)

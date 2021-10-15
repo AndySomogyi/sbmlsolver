@@ -723,7 +723,7 @@ ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml, std::u
         }
         else
         {
-            rrLog(Logger::LOG_TRACE) << "no cached model found for " << md5
+            rrLog(Logger::LOG_DEBUG) << "no cached model found for " << md5
                     << ", creating new one";
         }
     }

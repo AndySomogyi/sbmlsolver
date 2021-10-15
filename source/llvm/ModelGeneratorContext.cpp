@@ -170,7 +170,8 @@ ModelGeneratorContext::ModelGeneratorContext(std::string const &sbml, unsigned o
         modelSymbols = new LLVMModelSymbols(getModel(), *symbols);
 
         // initialize LLVM
-        // TODO check result
+        // Note - this initialization is duplicated but some tests (the CAPIModelEditingTests) break
+        // without it.
         InitializeNativeTarget();
 		InitializeNativeTargetAsmPrinter();
 		InitializeNativeTargetAsmParser();
