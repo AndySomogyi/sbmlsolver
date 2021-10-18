@@ -27,6 +27,15 @@
 #include "llvm/Support/DynamicLibrary.h"
 //#include "llvm/ExecutionEngine/OrcMCJITReplacement.h"
 #include "llvm/ExecutionEngine/SectionMemoryManager.h"
+
+
+#include "llvm/ExecutionEngine/ExecutionEngine.h"
+
+#if LLVM_VERSION_MAJOR >= 13
+#include "llvm/ExecutionEngine/Orc/LLJIT.h"
+
+#endif // LLVM_VERSION_MAJOR >= 13
+
 #ifdef _MSC_VER
 #pragma warning(default: 4146)
 #pragma warning(default: 4141)
@@ -101,14 +110,8 @@ ModelGeneratorContext::ModelGeneratorContext(std::string const &sbml, unsigned o
         ownedDoc(0),
         doc(0),
         symbols(0),
-        modelSymbols(0),
         errString(new std::string()),
-        context(0),
-        executionEngine(0),
-        builder(0),
-        functionPassManager(0),
         options(options),
-        moietyConverter(0),
         random(0)
 {
     if(useSymbolCache()) {
@@ -136,7 +139,7 @@ ModelGeneratorContext::ModelGeneratorContext(std::string const &sbml, unsigned o
             }
             else
             {
-                moietyConverter = new rr::conservation::ConservedMoietyConverter();
+                moietyConverter = std::make_unique<rr::conservation::ConservedMoietyConverter>();
 
                 if (moietyConverter->setDocument(ownedDoc) != LIBSBML_OPERATION_SUCCESS)
                 {
@@ -167,7 +170,7 @@ ModelGeneratorContext::ModelGeneratorContext(std::string const &sbml, unsigned o
 
         symbols = new LLVMModelDataSymbols(doc->getModel(), options);
 
-        modelSymbols = new LLVMModelSymbols(getModel(), *symbols);
+        modelSymbols = std::make_unique<LLVMModelSymbols>(getModel(), *symbols);
 
         // initialize LLVM
         // Note - this initialization is duplicated but some tests (the CAPIModelEditingTests) break
@@ -176,27 +179,43 @@ ModelGeneratorContext::ModelGeneratorContext(std::string const &sbml, unsigned o
 		InitializeNativeTargetAsmPrinter();
 		InitializeNativeTargetAsmParser();
 
-        context = new LLVMContext();
+        context = std::make_unique<LLVMContext>();
 
         // Make the module, which holds all the code.
-        module_uniq = std::make_unique<Module>("LLVM Module", *context);
-		module = module_uniq.get();
+        module_owner = std::make_unique<Module>("LLVM Module", *context);
+		module = module_owner.get();
 
 		// These were moved up here because they require the module ptr. May need to further edit these functions
 		createLibraryFunctions(module);
-		ModelDataIRBuilder::createModelDataStructType(module, executionEngine, *symbols);
+		ModelDataIRBuilder::createModelDataStructType(module, executionEngine.get() /*non owning*/, *symbols);
 
-		builder = new IRBuilder<>(*context);
+		builder = std::make_unique<IRBuilder<>>(*context);
 
         // engine take ownership of module
-        EngineBuilder engineBuilder(std::move(module_uniq));
-		
+
+        EngineBuilder engineBuilder(std::move(module_owner));
+
 		engineBuilder.setErrorStr(errString)
 			.setMCJITMemoryManager(std::make_unique<SectionMemoryManager>());
 
-        executionEngine = engineBuilder.create();
+        executionEngine = std::unique_ptr<llvm::ExecutionEngine>(engineBuilder.create());
 
-		//executionEngine = EngineBuilder(std::move(module_uniq)).create();
+        ///
+        /**
+         * Construct an orc JIT. This replaces MCJIT.
+         */
+//        auto JIT = llvm::orc::LLJITBuilder().create();
+
+        /**
+         *  We add a LLVM IR module, choosing the thread safe version so that if we configure
+         *  multithreading later we don't have a problem
+         */
+//        if (auto Err = (*JIT)->addIRModule(llvm::orc::ThreadSafeModule(std::move(module_owner)))  {
+//            rrLogErr << Err;
+//        }
+//        ///
+
+		//executionEngine = EngineBuilder(std::move(module_owner)).create();
 
 		addGlobalMappings();
 
@@ -231,14 +250,8 @@ ModelGeneratorContext::ModelGeneratorContext(libsbml::SBMLDocument const *_doc,
         ownedDoc(0),
         doc(_doc),
         symbols(NULL),
-        modelSymbols(NULL),
         errString(new std::string()),
-        context(0),
-        executionEngine(0),
-        builder(0),
-        functionPassManager(0),
         options(options),
-        moietyConverter(0),
         random(0)
 {
     if(useSymbolCache()) {
@@ -253,7 +266,7 @@ ModelGeneratorContext::ModelGeneratorContext(libsbml::SBMLDocument const *_doc,
         {
             rrLog(Logger::LOG_NOTICE) << "performing conserved moiety conversion";
 
-            moietyConverter = new rr::conservation::ConservedMoietyConverter();
+            moietyConverter = std::make_unique<rr::conservation::ConservedMoietyConverter>();
 
             if (moietyConverter->setDocument(_doc) != LIBSBML_OPERATION_SUCCESS)
             {
@@ -288,30 +301,30 @@ ModelGeneratorContext::ModelGeneratorContext(libsbml::SBMLDocument const *_doc,
 		InitializeNativeTargetAsmParser();
 
 
-        context = new LLVMContext();
+        context = std::unique_ptr<LLVMContext>();
         // Make the module, which holds all the code.
-        module_uniq = std::unique_ptr<Module>(new Module("LLVM Module", *context));
-		module = module_uniq.get();
+        module_owner = std::unique_ptr<Module>(new Module("LLVM Module", *context));
+		module = module_owner.get();
 
-        builder = new IRBuilder<>(*context);
+        builder = std::make_unique<IRBuilder<>>(*context);
 
         // engine take ownership of module
         EngineBuilder engineBuilder(std::unique_ptr<Module>(new Module("Empty LLVM Module", *context)));
 
         //engineBuilder.setEngineKind(EngineKind::JIT);
         engineBuilder.setErrorStr(errString);
-        executionEngine = engineBuilder.create();
+        executionEngine = std::unique_ptr<llvm::ExecutionEngine>(engineBuilder.create());
 
         addGlobalMappings();
 
         //I'm just hoping that none of these functions try to call delete on module
         createLibraryFunctions(module);
 
-        symbols = new LLVMModelDataSymbols(getModel(), options);
+        symbols = new LLVMModelDataSymbols(doc->getModel(), options);
 
-        modelSymbols = new LLVMModelSymbols(getModel(), *symbols);
+        modelSymbols = std::make_unique<LLVMModelSymbols>(getModel(), *symbols);
 
-        ModelDataIRBuilder::createModelDataStructType(module, executionEngine, *symbols);
+        ModelDataIRBuilder::createModelDataStructType(module, executionEngine.get() /*Non own ptr*/, *symbols);
 
         // check if _doc has distrib package
         // Random adds mappings, need call after llvm objs created
@@ -349,28 +362,28 @@ ModelGeneratorContext::ModelGeneratorContext() :
         symbols(new LLVMModelDataSymbols(doc->getModel(), 0)),
         modelSymbols(new LLVMModelSymbols(getModel(), *symbols)),
         errString(new std::string()),
-        options(0),
-        functionPassManager(0)
+        options(0)
+//        functionPassManager(0)
 {
     // initialize LLVM
     // TODO check result
     InitializeNativeTarget();
 
-    context = new LLVMContext();
+    context = std::unique_ptr<LLVMContext>();
     // Make the module, which holds all the code.
-    module_uniq = std::unique_ptr<Module>(new Module("LLVM Module", *context));
-	module = module_uniq.get();
+    module_owner = std::unique_ptr<Module>(new Module("LLVM Module", *context));
+	module = module_owner.get();
 
-    builder = new IRBuilder<>(*context);
+    builder = std::make_unique<IRBuilder<>>(*context);
 
     errString = new std::string();
 
 	addGlobalMappings();
 
-    EngineBuilder engineBuilder(std::move(module_uniq));
+    EngineBuilder engineBuilder(std::move(module_owner));
     //engineBuilder.setEngineKind(EngineKind::JIT);
     engineBuilder.setErrorStr(errString);
-    executionEngine = engineBuilder.create();
+    executionEngine = std::unique_ptr<llvm::ExecutionEngine>(engineBuilder.create());
 
 }
 
@@ -381,13 +394,6 @@ Random* ModelGeneratorContext::getRandom() const
 
 void ModelGeneratorContext::cleanup()
 {
-    delete functionPassManager; functionPassManager = 0;
-    delete modelSymbols; modelSymbols = 0;
-    delete symbols; symbols = 0;
-    delete builder; builder = 0;
-    delete executionEngine; executionEngine = 0;
-    delete context; context = 0;
-    delete moietyConverter; moietyConverter = 0;
     delete ownedDoc; ownedDoc = 0;
     delete errString; errString = 0;
 }
@@ -439,9 +445,9 @@ void ModelGeneratorContext::transferObjectsToResources(std::shared_ptr<rrllvm::M
 {
     rc->symbols = symbols;
     symbols = nullptr;
-    rc->context = context;
+    rc->context = std::move(context);
     context = nullptr;
-    rc->executionEngine = executionEngine;
+    rc->executionEngine = std::move(executionEngine);
     executionEngine = nullptr;
     rc->random = random;
     random = nullptr;
@@ -466,14 +472,14 @@ bool ModelGeneratorContext::useSymbolCache() const
 
 llvm::legacy::FunctionPassManager* ModelGeneratorContext::getFunctionPassManager() const
 {
-    return functionPassManager;
+    return functionPassManager.get();
 }
 
 void ModelGeneratorContext::initFunctionPassManager()
 {
     if (options & LoadSBMLOptions::OPTIMIZE)
     {
-        functionPassManager = new legacy::FunctionPassManager(module);
+        functionPassManager = std::make_unique<legacy::FunctionPassManager>(module);
 
     // Set up the optimizer pipeline.  Start with registering info about how the
     // target lays out data structures.

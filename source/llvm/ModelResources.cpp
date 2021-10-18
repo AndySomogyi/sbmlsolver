@@ -63,8 +63,8 @@ ModelResources::~ModelResources()
     delete symbols;
 
     // the exe engine owns all the functions
-    delete executionEngine;
-    delete context;
+//    delete executionEngine;
+//    delete context;
     delete random;
     delete errStr;
 }
@@ -210,9 +210,9 @@ void ModelResources::loadState(std::istream& in, uint modelGeneratorOpt)
 	//Get the object file from the input stream
 	rr::loadBinary(in, moduleStr);
 	//Set up the llvm context 
-	if (context)
-		delete context;
-	context = new llvm::LLVMContext();
+//	if (context)
+//		delete context;
+	context.reset(new llvm::LLVMContext());
 	//Set up a buffer to read the object code from
 	auto memBuffer(llvm::MemoryBuffer::getMemBuffer(moduleStr));
     
@@ -239,7 +239,7 @@ void ModelResources::loadState(std::istream& in, uint modelGeneratorOpt)
 	//We have to call this function before calling engineBuilder.create()
     llvm::InitializeNativeTarget();
 
-	executionEngine = engineBuilder.create();
+	executionEngine = std::unique_ptr<llvm::ExecutionEngine>(engineBuilder.create());
 	
 	//Add mappings to the functions that aren't saved in the object file (like sin, cos, factorial)
 	addGlobalMappings();

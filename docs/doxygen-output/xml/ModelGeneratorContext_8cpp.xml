@@ -1242,8 +1242,8 @@
 <codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>context<sp/>=<sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/>LLVMContext();</highlight></codeline>
 <codeline lineno="179"><highlight class="normal"></highlight></codeline>
 <codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Make<sp/>the<sp/>module,<sp/>which<sp/>holds<sp/>all<sp/>the<sp/>code.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>module_uniq<sp/>=<sp/>std::make_unique&lt;Module&gt;(</highlight><highlight class="stringliteral">&quot;LLVM<sp/>Module&quot;</highlight><highlight class="normal">,<sp/>*context);</highlight></codeline>
-<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>module<sp/>=<sp/>module_uniq.get();</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>module_owner<sp/>=<sp/>std::make_unique&lt;Module&gt;(</highlight><highlight class="stringliteral">&quot;LLVM<sp/>Module&quot;</highlight><highlight class="normal">,<sp/>*context);</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>module<sp/>=<sp/>module_owner.get();</highlight></codeline>
 <codeline lineno="183"><highlight class="normal"></highlight></codeline>
 <codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>These<sp/>were<sp/>moved<sp/>up<sp/>here<sp/>because<sp/>they<sp/>require<sp/>the<sp/>module<sp/>ptr.<sp/>May<sp/>need<sp/>to<sp/>further<sp/>edit<sp/>these<sp/>functions</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>createLibraryFunctions(module);</highlight></codeline>
@@ -1252,14 +1252,14 @@
 <codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>builder<sp/>=<sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/>IRBuilder&lt;&gt;(*context);</highlight></codeline>
 <codeline lineno="189"><highlight class="normal"></highlight></codeline>
 <codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>engine<sp/>take<sp/>ownership<sp/>of<sp/>module</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EngineBuilder<sp/>engineBuilder(std::move(module_uniq));</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EngineBuilder<sp/>engineBuilder(std::move(module_owner));</highlight></codeline>
 <codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
 <codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>engineBuilder.setErrorStr(errString)</highlight></codeline>
 <codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.setMCJITMemoryManager(std::make_unique&lt;SectionMemoryManager&gt;());</highlight></codeline>
 <codeline lineno="195"><highlight class="normal"></highlight></codeline>
 <codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>executionEngine<sp/>=<sp/>engineBuilder.create();</highlight></codeline>
 <codeline lineno="197"><highlight class="normal"></highlight></codeline>
-<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//executionEngine<sp/>=<sp/>EngineBuilder(std::move(module_uniq)).create();</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//executionEngine<sp/>=<sp/>EngineBuilder(std::move(module_owner)).create();</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="199"><highlight class="normal"></highlight></codeline>
 <codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>addGlobalMappings();</highlight></codeline>
 <codeline lineno="201"><highlight class="normal"></highlight></codeline>
@@ -1353,8 +1353,8 @@
 <codeline lineno="289"><highlight class="normal"></highlight></codeline>
 <codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>context<sp/>=<sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/>LLVMContext();</highlight></codeline>
 <codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Make<sp/>the<sp/>module,<sp/>which<sp/>holds<sp/>all<sp/>the<sp/>code.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>module_uniq<sp/>=<sp/>std::unique_ptr&lt;Module&gt;(</highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/>Module(</highlight><highlight class="stringliteral">&quot;LLVM<sp/>Module&quot;</highlight><highlight class="normal">,<sp/>*context));</highlight></codeline>
-<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>module<sp/>=<sp/>module_uniq.get();</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>module_owner<sp/>=<sp/>std::unique_ptr&lt;Module&gt;(</highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/>Module(</highlight><highlight class="stringliteral">&quot;LLVM<sp/>Module&quot;</highlight><highlight class="normal">,<sp/>*context));</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>module<sp/>=<sp/>module_owner.get();</highlight></codeline>
 <codeline lineno="294"><highlight class="normal"></highlight></codeline>
 <codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>builder<sp/>=<sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/>IRBuilder&lt;&gt;(*context);</highlight></codeline>
 <codeline lineno="296"><highlight class="normal"></highlight></codeline>
@@ -1421,8 +1421,8 @@
 <codeline lineno="357"><highlight class="normal"></highlight></codeline>
 <codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/>context<sp/>=<sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/>LLVMContext();</highlight></codeline>
 <codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Make<sp/>the<sp/>module,<sp/>which<sp/>holds<sp/>all<sp/>the<sp/>code.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/>module_uniq<sp/>=<sp/>std::unique_ptr&lt;Module&gt;(</highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/>Module(</highlight><highlight class="stringliteral">&quot;LLVM<sp/>Module&quot;</highlight><highlight class="normal">,<sp/>*context));</highlight></codeline>
-<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/>module<sp/>=<sp/>module_uniq.get();</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/>module_owner<sp/>=<sp/>std::unique_ptr&lt;Module&gt;(</highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/>Module(</highlight><highlight class="stringliteral">&quot;LLVM<sp/>Module&quot;</highlight><highlight class="normal">,<sp/>*context));</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/>module<sp/>=<sp/>module_owner.get();</highlight></codeline>
 <codeline lineno="362"><highlight class="normal"></highlight></codeline>
 <codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/>builder<sp/>=<sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/>IRBuilder&lt;&gt;(*context);</highlight></codeline>
 <codeline lineno="364"><highlight class="normal"></highlight></codeline>
@@ -1430,7 +1430,7 @@
 <codeline lineno="366"><highlight class="normal"></highlight></codeline>
 <codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/>addGlobalMappings();</highlight></codeline>
 <codeline lineno="368"><highlight class="normal"></highlight></codeline>
-<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/>EngineBuilder<sp/>engineBuilder(std::move(module_uniq));</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/>EngineBuilder<sp/>engineBuilder(std::move(module_owner));</highlight></codeline>
 <codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//engineBuilder.setEngineKind(EngineKind::JIT);</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/>engineBuilder.setErrorStr(errString);</highlight></codeline>
 <codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/>executionEngine<sp/>=<sp/>engineBuilder.create();</highlight></codeline>

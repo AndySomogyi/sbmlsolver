@@ -83,7 +83,7 @@ protected:
     /**
      * function pass manager. Null if no optimization.
      */
-    llvm::legacy::FunctionPassManager *functionPassManager;
+    llvm::legacy::FunctionPassManager* functionPassManager;
 
     /**
      * the options bit field that was passed into the top level load method.

@@ -2156,7 +2156,7 @@
     <member refid="classrrllvm_1_1ModelGeneratorContext_1a67553b3ac5f7a9fe44a3b490a5721956" kind="variable"><name>errString</name></member>
     <member refid="classrrllvm_1_1ModelGeneratorContext_1ae4dfd0be39497672373ac965c7efd348" kind="variable"><name>context</name></member>
     <member refid="classrrllvm_1_1ModelGeneratorContext_1a600aeee25c7c2eb3628a7f67fc2d85da" kind="variable"><name>executionEngine</name></member>
-    <member refid="classrrllvm_1_1ModelGeneratorContext_1a0e65ce53e351ecbf557fc9e21be7ec2d" kind="variable"><name>module_uniq</name></member>
+    <member refid="classrrllvm_1_1ModelGeneratorContext_1a0e65ce53e351ecbf557fc9e21be7ec2d" kind="variable"><name>module_owner</name></member>
     <member refid="classrrllvm_1_1ModelGeneratorContext_1a6cd9fd9c574296602629e33366cbfb21" kind="variable"><name>model</name></member>
     <member refid="classrrllvm_1_1ModelGeneratorContext_1a8f8d4c979f06a172c81b361fbc96733a" kind="variable"><name>module</name></member>
     <member refid="classrrllvm_1_1ModelGeneratorContext_1a22f4d692358abb7de6f2e383497fcc77" kind="variable"><name>builder</name></member>

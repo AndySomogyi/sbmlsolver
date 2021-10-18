@@ -1118,8 +1118,7 @@ std::string to_string(const llvm::Value *value)
     return str;
 }
 
-LLVMModelData *createModelData(const rrllvm::LLVMModelDataSymbols &symbols,
-        const Random *random)
+LLVMModelData *createModelData(const rrllvm::LLVMModelDataSymbols &symbols, const Random *random)
 {
     uint modelDataBaseSize = sizeof(LLVMModelData);
 

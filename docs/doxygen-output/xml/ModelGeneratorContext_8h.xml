@@ -736,7 +736,7 @@
 <codeline lineno="203"><highlight class="normal"></highlight></codeline>
 <codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>llvm::LLVMContext<sp/>*context;</highlight></codeline>
 <codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>llvm::ExecutionEngine<sp/>*executionEngine;</highlight></codeline>
-<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;llvm::Module&gt;<sp/>module_uniq;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;llvm::Module&gt;<sp/>module_owner;</highlight></codeline>
 <codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>libsbml::Model<sp/>*model;</highlight></codeline>
 <codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>llvm::Module*<sp/>module;</highlight></codeline>
 <codeline lineno="209"><highlight class="normal"></highlight></codeline>

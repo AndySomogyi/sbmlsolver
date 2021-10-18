@@ -72,8 +72,8 @@ public:
      */
 
     const LLVMModelDataSymbols *symbols;
-    llvm::LLVMContext *context;
-    llvm::ExecutionEngine *executionEngine;
+    std::unique_ptr<llvm::LLVMContext> context;
+    std::unique_ptr<llvm::ExecutionEngine> executionEngine;
 
     llvm::Module *module = nullptr;
 

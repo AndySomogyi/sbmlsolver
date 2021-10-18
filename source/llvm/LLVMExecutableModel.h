@@ -76,8 +76,7 @@ public:
     /**
      * takes ownership of the LLVMModelData pointer.
      */
-    LLVMExecutableModel(const std::shared_ptr<ModelResources> &resources,
-            LLVMModelData* modelData);
+    LLVMExecutableModel(const std::shared_ptr<ModelResources> &resources, LLVMModelData* modelData);
 
 	/*
 	* Loads a saved executable model

@@ -100,9 +100,9 @@
       </memberdef>
       <memberdef kind="variable" id="classrrllvm_1_1ModelGeneratorContext_1a0e65ce53e351ecbf557fc9e21be7ec2d" prot="private" static="no" mutable="no">
         <type>std::unique_ptr&lt; llvm::Module &gt;</type>
-        <definition>std::unique_ptr&lt;llvm::Module&gt; rrllvm::ModelGeneratorContext::module_uniq</definition>
+        <definition>std::unique_ptr&lt;llvm::Module&gt; rrllvm::ModelGeneratorContext::module_owner</definition>
         <argsstring></argsstring>
-        <name>module_uniq</name>
+        <name>module_owner</name>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -584,7 +584,7 @@
       <member refid="classrrllvm_1_1ModelGeneratorContext_1a619188b61652e3b93638b53fc5d015d7" prot="public" virt="non-virtual"><scope>rrllvm::ModelGeneratorContext</scope><name>ModelGeneratorContext</name></member>
       <member refid="classrrllvm_1_1ModelGeneratorContext_1aa342a6cbf6562a503728133f4f8501bb" prot="private" virt="non-virtual"><scope>rrllvm::ModelGeneratorContext</scope><name>modelSymbols</name></member>
       <member refid="classrrllvm_1_1ModelGeneratorContext_1a8f8d4c979f06a172c81b361fbc96733a" prot="private" virt="non-virtual"><scope>rrllvm::ModelGeneratorContext</scope><name>module</name></member>
-      <member refid="classrrllvm_1_1ModelGeneratorContext_1a0e65ce53e351ecbf557fc9e21be7ec2d" prot="private" virt="non-virtual"><scope>rrllvm::ModelGeneratorContext</scope><name>module_uniq</name></member>
+      <member refid="classrrllvm_1_1ModelGeneratorContext_1a0e65ce53e351ecbf557fc9e21be7ec2d" prot="private" virt="non-virtual"><scope>rrllvm::ModelGeneratorContext</scope><name>module_owner</name></member>
       <member refid="classrrllvm_1_1ModelGeneratorContext_1acbe19eaeee46a2818fd6e7362139cbb1" prot="private" virt="non-virtual"><scope>rrllvm::ModelGeneratorContext</scope><name>moietyConverter</name></member>
       <member refid="classrrllvm_1_1ModelGeneratorContext_1a9ab39a53632926c0e8aa2c920f36eec0" prot="private" virt="non-virtual"><scope>rrllvm::ModelGeneratorContext</scope><name>options</name></member>
       <member refid="classrrllvm_1_1ModelGeneratorContext_1ac4a67dfb625826b58fdc9c3d1cbea809" prot="private" virt="non-virtual"><scope>rrllvm::ModelGeneratorContext</scope><name>ownedDoc</name></member>
