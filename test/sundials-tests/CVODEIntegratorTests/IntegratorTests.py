@@ -226,3 +226,15 @@ class CVODEIntegratorTests(unittest.TestCase):
 
     def test_set_concentration_tolerance(self):
         self.integrator.setConcentrationTolerance(1e-8)
+
+    def test_simulate_sequence_with_times(self):
+        results = self.model.simulate()
+        self.assertEqual(len(results), 51);
+        results = self.model.simulate(0, 10, 11);
+        self.assertEqual(len(results), 11);
+        results = self.model.simulate(times=[3, 5, 11]);
+        self.assertEqual(len(results), 3);
+        results = self.model.simulate(0, 10, 11);
+        self.assertEqual(len(results), 11);
+        results = self.model.simulate()
+        self.assertEqual(len(results), 51);
