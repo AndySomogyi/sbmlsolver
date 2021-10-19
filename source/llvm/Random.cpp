@@ -336,7 +336,7 @@ double distrib_normal_four(Random* random, double mu, double sigma, double _min,
         << ", " << mu << ", " << sigma << ", " << _min << ", " << _max << ")";
 
     if (_min > _max) {
-        rrLog(Logger::LOG_DEBUG) << "Invalid call to function: " << _min << " is greater than " << _max << ".";
+        rrLog(Logger::LOG_ERROR) << "Invalid call to truncated normal distribution: " << _min << " is greater than " << _max << ".";
         return nan("");
     }
     if (_min == _max) {
@@ -351,7 +351,7 @@ double distrib_normal_four(Random* random, double mu, double sigma, double _min,
         count++;
     }
     if (count == random->getMaxTries()) {
-        rrLog(Logger::LOG_DEBUG) << "Unable to draw from truncated distribution after " << count << " tries.  Using the midpoint between " << _min << " and " << _max << " instead.";
+        rrLog(Logger::LOG_ERROR) << "Unable to draw from truncated normal distribution after " << count << " tries.  Using the midpoint between " << _min << " and " << _max << " instead.";
         distval = (_min + _max)/2;
     }
     
@@ -385,7 +385,7 @@ double distrib_binomial_four(Random* random, double nTrials, double probabilityO
         << ", " << nTrials << ", " << probabilityOfSuccess << ", " << _min << ", " << _max << ")";
 
     if (_min > _max) {
-        rrLog(Logger::LOG_DEBUG) << "Invalid call to function: " << _min << " is greater than " << _max << ".";
+        rrLog(Logger::LOG_ERROR) << "Invalid call to truncated binomial distribution: " << _min << " is greater than " << _max << ".";
         return nan("");
     }
     if (_min == _max) {
@@ -400,8 +400,8 @@ double distrib_binomial_four(Random* random, double nTrials, double probabilityO
         count++;
     }
     if (count == random->getMaxTries()) {
-        rrLog(Logger::LOG_DEBUG) << "Unable to draw from truncated distribution after " << count << " tries.  Using the midpoint between " << _min << " and " << _max << " instead.";
-        distval = (std::max(0.0, _min) + std::min(nTrials, _max))/2;
+        rrLog(Logger::LOG_ERROR) << "Unable to draw from truncated binomial distribution after " << count << " tries.  Returning the midpoint between " << _min << " and " << _max << " instead.";
+        distval = roundl((std::max(0.0, _min) + std::min(nTrials, _max))/2);
     }
 
     return distval;
@@ -435,7 +435,7 @@ double distrib_cauchy_four(Random* random, double location, double scale, double
         << ", " << location << ", " << scale << ", " << _min << ", " << _max << ")";
 
     if (_min > _max) {
-        rrLog(Logger::LOG_DEBUG) << "Invalid call to function: " << _min << " is greater than " << _max << ".";
+        rrLog(Logger::LOG_ERROR) << "Invalid call to truncated cauchy distribution: " << _min << " is greater than " << _max << ".";
         return nan("");
     }
     if (_min == _max) {
@@ -450,7 +450,7 @@ double distrib_cauchy_four(Random* random, double location, double scale, double
         count++;
     }
     if (count == random->getMaxTries()) {
-        rrLog(Logger::LOG_DEBUG) << "Unable to draw from truncated distribution after " << count << " tries.  Using the midpoint between " << _min << " and " << _max << " instead.";
+        rrLog(Logger::LOG_ERROR) << "Unable to draw from truncated cauchy distribution after " << count << " tries.  Using the midpoint between " << _min << " and " << _max << " instead.";
         distval = (_min + _max)/2;
     }
 
@@ -474,7 +474,7 @@ double distrib_chisquare_three(Random* random, double degreesOfFreedom, double _
         << ", " << degreesOfFreedom << ", " << _min << ", " << _max << ")";
 
     if (_min > _max) {
-        rrLog(Logger::LOG_DEBUG) << "Invalid call to function: " << _min << " is greater than " << _max << ".";
+        rrLog(Logger::LOG_ERROR) << "Invalid call to truncated chisquare distribution: " << _min << " is greater than " << _max << ".";
         return nan("");
     }
     if (_min == _max) {
@@ -489,7 +489,7 @@ double distrib_chisquare_three(Random* random, double degreesOfFreedom, double _
         count++;
     }
     if (count == random->getMaxTries()) {
-        rrLog(Logger::LOG_DEBUG) << "Unable to draw from truncated distribution after " << count << " tries.  Using the midpoint between " << _min << " and " << _max << " instead.";
+        rrLog(Logger::LOG_ERROR) << "Unable to draw from truncated chisquare distribution after " << count << " tries.  Using the midpoint between " << _min << " and " << _max << " instead.";
         distval = (_min + _max)/2;
     }
 
@@ -513,7 +513,7 @@ double distrib_exponential_three(Random* random, double lambda, double _min, dou
         << ", " << lambda << ", " << _min << ", " << _max << ")";
 
     if (_min > _max) {
-        rrLog(Logger::LOG_DEBUG) << "Invalid call to function: " << _min << " is greater than " << _max << ".";
+        rrLog(Logger::LOG_ERROR) << "Invalid call to truncated exponential distribution: " << _min << " is greater than " << _max << ".";
         return nan("");
     }
     if (_min == _max) {
@@ -528,7 +528,7 @@ double distrib_exponential_three(Random* random, double lambda, double _min, dou
         count++;
     }
     if (count == random->getMaxTries()) {
-        rrLog(Logger::LOG_DEBUG) << "Unable to draw from truncated distribution after " << count << " tries.  Using the midpoint between " << _min << " and " << _max << " instead.";
+        rrLog(Logger::LOG_ERROR) << "Unable to draw from truncated exponential distribution after " << count << " tries.  Using the midpoint between " << _min << " and " << _max << " instead.";
         distval = (_min + _max)/2;
     }
 
@@ -552,7 +552,7 @@ double distrib_gamma_four(Random* random, double shape, double scale, double _mi
         << ", " << shape << ", " << scale << ", " << _min << ", " << _max << ")";
 
     if (_min > _max) {
-        rrLog(Logger::LOG_DEBUG) << "Invalid call to function: " << _min << " is greater than " << _max << ".";
+        rrLog(Logger::LOG_ERROR) << "Invalid call to truncated gamma distribution: " << _min << " is greater than " << _max << ".";
         return nan("");
     }
     if (_min == _max) {
@@ -567,7 +567,7 @@ double distrib_gamma_four(Random* random, double shape, double scale, double _mi
         count++;
     }
     if (count == random->getMaxTries()) {
-        rrLog(Logger::LOG_DEBUG) << "Unable to draw from truncated distribution after " << count << " tries.  Using the midpoint between " << _min << " and " << _max << " instead.";
+        rrLog(Logger::LOG_ERROR) << "Unable to draw from truncated gamma distribution after " << count << " tries.  Using the midpoint between " << _min << " and " << _max << " instead.";
         distval = (_min + _max)/2;
     }
 
@@ -606,7 +606,7 @@ double distrib_laplace_four(Random* random, double location, double scale, doubl
         << ", " << location << ", " << scale << ", " << _min << ", " << _max << ")";
 
     if (_min > _max) {
-        rrLog(Logger::LOG_DEBUG) << "Invalid call to function: " << _min << " is greater than " << _max << ".";
+        rrLog(Logger::LOG_ERROR) << "Invalid call to truncated laplace distribution: " << _min << " is greater than " << _max << ".";
         return nan("");
     }
     if (_min == _max) {
@@ -625,7 +625,7 @@ double distrib_laplace_four(Random* random, double location, double scale, doubl
         count++;
     }
     if (count == random->getMaxTries()) {
-        rrLog(Logger::LOG_DEBUG) << "Unable to draw from truncated distribution after " << count << " tries.  Using the midpoint between " << _min << " and " << _max << " instead.";
+        rrLog(Logger::LOG_ERROR) << "Unable to draw from truncated laplace distribution after " << count << " tries.  Using the midpoint between " << _min << " and " << _max << " instead.";
         distval = (_min + _max)/2;
     }
 
@@ -649,7 +649,7 @@ double distrib_lognormal_four(Random* random, double mu, double sigma, double _m
         << ", " << mu << ", " << sigma << ", " << _min << ", " << _max << ")";
 
     if (_min > _max) {
-        rrLog(Logger::LOG_DEBUG) << "Invalid call to function: " << _min << " is greater than " << _max << ".";
+        rrLog(Logger::LOG_ERROR) << "Invalid call to truncated lognormal distribution: " << _min << " is greater than " << _max << ".";
         return nan("");
     }
     if (_min == _max) {
@@ -664,7 +664,7 @@ double distrib_lognormal_four(Random* random, double mu, double sigma, double _m
         count++;
     }
     if (count == random->getMaxTries()) {
-        rrLog(Logger::LOG_DEBUG) << "Unable to draw from truncated distribution after " << count << " tries.  Using the midpoint between " << _min << " and " << _max << " instead.";
+        rrLog(Logger::LOG_ERROR) << "Unable to draw from truncated lognormal distribution after " << count << " tries.  Using the midpoint between " << _min << " and " << _max << " instead.";
         distval = (_min + _max)/2;
     }
 
@@ -688,7 +688,7 @@ double distrib_poisson_three(Random* random, double lambda, double _min, double 
         << ", " << lambda << ", " << _min << ", " << _max << ")";
 
     if (_min > _max) {
-        rrLog(Logger::LOG_DEBUG) << "Invalid call to function: " << _min << " is greater than " << _max << ".";
+        rrLog(Logger::LOG_ERROR) << "Invalid call to truncated poisson distribution: " << _min << " is greater than " << _max << ".";
         return nan("");
     }
     if (_min == _max) {
@@ -703,7 +703,7 @@ double distrib_poisson_three(Random* random, double lambda, double _min, double 
         count++;
     }
     if (count == random->getMaxTries()) {
-        rrLog(Logger::LOG_DEBUG) << "Unable to draw from truncated distribution after " << count << " tries.  Using the midpoint between " << _min << " and " << _max << " instead.";
+        rrLog(Logger::LOG_ERROR) << "Unable to draw from truncated poisson distribution after " << count << " tries.  Using the midpoint between " << _min << " and " << _max << " instead.";
         distval = (_min + _max)/2;
     }
 
@@ -732,7 +732,7 @@ double distrib_rayleigh_three(Random* random, double scale, double _min, double 
         << ", " << scale << ", " << _min << ", " << _max << ")";
 
     if (_min > _max) {
-        rrLog(Logger::LOG_DEBUG) << "Invalid call to function: " << _min << " is greater than " << _max << ".";
+        rrLog(Logger::LOG_ERROR) << "Invalid call to truncated rayleigh distribution: " << _min << " is greater than " << _max << ".";
         return nan("");
     }
     if (_min == _max) {
@@ -751,7 +751,7 @@ double distrib_rayleigh_three(Random* random, double scale, double _min, double 
         count++;
     }
     if (count == random->getMaxTries()) {
-        rrLog(Logger::LOG_DEBUG) << "Unable to draw from truncated distribution after " << count << " tries.  Using the midpoint between " << _min << " and " << _max << " instead.";
+        rrLog(Logger::LOG_ERROR) << "Unable to draw from truncated rayleigh distribution after " << count << " tries.  Using the midpoint between " << _min << " and " << _max << " instead.";
         distval = (_min + _max)/2;
     }
 
