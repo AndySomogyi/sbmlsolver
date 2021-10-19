@@ -191,7 +191,7 @@ correct location. ")
     #   The advantage is that we can pass these in as targets to
     # the llvm build and not have to build everything.
     execute_process(
-            COMMAND ${LLVM_CONFIG_EXECUTABLE} --libfiles core mcjit native
+            COMMAND ${LLVM_CONFIG_EXECUTABLE} --libfiles core mcjit native Core OrcJIT Support native
             OUTPUT_VARIABLE LLVM_LIBRARIES
             OUTPUT_STRIP_TRAILING_WHITESPACE
     )

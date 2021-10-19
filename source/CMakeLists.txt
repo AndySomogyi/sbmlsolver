@@ -421,6 +421,8 @@ elseif (APPLE AND NOT UNIX)
 endif ()
 
 message(STATUS " LLVM_LIBRARIES ${LLVM_LIBRARIES}}")
+    list(APPEND CMAKE_MODULE_PATH "${LLVM_CMAKE_DIR}")
+
 
 # link the libraries -- remember that order here
 #   is important on linux builds so don't change
