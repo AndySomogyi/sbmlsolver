@@ -187,7 +187,7 @@ ModelGeneratorContext::ModelGeneratorContext(std::string const &sbml, unsigned o
 
 		// These were moved up here because they require the module ptr. May need to further edit these functions
 		createLibraryFunctions(module);
-		ModelDataIRBuilder::createModelDataStructType(module, executionEngine.get() /*non owning*/, *symbols);
+		ModelDataIRBuilder::createModelDataStructType(module, nullptr, *symbols);
 
 		builder = std::make_unique<IRBuilder<>>(*context);
 
