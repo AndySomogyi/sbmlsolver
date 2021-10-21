@@ -290,6 +290,7 @@ namespace rr {
                 break;
             case Setting::DOUBLEVECTOR:
                 saveBinary(out, var.get<std::vector<double>>());
+                break;
             default:
                 break;
         }

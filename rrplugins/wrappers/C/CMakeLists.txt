@@ -9,19 +9,20 @@ add_library(${target} SHARED
         telplugins_properties_api.cpp
         telplugins_telluriumdata_api.cpp
         telplugins_matrix_api.cpp
-        telplugins_cpp_support.cpp
         telplugins_utilities.cpp
         telplugins_logging_api.cpp
-        telAPIHandleManager.cpp
 
         telplugins_c_api.h
         telplugins_properties_api.h
         telplugins_telluriumdata_api.h
         telplugins_matrix_api.h
-        telplugins_cpp_support.h
         telplugins_utilities.h
         telplugins_logging_api.h
-        telAPIHandleManager.h
+        telplugins_types.h
+        )
+
+target_include_directories(${target}
+        PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/../../"
         )
 
 target_link_libraries(${target} PUBLIC

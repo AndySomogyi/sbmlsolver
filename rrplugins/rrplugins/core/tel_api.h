@@ -3,13 +3,12 @@
 //Debashish Roy
 // API used to connect roadrunner functionality with plugins
 
-#include "../../../rrplugins/wrappers/C/telplugins_types.h"
 #include "../../../wrappers/C/rrc_types.h"		//declaration of types such as rrhandle
 
 #if defined(__cplusplus)
 	namespace rrc { 
 	extern "C" {
-#define TLPCTELHANDLE tlpc::TELHandle 
+#define TLPCTELHANDLE void* 
 #else
 #define TLPCTELHANDLE TELHandle 
 #endif

@@ -1,19 +1,18 @@
 #pragma hdrstop
 #include "rrplugins/pluginBaseClass/telPlugin.h"
 #include "rrplugins/common/telStringUtils.h"
-#include "telplugins_c_api.h"
-#include "telplugins_utilities.h"
+#include "telAPIHandleManager.h"
+#include "telTelluriumData.h"
 #include "telplugins_cpp_support.h"
-
-extern char* gLastError;
 
 namespace tlpc
 {
 using namespace tlp;
-using tlp::TelluriumData;
 
 //A global handle manager
 APIHandleManager gHM;
+
+char* gLastError = NULL;
 
 void tpSetError(const string& err)
 {

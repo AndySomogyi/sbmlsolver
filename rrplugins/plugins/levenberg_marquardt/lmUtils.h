@@ -35,11 +35,11 @@ typedef struct
 } lmDataStructure;
 
 //Evaluate is the event function that lmfit call to evaulate residuals
-void evaluate(      const double   *par,                    //Parameter vector
-                    int             m_dat,                  //Dimension of residue vector
-                    const void     *userData,               //Data structure
-                    double         *fvec,                   //residue vector..
-                    int            *userBreak               //Index into info message array
-                 );
+//void evaluate(      const double   *par,                    //Parameter vector
+//                    int             m_dat,                  //Dimension of residue vector
+//                    const void     *userData,               //Data structure
+//                    double         *fvec,                   //residue vector..
+//                    int            *userBreak               //Index into info message array
+//                 );
 }
 #endif

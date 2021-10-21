@@ -12,6 +12,7 @@
 #include "telPluginManager.h"
 #include "nmNelderMead.h"
 #include "nmObjectiveFunction.h"
+#include "telplugins_types.h"
 //---------------------------------------------------------------------------
 
 namespace nmfit
