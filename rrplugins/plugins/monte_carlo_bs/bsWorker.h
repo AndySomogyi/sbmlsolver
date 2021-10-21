@@ -2,13 +2,11 @@
 #define bsWorkerH
 #include <vector>
 #include "Poco/Thread.h"
-#include "Poco/Runnable.h"
 
 #include "telPluginManager.h"
 #include "telplugins_c_api.h"
 #include "telTelluriumData.h"
 #include "telRandom.h"
-#include "telProperties.h"
 //---------------------------------------------------------------------------
 
 namespace bsmc

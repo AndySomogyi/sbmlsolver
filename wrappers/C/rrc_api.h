@@ -837,7 +837,7 @@ after this function call default value is true to regenerate model after each ca
 of editing function to save time for editing for multiple times, one could
 set this flag to true only in the last call of editing
 */
-C_DECL_SPEC bool rrcCallConv addInitialAssignment (RRHandle handle, char* vid, char* formula, bool forceRegenerate);
+C_DECL_SPEC bool rrcCallConv addInitialAssignment (RRHandle handle, const char* vid, const char* formula, bool forceRegenerate);
 
 
 /*!
@@ -1330,7 +1330,7 @@ C_DECL_SPEC RRStringArrayPtr rrcCallConv getListOfCurrentIntegratorParameterName
 \return Returns a description for the integrator setting.
 \ingroup simopts
 */
-C_DECL_SPEC char* rrcCallConv getCurrentIntegratorParameterDescription (RRHandle handle, char *parameterName);
+C_DECL_SPEC char* rrcCallConv getCurrentIntegratorParameterDescription (RRHandle handle, const char *parameterName);
 
 /*!
 \brief Get the hint for a specific integrator setting.
@@ -1339,7 +1339,7 @@ C_DECL_SPEC char* rrcCallConv getCurrentIntegratorParameterDescription (RRHandle
 \return Returns a hint for the integrator setting.
 \ingroup simopts
 */
-C_DECL_SPEC char* rrcCallConv getCurrentIntegratorParameterHint (RRHandle handle, char *parameterName);
+C_DECL_SPEC char* rrcCallConv getCurrentIntegratorParameterHint (RRHandle handle, const char *parameterName);
 
 /*!
 \brief Get the return type for a specific integrator setting.
@@ -1348,7 +1348,7 @@ C_DECL_SPEC char* rrcCallConv getCurrentIntegratorParameterHint (RRHandle handle
 \return Returns a integer that indicates the return type for the integrator setting. 0-STRING, 1-BOOL, 2-INT32, 3-UINT32, 4-INT64, 5-UINT64, 6-FLOAT, 7-DOUBLE, 8-CHAR, 9-UCHAR, 10-EMPTY
 \ingroup simopts
 */
-C_DECL_SPEC int rrcCallConv getCurrentIntegratorParameterType (RRHandle handle, char *parameterName);
+C_DECL_SPEC int rrcCallConv getCurrentIntegratorParameterType (RRHandle handle, const char *parameterName);
 
 /*!
 \brief Get the integer value for a specific integrator setting.
@@ -1357,7 +1357,7 @@ C_DECL_SPEC int rrcCallConv getCurrentIntegratorParameterType (RRHandle handle, 
 \return Returns an integer value for the integrator setting.
 \ingroup simopts
 */
-C_DECL_SPEC int rrcCallConv getCurrentIntegratorParameterInt (RRHandle handle, char *parameterName);
+C_DECL_SPEC int rrcCallConv getCurrentIntegratorParameterInt (RRHandle handle, const char *parameterName);
 
 /*!
 \brief Set the integer value for a specific integrator setting.
@@ -1367,7 +1367,7 @@ C_DECL_SPEC int rrcCallConv getCurrentIntegratorParameterInt (RRHandle handle, c
 \return Returns True if successful.
 \ingroup simopts
 */
-C_DECL_SPEC int rrcCallConv setCurrentIntegratorParameterInt (RRHandle handle, char *parameterName, int value);
+C_DECL_SPEC int rrcCallConv setCurrentIntegratorParameterInt (RRHandle handle, const char *parameterName, int value);
 
 /*!
 \brief Get the unsigned integer value for a specific integrator setting.
@@ -1376,7 +1376,7 @@ C_DECL_SPEC int rrcCallConv setCurrentIntegratorParameterInt (RRHandle handle, c
 \return Returns an integer value for the integrator setting.
 \ingroup simopts
 */
-C_DECL_SPEC unsigned int rrcCallConv getCurrentIntegratorParameterUInt (RRHandle handle, char *parameterName);
+C_DECL_SPEC unsigned int rrcCallConv getCurrentIntegratorParameterUInt (RRHandle handle, const char *parameterName);
 
 /*!
 \brief Set the unsigned integer value for a specific integrator setting.
@@ -1386,7 +1386,7 @@ C_DECL_SPEC unsigned int rrcCallConv getCurrentIntegratorParameterUInt (RRHandle
 \return Returns True if successful.
 \ingroup simopts
 */
-C_DECL_SPEC int rrcCallConv setCurrentIntegratorParameterUInt (RRHandle handle, char *parameterName, unsigned int value);
+C_DECL_SPEC int rrcCallConv setCurrentIntegratorParameterUInt (RRHandle handle, const char *parameterName, unsigned int value);
 
 /*!
 \brief Get the double value for a specific integrator setting.
@@ -1395,7 +1395,7 @@ C_DECL_SPEC int rrcCallConv setCurrentIntegratorParameterUInt (RRHandle handle, 
 \return Returns a double value for the integrator setting.
 \ingroup simopts
 */
-C_DECL_SPEC double rrcCallConv getCurrentIntegratorParameterDouble (RRHandle handle, char *parameterName);
+C_DECL_SPEC double rrcCallConv getCurrentIntegratorParameterDouble (RRHandle handle, const char *parameterName);
 
 /*!
 \brief Set the double value for a specific integrator setting.
@@ -1405,7 +1405,7 @@ C_DECL_SPEC double rrcCallConv getCurrentIntegratorParameterDouble (RRHandle han
 \return Returns True if successful.
 \ingroup simopts
 */
-C_DECL_SPEC int rrcCallConv setCurrentIntegratorParameterDouble (RRHandle handle, char *parameterName, double value);
+C_DECL_SPEC int rrcCallConv setCurrentIntegratorParameterDouble (RRHandle handle, const char *parameterName, double value);
 
 /*!
 \brief Get the string value for a specific integrator setting.
@@ -1414,7 +1414,7 @@ C_DECL_SPEC int rrcCallConv setCurrentIntegratorParameterDouble (RRHandle handle
 \return Returns a string value for the integrator setting.
 \ingroup simopts
 */
-C_DECL_SPEC char* rrcCallConv getCurrentIntegratorParameterString (RRHandle handle, char *parameterName);
+C_DECL_SPEC char* rrcCallConv getCurrentIntegratorParameterString (RRHandle handle, const char *parameterName);
 
 /*!
 \brief Set the string value for a specific integrator setting.
@@ -1424,7 +1424,7 @@ C_DECL_SPEC char* rrcCallConv getCurrentIntegratorParameterString (RRHandle hand
 \return Returns True if successful.
 \ingroup simopts
 */
-C_DECL_SPEC int rrcCallConv setCurrentIntegratorParameterString (RRHandle handle, char *parameterName, char* value);
+C_DECL_SPEC int rrcCallConv setCurrentIntegratorParameterString (RRHandle handle, const char *parameterName, const char* value);
 
 /*!
 \brief Get the boolean value for a specific integrator setting.
@@ -1433,7 +1433,7 @@ C_DECL_SPEC int rrcCallConv setCurrentIntegratorParameterString (RRHandle handle
 \return Returns a boolean value for the integrator setting.
 \ingroup simopts
 */
-C_DECL_SPEC int rrcCallConv getCurrentIntegratorParameterBoolean (RRHandle handle, char *parameterName);
+C_DECL_SPEC int rrcCallConv getCurrentIntegratorParameterBoolean (RRHandle handle, const char *parameterName);
 
 /*!
 \brief Set the boolean value for a specific integrator setting.
@@ -1443,7 +1443,7 @@ C_DECL_SPEC int rrcCallConv getCurrentIntegratorParameterBoolean (RRHandle handl
 \return Returns True if successful.
 \ingroup simopts
 */
-C_DECL_SPEC int rrcCallConv setCurrentIntegratorParameterBoolean (RRHandle handle, char *parameterName, int value);
+C_DECL_SPEC int rrcCallConv setCurrentIntegratorParameterBoolean (RRHandle handle, const char *parameterName, int value);
 
 
 /*!
@@ -1455,7 +1455,7 @@ C_DECL_SPEC int rrcCallConv setCurrentIntegratorParameterBoolean (RRHandle handl
 \return Returns True if successful.
 \ingroup simopts
 */
-C_DECL_SPEC int rrcCallConv getCurrentIntegratorParameterDoubleArray (RRHandle handle, char *parameterName, double** value, int* len);
+C_DECL_SPEC int rrcCallConv getCurrentIntegratorParameterDoubleArray (RRHandle handle, const char *parameterName, double** value, int* len);
 
 /*!
 \brief Set the double array value for a specific integrator setting. Should only used for absoluate tolerace.
@@ -1466,7 +1466,7 @@ C_DECL_SPEC int rrcCallConv getCurrentIntegratorParameterDoubleArray (RRHandle h
 \return Returns True if successful.
 \ingroup simopts
 */
-C_DECL_SPEC int rrcCallConv setCurrentIntegratorParameterDoubleArray(RRHandle handle, char *parameterName, double* value, int len);
+C_DECL_SPEC int rrcCallConv setCurrentIntegratorParameterDoubleArray(RRHandle handle, const char *parameterName, double* value, int len);
 
 
 /*!
@@ -1499,7 +1499,7 @@ C_DECL_SPEC int rrcCallConv setCurrentIntegratorVectorConcentrationTolerance(RRH
 \return Returns True if successful.
 \ingroup simopts
 */
-C_DECL_SPEC int rrcCallConv setCurrentIntegratorIndividualTolerance(RRHandle handle, char* sid, double value);
+C_DECL_SPEC int rrcCallConv setCurrentIntegratorIndividualTolerance(RRHandle handle, const char* sid, double value);
 
 
 /* Steady State Solvers *******************************************************/
@@ -1651,7 +1651,7 @@ C_DECL_SPEC RRStringArrayPtr rrcCallConv getListOfCurrentSteadyStateSolverParame
 \return Returns a description for the steady state solver setting.
 \ingroup simopts
 */
-C_DECL_SPEC char* rrcCallConv getCurrentSteadyStateSolverParameterDescription (RRHandle handle, char *parameterName);
+C_DECL_SPEC char* rrcCallConv getCurrentSteadyStateSolverParameterDescription (RRHandle handle, const char *parameterName);
 
 /*!
 \brief Get the hint for a specific steady state solver setting.
@@ -1660,7 +1660,7 @@ C_DECL_SPEC char* rrcCallConv getCurrentSteadyStateSolverParameterDescription (R
 \return Returns a hint for the steady state solver setting.
 \ingroup simopts
 */
-C_DECL_SPEC char* rrcCallConv getCurrentSteadyStateSolverParameterHint (RRHandle handle, char *parameterName);
+C_DECL_SPEC char* rrcCallConv getCurrentSteadyStateSolverParameterHint (RRHandle handle, const char *parameterName);
 
 /*!
 \brief Get the return type for a specific steady state solver setting.
@@ -1669,7 +1669,7 @@ C_DECL_SPEC char* rrcCallConv getCurrentSteadyStateSolverParameterHint (RRHandle
 \return Returns a integer that indicates the return type for the steady state solver setting. 0-STRING, 1-BOOL, 2-INT32, 3-UINT32, 4-INT64, 5-UINT64, 6-FLOAT, 7-DOUBLE, 8-CHAR, 9-UCHAR, 10-EMPTY
 \ingroup simopts
 */
-C_DECL_SPEC int rrcCallConv getCurrentSteadyStateSolverParameterType (RRHandle handle, char *parameterName);
+C_DECL_SPEC int rrcCallConv getCurrentSteadyStateSolverParameterType (RRHandle handle, const char *parameterName);
 
 /*!
 \brief Get the integer value for a specific steady state solver setting.
@@ -1678,7 +1678,7 @@ C_DECL_SPEC int rrcCallConv getCurrentSteadyStateSolverParameterType (RRHandle h
 \return Returns an integer value for the steady state solver setting.
 \ingroup simopts
 */
-C_DECL_SPEC int rrcCallConv getCurrentSteadyStateSolverParameterInt (RRHandle handle, char *parameterName);
+C_DECL_SPEC int rrcCallConv getCurrentSteadyStateSolverParameterInt (RRHandle handle, const char *parameterName);
 
 /*!
 \brief Set the integer value for a specific steady state solver setting.
@@ -1688,7 +1688,7 @@ C_DECL_SPEC int rrcCallConv getCurrentSteadyStateSolverParameterInt (RRHandle ha
 \return Returns True if successful.
 \ingroup simopts
 */
-C_DECL_SPEC int rrcCallConv setCurrentSteadyStateSolverParameterInt (RRHandle handle, char *parameterName, int value);
+C_DECL_SPEC int rrcCallConv setCurrentSteadyStateSolverParameterInt (RRHandle handle, const char *parameterName, int value);
 
 /*!
 \brief Get the unsigned integer value for a specific steady state solver setting.
@@ -1697,7 +1697,7 @@ C_DECL_SPEC int rrcCallConv setCurrentSteadyStateSolverParameterInt (RRHandle ha
 \return Returns an integer value for the steady state solver setting.
 \ingroup simopts
 */
-C_DECL_SPEC unsigned int rrcCallConv getCurrentSteadyStateSolverParameterUInt (RRHandle handle, char *parameterName);
+C_DECL_SPEC unsigned int rrcCallConv getCurrentSteadyStateSolverParameterUInt (RRHandle handle, const char *parameterName);
 
 /*!
 \brief Set the unsigned integer value for a specific steady state solver setting.
@@ -1707,7 +1707,7 @@ C_DECL_SPEC unsigned int rrcCallConv getCurrentSteadyStateSolverParameterUInt (R
 \return Returns True if successful.
 \ingroup simopts
 */
-C_DECL_SPEC int rrcCallConv setCurrentSteadyStateSolverParameterUInt (RRHandle handle, char *parameterName, unsigned int value);
+C_DECL_SPEC int rrcCallConv setCurrentSteadyStateSolverParameterUInt (RRHandle handle, const char *parameterName, unsigned int value);
 
 /*!
 \brief Get the double value for a specific steady state solver setting.
@@ -1716,7 +1716,7 @@ C_DECL_SPEC int rrcCallConv setCurrentSteadyStateSolverParameterUInt (RRHandle h
 \return Returns a double value for the steady state solver setting.
 \ingroup simopts
 */
-C_DECL_SPEC double rrcCallConv getCurrentSteadyStateSolverParameterDouble (RRHandle handle, char *parameterName);
+C_DECL_SPEC double rrcCallConv getCurrentSteadyStateSolverParameterDouble (RRHandle handle, const char *parameterName);
 
 /*!
 \brief Set the double value for a specific steady state solver setting.
@@ -1726,7 +1726,7 @@ C_DECL_SPEC double rrcCallConv getCurrentSteadyStateSolverParameterDouble (RRHan
 \return Returns True if successful.
 \ingroup simopts
 */
-C_DECL_SPEC int rrcCallConv setCurrentSteadyStateSolverParameterDouble (RRHandle handle, char *parameterName, double value);
+C_DECL_SPEC int rrcCallConv setCurrentSteadyStateSolverParameterDouble (RRHandle handle, const char *parameterName, double value);
 
 /*!
 \brief Get the string value for a specific steady state solver setting.
@@ -1735,7 +1735,7 @@ C_DECL_SPEC int rrcCallConv setCurrentSteadyStateSolverParameterDouble (RRHandle
 \return Returns a string value for the steady state solver setting.
 \ingroup simopts
 */
-C_DECL_SPEC char* rrcCallConv getCurrentSteadyStateSolverParameterString (RRHandle handle, char *parameterName);
+C_DECL_SPEC char* rrcCallConv getCurrentSteadyStateSolverParameterString (RRHandle handle, const char *parameterName);
 
 /*!
 \brief Set the string value for a specific steady state solver setting.
@@ -1745,7 +1745,7 @@ C_DECL_SPEC char* rrcCallConv getCurrentSteadyStateSolverParameterString (RRHand
 \return Returns True if successful.
 \ingroup simopts
 */
-C_DECL_SPEC int rrcCallConv setCurrentSteadyStateSolverParameterString (RRHandle handle, char *parameterName, char* value);
+C_DECL_SPEC int rrcCallConv setCurrentSteadyStateSolverParameterString (RRHandle handle, const char *parameterName, const char* value);
 
 /*!
 \brief Get the boolean value for a specific steady state solver setting.
@@ -1754,7 +1754,7 @@ C_DECL_SPEC int rrcCallConv setCurrentSteadyStateSolverParameterString (RRHandle
 \return Returns a boolean value for the steady state solver setting.
 \ingroup simopts
 */
-C_DECL_SPEC int rrcCallConv getCurrentSteadyStateSolverParameterBoolean (RRHandle handle, char *parameterName);
+C_DECL_SPEC int rrcCallConv getCurrentSteadyStateSolverParameterBoolean (RRHandle handle, const char *parameterName);
 
 /*!
 \brief Set the boolean value for a specific steady state solver setting.
@@ -1764,7 +1764,7 @@ C_DECL_SPEC int rrcCallConv getCurrentSteadyStateSolverParameterBoolean (RRHandl
 \return Returns True if successful.
 \ingroup simopts
 */
-C_DECL_SPEC int rrcCallConv setCurrentSteadyStateSolverParameterBoolean (RRHandle handle, char *parameterName, int value);
+C_DECL_SPEC int rrcCallConv setCurrentSteadyStateSolverParameterBoolean (RRHandle handle, const char *parameterName, int value);
 
 
 /*!
