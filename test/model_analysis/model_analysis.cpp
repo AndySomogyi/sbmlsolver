@@ -244,10 +244,10 @@ TEST_F(ModelAnalysisTests, NonZeroStarts_CVODE) {
     opt.duration = 10;
     opt.steps = 50;
     ls::DoubleMatrix s0result(*(rr.simulate(&opt)));
-    rr.reset(SelectionRecord::SelectionType::ALL);
+    rr.reset(int(SelectionRecord::SelectionType::ALL));
     opt.start = -2;
     ls::DoubleMatrix sneg2result(*(rr.simulate(&opt)));
-    rr.reset(SelectionRecord::SelectionType::ALL);
+    rr.reset(int(SelectionRecord::SelectionType::ALL));
     opt.start = 2;
     ls::DoubleMatrix s2result(*(rr.simulate(&opt)));
 
@@ -277,10 +277,10 @@ TEST_F(ModelAnalysisTests, NonZeroStarts_RK4) {
     opt.duration = 10;
     opt.steps = 50;
     ls::DoubleMatrix s0result(*(rr.simulate(&opt)));
-    rr.reset(SelectionRecord::SelectionType::ALL);
+    rr.reset(int(SelectionRecord::SelectionType::ALL));
     opt.start = -2;
     ls::DoubleMatrix sneg2result(*(rr.simulate(&opt)));
-    rr.reset(SelectionRecord::SelectionType::ALL);
+    rr.reset(int(SelectionRecord::SelectionType::ALL));
     opt.start = 2;
     ls::DoubleMatrix s2result(*(rr.simulate(&opt)));
 
@@ -310,10 +310,10 @@ TEST_F(ModelAnalysisTests, NonZeroStarts_RK45) {
     opt.duration = 10;
     opt.steps = 50;
     ls::DoubleMatrix s0result(*(rr.simulate(&opt)));
-    rr.reset(SelectionRecord::SelectionType::ALL);
+    rr.reset(int(SelectionRecord::SelectionType::ALL));
     opt.start = -2;
     ls::DoubleMatrix sneg2result(*(rr.simulate(&opt)));
-    rr.reset(SelectionRecord::SelectionType::ALL);
+    rr.reset(int(SelectionRecord::SelectionType::ALL));
     opt.start = 2;
     ls::DoubleMatrix s2result(*(rr.simulate(&opt)));
 
@@ -343,10 +343,10 @@ TEST_F(ModelAnalysisTests, DISABLED_NonZeroStarts_Gillespie) {
     opt.duration = 10;
     opt.steps = 50;
     ls::DoubleMatrix s0result(*(rr.simulate(&opt)));
-    rr.reset(SelectionRecord::SelectionType::ALL);
+    rr.reset(int(SelectionRecord::SelectionType::ALL));
     opt.start = -2;
     ls::DoubleMatrix sneg2result(*(rr.simulate(&opt)));
-    rr.reset(SelectionRecord::SelectionType::ALL);
+    rr.reset(int(SelectionRecord::SelectionType::ALL));
     opt.start = 2;
     ls::DoubleMatrix s2result(*(rr.simulate(&opt)));
 
@@ -462,7 +462,7 @@ TEST_F(ModelAnalysisTests, ResetBoundarySpeciesEvent) {
     EXPECT_EQ(S1, 4);
 
     //Now check to ensure we don't reset this when we reset something else instead:
-    rr.reset(SelectionRecord::ALL);
+    rr.reset(int(SelectionRecord::ALL));
     rr.simulate();
     rr.reset(SelectionRecord::TIME);
     S1 = rr.getValue("S1");
@@ -608,7 +608,7 @@ TEST_F(ModelAnalysisTests, ResetCompartmentFromEvent) {
     EXPECT_EQ(comp, 2);
 
     //Now check to ensure we don't reset this when we reset something else instead:
-    rr.reset(SelectionRecord::ALL);
+    rr.reset(int(SelectionRecord::ALL));
     rr.simulate();
     rr.reset(SelectionRecord::TIME);
     comp = rr.getValue("C1");
@@ -683,7 +683,7 @@ TEST_F(ModelAnalysisTests, ResetParamFromEvent) {
     EXPECT_EQ(P1, 4);
 
     //Now check to ensure we don't reset this when we reset something else instead:
-    rr.reset(SelectionRecord::ALL);
+    rr.reset(int(SelectionRecord::ALL));
     rr.simulate();
     rr.reset(SelectionRecord::TIME);
     P1 = rr.getValue("P1");

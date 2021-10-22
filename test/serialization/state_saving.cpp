@@ -522,7 +522,7 @@ TEST_F(StateSavingTests, SAVE_STATE_12) {
         rri->simulate();
         rri->saveState("save-state-test.rr");
         rri->loadState("save-state-test.rr");
-        rri->reset(SelectionRecord::ALL);
+        rri->reset(int(SelectionRecord::ALL));
     }, "l3v1"));
 }
 
@@ -568,7 +568,7 @@ TEST_F(StateSavingTests, SAVE_STATE_18) {
         rri->simulate();
         rri->saveState("save-state-test.rr");
         rri->loadState("save-state-test.rr");
-        rri->reset(SelectionRecord::ALL);
+        rri->reset(int(SelectionRecord::ALL));
     }, "l3v1"));
 }
 

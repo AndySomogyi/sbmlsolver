@@ -3608,7 +3608,7 @@ bool rrcCallConv resetToOrigin(RRHandle handle)
 {
     start_try
         RoadRunner* rri = castToRoadRunner(handle);
-        rri->reset(SelectionRecord::ALL);
+        rri->reset(int(SelectionRecord::ALL));
         return true;
     catch_bool_macro
 }
