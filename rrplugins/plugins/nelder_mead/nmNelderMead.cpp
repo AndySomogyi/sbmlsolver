@@ -230,7 +230,8 @@ The Plugin has a number of parameters for fine tuning the algorithm. See the emb
             gHostInterface->setLogLevel(origloglevel);
             throw(Exception("There was an unknown problem in the execute method of the Nelder-Mead plugin."));
         }
-        gHostInterface->setLogLevel(origloglevel);
+        //Should never reach, but suppresses warning:
+        return false;
     }
 
 #ifdef EXPORT_NELDER_MEAD
