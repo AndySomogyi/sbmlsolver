@@ -1584,7 +1584,7 @@ int rrcCallConv getNumInstantiatedIntegrators(RRHandle handle)
     catch_int_macro
 }
 
-int rrcCallConv setCurrentIntegrator (RRHandle handle, char *nameOfIntegrator)
+int rrcCallConv setCurrentIntegrator (RRHandle handle, const char* nameOfIntegrator)
 {
 	start_try
         rrLog(Logger::LOG_DEBUG) << "setCurrentIntegrator called with " << nameOfIntegrator;
@@ -2545,7 +2545,7 @@ char* rrcCallConv getRegisteredSteadyStateSolverDescription(int n)
     catch_ptr_macro
 }
 
-int rrcCallConv setCurrentSteadyStateSolver (RRHandle handle, char *nameOfSteadyStateSolver)
+int rrcCallConv setCurrentSteadyStateSolver (RRHandle handle, const char *nameOfSteadyStateSolver)
 {
     start_try
         rrLog(Logger::LOG_DEBUG) << "setCurrentSteadyStateSolver called with " << nameOfSteadyStateSolver;

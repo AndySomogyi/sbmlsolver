@@ -1233,7 +1233,7 @@ one does not currently exist. Otherwise, the existing integrator of this type is
 \return Returns True if successful.
 \ingroup simopts
 */
-C_DECL_SPEC int rrcCallConv setCurrentIntegrator (RRHandle handle, char *nameOfIntegrator);
+C_DECL_SPEC int rrcCallConv setCurrentIntegrator (RRHandle handle, const char* nameOfIntegrator);
 
 /*!
 \brief Obtain a description of the current integrator.
@@ -1545,7 +1545,7 @@ one does not currently exist. Otherwise, the existing steady state solver of thi
 \return Returns True if successful.
 \ingroup simopts
 */
-C_DECL_SPEC int rrcCallConv setCurrentSteadyStateSolver (RRHandle handle, char *nameOfSteadyStateSolver);
+C_DECL_SPEC int rrcCallConv setCurrentSteadyStateSolver (RRHandle handle, const char *nameOfSteadyStateSolver);
 
 /*!
 \brief Obtain a description of the current steady state solver.
