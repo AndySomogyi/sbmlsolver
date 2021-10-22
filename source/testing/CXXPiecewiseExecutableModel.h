@@ -284,7 +284,7 @@ public:
     /**
      * id of the indexed global parameter.
      */
-    virtual std::string getGlobalParameterId(size_t index);
+    virtual std::string getGlobalParameterId(size_t index) override;
 
     /**
      * get the global parameter values
