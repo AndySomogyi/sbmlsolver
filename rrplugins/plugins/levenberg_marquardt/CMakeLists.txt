@@ -26,8 +26,6 @@ add_library(${target} MODULE ${RRP_LEVENBERG_MARQUARDT_SOURCES})
 
 target_link_libraries (${target} PRIVATE
     lmfit-static
-    telpluginsBaseClass-static
-    telplugins_math-static
     telplugins_c_api
 )
 

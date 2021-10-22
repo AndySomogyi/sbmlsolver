@@ -16,8 +16,6 @@ set(RRP_MONTE_CARLO_BS_SOURCES
 add_library(${target} MODULE ${RRP_MONTE_CARLO_BS_SOURCES})
 
 target_link_libraries (${target} PRIVATE
-  telpluginsBaseClass-static
-  telplugins_math-static
   telplugins_c_api
 )
 
