@@ -121,7 +121,7 @@ namespace rr {
         *
         * @return the end time.
         */
-        virtual double integrate(double t0, double h) {
+        virtual double integrate(double t0, double h) override {
             int internal_steps = getValue("subdivision_steps");
             if (mModel == (rr::ExecutableModel *) NULL) return 0;
 
@@ -197,27 +197,27 @@ namespace rr {
         /**
         * This simple integrator has nothing to reset, so do nothing here
         */
-        virtual void restart(double t0) {}
+        virtual void restart(double t0) override {}
 
         /**
         * Clients may register a listener to listen for
         * sbml events and time step events.
         */
-        virtual void setListener(IntegratorListenerPtr p) {
+        virtual void setListener(IntegratorListenerPtr p) override {
             listener = p;
         }
 
         /**
         * get the integrator listener
         */
-        virtual IntegratorListenerPtr getListener() {
+        virtual IntegratorListenerPtr getListener() override {
             return listener;
         }
 
         /**
         * get a description of this object, compatable with python __str__
         */
-        virtual std::string toString() const {
+        virtual std::string toString() const override {
             std::stringstream ss;
             ss << "< roadrunner.EulerIntegrator() " << std::endl;
             ss << "{ 'this' : " << (void *) this << std::endl;
@@ -230,7 +230,7 @@ namespace rr {
         /**
         * get a short descriptions of this object, compatable with python __repr__.
         */
-        virtual std::string toRepr() const {
+        virtual std::string toRepr() const override {
             std::stringstream ss;
             ss << "< roadrunner.EulerIntegrator() { 'this' : "
                << (void *) this << " }>";
@@ -267,7 +267,7 @@ namespace rr {
             return "A simple Euler integrator";
         }
 
-        Solver *construct(ExecutableModel *executableModel) const {
+        Solver *construct(ExecutableModel *executableModel) const override {
             return new EulerIntegrator(executableModel);
         }
 
@@ -275,7 +275,7 @@ namespace rr {
          * @author JKM
          * @brief Always deterministic for Euler
          */
-        IntegrationMethod getIntegrationMethod() const {
+        IntegrationMethod getIntegrationMethod() const override {
             return Integrator::Deterministic;
         }
 
@@ -350,7 +350,7 @@ namespace rr {
             return keys;
         }
 
-        void resetSettings() {
+        void resetSettings() override {
             Solver::resetSettings();
 
             // Set default integrator settings.

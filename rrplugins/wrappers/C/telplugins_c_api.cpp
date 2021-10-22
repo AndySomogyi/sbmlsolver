@@ -1,5 +1,6 @@
 #pragma hdrstop
 #include <sstream>
+#include "rrplugins/core/telplugins_cpp_support.h" //Must include first for gLastError.
 #include "rr-libstruct/lsMatrix.h"
 #include "rrplugins/common/telLogger.h"
 #include "rrplugins/common/telTelluriumData.h"

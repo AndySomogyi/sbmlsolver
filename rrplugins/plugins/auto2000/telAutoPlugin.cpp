@@ -96,11 +96,11 @@ mMaxColumns(                        7,         "MaxColumns",                    
     //Create a roadrunner to use
 
     rrHandle = gHostInterface->createRRInstance();
-    gHostInterface->setCurrentSteadyStateSolver(rrHandle, (char *)"nleq2");
-    gHostInterface->setCurrentSteadyStateSolverParameterBoolean(rrHandle, (char *)"allow_presimulation", 1);
-    gHostInterface->setCurrentSteadyStateSolverParameterBoolean(rrHandle, (char*)"allow_approx", 1);
-    gHostInterface->setCurrentSteadyStateSolverParameterDouble(rrHandle, (char*)"relative_tolerance", 1e-16);
-    gHostInterface->setCurrentSteadyStateSolverParameterDouble(rrHandle, (char*)"minimum_damping", 1e-4);
+    gHostInterface->setCurrentSteadyStateSolver(rrHandle, "nleq2");
+    gHostInterface->setCurrentSteadyStateSolverParameterBoolean(rrHandle, "allow_presimulation", 1);
+    gHostInterface->setCurrentSteadyStateSolverParameterBoolean(rrHandle, "allow_approx", 1);
+    gHostInterface->setCurrentSteadyStateSolverParameterDouble(rrHandle, "relative_tolerance", 1e-16);
+    gHostInterface->setCurrentSteadyStateSolverParameterDouble(rrHandle, "minimum_damping", 1e-4);
 
     mRRAuto.assignRoadRunner(rrHandle);
     mAutoWorker.assignRoadRunner(rrHandle);

@@ -45,13 +45,13 @@
 #define telplugins_cpp_supportH
 #include <string>
 #include <typeinfo>
-#include "telplugins_c_api.h"
 #include "rrplugins/common/telTelluriumData.h"
-#include "rrplugins/core/telPluginManager.h"
+//#include "rrplugins/core/telPluginManager.h"
 #include "rrplugins/common/telProperties.h"
 #include "rrplugins/pluginBaseClass/telPlugin.h"
 #include "rrplugins/common/telProperty.h"
 #include "telAPIHandleManager.h"
+
 namespace rr
 {
     class RoadRunner;
@@ -65,7 +65,7 @@ class RoadRunnerList;
 namespace tlpc
 {
 using std::string;
-using tlp::PluginManager;
+//using tlp::PluginManager;
 using tlp::Properties;
 using tlp::PropertyBase;
 using tlp::Plugin;
@@ -75,6 +75,8 @@ using tlp::Property;
  \brief Global Handle Manager
 */
 extern APIHandleManager gHM;
+
+extern char* gLastError;
 
 /*!
  \brief Set API error
@@ -92,7 +94,7 @@ void tpSetError(const string& err);
  \ingroup cpp_support
 */
 template<typename  T>
-T* castHandle(TELHandle handle, const char* fnc, bool allowBase = false)
+T* castHandle(void* handle, const char* fnc, bool allowBase = false)
 {
     T* ptr = static_cast<T*>(gHM.validate(handle, typeid(T*).name(), fnc));
     return ptr;
@@ -109,13 +111,13 @@ Plugin* tpRegisterPlugin(Plugin* plugin);
 char*  tpCreateText(const string& str);
 
 
-/*!
- \brief Cast a handle to RoadRunner Instance list to a RoadRunnerList pointer, throws if it fails
- \param[in] handle  A handle to a RRInstanceList handle
- \return Pointer to a RoadRunnerList instance
- \ingroup cpp_support
-*/
-TLP_C_DS tlp::RoadRunnerList*           getRRList(TELHandle handle);
+///*!
+// \brief Cast a handle to RoadRunner Instance list to a RoadRunnerList pointer, throws if it fails
+// \param[in] handle  A handle to a RRInstanceList handle
+// \return Pointer to a RoadRunnerList instance
+// \ingroup cpp_support
+//*/
+//TLP_C_DS tlp::RoadRunnerList*           getRRList(void* handle);
 
 }
 

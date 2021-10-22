@@ -3,13 +3,12 @@
 //Debashish Roy
 // API used to connect roadrunner functionality with plugins
 
-#include "../../../rrplugins/wrappers/C/telplugins_types.h"
 #include "../../../wrappers/C/rrc_types.h"		//declaration of types such as rrhandle
 
 #if defined(__cplusplus)
 	namespace rrc { 
 	extern "C" {
-#define TLPCTELHANDLE tlpc::TELHandle 
+#define TLPCTELHANDLE void* 
 #else
 #define TLPCTELHANDLE TELHandle 
 #endif
@@ -102,7 +101,7 @@ typedef struct {			// THostInterface
 	\ingroup simopts
 	*/
 
-	int (*setCurrentSteadyStateSolver)(RRHandle handle, char* nameOfSteadyStateSolver);
+	int (*setCurrentSteadyStateSolver)(RRHandle handle, const char*nameOfSteadyStateSolver);
 
 	/*!
 	\brief Set the boolean value for a specific steady state solver setting.
@@ -113,7 +112,7 @@ typedef struct {			// THostInterface
 	\ingroup simopts
 	*/
 	
-	int (*setCurrentSteadyStateSolverParameterBoolean)(RRHandle handle, char* parameterName, int value);
+	int (*setCurrentSteadyStateSolverParameterBoolean)(RRHandle handle, const char*parameterName, int value);
 
 	/*!
 	\brief Set the double value for a specific steady state solver setting.
@@ -123,7 +122,7 @@ typedef struct {			// THostInterface
 	\return Returns True if successful.
 	\ingroup simopts
 	*/
-	int (*setCurrentSteadyStateSolverParameterDouble)(RRHandle handle, char* parameterName, double value);
+	int (*setCurrentSteadyStateSolverParameterDouble)(RRHandle handle, const char*parameterName, double value);
 
 
 	/*!

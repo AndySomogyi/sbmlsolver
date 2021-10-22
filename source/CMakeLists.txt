@@ -138,6 +138,7 @@ set(
         rrRoadRunnerData.h
         rrSelectionRecord.h
         ExecutableModelFactory.h
+        EulerIntegrator.h
         ${CMAKE_CURRENT_BINARY_DIR}/rrVersionInfo.h
         rrSparse.h
         rrSBMLModelSimulation.h

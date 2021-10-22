@@ -51,11 +51,6 @@ extern "C" {
 #endif
 
 /*!
- \brief Global parameter holding last error, if any
-*/
-extern char* gLastError;
-
-/*!
  \brief Global parameter holding C API install folder
 */
 extern char* gInstallFolder;
