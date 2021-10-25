@@ -200,23 +200,6 @@ ModelGeneratorContext::ModelGeneratorContext(std::string const &sbml, unsigned o
 
         executionEngine = std::unique_ptr<llvm::ExecutionEngine>(engineBuilder.create());
 
-        ///
-        /**
-         * Construct an orc JIT. This replaces MCJIT.
-         */
-//        auto JIT = llvm::orc::LLJITBuilder().create();
-
-        /**
-         *  We add a LLVM IR module, choosing the thread safe version so that if we configure
-         *  multithreading later we don't have a problem
-         */
-//        if (auto Err = (*JIT)->addIRModule(llvm::orc::ThreadSafeModule(std::move(module_owner)))  {
-//            rrLogErr << Err;
-//        }
-//        ///
-
-		//executionEngine = EngineBuilder(std::move(module_owner)).create();
-
 		addGlobalMappings();
 
         // check if doc has distrib package
