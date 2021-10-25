@@ -57,7 +57,6 @@ protected:
             context(mgc.getContext()),
             module(mgc.getModule()),
             builder(mgc.getBuilder()),
-            engine(mgc.getExecutionEngine()),
             options(mgc.getOptions()),
             function(0),
             functionPassManager(mgc.getFunctionPassManager())
@@ -77,7 +76,6 @@ protected:
     llvm::LLVMContext &context;
     llvm::Module *module;
     llvm::IRBuilder<> &builder;
-    llvm::ExecutionEngine &engine;
     llvm::Function *function;
 
     /**
