@@ -47,6 +47,7 @@ namespace rrllvm
 {
 
 class ModelResources;
+class Jit;
 
 /**
  * @author ETS

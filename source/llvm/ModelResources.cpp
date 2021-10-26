@@ -66,7 +66,6 @@ ModelResources::~ModelResources()
 //    delete executionEngine;
 //    delete context;
     delete random;
-    delete errStr;
 }
 
 void ModelResources::saveState(std::ostream& out) const

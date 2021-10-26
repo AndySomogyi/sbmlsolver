@@ -160,148 +160,148 @@ Function* createGlobalMappingFunction(const char* funcName,
 
 void addGlobalMappings(const ModelGeneratorContext& ctx)
 {
-    llvm::Module *module = ctx.getModule();
-    LLVMContext& context = ctx.getContext();// module->getContext();
-    llvm::ExecutionEngine *executionEngine = &ctx.getExecutionEngine();
-    Type *double_type = Type::getDoubleTy(context);
-
-
-    // LLVM does not appear to have a true void ptr, so just use a pointer
-    // to a byte, pointers are all the same size anyway.
-    // used for the LLVMModelData::random which is not accessed by
-    // generated llvm code anyway.
-    // see also, llvm::StructType *ModelDataIRBuilder::createModelDataStructType(...)
-    Type *voidPtrType = Type::getInt8PtrTy(context);
-
-    Type* args_void_double_quadruple[] = { voidPtrType, double_type, double_type, double_type, double_type };
-
-    Type* args_void_double_triple[] = { voidPtrType, double_type, double_type, double_type };
-
-    Type* args_void_double_double[] = { voidPtrType, double_type, double_type };
-
-    Type* args_void_double[] = { voidPtrType, double_type };
-
-
-
-    executionEngine->addGlobalMapping(
-        createGlobalMappingFunction("rr_distrib_uniform",
-            FunctionType::get(double_type, args_void_double_double, false), module),
-            (void*) distrib_uniform);
-
-    executionEngine->addGlobalMapping(
-        createGlobalMappingFunction("rr_distrib_normal",
-            FunctionType::get(double_type, args_void_double_double, false), module),
-            (void*) distrib_normal);
-
-    executionEngine->addGlobalMapping(
-        createGlobalMappingFunction("rr_distrib_normal_four",
-            FunctionType::get(double_type, args_void_double_quadruple, false), module),
-            (void*)distrib_normal_four);
-    
-    executionEngine->addGlobalMapping(
-        createGlobalMappingFunction("rr_distrib_binomial",
-            FunctionType::get(double_type, args_void_double_double, false), module),
-        (void*)distrib_binomial);
-
-    executionEngine->addGlobalMapping(
-        createGlobalMappingFunction("rr_distrib_bernoulli",
-            FunctionType::get(double_type, args_void_double, false), module),
-        (void*)distrib_bernoulli);
-
-    executionEngine->addGlobalMapping(
-        createGlobalMappingFunction("rr_distrib_binomial_four",
-            FunctionType::get(double_type, args_void_double_quadruple, false), module),
-        (void*)distrib_binomial_four);
-
-    executionEngine->addGlobalMapping(
-        createGlobalMappingFunction("rr_distrib_cauchy",
-            FunctionType::get(double_type, args_void_double_double, false), module),
-        (void*)distrib_cauchy);
-
-    executionEngine->addGlobalMapping(
-        createGlobalMappingFunction("rr_distrib_cauchy_one",
-            FunctionType::get(double_type, args_void_double, false), module),
-        (void*)distrib_cauchy_one);
-
-    executionEngine->addGlobalMapping(
-        createGlobalMappingFunction("rr_distrib_cauchy_four",
-            FunctionType::get(double_type, args_void_double_quadruple, false), module),
-        (void*)distrib_cauchy_four);
-
-    executionEngine->addGlobalMapping(
-        createGlobalMappingFunction("rr_distrib_chisquare",
-            FunctionType::get(double_type, args_void_double, false), module),
-        (void*)distrib_chisquare);
-
-    executionEngine->addGlobalMapping(
-        createGlobalMappingFunction("rr_distrib_chisquare_three",
-            FunctionType::get(double_type, args_void_double_triple, false), module),
-        (void*)distrib_chisquare_three);
-
-    executionEngine->addGlobalMapping(
-        createGlobalMappingFunction("rr_distrib_exponential",
-            FunctionType::get(double_type, args_void_double, false), module),
-            (void*)distrib_exponential);
-
-    executionEngine->addGlobalMapping(
-        createGlobalMappingFunction("rr_distrib_exponential_three",
-            FunctionType::get(double_type, args_void_double_triple, false), module),
-            (void*)distrib_exponential_three);
-
-    executionEngine->addGlobalMapping(
-        createGlobalMappingFunction("rr_distrib_gamma",
-            FunctionType::get(double_type, args_void_double_double, false), module),
-        (void*)distrib_gamma);
-
-    executionEngine->addGlobalMapping(
-        createGlobalMappingFunction("rr_distrib_gamma_four",
-            FunctionType::get(double_type, args_void_double_quadruple, false), module),
-        (void*)distrib_gamma_four);
-
-    executionEngine->addGlobalMapping(
-        createGlobalMappingFunction("rr_distrib_laplace",
-            FunctionType::get(double_type, args_void_double_double, false), module),
-        (void*)distrib_laplace);
-
-    executionEngine->addGlobalMapping(
-        createGlobalMappingFunction("rr_distrib_laplace_one",
-            FunctionType::get(double_type, args_void_double, false), module),
-        (void*)distrib_laplace_one);
-
-    executionEngine->addGlobalMapping(
-        createGlobalMappingFunction("rr_distrib_laplace_four",
-            FunctionType::get(double_type, args_void_double_quadruple, false), module),
-        (void*)distrib_laplace_four);
-
-    executionEngine->addGlobalMapping(
-        createGlobalMappingFunction("rr_distrib_lognormal",
-            FunctionType::get(double_type, args_void_double_double, false), module),
-            (void*)distrib_lognormal);
-
-    executionEngine->addGlobalMapping(
-        createGlobalMappingFunction("rr_distrib_lognormal_four",
-            FunctionType::get(double_type, args_void_double_quadruple, false), module),
-            (void*)distrib_lognormal_four);
-
-    executionEngine->addGlobalMapping(
-        createGlobalMappingFunction("rr_distrib_poisson",
-            FunctionType::get(double_type, args_void_double, false), module),
-        (void*)distrib_poisson);
-
-    executionEngine->addGlobalMapping(
-        createGlobalMappingFunction("rr_distrib_poisson_three",
-            FunctionType::get(double_type, args_void_double_triple, false), module),
-        (void*)distrib_poisson_three);
-
-    executionEngine->addGlobalMapping(
-        createGlobalMappingFunction("rr_distrib_rayleigh",
-            FunctionType::get(double_type, args_void_double, false), module),
-        (void*)distrib_rayleigh);
-
-    executionEngine->addGlobalMapping(
-        createGlobalMappingFunction("rr_distrib_rayleigh_three",
-            FunctionType::get(double_type, args_void_double_triple, false), module),
-        (void*)distrib_rayleigh_three);
+//    llvm::Module *module = ctx.getJitNonOwning()->getModuleNonOwning();
+//    LLVMContext& context = *ctx.getJitNonOwning()->getContextNonOwning();
+//    llvm::ExecutionEngine *executionEngine = &ctx.getExecutionEngine();
+//    Type *double_type = Type::getDoubleTy(context);
+//
+//
+//    // LLVM does not appear to have a true void ptr, so just use a pointer
+//    // to a byte, pointers are all the same size anyway.
+//    // used for the LLVMModelData::random which is not accessed by
+//    // generated llvm code anyway.
+//    // see also, llvm::StructType *ModelDataIRBuilder::createModelDataStructType(...)
+//    Type *voidPtrType = Type::getInt8PtrTy(context);
+//
+//    Type* args_void_double_quadruple[] = { voidPtrType, double_type, double_type, double_type, double_type };
+//
+//    Type* args_void_double_triple[] = { voidPtrType, double_type, double_type, double_type };
+//
+//    Type* args_void_double_double[] = { voidPtrType, double_type, double_type };
+//
+//    Type* args_void_double[] = { voidPtrType, double_type };
+//
+//
+//
+//    executionEngine->addGlobalMapping(
+//        createGlobalMappingFunction("rr_distrib_uniform",
+//            FunctionType::get(double_type, args_void_double_double, false), module),
+//            (void*) distrib_uniform);
+//
+//    executionEngine->addGlobalMapping(
+//        createGlobalMappingFunction("rr_distrib_normal",
+//            FunctionType::get(double_type, args_void_double_double, false), module),
+//            (void*) distrib_normal);
+//
+//    executionEngine->addGlobalMapping(
+//        createGlobalMappingFunction("rr_distrib_normal_four",
+//            FunctionType::get(double_type, args_void_double_quadruple, false), module),
+//            (void*)distrib_normal_four);
+//
+//    executionEngine->addGlobalMapping(
+//        createGlobalMappingFunction("rr_distrib_binomial",
+//            FunctionType::get(double_type, args_void_double_double, false), module),
+//        (void*)distrib_binomial);
+//
+//    executionEngine->addGlobalMapping(
+//        createGlobalMappingFunction("rr_distrib_bernoulli",
+//            FunctionType::get(double_type, args_void_double, false), module),
+//        (void*)distrib_bernoulli);
+//
+//    executionEngine->addGlobalMapping(
+//        createGlobalMappingFunction("rr_distrib_binomial_four",
+//            FunctionType::get(double_type, args_void_double_quadruple, false), module),
+//        (void*)distrib_binomial_four);
+//
+//    executionEngine->addGlobalMapping(
+//        createGlobalMappingFunction("rr_distrib_cauchy",
+//            FunctionType::get(double_type, args_void_double_double, false), module),
+//        (void*)distrib_cauchy);
+//
+//    executionEngine->addGlobalMapping(
+//        createGlobalMappingFunction("rr_distrib_cauchy_one",
+//            FunctionType::get(double_type, args_void_double, false), module),
+//        (void*)distrib_cauchy_one);
+//
+//    executionEngine->addGlobalMapping(
+//        createGlobalMappingFunction("rr_distrib_cauchy_four",
+//            FunctionType::get(double_type, args_void_double_quadruple, false), module),
+//        (void*)distrib_cauchy_four);
+//
+//    executionEngine->addGlobalMapping(
+//        createGlobalMappingFunction("rr_distrib_chisquare",
+//            FunctionType::get(double_type, args_void_double, false), module),
+//        (void*)distrib_chisquare);
+//
+//    executionEngine->addGlobalMapping(
+//        createGlobalMappingFunction("rr_distrib_chisquare_three",
+//            FunctionType::get(double_type, args_void_double_triple, false), module),
+//        (void*)distrib_chisquare_three);
+//
+//    executionEngine->addGlobalMapping(
+//        createGlobalMappingFunction("rr_distrib_exponential",
+//            FunctionType::get(double_type, args_void_double, false), module),
+//            (void*)distrib_exponential);
+//
+//    executionEngine->addGlobalMapping(
+//        createGlobalMappingFunction("rr_distrib_exponential_three",
+//            FunctionType::get(double_type, args_void_double_triple, false), module),
+//            (void*)distrib_exponential_three);
+//
+//    executionEngine->addGlobalMapping(
+//        createGlobalMappingFunction("rr_distrib_gamma",
+//            FunctionType::get(double_type, args_void_double_double, false), module),
+//        (void*)distrib_gamma);
+//
+//    executionEngine->addGlobalMapping(
+//        createGlobalMappingFunction("rr_distrib_gamma_four",
+//            FunctionType::get(double_type, args_void_double_quadruple, false), module),
+//        (void*)distrib_gamma_four);
+//
+//    executionEngine->addGlobalMapping(
+//        createGlobalMappingFunction("rr_distrib_laplace",
+//            FunctionType::get(double_type, args_void_double_double, false), module),
+//        (void*)distrib_laplace);
+//
+//    executionEngine->addGlobalMapping(
+//        createGlobalMappingFunction("rr_distrib_laplace_one",
+//            FunctionType::get(double_type, args_void_double, false), module),
+//        (void*)distrib_laplace_one);
+//
+//    executionEngine->addGlobalMapping(
+//        createGlobalMappingFunction("rr_distrib_laplace_four",
+//            FunctionType::get(double_type, args_void_double_quadruple, false), module),
+//        (void*)distrib_laplace_four);
+//
+//    executionEngine->addGlobalMapping(
+//        createGlobalMappingFunction("rr_distrib_lognormal",
+//            FunctionType::get(double_type, args_void_double_double, false), module),
+//            (void*)distrib_lognormal);
+//
+//    executionEngine->addGlobalMapping(
+//        createGlobalMappingFunction("rr_distrib_lognormal_four",
+//            FunctionType::get(double_type, args_void_double_quadruple, false), module),
+//            (void*)distrib_lognormal_four);
+//
+//    executionEngine->addGlobalMapping(
+//        createGlobalMappingFunction("rr_distrib_poisson",
+//            FunctionType::get(double_type, args_void_double, false), module),
+//        (void*)distrib_poisson);
+//
+//    executionEngine->addGlobalMapping(
+//        createGlobalMappingFunction("rr_distrib_poisson_three",
+//            FunctionType::get(double_type, args_void_double_triple, false), module),
+//        (void*)distrib_poisson_three);
+//
+//    executionEngine->addGlobalMapping(
+//        createGlobalMappingFunction("rr_distrib_rayleigh",
+//            FunctionType::get(double_type, args_void_double, false), module),
+//        (void*)distrib_rayleigh);
+//
+//    executionEngine->addGlobalMapping(
+//        createGlobalMappingFunction("rr_distrib_rayleigh_three",
+//            FunctionType::get(double_type, args_void_double_triple, false), module),
+//        (void*)distrib_rayleigh_three);
 
 }
 

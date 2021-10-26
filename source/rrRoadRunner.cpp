@@ -3631,7 +3631,7 @@ namespace rr {
 
                 return 1 / (12 * hstep) * (f1 + f2);
             }
-            catch (...) //Catch anything... and do 'finalize'
+            catch (...) //Catch anything... and do 'finalizeObject'
             {
                 // What ever happens, make sure we restore the parameter level
                 impl->setParameterValue(parameterType, parameterIndex, originalParameterValue);

@@ -245,6 +245,9 @@ if (BUILD_LLVM)
             llvm/EvalVolatileStoichCodeGen.cpp
             llvm/SBMLInitialValueSymbolResolver.cpp
             llvm/Random.cpp
+            llvm/Jit.cpp
+            llvm/LLJit.cpp
+            llvm/MCJit.cpp
             )
 
     set(rrLLVMHeaders
@@ -282,6 +285,9 @@ if (BUILD_LLVM)
             llvm/EvalVolatileStoichCodeGen.h
             llvm/SBMLInitialValueSymbolResolver.h
             llvm/Random.h
+            llvm/Jit.h
+            llvm/LLJit.h
+            llvm/MCJit.h
             )
     install(FILES ${rrLLVMHeaders} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/rr/llvm)
 

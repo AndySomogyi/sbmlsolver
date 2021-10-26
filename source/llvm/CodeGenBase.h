@@ -20,6 +20,8 @@ using rr::getLogger;
 namespace rrllvm
 {
 
+    class Jit;
+
 typedef std::vector<std::string> StringVector;
 typedef std::pair<std::string, int> StringIntPair;
 typedef std::vector<StringIntPair> StringIntVector;
@@ -54,12 +56,12 @@ protected:
             model(mgc.getModel()),
             dataSymbols(mgc.getModelDataSymbols()),
             modelSymbols(mgc.getModelSymbols()),
-            context(mgc.getContext()),
-            module(mgc.getModule()),
-            builder(mgc.getBuilder()),
+            context(*(mgc.getJitNonOwning()->getContextNonOwning())),
+            module(mgc.getJitNonOwning()->getModuleNonOwning()),
+            builder(*mgc.getJitNonOwning()->getBuilderNonOwning()),
             options(mgc.getOptions()),
-            function(0),
-            functionPassManager(mgc.getFunctionPassManager())
+            function(0)
+//            functionPassManager(mgc.getJitNonOwning().getFunctionPassManager())
     {
     };
 

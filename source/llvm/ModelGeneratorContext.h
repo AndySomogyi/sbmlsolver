@@ -29,6 +29,7 @@
 #endif
 
 #include "llvm/IR/LegacyPassManager.h"
+#include "Jit.h"
 
 #ifdef _MSC_VER
 #pragma warning(default: 4146)
@@ -50,10 +51,9 @@ namespace rr {
 }
 
 namespace rrllvm {
-    class ModelResources;
-}
 
-namespace rrllvm {
+    class ModelResources;
+    class Jit;
 
 
 /**
@@ -94,7 +94,7 @@ namespace rrllvm {
         /**
          * load the sbml document from a std::string.
          */
-        ModelGeneratorContext(std::string const &sbml, unsigned loadSBMLOptions);
+        ModelGeneratorContext(std::string const &sbml, unsigned loadSBMLOptions, std::unique_ptr<Jit> jit);
 
         /**
          * attach to an existing sbml document, we borrow a reference to this
@@ -119,17 +119,19 @@ namespace rrllvm {
 
         const libsbml::Model *getModel() const;
 
+        Jit* getJitNonOwning() const;
 
-        llvm::LLVMContext &getContext() const;
 
-        llvm::ExecutionEngine &getExecutionEngine() const;
+//        llvm::LLVMContext &getContext() const;
+//
+//        llvm::ExecutionEngine &getExecutionEngine() const;
 
         /**
          * nearly all llvm functions expect a pointer to module, so we define this
          * as a pointer type instead of reference, even though we gaurantee this to
          * be non-null
          */
-        llvm::Module *getModule() const;
+//        llvm::Module *getModule() const;
 
         /**
          * if optimization is enabled, this gets the function pass
@@ -138,9 +140,9 @@ namespace rrllvm {
          *
          * @return a borrowed reference that is owned by ModelGeneratorContext
          */
-        llvm::legacy::FunctionPassManager* getFunctionPassManager() const;
+//        llvm::legacy::FunctionPassManager* getFunctionPassManager() const;
 
-        llvm::IRBuilder<> &getBuilder() const;
+//        llvm::IRBuilder<> &getBuilder() const;
 
         /**
          * A lot can go wrong in the process of generating a model from  an sbml doc.
@@ -156,7 +158,6 @@ namespace rrllvm {
          * and our pointers to them are cleared.
          */
         void transferObjectsToResources(std::shared_ptr<rrllvm::ModelResources> rc);
-
 
         bool getConservedMoietyAnalysis() const;
 
@@ -180,9 +181,9 @@ namespace rrllvm {
          * set the execution engine's global mappings to the rr functions
          * that are accessible from the LLVM generated code.
          */
-        void addGlobalMapping(const llvm::GlobalValue *gv, void *addr);
-
-        void addGlobalMappings();
+//        void addGlobalMapping(const llvm::GlobalValue *gv, void *addr);
+//
+//        void addGlobalMappings();
 
         /**
          * these point to the same location, ownedDoc is set if we create the doc,
@@ -202,20 +203,20 @@ namespace rrllvm {
          * initialized after the previous two are initialized.
          */
         std::unique_ptr<LLVMModelSymbols> modelSymbols;
+//
+//        std::string *errString;
 
-        std::string *errString;
-
-        std::unique_ptr<llvm::LLVMContext> context;
-        std::unique_ptr<llvm::ExecutionEngine> executionEngine;
-
-        std::unique_ptr<llvm::Module> module_owner;
-        llvm::Module *module;
+//        std::unique_ptr<llvm::LLVMContext> context;
+//        std::unique_ptr<llvm::ExecutionEngine> executionEngine;
+//
+//        std::unique_ptr<llvm::Module> module_owner;
+//        llvm::Module *module;
 
         const libsbml::Model *model;
 
-        std::unique_ptr<llvm::IRBuilder<>> builder;
-
-        std::unique_ptr<llvm::legacy::FunctionPassManager> functionPassManager;
+//        std::unique_ptr<llvm::IRBuilder<>> builder;
+//
+//        std::unique_ptr<llvm::legacy::FunctionPassManager> functionPassManager;
 
         /**
          * As the model is being generated, various distributions may be created
@@ -245,12 +246,17 @@ namespace rrllvm {
         unsigned options;
 
         /**
+         * Experimental Jit dependency injection to support multiple different compilation strategies.
+         */
+         std::unique_ptr<Jit> jit;
+
+        /**
          * the moiety converter, for the time being owns the
          * converted document.
          */
         std::unique_ptr<rr::conservation::ConservedMoietyConverter> moietyConverter;
 
-        void initFunctionPassManager();
+//        void initFunctionPassManager();
 
         /**
          * free any memory this class allocated.

@@ -19,8 +19,13 @@
 #include "LLVMExecutableModel.h"
 #include "ModelGeneratorContext.h"
 
+namespace rr {
+    class ExecutableModel;
+}
+
 namespace rrllvm
 {
+
 
 /**
  * General concepts:

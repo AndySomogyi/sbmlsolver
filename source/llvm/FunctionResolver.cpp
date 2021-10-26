@@ -33,7 +33,7 @@ FunctionResolver::FunctionResolver(LoadSymbolResolver& parentResolver,
                 modelGenContext(ctx),
                 parentResolver(parentResolver),
                 model(ctx.getModel()),
-                builder(ctx.getBuilder()),
+                builder(*ctx.getJitNonOwning()->getBuilderNonOwning()),
                 modelData(modelData),
                 symbols(0)
 {

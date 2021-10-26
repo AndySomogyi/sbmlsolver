@@ -743,21 +743,10 @@ llvm::StructType *ModelDataIRBuilder::getStructType(llvm::Module *module)
     return structType;
 }
 
-unsigned ModelDataIRBuilder::getModelDataSize(llvm::Module *module, llvm::ExecutionEngine *engine)
+unsigned ModelDataIRBuilder::getModelDataSize(llvm::Module *module, const DataLayout& dl)
 {
-    assert(engine && "engine must not be NULL");
-
     StructType *structType = getStructType(module);
-#if (LLVM_VERSION_MAJOR > 3)
-	const DataLayout& dl = engine->getDataLayout();
 	uint64_t llvm_size = dl.getTypeStoreSize(structType);
-#elif (LLVM_VERSION_MAJOR >= 3) && (LLVM_VERSION_MINOR >= 2)
-    const DataLayout *dl = engine->getDataLayout();
-    uint64_t llvm_size = dl->getTypeStoreSize(structType);
-#else
-    const TargetData* td = engine->getTargetData();
-    uint64_t llvm_size = td->getTypeStoreSize(structType);
-#endif
 
     // the model data struct will NEVER be bigger than a 32 bit pointer!
     return (unsigned)llvm_size;

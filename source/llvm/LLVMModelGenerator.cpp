@@ -27,6 +27,8 @@
 #endif
 
 #include "llvm/Object/ObjectFile.h"
+#include "llvm/MCJit.h"
+#include "llvm/LLVMExecutableModel.h"
 
 #ifdef _MSC_VER
 #pragma warning(default: 4146)
@@ -213,144 +215,14 @@ namespace rrllvm {
 
     }
 
-    inline void mapFunctionsToAddresses(
-            ModelGeneratorContext &context, SharedModelResourcesPtr& rc, std::uint32_t options){
-
-        rc->evalInitialConditionsPtr = (EvalInitialConditionsCodeGen::FunctionPtr)
-                context.getExecutionEngine().getFunctionAddress("evalInitialConditions");
-
-        rc->evalReactionRatesPtr = (EvalReactionRatesCodeGen::FunctionPtr)
-                context.getExecutionEngine().getFunctionAddress("evalReactionRates");
-
-        rc->getBoundarySpeciesAmountPtr = (GetBoundarySpeciesAmountCodeGen::FunctionPtr)
-                context.getExecutionEngine().getFunctionAddress("getBoundarySpeciesAmount");
-
-        rc->getFloatingSpeciesAmountPtr = (GetFloatingSpeciesAmountCodeGen::FunctionPtr)
-                context.getExecutionEngine().getFunctionAddress("getFloatingSpeciesAmount");
-
-        rc->getBoundarySpeciesConcentrationPtr = (GetBoundarySpeciesConcentrationCodeGen::FunctionPtr)
-                context.getExecutionEngine().getFunctionAddress("getBoundarySpeciesConcentration");
-
-        rc->getFloatingSpeciesConcentrationPtr = (GetFloatingSpeciesAmountCodeGen::FunctionPtr)
-                context.getExecutionEngine().getFunctionAddress("getFloatingSpeciesConcentration");
-
-        rc->getCompartmentVolumePtr = (GetCompartmentVolumeCodeGen::FunctionPtr)
-                context.getExecutionEngine().getFunctionAddress("getCompartmentVolume");
-
-        rc->getGlobalParameterPtr = (GetGlobalParameterCodeGen::FunctionPtr)
-                context.getExecutionEngine().getFunctionAddress("getGlobalParameter");
-
-        rc->evalRateRuleRatesPtr = (EvalRateRuleRatesCodeGen::FunctionPtr)
-                context.getExecutionEngine().getFunctionAddress("evalRateRuleRates");
-
-        rc->getEventTriggerPtr = (GetEventTriggerCodeGen::FunctionPtr)
-                context.getExecutionEngine().getFunctionAddress("getEventTrigger");
-
-        rc->getEventPriorityPtr = (GetEventPriorityCodeGen::FunctionPtr)
-                context.getExecutionEngine().getFunctionAddress("getEventPriority");
-
-        rc->getEventDelayPtr = (GetEventDelayCodeGen::FunctionPtr)
-                context.getExecutionEngine().getFunctionAddress("getEventDelay");
-
-        rc->eventTriggerPtr = (EventTriggerCodeGen::FunctionPtr)
-                context.getExecutionEngine().getFunctionAddress("eventTrigger");
-
-        rc->eventAssignPtr = (EventAssignCodeGen::FunctionPtr)
-                context.getExecutionEngine().getFunctionAddress("eventAssign");
-
-        rc->evalVolatileStoichPtr = (EvalVolatileStoichCodeGen::FunctionPtr)
-                context.getExecutionEngine().getFunctionAddress("evalVolatileStoich");
-
-        rc->evalConversionFactorPtr = (EvalConversionFactorCodeGen::FunctionPtr)
-                context.getExecutionEngine().getFunctionAddress("evalConversionFactor");
-        if (options & LoadSBMLOptions::READ_ONLY) {
-            rc->setBoundarySpeciesAmountPtr = 0;
-            rc->setBoundarySpeciesConcentrationPtr = 0;
-            rc->setFloatingSpeciesConcentrationPtr = 0;
-            rc->setCompartmentVolumePtr = 0;
-            rc->setFloatingSpeciesAmountPtr = 0;
-            rc->setGlobalParameterPtr = 0;
-        } else {
-            rc->setBoundarySpeciesAmountPtr = (SetBoundarySpeciesAmountCodeGen::FunctionPtr)
-                    context.getExecutionEngine().getFunctionAddress("setBoundarySpeciesAmount");
-
-            rc->setBoundarySpeciesConcentrationPtr = (SetBoundarySpeciesAmountCodeGen::FunctionPtr)
-                    context.getExecutionEngine().getFunctionAddress("setBoundarySpeciesConcentration");
-
-            rc->setFloatingSpeciesConcentrationPtr = (SetBoundarySpeciesAmountCodeGen::FunctionPtr)
-                    context.getExecutionEngine().getFunctionAddress("setFloatingSpeciesConcentration");
-
-            rc->setCompartmentVolumePtr = (SetBoundarySpeciesAmountCodeGen::FunctionPtr)
-                    context.getExecutionEngine().getFunctionAddress("setCompartmentVolume");
-
-            rc->setBoundarySpeciesAmountPtr = (SetBoundarySpeciesAmountCodeGen::FunctionPtr)
-                    context.getExecutionEngine().getFunctionAddress("setBoundarySpeciesAmount");
-
-            rc->setFloatingSpeciesAmountPtr = (SetBoundarySpeciesAmountCodeGen::FunctionPtr)
-                    context.getExecutionEngine().getFunctionAddress("setFloatingSpeciesAmount");
-
-            rc->setGlobalParameterPtr = (SetGlobalParameterCodeGen::FunctionPtr)
-                    context.getExecutionEngine().getFunctionAddress("setGlobalParameter");
-        }
-
-        if (options & LoadSBMLOptions::MUTABLE_INITIAL_CONDITIONS) {
-            rc->getFloatingSpeciesInitConcentrationsPtr = (GetBoundarySpeciesAmountCodeGen::FunctionPtr)
-                    context.getExecutionEngine().getFunctionAddress("getFloatingSpeciesInitConcentrations");
-            rc->setFloatingSpeciesInitConcentrationsPtr = (SetBoundarySpeciesAmountCodeGen::FunctionPtr)
-                    context.getExecutionEngine().getFunctionAddress("setFloatingSpeciesInitConcentrations");
-
-            rc->getFloatingSpeciesInitAmountsPtr = (GetBoundarySpeciesAmountCodeGen::FunctionPtr)
-                    context.getExecutionEngine().getFunctionAddress("getFloatingSpeciesInitAmounts");
-            rc->setFloatingSpeciesInitAmountsPtr = (SetBoundarySpeciesAmountCodeGen::FunctionPtr)
-                    context.getExecutionEngine().getFunctionAddress("setFloatingSpeciesInitAmounts");
-
-            rc->getBoundarySpeciesInitConcentrationsPtr = (GetBoundarySpeciesAmountCodeGen::FunctionPtr)
-                    context.getExecutionEngine().getFunctionAddress("getBoundarySpeciesInitConcentrations");
-            rc->setBoundarySpeciesInitConcentrationsPtr = (SetBoundarySpeciesAmountCodeGen::FunctionPtr)
-                    context.getExecutionEngine().getFunctionAddress("setBoundarySpeciesInitConcentrations");
-
-            rc->getBoundarySpeciesInitAmountsPtr = (GetBoundarySpeciesAmountCodeGen::FunctionPtr)
-                    context.getExecutionEngine().getFunctionAddress("getBoundarySpeciesInitAmounts");
-            rc->setBoundarySpeciesInitAmountsPtr = (SetBoundarySpeciesAmountCodeGen::FunctionPtr)
-                    context.getExecutionEngine().getFunctionAddress("setBoundarySpeciesInitAmounts");
-
-            rc->getCompartmentInitVolumesPtr = (GetBoundarySpeciesAmountCodeGen::FunctionPtr)
-                    context.getExecutionEngine().getFunctionAddress("getCompartmentInitVolumes");
-            rc->setCompartmentInitVolumesPtr = (SetBoundarySpeciesAmountCodeGen::FunctionPtr)
-                    context.getExecutionEngine().getFunctionAddress("setCompartmentInitVolumes");
-
-            rc->getGlobalParameterInitValuePtr = (GetBoundarySpeciesAmountCodeGen::FunctionPtr)
-                    context.getExecutionEngine().getFunctionAddress("getGlobalParameterInitValue");
-            rc->setGlobalParameterInitValuePtr = (SetBoundarySpeciesAmountCodeGen::FunctionPtr)
-                    context.getExecutionEngine().getFunctionAddress("setGlobalParameterInitValue");
-        } else {
-            rc->getFloatingSpeciesInitConcentrationsPtr = 0;
-            rc->setFloatingSpeciesInitConcentrationsPtr = 0;
-
-            rc->getFloatingSpeciesInitAmountsPtr = 0;
-            rc->setFloatingSpeciesInitAmountsPtr = 0;
-
-            rc->getBoundarySpeciesInitConcentrationsPtr = 0;
-            rc->setBoundarySpeciesInitConcentrationsPtr = 0;
-
-            rc->getBoundarySpeciesInitAmountsPtr = 0;
-            rc->setBoundarySpeciesInitAmountsPtr = 0;
-
-            rc->getCompartmentInitVolumesPtr = 0;
-            rc->setCompartmentInitVolumesPtr = 0;
-
-            rc->getGlobalParameterInitValuePtr = 0;
-            rc->setGlobalParameterInitValuePtr = 0;
-        }
-    }
 
     ExecutableModel *
-    LLVMModelGenerator::regenerateModel(ExecutableModel *oldModel, libsbml::SBMLDocument *doc, uint options) {
+    LLVMModelGenerator::regenerateModel(rr::ExecutableModel *oldModel, libsbml::SBMLDocument *doc, uint options) {
         SharedModelResourcesPtr rc = std::make_shared<ModelResources>();
 
         char *docSBML = doc->toSBML();
 
-        ModelGeneratorContext context(docSBML, options);
+        ModelGeneratorContext context(docSBML, options, std::make_unique<MCJit>(options));
 
         free(docSBML);
 
@@ -361,7 +233,7 @@ namespace rrllvm {
         //in save state. Compiling the functions into this format in the first place
         //makes saveState significantly faster than creating the object file when it is called
         //We then load the object file into the jit engine to avoid compiling the functions twice
-        auto TargetMachine = context.getExecutionEngine().getTargetMachine();
+        llvm::TargetMachine *TargetMachine = context.getJitNonOwning()->getTargetMachine();
 
         llvm::InitializeNativeTarget();
 
@@ -381,7 +253,7 @@ namespace rrllvm {
         {
             throw "TargetMachine can't emit a file of type CGFT_ObjectFile";
         }
-        pass.run(*context.getModule());
+        pass.run(*context.getJitNonOwning()->getModuleNonOwning());
 
         //Read from modBufferOut into our execution engine
         std::string moduleStr(modBufferOut.begin(), modBufferOut.end());
@@ -403,11 +275,11 @@ namespace rrllvm {
 
         llvm::object::OwningBinary<llvm::object::ObjectFile> owningObject(std::move(objectFile), std::move(memBuffer));
 
-        context.getExecutionEngine().addObjectFile(std::move(owningObject));
+        context.getJitNonOwning()->addObjectFile(std::move(owningObject));
         //https://stackoverflow.com/questions/28851646/llvm-jit-windows-8-1
-        context.getExecutionEngine().finalizeObject();
+        context.getJitNonOwning()->finalizeObject();
 
-        mapFunctionsToAddresses(context, rc, options);
+        context.getJitNonOwning()->mapFunctionsToAddresses(rc, options);
 
         // if anything up to this point throws an exception, thats OK, because
         // we have not allocated any memory yet that is not taken care of by
@@ -418,8 +290,10 @@ namespace rrllvm {
         LLVMModelData *modelData = createModelData(context.getModelDataSymbols(),
                                                    context.getRandom());
 
-        uint llvmsize = ModelDataIRBuilder::getModelDataSize(context.getModule(),
-                                                             &context.getExecutionEngine());
+        uint llvmsize = ModelDataIRBuilder::getModelDataSize(
+                context.getJitNonOwning()->getModuleNonOwning(),
+                context.getJitNonOwning()->getDataLayout()
+        );
 
         if (llvmsize != modelData->size) {
             std::stringstream s;
@@ -677,9 +551,9 @@ namespace rrllvm {
             }
         }
 
-        SharedModelResourcesPtr rc(new ModelResources());
+        SharedModelResourcesPtr rc = std::make_shared<ModelResources>();
 
-        ModelGeneratorContext context(sbml, options);
+        ModelGeneratorContext context(sbml, options, std::make_unique<MCJit>(options));
 
         codeGeneration(context, options);
 
@@ -687,7 +561,7 @@ namespace rrllvm {
         //in save state. Compiling the functions into this format in the first place
         //makes saveState significantly faster than creating the object file when it is called
         //We then load the object file into the jit engine to avoid compiling the functions twice
-        auto TargetMachine = context.getExecutionEngine().getTargetMachine();
+        auto TargetMachine = context.getJitNonOwning()->getTargetMachine();
 
         llvm::InitializeNativeTarget(); // todo may have already been called in RoadRunner constructor
 
@@ -708,7 +582,7 @@ namespace rrllvm {
             throw "TargetMachine can't emit a file of type CGFT_ObjectFile";
         }
 
-        pass.run(*context.getModule());
+        pass.run(*context.getJitNonOwning()->getModuleNonOwning());
 
         //Read from modBufferOut into our execution engine
         std::string moduleStr(modBufferOut.begin(), modBufferOut.end());
@@ -729,12 +603,12 @@ namespace rrllvm {
         std::unique_ptr<llvm::object::ObjectFile> objectFile(std::move(objectFileExpected.get()));
         llvm::object::OwningBinary<llvm::object::ObjectFile> owningObject(std::move(objectFile), std::move(memBuffer));
 
-        context.getExecutionEngine().addObjectFile(std::move(owningObject));
+        context.getJitNonOwning()->addObjectFile(std::move(owningObject));
 
         //https://stackoverflow.com/questions/28851646/llvm-jit-windows-8-1
-        context.getExecutionEngine().finalizeObject();
+        context.getJitNonOwning()->finalizeObject();
 
-        mapFunctionsToAddresses(context, rc, options);
+        context.getJitNonOwning()->mapFunctionsToAddresses(rc, options);
 
 
         // if anything up to this point throws an exception, thats OK, because
@@ -746,8 +620,8 @@ namespace rrllvm {
         LLVMModelData *modelData = createModelData(context.getModelDataSymbols(),
                                                    context.getRandom());
 
-        uint llvmsize = ModelDataIRBuilder::getModelDataSize(context.getModule(),
-                                                             &context.getExecutionEngine());
+        uint llvmsize = ModelDataIRBuilder::getModelDataSize(context.getJitNonOwning()->getModuleNonOwning(),
+                                                             context.getJitNonOwning()->getDataLayout());
 
         if (llvmsize != modelData->size) {
             std::stringstream s;

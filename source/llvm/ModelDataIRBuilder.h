@@ -15,6 +15,7 @@
 #include "LLVMModelDataSymbols.h"
 
 #include <map>
+#include <llvm/IR/DataLayout.h>
 
 namespace libsbml
 {
@@ -322,7 +323,7 @@ public:
      */
     static llvm::StructType *getStructType(llvm::Module *module);
 
-    static unsigned getModelDataSize(llvm::Module *module, llvm::ExecutionEngine *engine);
+    static unsigned getModelDataSize(llvm::Module *module, const llvm::DataLayout& dl);
 
     static const char* LLVMModelDataName;
     static const char* csr_matrixName;

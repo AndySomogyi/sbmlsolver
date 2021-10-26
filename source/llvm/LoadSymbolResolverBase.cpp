@@ -29,7 +29,7 @@ LoadSymbolResolverBase::LoadSymbolResolverBase(
         modelSymbols(ctx.getModelSymbols()),
         modelData(modelData),
         modelDataSymbols(ctx.getModelDataSymbols()),
-        builder(ctx.getBuilder())
+        builder(*ctx.getJitNonOwning()->getBuilderNonOwning())
 {
     // start with a single empty cache block
     symbolCache.push_back(ValueMap());

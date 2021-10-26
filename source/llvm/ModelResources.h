@@ -10,9 +10,15 @@
 #define CACHEDMODEL_H_
 
 #include "LLVMExecutableModel.h"
+#include "llvm/Jit.h"
 
+namespace rr {
+    class ExecutableModel;
+}
 namespace rrllvm
 {
+
+    class Jit;
 
 class ModelResources
 {
@@ -79,7 +85,9 @@ public:
 
     std::string moduleStr;
     const class Random *random;
-    const std::string *errStr;
+    std::unique_ptr<std::string> errStr;
+
+    std::unique_ptr<Jit> jit;
 
 private:
 	void addGlobalMapping(std::string name, void*);
