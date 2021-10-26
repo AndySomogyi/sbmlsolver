@@ -25,7 +25,7 @@ namespace rrllvm {
                 .setErrorStr(errString.get())
                 .setMCJITMemoryManager(std::make_unique<SectionMemoryManager>());
         MCJit::addGlobalMappings();
-//        std::cout << emitToString();
+        std::cout << emitToString();
         MCJit::initFunctionPassManager();
 
 

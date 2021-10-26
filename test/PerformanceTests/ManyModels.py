@@ -16,7 +16,7 @@ import roadrunner
 
 assert "llvm13" in roadrunner.__file__, roadrunner.__file__
 
-from roadrunner import RoadRunner
+from roadrunner import RoadRunner, Config
 from roadrunner.testing import TestModelFactory as tmf
 import time
 import numpy as np
@@ -26,6 +26,13 @@ import libsbml
 
 NSIMS = 1000
 
+def x(r: RoadRunner):
+    Config.setValue(Config.LOADSBMLOPTIONS_OPTIMIZE_GVN, False)
+    Config.setValue(Config.LOADSBMLOPTIONS_OPTIMIZE_CFG_SIMPLIFICATION, False)
+    Config.setValue(Config.LOADSBMLOPTIONS_OPTIMIZE_DEAD_CODE_ELIMINATION, False)
+    Config.setValue(Config.LOADSBMLOPTIONS_OPTIMIZE_DEAD_INST_ELIMINATION, False)
+    Config.setValue(Config.LOADSBMLOPTIONS_OPTIMIZE_INSTRUCTION_COMBINING, False)
+    Config.setValue(Config.LOADSBMLOPTIONS_OPTIMIZE_INSTRUCTION_SIMPLIFIER, False)
 
 def addDummySpecies(model: libsbml.Model, id: int):
     assert id > 2, "Id should be greater than 2. "

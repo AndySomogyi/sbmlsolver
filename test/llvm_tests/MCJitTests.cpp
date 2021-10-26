@@ -110,25 +110,6 @@ TEST_F(MCJitTests, TransferObjectsToResources) {
     ASSERT_FALSE(true);
 }
 
-using powFnTy =     double (*)(double x, double y);
-using fabsFnTy =    double (*)(double x);
-using acosFnTy =    double (*)(double x);
-using asinFnTy =    double (*)(double x);
-using atanFnTy =    double (*)(double x);
-using ceilFnTy =    double (*)(double x);
-using cosFnTy =     double (*)(double x);
-using coshFnTy =    double (*)(double x);
-using expFnTy =     double (*)(double x);
-using floorFnTy =   double (*)(double x);
-using logFnTy =     double (*)(double x);
-using log10FnTy =   double (*)(double x);
-using sinFnTy =     double (*)(double x);
-using sinhFnTy =    double (*)(double x);
-using tanFnTy =     double (*)(double x);
-using tanhFnTy =    double (*)(double x);
-using fmodFnTy =    double (*)(double x, double y);
-
-
 // double pow(double x, double y)
 TEST_F(MCJitTests, LibFuncPow) {
     double expected = 16;
@@ -140,7 +121,7 @@ TEST_F(MCJitTests, LibFuncPow) {
 }
 
 
-TEST_F(MCJitTests, CheckLibFuncFabs){
+TEST_F(MCJitTests, CheckLibFuncFabs) {
     double expected = 5.3;
     std::string funcName = "fabs";
     LoadSBMLOptions opt;
@@ -149,7 +130,7 @@ TEST_F(MCJitTests, CheckLibFuncFabs){
     ASSERT_EQ(expected, fnPtr(-5.3));
 }
 
-TEST_F(MCJitTests, CheckLibFuncAcos){
+TEST_F(MCJitTests, CheckLibFuncAcos) {
     // Inverse of cos(-0.50) = 2.09 in radians
     double expected = 2.0943951;
     std::string funcName = "acos";
@@ -159,7 +140,7 @@ TEST_F(MCJitTests, CheckLibFuncAcos){
     ASSERT_NEAR(expected, fnPtr(-0.5), 1e-3);
 }
 
-TEST_F(MCJitTests, CheckLibFuncAsin){
+TEST_F(MCJitTests, CheckLibFuncAsin) {
     // Inverse of sin(-0.50) = -0.52 in radians
     double expected = -0.523598776;
     std::string funcName = "asin";
@@ -168,7 +149,8 @@ TEST_F(MCJitTests, CheckLibFuncAsin){
     asinFnTy fnPtr = (asinFnTy) mcJit.getExecutionEngineNonOwning()->getPointerToNamedFunction(funcName);
     ASSERT_NEAR(expected, fnPtr(-0.5), 1e-7);
 }
-TEST_F(MCJitTests, CheckLibFuncAtan){
+
+TEST_F(MCJitTests, CheckLibFuncAtan) {
     double expected = -0.463647609;
     std::string funcName = "atan";
     LoadSBMLOptions opt;
@@ -176,7 +158,8 @@ TEST_F(MCJitTests, CheckLibFuncAtan){
     atanFnTy fnPtr = (atanFnTy) mcJit.getExecutionEngineNonOwning()->getPointerToNamedFunction(funcName);
     ASSERT_NEAR(expected, fnPtr(-0.5), 1e-7);
 }
-TEST_F(MCJitTests, CheckLibFuncCeil){
+
+TEST_F(MCJitTests, CheckLibFuncCeil) {
     double expected = 7;
     std::string funcName = "ceil";
     LoadSBMLOptions opt;
@@ -184,7 +167,8 @@ TEST_F(MCJitTests, CheckLibFuncCeil){
     ceilFnTy fnPtr = (ceilFnTy) mcJit.getExecutionEngineNonOwning()->getPointerToNamedFunction(funcName);
     ASSERT_EQ(expected, fnPtr(6.3));
 }
-TEST_F(MCJitTests, CheckLibFuncCos){
+
+TEST_F(MCJitTests, CheckLibFuncCos) {
     double expected = 0.87758256189;
     std::string funcName = "cos";
     LoadSBMLOptions opt;
@@ -192,7 +176,8 @@ TEST_F(MCJitTests, CheckLibFuncCos){
     cosFnTy fnPtr = (cosFnTy) mcJit.getExecutionEngineNonOwning()->getPointerToNamedFunction(funcName);
     ASSERT_NEAR(expected, fnPtr(-0.5), 1e-7);
 }
-TEST_F(MCJitTests, CheckLibFuncCosh){
+
+TEST_F(MCJitTests, CheckLibFuncCosh) {
     double expected = 1.1276259652;
     std::string funcName = "cosh";
     LoadSBMLOptions opt;
@@ -200,7 +185,8 @@ TEST_F(MCJitTests, CheckLibFuncCosh){
     coshFnTy fnPtr = (coshFnTy) mcJit.getExecutionEngineNonOwning()->getPointerToNamedFunction(funcName);
     ASSERT_NEAR(expected, fnPtr(-0.5), 1e-7);
 }
-TEST_F(MCJitTests, CheckLibFuncExp){
+
+TEST_F(MCJitTests, CheckLibFuncExp) {
     double expected = 0.60653065971;
     std::string funcName = "exp";
     LoadSBMLOptions opt;
@@ -208,7 +194,8 @@ TEST_F(MCJitTests, CheckLibFuncExp){
     expFnTy fnPtr = (expFnTy) mcJit.getExecutionEngineNonOwning()->getPointerToNamedFunction(funcName);
     ASSERT_NEAR(expected, fnPtr(-0.5), 1e-7);
 }
-TEST_F(MCJitTests, CheckLibFuncFloor){
+
+TEST_F(MCJitTests, CheckLibFuncFloor) {
     double expected = 3;
     std::string funcName = "floor";
     LoadSBMLOptions opt;
@@ -216,7 +203,8 @@ TEST_F(MCJitTests, CheckLibFuncFloor){
     floorFnTy fnPtr = (floorFnTy) mcJit.getExecutionEngineNonOwning()->getPointerToNamedFunction(funcName);
     ASSERT_EQ(expected, fnPtr(3.7));
 }
-TEST_F(MCJitTests, CheckLibFuncLog){
+
+TEST_F(MCJitTests, CheckLibFuncLog) {
     double expected = 3.4657;
     std::string funcName = "log";
     LoadSBMLOptions opt;
@@ -224,7 +212,8 @@ TEST_F(MCJitTests, CheckLibFuncLog){
     logFnTy fnPtr = (logFnTy) mcJit.getExecutionEngineNonOwning()->getPointerToNamedFunction(funcName);
     ASSERT_NEAR(expected, fnPtr(32), 1e-3);
 }
-TEST_F(MCJitTests, CheckLibFuncLog10){
+
+TEST_F(MCJitTests, CheckLibFuncLog10) {
     double expected = 2;
     std::string funcName = "log10";
     LoadSBMLOptions opt;
@@ -232,7 +221,8 @@ TEST_F(MCJitTests, CheckLibFuncLog10){
     log10FnTy fnPtr = (log10FnTy) mcJit.getExecutionEngineNonOwning()->getPointerToNamedFunction(funcName);
     ASSERT_NEAR(expected, fnPtr(100), 1e-7);
 }
-TEST_F(MCJitTests, CheckLibFuncSin){
+
+TEST_F(MCJitTests, CheckLibFuncSin) {
     double expected = -0.4794255386;
     std::string funcName = "sin";
     LoadSBMLOptions opt;
@@ -240,7 +230,8 @@ TEST_F(MCJitTests, CheckLibFuncSin){
     sinFnTy fnPtr = (sinFnTy) mcJit.getExecutionEngineNonOwning()->getPointerToNamedFunction(funcName);
     ASSERT_NEAR(expected, fnPtr(-0.5), 1e-7);
 }
-TEST_F(MCJitTests, CheckLibFuncSinh){
+
+TEST_F(MCJitTests, CheckLibFuncSinh) {
     double expected = -0.52109530549;
     std::string funcName = "sinh";
     LoadSBMLOptions opt;
@@ -248,7 +239,8 @@ TEST_F(MCJitTests, CheckLibFuncSinh){
     sinhFnTy fnPtr = (sinhFnTy) mcJit.getExecutionEngineNonOwning()->getPointerToNamedFunction(funcName);
     ASSERT_NEAR(expected, fnPtr(-0.5), 1e-7);
 }
-TEST_F(MCJitTests, CheckLibFuncTan){
+
+TEST_F(MCJitTests, CheckLibFuncTan) {
     double expected = -0.54630248984;
     std::string funcName = "tan";
     LoadSBMLOptions opt;
@@ -256,7 +248,8 @@ TEST_F(MCJitTests, CheckLibFuncTan){
     tanFnTy fnPtr = (tanFnTy) mcJit.getExecutionEngineNonOwning()->getPointerToNamedFunction(funcName);
     ASSERT_NEAR(expected, fnPtr(-0.5), 1e-7);
 }
-TEST_F(MCJitTests, CheckLibFuncTanh){
+
+TEST_F(MCJitTests, CheckLibFuncTanh) {
     double expected = -0.46211715726;
     std::string funcName = "tanh";
     LoadSBMLOptions opt;
@@ -264,7 +257,8 @@ TEST_F(MCJitTests, CheckLibFuncTanh){
     tanhFnTy fnPtr = (tanhFnTy) mcJit.getExecutionEngineNonOwning()->getPointerToNamedFunction(funcName);
     ASSERT_NEAR(expected, fnPtr(-0.5), 1e-7);
 }
-TEST_F(MCJitTests, CheckLibFuncFmod){
+
+TEST_F(MCJitTests, CheckLibFuncFmod) {
     double expected = 1;
     std::string funcName = "fmod";
     LoadSBMLOptions opt;
@@ -273,6 +267,220 @@ TEST_F(MCJitTests, CheckLibFuncFmod){
     ASSERT_EQ(expected, fnPtr(5, 2));
 }
 
+TEST_F(MCJitTests, CheckGlobalMapping_arccotFnTy) {
+    double expected = -1.1071487177940904;
+    std::string funcName = "arccot";
+    LoadSBMLOptions opt;
+    MCJit mcJit(opt.modelGeneratorOpt);
+    arccotFnTy fnPtr = (arccotFnTy) mcJit.getExecutionEngineNonOwning()->getPointerToNamedFunction(funcName);
+    ASSERT_NEAR(expected, fnPtr(-0.5), 1e-5);
+}
+
+TEST_F(MCJitTests, CheckGlobalMapping_rr_arccot_negzeroFnTy) {
+    double expected = -1.1071487177940904;
+    std::string funcName = "rr_arccot_negzero";
+    LoadSBMLOptions opt;
+    MCJit mcJit(opt.modelGeneratorOpt);
+    rr_arccot_negzeroFnTy fnPtr = (rr_arccot_negzeroFnTy) mcJit.getExecutionEngineNonOwning()->getPointerToNamedFunction(
+            funcName);
+    ASSERT_NEAR(expected, fnPtr(-0.5), 1e-5);
+}
+
+TEST_F(MCJitTests, CheckGlobalMapping_arccothFnTy) {
+    double expected = 0.423649;
+    std::string funcName = "arccoth";
+    LoadSBMLOptions opt;
+    MCJit mcJit(opt.modelGeneratorOpt);
+    arccothFnTy fnPtr = (arccothFnTy) mcJit.getExecutionEngineNonOwning()->getPointerToNamedFunction(funcName);
+    ASSERT_NEAR(expected, fnPtr(2.5), 1e-5);
+}
+
+TEST_F(MCJitTests, CheckGlobalMapping_arccscFnTy) {
+    double expected = 0.41151684606748806;
+    std::string funcName = "arccsc";
+    LoadSBMLOptions opt;
+    MCJit mcJit(opt.modelGeneratorOpt);
+    arccscFnTy fnPtr = (arccscFnTy) mcJit.getExecutionEngineNonOwning()->getPointerToNamedFunction(funcName);
+    ASSERT_NEAR(expected, fnPtr(2.5), 1e-5);
+}
+
+TEST_F(MCJitTests, CheckGlobalMapping_arccschFnTy) {
+    double expected = -1.4436354751788099;
+    std::string funcName = "arccsch";
+    LoadSBMLOptions opt;
+    MCJit mcJit(opt.modelGeneratorOpt);
+    arccschFnTy fnPtr = (arccschFnTy) mcJit.getExecutionEngineNonOwning()->getPointerToNamedFunction(funcName);
+    ASSERT_NEAR(expected, fnPtr(-0.5), 1e-5);
+}
+
+TEST_F(MCJitTests, CheckGlobalMapping_arcsecFnTy) {
+    double expected = 1.1592794807274085;
+    std::string funcName = "arcsec";
+    LoadSBMLOptions opt;
+    MCJit mcJit(opt.modelGeneratorOpt);
+    arcsecFnTy fnPtr = (arcsecFnTy) mcJit.getExecutionEngineNonOwning()->getPointerToNamedFunction(funcName);
+    ASSERT_NEAR(expected, fnPtr(2.5), 1e-5);
+}
+
+TEST_F(MCJitTests, CheckGlobalMapping_arcsechFnTy) {
+    double expected = 1.31696;
+    std::string funcName = "arcsech";
+    LoadSBMLOptions opt;
+    MCJit mcJit(opt.modelGeneratorOpt);
+    arcsechFnTy fnPtr = (arcsechFnTy) mcJit.getExecutionEngineNonOwning()->getPointerToNamedFunction(funcName);
+    ASSERT_NEAR(expected, fnPtr(0.5), 1e-5);
+}
+
+TEST_F(MCJitTests, CheckGlobalMapping_cotFnTy) {
+    double expected = -1.830487721712452;
+    std::string funcName = "cot";
+    LoadSBMLOptions opt;
+    MCJit mcJit(opt.modelGeneratorOpt);
+    cotFnTy fnPtr = (cotFnTy) mcJit.getExecutionEngineNonOwning()->getPointerToNamedFunction(funcName);
+
+    ASSERT_NEAR(expected, fnPtr(-0.5), 1e-5);
+}
+
+TEST_F(MCJitTests, CheckGlobalMapping_cothFnTy) {
+    double expected = -2.1639534137386525;
+    std::string funcName = "coth";
+    LoadSBMLOptions opt;
+    MCJit mcJit(opt.modelGeneratorOpt);
+    cothFnTy fnPtr = (cothFnTy) mcJit.getExecutionEngineNonOwning()->getPointerToNamedFunction(funcName);
+
+    ASSERT_NEAR(expected, fnPtr(-0.5), 1e-5);
+}
+
+TEST_F(MCJitTests, CheckGlobalMapping_cscFnTy) {
+    double expected = -2.0858296429334882;
+    std::string funcName = "csc";
+    LoadSBMLOptions opt;
+    MCJit mcJit(opt.modelGeneratorOpt);
+    cscFnTy fnPtr = (cscFnTy) mcJit.getExecutionEngineNonOwning()->getPointerToNamedFunction(funcName);
+
+    ASSERT_NEAR(expected, fnPtr(-0.5), 1e-5);
+}
+
+TEST_F(MCJitTests, CheckGlobalMapping_cschFnTy) {
+    double expected = 0.16528366985509557;
+    std::string funcName = "csch";
+    LoadSBMLOptions opt;
+    MCJit mcJit(opt.modelGeneratorOpt);
+    cschFnTy fnPtr = (cschFnTy) mcJit.getExecutionEngineNonOwning()->getPointerToNamedFunction(funcName);
+
+    ASSERT_NEAR(expected, fnPtr(2.5), 1e-5);
+}
+
+TEST_F(MCJitTests, CheckGlobalMapping_rr_factorialiFnTy) {
+    double expected = 120;
+    std::string funcName = "rr_factoriali";
+    LoadSBMLOptions opt;
+    MCJit mcJit(opt.modelGeneratorOpt);
+    rr_factorialiFnTy fnPtr = (rr_factorialiFnTy) mcJit.getExecutionEngineNonOwning()->getPointerToNamedFunction(funcName);
+    ASSERT_NEAR(expected, fnPtr(5), 1e-5);
+}
+
+TEST_F(MCJitTests, CheckGlobalMapping_rr_factorialdFnTy) {
+    double expected = 24;
+    std::string funcName = "rr_factoriald";
+    LoadSBMLOptions opt;
+    MCJit mcJit(opt.modelGeneratorOpt);
+    rr_factorialdFnTy fnPtr = (rr_factorialdFnTy) mcJit.getExecutionEngineNonOwning()->getPointerToNamedFunction(
+            funcName);
+    ASSERT_NEAR(expected, fnPtr(4), 1e-5);
+}
+
+TEST_F(MCJitTests, CheckGlobalMapping_rr_logdFnTy) {
+    double expected = 0.15051499783199057;
+    std::string funcName = "rr_logd";
+    LoadSBMLOptions opt;
+    MCJit mcJit(opt.modelGeneratorOpt);
+    rr_logdFnTy fnPtr = (rr_logdFnTy) mcJit.getExecutionEngineNonOwning()->getPointerToNamedFunction(funcName);
+    ASSERT_NEAR(expected, fnPtr(100, 2), 1e-5);
+}
+
+TEST_F(MCJitTests, CheckGlobalMapping_rr_rootdFnTy) {
+    double expected = 0.49699388728942728;
+    std::string funcName = "rr_rootd";
+    LoadSBMLOptions opt;
+    MCJit mcJit(opt.modelGeneratorOpt);
+    rr_rootdFnTy fnPtr = (rr_rootdFnTy) mcJit.getExecutionEngineNonOwning()->getPointerToNamedFunction(funcName);
+    ASSERT_NEAR(expected, fnPtr(1024), 1e-5);
+}
+
+TEST_F(MCJitTests, CheckGlobalMapping_secFnTy) {
+    double expected = 1.139493927324549;
+    std::string funcName = "sec";
+    LoadSBMLOptions opt;
+    MCJit mcJit(opt.modelGeneratorOpt);
+    secFnTy fnPtr = (secFnTy) mcJit.getExecutionEngineNonOwning()->getPointerToNamedFunction(funcName);
+
+    ASSERT_NEAR(expected, fnPtr(-0.5), 1e-5);
+}
+
+TEST_F(MCJitTests, CheckGlobalMapping_sechFnTy) {
+    double expected = 0.88681888397007402;
+    std::string funcName = "sech";
+    LoadSBMLOptions opt;
+    MCJit mcJit(opt.modelGeneratorOpt);
+    sechFnTy fnPtr = (sechFnTy) mcJit.getExecutionEngineNonOwning()->getPointerToNamedFunction(funcName);
+
+    ASSERT_NEAR(expected, fnPtr(-0.5), 1e-5);
+}
+
+TEST_F(MCJitTests, CheckGlobalMapping_arccoshFnTy) {
+    double expected = 1.5667992369724109;
+    std::string funcName = "arccosh";
+    LoadSBMLOptions opt;
+    MCJit mcJit(opt.modelGeneratorOpt);
+    arccoshFnTy fnPtr = (arccoshFnTy) mcJit.getExecutionEngineNonOwning()->getPointerToNamedFunction(funcName);
+    ASSERT_NEAR(expected, fnPtr(2.5), 1e-5);
+}
+
+TEST_F(MCJitTests, CheckGlobalMapping_arcsinhFnTy) {
+    double expected = -0.48121182505960347;
+    std::string funcName = "arcsinh";
+    LoadSBMLOptions opt;
+    MCJit mcJit(opt.modelGeneratorOpt);
+    arcsinhFnTy fnPtr = (arcsinhFnTy) mcJit.getExecutionEngineNonOwning()->getPointerToNamedFunction(funcName);
+    ASSERT_NEAR(expected, fnPtr(-0.5), 1e-5);
+}
+
+TEST_F(MCJitTests, CheckGlobalMapping_arctanhFnTy) {
+    double expected = -0.54930614433405489;
+    std::string funcName = "arctanh";
+    LoadSBMLOptions opt;
+    MCJit mcJit(opt.modelGeneratorOpt);
+    arctanhFnTy fnPtr = (arctanhFnTy) mcJit.getExecutionEngineNonOwning()->getPointerToNamedFunction(funcName);
+    ASSERT_NEAR(expected, fnPtr(-0.5), 1e-5);
+}
+
+TEST_F(MCJitTests, CheckGlobalMapping_quotientFnTy) {
+    double expected = 5;
+    std::string funcName = "quotient";
+    LoadSBMLOptions opt;
+    MCJit mcJit(opt.modelGeneratorOpt);
+    quotientFnTy fnPtr = (quotientFnTy) mcJit.getExecutionEngineNonOwning()->getPointerToNamedFunction(funcName);
+    ASSERT_NEAR(expected, fnPtr(10, 2), 1e-5);
+}
+
+TEST_F(MCJitTests, CheckGlobalMapping_rr_maxFnTy) {
+    double expected = 4;
+    std::string funcName = "rr_max";
+    LoadSBMLOptions opt;
+    MCJit mcJit(opt.modelGeneratorOpt);
+    rr_maxFnTy fnPtr = (rr_maxFnTy) mcJit.getExecutionEngineNonOwning()->getPointerToNamedFunction(funcName);
+    ASSERT_NEAR(expected, fnPtr(3, 4), 1e-5);
+}
+
+TEST_F(MCJitTests, CheckGlobalMapping_rr_minFnTy) {
+    double expected = 3;
+    std::string funcName = "rr_min";
+    LoadSBMLOptions opt;
+    MCJit mcJit(opt.modelGeneratorOpt);
+    rr_minFnTy fnPtr = (rr_minFnTy) mcJit.getExecutionEngineNonOwning()->getPointerToNamedFunction(funcName);
+    ASSERT_NEAR(expected, fnPtr(3, 4), 1e-5);
+}
 
 
 
