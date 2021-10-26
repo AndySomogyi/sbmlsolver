@@ -20,16 +20,15 @@ namespace rrllvm {
             : Jit(), options(opt),
             engineBuilder(EngineBuilder(std::move(module))),
             executionEngine(std::unique_ptr<ExecutionEngine>(engineBuilder.create())){
+
         engineBuilder
                 .setErrorStr(errString.get())
                 .setMCJITMemoryManager(std::make_unique<SectionMemoryManager>());
         MCJit::addGlobalMappings();
-        std::cout << emitToString();
+//        std::cout << emitToString();
         MCJit::initFunctionPassManager();
-//        auto gv = executionEngine->FindGlobalVariableNamed("arccot");
-        auto x = executionEngine->getGlobalValueAddress("arcot");
-        auto q = executionEngine->getPointerToGlobalIfAvailable("arcot");
-        auto w = executionEngine->getPointerToNamedFunction("arcot");
+
+
 
 //        executionEngine->getTargetMachine()->getTargetTriple();
 

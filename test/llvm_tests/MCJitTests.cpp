@@ -15,14 +15,14 @@ class MCJitTests : public ::testing::Test {
 public:
     MCJitTests() = default;
 
-    template<typename FnPtr>
-    void checkLibFn(llvm::LibFunc libFunc, double expected) {
-        using namespace llvm;
-        LoadSBMLOptions opt;
-        MCJit mcJit(opt.modelGeneratorOpt);
-        FnPtr fnPtr = (FnPtr)mcJit.getFunctionAddress("pow");
-        fnPtr(2, 4);
-    }
+//    template<typename FnPtr>
+//    void checkLibFn(const std::string& funcName, double expected) {
+//        using namespace llvm;
+//        LoadSBMLOptions opt;
+//        MCJit mcJit(opt.modelGeneratorOpt);
+//        FnPtr fnPtr = (FnPtr)mcJit.getExecutionEngineNonOwning()->getPointerToNamedFunction(funcName);
+//        double actual = fnPtr(2, 4);
+//    }
 
 
     static llvm::Function *CreateFibFunction(llvm::Module *M) {
@@ -110,79 +110,168 @@ TEST_F(MCJitTests, TransferObjectsToResources) {
     ASSERT_FALSE(true);
 }
 
+using powFnTy =     double (*)(double x, double y);
+using fabsFnTy =    double (*)(double x);
+using acosFnTy =    double (*)(double x);
+using asinFnTy =    double (*)(double x);
+using atanFnTy =    double (*)(double x);
+using ceilFnTy =    double (*)(double x);
+using cosFnTy =     double (*)(double x);
+using coshFnTy =    double (*)(double x);
+using expFnTy =     double (*)(double x);
+using floorFnTy =   double (*)(double x);
+using logFnTy =     double (*)(double x);
+using log10FnTy =   double (*)(double x);
+using sinFnTy =     double (*)(double x);
+using sinhFnTy =    double (*)(double x);
+using tanFnTy =     double (*)(double x);
+using tanhFnTy =    double (*)(double x);
+using fmodFnTy =    double (*)(double x, double y);
+
 
 // double pow(double x, double y)
-TEST_F(MCJitTests, LibFunc_pow){
-    double expected = 0;
-    using pow = double (*)(double x, double y);
-    checkLibFn<pow>(LibFunc_pow, expected);
+TEST_F(MCJitTests, LibFuncPow) {
+    double expected = 16;
+    std::string funcName = "pow";
+    LoadSBMLOptions opt;
+    MCJit mcJit(opt.modelGeneratorOpt);
+    powFnTy fnPtr = (powFnTy) mcJit.getExecutionEngineNonOwning()->getPointerToNamedFunction(funcName);
+    ASSERT_EQ(expected, fnPtr(2, 4));
 }
-//TEST_F(MCJitTests, LibFunc_fabs){
-//    double expected = 0;
-//    checkLibFn(LibFunc_fabs, expected);
-//}
-//TEST_F(MCJitTests, LibFunc_acos){
-//    double expected = 0;
-//    checkLibFn(LibFunc_acos, expected);
-//}
-//TEST_F(MCJitTests, LibFunc_asin){
-//    double expected = 0;
-//    checkLibFn(LibFunc_asin, expected);
-//}
-//TEST_F(MCJitTests, LibFunc_atan){
-//    double expected = 0;
-//    checkLibFn(LibFunc_atan, expected);
-//}
-//TEST_F(MCJitTests, LibFunc_ceil){
-//    double expected = 0;
-//    checkLibFn(LibFunc_ceil, expected);
-//}
-//TEST_F(MCJitTests, LibFunc_cos){
-//    double expected = 0;
-//    checkLibFn(LibFunc_cos, expected);
-//}
-//TEST_F(MCJitTests, LibFunc_cosh){
-//    double expected = 0;
-//    checkLibFn(LibFunc_cosh, expected);
-//}
-//TEST_F(MCJitTests, LibFunc_exp){
-//    double expected = 0;
-//    checkLibFn(LibFunc_exp, expected);
-//}
-//TEST_F(MCJitTests, LibFunc_floor){
-//    double expected = 0;
-//    checkLibFn(LibFunc_floor, expected);
-//}
-//TEST_F(MCJitTests, LibFunc_log){
-//    double expected = 0;
-//    checkLibFn(LibFunc_log, expected);
-//}
-//TEST_F(MCJitTests, LibFunc_log10){
-//    double expected = 0;
-//    checkLibFn(LibFunc_log10, expected);
-//}
-//TEST_F(MCJitTests, LibFunc_sin){
-//    double expected = 0;
-//    checkLibFn(LibFunc_sin, expected);
-//}
-//TEST_F(MCJitTests, LibFunc_sinh){
-//    double expected = 0;
-//    checkLibFn(LibFunc_sinh, expected);
-//}
-//TEST_F(MCJitTests, LibFunc_tan){
-//    double expected = 0;
-//    checkLibFn(LibFunc_tan, expected);
-//}
-//TEST_F(MCJitTests, LibFunc_tanh){
-//    double expected = 0;
-//    checkLibFn(LibFunc_tanh, expected);
-//}
-//TEST_F(MCJitTests, LibFunc_fmod){
-//    double expected = 0;
-//    checkLibFn(LibFunc_fmod, expected);
-//}
 
 
+TEST_F(MCJitTests, CheckLibFuncFabs){
+    double expected = 5.3;
+    std::string funcName = "fabs";
+    LoadSBMLOptions opt;
+    MCJit mcJit(opt.modelGeneratorOpt);
+    fabsFnTy fnPtr = (fabsFnTy) mcJit.getExecutionEngineNonOwning()->getPointerToNamedFunction(funcName);
+    ASSERT_EQ(expected, fnPtr(-5.3));
+}
+
+TEST_F(MCJitTests, CheckLibFuncAcos){
+    // Inverse of cos(-0.50) = 2.09 in radians
+    double expected = 2.0943951;
+    std::string funcName = "acos";
+    LoadSBMLOptions opt;
+    MCJit mcJit(opt.modelGeneratorOpt);
+    acosFnTy fnPtr = (acosFnTy) mcJit.getExecutionEngineNonOwning()->getPointerToNamedFunction(funcName);
+    ASSERT_NEAR(expected, fnPtr(-0.5), 1e-3);
+}
+
+TEST_F(MCJitTests, CheckLibFuncAsin){
+    // Inverse of sin(-0.50) = -0.52 in radians
+    double expected = -0.523598776;
+    std::string funcName = "asin";
+    LoadSBMLOptions opt;
+    MCJit mcJit(opt.modelGeneratorOpt);
+    asinFnTy fnPtr = (asinFnTy) mcJit.getExecutionEngineNonOwning()->getPointerToNamedFunction(funcName);
+    ASSERT_NEAR(expected, fnPtr(-0.5), 1e-7);
+}
+TEST_F(MCJitTests, CheckLibFuncAtan){
+    double expected = -0.463647609;
+    std::string funcName = "atan";
+    LoadSBMLOptions opt;
+    MCJit mcJit(opt.modelGeneratorOpt);
+    atanFnTy fnPtr = (atanFnTy) mcJit.getExecutionEngineNonOwning()->getPointerToNamedFunction(funcName);
+    ASSERT_NEAR(expected, fnPtr(-0.5), 1e-7);
+}
+TEST_F(MCJitTests, CheckLibFuncCeil){
+    double expected = 7;
+    std::string funcName = "ceil";
+    LoadSBMLOptions opt;
+    MCJit mcJit(opt.modelGeneratorOpt);
+    ceilFnTy fnPtr = (ceilFnTy) mcJit.getExecutionEngineNonOwning()->getPointerToNamedFunction(funcName);
+    ASSERT_EQ(expected, fnPtr(6.3));
+}
+TEST_F(MCJitTests, CheckLibFuncCos){
+    double expected = 0.87758256189;
+    std::string funcName = "cos";
+    LoadSBMLOptions opt;
+    MCJit mcJit(opt.modelGeneratorOpt);
+    cosFnTy fnPtr = (cosFnTy) mcJit.getExecutionEngineNonOwning()->getPointerToNamedFunction(funcName);
+    ASSERT_NEAR(expected, fnPtr(-0.5), 1e-7);
+}
+TEST_F(MCJitTests, CheckLibFuncCosh){
+    double expected = 1.1276259652;
+    std::string funcName = "cosh";
+    LoadSBMLOptions opt;
+    MCJit mcJit(opt.modelGeneratorOpt);
+    coshFnTy fnPtr = (coshFnTy) mcJit.getExecutionEngineNonOwning()->getPointerToNamedFunction(funcName);
+    ASSERT_NEAR(expected, fnPtr(-0.5), 1e-7);
+}
+TEST_F(MCJitTests, CheckLibFuncExp){
+    double expected = 0.60653065971;
+    std::string funcName = "exp";
+    LoadSBMLOptions opt;
+    MCJit mcJit(opt.modelGeneratorOpt);
+    expFnTy fnPtr = (expFnTy) mcJit.getExecutionEngineNonOwning()->getPointerToNamedFunction(funcName);
+    ASSERT_NEAR(expected, fnPtr(-0.5), 1e-7);
+}
+TEST_F(MCJitTests, CheckLibFuncFloor){
+    double expected = 3;
+    std::string funcName = "floor";
+    LoadSBMLOptions opt;
+    MCJit mcJit(opt.modelGeneratorOpt);
+    floorFnTy fnPtr = (floorFnTy) mcJit.getExecutionEngineNonOwning()->getPointerToNamedFunction(funcName);
+    ASSERT_EQ(expected, fnPtr(3.7));
+}
+TEST_F(MCJitTests, CheckLibFuncLog){
+    double expected = 3.4657;
+    std::string funcName = "log";
+    LoadSBMLOptions opt;
+    MCJit mcJit(opt.modelGeneratorOpt);
+    logFnTy fnPtr = (logFnTy) mcJit.getExecutionEngineNonOwning()->getPointerToNamedFunction(funcName);
+    ASSERT_NEAR(expected, fnPtr(32), 1e-3);
+}
+TEST_F(MCJitTests, CheckLibFuncLog10){
+    double expected = 2;
+    std::string funcName = "log10";
+    LoadSBMLOptions opt;
+    MCJit mcJit(opt.modelGeneratorOpt);
+    log10FnTy fnPtr = (log10FnTy) mcJit.getExecutionEngineNonOwning()->getPointerToNamedFunction(funcName);
+    ASSERT_NEAR(expected, fnPtr(100), 1e-7);
+}
+TEST_F(MCJitTests, CheckLibFuncSin){
+    double expected = -0.4794255386;
+    std::string funcName = "sin";
+    LoadSBMLOptions opt;
+    MCJit mcJit(opt.modelGeneratorOpt);
+    sinFnTy fnPtr = (sinFnTy) mcJit.getExecutionEngineNonOwning()->getPointerToNamedFunction(funcName);
+    ASSERT_NEAR(expected, fnPtr(-0.5), 1e-7);
+}
+TEST_F(MCJitTests, CheckLibFuncSinh){
+    double expected = -0.52109530549;
+    std::string funcName = "sinh";
+    LoadSBMLOptions opt;
+    MCJit mcJit(opt.modelGeneratorOpt);
+    sinhFnTy fnPtr = (sinhFnTy) mcJit.getExecutionEngineNonOwning()->getPointerToNamedFunction(funcName);
+    ASSERT_NEAR(expected, fnPtr(-0.5), 1e-7);
+}
+TEST_F(MCJitTests, CheckLibFuncTan){
+    double expected = -0.54630248984;
+    std::string funcName = "tan";
+    LoadSBMLOptions opt;
+    MCJit mcJit(opt.modelGeneratorOpt);
+    tanFnTy fnPtr = (tanFnTy) mcJit.getExecutionEngineNonOwning()->getPointerToNamedFunction(funcName);
+    ASSERT_NEAR(expected, fnPtr(-0.5), 1e-7);
+}
+TEST_F(MCJitTests, CheckLibFuncTanh){
+    double expected = -0.46211715726;
+    std::string funcName = "tanh";
+    LoadSBMLOptions opt;
+    MCJit mcJit(opt.modelGeneratorOpt);
+    tanhFnTy fnPtr = (tanhFnTy) mcJit.getExecutionEngineNonOwning()->getPointerToNamedFunction(funcName);
+    ASSERT_NEAR(expected, fnPtr(-0.5), 1e-7);
+}
+TEST_F(MCJitTests, CheckLibFuncFmod){
+    double expected = 1;
+    std::string funcName = "fmod";
+    LoadSBMLOptions opt;
+    MCJit mcJit(opt.modelGeneratorOpt);
+    fmodFnTy fnPtr = (fmodFnTy) mcJit.getExecutionEngineNonOwning()->getPointerToNamedFunction(funcName);
+    ASSERT_EQ(expected, fnPtr(5, 2));
+}
 
 
 

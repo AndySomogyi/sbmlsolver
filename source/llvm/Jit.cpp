@@ -16,6 +16,7 @@ namespace rrllvm {
               module(std::make_unique<llvm::Module>("LLVM Module", *context)),
               moduleNonOwning(module.get()), /*Maintain a weak ref so we don't lose our handle to the module*/
               builder(std::make_unique<llvm::IRBuilder<>>(*context)) {
+        // IR module is initialized with just a ModuleID and a source filename
         llvm::InitializeNativeTarget();
         llvm::InitializeNativeTargetAsmPrinter();
         llvm::InitializeNativeTargetAsmParser();

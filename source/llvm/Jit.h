@@ -93,10 +93,40 @@ namespace rrllvm {
 //        llvm::DataLayout DataLayout;
 
     private:
+
+        /**
+         * todo note to self. I'm tempted to add a nested
+         * class for C library functions (like abs or pow).
+         * The idea is to have a factory function whereby
+         * a enum is provided and a jit'd math func is returned.
+         * However, I don't actually know how these math
+         * functions should be used so I'll hold off for now.
+         * Pointers can be access like so:
+         */
+
+
+        /**
+         * @brief Add a function from the standard C library to the IR Module.
+         * @example An example declaration is:
+         *   declare double @pow(double, double)
+         * @details the declaration is resolved with the standard C
+         * library.
+         * @code
+                using powFn = double (*)(double x, double y);
+                powFn pow = (powFn) executionEngine->getPointerToNamedFunction("pow");
+                std::cout << pow(4, 2) << std::endl; // outputs 16
+         * @endcode
+         */
         virtual void createLibraryFunction(llvm::LibFunc funcId, llvm::FunctionType *funcType);
 
+        /**
+         * @brief declare all the necessary functions to
+         * support sbml.
+         * @details The following functions are declared:
+         * pow, fabs, acos, asin, atan, ceil, cos, cosh, exp,
+         * floor, log, log10, sin, sinh, tan, tanh, fmod
+         */
         virtual void createLibraryFunctions();
-
     };
 
 }
