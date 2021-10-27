@@ -67,10 +67,10 @@ if __name__ == '__main__':
         removeDummySpecies(model, i)
 
     print('Took', time.time() - start, 'seconds to build', NSIMS, 'unique models')
-    cpu_info = cpuinfo.get_cpu_info()
-    print(f'Platform: {platform()}')
-    print('python_version:', cpu_info['python_version'])
-    print('Processor:', cpu_info['brand_raw'])
+    # cpu_info = cpuinfo.get_cpu_info()
+    # print(f'Platform: {platform()}')
+    # print('python_version:', cpu_info['python_version'])
+    # print('Processor:', cpu_info['brand_raw'])
 
     '''
     With call to finalize
