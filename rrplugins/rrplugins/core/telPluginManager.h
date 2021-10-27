@@ -223,6 +223,8 @@ namespace tlp
         rrc::THostInterface* hostInterface;
     };
 
+    void* tpGetPluginCore(void* handle, const char* pluginName);
+
 }
 #endif
 

@@ -6,7 +6,7 @@
 #include "telProperties.h"
 #include "telTelluriumData.h"
 #include "telProperty.h"
-#include "../../wrappers/C/telplugins_properties_api.h"
+//#include "../../wrappers/C/telplugins_properties_api.h"
 
 using std::filesystem::path;
 

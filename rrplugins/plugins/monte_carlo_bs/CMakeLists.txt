@@ -16,12 +16,8 @@ set(RRP_MONTE_CARLO_BS_SOURCES
 add_library(${target} MODULE ${RRP_MONTE_CARLO_BS_SOURCES})
 
 target_link_libraries (${target} PRIVATE
-        telpluginsBaseClass-static
-        telplugins_math-static
-        telplugins_common-static
-        telplugins_c_api
+  telplugins_c_api
 )
-
 
 target_compile_definitions(${target} PRIVATE
         -DEXPORT_TEL_PLUGIN
@@ -35,6 +31,15 @@ if(UNIX)
     set(CMAKE_SHARED_LINKER_FLAGS "-Wl,--no-undefined")
   endif()
 endif()
+
+target_compile_definitions(${target} PRIVATE EXPORT_MONTE_CARLO_BS)
+
+install(
+        TARGETS ${target}
+        RUNTIME DESTINATION bin COMPONENT rrplugins
+        ARCHIVE DESTINATION lib COMPONENT rrplugins
+        LIBRARY DESTINATION lib COMPONENT rrplugins
+)
 
 if(BUILD_PYTHON)
     install (TARGETS ${target}

@@ -58,7 +58,7 @@ int CXXPiecewiseExecutableModel::getFloatingSpeciesIndex(const std::string& eid)
     return 0;
 }
 
-std::string CXXPiecewiseExecutableModel::getFloatingSpeciesId(int index)
+std::string CXXPiecewiseExecutableModel::getFloatingSpeciesId(size_t index)
 {
     return "";
 }
@@ -138,7 +138,7 @@ int CXXPiecewiseExecutableModel::getBoundarySpeciesIndex(const std::string& eid)
     return 0;
 }
 
-std::string CXXPiecewiseExecutableModel::getBoundarySpeciesId(int index)
+std::string CXXPiecewiseExecutableModel::getBoundarySpeciesId(size_t index)
 {
     return "";
 }
@@ -201,7 +201,7 @@ int CXXPiecewiseExecutableModel::getGlobalParameterIndex(const std::string& eid)
     return 0;
 }
 
-std::string CXXPiecewiseExecutableModel::getGlobalParameterId(int index)
+std::string CXXPiecewiseExecutableModel::getGlobalParameterId(size_t index)
 {
     return "";
 }
@@ -238,7 +238,7 @@ int CXXPiecewiseExecutableModel::getCompartmentIndexForBoundarySpecies(size_t in
     return 0;
 }
 
-std::string CXXPiecewiseExecutableModel::getCompartmentId(int index)
+std::string CXXPiecewiseExecutableModel::getCompartmentId(size_t index)
 {
     return "";
 }
@@ -306,7 +306,7 @@ int CXXPiecewiseExecutableModel::getConservedMoietyIndex(const std::string& eid)
     return 0;
 }
 
-std::string CXXPiecewiseExecutableModel::getConservedMoietyId(int index)
+std::string CXXPiecewiseExecutableModel::getConservedMoietyId(size_t index)
 {
     return "";
 }
@@ -353,7 +353,7 @@ void CXXPiecewiseExecutableModel::getRateRuleValues(double* rateRuleValues)
 {
 }
 
-std::string CXXPiecewiseExecutableModel::getStateVectorId(int index)
+std::string CXXPiecewiseExecutableModel::getStateVectorId(size_t index)
 {
     return "";
 }
@@ -433,7 +433,7 @@ int CXXPiecewiseExecutableModel::getEventIndex(const std::string& eid)
     return 0;
 }
 
-std::string CXXPiecewiseExecutableModel::getEventId(int index)
+std::string CXXPiecewiseExecutableModel::getEventId(size_t index)
 {
     return "";
 }
@@ -453,17 +453,17 @@ void CXXPiecewiseExecutableModel::getInitialAssignmentIds(std::list<std::string>
 {
 }
 
-void CXXPiecewiseExecutableModel::setEventListener(int index,
+void CXXPiecewiseExecutableModel::setEventListener(size_t index,
         rr::EventListenerPtr eventHandler)
 {
 }
 
-rr::EventListenerPtr CXXPiecewiseExecutableModel::getEventListener(int index)
+rr::EventListenerPtr CXXPiecewiseExecutableModel::getEventListener(size_t index)
 {
     return rr::EventListenerPtr();
 }
 
-double CXXPiecewiseExecutableModel::getFloatingSpeciesAmountRate(int index,
+double CXXPiecewiseExecutableModel::getFloatingSpeciesAmountRate(size_t index,
         const double* reactionRates)
 {
     return 0;

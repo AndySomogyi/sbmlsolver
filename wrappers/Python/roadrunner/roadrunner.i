@@ -1454,6 +1454,7 @@ namespace std { class ostream{}; }
             o = self.__simulateOptions
             originalSteps = o.steps
             originalVSS = True;
+            o.reset()
 
             if self.getIntegrator().hasValue('variable_step_size'):
                 originalVSS = self.getIntegrator().getValue('variable_step_size')
@@ -1471,6 +1472,9 @@ namespace std { class ostream{}; }
 
             if points is not None:
                 o.steps = points - 1
+            elif steps is not None:
+                o.steps = steps
+
 
             if selections is not None:
                 self.timeCourseSelections = selections
@@ -1484,9 +1488,6 @@ namespace std { class ostream{}; }
                 o.output_file = output_file
             else:
                 o.output_file = ""
-
-            if steps is not None:
-                o.steps = steps
 
             result = self._simulate(o)
 

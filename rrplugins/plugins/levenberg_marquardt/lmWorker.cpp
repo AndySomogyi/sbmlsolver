@@ -497,7 +497,8 @@ namespace lmfit
 
         if (mTheHost.rrHandle)
         {
-            delete mTheHost.rrHandle;
+            rrc::RRHandle* rrchandle = static_cast<rrc::RRHandle*>(mTheHost.rrHandle);
+            delete rrchandle;
         }
 
         mTheHost.rrHandle = gHostInterface->createRRInstance();

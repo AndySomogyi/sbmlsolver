@@ -520,28 +520,28 @@ void Logger::log(Level level, const std::string& msg)
     Poco::Logger &logger = getLogger();
     switch (level)
     {
-    case Message::PRIO_FATAL:
+    case LOG_FATAL:
         logger.fatal(msg);
         break;
-    case Message::PRIO_CRITICAL:
+    case LOG_CRITICAL:
         logger.critical(msg);
         break;
-    case Message::PRIO_ERROR:
+    case LOG_ERROR:
         logger.error(msg);
         break;
-    case Message::PRIO_WARNING:
+    case LOG_WARNING:
         logger.warning(msg);
         break;
-    case Message::PRIO_NOTICE:
+    case LOG_NOTICE:
         logger.notice(msg);
         break;
-    case Message::PRIO_INFORMATION:
+    case LOG_INFORMATION:
         logger.information(msg);
         break;
-    case Message::PRIO_DEBUG:
+    case LOG_DEBUG:
         logger.debug(msg);
         break;
-    case Message::PRIO_TRACE:
+    case LOG_TRACE:
         logger.trace(msg);
         break;
     default:

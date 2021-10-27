@@ -10,40 +10,29 @@ add_subdirectory(lib)
 
 
 set(RRP_LEVENBERG_MARQUARDT_SOURCES
-  lm.cpp
-  lmWorker.cpp
-  lmUtils.cpp
-  lmObjectiveFunction.cpp
-  levenberg_marquardt_doc.cpp
-  lm.h
-  lmWorker.h
-  lmUtils.h
-  lmObjectiveFunction.h
-  levenberg_marquardt_doc.h
+    lm.cpp
+    lmWorker.cpp
+    lmUtils.cpp
+    lmObjectiveFunction.cpp
+    levenberg_marquardt_doc.cpp
+    lm.h
+    lmWorker.h
+    lmUtils.h
+    lmObjectiveFunction.h
+    levenberg_marquardt_doc.h
 )
-
 
 add_library(${target} MODULE ${RRP_LEVENBERG_MARQUARDT_SOURCES})
 
-target_compile_definitions(${target} PRIVATE
-        EXPORT_TEL_PLUGIN
-        EXPORT_LEVENBERG_MARQUARDT
-        )
-
-
-target_include_directories(${target}
-        PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/libAutoTelluriumInterface"
-        "$<TARGET_PROPERTY:roadrunner,INCLUDE_DIRECTORIES>"
-        )
-
 target_link_libraries (${target} PRIVATE
-        lmfit-static
-        telpluginsBaseClass-static
-        telplugins_math-static
-        telplugins_common-static
-        telplugins_c_api
-        #libTelluriumAutoInterface-static
+    lmfit-static
+    telplugins_c_api
 )
+
+target_compile_definitions(${target} PRIVATE
+    -DEXPORT_TEL_PLUGIN
+    -DEXPORT_LEVENBERG_MARQUARDT
+    )
 
 if(UNIX)
   if(APPLE)
@@ -52,6 +41,15 @@ if(UNIX)
     set(CMAKE_SHARED_LINKER_FLAGS "-Wl,--no-undefined")
   endif()
 endif()
+
+target_compile_definitions(${target} PRIVATE EXPORT_LEVENBERG_MARQUARDT)
+
+install(
+    TARGETS ${target}
+    RUNTIME DESTINATION bin COMPONENT rrplugins
+    ARCHIVE DESTINATION lib COMPONENT rrplugins
+    LIBRARY DESTINATION lib COMPONENT rrplugins
+)
 
 if(BUILD_PYTHON)
     install (TARGETS ${target}

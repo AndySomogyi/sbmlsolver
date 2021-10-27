@@ -131,7 +131,7 @@ namespace rr {
          * to parameters.
          * @param kth derivative of the sensitivities.
          */
-        rr::Matrix<double> getSensitivityMatrix(int k = 0);
+        rr::Matrix<double> getSensitivityMatrix(int k = 0) override;
 
         /**
          * @brief simulate a timeseries with sensitivities from start to step with num
@@ -151,9 +151,9 @@ namespace rr {
         Matrix3D<double, double> solveSensitivities(double start, double stop, int num,
                                                     std::vector<std::string> params = std::vector<std::string>(),
                                                     std::vector<std::string> species = std::vector<std::string>(),
-                                                    int k = 0);
+                                                    int k = 0) override;
 
-        void setValue(const std::string &key, Setting val);
+        void setValue(const std::string &key, Setting val) override;
 
         /**
          * @brief parameters in the model as a member variable

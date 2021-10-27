@@ -230,7 +230,8 @@ The Plugin has numerous parameters for fine tuning the algorithm. See the embedd
             gHostInterface->setLogLevel(origloglevel);
             throw(Exception(msg.str()));
         }
-        gHostInterface->setLogLevel(origloglevel);
+        //Should never reach, but suppresses warning:
+        return false;
     }
 
 #ifdef EXPORT_LEVENBERG_MARQUARDT
