@@ -27,11 +27,7 @@ namespace rrllvm {
         MCJit::addGlobalMappings();
         std::cout << emitToString();
         MCJit::initFunctionPassManager();
-
-
-
 //        executionEngine->getTargetMachine()->getTargetTriple();
-
     }
 
 
@@ -39,7 +35,7 @@ namespace rrllvm {
         return executionEngine.get();
     }
 
-    void MCJit::addSupportFunctions() {
+    void MCJit::addExternalFunctionsFromSBML() {
         addGlobalMappings();
     }
 

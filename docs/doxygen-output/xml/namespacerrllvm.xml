@@ -1166,9 +1166,9 @@
       </memberdef>
       <memberdef kind="function" id="ModelGeneratorContext_8cpp_1ac743fb9d4fd8600800fcbcb6acf9a59e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
-        <definition>static void rrllvm::createLibraryFunctions</definition>
+        <definition>static void rrllvm::createCLibraryFunctions</definition>
         <argsstring>(Module *module)</argsstring>
-        <name>createLibraryFunctions</name>
+        <name>createCLibraryFunctions</name>
         <param>
           <type>Module *</type>
           <declname>module</declname>
@@ -1217,9 +1217,9 @@
       </memberdef>
       <memberdef kind="function" id="ModelGeneratorContext_8cpp_1a07d4e1e7ae3f299766166158377bad9b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
-        <definition>static void rrllvm::createLibraryFunction</definition>
+        <definition>static void rrllvm::createCLibraryFunction</definition>
         <argsstring>(llvm::LibFunc funcId, llvm::FunctionType *funcType, Module *module)</argsstring>
-        <name>createLibraryFunction</name>
+        <name>createCLibraryFunction</name>
         <param>
           <type>llvm::LibFunc</type>
           <declname>funcId</declname>

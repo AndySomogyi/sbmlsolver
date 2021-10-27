@@ -1126,9 +1126,9 @@
 <codeline lineno="58"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">rrllvm</highlight></codeline>
 <codeline lineno="59"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="60"><highlight class="normal"></highlight></codeline>
-<codeline lineno="61"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>createLibraryFunctions(Module*<sp/>module);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>createCLibraryFunctions(Module*<sp/>module);</highlight></codeline>
 <codeline lineno="62"><highlight class="normal"></highlight></codeline>
-<codeline lineno="63"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>createLibraryFunction(llvm::LibFunc<sp/>funcId,</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>createCLibraryFunction(llvm::LibFunc<sp/>funcId,</highlight></codeline>
 <codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>llvm::FunctionType<sp/>*funcType,<sp/>Module*<sp/>module);</highlight></codeline>
 <codeline lineno="65"><highlight class="normal"></highlight></codeline>
 <codeline lineno="66"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>Function*<sp/>createGlobalMappingFunction(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>funcName,</highlight></codeline>
@@ -1246,7 +1246,7 @@
 <codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>module<sp/>=<sp/>module_owner.get();</highlight></codeline>
 <codeline lineno="183"><highlight class="normal"></highlight></codeline>
 <codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>These<sp/>were<sp/>moved<sp/>up<sp/>here<sp/>because<sp/>they<sp/>require<sp/>the<sp/>module<sp/>ptr.<sp/>May<sp/>need<sp/>to<sp/>further<sp/>edit<sp/>these<sp/>functions</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>createLibraryFunctions(module);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>createCLibraryFunctions(module);</highlight></codeline>
 <codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ModelDataIRBuilder::createModelDataStructType(module,<sp/>executionEngine,<sp/>*symbols);</highlight></codeline>
 <codeline lineno="187"><highlight class="normal"></highlight></codeline>
 <codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>builder<sp/>=<sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/>IRBuilder&lt;&gt;(*context);</highlight></codeline>
@@ -1368,7 +1368,7 @@
 <codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>addGlobalMappings();</highlight></codeline>
 <codeline lineno="305"><highlight class="normal"></highlight></codeline>
 <codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//I&apos;m<sp/>just<sp/>hoping<sp/>that<sp/>none<sp/>of<sp/>these<sp/>functions<sp/>try<sp/>to<sp/>call<sp/>delete<sp/>on<sp/>module</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>createLibraryFunctions(module);</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>createCLibraryFunctions(module);</highlight></codeline>
 <codeline lineno="308"><highlight class="normal"></highlight></codeline>
 <codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>symbols<sp/>=<sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/>LLVMModelDataSymbols(getModel(),<sp/>options);</highlight></codeline>
 <codeline lineno="310"><highlight class="normal"></highlight></codeline>
@@ -1779,66 +1779,66 @@
 <codeline lineno="717"><highlight class="normal"></highlight></codeline>
 <codeline lineno="718"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="719"><highlight class="normal"></highlight></codeline>
-<codeline lineno="720"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>createLibraryFunctions(Module*<sp/>module)</highlight></codeline>
+<codeline lineno="720"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>createCLibraryFunctions(Module*<sp/>module)</highlight></codeline>
 <codeline lineno="721"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="722"><highlight class="normal"><sp/><sp/><sp/><sp/>LLVMContext&amp;<sp/>context<sp/>=<sp/>module-&gt;getContext();</highlight></codeline>
 <codeline lineno="723"><highlight class="normal"><sp/><sp/><sp/><sp/>Type<sp/>*double_type<sp/>=<sp/>Type::getDoubleTy(context);</highlight></codeline>
 <codeline lineno="724"><highlight class="normal"><sp/><sp/><sp/><sp/>Type*<sp/>args_d1[]<sp/>=<sp/>{<sp/>double_type<sp/>};</highlight></codeline>
 <codeline lineno="725"><highlight class="normal"><sp/><sp/><sp/><sp/>Type*<sp/>args_d2[]<sp/>=<sp/>{<sp/>double_type,<sp/>double_type<sp/>};</highlight></codeline>
 <codeline lineno="726"><highlight class="normal"></highlight></codeline>
-<codeline lineno="728"><highlight class="normal"><sp/><sp/><sp/><sp/>createLibraryFunction(LibFunc_pow,</highlight></codeline>
+<codeline lineno="728"><highlight class="normal"><sp/><sp/><sp/><sp/>createCLibraryFunction(LibFunc_pow,</highlight></codeline>
 <codeline lineno="729"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FunctionType::get(double_type,<sp/>args_d2,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">),<sp/>module);</highlight></codeline>
 <codeline lineno="730"><highlight class="normal"></highlight></codeline>
-<codeline lineno="732"><highlight class="normal"><sp/><sp/><sp/><sp/>createLibraryFunction(LibFunc_fabs,</highlight></codeline>
+<codeline lineno="732"><highlight class="normal"><sp/><sp/><sp/><sp/>createCLibraryFunction(LibFunc_fabs,</highlight></codeline>
 <codeline lineno="733"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FunctionType::get(double_type,<sp/>args_d1,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">),<sp/>module);</highlight></codeline>
 <codeline lineno="734"><highlight class="normal"></highlight></codeline>
-<codeline lineno="736"><highlight class="normal"><sp/><sp/><sp/><sp/>createLibraryFunction(LibFunc_acos,</highlight></codeline>
+<codeline lineno="736"><highlight class="normal"><sp/><sp/><sp/><sp/>createCLibraryFunction(LibFunc_acos,</highlight></codeline>
 <codeline lineno="737"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FunctionType::get(double_type,<sp/>args_d1,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">),<sp/>module);</highlight></codeline>
 <codeline lineno="738"><highlight class="normal"></highlight></codeline>
-<codeline lineno="740"><highlight class="normal"><sp/><sp/><sp/><sp/>createLibraryFunction(LibFunc_asin,</highlight></codeline>
+<codeline lineno="740"><highlight class="normal"><sp/><sp/><sp/><sp/>createCLibraryFunction(LibFunc_asin,</highlight></codeline>
 <codeline lineno="741"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FunctionType::get(double_type,<sp/>args_d1,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">),<sp/>module);</highlight></codeline>
 <codeline lineno="742"><highlight class="normal"></highlight></codeline>
-<codeline lineno="744"><highlight class="normal"><sp/><sp/><sp/><sp/>createLibraryFunction(LibFunc_atan,</highlight></codeline>
+<codeline lineno="744"><highlight class="normal"><sp/><sp/><sp/><sp/>createCLibraryFunction(LibFunc_atan,</highlight></codeline>
 <codeline lineno="745"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FunctionType::get(double_type,<sp/>args_d1,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">),<sp/>module);</highlight></codeline>
 <codeline lineno="746"><highlight class="normal"></highlight></codeline>
-<codeline lineno="748"><highlight class="normal"><sp/><sp/><sp/><sp/>createLibraryFunction(LibFunc_ceil,</highlight></codeline>
+<codeline lineno="748"><highlight class="normal"><sp/><sp/><sp/><sp/>createCLibraryFunction(LibFunc_ceil,</highlight></codeline>
 <codeline lineno="749"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FunctionType::get(double_type,<sp/>args_d1,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">),<sp/>module);</highlight></codeline>
 <codeline lineno="750"><highlight class="normal"></highlight></codeline>
-<codeline lineno="752"><highlight class="normal"><sp/><sp/><sp/><sp/>createLibraryFunction(LibFunc_cos,</highlight></codeline>
+<codeline lineno="752"><highlight class="normal"><sp/><sp/><sp/><sp/>createCLibraryFunction(LibFunc_cos,</highlight></codeline>
 <codeline lineno="753"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FunctionType::get(double_type,<sp/>args_d1,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">),<sp/>module);</highlight></codeline>
 <codeline lineno="754"><highlight class="normal"></highlight></codeline>
-<codeline lineno="756"><highlight class="normal"><sp/><sp/><sp/><sp/>createLibraryFunction(LibFunc_cosh,</highlight></codeline>
+<codeline lineno="756"><highlight class="normal"><sp/><sp/><sp/><sp/>createCLibraryFunction(LibFunc_cosh,</highlight></codeline>
 <codeline lineno="757"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FunctionType::get(double_type,<sp/>args_d1,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">),<sp/>module);</highlight></codeline>
 <codeline lineno="758"><highlight class="normal"></highlight></codeline>
-<codeline lineno="760"><highlight class="normal"><sp/><sp/><sp/><sp/>createLibraryFunction(LibFunc_exp,</highlight></codeline>
+<codeline lineno="760"><highlight class="normal"><sp/><sp/><sp/><sp/>createCLibraryFunction(LibFunc_exp,</highlight></codeline>
 <codeline lineno="761"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FunctionType::get(double_type,<sp/>args_d1,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">),<sp/>module);</highlight></codeline>
 <codeline lineno="762"><highlight class="normal"></highlight></codeline>
-<codeline lineno="764"><highlight class="normal"><sp/><sp/><sp/><sp/>createLibraryFunction(LibFunc_floor,</highlight></codeline>
+<codeline lineno="764"><highlight class="normal"><sp/><sp/><sp/><sp/>createCLibraryFunction(LibFunc_floor,</highlight></codeline>
 <codeline lineno="765"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FunctionType::get(double_type,<sp/>args_d1,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">),<sp/>module);</highlight></codeline>
 <codeline lineno="766"><highlight class="normal"></highlight></codeline>
-<codeline lineno="768"><highlight class="normal"><sp/><sp/><sp/><sp/>createLibraryFunction(LibFunc_log,</highlight></codeline>
+<codeline lineno="768"><highlight class="normal"><sp/><sp/><sp/><sp/>createCLibraryFunction(LibFunc_log,</highlight></codeline>
 <codeline lineno="769"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FunctionType::get(double_type,<sp/>args_d1,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">),<sp/>module);</highlight></codeline>
 <codeline lineno="770"><highlight class="normal"></highlight></codeline>
-<codeline lineno="772"><highlight class="normal"><sp/><sp/><sp/><sp/>createLibraryFunction(LibFunc_log10,</highlight></codeline>
+<codeline lineno="772"><highlight class="normal"><sp/><sp/><sp/><sp/>createCLibraryFunction(LibFunc_log10,</highlight></codeline>
 <codeline lineno="773"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FunctionType::get(double_type,<sp/>args_d1,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">),<sp/>module);</highlight></codeline>
 <codeline lineno="774"><highlight class="normal"></highlight></codeline>
-<codeline lineno="776"><highlight class="normal"><sp/><sp/><sp/><sp/>createLibraryFunction(LibFunc_sin,</highlight></codeline>
+<codeline lineno="776"><highlight class="normal"><sp/><sp/><sp/><sp/>createCLibraryFunction(LibFunc_sin,</highlight></codeline>
 <codeline lineno="777"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FunctionType::get(double_type,<sp/>args_d1,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">),<sp/>module);</highlight></codeline>
 <codeline lineno="778"><highlight class="normal"></highlight></codeline>
-<codeline lineno="780"><highlight class="normal"><sp/><sp/><sp/><sp/>createLibraryFunction(LibFunc_sinh,</highlight></codeline>
+<codeline lineno="780"><highlight class="normal"><sp/><sp/><sp/><sp/>createCLibraryFunction(LibFunc_sinh,</highlight></codeline>
 <codeline lineno="781"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FunctionType::get(double_type,<sp/>args_d1,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">),<sp/>module);</highlight></codeline>
 <codeline lineno="782"><highlight class="normal"></highlight></codeline>
-<codeline lineno="784"><highlight class="normal"><sp/><sp/><sp/><sp/>createLibraryFunction(LibFunc_tan,</highlight></codeline>
+<codeline lineno="784"><highlight class="normal"><sp/><sp/><sp/><sp/>createCLibraryFunction(LibFunc_tan,</highlight></codeline>
 <codeline lineno="785"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FunctionType::get(double_type,<sp/>args_d1,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">),<sp/>module);</highlight></codeline>
 <codeline lineno="786"><highlight class="normal"></highlight></codeline>
-<codeline lineno="788"><highlight class="normal"><sp/><sp/><sp/><sp/>createLibraryFunction(LibFunc_tanh,</highlight></codeline>
+<codeline lineno="788"><highlight class="normal"><sp/><sp/><sp/><sp/>createCLibraryFunction(LibFunc_tanh,</highlight></codeline>
 <codeline lineno="789"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FunctionType::get(double_type,<sp/>args_d1,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">),<sp/>module);</highlight></codeline>
 <codeline lineno="790"><highlight class="normal"></highlight></codeline>
-<codeline lineno="792"><highlight class="normal"><sp/><sp/><sp/><sp/>createLibraryFunction(LibFunc_fmod,</highlight></codeline>
+<codeline lineno="792"><highlight class="normal"><sp/><sp/><sp/><sp/>createCLibraryFunction(LibFunc_fmod,</highlight></codeline>
 <codeline lineno="793"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FunctionType::get(double_type,<sp/>args_d2,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">),<sp/>module);</highlight></codeline>
 <codeline lineno="794"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="795"><highlight class="normal"></highlight></codeline>
-<codeline lineno="796"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>createLibraryFunction(llvm::LibFunc<sp/>funcId,</highlight></codeline>
+<codeline lineno="796"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>createCLibraryFunction(llvm::LibFunc<sp/>funcId,</highlight></codeline>
 <codeline lineno="797"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>llvm::FunctionType<sp/>*funcType,<sp/>Module*<sp/>module)</highlight></codeline>
 <codeline lineno="798"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="799"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>For<sp/>some<sp/>reason<sp/>I<sp/>had<sp/>a<sp/>problem<sp/>when<sp/>I<sp/>passed<sp/>the<sp/>default<sp/>ctor<sp/>for<sp/>TargetLibraryInfoImpl<sp/>in</highlight><highlight class="normal"></highlight></codeline>

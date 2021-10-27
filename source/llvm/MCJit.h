@@ -18,7 +18,7 @@ namespace rrllvm {
 
         explicit MCJit(std::uint32_t options);
 
-        void addSupportFunctions() override;
+        void addExternalFunctionsFromSBML() override;
 
         void transferObjectsToResources(std::shared_ptr<rrllvm::ModelResources> rc) override;
 
@@ -40,6 +40,8 @@ namespace rrllvm {
 //
 //        void setDataLayout(llvm::DataLayout dataLayout) override;
 
+        llvm::legacy::FunctionPassManager *getFunctionPassManager() const ;
+
     private:
         Function *createGlobalMappingFunction(const char *funcName, llvm::FunctionType *funcType, Module *module);
 
@@ -47,7 +49,6 @@ namespace rrllvm {
 
         void addGlobalMappings();
 
-        llvm::legacy::FunctionPassManager *getFunctionPassManager() const ;
 
         void initFunctionPassManager();
 

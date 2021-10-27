@@ -36,7 +36,7 @@ namespace rrllvm {
             throw_llvm_exception(err)
         }
 
-        Jit::createLibraryFunctions();
+        Jit::createCLibraryFunctions();
     }
 
     llvm::Module *Jit::getModuleNonOwning() {
@@ -67,7 +67,7 @@ namespace rrllvm {
     }
 
 
-    void Jit::createLibraryFunction(llvm::LibFunc funcId, llvm::FunctionType *funcType) {
+    void Jit::createCLibraryFunction(llvm::LibFunc funcId, llvm::FunctionType *funcType) {
         // For some reason I had a problem when I passed the default ctor for TargetLibraryInfoImpl in
         // std::string error;
         //TargetLibraryInfoImpl defaultImpl(TargetRegistry::lookupTarget(sys::getDefaultTargetTriple(), error));
@@ -86,7 +86,7 @@ namespace rrllvm {
         }
     }
 
-    void Jit::createLibraryFunctions() {
+    void Jit::createCLibraryFunctions() {
         using namespace llvm;
 //        LLVMContext &context = module->getContext();
         Type *double_type = Type::getDoubleTy(*context);
@@ -94,72 +94,72 @@ namespace rrllvm {
         Type *args_d2[] = {double_type, double_type};
 
         /// double pow(double x, double y);
-        createLibraryFunction(LibFunc_pow,
-                              FunctionType::get(double_type, args_d2, false));
+        createCLibraryFunction(LibFunc_pow,
+                               FunctionType::get(double_type, args_d2, false));
 
         /// double fabs(double x);
-        createLibraryFunction(LibFunc_fabs,
-                              FunctionType::get(double_type, args_d1, false));
+        createCLibraryFunction(LibFunc_fabs,
+                               FunctionType::get(double_type, args_d1, false));
 
         /// double acos(double x);
-        createLibraryFunction(LibFunc_acos,
-                              FunctionType::get(double_type, args_d1, false));
+        createCLibraryFunction(LibFunc_acos,
+                               FunctionType::get(double_type, args_d1, false));
 
         /// double asin(double x);
-        createLibraryFunction(LibFunc_asin,
-                              FunctionType::get(double_type, args_d1, false));
+        createCLibraryFunction(LibFunc_asin,
+                               FunctionType::get(double_type, args_d1, false));
 
         /// double atan(double x);
-        createLibraryFunction(LibFunc_atan,
-                              FunctionType::get(double_type, args_d1, false));
+        createCLibraryFunction(LibFunc_atan,
+                               FunctionType::get(double_type, args_d1, false));
 
         /// double ceil(double x);
-        createLibraryFunction(LibFunc_ceil,
-                              FunctionType::get(double_type, args_d1, false));
+        createCLibraryFunction(LibFunc_ceil,
+                               FunctionType::get(double_type, args_d1, false));
 
         /// double cos(double x);
-        createLibraryFunction(LibFunc_cos,
-                              FunctionType::get(double_type, args_d1, false));
+        createCLibraryFunction(LibFunc_cos,
+                               FunctionType::get(double_type, args_d1, false));
 
         /// double cosh(double x);
-        createLibraryFunction(LibFunc_cosh,
-                              FunctionType::get(double_type, args_d1, false));
+        createCLibraryFunction(LibFunc_cosh,
+                               FunctionType::get(double_type, args_d1, false));
 
         /// double exp(double x);
-        createLibraryFunction(LibFunc_exp,
-                              FunctionType::get(double_type, args_d1, false));
+        createCLibraryFunction(LibFunc_exp,
+                               FunctionType::get(double_type, args_d1, false));
 
         /// double floor(double x);
-        createLibraryFunction(LibFunc_floor,
-                              FunctionType::get(double_type, args_d1, false));
+        createCLibraryFunction(LibFunc_floor,
+                               FunctionType::get(double_type, args_d1, false));
 
         /// double log(double x);
-        createLibraryFunction(LibFunc_log,
-                              FunctionType::get(double_type, args_d1, false));
+        createCLibraryFunction(LibFunc_log,
+                               FunctionType::get(double_type, args_d1, false));
 
         /// double log10(double x);
-        createLibraryFunction(LibFunc_log10,
-                              FunctionType::get(double_type, args_d1, false));
+        createCLibraryFunction(LibFunc_log10,
+                               FunctionType::get(double_type, args_d1, false));
 
         /// double sin(double x);
-        createLibraryFunction(LibFunc_sin,
-                              FunctionType::get(double_type, args_d1, false));
+        createCLibraryFunction(LibFunc_sin,
+                               FunctionType::get(double_type, args_d1, false));
 
         /// double sinh(double x);
-        createLibraryFunction(LibFunc_sinh,
-                              FunctionType::get(double_type, args_d1, false));
+        createCLibraryFunction(LibFunc_sinh,
+                               FunctionType::get(double_type, args_d1, false));
 
         /// double tan(double x);
-        createLibraryFunction(LibFunc_tan,
-                              FunctionType::get(double_type, args_d1, false));
+        createCLibraryFunction(LibFunc_tan,
+                               FunctionType::get(double_type, args_d1, false));
 
         /// double tanh(double x);
-        createLibraryFunction(LibFunc_tanh,
-                              FunctionType::get(double_type, args_d1, false));
+        createCLibraryFunction(LibFunc_tanh,
+                               FunctionType::get(double_type, args_d1, false));
 
         /// double fmod(double x, double y);
-        createLibraryFunction(LibFunc_fmod,
-                              FunctionType::get(double_type, args_d2, false));
+        createCLibraryFunction(LibFunc_fmod,
+                               FunctionType::get(double_type, args_d2, false));
     }
 
     void Jit::mapFunctionsToAddresses(std::shared_ptr<ModelResources> &rc, std::uint32_t options) {

@@ -40,7 +40,7 @@ namespace rrllvm {
     using FnPtr_i1 = int (*)(int x);
     using FnPtr_d2 = double (*)(double x, double y);
 
-    // these are taken from C library by createLibraryFunctions
+    // these are taken from C library by createCLibraryFunctions
     using powFnTy = FnPtr_d2;
     using fabsFnTy = FnPtr_d1;
     using acosFnTy = FnPtr_d1;
@@ -60,7 +60,7 @@ namespace rrllvm {
     using fmodFnTy = FnPtr_d2;
 
     // these are taken from libsbml in global mappings
-    using arccotFnTy = double (*)(double);
+    using arccotFnTy = FnPtr_d1;
     using rr_arccot_negzeroFnTy = FnPtr_d1;
     using arccothFnTy = FnPtr_d1;
     using arccscFnTy = FnPtr_d1;
@@ -90,12 +90,15 @@ namespace rrllvm {
         Jit();
 
         /**
-         * @brief adds sbml support function to the Jit engine
+         * @brief adds functions that are declared and defined by libsbml
+         * to the Jit engine.
          * @details i.e. tan, arccsh, quotient. In MCJit (llvm 6) these
-         * were "mapped" to sbml support functions. This API has changed in
+         * were "mapped" to sbml support functions in addGlobalMappings. This API has changed in
          * later llvm's and so this functionality is made virtual.
+         *
+         * @seealso Jit::
          */
-        virtual void addSupportFunctions() = 0;
+        virtual void addExternalFunctionsFromSBML() = 0;
 
         virtual std::uint64_t getFunctionAddress(const std::string &name) = 0;
 
@@ -156,17 +159,6 @@ namespace rrllvm {
     private:
 
         /**
-         * todo note to self. I'm tempted to add a nested
-         * class for C library functions (like abs or pow).
-         * The idea is to have a factory function whereby
-         * a enum is provided and a jit'd math func is returned.
-         * However, I don't actually know how these math
-         * functions should be used so I'll hold off for now.
-         * Pointers can be access like so:
-         */
-
-
-        /**
          * @brief Add a function from the standard C library to the IR Module.
          * @example An example declaration is:
          *   declare double @pow(double, double)
@@ -178,16 +170,19 @@ namespace rrllvm {
                 std::cout << pow(4, 2) << std::endl; // outputs 16
          * @endcode
          */
-        virtual void createLibraryFunction(llvm::LibFunc funcId, llvm::FunctionType *funcType);
+        virtual void createCLibraryFunction(llvm::LibFunc funcId, llvm::FunctionType *funcType);
 
         /**
-         * @brief declare all the necessary functions to
-         * support sbml.
-         * @details The following functions are declared:
-         * pow, fabs, acos, asin, atan, ceil, cos, cosh, exp,
-         * floor, log, log10, sin, sinh, tan, tanh, fmod
+         * @brief Pull a collection of functions from the standard C library into the developing LLVM IR Module
+         * @details The interface for pulling in the C library functions (seems to) work for both llvm-6
+         * and llvm-13. Therefore it is implemented in the superclass of all Jit's.
+         * The following functions are declared:
+         *    - pow, fabs, acos, asin, atan, ceil, cos, cosh, exp,
+         *      floor, log, log10, sin, sinh, tan, tanh, fmod
+         * @see Jit::addExternalFunctionsFromSBML (which is made virtual because the interface has changed between
+         * llvm-6 and llvm-13).
          */
-        virtual void createLibraryFunctions();
+        virtual void createCLibraryFunctions();
     };
 
 }

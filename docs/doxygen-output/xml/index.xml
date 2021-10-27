@@ -4915,8 +4915,8 @@
     <member refid="LLVMModelGenerator_8cpp_1a7ef274b2c6297cc413b54f38f4a38573" kind="function"><name>createModelData</name></member>
     <member refid="ModelDataIRBuilder_8cpp_1a9b6f0b05d36838414d31ff2f17f932eb" kind="function"><name>isAliasOrPointer</name></member>
     <member refid="ModelDataIRBuilder_8cpp_1a1a676d0219c63da5b89b86306ea797e7" kind="function"><name>isArray</name></member>
-    <member refid="ModelGeneratorContext_8cpp_1ac743fb9d4fd8600800fcbcb6acf9a59e" kind="function"><name>createLibraryFunctions</name></member>
-    <member refid="ModelGeneratorContext_8cpp_1a07d4e1e7ae3f299766166158377bad9b" kind="function"><name>createLibraryFunction</name></member>
+    <member refid="ModelGeneratorContext_8cpp_1ac743fb9d4fd8600800fcbcb6acf9a59e" kind="function"><name>createCLibraryFunctions</name></member>
+    <member refid="ModelGeneratorContext_8cpp_1a07d4e1e7ae3f299766166158377bad9b" kind="function"><name>createCLibraryFunction</name></member>
     <member refid="ModelGeneratorContext_8cpp_1a44448dfc35c6279a87fc131a2b54a545" kind="function"><name>createGlobalMappingFunction</name></member>
     <member refid="ModelGeneratorContext_8cpp_1a05192d98317f5b565127f4d58d164e9e" kind="function"><name>checkedReadSBMLFromString</name></member>
     <member refid="ModelGeneratorContext_8cpp_1ae8356aaa4689b5a491b99a5bab173123" kind="function"><name>createEmptyDocument</name></member>

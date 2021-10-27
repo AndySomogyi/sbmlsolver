@@ -175,7 +175,7 @@ ModelGeneratorContext::ModelGeneratorContext(std::string const &sbml, unsigned o
 		InitializeNativeTargetAsmParser();
 
 		// These were moved up here because they require the module ptr. May need to further edit these functions
-//		createLibraryFunctions(module);
+//		createCLibraryFunctions(module);
 		ModelDataIRBuilder::createModelDataStructType(jit->getModuleNonOwning(), nullptr, *symbols);
 
 
@@ -255,12 +255,12 @@ ModelGeneratorContext::ModelGeneratorContext(libsbml::SBMLDocument const *_doc,
             this->doc = _doc;
         }
 
-        jit->addSupportFunctions();
+        jit->addExternalFunctionsFromSBML();
 
         /**
          * this call has been moved to Jit constructor
          */
-        // createLibraryFunctions(module);
+        // createCLibraryFunctions(module);
 
         symbols = new LLVMModelDataSymbols(doc->getModel(), options);
 

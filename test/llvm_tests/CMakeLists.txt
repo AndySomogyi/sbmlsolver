@@ -1,4 +1,5 @@
 add_test_executable(llvm_tests_LLVMModelDataSymbolsTests test_targets LLVMModelDataSymbolsTests.cpp)
 add_test_executable(llvm_tests_MCJitTests test_targets MCJitTests.cpp)
+add_test_executable(llvm_tests_ExternalFunctionTests test_targets ExternalFunctionTests.cpp)
 
 set(test_targets ${test_targets} PARENT_SCOPE)
