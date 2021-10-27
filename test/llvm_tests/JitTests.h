@@ -15,16 +15,6 @@ class JitTests : public ::testing::Test {
 public:
     JitTests() = default;
 
-//    template<typename FnPtr>
-//    void checkLibFn(const std::string& funcName, double expected) {
-//        using namespace llvm;
-//        LoadSBMLOptions opt;
-//        MCJit mcJit(opt.modelGeneratorOpt);
-//        FnPtr fnPtr = (FnPtr)mcJit.getExecutionEngineNonOwning()->getPointerToNamedFunction(funcName);
-//        double actual = fnPtr(2, 4);
-//    }
-
-
     static llvm::Function *CreateFibFunction(llvm::Module *M) {
         llvm::LLVMContext &ctx = M->getContext();
 
@@ -77,45 +67,6 @@ public:
 };
 
 using fibonacciFnPtr = int (*)(int);
-
-TEST_F(JitTests, ModuleNonOwningNotNull) {
-    LoadSBMLOptions opt;
-    MCJit mcJit(opt.modelGeneratorOpt);
-    ASSERT_TRUE(mcJit.getModuleNonOwning());
-}
-
-TEST_F(JitTests, ContextNonOwningNotNull) {
-    LoadSBMLOptions opt;
-    MCJit mcJit(opt.modelGeneratorOpt);
-    ASSERT_TRUE(mcJit.getContextNonOwning());
-}
-
-TEST_F(JitTests, BuilderNonOwningNotNull) {
-    LoadSBMLOptions opt;
-    MCJit mcJit(opt.modelGeneratorOpt);
-    ASSERT_TRUE(mcJit.getBuilderNonOwning());
-}
-
-TEST_F(JitTests, CreateJittedFibonacci) {
-    // maybe the module and shouldnt be owned by the jit?:?
-    LoadSBMLOptions opt;
-    MCJit mcJit(opt.modelGeneratorOpt);
-    CreateFibFunction(mcJit.getModuleNonOwning());
-//    std::cout << mcJit.emitToString();
-    fibonacciFnPtr fibPtr = (int (*)(int)) mcJit.getFunctionAddress("fib");
-    ASSERT_EQ(fibPtr(4), 3);
-}
-
-TEST_F(JitTests, TransferObjectsToResources) {
-    ASSERT_FALSE(true);
-}
-
-TEST_F(JitTests, t) {
-    RoadRunner rr(OpenLinearFlux().str());
-    auto data = rr.simulate(0 , 10, 11);
-    std::cout << *data << std::endl;
-}
-
 
 
 
