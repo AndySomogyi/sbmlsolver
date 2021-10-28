@@ -2700,8 +2700,10 @@ namespace std { class ostream{}; }
         def __getattr__(self, name):
             if name in self.getSettings():
                 return Solver.getValue(self, name)
-            else:
+            elif name in self.__dict__:
                 return self.__dict__[name]
+            else:
+                raise AttributeError(name)
 
         def __setattr__(self, name, value):
             if(name != 'this' and name in self.getSettings()):
@@ -2783,8 +2785,10 @@ namespace std { class ostream{}; }
         def __getattr__(self, name):
             if(name in self.getSettings()):
                 return Solver.getValue(self, name)
-            else:
+            elif name in self.__dict__:
                 return self.__dict__[name]
+            else:
+                raise AttributeError(name)
 
         def __setattr__(self, name, value):
             if(name != 'this' and name in self.getSettings()):
@@ -2813,8 +2817,10 @@ namespace std { class ostream{}; }
         def __getattr__(self, name):
             if(name in self.getSettings()):
                 return Solver.getValue(self, name)
-            else:
+            elif name in self.__dict__:
                 return self.__dict__[name]
+            else:
+                raise AttributeError(name)
 
         def __setattr__(self, name, value):
             if(name != 'this' and name in self.getSettings()):
