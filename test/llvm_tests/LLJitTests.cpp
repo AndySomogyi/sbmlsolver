@@ -8,6 +8,7 @@
 #include "rrLogger.h"
 #include "rrRoadRunnerOptions.h"
 #include "JitTests.h"
+#include "rrConfig.h"
 
 using namespace rr;
 using namespace rrllvm;
@@ -53,11 +54,12 @@ TEST_F(LLJitTests, CreateJittedFibonacci) {
 //    ASSERT_FALSE(true);
 //}
 //
-//TEST_F(LLJitTests, t) {
-//    RoadRunner rr(OpenLinearFlux().str());
-//    auto data = rr.simulate(0 , 10, 11);
-//    std::cout << *data << std::endl;
-//}
+TEST_F(LLJitTests, t) {
+    rr::Config::setValue(rr::Config::LLVM_COMPILER, rr::Config::LLVM_COMPILER_VALUES::LLJIT);
+    RoadRunner rr(OpenLinearFlux().str());
+    auto data = rr.simulate(0 , 10, 11);
+    std::cout << *data << std::endl;
+}
 //
 //
 //

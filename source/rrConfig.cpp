@@ -135,6 +135,7 @@ static Setting values[] = {
     Setting(false),                             // ALLOW_EVENTS_IN_STEADY_STATE_CALCULATIONS
     Setting(true),                              // VALIDATION_IN_REGENERATION
     Setting(1000),                              // K_ROWS_PER_WRITE
+    Setting((std::int32_t)Config::MCJIT),// Config::LLVM_COMPILER                               // K_ROWS_PER_WRITE
 
 };
 
@@ -247,6 +248,7 @@ static void getKeyNames(StringIntMap &keys) {
       rr::Config::ALLOW_EVENTS_IN_STEADY_STATE_CALCULATIONS;
   keys["VALIDATION_IN_REGENERATION"] = rr::Config::VALIDATION_IN_REGENERATION;
   keys["K_ROWS_PER_WRITE"] = rr::Config::K_ROWS_PER_WRITE;
+  keys["LLVM_COMPILER"] = rr::Config::LLVM_COMPILER_VALUES::MCJIT;
 
   // add space after develop keys to clean up merging.
 
@@ -559,6 +561,9 @@ Config::Keys Config::stringToKey(const std::string &key) {
     return Config::ALLOW_EVENTS_IN_STEADY_STATE_CALCULATIONS;
   else if (key == "VALIDATION_IN_REGENERATION")
     return Config::VALIDATION_IN_REGENERATION;
+  else if (key == "LLVM_COMPILER")
+    return Config::LLVM_COMPILER;
+
   else
     throw std::runtime_error("No such config key: '" + key + "'");
 }

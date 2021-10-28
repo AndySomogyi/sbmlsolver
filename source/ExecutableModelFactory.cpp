@@ -16,9 +16,11 @@
 #pragma warning(disable: 4267)
 #pragma warning(disable: 4624)
 #endif
+
 #include "llvm/LLVMModelGenerator.h"
 #include "llvm/LLVMCompiler.h"
 #include "llvm/LLVMExecutableModel.h"
+
 #ifdef _MSC_VER
 #pragma warning(default: 4146)
 #pragma warning(default: 4141)
@@ -37,7 +39,7 @@
 
 #include "testing/CXXExecutableModel.h"
 #include "testing/CXXEnzymeExecutableModel.h"
-
+#include "rrConfig.h"
 
 namespace rr {
 
@@ -50,45 +52,57 @@ static ModelGenerator* createModelGenerator(const std::string& compiler, const s
  * implement the couple Compiler methods, this will go, here for source compatiblity.
  */
 
-std::string Compiler::getDefaultCompiler()
-{
+    std::string Compiler::getDefaultCompiler() {
 #if defined(BUILD_LLVM)
-    return "LLVM";
+        return "LLVM";
 #else
-    #if defined(_WIN32)
+#if defined(_WIN32)
         return joinPath("..", "compilers", "tcc", "tcc.exe");
-    #else
+#else
         // the default compiler on Unix systems is 'cc', the standard enviornment
         // for the default compiler is 'CC'.
         return getenv("CC") ? getenv("CC") : "gcc";
-    #endif
 #endif
-}
-
-Compiler* Compiler::New() {
-    return new rrllvm::LLVMCompiler();
-}
-
-ExecutableModel* rr::ExecutableModelFactory::createModel(
-        const std::string& sbml, const Dictionary* dict)
-{
-    LoadSBMLOptions opt(dict);
-
-    if(opt.hasKey("cxxEnzymeTest")) {
-        return new rrtesting::CXXEnzymeExecutableModel(dict);
+#endif
     }
-    return rrllvm::LLVMModelGenerator::createModel(sbml, opt.modelGeneratorOpt);
-}
 
-ExecutableModel *rr::ExecutableModelFactory::createModel(std::istream& in, uint modelGeneratorOpt)
-{
-	return new rrllvm::LLVMExecutableModel(in, modelGeneratorOpt);
-}
+    Compiler *Compiler::New() {
+        return new rrllvm::LLVMCompiler();
+    }
 
-ExecutableModel* ExecutableModelFactory::regenerateModel(ExecutableModel* oldModel, libsbml::SBMLDocument* doc, uint options)
-{
-	return  rrllvm::LLVMModelGenerator::regenerateModel(oldModel, doc, options);
-}
+    ExecutableModel *rr::ExecutableModelFactory::createModel(
+            const std::string &sbml, const Dictionary *dict) {
+        LoadSBMLOptions opt(dict);
+
+        if (opt.hasKey("cxxEnzymeTest")) {
+            return new rrtesting::CXXEnzymeExecutableModel(dict);
+        }
+
+        switch (Config::getValue(Config::LLVM_COMPILER).getAs<int>()) {
+            case Config::LLVM_COMPILER_VALUES::MCJIT:{
+                return rrllvm::LLVMModelGenerator::createModel(sbml, opt.modelGeneratorOpt);
+            }
+            case Config::LLVM_COMPILER_VALUES::LLJIT:{
+                return rrllvm::LLVMModelGenerator::createModel(sbml, opt.modelGeneratorOpt);
+            }
+            default:
+                std::string err = "Unsupported LLVM_COMPILER value. See rr::Config::LLVM_COMPILER_VALUES";
+                rrLogErr << err;
+                throw std::invalid_argument(err);
+        }
+
+        // control should never reach here, but to keep some compilers happy
+        return nullptr;
+    }
+
+    ExecutableModel *rr::ExecutableModelFactory::createModel(std::istream &in, uint modelGeneratorOpt) {
+        return new rrllvm::LLVMExecutableModel(in, modelGeneratorOpt);
+    }
+
+    ExecutableModel *
+    ExecutableModelFactory::regenerateModel(ExecutableModel *oldModel, libsbml::SBMLDocument *doc, uint options) {
+        return rrllvm::LLVMModelGenerator::regenerateModel(oldModel, doc, options);
+    }
 
 /*
 ModelGenerator* createModelGenerator(const std::string& compiler, const std::string& tempFolder,

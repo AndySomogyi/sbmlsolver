@@ -82,7 +82,6 @@ namespace rrllvm {
 
         void initFunctionPassManager();
 
-
         /**
          * Docs say to stack allocate the EngineBuilder
          */

@@ -535,11 +535,23 @@ public:
         K_ROWS_PER_WRITE,
 
         /**
+         * An enum value that indicates which
+         * llvm JIT compiler is being used.
+         */
+         LLVM_COMPILER,
+
+        /**
          * Needs to be the last item in the enum, no mater how many
          * other items are added, this is used internally to create
          * a static array.
          */
         CONFIG_END
+    };
+
+    enum LLVM_COMPILER_VALUES {
+        MCJIT = 0,
+        LLJIT,
+//        LAZYJIT = (0x1 << 0),
     };
 
     enum ROADRUNNER_DISABLE_WARNINGS_VALUES
