@@ -7,10 +7,12 @@
 
 
 #include <llvm/Analysis/TargetLibraryInfo.h>
+#include <rrSparse.h>
 #include "llvm/IR/IRBuilder.h"
 #include "LLVMException.h"
 #include "llvm/Target/TargetMachine.h"
 #include "llvm/Object/ObjectFile.h"
+#include "rrSparse.h"
 
 namespace rr {
     class ExecutableModel;
@@ -27,13 +29,6 @@ namespace rrllvm {
 
     /**
      * @brief define some function pointer signatures
-     */
-
-    /**
-     * todo think about pulling these functions
-     *  out of the jit and into a class. It would be better
-     *  to abstract the concept of grabbing functions
-     *  from another location into a single place.
      */
 
     using FnPtr_d1 = double (*)(double x);
@@ -74,7 +69,7 @@ namespace rrllvm {
     using rr_factorialiFnTy = FnPtr_i1;
     using rr_factorialdFnTy = FnPtr_d1;
     using rr_logdFnTy = FnPtr_d2;
-    using rr_rootdFnTy = FnPtr_d1;
+    using rr_rootdFnTy = FnPtr_d2;
     using secFnTy = FnPtr_d1;
     using sechFnTy = FnPtr_d1;
     using arccoshFnTy = FnPtr_d1;
@@ -84,10 +79,13 @@ namespace rrllvm {
     using rr_maxFnTy = FnPtr_d2;
     using rr_minFnTy = FnPtr_d2;
 
+    using csr_matrix_set_nz_FnTy = rr::csr_matrix* (*)(int, int, double);
+    using csr_matrix_get_nz_FnTy = rr::csr_matrix* (*)(int, int);
+
     class Jit {
     public:
 
-        Jit();
+        Jit(std::uint32_t options);
 
         /**
          * @brief adds functions that are declared and defined by libsbml
@@ -98,9 +96,11 @@ namespace rrllvm {
          *
          * @seealso Jit::
          */
-        virtual void addExternalFunctionsFromSBML() = 0;
+        virtual void mapFunctionsToJitSymbols() = 0;
 
         virtual std::uint64_t getFunctionAddress(const std::string &name) = 0;
+
+//        virtual std::uint64_t getStructAddress(const std::string &name) = 0;
 
         virtual llvm::TargetMachine *getTargetMachine() = 0;
 
@@ -155,34 +155,8 @@ namespace rrllvm {
         std::unique_ptr<llvm::IRBuilder<>> builder;
 //        llvm::Triple triple;
 //        llvm::DataLayout DataLayout;
+        std::uint32_t options;
 
-    private:
-
-        /**
-         * @brief Add a function from the standard C library to the IR Module.
-         * @example An example declaration is:
-         *   declare double @pow(double, double)
-         * @details the declaration is resolved with the standard C
-         * library.
-         * @code
-                using powFn = double (*)(double x, double y);
-                powFn pow = (powFn) executionEngine->getPointerToNamedFunction("pow");
-                std::cout << pow(4, 2) << std::endl; // outputs 16
-         * @endcode
-         */
-        virtual void createCLibraryFunction(llvm::LibFunc funcId, llvm::FunctionType *funcType);
-
-        /**
-         * @brief Pull a collection of functions from the standard C library into the developing LLVM IR Module
-         * @details The interface for pulling in the C library functions (seems to) work for both llvm-6
-         * and llvm-13. Therefore it is implemented in the superclass of all Jit's.
-         * The following functions are declared:
-         *    - pow, fabs, acos, asin, atan, ceil, cos, cosh, exp,
-         *      floor, log, log10, sin, sinh, tan, tanh, fmod
-         * @see Jit::addExternalFunctionsFromSBML (which is made virtual because the interface has changed between
-         * llvm-6 and llvm-13).
-         */
-        virtual void createCLibraryFunctions();
     };
 
 }

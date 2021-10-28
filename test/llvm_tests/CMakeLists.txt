@@ -1,6 +1,7 @@
 add_test_executable(llvm_tests_LLVMModelDataSymbolsTests test_targets LLVMModelDataSymbolsTests.cpp)
 add_test_executable(llvm_tests_MCJitTests test_targets MCJitTests.cpp JitTests.h)
 add_test_executable(llvm_tests_LLJitTests test_targets LLJitTests.cpp JitTests.h)
-add_test_executable(llvm_tests_ExternalFunctionTests test_targets ExternalFunctionTests.cpp)
+add_test_executable(llvm_tests_MCJitExternalFunctionTests test_targets MCJitExternalFunctionTests.cpp)
+add_test_executable(llvm_tests_LLJitExternalFunctionTests test_targets LLJitMapFunctionsToJitSymbolsTests.cpp)
 
 set(test_targets ${test_targets} PARENT_SCOPE)

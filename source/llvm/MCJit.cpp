@@ -17,25 +17,26 @@ using namespace rr;
 namespace rrllvm {
 
     MCJit::MCJit(std::uint32_t opt)
-            : Jit(), options(opt),
-            engineBuilder(EngineBuilder(std::move(module))),
-            executionEngine(std::unique_ptr<ExecutionEngine>(engineBuilder.create())){
+            : Jit(opt),
+              engineBuilder(EngineBuilder(std::move(module))),
+              executionEngine(std::unique_ptr<ExecutionEngine>(engineBuilder.create())) {
 
         engineBuilder
                 .setErrorStr(errString.get())
                 .setMCJITMemoryManager(std::make_unique<SectionMemoryManager>());
         MCJit::addGlobalMappings();
-        // std::cout << emitToString();
+        MCJit::createCLibraryFunctions();
+         std::cout << emitToString();
         MCJit::initFunctionPassManager();
 //        executionEngine->getTargetMachine()->getTargetTriple();
     }
 
 
-    ExecutionEngine* MCJit::getExecutionEngineNonOwning() const{
+    ExecutionEngine *MCJit::getExecutionEngineNonOwning() const {
         return executionEngine.get();
     }
 
-    void MCJit::addExternalFunctionsFromSBML() {
+    void MCJit::mapFunctionsToJitSymbols() {
         addGlobalMappings();
     }
 
@@ -48,30 +49,33 @@ namespace rrllvm {
         errString = nullptr;
     }
 
-    std::uint64_t MCJit::getFunctionAddress(const string &name) {
-        return executionEngine->getFunctionAddress(name);
+    std::uint64_t MCJit::getFunctionAddress(const std::string &name) {
+        return (std::uint64_t) executionEngine->getPointerToNamedFunction(name);
     }
 
-    llvm::TargetMachine* MCJit::getTargetMachine(){
+//    std::uint64_t MCJit::getStructAddress(const std::string &name) {
+//        return (std::uint64_t) executionEngine->getPointerToGlobalIfAvailable(name);
+//    }
+
+    llvm::TargetMachine *MCJit::getTargetMachine() {
         return executionEngine->getTargetMachine();
     }
 
-    void MCJit::addObjectFile(llvm::object::OwningBinary<llvm::object::ObjectFile> owningObject){
+    void MCJit::addObjectFile(llvm::object::OwningBinary<llvm::object::ObjectFile> owningObject) {
         getExecutionEngineNonOwning()->addObjectFile(std::move(owningObject));
     }
 
-    void MCJit::finalizeObject(){
+    void MCJit::finalizeObject() {
         getExecutionEngineNonOwning()->finalizeObject();
     };
 
-    const llvm::DataLayout& MCJit::getDataLayout() {
+    const llvm::DataLayout &MCJit::getDataLayout() {
         return getExecutionEngineNonOwning()->getDataLayout();
     }
 
-    void MCJit::addModule(llvm::Module* M) {
+    void MCJit::addModule(llvm::Module *M) {
 
     }
-
 
     Function *MCJit::createGlobalMappingFunction(const char *funcName, llvm::FunctionType *funcType, Module *module) {
         // This was InternalLinkage, but it needs to be external for JIT'd code to see it
@@ -315,8 +319,103 @@ namespace rrllvm {
         }
     }
 
-    llvm::legacy::FunctionPassManager * MCJit::getFunctionPassManager() const {
+    llvm::legacy::FunctionPassManager *MCJit::getFunctionPassManager() const {
         return functionPassManager.get();
+    }
+
+    void MCJit::createCLibraryFunction(llvm::LibFunc funcId, llvm::FunctionType *funcType) {
+        // For some reason I had a problem when I passed the default ctor for TargetLibraryInfoImpl in
+        // std::string error;
+        //TargetLibraryInfoImpl defaultImpl(TargetRegistry::lookupTarget(sys::getDefaultTargetTriple(), error));
+        llvm::TargetLibraryInfoImpl defaultImpl;
+        llvm::TargetLibraryInfo targetLib(defaultImpl);
+
+        if (targetLib.has(funcId)) {
+            const llvm::StringRef &name = targetLib.getName(funcId);
+            llvm::Function::Create(
+                    funcType, llvm::Function::ExternalLinkage, name, getModuleNonOwning()
+            );
+        } else {
+            std::string msg = "native target does not have library function for ";
+            msg += targetLib.getName(funcId);
+            throw_llvm_exception(msg);
+        }
+    }
+
+    void MCJit::createCLibraryFunctions() {
+        using namespace llvm;
+//        LLVMContext &context = module->getContext();
+        Type *double_type = Type::getDoubleTy(*context);
+        Type *args_d1[] = {double_type};
+        Type *args_d2[] = {double_type, double_type};
+
+        /// double pow(double x, double y);
+        createCLibraryFunction(LibFunc_pow,
+                               FunctionType::get(double_type, args_d2, false));
+
+        /// double fabs(double x);
+        createCLibraryFunction(LibFunc_fabs,
+                               FunctionType::get(double_type, args_d1, false));
+
+        /// double acos(double x);
+        createCLibraryFunction(LibFunc_acos,
+                               FunctionType::get(double_type, args_d1, false));
+
+        /// double asin(double x);
+        createCLibraryFunction(LibFunc_asin,
+                               FunctionType::get(double_type, args_d1, false));
+
+        /// double atan(double x);
+        createCLibraryFunction(LibFunc_atan,
+                               FunctionType::get(double_type, args_d1, false));
+
+        /// double ceil(double x);
+        createCLibraryFunction(LibFunc_ceil,
+                               FunctionType::get(double_type, args_d1, false));
+
+        /// double cos(double x);
+        createCLibraryFunction(LibFunc_cos,
+                               FunctionType::get(double_type, args_d1, false));
+
+        /// double cosh(double x);
+        createCLibraryFunction(LibFunc_cosh,
+                               FunctionType::get(double_type, args_d1, false));
+
+        /// double exp(double x);
+        createCLibraryFunction(LibFunc_exp,
+                               FunctionType::get(double_type, args_d1, false));
+
+        /// double floor(double x);
+        createCLibraryFunction(LibFunc_floor,
+                               FunctionType::get(double_type, args_d1, false));
+
+        /// double log(double x);
+        createCLibraryFunction(LibFunc_log,
+                               FunctionType::get(double_type, args_d1, false));
+
+        /// double log10(double x);
+        createCLibraryFunction(LibFunc_log10,
+                               FunctionType::get(double_type, args_d1, false));
+
+        /// double sin(double x);
+        createCLibraryFunction(LibFunc_sin,
+                               FunctionType::get(double_type, args_d1, false));
+
+        /// double sinh(double x);
+        createCLibraryFunction(LibFunc_sinh,
+                               FunctionType::get(double_type, args_d1, false));
+
+        /// double tan(double x);
+        createCLibraryFunction(LibFunc_tan,
+                               FunctionType::get(double_type, args_d1, false));
+
+        /// double tanh(double x);
+        createCLibraryFunction(LibFunc_tanh,
+                               FunctionType::get(double_type, args_d1, false));
+
+        /// double fmod(double x, double y);
+        createCLibraryFunction(LibFunc_fmod,
+                               FunctionType::get(double_type, args_d2, false));
     }
 
 //    void MCJit::setTargetTriple(llvm::Triple triple) {
@@ -327,6 +426,8 @@ namespace rrllvm {
 //    void MCJit::setDataLayout(llvm::DataLayout dataLayout) {
 //
 //    }
+
+
 
 
 }

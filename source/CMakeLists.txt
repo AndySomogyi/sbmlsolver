@@ -286,7 +286,7 @@ if (BUILD_LLVM)
             llvm/SBMLInitialValueSymbolResolver.h
             llvm/Random.h
             llvm/Jit.h
-            llvm/LLJit.h
+            llvm/rrLLJit.h
             llvm/MCJit.h
             )
     install(FILES ${rrLLVMHeaders} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/rr/llvm)

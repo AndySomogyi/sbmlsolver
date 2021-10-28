@@ -1,14 +1,93 @@
 @startuml
 
 
+'start
+':parse sbml;
+'if (model cached) then (yes)
+'    :load from cache;
+'    :return LLVMExecutableModel;
+'    end
+'else (no)
+'    :Create ModelResources;
+'    :Initialize LLVM components, such as
+'    IR Module, context and PassManager;
+'    :Do llvm IR optimization;
+'endif
+'end
 
+start
+
+:llvm model creation;
+:Parse sbml, store locally;
+:init model resources;
+:init llvm module and context;
+:generate llvm IR code;
+:optimize llvm IR code;
+:init llvm Jit machinery;
+:compile model to binary;
+:update model resources
+and give to ExecutableModel;
+:Give ExecutableModel to
+RoadRunner object;
+stop
+
+
+
+
+''processes
+'circle loads
+'circle creates
+'circle moves
+'circle checks
+'circle init
+'
+'object RoadRunner
+'object sbml
+'RoadRunner -> loads
+'loads -> sbml
+'
+'object ExecutableModelFactory
+'object LLVMExecutableModel
+'ExecutableModelFactory --> creates
+'creates -> LLVMExecutableModel
+'
+'loads --> creates
+'
+'object LLVMModelGenerator
+'
+'object ModelCaching
+
+'abstract class Jit
+'class MCJit
+'class OrcJit
+'class LLJit
+'class LazyJit
+'class ManyModesJit
+'class GPUJit
+'
+'
+'Jit <|-- MCJit
+'Jit <|-- OrcJit
+'OrcJit <|-- LLJit
+'OrcJit <|-- LazyJit
+'OrcJit <|-- ManyModesJit
+'OrcJit <|-- GPUJit
+
+'
+'class RoadRunner
+'class sbml
+'RoadRunner --> "loads" sbml
+'
+'class ExecutableModelFactory
+'class LLVMExecutableModel
+'ExecutableModelFactory --> "creates" LLVMExecutableModel
 
 
 /' Objects '/
 
 
-class LoadSymbolResolver
-class ASTNodeCodeGen
+'class LoadSymbolResolver
+'class ASTNodeCodeGen
 
 
 'class ASTNodeCodeGen {}

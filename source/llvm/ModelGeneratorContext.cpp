@@ -255,7 +255,7 @@ ModelGeneratorContext::ModelGeneratorContext(libsbml::SBMLDocument const *_doc,
             this->doc = _doc;
         }
 
-        jit->addExternalFunctionsFromSBML();
+        jit->mapFunctionsToJitSymbols();
 
         /**
          * this call has been moved to Jit constructor

@@ -214,10 +214,10 @@ llvm::StructType* ModelDataIRBuilder::getCSRSparseStructType(
     return structType;
 }
 
+
 llvm::Function* ModelDataIRBuilder::getCSRMatrixSetNZDecl(Module *module)
 {
-    Function *f = module->getFunction(
-            ModelDataIRBuilder::csr_matrix_set_nzName);
+    Function *f = module->getFunction(ModelDataIRBuilder::csr_matrix_set_nzName);
 
     if (f == 0)
     {
