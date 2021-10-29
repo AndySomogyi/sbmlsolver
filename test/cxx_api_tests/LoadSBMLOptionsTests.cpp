@@ -105,6 +105,56 @@ TEST_F(LoadSBMLOptionsTests, ConservedMoietyConversionGetterAndSetter){
 
 
 
+TEST_F(LoadSBMLOptionsTests, LLVMCompilerDefaultToMCJit){
+    Config::LLVM_COMPILER_VALUES val = (Config::LLVM_COMPILER_VALUES)Config::getValue(Config::LLVM_COMPILER).getAs<int>();
+    ASSERT_EQ(Config::LLVM_COMPILER_VALUES::MCJIT, val);
+}
+
+TEST_F(LoadSBMLOptionsTests, LLVMCompilerDefaultToMCJitNotLLJit){
+    Config::LLVM_COMPILER_VALUES val = (Config::LLVM_COMPILER_VALUES)Config::getValue(Config::LLVM_COMPILER).getAs<int>();
+    ASSERT_NE(Config::LLVM_COMPILER_VALUES::LLJIT, val);
+}
+
+TEST_F(LoadSBMLOptionsTests, LLVMCompilerDefaultToMCJitViaSBMLLoadOptions){
+    LoadSBMLOptions opt;
+    bool isMcJit = opt.modelGeneratorOpt & LoadSBMLOptions::MCJIT;
+    ASSERT_TRUE(isMcJit);
+}
+
+TEST_F(LoadSBMLOptionsTests, LLVMCompilerDefaultToMCJitViaSBMLLoadOptionsNotLLJit){
+    LoadSBMLOptions opt;
+    bool isLLJit = opt.modelGeneratorOpt & LoadSBMLOptions::LLJIT;
+    ASSERT_FALSE(isLLJit);
+}
+
+
+
+TEST_F(LoadSBMLOptionsTests, LLVMCompilerSetToLLJit){
+    Config::setValue(Config::LLVM_COMPILER, Config::LLVM_COMPILER_VALUES::LLJIT);
+    Config::LLVM_COMPILER_VALUES val = (Config::LLVM_COMPILER_VALUES)Config::getValue(Config::LLVM_COMPILER).getAs<int>();
+    ASSERT_EQ(Config::LLVM_COMPILER_VALUES::LLJIT, val);
+}
+
+TEST_F(LoadSBMLOptionsTests, LLVMCompilerSetToLLJitMCJitFalse){
+    Config::setValue(Config::LLVM_COMPILER, Config::LLVM_COMPILER_VALUES::LLJIT);
+    Config::LLVM_COMPILER_VALUES val = (Config::LLVM_COMPILER_VALUES)Config::getValue(Config::LLVM_COMPILER).getAs<int>();
+    ASSERT_NE(Config::LLVM_COMPILER_VALUES::MCJIT, val);
+}
+
+TEST_F(LoadSBMLOptionsTests, LLVMCompilerSetToLLJitAccessViaLoadSBMLOptions){
+    LoadSBMLOptions opt;
+    opt.setLLVMCompiler(LoadSBMLOptions::LLJIT);
+    bool isLLJit = opt.modelGeneratorOpt & LoadSBMLOptions::LLJIT;
+    ASSERT_TRUE(isLLJit);
+}
+
+TEST_F(LoadSBMLOptionsTests, LLVMCompilerSetToLLJitAccessViaLoadSBMLOptionsNotMCJit){
+    LoadSBMLOptions opt;
+    opt.setLLVMCompiler(LoadSBMLOptions::LLJIT);
+    bool isMCJit = opt.modelGeneratorOpt & LoadSBMLOptions::MCJIT;
+    ASSERT_FALSE(isMCJit);
+}
+
 
 
 

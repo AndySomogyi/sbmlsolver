@@ -27,6 +27,21 @@ namespace rr
 	class RR_DECLSPEC LoadSBMLOptions : public BasicDictionary
 	{
 	public:
+        enum LLVM_COMPILER_VALUES {
+            // keep unique, counting ModelGeneratorOpt
+            MCJIT = (0x1 <<  14) ,
+            LLJIT = (0x1 <<  15),
+        //        LAZYJIT = (0x1 << 0),
+        };
+
+        // Manually and ineloquently list the compiler options for iterating over later.
+        static std::vector<LLVM_COMPILER_VALUES> getAllLLVMCompilerValues(){
+            return std::vector<LLVM_COMPILER_VALUES>({
+                MCJIT,
+                LLJIT
+            });
+        };
+
 		enum ModelGeneratorOpt
 		{
 			/**
@@ -113,10 +128,10 @@ namespace rr
 			* all optimizations, use to check if bit mask has
 			* any optimizations.
 			*/
-			OPTIMIZE = OPTIMIZE_GVN | OPTIMIZE_CFG_SIMPLIFICATION |
-			OPTIMIZE_INSTRUCTION_COMBINING |
-			OPTIMIZE_DEAD_INST_ELIMINATION | OPTIMIZE_DEAD_CODE_ELIMINATION |
-			OPTIMIZE_INSTRUCTION_SIMPLIFIER,
+			OPTIMIZE =  OPTIMIZE_GVN | OPTIMIZE_CFG_SIMPLIFICATION |
+                        OPTIMIZE_INSTRUCTION_COMBINING |
+                        OPTIMIZE_DEAD_INST_ELIMINATION | OPTIMIZE_DEAD_CODE_ELIMINATION |
+			            OPTIMIZE_INSTRUCTION_SIMPLIFIER,
 
 			/**
 			* Use the LLVM MCJIT JIT engine.
@@ -134,7 +149,13 @@ namespace rr
 			/**
 			* Turn on SBML validation
 			*/
-			TURN_ON_VALIDATION = (0x1 << 12)
+			TURN_ON_VALIDATION = (0x1 << 12),
+
+            /**
+             * Use Orc Jit API, llvm 13
+             */
+//            USE_LLJIT = (0x1 << 13)
+
 		};
 
 		enum LoadOpt
@@ -208,18 +229,34 @@ namespace rr
 		}
 
 		inline void setValidation(bool val) {
-			loadFlags = val ?
-				loadFlags | TURN_ON_VALIDATION :
-				loadFlags & ~TURN_ON_VALIDATION;
+			loadFlags = val ? loadFlags | TURN_ON_VALIDATION : loadFlags & ~TURN_ON_VALIDATION;
 		}
 
-		virtual ~LoadSBMLOptions();
+        inline void setLLVMCompiler(LoadSBMLOptions::LLVM_COMPILER_VALUES val){
+            // compiler options are multiple choice. So iterate over all and turn them off
+            for (auto compiler_option : getAllLLVMCompilerValues()){
+                modelGeneratorOpt = modelGeneratorOpt &~ compiler_option;
+            }
+
+            // before turning the right one on
+            switch (val){
+                case MCJIT:
+                    modelGeneratorOpt = modelGeneratorOpt | LLVM_COMPILER_VALUES::MCJIT;
+                    break;
+                case LLJIT:
+                    modelGeneratorOpt = modelGeneratorOpt | LLVM_COMPILER_VALUES::LLJIT;
+                    break;
+            }
+        }
+
+		~LoadSBMLOptions() override;
 
 	private:
 
 		// load default values;
 		void defaultInit();
 	};
+
 
 	/**
   * @brief This class is frozen, no new features

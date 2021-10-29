@@ -9,14 +9,15 @@ import sys
 llvmversion = 13
 sys.path += [
     # r'D:\roadrunner\roadrunner\roadrunner-install-rel-llvm{}\site-packages'.format(llvmversion),
-    r'D:\roadrunner\roadrunner\roadrunner-install-rel-llvm{}\site-packages'.format(llvmversion)
+    # r'D:\roadrunner\roadrunner\roadrunner-install-rel-llvm{}\site-packages'.format(llvmversion)
+    r'D:\roadrunner\roadrunner\roadrunner-install-rel-llvm6\site-packages\roadrunner'
 ]
 
 import roadrunner
 
-assert "llvm13" in roadrunner.__file__, roadrunner.__file__
+# assert "llvm13" in roadrunner.__file__, roadrunner.__file__
 
-from roadrunner import RoadRunner, Config
+from roadrunner import RoadRunner, Config, LoadSBMLOptions
 from roadrunner.testing import TestModelFactory as tmf
 import time
 import numpy as np
@@ -24,15 +25,15 @@ from platform import platform
 import cpuinfo  # pip install py-cpuinfo
 import libsbml
 
-NSIMS = 1000
+NSIMS = 100
 
-def x(r: RoadRunner):
-    Config.setValue(Config.LOADSBMLOPTIONS_OPTIMIZE_GVN, False)
-    Config.setValue(Config.LOADSBMLOPTIONS_OPTIMIZE_CFG_SIMPLIFICATION, False)
-    Config.setValue(Config.LOADSBMLOPTIONS_OPTIMIZE_DEAD_CODE_ELIMINATION, False)
-    Config.setValue(Config.LOADSBMLOPTIONS_OPTIMIZE_DEAD_INST_ELIMINATION, False)
-    Config.setValue(Config.LOADSBMLOPTIONS_OPTIMIZE_INSTRUCTION_COMBINING, False)
-    Config.setValue(Config.LOADSBMLOPTIONS_OPTIMIZE_INSTRUCTION_SIMPLIFIER, False)
+# def x(r: RoadRunner):
+    # Config.setValue(Config.LOADSBMLOPTIONS_OPTIMIZE_GVN, False)
+    # Config.setValue(Config.LOADSBMLOPTIONS_OPTIMIZE_CFG_SIMPLIFICATION, False)
+    # Config.setValue(Config.LOADSBMLOPTIONS_OPTIMIZE_DEAD_CODE_ELIMINATION, False)
+    # Config.setValue(Config.LOADSBMLOPTIONS_OPTIMIZE_DEAD_INST_ELIMINATION, False)
+    # Config.setValue(Config.LOADSBMLOPTIONS_OPTIMIZE_INSTRUCTION_COMBINING, False)
+    # Config.setValue(Config.LOADSBMLOPTIONS_OPTIMIZE_INSTRUCTION_SIMPLIFIER, False)
 
 def addDummySpecies(model: libsbml.Model, id: int):
     assert id > 2, "Id should be greater than 2. "
@@ -52,21 +53,25 @@ def removeDummySpecies(model: libsbml.Model, id: int):
 
 if __name__ == '__main__':
     # setup timing
-    start = time.time()
+    Config.setValue(Config.LOADSBMLOPTIONS_RECOMPILE, True)
 
     # get sbml to work with from one of our test modules
-    sbmlOrig = tmf.OpenLinearFlux().str()
+    sbmlOrig = tmf.Brown2004().str()
 
     document = libsbml.readSBMLFromString(sbmlOrig)
     model = document.getModel()
 
-    for i in range(3, NSIMS + 3):
-        addDummySpecies(model, i)
-        sbml = libsbml.writeSBMLToString(document)
-        r = RoadRunner(sbml)
-        removeDummySpecies(model, i)
+    opt = LoadSBMLOptions()
+    opt.OPTIMIZE = True
 
-    print('Took', time.time() - start, 'seconds to build', NSIMS, 'unique models')
+    for i in range(3, NSIMS + 3):
+        start = time.time()
+        # addDummySpecies(model, i)
+        # sbml = libsbml.writeSBMLToString(document)
+        r = RoadRunner(sbmlOrig, backend="LLJit")
+        print('Took', time.time() - start, 'seconds to build')
+        # removeDummySpecies(model, i)
+
     # cpu_info = cpuinfo.get_cpu_info()
     # print(f'Platform: {platform()}')
     # print('python_version:', cpu_info['python_version'])

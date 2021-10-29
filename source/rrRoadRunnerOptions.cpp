@@ -268,8 +268,6 @@ namespace rr {
         return times[step];
     }
 
-
-
     void LoadSBMLOptions::setItem(const std::string &key, const rr::Setting &value) {
         BasicDictionary::setItem(key, value);
     }
@@ -328,12 +326,28 @@ namespace rr {
         if (Config::getBool(Config::LOADSBMLOPTIONS_OPTIMIZE_INSTRUCTION_SIMPLIFIER))
             modelGeneratorOpt |= LoadSBMLOptions::OPTIMIZE_INSTRUCTION_SIMPLIFIER;
 
-        if (Config::getBool(Config::LOADSBMLOPTIONS_USE_MCJIT))
-            modelGeneratorOpt |= LoadSBMLOptions::USE_MCJIT;
-
         if (Config::getBool(Config::LLVM_SYMBOL_CACHE))
             modelGeneratorOpt |= LoadSBMLOptions::LLVM_SYMBOL_CACHE;
 
+        // todo delete this options and use the below system instead
+        if (Config::getBool(Config::LOADSBMLOPTIONS_USE_MCJIT))
+            modelGeneratorOpt |= LoadSBMLOptions::USE_MCJIT;
+
+        Config::LLVM_COMPILER_VALUES whichCompiler =
+                (Config::LLVM_COMPILER_VALUES)Config::getValue(Config::LLVM_COMPILER).getAs<int>();
+
+        switch (whichCompiler) {
+            case Config::MCJIT:
+                setLLVMCompiler(LoadSBMLOptions::MCJIT);
+                break;
+            case Config::LLJIT:
+                setLLVMCompiler(LoadSBMLOptions::LLJIT);
+                break;
+            default:
+                std::string err = "Compiler option is invalid. Defaulting back to MCJit";
+                rrLogWarn << err;
+                setLLVMCompiler(LoadSBMLOptions::MCJIT);
+        }
 
         setItem("tempDir", Setting(std::string()));
         setItem("compiler", Setting("LLVM"));
