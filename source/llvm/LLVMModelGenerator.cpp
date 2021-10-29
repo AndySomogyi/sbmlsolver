@@ -9,6 +9,7 @@
  */
 #pragma hdrstop
 
+#define NOMINMAX
 #include "LLVMModelGenerator.h"
 #include "LLVMExecutableModel.h"
 #include "ModelGeneratorContext.h"
@@ -26,9 +27,16 @@
 #pragma warning(disable: 4624)
 #endif
 
+
+
 #include "llvm/Object/ObjectFile.h"
-#include "llvm/MCJit.h"
 #include "llvm/LLVMExecutableModel.h"
+
+#include "llvm/MCJit.h"
+
+#if LLVM_VERSION_MAJOR >= 13
+#   include "llvm/rrLLJit.h"
+#endif
 
 #ifdef _MSC_VER
 #pragma warning(default: 4146)
@@ -553,15 +561,32 @@ namespace rrllvm {
 
         SharedModelResourcesPtr rc = std::make_shared<ModelResources>();
 
-        ModelGeneratorContext context(sbml, options, std::make_unique<MCJit>(options));
+        std::unique_ptr<ModelGeneratorContext> context;
 
-        codeGeneration(context, options);
+        if (options & LoadSBMLOptions::MCJIT){
+            context = std::move(std::make_unique<ModelGeneratorContext>(sbml, options, std::make_unique<MCJit>(options)));
+        }
+
+#if LLVM_VERSION_MAJOR >= 13
+
+        else if (options & LoadSBMLOptions::LLJIT){
+            context = std::move(std::make_unique<ModelGeneratorContext>(sbml, options, std::make_unique<rrLLJit>(options)));
+        }
+
+#endif // LLVM_VERSION_MAJOR >= 13
+
+        else {
+            rrLogWarn << "Requested compiler not found. Defaulting to MCJit.";
+            context = std::move(std::make_unique<ModelGeneratorContext>(sbml, options, std::make_unique<MCJit>(options)));
+        }
+
+        codeGeneration(*context, options);
 
         //Currently we save jitted functions in object file format
         //in save state. Compiling the functions into this format in the first place
         //makes saveState significantly faster than creating the object file when it is called
         //We then load the object file into the jit engine to avoid compiling the functions twice
-        auto TargetMachine = context.getJitNonOwning()->getTargetMachine();
+        auto TargetMachine = context->getJitNonOwning()->getTargetMachine();
 
         llvm::InitializeNativeTarget(); // todo may have already been called in RoadRunner constructor
 
@@ -573,16 +598,18 @@ namespace rrllvm {
         llvm::legacy::PassManager pass;
         auto FileType = getCodeGenFileType();
 
-#if LLVM_VERSION_MAJOR == 6
-        if (TargetMachine->addPassesToEmitFile(pass, mStrStreamOut, FileType))
-#elif LLVM_VERSION_MAJOR >= 12
-        if (TargetMachine->addPassesToEmitFile(pass, mStrStreamOut, nullptr, FileType))
-#endif
-        {
-            throw "TargetMachine can't emit a file of type CGFT_ObjectFile";
-        }
+//#if LLVM_VERSION_MAJOR == 6
+//        if (TargetMachine->addPassesToEmitFile(pass, mStrStreamOut, FileType))
+//#elif LLVM_VERSION_MAJOR >= 12
+//        if (TargetMachine->addPassesToEmitFile(pass, mStrStreamOut, nullptr, FileType))
+//#endif
+//        {
+//            throw std::logic_error("TargetMachine can't emit a file of type CGFT_ObjectFile");
+//        }
+//
+//        pass.run(*context->getJitNonOwning()->getModuleNonOwning());
 
-        pass.run(*context.getJitNonOwning()->getModuleNonOwning());
+        // todo looks like this part needs pulling out into individual Jit tasks.
 
         //Read from modBufferOut into our execution engine
         std::string moduleStr(modBufferOut.begin(), modBufferOut.end());
@@ -603,12 +630,12 @@ namespace rrllvm {
         std::unique_ptr<llvm::object::ObjectFile> objectFile(std::move(objectFileExpected.get()));
         llvm::object::OwningBinary<llvm::object::ObjectFile> owningObject(std::move(objectFile), std::move(memBuffer));
 
-        context.getJitNonOwning()->addObjectFile(std::move(owningObject));
+        context->getJitNonOwning()->addObjectFile(std::move(owningObject));
 
         //https://stackoverflow.com/questions/28851646/llvm-jit-windows-8-1
-        context.getJitNonOwning()->finalizeObject();
+        context->getJitNonOwning()->finalizeObject();
 
-        context.getJitNonOwning()->mapFunctionsToAddresses(rc, options);
+        context->getJitNonOwning()->mapFunctionsToAddresses(rc, options);
 
 
         // if anything up to this point throws an exception, thats OK, because
@@ -617,11 +644,11 @@ namespace rrllvm {
         // Now that everything that could have thrown would have thrown, we
         // can now create the model and set its fields.
 
-        LLVMModelData *modelData = createModelData(context.getModelDataSymbols(),
-                                                   context.getRandom());
+        LLVMModelData *modelData = createModelData(context->getModelDataSymbols(),
+                                                   context->getRandom());
 
-        uint llvmsize = ModelDataIRBuilder::getModelDataSize(context.getJitNonOwning()->getModuleNonOwning(),
-                                                             context.getJitNonOwning()->getDataLayout());
+        uint llvmsize = ModelDataIRBuilder::getModelDataSize(context->getJitNonOwning()->getModuleNonOwning(),
+                                                             context->getJitNonOwning()->getDataLayout());
 
         if (llvmsize != modelData->size) {
             std::stringstream s;
@@ -637,7 +664,7 @@ namespace rrllvm {
         }
 
         // * MOVE * the bits over from the context to the exe model.
-        context.transferObjectsToResources(rc);
+        context->transferObjectsToResources(rc);
 
         //Save the object so we can saveState quickly later
         rc->moduleStr = moduleStr;

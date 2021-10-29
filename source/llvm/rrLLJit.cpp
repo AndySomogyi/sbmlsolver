@@ -43,37 +43,6 @@ namespace rrllvm {
 
         rrLLJit::mapFunctionsToJitSymbols();
 
-//        auto searchGeneratorE = llvm::orc::EPCDynamicLibrarySearchGenerator::GetForTargetProcess(
-//                llJit->getExecutionSession());
-//        if (!searchGeneratorE){
-//            llvm::logAllUnhandledErrors(
-//                    std::move(DLSG.takeError()),
-//                    llvm::errs(),
-//                    "EPCDynamicLibrarySearchGenerator not built successfully"
-//            );
-//        }
-//        llJit->getMainJITDylib().addGenerator(std::move(*searchGeneratorE));
-
-//        Type *double_type = Type::getDoubleTy(*context);
-//        Type *int_type = Type::getInt32Ty(*context);
-//        Type *args_i1[] = {int_type};
-//        Type *args_d1[] = {double_type};
-//        Type *args_d2[] = {double_type, double_type};
-//
-
-//        llvm::Function *fn = Function::Create(
-//                FunctionType::get(double_type, args_d1, false),
-//                Function::ExternalLinkage, "cot", Jit::getModuleNonOwning()
-//        );
-////        llvm::sys::DynamicLibrary::AddSymbol(fn->getName(), (void*)sbmlsupport::cot);
-//        std::string mangledCot = llJit->mangle("cot");
-//        llJit->getMainJITDylib().define(
-//                llvm::orc::absoluteSymbols(
-//                        {
-//                                {mangledCot, llvm::pointerToJITTargetAddress(&cot)}
-//                        }
-//                )
-//        );
 
     }
 

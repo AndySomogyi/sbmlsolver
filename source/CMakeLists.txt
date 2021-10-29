@@ -246,7 +246,7 @@ if (BUILD_LLVM)
             llvm/SBMLInitialValueSymbolResolver.cpp
             llvm/Random.cpp
             llvm/Jit.cpp
-            llvm/LLJit.cpp
+            llvm/rrLLJit.cpp
             llvm/MCJit.cpp
             )
 

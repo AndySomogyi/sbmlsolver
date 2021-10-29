@@ -78,34 +78,7 @@ static ModelGenerator* createModelGenerator(const std::string& compiler, const s
             return new rrtesting::CXXEnzymeExecutableModel(dict);
         }
 
-        if (opt.modelGeneratorOpt & LoadSBMLOptions::MCJIT){
-            return rrllvm::LLVMModelGenerator::createModel(sbml, opt.modelGeneratorOpt);
-        }
-
-        else if (opt.modelGeneratorOpt & LoadSBMLOptions::LLJIT)
-            return rrllvm::LLVMModelGenerator::createModel(sbml, opt.modelGeneratorOpt);
-
-        else {
-            std::string err = "Unsupported LLVM_COMPILER value. See rr::Config::LLVM_COMPILER_VALUES";
-            rrLogErr << err;
-            throw std::invalid_argument(err);
-        }
-
-//        switch (Config::getValue(Config::LLVM_COMPILER).getAs<int>()) {
-//            case Config::LLVM_COMPILER_VALUES::MCJIT:{
-//                return rrllvm::LLVMModelGenerator::createModel(sbml, opt.modelGeneratorOpt);
-//            }
-//            case Config::LLVM_COMPILER_VALUES::LLJIT:{
-//                return rrllvm::LLVMModelGenerator::createModel(sbml, opt.modelGeneratorOpt);
-//            }
-//            default:
-//                std::string err = "Unsupported LLVM_COMPILER value. See rr::Config::LLVM_COMPILER_VALUES";
-//                rrLogErr << err;
-//                throw std::invalid_argument(err);
-//        }
-
-        // control should never reach here, but to keep some compilers happy
-        return nullptr;
+        return rrllvm::LLVMModelGenerator::createModel(sbml, opt.modelGeneratorOpt);
     }
 
     ExecutableModel *rr::ExecutableModelFactory::createModel(std::istream &in, uint modelGeneratorOpt) {

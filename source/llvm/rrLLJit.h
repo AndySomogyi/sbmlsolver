@@ -5,8 +5,10 @@
 #ifndef ROADRUNNER_RRLLJIT_H
 #define ROADRUNNER_RRLLJIT_H
 
+#define NOMINMAX
 #include "llvm/Jit.h"
 #include "llvm/ExecutionEngine/Orc/LLJIT.h"
+
 
 using namespace rr;
 

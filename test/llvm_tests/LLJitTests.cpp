@@ -55,7 +55,8 @@ TEST_F(LLJitTests, CreateJittedFibonacci) {
 //}
 //
 TEST_F(LLJitTests, t) {
-//    rr::Config::setValue(rr::Config::LLVM_COMPILER, rr::Config::LLVM_COMPILER_VALUES::LLJIT);
+//    rr::Config::setValue(rr::Config::LLVM_COMPILER, rr::Config::LLVM_COMPILER_VALUES::MCJIT);
+    rr::Config::setValue(rr::Config::LLVM_COMPILER, rr::Config::LLVM_COMPILER_VALUES::LLJIT);
 //    LoadSBMLOptions opt;
 //    opt.setLLVMCompiler(LoadSBMLOptions::LLJIT);
 //    opt.setItem()
