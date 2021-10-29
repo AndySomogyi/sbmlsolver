@@ -1082,6 +1082,24 @@ TEST_F(ModelEditingTests, REMOVE_PARAM_RECURSE_2) {
     }));
 }
 
+TEST_F(ModelEditingTests, REMOVE_ELEMENT_ASNT_RULE) {
+    RoadRunner rri((rrTestDir_ / path("models/ModelEditingTests/assignment_rule_species.xml")).string());
+    rri.removeSpecies("S1");
+    vector<string> arids = rri.getAssignmentRuleIds();
+    EXPECT_EQ(arids.size(), 0);
+    const ls::DoubleMatrix* results = rri.simulate();
+    EXPECT_EQ(results->numCols(), 2);
+}
+
+TEST_F(ModelEditingTests, REMOVE_ELEMENT_RATE_RULE) {
+    RoadRunner rri((rrTestDir_ / path("models/ModelEditingTests/assignment_rule_species.xml")).string());
+    rri.removeSpecies("S2");
+    vector<string> rrids = rri.getRateRuleIds();
+    EXPECT_EQ(rrids.size(), 0);
+    const ls::DoubleMatrix* results = rri.simulate();
+    EXPECT_EQ(results->numCols(), 2);
+}
+
 TEST_F(ModelEditingTests, FROM_SCRATCH_1) {
     ASSERT_TRUE(RunTestModelFromScratch([](RoadRunner *rri) {
         rri->addCompartment("compartment", 1);
