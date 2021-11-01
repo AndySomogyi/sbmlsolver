@@ -153,7 +153,7 @@ namespace rrllvm {
         std::unique_ptr<llvm::Module> module;
         llvm::Module *moduleNonOwning = nullptr;
         std::unique_ptr<llvm::IRBuilder<>> builder;
-//        llvm::Triple triple;
+//        llvm::Triple  triple;
 //        llvm::DataLayout DataLayout;
         std::uint32_t options;
 

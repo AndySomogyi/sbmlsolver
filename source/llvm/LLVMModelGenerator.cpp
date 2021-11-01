@@ -598,16 +598,16 @@ namespace rrllvm {
         llvm::legacy::PassManager pass;
         auto FileType = getCodeGenFileType();
 
-//#if LLVM_VERSION_MAJOR == 6
-//        if (TargetMachine->addPassesToEmitFile(pass, mStrStreamOut, FileType))
-//#elif LLVM_VERSION_MAJOR >= 12
-//        if (TargetMachine->addPassesToEmitFile(pass, mStrStreamOut, nullptr, FileType))
-//#endif
-//        {
-//            throw std::logic_error("TargetMachine can't emit a file of type CGFT_ObjectFile");
-//        }
-//
-//        pass.run(*context->getJitNonOwning()->getModuleNonOwning());
+#if LLVM_VERSION_MAJOR == 6
+        if (TargetMachine->addPassesToEmitFile(pass, mStrStreamOut, FileType))
+#elif LLVM_VERSION_MAJOR >= 12
+        if (TargetMachine->addPassesToEmitFile(pass, mStrStreamOut, nullptr, FileType))
+#endif
+        {
+            throw std::logic_error("TargetMachine can't emit a file of type CGFT_ObjectFile");
+        }
+
+        pass.run(*context->getJitNonOwning()->getModuleNonOwning());
 
         // todo looks like this part needs pulling out into individual Jit tasks.
 
