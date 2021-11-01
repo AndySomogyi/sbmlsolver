@@ -64,7 +64,7 @@ TEST_F(LLJitTests, t) {
 //    opt.setItem()
     RoadRunner rr(OpenLinearFlux().str());
     auto data = rr.simulate(0 , 10, 11);
-    std::cout << *data << std::endl;
+//    std::cout << *data << std::endl;
 //
 //
 }

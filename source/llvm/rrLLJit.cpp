@@ -125,6 +125,11 @@ namespace rrllvm {
 
     }
 
+    void rrLLJit::loadJittedFunctions() {
+
+    }
+
+
     llvm::orc::LLJIT *rrLLJit::getLLJitNonOwning() {
         return llJit.get();
     }

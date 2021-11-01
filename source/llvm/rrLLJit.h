@@ -44,6 +44,8 @@ namespace rrllvm {
 
         void optimizeModule() override;
 
+        void loadJittedFunctions() override;
+
         void addModule(llvm::orc::ThreadSafeModule tsm);
 
         llvm::orc::LLJIT* getLLJitNonOwning() ;

@@ -457,12 +457,8 @@ namespace rrllvm {
                             newModel->modelData->initGlobalParametersAlias[index] = initValue;
                             //newModel->setGlobalParameterInitValues(1, &index, &initValue);
                         }
-
-
                     }
-
                 }
-
             }
 
 
@@ -487,15 +483,10 @@ namespace rrllvm {
                             index = std::distance(newSymbols.begin(), it);
                             newModel->modelData->rateRuleValuesAlias[index] = value;
                         }
-
                     }
-
                 }
-
             }
-
             newModel->setTime(oldModel->getTime());
-
         }
 
         return newModel;
@@ -545,21 +536,30 @@ namespace rrllvm {
 
         std::unique_ptr<ModelGeneratorContext> context = createModelGeneratorContext(sbml, options);
 
-        // Do all code generation here. This populates the module
+        // Do all code generation here. This populates the IR module representing
+        // this sbml model.
         codeGeneration(*context, options);
 
-        std::cout << "llvm ir model is: " << std::endl;
-        std::cout << context->getJitNonOwning()->emitToString() << std::endl;
-
-        // optmiize the module and add it to our jit engine
+        // optimize the module and add it to our jit engine
         context->getJitNonOwning()->optimizeModule();
-        //Save the object so we can saveState quickly later
+
+        // Save the string representation so we can saveState quickly later
         rc->moduleStr = context->getJitNonOwning()->getPostOptModuleStream().str().str();
 
+        // actually add the module, which is a member variable
+        // of the Jit to the jit engine.
         context->getJitNonOwning()->addModule();
-        // now we should have jit'd code, load some function address into
-        // function pointers.
+
+        /**
+         * Up until this point we've been creating IR code
+         * and creating the module. Now we need to grab
+         * pointers to the various bits of compiled code.
+         */
+
+        // load some function address into function pointers.
         context->getJitNonOwning()->mapFunctionsToAddresses(rc, options);
+
+
 
 
         // if anything up to this point throws an exception, thats OK, because

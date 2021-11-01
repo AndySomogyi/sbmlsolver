@@ -43,7 +43,7 @@ namespace rrllvm {
                 .setMCJITMemoryManager(std::make_unique<SectionMemoryManager>());
         MCJit::addGlobalMappings();
         MCJit::createCLibraryFunctions();
-         std::cout << emitToString();
+//         std::cout << emitToString();
         MCJit::initFunctionPassManager();
 //        executionEngine->getTargetMachine()->getTargetTriple();
 
@@ -105,7 +105,6 @@ namespace rrllvm {
         }
         //Read from modBufferOut into our execution engine
 //        std::string moduleStr(postOptModuleStream.begin(), postOptModuleStream.end());
-        std::cout << postOptModuleStream->str().str() << std::endl;
 
         auto memBuffer(llvm::MemoryBuffer::getMemBuffer(postOptModuleStream->str().str()));
 
@@ -424,6 +423,9 @@ namespace rrllvm {
             msg += targetLib.getName(funcId);
             throw_llvm_exception(msg);
         }
+    }
+    void MCJit::loadJittedFunctions(){
+
     }
 
     void MCJit::createCLibraryFunctions() {

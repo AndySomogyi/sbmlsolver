@@ -40,15 +40,9 @@ public:
     {
         llvm::Function *func = (llvm::Function*)codeGen();
 
-        /**
-         * todo
-         *  I don't understand what is going on here because the pass manager is
-         *  also used on the whole module. Does the optimization need to be conducted
-         *  on both the module and the individual functions? If not, this is wastefull.
-         *  Comment out for now, as it breaks the JIT interface
-         */
         if(functionPassManager)
         {
+            // todo uncomment this
 //            functionPassManager->run(*func);
         }
 

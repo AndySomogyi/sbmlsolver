@@ -400,6 +400,9 @@ void ModelGeneratorContext::transferObjectsToResources(std::shared_ptr<rrllvm::M
     rc->symbols = symbols;
     symbols = nullptr;
 
+    rc->jit = std::move(jit);
+    jit = nullptr;
+
 //    rc->random = random;
 //    random = nullptr;
 //

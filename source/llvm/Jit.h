@@ -121,6 +121,7 @@ namespace rrllvm {
 
         virtual void optimizeModule() = 0;
 
+        virtual void loadJittedFunctions() = 0;
 
         /**
          * *Moves* objects over to ModelResources ptr
@@ -164,7 +165,7 @@ namespace rrllvm {
 //        llvm::DataLayout DataLayout;
         std::uint32_t options;
         llvm::SmallVector<char, 10> moduleBuffer;
-        std::unique_ptr<llvm::raw_svector_ostream> ;
+        std::unique_ptr<llvm::raw_svector_ostream> postOptModuleStream;
 
     };
 

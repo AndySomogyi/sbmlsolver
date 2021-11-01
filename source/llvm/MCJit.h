@@ -41,6 +41,7 @@ namespace rrllvm {
 
         void optimizeModule() override;
 
+        void loadJittedFunctions() override;
 
         ExecutionEngine* getExecutionEngineNonOwning() const;
 
@@ -84,6 +85,8 @@ namespace rrllvm {
          * llvm-6 and llvm-13).
          */
         void createCLibraryFunctions();
+
+
 
         void initFunctionPassManager();
 
