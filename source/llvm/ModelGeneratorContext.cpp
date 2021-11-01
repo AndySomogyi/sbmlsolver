@@ -163,6 +163,8 @@ ModelGeneratorContext::ModelGeneratorContext(std::string const &sbml, unsigned o
             doc = ownedDoc;
         }
 
+        model = doc->getModel();
+
         symbols = new LLVMModelDataSymbols(doc->getModel(), options);
 
         modelSymbols = std::make_unique<LLVMModelSymbols>(getModel(), *symbols);
@@ -397,6 +399,9 @@ void ModelGeneratorContext::transferObjectsToResources(std::shared_ptr<rrllvm::M
 {
     rc->symbols = symbols;
     symbols = nullptr;
+
+    rc->jit = std::move(jit);
+    jit = nullptr;
 
 //    rc->random = random;
 //    random = nullptr;

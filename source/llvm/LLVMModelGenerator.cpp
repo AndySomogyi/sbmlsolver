@@ -96,21 +96,21 @@ namespace rrllvm {
         dst->evalConversionFactorPtr = src->evalConversionFactorPtr;
     }
 
-/**
- * @brief cross platform mechanism for getting the target machine
- * file type.
- */
-#if LLVM_VERSION_MAJOR == 6
-    llvm::LLVMTargetMachine::CodeGenFileType getCodeGenFileType(){
-        return llvm::TargetMachine::CGFT_ObjectFile;
-    }
-#elif LLVM_VERSION_MAJOR >= 12
-
-    llvm::CodeGenFileType getCodeGenFileType() {
-        return llvm::CGFT_ObjectFile;
-    }
-
-#endif
+///**
+// * @brief cross platform mechanism for getting the target machine
+// * file type.
+// */
+//#if LLVM_VERSION_MAJOR == 6
+//    llvm::LLVMTargetMachine::CodeGenFileType getCodeGenFileType(){
+//        return llvm::TargetMachine::CGFT_ObjectFile;
+//    }
+//#elif LLVM_VERSION_MAJOR >= 12
+//
+//    llvm::CodeGenFileType getCodeGenFileType() {
+//        return llvm::CGFT_ObjectFile;
+//    }
+//
+//#endif
 
     inline void codeGeneration(ModelGeneratorContext &context, std::uint32_t options) {
         //Need to create these functions even though we don't use them directly.
@@ -223,6 +223,28 @@ namespace rrllvm {
 
     }
 
+    inline std::unique_ptr<ModelGeneratorContext> createModelGeneratorContext(const std::string& sbml, std::uint32_t options){
+
+        std::unique_ptr<ModelGeneratorContext> context;
+
+        if (options & LoadSBMLOptions::MCJIT){
+            context = std::move(std::make_unique<ModelGeneratorContext>(sbml, options, std::make_unique<MCJit>(options)));
+        }
+
+#if LLVM_VERSION_MAJOR >= 13
+
+        else if (options & LoadSBMLOptions::LLJIT){
+            context = std::move(std::make_unique<ModelGeneratorContext>(sbml, options, std::make_unique<rrLLJit>(options)));
+        }
+
+#endif // LLVM_VERSION_MAJOR >= 13
+
+        else {
+            rrLogWarn << "Requested compiler not found. Defaulting to MCJit.";
+            context = std::move(std::make_unique<ModelGeneratorContext>(sbml, options, std::make_unique<MCJit>(options)));
+        }
+        return std::move(context);
+    }
 
     ExecutableModel *
     LLVMModelGenerator::regenerateModel(rr::ExecutableModel *oldModel, libsbml::SBMLDocument *doc, uint options) {
@@ -230,64 +252,24 @@ namespace rrllvm {
 
         char *docSBML = doc->toSBML();
 
-        ModelGeneratorContext context(docSBML, options, std::make_unique<MCJit>(options));
+        std::unique_ptr<ModelGeneratorContext> context = createModelGeneratorContext(reinterpret_cast<const char*>(docSBML), options);
 
         free(docSBML);
 
         // code generation part
-        codeGeneration(context, options);
+        codeGeneration(*context, options);
 
-        //Currently we save jitted functions in object file format
-        //in save state. Compiling the functions into this format in the first place
-        //makes saveState significantly faster than creating the object file when it is called
-        //We then load the object file into the jit engine to avoid compiling the functions twice
-        llvm::TargetMachine *TargetMachine = context.getJitNonOwning()->getTargetMachine();
 
-        llvm::InitializeNativeTarget();
+        // optmiize the module and add it to our jit engine
+        context->getJitNonOwning()->optimizeModule();
+        //Save the object so we can saveState quickly later
+        rc->moduleStr = context->getJitNonOwning()->getPostOptModuleStream().str().str();
 
-        //Write the object file to modBufferOut
-        std::error_code EC;
-        llvm::SmallVector<char, 10> modBufferOut;
-        llvm::raw_svector_ostream mStrStreamOut(modBufferOut);
+        context->getJitNonOwning()->addModule();
+        // now we should have jit'd code, load some function address into
+        // function pointers.
+        context->getJitNonOwning()->mapFunctionsToAddresses(rc, options);
 
-        llvm::legacy::PassManager pass;
-        auto FileType = getCodeGenFileType();
-
-#if LLVM_VERSION_MAJOR == 6
-        if (TargetMachine->addPassesToEmitFile(pass, mStrStreamOut, FileType))
-#elif LLVM_VERSION_MAJOR >= 12
-        if (TargetMachine->addPassesToEmitFile(pass, mStrStreamOut, nullptr, FileType))
-#endif
-        {
-            throw "TargetMachine can't emit a file of type CGFT_ObjectFile";
-        }
-        pass.run(*context.getJitNonOwning()->getModuleNonOwning());
-
-        //Read from modBufferOut into our execution engine
-        std::string moduleStr(modBufferOut.begin(), modBufferOut.end());
-
-        auto memBuffer(llvm::MemoryBuffer::getMemBuffer(moduleStr));
-
-        llvm::Expected<std::unique_ptr<llvm::object::ObjectFile> > objectFileExpected =
-                llvm::object::ObjectFile::createObjectFile(llvm::MemoryBufferRef(moduleStr, "id"));
-
-        if (!objectFileExpected) {
-            //LS DEBUG:  find a way to get the text out of the error.
-            auto err = objectFileExpected.takeError();
-            std::string s = "LLVM object supposed to be file, but is not.";
-            rrLog(Logger::LOG_FATAL) << s;
-            throw_llvm_exception(s);
-        }
-
-        std::unique_ptr<llvm::object::ObjectFile> objectFile(std::move(objectFileExpected.get()));
-
-        llvm::object::OwningBinary<llvm::object::ObjectFile> owningObject(std::move(objectFile), std::move(memBuffer));
-
-        context.getJitNonOwning()->addObjectFile(std::move(owningObject));
-        //https://stackoverflow.com/questions/28851646/llvm-jit-windows-8-1
-        context.getJitNonOwning()->finalizeObject();
-
-        context.getJitNonOwning()->mapFunctionsToAddresses(rc, options);
 
         // if anything up to this point throws an exception, thats OK, because
         // we have not allocated any memory yet that is not taken care of by
@@ -295,12 +277,12 @@ namespace rrllvm {
         // Now that everything that could have thrown would have thrown, we
         // can now create the model and set its fields.
 
-        LLVMModelData *modelData = createModelData(context.getModelDataSymbols(),
-                                                   context.getRandom());
+        LLVMModelData *modelData = createModelData(context->getModelDataSymbols(),
+                                                   context->getRandom());
 
         uint llvmsize = ModelDataIRBuilder::getModelDataSize(
-                context.getJitNonOwning()->getModuleNonOwning(),
-                context.getJitNonOwning()->getDataLayout()
+                context->getJitNonOwning()->getModuleNonOwning(),
+                context->getJitNonOwning()->getDataLayout()
         );
 
         if (llvmsize != modelData->size) {
@@ -317,8 +299,8 @@ namespace rrllvm {
         }
 
         // * MOVE * the bits over from the context to the exe model.
-        context.transferObjectsToResources(rc);
-        rc->moduleStr = moduleStr;
+        context->transferObjectsToResources(rc);
+//        rc->moduleStr = moduleStr;
 
         LLVMExecutableModel *newModel = new LLVMExecutableModel(rc, modelData);
 
@@ -475,12 +457,8 @@ namespace rrllvm {
                             newModel->modelData->initGlobalParametersAlias[index] = initValue;
                             //newModel->setGlobalParameterInitValues(1, &index, &initValue);
                         }
-
-
                     }
-
                 }
-
             }
 
 
@@ -505,15 +483,10 @@ namespace rrllvm {
                             index = std::distance(newSymbols.begin(), it);
                             newModel->modelData->rateRuleValuesAlias[index] = value;
                         }
-
                     }
-
                 }
-
             }
-
             newModel->setTime(oldModel->getTime());
-
         }
 
         return newModel;
@@ -561,78 +534,32 @@ namespace rrllvm {
 
         SharedModelResourcesPtr rc = std::make_shared<ModelResources>();
 
-        std::unique_ptr<ModelGeneratorContext> context;
+        std::unique_ptr<ModelGeneratorContext> context = createModelGeneratorContext(sbml, options);
 
-        if (options & LoadSBMLOptions::MCJIT){
-            context = std::move(std::make_unique<ModelGeneratorContext>(sbml, options, std::make_unique<MCJit>(options)));
-        }
-
-#if LLVM_VERSION_MAJOR >= 13
-
-        else if (options & LoadSBMLOptions::LLJIT){
-            context = std::move(std::make_unique<ModelGeneratorContext>(sbml, options, std::make_unique<rrLLJit>(options)));
-        }
-
-#endif // LLVM_VERSION_MAJOR >= 13
-
-        else {
-            rrLogWarn << "Requested compiler not found. Defaulting to MCJit.";
-            context = std::move(std::make_unique<ModelGeneratorContext>(sbml, options, std::make_unique<MCJit>(options)));
-        }
-
+        // Do all code generation here. This populates the IR module representing
+        // this sbml model.
         codeGeneration(*context, options);
 
-        //Currently we save jitted functions in object file format
-        //in save state. Compiling the functions into this format in the first place
-        //makes saveState significantly faster than creating the object file when it is called
-        //We then load the object file into the jit engine to avoid compiling the functions twice
-        auto TargetMachine = context->getJitNonOwning()->getTargetMachine();
+        // optimize the module and add it to our jit engine
+        context->getJitNonOwning()->optimizeModule();
 
-        llvm::InitializeNativeTarget(); // todo may have already been called in RoadRunner constructor
+        // Save the string representation so we can saveState quickly later
+        rc->moduleStr = context->getJitNonOwning()->getPostOptModuleStream().str().str();
 
-        //Write the object file to modBufferOut
-        std::error_code EC;
+        // actually add the module, which is a member variable
+        // of the Jit to the jit engine.
+        context->getJitNonOwning()->addModule();
 
-        llvm::legacy::PassManager pass;
-        auto FileType = getCodeGenFileType();
+        /**
+         * Up until this point we've been creating IR code
+         * and creating the module. Now we need to grab
+         * pointers to the various bits of compiled code.
+         */
 
-#if LLVM_VERSION_MAJOR == 6
-        if (TargetMachine->addPassesToEmitFile(pass, mStrStreamOut, FileType))
-#elif LLVM_VERSION_MAJOR >= 12
-        if (TargetMachine->addPassesToEmitFile(pass, *context->getJitNonOwning()->mStrStreamOut, nullptr, FileType))
-#endif
-        {
-            throw std::logic_error("TargetMachine can't emit a file of type CGFT_ObjectFile");
-        }
-
-        pass.run(*context->getJitNonOwning()->getModuleNonOwning());
-
-        // todo looks like this part needs pulling out into individual Jit tasks.
-
-        //Read from modBufferOut into our execution engine
-        std::string moduleStr = context->getJitNonOwning()->emitToString();
-        auto memBuffer(llvm::MemoryBuffer::getMemBuffer(moduleStr));
-
-        llvm::Expected<std::unique_ptr<llvm::object::ObjectFile> > objectFileExpected =
-                llvm::object::ObjectFile::createObjectFile(llvm::MemoryBufferRef(moduleStr, "id"));
-
-        if (!objectFileExpected) {
-            //LS DEBUG:  find a way to get the text out of the error.
-            auto err = objectFileExpected.takeError();
-            std::string s = "LLVM object supposed to be file, but is not.";
-            rrLog(Logger::LOG_FATAL) << s;
-            throw_llvm_exception(s);
-        }
-
-        std::unique_ptr<llvm::object::ObjectFile> objectFile(std::move(objectFileExpected.get()));
-        llvm::object::OwningBinary<llvm::object::ObjectFile> owningObject(std::move(objectFile), std::move(memBuffer));
-
-        context->getJitNonOwning()->addObjectFile(std::move(owningObject));
-
-        //https://stackoverflow.com/questions/28851646/llvm-jit-windows-8-1
-        context->getJitNonOwning()->finalizeObject();
-
+        // load some function address into function pointers.
         context->getJitNonOwning()->mapFunctionsToAddresses(rc, options);
+
+
 
 
         // if anything up to this point throws an exception, thats OK, because
@@ -662,9 +589,6 @@ namespace rrllvm {
 
         // * MOVE * the bits over from the context to the exe model.
         context->transferObjectsToResources(rc);
-
-        //Save the object so we can saveState quickly later
-        rc->moduleStr = moduleStr;
 
         if (!forceReCompile) {
             // check for a chached copy, another thread could have

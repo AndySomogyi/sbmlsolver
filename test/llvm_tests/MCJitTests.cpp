@@ -101,6 +101,8 @@ TEST_F(JitTests, CreateJittedFibonacci) {
     LoadSBMLOptions opt;
     MCJit mcJit(opt.modelGeneratorOpt);
     CreateFibFunction(mcJit.getModuleNonOwning());
+    mcJit.optimizeModule();
+    mcJit.addModule();
 //    std::cout << mcJit.emitToString();
     fibonacciFnPtr fibPtr = (int (*)(int)) mcJit.getFunctionAddress("fib");
     ASSERT_EQ(fibPtr(4), 3);

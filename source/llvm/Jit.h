@@ -85,7 +85,7 @@ namespace rrllvm {
     class Jit {
     public:
 
-        Jit(std::uint32_t options);
+        explicit Jit(std::uint32_t options);
 
         /**
          * @brief adds functions that are declared and defined by libsbml
@@ -97,6 +97,8 @@ namespace rrllvm {
          * @seealso Jit::
          */
         virtual void mapFunctionsToJitSymbols() = 0;
+
+        virtual ~Jit() = default;
 
         virtual std::uint64_t getFunctionAddress(const std::string &name) = 0;
 
@@ -115,6 +117,11 @@ namespace rrllvm {
 
         virtual void addModule(llvm::Module *M) = 0;
 
+        virtual void addModule() = 0;
+
+        virtual void optimizeModule() = 0;
+
+        virtual void loadJittedFunctions() = 0;
 
         /**
          * *Moves* objects over to ModelResources ptr
@@ -146,19 +153,19 @@ namespace rrllvm {
 //
 //        virtual void setDataLayout(llvm::DataLayout dataLayout);
 
+        llvm::raw_svector_ostream& getPostOptModuleStream();
 
-        std::unique_ptr<llvm::raw_svector_ostream> mStrStreamOut;
     protected:
 
         std::unique_ptr<llvm::LLVMContext> context;
         std::unique_ptr<llvm::Module> module;
         llvm::Module *moduleNonOwning = nullptr;
         std::unique_ptr<llvm::IRBuilder<>> builder;
-//        llvm::Triple      triple;
+//        llvm::Triple triple;
 //        llvm::DataLayout DataLayout;
         std::uint32_t options;
-        llvm::SmallVector<char, 10> modBufferOut;
-
+        llvm::SmallVector<char, 10> moduleBuffer;
+        std::unique_ptr<llvm::raw_svector_ostream> postOptModuleStream;
 
     };
 

@@ -109,9 +109,26 @@ namespace rrllvm {
         return llJit->getDataLayout();
     }
 
-    void rrLLJit::addModule(llvm::Module *M) {
+    void rrLLJit::addModule(llvm::orc::ThreadSafeModule tsm) {
+        llJit->addIRModule(std::move(tsm));
+    }
+
+    void rrLLJit::addModule(llvm::Module* m) {
+//        llJit->addIRModule(m);
+    }
+
+    void rrLLJit::addModule() {
 
     }
+
+    void rrLLJit::optimizeModule() {
+
+    }
+
+    void rrLLJit::loadJittedFunctions() {
+
+    }
+
 
     llvm::orc::LLJIT *rrLLJit::getLLJitNonOwning() {
         return llJit.get();

@@ -14,8 +14,15 @@ using namespace rr;
 
 namespace rrllvm {
 
+    /**
+     * @brief Thin layer around the llvm::orc::LLJit.
+     *
+     * @details The interface for LLJit is used as a framework
+     */
     class rrLLJit : public Jit{
     public:
+
+        rrLLJit() = default;
 
         explicit rrLLJit(std::uint32_t options);
 
@@ -32,6 +39,14 @@ namespace rrllvm {
         const llvm::DataLayout &getDataLayout() override;
 
         void addModule(llvm::Module *M) override;
+
+        void addModule() override;
+
+        void optimizeModule() override;
+
+        void loadJittedFunctions() override;
+
+        void addModule(llvm::orc::ThreadSafeModule tsm);
 
         llvm::orc::LLJIT* getLLJitNonOwning() ;
 
