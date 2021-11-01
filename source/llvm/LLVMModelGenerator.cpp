@@ -592,8 +592,6 @@ namespace rrllvm {
 
         //Write the object file to modBufferOut
         std::error_code EC;
-        llvm::SmallVector<char, 10> modBufferOut;
-        llvm::raw_svector_ostream mStrStreamOut(modBufferOut);
 
         llvm::legacy::PassManager pass;
         auto FileType = getCodeGenFileType();
@@ -601,7 +599,7 @@ namespace rrllvm {
 #if LLVM_VERSION_MAJOR == 6
         if (TargetMachine->addPassesToEmitFile(pass, mStrStreamOut, FileType))
 #elif LLVM_VERSION_MAJOR >= 12
-        if (TargetMachine->addPassesToEmitFile(pass, mStrStreamOut, nullptr, FileType))
+        if (TargetMachine->addPassesToEmitFile(pass, *context->getJitNonOwning()->mStrStreamOut, nullptr, FileType))
 #endif
         {
             throw std::logic_error("TargetMachine can't emit a file of type CGFT_ObjectFile");
@@ -612,8 +610,7 @@ namespace rrllvm {
         // todo looks like this part needs pulling out into individual Jit tasks.
 
         //Read from modBufferOut into our execution engine
-        std::string moduleStr(modBufferOut.begin(), modBufferOut.end());
-
+        std::string moduleStr = context->getJitNonOwning()->emitToString();
         auto memBuffer(llvm::MemoryBuffer::getMemBuffer(moduleStr));
 
         llvm::Expected<std::unique_ptr<llvm::object::ObjectFile> > objectFileExpected =

@@ -37,6 +37,8 @@ namespace rrllvm {
             rrLogErr << err;
             throw_llvm_exception(err)
         }
+
+        mStrStreamOut = std::make_unique<llvm::raw_svector_ostream>(modBufferOut);
     }
 
     llvm::Module *Jit::getModuleNonOwning() {
