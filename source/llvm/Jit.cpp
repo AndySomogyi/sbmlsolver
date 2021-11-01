@@ -18,6 +18,9 @@ namespace rrllvm {
               module(std::make_unique<llvm::Module>("LLVM Module", *context)),
               moduleNonOwning(module.get()), /*Maintain a weak ref so we don't lose our handle to the module*/
               builder(std::make_unique<llvm::IRBuilder<>>(*context)) {
+
+        postOptModuleStream = std::make_unique<llvm::raw_svector_ostream>(moduleBuffer);
+
         // IR module is initialized with just a ModuleID and a source filename
         llvm::InitializeNativeTarget();
         llvm::InitializeNativeTargetAsmPrinter();
@@ -194,6 +197,10 @@ namespace rrllvm {
         os << *getModuleNonOwning();
         os.flush();
         return str;
+    }
+
+    llvm::raw_svector_ostream& Jit::getPostOptModuleStream() {
+        return *postOptModuleStream;
     }
 
 

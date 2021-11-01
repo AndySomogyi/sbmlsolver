@@ -37,6 +37,9 @@ namespace rrllvm {
         const llvm::DataLayout& getDataLayout() override;
 
         void addModule(llvm::Module* M) override;
+        void addModule() override;
+
+        void optimizeModule() override;
 
 
         ExecutionEngine* getExecutionEngineNonOwning() const;
@@ -46,6 +49,8 @@ namespace rrllvm {
 //        void setDataLayout(llvm::DataLayout dataLayout) override;
 
         llvm::legacy::FunctionPassManager *getFunctionPassManager() const ;
+
+
 
     private:
         Function *createGlobalMappingFunction(const char *funcName, llvm::FunctionType *funcType, Module *module);

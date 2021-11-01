@@ -16,10 +16,27 @@ using namespace rr;
 
 namespace rrllvm {
 
+    /**
+     * @brief cross platform mechanism for getting the target machine
+     * file type.
+     */
+#if LLVM_VERSION_MAJOR == 6
+    llvm::LLVMTargetMachine::CodeGenFileType getCodeGenFileType(){
+        return llvm::TargetMachine::CGFT_ObjectFile;
+    }
+#elif LLVM_VERSION_MAJOR >= 12
+
+    llvm::CodeGenFileType getCodeGenFileType() {
+        return llvm::CGFT_ObjectFile;
+    }
+
+#endif
+
+
     MCJit::MCJit(std::uint32_t opt)
             : Jit(opt),
               engineBuilder(EngineBuilder(std::move(module))),
-              executionEngine(std::unique_ptr<ExecutionEngine>(engineBuilder.create())) {
+              executionEngine(std::unique_ptr<ExecutionEngine>(engineBuilder.create())){
 
         engineBuilder
                 .setErrorStr(errString.get())
@@ -29,6 +46,8 @@ namespace rrllvm {
          std::cout << emitToString();
         MCJit::initFunctionPassManager();
 //        executionEngine->getTargetMachine()->getTargetTriple();
+
+
     }
 
 
@@ -76,6 +95,72 @@ namespace rrllvm {
     void MCJit::addModule(llvm::Module *M) {
 
     }
+
+    void MCJit::addModule() {
+        if (postOptModuleStream->str().empty()){
+            std::string err = "Attempt to add module before its been optimized. Make a call to "
+                              "MCJit::optimizeModule() before addModule()";
+            rrLogErr << err;
+            throw_llvm_exception(err);
+        }
+        //Read from modBufferOut into our execution engine
+//        std::string moduleStr(postOptModuleStream.begin(), postOptModuleStream.end());
+        std::cout << postOptModuleStream->str().str() << std::endl;
+
+        auto memBuffer(llvm::MemoryBuffer::getMemBuffer(postOptModuleStream->str().str()));
+
+        llvm::Expected<std::unique_ptr<llvm::object::ObjectFile> > objectFileExpected =
+                llvm::object::ObjectFile::createObjectFile(llvm::MemoryBufferRef(postOptModuleStream->str(), "id"));
+
+        if (!objectFileExpected) {
+            //LS DEBUG:  find a way to get the text out of the error.
+            auto err = objectFileExpected.takeError();
+            std::string s = "LLVM object supposed to be file, but is not.";
+            rrLog(Logger::LOG_FATAL) << s;
+            throw_llvm_exception(s);
+        }
+
+        std::unique_ptr<llvm::object::ObjectFile> objectFile(std::move(objectFileExpected.get()));
+        llvm::object::OwningBinary<llvm::object::ObjectFile> owningObject(std::move(objectFile), std::move(memBuffer));
+
+        addObjectFile(std::move(owningObject));
+
+        //https://stackoverflow.com/questions/28851646/llvm-jit-windows-8-1
+        finalizeObject();
+
+    }
+
+    void MCJit::optimizeModule(){
+        //Currently we save jitted functions in object file format
+        //in save state. Compiling the functions into this format in the first place
+        //makes saveState significantly faster than creating the object file when it is called
+        //We then load the object file into the jit engine to avoid compiling the functions twice
+
+        auto TargetMachine = getTargetMachine();
+
+        llvm::InitializeNativeTarget(); // todo may have already been called in RoadRunner constructor
+
+        //Write the object file to modBufferOut
+        std::error_code EC;
+//        llvm::SmallVector<char, 10> modBufferOut;
+//        postOptimizedModuleStream(modBufferOut);
+
+        llvm::legacy::PassManager pass;
+        auto FileType = getCodeGenFileType();
+
+#if LLVM_VERSION_MAJOR == 6
+        if (TargetMachine->addPassesToEmitFile(pass, *postOptModuleStream, FileType))
+#elif LLVM_VERSION_MAJOR >= 12
+        if (TargetMachine->addPassesToEmitFile(pass, *postOptModuleStream, nullptr, FileType))
+#endif
+        {
+            throw std::logic_error("TargetMachine can't emit a file of type CGFT_ObjectFile");
+        }
+
+        pass.run(*getModuleNonOwning());
+
+    }
+
 
     Function *MCJit::createGlobalMappingFunction(const char *funcName, llvm::FunctionType *funcType, Module *module) {
         // This was InternalLinkage, but it needs to be external for JIT'd code to see it
@@ -313,7 +398,6 @@ namespace rrllvm {
                 rrLog(Logger::LOG_INFORMATION) << "using OPTIMIZE_DEAD_CODE_ELIMINATION";
                 functionPassManager->add(createDeadCodeEliminationPass());
             }
-
 
             functionPassManager->doInitialization();
         }

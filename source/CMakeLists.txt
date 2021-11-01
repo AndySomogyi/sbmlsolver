@@ -248,6 +248,7 @@ if (BUILD_LLVM)
             llvm/Jit.cpp
             llvm/rrLLJit.cpp
             llvm/MCJit.cpp
+            llvm/OrcJit.cpp
             )
 
     set(rrLLVMHeaders
@@ -288,6 +289,7 @@ if (BUILD_LLVM)
             llvm/Jit.h
             llvm/rrLLJit.h
             llvm/MCJit.h
+            llvm/OrcJit.h
             )
     install(FILES ${rrLLVMHeaders} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/rr/llvm)
 

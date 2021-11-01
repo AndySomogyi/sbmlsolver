@@ -163,6 +163,8 @@ ModelGeneratorContext::ModelGeneratorContext(std::string const &sbml, unsigned o
             doc = ownedDoc;
         }
 
+        model = doc->getModel();
+
         symbols = new LLVMModelDataSymbols(doc->getModel(), options);
 
         modelSymbols = std::make_unique<LLVMModelSymbols>(getModel(), *symbols);
