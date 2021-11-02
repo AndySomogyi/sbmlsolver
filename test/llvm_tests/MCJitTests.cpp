@@ -104,7 +104,7 @@ TEST_F(JitTests, CreateJittedFibonacci) {
     mcJit.optimizeModule();
     mcJit.addModule();
 //    std::cout << mcJit.emitToString();
-    fibonacciFnPtr fibPtr = (int (*)(int)) mcJit.getFunctionAddress("fib");
+    fibonacciFnPtr fibPtr = (int (*)(int)) mcJit.lookupFunctionAddress("fib");
     ASSERT_EQ(fibPtr(4), 3);
 }
 

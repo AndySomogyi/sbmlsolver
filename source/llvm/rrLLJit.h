@@ -31,7 +31,7 @@ namespace rrllvm {
         void mapDistribFunctionsToJitSymbols() override;
 
 
-        std::uint64_t getFunctionAddress(const std::string &name) override;
+        std::uint64_t lookupFunctionAddress(const std::string &name) override;
 
         llvm::TargetMachine *getTargetMachine() override;
 

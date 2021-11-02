@@ -48,7 +48,7 @@ TEST_F(LLJitTests, CreateJittedFibonacci) {
     CreateFibFunction(llJit.getModuleNonOwning());
     std::cout << llJit.emitToString();
     llJit.addIRModule();
-    fibonacciFnPtr fibPtr = (int (*)(int)) llJit.getFunctionAddress("fib");
+    fibonacciFnPtr fibPtr = (int (*)(int)) llJit.lookupFunctionAddress("fib");
     ASSERT_EQ(fibPtr(4), 3);
 }
 //
@@ -57,14 +57,14 @@ TEST_F(LLJitTests, CreateJittedFibonacci) {
 //}
 //
 TEST_F(LLJitTests, t) {
-    rr::Config::setValue(rr::Config::LLVM_COMPILER, rr::Config::LLVM_COMPILER_VALUES::MCJIT);
-//    rr::Config::setValue(rr::Config::LLVM_COMPILER, rr::Config::LLVM_COMPILER_VALUES::LLJIT);
+//    rr::Config::setValue(rr::Config::LLVM_COMPILER, rr::Config::LLVM_COMPILER_VALUES::MCJIT);
+    rr::Config::setValue(rr::Config::LLVM_COMPILER, rr::Config::LLVM_COMPILER_VALUES::LLJIT);
 //    LoadSBMLOptions opt;
 //    opt.setLLVMCompiler(LoadSBMLOptions::LLJIT);
 //    opt.setItem()
     RoadRunner rr(OpenLinearFlux().str());
     auto data = rr.simulate(0 , 10, 11);
-//    std::cout << *data << std::endl;
+    std::cout << *data << std::endl;
 //
 //
 }

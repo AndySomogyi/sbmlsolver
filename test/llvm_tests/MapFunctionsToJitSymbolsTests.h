@@ -35,7 +35,7 @@ public:
 
     template<typename FnType, typename ReturnValueType, typename... InputValueType>
     void checkFunctionCalled(Jit *jit, const std::string &name, ReturnValueType expected, InputValueType... fnArgs) {
-        FnType fnPtr = (FnType) jit->getFunctionAddress(name);
+        FnType fnPtr = (FnType) jit->lookupFunctionAddress(name);
         ReturnValueType actual = fnPtr(fnArgs...);
         ASSERT_NEAR(expected, actual, 1e-5);
     }
@@ -43,7 +43,7 @@ public:
     void CheckLibFuncPow() {
         double expected = 16;
         std::string funcName = "pow";
-        powFnTy fnPtr = (powFnTy) jit->getFunctionAddress(funcName);
+        powFnTy fnPtr = (powFnTy) jit->lookupFunctionAddress(funcName);
         ASSERT_EQ(expected, fnPtr(2, 4));
     }
 
@@ -51,7 +51,7 @@ public:
     void CheckLibFuncFabs() {
         double expected = 5.3;
         std::string funcName = "fabs";
-        fabsFnTy fnPtr = (fabsFnTy) jit->getFunctionAddress(funcName);
+        fabsFnTy fnPtr = (fabsFnTy) jit->lookupFunctionAddress(funcName);
         ASSERT_EQ(expected, fnPtr(-5.3));
     }
 
@@ -59,7 +59,7 @@ public:
         // Inverse of cos(-0.50) = 2.09 in radians
         double expected = 2.0943951;
         std::string funcName = "acos";
-        acosFnTy fnPtr = (acosFnTy) jit->getFunctionAddress(funcName);
+        acosFnTy fnPtr = (acosFnTy) jit->lookupFunctionAddress(funcName);
         ASSERT_NEAR(expected, fnPtr(-0.5), 1e-3);
     }
 
@@ -67,112 +67,112 @@ public:
         // Inverse of sin(-0.50) = -0.52 in radians
         double expected = -0.523598776;
         std::string funcName = "asin";
-        asinFnTy fnPtr = (asinFnTy) jit->getFunctionAddress(funcName);
+        asinFnTy fnPtr = (asinFnTy) jit->lookupFunctionAddress(funcName);
         ASSERT_NEAR(expected, fnPtr(-0.5), 1e-7);
     }
 
     void CheckLibFuncAtan() {
         double expected = -0.463647609;
         std::string funcName = "atan";
-        atanFnTy fnPtr = (atanFnTy) jit->getFunctionAddress(funcName);
+        atanFnTy fnPtr = (atanFnTy) jit->lookupFunctionAddress(funcName);
         ASSERT_NEAR(expected, fnPtr(-0.5), 1e-7);
     }
 
     void CheckLibFuncCeil() {
         double expected = 7;
         std::string funcName = "ceil";
-        ceilFnTy fnPtr = (ceilFnTy) jit->getFunctionAddress(funcName);
+        ceilFnTy fnPtr = (ceilFnTy) jit->lookupFunctionAddress(funcName);
         ASSERT_EQ(expected, fnPtr(6.3));
     }
 
     void CheckLibFuncCos() {
         double expected = 0.87758256189;
         std::string funcName = "cos";
-        cosFnTy fnPtr = (cosFnTy) jit->getFunctionAddress(funcName);
+        cosFnTy fnPtr = (cosFnTy) jit->lookupFunctionAddress(funcName);
         ASSERT_NEAR(expected, fnPtr(-0.5), 1e-7);
     }
 
     void CheckLibFuncCosh() {
         double expected = 1.1276259652;
         std::string funcName = "cosh";
-        coshFnTy fnPtr = (coshFnTy) jit->getFunctionAddress(funcName);
+        coshFnTy fnPtr = (coshFnTy) jit->lookupFunctionAddress(funcName);
         ASSERT_NEAR(expected, fnPtr(-0.5), 1e-7);
     }
 
     void CheckLibFuncExp() {
         double expected = 0.60653065971;
         std::string funcName = "exp";
-        expFnTy fnPtr = (expFnTy) jit->getFunctionAddress(funcName);
+        expFnTy fnPtr = (expFnTy) jit->lookupFunctionAddress(funcName);
         ASSERT_NEAR(expected, fnPtr(-0.5), 1e-7);
     }
 
     void CheckLibFuncFloor() {
         double expected = 3;
         std::string funcName = "floor";
-        floorFnTy fnPtr = (floorFnTy) jit->getFunctionAddress(funcName);
+        floorFnTy fnPtr = (floorFnTy) jit->lookupFunctionAddress(funcName);
         ASSERT_EQ(expected, fnPtr(3.7));
     }
 
     void CheckLibFuncLog() {
         double expected = 3.4657;
         std::string funcName = "log";
-        logFnTy fnPtr = (logFnTy) jit->getFunctionAddress(funcName);
+        logFnTy fnPtr = (logFnTy) jit->lookupFunctionAddress(funcName);
         ASSERT_NEAR(expected, fnPtr(32), 1e-3);
     }
 
     void CheckLibFuncLog10() {
         double expected = 2;
         std::string funcName = "log10";
-        log10FnTy fnPtr = (log10FnTy) jit->getFunctionAddress(funcName);
+        log10FnTy fnPtr = (log10FnTy) jit->lookupFunctionAddress(funcName);
         ASSERT_NEAR(expected, fnPtr(100), 1e-7);
     }
 
     void CheckLibFuncSin() {
         double expected = -0.4794255386;
         std::string funcName = "sin";
-        sinFnTy fnPtr = (sinFnTy) jit->getFunctionAddress(funcName);
+        sinFnTy fnPtr = (sinFnTy) jit->lookupFunctionAddress(funcName);
         ASSERT_NEAR(expected, fnPtr(-0.5), 1e-7);
     }
 
     void CheckLibFuncSinh() {
         double expected = -0.52109530549;
         std::string funcName = "sinh";
-        sinhFnTy fnPtr = (sinhFnTy) jit->getFunctionAddress(funcName);
+        sinhFnTy fnPtr = (sinhFnTy) jit->lookupFunctionAddress(funcName);
         ASSERT_NEAR(expected, fnPtr(-0.5), 1e-7);
     }
 
     void CheckLibFuncTan() {
         double expected = -0.54630248984;
         std::string funcName = "tan";
-        tanFnTy fnPtr = (tanFnTy) jit->getFunctionAddress(funcName);
+        tanFnTy fnPtr = (tanFnTy) jit->lookupFunctionAddress(funcName);
         ASSERT_NEAR(expected, fnPtr(-0.5), 1e-7);
     }
 
     void CheckLibFuncTanh() {
         double expected = -0.46211715726;
         std::string funcName = "tanh";
-        tanhFnTy fnPtr = (tanhFnTy) jit->getFunctionAddress(funcName);
+        tanhFnTy fnPtr = (tanhFnTy) jit->lookupFunctionAddress(funcName);
         ASSERT_NEAR(expected, fnPtr(-0.5), 1e-7);
     }
 
     void CheckLibFuncFmod() {
         double expected = 1;
         std::string funcName = "fmod";
-        fmodFnTy fnPtr = (fmodFnTy) jit->getFunctionAddress(funcName);
+        fmodFnTy fnPtr = (fmodFnTy) jit->lookupFunctionAddress(funcName);
         ASSERT_EQ(expected, fnPtr(5, 2));
     }
 
     void CheckGlobalMapping_arccotFnTy() {
         double expected = -1.1071487177940904;
         std::string funcName = "arccot";
-        arccotFnTy fnPtr = (arccotFnTy) jit->getFunctionAddress(funcName);
+        arccotFnTy fnPtr = (arccotFnTy) jit->lookupFunctionAddress(funcName);
         ASSERT_NEAR(expected, fnPtr(-0.5), 1e-5);
     }
 
     void CheckGlobalMapping_rr_arccot_negzeroFnTy() {
         double expected = -1.1071487177940904;
         std::string funcName = "rr_arccot_negzero";
-        rr_arccot_negzeroFnTy fnPtr = (rr_arccot_negzeroFnTy) jit->getFunctionAddress(
+        rr_arccot_negzeroFnTy fnPtr = (rr_arccot_negzeroFnTy) jit->lookupFunctionAddress(
                 funcName);
         ASSERT_NEAR(expected, fnPtr(-0.5), 1e-5);
     }
@@ -180,70 +180,70 @@ public:
     void CheckGlobalMapping_arccothFnTy() {
         double expected = 0.423649;
         std::string funcName = "arccoth";
-        arccothFnTy fnPtr = (arccothFnTy) jit->getFunctionAddress(funcName);
+        arccothFnTy fnPtr = (arccothFnTy) jit->lookupFunctionAddress(funcName);
         ASSERT_NEAR(expected, fnPtr(2.5), 1e-5);
     }
 
     void CheckGlobalMapping_arccscFnTy() {
         double expected = 0.41151684606748806;
         std::string funcName = "arccsc";
-        arccscFnTy fnPtr = (arccscFnTy) jit->getFunctionAddress(funcName);
+        arccscFnTy fnPtr = (arccscFnTy) jit->lookupFunctionAddress(funcName);
         ASSERT_NEAR(expected, fnPtr(2.5), 1e-5);
     }
 
     void CheckGlobalMapping_arccschFnTy() {
         double expected = -1.4436354751788099;
         std::string funcName = "arccsch";
-        arccschFnTy fnPtr = (arccschFnTy) jit->getFunctionAddress(funcName);
+        arccschFnTy fnPtr = (arccschFnTy) jit->lookupFunctionAddress(funcName);
         ASSERT_NEAR(expected, fnPtr(-0.5), 1e-5);
     }
 
     void CheckGlobalMapping_arcsecFnTy() {
         double expected = 1.1592794807274085;
         std::string funcName = "arcsec";
-        arcsecFnTy fnPtr = (arcsecFnTy) jit->getFunctionAddress(funcName);
+        arcsecFnTy fnPtr = (arcsecFnTy) jit->lookupFunctionAddress(funcName);
         ASSERT_NEAR(expected, fnPtr(2.5), 1e-5);
     }
 
     void CheckGlobalMapping_arcsechFnTy() {
         double expected = 1.31696;
         std::string funcName = "arcsech";
-        arcsechFnTy fnPtr = (arcsechFnTy) jit->getFunctionAddress(funcName);
+        arcsechFnTy fnPtr = (arcsechFnTy) jit->lookupFunctionAddress(funcName);
         ASSERT_NEAR(expected, fnPtr(0.5), 1e-5);
     }
 
     void CheckGlobalMapping_cotFnTy() {
         double expected = -1.830487721712452;
         std::string funcName = "cot";
-        cotFnTy fnPtr = (cotFnTy) jit->getFunctionAddress(funcName);
+        cotFnTy fnPtr = (cotFnTy) jit->lookupFunctionAddress(funcName);
         ASSERT_NEAR(expected, fnPtr(-0.5), 1e-5);
     }
 
     void CheckGlobalMapping_cothFnTy() {
         double expected = -2.1639534137386525;
         std::string funcName = "coth";
-        cothFnTy fnPtr = (cothFnTy) jit->getFunctionAddress(funcName);
+        cothFnTy fnPtr = (cothFnTy) jit->lookupFunctionAddress(funcName);
         ASSERT_NEAR(expected, fnPtr(-0.5), 1e-5);
     }
 
     void CheckGlobalMapping_cscFnTy() {
         double expected = -2.0858296429334882;
         std::string funcName = "csc";
-        cscFnTy fnPtr = (cscFnTy) jit->getFunctionAddress(funcName);
+        cscFnTy fnPtr = (cscFnTy) jit->lookupFunctionAddress(funcName);
         ASSERT_NEAR(expected, fnPtr(-0.5), 1e-5);
     }
 
     void CheckGlobalMapping_cschFnTy() {
         double expected = 0.16528366985509557;
         std::string funcName = "csch";
-        cschFnTy fnPtr = (cschFnTy) jit->getFunctionAddress(funcName);
+        cschFnTy fnPtr = (cschFnTy) jit->lookupFunctionAddress(funcName);
         ASSERT_NEAR(expected, fnPtr(2.5), 1e-5);
     }
 
     void CheckGlobalMapping_rr_factorialiFnTy() {
         double expected = 120;
         std::string funcName = "rr_factoriali";
-        rr_factorialiFnTy fnPtr = (rr_factorialiFnTy) jit->getFunctionAddress(
+        rr_factorialiFnTy fnPtr = (rr_factorialiFnTy) jit->lookupFunctionAddress(
                 funcName);
         ASSERT_NEAR(expected, fnPtr(5), 1e-5);
     }
@@ -251,7 +251,7 @@ public:
     void CheckGlobalMapping_rr_factorialdFnTy() {
         double expected = 24;
         std::string funcName = "rr_factoriald";
-        rr_factorialdFnTy fnPtr = (rr_factorialdFnTy) jit->getFunctionAddress(
+        rr_factorialdFnTy fnPtr = (rr_factorialdFnTy) jit->lookupFunctionAddress(
                 funcName);
         ASSERT_NEAR(expected, fnPtr(4), 1e-5);
     }
@@ -259,70 +259,70 @@ public:
     void CheckGlobalMapping_rr_logdFnTy() {
         double expected = 0.15051499783199057;
         std::string funcName = "rr_logd";
-        rr_logdFnTy fnPtr = (rr_logdFnTy) jit->getFunctionAddress(funcName);
+        rr_logdFnTy fnPtr = (rr_logdFnTy) jit->lookupFunctionAddress(funcName);
         ASSERT_NEAR(expected, fnPtr(100, 2), 1e-5);
     }
 
     void CheckGlobalMapping_rr_rootdFnTy() {
         double expected = 2;
         std::string funcName = "rr_rootd";
-        rr_rootdFnTy fnPtr = (rr_rootdFnTy) jit->getFunctionAddress(funcName);
+        rr_rootdFnTy fnPtr = (rr_rootdFnTy) jit->lookupFunctionAddress(funcName);
         ASSERT_NEAR(expected, fnPtr(2, 4), 1e-5);
     }
 
     void CheckGlobalMapping_secFnTy() {
         double expected = 1.139493927324549;
         std::string funcName = "sec";
-        secFnTy fnPtr = (secFnTy) jit->getFunctionAddress(funcName);
+        secFnTy fnPtr = (secFnTy) jit->lookupFunctionAddress(funcName);
         ASSERT_NEAR(expected, fnPtr(-0.5), 1e-5);
     }
 
     void CheckGlobalMapping_sechFnTy() {
         double expected = 0.88681888397007402;
         std::string funcName = "sech";
-        sechFnTy fnPtr = (sechFnTy) jit->getFunctionAddress(funcName);
+        sechFnTy fnPtr = (sechFnTy) jit->lookupFunctionAddress(funcName);
         ASSERT_NEAR(expected, fnPtr(-0.5), 1e-5);
     }
 
     void CheckGlobalMapping_arccoshFnTy() {
         double expected = 1.5667992369724109;
         std::string funcName = "arccosh";
-        arccoshFnTy fnPtr = (arccoshFnTy) jit->getFunctionAddress(funcName);
+        arccoshFnTy fnPtr = (arccoshFnTy) jit->lookupFunctionAddress(funcName);
         ASSERT_NEAR(expected, fnPtr(2.5), 1e-5);
     }
 
     void CheckGlobalMapping_arcsinhFnTy() {
         double expected = -0.48121182505960347;
         std::string funcName = "arcsinh";
-        arcsinhFnTy fnPtr = (arcsinhFnTy) jit->getFunctionAddress(funcName);
+        arcsinhFnTy fnPtr = (arcsinhFnTy) jit->lookupFunctionAddress(funcName);
         ASSERT_NEAR(expected, fnPtr(-0.5), 1e-5);
     }
 
     void CheckGlobalMapping_arctanhFnTy() {
         double expected = -0.54930614433405489;
         std::string funcName = "arctanh";
-        arctanhFnTy fnPtr = (arctanhFnTy) jit->getFunctionAddress(funcName);
+        arctanhFnTy fnPtr = (arctanhFnTy) jit->lookupFunctionAddress(funcName);
         ASSERT_NEAR(expected, fnPtr(-0.5), 1e-5);
     }
 
     void CheckGlobalMapping_quotientFnTy() {
         double expected = 5;
         std::string funcName = "quotient";
-        quotientFnTy fnPtr = (quotientFnTy) jit->getFunctionAddress(funcName);
+        quotientFnTy fnPtr = (quotientFnTy) jit->lookupFunctionAddress(funcName);
         ASSERT_NEAR(expected, fnPtr(10, 2), 1e-5);
     }
 
     void CheckGlobalMapping_rr_maxFnTy() {
         double expected = 4;
         std::string funcName = "rr_max";
-        rr_maxFnTy fnPtr = (rr_maxFnTy) jit->getFunctionAddress(funcName);
+        rr_maxFnTy fnPtr = (rr_maxFnTy) jit->lookupFunctionAddress(funcName);
         ASSERT_NEAR(expected, fnPtr(3, 4), 1e-5);
     }
 
     void CheckGlobalMapping_rr_minFnTy() {
         double expected = 3;
         std::string funcName = "rr_min";
-        rr_minFnTy fnPtr = (rr_minFnTy) jit->getFunctionAddress(funcName);
+        rr_minFnTy fnPtr = (rr_minFnTy) jit->lookupFunctionAddress(funcName);
         ASSERT_NEAR(expected, fnPtr(3, 4), 1e-5);
     }
 
@@ -330,7 +330,7 @@ public:
         double expected = 3;
         std::string funcName = "rr_csr_matrix_get_nz";
 
-        csr_matrix_get_nz_FnTy csr_matrix_get_nz = (csr_matrix_get_nz_FnTy)jit->getFunctionAddress(funcName);
+        csr_matrix_get_nz_FnTy csr_matrix_get_nz = (csr_matrix_get_nz_FnTy) jit->lookupFunctionAddress(funcName);
         ASSERT_FALSE(csr_matrix_get_nz == nullptr);
     }
 
@@ -339,7 +339,7 @@ public:
         double expected = 3;
         std::string funcName = "rr_csr_matrix_set_nz";
 
-        csr_matrix_set_nz_FnTy csr_matrix_set_nz = (csr_matrix_set_nz_FnTy)jit->getFunctionAddress(funcName);
+        csr_matrix_set_nz_FnTy csr_matrix_set_nz = (csr_matrix_set_nz_FnTy) jit->lookupFunctionAddress(funcName);
         std::cout << csr_matrix_set_nz << std::endl;
         ASSERT_FALSE(csr_matrix_set_nz == nullptr);
     }

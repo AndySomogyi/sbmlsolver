@@ -213,7 +213,7 @@ namespace rrllvm {
         errString = nullptr;
     }
 
-    std::uint64_t MCJit::getFunctionAddress(const std::string &name) {
+    std::uint64_t MCJit::lookupFunctionAddress(const std::string &name) {
         return (std::uint64_t) executionEngine->getPointerToNamedFunction(name);
     }
 

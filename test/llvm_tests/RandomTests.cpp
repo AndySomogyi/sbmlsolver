@@ -39,7 +39,8 @@ public:
 
     void checkDistrib_uniform() const {
 #ifdef LIBSBML_HAS_PACKAGE_DISTRIB
-        distrib_uniform_FnTy fn = reinterpret_cast<distrib_uniform_FnTy>(jit->getFunctionAddress("rr_distrib_uniform"));
+        distrib_uniform_FnTy fn = reinterpret_cast<distrib_uniform_FnTy>(jit->lookupFunctionAddress(
+                "rr_distrib_uniform"));
         double ans = fn(random.get(), 5, 6);
         ASSERT_LE(ans, 6);
         ASSERT_GE(ans, 5);
@@ -48,7 +49,7 @@ public:
 
     void checkDistrib_normal() const {
 #ifdef LIBSBML_HAS_PACKAGE_DISTRIB
-        distrib_normal_FnTy fn = reinterpret_cast<distrib_normal_FnTy>(jit->getFunctionAddress("rr_distrib_normal"));
+        distrib_normal_FnTy fn = reinterpret_cast<distrib_normal_FnTy>(jit->lookupFunctionAddress("rr_distrib_normal"));
         double val = fn(random.get(), 1, 0.1);
         std::cout << val << std::endl;
         ASSERT_TRUE(typeid(val) == typeid(double));
@@ -58,7 +59,7 @@ public:
 
     void checkDistrib_normal_four() const {
 #ifdef LIBSBML_HAS_PACKAGE_DISTRIB
-        distrib_normal_four_FnTy fn = reinterpret_cast<distrib_normal_four_FnTy>(jit->getFunctionAddress(
+        distrib_normal_four_FnTy fn = reinterpret_cast<distrib_normal_four_FnTy>(jit->lookupFunctionAddress(
                 "rr_distrib_normal_four"));
         double val = fn(random.get(), 10, 1, 8, 11);
         std::cout << val << std::endl;
@@ -68,7 +69,7 @@ public:
 
     void checkDistrib_bernoulli() const {
 #ifdef LIBSBML_HAS_PACKAGE_DISTRIB
-        distrib_bernoulli_FnTy fn = reinterpret_cast<distrib_bernoulli_FnTy>(jit->getFunctionAddress(
+        distrib_bernoulli_FnTy fn = reinterpret_cast<distrib_bernoulli_FnTy>(jit->lookupFunctionAddress(
                 "rr_distrib_bernoulli"));
         double val = fn(random.get(), 0.4);
         std::cout << val << std::endl;
@@ -79,7 +80,7 @@ public:
 
     void checkDistrib_binomial() const {
 #ifdef LIBSBML_HAS_PACKAGE_DISTRIB
-        distrib_binomial_FnTy fn = reinterpret_cast<distrib_binomial_FnTy>(jit->getFunctionAddress(
+        distrib_binomial_FnTy fn = reinterpret_cast<distrib_binomial_FnTy>(jit->lookupFunctionAddress(
                 "rr_distrib_binomial"));
         double val = fn(random.get(), 10, 0.8);
         std::cout << val << std::endl;
@@ -89,7 +90,7 @@ public:
 
     void checkDistrib_binomial_four() const {
 #ifdef LIBSBML_HAS_PACKAGE_DISTRIB
-        distrib_binomial_four_FnTy fn = reinterpret_cast<distrib_binomial_four_FnTy>(jit->getFunctionAddress(
+        distrib_binomial_four_FnTy fn = reinterpret_cast<distrib_binomial_four_FnTy>(jit->lookupFunctionAddress(
                 "rr_distrib_binomial_four"));
         double val = fn(random.get(), 10, 0.8, 3, 20);
         std::cout << val << std::endl;
@@ -99,7 +100,7 @@ public:
 
     void checkDistrib_cauchy() const {
 #ifdef LIBSBML_HAS_PACKAGE_DISTRIB
-        distrib_cauchy_FnTy fn = reinterpret_cast<distrib_cauchy_FnTy>(jit->getFunctionAddress("rr_distrib_cauchy"));
+        distrib_cauchy_FnTy fn = reinterpret_cast<distrib_cauchy_FnTy>(jit->lookupFunctionAddress("rr_distrib_cauchy"));
         double val = fn(random.get(), 1, 0.1);
         std::cout << val << std::endl;
         ASSERT_TRUE(typeid(val) == typeid(double));
@@ -108,7 +109,7 @@ public:
 
     void checkDistrib_cauchy_one() const {
 #ifdef LIBSBML_HAS_PACKAGE_DISTRIB
-        distrib_cauchy_one_FnTy fn = reinterpret_cast<distrib_cauchy_one_FnTy>(jit->getFunctionAddress(
+        distrib_cauchy_one_FnTy fn = reinterpret_cast<distrib_cauchy_one_FnTy>(jit->lookupFunctionAddress(
                 "rr_distrib_cauchy_one"));
         double val = fn(random.get(), 1);
         std::cout << val << std::endl;
@@ -118,7 +119,7 @@ public:
 
     void checkDistrib_cauchy_four() const {
 #ifdef LIBSBML_HAS_PACKAGE_DISTRIB
-        distrib_cauchy_four_FnTy fn = reinterpret_cast<distrib_cauchy_four_FnTy>(jit->getFunctionAddress(
+        distrib_cauchy_four_FnTy fn = reinterpret_cast<distrib_cauchy_four_FnTy>(jit->lookupFunctionAddress(
                 "rr_distrib_cauchy_four"));
         double val = fn(random.get(), 10, 0.1, 9, 11);
         std::cout << val << std::endl;
@@ -128,7 +129,7 @@ public:
 
     void checkDistrib_chisquare() const {
 #ifdef LIBSBML_HAS_PACKAGE_DISTRIB
-        distrib_chisquare_FnTy fn = reinterpret_cast<distrib_chisquare_FnTy>(jit->getFunctionAddress(
+        distrib_chisquare_FnTy fn = reinterpret_cast<distrib_chisquare_FnTy>(jit->lookupFunctionAddress(
                 "rr_distrib_chisquare"));
         double val = fn(random.get(), 6);
         std::cout << val << std::endl;
@@ -138,7 +139,7 @@ public:
 
     void checkDistrib_chisquare_three() const {
 #ifdef LIBSBML_HAS_PACKAGE_DISTRIB
-        distrib_chisquare_three_FnTy fn = reinterpret_cast<distrib_chisquare_three_FnTy>(jit->getFunctionAddress(
+        distrib_chisquare_three_FnTy fn = reinterpret_cast<distrib_chisquare_three_FnTy>(jit->lookupFunctionAddress(
                 "rr_distrib_chisquare_three"));
         double val = fn(random.get(), 6, 5, 7);
         std::cout << val << std::endl;
@@ -148,7 +149,7 @@ public:
 
     void checkDistrib_exponential() const {
 #ifdef LIBSBML_HAS_PACKAGE_DISTRIB
-        distrib_exponential_FnTy fn = reinterpret_cast<distrib_exponential_FnTy>(jit->getFunctionAddress(
+        distrib_exponential_FnTy fn = reinterpret_cast<distrib_exponential_FnTy>(jit->lookupFunctionAddress(
                 "rr_distrib_exponential"));
         double val = fn(random.get(), 4.5);
         std::cout << val << std::endl;
@@ -158,7 +159,7 @@ public:
 
     void checkDistrib_exponential_three() const {
 #ifdef LIBSBML_HAS_PACKAGE_DISTRIB
-        distrib_exponential_three_FnTy fn = reinterpret_cast<distrib_exponential_three_FnTy>(jit->getFunctionAddress(
+        distrib_exponential_three_FnTy fn = reinterpret_cast<distrib_exponential_three_FnTy>(jit->lookupFunctionAddress(
                 "rr_distrib_exponential_three"));
         double val = fn(random.get(), 4.5, 1, 9);
         std::cout << val << std::endl;
@@ -168,7 +169,7 @@ public:
 
     void checkDistrib_gamma() const {
 #ifdef LIBSBML_HAS_PACKAGE_DISTRIB
-        distrib_gamma_FnTy fn = reinterpret_cast<distrib_gamma_FnTy>(jit->getFunctionAddress("rr_distrib_gamma"));
+        distrib_gamma_FnTy fn = reinterpret_cast<distrib_gamma_FnTy>(jit->lookupFunctionAddress("rr_distrib_gamma"));
         double val = fn(random.get(), 1, 0.1);
         std::cout << val << std::endl;
         ASSERT_TRUE(typeid(val) == typeid(double));
@@ -177,7 +178,7 @@ public:
 
     void checkDistrib_gamma_four() const {
 #ifdef LIBSBML_HAS_PACKAGE_DISTRIB
-        distrib_gamma_four_FnTy fn = reinterpret_cast<distrib_gamma_four_FnTy>(jit->getFunctionAddress(
+        distrib_gamma_four_FnTy fn = reinterpret_cast<distrib_gamma_four_FnTy>(jit->lookupFunctionAddress(
                 "rr_distrib_gamma_four"));
         double val = fn(random.get(), 6, 5, 5, 7);
         std::cout << val << std::endl;
@@ -187,7 +188,8 @@ public:
 
     void checkDistrib_laplace() const {
 #ifdef LIBSBML_HAS_PACKAGE_DISTRIB
-        distrib_laplace_FnTy fn = reinterpret_cast<distrib_laplace_FnTy>(jit->getFunctionAddress("rr_distrib_laplace"));
+        distrib_laplace_FnTy fn = reinterpret_cast<distrib_laplace_FnTy>(jit->lookupFunctionAddress(
+                "rr_distrib_laplace"));
         double val = fn(random.get(), 1, 0.1);
         std::cout << val << std::endl;
         ASSERT_TRUE(typeid(val) == typeid(double));
@@ -197,7 +199,7 @@ public:
 
     void checkDistrib_laplace_one() const {
 #ifdef LIBSBML_HAS_PACKAGE_DISTRIB
-        distrib_laplace_one_FnTy fn = reinterpret_cast<distrib_laplace_one_FnTy>(jit->getFunctionAddress(
+        distrib_laplace_one_FnTy fn = reinterpret_cast<distrib_laplace_one_FnTy>(jit->lookupFunctionAddress(
                 "rr_distrib_laplace_one"));
         double val = fn(random.get(), 12);
         std::cout << val << std::endl;
@@ -207,7 +209,7 @@ public:
 
     void checkDistrib_laplace_four() const {
 #ifdef LIBSBML_HAS_PACKAGE_DISTRIB
-        distrib_laplace_four_FnTy fn = reinterpret_cast<distrib_laplace_four_FnTy>(jit->getFunctionAddress(
+        distrib_laplace_four_FnTy fn = reinterpret_cast<distrib_laplace_four_FnTy>(jit->lookupFunctionAddress(
                 "rr_distrib_laplace_four"));
         double val = fn(random.get(), 12, 6, 3, 18);
         std::cout << val << std::endl;
@@ -217,7 +219,7 @@ public:
 
     void checkDistrib_lognormal() const {
 #ifdef LIBSBML_HAS_PACKAGE_DISTRIB
-        distrib_lognormal_FnTy fn = reinterpret_cast<distrib_lognormal_FnTy>(jit->getFunctionAddress(
+        distrib_lognormal_FnTy fn = reinterpret_cast<distrib_lognormal_FnTy>(jit->lookupFunctionAddress(
                 "rr_distrib_lognormal"));
         double val = fn(random.get(), 20, 10);
         std::cout << val << std::endl;
@@ -227,7 +229,7 @@ public:
 
     void checkDistrib_lognormal_four() const {
 #ifdef LIBSBML_HAS_PACKAGE_DISTRIB
-        distrib_lognormal_four_FnTy fn = reinterpret_cast<distrib_lognormal_four_FnTy>(jit->getFunctionAddress(
+        distrib_lognormal_four_FnTy fn = reinterpret_cast<distrib_lognormal_four_FnTy>(jit->lookupFunctionAddress(
                 "rr_distrib_lognormal_four"));
         double val = fn(random.get(), 20, 3, 15, 24);
         std::cout << val << std::endl;
@@ -237,7 +239,8 @@ public:
 
     void checkDistrib_poisson() const {
 #ifdef LIBSBML_HAS_PACKAGE_DISTRIB
-        distrib_poisson_FnTy fn = reinterpret_cast<distrib_poisson_FnTy>(jit->getFunctionAddress("rr_distrib_poisson"));
+        distrib_poisson_FnTy fn = reinterpret_cast<distrib_poisson_FnTy>(jit->lookupFunctionAddress(
+                "rr_distrib_poisson"));
         double val = fn(random.get(), 2);
         std::cout << val << std::endl;
         ASSERT_TRUE(typeid(val) == typeid(double));
@@ -246,7 +249,7 @@ public:
 
     void checkDistrib_poisson_three() const {
 #ifdef LIBSBML_HAS_PACKAGE_DISTRIB
-        distrib_poisson_three_FnTy fn = reinterpret_cast<distrib_poisson_three_FnTy>(jit->getFunctionAddress(
+        distrib_poisson_three_FnTy fn = reinterpret_cast<distrib_poisson_three_FnTy>(jit->lookupFunctionAddress(
                 "rr_distrib_poisson_three"));
         double val = fn(random.get(), 2, 1, 5);
         std::cout << val << std::endl;
@@ -256,7 +259,7 @@ public:
 
     void checkDistrib_rayleigh() const {
 #ifdef LIBSBML_HAS_PACKAGE_DISTRIB
-        distrib_rayleigh_FnTy fn = reinterpret_cast<distrib_rayleigh_FnTy>(jit->getFunctionAddress(
+        distrib_rayleigh_FnTy fn = reinterpret_cast<distrib_rayleigh_FnTy>(jit->lookupFunctionAddress(
                 "rr_distrib_rayleigh"));
         double val = fn(random.get(), 5);
         std::cout << val << std::endl;
@@ -266,7 +269,7 @@ public:
 
     void checkDistrib_rayleigh_three() const {
 #ifdef LIBSBML_HAS_PACKAGE_DISTRIB
-        distrib_rayleigh_three_FnTy fn = reinterpret_cast<distrib_rayleigh_three_FnTy>(jit->getFunctionAddress(
+        distrib_rayleigh_three_FnTy fn = reinterpret_cast<distrib_rayleigh_three_FnTy>(jit->lookupFunctionAddress(
                 "rr_distrib_rayleigh_three"));
         double val = fn(random.get(), 5, 4, 6);
         std::cout << val << std::endl;

@@ -82,6 +82,8 @@ namespace rrllvm {
     using csr_matrix_set_nz_FnTy = rr::csr_matrix* (*)(int, int, double);
     using csr_matrix_get_nz_FnTy = rr::csr_matrix* (*)(int, int);
 
+    // todo move distrib functions here - keep like things together.
+
     class Jit {
     public:
 
@@ -102,7 +104,7 @@ namespace rrllvm {
 
         virtual ~Jit() = default;
 
-        virtual std::uint64_t getFunctionAddress(const std::string &name) = 0;
+        virtual std::uint64_t lookupFunctionAddress(const std::string &name) = 0;
 
 //        virtual std::uint64_t getStructAddress(const std::string &name) = 0;
 
@@ -123,7 +125,7 @@ namespace rrllvm {
 
         virtual void optimizeModule() = 0;
 
-        virtual void loadJittedFunctions() = 0;
+        [[maybe_unused]] virtual void loadJittedFunctions() = 0;
 
         /**
          * *Moves* objects over to ModelResources ptr
@@ -132,7 +134,6 @@ namespace rrllvm {
 
 
         virtual void mapFunctionsToAddresses(std::shared_ptr<ModelResources> &rc, std::uint32_t options);
-
 
         /**
          * @brief returns a non owning pointer to the llvm::Module instance

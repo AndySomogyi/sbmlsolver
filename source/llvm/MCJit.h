@@ -26,7 +26,7 @@ namespace rrllvm {
 
         void transferObjectsToResources(std::shared_ptr<rrllvm::ModelResources> rc) override;
 
-        std::uint64_t getFunctionAddress(const std::string& name) override;
+        std::uint64_t lookupFunctionAddress(const std::string& name) override;
 
 //        std::uint64_t getStructAddress(const string &name) override;
 

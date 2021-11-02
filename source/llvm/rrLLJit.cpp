@@ -32,10 +32,21 @@ namespace rrllvm {
         // if success, grab the LLJit obj from the llvm::Expected object.
         llJit = std::move(*llJitExpected);
 
+        llvm::orc::JITTargetMachineBuilder JTMB(
+                llJit->getExecutionSession().getExecutorProcessControl().getTargetTriple());
+
+        // query the target machine builder for its data layout.
+        auto DL = JTMB.getDefaultDataLayoutForTarget();
+        if (!DL) {
+            std::string err = "Unable to get default data layout";
+            rrLogErr << err;
+            llvm::logAllUnhandledErrors(std::move(DL.takeError()), llvm::errs(), err);
+        }
+
         // tell the LLJit instance to look in the current process
         // for symbols before complaining that they can't be found,
         auto DLSG = llvm::orc::DynamicLibrarySearchGenerator::GetForCurrentProcess(
-                llJit->getDataLayout().getGlobalPrefix());
+                DL->getGlobalPrefix());
         if (!DLSG) {
             llvm::logAllUnhandledErrors(
                     std::move(DLSG.takeError()),
@@ -111,7 +122,7 @@ namespace rrllvm {
 #endif
     };
 
-    std::uint64_t rrLLJit::getFunctionAddress(const std::string &name) {
+    std::uint64_t rrLLJit::lookupFunctionAddress(const std::string &name) {
         auto expectedSymbol = llJit->lookup(name);
         if (!expectedSymbol) {
             std::string err = "Could not find symbol " + name;
@@ -145,7 +156,13 @@ namespace rrllvm {
     }
 
     void rrLLJit::addModule(llvm::orc::ThreadSafeModule tsm) {
-        llJit->addIRModule(std::move(tsm));
+        std::cout << "full module: " << std::endl;
+        std::cout << emitToString() << std::endl;
+        if (llvm::Error err = llJit->addIRModule(std::move(tsm))){
+            std::string errMsg = "Unable to add ThreadSafeModule to LLJit";
+            rrLogErr << errMsg;
+            llvm::logAllUnhandledErrors(std::move(err), llvm::errs(), errMsg);
+        }
     }
 
     void rrLLJit::addModule(llvm::Module* m) {
@@ -153,7 +170,7 @@ namespace rrllvm {
     }
 
     void rrLLJit::addModule() {
-
+        addModule(llvm::orc::ThreadSafeModule(std::move(module), std::move(context)));
     }
 
     void rrLLJit::optimizeModule() {
@@ -185,11 +202,6 @@ namespace rrllvm {
      * Foo in the main roadrunner program. This function
      * produces a mapping between Foo and a name so that the
      * function can be used from Jit.
-     * While this strategy works, it is not recommended and should
-     * be deleted. This is because addresses are taken from a specific
-     * session/runtime and change. Therefore, symbols mapped this way
-     * cannot be cached. It is a good exercise, and a good way to
-     * get started with mapping functions to jit.
      */
     void rrLLJit::mapFunctionToJitAbsoluteSymbol(const std::string& funcName, std::uint64_t funcAddress){
 

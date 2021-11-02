@@ -72,43 +72,43 @@ namespace rrllvm {
 
     void Jit::mapFunctionsToAddresses(std::shared_ptr<ModelResources> &rc, std::uint32_t options) {
 
-        rc->evalInitialConditionsPtr = (EvalInitialConditionsCodeGen::FunctionPtr) getFunctionAddress(
+        rc->evalInitialConditionsPtr = (EvalInitialConditionsCodeGen::FunctionPtr) lookupFunctionAddress(
                 "evalInitialConditions");
 
-        rc->evalReactionRatesPtr = (EvalReactionRatesCodeGen::FunctionPtr) getFunctionAddress("evalReactionRates");
+        rc->evalReactionRatesPtr = (EvalReactionRatesCodeGen::FunctionPtr) lookupFunctionAddress("evalReactionRates");
 
-        rc->getBoundarySpeciesAmountPtr = (GetBoundarySpeciesAmountCodeGen::FunctionPtr) getFunctionAddress(
+        rc->getBoundarySpeciesAmountPtr = (GetBoundarySpeciesAmountCodeGen::FunctionPtr) lookupFunctionAddress(
                 "getBoundarySpeciesAmount");
 
-        rc->getFloatingSpeciesAmountPtr = (GetFloatingSpeciesAmountCodeGen::FunctionPtr) getFunctionAddress(
+        rc->getFloatingSpeciesAmountPtr = (GetFloatingSpeciesAmountCodeGen::FunctionPtr) lookupFunctionAddress(
                 "getFloatingSpeciesAmount");
 
-        rc->getBoundarySpeciesConcentrationPtr = (GetBoundarySpeciesConcentrationCodeGen::FunctionPtr) getFunctionAddress(
+        rc->getBoundarySpeciesConcentrationPtr = (GetBoundarySpeciesConcentrationCodeGen::FunctionPtr) lookupFunctionAddress(
                 "getBoundarySpeciesConcentration");
 
-        rc->getFloatingSpeciesConcentrationPtr = (GetFloatingSpeciesAmountCodeGen::FunctionPtr) getFunctionAddress(
+        rc->getFloatingSpeciesConcentrationPtr = (GetFloatingSpeciesAmountCodeGen::FunctionPtr) lookupFunctionAddress(
                 "getFloatingSpeciesConcentration");
 
-        rc->getCompartmentVolumePtr = (GetCompartmentVolumeCodeGen::FunctionPtr) getFunctionAddress(
+        rc->getCompartmentVolumePtr = (GetCompartmentVolumeCodeGen::FunctionPtr) lookupFunctionAddress(
                 "getCompartmentVolume");
 
-        rc->getGlobalParameterPtr = (GetGlobalParameterCodeGen::FunctionPtr) getFunctionAddress("getGlobalParameter");
+        rc->getGlobalParameterPtr = (GetGlobalParameterCodeGen::FunctionPtr) lookupFunctionAddress("getGlobalParameter");
 
-        rc->evalRateRuleRatesPtr = (EvalRateRuleRatesCodeGen::FunctionPtr) getFunctionAddress("evalRateRuleRates");
+        rc->evalRateRuleRatesPtr = (EvalRateRuleRatesCodeGen::FunctionPtr) lookupFunctionAddress("evalRateRuleRates");
 
-        rc->getEventTriggerPtr = (GetEventTriggerCodeGen::FunctionPtr) getFunctionAddress("getEventTrigger");
+        rc->getEventTriggerPtr = (GetEventTriggerCodeGen::FunctionPtr) lookupFunctionAddress("getEventTrigger");
 
-        rc->getEventPriorityPtr = (GetEventPriorityCodeGen::FunctionPtr) getFunctionAddress("getEventPriority");
+        rc->getEventPriorityPtr = (GetEventPriorityCodeGen::FunctionPtr) lookupFunctionAddress("getEventPriority");
 
-        rc->getEventDelayPtr = (GetEventDelayCodeGen::FunctionPtr) getFunctionAddress("getEventDelay");
+        rc->getEventDelayPtr = (GetEventDelayCodeGen::FunctionPtr) lookupFunctionAddress("getEventDelay");
 
-        rc->eventTriggerPtr = (EventTriggerCodeGen::FunctionPtr) getFunctionAddress("eventTrigger");
+        rc->eventTriggerPtr = (EventTriggerCodeGen::FunctionPtr) lookupFunctionAddress("eventTrigger");
 
-        rc->eventAssignPtr = (EventAssignCodeGen::FunctionPtr) getFunctionAddress("eventAssign");
+        rc->eventAssignPtr = (EventAssignCodeGen::FunctionPtr) lookupFunctionAddress("eventAssign");
 
-        rc->evalVolatileStoichPtr = (EvalVolatileStoichCodeGen::FunctionPtr) getFunctionAddress("evalVolatileStoich");
+        rc->evalVolatileStoichPtr = (EvalVolatileStoichCodeGen::FunctionPtr) lookupFunctionAddress("evalVolatileStoich");
 
-        rc->evalConversionFactorPtr = (EvalConversionFactorCodeGen::FunctionPtr) getFunctionAddress(
+        rc->evalConversionFactorPtr = (EvalConversionFactorCodeGen::FunctionPtr) lookupFunctionAddress(
                 "evalConversionFactor");
         if (options & LoadSBMLOptions::READ_ONLY) {
             rc->setBoundarySpeciesAmountPtr = 0;
@@ -118,57 +118,57 @@ namespace rrllvm {
             rc->setFloatingSpeciesAmountPtr = 0;
             rc->setGlobalParameterPtr = 0;
         } else {
-            rc->setBoundarySpeciesAmountPtr = (SetBoundarySpeciesAmountCodeGen::FunctionPtr) getFunctionAddress(
+            rc->setBoundarySpeciesAmountPtr = (SetBoundarySpeciesAmountCodeGen::FunctionPtr) lookupFunctionAddress(
                     "setBoundarySpeciesAmount");
 
-            rc->setBoundarySpeciesConcentrationPtr = (SetBoundarySpeciesAmountCodeGen::FunctionPtr) getFunctionAddress(
+            rc->setBoundarySpeciesConcentrationPtr = (SetBoundarySpeciesAmountCodeGen::FunctionPtr) lookupFunctionAddress(
                     "setBoundarySpeciesConcentration");
 
-            rc->setFloatingSpeciesConcentrationPtr = (SetBoundarySpeciesAmountCodeGen::FunctionPtr) getFunctionAddress(
+            rc->setFloatingSpeciesConcentrationPtr = (SetBoundarySpeciesAmountCodeGen::FunctionPtr) lookupFunctionAddress(
                     "setFloatingSpeciesConcentration");
 
-            rc->setCompartmentVolumePtr = (SetBoundarySpeciesAmountCodeGen::FunctionPtr) getFunctionAddress(
+            rc->setCompartmentVolumePtr = (SetBoundarySpeciesAmountCodeGen::FunctionPtr) lookupFunctionAddress(
                     "setCompartmentVolume");
 
-            rc->setBoundarySpeciesAmountPtr = (SetBoundarySpeciesAmountCodeGen::FunctionPtr) getFunctionAddress(
+            rc->setBoundarySpeciesAmountPtr = (SetBoundarySpeciesAmountCodeGen::FunctionPtr) lookupFunctionAddress(
                     "setBoundarySpeciesAmount");
 
-            rc->setFloatingSpeciesAmountPtr = (SetBoundarySpeciesAmountCodeGen::FunctionPtr) getFunctionAddress(
+            rc->setFloatingSpeciesAmountPtr = (SetBoundarySpeciesAmountCodeGen::FunctionPtr) lookupFunctionAddress(
                     "setFloatingSpeciesAmount");
 
-            rc->setGlobalParameterPtr = (SetGlobalParameterCodeGen::FunctionPtr) getFunctionAddress(
+            rc->setGlobalParameterPtr = (SetGlobalParameterCodeGen::FunctionPtr) lookupFunctionAddress(
                     "setGlobalParameter");
         }
 
         if (options & LoadSBMLOptions::MUTABLE_INITIAL_CONDITIONS) {
-            rc->getFloatingSpeciesInitConcentrationsPtr = (GetBoundarySpeciesAmountCodeGen::FunctionPtr) getFunctionAddress(
+            rc->getFloatingSpeciesInitConcentrationsPtr = (GetBoundarySpeciesAmountCodeGen::FunctionPtr) lookupFunctionAddress(
                     "getFloatingSpeciesInitConcentrations");
-            rc->setFloatingSpeciesInitConcentrationsPtr = (SetBoundarySpeciesAmountCodeGen::FunctionPtr) getFunctionAddress(
+            rc->setFloatingSpeciesInitConcentrationsPtr = (SetBoundarySpeciesAmountCodeGen::FunctionPtr) lookupFunctionAddress(
                     "setFloatingSpeciesInitConcentrations");
 
-            rc->getFloatingSpeciesInitAmountsPtr = (GetBoundarySpeciesAmountCodeGen::FunctionPtr) getFunctionAddress(
+            rc->getFloatingSpeciesInitAmountsPtr = (GetBoundarySpeciesAmountCodeGen::FunctionPtr) lookupFunctionAddress(
                     "getFloatingSpeciesInitAmounts");
-            rc->setFloatingSpeciesInitAmountsPtr = (SetBoundarySpeciesAmountCodeGen::FunctionPtr) getFunctionAddress(
+            rc->setFloatingSpeciesInitAmountsPtr = (SetBoundarySpeciesAmountCodeGen::FunctionPtr) lookupFunctionAddress(
                     "setFloatingSpeciesInitAmounts");
 
-            rc->getBoundarySpeciesInitConcentrationsPtr = (GetBoundarySpeciesAmountCodeGen::FunctionPtr) getFunctionAddress(
+            rc->getBoundarySpeciesInitConcentrationsPtr = (GetBoundarySpeciesAmountCodeGen::FunctionPtr) lookupFunctionAddress(
                     "getBoundarySpeciesInitConcentrations");
-            rc->setBoundarySpeciesInitConcentrationsPtr = (SetBoundarySpeciesAmountCodeGen::FunctionPtr) getFunctionAddress(
+            rc->setBoundarySpeciesInitConcentrationsPtr = (SetBoundarySpeciesAmountCodeGen::FunctionPtr) lookupFunctionAddress(
                     "setBoundarySpeciesInitConcentrations");
 
-            rc->getBoundarySpeciesInitAmountsPtr = (GetBoundarySpeciesAmountCodeGen::FunctionPtr) getFunctionAddress(
+            rc->getBoundarySpeciesInitAmountsPtr = (GetBoundarySpeciesAmountCodeGen::FunctionPtr) lookupFunctionAddress(
                     "getBoundarySpeciesInitAmounts");
-            rc->setBoundarySpeciesInitAmountsPtr = (SetBoundarySpeciesAmountCodeGen::FunctionPtr) getFunctionAddress(
+            rc->setBoundarySpeciesInitAmountsPtr = (SetBoundarySpeciesAmountCodeGen::FunctionPtr) lookupFunctionAddress(
                     "setBoundarySpeciesInitAmounts");
 
-            rc->getCompartmentInitVolumesPtr = (GetBoundarySpeciesAmountCodeGen::FunctionPtr) getFunctionAddress(
+            rc->getCompartmentInitVolumesPtr = (GetBoundarySpeciesAmountCodeGen::FunctionPtr) lookupFunctionAddress(
                     "getCompartmentInitVolumes");
-            rc->setCompartmentInitVolumesPtr = (SetBoundarySpeciesAmountCodeGen::FunctionPtr) getFunctionAddress(
+            rc->setCompartmentInitVolumesPtr = (SetBoundarySpeciesAmountCodeGen::FunctionPtr) lookupFunctionAddress(
                     "setCompartmentInitVolumes");
 
-            rc->getGlobalParameterInitValuePtr = (GetBoundarySpeciesAmountCodeGen::FunctionPtr) getFunctionAddress(
+            rc->getGlobalParameterInitValuePtr = (GetBoundarySpeciesAmountCodeGen::FunctionPtr) lookupFunctionAddress(
                     "getGlobalParameterInitValue");
-            rc->setGlobalParameterInitValuePtr = (SetBoundarySpeciesAmountCodeGen::FunctionPtr) getFunctionAddress(
+            rc->setGlobalParameterInitValuePtr = (SetBoundarySpeciesAmountCodeGen::FunctionPtr) lookupFunctionAddress(
                     "setGlobalParameterInitValue");
         } else {
             rc->getFloatingSpeciesInitConcentrationsPtr = 0;
