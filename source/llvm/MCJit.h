@@ -40,6 +40,8 @@ namespace rrllvm {
 
         void addModule(llvm::Module* M) override;
 
+        void addModule(std::unique_ptr<llvm::Module> M, std::unique_ptr<llvm::LLVMContext> ctx) override;
+
         void addModule() override;
 
         void optimizeModule() override;

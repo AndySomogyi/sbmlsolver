@@ -121,6 +121,8 @@ namespace rrllvm {
 
         virtual void addModule(llvm::Module *M) = 0;
 
+        virtual void addModule(std::unique_ptr<llvm::Module> M, std::unique_ptr<llvm::LLVMContext> ctx) = 0;
+
         virtual void addModule() = 0;
 
         virtual void optimizeModule() = 0;
@@ -158,10 +160,10 @@ namespace rrllvm {
 
         llvm::raw_svector_ostream& getPostOptModuleStream();
 
-    protected:
-
         std::unique_ptr<llvm::LLVMContext> context;
         std::unique_ptr<llvm::Module> module;
+    protected:
+
         llvm::Module *moduleNonOwning = nullptr;
         std::unique_ptr<llvm::IRBuilder<>> builder;
 //        llvm::Triple triple;

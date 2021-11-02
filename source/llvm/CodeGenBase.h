@@ -57,13 +57,14 @@ protected:
             model(mgc.getModel()),
             dataSymbols(mgc.getModelDataSymbols()),
             modelSymbols(mgc.getModelSymbols()),
-            context(*(mgc.getJitNonOwning()->getContextNonOwning())),
+            context(mgc.getJitNonOwning()->getModuleNonOwning()->getContext()),
             module(mgc.getJitNonOwning()->getModuleNonOwning()),
             builder(*mgc.getJitNonOwning()->getBuilderNonOwning()),
             options(mgc.getOptions()),
             function(0)
 //            functionPassManager(mgc.getJitNonOwning().getFunctionPassManager())
     {
+
     };
 
     const ModelGeneratorContext &modelGenContext;

@@ -240,6 +240,9 @@ namespace rrllvm {
     void MCJit::addModule(llvm::Module *M) {
 
     }
+    void MCJit::addModule(std::unique_ptr<llvm::Module> M, std::unique_ptr<llvm::LLVMContext> ctx) {
+
+    }
 
     void MCJit::addModule() {
         if (postOptModuleStream->str().empty()) {

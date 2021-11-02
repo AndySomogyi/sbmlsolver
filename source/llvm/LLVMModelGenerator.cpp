@@ -10,6 +10,7 @@
 #pragma hdrstop
 
 #define NOMINMAX
+
 #include "LLVMModelGenerator.h"
 #include "LLVMExecutableModel.h"
 #include "ModelGeneratorContext.h"
@@ -28,14 +29,15 @@
 #endif
 
 
-
 #include "llvm/Object/ObjectFile.h"
 #include "llvm/LLVMExecutableModel.h"
 
 #include "llvm/MCJit.h"
 
 #if LLVM_VERSION_MAJOR >= 13
+
 #   include "llvm/rrLLJit.h"
+
 #endif
 
 #ifdef _MSC_VER
@@ -113,7 +115,6 @@ namespace rrllvm {
 //#endif
 
     inline void codeGeneration(ModelGeneratorContext &context, std::uint32_t options) {
-        //Need to create these functions even though we don't use them directly.
         EvalInitialConditionsCodeGen(context).createFunction();
         EvalReactionRatesCodeGen(context).createFunction();
         GetBoundarySpeciesAmountCodeGen(context).createFunction();
@@ -223,25 +224,29 @@ namespace rrllvm {
 
     }
 
-    inline std::unique_ptr<ModelGeneratorContext> createModelGeneratorContext(const std::string& sbml, std::uint32_t options){
+    inline std::unique_ptr<ModelGeneratorContext>
+    createModelGeneratorContext(const std::string &sbml, std::uint32_t options) {
 
         std::unique_ptr<ModelGeneratorContext> context;
 
-        if (options & LoadSBMLOptions::MCJIT){
-            context = std::move(std::make_unique<ModelGeneratorContext>(sbml, options, std::make_unique<MCJit>(options)));
+        if (options & LoadSBMLOptions::MCJIT) {
+            context = std::move(
+                    std::make_unique<ModelGeneratorContext>(sbml, options, std::make_unique<MCJit>(options)));
         }
 
 #if LLVM_VERSION_MAJOR >= 13
 
-        else if (options & LoadSBMLOptions::LLJIT){
-            context = std::move(std::make_unique<ModelGeneratorContext>(sbml, options, std::make_unique<rrLLJit>(options)));
+        else if (options & LoadSBMLOptions::LLJIT) {
+            context = std::move(
+                    std::make_unique<ModelGeneratorContext>(sbml, options, std::make_unique<rrLLJit>(options)));
         }
 
 #endif // LLVM_VERSION_MAJOR >= 13
 
         else {
             rrLogWarn << "Requested compiler not found. Defaulting to MCJit.";
-            context = std::move(std::make_unique<ModelGeneratorContext>(sbml, options, std::make_unique<MCJit>(options)));
+            context = std::move(
+                    std::make_unique<ModelGeneratorContext>(sbml, options, std::make_unique<MCJit>(options)));
         }
         return std::move(context);
     }
@@ -252,7 +257,8 @@ namespace rrllvm {
 
         char *docSBML = doc->toSBML();
 
-        std::unique_ptr<ModelGeneratorContext> context = createModelGeneratorContext(reinterpret_cast<const char*>(docSBML), options);
+        std::unique_ptr<ModelGeneratorContext> context = createModelGeneratorContext(
+                reinterpret_cast<const char *>(docSBML), options);
 
         free(docSBML);
 
@@ -538,9 +544,66 @@ namespace rrllvm {
 
         // Do all code generation here. This populates the IR module representing
         // this sbml model.
-        codeGeneration(*context, options);
+//        codeGeneration(*context, options);
+        EvalInitialConditionsCodeGen(*context).createFunction();
+
+
+        auto Ctx_ = std::make_unique<llvm::LLVMContext>();
+//        llvm::Module j("di", *Ctx)
+        auto M_ = std::make_unique<llvm::Module>("Fibaroo", *Ctx_);
+
+        // Create the fib function and insert it into the model
+        // This function is said to return an int and take an int
+        // as parameter
+        llvm::FunctionType *FibFTy = llvm::FunctionType::get(
+                llvm::Type::getInt32Ty(*Ctx_), {llvm::Type::getInt32Ty(*Ctx_)}, false
+        );
+
+        llvm::Function *FibFn = llvm::Function::Create(FibFTy, llvm::Function::ExternalLinkage, "fibd", *M_);
+
+        //Add a basic memory block
+        llvm::BasicBlock *BB = llvm::BasicBlock::Create(*Ctx_, "EntryBlock", FibFn);
+
+        // get pointers to the constants
+        llvm::Value *One = llvm::ConstantInt::get(llvm::Type::getInt32Ty(*Ctx_), 1);
+        llvm::Value *Two = llvm::ConstantInt::get(llvm::Type::getInt32Ty(*Ctx_), 2);
+
+        // get ptr tointeger arg of the function
+        llvm::Argument *ArgX = &*FibFn->arg_begin();
+        ArgX->setName("AnArg");
+
+        // the true block
+        llvm::BasicBlock *RetBB = llvm::BasicBlock::Create(*Ctx_, "return", FibFn);
+
+        // and the exit block
+        llvm::BasicBlock *RecurseB = llvm::BasicBlock::Create(*Ctx_, "recurse", FibFn);
+
+        // create the if arg < 2 goto exit
+        llvm::Value *CondInst = new llvm::ICmpInst(*BB, llvm::ICmpInst::ICMP_SLE, ArgX, Two, "cond");
+        llvm::BranchInst::Create(RetBB, RecurseB, CondInst, BB);
+        llvm::ReturnInst::Create(*Ctx_, One, RetBB);
+
+        llvm::Value *sub = llvm::BinaryOperator::CreateSub(ArgX, One, "arg", RecurseB);
+        llvm::Value *CallFibX1 = llvm::CallInst::Create(FibFn, sub, "fibx1", RecurseB);
+
+        // create fib(x-2)
+        sub = llvm::BinaryOperator::CreateSub(ArgX, Two, "arg", RecurseB);
+        llvm::Value *CallFibX2 = llvm::CallInst::Create(FibFn, sub, "fibx2", RecurseB);
+
+        // fib(x-1)+fib(x-2)
+        llvm::Value *Sum = llvm::BinaryOperator::CreateAdd(CallFibX1, CallFibX2, "addresult", RecurseB);
+
+        // Create the return instruction and add it to the basic block
+        llvm::ReturnInst::Create(*Ctx_, Sum, RecurseB);
+
+
+
+
+
+
 
         // optimize the module and add it to our jit engine
+
         context->getJitNonOwning()->optimizeModule();
 
         // Save the string representation so we can saveState quickly later
@@ -548,14 +611,24 @@ namespace rrllvm {
 
         // actually add the module, which is a member variable
         // of the Jit to the jit engine.
-        context->getJitNonOwning()->addModule();
+        //context->getJitNonOwning()->addModule();
 
+        context->getJitNonOwning()->addModule(std::move(M_), std::move(Ctx_));
+
+        using fibonacciFnPtr1 = int (*)(int);
+        fibonacciFnPtr1 fibPtr = (int (*)(int)) context->getJitNonOwning()->lookupFunctionAddress("fibd");
+
+        std::cout << "You are here: " << std::endl;
+        std::cout << fibPtr(20) << std::endl;
         /**
          * Up until this point we've been creating IR code
          * and creating the module. Now we need to grab
          * pointers to the various bits of compiled code.
          */
-
+        context->getJitNonOwning()->addModule(
+                std::move(context->getJitNonOwning()->module),
+                std::move(context->getJitNonOwning()->context)
+        );
         // load some function address into function pointers.
         context->getJitNonOwning()->mapFunctionsToAddresses(rc, options);
 

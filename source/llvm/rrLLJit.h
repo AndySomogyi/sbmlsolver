@@ -6,20 +6,43 @@
 #define ROADRUNNER_RRLLJIT_H
 
 #define NOMINMAX
+
+#include <llvm/IRReader/IRReader.h>
 #include "llvm/Jit.h"
 #include "llvm/ExecutionEngine/Orc/LLJIT.h"
+#include "llvm/Support/SourceMgr.h"
 
 
 using namespace rr;
 
 namespace rrllvm {
+    inline llvm::Error createSMDiagnosticError(llvm::SMDiagnostic &Diag) {
+        using namespace llvm;
+        std::string Msg;
+        {
+            raw_string_ostream OS(Msg);
+            Diag.print("", OS);
+        }
+        return make_error<StringError>(std::move(Msg), inconvertibleErrorCode());
+    }
+
+    inline llvm::Expected<llvm::orc::ThreadSafeModule>
+    parseModule(llvm::StringRef Source, llvm::StringRef Name) {
+        using namespace llvm;
+        auto Ctx = std::make_unique<LLVMContext>();
+        SMDiagnostic Err;
+        if (auto M = parseIR(MemoryBufferRef(Source, Name), Err, *Ctx))
+            return orc::ThreadSafeModule(std::move(M), std::move(Ctx));
+
+        return createSMDiagnosticError(Err);
+    }
 
     /**
      * @brief Thin layer around the llvm::orc::LLJit.
      *
      * @details The interface for LLJit is used as a framework
      */
-    class rrLLJit : public Jit{
+    class rrLLJit : public Jit {
     public:
 
         rrLLJit() = default;
@@ -29,7 +52,6 @@ namespace rrllvm {
         void mapFunctionsToJitSymbols() override;
 
         void mapDistribFunctionsToJitSymbols() override;
-
 
         std::uint64_t lookupFunctionAddress(const std::string &name) override;
 
@@ -51,12 +73,14 @@ namespace rrllvm {
 
         void addModule(llvm::orc::ThreadSafeModule tsm);
 
-        llvm::orc::LLJIT* getLLJitNonOwning() ;
+        void addModule(std::unique_ptr<llvm::Module> M, std::unique_ptr<llvm::LLVMContext> ctx) override;
+
+        llvm::orc::LLJIT *getLLJitNonOwning();
 
         void addIRModule();
 
     private:
-        void mapFunctionToJitAbsoluteSymbol(const std::string& funcName, std::uint64_t funcAddress);
+        void mapFunctionToJitAbsoluteSymbol(const std::string &funcName, std::uint64_t funcAddress);
 
         std::unique_ptr<llvm::orc::LLJIT> llJit;
 
