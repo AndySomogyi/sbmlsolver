@@ -191,7 +191,7 @@ ModelGeneratorContext::ModelGeneratorContext(std::string const &sbml, unsigned o
                         doc->getPlugin("distrib"));
         if(distrib)
         {
-//            random = new Random(*this);
+            random = new Random(*this);
         }
 #endif
 
@@ -282,7 +282,7 @@ ModelGeneratorContext::ModelGeneratorContext(libsbml::SBMLDocument const *_doc,
             // to figure out what replaces the global mapping and work out a flexible
             // way to adjust Random.
             // For now, comment out.
-//            random = new Random(*this);
+            random = new Random(*this);
         }
 #endif
 
@@ -403,9 +403,9 @@ void ModelGeneratorContext::transferObjectsToResources(std::shared_ptr<rrllvm::M
     rc->jit = std::move(jit);
     jit = nullptr;
 
-//    rc->random = random;
-//    random = nullptr;
-//
+    rc->random = random;
+    random = nullptr;
+
 //    rc->context = std::move(context);
 //    context = nullptr;
 //    rc->executionEngine = std::move(executionEngine);

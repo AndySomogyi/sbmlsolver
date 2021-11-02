@@ -9,6 +9,10 @@
 #include "llvm/ExecutionEngine/Orc/EPCDynamicLibrarySearchGenerator.h"
 #include "ModelDataIRBuilder.h"
 
+#if LIBSBML_HAS_PACKAGE_DISTRIB
+#   include "Random.h"
+#endif
+
 using namespace llvm;
 using namespace rr;
 using namespace sbmlsupport;
@@ -42,6 +46,7 @@ namespace rrllvm {
         llJit->getMainJITDylib().addGenerator(std::move(*DLSG));
 
         rrLLJit::mapFunctionsToJitSymbols();
+        rrLLJit::mapDistribFunctionsToJitSymbols();
 
 
     }
@@ -75,6 +80,36 @@ namespace rrllvm {
         mapFunctionToJitAbsoluteSymbol("rr_min", reinterpret_cast<std::uint64_t>(&sbmlsupport::min));
 
     }
+
+    void rrLLJit::mapDistribFunctionsToJitSymbols() {
+#if LIBSBML_HAS_PACKAGE_DISTRIB
+
+        mapFunctionToJitAbsoluteSymbol("rr_distrib_uniform", reinterpret_cast<std::uint64_t>(&distrib_uniform));
+        mapFunctionToJitAbsoluteSymbol("rr_distrib_normal", reinterpret_cast<std::uint64_t>(&distrib_normal));
+        mapFunctionToJitAbsoluteSymbol("rr_distrib_normal_four", reinterpret_cast<std::uint64_t>(&distrib_normal_four));
+        mapFunctionToJitAbsoluteSymbol("rr_distrib_bernoulli", reinterpret_cast<std::uint64_t>(&distrib_bernoulli));
+        mapFunctionToJitAbsoluteSymbol("rr_distrib_binomial", reinterpret_cast<std::uint64_t>(&distrib_binomial));
+        mapFunctionToJitAbsoluteSymbol("rr_distrib_binomial_four", reinterpret_cast<std::uint64_t>(&distrib_binomial_four));
+        mapFunctionToJitAbsoluteSymbol("rr_distrib_cauchy", reinterpret_cast<std::uint64_t>(&distrib_cauchy));
+        mapFunctionToJitAbsoluteSymbol("rr_distrib_cauchy_one", reinterpret_cast<std::uint64_t>(&distrib_cauchy_one));
+        mapFunctionToJitAbsoluteSymbol("rr_distrib_cauchy_four", reinterpret_cast<std::uint64_t>(&distrib_cauchy_four));
+        mapFunctionToJitAbsoluteSymbol("rr_distrib_chisquare", reinterpret_cast<std::uint64_t>(&distrib_chisquare));
+        mapFunctionToJitAbsoluteSymbol("rr_distrib_chisquare_three", reinterpret_cast<std::uint64_t>(&distrib_chisquare_three));
+        mapFunctionToJitAbsoluteSymbol("rr_distrib_exponential", reinterpret_cast<std::uint64_t>(&distrib_exponential));
+        mapFunctionToJitAbsoluteSymbol("rr_distrib_exponential_three", reinterpret_cast<std::uint64_t>(&distrib_exponential_three));
+        mapFunctionToJitAbsoluteSymbol("rr_distrib_gamma", reinterpret_cast<std::uint64_t>(&distrib_gamma));
+        mapFunctionToJitAbsoluteSymbol("rr_distrib_gamma_four", reinterpret_cast<std::uint64_t>(&distrib_gamma_four));
+        mapFunctionToJitAbsoluteSymbol("rr_distrib_laplace", reinterpret_cast<std::uint64_t>(&distrib_laplace));
+        mapFunctionToJitAbsoluteSymbol("rr_distrib_laplace_one", reinterpret_cast<std::uint64_t>(&distrib_laplace_one));
+        mapFunctionToJitAbsoluteSymbol("rr_distrib_laplace_four", reinterpret_cast<std::uint64_t>(&distrib_laplace_four));
+        mapFunctionToJitAbsoluteSymbol("rr_distrib_lognormal", reinterpret_cast<std::uint64_t>(&distrib_lognormal));
+        mapFunctionToJitAbsoluteSymbol("rr_distrib_lognormal_four", reinterpret_cast<std::uint64_t>(&distrib_lognormal_four));
+        mapFunctionToJitAbsoluteSymbol("rr_distrib_poisson", reinterpret_cast<std::uint64_t>(&distrib_poisson));
+        mapFunctionToJitAbsoluteSymbol("rr_distrib_poisson_three", reinterpret_cast<std::uint64_t>(&distrib_poisson_three));
+        mapFunctionToJitAbsoluteSymbol("rr_distrib_rayleigh", reinterpret_cast<std::uint64_t>(&distrib_rayleigh));
+        mapFunctionToJitAbsoluteSymbol("rr_distrib_rayleigh_three", reinterpret_cast<std::uint64_t>(&distrib_rayleigh_three));
+#endif
+    };
 
     std::uint64_t rrLLJit::getFunctionAddress(const std::string &name) {
         auto expectedSymbol = llJit->lookup(name);
@@ -169,6 +204,7 @@ namespace rrllvm {
             llvm::logAllUnhandledErrors(std::move(err), llvm::errs(), "Could not add symbol "+ funcName);
         }
     }
+
 
 
 

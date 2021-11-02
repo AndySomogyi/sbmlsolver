@@ -22,6 +22,8 @@ namespace rrllvm {
 
         void mapFunctionsToJitSymbols() override;
 
+        void mapDistribFunctionsToJitSymbols() override;
+
         void transferObjectsToResources(std::shared_ptr<rrllvm::ModelResources> rc) override;
 
         std::uint64_t getFunctionAddress(const std::string& name) override;
@@ -37,6 +39,7 @@ namespace rrllvm {
         const llvm::DataLayout& getDataLayout() override;
 
         void addModule(llvm::Module* M) override;
+
         void addModule() override;
 
         void optimizeModule() override;

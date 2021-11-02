@@ -98,6 +98,8 @@ namespace rrllvm {
          */
         virtual void mapFunctionsToJitSymbols() = 0;
 
+        virtual void mapDistribFunctionsToJitSymbols() = 0;
+
         virtual ~Jit() = default;
 
         virtual std::uint64_t getFunctionAddress(const std::string &name) = 0;

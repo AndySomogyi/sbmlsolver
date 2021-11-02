@@ -40,8 +40,6 @@ namespace rrllvm {
             rrLogErr << err;
             throw_llvm_exception(err)
         }
-
-        mStrStreamOut = std::make_unique<llvm::raw_svector_ostream>(modBufferOut);
     }
 
     llvm::Module *Jit::getModuleNonOwning() {
@@ -201,7 +199,7 @@ namespace rrllvm {
         return str;
     }
 
-    llvm::raw_svector_ostream& Jit::getPostOptModuleStream() {
+    llvm::raw_svector_ostream &Jit::getPostOptModuleStream() {
         return *postOptModuleStream;
     }
 
