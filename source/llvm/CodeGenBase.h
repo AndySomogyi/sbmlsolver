@@ -105,7 +105,7 @@ protected:
 
         llvm::FunctionType *funcType = llvm::FunctionType::get(retType, argTypes, false);
         function = llvm::Function::Create(funcType,
-                llvm::Function::InternalLinkage,
+                llvm::Function::ExternalLinkage,
                 functionName, module);
 
         // Create a new basic block to start insertion into.

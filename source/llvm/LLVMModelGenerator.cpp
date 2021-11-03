@@ -540,12 +540,11 @@ namespace rrllvm {
 
         SharedModelResourcesPtr rc = std::make_shared<ModelResources>();
 
-        std::unique_ptr<ModelGeneratorContext> context = createModelGeneratorContext(sbml, options);
+        std::unique_ptr<ModelGeneratorContext> modelGeneratorContext = createModelGeneratorContext(sbml, options);
 
         // Do all code generation here. This populates the IR module representing
         // this sbml model.
-//        codeGeneration(*context, options);
-        EvalInitialConditionsCodeGen(*context).createFunction();
+        codeGeneration(*modelGeneratorContext, options);
 
 
         auto Ctx_ = std::make_unique<llvm::LLVMContext>();
@@ -604,19 +603,19 @@ namespace rrllvm {
 
         // optimize the module and add it to our jit engine
 
-        context->getJitNonOwning()->optimizeModule();
+        modelGeneratorContext->getJitNonOwning()->optimizeModule();
 
         // Save the string representation so we can saveState quickly later
-        rc->moduleStr = context->getJitNonOwning()->getPostOptModuleStream().str().str();
+        rc->moduleStr = modelGeneratorContext->getJitNonOwning()->getPostOptModuleStream().str().str();
 
         // actually add the module, which is a member variable
         // of the Jit to the jit engine.
         //context->getJitNonOwning()->addModule();
 
-        context->getJitNonOwning()->addModule(std::move(M_), std::move(Ctx_));
+        modelGeneratorContext->getJitNonOwning()->addModule(std::move(M_), std::move(Ctx_));
 
         using fibonacciFnPtr1 = int (*)(int);
-        fibonacciFnPtr1 fibPtr = (int (*)(int)) context->getJitNonOwning()->lookupFunctionAddress("fibd");
+        fibonacciFnPtr1 fibPtr = (int (*)(int)) modelGeneratorContext->getJitNonOwning()->lookupFunctionAddress("fibd");
 
         std::cout << "You are here: " << std::endl;
         std::cout << fibPtr(20) << std::endl;
@@ -625,12 +624,12 @@ namespace rrllvm {
          * and creating the module. Now we need to grab
          * pointers to the various bits of compiled code.
          */
-        context->getJitNonOwning()->addModule(
-                std::move(context->getJitNonOwning()->module),
-                std::move(context->getJitNonOwning()->context)
+        modelGeneratorContext->getJitNonOwning()->addModule(
+                std::move(modelGeneratorContext->getJitNonOwning()->module),
+                std::move(modelGeneratorContext->getJitNonOwning()->context)
         );
         // load some function address into function pointers.
-        context->getJitNonOwning()->mapFunctionsToAddresses(rc, options);
+        modelGeneratorContext->getJitNonOwning()->mapFunctionsToAddresses(rc, options);
 
 
 
@@ -641,11 +640,11 @@ namespace rrllvm {
         // Now that everything that could have thrown would have thrown, we
         // can now create the model and set its fields.
 
-        LLVMModelData *modelData = createModelData(context->getModelDataSymbols(),
-                                                   context->getRandom());
+        LLVMModelData *modelData = createModelData(modelGeneratorContext->getModelDataSymbols(),
+                                                   modelGeneratorContext->getRandom());
 
-        uint llvmsize = ModelDataIRBuilder::getModelDataSize(context->getJitNonOwning()->getModuleNonOwning(),
-                                                             context->getJitNonOwning()->getDataLayout());
+        uint llvmsize = ModelDataIRBuilder::getModelDataSize(modelGeneratorContext->getJitNonOwning()->getModuleNonOwning(),
+                                                             modelGeneratorContext->getJitNonOwning()->getDataLayout());
 
         if (llvmsize != modelData->size) {
             std::stringstream s;
@@ -661,7 +660,7 @@ namespace rrllvm {
         }
 
         // * MOVE * the bits over from the context to the exe model.
-        context->transferObjectsToResources(rc);
+        modelGeneratorContext->transferObjectsToResources(rc);
 
         if (!forceReCompile) {
             // check for a chached copy, another thread could have
