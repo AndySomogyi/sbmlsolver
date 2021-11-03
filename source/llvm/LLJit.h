@@ -2,8 +2,8 @@
 // Created by Ciaran on 25/10/2021.
 //
 
-#ifndef ROADRUNNER_RRLLJIT_H
-#define ROADRUNNER_RRLLJIT_H
+#ifndef ROADRUNNER_LLJIT_H
+#define ROADRUNNER_LLJIT_H
 
 #define NOMINMAX
 
@@ -42,12 +42,12 @@ namespace rrllvm {
      *
      * @details The interface for LLJit is used as a framework
      */
-    class rrLLJit : public Jit {
+    class LLJit : public Jit {
     public:
 
-        rrLLJit() = default;
+        LLJit() = default;
 
-        explicit rrLLJit(std::uint32_t options);
+        explicit LLJit(std::uint32_t options);
 
         void mapFunctionsToJitSymbols() override;
 
@@ -55,11 +55,7 @@ namespace rrllvm {
 
         std::uint64_t lookupFunctionAddress(const std::string &name) override;
 
-        llvm::TargetMachine *getTargetMachine() override;
-
         void addObjectFile(llvm::object::OwningBinary<llvm::object::ObjectFile> owningObject) override;
-
-        void finalizeObject() override;
 
         const llvm::DataLayout &getDataLayout() override;
 
@@ -67,9 +63,7 @@ namespace rrllvm {
 
         void addModule() override;
 
-        void optimizeModule() override;
-
-        void loadJittedFunctions() override;
+        void addModuleViaObjectFile() override;
 
         void addModule(llvm::orc::ThreadSafeModule tsm);
 
@@ -88,4 +82,4 @@ namespace rrllvm {
 
 }
 
-#endif //ROADRUNNER_RRLLJIT_H
+#endif //ROADRUNNER_LLJIT_H

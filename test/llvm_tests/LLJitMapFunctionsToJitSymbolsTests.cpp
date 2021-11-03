@@ -2,7 +2,7 @@
 // Created by Ciaran on 27/10/2021.
 //
 
-#include "llvm/rrLLJit.h"
+#include "llvm/LLJit.h"
 #include "gtest/gtest.h"
 #include "TestModelFactory.h"
 #include "rrLogger.h"
@@ -16,11 +16,11 @@ using namespace rrllvm;
 class LLJitMapFunctionsToJitSymbolsTests : public MapFunctionsToJitSymbolsTests {
 public:
     LLJitMapFunctionsToJitSymbolsTests()
-        : MapFunctionsToJitSymbolsTests(std::make_unique<rrLLJit>(LoadSBMLOptions().modelGeneratorOpt)){};
+        : MapFunctionsToJitSymbolsTests(std::make_unique<LLJit>(LoadSBMLOptions().modelGeneratorOpt)){};
 };
 
 TEST_F(LLJitMapFunctionsToJitSymbolsTests, CheckLibFuncPow) {
-    rrLLJit* llJit = (rrLLJit*)jit.get();
+    LLJit* llJit = (LLJit*)jit.get();
     std::cout << llJit->emitToString() << std::endl;
     llJit->addIRModule();
     CheckLibFuncPow();

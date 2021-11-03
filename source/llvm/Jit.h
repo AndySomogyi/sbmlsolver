@@ -16,6 +16,7 @@
 
 namespace rr {
     class ExecutableModel;
+    class Random;
 
 }
 
@@ -82,52 +83,138 @@ namespace rrllvm {
     using csr_matrix_set_nz_FnTy = rr::csr_matrix* (*)(int, int, double);
     using csr_matrix_get_nz_FnTy = rr::csr_matrix* (*)(int, int);
 
-    // todo move distrib functions here - keep like things together.
+
+
+    // function signatures for distrib
+    using DistribFnTy_d1 = double (*)(rr::Random*, double);
+    using DistribFnTy_d2 = double (*)(rr::Random*, double, double);
+    using DistribFnTy_d3 = double (*)(rr::Random*, double, double, double);
+    using DistribFnTy_d4 = double (*)(rr::Random*, double, double, double, double);
+
+    using distrib_uniform_FnTy           = DistribFnTy_d2;
+    using distrib_normal_FnTy            = DistribFnTy_d2;
+    using distrib_normal_four_FnTy       = DistribFnTy_d4;
+    using distrib_bernoulli_FnTy         = DistribFnTy_d1;
+    using distrib_binomial_FnTy          = DistribFnTy_d2;
+    using distrib_binomial_four_FnTy     = DistribFnTy_d4;
+    using distrib_cauchy_FnTy            = DistribFnTy_d2;
+    using distrib_cauchy_one_FnTy        = DistribFnTy_d1;
+    using distrib_cauchy_four_FnTy       = DistribFnTy_d4;
+    using distrib_chisquare_FnTy         = DistribFnTy_d1;
+    using distrib_chisquare_three_FnTy   = DistribFnTy_d3;
+    using distrib_exponential_FnTy       = DistribFnTy_d1;
+    using distrib_exponential_three_FnTy = DistribFnTy_d3;
+    using distrib_gamma_FnTy             = DistribFnTy_d2;
+    using distrib_gamma_four_FnTy        = DistribFnTy_d4;
+    using distrib_laplace_FnTy           = DistribFnTy_d2;
+    using distrib_laplace_one_FnTy       = DistribFnTy_d1;
+    using distrib_laplace_four_FnTy      = DistribFnTy_d4;
+    using distrib_lognormal_FnTy         = DistribFnTy_d2;
+    using distrib_lognormal_four_FnTy    = DistribFnTy_d4;
+    using distrib_poisson_FnTy           = DistribFnTy_d1;
+    using distrib_poisson_three_FnTy     = DistribFnTy_d3;
+    using distrib_rayleigh_FnTy          = DistribFnTy_d1;
+    using distrib_rayleigh_three_FnTy    = DistribFnTy_d3;
+
 
     class Jit {
     public:
 
+        // todo build a constructor that uses default
+        //  modelGenOpt from LoadSBMLOptions - subclasses can use this.
+
+        /**
+         * @brief instantiate a Jit object with some options.
+         * @param options LoadSBMLOptions::modelGeneratorOpt. The options are
+         * stored by bit masks and can be manipulated by either modifying
+         * LoadSBMLOptions or Config.
+         */
         explicit Jit(std::uint32_t options);
 
         /**
-         * @brief adds functions that are declared and defined by libsbml
-         * to the Jit engine.
-         * @details i.e. tan, arccsh, quotient. In MCJit (llvm 6) these
-         * were "mapped" to sbml support functions in addGlobalMappings. This API has changed in
-         * later llvm's and so this functionality is made virtual.
-         *
-         * @seealso Jit::
+         * @brief adds functions that are declared and defined in C++ to the jit engine.
+         * @details unlike most functions that are created directly in the llvm IR language
+         * these functions are just C++ i.e. tan, arccsh, quotient. In MCJit (llvm 6) these
+         * were "mapped" to sbml support functions in addGlobalMappings.
          */
         virtual void mapFunctionsToJitSymbols() = 0;
 
+        /**
+         * @brief Add support for libsbml distrib functions.
+         * @details similar to Jit::mapFunctionsToJitSymbols, these are declared and defined
+         * in C++. Support for distrib in libsbml must be present for these functions
+         * to be jitted, but if distrib is not available there are no adverse consequences
+         * other than no being able to simulate models that depend on libsbml distrib.
+         */
         virtual void mapDistribFunctionsToJitSymbols() = 0;
 
+        /**
+         * @brief defaulted virtual destructor
+         */
         virtual ~Jit() = default;
 
+        /**
+         * @brief locate a function address based on its name. The returned
+         * function address is a 64 bit int that needs casting to the function
+         * pointer type.
+         * @details throws an error if an address for function called @param name
+         * is not found.
+         * @example
+         *   // given a function, for example:
+         *   int fib(int x){
+         *      if (x < 2)
+         *          return x;
+         *      return fib(x-1) + fib(x-2);
+         *   }
+         *
+         *   // and assuming the function was jit'd (written in llvm IR) under the
+         *   // symbol "fib"
+         *   @code
+         *   using fibonacciFnPtr = int (*)(int);
+         *   fibonacciFnPtr fib = (fibonacciFnPtr)lookupFunctionAddress("fib");
+         *   int fibOf4 = fib(4); // 3
+         *   @endcode
+         */
         virtual std::uint64_t lookupFunctionAddress(const std::string &name) = 0;
 
-//        virtual std::uint64_t getStructAddress(const std::string &name) = 0;
-
-        virtual llvm::TargetMachine *getTargetMachine() = 0;
-
+        /**
+         * @brief add an in-memory representation of an object file to the current jit module.
+         * @details To date this is only used by MCJit. Comments in the old code made it clear that
+         * the llvm module is compiled to an object file which is stored for later loading,
+         * should one want to load from a saved state. This is faster when loading/saving state, but
+         * might have performance implications when one does not need to save/load state.
+         * Therefore todo look into this mechanism for save/load state.
+         */
         virtual void addObjectFile(llvm::object::OwningBinary<llvm::object::ObjectFile> owningObject) = 0;
 
         /**
          * MCJit needs this but might be a deprecated api. We have to include it anyway.
          */
-        virtual void finalizeObject() = 0;
+//        virtual void finalizeObject() = 0;
 
         virtual const llvm::DataLayout &getDataLayout() = 0;
 
         virtual void addModule(llvm::Module *M) = 0;
 
+        /**
+         * @brief add a module @param M and Context @param ctx to the current jit engine.
+         * @details the parameters M and cts are unique pointers and therefore must be moved, not
+         * copied into the module. An llvm ThreadSafeModule is created internalls, which steals the
+         * references. For this reason, any code to be added to the module must happen before the
+         * call to addModule.
+         */
         virtual void addModule(std::unique_ptr<llvm::Module> M, std::unique_ptr<llvm::LLVMContext> ctx) = 0;
 
+        /**
+         * @brief add the module and context which are member variables of the Jit instance to
+         * the current Jit engine.
+         * @details similar to addModule(std::unique_ptr<llvm::Module> M, std::unique_ptr<llvm::LLVMContext> ctx)
+         * the references are stolen by the call to construct a ThreadSafeModule which then takes ownership of the
+         * module and context.
+         */
         virtual void addModule() = 0;
 
-        virtual void optimizeModule() = 0;
-
-        [[maybe_unused]] virtual void loadJittedFunctions() = 0;
+        virtual void addModuleViaObjectFile() = 0;
 
         /**
          * *Moves* objects over to ModelResources ptr
@@ -160,10 +247,21 @@ namespace rrllvm {
 
         llvm::raw_svector_ostream& getPostOptModuleStream();
 
-        std::unique_ptr<llvm::LLVMContext> context;
-        std::unique_ptr<llvm::Module> module;
     protected:
 
+        /**
+         * @brief return the default TargetTriple for the
+         * machine currently being used for compiling a model
+         */
+         std::string getDefaultTargetTriple() const;
+        /**
+         * @brief use llvm calls to work out which TargetMachine
+         * is currently being used.
+         */
+        const llvm::Target* getDefaultTargetMachine() const;
+
+        std::unique_ptr<llvm::LLVMContext> context;
+        std::unique_ptr<llvm::Module> module;
         llvm::Module *moduleNonOwning = nullptr;
         std::unique_ptr<llvm::IRBuilder<>> builder;
 //        llvm::Triple triple;

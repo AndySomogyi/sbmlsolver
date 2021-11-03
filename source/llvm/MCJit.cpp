@@ -39,12 +39,12 @@ namespace rrllvm {
 
     MCJit::MCJit(std::uint32_t opt)
             : Jit(opt),
-              engineBuilder(EngineBuilder(std::move(module))),
-              executionEngine(std::unique_ptr<ExecutionEngine>(engineBuilder.create())) {
+              engineBuilder(EngineBuilder(std::move(module))){
 
         engineBuilder
                 .setErrorStr(errString.get())
                 .setMCJITMemoryManager(std::make_unique<SectionMemoryManager>());
+        executionEngine = std::unique_ptr<ExecutionEngine>(engineBuilder.create());
         MCJit::addGlobalMappings();
         MCJit::createCLibraryFunctions();
         MCJit::mapDistribFunctionsToJitSymbols();
@@ -211,6 +211,7 @@ namespace rrllvm {
         rc->executionEngine = nullptr;
         rc->errStr = std::move(errString);
         errString = nullptr;
+
     }
 
     std::uint64_t MCJit::lookupFunctionAddress(const std::string &name) {
@@ -229,9 +230,9 @@ namespace rrllvm {
         getExecutionEngineNonOwning()->addObjectFile(std::move(owningObject));
     }
 
-    void MCJit::finalizeObject() {
-        getExecutionEngineNonOwning()->finalizeObject();
-    };
+//    void MCJit::finalizeObject() {
+//        getExecutionEngineNonOwning()->finalizeObject();
+//    };
 
     const llvm::DataLayout &MCJit::getDataLayout() {
         return getExecutionEngineNonOwning()->getDataLayout();
@@ -240,11 +241,19 @@ namespace rrllvm {
     void MCJit::addModule(llvm::Module *M) {
 
     }
+
     void MCJit::addModule(std::unique_ptr<llvm::Module> M, std::unique_ptr<llvm::LLVMContext> ctx) {
+        executionEngine->addModule(std::move(M));
+        optimizeModule();
 
     }
 
-    void MCJit::addModule() {
+    void MCJit::addModule(){
+//        executionEngine->addModule(std::move(module));
+    }
+
+    void MCJit::addModuleViaObjectFile() {
+        optimizeModule();
         if (postOptModuleStream->str().empty()) {
             std::string err = "Attempt to add module before its been optimized. Make a call to "
                               "MCJit::optimizeModule() before addModule()";
@@ -273,7 +282,7 @@ namespace rrllvm {
         addObjectFile(std::move(owningObject));
 
         //https://stackoverflow.com/questions/28851646/llvm-jit-windows-8-1
-        finalizeObject();
+        getExecutionEngineNonOwning()->finalizeObject();
 
     }
 
@@ -571,10 +580,6 @@ namespace rrllvm {
             msg += targetLib.getName(funcId);
             throw_llvm_exception(msg);
         }
-    }
-
-    void MCJit::loadJittedFunctions() {
-
     }
 
     void MCJit::createCLibraryFunctions() {

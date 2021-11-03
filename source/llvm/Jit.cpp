@@ -7,6 +7,7 @@
 #include "Jit.h"
 #include "ModelResources.h"
 #include "rrRoadRunnerOptions.h"
+#include "llvm/Support/TargetRegistry.h"
 
 using namespace rr;
 
@@ -93,7 +94,8 @@ namespace rrllvm {
         rc->getCompartmentVolumePtr = (GetCompartmentVolumeCodeGen::FunctionPtr) lookupFunctionAddress(
                 "getCompartmentVolume");
 
-        rc->getGlobalParameterPtr = (GetGlobalParameterCodeGen::FunctionPtr) lookupFunctionAddress("getGlobalParameter");
+        rc->getGlobalParameterPtr = (GetGlobalParameterCodeGen::FunctionPtr) lookupFunctionAddress(
+                "getGlobalParameter");
 
         rc->evalRateRuleRatesPtr = (EvalRateRuleRatesCodeGen::FunctionPtr) lookupFunctionAddress("evalRateRuleRates");
 
@@ -107,7 +109,8 @@ namespace rrllvm {
 
         rc->eventAssignPtr = (EventAssignCodeGen::FunctionPtr) lookupFunctionAddress("eventAssign");
 
-        rc->evalVolatileStoichPtr = (EvalVolatileStoichCodeGen::FunctionPtr) lookupFunctionAddress("evalVolatileStoich");
+        rc->evalVolatileStoichPtr = (EvalVolatileStoichCodeGen::FunctionPtr) lookupFunctionAddress(
+                "evalVolatileStoich");
 
         rc->evalConversionFactorPtr = (EvalConversionFactorCodeGen::FunctionPtr) lookupFunctionAddress(
                 "evalConversionFactor");
@@ -204,6 +207,24 @@ namespace rrllvm {
         return *postOptModuleStream;
     }
 
+    std::string Jit::getDefaultTargetTriple() const {
+        return llvm::sys::getDefaultTargetTriple();
+    }
+
+
+    const llvm::Target* Jit::getDefaultTargetMachine() const {
+        std::string err;
+        const llvm::Target* target = llvm::TargetRegistry::lookupTarget(getDefaultTargetTriple(), err);
+
+        // Print an error and exit if we couldn't find the requested target.
+        // This generally occurs if we've forgotten to initialise the
+        // TargetRegistry or we have a bogus target triple.
+        if (!target) {
+            rrLogErr << err;
+            llvm::errs() << err;
+        }
+        return target;
+    }
 
 }
 

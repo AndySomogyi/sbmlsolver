@@ -7,13 +7,14 @@
 #include "TestModelFactory.h"
 #include "rrLogger.h"
 #include "rrRoadRunnerOptions.h"
+#include "rrConfig.h"
 
 using namespace rr;
 using namespace rrllvm;
 
-class JitTests : public ::testing::Test {
+class MCJitTests : public ::testing::Test {
 public:
-    JitTests() = default;
+    MCJitTests() = default;
 
 //    template<typename FnPtr>
 //    void checkLibFn(const std::string& funcName, double expected) {
@@ -78,48 +79,42 @@ public:
 
 using fibonacciFnPtr = int (*)(int);
 
-TEST_F(JitTests, ModuleNonOwningNotNull) {
+TEST_F(MCJitTests, ModuleNonOwningNotNull) {
     LoadSBMLOptions opt;
     MCJit mcJit(opt.modelGeneratorOpt);
     ASSERT_TRUE(mcJit.getModuleNonOwning());
 }
 
-TEST_F(JitTests, ContextNonOwningNotNull) {
+TEST_F(MCJitTests, ContextNonOwningNotNull) {
     LoadSBMLOptions opt;
     MCJit mcJit(opt.modelGeneratorOpt);
     ASSERT_TRUE(mcJit.getContextNonOwning());
 }
 
-TEST_F(JitTests, BuilderNonOwningNotNull) {
+TEST_F(MCJitTests, BuilderNonOwningNotNull) {
     LoadSBMLOptions opt;
     MCJit mcJit(opt.modelGeneratorOpt);
     ASSERT_TRUE(mcJit.getBuilderNonOwning());
 }
 
-TEST_F(JitTests, CreateJittedFibonacci) {
+TEST_F(MCJitTests, CreateJittedFibonacci) {
     // maybe the module and shouldnt be owned by the jit?:?
     LoadSBMLOptions opt;
     MCJit mcJit(opt.modelGeneratorOpt);
     CreateFibFunction(mcJit.getModuleNonOwning());
-    mcJit.optimizeModule();
     mcJit.addModule();
 //    std::cout << mcJit.emitToString();
     fibonacciFnPtr fibPtr = (int (*)(int)) mcJit.lookupFunctionAddress("fib");
     ASSERT_EQ(fibPtr(4), 3);
 }
 
-TEST_F(JitTests, TransferObjectsToResources) {
-    ASSERT_FALSE(true);
-}
-
-TEST_F(JitTests, t) {
+TEST_F(MCJitTests, CheckModelSimulates) {
+    rr::Config::setValue(rr::Config::LLVM_COMPILER, rr::Config::LLVM_COMPILER_VALUES::MCJIT);
+//    rr::Config::setValue(rr::Config::LLVM_COMPILER, rr::Config::LLVM_COMPILER_VALUES::LLJIT);
     RoadRunner rr(OpenLinearFlux().str());
-    auto data = rr.simulate(0 , 10, 11);
-    std::cout << *data << std::endl;
+    auto data = rr.simulate(0, 10, 11);
+    ASSERT_EQ(typeid(*data), typeid(ls::Matrix<double>));
 }
-
-
-
 
 
 

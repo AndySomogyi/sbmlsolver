@@ -2,7 +2,7 @@
 // Created by Ciaran on 25/10/2021.
 //
 
-#include "rrLLJit.h"
+#include "LLJit.h"
 #include "rrLogger.h"
 #include "llvm/IR/Function.h"
 #include "SBMLSupportFunctions.h"
@@ -24,7 +24,7 @@ using namespace sbmlsupport;
 
 namespace rrllvm {
 
-    rrLLJit::rrLLJit(std::uint32_t options)
+    LLJit::LLJit(std::uint32_t options)
             : Jit(options) {
 
         // todo, can we cross compile providing a different host arch?
@@ -70,13 +70,13 @@ namespace rrllvm {
         }
         llJit->getMainJITDylib().addGenerator(std::move(*DLSG));
 
-        rrLLJit::mapFunctionsToJitSymbols();
-        rrLLJit::mapDistribFunctionsToJitSymbols();
+        LLJit::mapFunctionsToJitSymbols();
+        LLJit::mapDistribFunctionsToJitSymbols();
 
 
     }
 
-    void rrLLJit::mapFunctionsToJitSymbols() {
+    void LLJit::mapFunctionsToJitSymbols() {
 
         mapFunctionToJitAbsoluteSymbol("rr_csr_matrix_get_nz", reinterpret_cast<std::uint64_t>(&rr::csr_matrix_get_nz));
         mapFunctionToJitAbsoluteSymbol("rr_csr_matrix_set_nz", reinterpret_cast<std::uint64_t>(&rr::csr_matrix_set_nz));
@@ -107,7 +107,7 @@ namespace rrllvm {
 
     }
 
-    void rrLLJit::mapDistribFunctionsToJitSymbols() {
+    void LLJit::mapDistribFunctionsToJitSymbols() {
 #if LIBSBML_HAS_PACKAGE_DISTRIB
 
         mapFunctionToJitAbsoluteSymbol("rr_distrib_uniform", reinterpret_cast<std::uint64_t>(&distrib_uniform));
@@ -144,7 +144,7 @@ namespace rrllvm {
 #endif
     };
 
-    std::uint64_t rrLLJit::lookupFunctionAddress(const std::string &name) {
+    std::uint64_t LLJit::lookupFunctionAddress(const std::string &name) {
         auto expectedSymbol = llJit->lookup(name);
         if (!expectedSymbol) {
             std::string err = "Could not find symbol " + name;
@@ -158,26 +158,16 @@ namespace rrllvm {
         return symbol.getAddress();
     }
 
-    llvm::TargetMachine *rrLLJit::getTargetMachine() {
-        // I can't seem to find a handle to TargetMachine
-        // from LLJit
-        return nullptr;
-    }
-
-    void rrLLJit::addObjectFile(llvm::object::OwningBinary<llvm::object::ObjectFile> owningObject) {
+    void LLJit::addObjectFile(llvm::object::OwningBinary<llvm::object::ObjectFile> owningObject) {
 
 //        llJit->addObjectFile(owningObject);
     }
 
-    void rrLLJit::finalizeObject() {
-
-    }
-
-    const llvm::DataLayout &rrLLJit::getDataLayout() {
+    const llvm::DataLayout &LLJit::getDataLayout() {
         return llJit->getDataLayout();
     }
 
-    void rrLLJit::addModule(llvm::orc::ThreadSafeModule tsm) {
+    void LLJit::addModule(llvm::orc::ThreadSafeModule tsm) {
         std::cout << "full module: " << std::endl;
         std::cout << emitToString() << std::endl;
         if (llvm::Error err = llJit->addIRModule(std::move(tsm))) {
@@ -187,7 +177,7 @@ namespace rrllvm {
         }
     }
 
-    void rrLLJit::addModule(std::unique_ptr<llvm::Module> M, std::unique_ptr<llvm::LLVMContext> ctx) {
+    void LLJit::addModule(std::unique_ptr<llvm::Module> M, std::unique_ptr<llvm::LLVMContext> ctx) {
         llvm::Error err = llJit->addIRModule(
                 llvm::orc::ThreadSafeModule(std::move(M), std::move(ctx))
         );
@@ -197,7 +187,7 @@ namespace rrllvm {
     }
 
 
-    void rrLLJit::addModule(llvm::Module *m) {
+    void LLJit::addModule(llvm::Module *m) {
 
     }
 
@@ -211,37 +201,25 @@ namespace rrllvm {
 //        return createSMDiagnosticError(Err);
 //    }
 
-    void rrLLJit::addModule() {
+    void LLJit::addModule() {
+        llvm::orc::ThreadSafeModule TSM(std::move(module), std::move(context));
+        llvm::Error err = llJit->addIRModule(std::move(TSM));
+        if (err) {
+            std::string errMsg = "Could not add main JITDylib to LLJit";
+            llvm::logAllUnhandledErrors(std::move(err), llvm::errs(), errMsg);
+            rrLogErr << errMsg;
+        }
+    }
 
-//        llvm::orc::ThreadSafeModule TSM(std::move(module), std::move(context));
-//        llvm::Error err = llJit->getIRCompileLayer().add(llJit->getMainJITDylib(), std::move(TSM));
-//        if (!err) {
-//            std::string errMsg = "Could not add main JITDylib to LLJit";
-//            llvm::logAllUnhandledErrors(std::move(err), llvm::errs(), errMsg);
-//            rrLogErr << errMsg;
-//        }
-//        SMDiagnostic Err;
-//        if (auto M = llvm::parseIR(MemoryBufferRef(emitToString(), "rrModule"), Err, *context)) {
-//            orc::ThreadSafeModule TSM(std::move(module), std::move(context));
-//            llvm::Error err = llJit->addIRModule(std::move(TSM));
-//        }
+    void LLJit::addModuleViaObjectFile() {
 
     }
 
-    void rrLLJit::optimizeModule() {
-
-    }
-
-    void rrLLJit::loadJittedFunctions() {
-
-    }
-
-
-    llvm::orc::LLJIT *rrLLJit::getLLJitNonOwning() {
+    llvm::orc::LLJIT *LLJit::getLLJitNonOwning() {
         return llJit.get();
     }
 
-    void rrLLJit::addIRModule() {
+    void LLJit::addIRModule() {
         llvm::orc::ThreadSafeModule tsm(std::move(module), std::move(context));
         llvm::Error err = llJit->addIRModule(std::move(tsm));
         if (err){
@@ -259,7 +237,7 @@ namespace rrllvm {
      * produces a mapping between Foo and a name so that the
      * function can be used from Jit.
      */
-    void rrLLJit::mapFunctionToJitAbsoluteSymbol(const std::string &funcName, std::uint64_t funcAddress) {
+    void LLJit::mapFunctionToJitAbsoluteSymbol(const std::string &funcName, std::uint64_t funcAddress) {
 
         auto symbolStringPool = llJit->getExecutionSession().getExecutorProcessControl().getSymbolStringPool();
         orc::SymbolStringPtr symbPtr = symbolStringPool->intern(funcName);

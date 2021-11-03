@@ -14,7 +14,7 @@
 #endif
 
 #if LLVM_VERSION_MAJOR >= 13
-#   include "rrLLJit.h"
+#   include "LLJit.h"
 #endif
 
 using namespace rr;
@@ -388,7 +388,7 @@ TEST_F(RandomTestsMCJit, checkDistrib_rayleigh_three){
 class RandomTestsRRLLJit : public RandomTests {
 public:
     RandomTestsRRLLJit()
-            : RandomTests(std::make_unique<rrLLJit>(LoadSBMLOptions().modelGeneratorOpt)) {}
+            : RandomTests(std::make_unique<LLJit>(LoadSBMLOptions().modelGeneratorOpt)) {}
 };
 
 TEST_F(RandomTestsRRLLJit, checkDistrib_uniform){

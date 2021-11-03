@@ -36,7 +36,7 @@
 
 #if LLVM_VERSION_MAJOR >= 13
 
-#   include "llvm/rrLLJit.h"
+#   include "llvm/LLJit.h"
 
 #endif
 
@@ -132,31 +132,31 @@ namespace rrllvm {
         EvalVolatileStoichCodeGen(context).createFunction();
         EvalConversionFactorCodeGen(context).createFunction();
 
-        Function *setBoundarySpeciesAmountIR = 0;
+        Function *setBoundarySpeciesAmountIR = nullptr;
         Function *setBoundarySpeciesConcentrationIR;
-        Function *setFloatingSpeciesConcentrationIR = 0;
-        Function *setCompartmentVolumeIR = 0;
-        Function *setFloatingSpeciesAmountIR = 0;
-        Function *setGlobalParameterIR = 0;
-        Function *getFloatingSpeciesInitConcentrationsIR = 0;
-        Function *setFloatingSpeciesInitConcentrationsIR = 0;
-        Function *getFloatingSpeciesInitAmountsIR = 0;
-        Function *setFloatingSpeciesInitAmountsIR = 0;
-        Function *getBoundarySpeciesInitConcentrationsIR = 0;
-        Function *setBoundarySpeciesInitConcentrationsIR = 0;
-        Function *getBoundarySpeciesInitAmountsIR = 0;
-        Function *setBoundarySpeciesInitAmountsIR = 0;
-        Function *getCompartmentInitVolumesIR = 0;
-        Function *setCompartmentInitVolumesIR = 0;
-        Function *getGlobalParameterInitValueIR = 0;
-        Function *setGlobalParameterInitValueIR = 0;
+        Function *setFloatingSpeciesConcentrationIR = nullptr;
+        Function *setCompartmentVolumeIR = nullptr;
+        Function *setFloatingSpeciesAmountIR = nullptr;
+        Function *setGlobalParameterIR = nullptr;
+        Function *getFloatingSpeciesInitConcentrationsIR = nullptr;
+        Function *setFloatingSpeciesInitConcentrationsIR = nullptr;
+        Function *getFloatingSpeciesInitAmountsIR = nullptr;
+        Function *setFloatingSpeciesInitAmountsIR = nullptr;
+        Function *getBoundarySpeciesInitConcentrationsIR = nullptr;
+        Function *setBoundarySpeciesInitConcentrationsIR = nullptr;
+        Function *getBoundarySpeciesInitAmountsIR = nullptr;
+        Function *setBoundarySpeciesInitAmountsIR = nullptr;
+        Function *getCompartmentInitVolumesIR = nullptr;
+        Function *setCompartmentInitVolumesIR = nullptr;
+        Function *getGlobalParameterInitValueIR = nullptr;
+        Function *setGlobalParameterInitValueIR = nullptr;
         if (options & LoadSBMLOptions::READ_ONLY) {
-            setBoundarySpeciesAmountIR = 0;
-            setBoundarySpeciesConcentrationIR = 0;
-            setFloatingSpeciesConcentrationIR = 0;
-            setCompartmentVolumeIR = 0;
-            setFloatingSpeciesAmountIR = 0;
-            setGlobalParameterIR = 0;
+            setBoundarySpeciesAmountIR = nullptr;
+            setBoundarySpeciesConcentrationIR = nullptr;
+            setFloatingSpeciesConcentrationIR = nullptr;
+            setCompartmentVolumeIR = nullptr;
+            setFloatingSpeciesAmountIR = nullptr;
+            setGlobalParameterIR = nullptr;
         } else {
             setBoundarySpeciesAmountIR =
                     SetBoundarySpeciesAmountCodeGen(context).createFunction();
@@ -208,18 +208,18 @@ namespace rrllvm {
             setGlobalParameterInitValueIR =
                     SetGlobalParameterInitValueCodeGen(context).createFunction();
         } else {
-            getFloatingSpeciesInitConcentrationsIR = 0;
-            setFloatingSpeciesInitConcentrationsIR = 0;
-            getFloatingSpeciesInitAmountsIR = 0;
-            setFloatingSpeciesInitAmountsIR = 0;
-            getBoundarySpeciesInitConcentrationsIR = 0;
-            setBoundarySpeciesInitConcentrationsIR = 0;
-            getBoundarySpeciesInitAmountsIR = 0;
-            setBoundarySpeciesInitAmountsIR = 0;
-            setCompartmentInitVolumesIR = 0;
-            getCompartmentInitVolumesIR = 0;
-            getGlobalParameterInitValueIR = 0;
-            setGlobalParameterInitValueIR = 0;
+            getFloatingSpeciesInitConcentrationsIR = nullptr;
+            setFloatingSpeciesInitConcentrationsIR = nullptr;
+            getFloatingSpeciesInitAmountsIR = nullptr;
+            setFloatingSpeciesInitAmountsIR = nullptr;
+            getBoundarySpeciesInitConcentrationsIR = nullptr;
+            setBoundarySpeciesInitConcentrationsIR = nullptr;
+            getBoundarySpeciesInitAmountsIR = nullptr;
+            setBoundarySpeciesInitAmountsIR = nullptr;
+            setCompartmentInitVolumesIR = nullptr;
+            getCompartmentInitVolumesIR = nullptr;
+            getGlobalParameterInitValueIR = nullptr;
+            setGlobalParameterInitValueIR = nullptr;
         }
 
     }
@@ -238,7 +238,7 @@ namespace rrllvm {
 
         else if (options & LoadSBMLOptions::LLJIT) {
             context = std::move(
-                    std::make_unique<ModelGeneratorContext>(sbml, options, std::make_unique<rrLLJit>(options)));
+                    std::make_unique<ModelGeneratorContext>(sbml, options, std::make_unique<LLJit>(options)));
         }
 
 #endif // LLVM_VERSION_MAJOR >= 13
@@ -267,11 +267,10 @@ namespace rrllvm {
 
 
         // optmiize the module and add it to our jit engine
-        context->getJitNonOwning()->optimizeModule();
+        context->getJitNonOwning()->addModule();
         //Save the object so we can saveState quickly later
         rc->moduleStr = context->getJitNonOwning()->getPostOptModuleStream().str().str();
 
-        context->getJitNonOwning()->addModule();
         // now we should have jit'd code, load some function address into
         // function pointers.
         context->getJitNonOwning()->mapFunctionsToAddresses(rc, options);
@@ -546,23 +545,8 @@ namespace rrllvm {
         // this sbml model.
         codeGeneration(*modelGeneratorContext, options);
 
-        // optimize the module and add it to our jit engine
-        modelGeneratorContext->getJitNonOwning()->optimizeModule();
-
         // Save the string representation so we can saveState quickly later
         rc->moduleStr = modelGeneratorContext->getJitNonOwning()->getPostOptModuleStream().str().str();
-
-        // actually add the module, which is a member variable
-        // of the Jit to the jit engine.
-        //context->getJitNonOwning()->addModule();
-
-//        modelGeneratorContext->getJitNonOwning()->addModule(std::move(M_), std::move(Ctx_));
-//
-//        using fibonacciFnPtr1 = int (*)(int);
-//        fibonacciFnPtr1 fibPtr = (int (*)(int)) modelGeneratorContext->getJitNonOwning()->lookupFunctionAddress("fibd");
-//
-//        std::cout << "You are here: " << std::endl;
-//        std::cout << fibPtr(20) << std::endl;
 
         LLVMModelData *modelData = createModelData(modelGeneratorContext->getModelDataSymbols(),
                                                    modelGeneratorContext->getRandom());
@@ -590,10 +574,11 @@ namespace rrllvm {
          * and creating the module. Now we need to grab
          * pointers to the various bits of compiled code.
          */
-        modelGeneratorContext->getJitNonOwning()->addModule(
-                std::move(modelGeneratorContext->getJitNonOwning()->module),
-                std::move(modelGeneratorContext->getJitNonOwning()->context)
-        );
+        modelGeneratorContext->getJitNonOwning()->addModule();
+//        modelGeneratorContext->getJitNonOwning()->addModule(
+//                std::move(modelGeneratorContext->getJitNonOwning()->module),
+//                std::move(modelGeneratorContext->getJitNonOwning()->context)
+//        );
         // load some function address into function pointers.
         modelGeneratorContext->getJitNonOwning()->mapFunctionsToAddresses(rc, options);
 

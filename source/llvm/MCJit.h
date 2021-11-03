@@ -28,31 +28,29 @@ namespace rrllvm {
 
         std::uint64_t lookupFunctionAddress(const std::string& name) override;
 
-//        std::uint64_t getStructAddress(const string &name) override;
-
-        llvm::TargetMachine *getTargetMachine() override ;
-
         void addObjectFile(llvm::object::OwningBinary<llvm::object::ObjectFile> owningObject) override;
 
-        void finalizeObject() override;
+//        void finalizeObject();
 
         const llvm::DataLayout& getDataLayout() override;
+
+        void addModule() override;
 
         void addModule(llvm::Module* M) override;
 
         void addModule(std::unique_ptr<llvm::Module> M, std::unique_ptr<llvm::LLVMContext> ctx) override;
 
-        void addModule() override;
-
-        void optimizeModule() override;
-
-        void loadJittedFunctions() override;
+        /**
+         * @brief Adds the member variable context and associated module
+         * to current jit engine. The module is first converted into
+         * an in memory object file and then stored as a string
+         * in the member cariable postOptModuleStream.
+         */
+        void addModuleViaObjectFile() override;
 
         ExecutionEngine* getExecutionEngineNonOwning() const;
 
-//        void setTargetTriple(llvm::Triple triple) override;
-//
-//        void setDataLayout(llvm::DataLayout dataLayout) override;
+        llvm::TargetMachine *getTargetMachine() ;
 
         llvm::legacy::FunctionPassManager *getFunctionPassManager() const ;
 
@@ -64,6 +62,17 @@ namespace rrllvm {
         void addGlobalMapping(const llvm::GlobalValue *gv, void *addr);
 
         void addGlobalMappings();
+
+        /**
+         * @brief make the calls to PassManager to
+         * optimize the LLVM IR module.
+         * @details This is different between MCJit and LLJit
+         * in that the optimization module is already present in
+         * the LLJit layer stack, so optimization occurs automatically when
+         * a module is added. In contrast, in MCJit we need to call
+         * this ourselves.
+         */
+        void optimizeModule();
 
         /**
          * @brief Add a function from the standard C library to the IR Module.

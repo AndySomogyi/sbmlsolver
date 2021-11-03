@@ -117,38 +117,6 @@ namespace rrllvm {
 
     };
 
-    // function signatures for distrib
-
-    using fn_d1 = double (*)(Random*, double);
-    using fn_d2 = double (*)(Random*, double, double);
-    using fn_d3 = double (*)(Random*, double, double, double);
-    using fn_d4 = double (*)(Random*, double, double, double, double);
-
-    using distrib_uniform_FnTy           = fn_d2;
-    using distrib_normal_FnTy            = fn_d2;
-    using distrib_normal_four_FnTy       = fn_d4;
-    using distrib_bernoulli_FnTy         = fn_d1;
-    using distrib_binomial_FnTy          = fn_d2;
-    using distrib_binomial_four_FnTy     = fn_d4;
-    using distrib_cauchy_FnTy            = fn_d2;
-    using distrib_cauchy_one_FnTy        = fn_d1;
-    using distrib_cauchy_four_FnTy       = fn_d4;
-    using distrib_chisquare_FnTy         = fn_d1;
-    using distrib_chisquare_three_FnTy   = fn_d3;
-    using distrib_exponential_FnTy       = fn_d1;
-    using distrib_exponential_three_FnTy = fn_d3;
-    using distrib_gamma_FnTy             = fn_d2;
-    using distrib_gamma_four_FnTy        = fn_d4;
-    using distrib_laplace_FnTy           = fn_d2;
-    using distrib_laplace_one_FnTy       = fn_d1;
-    using distrib_laplace_four_FnTy      = fn_d4;
-    using distrib_lognormal_FnTy         = fn_d2;
-    using distrib_lognormal_four_FnTy    = fn_d4;
-    using distrib_poisson_FnTy           = fn_d1;
-    using distrib_poisson_three_FnTy     = fn_d3;
-    using distrib_rayleigh_FnTy          = fn_d1;
-    using distrib_rayleigh_three_FnTy    = fn_d3;
-
     double distrib_uniform(Random *random, double _min, double _max);
     double distrib_normal(Random *random, double mu, double sigma);
     double distrib_normal_four(Random *random, double mu, double sigma, double _min, double _max);

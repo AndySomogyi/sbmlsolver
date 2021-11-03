@@ -2,7 +2,7 @@
 // Created by Ciaran on 25/10/2021.
 //
 
-#include "llvm/rrLLJit.h"
+#include "llvm/LLJit.h"
 #include "gtest/gtest.h"
 #include "TestModelFactory.h"
 #include "rrLogger.h"
@@ -25,57 +25,41 @@ using fibonacciFnPtr = int (*)(int);
 
 TEST_F(LLJitTests, ModuleNonOwningNotNull) {
     LoadSBMLOptions opt;
-    rrLLJit llJit(opt.modelGeneratorOpt);
+    LLJit llJit(opt.modelGeneratorOpt);
     ASSERT_TRUE(llJit.getModuleNonOwning());
 }
 
 TEST_F(LLJitTests, ContextNonOwningNotNull) {
     LoadSBMLOptions opt;
-    rrLLJit llJit(opt.modelGeneratorOpt);
+    LLJit llJit(opt.modelGeneratorOpt);
     ASSERT_TRUE(llJit.getContextNonOwning());
 }
 
 TEST_F(LLJitTests, BuilderNonOwningNotNull) {
     LoadSBMLOptions opt;
-    rrLLJit llJit(opt.modelGeneratorOpt);
+    LLJit llJit(opt.modelGeneratorOpt);
     ASSERT_TRUE(llJit.getBuilderNonOwning());
 }
 
 TEST_F(LLJitTests, CreateJittedFibonacci) {
     // maybe the module and shouldnt be owned by the jit?:?
     LoadSBMLOptions opt;
-    rrLLJit llJit(opt.modelGeneratorOpt);
+    LLJit llJit(opt.modelGeneratorOpt);
     CreateFibFunction(llJit.getModuleNonOwning());
     std::cout << llJit.emitToString();
     llJit.addIRModule();
     fibonacciFnPtr fibPtr = (int (*)(int)) llJit.lookupFunctionAddress("fib");
     ASSERT_EQ(fibPtr(4), 3);
 }
-//
-//TEST_F(LLJitTests, TransferObjectsToResources) {
-//    ASSERT_FALSE(true);
-//}
-//
-TEST_F(LLJitTests, t) {
+
+/**
+ * Not concerned with simulation accuracy here, only that the sbml
+ * compiles and the model simulates.
+ */
+TEST_F(LLJitTests, CheckModelSimulates) {
 //    rr::Config::setValue(rr::Config::LLVM_COMPILER, rr::Config::LLVM_COMPILER_VALUES::MCJIT);
     rr::Config::setValue(rr::Config::LLVM_COMPILER, rr::Config::LLVM_COMPILER_VALUES::LLJIT);
-//    LoadSBMLOptions opt;
-//    opt.setLLVMCompiler(LoadSBMLOptions::LLJIT);
-//    opt.setItem()
     RoadRunner rr(OpenLinearFlux().str());
-    auto data = rr.simulate(0 , 10, 11);
-    std::cout << *data << std::endl;
-//
-//
+    auto data = rr.simulate(0, 10, 11);
+    ASSERT_EQ(typeid(*data), typeid(ls::Matrix<double>));
 }
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
