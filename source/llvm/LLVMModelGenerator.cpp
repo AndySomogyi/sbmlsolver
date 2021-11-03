@@ -546,63 +546,7 @@ namespace rrllvm {
         // this sbml model.
         codeGeneration(*modelGeneratorContext, options);
 
-
-        auto Ctx_ = std::make_unique<llvm::LLVMContext>();
-//        llvm::Module j("di", *Ctx)
-        auto M_ = std::make_unique<llvm::Module>("Fibaroo", *Ctx_);
-
-        // Create the fib function and insert it into the model
-        // This function is said to return an int and take an int
-        // as parameter
-        llvm::FunctionType *FibFTy = llvm::FunctionType::get(
-                llvm::Type::getInt32Ty(*Ctx_), {llvm::Type::getInt32Ty(*Ctx_)}, false
-        );
-
-        llvm::Function *FibFn = llvm::Function::Create(FibFTy, llvm::Function::ExternalLinkage, "fibd", *M_);
-
-        //Add a basic memory block
-        llvm::BasicBlock *BB = llvm::BasicBlock::Create(*Ctx_, "EntryBlock", FibFn);
-
-        // get pointers to the constants
-        llvm::Value *One = llvm::ConstantInt::get(llvm::Type::getInt32Ty(*Ctx_), 1);
-        llvm::Value *Two = llvm::ConstantInt::get(llvm::Type::getInt32Ty(*Ctx_), 2);
-
-        // get ptr tointeger arg of the function
-        llvm::Argument *ArgX = &*FibFn->arg_begin();
-        ArgX->setName("AnArg");
-
-        // the true block
-        llvm::BasicBlock *RetBB = llvm::BasicBlock::Create(*Ctx_, "return", FibFn);
-
-        // and the exit block
-        llvm::BasicBlock *RecurseB = llvm::BasicBlock::Create(*Ctx_, "recurse", FibFn);
-
-        // create the if arg < 2 goto exit
-        llvm::Value *CondInst = new llvm::ICmpInst(*BB, llvm::ICmpInst::ICMP_SLE, ArgX, Two, "cond");
-        llvm::BranchInst::Create(RetBB, RecurseB, CondInst, BB);
-        llvm::ReturnInst::Create(*Ctx_, One, RetBB);
-
-        llvm::Value *sub = llvm::BinaryOperator::CreateSub(ArgX, One, "arg", RecurseB);
-        llvm::Value *CallFibX1 = llvm::CallInst::Create(FibFn, sub, "fibx1", RecurseB);
-
-        // create fib(x-2)
-        sub = llvm::BinaryOperator::CreateSub(ArgX, Two, "arg", RecurseB);
-        llvm::Value *CallFibX2 = llvm::CallInst::Create(FibFn, sub, "fibx2", RecurseB);
-
-        // fib(x-1)+fib(x-2)
-        llvm::Value *Sum = llvm::BinaryOperator::CreateAdd(CallFibX1, CallFibX2, "addresult", RecurseB);
-
-        // Create the return instruction and add it to the basic block
-        llvm::ReturnInst::Create(*Ctx_, Sum, RecurseB);
-
-
-
-
-
-
-
         // optimize the module and add it to our jit engine
-
         modelGeneratorContext->getJitNonOwning()->optimizeModule();
 
         // Save the string representation so we can saveState quickly later
@@ -612,13 +556,35 @@ namespace rrllvm {
         // of the Jit to the jit engine.
         //context->getJitNonOwning()->addModule();
 
-        modelGeneratorContext->getJitNonOwning()->addModule(std::move(M_), std::move(Ctx_));
+//        modelGeneratorContext->getJitNonOwning()->addModule(std::move(M_), std::move(Ctx_));
+//
+//        using fibonacciFnPtr1 = int (*)(int);
+//        fibonacciFnPtr1 fibPtr = (int (*)(int)) modelGeneratorContext->getJitNonOwning()->lookupFunctionAddress("fibd");
+//
+//        std::cout << "You are here: " << std::endl;
+//        std::cout << fibPtr(20) << std::endl;
 
-        using fibonacciFnPtr1 = int (*)(int);
-        fibonacciFnPtr1 fibPtr = (int (*)(int)) modelGeneratorContext->getJitNonOwning()->lookupFunctionAddress("fibd");
+        LLVMModelData *modelData = createModelData(modelGeneratorContext->getModelDataSymbols(),
+                                                   modelGeneratorContext->getRandom());
 
-        std::cout << "You are here: " << std::endl;
-        std::cout << fibPtr(20) << std::endl;
+        uint llvmsize = ModelDataIRBuilder::getModelDataSize(
+                modelGeneratorContext->getJitNonOwning()->getModuleNonOwning(),
+                modelGeneratorContext->getJitNonOwning()->getDataLayout()
+                );
+
+        if (llvmsize != modelData->size) {
+            std::stringstream s;
+
+            s << "LLVM Model Data size " << llvmsize << " is different from " <<
+              "C++ size of LLVM ModelData, " << modelData->size;
+
+            LLVMModelData_free(modelData);
+
+            rrLog(Logger::LOG_FATAL) << s.str();
+
+            throw_llvm_exception(s.str());
+        }
+
         /**
          * Up until this point we've been creating IR code
          * and creating the module. Now we need to grab
@@ -640,24 +606,7 @@ namespace rrllvm {
         // Now that everything that could have thrown would have thrown, we
         // can now create the model and set its fields.
 
-        LLVMModelData *modelData = createModelData(modelGeneratorContext->getModelDataSymbols(),
-                                                   modelGeneratorContext->getRandom());
 
-        uint llvmsize = ModelDataIRBuilder::getModelDataSize(modelGeneratorContext->getJitNonOwning()->getModuleNonOwning(),
-                                                             modelGeneratorContext->getJitNonOwning()->getDataLayout());
-
-        if (llvmsize != modelData->size) {
-            std::stringstream s;
-
-            s << "LLVM Model Data size " << llvmsize << " is different from " <<
-              "C++ size of LLVM ModelData, " << modelData->size;
-
-            LLVMModelData_free(modelData);
-
-            rrLog(Logger::LOG_FATAL) << s.str();
-
-            throw_llvm_exception(s.str());
-        }
 
         // * MOVE * the bits over from the context to the exe model.
         modelGeneratorContext->transferObjectsToResources(rc);

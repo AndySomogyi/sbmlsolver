@@ -158,14 +158,13 @@ llvm::Value* ModelDataIRBuilder::createGEP(ModelDataFields field,
 llvm::StructType *getTypeByName(llvm::Module *module, std::string name)
 {
     llvm::StructType *t;
-#if LLVM_VERSION_MAJOR >= 12
+#if LLVM_VERSION_MAJOR >= 13
     t = llvm::StructType::getTypeByName(module->getContext(), name);
 #else
     t = module->getTypeByName(name);
 #endif
   return t;
 }
-
 
 
 llvm::StructType* ModelDataIRBuilder::getCSRSparseStructType(
