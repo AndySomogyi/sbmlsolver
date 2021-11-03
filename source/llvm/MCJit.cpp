@@ -245,11 +245,10 @@ namespace rrllvm {
     void MCJit::addModule(std::unique_ptr<llvm::Module> M, std::unique_ptr<llvm::LLVMContext> ctx) {
         executionEngine->addModule(std::move(M));
         optimizeModule();
-
     }
 
     void MCJit::addModule(){
-//        executionEngine->addModule(std::move(module));
+        addModuleViaObjectFile();
     }
 
     void MCJit::addModuleViaObjectFile() {
