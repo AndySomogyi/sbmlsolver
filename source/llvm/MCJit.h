@@ -30,8 +30,6 @@ namespace rrllvm {
 
         void addObjectFile(llvm::object::OwningBinary<llvm::object::ObjectFile> owningObject) override;
 
-//        void finalizeObject();
-
         const llvm::DataLayout& getDataLayout() override;
 
         void addModule() override;

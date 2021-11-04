@@ -246,6 +246,10 @@ namespace rrllvm {
 
         llvm::raw_svector_ostream& getPostOptModuleStream();
 
+        std::string dump();
+
+        friend std::ostream& operator<<(std::ostream& os, Jit* jit);
+
     protected:
 
         /**

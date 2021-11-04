@@ -332,6 +332,18 @@ namespace rrllvm {
                                FunctionType::get(double_type, args_d2, false));
     }
 
+    std::string Jit::dump(){
+        std::string s;
+        llvm::raw_string_ostream os(s);
+        llJit.getLLJitNonOwning()->getExecutionSession().dump(os);
+        return s;
+    }
+
+    std::ostream &operator<<(std::ostream& os, Jit* jit) {
+        os << jit->dump();
+        return os;
+    }
+
 
 }
 

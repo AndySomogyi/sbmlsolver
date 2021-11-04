@@ -60,6 +60,30 @@ TEST_F(LLJitTests, LoadPowerFunction) {
     ASSERT_TRUE(fn);
 }
 
+TEST_F(LLJitTests, ToObjectFile) {
+    /**
+     * default lljit uses RTDyldObjectLinkingLayer
+     */
+    LoadSBMLOptions opt;
+    LLJit llJit(opt.modelGeneratorOpt);
+    CreateFibFunction(llJit.getModuleNonOwning());
+    llJit.addModule();
+
+    std::string s;
+    llvm::raw_string_ostream os(s);
+    llJit.getLLJitNonOwning()->getExecutionSession().dump(os);
+    std::cout << s << std::endl;
+
+
+//    std::unique_ptr<llvm::orc::MaterializationResponsibility> mr =
+//            std::make_unique<llvm::orc::MaterializationResponsibility>();
+//
+//    std::unique_ptr<llvm::MemoryBuffer> buf = std::make_unique<llvm::MemoryBuffer>();
+//
+////    llJit.getLLJitNonOwning()->getObjLinkingLayer().emit(std::move(mr), std::move(buf));
+//    llJit.getLLJitNonOwning()->getIRTransformLayer().emit()
+}
+
 
 /**
  * Not concerned with simulation accuracy here, only that the sbml
