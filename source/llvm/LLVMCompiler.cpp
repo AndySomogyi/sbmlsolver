@@ -73,7 +73,7 @@ std::string LLVMCompiler::getProcessTriple()
 
 std::string LLVMCompiler::getHostCPUName()
 {
-    return llvm::sys::getHostCPUName();
+    return llvm::sys::getHostCPUName().str();
 }
 
 std::string LLVMCompiler::getVersion()

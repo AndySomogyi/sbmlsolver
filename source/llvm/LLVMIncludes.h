@@ -28,6 +28,12 @@
 #pragma warning( disable : 4244 )
 #endif
 
+
+#if (LLVM_VERSION_MAJOR >= 12)
+#include "llvm/Transforms/InstCombine/InstCombine.h"
+
+#endif
+
 #if (LLVM_VERSION_MAJOR >= 6)
 #include <llvm/IR/DataLayout.h>
 #include <llvm/IR/DerivedTypes.h>

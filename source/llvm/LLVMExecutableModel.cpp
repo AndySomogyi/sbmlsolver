@@ -270,7 +270,7 @@ LLVMExecutableModel::LLVMExecutableModel(
 
     eventAssignTimes.resize(modelData->numEvents);
 
-    reset(SelectionRecord::ALL);
+    reset(int(SelectionRecord::ALL));
 }
 
 LLVMExecutableModel::LLVMExecutableModel(std::istream& in, uint modelGeneratorOpt) :

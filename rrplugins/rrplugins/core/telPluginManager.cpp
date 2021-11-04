@@ -13,7 +13,7 @@
 #include "telCPlugin.h"
 #include "telStringList.h"
 #include "telUtils.h"
-#include "../../wrappers/C/telplugins_c_api.h"
+#include "telplugins_cpp_support.h"
 
 
 namespace tlp
@@ -56,7 +56,7 @@ namespace tlp
         , hostInterface(initializeRoadRunnerAPI())
     {
         //Register this so that we can pass around handles between our plugins.
-        tpRegisterHandle(this, typeid(this).name());
+        tlpc::gHM.registerHandle(this, typeid(this).name());
         //Load the plugins after we're registered, as some plugins rely on other plugins.
         load();
     }
@@ -325,7 +325,7 @@ namespace tlp
                 if (aPlugin)
                 {
                     createRRPluginFunc create = (createRRPluginFunc)libHandle->getSymbol(string(exp_fnc_prefix) + "createPlugin");
-                    tpRegisterHandle(aPlugin, typeid(aPlugin).name());
+                    tlpc::gHM.registerHandle(aPlugin, typeid(aPlugin).name());
                     aPlugin->setLibraryName(getFileNameNoExtension(libName));
                     telPlugin storeMe(libHandle, aPlugin);
                     mPlugins.push_back(storeMe);
@@ -705,13 +705,29 @@ namespace tlp
             host_Interface->setLogLevel = rrc::setLogLevel;
             host_Interface->getLogLevel = rrc::getLogLevel;
 
-            host_Interface->getPlugin = tpGetPlugin;
+            host_Interface->getPlugin = tpGetPluginCore;
         }
         else
         {
             RRPLOG(lError) << " No memory avilable in heap ";
         }
         return host_Interface;
+    }
+
+    void* tpGetPluginCore(void* handle, const char* pluginName)
+    {
+        try {
+            PluginManager* pm = static_cast<PluginManager*>(tlpc::gHM.validate(handle, typeid(PluginManager*).name(), "tpGetPluginCore"));
+            Plugin* aPlugin = pm->getPlugin(pluginName);
+            return aPlugin;
+        }
+        catch (exception& ex)
+        {
+            stringstream msg;
+            msg << "Tellurium exception: " << ex.what();
+            tlpc::tpSetError(msg.str());
+            return NULL;
+        }
     }
 
     std::string getPluginLibNamePrefix()

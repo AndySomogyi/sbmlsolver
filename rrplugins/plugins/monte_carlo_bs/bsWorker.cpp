@@ -1,17 +1,10 @@
 #pragma hdrstop
-#include "bsWorker.h"
 #include <time.h>
 #include <algorithm>
 #include "telLogger.h"
-#include "rrRoadRunnerOptions.h"
-#include "telException.h"
-#include "telTelluriumData.h"
+#include "bsWorker.h"
 #include "bsMonteCarlo.h"
-#include "telUtils.h"
 #include "telMathUtils.h"
-#include "telProperty.h"
-#include "telPluginManager.h"
-#include "telplugins_c_api.h"
 //---------------------------------------------------------------------------
 
 namespace bsmc
@@ -21,12 +14,11 @@ namespace bsmc
     using namespace std;
     using namespace tlpc;
 
-    double getRandomElement(const vector<double>& vec);
-
     bsWorker::bsWorker(MonteCarlo& host)
         :
         mParent(host),
-        mRandom(new tlp::Random((unsigned long)time(NULL)))
+        mRandom(new tlp::Random((unsigned long)time(NULL))),
+        mMinimizerPlugin(NULL)
     {
     }
 

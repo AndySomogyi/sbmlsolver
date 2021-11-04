@@ -97,7 +97,7 @@ TEST_F(RoadRunnerAPITests, getIds) {
             );
     RoadRunner rr(sbml);
     std::list<std::string> l;
-    rr.getIds(SelectionRecord::ALL, l);
+    rr.getIds(int(SelectionRecord::ALL), l);
     ASSERT_EQ(expected, l);
 }
 

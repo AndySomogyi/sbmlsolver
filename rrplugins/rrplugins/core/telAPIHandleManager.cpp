@@ -21,7 +21,7 @@ APIHandleManager::~APIHandleManager()
     //Report existence of any handles in here.. that could be a memory leak if so
 }
 
-TELHandle APIHandleManager::validate(TELHandle handle, const char* type, const char* fnc)
+void* APIHandleManager::validate(void* handle, const char* type, const char* fnc)
 {
     HandleMap::iterator it = mHandles.find(handle);
     if(it !=  mHandles.end()) //There is something like this registered
@@ -60,7 +60,7 @@ TELHandle APIHandleManager::validate(TELHandle handle, const char* type, const c
     else
     {
         //Before throwing, check property containers for handles that are dynamically created. If found, return
-        TELHandle oneMoreTry =   searchFor(handle);
+        void* oneMoreTry =   searchFor(handle);
         if(oneMoreTry)
         {
             return handle;
@@ -74,7 +74,7 @@ TELHandle APIHandleManager::validate(TELHandle handle, const char* type, const c
     return NULL;
 }
 
-TELHandle APIHandleManager::registerHandle(TELHandle handle, const char* type)
+void* APIHandleManager::registerHandle(void* handle, const char* type)
 {
     //Could check for duplicates and signal if that happens
     if(handle)
@@ -85,14 +85,14 @@ TELHandle APIHandleManager::registerHandle(TELHandle handle, const char* type)
     return handle;
 }
 
-bool APIHandleManager::unRegisterHandle(TELHandle handle)
+bool APIHandleManager::unRegisterHandle(void* handle)
 {
     HandleMap::iterator it = mHandles.find(handle);
     mHandles.erase ( it, mHandles.end() );
     return true;
 }
 
-TELHandle APIHandleManager::searchFor(TELHandle handle)
+void* APIHandleManager::searchFor(void* handle)
 {
     HandleMap::iterator it = mHandles.begin();
     while(it != mHandles.end())

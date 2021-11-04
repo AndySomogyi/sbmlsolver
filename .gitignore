@@ -57,7 +57,7 @@ install-release
 build-debug
 build-release
 install-debug
-roadrunner-install-rel
+roadrunner-install-*
 
 # temp.
 sundials

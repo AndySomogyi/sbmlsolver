@@ -151,13 +151,27 @@ llvm::Value* ModelDataIRBuilder::createGEP(ModelDataFields field,
     }
 }
 
+/**
+ * @brief abstract out the llvm::StructType::getTypeByName which
+ * has been removed in llvm 12.
+ */
+llvm::StructType *getTypeByName(llvm::Module *module, std::string name)
+{
+    llvm::StructType *t;
+#if LLVM_VERSION_MAJOR >= 12
+    t = llvm::StructType::getTypeByName(module->getContext(), name);
+#else
+    t = module->getTypeByName(name);
+#endif
+  return t;
+}
 
 
 
 llvm::StructType* ModelDataIRBuilder::getCSRSparseStructType(
         llvm::Module* module, llvm::ExecutionEngine* engine)
 {
-    StructType *structType = module->getTypeByName(csr_matrixName);
+    StructType *structType = getTypeByName(module, csr_matrixName);
 
     if (!structType)
     {
@@ -620,7 +634,7 @@ void ModelDataIRBuilder::validateStruct(llvm::Value* s,
 llvm::StructType *ModelDataIRBuilder::createModelDataStructType(llvm::Module *module,
         llvm::ExecutionEngine *engine, LLVMModelDataSymbols const& symbols)
 {
-    StructType *structType = module->getTypeByName(LLVMModelDataName);
+    StructType *structType = getTypeByName(module, LLVMModelDataName);
 
     if (!structType)
     {
@@ -718,7 +732,7 @@ llvm::StructType *ModelDataIRBuilder::createModelDataStructType(llvm::Module *mo
 
 llvm::StructType *ModelDataIRBuilder::getStructType(llvm::Module *module)
 {
-    StructType *structType = module->getTypeByName(LLVMModelDataName);
+    StructType *structType = getTypeByName(module, LLVMModelDataName);
 
     if (structType == 0)
     {
