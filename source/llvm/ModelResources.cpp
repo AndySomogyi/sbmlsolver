@@ -10,6 +10,8 @@
 
 #include <rrLogger.h>
 #include <rrStringUtils.h>
+
+#include <memory>
 #undef min
 #undef max
 #include "llvm/SBMLSupportFunctions.h"
@@ -202,8 +204,17 @@ void ModelResources::addGlobalMappings()
 
 void ModelResources::loadState(std::istream& in, uint modelGeneratorOpt)
 {
-	if (symbols)
-		delete symbols;
+    if (moduleStr.empty()){
+        std::string err = "Cannot load state because the roadrunner object that should be stored as a string "
+                          "is empty";
+        rrLogErr << err;
+        throw_llvm_exception(err);
+    }
+
+    // todo make symbols a unique_ptr
+
+    // get rid of sumbols, if not nullptr.
+	delete symbols;
 	//load the model data symbols from the stream
 	symbols = new LLVMModelDataSymbols(in);
 	//Get the object file from the input stream
@@ -211,7 +222,7 @@ void ModelResources::loadState(std::istream& in, uint modelGeneratorOpt)
 	//Set up the llvm context 
 //	if (context)
 //		delete context;
-	context.reset(new llvm::LLVMContext());
+	context = std::make_unique<llvm::LLVMContext>();
 	//Set up a buffer to read the object code from
 	auto memBuffer(llvm::MemoryBuffer::getMemBuffer(moduleStr));
     

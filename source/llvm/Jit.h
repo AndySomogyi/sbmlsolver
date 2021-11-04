@@ -16,12 +16,11 @@
 
 namespace rr {
     class ExecutableModel;
-    class Random;
 
 }
 
 namespace rrllvm {
-
+    class Random;
     class ModelResources;
 
     template<typename FunctionPtrType>
@@ -86,10 +85,10 @@ namespace rrllvm {
 
 
     // function signatures for distrib
-    using DistribFnTy_d1 = double (*)(rr::Random*, double);
-    using DistribFnTy_d2 = double (*)(rr::Random*, double, double);
-    using DistribFnTy_d3 = double (*)(rr::Random*, double, double, double);
-    using DistribFnTy_d4 = double (*)(rr::Random*, double, double, double, double);
+    using DistribFnTy_d1 = double (*)(Random*, double);
+    using DistribFnTy_d2 = double (*)(Random*, double, double);
+    using DistribFnTy_d3 = double (*)(Random*, double, double, double);
+    using DistribFnTy_d4 = double (*)(Random*, double, double, double, double);
 
     using distrib_uniform_FnTy           = DistribFnTy_d2;
     using distrib_normal_FnTy            = DistribFnTy_d2;

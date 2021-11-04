@@ -61,6 +61,14 @@ namespace rrllvm {
         rc->context = std::move(context);
         context = nullptr;
 
+        std::string stringifiedModule = postOptModuleStream->str().str();
+        if (stringifiedModule.empty()){
+            std::string msg = "Compiled RoadRunner instancce not sucessfully stored as string. "
+                              "Save and Load state features will not work";
+            rrLogWarn << msg;
+        }
+        rc->moduleStr = stringifiedModule;
+
 //        rc->symbols = symbols;
 //        symbols = nullptr;
 //        rc->executionEngine = std::move(executionEngine);
