@@ -218,6 +218,19 @@ namespace rrllvm {
         return llJit.get();
     }
 
+    std::string LLJit::dump(){
+        std::string s;
+        llvm::raw_string_ostream os(s);
+        lljit->getExecutionSession().dump(os);
+        return s;
+    }
+
+    std::ostream &operator<<(std::ostream& os, LLJit* llJit) {
+        os << llJit->dump();
+        return os;
+    }
+
+
     void LLJit::addIRModule() {
         llvm::orc::ThreadSafeModule tsm(std::move(module), std::move(context));
         llvm::Error err = llJit->addIRModule(std::move(tsm));

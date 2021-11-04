@@ -73,6 +73,13 @@ namespace rrllvm {
 
         void addIRModule();
 
+        /**
+         * @brief prints the symbol tables currently in the jit.
+         */
+        std::string dump();
+
+        friend std::ostream& operator<<(std::ostream& os, LLJit* llJit);
+
     private:
         void mapFunctionToJitAbsoluteSymbol(const std::string &funcName, std::uint64_t funcAddress);
 
