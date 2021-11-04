@@ -149,12 +149,7 @@ namespace rr
 			/**
 			* Turn on SBML validation
 			*/
-			TURN_ON_VALIDATION = (0x1 << 12),
-
-            /**
-             * Use Orc Jit API, llvm 13
-             */
-//            USE_LLJIT = (0x1 << 13)
+			TURN_ON_VALIDATION = (0x1 << 12)
 
 		};
 
