@@ -545,7 +545,18 @@ namespace rrllvm {
         // this sbml model.
         codeGeneration(*modelGeneratorContext, options);
 
-        // Save the string representation so we can saveState quickly later
+        /**
+         * Adds the module and context which is owned by the Jit
+         * to the developing LLVM IR module.
+         * In some Jit's (MCJit), this also triggers llvm IR optimization
+         * which is stored as an object file. It is also stored as a string
+         * for save/load state.
+         */
+        modelGeneratorContext->getJitNonOwning()->addModule();
+
+        // Save the string representation so we can saveState quickly later. Must happen after
+        // call to addModule, since the object file string is produced by optimization, triggered by
+        // adding the module.
         rc->moduleStr = modelGeneratorContext->getJitNonOwning()->getPostOptModuleStream().str().str();
 
         LLVMModelData *modelData = createModelData(modelGeneratorContext->getModelDataSymbols(),
@@ -569,17 +580,6 @@ namespace rrllvm {
             throw_llvm_exception(s.str());
         }
 
-        /**
-         * Up until this point we've been creating IR code
-         * and creating the module. Now we need to grab
-         * pointers to the various bits of compiled code.
-         */
-        modelGeneratorContext->getJitNonOwning()->addModule();
-//        modelGeneratorContext->getJitNonOwning()->addModule(
-//                std::move(modelGeneratorContext->getJitNonOwning()->module),
-//                std::move(modelGeneratorContext->getJitNonOwning()->context)
-//        );
-        // load some function address into function pointers.
         modelGeneratorContext->getJitNonOwning()->mapFunctionsToAddresses(rc, options);
 
 
