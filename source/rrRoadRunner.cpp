@@ -6467,7 +6467,6 @@ namespace rr {
                     impl->loadOpt.modelGeneratorOpt));
 
             //Force setIndividualTolerance to construct a std::vector of the correct size
-            // todo I don't know whether this is a bug or not. I can't work out why this is here (cw)
             if (absTol.get_if<std::vector<double>>())
                 impl->integrator->setValue("absolute_tolerance", Setting(1.0e-7));
 

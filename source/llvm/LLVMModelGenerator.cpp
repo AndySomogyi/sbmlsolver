@@ -251,44 +251,39 @@ namespace rrllvm {
         return std::move(context);
     }
 
-    ExecutableModel *
-    LLVMModelGenerator::regenerateModel(rr::ExecutableModel *oldModel, libsbml::SBMLDocument *doc, uint options) {
-        SharedModelResourcesPtr rc = std::make_shared<ModelResources>();
 
-        char *docSBML = doc->toSBML();
+    /**
+     * @brief collect a few essential calls for creating a model into a function
+     * @details these operations are required in multiple places and so they are
+     * factored out into a single function.
+     */
+    LLVMModelData * codeGenAddModuleAndMakeModelData(ModelGeneratorContext* modelGeneratorContext, std::shared_ptr<ModelResources> rc, std::uint32_t options){
+    
+        // Do all code generation here. This populates the IR module representing
+        // this sbml model.
+        codeGeneration(*modelGeneratorContext, options);
 
-        std::unique_ptr<ModelGeneratorContext> context = createModelGeneratorContext(
-                reinterpret_cast<const char *>(docSBML), options);
+        /**
+         * Adds the module and context which is owned by the Jit
+         * to the developing LLVM IR module.
+         * In some Jit's (MCJit), this also triggers llvm IR optimization
+         * which is stored as an object file. It is also stored as a string
+         * for save/load state.
+         */
+        modelGeneratorContext->getJitNonOwning()->addModule();
 
-        free(docSBML);
+        // Save the string representation so we can saveState quickly later. Must happen after
+        // call to addModule, since the object file string is produced by optimization, triggered by
+        // adding the module.
+        rc->moduleStr = modelGeneratorContext->getJitNonOwning()->getPostOptModuleStream().str().str();
 
-        // code generation part
-        codeGeneration(*context, options);
-
-
-        // optmiize the module and add it to our jit engine
-        context->getJitNonOwning()->addModule();
-        //Save the object so we can saveState quickly later
-        rc->moduleStr = context->getJitNonOwning()->getPostOptModuleStream().str().str();
-
-        // now we should have jit'd code, load some function address into
-        // function pointers.
-        context->getJitNonOwning()->mapFunctionsToAddresses(rc, options);
-
-
-        // if anything up to this point throws an exception, thats OK, because
-        // we have not allocated any memory yet that is not taken care of by
-        // something else.
-        // Now that everything that could have thrown would have thrown, we
-        // can now create the model and set its fields.
-
-        LLVMModelData *modelData = createModelData(context->getModelDataSymbols(),
-                                                   context->getRandom());
+        LLVMModelData *modelData = createModelData(modelGeneratorContext->getModelDataSymbols(),
+                                                   modelGeneratorContext->getRandom());
 
         uint llvmsize = ModelDataIRBuilder::getModelDataSize(
-                context->getJitNonOwning()->getModuleNonOwning(),
-                context->getJitNonOwning()->getDataLayout()
-        );
+                modelGeneratorContext->getJitNonOwning()->getModuleNonOwning(),
+                modelGeneratorContext->getJitNonOwning()->getDataLayout()
+                );
 
         if (llvmsize != modelData->size) {
             std::stringstream s;
@@ -303,12 +298,36 @@ namespace rrllvm {
             throw_llvm_exception(s.str());
         }
 
+        modelGeneratorContext->getJitNonOwning()->mapFunctionsToAddresses(rc, options);
+
+
+        // if anything up to this point throws an exception, thats OK, because
+        // we have not allocated any memory yet that is not taken care of by
+        // something else.
+        // Now that everything that could have thrown would have thrown, we
+        // can now create the model and set its fields.
+
         // * MOVE * the bits over from the context to the exe model.
-        context->transferObjectsToResources(rc);
-//        rc->moduleStr = moduleStr;
+        modelGeneratorContext->transferObjectsToResources(rc);
+
+        return modelData;
+
+    }
+
+    ExecutableModel *
+    LLVMModelGenerator::regenerateModel(rr::ExecutableModel *oldModel, libsbml::SBMLDocument *doc, uint options) {
+        SharedModelResourcesPtr rc = std::make_shared<ModelResources>();
+
+        char *docSBML = doc->toSBML();
+
+        std::unique_ptr<ModelGeneratorContext> modelGeneratorContext = createModelGeneratorContext(
+                reinterpret_cast<const char *>(docSBML), options);
+
+        free(docSBML);
+
+        LLVMModelData *modelData = codeGenAddModuleAndMakeModelData(modelGeneratorContext.get(), rc, options);
 
         LLVMExecutableModel *newModel = new LLVMExecutableModel(rc, modelData);
-
 
         if (oldModel) {
             // the stored SBML document will not keep updated, so we need to
@@ -541,60 +560,7 @@ namespace rrllvm {
 
         std::unique_ptr<ModelGeneratorContext> modelGeneratorContext = createModelGeneratorContext(sbml, options);
 
-        // Do all code generation here. This populates the IR module representing
-        // this sbml model.
-        codeGeneration(*modelGeneratorContext, options);
-
-        /**
-         * Adds the module and context which is owned by the Jit
-         * to the developing LLVM IR module.
-         * In some Jit's (MCJit), this also triggers llvm IR optimization
-         * which is stored as an object file. It is also stored as a string
-         * for save/load state.
-         */
-        modelGeneratorContext->getJitNonOwning()->addModule();
-
-        // Save the string representation so we can saveState quickly later. Must happen after
-        // call to addModule, since the object file string is produced by optimization, triggered by
-        // adding the module.
-        rc->moduleStr = modelGeneratorContext->getJitNonOwning()->getPostOptModuleStream().str().str();
-
-        LLVMModelData *modelData = createModelData(modelGeneratorContext->getModelDataSymbols(),
-                                                   modelGeneratorContext->getRandom());
-
-        uint llvmsize = ModelDataIRBuilder::getModelDataSize(
-                modelGeneratorContext->getJitNonOwning()->getModuleNonOwning(),
-                modelGeneratorContext->getJitNonOwning()->getDataLayout()
-                );
-
-        if (llvmsize != modelData->size) {
-            std::stringstream s;
-
-            s << "LLVM Model Data size " << llvmsize << " is different from " <<
-              "C++ size of LLVM ModelData, " << modelData->size;
-
-            LLVMModelData_free(modelData);
-
-            rrLog(Logger::LOG_FATAL) << s.str();
-
-            throw_llvm_exception(s.str());
-        }
-
-        modelGeneratorContext->getJitNonOwning()->mapFunctionsToAddresses(rc, options);
-
-
-
-
-        // if anything up to this point throws an exception, thats OK, because
-        // we have not allocated any memory yet that is not taken care of by
-        // something else.
-        // Now that everything that could have thrown would have thrown, we
-        // can now create the model and set its fields.
-
-
-
-        // * MOVE * the bits over from the context to the exe model.
-        modelGeneratorContext->transferObjectsToResources(rc);
+        LLVMModelData *modelData = codeGenAddModuleAndMakeModelData(modelGeneratorContext.get(), rc, options);
 
         if (!forceReCompile) {
             // check for a chached copy, another thread could have
