@@ -257,7 +257,7 @@ namespace rrllvm {
      * @details these operations are required in multiple places and so they are
      * factored out into a single function.
      */
-    LLVMModelData * codeGenAddModuleAndMakeModelData(ModelGeneratorContext* modelGeneratorContext, std::shared_ptr<ModelResources> rc, std::uint32_t options){
+    LLVMModelData * codeGenAddModuleAndMakeModelData(ModelGeneratorContext* modelGeneratorContext, std::shared_ptr<ModelResources>& rc, std::uint32_t options){
     
         // Do all code generation here. This populates the IR module representing
         // this sbml model.

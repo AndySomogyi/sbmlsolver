@@ -281,5 +281,10 @@ double min(double a, double b)
     return a < b ? a : b;
 }
 
+double rr_pow(double a, double b){
+    return pow(a, b);
+}
+
+
 }
 } /* namespace sbmlsupport */

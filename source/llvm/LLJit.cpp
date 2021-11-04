@@ -104,7 +104,6 @@ namespace rrllvm {
         mapFunctionToJitAbsoluteSymbol("quotient", reinterpret_cast<std::uint64_t>(&sbmlsupport::quotient));
         mapFunctionToJitAbsoluteSymbol("rr_max", reinterpret_cast<std::uint64_t>(&sbmlsupport::max));
         mapFunctionToJitAbsoluteSymbol("rr_min", reinterpret_cast<std::uint64_t>(&sbmlsupport::min));
-
     }
 
     void LLJit::mapDistribFunctionsToJitSymbols() {

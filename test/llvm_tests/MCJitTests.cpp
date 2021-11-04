@@ -108,6 +108,15 @@ TEST_F(MCJitTests, CreateJittedFibonacci) {
     ASSERT_EQ(fibPtr(4), 3);
 }
 
+TEST_F(MCJitTests, LoadPowerFunction) {
+    // proxy for all functions that need to be loaded as llvm::Function.
+    LoadSBMLOptions opt;
+    MCJit mcJit(opt.modelGeneratorOpt);
+    llvm::Function* fn = mcJit.getModuleNonOwning()->getFunction("pow");
+    mcJit.addModule();
+    ASSERT_TRUE(fn);
+}
+
 TEST_F(MCJitTests, CheckModelSimulates) {
     rr::Config::setValue(rr::Config::LLVM_COMPILER, rr::Config::LLVM_COMPILER_VALUES::MCJIT);
 //    rr::Config::setValue(rr::Config::LLVM_COMPILER, rr::Config::LLVM_COMPILER_VALUES::LLJIT);

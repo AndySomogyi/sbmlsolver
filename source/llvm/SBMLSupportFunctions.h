@@ -95,6 +95,10 @@ double max(double a, double b);
 
 //// Minimum of two double numbers
 double min(double a, double b);
+
+
+double rr_pow(double a, double b);
+
 }
 
 

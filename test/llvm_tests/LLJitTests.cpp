@@ -52,6 +52,15 @@ TEST_F(LLJitTests, CreateJittedFibonacci) {
     ASSERT_EQ(fibPtr(4), 3);
 }
 
+TEST_F(LLJitTests, LoadPowerFunction) {
+    LoadSBMLOptions opt;
+    LLJit llJit(opt.modelGeneratorOpt);
+    llvm::Function* fn = llJit.getModuleNonOwning()->getFunction("pow");
+    llJit.addModule();
+    ASSERT_TRUE(fn);
+}
+
+
 /**
  * Not concerned with simulation accuracy here, only that the sbml
  * compiles and the model simulates.
