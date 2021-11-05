@@ -560,6 +560,9 @@ namespace rrllvm {
 
         std::unique_ptr<ModelGeneratorContext> modelGeneratorContext = createModelGeneratorContext(sbml, options);
 
+        // use md5 for module identifier.
+        modelGeneratorContext->getJitNonOwning()->setModuleIdentifier(md5);
+
         LLVMModelData *modelData = codeGenAddModuleAndMakeModelData(modelGeneratorContext.get(), rc, options);
 
         if (!forceReCompile) {
@@ -591,6 +594,7 @@ namespace rrllvm {
                                          ", inserting new resources into cache";
 
                 cachedModelResources[md5] = rc;
+                modelGeneratorContext->getJitNonOwning()->setModuleIdentifier(md5);
             }
 
             cachedModelsMutex.unlock();

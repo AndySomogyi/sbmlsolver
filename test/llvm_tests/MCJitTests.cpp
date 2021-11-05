@@ -126,6 +126,12 @@ TEST_F(MCJitTests, CheckModelSimulates) {
 }
 
 
+TEST_F(MCJitTests, t) {
+    LoadSBMLOptions opt;
+    MCJit mcJit(opt.modelGeneratorOpt);
+    auto* tm = mcJit.getTargetMachine();
+    int x = 4;
+}
 
 
 

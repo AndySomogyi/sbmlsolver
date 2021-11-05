@@ -2,6 +2,7 @@
 // Created by Ciaran on 25/10/2021.
 //
 
+
 #include "LLJit.h"
 #include "rrLogger.h"
 #include "llvm/IR/Function.h"
@@ -11,6 +12,7 @@
 #include "llvm/Target/TargetMachine.h"
 #include "llvm/IRReader/IRReader.h"
 #include "llvm/Support/SourceMgr.h"
+#include "ObjectCache.h"
 
 #if LIBSBML_HAS_PACKAGE_DISTRIB
 
@@ -28,24 +30,92 @@ namespace rrllvm {
             : Jit(options) {
 
         // todo, can we cross compile providing a different host arch?
-        auto JTMB = llvm::orc::JITTargetMachineBuilder::detectHost();
-        if (!JTMB) {
-            llvm::logAllUnhandledErrors(std::move(JTMB.takeError()), llvm::errs(),
+
+        /**
+         * Create a JTMB.
+         *
+         * This is moved into the LLJitBuilder and becomes harder to access, so pull out
+         * things which we need later on and store them as member variables.
+         */
+        llvm::Expected<llvm::orc::JITTargetMachineBuilder> expectedJTMB = llvm::orc::JITTargetMachineBuilder::detectHost();
+        if (!expectedJTMB) {
+            llvm::logAllUnhandledErrors(std::move(expectedJTMB.takeError()), llvm::errs(),
                                         "Cannot create JitTargetMachineBuilder");
         }
+        auto JTMB = *expectedJTMB;
+
+        /**
+         * None, Less, Default or Aggressive are the options.
+         */
+        JTMB.setCodeGenOptLevel(llvm::CodeGenOpt::Level::None);
 
         // query the target machine builder for its data layout.
-        auto DL = JTMB->getDefaultDataLayoutForTarget();
+        auto DL = JTMB.getDefaultDataLayoutForTarget();
         if (!DL) {
             std::string err = "Unable to get default data layout";
             rrLogErr << err;
             llvm::logAllUnhandledErrors(std::move(DL.takeError()), llvm::errs(), err);
+            throw_llvm_exception(err);
         }
 
+        if (Logger::getLevel() <= Logger::Level::LOG_DEBUG) {
+            std::string s;
+            llvm::raw_string_ostream os(s);
+            llvm::orc::JITTargetMachineBuilderPrinter jtmbp(JTMB, "RoadRunnnerJTMBPrinter");
+            jtmbp.print(os);
+            rrLogDebug << "JitTargetMachineBuilder information: ";
+            rrLogDebug << s;
+        }
+
+        // cant seem to find a way to add target machine to the jit builder
+        llvm::Expected<std::unique_ptr<llvm::TargetMachine>> expectedTargetMachine = JTMB.createTargetMachine();
+        if (!expectedTargetMachine) {
+            std::string err = "Could not create target machine";
+            rrLogErr << err;
+            llvm::logAllUnhandledErrors(std::move(expectedTargetMachine.takeError()), llvm::errs(), err);
+            throw_llvm_exception(err);
+        }
+
+        // tell the LLJit instance to look in the current process
+        // for symbols before complaining that they can't be found,
+        // create the generator before moving DL to LLJITBuilder
+        auto DLSG = llvm::orc::DynamicLibrarySearchGenerator::GetForCurrentProcess(DL->getGlobalPrefix());
+        if (!DLSG) {
+            llvm::logAllUnhandledErrors(
+                    std::move(DLSG.takeError()),
+                    llvm::errs(),
+                    "DynamicLibrarySearchGenerator not built successfully"
+            );
+        }
+
+        int numCompileThreads = 8;
+
+        // Create the LLJitBuilder
         llvm::orc::LLJITBuilder llJitBuilder;
-        llJitBuilder.setNumCompileThreads(4)
+        llJitBuilder.setNumCompileThreads(numCompileThreads)
                 .setDataLayout(std::move(*DL))
-                .setJITTargetMachineBuilder(std::move(*JTMB));
+                .setJITTargetMachineBuilder(std::move(JTMB))
+
+                        /**
+                         * Set a custom compile function that 1) caches objects
+                         * and 2) stores a pointer to the targetMachine for access later.
+                         * The targetMachine pointer is owned by the JITTargetMachineBuilder.
+                         */
+                .setCompileFunctionCreator([&](llvm::orc::JITTargetMachineBuilder JTMB)
+                                                   -> Expected<std::unique_ptr<llvm::orc::IRCompileLayer::IRCompiler>> {
+                    // Create the target machine.
+                    auto TM = JTMB.createTargetMachine();
+                    if (!TM)
+                        return TM.takeError();
+
+                    // store a pointer to it for later use
+                    targetMachineNonOwning = (*TM).get();
+                    if (numCompileThreads > 0)
+                        return std::make_unique<llvm::orc::ConcurrentIRCompiler>(std::move(JTMB), &SBMLModelObjectCache::getObjectCache());
+
+                    return std::make_unique<llvm::orc::TMOwningSimpleCompiler>(std::move(*TM), &SBMLModelObjectCache::getObjectCache());
+                });
+
 
         auto llJitExpected = llJitBuilder.create();
         if (!llJitExpected) {
@@ -57,23 +127,11 @@ namespace rrllvm {
         // if success, grab the LLJit obj from the llvm::Expected object.
         llJit = std::move(*llJitExpected);
 
-        // tell the LLJit instance to look in the current process
-        // for symbols before complaining that they can't be found,
-        auto DLSG = llvm::orc::DynamicLibrarySearchGenerator::GetForCurrentProcess(
-                DL->getGlobalPrefix());
-        if (!DLSG) {
-            llvm::logAllUnhandledErrors(
-                    std::move(DLSG.takeError()),
-                    llvm::errs(),
-                    "DynamicLibrarySearchGenerator not built successfully"
-            );
-        }
+        // adds the generater created above
         llJit->getMainJITDylib().addGenerator(std::move(*DLSG));
 
         LLJit::mapFunctionsToJitSymbols();
         LLJit::mapDistribFunctionsToJitSymbols();
-
-
     }
 
     void LLJit::mapFunctionsToJitSymbols() {
@@ -180,7 +238,7 @@ namespace rrllvm {
         llvm::Error err = llJit->addIRModule(
                 llvm::orc::ThreadSafeModule(std::move(M), std::move(ctx))
         );
-        if (err){
+        if (err) {
             llvm::logAllUnhandledErrors(std::move(err), llvm::errs(), "error adding module");
         }
     }
@@ -218,14 +276,14 @@ namespace rrllvm {
         return llJit.get();
     }
 
-    std::string LLJit::dump(){
+    std::string LLJit::dump() {
         std::string s;
         llvm::raw_string_ostream os(s);
-        lljit->getExecutionSession().dump(os);
+        llJit->getExecutionSession().dump(os);
         return s;
     }
 
-    std::ostream &operator<<(std::ostream& os, LLJit* llJit) {
+    std::ostream &operator<<(std::ostream &os, LLJit *llJit) {
         os << llJit->dump();
         return os;
     }
@@ -234,7 +292,7 @@ namespace rrllvm {
     void LLJit::addIRModule() {
         llvm::orc::ThreadSafeModule tsm(std::move(module), std::move(context));
         llvm::Error err = llJit->addIRModule(std::move(tsm));
-        if (err){
+        if (err) {
             std::string errMsg = "Could not add module to LLJit";
             rrLogErr << errMsg;
             llvm::logAllUnhandledErrors(std::move(err), llvm::errs(), errMsg);
@@ -262,6 +320,5 @@ namespace rrllvm {
             llvm::logAllUnhandledErrors(std::move(err), llvm::errs(), "Could not add symbol " + funcName);
         }
     }
-
 
 }

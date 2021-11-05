@@ -16,7 +16,7 @@ using namespace rrllvm;
 class LLJitTests : public JitTests {
 public:
     LLJitTests() {
-        Logger::setLevel(Logger::LOG_INFORMATION);
+        Logger::setLevel(Logger::LOG_DEBUG);
     };
 
 };
@@ -52,12 +52,59 @@ TEST_F(LLJitTests, CreateJittedFibonacci) {
     ASSERT_EQ(fibPtr(4), 3);
 }
 
-TEST_F(LLJitTests, LoadPowerFunction) {
+TEST_F(LLJitTests, FibonacciCached) {
+    // maybe the module and shouldnt be owned by the jit?:?
+    LoadSBMLOptions opt;
+    LLJit llJit(opt.modelGeneratorOpt);
+    llJit.setModuleIdentifier("fibMod");
+    CreateFibFunction(llJit.getModuleNonOwning());
+//    std::cout << llJit.emitToString();
+    llJit.addIRModule();
+    fibonacciFnPtr fibPtr1 = (int (*)(int)) llJit.lookupFunctionAddress("fib");
+    ASSERT_EQ(fibPtr1(4), 3);
+
+
+    LLJit llJit2(opt.modelGeneratorOpt);
+    llJit2.setModuleIdentifier("fibMod");
+    CreateFibFunction(llJit2.getModuleNonOwning());
+//    std::cout << llJit2.emitToString();
+    llJit2.addIRModule();
+    fibonacciFnPtr fibPtr2 = (int (*)(int)) llJit2.lookupFunctionAddress("fib");
+    ASSERT_EQ(fibPtr2(4), 3);
+
+
+    llvm::LLVMContext ctx;
+    auto mod = std::make_unique<llvm::Module>("fibMod", ctx);
+    mod->setModuleIdentifier("fibMod");
+
+    std::unique_ptr<llvm::MemoryBuffer> obj = SBMLModelObjectCache::getObjectCache().getObject(mod.get());
+
+
+//    std::cout << obj << std::endl;
+
+}
+
+TEST_F(LLJitTests, LoadPowerFunctiond) {
     LoadSBMLOptions opt;
     LLJit llJit(opt.modelGeneratorOpt);
     llvm::Function* fn = llJit.getModuleNonOwning()->getFunction("pow");
     llJit.addModule();
     ASSERT_TRUE(fn);
+}
+
+TEST_F(LLJitTests, SetModuleIdentifier) {
+    LoadSBMLOptions opt;
+    LLJit llJit(opt.modelGeneratorOpt);
+    llJit.setModuleIdentifier("FibMod");
+    ASSERT_STREQ("FibMod", llJit.getModuleNonOwning()->getModuleIdentifier().c_str());
+}
+
+TEST_F(LLJitTests, CreateUsingSBMLString) {
+    LoadSBMLOptions opt;
+    LLJit llJit(opt.modelGeneratorOpt);
+
+    llJit.setModuleIdentifier("FibMod");
+    ASSERT_STREQ("FibMod", llJit.getModuleNonOwning()->getModuleIdentifier().c_str());
 }
 
 TEST_F(LLJitTests, ToObjectFile) {
@@ -69,10 +116,12 @@ TEST_F(LLJitTests, ToObjectFile) {
     CreateFibFunction(llJit.getModuleNonOwning());
     llJit.addModule();
 
-    std::string s;
-    llvm::raw_string_ostream os(s);
-    llJit.getLLJitNonOwning()->getExecutionSession().dump(os);
-    std::cout << s << std::endl;
+//    llJit.getLLJitNonOwning()->getExecutionSession().dispatchTask()
+//
+//    std::string s;
+//    llvm::raw_string_ostream os(s);
+//    llJit.getLLJitNonOwning()->getExecutionSession().dump(os);
+//    std::cout << s << std::endl;
 
 
 //    std::unique_ptr<llvm::orc::MaterializationResponsibility> mr =

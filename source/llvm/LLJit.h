@@ -11,31 +11,14 @@
 #include "llvm/Jit.h"
 #include "llvm/ExecutionEngine/Orc/LLJIT.h"
 #include "llvm/Support/SourceMgr.h"
+#include "ObjectCache.h"
 
 
 using namespace rr;
 
 namespace rrllvm {
-    inline llvm::Error createSMDiagnosticError(llvm::SMDiagnostic &Diag) {
-        using namespace llvm;
-        std::string Msg;
-        {
-            raw_string_ostream OS(Msg);
-            Diag.print("", OS);
-        }
-        return make_error<StringError>(std::move(Msg), inconvertibleErrorCode());
-    }
 
-    inline llvm::Expected<llvm::orc::ThreadSafeModule>
-    parseModule(llvm::StringRef Source, llvm::StringRef Name) {
-        using namespace llvm;
-        auto Ctx = std::make_unique<LLVMContext>();
-        SMDiagnostic Err;
-        if (auto M = parseIR(MemoryBufferRef(Source, Name), Err, *Ctx))
-            return orc::ThreadSafeModule(std::move(M), std::move(Ctx));
-
-        return createSMDiagnosticError(Err);
-    }
+    class SBMLModelObjectCache;
 
     /**
      * @brief Thin layer around the llvm::orc::LLJit.
@@ -81,10 +64,11 @@ namespace rrllvm {
         friend std::ostream& operator<<(std::ostream& os, LLJit* llJit);
 
     private:
+
         void mapFunctionToJitAbsoluteSymbol(const std::string &funcName, std::uint64_t funcAddress);
 
         std::unique_ptr<llvm::orc::LLJIT> llJit;
-
+        llvm::TargetMachine* targetMachineNonOwning = nullptr;
     };
 
 }

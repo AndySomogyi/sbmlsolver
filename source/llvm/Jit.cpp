@@ -8,6 +8,8 @@
 #include "ModelResources.h"
 #include "rrRoadRunnerOptions.h"
 #include "llvm/Support/TargetRegistry.h"
+#include "llvm/Support/Host.h"
+#include "ObjectCache.h"
 
 using namespace rr;
 
@@ -53,6 +55,10 @@ namespace rrllvm {
         return context.get();
     }
 
+    void Jit::setModuleIdentifier(const std::string &id) {
+        module->setModuleIdentifier(id);
+    }
+
 
     llvm::IRBuilder<> *Jit::getBuilderNonOwning() {
         return builder.get();
@@ -64,7 +70,7 @@ namespace rrllvm {
         context = nullptr;
 
         std::string stringifiedModule = postOptModuleStream->str().str();
-        if (stringifiedModule.empty()){
+        if (stringifiedModule.empty()) {
             std::string msg = "Compiled RoadRunner instancce not sucessfully stored as string. "
                               "Save and Load state features will not work";
             rrLogWarn << msg;
@@ -217,25 +223,6 @@ namespace rrllvm {
         return *postOptModuleStream;
     }
 
-    std::string Jit::getDefaultTargetTriple() const {
-        return llvm::sys::getDefaultTargetTriple();
-    }
-
-
-    const llvm::Target* Jit::getDefaultTargetMachine() const {
-        std::string err;
-        const llvm::Target* target = llvm::TargetRegistry::lookupTarget(getDefaultTargetTriple(), err);
-
-        // Print an error and exit if we couldn't find the requested target.
-        // This generally occurs if we've forgotten to initialise the
-        // TargetRegistry or we have a bogus target triple.
-        if (!target) {
-            rrLogErr << err;
-            llvm::errs() << err;
-        }
-        return target;
-    }
-
 
     void Jit::createCLibraryFunction(llvm::LibFunc funcId, llvm::FunctionType *funcType) {
         // For some reason I had a problem when I passed the default ctor for TargetLibraryInfoImpl in
@@ -332,8 +319,62 @@ namespace rrllvm {
                                FunctionType::get(double_type, args_d2, false));
     }
 
+    void Jit::addModuleViaObjectFile() {
+        if (postOptModuleStream->str().empty()) {
+            std::string err = "Attempt to add module before its been optimized. Make a call to "
+                              "MCJit::optimizeModule() before addModule()";
+            rrLogErr << err;
+            throw_llvm_exception(err);
+        }
+        //Read from modBufferOut into our execution engine
+//        std::string moduleStr(postOptModuleStream.begin(), postOptModuleStream.end());
+
+        auto memBuffer(llvm::MemoryBuffer::getMemBuffer(postOptModuleStream->str().str()));
+
+        llvm::Expected<std::unique_ptr<llvm::object::ObjectFile> > objectFileExpected =
+                llvm::object::ObjectFile::createObjectFile(llvm::MemoryBufferRef(postOptModuleStream->str(), "id"));
+
+        if (!objectFileExpected) {
+            //LS DEBUG:  find a way to get the text out of the error.
+            auto err = objectFileExpected.takeError();
+            std::string s = "LLVM object supposed to be file, but is not.";
+            rrLog(Logger::LOG_FATAL) << s;
+            throw_llvm_exception(s);
+        }
+
+        std::unique_ptr<llvm::object::ObjectFile> objectFile(std::move(objectFileExpected.get()));
+        llvm::object::OwningBinary<llvm::object::ObjectFile> owningObject(std::move(objectFile), std::move(memBuffer));
+
+        addObjectFile(std::move(owningObject));
+
+    }
+
+    /**
+    * getProcessTriple() - Return an appropriate target triple for generating
+    * code to be loaded into the current process, e.g. when using the JIT.
+    */
+    std::string Jit::getProcessTriple() const {
+        return llvm::sys::getProcessTriple();
+    }
+
+    std::string Jit::getDefaultTargetTriple() const {
+        return llvm::sys::getDefaultTargetTriple();
+    }
 
 
+    const llvm::Target *Jit::getDefaultTargetMachine() const {
+        std::string err;
+        const llvm::Target *target = llvm::TargetRegistry::lookupTarget(getDefaultTargetTriple(), err);
+
+        // Print an error and exit if we couldn't find the requested target.
+        // This generally occurs if we've forgotten to initialise the
+        // TargetRegistry or we have a bogus target triple.
+        if (!target) {
+            rrLogErr << err;
+            llvm::errs() << err;
+        }
+        return target;
+    }
 
 }
 

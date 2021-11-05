@@ -5,6 +5,7 @@
 #ifndef ROADRUNNER_JIT_H
 #define ROADRUNNER_JIT_H
 
+#define NOMINMAX
 
 #include <llvm/Analysis/TargetLibraryInfo.h>
 #include <rrSparse.h>
@@ -12,6 +13,7 @@
 #include "LLVMException.h"
 #include "llvm/Target/TargetMachine.h"
 #include "llvm/Object/ObjectFile.h"
+#include "llvm/ExecutionEngine/ObjectCache.h"
 #include "rrSparse.h"
 
 namespace rr {
@@ -22,6 +24,7 @@ namespace rr {
 namespace rrllvm {
     class Random;
     class ModelResources;
+    class SBMLModelObjectCache;
 
     template<typename FunctionPtrType>
     class CodeGenBase;
@@ -116,8 +119,11 @@ namespace rrllvm {
     using distrib_rayleigh_three_FnTy    = DistribFnTy_d3;
 
 
+
     class Jit {
     public:
+
+
 
         // todo build a constructor that uses default
         //  modelGenOpt from LoadSBMLOptions - subclasses can use this.
@@ -213,7 +219,7 @@ namespace rrllvm {
          */
         virtual void addModule() = 0;
 
-        virtual void addModuleViaObjectFile() = 0;
+        virtual void addModuleViaObjectFile();
 
         /**
          * *Moves* objects over to ModelResources ptr
@@ -240,14 +246,38 @@ namespace rrllvm {
 
         virtual std::string emitToString();
 
-//        virtual void setTargetTriple(llvm::Triple triple);
-//
-//        virtual void setDataLayout(llvm::DataLayout dataLayout);
-
         llvm::raw_svector_ostream& getPostOptModuleStream();
 
+        std::string getDefaultTargetTriple() const;
+
+        void setModuleIdentifier(const std::string &id) ;
 
     protected:
+
+         /**
+          *
+          */
+         std::string Jit::getProcessTriple() const ;
+
+        /**
+         * @brief use llvm calls to work out which TargetMachine
+         * is currently being used.
+         */
+        const llvm::Target* getDefaultTargetMachine() const;
+
+        std::unique_ptr<llvm::LLVMContext> context;
+        std::unique_ptr<llvm::Module> module;
+        llvm::Module *moduleNonOwning = nullptr;
+        std::unique_ptr<llvm::IRBuilder<>> builder;
+//        llvm::Triple triple;
+//        llvm::DataLayout DataLayout;
+        std::uint32_t options;
+        llvm::SmallVector<char, 10> moduleBuffer;
+        std::unique_ptr<llvm::raw_svector_ostream> postOptModuleStream;
+
+
+    private:
+
 
         /**
          * @brief Add a function from the standard C library to the IR Module.
@@ -273,28 +303,6 @@ namespace rrllvm {
          * @see Jit::mapFunctionsToJitSymbols
          */
         void createCLibraryFunctions();
-
-
-        /**
-         * @brief return the default TargetTriple for the
-         * machine currently being used for compiling a model
-         */
-         std::string getDefaultTargetTriple() const;
-        /**
-         * @brief use llvm calls to work out which TargetMachine
-         * is currently being used.
-         */
-        const llvm::Target* getDefaultTargetMachine() const;
-
-        std::unique_ptr<llvm::LLVMContext> context;
-        std::unique_ptr<llvm::Module> module;
-        llvm::Module *moduleNonOwning = nullptr;
-        std::unique_ptr<llvm::IRBuilder<>> builder;
-//        llvm::Triple triple;
-//        llvm::DataLayout DataLayout;
-        std::uint32_t options;
-        llvm::SmallVector<char, 10> moduleBuffer;
-        std::unique_ptr<llvm::raw_svector_ostream> postOptModuleStream;
 
     };
 

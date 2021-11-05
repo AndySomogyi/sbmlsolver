@@ -46,7 +46,6 @@ namespace rrllvm {
                 .setMCJITMemoryManager(std::make_unique<SectionMemoryManager>());
         executionEngine = std::unique_ptr<ExecutionEngine>(engineBuilder.create());
         MCJit::addGlobalMappings();
-        MCJit::createCLibraryFunctions();
         MCJit::mapDistribFunctionsToJitSymbols();
         MCJit::initFunctionPassManager();
     }
@@ -223,7 +222,10 @@ namespace rrllvm {
 //    }
 
     llvm::TargetMachine *MCJit::getTargetMachine() {
-        return executionEngine->getTargetMachine();
+        auto t = executionEngine->getTargetMachine();
+        int x = 3;
+        return t;
+//        return getDefaultTargetMachine();
     }
 
     void MCJit::addObjectFile(llvm::object::OwningBinary<llvm::object::ObjectFile> owningObject) {
@@ -253,36 +255,11 @@ namespace rrllvm {
 
     void MCJit::addModuleViaObjectFile() {
         optimizeModule();
-        if (postOptModuleStream->str().empty()) {
-            std::string err = "Attempt to add module before its been optimized. Make a call to "
-                              "MCJit::optimizeModule() before addModule()";
-            rrLogErr << err;
-            throw_llvm_exception(err);
-        }
-        //Read from modBufferOut into our execution engine
-//        std::string moduleStr(postOptModuleStream.begin(), postOptModuleStream.end());
-
-        auto memBuffer(llvm::MemoryBuffer::getMemBuffer(postOptModuleStream->str().str()));
-
-        llvm::Expected<std::unique_ptr<llvm::object::ObjectFile> > objectFileExpected =
-                llvm::object::ObjectFile::createObjectFile(llvm::MemoryBufferRef(postOptModuleStream->str(), "id"));
-
-        if (!objectFileExpected) {
-            //LS DEBUG:  find a way to get the text out of the error.
-            auto err = objectFileExpected.takeError();
-            std::string s = "LLVM object supposed to be file, but is not.";
-            rrLog(Logger::LOG_FATAL) << s;
-            throw_llvm_exception(s);
-        }
-
-        std::unique_ptr<llvm::object::ObjectFile> objectFile(std::move(objectFileExpected.get()));
-        llvm::object::OwningBinary<llvm::object::ObjectFile> owningObject(std::move(objectFile), std::move(memBuffer));
-
-        addObjectFile(std::move(owningObject));
+        Jit::addModuleViaObjectFile();
 
         //https://stackoverflow.com/questions/28851646/llvm-jit-windows-8-1
+        // todo is this needed? Run tests with and without, see what breaks.
         getExecutionEngineNonOwning()->finalizeObject();
-
     }
 
     void MCJit::optimizeModule() {

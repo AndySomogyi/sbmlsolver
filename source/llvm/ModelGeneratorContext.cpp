@@ -341,6 +341,11 @@ Random* ModelGeneratorContext::getRandom() const
     return random;
 }
 
+void ModelGeneratorContext::setMd5(const std::string& md5){
+    ModelGeneratorContext::md5 = md5;
+
+}
+
 void ModelGeneratorContext::cleanup()
 {
     delete ownedDoc; ownedDoc = 0;
