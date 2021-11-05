@@ -56,7 +56,7 @@ namespace rrllvm {
     }
 
     void Jit::setModuleIdentifier(const std::string &id) {
-        module->setModuleIdentifier(id);
+        moduleNonOwning->setModuleIdentifier(id);
     }
 
 
