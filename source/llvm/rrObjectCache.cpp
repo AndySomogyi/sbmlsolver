@@ -2,7 +2,7 @@
 // Created by Ciaran on 05/11/2021.
 //
 
-#include "ObjectCache.h"
+#include "SBMLModelObjectCache.h"
 #include "rrLogger.h"
 #include <iostream>
 

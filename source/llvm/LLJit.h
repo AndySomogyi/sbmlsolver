@@ -11,7 +11,7 @@
 #include "llvm/Jit.h"
 #include "llvm/ExecutionEngine/Orc/LLJIT.h"
 #include "llvm/Support/SourceMgr.h"
-#include "ObjectCache.h"
+#include "SBMLModelObjectCache.h"
 
 
 using namespace rr;

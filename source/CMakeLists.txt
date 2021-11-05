@@ -291,7 +291,7 @@ if (BUILD_LLVM)
             llvm/LLJit.h
             llvm/MCJit.h
             llvm/OrcJit.h
-            llvm/ObjectCache.h
+            llvm/SBMLModelObjectCache.h
             )
     install(FILES ${rrLLVMHeaders} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/rr/llvm)
 

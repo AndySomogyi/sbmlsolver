@@ -12,7 +12,7 @@
 #include "llvm/Target/TargetMachine.h"
 #include "llvm/IRReader/IRReader.h"
 #include "llvm/Support/SourceMgr.h"
-#include "ObjectCache.h"
+#include "SBMLModelObjectCache.h"
 
 #if LIBSBML_HAS_PACKAGE_DISTRIB
 

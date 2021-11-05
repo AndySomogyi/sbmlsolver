@@ -9,7 +9,7 @@
 #include "rrRoadRunnerOptions.h"
 #include "llvm/Support/TargetRegistry.h"
 #include "llvm/Support/Host.h"
-#include "ObjectCache.h"
+#include "SBMLModelObjectCache.h"
 
 using namespace rr;
 
