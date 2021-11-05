@@ -48,6 +48,8 @@ namespace rrllvm {
 
         void addModuleViaObjectFile() override;
 
+        void addObject(std::unique_ptr<llvm::MemoryBuffer> obj);
+
         void addModule(llvm::orc::ThreadSafeModule tsm);
 
         void addModule(std::unique_ptr<llvm::Module> M, std::unique_ptr<llvm::LLVMContext> ctx) override;

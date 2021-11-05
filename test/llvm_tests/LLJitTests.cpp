@@ -63,24 +63,16 @@ TEST_F(LLJitTests, FibonacciCached) {
     fibonacciFnPtr fibPtr1 = (int (*)(int)) llJit.lookupFunctionAddress("fib");
     ASSERT_EQ(fibPtr1(4), 3);
 
-
-    LLJit llJit2(opt.modelGeneratorOpt);
-    llJit2.setModuleIdentifier("fibMod");
-    CreateFibFunction(llJit2.getModuleNonOwning());
-//    std::cout << llJit2.emitToString();
-    llJit2.addIRModule();
-    fibonacciFnPtr fibPtr2 = (int (*)(int)) llJit2.lookupFunctionAddress("fib");
-    ASSERT_EQ(fibPtr2(4), 3);
-
-
-    llvm::LLVMContext ctx;
-    auto mod = std::make_unique<llvm::Module>("fibMod", ctx);
+    std::unique_ptr<llvm::LLVMContext> ctx = std::make_unique<llvm::LLVMContext>();
+    auto mod = std::make_unique<llvm::Module>("fibMod", *ctx);
     mod->setModuleIdentifier("fibMod");
 
     std::unique_ptr<llvm::MemoryBuffer> obj = SBMLModelObjectCache::getObjectCache().getObject(mod.get());
+    LLJit llJit2(opt.modelGeneratorOpt);
+    llJit2.addObject(std::move(obj));
 
-
-//    std::cout << obj << std::endl;
+    fibonacciFnPtr fibPtr2 = (int (*)(int)) llJit2.lookupFunctionAddress("fib");
+    ASSERT_EQ(fibPtr2(4), 3);
 
 }
 

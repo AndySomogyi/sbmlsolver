@@ -248,6 +248,16 @@ namespace rrllvm {
 
     }
 
+    void LLJit::addObject(std::unique_ptr<llvm::MemoryBuffer> obj){
+        llvm::Error err = llJit->addObjectFile(std::move(obj));
+        if (err){
+            std::string s = "Unable to add object file to LLJit";
+            rrLogErr << s;
+            llvm::logAllUnhandledErrors(std::move(err), llvm::errs(), s);
+        }
+    }
+
+
 //    inline llvm::Expected<llvm::orc::ThreadSafeModule>
 //    parseModule(llvm::StringRef Source, llvm::StringRef Name) {
 //        using namespace llvm;
