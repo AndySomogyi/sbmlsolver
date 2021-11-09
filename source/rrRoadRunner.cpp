@@ -188,9 +188,9 @@ namespace rr {
  * assert that numbers are similar.
  */
 #ifdef abs
-#define assert_similar(a, b) assert(abs(a - b) < 1e-13)
+#define assert_similar(a, b) assert(abs(a/b - 1) < 1e-6)
 #else
-#define assert_similar(a, b) assert(std::abs(a - b) < 1e-13)
+#define assert_similar(a, b) assert(std::abs(a/b - 1) < 1e-6)
 #endif
 
 /**
@@ -4280,27 +4280,46 @@ namespace rr {
                     throw Exception("Invalid id '" + str + "' for floating amount rate");
                     break;
                 }
-            case SelectionRecord::ELASTICITY:
-            case SelectionRecord::UNSCALED_ELASTICITY:
             case SelectionRecord::CONTROL:
             case SelectionRecord::UNSCALED_CONTROL:
                 // check that the control coef args are valid
                 if (impl->model->getReactionIndex(sel.p1) >= 0 ||
-                    impl->model->getFloatingSpeciesIndex(sel.p1) >= 0) {
+                    impl->model->getFloatingSpeciesIndex(sel.p1) >= 0) 
+                {
                     if (impl->model->getGlobalParameterIndex(sel.p2) >= 0 ||
                         impl->model->getBoundarySpeciesIndex(sel.p2) >= 0 ||
                         impl->model->getConservedMoietyIndex(sel.p2) >= 0) {
-                        rrLog(Logger::LOG_INFORMATION) <<
-                                                       "Valid metabolic control selection: " << sel.to_repr();
-                    } else {
-                        throw Exception("The second argument to a metabolic control "
-                                        "coefficient selection, " + sel.p2 + ", must be either "
-                                                                             "a global parameter, boundary species or conserved sum");
+                        rrLog(Logger::LOG_INFORMATION) << "Valid metabolic control selection: " << sel.to_repr();
+                    } 
+                    else 
+                    {
+                        throw Exception("The second argument to a metabolic control coefficient selection, " + sel.p2 + ", must be either a global parameter, boundary species or conserved sum");
                     }
-                } else {
-                    throw Exception("The first argument to a metabolic control "
-                                    "coefficient selection, " + sel.p1 + ", must be either "
-                                                                         "a reaction, floating species or conserved sum");
+                } 
+                else 
+                {
+                    throw Exception("The first argument to a metabolic control coefficient selection, " + sel.p1 + ", must be either a reaction or a floating species.");
+                }
+
+                break;
+            case SelectionRecord::ELASTICITY:
+            case SelectionRecord::UNSCALED_ELASTICITY:
+                // check that the elasticity coef args are valid
+                if (impl->model->getReactionIndex(sel.p1) >= 0)
+                {
+                    if (impl->model->getGlobalParameterIndex(sel.p2) >= 0 ||
+                        impl->model->getBoundarySpeciesIndex(sel.p2) >= 0 ||
+                        impl->model->getFloatingSpeciesIndex(sel.p2) >= 0) {
+                        rrLog(Logger::LOG_INFORMATION) << "Valid elasticity coefficient selection: " << sel.to_repr();
+                    }
+                    else
+                    {
+                        throw Exception("The second argument to an elasticity coefficient selection, " + sel.p2 + ", must be either a global parameter or a species.");
+                    }
+                }
+                else
+                {
+                    throw Exception("The first argument to a metabolic control coefficient selection, " + sel.p1 + ", must be a reaction.");
                 }
 
                 break;
