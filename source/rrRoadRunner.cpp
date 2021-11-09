@@ -188,9 +188,9 @@ namespace rr {
  * assert that numbers are similar.
  */
 #ifdef abs
-#define assert_similar(a, b) assert(a==b || (b != 0 && abs(a/b - 1) < 1e-6)
+#define assert_similar(a, b) assert(a==b || (b != 0 && abs(a/b - 1) < 1e-6))
 #else
-#define assert_similar(a, b) assert(a==b || (b != 0 && std::abs(a/b - 1) < 1e-6)
+#define assert_similar(a, b) assert(a==b || (b != 0 && std::abs(a/b - 1) < 1e-6))
 #endif
 
 /**
