@@ -395,7 +395,7 @@ std::string rr::SelectionRecord::to_string() const
         result = p1;
         break;
     case ELASTICITY:
-        result = "ec(" + p1 + ", " + p1 + ")";
+        result = "ec(" + p1 + ", " + p2 + ")";
         break;
     case UNSCALED_ELASTICITY:
         result = "uec(" + p1 + ", " + p2 + ")";

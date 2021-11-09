@@ -536,3 +536,53 @@ TEST_F(SelectionRecordTests, REACTION_RATE) {
 //    std::cout << record << std::endl;
 //    delete testModel;
 //}
+
+
+TEST_F(SelectionRecordTests, unscaled_elasticity) {
+    TestModel* testModel = TestModelFactory("SimpleFlux");
+    RoadRunner rr(testModel->str());
+    SelectionRecord record = rr.createSelection("uec(_J1, S2)");
+    ASSERT_STREQ(record.to_string().c_str(), "uec(_J1, S2)");
+    ASSERT_EQ(record.selectionType, SelectionRecord::UNSCALED_ELASTICITY);
+    ASSERT_EQ(record.index, -1);
+    ASSERT_EQ(record.p1, "_J1");
+    ASSERT_EQ(record.p2, "S2");
+    delete testModel;
+}
+
+TEST_F(SelectionRecordTests, scaled_elasticity) {
+    TestModel* testModel = TestModelFactory("SimpleFlux");
+    RoadRunner rr(testModel->str());
+    SelectionRecord record = rr.createSelection("ec(_J1, S2)");
+    ASSERT_STREQ(record.to_string().c_str(), "ec(_J1, S2)");
+    ASSERT_EQ(record.selectionType, SelectionRecord::ELASTICITY);
+    ASSERT_EQ(record.index, -1);
+    ASSERT_EQ(record.p1, "_J1");
+    ASSERT_EQ(record.p2, "S2");
+    delete testModel;
+}
+
+TEST_F(SelectionRecordTests, unscaled_control) {
+    TestModel* testModel = TestModelFactory("SimpleFlux");
+    RoadRunner rr(testModel->str());
+    SelectionRecord record = rr.createSelection("ucc(_J1, kf)");
+    ASSERT_STREQ(record.to_string().c_str(), "ucc(_J1, kf)");
+    ASSERT_EQ(record.selectionType, SelectionRecord::UNSCALED_CONTROL);
+    ASSERT_EQ(record.index, -1);
+    ASSERT_EQ(record.p1, "_J1");
+    ASSERT_EQ(record.p2, "kf");
+    delete testModel;
+}
+
+TEST_F(SelectionRecordTests, scaled_control) {
+    TestModel* testModel = TestModelFactory("SimpleFlux");
+    RoadRunner rr(testModel->str());
+    SelectionRecord record = rr.createSelection("cc(_J1, kf)");
+    ASSERT_STREQ(record.to_string().c_str(), "cc(_J1, kf)");
+    ASSERT_EQ(record.selectionType, SelectionRecord::CONTROL);
+    ASSERT_EQ(record.index, -1);
+    ASSERT_EQ(record.p1, "_J1");
+    ASSERT_EQ(record.p2, "kf");
+    delete testModel;
+}
+
