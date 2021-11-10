@@ -3709,6 +3709,9 @@ namespace rr {
         GetValueFuncPtr getInitValuePtr = 0;
         SetValueFuncPtr setValuePtr = 0;
         SetValueFuncPtr setInitValuePtr = 0;
+        GetValueFuncPtr getInitVolumesPtr = &ExecutableModel::getCompartmentInitVolumes;
+        SetValueFuncPtr setInitVolumesPtr = &ExecutableModel::setCompartmentInitVolumes;
+        GetValueFuncPtr getCurrentVolumesPtr = &ExecutableModel::getCompartmentVolumes;
 
         if (Config::getValue(Config::ROADRUNNER_JACOBIAN_MODE).getAs<std::int32_t>() ==
             Config::ROADRUNNER_JACOBIAN_MODE_AMOUNTS) {
@@ -3724,7 +3727,7 @@ namespace rr {
         }
 
         double value;
-        double originalConc = 0;
+        double origCurrentVal = 0;
         double result = std::numeric_limits<double>::quiet_NaN();
 
         // note setting init values auotmatically sets the current values to the
@@ -3732,62 +3735,71 @@ namespace rr {
 
         // this causes a reset, so need to save the current amounts to set them back
         // as init conditions.
-        std::vector<double> conc(self.model->getNumFloatingSpecies());
+        std::vector<double> currentVals(self.model->getNumFloatingSpecies());
+        (self.model.get()->*getValuePtr)(currentVals.size(), 0, &currentVals[0]);
 
-        (self.model.get()->*getValuePtr)(conc.size(), 0, &conc[0]);
+        //If the initial volumes have changed, we have to set them, but we'll need to reset them later.
+        std::vector<double> origInitVolumes(self.model->getNumCompartments());
+        (self.model.get()->*getInitVolumesPtr)(origInitVolumes.size(), 0, &origInitVolumes[0]);
 
-        // Dpon't try to compute any elasticiteis if there a numerically suspicious values
-        for (int i = 0; i < conc.size() - 1; i++)
-            if (fabs(conc[i]) > 1E100) {
+        std::vector<double> currentVolumes(self.model->getNumCompartments());
+        (self.model.get()->*getCurrentVolumesPtr)(currentVolumes.size(), 0, &currentVolumes[0]);
+
+        // Don't try to compute any elasticities if there a numerically suspicious values
+        for (int i = 0; i < currentVals.size() - 1; i++)
+            if (fabs(currentVals[i]) > 1E100) {
                 throw std::runtime_error(
                         "Floating species concentations are of the order of 1E100, unable to compute elasticities");
             }
 
         // save the original init values
-        std::vector<double> initConc(self.model->getNumFloatingSpecies());
-        (self.model.get()->*getInitValuePtr)(initConc.size(), 0, &initConc[0]);
+        std::vector<double> origInitVal(self.model->getNumFloatingSpecies());
+        (self.model.get()->*getInitValuePtr)(origInitVal.size(), 0, &origInitVal[0]);
 
         // get the original value
-        (self.model.get()->*getValuePtr)(1, &speciesIndex, &originalConc);
+        (self.model.get()->*getValuePtr)(1, &speciesIndex, &origCurrentVal);
 
         // now we start changing things
         try {
-            // set init amounts to current amounts, restore them later.
+            //First set the initial volumes so everything else matches.
+            (self.model.get()->*setInitVolumesPtr)(currentVolumes.size(), 0, &currentVolumes[0]);
+
+            // Now set init amounts to current amounts, restore them later.
             // have to do this as this is only way to set conserved moiety values
-            (self.model.get()->*setInitValuePtr)(conc.size(), 0, &conc[0]);
+            (self.model.get()->*setInitValuePtr)(currentVals.size(), 0, &currentVals[0]);
 
             // sanity check
-            assert_similar(originalConc, conc[speciesIndex]);
+            assert_similar(origCurrentVal, currentVals[speciesIndex]);
             double tmp = 0;
             (self.model.get()->*getInitValuePtr)(1, &speciesIndex, &tmp);
-            assert_similar(originalConc, tmp);
+            assert_similar(origCurrentVal, tmp);
             (self.model.get()->*getValuePtr)(1, &speciesIndex, &tmp);
-            assert_similar(originalConc, tmp);
+            assert_similar(origCurrentVal, tmp);
 
             // things check out, start fiddling...
 
-            double hstep = self.mDiffStepSize * originalConc;
+            double hstep = self.mDiffStepSize * origCurrentVal;
             if (fabs(hstep) < 1E-12) {
                 hstep = self.mDiffStepSize;
             }
 
-            value = originalConc + hstep;
+            value = origCurrentVal + hstep;
             (self.model.get()->*setInitValuePtr)(1, &speciesIndex, &value);
 
             double fi = 0;
             self.model->getReactionRates(1, &reactionId, &fi);
 
-            value = originalConc + 2 * hstep;
+            value = origCurrentVal + 2 * hstep;
             (self.model.get()->*setInitValuePtr)(1, &speciesIndex, &value);
             double fi2 = 0;
             self.model->getReactionRates(1, &reactionId, &fi2);
 
-            value = originalConc - hstep;
+            value = origCurrentVal - hstep;
             (self.model.get()->*setInitValuePtr)(1, &speciesIndex, &value);
             double fd = 0;
             self.model->getReactionRates(1, &reactionId, &fd);
 
-            value = originalConc - 2 * hstep;
+            value = origCurrentVal - 2 * hstep;
             (self.model.get()->*setInitValuePtr)(1, &speciesIndex, &value);
             double fd2 = 0;
             self.model->getReactionRates(1, &reactionId, &fd2);
@@ -3800,26 +3812,26 @@ namespace rr {
 
             result = 1 / (12 * hstep) * (f1 + f2);
         }
-        catch (const std::exception &) {
-            // What ever happens, make sure we restore the species level
-            (self.model.get()->*setInitValuePtr)(
-                    initConc.size(), 0, &initConc[0]);
+        catch (const std::exception& e) {
+            // Whatever happens, make sure we restore the species and volumes levels
+            (self.model.get()->*setInitVolumesPtr)(origInitVolumes.size(), 0, &origInitVolumes[0]);
+            (self.model.get()->*setInitValuePtr)(origInitVal.size(), 0, &origInitVal[0]);
 
             // only set the indep species, setting dep species is not permitted.
             (self.model.get()->*setValuePtr)(
-                    self.model->getNumIndFloatingSpecies(), 0, &conc[0]);
+                    self.model->getNumIndFloatingSpecies(), 0, &currentVals[0]);
 
             // re-throw the exception.
-            throw;
+            throw e;
         }
 
-        // What ever happens, make sure we restore the species level
+        // Whatever happens, make sure we restore the species and volumes levels
         (self.model.get()->*setInitValuePtr)(
-                initConc.size(), 0, &initConc[0]);
+                origInitVal.size(), 0, &origInitVal[0]);
 
         // only set the indep species, setting dep species is not permitted.
         (self.model.get()->*setValuePtr)(
-                self.model->getNumIndFloatingSpecies(), 0, &conc[0]);
+                self.model->getNumIndFloatingSpecies(), 0, &currentVals[0]);
 
         return result;
     }
