@@ -5,15 +5,21 @@
  *      Author: andy
  */
 #pragma hdrstop
+
 #include "ModelResources.h"
 #include "Random.h"
 
 #include <rrLogger.h>
 #include <rrStringUtils.h>
+#include "rrRoadRunnerOptions.h"
+#include "MCJit.h"
+#include "LLJit.h"
 
 #include <memory>
+
 #undef min
 #undef max
+
 #include "llvm/SBMLSupportFunctions.h"
 #include "rrRoadRunnerOptions.h"
 
@@ -24,6 +30,7 @@
 #pragma warning(disable: 4267)
 #pragma warning(disable: 4624)
 #endif
+
 #include "llvm/Bitcode/BitcodeWriter.h"
 #include "llvm/Bitcode/BitcodeReader.h"
 #include "llvm/Support/Error.h"
@@ -32,6 +39,7 @@
 #include "llvm/Support/DynamicLibrary.h"
 #include "llvm/Support/TargetRegistry.h"
 #include "llvm/Target/TargetMachine.h"
+
 #ifdef _MSC_VER
 #pragma warning(default: 4146)
 #pragma warning(default: 4141)
@@ -41,352 +49,214 @@
 
 using rr::Logger;
 using rr::getLogger;
+using rr::LoadSBMLOptions;
 
-namespace rrllvm
-{
+namespace rrllvm {
 
-ModelResources::ModelResources() :
-        symbols(nullptr), executionEngine(nullptr), context(nullptr), random(nullptr), errStr(nullptr)
-{
-    // the reset of the ivars are assigned by the generator,
-    // and in an exception they are not, does not matter as
-    // we don't have to delete them.
-}
-
-ModelResources::~ModelResources()
-{
-    rrLog(Logger::LOG_DEBUG) << __FUNC__;
-
-    if (errStr && !errStr->empty())
-    {
-        rrLog(Logger::LOG_WARNING) << "Non-empty LLVM ExecutionEngine error std::string: " << *errStr;
+    ModelResources::ModelResources() :
+            symbols(nullptr), executionEngine(nullptr), context(nullptr), random(nullptr), errStr(nullptr) {
+        // the reset of the ivars are assigned by the generator,
+        // and in an exception they are not, does not matter as
+        // we don't have to delete them.
     }
 
-    delete symbols;
+    ModelResources::~ModelResources() {
+        rrLog(Logger::LOG_DEBUG) << __FUNC__;
 
-    // the exe engine owns all the functions
+        if (errStr && !errStr->empty()) {
+            rrLog(Logger::LOG_WARNING) << "Non-empty LLVM ExecutionEngine error std::string: " << *errStr;
+        }
+
+        delete symbols;
+
+        // the exe engine owns all the functions
 //    delete executionEngine;
 //    delete context;
-    delete random;
-}
-
-void ModelResources::saveState(std::ostream& out) const
-{
-	symbols->saveState(out);
- 
-	rr::saveBinary(out, moduleStr);
-}
-
-void ModelResources::addGlobalMapping(std::string name, void *addr)
-{
-	llvm::sys::DynamicLibrary::AddSymbol(name, addr);
-}
-
-void ModelResources::addGlobalMappings()
-{
-    using namespace llvm;
-    Type *double_type = Type::getDoubleTy(*context);
-    Type* args_d2[] = { double_type, double_type };
-
-    llvm::sys::DynamicLibrary::LoadLibraryPermanently(nullptr);
-
-    addGlobalMapping("rr_csr_matrix_set_nz", (void*)rr::csr_matrix_set_nz);
-
-    addGlobalMapping("rr_csr_matrix_get_nz", (void*)rr::csr_matrix_get_nz);
-
-    // AST_FUNCTION_ARCCOT:
-	llvm::RTDyldMemoryManager::getSymbolAddressInProcess("arccot");
-    addGlobalMapping(
-            "arccot",
-			        (void*) sbmlsupport::arccot);
-
-    addGlobalMapping(
-            "rr_arccot_negzero",
-                        (void*) sbmlsupport::arccot_negzero);
-
-    // AST_FUNCTION_ARCCOTH:
-    addGlobalMapping(
-            "arccoth",
-                        (void*) sbmlsupport::arccoth);
-
-    // AST_FUNCTION_ARCCSC:
-    addGlobalMapping(
-            "arccsc",
-                        (void*) sbmlsupport::arccsc);
-
-    // AST_FUNCTION_ARCCSCH:
-    addGlobalMapping(
-            "arccsch",
-                        (void*) sbmlsupport::arccsch);
-
-    // AST_FUNCTION_ARCSEC:
-    addGlobalMapping(
-            "arcsec",
-                        (void*) sbmlsupport::arcsec);
-
-    // AST_FUNCTION_ARCSECH:
-    addGlobalMapping(
-            "arcsech",
-                        (void*) sbmlsupport::arcsech);
-
-    // AST_FUNCTION_COT:
-    addGlobalMapping(
-            "cot",
-                        (void*) sbmlsupport::cot);
-
-    // AST_FUNCTION_COTH:
-    addGlobalMapping(
-            "coth",
-                        (void*) sbmlsupport::coth);
-
-    // AST_FUNCTION_CSC:
-    addGlobalMapping(
-            "csc",
-                        (void*) sbmlsupport::csc);
-
-    // AST_FUNCTION_CSCH:
-    addGlobalMapping(
-            "csch",
-                        (void*) sbmlsupport::csch);
-
-    // AST_FUNCTION_FACTORIAL:
-    addGlobalMapping(
-            "rr_factoriali",
-                        (void*) sbmlsupport::factoriali);
-
-    addGlobalMapping(
-            "rr_factoriald",
-                        (void*) sbmlsupport::factoriald);
-
-    // AST_FUNCTION_LOG:
-    addGlobalMapping(
-            "rr_logd",
-                        (void*) sbmlsupport::logd);
-
-    // AST_FUNCTION_ROOT:
-    addGlobalMapping(
-            "rr_rootd",
-                        (void*) sbmlsupport::rootd);
-
-    // AST_FUNCTION_SEC:
-    addGlobalMapping(
-            "sec",
-                        (void*) sbmlsupport::sec);
-
-    // AST_FUNCTION_SECH:
-    addGlobalMapping(
-            "sech",
-                        (void*) sbmlsupport::sech);
-
-    // AST_FUNCTION_ARCCOSH:
-    addGlobalMapping(
-            "arccosh",
-                        (void*)static_cast<double (*)(double)>(acosh));
-
-    // AST_FUNCTION_ARCSINH:
-    addGlobalMapping(
-            "arcsinh",
-                        (void*)static_cast<double (*)(double)>(asinh));
-
-    // AST_FUNCTION_ARCTANH:
-    addGlobalMapping(
-            "arctanh",
-                        (void*)static_cast<double (*)(double)>(atanh));
-
-    // AST_FUNCTION_QUOTIENT:
-	addGlobalMapping("quotient", (void*)sbmlsupport::quotient);
-    // AST_FUNCTION_MAX:
-	addGlobalMapping("rr_max", (void*)sbmlsupport::max);
-    // AST_FUNCTION_MIN:
-	addGlobalMapping("rr_min", (void*)sbmlsupport::min);
-}
-
-
-void ModelResources::loadState(std::istream& in, uint modelGeneratorOpt)
-{
-
-    // todo make symbols a unique_ptr
-
-    // get rid of sumbols, if not nullptr.
-	delete symbols;
-	//load the model data symbols from the stream
-	symbols = new LLVMModelDataSymbols(in);
-
-	//Get the object file from the input stream
-	rr::loadBinary(in, moduleStr);
-    if (moduleStr.empty()){
-        std::string err = "Cannot load state because the roadrunner object that should be stored as a string "
-                          "is empty";
-        rrLogErr << err;
-        throw_llvm_exception(err);
+        delete random;
     }
-	//Set up the llvm context
-	context = std::make_unique<llvm::LLVMContext>();
-	//Set up a buffer to read the object code from
-	auto memBuffer(llvm::MemoryBuffer::getMemBuffer(moduleStr));
-    
-	llvm::Expected<std::unique_ptr<llvm::object::ObjectFile> > objectFileExpected =
-		llvm::object::ObjectFile::createObjectFile(llvm::MemoryBufferRef(moduleStr, "id"));
-	if (!objectFileExpected)
-	{
-		throw std::invalid_argument("Failed to load object data");
-	}
-    
-	std::unique_ptr<llvm::object::ObjectFile> objectFile(std::move(objectFileExpected.get()));
-	
-	llvm::object::OwningBinary<llvm::object::ObjectFile> owningObject(std::move(objectFile), std::move(memBuffer));
 
-	//Not sure why, but engineBuilder.create() crashes here if not initialized with an empty module
-	auto emptyModule = std::unique_ptr<llvm::Module>(new llvm::Module("Module test", *context));
-	llvm::EngineBuilder engineBuilder(std::move(emptyModule));
+    void ModelResources::saveState(std::ostream &out) const {
+        symbols->saveState(out);
 
-	//Set the necessary parameters on the engine builder
-	std::string engineBuilderErrStr;
-	engineBuilder.setErrorStr(&engineBuilderErrStr)
-		.setMCJITMemoryManager(std::unique_ptr<llvm::SectionMemoryManager>(new llvm::SectionMemoryManager()));
-	
-	//We have to call this function before calling engineBuilder.create()
-    llvm::InitializeNativeTarget();
+        rr::saveBinary(out, moduleStr);
+    }
 
-	executionEngine = std::unique_ptr<llvm::ExecutionEngine>(engineBuilder.create());
-	
-	//Add mappings to the functions that aren't saved in the object file (like sin, cos, factorial)
-	addGlobalMappings();
+    void ModelResources::addGlobalMapping(std::string name, void *addr) {
+        llvm::sys::DynamicLibrary::AddSymbol(name, addr);
+    }
 
-	//Add the object file we loaded to the execution engine
-	executionEngine->addObjectFile(std::move(owningObject));
-	//Finalize the engine
-	executionEngine->finalizeObject();
-	//Get the function pointers we need from the execution engine
-	evalInitialConditionsPtr = (EvalInitialConditionsCodeGen::FunctionPtr)
-		executionEngine->getFunctionAddress("evalInitialConditions");
+    void ModelResources::addGlobalMappings() {
+        using namespace llvm;
+        Type *double_type = Type::getDoubleTy(*context);
+        Type *args_d2[] = {double_type, double_type};
 
-	evalReactionRatesPtr = (EvalReactionRatesCodeGen::FunctionPtr)
-		executionEngine->getFunctionAddress("evalReactionRates");
+        llvm::sys::DynamicLibrary::LoadLibraryPermanently(nullptr);
 
-	getBoundarySpeciesAmountPtr = (GetBoundarySpeciesAmountCodeGen::FunctionPtr)
-		executionEngine->getFunctionAddress("getBoundarySpeciesAmount");
+        addGlobalMapping("rr_csr_matrix_set_nz", (void *) rr::csr_matrix_set_nz);
 
-	getFloatingSpeciesAmountPtr = (GetFloatingSpeciesAmountCodeGen::FunctionPtr)
-		executionEngine->getFunctionAddress("getFloatingSpeciesAmount");
+        addGlobalMapping("rr_csr_matrix_get_nz", (void *) rr::csr_matrix_get_nz);
 
-	getBoundarySpeciesConcentrationPtr = (GetBoundarySpeciesConcentrationCodeGen::FunctionPtr)
-		executionEngine->getFunctionAddress("getBoundarySpeciesConcentration");
+        // AST_FUNCTION_ARCCOT:
+        llvm::RTDyldMemoryManager::getSymbolAddressInProcess("arccot");
+        addGlobalMapping(
+                "arccot",
+                (void *) sbmlsupport::arccot);
 
-	getFloatingSpeciesConcentrationPtr = (GetFloatingSpeciesAmountCodeGen::FunctionPtr)
-		executionEngine->getFunctionAddress("getFloatingSpeciesConcentration");
+        addGlobalMapping(
+                "rr_arccot_negzero",
+                (void *) sbmlsupport::arccot_negzero);
 
-	getCompartmentVolumePtr = (GetCompartmentVolumeCodeGen::FunctionPtr)
-		executionEngine->getFunctionAddress("getCompartmentVolume");
+        // AST_FUNCTION_ARCCOTH:
+        addGlobalMapping(
+                "arccoth",
+                (void *) sbmlsupport::arccoth);
 
-	getGlobalParameterPtr = (GetGlobalParameterCodeGen::FunctionPtr)
-		executionEngine->getFunctionAddress("getGlobalParameter");
+        // AST_FUNCTION_ARCCSC:
+        addGlobalMapping(
+                "arccsc",
+                (void *) sbmlsupport::arccsc);
 
-	evalRateRuleRatesPtr = (EvalRateRuleRatesCodeGen::FunctionPtr)
-		executionEngine->getFunctionAddress("evalRateRuleRates");
+        // AST_FUNCTION_ARCCSCH:
+        addGlobalMapping(
+                "arccsch",
+                (void *) sbmlsupport::arccsch);
 
-	getEventTriggerPtr = (GetEventTriggerCodeGen::FunctionPtr)
-		executionEngine->getFunctionAddress("getEventTrigger");
+        // AST_FUNCTION_ARCSEC:
+        addGlobalMapping(
+                "arcsec",
+                (void *) sbmlsupport::arcsec);
 
-	getEventPriorityPtr = (GetEventPriorityCodeGen::FunctionPtr)
-		executionEngine->getFunctionAddress("getEventPriority");
+        // AST_FUNCTION_ARCSECH:
+        addGlobalMapping(
+                "arcsech",
+                (void *) sbmlsupport::arcsech);
 
-	getEventDelayPtr = (GetEventDelayCodeGen::FunctionPtr)
-		executionEngine->getFunctionAddress("getEventDelay");
+        // AST_FUNCTION_COT:
+        addGlobalMapping(
+                "cot",
+                (void *) sbmlsupport::cot);
 
-	eventTriggerPtr = (EventTriggerCodeGen::FunctionPtr)
-		executionEngine->getFunctionAddress("eventTrigger");
+        // AST_FUNCTION_COTH:
+        addGlobalMapping(
+                "coth",
+                (void *) sbmlsupport::coth);
 
-	eventAssignPtr = (EventAssignCodeGen::FunctionPtr)
-		executionEngine->getFunctionAddress("eventAssign");
+        // AST_FUNCTION_CSC:
+        addGlobalMapping(
+                "csc",
+                (void *) sbmlsupport::csc);
 
-	evalVolatileStoichPtr = (EvalVolatileStoichCodeGen::FunctionPtr)
-		executionEngine->getFunctionAddress("evalVolatileStoich");
+        // AST_FUNCTION_CSCH:
+        addGlobalMapping(
+                "csch",
+                (void *) sbmlsupport::csch);
 
-	evalConversionFactorPtr = (EvalConversionFactorCodeGen::FunctionPtr)
-		executionEngine->getFunctionAddress("evalConversionFactor");
-	
+        // AST_FUNCTION_FACTORIAL:
+        addGlobalMapping(
+                "rr_factoriali",
+                (void *) sbmlsupport::factoriali);
 
-	if (modelGeneratorOpt & rr::LoadSBMLOptions::READ_ONLY)
-	{
-		setBoundarySpeciesAmountPtr = 0;
-		setBoundarySpeciesConcentrationPtr = 0;
-		setFloatingSpeciesConcentrationPtr = 0;
-		setCompartmentVolumePtr = 0;
-		setFloatingSpeciesAmountPtr = 0;
-		setGlobalParameterPtr = 0;
-	} 
-	else
-	{
+        addGlobalMapping(
+                "rr_factoriald",
+                (void *) sbmlsupport::factoriald);
 
-		setBoundarySpeciesAmountPtr = (SetBoundarySpeciesAmountCodeGen::FunctionPtr)
-			executionEngine->getFunctionAddress("setBoundarySpeciesAmount");
+        // AST_FUNCTION_LOG:
+        addGlobalMapping(
+                "rr_logd",
+                (void *) sbmlsupport::logd);
 
-		setBoundarySpeciesConcentrationPtr = (SetBoundarySpeciesAmountCodeGen::FunctionPtr)
-			executionEngine->getFunctionAddress("setBoundarySpeciesConcentration");
+        // AST_FUNCTION_ROOT:
+        addGlobalMapping(
+                "rr_rootd",
+                (void *) sbmlsupport::rootd);
 
-		setFloatingSpeciesConcentrationPtr = (SetBoundarySpeciesAmountCodeGen::FunctionPtr)
-			executionEngine->getFunctionAddress("setFloatingSpeciesConcentration");
+        // AST_FUNCTION_SEC:
+        addGlobalMapping(
+                "sec",
+                (void *) sbmlsupport::sec);
 
-		setCompartmentVolumePtr = (SetBoundarySpeciesAmountCodeGen::FunctionPtr)
-			executionEngine->getFunctionAddress("setCompartmentVolume");
+        // AST_FUNCTION_SECH:
+        addGlobalMapping(
+                "sech",
+                (void *) sbmlsupport::sech);
 
-		setFloatingSpeciesAmountPtr = (SetBoundarySpeciesAmountCodeGen::FunctionPtr)
-			executionEngine->getFunctionAddress("setFloatingSpeciesAmount");
+        // AST_FUNCTION_ARCCOSH:
+        addGlobalMapping(
+                "arccosh",
+                (void *) static_cast<double (*)(double)>(acosh));
 
-		setGlobalParameterPtr = (SetGlobalParameterCodeGen::FunctionPtr)
-			executionEngine->getFunctionAddress("setGlobalParameter");
-	}
-    
-	if (modelGeneratorOpt & rr::LoadSBMLOptions::MUTABLE_INITIAL_CONDITIONS)
-	{
+        // AST_FUNCTION_ARCSINH:
+        addGlobalMapping(
+                "arcsinh",
+                (void *) static_cast<double (*)(double)>(asinh));
 
-		getFloatingSpeciesInitConcentrationsPtr = (GetBoundarySpeciesAmountCodeGen::FunctionPtr)
-			executionEngine->getFunctionAddress("getFloatingSpeciesInitConcentrations");
-		setFloatingSpeciesInitConcentrationsPtr = (SetBoundarySpeciesAmountCodeGen::FunctionPtr)
-			executionEngine->getFunctionAddress("setFloatingSpeciesInitConcentrations");
+        // AST_FUNCTION_ARCTANH:
+        addGlobalMapping(
+                "arctanh",
+                (void *) static_cast<double (*)(double)>(atanh));
 
-		getFloatingSpeciesInitAmountsPtr = (GetBoundarySpeciesAmountCodeGen::FunctionPtr)
-			executionEngine->getFunctionAddress("getFloatingSpeciesInitAmounts");
-		setFloatingSpeciesInitAmountsPtr = (SetBoundarySpeciesAmountCodeGen::FunctionPtr)
-			executionEngine->getFunctionAddress("setFloatingSpeciesInitAmounts");
+        // AST_FUNCTION_QUOTIENT:
+        addGlobalMapping("quotient", (void *) sbmlsupport::quotient);
+        // AST_FUNCTION_MAX:
+        addGlobalMapping("rr_max", (void *) sbmlsupport::max);
+        // AST_FUNCTION_MIN:
+        addGlobalMapping("rr_min", (void *) sbmlsupport::min);
+    }
 
-		getBoundarySpeciesInitConcentrationsPtr = (GetBoundarySpeciesAmountCodeGen::FunctionPtr)
-			executionEngine->getFunctionAddress("getBoundarySpeciesInitConcentrations");
-		setBoundarySpeciesInitConcentrationsPtr = (SetBoundarySpeciesAmountCodeGen::FunctionPtr)
-			executionEngine->getFunctionAddress("setBoundarySpeciesInitConcentrations");
 
-		getBoundarySpeciesInitAmountsPtr = (GetBoundarySpeciesAmountCodeGen::FunctionPtr)
-			executionEngine->getFunctionAddress("getBoundarySpeciesInitAmounts");
-		setBoundarySpeciesInitAmountsPtr = (SetBoundarySpeciesAmountCodeGen::FunctionPtr)
-			executionEngine->getFunctionAddress("setBoundarySpeciesInitAmounts");
+    void ModelResources::loadState(std::istream &in, uint modelGeneratorOpt) {
+        // todo do we need the ModelGeneratorContext? Seems like we only need a Jit.
 
-		getCompartmentInitVolumesPtr = (GetBoundarySpeciesAmountCodeGen::FunctionPtr)
-			executionEngine->getFunctionAddress("getCompartmentInitVolumes");
-		setCompartmentInitVolumesPtr = (SetBoundarySpeciesAmountCodeGen::FunctionPtr)
-			executionEngine->getFunctionAddress("setCompartmentInitVolumes");
+        if (modelGeneratorOpt & LoadSBMLOptions::MCJIT) {
+            jit = std::move(std::make_unique<MCJit>(modelGeneratorOpt));
+        }
 
-		getGlobalParameterInitValuePtr = (GetBoundarySpeciesAmountCodeGen::FunctionPtr)
-			executionEngine->getFunctionAddress("getGlobalParameterInitValue");
-		setGlobalParameterInitValuePtr = (SetBoundarySpeciesAmountCodeGen::FunctionPtr)
-			executionEngine->getFunctionAddress("setGlobalParameterInitValue");
-	}
-	else 
-	{
-		getFloatingSpeciesInitConcentrationsPtr = 0;
-		setFloatingSpeciesInitConcentrationsPtr = 0;
-		getFloatingSpeciesInitAmountsPtr = 0;
-		setFloatingSpeciesInitAmountsPtr = 0;
-		getBoundarySpeciesInitConcentrationsPtr = 0;
-		setBoundarySpeciesInitConcentrationsPtr = 0;
-		getBoundarySpeciesInitAmountsPtr = 0;
-		setBoundarySpeciesInitAmountsPtr = 0;
-		getCompartmentInitVolumesPtr = 0;
-		setCompartmentInitVolumesPtr = 0;
-		getGlobalParameterInitValuePtr = 0;
-		setGlobalParameterInitValuePtr = 0;
-	}
-}
+#if LLVM_VERSION_MAJOR >= 13
+            else if (modelGeneratorOpt & LoadSBMLOptions::LLJIT) {
+                jit = std::move(std::make_unique<LLJit>(modelGeneratorOpt));
+            }
+
+#endif // LLVM_VERSION_MAJOR >= 13
+
+        else {
+            rrLogWarn << "Requested compiler not found. Defaulting to MCJit.";
+            jit = std::move(std::make_unique<MCJit>(modelGeneratorOpt));
+        }
+
+        // get rid of sumbols, if not nullptr.
+        // todo make symbols a unique_ptr
+        delete symbols;
+        //load the model data symbols from the stream
+        symbols = new LLVMModelDataSymbols(in);
+
+        //Get the object file from the input stream
+        rr::loadBinary(in, moduleStr);
+        rrLogCriticalCiaran << "commented out check for empty module string";
+        if (moduleStr.empty()) {
+            std::string err = "Cannot load state because the roadrunner object that should be stored as a string "
+                              "is empty";
+            rrLogErr << err;
+            throw_llvm_exception(err);
+        }
+        //Set up the llvm context
+//        context = std::make_unique<llvm::LLVMContext>();
+//        //Set up a buffer to read the object code from
+        auto memBuffer(llvm::MemoryBuffer::getMemBuffer(moduleStr));
+
+        llvm::Expected<std::unique_ptr<llvm::object::ObjectFile> > objectFileExpected =
+                llvm::object::ObjectFile::createObjectFile(
+                        llvm::MemoryBufferRef(moduleStr, "id"));
+        if (!objectFileExpected) {
+            throw std::invalid_argument("Failed to load object data");
+        }
+
+        std::unique_ptr<llvm::object::ObjectFile> objectFile(std::move(objectFileExpected.get()));
+
+        llvm::object::OwningBinary<llvm::object::ObjectFile> owningObject(std::move(objectFile), std::move(memBuffer));
+
+        jit->addObjectFile(std::move(owningObject));
+        jit->mapFunctionsToAddresses(this, modelGeneratorOpt);
+    }
 
 
 } /* namespace rrllvm */

@@ -45,7 +45,7 @@ namespace rrllvm {
                 .setErrorStr(errString.get())
                 .setMCJITMemoryManager(std::make_unique<SectionMemoryManager>());
         executionEngine = std::unique_ptr<ExecutionEngine>(engineBuilder.create());
-        MCJit::addGlobalMappings();
+        MCJit::mapFunctionsToJitSymbols();
         MCJit::mapDistribFunctionsToJitSymbols();
         MCJit::initFunctionPassManager();
     }
@@ -230,6 +230,7 @@ namespace rrllvm {
 
     void MCJit::addObjectFile(llvm::object::OwningBinary<llvm::object::ObjectFile> owningObject) {
         getExecutionEngineNonOwning()->addObjectFile(std::move(owningObject));
+        getExecutionEngineNonOwning()->finalizeObject();
     }
 
 //    void MCJit::finalizeObject() {

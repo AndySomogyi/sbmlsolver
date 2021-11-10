@@ -73,30 +73,30 @@ namespace rrllvm {
  * because they do compleltly different things, and have completly
  * differnt deletion semantics
  */
-    template<typename a_type, typename b_type>
-    void copyCachedModel(a_type *src, b_type *dst) {
-        dst->symbols = src->symbols;
-        dst->context = src->context;
-        dst->executionEngine = src->executionEngine;
-        dst->errStr = src->errStr;
-
-        dst->evalInitialConditionsPtr = src->evalInitialConditionsPtr;
-        dst->evalReactionRatesPtr = src->evalReactionRatesPtr;
-        dst->getBoundarySpeciesAmountPtr = src->getBoundarySpeciesAmountPtr;
-        dst->getFloatingSpeciesAmountPtr = src->getFloatingSpeciesAmountPtr;
-        dst->getBoundarySpeciesConcentrationPtr = src->getBoundarySpeciesConcentrationPtr;
-        dst->getFloatingSpeciesConcentrationPtr = src->getFloatingSpeciesConcentrationPtr;
-        dst->getCompartmentVolumePtr = src->getCompartmentVolumePtr;
-        dst->getGlobalParameterPtr = src->getGlobalParameterPtr;
-        dst->evalRateRuleRatesPtr = src->evalRateRuleRatesPtr;
-        dst->getEventTriggerPtr = src->getEventTriggerPtr;
-        dst->getEventPriorityPtr = src->getEventPriorityPtr;
-        dst->getEventDelayPtr = src->getEventDelayPtr;
-        dst->eventTriggerPtr = src->eventTriggerPtr;
-        dst->eventAssignPtr = src->eventAssignPtr;
-        dst->evalVolatileStoichPtr = src->evalVolatileStoichPtr;
-        dst->evalConversionFactorPtr = src->evalConversionFactorPtr;
-    }
+//    template<typename a_type, typename b_type>
+//    void copyCachedModel(a_type *src, b_type *dst) {
+//        dst->symbols = src->symbols;
+//        dst->context = src->context;
+//        dst->executionEngine = src->executionEngine;
+//        dst->errStr = src->errStr;
+//
+//        dst->evalInitialConditionsPtr = src->evalInitialConditionsPtr;
+//        dst->evalReactionRatesPtr = src->evalReactionRatesPtr;
+//        dst->getBoundarySpeciesAmountPtr = src->getBoundarySpeciesAmountPtr;
+//        dst->getFloatingSpeciesAmountPtr = src->getFloatingSpeciesAmountPtr;
+//        dst->getBoundarySpeciesConcentrationPtr = src->getBoundarySpeciesConcentrationPtr;
+//        dst->getFloatingSpeciesConcentrationPtr = src->getFloatingSpeciesConcentrationPtr;
+//        dst->getCompartmentVolumePtr = src->getCompartmentVolumePtr;
+//        dst->getGlobalParameterPtr = src->getGlobalParameterPtr;
+//        dst->evalRateRuleRatesPtr = src->evalRateRuleRatesPtr;
+//        dst->getEventTriggerPtr = src->getEventTriggerPtr;
+//        dst->getEventPriorityPtr = src->getEventPriorityPtr;
+//        dst->getEventDelayPtr = src->getEventDelayPtr;
+//        dst->eventTriggerPtr = src->eventTriggerPtr;
+//        dst->eventAssignPtr = src->eventAssignPtr;
+//        dst->evalVolatileStoichPtr = src->evalVolatileStoichPtr;
+//        dst->evalConversionFactorPtr = src->evalConversionFactorPtr;
+//    }
 
 ///**
 // * @brief cross platform mechanism for getting the target machine
@@ -267,8 +267,6 @@ namespace rrllvm {
          * Adds the module and context which is owned by the Jit
          * to the developing LLVM IR module.
          * In some Jit's (MCJit), this also triggers llvm IR optimization
-         * which is stored as an object file. It is also stored as a string
-         * for save/load state.
          */
         modelGeneratorContext->getJitNonOwning()->addModule();
 
@@ -298,7 +296,7 @@ namespace rrllvm {
             throw_llvm_exception(s.str());
         }
 
-        modelGeneratorContext->getJitNonOwning()->mapFunctionsToAddresses(rc, options);
+        modelGeneratorContext->getJitNonOwning()->mapFunctionsToAddresses(rc.get(), options);
 
 
         // if anything up to this point throws an exception, thats OK, because

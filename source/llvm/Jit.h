@@ -123,8 +123,6 @@ namespace rrllvm {
     class Jit {
     public:
 
-
-
         // todo build a constructor that uses default
         //  modelGenOpt from LoadSBMLOptions - subclasses can use this.
 
@@ -227,7 +225,7 @@ namespace rrllvm {
         virtual void transferObjectsToResources(std::shared_ptr<rrllvm::ModelResources> rc);
 
 
-        virtual void mapFunctionsToAddresses(std::shared_ptr<ModelResources> &rc, std::uint32_t options);
+        virtual void mapFunctionsToAddresses(ModelResources *rc, std::uint32_t options);
 
         /**
          * @brief returns a non owning pointer to the llvm::Module instance
