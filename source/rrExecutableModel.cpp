@@ -135,4 +135,9 @@ namespace rr
         mIntegrationStartTime = time;
     }
 
+    int ExecutableModel::getRateRuleRates(size_t len, int const* indx, double* values)
+    {
+        return -1;
+    }
+
 } // namespace rr

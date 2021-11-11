@@ -5,6 +5,7 @@
 #include "rrOSSpecifics.h"
 
 #include <iostream>
+#include <list>
 #include "rrRoadRunner.h"
 #include "rrException.h"
 #include "ExecutableModelFactory.h"
@@ -1148,6 +1149,63 @@ namespace rr {
 
                 break;
 
+            case SelectionRecord::FLOATING_CONCENTRATION_RATE:
+            {
+                dResult = 0;
+                std::stringstream err;
+                try {
+                    impl->model->getFloatingSpeciesAmountRates(1, &record.index, &dResult);
+                }
+                catch (std::out_of_range) {
+                    err << "No rate available for floating species " << record.p1
+                        << ": if conserved moieties are enabled, this species may be defined by an implied assignment rule instead, and its rate cannot be determined.";
+                    throw std::invalid_argument(err.str());
+                }
+                try {
+                    int compidx = impl->model->getCompartmentIndexForFloatingSpecies(record.index);
+                    string compid = impl->model->getCompartmentId(compidx);
+                    double comprate = getValue(compid + "'");
+                    double compvol = getValue(compid);
+                    double species_conc = getValue("[" + record.p1 + "]");
+                    dResult = (dResult - (comprate * species_conc)) / compvol;
+                }
+                catch (std::invalid_argument) {
+                    err << "No rate available for the concentration of floating species " << record.p1
+                        << ": its compartment is defined by an assignment rule, and its rate of change cannot be calculated.";
+                    throw std::invalid_argument(err.str());
+                }
+                break;
+            }
+            case SelectionRecord::COMPARTMENT_RATE:
+            case SelectionRecord::GLOBAL_PARAMETER_RATE:
+            case SelectionRecord::BOUNDARY_AMOUNT_RATE:
+            {
+                dResult = 0;
+                list<string> rrs, ars;
+                impl->model->getRateRuleIds(rrs);
+                impl->model->getAssignmentRuleIds(ars);
+                for (list<string>::iterator ar = ars.begin(); ar != ars.end(); ar++)
+                {
+                    if (*ar == record.p1)
+                    {
+                        std::stringstream err;
+                        err << "No rate available for compartment " << record.p1
+                            << " because the volume is defined by an assignment rule.";
+                        throw std::invalid_argument(err.str());
+                    }
+                }
+                int index = 0;
+                for (list<string>::iterator rr = rrs.begin(); rr != rrs.end(); rr++)
+                {
+                    if (*rr == record.p1)
+                    {
+                        impl->model->getRateRuleRates(1, &index, &dResult);
+                        break;
+                    }
+                    index++;
+                }
+                break;
+            }
             case SelectionRecord::COMPARTMENT:
                 impl->model->getCompartmentVolumes(1, &record.index, &dResult);
                 break;
@@ -4288,8 +4346,22 @@ namespace rr {
             case SelectionRecord::FLOATING_AMOUNT_RATE:
                 if ((sel.index = impl->model->getFloatingSpeciesIndex(sel.p1)) >= 0) {
                     break;
+                } else if ((sel.index = impl->model->getGlobalParameterIndex(sel.p1)) >= 0) {
+                    sel.selectionType = SelectionRecord::GLOBAL_PARAMETER_RATE;
+                    break;
+                } else if ((sel.index = impl->model->getCompartmentIndex(sel.p1)) >= 0) {
+                    sel.selectionType = SelectionRecord::COMPARTMENT_RATE;
+                    break;
                 } else {
-                    throw Exception("Invalid id '" + str + "' for floating amount rate");
+                    throw Exception("Invalid id '" + str + "' for rate of change: must be a floating species, global parameter, or compartment.");
+                    break;
+                }
+            case SelectionRecord::FLOATING_CONCENTRATION_RATE:
+                if ((sel.index = impl->model->getFloatingSpeciesIndex(sel.p1)) >= 0) {
+                    break;
+                }
+                else {
+                    throw Exception("Invalid id '" + str + "' for concentration rate of change: must be a floating species.");
                     break;
                 }
             case SelectionRecord::CONTROL:

@@ -1222,7 +1222,7 @@ double LLVMExecutableModel::getValue(const std::string& id)
         getFloatingSpeciesAmountRates(1, &index, &result);
         break;
     case SelectionRecord::GLOBAL_PARAMETER_RATE:
-        getRateRueRates(1, &index, &result);
+        getRateRuleRates(1, &index, &result);
         break;
     case SelectionRecord::INITIAL_FLOATING_AMOUNT:
         getFloatingSpeciesInitAmounts(1, &index, &result);
@@ -1998,7 +1998,7 @@ int LLVMExecutableModel::getFloatingSpeciesAmountRates(size_t len,
 }
 
 
-int LLVMExecutableModel::getRateRueRates(size_t len,
+int LLVMExecutableModel::getRateRuleRates(size_t len,
         int const *indx, double *values)
 {
     uint dydtSize = modelData->numRateRules;
