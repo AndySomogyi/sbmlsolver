@@ -73,6 +73,7 @@ namespace rrllvm {
  * because they do compleltly different things, and have completly
  * differnt deletion semantics
  */
+ // not used anywhere -- delete.
 //    template<typename a_type, typename b_type>
 //    void copyCachedModel(a_type *src, b_type *dst) {
 //        dst->symbols = src->symbols;
@@ -97,22 +98,6 @@ namespace rrllvm {
 //        dst->evalVolatileStoichPtr = src->evalVolatileStoichPtr;
 //        dst->evalConversionFactorPtr = src->evalConversionFactorPtr;
 //    }
-
-///**
-// * @brief cross platform mechanism for getting the target machine
-// * file type.
-// */
-//#if LLVM_VERSION_MAJOR == 6
-//    llvm::LLVMTargetMachine::CodeGenFileType getCodeGenFileType(){
-//        return llvm::TargetMachine::CGFT_ObjectFile;
-//    }
-//#elif LLVM_VERSION_MAJOR >= 12
-//
-//    llvm::CodeGenFileType getCodeGenFileType() {
-//        return llvm::CGFT_ObjectFile;
-//    }
-//
-//#endif
 
     inline void codeGeneration(ModelGeneratorContext &context, std::uint32_t options) {
         EvalInitialConditionsCodeGen(context).createFunction();

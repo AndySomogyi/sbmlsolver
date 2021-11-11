@@ -89,10 +89,9 @@ public:
 
     std::unique_ptr<Jit> jit;
 
-private:
-	void addGlobalMapping(std::string name, void*);
-	void addGlobalMappings();
-	static llvm::Function* createGlobalMappingFunction(const char* funcName, llvm::FunctionType *funcType, llvm::Module*);
+//private:
+//	void addGlobalMapping(std::string name, void*);
+//	void addGlobalMappings();
 };
 
 } /* namespace rrllvm */

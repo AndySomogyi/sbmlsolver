@@ -46,6 +46,7 @@ namespace rrllvm {
 
         /**
          * None, Less, Default or Aggressive are the options.
+         * todo expose to user as optino
          */
         JTMB.setCodeGenOptLevel(llvm::CodeGenOpt::Level::None);
 
@@ -67,7 +68,6 @@ namespace rrllvm {
             rrLogDebug << s;
         }
 
-        // cant seem to find a way to add target machine to the jit builder
         llvm::Expected<std::unique_ptr<llvm::TargetMachine>> expectedTargetMachine = JTMB.createTargetMachine();
         if (!expectedTargetMachine) {
             std::string err = "Could not create target machine";
@@ -78,7 +78,6 @@ namespace rrllvm {
 
         // tell the LLJit instance to look in the current process
         // for symbols before complaining that they can't be found,
-        // create the generator before moving DL to LLJITBuilder
         auto DLSG = llvm::orc::DynamicLibrarySearchGenerator::GetForCurrentProcess(DL->getGlobalPrefix());
         if (!DLSG) {
             llvm::logAllUnhandledErrors(
@@ -88,6 +87,9 @@ namespace rrllvm {
             );
         }
 
+        /**
+         * todo expose as option to user
+         */
         int numCompileThreads = 8;
 
         // Create the LLJitBuilder
@@ -96,11 +98,11 @@ namespace rrllvm {
                 .setDataLayout(std::move(*DL))
                 .setJITTargetMachineBuilder(std::move(JTMB))
 
-                        /**
-                         * Set a custom compile function that 1) caches objects
-                         * and 2) stores a pointer to the targetMachine for access later.
-                         * The targetMachine pointer is owned by the JITTargetMachineBuilder.
-                         */
+                /**
+                 * Set a custom compile function that 1) caches objects
+                 * and 2) stores a pointer to the targetMachine for access later.
+                 * The targetMachine pointer is owned by the JITTargetMachineBuilder.
+                 */
                 .setCompileFunctionCreator([&](llvm::orc::JITTargetMachineBuilder JTMB)
                                                    -> Expected<std::unique_ptr<llvm::orc::IRCompileLayer::IRCompiler>> {
                     // Create the target machine.

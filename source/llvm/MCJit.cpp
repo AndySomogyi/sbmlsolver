@@ -230,6 +230,7 @@ namespace rrllvm {
 
     void MCJit::addObjectFile(llvm::object::OwningBinary<llvm::object::ObjectFile> owningObject) {
         getExecutionEngineNonOwning()->addObjectFile(std::move(owningObject));
+        // loadState does not work without a call to finalizeObject()
         getExecutionEngineNonOwning()->finalizeObject();
     }
 
