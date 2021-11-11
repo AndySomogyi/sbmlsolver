@@ -438,10 +438,10 @@ public:
     /**
      * get the std::vector of reaction rates.
      *
-     * @param len: the length of the suplied buffer, must be >= reaction rates size.
+     * @param len: the length of the supplied buffer, must be >= reaction rates size.
      * @param indx: pointer to index array. If NULL, then it is ignored and the
-     * reaction rates are copied directly into the suplied buffer.
-     * @param values: pointer to user suplied buffer where rates will be stored.
+     * reaction rates are copied directly into the supplied buffer.
+     * @param values: pointer to user supplied buffer where rates will be stored.
      */
     virtual int getReactionRates(size_t len, int const *indx,
                 double *values) override;

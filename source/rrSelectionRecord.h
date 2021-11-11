@@ -254,6 +254,11 @@ public:
         REACTION_RATE =                     REACTION | RATE | DEPENDENT,
 
         /**
+         * SelectionType for compartment rate, always current
+         */
+        COMPARTMENT_RATE =                  COMPARTMENT | RATE | DEPENDENT,
+
+        /**
          * SelectionType for initial species amounts.
          */
         INITIAL_AMOUNT =                    INITIAL | AMOUNT | INDEPENDENT | DEPENDENT,

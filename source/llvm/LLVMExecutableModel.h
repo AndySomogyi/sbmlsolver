@@ -565,7 +565,7 @@ public:
      * calculate rate rule values.
      * TODO redo this function, not very effecient.
      */
-    int getRateRueRates(size_t len, int const *indx, double *values);
+    virtual int getRateRuleRates(size_t len, int const *indx, double *values);
 
 
     /**

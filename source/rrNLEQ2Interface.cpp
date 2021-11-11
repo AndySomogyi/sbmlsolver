@@ -18,7 +18,7 @@ namespace rr
 
 // NLEQ is an ancient Fortran77 routine that assumes that there is only
 // one program which has a hard coded function in it.
-// So, there is no concept of a user suplied data block, have to store
+// So, there is no concept of a user supplied data block, have to store
 // the model in this static location -- only a single thread at a time
 // may use the nleq steady state.
 static ExecutableModel* callbackModel = NULL;

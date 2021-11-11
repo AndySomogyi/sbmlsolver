@@ -21,6 +21,36 @@ public:
 };
 
 
+TEST_F(ModelAnalysisTests, getConcentrationRateSimple) {
+    RoadRunner rr((modelAnalysisModelsDir / "threestep.xml").string());
+    double S1_conc_rate = rr.getValue("[S1]'");
+    double S1_rate = rr.getValue("S1'");
+    EXPECT_NEAR(S1_conc_rate, -1.3, 0.001);
+    EXPECT_NEAR(S1_rate, -1.3, 0.001);
+}
+
+TEST_F(ModelAnalysisTests, getConcentrationRateComplex) {
+    RoadRunner rr((modelAnalysisModelsDir / "threestep_varC.xml").string());
+    double S1_rate = rr.getValue("S1'");
+    double S1_conc = rr.getValue("[S1]");
+    double comp = rr.getValue("C");
+    double comp_rate = rr.getValue("C'");
+    double S1_conc_rate = rr.getValue("[S1]'");
+    EXPECT_NEAR(S1_rate, -1.3, 0.001);
+    EXPECT_NEAR(S1_conc, 10, 0.001);
+    EXPECT_NEAR(comp, 2, 0.001);
+    EXPECT_NEAR(comp_rate, 2, 0.001);
+    EXPECT_NEAR(S1_conc_rate, (S1_rate - (S1_conc * comp_rate))/comp, 0.001);
+}
+
+TEST_F(ModelAnalysisTests, getConcentrationRateFail) {
+    RoadRunner rr((modelAnalysisModelsDir / "threestep.xml").string());
+    rr.addAssignmentRule("C", "3");
+    EXPECT_THROW(
+        double S1_conc_rate = rr.getValue("[S1]'"), 
+        std::invalid_argument);
+}
+
 TEST_F(ModelAnalysisTests, SameJacobians1) {
     RoadRunner rr((modelAnalysisModelsDir / "apap_liver_core_9.xml").string());
 
