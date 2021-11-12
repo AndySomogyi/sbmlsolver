@@ -78,7 +78,22 @@ namespace rrllvm {
     void ModelResources::saveState(std::ostream &out) const {
         symbols->saveState(out);
 
-        rr::saveBinary(out, moduleStr);
+        rr::saveBinary(out, sbmlMD5);
+
+        if (moduleStr.empty()) {
+            std::unique_ptr<llvm::MemoryBuffer> memBuf = jit->getCompiledModelFromCache(sbmlMD5);
+            MemoryBufferRef memBufRef = memBuf->getMemBufferRef();
+            std::string moduleStr2 = memBufRef.getBuffer().str();
+            if (moduleStr2.empty()){
+                std::string err = "Cannot save module";
+                rrLogErr << err;
+                throw_llvm_exception(err);
+            }
+            rr::saveBinary(out, moduleStr2);
+        } else {
+            rr::saveBinary(out, moduleStr);
+        }
+
     }
 
     void ModelResources::loadState(std::istream &in, uint modelGeneratorOpt) {
@@ -89,9 +104,9 @@ namespace rrllvm {
         }
 
 #if LLVM_VERSION_MAJOR >= 13
-            else if (modelGeneratorOpt & LoadSBMLOptions::LLJIT) {
-                jit = std::move(std::make_unique<LLJit>(modelGeneratorOpt));
-            }
+        else if (modelGeneratorOpt & LoadSBMLOptions::LLJIT) {
+            jit = std::move(std::make_unique<LLJit>(modelGeneratorOpt));
+        }
 
 #endif // LLVM_VERSION_MAJOR >= 13
 
@@ -106,18 +121,22 @@ namespace rrllvm {
         //load the model data symbols from the stream
         symbols = new LLVMModelDataSymbols(in);
 
-        //Get the object file from the input stream
+        rr::loadBinary(in, sbmlMD5);
+        assert(!sbmlMD5.empty() && "sbml md5 is empty");
+
+        //Get the object file binary string from the input stream
         rr::loadBinary(in, moduleStr);
-        rrLogCriticalCiaran << "commented out check for empty module string";
-        if (moduleStr.empty()) {
-            std::string err = "Cannot load state because the roadrunner object that should be stored as a string "
-                              "is empty";
-            rrLogErr << err;
-            throw_llvm_exception(err);
-        }
-        //Set up the llvm context
-//        context = std::make_unique<llvm::LLVMContext>();
-//        //Set up a buffer to read the object code from
+
+
+        /**
+         * Roadrunner currently has two jit compilers, MCJit
+         * which is the old API that's been used for years and LLJit, which is
+         * the new OOTB prepackaged Jit engine from llvm. Save and load state
+         */
+        rrLogDebug << "Loading llvm representation of module from binary string."
+                      "MCJit uses this path. ";
+
+        //Set up a buffer to read the object code from
         auto memBuffer(llvm::MemoryBuffer::getMemBuffer(moduleStr));
 
         llvm::Expected<std::unique_ptr<llvm::object::ObjectFile> > objectFileExpected =
@@ -126,13 +145,12 @@ namespace rrllvm {
         if (!objectFileExpected) {
             throw std::invalid_argument("Failed to load object data");
         }
-
         std::unique_ptr<llvm::object::ObjectFile> objectFile(std::move(objectFileExpected.get()));
-
-        llvm::object::OwningBinary<llvm::object::ObjectFile> owningObject(std::move(objectFile), std::move(memBuffer));
-
-        jit->addObjectFile(std::move(owningObject));
+        llvm::object::OwningBinary<llvm::object::ObjectFile> owningObject(std::move(objectFile),
+                                                                          std::move(memBuffer));
+        jit->addObjectFile(std::move(memBuffer));
         jit->mapFunctionsToAddresses(this, modelGeneratorOpt);
+
     }
 
 

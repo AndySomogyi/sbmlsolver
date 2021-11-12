@@ -175,8 +175,6 @@ namespace rrllvm {
          */
         Random *getRandom() const;
 
-        void setMd5(const std::string& md5);
-
     private:
 
         /**
@@ -257,10 +255,6 @@ namespace rrllvm {
          * converted document.
          */
         std::unique_ptr<rr::conservation::ConservedMoietyConverter> moietyConverter;
-
-//        void initFunctionPassManager();
-
-        std::string md5;
 
         /**
          * free any memory this class allocated.

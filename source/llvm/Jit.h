@@ -190,6 +190,10 @@ namespace rrllvm {
          */
         virtual void addObjectFile(llvm::object::OwningBinary<llvm::object::ObjectFile> owningObject) = 0;
 
+        virtual void addObjectFile(std::unique_ptr<llvm::object::ObjectFile> objectFile) = 0;
+
+        virtual void addObjectFile(std::unique_ptr<llvm::MemoryBuffer> obj) = 0;
+
         /**
          * MCJit needs this but might be a deprecated api. We have to include it anyway.
          */
@@ -216,6 +220,8 @@ namespace rrllvm {
          * module and context.
          */
         virtual void addModule() = 0;
+
+        virtual std::unique_ptr<llvm::MemoryBuffer> getCompiledModelFromCache(const std::string &sbmlMD5) = 0;
 
         virtual void addModuleViaObjectFile();
 
@@ -249,6 +255,8 @@ namespace rrllvm {
         std::string getDefaultTargetTriple() const;
 
         void setModuleIdentifier(const std::string &id) ;
+
+
 
     protected:
 

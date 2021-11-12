@@ -282,7 +282,8 @@ LLVMExecutableModel::LLVMExecutableModel(std::istream& in, uint modelGeneratorOp
 {
 	modelData = LLVMModelData_from_save(in);
 	resources->loadState(in, modelGeneratorOpt);
-	symbols = resources->symbols;
+
+    symbols = resources->symbols;
 	eventListeners = std::vector<EventListenerPtr>(modelData->numEvents, EventListenerPtr());
 	eventAssignTimes.resize(modelData->numEvents);
 	

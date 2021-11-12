@@ -4856,9 +4856,6 @@ namespace rr {
                 // can be loaded later
                 auto outPtr = new std::stringstream(
                         std::iostream::binary | std::stringstream::out | std::stringstream::in);
-//                if (!out) {
-//                    throw std::invalid_argument("Error opening file " + filename + ": " + std::string(strerror(errno)));
-//                }
                 rr::saveBinary(*outPtr, fileMagicNumber);
                 rr::saveBinary(*outPtr, dataVersionNumber);
                 //Save all of roadrunner's data to the file
@@ -4940,6 +4937,7 @@ namespace rr {
                 char *sbmlToSave = impl->document->toSBML();
                 rr::saveBinary(*outPtr, std::string(sbmlToSave));
                 free(sbmlToSave);
+
                 return outPtr;
             }
 

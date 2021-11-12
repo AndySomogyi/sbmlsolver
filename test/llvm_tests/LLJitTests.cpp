@@ -2,6 +2,7 @@
 // Created by Ciaran on 25/10/2021.
 //
 
+#include <GetValueCodeGenBase.h>
 #include "llvm/LLJit.h"
 #include "gtest/gtest.h"
 #include "TestModelFactory.h"
@@ -9,6 +10,7 @@
 #include "rrRoadRunnerOptions.h"
 #include "JitTests.h"
 #include "rrConfig.h"
+#include "rrUtils.h"
 
 using namespace rr;
 using namespace rrllvm;
@@ -69,7 +71,7 @@ TEST_F(LLJitTests, FibonacciCached) {
 
     std::unique_ptr<llvm::MemoryBuffer> obj = SBMLModelObjectCache::getObjectCache().getObject(mod.get());
     LLJit llJit2(opt.modelGeneratorOpt);
-    llJit2.addObject(std::move(obj));
+    llJit2.addObjectFile(std::move(obj));
 
     fibonacciFnPtr fibPtr2 = (int (*)(int)) llJit2.lookupFunctionAddress("fib");
     ASSERT_EQ(fibPtr2(4), 3);
@@ -137,3 +139,40 @@ TEST_F(LLJitTests, CheckModelSimulates) {
     auto data = rr.simulate(0, 10, 11);
     ASSERT_EQ(typeid(*data), typeid(ls::Matrix<double>));
 }
+
+
+
+TEST_F(LLJitTests, GetObjectFromCache) {
+//    rr::Config::setValue(rr::Config::LLVM_COMPILER, rr::Config::LLVM_COMPILER_VALUES::MCJIT);
+    rr::Config::setValue(rr::Config::LLVM_COMPILER, rr::Config::LLVM_COMPILER_VALUES::LLJIT);
+    RoadRunner rr(OpenLinearFlux().str());
+    auto &cache = rrllvm::SBMLModelObjectCache::getObjectCache();
+    cache.inspect();
+    const std::string &sbml = rr.getSBML();
+    std::string md5 = rr::getMD5(sbml);
+    LLVMContext ctx;
+    auto m = std::make_unique<llvm::Module>(md5, ctx);
+    std::unique_ptr<llvm::MemoryBuffer> objectBuf = cache.getObject(m.get());
+
+    Expected<std::unique_ptr<llvm::object::ObjectFile>>
+    objFile = llvm::object::ObjectFile::createObjectFile(objectBuf->getMemBufferRef());
+
+    if (!objFile) {
+        //LS DEBUG:  find a way to get the text out of the error.
+        auto err = objFile.takeError();
+        std::string s = "LLVM object supposed to be file, but is not.";
+        rrLog(Logger::LOG_FATAL) << s;
+        throw_llvm_exception(s);
+    }
+    LLJit llJit(LoadSBMLOptions().modelGeneratorOpt);
+    llJit.addObjectFile(std::move(*objFile));
+//    typedef double (*PtrTy)(LLVMModelData*, size_t)
+//    PtrTy getBoundarySpeciesAmountPtr
+//        = reinterpret_cast<PtrTy>(llJit->lookupFunctionAddress("getBoundarySpeciesAmount"));
+//
+//    LLVMModelData llvmModelData;
+//
+
+}
+
+

@@ -84,6 +84,7 @@ public:
     llvm::Module *module = nullptr;
 
     std::string moduleStr;
+    std::string sbmlMD5;
     const class Random *random;
     std::unique_ptr<std::string> errStr;
 

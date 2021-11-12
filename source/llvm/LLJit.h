@@ -48,11 +48,23 @@ namespace rrllvm {
 
         void addModuleViaObjectFile() override;
 
-        void addObject(std::unique_ptr<llvm::MemoryBuffer> obj);
+        void addObjectFile(std::unique_ptr<llvm::MemoryBuffer> obj);
+
+        void addObjectFile(std::unique_ptr<llvm::object::ObjectFile> objectFile) override;
 
         void addModule(llvm::orc::ThreadSafeModule tsm);
 
         void addModule(std::unique_ptr<llvm::Module> M, std::unique_ptr<llvm::LLVMContext> ctx) override;
+
+        /**
+         * @brief lookup a model in the roadrunner object cache and return a memory
+         * buffer to it.
+         * @details When compiled (with LLJit), object files are stored in the SBMLModelObjectCache.
+         * This is basically a string to MemoryBuffer map, where the string is the sbml's md5. In the case
+         * where the moiety conservation is turned on, the sbmlMD5 will be identical. Therefore it is appended
+         * with the string "_conserved".
+         */
+        std::unique_ptr<llvm::MemoryBuffer> getCompiledModelFromCache(const std::string& sbmlMD5);
 
         llvm::orc::LLJIT *getLLJitNonOwning();
 

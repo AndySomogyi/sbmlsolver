@@ -8,6 +8,8 @@
 #include "rrLogger.h"
 #include "rrRoadRunnerOptions.h"
 #include "rrConfig.h"
+#include "SBMLModelObjectCache.h"
+#include "rrUtils.h"
 
 using namespace rr;
 using namespace rrllvm;
@@ -112,7 +114,7 @@ TEST_F(MCJitTests, LoadPowerFunction) {
     // proxy for all functions that need to be loaded as llvm::Function.
     LoadSBMLOptions opt;
     MCJit mcJit(opt.modelGeneratorOpt);
-    llvm::Function* fn = mcJit.getModuleNonOwning()->getFunction("pow");
+    llvm::Function *fn = mcJit.getModuleNonOwning()->getFunction("pow");
     mcJit.addModule();
     ASSERT_TRUE(fn);
 }
@@ -129,7 +131,7 @@ TEST_F(MCJitTests, CheckModelSimulates) {
 TEST_F(MCJitTests, t) {
     LoadSBMLOptions opt;
     MCJit mcJit(opt.modelGeneratorOpt);
-    auto* tm = mcJit.getTargetMachine();
+    auto *tm = mcJit.getTargetMachine();
     int x = 4;
 }
 

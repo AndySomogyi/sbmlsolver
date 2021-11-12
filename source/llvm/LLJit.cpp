@@ -58,7 +58,7 @@ namespace rrllvm {
             llvm::logAllUnhandledErrors(std::move(DL.takeError()), llvm::errs(), err);
             throw_llvm_exception(err);
         }
-
+#ifndef NDEBUG // defined in llvm. JITTargetMachineBuilderPrinter only exists in dbg builds
         if (Logger::getLevel() <= Logger::Level::LOG_DEBUG) {
             std::string s;
             llvm::raw_string_ostream os(s);
@@ -67,7 +67,7 @@ namespace rrllvm {
             rrLogDebug << "JitTargetMachineBuilder information: ";
             rrLogDebug << s;
         }
-
+#endif
         llvm::Expected<std::unique_ptr<llvm::TargetMachine>> expectedTargetMachine = JTMB.createTargetMachine();
         if (!expectedTargetMachine) {
             std::string err = "Could not create target machine";
@@ -90,7 +90,7 @@ namespace rrllvm {
         /**
          * todo expose as option to user
          */
-        int numCompileThreads = 8;
+        int numCompileThreads = 1;
 
         // Create the LLJitBuilder
         llvm::orc::LLJITBuilder llJitBuilder;
@@ -98,11 +98,11 @@ namespace rrllvm {
                 .setDataLayout(std::move(*DL))
                 .setJITTargetMachineBuilder(std::move(JTMB))
 
-                /**
-                 * Set a custom compile function that 1) caches objects
-                 * and 2) stores a pointer to the targetMachine for access later.
-                 * The targetMachine pointer is owned by the JITTargetMachineBuilder.
-                 */
+                        /**
+                         * Set a custom compile function that 1) caches objects
+                         * and 2) stores a pointer to the targetMachine for access later.
+                         * The targetMachine pointer is owned by the JITTargetMachineBuilder.
+                         */
                 .setCompileFunctionCreator([&](llvm::orc::JITTargetMachineBuilder JTMB)
                                                    -> Expected<std::unique_ptr<llvm::orc::IRCompileLayer::IRCompiler>> {
                     // Create the target machine.
@@ -113,9 +113,13 @@ namespace rrllvm {
                     // store a pointer to it for later use
                     targetMachineNonOwning = (*TM).get();
                     if (numCompileThreads > 0)
-                        return std::make_unique<llvm::orc::ConcurrentIRCompiler>(std::move(JTMB), &SBMLModelObjectCache::getObjectCache());
+                        return std::make_unique<llvm::orc::ConcurrentIRCompiler>(
+                                std::move(JTMB),
+                                &SBMLModelObjectCache::getObjectCache());
 
-                    return std::make_unique<llvm::orc::TMOwningSimpleCompiler>(std::move(*TM), &SBMLModelObjectCache::getObjectCache());
+                    return std::make_unique<llvm::orc::TMOwningSimpleCompiler>(
+                            std::move(*TM),
+                            &SBMLModelObjectCache::getObjectCache());
                 });
 
 
@@ -250,25 +254,19 @@ namespace rrllvm {
 
     }
 
-    void LLJit::addObject(std::unique_ptr<llvm::MemoryBuffer> obj){
+    void LLJit::addObjectFile(std::unique_ptr<llvm::MemoryBuffer> obj) {
         llvm::Error err = llJit->addObjectFile(std::move(obj));
-        if (err){
+        if (err) {
             std::string s = "Unable to add object file to LLJit";
             rrLogErr << s;
             llvm::logAllUnhandledErrors(std::move(err), llvm::errs(), s);
         }
     }
 
+    void LLJit::addObjectFile(std::unique_ptr<llvm::object::ObjectFile> objectFile) {
+//        llJit->addObjectFile(std::move(objectFile));
+    }
 
-//    inline llvm::Expected<llvm::orc::ThreadSafeModule>
-//    parseModule(llvm::StringRef Source, llvm::StringRef Name) {
-//        using namespace llvm;
-//        SMDiagnostic Err;
-//        if (auto M = parseIR(MemoryBufferRef(Source, Name), Err, *ctx))
-//            return orc::ThreadSafeModule(std::move(M), std::move(ctx));
-//
-//        return createSMDiagnosticError(Err);
-//    }
 
     void LLJit::addModule() {
         llvm::orc::ThreadSafeModule TSM(std::move(module), std::move(context));
@@ -282,6 +280,14 @@ namespace rrllvm {
 
     void LLJit::addModuleViaObjectFile() {
 
+    }
+
+    std::unique_ptr<llvm::MemoryBuffer> LLJit::getCompiledModelFromCache(const std::string &sbmlMD5) {
+        SBMLModelObjectCache &cache = SBMLModelObjectCache::getObjectCache();
+        LLVMContext ctx;
+        std::unique_ptr<llvm::Module> m = std::make_unique<llvm::Module>(sbmlMD5, ctx);
+        std::unique_ptr<llvm::MemoryBuffer> objBuf = cache.getObject(m.get());
+        return std::move(objBuf);
     }
 
     llvm::orc::LLJIT *LLJit::getLLJitNonOwning() {

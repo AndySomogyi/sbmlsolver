@@ -45,6 +45,7 @@ namespace rrllvm {
                 .setErrorStr(errString.get())
                 .setMCJITMemoryManager(std::make_unique<SectionMemoryManager>());
         executionEngine = std::unique_ptr<ExecutionEngine>(engineBuilder.create());
+
         MCJit::mapFunctionsToJitSymbols();
         MCJit::mapDistribFunctionsToJitSymbols();
         MCJit::initFunctionPassManager();
@@ -222,16 +223,23 @@ namespace rrllvm {
 //    }
 
     llvm::TargetMachine *MCJit::getTargetMachine() {
-        auto t = executionEngine->getTargetMachine();
-        int x = 3;
-        return t;
-//        return getDefaultTargetMachine();
+        return executionEngine->getTargetMachine();
     }
 
     void MCJit::addObjectFile(llvm::object::OwningBinary<llvm::object::ObjectFile> owningObject) {
         getExecutionEngineNonOwning()->addObjectFile(std::move(owningObject));
         // loadState does not work without a call to finalizeObject()
         getExecutionEngineNonOwning()->finalizeObject();
+    }
+
+    void MCJit::addObjectFile(std::unique_ptr<llvm::object::ObjectFile> objectFile) {
+        getExecutionEngineNonOwning()->addObjectFile(std::move(objectFile));
+        // loadState does not work without a call to finalizeObject()
+
+        getExecutionEngineNonOwning()->finalizeObject();
+    }
+
+    void MCJit::addObjectFile(std::unique_ptr<llvm::MemoryBuffer> obj) {
     }
 
 //    void MCJit::finalizeObject() {
@@ -263,6 +271,11 @@ namespace rrllvm {
         // todo is this needed? Run tests with and without, see what breaks.
         getExecutionEngineNonOwning()->finalizeObject();
     }
+
+    std::unique_ptr<llvm::MemoryBuffer> MCJit::getCompiledModelFromCache(const std::string &sbmlMD5) {
+        return nullptr;
+    }
+
 
     void MCJit::optimizeModule() {
         //Currently we save jitted functions in object file format

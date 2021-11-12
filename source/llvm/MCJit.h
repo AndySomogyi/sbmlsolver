@@ -30,6 +30,10 @@ namespace rrllvm {
 
         void addObjectFile(llvm::object::OwningBinary<llvm::object::ObjectFile> owningObject) override;
 
+        void addObjectFile(std::unique_ptr<llvm::object::ObjectFile> objectFile) override;
+
+        void addObjectFile(std::unique_ptr<llvm::MemoryBuffer> obj) override;
+
         const llvm::DataLayout& getDataLayout() override;
 
         void addModule() override;
@@ -45,6 +49,8 @@ namespace rrllvm {
          * in the member cariable postOptModuleStream.
          */
         void addModuleViaObjectFile() override;
+
+        std::unique_ptr<llvm::MemoryBuffer> getCompiledModelFromCache(const std::string &sbmlMD5) override;
 
         ExecutionEngine* getExecutionEngineNonOwning() const;
 

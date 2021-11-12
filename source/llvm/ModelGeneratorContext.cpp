@@ -171,14 +171,6 @@ namespace rrllvm {
             InitializeNativeTargetAsmPrinter();
             InitializeNativeTargetAsmParser();
 
-            // use md5 for module identifier.
-            // todo remove the other place where this is computed.
-            md5 = rr::getMD5(sbml);
-
-            if (options & LoadSBMLOptions::CONSERVED_MOIETIES) {
-                md5 += "_conserved";
-            }
-            jit->setModuleIdentifier(md5);
             ModelDataIRBuilder::createModelDataStructType(jit->getModuleNonOwning(), nullptr, *symbols);
 
 
@@ -329,11 +321,6 @@ namespace rrllvm {
 
     Random *ModelGeneratorContext::getRandom() const {
         return random;
-    }
-
-    void ModelGeneratorContext::setMd5(const std::string &md5) {
-        ModelGeneratorContext::md5 = md5;
-
     }
 
     void ModelGeneratorContext::cleanup() {

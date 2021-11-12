@@ -242,8 +242,11 @@ namespace rrllvm {
      * @details these operations are required in multiple places and so they are
      * factored out into a single function.
      */
-    LLVMModelData * codeGenAddModuleAndMakeModelData(ModelGeneratorContext* modelGeneratorContext, std::shared_ptr<ModelResources>& rc, std::uint32_t options){
-    
+    LLVMModelData * codeGenAddModuleAndMakeModelData(
+            ModelGeneratorContext* modelGeneratorContext,
+            std::shared_ptr<ModelResources>& modelResources,
+            std::uint32_t options){
+
         // Do all code generation here. This populates the IR module representing
         // this sbml model.
         codeGeneration(*modelGeneratorContext, options);
@@ -258,7 +261,7 @@ namespace rrllvm {
         // Save the string representation so we can saveState quickly later. Must happen after
         // call to addModule, since the object file string is produced by optimization, triggered by
         // adding the module.
-        rc->moduleStr = modelGeneratorContext->getJitNonOwning()->getPostOptModuleStream().str().str();
+        modelResources->moduleStr = modelGeneratorContext->getJitNonOwning()->getPostOptModuleStream().str().str();
 
         LLVMModelData *modelData = createModelData(modelGeneratorContext->getModelDataSymbols(),
                                                    modelGeneratorContext->getRandom());
@@ -278,20 +281,11 @@ namespace rrllvm {
 
             rrLog(Logger::LOG_FATAL) << s.str();
 
-            throw_llvm_exception(s.str());
+            throw_llvm_exception(s.str())
         }
 
-        modelGeneratorContext->getJitNonOwning()->mapFunctionsToAddresses(rc.get(), options);
+        modelGeneratorContext->getJitNonOwning()->mapFunctionsToAddresses(modelResources.get(), options);
 
-
-        // if anything up to this point throws an exception, thats OK, because
-        // we have not allocated any memory yet that is not taken care of by
-        // something else.
-        // Now that everything that could have thrown would have thrown, we
-        // can now create the model and set its fields.
-
-        // * MOVE * the bits over from the context to the exe model.
-        modelGeneratorContext->transferObjectsToResources(rc);
 
         return modelData;
 
@@ -310,6 +304,15 @@ namespace rrllvm {
 
         LLVMModelData *modelData = codeGenAddModuleAndMakeModelData(modelGeneratorContext.get(), rc, options);
 
+        if (rc->moduleStr.empty()){
+            std::unique_ptr<llvm::MemoryBuffer> memBuf = modelGeneratorContext
+                    ->getJitNonOwning()->getCompiledModelFromCache(rc->sbmlMD5);
+            MemoryBufferRef memBufRef = memBuf->getMemBufferRef();
+            rc->moduleStr = memBufRef.getBuffer().str();
+        }
+
+        // * MOVE * the bits over from the context to the exe model.
+        modelGeneratorContext->transferObjectsToResources(rc);
         LLVMExecutableModel *newModel = new LLVMExecutableModel(rc, modelData);
 
         if (oldModel) {
@@ -503,26 +506,32 @@ namespace rrllvm {
     ExecutableModel *LLVMModelGenerator::createModel(const std::string &sbml, std::uint32_t options) {
         bool forceReCompile = options & LoadSBMLOptions::RECOMPILE;
 
-        std::string md5;
+        /**
+         * The sbml md5 is used as the LLVM module name.
+         * This facilitates object caching via rrObjectCache since
+         * the LLVM module name is the key in the object map used to
+         * cache the objects.
+         */
+        std::string sbmlMD5;
+        sbmlMD5 = rr::getMD5(sbml);
+
+        if (options & LoadSBMLOptions::CONSERVED_MOIETIES) {
+            sbmlMD5 += "_conserved";
+        }
 
         // if we force recompile, then we don't need to think
         // about locating a previously compiled model
         if (!forceReCompile) {
             // check for a cached copy
-            md5 = rr::getMD5(sbml);
-
-            if (options & LoadSBMLOptions::CONSERVED_MOIETIES) {
-                md5 += "_conserved";
-            }
 
             SharedModelResourcesPtr sp;
 
             cachedModelsMutex.lock();
 
             // if count == 1, key is in map. Keys are unique so can only be 1 or 0.
-            if (cachedModelResources.count(md5) == 1) {
+            if (cachedModelResources.count(sbmlMD5) == 1) {
                 // if key found, lock the weak pointer into shared pointer
-                sp = cachedModelResources.at(md5).lock();
+                sp = cachedModelResources.at(sbmlMD5).lock();
             }
 
             cachedModelsMutex.unlock();
@@ -531,20 +540,41 @@ namespace rrllvm {
             // in which case, we should have a bad ptr.
 
             if (sp) {
-                rrLog(Logger::LOG_DEBUG) << "found a cached model for \"" << md5 << "\"";
+                rrLog(Logger::LOG_DEBUG) << "found a cached model for \"" << sbmlMD5 << "\"";
                 return new LLVMExecutableModel(sp, createModelData(*sp->symbols, sp->random));
             } else {
-                rrLog(Logger::LOG_DEBUG) << "no cached model found for " << md5
+                rrLog(Logger::LOG_DEBUG) << "no cached model found for " << sbmlMD5
                                          << ", creating new one";
             }
         }
 
-        SharedModelResourcesPtr rc = std::make_shared<ModelResources>();
+        SharedModelResourcesPtr modelResources = std::make_shared<ModelResources>();
+        modelResources->sbmlMD5 = sbmlMD5;
 
         std::unique_ptr<ModelGeneratorContext> modelGeneratorContext = createModelGeneratorContext(sbml, options);
 
+        // name the llvm module
+        modelGeneratorContext->getJitNonOwning()->setModuleIdentifier(sbmlMD5);
+
         // todo figure out whether the various bigs of codegen can be threadded?
-        LLVMModelData *modelData = codeGenAddModuleAndMakeModelData(modelGeneratorContext.get(), rc, options);
+        //  Or do things need to happen in a certain order?
+        //
+        LLVMModelData *modelData = codeGenAddModuleAndMakeModelData(modelGeneratorContext.get(), modelResources, options);
+
+        if (modelResources->moduleStr.empty()){
+            std::unique_ptr<llvm::MemoryBuffer> memBuf = modelGeneratorContext
+                    ->getJitNonOwning()->getCompiledModelFromCache(modelResources->sbmlMD5);
+            MemoryBufferRef memBufRef = memBuf->getMemBufferRef();
+            modelResources->moduleStr = memBufRef.getBuffer().str();
+        }
+        // if anything up to this point throws an exception, thats OK, because
+        // we have not allocated any memory yet that is not taken care of by
+        // something else.
+        // Now that everything that could have thrown would have thrown, we
+        // can now create the model and set its fields.
+
+        // * MOVE * the bits over from the context to the exe model.
+        modelGeneratorContext->transferObjectsToResources(modelResources);
 
         if (!forceReCompile) {
             // check for a chached copy, another thread could have
@@ -561,7 +591,7 @@ namespace rrllvm {
                  j != cachedModelResources.end();) {
                 if (j->second.expired()) {
                     rrLog(Logger::LOG_DEBUG) <<
-                                             "removing expired model resource for hash " << md5;
+                                             "removing expired model resource for hash " << sbmlMD5;
 
                     j = cachedModelResources.erase(j);
                 } else {
@@ -569,18 +599,18 @@ namespace rrllvm {
                 }
             }
 
-            if ((i = cachedModelResources.find(md5)) == cachedModelResources.end()) {
+            if ((i = cachedModelResources.find(sbmlMD5)) == cachedModelResources.end()) {
                 rrLog(Logger::LOG_DEBUG) << "could not find existing cached resource "
-                                            "resources, for hash " << md5 <<
+                                            "for hash " << sbmlMD5 <<
                                          ", inserting new resources into cache";
 
-                cachedModelResources[md5] = rc;
+                cachedModelResources[sbmlMD5] = modelResources;
             }
 
             cachedModelsMutex.unlock();
         }
 
-        return new LLVMExecutableModel(rc, modelData);
+        return new LLVMExecutableModel(modelResources, modelData);
     }
 
 

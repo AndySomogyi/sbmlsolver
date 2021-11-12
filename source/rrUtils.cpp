@@ -107,6 +107,8 @@ static char rrGetch()
 #define rrGetch getch
 #endif
 
+// todo switch to using llvm::MD5Hash()
+//  -- reduce dependency on poco
 std::string getMD5(const std::string& text)
 {
     Poco::MD5Engine md5;

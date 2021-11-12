@@ -41,8 +41,10 @@ namespace rrllvm {
 
         std::vector<std::string> inspect();
 
+        void addToCache(const std::string & key, std::unique_ptr<llvm::MemoryBuffer> mb);
+
     private:
-        SBMLModelObjectCache()= default;;
+        SBMLModelObjectCache()= default;
 
         llvm::StringMap<std::unique_ptr<llvm::MemoryBuffer>> cachedObjects;
 

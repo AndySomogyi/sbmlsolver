@@ -59,22 +59,25 @@ namespace rrllvm {
         moduleNonOwning->setModuleIdentifier(id);
     }
 
-
     llvm::IRBuilder<> *Jit::getBuilderNonOwning() {
         return builder.get();
     }
-
 
     void Jit::transferObjectsToResources(std::shared_ptr<rrllvm::ModelResources> rc) {
         rc->context = std::move(context);
         context = nullptr;
 
+        rrLogCriticalCiaran << "This is where you are converting object to module"
+                               "string";
+
         std::string stringifiedModule = postOptModuleStream->str().str();
         if (stringifiedModule.empty()) {
+//            stringifiedModule = getCompiledModelFromCache()
             std::string msg = "Compiled RoadRunner instancce not sucessfully stored as string. "
                               "Save and Load state features will not work";
             rrLogWarn << msg;
         }
+
         rc->moduleStr = stringifiedModule;
 
 //        rc->symbols = symbols;

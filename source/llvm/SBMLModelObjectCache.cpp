@@ -16,9 +16,7 @@ namespace rrllvm {
     }
 
     void SBMLModelObjectCache::notifyObjectCompiled(const llvm::Module *M, llvm::MemoryBufferRef ObjBuffer) {
-        // TODO module identifier will be the same for different roadrunner objects.
-        // we either need to change this to the md5 string, like the original or
-        // change the identifier to the md5.
+        rrLogDebug << "module: " << M->getModuleIdentifier() << " is compiled";
         cachedObjects[M->getModuleIdentifier()] = llvm::MemoryBuffer::getMemBufferCopy(
                 ObjBuffer.getBuffer(), ObjBuffer.getBufferIdentifier());
     }
@@ -34,16 +32,19 @@ namespace rrllvm {
         return llvm::MemoryBuffer::getMemBuffer(I->second->getMemBufferRef());
     }
 
-    std::vector<std::string> SBMLModelObjectCache::inspect(){
+    std::vector<std::string> SBMLModelObjectCache::inspect() {
         std::vector<std::string> v;
         rrLogDebug << "Number of cached models is: " << cachedObjects.size();
-        for (auto& x : cachedObjects){
-            rrLogDebug << "Found cache model called: " << x.first().str();
+        for (auto &x: cachedObjects) {
+            rrLogDebug << "Found cached model called: " << x.first().str();
             v.push_back(x.first().str());
         }
         return v;
     }
 
+    void SBMLModelObjectCache::addToCache(const std::string &key, std::unique_ptr<llvm::MemoryBuffer> mb) {
+        cachedObjects.insert({key, std::move(mb)});
+    }
 
 
 }

@@ -249,7 +249,7 @@ if (BUILD_LLVM)
             llvm/LLJit.cpp
             llvm/MCJit.cpp
             llvm/OrcJit.cpp
-            llvm/rrObjectCache.cpp
+            llvm/SBMLModelObjectCache.cpp
             )
 
     set(rrLLVMHeaders
