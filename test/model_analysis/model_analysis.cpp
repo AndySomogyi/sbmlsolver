@@ -43,6 +43,23 @@ TEST_F(ModelAnalysisTests, getConcentrationRateComplex) {
     EXPECT_NEAR(S1_conc_rate, (S1_rate - (S1_conc * comp_rate))/comp, 0.001);
 }
 
+TEST_F(ModelAnalysisTests, getConcentrationRateBoundary) {
+    RoadRunner rr((modelAnalysisModelsDir / "threestep_varC.xml").string());
+    rr.setBoundary("S1", true, false);
+    rr.setHasOnlySubstanceUnits("S1", true, false);
+    rr.addRateRule("S1", "-1.3");
+    double S1_rate = rr.getValue("S1'");
+    double S1_conc = rr.getValue("[S1]");
+    double comp = rr.getValue("C");
+    double comp_rate = rr.getValue("C'");
+    double S1_conc_rate = rr.getValue("[S1]'");
+    EXPECT_NEAR(S1_rate, -1.3, 0.001);
+    EXPECT_NEAR(S1_conc, 10, 0.001);
+    EXPECT_NEAR(comp, 2, 0.001);
+    EXPECT_NEAR(comp_rate, 2, 0.001);
+    EXPECT_NEAR(S1_conc_rate, (S1_rate - (S1_conc * comp_rate)) / comp, 0.001);
+}
+
 TEST_F(ModelAnalysisTests, getConcentrationRateFail) {
     RoadRunner rr((modelAnalysisModelsDir / "threestep.xml").string());
     rr.addAssignmentRule("C", "3");
@@ -1348,4 +1365,14 @@ TEST_F(ModelAnalysisTests, SimulateWithTimesFunction) {
     EXPECT_EQ(result->Element(2, 0), 5);
     EXPECT_EQ(result->Element(3, 0), 10);
 }
+
+TEST_F(ModelAnalysisTests, ResetAfterControlCalc) {
+    RoadRunner rr((modelAnalysisModelsDir / "conserved_cycle.xml").string());
+    double pre = rr.getValue("S1");
+    double val = rr.getValue("ucc(J0, Vm)");
+    double post = rr.getValue("S1");
+
+    EXPECT_EQ(pre, post);
+}
+
 
