@@ -284,6 +284,7 @@ namespace rrllvm {
 
     std::unique_ptr<llvm::MemoryBuffer> LLJit::getCompiledModelFromCache(const std::string &sbmlMD5) {
         SBMLModelObjectCache &cache = SBMLModelObjectCache::getObjectCache();
+        auto v = cache.inspect();
         LLVMContext ctx;
         std::unique_ptr<llvm::Module> m = std::make_unique<llvm::Module>(sbmlMD5, ctx);
         std::unique_ptr<llvm::MemoryBuffer> objBuf = cache.getObject(m.get());

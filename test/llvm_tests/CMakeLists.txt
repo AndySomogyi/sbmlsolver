@@ -4,5 +4,7 @@ add_test_executable(llvm_tests_LLJitTests test_targets LLJitTests.cpp JitTests.h
 add_test_executable(llvm_tests_MCJitExternalFunctionTests test_targets MCJitExternalFunctionTests.cpp)
 add_test_executable(llvm_tests_LLJitExternalFunctionTests test_targets LLJitMapFunctionsToJitSymbolsTests.cpp)
 add_test_executable(llvm_tests_RandomTests test_targets RandomTests.cpp)
+add_test_executable(llvm_tests_GeneratedFunctionTests test_targets GeneratedFunctionTests.cpp)
+add_test_executable(llvm_tests_JitFactoryTests test_targets JitFactoryTests.cpp)
 
 set(test_targets ${test_targets} PARENT_SCOPE)

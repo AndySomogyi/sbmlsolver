@@ -13,7 +13,9 @@
 #include "llvm/IR/AssemblyAnnotationWriter.h"
 
 #ifdef LIBSBML_HAS_PACKAGE_DISTRIB
+
 #   include "Random.h"
+
 #endif
 
 using namespace rr;
@@ -39,7 +41,7 @@ namespace rrllvm {
 
     MCJit::MCJit(std::uint32_t opt)
             : Jit(opt),
-              engineBuilder(EngineBuilder(std::move(module))){
+              engineBuilder(EngineBuilder(std::move(module))) {
 
         engineBuilder
                 .setErrorStr(errString.get())
@@ -84,22 +86,26 @@ namespace rrllvm {
 
         executionEngine->addGlobalMapping(
                 createGlobalMappingFunction("rr_distrib_uniform",
-                                            FunctionType::get(double_type, args_void_double_double, false), moduleNonOwning),
+                                            FunctionType::get(double_type, args_void_double_double, false),
+                                            moduleNonOwning),
                 (void *) distrib_uniform);
 
         executionEngine->addGlobalMapping(
                 createGlobalMappingFunction("rr_distrib_normal",
-                                            FunctionType::get(double_type, args_void_double_double, false), moduleNonOwning),
+                                            FunctionType::get(double_type, args_void_double_double, false),
+                                            moduleNonOwning),
                 (void *) distrib_normal);
 
         executionEngine->addGlobalMapping(
                 createGlobalMappingFunction("rr_distrib_normal_four",
-                                            FunctionType::get(double_type, args_void_double_quadruple, false), moduleNonOwning),
+                                            FunctionType::get(double_type, args_void_double_quadruple, false),
+                                            moduleNonOwning),
                 (void *) distrib_normal_four);
 
         executionEngine->addGlobalMapping(
                 createGlobalMappingFunction("rr_distrib_binomial",
-                                            FunctionType::get(double_type, args_void_double_double, false), moduleNonOwning),
+                                            FunctionType::get(double_type, args_void_double_double, false),
+                                            moduleNonOwning),
                 (void *) distrib_binomial);
 
         executionEngine->addGlobalMapping(
@@ -109,12 +115,14 @@ namespace rrllvm {
 
         executionEngine->addGlobalMapping(
                 createGlobalMappingFunction("rr_distrib_binomial_four",
-                                            FunctionType::get(double_type, args_void_double_quadruple, false), moduleNonOwning),
+                                            FunctionType::get(double_type, args_void_double_quadruple, false),
+                                            moduleNonOwning),
                 (void *) distrib_binomial_four);
 
         executionEngine->addGlobalMapping(
                 createGlobalMappingFunction("rr_distrib_cauchy",
-                                            FunctionType::get(double_type, args_void_double_double, false), moduleNonOwning),
+                                            FunctionType::get(double_type, args_void_double_double, false),
+                                            moduleNonOwning),
                 (void *) distrib_cauchy);
 
         executionEngine->addGlobalMapping(
@@ -124,7 +132,8 @@ namespace rrllvm {
 
         executionEngine->addGlobalMapping(
                 createGlobalMappingFunction("rr_distrib_cauchy_four",
-                                            FunctionType::get(double_type, args_void_double_quadruple, false), moduleNonOwning),
+                                            FunctionType::get(double_type, args_void_double_quadruple, false),
+                                            moduleNonOwning),
                 (void *) distrib_cauchy_four);
 
         executionEngine->addGlobalMapping(
@@ -134,7 +143,8 @@ namespace rrllvm {
 
         executionEngine->addGlobalMapping(
                 createGlobalMappingFunction("rr_distrib_chisquare_three",
-                                            FunctionType::get(double_type, args_void_double_triple, false), moduleNonOwning),
+                                            FunctionType::get(double_type, args_void_double_triple, false),
+                                            moduleNonOwning),
                 (void *) distrib_chisquare_three);
 
         executionEngine->addGlobalMapping(
@@ -144,22 +154,26 @@ namespace rrllvm {
 
         executionEngine->addGlobalMapping(
                 createGlobalMappingFunction("rr_distrib_exponential_three",
-                                            FunctionType::get(double_type, args_void_double_triple, false), moduleNonOwning),
+                                            FunctionType::get(double_type, args_void_double_triple, false),
+                                            moduleNonOwning),
                 (void *) distrib_exponential_three);
 
         executionEngine->addGlobalMapping(
                 createGlobalMappingFunction("rr_distrib_gamma",
-                                            FunctionType::get(double_type, args_void_double_double, false), moduleNonOwning),
+                                            FunctionType::get(double_type, args_void_double_double, false),
+                                            moduleNonOwning),
                 (void *) distrib_gamma);
 
         executionEngine->addGlobalMapping(
                 createGlobalMappingFunction("rr_distrib_gamma_four",
-                                            FunctionType::get(double_type, args_void_double_quadruple, false), moduleNonOwning),
+                                            FunctionType::get(double_type, args_void_double_quadruple, false),
+                                            moduleNonOwning),
                 (void *) distrib_gamma_four);
 
         executionEngine->addGlobalMapping(
                 createGlobalMappingFunction("rr_distrib_laplace",
-                                            FunctionType::get(double_type, args_void_double_double, false), moduleNonOwning),
+                                            FunctionType::get(double_type, args_void_double_double, false),
+                                            moduleNonOwning),
                 (void *) distrib_laplace);
 
         executionEngine->addGlobalMapping(
@@ -169,17 +183,20 @@ namespace rrllvm {
 
         executionEngine->addGlobalMapping(
                 createGlobalMappingFunction("rr_distrib_laplace_four",
-                                            FunctionType::get(double_type, args_void_double_quadruple, false), moduleNonOwning),
+                                            FunctionType::get(double_type, args_void_double_quadruple, false),
+                                            moduleNonOwning),
                 (void *) distrib_laplace_four);
 
         executionEngine->addGlobalMapping(
                 createGlobalMappingFunction("rr_distrib_lognormal",
-                                            FunctionType::get(double_type, args_void_double_double, false), moduleNonOwning),
+                                            FunctionType::get(double_type, args_void_double_double, false),
+                                            moduleNonOwning),
                 (void *) distrib_lognormal);
 
         executionEngine->addGlobalMapping(
                 createGlobalMappingFunction("rr_distrib_lognormal_four",
-                                            FunctionType::get(double_type, args_void_double_quadruple, false), moduleNonOwning),
+                                            FunctionType::get(double_type, args_void_double_quadruple, false),
+                                            moduleNonOwning),
                 (void *) distrib_lognormal_four);
 
         executionEngine->addGlobalMapping(
@@ -189,7 +206,8 @@ namespace rrllvm {
 
         executionEngine->addGlobalMapping(
                 createGlobalMappingFunction("rr_distrib_poisson_three",
-                                            FunctionType::get(double_type, args_void_double_triple, false), moduleNonOwning),
+                                            FunctionType::get(double_type, args_void_double_triple, false),
+                                            moduleNonOwning),
                 (void *) distrib_poisson_three);
 
         executionEngine->addGlobalMapping(
@@ -199,7 +217,8 @@ namespace rrllvm {
 
         executionEngine->addGlobalMapping(
                 createGlobalMappingFunction("rr_distrib_rayleigh_three",
-                                            FunctionType::get(double_type, args_void_double_triple, false), moduleNonOwning),
+                                            FunctionType::get(double_type, args_void_double_triple, false),
+                                            moduleNonOwning),
                 (void *) distrib_rayleigh_three);
 
     };
@@ -240,6 +259,21 @@ namespace rrllvm {
     }
 
     void MCJit::addObjectFile(std::unique_ptr<llvm::MemoryBuffer> obj) {
+
+
+
+        llvm::Expected<std::unique_ptr<llvm::object::ObjectFile> > objectFileExpected =
+                llvm::object::ObjectFile::createObjectFile(obj->getMemBufferRef());
+        if (!objectFileExpected) {
+            throw std::invalid_argument("Failed to load object data");
+        }
+        std::unique_ptr<llvm::object::ObjectFile> objectFile(std::move(objectFileExpected.get()));
+//        llvm::object::OwningBinary<llvm::object::ObjectFile> owningObject(
+//                std::move(objectFile),
+//                std::move(memBuffer)
+//        );
+
+        getExecutionEngineNonOwning()->addObjectFile(std::move(objectFile));
     }
 
 //    void MCJit::finalizeObject() {
@@ -259,7 +293,7 @@ namespace rrllvm {
         optimizeModule();
     }
 
-    void MCJit::addModule(){
+    void MCJit::addModule() {
         addModuleViaObjectFile();
     }
 

@@ -200,13 +200,16 @@ namespace rrllvm {
         }
     }
 
-    ModelGeneratorContext::ModelGeneratorContext(libsbml::SBMLDocument const *_doc,
-                                                 unsigned options) :
+    ModelGeneratorContext::ModelGeneratorContext(
+            libsbml::SBMLDocument const *_doc,
+            unsigned options,
+            std::unique_ptr<Jit> jitEngine ) :
             ownedDoc(0),
             doc(_doc),
             symbols(NULL),
             options(options),
-            random(0) {
+            random(nullptr),
+            jit(std::move(jitEngine)) {
         if (useSymbolCache()) {
             rrLog(Logger::LOG_INFORMATION) << "Using LLVM symbol/value cache";
         } else {
@@ -243,11 +246,11 @@ namespace rrllvm {
                 this->doc = _doc;
             }
 
-            jit->mapFunctionsToJitSymbols();
 
             /**
-             * this call has been moved to Jit constructor
+             * these calls has been moved to Jit constructor
              */
+            // jit->mapFunctionsToJitSymbols();
             // createCLibraryFunctions(module);
 
             symbols = new LLVMModelDataSymbols(doc->getModel(), options);

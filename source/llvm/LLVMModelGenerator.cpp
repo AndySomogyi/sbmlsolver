@@ -33,6 +33,7 @@
 #include "llvm/LLVMExecutableModel.h"
 
 #include "llvm/MCJit.h"
+#include "JitFactory.h"
 
 #if LLVM_VERSION_MAJOR >= 13
 
@@ -73,7 +74,7 @@ namespace rrllvm {
  * because they do compleltly different things, and have completly
  * differnt deletion semantics
  */
- // not used anywhere -- delete.
+    // not used anywhere -- delete??.
 //    template<typename a_type, typename b_type>
 //    void copyCachedModel(a_type *src, b_type *dst) {
 //        dst->symbols = src->symbols;
@@ -211,41 +212,30 @@ namespace rrllvm {
 
     inline std::unique_ptr<ModelGeneratorContext>
     createModelGeneratorContext(const std::string &sbml, std::uint32_t options) {
-
-        std::unique_ptr<ModelGeneratorContext> context;
-
-        if (options & LoadSBMLOptions::MCJIT) {
-            context = std::move(
-                    std::make_unique<ModelGeneratorContext>(sbml, options, std::make_unique<MCJit>(options)));
-        }
-
-#if LLVM_VERSION_MAJOR >= 13
-
-        else if (options & LoadSBMLOptions::LLJIT) {
-            context = std::move(
-                    std::make_unique<ModelGeneratorContext>(sbml, options, std::make_unique<LLJit>(options)));
-        }
-
-#endif // LLVM_VERSION_MAJOR >= 13
-
-        else {
-            rrLogWarn << "Requested compiler not found. Defaulting to MCJit.";
-            context = std::move(
-                    std::make_unique<ModelGeneratorContext>(sbml, options, std::make_unique<MCJit>(options)));
-        }
+        std::unique_ptr<Jit> j = JitFactory::makeJitEngine(options);
+        std::unique_ptr<ModelGeneratorContext> context = std::make_unique<ModelGeneratorContext>(sbml, options, std::move(j));
         return std::move(context);
     }
 
+    std::string getSBMLMD5(const std::string &sbml, const std::uint32_t & options) {
+        std::string sbmlMD5;
+        sbmlMD5 = rr::getMD5(sbml);
+
+        if (options & LoadSBMLOptions::CONSERVED_MOIETIES) {
+            sbmlMD5 += "_conserved";
+        }
+        return sbmlMD5;
+    }
 
     /**
      * @brief collect a few essential calls for creating a model into a function
      * @details these operations are required in multiple places and so they are
      * factored out into a single function.
      */
-    LLVMModelData * codeGenAddModuleAndMakeModelData(
-            ModelGeneratorContext* modelGeneratorContext,
-            std::shared_ptr<ModelResources>& modelResources,
-            std::uint32_t options){
+    LLVMModelData *codeGenAddModuleAndMakeModelData(
+            ModelGeneratorContext *modelGeneratorContext,
+            std::shared_ptr<ModelResources> &modelResources,
+            std::uint32_t options) {
 
         // Do all code generation here. This populates the IR module representing
         // this sbml model.
@@ -269,7 +259,7 @@ namespace rrllvm {
         uint llvmsize = ModelDataIRBuilder::getModelDataSize(
                 modelGeneratorContext->getJitNonOwning()->getModuleNonOwning(),
                 modelGeneratorContext->getJitNonOwning()->getDataLayout()
-                );
+        );
 
         if (llvmsize != modelData->size) {
             std::stringstream s;
@@ -299,12 +289,17 @@ namespace rrllvm {
 
         std::unique_ptr<ModelGeneratorContext> modelGeneratorContext = createModelGeneratorContext(
                 reinterpret_cast<const char *>(docSBML), options);
+        std::string sbmlMD5;
+        if (rc->sbmlMD5.empty()){
+            rc->sbmlMD5 = sbmlMD5;
+        }
+        modelGeneratorContext->getJitNonOwning()->setModuleIdentifier(sbmlMD5);
 
         free(docSBML);
 
         LLVMModelData *modelData = codeGenAddModuleAndMakeModelData(modelGeneratorContext.get(), rc, options);
 
-        if (rc->moduleStr.empty()){
+        if (rc->moduleStr.empty()) {
             std::unique_ptr<llvm::MemoryBuffer> memBuf = modelGeneratorContext
                     ->getJitNonOwning()->getCompiledModelFromCache(rc->sbmlMD5);
             MemoryBufferRef memBufRef = memBuf->getMemBufferRef();
@@ -512,12 +507,7 @@ namespace rrllvm {
          * the LLVM module name is the key in the object map used to
          * cache the objects.
          */
-        std::string sbmlMD5;
-        sbmlMD5 = rr::getMD5(sbml);
-
-        if (options & LoadSBMLOptions::CONSERVED_MOIETIES) {
-            sbmlMD5 += "_conserved";
-        }
+        std::string sbmlMD5 = getSBMLMD5(sbml, options);
 
         // if we force recompile, then we don't need to think
         // about locating a previously compiled model
@@ -559,9 +549,10 @@ namespace rrllvm {
         // todo figure out whether the various bigs of codegen can be threadded?
         //  Or do things need to happen in a certain order?
         //
-        LLVMModelData *modelData = codeGenAddModuleAndMakeModelData(modelGeneratorContext.get(), modelResources, options);
+        LLVMModelData *modelData = codeGenAddModuleAndMakeModelData(modelGeneratorContext.get(), modelResources,
+                                                                    options);
 
-        if (modelResources->moduleStr.empty()){
+        if (modelResources->moduleStr.empty()) {
             std::unique_ptr<llvm::MemoryBuffer> memBuf = modelGeneratorContext
                     ->getJitNonOwning()->getCompiledModelFromCache(modelResources->sbmlMD5);
             MemoryBufferRef memBufRef = memBuf->getMemBufferRef();

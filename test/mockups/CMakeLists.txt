@@ -10,8 +10,7 @@ add_library(
         rr-mockups OBJECT
         MockExecutableModel.h
         MockSolver.h
-        MockSBase.h
-)
+        MockSBase.h ../llvm_tests/LLVMGeneratedFunctionTests.cpp ../llvm_tests/LLVMGeneratedFunctionTests.h)
 set(MOCKUPS_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
 target_include_directories(
         rr-mockups PUBLIC

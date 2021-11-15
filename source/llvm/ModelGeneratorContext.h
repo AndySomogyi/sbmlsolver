@@ -53,6 +53,7 @@ namespace rr {
 namespace rrllvm {
 
     class ModelResources;
+
     class Jit;
 
 
@@ -100,7 +101,10 @@ namespace rrllvm {
          * attach to an existing sbml document, we borrow a reference to this
          * doc and DO NOT take ownership of it.
          */
-        ModelGeneratorContext(libsbml::SBMLDocument const *doc, unsigned loadSBMLOptions);
+        ModelGeneratorContext(
+                libsbml::SBMLDocument const *doc,
+                unsigned loadSBMLOptions,
+                std::unique_ptr<Jit> jitEngine = nullptr);
 
         /**
          * does not attach to any sbml doc,
@@ -119,7 +123,7 @@ namespace rrllvm {
 
         const libsbml::Model *getModel() const;
 
-        Jit* getJitNonOwning() const;
+        Jit *getJitNonOwning() const;
 
 
 //        llvm::LLVMContext &getContext() const;
@@ -248,7 +252,7 @@ namespace rrllvm {
         /**
          * Experimental Jit dependency injection to support multiple different compilation strategies.
          */
-         std::unique_ptr<Jit> jit;
+        std::unique_ptr<Jit> jit;
 
         /**
          * the moiety converter, for the time being owns the

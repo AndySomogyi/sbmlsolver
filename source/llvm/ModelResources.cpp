@@ -133,21 +133,21 @@ namespace rrllvm {
          * which is the old API that's been used for years and LLJit, which is
          * the new OOTB prepackaged Jit engine from llvm. Save and load state
          */
-        rrLogDebug << "Loading llvm representation of module from binary string."
-                      "MCJit uses this path. ";
+
+
 
         //Set up a buffer to read the object code from
-        auto memBuffer(llvm::MemoryBuffer::getMemBuffer(moduleStr));
-
-        llvm::Expected<std::unique_ptr<llvm::object::ObjectFile> > objectFileExpected =
-                llvm::object::ObjectFile::createObjectFile(
-                        llvm::MemoryBufferRef(moduleStr, "id"));
-        if (!objectFileExpected) {
-            throw std::invalid_argument("Failed to load object data");
-        }
-        std::unique_ptr<llvm::object::ObjectFile> objectFile(std::move(objectFileExpected.get()));
-        llvm::object::OwningBinary<llvm::object::ObjectFile> owningObject(std::move(objectFile),
-                                                                          std::move(memBuffer));
+        std::unique_ptr<llvm::MemoryBuffer> memBuffer(llvm::MemoryBuffer::getMemBuffer(moduleStr));
+//
+//        llvm::Expected<std::unique_ptr<llvm::object::ObjectFile> > objectFileExpected =
+//                llvm::object::ObjectFile::createObjectFile(
+//                        llvm::MemoryBufferRef(moduleStr, "id"));
+//        if (!objectFileExpected) {
+//            throw std::invalid_argument("Failed to load object data");
+//        }
+//        std::unique_ptr<llvm::object::ObjectFile> objectFile(std::move(objectFileExpected.get()));
+//        llvm::object::OwningBinary<llvm::object::ObjectFile> owningObject(std::move(objectFile),
+//
         jit->addObjectFile(std::move(memBuffer));
         jit->mapFunctionsToAddresses(this, modelGeneratorOpt);
 

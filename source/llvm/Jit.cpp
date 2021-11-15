@@ -18,6 +18,8 @@ namespace rrllvm {
     Jit::Jit(std::uint32_t options)
             : options(options),
               context(std::make_unique<llvm::LLVMContext>()),
+              // todo the module name should be the sbmlMD5. Might be cleaner to
+              //  add this as a parameter to Jit constructor.
               module(std::make_unique<llvm::Module>("LLVM Module", *context)),
               moduleNonOwning(module.get()), /*Maintain a weak ref so we don't lose our handle to the module*/
               builder(std::make_unique<llvm::IRBuilder<>>(*context)) {
