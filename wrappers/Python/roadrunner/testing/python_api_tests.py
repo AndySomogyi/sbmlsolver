@@ -814,7 +814,7 @@ class RoadRunnerTests(unittest.TestCase):
                     'init([S1])',
                     'init([S2])',
                     'init(S1)',
-                    'init(S2)'
+                    'init(S2)',
                     'init(default_compartment)',
                     'init(kf)',
                     'init(kb)',
