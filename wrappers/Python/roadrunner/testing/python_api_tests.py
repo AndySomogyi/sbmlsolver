@@ -101,7 +101,7 @@ class RoadRunnerTests(unittest.TestCase):
         self.assertEqual(self.rr.__getitem__("S1"), 10.0)
 
     def test___len__(self):
-        self.assertEqual(len(self.rr), 21)  # not sure what this is enumerating though. Species, reactions?
+        self.assertEqual(len(self.rr), 62)  # Enumerates all possible rr[x] arguments.
 
     def test___repr__(self):
         l = repr([self.rr])
