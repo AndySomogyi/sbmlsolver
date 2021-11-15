@@ -1124,4 +1124,11 @@ class RoadRunnerTests(unittest.TestCase):
         result = self.rr.getSimulationData()
         self.assertEqual(list(result[:,0]), [0, 1, 5, 10])
 
+    def test_keysExist(self):
+        self.rr.resetToOrigin()
+        idvec = rr.keys()
+        self.assertEqual(idvec, rr.getIds())
+        for id in idvec:
+            val = rr[id]
+
 
