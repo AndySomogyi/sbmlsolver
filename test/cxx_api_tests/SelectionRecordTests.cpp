@@ -211,7 +211,7 @@ TEST_F(SelectionRecordTests, CONSERVED_MOIETY){
     //Conserved moieties come through as global parameters, and not conserved moieties.
     EXPECT_EQ(record.selectionType, SelectionRecord::GLOBAL_PARAMETER);
     EXPECT_STREQ(record.to_string().c_str(), "_CSUM0");
-    EXPECT_EQ(record.index, 0);
+    EXPECT_EQ(record.index, 1);
     EXPECT_EQ(record.p1, "_CSUM0");
     EXPECT_EQ(record.p2, "");
 }
@@ -368,3 +368,30 @@ TEST_F(SelectionRecordTests, CONTROL) {
     delete testModel;
 }
 
+TEST_F(SelectionRecordTests, AllIDs) {
+    RoadRunner rr((rrTestModelsDir_ / "ModelAnalysis" / "conserved_cycle.xml").string());
+    //Add a few boundary species:
+    rr.addSpeciesAmount("S3", "default_compartment", 2.2, false, true);
+    rr.addSpeciesAmount("S4", "default_compartment", 2.2, false, true);
+    rr.addSpeciesAmount("S5", "default_compartment", 2.2, false, true);
+    rr.addAssignmentRule("S3", "S2+1");
+    rr.addRateRule("S4", "S1 - S2");
+    rr.addRateRule("default_compartment", "0.1");
+
+    rr.setConservedMoietyAnalysis(true);
+
+    list<string> ids;
+    rr.getIds(SelectionRecord::ALL, ids);
+    for (list<string>::iterator id = ids.begin(); id != ids.end(); id++)
+    {
+        SelectionRecord record = rr.createSelection(*id);
+        if ((*id).find("cc(") < 2) {
+            EXPECT_THROW(rr.getValue(record), CoreException);
+            std::cout << *id << ": [uncalculatable; no steady state]" << std::endl;
+        }
+        else {
+            double val = rr.getValue(record);
+            std::cout << *id << ": " << val << std::endl;
+        }
+    }
+}

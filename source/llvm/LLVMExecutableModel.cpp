@@ -1069,45 +1069,20 @@ void LLVMExecutableModel::getIds(int types, std::list<std::string> &ids)
                 &rr::ExecutableModel::getGlobalParameterId, ids);
     }
 
-    // only get init values independent values, dep, with assignment rules
-    // always have the same value.
-    //if (checkExact(SelectionRecord::_GLOBAL_PARAMETER | SelectionRecord::INITIAL, types)
-    //        && (SelectionRecord::INDEPENDENT & types)) {
-    //    for(size_t i = 0; i < symbols->getIndependentGlobalParameterSize(); ++i) {
-    //        std::string gs = symbols->getGlobalParameterId(i);
-    //        if(symbols->isIndependentGlobalParameter(gs)) {
-    //            ids.push_back("init(" + gs + ")");
-    //        }
-    //    }
-    //}
-
-    //if (checkExact(SelectionRecord::_GLOBAL_PARAMETER | SelectionRecord::INITIAL, types)
-    //        && (SelectionRecord::DEPENDENT & types)) {
-    //    for(size_t i = symbols->getIndependentGlobalParameterSize();
-    //            i < symbols->getGlobalParametersSize(); ++i) {
-    //        std::string gs = symbols->getGlobalParameterId(i);
-    //        if(symbols->isIndependentGlobalParameter(gs)) {
-    //            ids.push_back("init(" + gs + ")");
-    //        }
-    //    }
-    //}
-
     if (checkExact(SelectionRecord::REACTION_RATE, types)) {
         addIds(this, 0, symbols->getReactionSize(),
                 &rr::ExecutableModel::getReactionId, ids);
     }
 
     if (checkExact(SelectionRecord::INITIAL | SelectionRecord::FLOATING |
-            SelectionRecord::CONCENTRATION, types) &&
-            (SelectionRecord::INDEPENDENT & types)) {
+            SelectionRecord::CONCENTRATION, types)) {
         for (size_t i = 0; i < symbols->getInitFloatingSpeciesSize(); ++i) {
             ids.push_back("init([" + this->getFloatingSpeciesId(i) + "])");
         }
     }
 
     if (checkExact(SelectionRecord::INITIAL | SelectionRecord::FLOATING |
-            SelectionRecord::CONCENTRATION, types) &&
-            (SelectionRecord::DEPENDENT & types)) {
+            SelectionRecord::CONCENTRATION, types)) {
         for (size_t i = symbols->getInitFloatingSpeciesSize();
                 i < symbols->getFloatingSpeciesSize(); ++i) {
             ids.push_back("init([" + this->getFloatingSpeciesId(i) + "])");
@@ -1115,32 +1090,176 @@ void LLVMExecutableModel::getIds(int types, std::list<std::string> &ids)
     }
 
     if (checkExact(SelectionRecord::INITIAL | SelectionRecord::FLOATING |
-            SelectionRecord::AMOUNT, types) &&
-            (SelectionRecord::INDEPENDENT & types)) {
+            SelectionRecord::AMOUNT, types)) {
         for (size_t i = 0; i < symbols->getInitFloatingSpeciesSize(); ++i) {
             ids.push_back("init(" + this->getFloatingSpeciesId(i) + ")");
         }
     }
 
     if (checkExact(SelectionRecord::INITIAL | SelectionRecord::FLOATING |
-            SelectionRecord::AMOUNT, types) &&
-            (SelectionRecord::DEPENDENT & types)) {
+            SelectionRecord::AMOUNT, types)) {
         for (size_t i = symbols->getInitFloatingSpeciesSize();
                 i < symbols->getFloatingSpeciesSize(); ++i) {
             ids.push_back("init(" + this->getFloatingSpeciesId(i) + ")");
+        }
+    }
+
+    if (checkExact(SelectionRecord::INITIAL | SelectionRecord::BOUNDARY |
+        SelectionRecord::CONCENTRATION, types)) {
+        for (size_t i = 0; i < symbols->getInitBoundarySpeciesSize(); ++i) {
+            ids.push_back("init([" + this->getBoundarySpeciesId(i) + "])");
+        }
+    }
+
+    if (checkExact(SelectionRecord::INITIAL | SelectionRecord::BOUNDARY |
+        SelectionRecord::CONCENTRATION, types)) {
+        for (size_t i = symbols->getInitBoundarySpeciesSize();
+            i < symbols->getBoundarySpeciesSize(); ++i) {
+            ids.push_back("init([" + this->getBoundarySpeciesId(i) + "])");
+        }
+    }
+
+    if (checkExact(SelectionRecord::INITIAL | SelectionRecord::BOUNDARY |
+        SelectionRecord::AMOUNT, types)) {
+        for (size_t i = 0; i < symbols->getInitBoundarySpeciesSize(); ++i) {
+            ids.push_back("init(" + this->getBoundarySpeciesId(i) + ")");
+        }
+    }
+
+    if (checkExact(SelectionRecord::INITIAL | SelectionRecord::BOUNDARY |
+        SelectionRecord::AMOUNT, types)) {
+        for (size_t i = symbols->getInitBoundarySpeciesSize();
+            i < symbols->getBoundarySpeciesSize(); ++i) {
+            ids.push_back("init(" + this->getBoundarySpeciesId(i) + ")");
+        }
+    }
+
+    if (checkExact(SelectionRecord::INITIAL | SelectionRecord::_COMPARTMENT, types)) {
+        for (size_t i = 0; i < symbols->getCompartmentsSize(); ++i) {
+            ids.push_back("init(" + this->getCompartmentId(i) + ")");
+        }
+    }
+
+    if (checkExact(SelectionRecord::INITIAL | SelectionRecord::GLOBAL_PARAMETER, types)) {
+        for (size_t i = 0; i < symbols->getGlobalParametersSize(); ++i) {
+            ids.push_back("init(" + this->getGlobalParameterId(i) + ")");
         }
     }
 
     if (checkExact(SelectionRecord::FLOATING_AMOUNT_RATE, types)) {
-        for (size_t i = 0; i < getNumIndFloatingSpecies(); ++i) {
-            ids.push_back(this->getFloatingSpeciesId(i) + "'");
+        for (size_t i = 0; i < getNumFloatingSpecies(); ++i) {
+            string sid = this->getFloatingSpeciesId(i);
+            if (!symbols->hasAssignmentRule(sid))
+            {
+                ids.push_back(sid + "'");
+            }
         }
     }
 
-    if (checkExact(SelectionRecord::GLOBAL_PARAMETER_RATE, types)) {
+    if (checkExact(SelectionRecord::FLOATING_CONCENTRATION_RATE, types)) {
+        for (size_t i = 0; i < getNumFloatingSpecies(); ++i) {
+            string sid = this->getFloatingSpeciesId(i);
+            if (!symbols->hasAssignmentRule(sid))
+            {
+                ids.push_back("[" + sid + "]'");
+            }
+        }
+    }
+
+    if (checkExact(SelectionRecord::BOUNDARY_CONCENTRATION_RATE, types)) {
+        for (size_t i = 0; i < getNumBoundarySpecies(); ++i) {
+            string sid = this->getBoundarySpeciesId(i);
+            if (!symbols->hasAssignmentRule(sid))
+            {
+                ids.push_back("[" + sid + "]'");
+            }
+        }
+    }
+
+    if (checkExact(SelectionRecord::RATE, types)) {
 
         for (size_t i = 0; i < symbols->getRateRuleSize(); ++i) {
-            ids.push_back(symbols->getRateRuleId(i) + "'");
+            string rid = symbols->getRateRuleId(i);
+            if (symbols->getBoundarySpeciesIndex(rid) >= 0 &&
+                checkExact(SelectionRecord::BOUNDARY_AMOUNT_RATE, types))
+            {
+                ids.push_back(rid + "'");
+            }
+            if (symbols->getCompartmentIndex(rid) >= 0 &&
+                checkExact(SelectionRecord::COMPARTMENT_RATE, types))
+            {
+                ids.push_back(rid + "'");
+            }
+            if (symbols->getGlobalParameterIndex(rid) >= 0 &&
+                checkExact(SelectionRecord::GLOBAL_PARAMETER_RATE, types))
+            {
+                ids.push_back(rid + "'");
+            }
+        }
+    }
+
+    if (checkExact(SelectionRecord::STOICHIOMETRY, types)) {
+        for (size_t s = 0; s < getNumFloatingSpecies(); ++s) {
+            string sid = getFloatingSpeciesId(s);
+            for (size_t r = 0; r < getNumReactions(); ++r) {
+                if (getStoichiometry(s, r) != 0)
+                {
+                    string rid = getReactionId(r);
+                    ids.push_back("stoich(" + sid + ", " + rid + ")");
+                }
+            }
+        }
+    }
+
+    if (checkExact(SelectionRecord::UNSCALED_ELASTICITY, types)) {
+        for (size_t r = 0; r < getNumReactions(); ++r) {
+            string rid = getReactionId(r);
+            for (size_t fs = 0; fs < getNumFloatingSpecies(); ++fs) {
+                string fsid = getFloatingSpeciesId(fs);
+                ids.push_back("uec(" + rid + ", " + fsid + ")");
+            }
+            for (size_t bs = 0; bs < getNumBoundarySpecies(); bs++) {
+                string bsid = getBoundarySpeciesId(bs);
+                //Remove when https://github.com/sys-bio/roadrunner/issues/914 addressed.
+                if (!symbols->hasAssignmentRule(bsid))
+                {
+                    ids.push_back("uec(" + rid + ", " + bsid + ")");
+                }
+            }
+            for (size_t g = 0; g < getNumGlobalParameters(); g++) {
+                string gid = getGlobalParameterId(g);
+                //Remove when https://github.com/sys-bio/roadrunner/issues/914 addressed.
+                if (!symbols->hasAssignmentRule(gid) && symbols->getConservedMoietyIndex(gid) == -1)
+                {
+                    ids.push_back("uec(" + rid + ", " + gid + ")");
+                }
+            }
+        }
+    }
+
+    if (checkExact(SelectionRecord::ELASTICITY, types)) {
+        for (size_t r = 0; r < getNumReactions(); ++r) {
+            string rid = getReactionId(r);
+            for (size_t fs = 0; fs < getNumFloatingSpecies(); ++fs) {
+                string fsid = getFloatingSpeciesId(fs);
+                ids.push_back("ec(" + rid + ", " + fsid + ")");
+            }
+            for (size_t bs = 0; bs < getNumBoundarySpecies(); bs++) {
+                string bsid = getBoundarySpeciesId(bs);
+                //Remove when https://github.com/sys-bio/roadrunner/issues/914 addressed.
+                if (!symbols->hasAssignmentRule(bsid))
+                {
+                    ids.push_back("ec(" + rid + ", " + bsid + ")");
+                }
+            }
+            for (size_t g = 0; g < getNumGlobalParameters(); g++) {
+                string gid = getGlobalParameterId(g);
+                //Remove when https://github.com/sys-bio/roadrunner/issues/914 addressed.
+                if (!symbols->hasAssignmentRule(gid) && symbols->getConservedMoietyIndex(gid) == -1)
+                {
+                    ids.push_back("ec(" + rid + ", " + gid + ")");
+                }
+            }
         }
     }
 
@@ -1151,12 +1270,6 @@ void LLVMExecutableModel::getIds(int types, std::list<std::string> &ids)
         }
     }
 
-    //if (SelectionRecord::EVENT & types)
-    //{
-    //    std::vector<std::string> eventIds = symbols->getEventIds();
-    //    std::copy( eventIds.begin(), eventIds.end(), std::back_inserter(ids));
-    //}
-
     // These are also displayed with global parameters, so
     // only add them if explicity asked for.
     if (SelectionRecord::CONSERVED_MOIETY == types)
@@ -1164,6 +1277,88 @@ void LLVMExecutableModel::getIds(int types, std::list<std::string> &ids)
         for(size_t i = 0; i < symbols->getConservedMoietySize(); ++i)
         {
             ids.push_back(symbols->getConservedMoietyId(i));
+        }
+    }
+
+    if (checkExact(SelectionRecord::UNSCALED_CONTROL, types)) {
+        for (size_t r = 0; r < getNumReactions(); ++r) {
+            string rid = getReactionId(r);
+            for (size_t bs = 0; bs < getNumBoundarySpecies(); bs++) {
+                string bsid = getBoundarySpeciesId(bs);
+                //Remove when https://github.com/sys-bio/roadrunner/issues/914 addressed.
+                if (!symbols->hasAssignmentRule(bsid))
+                {
+                    ids.push_back("ucc(" + rid + ", " + bsid + ")");
+                }
+            }
+            for (size_t g = 0; g < getNumGlobalParameters(); g++) {
+                string gid = getGlobalParameterId(g);
+                //Remove when https://github.com/sys-bio/roadrunner/issues/914 addressed.
+                if (!symbols->hasAssignmentRule(gid))
+                {
+                    ids.push_back("ucc(" + rid + ", " + gid + ")");
+                }
+            }
+        }
+        for (size_t fs = 0; fs < getNumFloatingSpecies(); ++fs) {
+            string fsid = getFloatingSpeciesId(fs);
+            for (size_t bs = 0; bs < getNumBoundarySpecies(); bs++) {
+                string bsid = getBoundarySpeciesId(bs);
+                //Remove when https://github.com/sys-bio/roadrunner/issues/914 addressed.
+                if (!symbols->hasAssignmentRule(bsid))
+                {
+                    ids.push_back("ucc(" + fsid + ", " + bsid + ")");
+                }
+            }
+            for (size_t g = 0; g < getNumGlobalParameters(); g++) {
+                string gid = getGlobalParameterId(g);
+                //Remove when https://github.com/sys-bio/roadrunner/issues/914 addressed.
+                if (!symbols->hasAssignmentRule(gid))
+                {
+                    ids.push_back("ucc(" + fsid + ", " + gid + ")");
+                }
+            }
+        }
+    }
+
+    if (checkExact(SelectionRecord::CONTROL, types)) {
+        for (size_t r = 0; r < getNumReactions(); ++r) {
+            string rid = getReactionId(r);
+            for (size_t bs = 0; bs < getNumBoundarySpecies(); bs++) {
+                string bsid = getBoundarySpeciesId(bs);
+                //Remove when https://github.com/sys-bio/roadrunner/issues/914 addressed.
+                if (!symbols->hasAssignmentRule(bsid))
+                {
+                    ids.push_back("cc(" + rid + ", " + bsid + ")");
+                }
+            }
+            for (size_t g = 0; g < getNumGlobalParameters(); g++) {
+                string gid = getGlobalParameterId(g);
+                //Remove when https://github.com/sys-bio/roadrunner/issues/914 addressed.
+                if (!symbols->hasAssignmentRule(gid))
+                {
+                    ids.push_back("cc(" + rid + ", " + gid + ")");
+                }
+            }
+        }
+        for (size_t fs = 0; fs < getNumFloatingSpecies(); ++fs) {
+            string fsid = getFloatingSpeciesId(fs);
+            for (size_t bs = 0; bs < getNumBoundarySpecies(); bs++) {
+                string bsid = getBoundarySpeciesId(bs);
+                //Remove when https://github.com/sys-bio/roadrunner/issues/914 addressed.
+                if (!symbols->hasAssignmentRule(bsid))
+                {
+                    ids.push_back("cc(" + fsid + ", " + bsid + ")");
+                }
+            }
+            for (size_t g = 0; g < getNumGlobalParameters(); g++) {
+                string gid = getGlobalParameterId(g);
+                //Remove when https://github.com/sys-bio/roadrunner/issues/914 addressed.
+                if (!symbols->hasAssignmentRule(gid))
+                {
+                    ids.push_back("cc(" + fsid + ", " + gid + ")");
+                }
+            }
         }
     }
 }

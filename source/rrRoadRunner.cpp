@@ -1176,6 +1176,33 @@ namespace rr {
                 }
                 break;
             }
+            case SelectionRecord::BOUNDARY_CONCENTRATION_RATE:
+            {
+                dResult = 0;
+                std::stringstream err;
+                try {
+                    dResult = getValue(record.p1 + "'");
+                }
+                catch (std::out_of_range) {
+                    err << "No rate available for boundary species " << record.p1
+                        << ": if it is defined by an assignment rule, its rate cannot be determined.";
+                    throw std::invalid_argument(err.str());
+                }
+                try {
+                    int compidx = impl->model->getCompartmentIndexForBoundarySpecies(record.index);
+                    string compid = impl->model->getCompartmentId(compidx);
+                    double comprate = getValue(compid + "'");
+                    double compvol = getValue(compid);
+                    double species_conc = getValue("[" + record.p1 + "]");
+                    dResult = (dResult - (comprate * species_conc)) / compvol;
+                }
+                catch (std::invalid_argument) {
+                    err << "No rate available for the concentration of boundary species " << record.p1
+                        << ": its compartment is defined by an assignment rule, and its rate of change cannot be calculated.";
+                    throw std::invalid_argument(err.str());
+                }
+                break;
+            }
             case SelectionRecord::COMPARTMENT_RATE:
             case SelectionRecord::GLOBAL_PARAMETER_RATE:
             case SelectionRecord::BOUNDARY_AMOUNT_RATE:
@@ -1277,6 +1304,18 @@ namespace rr {
                 }
 
                 return std::imag(eig[index]);
+            }
+                break;
+            case SelectionRecord::EIGENVALUE_COMPLEX: {
+                double real = getValue("eigenReal(" + record.p1 + ")");
+                double imag = getValue("eigenImag(" + record.p1 + ")");
+                if (imag == 0)
+                {
+                    return real;
+                }
+                std::stringstream err;
+                err << "Eigenvalue is complex (" << real << " + " << imag << " i):  unable to return value as a double.  Request the real and imaginary parts separately with 'eigenReal(" << record.p1 << ") and 'eigenImag(" << record.p1 << ").";
+                throw std::invalid_argument(err.str());
             }
                 break;
             case SelectionRecord::INITIAL_FLOATING_CONCENTRATION: {
@@ -1674,7 +1713,7 @@ namespace rr {
         } else if ((parameterIndex = impl->model->getGlobalParameterIndex(parameterName)) >= 0) {
             parameterType = ptGlobalParameter;
         } else if ((parameterIndex = impl->model->getConservedMoietyIndex(parameterName)) >= 0) {
-            parameterType = ptConservationParameter;
+            throw std::invalid_argument("Cannot calculate elasticities for conserved moieties.");
         } else {
             throw CoreException(format("Unable to locate variable: [{0}]", parameterName));
         }
@@ -1760,6 +1799,10 @@ namespace rr {
                 originalParameterValue = 0;
                 impl->model->getBoundarySpeciesConcentrations(1, &parameterIndex, &originalParameterValue);
             } else if ((parameterIndex = impl->model->getGlobalParameterIndex(parameterName)) >= 0) {
+                if (impl->model->getConservedMoietyIndex(parameterName) >= 0)
+                {
+                    throw std::invalid_argument("Cannot calculate elasticities for conserved moieties.");
+                }
                 parameterType = ptGlobalParameter;
                 originalParameterValue = 0;
                 impl->model->getGlobalParameterValues(1, &parameterIndex, &originalParameterValue);
@@ -3619,8 +3662,6 @@ namespace rr {
                 throw CoreException(gEmptyModelMessage);
             }
 
-            mcaSteadyState();
-
             ParameterType parameterType;
             VariableType variableType;
             double originalParameterValue;
@@ -3642,6 +3683,23 @@ namespace rr {
             } else {
                 throw CoreException("Unable to locate variable: [" + variableNameMod + "]");
             }
+
+            //Save the current state before calculating the steady state so we can restore it later.
+            int nfloat = impl->model->getNumFloatingSpecies();
+            double* floats = new double[nfloat];
+            impl->model->getFloatingSpeciesAmounts(nfloat, 0, floats);
+            int nboundary = impl->model->getNumBoundarySpecies();
+            double* boundaries = new double[nboundary];
+            impl->model->getBoundarySpeciesAmounts(nboundary, 0, boundaries);
+            int ncomp = impl->model->getNumCompartments();
+            double* comps = new double[ncomp];
+            impl->model->getCompartmentVolumes(ncomp, 0, comps);
+            int nparam = impl->model->getNumGlobalParameters();
+            double* params = new double[nparam];
+            impl->model->getGlobalParameterValues(nparam, 0, params);
+            //std::stringstream* orig_state = saveStateS();
+
+            mcaSteadyState();
 
             // Check for the parameter name
             if ((parameterIndex = impl->model->getGlobalParameterIndex(parameterName)) >= 0) {
@@ -3690,22 +3748,28 @@ namespace rr {
                 double f1 = fd2 + 8 * fi;
                 double f2 = -(8 * fd + fi2);
 
-                // What ever happens, make sure we restore the parameter level
-                impl->setParameterValue(parameterType, parameterIndex, originalParameterValue);
-                steadyState();
+                // What ever happens, make sure we restore the original state
+                impl->model->setFloatingSpeciesAmounts(nfloat, 0, floats);
+                impl->model->setBoundarySpeciesAmounts(nboundary, 0, boundaries);
+                impl->model->setCompartmentVolumes(ncomp, 0, comps);
+                impl->model->setGlobalParameterValues(nparam, 0, params);
+                //loadStateS(orig_state);
 
                 return 1 / (12 * hstep) * (f1 + f2);
             }
             catch (...) //Catch anything... and do 'finalize'
             {
-                // What ever happens, make sure we restore the parameter level
-                impl->setParameterValue(parameterType, parameterIndex, originalParameterValue);
-                mcaSteadyState();
+                // What ever happens, make sure we restore the original state
+                impl->model->setFloatingSpeciesAmounts(nfloat, 0, floats);
+                impl->model->setBoundarySpeciesAmounts(nboundary, 0, boundaries);
+                impl->model->setCompartmentVolumes(ncomp, 0, comps);
+                impl->model->setGlobalParameterValues(nparam, 0, params);
+                //loadStateS(orig_state);
                 throw;
             }
         }
         catch (const Exception &e) {
-            throw CoreException("Unexpected error from getuCC(): ", e.Message());
+            throw CoreException("Unable to calculate control coefficients in getuCC(), perhaps due to an inability to reach the steady state.  Error from the calculation: ", e.Message());
         }
     }
 
@@ -4346,6 +4410,9 @@ namespace rr {
             case SelectionRecord::FLOATING_AMOUNT_RATE:
                 if ((sel.index = impl->model->getFloatingSpeciesIndex(sel.p1)) >= 0) {
                     break;
+                } else if ((sel.index = impl->model->getBoundarySpeciesIndex(sel.p1)) >= 0) {
+                    sel.selectionType = SelectionRecord::BOUNDARY_AMOUNT_RATE;
+                    break;
                 } else if ((sel.index = impl->model->getGlobalParameterIndex(sel.p1)) >= 0) {
                     sel.selectionType = SelectionRecord::GLOBAL_PARAMETER_RATE;
                     break;
@@ -4358,6 +4425,10 @@ namespace rr {
                 }
             case SelectionRecord::FLOATING_CONCENTRATION_RATE:
                 if ((sel.index = impl->model->getFloatingSpeciesIndex(sel.p1)) >= 0) {
+                    break;
+                }
+                else if ((sel.index = impl->model->getBoundarySpeciesIndex(sel.p1)) >= 0) {
+                    sel.selectionType = SelectionRecord::BOUNDARY_CONCENTRATION_RATE;
                     break;
                 }
                 else {
