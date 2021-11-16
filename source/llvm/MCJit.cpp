@@ -43,6 +43,8 @@ namespace rrllvm {
             : Jit(opt),
               engineBuilder(EngineBuilder(std::move(module))) {
 
+        compiledModuleStream = std::make_unique<llvm::raw_svector_ostream>(moduleBuffer);
+
         engineBuilder
                 .setErrorStr(errString.get())
                 .setMCJITMemoryManager(std::make_unique<SectionMemoryManager>());
@@ -609,16 +611,19 @@ namespace rrllvm {
         return functionPassManager.get();
     }
 
-//    void MCJit::setTargetTriple(llvm::Triple triple) {
-//        TargetOptions ops;
-//        engineBuilder.setTargetOptions()
-//    }
-//
-//    void MCJit::setDataLayout(llvm::DataLayout dataLayout) {
-//
-//    }
+    llvm::raw_svector_ostream &MCJit::getCompiledModuleStream() {
+        return *compiledModuleStream;
+    }
 
-
+    std::string MCJit::getModuleAsString(std::string sbmlMD5) {
+        std::string s = getCompiledModuleStream().str().str();
+        if (s.empty()){
+            std::string err = "Unable to convert module to string. Have you made a call to addModule or addObject yet?";
+            rrLogErr << err;
+            throw_llvm_exception(err);
+        }
+        return s;
+    };
 
 
 }

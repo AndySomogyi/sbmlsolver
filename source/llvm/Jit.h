@@ -276,7 +276,7 @@ namespace rrllvm {
         virtual std::string emitToString();
 
         /**
-         * @brief
+         * @brief get the stream that stores a compiled module as binary.
          */
         llvm::raw_svector_ostream& getCompiledModuleStream();
 
@@ -284,6 +284,21 @@ namespace rrllvm {
 
         void setModuleIdentifier(const std::string &id) ;
 
+        /**
+         * @brief get a binary string representation of the current
+         * module.
+         * @details This must be called after the module is added to the
+         * jit engine. Throws if string is empty.
+         *
+         * This interface is moderate abuse of interface design -- the parameter
+         * sbmlMD5 is only required for the LLJit subclass, as it is used to query the
+         * object cache created by llvm. This is of course bad design
+         * but we are boxed by not being able to find a way to enable the same cache
+         * system with the old MCJit class.
+         *
+         * Regardless of the bad design, it works, so lets not spend any more time on it.
+         */
+        virtual std::string getModuleAsString(std::string sbmlMD5) = 0;
 
 
     protected:

@@ -10,6 +10,7 @@
 #include "llvm/ExecutionEngine/ExecutionEngine.h"
 #include "llvm/IR/LegacyPassManager.h"
 
+
 using namespace llvm;
 using namespace rr;
 
@@ -58,7 +59,9 @@ namespace rrllvm {
 
         llvm::legacy::FunctionPassManager *getFunctionPassManager() const ;
 
+        llvm::raw_svector_ostream &getCompiledModuleStream();
 
+        std::string getModuleAsString(std::string sbmlMD5) override;
 
     private:
         Function *createGlobalMappingFunction(const char *funcName, llvm::FunctionType *funcType, Module *module);

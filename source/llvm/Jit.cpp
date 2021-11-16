@@ -25,7 +25,6 @@ namespace rrllvm {
               moduleNonOwning(module.get()), /*Maintain a weak ref so we don't lose our handle to the module*/
               builder(std::make_unique<llvm::IRBuilder<>>(*context)) {
 
-        compiledModuleStream = std::make_unique<llvm::raw_svector_ostream>(moduleBuffer);
 
         // IR module is initialized with just a ModuleID and a source filename
         llvm::InitializeNativeTarget();
@@ -72,28 +71,6 @@ namespace rrllvm {
     void Jit::transferObjectsToResources(std::shared_ptr<rrllvm::ModelResources> modelResources) {
         modelResources->context = std::move(context);
         context = nullptr;
-
-        rrLogCriticalCiaran << "This is where you are converting object to module"
-                               "string";
-
-        std::string stringifiedModule = compiledModuleStream->str().str();
-        if (stringifiedModule.empty()) {
-//            stringifiedModule = getCompiledModelFromCache()
-            std::string msg = "Compiled RoadRunner instancce not sucessfully stored as string. "
-                              "Save and Load state features will not work";
-            rrLogWarn << msg;
-        }
-
-        modelResources->moduleStr = stringifiedModule;
-
-//        modelResources->symbols = symbols;
-//        symbols = nullptr;
-//        modelResources->executionEngine = std::move(executionEngine);
-//        executionEngine = nullptr;
-//        modelResources->random = random;
-//        random = nullptr;
-//        modelResources->errStr = errString;
-//        errString = nullptr;
     }
 
 
@@ -206,11 +183,6 @@ namespace rrllvm {
         os.flush();
         return str;
     }
-
-    llvm::raw_svector_ostream &Jit::getCompiledModuleStream() {
-        return *compiledModuleStream;
-    }
-
 
     void Jit::createCLibraryFunction(llvm::LibFunc funcId, llvm::FunctionType *funcType) {
         // For some reason I had a problem when I passed the default ctor for TargetLibraryInfoImpl in

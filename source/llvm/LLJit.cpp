@@ -341,4 +341,16 @@ namespace rrllvm {
         }
     }
 
+    std::string LLJit::getModuleAsString(std::string sbmlMD5) {
+        std::unique_ptr<llvm::MemoryBuffer> memBuf = getCompiledModelFromCache(sbmlMD5);
+        MemoryBufferRef memBufRef = memBuf->getMemBufferRef();
+        std::string s = memBufRef.getBuffer().str();
+        if (s.empty()) {
+            std::string err = "Unable to convert module to string. Have you made a call to addModule or addObject yet?";
+            rrLogErr << err;
+            throw_llvm_exception(err);
+        }
+        return s;
+    };
+
 }

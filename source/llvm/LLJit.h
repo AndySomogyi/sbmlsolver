@@ -75,6 +75,8 @@ namespace rrllvm {
 
         friend std::ostream& operator<<(std::ostream& os, LLJit* llJit);
 
+        std::string getModuleAsString(std::string sbmlMD5) override;
+
     private:
 
         void mapFunctionToJitAbsoluteSymbol(const std::string &funcName, std::uint64_t funcAddress);

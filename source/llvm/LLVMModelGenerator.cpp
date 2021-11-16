@@ -248,11 +248,6 @@ namespace rrllvm {
          */
         modelGeneratorContext->getJitNonOwning()->addModule();
 
-        // Save the string representation so we can saveState quickly later. Must happen after
-        // call to addModule, since the object file string is produced by optimization, triggered by
-        // adding the module.
-        modelResources->moduleStr = modelGeneratorContext->getJitNonOwning()->getCompiledModuleStream().str().str();
-
         LLVMModelData *modelData = createModelData(modelGeneratorContext->getModelDataSymbols(),
                                                    modelGeneratorContext->getRandom());
 
@@ -298,13 +293,6 @@ namespace rrllvm {
         free(docSBML);
 
         LLVMModelData *modelData = codeGenAddModuleAndMakeModelData(modelGeneratorContext.get(), modelResources, options);
-
-        if (modelResources->moduleStr.empty()) {
-            std::unique_ptr<llvm::MemoryBuffer> memBuf = modelGeneratorContext
-                    ->getJitNonOwning()->getCompiledModelFromCache(modelResources->sbmlMD5);
-            MemoryBufferRef memBufRef = memBuf->getMemBufferRef();
-            modelResources->moduleStr = memBufRef.getBuffer().str();
-        }
 
         // * MOVE * the bits over from the context to the exe model.
         modelGeneratorContext->transferObjectsToResources(modelResources);
@@ -552,12 +540,6 @@ namespace rrllvm {
         LLVMModelData *modelData = codeGenAddModuleAndMakeModelData(modelGeneratorContext.get(), modelResources,
                                                                     options);
 
-        if (modelResources->moduleStr.empty()) {
-            std::unique_ptr<llvm::MemoryBuffer> memBuf = modelGeneratorContext
-                    ->getJitNonOwning()->getCompiledModelFromCache(modelResources->sbmlMD5);
-            MemoryBufferRef memBufRef = memBuf->getMemBufferRef();
-            modelResources->moduleStr = memBufRef.getBuffer().str();
-        }
         // if anything up to this point throws an exception, thats OK, because
         // we have not allocated any memory yet that is not taken care of by
         // something else.

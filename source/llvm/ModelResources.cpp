@@ -80,19 +80,7 @@ namespace rrllvm {
 
         rr::saveBinary(out, sbmlMD5);
 
-        if (moduleStr.empty()) {
-            std::unique_ptr<llvm::MemoryBuffer> memBuf = jit->getCompiledModelFromCache(sbmlMD5);
-            MemoryBufferRef memBufRef = memBuf->getMemBufferRef();
-            std::string moduleStr2 = memBufRef.getBuffer().str();
-            if (moduleStr2.empty()){
-                std::string err = "Cannot save module";
-                rrLogErr << err;
-                throw_llvm_exception(err);
-            }
-            rr::saveBinary(out, moduleStr2);
-        } else {
-            rr::saveBinary(out, moduleStr);
-        }
+        rr::saveBinary(out, jit->getModuleAsString(sbmlMD5));
 
     }
 
