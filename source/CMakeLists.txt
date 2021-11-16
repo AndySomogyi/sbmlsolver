@@ -248,7 +248,6 @@ if (BUILD_LLVM)
             llvm/Jit.cpp
             llvm/LLJit.cpp
             llvm/MCJit.cpp
-            llvm/OrcJit.cpp
             llvm/SBMLModelObjectCache.cpp
             llvm/JitFactory.cpp
             )
@@ -291,7 +290,6 @@ if (BUILD_LLVM)
             llvm/Jit.h
             llvm/LLJit.h
             llvm/MCJit.h
-            llvm/OrcJit.h
             llvm/SBMLModelObjectCache.h
             llvm/JitFactory.h
             )
