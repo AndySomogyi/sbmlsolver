@@ -65,40 +65,50 @@ namespace rrllvm {
     static Poco::Mutex cachedModelsMutex;
     static ModelResourcesPtrMap cachedModelResources;
 
+    inline void codeGeneration(ModelGeneratorContext &context, std::uint32_t options);
 
-/**
- * copy the cached model fields between a cached model, and a
- * executable model.
- *
- * We don't want to have ExecutableModel inherit from CahcedModel
- * because they do compleltly different things, and have completly
- * differnt deletion semantics
- */
-    // not used anywhere -- delete??.
-//    template<typename a_type, typename b_type>
-//    void copyCachedModel(a_type *src, b_type *dst) {
-//        dst->symbols = src->symbols;
-//        dst->context = src->context;
-//        dst->executionEngine = src->executionEngine;
-//        dst->errStr = src->errStr;
-//
-//        dst->evalInitialConditionsPtr = src->evalInitialConditionsPtr;
-//        dst->evalReactionRatesPtr = src->evalReactionRatesPtr;
-//        dst->getBoundarySpeciesAmountPtr = src->getBoundarySpeciesAmountPtr;
-//        dst->getFloatingSpeciesAmountPtr = src->getFloatingSpeciesAmountPtr;
-//        dst->getBoundarySpeciesConcentrationPtr = src->getBoundarySpeciesConcentrationPtr;
-//        dst->getFloatingSpeciesConcentrationPtr = src->getFloatingSpeciesConcentrationPtr;
-//        dst->getCompartmentVolumePtr = src->getCompartmentVolumePtr;
-//        dst->getGlobalParameterPtr = src->getGlobalParameterPtr;
-//        dst->evalRateRuleRatesPtr = src->evalRateRuleRatesPtr;
-//        dst->getEventTriggerPtr = src->getEventTriggerPtr;
-//        dst->getEventPriorityPtr = src->getEventPriorityPtr;
-//        dst->getEventDelayPtr = src->getEventDelayPtr;
-//        dst->eventTriggerPtr = src->eventTriggerPtr;
-//        dst->eventAssignPtr = src->eventAssignPtr;
-//        dst->evalVolatileStoichPtr = src->evalVolatileStoichPtr;
-//        dst->evalConversionFactorPtr = src->evalConversionFactorPtr;
-//    }
+    inline std::unique_ptr<ModelGeneratorContext>
+    createModelGeneratorContext(const std::string &sbml, std::uint32_t options);
+
+    inline std::string getSBMLMD5(const std::string &sbml, const std::uint32_t & options);
+
+    inline LLVMModelData *codeGenAddModuleAndMakeModelData(
+                ModelGeneratorContext *modelGeneratorContext,
+                std::shared_ptr<ModelResources> &modelResources,
+                std::uint32_t options);
+    /**
+     * copy the cached model fields between a cached model, and a
+     * executable model.
+     *
+     * We don't want to have ExecutableModel inherit from CahcedModel
+     * because they do compleltly different things, and have completly
+     * differnt deletion semantics
+     */
+    // this is not used anywhere -- delete??.
+    template<typename a_type, typename b_type>
+    void copyCachedModel(a_type *src, b_type *dst) {
+        dst->symbols = src->symbols;
+        dst->context = src->context;
+        dst->executionEngine = src->executionEngine;
+        dst->errStr = src->errStr;
+
+        dst->evalInitialConditionsPtr = src->evalInitialConditionsPtr;
+        dst->evalReactionRatesPtr = src->evalReactionRatesPtr;
+        dst->getBoundarySpeciesAmountPtr = src->getBoundarySpeciesAmountPtr;
+        dst->getFloatingSpeciesAmountPtr = src->getFloatingSpeciesAmountPtr;
+        dst->getBoundarySpeciesConcentrationPtr = src->getBoundarySpeciesConcentrationPtr;
+        dst->getFloatingSpeciesConcentrationPtr = src->getFloatingSpeciesConcentrationPtr;
+        dst->getCompartmentVolumePtr = src->getCompartmentVolumePtr;
+        dst->getGlobalParameterPtr = src->getGlobalParameterPtr;
+        dst->evalRateRuleRatesPtr = src->evalRateRuleRatesPtr;
+        dst->getEventTriggerPtr = src->getEventTriggerPtr;
+        dst->getEventPriorityPtr = src->getEventPriorityPtr;
+        dst->getEventDelayPtr = src->getEventDelayPtr;
+        dst->eventTriggerPtr = src->eventTriggerPtr;
+        dst->eventAssignPtr = src->eventAssignPtr;
+        dst->evalVolatileStoichPtr = src->evalVolatileStoichPtr;
+        dst->evalConversionFactorPtr = src->evalConversionFactorPtr;
+    }
 
     inline void codeGeneration(ModelGeneratorContext &context, std::uint32_t options) {
         EvalInitialConditionsCodeGen(context).createFunction();
