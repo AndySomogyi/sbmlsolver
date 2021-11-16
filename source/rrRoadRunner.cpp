@@ -5139,6 +5139,7 @@ namespace rr {
         //Create a new model from the stream
         //impl->model = new rrllvm::LLVMExecutableModel(*in, impl->loadOpt.modelGeneratorOpt);
         impl->model.reset(ExecutableModelFactory::createModel(*in, impl->loadOpt.modelGeneratorOpt));
+
         impl->syncAllSolversWithModel(impl->model.get());
         if (impl->mLS)
             delete impl->mLS;

@@ -327,6 +327,8 @@ LLVMExecutableModel::LLVMExecutableModel(std::istream& in, uint modelGeneratorOp
     rr::loadBinary(in, eventAssignTimes);
     rr::loadBinary(in, tieBreakMap);
     rr::loadBinary(in, mIntegrationStartTime);
+
+    std::cout << getFloatingSpeciesInitAmountsPtr(modelData, 0) << std::endl;
 }
 
 LLVMExecutableModel::~LLVMExecutableModel()
@@ -691,7 +693,13 @@ void LLVMExecutableModel::evalInitialConditions(uint32_t flags)
 }
 
 //Resets a single type of model element:  compartment, floating, boundary, or global parameter
-void LLVMExecutableModel::resetOneType(int& opt, int thistype, int independents, int total, int (LLVMExecutableModel::*getInit)(size_t, const int*, double*), int (LLVMExecutableModel::*setCurrent)(size_t, const int*, const double*), string (LLVMModelDataSymbols::*getTypeId)(size_t) const, double* buffer, std::map<std::string, int>& inits, std::map<std::string, double>& initvals)
+void LLVMExecutableModel::resetOneType(
+        int& opt, int thistype, int independents, int total,
+        int (LLVMExecutableModel::*getInit)(size_t, const int*, double*),
+        int (LLVMExecutableModel::*setCurrent)(size_t, const int*, const double*),
+        std::string (LLVMModelDataSymbols::*getTypeId)(size_t) const,
+        double* buffer, std::map<std::string, int>& inits,
+        std::map<std::string, double>& initvals)
 {
     int s = independents;
     //LLVMModelDataSymbols* varsymbols = const_cast<LLVMModelDataSymbols*>(symbols);
@@ -748,7 +756,7 @@ void LLVMExecutableModel::reset(int opt)
 {
     using std::max; // weird linux vs windows thing
 
-    // initializes the the model the init values specifie in the sbml, and
+    // initializes the model to the init values specified in the sbml, and
     // copies these to the initial initial conditions (not a typo),
     // sets the 'init(...)' values to the sbml specified init values.
     if (opt & SelectionRecord::SBML_INITIALIZE)

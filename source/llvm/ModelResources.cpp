@@ -8,20 +8,20 @@
 
 #include "ModelResources.h"
 #include "Random.h"
-
+#include "JitFactory.h"
 #include <rrLogger.h>
 #include <rrStringUtils.h>
 #include "rrRoadRunnerOptions.h"
 #include "MCJit.h"
 #include "LLJit.h"
+#include "llvm/SBMLSupportFunctions.h"
+#include "rrRoadRunnerOptions.h"
 
 #include <memory>
 
 #undef min
 #undef max
 
-#include "llvm/SBMLSupportFunctions.h"
-#include "rrRoadRunnerOptions.h"
 
 
 #ifdef _MSC_VER
@@ -97,23 +97,8 @@ namespace rrllvm {
     }
 
     void ModelResources::loadState(std::istream &in, uint modelGeneratorOpt) {
-        // todo do we need the ModelGeneratorContext? Seems like we only need a Jit.
 
-        if (modelGeneratorOpt & LoadSBMLOptions::MCJIT) {
-            jit = std::move(std::make_unique<MCJit>(modelGeneratorOpt));
-        }
-
-#if LLVM_VERSION_MAJOR >= 13
-        else if (modelGeneratorOpt & LoadSBMLOptions::LLJIT) {
-            jit = std::move(std::make_unique<LLJit>(modelGeneratorOpt));
-        }
-
-#endif // LLVM_VERSION_MAJOR >= 13
-
-        else {
-            rrLogWarn << "Requested compiler not found. Defaulting to MCJit.";
-            jit = std::move(std::make_unique<MCJit>(modelGeneratorOpt));
-        }
+        jit = std::move(JitFactory::makeJitEngine(modelGeneratorOpt));
 
         // get rid of sumbols, if not nullptr.
         // todo make symbols a unique_ptr
@@ -127,28 +112,21 @@ namespace rrllvm {
         //Get the object file binary string from the input stream
         rr::loadBinary(in, moduleStr);
 
-
-        /**
-         * Roadrunner currently has two jit compilers, MCJit
-         * which is the old API that's been used for years and LLJit, which is
-         * the new OOTB prepackaged Jit engine from llvm. Save and load state
-         */
-
-
-
         //Set up a buffer to read the object code from
         std::unique_ptr<llvm::MemoryBuffer> memBuffer(llvm::MemoryBuffer::getMemBuffer(moduleStr));
-//
-//        llvm::Expected<std::unique_ptr<llvm::object::ObjectFile> > objectFileExpected =
-//                llvm::object::ObjectFile::createObjectFile(
-//                        llvm::MemoryBufferRef(moduleStr, "id"));
-//        if (!objectFileExpected) {
-//            throw std::invalid_argument("Failed to load object data");
-//        }
-//        std::unique_ptr<llvm::object::ObjectFile> objectFile(std::move(objectFileExpected.get()));
-//        llvm::object::OwningBinary<llvm::object::ObjectFile> owningObject(std::move(objectFile),
-//
-        jit->addObjectFile(std::move(memBuffer));
+
+        llvm::Expected<std::unique_ptr<llvm::object::ObjectFile> > objFile =
+                llvm::object::ObjectFile::createObjectFile(
+                        llvm::MemoryBufferRef(moduleStr, "id"));
+        if (!objFile){
+            std::string err = "Failed to load object data";
+            rrLogErr << err;
+            llvm::logAllUnhandledErrors(objFile.takeError(), llvm::errs(), err);
+        }
+        llvm::object::OwningBinary<llvm::object::ObjectFile> owningObject(
+                std::move(*objFile), std::move(memBuffer));
+
+        jit->addObjectFile(std::move(owningObject));
         jit->mapFunctionsToAddresses(this, modelGeneratorOpt);
 
     }
