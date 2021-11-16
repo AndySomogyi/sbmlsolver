@@ -251,7 +251,7 @@ namespace rrllvm {
         // Save the string representation so we can saveState quickly later. Must happen after
         // call to addModule, since the object file string is produced by optimization, triggered by
         // adding the module.
-        modelResources->moduleStr = modelGeneratorContext->getJitNonOwning()->getPostOptModuleStream().str().str();
+        modelResources->moduleStr = modelGeneratorContext->getJitNonOwning()->getCompiledModuleStream().str().str();
 
         LLVMModelData *modelData = createModelData(modelGeneratorContext->getModelDataSymbols(),
                                                    modelGeneratorContext->getRandom());
@@ -274,7 +274,7 @@ namespace rrllvm {
             throw_llvm_exception(s.str())
         }
 
-        modelGeneratorContext->getJitNonOwning()->mapFunctionsToAddresses(modelResources.get(), options);
+        modelGeneratorContext->getJitNonOwning()->mapLLVMGeneratedFunctionsToSymbols(modelResources.get(), options);
 
 
         return modelData;
@@ -283,32 +283,32 @@ namespace rrllvm {
 
     ExecutableModel *
     LLVMModelGenerator::regenerateModel(rr::ExecutableModel *oldModel, libsbml::SBMLDocument *doc, uint options) {
-        SharedModelResourcesPtr rc = std::make_shared<ModelResources>();
+        SharedModelResourcesPtr modelResources = std::make_shared<ModelResources>();
 
         char *docSBML = doc->toSBML();
 
         std::unique_ptr<ModelGeneratorContext> modelGeneratorContext = createModelGeneratorContext(
                 reinterpret_cast<const char *>(docSBML), options);
         std::string sbmlMD5 = getSBMLMD5(std::string((const char*) docSBML), options);
-        if (rc->sbmlMD5.empty()){
-            rc->sbmlMD5 = sbmlMD5;
+        if (modelResources->sbmlMD5.empty()){
+            modelResources->sbmlMD5 = sbmlMD5;
         }
         modelGeneratorContext->getJitNonOwning()->setModuleIdentifier(sbmlMD5);
 
         free(docSBML);
 
-        LLVMModelData *modelData = codeGenAddModuleAndMakeModelData(modelGeneratorContext.get(), rc, options);
+        LLVMModelData *modelData = codeGenAddModuleAndMakeModelData(modelGeneratorContext.get(), modelResources, options);
 
-        if (rc->moduleStr.empty()) {
+        if (modelResources->moduleStr.empty()) {
             std::unique_ptr<llvm::MemoryBuffer> memBuf = modelGeneratorContext
-                    ->getJitNonOwning()->getCompiledModelFromCache(rc->sbmlMD5);
+                    ->getJitNonOwning()->getCompiledModelFromCache(modelResources->sbmlMD5);
             MemoryBufferRef memBufRef = memBuf->getMemBufferRef();
-            rc->moduleStr = memBufRef.getBuffer().str();
+            modelResources->moduleStr = memBufRef.getBuffer().str();
         }
 
         // * MOVE * the bits over from the context to the exe model.
-        modelGeneratorContext->transferObjectsToResources(rc);
-        LLVMExecutableModel *newModel = new LLVMExecutableModel(rc, modelData);
+        modelGeneratorContext->transferObjectsToResources(modelResources);
+        LLVMExecutableModel *newModel = new LLVMExecutableModel(modelResources, modelData);
 
         if (oldModel) {
             // the stored SBML document will not keep updated, so we need to

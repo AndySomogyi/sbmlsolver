@@ -127,7 +127,7 @@ namespace rrllvm {
                 std::move(*objFile), std::move(memBuffer));
 
         jit->addObjectFile(std::move(owningObject));
-        jit->mapFunctionsToAddresses(this, modelGeneratorOpt);
+        jit->mapLLVMGeneratedFunctionsToSymbols(this, modelGeneratorOpt);
 
     }
 

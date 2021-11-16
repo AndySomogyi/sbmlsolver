@@ -161,7 +161,7 @@ namespace rrllvm {
          * objects it needs from us, these object are transfered to the model,
          * and our pointers to them are cleared.
          */
-        void transferObjectsToResources(std::shared_ptr<rrllvm::ModelResources> rc);
+        void transferObjectsToResources(std::shared_ptr<rrllvm::ModelResources> modelResources);
 
         bool getConservedMoietyAnalysis() const;
 

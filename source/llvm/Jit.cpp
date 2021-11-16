@@ -10,6 +10,7 @@
 #include "llvm/Support/TargetRegistry.h"
 #include "llvm/Support/Host.h"
 #include "SBMLModelObjectCache.h"
+#include "rrRoadRunnerOptions.h"
 
 using namespace rr;
 
@@ -18,13 +19,13 @@ namespace rrllvm {
     Jit::Jit(std::uint32_t options)
             : options(options),
               context(std::make_unique<llvm::LLVMContext>()),
-              // todo the module name should be the sbmlMD5. Might be cleaner to
-              //  add this as a parameter to Jit constructor.
+            // todo the module name should be the sbmlMD5. Might be cleaner to
+            //  add this as a parameter to Jit constructor.
               module(std::make_unique<llvm::Module>("LLVM Module", *context)),
               moduleNonOwning(module.get()), /*Maintain a weak ref so we don't lose our handle to the module*/
               builder(std::make_unique<llvm::IRBuilder<>>(*context)) {
 
-        postOptModuleStream = std::make_unique<llvm::raw_svector_ostream>(moduleBuffer);
+        compiledModuleStream = std::make_unique<llvm::raw_svector_ostream>(moduleBuffer);
 
         // IR module is initialized with just a ModuleID and a source filename
         llvm::InitializeNativeTarget();
@@ -49,6 +50,9 @@ namespace rrllvm {
         createCLibraryFunctions();
     }
 
+    Jit::Jit()
+        : Jit(LoadSBMLOptions().modelGeneratorOpt){}
+
     llvm::Module *Jit::getModuleNonOwning() {
         return moduleNonOwning;
     }
@@ -65,14 +69,14 @@ namespace rrllvm {
         return builder.get();
     }
 
-    void Jit::transferObjectsToResources(std::shared_ptr<rrllvm::ModelResources> rc) {
-        rc->context = std::move(context);
+    void Jit::transferObjectsToResources(std::shared_ptr<rrllvm::ModelResources> modelResources) {
+        modelResources->context = std::move(context);
         context = nullptr;
 
         rrLogCriticalCiaran << "This is where you are converting object to module"
                                "string";
 
-        std::string stringifiedModule = postOptModuleStream->str().str();
+        std::string stringifiedModule = compiledModuleStream->str().str();
         if (stringifiedModule.empty()) {
 //            stringifiedModule = getCompiledModelFromCache()
             std::string msg = "Compiled RoadRunner instancce not sucessfully stored as string. "
@@ -80,118 +84,118 @@ namespace rrllvm {
             rrLogWarn << msg;
         }
 
-        rc->moduleStr = stringifiedModule;
+        modelResources->moduleStr = stringifiedModule;
 
-//        rc->symbols = symbols;
+//        modelResources->symbols = symbols;
 //        symbols = nullptr;
-//        rc->executionEngine = std::move(executionEngine);
+//        modelResources->executionEngine = std::move(executionEngine);
 //        executionEngine = nullptr;
-//        rc->random = random;
+//        modelResources->random = random;
 //        random = nullptr;
-//        rc->errStr = errString;
+//        modelResources->errStr = errString;
 //        errString = nullptr;
     }
 
 
-    void Jit::mapFunctionsToAddresses(ModelResources *rc, std::uint32_t options) {
+    void Jit::mapLLVMGeneratedFunctionsToSymbols(ModelResources *modelResources, std::uint32_t options) {
 
-        rc->evalInitialConditionsPtr = reinterpret_cast<EvalInitialConditionsCodeGen::FunctionPtr>(lookupFunctionAddress(
+        modelResources->evalInitialConditionsPtr = reinterpret_cast<EvalInitialConditionsCodeGen::FunctionPtr>(lookupFunctionAddress(
                 "evalInitialConditions"));
-        rc->evalReactionRatesPtr = reinterpret_cast<EvalReactionRatesCodeGen::FunctionPtr>(lookupFunctionAddress(
+        modelResources->evalReactionRatesPtr = reinterpret_cast<EvalReactionRatesCodeGen::FunctionPtr>(lookupFunctionAddress(
                 "evalReactionRates"));
-        rc->getBoundarySpeciesAmountPtr = reinterpret_cast<GetBoundarySpeciesAmountCodeGen::FunctionPtr>(lookupFunctionAddress(
+        modelResources->getBoundarySpeciesAmountPtr = reinterpret_cast<GetBoundarySpeciesAmountCodeGen::FunctionPtr>(lookupFunctionAddress(
                 "getBoundarySpeciesAmount"));
-        rc->getFloatingSpeciesAmountPtr = reinterpret_cast<GetFloatingSpeciesAmountCodeGen::FunctionPtr>(lookupFunctionAddress(
+        modelResources->getFloatingSpeciesAmountPtr = reinterpret_cast<GetFloatingSpeciesAmountCodeGen::FunctionPtr>(lookupFunctionAddress(
                 "getFloatingSpeciesAmount"));
-        rc->getBoundarySpeciesConcentrationPtr = reinterpret_cast<GetBoundarySpeciesConcentrationCodeGen::FunctionPtr>(lookupFunctionAddress(
+        modelResources->getBoundarySpeciesConcentrationPtr = reinterpret_cast<GetBoundarySpeciesConcentrationCodeGen::FunctionPtr>(lookupFunctionAddress(
                 "getBoundarySpeciesConcentration"));
-        rc->getFloatingSpeciesConcentrationPtr = reinterpret_cast<GetFloatingSpeciesAmountCodeGen::FunctionPtr>(lookupFunctionAddress(
+        modelResources->getFloatingSpeciesConcentrationPtr = reinterpret_cast<GetFloatingSpeciesAmountCodeGen::FunctionPtr>(lookupFunctionAddress(
                 "getFloatingSpeciesConcentration"));
-        rc->getCompartmentVolumePtr = reinterpret_cast<GetCompartmentVolumeCodeGen::FunctionPtr>(lookupFunctionAddress(
+        modelResources->getCompartmentVolumePtr = reinterpret_cast<GetCompartmentVolumeCodeGen::FunctionPtr>(lookupFunctionAddress(
                 "getCompartmentVolume"));
-        rc->getGlobalParameterPtr = reinterpret_cast<GetGlobalParameterCodeGen::FunctionPtr>(lookupFunctionAddress(
+        modelResources->getGlobalParameterPtr = reinterpret_cast<GetGlobalParameterCodeGen::FunctionPtr>(lookupFunctionAddress(
                 "getGlobalParameter"));
-        rc->evalRateRuleRatesPtr = reinterpret_cast<EvalRateRuleRatesCodeGen::FunctionPtr>(lookupFunctionAddress(
+        modelResources->evalRateRuleRatesPtr = reinterpret_cast<EvalRateRuleRatesCodeGen::FunctionPtr>(lookupFunctionAddress(
                 "evalRateRuleRates"));
-        rc->getEventTriggerPtr = reinterpret_cast<GetEventTriggerCodeGen::FunctionPtr>(lookupFunctionAddress(
+        modelResources->getEventTriggerPtr = reinterpret_cast<GetEventTriggerCodeGen::FunctionPtr>(lookupFunctionAddress(
                 "getEventTrigger"));
-        rc->getEventPriorityPtr = reinterpret_cast<GetEventPriorityCodeGen::FunctionPtr>(lookupFunctionAddress(
+        modelResources->getEventPriorityPtr = reinterpret_cast<GetEventPriorityCodeGen::FunctionPtr>(lookupFunctionAddress(
                 "getEventPriority"));
-        rc->getEventDelayPtr = reinterpret_cast<GetEventDelayCodeGen::FunctionPtr>(lookupFunctionAddress(
+        modelResources->getEventDelayPtr = reinterpret_cast<GetEventDelayCodeGen::FunctionPtr>(lookupFunctionAddress(
                 "getEventDelay"));
-        rc->eventTriggerPtr = reinterpret_cast<EventTriggerCodeGen::FunctionPtr>(lookupFunctionAddress("eventTrigger"));
-        rc->eventAssignPtr = reinterpret_cast<EventAssignCodeGen::FunctionPtr>(lookupFunctionAddress("eventAssign"));
-        rc->evalVolatileStoichPtr = reinterpret_cast<EvalVolatileStoichCodeGen::FunctionPtr>(lookupFunctionAddress(
+        modelResources->eventTriggerPtr = reinterpret_cast<EventTriggerCodeGen::FunctionPtr>(lookupFunctionAddress("eventTrigger"));
+        modelResources->eventAssignPtr = reinterpret_cast<EventAssignCodeGen::FunctionPtr>(lookupFunctionAddress("eventAssign"));
+        modelResources->evalVolatileStoichPtr = reinterpret_cast<EvalVolatileStoichCodeGen::FunctionPtr>(lookupFunctionAddress(
                 "evalVolatileStoich"));
-        rc->evalConversionFactorPtr = reinterpret_cast<EvalConversionFactorCodeGen::FunctionPtr>(lookupFunctionAddress(
+        modelResources->evalConversionFactorPtr = reinterpret_cast<EvalConversionFactorCodeGen::FunctionPtr>(lookupFunctionAddress(
                 "evalConversionFactor"));
         if (options & LoadSBMLOptions::READ_ONLY) {
-            rc->setBoundarySpeciesAmountPtr = 0;
-            rc->setBoundarySpeciesConcentrationPtr = 0;
-            rc->setFloatingSpeciesConcentrationPtr = 0;
-            rc->setCompartmentVolumePtr = 0;
-            rc->setFloatingSpeciesAmountPtr = 0;
-            rc->setGlobalParameterPtr = 0;
+            modelResources->setBoundarySpeciesAmountPtr = 0;
+            modelResources->setBoundarySpeciesConcentrationPtr = 0;
+            modelResources->setFloatingSpeciesConcentrationPtr = 0;
+            modelResources->setCompartmentVolumePtr = 0;
+            modelResources->setFloatingSpeciesAmountPtr = 0;
+            modelResources->setGlobalParameterPtr = 0;
         } else {
-            rc->setBoundarySpeciesAmountPtr = reinterpret_cast<SetBoundarySpeciesAmountCodeGen::FunctionPtr>(lookupFunctionAddress(
+            modelResources->setBoundarySpeciesAmountPtr = reinterpret_cast<SetBoundarySpeciesAmountCodeGen::FunctionPtr>(lookupFunctionAddress(
                     "setBoundarySpeciesAmount"));
-            rc->setBoundarySpeciesConcentrationPtr = reinterpret_cast<SetBoundarySpeciesAmountCodeGen::FunctionPtr>(lookupFunctionAddress(
+            modelResources->setBoundarySpeciesConcentrationPtr = reinterpret_cast<SetBoundarySpeciesAmountCodeGen::FunctionPtr>(lookupFunctionAddress(
                     "setBoundarySpeciesConcentration"));
-            rc->setFloatingSpeciesConcentrationPtr = reinterpret_cast<SetBoundarySpeciesAmountCodeGen::FunctionPtr>(lookupFunctionAddress(
+            modelResources->setFloatingSpeciesConcentrationPtr = reinterpret_cast<SetBoundarySpeciesAmountCodeGen::FunctionPtr>(lookupFunctionAddress(
                     "setFloatingSpeciesConcentration"));
-            rc->setCompartmentVolumePtr = reinterpret_cast<SetBoundarySpeciesAmountCodeGen::FunctionPtr>(lookupFunctionAddress(
+            modelResources->setCompartmentVolumePtr = reinterpret_cast<SetBoundarySpeciesAmountCodeGen::FunctionPtr>(lookupFunctionAddress(
                     "setCompartmentVolume"));
-            rc->setBoundarySpeciesAmountPtr = reinterpret_cast<SetBoundarySpeciesAmountCodeGen::FunctionPtr>(lookupFunctionAddress(
+            modelResources->setBoundarySpeciesAmountPtr = reinterpret_cast<SetBoundarySpeciesAmountCodeGen::FunctionPtr>(lookupFunctionAddress(
                     "setBoundarySpeciesAmount"));
-            rc->setFloatingSpeciesAmountPtr = reinterpret_cast<SetBoundarySpeciesAmountCodeGen::FunctionPtr>(lookupFunctionAddress(
+            modelResources->setFloatingSpeciesAmountPtr = reinterpret_cast<SetBoundarySpeciesAmountCodeGen::FunctionPtr>(lookupFunctionAddress(
                     "setFloatingSpeciesAmount"));
-            rc->setGlobalParameterPtr = reinterpret_cast<SetGlobalParameterCodeGen::FunctionPtr>(lookupFunctionAddress(
+            modelResources->setGlobalParameterPtr = reinterpret_cast<SetGlobalParameterCodeGen::FunctionPtr>(lookupFunctionAddress(
                     "setGlobalParameter"));
         }
 
         if (options & LoadSBMLOptions::MUTABLE_INITIAL_CONDITIONS) {
-            rc->getFloatingSpeciesInitConcentrationsPtr = reinterpret_cast<GetBoundarySpeciesAmountCodeGen::FunctionPtr>(lookupFunctionAddress(
+            modelResources->getFloatingSpeciesInitConcentrationsPtr = reinterpret_cast<GetBoundarySpeciesAmountCodeGen::FunctionPtr>(lookupFunctionAddress(
                     "getFloatingSpeciesInitConcentrations"));
-            rc->setFloatingSpeciesInitConcentrationsPtr = reinterpret_cast<SetBoundarySpeciesAmountCodeGen::FunctionPtr>(lookupFunctionAddress(
+            modelResources->setFloatingSpeciesInitConcentrationsPtr = reinterpret_cast<SetBoundarySpeciesAmountCodeGen::FunctionPtr>(lookupFunctionAddress(
                     "setFloatingSpeciesInitConcentrations"));
-            rc->getFloatingSpeciesInitAmountsPtr = reinterpret_cast<GetBoundarySpeciesAmountCodeGen::FunctionPtr>(lookupFunctionAddress(
+            modelResources->getFloatingSpeciesInitAmountsPtr = reinterpret_cast<GetBoundarySpeciesAmountCodeGen::FunctionPtr>(lookupFunctionAddress(
                     "getFloatingSpeciesInitAmounts"));
-            rc->setFloatingSpeciesInitAmountsPtr = reinterpret_cast<SetBoundarySpeciesAmountCodeGen::FunctionPtr>(lookupFunctionAddress(
+            modelResources->setFloatingSpeciesInitAmountsPtr = reinterpret_cast<SetBoundarySpeciesAmountCodeGen::FunctionPtr>(lookupFunctionAddress(
                     "setFloatingSpeciesInitAmounts"));
-            rc->getBoundarySpeciesInitConcentrationsPtr = reinterpret_cast<GetBoundarySpeciesAmountCodeGen::FunctionPtr>(lookupFunctionAddress(
+            modelResources->getBoundarySpeciesInitConcentrationsPtr = reinterpret_cast<GetBoundarySpeciesAmountCodeGen::FunctionPtr>(lookupFunctionAddress(
                     "getBoundarySpeciesInitConcentrations"));
-            rc->setBoundarySpeciesInitConcentrationsPtr = reinterpret_cast<SetBoundarySpeciesAmountCodeGen::FunctionPtr>(lookupFunctionAddress(
+            modelResources->setBoundarySpeciesInitConcentrationsPtr = reinterpret_cast<SetBoundarySpeciesAmountCodeGen::FunctionPtr>(lookupFunctionAddress(
                     "setBoundarySpeciesInitConcentrations"));
-            rc->getBoundarySpeciesInitAmountsPtr = reinterpret_cast<GetBoundarySpeciesAmountCodeGen::FunctionPtr>(lookupFunctionAddress(
+            modelResources->getBoundarySpeciesInitAmountsPtr = reinterpret_cast<GetBoundarySpeciesAmountCodeGen::FunctionPtr>(lookupFunctionAddress(
                     "getBoundarySpeciesInitAmounts"));
-            rc->setBoundarySpeciesInitAmountsPtr = reinterpret_cast<SetBoundarySpeciesAmountCodeGen::FunctionPtr>(lookupFunctionAddress(
+            modelResources->setBoundarySpeciesInitAmountsPtr = reinterpret_cast<SetBoundarySpeciesAmountCodeGen::FunctionPtr>(lookupFunctionAddress(
                     "setBoundarySpeciesInitAmounts"));
-            rc->getCompartmentInitVolumesPtr = reinterpret_cast<GetBoundarySpeciesAmountCodeGen::FunctionPtr>(lookupFunctionAddress(
+            modelResources->getCompartmentInitVolumesPtr = reinterpret_cast<GetBoundarySpeciesAmountCodeGen::FunctionPtr>(lookupFunctionAddress(
                     "getCompartmentInitVolumes"));
-            rc->setCompartmentInitVolumesPtr = reinterpret_cast<SetBoundarySpeciesAmountCodeGen::FunctionPtr>(lookupFunctionAddress(
+            modelResources->setCompartmentInitVolumesPtr = reinterpret_cast<SetBoundarySpeciesAmountCodeGen::FunctionPtr>(lookupFunctionAddress(
                     "setCompartmentInitVolumes"));
-            rc->getGlobalParameterInitValuePtr = reinterpret_cast<GetBoundarySpeciesAmountCodeGen::FunctionPtr>(lookupFunctionAddress(
+            modelResources->getGlobalParameterInitValuePtr = reinterpret_cast<GetBoundarySpeciesAmountCodeGen::FunctionPtr>(lookupFunctionAddress(
                     "getGlobalParameterInitValue"));
-            rc->setGlobalParameterInitValuePtr = reinterpret_cast<SetBoundarySpeciesAmountCodeGen::FunctionPtr>(lookupFunctionAddress(
+            modelResources->setGlobalParameterInitValuePtr = reinterpret_cast<SetBoundarySpeciesAmountCodeGen::FunctionPtr>(lookupFunctionAddress(
                     "setGlobalParameterInitValue"));
         } else {
-            rc->getFloatingSpeciesInitConcentrationsPtr = 0;
-            rc->setFloatingSpeciesInitConcentrationsPtr = 0;
+            modelResources->getFloatingSpeciesInitConcentrationsPtr = 0;
+            modelResources->setFloatingSpeciesInitConcentrationsPtr = 0;
 
-            rc->getFloatingSpeciesInitAmountsPtr = 0;
-            rc->setFloatingSpeciesInitAmountsPtr = 0;
+            modelResources->getFloatingSpeciesInitAmountsPtr = 0;
+            modelResources->setFloatingSpeciesInitAmountsPtr = 0;
 
-            rc->getBoundarySpeciesInitConcentrationsPtr = 0;
-            rc->setBoundarySpeciesInitConcentrationsPtr = 0;
+            modelResources->getBoundarySpeciesInitConcentrationsPtr = 0;
+            modelResources->setBoundarySpeciesInitConcentrationsPtr = 0;
 
-            rc->getBoundarySpeciesInitAmountsPtr = 0;
-            rc->setBoundarySpeciesInitAmountsPtr = 0;
+            modelResources->getBoundarySpeciesInitAmountsPtr = 0;
+            modelResources->setBoundarySpeciesInitAmountsPtr = 0;
 
-            rc->getCompartmentInitVolumesPtr = 0;
-            rc->setCompartmentInitVolumesPtr = 0;
+            modelResources->getCompartmentInitVolumesPtr = 0;
+            modelResources->setCompartmentInitVolumesPtr = 0;
 
-            rc->getGlobalParameterInitValuePtr = 0;
-            rc->setGlobalParameterInitValuePtr = 0;
+            modelResources->getGlobalParameterInitValuePtr = 0;
+            modelResources->setGlobalParameterInitValuePtr = 0;
         }
     }
 
@@ -203,8 +207,8 @@ namespace rrllvm {
         return str;
     }
 
-    llvm::raw_svector_ostream &Jit::getPostOptModuleStream() {
-        return *postOptModuleStream;
+    llvm::raw_svector_ostream &Jit::getCompiledModuleStream() {
+        return *compiledModuleStream;
     }
 
 
@@ -301,36 +305,6 @@ namespace rrllvm {
         /// double fmod(double x, double y);
         createCLibraryFunction(LibFunc_fmod,
                                FunctionType::get(double_type, args_d2, false));
-    }
-
-    void Jit::addModuleViaObjectFile() {
-        if (postOptModuleStream->str().empty()) {
-            std::string err = "Attempt to add module before its been optimized. Make a call to "
-                              "MCJit::optimizeModule() before addModule()";
-            rrLogErr << err;
-            throw_llvm_exception(err);
-        }
-        //Read from modBufferOut into our execution engine
-//        std::string moduleStr(postOptModuleStream.begin(), postOptModuleStream.end());
-
-        auto memBuffer(llvm::MemoryBuffer::getMemBuffer(postOptModuleStream->str().str()));
-
-        llvm::Expected<std::unique_ptr<llvm::object::ObjectFile> > objectFileExpected =
-                llvm::object::ObjectFile::createObjectFile(llvm::MemoryBufferRef(postOptModuleStream->str(), "id"));
-
-        if (!objectFileExpected) {
-            //LS DEBUG:  find a way to get the text out of the error.
-            auto err = objectFileExpected.takeError();
-            std::string s = "LLVM object supposed to be file, but is not.";
-            rrLog(Logger::LOG_FATAL) << s;
-            throw_llvm_exception(s);
-        }
-
-        std::unique_ptr<llvm::object::ObjectFile> objectFile(std::move(objectFileExpected.get()));
-        llvm::object::OwningBinary<llvm::object::ObjectFile> owningObject(std::move(objectFile), std::move(memBuffer));
-
-        addObjectFile(std::move(owningObject));
-
     }
 
     /**

@@ -376,22 +376,22 @@ namespace rrllvm {
 //    return *jit->getBuilderNonOwning();
 //}
 
-    void ModelGeneratorContext::transferObjectsToResources(std::shared_ptr<rrllvm::ModelResources> rc) {
-        rc->symbols = symbols;
+    void ModelGeneratorContext::transferObjectsToResources(std::shared_ptr<rrllvm::ModelResources> modelResources) {
+        modelResources->symbols = symbols;
         symbols = nullptr;
 
-        rc->jit = std::move(jit);
+        modelResources->jit = std::move(jit);
         jit = nullptr;
 
-        rc->random = random;
+        modelResources->random = random;
         random = nullptr;
 
-//    rc->context = std::move(context);
+//    modelResources->context = std::move(context);
 //    context = nullptr;
-//    rc->executionEngine = std::move(executionEngine);
+//    modelResources->executionEngine = std::move(executionEngine);
 //    executionEngine = nullptr;
 //
-//	rc->errStr = errString;
+//	modelResources->errStr = errString;
 //    errString = nullptr;
     }
 

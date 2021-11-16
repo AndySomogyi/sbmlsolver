@@ -57,7 +57,7 @@ namespace rrllvm {
     using tanhFnTy = FnPtr_d1;
     using fmodFnTy = FnPtr_d2;
 
-    // these are taken from libsbml in global mappings
+    // these are defined locally by roadrunner in SBMLSupportFunctions
     using arccotFnTy = FnPtr_d1;
     using rr_arccot_negzeroFnTy = FnPtr_d1;
     using arccothFnTy = FnPtr_d1;
@@ -82,10 +82,9 @@ namespace rrllvm {
     using rr_maxFnTy = FnPtr_d2;
     using rr_minFnTy = FnPtr_d2;
 
+    // for a sparse matrix used in llvm world
     using csr_matrix_set_nz_FnTy = rr::csr_matrix* (*)(int, int, double);
     using csr_matrix_get_nz_FnTy = rr::csr_matrix* (*)(int, int);
-
-
 
     // function signatures for distrib
     using DistribFnTy_d1 = double (*)(Random*, double);
@@ -120,11 +119,12 @@ namespace rrllvm {
 
     using rrOwningBinary = llvm::object::OwningBinary<llvm::object::ObjectFile>;
 
+    /**
+     * @brief superclass of all Jit types. Builds the machinery necessary
+     * to compile a sbml model on the fly to machine code.
+     */
     class Jit {
     public:
-
-        // todo build a constructor that uses default
-        //  modelGenOpt from LoadSBMLOptions - subclasses can use this.
 
         /**
          * @brief instantiate a Jit object with some options.
@@ -133,6 +133,14 @@ namespace rrllvm {
          * LoadSBMLOptions or Config.
          */
         explicit Jit(std::uint32_t options);
+
+        /**
+         * @brief default constructor.
+         * @details delegates to Jit(std::uint32_t options). The options
+         * argument is the default constructed from LoadSBMLOptions.modelGeneratorOpt.
+         * Note, that LoadSBMLOptions is influenced by the global Config.
+         */
+        Jit();
 
         /**
          * @brief adds functions that are declared and defined in C++ to the jit engine.
@@ -170,7 +178,7 @@ namespace rrllvm {
          *      return fib(x-1) + fib(x-2);
          *   }
          *
-         *   // and assuming the function was jit'd (written in llvm IR) under the
+         *   // and assuming the function was jitt'ed and added to the module under the
          *   // symbol "fib"
          *   @code
          *   using fibonacciFnPtr = int (*)(int);
@@ -182,25 +190,24 @@ namespace rrllvm {
 
         /**
          * @brief add an in-memory representation of an object file to the current jit module.
-         * @details To date this is only used by MCJit. Comments in the old code made it clear that
-         * the llvm module is compiled to an object file which is stored for later loading,
-         * should one want to load from a saved state. This is faster when loading/saving state, but
-         * might have performance implications when one does not need to save/load state.
-         * Therefore todo look into this mechanism for save/load state.
+         * @details the rrOwningBinary is a typedef'd
+         * llvm::object::OwningBinary<llvm::object::ObjectFile>
          */
         virtual void addObjectFile(rrOwningBinary owningObject) = 0;
 
+        /**
+         * @brief add an in-memory representation of an object file to the current jit module.
+         */
         virtual void addObjectFile(std::unique_ptr<llvm::object::ObjectFile> objectFile) = 0;
 
+        /**
+         * @brief add an in-memory representation of an object file to the current jit module.
+         */
         virtual void addObjectFile(std::unique_ptr<llvm::MemoryBuffer> obj) = 0;
 
         /**
-         * MCJit needs this but might be a deprecated api. We have to include it anyway.
+         * @brief add a module @param M directly to the jit engine.
          */
-//        virtual void finalizeObject() = 0;
-
-        virtual const llvm::DataLayout &getDataLayout() = 0;
-
         virtual void addModule(llvm::Module *M) = 0;
 
         /**
@@ -221,17 +228,31 @@ namespace rrllvm {
          */
         virtual void addModule() = 0;
 
-        virtual std::unique_ptr<llvm::MemoryBuffer> getCompiledModelFromCache(const std::string &sbmlMD5) = 0;
-
-        virtual void addModuleViaObjectFile();
+        /**
+         * @brief get the DataLayout currently in use in the Jit
+         */
+        virtual const llvm::DataLayout &getDataLayout() = 0;
 
         /**
-         * *Moves* objects over to ModelResources ptr
+         * @brief lookup the sbml with the md5 @param sbmlMD5 in the compiled object cache.
+         * If it is there, return a memory buffer containing it (which you can turn into an object file).
+         * Returns empty (null) unique_ptr if not found.
+         * @note at present this only works with LLJit.
          */
-        virtual void transferObjectsToResources(std::shared_ptr<rrllvm::ModelResources> rc);
+        virtual std::unique_ptr<llvm::MemoryBuffer> getCompiledModelFromCache(const std::string &sbmlMD5) = 0;
 
+        /**
+         * @brief *Moves* objects over to ModelResources ptr
+         */
+        virtual void transferObjectsToResources(std::shared_ptr<rrllvm::ModelResources> modelResources);
 
-        virtual void mapFunctionsToAddresses(ModelResources *rc, std::uint32_t options);
+        /**
+         * @brief Map the Jit'd functions that collectively represent a
+         * roadrunner compiled sbml model to symbols in @param modelResources
+         * @details this must be called after a the main roadrunner module
+         * has been added to the Jit -- otherwise the lookup will fail.
+         */
+        virtual void mapLLVMGeneratedFunctionsToSymbols(ModelResources *modelResources, std::uint32_t options);
 
         /**
          * @brief returns a non owning pointer to the llvm::Module instance
@@ -248,9 +269,16 @@ namespace rrllvm {
          */
         virtual llvm::IRBuilder<> *getBuilderNonOwning();
 
+        /**
+         * @brief Write the Jit::module in its current state
+         * to string as LLVM IR.
+         */
         virtual std::string emitToString();
 
-        llvm::raw_svector_ostream& getPostOptModuleStream();
+        /**
+         * @brief
+         */
+        llvm::raw_svector_ostream& getCompiledModuleStream();
 
         std::string getDefaultTargetTriple() const;
 
@@ -279,7 +307,7 @@ namespace rrllvm {
 //        llvm::DataLayout DataLayout;
         std::uint32_t options;
         llvm::SmallVector<char, 10> moduleBuffer;
-        std::unique_ptr<llvm::raw_svector_ostream> postOptModuleStream;
+        std::unique_ptr<llvm::raw_svector_ostream> compiledModuleStream;
 
 
     private:

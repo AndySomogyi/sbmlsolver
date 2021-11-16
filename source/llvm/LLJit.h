@@ -46,9 +46,7 @@ namespace rrllvm {
 
         void addModule() override;
 
-        void addModuleViaObjectFile() override;
-
-        void addObjectFile(std::unique_ptr<llvm::MemoryBuffer> obj);
+        void addObjectFile(std::unique_ptr<llvm::MemoryBuffer> obj) override;
 
         void addObjectFile(std::unique_ptr<llvm::object::ObjectFile> objectFile) override;
 

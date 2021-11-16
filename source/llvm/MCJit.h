@@ -24,7 +24,7 @@ namespace rrllvm {
 
         void mapDistribFunctionsToJitSymbols() override;
 
-        void transferObjectsToResources(std::shared_ptr<rrllvm::ModelResources> rc) override;
+        void transferObjectsToResources(std::shared_ptr<rrllvm::ModelResources> modelResources) override;
 
         std::uint64_t lookupFunctionAddress(const std::string& name) override;
 
@@ -46,9 +46,9 @@ namespace rrllvm {
          * @brief Adds the member variable context and associated module
          * to current jit engine. The module is first converted into
          * an in memory object file and then stored as a string
-         * in the member cariable postOptModuleStream.
+         * in the member cariable compiledModuleStream.
          */
-        void addModuleViaObjectFile() override;
+        void addModuleViaObjectFile();
 
         std::unique_ptr<llvm::MemoryBuffer> getCompiledModelFromCache(const std::string &sbmlMD5) override;
 

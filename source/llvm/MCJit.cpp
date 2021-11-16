@@ -223,12 +223,12 @@ namespace rrllvm {
 
     };
 
-    void MCJit::transferObjectsToResources(std::shared_ptr<rrllvm::ModelResources> rc) {
-        Jit::transferObjectsToResources(rc);
-        // todo check whether we break stuff by not giving the execution engine to rc
-        rc->executionEngine = std::move(executionEngine);
-        rc->executionEngine = nullptr;
-        rc->errStr = std::move(errString);
+    void MCJit::transferObjectsToResources(std::shared_ptr<rrllvm::ModelResources> modelResources) {
+        Jit::transferObjectsToResources(modelResources);
+        // todo check whether we break stuff by not giving the execution engine to modelResources
+        modelResources->executionEngine = std::move(executionEngine);
+        modelResources->executionEngine = nullptr;
+        modelResources->errStr = std::move(errString);
         errString = nullptr;
 
     }
@@ -259,7 +259,6 @@ namespace rrllvm {
     }
 
     void MCJit::addObjectFile(std::unique_ptr<llvm::MemoryBuffer> obj) {
-
 
 
         llvm::Expected<std::unique_ptr<llvm::object::ObjectFile> > objectFileExpected =
@@ -299,10 +298,32 @@ namespace rrllvm {
 
     void MCJit::addModuleViaObjectFile() {
         optimizeModule();
-        Jit::addModuleViaObjectFile();
 
-        //https://stackoverflow.com/questions/28851646/llvm-jit-windows-8-1
-        // todo is this needed? Run tests with and without, see what breaks.
+        if (compiledModuleStream->str().empty()) {
+            std::string err = "Attempt to add module before its been optimized. Make a call to "
+                              "MCJit::optimizeModule() before addModule()";
+            rrLogErr << err;
+            throw_llvm_exception(err);
+        }
+
+        auto memBuffer(llvm::MemoryBuffer::getMemBuffer(compiledModuleStream->str().str()));
+
+        llvm::Expected<std::unique_ptr<llvm::object::ObjectFile> > objectFileExpected =
+                llvm::object::ObjectFile::createObjectFile(llvm::MemoryBufferRef(compiledModuleStream->str(), "id"));
+
+        if (!objectFileExpected) {
+            //LS DEBUG:  find a way to get the text out of the error.
+            auto err = objectFileExpected.takeError();
+            std::string s = "LLVM object supposed to be file, but is not.";
+            rrLog(Logger::LOG_FATAL) << s;
+            throw_llvm_exception(s);
+        }
+
+        std::unique_ptr<llvm::object::ObjectFile> objectFile(std::move(objectFileExpected.get()));
+        llvm::object::OwningBinary<llvm::object::ObjectFile> owningObject(std::move(objectFile), std::move(memBuffer));
+
+        addObjectFile(std::move(owningObject));
+
         getExecutionEngineNonOwning()->finalizeObject();
     }
 
@@ -330,9 +351,9 @@ namespace rrllvm {
         auto FileType = getCodeGenFileType();
 
 #if LLVM_VERSION_MAJOR == 6
-        if (TargetMachine->addPassesToEmitFile(pass, *postOptModuleStream, FileType))
+        if (TargetMachine->addPassesToEmitFile(pass, *compiledModuleStream, FileType))
 #elif LLVM_VERSION_MAJOR >= 12
-        if (TargetMachine->addPassesToEmitFile(pass, *postOptModuleStream, nullptr, FileType))
+        if (TargetMachine->addPassesToEmitFile(pass, *compiledModuleStream, nullptr, FileType))
 #endif
         {
             throw std::logic_error("TargetMachine can't emit a file of type CGFT_ObjectFile");

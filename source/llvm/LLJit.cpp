@@ -223,7 +223,7 @@ namespace rrllvm {
 
 
     void LLJit::addObjectFile(rrOwningBinary owningObject) {
-        llvm::Error err = llJit->addObjectFile(std::move(owningObject.takeBinary().second));\
+        llvm::Error err = llJit->addObjectFile(std::move(owningObject.takeBinary().second));
         if (err) {
             std::string errMsg = "Could not add object to LLJit";
             rrLogErr << errMsg;
@@ -281,10 +281,6 @@ namespace rrllvm {
             llvm::logAllUnhandledErrors(std::move(err), llvm::errs(), errMsg);
             rrLogErr << errMsg;
         }
-    }
-
-    void LLJit::addModuleViaObjectFile() {
-
     }
 
     std::unique_ptr<llvm::MemoryBuffer> LLJit::getCompiledModelFromCache(const std::string &sbmlMD5) {
