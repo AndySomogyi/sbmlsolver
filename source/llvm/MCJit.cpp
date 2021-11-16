@@ -245,7 +245,7 @@ namespace rrllvm {
         return executionEngine->getTargetMachine();
     }
 
-    void MCJit::addObjectFile(llvm::object::OwningBinary<llvm::object::ObjectFile> owningObject) {
+    void MCJit::addObjectFile(rrOwningBinary owningObject) {
         getExecutionEngineNonOwning()->addObjectFile(std::move(owningObject));
         // loadState does not work without a call to finalizeObject()
         getExecutionEngineNonOwning()->finalizeObject();

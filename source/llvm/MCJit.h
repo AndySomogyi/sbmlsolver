@@ -28,7 +28,7 @@ namespace rrllvm {
 
         std::uint64_t lookupFunctionAddress(const std::string& name) override;
 
-        void addObjectFile(llvm::object::OwningBinary<llvm::object::ObjectFile> owningObject) override;
+        void addObjectFile(rrOwningBinary owningObject) override;
 
         void addObjectFile(std::unique_ptr<llvm::object::ObjectFile> objectFile) override;
 

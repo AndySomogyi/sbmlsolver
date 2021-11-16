@@ -575,6 +575,7 @@ public:
     void getBoundarySpeciesAmountsNamedArray() {
         TestModel *testModel = TestModelFactory("SimpleFlux");
         RoadRunner rr(testModel->str());
+        rr.regenerateModel();
         rr.setBoundary("S1", true, true);
         auto x = rr.getBoundarySpeciesAmountsNamedArray();
         std::cout << x << std::endl;

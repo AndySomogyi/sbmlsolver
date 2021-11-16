@@ -289,7 +289,7 @@ namespace rrllvm {
 
         std::unique_ptr<ModelGeneratorContext> modelGeneratorContext = createModelGeneratorContext(
                 reinterpret_cast<const char *>(docSBML), options);
-        std::string sbmlMD5;
+        std::string sbmlMD5 = getSBMLMD5(std::string((const char*) docSBML), options);
         if (rc->sbmlMD5.empty()){
             rc->sbmlMD5 = sbmlMD5;
         }

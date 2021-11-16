@@ -976,13 +976,6 @@ int LLVMExecutableModel::setStateVector(const double* stateVector)
             stateVector + modelData->numRateRules,
             modelData->numIndFloatingSpecies * sizeof(double));
 
-    rrLogCriticalCiaran << "comments here -- delete";
-//    after load state, this pointer does not seem to work.
-//    I should really go through each of these funcitons and
-//    actually use them after reloading the model.
-//
-//    First test them with a roadrunner model. Then a rebuild roadrunner moidel
-
     evalVolatileStoichPtr(modelData);
 
     dirty |= DIRTY_REACTION_RATES;

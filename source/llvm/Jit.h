@@ -118,7 +118,7 @@ namespace rrllvm {
     using distrib_rayleigh_FnTy          = DistribFnTy_d1;
     using distrib_rayleigh_three_FnTy    = DistribFnTy_d3;
 
-
+    using rrOwningBinary = llvm::object::OwningBinary<llvm::object::ObjectFile>;
 
     class Jit {
     public:
@@ -188,7 +188,7 @@ namespace rrllvm {
          * might have performance implications when one does not need to save/load state.
          * Therefore todo look into this mechanism for save/load state.
          */
-        virtual void addObjectFile(llvm::object::OwningBinary<llvm::object::ObjectFile> owningObject) = 0;
+        virtual void addObjectFile(rrOwningBinary owningObject) = 0;
 
         virtual void addObjectFile(std::unique_ptr<llvm::object::ObjectFile> objectFile) = 0;
 

@@ -221,9 +221,14 @@ namespace rrllvm {
         return symbol.getAddress();
     }
 
-    void LLJit::addObjectFile(llvm::object::OwningBinary<llvm::object::ObjectFile> owningObject) {
 
-//        llJit->addObjectFile(owningObject);
+    void LLJit::addObjectFile(rrOwningBinary owningObject) {
+        llvm::Error err = llJit->addObjectFile(std::move(owningObject.takeBinary().second));\
+        if (err) {
+            std::string errMsg = "Could not add object to LLJit";
+            rrLogErr << errMsg;
+            llvm::logAllUnhandledErrors(std::move(err), llvm::errs(), errMsg);
+        }
     }
 
     const llvm::DataLayout &LLJit::getDataLayout() {
