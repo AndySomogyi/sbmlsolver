@@ -3685,7 +3685,20 @@ namespace rr {
             }
 
             //Save the current state before calculating the steady state so we can restore it later.
-            std::stringstream* orig_state = saveStateS();
+            int nfloat = impl->model->getNumFloatingSpecies();
+            double* floats = new double[nfloat];
+            impl->model->getFloatingSpeciesAmounts(nfloat, 0, floats);
+            int nboundary = impl->model->getNumBoundarySpecies();
+            double* boundaries = new double[nboundary];
+            impl->model->getBoundarySpeciesAmounts(nboundary, 0, boundaries);
+            int ncomp = impl->model->getNumCompartments();
+            double* comps = new double[ncomp];
+            impl->model->getCompartmentVolumes(ncomp, 0, comps);
+            int nparam = impl->model->getNumGlobalParameters();
+            double* params = new double[nparam];
+            impl->model->getGlobalParameterValues(nparam, 0, params);
+            //std::stringstream* orig_state = saveStateS();
+
             mcaSteadyState();
 
             // Check for the parameter name
@@ -3736,14 +3749,22 @@ namespace rr {
                 double f2 = -(8 * fd + fi2);
 
                 // What ever happens, make sure we restore the original state
-                loadStateS(orig_state);
+                impl->model->setFloatingSpeciesAmounts(nfloat, 0, floats);
+                impl->model->setBoundarySpeciesAmounts(nboundary, 0, boundaries);
+                impl->model->setCompartmentVolumes(ncomp, 0, comps);
+                impl->model->setGlobalParameterValues(nparam, 0, params);
+                //loadStateS(orig_state);
 
                 return 1 / (12 * hstep) * (f1 + f2);
             }
             catch (...) //Catch anything... and do 'finalize'
             {
                 // What ever happens, make sure we restore the original state
-                loadStateS(orig_state);
+                impl->model->setFloatingSpeciesAmounts(nfloat, 0, floats);
+                impl->model->setBoundarySpeciesAmounts(nboundary, 0, boundaries);
+                impl->model->setCompartmentVolumes(ncomp, 0, comps);
+                impl->model->setGlobalParameterValues(nparam, 0, params);
+                //loadStateS(orig_state);
                 throw;
             }
         }
